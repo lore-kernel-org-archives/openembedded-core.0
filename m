@@ -1,59 +1,45 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 07F9178BCE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A493744AA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 21:37:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 4262218464;
-	Tue, 31 Jul 2018 23:37:38 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id pUzUxsSSf6uY; Tue, 31 Jul 2018 23:37:36 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 8233D18470;
-	Tue, 31 Jul 2018 23:37:36 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2367C1A07B;
-	Tue, 31 Jul 2018 23:37:36 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 170991A077;
-	Tue, 31 Jul 2018 23:37:36 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 31 Jul 2018 23:37:36 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id 0A0B2236D;
-	Tue, 31 Jul 2018 23:37:36 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 31 Jul 2018 23:37:35 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 31 Jul 2018 23:37:35 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Tue, 31 Jul 2018 23:37:35 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Hongzhi.Song <hongzhi.song@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
-	<raj.khem@gmail.com>
-Thread-Topic: [OE-core] [oe-core][PATCH] poky-lsb: security_flags.inc
-Thread-Index: AQHUKL6Rx+6alnq1xEq66MFkm7odQaSp2Nrw
-Date: Tue, 31 Jul 2018 21:37:35 +0000
-Message-ID: <443971bdffff44fd8272097bf7d90742@XBOX02.axis.com>
-References: <20180731110634.29361-1-hongzhi.song@windriver.com>
-In-Reply-To: <20180731110634.29361-1-hongzhi.song@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] poky-lsb: security_flags.inc
+	Tue, 31 Jul 2018 21:52:49 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id s9-v6so4671221wmh.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2018 14:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=k2aTbD7XCvVk82ZpzquRpcqUctlSBnNGto9AhPqS1jg=;
+	b=FM15dxZoaFWbX8pO1iVHJbRqNL2AOArYP5JrRNEJsniRwcVyPaJh5s9BDREwpctamI
+	hULtDf6hqHVvN+THz+GlSrf1LcuFzoDi/vX6y9HiWZoYBO0nwQ5rEqvoVTF8EKzpNlKC
+	3lrWiMaUJNDF2VhBNUQ6uIcg4phGdMi70SIsw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=k2aTbD7XCvVk82ZpzquRpcqUctlSBnNGto9AhPqS1jg=;
+	b=cdVYszXCw182kZuuBPj+7zpIgV4iwW2Z/CN8nWGTNwhlPeNFE/MGrQTxLPYu7OD6+Z
+	3Iv48HqjopqEHu1TEv0udTopD3ggYGZp9KR9i9VtN9dn/z98ZGWwx9VapbEWgwA48GXj
+	O37xWhzQAOt8QE49U7NqMwZHIG+C8IcnbgocJWXf7Ua472934fJhYcqM3BBpfdtZQVbk
+	Fyfg5qlj1FDtc/jhv0ESpQNga4uQUbvpLox5QUfmPMTxN9mOfKcWQv/1OA4+JT3BGM5X
+	X2K9DAd28tDow2olpurCYCK8pzU85phZnidXTrNRzNuaPZHGglWJVFZkywOqwE0XyBF+
+	zqgw==
+X-Gm-Message-State: AOUpUlGkss7iZl1FS70SzEDGjLSSwXJ9GX0UIH24CJgB9nG2xHbJ5beO
+	c3yxTltp6+0i4f+zz1tPubI0z5o37Tqc5Q==
+X-Google-Smtp-Source: AAOMgpdZAnKkVmn5oGu64iUIHp7sMmSC/xh1pnPKZXaP8RGRmcKAhlVosBAZjWgdE8bqabOy8jC5sw==
+X-Received: by 2002:a1c:3411:: with SMTP id b17-v6mr851456wma.85.1533073969890;
+	Tue, 31 Jul 2018 14:52:49 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	j6-v6sm12711948wro.13.2018.07.31.14.52.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 31 Jul 2018 14:52:48 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 Jul 2018 22:52:43 +0100
+Message-Id: <20180731215243.12440-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] util-linux: Enable fallocate for native/nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,67 +52,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 21:37:38 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 31 Jul 2018 21:52:49 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Hongzhi.Song
-> Sent: den 31 juli 2018 13:07
-> To: openembedded-core@lists.openembedded.org; raj.khem@gmail.com
-> Subject: [OE-core] [oe-core][PATCH] poky-lsb: security_flags.inc
+fallocate was disabled for native/nativesdk in:
 
-This is not only limited to poky-lsb. security_flags.inc is used=20
-by many directly.
+http://git.openembedded.org/openembedded-core/commit/?id=17f3c548caf4adec37c3bbb139aa6b3900419794
 
-> To fix the following error, we append '-O' to the defination of
-> _FORTIFY_SOURCE
->=20
-> recipe-sysroot/usr/include/features.h:381:4: error: #warning
-> _FORTIFY_SOURCE requires compiling with optimization (-O) [-Werror=3Dcpp]
->  #  warning _FORTIFY_SOURCE requires compiling with optimization (-O)
->      ^~~~~~~
->=20
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> ---
->  meta/conf/distro/include/security_flags.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/conf/distro/include/security_flags.inc
-> b/meta/conf/distro/include/security_flags.inc
-> index 6245e89ada..1c32fd3165 100644
-> --- a/meta/conf/distro/include/security_flags.inc
-> +++ b/meta/conf/distro/include/security_flags.inc
-> @@ -10,7 +10,7 @@ GCCPIE ?=3D "--enable-default-pie"
->=20
->  # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds as =
-they use
->  # -O0 which then results in a compiler warning.
-> -lcl_maybe_fortify =3D "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_=
-FORTIFY_SOURCE=3D2',d)}"
-> +lcl_maybe_fortify =3D "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_=
-FORTIFY_SOURCE=3D2 -O',d)}"
+We have since added uninative support and better glibc handling for SDKs
+so this difference can be dropped now.
 
-This is not the correct way to solve this problem. It should be fixed on=20
-a per recipe basis. There is probably a reason why the code is being built=
-=20
-with -O0, so then changing it here without an investigation of which is=20
-correct, to build with fortification and enabling optimization or to build=
-=20
-without fortification and without enabling optimization.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/util-linux/util-linux.inc     | 3 +--
+ meta/recipes-core/util-linux/util-linux_2.32.bb | 2 --
+ 2 files changed, 1 insertion(+), 4 deletions(-)
 
-Changing it as per above could also have an impact on some packages by=20
-actually lowering the optimization level.
-
->  # Error on use of format strings that represent possible security proble=
-ms
->  SECURITY_STRINGFORMAT ?=3D "-Wformat -Wformat-security -Werror=3Dformat-=
-security"
-> --
-> 2.11.0
-
-//Peter
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 9ac8bd6f798..9d52ed935f5 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -207,8 +207,7 @@ ALTERNATIVE_PRIORITY = "80"
+ 
+ ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
+ ALTERNATIVE_${PN} += "hexdump last lastb logger mesg renice wall unshare"
+-ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject nologin taskset"
+-ALTERNATIVE_${PN}_append_class-target = " fallocate"
++ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject nologin taskset fallocate"
+ 
+ ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+ ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.32.bb b/meta/recipes-core/util-linux/util-linux_2.32.bb
+index 55cc98c2002..4af7f873b93 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.32.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.32.bb
+@@ -21,10 +21,8 @@ SRC_URI[sha256sum] = "6c7397abc764e32e8159c2e96042874a190303e77adceb4ac5bd502a27
+ CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
+ 
+ EXTRA_OECONF_class-native = "${SHARED_EXTRA_OECONF} \
+-                             --disable-fallocate \
+ 			     --disable-use-tty-group \
+ "
+ EXTRA_OECONF_class-nativesdk = "${SHARED_EXTRA_OECONF} \
+-                                --disable-fallocate \
+ 				--disable-use-tty-group \
+ "
+-- 
+2.17.1
 
 
