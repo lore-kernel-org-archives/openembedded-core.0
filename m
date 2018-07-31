@@ -1,23 +1,52 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id A158A78D20
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F07578CA4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 13:12:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 Jul 2018 06:12:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,427,1526367600"; d="scan'208";a="220570197"
-Received: from unknown (HELO localhost.intel.com) ([10.103.239.194])
-	by orsmga004.jf.intel.com with ESMTP; 31 Jul 2018 06:12:01 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2018 14:11:53 +0100
-Message-Id: <20180731131153.29464-1-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] oe-selftest: devtool: avoid parallel races by using temporary copy of core
+	Tue, 31 Jul 2018 13:34:50 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id y9-v6so7492204vky.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2018 06:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qRcxNvffIx82MO+YBMqT85dmz5lKePDkRot1/XbkPds=;
+	b=Vjr+627OVczDUrf63AzrpK5m/sAbS0rUoSAdZIxEFvlBuvUdrm6XpXbX0NI4dxybSR
+	JF8R7x3pyTy6m9Xi9NQPpylI1YuQvA2BR5Xq/pEcgTk+i4bsOv6jcxZrZmiwZ6lwo5hq
+	ZgObANkkzilZ42ZBx6ifn71pdYxR5Ry4IYwFfGrQEt7COSNMyfMtM9rYg+OSWOK1mOnp
+	N2BUk2fJU5OTuR/HlkFDmucZ490vQo0pvL8zQHe/zPLhvlnCunD8aK0CrYfxQ/FFAXEw
+	qy6JyjD0K/h7UgADTT7p8s2sTZmLJDJ39gW+alkicbZ2dxwln0Em5FbnmqewKzGDIs05
+	juzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qRcxNvffIx82MO+YBMqT85dmz5lKePDkRot1/XbkPds=;
+	b=j0n0DBV4eUUrKDMpp8IwHFEIFdwROS4MHUZwPKYb+Pp0veV0FUV+6yitWZ68DILeW/
+	vnT++VdBER6MPRGRXX2QhFYnhRGoPxj7NPr9L9lSCW+i9ICxypwGJXrCE6JTI02GAk65
+	5RJkzaplwsKIBhdKu4Spz1xNvrOdwy6+ycfxdtJm6w+OIJNK9P9M/1xUp2BbRslBgZUR
+	Gq1CNsAqMoauu6KFdruKvaRIy/Ggs7c36qRDBJujpMP2L8jFlmie4ItfY0Kgh26TXK6y
+	mFV5l4cbJKnzcdv9Vpfk07PFNmp2UF4eQs1nBvwFswpY7pd9cSZiNumGIEoycm5QYkZ3
+	UIoQ==
+X-Gm-Message-State: AOUpUlEfKXpJkbcrCFslSEAOsgKQldmMlHynuXQuTB0hcDbK18pS5WER
+	V6ydWooDOBR3xfFWG1w3DiqXGw6hc8eQ+tnfXpU=
+X-Google-Smtp-Source: AAOMgpdK3FOLO4D2OzuzAaWBVB4zvXg/4J1jlCsA4lmi/S1rXfg79mD//9ehuukx3K9xPb982+WeBNG1p08TsJdhdcs=
+X-Received: by 2002:a1f:b3d5:: with SMTP id
+	c204-v6mr13232072vkf.37.1533044091823; 
+	Tue, 31 Jul 2018 06:34:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Tue, 31 Jul 2018 06:34:51 -0700 (PDT)
+In-Reply-To: <b5b31110-b182-fc03-e648-bd5d90f025ef@siemens.com>
+References: <1533000487-12738-1-git-send-email-armccurdy@gmail.com>
+	<b9a00beb06723da9bdd5f32923057d31ccbc0941.camel@linuxfoundation.org>
+	<b5b31110-b182-fc03-e648-bd5d90f025ef@siemens.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 31 Jul 2018 06:34:51 -0700
+Message-ID: <CAJ86T=UZqd5JBBaG4hQ+PAwLs-8bDaKbrQS0XHuXUquF6Qg94w@mail.gmail.com>
+To: Andrej Valek <andrej.valek@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl_1.0: drop unnecessary dependency on makedepend-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,98 +59,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 13:12:01 -0000
+X-List-Received-Date: Tue, 31 Jul 2018 13:34:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Some of the devtool tests make changes to files under meta/ -
-legitimately since we want these tests to be working with real recipes
-and associated files. Unfortunately with the new oe-selftest
-parallelisation this can break other tests if files go missing at the
-wrong time (among other scenarios). To avoid this issue, simply take a
-copy of the core repository and use that for these tests. (We copy the
-entire repository since changing the path of meta/ influences COREBASE
-and thus we need to have things like scripts/ alongside as well).
+On Tue, Jul 31, 2018 at 3:24 AM, Andrej Valek <andrej.valek@siemens.com> wrote:
+> This program is required for "oe_runmake depend" command. It runs
+> command in MAKEDEPPROG variable, which is set to makedepend. Makedepend
+> consists from makedepend-native package.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oeqa/selftest/cases/devtool.py | 64 +++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
+That's what you might guess from casually reading the Makefile. It's
+not what actually happens.
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 43a66c8e283..3c1189003de 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -11,6 +11,70 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp_layer
- from oeqa.utils.commands import get_bb_vars, runqemu, get_test_layer
- from oeqa.core.decorator.oeid import OETestID
- 
-+oldmetapath = None
-+
-+def setUpModule():
-+    import bb.utils
-+
-+    global templayerdir
-+    templayerdir = tempfile.mkdtemp(prefix='devtoolqa')
-+    corecopydir = os.path.join(templayerdir, 'core-copy')
-+    bblayers_conf = os.path.join(os.environ['BUILDDIR'], 'conf', 'bblayers.conf')
-+    edited_layers = []
-+
-+    # We need to take a copy of the meta layer so we can modify it and not
-+    # have any races against other tests that might be running in parallel
-+    # however things like COREBASE mean that you can't just copy meta, you
-+    # need the whole repository.
-+    def bblayers_edit_cb(layerpath, canonical_layerpath):
-+        global oldmetapath
-+        if not canonical_layerpath.endswith('/'):
-+            # This helps us match exactly when we're using this path later
-+            canonical_layerpath += '/'
-+        if not edited_layers and canonical_layerpath.endswith('/meta/'):
-+            edited_layers.append(layerpath)
-+            oldmetapath = layerpath
-+            result = runCmd('git rev-parse --show-toplevel', cwd=canonical_layerpath)
-+            oldreporoot = result.output.rstrip()
-+            newmetapath = os.path.join(corecopydir, os.path.relpath(oldmetapath, oldreporoot))
-+            runCmd('git clone %s %s' % (oldreporoot, corecopydir), cwd=templayerdir)
-+            # Now we need to copy any modified files
-+            # You might ask "why not just copy the entire tree instead of
-+            # cloning and doing this?" - well, the problem with that is
-+            # TMPDIR or an equally large subdirectory might exist
-+            # under COREBASE and we don't want to copy that, so we have
-+            # to be selective.
-+            result = runCmd('git status --porcelain', cwd=oldreporoot)
-+            for line in result.output.splitlines():
-+                if line.startswith(' M ') or line.startswith('?? '):
-+                    relpth = line.split()[1]
-+                    pth = os.path.join(oldreporoot, relpth)
-+                    if pth.startswith(canonical_layerpath):
-+                        if relpth.endswith('/'):
-+                            destdir = os.path.join(corecopydir, relpth)
-+                            shutil.copytree(pth, destdir)
-+                        else:
-+                            destdir = os.path.join(corecopydir, os.path.dirname(relpth))
-+                            bb.utils.mkdirhier(destdir)
-+                            shutil.copy2(pth, destdir)
-+            return newmetapath
-+        else:
-+            return layerpath
-+    bb.utils.edit_bblayers_conf(bblayers_conf, None, None, bblayers_edit_cb)
-+
-+def tearDownModule():
-+    if oldmetapath:
-+        edited_layers = []
-+        def bblayers_edit_cb(layerpath, canonical_layerpath):
-+            if not edited_layers and canonical_layerpath.endswith('/meta'):
-+                edited_layers.append(layerpath)
-+                return oldmetapath
-+            else:
-+                return layerpath
-+        bblayers_conf = os.path.join(os.environ['BUILDDIR'], 'conf', 'bblayers.conf')
-+        bb.utils.edit_bblayers_conf(bblayers_conf, None, None, bblayers_edit_cb)
-+    shutil.rmtree(templayerdir)
-+
- class DevtoolBase(OESelftestTestCase):
- 
-     @classmethod
--- 
-2.17.1
-
+> Cheers,
+> Andrej
+>
+> On 07/31/18 12:08, Richard Purdie wrote:
+>> On Mon, 2018-07-30 at 18:28 -0700, Andre McCurdy wrote:
+>>> The openssl Configure script will only select standalone makedepend
+>>> (vs running "$CC -M") when building with gcc < 3.x or with an Apple
+>>> Xcode version which predates the switch to clang (in approx 2010?).
+>>> Neither of these cases are possible when building under OE, therefore
+>>> the dependency on makedepend-native can be dropped (ie align the
+>>> openssl 1.0 recipe with the 1.1 recipe, which has dropped the
+>>> makedepend-native dependency already).
+>>>
+>>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>>> ---
+>>>  meta/recipes-connectivity/openssl/openssl_1.0.2o.bb | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+>>> b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+>>> index f5d3274..78c8552 100644
+>>> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+>>> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+>>> @@ -8,7 +8,7 @@ SECTION = "libs/network"
+>>>  LICENSE = "openssl"
+>>>  LIC_FILES_CHKSUM =
+>>> "file://LICENSE;md5=f475368924827d06d4b416111c8bdb77"
+>>>
+>>> -DEPENDS = "makedepend-native hostperl-runtime-native"
+>>> +DEPENDS = "hostperl-runtime-native"
+>>>  DEPENDS_append_class-target = " openssl-native"
+>>>
+>>>  PROVIDES += "openssl10"
+>>
+>> This was added quite 'recently' in:
+>>
+>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=50c23e6c26a64b0c04e99abacb61ec00d1abace9
+>>
+>> I've cc'd Andrej in case he can tell us why that was needed?
+>>
+>> Cheers,
+>>
+>> Richard
+>>
 
