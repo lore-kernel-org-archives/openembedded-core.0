@@ -1,42 +1,29 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AF4C749F3
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DA299607E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 07:29:18 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42861599"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 31 Jul 2018 15:29:10 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 4D6F24B69E1E;
-	Tue, 31 Jul 2018 15:29:09 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0399.000; Tue, 31 Jul 2018 15:29:08 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2] cross-canadian/libgcc: fix aarch64's
-	multilib SDK
-Thread-Index: AQHUH85vaijWjam9PEqVXqY2aw1VxKSfFpQAgALYGICABxFz0A==
-Date: Tue, 31 Jul 2018 07:29:14 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FD019455DD4B@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1529965666-49307-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<b86b2fc6-d464-7c79-1c87-ef5f9d8ffb74@windriver.com>
-	<e30c95ce-8e5e-1978-6bb4-7a4cbe78f1cd@gmail.com>
-In-Reply-To: <e30c95ce-8e5e-1978-6bb4-7a4cbe78f1cd@gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.300.84
-dlp-reaction: no-action
-x-originating-ip: [10.167.225.227]
+	Tue, 31 Jul 2018 07:43:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6V7hWkO031705
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2018 00:43:32 -0700
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Tue, 31 Jul 2018 00:43:31 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1533021154.git.Qi.Chen@windriver.com>
+	<5b9216067aa6aef5a8df3bd3a48c0229415dc253.1533021154.git.Qi.Chen@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <085fbf85-d8c2-3315-b92b-43334249cdb0@windriver.com>
+Date: Tue, 31 Jul 2018 15:47:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 4D6F24B69E1E.AAAA6
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH v2] cross-canadian/libgcc: fix aarch64's multilib SDK
+In-Reply-To: <5b9216067aa6aef5a8df3bd3a48c0229415dc253.1533021154.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [PATCH 3/4] systemd: backport patch to allow setting dbus calls timeout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,86 +36,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 07:29:30 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 31 Jul 2018 07:43:32 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-PiBQbGVhc2UgdGVzdCB0aGlzIHBhdGNoIHdpdGggbXVzbCB0YXJnZXQgcHJl
-ZmVyYWJseSBhcm0vYWFyY2g2NCBhbmQgYWxzbw0KPiBwcGMvZ2xpYmMgYnkg
-Z2VuZXJhdGluZyBTREtzDQoNCk9rLCBJJ2xsIHRlc3QgaXQuDQoNCkJlc3Qg
-cmVnYXJkcy4NCkxlaQ0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQo+IEZyb206IEtoZW0gUmFqIFttYWlsdG86cmFqLmtoZW1AZ21haWwuY29t
-XQ0KPiBTZW50OiBGcmlkYXksIEp1bHkgMjcsIDIwMTggMTE6MzEgQU0NCj4g
-VG86IFJvYmVydCBZYW5nOyBMZWksIE1hb2h1aTsgb3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09F
-LWNvcmVdIFtQQVRDSCB2Ml0gY3Jvc3MtY2FuYWRpYW4vbGliZ2NjOiBmaXgg
-YWFyY2g2NCdzIG11bHRpbGliDQo+IFNESw0KPiANCj4gDQo+IA0KPiBPbiA3
-LzI1LzE4IDE6MDQgQU0sIFJvYmVydCBZYW5nIHdyb3RlOg0KPiA+IEhpIE1h
-b2h1aSwNCj4gPg0KPiA+IFRoYW5rcyBmb3Igc2VuZGluZyBpdCwgSSBkbyB0
-aGluayB0aGF0IG9lLWNvcmUgbmVlZHMgdGhpcyBwYXRjaC4NCj4gPg0KPiA+
-IC8vIFJvYmVydA0KPiA+DQo+ID4gT24gMDYvMjYvMjAxOCAwNjoyNyBBTSwg
-TGVpIE1hb2h1aSB3cm90ZToNCj4gPj4gVGhlIGFybSB0b29sY2hhaW4gaGFz
-IGEgIi1nbnVlYWJpIiBzdWZmaXgsIGJ1dCBhYXJjaDY0IGRvZXNuJ3QsIHRo
-aXMNCj4gPj4gbWFrZXMgbXVsdGlsaWIgc2RrIGRvZXNuJ3Qgd29yaywgdGhl
-cmUgd2lsbCBiZSBlcnJvciBhcyBmb2xsb3dpbmc6DQo+ID4+DQo+ID4+IC4u
-Li91c3IvbGliZXhlYy9hcm1lYi1wb2t5LWxpbnV4LWd1eC1saW51eC1nbnVl
-YWJpLzcuMy4wL3JlYWwtbGQ6DQo+ID4+IGNhbm5vdCBmaW5kIGNydGJlZ2lu
-Uy5vOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0bw0KPiA+PiAuLi4vdXNyL2xp
-YmV4ZWMvYXJtZWItcG9reS1saW51eC1ndXgtbGludXgtZ251ZWFiaS83LjMu
-MC9yZWFsLWxkOg0KPiA+PiBjYW5ub3QgZmluZCAtbGdjYw0KPiA+PiAuLi4v
-dXNyL2xpYmV4ZWMvYXJtZWItcG9reS1saW51eC1ndXgtbGludXgtZ251ZWFi
-aS83LjMuMC9yZWFsLWxkOg0KPiA+PiBjYW5ub3QgZmluZCAtbGdjYw0KPiA+
-PiBjb2xsZWN0MjogZXJyb3I6IGxkIHJldHVybmVkIDEgZXhpdCBzdGF0dXMN
-Cj4gPj4NCj4gDQo+IFBsZWFzZSB0ZXN0IHRoaXMgcGF0Y2ggd2l0aCBtdXNs
-IHRhcmdldCBwcmVmZXJhYmx5IGFybS9hYXJjaDY0IGFuZCBhbHNvDQo+IHBw
-Yy9nbGliYyBieSBnZW5lcmF0aW5nIFNES3MNCj4gDQo+ID4+IFNpZ25lZC1v
-ZmYtYnk6IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29t
-Pg0KPiA+PiBTaWduZWQtb2ZmLWJ5OiBMZWkgTWFvaHVpIDxsZWltYW9odWlA
-Y24uZnVqaXRzdS5jb20+DQo+ID4+IC0tLQ0KPiA+PiDCoCBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvZ2NjL2xpYmdjYy1jb21tb24uaW5jIHwgMjMNCj4gPj4g
-KysrKysrKysrKysrKysrKystLS0tLS0NCj4gPj4gwqAgMSBmaWxlIGNoYW5n
-ZWQsIDE3IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pDQo+ID4+DQo+
-ID4+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2NjL2xp
-YmdjYy1jb21tb24uaW5jDQo+ID4+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2djYy9saWJnY2MtY29tbW9uLmluYw0KPiA+PiBpbmRleCA4NDhhNDc2Li5h
-NDlmYzk4IDEwMDY0NA0KPiA+PiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvZ2NjL2xpYmdjYy1jb21tb24uaW5jDQo+ID4+ICsrKyBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9nY2MvbGliZ2NjLWNvbW1vbi5pbmMNCj4gPj4gQEAg
-LTE0NSwxMSArMTQ1LDIyIEBAIGZha2Vyb290IHB5dGhvbiBkb19leHRyYV9z
-eW1saW5rcygpIHsNCj4gPj4gwqDCoMKgwqDCoCBpZiBiYi5kYXRhLmluaGVy
-aXRzX2NsYXNzKCduYXRpdmVzZGsnLCBkKToNCj4gPj4gwqDCoMKgwqDCoMKg
-wqDCoMKgIHJldHVybg0KPiA+PiDCoCAtwqDCoMKgIHRhcmdldHN5cyA9IGQu
-Z2V0VmFyKCdCQVNFVEFSR0VUX1NZUycpDQo+ID4+ICvCoMKgwqAgYmFzZV90
-YXJnZXRzeXMgPSBkLmdldFZhcignQkFTRVRBUkdFVF9TWVMnKQ0KPiA+PiAr
-wqDCoMKgIHRhcmdldHN5cyA9IGQuZ2V0VmFyKCdUQVJHRVRfU1lTJykNCj4g
-Pj4gKw0KPiA+PiArwqDCoMKgIGlmIGJhc2VfdGFyZ2V0c3lzICE9IHRhcmdl
-dHN5czoNCj4gPj4gK8KgwqDCoMKgwqDCoMKgIGRlc3QgPSBkLmdldFZhcign
-RCcpICsgZC5nZXRWYXIoJ2xpYmRpcicpICsgJy8nICsNCj4gPj4gK2Jhc2Vf
-dGFyZ2V0c3lzDQo+ID4+ICvCoMKgwqDCoMKgwqDCoCBkZXN0X2xpc3QgPSBb
-ZGVzdF0NCj4gPj4gK8KgwqDCoMKgwqDCoMKgICMgRm9yIG11bHRpbGliIGxp
-a2UgYWFyY2g2NCArIGFybSwgbmVlZCAyIHN5bWxpbmtzOg0KPiA+PiArwqDC
-oMKgwqDCoMKgwqAgIyAxKSBCQVNFVEFSR0VUX1NZUyBhcyB1c3VhbA0KPiA+
-PiArwqDCoMKgwqDCoMKgwqAgIyAyKSBCQVNFVEFSR0VUX1NZUyArICItZ251
-ZWFiaSIgZm9yIG11bHRpbGliDQo+ID4+ICvCoMKgwqDCoMKgwqDCoCBsaWJj
-ZSA9IGQuZ2V0VmFyKCdMSUJDRVhURU5TSU9OJykNCj4gPj4gK8KgwqDCoMKg
-wqDCoMKgIGFiaWUgPSBkLmdldFZhcignQUJJRVhURU5TSU9OJykNCj4gPj4g
-K8KgwqDCoMKgwqDCoMKgIGlmIGFiaWUgYW5kIGxpYmNlIGFuZCB0YXJnZXRz
-eXMuZW5kc3dpdGgobGliY2UgKyBhYmllKToNCj4gPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgZGVzdF9saXN0LmFwcGVuZChkZXN0ICsgbGliY2UgKyBh
-YmllKQ0KPiA+PiArwqDCoMKgwqDCoMKgwqAgc3JjID0gdGFyZ2V0c3lzDQo+
-ID4+ICvCoMKgwqDCoMKgwqDCoCBmb3IgZGlyIGluIGRlc3RfbGlzdDoNCj4g
-Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgbm90IG9zLnBhdGgubGV4
-aXN0cyhkaXIpIGFuZA0KPiA+PiBvcy5wYXRoLmxleGlzdHMoZC5nZXRWYXIo
-J0QnLCBUcnVlKSArIGQuZ2V0VmFyKCdsaWJkaXInLCBUcnVlKSk6DQo+ID4+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgb3Muc3ltbGluayhz
-cmMsIGRpcikNCj4gPj4gwqAgLcKgwqDCoCBpZiB0YXJnZXRzeXMgIT0gZC5n
-ZXRWYXIoJ1RBUkdFVF9TWVMnKToNCj4gPj4gLcKgwqDCoMKgwqDCoMKgIGRl
-c3QgPSBkLmdldFZhcignRCcpICsgZC5nZXRWYXIoJ2xpYmRpcicpICsgJy8n
-ICsgdGFyZ2V0c3lzDQo+ID4+IC3CoMKgwqDCoMKgwqDCoCBzcmMgPSBkLmdl
-dFZhcignVEFSR0VUX1NZUycpDQo+ID4+IC3CoMKgwqDCoMKgwqDCoCBpZiBu
-b3Qgb3MucGF0aC5sZXhpc3RzKGRlc3QpIGFuZA0KPiA+PiBvcy5wYXRoLmxl
-eGlzdHMoZC5nZXRWYXIoJ0QnKSArIGQuZ2V0VmFyKCdsaWJkaXInKSk6DQo+
-ID4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9zLnN5bWxpbmsoc3JjLCBk
-ZXN0KQ0KPiA+PiDCoCB9DQo+ID4+DQoNCgoK
+On 07/31/2018 03:13 PM, Chen Qi wrote:
+> Backport 0001-sd-bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch
+> which allows setting dbus calls timeout via BUS_DEFAULT_TIMEOUT
+> environment variable.
+
+The environment variable's name is actually SYSTEMD_BUS_TIMEOUT.
+I've fixed the commit message and updated the remote repo.
+
+>
+> This is needed as we are meeting timeout failures from the oeqa
+> runtime test case systemd.py.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   ...bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch | 175 +++++++++++++++++++++
+>   meta/recipes-core/systemd/systemd_239.bb           |   1 +
+>   2 files changed, 176 insertions(+)
+>   create mode 100644 meta/recipes-core/systemd/systemd/0001-sd-bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch
+>
+> diff --git a/meta/recipes-core/systemd/systemd/0001-sd-bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch b/meta/recipes-core/systemd/systemd/0001-sd-bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch
+> new file mode 100644
+> index 0000000..45c9b5b
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/0001-sd-bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch
+> @@ -0,0 +1,175 @@
+> +From 5b75a72ee968c9666b5f2ea313720b6c383cb4c2 Mon Sep 17 00:00:00 2001
+> +From: Yu Watanabe <watanabe.yu+github@gmail.com>
+> +Date: Fri, 13 Jul 2018 17:38:47 +0900
+> +Subject: [PATCH] sd-bus: make BUS_DEFAULT_TIMEOUT configurable
+> +
+> +This adds sd_bus_{get,set}_method_call_timeout().
+> +If the timeout is not set or set to 0, then the timeout value is
+> +parsed from $SYSTEMD_BUS_TIMEOUT= environment variable. If the
+> +environment variable is not set, then built-in timeout is used.
+> +---
+> + doc/ENVIRONMENT.md                   |  5 +++++
+> + src/libsystemd/libsystemd.sym        |  5 +++++
+> + src/libsystemd/sd-bus/bus-internal.h |  9 ++++----
+> + src/libsystemd/sd-bus/bus-message.c  |  7 +++++--
+> + src/libsystemd/sd-bus/sd-bus.c       | 40 ++++++++++++++++++++++++++++++++++--
+> + src/systemd/sd-bus.h                 |  3 +++
+> + 6 files changed, 61 insertions(+), 8 deletions(-)
+> +
+> +Upstream-Status: Backport
+> +
+> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> +
+> +diff --git a/doc/ENVIRONMENT.md b/doc/ENVIRONMENT.md
+> +index 85d26fe28c..641a03d5d7 100644
+> +--- a/doc/ENVIRONMENT.md
+> ++++ b/doc/ENVIRONMENT.md
+> +@@ -37,6 +37,11 @@ All tools:
+> +   useful for debugging, in order to test generators and other code against
+> +   specific kernel command lines.
+> +
+> ++* `$SYSTEMD_BUS_TIMEOUT=SECS` — specifies the maximum time to wait for method call
+> ++  completion. If no time unit is specified, assumes seconds. The usual other units
+> ++  are understood, too (us, ms, s, min, h, d, w, month, y). If it is not set or set
+> ++  to 0, then the built-in default is used.
+> ++
+> + systemctl:
+> +
+> + * `$SYSTEMCTL_FORCE_BUS=1` — if set, do not connect to PID1's private D-Bus
+> +diff --git a/src/libsystemd/libsystemd.sym b/src/libsystemd/libsystemd.sym
+> +index 1eec17db50..006dbc9c3f 100644
+> +--- a/src/libsystemd/libsystemd.sym
+> ++++ b/src/libsystemd/libsystemd.sym
+> +@@ -570,3 +570,8 @@ global:
+> +         sd_event_source_set_destroy_callback;
+> +         sd_event_source_get_destroy_callback;
+> + } LIBSYSTEMD_238;
+> ++
+> ++LIBSYSTEMD_240 {
+> ++        sd_bus_set_method_call_timeout;
+> ++        sd_bus_get_method_call_timeout;
+> ++} LIBSYSTEMD_239;
+> +diff --git a/src/libsystemd/sd-bus/bus-internal.h b/src/libsystemd/sd-bus/bus-internal.h
+> +index 2087ef8eeb..4864b1e911 100644
+> +--- a/src/libsystemd/sd-bus/bus-internal.h
+> ++++ b/src/libsystemd/sd-bus/bus-internal.h
+> +@@ -319,6 +319,9 @@ struct sd_bus {
+> +
+> +         int *inotify_watches;
+> +         size_t n_inotify_watches;
+> ++
+> ++        /* zero means use value specified by $SYSTEMD_BUS_TIMEOUT= environment variable or built-in default */
+> ++        usec_t method_call_timeout;
+> + };
+> +
+> + /* For method calls we time-out at 25s, like in the D-Bus reference implementation */
+> +@@ -336,8 +339,7 @@ struct sd_bus {
+> +
+> + #define BUS_CONTAINER_DEPTH 128
+> +
+> +-/* Defined by the specification as maximum size of an array in
+> +- * bytes */
+> ++/* Defined by the specification as maximum size of an array in bytes */
+> + #define BUS_ARRAY_MAX_SIZE 67108864
+> +
+> + #define BUS_FDS_MAX 1024
+> +@@ -388,8 +390,7 @@ void bus_close_io_fds(sd_bus *b);
+> +              _slash = streq((prefix), "/") ? NULL : strrchr((prefix), '/'))
+> +
+> + /* If we are invoking callbacks of a bus object, ensure unreffing the
+> +- * bus from the callback doesn't destroy the object we are working
+> +- * on */
+> ++ * bus from the callback doesn't destroy the object we are working on */
+> + #define BUS_DONT_DESTROY(bus) \
+> +         _cleanup_(sd_bus_unrefp) _unused_ sd_bus *_dont_destroy_##bus = sd_bus_ref(bus)
+> +
+> +diff --git a/src/libsystemd/sd-bus/bus-message.c b/src/libsystemd/sd-bus/bus-message.c
+> +index 8d92bc2002..dffe70a665 100644
+> +--- a/src/libsystemd/sd-bus/bus-message.c
+> ++++ b/src/libsystemd/sd-bus/bus-message.c
+> +@@ -5809,8 +5809,11 @@ int bus_message_remarshal(sd_bus *bus, sd_bus_message **m) {
+> +                 return r;
+> +
+> +         timeout = (*m)->timeout;
+> +-        if (timeout == 0 && !((*m)->header->flags & BUS_MESSAGE_NO_REPLY_EXPECTED))
+> +-                timeout = BUS_DEFAULT_TIMEOUT;
+> ++        if (timeout == 0 && !((*m)->header->flags & BUS_MESSAGE_NO_REPLY_EXPECTED)) {
+> ++                r = sd_bus_get_method_call_timeout(bus, &timeout);
+> ++                if (r < 0)
+> ++                        return r;
+> ++        }
+> +
+> +         r = sd_bus_message_seal(n, BUS_MESSAGE_COOKIE(*m), timeout);
+> +         if (r < 0)
+> +diff --git a/src/libsystemd/sd-bus/sd-bus.c b/src/libsystemd/sd-bus/sd-bus.c
+> +index 089b51a6d9..945490ebf7 100644
+> +--- a/src/libsystemd/sd-bus/sd-bus.c
+> ++++ b/src/libsystemd/sd-bus/sd-bus.c
+> +@@ -1611,8 +1611,11 @@ static int bus_seal_message(sd_bus *b, sd_bus_message *m, usec_t timeout) {
+> +                 return 0;
+> +         }
+> +
+> +-        if (timeout == 0)
+> +-                timeout = BUS_DEFAULT_TIMEOUT;
+> ++        if (timeout == 0) {
+> ++                r = sd_bus_get_method_call_timeout(b, &timeout);
+> ++                if (r < 0)
+> ++                        return r;
+> ++        }
+> +
+> +         if (!m->sender && b->patch_sender) {
+> +                 r = sd_bus_message_set_sender(m, b->patch_sender);
+> +@@ -4075,3 +4078,36 @@ _public_ int sd_bus_get_n_queued_write(sd_bus *bus, uint64_t *ret) {
+> +         *ret = bus->wqueue_size;
+> +         return 0;
+> + }
+> ++
+> ++_public_ int sd_bus_set_method_call_timeout(sd_bus *bus, uint64_t usec) {
+> ++        assert_return(bus, -EINVAL);
+> ++        assert_return(bus = bus_resolve(bus), -ENOPKG);
+> ++
+> ++        bus->method_call_timeout = usec;
+> ++        return 0;
+> ++}
+> ++
+> ++_public_ int sd_bus_get_method_call_timeout(sd_bus *bus, uint64_t *ret) {
+> ++        const char *e;
+> ++        usec_t usec;
+> ++
+> ++        assert_return(bus, -EINVAL);
+> ++        assert_return(bus = bus_resolve(bus), -ENOPKG);
+> ++        assert_return(ret, -EINVAL);
+> ++
+> ++        if (bus->method_call_timeout != 0) {
+> ++                *ret = bus->method_call_timeout;
+> ++                return 0;
+> ++        }
+> ++
+> ++        e = secure_getenv("SYSTEMD_BUS_TIMEOUT");
+> ++        if (e && parse_sec(e, &usec) >= 0 && usec != 0) {
+> ++                /* Save the parsed value to avoid multiple parsing. To change the timeout value,
+> ++                 * use sd_bus_set_method_call_timeout() instead of setenv(). */
+> ++                *ret = bus->method_call_timeout = usec;
+> ++                return 0;
+> ++        }
+> ++
+> ++        *ret = bus->method_call_timeout = BUS_DEFAULT_TIMEOUT;
+> ++        return 0;
+> ++}
+> +diff --git a/src/systemd/sd-bus.h b/src/systemd/sd-bus.h
+> +index 54c4b1ca83..c9fd254834 100644
+> +--- a/src/systemd/sd-bus.h
+> ++++ b/src/systemd/sd-bus.h
+> +@@ -206,6 +206,9 @@ sd_event *sd_bus_get_event(sd_bus *bus);
+> + int sd_bus_get_n_queued_read(sd_bus *bus, uint64_t *ret);
+> + int sd_bus_get_n_queued_write(sd_bus *bus, uint64_t *ret);
+> +
+> ++int sd_bus_set_method_call_timeout(sd_bus *bus, uint64_t usec);
+> ++int sd_bus_get_method_call_timeout(sd_bus *bus, uint64_t *ret);
+> ++
+> + int sd_bus_add_filter(sd_bus *bus, sd_bus_slot **slot, sd_bus_message_handler_t callback, void *userdata);
+> + int sd_bus_add_match(sd_bus *bus, sd_bus_slot **slot, const char *match, sd_bus_message_handler_t callback, void *userdata);
+> + int sd_bus_add_match_async(sd_bus *bus, sd_bus_slot **slot, const char *match, sd_bus_message_handler_t callback, sd_bus_message_handler_t install_callback, void *userdata);
+> +--
+> +2.11.0
+> +
+> diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
+> index dc1545a..001a363 100644
+> --- a/meta/recipes-core/systemd/systemd_239.bb
+> +++ b/meta/recipes-core/systemd/systemd_239.bb
+> @@ -27,6 +27,7 @@ SRC_URI += "file://touchscreen.rules \
+>              file://0008-Do-not-enable-nss-tests-if-nss-systemd-is-not-enable.patch \
+>              file://0009-nss-mymachines-Build-conditionally-when-ENABLE_MYHOS.patch \
+>              file://0001-login-use-parse_uid-when-unmounting-user-runtime-dir.patch \
+> +           file://0001-sd-bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch \
+>              "
+>   SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+>   
+
+
 
