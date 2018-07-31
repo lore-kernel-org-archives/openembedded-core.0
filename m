@@ -1,53 +1,48 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FB6860778
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D508B78D51
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 01:07:47 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id j19-v6so12159668ljc.7
+	Tue, 31 Jul 2018 01:28:11 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id y10-v6so5321204pfn.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 18:07:49 -0700 (PDT)
+	Mon, 30 Jul 2018 18:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nxFD5j2ycT1VHsJiIDAOYRleLILzXTF86uXzSLSgzcU=;
-	b=lJBZ6l0Px3vUyxNzv8M1mu8cpgf3xRukNYoRu6fHsqkDda7zQAMW+c//UskdQRBy1j
-	0FQOO0aIxTAz+kdNimfidoZp8dkHYdTfFns99fG2ygRLoOumuirWthdPihYFvrq6QlQC
-	bAoUtsV53KcgzYWpaM3F3b84n2mc1ZGbFtkUBAuk34H4Te8M/hadFWUuqXGa/XJIH3PY
-	lbDBayKUVAkoI/TNP7MmxnLMjAIvyueGgAZI5kVLKUx25SrEUKSbZxR+EUr6qlIu3+4f
-	VYgTmaCyw1bHZgk5zHVbHk+PKoQJq07NErye4P/X+oP0fm3FEb25J2om6vRGRqEY2UEq
-	8iag==
+	h=from:to:cc:subject:date:message-id;
+	bh=AaNZitdS+k6RtZCzpj+jITC5HNnhY9EefS6F3LX8PN8=;
+	b=EK4AEK9TDiuVS3eYtulKT6a274XNVW8fMX8Gh4ANQhYaY1RwxXDI2C1QbnVqY2v8Oa
+	2UhWa7PsOx0oRnKdT4h0vkz6sA6RBXt3up3CDVEGU/d3q66PKnQYA2Bi7RR5i1ep+jwj
+	VnUtTKlemYxcS7J8ZW/cHQJtk3fCptsmSjq1f5tLSYJ2aIOo4GqsOMG6V1omymqY47AG
+	P/YtfwBMmIhVzHgxrumyAK6qIR/Ax8KdHwX17cbYP9I+imGE7bHB3kY44xUoKY5fzPnZ
+	1efMF7FyY9/eWY7trgUmgm7x5+sNnCOzoQuszG5W305IpWyDniftqLzLB6PxOz6RNJzl
+	Qo3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nxFD5j2ycT1VHsJiIDAOYRleLILzXTF86uXzSLSgzcU=;
-	b=lNENaemt8looNwNbILTotwWUZV/CnEd1kI54FL06BCLZA/s6HHKwmkEmzLLbZEncMr
-	PrCp4kdn8BwdlNMihify3zAGW+p+LjQTJDXyc2XWhVvVxTAVmQcI3fhUvEyZyOi7iKi3
-	fBUmjsOI5JReyssRU0hqylepNDXYsQSoKoQRqjD7I7HorC/cO/9Mjft0D76vlM34x/T+
-	dYb/vYNnjUIXP2Wpon8ElcqtodKKp3uwOPxw1NYfdEOGAGyLDHRGBmJnHs+2KMW4TGV6
-	0fZ+U2w4ThOkSVDXcf7ixEMFSSGxELHPIg6AydUsxHpfSsamF7Q3glgQS+csS89VpYV8
-	Qu7Q==
-X-Gm-Message-State: AOUpUlFDVGTfvZPnE4i/nQN6vzn0E4vrNQc9SdnKSmUFCFoHOy5CkGMF
-	hH/qswwUIuBnEplI1aB/Daoiq9u4BJRGTwR8y85gag==
-X-Google-Smtp-Source: AAOMgpfDMqqPNtfiyd0ATCASfKJ3lXjXSXhNLnfR6QdN8OnV4Fexc1BAbl58C66NjlGmj4gzr0FKq0BegNUcbDqOp4s=
-X-Received: by 2002:a2e:6a04:: with SMTP id
-	f4-v6mr14947799ljc.109.1532999268477; 
-	Mon, 30 Jul 2018 18:07:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP; Mon, 30 Jul 2018 18:07:47
-	-0700 (PDT)
-In-Reply-To: <b0cb192801eb2e85702f319ad0a0cf33bbd2c239.camel@linuxfoundation.org>
-References: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
-	<8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
-	<1cc72609-d849-f8a3-6524-1f7d9ad214c3@windriver.com>
-	<b0cb192801eb2e85702f319ad0a0cf33bbd2c239.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 30 Jul 2018 22:07:47 -0300
-Message-ID: <CADkTA4MMXEsggwEQHrfQF32ERY+2o9a1_0VsK1upxzcxn+g8Ew@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AaNZitdS+k6RtZCzpj+jITC5HNnhY9EefS6F3LX8PN8=;
+	b=rfxQm9WhjX/v7Qvrwx8KabV+xiwvIlxZEqJQ5dX6Tj2Y7s3vi9F6n+Fn1nAj4gtwEB
+	T7o9CFZK53exeBQRvRGgkQjdPBAqS4G+zKsVNgAkm5yptY2ONdEcHp1pWzt9PHNt3nYr
+	bmpm4DqZuq9BI0pQiw46NsklJ8vUmTvhNzMG1dmz6D3QcoGbC2k7UKs4lmJuf4+JV2ch
+	VnKY6Z9TIjJtf47ImJ4txayOBErvUjqrZ44sZSZhzby/KTGTypYplCKJtnz23KS4b20E
+	h59DqAPBxg27tBRILYUrqKS0O1pbRbZOPOcgXdm3/QSFOYqax6VdMdanG2+uV73cMRYa
+	AQtQ==
+X-Gm-Message-State: AOUpUlEaea+rvDLlO/N6ImZ1dghetlmiMWRtoRe/h1XfKLuvnzGMgM4Z
+	wC7RSEsLaxH/ZF6Cs5LPSzRGkAHj
+X-Google-Smtp-Source: AAOMgpcAdOyOO0hsnHhxYdyNrYnIk+FrG4nXyW8aEd9lO6lz+xI8EWQosxTPELfA2PkXlGmoQ22qdw==
+X-Received: by 2002:a63:844:: with SMTP id
+	65-v6mr18887841pgi.406.1533000492845; 
+	Mon, 30 Jul 2018 18:28:12 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	m81-v6sm26148368pfa.188.2018.07.30.18.28.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 30 Jul 2018 18:28:12 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Jul 2018 18:28:07 -0700
+Message-Id: <1533000487-12738-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] openssl_1.0: drop unnecessary dependency on makedepend-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,51 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 01:07:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 31 Jul 2018 01:28:12 -0000
 
-On Mon, Jul 30, 2018 at 7:26 PM,  <richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2018-07-26 at 10:04 -0400, Bruce Ashfield wrote:
->> > https://autobuilder.yocto.io/builders/nightly-multilib/builds/1139/
->> > steps/BuildImages_4/logs/stdio
->> >
->> > Error: Transaction check error:
->> >    file /usr/bin/libtool from install of libtool-2.4.6-r0.0.i586
->> > conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
->> >    file /usr/bin/libtoolize from install of libtool-2.4.6-r0.0.i586
->> > conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
->> >
->>
->> And that leaves this error.
->>
->> I've not been able to reproduce it, and I've been looking at the
->> elfutils RDEPENDS that is part of kernel devsrc, since that is what
->> pulls in libtool as a DEPENDS.
->
-> I've just sent out two patches which together should fix this one, they
-> did locally at least...
+The openssl Configure script will only select standalone makedepend
+(vs running "$CC -M") when building with gcc < 3.x or with an Apple
+Xcode version which predates the switch to clang (in approx 2010?).
+Neither of these cases are possible when building under OE, therefore
+the dependency on makedepend-native can be dropped (ie align the
+openssl 1.0 recipe with the 1.1 recipe, which has dropped the
+makedepend-native dependency already).
 
-Nice. I see them!
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-connectivity/openssl/openssl_1.0.2o.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I have a v2 of this patch ready to go, but am out of the office for
-the next few days. When I'm to my final vacation destination, I'll log
-into my build machine and send that patch.
-
-Bruce
-
->
-> Cheers,
->
-> Richard
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+index f5d3274..78c8552 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+@@ -8,7 +8,7 @@ SECTION = "libs/network"
+ LICENSE = "openssl"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f475368924827d06d4b416111c8bdb77"
+ 
+-DEPENDS = "makedepend-native hostperl-runtime-native"
++DEPENDS = "hostperl-runtime-native"
+ DEPENDS_append_class-target = " openssl-native"
+ 
+ PROVIDES += "openssl10"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.1
+
 
