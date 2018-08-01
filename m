@@ -1,30 +1,44 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8676178BE0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Aug 2018 11:57:19 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Aug 2018 04:57:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,431,1526367600"; d="scan'208";a="250786466"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2018 04:57:19 -0700
-Date: Wed, 1 Aug 2018 14:58:40 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <20180801115839.GA32094@mbabyjoh-desk.ger.corp.intel.com>
-References: <1533046545-18047-1-git-send-email-maxin.john@intel.com>
-	<86a14d593b662d9d9f10248343e515d16afdb8b3.camel@linuxfoundation.org>
-	<b0fb4501-ba1d-425b-1753-9ba1f1d82091@intel.com>
+Return-Path: <adam.yh.lee@gmail.com>
+Received: from mail-yw0-f175.google.com (mail-yw0-f175.google.com
+	[209.85.161.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 87A92753F1;
+	Wed,  1 Aug 2018 14:35:47 +0000 (UTC)
+Received: by mail-yw0-f175.google.com with SMTP id y203-v6so7255889ywd.9;
+	Wed, 01 Aug 2018 07:35:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=ia82tCvvTv4EMcImOJtmiJ87fWrhi0jhCJMsYQZxWvs=;
+	b=TnwaSxmxeIej3kazEUmSiDXeb9gyWwWmN9l8bClZFj3YaoJUPxCQb7GoEVM9acG6ZU
+	yRn6gQWlcjJH1n7KRTmxKVHUExz2+o6BhJZrdCJ1EU7G1Sv6mmZ+uyDLIIDh4bAQbHNL
+	53xkyvFktgAafhBnceyJAPgqn0dN1lHGRh2MJPJp12IhY6bCt0ldlNzXTVyB/xF4Z4tU
+	QrzyphYXI0wk20tkfEfSEL17FNCPJthEQ6ksz/t2177b9FYaDWsX02uwaoE0PgXjL1fP
+	E/j4wbnBuqxtk7xE6YW6JkTR3zhQaa3WN88K32Oh98jC2Nrz45nhMLMN0uUStavCT9FL
+	Srww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=ia82tCvvTv4EMcImOJtmiJ87fWrhi0jhCJMsYQZxWvs=;
+	b=ZYxiV+pdBWc9jyFa1czP9ozTsbkFFTpLnq5UEqYxibihU4PZVZNvUkVOjUmV926RVS
+	wBOxSF2wrqvD+rqtDeyrgPWp1fgHnh4qezUIWSO+FO49e994Vv2ffW8zd/sX6dalHfgs
+	yh+4cd5PWuOUb8AgSTJPjTjl4Z2CfX7sfm3jKVk+L1Jm5FOWYjImly6BQW/OR6odnfZo
+	Xt/GVwoWoYdDSLGt5TBmfUE2ndZJLW2DJDvB+ExWuGGC2GfWa9JuQhbnWJV8OY7R3kqO
+	h9DW5NOUJdB2Z9doi5sRfs+CFEp40ZtLR+APke9K+XXT85uOd5M/key+g9EVBbiuq8HJ
+	hYSQ==
+X-Gm-Message-State: AOUpUlHD9PVWzEIvrg0vSaFL570/qs2EQdjhOIlCm0E3D595ZnWuwJg2
+	EVaGj0ELtldpcCSWfmPvUhPwL7R9/R05RC6vVia9aA==
+X-Google-Smtp-Source: AAOMgpeRet+v0iu/i8DejYVBWX4rfDVj54BY/rpjCO04iKk7XbrJXLze7MLrQcu+77hKAkeVVP4EoRYYkzjR9+s7biQ=
+X-Received: by 2002:a0d:f7c3:: with SMTP id
+	h186-v6mr13136260ywf.272.1533134147985; 
+	Wed, 01 Aug 2018 07:35:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b0fb4501-ba1d-425b-1753-9ba1f1d82091@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] machine: remove kernel-modules from RRECOMMENDS
+From: Adam Lee <adam.yh.lee@gmail.com>
+Date: Wed, 1 Aug 2018 10:35:36 -0400
+Message-ID: <CAFeBWL7rT1Xiabn6Z9R=hUQkEat+4FW2Vm4aa7vKJQFYzSfF4Q@mail.gmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, 
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
+Subject: "make clean" on Weston
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +51,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2018 11:57:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Aug 2018 14:35:47 -0000
+Content-Type: multipart/alternative; boundary="00000000000048a7a70572609c50"
 
-Hi Anuj,
+--00000000000048a7a70572609c50
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 01, 2018 at 10:43:03AM +0800, Anuj Mittal wrote:
-> On 07/31/2018 11:22 PM, openembedded-core-bounces@lists.openembedded.org
-> wrote:
-> > On Tue, 2018-07-31 at 17:15 +0300, Maxin B. John wrote:
-> >> qemumips,qemumips64 and x86 based machines include kernel-modules by
-> >> default. Remove the kernel modules from RRECOMMENDS to make it
-> >> consistent
-> >> across the machines.
-> >>
-> >> Tested using core-image-sato on qemumips, qemumips64, qemux86 and
-> >> qemux86-64
-> >>
-> >> [YOCTO #12383]
-> >>
-> >> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> >> ---
-> >>  meta/conf/machine/include/x86-base.inc | 2 --
-> >>  meta/conf/machine/qemumips.conf        | 2 --
-> >>  meta/conf/machine/qemumips64.conf      | 2 --
-> >>  3 files changed, 6 deletions(-)
-> > 
-> > Looks good, do we need to add this to genericx86 or anything in meta-
-> > intel given its changing x86-base.inc?
-> > 
-> 
-> meta-intel explicitly includes the modules so no change needed there. I
-> have sent the patch for genericx86 where it should be included now.
+Neither "bitbake -c clean weston" nor "bitbake -c cleanall weston" seems to
+clean the build directory for me.
+Is this how it is for autotool project? "make clean" doesn't work either
+("no rule to make target clean").
 
-Thanks, Just curious why we need to change genericx86. Do we have a list
-of kernel modules which are required there ?
+I need my directory cleaned so I can commit only the necessary changes.
 
-> Thanks,
-> Anuj
+/build/workspace/sources/weston$ git status
+On branch devtool
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
 
-Best Regards,
-Maxin
+        modified:   Makefile.am
+        modified:   Makefile.in
+        modified:   aclocal.m4
+        modified:   build-aux/compile
+        modified:   build-aux/config.guess
+        modified:   build-aux/config.sub
+        modified:   build-aux/depcomp
+        modified:   build-aux/install-sh
+        modified:   build-aux/ltmain.sh
+        modified:   build-aux/missing
+        modified:   build-aux/test-driver
+        modified:   clients/ivi-shell-user-interface.c
+        modified:   clients/simple-egl.c
+        modified:   clients/simple-touch.c
+        modified:   config.h.in
+        modified:   configure
+        modified:   ivi-shell/hmi-controller.c
+        modified:   ivi-shell/ivi-layout.c
+        modified:   ivi-shell/ivi-shell.c
+        modified:   libweston/input.c
+        modified:   libweston/libinput-device.c
+        modified:   m4/libtool.m4
+        modified:   m4/ltoptions.m4
+        modified:   m4/ltsugar.m4
+        modified:   m4/ltversion.m4
+        modified:   m4/lt~obsolete.m4
 
+Adam
+
+--00000000000048a7a70572609c50
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Neither &quot;bitbake -c clean weston&quot; nor &quot;bitb=
+ake -c cleanall weston&quot; seems to clean the build directory for me.<div=
+>Is this how it is for autotool project? &quot;make clean&quot; doesn&#39;t=
+ work either (&quot;no rule to make target clean&quot;).</div><div><br></di=
+v><div>I need my directory cleaned so I can commit only the necessary chang=
+es.</div><div><br></div><div><div>/build/workspace/sources/weston$ git stat=
+us</div><div>On branch devtool</div><div>Changes not staged for commit:</di=
+v><div>=C2=A0 (use &quot;git add &lt;file&gt;...&quot; to update what will =
+be committed)</div><div>=C2=A0 (use &quot;git checkout -- &lt;file&gt;...&q=
+uot; to discard changes in working directory)</div><div><br></div><div>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0Makefile.am</div><div>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0Makefile.in</div><div>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0aclocal.m4</div><div>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux/compile</div><div>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux/config.guess</div><div=
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux/config.sub</di=
+v><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux/depcomp<=
+/div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux/insta=
+ll-sh</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux=
+/ltmain.sh</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0buil=
+d-aux/missing</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0b=
+uild-aux/test-driver</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =
+=C2=A0clients/ivi-shell-user-interface.c</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 modified:=C2=A0 =C2=A0clients/simple-egl.c</div><div>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 modified:=C2=A0 =C2=A0clients/simple-touch.c</div><div>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0<a href=3D"http://config.h.in">c=
+onfig.h.in</a></div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0=
+configure</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0ivi-s=
+hell/hmi-controller.c</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0=
+ =C2=A0ivi-shell/ivi-layout.c</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modifie=
+d:=C2=A0 =C2=A0ivi-shell/ivi-shell.c</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+modified:=C2=A0 =C2=A0libweston/input.c</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 modified:=C2=A0 =C2=A0libweston/libinput-device.c</div><div>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0m4/libtool.m4</div><div>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0m4/ltoptions.m4</div><div>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0m4/ltsugar.m4</div><div>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0m4/ltversion.m4</div><div>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0m4/lt~obsolete.m4</div></div><d=
+iv><br></div><div>Adam</div></div>
+
+--00000000000048a7a70572609c50--
