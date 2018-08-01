@@ -1,53 +1,53 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 46AD560190
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FCC978CA6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Aug 2018 21:11:23 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id b14-v6so10020636vke.13
+	Wed,  1 Aug 2018 22:00:01 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id j205-v6so275752oib.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2018 14:11:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 01 Aug 2018 15:00:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Hhaocws0uAtVtchqial5eZF8yoiwrA5kFgM8s4e5JfU=;
-	b=Qcj61p19dKawbhLB/Bu4PJuhWwSLUNUDbZWM3Q0zjAFCspSzYFM9F5r/o/dttk+gjt
-	tsyi5TLXlMpWavhxaNaH+OvEvK/yQaZUhnS/OgzAmjxLqoknInf3W6O68inTvIo1t/9+
-	WagVpXwAS21CjVzbLb1/R28+6T6U6bp50SzyIPpJA+RF2E7ew5wdV3KlXwjHFTmdK0vq
-	a9aThmZSqZkXET/EtYHNkUMf2iJf166Y8MfyZ6YtxLhqrRxsXsXMXTOY13BQLjjG3LM3
-	8Lwymarx/5moyweu99+R8ZsbXtSnEgjLRCnRl/aOB/W4FbqXRDuh4zW1+XOZW0LqHW0+
-	hdUA==
+	:cc; bh=mvT5QUClfTXBqQcZYcedQZKOQta1/XttwmVDlcFb4h4=;
+	b=i5N3YnGwRYQ6IIlVaPDxHtXGrCVxs64Ehsk0FnKIn2cx48Wh2pDgxAa7d5xq3GYpIE
+	yoIrdK5nJ244vfZ7VgNYM2kv3ynMFL2WTcX8VeyHOM7GO5TObLl1dsGZrioRysMHSc3n
+	iOrWxLJ8UgRPlCzADhUBN6VjtbuF+BuSIfif/2dDrcrGTxNU53mrLe80PQU9BGdGYLmE
+	baQAzFLUuwwYt6XnGc0acVkTmP4FdeGvaWJWds73xsRG1J4f6TdEYftsQoJF7xlkAz1d
+	erJ9v5V1CnBVItwnlsWrErvMkunCbr7lLIE0vrfcXK/AMvJVQXkCYXTGFaIDNfPyxY6c
+	HHgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Hhaocws0uAtVtchqial5eZF8yoiwrA5kFgM8s4e5JfU=;
-	b=UOtUVH1Q6ffNGHiQCoq3QiX+ynTu1UjLbcDvJEbu/i1b8TOlT7ryguOnAACeXoKGEj
-	bJ3bdMAQ3uV1EFeNgck2lvkzBIZDnVx2bM8aAfh2AVjBe+1NTBbxi++iG47foesHggec
-	22NEnqA378kHsk4Vt94nCZyI9f+QJ2+KY8mHmwW9lp5MyVfKSUZQqFCCS/yO+T3FdpwP
-	wYvDRbD8669qH7/izc4g40t2QhafIfAoQ7wUWkawRkv1kxdz0c4dpxlNnN1Ac+W+LCWG
-	1UidLNgkHt2CLazXwDIkxNAtVPhouypUOlFDVWEzWbs09beQdmR6tj9wzM3BMOyL9B/F
-	G1rA==
-X-Gm-Message-State: AOUpUlEStF2Vr56fKEqijPz+SpD+xkHlvl30HWUQT/jix3laxg3qbIqP
-	bcu0H5tAfzCh0J88iJsNPyD//l0p8xrV2t62OaE=
-X-Google-Smtp-Source: AAOMgpeond9nEXu5hJ3FFFuLkWk3RsiIEA0pBMXq3eHnrY/6D83HcobIIZzgMNNnsgSDR2Y1w5THHw4zYz/U/9tbJOY=
-X-Received: by 2002:a1f:acf:: with SMTP id 198-v6mr16442vkk.86.1533157884043; 
-	Wed, 01 Aug 2018 14:11:24 -0700 (PDT)
+	bh=mvT5QUClfTXBqQcZYcedQZKOQta1/XttwmVDlcFb4h4=;
+	b=TTEz8ekEjX9CMLW934RQuMeXapOd3NS5ajBji4vnnWLKDL8M+a0qj1NTGn+lYsXnZc
+	JTOGDuC44YTSWjnxQ4m7wiYRA/r2DEKlCTdOv9fsqT6+GQgjqD/i9hFe35xTW38aDauZ
+	78PZetm4GQyaFD4I/9MpXxKGCFgDgj1/PcAGbDnmKE8n9QLHnA/vcMJ8+XG1BGXMX2OD
+	U70V/kCt8V/UwwCS3isjWUX3rz2rFvZGQWKhsS2LCq1kKDPTEa/41sRdNaDG219QpU6f
+	PQVi0gN32FB5aueXy8iSQ4Ms61SlG5nRMvDiIBq3Gf4iUYJHF0rADeemuuePMrYPoDzC
+	yKrg==
+X-Gm-Message-State: AOUpUlHu4s4ysgrwB3Y1QZZzKowRLrELSCfqbP3NnE3O4tPUvZ+Mi+8a
+	cy9opmnobhFcdBnzgTVSkBk6B+qmslC3+LvceifDzQ==
+X-Google-Smtp-Source: AAOMgpeEzx84LOr4nAmQ3WND4xG6PmHLyX+oznyiF/k5uodNqWgKkDzboOwxMh9qup81PDCMBvM7QaoXwMHTmub3+Ig=
+X-Received: by 2002:aca:3e56:: with SMTP id
+	l83-v6mr170142oia.170.1533160802342; 
+	Wed, 01 Aug 2018 15:00:02 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Wed, 1 Aug 2018 14:11:23 -0700 (PDT)
-In-Reply-To: <0041e5c9-ee79-d720-c859-617107ae4001@siemens.com>
-References: <1533000487-12738-1-git-send-email-armccurdy@gmail.com>
-	<b9a00beb06723da9bdd5f32923057d31ccbc0941.camel@linuxfoundation.org>
-	<b5b31110-b182-fc03-e648-bd5d90f025ef@siemens.com>
-	<CAJ86T=UZqd5JBBaG4hQ+PAwLs-8bDaKbrQS0XHuXUquF6Qg94w@mail.gmail.com>
-	<0041e5c9-ee79-d720-c859-617107ae4001@siemens.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 1 Aug 2018 14:11:23 -0700
-Message-ID: <CAJ86T=VfT-HVrf56=UV=CuKY1FubqZyM6QqJsRahm0JJmJCxbA@mail.gmail.com>
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl_1.0: drop unnecessary dependency on makedepend-native
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP;
+	Wed, 1 Aug 2018 14:59:41 -0700 (PDT)
+In-Reply-To: <20180801115839.GA32094@mbabyjoh-desk.ger.corp.intel.com>
+References: <1533046545-18047-1-git-send-email-maxin.john@intel.com>
+	<86a14d593b662d9d9f10248343e515d16afdb8b3.camel@linuxfoundation.org>
+	<b0fb4501-ba1d-425b-1753-9ba1f1d82091@intel.com>
+	<20180801115839.GA32094@mbabyjoh-desk.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 1 Aug 2018 22:59:41 +0100
+Message-ID: <CAJTo0LZx7bV=4cNkQoGoRM-jhdotZnf5K6aiWq_yM1W8NN+rbQ@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] machine: remove kernel-modules from RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,74 +60,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2018 21:11:23 -0000
+X-List-Received-Date: Wed, 01 Aug 2018 22:00:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 1, 2018 at 12:44 AM, Andrej Valek <andrej.valek@siemens.com> wrote:
-> If you are pretty sure, that makedepend command will available after
-> makedepend-native package dropping, I am fine with that.
+I believe the rationale for genericx86 is "this BSP should boot on
+most hardware, so build and ship all the modules".
 
-I am sure that the makedepend command will NOT be available after
-removing the makedepend-native dependency.
+Ross
 
-Perhaps the explanation I tried to give in the git commit wasn't as
-clear as I thought... could you please read it and let me know which
-part doesn't make sense?
-
-> Cheers,
-> Andrej
+On 1 August 2018 at 12:58, Maxin B. John <maxin.john@intel.com> wrote:
+> Hi Anuj,
 >
-> On 07/31/18 15:34, Andre McCurdy wrote:
->> On Tue, Jul 31, 2018 at 3:24 AM, Andrej Valek <andrej.valek@siemens.com> wrote:
->>> This program is required for "oe_runmake depend" command. It runs
->>> command in MAKEDEPPROG variable, which is set to makedepend. Makedepend
->>> consists from makedepend-native package.
+> On Wed, Aug 01, 2018 at 10:43:03AM +0800, Anuj Mittal wrote:
+>> On 07/31/2018 11:22 PM, openembedded-core-bounces@lists.openembedded.org
+>> wrote:
+>> > On Tue, 2018-07-31 at 17:15 +0300, Maxin B. John wrote:
+>> >> qemumips,qemumips64 and x86 based machines include kernel-modules by
+>> >> default. Remove the kernel modules from RRECOMMENDS to make it
+>> >> consistent
+>> >> across the machines.
+>> >>
+>> >> Tested using core-image-sato on qemumips, qemumips64, qemux86 and
+>> >> qemux86-64
+>> >>
+>> >> [YOCTO #12383]
+>> >>
+>> >> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+>> >> ---
+>> >>  meta/conf/machine/include/x86-base.inc | 2 --
+>> >>  meta/conf/machine/qemumips.conf        | 2 --
+>> >>  meta/conf/machine/qemumips64.conf      | 2 --
+>> >>  3 files changed, 6 deletions(-)
+>> >
+>> > Looks good, do we need to add this to genericx86 or anything in meta-
+>> > intel given its changing x86-base.inc?
+>> >
 >>
->> That's what you might guess from casually reading the Makefile. It's
->> not what actually happens.
->>
->>> Cheers,
->>> Andrej
->>>
->>> On 07/31/18 12:08, Richard Purdie wrote:
->>>> On Mon, 2018-07-30 at 18:28 -0700, Andre McCurdy wrote:
->>>>> The openssl Configure script will only select standalone makedepend
->>>>> (vs running "$CC -M") when building with gcc < 3.x or with an Apple
->>>>> Xcode version which predates the switch to clang (in approx 2010?).
->>>>> Neither of these cases are possible when building under OE, therefore
->>>>> the dependency on makedepend-native can be dropped (ie align the
->>>>> openssl 1.0 recipe with the 1.1 recipe, which has dropped the
->>>>> makedepend-native dependency already).
->>>>>
->>>>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->>>>> ---
->>>>>  meta/recipes-connectivity/openssl/openssl_1.0.2o.bb | 2 +-
->>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
->>>>> b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
->>>>> index f5d3274..78c8552 100644
->>>>> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
->>>>> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
->>>>> @@ -8,7 +8,7 @@ SECTION = "libs/network"
->>>>>  LICENSE = "openssl"
->>>>>  LIC_FILES_CHKSUM =
->>>>> "file://LICENSE;md5=f475368924827d06d4b416111c8bdb77"
->>>>>
->>>>> -DEPENDS = "makedepend-native hostperl-runtime-native"
->>>>> +DEPENDS = "hostperl-runtime-native"
->>>>>  DEPENDS_append_class-target = " openssl-native"
->>>>>
->>>>>  PROVIDES += "openssl10"
->>>>
->>>> This was added quite 'recently' in:
->>>>
->>>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=50c23e6c26a64b0c04e99abacb61ec00d1abace9
->>>>
->>>> I've cc'd Andrej in case he can tell us why that was needed?
->>>>
->>>> Cheers,
->>>>
->>>> Richard
->>>>
+>> meta-intel explicitly includes the modules so no change needed there. I
+>> have sent the patch for genericx86 where it should be included now.
+>
+> Thanks, Just curious why we need to change genericx86. Do we have a list
+> of kernel modules which are required there ?
+>
+>> Thanks,
+>> Anuj
+>
+> Best Regards,
+> Maxin
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
