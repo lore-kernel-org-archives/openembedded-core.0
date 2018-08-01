@@ -1,31 +1,23 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E8B978C26
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 99F3678AAF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Aug 2018 02:43:04 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 Jul 2018 19:43:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,430,1526367600"; d="scan'208";a="244990192"
-Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.21.171])
-	([10.221.21.171])
-	by orsmga005.jf.intel.com with ESMTP; 31 Jul 2018 19:43:04 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"Maxin B. John" <maxin.john@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1533046545-18047-1-git-send-email-maxin.john@intel.com>
-	<86a14d593b662d9d9f10248343e515d16afdb8b3.camel@linuxfoundation.org>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <b0fb4501-ba1d-425b-1753-9ba1f1d82091@intel.com>
-Date: Wed, 1 Aug 2018 10:43:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Wed,  1 Aug 2018 05:21:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w715LY3l020841
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2018 22:21:35 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Tue, 31 Jul 2018 22:21:34 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 1 Aug 2018 13:25:34 +0800
+Message-ID: <cover.1533101098.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <86a14d593b662d9d9f10248343e515d16afdb8b3.camel@linuxfoundation.org>
-Subject: Re: [PATCH] machine: remove kernel-modules from RRECOMMENDS
+Subject: [PATCH 0/1] base-files: fix handling of resize
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2018 02:43:04 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Aug 2018 05:21:34 -0000
+Content-Type: text/plain
 
-On 07/31/2018 11:22 PM, openembedded-core-bounces@lists.openembedded.org
-wrote:
-> On Tue, 2018-07-31 at 17:15 +0300, Maxin B. John wrote:
->> qemumips,qemumips64 and x86 based machines include kernel-modules by
->> default. Remove the kernel modules from RRECOMMENDS to make it
->> consistent
->> across the machines.
->>
->> Tested using core-image-sato on qemumips, qemumips64, qemux86 and
->> qemux86-64
->>
->> [YOCTO #12383]
->>
->> Signed-off-by: Maxin B. John <maxin.john@intel.com>
->> ---
->>  meta/conf/machine/include/x86-base.inc | 2 --
->>  meta/conf/machine/qemumips.conf        | 2 --
->>  meta/conf/machine/qemumips64.conf      | 2 --
->>  3 files changed, 6 deletions(-)
-> 
-> Looks good, do we need to add this to genericx86 or anything in meta-
-> intel given its changing x86-base.inc?
-> 
+The following changes since commit 666e0783525a298217787e3d2f1460c57c2f59ca:
 
-meta-intel explicitly includes the modules so no change needed there. I
-have sent the patch for genericx86 where it should be included now.
+  gcc-7.3: Backport fixes for std::pair high memory usage (2018-07-31 22:55:35 +0100)
 
-Thanks,
-Anuj
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/base-files-resize
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/base-files-resize
+
+Chen Qi (1):
+  base-files: fix handling of resize
+
+ meta/recipes-core/base-files/base-files/profile   | 6 +-----
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 1 +
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+
+-- 
+1.9.1
+
 
