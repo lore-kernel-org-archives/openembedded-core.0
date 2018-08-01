@@ -1,44 +1,52 @@
-Return-Path: <adam.yh.lee@gmail.com>
-Received: from mail-yw0-f175.google.com (mail-yw0-f175.google.com
-	[209.85.161.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 87A92753F1;
-	Wed,  1 Aug 2018 14:35:47 +0000 (UTC)
-Received: by mail-yw0-f175.google.com with SMTP id y203-v6so7255889ywd.9;
-	Wed, 01 Aug 2018 07:35:48 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id B177378BFC
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  1 Aug 2018 17:44:40 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id c15-v6so20837320qtp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Aug 2018 10:44:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=ia82tCvvTv4EMcImOJtmiJ87fWrhi0jhCJMsYQZxWvs=;
-	b=TnwaSxmxeIej3kazEUmSiDXeb9gyWwWmN9l8bClZFj3YaoJUPxCQb7GoEVM9acG6ZU
-	yRn6gQWlcjJH1n7KRTmxKVHUExz2+o6BhJZrdCJ1EU7G1Sv6mmZ+uyDLIIDh4bAQbHNL
-	53xkyvFktgAafhBnceyJAPgqn0dN1lHGRh2MJPJp12IhY6bCt0ldlNzXTVyB/xF4Z4tU
-	QrzyphYXI0wk20tkfEfSEL17FNCPJthEQ6ksz/t2177b9FYaDWsX02uwaoE0PgXjL1fP
-	E/j4wbnBuqxtk7xE6YW6JkTR3zhQaa3WN88K32Oh98jC2Nrz45nhMLMN0uUStavCT9FL
-	Srww==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=XdSMkO1fbXBS1T6HcRJtBxmhyangRRQwlZSNTsJC9/E=;
+	b=LV+n8RdbZb+e7w9Dffk9gBYPHK4e/VFPgtp7U9cXsaK7E9tQrdrj9ca8GBBPYEA1lq
+	f7usOa+ZfmMh1dRv0vCvCCNR4DnNkWuD2IolNbMBSsxxobLkosMnKXRj1uB0ZNHpSc53
+	t/ygWizobGNj9YsPL8wRY0e3HYuOWVjnJ/5/jJfE991IR1Y3gRwBqpSSwAIeCqNUvRGs
+	EX2N6d+xATJHnlSZWgqHcDw3gwjfuENRGiz+PAbhkidiiX9YM9r2uCw+SoYCLSRE1deG
+	IXw9ln5dgO3f1wLyOPpRc3HbAdJfPeIuKHXC+cMej716MPVo6dbpMPtPLrCz5Wwgoxzr
+	YNzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=ia82tCvvTv4EMcImOJtmiJ87fWrhi0jhCJMsYQZxWvs=;
-	b=ZYxiV+pdBWc9jyFa1czP9ozTsbkFFTpLnq5UEqYxibihU4PZVZNvUkVOjUmV926RVS
-	wBOxSF2wrqvD+rqtDeyrgPWp1fgHnh4qezUIWSO+FO49e994Vv2ffW8zd/sX6dalHfgs
-	yh+4cd5PWuOUb8AgSTJPjTjl4Z2CfX7sfm3jKVk+L1Jm5FOWYjImly6BQW/OR6odnfZo
-	Xt/GVwoWoYdDSLGt5TBmfUE2ndZJLW2DJDvB+ExWuGGC2GfWa9JuQhbnWJV8OY7R3kqO
-	h9DW5NOUJdB2Z9doi5sRfs+CFEp40ZtLR+APke9K+XXT85uOd5M/key+g9EVBbiuq8HJ
-	hYSQ==
-X-Gm-Message-State: AOUpUlHD9PVWzEIvrg0vSaFL570/qs2EQdjhOIlCm0E3D595ZnWuwJg2
-	EVaGj0ELtldpcCSWfmPvUhPwL7R9/R05RC6vVia9aA==
-X-Google-Smtp-Source: AAOMgpeRet+v0iu/i8DejYVBWX4rfDVj54BY/rpjCO04iKk7XbrJXLze7MLrQcu+77hKAkeVVP4EoRYYkzjR9+s7biQ=
-X-Received: by 2002:a0d:f7c3:: with SMTP id
-	h186-v6mr13136260ywf.272.1533134147985; 
-	Wed, 01 Aug 2018 07:35:47 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=XdSMkO1fbXBS1T6HcRJtBxmhyangRRQwlZSNTsJC9/E=;
+	b=dZuE24RltcBT4CbOFMpQg6usc3mRGeENCym9hhvYVRz3yOstCfGYl0XqzqMjYpOIjc
+	nXYmkNzfrLGosZGswZPIeX+Bpid8QjASZsAEyTtQptTZkaSrFQ00psebJoL01M/nSYL6
+	qQh77wvm0Ntbe4Lo3g9njRGvOKsXavKcEad0V+W2IGIcnVZ3VQOBRSUDBeWVT9WKcROX
+	W8FkptJ/dCpMsW80+b5sV4oQk9UHycK64P7tt11vZnBv6Tj2C4U7ZVHv4eBNrbEfE4u+
+	3GGTM6qb70moncs7k8TWhxYjIeAMr6xKpQaC12cDEgvAtDzvevDOICOo+NfPmjIl2I7m
+	fwYQ==
+X-Gm-Message-State: AOUpUlHFTmNlpI8X4QbZ2MxVO8c7txIveZjZokYnYkmLaiFuorq7q42f
+	4dR92dUiVdxdtXZlLInCxh44F7m4IjfcEeHjgNU=
+X-Google-Smtp-Source: AAOMgpeow1gNGxmnHjkCxk+QWIqyLi14xoN0UPeWubPn+kU8nVuXA/ZCvy0gYphys0U3wwl9e4CRF3gGkTzZ9sXmflM=
+X-Received: by 2002:ac8:70c5:: with SMTP id
+	g5-v6mr26371082qtp.376.1533145481324; 
+	Wed, 01 Aug 2018 10:44:41 -0700 (PDT)
 MIME-Version: 1.0
-From: Adam Lee <adam.yh.lee@gmail.com>
-Date: Wed, 1 Aug 2018 10:35:36 -0400
-Message-ID: <CAFeBWL7rT1Xiabn6Z9R=hUQkEat+4FW2Vm4aa7vKJQFYzSfF4Q@mail.gmail.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, 
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>
-Subject: "make clean" on Weston
+References: <1532534751-5871-1-git-send-email-alejandr@xilinx.com>
+	<72c0ba68-7fa5-2e3a-a554-e79bff93a00b@gmail.com>
+	<2d0aedb8-fdb0-ad21-bdcc-e82f352570c3@xilinx.com>
+	<db5cccef2f1ef458bb19d54fc03c7ce50de6ebeb.camel@linuxfoundation.org>
+In-Reply-To: <db5cccef2f1ef458bb19d54fc03c7ce50de6ebeb.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 1 Aug 2018 10:44:30 -0700
+Message-ID: <CAMKF1srz1dV8X-MP4si_DLd7esNpvynhSP_h-JOyK=mYABb35g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] multiconfig: Enable multiconfig dependencies on oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,96 +59,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2018 14:35:47 -0000
-Content-Type: multipart/alternative; boundary="00000000000048a7a70572609c50"
+X-List-Received-Date: Wed, 01 Aug 2018 17:44:41 -0000
+Content-Type: multipart/alternative; boundary="000000000000cdad520572633fa4"
 
---00000000000048a7a70572609c50
+--000000000000cdad520572633fa4
 Content-Type: text/plain; charset="UTF-8"
 
-Neither "bitbake -c clean weston" nor "bitbake -c cleanall weston" seems to
-clean the build directory for me.
-Is this how it is for autotool project? "make clean" doesn't work either
-("no rule to make target clean").
+On Tue, Jul 31, 2018 at 4:59 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-I need my directory cleaned so I can commit only the necessary changes.
+> On Mon, 2018-07-30 at 15:05 -0700, Alejandro Enedino Hernandez
+> Samaniego wrote:
+> > On 07/26/2018 08:36 PM, Khem Raj wrote:
+> > >
+> > > On 7/25/18 9:05 AM, Alejandro Enedino Hernandez Samaniego wrote:
+> > > > This patch enables multiconfig dependencies (mcdepends) to be
+> > > > used on
+> > > > recipes using the following format:
+> > > >
+> > > > task[mcdepends] = "multiconfig:FROM-MC:TO-MC:PN:task-to-depend-
+> > > > on"
+> > > >
+> > > > For the sake of simplicity consider the following example:
+> > > >
+> > > > Assuming we have set up multiconfig builds, one for qemux86 and
+> > > > one for
+> > > > qemuarm, named x86 and arm respectively.
+> > > >
+> > > > Adding the following line to an image recipe (core-image-sato):
+> > > > do_image[mcdepends] = "multiconfig:x86:arm:core-image-
+> > > > minimal:do_rootfs"
+> > > >
+> > >
+> > > Do we really need to add multiconfig to keyword namespace ? can we
+> > > deduce this from "arch1:arch2:..."
+> >
+> > Bitbake already uses this and I believed adopting it would make it
+> > easier for the user to understand its usage.
+> >
+> > For example, since the multiconfig names are also provided during
+> > setup, if you assume that someone set up the build and a different
+> > user is going through the recipe, arch1:arch2 wouldn't mean a lot for
+> > that user because they may not map 1:1 to MACHINE names.
+>
+> It is consistent with the rest of the system. I'm still torn on whether
+> we should shorten "multiconfig:" to "mc:" but we need to be consistent.
+>
 
-/build/workspace/sources/weston$ git status
-On branch devtool
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
+Given a choice I would suggest for using multiconfig for lesser chance of
+conflicts
 
-        modified:   Makefile.am
-        modified:   Makefile.in
-        modified:   aclocal.m4
-        modified:   build-aux/compile
-        modified:   build-aux/config.guess
-        modified:   build-aux/config.sub
-        modified:   build-aux/depcomp
-        modified:   build-aux/install-sh
-        modified:   build-aux/ltmain.sh
-        modified:   build-aux/missing
-        modified:   build-aux/test-driver
-        modified:   clients/ivi-shell-user-interface.c
-        modified:   clients/simple-egl.c
-        modified:   clients/simple-touch.c
-        modified:   config.h.in
-        modified:   configure
-        modified:   ivi-shell/hmi-controller.c
-        modified:   ivi-shell/ivi-layout.c
-        modified:   ivi-shell/ivi-shell.c
-        modified:   libweston/input.c
-        modified:   libweston/libinput-device.c
-        modified:   m4/libtool.m4
-        modified:   m4/ltoptions.m4
-        modified:   m4/ltsugar.m4
-        modified:   m4/ltversion.m4
-        modified:   m4/lt~obsolete.m4
+>
+> > > secondy, this need to be well documented, with examples for users
+> >
+> > I agree we could add more documentation to it, where do you think it
+> > should go?
+>
+> I'm going to queue the patches for testing in -next, they look good to
+> me just reading the patches.
+>
+> Could you start to work with Scott (cc'd) to get this new dependency
+> type listed in the bitbake manual and anywhere else it needs to be
+> documented?
+>
+> Its great to see this finally working!
+>
+> Cheers,
+>
+> Richard
+>
+>
 
-Adam
-
---00000000000048a7a70572609c50
+--000000000000cdad520572633fa4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Neither &quot;bitbake -c clean weston&quot; nor &quot;bitb=
-ake -c cleanall weston&quot; seems to clean the build directory for me.<div=
->Is this how it is for autotool project? &quot;make clean&quot; doesn&#39;t=
- work either (&quot;no rule to make target clean&quot;).</div><div><br></di=
-v><div>I need my directory cleaned so I can commit only the necessary chang=
-es.</div><div><br></div><div><div>/build/workspace/sources/weston$ git stat=
-us</div><div>On branch devtool</div><div>Changes not staged for commit:</di=
-v><div>=C2=A0 (use &quot;git add &lt;file&gt;...&quot; to update what will =
-be committed)</div><div>=C2=A0 (use &quot;git checkout -- &lt;file&gt;...&q=
-uot; to discard changes in working directory)</div><div><br></div><div>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0Makefile.am</div><div>=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0Makefile.in</div><div>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0aclocal.m4</div><div>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux/compile</div><div>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux/config.guess</div><div=
->=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux/config.sub</di=
-v><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux/depcomp<=
-/div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux/insta=
-ll-sh</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0build-aux=
-/ltmain.sh</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0buil=
-d-aux/missing</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0b=
-uild-aux/test-driver</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =
-=C2=A0clients/ivi-shell-user-interface.c</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 modified:=C2=A0 =C2=A0clients/simple-egl.c</div><div>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 modified:=C2=A0 =C2=A0clients/simple-touch.c</div><div>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0<a href=3D"http://config.h.in">c=
-onfig.h.in</a></div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0=
-configure</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0ivi-s=
-hell/hmi-controller.c</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0=
- =C2=A0ivi-shell/ivi-layout.c</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modifie=
-d:=C2=A0 =C2=A0ivi-shell/ivi-shell.c</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-modified:=C2=A0 =C2=A0libweston/input.c</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 modified:=C2=A0 =C2=A0libweston/libinput-device.c</div><div>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0m4/libtool.m4</div><div>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0m4/ltoptions.m4</div><div>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0m4/ltsugar.m4</div><div>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0m4/ltversion.m4</div><div>=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 modified:=C2=A0 =C2=A0m4/lt~obsolete.m4</div></div><d=
-iv><br></div><div>Adam</div></div>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Tue,=
+ Jul 31, 2018 at 4:59 AM Richard Purdie &lt;<a href=3D"mailto:richard.purdi=
+e@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex">On Mon, 2018-07-30 at 15:05 -0700, Al=
+ejandro Enedino Hernandez<br>
+Samaniego wrote:<br>
+&gt; On 07/26/2018 08:36 PM, Khem Raj wrote:<br>
+&gt; &gt; <br>
+&gt; &gt; On 7/25/18 9:05 AM, Alejandro Enedino Hernandez Samaniego wrote:<=
+br>
+&gt; &gt; &gt; This patch enables multiconfig dependencies (mcdepends) to b=
+e<br>
+&gt; &gt; &gt; used on<br>
+&gt; &gt; &gt; recipes using the following format:<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; task[mcdepends] =3D &quot;multiconfig:FROM-MC:TO-MC:PN:task-=
+to-depend-<br>
+&gt; &gt; &gt; on&quot;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; For the sake of simplicity consider the following example:<b=
+r>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Assuming we have set up multiconfig builds, one for qemux86 =
+and<br>
+&gt; &gt; &gt; one for<br>
+&gt; &gt; &gt; qemuarm, named x86 and arm respectively.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Adding the following line to an image recipe (core-image-sat=
+o):<br>
+&gt; &gt; &gt; do_image[mcdepends] =3D &quot;multiconfig:x86:arm:core-image=
+-<br>
+&gt; &gt; &gt; minimal:do_rootfs&quot;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; Do we really need to add multiconfig to keyword namespace ? can w=
+e<br>
+&gt; &gt; deduce this from &quot;arch1:arch2:...&quot;<br>
+&gt; <br>
+&gt; Bitbake already uses this and I believed adopting it would make it <br=
+>
+&gt; easier for the user to understand its usage.<br>
+&gt;<br>
+&gt; For example, since the multiconfig names are also provided during<br>
+&gt; setup, if you assume that someone set up the build and a different<br>
+&gt; user is going through the recipe, arch1:arch2 wouldn&#39;t mean a lot =
+for<br>
+&gt; that user because they may not map 1:1 to MACHINE names.<br>
+<br>
+It is consistent with the rest of the system. I&#39;m still torn on whether=
+<br>
+we should shorten &quot;multiconfig:&quot; to &quot;mc:&quot; but we need t=
+o be consistent.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Given a choice I=
+ would suggest for using multiconfig for lesser chance of conflicts=C2=A0</=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex"><br>
+&gt; &gt; secondy, this need to be well documented, with examples for users=
+<br>
+&gt; <br>
+&gt; I agree we could add more documentation to it, where do you think it <=
+br>
+&gt; should go?<br>
+<br>
+I&#39;m going to queue the patches for testing in -next, they look good to<=
+br>
+me just reading the patches.<br>
+<br>
+Could you start to work with Scott (cc&#39;d) to get this new dependency<br=
+>
+type listed in the bitbake manual and anywhere else it needs to be<br>
+documented?<br>
+<br>
+Its great to see this finally working!<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div>
 
---00000000000048a7a70572609c50--
+--000000000000cdad520572633fa4--
