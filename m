@@ -1,23 +1,25 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5243678D07
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CB34746AB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Aug 2018 05:57:01 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w715v3C7021725
+	Wed,  1 Aug 2018 06:46:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w716kfbA003702
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 22:57:03 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 31 Jul 2018 22:57:02 -0700
-From: <changqing.li@windriver.com>
+	Tue, 31 Jul 2018 23:46:41 -0700
+Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Tue, 31 Jul 2018 23:46:40 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 1 Aug 2018 13:57:01 +0800
-Message-ID: <1533103021-279891-1-git-send-email-changqing.li@windriver.com>
+Date: Wed, 1 Aug 2018 14:46:38 +0800
+Message-ID: <1533105998-26291-1-git-send-email-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] libxml2: fix libxml2 ptest fails
+X-Originating-IP: [128.224.162.137]
+Subject: [PATCH] sudo: add PACKAGECONFIG for pam-wheel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,40 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2018 05:57:02 -0000
+X-List-Received-Date: Wed, 01 Aug 2018 06:46:40 -0000
 Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+The pam_wheel PAM module is used to enforce the so-called wheel group.
+By default it permits root access to the system if the applicant user is
+a member of the wheel group.
+Add PACKAGECONFIG to enable pam_wheel module for sudo.
 
-for core-image-minimal image,  missing these two dependency
-will cause below warning and error:
-
-warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-./test/icu_parse_test.xml generated an error
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-core/libxml/libxml2_2.9.8.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-extended/sudo/sudo.inc       | 1 +
+ meta/recipes-extended/sudo/sudo_1.8.23.bb | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb b/meta/recipes-core/libxml/libxml2_2.9.8.bb
-index 1f22bb0..27a648e 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.8.bb
-@@ -44,7 +44,12 @@ RDEPENDS_${PN}-ptest += "make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'l
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 6e57669..69dccde 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -19,6 +19,7 @@ inherit autotools
  
- RDEPENDS_${PN}-python += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
++PACKAGECONFIG[pam-wheel] = ",,,pam-plugin-wheel"
  
--RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-gconv-ebcdic-us glibc-gconv-ibm1141 glibc-gconv-iso8859-5"
-+RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-gconv-ebcdic-us \
-+                                           glibc-gconv-ibm1141 \
-+                                           glibc-gconv-iso8859-5 \
-+                                           glibc-gconv-euc-jp \
-+                                           locale-base-en-us \
-+                                         "
+ CONFFILES_${PN} = "${sysconfdir}/sudoers"
  
- export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.23.bb b/meta/recipes-extended/sudo/sudo_1.8.23.bb
+index 9756fe2..ab9c8cb 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.23.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.23.bb
+@@ -22,6 +22,10 @@ EXTRA_OECONF += " \
+ do_install_append () {
+ 	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
+ 		install -D -m 644 ${WORKDIR}/sudo.pam ${D}/${sysconfdir}/pam.d/sudo
++		if ${@bb.utils.contains('PACKAGECONFIG', 'pam-wheel', 'true', 'false', d)} ; then
++			echo 'auth       required     pam_wheel.so use_uid' >>${D}${sysconfdir}/pam.d/sudo
++			sed -i 's/# \(%wheel ALL=(ALL) ALL\)/\1/' ${D}${sysconfdir}/sudoers
++		fi
+ 	fi
  
+ 	chmod 4111 ${D}${bindir}/sudo
 -- 
 2.7.4
 
