@@ -1,53 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FCC978CA6
+Return-Path: <omar.ocampo.coronado@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B28B078CC1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Aug 2018 22:00:01 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id j205-v6so275752oib.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2018 15:00:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mvT5QUClfTXBqQcZYcedQZKOQta1/XttwmVDlcFb4h4=;
-	b=i5N3YnGwRYQ6IIlVaPDxHtXGrCVxs64Ehsk0FnKIn2cx48Wh2pDgxAa7d5xq3GYpIE
-	yoIrdK5nJ244vfZ7VgNYM2kv3ynMFL2WTcX8VeyHOM7GO5TObLl1dsGZrioRysMHSc3n
-	iOrWxLJ8UgRPlCzADhUBN6VjtbuF+BuSIfif/2dDrcrGTxNU53mrLe80PQU9BGdGYLmE
-	baQAzFLUuwwYt6XnGc0acVkTmP4FdeGvaWJWds73xsRG1J4f6TdEYftsQoJF7xlkAz1d
-	erJ9v5V1CnBVItwnlsWrErvMkunCbr7lLIE0vrfcXK/AMvJVQXkCYXTGFaIDNfPyxY6c
-	HHgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mvT5QUClfTXBqQcZYcedQZKOQta1/XttwmVDlcFb4h4=;
-	b=TTEz8ekEjX9CMLW934RQuMeXapOd3NS5ajBji4vnnWLKDL8M+a0qj1NTGn+lYsXnZc
-	JTOGDuC44YTSWjnxQ4m7wiYRA/r2DEKlCTdOv9fsqT6+GQgjqD/i9hFe35xTW38aDauZ
-	78PZetm4GQyaFD4I/9MpXxKGCFgDgj1/PcAGbDnmKE8n9QLHnA/vcMJ8+XG1BGXMX2OD
-	U70V/kCt8V/UwwCS3isjWUX3rz2rFvZGQWKhsS2LCq1kKDPTEa/41sRdNaDG219QpU6f
-	PQVi0gN32FB5aueXy8iSQ4Ms61SlG5nRMvDiIBq3Gf4iUYJHF0rADeemuuePMrYPoDzC
-	yKrg==
-X-Gm-Message-State: AOUpUlHu4s4ysgrwB3Y1QZZzKowRLrELSCfqbP3NnE3O4tPUvZ+Mi+8a
-	cy9opmnobhFcdBnzgTVSkBk6B+qmslC3+LvceifDzQ==
-X-Google-Smtp-Source: AAOMgpeEzx84LOr4nAmQ3WND4xG6PmHLyX+oznyiF/k5uodNqWgKkDzboOwxMh9qup81PDCMBvM7QaoXwMHTmub3+Ig=
-X-Received: by 2002:aca:3e56:: with SMTP id
-	l83-v6mr170142oia.170.1533160802342; 
-	Wed, 01 Aug 2018 15:00:02 -0700 (PDT)
+	Wed,  1 Aug 2018 22:46:24 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Aug 2018 15:46:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,433,1526367600"; d="scan'208";a="59728198"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+	by fmsmga008.fm.intel.com with ESMTP; 01 Aug 2018 15:46:25 -0700
+Received: from fmsmsx158.amr.corp.intel.com (10.18.116.75) by
+	FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Wed, 1 Aug 2018 15:46:25 -0700
+Received: from FMSMSX109.amr.corp.intel.com ([169.254.15.66]) by
+	fmsmsx158.amr.corp.intel.com ([169.254.15.57]) with mapi id
+	14.03.0319.002; Wed, 1 Aug 2018 15:46:25 -0700
+From: "Ocampo Coronado, Omar" <omar.ocampo.coronado@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Strip kernel modules and signatures
+Thread-Index: AdQp6AYNoEgkmdwwQ7movNFM8K8/Og==
+Date: Wed, 1 Aug 2018 22:46:24 +0000
+Message-ID: <0D62475714C01347BCA118AE7A61400376B2C64D@FMSMSX109.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiY2Q4NjU1ODItNTk0NS00NjRmLWFjOTAtMWEwY2I4MjIwZmEwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaHNrcjBEUjBOOG9BV3d0M0JkWU8yMVA5U0xpeFFzR2JGRWlHVXZyN1M4MHZwU3lRRVlabDhMWFkwVlNIK1NNNCJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.106]
 MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP;
-	Wed, 1 Aug 2018 14:59:41 -0700 (PDT)
-In-Reply-To: <20180801115839.GA32094@mbabyjoh-desk.ger.corp.intel.com>
-References: <1533046545-18047-1-git-send-email-maxin.john@intel.com>
-	<86a14d593b662d9d9f10248343e515d16afdb8b3.camel@linuxfoundation.org>
-	<b0fb4501-ba1d-425b-1753-9ba1f1d82091@intel.com>
-	<20180801115839.GA32094@mbabyjoh-desk.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 1 Aug 2018 22:59:41 +0100
-Message-ID: <CAJTo0LZx7bV=4cNkQoGoRM-jhdotZnf5K6aiWq_yM1W8NN+rbQ@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] machine: remove kernel-modules from RRECOMMENDS
+Subject: Strip kernel modules and signatures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,56 +48,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2018 22:00:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 01 Aug 2018 22:46:24 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-I believe the rationale for genericx86 is "this BSP should boot on
-most hardware, so build and ship all the modules".
+Hello OE,
 
-Ross
+While attempting to sign our kernel modules (using the kernel configuration=
+  CONFIG_MODULE_SIG) the drivers in our image did not have the signature, e=
+ven the certificate was being loaded by the kernel or the driver being sign=
+ed during do_install().
 
-On 1 August 2018 at 12:58, Maxin B. John <maxin.john@intel.com> wrote:
-> Hi Anuj,
->
-> On Wed, Aug 01, 2018 at 10:43:03AM +0800, Anuj Mittal wrote:
->> On 07/31/2018 11:22 PM, openembedded-core-bounces@lists.openembedded.org
->> wrote:
->> > On Tue, 2018-07-31 at 17:15 +0300, Maxin B. John wrote:
->> >> qemumips,qemumips64 and x86 based machines include kernel-modules by
->> >> default. Remove the kernel modules from RRECOMMENDS to make it
->> >> consistent
->> >> across the machines.
->> >>
->> >> Tested using core-image-sato on qemumips, qemumips64, qemux86 and
->> >> qemux86-64
->> >>
->> >> [YOCTO #12383]
->> >>
->> >> Signed-off-by: Maxin B. John <maxin.john@intel.com>
->> >> ---
->> >>  meta/conf/machine/include/x86-base.inc | 2 --
->> >>  meta/conf/machine/qemumips.conf        | 2 --
->> >>  meta/conf/machine/qemumips64.conf      | 2 --
->> >>  3 files changed, 6 deletions(-)
->> >
->> > Looks good, do we need to add this to genericx86 or anything in meta-
->> > intel given its changing x86-base.inc?
->> >
->>
->> meta-intel explicitly includes the modules so no change needed there. I
->> have sent the patch for genericx86 where it should be included now.
->
-> Thanks, Just curious why we need to change genericx86. Do we have a list
-> of kernel modules which are required there ?
->
->> Thanks,
->> Anuj
->
-> Best Regards,
-> Maxin
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Turns out package.bbclass, while it ignores to create debug info files it d=
+oes strips the kernel modules files:
+
+python split_and_strip_files () {
+	...
+	...
+	        for f in kernmods:
+                          sfiles.append((f, 16, strip))
+
+        oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
+    #
+    # End of strip
+    #
+    os.chdir(oldcwd)
+}
+
+The strip is required for many reasons yet it removes the signature which w=
+e want to preserve in this scenario.
+To work around this issue add
+     INHIBIT_PACKAGE_STRIP =3D "1"
+     either on your virtual/kernel bb file or driver bb file.
+
+Hope this helps someone in the future when adding signature to files, perha=
+ps including this into the Yocto kernel development manual.
+
+Cheers
+
+P.S.
+In a linux-intel kernel (master) without stripped kernel modules the image =
+size increased in 650kb.=20
 
