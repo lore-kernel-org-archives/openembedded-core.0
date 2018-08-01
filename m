@@ -1,29 +1,30 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CC2178CD2
+Return-Path: <maxin.john@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8676178BE0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Aug 2018 11:25:09 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
+	Wed,  1 Aug 2018 11:57:19 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Aug 2018 04:25:10 -0700
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Aug 2018 04:57:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,431,1526367600"; d="scan'208";a="61503018"
-Received: from alokpa1x-mobl.gar.corp.intel.com (HELO [10.255.160.68])
-	([10.255.160.68])
-	by orsmga008.jf.intel.com with ESMTP; 01 Aug 2018 04:25:09 -0700
-To: Jaewon Lee <jaewon.lee@xilinx.com>,
-	openembedded-core@lists.openembedded.org
-References: <1532985713-15283-1-git-send-email-jaewon.lee@xilinx.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <ab3cf6da-5f2a-ef98-92ca-8aaa3721df7f@intel.com>
-Date: Wed, 1 Aug 2018 19:25:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+X-IronPort-AV: E=Sophos;i="5.51,431,1526367600"; d="scan'208";a="250786466"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
+	by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2018 04:57:19 -0700
+Date: Wed, 1 Aug 2018 14:58:40 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <20180801115839.GA32094@mbabyjoh-desk.ger.corp.intel.com>
+References: <1533046545-18047-1-git-send-email-maxin.john@intel.com>
+	<86a14d593b662d9d9f10248343e515d16afdb8b3.camel@linuxfoundation.org>
+	<b0fb4501-ba1d-425b-1753-9ba1f1d82091@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1532985713-15283-1-git-send-email-jaewon.lee@xilinx.com>
-Subject: Re: [PATCH] devtool-source.bbclass: Support kernel fragments not in SRC_URI
+In-Reply-To: <b0fb4501-ba1d-425b-1753-9ba1f1d82091@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] machine: remove kernel-modules from RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,68 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2018 11:25:09 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Aug 2018 11:57:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 07/31/2018 05:21 AM, Jaewon Lee wrote:
-> When using a recipe space kernel-meta, scc files are added through
-> SRC_URI, but they may include corresponding kernel fragments that are
-> not necessarily in SRC_URI.
-> 
-> For bitbake, this is not a problem because the kernel-yocto class adds
-> the path where the .scc file was found to includes which consequentially
-> makes the .cfg file available to the kernel build.
-> 
-> However, when using devtool, only files specified in SRC_URI are copied
-> to oe-local-files in devtool's workspace. So if the cfg file is not in
-> SRC_URI, it won't be copied, causing a kernel build failure when trying
-> to find it.
-> 
-> This fix parses local .scc files in SRC_URI, copies the corresponding .cfg
-> file to devtool's workdir, and also adds it to local_files so it is
-> available when doing a devtool build for the kernel.
-> 
-> [YOCTO #12858]
-> 
-> Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
-> ---
->  meta/classes/devtool-source.bbclass | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-source.bbclass
-> index 56882a4..c70fea2 100644
-> --- a/meta/classes/devtool-source.bbclass
-> +++ b/meta/classes/devtool-source.bbclass
-> @@ -90,11 +90,23 @@ python devtool_post_unpack() {
->                          fname in files])
->          return ret
->  
-> +    is_kernel_yocto = bb.data.inherits_class('kernel-yocto', d)
->      # Move local source files into separate subdir
->      recipe_patches = [os.path.basename(patch) for patch in
->                          oe.recipeutils.get_recipe_patches(d)]
->      local_files = oe.recipeutils.get_recipe_local_files(d)
->  
-> +    if is_kernel_yocto:
-> +      for key in local_files.copy():
-> +        if key.endswith('scc'):
-> +          sccfile = open(local_files[key], 'r')
-> +          for l in sccfile:
-> +            line = l.split()
-> +            if line and line[0] == 'kconf' and line[-1].endswith('.cfg'):
-> +              local_files[line[-1]] = os.path.join(os.path.dirname(local_files[key]), line[-1])
-> +              shutil.copy2(os.path.join(os.path.dirname(local_files[key]), line[-1]), workdir)
-> +          sccfile.close()
-> +
+Hi Anuj,
 
-Would the patches included in these .scc files also need to be handled
-in the same way? Would this also work if there are other scc files
-included in a scc file?
+On Wed, Aug 01, 2018 at 10:43:03AM +0800, Anuj Mittal wrote:
+> On 07/31/2018 11:22 PM, openembedded-core-bounces@lists.openembedded.org
+> wrote:
+> > On Tue, 2018-07-31 at 17:15 +0300, Maxin B. John wrote:
+> >> qemumips,qemumips64 and x86 based machines include kernel-modules by
+> >> default. Remove the kernel modules from RRECOMMENDS to make it
+> >> consistent
+> >> across the machines.
+> >>
+> >> Tested using core-image-sato on qemumips, qemumips64, qemux86 and
+> >> qemux86-64
+> >>
+> >> [YOCTO #12383]
+> >>
+> >> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> >> ---
+> >>  meta/conf/machine/include/x86-base.inc | 2 --
+> >>  meta/conf/machine/qemumips.conf        | 2 --
+> >>  meta/conf/machine/qemumips64.conf      | 2 --
+> >>  3 files changed, 6 deletions(-)
+> > 
+> > Looks good, do we need to add this to genericx86 or anything in meta-
+> > intel given its changing x86-base.inc?
+> > 
+> 
+> meta-intel explicitly includes the modules so no change needed there. I
+> have sent the patch for genericx86 where it should be included now.
 
-Thanks,
+Thanks, Just curious why we need to change genericx86. Do we have a list
+of kernel modules which are required there ?
 
-Anuj
+> Thanks,
+> Anuj
+
+Best Regards,
+Maxin
 
