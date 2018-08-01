@@ -1,18 +1,31 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7910F744AA;
-	Tue, 31 Jul 2018 22:02:52 +0000 (UTC)
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E8B978C26
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  1 Aug 2018 02:43:04 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jul 2018 19:43:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,430,1526367600"; d="scan'208";a="244990192"
+Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.21.171])
+	([10.221.21.171])
+	by orsmga005.jf.intel.com with ESMTP; 31 Jul 2018 19:43:04 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"Maxin B. John" <maxin.john@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1533046545-18047-1-git-send-email-maxin.john@intel.com>
+	<86a14d593b662d9d9f10248343e515d16afdb8b3.camel@linuxfoundation.org>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <b0fb4501-ba1d-425b-1753-9ba1f1d82091@intel.com>
+Date: Wed, 1 Aug 2018 10:43:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 31 Jul 2018 22:02:54 -0000
-Message-ID: <20180731220254.13843.69833@do.openembedded.org>
-References: <20180731215243.12440-1-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180731215243.12440-1-richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdXRpbC1saW51eDogRW5hYmxlIGZhbGxvY2F0ZSBmb3IgbmF0aXZlL25hdGl2ZXNkaw==?=
+In-Reply-To: <86a14d593b662d9d9f10248343e515d16afdb8b3.camel@linuxfoundation.org>
+Subject: Re: [PATCH] machine: remove kernel-modules from RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 22:02:52 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Wed, 01 Aug 2018 02:43:04 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 07/31/2018 11:22 PM, openembedded-core-bounces@lists.openembedded.org
+wrote:
+> On Tue, 2018-07-31 at 17:15 +0300, Maxin B. John wrote:
+>> qemumips,qemumips64 and x86 based machines include kernel-modules by
+>> default. Remove the kernel modules from RRECOMMENDS to make it
+>> consistent
+>> across the machines.
+>>
+>> Tested using core-image-sato on qemumips, qemumips64, qemux86 and
+>> qemux86-64
+>>
+>> [YOCTO #12383]
+>>
+>> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+>> ---
+>>  meta/conf/machine/include/x86-base.inc | 2 --
+>>  meta/conf/machine/qemumips.conf        | 2 --
+>>  meta/conf/machine/qemumips64.conf      | 2 --
+>>  3 files changed, 6 deletions(-)
+> 
+> Looks good, do we need to add this to genericx86 or anything in meta-
+> intel given its changing x86-base.inc?
+> 
 
-Series: util-linux: Enable fallocate for native/nativesdk
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13325/
-State : failure
+meta-intel explicitly includes the modules so no change needed there. I
+have sent the patch for genericx86 where it should be included now.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 51a09ba272)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Thanks,
+Anuj
 
