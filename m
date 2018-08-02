@@ -1,26 +1,25 @@
 Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1297F78D3F
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 460B678D3C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Aug 2018 02:50:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w722omg2004047
+	Thu,  2 Aug 2018 02:50:48 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w722onwL011480
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Aug 2018 19:50:48 -0700
+	Wed, 1 Aug 2018 19:50:49 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 1 Aug 2018 19:50:47 -0700
+	Wed, 1 Aug 2018 19:50:49 -0700
 From: "Hongzhi.Song" <hongzhi.song@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 1 Aug 2018 19:50:38 -0700
-Message-ID: <20180802025039.15748-3-hongzhi.song@windriver.com>
+Date: Wed, 1 Aug 2018 19:50:39 -0700
+Message-ID: <20180802025039.15748-4-hongzhi.song@windriver.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180802025039.15748-1-hongzhi.song@windriver.com>
 References: <20180802025039.15748-1-hongzhi.song@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] udev-extraconf/mount.sh: Fix the recursively dependency for the systemd-mount
+Subject: [PATCH 3/3] udev-extraconf/mount.sh: Skip the entry in /etc/fstab when using the systemd-mount
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,68 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2018 02:50:48 -0000
+X-List-Received-Date: Thu, 02 Aug 2018 02:50:49 -0000
 Content-Type: text/plain
 
-If systemd is used, using the systemd-mount to mount the new added disk
-partitions forgets to move the codes which tries to mount the partition
-by using the configuration in /etc/fstab to the non-systemd function.
-
-And it will cause the systemd-mount try to mount the partition
-synchronously and trigger a recursively dependency like the following:
-    dev-sda1.device -> run-media-sda1.mount -> dev-sda1.device
+When using systemd, the systemd-fstab-generator would parse the
+/etc/fstab and create the corresponding unit dynamically. So we don't
+need to handle the ADD action for the partitions in /etc/fstab.
 
 Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
 Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
 ---
- meta/recipes-core/udev/udev-extraconf/mount.sh | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index 3a72c455e0..816d975e5e 100644
+index 816d975e5e..9796cd7b90 100644
 --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
 +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -63,6 +63,16 @@ automount_systemd() {
- automount() {	
+@@ -36,6 +36,15 @@ done
+ automount_systemd() {
  	name="`basename "$DEVNAME"`"
  
-+	if [ -x "$PMOUNT" ]; then
-+		$PMOUNT $DEVNAME 2> /dev/null
-+	elif [ -x $MOUNT ]; then
-+		$MOUNT $DEVNAME 2> /dev/null
-+	fi
++	# Skip the partition which are already in /etc/fstab
++	grep "^[[:space:]]*$DEVNAME" /etc/fstab && return
++	for n in LABEL PARTLABEL UUID PARTUUID; do
++		tmp="$(lsblk -o $n $DEVNAME | sed -e '1d')"
++		test -z "$tmp" && continue
++		tmp="$n=$tmp"
++		grep "^[[:space:]]*$tmp" /etc/fstab && return
++	done
 +
-+	# If the device isn't mounted at this point, it isn't
-+	# configured in fstab
-+	grep -q "^$DEVNAME " /proc/mounts && return
-+
- 	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
- 	# Silent util-linux's version of mounting auto
- 	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
-@@ -105,19 +115,13 @@ rm_dir() {
- name="`basename "$DEVNAME"`"
- [ -e /sys/block/$name/device/media ] && media_type=`cat /sys/block/$name/device/media`
- if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_type" = "cdrom" ]; then
--	if [ -x "$PMOUNT" ]; then
--		$PMOUNT $DEVNAME 2> /dev/null
--	elif [ -x $MOUNT ]; then
--    		$MOUNT $DEVNAME 2> /dev/null
--	fi
--	# If the device isn't mounted at this point, it isn't
--	# configured in fstab (note the root filesystem can show up as
--	# /dev/root in /proc/mounts, so check the device number too)
-+	# Note the root filesystem can show up as /dev/root in /proc/mounts,
-+	# so check the device number too
- 	if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
- 		if [ "`basename $MOUNT`" = "systemd-mount" ];then
--			grep -q "^$DEVNAME " /proc/mounts || automount_systemd
-+			automount_systemd
- 		else
--			grep -q "^$DEVNAME " /proc/mounts || automount
-+			automount
- 		fi
- 	fi
- fi
+         ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
+         # Silent util-linux's version of mounting auto
+         MOUNT="$MOUNT -o silent"
 -- 
 2.11.0
 
