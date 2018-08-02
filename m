@@ -1,32 +1,25 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FCDA745A7
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 738F460851
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Aug 2018 02:55:44 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Aug 2018 19:55:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,434,1526367600"; d="scan'208";a="221065157"
-Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.21.171])
-	([10.221.21.171])
-	by orsmga004.jf.intel.com with ESMTP; 01 Aug 2018 19:55:42 -0700
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	openembedded-core@lists.openembedded.org
-References: <1532985713-15283-1-git-send-email-jaewon.lee@xilinx.com>
-	<ab3cf6da-5f2a-ef98-92ca-8aaa3721df7f@intel.com>
-	<12364d4c-2863-18da-1d8f-f74a80683447@xilinx.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <257beb90-8a7d-2310-9c0e-ea18466fe1a6@intel.com>
-Date: Thu, 2 Aug 2018 10:55:41 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu,  2 Aug 2018 04:48:48 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w724mnXx007752
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Aug 2018 21:48:49 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Wed, 1 Aug 2018 21:48:49 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 2 Aug 2018 12:52:43 +0800
+Message-ID: <8cdd92b9174133a4e0ea9636bd2678a9629bf225.1533185524.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1533185524.git.Qi.Chen@windriver.com>
+References: <cover.1533185524.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <12364d4c-2863-18da-1d8f-f74a80683447@xilinx.com>
-Subject: Re: [PATCH] devtool-source.bbclass: Support kernel fragments not in SRC_URI
+Subject: [PATCH 1/1] man-db: remove '--disable-cache-owner' option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,89 +32,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2018 02:55:45 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Aug 2018 04:48:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 08/02/2018 07:30 AM, Alejandro Enedino Hernandez Samaniego wrote:
-> Hey Anuj,
-> 
-> 
-> On 08/01/2018 04:25 AM, Anuj Mittal wrote:
->> On 07/31/2018 05:21 AM, Jaewon Lee wrote:
->>> When using a recipe space kernel-meta, scc files are added through
->>> SRC_URI, but they may include corresponding kernel fragments that are
->>> not necessarily in SRC_URI.
->>>
->>> For bitbake, this is not a problem because the kernel-yocto class adds
->>> the path where the .scc file was found to includes which consequentially
->>> makes the .cfg file available to the kernel build.
->>>
->>> However, when using devtool, only files specified in SRC_URI are copied
->>> to oe-local-files in devtool's workspace. So if the cfg file is not in
->>> SRC_URI, it won't be copied, causing a kernel build failure when trying
->>> to find it.
->>>
->>> This fix parses local .scc files in SRC_URI, copies the corresponding .cfg
->>> file to devtool's workdir, and also adds it to local_files so it is
->>> available when doing a devtool build for the kernel.
->>>
->>> [YOCTO #12858]
->>>
->>> Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
->>> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
->>> ---
->>>   meta/classes/devtool-source.bbclass | 12 ++++++++++++
->>>   1 file changed, 12 insertions(+)
->>>
->>> diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-source.bbclass
->>> index 56882a4..c70fea2 100644
->>> --- a/meta/classes/devtool-source.bbclass
->>> +++ b/meta/classes/devtool-source.bbclass
->>> @@ -90,11 +90,23 @@ python devtool_post_unpack() {
->>>                           fname in files])
->>>           return ret
->>>   
->>> +    is_kernel_yocto = bb.data.inherits_class('kernel-yocto', d)
->>>       # Move local source files into separate subdir
->>>       recipe_patches = [os.path.basename(patch) for patch in
->>>                           oe.recipeutils.get_recipe_patches(d)]
->>>       local_files = oe.recipeutils.get_recipe_local_files(d)
->>>   
->>> +    if is_kernel_yocto:
->>> +      for key in local_files.copy():
->>> +        if key.endswith('scc'):
->>> +          sccfile = open(local_files[key], 'r')
->>> +          for l in sccfile:
->>> +            line = l.split()
->>> +            if line and line[0] == 'kconf' and line[-1].endswith('.cfg'):
->>> +              local_files[line[-1]] = os.path.join(os.path.dirname(local_files[key]), line[-1])
->>> +              shutil.copy2(os.path.join(os.path.dirname(local_files[key]), line[-1]), workdir)
->>> +          sccfile.close()
->>> +
->> Would the patches included in these .scc files also need to be handled
->> in the same way? Would this also work if there are other scc files
->> included in a scc file?
-> Yes, I believe that the same mechanism should be used for patch files as 
-> well,
-> basically anything that may be needed to build but that its not necessarily
-> explicitly listed on SRC_URI.
-> 
-> I believe it will work for other scc files and it doesnt have to be 
-> recursive,
-> because while cfg files arent required to be in SRC_URI , scc files ARE 
-> required
-> to be SRC_URI, which means that this will eventually find the other scc 
-> file on the list
+The following error appeared at boot.
 
-I don't think they are required to be specified except for the top level
-one. At least, when I test it, I see problems. kernel-tools spp script
-parses them recursively and looks for a nested scc even if it is not
-specified as part of SRC_URI. That is how the top level sccs from
-kernel-cache are parsed too. Can you give it a try please?
+  systemd-tmpfiles[115]: [/usr/lib/tmpfiles.d/man-db.conf:1] Unknown user '1w'
 
-Thanks,
+By default cache owner is enabled and defaults to 'man'. Users could
+supply '--enable-cache-owner=[ARG]' to change the default cache owner.
+Using '--disable-cache-owner' leaves the ownership of system-wide
+cache files unconstrained, and users will allowed to modify them.
 
-Anuj
+We'd better keep the default behavior, just like other distros do.
+
+I can guess that we used '--disable-cache-owner' to bypass the following
+error at do_install.
+
+  | chown: invalid user: ‘man:man’
+
+The 'man' user is provided by base-passwd recipe, so add it to DEPENDS.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-extended/man-db/man-db_2.8.3.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-extended/man-db/man-db_2.8.3.bb b/meta/recipes-extended/man-db/man-db_2.8.3.bb
+index 412e572..a214bd7 100644
+--- a/meta/recipes-extended/man-db/man-db_2.8.3.bb
++++ b/meta/recipes-extended/man-db/man-db_2.8.3.bb
+@@ -8,14 +8,14 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz"
+ SRC_URI[md5sum] = "6f3055e18fdd1ce5cbbdb30403991ec7"
+ SRC_URI[sha256sum] = "5932a1ca366e1ec61a3ece1a3afa0e92f2fdc125b61d236f20cc6ff9d80cc4ac"
+ 
+-DEPENDS = "libpipeline gdbm groff-native"
++DEPENDS = "libpipeline gdbm groff-native base-passwd"
+ 
+ # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+ USE_NLS_libc-musl = "no"
+ 
+ inherit gettext pkgconfig autotools
+ 
+-EXTRA_OECONF = "--with-pager=less --disable-cache-owner"
++EXTRA_OECONF = "--with-pager=less"
+ 
+ do_install_append_libc-musl() {
+         rm -f ${D}${libdir}/charset.alias
+-- 
+1.9.1
+
 
