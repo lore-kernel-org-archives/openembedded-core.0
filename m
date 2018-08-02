@@ -1,51 +1,48 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
-	[209.85.215.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B71060797
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EF1678D9E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Aug 2018 08:55:13 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id e6-v6so844549pgv.2
+	Thu,  2 Aug 2018 09:10:32 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id c126-v6so1038877qkd.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2018 01:55:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:from:to:cc:subject:mime-version
-	:content-transfer-encoding;
-	bh=WdQMzKIR0QYjt2Nf7u96iHo0q6dYl3IKl/vePCeAGxI=;
-	b=Z5k1vkKoLj+2w1s2kRR5WYJH33Zi5m/PddL25y5Kn8+ducktcvnkkTwWsi07DpNvYL
-	0WK1hpFkrG0dpOg5gpqPVACJEPtHMxRqMWBq4CcIyw4Sjqvv6jl16BjXSa7ogXWi9kiJ
-	i4OGHxgXVCuIZ7tGstL6SKTLkPnL6ZfG8Bm6xE1fKJ5UYhm3//epsBwNw8gg1q7PiYx5
-	z56lJDctPZB8bFrMR77bOlGUa2XyEwk77N0P5e65BFnb0t5RaxWCpVTbTlzF8x0H6eyz
-	dmvFA08//IngXE5XOqpvVtZmlLjpFi++5qRVYA3/3E7ncQonDh3Wgxznuj7eWQ56ccx0
-	+4oA==
+	Thu, 02 Aug 2018 02:10:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Bw0egJ8yujrO/LYbPKmBGd7M3I+lIOCOYhh/T8MVYXA=;
+	b=oAAiRzmZ70eWGm4OdkZlmmpdbGPHOwAokVLQ8yjwd6KoKbkKLBC+Qv3EW6qJkUpM3X
+	a5S4bu+uDOWh/lmoFvPzavIiiXbX65lYGMe1aSie/j54DvqdGjaCRvW5SLgpHEJqjATJ
+	dHcz19SEr8uj8BgOLXBKxgXZauMpv0HlkOjH8sRRBLskl8cq5fc9/psbmTfKR14XLuZr
+	GYZHuUd266IzDNSg2W/mxntQgBAysKRwaE4BClk4QN79lRih6ErOWas7nMRG5fGHalBF
+	dqDpU3I5m9xyaiPxjvaWIkdSzb+xP5s6MGSADLVh1fUsbOD+Jjl5dlE4orO6R/g5U7qn
+	l/sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
-	:content-transfer-encoding;
-	bh=WdQMzKIR0QYjt2Nf7u96iHo0q6dYl3IKl/vePCeAGxI=;
-	b=RcDrVgBTgIDceKfEg89EBbnfNP1qJlBELoWaMBD4Tl4qMMsfK9EVOk6eGT290wKCdD
-	CYMTCmvHr8MnOl31URqCWWL7xkYtJSqeiE8SwDCtV99f8uq8j0K4Na0pKNju6Bv81T9A
-	vnM6kPqQTLsw2c9rlDZiSuPQ3B93PGYtFJRpbY+Bjr5Qzj48XZNnPUPz3CvvMseziL1O
-	8CiKu468SBqgg5oi38YkCxzXQ75peGNni59duKjsTsUPrhFWF9fZSHs8pMnT4yaG4iqJ
-	Bu6nDgaH6PuKCc9FvbL9GwKzOSKBqtmcDHLqeoqvBjXYRLEdS8EqS9ZnJEmLzgks0o5t
-	hgJA==
-X-Gm-Message-State: AOUpUlFQsuL0Akaq8tCWeUPyPTjOfy1ZaWreQl21lC2rDZnnjY8bC5CA
-	1T8pSN5B+x8D0ya/mRqJetjhRpGdPlU=
-X-Google-Smtp-Source: AAOMgpdzA7DNhkf6Ags5nAejhERQtckmZT+ZD6eoff2WEjyYw3t0iJ8Yai7Wjljzxfw9Pv1a8vf8jQ==
-X-Received: by 2002:a63:4951:: with SMTP id
-	y17-v6mr1897669pgk.32.1533200114849; 
-	Thu, 02 Aug 2018 01:55:14 -0700 (PDT)
-Received: from [127.0.1.1] ([101.184.120.183])
-	by smtp.gmail.com with ESMTPSA id
-	j71-v6sm1929160pgd.23.2018.08.02.01.55.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 Aug 2018 01:55:13 -0700 (PDT)
-Date: Thu, 02 Aug 2018 18:55:04 +1000
-Message-Id: <20180802085504.15851-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Bw0egJ8yujrO/LYbPKmBGd7M3I+lIOCOYhh/T8MVYXA=;
+	b=cdiqrY+C6D5EWtMptFgFycdqihlqgII9f6Ft6o8Z50YmsvWIi7kodpxrr7wgJSCwPb
+	eyyeSv6eSRfP4d/3CKlAtftBx2DZzVilw2rugjJNlGDMAVA42Z/yjtgXpCZ07XMAOswN
+	kpH+7jC2nk0nJ2P8xZziWeh5T+oYoLa9FZy69j1zPJ6oibHAtF2KdT1umPWZJMfAt2mD
+	IqTohdt3VILIr1z8vB64gu7R2tX3003GgVZelBWxdWy23zijpubDODmPT6vv1jxkTOFg
+	9C3x5ZNTANXJHevTyRhqCrozx2QKEDBuUuzwyFDbk43S7WTpH8ri4B3d7WX4mOCsiprJ
+	W3ig==
+X-Gm-Message-State: AOUpUlFt/gCWwhDURKdoLvYlZ/XUBwA43p7Vyfv78mr8/3Enx5KlHJbX
+	ruBrjzL0WFdSq8XR2oMmQmH+YjPvLiXE1iH999ZJVg==
+X-Google-Smtp-Source: AAOMgpeHLERvWPaFiiMF3TDTyeSGbNNCTATSzmQOaY3UOBQopabH4IvqPeKgc1z3cJn3zTXATexEwtQvs4DcllWCQb0=
+X-Received: by 2002:a37:417:: with SMTP id 23-v6mr1579256qke.12.1533201032819; 
+	Thu, 02 Aug 2018 02:10:32 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] devicetree.bbclass: User/BSP device tree source compilation class
+References: <20180802071149.19272-1-raj.khem@gmail.com>
+	<CAJ86T=U1A=NLC+oPZtB89Ckcjx9yMUrQfPHCo=Z4uBVc01zvYA@mail.gmail.com>
+In-Reply-To: <CAJ86T=U1A=NLC+oPZtB89Ckcjx9yMUrQfPHCo=Z4uBVc01zvYA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 2 Aug 2018 02:10:06 -0700
+Message-ID: <CAMKF1sostF71Wms49UQzfN803+Tpw5QGy+PzEMj4UbKywq-6fg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] musl: Fix dirent struct alignment issue seen on armv5te
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,206 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2018 08:55:14 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 02 Aug 2018 09:10:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This bbclass implements the device tree compilation for user provided
-device trees. In order to use this class, it should be inherited in a
-BSP recipe which provides the sources. The default setup enables
-inclusion of kernel device tree sources (though can be disabled by the
-recipe by overriding DT_INCLUDE or KERNEL_INCLUDE).
+On Thu, Aug 2, 2018 at 12:47 AM Andre McCurdy <armccurdy@gmail.com> wrote:
+>
+> On Thu, Aug 2, 2018 at 12:11 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> > fix internal linux headers
+> >
+> > Full logs
+> > https://git.musl-libc.org/cgit/musl/log/?qt=range&q=9cad27a3dc1a4eb349b6591e4dc8cc89dce32277..f2c6dbe2442027ed8fe0fa869918e41f495534d8
+>
+> From the musl commit which fixed the dirent struct alignment issues it
+> doesn't look like it was armv5te specific, so mentioning armv5te in
+> the commit message could be misleading.
+>
+>   https://git.musl-libc.org/cgit/musl/commit/?id=b3fa0f2b1b8c267c1cbe8c62464e484f3a174a4e
+>
 
-This provides an additional mechanism for BSPs to provide device trees
-and device tree overlays for their target machines. Whilst still
-enabling access to the kernel device trees for base SoC includes and
-headers.
+commit is in contextual to OE on a particular arch where it was
+observed, other arches either have
+ways to compensate for misaligned access in hardware or compiler does
+not use 8byte alignment
+ thats why subject says 'seen'
 
-This approach to providing device trees has benefits for certain use
-cases over patching the device trees into the kernel source.
-
-* device trees are separated from kernel source, allows for selection of
-kernel and or kernel versions without needing to explicitly patch the
-kernel (or appending to the kernel recipes).
-
-* providing device trees from separate sources, from the layer,
-generated by the recipe or other recipes.
-
-This class also implements some additional features that are not
-available in the kernel-devicetree flow. This includes population of
-device tree blobs into the sysroot which allows for other recipes to
-consume built dtbs (e.g. U-Boot with EXT_DTB compilation), device tree
-overlay compilation and customizing DTC compilation args (boot
-cpu/padding/etc.).
-
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-Acked-by: Martin Hundebøll <mnhu@prevas.dk>
----
-In addition to this patch I have written some documentation for the
-Yocto BSP guide that covers details about both methods.
-
-The meta-xilinx layer has a recipe (device-tree.bb) that behaves exactly
-like this class for some time. It has been very useful for out-of-kernel
-device tree compilation as well as for a mechanism so that users of
-Xilinx SoCs can provide their customizations (FPGA devices) and board
-specific configuration. This compilation flow also makes sense for other
-BSPs, which is the reason for creating this bbclass for common shared
-use by other BSPs.
-
-Examples of this classes usage can be seen for meta-xilinx:
-https://github.com/nathanrossi/meta-xilinx/blob/nrossi/devicetree-classify/meta-xilinx-bsp/recipes-bsp/device-tree/device-tree.bb
----
- meta/classes/devicetree.bbclass | 140 ++++++++++++++++++++++++++++++++
- 1 file changed, 140 insertions(+)
- create mode 100644 meta/classes/devicetree.bbclass
-
-diff --git a/meta/classes/devicetree.bbclass b/meta/classes/devicetree.bbclass
-new file mode 100644
-index 0000000000..dbc83f2a1d
---- /dev/null
-+++ b/meta/classes/devicetree.bbclass
-@@ -0,0 +1,140 @@
-+# This bbclass implements device tree compliation for user provided device tree
-+# sources. The compilation of the device tree sources is the same as the kernel
-+# device tree compilation process, this includes being able to include sources
-+# from the kernel such as soc dtsi files or header files such as gpio.h. In
-+# addition to device trees this bbclass also handles compilation of device tree
-+# overlays.
-+#
-+# The output of this class behaves similar to how kernel-devicetree.bbclass
-+# operates in that the output files are installed into /boot/devicetree.
-+# However this class on purpose separates the deployed device trees into the
-+# 'devicetree' subdirectory. This prevents clashes with the kernel-devicetree
-+# output. Additionally the device trees are populated into the sysroot for
-+# access via the sysroot from within other recipes.
-+
-+SECTION ?= "bsp"
-+
-+# The default inclusion of kernel device tree includes and headers means that
-+# device trees built with them are at least GPLv2 (and in some cases dual
-+# licensed). Default to GPLv2 if the recipe does not specify a license.
-+LICENSE ?= "GPLv2"
-+LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+DEPENDS += "dtc-native"
-+
-+inherit deploy kernel-arch
-+
-+COMPATIBLE_MACHINE ?= "^$"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+SYSROOT_DIRS += "/boot/devicetree"
-+FILES_${PN} = "/boot/devicetree/*.dtb /boot/devicetree/*.dtbo"
-+
-+S = "${WORKDIR}"
-+B = "${WORKDIR}/build"
-+
-+# Default kernel includes, these represent what are normally used for in-kernel
-+# sources.
-+KERNEL_INCLUDE ??= " \
-+        ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts \
-+        ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/* \
-+        ${STAGING_KERNEL_DIR}/scripts/dtc/include-prefixes \
-+        "
-+
-+DT_INCLUDE[doc] = "Search paths to be made available to both the device tree compiler and preprocessor for inclusion."
-+DT_INCLUDE ?= "${DT_FILES_PATH} ${KERNEL_INCLUDE}"
-+DT_FILES_PATH[doc] = "Defaults to source directory, can be used to select dts files that are not in source (e.g. generated)."
-+DT_FILES_PATH ?= "${S}"
-+
-+DT_PADDING_SIZE[doc] = "Size of padding on the device tree blob, used as extra space typically for additional properties during boot."
-+DT_PADDING_SIZE ??= "0x3000"
-+DT_RESERVED_MAP[doc] = "Number of reserved map entires."
-+DT_RESERVED_MAP ??= "8"
-+DT_BOOT_CPU[doc] = "The boot cpu, defaults to 0"
-+DT_BOOT_CPU ??= "0"
-+
-+DTC_FLAGS ?= "-R ${DT_RESERVED_MAP} -p ${DT_PADDING_SIZE} -b ${DT_BOOT_CPU}"
-+DTC_PPFLAGS ?= "-nostdinc -undef -D__DTS__ -x assembler-with-cpp"
-+DTC_OFLAGS ?= "-@ -H epapr"
-+
-+python () {
-+    if d.getVar("KERNEL_INCLUDE"):
-+        # auto add dependency on kernel tree, but only if kernel include paths
-+        # are specified.
-+        d.appendVarFlag("do_compile", "depends", " virtual/kernel:do_configure")
-+}
-+
-+def expand_includes(varname, d):
-+    import glob
-+    includes = set()
-+    # expand all includes with glob
-+    for i in (d.getVar(varname) or "").split():
-+        for g in glob.glob(i):
-+            if os.path.isdir(g): # only add directories to include path
-+                includes.add(g)
-+    return includes
-+
-+def devicetree_source_is_overlay(path):
-+    # determine if a dts file is an overlay by checking if it uses "/plugin/;"
-+    with open(path, "r") as f:
-+        for i in f:
-+            if i.startswith("/plugin/;"):
-+                return True
-+    return False
-+
-+def devicetree_compile(dtspath, includes, d):
-+    import subprocess
-+    dts = os.path.basename(dtspath)
-+    dtname = os.path.splitext(dts)[0]
-+    bb.note("Processing {0} [{1}]".format(dtname, dts))
-+
-+    # preprocess
-+    ppargs = d.getVar("BUILD_CPP").split()
-+    ppargs += (d.getVar("DTC_PPFLAGS") or "").split()
-+    for i in includes:
-+        ppargs.append("-I{0}".format(i))
-+    ppargs += ["-o", "{0}.pp".format(dts), dtspath]
-+    bb.note("Running {0}".format(" ".join(ppargs)))
-+    subprocess.run(ppargs, check = True)
-+
-+    # determine if the file is an overlay or not (using the preprocessed file)
-+    isoverlay = devicetree_source_is_overlay("{0}.pp".format(dts))
-+
-+    # compile
-+    dtcargs = ["dtc"] + (d.getVar("DTC_FLAGS") or "").split()
-+    if isoverlay:
-+        dtcargs += (d.getVar("DTC_OFLAGS") or "").split()
-+    for i in includes:
-+        dtcargs += ["-i", i]
-+    dtcargs += ["-o", "{0}.{1}".format(dtname, "dtbo" if isoverlay else "dtb")]
-+    dtcargs += ["-I", "dts", "-O", "dtb", "{0}.pp".format(dts)]
-+    bb.note("Running {0}".format(" ".join(dtcargs)))
-+    subprocess.run(dtcargs, check = True)
-+
-+python devicetree_do_compile() {
-+    includes = expand_includes("DT_INCLUDE", d)
-+    listpath = d.getVar("DT_FILES_PATH")
-+    for dts in os.listdir(listpath):
-+        if not dts.endswith(".dts"):
-+            continue # skip non-.dts files
-+        dtspath = os.path.join(listpath, dts)
-+        devicetree_compile(dtspath, includes, d)
-+}
-+
-+devicetree_do_install() {
-+    for DTB_FILE in `ls *.dtb *.dtbo`; do
-+        install -Dm 0644 ${B}/${DTB_FILE} ${D}/boot/devicetree/${DTB_FILE}
-+    done
-+}
-+
-+devicetree_do_deploy() {
-+    for DTB_FILE in `ls *.dtb *.dtbo`; do
-+        install -Dm 0644 ${B}/${DTB_FILE} ${DEPLOYDIR}/devicetree/${DTB_FILE}
-+    done
-+}
-+addtask deploy before do_build after do_install
-+
-+EXPORT_FUNCTIONS do_compile do_install do_deploy
-+
--- 
-2.18.0
-
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-core/musl/musl_git.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+> > index b56870cb3f..e7d0e1a66b 100644
+> > --- a/meta/recipes-core/musl/musl_git.bb
+> > +++ b/meta/recipes-core/musl/musl_git.bb
+> > @@ -3,7 +3,7 @@
+> >
+> >  require musl.inc
+> >
+> > -SRCREV = "9cad27a3dc1a4eb349b6591e4dc8cc89dce32277"
+> > +SRCREV = "f2c6dbe2442027ed8fe0fa869918e41f495534d8"
+> >
+> >  PV = "1.1.19+git${SRCPV}"
+> >
+> > --
+> > 2.18.0
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
