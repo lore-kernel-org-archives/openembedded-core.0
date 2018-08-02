@@ -1,47 +1,48 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C486560557
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E12D78DD5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Aug 2018 08:21:57 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id o11-v6so1462998wmh.2
+	Thu,  2 Aug 2018 08:44:47 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id k21-v6so890982pff.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2018 01:21:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:mime-version:subject:message-id:date:cc:to;
-	bh=XsbRRgvlaDzUDmL0arR1zZCr7VmzXBxeONIssO2OPwo=;
-	b=d1cafOZpleEDZK3zxLtnL0XH41KY1fWCuNobyOb6mqDGXgvec4Jp7pFm/c0a8I5CPL
-	JcCz3/uFK9MgWczXBuZpAlfKb6p9rF5m0y6mW9kN4Nnr3uyhJ8040a0Ff9UHcTSQnan7
-	8iaxBH5tzGXpvGLSD8ZqZfpBih5B0G5sOOW3ScPg1zMAbsRvyyuw13gtCgeA1QmYvgLs
-	VqAWjjGFkg26TPHMqQN2im6y5QlRnlEH3nD+dt8qS3ls/bbdfP/2BrAdB0oEBVXd62a8
-	vywGithnzQMXL7T44OJcdqsEflzA5BaIRhfv4+YiZgBa7tSUAXPIcSfCWJmTTdxXqcQt
-	uP5A==
+	Thu, 02 Aug 2018 01:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google; h=date:message-id:from:to:cc;
+	bh=K+/tTBDXy5lOijW+JbHvtvzFg0VSVrddisJHlmK5HVI=;
+	b=Wylf4rcKcw1ruLrZD2XFvSRcHAFO86ILmbNvTl9DvY4Vb4K0INRD1DqkmNlj3g4OwV
+	igiV8l7aGKbk3B/p0k1hIMuZx0IwEs9sBiM8FBJhTm3WpA9Z7RU+qWGhGojV6DLBJcJU
+	Q4MM5qn35xt5QrvA5ay0g23qUOSwe8GuFhW+g2ef8aVTRT53ovp83cV+x0XKJ2r/MLK7
+	sZMZiOWtiCHSeMbz0WfLQpyX1RQEuNJIwBiP6We6Z9e1I41RAKV2jdhK+t6EMYxib+/0
+	rV7w6R/ALt0cAKfHDPL8aoGfhBWHUIwTCeIB6vKE3zghJrmSyG3Q9urEbN0kut0uOTM1
+	lKYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:subject:message-id:date:cc:to;
-	bh=XsbRRgvlaDzUDmL0arR1zZCr7VmzXBxeONIssO2OPwo=;
-	b=ZBbGmbnNSWJ+1DdBtydXqsfrNAMgnML0XfATwtIWKtZlElccnzVWlCRl4JGQlvtsBY
-	jjg+nKCIwH//Eh7YJtniJ+7uJddJeeXbw0GQ4CCsYyVhwjwbolUdevBeYrrRWxsk5O9z
-	GHHY0bQY5Yshg7cYGt/sKG3mbOJheRpMIl+bZZvg/IKqshebp8ajGaECF2QIZyNngbQv
-	QOEWLkUUOfmawQ/Ld5j+U3iCeH8jBmcYJyG/z/61d52doHOQVZ4uvvZnzXlgaaRs2/Ya
-	e+dhq/H+nLFoGpfx/VPkdPncdQ1iEB0Pc3cBuCaXrDcT87rhQKE3I8YPydOp7XUWHnSm
-	+8NA==
-X-Gm-Message-State: AOUpUlEsvU3o3bp1T7blkR8LOwPacOViVe0rn83a4H18NVZF5QHbMmTQ
-	7nI0C8/2cUerW6gcNCK+HrIi/c4u
-X-Google-Smtp-Source: AAOMgpf6DTLk24H2po68dC44raIPlalUd+mblEIeXIkYJf3RcsTmmEVJHLwOy7a+9V+e63wtcrpEoQ==
-X-Received: by 2002:a1c:ec86:: with SMTP id h6-v6mr1221573wmi.53.1533198118342;
-	Thu, 02 Aug 2018 01:21:58 -0700 (PDT)
-Received: from [10.42.8.249] (b2b-78-94-80-58.unitymedia.biz. [78.94.80.58])
+	h=x-gm-message-state:date:message-id:from:to:cc;
+	bh=K+/tTBDXy5lOijW+JbHvtvzFg0VSVrddisJHlmK5HVI=;
+	b=JgPn5JRrATACxC0NWSUH9eLxVWdspoAfrmCb/Vxs5JjfSFvu/dd1GTfSVuHeq1SUL7
+	q/6Pt/yhHFX4g/6RLmyYGX34I4I4KLe51T9U3sdPZHahKYQiFrNJfuxjbG3hIuOqZxAn
+	1nPUPL8/wiUY/7+MQpN+WzAMf9grMdnE10a0/vyCEcacrKwOKiW4OWVAOobfts1kl7se
+	AFYS9niqnByXDuymFGqBYGTw8yN+r6C2TvF2B1ar8GypGauuwemxvMx4N5Iq2V0cf0OO
+	7wlYN8TvBjEucuIiDTXhvZID00KgchhL419KhZeHb7sc2J2PLXZn4m//nFzu3YdyDimL
+	8y/g==
+X-Gm-Message-State: AOUpUlHd7RLwlnDDtnMAtgZ9+UieT8Lm6Cf4b9jgoeKnOu9Mh37zR6I8
+	qLCNQhH3BW3c5oGjZ9f0jKwtn57Udbs=
+X-Google-Smtp-Source: AAOMgpfggQQl0usy+iacpLyupA/CAlRVz8+YV4CZ9cuvIvGrCd+LnHEPXLuzrc3XoQntvqragl+Fcw==
+X-Received: by 2002:a63:6188:: with SMTP id
+	v130-v6mr1855202pgb.100.1533199488096; 
+	Thu, 02 Aug 2018 01:44:48 -0700 (PDT)
+Received: from [127.0.1.1] ([101.184.120.183])
 	by smtp.gmail.com with ESMTPSA id
-	v124-v6sm1169259wma.18.2018.08.02.01.21.57
+	q8-v6sm2004547pfg.71.2018.08.02.01.44.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 Aug 2018 01:21:57 -0700 (PDT)
-From: Jens Rehsack <rehsack@gmail.com>
-Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
-Message-Id: <33B9AF0C-D9AF-4714-B28C-F45A66E398E7@gmail.com>
-Date: Thu, 2 Aug 2018 10:21:56 +0200
+	Thu, 02 Aug 2018 01:44:46 -0700 (PDT)
+Date: Thu, 02 Aug 2018 18:44:36 +1000
+Message-Id: <20180802084436.14513-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.3445.9.1)
-Subject: [PATCH 2/2] libxml-parser-perl: fix "...contains bad RPATH"
+Cc: Martin =?utf-8?q?Hundeb=C3=B8ll?= <mnhu@prevas.dk>
+Subject: (No subject)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,102 +55,213 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2018 08:21:58 -0000
-X-Groupsio-MsgNum: 114227
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_5AAAA5FA-54AC-4606-814F-ABDD56035630";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
+X-List-Received-Date: Thu, 02 Aug 2018 08:44:47 -0000
 
---Apple-Mail=_5AAAA5FA-54AC-4606-814F-ABDD56035630
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-The perl distribution "XML-Parser" relies for configuration
-on the tooling of Devel::CheckLib - which is not aware of
-sysroot locations nor of reasonable compiler/link definitions
-from outside.
+,
+ Manjukumar Harthikote Matha <manjukumar.harthikote-matha@xilinx.com>
+Subject:
+ [PATCH] devicetree.bbclass: User/BSP device tree source compilation class
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-This causes
+This bbclass implements the device tree compilation for user provided
+device trees. In order to use this class, it should be inherited in a
+BSP recipe which provides the sources. The default setup enables
+inclusion of kernel device tree sources (though can be disabled by the
+recipe by overriding DT_INCLUDE or KERNEL_INCLUDE).
 
-    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: QA Issue: package =
-libxml-parser-perl contains bad RPATH =
-${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/recipe=
--sysroot/usr/lib in file =
-${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/packag=
-es-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.24.4/auto/XML/Parse=
-r/Expat/Expat.so
-    package libxml-parser-perl contains bad RPATH =
-${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/recipe=
--sysroot/usr/lib in file =
-${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/packag=
-es-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.24.4/auto/XML/Parse=
-r/Expat/Expat.so [rpaths]
-    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: QA run found fatal =
-errors. Please consider fixing them.
-    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: Function failed: =
-do_package_qa
+This provides an additional mechanism for BSPs to provide device trees
+and device tree overlays for their target machines. Whilst still
+enabling access to the kernel device trees for base SoC includes and
+headers.
 
-It's strongly encouraged to the maintainer @toddr to rework the
-toolchain for up to date environments.
+This approach to providing device trees has benefits for certain use
+cases over patching the device trees into the kernel source.
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+* device trees are separated from kernel source, allows for selection of
+kernel and or kernel versions without needing to explicitly patch the
+kernel (or appending to the kernel recipes).
+
+* providing device trees from separate sources, from the layer,
+generated by the recipe or other recipes.
+
+This class also implements some additional features that are not
+available in the kernel-devicetree flow. This includes population of
+device tree blobs into the sysroot which allows for other recipes to
+consume built dtbs (e.g. U-Boot with EXT_DTB compilation), device tree
+overlay compilation and customizing DTC compilation args (boot
+cpu/padding/etc.).
+
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+Acked-by: Martin Hundebøll <mnhu@prevas.dk>
 ---
- meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+In addition to this patch I have written some documentation for the
+Yocto BSP guide that covers details about both methods.
 
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb =
-b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-index c5e0ae6769..2ca8d506f4 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-@@ -19,7 +19,11 @@ inherit cpan ptest-perl
- # fix up sub MakeMaker project as arguments don't get propagated though
- # see https://rt.cpan.org/Public/Bug/Display.html?id=3D28632
- do_configure_append() {
--	sed 's:--sysroot=3D.*\(\s\|$\):--sysroot=3D${STAGING_DIR_TARGET} =
-:g' -i Makefile Expat/Makefile
-+	sed -E \
-+	    -e 's:--sysroot=3D.*\(\s\|$\):--sysroot=3D${STAGING_DIR_TARGET=
-} :g' \
-+	    -e 's:-L${STAGING_LIBDIR}::g' -e 's:-I${STAGING_INCDIR}::g' =
-\
-+	    -e 's:LD_RUN_PATH ?=3D ?"?[^"]*"?::g' \
-+	    -i Makefile Expat/Makefile
- 	sed 's:^FULL_AR =3D .*:FULL_AR =3D ${AR}:g' -i Expat/Makefile
- 	# make sure these two do not build in parallel
- 	sed 's!^$(INST_DYNAMIC):!$(INST_DYNAMIC): $(BOOTSTRAP)!' -i =
-Expat/Makefile
---
-2.17.1
+The meta-xilinx layer has a recipe (device-tree.bb) that behaves exactly
+like this class for some time. It has been very useful for out-of-kernel
+device tree compilation as well as for a mechanism so that users of
+Xilinx SoCs can provide their customizations (FPGA devices) and board
+specific configuration. This compilation flow also makes sense for other
+BSPs, which is the reason for creating this bbclass for common shared
+use by other BSPs.
 
---
-Jens Rehsack - rehsack@gmail.com
+Examples of this classes usage can be seen for meta-xilinx:
+https://github.com/nathanrossi/meta-xilinx/blob/nrossi/devicetree-classify/meta-xilinx-bsp/recipes-bsp/device-tree/device-tree.bb
+---
+ meta/classes/devicetree.bbclass | 140 ++++++++++++++++++++++++++++++++
+ 1 file changed, 140 insertions(+)
+ create mode 100644 meta/classes/devicetree.bbclass
+
+diff --git a/meta/classes/devicetree.bbclass b/meta/classes/devicetree.bbclass
+new file mode 100644
+index 0000000000..dbc83f2a1d
+--- /dev/null
++++ b/meta/classes/devicetree.bbclass
+@@ -0,0 +1,140 @@
++# This bbclass implements device tree compliation for user provided device tree
++# sources. The compilation of the device tree sources is the same as the kernel
++# device tree compilation process, this includes being able to include sources
++# from the kernel such as soc dtsi files or header files such as gpio.h. In
++# addition to device trees this bbclass also handles compilation of device tree
++# overlays.
++#
++# The output of this class behaves similar to how kernel-devicetree.bbclass
++# operates in that the output files are installed into /boot/devicetree.
++# However this class on purpose separates the deployed device trees into the
++# 'devicetree' subdirectory. This prevents clashes with the kernel-devicetree
++# output. Additionally the device trees are populated into the sysroot for
++# access via the sysroot from within other recipes.
++
++SECTION ?= "bsp"
++
++# The default inclusion of kernel device tree includes and headers means that
++# device trees built with them are at least GPLv2 (and in some cases dual
++# licensed). Default to GPLv2 if the recipe does not specify a license.
++LICENSE ?= "GPLv2"
++LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
++
++INHIBIT_DEFAULT_DEPS = "1"
++DEPENDS += "dtc-native"
++
++inherit deploy kernel-arch
++
++COMPATIBLE_MACHINE ?= "^$"
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
++
++SYSROOT_DIRS += "/boot/devicetree"
++FILES_${PN} = "/boot/devicetree/*.dtb /boot/devicetree/*.dtbo"
++
++S = "${WORKDIR}"
++B = "${WORKDIR}/build"
++
++# Default kernel includes, these represent what are normally used for in-kernel
++# sources.
++KERNEL_INCLUDE ??= " \
++        ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts \
++        ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/* \
++        ${STAGING_KERNEL_DIR}/scripts/dtc/include-prefixes \
++        "
++
++DT_INCLUDE[doc] = "Search paths to be made available to both the device tree compiler and preprocessor for inclusion."
++DT_INCLUDE ?= "${DT_FILES_PATH} ${KERNEL_INCLUDE}"
++DT_FILES_PATH[doc] = "Defaults to source directory, can be used to select dts files that are not in source (e.g. generated)."
++DT_FILES_PATH ?= "${S}"
++
++DT_PADDING_SIZE[doc] = "Size of padding on the device tree blob, used as extra space typically for additional properties during boot."
++DT_PADDING_SIZE ??= "0x3000"
++DT_RESERVED_MAP[doc] = "Number of reserved map entires."
++DT_RESERVED_MAP ??= "8"
++DT_BOOT_CPU[doc] = "The boot cpu, defaults to 0"
++DT_BOOT_CPU ??= "0"
++
++DTC_FLAGS ?= "-R ${DT_RESERVED_MAP} -p ${DT_PADDING_SIZE} -b ${DT_BOOT_CPU}"
++DTC_PPFLAGS ?= "-nostdinc -undef -D__DTS__ -x assembler-with-cpp"
++DTC_OFLAGS ?= "-@ -H epapr"
++
++python () {
++    if d.getVar("KERNEL_INCLUDE"):
++        # auto add dependency on kernel tree, but only if kernel include paths
++        # are specified.
++        d.appendVarFlag("do_compile", "depends", " virtual/kernel:do_configure")
++}
++
++def expand_includes(varname, d):
++    import glob
++    includes = set()
++    # expand all includes with glob
++    for i in (d.getVar(varname) or "").split():
++        for g in glob.glob(i):
++            if os.path.isdir(g): # only add directories to include path
++                includes.add(g)
++    return includes
++
++def devicetree_source_is_overlay(path):
++    # determine if a dts file is an overlay by checking if it uses "/plugin/;"
++    with open(path, "r") as f:
++        for i in f:
++            if i.startswith("/plugin/;"):
++                return True
++    return False
++
++def devicetree_compile(dtspath, includes, d):
++    import subprocess
++    dts = os.path.basename(dtspath)
++    dtname = os.path.splitext(dts)[0]
++    bb.note("Processing {0} [{1}]".format(dtname, dts))
++
++    # preprocess
++    ppargs = d.getVar("BUILD_CPP").split()
++    ppargs += (d.getVar("DTC_PPFLAGS") or "").split()
++    for i in includes:
++        ppargs.append("-I{0}".format(i))
++    ppargs += ["-o", "{0}.pp".format(dts), dtspath]
++    bb.note("Running {0}".format(" ".join(ppargs)))
++    subprocess.run(ppargs, check = True)
++
++    # determine if the file is an overlay or not (using the preprocessed file)
++    isoverlay = devicetree_source_is_overlay("{0}.pp".format(dts))
++
++    # compile
++    dtcargs = ["dtc"] + (d.getVar("DTC_FLAGS") or "").split()
++    if isoverlay:
++        dtcargs += (d.getVar("DTC_OFLAGS") or "").split()
++    for i in includes:
++        dtcargs += ["-i", i]
++    dtcargs += ["-o", "{0}.{1}".format(dtname, "dtbo" if isoverlay else "dtb")]
++    dtcargs += ["-I", "dts", "-O", "dtb", "{0}.pp".format(dts)]
++    bb.note("Running {0}".format(" ".join(dtcargs)))
++    subprocess.run(dtcargs, check = True)
++
++python devicetree_do_compile() {
++    includes = expand_includes("DT_INCLUDE", d)
++    listpath = d.getVar("DT_FILES_PATH")
++    for dts in os.listdir(listpath):
++        if not dts.endswith(".dts"):
++            continue # skip non-.dts files
++        dtspath = os.path.join(listpath, dts)
++        devicetree_compile(dtspath, includes, d)
++}
++
++devicetree_do_install() {
++    for DTB_FILE in `ls *.dtb *.dtbo`; do
++        install -Dm 0644 ${B}/${DTB_FILE} ${D}/boot/devicetree/${DTB_FILE}
++    done
++}
++
++devicetree_do_deploy() {
++    for DTB_FILE in `ls *.dtb *.dtbo`; do
++        install -Dm 0644 ${B}/${DTB_FILE} ${DEPLOYDIR}/devicetree/${DTB_FILE}
++    done
++}
++addtask deploy before do_build after do_install
++
++EXPORT_FUNCTIONS do_compile do_install do_deploy
++
+-- 
+2.18.0
 
 
---Apple-Mail=_5AAAA5FA-54AC-4606-814F-ABDD56035630
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAltivyQACgkQRJmWrtzl
-Cp388BAArJfL93lW8F+mrE9D6xGRJ952lMgcV69InbiyeLxZUVDMzZvIZy0ymrOE
-zMVoZGhSB2hTUwmtaLMR0OaLAjj5izkDjTdRcyuX9yeCP0P5vFGEEKcI8Nk5vokU
-T2ATK9s/E9chcm0zy+q86fDIvQ2kMkdt9uQPh6rP9tELjmW/DE4QiuRelu8M41k3
-r6PCZn4pB09LNfZSDrs88EM1uwcWVyCUCvvw50BpTvSGjakAO914Ei3EwxRrbJc1
-RWz77E2IbwUmod5hP84j+/9RcvWVDo4uVq/FZTroPQoalWTakqG6k5p6blWGMCmX
-UYeQ6a3WBgpaYf51WOWf9bTrXVGKAg8nDnux4AiPesWqMGvVlz6GwIaQ80sOHNzx
-iL/+OJ7QEDd6IN6/LEX2jMUigoxwUXHtIQ6Dujg+yOcOXCWElIuemPFRwOIEOv6V
-Eft4v74O/pbH2niqLRvfih7SRXezOX5reYddu9RIhW2F3Z9uQ8GQ1YFVY5rqlrXa
-7I5YKkRXOwHMy7Az2SOqK8Q3cHFk/iT5POFQZpoOHqXEKbh++AC7uahmnjttbxai
-JYjgJhoOWqFXBOi0kefojXmjxfIZxIbh3gChUHmoMTmEQG8IQxpU7p2jEjzkiSOM
-3KqHS4WawEhWtp1wEwIcppWSzSDA2wfyaIr+Q9q4mtmC25gaGow=
-=EAHH
------END PGP SIGNATURE-----
-
---Apple-Mail=_5AAAA5FA-54AC-4606-814F-ABDD56035630--
