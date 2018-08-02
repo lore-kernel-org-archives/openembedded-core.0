@@ -1,48 +1,23 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 27DBE78BED
+Return-Path: <martin@geanix.com>
+Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
+	by mail.openembedded.org (Postfix) with ESMTP id B47C678DE8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Aug 2018 14:42:32 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id y9-v6so2863817wma.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2018 07:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=/wNBEQn9cLUkCOBnu0cqZp4ai06hPnK3AgD+DOEJ1UI=;
-	b=aRpBPD0yrkQ0ZgUOw2teM5qCFcI7t2oPnTQiCjN68pSpkzc8fJ2P8lulHIBYKPbud6
-	gYEfZi7UI36ffVnVlxqimrs7pwdL2dY1ouLzhAvteDPlZZ5qVWee3GezhZHfJcRwZxIV
-	/953GwIrUmQrCye36Se149ZmRwaLPZ+tgq/Di0Ulw9p+A7m6ICYW2Dd6TH0jIXNjzQm+
-	BZIsa91GhKm9ZCw1FPbihdfibrASZSfaV6Yf2fGPPeE2ZmG2BvAfFfJRg5r5WxemEoh9
-	SP3lVLGCn5h/x8s8DMyQOghRZvRS86GMbSj5fyB1vHTpjx/i8c7NeJFiHyVztTf0F/ze
-	lU2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/wNBEQn9cLUkCOBnu0cqZp4ai06hPnK3AgD+DOEJ1UI=;
-	b=B9mNr4O1gV1aDNjrk5W9Wx6kKZEQyNBBS0EOT8j2SQs7+TuimOr3EMdJSZz4waFeHB
-	0owwEKuIW6rib2MUGgvfsEpfSinr3OWjUjNr+Gdw4hQcNa9ZC0wqpEEPqoq+378VRaIx
-	QkukrRtfM+ME0SgcxjmKqKMR2KqJMOti4O68aPbFCq7nDoS5kr9ar4ERFNC8Nu2iDK2j
-	nAvxmZUqDHv0+fVCY+Z8L032IrMdugjjhysD0GMJrXTKVNkgARC5UXBYUf651qD4ZhVF
-	hmEoW09gbTwfXGstWK0+hp65Gma43kiNFIrLhVWma77O08ZqGIunMNWcFqegtwLxdUSi
-	Kyxg==
-X-Gm-Message-State: AOUpUlHR4lyQIUVzYa8iIljiUe7a2iFKQPNRsFFDXuAocHu2lB732QWA
-	dK9If1uF7AmPoiVTSfngcIjBwbC/
-X-Google-Smtp-Source: AAOMgpf3tdqq9jDH1Ae/+5GRDI3HBcM+9c+z0Yq7aPfA0EK1MVbXHMANxX2bqCsnAIr3EDpyANGxaA==
-X-Received: by 2002:a1c:e043:: with SMTP id
-	x64-v6mr2306042wmg.58.1533220952832; 
-	Thu, 02 Aug 2018 07:42:32 -0700 (PDT)
-Received: from ip-172-31-46-180.eu-central-1.compute.internal
-	(ec2-18-184-144-21.eu-central-1.compute.amazonaws.com.
-	[18.184.144.21]) by smtp.gmail.com with ESMTPSA id
-	h5-v6sm2218482wrr.19.2018.08.02.07.42.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 02 Aug 2018 07:42:32 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Aug 2018 14:42:29 +0000
-Message-Id: <1533220950-20222-1-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] net-tools: Ensure quilt only operates on local patches
+	Thu,  2 Aug 2018 16:15:19 +0000 (UTC)
+Received: from [10.0.0.246] (unknown [85.184.147.232])
+	by mail.hundeboll.net (Postfix) with ESMTPSA id 1FB9E1C09E4;
+	Thu,  2 Aug 2018 18:15:20 +0200 (CEST)
+To: "Hongzhi.Song" <hongzhi.song@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <20180802025039.15748-1-hongzhi.song@windriver.com>
+	<20180802025039.15748-2-hongzhi.song@windriver.com>
+From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
+Message-ID: <2c426e15-5704-e52c-cea2-8cba6757bbad@geanix.com>
+Date: Thu, 2 Aug 2018 18:15:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20180802025039.15748-2-hongzhi.song@windriver.com>
+Subject: Re: [PATCH v4 1/3] udev-extraconf/mount.sh: add support to systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,64 +30,196 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2018 14:42:33 -0000
+X-List-Received-Date: Thu, 02 Aug 2018 16:15:20 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
 
-When net-tools is built and the local patches haven't been applied, then
-`quilt pop -a` will climb parent directories attempting to find a
-{patches/.pc} directory; if this succeeds then we end up popping off
-some completely unrelated patches from a parent directory.
+Hi Hongzhi,
 
-Ensure that we do have a local patches directory and then turn off the
-directory climbing so that we avoid this problem.
+I think duplicating all of 'automount' when the only difference is the 
+call to 'mount' is unnecessary.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
-I've been chasing this for an age...
+It should be possible to check for system inside the existing 
+'automount' (see diff below).
 
-I have a checkout that looks like this:
+When reading the script I couldn't help cleaning up the special 
+treatment of mount from util-linux (busybox accepts '-o silent' too), 
+and remove the 'rm_dir' function, which can be replaced by 'rmdir'.
 
-./poky
-./meta-openembeded
-./patches
-./build
+// Martin
 
-etc.
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh 
+b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index d760328a09..6f013c5afb 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -20,11 +20,12 @@ done
+  automount() {	
+  	name="`basename "$DEVNAME"`"
 
-Inside patches I've got a quilt patch set which are backports from master which
-I need for sumo.
+-	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
+-	# Silent util-linux's version of mounting auto
+-	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
++	mkdir -p "/run/media/$name"
++
++	# Use systemd-mount to avoid being trapped in udev's mount-namespace
++	if [ "$(readlink /sbin/init)" = "/lib/systemd/systemd" ];
+  	then
+-		MOUNT="$MOUNT -o silent"
++		MOUNT="/usr/bin/systemd-mount --no-block"
+  	fi
+  	
+  	# If filesystem type is vfat, change the ownership group to 'disk', and
+@@ -41,22 +42,12 @@ automount() {
+  	if ! $MOUNT -t auto $DEVNAME "/run/media/$name"
+  	then
+  		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME 
+\"/run/media/$name\" failed!"
+-		rm_dir "/run/media/$name"
++		rmdir "/run/media/$name"
+  	else
+  		logger "mount.sh/automount" "Auto-mount of [/run/media/$name] 
+successful"
+  		touch "/tmp/.automount-$name"
+  	fi
+  }
+-	
+-rm_dir() {
+-	# We do not want to rm -r populated directories
+-	if test "`find "$1" | wc -l | tr -d " "`" -lt 2 -a -d "$1"
+-	then
+-		! test -z "$1" && rm -r "$1"
+-	else
+-		logger "mount.sh/automount" "Not removing non-empty directory [$1]"
+-	fi
+-}
 
-I've had a problem for a while where some of those were getting reverted and
-I've finally tracked it down to net-tools, which ends up reverting patches
-which are unrelated to it. This happens when bitbake hasn't applied the patches
-yet and so quilt ends up climbing parent directories until it finds something
-it can reverse.
+  # No ID_FS_TYPE for cdrom device, yet it should be mounted
+  name="`basename "$DEVNAME"`"
 
- meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-index 5657fd8..a4e3285 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-@@ -48,7 +48,16 @@ PARALLEL_MAKE = ""
- # up all previously applied patches in the start
- nettools_do_patch() {
- 	cd ${S}
--	quilt pop -a || true
-+	# it's important that we only pop the existing patches when they've
-+	# been applied, otherwise quilt will climb the directory tree
-+	# and reverse out some completely different set of patches
-+	if [ -d ${S}/patches ]; then
-+		# whilst this is the default directory, doing it like this
-+		# defeats the directory climbing that quilt will otherwise
-+		# do; note the directory must exist to defeat this, hence
-+		# the test inside which we operate
-+		QUILT_PATCHES=${S}/patches quilt pop -a
-+	fi
- 	if [ -d ${S}/.pc-nettools ]; then
- 		rm -rf ${S}/.pc
- 		mv ${S}/.pc-nettools ${S}/.pc
--- 
-2.7.4
-
+On 2018-08-02 04:50, Hongzhi.Song wrote:
+> Udev-extraconf works correctly with sysvinit in the aspect of automounting
+> block devices. But it has a serious problem in case of systemd. Block devices
+> automounted by udev is unaccessible to host space(out of udevd's private
+> namespace). For example, we cannot format those block devices.
+> 
+> e.g.
+>      root@qemux86:~# mkfs.ext4 /dev/sda1
+>      mke2fs 1.43.8
+>      /dev/sda1 contains a ext4 file system
+>      last mounted on Tue Apr
+>      Proceed anyway? (y,N) y
+>      /dev/sda1 is apparently in use by the system; will not make a filesystem here!
+> 
+> Other distributions has no such problem, because they use a series of rules to
+> manager block devices. Different types of block devices match different rules.
+> But udev-extraconf just use one rule, automount.rules, which results in this
+> problem.
+> 
+> The 'systemd-mount' command is recommended by the systemd community to solve such
+> problems.
+> 
+> This patch makes use of 'systemd-mount' to solve the above problem.
+> 
+> [YOCTO #12644]
+> 
+> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> ---
+>   meta/recipes-core/udev/udev-extraconf/mount.sh | 55 +++++++++++++++++++++++---
+>   1 file changed, 50 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> index d760328a09..3a72c455e0 100644
+> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
+> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> @@ -4,10 +4,26 @@
+>   #
+>   # Attempt to mount any added block devices and umount any removed devices
+>   
+> +BASE_INIT="`readlink "/sbin/init"`"
+> +INIT_SYSTEMD="/lib/systemd/systemd"
+> +
+> +if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
+> +        MOUNT="/usr/bin/systemd-mount"
+> +        UMOUNT="/usr/bin/systemd-umount"
+> +
+> +        if [ -x $MOUNT ] && [ -x $UMOUNT ];
+> +        then
+> +                logger "Using systemd-mount to finish mount"
+> +        else
+> +                logger "Linux init is using systemd, so please install systemd-mount to finish mount"
+> +        fi
+> +else
+> +        MOUNT="/bin/mount"
+> +        UMOUNT="/bin/umount"
+> +fi
+>   
+> -MOUNT="/bin/mount"
+>   PMOUNT="/usr/bin/pmount"
+> -UMOUNT="/bin/umount"
+> +
+>   for line in `grep -h -v ^# /etc/udev/mount.blacklist /etc/udev/mount.blacklist.d/*`
+>   do
+>   	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
+> @@ -17,6 +33,33 @@ do
+>   	fi
+>   done
+>   
+> +automount_systemd() {
+> +	name="`basename "$DEVNAME"`"
+> +
+> +        ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
+> +        # Silent util-linux's version of mounting auto
+> +        MOUNT="$MOUNT -o silent"
+> +
+> +        # If filesystem type is vfat, change the ownership group to 'disk', and
+> +        # grant it with  w/r/x permissions.
+> +        case $ID_FS_TYPE in
+> +        vfat|fat)
+> +                MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
+> +                ;;
+> +        # TODO
+> +        *)
+> +                ;;
+> +        esac
+> +
+> +        if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
+> +        then
+> +                rm_dir "/run/media/$name"
+> +        else
+> +                logger "mount.sh/automount" "systemd-mount of [/run/media/$name] successful"
+> +                touch "/tmp/.automount-$name"
+> +        fi
+> +}
+> +
+>   automount() {	
+>   	name="`basename "$DEVNAME"`"
+>   
+> @@ -61,19 +104,21 @@ rm_dir() {
+>   # No ID_FS_TYPE for cdrom device, yet it should be mounted
+>   name="`basename "$DEVNAME"`"
+>   [ -e /sys/block/$name/device/media ] && media_type=`cat /sys/block/$name/device/media`
+> -
+>   if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_type" = "cdrom" ]; then
+>   	if [ -x "$PMOUNT" ]; then
+>   		$PMOUNT $DEVNAME 2> /dev/null
+>   	elif [ -x $MOUNT ]; then
+>       		$MOUNT $DEVNAME 2> /dev/null
+>   	fi
+> -	
+>   	# If the device isn't mounted at this point, it isn't
+>   	# configured in fstab (note the root filesystem can show up as
+>   	# /dev/root in /proc/mounts, so check the device number too)
+>   	if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
+> -		grep -q "^$DEVNAME " /proc/mounts || automount
+> +		if [ "`basename $MOUNT`" = "systemd-mount" ];then
+> +			grep -q "^$DEVNAME " /proc/mounts || automount_systemd
+> +		else
+> +			grep -q "^$DEVNAME " /proc/mounts || automount
+> +		fi
+>   	fi
+>   fi
+>   
+> 
 
