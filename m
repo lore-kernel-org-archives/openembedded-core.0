@@ -1,52 +1,48 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5366278D99
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 27DBE78BED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Aug 2018 12:28:35 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id e139-v6so938391vkf.6
+	Thu,  2 Aug 2018 14:42:32 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id y9-v6so2863817wma.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2018 05:28:36 -0700 (PDT)
+	Thu, 02 Aug 2018 07:42:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8lv2qvbvs1K8CVH+QUEwX185HkTmYSNihZ+8tH+LtKw=;
-	b=D0NrS0kq1nkUf7rkb0hXA563Q5+0eEL9FfEDF1k6UjFv+D7bPjfcYmv3x/hnEw5IcQ
-	rFQt7v2PsVg7qQQdJRQrzMgqXSBMcWPMUqzHShJ4A7P5HPoAsUcOp2vNp23GK9RMRVnu
-	1pGDF/g3Jr2QhVeXbW26jQSo+yEuovvEpuMsnrPYtf13DuMmGsvKOxvrCaB9LpCuqJ64
-	qk00Ag/jhp7msP07MwSYozeGCjna7w5hX4YztX2wW0w5LUBnOJoVxF3En5b7c1XPMuni
-	s0VLp8JZnQ54MIU97oo7g3csvu8Pgz2a+YbWm9U9Q0QOapI2MHrHl5eB+76y+p3rgnM6
-	Ydgw==
+	h=from:to:cc:subject:date:message-id;
+	bh=/wNBEQn9cLUkCOBnu0cqZp4ai06hPnK3AgD+DOEJ1UI=;
+	b=aRpBPD0yrkQ0ZgUOw2teM5qCFcI7t2oPnTQiCjN68pSpkzc8fJ2P8lulHIBYKPbud6
+	gYEfZi7UI36ffVnVlxqimrs7pwdL2dY1ouLzhAvteDPlZZ5qVWee3GezhZHfJcRwZxIV
+	/953GwIrUmQrCye36Se149ZmRwaLPZ+tgq/Di0Ulw9p+A7m6ICYW2Dd6TH0jIXNjzQm+
+	BZIsa91GhKm9ZCw1FPbihdfibrASZSfaV6Yf2fGPPeE2ZmG2BvAfFfJRg5r5WxemEoh9
+	SP3lVLGCn5h/x8s8DMyQOghRZvRS86GMbSj5fyB1vHTpjx/i8c7NeJFiHyVztTf0F/ze
+	lU2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=8lv2qvbvs1K8CVH+QUEwX185HkTmYSNihZ+8tH+LtKw=;
-	b=pNiyMEnlaacWqeS1NAhHG+2zZJSFVaWShPAp0+IfAcZ5XmeiUwUz1hqqrPxKIGULbl
-	gSKvG/HxRnUcxXDdA5ADKtpPMQOaCbmVf4IUXslcY8Bkd977Zv70LVC1covCvJDT/oCC
-	t5ptJp/7UL6XeqRO+jvhHyNnP64QA8a890qdnNOxhweUuzt19VCCLtxRB57tFgsQYiHX
-	Zx0mmUzmBzhMIUdyqOSSoq0fMznzen3llRNUjK4LD5UTxEmTbpU1qER1oELIyePZ8Hl2
-	iYE3TgDcpmJsNxSSZVQu1geIMynNNYkuVFtzo9uSIy+suh3iybSRtRcpW5BaFETRuvcQ
-	k5Pw==
-X-Gm-Message-State: AOUpUlFvVJbSqeM5tG8ee2kEAZZkPv+5EXtmmcGS4P5R/WAaZ3oL6tTA
-	Tfv0+3yOQQgNcZlGKXwfRkHSgqL5wuojT6VLGeU=
-X-Google-Smtp-Source: AAOMgpdSZV8LkSzgCuXBTWzCS1FO4rqqjXJdbOwdVUxui/uFBaZc8gigh6/Hfq7wj3pXbVf6hYhm8mRTHQJi2DRr7vI=
-X-Received: by 2002:a1f:940d:: with SMTP id w13-v6mr1622700vkd.6.1533212916078;
-	Thu, 02 Aug 2018 05:28:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:2497:0:0:0:0:0 with HTTP;
-	Thu, 2 Aug 2018 05:28:35 -0700 (PDT)
-In-Reply-To: <CAJ86T=W9smGsSHRinH0aQ=QpJMreagk9wXtzWRxSYv7dX-_EGA@mail.gmail.com>
-References: <20180802071149.19272-1-raj.khem@gmail.com>
-	<CAJ86T=U1A=NLC+oPZtB89Ckcjx9yMUrQfPHCo=Z4uBVc01zvYA@mail.gmail.com>
-	<CAMKF1sostF71Wms49UQzfN803+Tpw5QGy+PzEMj4UbKywq-6fg@mail.gmail.com>
-	<CAJ86T=W9smGsSHRinH0aQ=QpJMreagk9wXtzWRxSYv7dX-_EGA@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-Date: Thu, 2 Aug 2018 14:28:35 +0200
-Message-ID: <CAAQYJAsvHdUH3dVLDtoHeGGfO_m2qCYJiAfWbn6pG69Sutx8rA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] musl: Fix dirent struct alignment issue seen on armv5te
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/wNBEQn9cLUkCOBnu0cqZp4ai06hPnK3AgD+DOEJ1UI=;
+	b=B9mNr4O1gV1aDNjrk5W9Wx6kKZEQyNBBS0EOT8j2SQs7+TuimOr3EMdJSZz4waFeHB
+	0owwEKuIW6rib2MUGgvfsEpfSinr3OWjUjNr+Gdw4hQcNa9ZC0wqpEEPqoq+378VRaIx
+	QkukrRtfM+ME0SgcxjmKqKMR2KqJMOti4O68aPbFCq7nDoS5kr9ar4ERFNC8Nu2iDK2j
+	nAvxmZUqDHv0+fVCY+Z8L032IrMdugjjhysD0GMJrXTKVNkgARC5UXBYUf651qD4ZhVF
+	hmEoW09gbTwfXGstWK0+hp65Gma43kiNFIrLhVWma77O08ZqGIunMNWcFqegtwLxdUSi
+	Kyxg==
+X-Gm-Message-State: AOUpUlHR4lyQIUVzYa8iIljiUe7a2iFKQPNRsFFDXuAocHu2lB732QWA
+	dK9If1uF7AmPoiVTSfngcIjBwbC/
+X-Google-Smtp-Source: AAOMgpf3tdqq9jDH1Ae/+5GRDI3HBcM+9c+z0Yq7aPfA0EK1MVbXHMANxX2bqCsnAIr3EDpyANGxaA==
+X-Received: by 2002:a1c:e043:: with SMTP id
+	x64-v6mr2306042wmg.58.1533220952832; 
+	Thu, 02 Aug 2018 07:42:32 -0700 (PDT)
+Received: from ip-172-31-46-180.eu-central-1.compute.internal
+	(ec2-18-184-144-21.eu-central-1.compute.amazonaws.com.
+	[18.184.144.21]) by smtp.gmail.com with ESMTPSA id
+	h5-v6sm2218482wrr.19.2018.08.02.07.42.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 02 Aug 2018 07:42:32 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Aug 2018 14:42:29 +0000
+Message-Id: <1533220950-20222-1-git-send-email-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] net-tools: Ensure quilt only operates on local patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,82 +55,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2018 12:28:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 02 Aug 2018 14:42:33 -0000
 
-On Thu, Aug 2, 2018 at 11:49 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Thu, Aug 2, 2018 at 2:10 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Thu, Aug 2, 2018 at 12:47 AM Andre McCurdy <armccurdy@gmail.com> wrote:
->>>
->>> On Thu, Aug 2, 2018 at 12:11 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>> > fix internal linux headers
->>> >
->>> > Full logs
->>> > https://git.musl-libc.org/cgit/musl/log/?qt=range&q=9cad27a3dc1a4eb349b6591e4dc8cc89dce32277..f2c6dbe2442027ed8fe0fa869918e41f495534d8
->>>
->>> From the musl commit which fixed the dirent struct alignment issues it
->>> doesn't look like it was armv5te specific, so mentioning armv5te in
->>> the commit message could be misleading.
->>>
->>>   https://git.musl-libc.org/cgit/musl/commit/?id=b3fa0f2b1b8c267c1cbe8c62464e484f3a174a4e
->>>
->>
->> commit is in contextual to OE on a particular arch where it was
->> observed, other arches either have
->> ways to compensate for misaligned access in hardware or compiler does
->> not use 8byte alignment
->>  thats why subject says 'seen'
->
+When net-tools is built and the local patches haven't been applied, then
+`quilt pop -a` will climb parent directories attempting to find a
+{patches/.pc} directory; if this succeeds then we end up popping off
+some completely unrelated patches from a parent directory.
 
-Hi,
-I have seen scary align traps in dmesg and bisected back to that musl commit.
+Ensure that we do have a local patches directory and then turn off the
+directory climbing so that we avoid this problem.
 
-Short version: never break alignment for structures used for streaming data
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+I've been chasing this for an age...
 
-Long version: afais only on armv5(t)e , with DSP feature, the code of
-readdir.c is miscompiled by gcc when using O2, O3, Os.
-What happens is, the arm  ldrd instruction has specific contraints on
-armv5(t)e, one of them is the address must be 8 bytes aligned (
-doubleword-aligned for doubleword transfers).
-Interestingly, other toolchains for armv5 were patched to avoid
-ldrd/strd alltogether.
+I have a checkout that looks like this:
 
-Cheers
-Andrea
+./poky
+./meta-openembeded
+./patches
+./build
 
+etc.
 
-> Great explanation. That's the kind of information which should go in
-> the commit message.
->
->>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> > ---
->>> >  meta/recipes-core/musl/musl_git.bb | 2 +-
->>> >  1 file changed, 1 insertion(+), 1 deletion(-)
->>> >
->>> > diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
->>> > index b56870cb3f..e7d0e1a66b 100644
->>> > --- a/meta/recipes-core/musl/musl_git.bb
->>> > +++ b/meta/recipes-core/musl/musl_git.bb
->>> > @@ -3,7 +3,7 @@
->>> >
->>> >  require musl.inc
->>> >
->>> > -SRCREV = "9cad27a3dc1a4eb349b6591e4dc8cc89dce32277"
->>> > +SRCREV = "f2c6dbe2442027ed8fe0fa869918e41f495534d8"
->>> >
->>> >  PV = "1.1.19+git${SRCPV}"
->>> >
->>> > --
->>> > 2.18.0
->>> >
->>> > --
->>> > _______________________________________________
->>> > Openembedded-core mailing list
->>> > Openembedded-core@lists.openembedded.org
->>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Inside patches I've got a quilt patch set which are backports from master which
+I need for sumo.
+
+I've had a problem for a while where some of those were getting reverted and
+I've finally tracked it down to net-tools, which ends up reverting patches
+which are unrelated to it. This happens when bitbake hasn't applied the patches
+yet and so quilt ends up climbing parent directories until it finds something
+it can reverse.
+
+ meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+index 5657fd8..a4e3285 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+@@ -48,7 +48,16 @@ PARALLEL_MAKE = ""
+ # up all previously applied patches in the start
+ nettools_do_patch() {
+ 	cd ${S}
+-	quilt pop -a || true
++	# it's important that we only pop the existing patches when they've
++	# been applied, otherwise quilt will climb the directory tree
++	# and reverse out some completely different set of patches
++	if [ -d ${S}/patches ]; then
++		# whilst this is the default directory, doing it like this
++		# defeats the directory climbing that quilt will otherwise
++		# do; note the directory must exist to defeat this, hence
++		# the test inside which we operate
++		QUILT_PATCHES=${S}/patches quilt pop -a
++	fi
+ 	if [ -d ${S}/.pc-nettools ]; then
+ 		rm -rf ${S}/.pc
+ 		mv ${S}/.pc-nettools ${S}/.pc
+-- 
+2.7.4
+
 
