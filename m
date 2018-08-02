@@ -1,48 +1,51 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E12D78DD5
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B71060797
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Aug 2018 08:44:47 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id k21-v6so890982pff.11
+	Thu,  2 Aug 2018 08:55:13 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id e6-v6so844549pgv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2018 01:44:48 -0700 (PDT)
+	Thu, 02 Aug 2018 01:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google; h=date:message-id:from:to:cc;
-	bh=K+/tTBDXy5lOijW+JbHvtvzFg0VSVrddisJHlmK5HVI=;
-	b=Wylf4rcKcw1ruLrZD2XFvSRcHAFO86ILmbNvTl9DvY4Vb4K0INRD1DqkmNlj3g4OwV
-	igiV8l7aGKbk3B/p0k1hIMuZx0IwEs9sBiM8FBJhTm3WpA9Z7RU+qWGhGojV6DLBJcJU
-	Q4MM5qn35xt5QrvA5ay0g23qUOSwe8GuFhW+g2ef8aVTRT53ovp83cV+x0XKJ2r/MLK7
-	sZMZiOWtiCHSeMbz0WfLQpyX1RQEuNJIwBiP6We6Z9e1I41RAKV2jdhK+t6EMYxib+/0
-	rV7w6R/ALt0cAKfHDPL8aoGfhBWHUIwTCeIB6vKE3zghJrmSyG3Q9urEbN0kut0uOTM1
-	lKYQ==
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=WdQMzKIR0QYjt2Nf7u96iHo0q6dYl3IKl/vePCeAGxI=;
+	b=Z5k1vkKoLj+2w1s2kRR5WYJH33Zi5m/PddL25y5Kn8+ducktcvnkkTwWsi07DpNvYL
+	0WK1hpFkrG0dpOg5gpqPVACJEPtHMxRqMWBq4CcIyw4Sjqvv6jl16BjXSa7ogXWi9kiJ
+	i4OGHxgXVCuIZ7tGstL6SKTLkPnL6ZfG8Bm6xE1fKJ5UYhm3//epsBwNw8gg1q7PiYx5
+	z56lJDctPZB8bFrMR77bOlGUa2XyEwk77N0P5e65BFnb0t5RaxWCpVTbTlzF8x0H6eyz
+	dmvFA08//IngXE5XOqpvVtZmlLjpFi++5qRVYA3/3E7ncQonDh3Wgxznuj7eWQ56ccx0
+	+4oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:from:to:cc;
-	bh=K+/tTBDXy5lOijW+JbHvtvzFg0VSVrddisJHlmK5HVI=;
-	b=JgPn5JRrATACxC0NWSUH9eLxVWdspoAfrmCb/Vxs5JjfSFvu/dd1GTfSVuHeq1SUL7
-	q/6Pt/yhHFX4g/6RLmyYGX34I4I4KLe51T9U3sdPZHahKYQiFrNJfuxjbG3hIuOqZxAn
-	1nPUPL8/wiUY/7+MQpN+WzAMf9grMdnE10a0/vyCEcacrKwOKiW4OWVAOobfts1kl7se
-	AFYS9niqnByXDuymFGqBYGTw8yN+r6C2TvF2B1ar8GypGauuwemxvMx4N5Iq2V0cf0OO
-	7wlYN8TvBjEucuIiDTXhvZID00KgchhL419KhZeHb7sc2J2PLXZn4m//nFzu3YdyDimL
-	8y/g==
-X-Gm-Message-State: AOUpUlHd7RLwlnDDtnMAtgZ9+UieT8Lm6Cf4b9jgoeKnOu9Mh37zR6I8
-	qLCNQhH3BW3c5oGjZ9f0jKwtn57Udbs=
-X-Google-Smtp-Source: AAOMgpfggQQl0usy+iacpLyupA/CAlRVz8+YV4CZ9cuvIvGrCd+LnHEPXLuzrc3XoQntvqragl+Fcw==
-X-Received: by 2002:a63:6188:: with SMTP id
-	v130-v6mr1855202pgb.100.1533199488096; 
-	Thu, 02 Aug 2018 01:44:48 -0700 (PDT)
+	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=WdQMzKIR0QYjt2Nf7u96iHo0q6dYl3IKl/vePCeAGxI=;
+	b=RcDrVgBTgIDceKfEg89EBbnfNP1qJlBELoWaMBD4Tl4qMMsfK9EVOk6eGT290wKCdD
+	CYMTCmvHr8MnOl31URqCWWL7xkYtJSqeiE8SwDCtV99f8uq8j0K4Na0pKNju6Bv81T9A
+	vnM6kPqQTLsw2c9rlDZiSuPQ3B93PGYtFJRpbY+Bjr5Qzj48XZNnPUPz3CvvMseziL1O
+	8CiKu468SBqgg5oi38YkCxzXQ75peGNni59duKjsTsUPrhFWF9fZSHs8pMnT4yaG4iqJ
+	Bu6nDgaH6PuKCc9FvbL9GwKzOSKBqtmcDHLqeoqvBjXYRLEdS8EqS9ZnJEmLzgks0o5t
+	hgJA==
+X-Gm-Message-State: AOUpUlFQsuL0Akaq8tCWeUPyPTjOfy1ZaWreQl21lC2rDZnnjY8bC5CA
+	1T8pSN5B+x8D0ya/mRqJetjhRpGdPlU=
+X-Google-Smtp-Source: AAOMgpdzA7DNhkf6Ags5nAejhERQtckmZT+ZD6eoff2WEjyYw3t0iJ8Yai7Wjljzxfw9Pv1a8vf8jQ==
+X-Received: by 2002:a63:4951:: with SMTP id
+	y17-v6mr1897669pgk.32.1533200114849; 
+	Thu, 02 Aug 2018 01:55:14 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.120.183])
 	by smtp.gmail.com with ESMTPSA id
-	q8-v6sm2004547pfg.71.2018.08.02.01.44.44
+	j71-v6sm1929160pgd.23.2018.08.02.01.55.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 Aug 2018 01:44:46 -0700 (PDT)
-Date: Thu, 02 Aug 2018 18:44:36 +1000
-Message-Id: <20180802084436.14513-1-nathan@nathanrossi.com>
+	Thu, 02 Aug 2018 01:55:13 -0700 (PDT)
+Date: Thu, 02 Aug 2018 18:55:04 +1000
+Message-Id: <20180802085504.15851-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Martin =?utf-8?q?Hundeb=C3=B8ll?= <mnhu@prevas.dk>
-Subject: (No subject)
+MIME-Version: 1.0
+Subject: [PATCH] devicetree.bbclass: User/BSP device tree source compilation class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,14 +58,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2018 08:44:47 -0000
-
-
-,
- Manjukumar Harthikote Matha <manjukumar.harthikote-matha@xilinx.com>
-Subject:
- [PATCH] devicetree.bbclass: User/BSP device tree source compilation class
-MIME-Version: 1.0
+X-List-Received-Date: Thu, 02 Aug 2018 08:55:14 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
