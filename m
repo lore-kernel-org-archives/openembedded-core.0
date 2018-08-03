@@ -1,50 +1,57 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E5AA874AEB
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D3F9074AEB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Aug 2018 13:48:43 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id d10-v6so8417222itj.5
+	Fri,  3 Aug 2018 13:50:35 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id d9-v6so8437474itf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Aug 2018 06:48:45 -0700 (PDT)
+	Fri, 03 Aug 2018 06:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ePJgvxkoEKflFiYu5Dj0KtHPmI+fA5QarxNny13dflg=;
-	b=gnSbSV+5IFBnv7lWdP6JfEFKY2gF7SfWw81BgtOTXzwWGxcZt/srEbTXuMk8ATHVhd
-	6OBiA/CQIvLEBaLHH+oOUfb5I4KN6uChMXfvktWsUOQqJWJpI+UKDCmKqkeOenSRgb00
-	OdXAswMs/N6YfQwYds3pp92SwuZhyRUM+7tHOES5k5WD2T+trLwxqRS8gzdp9TVdfW/4
-	6aBXnEriqGG357uTqLpKOM9HKLF5Z6CIwMa2tjJe74w+TScp9v0sKw0rVUJxhDzDi/GU
-	DpeM+GeHaKPPfRXJDqe4T2kQyxfK9qCk299hrWxgWFJrDkZ3YqLXKQNA3GDcXBLe/Xll
-	/vJg==
+	h=from:message-id:subject:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=89ftCUlxT0ufmBvY+4dKIS/oTBn8qIfwmI2kWss0J6Y=;
+	b=EDQtQgn6bmGc9zO+coZlfhBONPHdVHNiYSUe8cRZLCZCncOjvIlXXeRHUyzjbm7Yvt
+	bzYwB8yRPKnWDuKl0agxHtw+l4fvmNVc7/MR0ul2KL8Q3FDw8LGQOGN8Xt5uTYCRDIZW
+	vJ7+ILB5f9Bj0R19m6JxIwB+haSVobAqiMnjhD8j3+LJus/MXXaJsUlBvPmG8PyyEOmJ
+	Fo5UMLWbf1lR0G0A0vJNvL1lLni/SvMbrOYoeSe2hzoxDpCvuSCK5sQjCS/tlY1O8XDH
+	YCy4LSTK9SbAKQNlhkX8hxjreBXhQw82H4lUEEYSRwFBu/SzOygHKsYAOklORKXKlwT6
+	E4Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ePJgvxkoEKflFiYu5Dj0KtHPmI+fA5QarxNny13dflg=;
-	b=r5KH+C8iivdpp1a8fsyNjbm70OMGBAQYMv7phDcw2ZLXEqN9Yo+Z85SumRJipUJH7q
-	KU+bn3WPrZmkuR0Z1rGl3paHROk8okZw0hWQIVFwVNzpSuh1jPky7Cp3WMZ+1RTygPFi
-	u2MMuhneyJt6m6O1w8o5fgF8Nb2DhHDbZvzG/zsPb/x03p0iqNL/P+K8Rkbh4Qz5FXtK
-	YlrkZuK/uoRwt5NVNx/RgmgKXga/lU8Pb4wcp0SGJGjaQf/bEltLaWgX2jkEaE9i5rZU
-	W9znW4UHY6W4eEVnWevOvHYseWJNnIqilavHRJIQX4wpQAH73wDMIGjHC2k5YVqKnEID
-	nKSQ==
-X-Gm-Message-State: AOUpUlHEHeuDQ45bigy6U0FNxokFPfd2p3QKVAoIxOpSMXcNfm6Poly6
-	gTe+npSK3Uhgkv7z/GBcCMkxM5ax
-X-Google-Smtp-Source: AAOMgpf94lfzqps95OZHpzVNjn+90SXwmwzGfU0e9hA+3FO91hD4Qflsg0c3w1S6K/neMBkYP3XTwQ==
-X-Received: by 2002:a02:9c54:: with SMTP id
-	h20-v6mr3519817jal.49.1533304124630; 
-	Fri, 03 Aug 2018 06:48:44 -0700 (PDT)
+	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=89ftCUlxT0ufmBvY+4dKIS/oTBn8qIfwmI2kWss0J6Y=;
+	b=HKLha3tK+uigprkHA7cfSJAqGPO4UiUTPJ4+2RtNV/6sJ3H7rBxRjE3Si334MUhTop
+	5VCgvPLY2RFXB/5NT/BHYsbrIUZ4Nh6XFvCvW9Q2H7gDY8XHCbb7F9IoMES/4hsBultO
+	6z21ZkLawLxIe2UqmTCtX6NLnY+tnubFf8FfJZc0ubANYRRZ2WHUS/05KYbRtZm6drJr
+	PW5DtTeAVKUppr6ADyAZDxr+Mf5NpPkRzvy2ctlNPgsUTvLxTby0+tKMZjbCDlM0dRMj
+	zi4o7e5kdAwom09GJnoK/L07kBjZh+agKyPmsGwOJT883Fnvn9QotK0bWDw0KATFQVCY
+	384A==
+X-Gm-Message-State: AOUpUlFeNC3p075docTSaFoHlY1igzn9Pup2GB2mDaNCo6PeYeEtiLHU
+	G510oVYPcAZZxAjSvv45v8GXb9Hd
+X-Google-Smtp-Source: AAOMgpd+VxKz3b1S0Jsxmxo8zgTN18pP9zrsk7VV2htFhNPkXRu87Kdgs8GVnUj9gz+iQ20ANA4LiA==
+X-Received: by 2002:a24:ed0c:: with SMTP id
+	r12-v6mr6391811ith.37.1533304236753; 
+	Fri, 03 Aug 2018 06:50:36 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	d8-v6sm1958106itj.10.2018.08.03.06.48.44
+	by smtp.googlemail.com with ESMTPSA id
+	v5-v6sm1688066ioe.61.2018.08.03.06.50.36
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 03 Aug 2018 06:48:44 -0700 (PDT)
+	Fri, 03 Aug 2018 06:50:36 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Fri,  3 Aug 2018 08:48:31 -0500
-Message-Id: <20180803134831.16694-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Tanu Kaskinen <tanuk@iki.fi>
-Subject: [PATCH v2] alsa-lib: Cleanup packaging
+Message-ID: <3a741351124271af1d9496d3146ab8afa68cb9fb.camel@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Tanu Kaskinen <tanuk@iki.fi>
+Date: Fri, 03 Aug 2018 08:50:35 -0500
+In-Reply-To: <CAJTo0LaJaypPCA3v_tQoL0ccuffgm+i2WXvsM8QA8XtK99Ddcg@mail.gmail.com>
+References: <20180802212200.1522-1-JPEWhacker@gmail.com>
+	<cf87613f225edd16345d2575996e3c923b3b3b5d.camel@iki.fi>
+	<CAJTo0LaJaypPCA3v_tQoL0ccuffgm+i2WXvsM8QA8XtK99Ddcg@mail.gmail.com>
+X-Mailer: Evolution 3.28.3 (3.28.3-1.fc28) 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] alsa-lib: Allow empty alsa-lib package for SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,58 +64,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2018 13:48:44 -0000
+X-List-Received-Date: Fri, 03 Aug 2018 13:50:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Cleans up the packaging by moving libasound.so.2 back into the alsa-lib
-package which was previously empty.
+On Fri, 2018-08-03 at 14:21 +0100, Burton, Ross wrote:
+> I agree with Tanu, the packaging in this recipe is non-standard and
+> instead of making it more non-standard, let's just fix it.
+> 
+> Remove the libasound recipe, the contents of that can go into $PN.
+> Either way with Debian renaming it gets renamed to libasound2, and
+> without renaming it's still a sensible name.  The dependency hacks
+> can
+> then all be removed.
 
-Previously, it was difficult to create an image that had libasound.so.2,
-then create an SDK from that image that had the proper development
-files, because the only way to get libasound.so.2 was to do:
+Done. Sorry I, forgot the "in-reply-to" when I sent the update. See: 
+http://lists.openembedded.org/pipermail/openembedded-core/2018-August/1
+53684.html
 
- IMAGE_INSTALL += "libasound"
-
-This however caused a problem because all of the development files that
-would be desired in the SDK were located in alsa-lib-dev, which wouldn't
-be included because alsa-lib wasn't included, and it was impossible to
-include alsa-lib because it was an empty package that was culled.
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb
-index 6364e9eafaa..569f9f61e3a 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb
-@@ -18,19 +18,18 @@ EXTRA_OECONF += " \
-     --disable-python \
- "
- 
--PACKAGES =+ "alsa-server libasound alsa-conf alsa-doc"
-+PACKAGES =+ "alsa-server alsa-conf alsa-doc"
- 
--FILES_libasound = "${libdir}/libasound.so.*"
- FILES_alsa-server = "${bindir}/*"
- FILES_alsa-conf = "${datadir}/alsa/"
- 
--RDEPENDS_libasound = "alsa-conf"
--
--# alsa-lib gets automatically added to alsa-lib-dev dependencies, but the
--# alsa-lib package doesn't exist. libasound is the real library package.
--RDEPENDS_${PN}-dev = "libasound"
-+RDEPENDS_${PN}_class-target = "alsa-conf"
- 
- # upgrade path
-+RPROVIDES_${PN}-dev = "libasound"
-+RREPLACES_${PN}-dev = "libasound"
-+RCONFLICTS_${PN}-dev = "libasound"
-+
- RPROVIDES_${PN}-dev = "alsa-dev"
- RREPLACES_${PN}-dev = "alsa-dev"
- RCONFLICTS_${PN}-dev = "alsa-dev"
+> 
+> Ross
+> 
+> On 3 August 2018 at 11:39, Tanu Kaskinen <tanuk@iki.fi> wrote:
+> > On Thu, 2018-08-02 at 16:22 -0500, Joshua Watt wrote:
+> > > Without ALLOW_EMPTY, the empty alsa-lib package (which gets
+> > > culled)
+> > > makes it fairly difficult to create an image that has libasound,
+> > > then
+> > > create an SDK from that image that has the proper development
+> > > files.
+> > > 
+> > > If there is no alsa-lib package, the only way to get libasound on
+> > > a
+> > > target image is to do:
+> > > 
+> > >  IMAGE_INSTALL += "libasound"
+> > > 
+> > > This however causes a problem because all of the development
+> > > files that
+> > > would be desired in the SDK are located in alsa-lib-dev, which
+> > > won't be
+> > > included (because alsa-lib wasn't included). Without
+> > > ALLOW_EMPTY_${PN},
+> > > it is not possible to do:
+> > > 
+> > >  IMAGE_INSTALL += "alsa-lib"
+> > > 
+> > > because the package is empty and gets culled. Adding the
+> > > ALLOW_EMPTY and
+> > > then making alsa-lib RDEPEND on libasound solves this problem and
+> > > allows
+> > > alsa-lib to be installed on the target and have the correct
+> > > development
+> > > files in the SDK
+> > > 
+> > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > > ---
+> > >  meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > > 
+> > > diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb
+> > > b/meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb
+> > > index 6364e9eafaa..581655c5349 100644
+> > > --- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb
+> > > +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb
+> > > @@ -24,6 +24,13 @@ FILES_libasound = "${libdir}/libasound.so.*"
+> > >  FILES_alsa-server = "${bindir}/*"
+> > >  FILES_alsa-conf = "${datadir}/alsa/"
+> > > 
+> > > +# Create an alsa-lib package even though it is empty and make it
+> > > RDEPEND on
+> > > +# libasound for target builds. This makes it possible to sanely
+> > > create a image
+> > > +# that has libasound and then generate an SDK from that image
+> > > that has
+> > > +# alsa-lib-dev
+> > > +ALLOW_EMPTY_${PN} = "1"
+> > > +RDEPENDS_${PN}_class-target = "libasound"
+> > > +
+> > >  RDEPENDS_libasound = "alsa-conf"
+> > > 
+> > >  # alsa-lib gets automatically added to alsa-lib-dev
+> > > dependencies, but the
+> > 
+> > Looks fine to me, although renaming alsa-lib-dev to libasound-dev
+> > would
+> > seem like a sensible option too.
+> > 
+> > --
+> > Tanu
+> > 
+> > https://www.patreon.com/tanuk
+> > https://liberapay.com/tanuk
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 -- 
-2.17.1
-
+Joshua Watt <JPEWhacker@gmail.com>
 
