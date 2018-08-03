@@ -1,26 +1,18 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 846F078E17
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Aug 2018 02:26:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w732PwN4013937
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 2 Aug 2018 19:25:59 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 2 Aug 2018 19:25:57 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 3 Aug 2018 09:49:47 +0800
-Message-ID: <20180803014947.23598-3-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180803014947.23598-1-kai.kang@windriver.com>
-References: <20180803014947.23598-1-kai.kang@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 00D8C78E18;
+	Fri,  3 Aug 2018 02:32:54 +0000 (UTC)
 MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Kang Kai <kai.kang@windriver.com>
+Date: Fri, 03 Aug 2018 02:32:56 -0000
+Message-ID: <20180803023256.13841.17988@do.openembedded.org>
+References: <20180803014947.23598-1-kai.kang@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180803014947.23598-1-kai.kang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] layer.conf: update SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIGFsbGFyY2ggZnJvbSByZWNpcGVzIHdoaWNoIHJkZXBzIFRVTkVfUEtHQVJDSCBwYWNrYWdlcyAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2018 02:26:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 03 Aug 2018 02:32:55 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Kai Kang <kai.kang@windriver.com>
+== Series Details ==
 
-allarch has been removed from some packages which rdepends on
-TUNE_PKGARCH packages, so remove related depenencies from
-SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS.
+Series: Remove allarch from recipes which rdeps TUNE_PKGARCH packages (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/13360/
+State : failure
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 1c4d9f46d5)
+
+* Patch            [1/2] remove allarch from recipes which rdepends on TUNE_PKGARCH packages
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/conf/layer.conf | 7 -------
- 1 file changed, 7 deletions(-)
-
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 315fb936fa..49ce7a913a 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -53,10 +53,6 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-   *->icecc-create-env-native \
-   gcc-cross-${TARGET_ARCH}->virtual/${TARGET_PREFIX}libc-for-gcc \
-   gcc-cross-${TARGET_ARCH}->linux-libc-headers \
--  ppp-dialin->ppp \
--  resolvconf->bash \
--  docbook-xsl-stylesheets->perl \
--  ca-certificates->openssl \
-   initramfs-framework->${VIRTUAL-RUNTIME_base-utils} \
-   initramfs-framework->eudev \
-   initramfs-framework->systemd \
-@@ -72,10 +68,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-   liberation-fonts->fontconfig \
-   cantarell-fonts->fontconfig \
-   gnome-icon-theme->librsvg \
--  font-alias->font-util \
-   systemd-boot->systemd-bootconf \
--  weston-init->weston \
--  weston-init->kbd \
- "
- 
- # We need to keep bitbake tools in PATH
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
