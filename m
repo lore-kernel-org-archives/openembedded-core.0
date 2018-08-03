@@ -1,48 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 896B478DFF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CC5178E39
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Aug 2018 15:54:23 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id i26-v6so3440585pfo.12
+	Fri,  3 Aug 2018 16:30:00 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id s12-v6so6913362wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Aug 2018 08:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Gmxza9ERPg34olz8YRnntMt8+iyQnUBC+BIBHA/jf6k=;
-	b=tIryKY9z/cwXAOe0VT//jKl/X7cg/m26zPsFFFRgomR1hjsrrrpIOmbh62L8kLbL25
-	OWqg+OwfHmJsPqr5iGKc4rCLcAzIdkZa55JWWra0jYEz1ItN4jA5hAvls+tqekMqeKDa
-	2BpcTEFloqtDX5Fezb9us7jir7JcGzIFnXYty57m3qsgYfCRen4K+p/kCBhHEFGzOUJs
-	pIKCq05d2VWgbwxlAMVaT3KJM7iNZ7MYqXSja+uTS/vm60fBc+61mRqcoPKnaht2W87A
-	AFDx0Re9GBJRGu+dqowJYoWPuviMg+gGZ49MnyAZ+149cAJyiCIPtKqTMudYwD8VbpNP
-	EaCQ==
+	Fri, 03 Aug 2018 09:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=+Y3Lc1MaLPMOisSiWYX4HHlgIEObf+6Q1MZYiP0HDzE=;
+	b=im3+w3cGneiyANglVMBYR5ikxXafV9yxiVM8hphnbYv7WPMpl7QWi1XEUw6/w3g1iA
+	47mHPX0PsZkBSYADOeoKm0n69e+kqdZm2mg2eAQVrbdyWPTJ7N624LaJjInxXnMgu94m
+	CbklwNoXTyhvS5gR5g/YXvWOBK0XeJ7DkyDu5FQgCzqAvau8JXFBH3LruSzU2lxjfohm
+	1IlItFcZnqYgSDWLqntWonz4oFdrSgpMeEf5ty+vch62yOlfJ39EH2qC2PNscOyhD/IQ
+	L58wmPMbWOBYswXmUvsFzrIM5bvNHPaALzFv3DOhvVY2zBq6pilqVQKHpgOrU1sM3E3W
+	C4QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Gmxza9ERPg34olz8YRnntMt8+iyQnUBC+BIBHA/jf6k=;
-	b=VGv+aqTw1VdkiOJKV6zAMBWEDiOiGEECpGoqtkVEhrTHrzAbV0MSxsbRHgvr0jK6qY
-	/ClVzjyQzOCiSvTllgeL5n/sf+bLocVKwIRN4/2wQ4K3+GCb2tQrao6rr5UHqOwDaIVY
-	0qOQO2JXHOdqvMe83cG0epuydQWvIufK60nVwL+9klKay/7qP0BmBPiv/TCKfl6hlC0i
-	pofgznMrOZX9l+kUsEyQpv1lyk1Z+KK+12M5QVkVCGs7Y5RPuYfysswmPo34IjRmFOgf
-	npgtXwy+T8WFPfO8qu9KnNMYVLPicMB8u/6Q1e/ingPD1LUe0OeTHQ3bal6Ay9213SUU
-	S+QQ==
-X-Gm-Message-State: AOUpUlHiJT42ElHfvaQ96osxgiLJ7JGaG0MHevWYrgjWTQsrEbYdgEhW
-	oMgnHisrtXhLTCJUHBeaXcw7d7uT
-X-Google-Smtp-Source: AAOMgpe5V3dtdmQuyh1ru9IVfujl8TgfIw+ovXnKotk6m7bBKHw/dU+ThUtJgZj50QkzOCwWhYmycA==
-X-Received: by 2002:a63:c80e:: with SMTP id
-	z14-v6mr4289550pgg.77.1533311664115; 
-	Fri, 03 Aug 2018 08:54:24 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::5b3b])
-	by smtp.gmail.com with ESMTPSA id
-	s14-v6sm13173064pfj.105.2018.08.03.08.54.23
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+Y3Lc1MaLPMOisSiWYX4HHlgIEObf+6Q1MZYiP0HDzE=;
+	b=a4AWDRCWrRM240gPaprhOMXAwmMaEp2i/YFJc3N6zr3KtG/rYTLtvDXkidN72fL/e+
+	ITC6UWEMkweYd0/ckn4yPOYdsQ8WCJrcQFj9e7kfp9evJyeVVaHnpZxIG6k5D0p1YUWS
+	o3qDK70VTVMklegtpBZyRkaMzRNiuBUXTCVdcUJyODkhBdVOs4koyw57L3sV6Hr8KRR7
+	+88d2TjIzsX90hzkP7aCUmcgjgWjB4UO6tQiYqYvqufALNK9b/Ac8sXX6S4MikDqOyx+
+	pcJdB//QVBzColDhlmOJq06NnlQzc7HLW1VG1S6MJm3O7pv3qbJbH7ARTVK/2VtVz0gE
+	tgfA==
+X-Gm-Message-State: AOUpUlFTz1lcB5EHvI7r7t6rWHDJUX92Kyct2Sgym2yl83VlVJWwW3Pc
+	qvqqceEaONz5GCsT7UVzV3ewsptPPuM=
+X-Google-Smtp-Source: AAOMgpfF+Fm/p2gKwZOUyiIjnwzgxFQphtq7tvosdVgEVtIQlqIh3Tl7ZKCCGrTxE85If/ygYYihrQ==
+X-Received: by 2002:a1c:9e4d:: with SMTP id
+	h74-v6mr5774357wme.70.1533313800676; 
+	Fri, 03 Aug 2018 09:30:00 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	d42-v6sm9496848wma.0.2018.08.03.09.29.59
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Aug 2018 08:54:23 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri, 03 Aug 2018 09:29:59 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Aug 2018 08:54:15 -0700
-Message-Id: <20180803155415.30086-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-Subject: [PATCH V2] Revert "gnutls: rationalise libunistring arguments"
+Date: Fri,  3 Aug 2018 17:29:58 +0100
+Message-Id: <20180803162958.18892-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] packagegroup-core-lsb: use new name for libasound
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +56,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2018 15:54:23 -0000
+X-List-Received-Date: Fri, 03 Aug 2018 16:30:00 -0000
 
-This causes regression on build machines where libunistring is installed
-on host. It is also because gnuts is using non standard AC macro called
-AC_LIB_HAVE_LINKFLAGS to detect this library and it confusing cross builds.
-
-This reverts commit 60fef4940de7f0440f1216eb2ea0ea683b3e8fdd.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
-V2: Describe the rationale to revert it
+ meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/recipes-support/gnutls/gnutls.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 876a3847b0..04c0fd2af8 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -39,6 +39,7 @@ EXTRA_OECONF = " \
-     --enable-local-libopts \
-     --enable-openssl-compatibility \
-     --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
-+    --without-libunistring-prefix \
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+index ef6347c7120..933864aee8f 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+@@ -219,7 +219,7 @@ RDEPENDS_packagegroup-core-lsb-desktop = "\
+     liberation-fonts \
+     gtk+ \
+     atk \
+-    libasound \
++    alsa-lib \
  "
  
- LDFLAGS_append_libc-musl = " -largp"
+ RDEPENDS_packagegroup-core-lsb-runtime-add = "\
 -- 
-2.18.0
+2.11.0
 
 
