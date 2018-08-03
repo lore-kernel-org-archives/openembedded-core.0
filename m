@@ -1,50 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3541C78A02
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 1106E78A02
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Aug 2018 14:01:30 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id h14-v6so5494170wrw.13
+	Fri,  3 Aug 2018 14:01:31 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id h10-v6so5518970wre.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Aug 2018 07:01:32 -0700 (PDT)
+	Fri, 03 Aug 2018 07:01:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=58UzkkMlFxOhmJku/UneyoYLHmp1PTluSICvylp9+JU=;
-	b=vrSrpXdyhUNamMG52l7RIzfQ89EQZ0vW6C5GZzJThuhsmoAktjiEkB9X+z8IuRK+iL
-	RpHv9ZSEHV3aZClyhTjiyFFGKBz5CpzubANycIWo/CO/xwqo6WCY21FbNqPPEoODQCTL
-	r06JWAFu2FlbYXIdJ1UwA5N1QKQAHylFXaEm6LC5wpQVRkqCmwAjCNT4AJp77MmfhcmT
-	Ml0Prk45BUxnti/t7KVXHexxGiNy3rLBPQDMAl1k9Lhj/RmeWsbcg5N49ZSJr7rGi240
-	4Np8CGMzeLLT6OBhXmtgqQmaL0QI0yT4Zf1MqmKTF80tjLHz8YdVGVMHn8Ho6fjvmfn9
-	rgow==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=S/3MaBPp0coWRBRu9fSKeg4CC0TDJL+HTrlC3p1OnVM=;
+	b=X25YLl78vqGnXlUulBiGQZPDDVA/E3X16mm+wOTo9NIqrKHDCvUAf4pVbS5QWqmxPg
+	QyU3Rn7of/US45R8k3sVN0BdFKuSc6Ta7pruFqnl7ez4inG7/aelxH9ymYcxMdbgVJYT
+	Btf4PwzlwOHUA9+lTO6FTld6sBr4eKro4nE9ocMQy3rn13/7QRtGsNPzMKc1QuUKnjnJ
+	twQNH6ZgyaILhfWY30ryJmkUTHo3HL6n8KdxnQCLJSEHy/mxgWrjsoxL58RWzFaEHeVO
+	8omKF+CN6FnujIUP7bZ7+whal2FEp6EtecqBqhm0QjVOyS6+80tqktH0RP+ePRFVThtV
+	Jo4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=58UzkkMlFxOhmJku/UneyoYLHmp1PTluSICvylp9+JU=;
-	b=Kd3nR9Ic/R7hlsvn06u5V4CaEJV2oEwZsSjb9KiDohlgpgp5wfTW/r3liPutbNB+rR
-	+FJyl1TW/SIxfqlWlvzIgAsloDw0FVAzzr8l2gQHGhoDOqm0t/SoV0eQ2w1fpAHLeXAv
-	1piuWLpSm6/lekdYy4o1oyzaGC+lIBfnA264oBJvXKDxYzYFL7q4HfLGUkpxai6uW6tY
-	lk/a0RJCEdwPw0N9ZbJdLGnmRfxZjqWZPZNX515+JPkMoJg1//ngFjOkQx7BjisNTTrL
-	T2HJiW08lDQkM5AzEiUgnwQRhoQRLOo+rcZ6Xwi0nxZ/gMo9WC0Ys6V1KGAM4Pa8zD7D
-	KDWg==
-X-Gm-Message-State: AOUpUlF0ja+Gm+zmG2rtOEfAhK9Fzm0MRvHKQWLDqOr4NUzPlKiChNxE
-	G7h9V4K4h2/dV8sXv2xZyqUwVvoJ8e4=
-X-Google-Smtp-Source: AAOMgpe5MUIQrBjOltK2BpQjC7PcFF+QwQQPQc6BR1lBRBVs2YN7bYpPnOyR8bElEuPWtZ0R+CLCEg==
-X-Received: by 2002:adf:dfcd:: with SMTP id
-	q13-v6mr2607484wrn.113.1533304891236; 
-	Fri, 03 Aug 2018 07:01:31 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=S/3MaBPp0coWRBRu9fSKeg4CC0TDJL+HTrlC3p1OnVM=;
+	b=H4rlCC24jbOzdsJ8XrNMhwynZS9V0gtBdCZKdBXW123BL+0tbfO51AFBUVhao+nr0n
+	tLfE5OSuzjp4AQ3AlEzkIpY/6D+eoC9cBms/MRFcuIX85YH0ljdIi2mtxSobDjs5EZNI
+	+uzCaMMvgXjGij0DqvYOPAofbgYnx5AOPKztZCRjgd2pLRiByYM0H114MJPwYtH+3Yfi
+	vEYfDfEWLC0kqgVKw7dN/TWja09HHzN4SPLpGkJicbjYMZ1CzQ5bkLKdzkHAo74z1G/z
+	+HRVf2oCfpcmieSnz8L576Xt0p0/h/6cLR9or+EsAuNOMUmHWYhadGChN28Afe31s8Qf
+	TRwA==
+X-Gm-Message-State: AOUpUlHMM4iCnXSmIRDCaOZYbh4i1yiayB/cZtX1+MV5uBtNJpNhXoY6
+	MDvDFDDUhMZZaWw8sBCn7cfVRGS5Lrg=
+X-Google-Smtp-Source: AAOMgpfNWmSMY1phF3f/eH4fGASIjLzJQaQ12KSm8iivsruNtaYdv4bnzTrr56penRpfkL8KikmtOg==
+X-Received: by 2002:adf:f342:: with SMTP id
+	e2-v6mr2653370wrp.161.1533304892493; 
+	Fri, 03 Aug 2018 07:01:32 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e141-v6sm7753757wmd.32.2018.08.03.07.01.30
+	e141-v6sm7753757wmd.32.2018.08.03.07.01.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Aug 2018 07:01:30 -0700 (PDT)
+	Fri, 03 Aug 2018 07:01:31 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Aug 2018 15:01:12 +0100
-Message-Id: <20180803140115.25450-1-ross.burton@intel.com>
+Date: Fri,  3 Aug 2018 15:01:13 +0100
+Message-Id: <20180803140115.25450-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/4] cmake: fix linking in multilib SDKs
+In-Reply-To: <20180803140115.25450-1-ross.burton@intel.com>
+References: <20180803140115.25450-1-ross.burton@intel.com>
+Subject: [PATCH 2/4] toolchain-scripts: put TARGET_ARCH and TARGET_OS into environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,59 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2018 14:01:31 -0000
+X-List-Received-Date: Fri, 03 Aug 2018 14:01:32 -0000
 
-CMake, in it's infinite wisdom, when searching for libraries (using
-find_library) will look inside the libraries PREFIX/lib, PREFIX/lib32, and
-PREFIX/lib64.  In a multilib SDK more than one of these will exist (potentially
-all three) and obviously for a given build configuration only one of those is
-valid.  This search path is hard-coded deep inside CMake but by setting
-CMAKE_FIND_LIBRARY_CUSTOM_LIB_SUFFIX we can bypass it and set an explicit
-lib<SUFFIX> to use.
-
-Do this by writing ${baselib} into the environment file, and then stripping
-"lib" from this to obtain the suffix in the cmake-specific environment script,
-which is then read in the CMake toolchain.
+It's useful for the SDK to know exactly what TARGET_ARCH and TARGET_OS are,
+specifically for SDK QA.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/toolchain-scripts.bbclass                    | 1 +
- meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 2 ++
- meta/recipes-devtools/cmake/cmake/environment.d-cmake.sh  | 1 +
- 3 files changed, 4 insertions(+)
+ meta/classes/toolchain-scripts.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 0ff5301530b..63b07c802f4 100644
+index 63b07c802f4..6d1ba69473a 100644
 --- a/meta/classes/toolchain-scripts.bbclass
 +++ b/meta/classes/toolchain-scripts.bbclass
-@@ -51,6 +51,7 @@ toolchain_create_sdk_env_script () {
- 	echo "export OECORE_NATIVE_SYSROOT=\"$sdkpathnative\"" >> $script
+@@ -52,6 +52,9 @@ toolchain_create_sdk_env_script () {
  	echo 'export OECORE_TARGET_SYSROOT="$SDKTARGETSYSROOT"' >> $script
  	echo "export OECORE_ACLOCAL_OPTS=\"-I $sdkpathnative/usr/share/aclocal\"" >> $script
-+	echo 'export OECORE_BASELIB="${baselib}"' >> $script
+ 	echo 'export OECORE_BASELIB="${baselib}"' >> $script
++	echo 'export OECORE_TARGET_ARCH="${TARGET_ARCH}"' >>$script
++	echo 'export OECORE_TARGET_OS="${TARGET_OS}"' >>$script
++
  	echo 'unset command_not_found_handle' >> $script
  
  	toolchain_shared_env_script
-diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-index dc8477ea345..d52c29e5a1c 100644
---- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-+++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-@@ -10,6 +10,8 @@ set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
- 
-+set(CMAKE_FIND_LIBRARY_CUSTOM_LIB_SUFFIX "$ENV{OE_CMAKE_FIND_LIBRARY_CUSTOM_LIB_SUFFIX}")
-+
- # Set CMAKE_SYSTEM_PROCESSOR from the sysroot name (assuming processor-distro-os).
- if ($ENV{SDKTARGETSYSROOT} MATCHES "/sysroots/([a-zA-Z0-9_-]+)-.+-.+")
-   set(CMAKE_SYSTEM_PROCESSOR ${CMAKE_MATCH_1})
-diff --git a/meta/recipes-devtools/cmake/cmake/environment.d-cmake.sh b/meta/recipes-devtools/cmake/cmake/environment.d-cmake.sh
-index 64b6cf3c6a3..7bdb19fb6ce 100644
---- a/meta/recipes-devtools/cmake/cmake/environment.d-cmake.sh
-+++ b/meta/recipes-devtools/cmake/cmake/environment.d-cmake.sh
-@@ -1 +1,2 @@
- export OE_CMAKE_TOOLCHAIN_FILE="$OECORE_NATIVE_SYSROOT/usr/share/cmake/OEToolchainConfig.cmake"
-+export OE_CMAKE_FIND_LIBRARY_CUSTOM_LIB_SUFFIX="`echo $OECORE_BASELIB | sed -e s/lib//`"
 -- 
 2.11.0
 
