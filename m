@@ -1,51 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id E369D78E44
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id F324678E46
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Aug 2018 14:01:33 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id o11-v6so6365981wmh.2
+	Fri,  3 Aug 2018 14:01:34 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id h10-v6so5519116wre.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Aug 2018 07:01:35 -0700 (PDT)
+	Fri, 03 Aug 2018 07:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=TazkE46S03FCSS2T3yNjD7nBkFlWlQuoklXODmLoMJc=;
-	b=GMJ1DgU+Mh3mYXa7T2o2Zizus4d1FjL+G2aYrl7wsg2NP6C5YaSMfsAP5McBMWGHmf
-	Li75/mBPE3fMJUsfrk7Ydg7e+ocmDQCOh6h5+Xnvm4AfZU8osg8Bt4OqHnQ5lOoO5P1t
-	of8rsdJiDQpdoJC+bvZ5ralsRsB9JmVHttr2yG8WIYimEMl/by0+mW0qzgPOeA0UoFXR
-	sQcsNA4WCAopf4zGDHTIb68L64VRNYtecrJi2Mg168857N2WXo4MGHo1+QUqBoUFEDGT
-	SmtNtAKK45Z2ed8N/ZCis8lO8vx6buKI0sCpk7kbxaXLoOENO7B+ftJtynO79sHyCtiT
-	SyjA==
+	bh=5ec7BOqOiWRTYPno86hOU3jwFRmK4PAsXD/FwfadX9M=;
+	b=NW4UZhNR/iK+kUCFp2w+AiYOf+26ubIrYBmw7axcHSaWgXB9NqbxSgJfJvO7gpWlNT
+	RMr4L1FC8hGI/HdpfTtR1gDUJ+bOVHSj2yJH2X1DzMuaRWDo2grHzZTYgQQgLuXNCXJq
+	hQnt08jZ6iU67Tk14bsE8M1wb4ApnaNwSsDxziHBbg8G2vnTXm3t/a+cFjbu81WWA05S
+	9dsJ2oTgZkeqnzp/GiNmPXEh5KTpg5eiE/YiaHTUTMxOO4SNB/VIPiedC/pWZ6W+1CAI
+	sMHYKb0InZD2SHA2GlPzr4hmogZxrCM3pQpJfOT53RTgZogGs7ypTBX0LGRa06aLs85l
+	YURA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=TazkE46S03FCSS2T3yNjD7nBkFlWlQuoklXODmLoMJc=;
-	b=rBDWv9ENwDhi+r9/2plIXBs30P0/cB91UiODZX8kjrdVUi5q1++NSJv5wzU9x4HylT
-	id5rAeA5FB/Nk74cY01IjcE+itUt53wKzZvG51KlF/wn6jvxflqjUvboR9r12UZj8lUj
-	tK4TkbBZvkDGYqMGK2uqWL1eyS36STgV+UB5nFBYSarqGBi/6gbr3QQREzo16TQwK+bD
-	JUXjQB6+G74I2Rki1U21jpurKikk9wHLZ7jqIgPXjuwkJV2jXizAnAN4TPG+YwkWPaW1
-	N2HY8KFUO3sxpBbbPw37/2BXb91LzTDVONzpM4HN4BeJ3xQ8RBhGASkkldwNeu99CdFW
-	eZgw==
-X-Gm-Message-State: AOUpUlET3JpOFvw+kW5GVc/7YRxq5aOuPL2BbTG445AlRUSQwuJySFFK
-	wcGDw8OZkqKnr70BNLRWmF0stb0OhB0=
-X-Google-Smtp-Source: AAOMgpciVxEW2+5gr5nvrCIiH+2BHD8XSgiCnpTcP3bMQx8GRqUbYciYBvmeBYRDH1HsbZxv20bhug==
-X-Received: by 2002:a1c:415:: with SMTP id 21-v6mr5316448wme.128.1533304893940;
-	Fri, 03 Aug 2018 07:01:33 -0700 (PDT)
+	bh=5ec7BOqOiWRTYPno86hOU3jwFRmK4PAsXD/FwfadX9M=;
+	b=P4rMyuOkv9mpdvQqkbHc2otjjK1IVwW2V6ztcJnLEhQ/qg6u2QvTIJdlX1eNxJ7Urr
+	8T7na8sovJiixQL1BMQ0d3ZwMysm81sGNYqzmmOoN5xxJ1p1+A/vkcZSSQ1DH7j8+I0q
+	Dq67EU2wRaKiWirRGRAwhD/xXW2X2Y+zeKTR7S+vXTYO4HrVkIVR+s1ccQ8PFsE1GdvN
+	GqJHp1f6TDDqiZ43h0uWqR9VtNCf2PHrWpfGfqolrMwdU0zZZraXAZBZLokNv1DnWv3f
+	Vdvv67+qaUwHw4PqvoecaNEUTvwdHSHNUJfvjANb8VE7GLj2ZQWwQk6CIjydoeGGI+3+
+	4vQg==
+X-Gm-Message-State: AOUpUlEA2F8H0LZ/mg0h+hsxBc4s7yq+g/E3wHVZlXH6pBXzbNzcusF6
+	MIMfd7Q6bAwkq+OGwACVElK17iFl0vA=
+X-Google-Smtp-Source: AAOMgpepHCVJH0a8rnHNFR+BT8X5/zlIL0WNBHZPM0LxFOdat7vHQoGStWculMEn2AV+D1B7nEqkFw==
+X-Received: by 2002:adf:b519:: with SMTP id
+	a25-v6mr2778729wrd.273.1533304895343; 
+	Fri, 03 Aug 2018 07:01:35 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e141-v6sm7753757wmd.32.2018.08.03.07.01.32
+	e141-v6sm7753757wmd.32.2018.08.03.07.01.33
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Aug 2018 07:01:33 -0700 (PDT)
+	Fri, 03 Aug 2018 07:01:34 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Aug 2018 15:01:14 +0100
-Message-Id: <20180803140115.25450-3-ross.burton@intel.com>
+Date: Fri,  3 Aug 2018 15:01:15 +0100
+Message-Id: <20180803140115.25450-4-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180803140115.25450-1-ross.burton@intel.com>
 References: <20180803140115.25450-1-ross.burton@intel.com>
-Subject: [PATCH 3/4] oeqa/sdk: add test that CMake works
+Subject: [PATCH 4/4] desktop-file-utils: allow target/nativesdk build, not just native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,93 +60,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2018 14:01:34 -0000
+X-List-Received-Date: Fri, 03 Aug 2018 14:01:35 -0000
 
-Add a new SDK testcase that builds assimp, a project that uses cmake.
-
-Using TARGET_ARCH and TARGET_OS which is now exported into the environment,
-check that the generated binaries match the ELF headers we expect.
+Also fix the license, as this is GPLv2+ not just v2.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/sdk/cases/assimp.py | 68 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
- create mode 100644 meta/lib/oeqa/sdk/cases/assimp.py
+ ...le-utils-native_0.23.bb => desktop-file-utils_0.23.bb} | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/desktop-file-utils/{desktop-file-utils-native_0.23.bb => desktop-file-utils_0.23.bb} (58%)
 
-diff --git a/meta/lib/oeqa/sdk/cases/assimp.py b/meta/lib/oeqa/sdk/cases/assimp.py
-new file mode 100644
-index 00000000000..7251bdf34e7
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/cases/assimp.py
-@@ -0,0 +1,68 @@
-+import os, subprocess, unittest
-+import bb
-+from oeqa.sdk.case import OESDKTestCase
-+from oeqa.sdk.utils.sdkbuildproject import SDKBuildProject
+diff --git a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils-native_0.23.bb b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.23.bb
+similarity index 58%
+rename from meta/recipes-devtools/desktop-file-utils/desktop-file-utils-native_0.23.bb
+rename to meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.23.bb
+index 54daabef56c..6446f47189d 100644
+--- a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils-native_0.23.bb
++++ b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.23.bb
+@@ -1,18 +1,19 @@
+ SECTION = "console/utils"
+ SUMMARY = "Command line utilities for working with *.desktop files"
+ HOMEPAGE = "http://www.freedesktop.org/wiki/Software/desktop-file-utils"
+-LICENSE = "GPLv2"
++LICENSE = "GPLv2+"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-DEPENDS = "glib-2.0-native"
+-
+-SRC_URI = "http://freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-${PV}.tar.xz"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://src/validator.c;beginline=4;endline=27;md5=281e1114ee6c486a1a0a4295986b9416"
+ 
++SRC_URI = "http://freedesktop.org/software/${BPN}/releases/${BP}.tar.xz"
+ SRC_URI[md5sum] = "599133d51cc9a41bfec186414906b6f1"
+ SRC_URI[sha256sum] = "6c094031bdec46c9f621708f919084e1cb5294e2c5b1e4c883b3e70cb8903385"
+ 
+-inherit autotools native
++DEPENDS = "glib-2.0"
+ 
+-S = "${WORKDIR}/desktop-file-utils-${PV}"
++inherit autotools pkgconfig
+ 
+ EXTRA_OECONF += "ac_cv_prog_EMACS=no"
 +
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
-+
-+class BuildAssimp(OESDKTestCase):
-+    """
-+    Test case to build a project using cmake.
-+    """
-+
-+    td_vars = ['DATETIME', 'TARGET_OS', 'TARGET_ARCH']
-+
-+    @classmethod
-+    def setUpClass(self):
-+        if not (self.tc.hasHostPackage("nativesdk-cmake") or
-+                self.tc.hasHostPackage("cmake-native")):
-+            raise unittest.SkipTest("Needs cmake")
-+
-+    def fetch(self, workdir, dl_dir, url, archive=None):
-+        if not archive:
-+            from urllib.parse import urlparse
-+            archive = os.path.basename(urlparse(url).path)
-+
-+        if dl_dir:
-+            tarball = os.path.join(dl_dir, archive)
-+            if os.path.exists(tarball):
-+                return tarball
-+
-+        tarball = os.path.join(workdir, archive)
-+        subprocess.check_output(["wget", "-O", tarball, url])
-+        return tarball
-+
-+    def test_assimp(self):
-+        import tempfile
-+        import oe.qa, oe.elf
-+
-+        with tempfile.TemporaryDirectory(prefix="assimp", dir=self.tc.sdk_dir) as testdir:
-+            dl_dir = self.td.get('DL_DIR', None)
-+            tarball = self.fetch(testdir, dl_dir, "https://github.com/assimp/assimp/archive/v4.1.0.tar.gz")
-+            subprocess.check_output(["tar", "xf", tarball, "-C", testdir])
-+
-+            sourcedir = os.path.join(testdir, "assimp-4.1.0") 
-+            builddir = os.path.join(testdir, "build")
-+            installdir = os.path.join(testdir, "install")
-+            bb.utils.mkdirhier(builddir)
-+
-+            self._run("cd %s && cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON %s " % (builddir, sourcedir))
-+            self._run("cmake --build %s -- -j" % builddir)
-+            self._run("cmake --build %s --target install -- DESTDIR=%s" % (builddir, installdir))
-+
-+            elf = oe.qa.ELFFile(os.path.join(installdir, "usr", "local", "lib", "libassimp.so.4.1.0"))
-+            elf.open()
-+
-+            output = self._run("echo $OECORE_TARGET_OS:$OECORE_TARGET_ARCH")
-+            target_os, target_arch = output.strip().split(":")
-+            machine_data = oe.elf.machine_dict(None)[target_os][target_arch]
-+            (machine, osabi, abiversion, endian, bits) = machine_data
-+
-+            self.assertEqual(machine, elf.machine())
-+            self.assertEqual(bits, elf.abiSize())
-+            self.assertEqual(endian, elf.isLittleEndian())
-+
-+    @classmethod
-+    def tearDownClass(self):
-+        self.project.clean()
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.11.0
 
