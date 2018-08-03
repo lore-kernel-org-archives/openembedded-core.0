@@ -1,52 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A3A8374598
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E86CE74598
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Aug 2018 08:16:05 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id g18-v6so3439739uam.6
+	Fri,  3 Aug 2018 08:23:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w738N5kC023605
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Aug 2018 01:16:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=z+n2WsM1tjcBaLngI/rwRgai4W5fcendM+BKHVNleQU=;
-	b=W7XZhOL5kijRivclRI+34Sr0ujjTgb12GrW4/kMr5xW6S1bfg1TblejO1/QdCMKDVD
-	/Ai8XKpsL8H/5qdqODhG0tlBNXmkjlA1kGkv4H67mGXQUgWFK9lLJeTthHPXwe89LaKj
-	svWvB1iaJgXUXvGzoHz8DkC4BDray1pB0H46XZm1KmmOFrJdkxYEHyynOeZastiEudaf
-	KQ15+dsSAxQv3XJo94d1JWsKWsaDUTeuifZZ/sbVEE4hsz7XC2na08xbkIElrnPc0Fj6
-	5f3A0yAh4KohR3EplE0Dvf+DejELqPRD6eC4QxAfenHD7ApfJM9DUF0/wbNTQM94O0ro
-	cHEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=z+n2WsM1tjcBaLngI/rwRgai4W5fcendM+BKHVNleQU=;
-	b=Wtu6Sk0auetoTb1I/TCdFdlgcGEPO0W41mteLwFVUpYbP+TEJ4TGLEhZbaT3q1Gxzl
-	C1gnW6GQeMqynW9j/JX0MTzQ/LRuSJv9qPQ2PwzzflslmT6ChBnCOtS7EGnCxzQ0w8lV
-	ncL6fBq2b9N0mOYbtKfFi+Ih67Z1u+Kpi7+hZYDf7f2z9qdXQDtA1fEN4RO2hzd9pD8V
-	MNaEcSLz3uAvOwng0ZdYwbcvFl0hZW8ZioeSvisaAS5AKRWPJxptJ8tkw7v/GOEgm/eG
-	WHpDWovOR53kgIFbL7dNhN3er/RgidPmgBPIVtYqqmc3ECrRH6uMfiPfWP/51jO4funG
-	z4cw==
-X-Gm-Message-State: AOUpUlEMEN0/qcp6gRvbS33u59t3SOd+HEJP1SLTahWnNiM/zo8Kznyq
-	wePoIPXNFICxYH36u5EdcM0Ocu0WeYyazS4U8Wg=
-X-Google-Smtp-Source: AAOMgpf4xYzSpjgG+KiQ2AksTyHkU4sBc8ctV1SMQpdge4rS0fkX1irhNPiwL6P6AuQmbsiK6aW47fy2or7wo9ulBYw=
-X-Received: by 2002:ab0:15ac:: with SMTP id
-	i41-v6mr2179299uae.150.1533284166240; 
-	Fri, 03 Aug 2018 01:16:06 -0700 (PDT)
+	Fri, 3 Aug 2018 01:23:05 -0700
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Fri, 3 Aug 2018 01:23:04 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 3 Aug 2018 16:27:04 +0800
+Message-ID: <cover.1533284788.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Fri, 3 Aug 2018 01:16:05 -0700 (PDT)
-In-Reply-To: <0D62475714C01347BCA118AE7A61400376B2C8A3@FMSMSX109.amr.corp.intel.com>
-References: <0D62475714C01347BCA118AE7A61400376B2C64D@FMSMSX109.amr.corp.intel.com>
-	<5e8c54728e6990907fa60f2454ab7961c7561a93.camel@linuxfoundation.org>
-	<0D62475714C01347BCA118AE7A61400376B2C8A3@FMSMSX109.amr.corp.intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 3 Aug 2018 01:16:05 -0700
-Message-ID: <CAJ86T=W4pbBfk2GxKz4dGdXptd2ndfezHdgqEWh4yN5PQo_8Xw@mail.gmail.com>
-To: "Ocampo Coronado, Omar" <omar.ocampo.coronado@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Strip kernel modules and signatures
+Subject: [PATCH 0/1] oe_syslog.py: fix for syslog-ng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,80 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2018 08:16:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 03 Aug 2018 08:23:06 -0000
+Content-Type: text/plain
 
-On Thu, Aug 2, 2018 at 9:54 AM, Ocampo Coronado, Omar
-<omar.ocampo.coronado@intel.com> wrote:
-> Neither 'nm' or 'readelf' provide a symbol that we can use to strip.
-> I'm having a hard time reading kernel-source/scripts/sign-file.c and how exactly how the sign works and what bytes are being added, so we can avoid stripping them.
->
-> Looking into dracut, they simple avoid strip signed modules:
->         From dracut.sh:1671 # strip kernel modules, but do not touch signed modules
->
-> Perhaps we can do the same as dracut within meta/lib/oe/package.py.
+*** BLURB HERE ***
+The following changes since commit da24071e92071ecbefe51314d82bf40f85172485:
 
-Some more information here:
+  bitbake: toaster/orm/management/commands/lsupdates.py: Use new layerindexlib module (2018-08-02 10:18:27 +0100)
 
-  https://www.kernel.org/doc/html/v4.17/admin-guide/module-signing.html#signed-modules-and-stripping
+are available in the git repository at:
 
-It looks like signed kernel modules can't be stripped at all. The
-packaging code should probably be updated to detect signed modules and
-then leave them alone.
+  git://git.pokylinux.org/poky-contrib ChenQi/oe_syslog
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/oe_syslog
 
-> -----Original Message-----
-> From: richard.purdie@linuxfoundation.org [mailto:richard.purdie@linuxfoundation.org]
-> Sent: Thursday, August 2, 2018 4:19 AM
-> To: Ocampo Coronado, Omar <omar.ocampo.coronado@intel.com>; openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] Strip kernel modules and signatures
->
-> On Wed, 2018-08-01 at 22:46 +0000, Ocampo Coronado, Omar wrote:
->> Hello OE,
->>
->> While attempting to sign our kernel modules (using the kernel
->> configuration  CONFIG_MODULE_SIG) the drivers in our image did not
->> have the signature, even the certificate was being loaded by the
->> kernel or the driver being signed during do_install().
->>
->> Turns out package.bbclass, while it ignores to create debug info files
->> it does strips the kernel modules files:
->>
->> python split_and_strip_files () {
->>       ...
->>       ...
->>               for f in kernmods:
->>                           sfiles.append((f, 16, strip))
->>
->>         oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
->>     #
->>     # End of strip
->>     #
->>     os.chdir(oldcwd)
->> }
->>
->> The strip is required for many reasons yet it removes the signature
->> which we want to preserve in this scenario.
->> To work around this issue add
->>      INHIBIT_PACKAGE_STRIP = "1"
->>      either on your virtual/kernel bb file or driver bb file.
->>
->> Hope this helps someone in the future when adding signature to files,
->> perhaps including this into the Yocto kernel development manual.
->
-> The code which handles kernel module stripping is in
-> meta/lib/oe/package.py:
->
-> stripcmd.extend(["--strip-debug", "--remove-section=.comment",
->             "--remove-section=.note", "--preserve-dates"])
->
-> It would be good to see what we'd have to do to tweak that to work for signed modules.
->
-> Cheers,
->
-> Richard
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Chen Qi (1):
+  oe_syslog.py: fix for syslog-ng
+
+ meta/lib/oeqa/runtime/cases/oe_syslog.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+-- 
+1.9.1
+
 
