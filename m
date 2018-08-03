@@ -1,53 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1106E78A02
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id E369D78E44
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Aug 2018 14:01:31 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id h10-v6so5518970wre.6
+	Fri,  3 Aug 2018 14:01:33 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id o11-v6so6365981wmh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Aug 2018 07:01:33 -0700 (PDT)
+	Fri, 03 Aug 2018 07:01:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=S/3MaBPp0coWRBRu9fSKeg4CC0TDJL+HTrlC3p1OnVM=;
-	b=X25YLl78vqGnXlUulBiGQZPDDVA/E3X16mm+wOTo9NIqrKHDCvUAf4pVbS5QWqmxPg
-	QyU3Rn7of/US45R8k3sVN0BdFKuSc6Ta7pruFqnl7ez4inG7/aelxH9ymYcxMdbgVJYT
-	Btf4PwzlwOHUA9+lTO6FTld6sBr4eKro4nE9ocMQy3rn13/7QRtGsNPzMKc1QuUKnjnJ
-	twQNH6ZgyaILhfWY30ryJmkUTHo3HL6n8KdxnQCLJSEHy/mxgWrjsoxL58RWzFaEHeVO
-	8omKF+CN6FnujIUP7bZ7+whal2FEp6EtecqBqhm0QjVOyS6+80tqktH0RP+ePRFVThtV
-	Jo4g==
+	bh=TazkE46S03FCSS2T3yNjD7nBkFlWlQuoklXODmLoMJc=;
+	b=GMJ1DgU+Mh3mYXa7T2o2Zizus4d1FjL+G2aYrl7wsg2NP6C5YaSMfsAP5McBMWGHmf
+	Li75/mBPE3fMJUsfrk7Ydg7e+ocmDQCOh6h5+Xnvm4AfZU8osg8Bt4OqHnQ5lOoO5P1t
+	of8rsdJiDQpdoJC+bvZ5ralsRsB9JmVHttr2yG8WIYimEMl/by0+mW0qzgPOeA0UoFXR
+	sQcsNA4WCAopf4zGDHTIb68L64VRNYtecrJi2Mg168857N2WXo4MGHo1+QUqBoUFEDGT
+	SmtNtAKK45Z2ed8N/ZCis8lO8vx6buKI0sCpk7kbxaXLoOENO7B+ftJtynO79sHyCtiT
+	SyjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=S/3MaBPp0coWRBRu9fSKeg4CC0TDJL+HTrlC3p1OnVM=;
-	b=H4rlCC24jbOzdsJ8XrNMhwynZS9V0gtBdCZKdBXW123BL+0tbfO51AFBUVhao+nr0n
-	tLfE5OSuzjp4AQ3AlEzkIpY/6D+eoC9cBms/MRFcuIX85YH0ljdIi2mtxSobDjs5EZNI
-	+uzCaMMvgXjGij0DqvYOPAofbgYnx5AOPKztZCRjgd2pLRiByYM0H114MJPwYtH+3Yfi
-	vEYfDfEWLC0kqgVKw7dN/TWja09HHzN4SPLpGkJicbjYMZ1CzQ5bkLKdzkHAo74z1G/z
-	+HRVf2oCfpcmieSnz8L576Xt0p0/h/6cLR9or+EsAuNOMUmHWYhadGChN28Afe31s8Qf
-	TRwA==
-X-Gm-Message-State: AOUpUlHMM4iCnXSmIRDCaOZYbh4i1yiayB/cZtX1+MV5uBtNJpNhXoY6
-	MDvDFDDUhMZZaWw8sBCn7cfVRGS5Lrg=
-X-Google-Smtp-Source: AAOMgpfNWmSMY1phF3f/eH4fGASIjLzJQaQ12KSm8iivsruNtaYdv4bnzTrr56penRpfkL8KikmtOg==
-X-Received: by 2002:adf:f342:: with SMTP id
-	e2-v6mr2653370wrp.161.1533304892493; 
-	Fri, 03 Aug 2018 07:01:32 -0700 (PDT)
+	bh=TazkE46S03FCSS2T3yNjD7nBkFlWlQuoklXODmLoMJc=;
+	b=rBDWv9ENwDhi+r9/2plIXBs30P0/cB91UiODZX8kjrdVUi5q1++NSJv5wzU9x4HylT
+	id5rAeA5FB/Nk74cY01IjcE+itUt53wKzZvG51KlF/wn6jvxflqjUvboR9r12UZj8lUj
+	tK4TkbBZvkDGYqMGK2uqWL1eyS36STgV+UB5nFBYSarqGBi/6gbr3QQREzo16TQwK+bD
+	JUXjQB6+G74I2Rki1U21jpurKikk9wHLZ7jqIgPXjuwkJV2jXizAnAN4TPG+YwkWPaW1
+	N2HY8KFUO3sxpBbbPw37/2BXb91LzTDVONzpM4HN4BeJ3xQ8RBhGASkkldwNeu99CdFW
+	eZgw==
+X-Gm-Message-State: AOUpUlET3JpOFvw+kW5GVc/7YRxq5aOuPL2BbTG445AlRUSQwuJySFFK
+	wcGDw8OZkqKnr70BNLRWmF0stb0OhB0=
+X-Google-Smtp-Source: AAOMgpciVxEW2+5gr5nvrCIiH+2BHD8XSgiCnpTcP3bMQx8GRqUbYciYBvmeBYRDH1HsbZxv20bhug==
+X-Received: by 2002:a1c:415:: with SMTP id 21-v6mr5316448wme.128.1533304893940;
+	Fri, 03 Aug 2018 07:01:33 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e141-v6sm7753757wmd.32.2018.08.03.07.01.31
+	e141-v6sm7753757wmd.32.2018.08.03.07.01.32
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Aug 2018 07:01:31 -0700 (PDT)
+	Fri, 03 Aug 2018 07:01:33 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Aug 2018 15:01:13 +0100
-Message-Id: <20180803140115.25450-2-ross.burton@intel.com>
+Date: Fri,  3 Aug 2018 15:01:14 +0100
+Message-Id: <20180803140115.25450-3-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180803140115.25450-1-ross.burton@intel.com>
 References: <20180803140115.25450-1-ross.burton@intel.com>
-Subject: [PATCH 2/4] toolchain-scripts: put TARGET_ARCH and TARGET_OS into environment
+Subject: [PATCH 3/4] oeqa/sdk: add test that CMake works
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,30 +58,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2018 14:01:32 -0000
+X-List-Received-Date: Fri, 03 Aug 2018 14:01:34 -0000
 
-It's useful for the SDK to know exactly what TARGET_ARCH and TARGET_OS are,
-specifically for SDK QA.
+Add a new SDK testcase that builds assimp, a project that uses cmake.
+
+Using TARGET_ARCH and TARGET_OS which is now exported into the environment,
+check that the generated binaries match the ELF headers we expect.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/toolchain-scripts.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/sdk/cases/assimp.py | 68 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+ create mode 100644 meta/lib/oeqa/sdk/cases/assimp.py
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 63b07c802f4..6d1ba69473a 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -52,6 +52,9 @@ toolchain_create_sdk_env_script () {
- 	echo 'export OECORE_TARGET_SYSROOT="$SDKTARGETSYSROOT"' >> $script
- 	echo "export OECORE_ACLOCAL_OPTS=\"-I $sdkpathnative/usr/share/aclocal\"" >> $script
- 	echo 'export OECORE_BASELIB="${baselib}"' >> $script
-+	echo 'export OECORE_TARGET_ARCH="${TARGET_ARCH}"' >>$script
-+	echo 'export OECORE_TARGET_OS="${TARGET_OS}"' >>$script
+diff --git a/meta/lib/oeqa/sdk/cases/assimp.py b/meta/lib/oeqa/sdk/cases/assimp.py
+new file mode 100644
+index 00000000000..7251bdf34e7
+--- /dev/null
++++ b/meta/lib/oeqa/sdk/cases/assimp.py
+@@ -0,0 +1,68 @@
++import os, subprocess, unittest
++import bb
++from oeqa.sdk.case import OESDKTestCase
++from oeqa.sdk.utils.sdkbuildproject import SDKBuildProject
 +
- 	echo 'unset command_not_found_handle' >> $script
- 
- 	toolchain_shared_env_script
++from oeqa.utils.subprocesstweak import errors_have_output
++errors_have_output()
++
++class BuildAssimp(OESDKTestCase):
++    """
++    Test case to build a project using cmake.
++    """
++
++    td_vars = ['DATETIME', 'TARGET_OS', 'TARGET_ARCH']
++
++    @classmethod
++    def setUpClass(self):
++        if not (self.tc.hasHostPackage("nativesdk-cmake") or
++                self.tc.hasHostPackage("cmake-native")):
++            raise unittest.SkipTest("Needs cmake")
++
++    def fetch(self, workdir, dl_dir, url, archive=None):
++        if not archive:
++            from urllib.parse import urlparse
++            archive = os.path.basename(urlparse(url).path)
++
++        if dl_dir:
++            tarball = os.path.join(dl_dir, archive)
++            if os.path.exists(tarball):
++                return tarball
++
++        tarball = os.path.join(workdir, archive)
++        subprocess.check_output(["wget", "-O", tarball, url])
++        return tarball
++
++    def test_assimp(self):
++        import tempfile
++        import oe.qa, oe.elf
++
++        with tempfile.TemporaryDirectory(prefix="assimp", dir=self.tc.sdk_dir) as testdir:
++            dl_dir = self.td.get('DL_DIR', None)
++            tarball = self.fetch(testdir, dl_dir, "https://github.com/assimp/assimp/archive/v4.1.0.tar.gz")
++            subprocess.check_output(["tar", "xf", tarball, "-C", testdir])
++
++            sourcedir = os.path.join(testdir, "assimp-4.1.0") 
++            builddir = os.path.join(testdir, "build")
++            installdir = os.path.join(testdir, "install")
++            bb.utils.mkdirhier(builddir)
++
++            self._run("cd %s && cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON %s " % (builddir, sourcedir))
++            self._run("cmake --build %s -- -j" % builddir)
++            self._run("cmake --build %s --target install -- DESTDIR=%s" % (builddir, installdir))
++
++            elf = oe.qa.ELFFile(os.path.join(installdir, "usr", "local", "lib", "libassimp.so.4.1.0"))
++            elf.open()
++
++            output = self._run("echo $OECORE_TARGET_OS:$OECORE_TARGET_ARCH")
++            target_os, target_arch = output.strip().split(":")
++            machine_data = oe.elf.machine_dict(None)[target_os][target_arch]
++            (machine, osabi, abiversion, endian, bits) = machine_data
++
++            self.assertEqual(machine, elf.machine())
++            self.assertEqual(bits, elf.abiSize())
++            self.assertEqual(endian, elf.isLittleEndian())
++
++    @classmethod
++    def tearDownClass(self):
++        self.project.clean()
 -- 
 2.11.0
 
