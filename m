@@ -1,48 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CB67601F1
+Return-Path: <omar.ocampo.coronado@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 88FB878AA7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Aug 2018 18:42:45 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id t5-v6so7242396qtn.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Aug 2018 11:42:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=qdb21MQdQhkW1K4OlLrRSsHLpsUW7P739PPU3/VcbIU=;
-	b=J19v9gqtOfx1E9L3aB52MOdD7Q4gINBfNHrTHoe3iGUugnEQV/qxeXBQKvbj0XHMED
-	f2uzEeTsW5HtmlESd2lWDWk2A1Ui7Xo+3LVxkRYUUNH2arVmfQ3b0ocfMtfCobJyiDbe
-	NJYcHgH0+twFmZk4NBRvMIxX/cdp6ov1GROuNxPBPpexSpyo4C/cZm2v85u8ZoBeTeRY
-	M+EPkKVtm6OTuFCaIUs9Xmddo9y/wHwAjHXNa/kJDpmJUfRO2THlk/+Nu6B8AmeV03AV
-	pq0yc4GDO5PUGmSoxXVbZTj3u2q7TLVGpmjTfnmTpXzxggiwB3KURhxz5JHIPttx2p9g
-	xcXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=qdb21MQdQhkW1K4OlLrRSsHLpsUW7P739PPU3/VcbIU=;
-	b=hrqxjeCiEF0OhZSUjPPDEy5grlqgDx3vfN21xE1Imzqmb/HyNVWC7PfNy6aecTTf+q
-	K5A9ULXlJpZcxdIjuGL8QGiocxdxcwPgI0CNX6DbhsgEBIez6TlvQK/wOFWHz422J325
-	+IFBGWHNRbiQiNyio9Al3LQlCB7duYJviespaJIXvN3j3OLnQwThgArfqFTK3W642FqV
-	7jjBeqUjULQrmW1DyDJ/8l0RgoNWIHA5L7fzmuomNNg5m/eDdFhdmJVvb16GW9UyUDR4
-	5v8JwR0wIbWcYlsGcyGrC7Rk8ekdtpDiHEb7WjrBeL/lEQDNGO+1zINIQZAyRRMvvrT3
-	3JoA==
-X-Gm-Message-State: AOUpUlEum9CgsJjpaEemrnQcr8TIUQCTvKQBLhkUxnxfctWkxKRb21FZ
-	9GrVqCZF7oDK/JSuvWK6m3f4nfai7wWkWzglVfk8TA==
-X-Google-Smtp-Source: AAOMgpfeXuiXWlI1+dGCF4F1RmzoUNscsEybxVzTmxyFx1VwCuGltsuwsjG+okbjG8fYq3MEYl3Wrmyxxs68Z/52iwQ=
-X-Received: by 2002:ac8:91d:: with SMTP id
-	t29-v6mr5089423qth.188.1533321766135; 
-	Fri, 03 Aug 2018 11:42:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180803182559.34019-1-raj.khem@gmail.com>
-	<20180803183417.13841.2020@do.openembedded.org>
-In-Reply-To: <20180803183417.13841.2020@do.openembedded.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 3 Aug 2018 11:42:20 -0700
-Message-ID: <CAMKF1sqMkAFtFoFNP4AfXvCiPjuw6tLoKUX1h7kfSRPQXUN-MA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdsaWJjOiBVcGdyYWRlIHRvIDIuMjggKHJldjIp?=
+	Fri,  3 Aug 2018 20:15:04 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Aug 2018 13:15:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,439,1526367600"; d="scan'208";a="78194096"
+Received: from unknown (HELO kairos.zpn.intel.com) ([10.219.80.29])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2018 13:14:50 -0700
+From: omar.ocampo.coronado@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Aug 2018 18:09:55 -0500
+Message-Id: <20180803230955.104596-1-omar.ocampo.coronado@intel.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH] package: skip strip on signed kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,61 +30,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2018 18:42:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 03 Aug 2018 20:15:04 -0000
 
-it seems patch scanner is confused here
-On Fri, Aug 3, 2018 at 11:34 AM Patchwork
-<patchwork@patchwork.openembedded.org> wrote:
->
-> == Series Details ==
->
-> Series: glibc: Upgrade to 2.28 (rev2)
-> Revision: 2
-> URL   : https://patchwork.openembedded.org/series/13377/
-> State : failure
->
-> == Summary ==
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             Patches not removed from tree [test_src_uri_left_files]
->   Suggested fix    Amend the patch containing the software patch file removal
->   Patch            0008-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
->   Patch            0014-yes-within-the-path-sets-wrong-config-variables.patch
->   Patch            0019-eglibc-Clear-cache-lines-on-ppc8xx.patch
->   Patch            0018-eglibc-Help-bootstrap-cross-toolchain.patch
->   Patch            0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
->   Patch            0015-timezone-re-written-tzselect-as-posix-sh.patch
->   Patch            0006-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch
->   Patch            0007-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch
->   Patch            0030-plural_c_no_preprocessor_lines.patch
->   Patch            0005-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch
->   Patch            0012-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch
->   Patch            0017-eglibc-Cross-building-and-testing-instructions.patch
->   Patch            0016-Remove-bash-dependency-for-nscd-init-script.patch
->   Patch            0009-Quote-from-bug-1443-which-explains-what-the-patch-do.patch
->   Patch            0020-eglibc-Resolve-__fpscr_values-on-SH4.patch
->   Patch            0013-Add-unused-attribute.patch
->   Patch            0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch
->
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
+From: foocampo <omar.ocampo.coronado@intel.com>
+
+Executing strip action on kernel modules removes the signature.
+Is not possible to strip and keep the signature, therefore avoid
+strip signed kernel modules.
+
+Signed-off-by: foocampo <omar.ocampo.coronado@intel.com>
+---
+ meta/lib/oe/package.py | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index fa3428ad61..f7d2d3b7c4 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -24,6 +24,9 @@ def runstrip(arg):
+ 
+     # kernel module    
+     if elftype & 16:
++        if is_kernel_module_signed(file):
++            bb.debug(1, "Skip strip on signed module %s" % file)
++            return
+         stripcmd.extend(["--strip-debug", "--remove-section=.comment",
+             "--remove-section=.note", "--preserve-dates"])
+     # .so and shared library
+@@ -46,6 +49,13 @@ def is_kernel_module(path):
+     with open(path) as f:
+         return mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ).find(b"vermagic=") >= 0
+ 
++# Detect if .ko module is signed
++def is_kernel_module_signed(path):
++    with open(path, "rb") as f:
++        f.seek(-28, 2)
++        module_tail = f.read()
++        return "Module signature appended" in "".join(chr(c) for c in bytearray(module_tail))
++
+ # Return type (bits):
+ # 0 - not elf
+ # 1 - ELF
+-- 
+2.18.0
+
 
