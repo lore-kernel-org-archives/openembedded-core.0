@@ -1,52 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 03B0D78DCF
+Return-Path: <omar.ocampo.coronado@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 05B0878DCE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Aug 2018 21:28:52 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id f21-v6so7617235wmc.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Aug 2018 14:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=SlYkaTSteaFCP7lYI4r/L7yZjaojHRb+R9SYR2yC8yY=;
-	b=Fa4MOFAOC+bFHuHaeuWNLSft4QyyZ3juj+x073Telw8yfE94m2fyWdL4FRwhGYOenN
-	IGKFnd0lnNpV1W7mtoX8QvqxpJpvXS3PiVFgH/t67gcFIaCeejmh2RvfUvF46swosFCf
-	/I9XoLhxlyidPR+FEvhxafQOT2VWC/p9Cjjb0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=SlYkaTSteaFCP7lYI4r/L7yZjaojHRb+R9SYR2yC8yY=;
-	b=BS+9gQJTrDm5dlnoj6U5ZZuti2uydnjGsfSPGmRv+CDJ/owOT4mfaEU+ruwfpEPcwS
-	xQYA4q5YPS7s/dHRKP3i9JN53siLVXzg/l249hudMCI5jO31AG4SAgLjU6CfMk+EOQ1P
-	zt+D5Np5JKAOH1vbWf3JBHqDALOTZ1FvV5dxmwrb+SjorohrKrhLUir717KziVXZ3SGw
-	o29POTTqWZoREbdIVLaLJNpk9ja8/k2b/wTBeft7PEtEIPlgvjwOQE+JlV117OxTLfUq
-	e7e/bZ1wdZW3vk5yVI0aSe7jRP/wmfbOSj/525E+URIBTPOdz2xqJyI1OjtKCYroqh6S
-	69dA==
-X-Gm-Message-State: AOUpUlHi55mTpg+zHJO1l5MY71/0gzoVQRUyqYPXnQzD2jbWgBPGy+hX
-	ycIZ+GRbIomUGVULpdccwPkrvA==
-X-Google-Smtp-Source: AAOMgpe4GeC7EwodG+7/FLgz2k3P+rHgrg1ZSJBa2D1hL5jhadHlc8iKtDXhGKq328TxAWqmKaQqyg==
-X-Received: by 2002:a1c:b213:: with SMTP id
-	b19-v6mr5740022wmf.141.1533331733491; 
-	Fri, 03 Aug 2018 14:28:53 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y206-v6sm317438wmg.45.2018.08.03.14.28.51
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 03 Aug 2018 14:28:52 -0700 (PDT)
-Message-ID: <178d4c597dac03d0d39b55450f023c57bd6c7c3e.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: kai.kang@windriver.com
-Date: Fri, 03 Aug 2018 22:28:50 +0100
-In-Reply-To: <20180803014947.23598-2-kai.kang@windriver.com>
-References: <20180803014947.23598-1-kai.kang@windriver.com>
-	<20180803014947.23598-2-kai.kang@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] remove allarch from recipes which rdepends on TUNE_PKGARCH packages
+	Fri,  3 Aug 2018 21:44:20 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Aug 2018 14:44:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,440,1526367600"; d="scan'208";a="78214725"
+Received: from unknown (HELO kairos.zpn.intel.com) ([10.219.80.29])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2018 14:44:21 -0700
+From: omar.ocampo.coronado@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Aug 2018 19:39:27 -0500
+Message-Id: <20180804003927.99502-1-omar.ocampo.coronado@intel.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCHv2] package: skip strip on signed kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,39 +30,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2018 21:28:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Aug 2018 21:44:21 -0000
 
-On Fri, 2018-08-03 at 09:49 +0800, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> The following allarch packages rdepends on TUNE_PKGARCH packages. So
-> remove allarch from these recipes.
-> 
-> ca-certificates -> openssl
+From: foocampo <omar.ocampo.coronado@intel.com>
 
-Should we reverse this, i.e. have openssl RRECOMMENDS ca-certificates?
+Executing strip action on kernel modules removes the signature.
+Is not possible to strip and keep the signature, therefore avoid
+strip signed kernel modules.
 
-> docbook-xsl-stylesheets -> perl
-> font-alias -> font-util
-> initramfs-module-setup-live -> udev-extraconf
-> initramfs-framework -> ${VIRTUAL-RUNTIME_base-utils} (busybox by
-> default)
-> ppp-dialin -> ppp
+Signed-off-by: foocampo <omar.ocampo.coronado@intel.com>
+Signed-off-by: Omar Ocmapo <omar.ocampo.coronado@intel.com>
+---
+ meta/lib/oe/package.py | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-ppp RRECOMMENDS ppp-dialin?
-
-> resolvconf -> bash
-> weston-init -> weston kbd
-
-weston RRECOMMENDS weston-init?
-
-Not really sure about some of these but we should at least consider
-it...
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index fa3428ad61..21c80aaa38 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -21,11 +21,15 @@ def runstrip(arg):
+         os.chmod(file, newmode)
+ 
+     stripcmd = [strip]
+-
++    skip_strip = False
+     # kernel module    
+     if elftype & 16:
+-        stripcmd.extend(["--strip-debug", "--remove-section=.comment",
+-            "--remove-section=.note", "--preserve-dates"])
++        if is_kernel_module_signed(file):
++            bb.debug(1, "Skip strip on signed module %s" % file)
++            skip_strip = True
++        else:
++            stripcmd.extend(["--strip-debug", "--remove-section=.comment",
++                "--remove-section=.note", "--preserve-dates"])
+     # .so and shared library
+     elif ".so" in file and elftype & 8:
+         stripcmd.extend(["--remove-section=.comment", "--remove-section=.note", "--strip-unneeded"])
+@@ -36,7 +40,8 @@ def runstrip(arg):
+     stripcmd.append(file)
+     bb.debug(1, "runstrip: %s" % stripcmd)
+ 
+-    output = subprocess.check_output(stripcmd, stderr=subprocess.STDOUT)
++    if not skip_strip:
++        output = subprocess.check_output(stripcmd, stderr=subprocess.STDOUT)
+ 
+     if newmode:
+         os.chmod(file, origmode)
+@@ -46,6 +51,13 @@ def is_kernel_module(path):
+     with open(path) as f:
+         return mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ).find(b"vermagic=") >= 0
+ 
++# Detect if .ko module is signed
++def is_kernel_module_signed(path):
++    with open(path, "rb") as f:
++        f.seek(-28, 2)
++        module_tail = f.read()
++        return "Module signature appended" in "".join(chr(c) for c in bytearray(module_tail))
++
+ # Return type (bits):
+ # 0 - not elf
+ # 1 - ELF
+-- 
+2.18.0
 
 
