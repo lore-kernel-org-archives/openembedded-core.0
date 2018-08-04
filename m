@@ -1,23 +1,23 @@
 Return-Path: <omar.ocampo.coronado@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 05B0878DCE
+	by mail.openembedded.org (Postfix) with ESMTP id 6DDAE78DCE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Aug 2018 21:44:20 +0000 (UTC)
+	Fri,  3 Aug 2018 21:52:34 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Aug 2018 14:44:22 -0700
+	03 Aug 2018 14:52:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,440,1526367600"; d="scan'208";a="78214725"
+X-IronPort-AV: E=Sophos;i="5.51,440,1526367600"; d="scan'208";a="59593302"
 Received: from unknown (HELO kairos.zpn.intel.com) ([10.219.80.29])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2018 14:44:21 -0700
+	by fmsmga007.fm.intel.com with ESMTP; 03 Aug 2018 14:52:35 -0700
 From: omar.ocampo.coronado@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Aug 2018 19:39:27 -0500
-Message-Id: <20180804003927.99502-1-omar.ocampo.coronado@intel.com>
+Date: Fri,  3 Aug 2018 19:47:40 -0500
+Message-Id: <20180804004740.11233-1-omar.ocampo.coronado@intel.com>
 X-Mailer: git-send-email 2.18.0
-Subject: [PATCHv2] package: skip strip on signed kernel modules
+Subject: [PATCHv3] package: skip strip on signed kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2018 21:44:21 -0000
+X-List-Received-Date: Fri, 03 Aug 2018 21:52:34 -0000
 
 From: foocampo <omar.ocampo.coronado@intel.com>
 
@@ -38,8 +38,7 @@ Executing strip action on kernel modules removes the signature.
 Is not possible to strip and keep the signature, therefore avoid
 strip signed kernel modules.
 
-Signed-off-by: foocampo <omar.ocampo.coronado@intel.com>
-Signed-off-by: Omar Ocmapo <omar.ocampo.coronado@intel.com>
+Signed-off-by: Omar Ocampo <omar.ocampo.coronado@intel.com>
 ---
  meta/lib/oe/package.py | 20 ++++++++++++++++----
  1 file changed, 16 insertions(+), 4 deletions(-)
