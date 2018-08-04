@@ -1,50 +1,103 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 89EEB78A8B
+Return-Path: <akuster808@gmail.com>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F6B4747EC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Aug 2018 08:56:18 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id b16-v6so639111oic.9
+	Sat,  4 Aug 2018 14:16:15 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id j205-v6so14844043oib.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Aug 2018 01:56:19 -0700 (PDT)
+	Sat, 04 Aug 2018 07:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=USPJRgF3+vLXjDHQOTwdoeqyE5tMrlsU9wednUBP7GM=;
-	b=IQCOEKDFAo0ximrTyHFdzUi6JpoiBkciLLHbxApz3dMnF6ehfQB2nn4VBybD53fVok
-	CJ7XaW3efF6orbApORFAdn9E/ifK/LJOuj2bgW7C4MNXCPLS8Drql4YW1mGM/wdfvl/n
-	cNiUIXBTbzBbiT1iAW4QaTEEI4HIU6PmzFE9JXeosDUccbdVj5Fp8fEg6UjqrTLROApk
-	Gu43tHbLFcKGlc40SRTrRZ39yALJQU60Doi24QKGAgAyBT0SFvij8/wiiz4buSUtSsFF
-	I6M2PVTcm/+ViGTx3NjHV7yrO8e59lNeB1jaHgJGQ95hnYB5TDZl4cGM8+8b75lSblim
-	OHFQ==
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=ziv0HQDrnW9gm8v79y/BFKXtRDMPGl+7r5Z/NVoahS8=;
+	b=RFcqrnJiG1jG0euMPzEMpJaxa32mAnzDSJJNnNdSvnEab7YyQkmk+ry7x36phN+dje
+	Ze0v8Y/2F93sB9gOq/753YW6cninImYRyx8e3PVQ9CmmgWPCmNm6jj57LBUGUbhJxQSC
+	HzVUbJjdeVeZNCEcHlsz0s8gNeJLHLmz0EVEwD0o1EGz3kwsZ/9M91aL13E8EKu/tiuX
+	GpgRgdZwbeX2m6f5vlartKG2PAGCOeFThJ1Kmlib9r82T1E1w32LeuDK8V6TqCEGg4tX
+	DhmYxPiWZ2I7DKssc63a0+WCGMQuzOSx4Vv7kN6xpC7Rktf9rcdfJO0LWYaqsxDh5hFc
+	n+7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=USPJRgF3+vLXjDHQOTwdoeqyE5tMrlsU9wednUBP7GM=;
-	b=fss8YD3nOuaCUMCEW6CHax+xywDVXCb0Nx7CvpxdDPOS1I/WlMv9x+/H/JLL/a2Xig
-	Jv+chcSJP07tWvzqJtik4W/B1PWFN6GJf6JD32Hb8rcX9D4QE7gRrEk3PYxvyARrNyOP
-	si5eEYmdxNZm5Y8SxQCBYin2Co1cQxwgj2t6gRajQiVs4Q06PKmeQLeRFSV+Odsx6lUo
-	kK6AKmD/O6GPOSAvxChN0VjuSTDoOQHPI9np1PUw3tyDhGr0eNFw4mOwRkebwkoTlhwP
-	32y7rjWZqgYVV+0OY6+ezXFvS3rb+cl5FLbWO4WzN/lTj7F278/VmPzkpSGTkw0yJpXs
-	VrIA==
-X-Gm-Message-State: AOUpUlHHLCLXJGz+RqtI575j1V8X0NHlP1EOx0H9ibjtBMPuxCJh0BcL
-	rBPeqkGJwI2vpIc4NHrOnEuCIqeJF+Aph4ZNfKw=
-X-Google-Smtp-Source: AAOMgpdqeEfJtI+UTeuq5gnIHmkimq2owL9r/h4VxydzgOyjvMjwRrR+8U/Qxphj6Oku06WXNoBPD779dUnmx8HerHU=
-X-Received: by 2002:aca:4782:: with SMTP id
-	u124-v6mr6914388oia.45.1533372979101; 
-	Sat, 04 Aug 2018 01:56:19 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP;
-	Sat, 4 Aug 2018 01:56:18 -0700 (PDT)
-In-Reply-To: <1533335883158.4719@cisco.com>
-References: <1533335883158.4719@cisco.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 4 Aug 2018 10:56:18 +0200
-Message-ID: <CANNYZj8Kfk215Qgh+tNaeGnqAjSEy2tinRLFbyTq8SWt=mkdww@mail.gmail.com>
-To: "Grygorii Tertychnyi (gtertych)" <gtertych@cisco.com>
-Cc: "xe-linux-external\(mailer list\)" <xe-linux-external@cisco.com>,
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=ziv0HQDrnW9gm8v79y/BFKXtRDMPGl+7r5Z/NVoahS8=;
+	b=C3x0eL3VdKp+DEhHNzibNpS5m8cuxsWXwrI9Cp71VrgUoNxAUMaXJFhZ6jmh0fEZgg
+	P0Yb7MryjsJw5gz5rS2zmgJAfX8FImy2gAOpT67yoVKTQ8B0iaHvf5cFHN5husOb/ZSH
+	WTNrDJYvXMuN6Jlf/NQnLjQ47b6o2gAKoDcxhmRcii22cRhoIKh90b1wDVRdp+D07VVB
+	/msnbq0hlwRgd3ld0lVYwi6f5ZIlO2G7b8ORDcR+x92aXDmrrS3G2In5bD4+ZoUWC4/n
+	OyTmHLOza8+wlrJYdNtQnu9IFUivkdV77W5qq/xYrWs/FTeruSCK2Sxvu35MMJU/gBCL
+	wjGA==
+X-Gm-Message-State: AOUpUlHmpOZn4Qdc7bHXhWWu87+KAOc53SlHq5trvXFXNsK1BFoKZ24w
+	PupzlWYjLB4rnTNMynrYOqMZOddK
+X-Google-Smtp-Source: AAOMgpc147Gvvt2J7aK2CVjdxU8SWU/OVk/OsRaB+SKuV3PHlZD6EorK38mwhJBEKND4iv34rtvEWg==
+X-Received: by 2002:aca:efd7:: with SMTP id
+	n206-v6mr8145973oih.70.1533392176090; 
+	Sat, 04 Aug 2018 07:16:16 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:dd3f:fd30:abf9:cf0d?
+	([2601:202:4180:c33:dd3f:fd30:abf9:cf0d])
+	by smtp.gmail.com with ESMTPSA id
+	x126-v6sm8117628oig.15.2018.08.04.07.16.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 04 Aug 2018 07:16:15 -0700 (PDT)
+To: "Grygorii Tertychnyi (gtertych)" <gtertych@cisco.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
+References: <1533335883158.4719@cisco.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <08924f71-ddd6-ea25-3b24-18ed74c92233@gmail.com>
+Date: Sat, 4 Aug 2018 07:16:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <1533335883158.4719@cisco.com>
+Cc: "xe-linux-external\(mailer list\)" <xe-linux-external@cisco.com>
 Subject: Re: [PATCH 1/2] cve-report: add scripts to generate CVE reports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,19 +111,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Aug 2018 08:56:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 04 Aug 2018 14:16:15 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-How reliable is NVD database for such automated scans? Previously, we
-have repeatedly concluded that it should not be trusted, and proper
-patching of vulnerabilities must involve humans looking at
-vulnerability reports and making appropriate decisions - same as
-Debian is doing for example.
 
-Alex
 
-2018-08-04 0:37 GMT+02:00 Grygorii Tertychnyi (gtertych) via
-Openembedded-core <openembedded-core@lists.openembedded.org>:
+On 08/03/2018 03:37 PM, Grygorii Tertychnyi (gtertych) via
+Openembedded-core wrote:
 > cvert-kernel - generate CVE report for the Linux kernel.
 >   NVD entries for the Linux kernel is almost always outdated.
 >   For example, https://nvd.nist.gov/vuln/detail/CVE-2018-1065
@@ -90,6 +139,14 @@ Openembedded-core <openembedded-core@lists.openembedded.org>:
 >   Uses NVD JSON Vulnerability Feeds https://nvd.nist.gov/vuln/data-feeds#JSON_FEED
 >
 > Signed-off-by: grygorii tertychnyi <gtertych@cisco.com>
+
+
+This looks existing. I will give a try this weekend.
+
+Is this what was talked about at the last OEDeM ?
+
+Thanks
+Armin
 > ---
 >  scripts/cvert-foss   | 109 ++++++++++++++
 >  scripts/cvert-kernel | 157 +++++++++++++++++++
@@ -873,12 +930,5 @@ Openembedded-core <openembedded-core@lists.openembedded.org>:
 > +    logger.debug('cve records: {}'.format(len(cve_struct)))
 > +
 > +    return cve_struct
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
