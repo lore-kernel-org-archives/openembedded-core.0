@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 23348783DE
+Received: from mail-pl0-f41.google.com (mail-pl0-f41.google.com
+	[209.85.160.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 91573783DE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Aug 2018 02:07:17 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id i26-v6so5122886pfo.12
+	Sun,  5 Aug 2018 02:07:18 +0000 (UTC)
+Received: by mail-pl0-f41.google.com with SMTP id u11-v6so4164598plq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Aug 2018 19:07:18 -0700 (PDT)
+	Sat, 04 Aug 2018 19:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=miJVhpZn7mpqXvQYQrSoFayAv9wVbUCM7NawS+nmzsc=;
-	b=aRvN+g7Tk9F7TDjWTOOkrZ61McvzDBO2m9HO4CFA7zmb1y9a9CStm6JNSiMoF+3fBg
-	40zv3TyYgI51vvlcuqZYZrvhuymQCZfR3t+sSRm+KSN9ylrgb/1QYIuJ8z9bRjQRGmkY
-	IZqizmK+fk4NW2LdIKuJ+xukB47nwZz8R89K76VJisNg4Frr5IVzjaDLvMJV8PjHwq/R
-	sWkSPAuiz7zNL8b/95rKbeRDgcw/y0dS7CtaziZLFZu/kyCuOMdTGzqarIc7I6KYSj94
-	77Vf4r/0WUtbsKkeluifYPRiytOWgPLRAzKjGvGMdGG6Ogd+noJmqEQ8huBpShp5vZOb
-	K0oQ==
+	bh=TrlrUg2UowJvSfZnehB4rlVnIG8bwI/heFpJZ6gnXZg=;
+	b=YJBUJ/WAZPFrmhCB9sEtxBPvF4dUHIH+3KM5xV9iJHskNmaeNXtbvLKQ85LpiFF9y7
+	ZouEwmYJ3DoDGR6mlCyUtfoWW+l4zmC29WIrk28NRzFpJUTW5GWK9EZ9R6J/3wE32uOz
+	5boam5Eqw37CmbFedmXFcMjl7YcSPKPic5pftnE9CSxIDGjBdWSndrzmivba39Y6BwgD
+	ic2bh7thtOXONlflN6unQpV+bcXcmJs0FzGH9PvPh0N12Mkfy9EuDYLXzMgIx9dQQQ8I
+	FPRF9ACk6j7uyhNXxGJpf2CAx8BFWEzOKZmnn0OmKXYVpN+ZBFPTNv3ax8Dpv5fhLigz
+	cfQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=miJVhpZn7mpqXvQYQrSoFayAv9wVbUCM7NawS+nmzsc=;
-	b=qzYpZzxigh4G99lwL78gGtkr2ZCO/D+xz/gR9/WkIyNGKzQHd7mJ7qWhNAG+GmLIjE
-	Pxt9/lYMWjtZucSYsmASj7OUl9j2InCPqJB1mnkpM2397eNMd7lnQnXwm5XLu5qXsTNM
-	ddVHE/ypRsjyerG4qLNGSLUR3jEsg15NTUGdNbGLJfV5kIsIfJTZPv2K7ZkDRqyBx9Te
-	W8DPQieuVwHMqjUNzAW85fBnqRi+pt1bCKcjDYYOIu0agL5IhfZKG8vdLKVYtAwZ0I/P
-	rKZ4l59AOPhZuHeW6plG6OOXzp6ex8hGMs/gefIta423lRiYen0owBUShuOpp4sfIKDU
-	yiyw==
-X-Gm-Message-State: AOUpUlE/VjQamnwbSA9+rY7kUqcZcRyDfguAFUqQGf3spIIz/iu2LQLW
-	Tw2eZgDbN7OeVvZ4k5CwOEpMhCfz
-X-Google-Smtp-Source: AAOMgpeE1RkAnO6uRrox+W08EO6h0QgkPK8K1LSaHq5ikXxurgcX4BbgACnZaUHOv/ISGv3nq7s5nw==
-X-Received: by 2002:a63:d54e:: with SMTP id
-	v14-v6mr9577970pgi.264.1533434837991; 
-	Sat, 04 Aug 2018 19:07:17 -0700 (PDT)
+	bh=TrlrUg2UowJvSfZnehB4rlVnIG8bwI/heFpJZ6gnXZg=;
+	b=D6a1xdNG1UVKS4m/2T+E/+Kz5UgeZnElZ/jqAF/TKU3R1SnzpN4CHeWyAeU9Zubk3a
+	liuwSa+CiN82rW5qxOoPGyj8gaGT9xo+WZD9uChejWYI8bpuExDNJ3AcXH6iPjIvf5KB
+	AFZNYsrg7CAOLYAC9tXh9d+EeRUCSvHVfGLoFUuKL7nTMPe2wtydRIa1uGSfHTLE0uNW
+	TGi8rq97t49jC7Nxk5JqFvHu/TxMb5v2ksjZutY32fP+iIzFpOkB+ZDpivGwYA2q5A8p
+	lKjh7hXyN7sF+YtfaZLnyOD3g9WkOvJfTv/PA343CKrPOieqbsmYBX7FBgPRObPomrau
+	x5Xg==
+X-Gm-Message-State: AOUpUlEfSfmGn4HIbIpFecrBwjRGr7pDnd7qUajsLiY7H4BaK2oayiGn
+	MA0bdkbQaMOgwz+l3/kyT9YIjcZe
+X-Google-Smtp-Source: AAOMgpdSb8kAvjaW4UVkMXcGPxgsOJMVV2gJHIkYtiDvtZ0rh8+FTU5bPyvkJVje3l+Q5CggsYLd8A==
+X-Received: by 2002:a17:902:b609:: with SMTP id
+	b9-v6mr8899534pls.321.1533434839190; 
+	Sat, 04 Aug 2018 19:07:19 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::5b3b])
 	by smtp.gmail.com with ESMTPSA id
-	b195-v6sm4486021pfb.2.2018.08.04.19.07.16
+	b195-v6sm4486021pfb.2.2018.08.04.19.07.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 04 Aug 2018 19:07:16 -0700 (PDT)
+	Sat, 04 Aug 2018 19:07:18 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Aug 2018 19:06:59 -0700
-Message-Id: <38e273d10cb57c980c8216b0c7862313741e20f0.1533434674.git.raj.khem@gmail.com>
+Date: Sat,  4 Aug 2018 19:07:00 -0700
+Message-Id: <3257c4ab40a5ed8f6df7fa7273c02939fb27ac75.1533434674.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1533434674.git.raj.khem@gmail.com>
 References: <cover.1533434674.git.raj.khem@gmail.com>
-Subject: [PATCH 07/10] bison: Fix build break with glibc 2.28
+Subject: [PATCH 08/10] strace: Fix build with glibc 2.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,54 +58,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2018 02:07:17 -0000
+X-List-Received-Date: Sun, 05 Aug 2018 02:07:18 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../recipes-devtools/bison/bison/gnulib.patch | 21 +++++++++++++++++++
- meta/recipes-devtools/bison/bison_3.0.4.bb    |  1 +
- 2 files changed, 22 insertions(+)
- create mode 100644 meta/recipes-devtools/bison/bison/gnulib.patch
+ .../0001-tests-Include-linux-stat.h.patch     | 76 +++++++++++++++++++
+ meta/recipes-devtools/strace/strace_4.23.bb   |  1 +
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-devtools/strace/strace/0001-tests-Include-linux-stat.h.patch
 
-diff --git a/meta/recipes-devtools/bison/bison/gnulib.patch b/meta/recipes-devtools/bison/bison/gnulib.patch
+diff --git a/meta/recipes-devtools/strace/strace/0001-tests-Include-linux-stat.h.patch b/meta/recipes-devtools/strace/strace/0001-tests-Include-linux-stat.h.patch
 new file mode 100644
-index 0000000000..7eaf0ce0fa
+index 0000000000..cbb9c60de7
 --- /dev/null
-+++ b/meta/recipes-devtools/bison/bison/gnulib.patch
-@@ -0,0 +1,21 @@
-+Fix gnulib issues found with glibc 2.28 libio.h removal
++++ b/meta/recipes-devtools/strace/strace/0001-tests-Include-linux-stat.h.patch
+@@ -0,0 +1,76 @@
++From 264889246fcdd486867e8ca923094afa1689126c Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 4 Aug 2018 13:18:03 -0700
++Subject: [PATCH] tests: Include linux/stat.h
 +
-+see
-+https://lists.gnu.org/r/bug-gnulib/2018-03/msg00000.html
++Starting with glibc 2.28, sys/stat.h header will have the
++definition for struct statx, in which case including  linux/stat.h should be
++avoided, in order to prevent a duplicate definition.
 +
-+Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted [https://lists.strace.io/pipermail/strace-devel/2018-August/008329.html]
++ tests-m32/statx.c  | 7 +++++++
++ tests-mx32/statx.c | 8 +++++++-
++ tests/statx.c      | 8 +++++++-
++ 3 files changed, 21 insertions(+), 2 deletions(-)
 +
-+Index: bison-3.0.4/lib/fseterr.c
-+===================================================================
-+--- bison-3.0.4.orig/lib/fseterr.c
-++++ bison-3.0.4/lib/fseterr.c
-+@@ -29,7 +29,7 @@ fseterr (FILE *fp)
-+   /* Most systems provide FILE as a struct and the necessary bitmask in
-+      <stdio.h>, because they need it for implementing getc() and putc() as
-+      fast macros.  */
-+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-+   fp->_flags |= _IO_ERR_SEEN;
-+ #elif defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
-+   fp_->_flags |= __SERR;
-diff --git a/meta/recipes-devtools/bison/bison_3.0.4.bb b/meta/recipes-devtools/bison/bison_3.0.4.bb
-index 58728f5021..cc155f0fbe 100644
---- a/meta/recipes-devtools/bison/bison_3.0.4.bb
-+++ b/meta/recipes-devtools/bison/bison_3.0.4.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-            file://dont-depend-on-help2man.patch.patch \
-            file://0001-src-local.mk-fix-parallel-issue.patch \
-            file://add-with-bisonlocaledir.patch \
-+           file://gnulib.patch \
- "
- 
- # No point in hardcoding path to m4, just use PATH
++diff --git a/tests-m32/statx.c b/tests-m32/statx.c
++index 816b7eb..7364a02 100644
++--- a/tests-m32/statx.c
+++++ b/tests-m32/statx.c
++@@ -30,6 +30,13 @@
++ 
++ #ifdef __NR_statx
++ 
+++# if defined(__GLIBC__)
+++#  if !__GLIBC_PREREQ(2,28)
+++#   include <linux/stat.h>
+++#  endif
+++# else
+++#  include <linux/stat.h>
+++# endif
++ # include <linux/stat.h>
++ # include "xlat.h"
++ # include "xlat/statx_masks.h"
++diff --git a/tests-mx32/statx.c b/tests-mx32/statx.c
++index 816b7eb..e9f9993 100644
++--- a/tests-mx32/statx.c
+++++ b/tests-mx32/statx.c
++@@ -30,7 +30,13 @@
++ 
++ #ifdef __NR_statx
++ 
++-# include <linux/stat.h>
+++# if defined(__GLIBC__)
+++#  if !__GLIBC_PREREQ(2,28)
+++#   include <linux/stat.h>
+++#  endif
+++# else
+++#  include <linux/stat.h>
+++# endif
++ # include "xlat.h"
++ # include "xlat/statx_masks.h"
++ # include "xlat/statx_attrs.h"
++diff --git a/tests/statx.c b/tests/statx.c
++index 816b7eb..e9f9993 100644
++--- a/tests/statx.c
+++++ b/tests/statx.c
++@@ -30,7 +30,13 @@
++ 
++ #ifdef __NR_statx
++ 
++-# include <linux/stat.h>
+++# if defined(__GLIBC__)
+++#  if !__GLIBC_PREREQ(2,28)
+++#   include <linux/stat.h>
+++#  endif
+++# else
+++#  include <linux/stat.h>
+++# endif
++ # include "xlat.h"
++ # include "xlat/statx_masks.h"
++ # include "xlat/statx_attrs.h"
++-- 
++2.18.0
++
+diff --git a/meta/recipes-devtools/strace/strace_4.23.bb b/meta/recipes-devtools/strace/strace_4.23.bb
+index 0c159fc6f6..d966a77b89 100644
+--- a/meta/recipes-devtools/strace/strace_4.23.bb
++++ b/meta/recipes-devtools/strace/strace_4.23.bb
+@@ -14,6 +14,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://mips-SIGEMT.patch \
+            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
+            file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
++           file://0001-tests-Include-linux-stat.h.patch \
+            "
+ SRC_URI[md5sum] = "fad4bba0947553cef34d46a9fd78f039"
+ SRC_URI[sha256sum] = "7860a6965f1dd832747bd8281a04738274398d32c56e9fbd0a68b1bb9ec09aad"
 -- 
 2.18.0
 
