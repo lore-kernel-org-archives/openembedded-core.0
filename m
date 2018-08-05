@@ -1,50 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 69BB778A89
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 928EF6076F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Aug 2018 15:15:31 +0000 (UTC)
-Received: by mail-qt0-f181.google.com with SMTP id c15-v6so11220833qtp.0
+	Sun,  5 Aug 2018 19:42:16 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id c13-v6so10351474wrt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2018 08:15:32 -0700 (PDT)
+	Sun, 05 Aug 2018 12:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zILtGKBqAR5wl33LH70sjaKiXb2Rmk8O34bBfXukjFE=;
-	b=F13uwp99z9rYkpmZAXjt+dypkB+Tz2ajuriJ4EI9HgDV0OeAUod1XOilwMPtxSv+hK
-	91gffsqfLhkyB1D2JuyeBKCrc7/OdjUQ+ldeU+UyWxUTrxa1lxUkiz6yUtoa0xOBA3y9
-	QoCeWrsYDfWZCZ5DHQLAeot++/u/LxfkCxtmnqhEcI96Eey+PTiTBdb8RsWMbG/bl7Gw
-	THxpaEBJamDBYikfRe/BThUQMJeYhoFb9MpdcZuZGOiu0UvRzK6cucLX4uk8lXKgOsd6
-	Og5mMnzJiPeuIODyOk/fsYDLGCvY+ZK0ARtxJkUPEh69fQE8kmseCYc6MLCglxtEKNjF
-	O0jQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=PZJMb2VBm0pwoOGMh39Yylkxcld48CbR7fHGMN+3c1k=;
+	b=mh8ypy5sZiJscg4+r3/gU+ZiMw7vvw32Y0Hf2Wz1Rn8h3Q+CpD5HXkrY/e4fuhsN8z
+	BbS713S+68qPkELrVKiUwpRxGp7lzo+7djtWSXD5fjQVTHBcdaiJ97+jv6tBt0qMK1NS
+	pSbP6hF7hMAGtIDuYg9duJvTUREGew+7T9Ag9hxF2+PxC05kw0kOkDh+Xk/QzQtw25WK
+	XAWFnj409Mh6+bOQz0/rWlb4nLD6VqO1aCMa4qHw14U8Sew2f0Kn9g1wr2OjGGyW4xTj
+	xILcoXyVX+C4N+em7bLLY+nZmGPJWMJyRsoPBeHu881BdsVOa8XsuzcCqHn5irj+TR+N
+	y0KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=zILtGKBqAR5wl33LH70sjaKiXb2Rmk8O34bBfXukjFE=;
-	b=Wh15Zhd04JQE9vmoBFA8LLhn95ug+TndcXVAJFlfhhHg2P5frwD0rZKREzk7RlYCH4
-	MlUdMiwodnZnMBB3Oyz6Evm2uFRbYlxxC+x1CvGf9LVlHu3Sz0RoKix3EYT4kScghO/W
-	WD4TOxw+nFRO302dyqerK6zTCc5oAjSWu7l8AxxmaBA2K932ct4ylZ60xQEQx0Kmxizr
-	2Xy+YGz4U7yzVQe+Qk/dfW5djgFlp5Xf8NMl/WQY62Z41WHVXzG2dqwUsB+71d8IT/R8
-	isb0+prkmN1d59Oywjgsl2xbIQ2VuCFX7P8LUDGs00ZnlNULqF1IfDf8SprV8hIXY2O5
-	rnWQ==
-X-Gm-Message-State: AOUpUlFtN/MsmbpQagdYv4p5ysR6cpsneBPuHhXktLMSGaQBcRgO/hg/
-	TKkpgTQyJfENJ/iFAtuiJ2Za/5SBtmex+Gk5ykM=
-X-Google-Smtp-Source: AAOMgpc47VF49UPHuE64oA805X1g9dgdeyqH2uiKaDtC1xNeB9gXQ1/23a68sYvaazAlEQk5EOlV79in7SGoT3Ida2s=
-X-Received: by 2002:ac8:91d:: with SMTP id
-	t29-v6mr11214558qth.188.1533482131988; 
-	Sun, 05 Aug 2018 08:15:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1533434674.git.raj.khem@gmail.com>
-	<3257c4ab40a5ed8f6df7fa7273c02939fb27ac75.1533434674.git.raj.khem@gmail.com>
-	<1533462606.3114.1.camel@gmail.com>
-In-Reply-To: <1533462606.3114.1.camel@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 5 Aug 2018 08:15:05 -0700
-Message-ID: <CAMKF1sqeRP389KDEndzTf3GAZL47W-bvsDU9j4m7+mkozscafg@mail.gmail.com>
-To: Max Krummenacher <max.oss.09@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 08/10] strace: Fix build with glibc 2.28
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=PZJMb2VBm0pwoOGMh39Yylkxcld48CbR7fHGMN+3c1k=;
+	b=of2uzyMqCJke0RNbM7Q8kE5v0BpddA0qhW0itg+s+oWa58Wey9IK2yROdmhT25OGce
+	qOxuydyee5ijEhxU5UXtpuj2OTm4zGcu+/SUoOoCV6afDRR/YjorfE5NeEMAqjutwPW0
+	wviVGjZf2M09uEvwC7zpfoQ4e4SoBJLd4uJ1BN2XYcWsBb3W+g0q24SJCAdfxOqhcsjp
+	oZAL9dy/ulqUbER9GuV+7OQk6pAlcWVyUv3D1uM9qiADtMoLwMda2pHNeJabwKzcMt6h
+	xwCxRo2lXdcnSwCwQIo4lOgJkY0Gk6/Fw5gKlxS1QdeQrH2PaLu1jbOHRVwkuDeiBafe
+	s/pQ==
+X-Gm-Message-State: AOUpUlEKQEDdqcLPihDqMseHAwhyB8kfv/vFXHH7wPIbeudbuOmxExfh
+	YqBPTAR5MRV9Zo0X2yTvz69rK03R
+X-Google-Smtp-Source: AAOMgpd/ZYh9mffS6nyE8aJyEGyMJj+G/AucxtpH5U5oSpRT4PK1L+opDnm3vzaUGMmkPowrXduC/g==
+X-Received: by 2002:adf:a197:: with SMTP id
+	u23-v6mr8245978wru.50.1533498137026; 
+	Sun, 05 Aug 2018 12:42:17 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	y203-v6sm7133417wmd.1.2018.08.05.12.42.16
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 05 Aug 2018 12:42:16 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  5 Aug 2018 19:40:57 +0000
+Message-Id: <20180805194057.29488-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] bash: libjpeg-turbo: add -fomit-frame-pointer to DEBUG_OPTIMIZATION for armv[45] with thumb enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,127 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2018 15:15:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 05 Aug 2018 19:42:16 -0000
 
-On Sun, Aug 5, 2018 at 2:50 AM Max Krummenacher <max.oss.09@gmail.com> wrote:
->
-> Hi
->
-> Am Samstag, den 04.08.2018, 19:07 -0700 schrieb Khem Raj:
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  .../0001-tests-Include-linux-stat.h.patch     | 76 +++++++++++++++++++
-> >  meta/recipes-devtools/strace/strace_4.23.bb   |  1 +
-> >  2 files changed, 77 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/strace/strace/0001-tests-Include-linux-stat.h.patch
-> >
-> > diff --git a/meta/recipes-devtools/strace/strace/0001-tests-Include-linux-stat.h.patch
-> > b/meta/recipes-devtools/strace/strace/0001-tests-Include-linux-stat.h.patch
-> > new file mode 100644
-> > index 0000000000..cbb9c60de7
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/strace/strace/0001-tests-Include-linux-stat.h.patch
-> > @@ -0,0 +1,76 @@
-> > +From 264889246fcdd486867e8ca923094afa1689126c Mon Sep 17 00:00:00 2001
-> > +From: Khem Raj <raj.khem@gmail.com>
-> > +Date: Sat, 4 Aug 2018 13:18:03 -0700
-> > +Subject: [PATCH] tests: Include linux/stat.h
-> > +
-> > +Starting with glibc 2.28, sys/stat.h header will have the
-> > +definition for struct statx, in which case including  linux/stat.h should be
-> > +avoided, in order to prevent a duplicate definition.
-> > +
-> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > +---
-> > +Upstream-Status: Submitted [https://lists.strace.io/pipermail/strace-devel/2018-August/008329.htm
-> > l]
-> > + tests-m32/statx.c  | 7 +++++++
-> > + tests-mx32/statx.c | 8 +++++++-
-> > + tests/statx.c      | 8 +++++++-
-> > + 3 files changed, 21 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/tests-m32/statx.c b/tests-m32/statx.c
-> > +index 816b7eb..7364a02 100644
-> > +--- a/tests-m32/statx.c
-> > ++++ b/tests-m32/statx.c
-> > +@@ -30,6 +30,13 @@
-> > +
-> > + #ifdef __NR_statx
-> > +
-> > ++# if defined(__GLIBC__)
-> > ++#  if !__GLIBC_PREREQ(2,28)
-> > ++#   include <linux/stat.h>
-> > ++#  endif
-> > ++# else
-> > ++#  include <linux/stat.h>
-> > ++# endif
-> > + # include <linux/stat.h>
->
-> Shouldn't the unconditional include be removed?
->
+with thumb and debug enabled bash and libjpeg-turbo gets stuck forever
+when building for qemuarm.
 
-yes.
+bash gets stuck in:
+bash/4.4.18-r0/build/builtins$ arm-webos-linux-gnueabi-gcc  -march=armv5te -mthumb -fstack-protector-strong   --sysroot=bash/4.4.18-r0/recipe-sysroot -c  -DHAVE_CONFIG_H -DSHELL  -I. -I..  -I../../bash-4.4.18 -I../../bash-4.4.18/include -I../../bash-4.4.18/lib -I../../bash-4.4.18/builtins    -O -fno-omit-frame-pointer -g -DNON_INTERACTIVE_LOGIN_SHELLS read.c
+libjpeg-turbo gets stuck in:
+libjpeg-turbo/1_1.5.3-r0/build$ arm-webos-linux-gnueabi-gcc -march=armv5te -mthumb -fstack-protector-strong -Wformat -Wformat-security -Werror=format-security --sysroot=libjpeg-turbo/1_1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../libjpeg-turbo-1.5.3 -Wall -O -fno-omit-frame-pointer -g -feliminate-unused-debug-types -pipe -c ../libjpeg-turbo-1.5.3/turbojpeg.c  -fPIC -DPIC -o .libs/libturbojpeg_la-turbojpeg.o
 
-> Max
->
-> > + # include "xlat.h"
-> > + # include "xlat/statx_masks.h"
-> > +diff --git a/tests-mx32/statx.c b/tests-mx32/statx.c
-> > +index 816b7eb..e9f9993 100644
-> > +--- a/tests-mx32/statx.c
-> > ++++ b/tests-mx32/statx.c
-> > +@@ -30,7 +30,13 @@
-> > +
-> > + #ifdef __NR_statx
-> > +
-> > +-# include <linux/stat.h>
-> > ++# if defined(__GLIBC__)
-> > ++#  if !__GLIBC_PREREQ(2,28)
-> > ++#   include <linux/stat.h>
-> > ++#  endif
-> > ++# else
-> > ++#  include <linux/stat.h>
-> > ++# endif
-> > + # include "xlat.h"
-> > + # include "xlat/statx_masks.h"
-> > + # include "xlat/statx_attrs.h"
-> > +diff --git a/tests/statx.c b/tests/statx.c
-> > +index 816b7eb..e9f9993 100644
-> > +--- a/tests/statx.c
-> > ++++ b/tests/statx.c
-> > +@@ -30,7 +30,13 @@
-> > +
-> > + #ifdef __NR_statx
-> > +
-> > +-# include <linux/stat.h>
-> > ++# if defined(__GLIBC__)
-> > ++#  if !__GLIBC_PREREQ(2,28)
-> > ++#   include <linux/stat.h>
-> > ++#  endif
-> > ++# else
-> > ++#  include <linux/stat.h>
-> > ++# endif
-> > + # include "xlat.h"
-> > + # include "xlat/statx_masks.h"
-> > + # include "xlat/statx_attrs.h"
-> > +--
-> > +2.18.0
-> > +
-> > diff --git a/meta/recipes-devtools/strace/strace_4.23.bb b/meta/recipes-
-> > devtools/strace/strace_4.23.bb
-> > index 0c159fc6f6..d966a77b89 100644
-> > --- a/meta/recipes-devtools/strace/strace_4.23.bb
-> > +++ b/meta/recipes-devtools/strace/strace_4.23.bb
-> > @@ -14,6 +14,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-> >             file://mips-SIGEMT.patch \
-> >             file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-> >             file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
-> > +           file://0001-tests-Include-linux-stat.h.patch \
-> >             "
-> >  SRC_URI[md5sum] = "fad4bba0947553cef34d46a9fd78f039"
-> >  SRC_URI[sha256sum] = "7860a6965f1dd832747bd8281a04738274398d32c56e9fbd0a68b1bb9ec09aad"
-> > --
-> > 2.18.0
-> >
+when -mthumb, -fstack-protector-strong, -fno-omit-frame-pointer appear
+together, removing one of them is enough for successful build.
+
+similar to:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150654.html
+but in this case the build gets stuck instead of failure
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-extended/bash/bash_4.4.18.bb         | 3 +++
+ meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/meta/recipes-extended/bash/bash_4.4.18.bb b/meta/recipes-extended/bash/bash_4.4.18.bb
+index 0b22ca7a69..b338acd9dc 100644
+--- a/meta/recipes-extended/bash/bash_4.4.18.bb
++++ b/meta/recipes-extended/bash/bash_4.4.18.bb
+@@ -19,4 +19,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+ SRC_URI[tarball.md5sum] = "518e2c187cc11a17040f0915dddce54e"
+ SRC_URI[tarball.sha256sum] = "604d9eec5e4ed5fd2180ee44dd756ddca92e0b6aa4217bbab2b6227380317f23"
+ 
++DEBUG_OPTIMIZATION_append_armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++DEBUG_OPTIMIZATION_append_armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++
+ BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb
+index c453fdd9e0..9e1bc0e34d 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb
+@@ -41,6 +41,9 @@ EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("MIPSPKGSFX_FPU", "-nf
+ EXTRA_OECONF_append_class-target_powerpc = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "--without-simd", d)}"
+ EXTRA_OECONF_append_class-target_powerpc64 = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "--without-simd", d)}"
+ 
++DEBUG_OPTIMIZATION_append_armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++DEBUG_OPTIMIZATION_append_armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++
+ def get_build_time(d):
+     if d.getVar('SOURCE_DATE_EPOCH') != None:
+         import datetime
+-- 
+2.17.1
+
 
