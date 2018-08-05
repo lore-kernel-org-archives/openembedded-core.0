@@ -1,49 +1,51 @@
 Return-Path: <ptsneves@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id EAC7B78A74
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 51D4C78A84
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Aug 2018 14:43:21 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id o18-v6so11597782wmc.0
+	Sun,  5 Aug 2018 14:43:47 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id h14-v6so9863874wrw.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2018 07:43:23 -0700 (PDT)
+	Sun, 05 Aug 2018 07:43:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OAYQ37MW8yYnnWCKHNJkOSTAdb9mCDdeW2j91+AC2+k=;
-	b=f+R5oGrH9RgtHrdG+hOTTvBFQlZNdqGrEQXDd5n/YuO7R4+DzNvE9Nxqql1N2+trBF
-	jUThVvZP8HEhXeQ3gwC7sGST/8w5L8YV6CLtbS/62vCeqxjU2uPcsnEvLWmXM0flEa2x
-	SeZz582oLNxuDg4nCOm2r+eLxUXtPVDzCE9Zbfi7b7bN+V4wtNkXVd2/sK9VWs3RDLiw
-	g7B+JLyvJtjrqbYqZ5DGPCkXp66WV5qeCemUrntJjfo10b6/zU0LLXdV4wo87LTlPSMd
-	Z3G11sL+YZMijgCPQQpoQUDs8UiO+UUBFP9Vr4wwXMymjGFmIyQTe7N6EFPvtJJ9Sffu
-	BL4g==
+	bh=6G1F3VzDVDKnczaRA+Mr6M+7m8lMIPKyYAenuEzC4Pg=;
+	b=AekZ05QMDLrIOumRPAo1g1xrXcXi06YVVyhM0lzVsp9szuITdgWQN/Vqsd96cHIaX4
+	sJdbcEGWSM4OGZh/LnMDkzj8k2p0NGve8JFcN97+IdPHgXjAPBIXNTpZ1taT5xEo7avL
+	dTkAjyIk/li/Kd9njKJvZeOKaECnT6BQIIcvdhEl/OGspHTLzrBer7n0QzaaXd9pLYqc
+	7BuapjtdTgboXa5dLZLWjUY1rg8AHSQIJ1dNh1KEZSkT766OkiaaUm1vids79tbMeGlE
+	mrVS7Q55yBNgQ98JHcoj/a7NXcbFwLkMEayrsbKlNNoRJq4cz7baHYXvP6VBEZ7rumVe
+	k1Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=OAYQ37MW8yYnnWCKHNJkOSTAdb9mCDdeW2j91+AC2+k=;
-	b=bBjlbU1u7uc//n4/3owFr/R7cmLq1OewXYKfSsGxtPEmujLY0lnE2KWtmKiy7PrM5D
-	rLORjZwjHurH8IifwoXuPeSNguc0WjMiMYYN0hRmb3HjQEDvWngYjhX3j108QJpBFDcH
-	OYhW0wHJlKaiUja2cyboJdb78orJ4Au1LBwJgQUMbYRPQvKRoHo6XjxsDsHhGvkkz25V
-	cP5YIS1lWoMdqt/gg7Tol9ufihSSpMBxORlJl4ApQWLFmD9rh2WsI0yA0O7lwsrVDKAx
-	Yr+CRE/hGD6kgeBsvzF8nwkGWhQZMWGebuw9OhUsaieSpvQf0loVIQ/4CI9WnXaCXDji
-	RMSw==
-X-Gm-Message-State: AOUpUlEgbmDeUvHtSdtHvGxMYKz/rb2ThneH3CniSfACydmuHPTx7w3I
-	gRzEYoL/gzhzZVQekMLgzBEWyTvdPg==
-X-Google-Smtp-Source: AAOMgpeKT/lvy4X+CNKvHqh8qqjJ+HIOGXSO4n/jac1/UgciJJPdOXEwdfDLJlknTwKEVGr8jvefzw==
-X-Received: by 2002:a1c:e54:: with SMTP id 81-v6mr10116900wmo.84.1533480201871;
-	Sun, 05 Aug 2018 07:43:21 -0700 (PDT)
+	bh=6G1F3VzDVDKnczaRA+Mr6M+7m8lMIPKyYAenuEzC4Pg=;
+	b=IG2nZcFiBA3c6RPjN/FZgjLIr+IH1iOhdHOWI4/+MpCVrNicr/d87B2PaEKcL4iEIv
+	4Q2cPUcxgMnH9j36Oad1g8x66qoyLHS9PxEu+Aw0e//JKbf5qDH/jVVytDyXdTl8M48+
+	sv+TP/cqREayZphfS7eGon7YJs7/g5RUEb2pO7PznA8ssez8imsqsrBu5dAldhMLEjVW
+	cOaR5VbfG+sYrQ8kSFWxYcho+tukU8WEsXW8zj0bYq4y4rTiAg3/ENOlG7F4BPHilhYQ
+	P+XIKSOUS/MD86m6ARlJ92RvudmfFaih88cImEqv4XOx1eLYBgu97SRu874OJ6618z7w
+	ZrZQ==
+X-Gm-Message-State: AOUpUlHX5UIw5A+s+yg81/mgJ8MRMFwc6PAKNmNc7/noRlvaKI9oY/M3
+	oFqiOmaDFqWsFr/SjW+K1v5hHH9k9g==
+X-Google-Smtp-Source: AAOMgpd4YA2Ft4ccM+GbzajI0bpZib1onq+QrQ+snnRKDkBl3BKi8nf78yChChikl+T2KLgSCWT6JQ==
+X-Received: by 2002:adf:eac8:: with SMTP id
+	o8-v6mr6809041wrn.150.1533480227814; 
+	Sun, 05 Aug 2018 07:43:47 -0700 (PDT)
 Received: from localhost.localdomain (64.196.28.37.rev.vodafone.pt.
 	[37.28.196.64]) by smtp.gmail.com with ESMTPSA id
-	b13-v6sm11073701wrs.43.2018.08.05.07.43.20
+	b13-v6sm11073701wrs.43.2018.08.05.07.43.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 05 Aug 2018 07:43:21 -0700 (PDT)
+	Sun, 05 Aug 2018 07:43:47 -0700 (PDT)
 From: Paulo Neves <ptsneves@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Aug 2018 16:40:39 +0200
-Message-Id: <1533480041-6431-2-git-send-email-ptsneves@gmail.com>
+Date: Sun,  5 Aug 2018 16:40:40 +0200
+Message-Id: <1533480041-6431-3-git-send-email-ptsneves@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1533480041-6431-1-git-send-email-ptsneves@gmail.com>
 References: <1533480041-6431-1-git-send-email-ptsneves@gmail.com>
-Subject: [PATCH 2/4] testimage: Refactoring and fixing.
+Subject: [PATCH 3/4] testimage: target.start exceptions not masked.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,806 +58,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2018 14:43:22 -0000
+X-List-Received-Date: Sun, 05 Aug 2018 14:43:47 -0000
 
-The testimage.bbclass invocation of controllers besides
-simpletarget and qemutarget was broken.
-Setting TEST_TARGET to
-class names did not work, only hardcoded values set in context.py were allowed.
-On the other hand the other TEST_TARGETs available were
-supposedly available through the class name convetion but
-none of them were working. See:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=12842
-
-In this commit qemuwrapper and simpletarget TEST_TARGETS are now
-not available through these names, but through the common
-convention of class names.
-
-The code for layer defined controllers was outdated and broken
-because the example controllers in meta-yocto-bsp as well as
-the controllers available in masterimage were dependent only
-on the datastore d being available for __init__ contruction, when
-the testimage.bbclass and context.py, which initialize
-test controllers never passed the datastore. This commit fixes
-all the controllers to not use the datastore, but the testdata
-json file that is loaded by the testimage.bbclass. This way
-the tests can still be exported to be ran outside bitbake. The
-kwargs and logger is still passed in the constructor and there
-maybe some redundancies between the kwargs and the td test
-datstore, but this is not addressed in this commit.
-
-In masterimage.py there was a duplicate SystemdbootTarget which
-was removed. It is my opinion that all targets should go to
-meta-yocto-bsp or meta/ and should not get special treatment whether they come
-from poky or other layer.
-
-There was a functionality that was lost in masterimage about
-retrieving a fresh BB_ORIGENV. The test data json file does not
-store this, so the build-time enviromental variables cannot
-be retrieved later on, when running the tests.
-
-The deploy() method invocation of the test cases was removed in
-the refactoring and this commit re-adds it in the same logical
-place. The deploy method was added as an abstract method so that
-all Test controller classes have this method. This method had been
-lost and was not used in the simpleremote and qemuwrapper, because
-these controllers do not need the functionality, but almost any
-real board requires certain steps to deploy the new images, before
-the tests can be ran. An example of this need was visible in the
-master image and subclasses in meta-yocto-bsp.
-
-A dependency on images fstypes of qemu was removed from testimage.
-The allowed file system types were not relevant for other controllers,
-and made it so that there was an import of the OEQemuTarget python
-class applicable to all possible controllers, including non qemu.
-
-The manual was changed wherever I saw it was appropriate but,
-some improvements may still be needed.
-
-The SimpleRemoteTarget, OEQemuTarget and a custom controller,
-developed according to the manual were successfully tested.
+Previously the target.start exceptions were being
+masked by the catch clause of RuntimeError and
+BlockingIOError which are very broad. We decoupled
+the start method try clause from the runTests try
+clause which requires catching the BlockingIOError and
+RuntimeError.
 
 Signed-off-by: Paulo Neves <ptsneves@gmail.com>
 ---
- .../dev-manual/dev-manual-common-tasks.xml         |   8 +-
- documentation/ref-manual/ref-variables.xml         |  19 +---
- .../lib/oeqa/controllers/beaglebonetarget.py       |   6 +-
- .../lib/oeqa/controllers/edgeroutertarget.py       |   6 +-
- meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py  |   4 +-
- meta/classes/testimage.bbclass                     |  18 +---
- meta/lib/oeqa/controllers/masterimage.py           | 107 ++++++---------------
- .../target/qemu.py => controllers/qemutarget.py}   |  30 ++++--
- meta/lib/oeqa/controllers/simpleremote.py          |  33 +++++++
- .../target/ssh.py => controllers/sshtarget.py}     |   9 +-
- meta/lib/oeqa/core/target/__init__.py              |   4 +
- meta/lib/oeqa/runtime/context.py                   |  32 +-----
- meta/lib/oeqa/targetcontrol.py                     |  97 ++++++-------------
- 13 files changed, 153 insertions(+), 220 deletions(-)
- rename meta/lib/oeqa/{core/target/qemu.py => controllers/qemutarget.py} (58%)
- create mode 100644 meta/lib/oeqa/controllers/simpleremote.py
- rename meta/lib/oeqa/{core/target/ssh.py => controllers/sshtarget.py} (98%)
+ meta/classes/testimage.bbclass | 36 +++++++++++++++++++++---------------
+ 1 file changed, 21 insertions(+), 15 deletions(-)
 
-diff --git a/documentation/dev-manual/dev-manual-common-tasks.xml b/documentation/dev-manual/dev-manual-common-tasks.xml
-index fe1bfba..95aa533 100644
---- a/documentation/dev-manual/dev-manual-common-tasks.xml
-+++ b/documentation/dev-manual/dev-manual-common-tasks.xml
-@@ -11400,7 +11400,7 @@
-                             within a separately started QEMU or any
-                             other virtual machine manager.
-                             </para></listitem>
--                        <listitem><para><emphasis>"Systemd-bootTarget":</emphasis>
-+                        <listitem><para><emphasis>"SystemdbootTarget":</emphasis>
-                             Choose "Systemd-bootTarget" if your hardware is
-                             an EFI-based machine with
-                             <filename>systemd-boot</filename> as bootloader and
-@@ -11459,10 +11459,10 @@
-             </section>
- 
-             <section id='selecting-systemd-boottarget'>
--                <title>Selecting Systemd-bootTarget</title>
-+                <title>Selecting SystemdbootTarget</title>
- 
-                 <para>
--                    If you did not set <filename>TEST_TARGET</filename> to
-+                    If you did not set <filename>TEST_TARG
-                     "Systemd-bootTarget", then you do not need any information
-                     in this section.
-                     You can skip down to the
-@@ -11472,7 +11472,7 @@
- 
-                 <para>
-                     If you did set <filename>TEST_TARGET</filename> to
--                    "Systemd-bootTarget", you also need to perform a one-time
-+                    "SystemdbootTarget", you also need to perform a one-time
-                     setup of your master image by doing the following:
-                     <orderedlist>
-                         <listitem><para><emphasis>Set <filename>EFI_PROVIDER</filename>:</emphasis>
-diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
-index 1c55a92..15dcca7 100644
---- a/documentation/ref-manual/ref-variables.xml
-+++ b/documentation/ref-manual/ref-variables.xml
-@@ -15128,35 +15128,24 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
-                     You can provide the following arguments with
-                     <filename>TEST_TARGET</filename>:
-                     <itemizedlist>
--                        <listitem><para><emphasis>"qemu" and "QemuTarget":</emphasis>
-+                        <listitem><para><emphasis>"QemuTarget":</emphasis>
-                             Boots a QEMU image and runs the tests.
-                             See the
-                             "<ulink url='&YOCTO_DOCS_DEV_URL;#qemu-image-enabling-tests'>Enabling Runtime Tests on QEMU</ulink>"
-                             section in the Yocto Project Development Tasks
-                             Manual for more information.
-                             </para></listitem>
--                        <listitem><para><emphasis>"simpleremote" and "SimpleRemoteTarget":</emphasis>
-+                        <listitem><para><emphasis>"SimpleRemoteTarget":</emphasis>
-                             Runs the tests on target hardware that is already
-                             up and running.
-                             The hardware can be on the network or it can be
-                             a device running an image on QEMU.
-                             You must also set
-                             <link linkend='var-TEST_TARGET_IP'><filename>TEST_TARGET_IP</filename></link>
--                            when you use "simpleremote" or "SimpleRemoteTarget".
-+                            when you use "SimpleRemoteTarget".
-                             <note>
-                                 This argument is defined in
--                                <filename>meta/lib/oeqa/targetcontrol.py</filename>.
--                                The small caps names are kept for compatibility
--                                reasons.
--                            </note>
--                            </para></listitem>
--                        <listitem><para><emphasis>"GummibootTarget":</emphasis>
--                            Automatically deploys and runs tests on an
--                            EFI-enabled machine that has a master image
--                            installed.
--                            <note>
--                                This argument is defined in
--                                <filename>meta/lib/oeqa/controllers/masterimage.py</filename>.
-+                                <filename>meta/lib/oeqa/controllers/simpleremote.py</filename>.
-                             </note>
-                             </para></listitem>
-                     </itemizedlist>
-diff --git a/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py b/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
-index 0f1aeb3..440a8f8 100644
---- a/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
-+++ b/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
-@@ -36,10 +36,10 @@ class BeagleBoneTarget(MasterImageHardwareTarget):
-     def get_extra_files(self):
-         return list(self.dtbs.keys())
- 
--    def __init__(self, d):
--        super(BeagleBoneTarget, self).__init__(d)
-+    def __init__(self, td, logger, **kwargs):
-+        super(BeagleBoneTarget, self).__init__(td, logger, **kwargs)
- 
--        self.image_fstype = self.get_image_fstype(d)
-+        self.image_fstype = self.get_image_fstype(td)
-         self.deploy_cmds = [
-                 'mkdir -p /mnt/testrootfs',
-                 'mount -L testrootfs /mnt/testrootfs',
-diff --git a/meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py b/meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py
-index 9c47b5b..3c5484c 100644
---- a/meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py
-+++ b/meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py
-@@ -41,10 +41,10 @@ from oeqa.controllers.masterimage import MasterImageHardwareTarget
- 
- class EdgeRouterTarget(MasterImageHardwareTarget):
- 
--    def __init__(self, d):
--        super(EdgeRouterTarget, self).__init__(d)
-+    def __init__(self, td, logger, **kwargs):
-+        super(EdgeRouterTarget, self).__init__(td, logger, **kwargs)
- 
--        self.image_fstype = self.get_image_fstype(d)
-+        self.image_fstype = self.get_image_fstype(td)
-         self.deploy_cmds = [
-                 'mount -L boot /boot',
-                 'mkdir -p /mnt/testrootfs',
-diff --git a/meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py b/meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py
-index 7bc807d..941c31f 100644
---- a/meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py
-+++ b/meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py
-@@ -24,8 +24,8 @@ from oeqa.controllers.masterimage import MasterImageHardwareTarget
- 
- class GrubTarget(MasterImageHardwareTarget):
- 
--    def __init__(self, d):
--        super(GrubTarget, self).__init__(d)
-+    def __init__(self, td, logger, **kwargs):
-+        super(GrubTarget, self).__init__(td, logger, **kwargs)
-         self.deploy_cmds = [
-                 'mount -L boot /boot',
-                 'mkdir -p /mnt/testrootfs',
 diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 9feb267..1b33f72 100644
+index 1b33f72..8e42294 100644
 --- a/meta/classes/testimage.bbclass
 +++ b/meta/classes/testimage.bbclass
-@@ -70,7 +70,7 @@ DEFAULT_TEST_SUITES_remove_qemumips64 = "${MIPSREMOVE}"
- TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
- 
- TEST_QEMUBOOT_TIMEOUT ?= "1000"
--TEST_TARGET ?= "qemu"
-+TEST_TARGET ?= "OEQemuTarget"
- 
- TESTIMAGEDEPENDS = ""
- TESTIMAGEDEPENDS_qemuall = "qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot qemu-helper-native:do_addto_recipe_sysroot"
-@@ -142,7 +142,6 @@ def testimage_main(d):
-     from oeqa.core.utils.misc import updateTestData
-     from oeqa.runtime.context import OERuntimeTestContext
-     from oeqa.runtime.context import OERuntimeTestContextExecutor
--    from oeqa.core.target.qemu import supported_fstypes
-     from oeqa.core.utils.test import getSuiteCases
-     from oeqa.utils import make_logger_bitbake_compatible
- 
-@@ -184,15 +183,6 @@ def testimage_main(d):
-     # Get machine
-     machine = d.getVar("MACHINE")
- 
--    # Get rootfs
--    fstypes = [fs for fs in d.getVar('IMAGE_FSTYPES').split(' ')
--                  if fs in supported_fstypes]
--    if not fstypes:
--        bb.fatal('Unsupported image type built. Add a comptible image to '
--                 'IMAGE_FSTYPES. Supported types: %s' %
--                 ', '.join(supported_fstypes))
--    rootfs = '%s.%s' % (image_name, fstypes[0])
--
-     # Get tmpdir (not really used, just for compatibility)
-     tmpdir = d.getVar("TMPDIR")
- 
-@@ -225,7 +215,6 @@ def testimage_main(d):
-     # TODO: We use the current implementatin of qemu runner because of
-     # time constrains, qemu runner really needs a refactor too.
-     target_kwargs = { 'machine'     : machine,
--                      'rootfs'      : rootfs,
-                       'tmpdir'      : tmpdir,
-                       'dir_image'   : dir_image,
-                       'display'     : display,
-@@ -248,9 +237,7 @@ def testimage_main(d):
-         d.getVar("TESTIMAGE_DUMP_DIR"))
- 
-     # the robot dance
--    target = OERuntimeTestContextExecutor.getTarget(
--        d.getVar("TEST_TARGET"), logger, d.getVar("TEST_TARGET_IP"),
--        d.getVar("TEST_SERVER_IP"), **target_kwargs)
-+    target = OERuntimeTestContextExecutor.getTarget(d.getVar("TEST_TARGET"), td, logger, **target_kwargs)
- 
-     # test context
-     tc = OERuntimeTestContext(td, logger, target, host_dumper,
-@@ -277,6 +264,7 @@ def testimage_main(d):
+@@ -264,24 +264,30 @@ def testimage_main(d):
          # Add systemd.log_level=debug to enable systemd debug logging
          bootparams = 'systemd.log_target=console'
  
-+    tc.target.deploy()
-     results = None
-     orig_sigterm_handler = signal.signal(signal.SIGTERM, sigterm_exception)
++
+     tc.target.deploy()
+-    results = None
+-    orig_sigterm_handler = signal.signal(signal.SIGTERM, sigterm_exception)
++
++    #We do not want the runTests to mask exeptions of target.start but we want a failed start
++    #to trigger a stop.
      try:
-diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index a2912fc..26e3870 100644
---- a/meta/lib/oeqa/controllers/masterimage.py
-+++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -28,18 +28,18 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
- 
-     supported_image_fstypes = ['tar.gz', 'tar.bz2']
- 
--    def __init__(self, d):
--        super(MasterImageHardwareTarget, self).__init__(d)
-+    def __init__(self, td, logger, **kwargs):
-+        super(MasterImageHardwareTarget, self).__init__(td, logger, **kwargs)
- 
-         # target ip
--        addr = d.getVar("TEST_TARGET_IP") or bb.fatal('Please set TEST_TARGET_IP with the IP address of the machine you want to run the tests on.')
-+        addr = td['TEST_TARGET_IP'] or bb.fatal('Please set TEST_TARGET_IP with the IP address of the machine you want to run the tests on.')
-         self.ip = addr.split(":")[0]
-         try:
-             self.port = addr.split(":")[1]
-         except IndexError:
-             self.port = None
-         bb.note("Target IP: %s" % self.ip)
--        self.server_ip = d.getVar("TEST_SERVER_IP")
-+        self.server_ip = td['TEST_SERVER_IP']
-         if not self.server_ip:
-             try:
-                 self.server_ip = subprocess.check_output(['ip', 'route', 'get', self.ip ]).split("\n")[0].split()[-1]
-@@ -48,50 +48,47 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
-         bb.note("Server IP: %s" % self.server_ip)
- 
-         # test rootfs + kernel
--        self.image_fstype = self.get_image_fstype(d)
--        self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), d.getVar("IMAGE_LINK_NAME") + '.' + self.image_fstype)
--        self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
-+        self.image_fstype = self.get_image_fstype(td)
-+        self.rootfs = os.path.join(td['DEPLOY_DIR_IMAGE'], td['IMAGE_LINK_NAME'] + '.' + self.image_fstype)
-+        self.kernel = os.path.join(td['DEPLOY_DIR_IMAGE'], td["KERNEL_IMAGETYPE"] + '-' + td['MACHINE'] + '.bin')
-         if not os.path.isfile(self.rootfs):
-             # we could've checked that IMAGE_FSTYPES contains tar.gz but the config for running testimage might not be
-             # the same as the config with which the image was build, ie
-             # you bitbake core-image-sato with IMAGE_FSTYPES += "tar.gz"
-             # and your autobuilder overwrites the config, adds the test bits and runs bitbake core-image-sato -c testimage
--            bb.fatal("No rootfs found. Did you build the image ?\nIf yes, did you build it with IMAGE_FSTYPES += \"tar.gz\" ? \
--                      \nExpected path: %s" % self.rootfs)
-+            bb.fatal("No rootfs found. Did you build the image ?\n"  \
-+              "If yes, did you build it with IMAGE_FSTYPES += \"{}\" ?"  \
-+              "\nExpected path: {}".format(" ".join(self.supported_image_fstypes), self.rootfs))
-         if not os.path.isfile(self.kernel):
-             bb.fatal("No kernel found. Expected path: %s" % self.kernel)
- 
-         # master ssh connection
-         self.master = None
-+
-         # if the user knows what they are doing, then by all means...
--        self.user_cmds = d.getVar("TEST_DEPLOY_CMDS")
-+        self.user_cmds = td['TEST_DEPLOY_CMDS'] if 'TEST_DEPLOY_CMDS' in td else None
-         self.deploy_cmds = None
- 
--        # this is the name of the command that controls the power for a board
--        # e.g: TEST_POWERCONTROL_CMD = "/home/user/myscripts/powercontrol.py ${MACHINE} what-ever-other-args-the-script-wants"
--        # the command should take as the last argument "off" and "on" and "cycle" (off, on)
--        self.powercontrol_cmd = d.getVar("TEST_POWERCONTROL_CMD") or None
--        self.powercontrol_args = d.getVar("TEST_POWERCONTROL_EXTRA_ARGS", False) or ""
--
--        self.serialcontrol_cmd = d.getVar("TEST_SERIALCONTROL_CMD") or None
--        self.serialcontrol_args = d.getVar("TEST_SERIALCONTROL_EXTRA_ARGS", False) or ""
--
-         self.origenv = os.environ
--        if self.powercontrol_cmd or self.serialcontrol_cmd:
--            # the external script for controlling power might use ssh
--            # ssh + keys means we need the original user env
--            bborigenv = d.getVar("BB_ORIGENV", False) or {}
--            for key in bborigenv:
--                val = bborigenv.getVar(key)
--                if val is not None:
--                    self.origenv[key] = str(val)
- 
--        if self.powercontrol_cmd:
--            if self.powercontrol_args:
--                self.powercontrol_cmd = "%s %s" % (self.powercontrol_cmd, self.powercontrol_args)
--        if self.serialcontrol_cmd:
--            if self.serialcontrol_args:
--                self.serialcontrol_cmd = "%s %s" % (self.serialcontrol_cmd, self.serialcontrol_args)
-+        # TEST_POWERCONTROL_CMD is the name of the command that controls the power for a board.
-+        # the command should take as the last argument "off" and "on" and "cycle" (off, on)
-+        self.powercontrol_cmd = None
-+        self.powercontrol_args = None
-+        self.serialcontrol_cmd = None
-+        self.serialcontrol_args = None
-+
-+        if 'TEST_POWERCONTROL_CMD' in td:
-+            self.powercontrol_cmd = td['TEST_POWERCONTROL_CMD']
-+            if 'TEST_POWERCONTROL_EXTRA_ARGS' in td:
-+                powercontrol_args = td['TEST_POWERCONTROL_EXTRA_ARGS']
-+                self.powercontrol_cmd = "%s %s" % (self.powercontrol_cmd, powercontrol_args)
-+
-+        if 'TEST_SERIALCONTROL_CMD' in td:
-+            self.serialcontrol_cmd = td['TEST_SERIALCONTROL_CMD']
-+            if 'TEST_SERIALCONTROL_EXTRA_ARGS' in td:
-+                serialcontrol_args = td['TEST_SERIALCONTROL_EXTRA_ARGS']
-+                self.serialcontrol_cmd = "%s %s" % (self.serialcontrol_cmd, serialcontrol_args)
- 
-     def power_ctl(self, msg):
-         if self.powercontrol_cmd:
-@@ -161,48 +158,8 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
- 
- class SystemdbootTarget(MasterImageHardwareTarget):
- 
--    def __init__(self, d):
--        super(SystemdbootTarget, self).__init__(d)
--        # this the value we need to set in the LoaderEntryOneShot EFI variable
--        # so the system boots the 'test' bootloader label and not the default
--        # The first four bytes are EFI bits, and the rest is an utf-16le string
--        # (EFI vars values need to be utf-16)
--        # $ echo -en "test\0" | iconv -f ascii -t utf-16le | hexdump -C
--        # 00000000  74 00 65 00 73 00 74 00  00 00                    |t.e.s.t...|
--        self.efivarvalue = r'\x07\x00\x00\x00\x74\x00\x65\x00\x73\x00\x74\x00\x00\x00'
--        self.deploy_cmds = [
--                'mount -L boot /boot',
--                'mkdir -p /mnt/testrootfs',
--                'mount -L testrootfs /mnt/testrootfs',
--                'modprobe efivarfs',
--                'mount -t efivarfs efivarfs /sys/firmware/efi/efivars',
--                'cp ~/test-kernel /boot',
--                'rm -rf /mnt/testrootfs/*',
--                'tar xvf ~/test-rootfs.%s -C /mnt/testrootfs' % self.image_fstype,
--                'printf "%s" > /sys/firmware/efi/efivars/LoaderEntryOneShot-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f' % self.efivarvalue
--                ]
--
--    def _deploy(self):
--        # make sure these aren't mounted
--        self.master.run("umount /boot; umount /mnt/testrootfs; umount /sys/firmware/efi/efivars;")
--        # from now on, every deploy cmd should return 0
--        # else an exception will be thrown by sshcontrol
--        self.master.ignore_status = False
--        self.master.copy_to(self.rootfs, "~/test-rootfs." + self.image_fstype)
--        self.master.copy_to(self.kernel, "~/test-kernel")
--        for cmd in self.deploy_cmds:
--            self.master.run(cmd)
--
--    def _start(self, params=None):
--        self.power_cycle(self.master)
--        # there are better ways than a timeout but this should work for now
--        time.sleep(120)
--
--
--class SystemdbootTarget(MasterImageHardwareTarget):
--
--    def __init__(self, d):
--        super(SystemdbootTarget, self).__init__(d)
-+    def __init__(self, td, logger, **kwargs):
-+        super(SystemdbootTarget, self).__init__(td, logger, **kwargs)
-         # this the value we need to set in the LoaderEntryOneShot EFI variable
-         # so the system boots the 'test' bootloader label and not the default
-         # The first four bytes are EFI bits, and the rest is an utf-16le string
-diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/controllers/qemutarget.py
-similarity index 58%
-rename from meta/lib/oeqa/core/target/qemu.py
-rename to meta/lib/oeqa/controllers/qemutarget.py
-index bf3b633..a867dfb 100644
---- a/meta/lib/oeqa/core/target/qemu.py
-+++ b/meta/lib/oeqa/controllers/qemutarget.py
-@@ -6,24 +6,37 @@ import sys
- import signal
- import time
- 
--from .ssh import OESSHTarget
-+from oeqa.controllers.sshtarget import OESSHTarget
- from oeqa.utils.qemurunner import QemuRunner
- 
--supported_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
- 
- class OEQemuTarget(OESSHTarget):
--    def __init__(self, logger, ip, server_ip, timeout=300, user='root',
-+    supported_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
-+    def __init__(self, td, logger, timeout=300, user='root',
-             port=None, machine='', rootfs='', kernel='', kvm=False,
-             dump_dir='', dump_host_cmds='', display='', bootlog='',
-             tmpdir='', dir_image='', boottime=60, **kwargs):
- 
--        super(OEQemuTarget, self).__init__(logger, ip, server_ip, timeout,
--                user, port)
-+        super(OEQemuTarget, self).__init__(td, logger, timeout, user, port)
- 
--        self.ip = ip
--        self.server_ip = server_ip
-+        self.ip = td['TEST_TARGET_IP']
-+        self.server_ip = td['TEST_SERVER_IP']
-         self.machine = machine
-+
-+
-+        image_name = ("%s/%s" % (td['DEPLOY_DIR_IMAGE'], td['IMAGE_LINK_NAME']))
-+
-+        # Get rootfs
-+        if not rootfs:
-+            fstypes = [fs for fs in td['IMAGE_FSTYPES'].split(' ')
-+                          if fs in self.supported_fstypes]
-+            if not fstypes:
-+                bb.fatal('Unsupported image type built. Add a comptible image to '
-+                         'IMAGE_FSTYPES. Supported types: %s' %
-+                         ', '.join(self.supported_fstypes))
-+            rootfs = '%s.%s' % (image_name, fstypes[0])
-         self.rootfs = rootfs
-+
-         self.kernel = kernel
-         self.kvm = kvm
- 
-@@ -41,5 +54,8 @@ class OEQemuTarget(OESSHTarget):
-             self.stop()
-             raise RuntimeError("FAILED to start qemu - check the task log and the boot log")
- 
-+    def deploy(self):
-+        pass
-+
-     def stop(self):
-         self.runner.stop()
-diff --git a/meta/lib/oeqa/controllers/simpleremote.py b/meta/lib/oeqa/controllers/simpleremote.py
-new file mode 100644
-index 0000000..5f945d0
---- /dev/null
-+++ b/meta/lib/oeqa/controllers/simpleremote.py
-@@ -0,0 +1,33 @@
-+from oeqa.targetcontrol import BaseTarget
-+from oeqa.utils.sshcontrol import SSHControl
-+
-+class SimpleRemoteTarget(BaseTarget):
-+
-+    def __init__(self, td, logger, **kwargs):
-+        super(SimpleRemoteTarget, self).__init__(td, logger, **kwargs)
-+        addr = td['TEST_TARGET_IP'] or bb.fatal('Please set TEST_TARGET_IP with the IP address of the machine you want to run the tests on.')
-+        self.ip = addr.split(":")[0]
-+        try:
-+            self.port = addr.split(":")[1]
-+        except IndexError:
-+            self.port = None
-+        self.logger.info("Target IP: %s" % self.ip)
-+        self.server_ip = td['TEST_SERVER_IP']
-+        if not self.server_ip:
-+            try:
-+                self.server_ip = subprocess.check_output(['ip', 'route', 'get', self.ip ]).split("\n")[0].split()[-1]
-+            except Exception as e:
-+                bb.fatal("Failed to determine the host IP address (alternatively you can set TEST_SERVER_IP with the IP address of this machine): %s" % e)
-+        self.logger.info("Server IP: %s" % self.server_ip)
-+
-+    def deploy(self):
-+        super(SimpleRemoteTarget, self).deploy()
-+
-+    def start(self, params=None, ssh=True, extra_bootparams=None):
-+        if ssh:
-+            self.connection = SSHControl(self.ip, logfile=self.sshlog, port=self.port)
-+
-+    def stop(self):
-+        self.connection = None
-+        self.ip = None
-+        self.server_ip = None
-diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/controllers/sshtarget.py
-similarity index 98%
-rename from meta/lib/oeqa/core/target/ssh.py
-rename to meta/lib/oeqa/controllers/sshtarget.py
-index 8ff1f6c..fd1c0b2 100644
---- a/meta/lib/oeqa/core/target/ssh.py
-+++ b/meta/lib/oeqa/controllers/sshtarget.py
-@@ -8,10 +8,10 @@ import logging
- import subprocess
- import codecs
- 
--from . import OETarget
-+from oeqa.core.target import OETarget
- 
- class OESSHTarget(OETarget):
--    def __init__(self, logger, ip, server_ip, timeout=300, user='root',
-+    def __init__(self, td, logger, timeout=300, user='root',
-                  port=None, **kwargs):
-         if not logger:
-             logger = logging.getLogger('target')
-@@ -25,8 +25,9 @@ class OESSHTarget(OETarget):
-             logger.addHandler(fileHandler)
- 
-         super(OESSHTarget, self).__init__(logger)
--        self.ip = ip
--        self.server_ip = server_ip
-+        self.ip = td['TEST_TARGET_IP']
-+        self.server_ip = td['TEST_SERVER_IP']
-+
-         self.timeout = timeout
-         self.user = user
-         ssh_options = [
-diff --git a/meta/lib/oeqa/core/target/__init__.py b/meta/lib/oeqa/core/target/__init__.py
-index d2468bc..081a30e 100644
---- a/meta/lib/oeqa/core/target/__init__.py
-+++ b/meta/lib/oeqa/core/target/__init__.py
-@@ -21,6 +21,10 @@ class OETarget(object):
-         pass
- 
-     @abstractmethod
-+    def deploy(self):
-+        pass
-+
-+    @abstractmethod
-     def copyTo(self, localSrc, remoteDst):
-         pass
- 
-diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
-index a7f3823..b886435 100644
---- a/meta/lib/oeqa/runtime/context.py
-+++ b/meta/lib/oeqa/runtime/context.py
-@@ -4,8 +4,6 @@
- import os
- 
- from oeqa.core.context import OETestContext, OETestContextExecutor
--from oeqa.core.target.ssh import OESSHTarget
--from oeqa.core.target.qemu import OEQemuTarget
- from oeqa.utils.dump import HostDumper
- 
- from oeqa.runtime.loader import OERuntimeTestLoader
-@@ -89,32 +87,12 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
-                 help="Qemu boot configuration, only needed when target_type is QEMU.")
- 
-     @staticmethod
--    def getTarget(target_type, logger, target_ip, server_ip, **kwargs):
-+    def getTarget(target_type, td, logger, **kwargs):
-         target = None
- 
--        if target_ip:
--            target_ip_port = target_ip.split(':')
--            if len(target_ip_port) == 2:
--                target_ip = target_ip_port[0]
--                kwargs['port'] = target_ip_port[1]
--
--        if target_type == 'simpleremote':
--            target = OESSHTarget(logger, target_ip, server_ip, **kwargs)
--        elif target_type == 'qemu':
--            target = OEQemuTarget(logger, target_ip, server_ip, **kwargs)
+-        # We need to check if runqemu ends unexpectedly
+-        # or if the worker send us a SIGTERM
+-        tc.target.start(extra_bootparams=bootparams)
+-        results = tc.runTests()
+-    except (RuntimeError, BlockingIOError) as err:
+-        if isinstance(err, RuntimeError):
+-            bb.error('testimage received SIGTERM, shutting down...')
 -        else:
--            # XXX: This code uses the old naming convention for controllers and
--            # targets, the idea it is to leave just targets as the controller
--            # most of the time was just a wrapper.
--            # XXX: This code tries to import modules from lib/oeqa/controllers
--            # directory and treat them as controllers, it will less error prone
--            # to use introspection to load such modules.
--            # XXX: Don't base your targets on this code it will be refactored
--            # in the near future.
--            # Custom target module loading
--            target_modules_path = kwargs.get('target_modules_path', '')
--            controller = OERuntimeTestContextExecutor.getControllerModule(target_type, target_modules_path)
--            target = controller(logger, target_ip, server_ip, **kwargs)
-+        target_modules_path = kwargs.get('target_modules_path', '')
-+        controller = OERuntimeTestContextExecutor.getControllerModule(target_type, target_modules_path)
-+        target = controller(td, logger, **kwargs)
+-            bb.error('runqemu failed, shutting down...')
+-        if results:
+-            results.stop()
+-            results = None
++        tc.target.start(extra_bootparams=bootparams) 
++        results = None
++        orig_sigterm_handler = signal.signal(signal.SIGTERM, sigterm_exception)
++        try:
++            # We need to check if runqemu ends unexpectedly
++            # or if the worker send us a SIGTERM
++            results = tc.runTests()
++        except (RuntimeError, BlockingIOError) as err:
++            if isinstance(err, RuntimeError):
++                bb.error('testimage received SIGTERM, shutting down...')
++            else:
++                bb.error('runqemu failed, shutting down...')
++            if results:
++                results.stop()
++                results = None
++        finally:
++            signal.signal(signal.SIGTERM, orig_sigterm_handler)
+     finally:
+-        signal.signal(signal.SIGTERM, orig_sigterm_handler)
+         tc.target.stop()
  
-         return target
- 
-@@ -176,7 +154,7 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
-         try:
-             obj = getattr(module, target)
-         except:
--            obj = None
-+            pass
-         return obj
-         
-     @staticmethod
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 59a9c35..109d90b 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -22,18 +22,17 @@ class BaseTarget(object, metaclass=ABCMeta):
- 
-     supported_image_fstypes = []
- 
--    def __init__(self, d, logger):
-+    def __init__(self, td, logger, **kwargs):
-         self.connection = None
-         self.ip = None
-         self.server_ip = None
--        self.datetime = d.getVar('DATETIME')
--        self.testdir = d.getVar("TEST_LOG_DIR")
--        self.pn = d.getVar("PN")
-+        self.datetime = td['DATETIME']
-+        self.testdir = td['TEST_LOG_DIR']
-+        self.pn = td['PN']
-         self.logger = logger
- 
-     @abstractmethod
-     def deploy(self):
--
-         self.sshlog = os.path.join(self.testdir, "ssh_target_log.%s" % self.datetime)
-         sshloglink = os.path.join(self.testdir, "ssh_target_log")
-         if os.path.islink(sshloglink):
-@@ -54,17 +53,17 @@ class BaseTarget(object, metaclass=ABCMeta):
-         return None
- 
-     @classmethod
--    def match_image_fstype(self, d, image_fstypes=None):
-+    def match_image_fstype(self, td, image_fstypes=None):
-         if not image_fstypes:
--            image_fstypes = d.getVar('IMAGE_FSTYPES').split(' ')
-+            image_fstypes = td['IMAGE_FSTYPES'].split(' ')
-         possible_image_fstypes = [fstype for fstype in self.supported_image_fstypes if fstype in image_fstypes]
-         if possible_image_fstypes:
-             return possible_image_fstypes[0]
-         else:
-             return None
- 
--    def get_image_fstype(self, d):
--        image_fstype = self.match_image_fstype(d)
-+    def get_image_fstype(self, td):
-+        image_fstype = self.match_image_fstype(td)
-         if image_fstype:
-             return image_fstype
-         else:
-@@ -89,28 +88,28 @@ class QemuTarget(BaseTarget):
- 
-     supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
- 
--    def __init__(self, d, logger, image_fstype=None):
-+    def __init__(self, td, logger, image_fstype=None, **kwargs):
- 
-         import oe.types
- 
--        super(QemuTarget, self).__init__(d, logger)
-+        super(QemuTarget, self).__init__(td, logger, **kwargs)
- 
-         self.rootfs = ''
-         self.kernel = ''
-         self.image_fstype = ''
- 
--        if d.getVar('FIND_ROOTFS') == '1':
--            self.image_fstype = image_fstype or self.get_image_fstype(d)
--            self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"),  d.getVar("IMAGE_LINK_NAME") + '.' + self.image_fstype)
--            self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
-+        if td['FIND_ROOTFS'] == '1':
-+            self.image_fstype = image_fstype or self.get_image_fstype(td)
-+            self.rootfs = os.path.join(td['DEPLOY_DIR_IMAGE'],  td['IMAGE_LINK_NAME'] + '.' + self.image_fstype)
-+            self.kernel = os.path.join(td['DEPLOY_DIR_IMAGE'], td["KERNEL_IMAGETYPE"] + '-' + td['MACHINE'] + '.bin')
-         self.qemulog = os.path.join(self.testdir, "qemu_boot_log.%s" % self.datetime)
--        dump_target_cmds = d.getVar("testimage_dump_target")
--        dump_host_cmds = d.getVar("testimage_dump_host")
--        dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
--        qemu_use_kvm = d.getVar("QEMU_USE_KVM")
-+        dump_target_cmds = td['testimage_dump_target']
-+        dump_host_cmds = td['testimage_dump_host']
-+        dump_dir = td['TESTIMAGE_DUMP_DIR']
-+        qemu_use_kvm = td['QEMU_USE_KVM']
-         if qemu_use_kvm and \
--           (oe.types.boolean(qemu_use_kvm) and "x86" in d.getVar("MACHINE") or \
--            d.getVar("MACHINE") in qemu_use_kvm.split()):
-+           (oe.types.boolean(qemu_use_kvm) and "x86" in td['MACHINE'] or \
-+            td['MACHINE'] in qemu_use_kvm.split()):
-             use_kvm = True
-         else:
-             use_kvm = False
-@@ -124,27 +123,27 @@ class QemuTarget(BaseTarget):
-         self.logger.addHandler(loggerhandler)
-         oe.path.symlink(os.path.basename(self.qemurunnerlog), os.path.join(self.testdir, 'qemurunner_log'), force=True)
- 
--        if d.getVar("DISTRO") == "poky-tiny":
--            self.runner = QemuTinyRunner(machine=d.getVar("MACHINE"),
-+        if td['DISTRO'] == "poky-tiny":
-+            self.runner = QemuTinyRunner(machine=td['MACHINE'],
-                             rootfs=self.rootfs,
--                            tmpdir = d.getVar("TMPDIR"),
--                            deploy_dir_image = d.getVar("DEPLOY_DIR_IMAGE"),
--                            display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY"),
-+                            tmpdir = td['TMPDIR'],
-+                            deploy_dir_image = td['DEPLOY_DIR_IMAGE'],
-+                            display = td['DISPLAY'],
-                             logfile = self.qemulog,
-                             kernel = self.kernel,
--                            boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
-+                            boottime = int(td['TEST_QEMUBOOT_TIMEOUT']),
-                             logger = logger)
-         else:
--            self.runner = QemuRunner(machine=d.getVar("MACHINE"),
-+            self.runner = QemuRunner(machine=td['MACHINE'],
-                             rootfs=self.rootfs,
--                            tmpdir = d.getVar("TMPDIR"),
--                            deploy_dir_image = d.getVar("DEPLOY_DIR_IMAGE"),
--                            display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY"),
-+                            tmpdir = td['TMPDIR'],
-+                            deploy_dir_image = td['DEPLOY_DIR_IMAGE'],
-+                            display = td['DISPLAY'],
-                             logfile = self.qemulog,
--                            boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
-+                            boottime = int(td['TEST_QEMUBOOT_TIMEOUT']),
-                             use_kvm = use_kvm,
-                             dump_dir = dump_dir,
--                            dump_host_cmds = d.getVar("testimage_dump_host"),
-+                            dump_host_cmds = td['testimage_dump_host'],
-                             logger = logger)
- 
-         self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
-@@ -198,35 +197,3 @@ class QemuTarget(BaseTarget):
- 
-     def run_serial(self, command, timeout=5):
-         return self.runner.run_serial(command, timeout=timeout)
--
--
--class SimpleRemoteTarget(BaseTarget):
--
--    def __init__(self, d):
--        super(SimpleRemoteTarget, self).__init__(d)
--        addr = d.getVar("TEST_TARGET_IP") or bb.fatal('Please set TEST_TARGET_IP with the IP address of the machine you want to run the tests on.')
--        self.ip = addr.split(":")[0]
--        try:
--            self.port = addr.split(":")[1]
--        except IndexError:
--            self.port = None
--        self.logger.info("Target IP: %s" % self.ip)
--        self.server_ip = d.getVar("TEST_SERVER_IP")
--        if not self.server_ip:
--            try:
--                self.server_ip = subprocess.check_output(['ip', 'route', 'get', self.ip ]).split("\n")[0].split()[-1]
--            except Exception as e:
--                bb.fatal("Failed to determine the host IP address (alternatively you can set TEST_SERVER_IP with the IP address of this machine): %s" % e)
--        self.logger.info("Server IP: %s" % self.server_ip)
--
--    def deploy(self):
--        super(SimpleRemoteTarget, self).deploy()
--
--    def start(self, params=None, ssh=True, extra_bootparams=None):
--        if ssh:
--            self.connection = SSHControl(self.ip, logfile=self.sshlog, port=self.port)
--
--    def stop(self):
--        self.connection = None
--        self.ip = None
--        self.server_ip = None
+     # Show results (if we have them)
 -- 
 2.7.4
 
