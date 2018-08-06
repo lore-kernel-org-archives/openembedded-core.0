@@ -1,35 +1,37 @@
 Return-Path: <gtertych@cisco.com>
-Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E40327884B
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+	by mail.openembedded.org (Postfix) with ESMTP id A576B78A74
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 14:36:27 +0000 (UTC)
+	Mon,  6 Aug 2018 14:36:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=29251; q=dns/txt;
-	s=iport; t=1533566189; x=1534775789;
-	h=from:to:cc:subject:date:message-id;
-	bh=cqcIBCXvb2NnciaVM/T0td4F61qEACSm/2KS0LcSzis=;
-	b=WnqWEfDAjBT7323oL3Cl+qQUFjA+t6hhJKhpaTNaUr0x/bFEuAFU/lC+
-	Z4a/lK9N3oB6yjH4ScGOG54/Z/8xa0ocayl6cOKthhPno9Pf3TBov9M9T
-	1XCyPPHhP4HfBIQAyRXZE0+lM8GR4PoiYF71p2K8rxqJLp1KldJHdbWZM 8=;
+	d=cisco.com; i=@cisco.com; l=10054; q=dns/txt;
+	s=iport; t=1533566194; x=1534775794;
+	h=from:to:cc:subject:date:message-id:in-reply-to: references;
+	bh=MddsOuFo62Zn3KtrSAHG/zyKChZx3qkWSx70ZBvnajo=;
+	b=MjZFSsydIN/APisgXpop0J+T/jEYJJEBgNQ1htQ42nEUVQxLeGieHvez
+	yl1ObThIxQ52t/3BP0xKxaEMcIGXdYQtCoaMAIvKdauI0vv8RhpWrMatN
+	GHNOgHx3oITM8V5+c+Lfy9gR9m1ZkbScy8HLS4h2nAe+5c/yunjrQBdxt s=;
 X-IronPort-AV: E=Sophos;i="5.51,452,1526342400"; 
-   d="scan'208";a="5604014"
+   d="scan'208";a="5665273"
 Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com)
 	([173.38.203.22])
-	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Aug 2018 14:36:28 +0000
+	by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Aug 2018 14:36:33 +0000
 Received: from think.cisco.com ([10.61.228.13])
-	by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id w76EaQdj023305;
-	Mon, 6 Aug 2018 14:36:27 GMT
+	by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id w76EaQdk023305;
+	Mon, 6 Aug 2018 14:36:32 GMT
 From: grygorii tertychnyi <gtertych@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Aug 2018 17:37:02 +0300
-Message-Id: <1533566223-7985-1-git-send-email-gtertych@cisco.com>
+Date: Mon,  6 Aug 2018 17:37:03 +0300
+Message-Id: <1533566223-7985-2-git-send-email-gtertych@cisco.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1533566223-7985-1-git-send-email-gtertych@cisco.com>
+References: <1533566223-7985-1-git-send-email-gtertych@cisco.com>
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-SMTP-Client: 10.61.228.13, [10.61.228.13]
 X-Outbound-Node: aer-core-1.cisco.com
 Cc: xe-linux-external@cisco.com
-Subject: [PATCH v2 1/2] cve-report: add scripts to generate CVE reports
+Subject: [PATCH v2 2/2] cve-report.bbclass: add class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,814 +44,296 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 14:36:28 -0000
+X-List-Received-Date: Mon, 06 Aug 2018 14:36:33 -0000
 
-cvert-kernel - generate CVE report for the Linux kernel.
-  NVD entries for the Linux kernel is almost always outdated.
-  For example, https://nvd.nist.gov/vuln/detail/CVE-2018-1065
-  is shown as matched for "versions up to (including) 4.15.7",
-  however the patch 57ebd808a97d has been back ported for 4.14.
-  cvert-kernel script checks NVD Resource entries for the patch URLs
-  and looking for the commits in the local git tree.
+Implements "report_cve" and "report_patched" tasks.
 
-cvert-foss - generate CVE report for the list of packages.
-  It analyzes the whole image manifest to align with the complex
-  CPE configurations.
+"report_patched" prepares image manifest with patched CVE info.
+"report_cve" runs cvert-* scripts to generate kernel and package CVE reports.
 
-cvert-update - only update NVD feeds and store CVE blob locally.
-  CVE blob is a pickled representation of the cve_struct dictionary.
-
-cvert.py - python module used by all cvert-* scripts.
-  Uses NVD JSON Vulnerability Feeds https://nvd.nist.gov/vuln/data-feeds#JSON_FEED
+You can configure it to set report filenames, reuse NVD feeds,
+stop after manifest generation and ignore specific classes,
+like native, nativesdk, etc.
 
 Signed-off-by: grygorii tertychnyi <gtertych@cisco.com>
 ---
 
 Changes in v2:
  o Resend as "text/plain": v1 was "text/html".
+ o Add CVE_REPORT_MODE[show-description] option
+   to include CVE Description into the final report.
+   Default is off.
+   Example:
 
- scripts/cvert-foss   | 109 ++++++++++++++
- scripts/cvert-kernel | 157 +++++++++++++++++++
- scripts/cvert-update |  64 ++++++++
- scripts/cvert.py     | 418 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 748 insertions(+)
- create mode 100755 scripts/cvert-foss
- create mode 100755 scripts/cvert-kernel
- create mode 100755 scripts/cvert-update
- create mode 100644 scripts/cvert.py
+unpatched |  5.0 | CVE-2013-4598      | gcc | 7.3.0
+          + Description
+            The Groups, Communities and Co (GCC) module 7.x-1.x before 7.x-1.1 for
+            Drupal does not properly check permission, which allows remote
+            attackers to access the configuration pages via unspecified vectors.
 
-diff --git a/scripts/cvert-foss b/scripts/cvert-foss
-new file mode 100755
-index 0000000..a0cc6ad
---- /dev/null
-+++ b/scripts/cvert-foss
-@@ -0,0 +1,109 @@
-+#!/usr/bin/env python3
-+#
-+# Generate CVE report for the list of packages.
-+#
-+# Copyright (c) 2018 Cisco Systems, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+#
-+
-+import sys
-+import cvert
-+import textwrap
-+import argparse
-+
-+def report_foss(filename, cve_struct):
-+    packagelist = {}
-+
-+    with open(filename, 'r') as fil:
-+        for lin in fil:
-+            product, version, patched = lin.split(',', maxsplit=3)
-+
-+            if product in packagelist:
-+                packagelist[product][version] = patched.split()
-+            else:
-+                packagelist[product] = {
-+                    version: patched.split()
-+            }
-+
-+    return cvert.match_cve(packagelist, cve_struct)
-+
-+
-+if __name__ == '__main__':
-+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
-+                                     description=textwrap.dedent('''
-+                                     Generate CVE report for the list of packages.
-+                                     '''),
-+                                     epilog=textwrap.dedent('''
-+                                     examples:
-+
-+                                     # Download (update) NVD feeds in "nvdfeed" directory
-+                                     # and prepare the report for the "package.lst" file
-+                                     %% %(prog)s --feed-dir nvdfeed --output report-foss.txt package.lst
-+
-+                                     # Use existed NVD feeds in "nvdfeed" directory
-+                                     # and prepare the report for the "package.lst" file
-+                                     %% %(prog)s --offline --feed-dir nvdfeed --output report-foss.txt package.lst
-+
-+                                     # (faster) Restore CVE dump from "cvedump" (must exist)
-+                                     # and prepare the report for the "package.lst" file
-+                                     %% %(prog)s --restore cvedump --output report-foss.txt package.lst
-+
-+                                     # Restore CVE dump from "cvedump" (must exist)
-+                                     # and prepare the extended report for the "package.lst" file
-+                                     %% %(prog)s --restore cvedump --show-description --show-reference --output report-foss.txt package.lst
-+                                     '''))
-+
-+    group = parser.add_mutually_exclusive_group(required=True)
-+    group.add_argument('--feed-dir', help='feeds directory')
-+    group.add_argument('--restore', help='load CVE data structures from file',
-+                        metavar='FILENAME')
-+
-+    parser.add_argument('--offline', help='do not update from NVD site',
-+                        action='store_true')
-+    parser.add_argument('--output', help='save report to the file')
-+    parser.add_argument('--show-description', help='show "Description" in the report',
-+                        action='store_true')
-+    parser.add_argument('--show-reference', help='show "Reference" in the report',
-+                        action='store_true')
-+
-+    parser.add_argument('package_list', help='file with a list of packages, '
-+                        'each line contains three comma separated values: name, '
-+                        'version and a space separated list of patched CVEs.',
-+                        metavar='package-list')
-+
-+    args = parser.parse_args()
-+
-+    if args.restore:
-+        cve_struct = cvert.load_cve(args.restore)
-+    elif args.feed_dir:
-+        cve_struct = cvert.update_feeds(args.feed_dir, args.offline)
-+
-+    if not cve_struct and args.offline:
-+        parser.error('No CVEs found. Try to turn off offline mode or use other file to restore.')
-+
-+    if args.output:
-+        output = open(args.output, 'w')
-+    else:
-+        output = sys.stdout
-+
-+    report = report_foss(args.package_list, cve_struct)
-+    cvert.print_report(report,
-+                       show_description=args.show_description,
-+                       show_reference=args.show_reference,
-+                       output=output
-+    )
-+
-+    if args.output:
-+        output.close()
-diff --git a/scripts/cvert-kernel b/scripts/cvert-kernel
-new file mode 100755
-index 0000000..446c7b2
---- /dev/null
-+++ b/scripts/cvert-kernel
-@@ -0,0 +1,157 @@
-+#!/usr/bin/env python3
-+#
-+# Generate CVE report for the Linux kernel.
-+# Inspect Linux kernel GIT tree and find all CVE patches commits.
-+#
-+# Copyright (c) 2018 Cisco Systems, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+#
-+
-+import re
-+import cvert
-+import argparse
-+import textwrap
-+import subprocess
-+
-+
-+def report_kernel(cve_struct, kernel_dir, kernel_ver=None):
-+    oneline = subprocess.check_output(['git', 'log',
-+                                       '--format=%s'],
-+                                      cwd=kernel_dir,
-+                                      stderr=subprocess.DEVNULL
-+    ).splitlines()
-+
-+    if not kernel_ver:
-+        kernel_ver = subprocess.check_output(['make', 'kernelversion'],
-+                                             cwd=kernel_dir,
-+                                             stderr=subprocess.DEVNULL
-+        ).decode().rstrip()
-+
-+    manifest = {
-+        'linux_kernel': {
-+            kernel_ver: []
-+        }
-+    }
-+
-+    report = cvert.match_cve(manifest, cve_struct)
-+
-+    for cve in report:
-+        for url in cve['reference']:
-+            headline = git_headline(kernel_dir, match_commit(url))
-+
-+            if headline and headline in oneline:
-+                cve['status'] = 'patched'
-+                break
-+
-+    return report
-+
-+
-+def match_commit(url):
-+    matched = re.match(r'^http://git\.kernel\.org/cgit/linux/kernel/git/torvalds/linux\.git/commit/\?id=(.+)$', url) \
-+              or re.match(r'^https?://github\.com/torvalds/linux/commit/(.+)$', url)
-+
-+    if matched:
-+        return matched.group(1)
-+    else:
-+        return None
-+
-+
-+def git_headline(kernel_dir, commit_id):
-+    if not commit_id:
-+        return None
-+
-+    try:
-+        headline = subprocess.check_output(['git', 'show',
-+                                            '--no-patch',
-+                                            '--format=%s',
-+                                            commit_id],
-+                                           cwd=kernel_dir,
-+                                           stderr=subprocess.DEVNULL
-+        ).rstrip()
-+    except subprocess.CalledProcessError:
-+        # commit_id is not found
-+        headline = None
-+
-+    return headline
-+
-+
-+if __name__ == '__main__':
-+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
-+                                     description=textwrap.dedent('''
-+                                     Generate CVE report for the Linux kernel.
-+                                     Inspect Linux kernel GIT tree and find all CVE patches commits.
-+                                     '''),
-+                                     epilog=textwrap.dedent('''
-+                                     examples:
-+
-+                                     # Download (update) NVD feeds in "nvdfeed" directory
-+                                     # and prepare the report for the "kernel-sources" directory
-+                                     %% %(prog)s --feed-dir nvdfeed --output report-kernel.txt kernel-sources
-+
-+                                     # Use existed NVD feeds in "nvdfeed" directory
-+                                     # and prepare the report for the "kernel-sources" directory
-+                                     %% %(prog)s --offline --feed-dir nvdfeed --output report-kernel.txt kernel-sources
-+
-+                                     # (faster) Restore CVE dump from "cvedump" (must exist)
-+                                     # and prepare the report for the "kernel-sources" directory
-+                                     %% %(prog)s --restore cvedump --output report-kernel.txt kernel-sources
-+
-+                                     # Restore CVE dump from "cvedump" (must exist)
-+                                     # and prepare the extended report for the "kernel-sources" directory
-+                                     %% %(prog)s --restore cvedump --show-description --show-reference --output report-kernel.txt kernel-sources
-+                                     '''))
-+
-+    group = parser.add_mutually_exclusive_group(required=True)
-+    group.add_argument('--feed-dir', help='feeds directory')
-+    group.add_argument('--restore', help='load CVE data structures from file',
-+                        metavar='FILENAME')
-+
-+    parser.add_argument('--offline', help='do not update from NVD site',
-+                        action='store_true')
-+    parser.add_argument('--output', help='save report to the file')
-+    parser.add_argument('--kernel-ver', help='overwrite kernel version, default is "make kernelversion"',
-+                        metavar='VERSION')
-+    parser.add_argument('--show-description', help='show "Description" in the report',
-+                        action='store_true')
-+    parser.add_argument('--show-reference', help='show "Reference" in the report',
-+                        action='store_true')
-+
-+    parser.add_argument('kernel_dir', help='kernel GIT directory',
-+                        metavar='kernel-dir')
-+
-+    args = parser.parse_args()
-+
-+    if args.restore:
-+        cve_struct = cvert.load_cve(args.restore)
-+    elif args.feed_dir:
-+        cve_struct = cvert.update_feeds(args.feed_dir, args.offline)
-+
-+    if not cve_struct and args.offline:
-+        parser.error('No CVEs found. Try to turn off offline mode or use other file to restore.')
-+
-+    if args.output:
-+        output = open(args.output, 'w')
-+    else:
-+        output = sys.stdout
-+
-+    report = report_kernel(cve_struct, args.kernel_dir, args.kernel_ver)
-+    cvert.print_report(report,
-+                       show_description=args.show_description,
-+                       show_reference=args.show_reference,
-+                       output=output
-+    )
-+
-+    if args.output:
-+        output.close()
-diff --git a/scripts/cvert-update b/scripts/cvert-update
-new file mode 100755
-index 0000000..adea13d
---- /dev/null
-+++ b/scripts/cvert-update
-@@ -0,0 +1,64 @@
-+#!/usr/bin/env python3
-+#
-+# Update NVD feeds and store CVE blob locally.
-+#
-+# Copyright (c) 2018 Cisco Systems, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+#
-+
-+import cvert
-+import textwrap
-+import argparse
-+
-+
-+if __name__ == '__main__':
-+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
-+                                     description=textwrap.dedent('''
-+                                     Update NVD feeds and store CVE blob locally.
-+                                     '''),
-+                                     epilog=textwrap.dedent('''
-+                                     examples:
-+
-+                                     # Download NVD feeds to  "nvdfeed" directory.
-+                                     # If there are meta files in the directory, they will be updated
-+                                     # and only fresh archives will be downloaded:
-+                                     %% %(prog)s nvdfeed
-+
-+                                     # Inspect NVD feeds in "nvdfeed" directory
-+                                     # and prepare a CVE dump python blob "cvedump".
-+                                     # Use it later as input for cvert-* scripts (for speeding up)
-+                                     %% %(prog)s --offline --store cvedump nvdfeed
-+
-+                                     # Download (update) NVD feeds and prepare a CVE dump
-+                                     %% %(prog)s --store cvedump nvdfeed
-+                                     '''))
-+
-+    parser.add_argument('--store', help='save CVE data structures in file',
-+                        metavar='FILENAME')
-+    parser.add_argument('--offline', help='do not update from NVD site',
-+                        action='store_true')
-+
-+    parser.add_argument('feed_dir', help='feeds directory',
-+                        metavar='feed-dir')
-+
-+    args = parser.parse_args()
-+
-+    cve_struct = cvert.update_feeds(args.feed_dir, args.offline)
-+
-+    if not cve_struct and args.offline:
-+        parser.error('No CVEs found in {0}. Try to turn off offline mode.'.format(args.feed_dir))
-+
-+    if args.store:
-+        cvert.save_cve(args.store, cve_struct)
-diff --git a/scripts/cvert.py b/scripts/cvert.py
+ meta/classes/cve-report.bbclass | 253 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 253 insertions(+)
+ create mode 100644 meta/classes/cve-report.bbclass
+
+diff --git a/meta/classes/cve-report.bbclass b/meta/classes/cve-report.bbclass
 new file mode 100644
-index 0000000..3a7ae5a
+index 0000000..1c0e363
 --- /dev/null
-+++ b/scripts/cvert.py
-@@ -0,0 +1,418 @@
-+#!/usr/bin/env python3
++++ b/meta/classes/cve-report.bbclass
+@@ -0,0 +1,253 @@
++# Class to inherit when you want to generate a CVE reports.
 +#
-+# Copyright (c) 2018 by Cisco Systems, Inc.
++# Generates package list file, kernel and package CVE reports.
 +#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
++# Example:
++#   echo 'INHERIT += "cve-report"' >> conf/local.conf
++#   bitbake -c report_cve core-image-minimal
 +#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
++# Variables to be passed to "cvert-*" scripts:
 +#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++# CVE_REPORT_MODE[foss]
++#     Path to the CVE FOSS report to be generated.
++#
++# CVE_REPORT_MODE[kernel]
++#     Path to the CVE kernel report to be generated.
++#
++# CVE_REPORT_MODE[restore]
++#     Path to the CVE blob data file.
++#
++#     E.g. for multiple MACHINEs:
++#     (1) generate CVE blob:
++#         cvert-update --store /path/to/cvedump $TEMP/nvdfeed
++#     (2) for mach in $(get_machine_list); do
++#             (source oe-init-build-env "build-$mach";
++#             echo 'CVE_REPORT_MODE[restore] = "/path/to/cvedump"' >> conf/local.conf;
++#             echo 'CVE_REPORT_MODE[foss] = "/path/to/report-foss-'${mach}'"' >> conf/local.conf;
++#             echo 'CVE_REPORT_MODE[kernel] = "/path/to/report-kernel-'${mach}'"' >> conf/local.conf;
++#             MACHINE=$mach bitbake -c report_cve core-image-minimal)
++#         done
++#
++# CVE_REPORT_MODE[offline]
++#     Either "0" or "1". Offline mode ("--offline" parameter for cvert-* scripts).
++#
++# CVE_REPORT_MODE[feeddir]
++#     Path to the NVD feed directory.
++#
++# CVE_REPORT_MODE[packagelist]
++#     Path to the package list file to be generated.
++#
++# CVE_REPORT_MODE[packageonly]
++#     Either "0" or "1". Generate package list file, then stop.
++#
++# CVE_REPORT_MODE[show-description]
++#     Either "0" or "1". Include CVE Description into the final report.
++#
++# CVE_REPORT_MODE[blacklist]
++#     Ignore specific class.
 +#
 +
-+import os
-+import re
-+import sys
-+import json
-+import gzip
-+import pickle
-+import logging
-+import hashlib
-+import datetime
-+import textwrap
-+import urllib.request
-+import distutils.version
-+
-+
-+stream = logging.StreamHandler()
-+stream.setFormatter(logging.Formatter('# %(asctime)s %% %(name)s %% %(levelname)-8s %% %(message)s'))
-+
-+logger = logging.getLogger('CVERT')
-+logger.setLevel(logging.DEBUG)
-+logger.addHandler(stream)
-+
-+
-+def match_cve(manifest, cve_struct):
-+    report = []
-+
-+    for cve in cve_struct:
-+        for conf in cve_struct[cve]['nodes']:
-+            affected = process_configuration(manifest, conf)
-+
-+            for key in affected:
-+                product, version = key.split(',')
-+                patched = manifest[product][version]
-+
-+                if cve in patched:
-+                    cve_item = {'status': 'patched'}
-+                else:
-+                    cve_item = {'status': 'unpatched'}
-+
-+                cve_item['CVSS'] = '{0:.1f}'.format(cve_struct[cve]['score'])
-+                cve_item['CVE'] = cve
-+                cve_item['product'] = product
-+                cve_item['version'] = version
-+                cve_item['description'] = cve_struct[cve]['description']
-+                cve_item['reference'] = [x['url'] for x in cve_struct[cve]['reference']]
-+
-+                report.append(cve_item)
-+
-+    return sorted(report, key=lambda x : (x['status'], x['product'], x['CVSS'], x['CVE']))
-+
-+
-+def process_configuration(manifest, conf):
-+    '''Recursive call to process all CVE configurations.'''
-+
-+    operator = conf['operator']
-+
-+    if operator not in ['OR', 'AND']:
-+        raise ValueError('operator {} is not supported'.format(operator))
-+
-+    op = True if operator == 'AND' else False
-+    match = False
-+    affected = set()
-+
-+    if 'cpe' in conf:
-+        match = process_cpe(manifest, conf['cpe'][0], affected)
-+
-+        for cpe in conf['cpe'][1:]:
-+            package_match = process_cpe(manifest, cpe, affected)
-+
-+            # match = match <operator> package_match
-+            match = op ^ ((op ^ match) or (op ^ package_match))
-+    elif 'children' in conf:
-+        product_set = process_configuration(manifest, conf['children'][0])
-+
-+        if product_set:
-+            match = True
-+            affected = affected.union(product_set)
-+
-+        for child in conf['children'][1:]:
-+            product_set = process_configuration(manifest, child)
-+            package_match = True if product_set else False
-+
-+            # match = match OP package_match
-+            match = op ^ ((op ^ match) or (op ^ package_match))
-+
-+            if package_match:
-+                affected = affected.union(product_set)
-+
-+    if match:
-+        return affected
-+    else:
-+        return ()
-+
-+
-+def process_cpe(manifest, cpe, affected):
-+    '''Matches CPE with all packages in manifest.'''
-+
-+    if not cpe['vulnerable']:
-+        # Ignores non vulnerable part
-+        return False
-+
-+    version_range = {}
-+
-+    for flag in ['versionStartIncluding',
-+                 'versionStartExcluding',
-+                 'versionEndIncluding',
-+                 'versionEndExcluding']:
-+        if flag in cpe:
-+            version_range[flag] = cpe[flag]
-+
-+    # only "product" and "version" are taken
-+    product, version = cpe['cpe23Uri'].split(':')[4:6]
-+
-+    if product not in manifest:
-+        return False
-+
-+    if not version_range:
-+        if version == '*':
-+            # Ignores CVEs that touches all versions of package
-+            # Can not fix it anyway
-+            logger.debug('ignore "*" in {}'.format(cpe))
-+            return False
-+        elif version == '-':
-+            # "-" means NA
-+            #
-+            # NA (i.e. "not applicable/not used"). The logical value NA
-+            # SHOULD be assigned when there is no legal or meaningful
-+            # value for that attribute, or when that attribute is not
-+            # used as part of the description.
-+            # This includes the situation in which an attribute has
-+            # an obtainable value that is null
-+            #
-+            # Ignores CVEs if version is not set
-+            logger.debug('ignore "-" in {}'.format(cpe))
-+            return False
-+        else:
-+            version_range['versionExactMatch'] = version
-+
-+    result = False
-+
-+    for version in manifest[product]:
-+        try:
-+            if match_version(version,
-+                             version_range):
-+                logger.debug('{} {}'.format(product, version))
-+                affected.add('{},{}'.format(product, version))
-+
-+                result = True
-+        except:
-+            # version comparison is a very tricky
-+            # sometimes provider changes product version in a strange manner
-+            # and the above comparison just failed
-+            # so here we try to make version string "more standard"
-+
-+            if match_version(twik_version(version),
-+                             [twik_version(v) for v in version_range]):
-+                logger.debug('{} {} (twiked)'.format(product, twik_version(version)))
-+                affected.add('{},{}'.format(product, version))
-+
-+                result = True
-+
-+    return result
-+
-+
-+def match_version(version, vrange):
-+    '''Matches version with the version range.'''
-+
-+    result = False
-+    version = util_version(version)
-+
-+    if 'versionExactMatch' in vrange:
-+        if version == util_version(vrange['versionExactMatch']):
-+            result = True
-+    else:
-+        result = True
-+
-+        if 'versionStartIncluding' in vrange:
-+            result = result and version >= util_version(vrange['versionStartIncluding'])
-+
-+        if 'versionStartExcluding' in vrange:
-+            result = result and version > util_version(vrange['versionStartExcluding'])
-+
-+        if 'versionEndIncluding' in vrange:
-+            result = result and version <= util_version(vrange['versionEndIncluding'])
-+
-+        if 'versionEndExcluding' in vrange:
-+            result = result and version < util_version(vrange['versionEndExcluding'])
-+
-+    return result
-+
-+
-+def util_version(version):
-+    return distutils.version.LooseVersion(version.split('+git')[0])
-+
-+
-+def twik_version(v):
-+    return 'v1' + re.sub(r'^[a-zA-Z]+', '', v)
-+
-+
-+def print_report(report, width=70, show_description=False, show_reference=False, output=sys.stdout):
-+    for cve in report:
-+        print('{0:>9s} | {1:>4s} | {2:18s} | {3} | {4}'.format(cve['status'], cve['CVSS'], cve['CVE'], cve['product'], cve['version']), file=output)
-+
-+        if show_description:
-+            print('{0:>9s} + {1}'.format(' ', 'Description'), file=output)
-+
-+            for lin in textwrap.wrap(cve['description'], width=width):
-+                print('{0:>9s}   {1}'.format(' ', lin), file=output)
-+
-+        if show_reference:
-+            print('{0:>9s} + {1}'.format(' ', 'Reference'), file=output)
-+
-+            for url in cve['reference']:
-+                print('{0:>9s}   {1}'.format(' ', url), file=output)
-+
-+
-+def update_feeds(feed_dir, offline=False, start=2002):
-+    feed_dir = os.path.realpath(feed_dir)
-+    year_now = datetime.datetime.now().year
-+    cve_struct = {}
-+
-+    for year in range(start, year_now + 1):
-+        update_year(cve_struct, year, feed_dir, offline)
-+
-+    return cve_struct
-+
-+
-+def update_year(cve_struct, year, feed_dir, offline):
-+    url_prefix = 'https://static.nvd.nist.gov/feeds/json/cve/1.0'
-+    file_prefix = 'nvdcve-1.0-{0}'.format(year)
-+
-+    meta = {
-+        'url': '{0}/{1}.meta'.format(url_prefix, file_prefix),
-+        'file': os.path.join(feed_dir, '{0}.meta'.format(file_prefix))
-+    }
-+
-+    feed = {
-+        'url': '{0}/{1}.json.gz'.format(url_prefix, file_prefix),
-+        'file': os.path.join(feed_dir, '{0}.json.gz'.format(file_prefix))
-+    }
-+
-+    ctx = {}
-+
-+    if not offline:
-+        ctx = download_feed(meta, feed)
-+
-+        if not 'meta' in ctx or not 'feed' in ctx:
-+            return
-+
-+    if not os.path.isfile(meta['file']):
-+        return
-+
-+    if not os.path.isfile(feed['file']):
-+        return
-+
-+    if not 'meta' in ctx:
-+        ctx['meta'] = ctx_meta(meta['file'])
-+
-+    if not 'sha256' in ctx['meta']:
-+        return
-+
-+    if not 'feed' in ctx:
-+        ctx['feed'] = ctx_gzip(feed['file'], ctx['meta']['sha256'])
-+
-+    if not ctx['feed']:
-+        return
-+
-+    logger.debug('parsing year {}'.format(year))
-+
-+    for cve_item in ctx['feed']['CVE_Items']:
-+        iden, cve = parse_item(cve_item)
-+
-+        if not iden:
-+            continue
-+
-+        if not cve:
-+            logger.error('{} parse error'.format(iden))
-+            break
-+
-+        if iden in cve_struct:
-+            logger.error('{} duplicated'.format(iden))
-+            break
-+
-+        cve_struct[iden] = cve
-+
-+    logger.debug('cve records: {}'.format(len(cve_struct)))
-+
-+
-+def ctx_meta(filename):
-+    if not os.path.isfile(filename):
-+        return {}
-+
-+    ctx = {}
-+
-+    with open(filename) as fil:
-+        for lin in fil:
-+            f = lin.split(':', maxsplit=1)
-+            ctx[f[0]] = f[1].rstrip()
-+
-+    return ctx
-+
-+
-+def ctx_gzip(filename, checksum=''):
-+    if not os.path.isfile(filename):
-+        return {}
-+
-+    with gzip.open(filename) as fil:
-+        try:
-+            ctx = fil.read()
-+        except (EOFError, OSError):
-+            return {}
-+
-+    if checksum and checksum.upper() != hashlib.sha256(ctx).hexdigest().upper():
-+        return {}
-+
-+    return json.loads(ctx.decode())
-+
-+
-+def parse_item(cve_item):
-+    cve_id = cve_item['cve']['CVE_data_meta']['ID'][:]
-+    impact = cve_item['impact']
-+
-+    if not impact:
-+        # REJECTed CVE
-+        return None, None
-+
-+    if 'baseMetricV3' in impact:
-+        score = impact['baseMetricV3']['cvssV3']['baseScore']
-+    elif 'baseMetricV2' in impact:
-+        score = impact['baseMetricV2']['cvssV2']['baseScore']
-+    else:
-+        return cve_id, None
-+
-+    return cve_id, {
-+        'score': score,
-+        'nodes': cve_item['configurations']['nodes'][:],
-+        'reference': cve_item['cve']['references']['reference_data'][:],
-+        'description': cve_item['cve']['description']['description_data'][0]['value']
-+    }
-+
-+
-+def download_feed(meta, feed):
-+    ctx = {}
-+
-+    if not retrieve_url(meta['url'], meta['file']):
-+        return {}
-+
-+    ctx['meta'] = ctx_meta(meta['file'])
-+
-+    if not 'sha256' in ctx['meta']:
-+        return {}
-+
-+    ctx['feed'] = ctx_gzip(feed['file'], ctx['meta']['sha256'])
-+
-+    if not ctx['feed']:
-+        if not retrieve_url(feed['url'], feed['file']):
-+            return {}
-+
-+        ctx['feed'] = ctx_gzip(feed['file'], ctx['meta']['sha256'])
-+
-+    return ctx
-+
-+
-+def retrieve_url(url, filename=None):
-+    if filename:
-+        os.makedirs(os.path.dirname(filename), exist_ok=True)
-+
-+    logger.debug('downloading {}'.format(url))
++CVE_REPORT_MODE[foss] ?= "${LOG_DIR}/cvert/report-foss.txt"
++CVE_REPORT_MODE[kernel] ?= "${LOG_DIR}/cvert/report-kernel.txt"
++CVE_REPORT_MODE[offline] ?= "0"
++CVE_REPORT_MODE[feeddir] ?= "${LOG_DIR}/nvdfeeds"
++CVE_REPORT_MODE[packagelist] ?= "${LOG_DIR}/cvert/package.lst"
++CVE_REPORT_MODE[packageonly] ?= "0"
++CVE_REPORT_MODE[show-description] ?= "0"
++CVE_REPORT_MODE[blacklist] ?= "native,nativesdk,cross,crosssdk,cross-canadian,packagegroup,image"
++
++CVE_PRODUCT ??= "${BPN}"
++CVE_VERSION ??= "${PV}"
++
++addhandler generate_report_handler
++generate_report_handler[eventmask] = "bb.event.BuildCompleted"
++
++def cvert_update(d):
++    """
++    Sync up with NVD
++    """
++
++    import tempfile
++    import subprocess
++
++    bb.utils.export_proxies(d)
++
++    dump = os.path.join(d.getVar("LOG_DIR"), "cvedump")
++
++    bb.note("Storing CVE database %s" % dump)
++
++    cmd = [
++        "cvert-update",
++        "--store", dump,
++        d.getVarFlag("CVE_REPORT_MODE", "feeddir")
++    ]
++
++    if d.getVarFlag("CVE_REPORT_MODE", "offline") != "0":
++        cmd.append("--offline")
 +
 +    try:
-+        urllib.request.urlretrieve(url, filename=filename)
-+    except urllib.error.HTTPError:
-+        return False
++        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode()
++        bb.debug(2, "Call '%s':\n%s" % (" ".join(cmd), output))
++    except subprocess.CalledProcessError as e:
++        bb.error("Failed to run cvert-update: '%s'\n%s: %s" % (" ".join(cmd), e, e.output))
 +
-+    return True
++    return dump
++
++# copied from cve-check.bbclass
++def get_patches_cves(d):
++    """
++    Get patches that solve CVEs using the "CVE: " tag.
++    """
++
++    import re
++
++    pn = d.getVar("PN")
++    cve_match = re.compile("CVE:( CVE\-\d{4}\-\d+)+")
++
++    # Matches last CVE-1234-211432 in the file name, also if written
++    # with small letters. Not supporting multiple CVE id's in a single
++    # file name.
++    cve_file_name_match = re.compile(".*([Cc][Vv][Ee]\-\d{4}\-\d+)")
++
++    patched_cves = set()
++    bb.debug(2, "Looking for patches that solves CVEs for %s" % pn)
++    for url in src_patches(d):
++        patch_file = bb.fetch.decodeurl(url)[2]
++
++        # Check patch file name for CVE ID
++        fname_match = cve_file_name_match.search(patch_file)
++        if fname_match:
++            cve = fname_match.group(1).upper()
++            patched_cves.add(cve)
++            bb.debug(2, "Found CVE %s from patch file name %s" % (cve, patch_file))
++
++        with open(patch_file, "r", encoding="utf-8") as f:
++            try:
++                patch_text = f.read()
++            except UnicodeDecodeError:
++                bb.debug(1, "Failed to read patch %s using UTF-8 encoding"
++                        " trying with iso8859-1" %  patch_file)
++                f.close()
++                with open(patch_file, "r", encoding="iso8859-1") as f:
++                    patch_text = f.read()
++
++        # Search for one or more "CVE: " lines
++        text_match = False
++        for match in cve_match.finditer(patch_text):
++            # Get only the CVEs without the "CVE: " tag
++            cves = patch_text[match.start()+5:match.end()]
++            for cve in cves.split():
++                bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
++                patched_cves.add(cve)
++                text_match = True
++
++        if not fname_match and not text_match:
++            bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
++
++    return patched_cves
 +
 +
-+def save_cve(filename, cve_struct):
-+    '''Saves CVE structure in the file.'''
++python generate_report_handler() {
++    if d.getVarFlag("CVE_REPORT_MODE", "packageonly") != "0":
++        return
 +
-+    filename = os.path.realpath(filename)
++    import subprocess
 +
-+    logger.debug('saving {} CVE records to {}'.format(len(cve_struct), filename))
++    restore = d.getVarFlag("CVE_REPORT_MODE", "restore")
 +
-+    with open(filename, 'wb') as fil:
-+        pickle.dump(cve_struct, fil)
++    if not restore:
++        restore = cvert_update(d)
 +
++    if os.path.exists(os.path.join(d.getVar("STAGING_KERNEL_DIR"), '.git')):
++        report_kernel = d.getVarFlag("CVE_REPORT_MODE", "kernel")
 +
-+def load_cve(filename):
-+    '''Loads CVE structure from the file.'''
++        bb.note("Generating CVE KERNEL report: %s" % report_kernel)
 +
-+    filename = os.path.realpath(filename)
++        cmd = [
++            "cvert-kernel",
++            "--restore", restore,
++            "--output", report_kernel
++        ]
 +
-+    logger.debug('loading from {}'.format(filename))
++        if d.getVarFlag("CVE_REPORT_MODE", "show-description") != "0":
++            cmd.append("--show-description")
 +
-+    with open(filename, 'rb') as fil:
-+        cve_struct = pickle.load(fil)
++        cmd.append(d.getVar("STAGING_KERNEL_DIR"))
 +
-+    logger.debug('cve records: {}'.format(len(cve_struct)))
++        try:
++            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode()
++            bb.debug(2, "Call '%s':\n%s" % (" ".join(cmd), output))
++        except subprocess.CalledProcessError as e:
++            bb.error("Failed to run cvert-kernel: '%s'\n%s: %s" % (" ".join(cmd), e, e.output))
 +
-+    return cve_struct
++    if os.path.exists(d.getVarFlag("CVE_REPORT_MODE", "packagelist")):
++        report_foss = d.getVarFlag("CVE_REPORT_MODE", "foss")
++
++        bb.note("Generating CVE FOSS report: %s" % report_foss)
++
++        cmd = [
++            "cvert-foss",
++            "--restore", restore,
++            "--output", report_foss
++        ]
++
++        if d.getVarFlag("CVE_REPORT_MODE", "show-description") != "0":
++            cmd.append("--show-description")
++
++        cmd.append(d.getVarFlag("CVE_REPORT_MODE", "packagelist"))
++
++        try:
++            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode()
++            bb.debug(2, "Call '%s':\n%s" % (" ".join(cmd), output))
++        except subprocess.CalledProcessError as e:
++            bb.error("Failed to run cvert-foss: '%s'\n%s: %s" % (" ".join(cmd), e, e.output))
++}
++
++addhandler build_started
++build_started[eventmask] = "bb.event.BuildStarted"
++
++python build_started() {
++    packagelist = d.getVarFlag("CVE_REPORT_MODE", "packagelist")
++    bb.utils.remove(packagelist)
++    bb.utils.mkdirhier(os.path.dirname(packagelist))
++    bb.note("Package list: ", packagelist)
++}
++
++addtask do_report_cve after do_report_patched
++
++do_report_cve[recrdeptask] = "do_report_cve do_report_patched"
++do_report_cve[recideptask] = "do_${BB_DEFAULT_TASK}"
++do_report_cve[nostamp] = "1"
++
++do_report_cve() {
++    :
++}
++
++python do_report_patched() {
++    if not d.getVar("SRC_URI"):
++        return
++
++    cve_product = d.getVar("CVE_PRODUCT")
++
++    if not cve_product or cve_product == 'linux_kernel':
++        # Linux kernel CVEs are processed by cvert-kernel
++        return
++
++    cve_version = d.getVar("CVE_VERSION")
++    patched_cves = get_patches_cves(d)
++
++    with open(d.getVarFlag("CVE_REPORT_MODE", "packagelist"), "a") as fil:
++        fil.write("%s,%s,%s\n" % (cve_product, cve_version, " ".join(patched_cves)))
++        bb.debug(2, "Append to package-list: '%s,%s,%s'" % (cve_product, cve_version, " ".join(patched_cves)))
++}
++
++addtask do_report_patched after do_unpack before do_build
++
++do_report_patched[nostamp] = "1"
++
++python() {
++    for b in d.getVarFlag("CVE_REPORT_MODE", "blacklist").split(","):
++        if bb.data.inherits_class(b, d):
++            bb.build.deltask("do_report_patched", d)
++            break
++}
 -- 
 2.1.4
 
