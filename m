@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
-	[209.85.218.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 154E778882
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E7B73753E3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 14:29:28 +0000 (UTC)
-Received: by mail-oi0-f46.google.com with SMTP id b16-v6so9166473oic.9
+	Mon,  6 Aug 2018 14:29:29 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id k12-v6so22495940oiw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2018 07:29:30 -0700 (PDT)
+	Mon, 06 Aug 2018 07:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=AEKtBHgZ2ucwAtYFlTrPXD/Whol9NJVtp5Pd0ujGKS4=;
-	b=H4IznMYDSz+1pABXvRRTThTmULffi73bJBh1rJtGJ7Kt8/1ewi9ehVJyjJiedlGe7d
-	39QY+cheN3/bb/hyJ3HLAcKSmfvtLDVSAu8x4vPa+L4AqwmIm9LwamUz0FZQY2kU8+ju
-	tJ+9Ejcmedzv+VKm7nRPKb4al/LKTHHL4vmT2YS1gVhGyyU4Z6RZ5/7Wp0Up23HqheRA
-	m/Zn6/9sDFxi4AWlJJc4c4F7Nhlamu54t8pqUoX5uMt7/wSaMC0ZChIYMvt7/u6b2M7e
-	MPE2kXK3c7iNOsHZ2xYl1l9LUc/KwSiVSNWsgvuIKekU7DM8tHTbC34g/WLE2Pfe0Fb/
-	5zlw==
+	bh=UAsnQupM18iTLZi1d7t1c/VbBfwmzmIx4+TzfMqqP8I=;
+	b=TZ6zlxFY4OipU3xsmycbpqObYM7BRvG4FsWbpi8HtERtccAgIoyyaXO87llWNUYBIQ
+	L0f3xAHFrt/nU8lLVkwm1zStvLNLDkIs8sRcR78nJAKcNLQxJ37wsuUN6YJiuhMIYVS7
+	AUoYZYAtoMEo9ipPrWbskPDMQ3OPMGHIyQ/9hEWbS6KfcSyrbILMaZMSTdR2AHGIDczX
+	7pGRVggvFq7ZSsIgCvIri6I0dUkR/2704jliwPbYt+pLJkH+vOgtv0cUE6i2qgo5IanB
+	XTxMpoBseoHOaudn2oTv5QCbSIov+NMsxLIYCu27kJVFdjX/0zYyqKku2GK0B5HmQU+F
+	OZtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=AEKtBHgZ2ucwAtYFlTrPXD/Whol9NJVtp5Pd0ujGKS4=;
-	b=KS3B75s+qr9GAOgmn0RodNzaxTnG9idKPe93YSdfNgmD0XCMXBQAxElkFdFN8pUpY0
-	is1TxoPfphjMdJTuSjteZagbWvUAKHqHhkfdIUCoWfbwfebJaGze0eMaDS+zJaUMbzEm
-	zZFtemFEzj5eNRcjsph82l5upejTes9RvVLPuHfgmeMyA42O0Y0BicmGemQGfHhqhBZE
-	YBGVStcSTAEwejVC6os+RVPpjNSYyzBgp+QWevSxC/2xvJXy/Xdru6+D9hNMT20YVBgj
-	KfNF3p1iP4ZJjh38Ly7KLfBBgx4ypLaWK0cJ62NgmYZLEAXTTKIa4D1FllFlL4cuQMag
-	YGOA==
-X-Gm-Message-State: AOUpUlFhhx1nCYWX6Iq+J/XMrZu54OJaCh4KMa1h+lCqRzOgHt1FS7Re
-	SiV27zM07tb1/Zm5ZrA67K8=
-X-Google-Smtp-Source: AA+uWPwXbxn4S74VVg27l7pMqKWxGdH6lPN0RmiLfcTWrzKq4mpHuprrVgS6sFzJyx6JplExLJxU+w==
-X-Received: by 2002:aca:3805:: with SMTP id
-	f5-v6mr13599624oia.310.1533565770166; 
-	Mon, 06 Aug 2018 07:29:30 -0700 (PDT)
+	bh=UAsnQupM18iTLZi1d7t1c/VbBfwmzmIx4+TzfMqqP8I=;
+	b=Qa1LzD5MhrJvQ8JeV+alCUpBw+qE/UvG7S2ykOXGGejNFQY1WzeubE2lt0Z3XoWw4V
+	s6qcLaHEOHbjSleR2aeGTdABaQ5buKlv1Qr7VjaVXM5JLuofRtJ4E/EiVrEOjPlTX6g8
+	Da4c0kfu7R7o3eGxQqiZFMAKRxhDgvaKsQrzbwV+dLFIzJrnkaXR6njT6vSNUQxC1tdQ
+	hTyYE2r3BPKEYcw22fr9vEZ5JySJxqx2BlfmutuDaxK1VZpZDKinh4h2FtcnyOwLvKd0
+	EZaBQPtJw2zsimGf0l9Uu7pVz6nO7zPzLrQGUoRfQguB1anaNJ405eBVqFR5pzRArVwY
+	9DlA==
+X-Gm-Message-State: AOUpUlG/WCjsKkaREeKJ6fVwnz00WR3EcV0kN0G24LddJ+7YlYNydghn
+	W5HZnqHlhNLWtHFFR8KsG/o=
+X-Google-Smtp-Source: AA+uWPwgWQgr/qewY8+lvKevoqyJ8ELc7Q/pOfYYJan9bKf995e0/Z+7R5paXeQyAP/fhs8BCEv5Ug==
+X-Received: by 2002:aca:5354:: with SMTP id
+	h81-v6mr13646382oib.299.1533565771024; 
+	Mon, 06 Aug 2018 07:29:31 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:ac25:fc33:9f90:b6d1])
 	by smtp.gmail.com with ESMTPSA id
-	j193-v6sm13645810oih.55.2018.08.06.07.29.28
+	j193-v6sm13645810oih.55.2018.08.06.07.29.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Aug 2018 07:29:29 -0700 (PDT)
+	Mon, 06 Aug 2018 07:29:30 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Mon,  6 Aug 2018 07:29:16 -0700
-Message-Id: <1533565758-2467-10-git-send-email-akuster808@gmail.com>
+Date: Mon,  6 Aug 2018 07:29:17 -0700
+Message-Id: <1533565758-2467-11-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1533565758-2467-1-git-send-email-akuster808@gmail.com>
 References: <1533565758-2467-1-git-send-email-akuster808@gmail.com>
-Subject: [SUMO][PATCH 10/12] binutls: Security fix CVE-2018-10372
+Subject: [SUMO][PATCH 11/12] binutls: Security fix CVE-2018-10535
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,7 +60,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 14:29:29 -0000
+X-List-Received-Date: Mon, 06 Aug 2018 14:29:30 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
@@ -69,86 +69,89 @@ Affects <= 2.30
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
  meta/recipes-devtools/binutils/binutils-2.30.inc   |  1 +
- .../binutils/binutils/CVE-2018-10372.patch         | 58 ++++++++++++++++++++++
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-10372.patch
+ .../binutils/binutils/CVE-2018-10535.patch         | 61 ++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-10535.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.30.inc b/meta/recipes-devtools/binutils/binutils-2.30.inc
-index 7b1705e..8693757 100644
+index 8693757..f8ac1ca 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.30.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.30.inc
-@@ -44,6 +44,7 @@ SRC_URI = "\
-      file://CVE-2018-7569.patch \
+@@ -45,6 +45,7 @@ SRC_URI = "\
       file://CVE-2018-7568.patch \
       file://CVE-2018-10373.patch \
-+     file://CVE-2018-10372.patch \
+      file://CVE-2018-10372.patch \
++     file://CVE-2018-10535.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-10372.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-10372.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-10535.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-10535.patch
 new file mode 100644
-index 0000000..053e9d8
+index 0000000..fa8fbd2
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-10372.patch
-@@ -0,0 +1,58 @@
-+From 6aea08d9f3e3d6475a65454da488a0c51f5dc97d Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-10535.patch
+@@ -0,0 +1,61 @@
++From db0c309f4011ca94a4abc8458e27f3734dab92ac Mon Sep 17 00:00:00 2001
 +From: Nick Clifton <nickc@redhat.com>
-+Date: Tue, 17 Apr 2018 12:35:55 +0100
-+Subject: [PATCH] Fix illegal memory access when parsing corrupt DWARF
-+ information.
++Date: Tue, 24 Apr 2018 16:57:04 +0100
++Subject: [PATCH] Fix an illegal memory access when trying to copy an ELF
++ binary with corrupt section symbols.
 +
-+	PR 23064
-+	* dwarf.c (process_cu_tu_index): Test for a potential buffer
-+	overrun before copying signature pointer.
++	PR 23113
++	* elf.c (ignore_section_sym): Check for the output_section pointer
++	being NULL before dereferencing it.
 +
 +Upstream-Status: Backport
-+Affects: Binutils <= 2.30
-+CVE: CVE-2018-10372
++CVE: CVE-2018-10535
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ binutils/ChangeLog |  6 ++++++
-+ binutils/dwarf.c   | 13 ++++++++++++-
-+ 2 files changed, 18 insertions(+), 1 deletion(-)
++ bfd/ChangeLog | 4 ++++
++ bfd/elf.c     | 9 ++++++++-
++ 2 files changed, 12 insertions(+), 1 deletion(-)
 +
-+Index: git/binutils/dwarf.c
++Index: git/bfd/elf.c
 +===================================================================
-+--- git.orig/binutils/dwarf.c
-++++ git/binutils/dwarf.c
-+@@ -9252,7 +9252,18 @@ process_cu_tu_index (struct dwarf_sectio
-+ 		}
++--- git.orig/bfd/elf.c
+++++ git/bfd/elf.c
++@@ -4021,15 +4021,22 @@ ignore_section_sym (bfd *abfd, asymbol *
++ {
++   elf_symbol_type *type_ptr;
 + 
-+ 	      if (!do_display)
-+-		memcpy (&this_set[row - 1].signature, ph, sizeof (uint64_t));
-++		{
-++		  size_t num_copy = sizeof (uint64_t);
+++  if (sym == NULL)
+++    return FALSE;
 ++
-++		  /* PR 23064: Beware of buffer overflow.  */
-++		  if (ph + num_copy < limit)
-++		    memcpy (&this_set[row - 1].signature, ph, num_copy);
-++		  else
-++		    {
-++		      warn (_("Signature (%p) extends beyond end of space in section\n"), ph);
-++		      return 0;
-++		    }
-++		}
++   if ((sym->flags & BSF_SECTION_SYM) == 0)
++     return FALSE;
 + 
-+ 	      prow = poffsets + (row - 1) * ncols * 4;
-+ 	      /* PR 17531: file: b8ce60a8.  */
-+Index: git/binutils/ChangeLog
+++  if (sym->section == NULL)
+++    return TRUE;
+++
++   type_ptr = elf_symbol_from (abfd, sym);
++   return ((type_ptr != NULL
++ 	   && type_ptr->internal_elf_sym.st_shndx != 0
++ 	   && bfd_is_abs_section (sym->section))
++ 	  || !(sym->section->owner == abfd
++-	       || (sym->section->output_section->owner == abfd
+++	       || (sym->section->output_section != NULL
+++		   && sym->section->output_section->owner == abfd
++ 		   && sym->section->output_offset == 0)
++ 	       || bfd_is_abs_section (sym->section)));
++ }
++Index: git/bfd/ChangeLog
 +===================================================================
-+--- git.orig/binutils/ChangeLog
-++++ git/binutils/ChangeLog
++--- git.orig/bfd/ChangeLog
+++++ git/bfd/ChangeLog
 +@@ -1,3 +1,9 @@
-++2018-04-17  Nick Clifton  <nickc@redhat.com>
+++2018-04-24  Nick Clifton  <nickc@redhat.com>
 ++
-++       PR 23064
-++       * dwarf.c (process_cu_tu_index): Test for a potential buffer
-++       overrun before copying signature pointer.
+++       PR 23113
+++       * elf.c (ignore_section_sym): Check for the output_section pointer
+++       being NULL before dereferencing it.
 ++
-+ 2018-01-27  Nick Clifton  <nickc@redhat.com>
++ 2018-04-17  Nick Clifton  <nickc@redhat.com>
 + 
-+ 	Back to development.
++        PR 23065
 -- 
 2.7.4
 
