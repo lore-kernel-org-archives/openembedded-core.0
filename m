@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f41.google.com (mail-pl0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AE3B78A74
+Received: from mail-pl0-f46.google.com (mail-pl0-f46.google.com
+	[209.85.160.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 7182C78BF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 22:57:42 +0000 (UTC)
-Received: by mail-pl0-f41.google.com with SMTP id u11-v6so6249276plq.5
+	Mon,  6 Aug 2018 22:57:43 +0000 (UTC)
+Received: by mail-pl0-f46.google.com with SMTP id f6-v6so6250665plo.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2018 15:57:43 -0700 (PDT)
+	Mon, 06 Aug 2018 15:57:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=DBmC8ou89+m0ZJlQ7MZ9eNMkVgtSUXtmApSSrrcSVuY=;
-	b=gZ1XlNbU1JhjbZLftcmBcsNVSfDyraHv1GoNMeUhjviMX/MTj40Gkx3LCVrARMkK3T
-	iLUihyXguhA6966DumSQ8wgyflop5mwUbnIhqV7YZH26G5lForndU6preu+Gv+3sSkcw
-	JlPecFzFYoxw0vxISBWWPPY+sUVi6iWZnAdR+iCrsxOrt7BD/G+NEnb0OYCYsESYbXaI
-	GxR07lISyFZ51E1RB3lSJqR9udMd8J1hVAHliByJMk2mNUAMrsd/Yo6jvlS/E0LhMc61
-	ASp3fZ8NB0z+97pD7Q30dHVuejdsWR81j7fumO43AB/7xOOuI0MEQfSXoqkep9MBnwJg
-	+S/Q==
+	bh=xqZoWAcpZ2/Zg7wEVg1dgya9WLpijnFSV3FLRuxyybo=;
+	b=tCB0T1Iu/Xcu7/a2jsKWWS8kLTr7ELBWwZPaIbjpDWWwIGIf3PRy2fs3sFpKlVvyNV
+	VO3o8W1PxOTLKwXmIJJFOKVA2nBuVV3Csy3wIVTU+PZWQ85pFoEKgQ3pb1IQFl5g4sUR
+	8iv3F7lGej5s93Y7iFTCez3JGRXKPFkwL1OCSXLeWi8sLy3OpomlXHftu3Ad1FaPvr9t
+	0M64GO6Nee5Zx3lvW8mZUVQKuTcWnLnqNC92gEtLF7a+BR+CKi6DAvUigeS1xOKWlVpf
+	1r9U55dbFkUgsAdB0Dfccf2F+gP0OdQH092fzfVbGa+E3XFWi45YfRi9xsFpi/x1x6gE
+	EglQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=DBmC8ou89+m0ZJlQ7MZ9eNMkVgtSUXtmApSSrrcSVuY=;
-	b=GOLp+a8/5eSCyn7gkPDIuwnwLqW/9+e5Xj3TmAhrvjQOjoiFgIMsj5AaJTOoy17LcJ
-	X0TXtuksEc2UJUBCI8VZWmaCofHz6ncwbzzd9hnqWBd9d9FdT1BGuCFcb0914n6+0QBX
-	cl8oIBEH0NmtQ2YWPAplwPmmOF45zUYugCbIhlU/aocaC+8cRNaO+Ao8YKL0Us9Sm8JQ
-	q1Acg7Exd2hqFLG2a+FMY64dW6emodDk9bvXCyjuLv/hjhhktUyoVSaXzl/LcTHSUKBi
-	c/vPudgPvB6Bmhrn7QuqZjxlPPQphFmA5OGSdKd+bDbGT9GskpL3JAIaHrFupZcomOuA
-	tHjQ==
-X-Gm-Message-State: AOUpUlEiU325Yg3M4BX0hXp/1M3rgC+mWzldmANaD+ROdGU3c/+oERBP
-	Zy24JVZJxdniTjTptY0AMsqF1N/7
-X-Google-Smtp-Source: AAOMgpdfrAuzgVG3FtLScFd4Ti3TsCXryFI3i9cWkGMiFiw9qXTnalWbo4hiHb6kcaW5A8NLI3RZ1g==
-X-Received: by 2002:a17:902:7e06:: with SMTP id
-	b6-v6mr15442598plm.230.1533596263242; 
-	Mon, 06 Aug 2018 15:57:43 -0700 (PDT)
+	bh=xqZoWAcpZ2/Zg7wEVg1dgya9WLpijnFSV3FLRuxyybo=;
+	b=g3serelXn/le6Z+zPRkAFOwT84fbfo5V/PqUl65JD/3DkuDZunXe9hXzYIsgtliZ3w
+	0fq/Wrc8wSgw5RtBZNAe6LICmbQqRq8dCcMOFAbu3OBWBWZFIh/eN1U8Yk5R9/WVhpsR
+	L0DlYEJ7s3LtiKc8SpCS46gnTwOU3L/fkuwp5Ew8qZWm8QxfQy1IzES2AW3m5WogkGbT
+	aue/bxzyrY27ui21kVoRXCRGk2ErD+JSHASCsDQry8EXkyIbq9vm1E43egSshY5r4DYz
+	q/iSFJNvB/nZ+SYgePuALNw9E5zjeppxXCe5G3nPf3z7A7FK/Pbny4EHAQEc42b5fBDT
+	VxGg==
+X-Gm-Message-State: AOUpUlHBElpGafqvTR20L7c10ETx7EDA/iiUwCXJWGRcHfNpw/RJ0GWc
+	i6GclsVfSwbjAASZoRwvClJmEnAI
+X-Google-Smtp-Source: AAOMgpewueSXMa+BDXE7P4IkimKBdNvn0TBliteAYvISEw+MPOrmVVy34XEw+qUKPRpoDIb8G4xLYg==
+X-Received: by 2002:a17:902:1682:: with SMTP id
+	h2-v6mr15564800plh.327.1533596264301; 
+	Mon, 06 Aug 2018 15:57:44 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::1d00])
 	by smtp.gmail.com with ESMTPSA id
-	x1-v6sm11993137pgr.59.2018.08.06.15.57.42
+	x1-v6sm11993137pgr.59.2018.08.06.15.57.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Aug 2018 15:57:42 -0700 (PDT)
+	Mon, 06 Aug 2018 15:57:43 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Aug 2018 15:57:12 -0700
-Message-Id: <b5d8d871e55aae5798bdabe105157c607116b02d.1533595822.git.raj.khem@gmail.com>
+Date: Mon,  6 Aug 2018 15:57:13 -0700
+Message-Id: <72fb0632bf135adce312be8b9c1c8813bf967372.1533595822.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1533595822.git.raj.khem@gmail.com>
 References: <cover.1533595822.git.raj.khem@gmail.com>
-Subject: [PATCH 15/18] libxcrypt: Upgrade to 4.1.1
+Subject: [PATCH 16/18] cross-localedef-native: Update to build with glibc 2.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +58,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 22:57:42 -0000
-
-license update: Remove CDDL code with Public Domain pieces
-
-https://github.com/besser82/libxcrypt/commit/c76847e3be40c4ac0d78bc8518502418c6207144#diff-fdcb2380ff1eeea2e5795ec115ba1c0d
-
-inherit pkgconfig as it uses pkg-config during build
+X-List-Received-Date: Mon, 06 Aug 2018 22:57:43 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libxcrypt/{libxcrypt_4.0.1.bb => libxcrypt_4.1.1.bb}    | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/libxcrypt/{libxcrypt_4.0.1.bb => libxcrypt_4.1.1.bb} (81%)
+ meta/recipes-core/glibc/cross-localedef-native_2.28.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.0.1.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.1.1.bb
-similarity index 81%
-rename from meta/recipes-core/libxcrypt/libxcrypt_4.0.1.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt_4.1.1.bb
-index f21029cdad..61ea22e4ea 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt_4.0.1.bb
-+++ b/meta/recipes-core/libxcrypt/libxcrypt_4.1.1.bb
-@@ -3,13 +3,13 @@ DESCRIPTION = "Forked code from glibc libary to extract only crypto part."
- HOMEPAGE = "https://github.com/besser82/libxcrypt"
- SECTION = "libs"
- LICENSE = "LGPLv2.1"
--LIC_FILES_CHKSUM ?= "file://LICENSING;md5=d1cc18f512ded3bd6000f3729f31be08 \
-+LIC_FILES_CHKSUM ?= "file://LICENSING;md5=cb3ca4cabd2447a37bf186fad6f79852 \
-       file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
- "
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.28.bb b/meta/recipes-core/glibc/cross-localedef-native_2.28.bb
+index 0992e0285d..a05b94e3b3 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.28.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.28.bb
+@@ -22,7 +22,7 @@ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.(?!90)\d+)*)"
  
--inherit autotools
-+inherit autotools pkgconfig
+ SRCREV_glibc ?= "3c03baca37fdcb52c3881e653ca392bba7a99c2b"
+-SRCREV_localedef ?= "de5bdbd5e76b5403a4151b9b9f958b6cca36b3e7"
++SRCREV_localedef ?= "c328777219ccc480be3112cf807217ca6b570b64"
  
--SRCREV ?= "089479bb24acd168613757a6f12d63caa95416b4"
-+SRCREV ?= "21b455b68baad279e6a3936faced16c5e5634376"
- SRCBRANCH ?= "master"
- 
- SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH} \
+ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            git://github.com/kraj/localedef;branch=master;name=localedef;destsuffix=git/localedef \
 -- 
 2.18.0
 
