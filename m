@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id EADB6745BF
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B68078A85
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 22:57:35 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id r1-v6so6856485pgp.11
+	Mon,  6 Aug 2018 22:57:37 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id i26-v6so7531412pfo.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2018 15:57:37 -0700 (PDT)
+	Mon, 06 Aug 2018 15:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=YV7WVCtmXXVqkhRQQk04uE7alOBBn7sOwMaub96nGSM=;
-	b=Sf1WBXn80ef4eIgwI2jE6V+VMEZDvkI6Srgk9vNtCA6YGlSiM43UKYBhHJ9nrXoZb/
-	I+E5MrYVkbguXnqA/XA0Yq3B9LZuifW56mnDtO2Xbpr7sNBACOeUdqZB3+j/HcQJtfHi
-	YrFNEQ5gaZGqQfkCBlMIQCrD6hHzgFh53ZtW/dbaPhbOFlhLfaXyI2C6TvywrKc2FkIq
-	8Zv5lb7E8PZVBv0hYsQZD3NRK+dH9ixLYVi2y81UfxghAxJufJBWJSqRg+TbqTUgv9jP
-	YZ766sr+foXfH5yXntKmmwULkm838tU+OWxnyavuulDjKCIu+zZBNvrJA8rLZsCIjkbi
-	P9Fg==
+	bh=fR2ZAFZTWtAVw1vebWIv7pyIs48pjIK8IGW130Cswqw=;
+	b=G2RSGRS1Ij1tDfm3y7CfyHHcHzJ5QPQIPd7gnj9wXpLeA8m08MAFbAHLI/rBcfi7RJ
+	zXVBp0ba7IyUoUvDnJp41McvFeIv0SOio6dCu77L1wcdBh+71xdxD70nqC6XHHN2j9R2
+	VNvC0YqcHzJf8n/hjHYbRVsHq5cUbiI5Rza57Mz6A7wIy8vuCxmWJkXCTTY7WNljeyHH
+	1cshlWi2irrla8Ne7n3hTu4aDlxqGKCP0S2XMSHvepG7/92zt5TdgC2sKxniA7AfnZ1T
+	Tg0djdwo9339DTvQ0Ctxua7b5cvFn8Crp/0Ei4ve427CsHiLW7UcmPOjYMeIa+il/WJ4
+	1WrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=YV7WVCtmXXVqkhRQQk04uE7alOBBn7sOwMaub96nGSM=;
-	b=WoG8L6mUs7EAttALBfZu0p00s/WfhJ3rfkomzhpt/hhUDEfDrkrULl1bVotmjp5/1G
-	RCi6unzRfhNga1jZ69QF3BwTxMReUBr0E7RrIxgNGtyOXYYWMQ58O8Uk4zqdaLo07Eka
-	giPRuxJnAoQR7eXW6/fl82TOpfHLToXx12w2998pjwAY3PQmzLmPZDU1O15FJYL5wIQr
-	39ItaNqzTej+o87oTYemIb+uYGP7mMqXdJn/yoN20N02HBz4EzO8kyJxhyuWn36Gp15s
-	L4KAxks0hG9F2URAOpiwGacQtrQYD6VOTh1U+YrXgTlbeisxrizN8JeJQDe4PYokUqid
-	FzlA==
-X-Gm-Message-State: AOUpUlHWLeM4ySvBkXraa8L2AVtL2WA+NKShDRj8HjzacWhAYpzpE2Fm
-	80C1EXDWpj9rsNsAt7hv1d3wZ8Df
-X-Google-Smtp-Source: AAOMgpdR+X9m8ksr0UcAAJ56KuLoujL8Yf1s8DJpppKYOw+wYW4utDJxfFJKUldZlLxOnk+bsrgT3g==
-X-Received: by 2002:a62:cac5:: with SMTP id
-	y66-v6mr18887033pfk.187.1533596256694; 
-	Mon, 06 Aug 2018 15:57:36 -0700 (PDT)
+	bh=fR2ZAFZTWtAVw1vebWIv7pyIs48pjIK8IGW130Cswqw=;
+	b=gtQVRX8kmhAGGfBnqWAjZ+q/xa8Xac7sf1/P7kdOoLWY+IMfl6HhL8oyEUtnDzn8da
+	tt6HX00ZkIxeKx+DdDbvMEgQbUq7od6vJqL+Arb0kzM7xJ+7TUcjgoywH7SeZHWoW26O
+	nrjgmxyTVaDZ4NarL+N1KJ3OrYDuceOp4XbGA1ZAd0vgKayqkdFn15J+RM/9Dkwjjht/
+	XFFvW1Ny+qwV5O3kf5qZfEgYzKm92kB5USqBwCiu1rvVo+eBpYpomZMg+dIeRtcEtZY6
+	s+K9z2zKWYPFARD1RG/4Ixk75Ds9v/DYzye07HxTwzrDxxo06Jwe4kxZ8UOqK83jE+zi
+	yolw==
+X-Gm-Message-State: AOUpUlG51p15Z/GEKlNW3/KJjNy9qAcs0RLDM5YGDTlgObaFS4Ni6m+v
+	4w7CiOlrHxxc64b4i6kNTw28qalg
+X-Google-Smtp-Source: AAOMgpdUaBOB3YWjFe54QoM2fCq56CgVBXb0zt6C7oZjnlVw2DWI4gDtjnGBOtyE5LxEprqv3g2RmQ==
+X-Received: by 2002:a62:20d8:: with SMTP id
+	m85-v6mr19280515pfj.74.1533596258010; 
+	Mon, 06 Aug 2018 15:57:38 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::1d00])
 	by smtp.gmail.com with ESMTPSA id
-	x1-v6sm11993137pgr.59.2018.08.06.15.57.35
+	x1-v6sm11993137pgr.59.2018.08.06.15.57.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Aug 2018 15:57:35 -0700 (PDT)
+	Mon, 06 Aug 2018 15:57:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Aug 2018 15:57:07 -0700
-Message-Id: <06c361481025023e6ad962759e5968bd9c19c0b7.1533595822.git.raj.khem@gmail.com>
+Date: Mon,  6 Aug 2018 15:57:08 -0700
+Message-Id: <bf1b4204e045a850ea8e91e19778ea12ffc0ef90.1533595822.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1533595822.git.raj.khem@gmail.com>
 References: <cover.1533595822.git.raj.khem@gmail.com>
-Subject: [PATCH 10/18] ppp: Use openssl for the DES instead of the libcrypt / glibc
+Subject: [PATCH 11/18] glibc: Drop packaging libcrypt from 2.28+ onwards
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,135 +58,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 22:57:36 -0000
+X-List-Received-Date: Mon, 06 Aug 2018 22:57:37 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../ppp/ppp/ppp-2.4.7-DES-openssl.patch       | 84 +++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |  5 +-
- 2 files changed, 87 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ meta/recipes-core/glibc/glibc.inc         | 4 +---
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch b/meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
-new file mode 100644
-index 0000000000..e53f240543
---- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
-@@ -0,0 +1,84 @@
-+Used openssl for the DES instead of the libcrypt / glibc
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: ppp-2.4.7/pppd/Makefile.linux
-+===================================================================
-+--- ppp-2.4.7.orig/pppd/Makefile.linux
-++++ ppp-2.4.7/pppd/Makefile.linux
-+@@ -38,7 +38,7 @@ LIBS =
-+ # Uncomment the next 2 lines to include support for Microsoft's
-+ # MS-CHAP authentication protocol.  Also, edit plugins/radius/Makefile.linux.
-+ CHAPMS=y
-+-USE_CRYPT=y
-++#USE_CRYPT=y
-+ # Don't use MSLANMAN unless you really know what you're doing.
-+ #MSLANMAN=y
-+ # Uncomment the next line to include support for MPPE.  CHAPMS (above) must
-+@@ -132,7 +132,7 @@ endif
-+ 
-+ ifdef NEEDDES
-+ ifndef USE_CRYPT
-+-LIBS     += -ldes $(LIBS)
-++LIBS     += -lcrypto
-+ else
-+ CFLAGS   += -DUSE_CRYPT=1
-+ endif
-+Index: ppp-2.4.7/pppd/pppcrypt.c
-+===================================================================
-+--- ppp-2.4.7.orig/pppd/pppcrypt.c
-++++ ppp-2.4.7/pppd/pppcrypt.c
-+@@ -64,7 +64,7 @@ u_char *des_key;	/* OUT 64 bit DES key w
-+ 	des_key[7] = Get7Bits(key, 49);
-+ 
-+ #ifndef USE_CRYPT
-+-	des_set_odd_parity((des_cblock *)des_key);
-++	DES_set_odd_parity((DES_cblock *)des_key);
-+ #endif
-+ }
-+ 
-+@@ -158,25 +158,25 @@ u_char *clear;	/* OUT 8 octets */
-+ }
-+ 
-+ #else /* USE_CRYPT */
-+-static des_key_schedule	key_schedule;
-++static DES_key_schedule	key_schedule;
-+ 
-+ bool
-+ DesSetkey(key)
-+ u_char *key;
-+ {
-+-	des_cblock des_key;
-++	DES_cblock des_key;
-+ 	MakeKey(key, des_key);
-+-	des_set_key(&des_key, key_schedule);
-++	DES_set_key(&des_key, &key_schedule);
-+ 	return (1);
-+ }
-+ 
-+ bool
-+-DesEncrypt(clear, key, cipher)
-++DesEncrypt(clear, cipher)
-+ u_char *clear;	/* IN  8 octets */
-+ u_char *cipher;	/* OUT 8 octets */
-+ {
-+-	des_ecb_encrypt((des_cblock *)clear, (des_cblock *)cipher,
-+-	    key_schedule, 1);
-++	DES_ecb_encrypt((DES_cblock *)clear, (DES_cblock *)cipher,
-++	    &key_schedule, 1);
-+ 	return (1);
-+ }
-+ 
-+@@ -185,8 +185,8 @@ DesDecrypt(cipher, clear)
-+ u_char *cipher;	/* IN  8 octets */
-+ u_char *clear;	/* OUT 8 octets */
-+ {
-+-	des_ecb_encrypt((des_cblock *)cipher, (des_cblock *)clear,
-+-	    key_schedule, 0);
-++	DES_ecb_encrypt((DES_cblock *)cipher, (DES_cblock *)clear,
-++	    &key_schedule, 0);
-+ 	return (1);
-+ }
-+ 
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index a1bb7d71c1..f4646bd693 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -4,7 +4,7 @@ the Point-to-Point Protocol (PPP) on Linux and Solaris systems."
- SECTION = "console/network"
- HOMEPAGE = "http://samba.org/ppp/"
- BUGTRACKER = "http://ppp.samba.org/cgi-bin/ppp-bugs"
--DEPENDS = "libpcap"
-+DEPENDS = "libpcap openssl"
- LICENSE = "BSD & GPLv2+ & LGPLv2+ & PD"
- LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77d87dc9c290a424dea \
-                     file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
-@@ -32,6 +32,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
-            file://fix-CVE-2015-3310.patch \
-            file://0001-pppoe-include-netinet-in.h-before-linux-in.h.patch \
-            file://0001-ppp-Remove-unneeded-include.patch \
-+           file://ppp-2.4.7-DES-openssl.patch \
- "
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index a4f61f8e87..0e0dacec95 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -14,7 +14,7 @@ RPROVIDES_glibc-extra-nss = "eglibc-extra-nss"
+ RPROVIDES_glibc-thread-db = "eglibc-thread-db"
+ RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
+ RPROVIDES_${PN}-dbg = "eglibc-dbg"
+-libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
++libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
+ libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
+ INSANE_SKIP_${PN}_append_aarch64 = " libdir"
  
- SRC_URI_append_libc-musl = "\
-@@ -49,7 +50,7 @@ EXTRA_OECONF = "--disable-strip"
- # Package Makefile computes CFLAGS, referencing COPTS.
- # Typically hard-coded to '-O2 -g' in the Makefile's.
- #
--EXTRA_OEMAKE += ' COPTS="${CFLAGS} -I${S}/include"'
-+EXTRA_OEMAKE += ' COPTS="${CFLAGS} -I${STAGING_INCDIR}/openssl -I${S}/include"'
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index 3db55f926f..91491a35f0 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -34,9 +34,7 @@ siteconfig_do_siteconfig_gencache_prepend = " \
+ # nptl needs unwind support in gcc, which can't be built without glibc.
+ DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial libgcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial"
  
- do_configure () {
- 	oe_runconf
+-CRYPTPROVIDES = "virtual/crypt"
+-CRYPTPROVIDES_class-nativesdk = ""
+-PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc ${CRYPTPROVIDES}"
++PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+ PROVIDES += "virtual/libintl virtual/libiconv"
+ inherit autotools texinfo distro_features_check systemd
+ 
 -- 
 2.18.0
 
