@@ -1,51 +1,51 @@
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 03ABD784DF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AB199771B8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 18:59:00 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id l15-v6so11449544lji.6
+	Mon,  6 Aug 2018 19:12:20 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id s198-v6so24121525oih.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2018 11:59:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 06 Aug 2018 12:12:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6rfO1uzAGnl1EtlRSZ/bBob13YlJFTDYWeb0NueTuXQ=;
-	b=Lr0vWKRCuxLGzsssLjmAJee0J8PHwkpOwUuu26KNKEpEPJKVbmTWUgqsCK5EAl7frp
-	oOdJVbTo8U+UfLoQEFfovBStRpP/n5PGU49pZxt2C1i5+bzDZVigZuQx+J8Xwi6tMUBp
-	l25bK+vW+ets1giI7XSjM6GKZe/1dlmG5Zln570iCf1VoZdis6o6PcfcApMPUOC9a8Im
-	B5UDh+Tcx8VbL4gZJAYkn7+WnbEw49C3obWCqX0hfIN0lzYzx8QRjTe5YmJ94oG6g9En
-	YUu5wJKVEXzqhTa6nwERT4CXd6CGZhyPNyXPYKY2fnqdTgDPyBmYvZZTLaV3x9zdrBCv
-	U6Uw==
+	:cc; bh=DfVSk+aW4aAAWxAHILJP1LuyeBXBw1+F/zeEnkwOrTM=;
+	b=giGH+SXg0CwKu8lR5c++ecT/v7om8oHDcLjtI42LDHIlNKPxaZm00lMTmoxHnYbBou
+	c90Ml5P6g1o3bRdQ3YadL2iv4mE/2hBdVQXHtXkQqvB2aSc6+YhX/pMjbE64dR4pYzmF
+	ScaldE8hjtbtJITbYNnjyXQjPA7d3TdKSSTAHM6zfWWqNNUDpqAkLEZbBFvgMrAAVSG8
+	x9/vujXf2dZVX1bMzxmspQojcOjaYrPzTYGRaM6L37Q7BpYhpTn85cAm7EIqToKDXDiN
+	bCd1VeNKBa9zTtmVYGJDyuKn4mg96X1rv6y7rMvb9SAVRloeXWBs+BAHQ0/aBzPy4ZuK
+	Hhdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=6rfO1uzAGnl1EtlRSZ/bBob13YlJFTDYWeb0NueTuXQ=;
-	b=fr6RSmRwBntEyTNGw2gR+ITnicYcjCFhHNlgex0lxh444NsMk7gQBh8SayR2WpHN6Z
-	1SuFLBjgCIINRCqMpSy8YTY01FMG4cd6zkvpSs8FzWS6huUxCMkEexZIpi/kBjUYaKw8
-	uenrbrH/MqN+6fKdW5J2ouMpX7Yn6kL2/vy13Rhun4o/sOzY1u0gaXXfZTfew/brif+r
-	nspr+tGF7o2yTA0TZnx8/ZFBZyfXKUJxIrCBSKov+9dFjcRIs3Z0qEKkvK0v9Y5PVthS
-	2K23iasT8Jcn9ZtJF0tDA7HLlJb0MLEPueZOtXcnl3u00mC7T+F4jg7axsZ+YpgUUzNi
-	J5DA==
-X-Gm-Message-State: AOUpUlGVl6cqVv/RgNHKZEWZhwidbwvU6pMB06DENJ5qC3Fd2rzW7OIH
-	ujx0M4sGJSzqTzonY+C85uHN+7Wt2f4y4Ule0YA=
-X-Google-Smtp-Source: AAOMgpd9Iz4aKYFCWeIzcrKAMEI0hdBljr7x/C0KwzWxV/ScGwNbAGQlCP/zA35GXY7hkdkvnTqaIGZF7IuMHoF0UE4=
-X-Received: by 2002:a2e:2114:: with SMTP id
-	h20-v6mr14363632ljh.135.1533581941520; 
-	Mon, 06 Aug 2018 11:59:01 -0700 (PDT)
+	bh=DfVSk+aW4aAAWxAHILJP1LuyeBXBw1+F/zeEnkwOrTM=;
+	b=nkrgU0ze3JQ+K6z7YBStV/loyBUgxX44EbsWpRVkeWrQQyY6K2KZvlQm1xOzsgz5CK
+	UWs0WGlm0Sc7k5gPpEz/Au31Rtvg4dyRF/8pkGDwAA+avd6DtKCdxeKL2WDoCTm6l9lr
+	MZrMV8XYdZ7wNFh52QIBlAmOg36lMM2j8124y9Uc1XH+uzhq51mzM1XCOhVoSh/g9VjV
+	5NjK0bFvWR06FyAn1ftGJf5Qn9zr7VCHxGFi4i23d/3ynGw6LOkjI5HuuypZYCQXxcO+
+	okv+65u9lw5KFV5lM+4xok520VcUf3rhT8U5VaY87p2/vCSFzJAezlAaXlpDrjpKGWPx
+	gl7A==
+X-Gm-Message-State: AOUpUlGr5qxbCJdlI0xTF+8Y/aeFBiAGIY+n+sLgtd24rewpuUrEAGz5
+	5FrTBFE4UneZ0CrrGKSKA+sDopR6x80M54IZxN/nPgmHjqE=
+X-Google-Smtp-Source: AAOMgpcmvV/WFwpdYL6i8NZ6a3LlzDvOvUnQp95E1JHieyv95qGoDClOXtJ/oWBHSBkQ1G2tn/dkczuN2SycjmDmEmo=
+X-Received: by 2002:aca:b256:: with SMTP id
+	b83-v6mr16791369oif.235.1533582741535; 
+	Mon, 06 Aug 2018 12:12:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:6f11:0:0:0:0:0 with HTTP;
-	Mon, 6 Aug 2018 11:59:00 -0700 (PDT)
-In-Reply-To: <CAMKF1sqGb4x0u7OCqyHQKx0WPCypoWX+ZqzuyTCWhAZKsrACFA@mail.gmail.com>
-References: <1532937321-4077-1-git-send-email-christopher.w.clark@gmail.com>
-	<CAJTo0LbCA4OfxodE0ac60VHYwHm8fCRgQqWjJmQ_svVjeHc-dA@mail.gmail.com>
-	<CAMKF1sqGb4x0u7OCqyHQKx0WPCypoWX+ZqzuyTCWhAZKsrACFA@mail.gmail.com>
-From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Mon, 6 Aug 2018 11:59:00 -0700
-Message-ID: <CACMJ4GYS6_FiuL7PCLFZUA9kNc7G232aLbPkytYMwNjyb5mq3Q@mail.gmail.com>
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP;
+	Mon, 6 Aug 2018 12:12:00 -0700 (PDT)
+In-Reply-To: <CAJTo0LbJC8WMp=T-9PTHF3Ld2eV2t_oUkqfTGq4Ew7gH10bKvA@mail.gmail.com>
+References: <cover.1533434674.git.raj.khem@gmail.com>
+	<CAJTo0LbJC8WMp=T-9PTHF3Ld2eV2t_oUkqfTGq4Ew7gH10bKvA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 6 Aug 2018 20:12:00 +0100
+Message-ID: <CAJTo0La4P9FL=9iVahH8fyy67MWNsZzdnbpvPPt3O0_FzANUfg@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6] binutils : enable x86_64-pep for producing EFI binaries on x86-64
+Subject: Re: [PATCH 00/10] Update to glibc 2.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,341 +58,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 18:59:01 -0000
-Content-Type: multipart/alternative; boundary="000000000000dbbdb90572c8dec5"
-
---000000000000dbbdb90572c8dec5
+X-List-Received-Date: Mon, 06 Aug 2018 19:12:20 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Khem, are you OK with this v6 patch for binutils to add build support for
-EFI on x86-64?
+Added a make-native dependency and respun it.
 
-Christopher
+xf86-video-intel:
+../../git/tools/backlight_helper.c:54:34: error: implicit declaration
+of function 'major' [-Werror=implicit-function-declaration]
+(haven't check but maybe
+https://cgit.freedesktop.org/xorg/driver/xf86-video-intel/commit/?id=aa40f990142eb165ee7f60f08e9616bc5bebdebe)
 
-On Mon, Jul 30, 2018 at 11:32 AM, Khem Raj <raj.khem@gmail.com> wrote:
+Ross
 
-> We can and many toolchains do that especially in embedded targets but it
-> will cause more compile time to build binutils and size will grow a lot a=
-nd
-> since we do not use universal binutils which can be shared across
-> architectures we will not benefit from this although it does mean our
-> binutils will be able to inspect objects of many different kinds weather
-> that=E2=80=99s valuable or not I can=E2=80=99t say much it=E2=80=99s not =
-my usecase at least
+On 6 August 2018 at 12:58, Burton, Ross <ross.burton@intel.com> wrote:
+> Apart from all the failures from make, some other failures:
 >
-> On Mon, Jul 30, 2018 at 4:29 AM Burton, Ross <ross.burton@intel.com>
-> wrote:
+> sysvinit doesn't like glibc 2.28.
+> http://errors.yoctoproject.org/Errors/Details/185058/
+> ld: /usr/src/debug/sysvinit/2.88dsf-r14/sysvinit-2.88dsf/src/mountpoint.c:123:
+> undefined reference to `major'
 >
->> Is just passing --enable-targets=3Dall not an option?
+> glibc/xcrypt are conflicting in nativesdk-perl builds:
+> ERROR: The file
+> /opt/poky/2.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/libcrypt.so
+> is installed by both nativesdk-glibc and nativesdk-libxcrypt, aborting
+>
+> Ross
+>
+> On 5 August 2018 at 03:06, Khem Raj <raj.khem@gmail.com> wrote:
+>> There are few changes which results in fixing gnulib pieces and some header includes
+>> for statx
 >>
->> Ross
+>> The following changes since commit 1c4d9f46d5d94ea15d0c0d68c412ec05b9f51820:
 >>
->> On 30 July 2018 at 08:55, Christopher Clark
->> <christopher.w.clark@gmail.com> wrote:
->> > Add x86_64-pep emulation support to the set enabled for x86_64 targets
->> > to enable the linker to produce Portable Executables for EFI binaries.
->> >
->> > Enables building the x86-64 EFI variant of the Xen hypervisor for
->> > the OpenXT Project.
->> >
->> > Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
->> > ---
->> > Changes in v6: added required "Upstream-Status" field to patch header.
->> >
->> > Changes in v5: Apply a patch to extend the set of emulations for x86-6=
-4,
->> > instead of supplying the "enable-targets" flag via the recipe.
->> >
->> > Reasoning: this looks like the least invasive way to add the needed
->> emulation
->> > only when required. It will add the extra support to any builds that
->> have
->> > x86-64 target enabled and not modify others.
->> >
->> > binutils uses autoconf and the AC_ARG_ENABLE macro for handling the
->> > "--enable-targets" option to the generated configure script. It doesn'=
-t
->> allow
->> > for repeating the parameter with additional arguments to extend the
->> list:
->> > it's a one-shot flag. That seems to be standard practice for autoconf.
->> >
->> > binutils source contains config files that map from the target
->> identifiers
->> > to lists of emulations to enable. This patch extends some of those
->> lists.
->> >
->> > Tested with x86-64 build to produce Xen EFI.
->> >
->> >  meta/recipes-devtools/binutils/binutils-2.31.inc   |  1 +
->> >  .../0016-add-i386pep-emulation-for-x86_64.patch    | 41
->> ++++++++++++++++++++++
->> >  2 files changed, 42 insertions(+)
->> >  create mode 100644 meta/recipes-devtools/binutils/binutils/0016-add-
->> i386pep-emulation-for-x86_64.patch
->> >
->> > diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc
->> b/meta/recipes-devtools/binutils/binutils-2.31.inc
->> > index ec9e9c3..02d5bca 100644
->> > --- a/meta/recipes-devtools/binutils/binutils-2.31.inc
->> > +++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
->> > @@ -35,6 +35,7 @@ SRC_URI =3D "\
->> >       file://0013-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.p=
-atch
->> \
->> >       file://0014-Detect-64-bit-MIPS-targets.patch \
->> >       file://0015-sync-with-OE-libtool-changes.patch \
->> > +     file://0016-add-i386pep-emulation-for-x86_64.patch \
->> >  "
->> >  S  =3D "${WORKDIR}/git"
->> >
->> > diff --git a/meta/recipes-devtools/binutils/binutils/0016-add-
->> i386pep-emulation-for-x86_64.patch b/meta/recipes-devtools/
->> binutils/binutils/0016-add-i386pep-emulation-for-x86_64.patch
->> > new file mode 100644
->> > index 0000000..9f20784
->> > --- /dev/null
->> > +++ b/meta/recipes-devtools/binutils/binutils/0016-add-
->> i386pep-emulation-for-x86_64.patch
->> > @@ -0,0 +1,41 @@
->> > +binutils : enable x86_64-pep for producing EFI binaries on x86-64
->> > +
->> > +Add x86_64-pep emulation support to the set enabled for x86_64 target=
-s
->> > +to enable the linker to produce Portable Executables for EFI binaries=
-.
->> > +
->> > +Enables building the x86-64 EFI variant of the Xen hypervisor for
->> > +the OpenXT Project.
->> > +
->> > +Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
->> > +
->> > +Upstream-Status: Inappropriate [OE configuration specific]
->> > +---
->> > +diff --git a/bfd/config.bfd b/bfd/config.bfd
->> > +index c882421..dc705b6 100644
->> > +--- a/bfd/config.bfd
->> > ++++ b/bfd/config.bfd
->> > +@@ -688,7 +688,7 @@ case "${targ}" in
->> > +     ;;
->> > +   x86_64-*-linux-*)
->> > +     targ_defvec=3Dx86_64_elf64_vec
->> > +-    targ_selvecs=3D"i386_elf32_vec iamcu_elf32_vec x86_64_elf32_vec
->> i386_pei_vec x86_64_pei_vec l1om_elf64_vec k1om_elf64_vec"
->> > ++    targ_selvecs=3D"i386_elf32_vec iamcu_elf32_vec x86_64_elf32_vec
->> i386_pei_vec x86_64_pei_vec l1om_elf64_vec k1om_elf64_vec x86_64_pe_vec
->> x86_64_pe_be_vec i386_pe_vec"
->> > +     want64=3Dtrue
->> > +     ;;
->> > +   x86_64-*-nacl*)
->> > +diff --git a/ld/configure.tgt b/ld/configure.tgt
->> > +index a1db7ad..65a984a 100644
->> > +--- a/ld/configure.tgt
->> > ++++ b/ld/configure.tgt
->> > +@@ -253,8 +253,9 @@ x86_64-*-linux-gnux32)     targ_emul=3Delf32_x86_=
-64
->> > +                       tdir_elf_iamcu=3D`echo ${targ_alias} | sed -e
->> 's/x86_64/i386/' -e 's/-linux-gnux32/-linux-gnu/'`
->> > +                       tdir_elf_i386=3D`echo ${targ_alias} | sed -e
->> 's/x86_64/i386/' -e 's/-linux-gnux32/-linux-gnu/'` ;;
->> > + x86_64-*-linux-*)     targ_emul=3Delf_x86_64
->> > +-                      targ_extra_emuls=3D"elf32_x86_64 elf_i386
->> elf_iamcu elf_l1om elf_k1om"
->> > +-                      targ_extra_libpath=3D"elf_i386 elf32_x86_64
->> elf_l1om elf_k1om"
->> > ++                      targ_extra_emuls=3D"elf32_x86_64 elf_i386
->> elf_iamcu elf_l1om elf_k1om i386pe i386pep"
->> > ++                      targ_extra_libpath=3D"elf_i386 elf32_x86_64
->> elf_l1om elf_k1om i386pep"
->> > ++                      targ_extra_ofiles=3D"deffilep.o pep-dll.o
->> pe-dll.o"
->> > +                       tdir_elf_i386=3D`echo ${targ_alias} | sed -e
->> 's/x86_64/i386/'` ;;
->> > + i[3-7]86-*-redox*)    targ_emul=3Delf_i386
->> > +                       targ_extra_emuls=3Delf_x86_64 ;;
->> > --
->> > 2.7.4
->> >
+>>   machine: remove kernel-modules from RRECOMMENDS (2018-08-02 09:30:06 +0100)
 >>
->
+>> are available in the Git repository at:
+>>
+>>   git://git.openembedded.org/openembedded-core-contrib kraj/glibc-2.28
+>>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/glibc-2.28
+>>
+>> Khem Raj (10):
+>>   glibc: Upgrade to 2.28
+>>   systemd: Detect if statx struct is defined in sys/stat.h
+>>   m4: Workaround gnulib's fseeko.c implementation
+>>   findutils: Fix build with glibc 2.28
+>>   bootchart2: Update to master-tip
+>>   gzip: Fix build with glibc 2.28
+>>   bison: Fix build break with glibc 2.28
+>>   strace: Fix build with glibc 2.28
+>>   blktool: Fix build with glibc 2.28
+>>   ppp: Use openssl for the DES instead of the libcrypt / glibc
+>>
+>>  meta/conf/distro/include/tcmode-default.inc   |   2 +-
+>>  .../ppp/ppp/ppp-2.4.7-DES-openssl.patch       |  84 ++++
+>>  meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |   5 +-
+>>  ...2.27.bb => cross-localedef-native_2.28.bb} |  18 +-
+>>  ...-initial_2.27.bb => glibc-initial_2.28.bb} |   0
+>>  ...bc-locale_2.27.bb => glibc-locale_2.28.bb} |   0
+>>  ...bc-mtrace_2.27.bb => glibc-mtrace_2.28.bb} |   0
+>>  ...-scripts_2.27.bb => glibc-scripts_2.28.bb} |   0
+>>  ...Look-for-host-system-ld.so.cache-as-.patch |  12 +-
+>>  ...Fix-buffer-overrun-with-a-relocated-.patch |  10 +-
+>>  ...Raise-the-size-of-arrays-containing-.patch |  18 +-
+>>  ...k-glibc-Allow-64-bit-atomics-for-x86.patch |   6 +-
+>>  ...ake-relocatable-install-for-locales.patch} |  45 +-
+>>  ...500-e6500-603e-fsqrt-implementation.patch} |  44 +-
+>>  ...E_KNOWN_INTERPRETER_NAMES-to-known-.patch} |   6 +-
+>>  ...ndefined-reference-to-__sqrt_finite.patch} |   6 +-
+>>  ...are-now-inline-functions-and-call-o.patch} |   6 +-
+>>  ...43-which-explains-what-the-patch-do.patch} |   8 +-
+>>  ...-err-tab.pl-with-specific-dirs-in-S.patch} |   6 +-
+>>  ...are-now-inline-functions-and-call-o.patch} |   6 +-
+>>  ...gure.ac-handle-correctly-libc_cv_ro.patch} |   6 +-
+>>  ....patch => 0014-Add-unused-attribute.patch} |   6 +-
+>>  ...he-path-sets-wrong-config-variables.patch} |   6 +-
+>>  ...one-re-written-tzselect-as-posix-sh.patch} |   6 +-
+>>  ...ash-dependency-for-nscd-init-script.patch} |   6 +-
+>>  ...s-building-and-testing-instructions.patch} |  10 +-
+>>  ...libc-Help-bootstrap-cross-toolchain.patch} |  12 +-
+>>  ...-eglibc-Clear-cache-lines-on-ppc8xx.patch} |   6 +-
+>>  ...glibc-Resolve-__fpscr_values-on-SH4.patch} |   6 +-
+>>  ...port-cross-locale-generation-support.patch |  28 +-
+>>  ...Define-DUMMY_LOCALE_T-if-not-defined.patch |   6 +-
+>>  ...ke-_dl_build_local_scope-breadth-fir.patch |  10 +-
+>>  ...le-fix-hard-coded-reference-to-gcc-E.patch |   6 +-
+>>  ...set-dl_load_write_lock-after-forking.patch |  14 +-
+>>  ...ck-before-switching-to-malloc_atfork.patch |  30 +-
+>>  ...sts.h-enum-definition-for-TRAP_HWBKP.patch |  14 +-
+>>  ...with-memccpy-to-fix-Wstringop-trunca.patch |  40 --
+>>  ...archive-uses-a-hard-coded-locale-pa.patch} |  23 +-
+>>  ...t-no-lines-in-bison-generated-files.patch} |  17 +-
+>>  .../0031-nativesdk-deprecate-libcrypt.patch   | 419 ------------------
+>>  .../glibc/glibc/CVE-2017-18269.patch          | 178 --------
+>>  .../glibc/glibc/CVE-2018-11236.patch          | 164 -------
+>>  .../glibc/glibc/CVE-2018-11237.patch          |  82 ----
+>>  .../glibc/{glibc_2.27.bb => glibc_2.28.bb}    |  46 +-
+>>  ...-whether-struct-statx-is-defined-in-.patch | 109 +++++
+>>  meta/recipes-core/systemd/systemd_239.bb      |   1 +
+>>  .../recipes-devtools/bison/bison/gnulib.patch |  21 +
+>>  meta/recipes-devtools/bison/bison_3.0.4.bb    |   1 +
+>>  ...ssing-default-value-for-BOOTLOG_DEST.patch |  30 --
+>>  .../bootchart2/bootchart2_0.14.8.bb           |   4 +-
+>>  meta/recipes-devtools/m4/m4-1.4.18.inc        |   1 +
+>>  .../m4-1.4.18-glibc-change-work-around.patch  | 129 ++++++
+>>  .../0001-tests-Include-linux-stat.h.patch     |  76 ++++
+>>  meta/recipes-devtools/strace/strace_4.23.bb   |   1 +
+>>  .../blktool/blktool-gnulib-makedev.patch      |  23 +
+>>  meta/recipes-extended/blktool/blktool_4-7.bb  |   1 +
+>>  .../findutils-4.6.0-gnulib-fflush.patch       | 140 ++++++
+>>  .../findutils-4.6.0-gnulib-makedev.patch      |  78 ++++
+>>  .../findutils/findutils_4.6.0.bb              |   2 +
+>>  .../gzip/gzip-1.9/gnulib.patch                | 189 ++++++++
+>>  meta/recipes-extended/gzip/gzip_1.9.bb        |   4 +-
+>>  61 files changed, 1108 insertions(+), 1125 deletions(-)
+>>  create mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
+>>  rename meta/recipes-core/glibc/{cross-localedef-native_2.27.bb => cross-localedef-native_2.28.bb} (70%)
+>>  rename meta/recipes-core/glibc/{glibc-initial_2.27.bb => glibc-initial_2.28.bb} (100%)
+>>  rename meta/recipes-core/glibc/{glibc-locale_2.27.bb => glibc-locale_2.28.bb} (100%)
+>>  rename meta/recipes-core/glibc/{glibc-mtrace_2.27.bb => glibc-mtrace_2.28.bb} (100%)
+>>  rename meta/recipes-core/glibc/{glibc-scripts_2.27.bb => glibc-scripts_2.28.bb} (100%)
+>>  rename meta/recipes-core/glibc/glibc/{relocate-locales.patch => 0005-nativesdk-glibc-Make-relocatable-install-for-locales.patch} (80%)
+>>  rename meta/recipes-core/glibc/glibc/{0005-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch => 0006-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch} (97%)
+>>  rename meta/recipes-core/glibc/glibc/{0006-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch => 0007-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch} (85%)
+>>  rename meta/recipes-core/glibc/glibc/{0007-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch => 0008-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch} (98%)
+>>  rename meta/recipes-core/glibc/glibc/{0008-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch => 0009-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch} (98%)
+>>  rename meta/recipes-core/glibc/glibc/{0009-Quote-from-bug-1443-which-explains-what-the-patch-do.patch => 0010-Quote-from-bug-1443-which-explains-what-the-patch-do.patch} (93%)
+>>  rename meta/recipes-core/glibc/glibc/{0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch => 0011-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch} (89%)
+>>  rename meta/recipes-core/glibc/glibc/{0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch => 0012-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch} (93%)
+>>  rename meta/recipes-core/glibc/glibc/{0012-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch => 0013-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch} (88%)
+>>  rename meta/recipes-core/glibc/glibc/{0013-Add-unused-attribute.patch => 0014-Add-unused-attribute.patch} (86%)
+>>  rename meta/recipes-core/glibc/glibc/{0014-yes-within-the-path-sets-wrong-config-variables.patch => 0015-yes-within-the-path-sets-wrong-config-variables.patch} (98%)
+>>  rename meta/recipes-core/glibc/glibc/{0015-timezone-re-written-tzselect-as-posix-sh.patch => 0016-timezone-re-written-tzselect-as-posix-sh.patch} (90%)
+>>  rename meta/recipes-core/glibc/glibc/{0016-Remove-bash-dependency-for-nscd-init-script.patch => 0017-Remove-bash-dependency-for-nscd-init-script.patch} (92%)
+>>  rename meta/recipes-core/glibc/glibc/{0017-eglibc-Cross-building-and-testing-instructions.patch => 0018-eglibc-Cross-building-and-testing-instructions.patch} (99%)
+>>  rename meta/recipes-core/glibc/glibc/{0018-eglibc-Help-bootstrap-cross-toolchain.patch => 0019-eglibc-Help-bootstrap-cross-toolchain.patch} (91%)
+>>  rename meta/recipes-core/glibc/glibc/{0019-eglibc-Clear-cache-lines-on-ppc8xx.patch => 0020-eglibc-Clear-cache-lines-on-ppc8xx.patch} (96%)
+>>  rename meta/recipes-core/glibc/glibc/{0020-eglibc-Resolve-__fpscr_values-on-SH4.patch => 0021-eglibc-Resolve-__fpscr_values-on-SH4.patch} (92%)
+>>  delete mode 100644 meta/recipes-core/glibc/glibc/0029-Replace-strncpy-with-memccpy-to-fix-Wstringop-trunca.patch
+>>  rename meta/recipes-core/glibc/glibc/{archive-path.patch => 0029-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch} (69%)
+>>  rename meta/recipes-core/glibc/glibc/{0030-plural_c_no_preprocessor_lines.patch => 0030-intl-Emit-no-lines-in-bison-generated-files.patch} (59%)
+>>  delete mode 100644 meta/recipes-core/glibc/glibc/0031-nativesdk-deprecate-libcrypt.patch
+>>  delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2017-18269.patch
+>>  delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2018-11236.patch
+>>  delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2018-11237.patch
+>>  rename meta/recipes-core/glibc/{glibc_2.27.bb => glibc_2.28.bb} (72%)
+>>  create mode 100644 meta/recipes-core/systemd/systemd/0022-build-sys-Detect-whether-struct-statx-is-defined-in-.patch
+>>  create mode 100644 meta/recipes-devtools/bison/bison/gnulib.patch
+>>  delete mode 100644 meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch
+>>  create mode 100644 meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
+>>  create mode 100644 meta/recipes-devtools/strace/strace/0001-tests-Include-linux-stat.h.patch
+>>  create mode 100644 meta/recipes-extended/blktool/blktool/blktool-gnulib-makedev.patch
+>>  create mode 100644 meta/recipes-extended/findutils/findutils/findutils-4.6.0-gnulib-fflush.patch
+>>  create mode 100644 meta/recipes-extended/findutils/findutils/findutils-4.6.0-gnulib-makedev.patch
+>>  create mode 100644 meta/recipes-extended/gzip/gzip-1.9/gnulib.patch
+>>
+>> --
+>> 2.18.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---000000000000dbbdb90572c8dec5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><br></div>Khem, are you OK with this v6 patch for bin=
-utils to add build support for EFI on x86-64?<div><br></div><div>Christophe=
-r<br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Jul =
-30, 2018 at 11:32 AM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.=
-khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div><div dir=3D"auto">We can and many to=
-olchains do that especially in embedded targets but it will cause more comp=
-ile time to build binutils and size will grow a lot and since we do not use=
- universal binutils which can be shared across architectures we will not be=
-nefit from this although it does mean our binutils will be able to inspect =
-objects of many different kinds weather that=E2=80=99s valuable or not I ca=
-n=E2=80=99t say much it=E2=80=99s not my usecase at least=C2=A0</div></div>=
-<div class=3D"HOEnZb"><div class=3D"h5"><div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr">On Mon, Jul 30, 2018 at 4:29 AM Burton, Ross &lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Is just passing --ena=
-ble-targets=3Dall not an option?<br>
-<br>
-Ross<br>
-<br>
-On 30 July 2018 at 08:55, Christopher Clark<br>
-&lt;<a href=3D"mailto:christopher.w.clark@gmail.com" target=3D"_blank">chri=
-stopher.w.clark@gmail.com</a><wbr>&gt; wrote:<br>
-&gt; Add x86_64-pep emulation support to the set enabled for x86_64 targets=
-<br>
-&gt; to enable the linker to produce Portable Executables for EFI binaries.=
-<br>
-&gt;<br>
-&gt; Enables building the x86-64 EFI variant of the Xen hypervisor for<br>
-&gt; the OpenXT Project.<br>
-&gt;<br>
-&gt; Signed-off-by: Christopher Clark &lt;<a href=3D"mailto:christopher.cla=
-rk6@baesystems.com" target=3D"_blank">christopher.clark6@<wbr>baesystems.co=
-m</a>&gt;<br>
-&gt; ---<br>
-&gt; Changes in v6: added required &quot;Upstream-Status&quot; field to pat=
-ch header.<br>
-&gt;<br>
-&gt; Changes in v5: Apply a patch to extend the set of emulations for x86-6=
-4,<br>
-&gt; instead of supplying the &quot;enable-targets&quot; flag via the recip=
-e.<br>
-&gt;<br>
-&gt; Reasoning: this looks like the least invasive way to add the needed em=
-ulation<br>
-&gt; only when required. It will add the extra support to any builds that h=
-ave<br>
-&gt; x86-64 target enabled and not modify others.<br>
-&gt;<br>
-&gt; binutils uses autoconf and the AC_ARG_ENABLE macro for handling the<br=
->
-&gt; &quot;--enable-targets&quot; option to the generated configure script.=
- It doesn&#39;t allow<br>
-&gt; for repeating the parameter with additional arguments to extend the li=
-st:<br>
-&gt; it&#39;s a one-shot flag. That seems to be standard practice for autoc=
-onf.<br>
-&gt;<br>
-&gt; binutils source contains config files that map from the target identif=
-iers<br>
-&gt; to lists of emulations to enable. This patch extends some of those lis=
-ts.<br>
-&gt;<br>
-&gt; Tested with x86-64 build to produce Xen EFI.<br>
-&gt;<br>
-&gt;=C2=A0 meta/recipes-devtools/<wbr>binutils/binutils-2.31.inc=C2=A0 =C2=
-=A0|=C2=A0 1 +<br>
-&gt;=C2=A0 .../0016-add-i386pep-<wbr>emulation-for-x86_64.patch=C2=A0 =C2=
-=A0 | 41 ++++++++++++++++++++++<br>
-&gt;=C2=A0 2 files changed, 42 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-devtools/<wbr>binutils/binutils/=
-0016-add-<wbr>i386pep-emulation-for-x86_64.<wbr>patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/<wbr>binutils/binutils-2.31.inc b/m=
-eta/recipes-devtools/<wbr>binutils/binutils-2.31.inc<br>
-&gt; index ec9e9c3..02d5bca 100644<br>
-&gt; --- a/meta/recipes-devtools/<wbr>binutils/binutils-2.31.inc<br>
-&gt; +++ b/meta/recipes-devtools/<wbr>binutils/binutils-2.31.inc<br>
-&gt; @@ -35,6 +35,7 @@ SRC_URI =3D &quot;\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0013-fix-the-<wbr>incorrect-assemblin=
-g-for-ppc-<wbr>wait-mnemonic.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0014-Detect-64-bit-<wbr>MIPS-targets.=
-patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0015-sync-with-OE-<wbr>libtool-change=
-s.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0file://0016-add-i386pep-<wbr>emulation-for-x86_64=
-.patch \<br>
-&gt;=C2=A0 &quot;<br>
-&gt;=C2=A0 S=C2=A0 =3D &quot;${WORKDIR}/git&quot;<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/<wbr>binutils/binutils/0016-add-<wb=
-r>i386pep-emulation-for-x86_64.<wbr>patch b/meta/recipes-devtools/<wbr>binu=
-tils/binutils/0016-add-<wbr>i386pep-emulation-for-x86_64.<wbr>patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..9f20784<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-devtools/<wbr>binutils/binutils/0016-add-<wbr>i386p=
-ep-emulation-for-x86_64.<wbr>patch<br>
-&gt; @@ -0,0 +1,41 @@<br>
-&gt; +binutils : enable x86_64-pep for producing EFI binaries on x86-64<br>
-&gt; +<br>
-&gt; +Add x86_64-pep emulation support to the set enabled for x86_64 target=
-s<br>
-&gt; +to enable the linker to produce Portable Executables for EFI binaries=
-.<br>
-&gt; +<br>
-&gt; +Enables building the x86-64 EFI variant of the Xen hypervisor for<br>
-&gt; +the OpenXT Project.<br>
-&gt; +<br>
-&gt; +Signed-off-by: Christopher Clark &lt;<a href=3D"mailto:christopher.cl=
-ark6@baesystems.com" target=3D"_blank">christopher.clark6@<wbr>baesystems.c=
-om</a>&gt;<br>
-&gt; +<br>
-&gt; +Upstream-Status: Inappropriate [OE configuration specific]<br>
-&gt; +---<br>
-&gt; +diff --git a/bfd/config.bfd b/bfd/config.bfd<br>
-&gt; +index c882421..dc705b6 100644<br>
-&gt; +--- a/bfd/config.bfd<br>
-&gt; ++++ b/bfd/config.bfd<br>
-&gt; +@@ -688,7 +688,7 @@ case &quot;${targ}&quot; in<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0;;<br>
-&gt; +=C2=A0 =C2=A0x86_64-*-linux-*)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0targ_defvec=3Dx86_64_elf64_vec<br>
-&gt; +-=C2=A0 =C2=A0 targ_selvecs=3D&quot;i386_elf32_vec iamcu_elf32_vec x8=
-6_64_elf32_vec i386_pei_vec x86_64_pei_vec l1om_elf64_vec k1om_elf64_vec&qu=
-ot;<br>
-&gt; ++=C2=A0 =C2=A0 targ_selvecs=3D&quot;i386_elf32_vec iamcu_elf32_vec x8=
-6_64_elf32_vec i386_pei_vec x86_64_pei_vec l1om_elf64_vec k1om_elf64_vec x8=
-6_64_pe_vec x86_64_pe_be_vec i386_pe_vec&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0want64=3Dtrue<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0;;<br>
-&gt; +=C2=A0 =C2=A0x86_64-*-nacl*)<br>
-&gt; +diff --git a/ld/configure.tgt b/ld/configure.tgt<br>
-&gt; +index a1db7ad..65a984a 100644<br>
-&gt; +--- a/ld/configure.tgt<br>
-&gt; ++++ b/ld/configure.tgt<br>
-&gt; +@@ -253,8 +253,9 @@ x86_64-*-linux-gnux32)=C2=A0 =C2=A0 =C2=A0targ_em=
-ul=3Delf32_x86_64<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0tdir_elf_iamcu=3D`echo ${targ_alias} | sed -e &#39;s/x86_64/i=
-386/&#39; -e &#39;s/-linux-gnux32/-linux-gnu/&#39;`<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0tdir_elf_i386=3D`echo ${targ_alias} | sed -e &#39;s/x86_64/i3=
-86/&#39; -e &#39;s/-linux-gnux32/-linux-gnu/&#39;` ;;<br>
-&gt; + x86_64-*-linux-*)=C2=A0 =C2=A0 =C2=A0targ_emul=3Delf_x86_64<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 targ_extra_emuls=3D&quot;elf32_x86_64 elf_i386 elf_iamcu elf_l1o=
-m elf_k1om&quot;<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 targ_extra_libpath=3D&quot;elf_i386 elf32_x86_64 elf_l1om elf_k1=
-om&quot;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 targ_extra_emuls=3D&quot;elf32_x86_64 elf_i386 elf_iamcu elf_l1o=
-m elf_k1om i386pe i386pep&quot;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 targ_extra_libpath=3D&quot;elf_i386 elf32_x86_64 elf_l1om elf_k1=
-om i386pep&quot;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 targ_extra_ofiles=3D&quot;deffilep.o pep-dll.o pe-dll.o&quot;<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0tdir_elf_i386=3D`echo ${targ_alias} | sed -e &#39;s/x86_64/i3=
-86/&#39;` ;;<br>
-&gt; + i[3-7]86-*-redox*)=C2=A0 =C2=A0 targ_emul=3Delf_i386<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0targ_extra_emuls=3Delf_x86_64 ;;<br>
-&gt; --<br>
-&gt; 2.7.4<br>
-&gt;<br>
-</blockquote></div></div>
-</div></div></blockquote></div><br></div></div></div>
-
---000000000000dbbdb90572c8dec5--
