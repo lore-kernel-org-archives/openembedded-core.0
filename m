@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f46.google.com (mail-pl0-f46.google.com
-	[209.85.160.46])
-	by mail.openembedded.org (Postfix) with ESMTP id D65CD78A40
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+	[209.85.215.176])
+	by mail.openembedded.org (Postfix) with ESMTP id EADB6745BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 22:57:34 +0000 (UTC)
-Received: by mail-pl0-f46.google.com with SMTP id g6-v6so2681350plq.9
+	Mon,  6 Aug 2018 22:57:35 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id r1-v6so6856485pgp.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2018 15:57:36 -0700 (PDT)
+	Mon, 06 Aug 2018 15:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Y4Ip7WKi9ZL1IJioYWqM5Dr9UWhjzwYHl635+GJaKRE=;
-	b=vH+naNDMdl1b6zuearJbN7D1Xr9U/fUs+7yRWfY8PH1hnQ3e9Pqt5reMzNLZZB+a8U
-	TM8AQr98f8JrPsfVZVHPzkKVcnMGksLShwUVa5AEsSHBkCWotQTilz1xOlqu1W3xWARw
-	Hy5c/ZxBeDwhMmYRfQ4bacQMDrxGDNMW5DGkV95RkUOcmKp4VJFB1gRF11DQWL8Gekqz
-	6tQP6xdfIrM82EUNWv/pS77mDdWb7GVriFJR7gR7ACuaSn+hC/Fu60AjJmHYJASPFdJ6
-	iKGkxOMCTyGKCdLnHHpiq2p9XFabfxr0SAQts9oeWDdhdY+lZdGLybXsJZt0gfi+BR3o
-	Xvdw==
+	bh=YV7WVCtmXXVqkhRQQk04uE7alOBBn7sOwMaub96nGSM=;
+	b=Sf1WBXn80ef4eIgwI2jE6V+VMEZDvkI6Srgk9vNtCA6YGlSiM43UKYBhHJ9nrXoZb/
+	I+E5MrYVkbguXnqA/XA0Yq3B9LZuifW56mnDtO2Xbpr7sNBACOeUdqZB3+j/HcQJtfHi
+	YrFNEQ5gaZGqQfkCBlMIQCrD6hHzgFh53ZtW/dbaPhbOFlhLfaXyI2C6TvywrKc2FkIq
+	8Zv5lb7E8PZVBv0hYsQZD3NRK+dH9ixLYVi2y81UfxghAxJufJBWJSqRg+TbqTUgv9jP
+	YZ766sr+foXfH5yXntKmmwULkm838tU+OWxnyavuulDjKCIu+zZBNvrJA8rLZsCIjkbi
+	P9Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Y4Ip7WKi9ZL1IJioYWqM5Dr9UWhjzwYHl635+GJaKRE=;
-	b=mwwKlH+FlKDZKRzKcWN8nC8s2qLTmVNyU6JGbvuw4XriuAzcLrqCbdfnMBsJWSI8Vj
-	hn0x4phNFiudUc4UxR8q1p47PM06qHdXDBlPUEfDHAEZ9R3tnD4l7Tn9NsTbHf/kBb0I
-	P8BS+sYqvgdAv0bn+/v5txHnp2np7km+wvtfnl9xjD0hYY8pWNPk+aRoRrCqSklBkCgH
-	KDWH66aQBRODpbx3q7zvLjNDyc60Cjdj6UosUl2WyrhBnDwBKleuC0eUAHMS+czdQEXG
-	D0/0rBHqOs9gPzXKUlzAqVzCRg95B8N5BW+Ylcg2MFjj0pC2XF7+rnBNDKZqZroT56VB
-	QgJg==
-X-Gm-Message-State: AOUpUlGOh+OONDLNKjZ4AN+bovMEHluJowugS/esBGiz8z1QpgSxfvK2
-	vYcffh1ZfU67OFz20RswcS5Al1gz
-X-Google-Smtp-Source: AAOMgpfkfFRgNUM7bccm6RDLthxCmobRZ0KinHMdJhncNo9z6v/dXigc6sj46DYknb95m3kUn0ANiQ==
-X-Received: by 2002:a17:902:301:: with SMTP id
-	1-v6mr15512254pld.127.1533596255663; 
-	Mon, 06 Aug 2018 15:57:35 -0700 (PDT)
+	bh=YV7WVCtmXXVqkhRQQk04uE7alOBBn7sOwMaub96nGSM=;
+	b=WoG8L6mUs7EAttALBfZu0p00s/WfhJ3rfkomzhpt/hhUDEfDrkrULl1bVotmjp5/1G
+	RCi6unzRfhNga1jZ69QF3BwTxMReUBr0E7RrIxgNGtyOXYYWMQ58O8Uk4zqdaLo07Eka
+	giPRuxJnAoQR7eXW6/fl82TOpfHLToXx12w2998pjwAY3PQmzLmPZDU1O15FJYL5wIQr
+	39ItaNqzTej+o87oTYemIb+uYGP7mMqXdJn/yoN20N02HBz4EzO8kyJxhyuWn36Gp15s
+	L4KAxks0hG9F2URAOpiwGacQtrQYD6VOTh1U+YrXgTlbeisxrizN8JeJQDe4PYokUqid
+	FzlA==
+X-Gm-Message-State: AOUpUlHWLeM4ySvBkXraa8L2AVtL2WA+NKShDRj8HjzacWhAYpzpE2Fm
+	80C1EXDWpj9rsNsAt7hv1d3wZ8Df
+X-Google-Smtp-Source: AAOMgpdR+X9m8ksr0UcAAJ56KuLoujL8Yf1s8DJpppKYOw+wYW4utDJxfFJKUldZlLxOnk+bsrgT3g==
+X-Received: by 2002:a62:cac5:: with SMTP id
+	y66-v6mr18887033pfk.187.1533596256694; 
+	Mon, 06 Aug 2018 15:57:36 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::1d00])
 	by smtp.gmail.com with ESMTPSA id
-	x1-v6sm11993137pgr.59.2018.08.06.15.57.34
+	x1-v6sm11993137pgr.59.2018.08.06.15.57.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Aug 2018 15:57:34 -0700 (PDT)
+	Mon, 06 Aug 2018 15:57:35 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Aug 2018 15:57:06 -0700
-Message-Id: <2c149d2fe995f6e460586d1d8ec8ed268932f611.1533595822.git.raj.khem@gmail.com>
+Date: Mon,  6 Aug 2018 15:57:07 -0700
+Message-Id: <06c361481025023e6ad962759e5968bd9c19c0b7.1533595822.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1533595822.git.raj.khem@gmail.com>
 References: <cover.1533595822.git.raj.khem@gmail.com>
-Subject: [PATCH 09/18] blktool: Fix build with glibc 2.28
+Subject: [PATCH 10/18] ppp: Use openssl for the DES instead of the libcrypt / glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,56 +58,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 22:57:35 -0000
+X-List-Received-Date: Mon, 06 Aug 2018 22:57:36 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../blktool/blktool-gnulib-makedev.patch      | 23 +++++++++++++++++++
- meta/recipes-extended/blktool/blktool_4-7.bb  |  1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-extended/blktool/blktool/blktool-gnulib-makedev.patch
+ .../ppp/ppp/ppp-2.4.7-DES-openssl.patch       | 84 +++++++++++++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |  5 +-
+ 2 files changed, 87 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
 
-diff --git a/meta/recipes-extended/blktool/blktool/blktool-gnulib-makedev.patch b/meta/recipes-extended/blktool/blktool/blktool-gnulib-makedev.patch
+diff --git a/meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch b/meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
 new file mode 100644
-index 0000000000..6eea608b29
+index 0000000000..e53f240543
 --- /dev/null
-+++ b/meta/recipes-extended/blktool/blktool/blktool-gnulib-makedev.patch
-@@ -0,0 +1,23 @@
-+include <sys/sysmacros.h> for major/minor defintions
-+
-+Fixes
-+
-+| ../blktool-4.orig/blktool.c: In function 'detect_dev_class':
-+| ../blktool-4.orig/blktool.c:295:10: warning: implicit declaration of function 'major' [-Wimplicit-function-declaration]
-+|   switch (major(st_rdev)) {
-+|           ^~~~~
++++ b/meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
+@@ -0,0 +1,84 @@
++Used openssl for the DES instead of the libcrypt / glibc
 +
 +Upstream-Status: Pending
++
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Index: blktool-4.orig/blktool.c
++
++Index: ppp-2.4.7/pppd/Makefile.linux
 +===================================================================
-+--- blktool-4.orig.orig/blktool.c
-++++ blktool-4.orig/blktool.c
-+@@ -27,6 +27,7 @@
-+ #include <linux/cdrom.h>
-+ #include <linux/major.h>
-+ #include <scsi/scsi.h>
-++#include <sys/sysmacros.h>
++--- ppp-2.4.7.orig/pppd/Makefile.linux
+++++ ppp-2.4.7/pppd/Makefile.linux
++@@ -38,7 +38,7 @@ LIBS =
++ # Uncomment the next 2 lines to include support for Microsoft's
++ # MS-CHAP authentication protocol.  Also, edit plugins/radius/Makefile.linux.
++ CHAPMS=y
++-USE_CRYPT=y
+++#USE_CRYPT=y
++ # Don't use MSLANMAN unless you really know what you're doing.
++ #MSLANMAN=y
++ # Uncomment the next line to include support for MPPE.  CHAPMS (above) must
++@@ -132,7 +132,7 @@ endif
 + 
-+ #include "blktool.h"
++ ifdef NEEDDES
++ ifndef USE_CRYPT
++-LIBS     += -ldes $(LIBS)
+++LIBS     += -lcrypto
++ else
++ CFLAGS   += -DUSE_CRYPT=1
++ endif
++Index: ppp-2.4.7/pppd/pppcrypt.c
++===================================================================
++--- ppp-2.4.7.orig/pppd/pppcrypt.c
+++++ ppp-2.4.7/pppd/pppcrypt.c
++@@ -64,7 +64,7 @@ u_char *des_key;	/* OUT 64 bit DES key w
++ 	des_key[7] = Get7Bits(key, 49);
 + 
-diff --git a/meta/recipes-extended/blktool/blktool_4-7.bb b/meta/recipes-extended/blktool/blktool_4-7.bb
-index 4551c3233e..0e6f7ee6df 100644
---- a/meta/recipes-extended/blktool/blktool_4-7.bb
-+++ b/meta/recipes-extended/blktool/blktool_4-7.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/
-            file://0001-fix-typos-in-manpage.patch \
-            file://0002-fix-string-error.patch \
-            file://0003-Fix-3-d-argument-for-BLKROSET-it-must-be-const-int.patch \
-+           file://blktool-gnulib-makedev.patch \
-           "
++ #ifndef USE_CRYPT
++-	des_set_odd_parity((des_cblock *)des_key);
+++	DES_set_odd_parity((DES_cblock *)des_key);
++ #endif
++ }
++ 
++@@ -158,25 +158,25 @@ u_char *clear;	/* OUT 8 octets */
++ }
++ 
++ #else /* USE_CRYPT */
++-static des_key_schedule	key_schedule;
+++static DES_key_schedule	key_schedule;
++ 
++ bool
++ DesSetkey(key)
++ u_char *key;
++ {
++-	des_cblock des_key;
+++	DES_cblock des_key;
++ 	MakeKey(key, des_key);
++-	des_set_key(&des_key, key_schedule);
+++	DES_set_key(&des_key, &key_schedule);
++ 	return (1);
++ }
++ 
++ bool
++-DesEncrypt(clear, key, cipher)
+++DesEncrypt(clear, cipher)
++ u_char *clear;	/* IN  8 octets */
++ u_char *cipher;	/* OUT 8 octets */
++ {
++-	des_ecb_encrypt((des_cblock *)clear, (des_cblock *)cipher,
++-	    key_schedule, 1);
+++	DES_ecb_encrypt((DES_cblock *)clear, (DES_cblock *)cipher,
+++	    &key_schedule, 1);
++ 	return (1);
++ }
++ 
++@@ -185,8 +185,8 @@ DesDecrypt(cipher, clear)
++ u_char *cipher;	/* IN  8 octets */
++ u_char *clear;	/* OUT 8 octets */
++ {
++-	des_ecb_encrypt((des_cblock *)cipher, (des_cblock *)clear,
++-	    key_schedule, 0);
+++	DES_ecb_encrypt((DES_cblock *)cipher, (DES_cblock *)clear,
+++	    &key_schedule, 0);
++ 	return (1);
++ }
++ 
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+index a1bb7d71c1..f4646bd693 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+@@ -4,7 +4,7 @@ the Point-to-Point Protocol (PPP) on Linux and Solaris systems."
+ SECTION = "console/network"
+ HOMEPAGE = "http://samba.org/ppp/"
+ BUGTRACKER = "http://ppp.samba.org/cgi-bin/ppp-bugs"
+-DEPENDS = "libpcap"
++DEPENDS = "libpcap openssl"
+ LICENSE = "BSD & GPLv2+ & LGPLv2+ & PD"
+ LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77d87dc9c290a424dea \
+                     file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
+@@ -32,6 +32,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
+            file://fix-CVE-2015-3310.patch \
+            file://0001-pppoe-include-netinet-in.h-before-linux-in.h.patch \
+            file://0001-ppp-Remove-unneeded-include.patch \
++           file://ppp-2.4.7-DES-openssl.patch \
+ "
  
- SRC_URI[tarball.md5sum] = "62edc09c9908107e69391c87f4f3fd40"
+ SRC_URI_append_libc-musl = "\
+@@ -49,7 +50,7 @@ EXTRA_OECONF = "--disable-strip"
+ # Package Makefile computes CFLAGS, referencing COPTS.
+ # Typically hard-coded to '-O2 -g' in the Makefile's.
+ #
+-EXTRA_OEMAKE += ' COPTS="${CFLAGS} -I${S}/include"'
++EXTRA_OEMAKE += ' COPTS="${CFLAGS} -I${STAGING_INCDIR}/openssl -I${S}/include"'
+ 
+ do_configure () {
+ 	oe_runconf
 -- 
 2.18.0
 
