@@ -1,48 +1,50 @@
-Return-Path: <gtertych@cisco.com>
-Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F2D160053
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B0FB74C1A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 08:05:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=1170; q=dns/txt; s=iport;
-	t=1533542753; x=1534752353;
-	h=subject:to:cc:references:from:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=Za+vl8+11nKxq3BhNvmiXbsOBbQDQ67nVxHpw25x18I=;
-	b=adovgRiM4wd/MNIIVArpx2Fho7cVctDWN+ZNgQDrgj3+pLDm4y4Mc7Sp
-	6VT9DGpumWS1k40dRWXF6uhplrwmd6stAry/Izsi40uPp8LsaLDsnrcFH
-	O/D0xjhUDShhU0edsu9JWqJ1li/zPxJo4sZjHreFB8hN/3B2obX9reZMG 8=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CiAwCwAGhb/xbLJq1bGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYQxbRIog36IaI1FCCWIUY8QCyWERwKDPzgUAQIBAQIBAQJ?=
-	=?us-ascii?q?tHAyFNwEBAQECASMVQQULCxgCAiYCAlcTBgIBAYMcAYFyBQgPq2eBLoRfhWk?=
-	=?us-ascii?q?FFHeIFYFBP4E5DIJfgSaBdQEBgi6CNIJVAo0wLYxWCYYaiSUGiDyFZIprh0w?=
-	=?us-ascii?q?CBAsCFIFYIYE/CwhwFYMkgiUXg0WBf4hWPDABAQqQBQEB?=
-X-IronPort-AV: E=Sophos;i="5.51,451,1526342400"; 
-   d="scan'208";a="5656374"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-3.cisco.com)
-	([173.38.203.22])
-	by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Aug 2018 08:05:52 +0000
-Received: from [10.61.161.194] ([10.61.161.194]) (authenticated bits=0)
-	by aer-core-3.cisco.com (8.15.2/8.15.2) with ESMTPSA id w7685pdp008012
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 6 Aug 2018 08:05:51 GMT
-To: Mikko.Rapeli@bmw.de
-References: <1533335883158.4719@cisco.com> <20180806065653.GG8291@hiutale>
-From: grygorii tertychnyi <gtertych@cisco.com>
-Message-ID: <8c479ede-7561-9ce3-3766-1594ae175825@cisco.com>
-Date: Mon, 6 Aug 2018 11:06:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Mon,  6 Aug 2018 09:40:36 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id d189-v6so21017051oib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Aug 2018 02:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=A8oOiazAZ4o7G+uTc2MLQFJNbbYAdb3b3LimYjuDlgk=;
+	b=jeZwgWmeirptzMbF6HIV3ghID+ek9ye3FCWYeoaJzcECV8xQHQ2leB9kSv0EN7qhHF
+	uQnB+EkoIHGC17f5ix5ixlX5FOU/1/bmdvOc9l94EEn7wYrbp3RvPyUDiPCfBk/5KSDC
+	3/9NDWsFlrVwSHGHRIR06brUTXrgrG0xmPaE2ktslY81keS4P+60yJ6rWHHaVTS28oVn
+	P91QcvQGcRKgeSM/yoa7izfgDYmdR2ar8WzsWtFxnoZC/V5Fm520iCzBDBwsUxVpsHls
+	SJ1ULm1U5vlbVoI3vaA2PRXXft6/Kq08I1J+EM0U/lBC3p76eWo4/GrO9I7R7uf23Kaq
+	EhVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=A8oOiazAZ4o7G+uTc2MLQFJNbbYAdb3b3LimYjuDlgk=;
+	b=ZvfA7n9MsLH/wgFo8ZujgrC+VmHwgHYI3snACuMSca6rYoP2UGIBctdgZAC7JHu74X
+	J1tpnPrMTEJwL4cfkt7Vce9xhoRGdwYR1vmj8z6eQVaMm6raQ5ul0LrDY9mdHKTtRpeJ
+	Tv8XeBH0Er5uXNqV5x2U1QNthcIWkl4Gx4DLyELXUA6ljVZ9QbtEHVtnbrf9cXSrM6E7
+	q4KiRCfCE5ds8xuO5fNu+j/zf0fOA21H/34xrv9UyxDJtaNsJWmJxUt3Zz87SnSgrGF+
+	JXfN0FhAyOElA9RbjL6Km2CUO1/cy1CrPbNGTZSf9fvRDyDLBsSljeQ+zjznsRtsR7Hg
+	u7aA==
+X-Gm-Message-State: AOUpUlG7IXVm3gmWeREiMKIFBIIHRgC14Ab6nHgloqDPrFgvxtoZOzRe
+	vTaAFAizq2AuQ8g5AGqEKpv0ohv6PnQ3RCtOJBlDpA==
+X-Google-Smtp-Source: AAOMgpevx/n89caco4SOBAKuGWnGJ7HgCGIsUHX5eeIHnwYd+wlcQqKuauIe7GmcUISg0slU0oLZiXQLsgOQV+YLmgg=
+X-Received: by 2002:aca:f409:: with SMTP id
+	s9-v6mr14551502oih.102.1533548437411; 
+	Mon, 06 Aug 2018 02:40:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180806065653.GG8291@hiutale>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: gtertych
-X-Outbound-SMTP-Client: 10.61.161.194, [10.61.161.194]
-X-Outbound-Node: aer-core-3.cisco.com
-Cc: xe-linux-external@cisco.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] cve-report: add scripts to generate CVE reports
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP;
+	Mon, 6 Aug 2018 02:40:16 -0700 (PDT)
+In-Reply-To: <20180805195531.14449-1-raj.khem@gmail.com>
+References: <20180805195531.14449-1-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 6 Aug 2018 10:40:16 +0100
+Message-ID: <CAJTo0LZxCmBsX3VE6Pg1pYGbp6ujyM4GASTqqcP-RZr_iMmFFA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] strace: Fix build with glibc 2.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 08:05:52 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 06 Aug 2018 09:40:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 08/06/2018 09:56 AM, Mikko.Rapeli@bmw.de wrote:
+On 5 August 2018 at 20:55, Khem Raj <raj.khem@gmail.com> wrote:
+> +++ b/meta/recipes-devtools/strace/strace/0001-tests-fix-build-with-fresh-glibc.patch
+> @@ -0,0 +1,41 @@
+> +From bba1b0085f2a2c83839647fee48628ee054aceb7 Mon Sep 17 00:00:00 2001
+> +From: "Dmitry V. Levin" <ldv@altlinux.org>
+> +Date: Sun, 15 Jul 2018 22:14:29 +0000
+> +Subject: [PATCH] tests: fix build with fresh glibc
+> +
+> +Workaround additional incompatibility between <sys/stat.h> and
+> +<asm/stat.h> introduced by glibc-2.27.9000-566-gfd70af4.
+> +
+> +* tests/xstatx.c (statx, statx_timestamp): Redefine before the inclusion
+> +of <sys/stat.h> to avoid conflicts between definitions provided by the
+> +linux kernel headers and the GNU libc.
+> +---
+> +Upstream-Status: Backport [https://gitlab.com/strace/strace/commit/3dbffb7]
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-> On Fri, Aug 03, 2018 at 10:37:05PM +0000, Grygorii Tertychnyi (gtertych) via Openembedded-core wrote:
->> cvert-kernel - generate CVE report for the Linux kernel.
->>    NVD entries for the Linux kernel is almost always outdated.
->>    For example, https://nvd.nist.gov/vuln/detail/CVE-2018-1065
->>    is shown as matched for "versions up to (including) 4.15.7",
->>    however the patch 57ebd808a97d has been back ported for 4.14.
->>    cvert-kernel script checks NVD Resource entries for the patch URLs
->>    and looking for the commits in the local git tree.
-> This is an interesting approach.
->
-> For the kernel I've been using information not from NVD but from
-> https://github.com/nluedtke/linux_kernel_cves/
->
-> As an example, all CVE fixed in 4.14 kernel series point releases AND all
-> non-fixed CVE are listed in:
->
-> https://github.com/nluedtke/linux_kernel_cves/blob/master/4.14/4.14_security.txt
->
-> I have not tried to automate this, but I do find the information there
-> much better than NVD.
+Hopefully these patches don't last long but if you put the SOB/US
+above the scissors then devtool's refresh won't delete them.
 
-Thanks for the links!
-I did not know about these, I'll defenetly try it.
-
-> -Mikko
-
+Ross
 
