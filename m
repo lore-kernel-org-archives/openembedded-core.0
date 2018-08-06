@@ -1,53 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DD05F78A74
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 5532C78A74
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 16:53:15 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id m11-v6so23460152oic.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2018 09:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lhHx+y008dKVe/041gkd6b3rlKYrpsYJWhBsRJ7p1dk=;
-	b=HhBbBzVmpX3J8GyrBU3SU3dU40iYAECPxdzft6xRIR/vTVi+1GIHshKZBZcpp+hsYp
-	pXomIIXc+nRfAvUnKBMBSUK/B4lz9k3ZkDJjWiW3uWFXNL+gs7gvXSRrNHo1Q4moJ2FG
-	nvzdqC8u/bpfx/rabpu/ChFkgNLjsVAOqErn2V6kIvy43WgoIOj4jQFbQbKUYE3JHQyH
-	rAcDlOPksdNDbtZDu+Ua8jOVozaE/rrBIxXHEiu/eJXYqd6fgMdFwy8zCSZXoGM7CHNz
-	/8r+mxJJNwslMr+xYYyGZ5uQcvSNfSUhFVHuZOHgrgdXGv+cN66Jb+p6fUZMCzyCtZ4N
-	pA6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=lhHx+y008dKVe/041gkd6b3rlKYrpsYJWhBsRJ7p1dk=;
-	b=bbzStbPXTA0/mrS+HikKP2sgxGxedCdXXlwQN0Ms+6WOlMRY2TDs2szxD4SrUpctSQ
-	6cX6v73YqRTLbGXIeNa9INpDdKvc/lTTfHcrxP+LpRPMvypsE2nWMqOoqABjZ3xbxh4Y
-	lvR4A2jtlvpCi5prriJFqL578BZyoOgWIXEm06PwRSR50blOelX2RDkd/3b1qhgknDM6
-	+g19ZsTbzdOQfuFgekML/Q7kNxV9LomKzcgt45TO8L9Lo9nn4p1odYkJbRBqu2cMzGER
-	G+MOLNnOiXMogweUCo+4r1vY5+Oe50rtevb2ZTBXMqTLF6Kn9GJDgkCsfSdM4Z1UyiPu
-	mRjw==
-X-Gm-Message-State: AOUpUlH5Ck87xSodDNpHN0K7oxvVR2hJINTwCta4kNRq3uBzwxrSYREH
-	ow6biuH7ufkvEB/h93RzQKX2bhMCamAbni/FQqZ3CQ==
-X-Google-Smtp-Source: AAOMgpfc8h/kH+T8ax0zQVeDmR70lRL/1kedl05YSWfjmpQlcRDNdZKBzPrX2/Dw7lo8Akwht/obOAKwSExQ5q+Gt4k=
-X-Received: by 2002:aca:f409:: with SMTP id
-	s9-v6mr16234322oih.102.1533574396862; 
-	Mon, 06 Aug 2018 09:53:16 -0700 (PDT)
+	Mon,  6 Aug 2018 16:55:31 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Aug 2018 09:55:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,452,1526367600"; 
+	d="scan'208,217";a="251733796"
+Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
+	by fmsmga005.fm.intel.com with ESMTP; 06 Aug 2018 09:55:31 -0700
+Received: from fmsmsx122.amr.corp.intel.com (10.18.125.37) by
+	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Mon, 6 Aug 2018 09:55:31 -0700
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.102]) by
+	fmsmsx122.amr.corp.intel.com ([169.254.5.243]) with mapi id
+	14.03.0319.002; Mon, 6 Aug 2018 09:55:31 -0700
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
+Thread-Index: AdQXlGn2RYGWCO8aQne3TGYivsbGuQ==
+Date: Mon, 6 Aug 2018 16:55:30 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155EC7379D84@fmsmsx111.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.106]
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWM1NTVhNjktYmU4ZS00NzkzLTkyMDgtZGVlNGE1OTA2YTZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaUlWbjdERDJ5eExEVTQ0dWhmcVE5RVV6NVQrT1dlMmtFek5FSTNwUjZ2TE5cL05hT2ZBdXpzZk1EV2tlUzRkNGQifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
 MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP;
-	Mon, 6 Aug 2018 09:52:56 -0700 (PDT)
-In-Reply-To: <1533565018-19188-1-git-send-email-maksym.kokhan@globallogic.com>
-References: <a80f3bf9-abba-fd2c-b1b9-d2327de69f78@intel.com>
-	<1533565018-19188-1-git-send-email-maksym.kokhan@globallogic.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 6 Aug 2018 17:52:56 +0100
-Message-ID: <CAJTo0LZJyJneBza8cg3pUTUd04vQ+k270RYAdfrB+j11feCkuA@mail.gmail.com>
-To: Maksym Kokhan <maksym.kokhan@globallogic.com>
-Cc: Ruslan Bilovol <ruslan.bilovol@globallogic.com>,
-	Andrii Bordunov <andrii.bordunov@globallogic.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libusb: Add ptest
+Subject: Yocto Project Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,91 +51,215 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 16:53:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 06 Aug 2018 16:55:31 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC7379D84fmsmsx111amrcor_"
 
-The upgrade to libusb 1.0.22 happened in *May* so please do try and
-keep up to date with master.  In this case git did managed to merge
-anyway, but generally that won't be true.
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC7379D84fmsmsx111amrcor_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Ross
+All,
 
-On 6 August 2018 at 15:16, Maksym Kokhan via Openembedded-core
-<openembedded-core@lists.openembedded.org> wrote:
-> The run-ptest script was added to run existing libusb1 tests and libusb1
-> recipe was changed to add ptest support to that package.
->
-> Signed-off-by: Maksym Kokhan <maksym.kokhan@globallogic.com>
-> Reviewed-by: Andrii Bordunov <andrii.bordunov@globallogic.com>
-> ---
->  meta/recipes-support/libusb/libusb1/run-ptest | 15 +++++++++++++++
->  meta/recipes-support/libusb/libusb1_1.0.21.bb | 11 ++++++++++-
->  2 files changed, 25 insertions(+), 1 deletion(-)
->  create mode 100755 meta/recipes-support/libusb/libusb1/run-ptest
->
-> diff --git a/meta/recipes-support/libusb/libusb1/run-ptest b/meta/recipes-support/libusb/libusb1/run-ptest
-> new file mode 100755
-> index 0000000..646a966
-> --- /dev/null
-> +++ b/meta/recipes-support/libusb/libusb1/run-ptest
-> @@ -0,0 +1,15 @@
-> +#!/bin/sh
-> +
-> +echo
-> +echo "---------------------------- libusb1 tests ---------------------------"
-> +echo
-> +
-> +./stress | tr '\n' ' '  | \
-> +sed 's/Starting test run: \([a-zA-Z_]*\)\.\.\. \([a-zA-Z_]*\) (.) /\2 \1\n/g' | \
-> +sed '$d' | \
-> +sed '{
-> +       s/^Success/PASS:/g
-> +       s/^Failure/FAIL:/g
-> +       s/^Error/FAIL:/g
-> +       s/^Skip/SKIP:/g
-> +}'
-> diff --git a/meta/recipes-support/libusb/libusb1_1.0.21.bb b/meta/recipes-support/libusb/libusb1_1.0.21.bb
-> index 1fefd14..56822a6 100644
-> --- a/meta/recipes-support/libusb/libusb1_1.0.21.bb
-> +++ b/meta/recipes-support/libusb/libusb1_1.0.21.bb
-> @@ -10,6 +10,7 @@ BBCLASSEXTEND = "native nativesdk"
->
->  SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
->             file://no-dll.patch \
-> +           file://run-ptest \
->            "
->
->  SRC_URI[md5sum] = "1da9ea3c27b3858fa85c5f4466003e44"
-> @@ -17,7 +18,7 @@ SRC_URI[sha256sum] = "7dce9cce9a81194b7065ee912bcd55eeffebab694ea403ffb91b67db66
->
->  S = "${WORKDIR}/libusb-${PV}"
->
-> -inherit autotools pkgconfig
-> +inherit autotools pkgconfig ptest
->
->  # Don't configure udev by default since it will cause a circular
->  # dependecy with udev package, which depends on libusb
-> @@ -30,6 +31,14 @@ do_install_append() {
->         fi
->  }
->
-> +do_compile_ptest() {
-> +    oe_runmake -C tests stress
-> +}
-> +
-> +do_install_ptest() {
-> +    install -m 755 ${B}/tests/.libs/stress ${D}${PTEST_PATH}
-> +}
-> +
->  FILES_${PN} += "${base_libdir}/*.so.*"
->
->  FILES_${PN}-dev += "${base_libdir}/*.so ${base_libdir}/*.la"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+
+The triage team meets weekly and does its best to handle the bugs reported =
+into the bugzilla. The number of people attending that meeting has fallen, =
+as have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage team) a=
+re therefore going to start reporting out the currently 323 unassigned bugs=
+.
+
+
+
+We're hoping people may be able to spare some time now and again to help ou=
+t with these.
+
+
+
+Bugs are split into two types, "true bugs" where things don't work as they =
+should and "enhancements" which are features we'd want to add to the system=
+.
+
+
+
+There are also roughly three different "priority" classes right now, "2.6",=
+ "2.99" and "Future", the more pressing/urgent issues being in "2.6".
+
+
+
+Please review this link and if a bug is something you would be able to help=
+ with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
+com) an e-mail with the bug number you would like and I will assign it to y=
+ou (please make sure you have a bugzilla account).
+
+
+
+The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
+gs
+
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+*    Cell:                (208) 244-4460
+* Email:                             stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC7379D84fmsmsx111amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:2 11 5 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoPlainText">All,<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
+ handle the bugs reported into the bugzilla. The number of people attending=
+ that meeting has fallen, as have the number of people available to help fi=
+x bugs. One of the things we hear
+ users report is they don't know how to help. We (the triage team) are ther=
+efore going to start reporting out the currently 323 unassigned bugs.<o:p><=
+/o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
+e now and again to help out with these.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
+ot; where things don't work as they should and &quot;enhancements&quot; whi=
+ch are features we'd want to add to the system.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">There are also roughly three different &quot;prio=
+rity&quot; classes right now, &quot;2.6&quot;, &quot;2.99&quot; and &quot;F=
+uture&quot;, the more pressing/urgent issues being in &quot;2.6&quot;.<o:p>=
+</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Please review this link and if a bug is something=
+ you would be able to help with either take ownership of the bug, or send m=
+e (Stephen.k.jolley@intel.com) an e-mail with the bug number you would like=
+ and I will assign it to you (please
+ make sure you have a bugzilla account).<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
+ect.org/wiki/Bug_Triage#Unassigned_Bugs">
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
+></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
+=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
+"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;,serif;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;,serif;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+,serif">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;,serif;color:teal">:</span><span =
+lang=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;,=
+serif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;
+<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
+span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
+ns-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC7379D84fmsmsx111amrcor_--
