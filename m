@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 702B37884B
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FF1578860
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 14:29:21 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id d189-v6so22504815oib.6
+	Mon,  6 Aug 2018 14:29:22 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id b16-v6so9165786oic.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2018 07:29:22 -0700 (PDT)
+	Mon, 06 Aug 2018 07:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=hCgE6x1XpLokbAzA55Syf/HalOR+bYun27UKMW8tQ58=;
-	b=cvWHqWYf5PZ4dBTgeFlT8wLbO62xOMCuw020XQC0Bb6ubsqcGH1kiixoUPEoITKWmC
-	oKKCezxJISo8tCFNON4+AF5YlFg51AFmcL0AAULs603WTzl8KDFwwd5jZtihXdNiMVks
-	uY/OKo6GZxrTCjz6LAKlBojcusV7rFbcnVc+grVEt+JUFUucrZ1wyZg3eGrvYN93cUvr
-	FqCEtqRCl6PnVe8eBdSzipc6sNG3qTMayc/JYFCOJGfhx7BBCNIOQy1ILEMTBIHdfZIO
-	zd6D9iAqNegkzny2W+18xTRd8QtpkdDk6dXcJsRdik6Ev+e7GwH0gF6X8kqfaoqmZl/9
-	t4ew==
+	bh=UR86oIdX2THr3mNX1DwPu4JKBBd0175zIOVpDdrwOiw=;
+	b=adFgk1DMWE7fkB+iflnwRlpae0XJYI+LtFTq7dUh4Jv9DDLH5kR1GdtXDDaL7KZHLH
+	iQtThxHusw1e5bdUKeHnNmBjRFFoOm15T6C6anSAEDmMChHf2Um1x0ZTcu4JoXcOBHQm
+	joppA3zJJ57UHWvRM3jv5XKDwTM5joUHqTYWTrFXKoZG3FxV+TReoNu6YS75ygKwhLfb
+	94/l/rG7TmIei6B4+hWpqfLO4R0oRNfb1mQEh7XLi+5fkbYcGTgySU2ZVSRM2LG41J0v
+	SpihofPtop2rJLQzrYEP3HXD/C+a9qZjSDsVcFfOVIS5e4QpGRhbNmcGV9SnAT/XjCkb
+	bqxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=hCgE6x1XpLokbAzA55Syf/HalOR+bYun27UKMW8tQ58=;
-	b=E4h9I/0Hj0pPq8tEssPf+50cr3TQwL9hg7wUnLYTDi0R8++pHXvyUrMXAu8AFaosJE
-	+1BRWVVP2tPrktWGwpDpl7aHNHliczGL6C/exjTGidEIHyIFCENA6CE9AoWGJ0+1iwTW
-	Dzj5jpSrzJewgW/mgMuxLMBAFG/w0K2fSU82YXsKm/sz4wxHmBYoIpvtfQnKHchQiE4F
-	FeboieH158kx6+IPC35fLbzS/Cvm55BWZC8+3Xrz/dFbt9sZJXbsoNCY4Qh3RZmMropQ
-	uyFHu6I1d3mR9qy3GdAvJjIBgYTeo/DJLNG93cb7V42oBtlLY/U2hrLt4+Dws8G9DXYw
-	w0Vw==
-X-Gm-Message-State: AOUpUlFdY/C5oqaJ0woLWKePVS7ACvpxTaVfG9MsHD5X5qSrhFVP2y6C
-	udk3m2FYC5ZNJjOC3ysFS+c=
-X-Google-Smtp-Source: AAOMgpdWA+MmV2zwS0VAPNsidgQwGMLXmyX0Pilt6FSCU6eatLg8ltDOyH6O3ASF6IzBPr2PsvXAOw==
-X-Received: by 2002:aca:a6d4:: with SMTP id
-	t81-v6mr10839907oij.113.1533565762495; 
-	Mon, 06 Aug 2018 07:29:22 -0700 (PDT)
+	bh=UR86oIdX2THr3mNX1DwPu4JKBBd0175zIOVpDdrwOiw=;
+	b=H1QR+o3QJrODpfnPZ/gr0HOC6ZHt5ANmczS3fplpr35NbVjXtPNgBvumg3KyI0/hvx
+	12DsFP56JorKIIlipb5bS3Wahortsg+lcIZQn0OP5vrt4ceYj4Qd87i8QeQIKjYeJZbp
+	AKjEN2qCawFtiwtPmLfBY720eKBXlDSj7T0MsOF9ujU0wkrFoG3cSg97aoIx2r5cxQtf
+	2Fw/T9oA4snIj2ApRjwNi0cHoZZ8p/cvuD5T+zFddDZxfFXM0br3EAZD+YL2KMalO/RD
+	FdyzjE3/WG9fMdE/W1jvcUsj4ht3i9DX2agBrjxOcHsNJI+TAbUWVMMN/Hu96uVV8n2j
+	SCFA==
+X-Gm-Message-State: AOUpUlE5C6ObGznEC5H92Z3uuz73FP4MODf9uHAIzdJBnuRvKTRWiJV+
+	gzu9rtIp4mFyME8Z2JT7BjYFyUWI
+X-Google-Smtp-Source: AA+uWPwYJzTIc8725sSpXnis6G0xhc0EOEkJ5L/ABQtH5hGCE7MtasiqUu9afaBPULMDQ5mB0X+qGg==
+X-Received: by 2002:aca:c601:: with SMTP id
+	w1-v6mr15917329oif.27.1533565763577; 
+	Mon, 06 Aug 2018 07:29:23 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:ac25:fc33:9f90:b6d1])
 	by smtp.gmail.com with ESMTPSA id
-	j193-v6sm13645810oih.55.2018.08.06.07.29.21
+	j193-v6sm13645810oih.55.2018.08.06.07.29.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Aug 2018 07:29:22 -0700 (PDT)
+	Mon, 06 Aug 2018 07:29:23 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Mon,  6 Aug 2018 07:29:09 -0700
-Message-Id: <1533565758-2467-3-git-send-email-akuster808@gmail.com>
+Date: Mon,  6 Aug 2018 07:29:10 -0700
+Message-Id: <1533565758-2467-4-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1533565758-2467-1-git-send-email-akuster808@gmail.com>
 References: <1533565758-2467-1-git-send-email-akuster808@gmail.com>
-Subject: [SUMO][PATCH 03/12] binutls: Security fix CVE-2018-6872
+Subject: [SUMO][PATCH 04/12] binutls: Security fix CVE-2018-6759
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,7 +60,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 14:29:21 -0000
+X-List-Received-Date: Mon, 06 Aug 2018 14:29:22 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
@@ -68,79 +68,137 @@ Affects <= 2.30
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-devtools/binutils/binutils-2.30.inc   |  1 +
- .../binutils/binutils/CVE-2018-6872.patch          | 50 ++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-6872.patch
+ meta/recipes-devtools/binutils/binutils-2.30.inc   |   1 +
+ .../binutils/binutils/CVE-2018-6759.patch          | 108 +++++++++++++++++++++
+ 2 files changed, 109 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-6759.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.30.inc b/meta/recipes-devtools/binutils/binutils-2.30.inc
-index 1952d46..23625d1 100644
+index 23625d1..1621e5b 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.30.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.30.inc
-@@ -37,6 +37,7 @@ SRC_URI = "\
-      file://0015-sync-with-OE-libtool-changes.patch \
+@@ -38,6 +38,7 @@ SRC_URI = "\
       file://CVE-2018-8945.patch \
       file://CVE-2018-7643.patch \
-+     file://CVE-2018-6872.patch \ 
+      file://CVE-2018-6872.patch \ 
++     file://CVE-2018-6759.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-6872.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-6872.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-6759.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-6759.patch
 new file mode 100644
-index 0000000..2ef36c2
+index 0000000..fff4979
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-6872.patch
-@@ -0,0 +1,50 @@
-+From d895ef77ffc94e02e748856c2ab54f5bb8cc867e Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-6759.patch
+@@ -0,0 +1,108 @@
++From 64e234d417d5685a4aec0edc618114d9991c031b Mon Sep 17 00:00:00 2001
 +From: Nick Clifton <nickc@redhat.com>
-+Date: Fri, 9 Feb 2018 09:28:45 +0000
-+Subject: [PATCH] Import patch from mainline to fix possible seg-fault whilst
-+ parsing corrupt ELF notes with extravagent alignments.
++Date: Tue, 6 Feb 2018 15:48:29 +0000
++Subject: [PATCH] Prevent attempts to call strncpy with a zero-length field by
++ chacking the size of debuglink sections.
 +
-+	PR 22788
-+	* elf.c (elf_parse_notes): Reject notes with excessuively large
-+	alignments.
++	PR 22794
++	* opncls.c (bfd_get_debug_link_info_1): Check the size of the
++	section before attempting to read it in.
++	(bfd_get_alt_debug_link_info): Likewise.
 +
 +Upstream-Status: Backport
 +Affects: Binutils <= 2.30
-+CVE: CVE-2018-6872
++CVE: CVE-2018-6759
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ bfd/ChangeLog | 9 +++++++++
-+ bfd/elf.c     | 2 ++
-+ 2 files changed, 11 insertions(+)
++ bfd/ChangeLog |  7 +++++++
++ bfd/opncls.c  | 22 +++++++++++++++++-----
++ 2 files changed, 24 insertions(+), 5 deletions(-)
 +
-+Index: git/bfd/elf.c
++Index: git/bfd/opncls.c
 +===================================================================
-+--- git.orig/bfd/elf.c
-++++ git/bfd/elf.c
-+@@ -11020,6 +11020,8 @@ elf_parse_notes (bfd *abfd, char *buf, s
-+      align is less than 4, we use 4 byte alignment.   */
-+   if (align < 4)
-+     align = 4;
-++  if (align != 4 && align != 8)
-++    return FALSE;
++--- git.orig/bfd/opncls.c
+++++ git/bfd/opncls.c
++@@ -1179,6 +1179,7 @@ bfd_get_debug_link_info_1 (bfd *abfd, vo
++   bfd_byte *contents;
++   unsigned int crc_offset;
++   char *name;
+++  bfd_size_type size;
 + 
-+   p = buf;
-+   while (p < buf + size)
++   BFD_ASSERT (abfd);
++   BFD_ASSERT (crc32_out);
++@@ -1188,6 +1189,12 @@ bfd_get_debug_link_info_1 (bfd *abfd, vo
++   if (sect == NULL)
++     return NULL;
++ 
+++  size = bfd_get_section_size (sect);
+++
+++  /* PR 22794: Make sure that the section has a reasonable size.  */
+++  if (size < 8 || size >= bfd_get_size (abfd))
+++    return NULL;
+++
++   if (!bfd_malloc_and_get_section (abfd, sect, &contents))
++     {
++       if (contents != NULL)
++@@ -1197,10 +1204,10 @@ bfd_get_debug_link_info_1 (bfd *abfd, vo
++ 
++   /* CRC value is stored after the filename, aligned up to 4 bytes.  */
++   name = (char *) contents;
++-  /* PR 17597: avoid reading off the end of the buffer.  */
++-  crc_offset = strnlen (name, bfd_get_section_size (sect)) + 1;
+++  /* PR 17597: Avoid reading off the end of the buffer.  */
+++  crc_offset = strnlen (name, size) + 1;
++   crc_offset = (crc_offset + 3) & ~3;
++-  if (crc_offset + 4 > bfd_get_section_size (sect))
+++  if (crc_offset + 4 > size)
++     return NULL;
++ 
++   *crc32 = bfd_get_32 (abfd, contents + crc_offset);
++@@ -1261,6 +1268,7 @@ bfd_get_alt_debug_link_info (bfd * abfd,
++   bfd_byte *contents;
++   unsigned int buildid_offset;
++   char *name;
+++  bfd_size_type size;
++ 
++   BFD_ASSERT (abfd);
++   BFD_ASSERT (buildid_len);
++@@ -1271,6 +1279,10 @@ bfd_get_alt_debug_link_info (bfd * abfd,
++   if (sect == NULL)
++     return NULL;
++ 
+++  size = bfd_get_section_size (sect);
+++  if (size < 8 || size >= bfd_get_size (abfd))
+++    return NULL;
+++
++   if (!bfd_malloc_and_get_section (abfd, sect, & contents))
++     {
++       if (contents != NULL)
++@@ -1280,11 +1292,11 @@ bfd_get_alt_debug_link_info (bfd * abfd,
++ 
++   /* BuildID value is stored after the filename.  */
++   name = (char *) contents;
++-  buildid_offset = strnlen (name, bfd_get_section_size (sect)) + 1;
+++  buildid_offset = strnlen (name, size) + 1;
++   if (buildid_offset >= bfd_get_section_size (sect))
++     return NULL;
++ 
++-  *buildid_len = bfd_get_section_size (sect) - buildid_offset;
+++  *buildid_len = size - buildid_offset;
++   *buildid_out = bfd_malloc (*buildid_len);
++   memcpy (*buildid_out, contents + buildid_offset, *buildid_len);
++ 
 +Index: git/bfd/ChangeLog
 +===================================================================
 +--- git.orig/bfd/ChangeLog
 ++++ git/bfd/ChangeLog
-+@@ -1,3 +1,12 @@
-++2018-02-09  Nick Clifton  <nickc@redhat.com>
++@@ -1,3 +1,10 @@
+++2018-02-06  Nick Clifton  <nickc@redhat.com>
 ++
-++       Import patch from mainline:
-++       2018-02-08  Nick Clifton  <nickc@redhat.com>
+++       PR 22794
+++       * opncls.c (bfd_get_debug_link_info_1): Check the size of the
+++       section before attempting to read it in.
+++       (bfd_get_alt_debug_link_info): Likewise.
 ++
-++       PR 22788
-++       * elf.c (elf_parse_notes): Reject notes with excessuively large
-++       alignments.
-++
-+ 2018-03-01  Nick Clifton  <nickc@redhat.com>
++ 2018-02-09  Nick Clifton  <nickc@redhat.com>
 + 
-+        PR 22905
++        Import patch from mainline:
 -- 
 2.7.4
 
