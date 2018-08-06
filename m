@@ -1,29 +1,29 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EDFC665CE9
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2419078741
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 03:02:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7632p2o010258
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 5 Aug 2018 20:02:51 -0700
+	Mon,  6 Aug 2018 03:05:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7635UcS001991
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 5 Aug 2018 20:05:30 -0700 (PDT)
 Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Sun, 5 Aug 2018 20:02:50 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1532943666.git.Qi.Chen@windriver.com>
-	<3d50059e869d9d288a64995954c116c039f8fa2f.1532943666.git.Qi.Chen@windriver.com>
+	Sun, 5 Aug 2018 20:05:29 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <cf6a8d01-cdc3-c160-c586-e1a7b5bcf8b8@windriver.com>
+	<CANNYZj9pA1yfOhLfHtNcbn199=wG7xie3PRSyWajijS+A2ZMKQ@mail.gmail.com>
 From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <1b6cc806-cf4b-ce01-64bf-abfa49ba2ccd@windriver.com>
-Date: Mon, 6 Aug 2018 11:06:57 +0800
+Message-ID: <8c9ddac7-4979-b5a8-d1fc-503fa917ac78@windriver.com>
+Date: Mon, 6 Aug 2018 11:09:36 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <3d50059e869d9d288a64995954c116c039f8fa2f.1532943666.git.Qi.Chen@windriver.com>
+In-Reply-To: <CANNYZj9pA1yfOhLfHtNcbn199=wG7xie3PRSyWajijS+A2ZMKQ@mail.gmail.com>
 X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH 1/1] busybox: move init related configs to init.cfg
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Why do we use sysklogd as the default syslog?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,70 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 03:02:51 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Mon, 06 Aug 2018 03:05:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-ping
-
-On 07/30/2018 05:41 PM, Chen Qi wrote:
-> Move init related configs to init.cfg.
+On 07/30/2018 08:58 PM, Alexander Kanavin wrote:
+> 2018-07-30 8:48 GMT+02:00 ChenQi <Qi.Chen@windriver.com>:
+>> I just noticed that we are using sysklogd as the default syslog.
+>> meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb:VIRTUAL-RUNTIME_syslog
+>> ?= "sysklogd"
+>>
+>> sysklogd has stopped development for about 4 years, and as far as I can see,
+>> nobody is maintaining it.
+>> Is there some specific reason why we want to keep it as the default syslog
+>> for our reference images? small size?
 >
-> These config items do not make much sense unless busybox is selected
-> as the init manager. They should belong to init.cfg.
+> You are welcome to improve this. Quite often the answer to such
+> questions is 'because no one is aware of the situation'.
 >
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-core/busybox/busybox/defconfig | 12 ++++++------
->   meta/recipes-core/busybox/busybox/init.cfg  |  7 ++++++-
->   2 files changed, 12 insertions(+), 7 deletions(-)
+> Alex
 >
-> diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-> index fbb5fd8..59d93c7 100644
-> --- a/meta/recipes-core/busybox/busybox/defconfig
-> +++ b/meta/recipes-core/busybox/busybox/defconfig
-> @@ -468,21 +468,21 @@ CONFIG_FEATURE_XARGS_SUPPORT_REPL_STR=y
->   # CONFIG_BOOTCHARTD is not set
->   # CONFIG_FEATURE_BOOTCHARTD_BLOATED_HEADER is not set
->   # CONFIG_FEATURE_BOOTCHARTD_CONFIG_FILE is not set
-> -CONFIG_HALT=y
-> -CONFIG_POWEROFF=y
-> -CONFIG_REBOOT=y
-> +# CONFIG_HALT is not set
-> +# CONFIG_POWEROFF is not set
-> +# CONFIG_REBOOT is not set
->   # CONFIG_FEATURE_CALL_TELINIT is not set
-> -CONFIG_TELINIT_PATH=""
-> +# CONFIG_TELINIT_PATH is not set
->   # CONFIG_INIT is not set
->   # CONFIG_LINUXRC is not set
->   # CONFIG_FEATURE_USE_INITTAB is not set
->   # CONFIG_FEATURE_KILL_REMOVED is not set
-> -CONFIG_FEATURE_KILL_DELAY=0
-> +# CONFIG_FEATURE_KILL_DELAY is not set
->   # CONFIG_FEATURE_INIT_SCTTY is not set
->   # CONFIG_FEATURE_INIT_SYSLOG is not set
->   # CONFIG_FEATURE_INIT_QUIET is not set
->   # CONFIG_FEATURE_INIT_COREDUMPS is not set
-> -CONFIG_INIT_TERMINAL_TYPE=""
-> +# CONFIG_INIT_TERMINAL_TYPE is not set
->   # CONFIG_FEATURE_INIT_MODIFY_CMDLINE is not set
->   
->   #
-> diff --git a/meta/recipes-core/busybox/busybox/init.cfg b/meta/recipes-core/busybox/busybox/init.cfg
-> index 006d4c6..3c1fdd4 100644
-> --- a/meta/recipes-core/busybox/busybox/init.cfg
-> +++ b/meta/recipes-core/busybox/busybox/init.cfg
-> @@ -1,3 +1,8 @@
->   CONFIG_INIT=y
->   CONFIG_FEATURE_USE_INITTAB=y
-> -
-> +CONFIG_HALT=y
-> +CONFIG_POWEROFF=y
-> +CONFIG_REBOOT=y
-> +CONFIG_FEATURE_KILL_DELAY=0
-> +CONFIG_TELINIT_PATH=""
-> +CONFIG_INIT_TERMINAL_TYPE=""
+In case someone is also interested in this topic, I'll add some more 
+information here.
 
+rsyslog is GPLv3 and syslog-ng uses a very different configuration style 
+from traditional sysklogd.
+So I guess I'll just leave things as they are now.
 
+Best Regards,
+Chen Qi
 
