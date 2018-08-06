@@ -1,51 +1,52 @@
-Return-Path: <prvs=749c0e306=Mikko.Rapeli@bmw.de>
-X-Greylist: delayed 651 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 06 Aug 2018 07:07:53 UTC
-Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
-	[68.232.139.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E4E6F60402
+Return-Path: <gtertych@cisco.com>
+X-Greylist: delayed 593 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 06 Aug 2018 07:33:29 UTC
+Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
+	by mail.openembedded.org (Postfix) with ESMTP id ACB3860043
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 07:07:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1533539276; x=1565075276;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=gcRiGgp6EmeudEzZHgZe/IsThDYDERKrVy+q6VhXD4M=;
-	b=QXZVq/+F0IzgzIFC8HdHrk6lDBhlLRcgZqPLMxLlV8lpCygDQJVG4uUL
-	ujPNo3H/ILODPOLDSU+2v25UyutAw3b5rnxfbeVh17iFFycWWMgnXQDAq
-	Sp9laT+fX27pj+nq1Bw7d7m34QXFKom2yEAEMgdteCiAoAd8TpyLcSwRR A=;
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
-	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 06 Aug 2018 08:56:56 +0200
-Received: from esabb3.muc ([160.50.100.30])  by esagw1.muc with ESMTP/TLS;
-	06 Aug 2018 08:56:54 +0200
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
-	([160.48.96.48])
-	by esabb3.muc with ESMTP/TLS; 06 Aug 2018 08:56:54 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10l.europe.bmw.corp
-	(160.48.96.48) with Microsoft SMTP Server (TLS;
-	Mon, 6 Aug 2018 08:56:54 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1367.000;
-	Mon, 6 Aug 2018 08:56:54 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <gtertych@cisco.com>
-Thread-Topic: [OE-core] [PATCH 1/2] cve-report: add scripts to generate CVE
-	reports
-Thread-Index: AQHULVKohA9q6/6tL0GbhhBkHPrO9g==
-Date: Mon, 6 Aug 2018 06:56:54 +0000
-Message-ID: <20180806065653.GG8291@hiutale>
+	Mon,  6 Aug 2018 07:33:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1312; q=dns/txt; s=iport;
+	t=1533540811; x=1534750411;
+	h=subject:to:cc:references:from:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=KSiEaAJdqTSIuNsMGhH2IAK/bXA0K76JcwJ33wbxWdw=;
+	b=a+tJ8nEY/LamaIC/MZC57Ryk3WmN0exfawMXfZGj5vQvpSr7wpOrj2tS
+	tezgHc23tLDfG8AQvFkEakSEJNjbOom5+WJOON9Qzqx/B6+06QFWvBxes
+	Zw60bnyrK7oApvPhdu+xLy10XHtXr1CU8LCVFOhZwMGvBPb5keOCOmAdl s=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CiAwBL9mdb/xbLJq1bGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYQxbRIog36IaI1ECCWIUY8QCyOESQKDOzgUAQIBAQIBAQJ?=
+	=?us-ascii?q?tHAyFOAEFIxVBEAsYAgImAgJXBgEMBgIBAYMcAYFyDQ+rdYEuhF+FbRR3iBW?=
+	=?us-ascii?q?BQT+BOQyCX4EmgXUBA4RgglUCjTAtjFYJhhqJJQaBTUaGKYVkiB+CTIdMAgQ?=
+	=?us-ascii?q?LAhSBWCGBPwsIcBU7gmkJh3eDZoRwPDCQEQEB?=
+X-IronPort-AV: E=Sophos;i="5.51,451,1526342400"; 
+   d="scan'208";a="5652347"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com)
+	([173.38.203.22])
+	by aer-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Aug 2018 07:23:36 +0000
+Received: from [10.61.161.194] ([10.61.161.194]) (authenticated bits=0)
+	by aer-core-4.cisco.com (8.15.2/8.15.2) with ESMTPSA id w767NZDv001458
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 6 Aug 2018 07:23:36 GMT
+To: akuster808 <akuster808@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 References: <1533335883158.4719@cisco.com>
-In-Reply-To: <1533335883158.4719@cisco.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.37]
+	<08924f71-ddd6-ea25-3b24-18ed74c92233@gmail.com>
+From: grygorii tertychnyi <gtertych@cisco.com>
+Message-ID: <a8c4395c-a91c-7a9e-8525-9fd67a7e0076@cisco.com>
+Date: Mon, 6 Aug 2018 10:24:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Cc: xe-linux-external@cisco.com, openembedded-core@lists.openembedded.org
+In-Reply-To: <08924f71-ddd6-ea25-3b24-18ed74c92233@gmail.com>
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Authenticated-User: gtertych
+X-Outbound-SMTP-Client: 10.61.161.194, [10.61.161.194]
+X-Outbound-Node: aer-core-4.cisco.com
+Cc: "xe-linux-external\(mailer list\)" <xe-linux-external@cisco.com>
 Subject: Re: [PATCH 1/2] cve-report: add scripts to generate CVE reports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,35 +60,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 07:07:54 -0000
+X-List-Received-Date: Mon, 06 Aug 2018 07:33:30 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0A8AC695BE82C342829A0F5E843F69AE@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 03, 2018 at 10:37:05PM +0000, Grygorii Tertychnyi (gtertych) vi=
-a Openembedded-core wrote:
-> cvert-kernel - generate CVE report for the Linux kernel.
->   NVD entries for the Linux kernel is almost always outdated.
->   For example, https://nvd.nist.gov/vuln/detail/CVE-2018-1065
->   is shown as matched for "versions up to (including) 4.15.7",
->   however the patch 57ebd808a97d has been back ported for 4.14.
->   cvert-kernel script checks NVD Resource entries for the patch URLs
->   and looking for the commits in the local git tree.
+On 08/04/2018 05:16 PM, akuster808 wrote:
+>
+> On 08/03/2018 03:37 PM, Grygorii Tertychnyi (gtertych) via
+> Openembedded-core wrote:
+>> cvert-kernel - generate CVE report for the Linux kernel.
+>>    NVD entries for the Linux kernel is almost always outdated.
+>>    For example, https://nvd.nist.gov/vuln/detail/CVE-2018-1065
+>>    is shown as matched for "versions up to (including) 4.15.7",
+>>    however the patch 57ebd808a97d has been back ported for 4.14.
+>>    cvert-kernel script checks NVD Resource entries for the patch URLs
+>>    and looking for the commits in the local git tree.
+>>
+>> cvert-foss - generate CVE report for the list of packages.
+>>    It analyzes the whole image manifest to align with the complex
+>>    CPE configurations.
+>>
+>> cvert-update - only update NVD feeds and store CVE blob locally.
+>>    CVE blob is a pickled representation of the cve_struct dictionary.
+>>
+>> cvert.py - python module used by all cvert-* scripts.
+>>    Uses NVD JSON Vulnerability Feeds https://nvd.nist.gov/vuln/data-feeds#JSON_FEED
+>>
+>> Signed-off-by: grygorii tertychnyi <gtertych@cisco.com>
+>
+> This looks existing. I will give a try this weekend.
+>
+> Is this what was talked about at the last OEDeM ?
 
-This is an interesting approach.
+Thanks Armin.
+Yes, we talked about this on the last year's meeting.
 
-For the kernel I've been using information not from NVD but from
-https://github.com/nluedtke/linux_kernel_cves/
-
-As an example, all CVE fixed in 4.14 kernel series point releases AND all
-non-fixed CVE are listed in:
-
-https://github.com/nluedtke/linux_kernel_cves/blob/master/4.14/4.14_securit=
-y.txt
-
-I have not tried to automate this, but I do find the information there
-much better than NVD.
-
--Mikko=
 
