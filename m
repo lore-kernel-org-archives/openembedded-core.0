@@ -1,25 +1,52 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2487778998
+Return-Path: <prvs=749c0e306=Mikko.Rapeli@bmw.de>
+X-Greylist: delayed 651 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 06 Aug 2018 07:07:53 UTC
+Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
+	[68.232.139.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E4E6F60402
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Aug 2018 03:13:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w763DJKU002571
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 5 Aug 2018 20:13:19 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Sun, 5 Aug 2018 20:13:18 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 6 Aug 2018 11:17:25 +0800
-Message-ID: <287197fe9ca8831c865c976f43f879e34c25ad48.1533524621.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1533524621.git.Qi.Chen@windriver.com>
-References: <cover.1533524621.git.Qi.Chen@windriver.com>
+	Mon,  6 Aug 2018 07:07:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1533539276; x=1565075276;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=gcRiGgp6EmeudEzZHgZe/IsThDYDERKrVy+q6VhXD4M=;
+	b=QXZVq/+F0IzgzIFC8HdHrk6lDBhlLRcgZqPLMxLlV8lpCygDQJVG4uUL
+	ujPNo3H/ILODPOLDSU+2v25UyutAw3b5rnxfbeVh17iFFycWWMgnXQDAq
+	Sp9laT+fX27pj+nq1Bw7d7m34QXFKom2yEAEMgdteCiAoAd8TpyLcSwRR A=;
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 06 Aug 2018 08:56:56 +0200
+Received: from esabb3.muc ([160.50.100.30])  by esagw1.muc with ESMTP/TLS;
+	06 Aug 2018 08:56:54 +0200
+Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
+	([160.48.96.48])
+	by esabb3.muc with ESMTP/TLS; 06 Aug 2018 08:56:54 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10l.europe.bmw.corp
+	(160.48.96.48) with Microsoft SMTP Server (TLS;
+	Mon, 6 Aug 2018 08:56:54 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1367.000;
+	Mon, 6 Aug 2018 08:56:54 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <gtertych@cisco.com>
+Thread-Topic: [OE-core] [PATCH 1/2] cve-report: add scripts to generate CVE
+	reports
+Thread-Index: AQHULVKohA9q6/6tL0GbhhBkHPrO9g==
+Date: Mon, 6 Aug 2018 06:56:54 +0000
+Message-ID: <20180806065653.GG8291@hiutale>
+References: <1533335883158.4719@cisco.com>
+In-Reply-To: <1533335883158.4719@cisco.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.37]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] oe_syslog.py: fix for syslog-ng
+Cc: xe-linux-external@cisco.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] cve-report: add scripts to generate CVE reports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,54 +59,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2018 03:13:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 06 Aug 2018 07:07:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <0A8AC695BE82C342829A0F5E843F69AE@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-When using syslog-ng as the syslog provider, oe_syslog test case fails
-because it cannot find the syslog daemon. This is because it greps for
-'syslogd' but syslog-ng's daemon is 'syslog-ng'. So fix it to check both
-'syslogd' and 'syslog-ng'.
+On Fri, Aug 03, 2018 at 10:37:05PM +0000, Grygorii Tertychnyi (gtertych) vi=
+a Openembedded-core wrote:
+> cvert-kernel - generate CVE report for the Linux kernel.
+>   NVD entries for the Linux kernel is almost always outdated.
+>   For example, https://nvd.nist.gov/vuln/detail/CVE-2018-1065
+>   is shown as matched for "versions up to (including) 4.15.7",
+>   however the patch 57ebd808a97d has been back ported for 4.14.
+>   cvert-kernel script checks NVD Resource entries for the patch URLs
+>   and looking for the commits in the local git tree.
 
-Also, when the test case fails, what I get is:
-| AssertionError: 1 != 0 : No syslogd process; ps output:
-<empty here>
+This is an interesting approach.
 
-This does not help user. The output is actually from the 'PS | GREP' command.
-And when the 'PS | GREP' command fails, the output is always empty. So also fix
-this problem. After the change, it looks like:
-| AssertionError: False is not true : No syslog daemon process; ps output:
-|   PID USER       VSZ STAT COMMAND
-|     1 root     16476 S    {systemd} /sbin/init
-|     2 root         0 SW   [kthreadd]
-|     3 root         0 IW   [kworker/0:0]
-...
+For the kernel I've been using information not from NVD but from
+https://github.com/nluedtke/linux_kernel_cves/
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/runtime/cases/oe_syslog.py | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+As an example, all CVE fixed in 4.14 kernel series point releases AND all
+non-fixed CVE are listed in:
 
-diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-index 935f10f..a92a1f2 100644
---- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
-+++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-@@ -10,10 +10,12 @@ class SyslogTest(OERuntimeTestCase):
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     @OEHasPackage(["busybox-syslog", "sysklogd", "rsyslog", "syslog-ng"])
-     def test_syslog_running(self):
--        cmd = '%s  | grep -i [s]yslogd' % self.tc.target_cmds['ps']
--        status, output = self.target.run(cmd)
--        msg = "No syslogd process; ps output: %s" % output
-+        status, output = self.target.run(self.tc.target_cmds['ps'])
-+        msg = "Failed to execute %s" % self.tc.target_cmds['ps']
-         self.assertEqual(status, 0, msg=msg)
-+        msg = "No syslog daemon process; %s output:\n%s" % (self.tc.target_cmds['ps'], output)
-+        hasdaemon = "syslogd" in output or "syslog-ng" in output
-+        self.assertTrue(hasdaemon, msg=msg)
- 
- class SyslogTestConfig(OERuntimeTestCase):
- 
--- 
-1.9.1
+https://github.com/nluedtke/linux_kernel_cves/blob/master/4.14/4.14_securit=
+y.txt
 
+I have not tried to automate this, but I do find the information there
+much better than NVD.
+
+-Mikko=
 
