@@ -1,54 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 02DDF78C15
+Return-Path: <maksym.kokhan@globallogic.com>
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4083578CC3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 13:43:20 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id p81-v6so23039724itp.1
+	Tue,  7 Aug 2018 14:07:26 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id y200-v6so11727641lfd.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2018 06:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=oTy6WUqlEFDvu1y2Q2JnEnlFap8MNobbv5AbALXPSfY=;
-	b=tiHpMuvubXzzfsoZ53iju2QEag66dBhYDYvlTXuqopCDweQEr2ipOIJzTXyiZyR3pe
-	xaOK1MB6oK3Qz+218N1iqsbHJ6PhYDy5OxzffH/tozWapsLQEtmQoOaGinPEhayMdO9X
-	WabKu05izfC0eYmGeDp1CjFNM1R3ewJbdIEZbZYBtRlWokmzr8KVpJQUxSAAll+UBEaU
-	6DkCaX76tPWsTSYxcya5KBVDSFSqUfzLDfN0pCjhEYnU6Q3WiBHD463xoE8+C3gS3hIG
-	5qq+xTCPv7jjioaDb0CHjq6OWvBm1CLoRYEllJM3Wg8YBJTBfNX1vJ+uOU+bkVOoVz9L
-	w8Og==
+	Tue, 07 Aug 2018 07:07:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=globallogic.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=IIISBxlVjE2F3Nvt0H1SjyALztLrNd8GfWw4D19N9ME=;
+	b=XRv1MBYbsypIVr1mJS91lXTc22MmTRuGfViwzGXjLZeR9HX9j3EstTyStnuy1l+9JO
+	eC5Uj2yfvGCAI5z+FuA7yPaXgZCKDfLwhRLJ/wNfhBUYCoEA9iI6HJeiII0pvq92NiU9
+	0fMsVyXZHmfwg+wAVmDmDhWk0DtUbypy/QRTg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=oTy6WUqlEFDvu1y2Q2JnEnlFap8MNobbv5AbALXPSfY=;
-	b=ON4xWCxssksbtIa0OFd4YuH4xu3kGIKPuWTgPoXTUJB0FUCqORo5zI7JFBDCQyUOtp
-	TbVDS/BklXXDeOVMUHD6Gr4Uc657aRQ2zjzLiwPyDkemQjD1B+4kseGGPcqxR+yTN616
-	mQEgyk9G+twWhJpcjdBQUywzH/M8rFXiB2RrgIKOW6VMPYsoELY5CJ7ppmAmbqzZ6TxO
-	l0OmtancTmIpwZ6FnJbDZ5oft0PAcPejuw9+yIxddTeOXHOVkAw4gWLDpFw2IkNuhTk4
-	GXnLoMF1l6MFAhg6QyZ4/b/L7+kmpIWRDvIxCnP3/mCDMMzfDy9XQDCX5gMCmHHWXPW2
-	zu1Q==
-X-Gm-Message-State: AOUpUlFg/8ewb5x760XskQB1J5nb9DYqXoXF0GhxX7elqX24J9Q/NH3v
-	OBEV9ymRNbEVM3XWpMx8F9vZURIg
-X-Google-Smtp-Source: AA+uWPwLyxn/6YzJ9idf2RHH2hzh0F4yO1l3T2qXwOtoRbgI43RZSglZoskX5qpgXcZwobWQpyK5xQ==
-X-Received: by 2002:a24:818a:: with SMTP id
-	q132-v6mr2003089itd.51.1533649401853; 
-	Tue, 07 Aug 2018 06:43:21 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	y15-v6sm565960ioy.18.2018.08.07.06.43.21
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 07 Aug 2018 06:43:21 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1be435b4a64a753ed4ae8139d2d7c002b3d08500.camel@gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 07 Aug 2018 08:43:20 -0500
-In-Reply-To: <20180807134004.27653-1-JPEWhacker@gmail.com>
-References: <20180807134004.27653-1-JPEWhacker@gmail.com>
-X-Mailer: Evolution 3.28.3 (3.28.3-1.fc28) 
-Mime-Version: 1.0
-Subject: Re: [sumo][PATCH] alsa-lib: Cleanup packaging
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=IIISBxlVjE2F3Nvt0H1SjyALztLrNd8GfWw4D19N9ME=;
+	b=JY80jWXE/mk77kAlTBrVblcqEF1HoEUzEmoqKY/Ze6Deq5zlbGlLP3Ukjg4wjiBZOl
+	Vvsu0uZshqrdFaSdcBZxzmdcJMiBgXaCyvLE53sZ50mdoBheSqGeBBDlVdFhfklxt785
+	8YDwy5r5xrfJFbUgByC7XzN8Hz7VhJvLyD5sMu9RGZwBbAzL3PFOblctt7dgEzIEOanD
+	itHgoV30hkvpSMGv4DpuhFrqM64UhwbRgjdr3kjioKPAH0dSzTobjUTAxn0G3J6+MrXU
+	hGxrH4QTI7a3DFceP4MIetnUkrEouJifr3NmZWJu/t30S7c9wkh4rz4SHkdbT0r+irrl
+	tsiw==
+X-Gm-Message-State: AOUpUlFOicNZWR9XSvZF/GqsMguCKYvZdJvIP2oPubywL5OpR8T50zLW
+	4vZALr+uYD0vV5doGKdMUiPBfGe4xAg=
+X-Google-Smtp-Source: AAOMgpeEtqTxClMIHVL04eLTiGpl6Gr6LnCtGuyTFEG7LcTq0ONZ+bmim0/NaFiPeDibauoeiEaUXQ==
+X-Received: by 2002:ac2:4308:: with SMTP id
+	l8-v6mr13616903lfh.35.1533650844755; 
+	Tue, 07 Aug 2018 07:07:24 -0700 (PDT)
+Received: from kbp1-lhp-f55466.synapse.com ([195.238.92.77])
+	by smtp.gmail.com with ESMTPSA id
+	z5-v6sm297605lff.96.2018.08.07.07.07.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 07 Aug 2018 07:07:23 -0700 (PDT)
+From: Maksym Kokhan <maksym.kokhan@globallogic.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Aug 2018 17:07:14 +0300
+Message-Id: <1533650834-19722-1-git-send-email-maksym.kokhan@globallogic.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ruslan Bilovol <ruslan.bilovol@globallogic.com>,
+	Andrii Bordunov <andrii.bordunov@globallogic.com>,
+	Maksym Kokhan <maksym.kokhan@globallogic.com>
+Subject: [PATCH v3] libusb: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,79 +56,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2018 13:43:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Aug 2018 14:07:26 -0000
 
-On Tue, 2018-08-07 at 08:40 -0500, Joshua Watt wrote:
-> From: Joshua Watt <jpewhacker@gmail.com>
-> 
-> Cleans up the packaging by moving libasound.so.2 back into the alsa-
-> lib
-> package which was previously empty.
-> 
-> Previously, it was difficult to create an image that had
-> libasound.so.2,
-> then create an SDK from that image that had the proper development
-> files, because the only way to get libasound.so.2 was to do:
-> 
->  IMAGE_INSTALL += "libasound"
-> 
-> This however caused a problem because all of the development files
-> that
-> would be desired in the SDK were located in alsa-lib-dev, which
-> wouldn't
-> be included because alsa-lib wasn't included, and it was impossible
-> to
-> include alsa-lib because it was an empty package that was culled.
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 30352f3d84344bff8c06625f9674947417f6e8e1)
-> 
-> Change-Id: I2fb065b7e00569ba3a6aac631ac863999455bfb2
+Add ptest support to libusb package.
+Uses existing libusb tests.
 
-Oops. Sorry for the Change-ID... my git commit hooks get the better of
-me sometimes :) You can remove this when you apply, or I can push up a
-V2 if you prefer.
+Signed-off-by: Maksym Kokhan <maksym.kokhan@globallogic.com>
+Reviewed-by: Andrii Bordunov <andrii.bordunov@globallogic.com>
+---
+ meta/recipes-support/libusb/libusb1/run-ptest | 15 +++++++++++++++
+ meta/recipes-support/libusb/libusb1_1.0.22.bb | 11 ++++++++++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100755 meta/recipes-support/libusb/libusb1/run-ptest
 
-> ---
->  meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb
-> b/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb
-> index c5bf107e5ee..0f1e2db8d7a 100644
-> --- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb
-> +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb
-> @@ -19,18 +19,17 @@ EXTRA_OECONF += "${@get_alsa_fpu_setting(bb, d)}
-> "
->  
->  EXTRA_OECONF += "--disable-python"
->  
-> -PACKAGES =+ "alsa-server libasound alsa-conf alsa-doc"
-> -FILES_libasound = "${libdir}/libasound.so.*"
-> +PACKAGES =+ "alsa-server alsa-conf alsa-doc"
->  FILES_alsa-server = "${bindir}/*"
->  FILES_alsa-conf = "${datadir}/alsa/"
->  
-> -RDEPENDS_libasound = "alsa-conf"
-> -
-> -# alsa-lib gets automatically added to alsa-lib-dev dependencies,
-> but the
-> -# alsa-lib package doesn't exist. libasound is the real library
-> package.
-> -RDEPENDS_${PN}-dev = "libasound"
-> +RDEPENDS_${PN}_class-target = "alsa-conf"
->  
->  # upgrade path
-> +RPROVIDES_${PN} = "libasound"
-> +RREPLACES_${PN} = "libasound"
-> +RCONFLICTS_${PN} = "libasound"
-> +
->  RPROVIDES_${PN}-dev = "alsa-dev"
->  RREPLACES_${PN}-dev = "alsa-dev"
->  RCONFLICTS_${PN}-dev = "alsa-dev"
+diff --git a/meta/recipes-support/libusb/libusb1/run-ptest b/meta/recipes-support/libusb/libusb1/run-ptest
+new file mode 100755
+index 0000000..17ab436
+--- /dev/null
++++ b/meta/recipes-support/libusb/libusb1/run-ptest
+@@ -0,0 +1,15 @@
++#!/bin/sh
++
++echo
++echo "---------------------------- libusb1 tests ---------------------------"
++echo
++
++./stress | tr '\n' ' '  | \
++sed 's/Starting test run: \([a-zA-Z_]*\)\.\.\. \([a-zA-Z_]*\) (.) /\2 \1\n/g' | \
++sed '$d' | \
++sed '{
++	s/^Success/PASS:/g
++	s/^Failure/FAIL:/g
++	s/^Error/FAIL:/g
++	s/^Skip/SKIP:/g
++}'
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.22.bb b/meta/recipes-support/libusb/libusb1_1.0.22.bb
+index 766c1c3..3ba1eff 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.22.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.22.bb
+@@ -10,6 +10,7 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
+            file://no-dll.patch \
++           file://run-ptest \
+           "
+ 
+ SRC_URI[md5sum] = "466267889daead47674df933cea9cacb"
+@@ -17,7 +18,7 @@ SRC_URI[sha256sum] = "75aeb9d59a4fdb800d329a545c2e6799f732362193b465ea198f2aa275
+ 
+ S = "${WORKDIR}/libusb-${PV}"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig ptest
+ 
+ # Don't configure udev by default since it will cause a circular
+ # dependecy with udev package, which depends on libusb
+@@ -30,6 +31,14 @@ do_install_append() {
+ 	fi
+ }
+ 
++do_compile_ptest() {
++	oe_runmake -C tests stress
++}
++
++do_install_ptest() {
++	install -m 755 ${B}/tests/.libs/stress ${D}${PTEST_PATH}
++}
++
+ FILES_${PN} += "${base_libdir}/*.so.*"
+ 
+ FILES_${PN}-dev += "${base_libdir}/*.so ${base_libdir}/*.la"
 -- 
-Joshua Watt <JPEWhacker@gmail.com>
+2.7.4
+
 
