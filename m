@@ -1,30 +1,22 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7156577BC5
+Return-Path: <fabien.lahoudere@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A46A771B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 09:40:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w779dvgQ009645
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Aug 2018 02:39:58 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 7 Aug 2018 02:39:56 -0700
-To: Mark Hatle <mark.hatle@windriver.com>, <richard.purdie@linuxfoundation.org>
-References: <20180803014947.23598-1-kai.kang@windriver.com>
-	<20180803014947.23598-2-kai.kang@windriver.com>
-	<178d4c597dac03d0d39b55450f023c57bd6c7c3e.camel@linuxfoundation.org>
-	<504e6f59-83c5-9019-f2df-a1ce88e9a9f4@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <a8d925bb-8463-ddd2-ea9b-aa74a5ed9394@windriver.com>
-Date: Tue, 7 Aug 2018 17:37:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <504e6f59-83c5-9019-f2df-a1ce88e9a9f4@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] remove allarch from recipes which rdepends on TUNE_PKGARCH packages
+	Tue,  7 Aug 2018 10:15:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aragua) with ESMTPSA id A155C26643E
+Message-ID: <1533636928.8352.5.camel@collabora.co.uk>
+From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 07 Aug 2018 12:15:28 +0200
+In-Reply-To: <CAJTo0La6RFY0VKfbsUoPGcV1MB_Z0DuhHKQSAs=a74q0+qRERA@mail.gmail.com>
+References: <1533630587.8352.1.camel@collabora.co.uk>
+	<CAJTo0La6RFY0VKfbsUoPGcV1MB_Z0DuhHKQSAs=a74q0+qRERA@mail.gmail.com>
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Cc: Yocto-mailing-list <yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] Extract GPL sources
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,70 +29,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2018 09:40:04 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 07 Aug 2018 10:15:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-On 2018年08月06日 22:51, Mark Hatle wrote:
-> On 8/3/18 4:28 PM, richard.purdie@linuxfoundation.org wrote:
->> On Fri, 2018-08-03 at 09:49 +0800, kai.kang@windriver.com wrote:
->>> From: Kai Kang <kai.kang@windriver.com>
->>>
->>> The following allarch packages rdepends on TUNE_PKGARCH packages. So
->>> remove allarch from these recipes.
->>>
->>> ca-certificates -> openssl
->> Should we reverse this, i.e. have openssl RRECOMMENDS ca-certificates?
-> I believe this is what other distros do.  I think the dependency on
-> ca-certficiates was there because there is a script included that uses OpenSSL
-> to generate the certificates.  (Theoretically you can use this script post
-> install to update the certs.)
->
-> /usr/sbin/update-ca-certificates
->
-> I suspect the others had similar dependencies.. some included script needed
-> something from another package to run.
->
-> Not sure if this changes the suggestion though...
->
-> --Mark
->
->>> docbook-xsl-stylesheets -> perl
->>> font-alias -> font-util
->>> initramfs-module-setup-live -> udev-extraconf
->>> initramfs-framework -> ${VIRTUAL-RUNTIME_base-utils} (busybox by
->>> default)
->>> ppp-dialin -> ppp
->> ppp RRECOMMENDS ppp-dialin?
+Thanks Ross,
 
-ppp-dialin installs script ppp-dialin which calls /usr/sbin/pppd.
+I have an issue when using the archiver:
 
+local.conf:
 
->>
->>> resolvconf -> bash
->>> weston-init -> weston kbd
->> weston RRECOMMENDS weston-init?
+INHERIT += "archiver"
+ARCHIVER_MODE[src] = "patched"
+COPYLEFT_LICENSE_INCLUDE = 'GPL* LGPL*'
 
-weston-init install init file which calls weston or weston-launch from 
-package weston and openvt from package kbd.
+ERROR: gmp-native-6.1.2-r0 do_unpack_and_patch: Command Error: 'quilt --quiltrc
+/home/aragua/src/poky/build2/tmp/work/x86_64-linux/gmp-native/6.1.2-r0/archiver-work//recipe-
+sysroot-native/etc/quiltrc push' exited with 0  Output:
+/bin/sh: quilt: command not found
+ERROR: gmp-native-6.1.2-r0 do_unpack_and_patch: Function failed: patch_do_patch
+ERROR: Logfile of failure stored in: /home/aragua/src/poky/build2/tmp/work/x86_64-linux/gmp-
+native/6.1.2-r0/temp/log.do_unpack_and_patch.8027
+ERROR: Task (virtual:native:/home/aragua/src/poky/meta/recipes-
+support/gmp/gmp_6.1.2.bb:do_unpack_and_patch) failed with exit code '1'
 
-Regards,
-Kai
+I tried to drop native from COPYLEFT_RECIPE_TYPES without effect.
 
+Where can I add quilt-native dependency?
 
->>
->> Not really sure about some of these but we should at least consider
->> it...
->>
->> Cheers,
->>
->> Richard
->>
->
+For information I use pyro release. Is there any known bug for that release?
 
+Thanks
+
+On Tue, 2018-08-07 at 10:10 +0100, Burton, Ross wrote:
+> Have a look at the archiver class.
+> 
+> Ross
+> 
+> On 7 August 2018 at 09:29, Fabien Lahoudere
+> <fabien.lahoudere@collabora.co.uk> wrote:
+> > Hello
+> > 
+> > I need to extract all *GPL* sources patched related to an image in order to publish them.
+> > I want to do it automatically, ie 'bitbake myimage -c extract-gpl-sources'
+> > Is there a mechanism to do that?
+> > If not do you have any idea how I can implement it?
+> > 
+> > Thanks
+> > 
+> > --
+> > Fabien
+> > --
+> > _______________________________________________
+> > yocto mailing list
+> > yocto@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/yocto
 -- 
-Regards,
-Neil | Kai Kang
-
+Fabien
 
