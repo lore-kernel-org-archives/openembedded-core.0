@@ -1,47 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 444417559A
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 11:12:31 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id h15-v6so15382684wrs.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2018 04:12:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=IjYO64RvX87H9js6YgSvtDl8ZISslXbGpuNRROjaxrY=;
-	b=SCOksxgrlaFnhNgchUOBU1Vfic1w4wpbw6ZUUXs7eHsIg4ZRd5xDwRASX75j/ArC1i
-	IJRtWJObll2fHTbo+dR8EInFFOJJuGPL0hYwt2EIIUT2oXwGAavbtLlPgXjnqBu4GoU7
-	qngy/F6W9eKEhTBYRrFRDN7k1QY6az6ATd5Q8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=IjYO64RvX87H9js6YgSvtDl8ZISslXbGpuNRROjaxrY=;
-	b=mUtgIYPlPfaBunyvYYp95mlVex+MkWC3OFqyAmy5/uGyJ3e7Qtwkvm+e2MmVjkogN0
-	rFTFjd6r73PqXEbVnS1DB+rFZS9Bl/CeQ+aJsyKhmd10gx7XG/TyHAF4fClrvOjdrxRS
-	5W6iHwp4Mtj5Lvom/Iz18RL7DkcT6L+2SjbYTs22FrkY7K5cw5BRNWTGBEbajRFCirIu
-	YMFI+HICJCjS5Wu4edk3ZNkkY4kxwiBjfgsdp6rRA4w5Qchqun5/sJvW4BXoeKbJPEl5
-	nV2ZikXV1F8b/JDjvh9cMNXlJbjDRr2ZAhRBmbLAU0lhTeUcv7WNa3qgYUigQ7KGpS4D
-	ez4w==
-X-Gm-Message-State: AOUpUlGvJmkndz3xukY2vzhqxfLROSU21nPrBS7yoPzp50DMCl1zTe6D
-	morHOXpG6319pt2fI2mvjJEoTfYkqd8=
-X-Google-Smtp-Source: AAOMgpd9oIJY6o97Gmo7yLHdov1J+acRUZLgQ4MyqcSE0UquOWXURm2WhO+xIJSoUMSnEmFHckZe7g==
-X-Received: by 2002:adf:c891:: with SMTP id
-	k17-v6mr13013649wrh.6.1533640351709; 
-	Tue, 07 Aug 2018 04:12:31 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y184-v6sm1612826wmg.17.2018.08.07.04.12.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 Aug 2018 04:12:30 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Aug 2018 12:12:29 +0100
-Message-Id: <20180807111229.18590-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] selftest/package: Fix hardlink test when using sstate
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F06A7559A;
+	Tue,  7 Aug 2018 11:32:52 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 07 Aug 2018 11:32:53 -0000
+Message-ID: <20180807113253.13842.89769@do.openembedded.org>
+References: <20180807111229.18590-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180807111229.18590-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2VsZnRlc3QvcGFja2FnZTogRml4IGhhcmRsaW5rIHRlc3Qgd2hlbiB1c2luZyBzc3RhdGU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2018 11:12:31 -0000
+X-List-Received-Date: Tue, 07 Aug 2018 11:32:52 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The build target won't cause the package task to run if things were already
-built and in sstate. Ensure we run the package task explicitly to ensure
-the test works as intended.
+== Series Details ==
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Series: selftest/package: Fix hardlink test when using sstate
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13414/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at be20eb4f4a)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/selftest/cases/package.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index 1e171b5ebef..f288fcafdb4 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -89,7 +89,7 @@ class VersionOrdering(OESelftestTestCase):
- class PackageTests(OESelftestTestCase):
-     # Verify that a recipe which sets up hardlink files has those preserved into split packages
-     def test_preserve_hardlinks(self):
--        result = bitbake("selftest-hardlink")
-+        result = bitbake("selftest-hardlink -c package")
- 
-         dest = get_bb_var('PKGDEST', 'selftest-hardlink')
-         bindir = get_bb_var('bindir', 'selftest-hardlink')
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
