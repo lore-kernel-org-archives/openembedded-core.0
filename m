@@ -1,58 +1,51 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 71835771B8
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+	[209.85.208.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A7F878869
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 17:07:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w77H7duA027265
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Aug 2018 10:07:39 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 7 Aug 2018 10:07:39 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Kang Kai
-	<Kai.Kang@windriver.com>
-References: <20180803014947.23598-1-kai.kang@windriver.com>
-	<20180803014947.23598-2-kai.kang@windriver.com>
-	<178d4c597dac03d0d39b55450f023c57bd6c7c3e.camel@linuxfoundation.org>
-	<504e6f59-83c5-9019-f2df-a1ce88e9a9f4@windriver.com>
-	<a8d925bb-8463-ddd2-ea9b-aa74a5ed9394@windriver.com>
-	<0f9d0236ac43b464c8586d1b09505cddae0265b5.camel@linuxfoundation.org>
-	<ca5558b48566d2b5eefa4c067966c284c30f415f.camel@linuxfoundation.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <eaca6350-e83c-129a-20fa-1484dab18cf5@windriver.com>
-Date: Tue, 7 Aug 2018 12:07:38 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.1
+	Tue,  7 Aug 2018 19:48:55 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id p6-v6so14413208ljc.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Aug 2018 12:48:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=PqinynxtH4E8cqi7J2658yzmewrR7z92B8Wmkdg6qV4=;
+	b=Re90UANh4og/Tl2SipvN0+m3wtkTzyn9gyVZvJkVmtU48DwUubLcLbwqNL9fyuVXbe
+	HshxWgwZxzbQ3LD0R8SLye5XdC7gCtNBoSHK4kvueCFDsq+5+TeY/Kwt86WKLncRySad
+	CGKye0uxnC8BL1XPxuAtbBjDlr+uZydSSdOxs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=PqinynxtH4E8cqi7J2658yzmewrR7z92B8Wmkdg6qV4=;
+	b=qWGA9mWt0zHOOjn/OL4MAVOANeVrfpucWth1mlEA7lAMGnRwV0zy290iLVp6rFxKLn
+	Ui4EDxRwgZcoQaAerkO76rEDk2R1kEOHOVr/tl08gwYhN1n7VUbI8t16SXmjzwQ0RYRh
+	U30OsaWRHUn2wVl9KHsxuxudCPV8VCm38vZZpmkJR84iFqrhnuyOsH3MQp+udTbD9YrQ
+	FyY5jviXVUOGU781WnzW5MD9yjBTxKIJNGpnD1QBe/i1ck+UyxJUeK65ihgwYUr8a+xN
+	dhStVYMSbS3+2U36FwsP0l0H1+/16SlEmuJPbs1Swjtricg+2z3eFpwmWVUKdiAbjo6t
+	Z9Yw==
+X-Gm-Message-State: AOUpUlEAdvQiLZX98SIzisWurDFxDCawjoF5nIwQs7LsYexT4CmxBqcL
+	np2P1olIzJnviNRiycRSPTDeBZfzkW6ZZrbfAyIQlA==
+X-Google-Smtp-Source: AAOMgpcZj1NbHELBS6J2Oj9BWclqlBgwDUgE4Xb3o7oatdPG3vRSTZvDbMDC2Gtuyt1rNybaAvy1fLiPWaQAK5lmzw0=
+X-Received: by 2002:a2e:91d6:: with SMTP id
+	u22-v6mr16158014ljg.64.1533671336467; 
+	Tue, 07 Aug 2018 12:48:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ca5558b48566d2b5eefa4c067966c284c30f415f.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] remove allarch from recipes which rdepends on TUNE_PKGARCH packages
+References: <CA+YB3rba5-xUdzRg2jE8oaY6+ZLhu3ROV0O6_=w7Dc+qPVSqpQ@mail.gmail.com>
+	<CAGAf8LwBWH7DQPRyTDgzuuJYCYZxHvjrzva3a03DzksYd66shQ@mail.gmail.com>
+	<CA+YB3raaF45piohqCHwuxPXBsVYp54g3invvbUcPr29TUMdiuQ@mail.gmail.com>
+	<CAGAf8LwA4BKgpfP-n+t+oW-bFcesTH0vN3cRwVnRxxoDehu4xg@mail.gmail.com>
+In-Reply-To: <CAGAf8LwA4BKgpfP-n+t+oW-bFcesTH0vN3cRwVnRxxoDehu4xg@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Tue, 7 Aug 2018 21:48:45 +0200
+Message-ID: <CAP71WjyTCzZW-QcdL0vuG_VCtzOWQzg9U46q1XJFLUBBTrYteQ@mail.gmail.com>
+To: zoran.stojsavljevic@gmail.com
+Cc: Yocto list discussion <yocto@yoctoproject.org>,
+	openembedded-members@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] Yocto Project changes in progress
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,49 +58,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2018 17:07:40 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Aug 2018 19:48:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/7/18 9:56 AM, Richard Purdie wrote:
-> On Tue, 2018-08-07 at 11:44 +0100, richard.purdie@linuxfoundation.org
-> wrote:
->> On Tue, 2018-08-07 at 17:37 +0800, Kang Kai wrote:
->>> On 2018年08月06日 22:51, Mark Hatle wrote:
->>>>>
->>>>>> resolvconf -> bash
->>>>>> weston-init -> weston kbd
->>>>>
->>>>> weston RRECOMMENDS weston-init?
->>>
->>> weston-init install init file which calls weston or weston-launch
->>> from 
->>> package weston and openvt from package kbd.
->>
->> Agreed.
->>
->> My worry is that this move effectively makes allarch usesless since
->> any
->> script using an interpreter will now need to be not allarch since
->> most
->> interpreters are not allarch.
->>
->> I'm not sure this is a good move...
-> 
-> Thinking about this further, we could just disable allarch if multilib
-> is enabled? That would seem to address most of the issues, not entirely
-> satisfactorily but enough to make things work... ?
+hi there,
 
-Yes, this would resolve some of the concerns.  We already know that these
-allarch SHOULD be identical for all multilibs, so install space should not be an
-issue, it's only build time concerns.
+There have been various changes in the project recently which have
+caused concern for some users and contributors. I wanted to update
+everyone with the most recent developments. It is worth highlighting
+the recent news that:
 
---Mark
+* The Yocto Project recently welcomed two new platinum members,
+Facebook and Arm to the advisory board. See [1] for a full list of the
+YP members.
+* Richard Purdie is now being funded by the Yocto Project to continue
+in his role as the overall project architect.
+* Nicolas Dechesne (Linaro) has taken over the community manager role from =
+Jefro
+* Lieu Ta (WindRiver) has taken over the advisory board chairperson
+role from Jefro
+* Andreea Volosincu (WindRiver) has taken on the advocacy lead role
+from Tracey Erway
+* Discussions about the future governance of the project with a view
+to modernisation and clarification are now ongoing but are based
+upon the strong foundations above.
 
-> Cheers,
-> 
-> Richard
-> 
+As usual, the Yocto Project will attend the ELC-E conference in
+October, in Edimburgh, and we hope to see you there, so that you can
+meet all of us!
 
+Feel free to reach out to me, if you have any specific questions!
+
+[1] https://www.yoctoproject.org/ecosystem/members/
+
+cheers
+nico
+
+On Wed, May 9, 2018 at 5:33 AM Zoran Stojsavljevic
+<zoran.stojsavljevic@gmail.com> wrote:
+>
+> Once I (at least I can speak for myself) embarked on this YOCTO ship,
+> voluntarily, I do not consider leaving it. I like the concept,
+> although there are problems with it.
+>
+> I could not commit too much time to it (since I have another
+> commitments), but I keep one eye on it, primarily trying to learn,
+> and, as abilities allow, to help.
+>
+> Big IT players' politics is driven primarily by interest. And interest
+> is changing over Time, due to Global Policies and Economy shifting...
+> Well!
+>
+> Zoran
+> _______
+>
+> On Tue, May 8, 2018 at 11:20 PM, Jeff Osier-Mixon <jefro@jefro.net> wrote=
+:
+> > Many projects function this way. It is one of the strengths of the open
+> > source process.
+> >
+> > I'd be happy to answer any questions.
+> >
+> >
+> > On Mon, May 7, 2018 at 9:53 PM, Zoran Stojsavljevic
+> > <zoran.stojsavljevic@gmail.com> wrote:
+> >>
+> >> Very interesting, indeed! Newer knew that Richard (Purdie) is/was
+> >> INTEL employee!?
+> >>
+> >> This announcement gives several (conspiracy?) theories... Some
+> >> official, some unofficial. ;-)
+> >>
+> >> As independent thinker... IMHO.
+> >>
+> >> Time Will Tell!
+> >>
+> >> Zoran Stojsavljevic
+> >> _______
+> >>
+> >> On Mon, May 7, 2018 at 11:53 PM, Jeff Osier-Mixon <jefro@jefro.net> wr=
+ote:
+> >> > Hello everyone. I'd like to briefly address rumors around Richard
+> >> > Purdie's
+> >> > transition from Intel to a more neutral position, and Intel's reduct=
+ion
+> >> > in
+> >> > resources for the project.
+> >> >
+> >> > We set up the Yocto Project in 2010 through Linux Foundation, with o=
+ver
+> >> > 20
+> >> > member organizations, so it would function as a true open source pro=
+ject
+> >> > -
+> >> > neutral, unbiased, and well distributed. Those things are what make =
+open
+> >> > source projects less vulnerable to any one person or company. This i=
+s
+> >> > actually a very exciting transitional time for the project, and all
+> >> > existing
+> >> > member organizations are fully behind the project. We will let peopl=
+e
+> >> > know
+> >> > details as they are available.
+> >> >
+> >> > Meanwhile, the 2.5 "Sumo" release is on the way and should be releas=
+ed
+> >> > soon,
+> >> > the 2.6 planning process has started in earnest (please participate!=
+),
+> >> > and
+> >> > we are excited to see what the future has in store for the project.
+> >> >
+> >> > --
+> >> > Jeffrey =E2=80=9CJefro=E2=80=9D Osier-Mixon, Intel Corporation
+> >> > Open Source Community Ecosystem Strategist
+> >> >
+> >> >
+> >> > --
+> >> > _______________________________________________
+> >> > yocto mailing list
+> >> > yocto@yoctoproject.org
+> >> > https://lists.yoctoproject.org/listinfo/yocto
+> >> >
+> >
+> >
+> >
+> >
+> > --
+> > Jeffrey =E2=80=9CJefro=E2=80=9D Osier-Mixon, Intel Corporation
+> > Open Source Community Ecosystem Strategist
+> >
+> --
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
 
