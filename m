@@ -1,49 +1,46 @@
-Return-Path: <maksym.kokhan@globallogic.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D4D1E78C7E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D4156E650
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 14:28:37 +0000 (UTC)
-Received: by mail-qk0-f172.google.com with SMTP id u21-v6so11535611qku.2
+	Tue,  7 Aug 2018 14:48:45 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id s9-v6so17730805wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2018 07:28:39 -0700 (PDT)
+	Tue, 07 Aug 2018 07:48:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=globallogic.com; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=4NcuIcRXAwlY0/TduvXvI3s2eD48h7j93Wu7tP7Y5pg=;
-	b=USJNh7nb4ArXyPyASVZNbQIfiDpDnxkdVryNspfpRwYIlLnzNLKA2T3pZUSnJY7cuZ
-	BEHVeNwvT58AX18zgohQ9a8OZkvSCLTQAwxcpfrJ7K+TjVgo44w/u+kggPS1Y+i+w41v
-	StmFwGGwMd6GS2buKETNc9FjOMvoKVF2Hci+8=
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=QdI+3ETRDj9COHUtlQCDa2k66YRjOmF4XuPfwHYILns=;
+	b=PKP3PepW0W2+ULQgEGGmVQc373c0Diiz+LTct7yu0WH6Zfgexq2dWhKML5SBxNItiW
+	gj/YMWwCEOWc+8AoJBiD1rCHzKJdL6H+SPrZO0vnY3MeUu8PG2kbjIevLoYhaSADXjE2
+	tMdup2r0oIj8nUvYmn2CuqQtOTU6ru5454gYo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=4NcuIcRXAwlY0/TduvXvI3s2eD48h7j93Wu7tP7Y5pg=;
-	b=i7YZIzVbokB5O8RgqK9y7vP3wIf/LGMABZ+OvHk9CkeBpDVeWvgbk9EG4PXKcH1QEQ
-	eut3GBjBfk5rQFN1OXRyKPlgDe7f7rqGecNnT68Z4bx5CHmPFZ1hVIDW2ixlLXPdfzx7
-	IOzb/4RbqjMIJtGG+84UAU8bE4A26VNhFnxO/839UisDzYpsQtJ4OF9NCkBrlIa6w71k
-	DtDpqa3lbPYB6TPhA9jcAyMCTDlIuBPD4g2oqxNjo+/+JVwsF0fACTHENsZPhe46MFNP
-	nalh17jaKkj4EUgC8x0kHmQIV8Oev6BCgAgbLUe8CCiEnIgPJEpEJw7iAiSyruRh0Qmz
-	W8/A==
-X-Gm-Message-State: AOUpUlF0lwLJSUYGLKGl38aE2Sx5huNbUL3g6vrO17U+SKflJL53vag3
-	ZacxEPQsnWttIr1MnbkrtF9FyJcc3PGl3lLfyl5hZQ==
-X-Google-Smtp-Source: AAOMgpeVDPPZcajZxFzNCZ9LmxQlBDjqg4Ly+7xy/XQI8G84T2Dp671hsOPtYa+T1vlIdqpqRqkdZGYORBHY1a0uoOc=
-X-Received: by 2002:a37:9c46:: with SMTP id
-	f67-v6mr17509821qke.180.1533652118733; 
-	Tue, 07 Aug 2018 07:28:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <a80f3bf9-abba-fd2c-b1b9-d2327de69f78@intel.com>
-	<1533565018-19188-1-git-send-email-maksym.kokhan@globallogic.com>
-	<CAJTo0LZJyJneBza8cg3pUTUd04vQ+k270RYAdfrB+j11feCkuA@mail.gmail.com>
-In-Reply-To: <CAJTo0LZJyJneBza8cg3pUTUd04vQ+k270RYAdfrB+j11feCkuA@mail.gmail.com>
-From: Maksym Kokhan <maksym.kokhan@globallogic.com>
-Date: Tue, 7 Aug 2018 17:28:27 +0300
-Message-ID: <CAMT6-xiDddxH2ws00ZDM16fdfWQX6etABcb-MbW0BOJ60mvhUA@mail.gmail.com>
-To: ross.burton@intel.com
-Cc: Ruslan Bilovol <ruslan.bilovol@globallogic.com>,
-	Andrii Bordunov <andrii.bordunov@globallogic.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libusb: Add ptest
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=QdI+3ETRDj9COHUtlQCDa2k66YRjOmF4XuPfwHYILns=;
+	b=UOmyCOJ/n5MYq/pAhDnxgLPBYdiM1pte6cViVDL8bqx1UtEEHiTb6vhS+SLPeZLqDj
+	/nJAwniQYMRJvgMtSmT2UCeQeq0gWiehWsST/yJqydT/sfFR5IgYBS8+33Ym5ICzBTKk
+	46TEQEGU1zfMO0KluDVoyKiRhiRewvP+rNKRP/tTxX9zycjuw2gUS+OXhWjciiQFWD+k
+	znRxTByLreDga1WgHKvlQKaJTjhB7ksLy1MjmM8eyM5+2HiCk9zSLx+6cXhNEWYgfKc9
+	wpeMWHwPVjKKwHYucBiXPwwo+t/U1ZZRud61debbifP0HnprYk5skJEVEAjn8dT5zjZk
+	Hj9w==
+X-Gm-Message-State: AOUpUlEnV6/U9ViNm5VGeBy9R9oWf1DhryswT8ku3quiiRxA4yEzBmjx
+	BnPpanKJslUnT5+zklTesMATmBIRw6o=
+X-Google-Smtp-Source: AA+uWPwrTyt2QzJ3s6l3coRP87pGLfK2AOjrj+03WQZUGrrZI/O2WuB4qj91FQT/zYUdIHUCFPratg==
+X-Received: by 2002:a1c:6585:: with SMTP id
+	z127-v6mr1791265wmb.5.1533653325567; 
+	Tue, 07 Aug 2018 07:48:45 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	u14-v6sm1876290wrs.57.2018.08.07.07.48.44
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 Aug 2018 07:48:44 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Aug 2018 15:48:43 +0100
+Message-Id: <20180807144843.26064-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] sstate: Add sstate usage summary to the build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,100 +53,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2018 14:28:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 07 Aug 2018 14:48:45 -0000
 
-On Mon, Aug 6, 2018 at 7:53 PM Burton, Ross <ross.burton@intel.com> wrote:
->
-> The upgrade to libusb 1.0.22 happened in *May* so please do try and
-> keep up to date with master.  In this case git did managed to merge
-> anyway, but generally that won't be true.
+Currently the user has no indication of how much sstate was already present
+or that would be used by the build. This change adds some summary information
+so that the user can see how much reuse is occurring. To fully work it
+needs some extra information from a recent bitbake commit but this is
+optional.
 
-Thank you for your reply, I fixed my mistake so now my patch is up to
-date with master, and I sent the final patch v3.
+When combined with bitbake --dry-run this feature can be used to check
+if sstate would be reused in a build.
 
-Thanks,
-Maksym
+[YOCTO #12749]
 
->
-> Ross
->
-> On 6 August 2018 at 15:16, Maksym Kokhan via Openembedded-core
-> <openembedded-core@lists.openembedded.org> wrote:
-> > The run-ptest script was added to run existing libusb1 tests and libusb1
-> > recipe was changed to add ptest support to that package.
-> >
-> > Signed-off-by: Maksym Kokhan <maksym.kokhan@globallogic.com>
-> > Reviewed-by: Andrii Bordunov <andrii.bordunov@globallogic.com>
-> > ---
-> >  meta/recipes-support/libusb/libusb1/run-ptest | 15 +++++++++++++++
-> >  meta/recipes-support/libusb/libusb1_1.0.21.bb | 11 ++++++++++-
-> >  2 files changed, 25 insertions(+), 1 deletion(-)
-> >  create mode 100755 meta/recipes-support/libusb/libusb1/run-ptest
-> >
-> > diff --git a/meta/recipes-support/libusb/libusb1/run-ptest b/meta/recipes-support/libusb/libusb1/run-ptest
-> > new file mode 100755
-> > index 0000000..646a966
-> > --- /dev/null
-> > +++ b/meta/recipes-support/libusb/libusb1/run-ptest
-> > @@ -0,0 +1,15 @@
-> > +#!/bin/sh
-> > +
-> > +echo
-> > +echo "---------------------------- libusb1 tests ---------------------------"
-> > +echo
-> > +
-> > +./stress | tr '\n' ' '  | \
-> > +sed 's/Starting test run: \([a-zA-Z_]*\)\.\.\. \([a-zA-Z_]*\) (.) /\2 \1\n/g' | \
-> > +sed '$d' | \
-> > +sed '{
-> > +       s/^Success/PASS:/g
-> > +       s/^Failure/FAIL:/g
-> > +       s/^Error/FAIL:/g
-> > +       s/^Skip/SKIP:/g
-> > +}'
-> > diff --git a/meta/recipes-support/libusb/libusb1_1.0.21.bb b/meta/recipes-support/libusb/libusb1_1.0.21.bb
-> > index 1fefd14..56822a6 100644
-> > --- a/meta/recipes-support/libusb/libusb1_1.0.21.bb
-> > +++ b/meta/recipes-support/libusb/libusb1_1.0.21.bb
-> > @@ -10,6 +10,7 @@ BBCLASSEXTEND = "native nativesdk"
-> >
-> >  SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
-> >             file://no-dll.patch \
-> > +           file://run-ptest \
-> >            "
-> >
-> >  SRC_URI[md5sum] = "1da9ea3c27b3858fa85c5f4466003e44"
-> > @@ -17,7 +18,7 @@ SRC_URI[sha256sum] = "7dce9cce9a81194b7065ee912bcd55eeffebab694ea403ffb91b67db66
-> >
-> >  S = "${WORKDIR}/libusb-${PV}"
-> >
-> > -inherit autotools pkgconfig
-> > +inherit autotools pkgconfig ptest
-> >
-> >  # Don't configure udev by default since it will cause a circular
-> >  # dependecy with udev package, which depends on libusb
-> > @@ -30,6 +31,14 @@ do_install_append() {
-> >         fi
-> >  }
-> >
-> > +do_compile_ptest() {
-> > +    oe_runmake -C tests stress
-> > +}
-> > +
-> > +do_install_ptest() {
-> > +    install -m 755 ${B}/tests/.libs/stress ${D}${PTEST_PATH}
-> > +}
-> > +
-> >  FILES_${PN} += "${base_libdir}/*.so.*"
-> >
-> >  FILES_${PN}-dev += "${base_libdir}/*.so ${base_libdir}/*.la"
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/sstate.bbclass | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 350d3107f59..6743becf071 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -892,6 +892,18 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
+             evdata['found'].append( (sq_fn[task], sq_task[task], sq_hash[task], sstatefile ) )
+         bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
+ 
++    # Print some summary statistics about the current task completion and how much sstate
++    # reuse there was. Avoid divide by zero errors.
++    total = len(sq_fn)
++    currentcount = d.getVar("BB_SETSCENE_STAMPCURRENT_COUNT") or 0
++    complete = 0
++    if currentcount:
++        complete = (len(ret) + currentcount) / (total + currentcount) * 100
++    match = 0
++    if total:
++        match = len(ret) / total * 100
++    bb.plain("Sstate summary: Wanted %d Found %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(ret), len(missed), currentcount, match, complete))
++
+     if hasattr(bb.parse.siggen, "checkhashes"):
+         bb.parse.siggen.checkhashes(missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d)
+ 
+-- 
+2.17.1
+
 
