@@ -1,26 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 27C46755AD
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 12:27:42 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w77CRVkf005316
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 7 Aug 2018 13:27:32 +0100
-Message-ID: <4d55ef315e4570f85e6f63271e60e7ea7bf71e62.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 07 Aug 2018 13:27:31 +0100
-In-Reply-To: <20180807093148.17801-4-hongl.fnst@cn.fujitsu.com>
-References: <20180807093148.17801-1-hongl.fnst@cn.fujitsu.com>
-	<20180807093148.17801-4-hongl.fnst@cn.fujitsu.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] [PATCH] librepo:1.8.1 -> 1.9.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 31A7A755AD;
+	Tue,  7 Aug 2018 12:32:54 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Anders Roxell <anders.roxell@linaro.org>
+Date: Tue, 07 Aug 2018 12:32:55 -0000
+Message-ID: <20180807123255.13841.65896@do.openembedded.org>
+References: <20180807120357.18154-1-anders.roxell@linaro.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180807120357.18154-1-anders.roxell@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQWRkIGFhcmNoNjQgU0RLIG1hY2hpbmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,24 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2018 12:27:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 07 Aug 2018 12:32:54 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-08-07 at 17:31 +0800, Hong Liu wrote:
-> Upgrade librepo from 1.8.1 to 1.9.0
-> 
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-devtools/librepo/{librepo_1.8.1.bb => librepo_1.9.0.bb}
-> | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/librepo/{librepo_1.8.1.bb =>
-> librepo_1.9.0.bb} (93%)
+== Series Details ==
 
-This change causes the build to fail in do_patch with patch rejects...
+Series: Add aarch64 SDK machine
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13415/
+State : failure
 
-Cheers,
+== Summary ==
 
-Richard
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            Add aarch64 SDK machine
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
