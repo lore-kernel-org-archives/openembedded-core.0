@@ -1,44 +1,26 @@
-Return-Path: <anders.roxell@linaro.org>
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
-	[209.85.208.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B4C74FAD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 27C46755AD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 12:03:59 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id u7-v6so13209353lji.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2018 05:04:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=NpWL7i/srKoHX1gpy6aThTlLk/7lmYzBttKbgaX/G+M=;
-	b=KjNDMd8M11Y7Eyi0FpVg9j3OdJLHU/OvG/SJ3LgCvdAklDb5U5jwU0IyBn/WV5rsT5
-	hw207kHs4o5AXxTIq/KPH7ToZlxYdymWdy26pBQrE7YIvx5jf8zAyHwGuMPjAVTTqrN4
-	zqsvgP+bz2vtQGRuzhM0pasLRtSxrdMAvhAN4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=NpWL7i/srKoHX1gpy6aThTlLk/7lmYzBttKbgaX/G+M=;
-	b=BEypEJZzkHdq8PFMEFWFQXLSomwSOpX6jlFNrB3nNDMUS2tE27JQtbqeFBqTNFB+zV
-	fGq1OW9QkNYpePwQqStcc27OFIgAWvpyPsMiCuQHkA5RQgU7pIzb99WRjejIIoq1pxPT
-	CI1DQSQB4LH624T5DFVEHfFt3lileWdo4synFHud7l2UPav6jNXxIgG1H+HROgNCJP0y
-	hUhNys17+pFPimYUO5CE4ruMonRbh7pPzM3nYsRCTEak+rZQKoW3lNjIIT7SOcGEE9DA
-	xx5JC2mXd7rUTd2xtYlHSVoUzJFjeHwWXxUq0zZIRxFBrBDfJvoeMBC77NKs+ipAEmaL
-	4BZw==
-X-Gm-Message-State: AOUpUlG8gttZTrhtpdZPJZPhSYc1LkAHQ4Gc7zOLG66Hhek6vTldeSnu
-	U9crAea6l9MZlJBj3XYgBVcoqfvcSV52jQ==
-X-Google-Smtp-Source: AAOMgpeIbPXeZVJvXRhSCoVPEmWSAXrtWEshw5newk0XKr2BmO3g+ZYzDtuVw9jWObjJQ7W2PCGi5w==
-X-Received: by 2002:a2e:8:: with SMTP id 8-v6mr15774590lja.112.1533643440163; 
-	Tue, 07 Aug 2018 05:04:00 -0700 (PDT)
-Received: from localhost (185-130-167-110.kund.ip-osteraker.se.
-	[185.130.167.110]) by smtp.gmail.com with ESMTPSA id
-	q65-v6sm256777lfb.80.2018.08.07.05.03.59
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 07 Aug 2018 05:03:59 -0700 (PDT)
-From: Anders Roxell <anders.roxell@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Aug 2018 14:03:57 +0200
-Message-Id: <20180807120357.18154-1-anders.roxell@linaro.org>
-X-Mailer: git-send-email 2.18.0
-Subject: [PATCH] Add aarch64 SDK machine
+	Tue,  7 Aug 2018 12:27:42 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w77CRVkf005316
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 7 Aug 2018 13:27:32 +0100
+Message-ID: <4d55ef315e4570f85e6f63271e60e7ea7bf71e62.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 07 Aug 2018 13:27:31 +0100
+In-Reply-To: <20180807093148.17801-4-hongl.fnst@cn.fujitsu.com>
+References: <20180807093148.17801-1-hongl.fnst@cn.fujitsu.com>
+	<20180807093148.17801-4-hongl.fnst@cn.fujitsu.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] [PATCH] librepo:1.8.1 -> 1.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,23 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2018 12:04:00 -0000
+X-List-Received-Date: Tue, 07 Aug 2018 12:27:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
----
- meta/conf/machine-sdk/aarch64.conf | 2 ++
- 1 file changed, 2 insertions(+)
- create mode 100644 meta/conf/machine-sdk/aarch64.conf
+On Tue, 2018-08-07 at 17:31 +0800, Hong Liu wrote:
+> Upgrade librepo from 1.8.1 to 1.9.0
+> 
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> ---
+>  meta/recipes-devtools/librepo/{librepo_1.8.1.bb => librepo_1.9.0.bb}
+> | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/librepo/{librepo_1.8.1.bb =>
+> librepo_1.9.0.bb} (93%)
 
-diff --git a/meta/conf/machine-sdk/aarch64.conf b/meta/conf/machine-sdk/aarch64.conf
-new file mode 100644
-index 0000000000..98d8380ecb
---- /dev/null
-+++ b/meta/conf/machine-sdk/aarch64.conf
-@@ -0,0 +1,2 @@
-+SDK_ARCH = "aarch64"
-+ABIEXTENSION_class-nativesdk = ""
--- 
-2.18.0
+This change causes the build to fail in do_patch with patch rejects...
 
+Cheers,
+
+Richard
 
