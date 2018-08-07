@@ -1,32 +1,30 @@
-Return-Path: <hongl.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id F142678A8B
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7156577BC5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 09:32:35 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="43166957"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 07 Aug 2018 17:32:26 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id A4A584B473FB
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 17:32:23 +0800 (CST)
-Received: from localhost.local (10.167.225.78) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Tue, 7 Aug 2018 17:32:25 +0800
-From: Hong Liu <hongl.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Aug 2018 17:31:45 +0800
-Message-ID: <20180807093148.17801-2-hongl.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.14.3
-In-Reply-To: <20180807093148.17801-1-hongl.fnst@cn.fujitsu.com>
-References: <20180807093148.17801-1-hongl.fnst@cn.fujitsu.com>
+	Tue,  7 Aug 2018 09:40:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w779dvgQ009645
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 Aug 2018 02:39:58 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Tue, 7 Aug 2018 02:39:56 -0700
+To: Mark Hatle <mark.hatle@windriver.com>, <richard.purdie@linuxfoundation.org>
+References: <20180803014947.23598-1-kai.kang@windriver.com>
+	<20180803014947.23598-2-kai.kang@windriver.com>
+	<178d4c597dac03d0d39b55450f023c57bd6c7c3e.camel@linuxfoundation.org>
+	<504e6f59-83c5-9019-f2df-a1ce88e9a9f4@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <a8d925bb-8463-ddd2-ea9b-aa74a5ed9394@windriver.com>
+Date: Tue, 7 Aug 2018 17:37:29 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.78]
-X-yoursite-MailScanner-ID: A4A584B473FB.AE5A9
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] [PATCH] createrepo-c:0.10.0 -> 0.11.0
+In-Reply-To: <504e6f59-83c5-9019-f2df-a1ce88e9a9f4@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] remove allarch from recipes which rdepends on TUNE_PKGARCH packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,34 +37,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2018 09:32:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 Aug 2018 09:40:04 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Upgrade createrepo-c from 0.10.0 to 0.11.0
+On 2018年08月06日 22:51, Mark Hatle wrote:
+> On 8/3/18 4:28 PM, richard.purdie@linuxfoundation.org wrote:
+>> On Fri, 2018-08-03 at 09:49 +0800, kai.kang@windriver.com wrote:
+>>> From: Kai Kang <kai.kang@windriver.com>
+>>>
+>>> The following allarch packages rdepends on TUNE_PKGARCH packages. So
+>>> remove allarch from these recipes.
+>>>
+>>> ca-certificates -> openssl
+>> Should we reverse this, i.e. have openssl RRECOMMENDS ca-certificates?
+> I believe this is what other distros do.  I think the dependency on
+> ca-certficiates was there because there is a script included that uses OpenSSL
+> to generate the certificates.  (Theoretically you can use this script post
+> install to update the certs.)
+>
+> /usr/sbin/update-ca-certificates
+>
+> I suspect the others had similar dependencies.. some included script needed
+> something from another package to run.
+>
+> Not sure if this changes the suggestion though...
+>
+> --Mark
+>
+>>> docbook-xsl-stylesheets -> perl
+>>> font-alias -> font-util
+>>> initramfs-module-setup-live -> udev-extraconf
+>>> initramfs-framework -> ${VIRTUAL-RUNTIME_base-utils} (busybox by
+>>> default)
+>>> ppp-dialin -> ppp
+>> ppp RRECOMMENDS ppp-dialin?
 
-Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
----
- meta/recipes-devtools/createrepo-c/createrepo-c_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ppp-dialin installs script ppp-dialin which calls /usr/sbin/pppd.
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
-index 9be9f9e..2960811 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
-@@ -9,8 +9,8 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
-            file://0001-Correctly-install-the-shared-library.patch \
-            "
- 
--PV = "0.10.0+git${SRCPV}"
--SRCREV = "748891ff8ee524c2d37926c608cd2794f88013f3"
-+PV = "0.11.1+git${SRCPV}"
-+SRCREV = "434a40babdde57ab405e9a1085a30e9575ea0c92"
- 
- S = "${WORKDIR}/git"
- 
+
+>>
+>>> resolvconf -> bash
+>>> weston-init -> weston kbd
+>> weston RRECOMMENDS weston-init?
+
+weston-init install init file which calls weston or weston-launch from 
+package weston and openvt from package kbd.
+
+Regards,
+Kai
+
+
+>>
+>> Not really sure about some of these but we should at least consider
+>> it...
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>
+
 -- 
-2.7.4
-
-
+Regards,
+Neil | Kai Kang
 
 
