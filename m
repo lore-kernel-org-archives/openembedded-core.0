@@ -1,47 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D7BD578A8E
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 310EB78AD9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 00:33:01 +0000 (UTC)
-Received: by mail-ua0-f170.google.com with SMTP id i4-v6so14279660uak.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2018 17:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=R5+QONSm4NZunkwY3OoQY8DOyvnt6sAX877oRU4OpWI=;
-	b=kPlx7KAP952BOHzKQ3jb9CDn26LCe/dWcT0vFyiw+XWAi0udiMkjUZ/ZDvEKg2IlGL
-	sc6m2j28B24dNKhJVWFLVElveBK0f1VJUa4O+PvCWGYVLfL+hY5yyBRiQKEoNZw2YtZb
-	lS+onXwIId/Ps7wdLyxJF7lT+tulb8CMEFSGc3Zc22+pD6tIcMZWC2T42c3/W3VtyU62
-	V291W3j79st/EB03e+Mxngy1ohisQWKrh1QmiZworKlZxSralCa7aInEr2phhXQyN1mI
-	A+oNqw1OPKsphsenbzY5U5VZ/vp00YmbFpeCOcPNpqWoVrwyTpYUpZUdMLAuQhjyeTcb
-	FV7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=R5+QONSm4NZunkwY3OoQY8DOyvnt6sAX877oRU4OpWI=;
-	b=JfLbOkSyX99nSXSc+J17ea0bWeGfaG2Ebo5MDu6ovFnoZhKdeH/cAR+3bhjB6HJNov
-	p05nHlBCCIVMWlUaj1nWmrHV0mhXYr/ruzVj1a8PAMMYgztf/izyoyjDqW9s5WQjjeWn
-	oHvDBrWEvcsHcGKpWqSNI7XbDvUTB27+ln1C8x9FSik5K/BkqGbGWWW9oAAzGfYGQUHr
-	OakmKLU6IURmZSw7TYJ6512ry32PgnDKljDF26XMT+OIf8M4bgDAGcyzHISrm8jwIVjy
-	7kjtFGk0qUIegNHE3rMxi+NoKqgMHThIUReYlURQ3T3QhLdnilc2TEFYggMFPnVX7/Li
-	F0aQ==
-X-Gm-Message-State: AOUpUlEgUlGP30/c8TsF35LvxcIB6ZcL0wd1uQ5b+FQUqZSo7I7OwSJ/
-	3N2UNACUNqvfRXMm5PhDUcflc83WorgDotbPr0I=
-X-Google-Smtp-Source: AAOMgpfsneWRlR1ZsfmoRXnbgXcvm8ktDAdnHfobcuMaBbqNdHz7rtYXYWPJ386UBPa+RA5SSf8yRem9O8ChYhB8lnU=
-X-Received: by 2002:ab0:1544:: with SMTP id
-	p4-v6mr12125950uae.81.1533601982783; 
-	Mon, 06 Aug 2018 17:33:02 -0700 (PDT)
+	Tue,  7 Aug 2018 00:43:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w770hMxp024501
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 6 Aug 2018 17:43:22 -0700
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.117]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0399.000;
+	Mon, 6 Aug 2018 17:43:22 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Thread-Topic: [OE-core] when is native.bbclass applied
+Thread-Index: AdQt5RGZ/B8SRVL+TK+5W6otLsimWQAO82oA//+NLtg=
+Date: Tue, 7 Aug 2018 00:43:21 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84F3610638@ALA-MBD.corp.ad.wrs.com>
+References: <007BD92917A2324FA403BCF9A464CF84F3610608@ALA-MBD.corp.ad.wrs.com>,
+	<CAJ86T=UjPWPwr2_sM1vHz6kJ13OP9zOUP=xrhgtUZkjHfe6=gQ@mail.gmail.com>
+In-Reply-To: <CAJ86T=UjPWPwr2_sM1vHz6kJ13OP9zOUP=xrhgtUZkjHfe6=gQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.117.214]
 MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Mon, 6 Aug 2018 17:33:02 -0700 (PDT)
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF84F3610608@ALA-MBD.corp.ad.wrs.com>
-References: <007BD92917A2324FA403BCF9A464CF84F3610608@ALA-MBD.corp.ad.wrs.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 6 Aug 2018 17:33:02 -0700
-Message-ID: <CAJ86T=UjPWPwr2_sM1vHz6kJ13OP9zOUP=xrhgtUZkjHfe6=gQ@mail.gmail.com>
-To: "Slater, Joseph" <joe.slater@windriver.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: when is native.bbclass applied
@@ -57,13 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2018 00:33:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 07 Aug 2018 00:43:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 6, 2018 at 5:24 PM, Slater, Joseph <joe.slater@windriver.com> wrote:
-> This class clobbers a number of things that might be manipulated in a
-> recipe.  If, say, I want to add something to CXXFLAGS, what/where do I put
-> it?  It looks like "_append" works, but "+=" might not.
-
-+= should work. Either way, "bitbake -e" will tell you the definitive answer.
+I think it might.  This is distro related, I think.  Should distro's be foo=
+ling with things like CXXFLAGS, and if so, how?=0A=
+=0A=
+________________________________________=0A=
+From: Andre McCurdy [armccurdy@gmail.com]=0A=
+Sent: Monday, August 06, 2018 5:33 PM=0A=
+To: Slater, Joseph=0A=
+Cc: openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] when is native.bbclass applied=0A=
+=0A=
+On Mon, Aug 6, 2018 at 5:24 PM, Slater, Joseph <joe.slater@windriver.com> w=
+rote:=0A=
+> This class clobbers a number of things that might be manipulated in a=0A=
+> recipe.  If, say, I want to add something to CXXFLAGS, what/where do I pu=
+t=0A=
+> it?  It looks like "_append" works, but "+=3D" might not.=0A=
+=0A=
++=3D should work. Either way, "bitbake -e" will tell you the definitive ans=
+wer.=0A=
 
