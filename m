@@ -1,23 +1,26 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 171F5748F0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 49F1C71A0F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2018 03:21:11 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Aug 2018 20:21:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,453,1526367600"; d="scan'208";a="63105618"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.16.136])
-	by orsmga008.jf.intel.com with ESMTP; 06 Aug 2018 20:21:11 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Aug 2018 11:21:09 +0800
-Message-Id: <20180807032109.10104-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [rocko][PATCH] cryptodev: Fix build errors with v4.13+
+	Tue,  7 Aug 2018 08:24:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w778OuxG009603
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 Aug 2018 01:24:56 -0700 (PDT)
+Received: from localhost.corp.ad.wrs.com (128.224.162.161) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Tue, 7 Aug 2018 01:24:56 -0700
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>, 
+	Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <20180717201021.1640-1-raj.khem@gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <cca1b343-50cd-b445-b838-897063d6b8b8@windriver.com>
+Date: Tue, 7 Aug 2018 16:28:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20180717201021.1640-1-raj.khem@gmail.com>
+Subject: Re: [PATCH] binutils: Upgrade to 2.31 release branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,94 +33,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2018 03:21:12 -0000
+X-List-Received-Date: Tue, 07 Aug 2018 08:24:56 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Daniel Schultz <d.schultz@phytec.de>
+Hi Khem,
 
-Without this compiles of 4.13 and later kernels fail.
+The new binutils may cause build failures with kernel 4.18 (linux-yocto-dev),
 
-Backport from https://github.com/cryptodev-linux/cryptodev-linux
-Based on commit f0d69774afb27ffc62bf353465fba145e70cb85a
+arch/x86/Makefile:184: *** Compiler lacks asm-goto support..  Stop.
 
-(From OE-Core rev: 317fd9814653ee22496dda63a02e628e8a16899b)
+The line for checking asm goto is in kernel's top Makefile:
 
-Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../cryptodev/cryptodev-module_1.9.bb         |  1 +
- ...01-ioctl.c-Fix-build-with-linux-4.13.patch | 49 +++++++++++++++++++
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
+# check for 'asm goto'
+ifeq ($(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC) 
+$(KBUILD_CFLAGS)), y)
+   CC_HAVE_ASM_GOTO := 1
+   KBUILD_CFLAGS += -DCC_HAVE_ASM_GOTO
+   KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
+endif
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
-index 552eb6abaa..ed6d0ecae9 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
-+++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
-@@ -9,6 +9,7 @@ DEPENDS += "cryptodev-linux"
- 
- SRC_URI += " \
- file://0001-Disable-installing-header-file-provided-by-another-p.patch \
-+file://0001-ioctl.c-Fix-build-with-linux-4.13.patch \
- "
- 
- EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
-diff --git a/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
-new file mode 100644
-index 0000000000..a41efacdd9
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
-@@ -0,0 +1,49 @@
-+From f0d69774afb27ffc62bf353465fba145e70cb85a Mon Sep 17 00:00:00 2001
-+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-+Date: Mon, 4 Sep 2017 11:05:08 +0200
-+Subject: [PATCH] ioctl.c: Fix build with linux 4.13
-+
-+git/ioctl.c:1127:3: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-+   {0, },
-+    ^
-+note: (near initialization for 'verbosity_ctl_dir[1]')
-+git/ioctl.c:1136:3: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-+   {0, },
-+    ^
-+
-+Linux kernel has added -Werror=designated-init around 4.11 (c834f0e8a8b)
-+triggering build errors with gcc 5 and 6 (but not with gcc 4)
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-+Signed-off-by: Cristian Stoica <cristian.stoica@nxp.com>
-+---
-+ ioctl.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/ioctl.c b/ioctl.c
-+index 0385203..8d4a162 100644
-+--- a/ioctl.c
-++++ b/ioctl.c
-+@@ -1124,7 +1124,7 @@ static struct ctl_table verbosity_ctl_dir[] = {
-+ 		.mode           = 0644,
-+ 		.proc_handler   = proc_dointvec,
-+ 	},
-+-	{0, },
-++	{},
-+ };
-+ 
-+ static struct ctl_table verbosity_ctl_root[] = {
-+@@ -1133,7 +1133,7 @@ static struct ctl_table verbosity_ctl_root[] = {
-+ 		.mode           = 0555,
-+ 		.child          = verbosity_ctl_dir,
-+ 	},
-+-	{0, },
-++	{},
-+ };
-+ static struct ctl_table_header *verbosity_sysctl_header;
-+ static int __init init_cryptodev(void)
-+-- 
-+2.7.4
-+
--- 
-2.17.1
+And in gcc-goto.sh:
+cat << "END" | $@ -x c - -c -o /dev/null >/dev/null 2>&1 && echo "y"
+int main(void)
+{
+#if defined(__arm__) || defined(__aarch64__)
+     /*
+      * Not related to asm goto, but used by jump label
+      * and broken on some ARM GCC versions (see GCC Bug 48637).
+      */
+     static struct { int dummy; int state; } tp;
+     asm (".long %c0" :: "i" (&tp.state));
+#endif
 
+entry:
+     asm goto ("" :::: entry);
+     return 0;
+}
+END
+
+This script reports:
+
+Assembler messages:
+Fatal error: The input and output files must be distinct
+
+And it is introduced by binutils' commit:
+
+commit 67f846b59b32f3d704c601669409c2584383fea9
+Author: John Darrington <john@darrington.wattle.id.au>
+Date:   Thu Apr 12 15:07:02 2018 +0100
+
+     Stop the assembler from overwriting its output file.
+
+[snip]
++             if (sib.st_ino == sob.st_ino)
++               {
++                 /* Don't let as_fatal remove the output file!  */
++                 out_file_name = NULL;
++                 as_fatal (_("The input and output files must be distinct"));
+[snip]
+
+
+I can't reproduce this problem locally, but it can be reproduced in our daily
+build. Yocto doesn't have this problem atm since it use linux-yocto (not -dev).
+
+Do you have any suggestions, please ?
+
+// Robert
+
+On 07/18/2018 04:10 AM, Khem Raj wrote:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>   meta/conf/distro/include/tcmode-default.inc   |    2 +-
+>   .../{binutils-2.30.inc => binutils-2.31.inc}  |    2 +-
+>   ....30.bb => binutils-cross-canadian_2.31.bb} |    0
+>   ...s-cross_2.30.bb => binutils-cross_2.31.bb} |    0
+>   ...ssdk_2.30.bb => binutils-crosssdk_2.31.bb} |    0
+>   ...s-crosssdk-Generate-relocatable-SDKs.patch |   12 +-
+>   ...o-not-generate-linker-script-directo.patch |   22 +-
+>   ...iden-the-regexp-for-SH-architectures.patch |   12 +-
+>   ...004-Point-scripts-location-to-libdir.patch |   10 +-
+>   ...-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch |   10 +-
+>   .../binutils/0006-Use-libtool-2.4.patch       | 2296 +++++++++--------
+>   ...-the-armv5e-architecture-to-binutils.patch |    8 +-
+>   ...stro-compiler-point-to-the-wrong-ins.patch |    4 +-
+>   ...-system-directories-when-cross-linki.patch |   50 +-
+>   ...h-in-libtool-when-sysroot-is-enabled.patch |    4 +-
+>   ...e-default-emulation-for-mips64-linux.patch |   12 +-
+>   .../0012-Add-support-for-Netlogic-XLP.patch   |   80 +-
+>   ...ect-assembling-for-ppc-wait-mnemonic.patch |   10 +-
+>   .../0014-Detect-64-bit-MIPS-targets.patch     |    4 +-
+>   .../0015-sync-with-OE-libtool-changes.patch   |    4 +-
+>   .../{binutils_2.30.bb => binutils_2.31.bb}    |    0
+>   21 files changed, 1327 insertions(+), 1215 deletions(-)
+>   rename meta/recipes-devtools/binutils/{binutils-2.30.inc => binutils-2.31.inc} (97%)
+>   rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.30.bb => binutils-cross-canadian_2.31.bb} (100%)
+>   rename meta/recipes-devtools/binutils/{binutils-cross_2.30.bb => binutils-cross_2.31.bb} (100%)
+>   rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.30.bb => binutils-crosssdk_2.31.bb} (100%)
+>   rename meta/recipes-devtools/binutils/{binutils_2.30.bb => binutils_2.31.bb} (100%)
+>  
 
