@@ -1,46 +1,113 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B90F71ADD
+Return-Path: <urs.fassler@bbv.ch>
+X-Greylist: delayed 28849 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 09 Aug 2018 07:42:19 UTC
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com
+	(mail-eopbgr30079.outbound.protection.outlook.com [40.107.3.79])
+	by mail.openembedded.org (Postfix) with ESMTP id 66BCF745D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Aug 2018 03:19:20 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id n85-v6so3103300qke.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 20:19:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=j2pdl86/nUfCC5dWq5gCHihkxk3aLAvYcES+tC9awxQ=;
-	b=qdDOvpZa3kjFXa+E41uMcn8PZ2bcteHuVkpqy2KZKM2GQu2gDJE2QSSA7E05aI3KAe
-	iyMyTOBSrlxWviyzI55rEOKr9PgJt62pt/eJ14I6yRedagyXaPonAInKbXA8GjlCKHPR
-	R+uuqwZ9l+uW/iwu5SIpiVv/K/dEz304b2Z0kLwa1GYHqsqGRzBM9VGjIIdIKudOKplb
-	+kXO9tqjVO6C/W0huRGlFjA/D5Idgs5CZ5DNKZkcdH3CivP7i9sAQr2tSlxyqn0BWXER
-	PdcPYWYcRqFnju+ex2jy4QzSOTM2tBb+VO/voMKGseoX6h89TXrMcPxRUUn3ffgAR4E1
-	OJXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=j2pdl86/nUfCC5dWq5gCHihkxk3aLAvYcES+tC9awxQ=;
-	b=cNKwf78hF0yyGWyWU/udft/lHcZVZNpQLegIG/pnbiMYcPkb9cjsW5QLj64HjdWFje
-	KE1fIUKOwEU3scuGii6dnPWUsXbKoRfwkhvzx0eUwUn1om/JaKlwN6m/qx994c/Z5p0t
-	blv8K6BrjMBlSz2OFeMfo3LFSyikV6gSS7hQIbjQsJLO2GwfNbNnhu/YagJs2O/t1/fL
-	p3+3HULKsgAfA/jdh1iknB3rAfPHPObrMgHRmdr7Ce3pA5yWwaAtNzx2yp/x95r3vkF/
-	AcmzF2HymKHtPnxgwidGYeywqApssdUhcAe0pBKEm2JMJoVs3ZGoDSUsGyhbQuLtqEq9
-	Urlg==
-X-Gm-Message-State: AOUpUlGYnYvmt1Ea0sLu5M1hAB1lDVE8LrKMEm7r4b+TENOzxw3aoZFU
-	XO+fc287j+Z1NuG39+jEIc3TQ1Ci01eFCYlQyoQ=
-X-Google-Smtp-Source: AA+uWPyaUReROQJOd6uTfZIoVXLfMyD7HFE6G8qyhVz/VH4iZHCy5JugbCJvTBwbCPNt+gbR8TeFLhv2LG09x1TCv74=
-X-Received: by 2002:a37:417:: with SMTP id 23-v6mr302260qke.12.1533784761323; 
-	Wed, 08 Aug 2018 20:19:21 -0700 (PDT)
+	Thu,  9 Aug 2018 07:42:19 +0000 (UTC)
+Received: from AM6PR03MB3832.eurprd03.prod.outlook.com (20.176.243.26) by
+	AM6PR03MB3829.eurprd03.prod.outlook.com (20.176.243.16) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1038.23; Thu, 9 Aug 2018 06:09:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bbvSoftwareServices.onmicrosoft.com; s=selector1-bbv-ch;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=+B48E3xPEfYz6YDZMF8d6cBq7eSWg3ooQGvKkjXVF8c=;
+	b=iDsXV8IfCdyUoaJRC9Lb3xNMUECcScImfrvq3W2l4Xzhi7LHpwBdhdjSUeOJJ1ogH4bdcsmdJPhh7jtB2KdMgsConr58lXsbDcqDeLtkqm9WQewXY3EpiwL3H9Afn+D/i5OKGh9M58xBoHpjuQ/5Ok4Q77kR7qy3qq4FWpGMJgU=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=urs.fassler@bbv.ch; 
+Received: from localhost.localdomain (83.173.245.202) by
+	AM6PR03MB3832.eurprd03.prod.outlook.com (2603:10a6:20b:24::26) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1017.18; Wed, 8 Aug 2018 07:34:15 +0000
+From: =?UTF-8?q?Urs=20F=C3=A4ssler?= <urs.fassler@bbv.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Aug 2018 09:33:52 +0200
+Message-Id: <20180808073352.20891-1-urs.fassler@bbv.ch>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <1533781942-1567-1-git-send-email-akuster808@gmail.com>
-In-Reply-To: <1533781942-1567-1-git-send-email-akuster808@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 8 Aug 2018 20:19:09 -0700
-Message-ID: <CAMKF1srpwDCjKS3epUm8=SmawQNPD61zpkwXteSGJj2ZGvWNZQ@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: akuster@mvista.com, openembedded-core@lists.openembedded.org
-Subject: Re: [ROCKO][PATCH] glibc: Update 2.26 to tip
+X-Originating-IP: [83.173.245.202]
+X-ClientProxiedBy: AM3PR03CA0059.eurprd03.prod.outlook.com
+	(2603:10a6:207:5::17) To AM6PR03MB3832.eurprd03.prod.outlook.com
+	(2603:10a6:20b:24::26)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: da53c27b-f11d-4264-7193-08d5fd015842
+X-Microsoft-Antispam: BCL:0; PCL:0;
+	RULEID:(7020095)(4652040)(8989117)(5600074)(711020)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(2017052603328)(7153060)(7193020);
+	SRVR:AM6PR03MB3832; 
+X-Microsoft-Exchange-Diagnostics: 1; AM6PR03MB3832;
+	3:gTWkf3xoA7zbO+sZ2aywicorLmBxc6KGZ5xTp0c/r2tdSbuAd1gVaNHdbwWhe/ARbeekkG/XMgcbM+B+iIn40bslMgLApXKZUfYhBdHcoxEYWge4mVBhzu4DsvO6VHfq0C7jTLg/3/mFdGQDAmMMRKDYht66ZesodhTm8i2JbIYZKKhcj8LqwwSeEaRFqQRHU9NPcbqEHusfu3LNce+HgKkvoPfT3R3rHYUKJLhOLPz07sEZjjSh0eUEk7iOKNuA;
+	25:A0A9HUMz3MJdi85ut8IV0cE0OpBlhz27c6zzjsfsTq9m+uOjTimzaamfb6OimZEsTKXT3Ad/tCWUQWTU0Rtx8CQhCJQgYlN0gS2IcjsijZdN82oGmM8PxvCdo/vuat+XPzpge/8w91Zl6f8gYkBG2LLFzIx2VRjsItjVdTMKw1cLl8mdWjnMaR59tQk9aAHOx04qVuONNFkKvEt/wUf7wNxY72DLUCbHgbkZcgyCRFX5gfFIPkFBaMufOrDXabw5EELyBUNqQ32/KsucKsMYwpqRUHunXwRenVanBdiYb9oPGkrhZVsmB6MSp758ve9SrxFIquiM+1a9PCviuEcwzw==;
+	31:oLOs8ub/ZQPV4z9/d++2tAFR1nwhLV2bYOXXVSnBgZ9BMCdFvnSmxZc8A7vO14SPnlbat3NEPAB9swjCzpmnFzV/tOkG5iCt2ibJlE0fsV7x5hhzgLaUqh2ynhAi8F4zMWsDXxVUNp3ifVStrX4n97yN6y0tzoxoS5hH0Qhs2tDO6ICTowHYoQtzYj9nd8muZMa3GDq50jx+Wk28LsPhepNcDT4ds7GG1lCOI/DcxEc=
+X-MS-TrafficTypeDiagnostic: AM6PR03MB3832:|AM6PR03MB3832:|AM6PR03MB3832:|AM6PR03MB3832:|AM6PR03MB3829:
+X-Microsoft-Antispam-PRVS: <AM6PR03MB38322E4721DB852654BF8AE58F260@AM6PR03MB3832.eurprd03.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(181554191321653)(126837547833334)(5213294742642)(33711482430040);
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(93006095)(93001095)(3231311)(944501410)(52105095)(10201501046)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123562045)(20161123564045)(20161123560045)(6072148)(201708071742011)(7699016);
+	SRVR:AM6PR03MB3832; BCL:0; PCL:0; RULEID:; SRVR:AM6PR03MB3832; 
+X-Microsoft-Exchange-Diagnostics: 1; AM6PR03MB3832;
+	4:kW9n2I/HEFByqBw6v/ZJ1VIgbLNnop4YChBA8GNgqiN5GXRLuntr+mDFWoPuOXfSZ5EOtaRO4OmwDItZkO6UYShlFllqjIsvhCKv+dsxuUw/ZBhSg/Wh0FrFr1P8oEHctH+SEbCMZth2es/I1q2q88vnmanepiRNwQ7tSOh12RHoIH/8pOERm87O8E86qDDL5eBK1Q0JHnpgrGSFbSV9bwB5qujUZZlHg7W33KS8B+jHXrWBHvqeR+LWJFW89YrBJP/1t/oFlX3XG4OSMCOVaZdZFfFWMw8vRQrn2p7uABxY5q26sJIgUyD+gEzer4TmbNI+597lY1nj6jAXrKVAFcFjFWWFYXtZZTsZfxF+tb1mu2BDPTmb6bYdg9uqdbeshvuVAyqdBd7RgMs4Avvka4jc7qUHEsvyj/k+v8yb9qo=
+X-Forefront-PRVS: 07584EDBCD
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10009020)(6069001)(376002)(366004)(136003)(346002)(39830400003)(396003)(199004)(189003)(6512007)(316002)(53936002)(54906003)(2351001)(26005)(16526019)(8676002)(105586002)(81156014)(6486002)(81166006)(186003)(52116002)(2361001)(6666003)(23676004)(106356001)(7736002)(25786009)(6916009)(47776003)(66066001)(6506007)(386003)(305945005)(4326008)(6116002)(74482002)(33896004)(3846002)(97736004)(956004)(5660300001)(2616005)(478600001)(476003)(68736007)(86362001)(2906002)(575784001)(2870700001)(486006)(36756003)(50466002)(50226002)(8936002)(1076002)(1857600001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR03MB3832;
+	H:localhost.localdomain; FPR:; SPF:None; LANG:en;
+	PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: bbv.ch does not designate
+	permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtBTTZQUjAzTUIzODMyOzIzOnNIQVBDTTJVdGxWV3RQWWZXRHg2V2x3TEk5?=
+	=?utf-8?B?cFN3VUVtNmFCT20zT2RkaWxWbkVidE0xeTkrdGlWaS9TbHpsUHR0cTlsTHdG?=
+	=?utf-8?B?TEROSjlQY0NOTFFFUnp3TkJ1TUk0R1J4K2VzMHZ1eG11WlltWmY2bCt6MGoz?=
+	=?utf-8?B?TFdWczlaVk5Ka0FQcnB1bUw3VlVyYlRFN3lwNUdiYVlHSndsUGIwY3o4c3hz?=
+	=?utf-8?B?Vit6YU5qejZtRGQvbG5IWXhGbWxCOEhZbmowa3lTOU1lVXg2Y09rT3BKT1pW?=
+	=?utf-8?B?dlZYV3VDMHAxOFIvR2ZGTDQyMHVnQXBqQ1N4enBTNTZ1UmpJR2RvTTFzbXRJ?=
+	=?utf-8?B?d0N2NmNqVHJqMGFneE1WMEVncmdHK25SdFdkRW5XNU1idXBYbkx3QWVnTGFB?=
+	=?utf-8?B?SGlrMkUvVTlxWU9FZVJudXJWaHpHYmo4SUNhY21PT3NTMTBBU3JDcU55Q2Vy?=
+	=?utf-8?B?aGV5ek92VDV5YnIwa1J6L0gzb0E1ak43SFJQaUc0U0FtUW5nMXU2dWU4NGpr?=
+	=?utf-8?B?TktBbkN0NVp6bEpVbDNMK01ZL0FjYlU4N1VxazJXNk5tNGZheStTbHZXMHR1?=
+	=?utf-8?B?WUFoM3hMY3JsMXFsWnlMR2VESUxJaFVzczl1QXlPMGF1WUpFaFA0cmw2T2Fm?=
+	=?utf-8?B?OXZwUFdFWDJoT2YrcHlNaEN6NUFxZkpZbmdKaFRERmU0WTVmSTZ4VE1MclBL?=
+	=?utf-8?B?M3NiSXM5ZkRBK2NnQ2hNdFZSbjU4TEFFc2tlTENMUktEVW1PRjJVYkl6NmFU?=
+	=?utf-8?B?SEdyTzEzVEtWYzlGamVacVhtdVF0QlJGNEtaYUJvU1Z0VDhrbmFPaG4wblpt?=
+	=?utf-8?B?Y3UrVGhuc1o1UzRTYTlxSktqRE9QVXlsdDA2Yk0rTEYrQ2VIc0tNWnZqTGtK?=
+	=?utf-8?B?bTBVdmg0TURNMlpZNm5lZUtOWFg2NVhXb0YvREcyMXdnQ3IxRmMzNFFQV01q?=
+	=?utf-8?B?VGhRRmRuMFRYR0FtMS9FQ3VNYzJYdWpmU3JyajExUlhlb1dTSnhSQ3FQdm4x?=
+	=?utf-8?B?dEFYTUU4cHp3blBYVUJjZGI5VGdBMk9BSDhYWDFzV1grLzBicmtpWEx2UkFt?=
+	=?utf-8?B?VDNVTXQzY2J3QVdmWUwwLzRGVmhlT2FxejB3TDJjaWdqOVltSjIycGpYQW5G?=
+	=?utf-8?B?Sm8yZi9GM3NwUGZGc0NMODdZbllVSTgvUFFnSkRMNWZMK0Y4eXJsV0NIQ0hk?=
+	=?utf-8?B?bzgzY05iU1JGV1JjeHV1YzVJVDdRMk9HM1RFck1BdXBHRmJiNjVuNkZHSkhR?=
+	=?utf-8?B?MXN3V3o4dU5qNitrdktKdlYyWFY1TUQ3R1l1cndkU09vY0w3UEhzTFN1SGFa?=
+	=?utf-8?B?bnQvcnhOS0JLZzhVcnhRRHVzUXlrcnhzc2NpcGVGUVUram1QRmR0UkdQMGtP?=
+	=?utf-8?B?WnJRTFNhUVYzWGtOdXcrK2JDaVhpcjlmSEdzMmdkZjdZVEhPc2NXL2FQNEdK?=
+	=?utf-8?B?amc5ZmJSUFJ0YXUzM1ExQzVFUW5USVFTVzg5clV1dHlQdStxME0wemNXbjVh?=
+	=?utf-8?B?cnhJMnJhNjdQQml2TjhlQStvYng0cW5FTklRRXlGSGt2YkRDRjV5K050MDM4?=
+	=?utf-8?B?UkU5WDVMR05HWGxWSkhDMS81Uk1iYWxIdE9VWlpIZThWM29wUnM4U09LZ01N?=
+	=?utf-8?B?ZWUzakQxSm0zcTFMUDY1ZFB0VXZuY0tYUXE3SkVaSXUrajFsUHpuSXgvbHYy?=
+	=?utf-8?B?ODY1anlHdFNQL2ZzYWkyK3owQzkzU0dWWk1ONURXQ1R3Q0hzLzQ3a3RlTDBW?=
+	=?utf-8?B?aS9MR1NGVFFDbUd6dTlLZz09?=
+X-Microsoft-Antispam-Message-Info: KWblDhd/wOqlsx26b+xyOboS/TpSTaCfqX4u7gwhoDdTRpO+b/OhaqL1ULm9J4Ee1sRbwJC8NWeUjgLM/55lIfirmN/e0g/+e+oEoETaZIlv/JJuJNXBv+1wKhwS8Jg9UnvARQO/sLjbPWenCWe3in8R0+YL/Ud6K5ZRsTTGW6Eb7Mk4pN1XtZZSdyS7aDqLx/Rhe4+uMvz73nw1BNPoLntc1kovTpHPwHwesTJN1139aSgss9GHVMasikK8mMGMmrTML7FWDNwlpvtT6y2dM34/GQxKXrH6dAxGspxBGEkF+Yo6WUJzCiO9oW3BidhKKJi91EeZ1SYC6xA8uPXAh/YKiI3WDeSyMviHn/6bSb8=
+X-Microsoft-Exchange-Diagnostics: 1; AM6PR03MB3832;
+	6:Lql7swAM6elmbX3w9E6eZFYJ/BqFrW9RqxDnBMVO1BB2K+4/ZrS6W6uGMORfbBLeXcWmqrpaIIlOcHPUE7r1V32rtFGyKXFLy/GJVvSD7ZS2WaVzt+FXAJ5Dyc481S0pR3hJEbgLezwI2M6falqsRUZOVrdLodxuP8Z56y+oSwH0rjd8FInqk9VuygEDKRfr/z95rJ3pxcsGlBilkMnKkhl7A2EkYF1KkPVshHYZuEwi/WeTh+r19CbZFvQDQstb3k43MGCV9WYgJYJ5Ws2iDhU46eIIe2Pi5yYitDggKx3IhA78z9txYKC65Mgfm58jVOPjlYzY1qTdZr+iNNK9yJGnv8Z9rug4oF/WdNGpjouqyvZwS19NV/Or4XDE5W/bq/+0X22nd2PNti1GdOmrsDfNeOhTMLWrUmnAjO89yJ49A/UpokoD+fZTj15/lpB9Zl4kGRuZC8Fs2Ce4VkhvtQ==;
+	5:gg4PaI7YK3YwO7vkQ+J/65ShzkAaYz2uTaQaTdcP8ljTAgCuHe6GL7ff37BhKjEUmsMHW+rO6lZM59oana5uTBYqAkEQ08sOhAUi3UEnSD42PkOO8jpZWsXTRs6YjI0c0bnu0Tu2+SVN02nvl39t8nQMfHpCbOv1p/prcl3MHQQ=;
+	7:S5Zk9zw3HXk9exZExqfEBs+k25gPecDmM81RdALruDyBWi1w/LSTpZ6kX1Dgx24kAgpMjgeg19MbK2toNYNt2T7l/q1VteK52qlwSPV34V4ZzUpijx+NcBQkWetUm5MaVjcD2SkNHt1qULkxy2D24AcPp3X89dRTOLQCu3XIAdiLhM8iyC8bXa0uK8QQjXzGQccB2W8//p1tf9rTeYwkRw6zWaNAZMRmDcnpAHy9ZuJRIRSyRpHYQG8+NvZxH3d1
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2018 07:34:15.9087 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: da53c27b-f11d-4264-7193-08d5fd015842
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 279985bd-2077-4d9d-9797-42238cfc06e2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB3832
+X-Microsoft-Exchange-Diagnostics: 1; AM6PR03MB3832;
+	23:NqertMJCIhaQ4d9/EhOeZdiLW377e2538jK7UX3woqncfRHblrFx8CxZEWZn3J+QwTeRmogWOTWH9eAE3K9pZ6HDRPNtzOFTOiS3nA2N9PlBUcDG/XHgDdSkNMHpdRdhldk3zYcjIpxH8oEaF0WLzA==;
+	23:cPSdyn/0+y18a/jGLohjxaASmJWDuL3CEDGrOgJ7lIoOsY9ipHAshWZIib7VXzU2yP/bUZFx2e8DistMt/Ph24C6SUl/W3lK0IQJSU2iQ3HZzeudKY/gAyWhXbRCkGILay7DGNvzIfX6S+xviuslaQ==
+X-Microsoft-Exchange-Diagnostics: 1; AM6PR03MB3829;
+	23:2qcmRaY0j8a/R2pv4X3B1DOYLDpqEiULrEtw3d/ng8q1jKg/xlgAvsYD+JAl/O4aCLyKeyq4aMAbopzJIFEOSFhzYqZjwmFVZ7cPN/3gQYQKvQn5E1ul37jLkJdNeymjKCqKhLu06UHJGDeELGqTyA==
+X-OriginatorOrg: bbv.ch
+Subject: [PATCH] cmake: fix compiling some C++ projects with Yocto SDK and GCC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,205 +120,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2018 03:19:20 -0000
-Content-Type: multipart/alternative; boundary="000000000000dc54800572f81741"
+X-List-Received-Date: Thu, 09 Aug 2018 07:42:20 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---000000000000dc54800572f81741
-Content-Type: text/plain; charset="UTF-8"
+Setting CMAKE_SYSROOT in the toolchain file allows CMake to correctly
+remove user-provided system include directories pointing to
+<sysroot>/usr/include. The mentioned projects failed with "stdlib.h:
+No such file or directory #include_next <stdlib.h>".
 
-On Wed, Aug 8, 2018 at 7:33 PM Armin Kuster <akuster808@gmail.com> wrote:
+Signed-off-by: Urs Fässler <urs.fassler@bbv.ch>
+Signed-off-by: Raphael Freudiger <raphael.freudiger@siemens.com>
+---
+ meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 1 +
+ 1 file changed, 1 insertion(+)
 
-> From: Armin Kuster <akuster@mvista.com>
->
-> CVES: CVE-2018-11236, CVE-2017-18269,  CVE-2018-11237
->
-> LIC_FILES_CHKSUM for LICENSE changed do to removal of
-> "stdio-common/tst-printf.c is copyright C E Chew" text
->
-> changelog:
-> c9570bd x86: Populate COMMON_CPUID_INDEX_80000001 for Intel CPUs [BZ
-> #23459]
-> 86e0996 x86: Correct index_cpu_LZCNT [BZ #23456]
-> cf6deb0 conform/conformtest.pl: Escape literal braces in regular
-> expressions
-> b12bed3 stdio-common/tst-printf.c: Remove part under a non-free license
-> [BZ #23363]
-> 20dc7a9 libio: Add tst-vtables, tst-vtables-interposed
-> 4b10e69 Synchronize support/ infrastructure with master
-> 762e9d6 NEWS: Reorder out-of-order bugs
-> 2781bd5 libio: Disable vtable validation in case of interposition [BZ
-> #23313]
-> 74d16a5 Check length of ifname before copying it into to ifreq structure.
-> 3aaf8bd getifaddrs: Don't return ifa entries with NULL names [BZ #21812]
-> f958b45 Use _STRUCT_TIMESPEC as guard in <bits/types/struct_timespec.h>
-> [BZ #23349]
-> 81b994b Fix parameter type in C++ version of iseqsig (bug 23171)
-> 7b52c8a libio: Avoid _allocate_buffer, _free_buffer function pointers [BZ
-> #23236]
-> 4df8479 Add NEWS entry for CVE-2018-11236
-> a5bc5ec Add references to CVE-2018-11236, CVE-2017-18269
-> 58ad5f8 Add a test case for [BZ #23196]
-> 6b4362f Don't write beyond destination in __mempcpy_avx512_no_vzeroupper
-> (bug 23196)
-> af7519f Fix path length overflow in realpath [BZ #22786]
-> 365722a Fix stack overflow with huge PT_NOTE segment [BZ #20419]
-> be056fa Fix blocking pthread_join. [BZ #23137]
-> 02f0dd8 Fix signed integer overflow in random_r (bug 17343).
-> 3241353 i386: Fix i386 sigaction sa_restorer initialization (BZ#21269)
-> 677e6d1 [BZ #22342] Fix netgroup cache keys.
-> 71d339c Fix i386 memmove issue (bug 22644).
-> 31e2d15 Fix crash in resolver on memory allocation failure (bug 23005)
-> 1f7c474 getlogin_r: return early when linux sentinel value is set
-> 7e7a5f0 resolv: Fully initialize struct mmsghdr in send_dg [BZ #23037]
->
-
-This is ok
+diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+index d52c29e5a1..8a0fb4cb12 100644
+--- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
++++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+@@ -3,6 +3,7 @@ set( CMAKE_C_FLAGS $ENV{CFLAGS} CACHE STRING "" FORCE )
+ set( CMAKE_CXX_FLAGS $ENV{CXXFLAGS}  CACHE STRING "" FORCE )
+ set( CMAKE_ASM_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
+ set( CMAKE_LDFLAGS_FLAGS ${CMAKE_CXX_FLAGS} CACHE STRING "" FORCE )
++set( CMAKE_SYSROOT $ENV{OECORE_TARGET_SYSROOT} )
+ 
+ set( CMAKE_FIND_ROOT_PATH $ENV{OECORE_TARGET_SYSROOT} $ENV{OECORE_NATIVE_SYSROOT} )
+ set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER )
+-- 
+2.18.0
 
 
-
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->  meta/recipes-core/glibc/glibc_2.26.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc_2.26.bb
-> b/meta/recipes-core/glibc/glibc_2.26.bb
-> index 9d1e636..a1a4022 100644
-> --- a/meta/recipes-core/glibc/glibc_2.26.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.26.bb
-> @@ -1,13 +1,13 @@
->  require glibc.inc
->
-> -LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
-> +LIC_FILES_CHKSUM = "file://LICENSES;md5=ebc14508894997e6daaad1b8ffd53a15\
->        file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->
->  file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
->        file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
->
->  DEPENDS += "gperf-native bison-native"
->
-> -SRCREV ?= "d300041c533a3d837c9f37a099bcc95466860e98"
-> +SRCREV ?= "c9570bd2f54abb68e4e3c767aca3a54e05d2c7f6"
->
->  SRCBRANCH ?= "release/${PV}/master"
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000dc54800572f81741
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed,=
- Aug 8, 2018 at 7:33 PM Armin Kuster &lt;<a href=3D"mailto:akuster808@gmail=
-.com">akuster808@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
-t:1ex">From: Armin Kuster &lt;<a href=3D"mailto:akuster@mvista.com" target=
-=3D"_blank">akuster@mvista.com</a>&gt;<br>
-<br>
-CVES: CVE-2018-11236, CVE-2017-18269,=C2=A0 CVE-2018-11237<br>
-<br>
-LIC_FILES_CHKSUM for LICENSE changed do to removal of<br>
-&quot;stdio-common/tst-printf.c is copyright C E Chew&quot; text<br>
-<br>
-changelog:<br>
-c9570bd x86: Populate COMMON_CPUID_INDEX_80000001 for Intel CPUs [BZ #23459=
-]<br>
-86e0996 x86: Correct index_cpu_LZCNT [BZ #23456]<br>
-cf6deb0 conform/<a href=3D"http://conformtest.pl" rel=3D"noreferrer" target=
-=3D"_blank">conformtest.pl</a>: Escape literal braces in regular expression=
-s<br>
-b12bed3 stdio-common/tst-printf.c: Remove part under a non-free license [BZ=
- #23363]<br>
-20dc7a9 libio: Add tst-vtables, tst-vtables-interposed<br>
-4b10e69 Synchronize support/ infrastructure with master<br>
-762e9d6 NEWS: Reorder out-of-order bugs<br>
-2781bd5 libio: Disable vtable validation in case of interposition [BZ #2331=
-3]<br>
-74d16a5 Check length of ifname before copying it into to ifreq structure.<b=
-r>
-3aaf8bd getifaddrs: Don&#39;t return ifa entries with NULL names [BZ #21812=
-]<br>
-f958b45 Use _STRUCT_TIMESPEC as guard in &lt;bits/types/struct_timespec.h&g=
-t; [BZ #23349]<br>
-81b994b Fix parameter type in C++ version of iseqsig (bug 23171)<br>
-7b52c8a libio: Avoid _allocate_buffer, _free_buffer function pointers [BZ #=
-23236]<br>
-4df8479 Add NEWS entry for CVE-2018-11236<br>
-a5bc5ec Add references to CVE-2018-11236, CVE-2017-18269<br>
-58ad5f8 Add a test case for [BZ #23196]<br>
-6b4362f Don&#39;t write beyond destination in __mempcpy_avx512_no_vzerouppe=
-r (bug 23196)<br>
-af7519f Fix path length overflow in realpath [BZ #22786]<br>
-365722a Fix stack overflow with huge PT_NOTE segment [BZ #20419]<br>
-be056fa Fix blocking pthread_join. [BZ #23137]<br>
-02f0dd8 Fix signed integer overflow in random_r (bug 17343).<br>
-3241353 i386: Fix i386 sigaction sa_restorer initialization (BZ#21269)<br>
-677e6d1 [BZ #22342] Fix netgroup cache keys.<br>
-71d339c Fix i386 memmove issue (bug 22644).<br>
-31e2d15 Fix crash in resolver on memory allocation failure (bug 23005)<br>
-1f7c474 getlogin_r: return early when linux sentinel value is set<br>
-7e7a5f0 resolv: Fully initialize struct mmsghdr in send_dg [BZ #23037]<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">This is ok</div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><br>
-Signed-off-by: Armin Kuster &lt;<a href=3D"mailto:akuster@mvista.com" targe=
-t=3D"_blank">akuster@mvista.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/glibc/<a href=3D"http://glibc_2.26.bb" rel=3D"noref=
-errer" target=3D"_blank">glibc_2.26.bb</a> | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.26.bb" rel=
-=3D"noreferrer" target=3D"_blank">glibc_2.26.bb</a> b/meta/recipes-core/gli=
-bc/<a href=3D"http://glibc_2.26.bb" rel=3D"noreferrer" target=3D"_blank">gl=
-ibc_2.26.bb</a><br>
-index 9d1e636..a1a4022 100644<br>
---- a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.26.bb" rel=3D"noref=
-errer" target=3D"_blank">glibc_2.26.bb</a><br>
-+++ b/meta/recipes-core/glibc/<a href=3D"http://glibc_2.26.bb" rel=3D"noref=
-errer" target=3D"_blank">glibc_2.26.bb</a><br>
-@@ -1,13 +1,13 @@<br>
-=C2=A0require glibc.inc<br>
-<br>
--LIC_FILES_CHKSUM =3D &quot;file://LICENSES;md5=3De9a558e243b36d3209f380deb=
-394b213 \<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSES;md5=3Debc14508894997e6daaad1b8f=
-fd53a15\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4=
-a4263 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0file://posix/rxspencer/COPYRIGHT;md5=3Ddc5485bb3=
-94a13b2332ec1c785f5d83a \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0file://COPYING.LIB;md5=3D4fbd65380cdd25595107900=
-8b364516c&quot;<br>
-<br>
-=C2=A0DEPENDS +=3D &quot;gperf-native bison-native&quot;<br>
-<br>
--SRCREV ?=3D &quot;d300041c533a3d837c9f37a099bcc95466860e98&quot;<br>
-+SRCREV ?=3D &quot;c9570bd2f54abb68e4e3c767aca3a54e05d2c7f6&quot;<br>
-<br>
-=C2=A0SRCBRANCH ?=3D &quot;release/${PV}/master&quot;<br>
-<br>
--- <br>
-2.7.4<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-
---000000000000dc54800572f81741--
