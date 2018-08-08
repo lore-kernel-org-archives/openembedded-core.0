@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
-	[209.85.215.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 29DED78DC7
+Received: from mail-pl0-f48.google.com (mail-pl0-f48.google.com
+	[209.85.160.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 7218978ECD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 15:35:48 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id w10-v6so1271800pgv.2
+	Wed,  8 Aug 2018 15:35:49 +0000 (UTC)
+Received: by mail-pl0-f48.google.com with SMTP id g6-v6so1191060plq.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 08:35:49 -0700 (PDT)
+	Wed, 08 Aug 2018 08:35:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Vub3XpAan42zrV7AZNmbaOaLHvNh5nFjVR/yJgnAYeY=;
-	b=I4qLssa6DGztjhwvUkDb30czWvu2A+1Ub2VuIJZKzYh+nIw/M2whSCAIgYpWQJZW0l
-	A5/WUffPQp/jK+1j0FIULYQ3bWHO1ItZX8fjWKHRUyydtDBevRriTf26d1ikCp14OEQq
-	oBgSdKajs1KHfUn1Pth8Kd9tuuh8pu2eHWPOeFgAKoGrbBPicfp3MF59CQiRKITEmhJR
-	wLo1MCDRsXh7Vd1LhtSH+JJGDJOW0iE0VYoM5eoj/iRS/1J5NnogBsa0TO4HEt6G5oNB
-	51nu+LkZNffXvpLpA8pdNV6lRiXUGUfUWb+YzxcnNTX9RcX6uyr5vVFh/kKPtjU7akCN
-	y2RQ==
+	bh=YVLf3EfIsDf+o8M+tktahYoCyHM/vH5zSiLqPbYbbM0=;
+	b=aRTcYHBygC4YAdGL20J0lGZwI4xNHxjSJeUNl6GTJgwmNhjOysaGOa6pGhtkg5Yb3W
+	jaXMQITgcD3vmW3RfRaowc9mceFp7woHKXcxJgZGVSVbPgoTkITtE3NrlhhjcG74vluY
+	Ow/xsAl4RulfmWAJNZ6/l+4e+YlPIr7CNpj4hHaReNFakXm7Ttam8dyBVEb8vk7ODKjj
+	49hZxZQLGuOSZZ+em7i3ey8QgCSWdyC+bWTHKQSgSS14HBRwK1iM8maAXtRnExy5flLD
+	timg/K8yJGhlbdfew1TuAQMMAE/2cRTa40nqdnX5BrbOCnc3gEIv+DrcwucTRedQdXMk
+	ELgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Vub3XpAan42zrV7AZNmbaOaLHvNh5nFjVR/yJgnAYeY=;
-	b=jO7GoMKuxmfQw8jd3K3Ej89HC3zRsq+XGr3i3vMVy9FkU8d1iX6v+q2TGaMbI7CDXf
-	Js2tDD6xJYW+GiMlCg4VKGjmCeJnel7/ipDMMsKeHJYhgyIgCrW6p+N7ySQkbbW+OtY7
-	mrgnoQH6TFqgeD/bewJMB3hkh7qXa5beuDtQaN4r/WzWXfRbdEfOZvS8wxohjEjG4lRB
-	fdfuw2CgL0k+gr+1mybOLU8KTOK34MXsGSc9b1ReAG60t60OKY/BDc1EYEbPvH7yCLFr
-	6Z+xKbtaH+TvHaYbGSrMwxK0mqGEWjyhIAN1H+3ltEJZTzZvyuzm8lwq/XiYJ3fLtnMv
-	gkcA==
-X-Gm-Message-State: AOUpUlGBOwEO/Oqr8phlYqIbln2r6hhMIX/9F1taalpE+MfPIhGvn+0K
-	3l9go5tBq/I5UbaeD4ZI+3Lil4OU
-X-Google-Smtp-Source: AA+uWPxexq4oXy6QX8MNCk2aeWr4jt7FT+3lQt4C6Shh5LDva5RpitCPB9M9hPzJLRlID8Ij61iNGw==
-X-Received: by 2002:a63:1015:: with SMTP id
-	f21-v6mr3112856pgl.354.1533742549489; 
-	Wed, 08 Aug 2018 08:35:49 -0700 (PDT)
+	bh=YVLf3EfIsDf+o8M+tktahYoCyHM/vH5zSiLqPbYbbM0=;
+	b=uFLZCIKtr3PfzpC+i73WJ/1/ZzHbQ+ihRlzykzRHhdmNxkA/eEZDKmyg5G/5mRJ+Fd
+	Oieo1DrlmHiJgzlU0QEa4eIYDlUfu1lDB27BwlmrT4hCn6MVYew8x/BS4P8bBlKnE8Q8
+	IdmMZ6kijKnE4iJHPsyCcYdjxO63lftcj6B/xxbR5FQ31E66xEvnMbtGvTfhPWPXcmZS
+	qCUzkLU+GvtKBOfcFoGup/pwPDX2Y6/mN7QDvwdksQLpkYI2DzOf3FPRhEjxceiwPKL1
+	YGacw+8PdSWzd6ds0HhTibjw3sgaXe/tp8noFiRxbxvr8EKFnZh/eaeV3Dka4iJvIek9
+	eb1A==
+X-Gm-Message-State: AOUpUlEXxqpaKoZIw6yzRqEkV1I1HoQjtDKd/M5fR0PRtx6Ia2/q6IXu
+	LzvFD4o1ziK+ki+DchqPIGyttd7x
+X-Google-Smtp-Source: AA+uWPxW9AggFC8ixR9cfummkU5ceitllLl8rKM8jAQkrs5c7PMKrs9kLb5bPKqQesAK9PigGeoTow==
+X-Received: by 2002:a17:902:8e81:: with SMTP id
+	bg1-v6mr3046312plb.129.1533742550652; 
+	Wed, 08 Aug 2018 08:35:50 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:7d5f:b84e:a37e:2b6c])
 	by smtp.gmail.com with ESMTPSA id
-	q78-v6sm8290927pfi.185.2018.08.08.08.35.48
+	q78-v6sm8290927pfi.185.2018.08.08.08.35.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 08 Aug 2018 08:35:49 -0700 (PDT)
+	Wed, 08 Aug 2018 08:35:50 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Wed,  8 Aug 2018 08:35:21 -0700
-Message-Id: <1533742522-24357-26-git-send-email-akuster808@gmail.com>
+Date: Wed,  8 Aug 2018 08:35:22 -0700
+Message-Id: <1533742522-24357-27-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1533742522-24357-1-git-send-email-akuster808@gmail.com>
 References: <1533742522-24357-1-git-send-email-akuster808@gmail.com>
-Subject: [ROCKO][PATCH 26/27] binutls: Security fix for CVE-2017-17122
+Subject: [ROCKO][PATCH 27/27] binutls: Security fix for CVE-2017-17125
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,7 +60,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 15:35:48 -0000
+X-List-Received-Date: Wed, 08 Aug 2018 15:35:49 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
@@ -68,87 +68,158 @@ Affects: <= 2.29.1
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-devtools/binutils/binutils-2.29.1.inc |  1 +
- .../binutils/binutils/CVE-2017-17122.patch         | 58 ++++++++++++++++++++++
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-17122.patch
+ meta/recipes-devtools/binutils/binutils-2.29.1.inc |   1 +
+ .../binutils/binutils/CVE-2017-17125.patch         | 129 +++++++++++++++++++++
+ 2 files changed, 130 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-17125.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.29.1.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-index c1d5740..577bbf0 100644
+index 577bbf0..c4d40ea 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.29.1.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-@@ -62,6 +62,7 @@ SRC_URI = "\
-      file://CVE-2017-16832.patch \
+@@ -63,6 +63,7 @@ SRC_URI = "\
       file://CVE-2017-17080.patch \
       file://CVE-2017-17121.patch \
-+     file://CVE-2017-17122.patch \
+      file://CVE-2017-17122.patch \
++     file://CVE-2017-17125.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-17122.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-17122.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-17125.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-17125.patch
 new file mode 100644
-index 0000000..5ae749b
+index 0000000..30dc6d5
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-17122.patch
-@@ -0,0 +1,58 @@
-+From d785b7d4b877ed465d04072e17ca19d0f47d840f Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Wed, 29 Nov 2017 12:40:43 +0000
-+Subject: [PATCH] Stop objdump from attempting to allocate a huge chunk of
-+ memory when parsing relocs in a corrupt file.
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-17125.patch
+@@ -0,0 +1,129 @@
++From 160b1a618ad94988410dc81fce9189fcda5b7ff4 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sat, 18 Nov 2017 23:18:22 +1030
++Subject: [PATCH] PR22443, Global buffer overflow in
++ _bfd_elf_get_symbol_version_string
 +
-+	PR 22508
-+	* objdump.c (dump_relocs_in_section): Also check the section's
-+	relocation count to make sure that it is reasonable before
-+	attempting to allocate space for the relocs.
++Symbols like *ABS* defined in bfd/section.c:global_syms are not
++elf_symbol_type.  They can appear on relocs and perhaps other places
++in an ELF bfd, so a number of places in nm.c and objdump.c are wrong
++to cast an asymbol based on the bfd being ELF.  I think we lose
++nothing by excluding all section symbols, not just the global_syms.
++
++	PR 22443
++	* nm.c (sort_symbols_by_size): Don't attempt to access
++	section symbol internal_elf_sym.
++	(print_symbol): Likewise.  Don't call bfd_get_symbol_version_string
++	for section symbols.
++	* objdump.c (compare_symbols): Don't attempt to access
++	section symbol internal_elf_sym.
++	(objdump_print_symname): Don't call bfd_get_symbol_version_string
++	for section symbols.
 +
 +Upstream-Status: Backport
 +Affects: <= 2.29.1
-+CVE:  CVE-2017-17122
++CVE:  CVE-2017-17125
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ binutils/ChangeLog |  7 +++++++
-+ binutils/objdump.c | 11 ++++++++++-
-+ 2 files changed, 17 insertions(+), 1 deletion(-)
++ binutils/ChangeLog | 12 ++++++++++++
++ binutils/nm.c      | 17 ++++++++++-------
++ binutils/objdump.c |  6 +++---
++ 3 files changed, 25 insertions(+), 10 deletions(-)
 +
++Index: git/binutils/nm.c
++===================================================================
++--- git.orig/binutils/nm.c
+++++ git/binutils/nm.c
++@@ -765,7 +765,6 @@ sort_symbols_by_size (bfd *abfd, bfd_boo
++       asection *sec;
++       bfd_vma sz;
++       asymbol *temp;
++-      int synthetic = (sym->flags & BSF_SYNTHETIC);
++ 
++       if (from + size < fromend)
++ 	{
++@@ -782,10 +781,13 @@ sort_symbols_by_size (bfd *abfd, bfd_boo
++       sec = bfd_get_section (sym);
++ 
++       /* Synthetic symbols don't have a full type set of data available, thus
++-	 we can't rely on that information for the symbol size.  */
++-      if (!synthetic && bfd_get_flavour (abfd) == bfd_target_elf_flavour)
+++	 we can't rely on that information for the symbol size.  Ditto for
+++	 bfd/section.c:global_syms like *ABS*.  */
+++      if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0
+++	  && bfd_get_flavour (abfd) == bfd_target_elf_flavour)
++ 	sz = ((elf_symbol_type *) sym)->internal_elf_sym.st_size;
++-      else if (!synthetic && bfd_is_com_section (sec))
+++      else if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0
+++	       && bfd_is_com_section (sec))
++ 	sz = sym->value;
++       else
++ 	{
++@@ -874,8 +876,9 @@ print_symbol (bfd *        abfd,
++ 
++   info.sinfo = &syminfo;
++   info.ssize = ssize;
++-  /* Synthetic symbols do not have a full symbol type set of data available.  */
++-  if ((sym->flags & BSF_SYNTHETIC) != 0)
+++  /* Synthetic symbols do not have a full symbol type set of data available.
+++     Nor do bfd/section.c:global_syms like *ABS*.  */
+++  if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) != 0)
++     {
++       info.elfinfo = NULL;
++       info.coffinfo = NULL;
++@@ -893,7 +896,7 @@ print_symbol (bfd *        abfd,
++       const char *  version_string = NULL;
++       bfd_boolean   hidden = FALSE;
++ 
++-      if ((sym->flags & BSF_SYNTHETIC) == 0)
+++      if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
++ 	version_string = bfd_get_symbol_version_string (abfd, sym, &hidden);
++ 
++       if (bfd_is_und_section (bfd_get_section (sym)))
 +Index: git/binutils/objdump.c
 +===================================================================
 +--- git.orig/binutils/objdump.c
 ++++ git/binutils/objdump.c
-+@@ -3381,7 +3381,16 @@ dump_relocs_in_section (bfd *abfd,
++@@ -799,10 +799,10 @@ compare_symbols (const void *ap, const v
++       bfd_vma asz, bsz;
++ 
++       asz = 0;
++-      if ((a->flags & BSF_SYNTHETIC) == 0)
+++      if ((a->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
++ 	asz = ((elf_symbol_type *) a)->internal_elf_sym.st_size;
++       bsz = 0;
++-      if ((b->flags & BSF_SYNTHETIC) == 0)
+++      if ((b->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
++ 	bsz = ((elf_symbol_type *) b)->internal_elf_sym.st_size;
++       if (asz != bsz)
++ 	return asz > bsz ? -1 : 1;
++@@ -888,7 +888,7 @@ objdump_print_symname (bfd *abfd, struct
++ 	name = alloc;
 +     }
 + 
-+   if ((bfd_get_file_flags (abfd) & (BFD_IN_MEMORY | BFD_LINKER_CREATED)) == 0
-+-      && (ufile_ptr) relsize > bfd_get_file_size (abfd))
-++      && (((ufile_ptr) relsize > bfd_get_file_size (abfd))
-++	  /* Also check the section's reloc count since if this is negative
-++	     (or very large) the computation in bfd_get_reloc_upper_bound
-++	     may have resulted in returning a small, positive integer.
-++	     See PR 22508 for a reproducer.
-++
-++	     Note - we check against file size rather than section size as
-++	     it is possible for there to be more relocs that apply to a
-++	     section than there are bytes in that section.  */
-++	  || (section->reloc_count > bfd_get_file_size (abfd))))
-+     {
-+       printf (" (too many: 0x%x)\n", section->reloc_count);
-+       bfd_set_error (bfd_error_file_truncated);
++-  if ((sym->flags & BSF_SYNTHETIC) == 0)
+++  if ((sym->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
++     version_string = bfd_get_symbol_version_string (abfd, sym, &hidden);
++ 
++   if (bfd_is_und_section (bfd_get_section (sym)))
 +Index: git/binutils/ChangeLog
 +===================================================================
 +--- git.orig/binutils/ChangeLog
 ++++ git/binutils/ChangeLog
-+@@ -1,3 +1,10 @@
-++2017-11-29  Nick Clifton  <nickc@redhat.com>
++@@ -1,3 +1,15 @@
+++2017-11-18  Alan Modra  <amodra@gmail.com>
 ++
-++       PR 22508
-++       * objdump.c (dump_relocs_in_section): Also check the section's
-++       relocation count to make sure that it is reasonable before
-++       attempting to allocate space for the relocs.
+++       PR 22443
+++       * nm.c (sort_symbols_by_size): Don't attempt to access
+++       section symbol internal_elf_sym.
+++       (print_symbol): Likewise.  Don't call bfd_get_symbol_version_string
+++       for section symbols.
+++       * objdump.c (compare_symbols): Don't attempt to access
+++       section symbol internal_elf_sym.
+++       (objdump_print_symname): Don't call bfd_get_symbol_version_string
+++       for section symbols.
 ++
-+ 2017-11-02  Mingi Cho  <mgcho.minic@gmail.com>
++ 2017-11-29  Nick Clifton  <nickc@redhat.com>
 + 
-+        PR 22384
++        PR 22508
 -- 
 2.7.4
 
