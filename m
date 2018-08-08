@@ -1,51 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BB4776078
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1464778875
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 17:01:22 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id c192-v6so1975369qkg.12
+	Wed,  8 Aug 2018 17:04:20 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id u11-v6so1300230plq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 10:01:23 -0700 (PDT)
+	Wed, 08 Aug 2018 10:04:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PDPd8oAp7sRRXrxvNt9Qt9v99EcX9vv0KngiGtGyqr4=;
-	b=Y+mtfCBCQ9HZE6xqlzU2rR9PGC+vUmX9KIfIYo0FDuq0IOsmmKQw6plr21CSlp9Kt4
-	0HjrsuJRLMrI4AWlxpb56413T0KoD+FiS8oys8wMG/i7xlGYL9/ZdREcEyehnfeAQ9A8
-	4LEKXc1w1kl14233Cev7SFOxNXyUp86U2gUdvB8ChELfUeUJ/GbE3LCTwFs7v+nh4ryG
-	AOcDqpaU2yfUzPLq0RIpyRq34PaeRUsk8RXvJvj9qrjzYQUdWsNqC+D43JrX1Nl+UnMm
-	aWKY6gIr3ZKtJcocRRR5XOqphBzSQM+Avdgwbj14GCF5/+2kTPvlVytduCfDVbV0Pmc4
-	1WxQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=dpI+O/sotf2R7PnLlg5s64UWMOG/19jiuxwGiNSzAMg=;
+	b=gTKpwBFpEg5dGzmH2OIr4zT+jxcYRFVYxub/DzWtdnCG13shw9fmwcFfgl83kfk3Xc
+	qoINh7xo8+gTcCJh+G/LIPXHvHvWSf9vxJTtgLftkkLB1S1NN/EAus/SG0F+XezHCLti
+	bCqHS0cbGulFH3PFk1HIpIGocs9fC5uozkP83A5fz7WjNSvcgjd5FGeiIhi+zGzLMCf8
+	UzKKx94uPqwiV0vcKerMUAzOQ/x6Rp0n4IGT/tb+7QDYU7IZXACDa56kHZvJm8A+6M+m
+	4foU5n5JScMiVnyfZQKrokEA270zU+fuCh6IHeYnSYDv/loIHYLO96QcSpag9QC5ehfh
+	CROw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=PDPd8oAp7sRRXrxvNt9Qt9v99EcX9vv0KngiGtGyqr4=;
-	b=o7Wi72SXLjj/4etGgv1hJ4d99Efx9JPW0VpT/XKcy8v65NzOQ9yGNpO5GhD0M4FaJn
-	p7AEDTlU7ZPF8/60s4EejkOqPJcgeaDsmfQanOwYGoDYSm0AM82x5v0W9h7R+fkCRFS/
-	KM8Vs6JQFdTcksAd1N6avrScwGHelUOvn1gkIdTpdwAY5+W58j2dSDu7MT0UH5fQQLzF
-	J/7VzkBkCxUdMjCNxoeVPnIU/+IKSi1MEbeE/oUEf8uqNKosLIy6vXV1ecchu9XC6EYF
-	h/DcO4Wx1XlmzhC9Rk7UrseveQjX3mDptWWCoL7S1zXdTd8fd7lAzDYyv2TNFVmUKhra
-	9OIA==
-X-Gm-Message-State: AOUpUlHFZtG+U/7TyThRB4O4Alg2O1Ce9te9NeOzYauY08WJLoCZaa+0
-	CmPmH1xuefyEgM+woenr/V1RSFC8N4ZF/v+DeQ0=
-X-Google-Smtp-Source: AA+uWPzGjckIz8NpMBVgHFnDvw2utLuorzzlKG6Q6Mi4MCDXkMvqIk1KpuvYOz8DPxEmVyiXDFADZ+wvbdzz7UeqmBk=
-X-Received: by 2002:a37:417:: with SMTP id 23-v6mr3149141qke.12.1533747682931; 
-	Wed, 08 Aug 2018 10:01:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1533595822.git.raj.khem@gmail.com>
-	<06c361481025023e6ad962759e5968bd9c19c0b7.1533595822.git.raj.khem@gmail.com>
-	<CAJTo0LZcy+LcFu0stiT5ve4mOy3KCYDH_JRONAxxYAZxY343Pg@mail.gmail.com>
-	<CAMKF1sq4kwGH4Zs4gDDruwWL4QmCUmf1RkcdMTXryxyUi0K-ew@mail.gmail.com>
-	<CAJTo0Lbox+=xhSooxHxe7QOsFRjL69VfUC3vmjzq7C=MZx3BfA@mail.gmail.com>
-In-Reply-To: <CAJTo0Lbox+=xhSooxHxe7QOsFRjL69VfUC3vmjzq7C=MZx3BfA@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dpI+O/sotf2R7PnLlg5s64UWMOG/19jiuxwGiNSzAMg=;
+	b=j492wFGcOuUT2e9F/cdDVcp/+vLvUz11Sa9fF2RDO3NixR8ZKjUmpl6MT9t4/qAW31
+	QEYawo1lqAkzUXTFYKV4INAjUzCy4jPeQeyqaHywtPcH45rN4h0srj1wX+xFvtLaEzqd
+	ek+cMtREYO52BPGAa1i8+Rp8q3CFDgCX7xAtfQ97MNW8etIaqDXFSjszCHKdUG/mZm37
+	z/h00dy8UgqbjmiqDhlFHZ1HONAx8jpWDusx0SW2GHGCvG5YI0KwuNK+HIPgsDFTpP6B
+	KZeYG9HH4428eMagqsyUETHeljQk5EhnyS9GRh4kY6LewGE1II+ADM8b3Ae+gB98Wrb3
+	eF/g==
+X-Gm-Message-State: AOUpUlFt3rI1rXRPhNnEH7873trc94usSizdghg2cIplaL//ESBqmC9N
+	Rtz+5cCAGZrA+aNzAvlX0ktdGpdE
+X-Google-Smtp-Source: AA+uWPxitOAsOLSBxJvcyCYpizu6aV4sp/sd+0If+ivbHPJSzZiEJ0Qxki+OZ6zTtBri1k7PwdsxEA==
+X-Received: by 2002:a17:902:d706:: with SMTP id
+	w6-v6mr3348213ply.158.1533747861519; 
+	Wed, 08 Aug 2018 10:04:21 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::1d00])
+	by smtp.gmail.com with ESMTPSA id
+	e126-v6sm10348945pfg.31.2018.08.08.10.04.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 Aug 2018 10:04:20 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 8 Aug 2018 10:00:56 -0700
-Message-ID: <CAMKF1sr9BMq8q=n2CE1oUtdejqNUJuHp_3F6F3X67DUhM19y1w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/18] ppp: Use openssl for the DES instead of the libcrypt / glibc
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Aug 2018 10:04:06 -0700
+Message-Id: <cover.1533747698.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH V3 0/8] Update to glibc 2.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,190 +55,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 17:01:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 08 Aug 2018 17:04:21 -0000
 
-Looking a bit more I see that ppp upstream has switched to using
-openssl as well see
-https://github.com/paulusmack/ppp/commit/3c7b86229f7bd2600d74db14b1fe5b3896be3875
+v3:
 
-so we are inline
+Rebase on top of latest master
+squash patches disabling crypt support in glibc
 
-secondly, using libxcrypt would either mean that we enable obsolete
-APIs to support existing functionality in ppp. I would not like to do
-that, infact eventually I would suggest to even disable weak hashes as
-we move along.
-This also would mean at one point we have to switch back to whatever
-upstream ppp is doing when we upgrade ppp.This will be throw away
-work.
+v2:
 
+Fix sysvinit
+Make libxcrypt available for target and provide virtual/crypt for glibc
+Fix cross localedef on glibc 2.28
+Add missing dependencies on virtual/crypt which were otherwise being met by libc so far
+Update file to latest release to get it building with glibc 2.28
 
-On Wed, Aug 8, 2018 at 8:15 AM Burton, Ross <ross.burton@intel.com> wrote:
->
-> My understanding is that libxcrypt was basically the crypto pieces
-> ripped out of glibc, but the github page lists DES as an implemented
-> algorithm.
->
-> Ross
->
-> On 8 August 2018 at 16:01, Khem Raj <raj.khem@gmail.com> wrote:
-> > Does it provide DES implementation I am not sure but if it does then it
-> > might be another option
-> >
-> > On Wed, Aug 8, 2018 at 3:40 AM Burton, Ross <ross.burton@intel.com> wrote:
-> >>
-> >> Why not use libxcrypt?
-> >>
-> >> Ross
-> >>
-> >> On 6 August 2018 at 23:57, Khem Raj <raj.khem@gmail.com> wrote:
-> >> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> > ---
-> >> >  .../ppp/ppp/ppp-2.4.7-DES-openssl.patch       | 84 +++++++++++++++++++
-> >> >  meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |  5 +-
-> >> >  2 files changed, 87 insertions(+), 2 deletions(-)
-> >> >  create mode 100644
-> >> > meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
-> >> >
-> >> > diff --git
-> >> > a/meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
-> >> > b/meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
-> >> > new file mode 100644
-> >> > index 0000000000..e53f240543
-> >> > --- /dev/null
-> >> > +++ b/meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
-> >> > @@ -0,0 +1,84 @@
-> >> > +Used openssl for the DES instead of the libcrypt / glibc
-> >> > +
-> >> > +Upstream-Status: Pending
-> >> > +
-> >> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> > +
-> >> > +Index: ppp-2.4.7/pppd/Makefile.linux
-> >> > +===================================================================
-> >> > +--- ppp-2.4.7.orig/pppd/Makefile.linux
-> >> > ++++ ppp-2.4.7/pppd/Makefile.linux
-> >> > +@@ -38,7 +38,7 @@ LIBS =
-> >> > + # Uncomment the next 2 lines to include support for Microsoft's
-> >> > + # MS-CHAP authentication protocol.  Also, edit
-> >> > plugins/radius/Makefile.linux.
-> >> > + CHAPMS=y
-> >> > +-USE_CRYPT=y
-> >> > ++#USE_CRYPT=y
-> >> > + # Don't use MSLANMAN unless you really know what you're doing.
-> >> > + #MSLANMAN=y
-> >> > + # Uncomment the next line to include support for MPPE.  CHAPMS (above)
-> >> > must
-> >> > +@@ -132,7 +132,7 @@ endif
-> >> > +
-> >> > + ifdef NEEDDES
-> >> > + ifndef USE_CRYPT
-> >> > +-LIBS     += -ldes $(LIBS)
-> >> > ++LIBS     += -lcrypto
-> >> > + else
-> >> > + CFLAGS   += -DUSE_CRYPT=1
-> >> > + endif
-> >> > +Index: ppp-2.4.7/pppd/pppcrypt.c
-> >> > +===================================================================
-> >> > +--- ppp-2.4.7.orig/pppd/pppcrypt.c
-> >> > ++++ ppp-2.4.7/pppd/pppcrypt.c
-> >> > +@@ -64,7 +64,7 @@ u_char *des_key;     /* OUT 64 bit DES key w
-> >> > +       des_key[7] = Get7Bits(key, 49);
-> >> > +
-> >> > + #ifndef USE_CRYPT
-> >> > +-      des_set_odd_parity((des_cblock *)des_key);
-> >> > ++      DES_set_odd_parity((DES_cblock *)des_key);
-> >> > + #endif
-> >> > + }
-> >> > +
-> >> > +@@ -158,25 +158,25 @@ u_char *clear;   /* OUT 8 octets */
-> >> > + }
-> >> > +
-> >> > + #else /* USE_CRYPT */
-> >> > +-static des_key_schedule       key_schedule;
-> >> > ++static DES_key_schedule       key_schedule;
-> >> > +
-> >> > + bool
-> >> > + DesSetkey(key)
-> >> > + u_char *key;
-> >> > + {
-> >> > +-      des_cblock des_key;
-> >> > ++      DES_cblock des_key;
-> >> > +       MakeKey(key, des_key);
-> >> > +-      des_set_key(&des_key, key_schedule);
-> >> > ++      DES_set_key(&des_key, &key_schedule);
-> >> > +       return (1);
-> >> > + }
-> >> > +
-> >> > + bool
-> >> > +-DesEncrypt(clear, key, cipher)
-> >> > ++DesEncrypt(clear, cipher)
-> >> > + u_char *clear;        /* IN  8 octets */
-> >> > + u_char *cipher;       /* OUT 8 octets */
-> >> > + {
-> >> > +-      des_ecb_encrypt((des_cblock *)clear, (des_cblock *)cipher,
-> >> > +-          key_schedule, 1);
-> >> > ++      DES_ecb_encrypt((DES_cblock *)clear, (DES_cblock *)cipher,
-> >> > ++          &key_schedule, 1);
-> >> > +       return (1);
-> >> > + }
-> >> > +
-> >> > +@@ -185,8 +185,8 @@ DesDecrypt(cipher, clear)
-> >> > + u_char *cipher;       /* IN  8 octets */
-> >> > + u_char *clear;        /* OUT 8 octets */
-> >> > + {
-> >> > +-      des_ecb_encrypt((des_cblock *)cipher, (des_cblock *)clear,
-> >> > +-          key_schedule, 0);
-> >> > ++      DES_ecb_encrypt((DES_cblock *)cipher, (DES_cblock *)clear,
-> >> > ++          &key_schedule, 0);
-> >> > +       return (1);
-> >> > + }
-> >> > +
-> >> > diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> >> > b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> >> > index a1bb7d71c1..f4646bd693 100644
-> >> > --- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> >> > +++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> >> > @@ -4,7 +4,7 @@ the Point-to-Point Protocol (PPP) on Linux and Solaris
-> >> > systems."
-> >> >  SECTION = "console/network"
-> >> >  HOMEPAGE = "http://samba.org/ppp/"
-> >> >  BUGTRACKER = "http://ppp.samba.org/cgi-bin/ppp-bugs"
-> >> > -DEPENDS = "libpcap"
-> >> > +DEPENDS = "libpcap openssl"
-> >> >  LICENSE = "BSD & GPLv2+ & LGPLv2+ & PD"
-> >> >  LIC_FILES_CHKSUM =
-> >> > "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77d87dc9c290a424dea
-> >> > \
-> >> >
-> >> > file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8
-> >> > \
-> >> > @@ -32,6 +32,7 @@ SRC_URI =
-> >> > "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
-> >> >             file://fix-CVE-2015-3310.patch \
-> >> >
-> >> > file://0001-pppoe-include-netinet-in.h-before-linux-in.h.patch \
-> >> >             file://0001-ppp-Remove-unneeded-include.patch \
-> >> > +           file://ppp-2.4.7-DES-openssl.patch \
-> >> >  "
-> >> >
-> >> >  SRC_URI_append_libc-musl = "\
-> >> > @@ -49,7 +50,7 @@ EXTRA_OECONF = "--disable-strip"
-> >> >  # Package Makefile computes CFLAGS, referencing COPTS.
-> >> >  # Typically hard-coded to '-O2 -g' in the Makefile's.
-> >> >  #
-> >> > -EXTRA_OEMAKE += ' COPTS="${CFLAGS} -I${S}/include"'
-> >> > +EXTRA_OEMAKE += ' COPTS="${CFLAGS} -I${STAGING_INCDIR}/openssl
-> >> > -I${S}/include"'
-> >> >
-> >> >  do_configure () {
-> >> >         oe_runconf
-> >> > --
-> >> > 2.18.0
-> >> >
-> >> > --
-> >> > _______________________________________________
-> >> > Openembedded-core mailing list
-> >> > Openembedded-core@lists.openembedded.org
-> >> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The following changes since commit 596f76029ccb6f87c3b049552bd08f5034c41d9c:
+
+  sstate: Add sstate usage summary to the build (2018-08-08 10:51:28 +0100)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/glibc-2.28
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/glibc-2.28
+
+Khem Raj (8):
+  glibc: Upgrade to 2.28
+  cross-localedef-native: Update to build with glibc 2.28
+  libxcrypt: Provide virtual/crypt for target and native as well
+  libxcrypt: Upgrade to 4.1.1
+  glibc: Disable crypt support in glibc
+  ppp: Use openssl for the DES instead of the libcrypt / glibc
+  ppp,libpam: Add missing dep on virtual/crypt
+  sysvinit: Fix build with glibc 2.28 + libxcrypt
+
+ meta/conf/distro/include/tclibc-musl.inc      |   1 +
+ meta/conf/distro/include/tcmode-default.inc   |   2 +-
+ .../ppp/ppp/ppp-2.4.7-DES-openssl.patch       |  84 ++++
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |   5 +-
+ ...2.27.bb => cross-localedef-native_2.28.bb} |  20 +-
+ ...-initial_2.27.bb => glibc-initial_2.28.bb} |   0
+ ...bc-locale_2.27.bb => glibc-locale_2.28.bb} |   0
+ ...bc-mtrace_2.27.bb => glibc-mtrace_2.28.bb} |   0
+ meta/recipes-core/glibc/glibc-package.inc     |   2 +-
+ ...-scripts_2.27.bb => glibc-scripts_2.28.bb} |   0
+ meta/recipes-core/glibc/glibc.inc             |   4 +-
+ ...Look-for-host-system-ld.so.cache-as-.patch |  12 +-
+ ...Fix-buffer-overrun-with-a-relocated-.patch |  10 +-
+ ...Raise-the-size-of-arrays-containing-.patch |  18 +-
+ ...k-glibc-Allow-64-bit-atomics-for-x86.patch |   6 +-
+ ...ake-relocatable-install-for-locales.patch} |  45 +-
+ ...500-e6500-603e-fsqrt-implementation.patch} |  44 +-
+ ...E_KNOWN_INTERPRETER_NAMES-to-known-.patch} |   6 +-
+ ...ndefined-reference-to-__sqrt_finite.patch} |   6 +-
+ ...are-now-inline-functions-and-call-o.patch} |   6 +-
+ ...43-which-explains-what-the-patch-do.patch} |   8 +-
+ ...-err-tab.pl-with-specific-dirs-in-S.patch} |   6 +-
+ ...are-now-inline-functions-and-call-o.patch} |   6 +-
+ ...gure.ac-handle-correctly-libc_cv_ro.patch} |   6 +-
+ ....patch => 0014-Add-unused-attribute.patch} |   6 +-
+ ...he-path-sets-wrong-config-variables.patch} |   6 +-
+ ...one-re-written-tzselect-as-posix-sh.patch} |   6 +-
+ ...ash-dependency-for-nscd-init-script.patch} |   6 +-
+ ...s-building-and-testing-instructions.patch} |  10 +-
+ ...libc-Help-bootstrap-cross-toolchain.patch} |  12 +-
+ ...-eglibc-Clear-cache-lines-on-ppc8xx.patch} |   6 +-
+ ...glibc-Resolve-__fpscr_values-on-SH4.patch} |   6 +-
+ ...port-cross-locale-generation-support.patch |  28 +-
+ ...Define-DUMMY_LOCALE_T-if-not-defined.patch |   6 +-
+ ...ke-_dl_build_local_scope-breadth-fir.patch |  10 +-
+ ...le-fix-hard-coded-reference-to-gcc-E.patch |   6 +-
+ ...set-dl_load_write_lock-after-forking.patch |  14 +-
+ ...ck-before-switching-to-malloc_atfork.patch |  30 +-
+ ...sts.h-enum-definition-for-TRAP_HWBKP.patch |  14 +-
+ ...with-memccpy-to-fix-Wstringop-trunca.patch |  40 --
+ ...archive-uses-a-hard-coded-locale-pa.patch} |  23 +-
+ ...t-no-lines-in-bison-generated-files.patch} |  17 +-
+ .../0031-nativesdk-deprecate-libcrypt.patch   | 419 ------------------
+ .../glibc/glibc/CVE-2017-18269.patch          | 178 --------
+ .../glibc/glibc/CVE-2018-11236.patch          | 164 -------
+ .../glibc/glibc/CVE-2018-11237.patch          |  82 ----
+ .../glibc/{glibc_2.27.bb => glibc_2.28.bb}    |  47 +-
+ ...{libxcrypt_4.0.1.bb => libxcrypt_4.1.1.bb} |  11 +-
+ ...acros.h-for-major-minor-defines-in-g.patch |  71 +++
+ .../recipes-core/sysvinit/sysvinit_2.88dsf.bb |   3 +-
+ meta/recipes-extended/pam/libpam_1.3.0.bb     |   2 +-
+ 51 files changed, 413 insertions(+), 1107 deletions(-)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-2.4.7-DES-openssl.patch
+ rename meta/recipes-core/glibc/{cross-localedef-native_2.27.bb => cross-localedef-native_2.28.bb} (67%)
+ rename meta/recipes-core/glibc/{glibc-initial_2.27.bb => glibc-initial_2.28.bb} (100%)
+ rename meta/recipes-core/glibc/{glibc-locale_2.27.bb => glibc-locale_2.28.bb} (100%)
+ rename meta/recipes-core/glibc/{glibc-mtrace_2.27.bb => glibc-mtrace_2.28.bb} (100%)
+ rename meta/recipes-core/glibc/{glibc-scripts_2.27.bb => glibc-scripts_2.28.bb} (100%)
+ rename meta/recipes-core/glibc/glibc/{relocate-locales.patch => 0005-nativesdk-glibc-Make-relocatable-install-for-locales.patch} (80%)
+ rename meta/recipes-core/glibc/glibc/{0005-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch => 0006-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch} (97%)
+ rename meta/recipes-core/glibc/glibc/{0006-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch => 0007-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch} (85%)
+ rename meta/recipes-core/glibc/glibc/{0007-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch => 0008-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch} (98%)
+ rename meta/recipes-core/glibc/glibc/{0008-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch => 0009-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch} (98%)
+ rename meta/recipes-core/glibc/glibc/{0009-Quote-from-bug-1443-which-explains-what-the-patch-do.patch => 0010-Quote-from-bug-1443-which-explains-what-the-patch-do.patch} (93%)
+ rename meta/recipes-core/glibc/glibc/{0010-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch => 0011-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch} (89%)
+ rename meta/recipes-core/glibc/glibc/{0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch => 0012-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch} (93%)
+ rename meta/recipes-core/glibc/glibc/{0012-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch => 0013-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch} (88%)
+ rename meta/recipes-core/glibc/glibc/{0013-Add-unused-attribute.patch => 0014-Add-unused-attribute.patch} (86%)
+ rename meta/recipes-core/glibc/glibc/{0014-yes-within-the-path-sets-wrong-config-variables.patch => 0015-yes-within-the-path-sets-wrong-config-variables.patch} (98%)
+ rename meta/recipes-core/glibc/glibc/{0015-timezone-re-written-tzselect-as-posix-sh.patch => 0016-timezone-re-written-tzselect-as-posix-sh.patch} (90%)
+ rename meta/recipes-core/glibc/glibc/{0016-Remove-bash-dependency-for-nscd-init-script.patch => 0017-Remove-bash-dependency-for-nscd-init-script.patch} (92%)
+ rename meta/recipes-core/glibc/glibc/{0017-eglibc-Cross-building-and-testing-instructions.patch => 0018-eglibc-Cross-building-and-testing-instructions.patch} (99%)
+ rename meta/recipes-core/glibc/glibc/{0018-eglibc-Help-bootstrap-cross-toolchain.patch => 0019-eglibc-Help-bootstrap-cross-toolchain.patch} (91%)
+ rename meta/recipes-core/glibc/glibc/{0019-eglibc-Clear-cache-lines-on-ppc8xx.patch => 0020-eglibc-Clear-cache-lines-on-ppc8xx.patch} (96%)
+ rename meta/recipes-core/glibc/glibc/{0020-eglibc-Resolve-__fpscr_values-on-SH4.patch => 0021-eglibc-Resolve-__fpscr_values-on-SH4.patch} (92%)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0029-Replace-strncpy-with-memccpy-to-fix-Wstringop-trunca.patch
+ rename meta/recipes-core/glibc/glibc/{archive-path.patch => 0029-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch} (69%)
+ rename meta/recipes-core/glibc/glibc/{0030-plural_c_no_preprocessor_lines.patch => 0030-intl-Emit-no-lines-in-bison-generated-files.patch} (59%)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0031-nativesdk-deprecate-libcrypt.patch
+ delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2017-18269.patch
+ delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2018-11236.patch
+ delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2018-11237.patch
+ rename meta/recipes-core/glibc/{glibc_2.27.bb => glibc_2.28.bb} (72%)
+ rename meta/recipes-core/libxcrypt/{libxcrypt_4.0.1.bb => libxcrypt_4.1.1.bb} (70%)
+ create mode 100644 meta/recipes-core/sysvinit/sysvinit-2.88dsf/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
+
+-- 
+2.18.0
+
 
