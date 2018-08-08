@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f52.google.com (mail-pl0-f52.google.com
-	[209.85.160.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 560AA78EBE
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 29DED78DC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 15:35:47 +0000 (UTC)
-Received: by mail-pl0-f52.google.com with SMTP id w3-v6so1200994plq.2
+	Wed,  8 Aug 2018 15:35:48 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id w10-v6so1271800pgv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 08:35:48 -0700 (PDT)
+	Wed, 08 Aug 2018 08:35:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=pgoklpyAkRKTq8TGgzjiWiT4Ms0SeG/LlS5MUki7gs0=;
-	b=qcVovA+nWr9oaPPmWB3N3QXCudnwcYFN6PH7If9v7r0Oe2W42GWQeghU35tc0CRsSq
-	W1ilNyNBxQng8SmQXLeea2n6km6Bz5/fWhrZtFVEHjMIfN7n7/wUEWvQSH6cB1JPPe2J
-	XTv+0o79YfddW9xc+RzUJSiLGhVpMv2E+y8Lf6nBN4AM3fwUVqf9tLc/24tDG4MxF3uE
-	vZMzEdt4x7VSG6+TzbFwCkT0ChRoD7DCWhu9eisCgOoCpL2YeHy1mahdOfXG+oQt7H47
-	wyeN5UfWpdK6ZoOHm0Umo0vY2EYepBqSx66rpcBo47+rR+I+wiKsRHmDYHFKOWg72HBb
-	YXLw==
+	bh=Vub3XpAan42zrV7AZNmbaOaLHvNh5nFjVR/yJgnAYeY=;
+	b=I4qLssa6DGztjhwvUkDb30czWvu2A+1Ub2VuIJZKzYh+nIw/M2whSCAIgYpWQJZW0l
+	A5/WUffPQp/jK+1j0FIULYQ3bWHO1ItZX8fjWKHRUyydtDBevRriTf26d1ikCp14OEQq
+	oBgSdKajs1KHfUn1Pth8Kd9tuuh8pu2eHWPOeFgAKoGrbBPicfp3MF59CQiRKITEmhJR
+	wLo1MCDRsXh7Vd1LhtSH+JJGDJOW0iE0VYoM5eoj/iRS/1J5NnogBsa0TO4HEt6G5oNB
+	51nu+LkZNffXvpLpA8pdNV6lRiXUGUfUWb+YzxcnNTX9RcX6uyr5vVFh/kKPtjU7akCN
+	y2RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=pgoklpyAkRKTq8TGgzjiWiT4Ms0SeG/LlS5MUki7gs0=;
-	b=acN77+1n5qsO85dgunV59modhLYr1sBO6aJpjePnBUFZgQieM0+iQJd8HWA2vof/fJ
-	rAfhEsch3aR1P9xGwHRoUMY0MUtcRmpmYBFrMGt3IxxdXV3N+pevf1NPFGyOiPHkyvAm
-	d62lzpVchOF1Dz8jzrH9DBGeXgrukcdoSugUBIePa+FY+jZ3E6c5eEvmfVwILrxiKY6s
-	1tfhHxcSBopENOWI1c4rtsYIWQJBkdzqaWirYj9VYnvz7PP6+5VO6xT35WubVE4K6gej
-	XM+RQfTRsqir+05AS0M8sPTeuefQSvu46NQcXm3YCjSwP+wIxk7g22FHNoxB7zXdDUzC
-	5/PA==
-X-Gm-Message-State: AOUpUlEZ5xiGe3P6fMe/z2jJknC5Uj6oSBCnSjsbumiQ0VsSTHNiThrW
-	Fcr8G/A0Mm5vLGmlltJ5rF60ETl6
-X-Google-Smtp-Source: AA+uWPwfQ1qLNNMivt4ivvBfZGM0DaSgvjCAqWImuxWvY8yRbcsndzyJ5kl3wD/yPnPA3rk8ReraLA==
-X-Received: by 2002:a17:902:4d46:: with SMTP id
-	o6-v6mr3109040plh.59.1533742548455; 
-	Wed, 08 Aug 2018 08:35:48 -0700 (PDT)
+	bh=Vub3XpAan42zrV7AZNmbaOaLHvNh5nFjVR/yJgnAYeY=;
+	b=jO7GoMKuxmfQw8jd3K3Ej89HC3zRsq+XGr3i3vMVy9FkU8d1iX6v+q2TGaMbI7CDXf
+	Js2tDD6xJYW+GiMlCg4VKGjmCeJnel7/ipDMMsKeHJYhgyIgCrW6p+N7ySQkbbW+OtY7
+	mrgnoQH6TFqgeD/bewJMB3hkh7qXa5beuDtQaN4r/WzWXfRbdEfOZvS8wxohjEjG4lRB
+	fdfuw2CgL0k+gr+1mybOLU8KTOK34MXsGSc9b1ReAG60t60OKY/BDc1EYEbPvH7yCLFr
+	6Z+xKbtaH+TvHaYbGSrMwxK0mqGEWjyhIAN1H+3ltEJZTzZvyuzm8lwq/XiYJ3fLtnMv
+	gkcA==
+X-Gm-Message-State: AOUpUlGBOwEO/Oqr8phlYqIbln2r6hhMIX/9F1taalpE+MfPIhGvn+0K
+	3l9go5tBq/I5UbaeD4ZI+3Lil4OU
+X-Google-Smtp-Source: AA+uWPxexq4oXy6QX8MNCk2aeWr4jt7FT+3lQt4C6Shh5LDva5RpitCPB9M9hPzJLRlID8Ij61iNGw==
+X-Received: by 2002:a63:1015:: with SMTP id
+	f21-v6mr3112856pgl.354.1533742549489; 
+	Wed, 08 Aug 2018 08:35:49 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:7d5f:b84e:a37e:2b6c])
 	by smtp.gmail.com with ESMTPSA id
-	q78-v6sm8290927pfi.185.2018.08.08.08.35.47
+	q78-v6sm8290927pfi.185.2018.08.08.08.35.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 08 Aug 2018 08:35:47 -0700 (PDT)
+	Wed, 08 Aug 2018 08:35:49 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Wed,  8 Aug 2018 08:35:20 -0700
-Message-Id: <1533742522-24357-25-git-send-email-akuster808@gmail.com>
+Date: Wed,  8 Aug 2018 08:35:21 -0700
+Message-Id: <1533742522-24357-26-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1533742522-24357-1-git-send-email-akuster808@gmail.com>
 References: <1533742522-24357-1-git-send-email-akuster808@gmail.com>
-Subject: [ROCKO][PATCH 25/27] Binutils: Security fix for CVE-2017-17121
+Subject: [ROCKO][PATCH 26/27] binutls: Security fix for CVE-2017-17122
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,7 +60,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 15:35:47 -0000
+X-List-Received-Date: Wed, 08 Aug 2018 15:35:48 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
@@ -68,395 +68,87 @@ Affects: <= 2.29.1
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-devtools/binutils/binutils-2.29.1.inc |   1 +
- .../binutils/binutils/CVE-2017-17121.patch         | 366 +++++++++++++++++++++
- 2 files changed, 367 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-17121.patch
+ meta/recipes-devtools/binutils/binutils-2.29.1.inc |  1 +
+ .../binutils/binutils/CVE-2017-17122.patch         | 58 ++++++++++++++++++++++
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-17122.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.29.1.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-index 3617b20..c1d5740 100644
+index c1d5740..577bbf0 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.29.1.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-@@ -61,6 +61,7 @@ SRC_URI = "\
-      file://CVE-2017-16831.patch \
+@@ -62,6 +62,7 @@ SRC_URI = "\
       file://CVE-2017-16832.patch \
       file://CVE-2017-17080.patch \
-+     file://CVE-2017-17121.patch \
+      file://CVE-2017-17121.patch \
++     file://CVE-2017-17122.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-17121.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-17121.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-17122.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-17122.patch
 new file mode 100644
-index 0000000..4b675f7
+index 0000000..5ae749b
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-17121.patch
-@@ -0,0 +1,366 @@
-+From b23dc97fe237a1d9e850d7cbeee066183a00630b Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-17122.patch
+@@ -0,0 +1,58 @@
++From d785b7d4b877ed465d04072e17ca19d0f47d840f Mon Sep 17 00:00:00 2001
 +From: Nick Clifton <nickc@redhat.com>
-+Date: Tue, 28 Nov 2017 13:20:31 +0000
-+Subject: [PATCH] Fix a memory access violation when attempting to parse a
-+ corrupt COFF binary with a relocation that points beyond the end of the
-+ section to be relocated.
++Date: Wed, 29 Nov 2017 12:40:43 +0000
++Subject: [PATCH] Stop objdump from attempting to allocate a huge chunk of
++ memory when parsing relocs in a corrupt file.
 +
-+	PR 22506
-+	* reloc.c (reloc_offset_in_range): Rename to
-+	bfd_reloc_offset_in_range and export.
-+	(bfd_perform_relocation): Rename function invocation.
-+	(bfd_install_relocation): Likewise.
-+	(bfd_final_link_relocate): Likewise.
-+	* bfd-in2.h: Regenerate.
-+	* coff-arm.c (coff_arm_reloc): Use bfd_reloc_offset_in_range.
-+	* coff-i386.c (coff_i386_reloc): Likewise.
-+	* coff-i860.c (coff_i860_reloc): Likewise.
-+	* coff-m68k.c (mk68kcoff_common_addend_special_fn): Likewise.
-+	* coff-m88k.c (m88k_special_reloc): Likewise.
-+	* coff-mips.c (mips_reflo_reloc): Likewise.
-+	* coff-x86_64.c (coff_amd64_reloc): Likewise.
++	PR 22508
++	* objdump.c (dump_relocs_in_section): Also check the section's
++	relocation count to make sure that it is reasonable before
++	attempting to allocate space for the relocs.
 +
 +Upstream-Status: Backport
 +Affects: <= 2.29.1
-+CVE: CVE-2017-17121
++CVE:  CVE-2017-17122
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ bfd/ChangeLog     | 17 +++++++++++++++
-+ bfd/bfd-in2.h     |  6 +++++
-+ bfd/coff-arm.c    | 65 ++++++++++++++++++++++++++++++-------------------------
-+ bfd/coff-i386.c   |  5 +++++
-+ bfd/coff-i860.c   |  5 +++++
-+ bfd/coff-m68k.c   |  5 +++++
-+ bfd/coff-m88k.c   |  9 +++++++-
-+ bfd/coff-mips.c   |  6 +++++
-+ bfd/coff-x86_64.c | 16 +++++---------
-+ bfd/reloc.c       | 40 +++++++++++++++++++++++++++++-----
-+ 10 files changed, 126 insertions(+), 48 deletions(-)
++ binutils/ChangeLog |  7 +++++++
++ binutils/objdump.c | 11 ++++++++++-
++ 2 files changed, 17 insertions(+), 1 deletion(-)
 +
-+Index: git/bfd/bfd-in2.h
++Index: git/binutils/objdump.c
 +===================================================================
-+--- git.orig/bfd/bfd-in2.h
-++++ git/bfd/bfd-in2.h
-+@@ -2661,6 +2661,12 @@ bfd_reloc_status_type bfd_check_overflow
-+     unsigned int addrsize,
-+     bfd_vma relocation);
++--- git.orig/binutils/objdump.c
+++++ git/binutils/objdump.c
++@@ -3381,7 +3381,16 @@ dump_relocs_in_section (bfd *abfd,
++     }
 + 
-++bfd_boolean bfd_reloc_offset_in_range
-++   (reloc_howto_type *howto,
-++    bfd *abfd,
-++    asection *section,
-++    bfd_size_type offset);
++   if ((bfd_get_file_flags (abfd) & (BFD_IN_MEMORY | BFD_LINKER_CREATED)) == 0
++-      && (ufile_ptr) relsize > bfd_get_file_size (abfd))
+++      && (((ufile_ptr) relsize > bfd_get_file_size (abfd))
+++	  /* Also check the section's reloc count since if this is negative
+++	     (or very large) the computation in bfd_get_reloc_upper_bound
+++	     may have resulted in returning a small, positive integer.
+++	     See PR 22508 for a reproducer.
 ++
-+ bfd_reloc_status_type bfd_perform_relocation
-+    (bfd *abfd,
-+     arelent *reloc_entry,
-+Index: git/bfd/coff-arm.c
-+===================================================================
-+--- git.orig/bfd/coff-arm.c
-++++ git/bfd/coff-arm.c
-+@@ -109,41 +109,46 @@ coff_arm_reloc (bfd *abfd,
-+   x = ((x & ~howto->dst_mask)					\
-+        | (((x & howto->src_mask) + diff) & howto->dst_mask))
-+ 
-+-    if (diff != 0)
-+-      {
-+-	reloc_howto_type *howto = reloc_entry->howto;
-+-	unsigned char *addr = (unsigned char *) data + reloc_entry->address;
-++  if (diff != 0)
-++    {
-++      reloc_howto_type *howto = reloc_entry->howto;
-++      unsigned char *addr = (unsigned char *) data + reloc_entry->address;
-++
-++      if (! bfd_reloc_offset_in_range (howto, abfd, input_section,
-++				       reloc_entry->address
-++				       * bfd_octets_per_byte (abfd)))
-++	return bfd_reloc_outofrange;
-++
-++      switch (howto->size)
-++	{
-++	case 0:
-++	  {
-++	    char x = bfd_get_8 (abfd, addr);
-++	    DOIT (x);
-++	    bfd_put_8 (abfd, x, addr);
-++	  }
-++	  break;
-+ 
-+-	switch (howto->size)
-++	case 1:
-+ 	  {
-+-	  case 0:
-+-	    {
-+-	      char x = bfd_get_8 (abfd, addr);
-+-	      DOIT (x);
-+-	      bfd_put_8 (abfd, x, addr);
-+-	    }
-+-	    break;
-+-
-+-	  case 1:
-+-	    {
-+-	      short x = bfd_get_16 (abfd, addr);
-+-	      DOIT (x);
-+-	      bfd_put_16 (abfd, (bfd_vma) x, addr);
-+-	    }
-+-	    break;
-+-
-+-	  case 2:
-+-	    {
-+-	      long x = bfd_get_32 (abfd, addr);
-+-	      DOIT (x);
-+-	      bfd_put_32 (abfd, (bfd_vma) x, addr);
-+-	    }
-+-	    break;
-++	    short x = bfd_get_16 (abfd, addr);
-++	    DOIT (x);
-++	    bfd_put_16 (abfd, (bfd_vma) x, addr);
-++	  }
-++	  break;
-+ 
-+-	  default:
-+-	    abort ();
-++	case 2:
-++	  {
-++	    long x = bfd_get_32 (abfd, addr);
-++	    DOIT (x);
-++	    bfd_put_32 (abfd, (bfd_vma) x, addr);
-+ 	  }
-+-      }
-++	  break;
-++
-++	default:
-++	  abort ();
-++	}
-++    }
-+ 
-+   /* Now let bfd_perform_relocation finish everything up.  */
-+   return bfd_reloc_continue;
-+Index: git/bfd/coff-i386.c
-+===================================================================
-+--- git.orig/bfd/coff-i386.c
-++++ git/bfd/coff-i386.c
-+@@ -144,6 +144,11 @@ coff_i386_reloc (bfd *abfd,
-+       reloc_howto_type *howto = reloc_entry->howto;
-+       unsigned char *addr = (unsigned char *) data + reloc_entry->address;
-+ 
-++      if (! bfd_reloc_offset_in_range (howto, abfd, input_section,
-++				       reloc_entry->address
-++				       * bfd_octets_per_byte (abfd)))
-++	return bfd_reloc_outofrange;
-++
-+       switch (howto->size)
-+ 	{
-+ 	case 0:
-+Index: git/bfd/coff-i860.c
-+===================================================================
-+--- git.orig/bfd/coff-i860.c
-++++ git/bfd/coff-i860.c
-+@@ -95,6 +95,11 @@ coff_i860_reloc (bfd *abfd,
-+ 	reloc_howto_type *howto = reloc_entry->howto;
-+ 	unsigned char *addr = (unsigned char *) data + reloc_entry->address;
-+ 
-++	if (! bfd_reloc_offset_in_range (howto, abfd, input_section,
-++					 reloc_entry->address
-++					 * bfd_octets_per_byte (abfd)))
-++	  return bfd_reloc_outofrange;
-++
-+ 	switch (howto->size)
-+ 	  {
-+ 	  case 0:
-+Index: git/bfd/coff-m68k.c
-+===================================================================
-+--- git.orig/bfd/coff-m68k.c
-++++ git/bfd/coff-m68k.c
-+@@ -305,6 +305,11 @@ m68kcoff_common_addend_special_fn (bfd *
-+       reloc_howto_type *howto = reloc_entry->howto;
-+       unsigned char *addr = (unsigned char *) data + reloc_entry->address;
-+ 
-++      if (! bfd_reloc_offset_in_range (howto, abfd, input_section,
-++				       reloc_entry->address
-++				       * bfd_octets_per_byte (abfd)))
-++	return bfd_reloc_outofrange;
-++
-+       switch (howto->size)
-+ 	{
-+ 	case 0:
-+Index: git/bfd/coff-m88k.c
-+===================================================================
-+--- git.orig/bfd/coff-m88k.c
-++++ git/bfd/coff-m88k.c
-+@@ -72,10 +72,17 @@ m88k_special_reloc (bfd *abfd,
-+ 	{
-+ 	  bfd_vma output_base = 0;
-+ 	  bfd_vma addr = reloc_entry->address;
-+-	  bfd_vma x = bfd_get_16 (abfd, (bfd_byte *) data + addr);
-++	  bfd_vma x;
-+ 	  asection *reloc_target_output_section;
-+ 	  long relocation = 0;
-+ 
-++	  if (! bfd_reloc_offset_in_range (howto, abfd, input_section,
-++					   reloc_entry->address
-++					   * bfd_octets_per_byte (abfd)))
-++	    return bfd_reloc_outofrange;
-++
-++	  x = bfd_get_16 (abfd, (bfd_byte *) data + addr);
-++
-+ 	  /* Work out which section the relocation is targeted at and the
-+ 	     initial relocation command value.  */
-+ 
-+Index: git/bfd/coff-mips.c
-+===================================================================
-+--- git.orig/bfd/coff-mips.c
-++++ git/bfd/coff-mips.c
-+@@ -504,6 +504,12 @@ mips_reflo_reloc (bfd *abfd ATTRIBUTE_UN
-+ 	  unsigned long vallo;
-+ 	  struct mips_hi *next;
-+ 
-++	  if (! bfd_reloc_offset_in_range (reloc_entry->howto, abfd,
-++					   input_section,
-++					   reloc_entry->address
-++					   * bfd_octets_per_byte (abfd)))
-++	    return bfd_reloc_outofrange;
-++
-+ 	  /* Do the REFHI relocation.  Note that we actually don't
-+ 	     need to know anything about the REFLO itself, except
-+ 	     where to find the low 16 bits of the addend needed by the
-+Index: git/bfd/coff-x86_64.c
-+===================================================================
-+--- git.orig/bfd/coff-x86_64.c
-++++ git/bfd/coff-x86_64.c
-+@@ -143,16 +143,10 @@ coff_amd64_reloc (bfd *abfd,
-+       reloc_howto_type *howto = reloc_entry->howto;
-+       unsigned char *addr = (unsigned char *) data + reloc_entry->address;
-+ 
-+-      /* FIXME: We do not have an end address for data, so we cannot
-+-	 accurately range check any addresses computed against it.
-+-	 cf: PR binutils/17512: file: 1085-1761-0.004.
-+-	 For now we do the best that we can.  */
-+-      if (addr < (unsigned char *) data
-+-	  || addr > ((unsigned char *) data) + input_section->size)
-+-	{
-+-	  bfd_set_error (bfd_error_bad_value);
-+-	  return bfd_reloc_notsupported;
-+-	}
-++      if (! bfd_reloc_offset_in_range (howto, abfd, input_section,
-++				       reloc_entry->address
-++				       * bfd_octets_per_byte (abfd)))
-++	return bfd_reloc_outofrange;
-+ 
-+       switch (howto->size)
-+ 	{
-+Index: git/bfd/reloc.c
-+===================================================================
-+--- git.orig/bfd/reloc.c
-++++ git/bfd/reloc.c
-+@@ -538,12 +538,31 @@ bfd_check_overflow (enum complain_overfl
-+   return flag;
-+ }
-+ 
-++/*
-++FUNCTION
-++	bfd_reloc_offset_in_range
-++
-++SYNOPSIS
-++	bfd_boolean bfd_reloc_offset_in_range
-++          (reloc_howto_type *howto,
-++           bfd *abfd,
-++           asection *section,
-++           bfd_size_type offset);
-++
-++DESCRIPTION
-++        Returns TRUE if the reloc described by @var{HOWTO} can be
-++	applied at @var{OFFSET} octets in @var{SECTION}.
-++
-++*/
-++
-+ /* HOWTO describes a relocation, at offset OCTET.  Return whether the
-+    relocation field is within SECTION of ABFD.  */
-+ 
-+-static bfd_boolean
-+-reloc_offset_in_range (reloc_howto_type *howto, bfd *abfd,
-+-		       asection *section, bfd_size_type octet)
-++bfd_boolean
-++bfd_reloc_offset_in_range (reloc_howto_type *howto,
-++			   bfd *abfd,
-++			   asection *section,
-++			   bfd_size_type octet)
-+ {
-+   bfd_size_type octet_end = bfd_get_section_limit_octets (abfd, section);
-+   bfd_size_type reloc_size = bfd_get_reloc_size (howto);
-+@@ -617,6 +636,11 @@ bfd_perform_relocation (bfd *abfd,
-+   if (howto && howto->special_function)
+++	     Note - we check against file size rather than section size as
+++	     it is possible for there to be more relocs that apply to a
+++	     section than there are bytes in that section.  */
+++	  || (section->reloc_count > bfd_get_file_size (abfd))))
 +     {
-+       bfd_reloc_status_type cont;
-++
-++      /* Note - we do not call bfd_reloc_offset_in_range here as the
-++	 reloc_entry->address field might actually be valid for the
-++	 backend concerned.  It is up to the special_function itself
-++	 to call bfd_reloc_offset_in_range if needed.  */
-+       cont = howto->special_function (abfd, reloc_entry, symbol, data,
-+ 				      input_section, output_bfd,
-+ 				      error_message);
-+@@ -637,7 +661,7 @@ bfd_perform_relocation (bfd *abfd,
-+ 
-+   /* Is the address of the relocation really within the section?  */
-+   octets = reloc_entry->address * bfd_octets_per_byte (abfd);
-+-  if (!reloc_offset_in_range (howto, abfd, input_section, octets))
-++  if (!bfd_reloc_offset_in_range (howto, abfd, input_section, octets))
-+     return bfd_reloc_outofrange;
-+ 
-+   /* Work out which section the relocation is targeted at and the
-+@@ -1003,6 +1027,10 @@ bfd_install_relocation (bfd *abfd,
-+     {
-+       bfd_reloc_status_type cont;
-+ 
-++      /* Note - we do not call bfd_reloc_offset_in_range here as the
-++	 reloc_entry->address field might actually be valid for the
-++	 backend concerned.  It is up to the special_function itself
-++	 to call bfd_reloc_offset_in_range if needed.  */
-+       /* XXX - The special_function calls haven't been fixed up to deal
-+ 	 with creating new relocations and section contents.  */
-+       cont = howto->special_function (abfd, reloc_entry, symbol,
-+@@ -1025,7 +1053,7 @@ bfd_install_relocation (bfd *abfd,
-+ 
-+   /* Is the address of the relocation really within the section?  */
-+   octets = reloc_entry->address * bfd_octets_per_byte (abfd);
-+-  if (!reloc_offset_in_range (howto, abfd, input_section, octets))
-++  if (!bfd_reloc_offset_in_range (howto, abfd, input_section, octets))
-+     return bfd_reloc_outofrange;
-+ 
-+   /* Work out which section the relocation is targeted at and the
-+@@ -1363,7 +1391,7 @@ _bfd_final_link_relocate (reloc_howto_ty
-+   bfd_size_type octets = address * bfd_octets_per_byte (input_bfd);
-+ 
-+   /* Sanity check the address.  */
-+-  if (!reloc_offset_in_range (howto, input_bfd, input_section, octets))
-++  if (!bfd_reloc_offset_in_range (howto, input_bfd, input_section, octets))
-+     return bfd_reloc_outofrange;
-+ 
-+   /* This function assumes that we are dealing with a basic relocation
-+Index: git/bfd/ChangeLog
++       printf (" (too many: 0x%x)\n", section->reloc_count);
++       bfd_set_error (bfd_error_file_truncated);
++Index: git/binutils/ChangeLog
 +===================================================================
-+--- git.orig/bfd/ChangeLog
-++++ git/bfd/ChangeLog
-+@@ -1,3 +1,20 @@
-++2017-11-28  Nick Clifton  <nickc@redhat.com>
++--- git.orig/binutils/ChangeLog
+++++ git/binutils/ChangeLog
++@@ -1,3 +1,10 @@
+++2017-11-29  Nick Clifton  <nickc@redhat.com>
 ++
-++       PR 22506
-++       * reloc.c (reloc_offset_in_range): Rename to
-++      bfd_reloc_offset_in_range and export.
-++       (bfd_perform_relocation): Rename function invocation.
-++       (bfd_install_relocation): Likewise.
-++       (bfd_final_link_relocate): Likewise.
-++       * bfd-in2.h: Regenerate.
-++       * coff-arm.c (coff_arm_reloc): Use bfd_reloc_offset_in_range.
-++       * coff-i386.c (coff_i386_reloc): Likewise.
-++       * coff-i860.c (coff_i860_reloc): Likewise.
-++       * coff-m68k.c (mk68kcoff_common_addend_special_fn): Likewise.
-++       * coff-m88k.c (m88k_special_reloc): Likewise.
-++       * coff-mips.c (mips_reflo_reloc): Likewise.
-++       * coff-x86_64.c (coff_amd64_reloc): Likewise.
+++       PR 22508
+++       * objdump.c (dump_relocs_in_section): Also check the section's
+++       relocation count to make sure that it is reasonable before
+++       attempting to allocate space for the relocs.
 ++
-+ 2017-11-16  Nick Clifton  <nickc@redhat.com>
-+  
-+        PR 22421
++ 2017-11-02  Mingi Cho  <mgcho.minic@gmail.com>
++ 
++        PR 22384
 -- 
 2.7.4
 
