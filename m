@@ -1,51 +1,50 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E95878E42
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 493BC78E42
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 15:58:12 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id y2-v6so3286106wma.1
+	Wed,  8 Aug 2018 16:06:50 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id c15-v6so3068259qtp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 08:58:13 -0700 (PDT)
+	Wed, 08 Aug 2018 09:06:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=CtUJoff+VOabja+Pl+cQ7qy+L4NKUe7y+zX6En6cT0k=;
-	b=QOqXERi8XFL0m/2cu4ZqKzyuvmqeh0XYreYAWpKd7S4VhFsJ9C0gOU776kufjA8Ba3
-	RUPQgcpNjYqm1uNErqCip0Z9ZfdSNTiL/3+bqeGMzfxIM3yZoAr+pJwFyP6y+XeH7YF1
-	L9RB2svSk/yHEBzwAQGPCmCOyWKPBwsYeiFwSnO7XhV7xmowc4FqL58W/YLwEFjf7DSO
-	9JPRsUNFzUvO5Lp7lj2gooG4Xf/p/XUyTnw3sqafr+sDueiCQpcgFLBA/KwI50S/lzaD
-	EKF9UqxH4Fx65NAn9PRVq4BxXcLtC3QUDLdfX5ma+qMl8sd8imrXaKknDl0vsK5Bdw+Y
-	NL7A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=tzEz3clF4RHmJJWD7Z4zO7FfedlkkGf+l94JsqxYV4k=;
+	b=fo6jX1z30EQvTPLDn0TZxemacSELqse/P5qAe7DyezPt6fpgpkxwmlZrwQA4wF1aZf
+	iCoB7kus6/W2zmxL+obpAGEmKR7152X1WopXbvooWgGTy0DO1f910JzXH/ra8yYPDCFG
+	uXG1HkvboPUJ8RJVKf4NgDpJB9liVli2mNGQZyFG6tm6T5OtKcHP8jAl8GIVPZelm18q
+	t2EIGixOP8kFjj8ZBdHibJqgQ5so9boWDem4EllDh1nBSuzeWkUk2nc7hJnQaDxoztNF
+	c5MMgo/NmXfUo0NkgpmHUFT9ZQDOKm3d/pqJNxGw8TAEhH2sVfsYxaLbDjI+ddrXG2y+
+	DBPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:in-reply-to:references;
-	bh=CtUJoff+VOabja+Pl+cQ7qy+L4NKUe7y+zX6En6cT0k=;
-	b=L8puWZhbHKXbJj3+eklMdcdNnqUp15W1HvT0U+xvpuIX/RpD9X+H4jVsD9JJ50FfNx
-	7H9qEVltKg1Dcz5Q+2nrujJtIMmrkdiz1CTfw+83hnLgYhu7Ym8AkGyNQuS0PHN3yokz
-	SxQSHDXFWfURkyI4RFSYFeZ106gHtnHLF5jQUhCA5KngSkyNAO6yy9U7UljqcMH7rzAO
-	FYN0Q4t+N/3robf5DaZQQTx5mwbPfY+qDikFWJHnHbPhRz4FoWoV1PG4IZXhfgPpfxRC
-	GnIsMkAlkgBTUW8XeypJ2Y9WSeHEvzVtrFyCTSWaE2skq9WXWkEYIw/ygr63c1V6AHJx
-	4evA==
-X-Gm-Message-State: AOUpUlF5pPxAP03cmex4+m0jzL+F2cwtVsZV07SdgoqeRQyok35gwEkj
-	g1wxBSUEPZU3r5JtvB2YozttH/zK
-X-Google-Smtp-Source: AA+uWPzGEu53DC6rl0x3fAkr79P3+mY8QVl0+lzyTdHwHo00FB/Vjvv25bzG1+WOBU+MPWfxkcPh1w==
-X-Received: by 2002:a1c:c14:: with SMTP id 20-v6mr2382402wmm.117.1533743892860;
-	Wed, 08 Aug 2018 08:58:12 -0700 (PDT)
-Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	r12-v6sm13000187wmh.0.2018.08.08.08.58.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Aug 2018 08:58:12 -0700 (PDT)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Aug 2018 17:58:03 +0200
-Message-Id: <20180808155803.32738-2-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180808155803.32738-1-sno@netbsd.org>
-References: <20180808155803.32738-1-sno@netbsd.org>
-Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH 2/2] libxml-parser-perl: fix "...contains bad RPATH"
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=tzEz3clF4RHmJJWD7Z4zO7FfedlkkGf+l94JsqxYV4k=;
+	b=bzqk8RnZhEFTnaaSSz7+Bi+EwFj7yoOkjxGicqccbEaB2l1UyGxf2y/Q5DV/6Bxz94
+	rH3c8QeXI0S4IkF917zX+xP8ngt755JN3zWrZ09Owm9N1pdxklaMt7XjIYlKTviFNays
+	izuGF0yhhbpewDjVLVDanTAZBY80JndLUYhcN6YyeR3I80spRvqMmokNmN2N8fTRQRJG
+	Azd7BmlzEgG4GRCrJ/GDJj98ZRBKy8ayGNg1im8UYK0MLUq6Wx6yT0re02txM1Y1qfBC
+	6fZClMTrDwaBvnE8jpnFmkGtV/Dr2TZBIOGC4A+hDfQUA8rex0u/Nw6DUoSetJ/i8Neb
+	Ya3Q==
+X-Gm-Message-State: AOUpUlEquBYtwDt7oDQZPr6syRG+AX/aGDA64ujggC9mk2kWAhQj+FTD
+	rbErbGY+crkffSjeJYAQHRmXHw0+rEEgI2DUEA0=
+X-Google-Smtp-Source: AA+uWPyVTy97WwbuJqUoj+p6qpet+cTOScpvporu5um4mUhFQ/FRrE0mlZeIBfatOLJfFS+AzE2TAN8y0r3RqRB+JEQ=
+X-Received: by 2002:ac8:3209:: with SMTP id
+	x9-v6mr3452452qta.128.1533744410948; 
+	Wed, 08 Aug 2018 09:06:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1533595822.git.raj.khem@gmail.com>
+	<e9bcf3a4c54ac1cd9721abc0d9be5324d4004845.1533595822.git.raj.khem@gmail.com>
+	<CA+chaQfiZ4MPSPE5B3JPYNrcJaDOEQiyHE4UsMf2dP_vWsfrwQ@mail.gmail.com>
+In-Reply-To: <CA+chaQfiZ4MPSPE5B3JPYNrcJaDOEQiyHE4UsMf2dP_vWsfrwQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 8 Aug 2018 09:06:24 -0700
+Message-ID: <CAMKF1sqaXt17u1gGPmZi4qiziwVtwcFrd7_2nJ8kap5BSB3LiQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 13/18] Disable crypt support in glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,46 +57,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 15:58:12 -0000
+X-List-Received-Date: Wed, 08 Aug 2018 16:06:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The perl distribution "XML-Parser" relies for configuration
-on the tooling of Devel::CheckLib - which is not aware of
-sysroot locations nor of reasonable compiler/link definitions
-from outside.
-
-This causes
-
-    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: QA Issue: package libxml-parser-perl contains bad RPATH ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/recipe-sysroot/usr/lib in file ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/packages-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.24.4/auto/XML/Parser/Expat/Expat.so
-    package libxml-parser-perl contains bad RPATH ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/recipe-sysroot/usr/lib in file ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/packages-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.24.4/auto/XML/Parser/Expat/Expat.so [rpaths]
-    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: QA run found fatal errors. Please consider fixing them.
-    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: Function failed: do_package_qa
-
-It's strongly encouraged to the maintainer @toddr to rework the
-toolchain for up to date environments.
-
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-index c5e0ae6769..2ca8d506f4 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-@@ -19,7 +19,11 @@ inherit cpan ptest-perl
- # fix up sub MakeMaker project as arguments don't get propagated though
- # see https://rt.cpan.org/Public/Bug/Display.html?id=28632
- do_configure_append() {
--	sed 's:--sysroot=.*\(\s\|$\):--sysroot=${STAGING_DIR_TARGET} :g' -i Makefile Expat/Makefile
-+	sed -E \
-+	    -e 's:--sysroot=.*\(\s\|$\):--sysroot=${STAGING_DIR_TARGET} :g' \
-+	    -e 's:-L${STAGING_LIBDIR}::g' -e 's:-I${STAGING_INCDIR}::g' \
-+	    -e 's:LD_RUN_PATH ?= ?"?[^"]*"?::g' \
-+	    -i Makefile Expat/Makefile
- 	sed 's:^FULL_AR = .*:FULL_AR = ${AR}:g' -i Expat/Makefile
- 	# make sure these two do not build in parallel
- 	sed 's!^$(INST_DYNAMIC):!$(INST_DYNAMIC): $(BOOTSTRAP)!' -i Expat/Makefile
--- 
-2.17.1
-
+I deliberately kept it separate for readability from glibc upgrade,
+but squashing this with packaging changes alone is ok. I will leave
+that to Ross
+On Wed, Aug 8, 2018 at 8:48 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> Should this be squashed with "glibc: Drop packaging libcrypt from 2.28+ onwards" ?
+>
+> I've accidentally cherry-picked the packaging change from patchwork and missed this one which results in:
+>
+> ERROR: glibc-2.28-r0 do_package: QA Issue: glibc: Files/directories were installed but not shipped in any package:
+>   /lib/libcrypt.so.1
+>   /lib/libcrypt-2.28.so
+> Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+> glibc: 2 installed and not shipped files. [installed-vs-shipped]
+>
+>
+> On Tue, Aug 7, 2018 at 12:59 AM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> We have independent crypt implementation coming from libxcrypt
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/recipes-core/glibc/glibc_2.28.bb | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+>> index 086daed04c..906e6c2b62 100644
+>> --- a/meta/recipes-core/glibc/glibc_2.28.bb
+>> +++ b/meta/recipes-core/glibc/glibc_2.28.bb
+>> @@ -83,6 +83,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+>>                  --enable-bind-now \
+>>                  --enable-stack-protector=strong \
+>>                  --enable-stackguard-randomization \
+>> +                --disable-crypt \
+>>                  ${GLIBCPIE} \
+>>                  ${GLIBC_EXTRA_OECONF}"
+>>
+>> --
+>> 2.18.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
