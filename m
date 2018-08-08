@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id D6D9F78E42
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+	[209.85.215.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FD1A78E6B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 17:04:40 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id x5-v6so1370817pgp.7
+	Wed,  8 Aug 2018 17:04:42 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id r1-v6so1364559pgp.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 10:04:42 -0700 (PDT)
+	Wed, 08 Aug 2018 10:04:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1FwelgiQS6+aCDDdMzoi3yrzRNE7f6u+y8MwpDcvHE4=;
-	b=k5B+/eUIb0UVZUnPhj4OQAr1KN73kx+Mb+4yMxeGT+TqA1Tam00A87JAWmy7BUmRl7
-	pDUxeNDWnRA5npCBbLrUeO/UvDMPvgu69c7Kn5vcMJ29F6x5DTmp4oB8DbtB7OYzAvJw
-	Dfn+ZAabO4bXmb64ogdt60C0N4X2ByWO9Qgp1wcJ7jBdMYKhxM8VE264qGZjvcRPnc32
-	QODz1GGA67x7N/XglgqMJG6UiFWEhkDRVDR7fbWZ7b14gaRHS55lf1lurVU0Uo9a52O2
-	Lae/VJZVuYyzZSDuYwKfTyA+xbfFGhFNdUclKB3wl4N1U5c4hCWD3B4sRMVupugovMR/
-	rNhg==
+	bh=E7VFSq1EoOQ2NT4EPGLbIbbo7tlrOOvFeHSTu0lO9jo=;
+	b=YxUD+SQuTK9remQB/X7BBftfaagK1eii/+FGdQihbpIfPK34gBlsSMb+3oKkabN1HN
+	bNEnGEwljg1mnWhSMbO6se8E6xUTyULuMnKtTr7/6Rj+/BkiNVSFcuNxKj++hLtQJrPX
+	q9ei27QaQiDGYEQvOnSeQhN8kgSy1iZMs14CqyheT6MSIaOAFurSjmkdcqSOTpjZH4J1
+	12h/PpbBH9I5SSTuqMcRCjaDH3Ks1IARj403ewDCC7TlWPiUZ9uznepnd75QFMZoUV5U
+	BDcVNsa8sIIb8yPzqYlHzHJH5giJKrtUO9ctx7IAvf8YiU542Wjf5yfZlmine1QId3DO
+	BLFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=1FwelgiQS6+aCDDdMzoi3yrzRNE7f6u+y8MwpDcvHE4=;
-	b=g3Ti38SaoPQhMWhieSEzl1MHoE8RA4Uv4Orc72CetytgjvdvFq77MB8k58EvAIyEgK
-	HMAeCNKEZ1jSeRaa/IzTXLKWbuA8VOfDfY3UgdLL1Uep4tbp26T9mNbW0qACNzm6DTvg
-	uan+C19eBqLWb3nGsoEaiZ5Yk+v/hLuKZoifpyz5VRFjvBJkACLzSUw0mlzy2d9kLxYF
-	J0yb279pC86Vc2vFi6csfhhJrfcno3QfGosWMLfUtVNJdmaEGOMiKfyBfIBqh0RxgdD0
-	lqap4y4mKP4+3Djngvkpt50fKkq/ftXpTODhGkypGmie66/+i3ih96DeKzhn9P6DqKIF
-	QstQ==
-X-Gm-Message-State: AOUpUlEx75f9Ws0nxa+zMC+PV190Wxo2K0i8+mBxCBuCgaw7r2JTQbpO
-	fQBYvcGuPF6MYuFYiJg/xrPZcG+A
-X-Google-Smtp-Source: AA+uWPy+sRkglfKZPdxNvOoQkW9B76iXJEsV9oV8xbtbTiAv+YqOky5YOhxVqOLQ8nA1br+3cB88Eg==
-X-Received: by 2002:a63:b349:: with SMTP id
-	x9-v6mr3328389pgt.337.1533747881818; 
-	Wed, 08 Aug 2018 10:04:41 -0700 (PDT)
+	bh=E7VFSq1EoOQ2NT4EPGLbIbbo7tlrOOvFeHSTu0lO9jo=;
+	b=dyDh3dpxe3WsYtSaGMbUN8OPUweCGlVXPsuoDlu4DbJeZQhJRGBDhOkUuysczaweGa
+	kjYAO55vaogLKJqJNPVigCIuZFFONZLo0Uc5DBSXpjzNVIm3NTP5NAHwQhGFpO0uG1ng
+	UVoUqJ9EPHpTtxcRIhKcIdnDpPAqxC5Na0QDL/+zhWMYNqyj37vtaGSDvxc4lx553yNF
+	IPZj+QyKvUF5jCHE6d4b6lXTFqy0r8ijm8xj3HnOs5VYnPkHlzxtP1pP/jrLpZQ0FkvP
+	EfxaSDrSXO2am6JZUn7zqdCzfCL8GloDGYDkj+0w/gKbQPH1k7JHtFICkHCdN5jBkcVn
+	fB0Q==
+X-Gm-Message-State: AOUpUlEmYoT6RgmK1nAy7RkQo2HX8IJ+qpKaJdS0kLHxENFvbTp7+N0H
+	kKerzDVnONvxUxw3YLxz/ZSw8tEq
+X-Google-Smtp-Source: AA+uWPysMPrWRxiz+bcx9mAOPNEN1Lea9AUCrfQnpsfHc8VG84w1KBgvUCSK+A0plSIHLLZoUmMl/g==
+X-Received: by 2002:a63:6c05:: with SMTP id
+	h5-v6mr3372812pgc.367.1533747882994; 
+	Wed, 08 Aug 2018 10:04:42 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::1d00])
 	by smtp.gmail.com with ESMTPSA id
-	h9-v6sm3673108pfe.187.2018.08.08.10.04.40
+	h9-v6sm3673108pfe.187.2018.08.08.10.04.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Aug 2018 10:04:41 -0700 (PDT)
+	Wed, 08 Aug 2018 10:04:42 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Aug 2018 10:04:24 -0700
-Message-Id: <9cf56f3e13b2401656d96e1f006e1697710d236c.1533747698.git.raj.khem@gmail.com>
+Date: Wed,  8 Aug 2018 10:04:25 -0700
+Message-Id: <33de34276c7905018d6f4c09189bb27dec863882.1533747698.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1533747698.git.raj.khem@gmail.com>
 References: <cover.1533747698.git.raj.khem@gmail.com>
-Subject: [PATCH 7/8] ppp, libpam: Add missing dep on virtual/crypt
+Subject: [PATCH 8/8] sysvinit: Fix build with glibc 2.28 + libxcrypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,40 +58,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 17:04:41 -0000
+X-List-Received-Date: Wed, 08 Aug 2018 17:04:42 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb | 2 +-
- meta/recipes-extended/pam/libpam_1.3.0.bb  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ ...acros.h-for-major-minor-defines-in-g.patch | 71 +++++++++++++++++++
+ .../recipes-core/sysvinit/sysvinit_2.88dsf.bb |  3 +-
+ 2 files changed, 73 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/sysvinit/sysvinit-2.88dsf/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
 
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index f4646bd693..644cde4562 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -4,7 +4,7 @@ the Point-to-Point Protocol (PPP) on Linux and Solaris systems."
- SECTION = "console/network"
- HOMEPAGE = "http://samba.org/ppp/"
- BUGTRACKER = "http://ppp.samba.org/cgi-bin/ppp-bugs"
--DEPENDS = "libpcap openssl"
-+DEPENDS = "libpcap openssl virtual/crypt"
- LICENSE = "BSD & GPLv2+ & LGPLv2+ & PD"
- LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77d87dc9c290a424dea \
-                     file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
-diff --git a/meta/recipes-extended/pam/libpam_1.3.0.bb b/meta/recipes-extended/pam/libpam_1.3.0.bb
-index 92ab72a42f..3aec2cdb4c 100644
---- a/meta/recipes-extended/pam/libpam_1.3.0.bb
-+++ b/meta/recipes-extended/pam/libpam_1.3.0.bb
-@@ -32,7 +32,7 @@ SRC_URI_append_libc-musl = " file://0001-Add-support-for-defining-missing-funcit
-                              file://include_paths_header.patch \
-                            "
+diff --git a/meta/recipes-core/sysvinit/sysvinit-2.88dsf/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch b/meta/recipes-core/sysvinit/sysvinit-2.88dsf/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
+new file mode 100644
+index 0000000000..2575b59b5e
+--- /dev/null
++++ b/meta/recipes-core/sysvinit/sysvinit-2.88dsf/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
+@@ -0,0 +1,71 @@
++From 29c7a529d3bb0c1e20239f885e74c5036f1a908c Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 6 Aug 2018 15:38:58 -0700
++Subject: [PATCH] include sys/sysmacros.h for major/minor defines in glibc
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++---
++ src/bootlogd.c |   3 +++
++ src/bootlogd.o | Bin 58448 -> 60376 bytes
++ src/dowall.c   |   3 +++
++ src/shutdown.c |   4 +++-
++ 4 files changed, 9 insertions(+), 1 deletion(-)
++
++Index: sysvinit-2.88dsf/src/bootlogd.c
++===================================================================
++--- sysvinit-2.88dsf.orig/src/bootlogd.c
+++++ sysvinit-2.88dsf/src/bootlogd.c
++@@ -53,6 +53,9 @@
++ #ifdef __linux__
++ #include <sys/mount.h>
++ #endif
+++#ifdef __GLIBC__
+++#include <sys/sysmacros.h>
+++#endif
++ 
++ char *Version = "@(#) bootlogd 2.86 03-Jun-2004 miquels@cistron.nl";
++ 
++Index: sysvinit-2.88dsf/src/dowall.c
++===================================================================
++--- sysvinit-2.88dsf.orig/src/dowall.c
+++++ sysvinit-2.88dsf/src/dowall.c
++@@ -37,6 +37,9 @@
++ #include <signal.h>
++ #include <setjmp.h>
++ #include <paths.h>
+++#ifdef __GLIBC__
+++#include <sys/sysmacros.h>
+++#endif
++ 
++ #ifndef _PATH_DEV
++ # define _PATH_DEV	"/dev/"
++Index: sysvinit-2.88dsf/src/shutdown.c
++===================================================================
++--- sysvinit-2.88dsf.orig/src/shutdown.c
+++++ sysvinit-2.88dsf/src/shutdown.c
++@@ -57,7 +57,9 @@
++ #include "reboot.h"
++ #include "initreq.h"
++ #include "init.h"
++-
+++#ifdef __GLIBC__
+++#include <sys/sysmacros.h>
+++#endif
++ 
++ char *Version = "@(#) shutdown 2.86-1 31-Jul-2004 miquels@cistron.nl";
++ 
++Index: sysvinit-2.88dsf/src/mountpoint.c
++===================================================================
++--- sysvinit-2.88dsf.orig/src/mountpoint.c
+++++ sysvinit-2.88dsf/src/mountpoint.c
++@@ -32,6 +32,9 @@
++ #include <stdarg.h>
++ #include <getopt.h>
++ #include <stdio.h>
+++#ifdef __GLIBC__
+++#include <sys/sysmacros.h>
+++#endif
++ 
++ int dostat(char *path, struct stat *st, int do_lstat, int quiet)
++ {
+diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+index ad65819b2d..a21e7e46f7 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.bz2 \
+            file://pidof-add-m-option.patch \
+            file://0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch \
+            file://realpath.patch \
++           file://0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch \
+            file://rcS-default \
+            file://rc \
+            file://rcS \
+@@ -29,7 +30,7 @@ S = "${WORKDIR}/sysvinit-${PV}"
+ B = "${S}/src"
  
--DEPENDS = "bison-native flex flex-native cracklib libxml2-native"
-+DEPENDS = "bison-native flex flex-native cracklib libxml2-native virtual/crypt"
+ inherit update-alternatives distro_features_check
+-DEPENDS_append = " update-rc.d-native base-passwd"
++DEPENDS_append = " update-rc.d-native base-passwd virtual/crypt"
  
- EXTRA_OECONF = "--with-db-uniquename=_pam \
-                 --includedir=${includedir}/security \
+ REQUIRED_DISTRO_FEATURES = "sysvinit"
+ 
 -- 
 2.18.0
 
