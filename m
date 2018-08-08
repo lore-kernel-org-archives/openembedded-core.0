@@ -1,18 +1,48 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9569978E25;
-	Wed,  8 Aug 2018 22:08:28 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Armin Kuster <akuster808@gmail.com>
-Date: Wed, 08 Aug 2018 22:08:30 -0000
-Message-ID: <20180808220830.13840.97730@do.openembedded.org>
-References: <1533765259-10091-1-git-send-email-akuster808@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1533765259-10091-1-git-send-email-akuster808@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltST0NLT10gYmludXRpbHM6IFNlY3VyaXR5IGZpeC4uLiIgYW5kIDExIG1vcmU=?=
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8688B78BF6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 Aug 2018 22:49:27 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id f1-v6so1748702pgq.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Aug 2018 15:49:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=9evr431z/NALx74C2NkDsQvdGiDuEnPXJHbPmwtts/Q=;
+	b=qQmEVbCgjdtFmQF8nLyFdM7YSqA9eBoIwkVvNln4Jje1dgngXMWpc5DzCWdXNzOQvz
+	XCD97vHRJ/L4yl8DstZc/W4A+9pXrvhiB9YGLd+xhxapZl7Jem7zs0icVDQimlLob2Vb
+	nOsWM26Z79Eklbh7FZmjdG706iXTBiuQ77p0mm77NAX1tnGbWJ5DDwH6TX3s9q+u0RUi
+	ovB/BrtWz73vmAMtTvpW6pllm8Y8gFLvs+ZDhhqLhJM2giGeFyK6mvj0UfUBT+uhBhtQ
+	r6g/i5IGnC8MrM6SueyBa83yFIhJJ3u819WjzAWcnutV/QWqmTVMHWCCeVKgX6VXtaOk
+	lr1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=9evr431z/NALx74C2NkDsQvdGiDuEnPXJHbPmwtts/Q=;
+	b=AWOx5+yWiwWY9cpr7/JDjAj/yWqXfyds8dO32ymFOLCNi08EMnunl5ZpF4iSpJBN/2
+	sQ71iJkgpDxVvBfh8LkUV3rJ9wBZpe7IKK/q8WtknsA+QVRIc6gsuZgCg6LeIqkuKdIS
+	+Jo1fr7AC9YzULdgxdVtV3Z4X0dNsOp78hIvwIV46Rb9FKLBSnWjyDMMMEchnCBUCo0+
+	JbPc3BVLiQj2aj7jPFxa+AXsAX9c3zFxUdcbZBA56xskhAI/p41QJHffczoORaPPizaj
+	Hw3StOvF2Hh95scqfq+PI3Ym6zpj5thoyf/zvPNzFEVjPQO/h6a6XXURI+kDJOdjSv/D
+	HP/w==
+X-Gm-Message-State: AOUpUlGoaR3+2aV5XTNo2YsD271zcmbCma/ihv7FC7e7gijB1i9UXHPV
+	6GpL9ETwEKoX+3llKrJPeXBaKzvY
+X-Google-Smtp-Source: AA+uWPyC1S0TxjreBUiqBZtwz9wzIgoRSxXCTbuekZVunk64vMKCqj2m3H38q9J+7bsHSvQr+5/Tlw==
+X-Received: by 2002:a62:a6db:: with SMTP id
+	r88-v6mr4873622pfl.60.1533768568253; 
+	Wed, 08 Aug 2018 15:49:28 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::1d00])
+	by smtp.gmail.com with ESMTPSA id
+	s195-v6sm15226452pgs.76.2018.08.08.15.49.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 Aug 2018 15:49:27 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Aug 2018 15:49:13 -0700
+Message-Id: <20180808224913.23196-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH] lib/oe: Fix collections ABCs DeprecationWarning in Python 3.7+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +55,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 22:08:28 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Aug 2018 22:49:27 -0000
 
-== Series Details ==
+- Prefer collections.abc (new in Python 3.3) over collections for abstract base classes
 
-Series: "[ROCKO] binutils: Security fix..." and 11 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13433/
-State : failure
+- In Python 3.8, the abstract base classes in collections.abc will no longer be exposed in
+  the regular collections module. This will help create a clearer distinction between
+  the concrete classes and the abstract base classes."
 
-== Summary ==
+- https://docs.python.org/3.7/whatsnew/3.7.html#deprecated
 
+- see https://github.com/python/cpython/commit/c66f9f8d3909f588c251957d499599a1680e2320
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  rocko (currently at 931a52e869)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/lib/oe/maketype.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oe/maketype.py b/meta/lib/oe/maketype.py
+index f88981dd90..c36e7b5604 100644
+--- a/meta/lib/oe/maketype.py
++++ b/meta/lib/oe/maketype.py
+@@ -7,7 +7,12 @@ the arguments of the type's factory for details.
+ 
+ import inspect
+ import oe.types as types
+-import collections
++try:
++    # Python 3.7+
++    from collections.abc import Callable
++except ImportError:
++    # Python < 3.7
++    from collections import Callable
+ 
+ available_types = {}
+ 
+@@ -96,7 +101,7 @@ for name in dir(types):
+         continue
+ 
+     obj = getattr(types, name)
+-    if not isinstance(obj, collections.Callable):
++    if not isinstance(obj, Callable):
+         continue
+ 
+     register(name, obj)
+-- 
+2.18.0
 
 
