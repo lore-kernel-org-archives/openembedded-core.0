@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 660A278D5B
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C86D78D97
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 21:54:26 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id w126-v6so6406386oie.7
+	Wed,  8 Aug 2018 21:54:27 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id s198-v6so6374637oih.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 14:54:27 -0700 (PDT)
+	Wed, 08 Aug 2018 14:54:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=KufUlRwHknP6jRxKZYeqKqIeT2Z5ZfWkAHQKbgLCWe4=;
-	b=mXoUwh3RFzmrM5bpH5jcIgqhD83LJWJROX9DDq209RHoaXzZXzS2Dy1mlxGOjw03Qp
-	kRKDCi5BuvCkyPyHeSlhpqIJ6lFLtkDi4FKnJIDJJPbi+OyIJ/ld4HHeDXg7u/lurOg2
-	ZW583yQC/bsB25+L/rpLPAFV/mzniOxY33kCzm3T71uRnm8fKkuhYCRxFsGfAfTNVASS
-	5DJ/+Y9G6CVqSXrJAZFnnfTtqTss/hiYK3+4m0aRBmuTaUcvcJWlMmq4ZB+naXnGpqqk
-	KnJgjWSTtqN0/VTqkEUfvUGoBDEwoCOrbx+rLa7UBuuMvAlOQM/qteKI7u6naegcMejs
-	cE6A==
+	bh=0j6IaJO03Whf5BIJ7WYeqWYL6cXGNfjedF/tb/ECGe4=;
+	b=I6TneqdkiIglyLzMa271qA1Z1GkKdyDEJFcab6gTF/oomixDS5MgdEwG9s9P5w8cRE
+	ZDK8dtT3BZmSQ1Y1KVGKMtQgeaFri5WcxNnN4DGGA7gdna0fXQ6rs3bTaXRSRMeOGiLx
+	msTVKjkvNSSYHgZxRhtxOlYefcDJ7buF9nzRI/u5e6zBg0K3p+8SrsplvfoKHi2//Cn+
+	6e2Jtqy2f2ECXUIyAEsmO5JRwa5A4nsECpyozyDynveE/hJotSgJOdpo5pm2xEP+Hc3/
+	+XuQnpmfHys50HwfvXnz5rnKvE7edMVpthpAnSUNdz8EfIIhSLJL7T1c29+mSlBa1JUx
+	sqoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=KufUlRwHknP6jRxKZYeqKqIeT2Z5ZfWkAHQKbgLCWe4=;
-	b=VnRJf08WK8BkxkB964Dd/PW0cD/tPVjjBrnsCxMhRvw2GehEtRwxh8UhoTvHJuvpR0
-	d3eWsyxCfoteuO2BXpy95NKNs6RH0evi/aS/WxUFZK+9gx8MXLg8OrcxYYOeSA+Qk7x6
-	EIbQhFfIkNmtTtcm7oq3K3HDRaScAPgq/HCa2cDQU9jazISNjF5RM/jYfJ3tVB9SbBHe
-	Td5u55DXT5TCYSe+Llnj+Y7nLQytlcd08rYTkW+BU341kR/t7RJdM1o7w8Rr9Fv2F3tt
-	Z9JZ8mihIqOhERQi9KZnAVAOelGjF/JGXTH1NM0NpiLWqUHA7/jQEuajSuiG69gCjZv1
-	79Dw==
-X-Gm-Message-State: AOUpUlGRD0IqrUQDKrcr3HwYxC703cx+o02IDt2VA1NCiDh50nimG1qS
-	ze4VRkdSD7Go1K7e424dCCo=
-X-Google-Smtp-Source: AA+uWPxQ91Qz54Zc6SxL+pzX3bIXihYTF2b65Axe2jS+tKsXZZZ1Ja0GufLq1TdwUEYOn5/tFJWc6A==
-X-Received: by 2002:aca:d452:: with SMTP id
-	l79-v6mr4477088oig.222.1533765267559; 
-	Wed, 08 Aug 2018 14:54:27 -0700 (PDT)
+	bh=0j6IaJO03Whf5BIJ7WYeqWYL6cXGNfjedF/tb/ECGe4=;
+	b=NTgWmxvhFgIV8jqeF/KSQyZ4a5u3KQNLUPVAeIWtr3aLUPzoE84JTSU5BcP7nawCeQ
+	k57IMnGEsVARss1nFySvzNEp+GM2W6oW00cB7JUO4Iusrw88ipYkFbcJbelOQjbz0G42
+	z9vFNCIkh0+4YfPWNAYcaiYL/OLAWiIHnG+CLtuJInou5ekIFAk3Yss6oilm9U4bVNE5
+	NTieXISYvdY5ZKhOoUmF3/BeLYnanIsIbE5lShdMDeCeOncJ/DJWW6P1sFY20fhNhpxR
+	ZXSJ1rVPV5wLkGeVwueYkOIuRk3O0kO3pnfMdfGnzblNzY001fECqK5KZy6eTYlC5AY8
+	EdcQ==
+X-Gm-Message-State: AOUpUlEaC5GAGSqhSV8/wgdNQKmWeYwyCuRx2D8azwRgBNutQzX7XcW2
+	0q9tKQP8cdIE+eWzuRL+FfI=
+X-Google-Smtp-Source: AA+uWPw9154SALtRhyE1FUbVfPxeq12J0ExBZgdO4uaYy32Y7nyW92g25Y/LKwh/WfEf0ZyHnLxWZg==
+X-Received: by 2002:aca:d48c:: with SMTP id
+	l134-v6mr5162553oig.15.1533765268476; 
+	Wed, 08 Aug 2018 14:54:28 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:7d5f:b84e:a37e:2b6c])
 	by smtp.gmail.com with ESMTPSA id
-	s3-v6sm3384122oif.22.2018.08.08.14.54.26
+	s3-v6sm3384122oif.22.2018.08.08.14.54.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 08 Aug 2018 14:54:27 -0700 (PDT)
+	Wed, 08 Aug 2018 14:54:28 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Wed,  8 Aug 2018 14:54:13 -0700
-Message-Id: <1533765259-10091-6-git-send-email-akuster808@gmail.com>
+Date: Wed,  8 Aug 2018 14:54:14 -0700
+Message-Id: <1533765259-10091-7-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1533765259-10091-1-git-send-email-akuster808@gmail.com>
 References: <1533765259-10091-1-git-send-email-akuster808@gmail.com>
-Subject: [ROCKO][PATCH 06/12] Binutils: Security fix for CVE-2018-13033
+Subject: [ROCKO][PATCH 07/12] Binutils: Security fix for CVE-2018-6323
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,108 +60,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 21:54:26 -0000
+X-List-Received-Date: Wed, 08 Aug 2018 21:54:27 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-Affects: <= 2.30
+Affected: <= 2.29.1
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
  meta/recipes-devtools/binutils/binutils-2.29.1.inc |  1 +
- .../binutils/binutils/CVE-2018-13033.patch         | 71 ++++++++++++++++++++++
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-13033.patch
+ .../binutils/binutils/CVE-2018-6323.patch          | 55 ++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-6323.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.29.1.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-index 4d9983b..2f9b4fe 100644
+index 2f9b4fe..db7305a 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.29.1.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-@@ -69,6 +69,7 @@ SRC_URI = "\
-      file://CVE-2018-10373.patch \
+@@ -70,6 +70,7 @@ SRC_URI = "\
       file://CVE-2018-10534.patch \
       file://CVE-2018-10535.patch \
-+     file://CVE-2018-13033.patch \
+      file://CVE-2018-13033.patch \
++     file://CVE-2018-6323.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-13033.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-13033.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-6323.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-6323.patch
 new file mode 100644
-index 0000000..3fa852c
+index 0000000..2c6b1b2
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-13033.patch
-@@ -0,0 +1,71 @@
-+From 95a6d23566165208853a68d9cd3c6eedca840ec6 Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Tue, 8 May 2018 12:51:06 +0100
-+Subject: [PATCH] Prevent a memory exhaustion failure when running objdump on a
-+ fuzzed input file with corrupt string and attribute sections.
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-6323.patch
+@@ -0,0 +1,55 @@
++From 38e64b0ecc7f4ee64a02514b8d532782ac057fa2 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Thu, 25 Jan 2018 21:47:41 +1030
++Subject: [PATCH] PR22746, crash when running 32-bit objdump on corrupted file
 +
-+	PR 22809
-+	* elf.c (bfd_elf_get_str_section): Check for an excessively large
-+	string section.
-+	* elf-attrs.c (_bfd_elf_parse_attributes): Issue an error if the
-+	attribute section is larger than the size of the file.
++Avoid unsigned int overflow by performing bfd_size_type multiplication.
++
++	PR 22746
++	* elfcode.h (elf_object_p): Avoid integer overflow.
 +
 +Upstream-Status: Backport
-+Affects: <= 2.30
-+CVE: CVE-2018-13033
++Affects: <= 2.29.1
++CVE: CVE-2018-6323
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ bfd/ChangeLog   | 8 ++++++++
-+ bfd/elf-attrs.c | 9 +++++++++
-+ bfd/elf.c       | 1 +
-+ 3 files changed, 18 insertions(+)
++ bfd/ChangeLog | 5 +++++
++ bfd/elfcode.h | 4 ++--
++ 2 files changed, 7 insertions(+), 2 deletions(-)
 +
-+Index: git/bfd/elf-attrs.c
++Index: git/bfd/elfcode.h
 +===================================================================
-+--- git.orig/bfd/elf-attrs.c
-++++ git/bfd/elf-attrs.c
-+@@ -438,6 +438,15 @@ _bfd_elf_parse_attributes (bfd *abfd, El
-+   /* PR 17512: file: 2844a11d.  */
-+   if (hdr->sh_size == 0)
-+     return;
-++  if (hdr->sh_size > bfd_get_file_size (abfd))
-++    {
-++      /* xgettext:c-format */
-++      _bfd_error_handler (_("%pB: error: attribute section '%pA' too big: %#llx"),
-++			  abfd, hdr->bfd_section, (long long) hdr->sh_size);
-++      bfd_set_error (bfd_error_invalid_operation);
-++      return;
-++    }
-++
-+   contents = (bfd_byte *) bfd_malloc (hdr->sh_size + 1);
-+   if (!contents)
-+     return;
-+Index: git/bfd/elf.c
-+===================================================================
-+--- git.orig/bfd/elf.c
-++++ git/bfd/elf.c
-+@@ -297,6 +297,7 @@ bfd_elf_get_str_section (bfd *abfd, unsi
-+       /* Allocate and clear an extra byte at the end, to prevent crashes
-+ 	 in case the string table is not terminated.  */
-+       if (shstrtabsize + 1 <= 1
-++	  || shstrtabsize > bfd_get_file_size (abfd)
-+ 	  || bfd_seek (abfd, offset, SEEK_SET) != 0
-+ 	  || (shstrtab = (bfd_byte *) bfd_alloc (abfd, shstrtabsize + 1)) == NULL)
-+ 	shstrtab = NULL;
++--- git.orig/bfd/elfcode.h
+++++ git/bfd/elfcode.h
++@@ -680,7 +680,7 @@ elf_object_p (bfd *abfd)
++       if (i_ehdrp->e_shnum > ((bfd_size_type) -1) / sizeof (*i_shdrp))
++ 	goto got_wrong_format_error;
++ #endif
++-      amt = sizeof (*i_shdrp) * i_ehdrp->e_shnum;
+++      amt = sizeof (*i_shdrp) * (bfd_size_type) i_ehdrp->e_shnum;
++       i_shdrp = (Elf_Internal_Shdr *) bfd_alloc (abfd, amt);
++       if (!i_shdrp)
++ 	goto got_no_match;
++@@ -776,7 +776,7 @@ elf_object_p (bfd *abfd)
++       if (i_ehdrp->e_phnum > ((bfd_size_type) -1) / sizeof (*i_phdr))
++ 	goto got_wrong_format_error;
++ #endif
++-      amt = i_ehdrp->e_phnum * sizeof (*i_phdr);
+++      amt = (bfd_size_type) i_ehdrp->e_phnum * sizeof (*i_phdr);
++       elf_tdata (abfd)->phdr = (Elf_Internal_Phdr *) bfd_alloc (abfd, amt);
++       if (elf_tdata (abfd)->phdr == NULL)
++ 	goto got_no_match;
 +Index: git/bfd/ChangeLog
 +===================================================================
 +--- git.orig/bfd/ChangeLog
 ++++ git/bfd/ChangeLog
-+@@ -1,3 +1,11 @@
-++2018-05-08  Nick Clifton  <nickc@redhat.com>
++@@ -1,3 +1,8 @@
+++2018-01-25  Alan Modra  <amodra@gmail.com>
 ++
-++       PR 22809
-++       * elf.c (bfd_elf_get_str_section): Check for an excessively large
-++       string section.
-++       * elf-attrs.c (_bfd_elf_parse_attributes): Issue an error if the
-++       attribute section is larger than the size of the file.
+++       PR 22746
+++       * elfcode.h (elf_object_p): Avoid integer overflow.
 ++
-+ 2018-04-24  Nick Clifton  <nickc@redhat.com>
-+  
-+        PR 23113
++ 2018-05-08  Nick Clifton  <nickc@redhat.com>
++ 
++        PR 22809
 -- 
 2.7.4
 
