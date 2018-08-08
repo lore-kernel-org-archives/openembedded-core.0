@@ -1,102 +1,52 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A9DF978D2D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id ED22771AB3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 16:40:59 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id w126-v6so4827549oie.7
+	Wed,  8 Aug 2018 16:55:11 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id r21-v6so3232312qtm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 09:41:01 -0700 (PDT)
+	Wed, 08 Aug 2018 09:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=aEGxIejGgt9Zl80EJV5V2mtyVUNdjZD3IgQrThKs3Ws=;
-	b=kQV1EirAmiqECDtv2gpwRWywi21UGKUKc/l9BxpuwSb6ZWqGXMS+je+EqdoHYiGLY7
-	B/jVD4QrY/mng/9GMUaAWWKpS65hqwdboFobRVRuevLdiF9phz4mEG0lMMJK0kmABkmq
-	uoEw1ksvn+TaIY58WX60qz0urPJsxtce+HUW8rqwDZhzK/XV7RY0n4chGvSGujPsC0/b
-	TFgXA8fBi6MUN30dQD2QGKfF0q0v4GBFXaG+NI8XdaCKBqwf8ZFkEoJC9sjVwdmoIVT8
-	p8Ewf+bCOUAoHgxkV5wYxC44Sdi3FOLE6md6J63O0rTa0VF9WsIjNXfBBQWf/AEUxGE8
-	u4xw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=aDRdK/uSE92unV5Mfh8v3AgC+h7VCUB3eGRUYNL0f4c=;
+	b=VW9tK9yfSU/1sqbrESZHGL0CuBPpGDyiH5YQE+eFRO3/h2iBnUA2QHXRqeiITGErE5
+	g6JTBVoOKnEx0S7DwzGphSSZVzZX/GKI1GdVrNO3+rxPS2oh+WuBMjuWoN6lAfoVhlLq
+	AmfIQl5dXbkQsyzn5d2dIKAzSVWTGBW2pdxwR8Aw4hpU4IpqxmY+7sHWpZRaYsUxe/RA
+	grAE2pt6hYXd7G4fOld8U66o6ilGyjBEzXy7zZqhvVB3M+1qg8asp8KP/TXD5yev7Vfi
+	GZIXuyjnDEeatM85gC92EhxX9RCyG3MeKVpnpXFeoJbcMq2K2yHhpebntLzfe8eeG1B6
+	XLpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=aEGxIejGgt9Zl80EJV5V2mtyVUNdjZD3IgQrThKs3Ws=;
-	b=i06XjKssI0MWM4s2SnWDzRkQav77itWKhYHgVWhO7t5Q8qUv2h6Z6JgMxDoiHdfANP
-	191OIIGNmLTnarclJ9HoBn9MGtpgt7E2MJGy3QdkF4qc5ChloB3m7vFUTHSXhXJwYUIo
-	1QoAcuk7TBujJEtrMqZcK7Adz8HaIbSlHURUQmXp8T+WE571GjZFDVNEq7b5ormUG+RQ
-	SlpYAyUgJzqHmxVqFst5OZUJEZX3Z5d/mqmVu15iPAzmkG0QfiVvSegfaZrGUE8hkQnJ
-	x/j8bp4aVWfWrkrrsZViXNoMIV8qDEYx9XbBaTWP61QFoXooovHX+PmJUuv+6lnMqKBk
-	hmQA==
-X-Gm-Message-State: AOUpUlE4nwU/hegMiNl3lhg266k7tGYRkoGVTrgDkZT171TFnn/scfiP
-	GI95fZggKxLar/ciDo8ZH8fuu0QA
-X-Google-Smtp-Source: AA+uWPyc1C05/8B0btJlrZB0MPTmNrlgF2ln0mSw7F3X5ZRA5yU/5/Wf08BgQTEAZHjwDbf9KrTEyQ==
-X-Received: by 2002:aca:ebd8:: with SMTP id
-	j207-v6mr3810710oih.206.1533746460377; 
-	Wed, 08 Aug 2018 09:41:00 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:7d5f:b84e:a37e:2b6c?
-	([2601:202:4180:c33:7d5f:b84e:a37e:2b6c])
-	by smtp.gmail.com with ESMTPSA id
-	p132-v6sm3228041oia.31.2018.08.08.09.40.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Aug 2018 09:40:58 -0700 (PDT)
-To: Armin Kuster <akuster808@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <1533742522-24357-1-git-send-email-akuster808@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <686caf58-2165-22ca-16cf-a0de761b4820@gmail.com>
-Date: Wed, 8 Aug 2018 09:40:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=aDRdK/uSE92unV5Mfh8v3AgC+h7VCUB3eGRUYNL0f4c=;
+	b=sYc+JpzZ66MJS0cbBtPRJD+ZguXaf2Ec2EfMXpuIRFcIdHJJQ8HD3Zdno7jtu5EOMw
+	TU2XXARMp3ZKRjrlLvpdEMgzS9bew+7pNvOHKwGhsmrBTCbFctp9247hmPKJkLRp7xwr
+	3ktV6Sawbl/aSeLJrNP1dxoKBSJCw0K1NxE9lRrOAs04BAzNMUg6fdGebW7ZK93/CunZ
+	Lhzl0O5qOdcjfM0QKW0jknXEGakvxz31S7RExvCfYllSxv+SZSlTZh9Kgk345hHswcC+
+	o+SpMRwAEMKW+Uf3P/0W0GGsyAcJu3jIDCoKLjBazlvNOPmakeKnsz3DTvXRh5YSf5NK
+	9ZvQ==
+X-Gm-Message-State: AOUpUlFlL2mDuDXPasHs1pxYvNpDZakYL0wmaXhAMN4kw+qvSNGT2hQ1
+	+ybFvIBxx3S+yiROho68eeppwHRGlHku7dzO/f8=
+X-Google-Smtp-Source: AA+uWPzYw4PRaU4T/+db5M89uhC2P8A15gh5d0MAwmi3AoyTSQN/uelvIq7p/yfQYT3gOn8Ri7HT//jfKmujHD+A2u0=
+X-Received: by 2002:ac8:25f1:: with SMTP id
+	f46-v6mr3679393qtf.20.1533747312647; 
+	Wed, 08 Aug 2018 09:55:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1533742522-24357-1-git-send-email-akuster808@gmail.com>
-Subject: Re: [ROCKO][PATCH 01/27] binutils: Security fix CVE-2017-12967
+References: <cover.1533595822.git.raj.khem@gmail.com>
+	<e9bcf3a4c54ac1cd9721abc0d9be5324d4004845.1533595822.git.raj.khem@gmail.com>
+	<CA+chaQfiZ4MPSPE5B3JPYNrcJaDOEQiyHE4UsMf2dP_vWsfrwQ@mail.gmail.com>
+	<CAMKF1sqaXt17u1gGPmZi4qiziwVtwcFrd7_2nJ8kap5BSB3LiQ@mail.gmail.com>
+	<CAJTo0LbnL2uCT=r1iZ1BuummBhdJm5020YcqvKf4kiwGrhQKvQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LbnL2uCT=r1iZ1BuummBhdJm5020YcqvKf4kiwGrhQKvQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 8 Aug 2018 09:54:46 -0700
+Message-ID: <CAMKF1spY3CgeHE8+na-YZ0GGrBH=hNNwOsriwWfaJ5E7ROdn_A@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 13/18] Disable crypt support in glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,94 +59,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 16:40:59 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 08 Aug 2018 16:55:12 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 08/08/2018 08:34 AM, Armin Kuster wrote:
-> From: Armin Kuster <akuster@mvista.com>
+OK I have pushed the changes to pull branch
+On Wed, Aug 8, 2018 at 9:10 AM Burton, Ross <ross.burton@intel.com> wrote:
 >
-> affects: <= 2.29.1
+> Yeah squashing makes sense, as the intermediate commit is broken.
 >
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-
-This one is really CVE-2017-17124 so it will be renamed in V2
-
-CVE-2017-12967 is already in 2.29.1
-
-> ---
->  meta/recipes-devtools/binutils/binutils-2.29.1.inc |  1 +
->  .../binutils/binutils/CVE-2017-12967.patch         | 47 ++++++++++++++++++++++
->  2 files changed, 48 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch
+> Ross
 >
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.29.1.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-> index b29b75a..12b579c 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-> @@ -35,6 +35,7 @@ SRC_URI = "\
->       file://0013-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
->       file://0014-Detect-64-bit-MIPS-targets.patch \
->       file://0015-sync-with-OE-libtool-changes.patch \
-> +     file://CVE-2017-12967.patch \
->  "
->  S  = "${WORKDIR}/git"
->  
-> diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch
-> new file mode 100644
-> index 0000000..ab19d21
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch
-> @@ -0,0 +1,47 @@
-> +From b0029dce6867de1a2828293177b0e030d2f0f03c Mon Sep 17 00:00:00 2001
-> +From: Nick Clifton <nickc@redhat.com>
-> +Date: Tue, 28 Nov 2017 18:00:29 +0000
-> +Subject: [PATCH] Prevent a memory exhaustion problem when trying to read in
-> + strings from a COFF binary with a corrupt string table size.
-> +
-> +	PR 22507
-> +	* coffgen.c (_bfd_coff_read_string_table): Check for an excessive
-> +	size of the external string table.
-> +
-> +Upstream-Status: backport
-> +Affects binutls <= 2.29.1
-> +CVE:  CVE-2017-12967 
-> +Signed-off-by: Armin Kuster <akuster@mvista.com>
-> +
-> +---
-> + bfd/ChangeLog | 6 ++++++
-> + bfd/coffgen.c | 4 ++--
-> + 2 files changed, 8 insertions(+), 2 deletions(-)
-> +
-> +Index: git/bfd/coffgen.c
-> +===================================================================
-> +--- git.orig/bfd/coffgen.c
-> ++++ git/bfd/coffgen.c
-> +@@ -1709,7 +1709,7 @@ _bfd_coff_read_string_table (bfd *abfd)
-> + #endif
-> +     }
-> + 
-> +-  if (strsize < STRING_SIZE_SIZE)
-> ++  if (strsize < STRING_SIZE_SIZE || strsize > bfd_get_file_size (abfd))
-> +     {
-> +       _bfd_error_handler
-> + 	/* xgettext: c-format */
-> +Index: git/bfd/ChangeLog
-> +===================================================================
-> +--- git.orig/bfd/ChangeLog
-> ++++ git/bfd/ChangeLog
-> +@@ -1,3 +1,9 @@
-> ++2017-11-28  Nick Clifton  <nickc@redhat.com>
-> ++
-> ++       PR 22507
-> ++       * coffgen.c (_bfd_coff_read_string_table): Check for an excessive
-> ++       size of the external string table.
-> ++
-> + 2018-03-28  Eric Botcazou  <ebotcazou@adacore.com>
-> + 
-> + 	PR ld/22972
-
+> On 8 August 2018 at 17:06, Khem Raj <raj.khem@gmail.com> wrote:
+> > I deliberately kept it separate for readability from glibc upgrade,
+> > but squashing this with packaging changes alone is ok. I will leave
+> > that to Ross
+> > On Wed, Aug 8, 2018 at 8:48 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+> >>
+> >> Should this be squashed with "glibc: Drop packaging libcrypt from 2.28+ onwards" ?
+> >>
+> >> I've accidentally cherry-picked the packaging change from patchwork and missed this one which results in:
+> >>
+> >> ERROR: glibc-2.28-r0 do_package: QA Issue: glibc: Files/directories were installed but not shipped in any package:
+> >>   /lib/libcrypt.so.1
+> >>   /lib/libcrypt-2.28.so
+> >> Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+> >> glibc: 2 installed and not shipped files. [installed-vs-shipped]
+> >>
+> >>
+> >> On Tue, Aug 7, 2018 at 12:59 AM Khem Raj <raj.khem@gmail.com> wrote:
+> >>>
+> >>> We have independent crypt implementation coming from libxcrypt
+> >>>
+> >>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >>> ---
+> >>>  meta/recipes-core/glibc/glibc_2.28.bb | 1 +
+> >>>  1 file changed, 1 insertion(+)
+> >>>
+> >>> diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+> >>> index 086daed04c..906e6c2b62 100644
+> >>> --- a/meta/recipes-core/glibc/glibc_2.28.bb
+> >>> +++ b/meta/recipes-core/glibc/glibc_2.28.bb
+> >>> @@ -83,6 +83,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+> >>>                  --enable-bind-now \
+> >>>                  --enable-stack-protector=strong \
+> >>>                  --enable-stackguard-randomization \
+> >>> +                --disable-crypt \
+> >>>                  ${GLIBCPIE} \
+> >>>                  ${GLIBC_EXTRA_OECONF}"
+> >>>
+> >>> --
+> >>> 2.18.0
+> >>>
+> >>> --
+> >>> _______________________________________________
+> >>> Openembedded-core mailing list
+> >>> Openembedded-core@lists.openembedded.org
+> >>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
