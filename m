@@ -1,54 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5240A78D3F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CEAA74CB8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 16:10:16 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id 13-v6so4706379ois.1
+	Wed,  8 Aug 2018 16:27:09 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id n11-v6so3386899wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 09:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TSAdodm6zeyrkXM/cdPrHcuFdzqu3yep9580r++w4Hc=;
-	b=Sh6N/8rbcG4bYcrtKqKBhXKDWZCH3n2qvo8/zL72qfDorFHKaIqFw28K8ixxSawDiX
-	WdA1MZ/ocpVRqL8DMD+Umvt60pzrOCBppcZuesv1eNBKdBGY3QOEN/Xo2NwfCr/Mf0za
-	aIH8tw8KTnH8ansiL71KuAEyXv1UNNvldad8dhS4LBWH8bJ0BsBTLrmJv3wsAZDHu7xH
-	QPBNuWHvqfLgu6OyQVdUIaVpdMMJOviqNgFIcpS7Uw1P6YfyF3uI05JaWJOIDcPJLHq0
-	Vj37pNWIjBxTf8fi4GhOJBvGTU/JNIoFNQ0Knk7rwVXiUCMHvcVveOw9Xq5MgIYQRiRb
-	C8TQ==
+	Wed, 08 Aug 2018 09:27:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=fTpXuilF9208877fXfTmwuugrosNNBlKOSzl01+kMVs=;
+	b=WDk6xgIhbCOtmGoVMLUgoC53QFKSZEiJ2bFSMUy5MPfRPzBODPC2BIqmWFIKdQIYj/
+	UTNeu6DSxwhdnZboqG2SckFfPFcYEoyGAW/WNxMZjfGABwh3kLLUv5yA9lRT6+c77/LN
+	sBvCX0g+7LTmF/GzZrtYRvorcBPQKPsmSODURYFiI1RO4gY5rt0BxgqOj+EJmUq4nhuY
+	UGLmP0r5Ctqt/j897c8mlkIzZh0yifmsviDrpC4BL+XEWnXZxcJyX1gbXs2QXpUUTRVl
+	A1rjTauOmd/kQweQCOUUrb6Sh8otrYcrJew2NqAC3OQSMIKapOp0sOXrS3YM6M0KxWjg
+	iBRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=TSAdodm6zeyrkXM/cdPrHcuFdzqu3yep9580r++w4Hc=;
-	b=Bm4tWYrKz28aEaF6rQlCZ3INeVuku7yrfpaVgEqXXmaruQBZcXmvjyN/rIPhQw+cDa
-	l5XX8i+dRWF9aS4I7XJrb15aoBwCq+Mic54/8b0goN6POp2WVrOGyWcNQ59KHLqnMqqZ
-	lJ0qll3cKktloQALGUyXC8RldxTYEWw3OEoNo7WsvdKgJmrY/e+Wgw64fmlxU3NrKF3Z
-	PyQ8lqkbbDIwThhoUyTS3sYHAyF5Gs/XTj6AMjiZki4QySsoabJAoGAF65f3xC2RdJoh
-	Av8jzBnJ7vQvo4BFkwhS+BIQvwpUEpi/nSHST60L7W3ArItcIzeR06fC1ieaRd4GoMgf
-	BeFQ==
-X-Gm-Message-State: AOUpUlEW17A1z7qiK06XGfKl0ATEiN770dQJJgkbBUDAN2of3axEzGH3
-	YEeZeX70y1Ay1hvfs7W/dBcgqSWjuZn+zFRXZAuLhw==
-X-Google-Smtp-Source: AA+uWPwfprpXZV6C5TAGMNqSXKBOaa4ACfpvHBf82I5MlytSKRKh6NKStdL5XoCk9G7XrEUQ1uXt10t1iI7HRh86wX4=
-X-Received: by 2002:aca:b256:: with SMTP id
-	b83-v6mr3706469oif.235.1533744617205; 
-	Wed, 08 Aug 2018 09:10:17 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=fTpXuilF9208877fXfTmwuugrosNNBlKOSzl01+kMVs=;
+	b=ttWGFSTGAK1N7tes0dTdFkSVx/7nyojXwtELpX2PviJN78G0pDFt7p2kgo1cabe+XU
+	fbXGamB4w1zlf3CkfEGPso6ZF7eZIXCD70ULiW+Yu25nDOyyRgMnirDVwNq7vB7IkJ2G
+	FsOleDhfeDhIHvQJ3OaEdXNvmQOt/YOGqtXrU+U052VX6c3++BtyRensNRdzHLeK+pHP
+	nn1+1c2W86boqp9W/A9X78PQCjzKdpSqCzek6PboKv3jOGaYBtprDn23qEZvSW0OD2gW
+	pvoYYYbWVwJT7eJA8KjOvEleO3i/F5EAmbuN7cjHhZUwaETpZRYPC3H00FNoEg8eixyI
+	JBMw==
+X-Gm-Message-State: AOUpUlFkqf+kkk8GnqTUAtrt5g8THlPUBMVRtA/uIA+457fJdyo+VTjq
+	SAQaAVoglTO7hBo2Ajd0Grc=
+X-Google-Smtp-Source: AA+uWPwREcz1u7tGkc7W3n6noHz0azc9YzGEzcwUU/oYHVv4BkBE4Tz4wNqZOhZmZk85uaMlubxHbg==
+X-Received: by 2002:a1c:1182:: with SMTP id
+	124-v6mr2368355wmr.75.1533745630376; 
+	Wed, 08 Aug 2018 09:27:10 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	j6-v6sm6008704wrs.91.2018.08.08.09.27.09
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 08 Aug 2018 09:27:09 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 8 Aug 2018 18:27:10 +0200
+To: Eric BENARD <ebenard@free.fr>
+Message-ID: <20180808162710.GA1418@jama>
+References: <CABS_+k8mSL+Cnzz0jK=xovQHt_J_HL1m0Rhn6SD+y4FArzApEQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP;
-	Wed, 8 Aug 2018 09:09:56 -0700 (PDT)
-In-Reply-To: <CAMKF1sqaXt17u1gGPmZi4qiziwVtwcFrd7_2nJ8kap5BSB3LiQ@mail.gmail.com>
-References: <cover.1533595822.git.raj.khem@gmail.com>
-	<e9bcf3a4c54ac1cd9721abc0d9be5324d4004845.1533595822.git.raj.khem@gmail.com>
-	<CA+chaQfiZ4MPSPE5B3JPYNrcJaDOEQiyHE4UsMf2dP_vWsfrwQ@mail.gmail.com>
-	<CAMKF1sqaXt17u1gGPmZi4qiziwVtwcFrd7_2nJ8kap5BSB3LiQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 8 Aug 2018 17:09:56 +0100
-Message-ID: <CAJTo0LbnL2uCT=r1iZ1BuummBhdJm5020YcqvKf4kiwGrhQKvQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/18] Disable crypt support in glibc
+In-Reply-To: <CABS_+k8mSL+Cnzz0jK=xovQHt_J_HL1m0Rhn6SD+y4FArzApEQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: SRCPV / prserv problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,62 +60,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 16:10:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 08 Aug 2018 16:27:09 -0000
+X-Groupsio-MsgNum: 114510
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="3MwIy2ne0vdjdPXF"
+Content-Disposition: inline
 
-Yeah squashing makes sense, as the intermediate commit is broken.
+--3MwIy2ne0vdjdPXF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ross
+On Wed, Aug 08, 2018 at 05:34:51PM +0200, Eric BENARD wrote:
+> Hi,
+>=20
+> I have a strange issue with a recipe fetching from git for which I fix the
+> HASH in a conf file :
+> I'm using PRSERV_HOST =3D "localhost:0"
+> The recipe has PV =3D "gitr${SRCPV}" so I expect the package numbering to=
+ be
+> handled by the prserv.
+>=20
+> If I add a SRCREV_pn-mysw =3D "1ad58b2488ce91ce4d0c4aae4189108b0281aae6",=
+ I
+> see in buildhistory :
+> PV =3D gitrAUTOINC+1ad58b2488
+> PKGV =3D gitr0+1ad58b2488
+>=20
+> If I then fix the hash to 6bd8208a0754a23b5437cb34a361fc22d7dc0c3b, I see
+> in buildhistory :
+> -PKGV =3D gitr0+1ad58b2488
+> +PKGV =3D gitr0+6bd8208a07
+> +PKGR =3D r0.0
+> which is expected
 
-On 8 August 2018 at 17:06, Khem Raj <raj.khem@gmail.com> wrote:
-> I deliberately kept it separate for readability from glibc upgrade,
-> but squashing this with packaging changes alone is ok. I will leave
-> that to Ross
-> On Wed, Aug 8, 2018 at 8:48 AM Martin Jansa <martin.jansa@gmail.com> wrote:
->>
->> Should this be squashed with "glibc: Drop packaging libcrypt from 2.28+ onwards" ?
->>
->> I've accidentally cherry-picked the packaging change from patchwork and missed this one which results in:
->>
->> ERROR: glibc-2.28-r0 do_package: QA Issue: glibc: Files/directories were installed but not shipped in any package:
->>   /lib/libcrypt.so.1
->>   /lib/libcrypt-2.28.so
->> Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
->> glibc: 2 installed and not shipped files. [installed-vs-shipped]
->>
->>
->> On Tue, Aug 7, 2018 at 12:59 AM Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>> We have independent crypt implementation coming from libxcrypt
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>  meta/recipes-core/glibc/glibc_2.28.bb | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
->>> index 086daed04c..906e6c2b62 100644
->>> --- a/meta/recipes-core/glibc/glibc_2.28.bb
->>> +++ b/meta/recipes-core/glibc/glibc_2.28.bb
->>> @@ -83,6 +83,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
->>>                  --enable-bind-now \
->>>                  --enable-stack-protector=strong \
->>>                  --enable-stackguard-randomization \
->>> +                --disable-crypt \
->>>                  ${GLIBCPIE} \
->>>                  ${GLIBC_EXTRA_OECONF}"
->>>
->>> --
->>> 2.18.0
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Is this really expected? It should get gitr1 here.
 
+> But then if I come back to the hash
+> 1ad58b2488ce91ce4d0c4aae4189108b0281aae6, I see :
+> -PKGV =3D gitr2+6bd8208a07
+> -PKGR =3D r0.1
+> +PKGV =3D gitr0+1ad58b2488
+> and thus I have the package numbering going backward with a QA error.
+
+This is expected, when it gets 1ad58b2488 which is already recorded in
+the database it will return the old number.
+
+That's for multiple builders using different SRCREV and the same PRSERV,
+they should get stable AUTOINC numbers, not incrementing both of these
+every time they ask PRSERV.
+
+> Do you have any idea on what is causing this behavior and where to dig to
+> fix this ?
+
+Checking the sqlite database for recorded AUTOINC numbers and hashes is
+usually useful starting point.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--3MwIy2ne0vdjdPXF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCW2sZ3QAKCRA3VSO3ZXaA
+HKMRAJ0eL1+qxmz7RN59dW6cuB3qkuE6OgCfdDNoCbVdBtJJFeqHERo37EXSAKs=
+=Lka7
+-----END PGP SIGNATURE-----
+
+--3MwIy2ne0vdjdPXF--
