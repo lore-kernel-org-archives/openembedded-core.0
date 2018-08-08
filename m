@@ -1,50 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B22A78875
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8181B78D6F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 15:35:23 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id k19-v6so1335736pfi.1
+	Wed,  8 Aug 2018 15:35:24 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id w14-v6so1195923plp.6
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 08 Aug 2018 08:35:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=3xB/VElMCNVWCAxgh5g234njBHtnAAE5MEMZNdMwkWo=;
-	b=UuabVpmCBCg8LsDoR67WWGfOrIufCIO/pBk5KMAxHIMaPoav+1grhhkZnGWwuzFFCb
-	WOR2rB0DhzomkXyiUh7Jy1TzgRMXFrQ8oWRDbpXXzCt4PKZdH7AxsXuEMDsy8jjg/tXB
-	WesGUWgD5NYyDC3En25m5inImVUUKMaqeFiluOl2cT1RXdw/Gm0aY8od6jnEq6unsdjf
-	LVQkU4nEk1LFkPtXnAY+5HbY6FG6K/YgrEEfhIZZxCy0jKUC/HxxRg17UbEOgS9MC+iH
-	VOkdoGcnBgCeZk7zbs6GS8uROBAzp1o/XJKuXbZ3RnYpJO8zVBOh9A73JcNmCARoqBg3
-	ISEw==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=CB85Gjp3VkQW74yBKY1tuewSX44tAAi5MVQ32C5xxwo=;
+	b=gxcq12P7xPSF5LezV+SgSc0yHYy2K5Tuv9GFr8+dcAQ42fi8IloxzOrmrW52fn8kvj
+	9E4FgfiiaB36Rc7m7aCd3BdTde95fUHpuyC+1/1PEfaqB14ySsii+lm4VPQiPnwavnh3
+	MB0V22V3xkTd4bvCrbrMrukZ5iobdyhzQYKLjzptAd5yGzUCGjYD+PFzl9c6Ck1lGXvd
+	u0qCQle6rsgSpKKAE9oGzI8IcDpX+7DQHx6FbqDd5VlOFSAXJejjZDpbzTgbWnhjQtvA
+	D/vym/2oRrgNADqxJ2JHQmGwPecfdkEwRPVcr47wBJWP/5EW9/nt7xaVF7wmxO0d1p3F
+	qAAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=3xB/VElMCNVWCAxgh5g234njBHtnAAE5MEMZNdMwkWo=;
-	b=gtn6EkNQGmxlq7CLGj2/FQ2d47yCun3iljE5/5nLh1qIYHVwoeZz16OggxaJl7NJOp
-	iuWjJ1BMGt1KiwqN0XszDJFGrdvz+Y7UMt3SsFko39/mQIV2N5NcDIP2ZEj7CfSPXtXM
-	efW1PVOw+KkcO6P6kjAPpjbjjGH6i0aq+H9vcIQy9n8niS66bpWZ8s+ZnZrhRDZYtKbd
-	XEsQQZcSHAyogJ8d5jNkpIXXXdJHKTFWgH+SeD7Q1096LjrimPtHJQCdKbL7ojM1gARP
-	FHOubLPcWmQ8rw6CFaSTUulL1Jf/aGQK04zh8SCjRoUiBxX3GuaqRNZ+dM1bAMbbbBD3
-	fqhQ==
-X-Gm-Message-State: AOUpUlGM4OdZtCfJKNgFEgBNr3z1Ej7rT0+72XgyXS5/oPA7GH8Xk3+A
-	NMeLcoOdq6JxVmkl0o5Z1UI=
-X-Google-Smtp-Source: AA+uWPycNBMd29x/UdxbTmWkrPtpe1sO7tYW0FOA3/feaDbEtjIRWEVhKGtm7rRah9zlTfTW2/VWMw==
-X-Received: by 2002:a63:ae02:: with SMTP id
-	q2-v6mr3006262pgf.189.1533742524670; 
-	Wed, 08 Aug 2018 08:35:24 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=CB85Gjp3VkQW74yBKY1tuewSX44tAAi5MVQ32C5xxwo=;
+	b=aO/gbX6/h9788Rn5waWq7ianyUI9M0WCjw3qp+4jGRIdWxMjnFPhRYcT+V1QMY2npq
+	5z4mE3qx1ej93DlH2jCgtfNbqCJVebPvOBaLNUKH53yS6ma4SYaB8HYM5neNVSMrb0yE
+	6WEQZYtr3l3w0xjFpHrzPJR2UI3Vx/e08PAoTFf3IDU1kX0X/JDoaSGP9nOorxV5V554
+	7tV4OJ1Ft+ARFoHQAAXiWaIt4bAXdK0z6cv6fS7MC2iVvRx8yZkJXzWJViMkCfS/yorn
+	htbG09fzeC+fgrHpwhXcvW5sL2BenZgX3sq13qn9psZFFR5fxTXVHUAV1AmMxHY216NQ
+	mcww==
+X-Gm-Message-State: AOUpUlHFJzgKYcuRK2bkVvruZFskPZLAhT0HF9YPyPuuY3uvzaTdYLkQ
+	0u/Xw7Z2Qv0M2K7ZBSpUV6E=
+X-Google-Smtp-Source: AA+uWPw1dhudFEPTHb9N5mahsNQXTmc8fzytb50lbKgMPioILrmZUMycNxa/sT9JjF4GBZ4pCo3XtA==
+X-Received: by 2002:a17:902:42c3:: with SMTP id
+	h61-v6mr3036015pld.319.1533742525620; 
+	Wed, 08 Aug 2018 08:35:25 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:7d5f:b84e:a37e:2b6c])
 	by smtp.gmail.com with ESMTPSA id
-	q78-v6sm8290927pfi.185.2018.08.08.08.35.23
+	q78-v6sm8290927pfi.185.2018.08.08.08.35.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 08 Aug 2018 08:35:24 -0700 (PDT)
+	Wed, 08 Aug 2018 08:35:25 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Wed,  8 Aug 2018 08:34:56 -0700
-Message-Id: <1533742522-24357-1-git-send-email-akuster808@gmail.com>
+Date: Wed,  8 Aug 2018 08:34:57 -0700
+Message-Id: <1533742522-24357-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [ROCKO][PATCH 01/27] binutils: Security fix CVE-2017-12967
+In-Reply-To: <1533742522-24357-1-git-send-email-akuster808@gmail.com>
+References: <1533742522-24357-1-git-send-email-akuster808@gmail.com>
+Subject: [ROCKO][PATCH 02/27] binutils: Secuirty fix CVE-2017-14930
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,84 +60,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 15:35:23 -0000
+X-List-Received-Date: Wed, 08 Aug 2018 15:35:24 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-affects: <= 2.29.1
+affects <= 2.29.1
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
  meta/recipes-devtools/binutils/binutils-2.29.1.inc |  1 +
- .../binutils/binutils/CVE-2017-12967.patch         | 47 ++++++++++++++++++++++
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch
+ .../binutils/binutils/CVE-2017-14930.patch         | 53 ++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-14930.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.29.1.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-index b29b75a..12b579c 100644
+index 12b579c..2232781 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.29.1.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-@@ -35,6 +35,7 @@ SRC_URI = "\
-      file://0013-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
+@@ -36,6 +36,7 @@ SRC_URI = "\
       file://0014-Detect-64-bit-MIPS-targets.patch \
       file://0015-sync-with-OE-libtool-changes.patch \
-+     file://CVE-2017-12967.patch \
+      file://CVE-2017-12967.patch \
++     file://CVE-2017-14930.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-14930.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-14930.patch
 new file mode 100644
-index 0000000..ab19d21
+index 0000000..bbd267a
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch
-@@ -0,0 +1,47 @@
-+From b0029dce6867de1a2828293177b0e030d2f0f03c Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Tue, 28 Nov 2017 18:00:29 +0000
-+Subject: [PATCH] Prevent a memory exhaustion problem when trying to read in
-+ strings from a COFF binary with a corrupt string table size.
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-14930.patch
+@@ -0,0 +1,53 @@
++From a26a013f22a19e2c16729e64f40ef8a7dfcc086e Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sun, 24 Sep 2017 17:10:14 +0930
++Subject: [PATCH] PR22191, memory leak in dwarf2.c
 +
-+	PR 22507
-+	* coffgen.c (_bfd_coff_read_string_table): Check for an excessive
-+	size of the external string table.
++table->sequences is a linked list before it is replaced by a bfd_alloc
++array in sort_line_sequences.
 +
-+Upstream-Status: backport
-+Affects binutls <= 2.29.1
-+CVE:  CVE-2017-12967 
++	PR 22191
++	* dwarf2.c (decode_line_info): Properly free line sequences on error.
++
++Upstream-Status: Backport
++Affects: <= 2.29.1
++CVE:  CVE-2017-14930
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ bfd/ChangeLog | 6 ++++++
-+ bfd/coffgen.c | 4 ++--
-+ 2 files changed, 8 insertions(+), 2 deletions(-)
++ bfd/ChangeLog | 5 +++++
++ bfd/dwarf2.c  | 8 ++++++--
++ 2 files changed, 11 insertions(+), 2 deletions(-)
 +
-+Index: git/bfd/coffgen.c
++Index: git/bfd/dwarf2.c
 +===================================================================
-+--- git.orig/bfd/coffgen.c
-++++ git/bfd/coffgen.c
-+@@ -1709,7 +1709,7 @@ _bfd_coff_read_string_table (bfd *abfd)
-+ #endif
-+     }
++--- git.orig/bfd/dwarf2.c
+++++ git/bfd/dwarf2.c
++@@ -2473,8 +2473,12 @@ decode_line_info (struct comp_unit *unit
++     return table;
 + 
-+-  if (strsize < STRING_SIZE_SIZE)
-++  if (strsize < STRING_SIZE_SIZE || strsize > bfd_get_file_size (abfd))
-+     {
-+       _bfd_error_handler
-+ 	/* xgettext: c-format */
++  fail:
++-  if (table->sequences != NULL)
++-    free (table->sequences);
+++  while (table->sequences != NULL)
+++    {
+++      struct line_sequence* seq = table->sequences;
+++      table->sequences = table->sequences->prev_sequence;
+++      free (seq);
+++    }
++   if (table->files != NULL)
++     free (table->files);
++   if (table->dirs != NULL)
 +Index: git/bfd/ChangeLog
 +===================================================================
 +--- git.orig/bfd/ChangeLog
 ++++ git/bfd/ChangeLog
-+@@ -1,3 +1,9 @@
-++2017-11-28  Nick Clifton  <nickc@redhat.com>
++@@ -1,3 +1,8 @@
+++2017-09-24  Alan Modra  <amodra@gmail.com>
 ++
-++       PR 22507
-++       * coffgen.c (_bfd_coff_read_string_table): Check for an excessive
-++       size of the external string table.
+++       PR 22191
+++       * dwarf2.c (decode_line_info): Properly free line sequences on error.
 ++
-+ 2018-03-28  Eric Botcazou  <ebotcazou@adacore.com>
++ 2017-11-28  Nick Clifton  <nickc@redhat.com>
 + 
-+ 	PR ld/22972
++        PR 22507
 -- 
 2.7.4
 
