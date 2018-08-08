@@ -1,51 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FD1A78E6B
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BA82678D6F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 17:04:42 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id r1-v6so1364559pgp.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 10:04:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=E7VFSq1EoOQ2NT4EPGLbIbbo7tlrOOvFeHSTu0lO9jo=;
-	b=YxUD+SQuTK9remQB/X7BBftfaagK1eii/+FGdQihbpIfPK34gBlsSMb+3oKkabN1HN
-	bNEnGEwljg1mnWhSMbO6se8E6xUTyULuMnKtTr7/6Rj+/BkiNVSFcuNxKj++hLtQJrPX
-	q9ei27QaQiDGYEQvOnSeQhN8kgSy1iZMs14CqyheT6MSIaOAFurSjmkdcqSOTpjZH4J1
-	12h/PpbBH9I5SSTuqMcRCjaDH3Ks1IARj403ewDCC7TlWPiUZ9uznepnd75QFMZoUV5U
-	BDcVNsa8sIIb8yPzqYlHzHJH5giJKrtUO9ctx7IAvf8YiU542Wjf5yfZlmine1QId3DO
-	BLFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=E7VFSq1EoOQ2NT4EPGLbIbbo7tlrOOvFeHSTu0lO9jo=;
-	b=dyDh3dpxe3WsYtSaGMbUN8OPUweCGlVXPsuoDlu4DbJeZQhJRGBDhOkUuysczaweGa
-	kjYAO55vaogLKJqJNPVigCIuZFFONZLo0Uc5DBSXpjzNVIm3NTP5NAHwQhGFpO0uG1ng
-	UVoUqJ9EPHpTtxcRIhKcIdnDpPAqxC5Na0QDL/+zhWMYNqyj37vtaGSDvxc4lx553yNF
-	IPZj+QyKvUF5jCHE6d4b6lXTFqy0r8ijm8xj3HnOs5VYnPkHlzxtP1pP/jrLpZQ0FkvP
-	EfxaSDrSXO2am6JZUn7zqdCzfCL8GloDGYDkj+0w/gKbQPH1k7JHtFICkHCdN5jBkcVn
-	fB0Q==
-X-Gm-Message-State: AOUpUlEmYoT6RgmK1nAy7RkQo2HX8IJ+qpKaJdS0kLHxENFvbTp7+N0H
-	kKerzDVnONvxUxw3YLxz/ZSw8tEq
-X-Google-Smtp-Source: AA+uWPysMPrWRxiz+bcx9mAOPNEN1Lea9AUCrfQnpsfHc8VG84w1KBgvUCSK+A0plSIHLLZoUmMl/g==
-X-Received: by 2002:a63:6c05:: with SMTP id
-	h5-v6mr3372812pgc.367.1533747882994; 
-	Wed, 08 Aug 2018 10:04:42 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::1d00])
-	by smtp.gmail.com with ESMTPSA id
-	h9-v6sm3673108pfe.187.2018.08.08.10.04.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Aug 2018 10:04:42 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Aug 2018 10:04:25 -0700
-Message-Id: <33de34276c7905018d6f4c09189bb27dec863882.1533747698.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1533747698.git.raj.khem@gmail.com>
-References: <cover.1533747698.git.raj.khem@gmail.com>
-Subject: [PATCH 8/8] sysvinit: Fix build with glibc 2.28 + libxcrypt
+	Wed,  8 Aug 2018 17:28:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w78HREFb018343
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 8 Aug 2018 10:27:55 -0700
+Received: from [128.224.56.212] (128.224.56.212) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Wed, 8 Aug 2018 10:27:49 -0700
+To: Anuj Mittal <anuj.mittal@intel.com>,
+	<openembedded-core@lists.openembedded.org>, Paul Eggleton
+	<paul.eggleton@linux.intel.com>
+References: <20180728085316.13484-1-anuj.mittal@intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <9d148729-8b92-e208-ae5d-3432d693affb@windriver.com>
+Date: Wed, 8 Aug 2018 13:27:44 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20180728085316.13484-1-anuj.mittal@intel.com>
+X-Originating-IP: [128.224.56.212]
+Subject: Re: [PATCH] oeqa/selftest: check if rm_work is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,114 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 17:04:42 -0000
+X-List-Received-Date: Wed, 08 Aug 2018 17:28:41 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...acros.h-for-major-minor-defines-in-g.patch | 71 +++++++++++++++++++
- .../recipes-core/sysvinit/sysvinit_2.88dsf.bb |  3 +-
- 2 files changed, 73 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/sysvinit/sysvinit-2.88dsf/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
+On 07/28/2018 04:53 AM, Anuj Mittal wrote:
+> rm_work if enabled leads to some tests failing that rely on artifacts
+> being present. Check if rm_work.bbclass is included and show an error
+> and exit if it is.
+> 
+> Fixes [YOCTO #12694]
+> 
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ---
+>   meta/lib/oeqa/selftest/context.py | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+> index 16812ba96e..3a70f9e77b 100644
+> --- a/meta/lib/oeqa/selftest/context.py
+> +++ b/meta/lib/oeqa/selftest/context.py
+> @@ -187,6 +187,10 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+>               self.tc.logger.error("You have buildhistory enabled already and this isn't recommended for selftest, please disable it first.")
+>               raise OEQAPreRun
+>   
+> +        if "rm_work.bbclass" in self.tc.td["BBINCLUDED"]:
+> +            self.tc.logger.error("You have rm_work enabled which isn't recommended while running oe-selftest. Please disable it before continuing.")
+> +            raise OEQAPreRun
+> +
+>           if "PRSERV_HOST" in self.tc.td:
+>               self.tc.logger.error("Please unset PRSERV_HOST in order to run oe-selftest")
+>               raise OEQAPreRun
+> 
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-2.88dsf/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch b/meta/recipes-core/sysvinit/sysvinit-2.88dsf/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
-new file mode 100644
-index 0000000000..2575b59b5e
---- /dev/null
-+++ b/meta/recipes-core/sysvinit/sysvinit-2.88dsf/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
-@@ -0,0 +1,71 @@
-+From 29c7a529d3bb0c1e20239f885e74c5036f1a908c Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 6 Aug 2018 15:38:58 -0700
-+Subject: [PATCH] include sys/sysmacros.h for major/minor defines in glibc
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
-+---
-+ src/bootlogd.c |   3 +++
-+ src/bootlogd.o | Bin 58448 -> 60376 bytes
-+ src/dowall.c   |   3 +++
-+ src/shutdown.c |   4 +++-
-+ 4 files changed, 9 insertions(+), 1 deletion(-)
-+
-+Index: sysvinit-2.88dsf/src/bootlogd.c
-+===================================================================
-+--- sysvinit-2.88dsf.orig/src/bootlogd.c
-++++ sysvinit-2.88dsf/src/bootlogd.c
-+@@ -53,6 +53,9 @@
-+ #ifdef __linux__
-+ #include <sys/mount.h>
-+ #endif
-++#ifdef __GLIBC__
-++#include <sys/sysmacros.h>
-++#endif
-+ 
-+ char *Version = "@(#) bootlogd 2.86 03-Jun-2004 miquels@cistron.nl";
-+ 
-+Index: sysvinit-2.88dsf/src/dowall.c
-+===================================================================
-+--- sysvinit-2.88dsf.orig/src/dowall.c
-++++ sysvinit-2.88dsf/src/dowall.c
-+@@ -37,6 +37,9 @@
-+ #include <signal.h>
-+ #include <setjmp.h>
-+ #include <paths.h>
-++#ifdef __GLIBC__
-++#include <sys/sysmacros.h>
-++#endif
-+ 
-+ #ifndef _PATH_DEV
-+ # define _PATH_DEV	"/dev/"
-+Index: sysvinit-2.88dsf/src/shutdown.c
-+===================================================================
-+--- sysvinit-2.88dsf.orig/src/shutdown.c
-++++ sysvinit-2.88dsf/src/shutdown.c
-+@@ -57,7 +57,9 @@
-+ #include "reboot.h"
-+ #include "initreq.h"
-+ #include "init.h"
-+-
-++#ifdef __GLIBC__
-++#include <sys/sysmacros.h>
-++#endif
-+ 
-+ char *Version = "@(#) shutdown 2.86-1 31-Jul-2004 miquels@cistron.nl";
-+ 
-+Index: sysvinit-2.88dsf/src/mountpoint.c
-+===================================================================
-+--- sysvinit-2.88dsf.orig/src/mountpoint.c
-++++ sysvinit-2.88dsf/src/mountpoint.c
-+@@ -32,6 +32,9 @@
-+ #include <stdarg.h>
-+ #include <getopt.h>
-+ #include <stdio.h>
-++#ifdef __GLIBC__
-++#include <sys/sysmacros.h>
-++#endif
-+ 
-+ int dostat(char *path, struct stat *st, int do_lstat, int quiet)
-+ {
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index ad65819b2d..a21e7e46f7 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.bz2 \
-            file://pidof-add-m-option.patch \
-            file://0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch \
-            file://realpath.patch \
-+           file://0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch \
-            file://rcS-default \
-            file://rc \
-            file://rcS \
-@@ -29,7 +30,7 @@ S = "${WORKDIR}/sysvinit-${PV}"
- B = "${S}/src"
- 
- inherit update-alternatives distro_features_check
--DEPENDS_append = " update-rc.d-native base-passwd"
-+DEPENDS_append = " update-rc.d-native base-passwd virtual/crypt"
- 
- REQUIRED_DISTRO_FEATURES = "sysvinit"
- 
+Enabling rm_work should NOT be an error, and eventually it should not
+trigger any warnings. OEQA should only test the results of a build not
+how the build was done.
+
+I reviewed some of the rm_work related defects:
+
+1. https://bugzilla.yoctoproject.org/show_bug.cgi?id=12647
+   The warning was intentional based on Paul's comment.
+
+2. https://bugzilla.yoctoproject.org/show_bug.cgi?id=12655
+   The logs seem to only say that the error goes away when
+   rm_work is NOT enabled. I'd prefer to understand what it is
+   that's causing the failure and perhaps add to the packages
+   recipe so that the output passes the OEQA tests.
+
+3. https://bugzilla.yoctoproject.org/show_bug.cgi?id=12694
+   Title was: oe-selftest should warn if rm_work is enabled
+   but the commit makes it an error.
+
+Any disagreement about making it be a warning?
+
+rm_work saves lots of storage space so I'm reluctant to make
+OEQA require that it is NOT used.
+
+
 -- 
-2.18.0
-
+# Randy MacLeod
+# Wind River Linux
 
