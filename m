@@ -1,31 +1,50 @@
-Return-Path: <ebenard@free.fr>
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FC8978D7A
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B22A78875
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 15:34:54 +0000 (UTC)
-Received: from mail-oi0-f53.google.com (unknown [209.85.218.53])
-	(Authenticated sender: ebenard)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 8E6F92003D9
+	Wed,  8 Aug 2018 15:35:23 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id k19-v6so1335736pfi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2018 17:34:53 +0200 (CEST)
-Received: by mail-oi0-f53.google.com with SMTP id v8-v6so4463278oie.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2018 08:34:53 -0700 (PDT)
-X-Gm-Message-State: AOUpUlHkPPqPTogt4LyKoirepouyCk9T03XECfZeoNmz0Wo6a4ptahBm
-	SxSkWb3xpA8LQhwEvoWHNFBjmFPu/S/e+6jiXw==
-X-Google-Smtp-Source: AA+uWPxaB/5q/0mflGHEEEe4yBP6zl/cq/aB11B9xVH0Xcd2jAVIJUoKR6XtJZtT+2/DNRK0RX+jkKrF8l7rVDJdLcc=
-X-Received: by 2002:aca:171a:: with SMTP id
-	j26-v6mr3554328oii.277.1533742492494; 
-	Wed, 08 Aug 2018 08:34:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:c591:0:0:0:0:0 with HTTP;
-	Wed, 8 Aug 2018 08:34:51 -0700 (PDT)
-From: Eric BENARD <ebenard@free.fr>
-Date: Wed, 8 Aug 2018 17:34:51 +0200
-X-Gmail-Original-Message-ID: <CABS_+k8mSL+Cnzz0jK=xovQHt_J_HL1m0Rhn6SD+y4FArzApEQ@mail.gmail.com>
-Message-ID: <CABS_+k8mSL+Cnzz0jK=xovQHt_J_HL1m0Rhn6SD+y4FArzApEQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: SRCPV / prserv problem
+	Wed, 08 Aug 2018 08:35:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=3xB/VElMCNVWCAxgh5g234njBHtnAAE5MEMZNdMwkWo=;
+	b=UuabVpmCBCg8LsDoR67WWGfOrIufCIO/pBk5KMAxHIMaPoav+1grhhkZnGWwuzFFCb
+	WOR2rB0DhzomkXyiUh7Jy1TzgRMXFrQ8oWRDbpXXzCt4PKZdH7AxsXuEMDsy8jjg/tXB
+	WesGUWgD5NYyDC3En25m5inImVUUKMaqeFiluOl2cT1RXdw/Gm0aY8od6jnEq6unsdjf
+	LVQkU4nEk1LFkPtXnAY+5HbY6FG6K/YgrEEfhIZZxCy0jKUC/HxxRg17UbEOgS9MC+iH
+	VOkdoGcnBgCeZk7zbs6GS8uROBAzp1o/XJKuXbZ3RnYpJO8zVBOh9A73JcNmCARoqBg3
+	ISEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=3xB/VElMCNVWCAxgh5g234njBHtnAAE5MEMZNdMwkWo=;
+	b=gtn6EkNQGmxlq7CLGj2/FQ2d47yCun3iljE5/5nLh1qIYHVwoeZz16OggxaJl7NJOp
+	iuWjJ1BMGt1KiwqN0XszDJFGrdvz+Y7UMt3SsFko39/mQIV2N5NcDIP2ZEj7CfSPXtXM
+	efW1PVOw+KkcO6P6kjAPpjbjjGH6i0aq+H9vcIQy9n8niS66bpWZ8s+ZnZrhRDZYtKbd
+	XEsQQZcSHAyogJ8d5jNkpIXXXdJHKTFWgH+SeD7Q1096LjrimPtHJQCdKbL7ojM1gARP
+	FHOubLPcWmQ8rw6CFaSTUulL1Jf/aGQK04zh8SCjRoUiBxX3GuaqRNZ+dM1bAMbbbBD3
+	fqhQ==
+X-Gm-Message-State: AOUpUlGM4OdZtCfJKNgFEgBNr3z1Ej7rT0+72XgyXS5/oPA7GH8Xk3+A
+	NMeLcoOdq6JxVmkl0o5Z1UI=
+X-Google-Smtp-Source: AA+uWPycNBMd29x/UdxbTmWkrPtpe1sO7tYW0FOA3/feaDbEtjIRWEVhKGtm7rRah9zlTfTW2/VWMw==
+X-Received: by 2002:a63:ae02:: with SMTP id
+	q2-v6mr3006262pgf.189.1533742524670; 
+	Wed, 08 Aug 2018 08:35:24 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:7d5f:b84e:a37e:2b6c])
+	by smtp.gmail.com with ESMTPSA id
+	q78-v6sm8290927pfi.185.2018.08.08.08.35.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 08 Aug 2018 08:35:24 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Wed,  8 Aug 2018 08:34:56 -0700
+Message-Id: <1533742522-24357-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [ROCKO][PATCH 01/27] binutils: Security fix CVE-2017-12967
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,62 +57,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2018 15:34:54 -0000
-Content-Type: multipart/alternative; boundary="0000000000007135f60572ee40cb"
+X-List-Received-Date: Wed, 08 Aug 2018 15:35:23 -0000
 
---0000000000007135f60572ee40cb
-Content-Type: text/plain; charset="UTF-8"
+From: Armin Kuster <akuster@mvista.com>
 
-Hi,
+affects: <= 2.29.1
 
-I have a strange issue with a recipe fetching from git for which I fix the
-HASH in a conf file :
-I'm using PRSERV_HOST = "localhost:0"
-The recipe has PV = "gitr${SRCPV}" so I expect the package numbering to be
-handled by the prserv.
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.29.1.inc |  1 +
+ .../binutils/binutils/CVE-2017-12967.patch         | 47 ++++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch
 
-If I add a SRCREV_pn-mysw = "1ad58b2488ce91ce4d0c4aae4189108b0281aae6", I
-see in buildhistory :
-PV = gitrAUTOINC+1ad58b2488
-PKGV = gitr0+1ad58b2488
+diff --git a/meta/recipes-devtools/binutils/binutils-2.29.1.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
+index b29b75a..12b579c 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.29.1.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
+@@ -35,6 +35,7 @@ SRC_URI = "\
+      file://0013-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
+      file://0014-Detect-64-bit-MIPS-targets.patch \
+      file://0015-sync-with-OE-libtool-changes.patch \
++     file://CVE-2017-12967.patch \
+ "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch
+new file mode 100644
+index 0000000..ab19d21
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-12967.patch
+@@ -0,0 +1,47 @@
++From b0029dce6867de1a2828293177b0e030d2f0f03c Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Tue, 28 Nov 2017 18:00:29 +0000
++Subject: [PATCH] Prevent a memory exhaustion problem when trying to read in
++ strings from a COFF binary with a corrupt string table size.
++
++	PR 22507
++	* coffgen.c (_bfd_coff_read_string_table): Check for an excessive
++	size of the external string table.
++
++Upstream-Status: backport
++Affects binutls <= 2.29.1
++CVE:  CVE-2017-12967 
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ bfd/ChangeLog | 6 ++++++
++ bfd/coffgen.c | 4 ++--
++ 2 files changed, 8 insertions(+), 2 deletions(-)
++
++Index: git/bfd/coffgen.c
++===================================================================
++--- git.orig/bfd/coffgen.c
+++++ git/bfd/coffgen.c
++@@ -1709,7 +1709,7 @@ _bfd_coff_read_string_table (bfd *abfd)
++ #endif
++     }
++ 
++-  if (strsize < STRING_SIZE_SIZE)
+++  if (strsize < STRING_SIZE_SIZE || strsize > bfd_get_file_size (abfd))
++     {
++       _bfd_error_handler
++ 	/* xgettext: c-format */
++Index: git/bfd/ChangeLog
++===================================================================
++--- git.orig/bfd/ChangeLog
+++++ git/bfd/ChangeLog
++@@ -1,3 +1,9 @@
+++2017-11-28  Nick Clifton  <nickc@redhat.com>
+++
+++       PR 22507
+++       * coffgen.c (_bfd_coff_read_string_table): Check for an excessive
+++       size of the external string table.
+++
++ 2018-03-28  Eric Botcazou  <ebotcazou@adacore.com>
++ 
++ 	PR ld/22972
+-- 
+2.7.4
 
-If I then fix the hash to 6bd8208a0754a23b5437cb34a361fc22d7dc0c3b, I see
-in buildhistory :
--PKGV = gitr0+1ad58b2488
-+PKGV = gitr0+6bd8208a07
-+PKGR = r0.0
-which is expected
 
-But then if I come back to the hash
-1ad58b2488ce91ce4d0c4aae4189108b0281aae6, I see :
--PKGV = gitr2+6bd8208a07
--PKGR = r0.1
-+PKGV = gitr0+1ad58b2488
-and thus I have the package numbering going backward with a QA error.
-
-Do you have any idea on what is causing this behavior and where to dig to
-fix this ?
-
-Thanks
-Eric
-
---0000000000007135f60572ee40cb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<br><br>I have a strange issue with a recipe fetching f=
-rom git for which I fix the HASH in a conf file :<br>I&#39;m using PRSERV_H=
-OST =3D &quot;localhost:0&quot;<br>The recipe has PV =3D &quot;gitr${SRCPV}=
-&quot; so I expect the package numbering to be handled by the prserv.<br><b=
-r>If I add a SRCREV_pn-mysw =3D &quot;1ad58b2488ce91ce4d0c4aae4189108b0281a=
-ae6&quot;, I see in buildhistory :<br>PV =3D gitrAUTOINC+1ad58b2488<br>PKGV=
- =3D gitr0+1ad58b2488<br><br>If I then fix the hash to 6bd8208a0754a23b5437=
-cb34a361fc22d7dc0c3b, I see in buildhistory :<br>-PKGV =3D gitr0+1ad58b2488=
-<br>+PKGV =3D gitr0+6bd8208a07<br>+PKGR =3D r0.0<br>which is expected<br><b=
-r>But then if I come back to the hash 1ad58b2488ce91ce4d0c4aae4189108b0281a=
-ae6, I see :<br>-PKGV =3D gitr2+6bd8208a07<br>-PKGR =3D r0.1<br>+PKGV =3D g=
-itr0+1ad58b2488<br>and thus I have the package numbering going backward wit=
-h a QA error.<br><br>Do you have any idea on what is causing this behavior =
-and where to dig to fix this ?<br><br>Thanks<br>Eric<br></div>
-
---0000000000007135f60572ee40cb--
