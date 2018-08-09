@@ -1,28 +1,44 @@
-Return-Path: <raphael.kubo.da.costa@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 7951971985
+Return-Path: <mackeyme9@gmail.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DB6D65CE8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Aug 2018 15:54:39 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Aug 2018 08:54:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,215,1531810800"; d="scan'208";a="74074862"
-Received: from rkubodac-desk.ger.corp.intel.com ([10.252.3.112])
-	by orsmga003.jf.intel.com with ESMTP; 09 Aug 2018 08:54:39 -0700
-From: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
-To: <openembedded-core@lists.openembedded.org>
-In-Reply-To: <20180718111747.54105-1-raphael.kubo.da.costa@intel.com> (Raphael
-	Kubo da Costa's message of "Wed, 18 Jul 2018 13:17:47 +0200")
-Organization: Intel Corporation
-References: <20180718111747.54105-1-raphael.kubo.da.costa@intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
-Date: Thu, 09 Aug 2018 17:54:38 +0200
-Message-ID: <874lg3h6wx.fsf@rkubodac-desk.ger.corp.intel.com>
+	Thu,  9 Aug 2018 15:58:50 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id z19-v6so5184385ioh.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Aug 2018 08:58:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=V9g0gWk4UnSAPUUjXTfDzSdf8S5NhvcXcrlFQtCNbzQ=;
+	b=qQh189odUgc/NXz8JYyXOKzXvSMG6J8SKHGp1fDh0Rpq+33cVggE+RZMluNhCie7XE
+	QJ6DCKk0iYiamf360PBCAj7NwyZdQyu83fixReOtm3tpsfO4li6+L/Flesz2rABQunVP
+	Q5X71P11k7r7HRnNMhXiDrHggnqYgBtdHbr09NuPExSu3e5o5TsKZOyKYW9hsu0s9uVB
+	KalUzjHK6FOmEV1SOMGyyKqR6FX9P9OUGmeo5Q07Elh7zUfAuk291v/bVttIc4J412kG
+	AvaHUmcfjX4YTFj7wVDX9OtCPmdbIoeevVDaSOO/hAHJ/lYuIMfTGeeVr3gEkzieKYKd
+	k/rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=V9g0gWk4UnSAPUUjXTfDzSdf8S5NhvcXcrlFQtCNbzQ=;
+	b=QG7jrPrAhgs8E2IhdWiTKAIm8wHgM9D15AWA4e50vNci4BXrwzncdmTu+xBtcM9xDt
+	sJgMW6ri2VZSwfjnTrs+ptBuYK3OQ6Hrc6syJsfmcApF1g4vgb9+YEOX7hYxCcvXDJbX
+	+fiRowcM/f1QPdbQ0qy2qUwzSxhrCVb+3lQ1qj6yewbB7q77l/9H1GLYEIZmssdN1qMY
+	kpu1FrE112Oj978Z2Zqeh7r8CZoN4V4XDuB5xwOc9WCq4KhD1rpe0+DLvKiQhHw9aQlD
+	T/syvqX5m7JBfmraA9KO2VZaHkVw/xpnY6Yi88tdIgxCZifSCnrFthkcmiqpBZ71OUJ2
+	CJag==
+X-Gm-Message-State: AOUpUlElnoPBE4qTpK1OYOKI6Pc26rsLfI6jfOagfvAhnpq3Fxe9wPuM
+	El8fiHCZKvwF/NhHrhqqxhLufGlV/lBmw9VSDLvmKiZE
+X-Google-Smtp-Source: AA+uWPyI7DHl/hGk6dLjD3Ajm2VWC9UDJYwkQq51nl8ymA72BLo2rbT5HnTHiwjjJfoLa0+f20qf5ezRIAyLlz8zYe8=
+X-Received: by 2002:a6b:515:: with SMTP id 21-v6mr2141584iof.135.1533830331083;
+	Thu, 09 Aug 2018 08:58:51 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [pyro][PATCH] gcc: Backport upstream r261799
+Received: by 2002:ac0:92a3:0:0:0:0:0 with HTTP;
+	Thu, 9 Aug 2018 08:58:50 -0700 (PDT)
+From: Mackey ME <mackeyme9@gmail.com>
+Date: Thu, 9 Aug 2018 10:58:50 -0500
+Message-ID: <CAON=kTCVuf87Qh3Gmsn1EvXJsKvwp3FRF5M=YdvbSCpBt5Nhaw@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: upgrade openssl to 1.1.0h (open embedded yocto project)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,23 +51,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2018 15:54:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 09 Aug 2018 15:58:50 -0000
+Content-Type: multipart/alternative; boundary="00000000000007aeaa057302b4b4"
 
-Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com> writes:
+--00000000000007aeaa057302b4b4
+Content-Type: text/plain; charset="UTF-8"
 
-> The upstream commit merges several bug fixes into the GCC 6 branch; we are
-> specifically interested in the fix for GCC bug 83623, which was causing
-> Chromium 68+ to fail to build on ARM and aarch64 with
->
->     In file included from ../../third_party/skia/third_party/skcms/src/Transform.c:176:0:
->     ../../third_party/skia/third_party/skcms/src/Transform_inl.h: In function 'exec_ops':
->     ../../third_party/skia/third_party/skcms/src/Transform_inl.h:459:32: internal compiler error: in convert_move, at expr.c:299
->          v = (U16)( ((v<<8)|(v>>8)) & 0xffff );
->                   ~~~~~~~~~~~~~~~~~~^~~~~~~~~~
->
-> Signed-off-by: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
+ Hi,
 
-Friendly ping. Is there anything else I'd need to go do get this into
-pyro?
+I am writing this email with reference to upgrading openssl to 1.1 in
+open-embedded packages in yocto project.
+I am using older version of open embedded (yocto project version:
+2.3872.08518) for one of my projects and would like to upgrade openssl only.
 
+Please help me identify the dependencies and let me know the changes
+required for a successful upgrade.
+
+I am building this project for linux arm7 platform.
+
+Thanks,
+
+Manoj Enaganti
+
+--00000000000007aeaa057302b4b4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">
+
+<span style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Aria=
+l,sans-serif;font-size:12.8px;text-decoration-style:initial;text-decoration=
+-color:initial;float:none;display:inline">Hi,</span><div style=3D"font-fami=
+ly:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;font-size:1=
+2.8px;text-decoration-style:initial;text-decoration-color:initial"><br styl=
+e=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-ser=
+if"></div><div style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helve=
+tica,Arial,sans-serif;font-size:12.8px;text-decoration-style:initial;text-d=
+ecoration-color:initial">I am writing this email with reference to upgradin=
+g openssl to 1.1 in open-embedded packages in yocto project.</div><div styl=
+e=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-ser=
+if;font-size:12.8px;text-decoration-style:initial;text-decoration-color:ini=
+tial">I am using older version of open embedded (yocto project version: 2.3=
+872.08518) for one of my projects and would like to upgrade openssl only.</=
+div><div style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,A=
+rial,sans-serif;font-size:12.8px;text-decoration-style:initial;text-decorat=
+ion-color:initial"><br style=3D"font-family:Roboto,&quot;Helvetica Neue&quo=
+t;,Helvetica,Arial,sans-serif"></div><div style=3D"font-family:Roboto,&quot=
+;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;font-size:12.8px;text-deco=
+ration-style:initial;text-decoration-color:initial">Please help me identify=
+ the dependencies and let me know the changes required for a successful upg=
+rade.</div><div style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helv=
+etica,Arial,sans-serif;font-size:12.8px;text-decoration-style:initial;text-=
+decoration-color:initial"><br style=3D"font-family:Roboto,&quot;Helvetica N=
+eue&quot;,Helvetica,Arial,sans-serif"></div><div style=3D"font-family:Robot=
+o,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;font-size:12.8px;te=
+xt-decoration-style:initial;text-decoration-color:initial">I am building th=
+is project for linux arm7 platform.</div><div style=3D"font-family:Roboto,&=
+quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;font-size:12.8px;text-=
+decoration-style:initial;text-decoration-color:initial"><br style=3D"font-f=
+amily:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"></div><=
+div style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,=
+sans-serif;font-size:12.8px;text-decoration-style:initial;text-decoration-c=
+olor:initial">Thanks,</div><div style=3D"font-family:Roboto,&quot;Helvetica=
+ Neue&quot;,Helvetica,Arial,sans-serif;font-size:12.8px;text-decoration-sty=
+le:initial;text-decoration-color:initial"><br style=3D"font-family:Roboto,&=
+quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"></div><div style=3D"f=
+ont-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;fon=
+t-size:12.8px;text-decoration-style:initial;text-decoration-color:initial">=
+Manoj Enaganti</div>
+
+<br></div>
+
+--00000000000007aeaa057302b4b4--
