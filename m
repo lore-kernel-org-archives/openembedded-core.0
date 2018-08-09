@@ -1,27 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C904C745D8
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-yw1-f67.google.com (mail-yw1-f67.google.com
+	[209.85.161.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 55FD477AAE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Aug 2018 08:54:27 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w798sKkQ002546
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Thu, 9 Aug 2018 09:54:21 +0100
-Message-ID: <ffa3b6563d20aaea5bf4072af343ef0627106e94.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>, Anuj Mittal
-	<anuj.mittal@intel.com>, openembedded-core@lists.openembedded.org, Paul
-	Eggleton <paul.eggleton@linux.intel.com>
-Date: Thu, 09 Aug 2018 09:54:20 +0100
-In-Reply-To: <9d148729-8b92-e208-ae5d-3432d693affb@windriver.com>
-References: <20180728085316.13484-1-anuj.mittal@intel.com>
-	<9d148729-8b92-e208-ae5d-3432d693affb@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
+	Thu,  9 Aug 2018 09:00:25 +0000 (UTC)
+Received: by mail-yw1-f67.google.com with SMTP id l189-v6so3696664ywb.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Aug 2018 02:00:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=v30kdBqoRWwDPT1yvtOIDf7/deoTqjFzi1eYCFxtgqQ=;
+	b=t0JVkO8xNJ5o8sMp8bS5rNhpJpIArCUD8jOl0B3+S4oc90bbbBwweDEXvhuHzQhwd3
+	qJ1uTZS7HRaVbrCVWF1kGMxUi/o2G6bKRXtdAYni556Gdpzavx4+0Rojsw9IUSxfQWVj
+	3OJr+gpILxpJUm9U04HyiXx8DLLQzuCQNfIlLQ9Qd9P111fVAtI67VdR+HbmNskuCugH
+	Ykfnfk3mAo6rwC2PVSxTIrk5K9UuKSxkl4K9+iIpsgF+89IzSC7y8z/szQVg8OUdieaB
+	NUFrrXUxvBesalprm3Ub6usqpxsLtHSMctsR6l4Qw2A5+gtkejiWJgLYBWvOUzCmU1mJ
+	WR7w==
+X-Gm-Message-State: AOUpUlEOzTgAPmqZY9qfqWLnFg8fu3lq3hMMtGNk4N0IoA/kyyR6BF4P
+	7Qw4xpU10RCBX2JvEd6p3aQ=
+X-Google-Smtp-Source: AA+uWPyP6sF9stSJWu9KdOnqeaW6OdkaxUFVyLvE1uOTZhul8xENf+jXlbDFYCK6w53S1zdR4NDyMw==
+X-Received: by 2002:a25:22c1:: with SMTP id
+	i184-v6mr528706ybi.479.1533805226152; 
+	Thu, 09 Aug 2018 02:00:26 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	z190-v6sm4522867ywz.89.2018.08.09.02.00.24
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 09 Aug 2018 02:00:25 -0700 (PDT)
+Message-ID: <ff0b2cb8ef77a1732c1401c1da0df6162ecb6519.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 09 Aug 2018 10:00:23 +0100
+In-Reply-To: <230ed53b0a05b5ed680ceff2d2004a2ddaa5b351.camel@linuxfoundation.org>
+References: <20180522122553.29109-1-git@andred.net>
+	<230ed53b0a05b5ed680ceff2d2004a2ddaa5b351.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.28.2-1 
 Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] oeqa/selftest: check if rm_work is enabled
+Subject: Re: [PATCH 1/4] sstate: allow specifying indirect dependencies to exclude from sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,121 +52,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2018 08:54:28 -0000
+X-List-Received-Date: Thu, 09 Aug 2018 09:00:25 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2018-08-08 at 13:27 -0400, Randy MacLeod wrote:
-> On 07/28/2018 04:53 AM, Anuj Mittal wrote:
-> > rm_work if enabled leads to some tests failing that rely on
-> > artifacts being present. Check if rm_work.bbclass is included and
-> > show an error and exit if it is.
+On Sun, 2018-06-17 at 14:13 +0100, Richard Purdie wrote:
+> On Tue, 2018-05-22 at 13:25 +0100, André Draszik wrote:
+> > From: André Draszik <andre.draszik@jci.com>
 > > 
-> > Fixes [YOCTO #12694]
+> > Currently, a dependency on any -native recipe will pull in
+> > all dependencies of that -native recipe in the recipe
+> > sysroot. This behaviour might not always be wanted, e.g.
+> > when that -native recipe depends on build-tools that are
+> > not relevant for the current recipe.
 > > 
-> > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> > This change adds a SSTATE_EXCLUDEDEPS_SYSROOT variable,
+> > which will be evaluated for such recursive dependencies to
+> > be excluded. The idea is similar to
+> >    http://lists.openembedded.org/pipermail/openembedded-core/2018-Jan
+> > uary/146324.html
+> > except that the list is not hard-coded anymore.
+> > 
+> > SSTATE_EXCLUDEDEPS_SYSROOT is evaluated as two regular
+> > expressions of recipe and dependency to ignore, e.g. in
+> > the above flex-native / bison-native use-case, one would
+> > specify
+> > 
+> >     SSTATE_EXCLUDEDEPS_SYSROOT = ".*->(flex|bison)-native"
+> > 
+> > in layer.conf.
+> > 
+> > The existing special handling of "-initial" as well as
+> > "base-passwd" and "shadow-sysroot" could also be
+> > streamlined:
+> > 
+> >     SSTATE_EXCLUDEDEPS_SYSROOT += "\
+> >         .*->.*-initial.* \
+> >         .*(base-passwd|shadow-sysroot)->.* \
+> >     "
+> > 
+> > Another anticipated user is meta-java, where certain newer
+> > JDKs can only be bootstrapped (built) using older JDKs,
+> > but it doesn't make much sense to copy all those older
+> > JDKs and their own build tools (ant, etc.) into the
+> > sysroot of recipes wanting to be built using the newer JDK
+> > (only), e.g.:
+> > 
+> >     SSTATE_EXCLUDEDEPS_SYSROOT += "\
+> >         openjdk-8-native->(ant-native|attr-native|coreutils-
+> > native|icedtea7-native|libxslt-native|make-native|openssl-native|zip-
+> > native|unzip-native) \
+> >     "
+> > 
+> > Signed-off-by: André Draszik <andre.draszik@jci.com>
 > > ---
-> >   meta/lib/oeqa/selftest/context.py | 4 ++++
-> >   1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/meta/lib/oeqa/selftest/context.py
-> > b/meta/lib/oeqa/selftest/context.py
-> > index 16812ba96e..3a70f9e77b 100644
-> > --- a/meta/lib/oeqa/selftest/context.py
-> > +++ b/meta/lib/oeqa/selftest/context.py
-> > @@ -187,6 +187,10 @@ class
-> > OESelftestTestContextExecutor(OETestContextExecutor):
-> >               self.tc.logger.error("You have buildhistory enabled
-> > already and this isn't recommended for selftest, please disable it
-> > first.")
-> >               raise OEQAPreRun
-> >   
-> > +        if "rm_work.bbclass" in self.tc.td["BBINCLUDED"]:
-> > +            self.tc.logger.error("You have rm_work enabled which
-> > isn't recommended while running oe-selftest. Please disable it
-> > before continuing.")
-> > +            raise OEQAPreRun
-> > +
-> >           if "PRSERV_HOST" in self.tc.td:
-> >               self.tc.logger.error("Please unset PRSERV_HOST in
-> > order to run oe-selftest")
-> >               raise OEQAPreRun
+> >  meta/classes/sstate.bbclass | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
 > > 
 > 
-> Enabling rm_work should NOT be an error, and eventually it should not
-> trigger any warnings. OEQA should only test the results of a build
-> not how the build was done.
-
-I'm torn on this. My thoughts:
-
-I'd really like the results of oe-selftest to be consistent and
-deterministic. If we expect it to work with and without rm_work we
-really start having to test both, otherwise you can comparatively
-easily find odd failures with one and not the other. I've accidentally
-left it enabled, then puzzled over odd test results for an age on too
-many occasions :(.
-
-I'm still of the view that rm_work is a horrible hack. Its one I've
-bent over backwards to try and keep working over the years[1] since a
-lot of people use it, that doesn't mean its any less of a hack though
-as when you understand what it does and how it does it, it really is
-horrible. 
-([1]I made 26 out of 47 changes to the class in the past 12 years)
-
-If you step back and think about it, the use of rm_work precludes tests
-from poking into WORKDIR or at the very least makes them have to care
-about a lot of very specific task ordering of tasks which may or may
-not be present. It doesn't seem unreasonable for selftests to actually
-look in WORKDIR to ensure builds are doing the correct things.
-
-> I reviewed some of the rm_work related defects:
+> I have some reservations about this series as I've previously mentioned
+> but I had a try at testing it on the autobuilder:
 > 
-> 1. https://bugzilla.yoctoproject.org/show_bug.cgi?id=12647
->    The warning was intentional based on Paul's comment.
+> https://autobuilder.yocto.io/builders/build-appliance/builds/1059/steps/Bu
+> ildImages_1/logs/stdio
 
-There were two issues, one rm_work, the other warning piece isn't an
-issue.
+Thank you Richard.
 
-> 2. https://bugzilla.yoctoproject.org/show_bug.cgi?id=12655
->    The logs seem to only say that the error goes away when
->    rm_work is NOT enabled. I'd prefer to understand what it is
->    that's causing the failure and perhaps add to the packages
->    recipe so that the output passes the OEQA tests.
+I should maybe explain my ultimate goal here:
 
-The issue is that the test looks for an intermediate file in
-WORKDIR/sysroot-destdir. rm_work removes it before the test can find
-it.
+meta-java is completely self-hosted, which is nice. But to be able to
+compile OpenJDK v8, various other Java compilers need to be compiled first.
+This of course means that all those different Java compilers/VMs/runtimes
+and tools needed to compile them end up in each Java recipe's sysroot.
 
-> 3. https://bugzilla.yoctoproject.org/show_bug.cgi?id=12694
->    Title was: oe-selftest should warn if rm_work is enabled
->    but the commit makes it an error.
+While in theory this is fine, and all of them can be installed in parallel,
+as everything resides below subdirectories in /usr/lib/jvm/... and
+usr/bin/java normally is a symlink to the default chosen via update-
+alternatives, this doesn't work in yocto for -native recipes.
+
+In particular this is annoying, because 'usr/bin/java' in the recipe sysroot
+is a *very* old version of java, with no possibility of control.
+
+This has caused me a bit of headache, and if it was possible to avoid all
+the recursive OpenJDK-8 build time dependencies then:
+* usr/bin/java could disappear (for -native)
+* tools inherited from the OpenJDK-8 build can be avoided during other
+  recipe builds
+
+In other words, as a follow-up to this series here I have a local meta-java
+change to meta-java's layer.conf:
+
+SSTATE_EXCLUDEDEPS_SYSROOT += "\
+    openjdk-8-native->(ant-native|attr-native|coreutils-native|icedtea7-native|libxslt-native|make-native|openssl-native|zip-native|unzip-native) \
+"
+
+This really is a similar situation to *-initial treatment in sstate.bbclass,
+but for Java / OpenJDK.
+
+
+So rather than having to add knowledge about Java / OpenJDK into
+sstate.bbclass, I need a way to inject that instead.
+
+
+Given the above, would you be happy to consider a series where the
+infrastructure is put in place, but without the flex-native and bison-native 
+changes? I.e. patches 1 through 3, but not patch 4 of this series? (With
+your previous review comments addressed, of course).
+
+
+> Basically binutils-cross is bust with errors like:
 > 
-> Any disagreement about making it be a warning?
+> > x86_64-poky-linux-ar: error while loading shared libraries: libfl.so.2:
+> > cannot open shared object file: No such file or directory
+> > make[5]: *** [libaudio_resampler_sse.la] Error 127
 > 
-> rm_work saves lots of storage space so I'm reluctant to make
-> OEQA require that it is NOT used.
+> There are a ton of other failures, I've not waded through them but I'm
+> guessing there are similar issues.
 
-We're not requiring OEQA not use it globally, we're requiring oe-
-selftest not enable it. The other OEQA components (image, SDK, eSDK
-tests) all are unaffected.
+I am not sure why I didn't see these in my builds before submitting, but now
+I do, too.
 
-As things stand today several tests break with it. I've no doubt we
-could 'fix' them in some way to avoid the problems but do we require
-any new test author to test with and without rm_work? Do we start
-requiring the autobuilder test both combinations?
+It looks like the cross binutils-native (or more specifically cross -ar)
+dynamically links against libflex-native. So the last patch in this series
+is of course responsible for that.
 
-When the user runs oe-selftest, I really want them to get the same
-results as our autobuilder so we're consistent everywhere. We've had
-numerous problems in that regard, e.g. buildhistory enabled/not enabled
-and I think its reasonable for the code to check for things which are
-known to introduce inconsistency? We have made a lot of progress in
-being much more consistent.
+Comparing to my debian, ar isn't dynamically linked against libflex, I
+wonder why yocto does it, or why debian doesn't.
+
+In any case my builds succeed now by dropping the flex-native from patch 4
+of this series. Alternative would be to switch to static linking for
+libflex. But see above.
+
 
 Cheers,
-
-Richard
-
-
-
+Andre'
 
 
