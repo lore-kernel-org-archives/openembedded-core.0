@@ -1,47 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 44CE478E6A
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1847078DE7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Aug 2018 12:16:58 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id c14-v6so6155625wmb.4
+	Thu,  9 Aug 2018 12:26:50 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id b15-v6so9410578oib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Aug 2018 05:16:59 -0700 (PDT)
+	Thu, 09 Aug 2018 05:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=c+7OCArL5Fh+bM3VQC7ToFHoV6OwqtFfu6QYZyOr19g=;
-	b=XqaKtKcvMSnceB3z8JQuuuJMcK0HqLLAHEMwfdjfP4FydVb0sW2sT3CJjKAp/EBCFd
-	5pTzotg5dVYcg0sO+tcW7N1hGM5HO4Qkgd25YpCDwE+EMMgROZ7nUh2BGff+5e1aXeiC
-	eP9NvNz2bsvuNUhIvjLbV6gvK3RFlLsn5no0h6uUXbWovGyZ0nOa37rhblWQ+4XAgBpG
-	AZ8I7gf/6Tr52FvG4tSxwIGMUytTnPKERH74t7gmlWM95UdlNm0TKgkqjTOcDvOs3Z4t
-	QyEmBjl0kBFba4N1eogdUs43/BfOeQFveFMwyUPfltL+31mTSjLel15ckfFKdMwkQCTf
-	FDSA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=FVleEP22pNoeBh/y+CNjLhah2thLyFKfNS4lXL/0vUQ=;
+	b=pL5hKJsmf6IjPTuiqR9daHZAdEmA9Fq0RAHW4TYunDYZk5PGt6z2PYcCxzk+VHB+oD
+	p6lQHGnwkR2nxZczmyX2XUQsyDmAQKDSBc1KzdrSLDajMfqJN6ye1MpHpm8oPFuQ7hWw
+	Pr6ZeL5ZFW48QseHUwQER+TOS2cm6T4QU/X703hI08S9ZfD4CRigyJEvfnEdcRlPmIIm
+	BjQctueWy/3ekstsUSbVzKKOB3uktkO7zj3pv24BM3SPEru74xXwL0J5Pyo1lpmMaoM+
+	HWgAYEHbHc0yPytGWgxFnE0tBFXxRV6Sv5fkbgKMOiv7S/Re2HNHTCn747PScWoW9ODx
+	BCwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=c+7OCArL5Fh+bM3VQC7ToFHoV6OwqtFfu6QYZyOr19g=;
-	b=NuydWMgG0x39IwiSlq3FvAKNKW1ddOv/ZTwl/81x1KDbHfo7URI+FGRCdzl4CNeQP6
-	iDy6PH0UXzKEAQqIddOnSlYqkA2twLP7j72OtttaWgxwGN+CwjqjfTiJZq35OLSuE04c
-	8DuKoQlPMDPNb5+Rdi/G+Mg7W4JVQcmFwxApTfooyykfCoGEjgT/3nr3bDqbAOm9uQXD
-	K/4Y+/b491tMgJJobCCNl11lYYmeQ4H4cppo/97D1aiTiUCubsl6EHUqxpoupefR8kqd
-	v5JFAyrqoMx7vMyxaCTyHlauxE5zZCX7mrVIIo6krygYb4XBc0rWeV68EH713zaCp0eY
-	D+xA==
-X-Gm-Message-State: AOUpUlEkwzmv/pWNPXNm1xkZsC6I1bgsnmuuc94nuZM/n5KHuXVTH/vN
-	mYYCRuQZeLR1vwX8xV9w5jcdhA3o
-X-Google-Smtp-Source: AA+uWPxFep2cFy2NR0bgxxqirjXzXY7OWxJD6BEZz5d0m3uf8oUhzC5qgAJ6sy84934T7qgKs6F1gg==
-X-Received: by 2002:a1c:3663:: with SMTP id
-	d96-v6mr1536551wma.92.1533817018977; 
-	Thu, 09 Aug 2018 05:16:58 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	b10-v6sm5047948wrr.88.2018.08.09.05.16.58
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 Aug 2018 05:16:58 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Aug 2018 12:16:59 +0000
-Message-Id: <20180809121659.7372-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] dropbear.inc: add dependency on virtual/crypt to fix build with glibc-2.28
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=FVleEP22pNoeBh/y+CNjLhah2thLyFKfNS4lXL/0vUQ=;
+	b=ht/0FD8Z3gTlbGwUs4FNyh/yvadZACMQxCjINX0RwNv74JkSZ2RQ/SrdhgtYhs3YvC
+	G1HZRYIfbjVwMw1q4KCEQRTaBH+UCv3Ay4unX4WBC82lwbjfVTZ2BVn3z027OK1vqjuC
+	m8Stck0lNtx5mkes/+Q6R74pyNSNqgEiB9qrhYKIhKY4zzol9Sdg5clnN0TD7piqmj3y
+	gGxsL+IuKv7MbuM7axpJCC+h9sHnxtlS37XyhpT1G17vf6XdUY0UCoUXQEyX0yqT2fZw
+	hR3LDZSt2bTaTDtX49s3EzEQQMXfaj4sIDoByuJHPDPk34ji3LR1VrB+i0EInjIzKf+L
+	4Rog==
+X-Gm-Message-State: AOUpUlGW8AEuAODep1LtbUG6Y+HVijTUVqAjTL3QfhUg6R7MQirRvpLX
+	gRvMfuMvE8kYb15lkd5xTYG7dLVxzIT7ytHeqKY=
+X-Google-Smtp-Source: AA+uWPxFBZLLI2gjEFEekSGRg6LSCFHzVezsrtw0ijVWIGDyYDp4J8B+RKZh5922tPZpVuL6WQjHMdjtapZ9/iPOIAA=
+X-Received: by 2002:aca:5754:: with SMTP id
+	l81-v6mr2084377oib.100.1533817612024; 
+	Thu, 09 Aug 2018 05:26:52 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP;
+	Thu, 9 Aug 2018 05:26:51 -0700 (PDT)
+In-Reply-To: <CADySD0EZ05doNyBhkT6v3K4ibTVp5wtXJ2zY9YwYWGri_n5QOw@mail.gmail.com>
+References: <CADySD0EZ05doNyBhkT6v3K4ibTVp5wtXJ2zY9YwYWGri_n5QOw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 9 Aug 2018 14:26:51 +0200
+Message-ID: <CANNYZj-vkpQjMoNy6JeKXp46Ghb-+waaYgVC+8fdNwHGifmzoA@mail.gmail.com>
+To: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: How to upgrade Qt modules in daisy branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,52 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2018 12:16:58 -0000
+X-List-Received-Date: Thu, 09 Aug 2018 12:26:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-configure tests crypt() existence with:
+2018-08-09 12:10 GMT+02:00 Ankur Tyagi <ankur.tyagi85@gmail.com>:
+> Our product is based upon 'daisy' branch (I know it's pretty old !) and now
+> we have a need to support BLE in it (typical business case).
+>
+> My inner-self says it's the right time to upgrade everything but from
+> business unit point of view, best would be to upgrade "just enough" to get
+> BLE working.
+>
+> So I upgraded Bluez4.101 to Bluez5.46 which went well but when I started
+> upgrading QtConnectivity from v5.4.1 to v5.11.0 then things started falling
+> apart.
+>
+> It seems from v5.8 onward, Qt adopted new configuration system which is
+> causing configuration and compilation failures when building QtConnectivity.
+> Following change in recipe doesn't work.
+>
+> -PACKAGECONFIG[bluez] = "CONFIG+=OE_BLUEZ_ENABLED,,bluez4"
+> +PACKAGECONFIG[bluez] = "-feature-bluez,-no-feature-bluez,bluez5"
+>
+>
+> Is there a way I can upgrade QtConnectivity to v5.11 while staying on daisy
+> branch ? Or is it just not possible to do so ?
+>
+> Any help is appreciated.
 
-dnl We test for crypt() specially. On Linux (and others?) it resides in libcrypt
-dnl but we don't want link all binaries to -lcrypt, just dropbear server.
-dnl OS X doesn't need -lcrypt
-AC_CHECK_FUNC(crypt, found_crypt_func=here)
-AC_CHECK_LIB(crypt, crypt,
-        [
-        CRYPTLIB="-lcrypt"
-        found_crypt_func=here
-        ])
-AC_SUBST(CRYPTLIB)
-if test "t$found_crypt_func" = there; then
-AC_DEFINE(HAVE_CRYPT, 1, [crypt() function])
-fi
+Staying close to upstream should be a continuous, ongoing activity,
+and not a massive, disruptive effort when it's already too late :)
 
-but that silently fails with glibc-2.28 and a bit later do_compile fails with;
-http://errors.yoctoproject.org/Errors/Details/185895/
+As for your specific need, it's basically not possible to tell what
+you will need to fix and change. Recent version of Qt may need recent
+versions of other things they depend on, and those recent other things
+may pull in even more other recent things. They may even need a recent
+C++ compiler which supports recent C++ standard, and when you bring in
+that compiler, you will find that there's a ton of other things that
+compiled before and need fixing now. The whole thing may quickly
+unravel and become intractable - essentially you'll be upgrading the
+whole stack while still calling it 'daisy'.
 
-../dropbear-2018.76/sysoptions.h:237:3: error: #error "DROPBEAR_SVR_PASSWORD_AUTH requires `crypt()'."
-  #error "DROPBEAR_SVR_PASSWORD_AUTH requires `crypt()'."
-   ^~~~~
-
-Add dependency on virtual/crypt so that do_configure detects it correctly.
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/dropbear/dropbear.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 2e2fbc15af..b634e0e53e 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -7,7 +7,7 @@ SECTION = "console/network"
- LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a5ec40cafba26fc4396d0b550f824e01"
- 
--DEPENDS = "zlib"
-+DEPENDS = "zlib virtual/crypt"
- RPROVIDES_${PN} = "ssh sshd"
- 
- DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
--- 
-2.17.1
-
+Alex
 
