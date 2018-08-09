@@ -1,47 +1,51 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 86A9974FD5
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A25B78DF9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Aug 2018 11:44:54 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id w24-v6so6091264wmc.1
+	Thu,  9 Aug 2018 11:44:57 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id u12-v6so4879435wrr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Aug 2018 04:44:55 -0700 (PDT)
+	Thu, 09 Aug 2018 04:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=fk8evmXA2LQNXzC51Qh/K/5LHb+0b5L4o9JFgSaY+uM=;
-	b=ncup8BfurPNlK6VqVbsimRnDbkDGYHEAYgUCzlbOoVsJLNOvnmr9K9QwfsSlp/PZY1
-	9FoVrD5Ulu3AjNXgQKJhNqwEgzR9/46Ji7lqH4QloLuElwamzF44zbKeo4UvRNJhE2US
-	ltr9mbzBV5cy3dRQvZzQmiKiKN46ilPDg5egFVI39KVhIEnPV8F7v11w/oe9JTVW5Lf3
-	VAYJLQE1DhEwADkzG1qg9uiJJ9BFFM03vbAJV81i9V1lBuWhTXcfKwqQoMO9kdEVRiZs
-	shcsm6ShQeyJUWrQHkVaAWq0h8gja2gStp8AoBXNO17MsgCThp5hPublDeqHVNLsdg+w
-	N2iw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=sarq7lkz08zwqD5hpyYo1TRROR6x36jYeIH9IUMQMKA=;
+	b=tZJHjcg+I17RvLqAqi2/DGPfYuWse83+AyIwvFGty4iBoMZby6l10pWYD0L3aFjOt6
+	FyV0CAAIO6i16FrwabfZ2V6C9eNavEdGlYxpDY9kI29TO/1gFRDXnP4JbHFvzREJHMm/
+	Xw2sllcvl6ol7226csoHPFXiKYWZgW0+TEE5OcyZ4LMB9Hw91GEJ1GU6/sN+LcIiKH2R
+	M4kWhVGv3hnRyR6+0v/Xh00SL0M2dMpPeGB4e2RI8qUy4pBi6QY2GwFSw16/ymcMSB9O
+	lfG/mc2SwampbYaDViwTfVF8qrVU01s/bcwQX2O3IpiEX0dWYAWeo7dQqLixgvDqFndi
+	lqiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=fk8evmXA2LQNXzC51Qh/K/5LHb+0b5L4o9JFgSaY+uM=;
-	b=BWzCWpyjb9vmun/TWn35bmmLPujhybpYPCajV5HPFNezWkPdlBWsR22y0laWgKw3wH
-	VJgjdLWdnPu07b8pCChLx6IDiOTvHpJTuPdWF8rngjar7wUgInGq5563cRRcec2oJ8IL
-	/tmvzsPPZhvw48gvMHDfVoucnT1mh/I9/LYARR1CUs5CGiEnI8h+ZgisQBywSTzHSyuO
-	oslV08HLhhIAmkQHG5/rbFi2kMoh0Aw1YjgxAswaT30kMJ+cqviXieefwhHWki/oCX5j
-	TBeDIE8HWuT5vGFHepllVdgJ0gn+yXVhzj7NJ7t3Pre91hW3LbgOiZTXg5yPpuJ14nXm
-	woTg==
-X-Gm-Message-State: AOUpUlHh08SSuArRywxz1IpSERwYbGdeJo8mJuqlk11c+zpQ1eCdM8kP
-	jU4hatBTHFWMFvAnQbvlYmQwFCOy
-X-Google-Smtp-Source: AA+uWPxR0e7muHxynQMIBkPhBIa/RU9gYbKgvNUVTLJacugfuwBp4GhfIqPn4Z4AIJ1AYYh0yD+73Q==
-X-Received: by 2002:a1c:93d2:: with SMTP id
-	v201-v6mr1352359wmd.77.1533815095122; 
-	Thu, 09 Aug 2018 04:44:55 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=sarq7lkz08zwqD5hpyYo1TRROR6x36jYeIH9IUMQMKA=;
+	b=pN26jIOA+n+AAuLnDtd2VYPPEhsievC7B2LJOp3gY2nv/gL+3pUocsM1H37j+26rfz
+	o5tMA2lICa5D6hSnDgHnTAvSY0uUBXMr08qnOVDa6s8oX8LVDHb12zOXyM0LC79/XFZT
+	hf2u/7Lxdmut6YBCUNLdrourSvuJlRVbI5aX5JhnX//a4w0B8whCNdgW9Xb0v7qFFZ0j
+	4PtAYhCY/wGoDKNipoyEJrXA56KZVRvamg0xFavNyNNHZUESt2Ol+gyueNEU5oMGg7V/
+	h/SqnSLhWy2s0GboXi3RZ1+Pc7f8H9BtFhrfvu2ko30MB2RiAmRUXabGr6EQt7saAu2Z
+	sCSQ==
+X-Gm-Message-State: AOUpUlFvkPzECA0/5nNl3dEtmLkD1/SlaCjc5JmZokeAaiYlsCmUzQ7q
+	zWJb8EAY6qSRzwLLjxsIOWHdG7aG
+X-Google-Smtp-Source: AA+uWPz5IkIsXos6Tmbk9DsUjvsH2hoLkhFxT1bVRmUR9Zha7DEl4nn16V2WwDq9ZiCteXNAqI98Hg==
+X-Received: by 2002:adf:9bc9:: with SMTP id
+	e9-v6mr1306868wrc.240.1533815097804; 
+	Thu, 09 Aug 2018 04:44:57 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	u7-v6sm11489294wmd.46.2018.08.09.04.44.53
+	p14-v6sm10851367wru.0.2018.08.09.04.44.56
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 Aug 2018 04:44:53 -0700 (PDT)
+	Thu, 09 Aug 2018 04:44:57 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Aug 2018 11:44:46 +0000
-Message-Id: <20180809114448.26411-1-Martin.Jansa@gmail.com>
+Date: Thu,  9 Aug 2018 11:44:47 +0000
+Message-Id: <20180809114448.26411-2-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/3] go(-dep): add INSANE_SKIP for textrel
+In-Reply-To: <20180809114448.26411-1-Martin.Jansa@gmail.com>
+References: <20180809114448.26411-1-Martin.Jansa@gmail.com>
+Subject: [PATCH 2/3] glide: add INSANE_SKIP for textrel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,55 +58,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2018 11:44:54 -0000
+X-List-Received-Date: Thu, 09 Aug 2018 11:44:57 -0000
 
-* I'm not using go or go-dep, so I'm not going to fix it proplerly,
+* I'm not using glide, so I'm not going to fix it proplerly,
   it was just bothering me in world builds
 * this is reproducible only with ptest in DISTRO_FEATUREs (for aarch64
   issue) and included security_flags.inc, more specifically with the PIE
   flags, so alternative work around is:
-  SECURITY_CFLAGS_pn-go = "${SECURITY_NOPIE_CFLAGS}"
-  SECURITY_CFLAGS_pn-go-dep = "${SECURITY_NOPIE_CFLAGS}"
+  SECURITY_CFLAGS_pn-glide = "${SECURITY_NOPIE_CFLAGS}"
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/go/go-dep_0.4.1.bb | 10 ++++++++++
- meta/recipes-devtools/go/go_1.9.bb       |  7 +++++++
- 2 files changed, 17 insertions(+)
+ meta/recipes-devtools/glide/glide_0.13.1.bb | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/meta/recipes-devtools/go/go-dep_0.4.1.bb b/meta/recipes-devtools/go/go-dep_0.4.1.bb
-index d82e637205..10af1d660c 100644
---- a/meta/recipes-devtools/go/go-dep_0.4.1.bb
-+++ b/meta/recipes-devtools/go/go-dep_0.4.1.bb
-@@ -18,3 +18,13 @@ GO_INSTALL = "${GO_IMPORT}/cmd/dep"
- RDEPENDS_${PN}-dev += "bash"
+diff --git a/meta/recipes-devtools/glide/glide_0.13.1.bb b/meta/recipes-devtools/glide/glide_0.13.1.bb
+index 1a5b145cf3..ba076d2bb7 100644
+--- a/meta/recipes-devtools/glide/glide_0.13.1.bb
++++ b/meta/recipes-devtools/glide/glide_0.13.1.bb
+@@ -13,3 +13,23 @@ RDEPENDS_${PN}-dev += "bash"
+ RDEPENDS_${PN}-ptest += "bash"
  
  BBCLASSEXTEND = "native nativesdk"
 +
 +# for x86 ends with textrel in ${PN}
-+# http://errors.yoctoproject.org/Errors/Details/185630/
-+# ERROR: QA Issue: ELF binary '/work/i586-oe-linux/go-dep/0.4.1-r0/packages-split/go-dep/usr/bin/dep' has relocations in .text [textrel]
++# http://errors.yoctoproject.org/Errors/Details/185631/
++# ERROR: QA Issue: ELF binary '/work/i586-oe-linux/glide/0.13.1-r0/packages-split/glide/usr/bin/glide' has relocations in .text [textrel]
 +INSANE_SKIP_${PN} += "textrel"
 +
 +# for aarch64 ends with textrel in ${PN}-ptest
-+# http://errors.yoctoproject.org/Errors/Details/185632/
-+# ERROR: QA Issue: ELF binary '/work/aarch64-oe-linux/go-dep/0.4.1-r0/packages-split/go-dep-ptest/usr/lib/go-dep/ptest/github.com/golang/dep/cmd/dep/dep.test' has relocations in .text [textrel]  
++# http://errors.yoctoproject.org/Errors/Details/185633/
++# ERROR: QA Issue: ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/glide.test' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/dependency/dependency.test' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/repo/repo.test' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/mirrors/mirrors.test' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/cfg/cfg.test' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/godep/strip/strip.test' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/path/path.test' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/tree/tree.test' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/util/util.test' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/action/action.test' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/cache/cache.test' has relocations in .text [textrel]
 +INSANE_SKIP_${PN}-ptest += "textrel"
-diff --git a/meta/recipes-devtools/go/go_1.9.bb b/meta/recipes-devtools/go/go_1.9.bb
-index ec5a314e7d..7da7897cf5 100644
---- a/meta/recipes-devtools/go/go_1.9.bb
-+++ b/meta/recipes-devtools/go/go_1.9.bb
-@@ -15,3 +15,10 @@ do_compile() {
- 	./make.bash
- 	cd ${B}
- }
-+
-+# for aarch64 ends with textrel in ${PN}
-+# http://errors.yoctoproject.org/Errors/Details/185634/
-+# ERROR: QA Issue: ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/bin/go' has relocations in .text
-+# ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/pkg/tool/linux_arm64/trace' has relocations in .text
-+# ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/pkg/tool/linux_arm64/pprof' has relocations in .text [textrel]
-+INSANE_SKIP_${PN} += "textrel"
 -- 
 2.17.1
 
