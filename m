@@ -1,46 +1,47 @@
 Return-Path: <martin.jansa@gmail.com>
 Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EF1D78AF2
+	by mail.openembedded.org (Postfix) with ESMTP id 44CE478E6A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Aug 2018 12:14:40 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id y9-v6so40691wma.5
+	Thu,  9 Aug 2018 12:16:58 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id c14-v6so6155625wmb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Aug 2018 05:14:42 -0700 (PDT)
+	Thu, 09 Aug 2018 05:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=g5Bc7vM2JTAbU3VswWC5RP3+S+xaPXxAdc31oqSrOOE=;
-	b=nWVPxY1IS6qkeo2EHL2DAazc3r6uj00IkxwPgS2P5h6n1SV8a3NpWlCANI0YBXbWUA
-	5pFDzAt85CBhEoi+zk1nP+g9DlTA1XWMyJMnBaC6uQd0mhFvJMVYloLenlpFRXFIeJc+
-	6Jl5sCOvI/LzBxoF2+JWVSSK4A2CyO3ehxA3LJqXODP6kCbplo1eSYtuPn41kqZEl71t
-	cSP36YU0OQLPPMmQdqf/T868JFp7EPGukzYPcDn/I5wDapwLJNbB6a2Nb+uPk2exkocV
-	Z8a0rM2aSzgQ9OnnmsZcdmqjIEgOL+DBMCazIswSA+BZwG3Lpxwy67UkbVze/T7DZh0T
-	naWA==
+	bh=c+7OCArL5Fh+bM3VQC7ToFHoV6OwqtFfu6QYZyOr19g=;
+	b=XqaKtKcvMSnceB3z8JQuuuJMcK0HqLLAHEMwfdjfP4FydVb0sW2sT3CJjKAp/EBCFd
+	5pTzotg5dVYcg0sO+tcW7N1hGM5HO4Qkgd25YpCDwE+EMMgROZ7nUh2BGff+5e1aXeiC
+	eP9NvNz2bsvuNUhIvjLbV6gvK3RFlLsn5no0h6uUXbWovGyZ0nOa37rhblWQ+4XAgBpG
+	AZ8I7gf/6Tr52FvG4tSxwIGMUytTnPKERH74t7gmlWM95UdlNm0TKgkqjTOcDvOs3Z4t
+	QyEmBjl0kBFba4N1eogdUs43/BfOeQFveFMwyUPfltL+31mTSjLel15ckfFKdMwkQCTf
+	FDSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=g5Bc7vM2JTAbU3VswWC5RP3+S+xaPXxAdc31oqSrOOE=;
-	b=iFPnCQJaYih4TPcEaudMbNvVBoZN5I1UVXI509Gv/sOe4OElWzFCdZaRV/pY9HCl+q
-	3ie8xO9MxzPf3m+f7FnDPenNJ6c0uy4wbam5G++82dcWQupGmtZ8DBaPTggGh5ucIPiq
-	YIBMnFThtrITuC5lLrhJsJfKM9yMxESq+yLtLNmwRqhE8e2SI0QOii+OZL8NaqFUzhYB
-	y98sJXWZiqeMDh7PGFp5inbgL2u+syuo5/TYAY7eMOgP9bn40KYjHbP3CpRHtgw5ftAu
-	nJfgctg+scgX/QSAyVdqxlLmkdlh2X2wDPeX3s46+oVTO1MmccRSN9iK9mhAock/aSdy
-	Ujlw==
-X-Gm-Message-State: AOUpUlHWS9cBDbStehZs93chi8tfwnN89H75B1wMV0IDBm0JBHmE11Jc
-	EL0s71+GFckj5lHXOGOzbcx6psBk
-X-Google-Smtp-Source: AA+uWPwrAnakwEOK2Y6BcJVUrfVWo+d4G6i3erQ6JMtk2Am2zN1aFyDX67b1sIjUro5AT7QO5agxHw==
-X-Received: by 2002:a1c:90e:: with SMTP id 14-v6mr1480964wmj.130.1533816881675;
-	Thu, 09 Aug 2018 05:14:41 -0700 (PDT)
+	bh=c+7OCArL5Fh+bM3VQC7ToFHoV6OwqtFfu6QYZyOr19g=;
+	b=NuydWMgG0x39IwiSlq3FvAKNKW1ddOv/ZTwl/81x1KDbHfo7URI+FGRCdzl4CNeQP6
+	iDy6PH0UXzKEAQqIddOnSlYqkA2twLP7j72OtttaWgxwGN+CwjqjfTiJZq35OLSuE04c
+	8DuKoQlPMDPNb5+Rdi/G+Mg7W4JVQcmFwxApTfooyykfCoGEjgT/3nr3bDqbAOm9uQXD
+	K/4Y+/b491tMgJJobCCNl11lYYmeQ4H4cppo/97D1aiTiUCubsl6EHUqxpoupefR8kqd
+	v5JFAyrqoMx7vMyxaCTyHlauxE5zZCX7mrVIIo6krygYb4XBc0rWeV68EH713zaCp0eY
+	D+xA==
+X-Gm-Message-State: AOUpUlEkwzmv/pWNPXNm1xkZsC6I1bgsnmuuc94nuZM/n5KHuXVTH/vN
+	mYYCRuQZeLR1vwX8xV9w5jcdhA3o
+X-Google-Smtp-Source: AA+uWPxFep2cFy2NR0bgxxqirjXzXY7OWxJD6BEZz5d0m3uf8oUhzC5qgAJ6sy84934T7qgKs6F1gg==
+X-Received: by 2002:a1c:3663:: with SMTP id
+	d96-v6mr1536551wma.92.1533817018977; 
+	Thu, 09 Aug 2018 05:16:58 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	b22-v6sm12037826wme.48.2018.08.09.05.14.40
+	b10-v6sm5047948wrr.88.2018.08.09.05.16.58
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 Aug 2018 05:14:40 -0700 (PDT)
+	Thu, 09 Aug 2018 05:16:58 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Aug 2018 12:14:41 +0000
-Message-Id: <20180809121441.7191-1-Martin.Jansa@gmail.com>
+Date: Thu,  9 Aug 2018 12:16:59 +0000
+Message-Id: <20180809121659.7372-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCHv2] perf: inherit manpages instead of adding man to RDEPENDS_${PN}-doc
+Subject: [PATCH] dropbear.inc: add dependency on virtual/crypt to fix build with glibc-2.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,34 +54,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2018 12:14:41 -0000
+X-List-Received-Date: Thu, 09 Aug 2018 12:16:58 -0000
+
+configure tests crypt() existence with:
+
+dnl We test for crypt() specially. On Linux (and others?) it resides in libcrypt
+dnl but we don't want link all binaries to -lcrypt, just dropbear server.
+dnl OS X doesn't need -lcrypt
+AC_CHECK_FUNC(crypt, found_crypt_func=here)
+AC_CHECK_LIB(crypt, crypt,
+        [
+        CRYPTLIB="-lcrypt"
+        found_crypt_func=here
+        ])
+AC_SUBST(CRYPTLIB)
+if test "t$found_crypt_func" = there; then
+AC_DEFINE(HAVE_CRYPT, 1, [crypt() function])
+fi
+
+but that silently fails with glibc-2.28 and a bit later do_compile fails with;
+http://errors.yoctoproject.org/Errors/Details/185895/
+
+../dropbear-2018.76/sysoptions.h:237:3: error: #error "DROPBEAR_SVR_PASSWORD_AUTH requires `crypt()'."
+  #error "DROPBEAR_SVR_PASSWORD_AUTH requires `crypt()'."
+   ^~~~~
+
+Add dependency on virtual/crypt so that do_configure detects it correctly.
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-kernel/perf/perf.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-core/dropbear/dropbear.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 2c6bbb42b9..ccd2c7d11b 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -39,7 +39,7 @@ do_configure[depends] += "virtual/kernel:do_shared_workdir"
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 2e2fbc15af..b634e0e53e 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -7,7 +7,7 @@ SECTION = "console/network"
+ LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a5ec40cafba26fc4396d0b550f824e01"
  
- PROVIDES = "virtual/perf"
+-DEPENDS = "zlib"
++DEPENDS = "zlib virtual/crypt"
+ RPROVIDES_${PN} = "ssh sshd"
  
--inherit linux-kernel-base kernel-arch
-+inherit linux-kernel-base kernel-arch manpages
- 
- # needed for building the tools/perf Python bindings
- inherit ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'pythonnative', '', d)}
-@@ -247,7 +247,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
- 
- RDEPENDS_${PN} += "elfutils bash"
--RDEPENDS_${PN}-doc += "man"
- RDEPENDS_${PN}-archive =+ "bash"
- RDEPENDS_${PN}-python =+ "bash python python-modules ${@bb.utils.contains('PACKAGECONFIG', 'audit', 'audit-python', '', d)}"
- RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
+ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
 -- 
 2.17.1
 
