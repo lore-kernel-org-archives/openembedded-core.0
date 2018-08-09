@@ -1,43 +1,47 @@
-Return-Path: <ankur.tyagi85@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C72274586
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 86A9974FD5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Aug 2018 10:10:34 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id j205-v6so8893837oib.4
+	Thu,  9 Aug 2018 11:44:54 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id w24-v6so6091264wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Aug 2018 03:10:35 -0700 (PDT)
+	Thu, 09 Aug 2018 04:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=30WaRz73Ah4ZFXe0LRLH2fXg0CESlicl9haXqS4euCo=;
-	b=QfQYMywqZQhNUL99ACA+46twgGcQ3mpwyn0GK83+4HSVeGUp4sRvyS5DZJ+PogYQcl
-	Z3IYULKW21F0s3TYho64ZcPJoY+e2wVbMXyTIL1qs8f9MEBRtat//Sg5Dhz8UB3CW3pd
-	4Xb7ajaY5vNdOVgH0laH4NotypB7l/qhTtDq+teT6PXUa8P4RDDCnLhS0bISjvW3w/zF
-	N/i18d8S4BFF+zAzd0HlI7VeGmgol+VnlZMXcYvUuR8pqoiGs4QjAkV4hcWRfwZNU3ty
-	bP9aO6GrKEKauwqbneZjDh4MpT2deq/Xd2Gta4Rfwy8FM1krMCkIhqdaC6CtCv05MuwQ
-	Qh5w==
+	h=from:to:cc:subject:date:message-id;
+	bh=fk8evmXA2LQNXzC51Qh/K/5LHb+0b5L4o9JFgSaY+uM=;
+	b=ncup8BfurPNlK6VqVbsimRnDbkDGYHEAYgUCzlbOoVsJLNOvnmr9K9QwfsSlp/PZY1
+	9FoVrD5Ulu3AjNXgQKJhNqwEgzR9/46Ji7lqH4QloLuElwamzF44zbKeo4UvRNJhE2US
+	ltr9mbzBV5cy3dRQvZzQmiKiKN46ilPDg5egFVI39KVhIEnPV8F7v11w/oe9JTVW5Lf3
+	VAYJLQE1DhEwADkzG1qg9uiJJ9BFFM03vbAJV81i9V1lBuWhTXcfKwqQoMO9kdEVRiZs
+	shcsm6ShQeyJUWrQHkVaAWq0h8gja2gStp8AoBXNO17MsgCThp5hPublDeqHVNLsdg+w
+	N2iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=30WaRz73Ah4ZFXe0LRLH2fXg0CESlicl9haXqS4euCo=;
-	b=Kcn6VRV7CDaoxjKh7pb7GRqE/Qgm7AKrY6RlL7FXH7MJauBtEMraWI/1ZXvnpGUc5g
-	/bOVmETgtRf4JYK+uypLMaaAVcaUirDFNW8jP91HMcvUTpX/kYpYw80WDV1PegoHrQpa
-	VTcbeT/qS7phlu89t9CZgZEDT4GU7q+FU0xyLd7+spfX8t7W2rHUiWEel3iI+O4GfAHa
-	gO4QDQ1gS/DpWt7T5GmS6jWlK2tD4+QnIDvD92B3ypyCb6h7IKLgec2M9ct7gdZ2W+on
-	D4An92l8fRehJ6bXZFan0e2cJChCkDcyKh6rI+JVrlWJRYsAUE/qxAkjn167M3QklVCU
-	1MNw==
-X-Gm-Message-State: AOUpUlFeFUXmdNjR4Z2c151k7lBaZF5+8MgH0jRGzCRXzl6ziXjwkr02
-	pjftHw66Nc93XUyPSWSznBqCBo/oLzb5fA67kkwFOxKU
-X-Google-Smtp-Source: AA+uWPyMUXOcbzfUC1z0nVEH80Whn2yIxnopMQOTE/j+zDsF7CT7e9m2H3On+WUR+JDjkGdAshvrY64QWz3RUyJwDiw=
-X-Received: by 2002:aca:c40e:: with SMTP id
-	u14-v6mr1333746oif.288.1533809435112; 
-	Thu, 09 Aug 2018 03:10:35 -0700 (PDT)
-MIME-Version: 1.0
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Thu, 9 Aug 2018 22:10:29 +1200
-Message-ID: <CADySD0EZ05doNyBhkT6v3K4ibTVp5wtXJ2zY9YwYWGri_n5QOw@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: How to upgrade Qt modules in daisy branch
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=fk8evmXA2LQNXzC51Qh/K/5LHb+0b5L4o9JFgSaY+uM=;
+	b=BWzCWpyjb9vmun/TWn35bmmLPujhybpYPCajV5HPFNezWkPdlBWsR22y0laWgKw3wH
+	VJgjdLWdnPu07b8pCChLx6IDiOTvHpJTuPdWF8rngjar7wUgInGq5563cRRcec2oJ8IL
+	/tmvzsPPZhvw48gvMHDfVoucnT1mh/I9/LYARR1CUs5CGiEnI8h+ZgisQBywSTzHSyuO
+	oslV08HLhhIAmkQHG5/rbFi2kMoh0Aw1YjgxAswaT30kMJ+cqviXieefwhHWki/oCX5j
+	TBeDIE8HWuT5vGFHepllVdgJ0gn+yXVhzj7NJ7t3Pre91hW3LbgOiZTXg5yPpuJ14nXm
+	woTg==
+X-Gm-Message-State: AOUpUlHh08SSuArRywxz1IpSERwYbGdeJo8mJuqlk11c+zpQ1eCdM8kP
+	jU4hatBTHFWMFvAnQbvlYmQwFCOy
+X-Google-Smtp-Source: AA+uWPxR0e7muHxynQMIBkPhBIa/RU9gYbKgvNUVTLJacugfuwBp4GhfIqPn4Z4AIJ1AYYh0yD+73Q==
+X-Received: by 2002:a1c:93d2:: with SMTP id
+	v201-v6mr1352359wmd.77.1533815095122; 
+	Thu, 09 Aug 2018 04:44:55 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	u7-v6sm11489294wmd.46.2018.08.09.04.44.53
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 09 Aug 2018 04:44:53 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Aug 2018 11:44:46 +0000
+Message-Id: <20180809114448.26411-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/3] go(-dep): add INSANE_SKIP for textrel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,80 +54,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2018 10:10:34 -0000
-Content-Type: multipart/alternative; boundary="000000000000887eda0572fdd609"
+X-List-Received-Date: Thu, 09 Aug 2018 11:44:54 -0000
 
---000000000000887eda0572fdd609
-Content-Type: text/plain; charset="UTF-8"
+* I'm not using go or go-dep, so I'm not going to fix it proplerly,
+  it was just bothering me in world builds
+* this is reproducible only with ptest in DISTRO_FEATUREs (for aarch64
+  issue) and included security_flags.inc, more specifically with the PIE
+  flags, so alternative work around is:
+  SECURITY_CFLAGS_pn-go = "${SECURITY_NOPIE_CFLAGS}"
+  SECURITY_CFLAGS_pn-go-dep = "${SECURITY_NOPIE_CFLAGS}"
 
-Hi,
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/go/go-dep_0.4.1.bb | 10 ++++++++++
+ meta/recipes-devtools/go/go_1.9.bb       |  7 +++++++
+ 2 files changed, 17 insertions(+)
 
-Our product is based upon 'daisy' branch (I know it's pretty old !) and now
-we have a need to support BLE in it (typical business case).
+diff --git a/meta/recipes-devtools/go/go-dep_0.4.1.bb b/meta/recipes-devtools/go/go-dep_0.4.1.bb
+index d82e637205..10af1d660c 100644
+--- a/meta/recipes-devtools/go/go-dep_0.4.1.bb
++++ b/meta/recipes-devtools/go/go-dep_0.4.1.bb
+@@ -18,3 +18,13 @@ GO_INSTALL = "${GO_IMPORT}/cmd/dep"
+ RDEPENDS_${PN}-dev += "bash"
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++# for x86 ends with textrel in ${PN}
++# http://errors.yoctoproject.org/Errors/Details/185630/
++# ERROR: QA Issue: ELF binary '/work/i586-oe-linux/go-dep/0.4.1-r0/packages-split/go-dep/usr/bin/dep' has relocations in .text [textrel]
++INSANE_SKIP_${PN} += "textrel"
++
++# for aarch64 ends with textrel in ${PN}-ptest
++# http://errors.yoctoproject.org/Errors/Details/185632/
++# ERROR: QA Issue: ELF binary '/work/aarch64-oe-linux/go-dep/0.4.1-r0/packages-split/go-dep-ptest/usr/lib/go-dep/ptest/github.com/golang/dep/cmd/dep/dep.test' has relocations in .text [textrel]  
++INSANE_SKIP_${PN}-ptest += "textrel"
+diff --git a/meta/recipes-devtools/go/go_1.9.bb b/meta/recipes-devtools/go/go_1.9.bb
+index ec5a314e7d..7da7897cf5 100644
+--- a/meta/recipes-devtools/go/go_1.9.bb
++++ b/meta/recipes-devtools/go/go_1.9.bb
+@@ -15,3 +15,10 @@ do_compile() {
+ 	./make.bash
+ 	cd ${B}
+ }
++
++# for aarch64 ends with textrel in ${PN}
++# http://errors.yoctoproject.org/Errors/Details/185634/
++# ERROR: QA Issue: ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/bin/go' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/pkg/tool/linux_arm64/trace' has relocations in .text
++# ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/pkg/tool/linux_arm64/pprof' has relocations in .text [textrel]
++INSANE_SKIP_${PN} += "textrel"
+-- 
+2.17.1
 
-My inner-self says it's the right time to upgrade everything but from
-business unit point of view, best would be to upgrade "just enough" to get
-BLE working.
 
-So I upgraded Bluez4.101 to Bluez5.46 which went well but when I started
-upgrading QtConnectivity from v5.4.1 to v5.11.0 then things started falling
-apart.
-
-It seems from v5.8 onward, Qt adopted new configuration system which is
-causing configuration and compilation failures when building QtConnectivity.
-Following change in recipe doesn't work.
-
--PACKAGECONFIG[bluez] = "CONFIG+=OE_BLUEZ_ENABLED,,bluez4"
-+PACKAGECONFIG[bluez] = "-feature-bluez,-no-feature-bluez,bluez5"
-
-
-Is there a way I can upgrade QtConnectivity to v5.11 while staying on daisy
-branch ? Or is it just not possible to do so ?
-
-Any help is appreciated.
-
-Thanks
-Ankur
-
---000000000000887eda0572fdd609
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,he=
-lvetica,sans-serif">Hi,</div><div class=3D"gmail_default" style=3D"font-fam=
-ily:arial,helvetica,sans-serif"><br></div><div class=3D"gmail_default" styl=
-e=3D"font-family:arial,helvetica,sans-serif">Our product is based upon &#39=
-;daisy&#39; branch (I know it&#39;s pretty old !) and now we have a need to=
- support BLE in it (typical business case).</div><div class=3D"gmail_defaul=
-t" style=3D"font-family:arial,helvetica,sans-serif"><br></div><div class=3D=
-"gmail_default" style=3D"font-family:arial,helvetica,sans-serif">My inner-s=
-elf says it&#39;s the right time to upgrade everything but from business un=
-it point of view, best would be to upgrade &quot;just enough&quot; to get B=
-LE working.</div><div class=3D"gmail_default" style=3D"font-family:arial,he=
-lvetica,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-fa=
-mily:arial,helvetica,sans-serif">So I upgraded Bluez4.101 to Bluez5.46 whic=
-h went well but when I started upgrading QtConnectivity from v5.4.1 to v5.1=
-1.0 then things started falling apart.</div><div class=3D"gmail_default" st=
-yle=3D"font-family:arial,helvetica,sans-serif"><br></div><div class=3D"gmai=
-l_default" style=3D"font-family:arial,helvetica,sans-serif">It seems from v=
-5.8 onward, Qt adopted new configuration system which is causing configurat=
-ion and compilation failures when building QtConnectivity.</div><div class=
-=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-serif">Followi=
-ng change in recipe doesn&#39;t work.=C2=A0</div><div class=3D"gmail_defaul=
-t" style=3D"font-family:arial,helvetica,sans-serif"><pre style=3D"white-spa=
-ce:pre-wrap;color:rgb(0,0,0)">-PACKAGECONFIG[bluez] =3D &quot;CONFIG+=3DOE_=
-BLUEZ_ENABLED,,bluez4&quot;
-+PACKAGECONFIG[bluez] =3D &quot;-feature-bluez,-no-feature-bluez,bluez5&quo=
-t;</pre><pre style=3D"white-space:pre-wrap;color:rgb(0,0,0)"><br></pre></di=
-v><div class=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-se=
-rif">Is there a way I can upgrade QtConnectivity to v5.11 while staying on =
-daisy branch ? Or is it just not possible to do so ?</div><div class=3D"gma=
-il_default" style=3D"font-family:arial,helvetica,sans-serif">=C2=A0=C2=A0<b=
-r></div><div class=3D"gmail_default" style=3D"font-family:arial,helvetica,s=
-ans-serif">Any help is appreciated.</div><div class=3D"gmail_default" style=
-=3D"font-family:arial,helvetica,sans-serif"><br></div><div class=3D"gmail_d=
-efault" style=3D"font-family:arial,helvetica,sans-serif">Thanks</div><div c=
-lass=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-serif">Ank=
-ur</div></div>
-
---000000000000887eda0572fdd609--
