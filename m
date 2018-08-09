@@ -1,51 +1,49 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B518A74743
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B44D607E1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Aug 2018 16:16:10 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id w126-v6so10772628oie.7
+	Thu,  9 Aug 2018 17:03:52 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id v22-v6so4600204lfe.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Aug 2018 09:16:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 09 Aug 2018 10:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ImfE0wLM36Tgh4W0QRH0VG8JSWoAdHiidGRsswiyr7w=;
-	b=WMagAdiwk3QGA4WQkil/jxrML/DDELyS5skz0z+GJQUYYKXwxcWZRXhHqCeoa28H1O
-	ZsSR5e4iFNYe0HSyeyZpWxsr9xwWLcUobC707HtyITNBWmDACXUeLT/CmcuLddhep5Um
-	SJOQYb34lz0AgnYT2DGEZkxDbh8zLqsWyQR3dEhZ/IDMeItTLTCpugL+sFX5r2S6oUSK
-	cxi0eIJqdaEPaIxCHk3+HhhkAxS/PmEuClyiVNdw8NSOg+Mrlla7U7AhCDJ2mtrnXRrg
-	6dUxZiOD4skUPpvkvFOsKB5dJGaQEV/lcCzbGKI06FJgV4B7PHMMeZSzimNah3wpnY28
-	s0Hg==
+	:cc:content-transfer-encoding;
+	bh=LhRaMbTKvBdzMbSJznyJAgyt9u3iBAOphSdnKY3XtNw=;
+	b=Dd+LCOqOd3f1IYb5gpKqbNpPjbknp8cCVHdLaGAAmSaiZAtI1NSMQvIs9SclBavx3b
+	m4VOPITCULlPARg0YvivNcmgmvKDi3nl/ZHVYzFG2vILOPkxqA4spKoRj94loirN3q+f
+	BciXHGjSGvR9V7Ir1tWyQ7OkhPylf4veJcx9Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ImfE0wLM36Tgh4W0QRH0VG8JSWoAdHiidGRsswiyr7w=;
-	b=Lw3KJHzl1Mnv9m2F6NIhSvshN2LpwOchz6v6vjdrYkXJlxouoyPoCzPIsN9fIOpnzW
-	c97maLxH3ktTmQJW93MOMyyofThWtOrymkWE1qQL4Hghe565MZHyA/fccX9mTPecJ5Dc
-	JAPpv/VrDb+HntLshKmMtnZt5gZmMwT3H+xcV6jzIqiVT8/9BGLc44grJgLsyX1SkBxz
-	onITUSw3YnhENgngFl56Gc8Pm6RbA7tSFe2Dy8d1AxuhwOSThbUDvCxxpwAn/ARJP2oq
-	pb3CpDcBmEvSlE+Ucbv901PNwBknc/2zbw47rryKqwMXK2y7bLF4Fa4LFHRo7Y/ySXO3
-	CXfQ==
-X-Gm-Message-State: AOUpUlG3K/WVYId1ylc3ArEi12ooPMMsTcrNunqlRuCHqSV7xXQI2NhR
-	YBLWDTGV9UGGdrcc9LqQ9Kq7WU0B4uJrRDh6n3g=
-X-Google-Smtp-Source: AA+uWPxiu0ZW7drOZsLzza0qSxb8Ej4GQ8WGOa5eZA9VxsbBUBDDkIgMMHk016b2+2RO+sdTzcI4cSBhJNNi2D+YZ80=
-X-Received: by 2002:aca:4fd1:: with SMTP id
-	d200-v6mr2980146oib.224.1533831371556; 
-	Thu, 09 Aug 2018 09:16:11 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=LhRaMbTKvBdzMbSJznyJAgyt9u3iBAOphSdnKY3XtNw=;
+	b=lcnGWomBiPuhbSYx14CFCMHn9S5okY8NQqTQ3Aq5dXq9F7j3Kx1NjAVgU0xDyV8fy6
+	CJZzbRo8geVulwzSBiIV6AeBJx1nH7XE4Henx4o36QbPgJeuCu02kNvEsGPhnRUlp6S1
+	rkhiLoqu4syk1et4H0qyjaMXslNHYgiyqd280CY5l1ejUJgJc5D6XvmHjbQVaWuDg1S1
+	XV6ag781mbSiZy1xEczg6LPhp9qfQnTsQV0dPG4rMHb77zU+2TLIdbnq9y0fkZiBjhB+
+	Te+WtvCbE70Dtp/L/S8DQTsxjTzdpOvsvRUVCREasGtfLBd518PnhsxTY9YMhybhkSGq
+	lnnA==
+X-Gm-Message-State: AOUpUlH+lXSjeTc3cU+M8ZYV008k72Ae34iw4Do8zGJunt3aS4jr26ml
+	I9zTd0vaUCbS69NhwsEBVYTPMsmloAJ4dgNkUFZT9w==
+X-Google-Smtp-Source: AA+uWPz0kaXXDJM4RWsDOvTkk+3cEKLJWSaDHnOLpca3X9YKMIMdRdOO51+uM5RSSZqr3Bb2i3SzItltefJZIkNRlE8=
+X-Received: by 2002:a19:5d54:: with SMTP id
+	p20-v6mr2048705lfj.143.1533834232821; 
+	Thu, 09 Aug 2018 10:03:52 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:590c:0:0:0:0:0 with HTTP;
-	Thu, 9 Aug 2018 09:16:10 -0700 (PDT)
-In-Reply-To: <CA+chaQc0jpZx+43G-1SGQuahPksikGQteo4c=c9dDTsspBQM9w@mail.gmail.com>
-References: <CADySD0EZ05doNyBhkT6v3K4ibTVp5wtXJ2zY9YwYWGri_n5QOw@mail.gmail.com>
-	<CA+chaQc0jpZx+43G-1SGQuahPksikGQteo4c=c9dDTsspBQM9w@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 9 Aug 2018 18:16:10 +0200
-Message-ID: <CALbNGRRpOXtZXgnJWAx2Ut5V3TM_LZx6LYokqOfzhW_G5vX3Ew@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: ankur.tyagi85@gmail.com, Patches and discussions about the oe-core layer
+Received: by 2002:a19:140c:0:0:0:0:0 with HTTP;
+	Thu, 9 Aug 2018 10:03:52 -0700 (PDT)
+In-Reply-To: <e6cdc11a-c949-df7b-0b41-806fdcc74689@windriver.com>
+References: <1532543734-17529-1-git-send-email-daniel.diaz@linaro.org>
+	<e6cdc11a-c949-df7b-0b41-806fdcc74689@windriver.com>
+From: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
+Date: Thu, 9 Aug 2018 12:03:52 -0500
+Message-ID: <CAEUSe78F0L=GbbztXfFJ9_iU2a4v-akt884R63eWg1V8XVc1oQ@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: How to upgrade Qt modules in daisy branch
+Subject: Re: [PATCH] glibc: Avoid multilibbing on wordsize.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,22 +56,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2018 16:16:10 -0000
+X-List-Received-Date: Thu, 09 Aug 2018 17:03:53 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 9, 2018 at 2:40 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> For daisy you probably don't have support for PACKAGECONFIG_CONFARGS which
-> was added in Yocto 2.1 krogoth.
+Hello!
+
+
+On 30 July 2018 at 21:01, ChenQi <Qi.Chen@windriver.com> wrote:
+> This patch causes a regression in multilib SDK for qemuarm64.
 >
-I remember doing similar for other reasons. We have images based on
-jethro (ok - daisy is a bit older) with later Qt's. Our builds are
-based on [1] but I created branches up to Qt5.9 (stable release - but
-not updated to latest) [2] for jethro.
+> Error: Transaction check error:
+>   file /usr/include/bits/wordsize.h conflicts between attempted installs =
+of
+> lib32-libc6-dev-2.27-r0.armv7vet2hf_vfp and libc6-dev-2.27-r0.aarch64
+>
+> Please consider sending a follow-up patch to fix this regression.
 
-It's not daisy - not Qt5.11 - no guarantees - but maybe a start.
+Thanks for the heads up. Follow-up patches coming along.
 
-[1] https://github.com/schnitzeltony/meta-qt5/tree/jethro+5.7
-[2] https://github.com/schnitzeltony/meta-qt5/tree/jethro+5.9
+Greetings!
 
-Andreas
+Daniel D=C3=ADaz
+daniel.diaz@linaro.org
 
