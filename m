@@ -1,44 +1,49 @@
 Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A1CD6607E1
+Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com
+	[209.85.218.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F6A6744F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Aug 2018 17:10:58 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id w16-v6so5029969ljh.12
+	Thu,  9 Aug 2018 17:15:24 +0000 (UTC)
+Received: by mail-oi0-f49.google.com with SMTP id w126-v6so11104674oie.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Aug 2018 10:11:00 -0700 (PDT)
+	Thu, 09 Aug 2018 10:15:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:from:date:message-id:subject:to:cc
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=riStLWzDuhJwdTebVr8yj26Lx/GGKiddj+sr1RNjHrg=;
-	b=YWE5MvzTShS51kqqoPphdlTraetVlTiItVJeHbPO+otU/bXQYig2rzJa53oep56+Ow
-	rpoA7uDnx/+2LgIxS/DRbrPUThUEfAus+mTJM2s3QAGEzef9LK14I2cd804qkv/Rn8Sz
-	F2po70iTK5eQAj237eaaRc0qi+EGcDpwew0dM=
+	bh=XB0Vga/aQyBhYhVIPtwUbTxun59wnGa3dOsclc+R614=;
+	b=VqEQK01myhb0diz9/EeS/eppyrt4A+1vdEULKTaV5FNB2lAzQJLd4ENBQURnT+NwV8
+	HzLYFHceNc19jihsVd93CbiPCiKwwHVT4iRhOjWfe1EnsW27+xiyDkTdp/ouj6X9tr7o
+	h7zXCGeDApcz0NoOQJGWiJxaCTSzmSZY4/nVY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=riStLWzDuhJwdTebVr8yj26Lx/GGKiddj+sr1RNjHrg=;
-	b=cvMhDekJhN29kF2LiIRJ76sRf/HiSNk/rqPcb23WSJlN5bYqh2RjLhr4N+OSaM7akq
-	cf+9btihJNTzxEv5naYN7vuHv0FlZnClrjiUw1717sf1p2y4E/qH9BjCtJesPvKN8EBG
-	xlaTTZewcCC60sGJc6UkN4mwfefBPWM0F5geU1HbHoi96/O9teN2RlMQWqz8SPnM5G0C
-	1CvqW60NJMOLg4fSq7n0YfNSsr6pnR4OWv/vMoNyHjP1sEGs6GC9qZ2yScBmlcSUqF8s
-	qYQNhBEJT6KogvQDr9PqixqlHhpDbTLa33edltIfn6ayzi6ktwOSWTOVQkWBAKSXYwPf
-	Ynqw==
-X-Gm-Message-State: AOUpUlHhd8mFjcXNkDMShM4y/l90meknQ922tbFmj2E06+DhmbcUY1AR
-	faGC7Qq71NK5DH39zfgCr+CBGOGIaWAKM1ZCygwfGmEBvN4=
-X-Google-Smtp-Source: AA+uWPwziaHRJnOR3l1FDofEWK1OeZO3pGb0WeJ6F8ikQFHrUkKUyKrJWkh88EdyzovpB+8qh/ZtvBdo8+n1voFuRjE=
-X-Received: by 2002:a2e:4401:: with SMTP id r1-v6mr2432564lja.21.1533834659010;
-	Thu, 09 Aug 2018 10:10:59 -0700 (PDT)
+	bh=XB0Vga/aQyBhYhVIPtwUbTxun59wnGa3dOsclc+R614=;
+	b=Bzw7xRBMp4t0xUDk57GAQti01gkZBUrfIRSqH6qUfQgCsq6y8nvIgyGhP7gkZeso1G
+	QwcOLeqSWyTdZbHQSaiE7i2rwNBst+d610CNOuf/xcmehYN6ECVr+R4wXjJxlX7aJFXt
+	slMonfPrg48KpDELRNfRbClV6hPVbfyOAg3TqsPG5bkINwrXFShPnm1c5mv/aVNS1DE2
+	U6YBQ4uDfB28EN3S2xHBdrzwwlvdALogU5YbBVTlHoUtvK/0hoaoY//m8NtOTyKn0fji
+	0qfRl27u2S3G1lQQ6V3RK28Pc0LvA1oBvgWGAetBgyYCn4zituBrwcnteyNCNF/0GO8J
+	gVrA==
+X-Gm-Message-State: AOUpUlGF3MRRFNO3Lxhy82Sj4ijE7CR4wHT5volG5xlwVahx4CWowaIx
+	Lei85V4Fnom2RJZ8cqyuEQCpdRty7Hs=
+X-Google-Smtp-Source: AA+uWPw3ap+11JbRuzq0CZBOn/4OBbVUkzd/8Y3+IW6WbA7CMRCrPmtOWKtg/6aF1Ot8qr67IESbug==
+X-Received: by 2002:aca:e0c2:: with SMTP id
+	x185-v6mr2729355oig.220.1533834924483; 
+	Thu, 09 Aug 2018 10:15:24 -0700 (PDT)
+Received: from aura.cortijodelrio.net
+	(CableLink-187-161-193-121.PCs.InterCable.net. [187.161.193.121])
+	by smtp.googlemail.com with ESMTPSA id
+	m203-v6sm10884127oig.42.2018.08.09.10.15.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 09 Aug 2018 10:15:23 -0700 (PDT)
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Aug 2018 12:14:53 -0500
+Message-Id: <1533834894-4576-1-git-send-email-daniel.diaz@linaro.org>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:a19:140c:0:0:0:0:0 with HTTP;
-	Thu, 9 Aug 2018 10:10:58 -0700 (PDT)
-From: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
-Date: Thu, 9 Aug 2018 12:10:58 -0500
-Message-ID: <CAEUSe799Ubpgn9mVfxcKHKfoyV1VnDNk+ByF8V5eKE6ueHcU0Q@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [rocko][PATCH] glibc: Avoid multilibbing on wordsize.h
+Subject: [PATCH 1/2] glibc: Make bits/wordsize.h multilibbed again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,64 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2018 17:10:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 09 Aug 2018 17:15:24 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello!
+As reported by ChenQi, leaving bits/wordsize.h out of being
+multilibbed introduced a problem in building the SDK for
+arm64:
+  Error: Transaction check error:
+    file /usr/include/bits/wordsize.h conflicts between attempted installs of lib32-libc6-dev-2.27-r0.armv7vet2hf_vfp and libc6-dev-2.27-r0.aarch64
 
+This effectively reverts commit a74c77d6.
 
-On 26 July 2018 at 09:38, Daniel D=C3=ADaz <daniel.diaz@linaro.org> wrote:
-> Once another header #includes <bits/wordsize.h>, there is a
-> potential recursion going on because the
-> multilib_header_wrapper.h #includes <bits/wordsize.h> again!
->
-> This should not happen because an __arm__ (32-bits) or an
-> __aarch64__ (64-bits) environment guarantees that we will
-> be getting the correct definition, but when building against
-> a different target (like BPF), recursion is what happens.
->
-> This can be seen, for instance, when building eBPF programs
-> from the kernel with `clang -target bpf', such as the ones
-> located in linux/tools/testing/selftests/bpf/.
->
-> (From OE-Core rev: a74c77d6168101e88c3a3bce7130f4f52cfab95d)
->
-> Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
-> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-core/glibc/glibc-package.inc | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-cor=
-e/glibc/glibc-package.inc
-> index b6d8074..c360dd9 100644
-> --- a/meta/recipes-core/glibc/glibc-package.inc
-> +++ b/meta/recipes-core/glibc/glibc-package.inc
-> @@ -136,8 +136,7 @@ do_install_append_armeb () {
->  }
->
->  do_install_armmultilib () {
-> -
-> -       oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp=
--fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
-> +       oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp=
--fast.h bits/hwcap.h bits/ipc.h bits/link.h
->         oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/p=
-threadtypes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/s=
-etjmp.h
->         oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/st=
-atfs.h bits/typesizes.h
->
-> --
-> 2.7.4
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index a4f61f8..8ac01ce 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -136,7 +136,7 @@ do_install_append_armeb () {
+ }
+ 
+ do_install_armmultilib () {
+-	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h
++	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
+ 	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadtypes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
+ 	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h bits/typesizes.h
+ 
+-- 
+2.7.4
 
-Please disregard this patch. An alternative will be posted shortly.
-
-Greetings!
-
-Daniel D=C3=ADaz
-daniel.diaz@linaro.org
 
