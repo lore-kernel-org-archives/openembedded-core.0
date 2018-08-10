@@ -1,49 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 585D978EF1
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 933B778EF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2018 21:58:02 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id l2-v6so2521283wme.1
+	Fri, 10 Aug 2018 21:58:03 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id f21-v6so3275768wmc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2018 14:58:03 -0700 (PDT)
+	Fri, 10 Aug 2018 14:58:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=7D4kEpZS2AozrXZvKmzJFLH5H8PZ8hZ8yy8ipAlPuig=;
-	b=Qu1VFK74kKJL2RJXaWJG5xkeIluxphD8neZIz46Bc0+MrfrDUf0KuZ4FVtaJnqfvf1
-	nlszru8kVQ4j5RQWW79E87RWFoZhEgMjNjig9ZHcquelPiNHmqk6Lug8/iQunoqdSKuA
-	3hk+hUPhAgWEs4QloaO3XeQG7+xDVRFgSupA0=
+	bh=duTdDp2r5QG3FZDg2+5LnQyMR0GNTxPGKutZntOpoxA=;
+	b=FiB7qQKNRIiZyAbmqhb8AEEkWMq7MGyViq7lXU/mM60xmA4sfS88ul3T32wdQmL11m
+	nvDEePbWMOTHg5VZSU3uvEMlCtN6etahmq8ZEI4zzs3z4MJcs8YgLJdYCSdndAlwfDAj
+	e/1bGnuqiO1LWqBeZzJuRzfhzNQmU0X/AOW3c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=7D4kEpZS2AozrXZvKmzJFLH5H8PZ8hZ8yy8ipAlPuig=;
-	b=Z42qjMEOIHRWOfKDcVY8o7Flu6IuxODETScNpMWPtCyrZtQ65RXR81sF4wAwQo65sD
-	LjfTnoGYiLAJbkkuDVtyeIKJPsliUvAYF3Bybj/+BS4DcAoQDBVdxe82yeJ8pa8lvEjP
-	3S/jEeeJyFYVMl9iwaeMdrxq2pNUV144BISoGFxsmNW2QEdcLDqxSWs83vPOwrEthX+S
-	SWvEtpKfcHzbqd+A54do1ZndkYecP+wQjnRj0udUFZFvqwij6o0k7DpLib2nRuWvclRg
-	C6aw8XCkbj+bBNdaM4Pdy1jr9+sMjMqaTcVELows6AEqdUYBRec126UiaRaAk1d0Mgcy
-	4QoA==
-X-Gm-Message-State: AOUpUlENr8A9ogi16/iJ/oeI0WLThAYPvPWwvI2rc1dMB52j4QjutTsr
-	06A03eXiYtpjAXrfPWyulxfxcykSr7o=
-X-Google-Smtp-Source: AA+uWPyu9uFDARTpK4TMxujl2aFtZVeZUSQUXmLtMAhCoN2xuqabcvQKdLpNbtnCxrzS6GFA27c34w==
-X-Received: by 2002:a1c:e708:: with SMTP id
-	e8-v6mr2583975wmh.134.1533938282772; 
-	Fri, 10 Aug 2018 14:58:02 -0700 (PDT)
+	bh=duTdDp2r5QG3FZDg2+5LnQyMR0GNTxPGKutZntOpoxA=;
+	b=kdLkTJCVMF5vBo/lNHvxfgtLqMePHvLA9YbTdHg5GpMGB0MyyLTC6hTSei5zCibs01
+	X4iXplfc9gKjEcKry8fS5pQXP2qFRCs630BjWu4TpFPL5o4W3OozA+ntjNjXGfP1vY6n
+	jW3svacddS13cPECUHATPecmClFwNIlU2r2Qy4vDjvGjgkbtk0EhTGUN58avRj9GJagF
+	Qsxhmx26RIPhUcBi+MbAo9bmLc8w6+DmRHLLqssMeMjU89HT0/b87U1Jc+ShAw/UGAV9
+	J++KW9M6y8m5V2TUlH8HfVYZoOU7sGuyxqxzeXHvxmdmL9kTD1+2KXwdPH1tRBs/kyuC
+	6XxA==
+X-Gm-Message-State: AOUpUlG5WDokjnSJBthAnewUKR9Zp1o24aB5oVHUoZFyZNS349AR/TQh
+	CpQvMiapcpw11uC6xAfxAjMVMYkWWrI=
+X-Google-Smtp-Source: AA+uWPxOkOulUF8n6EVU7QZUhusVD9cmB6aYqL3Y+s7lTgQPkeUQ8WAb8V5TR4HPVcXhAeIfkSpn6Q==
+X-Received: by 2002:a1c:36aa:: with SMTP id
+	y42-v6mr2419046wmh.159.1533938284122; 
+	Fri, 10 Aug 2018 14:58:04 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	q2-v6sm1874773wmc.44.2018.08.10.14.58.01
+	q2-v6sm1874773wmc.44.2018.08.10.14.58.02
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Aug 2018 14:58:01 -0700 (PDT)
+	Fri, 10 Aug 2018 14:58:03 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Aug 2018 22:57:58 +0100
-Message-Id: <20180810215759.7843-2-richard.purdie@linuxfoundation.org>
+Date: Fri, 10 Aug 2018 22:57:59 +0100
+Message-Id: <20180810215759.7843-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180810215759.7843-1-richard.purdie@linuxfoundation.org>
 References: <20180810215759.7843-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/3] sstate: Remove DEPLOY_DIR_IMAGE from SSTATE_DUPWHITELIST
+Subject: [PATCH 3/3] libtool-cross: Handle ccache sstate 'infection' issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Aug 2018 21:58:02 -0000
+X-List-Received-Date: Fri, 10 Aug 2018 21:58:04 -0000
 
-Replace the generic whitelist entry with entries for the three specific
-'problem' cases in OE-Core. This means the general DEPLOY_DIR_IMAGE entry
-doesn't mask problems for others as was recently encoutered by users
-reported on irc. In the whitelisted cases they occur only in multilib builds
-and the files are identical.
+On a system without ccache, f you:
+
+INHERIT += "ccache"
+bitbake libtool-cross
+<remove INHERIT>
+bitbake apmd
+
+then it fails due to being unable to find ccache. The references to ccache are
+coded into libtool-cross but the sstate checksum doesn't reflect this due to the
+way the class is coded (output should be the same regardless).
+
+The simplest solution is to remove references to ccache from the libtool script.
+The output then works regardless of whether ccache is present or not. The
+libtool-cross script is only used in a handful of cases (most of the time its
+dynamically generated by autoconf) so any performance issue is minor.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/sstate.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 6743becf071..9927c76596e 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -25,7 +25,7 @@ PV[vardepvalue] = "${PV}"
- SSTATE_EXTRAPATH[vardepvalue] = ""
+diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
+index b2683104686..522bf3a0e96 100644
+--- a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
++++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
+@@ -13,11 +13,19 @@ do_configure_prepend () {
+ 	rm -f ${STAGING_DATADIR}/aclocal/lt*.m4
+ }
  
- # For multilib rpm the allarch packagegroup files can overwrite (in theory they're identical)
--SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_RPM}/noarch/"
-+SSTATE_DUPWHITELIST = "${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_RPM}/noarch/"
- # Avoid docbook/sgml catalog warnings for now
- SSTATE_DUPWHITELIST += "${STAGING_ETCDIR_NATIVE}/sgml ${STAGING_DATADIR_NATIVE}/sgml"
- # sdk-provides-dummy-nativesdk and nativesdk-buildtools-perl-dummy overlap for different SDKMACHINE
-@@ -33,6 +33,10 @@ SSTATE_DUPWHITELIST += "${DEPLOY_DIR_RPM}/sdk_provides_dummy_nativesdk/ ${DEPLOY
- SSTATE_DUPWHITELIST += "${DEPLOY_DIR_RPM}/buildtools_dummy_nativesdk/ ${DEPLOY_DIR_IPK}/buildtools-dummy-nativesdk/"
- # Archive the sources for many architectures in one deploy folder
- SSTATE_DUPWHITELIST += "${DEPLOY_DIR_SRC}"
-+# ovmf/grub-efi/systemd-boot multilib recipes can generate identical overlapping files
-+SSTATE_DUPWHITELIST += "${DEPLOY_DIR_IMAGE}/ovmf"
-+SSTATE_DUPWHITELIST += "${DEPLOY_DIR_IMAGE}/grub-efi"
-+SSTATE_DUPWHITELIST += "${DEPLOY_DIR_IMAGE}/systemd-boot"
- 
- SSTATE_SCAN_FILES ?= "*.la *-config *_config postinst-*"
- SSTATE_SCAN_CMD ??= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES").split())}" \) -type f'
++#
++# ccache may or may not be INHERITED, we remove references to it so the sstate
++# artefact works on a machine where its not present. libtool-cross isn't used
++# heavily so any performance issue is minor.
++# Find references to LTCC="ccache xxx-gcc" and CC="ccache xxx-gcc"
++#
+ do_install () {
+ 	install -d ${D}${bindir_crossscripts}/
+ 	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
+ 	sed -e 's@^\(predep_objects="\).*@\1"@' \
+ 	    -e 's@^\(postdep_objects="\).*@\1"@' \
++	    -e 's@^CC="ccache.@CC="@' \
++	    -e 's@^LTCC="ccache.@LTCC="@' \
+ 	    -i ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
+ 	sed -i '/^archive_cmds=/s/\-nostdlib//g' ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
+ 	sed -i '/^archive_expsym_cmds=/s/\-nostdlib//g' ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
 -- 
 2.17.1
 
