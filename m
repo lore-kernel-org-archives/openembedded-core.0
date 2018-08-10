@@ -1,30 +1,31 @@
 Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C54697490C
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BE6FE78ED1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2018 08:42:27 +0000 (UTC)
+	Fri, 10 Aug 2018 08:50:14 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Aug 2018 01:42:28 -0700
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Aug 2018 01:50:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,218,1531810800"; d="scan'208";a="253629753"
-Received: from pgsmsx101.gar.corp.intel.com ([10.221.44.78])
-	by fmsmga006.fm.intel.com with ESMTP; 10 Aug 2018 01:42:27 -0700
+X-IronPort-AV: E=Sophos;i="5.53,218,1531810800"; d="scan'208";a="65070351"
+Received: from kmsmsx156.gar.corp.intel.com ([172.21.138.133])
+	by orsmga006.jf.intel.com with ESMTP; 10 Aug 2018 01:50:14 -0700
 Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.29]) by
-	PGSMSX101.gar.corp.intel.com ([169.254.1.221]) with mapi id
-	14.03.0319.002; Fri, 10 Aug 2018 16:42:24 +0800
+	KMSMSX156.gar.corp.intel.com ([169.254.1.252]) with mapi id
+	14.03.0319.002; Fri, 10 Aug 2018 16:50:11 +0800
 From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: "openembedded-core@lists.openembedded.org"
+To: "'openembedded-core@lists.openembedded.org'"
 	<openembedded-core@lists.openembedded.org>
 Thread-Topic: [PATCH] test-result-log: testcase management tool to store
 	test result
-Thread-Index: AQHUMIWJxmD8diyk8kqjk8PTwDWGE6S4qhCQ
-Date: Fri, 10 Aug 2018 08:42:24 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335E98F37@PGSMSX109.gar.corp.intel.com>
+Thread-Index: AQHUMIWJxmD8diyk8kqjk8PTwDWGE6S4qhCQgAAC/zA=
+Date: Fri, 10 Aug 2018 08:50:10 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335E98F6A@PGSMSX109.gar.corp.intel.com>
 References: <1533889380-76000-1-git-send-email-ee.peng.yeoh@intel.com>
-In-Reply-To: <1533889380-76000-1-git-send-email-ee.peng.yeoh@intel.com>
+	<E0805CCB83E6104E80E61FD34E5788AE553CAF48@PGSMSX111.gar.corp.intel.com>
+In-Reply-To: <E0805CCB83E6104E80E61FD34E5788AE553CAF48@PGSMSX111.gar.corp.intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -49,10 +50,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Aug 2018 08:42:28 -0000
+X-List-Received-Date: Fri, 10 Aug 2018 08:50:15 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+Same codes were available in github with better viewing and reviewing.=20
+https://github.com/epyeoh/openembedded-core/tree/test-result-log/scripts/li=
+b/testresultlog
+
+
+-----Original Message-----
+From: Yeoh, Ee Peng=20
+Sent: Friday, August 10, 2018 4:42 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Eggleton, Paul <paul.eggleton@intel.com>; Burton, Ross <ross.burton@int=
+el.com>; Mittal, Anuj <anuj.mittal@intel.com>; Sangal, Apoorv <apoorv.sanga=
+l@intel.com>; richard.purdie@linuxfoundation.org
+Subject: RE: [PATCH] test-result-log: testcase management tool to store tes=
+t result
 
 Hi Richard, Ross, Paul, Anuj,
 
@@ -81,7 +97,7 @@ Best regards,
 Yeoh Ee Peng=20
 
 -----Original Message-----
-From: Yeoh, Ee Peng=20
+From: Yeoh, Ee Peng
 Sent: Friday, August 10, 2018 4:23 PM
 To: openembedded-core@lists.openembedded.org
 Cc: Yeoh, Ee Peng <ee.peng.yeoh@intel.com>
@@ -199,7 +215,7 @@ suite_testcase_dict, testcase_status_dict):
 +        testsuite_testcase_list =3D self._create_testsuite_testcase_testst=
 atus_json_object(testsuite_list, testsuite_testcase_dict, testcase_status_d=
 ict)
-+        return json.dumps(testsuite_testcase_list, sort_keys=3DTrue,=20
++        return json.dumps(testsuite_testcase_list, sort_keys=3DTrue,
 + indent=3D4)
 +
 +    def _write_testsuite_testcase_json_formatted_string_to_file(self, file=
@@ -217,7 +233,7 @@ e_list, testcase_logs_dict):
 +        for testcase in testcase_list:
 +            if testcase in testcase_logs_dict:
 +                file_path =3D os.path.join(file_dir, '%s.log' % testcase)
-+                self._write_log_file(file_path,=20
++                self._write_log_file(file_path,
 + testcase_logs_dict[testcase])
 +
 +    def _copy_files_from_source_to_destination_dir(self, source_dir, desti=
@@ -257,8 +273,8 @@ ict, testcase_log_remove_list):
 ite'][testsuite]['testcase'][testcase]['testresult']
 +                    next_testcase_status =3D testcase_status_dict[testcase=
 ]
-+                    self._get_testcase_log_need_removal_list(testcase, cur=
-_testcase_status, next_testcase_status, testcase_log_remove_list)
++                    self._get_testcase_log_need_removal_list(testcase,=20
++ cur_testcase_status, next_testcase_status, testcase_log_remove_list)
 +                   =20
 + target_testresult_dict['testsuite'][testsuite]['testcase'][testcase]['
 + testresult'] =3D next_testcase_status
@@ -345,7 +361,7 @@ tted_string(testsuite_list, testsuite_testcase_dict, testcase_status_dict)
 ile_path, testsuite_json_structure)
 +            testcase_list =3D self._get_testcase_list(testsuite_list, test=
 suite_testcase_dict)
-+            self._write_test_log_files_for_list_of_testcase(directory,=20
++            self._write_test_log_files_for_list_of_testcase(directory,
 + testcase_list, testcase_logs_dict)
 +
 +    def _push_testsuite_testcase_json_file_to_git_repo(self, file_dir, git=
@@ -378,7 +394,7 @@ ucture(git_repo, project, environment_list)
 v_dir, testmodule_testsuite_dict, testsuite_testcase_dict,
 +                                                                testcase_s=
 tatus_dict, testcase_logs_dict)
-+        self._push_testsuite_testcase_json_file_to_git_repo(git_repo,=20
++        self._push_testsuite_testcase_json_file_to_git_repo(git_repo,
 + git_repo, git_branch)
 +
 +    def _load_testmodule_file_and_update_test_result(self, project_env_dir=
@@ -399,10 +415,10 @@ _status_dict, testcase_log_remove_list)
 +            self._write_testsuite_testcase_json_formatted_string_to_file(t=
 estmodule_file, json.dumps(target_testresult_dict, sort_keys=3DTrue, indent=
 =3D4))
-+            testcase_list =3D self._get_testcase_list(testsuite_list, test=
-suite_testcase_dict)
++            testcase_list =3D self._get_testcase_list(testsuite_list,=20
++ testsuite_testcase_dict)
 +           =20
-+ self._write_test_log_files_for_list_of_testcase(project_env_dir,=20
++ self._write_test_log_files_for_list_of_testcase(project_env_dir,
 + testcase_list, testcase_logs_dict)
 +
 +    def _update_automated_test_result(self, git_repo, git_branch, project,=
@@ -420,7 +436,7 @@ po, project, environment_list)
 dict, testcase_logs_dict, testcase_log_remove_list, logger)
 +        self._remove_test_log_files(project_env_dir, testcase_log_remove_l=
 ist)
-+        self._push_testsuite_testcase_json_file_to_git_repo(git_repo,=20
++        self._push_testsuite_testcase_json_file_to_git_repo(git_repo,
 + git_repo, git_branch)
 +
 +    def smart_create_update_automated_test_result(self, git_repo, git_bran=
@@ -458,8 +474,8 @@ uite_testcase_dict, testcase_status_dict, testcase_logs_dict)
  %s' % (git_repo, git_branch))
 +            logger.debug('Creating git repository, git branch, project & e=
 nvironment directory and test result & log files inside: %s' % git_repo)
-+            self._create_automated_test_result_from_empty_git(git_repo, gi=
-t_branch, project, environment_list, testmodule_testsuite_dict,
++            self._create_automated_test_result_from_empty_git(git_repo,=20
++ git_branch, project, environment_list, testmodule_testsuite_dict,
 +                                                             =20
 + testsuite_testcase_dict, testcase_status_dict, testcase_logs_dict)
 diff --git a/scripts/lib/testresultlog/oeqalogparser.py b/scripts/lib/testr=
@@ -643,7 +659,7 @@ index 0000000..5c05915
 --- /dev/null
 +++ b/scripts/lib/testresultlog/storeauto.py
 @@ -0,0 +1,125 @@
-+# test case management tool - store automated test result # # Copyright=20
++# test case management tool - store automated test result # # Copyright
 +(c) 2018, Intel Corporation.
 +#
 +# This program is free software; you can redistribute it and/or modify=20
@@ -743,7 +759,7 @@ case, testsuite)
 +    logger.info('Gathering test result and log data')
 +    oeqa_logparser =3D OeqaLogParser()
 +    testcase_status_dict =3D oeqa_logparser.get_test_status(args.log_file)
-+    logger.debug('Received testcase status dictionary %s' %=20
++    logger.debug('Received testcase status dictionary %s' %
 +testcase_status_dict)
 +
 +    store_auto =3D StoreAuto()
@@ -881,7 +897,7 @@ ow purpose:
 +def _set_args_attribute_default_value(args):
 +    if getattr(args, "environment_list", False):
 +        logger.debug('Setting environment_list argument to default')
-+        args.environment_list =3D=20
++        args.environment_list =3D
 +_get_default_attribute_value(args.environment_list)
 +
 +def main():
