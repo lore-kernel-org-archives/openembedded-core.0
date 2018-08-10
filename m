@@ -1,26 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3633F78C10
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id CBE8A78ED0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2018 09:03:47 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w7A93kjO016032
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Fri, 10 Aug 2018 10:03:47 +0100
-Message-ID: <c68310f2a56a13e0f0a0e30071ec30dd1d65854b.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 10 Aug 2018 10:03:46 +0100
-In-Reply-To: <20180810073139.89868-6-zhixiong.chi@windriver.com>
-References: <20180810073139.89868-1-zhixiong.chi@windriver.com>
-	<20180810073139.89868-6-zhixiong.chi@windriver.com>
+	Fri, 10 Aug 2018 09:24:22 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id o18-v6so1189286wmc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Aug 2018 02:24:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=woVZFGtdK2oa5Ylq2f8UB2mEJgMh1XvjJxziOUwENg0=;
+	b=fFkz0yWFkk7VLcOgSBSDk4AtYgbOumNHp26aGJ++oPpw4hYP6QJkOYLNMLZzTRaGoP
+	u/w75uXRELmKYjtGHFqS8VZ0SwZW+OBs2gAektuaWBt4v5LHP9OElfuCYmDCTn4bJWuS
+	mvdwQb/VaCaPaINoQc5oeDWMlQj74EO5SErw4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=woVZFGtdK2oa5Ylq2f8UB2mEJgMh1XvjJxziOUwENg0=;
+	b=DtknD13CMtWk+mHqavnclvdwIyBaiQomWm6fSynjJkZCHu73OFrmOsqkFiTLw9yWsM
+	RmIjzZdwrJl6qG+nHOTdGhJ5BiHTAkkdZD5Mt+/+1bQx6rPioaoZ/X8Vr7fj9+ueCdha
+	91n0FY3/4Xe7nfkfLoffaXkRkEa939Sp+RhEO5d+F0Q0wxUIJWbL1z8zxH1sc2uoFLj5
+	6pCbtzShDsH88v35nVf1rOev4/JlCgWGt7M8MmikIkXhmprTYm8DXM0crvo3uWE95zTZ
+	LpzUtaE45jnFaGxny6r6HPDF/zbrFIiaC/nmGjZVZXRZCs/NR2D0dmjKBdLUn57j2eIN
+	guzA==
+X-Gm-Message-State: AOUpUlHpUWOdkb59f0n24KkKJ6hWn/lQZ7C466tJh51LeOD0vQVQVcoi
+	idQc3XVhVdkQ93tgTflk/E6oAA==
+X-Google-Smtp-Source: AA+uWPw9UHE/xKuYeLO9aorgHqxUJ6GSsox/qRHATaY/p/ETuPZrbeCrSdO6vCvqY/Mwhc9GQ5aloQ==
+X-Received: by 2002:a1c:a691:: with SMTP id
+	p139-v6mr952636wme.42.1533893063395; 
+	Fri, 10 Aug 2018 02:24:23 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	h7-v6sm9750093wrs.8.2018.08.10.02.24.22
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 10 Aug 2018 02:24:22 -0700 (PDT)
+Message-ID: <fdafcc6cdd7abfa519ae59df871a844a07103e3f.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: kai.kang@windriver.com
+Date: Fri, 10 Aug 2018 10:24:21 +0100
+In-Reply-To: <8aa373833d3e5f54689b8863f864c39dc90e5cab.1533888808.git.kai.kang@windriver.com>
+References: <cover.1533888808.git.kai.kang@windriver.com>
+	<8aa373833d3e5f54689b8863f864c39dc90e5cab.1533888808.git.kai.kang@windriver.com>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 6/6] nss: fix multilib file conflict
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] allarch: disable allarch when multilib is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Aug 2018 09:03:47 -0000
+X-List-Received-Date: Fri, 10 Aug 2018 09:24:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-08-10 at 00:31 -0700, Zhixiong Chi wrote:
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> ---
->  meta/recipes-support/nss/nss_3.38.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+On Fri, 2018-08-10 at 16:14 +0800, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
 > 
-> diff --git a/meta/recipes-support/nss/nss_3.38.bb b/meta/recipes-
-> support/nss/nss_3.38.bb
-> index f3e5170a89..4f53b55f05 100644
-> --- a/meta/recipes-support/nss/nss_3.38.bb
-> +++ b/meta/recipes-support/nss/nss_3.38.bb
-> @@ -33,7 +33,9 @@ SRC_URI[sha256sum] = "2c643d3c08d6935f4d325f40743719b6990aa25a79ec2f8f712c99d086
->  UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
->  UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
->  
-> -inherit siteinfo
-> +inherit siteinfo multilib_script
-> +
-> +MULTILIB_SCRIPTS = "${PN}:${sysconfdir}/pki/nssdb/secmod.db ${PN}:${sysconfdir}/pki/nssdb/key3.db"
+> Some allarch packages rdepends non-allarch packages. When multilib is
+> used, it doesn't expand the dependency chain correctly, e.g.
+> 
+> core-image-sato -> ca-certificates(allarch) -> openssl
+> 
+> we expect dependency chain for lib32-core-image-sato:
+> 
+> lib32-core-image-sato -> ca-certificates(allarch) -> lib32-openssl
+> 
+> it should install lib32-openssl for ca-certificates but openssl is
+> still wrongly imported.
+> 
+> Disable allarch when multilib is used.
+> 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/classes/allarch.bbclass         | 4 ++++
+>  meta/classes/icecc.bbclass           | 2 +-
+>  meta/classes/multilib.bbclass        | 3 ++-
+>  meta/classes/multilib_global.bbclass | 4 +---
+>  meta/classes/package.bbclass         | 9 ++++++---
+>  meta/classes/staging.bbclass         | 2 +-
+>  6 files changed, 15 insertions(+), 9 deletions(-)
 
-Shouldn't those files be architecture independent given the files are
-in sysconfdir? Isn't this really a determinism problem and we should
-fix the builds to be deterministic instead?
+Looks good at a quick glance, I'll put it in for testing. 
+
+Since I just saw it for other reasons, could you also see if we could
+remove the ${DEPLOY_DIR_RPM}/noarch/ mentioned as:
+
+# For multilib rpm the allarch packagegroup files can overwrite (in theory they're identical)
+SSTATE_DUPWHITELIST = "${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_RPM}/noarch/"
+
+from sstate.bbclass please?
 
 Cheers,
 
