@@ -1,52 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id CBE8A78ED0
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B995778D86
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2018 09:24:22 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id o18-v6so1189286wmc.0
+	Fri, 10 Aug 2018 09:27:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7A9RFHP008096
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2018 02:24:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=woVZFGtdK2oa5Ylq2f8UB2mEJgMh1XvjJxziOUwENg0=;
-	b=fFkz0yWFkk7VLcOgSBSDk4AtYgbOumNHp26aGJ++oPpw4hYP6QJkOYLNMLZzTRaGoP
-	u/w75uXRELmKYjtGHFqS8VZ0SwZW+OBs2gAektuaWBt4v5LHP9OElfuCYmDCTn4bJWuS
-	mvdwQb/VaCaPaINoQc5oeDWMlQj74EO5SErw4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=woVZFGtdK2oa5Ylq2f8UB2mEJgMh1XvjJxziOUwENg0=;
-	b=DtknD13CMtWk+mHqavnclvdwIyBaiQomWm6fSynjJkZCHu73OFrmOsqkFiTLw9yWsM
-	RmIjzZdwrJl6qG+nHOTdGhJ5BiHTAkkdZD5Mt+/+1bQx6rPioaoZ/X8Vr7fj9+ueCdha
-	91n0FY3/4Xe7nfkfLoffaXkRkEa939Sp+RhEO5d+F0Q0wxUIJWbL1z8zxH1sc2uoFLj5
-	6pCbtzShDsH88v35nVf1rOev4/JlCgWGt7M8MmikIkXhmprTYm8DXM0crvo3uWE95zTZ
-	LpzUtaE45jnFaGxny6r6HPDF/zbrFIiaC/nmGjZVZXRZCs/NR2D0dmjKBdLUn57j2eIN
-	guzA==
-X-Gm-Message-State: AOUpUlHpUWOdkb59f0n24KkKJ6hWn/lQZ7C466tJh51LeOD0vQVQVcoi
-	idQc3XVhVdkQ93tgTflk/E6oAA==
-X-Google-Smtp-Source: AA+uWPw9UHE/xKuYeLO9aorgHqxUJ6GSsox/qRHATaY/p/ETuPZrbeCrSdO6vCvqY/Mwhc9GQ5aloQ==
-X-Received: by 2002:a1c:a691:: with SMTP id
-	p139-v6mr952636wme.42.1533893063395; 
-	Fri, 10 Aug 2018 02:24:23 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h7-v6sm9750093wrs.8.2018.08.10.02.24.22
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 10 Aug 2018 02:24:22 -0700 (PDT)
-Message-ID: <fdafcc6cdd7abfa519ae59df871a844a07103e3f.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: kai.kang@windriver.com
-Date: Fri, 10 Aug 2018 10:24:21 +0100
-In-Reply-To: <8aa373833d3e5f54689b8863f864c39dc90e5cab.1533888808.git.kai.kang@windriver.com>
-References: <cover.1533888808.git.kai.kang@windriver.com>
-	<8aa373833d3e5f54689b8863f864c39dc90e5cab.1533888808.git.kai.kang@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] allarch: disable allarch when multilib is used
+	Fri, 10 Aug 2018 02:27:41 -0700
+Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Fri, 10 Aug 2018 02:27:34 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Aug 2018 17:38:03 +0800
+Message-ID: <1533893883-11594-1-git-send-email-dengke.du@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] nfs-utils: add runtime depends for nfs-export-root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,48 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Aug 2018 09:24:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Aug 2018 09:27:50 -0000
+Content-Type: text/plain
 
-On Fri, 2018-08-10 at 16:14 +0800, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> Some allarch packages rdepends non-allarch packages. When multilib is
-> used, it doesn't expand the dependency chain correctly, e.g.
-> 
-> core-image-sato -> ca-certificates(allarch) -> openssl
-> 
-> we expect dependency chain for lib32-core-image-sato:
-> 
-> lib32-core-image-sato -> ca-certificates(allarch) -> lib32-openssl
-> 
-> it should install lib32-openssl for ca-certificates but openssl is
-> still wrongly imported.
-> 
-> Disable allarch when multilib is used.
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/classes/allarch.bbclass         | 4 ++++
->  meta/classes/icecc.bbclass           | 2 +-
->  meta/classes/multilib.bbclass        | 3 ++-
->  meta/classes/multilib_global.bbclass | 4 +---
->  meta/classes/package.bbclass         | 9 ++++++---
->  meta/classes/staging.bbclass         | 2 +-
->  6 files changed, 15 insertions(+), 9 deletions(-)
+When DISTRO_FEATURE enable "systemd", the nfs-server.service in nfs-utils
+depends on /etc/exports, but the file "/etc/exports" installed by package
+nfs-export-root. Otherwise the service would failed.
 
-Looks good at a quick glance, I'll put it in for testing. 
+So we should add the runtime depends for nfs-export-root.
 
-Since I just saw it for other reasons, could you also see if we could
-remove the ${DEPLOY_DIR_RPM}/noarch/ mentioned as:
+Signed-off-by: Dengke Du <dengke.du@windriver.com>
+---
+ meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-# For multilib rpm the allarch packagegroup files can overwrite (in theory they're identical)
-SSTATE_DUPWHITELIST = "${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_RPM}/noarch/"
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
+index 6d450c7..581f334 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
+@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
+ # util-linux for libblkid
+ DEPENDS = "libcap libevent util-linux sqlite3 libtirpc"
+ RDEPENDS_${PN} = "${PN}-client bash"
++RDEPENDS_${PN}_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'nfs-export-root', '' ,d)}"
+ RRECOMMENDS_${PN} = "kernel-module-nfsd"
+ 
+ inherit useradd
+-- 
+2.7.4
 
-from sstate.bbclass please?
-
-Cheers,
-
-Richard
 
