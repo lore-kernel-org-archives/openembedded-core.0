@@ -1,29 +1,38 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A412478EFA
+Return-Path: <daniel.gomez@silicon-gears.com>
+Received: from relay.cloudcontrol.es (relay.cloudcontrol.es [93.90.30.95])
+	by mail.openembedded.org (Postfix) with ESMTP id CCE4878EF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2018 14:23:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7AEMxXQ024632
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 10 Aug 2018 07:23:15 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Fri, 10 Aug 2018 07:22:52 -0700
-To: <richard.purdie@linuxfoundation.org>
-References: <cover.1533888808.git.kai.kang@windriver.com>
-	<8aa373833d3e5f54689b8863f864c39dc90e5cab.1533888808.git.kai.kang@windriver.com>
-	<fdafcc6cdd7abfa519ae59df871a844a07103e3f.camel@linuxfoundation.org>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <54589b8c-b04f-3139-8b22-2b7781394bb7@windriver.com>
-Date: Fri, 10 Aug 2018 22:20:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Fri, 10 Aug 2018 14:39:54 +0000 (UTC)
+Received: from Twenty.silicon-gears.com (mx1.silicon-gears.com [81.47.169.96])
+	by relay.cloudcontrol.es (Postfix) with ESMTP id 8874BDBB20;
+	Fri, 10 Aug 2018 16:39:52 +0200 (CEST)
+Received: from [10.200.199.3] (10.200.199.3) by Twenty.silicon-gears.com
+	(10.20.0.101) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1034.26;
+	Fri, 10 Aug 2018 16:39:52 +0200
+Message-ID: <1533911991.20213.17.camel@silicon-gears.com>
+From: Daniel Gomez <daniel.gomez@silicon-gears.com>
+Reply-To: <daniel.gomez@silicon-gears.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 10 Aug 2018 16:39:51 +0200
+In-Reply-To: <CAJ86T=X+0Y1QkHJkgd3ajbnwhKALNkFq5+9wpO4daYmMhs2uQA@mail.gmail.com>
+References: <1532696872.1070.2.camel@silicon-gears.com>
+	<CAJ86T=X+0Y1QkHJkgd3ajbnwhKALNkFq5+9wpO4daYmMhs2uQA@mail.gmail.com>
+Organization: Silicon Gears
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 MIME-Version: 1.0
-In-Reply-To: <fdafcc6cdd7abfa519ae59df871a844a07103e3f.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] allarch: disable allarch when multilib is used
+X-Originating-IP: [10.200.199.3]
+X-ClientProxiedBy: Twenty.silicon-gears.com (10.20.0.101) To
+	Twenty.silicon-gears.com (10.20.0.101)
+X-ProcessControl-SpamMailControl-Information: Por favor,
+	contacte con el administrador
+X-ProcessControl-SpamMailControl-ID: 8874BDBB20.A58AE
+X-ProcessControl-SpamMailControl: Not scanned: please contact your Internet
+	E-Mail Service Provider for details
+X-ProcessControl-SpamMailControl-From: daniel.gomez@silicon-gears.com
+X-Spam-Status: No
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [morty][PATCH] Check libcc1 directory before disabling hardcoding of RPATHs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,62 +45,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Aug 2018 14:23:40 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 10 Aug 2018 14:39:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-On 2018年08月10日 17:24, richard.purdie@linuxfoundation.org wrote:
-> On Fri, 2018-08-10 at 16:14 +0800, kai.kang@windriver.com wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> Some allarch packages rdepends non-allarch packages. When multilib is
->> used, it doesn't expand the dependency chain correctly, e.g.
->>
->> core-image-sato -> ca-certificates(allarch) -> openssl
->>
->> we expect dependency chain for lib32-core-image-sato:
->>
->> lib32-core-image-sato -> ca-certificates(allarch) -> lib32-openssl
->>
->> it should install lib32-openssl for ca-certificates but openssl is
->> still wrongly imported.
->>
->> Disable allarch when multilib is used.
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>   meta/classes/allarch.bbclass         | 4 ++++
->>   meta/classes/icecc.bbclass           | 2 +-
->>   meta/classes/multilib.bbclass        | 3 ++-
->>   meta/classes/multilib_global.bbclass | 4 +---
->>   meta/classes/package.bbclass         | 9 ++++++---
->>   meta/classes/staging.bbclass         | 2 +-
->>   6 files changed, 15 insertions(+), 9 deletions(-)
-> Looks good at a quick glance, I'll put it in for testing.
->
-> Since I just saw it for other reasons, could you also see if we could
-> remove the ${DEPLOY_DIR_RPM}/noarch/ mentioned as:
->
-> # For multilib rpm the allarch packagegroup files can overwrite (in theory they're identical)
-> SSTATE_DUPWHITELIST = "${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_RPM}/noarch/"
->
-> from sstate.bbclass please?
-
-OK. I'll check it.
-
-Regards,
-Kai
-
-
->
-> Cheers,
->
-> Richard
->
-
--- 
-Regards,
-Neil | Kai Kang
-
+On vie, 2018-07-27 at 12:59 -0700, Andre McCurdy wrote:
+> On Fri, Jul 27, 2018 at 6:07 AM, Daniel Gomez
+> <daniel.gomez@silicon-gears.com> wrote:
+> > 
+> > Check if libcc1 directory exits before disabling hardcode_into_libs
+> > configuration because of broken libtool in gcc recipes.
+> A patch for morty should either be a backport which has already been
+> merged into all applicable later branches (ie if the same fix is
+> needed in sumo, rocko or pyro it needs to be merged to those branches
+> first) or it should explain clearly why it's only applicable to morty.
+Well, I have realized about the real problem and it is only affecting to 
+the gcc_4.9.bb recipe in the meta-linaro repo and not in the poky one.
+Basically, libcc1 support is included in gcc versions >= 5.x but not in
+older versions like 4.9.x and poky does not check the 'hardcode_into_libs'
+flags in versions where libcc1 is not included.
+> 
+> > 
+> > Signed-off-by: Daniel Gomez <daniel.gomez@silicon-gears.com>
+> > ---
+> >  meta/recipes-devtools/gcc/gcc_5.4.bb | 3 ++-
+> >  meta/recipes-devtools/gcc/gcc_6.4.bb | 3 ++-
+> >  2 files changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/meta/recipes-devtools/gcc/gcc_5.4.bb b/meta/recipes-devtools/gcc/gcc_5.4.bb
+> > index b0a523c..9da8ece 100644
+> > --- a/meta/recipes-devtools/gcc/gcc_5.4.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc_5.4.bb
+> > @@ -9,7 +9,8 @@ ARM_INSTRUCTION_SET_armv4 = "arm"
+> >  do_configure_prepend() {
+> >         # Easiest way to stop bad RPATHs getting into the library since we have a
+> >         # broken libtool here
+> > -       sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${S}/libcc1/configure
+> > +       if [ -d "${S}/libcc1" ]; then
+> > +               sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${S}/libcc1/configure
+> Missing fi ?
+Yes! I forgot to copy it from the original patch:
+https://lists.linaro.org/pipermail/openembedded/2018-March/000137.html
+> > 
+> >  }
+> > 
+> >  BBCLASSEXTEND = "nativesdk"
+> > diff --git a/meta/recipes-devtools/gcc/gcc_6.4.bb b/meta/recipes-devtools/gcc/gcc_6.4.bb
+> > index b0a523c..9da8ece 100644
+> > --- a/meta/recipes-devtools/gcc/gcc_6.4.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc_6.4.bb
+> > @@ -9,7 +9,8 @@ ARM_INSTRUCTION_SET_armv4 = "arm"
+> >  do_configure_prepend() {
+> >         # Easiest way to stop bad RPATHs getting into the library since we have a
+> >         # broken libtool here
+> > -       sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${S}/libcc1/configure
+> > +       if [ -d "${S}/libcc1" ]; then
+> > +               sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${S}/libcc1/configure
+> >  }
+> > 
+> >  BBCLASSEXTEND = "nativesdk"
+> > --
+> > 2.7.4
+> > 
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
