@@ -1,48 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B3E7978F12
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 0091D6093A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Aug 2018 12:58:47 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id h14-v6so10463192wrw.13
+	Sat, 11 Aug 2018 16:10:53 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id l2-v6so3929182wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Aug 2018 05:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9h/X4KqPmShjjwstPcp0hOQ7tnPtXD6sue39RZMou0I=;
-	b=tf7/yGUrdNF8wJrGk+lV+9zvGsBXTYQ0MzSHujEmklO16tnBsEW6LJpg0iLUYDMxMe
-	MuQHuWsPsWH1A610RgQqkinH52VBwqXu8atVKPQ1ArrNhOXientAGqsLdI2bKyU5rakQ
-	YUY1cDK2A+tIvuoFgzSnbJEprxZxElam1wYN5Hl32fEnHj2xl76WPFCN/kOLrOT3oDqP
-	os034a6ZN/9A/nHa84X8WWJOQ95+x00Ktf1WYIC+2tJEMJ28imGVQVc7xUQylrF8NzNF
-	W4gnjIz5CQa/2LavE2b0WkVnW548kzGufKnfT/EB37kztnoppXhqLu8GMXngoS63tBYL
-	TfhQ==
+	Sat, 11 Aug 2018 09:10:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=bNtaOC0XMJjojBAA0vscEE11BffUlx/ihRkiB0Tbho0=;
+	b=hz87PETyJKHxoxCbhvdjaPoxLnmOlvq3Iy/kZ1rvIB7ZKl9Gu245SKYH/z1ZBAGGm5
+	Ouc1Wg+1EyHal+T4JxXuAnmCLkmNGFP0onowwi8Aoyj6clyWI4+FvI0fcMrG57x2uAcu
+	gb7e8tpAtrXd/byCXhhx6hDWbYAf+jW38aml8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9h/X4KqPmShjjwstPcp0hOQ7tnPtXD6sue39RZMou0I=;
-	b=PalnddUQjKg5+ltLN/+DAou25xVMalCAcsO16hEXKnYBSHV8sESVva0PDSTkLaqf3S
-	Eg/6pwgbYyUsVRd7HKVfJiaSGVWGgaKtSI6/4WZ/7V1soAFSzSn5zODTdykiRo6uUzU3
-	yIkp2uuj1fuW8j4QYjHAhRFmVfVEs4bGEYnbt8fG1KHfS3ifL/z7KIPiihGgf4zE/FL/
-	hySQC3EWJGe2tGzp6dA4vT3ySDmSJeO2VkK6QSNU4xRozz2vdtB87qflmgqL7sz27+T1
-	BrizHSrYXz2Rh43kxX1NT5vPo0zTbuh63+SGLnvYpDJcIhRqbjmNhGCo+Do+ogF+ccmU
-	34Vg==
-X-Gm-Message-State: AOUpUlGbnYEFkafCAwQeZKzdqK5gPbSpI2LHh3bk8VJm6SH/iqT1Y61F
-	Osl+aYq9t+65wXOEb7iChjgr83FavycFrkme2eE=
-X-Google-Smtp-Source: AA+uWPywD9Wu41enOr0gH6dGBJtZQXd5Zi9Sbx1HVWaPnqGgJiChM+zMe8hzNOz2cw6ZuYt7sdNnAp79PoZlpk7/z3E=
-X-Received: by 2002:adf:aadb:: with SMTP id
-	i27-v6mr6603001wrc.149.1533992328182; 
-	Sat, 11 Aug 2018 05:58:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <1533911276-12983-1-git-send-email-mikko.rapeli@bmw.de>
-In-Reply-To: <1533911276-12983-1-git-send-email-mikko.rapeli@bmw.de>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sat, 11 Aug 2018 14:58:37 +0200
-Message-ID: <CA+chaQdP0Lq3fWvPBAk4hzwnO-6bYvfTg0oXLC-OWVV=hPxJVA@mail.gmail.com>
-To: mikko.rapeli@bmw.de
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perf: fail if src path does not exist
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=bNtaOC0XMJjojBAA0vscEE11BffUlx/ihRkiB0Tbho0=;
+	b=JhAjDkE1I7VlAs9s/mHyZBfPJOZfO1/r3590FP++1433imDr634WDW2kQxx/+r1Y8n
+	X4MqHpfgkv+uqbQo8LCWU4zQAOPfViWPOOFofohoRCE+1mJqzFeJbXpHlqNwJK6OUblx
+	kO7WZ4h6piuejDnRITDBiwFpBF+hmozIqs2ZoS2BHllc6eteOyGPsjJk8DcA1AJjPp28
+	aIgpsjZ5ufO/OeE5YNezhZq57Q43FWoLG/9uFiQANUWcSalZNrxu1WCaz3sXCRNIv4Rs
+	aCo5ZqRTl1vFlwegwKcsojzyb8ins1nT5462F5tcalBux/ch7wLimDzqe5dgkKjckVqp
+	u/Vg==
+X-Gm-Message-State: AOUpUlHHfaWY/cOqHLIPYUmoOch6zyXRYF8CIzb/g+5NtgXMugBzWfzZ
+	5a0/4zar4ilArtAxp2katCa3+Q==
+X-Google-Smtp-Source: AA+uWPwYFZWt/UC6Y7NbsAwapBKM/oZwIhjsw2OYTlFbCcO6OmjexJH//aoXiOcFstbu8CdfPB3ipw==
+X-Received: by 2002:a1c:d946:: with SMTP id
+	q67-v6mr4076469wmg.156.1534003854677; 
+	Sat, 11 Aug 2018 09:10:54 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	q16-v6sm3141972wmq.25.2018.08.11.09.10.53
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 11 Aug 2018 09:10:53 -0700 (PDT)
+Message-ID: <3dc3372508f6543edd5e6805ca004bf4bcb80c1f.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: kai.kang@windriver.com
+Date: Sat, 11 Aug 2018 17:10:52 +0100
+In-Reply-To: <8aa373833d3e5f54689b8863f864c39dc90e5cab.1533888808.git.kai.kang@windriver.com>
+References: <cover.1533888808.git.kai.kang@windriver.com>
+	<8aa373833d3e5f54689b8863f864c39dc90e5cab.1533888808.git.kai.kang@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] allarch: disable allarch when multilib is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,148 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Aug 2018 12:58:48 -0000
-Content-Type: multipart/alternative; boundary="000000000000cf45cd0573286b98"
-
---000000000000cf45cd0573286b98
+X-List-Received-Date: Sat, 11 Aug 2018 16:10:54 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I think this will break support for older kernels added in:
-http://git.openembedded.org/openembedded-core/commit/?id=19fb2d11a8bb3c6dfdd5edc1b9155d642dc0f5e0
-
-kernel-source/tools/arch and kernel-source/tools/build are missing in 3.16
-kernel even when it's not completely broken.
-
-I'm not completely against this change, maybe just add to commit message
-that for older kernels you need to add .bbappend which removes the
-directories which really doesn't exist in your kernel version from PERF_SRC.
-
-On Fri, Aug 10, 2018 at 4:55 PM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
-
-> A missing src directory from a broken kernel recipe resulted
-> only in a warning:
->
-> WARNING: copyfile: stat of
-> /home/builder/src/tmp-glibc/work-shared/target/kernel-source/tools/arch
-> failed ([Errno 2] No such file or directory:
-> '/home/builder/src/tmp-glibc/work-shared/target/kernel-source/tools/arch')
->
-> With this change it's an error which can not be missed:
->
-> ERROR: perf-1.0-r9 do_configure: Path does not exist:
-> /home/builder/src/tmp-glibc/work-shared/target/kernel-source/tools/arch
-> ERROR: perf-1.0-r9 do_configure: Function failed:
-> copy_perf_source_from_kernel
-> ERROR: Logfile of failure stored in:
-> /home/builder/src/tmp-glibc/work/target-linux/perf/1.0-r9/temp/log.do_configure.21083
-> NOTE: recipe perf-1.0-r9: task do_configure: Failed
-> ERROR: Task (/home/builder/src/poky/meta/recipes-kernel/perf/perf.bb:do_configure)
-> failed with exit code '1'
->
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+On Fri, 2018-08-10 at 16:14 +0800, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+> 
+> Some allarch packages rdepends non-allarch packages. When multilib is
+> used, it doesn't expand the dependency chain correctly, e.g.
+> 
+> core-image-sato -> ca-certificates(allarch) -> openssl
+> 
+> we expect dependency chain for lib32-core-image-sato:
+> 
+> lib32-core-image-sato -> ca-certificates(allarch) -> lib32-openssl
+> 
+> it should install lib32-openssl for ca-certificates but openssl is
+> still wrongly imported.
+> 
+> Disable allarch when multilib is used.
+> 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
 > ---
->  meta/recipes-kernel/perf/perf.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/
-> perf.bb
-> index 2c6bbb4..c07afeb 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -147,6 +147,8 @@ python copy_perf_source_from_kernel() {
->      for s in sources:
->          src = oe.path.join(src_dir, s)
->          dest = oe.path.join(dest_dir, s)
-> +        if not os.path.exists(src):
-> +            bb.fatal("Path does not exist: %s" % src)
->          if os.path.isdir(src):
->              oe.path.copyhardlinktree(src, dest)
->          else:
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+>  meta/classes/allarch.bbclass         | 4 ++++
+>  meta/classes/icecc.bbclass           | 2 +-
+>  meta/classes/multilib.bbclass        | 3 ++-
+>  meta/classes/multilib_global.bbclass | 4 +---
+>  meta/classes/package.bbclass         | 9 ++++++---
+>  meta/classes/staging.bbclass         | 2 +-
+>  6 files changed, 15 insertions(+), 9 deletions(-)
 
---000000000000cf45cd0573286b98
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+With this applied, "bitbake nativesdk-dbus" fails to build since
+it can't find the extra autoconf macros from an allarch recipe in
+DEPENDS.
 
-<div dir=3D"ltr"><div>I think this will break support for older kernels add=
-ed in:</div><div><a href=3D"http://git.openembedded.org/openembedded-core/c=
-ommit/?id=3D19fb2d11a8bb3c6dfdd5edc1b9155d642dc0f5e0">http://git.openembedd=
-ed.org/openembedded-core/commit/?id=3D19fb2d11a8bb3c6dfdd5edc1b9155d642dc0f=
-5e0</a><br></div><div><br></div>kernel-source/tools/arch and=C2=A0kernel-so=
-urce/tools/build are missing in=C2=A03.16 kernel even when it&#39;s not com=
-pletely broken.<br><div><br></div><div>I&#39;m not completely against this =
-change, maybe just add to commit message that for older kernels you need to=
- add .bbappend which removes the directories which really doesn&#39;t exist=
- in your kernel version from PERF_SRC.</div></div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr">On Fri, Aug 10, 2018 at 4:55 PM Mikko Rapeli &lt;<a =
-href=3D"mailto:mikko.rapeli@bmw.de">mikko.rapeli@bmw.de</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">A missing src directory from a broken k=
-ernel recipe resulted<br>
-only in a warning:<br>
-<br>
-WARNING: copyfile: stat of /home/builder/src/tmp-glibc/work-shared/target/k=
-ernel-source/tools/arch failed ([Errno 2] No such file or directory: &#39;/=
-home/builder/src/tmp-glibc/work-shared/target/kernel-source/tools/arch&#39;=
-)<br>
-<br>
-With this change it&#39;s an error which can not be missed:<br>
-<br>
-ERROR: perf-1.0-r9 do_configure: Path does not exist: /home/builder/src/tmp=
--glibc/work-shared/target/kernel-source/tools/arch<br>
-ERROR: perf-1.0-r9 do_configure: Function failed: copy_perf_source_from_ker=
-nel<br>
-ERROR: Logfile of failure stored in: /home/builder/src/tmp-glibc/work/targe=
-t-linux/perf/1.0-r9/temp/log.do_configure.21083<br>
-NOTE: recipe perf-1.0-r9: task do_configure: Failed<br>
-ERROR: Task (/home/builder/src/poky/meta/recipes-kernel/perf/perf.bb:do_con=
-figure) failed with exit code &#39;1&#39;<br>
-<br>
-Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@bmw.de" targ=
-et=3D"_blank">mikko.rapeli@bmw.de</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"noreferrer=
-" target=3D"_blank">perf.bb</a> | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"nor=
-eferrer" target=3D"_blank">perf.bb</a> b/meta/recipes-kernel/perf/<a href=
-=3D"http://perf.bb" rel=3D"noreferrer" target=3D"_blank">perf.bb</a><br>
-index 2c6bbb4..c07afeb 100644<br>
---- a/meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"noreferrer=
-" target=3D"_blank">perf.bb</a><br>
-+++ b/meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"noreferrer=
-" target=3D"_blank">perf.bb</a><br>
-@@ -147,6 +147,8 @@ python copy_perf_source_from_kernel() {<br>
-=C2=A0 =C2=A0 =C2=A0for s in sources:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0src =3D oe.path.join(src_dir, s)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dest =3D oe.path.join(dest_dir, s)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.path.exists(src):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Path does not exi=
-st: %s&quot; % src)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.isdir(src):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe.path.copyhardlinktree(sr=
-c, dest)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
--- <br>
-1.9.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+e.g. https://autobuilder.yocto.io/builders/nightly-arm/builds/1262/step
+s/Building%20Toolchain%20Images/logs/stdio
 
---000000000000cf45cd0573286b98--
+
+Cheers,
+
+Richard
+
