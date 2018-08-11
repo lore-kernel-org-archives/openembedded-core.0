@@ -1,49 +1,25 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 933B778EF1
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2873E6093F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2018 21:58:03 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id f21-v6so3275768wmc.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2018 14:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=duTdDp2r5QG3FZDg2+5LnQyMR0GNTxPGKutZntOpoxA=;
-	b=FiB7qQKNRIiZyAbmqhb8AEEkWMq7MGyViq7lXU/mM60xmA4sfS88ul3T32wdQmL11m
-	nvDEePbWMOTHg5VZSU3uvEMlCtN6etahmq8ZEI4zzs3z4MJcs8YgLJdYCSdndAlwfDAj
-	e/1bGnuqiO1LWqBeZzJuRzfhzNQmU0X/AOW3c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=duTdDp2r5QG3FZDg2+5LnQyMR0GNTxPGKutZntOpoxA=;
-	b=kdLkTJCVMF5vBo/lNHvxfgtLqMePHvLA9YbTdHg5GpMGB0MyyLTC6hTSei5zCibs01
-	X4iXplfc9gKjEcKry8fS5pQXP2qFRCs630BjWu4TpFPL5o4W3OozA+ntjNjXGfP1vY6n
-	jW3svacddS13cPECUHATPecmClFwNIlU2r2Qy4vDjvGjgkbtk0EhTGUN58avRj9GJagF
-	Qsxhmx26RIPhUcBi+MbAo9bmLc8w6+DmRHLLqssMeMjU89HT0/b87U1Jc+ShAw/UGAV9
-	J++KW9M6y8m5V2TUlH8HfVYZoOU7sGuyxqxzeXHvxmdmL9kTD1+2KXwdPH1tRBs/kyuC
-	6XxA==
-X-Gm-Message-State: AOUpUlG5WDokjnSJBthAnewUKR9Zp1o24aB5oVHUoZFyZNS349AR/TQh
-	CpQvMiapcpw11uC6xAfxAjMVMYkWWrI=
-X-Google-Smtp-Source: AA+uWPxOkOulUF8n6EVU7QZUhusVD9cmB6aYqL3Y+s7lTgQPkeUQ8WAb8V5TR4HPVcXhAeIfkSpn6Q==
-X-Received: by 2002:a1c:36aa:: with SMTP id
-	y42-v6mr2419046wmh.159.1533938284122; 
-	Fri, 10 Aug 2018 14:58:04 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	q2-v6sm1874773wmc.44.2018.08.10.14.58.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Aug 2018 14:58:03 -0700 (PDT)
+	Sat, 11 Aug 2018 09:33:20 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w7B9XJhd011120
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Sat, 11 Aug 2018 10:33:20 +0100
+Message-ID: <457fafc8309867b6199293e8d3369f5e86f1cef0.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Aug 2018 22:57:59 +0100
-Message-Id: <20180810215759.7843-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180810215759.7843-1-richard.purdie@linuxfoundation.org>
-References: <20180810215759.7843-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 3/3] libtool-cross: Handle ccache sstate 'infection' issues
+To: Dengke Du <dengke.du@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 11 Aug 2018 10:33:19 +0100
+In-Reply-To: <1533893883-11594-1-git-send-email-dengke.du@windriver.com>
+References: <1533893883-11594-1-git-send-email-dengke.du@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] nfs-utils: add runtime depends for nfs-export-root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,54 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Aug 2018 21:58:04 -0000
+X-List-Received-Date: Sat, 11 Aug 2018 09:33:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On a system without ccache, f you:
+On Fri, 2018-08-10 at 17:38 +0800, Dengke Du wrote:
+> When DISTRO_FEATURE enable "systemd", the nfs-server.service in nfs-
+> utils
+> depends on /etc/exports, but the file "/etc/exports" installed by
+> package
+> nfs-export-root. Otherwise the service would failed.
+> 
+> So we should add the runtime depends for nfs-export-root.
+> 
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> ---
+>  meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb | 1 +
+>  1 file changed, 1 insertion(+)
 
-INHERIT += "ccache"
-bitbake libtool-cross
-<remove INHERIT>
-bitbake apmd
+I suspect that this may in fact be a feature, you enable the nfs server
+by adding nfs-export-root to the image. The behaviour may therefore be
+intended as not everyone installing nfs-utils wants a server. We should
+perhaps better document that.
 
-then it fails due to being unable to find ccache. The references to ccache are
-coded into libtool-cross but the sstate checksum doesn't reflect this due to the
-way the class is coded (output should be the same regardless).
+Also, when using sysvinit does this recipe generate an init script
+which starts an nfs-server?
 
-The simplest solution is to remove references to ccache from the libtool script.
-The output then works regardless of whether ccache is present or not. The
-libtool-cross script is only used in a handful of cases (most of the time its
-dynamically generated by autoconf) so any performance issue is minor.
+Cheers,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
-index b2683104686..522bf3a0e96 100644
---- a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
-+++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
-@@ -13,11 +13,19 @@ do_configure_prepend () {
- 	rm -f ${STAGING_DATADIR}/aclocal/lt*.m4
- }
- 
-+#
-+# ccache may or may not be INHERITED, we remove references to it so the sstate
-+# artefact works on a machine where its not present. libtool-cross isn't used
-+# heavily so any performance issue is minor.
-+# Find references to LTCC="ccache xxx-gcc" and CC="ccache xxx-gcc"
-+#
- do_install () {
- 	install -d ${D}${bindir_crossscripts}/
- 	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
- 	sed -e 's@^\(predep_objects="\).*@\1"@' \
- 	    -e 's@^\(postdep_objects="\).*@\1"@' \
-+	    -e 's@^CC="ccache.@CC="@' \
-+	    -e 's@^LTCC="ccache.@LTCC="@' \
- 	    -i ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
- 	sed -i '/^archive_cmds=/s/\-nostdlib//g' ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
- 	sed -i '/^archive_expsym_cmds=/s/\-nostdlib//g' ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
--- 
-2.17.1
-
+Richard
 
