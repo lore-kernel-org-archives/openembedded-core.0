@@ -1,25 +1,24 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ECB9607AD
+	by mail.openembedded.org (Postfix) with ESMTP id A80D078F18
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Aug 2018 09:59:07 +0000 (UTC)
+	Sat, 11 Aug 2018 12:30:02 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w7B9x1go011864
+	w7BCTxmk017685
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 11 Aug 2018 10:59:03 +0100
-Message-ID: <3cfe4ef7344707088d266dd83b1eb698f103ad29.camel@linuxfoundation.org>
+	verify=NOT); Sat, 11 Aug 2018 13:30:01 +0100
+Message-ID: <7144f3fde7dbc274b11329571a1da99aff1fece9.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Jonas <mark.jonas@de.bosch.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 11 Aug 2018 10:59:01 +0100
-In-Reply-To: <1533407162-21497-1-git-send-email-mark.jonas@de.bosch.com>
-References: <1533407162-21497-1-git-send-email-mark.jonas@de.bosch.com>
+To: Paulo Neves <ptsneves@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 11 Aug 2018 13:29:59 +0100
+In-Reply-To: <1533929879-22972-1-git-send-email-ptsneves@gmail.com>
+References: <1533929879-22972-1-git-send-email-ptsneves@gmail.com>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.4 at dan
 X-Virus-Status: Clean
-Subject: Re: [meta-oe][PATCH] directfb: fix tslib version check in configure.in
+Subject: Re: [meta-oe][PATCH 1/3] testimage: Refactoring and fixing.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Aug 2018 09:59:08 -0000
+X-List-Received-Date: Sat, 11 Aug 2018 12:30:03 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2018-08-04 at 20:26 +0200, Mark Jonas wrote:
-> From: Guan Ben <ben.guan@cn.bosch.com>
+On Fri, 2018-08-10 at 21:37 +0200, Paulo Neves wrote:
+> The testimage.bbclass invocation of controllers besides
+> simpletarget and qemutarget was broken.  Setting TEST_TARGET
+> to class names did not work, only hardcoded values set in
+> context.py were allowed.  On the other hand the other
+> TEST_TARGETs available were supposedly available through the
+> class name convetion but none of them were working. See:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12842
 > 
-> The patch makes sure that the old as well as the new tslib pkg-config
-> metadata file naming style is handled correctly.
-> 
-> tslib 0.0 to 1.0 created only a tslib-<VERSION>.pc pkg-config
-> metadata
-> file.
-> 
-> With tslib 1.1 the tslib-<VERSION>.pc phase out was started.
-> Additionally, the pkg-config metadata file tslib.pc was added.
-> 
-> Since tslib 1.6 the tslib-<VERSION>.pc metadata file is deprecated.
-> Now, there is only a tslib.pc.
+> In this commit qemuwrapper and simpletarget TEST_TARGETS are
+> now not available through these names, but through the
+> common convention of class names.
 
-I'm a little confused about why OE needs this patch? Surely OE is using
-the more recent tslib releases and therefore we don't need this patch?
+There are some good cleanups in here, thanks! It is hard to review due
+to the number/size of changes. I put it into a test run on the
+autobuilder and it failed:
+
+https://autobuilder.yocto.io/builders/nightly-musl/builds/1220/steps/Running%20Sanity%20Tests/logs/stdio
+
+The rest of the builds have't gotten this far yet but I suspect we'll
+see further similar failures and these will need to be fixed before we
+can consider merging the patches.
 
 Cheers,
 
