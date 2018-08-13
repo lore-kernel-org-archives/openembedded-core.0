@@ -1,25 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Changqing.Li@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C053778F37
+	by mail.openembedded.org (Postfix) with ESMTP id C9F9671B57
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2018 08:50:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7D8oKCq027972
+	Mon, 13 Aug 2018 08:55:07 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7D8t9dg027995
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2018 01:50:20 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 13 Aug 2018 01:50:19 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Mon, 13 Aug 2018 01:55:09 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Mon, 13 Aug 2018 01:55:08 -0700
+From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Aug 2018 16:54:37 +0800
-Message-ID: <847525f642a8c8c987e285ae3b896c1df71f1cfe.1534150439.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1534150439.git.Qi.Chen@windriver.com>
-References: <cover.1534150439.git.Qi.Chen@windriver.com>
+Date: Mon, 13 Aug 2018 16:55:07 +0800
+Message-ID: <1534150507-171031-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 1/1] parselogs.py: output correct log location
+Subject: [PATCH] bind: upgrade 9.11.4 -> 9.13.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,48 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2018 08:50:19 -0000
+X-List-Received-Date: Mon, 13 Aug 2018 08:55:07 -0000
 Content-Type: text/plain
 
-The log entry in results is altered to remove 'target_logs'. This
-causes wrong log location in output.
+From: Changqing Li <changqing.li@windriver.com>
 
-e.g.
-   AssertionError: 1 != 0 : Log: /path/to/image/1.0-r0/postinstall.log
-
-But when user wants to check the log, the user will find the log is
-not present. The actual log file is /path/to/image/1.0-r0/target_logs/postinstall.log.
-
-So fix to use the correct log location.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/lib/oeqa/runtime/cases/parselogs.py | 4 ++--
+ meta/recipes-connectivity/bind/{bind_9.11.4.bb => bind_9.13.2.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.11.4.bb => bind_9.13.2.bb} (97%)
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index 017b550..f6e9820 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -313,7 +313,7 @@ class ParseLogsTest(OERuntimeTestCase):
-                 pass
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.13.2.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.11.4.bb
+rename to meta/recipes-connectivity/bind/bind_9.13.2.bb
+index 7522fdb..08ebd24 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.13.2.bb
+@@ -19,8 +19,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
+ "
  
-             if result is not None:
--                results[log.replace('target_logs/','')] = {}
-+                results[log] = {}
-                 rez = result.splitlines()
+-SRC_URI[md5sum] = "9b4834d78f30cdb796ce437262272a36"
+-SRC_URI[sha256sum] = "595070b031f869f8939656b5a5d11b121211967f15f6afeafa895df745279617"
++SRC_URI[md5sum] = "01d0524016ac15ea3f4b6c77d99db0b2"
++SRC_URI[sha256sum] = "6c044e9ea81add9dbbd2f5dfc224964cc6b6e364e43a8d6d8b574d9282651802"
  
-                 for xrez in rez:
-@@ -323,7 +323,7 @@ class ParseLogsTest(OERuntimeTestCase):
-                         grep_output = check_output(cmd).decode('utf-8')
-                     except:
-                         pass
--                    results[log.replace('target_logs/','')][xrez]=grep_output
-+                    results[log][xrez]=grep_output
- 
-         return results
- 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
 -- 
-1.9.1
+2.7.4
 
 
