@@ -1,103 +1,40 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
-	[209.85.218.42])
-	by mail.openembedded.org (Postfix) with ESMTP id F359478F63
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 8960678E9D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2018 15:58:09 +0000 (UTC)
-Received: by mail-oi0-f42.google.com with SMTP id d189-v6so28139313oib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2018 08:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=GJ3b1bYk74ctDJs6VU7t47jqYJxZlp1MESE4FQqc18A=;
-	b=Befww+j4JnnWzgOg1ZpEAEol6YVlIuOrsVpB/Qg51k+ZHO1jdPp/MfvxvPv5DvAlnW
-	0kOqRI9xniwJSN19Sha5TE/xysGYqFgFMwcb3TYQHxf6KwS9kTq7TOm23nzGi0eEkTjo
-	ZPOyNgbMsFhM2eZuf+SLuvnSbtWzgzKnjL2UEfl4I8gcwfUXVDpBfR917aTM3rNjjsZ2
-	bU5vhejZJH0TunJ9WxcmKjgCjjkHZRtzgikoVN7uLXWJcPnEhlveDyc/00vJK5AGcV5w
-	ZBZiaI3iXd+NunsTSKD3jTAN9EO5fUDn1tyoQLkL3Rhj2voEL2ZJUxA3F5STUsaDlN7K
-	SPag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language;
-	bh=GJ3b1bYk74ctDJs6VU7t47jqYJxZlp1MESE4FQqc18A=;
-	b=unl9O+lMQNvSoMYYbi1S/ruteJlGVG/qRov4EuCqvTWTTV3Hfxze83+Xryhu++B2ST
-	hIoVHgknJa8Sl8ExgXaR7rAQyfa1xmfx9jefD4+t/7UD1mhvKp21pOD1BhcjEIfK/NNl
-	x3+Sjnk2roJZzhFFNQ0Ib7O9hS2dcijlX8GmI9LNZDMDC7NJvzpLg3BWT8VoNPJqBBdE
-	H0HO8f4M05zi4RRzWxmERuVUnsQQhqWVTErTotPB+iE/cakGBx5yzIn1JiUN7eBPy0xT
-	Uj6KuR77LRqojsNrWN0I2lS8Ao3UD4FODqnpkLmUR47lkI/kKWFw1kiIeBKJ+lxVudLK
-	2zWQ==
-X-Gm-Message-State: AOUpUlGHi7ciqgzOoDWMm2AVU7Wl1ALdShcyRU9iSVejoGTySusjFFTF
-	EUnlnqAuXxrlLlsl5J0fFoxn6oap
-X-Google-Smtp-Source: AA+uWPymM6HZRFqcsw9rhJfP5k68RWuVX0FQGpVcMR5mE1swuHAjeT/N9/frCNaipjdE6OMZqYgNQQ==
-X-Received: by 2002:a54:4197:: with SMTP id
-	23-v6mr5336793oiy.352.1534175890736; 
-	Mon, 13 Aug 2018 08:58:10 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:64f0:5919:ccc1:f72d?
-	([2601:202:4180:c33:64f0:5919:ccc1:f72d])
-	by smtp.gmail.com with ESMTPSA id
-	l204-v6sm11672271oia.45.2018.08.13.08.58.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Aug 2018 08:58:10 -0700 (PDT)
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <1534150507-171031-1-git-send-email-changqing.li@windriver.com>
-	<b936607d-dd70-47a1-826e-b245a57a7c79@gmail.com>
-	<CANNYZj_Fmqpz1bS8XMDsReaeg1s9wBQ2JWLCDt0_MMez-S_tKQ@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <57f1ea3f-5bba-1daf-723e-e1d2b9feb06b@gmail.com>
-Date: Mon, 13 Aug 2018 08:58:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Mon, 13 Aug 2018 16:41:54 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Aug 2018 09:41:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,234,1531810800"; d="scan'208,217";a="72416445"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Aug 2018 09:41:48 -0700
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.102]) by
+	fmsmsx107.amr.corp.intel.com ([169.254.6.151]) with mapi id
+	14.03.0319.002; Mon, 13 Aug 2018 09:41:47 -0700
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
+Thread-Index: AdQXlGn2RYGWCO8aQne3TGYivsbGuQ==
+Date: Mon, 13 Aug 2018 16:41:46 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155EC737BF0A@fmsmsx111.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.106]
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWM1NTVhNjktYmU4ZS00NzkzLTkyMDgtZGVlNGE1OTA2YTZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaUlWbjdERDJ5eExEVTQ0dWhmcVE5RVV6NVQrT1dlMmtFek5FSTNwUjZ2TE5cL05hT2ZBdXpzZk1EV2tlUzRkNGQifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_Fmqpz1bS8XMDsReaeg1s9wBQ2JWLCDt0_MMez-S_tKQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bind: upgrade 9.11.4 -> 9.13.2
+Subject: Yocto Project Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,194 +47,214 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2018 15:58:10 -0000
-Content-Type: multipart/alternative;
-	boundary="------------0E5A4D97D98E8DD7D10EEEAD"
+X-List-Received-Date: Mon, 13 Aug 2018 16:41:54 -0000
 Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC737BF0Afmsmsx111amrcor_"
 
---------------0E5A4D97D98E8DD7D10EEEAD
-Content-Type: text/plain; charset=utf-8
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC737BF0Afmsmsx111amrcor_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
+All,
 
 
-On 08/13/2018 07:59 AM, Alexander Kanavin wrote:
-> However, for the upcoming YP release, it's better to settle on
-> something that expires later than 2020. How is 9.12.x currently?
-I stand corrected. its 2021.
 
-Here are our current ESV versions and their EOL dates:
-
-  * BIND 9.9 Extended Support Version will be supported until June, 2018
-  * BIND 9.11 is an Extended support version, and will be supported
-    until December, 2021
-
-BIND 9.16 will be our next ESV, followed by BIND 9.20, and every second
-stable version after that will be ESV.
+The triage team meets weekly and does its best to handle the bugs reported =
+into the bugzilla. The number of people attending that meeting has fallen, =
+as have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage team) a=
+re therefore going to start reporting out the currently 315 unassigned bugs=
+.
 
 
-Please see : https://www.isc.org/downloads/software-support-policy/ if
-you want more details. The reasoning was noted during the update to 9.10
--> 9.13 -> 9.11 emails/patches a few months back.
 
-- armin
+We're hoping people may be able to spare some time now and again to help ou=
+t with these.
+
+
+
+Bugs are split into two types, "true bugs" where things don't work as they =
+should and "enhancements" which are features we'd want to add to the system=
+.
+
+
+
+There are also roughly three different "priority" classes right now, "2.6",=
+ "2.99" and "Future", the more pressing/urgent issues being in "2.6".
+
+
+
+Please review this link and if a bug is something you would be able to help=
+ with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
+com) an e-mail with the bug number you would like and I will assign it to y=
+ou (please make sure you have a bugzilla account).
+
+
+
+The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
+gs
+
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+*    Cell:                (208) 244-4460
+* Email:                             stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC737BF0Afmsmsx111amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> Alex
->
-> 2018-08-13 16:37 GMT+02:00 akuster808 <akuster808@gmail.com>:
->>
->> On 08/13/2018 01:55 AM, changqing.li@windriver.com wrote:
->>> From: Changqing Li <changqing.li@windriver.com>
->>>
->>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
->> Is there a reason why this version was selected? 9.13 is still under
->> development and ISC in not recommending  this version for production.
->> 9.11 EOL is 2020.
->>
->> We should keep one long term version around if you need bleeding edge.=
-
->>
->> - armin
->>> ---
->>>  meta/recipes-connectivity/bind/{bind_9.11.4.bb =3D> bind_9.13.2.bb} =
-| 4 ++--
->>>  1 file changed, 2 insertions(+), 2 deletions(-)
->>>  rename meta/recipes-connectivity/bind/{bind_9.11.4.bb =3D> bind_9.13=
-=2E2.bb} (97%)
->>>
->>> diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/rec=
-ipes-connectivity/bind/bind_9.13.2.bb
->>> similarity index 97%
->>> rename from meta/recipes-connectivity/bind/bind_9.11.4.bb
->>> rename to meta/recipes-connectivity/bind/bind_9.13.2.bb
->>> index 7522fdb..08ebd24 100644
->>> --- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
->>> +++ b/meta/recipes-connectivity/bind/bind_9.13.2.bb
->>> @@ -19,8 +19,8 @@ SRC_URI =3D "https://ftp.isc.org/isc/bind9/${PV}/${=
-BPN}-${PV}.tar.gz \
->>>             file://0001-lib-dns-gen.c-fix-too-long-error.patch \
->>>  "
->>>
->>> -SRC_URI[md5sum] =3D "9b4834d78f30cdb796ce437262272a36"
->>> -SRC_URI[sha256sum] =3D "595070b031f869f8939656b5a5d11b121211967f15f6=
-afeafa895df745279617"
->>> +SRC_URI[md5sum] =3D "01d0524016ac15ea3f4b6c77d99db0b2"
->>> +SRC_URI[sha256sum] =3D "6c044e9ea81add9dbbd2f5dfc224964cc6b6e364e43a=
-8d6d8b574d9282651802"
->>>
->>>  UPSTREAM_CHECK_URI =3D "https://ftp.isc.org/isc/bind9/"
->>>  UPSTREAM_CHECK_REGEX =3D "(?P<pver>9(\.\d+)+(-P\d+)*)/"
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---------------0E5A4D97D98E8DD7D10EEEAD
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 08/13/2018 07:59 AM, Alexander
-      Kanavin wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CANNYZj_Fmqpz1bS8XMDsReaeg1s9wBQ2JWLCDt0_MMez-S_tKQ@mail.gmail.com">
-      <pre wrap="">However, for the upcoming YP release, it's better to settle on
-something that expires later than 2020. How is 9.12.x currently?</pre>
-    </blockquote>
-    I stand corrected. its 2021.<br>
-    <br>
-    <p>Here are our current ESV versions and their EOL dates:</p>
-    <ul>
-      <li>BIND 9.9 Extended Support Version will be supported until
-        June, 2018</li>
-      <li>BIND 9.11 is an Extended support version, and will be
-        supported until December, 2021</li>
-    </ul>
-    <p>BIND 9.16 will be our next ESV, followed by BIND 9.20, and every
-      second stable version after that will be ESV.</p>
-    <br>
-    Please see : <a class="moz-txt-link-freetext" href="https://www.isc.org/downloads/software-support-policy/">https://www.isc.org/downloads/software-support-policy/</a>
-    if you want more details. The reasoning was noted during the update
-    to 9.10 -&gt; 9.13 -&gt; 9.11 emails/patches a few months back.<br>
-    <br>
-    - armin<br>
-    <blockquote type="cite"
-cite="mid:CANNYZj_Fmqpz1bS8XMDsReaeg1s9wBQ2JWLCDt0_MMez-S_tKQ@mail.gmail.com">
-      <pre wrap="">
-
-Alex
-
-2018-08-13 16:37 GMT+02:00 akuster808 <a class="moz-txt-link-rfc2396E" href="mailto:akuster808@gmail.com">&lt;akuster808@gmail.com&gt;</a>:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">
-
-On 08/13/2018 01:55 AM, <a class="moz-txt-link-abbreviated" href="mailto:changqing.li@windriver.com">changqing.li@windriver.com</a> wrote:
-</pre>
-        <blockquote type="cite">
-          <pre wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
-
-Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
-</pre>
-        </blockquote>
-        <pre wrap="">
-Is there a reason why this version was selected? 9.13 is still under
-development and ISC in not recommending  this version for production.
-9.11 EOL is 2020.
-
-We should keep one long term version around if you need bleeding edge.
-
-- armin
-</pre>
-        <blockquote type="cite">
-          <pre wrap="">---
- meta/recipes-connectivity/bind/{bind_9.11.4.bb =&gt; bind_9.13.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.11.4.bb =&gt; bind_9.13.2.bb} (97%)
-
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.13.2.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.11.4.bb
-rename to meta/recipes-connectivity/bind/bind_9.13.2.bb
-index 7522fdb..08ebd24 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.13.2.bb
-@@ -19,8 +19,8 @@ SRC_URI = <a class="moz-txt-link-rfc2396E" href="https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz\file://0001-lib-dns-gen.c-fix-too-long-error.patch\">"https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
- "</a>
-
--SRC_URI[md5sum] = "9b4834d78f30cdb796ce437262272a36"
--SRC_URI[sha256sum] = "595070b031f869f8939656b5a5d11b121211967f15f6afeafa895df745279617"
-+SRC_URI[md5sum] = "01d0524016ac15ea3f4b6c77d99db0b2"
-+SRC_URI[sha256sum] = "6c044e9ea81add9dbbd2f5dfc224964cc6b6e364e43a8d6d8b574d9282651802"
-
- UPSTREAM_CHECK_URI = <a class="moz-txt-link-rfc2396E" href="https://ftp.isc.org/isc/bind9/">"https://ftp.isc.org/isc/bind9/"</a>
- UPSTREAM_CHECK_REGEX = "(?P&lt;pver&gt;9(\.\d+)+(-P\d+)*)/"
-</pre>
-        </blockquote>
-        <pre wrap="">
-
---
-_______________________________________________
-Openembedded-core mailing list
-<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
-<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
-</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-  </body>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:2 11 5 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoPlainText">All,<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
+ handle the bugs reported into the bugzilla. The number of people attending=
+ that meeting has fallen, as have the number of people available to help fi=
+x bugs. One of the things we hear
+ users report is they don't know how to help. We (the triage team) are ther=
+efore going to start reporting out the currently 315 unassigned bugs.<o:p><=
+/o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
+e now and again to help out with these.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
+ot; where things don't work as they should and &quot;enhancements&quot; whi=
+ch are features we'd want to add to the system.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">There are also roughly three different &quot;prio=
+rity&quot; classes right now, &quot;2.6&quot;, &quot;2.99&quot; and &quot;F=
+uture&quot;, the more pressing/urgent issues being in &quot;2.6&quot;.<o:p>=
+</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Please review this link and if a bug is something=
+ you would be able to help with either take ownership of the bug, or send m=
+e (Stephen.k.jolley@intel.com) an e-mail with the bug number you would like=
+ and I will assign it to you (please
+ make sure you have a bugzilla account).<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
+ect.org/wiki/Bug_Triage#Unassigned_Bugs">
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
+></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
+=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
+"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
+=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;
+<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
+span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
+ns-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
 </html>
 
---------------0E5A4D97D98E8DD7D10EEEAD--
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC737BF0Afmsmsx111amrcor_--
