@@ -1,18 +1,26 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CC5B778F6A;
-	Mon, 13 Aug 2018 14:32:56 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Mon, 13 Aug 2018 14:32:58 -0000
-Message-ID: <20180813143258.13841.93011@do.openembedded.org>
-References: <20180813142835.5309-1-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180813142835.5309-1-richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImdsaWJjOiBBZGQgbWFrZS1uYXRpdmUgZGVwZW5kcy4uLiIgYW5kIDYgbW9yZQ==?=
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E9DA78F7F
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2018 14:33:28 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7DEXQcI006250
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 13 Aug 2018 15:33:27 +0100
+Message-ID: <94fdc59922b11cf74ec789ffbaa4745ca3bc8ead.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paulo Neves <ptsneves@gmail.com>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Aug 2018 15:33:26 +0100
+In-Reply-To: <CAJO0J4ig3xhEaukBrZFw2RCMzpXjbuXXFiMt8vP2edpsA8Wdxw@mail.gmail.com>
+References: <1533929879-22972-1-git-send-email-ptsneves@gmail.com>
+	<CAJO0J4ig3xhEaukBrZFw2RCMzpXjbuXXFiMt8vP2edpsA8Wdxw@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [meta-oe][PATCH 1/3] testimage: Refactoring and fixing.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,45 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2018 14:32:56 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 13 Aug 2018 14:33:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On Sun, 2018-08-12 at 21:49 +0200, Paulo Neves wrote:
+> I found a bug in my code where changing a variable, for example in
+> layer.conf does not re-trigger the generation of the json file
+> containing the data store at the time of image creation. The json
+> file is generated in
+> ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; " @
+> meta/classes/rootfs-postcommands.bbclass.
+> 
+> Can anybody tell me if changing a variable in the datastore and
+> accessing it in the postprocess_command will never trigger the
+> postprocess_command? It happens that in this case this variable is
+> not important for the rootfs task itself but only for the post-
+> process.
 
-Series: "glibc: Add make-native depends..." and 6 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13483/
-State : failure
+The system has no insight into which variables that command might be
+accessing so it doesn't know when to rerun it. Adding a dependency on
+all variables would mean the rootfs would get continually rewritten.
 
-== Summary ==
+I don't like the json usage in testimage for this reason as it
+effectively breaks our data dependencies and handling in order to be
+able to run standalone. Pros and cons I guess, this is one of the
+downsides. Not sure there is much that can be done about it.
 
+Cheers,
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Richard
 
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 3d493838f0)
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-graphics/xorg-driver/xf86-video-intel/glibc.patch)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
