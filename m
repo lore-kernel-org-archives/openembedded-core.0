@@ -1,47 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B37478F1A
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 45F4778F1A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2018 14:28:37 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id c13-v6so14488881wrt.1
+	Mon, 13 Aug 2018 14:28:38 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id h10-v6so14442538wre.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2018 07:28:38 -0700 (PDT)
+	Mon, 13 Aug 2018 07:28:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=T8/H6Cdmo29s3/zzME/+icb1o9jm49Nnlz+Fjl+C454=;
-	b=L0lttXOWUI5nFJl6pozOY4y9/ORohkcVrSBhsJP9gWaPdsd2vmFdef22CF0SaHrku5
-	BfPUMok0ZWjA+Oj2WeW5sND2L00KIPVh5qBWoVdLHsjLIh6tnFZzVoOugdEK77u+sifE
-	QcKPuirw3jy2ErpqpG+ZjLzQE5SqyrcQvTC/o=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=r2l2sNTdO/MYnv8m/Qa/XjvhRuXSeW0SAYTA19dUAfY=;
+	b=Y7qeUO6nANB/3KW+o1597xuKnOiFmqW7oXQLO6xfJRsYruug/JmYQBSBpaEr1DNpHB
+	S+aa0YI9FuSdOjtFJXA7yOnB9IRWo6ZDtkYOvnN1/0k6bVLJkx+3aSv9/wxTh9g0ppMK
+	9370WEXISq6dBytKY4uO/xaIgcJEBC77BIGAA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=T8/H6Cdmo29s3/zzME/+icb1o9jm49Nnlz+Fjl+C454=;
-	b=N+sFGOUouDdsouueiWh26TxA4TTBom9L/IHe8kbxX2Zs7g2nvyI6JKJh5cSjLNPdgY
-	E4ZzqZNtdToXAFQ/fqhZv3O9b3+UcDOvTps7Lr1T1sqTdF3ndS9oqXsFqkGlDpKNxySr
-	6qZofunuJVU04xC4CRqn7hj7Tw06VwmI4ez57mYbr7AOxJ364CDWlcf5q2k54wxt2hFa
-	Os46pvh2+tHiaAiAZinXu4f8AhLDm0dmSuyoJvP7k7vcYjkdnDicXfCOkwnM6iBQT21q
-	fKSf2h4lYLhkBWP+LZAg8aWYR8EZxRsF1BXTdFRuDoSZ6zQh2ozh7uWfsphX3VVr9ngf
-	dqwg==
-X-Gm-Message-State: AOUpUlEJ92ZPhCbAaP4gvHAfYGkE4jei0onHNAkxHFKp5raBUuA4dp0Q
-	VQ/GiESTj7HrHOL/6C1c3KnRRSh/SO0=
-X-Google-Smtp-Source: AA+uWPxtNpbUgElhRQyfompCAVnNHFOXzAWMOmWs6fC6WDYqzTJr+QgjYrzNp4qnEUL6WkNUmSjRYQ==
-X-Received: by 2002:adf:8004:: with SMTP id
-	4-v6mr11265374wrk.130.1534170517589; 
-	Mon, 13 Aug 2018 07:28:37 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=r2l2sNTdO/MYnv8m/Qa/XjvhRuXSeW0SAYTA19dUAfY=;
+	b=RoBRdhGRSUMhWZeBfMUtEs+lEURCbBtWCvTrTanDN9mzK86gEFHQCdPtq+bvf4+6gJ
+	/ZHcQnjfKTOBJZCdzi0K+cJwUJxf+o5BWc2henGsD0XhdBAZRY6JzrMcI3q+NXNeA1Ow
+	5qlU743Qadb7FIMU6gkuMt8U2LlmBZd4q9xrCBW38dg/9J2HJ97oRM1X099+XHLk5H1N
+	ItK/Fs5QlwapCHtenj0znte2Twsicvyp2Z3EhnTU2cK2HdFII5tPaHKwadZhVC+qhTZW
+	eVKMZLBiaZPwvdr7zkUztWxdlmQdq0xvH4KuAaEHycd7VCGbrxRz5YZXcXITVTHS0Xzm
+	AIkw==
+X-Gm-Message-State: AOUpUlHlz2JMBRJ2A2mobL7LxCvoyI6bCjkRqv6C+9+SKc0FLFHV9FDS
+	e58P+AnHKAnfbX9OOWo+ezGMaTLonaQ=
+X-Google-Smtp-Source: AA+uWPzS7HUsxX7snhc5nhlXDJEPTH2aNXmDy6PQDWvs7pHnGBw2maGdy1QDmbwoYN12oHc+XMCWiQ==
+X-Received: by 2002:adf:8161:: with SMTP id
+	88-v6mr10604775wrm.22.1534170518883; 
+	Mon, 13 Aug 2018 07:28:38 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	x7-v6sm13488254wrr.95.2018.08.13.07.28.36
+	x7-v6sm13488254wrr.95.2018.08.13.07.28.37
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Aug 2018 07:28:36 -0700 (PDT)
+	Mon, 13 Aug 2018 07:28:37 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Aug 2018 15:28:29 +0100
-Message-Id: <20180813142835.5309-1-richard.purdie@linuxfoundation.org>
+Date: Mon, 13 Aug 2018 15:28:30 +0100
+Message-Id: <20180813142835.5309-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/7] glibc: Add make-native depends
+In-Reply-To: <20180813142835.5309-1-richard.purdie@linuxfoundation.org>
+References: <20180813142835.5309-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/7] screen: Add virtual/crypt dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2018 14:28:37 -0000
+X-List-Received-Date: Mon, 13 Aug 2018 14:28:38 -0000
 
-glibc needs make >= 4 yet some of our build workers have older versions of
-make. Add a make-native dependency to work around this until all our supported
-distros have a recent version of make.
+screen uses crypt() so add the missing DEPENDS triggered by glibc 2.28.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/glibc/glibc-initial.inc | 2 +-
- meta/recipes-core/glibc/glibc_2.28.bb     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/screen/screen_4.6.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-initial.inc b/meta/recipes-core/glibc/glibc-initial.inc
-index 28f006fc7f4..d3cfdcc4ccb 100644
---- a/meta/recipes-core/glibc/glibc-initial.inc
-+++ b/meta/recipes-core/glibc/glibc-initial.inc
-@@ -1,4 +1,4 @@
--DEPENDS = "linux-libc-headers virtual/${TARGET_PREFIX}gcc-initial libgcc-initial"
-+DEPENDS = "linux-libc-headers virtual/${TARGET_PREFIX}gcc-initial libgcc-initial make-native"
- PROVIDES = "virtual/${TARGET_PREFIX}libc-initial"
+diff --git a/meta/recipes-extended/screen/screen_4.6.2.bb b/meta/recipes-extended/screen/screen_4.6.2.bb
+index 7a33c31d8cc..375dce949d0 100644
+--- a/meta/recipes-extended/screen/screen_4.6.2.bb
++++ b/meta/recipes-extended/screen/screen_4.6.2.bb
+@@ -11,7 +11,7 @@ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://screen.h;endline=26;md5=3971142989289a8198a544220703c2bf"
  
- PACKAGES = ""
-diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
-index 906e6c2b622..95e333dd5cb 100644
---- a/meta/recipes-core/glibc/glibc_2.28.bb
-+++ b/meta/recipes-core/glibc/glibc_2.28.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=cfc0ed77a9f62fa62eded042ebe31d72 \
-       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
-       file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
- 
--DEPENDS += "gperf-native bison-native"
-+DEPENDS += "gperf-native bison-native make-native"
- 
- SRCREV ?= "3c03baca37fdcb52c3881e653ca392bba7a99c2b"
+-DEPENDS = "ncurses \
++DEPENDS = "ncurses virtual/crypt \
+           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} = "base-files"
  
 -- 
 2.17.1
