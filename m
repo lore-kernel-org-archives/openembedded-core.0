@@ -1,40 +1,49 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 8960678E9D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A54DB78F4C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2018 16:41:54 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Aug 2018 09:41:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,234,1531810800"; d="scan'208,217";a="72416445"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Aug 2018 09:41:48 -0700
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.102]) by
-	fmsmsx107.amr.corp.intel.com ([169.254.6.151]) with mapi id
-	14.03.0319.002; Mon, 13 Aug 2018 09:41:47 -0700
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
-Thread-Index: AdQXlGn2RYGWCO8aQne3TGYivsbGuQ==
-Date: Mon, 13 Aug 2018 16:41:46 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155EC737BF0A@fmsmsx111.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.106]
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWM1NTVhNjktYmU4ZS00NzkzLTkyMDgtZGVlNGE1OTA2YTZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaUlWbjdERDJ5eExEVTQ0dWhmcVE5RVV6NVQrT1dlMmtFek5FSTNwUjZ2TE5cL05hT2ZBdXpzZk1EV2tlUzRkNGQifQ==
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-MIME-Version: 1.0
-Subject: Yocto Project Unassigned Bugs - Help Needed
+	Mon, 13 Aug 2018 17:20:59 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id t25-v6so9581623wmi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2018 10:21:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=KYofho2ZQUbFeJJuHI7t/vCnFmL2ROvPindU0czAs9I=;
+	b=O+5+n98IXoWtUlkvdwF7akLPKqKWnOT90lRJUDM77QHm1FFEoWu9QuqjXmpsx2MCj6
+	ZJvfOuLkQm96bbH93Kc9g7OTh/P8TMQ1lknrRoxKbRiW0Zr0nbCn6eVd/fq6X/NGzleW
+	Z4wfi8ummzb3dweXWhIEbJPBIeBphg+raZ1XHH0v9T0epWI5nMMMzScbLBUiVfG0HvRm
+	Hf8IHUgYZlASULFCeykeT39gRo3FQRRDqXmcNIiV9idzMaDYp9MLB/jgR6slPMotwGHV
+	apF7CSpr52Ob/mzVsr+kk4d5nsi4aMIxV2lPinuhYBU5Y8lZT0iQNXaxpL6ZwidrDKqp
+	chVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=KYofho2ZQUbFeJJuHI7t/vCnFmL2ROvPindU0czAs9I=;
+	b=RvCFC/XS0hXJlAYzMM328bDPLMxtIMSw6DJy3Af3ZvBlNByTLO8Vw+fD0ge34RX9PO
+	2OM30uveiTpX2LrZ5L3M1Q4aieGe8gM9Kv7CRK1Z3ON8Y28f1GByG56K/O7c9Eo8jvlb
+	OGyRcUmh3KRup/KwPgXks8pua9OhlFFtRPgMe4z7MlkT4nWZRk9pR++RLIZ6PjCdqiUn
+	NJap85vW4VUma3JC4kZkbNJEeMlBHT1RuMBAoNVNlu76S/HKoRlU9e7FtN4Obb+vpEgz
+	AKSnna/dKntSDPtLATY/DPmZJOos64VVhlhTCa5NziD29LiHm+hkHsC5ylvt9dTfLluq
+	3i2g==
+X-Gm-Message-State: AOUpUlGDVqOgFMccPnWMzntEtgCIeo1mW3G9ekzthVrbsSCVBywWAOEk
+	nMaB5/yx/Qd30EFWTF0aQ/zs79Q3qPM=
+X-Google-Smtp-Source: AA+uWPxuWCNAn8i98Ff2gT3DFsllvmO/ezbPbRC40pOD6A3Kd+UwkZ0Fwr6SHzAF6llrplDRbyiAqw==
+X-Received: by 2002:a1c:f306:: with SMTP id
+	q6-v6mr8488236wmq.111.1534180859940; 
+	Mon, 13 Aug 2018 10:20:59 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	e141-v6sm16598921wmd.32.2018.08.13.10.20.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Aug 2018 10:20:59 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Aug 2018 18:20:52 +0100
+Message-Id: <20180813172054.17767-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/3] utils/md5_file: don't iterate line-by-line
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,214 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2018 16:41:54 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC737BF0Afmsmsx111amrcor_"
+X-List-Received-Date: Mon, 13 Aug 2018 17:21:00 -0000
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC737BF0Afmsmsx111amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Opening a file in binary mode and iterating it seems like the simple solution
+but will still break on newlines, which for binary files isn't really useful as
+the size of the chunks could be huge or tiny.
 
-All,
+Instead, let's be a bit more clever: we'll be MD5ing lots of files, but we don't
+want to fill up memory: use mmap() to open the file and read the file in 8k
+blocks.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ bitbake/lib/bb/utils.py | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-
-The triage team meets weekly and does its best to handle the bugs reported =
-into the bugzilla. The number of people attending that meeting has fallen, =
-as have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage team) a=
-re therefore going to start reporting out the currently 315 unassigned bugs=
-.
-
-
-
-We're hoping people may be able to spare some time now and again to help ou=
-t with these.
-
-
-
-Bugs are split into two types, "true bugs" where things don't work as they =
-should and "enhancements" which are features we'd want to add to the system=
-.
-
-
-
-There are also roughly three different "priority" classes right now, "2.6",=
- "2.99" and "Future", the more pressing/urgent issues being in "2.6".
-
-
-
-Please review this link and if a bug is something you would be able to help=
- with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
-com) an e-mail with the bug number you would like and I will assign it to y=
-ou (please make sure you have a bugzilla account).
-
-
-
-The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
-gs
+diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
+index 9903183213b..b20cdabcf01 100644
+--- a/bitbake/lib/bb/utils.py
++++ b/bitbake/lib/bb/utils.py
+@@ -524,12 +524,17 @@ def md5_file(filename):
+     """
+     Return the hex string representation of the MD5 checksum of filename.
+     """
+-    import hashlib
+-    m = hashlib.md5()
++    import hashlib, mmap
+ 
+     with open(filename, "rb") as f:
+-        for line in f:
+-            m.update(line)
++        m = hashlib.md5()
++        try:
++            with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
++                for chunk in iter(lambda: mm.read(8192), b''):
++                    m.update(chunk)
++        except ValueError:
++            # You can't mmap() an empty file so silence this exception
++            pass
+     return m.hexdigest()
+ 
+ def sha256_file(filename):
+-- 
+2.11.0
 
 
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*    Cell:                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC737BF0Afmsmsx111amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:2 11 5 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle19
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoPlainText">All,<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
- handle the bugs reported into the bugzilla. The number of people attending=
- that meeting has fallen, as have the number of people available to help fi=
-x bugs. One of the things we hear
- users report is they don't know how to help. We (the triage team) are ther=
-efore going to start reporting out the currently 315 unassigned bugs.<o:p><=
-/o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
-e now and again to help out with these.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
-ot; where things don't work as they should and &quot;enhancements&quot; whi=
-ch are features we'd want to add to the system.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">There are also roughly three different &quot;prio=
-rity&quot; classes right now, &quot;2.6&quot;, &quot;2.99&quot; and &quot;F=
-uture&quot;, the more pressing/urgent issues being in &quot;2.6&quot;.<o:p>=
-</o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Please review this link and if a bug is something=
- you would be able to help with either take ownership of the bug, or send m=
-e (Stephen.k.jolley@intel.com) an e-mail with the bug number you would like=
- and I will assign it to you (please
- make sure you have a bugzilla account).<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
-ect.org/wiki/Bug_Triage#Unassigned_Bugs">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
-></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
-=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC737BF0Afmsmsx111amrcor_--
