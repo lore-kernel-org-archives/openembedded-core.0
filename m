@@ -1,62 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B7D9C78DEA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B37478F1A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2018 12:14:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 25F761834B;
-	Mon, 13 Aug 2018 14:14:12 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id BMgvFWmlZGG2; Mon, 13 Aug 2018 14:14:11 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 68CC518349;
-	Mon, 13 Aug 2018 14:14:11 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 55A7A1A075;
-	Mon, 13 Aug 2018 14:14:11 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4987C1A073;
-	Mon, 13 Aug 2018 14:14:11 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Mon, 13 Aug 2018 14:14:11 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id 3D4EA2E9B;
-	Mon, 13 Aug 2018 14:14:11 +0200 (CEST)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Mon, 13 Aug 2018 14:14:10 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Mon, 13 Aug 2018 14:14:10 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Mon, 13 Aug 2018 14:14:11 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: akuster808 <akuster808@gmail.com>
-Thread-Topic: [OE-core] Cherry-pick to Sumo (was: [PATCHv2 1/2]
-	oe-pkgdata-util: Make parse_pkgdatafile() support package suffixed
-	vars)
-Thread-Index: AQHT+01Roqt+tPRN2kqPaTpZgec7haRU2QWwgGkuiUA=
-Date: Mon, 13 Aug 2018 12:14:10 +0000
-Message-ID: <372f31a2e1d34d3390be9d5841bc2a6e@XBOX02.axis.com>
-References: <058532a438814db98ab5389758a226fd@XBOX02.axis.com>
-	<11df0453-3c35-b868-6d96-b23bd675ae9a@gmail.com>
-	<8406638238c34c4799a21e8e39a4dd49@XBOX02.axis.com>
-In-Reply-To: <8406638238c34c4799a21e8e39a4dd49@XBOX02.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Cherry-pick to Sumo (was: [PATCHv2 1/2] oe-pkgdata-util: Make parse_pkgdatafile() support package suffixed vars)
+	Mon, 13 Aug 2018 14:28:37 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id c13-v6so14488881wrt.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2018 07:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=T8/H6Cdmo29s3/zzME/+icb1o9jm49Nnlz+Fjl+C454=;
+	b=L0lttXOWUI5nFJl6pozOY4y9/ORohkcVrSBhsJP9gWaPdsd2vmFdef22CF0SaHrku5
+	BfPUMok0ZWjA+Oj2WeW5sND2L00KIPVh5qBWoVdLHsjLIh6tnFZzVoOugdEK77u+sifE
+	QcKPuirw3jy2ErpqpG+ZjLzQE5SqyrcQvTC/o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=T8/H6Cdmo29s3/zzME/+icb1o9jm49Nnlz+Fjl+C454=;
+	b=N+sFGOUouDdsouueiWh26TxA4TTBom9L/IHe8kbxX2Zs7g2nvyI6JKJh5cSjLNPdgY
+	E4ZzqZNtdToXAFQ/fqhZv3O9b3+UcDOvTps7Lr1T1sqTdF3ndS9oqXsFqkGlDpKNxySr
+	6qZofunuJVU04xC4CRqn7hj7Tw06VwmI4ez57mYbr7AOxJ364CDWlcf5q2k54wxt2hFa
+	Os46pvh2+tHiaAiAZinXu4f8AhLDm0dmSuyoJvP7k7vcYjkdnDicXfCOkwnM6iBQT21q
+	fKSf2h4lYLhkBWP+LZAg8aWYR8EZxRsF1BXTdFRuDoSZ6zQh2ozh7uWfsphX3VVr9ngf
+	dqwg==
+X-Gm-Message-State: AOUpUlEJ92ZPhCbAaP4gvHAfYGkE4jei0onHNAkxHFKp5raBUuA4dp0Q
+	VQ/GiESTj7HrHOL/6C1c3KnRRSh/SO0=
+X-Google-Smtp-Source: AA+uWPxtNpbUgElhRQyfompCAVnNHFOXzAWMOmWs6fC6WDYqzTJr+QgjYrzNp4qnEUL6WkNUmSjRYQ==
+X-Received: by 2002:adf:8004:: with SMTP id
+	4-v6mr11265374wrk.130.1534170517589; 
+	Mon, 13 Aug 2018 07:28:37 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	x7-v6sm13488254wrr.95.2018.08.13.07.28.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Aug 2018 07:28:36 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Aug 2018 15:28:29 +0100
+Message-Id: <20180813142835.5309-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/7] glibc: Add make-native depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,59 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2018 12:14:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 13 Aug 2018 14:28:37 -0000
 
-*ping*
+glibc needs make >= 4 yet some of our build workers have older versions of
+make. Add a make-native dependency to work around this until all our supported
+distros have a recent version of make.
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 7 juni 2018 16:05
-> To: akuster808 <akuster808@gmail.com>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] Cherry-pick to Sumo (was: [PATCHv2 1/2] oe-
-> pkgdata-util: Make parse_pkgdatafile() support package suffixed vars)
->=20
-> > -----Original Message-----
-> > From: akuster808 [mailto:akuster808@gmail.com]
-> > Sent: den 3 juni 2018 17:13
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
-> > core@lists.openembedded.org
-> > Subject: Re: [OE-core] Cherry-pick to Sumo (was: [PATCHv2 1/2] oe-
-> > pkgdata-util: Make parse_pkgdatafile() support package suffixed vars)
-> >
-> > On 06/02/2018 12:48 PM, Peter Kjellerstedt wrote:
-> > > These two patches, in addition to "oe-pkgdata-util: lookup-recipe,
-> > > package-info: Don't finish prematurely" (commit 32c2a2dd) that is
-> > > already on master, need to be cherry-picked to the sumo branch as
-> > > well. Without them, `oe-pkgdata-util package-info ...` is more or
-> > > less broken.
-> > >
-> > > //Peter
-> >
-> > Thanks peter. I hope to remember to back port them once they hit
-> > master.
-> >
-> > -armin
->=20
-> They have hit master now. The commits I want cherry-picked to Sumo
-> from master are:
->=20
-> 32c2a2dd oe-pkgdata-util: lookup-recipe, package-info: Don't finish
-> prematurely
-> 38f82842 oe-pkgdata-util: Make parse_pkgdatafile() support package
-> suffixed vars
-> cd195bdf oe-pkgdata-util: package-info: Re-add support for the --extra
-> option
->=20
-> //Peter
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/glibc/glibc-initial.inc | 2 +-
+ meta/recipes-core/glibc/glibc_2.28.bb     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/glibc/glibc-initial.inc b/meta/recipes-core/glibc/glibc-initial.inc
+index 28f006fc7f4..d3cfdcc4ccb 100644
+--- a/meta/recipes-core/glibc/glibc-initial.inc
++++ b/meta/recipes-core/glibc/glibc-initial.inc
+@@ -1,4 +1,4 @@
+-DEPENDS = "linux-libc-headers virtual/${TARGET_PREFIX}gcc-initial libgcc-initial"
++DEPENDS = "linux-libc-headers virtual/${TARGET_PREFIX}gcc-initial libgcc-initial make-native"
+ PROVIDES = "virtual/${TARGET_PREFIX}libc-initial"
+ 
+ PACKAGES = ""
+diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+index 906e6c2b622..95e333dd5cb 100644
+--- a/meta/recipes-core/glibc/glibc_2.28.bb
++++ b/meta/recipes-core/glibc/glibc_2.28.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=cfc0ed77a9f62fa62eded042ebe31d72 \
+       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+       file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+ 
+-DEPENDS += "gperf-native bison-native"
++DEPENDS += "gperf-native bison-native make-native"
+ 
+ SRCREV ?= "3c03baca37fdcb52c3881e653ca392bba7a99c2b"
+ 
+-- 
+2.17.1
+
 
