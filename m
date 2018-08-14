@@ -1,49 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 76B5379029
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id ED34579029
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 17:32:05 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id y2-v6so13081232wma.1
+	Tue, 14 Aug 2018 17:32:06 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id q8-v6so13033074wmq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 10:32:06 -0700 (PDT)
+	Tue, 14 Aug 2018 10:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Bt7vtF1aFRN/Ma7BUyv2uRoqVvtExvBaGcHdj+a31mg=;
-	b=Lvg8ygOTfcT4W/dWkM/ZR7EjwqLYd1O2+tBNq2Hhd0HSFQ83ybnBKWDzDAj0reeK1h
-	nvglKyNspud3ZS9K2ArFgSF8WBXvT6ucFM1VMPPHzo/7oXxLWuX5wKEZ++BMV2eVosSy
-	f37q4I6F74FEqCt1Lp1pnXeqAGB7stinjK5FY=
+	bh=N55vn2Kl4RTKwyGh14kIqNVhvLtkJZV7Fz0ZFxE/vrc=;
+	b=aiZiBlrBn9adCFNq857dp2qIwKr65oloFVrTiSrevt56Le8GKwENDLYUHm/psMoqOb
+	jxF0oIgdw4kFJe9tgFQi+dgRf7ou1+HuHfpHOAW0JmtayovDmjETeIcAQDgqO+Rup7T8
+	fb8R52I1BEpcSwz6tBz46pnYo6gc5Hqb7t6JM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Bt7vtF1aFRN/Ma7BUyv2uRoqVvtExvBaGcHdj+a31mg=;
-	b=ZNPVM+fsjIKwalLfPMzwPgZbBM5MlDW/aBrWlJS1NhG2vBkCXU/uss5R692b4mkr7k
-	61ohPFnDCLQMGhLNnogoqxpgYnfe7AX+1p8sivrLyQq3kiuN9qFz2poPvbFebYgxYg1l
-	znilPB4tt4ymmCfBBsKK4rCI8RgycJtwOs9TR+x7G/MmhRZ0Y9Dqk31lJw/ZSypd4FjO
-	//3nba3VRstZ/OG88GthUiwxh1gzaM47yRpHAdTdjXSg0oLmFxmAU9PxB7IMLE2UcVXf
-	Rax/cQ7ZL2ThhMjcrTvPZVpIM3rOt9HVSbHTpAkVQBZ1VvHjzkHep0tyu7/4tAQceBw3
-	4Ekw==
-X-Gm-Message-State: AOUpUlF2zsQXki33UdduHYwWK+enYcJ/XeCkN0IE5vvlQ791p7TQi6cv
-	kexpLfjolxrAeelPpJR9kj8eu0xXLOc=
-X-Google-Smtp-Source: AA+uWPyfqrTLDjzsvccsfmoo5E3zRQeep2kkq1+PMzibGL1rTVCN2MDCprdaz0dZPiOURPS5mD3Awg==
-X-Received: by 2002:a1c:ae8d:: with SMTP id
-	x135-v6mr11523661wme.20.1534267925926; 
-	Tue, 14 Aug 2018 10:32:05 -0700 (PDT)
+	bh=N55vn2Kl4RTKwyGh14kIqNVhvLtkJZV7Fz0ZFxE/vrc=;
+	b=LGKdcVA3wKPgD3CzDwLsZ2YQ4I4GuWo+X3BfAIUo9RNkwMvQDgbzzLDZHYBY8VlUFa
+	HvgvHR3TchhZ2dzLj8lTy35i1V/iv+0wh9cQJu34I4Pv12m4oepP5oPBm9+RTJshS0an
+	VrI9zagBYFAEbddfoOzPu83CExmTcVTQTgY9MSQ8zM4BDKti06vXmYYC7uH7SiKRoj4Q
+	QdOm+0eazTrMLMIpBI9uUuvuN4EJoYWbv8VSUsDBCf25rZos2Dzk/xFBUDovzmjddY54
+	lSrDA4GLDr//JPrm5vhAh0RFRpeTfvLpXELHTvVrudvR3vAQDKGxItiC2djJVXG043ti
+	U+hw==
+X-Gm-Message-State: AOUpUlEjZ11C06vTGg+PZ9sCC9UKri5npacjDQKZ5Se9hXDDNG3MfRtE
+	eW7W+FS9F3h2KyjdbFrOwSE5dLXHpDQ=
+X-Google-Smtp-Source: AA+uWPwN4QATbBPG0056IjYGuF/pw3++HVVonHkGCKbEItCXVokc8H4NcYdla7sYaJ27AvvP6agsRQ==
+X-Received: by 2002:a1c:a401:: with SMTP id
+	n1-v6mr12167291wme.125.1534267927220; 
+	Tue, 14 Aug 2018 10:32:07 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	t70-v6sm14519462wmt.30.2018.08.14.10.32.04
+	t70-v6sm14519462wmt.30.2018.08.14.10.32.05
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Aug 2018 10:32:04 -0700 (PDT)
+	Tue, 14 Aug 2018 10:32:06 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2018 18:31:58 +0100
-Message-Id: <20180814173201.6723-3-richard.purdie@linuxfoundation.org>
+Date: Tue, 14 Aug 2018 18:31:59 +0100
+Message-Id: <20180814173201.6723-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180814173201.6723-1-richard.purdie@linuxfoundation.org>
 References: <20180814173201.6723-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 3/6] sstate: Ensure a given machine only removes things which it created
+Subject: [PATCH 4/6] selftest: Replace bitbake -p with bitbake -e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,70 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 17:32:05 -0000
+X-List-Received-Date: Tue, 14 Aug 2018 17:32:07 -0000
 
-Currently if you build qemux86 and then generic86, the latter will
-remove all of the former from deploy and workdir. This is because
-qemux86 is i586, genericx86 is i686 and the architctures are compatible
-therefore the sstate 'cleaup' code kicks in.
+Parsing all the recipes is annoying when trying to re-execute oe-selftest
+and also unnecessary as its really just a sanity check. When the tests were
+originally being developed the guard was useful but less so now.
 
-There was a valid reason for this to ensure i586 packages didn't get into
-an i686 rootfs for example. With the rootfs creation being filtered now, this
-is no longer necessary.
-
-Instead, save out a list of stamps which a give machine has ever seen in
-a given build and only clean up these things if they're no longer
-"reachable".
-
-In particular this means the autobuilder should no longer spend a load of time
-deleting files when switching MACHINE, improving build times.
+Replace it with bitbake -e which is fast and checks the basic configuration
+is valid.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/sstate.bbclass | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/context.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 9927c76596e..a091c6e843e 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -1045,6 +1045,15 @@ python sstate_eventhandler2() {
-         with open(preservestampfile, 'r') as f:
-             preservestamps = f.readlines()
-     seen = []
-+
-+    # The machine index contains all the stamps this machine has ever seen in this build directory.
-+    # We should only remove things which this machine once accessed but no longer does.
-+    machineindex = set()
-+    mi = d.expand("${SSTATE_MANIFESTS}/index-machine-${MACHINE}")
-+    if os.path.exists(mi):
-+        with open(mi, "r") as f:
-+            machineindex = set(f.readlines())
-+
-     for a in sorted(list(set(d.getVar("SSTATE_ARCHS").split()))):
-         toremove = []
-         i = d.expand("${SSTATE_MANIFESTS}/index-" + a)
-@@ -1054,7 +1063,7 @@ python sstate_eventhandler2() {
-             lines = f.readlines()
-             for l in lines:
-                 (stamp, manifest, workdir) = l.split()
--                if stamp not in stamps and stamp not in preservestamps:
-+                if stamp not in stamps and stamp not in preservestamps and stamp in machineindex:
-                     toremove.append(l)
-                     if stamp not in seen:
-                         bb.debug(2, "Stamp %s is not reachable, removing related manifests" % stamp)
-@@ -1083,6 +1092,11 @@ python sstate_eventhandler2() {
-         with open(i, "w") as f:
-             for l in lines:
-                 f.write(l)
-+    machineindex |= set(stamps)
-+    with open(mi, "w") as f:
-+        for l in machineindex:
-+            f.write(l + "\n")
-+
-     if preservestamps:
-         os.remove(preservestampfile)
- }
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index 3a70f9e77b0..c78947e200b 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -201,8 +201,8 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+ 
+         _add_layer_libs()
+ 
+-        self.tc.logger.info("Running bitbake -p")
+-        runCmd("bitbake -p")
++        self.tc.logger.info("Running bitbake -e to test the configuration is valid/parsable")
++        runCmd("bitbake -e")
+ 
+     def _internal_run(self, logger, args):
+         self.module_paths = self._get_cases_paths(
 -- 
 2.17.1
 
