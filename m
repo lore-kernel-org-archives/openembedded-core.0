@@ -1,23 +1,50 @@
-Return-Path: <omar.ocampo.coronado@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 259B97905D
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 609DF78DEC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 19:39:17 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Aug 2018 12:39:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,239,1531810800"; d="scan'208";a="248837437"
-Received: from unknown (HELO kairos.zpn.intel.com) ([10.219.80.29])
-	by orsmga005.jf.intel.com with ESMTP; 14 Aug 2018 12:38:36 -0700
-From: omar.ocampo.coronado@intel.com
+	Tue, 14 Aug 2018 20:02:04 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id p81-v6so21755043itp.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2018 13:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=wj98XhMi7+EOhNrCJ/MaZ2OZN0Ckd3KdVSFRhkrI3TY=;
+	b=SOxZhMLGHVQsLZ88I04O3bZ99P6QHBUt5zv1RX3k/BMnQOLVsldRzb/iIB1Nf9RBQ8
+	hREmsmGzZAHPeYm2r/vHuZzJM3h9AIam8Lh46//jQJQB3df6huKquGFrJ6/+EjQnPf7m
+	1oEKRjxd7Q3Isbf8zjeOlk7yVNnNXugATXrVltvStN08NQ3QKon5hL+gk/sx22MUTPmr
+	hLTvFdF34pGki+twz3EFqqng/Ek8JIwa8W65jvyA6XKbGu0BrlsiWFMIoYEoL7UzqUhe
+	KYRB6TK58reWZkL8VMd3Qrj2zBkdiEljpVCoJq+sdQC967kWfhqxBZABE9xUvlo9qObS
+	HDLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=wj98XhMi7+EOhNrCJ/MaZ2OZN0Ckd3KdVSFRhkrI3TY=;
+	b=HpmjC7nPOTMxDOmsIhZ88GzEyHhUDrme1Ha7CTb3MUZrrIv11xbBF4DiEra/p7tdIz
+	yEZxu4NOVQMyEnmrACq1esctEgM5qFVhHyHHmub3UUF3BwzLXbTxUtgLlzg2v690OD00
+	zDTv3tdemFE2/QC/cdv9YW1ckg5rWWG/2+qcIoSQMOnIeVQ1W4SI3Wr02QVk5vqb+wwl
+	R1Hv7VLHrQcZr5/jJdJPE5Oidw/WKykNGeqVVPGFjk/vxFFKb1nIG54eU+BpOVOwlzIe
+	DmB4hMxv/K0cDVnzOzpNczcHsxAmQE0xwvDjbBSnSUsBCXQyP7C9SIhcWP0NEZp086xh
+	d66Q==
+X-Gm-Message-State: AOUpUlEGNaQnfW/xHDkYr4GgziVmeAZGbg1ui7/9O8RK03eEAY64I5qe
+	NUMVlj+96L3rF2dh3udlM7oP5Ksu
+X-Google-Smtp-Source: AA+uWPxSBiFEG3L1bYp2gg2XX8o720SoPLRloza+dPgndqLnae8XzizbQDAg1DFfpR88L8QP44welA==
+X-Received: by 2002:a24:22cf:: with SMTP id
+	o198-v6mr15989753ito.53.1534276925121; 
+	Tue, 14 Aug 2018 13:02:05 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	b11-v6sm9066438ioc.16.2018.08.14.13.02.04
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 14 Aug 2018 13:02:04 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2018 17:33:21 -0500
-Message-Id: <20180814223321.158068-1-omar.ocampo.coronado@intel.com>
-X-Mailer: git-send-email 2.18.0
-Subject: [PATCHv4] package: skip strip on signed kernel modules
+Date: Tue, 14 Aug 2018 15:01:51 -0500
+Message-Id: <20180814200151.21169-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Subject: [PATCH] linux-firmware: package Marvel usb 8997 firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,72 +57,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 19:39:18 -0000
+X-List-Received-Date: Tue, 14 Aug 2018 20:02:04 -0000
 
-From: foocampo <omar.ocampo.coronado@intel.com>
+Add package for the firmware required by the Marvell 8997 chipset when
+connected over USB.
 
-Kernel module signatures are outside the defined ELF container,
-executing strip action on kernel modules removes the signature.
-In order to keep the signature on kernel modules, avoid any strip
-action on signed modules.
-
-Fore more information check kernel.org admin-guide/module-signing.
-
-Signed-off-by: Omar Ocampo <omar.ocampo.coronado@intel.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oe/package.py | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index fa3428ad61..e7eac19762 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -21,11 +21,15 @@ def runstrip(arg):
-         os.chmod(file, newmode)
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index cf7abb0f96a..69f9a2adeab 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -232,6 +232,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-radeon-license ${PN}-radeon \
+              ${PN}-marvell-license ${PN}-pcie8897 ${PN}-pcie8997 \
+              ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 ${PN}-sd8887 ${PN}-sd8897 \
++             ${PN}-usb8997 \
+              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
+@@ -409,6 +410,7 @@ LICENSE_${PN}-sd8797 = "Firmware-Marvell"
+ LICENSE_${PN}-sd8801 = "Firmware-Marvell"
+ LICENSE_${PN}-sd8887 = "Firmware-Marvell"
+ LICENSE_${PN}-sd8897 = "Firmware-Marvell"
++LICENSE_${PN}-usb8997 = "Firmware-Marvell"
+ LICENSE_${PN}-marvell-license = "Firmware-Marvell"
  
-     stripcmd = [strip]
--
-+    skip_strip = False
-     # kernel module    
-     if elftype & 16:
--        stripcmd.extend(["--strip-debug", "--remove-section=.comment",
--            "--remove-section=.note", "--preserve-dates"])
-+        if is_kernel_module_signed(file):
-+            bb.debug(1, "Skip strip on signed module %s" % file)
-+            skip_strip = True
-+        else:
-+            stripcmd.extend(["--strip-debug", "--remove-section=.comment",
-+                "--remove-section=.note", "--preserve-dates"])
-     # .so and shared library
-     elif ".so" in file and elftype & 8:
-         stripcmd.extend(["--remove-section=.comment", "--remove-section=.note", "--strip-unneeded"])
-@@ -36,7 +40,8 @@ def runstrip(arg):
-     stripcmd.append(file)
-     bb.debug(1, "runstrip: %s" % stripcmd)
+ FILES_${PN}-marvell-license = "${nonarch_base_libdir}/firmware/LICENCE.Marvell"
+@@ -443,6 +445,9 @@ FILES_${PN}-sd8887 = " \
+ FILES_${PN}-sd8897 = " \
+   ${nonarch_base_libdir}/firmware/mrvl/sd8897_uapsta.bin \
+ "
++FILES_${PN}-usb8997 = " \
++  ${nonarch_base_libdir}/firmware/mrvl/usbusb8997_combo_v4.bin \
++"
  
--    output = subprocess.check_output(stripcmd, stderr=subprocess.STDOUT)
-+    if not skip_strip:
-+        output = subprocess.check_output(stripcmd, stderr=subprocess.STDOUT)
+ RDEPENDS_${PN}-sd8686 += "${PN}-marvell-license"
+ RDEPENDS_${PN}-sd8688 += "${PN}-marvell-license"
+@@ -451,6 +456,7 @@ RDEPENDS_${PN}-sd8797 += "${PN}-marvell-license"
+ RDEPENDS_${PN}-sd8801 += "${PN}-marvell-license"
+ RDEPENDS_${PN}-sd8887 += "${PN}-marvell-license"
+ RDEPENDS_${PN}-sd8897 += "${PN}-marvell-license"
++RDEPENDS_${PN}-usb8997 += "${PN}-marvell-license"
  
-     if newmode:
-         os.chmod(file, origmode)
-@@ -46,6 +51,15 @@ def is_kernel_module(path):
-     with open(path) as f:
-         return mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ).find(b"vermagic=") >= 0
- 
-+# Detect if .ko module is signed
-+def is_kernel_module_signed(path):
-+    with open(path, "rb") as f:
-+        # 'Module signature appended' the string confirms a signature is present.
-+        # 28 bytes is the size of the string, regardless of the architecture.
-+        f.seek(-28, 2)
-+        module_tail = f.read()
-+        return "Module signature appended" in "".join(chr(c) for c in bytearray(module_tail))
-+
- # Return type (bits):
- # 0 - not elf
- # 1 - ELF
+ # For netronome
+ LICENSE_${PN}-netronome = "Firmware-netronome"
 -- 
-2.18.0
+2.17.1
 
 
