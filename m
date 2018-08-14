@@ -1,27 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AFCDC78F73
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B92F78FCC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 10:17:15 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w7EAHBbt010740
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 14 Aug 2018 11:17:12 +0100
-Message-ID: <3f8b067d9a41667c7856388b819313761da9d03c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jens Rehsack <rehsack@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 Aug 2018 11:17:11 +0100
-In-Reply-To: <731A6113-251A-4CDB-9296-97E8BAF9619D@gmail.com>
-References: <C4F20EE9-9435-4061-B634-871DE7DF369C@gmail.com>
-	<CAJTo0Lam_z0M4oPwOoyPZMa=ZkWBj9qXKz8T1uMKFSiLS93Fgg@mail.gmail.com>
-	<731A6113-251A-4CDB-9296-97E8BAF9619D@gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] cpan.bbclass: adopt to recent EU::MM
+	Tue, 14 Aug 2018 10:21:37 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w7EALcGw010983
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2018 12:21:38 +0200
+Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w7EALcfZ012373;
+	Tue, 14 Aug 2018 12:21:38 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id CC14598F56A;
+	Tue, 14 Aug 2018 12:21:37 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Aug 2018 12:21:19 +0200
+Message-Id: <20180814102119.11718-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Cc: Simon Ausserlechner <simon.ausserlechner@siemens.com>
+Subject: [PATCH] systemd: fixes for the compatibility interface
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,23 +33,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 10:17:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Aug 2018 10:21:38 -0000
 
-On Tue, 2018-08-14 at 12:02 +0200, Jens Rehsack wrote:
-> I did on August, 8th - but I don't see it in master-next or any issue
-> reported on that...
-> Did it arrive?
+Use a heap allocated string to set arg_ifname, since a stack allocated
+one would be lost after the function returns. (This last one broke the
+case where an interface name was suffixed with a dot, such as in
+`resolvconf -a tap0.dhcp`.)
 
-I reported problems:
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Simon Ausserlechner <simon.ausserlechner@siemens.com>
+---
+ ...onf-fixes-for-the-compatibility-interface.patch | 58 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_239.bb           |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0023-resolvconf-fixes-for-the-compatibility-interface.patch
 
-http://lists.openembedded.org/pipermail/openembedded-core/2018-August/153792.html
+diff --git a/meta/recipes-core/systemd/systemd/0023-resolvconf-fixes-for-the-compatibility-interface.patch b/meta/recipes-core/systemd/systemd/0023-resolvconf-fixes-for-the-compatibility-interface.patch
+new file mode 100644
+index 0000000000..2f3e776aa0
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0023-resolvconf-fixes-for-the-compatibility-interface.patch
+@@ -0,0 +1,58 @@
++systemd-239: fixes for the compatibility interface
++
++[No upstream tracking] -- https://github.com/systemd/systemd/issues/9423
++
++resolvconf-compat: use compat_main() when called as `resolvconf`,
++since the interface is closer to that of `systemd-resolve`.
++
++Use a heap allocated string to set arg_ifname, since a stack allocated
++one would be lost after the function returns. (This last one broke the
++case where an interface name was suffixed with a dot, such as in
++`resolvconf -a tap0.dhcp`.)
++
++Tested:
++  $ build/resolvconf -a nonexistent.abc </etc/resolv.conf
++  Unknown interface 'nonexistent': No such device
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/5a01b3f35d7b6182c78b6973db8d99bdabd4f9c3]
++bug: 9423
++Signed-off-by: Simon Ausserlechner <simon.ausserlechner@siemens.com>
++
++diff --git a/src/resolve/resolvconf-compat.c b/src/resolve/resolvconf-compat.c
++index d7e68003e..072345894 100644
++--- a/src/resolve/resolvconf-compat.c
+++++ b/src/resolve/resolvconf-compat.c
++@@ -53,6 +53,8 @@ static int parse_nameserver(const char *string) {
++ 
++                 if (strv_push(&arg_set_dns, word) < 0)
++                         return log_oom();
+++
+++                word = NULL;
++         }
++ 
++         return 0;
++@@ -202,7 +204,7 @@ int resolvconf_parse_argv(int argc, char *argv[]) {
++ 
++         dot = strchr(argv[optind], '.');
++         if (dot) {
++-                iface = strndupa(argv[optind], dot - argv[optind]);
+++                iface = strndup(argv[optind], dot - argv[optind]);
++                 log_debug("Ignoring protocol specifier '%s'.", dot + 1);
++         } else
++                 iface = argv[optind];
++diff --git a/src/resolve/resolvectl.c b/src/resolve/resolvectl.c
++index e96c13fea..e9e395e3e 100644
++--- a/src/resolve/resolvectl.c
+++++ b/src/resolve/resolvectl.c
++@@ -3092,7 +3092,7 @@ int main(int argc, char **argv) {
++                 goto finish;
++         }
++ 
++-        if (streq(program_invocation_short_name, "systemd-resolve"))
+++        if (STR_IN_SET(program_invocation_short_name, "systemd-resolve", "resolvconf"))
++                 r = compat_main(argc, argv, bus);
++         else
++                 r = native_main(argc, argv, bus);
++-- 
++2.11.0
++
+diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
+index 67f6117a2a..84906f97b7 100644
+--- a/meta/recipes-core/systemd/systemd_239.bb
++++ b/meta/recipes-core/systemd/systemd_239.bb
+@@ -29,6 +29,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0001-login-use-parse_uid-when-unmounting-user-runtime-dir.patch \
+            file://0001-sd-bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch \
+            file://0022-build-sys-Detect-whether-struct-statx-is-defined-in-.patch \
++           file://0023-resolvconf-fixes-for-the-compatibility-interface.patch \
+            "
+ SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+ 
+-- 
+2.11.0
 
-Basically the -native version doesn't build due to the changes to make
-the target version work.
-
-Cheers,
-
-Richard
 
