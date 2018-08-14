@@ -1,26 +1,59 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B92F78FCC
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 13F5478FA7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 10:21:37 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w7EALcGw010983
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 12:21:38 +0200
-Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w7EALcfZ012373;
-	Tue, 14 Aug 2018 12:21:38 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id CC14598F56A;
-	Tue, 14 Aug 2018 12:21:37 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2018 12:21:19 +0200
-Message-Id: <20180814102119.11718-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-Cc: Simon Ausserlechner <simon.ausserlechner@siemens.com>
-Subject: [PATCH] systemd: fixes for the compatibility interface
+	Tue, 14 Aug 2018 10:31:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id C489F18355;
+	Tue, 14 Aug 2018 12:31:54 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id gpG6up0IZCe3; Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 85B2018349;
+	Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5B4431A06D;
+	Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4F91E1A067;
+	Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by seth.se.axis.com (Postfix) with ESMTP id 435D32C95;
+	Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Tue, 14 Aug 2018 12:31:52 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Tue, 14 Aug 2018 12:31:51 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Tue, 14 Aug 2018 12:31:51 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+Thread-Topic: [OE-core] [PATCH v3] runqemu: exit gracefully with an error
+	message	if qemu system is not evaluated
+Thread-Index: AQHUM3nN0eIDHi6cTE2JOUnv4KZJZqS/DIJQ
+Date: Tue, 14 Aug 2018 10:31:51 +0000
+Message-ID: <d6b6bb9bc5554afd9c7a96e7fa93d4b5@XBOX02.axis.com>
+References: <1534215111-3416-1-git-send-email-jkrishnanjanappa@mvista.com>
+In-Reply-To: <1534215111-3416-1-git-send-email-jkrishnanjanappa@mvista.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] runqemu: exit gracefully with an error message	if qemu system is not evaluated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,98 +66,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 10:21:38 -0000
+X-List-Received-Date: Tue, 14 Aug 2018 10:31:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Use a heap allocated string to set arg_ifname, since a stack allocated
-one would be lost after the function returns. (This last one broke the
-case where an interface name was suffixed with a dot, such as in
-`resolvconf -a tap0.dhcp`.)
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Jagadeesh
+> Krishnanjanappa
+> Sent: den 14 augusti 2018 04:52
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH v3] runqemu: exit gracefully with an error
+> message if qemu system is not evaluated
+>=20
+> It solves below error:
+> -- snip --
+> return 'qemu-system-%s' % qbsys
+> UnboundLocalError: local variable 'qbsys' referenced before assignment
+> -- snip --
+>=20
+> [YOCTO #12846]
+>=20
+> * v3 changes:
+>   Added yocto bugzilla ID in the required format
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Simon Ausserlechner <simon.ausserlechner@siemens.com>
----
- ...onf-fixes-for-the-compatibility-interface.patch | 58 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_239.bb           |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0023-resolvconf-fixes-for-the-compatibility-interface.patch
+The two lines above belong after the --- line below as they are only=20
+relevant during the patch submission process, not once the change is=20
+integrated.
 
-diff --git a/meta/recipes-core/systemd/systemd/0023-resolvconf-fixes-for-the-compatibility-interface.patch b/meta/recipes-core/systemd/systemd/0023-resolvconf-fixes-for-the-compatibility-interface.patch
-new file mode 100644
-index 0000000000..2f3e776aa0
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0023-resolvconf-fixes-for-the-compatibility-interface.patch
-@@ -0,0 +1,58 @@
-+systemd-239: fixes for the compatibility interface
-+
-+[No upstream tracking] -- https://github.com/systemd/systemd/issues/9423
-+
-+resolvconf-compat: use compat_main() when called as `resolvconf`,
-+since the interface is closer to that of `systemd-resolve`.
-+
-+Use a heap allocated string to set arg_ifname, since a stack allocated
-+one would be lost after the function returns. (This last one broke the
-+case where an interface name was suffixed with a dot, such as in
-+`resolvconf -a tap0.dhcp`.)
-+
-+Tested:
-+  $ build/resolvconf -a nonexistent.abc </etc/resolv.conf
-+  Unknown interface 'nonexistent': No such device
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/5a01b3f35d7b6182c78b6973db8d99bdabd4f9c3]
-+bug: 9423
-+Signed-off-by: Simon Ausserlechner <simon.ausserlechner@siemens.com>
-+
-+diff --git a/src/resolve/resolvconf-compat.c b/src/resolve/resolvconf-compat.c
-+index d7e68003e..072345894 100644
-+--- a/src/resolve/resolvconf-compat.c
-++++ b/src/resolve/resolvconf-compat.c
-+@@ -53,6 +53,8 @@ static int parse_nameserver(const char *string) {
-+ 
-+                 if (strv_push(&arg_set_dns, word) < 0)
-+                         return log_oom();
-++
-++                word = NULL;
-+         }
-+ 
-+         return 0;
-+@@ -202,7 +204,7 @@ int resolvconf_parse_argv(int argc, char *argv[]) {
-+ 
-+         dot = strchr(argv[optind], '.');
-+         if (dot) {
-+-                iface = strndupa(argv[optind], dot - argv[optind]);
-++                iface = strndup(argv[optind], dot - argv[optind]);
-+                 log_debug("Ignoring protocol specifier '%s'.", dot + 1);
-+         } else
-+                 iface = argv[optind];
-+diff --git a/src/resolve/resolvectl.c b/src/resolve/resolvectl.c
-+index e96c13fea..e9e395e3e 100644
-+--- a/src/resolve/resolvectl.c
-++++ b/src/resolve/resolvectl.c
-+@@ -3092,7 +3092,7 @@ int main(int argc, char **argv) {
-+                 goto finish;
-+         }
-+ 
-+-        if (streq(program_invocation_short_name, "systemd-resolve"))
-++        if (STR_IN_SET(program_invocation_short_name, "systemd-resolve", "resolvconf"))
-+                 r = compat_main(argc, argv, bus);
-+         else
-+                 r = native_main(argc, argv, bus);
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index 67f6117a2a..84906f97b7 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -29,6 +29,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-login-use-parse_uid-when-unmounting-user-runtime-dir.patch \
-            file://0001-sd-bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch \
-            file://0022-build-sys-Detect-whether-struct-statx-is-defined-in-.patch \
-+           file://0023-resolvconf-fixes-for-the-compatibility-interface.patch \
-            "
- SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
- 
--- 
-2.11.0
-
+>=20
+> Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+> ---
+>  scripts/runqemu | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index f52b9a8..409d17c 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -1118,6 +1118,11 @@ class BaseConfig(object):
+>              qbsys =3D 'riscv64'
+>          elif mach =3D=3D 'qemuriscv32':
+>              qbsys =3D 'riscv32'
+> +        else:
+> +            logger.error("Unable to determine QEMU PC System emulator
+> for %s machine." % mach)
+> +            logger.error("As %s is not among valid QEMU machines such
+> as," % mach)
+> +            logger.error("qemux86-64, qemux86, qemuarm64, qemuarm,
+> qemumips64, qemumips64el, qemumipsel, qemumips, qemuppc")
+> +            raise RunQemuError("Set qb_system_name with suitable QEMU
+> PC System emulator in .*qemuboot.conf.")
+>=20
+>          return 'qemu-system-%s' % qbsys
+>=20
+> --
+> 1.8.3.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
