@@ -1,50 +1,29 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
-	[209.85.218.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 9478E74576
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B258978F63
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 08:18:49 +0000 (UTC)
-Received: by mail-oi0-f44.google.com with SMTP id j205-v6so32113867oib.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 01:18:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UKSNClG67N3G0fp35y1slQAB+bnUrkQRbJYN18Ij8TI=;
-	b=WcN+LjFqDBYkoWz/IKjDDv4rgd9PabQrjn43rwhyuIE4PEJDyEClhxtJ38nY7NLlCM
-	goT2eW0oVEPziHxMPF85qj8vCxLz56PNWhh7C79h6R/oMBhqrZold3b4YnUxzRL6bPjh
-	lCNGAMdnI5oFz0V0bqvNCXYA5K2mMUxcORIPADPn0gmhw42/HbWEYXMSHF2OV3OHgoww
-	UfyecbmIXfA3Hql9sz09XQcC3EmqpKwS5tPEpDn8+c+yQTzpgBAVR97YfbUncbZ9twod
-	+T79pUqdDSkMEOXakAdlToAdOnNMBp2HVpfTC72HAlwVWGZT/4Nj99P10q18txXsNJvN
-	PKDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UKSNClG67N3G0fp35y1slQAB+bnUrkQRbJYN18Ij8TI=;
-	b=fbOw5I2FLfmbBmkhwV7yDqPl6wtlg7eD9LP9UAa9lOr3PsweEm3hY+6UdLog+X1uIm
-	4VPMI332sLjcYYgUYUirQjxUmnhtQKWAL/OgE2mfFmQUeU/5d62mGDdOLztfNApfeDrI
-	SlPR5q5mtEqIZa7b8mTJtBrXD3XNIkSVHuDCzEjy6tNbwMk1cJg5s3gUMrXK9X+ENEHJ
-	Evhc/AgxHVv4AT94OyK5YVyCnWi5we7DXdTRovAMO0bdVgUcmUfH8F6YqKv1SaEcr2ly
-	mVfyXoq8S+yJD0qDujcgJijFWxc0KPvIIkBWRbpfAVIgZRChhUitkU+LObKBhLPOKjdm
-	imFA==
-X-Gm-Message-State: AOUpUlGzIJpxEKKSC6A2VTMbz7vV8dYq/vvmDzxZZI5ymLtXP8Fp2NGO
-	BbBeMblLRPU142aHV+02vdzNVS/ZrGOcV1ylzYI=
-X-Google-Smtp-Source: AA+uWPy0WMdIAJh6+zb73LziFNwnx1meK0rA1U/qPSUOu0x9Yv8TKV8mf93mbGNSGM/Mp6ZpF5+TZwEdL0HR3m/k5+M=
-X-Received: by 2002:aca:e80c:: with SMTP id
-	f12-v6mr23101570oih.38.1534234730621; 
-	Tue, 14 Aug 2018 01:18:50 -0700 (PDT)
+	Tue, 14 Aug 2018 09:43:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7E9hPPr021770
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 14 Aug 2018 02:43:26 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Tue, 14 Aug 2018 02:43:25 -0700
+To: <richard.purdie@linuxfoundation.org>
+References: <cover.1533888808.git.kai.kang@windriver.com>
+	<8aa373833d3e5f54689b8863f864c39dc90e5cab.1533888808.git.kai.kang@windriver.com>
+	<3dc3372508f6543edd5e6805ca004bf4bcb80c1f.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <298e574b-696f-1fac-8283-107ec805509c@windriver.com>
+Date: Tue, 14 Aug 2018 17:40:35 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Tue, 14 Aug 2018 01:18:50
-	-0700 (PDT)
-In-Reply-To: <SC1P152MB138947050EB80F8E776671CB94390@SC1P152MB1389.LAMP152.PROD.OUTLOOK.COM>
-References: <SC1P152MB138947050EB80F8E776671CB94390@SC1P152MB1389.LAMP152.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 14 Aug 2018 10:18:50 +0200
-Message-ID: <CANNYZj9kfU8RQiVFE9eL79KLqJ280gf3SOKsmTAYyOFd3NgwvA@mail.gmail.com>
-To: bhas_purk <bhas_purk@hotmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: adding python modules
+In-Reply-To: <3dc3372508f6543edd5e6805ca004bf4bcb80c1f.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] allarch: disable allarch when multilib is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,56 +36,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 08:18:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 14 Aug 2018 09:43:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Simple - add python3-modules to the packagegroup. Sadly this seems to
-be 'common knowledge' that is poorly documented.
+On 2018年08月12日 00:10, richard.purdie@linuxfoundation.org wrote:
+> On Fri, 2018-08-10 at 16:14 +0800, kai.kang@windriver.com wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> Some allarch packages rdepends non-allarch packages. When multilib is
+>> used, it doesn't expand the dependency chain correctly, e.g.
+>>
+>> core-image-sato -> ca-certificates(allarch) -> openssl
+>>
+>> we expect dependency chain for lib32-core-image-sato:
+>>
+>> lib32-core-image-sato -> ca-certificates(allarch) -> lib32-openssl
+>>
+>> it should install lib32-openssl for ca-certificates but openssl is
+>> still wrongly imported.
+>>
+>> Disable allarch when multilib is used.
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta/classes/allarch.bbclass         | 4 ++++
+>>   meta/classes/icecc.bbclass           | 2 +-
+>>   meta/classes/multilib.bbclass        | 3 ++-
+>>   meta/classes/multilib_global.bbclass | 4 +---
+>>   meta/classes/package.bbclass         | 9 ++++++---
+>>   meta/classes/staging.bbclass         | 2 +-
+>>   6 files changed, 15 insertions(+), 9 deletions(-)
+> With this applied, "bitbake nativesdk-dbus" fails to build since
+> it can't find the extra autoconf macros from an allarch recipe in
+> DEPENDS.
+>
+> e.g. https://autobuilder.yocto.io/builders/nightly-arm/builds/1262/step
+> s/Building%20Toolchain%20Images/logs/stdio
 
-Alex
+The autoconf-archive-native is not installed to recipe sysroot native. 
+Some debug info shows the task do_populate_sysroot
+of autoconf-archive-native is not executed. And so do some other 
+packages(tasks).
 
-2018-08-14 0:51 GMT+02:00 bhas_purk <bhas_purk@hotmail.com>:
-> Hello,
-> I am new to yocto, and we are using this for an Intel SOC.
-> I am creating a console-image, and wanted to get python3 in the rootfs.
->
-> So I added python3 in the recipe file -
-> layers/meta-openembedded/meta-oe/recipes-core/packagegroups/packagegroup-basic.bb
-> This gave me python3 in the rootfs and I can run ptyhon3. So that is great!
->
->
-> Now I would like to add some modules to python such that they are built in,
-> and I dont have to do a pip install for the modules.
->
-> I see that there is a script file which generates the manifest for all
-> modules will be there.
-> openembedded-core/scripts/contrib/python/generate-manifest-3.5.py
->
->
-> I would like to edit this file to some python modules, and am wondering how.
->
-> For example, one of the existing modules in the script is defined like this-
->   m.addPackage( "${PN}-argparse", "Python command line argument parser",
-> "${PN}-core ${PN}-codecs ${PN}-textutils",
->     "argparse.*" )
+DEBUG: Stampfile 
+/buildarea/kkang/yocto/noarch-verify-build-Aug13/tmp/stamps/x86_64-linux/autoconf-archive-native/2018.03.13-r0.do_populate_sysroot_setscene.41bdb37fee4fb443715e1c84a5de281f 
+not available
+DEBUG: Normal stamp current for task 
+virtual:native:/buildarea/kkang/yocto/poky/meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb:do_populate_sysroot
+DEBUG: Found task 
+virtual:native:/buildarea/kkang/yocto/poky/meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb:do_populate_sysroot 
+which could be accelerated
+
+I have been working on it but not get the root cause yet.
+
+Sorry for the inconvenience.
+
+Regards,
+Kai
+
 >
 >
-> So my question is, for the modules I would like to add, how do I know the
-> dependencies etc? And more importantly, is this the right way to add modules
-> to python3 in the rootfs.
+> Cheers,
 >
+> Richard
 >
-> Thank you
-> Bhaskar
->
->
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+
+-- 
+Regards,
+Neil | Kai Kang
+
 
