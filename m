@@ -1,50 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DD7B971B1D
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BB8F975546
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2018 23:59:41 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id r16-v6so15652501wrt.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2018 16:59:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=hTJ08IKyhNwR4GJRjnvNji3NWjZUGGPedmiLczp25g0=;
-	b=kU7li2XlfGZZG1+dIs/mndQXQzSt/CL95kDyu306XIBQmkd0G5ZMqXS5Hvnt6LrlM8
-	tj8KKcXeFBctAk/qafpy9c85864A25CrVvKecPyfTehDMIResF1RNij+3IrEWebiv6Eb
-	kO2ex5tV1C9Iq79ue2UWFh0pgXWaz33R4Eaply6jxwvor3npNeDWQdBW5uYqrLaYNGsw
-	/0wCZM4vVPh0wsIeVO6VtyRRfb55gWp66Z1BxGQ2W4UaFNHFcjsRXn2YU1XjP0QuuM1R
-	nFFZ4FcafSdNYCdR/okxCPhJYkJkU7/d5B6QuYNpKa+qkVnq9003rQKaMUuZTBLejMrB
-	25mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=hTJ08IKyhNwR4GJRjnvNji3NWjZUGGPedmiLczp25g0=;
-	b=NCpp77+sRHBQ3xYsDKTg1FPomcqdndnUICLM56NWH59jk5nOh0r8r6+i9tJ1g0agnl
-	S660cosy6MSDFdHEVd8htF/igUP3tEjSmZ/9+0x+CzdIxaLARlgW+RNUcBVUloBjT3M+
-	uiOcH7/oI0kvj/3eWKzidj1vEQvJd01gjSCxpFEPfiUjMC9j8LFTmKI3riV2WpItaAjF
-	rlXIA5YGPJupia3MA/+LT9D4WG6xIESBnNvAwM5qlAfIm6TBoE4ZDAKlJNvHjeoP5Iuu
-	4jHk5HzdN6tErJodXJrTYCaz6dcMke1mRk6koS5BYa07K7qedhFkNGFkymQCk22jEjxn
-	BuoA==
-X-Gm-Message-State: AOUpUlFwmn9ljFJXLvAO3EnBi4T1CL4SFZ2qE/nDwaUIaxQFFuhlXO4M
-	pA1aNaAZK/7jEpiPmpFYaJXafyuNLCY=
-X-Google-Smtp-Source: AA+uWPy1PgZedSshRUd4MOChcKRPIBrUSUFbALiP7lQFyH/RuY3/hNEhBWzpcuVZw2P2+15nTwwb5w==
-X-Received: by 2002:a5d:4f82:: with SMTP id
-	d2-v6mr11797343wru.261.1534204781989; 
-	Mon, 13 Aug 2018 16:59:41 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o14-v6sm16294252wmd.35.2018.08.13.16.59.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Aug 2018 16:59:41 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2018 00:59:39 +0100
-Message-Id: <20180813235939.26006-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] bzip2: use Yocto Project mirror for SRC_URI
+	Tue, 14 Aug 2018 01:16:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7E1Gv64011216
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 Aug 2018 18:16:57 -0700 (PDT)
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Mon, 13 Aug 2018 18:16:56 -0700
+To: akuster808 <akuster808@gmail.com>, Alexander Kanavin
+	<alex.kanavin@gmail.com>
+References: <1534150507-171031-1-git-send-email-changqing.li@windriver.com>
+	<b936607d-dd70-47a1-826e-b245a57a7c79@gmail.com>
+	<CANNYZj_Fmqpz1bS8XMDsReaeg1s9wBQ2JWLCDt0_MMez-S_tKQ@mail.gmail.com>
+	<57f1ea3f-5bba-1daf-723e-e1d2b9feb06b@gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <009562bc-25c7-67af-f545-3da4e8cbc1fe@windriver.com>
+Date: Tue, 14 Aug 2018 09:16:54 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <57f1ea3f-5bba-1daf-723e-e1d2b9feb06b@gmail.com>
+X-Originating-IP: [128.224.162.228]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bind: upgrade 9.11.4 -> 9.13.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +38,216 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2018 23:59:42 -0000
+X-List-Received-Date: Tue, 14 Aug 2018 01:16:57 -0000
+Content-Type: multipart/alternative;
+	boundary="------------FDE513DA448503C5D2C361A2"
+Content-Language: en-US
 
-The bzip.org domain expired and is now a holding site for adverts, so we can't
-trust a tarball that appears on that site (luckily we have source checksums to
-detect this).
+--------------FDE513DA448503C5D2C361A2
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-For now, point SRC_URI at the tarball in the Yocto Project source mirror, but
-set HOMEPAGE and UPSTREAM_CHECK_URI to the sourceware.org/bzip2/ page which
-apparently will be resurrected as the new canonical home page.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-extended/bzip2/bzip2_1.0.6.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-index de668d6d2b6..acbf80a685b 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-@@ -2,13 +2,13 @@ SUMMARY = "Very high-quality data compression program"
- DESCRIPTION = "bzip2 compresses files using the Burrows-Wheeler block-sorting text compression algorithm, and \
- Huffman coding. Compression is generally considerably better than that achieved by more conventional \
- LZ77/LZ78-based compressors, and approaches the performance of the PPM family of statistical compressors."
--HOMEPAGE = "http://www.bzip.org/"
-+HOMEPAGE = "https://sourceware.org/bzip2/"
- SECTION = "console/utils"
- LICENSE = "bzip2"
- LIC_FILES_CHKSUM = "file://LICENSE;beginline=8;endline=37;md5=40d9d1eb05736d1bfc86cfdd9106e6b2"
- PR = "r5"
- 
--SRC_URI = "http://www.bzip.org/${PV}/${BP}.tar.gz \
-+SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.gz \
-            file://fix-bunzip2-qt-returns-0-for-corrupt-archives.patch \
-            file://configure.ac;subdir=${BP} \
-            file://Makefile.am;subdir=${BP} \
-@@ -19,7 +19,7 @@ SRC_URI = "http://www.bzip.org/${PV}/${BP}.tar.gz \
- SRC_URI[md5sum] = "00b516f4704d4a7cb50a1d97e6e8e15b"
- SRC_URI[sha256sum] = "a2848f34fcd5d6cf47def00461fcb528a0484d8edef8208d6d2e2909dc61d9cd"
- 
--UPSTREAM_CHECK_URI = "http://www.bzip.org/downloads.html"
-+UPSTREAM_CHECK_URI = "https://www.sourceware.org/bzip2/"
- 
- PACKAGES =+ "libbz2"
- 
+On 08/13/2018 11:58 PM, akuster808 wrote:
+>
+>
+>
+> On 08/13/2018 07:59 AM, Alexander Kanavin wrote:
+>> However, for the upcoming YP release, it's better to settle on
+>> something that expires later than 2020. How is 9.12.x currently?
+> I stand corrected. its 2021.
+>
+> Here are our current ESV versions and their EOL dates:
+>
+>   * BIND 9.9 Extended Support Version will be supported until June, 2018
+>   * BIND 9.11 is an Extended support version, and will be supported
+>     until December, 2021
+>
+> BIND 9.16 will be our next ESV, followed by BIND 9.20, and every 
+> second stable version after that will be ESV.
+>
+>
+> Please see : https://www.isc.org/downloads/software-support-policy/ if 
+> you want more details. The reasoning was noted during the update to 
+> 9.10 -> 9.13 -> 9.11 emails/patches a few months back.
+>
+> - armin
+
+Thanks.  Then let's keep at 9.11.4.
+>> Alex
+>>
+>> 2018-08-13 16:37 GMT+02:00 akuster808<akuster808@gmail.com>:
+>>> On 08/13/2018 01:55 AM,changqing.li@windriver.com  wrote:
+>>>> From: Changqing Li<changqing.li@windriver.com>
+>>>>
+>>>> Signed-off-by: Changqing Li<changqing.li@windriver.com>
+>>> Is there a reason why this version was selected? 9.13 is still under
+>>> development and ISC in not recommending  this version for production.
+>>> 9.11 EOL is 2020.
+>>>
+>>> We should keep one long term version around if you need bleeding edge.
+>>>
+>>> - armin
+>>>> ---
+>>>>   meta/recipes-connectivity/bind/{bind_9.11.4.bb => bind_9.13.2.bb} | 4 ++--
+>>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>   rename meta/recipes-connectivity/bind/{bind_9.11.4.bb => bind_9.13.2.bb} (97%)
+>>>>
+>>>> diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.13.2.bb
+>>>> similarity index 97%
+>>>> rename from meta/recipes-connectivity/bind/bind_9.11.4.bb
+>>>> rename to meta/recipes-connectivity/bind/bind_9.13.2.bb
+>>>> index 7522fdb..08ebd24 100644
+>>>> --- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
+>>>> +++ b/meta/recipes-connectivity/bind/bind_9.13.2.bb
+>>>> @@ -19,8 +19,8 @@ SRC_URI ="https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \ 
+>>>> file://0001-lib-dns-gen.c-fix-too-long-error.patch \ "
+>>>>
+>>>> -SRC_URI[md5sum] = "9b4834d78f30cdb796ce437262272a36"
+>>>> -SRC_URI[sha256sum] = "595070b031f869f8939656b5a5d11b121211967f15f6afeafa895df745279617"
+>>>> +SRC_URI[md5sum] = "01d0524016ac15ea3f4b6c77d99db0b2"
+>>>> +SRC_URI[sha256sum] = "6c044e9ea81add9dbbd2f5dfc224964cc6b6e364e43a8d6d8b574d9282651802"
+>>>>
+>>>>   UPSTREAM_CHECK_URI ="https://ftp.isc.org/isc/bind9/"
+>>>>   UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
 -- 
-2.11.0
+BRs
+
+Sandy(Li Changqing)
++861084778653
 
 
+--------------FDE513DA448503C5D2C361A2
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 08/13/2018 11:58 PM, akuster808
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:57f1ea3f-5bba-1daf-723e-e1d2b9feb06b@gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <p><br>
+      </p>
+      <br>
+      <div class="moz-cite-prefix">On 08/13/2018 07:59 AM, Alexander
+        Kanavin wrote:<br>
+      </div>
+      <blockquote type="cite"
+cite="mid:CANNYZj_Fmqpz1bS8XMDsReaeg1s9wBQ2JWLCDt0_MMez-S_tKQ@mail.gmail.com">
+        <pre wrap="">However, for the upcoming YP release, it's better to settle on
+something that expires later than 2020. How is 9.12.x currently?</pre>
+      </blockquote>
+      I stand corrected. its 2021.<br>
+      <br>
+      <p>Here are our current ESV versions and their EOL dates:</p>
+      <ul>
+        <li>BIND 9.9 Extended Support Version will be supported until
+          June, 2018</li>
+        <li>BIND 9.11 is an Extended support version, and will be
+          supported until December, 2021</li>
+      </ul>
+      <p>BIND 9.16 will be our next ESV, followed by BIND 9.20, and
+        every second stable version after that will be ESV.</p>
+      <br>
+      Please see : <a class="moz-txt-link-freetext"
+        href="https://www.isc.org/downloads/software-support-policy/"
+        moz-do-not-send="true">https://www.isc.org/downloads/software-support-policy/</a>
+      if you want more details. The reasoning was noted during the
+      update to 9.10 -&gt; 9.13 -&gt; 9.11 emails/patches a few months
+      back.<br>
+      <br>
+      - armin<br>
+    </blockquote>
+    <br>
+    Thanks.  Then let's keep at 9.11.4.<br>
+    <blockquote type="cite"
+      cite="mid:57f1ea3f-5bba-1daf-723e-e1d2b9feb06b@gmail.com">
+      <blockquote type="cite"
+cite="mid:CANNYZj_Fmqpz1bS8XMDsReaeg1s9wBQ2JWLCDt0_MMez-S_tKQ@mail.gmail.com">
+        <pre wrap="">
+Alex
+
+2018-08-13 16:37 GMT+02:00 akuster808 <a class="moz-txt-link-rfc2396E" href="mailto:akuster808@gmail.com" moz-do-not-send="true">&lt;akuster808@gmail.com&gt;</a>:
+</pre>
+        <blockquote type="cite">
+          <pre wrap="">
+On 08/13/2018 01:55 AM, <a class="moz-txt-link-abbreviated" href="mailto:changqing.li@windriver.com" moz-do-not-send="true">changqing.li@windriver.com</a> wrote:
+</pre>
+          <blockquote type="cite">
+            <pre wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com" moz-do-not-send="true">&lt;changqing.li@windriver.com&gt;</a>
+
+Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com" moz-do-not-send="true">&lt;changqing.li@windriver.com&gt;</a>
+</pre>
+          </blockquote>
+          <pre wrap="">Is there a reason why this version was selected? 9.13 is still under
+development and ISC in not recommending  this version for production.
+9.11 EOL is 2020.
+
+We should keep one long term version around if you need bleeding edge.
+
+- armin
+</pre>
+          <blockquote type="cite">
+            <pre wrap="">---
+ meta/recipes-connectivity/bind/{bind_9.11.4.bb =&gt; bind_9.13.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.11.4.bb =&gt; bind_9.13.2.bb} (97%)
+
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.13.2.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.11.4.bb
+rename to meta/recipes-connectivity/bind/bind_9.13.2.bb
+index 7522fdb..08ebd24 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.13.2.bb
+@@ -19,8 +19,8 @@ SRC_URI = <a class="moz-txt-link-rfc2396E" href="https://ftp.isc.org/isc/bind9/$%7BPV%7D/$%7BBPN%7D-$%7BPV%7D.tar.gz%5Cfile://0001-lib-dns-gen.c-fix-too-long-error.patch%5C" moz-do-not-send="true">"https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
+ "</a>
+
+-SRC_URI[md5sum] = "9b4834d78f30cdb796ce437262272a36"
+-SRC_URI[sha256sum] = "595070b031f869f8939656b5a5d11b121211967f15f6afeafa895df745279617"
++SRC_URI[md5sum] = "01d0524016ac15ea3f4b6c77d99db0b2"
++SRC_URI[sha256sum] = "6c044e9ea81add9dbbd2f5dfc224964cc6b6e364e43a8d6d8b574d9282651802"
+
+ UPSTREAM_CHECK_URI = <a class="moz-txt-link-rfc2396E" href="https://ftp.isc.org/isc/bind9/" moz-do-not-send="true">"https://ftp.isc.org/isc/bind9/"</a>
+ UPSTREAM_CHECK_REGEX = "(?P&lt;pver&gt;9(\.\d+)+(-P\d+)*)/"
+</pre>
+          </blockquote>
+          <pre wrap="">
+--
+_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
+</pre>
+        </blockquote>
+      </blockquote>
+      <br>
+    </blockquote>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+BRs
+
+Sandy(Li Changqing)
++861084778653</pre>
+  </body>
+</html>
+
+--------------FDE513DA448503C5D2C361A2--
