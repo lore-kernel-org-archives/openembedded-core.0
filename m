@@ -1,59 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 13F5478FA7
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 41A9E78FF7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 10:31:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id C489F18355;
-	Tue, 14 Aug 2018 12:31:54 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id gpG6up0IZCe3; Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 85B2018349;
-	Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5B4431A06D;
-	Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4F91E1A067;
-	Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 435D32C95;
-	Tue, 14 Aug 2018 12:31:52 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 14 Aug 2018 12:31:52 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 14 Aug 2018 12:31:51 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Tue, 14 Aug 2018 12:31:51 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-Thread-Topic: [OE-core] [PATCH v3] runqemu: exit gracefully with an error
-	message	if qemu system is not evaluated
-Thread-Index: AQHUM3nN0eIDHi6cTE2JOUnv4KZJZqS/DIJQ
-Date: Tue, 14 Aug 2018 10:31:51 +0000
-Message-ID: <d6b6bb9bc5554afd9c7a96e7fa93d4b5@XBOX02.axis.com>
-References: <1534215111-3416-1-git-send-email-jkrishnanjanappa@mvista.com>
-In-Reply-To: <1534215111-3416-1-git-send-email-jkrishnanjanappa@mvista.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] runqemu: exit gracefully with an error message	if qemu system is not evaluated
+	Tue, 14 Aug 2018 10:53:07 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id r16-v6so16784846wrt.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2018 03:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=oyAn7UjMbeb2jUaMPcpE7HyPs4x9G0JAeLamBvuvSvY=;
+	b=mXR1dVxugdb/E19/p5T7UOJqP1ChhYYfz4bghvFTDrnIZZOkBAroNm8nxchBlr/x/N
+	qVp+/2Z8jERqSVo0kPPtwYf2lI+JOXgeu93UvvwrroBil3HxPHnCZe38gpV9HDHmBj+1
+	o7ZAQjEAZaJMhGC/uycd3c/hah0itEKNaK7SLnTzPnYTDGZbpUJzUgD5oy6ES1/Er0EF
+	Tga6yO1ZsWH8QAMy9l0P8SmeaRu53atSbU/6bJj6qnZe2JBHKmZhs34iGjTUWR1/ayAo
+	+uPk2I0awYZMaBGwr71VLr0zGgYLNnSixl9LhQMIS2p7UmTym1oKbc41ExRFkmAxPFNn
+	cm7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=oyAn7UjMbeb2jUaMPcpE7HyPs4x9G0JAeLamBvuvSvY=;
+	b=qdrDoZfcQ4zI05X9LflihHoPYo28Qb/uf7xFc6Q4a1Pe0Qa1t5A+p0LFpFzhtbyj3X
+	A2FWeytz2aQjjsSIkruZCTXgCUT8e4w09QEjiTZQ/euxUvoBicJZ8RjSGBX+evGgOHNT
+	Qn1Qv4itiR+G/cPXoq0NxjRHckHzZGdzUL77y5CBGT9CWFjaGZvj3kDSIXGWvVMoZoRD
+	3bU3X015q/E+99lm4RkI8PZTwXpTCVYmWVaM7N0uEGnq+81ChrptBLAJrieoA2eSL8PA
+	Q7Kq0ItIreEKTxnBc5FKGADVZf/1g/grZ4kA1BYlotqeDjrmQSyNKkWncGniGzbP+pwh
+	TNdg==
+X-Gm-Message-State: AOUpUlH1xyucFdBU7CRqjJ8Lu/XSOv2TZu3zdX2yMFJQGze3sfVojYgt
+	9gZ4RGEH07WfBX3jQhOfSxShpi0+
+X-Google-Smtp-Source: AA+uWPy6INM8yySLDljO4rUuQhnU7DaKaDp7PhtECtKPDIlml7YRj8LbX/TwkgbNsTcH9lniA9wzRw==
+X-Received: by 2002:adf:a634:: with SMTP id
+	k49-v6mr12666139wrc.181.1534243987713; 
+	Tue, 14 Aug 2018 03:53:07 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	n8-v6sm13984976wrt.56.2018.08.14.03.53.06
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 14 Aug 2018 03:53:06 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Aug 2018 10:53:11 +0000
+Message-Id: <20180814105311.6580-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] weston: add dependency on virtual/libgbm for kms PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,67 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 10:31:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 14 Aug 2018 10:53:07 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Jagadeesh
-> Krishnanjanappa
-> Sent: den 14 augusti 2018 04:52
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH v3] runqemu: exit gracefully with an error
-> message if qemu system is not evaluated
->=20
-> It solves below error:
-> -- snip --
-> return 'qemu-system-%s' % qbsys
-> UnboundLocalError: local variable 'qbsys' referenced before assignment
-> -- snip --
->=20
-> [YOCTO #12846]
->=20
-> * v3 changes:
->   Added yocto bugzilla ID in the required format
+* gbm is checked in configure.ac:
 
-The two lines above belong after the --- line below as they are only=20
-relevant during the patch submission process, not once the change is=20
-integrated.
+AC_ARG_ENABLE(drm-compositor, [  --enable-drm-compositor],,
+              enable_drm_compositor=yes)
+AM_CONDITIONAL(ENABLE_DRM_COMPOSITOR, test x$enable_drm_compositor = xyes)
+if test x$enable_drm_compositor = xyes; then
+  AC_DEFINE([BUILD_DRM_COMPOSITOR], [1], [Build the DRM compositor])
+  PKG_CHECK_MODULES(DRM_COMPOSITOR, [libudev >= 136 libdrm >= 2.4.30 gbm mtdev >= 1.1.0])
+  PKG_CHECK_MODULES(DRM_COMPOSITOR_GBM, [gbm >= 10.2],
+                    [AC_DEFINE([HAVE_GBM_FD_IMPORT], 1, [gbm supports dmabuf import])],
+                    [AC_MSG_WARN([gbm does not support dmabuf import, will omit that capability])])
+fi
 
->=20
-> Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-> ---
->  scripts/runqemu | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index f52b9a8..409d17c 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -1118,6 +1118,11 @@ class BaseConfig(object):
->              qbsys =3D 'riscv64'
->          elif mach =3D=3D 'qemuriscv32':
->              qbsys =3D 'riscv32'
-> +        else:
-> +            logger.error("Unable to determine QEMU PC System emulator
-> for %s machine." % mach)
-> +            logger.error("As %s is not among valid QEMU machines such
-> as," % mach)
-> +            logger.error("qemux86-64, qemux86, qemuarm64, qemuarm,
-> qemumips64, qemumips64el, qemumipsel, qemumips, qemuppc")
-> +            raise RunQemuError("Set qb_system_name with suitable QEMU
-> PC System emulator in .*qemuboot.conf.")
->=20
->          return 'qemu-system-%s' % qbsys
->=20
-> --
-> 1.8.3.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/wayland/weston_4.0.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/wayland/weston_4.0.0.bb b/meta/recipes-graphics/wayland/weston_4.0.0.bb
+index e78b0d9194..3d192cf00a 100644
+--- a/meta/recipes-graphics/wayland/weston_4.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_4.0.0.bb
+@@ -43,7 +43,7 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev
+ # Compositor choices
+ #
+ # Weston on KMS
+-PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa mtdev"
++PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa virtual/libgbm mtdev"
+ # Weston on Wayland (nested Weston)
+ PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
+ # Weston on X11
+-- 
+2.17.1
+
 
