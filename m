@@ -1,49 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id CA3E579029
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C40AA7904F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 17:32:09 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id o18-v6so13060642wmc.0
+	Tue, 14 Aug 2018 17:43:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7EHhL5d001751
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 10:32:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=9xvCACVfnkHzaDQSIEUQ6IwRDScipM/WhF3XoYrX9h4=;
-	b=MtzlmhZVwtkF55UCSYACmCHwCx3NfNkpMK2MtmLQVc7B0qbSUhDfoRLzAOYKsWlsXP
-	sMFl5cjtHZAzDoOEX40I1jXPrZuy7Pxx7l4VBNyzS+cXu1Bym1YDScS8MdXJMeUIZorN
-	7ueLX4nsJE49YZUwR+JdVta9bV2A3LoGcrKlM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=9xvCACVfnkHzaDQSIEUQ6IwRDScipM/WhF3XoYrX9h4=;
-	b=OeoBftSd/hYBif9f1aLjfPR1mfCTbw7DvKXFv73DHvsuj76A/SF2uBv/UOWeNQ6cBG
-	uJVzHnAhygRxdvXubV5GYHIYqqrIoeMPh8EiW+udkoybSbovtZ0srtf8Dk1J9EeLBKqx
-	y/rb10WflEjXmXazImUS5gyX3j5yrTlO1nFGXktwAgO+s8jWm5VYqr4yNVWUYrD0a9z1
-	QgrfACs4XOqy6WYDcRWjDWgkA2WzZceidFwTtrYsFmKoKdH8LG5XohC317T0uFzDUCYW
-	yngPRT+uJHMxfxzhAORr296uMoz/UjmHL+e+d3BtRhnfV1LPLPx2by2VzZC1cv6dDmiq
-	4UYg==
-X-Gm-Message-State: AOUpUlFYtnHbPEG+0TCPultIQCuD2YjzYBY2yVs/Jc23JeN86/6G+btz
-	/BP74lf87VVtvv98PGaswz75CMTmbI4=
-X-Google-Smtp-Source: AA+uWPzsVWr9F3AGSSsVHM3QaWbH6QvqKz4UXwec8Q+L0+O2oBGxOUa10jkzFRoADRvlYGlkyatMJw==
-X-Received: by 2002:a1c:3b05:: with SMTP id
-	i5-v6mr12122400wma.57.1534267930145; 
-	Tue, 14 Aug 2018 10:32:10 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t70-v6sm14519462wmt.30.2018.08.14.10.32.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Aug 2018 10:32:09 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2018 18:32:01 +0100
-Message-Id: <20180814173201.6723-6-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180814173201.6723-1-richard.purdie@linuxfoundation.org>
-References: <20180814173201.6723-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 6/6] selftest/package: Improve test to cover sparseness and hardlinking from sstate
+	Tue, 14 Aug 2018 10:43:21 -0700
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Tue, 14 Aug 2018 10:43:20 -0700
+To: "Hongzhi.Song" <hongzhi.song@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20180813052336.43281-1-hongzhi.song@windriver.com>
+	<20180813052336.43281-3-hongzhi.song@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <ba8a82d4-d749-5adb-db0a-389c54297572@windriver.com>
+Date: Tue, 14 Aug 2018 13:43:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20180813052336.43281-3-hongzhi.song@windriver.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH v3 2/2] runtime selftest: optimize the case of hw_breakpoint
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,59 +37,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 17:32:10 -0000
+X-List-Received-Date: Tue, 14 Aug 2018 17:43:21 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-The sparseness test was sometimes working and sometimes failing depending
-on whether sstate was valid. This adds an explict test of sstate
-to the test for both hardlinking and sparseness. Tweak the test name to
-cover the fact its tests sparseness too.
+Subject:
+    Re: [OE-core] [oe-core][PATCH v3 2/2] runtime selftest: optimize the 
+case of hw_breakpoint
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/package.py | 27 ++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+The subject/short log should be:
+   runtime selftest: limit kernel hw bp arches
 
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index 4ff9b08c96a..ee6430a1845 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -89,17 +89,26 @@ class VersionOrdering(OESelftestTestCase):
- class PackageTests(OESelftestTestCase):
-     # Verify that a recipe which sets up hardlink files has those preserved into split packages
-     # Also test file sparseness is preserved
--    def test_preserve_hardlinks(self):
--        result = bitbake("selftest-hardlink -c package")
-+    def test_preserve_sparse_hardlinks(self):
-+        bitbake("selftest-hardlink -c package")
- 
-         dest = get_bb_var('PKGDEST', 'selftest-hardlink')
-         bindir = get_bb_var('bindir', 'selftest-hardlink')
- 
--        # Recipe creates 4 hardlinked files, there is a copy in package/ and a copy in packages-split/
--        # so expect 8 in total.
--        self.assertEqual(os.stat(dest + "/selftest-hardlink" + bindir + "/hello").st_nlink, 8)
-+        def checkfiles():
-+            # Recipe creates 4 hardlinked files, there is a copy in package/ and a copy in packages-split/
-+            # so expect 8 in total.
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink" + bindir + "/hello").st_nlink, 8)
- 
--        # Test a sparse file remains sparse
--        sparsestat = os.stat(dest + "/selftest-hardlink" + bindir + "/sparsetest")
--        self.assertEqual(sparsestat.st_blocks, 0)
--        self.assertEqual(sparsestat.st_size, 1048576)
-+            # Test a sparse file remains sparse
-+            sparsestat = os.stat(dest + "/selftest-hardlink" + bindir + "/sparsetest")
-+            self.assertEqual(sparsestat.st_blocks, 0)
-+            self.assertEqual(sparsestat.st_size, 1048576)
-+
-+        checkfiles()
-+
-+        # Clean and reinstall so its now definitely from sstate, then retest.
-+        bitbake("selftest-hardlink -c clean")
-+        bitbake("selftest-hardlink -c package")
-+
-+        checkfiles()
+
+Hongzhi.Song wrote:
+ >
+ > 1. So far, only qemux86 can support hw breakpoint
+
+When I first read this, I thought that you really meant only
+qemux86 and NOT qemux86-64. Of course you mean: qemux86* so
+please say so using '*' or qemux86[-64].
+
+Does this work with and without the host using the kvm module?
+
+ > qemuppc: Runqemu uses G4 as the default cpu. But qemu doesn't simulate
+ > the hw breakpoint register for G4, which belong to 74xx series.
+
+Okay. Please change the wording to something like:
+
+qemuppc: The oe-core configuration uses a PPC G4 system as the
+default cpu but qemu doesn't simulate the hw breakpoint register for G4.
+
+ >
+ > qemuarm: The arch more than v7 supports hw breakpoint, however arm use
+ > v5 as default.
+
+What about qemuarm64 and qemumips* ?
+
+I don't care about mips so much but it would be nice if
+qemuarm64 had this emulation. Oh, the patch code also allows
+testing aarch64 so I guess qemuarm64 works. Please mention
+that in the log in your first sentence.
+
+ >
+ > 2. Rsyslog maybe not started, so we use dmesg to confirm.
+s/Rsyslog/syslog/
+
+There are several syslog implementations so just refer to the
+generic function.
+
+ >
+ > 3. Adding the operation of 'ls' triggers hardware breakpoint.
+
+s/Adding the operation of 'ls' triggers hardware breakpoint.
+  /Run 'ls' to trigger the hardware breakpoint test.
+  /
+
+
+Please take the numbering out of your long log.
+
+If you read through the oe-core commits, you'll see that
+people rarely number each statement. Numbered lists can be
+used in cases such as:
+    5a7cf32967 openssl_1.0.2n: improve reproducibility
+
+
+Almost done! :)
+Other than the host kvm module question, and a clean-up
+commit log, I think this is fine now.
+
+I suspect that the glibc-2.28 upgrade is getting more attention
+than this and other work so once the glibc upgrade is in master,
+I'd hope that your V4 will be merged.
+
+Thanks,
+
+../Randy
+
+> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> ---
+>   meta/lib/oeqa/runtime/cases/ksample.py | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/meta/lib/oeqa/runtime/cases/ksample.py b/meta/lib/oeqa/runtime/cases/ksample.py
+> index 26fbe9d8cb..eb8713351a 100644
+> --- a/meta/lib/oeqa/runtime/cases/ksample.py
+> +++ b/meta/lib/oeqa/runtime/cases/ksample.py
+> @@ -164,6 +164,11 @@ class KSampleTest(KSample):
+>       # hw breakpoint
+>       @OETestDepends(['ssh.SSHTest.test_ssh'])
+>       def test_hw_breakpoint_example(self):
+> +        # check arch
+> +        status, output = self.target.run("uname -m")
+> +        result = ("x86" in output) or ("aarch64" in output)
+> +        if not result:
+> +            self.skipTest("the arch doesn't support hw breakpoint" % output)
+>           # check config
+>           self.check_config("CONFIG_KALLSYMS_ALL")
+>           # make sure if module exists
+> 
+
+
 -- 
-2.17.1
-
+# Randy MacLeod
+# Wind River Linux
 
