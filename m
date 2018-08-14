@@ -1,48 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
-	[209.85.215.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D99B79064
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D441C7905E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 18:34:50 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id a14-v6so9471366pgv.10
+	Tue, 14 Aug 2018 19:06:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id EC215187B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 11:34:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=yRanPuwhTdH3OPD/uAatHlGUXYWbsbWCIljwBMgudfk=;
-	b=F0ycuBiFnJ+ebySmSs0XZ66OzoLYgxh0P6Ni7EB6+X00j+HEPufEJVhdIAazhWu9Jd
-	pWOQw/KWiHQe9T5jvSSkYd9aUXnJbuo79SLl6jtQQ6ySaKlXDYHN//0qoKUAU7OVf3Jd
-	0Li8j8yINPR7rgoTQBSW91SAmXEccdTZ7IVslPmwha9coijfhP4LjqBPetMe2eX7J1R2
-	I7wjvNkxHGKKWqnNKB9KA5xsciLfkX/L+bgY4OJbDrGDCcAlY+m/ai+c5jW2A15H143F
-	yW6xzjEGi3ZrYq61V79irF0wlMHhBIf/Mj29zhaAplExw8BZryda5B0NcgzCY3YTR0pW
-	AdXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yRanPuwhTdH3OPD/uAatHlGUXYWbsbWCIljwBMgudfk=;
-	b=V9sSxSnsdOoXTm4wxyWjEDOJyg+zuvRD08m9PWNqHdtie3bgoASe91cQJSRMpHoG1k
-	ZhQwhavJJtjdBUJdrOTpllDzimFaaEUPKmY498ZUR+x1tSQQvGyBCJukP5eMtJoFjiwP
-	wJjxCd862+yK6/UXwzY5ctpxQ6rztkUycIQKrmxpwcIoaoTk8NzSf9tZeC4JdqYRkcTo
-	PDiOfj0+c/K1WZpcM4hvHFenlZLOnmEiuAYkx08M+ZexJdOHJJrr/6+uqN3HohY1VFvL
-	6fCH+WYhmtpiGMBeTwBU3Yj61+Q3gauwpPtokH+LmewODAKzfJAmD60NFflAAsG7rmig
-	5OnQ==
-X-Gm-Message-State: AOUpUlFInOWRySCW7jbpi6ZCjJcxpFP+6hDvu1a6nDwJO3zW/zpKg2+D
-	s5z3um6CN+bTqfnueXihlRpPXf42
-X-Google-Smtp-Source: AA+uWPzEA1f/+NeDJzVpreqAvEcmXK0MFcqD445ycn6AY+EsScuC5R4TlznnNMm3md5HkhKZYGwiig==
-X-Received: by 2002:a63:b445:: with SMTP id
-	n5-v6mr22598853pgu.104.1534271691257; 
-	Tue, 14 Aug 2018 11:34:51 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::f217])
-	by smtp.gmail.com with ESMTPSA id
-	n80-v6sm48690807pfb.95.2018.08.14.11.34.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Aug 2018 11:34:50 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Tue, 14 Aug 2018 21:06:42 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id uNTnC-mqEDVz
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2018 21:06:40 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id C1931187AC
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2018 21:06:40 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ABFE01E127
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2018 21:06:40 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A08AD1E123
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2018 21:06:40 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2018 21:06:40 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 93D1A56A
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2018 21:06:40 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w7EJ6Qrh007309
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2018 21:06:26 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w7EJ6Q2w007308
+	for openembedded-core@lists.openembedded.org;
+	Tue, 14 Aug 2018 21:06:26 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2018 11:34:40 -0700
-Message-Id: <20180814183440.38619-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-Subject: [PATCH V2] mesa: Disble TLS for musl
+Date: Tue, 14 Aug 2018 21:06:24 +0200
+Message-Id: <20180814190624.7261-2-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <20180814190624.7261-1-pkj@axis.com>
+References: <20180814190624.7261-1-pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCHv2 2/2] meson: Support building allarch recipes again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,55 +62,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 18:34:52 -0000
+X-List-Received-Date: Tue, 14 Aug 2018 19:06:43 -0000
 
-See https://bugs.freedesktop.org/show_bug.cgi?id=35268
-mesa should infact stop using __attribute__((tls_model("initial-exec")))
-until then we disale TLS in glx for musl
-The problem could happen even on glibc if static TLS sizes are large enough
-which would mean that additional space the glibc leaves for such rogue libraries
-get consumed and then same problems show up there as well
+This registers "allarch" as a known CPU family.
 
-Fixes errors seen in xorg logs e.g.
-
-(EE) Failed to load /usr/lib/xorg/modules/extensions/libglx.so: Error relocating /usr/lib/libGL.so.1: _ITM_deregisterTMCloneTable: initial-exec TLS resolves to dynamic definition in /usr/lib/libGL.so.1
-
-enable readonly text segment on x86 for musl
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
-V2: Use --enable-glx-read-only-text instead of setting CFLAGS
+Patch v2: Rebased on current master due to conflicts.
 
- meta/recipes-graphics/mesa/mesa.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/meson/meson.inc              |  1 +
+ ...01-Support-building-allarch-recipes-again.patch | 28 ++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/meson/meson/0001-Support-building-allarch-recipes-again.patch
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 860a2d94cc..2671d4de4d 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -36,6 +36,7 @@ export LLVM_CONFIG = "${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE}"
- export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE}/llvm-config"
- EXTRA_OECONF = "--enable-shared-glapi \
-                 --disable-opencl \
-+                --enable-glx-read-only-text \
-                 PYTHON2=python2 \
-                 --with-llvm-prefix=${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE} \
-                 --with-platforms='${PLATFORMS}'"
-@@ -105,11 +106,12 @@ PACKAGECONFIG[osmesa] = "--enable-${OSMESA},--disable-${OSMESA}"
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index c9e1e051c6..b5dfa2c2a2 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -15,6 +15,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://0002-Make-CPU-family-warnings-fatal.patch \
+            file://0003-Send-user-to-our-wiki-instead-of-Meson-bug-system.patch \
+            file://0001-mesonbuild-Recognise-risc-v-architecture.patch \
++           file://0001-Support-building-allarch-recipes-again.patch \
+            "
  
- PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- 
-+EXTRA_OECONF_remove_libc-musl = "--enable-glx-tls"
-+EXTRA_OECONF_append_libc-musl = " --disable-glx-tls"
- # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
- FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
- 
- CFLAGS_append_armv5 = " -DMISSING_64BIT_ATOMICS"
--
- EXTRA_OEMAKE += "WAYLAND_PROTOCOLS_DATADIR=${STAGING_DATADIR}/wayland-protocols"
- 
- # Remove the mesa dependency on mesa-dev, as mesa is empty
+ SRC_URI[md5sum] = "1698f6526574839de5dcdc45e3f7d582"
+diff --git a/meta/recipes-devtools/meson/meson/0001-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0001-Support-building-allarch-recipes-again.patch
+new file mode 100644
+index 0000000000..f6dd230916
+--- /dev/null
++++ b/meta/recipes-devtools/meson/meson/0001-Support-building-allarch-recipes-again.patch
+@@ -0,0 +1,28 @@
++From d80d02a3ca6e21fa3d055c88c05234c2eb4db128 Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Thu, 26 Jul 2018 16:32:49 +0200
++Subject: [PATCH] Support building allarch recipes again
++
++This registers "allarch" as a known CPU family.
++
++Upstream-Status: Inappropriate [OE specific]
++Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++---
++ mesonbuild/environment.py | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
++index a0580a2..712b1e8 100644
++--- a/mesonbuild/environment.py
+++++ b/mesonbuild/environment.py
++@@ -73,6 +73,7 @@ from .compilers import (
++ build_filename = 'meson.build'
++ 
++ known_cpu_families = (
+++    'allarch',
++     'aarch64',
++     'arm',
++     'e2k',
++-- 
++2.12.0
++
 -- 
-2.18.0
+2.12.0
 
 
