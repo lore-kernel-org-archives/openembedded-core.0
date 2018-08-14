@@ -1,43 +1,50 @@
-Return-Path: <nickaein.i@gmail.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id E86B97901C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
+	[209.85.218.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 34AF478FD4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 16:29:34 +0000 (UTC)
-Received: by mail-qk0-f180.google.com with SMTP id b66-v6so13821316qkj.1
+	Tue, 14 Aug 2018 16:32:30 +0000 (UTC)
+Received: by mail-oi0-f42.google.com with SMTP id 8-v6so34806299oip.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 09:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=M0TRxrkVrawwjo4+fqAleEcT/DNK3JL1AUKl6YlikOg=;
-	b=FOEx2IVoTuyyroWafiFdwiJx69pjD1+h9XTLVBa30hePzH5yVxBmL5H0KHWnru2Ix+
-	eSkdP75d/31r0Nk/5et9a4koKk4Xu+5nfjK3rYwiEmcLPAOF2N5hR/LjsVuTgDZL1OZG
-	IyF3KFbfMi1BrnoySEryviDtJHx9mwoaywsMDtZwJbyEoa1kXMIAhSIc3YH6xrN/ST9f
-	NB+1CAvVNDJPY5JTHxXMNzfgMEA2dRG9U/79ndLCoHEFyxf+s4OqtSdROeL33jm56sBP
-	4AxfkWVo3R4iu3fygpOES8b5IvIwCBlZo49ZjESrEn44AKDWtZcsZTKdnSTCqqA/rkam
-	fycQ==
+	Tue, 14 Aug 2018 09:32:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7QNgZDSLmCaWEbOatTaptSPQItx51HKAdxWgFFSa25k=;
+	b=QpKIlBXtcuWTV+vEgIl4qT/Xhe7TVKR25+unhFYhXRKJJL2PGTvHF/wI/S59lwWjGQ
+	7UgSZAMqdbg8mQVJTmtI77/M5le3Alg1jOXMKcHKAgOYZTJxSrpqAIMny/jbKPGKnXUf
+	1qwRGxAd+e8oV9ATaOEpU4tIJBTmd6MjzHJJ7zCXezI2qyTPOfnQ2gLFIUFixyD9It3J
+	sCYarAW8n7bJPTJ1R+UTd03qfJMYL2tMeHPg7fYACeAoCXeM4hzm41Kw2clfBpCqk1at
+	yWkpM4MGyTgq31VwTidW3np7JvKJUdZGTdG3zzr1jt95VBFZLPTIOuhWiYNocnARImjY
+	0uvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=M0TRxrkVrawwjo4+fqAleEcT/DNK3JL1AUKl6YlikOg=;
-	b=LabF43gyOpXdfa1fklb1SVQQcgEaS+DDh1Imo2FgHUY/MDHtYNIG2dF22I14Lp9rVq
-	eBilWqzQyKLx5OiyInXjUHDLWRPU1dG86o/OimxEoUQk332xeI8UBbaZyOyLuCxFnLP/
-	xEPCyQe/dk7O2QhzH6OSQmddEVVb3B5hMLy9XiqY5tYTiUZA15e7YctF1BKk72dj3WoB
-	1MBCQ5PYFFwcd70RPRxbso0Y3x36KhWnaOdMt7Csh8dPqamQRpiun9AR0Of8dmNvxLgQ
-	QvRC48A3muS0LG13MRtOk13MzLuUJCLOUT/j78MlJhwjk9AIcbJRC/efvEp9QXTigY+l
-	n1rQ==
-X-Gm-Message-State: AOUpUlGRzC4x8AfbupizsBYGrh3E3gAEvHdDrj/ZFgROBXUsJAXlUrm1
-	KUjkQitxlk9llowmil3tza61n5YSdhS81XRbuf0RQ68ziV0=
-X-Google-Smtp-Source: AA+uWPxR/3o5xeI4Lx4m5tBWVsmZ2WichWLGOr8gpTLPRrJ/R+i0gWuhWrVDaG65At5iySSQIluDuqekWCqlrBXCQvQ=
-X-Received: by 2002:a37:2fc6:: with SMTP id
-	v189-v6mr20715558qkh.433.1534264175525; 
-	Tue, 14 Aug 2018 09:29:35 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7QNgZDSLmCaWEbOatTaptSPQItx51HKAdxWgFFSa25k=;
+	b=OBSz9s6g/56FQrkmfHnnEQbOQnJ67OZFaIgK3M91CcBsps/DfVtlN/R0vYqj/g4Skv
+	AK1KtlzS2x0B01ppUc1vVzyRb056qgG7d3VN7hG4mljcTbnqqwGAQzzNvPRYI4SBRh9n
+	y1nQADt8Uw1qkYKSv4eqEtTotqPh3VIuerd8N4ehbZqKtWvgVI5o7Mg811/nnutumrmM
+	BMqNcCrGi/NSYjoXKUq4zv8rgm+u76ySzVQ+OFnHcDGntunfmCTA7Y9d2sYHp4MqLH25
+	CJyxZtzON2qiKgS7eePxLtyqbTJwJEjptbUFpmXvkiss7vwEJnMIAmdHGtYFsf50BnKf
+	V5VQ==
+X-Gm-Message-State: AOUpUlFHLHj3NFI4Ay0+mBGv2QfJ790+alLQyCDiYMOWnLXfUfT/6a/v
+	fP8E9QpmrK6zO4cmwH3WIqv7L0l6zJrmF57mqm173Q==
+X-Google-Smtp-Source: AA+uWPz9Vv5+6tFF3lpn3DsI0xSJJAg2X8LDepY8I1y1MYTJKiLRSEDSSD6m40og1MZmmwsgd+M0twDhP5o1TRL9WqI=
+X-Received: by 2002:aca:efd7:: with SMTP id
+	n206-v6mr25204924oih.70.1534264351387; 
+	Tue, 14 Aug 2018 09:32:31 -0700 (PDT)
 MIME-Version: 1.0
-From: Isaac Nickaein <nickaein.i@gmail.com>
-Date: Tue, 14 Aug 2018 20:57:47 +0430
-Message-ID: <CA+NJmkes2FzO3OvTVxjL075A5G_UMUjj_J-oc1BtjThTQ=YiZg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: iotop: failure, python module subprocess is missing
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 14 Aug 2018 09:32:10
+	-0700 (PDT)
+In-Reply-To: <CA+NJmkes2FzO3OvTVxjL075A5G_UMUjj_J-oc1BtjThTQ=YiZg@mail.gmail.com>
+References: <CA+NJmkes2FzO3OvTVxjL075A5G_UMUjj_J-oc1BtjThTQ=YiZg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 14 Aug 2018 17:32:10 +0100
+Message-ID: <CAJTo0LaSOFApbGM6OpBWhkQUEdPk9qvXy-q+HWyiSVMku7G4=g@mail.gmail.com>
+To: Isaac Nickaein <nickaein.i@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: iotop: failure, python module subprocess is missing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,21 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 16:29:35 -0000
+X-List-Received-Date: Tue, 14 Aug 2018 16:32:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Yes.  Should be a simple fix. :)
 
-iotop built in my custom image complains about missing subprocess module:
-
-   root@colibri-imx7-emmc:~# iotop
-   No module named subprocess
-   To run an uninstalled copy of iotop,
-   launch iotop.py in the top directory
-   root@colibri-imx7-emmc:~#
-
-Shouldn't the iotop RDEPENDS on python-subprocess?
-
-I'm on rocko 2.4.2 with following recipe for iotop:
-http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-extended/iotop/iotop_0.6.bb?h=rocko
+On 14 August 2018 at 17:27, Isaac Nickaein <nickaein.i@gmail.com> wrote:
+> Hi,
+>
+> iotop built in my custom image complains about missing subprocess module:
+>
+>    root@colibri-imx7-emmc:~# iotop
+>    No module named subprocess
+>    To run an uninstalled copy of iotop,
+>    launch iotop.py in the top directory
+>    root@colibri-imx7-emmc:~#
+>
+> Shouldn't the iotop RDEPENDS on python-subprocess?
+>
+> I'm on rocko 2.4.2 with following recipe for iotop:
+> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-extended/iotop/iotop_0.6.bb?h=rocko
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
