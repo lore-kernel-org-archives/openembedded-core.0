@@ -1,49 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C4977900C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B947B7902D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 16:39:26 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id u21-v6so13831770qku.2
+	Tue, 14 Aug 2018 17:32:02 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id o18-v6so13060324wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 09:39:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JOHsxYEu+1ngWKnvoMrh/9wwS+7XIfbiOvxUtS1xGM0=;
-	b=Ap7ETduMb7DH3Dz2LS7G6JJ/U8NZNK5sjLOz+oo664LXVCItSk51OR8Em3A+vtU1ap
-	YW2Y/jtrbe2ySyo6beL8Dtm/KFb6ue9VUd6lrkGm8EUHjbraXQu4uGdinBgcMKTeVoWo
-	mmFg2lM2yTmVbU/b6n9ciikTDdbJV8joUCC5WPndHSii//wNh2gO2b6SxrRcBznwqAVW
-	vhmAiAgRiaJ58H1q4XCRwi9SkBim49qKiVafACAc1NLffQcni05fQ/F7Jc075TPg0UUY
-	eKHDg2jE2R8ujY7gAX/EBb/OAYFBveHmPPth63caoc7bzZzq6OtqFQ5OlZYrK9Cuck8H
-	0rww==
+	Tue, 14 Aug 2018 10:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=3rb3HtztT8TkRG9KY4BTgfew8xIjhaVvs5bZhjP2Vc0=;
+	b=aG2oRjsCNvrMTUrp+DtLWgnLNPMpVRPVCToLhaB/an6EJPhb0JTW/zvjFHuHyK0oaQ
+	YGJHMZvTWZc1QvKCU4OMFt9nI29glFNfSCrGlzjeoaomQ+8ZKjuuPszcskuA/bwIDPXq
+	HWZRKviTUw0YgDc/46+DbeNd8W1ScuJmfzH5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JOHsxYEu+1ngWKnvoMrh/9wwS+7XIfbiOvxUtS1xGM0=;
-	b=rSjBkEfVcNPsxWFXXUamHsAIVKO3YQivH0dcOfnc8aB3mtx3x80wPhaPi1BHRXg420
-	ZkZcqwWbOuhSKM3E3tujeW5q3m1xCqZB1kKQTYtPjdrUgEQPJQow8I/G2NRATEHesP8A
-	jU7YbK00yHMo4BEDA5KFnI4UkXlRG8KfejrKByyTwEWUZh+EruQrblprFHQTBVo2DdFz
-	G4cHuSN/3JjZCH6DTbpQrMxEE2skHb8KrTfp4DzvAqYeMplM2lyz5OLUs9YdPqeLdBZc
-	vZ8ApN+Z7D6jw1S2j4Yp9Denk5XnerPm2naR6MFrpZM0Vfla9cEUzaSdCGx3QBnAjsTX
-	v45g==
-X-Gm-Message-State: AOUpUlGGOxunVdSHhoiVZ/1h2P030D88jHa8fBAIC8OaHJQbkoExbtCT
-	0hmjtTnPXFc45UA41mdr2tuUxYTz+V8GOaAiyYQ=
-X-Google-Smtp-Source: AA+uWPx7jyY424KavHvsG2jeCUauP7+X+R8tizE12/kDW+27XraOO0lHTzQWldVN4sByxxg4MY5wMMk2ouI1svwpgbk=
-X-Received: by 2002:a37:a24f:: with SMTP id
-	l76-v6mr19677251qke.406.1534264767177; 
-	Tue, 14 Aug 2018 09:39:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <1534255849-10649-1-git-send-email-andrea.adami@gmail.com>
-	<520af9857fc5f36d1328f24cc1462776967257e6.camel@linuxfoundation.org>
-In-Reply-To: <520af9857fc5f36d1328f24cc1462776967257e6.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 14 Aug 2018 09:39:00 -0700
-Message-ID: <CAMKF1sqP8znJVim4MB89WLNGy+61D__5yiZzRXgfF1mfDVVgVw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tune-xscale.inc: restore specific tuning
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=3rb3HtztT8TkRG9KY4BTgfew8xIjhaVvs5bZhjP2Vc0=;
+	b=RS5LzmW6BLB+3u/yimORa7IQLoSMwB6kZGT03TU3sFXJuYT0ct6GLPAEUnFJhj2kOX
+	z7MOG8PFq/fpZYtGbiKAe2OfjgwCgzbQyacaP2jSiYsGP1m0AXqr7qFsDSWPL00ViDwZ
+	+zqJ3RF1hipE4FrhHMQc7Xg5ljXLJFpyaZTTzN+nB/t8e7IBJXlc3pMBEIhHP1jOMV41
+	1P+TQX9Qj3hkd1gIPX7U5LCSF2+q3ZsGoGCLt96xmpA7KytvnRL6bB77+iZ9zuI9DcHb
+	apt6kytRca2mJBENk8zaIPJ8v1i8gSxGOUSPEBBdoxWpZh3aCTD2N/7Om4fwpSAZh9h6
+	2eIw==
+X-Gm-Message-State: AOUpUlFHxRbav348q5f0k/6gxu72ZfuFJO0raiEO25Jq6ZwbvIsgb6Av
+	MX+csyAqMKvtMRislsRubvXh/p/ILqA=
+X-Google-Smtp-Source: AA+uWPzUO5VS3HXGgNtSjNyloS9o7C/A4M9GA02JeFOMj3v+MLq6utrWtJJmIscs6X+jGqhmO8b41A==
+X-Received: by 2002:a1c:af53:: with SMTP id
+	y80-v6mr11049248wme.55.1534267923022; 
+	Tue, 14 Aug 2018 10:32:03 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	t70-v6sm14519462wmt.30.2018.08.14.10.32.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 Aug 2018 10:32:02 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Aug 2018 18:31:56 +0100
+Message-Id: <20180814173201.6723-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/6] package_manager: Remove rpm specific pieces of create_packages_dir()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,55 +53,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 16:39:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 14 Aug 2018 17:32:03 -0000
 
-On Tue, Aug 14, 2018 at 7:24 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2018-08-14 at 16:10 +0200, Andrea Adami wrote:
-> > Since commit
-> >
-> >  a11bdc36a1be
-> >  tune-*: define more generic DEFAULTTUNE to share feed between
-> > machines
-> >
-> > we are using armv5te to share binary feeds.
-> >
-> > After 008085450417 gcc-8: Fix spurious mcpu/march conflict for xscale
-> > we can use again the specific optimizations.
-> >
-> > As of today, there are no public feeds for the legacy devices so
-> > let's prefer
-> > the optimal tuning.
-> >
-> > Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-> > ---
-> >  meta/conf/machine/include/tune-xscale.inc | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/conf/machine/include/tune-xscale.inc
-> > b/meta/conf/machine/include/tune-xscale.inc
-> > index 0d07333..cd08b93 100644
-> > --- a/meta/conf/machine/include/tune-xscale.inc
-> > +++ b/meta/conf/machine/include/tune-xscale.inc
-> > @@ -1,4 +1,4 @@
-> > -DEFAULTTUNE ?= "armv5te"
-> > +DEFAULTTUNE ?= "xscale"
->
-> Does this make any real world difference except for duplicating feeds?
+This function is generic, tweak the variable names and move out the rpm specific
+directory name to make it truly generic and reusable for deb/ipk.
 
-Usually it should, since compiler should be able to use
-xscale specific instructions during codegen  , it will be interesting
-to see numbers to measure the gain.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oe/package_manager.py | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
->
-> Cheers,
->
-> Richard
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 6011e873503..f1dbe48a720 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -621,7 +621,7 @@ class PackageManager(object, metaclass=ABCMeta):
+             return res
+         return _append(uris, base_paths)
+ 
+-def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependencies):
++def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencies):
+     """
+     Go through our do_package_write_X dependencies and hardlink the packages we depend
+     upon into the repo directory. This prevents us seeing other packages that may
+@@ -636,15 +636,13 @@ def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependenci
+     seendirs = set()
+     multilibs = {}
+    
+-    rpm_subrepo_dir = oe.path.join(rpm_repo_dir, "rpm")
+-
+-    bb.utils.remove(rpm_subrepo_dir, recurse=True)
+-    bb.utils.mkdirhier(rpm_subrepo_dir)
++    bb.utils.remove(subrepo_dir, recurse=True)
++    bb.utils.mkdirhier(subrepo_dir)
+ 
+     # Detect bitbake -b usage
+     nodeps = d.getVar("BB_LIMITEDDEPS") or False
+     if nodeps or not filterbydependencies:
+-        oe.path.symlink(deploydir, rpm_subrepo_dir, True)
++        oe.path.symlink(deploydir, subrepo_dir, True)
+         return
+ 
+     start = None
+@@ -655,24 +653,24 @@ def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependenci
+             break
+     if start is None:
+         bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
+-    rpmdeps = set()
++    pkgdeps = set()
+     start = [start]
+     seen = set(start)
+-    # Support direct dependencies (do_rootfs -> rpms)
+-    # or indirect dependencies within PN (do_populate_sdk_ext -> do_rootfs -> rpms)
++    # Support direct dependencies (do_rootfs -> do_package_write_X)
++    # or indirect dependencies within PN (do_populate_sdk_ext -> do_rootfs -> do_package_write_X)
+     while start:
+         next = []
+         for dep2 in start:
+             for dep in taskdepdata[dep2][3]:
+                 if taskdepdata[dep][0] != pn:
+                     if "do_" + taskname in dep:
+-                        rpmdeps.add(dep)
++                        pkgdeps.add(dep)
+                 elif dep not in seen:
+                     next.append(dep)
+                     seen.add(dep)
+         start = next
+ 
+-    for dep in rpmdeps:
++    for dep in pkgdeps:
+         c = taskdepdata[dep][0]
+         manifest, d2 = oe.sstatesig.find_sstate_manifest(c, taskdepdata[dep][2], taskname, d, multilibs)
+         if not manifest:
+@@ -683,7 +681,7 @@ def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependenci
+             for l in f:
+                 l = l.strip()
+                 dest = l.replace(deploydir, "")
+-                dest = rpm_subrepo_dir + dest
++                dest = subrepo_dir + dest
+                 if l.endswith("/"):
+                     if dest not in seendirs:
+                         bb.utils.mkdirhier(dest)
+@@ -725,7 +723,7 @@ class RpmPM(PackageManager):
+             self.primary_arch = self.d.getVar('MACHINE_ARCH')
+ 
+         self.rpm_repo_dir = oe.path.join(self.d.getVar('WORKDIR'), rpm_repo_workdir)
+-        create_packages_dir(self.d, self.rpm_repo_dir, d.getVar("DEPLOY_DIR_RPM"), "package_write_rpm", filterbydependencies)
++        create_packages_dir(self.d, oe.path.join(self.rpm_repo_dir, "rpm"), d.getVar("DEPLOY_DIR_RPM"), "package_write_rpm", filterbydependencies)
+ 
+         self.saved_packaging_data = self.d.expand('${T}/saved_packaging_data/%s' % self.task_name)
+         if not os.path.exists(self.d.expand('${T}/saved_packaging_data')):
+-- 
+2.17.1
+
 
