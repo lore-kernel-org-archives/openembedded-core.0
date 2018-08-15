@@ -1,23 +1,49 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EB52C790EE
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id BCC10790F0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 09:43:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7F9hPGH008189
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 15 Aug 2018 09:52:59 +0000 (UTC)
+Received: by mail-oi0-f52.google.com with SMTP id 13-v6so1063546ois.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 02:43:25 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Wed, 15 Aug 2018 02:43:25 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 15 Aug 2018 17:43:24 +0800
-Message-ID: <1534326204-395700-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 15 Aug 2018 02:53:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=cVNIIKOh66I/XZGiuO0sP17QZCJ3kMALWeIANMuPV38=;
+	b=MdricYsTBWf6UkMZMyckjcUfWT4kGaBAJX9HaflCvG260KNjZkjA5nhTFd3uk9IYjn
+	P9YHk1VbQN37MXSenVi3oMm+YqirQeU6azPrJsJZ1GCQX5k+aXyWdpjScKPZCdwaphMW
+	/3rX/unjm+CT2GBLMGQewOSWLmENIzLbwKp3/MwLLnuWjAy/Gtkrx5AHQHUuCpWdm6RX
+	bKGsGyJdE5Hr+tTcYFEUch2B1ygrPECGtPVvaR6xE4wDJMDhTtHErLI7QRxdRiL0Gf6I
+	Oba0yJJs21NPrshyeuEapmTkBwaxM+9JS6idIVdQ3MvSUFrDlCSJh85l98tM7C7JVCev
+	Cevw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=cVNIIKOh66I/XZGiuO0sP17QZCJ3kMALWeIANMuPV38=;
+	b=tU7BpGXwU7Tze2B8ojrrxXqWHMARWoLk/7bQBV0ctBW/7uKQdcGGDBWxiaabvVonnE
+	3pB4L0aJKOIMnYmHgu28TgLR88mX2EzEyIA99n3ouMZHvIBb1+qu3X++K0pc5URVjyB5
+	TDwlsJKnyaivIucIXYCUqeHUeWaO/JQ/eTcK/8ukF26Gng+vLZifSh06mE0cPj5QByQv
+	VfXLmjtTo8cyoomKLzOkUr1VdLpLWicCU2BytzSeANxTbsR2zb95BvwZJdGKveuRjnHH
+	IMzQnP5hXDFf1Y4iN48u8t1r2s8ZOqL1jLCcazGzmPMkGHBmX3jxr87nx6uYxB14eZrm
+	l3EA==
+X-Gm-Message-State: AOUpUlFzcMvB1U+fJO5oAZzdS4cat4DKrsDBZCK9OhtqUs040qcDc+AX
+	8dV34pC5g+jb1Qg/KutPTXvPHXe+kjxWeV79iow=
+X-Google-Smtp-Source: AA+uWPwW+32k6cmr1++SY9Qn4NBw3r4uP3HQ0VZ1cdv6lI6blaZBrFIaywdpsrs+qv1Iu8L56ahMCo69N5SKSC85Kdg=
+X-Received: by 2002:aca:e80c:: with SMTP id
+	f12-v6mr28102889oih.38.1534326780785; 
+	Wed, 15 Aug 2018 02:53:00 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] unzip: fix CVE-2018-1000035
+Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Wed, 15 Aug 2018 02:53:00
+	-0700 (PDT)
+In-Reply-To: <1534326204-395700-1-git-send-email-changqing.li@windriver.com>
+References: <1534326204-395700-1-git-send-email-changqing.li@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 15 Aug 2018 11:53:00 +0200
+Message-ID: <CANNYZj9TY_Z6ocQZzqMgf6iNk2rZd_ppUhOB5pKirxok_PnLxQ@mail.gmail.com>
+To: cli10 <changqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] unzip: fix CVE-2018-1000035
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,83 +56,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2018 09:43:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 15 Aug 2018 09:53:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Changqing Li <changqing.li@windriver.com>
+2018-08-15 11:43 GMT+02:00  <changqing.li@windriver.com>:
+> From: Changqing Li <changqing.li@windriver.com>
+> +Upstream-Status: Backport
+> +
+> +backport from unzip6.10c23
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../unzip/0001-unzip-fix-CVE-2018-1000035.patch    | 46 ++++++++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb           |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch
+The new versions of zip/unzip are now published here
+http://antinode.info/ftp/info-zip/
 
-diff --git a/meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch b/meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch
-new file mode 100644
-index 0000000..d82c53a
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch
-@@ -0,0 +1,46 @@
-+From 349f566e6e757458843fa164a0f0584280e1501e Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 15 Aug 2018 16:20:53 +0800
-+Subject: [PATCH] unzip: fix CVE-2018-1000035
-+
-+Upstream-Status: Backport
-+
-+backport from unzip6.10c23
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ fileio.c | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
-+
-+diff --git a/fileio.c b/fileio.c
-+index 36bfea3..7605a29 100644
-+--- a/fileio.c
-++++ b/fileio.c
-+@@ -1582,6 +1582,8 @@ int UZ_EXP UzpPassword (pG, rcnt, pwbuf, size, zfn, efn)
-+     int r = IZ_PW_ENTERED;
-+     char *m;
-+     char *prompt;
-++    char *ep;
-++    char *zp;
-+ 
-+ #ifndef REENTRANT
-+     /* tell picky compilers to shut up about "unused variable" warnings */
-+@@ -1590,9 +1592,12 @@ int UZ_EXP UzpPassword (pG, rcnt, pwbuf, size, zfn, efn)
-+ 
-+     if (*rcnt == 0) {           /* First call for current entry */
-+         *rcnt = 2;
-+-        if ((prompt = (char *)malloc(2*FILNAMSIZ + 15)) != (char *)NULL) {
-+-            sprintf(prompt, LoadFarString(PasswPrompt),
-+-                    FnFilter1(zfn), FnFilter2(efn));
-++        zp = FnFilter1( zfn);
-++        ep = FnFilter2( efn);
-++        prompt = (char *)malloc(    /* Slightly too long (2* "%s"). */
-++         sizeof( PasswPrompt)+ strlen( zp)+ strlen( ep));
-++        if (prompt != (char *)NULL) {
-++            sprintf(prompt, LoadFarString(PasswPrompt), zp, ep);
-+             m = prompt;
-+         } else
-+             m = (char *)LoadFarString(PasswPrompt2);
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index dbf4112..a47491e 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
- 	file://18-cve-2014-9913-unzip-buffer-overflow.patch \
- 	file://19-cve-2016-9844-zipinfo-buffer-overflow.patch \
- 	file://symlink.patch \
-+	file://0001-unzip-fix-CVE-2018-1000035.patch \
- "
- UPSTREAM_VERSION_UNKNOWN = "1"
- 
--- 
-2.7.4
+I wonder if we should still consider them 'betas' or as it has been a
+decade since the last release, we should just treat them as new
+releases.
 
+Alex
 
