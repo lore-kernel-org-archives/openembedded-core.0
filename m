@@ -1,47 +1,28 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 98F3D79101
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AC3870016
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 20:43:48 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id r16-v6so2182439wrt.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 13:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=lJiAUPD+P2oNKu4YUNwogrgdHTCGrnaGjWVWgT0Iem8=;
-	b=OsHC1o04CbX19z35nshMe1Hw2P1d6XhRSzMAneAqU8JfoUtZdOyqPnGUsdCOtz2WWq
-	0TrbzRogrJiS2HXiT0xV8saDX4Tx/jyiyqL7FHFk3d7vu8srqPOj4PKVfmkTaL6Q5NT6
-	GK66D3JwWQuYj7pJRmU53ic6nywQzeQLp1LbE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=lJiAUPD+P2oNKu4YUNwogrgdHTCGrnaGjWVWgT0Iem8=;
-	b=IncFYNE5TWFZRhjTARmGlP45NqmR/55CiyesLodH7KwBH++w6alPWbMzeX3gYljyba
-	mhdDspSxpHcSFDUJ3Jhu57dQBjglw/9SB5umwyAlznR4L8ryk3FkJLRg4zpCF7rHp/RI
-	VXW7Mr4gu3OkEmXP8lkOH8yZmyiCwl3wLYLT4vqgebMhLNCckIGxtRiUcwNzXpS+NJMP
-	P5BpCMEr0ilZEP9jXebKDQlm/CcFv1oNlYAgVGoYhdAbOCLsYpTIopH6GjxZaCNnzuxm
-	UNiS+HUmobgDLjLIxrBhRWn+wcSJCcDgwvZDELWTOf+7eL2aF7BCWwhQ5IFfoyx2jy0K
-	bnFQ==
-X-Gm-Message-State: AOUpUlFcepIMrZOMRYdfWmEJ0fMihkM/Gxm91V00slChk1Zl5BRhnSpI
-	9i6Z+DzniQFfxI8k8cLGG5yNKMX+upI=
-X-Google-Smtp-Source: AA+uWPw8TnBx1yUe21kd+h66B8g/MJl5XO7nlWw3QWCD0vq88wTLr1y0fw6r3fqdOl9LIheCkY9zmQ==
-X-Received: by 2002:adf:adc9:: with SMTP id
-	w67-v6mr17331302wrc.135.1534365828994; 
-	Wed, 15 Aug 2018 13:43:48 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b22-v6sm2113045wme.48.2018.08.15.13.43.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Aug 2018 13:43:48 -0700 (PDT)
+	Wed, 15 Aug 2018 20:49:38 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7FKnXTZ015282
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 15 Aug 2018 21:49:34 +0100
+Message-ID: <d0d153b0c79ee58e266fad16836e355afd722296.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Aug 2018 21:43:47 +0100
-Message-Id: <20180815204347.30892-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] acpica: Add missing DEPENDS on bison-native
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>, "Burton,
+	Ross" <ross.burton@intel.com>
+Date: Wed, 15 Aug 2018 21:49:33 +0100
+In-Reply-To: <CALbNGRSBASPR5fZs-qHZeTZTp4HG1quJRSADAqGveXo5BABbOg@mail.gmail.com>
+References: <20180704001137.41385-1-raj.khem@gmail.com>
+	<CAJTo0LY75OXe6AmZvdOkT2LRe58k9ZEzgYBtf_xbqnhu7waY=A@mail.gmail.com>
+	<CALbNGRSBASPR5fZs-qHZeTZTp4HG1quJRSADAqGveXo5BABbOg@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] mesa: Fix bild with waylang and egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,27 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2018 20:43:48 -0000
+X-List-Received-Date: Wed, 15 Aug 2018 20:49:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-extended/acpica/acpica_20180508.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 2018-08-15 at 21:52 +0200, Andreas Müller wrote:
+> On Wed, Jul 4, 2018 at 6:28 PM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > FWIW historically we just prepended PKG_CONFIG_SYSROOT or whatever
+> > the
+> > spelling was to the result of the pkg-config calls.  I didn't know
+> > about PKG_CHECK_VAR before, that's really useful!
+> > 
+> > Have you tried pushing this upstream?  Also note that I've a branch
+> > moving Mesa to Meson so we'll need to fix this again...
+> > 
+> > Ross
+> 
+> Hi Ross,
+> 
+> this is a bit late and off-topic: Where can I find this branch - I
+> need to test a mesa patch before sending it
 
-diff --git a/meta/recipes-extended/acpica/acpica_20180508.bb b/meta/recipes-extended/acpica/acpica_20180508.bb
-index dfa9a18ccb0..b5c89fafc59 100644
---- a/meta/recipes-extended/acpica/acpica_20180508.bb
-+++ b/meta/recipes-extended/acpica/acpica_20180508.bb
-@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://generate/unix/readme.txt;md5=204407e197c1a01154a48f6c
- 
- COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
- 
--DEPENDS = "bison flex"
-+DEPENDS = "bison flex bison-native"
- 
- SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz \
-            file://rename-yy_scan_string-manually.patch \
--- 
-2.17.1
+Its probably:
 
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ross/mesa
+
+Cheers,
+
+Richard
 
