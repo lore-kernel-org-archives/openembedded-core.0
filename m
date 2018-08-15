@@ -1,24 +1,25 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 34A8079162
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 875C179190
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 13:32:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7FDWM6m031063
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Aug 2018 06:32:23 -0700
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Wed, 15 Aug 2018 06:32:22 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 15 Aug 2018 09:32:21 -0400
-Message-ID: <1534339941-1968-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3] kernel-devsrc: restructure for out of tree (and on target) module builds
+	Wed, 15 Aug 2018 13:40:52 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7FDecqW021479
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 15 Aug 2018 14:40:40 +0100
+Message-ID: <6c97d0ea5b361c29093e869d2389f448f49d89e2.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 15 Aug 2018 14:40:38 +0100
+In-Reply-To: <20180522122553.29109-1-git@andred.net>
+References: <20180522122553.29109-1-git@andred.net>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/4] sstate: allow specifying indirect dependencies to exclude from sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,309 +32,194 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2018 13:32:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 15 Aug 2018 13:40:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The existing kernel-devsrc package starts with a full copy of the kernel
-source and then starts to strip out elements that are not required.
+On Tue, 2018-05-22 at 13:25 +0100, André Draszik wrote:
+> From: André Draszik <andre.draszik@jci.com>
+> 
+> Currently, a dependency on any -native recipe will pull in
+> all dependencies of that -native recipe in the recipe
+> sysroot. This behaviour might not always be wanted, e.g.
+> when that -native recipe depends on build-tools that are
+> not relevant for the current recipe.
+> 
+> This change adds a SSTATE_EXCLUDEDEPS_SYSROOT variable,
+> which will be evaluated for such recursive dependencies to
+> be excluded. The idea is similar to
+>    http://lists.openembedded.org/pipermail/openembedded-core/2018-Jan
+> uary/146324.html
+> except that the list is not hard-coded anymore.
+> 
+> SSTATE_EXCLUDEDEPS_SYSROOT is evaluated as two regular
+> expressions of recipe and dependency to ignore, e.g. in
+> the above flex-native / bison-native use-case, one would
+> specify
+> 
+>     SSTATE_EXCLUDEDEPS_SYSROOT = ".*->(flex|bison)-native"
+> 
+> in layer.conf.
+> 
+> The existing special handling of "-initial" as well as
+> "base-passwd" and "shadow-sysroot" could also be
+> streamlined:
+> 
+>     SSTATE_EXCLUDEDEPS_SYSROOT += "\
+>         .*->.*-initial.* \
+>         .*(base-passwd|shadow-sysroot)->.* \
+>     "
+> 
+> Another anticipated user is meta-java, where certain newer
+> JDKs can only be bootstrapped (built) using older JDKs,
+> but it doesn't make much sense to copy all those older
+> JDKs and their own build tools (ant, etc.) into the
+> sysroot of recipes wanting to be built using the newer JDK
+> (only), e.g.:
+> 
+>     SSTATE_EXCLUDEDEPS_SYSROOT += "\
+>         openjdk-8-native->(ant-native|attr-native|coreutils-
+> native|icedtea7-native|libxslt-native|make-native|openssl-native|zip-
+> native|unzip-native) \
+>     "
+> 
+> Signed-off-by: André Draszik <andre.draszik@jci.com>
 
-This results in extra time (I/O) and extra space being taken up in the
-final package. The main purpose of the kernel-devsrc package has been to
-build modules against the running kernel, not to include a full copy of
-the source code for re-building the kernel. The end result was a
-600M kernel-devsrc package.
+I ended up doing a bit more digging on the potential performance of
+this patch. In a build it only really has impact when the setscene
+functions are being considered by runqueue. If your build has already
+built, it won't show up on performance charts.
 
-This restructuring of the package uses an approach similar to other
-distros, where the kernel-devsrc package is for building against the
-running kernel and uses a curated set of copied infrastructure, versus
-a mass copy of the entire kernel.
+I ended up separating out a standalone test which I've included below.
+It tests some data I took from a build (bitbake bash so a simple one)
+against three possible options:
 
-The differences in this approach versus other is largely due to the
-architecture support and the split build/source directory of the
-kernel.
+a) the code as it stands (re)
+b) re.compile() optimised re
+c) fnmatch
 
-The result is a kernel-devsrc package of about 10M, which is capable
-of running "make scripts" and compiling kernel modules against the
-running kernel.
+The results of running it on my machine were:
 
-Along with the changes to the copying of the infrascture, we also
-have the following changes:
+0.7498898960002407
+0.1507232149997435
+1.2697166610014392
 
- - a better/more explicit listing of dependencies for on-target
-   builds of "make scripts" or "make modules_prepare"
+So clearly fnmatch (i.e. glob) is a worse idea and re is not internally
+caching. The code isn't being executed as much as I thought it would be
+which is good although in a larger build, this could still become more
+significant.
 
- - The kernel source is installed into /lib/modules/<version>/build
-   and a symlink created from /usr/src/kernel to the new location.
-   This aligns with the standard location for module support
-   code
+One option may be to use re but to compile SSTATE_EXCLUDEDEPS_SYSROOT
+into another variable once, then use the other variable and the
+precompiled regexps...
 
- - There is also a symlink from /lib/modules/<version>/source -> build
-   to reserve a spot for a new package that is simply the kernel
-   source. That package is not part of this update.
+Cheers,
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
+Richard
 
-Hopefully this fixes up the last of the issues, but at the very least
-there will be less. I'll immediatly respin if the autombuilder finds
-a combo I didn't test.
+#!/usr/bin/env python3
+import timeit
+import re
+import fnmatch
 
-v2: drop DEPENDS on perf. We no longer need to depend on 
-    perf since the source is copied before modification.
+regexp = ".*->bison-native .*->.*-initial.* .*(base-passwd|shadow-sysroot)->.* "
+regexp2 = []
 
-v3: build fixes for:
-      - DESCEND  objtool build failure
-      - No rule to make target 'arch/mips/boot/tools/relocs_32.c'
-      - No rule to make target 'arch/arm/tools/syscall.tbl'
-      - No rule to make target 'arch/arm64/kernel/vdso/vdso.lds'
+for excl in regexp.split():
+    regexp2.append( (re.compile(excl.split('->', 1)[0]), re.compile(excl.split('->', 1)[1])))
 
- meta/recipes-kernel/linux/kernel-devsrc.bb | 228 +++++++++++++++++++++++------
- 1 file changed, 181 insertions(+), 47 deletions(-)
+data = [
+    ('bash', 'glibc-locale'),
+    ('dpkg-native', 'perl-native'),
+    ('glibc-locale', 'cross-localedef-native'),
+    ('bash', 'gettext-native'),
+    ('dpkg-native', 'gettext-native'),
+    ('bash', 'ncurses'),
+    ('bash', 'libtool-cross'),
+    ('ncurses', 'libtool-cross'),
+    ('bash', 'opkg-utils'),
+    ('ncurses', 'gcc-runtime'),
+    ('gcc-runtime', 'libgcc'),
+    ('gcc-runtime', 'gcc-cross-i586'),
+    ('libgcc', 'gcc-cross-i586'),
+    ('bash', 'gcc-cross-i586'),
+    ('opkg-utils', 'gcc-cross-i586'),
+    ('ncurses', 'gcc-cross-i586'),
+    ('ncurses', 'glibc'),
+    ('rpm-native', 'python3-native'),
+    ('rpm-native', 'libarchive-native'),
+    ('rpm-native', 'nss-native'),
+    ('rpm-native', 'dbus-native'),
+    ('rpm-native', 'file-native'),
+    ('rpm-native', 'db-native'),
+    ('rpm-native', 'elfutils-native'),
+    ('rpm-native', 'popt-native'),
+    ('libarchive-native', 'e2fsprogs-native'),
+    ('dbus-native', 'autoconf-archive-native'),
+    ('dbus-native', 'expat-native'),
+    ('glibc', 'gperf-native'),
+    ('glibc', 'glibc-initial'),
+    ('glibc', 'make-native'),
+    ('glibc', 'libgcc-initial'),
+    ('glibc', 'gcc-cross-initial-i586'),
+    ('glibc', 'linux-libc-headers'),
+    ('linux-libc-headers', 'binutils-cross-i586'),
+    ('gcc-runtime', 'binutils-cross-i586'),
+    ('glibc', 'binutils-cross-i586'),
+    ('libgcc', 'binutils-cross-i586'),
+    ('glibc-locale', 'binutils-cross-i586'),
+    ('bash', 'binutils-cross-i586'),
+    ('opkg-utils', 'binutils-cross-i586'),
+    ('ncurses', 'binutils-cross-i586'),
+    ('bash', 'bison-native'),
+    ('glibc', 'bison-native'),
+    ('linux-libc-headers', 'unifdef-native'),
+    ('nss-native', 'nspr-native'),
+    ('e2fsprogs-native', 'util-linux-native'),
+    ('e2fsprogs-native', 'attr-native'),
+    ('nss-native', 'sqlite3-native'),
+    ('rpm-native', 'bzip2-native'),
+    ('python3-native', 'gdbm-native'),
+    ('python3-native', 'openssl-native'),
+    ('python3-native', 'readline-native'),
+    ('file-native', 'zlib-native'),
+    ('util-linux-native', 'ncurses-native'),
+    ('libarchive-native', 'lzo-native'),
+    ('dbus-native', 'pkgconfig-native'),
+    ('rpm-native', 'gettext-minimal-native'),
+    ('dbus-native', 'libtool-native'),
+    ('dbus-native', 'automake-native'),
+    ('automake-native', 'autoconf-native'),
+    ('autoconf-native', 'm4-native'),
+    ('dbus-native', 'gnu-config-native'),
+    ('automake-native', 'texinfo-dummy-native'),
+    ('opkg-utils-native', 'quilt-native')
+    ]
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 8bbfa23e4b86..719a5497ef30 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -30,57 +30,191 @@ do_populate_sysroot[noexec] = "1"
- S = "${STAGING_KERNEL_DIR}"
- B = "${STAGING_KERNEL_BUILDDIR}"
- 
--KERNEL_VERSION = "${@get_kernelversion_headers('${S}')}"
--
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
-+KERNEL_BUILD_ROOT="/lib/modules/"
-+
- do_install() {
--        kerneldir=${D}${KERNEL_SRC_PATH}
--        install -d $kerneldir
--
--        #
--        # Copy the staging dir source (and module build support) into the devsrc structure.
--        # We can keep this copy simple and take everything, since a we'll clean up any build
--        # artifacts afterwards, and the extra i/o is not significant
--        #
--        cd ${B}
--        find . -type d -name '.git*' -prune -o -path '.debug' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
--        cd ${S}
--	find . -type d -name '.git*' -prune -o -type d -name '.kernel-meta' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
--
--        # Explicitly set KBUILD_OUTPUT to ensure that the image directory is cleaned and not
--        # The main build artifacts. We clean the directory to avoid QA errors on mismatched
--        # architecture (since scripts and helpers are native format).
--        KBUILD_OUTPUT="$kerneldir"
--        oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
--        # make clean generates an absolute path symlink called "source"
--        # in $kerneldir points to $kerneldir, which doesn't make any
--        # sense, so remove it.
--        if [ -L $kerneldir/source ]; then
--            bbnote "Removing $kerneldir/source symlink"
--            rm -f $kerneldir/source
--        fi
--
--        # As of Linux kernel version 3.0.1, the clean target removes
--        # arch/powerpc/lib/crtsavres.o which is present in
--        # KBUILD_LDFLAGS_MODULE, making it required to build external modules.
--        if [ ${ARCH} = "powerpc" ]; then
--                mkdir -p $kerneldir/arch/powerpc/lib/
--                cp ${B}/arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
--        fi
--
--        # Remove fixdep/objtool as they won't be target binaries
--        for i in fixdep objtool; do
--                if [ -e $kerneldir/tools/objtool/$i ]; then
--                        rm -rf $kerneldir/tools/objtool/$i
--                fi
--        done
--
--        chown -R root:root ${D}
-+    kerneldir=${D}${KERNEL_BUILD_ROOT}${KERNEL_VERSION}
-+    install -d $kerneldir
-+
-+    # create the directory structure
-+    rm -f $kerneldir/build
-+    rm -f $kerneldir/source
-+    mkdir -p $kerneldir/build
-+
-+    # for compatibility with some older variants of this package, we
-+    # create  a /usr/src/kernel symlink to /lib/modules/<version>/source
-+    mkdir -p ${D}/usr/src
-+    (
-+	cd ${D}/usr/src
-+	ln -s ${KERNEL_BUILD_ROOT}${KERNEL_VERSION}/source kernel
-+    )
-+
-+    # for on target purposes, we unify build and source
-+    (
-+	cd $kerneldir
-+	ln -s build source
-+    )
-+
-+    # first copy everything
-+    (
-+	cd ${S}
-+	cp --parents $(find  -type f -name "Makefile*" -o -name "Kconfig*") $kerneldir/build
-+	cp --parents $(find  -type f -name "Build" -o -name "Build.include") $kerneldir/build
-+    )
-+
-+    # then drop all but the needed Makefiles/Kconfig files
-+    rm -rf $kerneldir/build/Documentation
-+    rm -rf $kerneldir/build/scripts
-+    rm -rf $kerneldir/build/include
-+
-+    # now copy in parts from the build that we'll need later
-+    (
-+	cd ${B}
-+
-+	cp Module.symvers $kerneldir/build
-+	cp System.map* $kerneldir/build
-+	if [ -s Module.markers ]; then
-+	    cp Module.markers $kerneldir/build
-+	fi
-+
-+	cp .config $kerneldir/build
-+
-+	# This scripts copy blow up QA, so for now, we require a more
-+	# complex 'make scripts' to restore these, versus copying them
-+	# here. Left as a reference to indicate that we know the scripts must
-+	# be dealt with.
-+	# cp -a scripts $kerneldir/build
-+
-+        if [ -d arch/${ARCH}/scripts ]; then
-+	    cp -a arch/${ARCH}/scripts $kerneldir/build/arch/${ARCH}
-+	fi
-+	if [ -f arch/${ARCH}/*lds ]; then
-+	    cp -a arch/${ARCH}/*lds $kerneldir/build/arch/${ARCH}
-+	fi
-+
-+	rm -f $kerneldir/build/scripts/*.o
-+	rm -f $kerneldir/build/scripts/*/*.o
-+
-+	if [ "${ARCH}" = "powerpc" ]; then
-+	    if [ -e arch/powerpc/lib/crtsavres.S ] ||
-+		   [ -e arch/powerpc/lib/crtsavres.o ]; then
-+		cp -a --parents arch/powerpc/lib/crtsavres.[So] $kerneldir/build/
-+	    fi
-+	fi
-+
-+	if [ "${ARCH}" = "arm64" ]; then
-+	    cp -a --parents arch/arm64/kernel/vdso/vdso.lds $kerneldir/build/
-+	fi
-+
-+	cp -a include $kerneldir/build/include
-+    )
-+
-+    # now grab the chunks from the source tree that we need
-+    (
-+	cd ${S}
-+
-+	cp -a scripts $kerneldir/build
-+
-+	# if our build dir had objtool, it will also be rebuilt on target, so
-+	# we copy what is required for that build
-+	if [ -f ${B}/tools/objtool/objtool ]; then
-+	    # these are a few files associated with objtool, since we'll need to
-+	    # rebuild it
-+	    cp -a --parents tools/build/Build.include $kerneldir/build/
-+	    cp -a --parents tools/build/Build $kerneldir/build/
-+	    cp -a --parents tools/build/fixdep.c $kerneldir/build/
-+	    cp -a --parents tools/scripts/utilities.mak $kerneldir/build/
-+
-+	    # extra files, just in case
-+	    cp -a --parents tools/objtool/* $kerneldir/build/
-+	    cp -a --parents tools/lib/str_error_r.c $kerneldir/build/
-+	    cp -a --parents tools/lib/string.c $kerneldir/build/
-+	    cp -a --parents tools/lib/subcmd/* $kerneldir/build/
-+
-+	    cp -a --parents tools/include/* $kerneldir/build/
-+	fi
-+
-+	if [ "${ARCH}" = "arm64" ]; then
-+	    # arch/arm64/include/asm/xen references arch/arm
-+	    cp -a --parents arch/arm/include/asm/xen $kerneldir/build/
-+	    # arch/arm64/include/asm/opcodes.h references arch/arm
-+	    cp -a --parents arch/arm/include/asm/opcodes.h $kerneldir/build/
-+
-+            cp -a --parents arch/arm64/kernel/vdso/gettimeofday.S $kerneldir/build/
-+            cp -a --parents arch/arm64/kernel/vdso/sigreturn.S $kerneldir/build/
-+            cp -a --parents arch/arm64/kernel/vdso/note.S $kerneldir/build/
-+            cp -a --parents arch/arm64/kernel/vdso/gen_vdso_offsets.sh $kerneldir/build/
-+	fi
-+
-+	# include the machine specific headers for ARM variants, if available.
-+	if [ "${ARCH}" = "arm" ]; then
-+	    cp -a --parents arch/${ARCH}/mach-*/include $kerneldir/build/
-+
-+	    # include a few files for 'make prepare'
-+	    cp -a --parents arch/arm/tools/gen-mach-types $kerneldir/build/
-+	    cp -a --parents arch/arm/tools/mach-types $kerneldir/build/
-+	    cp -a --parents arch/arm/tools/syscall* $kerneldir/build/
-+	fi
-+
-+	if [ -d arch/${ARCH}/include ]; then
-+	    cp -a --parents arch/${ARCH}/include $kerneldir/build/
-+	fi
-+
-+	cp -a include $kerneldir/build
-+
-+	cp -a --parents tools/include/tools/le_byteshift.h $kerneldir/build/
-+	cp -a --parents tools/include/tools/be_byteshift.h $kerneldir/build/
-+
-+	if [ "${ARCH}" = "x86" ]; then
-+	    # files for 'make prepare' to succeed with kernel-devel
-+	    cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl $kerneldir/build/
-+	    cp -a --parents arch/x86/entry/syscalls/syscalltbl.sh $kerneldir/build/
-+	    cp -a --parents arch/x86/entry/syscalls/syscallhdr.sh $kerneldir/build/
-+	    cp -a --parents arch/x86/entry/syscalls/syscall_64.tbl $kerneldir/build/
-+	    cp -a --parents arch/x86/tools/relocs_32.c $kerneldir/build/
-+	    cp -a --parents arch/x86/tools/relocs_64.c $kerneldir/build/
-+	    cp -a --parents arch/x86/tools/relocs.c $kerneldir/build/
-+	    cp -a --parents arch/x86/tools/relocs_common.c $kerneldir/build/
-+	    cp -a --parents arch/x86/tools/relocs.h $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/purgatory.c $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/sha256.h $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/sha256.c $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/stack.S $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/string.c $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/setup-x86_64.S $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/entry64.S $kerneldir/build/
-+	    cp -a --parents arch/x86/boot/string.h $kerneldir/build/
-+	    cp -a --parents arch/x86/boot/string.c $kerneldir/build/
-+	    cp -a --parents arch/x86/boot/ctype.h $kerneldir/build/
-+	fi
-+
-+	if [ "${ARCH}" = "mips" ]; then
-+	    cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
-+	    cp --parents $(find	 -type f -name "Platform") $kerneldir/build
-+	    cp --parents arch/mips/boot/tools/relocs* $kerneldir/build
-+	fi
-+    )
-+
-+    # Make sure the Makefile and version.h have a matching timestamp so that
-+    # external modules can be built
-+    touch -r $kerneldir/build/Makefile $kerneldir/build/include/generated/uapi/linux/version.h
-+
-+    # Copy .config to include/config/auto.conf so "make prepare" is unnecessary.
-+    cp $kerneldir/build/.config $kerneldir/build/include/config/auto.conf
-+
-+    chown -R root:root ${D}
- }
-+
- # Ensure we don't race against "make scripts" during cpio
- do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
- 
--PACKAGES = "kernel-devsrc"
--FILES_${PN} = "${KERNEL_SRC_PATH}"
--RDEPENDS_${PN} = "bc"
-+FILES_${PN} = "${KERNEL_BUILD_ROOT} ${KERNEL_SRC_PATH}"
-+FILES_${PN}-dbg += "${KERNEL_BUILD_ROOT}*/build/scripts/*/.debug/*"
-+
-+RDEPENDS_${PN} = "bc python ${TCLIBC}-utils"
-+# 4.15+ needs these next two RDEPENDS
-+RDEPENDS_${PN} += "openssl-dev util-linux"
-+# and x86 needs a bit more for 4.15+
-+RDEPENDS_${PN} += "${@bb.utils.contains('ARCH', 'x86', 'elfutils', '', d)}"
--- 
-2.5.0
+def test():
+    for task, task1 in data:
+        for excl in regexp.split():
+            re.match(excl.split('->', 1)[0], task)
+            re.match(excl.split('->', 1)[1], task1)
+
+def test1():
+    for task, task1 in data:
+        for excl in regexp2:
+            excl[0].match(task)
+            excl[1].match(task1)
+
+def test2():
+    regexp = "*->bison-native *->*-initial* *base-passwd->* shadow-sysroot->*"
+    for task, task1 in data:
+        for excl in regexp.split():
+            fnmatch.fnmatch(excl, task)
+            fnmatch.fnmatch(excl, task1)
+
+print(timeit.timeit("test()", setup="from __main__ import test",number=1000, globals=globals()))
+print(timeit.timeit("test1()", setup="from __main__ import test",number=1000, globals=globals()))
+print(timeit.timeit("test2()", setup="from __main__ import test",number=1000, globals=globals()))
+
+
+
 
 
