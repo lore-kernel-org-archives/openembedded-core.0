@@ -1,28 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E9617791FE
+Return-Path: <seebs@seebs.net>
+X-Greylist: delayed 521 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 15 Aug 2018 16:33:50 UTC
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+	by mail.openembedded.org (Postfix) with ESMTP id C38A379202
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 15:52:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7FFqu0E001862
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Aug 2018 08:52:56 -0700
-Received: from server.local (128.224.20.117) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 15 Aug 2018 08:52:55 -0700
+	Wed, 15 Aug 2018 16:33:50 +0000 (UTC)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id 3B2F42E892B;
+	Wed, 15 Aug 2018 11:25:10 -0500 (CDT)
+Date: Wed, 15 Aug 2018 11:25:08 -0500
+From: Seebs <seebs@seebs.net>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1534339941-1968-1-git-send-email-bruce.ashfield@windriver.com>
-	<ebb9e2738e47c62514b0816b8d8c2ede13a54275.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <b92b98de-79a6-8fd3-fc78-c527d0d5fcfa@windriver.com>
-Date: Wed, 15 Aug 2018 11:52:54 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.1
+Message-ID: <20180815112508.24653d84@seebsdell>
+In-Reply-To: <3e94bc10f20abef1db6b1d89d8d2359f20c920d0.camel@linuxfoundation.org>
+References: <518a17b5-60af-42dc-4b3b-b0dc76589fb1@prevas.dk>
+	<3e94bc10f20abef1db6b1d89d8d2359f20c920d0.camel@linuxfoundation.org>
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <ebb9e2738e47c62514b0816b8d8c2ede13a54275.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] kernel-devsrc: restructure for out of tree (and on target) module builds
+Subject: Re: [pseudo] [RFC 1/2] pseudo_ipc.c: Use MSG_NOSIGNAL if available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,91 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2018 15:52:57 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Wed, 15 Aug 2018 16:33:51 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 2018-08-15 11:50 AM, Richard Purdie wrote:
-> On Wed, 2018-08-15 at 09:32 -0400, Bruce Ashfield wrote:
->> The existing kernel-devsrc package starts with a full copy of the
->> kernel
->> source and then starts to strip out elements that are not required.
->>
->> This results in extra time (I/O) and extra space being taken up in
->> the
->> final package. The main purpose of the kernel-devsrc package has been
->> to
->> build modules against the running kernel, not to include a full copy
->> of
->> the source code for re-building the kernel. The end result was a
->> 600M kernel-devsrc package.
->>
->> This restructuring of the package uses an approach similar to other
->> distros, where the kernel-devsrc package is for building against the
->> running kernel and uses a curated set of copied infrastructure,
->> versus
->> a mass copy of the entire kernel.
->>
->> The differences in this approach versus other is largely due to the
->> architecture support and the split build/source directory of the
->> kernel.
->>
->> The result is a kernel-devsrc package of about 10M, which is capable
->> of running "make scripts" and compiling kernel modules against the
->> running kernel.
->>
->> Along with the changes to the copying of the infrascture, we also
->> have the following changes:
->>
->>   - a better/more explicit listing of dependencies for on-target
->>     builds of "make scripts" or "make modules_prepare"
->>
->>   - The kernel source is installed into /lib/modules/<version>/build
->>     and a symlink created from /usr/src/kernel to the new location.
->>     This aligns with the standard location for module support
->>     code
->>
->>   - There is also a symlink from /lib/modules/<version>/source ->
->> build
->>     to reserve a spot for a new package that is simply the kernel
->>     source. That package is not part of this update.
->>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> ---
->>
->> Hopefully this fixes up the last of the issues, but at the very least
->> there will be less. I'll immediatly respin if the autombuilder finds
->> a combo I didn't test.
->>
->> v2: drop DEPENDS on perf. We no longer need to depend on
->>      perf since the source is copied before modification.
->>
->> v3: build fixes for:
->>        - DESCEND  objtool build failure
->>        - No rule to make target 'arch/mips/boot/tools/relocs_32.c'
->>        - No rule to make target 'arch/arm/tools/syscall.tbl'
->>        - No rule to make target 'arch/arm64/kernel/vdso/vdso.lds'
-> 
-> There has been one failure so far:
-> 
-> https://autobuilder.yocto.io/builders/build-appliance/builds/1201/steps/BuildImages_1/logs/stdio
-> 
-> I suspect we need to tweak the do_populate_poky_src task in the build-
-> appliance-image recipe given the kernel devsrc change.
+On Wed, 15 Aug 2018 10:27:29 +0100
+Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
 
-I'll have a look!
+> On Wed, 2018-08-15 at 08:59 +0200, Rasmus Villemoes wrote:
+> > On 2018-07-11 16:30, Rasmus Villemoes wrote:
+> > > MSG_NOSIGNAL has been in Linux since 2.2, and has been
+> > > standardized in
+> > > POSIX 2008. Using that when available avoids the overhead of the
+> > > two
+> > > syscalls to set and restore the SIGPIPE handler. Moreover, we can
+> > > eliminate one write() call by making use of sendmsg() to do
+> > > scatter-gather I/O.
+> > 
+> > Ping. The README in the pseudo repo says to use the
+> > openembedded-core list for pseudo patches, so I assume this is the
+> > right place. I have other ideas for improving pseudo's performance
+> > on both client and server
+> > side, but there's no point sending patches to /dev/null.
+> 
+> Pseudo maintenance is a little tricky right now and I'd guess Peter is
+> unavailable. Would you be able to format these as additional patches
+> to the pseudo recipe? That way we could test and include them in
+> builds and then Peter will review them when he has time.
 
-Bruce
+Hi! Sorry about the delay, I wanted to review these more carefully.
+They looked reasonable to me, I just haven't had a chance to look more
+closely. They're still in my "I need to respond to this" mailbox.
 
-> 
-> Other things are still building. Will reply if anything else comes up.
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-
+-s
 
