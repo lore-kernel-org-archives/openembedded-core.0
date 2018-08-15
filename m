@@ -1,25 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F7A074C8A
+Return-Path: <nickaein.i@gmail.com>
+Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B4C1878869
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 08:31:44 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w7F8VdBZ002329
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Wed, 15 Aug 2018 09:31:40 +0100
-Message-ID: <37d7044123efda7f67a0ab4fe12ddeb49db96c31.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 15 Aug 2018 09:31:39 +0100
-In-Reply-To: <20180814162113.22774-1-ross.burton@intel.com>
-References: <20180814162113.22774-1-ross.burton@intel.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] oe-pkgdata-util: improve resiliance of lookup-recipe
+	Wed, 15 Aug 2018 08:35:21 +0000 (UTC)
+Received: by mail-qt0-f171.google.com with SMTP id q12-v6so412336qtp.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Aug 2018 01:35:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Xw2pInbHHF2hCRGL09ENRLD9A1VrShOYPNWo58VLUKc=;
+	b=cqNGapn8KVfNYccym2XJ5+c7Cv2q5+jdOG5AgHpPdZI5rKFqH77eP8TApSpiwvB/4B
+	xyrKIyMDbIZQTbzRQTlv5VbrNKwG2HV6jpAUL1KtfsvoHmeguJXohoXS4q8MkhUJuSB+
+	xtWbPtmIOBv8g4UfY97Ca0bQCUwZ/lZAtW4fWupvBdu5M9SS1OKK99aZqJBnn4DufUOk
+	OTOJ63R9OVzNw4en+oXO4Qd5KSChRehv5uhHTkkuo6YzBpQ9M4yO+TPf8vpo/IatpvT5
+	+AxAJavhU6o+WVfampFA3Wg3C6twBPPa9g8f4siMvC2+aBJuAXc8JVvRdRd1HN0go9zN
+	3FwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Xw2pInbHHF2hCRGL09ENRLD9A1VrShOYPNWo58VLUKc=;
+	b=PwSWCAsS8QfWipD+/I6EHO81QMj5b8Ug3mg8CmI9sGTNOxu3AxB7Sj6yOFy5sVE6Te
+	Shii93egU4o6m9ZLhxdF8kWXaYHsg5dFR070VuEhHQt6PHye45FrBrVW/Ew2NZUz47j2
+	+v0WAqRFKUl+Kn6zi57LAwH0lpgeFZF0CIVb9pxGVXWALbpVzhLLMPLlj4ZJ2xHL9tlQ
+	m7ZY1HFqRxBrmXlwcJQC+/cQhIzUkBfYmRbnqXQN98RkW7fOb532EagD7hNeI+7/huS3
+	L0FYQcmbirutCCIAeVIL5DpwYLPaNJyRoFZzOT9vq4Jw118N5AxEUbxNJZ/D2CvZ/CJd
+	HzDg==
+X-Gm-Message-State: AOUpUlFANPoZXiosUclDMCHVP/BPEpmfBXvZhQbfhOpACfAjeSFZnM7r
+	6b+lwHPml0hcVNPyVv6U2rmHAh3dKCq6iC+FW2A=
+X-Google-Smtp-Source: AA+uWPy6OOdIgN/nQDGxUxPVBoMqMenQBm3n8P00qDa9MgNRg1ycFwwiOfal5PMMRH8iB0GwOfy1yLSckhaZ1jgTMik=
+X-Received: by 2002:ac8:95a:: with SMTP id
+	z26-v6mr25026722qth.211.1534322122542; 
+	Wed, 15 Aug 2018 01:35:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <CA+NJmkes2FzO3OvTVxjL075A5G_UMUjj_J-oc1BtjThTQ=YiZg@mail.gmail.com>
+	<CAJTo0LaSOFApbGM6OpBWhkQUEdPk9qvXy-q+HWyiSVMku7G4=g@mail.gmail.com>
+In-Reply-To: <CAJTo0LaSOFApbGM6OpBWhkQUEdPk9qvXy-q+HWyiSVMku7G4=g@mail.gmail.com>
+From: Isaac Nickaein <nickaein.i@gmail.com>
+Date: Wed, 15 Aug 2018 13:03:33 +0430
+Message-ID: <CA+NJmkdCRHgRLUZz0bm3sALnCt+o91g=rDG4Rht+Q8H5MVBj6Q@mail.gmail.com>
+To: ross.burton@intel.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: iotop: failure, python module subprocess is missing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +55,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2018 08:31:47 -0000
+X-List-Received-Date: Wed, 15 Aug 2018 08:35:22 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-08-14 at 17:21 +0100, Ross Burton wrote:
-> If we can't find the pkgdata for a package, instead of erroring out
-> just emit a
-> message and continue.
-> 
-> This makes it possible to pass long lists of packages to oe-pkgdata-
-> util and
-> process the output.
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  scripts/oe-pkgdata-util | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Yes.  Should be a simple fix. :)
 
-Fails in oe-selftest:
+As a workaround, I added  iotop_%.bbappend to my layer with following content:
 
-2018-08-15 01:35:23,638 - oe-selftest - INFO - ======================================================================
-2018-08-15 01:35:23,638 - oe-selftest - INFO - FAIL: pkgdata.OePkgdataUtilTests.test_lookup_recipe (subunit.RemotedTestCase)
-2018-08-15 01:35:23,638 - oe-selftest - INFO - ----------------------------------------------------------------------
-2018-08-15 01:35:23,638 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-    return func(*args, **kwargs)
-  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/pkgdata.py", line 64, in test_lookup_recipe
-    self.assertEqual(result.status, 1, "Status different than 1. output: %s" % result.output)
-  File "/usr/lib/python3.5/unittest/case.py", line 821, in assertEqual
-    assertion_func(first, second, msg=msg)
-  File "/usr/lib/python3.5/unittest/case.py", line 814, in _baseAssertEqual
-    raise self.failureException(msg)
-AssertionError: 0 != 1 : Status different than 1. output: The following packages could not be found: nonexistentpkg
+RDEPENDS_${PN} += " python-subprocess "
 
+This fixed the issue but I'm not sure if this is the *correct* fix.
+There could be some other bug or some other higher-level missing
+dependency that could be overseen.
 
