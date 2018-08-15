@@ -1,53 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3614E78F94
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
+	[209.85.218.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DBF2790AB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 09:01:28 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id n11-v6so722337wmc.2
+	Wed, 15 Aug 2018 09:01:51 +0000 (UTC)
+Received: by mail-oi0-f48.google.com with SMTP id v8-v6so865939oie.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 02:01:30 -0700 (PDT)
+	Wed, 15 Aug 2018 02:01:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=qSk8NQl1ypf75q9zfgCGDXvdFhBLmdEWQz0h+J17gdw=;
-	b=HLLJh/6bEjgLOfyyNrcsmFx17+lJVQwQv9b6m5AxMimV6h2U9NE+jVa22UnRzHlpZA
-	NK4HwzPxbvW1Ke+JfEqU0kZ1lrIvV8zeAV2HfJ0DvMLr3rzXs78wF4xOdCYFzWeKopcN
-	18XF9Y1W3GwkGjfA96WiaLsGJA5vVMtiwOFnE=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ktWWc/br0axWUVWixRquGQ7w+h95hz+aBwl/GIgjHw4=;
+	b=TdtOLgqtjcIcC8dqWIKhy101/+/JvnLmOIG0f3TPRA1iJqqwHXxNidyEr3CTdpIhri
+	v+rN3PJlCW0dX3lk+oVssBiCa2D8Szd0rwz1tzcpjy12dAo5sEwyUDD3Izx5TmrbxTtK
+	fOmNu/CP1sdj8tGGI19F4hoPQRpQwDFAIeP1vYpGKGhhDVVQUv4YmCS2Zo4c9g5kYYZS
+	aNEnNjsotgxds/osJAgR5mYCFkbu8GmPRU5AltlqIR5DPLdU0MWEjPC6vJhm1Ez3ZdZZ
+	jCXFKjMjntoyoodmR198aW9BwkXm4GmD8tfmuemWzOuQz6t58Ad9/vF0POHl2dVqphAl
+	CNkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=qSk8NQl1ypf75q9zfgCGDXvdFhBLmdEWQz0h+J17gdw=;
-	b=Gng/R+zzZF90To6nBZEbTu0naHYWQq/1+HTB2JGXshVDS0fckoW/enbRe5hjjAzCZP
-	9qy/zFLrCOuoCrow+g/FlGtuyvlpSQKUFVUlEVFog313pnqTQQNvbUU9TG8Oo7BAcq0/
-	BlAMgutaZgL9xxNmR22ZyXRkSGJTA/h2Ira7EuJCaoieNRoABowSp/a8lVItVIOVc48O
-	H+JCG6MOvmOWLX9DKCMrMkrYKq6sw/b8U4uBtgy8yShI+fBH2FJmvjhlYSbM5mju4A1T
-	BdN3FCvxUI0r9xxkaNtRe1+79wdb1fgEMH1Y1Q7JG1IBbAX517nl/rODGmqh8XSm3xrs
-	IIBA==
-X-Gm-Message-State: AOUpUlE75NExH9RxO8mIUI0xmxg/EaCo6LpYaq+MQrJVzrF0ZdkX99FA
-	aQBLXb5Z7dnMxSiqM2Fa72qbgQ==
-X-Google-Smtp-Source: AA+uWPxcwZQlLd4PdmlgoreIAhLcIkkvqp21mB7qkdJKh9ReNZaJJCpvcG2FCR3EOs47iaUlpwHDHQ==
-X-Received: by 2002:a1c:1bc2:: with SMTP id
-	b185-v6mr14246363wmb.160.1534323689775; 
-	Wed, 15 Aug 2018 02:01:29 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r13-v6sm548799wmf.35.2018.08.15.02.01.28
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 15 Aug 2018 02:01:28 -0700 (PDT)
-Message-ID: <5e2ac02ecd801f891a0c796051dabe801a93fbab.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Jens Rehsack <rehsack@gmail.com>
-Date: Wed, 15 Aug 2018 10:01:27 +0100
-In-Reply-To: <C921E0A2-1F37-495E-982B-AB1FCEBBDB6D@gmail.com>
-References: <33B9AF0C-D9AF-4714-B28C-F45A66E398E7@gmail.com>
-	<6b107e710448191ecc7f638891dbf1837dbd8e8d.camel@linuxfoundation.org>
-	<C921E0A2-1F37-495E-982B-AB1FCEBBDB6D@gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] libxml-parser-perl: fix "...contains bad RPATH"
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ktWWc/br0axWUVWixRquGQ7w+h95hz+aBwl/GIgjHw4=;
+	b=lKIYozBicjLjkBYvy632I8UngAz7hK+LsRrNOFZS7tEtmtkcfmV23B2XECDKVXS7Eh
+	Irmy0a9+P53BVMU7J1iTHrrhOgUtwMM0Vh+vJtGoDeo2V4bK3pwk6Q9/s6+aWuu7MhaM
+	M8cRdjXhRW3kUz32tgYChK/gNcIRUcWDDzBwtdgcbSsjZEQTokqiyNPJCllYVrQHRiZB
+	Jzg9CiDpZ7lSzRtBsNbnSQHVuEwwl5Q5rc/bTN0hlIeUQ5u8iORh669XEBfGHDsCzOKd
+	aJjY6A5It1Cjefu0lJhil88vYubrHt+NJyiayImPqeZwiIuynbihsZ+T+DKg4ND+5Kyg
+	U05A==
+X-Gm-Message-State: AOUpUlFhjsQTfJmF5JG3kLVkuCL1bCdBaQHDIpxoTykRGV4mDZlES+IY
+	HXDlrNVzyFIGirilY4z7urSHyO0vWtChln30lzN19A==
+X-Google-Smtp-Source: AA+uWPzJsJB40mk2xnX4wPaLhZKkTAJIa6x2cAsQunAd/f7Kw/dPEIWgiJzNEHFgNvWPGeBsuJt59OCqQYPjMIgOMDs=
+X-Received: by 2002:aca:5dc5:: with SMTP id
+	r188-v6mr26702602oib.320.1534323711698; 
+	Wed, 15 Aug 2018 02:01:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Wed, 15 Aug 2018 02:01:31
+	-0700 (PDT)
+In-Reply-To: <CA+NJmkdCRHgRLUZz0bm3sALnCt+o91g=rDG4Rht+Q8H5MVBj6Q@mail.gmail.com>
+References: <CA+NJmkes2FzO3OvTVxjL075A5G_UMUjj_J-oc1BtjThTQ=YiZg@mail.gmail.com>
+	<CAJTo0LaSOFApbGM6OpBWhkQUEdPk9qvXy-q+HWyiSVMku7G4=g@mail.gmail.com>
+	<CA+NJmkdCRHgRLUZz0bm3sALnCt+o91g=rDG4Rht+Q8H5MVBj6Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 15 Aug 2018 10:01:31 +0100
+Message-ID: <CAJTo0LZ7azGBFnSSmULFpo32ijcU-5p8Or6OjMN1asddsWPj_w@mail.gmail.com>
+To: Isaac Nickaein <nickaein.i@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: iotop: failure, python module subprocess is missing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,111 +59,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2018 09:01:29 -0000
+X-List-Received-Date: Wed, 15 Aug 2018 09:01:51 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-Hi Jens,
+That's the fix: please send the patch to
+openembedded-devel@lists.openembedded.org as a proper patch against
+the recipe.
 
-On Tue, 2018-08-14 at 18:37 +0200, Jens Rehsack wrote:
-> I tried:
-> 
-> $ bitbake libxml-parser-perl-native nativesdk-libxml-parser-perl
-> libxml-parser-perl
-> 
-> WARNING: Host distribution "ubuntu-18.04" has not been validated with
-> this version of the build system; you may possibly experience
-> unexpected failures. It is recommended that you use a tested
-> distribution.
-> Loading cache: 100%
-> |####################################################################
-> #####################################################################
-> #############################| Time: 0:00:00
-> Loaded 3693 entries from dependency cache.
-> Parsing recipes: 100%
-> |####################################################################
-> #####################################################################
-> ###########################| Time: 0:00:01
-> Parsing of 2421 .bb files complete (2417 cached, 4 parsed). 3685
-> targets, 100 skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
-> 
-> Build Configuration:
-> BB_VERSION           = "1.39.0"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "universal"
-> TARGET_SYS           = "arm-poky-linux-gnueabi"
-> MACHINE              = "wendy"
-> DISTRO               = "gpw"
-> DISTRO_VERSION       = "1.0.0"
-> TUNE_FEATURES        = "arm armv7a vfp neon callconvention-hard
-> cortexa8"
-> TARGET_FPU           = "hard"
-> meta
-> meta-poky
-> meta-yocto-bsp       =
-> "master:e82d2edca398c392309713577859724900b20190"
-> meta-oe
-> meta-python
-> meta-networking
-> meta-filesystems
-> meta-webserver       =
-> "master:0691e134bf938e0712cf14d3a441bbba04727cea"
-> meta-cpan            =
-> "master:7ddb7aae38ad9c8fc850026de6636fbe2a4aabdd"
-> meta-jens            =
-> "master:92863f571a9b64aa5b6c6866db9eb0c8972a546f"
-> meta-gpw             =
-> "master:8679df6ae6a22b15bd4127c838915dcf087bf614"
-> 
-> Initialising tasks: 100%
-> |####################################################################
-> #####################################################################
-> ########################| Time: 0:00:00
-> Checking sstate mirror object availability: 100%
-> |####################################################################
-> #####################################################################
-> | Time: 0:00:00
-> Sstate summary: Wanted 155 Found 0 Missed 310 Current 96 (0% match,
-> 38% complete)
-> NOTE: Executing SetScene Tasks
-> NOTE: Executing RunQueue Tasks
-> NOTE: Tasks Summary: Attempted 1007 tasks of which 669 didn't need to
-> be rerun and all succeeded.
-> 
-> Unfortunately I don't have a SuSE based build machine nor a
-> reasonable MIPS setup to test - but can you please describe what I
-> need to do to reproduce that error?
-> Further: Ross complained regarding patch corruption by Apple Mail - I
-> resent the patches on August, 8th (you replied that on August, 6th)
-> using git-send-email. Did you fix the corrupted patch before?
-> 
-> I really want this thing being fixed - does it occurs anywhere else
-> or can the reason the missing "--sysroot"?
-> 
-> When I restrict the additional sed commands to target only, how would
-> that affect the nativesdk?
+Ross
 
-I was able to reproduce this if I move my host libexpat out the way
-temporarily:
-
-mv /usr/lib/x86_64-linux-gnu/libexpat.so{,.hide}
-
-then:
-
-bitbake libxml-parser-perl-native -c cleansstate
-bitbake libxml-parser-perl-native
-
-The issue is that some of our build workers don't have libexpat
-installed and the linker isn't finding the native version, presumably
-as the native case needs the -L search paths we add.
-
-Hope that helps reproduce!
-
-Cheers,
-
-Richard
-
-
-
+On 15 August 2018 at 09:33, Isaac Nickaein <nickaein.i@gmail.com> wrote:
+>> Yes.  Should be a simple fix. :)
+>
+> As a workaround, I added  iotop_%.bbappend to my layer with following content:
+>
+> RDEPENDS_${PN} += " python-subprocess "
+>
+> This fixed the issue but I'm not sure if this is the *correct* fix.
+> There could be some other bug or some other higher-level missing
+> dependency that could be overseen.
 
