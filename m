@@ -1,27 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id ACB7478E1C
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 74F6D7503E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 09:02:39 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w7F92Zjg004417
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Wed, 15 Aug 2018 10:02:36 +0100
-Message-ID: <7746978f9f822c10c4236f96c1af43f6cd6ad735.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Isaac Nickaein <nickaein.i@gmail.com>, ross.burton@intel.com
-Date: Wed, 15 Aug 2018 10:02:35 +0100
-In-Reply-To: <CA+NJmkdCRHgRLUZz0bm3sALnCt+o91g=rDG4Rht+Q8H5MVBj6Q@mail.gmail.com>
-References: <CA+NJmkes2FzO3OvTVxjL075A5G_UMUjj_J-oc1BtjThTQ=YiZg@mail.gmail.com>
-	<CAJTo0LaSOFApbGM6OpBWhkQUEdPk9qvXy-q+HWyiSVMku7G4=g@mail.gmail.com>
-	<CA+NJmkdCRHgRLUZz0bm3sALnCt+o91g=rDG4Rht+Q8H5MVBj6Q@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: iotop: failure, python module subprocess is missing
+	Wed, 15 Aug 2018 09:24:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7F9OWCw026121
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Aug 2018 02:24:32 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Wed, 15 Aug 2018 02:24:31 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Aug 2018 17:24:30 +0800
+Message-ID: <1534325070-446684-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] rpm: remove depend on dbus for rpm native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +30,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2018 09:02:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Aug 2018 09:24:31 -0000
+Content-Type: text/plain
 
-On Wed, 2018-08-15 at 13:03 +0430, Isaac Nickaein wrote:
-> > Yes.  Should be a simple fix. :)
-> 
-> As a workaround, I added  iotop_%.bbappend to my layer with following
-> content:
-> 
-> RDEPENDS_${PN} += " python-subprocess "
-> 
-> This fixed the issue but I'm not sure if this is the *correct* fix.
-> There could be some other bug or some other higher-level missing
-> dependency that could be overseen.
+From: Changqing Li <changqing.li@windriver.com>
 
-I think Ross is implying you should send a patch to OE-Core so we can
-fix the main recipe by adding the missing dependency.
+This depend cause a big problem that for one package,
+build enviroment for clean compile and second time compile
+are different. And also rpm-native actually don't need to
+depend on dbus, so remove it.
 
-Cheers,
+Take libfastjson as example:
+(libfastjson don't have autoconf-archive-native in DEPEND)
+if don't remove this dependency, it will have below dependency list:
+libfastjson -> gcc-runtime -> libgcc -> glibc -> linux-libc-headers -> rpm-native
+rpm-native -> dbus-native
+dbus-native -> autoconf-archive-native
 
-Richard
+in this way:
+do_package of libfastjson will depend on do_populate_sysroot
+of autoconf-archive-native
+
+for clean compile:
+during do_configure, since do_package not executed,  so .m4 files
+provide by autoconf-archive-native will not under recipe_sysroot_native,
+
+for second time configure:
+.m4 already copy under recipe_sysroot_native when run do_package last time
+
+so if there is code related .m4 of autoconf-archive-native in the configure.ac
+there will be differences and may cause problem.
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-devtools/rpm/rpm_4.14.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
+index e5e87d3..91617a4 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
+@@ -52,6 +52,7 @@ S = "${WORKDIR}/git"
+ 
+ DEPENDS = "nss libarchive db file popt xz bzip2 dbus elfutils python3"
+ DEPENDS_append_class-native = " file-replacement-native bzip2-replacement-native"
++DEPENDS_remove_class-native = "dbus"
+ 
+ inherit autotools gettext pkgconfig python3native
+ export PYTHON_ABI
+-- 
+2.7.4
+
 
