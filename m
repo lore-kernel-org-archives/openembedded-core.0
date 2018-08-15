@@ -1,48 +1,47 @@
-Return-Path: <nickaein.i@gmail.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B4C1878869
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D329978F61
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 08:35:21 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id q12-v6so412336qtp.6
+	Wed, 15 Aug 2018 08:45:35 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id h10-v6so479694wre.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 01:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Xw2pInbHHF2hCRGL09ENRLD9A1VrShOYPNWo58VLUKc=;
-	b=cqNGapn8KVfNYccym2XJ5+c7Cv2q5+jdOG5AgHpPdZI5rKFqH77eP8TApSpiwvB/4B
-	xyrKIyMDbIZQTbzRQTlv5VbrNKwG2HV6jpAUL1KtfsvoHmeguJXohoXS4q8MkhUJuSB+
-	xtWbPtmIOBv8g4UfY97Ca0bQCUwZ/lZAtW4fWupvBdu5M9SS1OKK99aZqJBnn4DufUOk
-	OTOJ63R9OVzNw4en+oXO4Qd5KSChRehv5uhHTkkuo6YzBpQ9M4yO+TPf8vpo/IatpvT5
-	+AxAJavhU6o+WVfampFA3Wg3C6twBPPa9g8f4siMvC2+aBJuAXc8JVvRdRd1HN0go9zN
-	3FwA==
+	Wed, 15 Aug 2018 01:45:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=EsJA/zxn2MWQ6kVwO3UebcfPjI6/gj4FCFnaBNWG8Js=;
+	b=S4AQr87uhexRdueSu/AJtwDIRoxR60++nSb73sBa8B9gyc8/Elc990S6V60VopzHP0
+	pdlorkBmyh95HJF+geiB7OMChxjRozbsmh3+By4NFTqwpPxaxglmmi8o4lvsz6+id1Mi
+	yZ9z9dQWbmRoc7PqDpVWblZXbnaeoXd/WadUg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Xw2pInbHHF2hCRGL09ENRLD9A1VrShOYPNWo58VLUKc=;
-	b=PwSWCAsS8QfWipD+/I6EHO81QMj5b8Ug3mg8CmI9sGTNOxu3AxB7Sj6yOFy5sVE6Te
-	Shii93egU4o6m9ZLhxdF8kWXaYHsg5dFR070VuEhHQt6PHye45FrBrVW/Ew2NZUz47j2
-	+v0WAqRFKUl+Kn6zi57LAwH0lpgeFZF0CIVb9pxGVXWALbpVzhLLMPLlj4ZJ2xHL9tlQ
-	m7ZY1HFqRxBrmXlwcJQC+/cQhIzUkBfYmRbnqXQN98RkW7fOb532EagD7hNeI+7/huS3
-	L0FYQcmbirutCCIAeVIL5DpwYLPaNJyRoFZzOT9vq4Jw118N5AxEUbxNJZ/D2CvZ/CJd
-	HzDg==
-X-Gm-Message-State: AOUpUlFANPoZXiosUclDMCHVP/BPEpmfBXvZhQbfhOpACfAjeSFZnM7r
-	6b+lwHPml0hcVNPyVv6U2rmHAh3dKCq6iC+FW2A=
-X-Google-Smtp-Source: AA+uWPy6OOdIgN/nQDGxUxPVBoMqMenQBm3n8P00qDa9MgNRg1ycFwwiOfal5PMMRH8iB0GwOfy1yLSckhaZ1jgTMik=
-X-Received: by 2002:ac8:95a:: with SMTP id
-	z26-v6mr25026722qth.211.1534322122542; 
-	Wed, 15 Aug 2018 01:35:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <CA+NJmkes2FzO3OvTVxjL075A5G_UMUjj_J-oc1BtjThTQ=YiZg@mail.gmail.com>
-	<CAJTo0LaSOFApbGM6OpBWhkQUEdPk9qvXy-q+HWyiSVMku7G4=g@mail.gmail.com>
-In-Reply-To: <CAJTo0LaSOFApbGM6OpBWhkQUEdPk9qvXy-q+HWyiSVMku7G4=g@mail.gmail.com>
-From: Isaac Nickaein <nickaein.i@gmail.com>
-Date: Wed, 15 Aug 2018 13:03:33 +0430
-Message-ID: <CA+NJmkdCRHgRLUZz0bm3sALnCt+o91g=rDG4Rht+Q8H5MVBj6Q@mail.gmail.com>
-To: ross.burton@intel.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: iotop: failure, python module subprocess is missing
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=EsJA/zxn2MWQ6kVwO3UebcfPjI6/gj4FCFnaBNWG8Js=;
+	b=VMtwjBeje9ZASjaCcdAda8gIbF0gmGw5jdGl6BrFRvvIgRVr3CoykESO533Z8wf3OK
+	mihGP7peYTYEKjvtIX4cQdmVq39c1EQh5WjGl1ScTMbMyrua1QAKlz++1mBjdoSfYT8Y
+	1pjm1hI10tVDbCk/3bKVTRzNKWw3pZhtvEm6e26fuR134fM3mf/FQdLe+8iSzWc3fWNq
+	b/8Bcb1qwZkijdNACuKS9dfRI5NT1rlTOs22u1A1iD2S0RzpNvF/vW7AVKD5qibGU968
+	knKyJAvdlA5EpfV3XFIYyNJ+Q5f5eFvi8sE7Cb24sW8DRm7SwYagUlq+tBLCKnsBiUPQ
+	lJxw==
+X-Gm-Message-State: AOUpUlHDlWGRw3e0tIOwM5OfF+MIDxRy7n/uzW8iHZEpVJbE9V0iRzoK
+	7Q7fy1VjPARkCt/tYQbrFBWyHVVXqpo=
+X-Google-Smtp-Source: AA+uWPxOreLcR5wNVoLyxho3yIBgni/GW9hhwqIgNlvgRzWu4jA1gCNEf5X6yE74uld6EAMpgVF8LQ==
+X-Received: by 2002:adf:a64d:: with SMTP id
+	k71-v6mr15327806wrc.78.1534322736274; 
+	Wed, 15 Aug 2018 01:45:36 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	q8-v6sm17018076wrj.97.2018.08.15.01.45.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Aug 2018 01:45:35 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Aug 2018 09:45:34 +0100
+Message-Id: <20180815084534.5433-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] package_manager: Add definitions for riscv machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,16 +54,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2018 08:35:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 15 Aug 2018 08:45:36 -0000
 
-> Yes.  Should be a simple fix. :)
+Add definitions to the locale table for riscv architecture.
 
-As a workaround, I added  iotop_%.bbappend to my layer with following content:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oe/package_manager.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-RDEPENDS_${PN} += " python-subprocess "
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 06d1f09d9f9..858891ca211 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -109,6 +109,8 @@ def generate_locale_archive(d, rootfs, target_arch, localedir):
+         "mipsisa32r6el": ["--uint32-align=4", "--little-endian"],
+         "mips64el": ["--uint32-align=4", "--little-endian"],
+         "mipsisa64r6el": ["--uint32-align=4", "--little-endian"],
++        "riscv64": ["--uint32-align=4", "--little-endian"],
++        "riscv32": ["--uint32-align=4", "--little-endian"],
+         "i586": ["--uint32-align=4", "--little-endian"],
+         "i686": ["--uint32-align=4", "--little-endian"],
+         "x86_64": ["--uint32-align=4", "--little-endian"]
+-- 
+2.17.1
 
-This fixed the issue but I'm not sure if this is the *correct* fix.
-There could be some other bug or some other higher-level missing
-dependency that could be overseen.
 
