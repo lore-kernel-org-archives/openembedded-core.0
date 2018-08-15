@@ -1,27 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E61A6790F0
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EB52C790EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 09:41:55 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w7F9fqw3008292
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Wed, 15 Aug 2018 10:41:53 +0100
-Message-ID: <a6ce6b97e641a5cb41ee1a854c8506c1d2a4b289.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, cli10
-	<changqing.li@windriver.com>
-Date: Wed, 15 Aug 2018 10:41:52 +0100
-In-Reply-To: <CANNYZj-wexL1sis+dLL1CSQUZHW_NH7HDh_mPSeE+x5HzWmO+Q@mail.gmail.com>
-References: <1534325070-446684-1-git-send-email-changqing.li@windriver.com>
-	<CANNYZj-wexL1sis+dLL1CSQUZHW_NH7HDh_mPSeE+x5HzWmO+Q@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rpm: remove depend on dbus for rpm native
+	Wed, 15 Aug 2018 09:43:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7F9hPGH008189
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Aug 2018 02:43:25 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Wed, 15 Aug 2018 02:43:25 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Aug 2018 17:43:24 +0800
+Message-ID: <1534326204-395700-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] unzip: fix CVE-2018-1000035
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,36 +30,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2018 09:41:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Aug 2018 09:43:25 -0000
+Content-Type: text/plain
 
-On Wed, 2018-08-15 at 11:38 +0200, Alexander Kanavin wrote:
-> 2018-08-15 11:24 GMT+02:00  <changqing.li@windriver.com>:
-> > for clean compile:
-> > during do_configure, since do_package not executed,  so .m4 files
-> > provide by autoconf-archive-native will not under
-> > recipe_sysroot_native,
-> > 
-> > for second time configure:
-> > .m4 already copy under recipe_sysroot_native when run do_package
-> > last time
-> > 
-> > so if there is code related .m4 of autoconf-archive-native in the
-> > configure.ac
-> > there will be differences and may cause problem.
-> 
-> I'm sorry, but this does not make sense. do_populate_sysroot is
-> executed only once, for all of the tasks. Can you provide steps to
-> reproduce the issue please?
+From: Changqing Li <changqing.li@windriver.com>
 
-It does actually make sense. do_package tasks have a dependency on rpm-
-native. rpm-native would only be added to the sysroot at do_package
-time. It won't be removed if configure reruns though. It seems rpm-
-native will add the m4 files as bitbake can't tell real runtime
-dependencies (libs) from data files in advance.
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../unzip/0001-unzip-fix-CVE-2018-1000035.patch    | 46 ++++++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch
 
-Cheers,
+diff --git a/meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch b/meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch
+new file mode 100644
+index 0000000..d82c53a
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch
+@@ -0,0 +1,46 @@
++From 349f566e6e757458843fa164a0f0584280e1501e Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 15 Aug 2018 16:20:53 +0800
++Subject: [PATCH] unzip: fix CVE-2018-1000035
++
++Upstream-Status: Backport
++
++backport from unzip6.10c23
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ fileio.c | 11 ++++++++---
++ 1 file changed, 8 insertions(+), 3 deletions(-)
++
++diff --git a/fileio.c b/fileio.c
++index 36bfea3..7605a29 100644
++--- a/fileio.c
+++++ b/fileio.c
++@@ -1582,6 +1582,8 @@ int UZ_EXP UzpPassword (pG, rcnt, pwbuf, size, zfn, efn)
++     int r = IZ_PW_ENTERED;
++     char *m;
++     char *prompt;
+++    char *ep;
+++    char *zp;
++ 
++ #ifndef REENTRANT
++     /* tell picky compilers to shut up about "unused variable" warnings */
++@@ -1590,9 +1592,12 @@ int UZ_EXP UzpPassword (pG, rcnt, pwbuf, size, zfn, efn)
++ 
++     if (*rcnt == 0) {           /* First call for current entry */
++         *rcnt = 2;
++-        if ((prompt = (char *)malloc(2*FILNAMSIZ + 15)) != (char *)NULL) {
++-            sprintf(prompt, LoadFarString(PasswPrompt),
++-                    FnFilter1(zfn), FnFilter2(efn));
+++        zp = FnFilter1( zfn);
+++        ep = FnFilter2( efn);
+++        prompt = (char *)malloc(    /* Slightly too long (2* "%s"). */
+++         sizeof( PasswPrompt)+ strlen( zp)+ strlen( ep));
+++        if (prompt != (char *)NULL) {
+++            sprintf(prompt, LoadFarString(PasswPrompt), zp, ep);
++             m = prompt;
++         } else
++             m = (char *)LoadFarString(PasswPrompt2);
++-- 
++2.7.4
++
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index dbf4112..a47491e 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -20,6 +20,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+ 	file://18-cve-2014-9913-unzip-buffer-overflow.patch \
+ 	file://19-cve-2016-9844-zipinfo-buffer-overflow.patch \
+ 	file://symlink.patch \
++	file://0001-unzip-fix-CVE-2018-1000035.patch \
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+-- 
+2.7.4
 
-Richard
 
