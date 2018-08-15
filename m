@@ -1,51 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DEC379086
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E90FA71B69
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 01:40:15 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id f1-v6so9903790pgq.12
+	Wed, 15 Aug 2018 05:20:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7F5Kcw3024381
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2018 18:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=NjGXdPC6KCLNa4GTUkv9PnGa5JUVB3N7lAKLUiGKQ1c=;
-	b=XMgqJNCc4yX0xysp7i45OhleM3VB+Hm8yezWFFMko0Ig3Jo3NMB4bLwugai29aU9kL
-	zwWGL29gOrlxnTju/+/7/imb0ei2JnKuPvXnvavBOubtTMYz1ZZysVB8iu4jqqyROJoM
-	mgPM9JSJfo1i0mqHebrHURGDXKgOC495b4etJBlwOykxS036y+fNZ4G1Wuzi65eUo3rI
-	plM7eo/xvdLnZTDpyx12z4OR21Q0tfoA8tEfqAK3sKOuBIyhZpgr/eu/6XSt09cSe6O1
-	uImy3ccWFZOy107XP6e0KzDsaAvgPzoFWx7bI68er+22+f5eO8ZZw4woMtOvIIRoMclL
-	LtZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=NjGXdPC6KCLNa4GTUkv9PnGa5JUVB3N7lAKLUiGKQ1c=;
-	b=SGjW4lAEUgDmZYUfiNK5+4uovq8te/FnlGCBZzj6iiZAKp0yXGWp170u6FJG4mfqyZ
-	B8RIIlyppaYXeIVNCykCR/t7mPmbVztYLh3jpB7D0tPdDFruS2B9T+UsE0ZNUIIxysUz
-	ksr8j7nfFDdQFn2tYXuxi11c1g9rchnVlGwi1P7TKvBraKgG4coruI79gxHnvnEih2w3
-	uJEaeWkbPHgjEWPZJ2bwvR0EgxC5RvA0M6WOd+bfBABtPVeMPxKhOBQsCWlobCkucRrh
-	7eOjSv2cqs8sWgOP2Q5UHM8/N+n3bvzxa0uZbT/6A9usNBq6rC9OJlIyg//Ub7pHj90i
-	XBTQ==
-X-Gm-Message-State: AOUpUlHzkeyFlTVxLZaMOe1FcQDa2NtNyMepmsu9GeWyi2qEBpFeGjvf
-	PdjYQ8xtwpmnzh2ayRNnXTMHXdzo
-X-Google-Smtp-Source: AA+uWPyIC2Sa64jExv1GoqLeO60JlbGl50wecDJ0Jzkw8C9DCvZLFzeCGibQnCW7HYLNZHoe+A6DkA==
-X-Received: by 2002:a63:f616:: with SMTP id
-	m22-v6mr22866984pgh.293.1534297216247; 
-	Tue, 14 Aug 2018 18:40:16 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::f217])
-	by smtp.gmail.com with ESMTPSA id
-	j15-v6sm25327387pfn.52.2018.08.14.18.40.15
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Aug 2018 18:40:15 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2018 18:40:05 -0700
-Message-Id: <20180815014005.30479-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180815014005.30479-1-raj.khem@gmail.com>
-References: <20180815014005.30479-1-raj.khem@gmail.com>
-Subject: [PATCH 2/2] security_flags: Add PIC to cflags for some recipes on ppc
+	Tue, 14 Aug 2018 22:20:39 -0700 (PDT)
+Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Tue, 14 Aug 2018 22:20:38 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Aug 2018 13:20:36 +0800
+Message-ID: <1534310436-19551-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.137]
+Subject: [PATCH] swig: fix gcc8 warnings for cast between incompatible function types
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,32 +31,236 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2018 01:40:15 -0000
+X-List-Received-Date: Wed, 15 Aug 2018 05:20:38 -0000
+Content-Type: text/plain
 
-Fixes issues related out of range R_PPC_REL24
-e.g.
-/usr/lib/xorg/modules/input/libinput_drv.so: /usr/lib/libinput.so.10: R_PPC_REL24 relocation at 0x0e8602c4 for symbol `libevdev_has_event_code' out of range
+We got an error when building setools in meta-selinux:
+setools/policyrep/qpol_wrap.c:1819:23:
+error: cast between incompatible function types from 'PyObject * (*)(PyObject *)'
+{aka 'struct _object * (*)(struct _object *)'} to 'PyObject * (*)(PyObject *, PyObject *)'
+{aka 'struct _object * (*)(struct _object *, struct _object *)'} [-Werror=cast-function-type]
+{(char *)"disown", (PyCFunction)SwigPyObject_disown, METH_NOARGS, (char *)"releases ownership of the pointer"},
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+This is a swig issue. See: https://github.com/swig/swig/issues/1259
+Backport a patch from upstream to fix it.
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/conf/distro/include/security_flags.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ ...n-Fix-new-GCC8-warnings-in-generated-code.patch | 191 +++++++++++++++++++++
+ meta/recipes-devtools/swig/swig_3.0.12.bb          |   1 +
+ 2 files changed, 192 insertions(+)
+ create mode 100644 meta/recipes-devtools/swig/swig/Python-Fix-new-GCC8-warnings-in-generated-code.patch
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 6245e89ada..52e1e4ebc5 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -30,6 +30,9 @@ SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
- # powerpc does not get on with pie for reasons not looked into as yet
- SECURITY_CFLAGS_powerpc = "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_NOPIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libgcc_powerpc = ""
-+SECURITY_CFLAGS_append_powerpc_pn-libdrm = " -fPIC -DPIC"
-+SECURITY_CFLAGS_append_powerpc_pn-libinput = " -fPIC -DPIC"
-+SECURITY_CFLAGS_append_powerpc_pn-at-spi2-core = " -fPIC -DPIC"
- GCCPIE_powerpc = ""
- GLIBCPIE_powerpc = ""
- 
+diff --git a/meta/recipes-devtools/swig/swig/Python-Fix-new-GCC8-warnings-in-generated-code.patch b/meta/recipes-devtools/swig/swig/Python-Fix-new-GCC8-warnings-in-generated-code.patch
+new file mode 100644
+index 0000000..a913859
+--- /dev/null
++++ b/meta/recipes-devtools/swig/swig/Python-Fix-new-GCC8-warnings-in-generated-code.patch
+@@ -0,0 +1,191 @@
++From b6c0ef4b8f6e5c089ac7104b3aaba8f1d17b8b82 Mon Sep 17 00:00:00 2001
++From: Olly Betts <olly@survex.com>
++Date: Mon, 11 Jun 2018 15:51:53 +1200
++Subject: [PATCH] [Python] Fix new GCC8 warnings in generated code
++
++Avoid casts between incompatible function types where possible (when
++keyword args are in use, it is not possible to avoid such warnings as
++they are inherent in the design of Python's C API in that particular
++case).  Fixes #1259.
++
++Upstream-Status: Backport
++[https://github.com/swig/swig/commit/7f9883011029674553a2a4b623d459f02b512458]
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ Lib/python/pyinit.swg     |  4 ++--
++ Lib/python/pyrun.swg      | 34 ++++++++++++++++++++++++++--------
++ Source/Modules/python.cxx | 26 +++++++++++++-------------
++ 3 files changed, 41 insertions(+), 23 deletions(-)
++
++diff --git a/Lib/python/pyinit.swg b/Lib/python/pyinit.swg
++index 2cc5828..6bf68c1 100644
++--- a/Lib/python/pyinit.swg
+++++ b/Lib/python/pyinit.swg
++@@ -368,8 +368,8 @@ SWIG_init(void) {
++     (char *)"this", &SwigPyBuiltin_ThisClosure, NULL, NULL, NULL
++   };
++   static SwigPyGetSet thisown_getset_closure = {
++-    (PyCFunction) SwigPyObject_own,
++-    (PyCFunction) SwigPyObject_own
+++    SwigPyObject_own,
+++    SwigPyObject_own
++   };
++   static PyGetSetDef thisown_getset_def = {
++     (char *)"thisown", SwigPyBuiltin_GetterClosure, SwigPyBuiltin_SetterClosure, NULL, &thisown_getset_closure
++diff --git a/Lib/python/pyrun.swg b/Lib/python/pyrun.swg
++index ab1237f..3d0b1b3 100644
++--- a/Lib/python/pyrun.swg
+++++ b/Lib/python/pyrun.swg
++@@ -465,6 +465,14 @@ SwigPyObject_repr(SwigPyObject *v, PyObject *args)
++   return repr;  
++ }
++ 
+++/* We need a version taking two PyObject* parameters so it's a valid
+++ * PyCFunction to use in swigobject_methods[]. */
+++SWIGRUNTIME PyObject *
+++SwigPyObject_repr2(PyObject *v, PyObject *SWIGUNUSEDPARM(args))
+++{
+++  return SwigPyObject_repr((SwigPyObject*)v);
+++}
+++
++ SWIGRUNTIME int
++ SwigPyObject_compare(SwigPyObject *v, SwigPyObject *w)
++ {
++@@ -594,11 +602,7 @@ SwigPyObject_append(PyObject* v, PyObject* next)
++ }
++ 
++ SWIGRUNTIME PyObject* 
++-#ifdef METH_NOARGS
++-SwigPyObject_next(PyObject* v)
++-#else
++ SwigPyObject_next(PyObject* v, PyObject *SWIGUNUSEDPARM(args))
++-#endif
++ {
++   SwigPyObject *sobj = (SwigPyObject *) v;
++   if (sobj->next) {    
++@@ -633,6 +637,20 @@ SwigPyObject_acquire(PyObject* v, PyObject *SWIGUNUSEDPARM(args))
++   return SWIG_Py_Void();
++ }
++ 
+++#ifdef METH_NOARGS
+++static PyObject*
+++SwigPyObject_disown2(PyObject* v, PyObject *SWIGUNUSEDPARM(args))
+++{
+++  return SwigPyObject_disown(v);
+++}
+++
+++static PyObject*
+++SwigPyObject_acquire2(PyObject* v, PyObject *SWIGUNUSEDPARM(args))
+++{
+++  return SwigPyObject_acquire(v);
+++}
+++#endif
+++
++ SWIGINTERN PyObject*
++ SwigPyObject_own(PyObject *v, PyObject *args)
++ {
++@@ -673,12 +691,12 @@ SwigPyObject_own(PyObject *v, PyObject *args)
++ #ifdef METH_O
++ static PyMethodDef
++ swigobject_methods[] = {
++-  {(char *)"disown",  (PyCFunction)SwigPyObject_disown,  METH_NOARGS,  (char *)"releases ownership of the pointer"},
++-  {(char *)"acquire", (PyCFunction)SwigPyObject_acquire, METH_NOARGS,  (char *)"acquires ownership of the pointer"},
+++  {(char *)"disown",  (PyCFunction)SwigPyObject_disown2, METH_NOARGS,  (char *)"releases ownership of the pointer"},
+++  {(char *)"acquire", (PyCFunction)SwigPyObject_acquire2,METH_NOARGS,  (char *)"acquires ownership of the pointer"},
++   {(char *)"own",     (PyCFunction)SwigPyObject_own,     METH_VARARGS, (char *)"returns/sets ownership of the pointer"},
++   {(char *)"append",  (PyCFunction)SwigPyObject_append,  METH_O,       (char *)"appends another 'this' object"},
++   {(char *)"next",    (PyCFunction)SwigPyObject_next,    METH_NOARGS,  (char *)"returns the next 'this' object"},
++-  {(char *)"__repr__",(PyCFunction)SwigPyObject_repr,    METH_NOARGS,  (char *)"returns object representation"},
+++  {(char *)"__repr__",(PyCFunction)SwigPyObject_repr2,   METH_NOARGS,  (char *)"returns object representation"},
++   {0, 0, 0, 0}  
++ };
++ #else
++@@ -689,7 +707,7 @@ swigobject_methods[] = {
++   {(char *)"own",     (PyCFunction)SwigPyObject_own,     METH_VARARGS,  (char *)"returns/sets ownership of the pointer"},
++   {(char *)"append",  (PyCFunction)SwigPyObject_append,  METH_VARARGS,  (char *)"appends another 'this' object"},
++   {(char *)"next",    (PyCFunction)SwigPyObject_next,    METH_VARARGS,  (char *)"returns the next 'this' object"},
++-  {(char *)"__repr__",(PyCFunction)SwigPyObject_repr,   METH_VARARGS,  (char *)"returns object representation"},
+++  {(char *)"__repr__",(PyCFunction)SwigPyObject_repr,    METH_VARARGS,  (char *)"returns object representation"},
++   {0, 0, 0, 0}  
++ };
++ #endif
++diff --git a/Source/Modules/python.cxx b/Source/Modules/python.cxx
++index a6801fc..72eaa77 100644
++--- a/Source/Modules/python.cxx
+++++ b/Source/Modules/python.cxx
++@@ -1109,7 +1109,7 @@ public:
++    * ------------------------------------------------------------ */
++   int add_pyinstancemethod_new() {
++     String *name = NewString("SWIG_PyInstanceMethod_New");
++-    Printf(methods, "\t { (char *)\"%s\", (PyCFunction)%s, METH_O, NULL},\n", name, name);
+++    Printf(methods, "\t { \"%s\", %s, METH_O, NULL},\n", name, name);
++     Delete(name);
++     return 0;
++   }
++@@ -2479,17 +2479,17 @@ public:
++     if (!kw) {
++       if (n && funpack) {
++ 	if (num_required == 0 && num_arguments == 0) {
++-	  Printf(methods, "\t { (char *)\"%s\", (PyCFunction)%s, METH_NOARGS, ", name, function);
+++	  Printf(methods, "\t { \"%s\", %s, METH_NOARGS, ", name, function);
++ 	} else if (num_required == 1 && num_arguments == 1) {
++-	  Printf(methods, "\t { (char *)\"%s\", (PyCFunction)%s, METH_O, ", name, function);
+++	  Printf(methods, "\t { \"%s\", %s, METH_O, ", name, function);
++ 	} else {
++-	  Printf(methods, "\t { (char *)\"%s\", %s, METH_VARARGS, ", name, function);
+++	  Printf(methods, "\t { \"%s\", %s, METH_VARARGS, ", name, function);
++ 	}
++       } else {
++-	Printf(methods, "\t { (char *)\"%s\", %s, METH_VARARGS, ", name, function);
+++	Printf(methods, "\t { \"%s\", %s, METH_VARARGS, ", name, function);
++       }
++     } else {
++-      Printf(methods, "\t { (char *)\"%s\", (PyCFunction) %s, METH_VARARGS | METH_KEYWORDS, ", name, function);
+++      Printf(methods, "\t { \"%s\", (PyCFunction)%s, METH_VARARGS|METH_KEYWORDS, ", name, function);
++     }
++ 
++     if (!n) {
++@@ -3857,7 +3857,7 @@ public:
++     if (shadow) {
++       if (builtin) {
++ 	String *rname = SwigType_namestr(real_classname);
++-	Printf(builtin_methods, "  { \"__disown__\", (PyCFunction) Swig::Director::swig_pyobj_disown< %s >, METH_NOARGS, \"\" },\n", rname);
+++	Printf(builtin_methods, "  { \"__disown__\", Swig::Director::swig_pyobj_disown< %s >, METH_NOARGS, \"\" },\n", rname);
++ 	Delete(rname);
++       } else {
++ 	String *symname = Getattr(n, "sym:name");
++@@ -4694,13 +4694,13 @@ public:
++ 	int argcount = Getattr(n, "python:argcount") ? atoi(Char(Getattr(n, "python:argcount"))) : 2;
++ 	String *ds = have_docstring(n) ? cdocstring(n, AUTODOC_FUNC) : NewString("");
++ 	if (check_kwargs(n)) {
++-	  Printf(builtin_methods, "  { \"%s\", (PyCFunction) %s, METH_VARARGS|METH_KEYWORDS, (char *) \"%s\" },\n", symname, wname, ds);
+++	  Printf(builtin_methods, "  { \"%s\", (PyCFunction)%s, METH_VARARGS|METH_KEYWORDS, \"%s\" },\n", symname, wname, ds);
++ 	} else if (argcount == 0) {
++-	  Printf(builtin_methods, "  { \"%s\", (PyCFunction) %s, METH_NOARGS, (char *) \"%s\" },\n", symname, wname, ds);
+++	  Printf(builtin_methods, "  { \"%s\", %s, METH_NOARGS, \"%s\" },\n", symname, wname, ds);
++ 	} else if (argcount == 1) {
++-	  Printf(builtin_methods, "  { \"%s\", (PyCFunction) %s, METH_O, (char *) \"%s\" },\n", symname, wname, ds);
+++	  Printf(builtin_methods, "  { \"%s\", %s, METH_O, \"%s\" },\n", symname, wname, ds);
++ 	} else {
++-	  Printf(builtin_methods, "  { \"%s\", (PyCFunction) %s, METH_VARARGS, (char *) \"%s\" },\n", symname, wname, ds);
+++	  Printf(builtin_methods, "  { \"%s\", %s, METH_VARARGS, \"%s\" },\n", symname, wname, ds);
++ 	}
++ 	Delete(fullname);
++ 	Delete(wname);
++@@ -4801,10 +4801,10 @@ public:
++ 	  Append(pyflags, "METH_VARARGS");
++ 	if (have_docstring(n)) {
++ 	  String *ds = cdocstring(n, AUTODOC_STATICFUNC);
++-	  Printf(builtin_methods, "  { \"%s\", (PyCFunction) %s, %s, (char *) \"%s\" },\n", symname, wname, pyflags, ds);
+++	  Printf(builtin_methods, "  { \"%s\", (PyCFunction)%s, %s, \"%s\" },\n", symname, wname, pyflags, ds);
++ 	  Delete(ds);
++ 	} else {
++-	  Printf(builtin_methods, "  { \"%s\", (PyCFunction) %s, %s, \"\" },\n", symname, wname, pyflags);
+++	  Printf(builtin_methods, "  { \"%s\", (PyCFunction)%s, %s, \"\" },\n", symname, wname, pyflags);
++ 	}
++ 	Delete(fullname);
++ 	Delete(wname);
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/swig/swig_3.0.12.bb b/meta/recipes-devtools/swig/swig_3.0.12.bb
+index 429840b..fe9d074 100644
+--- a/meta/recipes-devtools/swig/swig_3.0.12.bb
++++ b/meta/recipes-devtools/swig/swig_3.0.12.bb
+@@ -4,6 +4,7 @@ SRC_URI += "file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.pat
+             file://0001-configure-use-pkg-config-for-pcre-detection.patch \
+             file://0001-Add-Node-7.x-aka-V8-5.2-support.patch \
+             file://swig-3.0.12-Coverity-fix-issue-reported-for-SWIG_Python_FixMetho.patch \
++            file://Python-Fix-new-GCC8-warnings-in-generated-code.patch \
+            "
+ SRC_URI[md5sum] = "82133dfa7bba75ff9ad98a7046be687c"
+ SRC_URI[sha256sum] = "7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d"
 -- 
-2.18.0
+2.7.4
 
 
