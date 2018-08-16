@@ -1,25 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5118179272
+Return-Path: <maxin.john@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BABD79260
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 10:33:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7GAXgeG013040
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 16 Aug 2018 10:39:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Aug 2018 03:39:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,246,1531810800"; d="scan'208";a="65370172"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga007.jf.intel.com with ESMTP; 16 Aug 2018 03:39:46 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id EAEC058040F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 03:33:42 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 16 Aug 2018 03:33:41 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Aug 2018 18:37:58 +0800
-Message-ID: <ff26a8565e39359ed0247b3c12bfd80eb6021223.1534415298.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1534415298.git.Qi.Chen@windriver.com>
-References: <cover.1534415298.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] glibc: re-package for libnss-db
+	Thu, 16 Aug 2018 03:39:46 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Aug 2018 13:41:30 +0300
+Message-Id: <1534416090-26515-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] vala: refresh patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,286 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 10:33:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Aug 2018 10:39:46 -0000
 
-On other distros like ubuntu/centos, libnss-db usually provides:
-- The libraries
-- The Makefile to create database
-  (in /var/db for centos, /var/lib/misc/ for ubuntu)
-- The makedb command (it's in glibc-common for centos7)
+Refresh the following patch:
+"disable-graphviz.patch" to fix this warning:
 
-What we had is:
-- The libraries are in glibc-extra-nss
-- The Makefile is removed
-- The makedb command is in glibc-utils (lack of dependency)
+Some of the context lines in patches were ignored. This can lead to
+incorrectly applied patches.
+The context lines in the patches can be updated with devtool:
 
-So when glibc-extra-nss is installed but glibc-utils is not,
-we see error like:
-nscd[165]: 165 checking for monitored file `/var/db/group.db': No such file or directory
-nscd[165]: 165 checking for monitored file `/var/db/passwd.db': No such file or directory
+    devtool modify <recipe>
+    devtool finish --force-patch-refresh <recipe> <layer_path>
 
-And there is not an easy way to create these databases.
+Then the updated patches and the source tree (in devtool's workspace)
+should be reviewed to make sure the patches apply in the correct place
+and don't introduce duplicate lines (which can, and does happen
+when some of the context is ignored). Further information:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+Details:
+        checking file configure.ac
+        checking file libvaladoc/Makefile.am
+        checking file libvaladoc/html/basicdoclet.vala
+        checking file libvaladoc/html/htmlmarkupwriter.vala
+        Hunk #1 succeeded at 51 with fuzz 1 (offset 8 lines).
 
-To fix the issue:
-- Re-package the libraries into libnss-db
-- Don't remove the Makefile and add it in libnss-db
-- Add RDEPENDS for libnss-db on glibc-utils
-- Provide a shell script, makedbs.sh, to generate the db files.
-  This is to avoid dependency on 'make'.
-
-Notes:
-1. For external toolchain, an extra package 'libnss-db' need to be provided
-   If replacing glibc from core.
-2. I've check the git history of nss/db-Makefile, the last two functionality
-   fix is as below.
-   - fix non-portable `echo -n` usage   --  Date:   Thu Aug 6 04:14:20 2015 -0400
-   - Fix db makefile rule for group.db  --  Date:   Fri Nov 11 14:43:36 2011 +0100
-   So I think this file is stable enough. And using makedbs.sh which is crafted according
-   to that file is not likely to cause maintanence problem.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc |   6 +-
- meta/recipes-core/glibc/glibc/makedbs.sh  | 177 ++++++++++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.28.bb     |   1 +
- 3 files changed, 182 insertions(+), 2 deletions(-)
- create mode 100755 meta/recipes-core/glibc/glibc/makedbs.sh
+ meta/recipes-devtools/vala/vala/disable-graphviz.patch | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 07ce75d..9ea41b7 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -1,6 +1,6 @@
- INHIBIT_SYSROOT_STRIP = "1"
+diff --git a/meta/recipes-devtools/vala/vala/disable-graphviz.patch b/meta/recipes-devtools/vala/vala/disable-graphviz.patch
+index 8fb94dc..e7e38c7 100644
+--- a/meta/recipes-devtools/vala/vala/disable-graphviz.patch
++++ b/meta/recipes-devtools/vala/vala/disable-graphviz.patch
+@@ -1,7 +1,8 @@
+-From 500f4220f79c660a70a1ffc0d5b762d70088af5e Mon Sep 17 00:00:00 2001
++From 5ae347907b8c65983365a6325ac990fcde28d508 Mon Sep 17 00:00:00 2001
+ From: Rico Tzschichholz <ricotz@ubuntu.com>
+ Date: Wed, 6 Sep 2017 18:52:55 +0200
+ Subject: [PATCH] libvaladoc: Allow disabling the graphviz dependency of
++
+  valadoc
  
--PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
-+PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libnss-db libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
+ https://bugzilla.gnome.org/show_bug.cgi?id=787375
+@@ -16,7 +17,7 @@ Upstream-Status: Submitted [bugzilla link above]
+  4 files changed, 63 insertions(+), 34 deletions(-)
  
- # The ld.so in this glibc supports the GNU_HASH
- RPROVIDES_${PN} = "eglibc rtld(GNU_HASH)"
-@@ -23,6 +23,8 @@ FILES_ldd = "${bindir}/ldd"
- FILES_libsegfault = "${base_libdir}/libSegFault*"
- FILES_libcidn = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
- FILES_libmemusage = "${base_libdir}/libmemusage.so"
-+FILES_libnss-db = "${base_libdir}/libnss_db.so.* ${base_libdir}/libnss_db-*.so ${localstatedir}/db/Makefile ${localstatedir}/db/makedbs.sh"
-+RDEPENDS_libnss-db = "${PN}-utils"
- FILES_glibc-extra-nss = "${base_libdir}/libnss_*-*.so ${base_libdir}/libnss_*.so.*"
- FILES_sln = "${base_sbindir}/sln"
- FILES_${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/*.o"
-@@ -59,7 +61,6 @@ inherit libc-common multilib_header
- 
- do_install_append () {
- 	rm -f ${D}${sysconfdir}/localtime
--	rm -rf ${D}${localstatedir}
- 
- 	# remove empty glibc dir
- 	if [ -d ${D}${libexecdir} ]; then
-@@ -95,6 +96,7 @@ do_install_append () {
- 	install -d ${D}${localstatedir}/db/nscd
- 	install -m 0755 ${S}/nscd/nscd.init ${D}${sysconfdir}/init.d/nscd
- 	install -m 0755 ${S}/nscd/nscd.conf ${D}${sysconfdir}/nscd.conf
-+	install -m 0755 ${WORKDIR}/makedbs.sh ${D}${localstatedir}/db
- 	sed -i "s%daemon%start-stop-daemon --start --exec%g" ${D}${sysconfdir}/init.d/nscd
- 	sed -i "s|\(enable-cache\t\+netgroup\t\+\)yes|\1no|" ${D}${sysconfdir}/nscd.conf
- 
-diff --git a/meta/recipes-core/glibc/glibc/makedbs.sh b/meta/recipes-core/glibc/glibc/makedbs.sh
-new file mode 100755
-index 0000000..7d51a67
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/makedbs.sh
-@@ -0,0 +1,177 @@
-+#!/bin/sh
-+
-+#
-+# Make passwd.db, group.db, etc.
-+#
-+
-+VAR_DB=/var/db
-+
-+# Use make if available
-+if [ -x /usr/bin/make -o -x /bin/make ]; then
-+	make -C $VAR_DB
-+	exit 0
-+fi
-+
-+# No make available, do it in hard way
-+
-+# passwd.db
-+if [ -e /etc/passwd ]; then
-+target=$VAR_DB/passwd.db
-+echo -n "passwd... "
-+awk 'BEGIN { FS=":"; OFS=":" } \
-+ /^[ \t]*$$/ { next } \
-+ /^[ \t]*#/ { next } \
-+ /^[^#]/ { printf ".%s ", $$1; print; \
-+	   printf "=%s ", $$3; print }' /etc/passwd | \
-+makedb --quiet -o $target -
-+echo "done."
-+fi
-+
-+# group.db
-+if [ -e /etc/group ]; then
-+target=$VAR_DB/group.db
-+echo -n "group... "
-+awk 'BEGIN { FS=":"; OFS=":" } \
-+ /^[ \t]*$$/ { next } \
-+ /^[ \t]*#/ { next } \
-+ /^[^#]/ { printf ".%s ", $$1; print; \
-+	   printf "=%s ", $$3; print; \
-+	   if ($$4 != "") { \
-+	     split($$4, grmems, ","); \
-+	     for (memidx in grmems) { \
-+	       mem=grmems[memidx]; \
-+	       if (members[mem] == "") \
-+		 members[mem]=$$3; \
-+	       else \
-+		 members[mem]=members[mem] "," $$3; \
-+	     } \
-+	     delete grmems; } } \
-+ END { for (mem in members) \
-+	 printf ":%s %s %s\n", mem, mem, members[mem]; }' /etc/group | \
-+makedb --quiet -o $target -
-+echo "done."
-+fi
-+
-+# ethers.db
-+if [ -e /etc/ethers ]; then
-+target=$VAR_DB/ethers.db
-+echo -n "ethers... "
-+awk '/^[ \t]*$$/ { next } \
-+ /^[ \t]*#/ { next } \
-+ /^[^#]/ { printf ".%s ", $$1; print; \
-+	   printf "=%s ", $$2; print }' /etc/ethers | \
-+makedb --quiet -o $target -
-+echo "done."
-+fi
-+
-+# protocols.db
-+if [ -e /etc/protocols ]; then
-+target=$VAR_DB/protocols.db
-+echo -n "protocols... "
-+awk '/^[ \t]*$$/ { next } \
-+ /^[ \t]*#/ { next } \
-+ /^[^#]/ { printf ".%s ", $$1; print; \
-+	   printf "=%s ", $$2; print; \
-+	   for (i = 3; i <= NF && !($$i ~ /^#/); ++i) \
-+	     { printf ".%s ", $$i; print } }' /etc/protocols | \
-+makedb --quiet -o $target -
-+echo "done."
-+fi
-+
-+# rpc.db
-+if [ -e /etc/rpc ]; then
-+target=$VAR_DB/rpc.db
-+echo -n "rpc... "
-+awk '/^[ \t]*$$/ { next } \
-+ /^[ \t]*#/ { next } \
-+ /^[^#]/ { printf ".%s ", $$1; print; \
-+	   printf "=%s ", $$2; print; \
-+	   for (i = 3; i <= NF && !($$i ~ /^#/); ++i) \
-+	     { printf ".%s ", $$i; print } }' /etc/rpc | \
-+makedb --quiet -o $target -
-+echo "done."
-+fi
-+
-+# services.db
-+if [ -e /etc/services ]; then
-+target=$VAR_DB/services.db
-+echo -n "services... "
-+awk 'BEGIN { FS="[ \t/]+" } \
-+ /^[ \t]*$$/ { next } \
-+ /^[ \t]*#/ { next } \
-+ /^[^#]/ { sub(/[ \t]*#.*$$/, "");\
-+	   printf ":%s/%s ", $$1, $$3; print; \
-+	   printf ":%s/ ", $$1; print; \
-+	   printf "=%s/%s ", $$2, $$3; print; \
-+	   printf "=%s/ ", $$2; print; \
-+	   for (i = 4; i <= NF && !($$i ~ /^#/); ++i) \
-+	     { printf ":%s/%s ", $$i, $$3; print; \
-+	       printf ":%s/ ", $$i; print } }' /etc/services | \
-+makedb --quiet -o $target -
-+echo "done."
-+fi
-+
-+# shadow.db
-+if [ -e /etc/shadow ]; then
-+target=$VAR_DB/shadow.db
-+echo -n "shadow... "
-+awk 'BEGIN { FS=":"; OFS=":" } \
-+ /^[ \t]*$$/ { next } \
-+ /^[ \t]*#/ { next } \
-+ /^[^#]/ { printf ".%s ", $$1; print }' /etc/shadow | \
-+(umask 077 && makedb --quiet -o $target -)
-+echo "done."
-+if chgrp shadow $target 2>/dev/null; then
-+	chmod g+r $target
-+else
-+	chown 0 $target; chgrp 0 $target; chmod 600 $target;
-+	echo
-+	echo "Warning: The shadow password database $target"
-+	echo "has been set to be readable only by root.  You may want"
-+	echo "to make it readable by the \`shadow' group depending"
-+	echo "on your configuration."
-+	echo
-+fi
-+fi
-+
-+# gshadow.db
-+if [ -e /etc/gshadow ]; then
-+target=$VAR_DB/gshadow.db
-+echo -n "gshadow... "
-+awk 'BEGIN { FS=":"; OFS=":" } \
-+ /^[ \t]*$$/ { next } \
-+ /^[ \t]*#/ { next } \
-+ /^[^#]/ { printf ".%s ", $$1; print }' /etc/gshadow | \
-+(umask 077 && makedb --quiet -o $target -)
-+echo "done."
-+if chgrp shadow $target 2>/dev/null; then
-+	chmod g+r $target
-+else
-+	chown 0 $target; chgrp 0 $target; chmod 600 $target
-+	echo
-+	echo "Warning: The shadow group database $target"
-+	echo "has been set to be readable only by root.  You may want"
-+	echo "to make it readable by the \`shadow' group depending"
-+	echo "on your configuration."
-+	echo
-+fi
-+fi
-+
-+# netgroup.db
-+if [ -e /etc/netgroup ]; then
-+target=$VAR_DB/netgroup.db
-+echo -n "netgroup... "
-+awk 'BEGIN { ini=1 } \
-+ /^[ \t]*$$/ { next } \
-+ /^[ \t]*#/ { next } \
-+ /^[^#]/ { if (sub(/[ \t]*\\$$/, " ") == 0) end="\n"; \
-+	   else end=""; \
-+	   gsub(/[ \t]+/, " "); \
-+	   sub(/^[ \t]*/, ""); \
-+	   if (ini == 0) printf "%s%s", $$0, end; \
-+	   else printf ".%s %s%s", $$1, $$0, end; \
-+	   ini=end == "" ? 0 : 1; } \
-+ END { if (ini==0) printf "\n" }' /etc/netgroup | \
-+makedb --quiet -o $target
-+echo "done."
-+fi
-diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
-index 95e333d..0ebbaf9 100644
---- a/meta/recipes-core/glibc/glibc_2.28.bb
-+++ b/meta/recipes-core/glibc/glibc_2.28.bb
-@@ -17,6 +17,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.(?!90)\d+)*)"
- SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://etc/ld.so.conf \
-            file://generate-supported.mk \
-+           file://makedbs.sh \
-            \
-            ${NATIVESDKFIXES} \
-            file://0006-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch \
+ diff --git a/configure.ac b/configure.ac
+-index 662180b..82d7015 100644
++index 694ffd2..9150620 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -112,34 +112,38 @@ PKG_CHECK_MODULES(GMODULE, gmodule-2.0 >= $GLIB_REQUIRED)
+@@ -159,7 +160,7 @@ index 384292f..cce50d8 100644
+  EXTRA_DIST = \
+  	$(libvaladoc_la_VALASOURCES) \
+ diff --git a/libvaladoc/html/basicdoclet.vala b/libvaladoc/html/basicdoclet.vala
+-index cc9ea4e..432c381 100644
++index 37c731c..e0326ef 100644
+ --- a/libvaladoc/html/basicdoclet.vala
+ +++ b/libvaladoc/html/basicdoclet.vala
+ @@ -46,7 +46,11 @@ public abstract class Valadoc.Html.BasicDoclet : Api.Visitor, Doclet {
+@@ -201,11 +202,11 @@ index cc9ea4e..432c381 100644
+  
+  	public void write_namespace_content (Namespace node, Api.Node? parent) {
+ diff --git a/libvaladoc/html/htmlmarkupwriter.vala b/libvaladoc/html/htmlmarkupwriter.vala
+-index 15ed9ef..fe0d705 100644
++index dcc4dad..cf9c860 100644
+ --- a/libvaladoc/html/htmlmarkupwriter.vala
+ +++ b/libvaladoc/html/htmlmarkupwriter.vala
+-@@ -43,12 +43,16 @@ public class Valadoc.Html.MarkupWriter : Valadoc.MarkupWriter {
+- 		}, xml_declaration);
++@@ -51,12 +51,16 @@ public class Valadoc.Html.MarkupWriter : Valadoc.MarkupWriter {
++ 		}
+  	}
+  
+ +#if HAVE_GRAPHVIZ
 -- 
-1.9.1
+2.4.0
 
 
