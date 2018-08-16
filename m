@@ -1,53 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F84D79268
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+	[209.85.222.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 73DC079268
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 21:44:20 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id o11-v6so5725784wmh.2
+	Thu, 16 Aug 2018 23:38:25 +0000 (UTC)
+Received: by mail-ua1-f49.google.com with SMTP id c12-v6so4719298uan.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 14:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=figQYb7/do9qW9uvhzcWRXD7tOQBPNHGeWfeONTi0sM=;
-	b=ZfHpk4Y+TDhyGnQ1YX+cEsUies4aOvo7jc7e8HohBVPbxmBNdIEUNTz/U4gQlA5rkd
-	4OBBmZqHGYr5Ul0KvnTLSdwC2+vwYkopXdDKhAtWhrgmHsrrmy5YelsRBy6tCfp/t4+b
-	pOyY5I4o+BUI5ZTboGiD+Zz9/LCbcW0XHFSHc=
+	Thu, 16 Aug 2018 16:38:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qqwHBA13IaMna6sHKqiVKgjB7J4NDsJQlFp9WI+JELk=;
+	b=DPmGWUMqZZyBN5icURZ7DOZpD+oj3FDMpg1VrWSqdsxZWMC9UNvqRfa6YvF+A5twH9
+	D1sbvWwG1ssR7WKA0UM/neeYQYPuwTDlC++mr9eEE1x8Tj+wz8Jkj+j07TfcGZVvYuq3
+	hL2R4ePLX43et83VcgxLvs7LhVFU8SGz8rG3kVbLo426F/wSJgLKVzUDegxxXPrkRTbF
+	/cZrRFVD6BYTPKUjuTn7ILHYkrXKWQXIckADp0OPcBt9dCtN2U4cX65kARqokL2HsUYV
+	YUtJKOgVlCpj7N/0z1V+v2H9vjIEBkg2DyGUT3lkZGPD7RZmEoAxqNhpO9QVRcKGtMaN
+	KOvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=figQYb7/do9qW9uvhzcWRXD7tOQBPNHGeWfeONTi0sM=;
-	b=FfX0E4oSmmZSnJQEqLamRB8cSCfahSB99CXgbAzo2EZp62TaNM5BA+bTDy3ARglGoj
-	IMaOCqCHHb5q+XIvKRpa0GiYq09T4wWywgmOhSZSowmo8GsfBD7cUSQhu0lCNCcYYYd0
-	85Qwd15LryVd82J0UVqr4VehNVAL6C7a0unKwcdtqGasdE/Vmin2PU6jI5fsAbveaGT4
-	QycbKYk5Cyn+nrwzbK9eckficLojvoFUgnDt2atdXjvFEUpwbT3bknwyEk8j7BIvgrWQ
-	i/gzQN86MVQK5iKbOapQzv55saddKfZDP3OcJ58Tatj5NVYGCSSgtiGgq2nirw1z0HDK
-	4s8w==
-X-Gm-Message-State: AOUpUlGN7m/4WcXg35lFiVaxGgtRf3eea8KnzHFduZFWiEoGVthjDF97
-	0G9HoKkZwFO8rMwYFlXd0AO/ZA==
-X-Google-Smtp-Source: AA+uWPw6WpYmqPlRoxQ0a5zsE+Tz+RwqGKRJXWIoS6UST0XhVKtPL9zf/cBS9EqoAxp5s+eiY2BBwA==
-X-Received: by 2002:a1c:790b:: with SMTP id
-	l11-v6mr16438142wme.66.1534455861144; 
-	Thu, 16 Aug 2018 14:44:21 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t6-v6sm3201420wmf.8.2018.08.16.14.44.19
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 16 Aug 2018 14:44:20 -0700 (PDT)
-Message-ID: <3927163d00059d0559412175c903ba60ce383dcd.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 16 Aug 2018 22:44:18 +0100
-In-Reply-To: <CADkTA4OrPcXQEZ+d1HEeNZBrJy_VcyJcv_7DmhnBddmLQPVYZg@mail.gmail.com>
-References: <1534453421-28943-1-git-send-email-bruce.ashfield@windriver.com>
-	<CADkTA4OrPcXQEZ+d1HEeNZBrJy_VcyJcv_7DmhnBddmLQPVYZg@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] kernel-devsrc: restructure for out of tree (and on target) module builds
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qqwHBA13IaMna6sHKqiVKgjB7J4NDsJQlFp9WI+JELk=;
+	b=a9j8IhOddxNLbLQCRp97905MekTwGKoIiKWtBj2mZISqLj4d3+hviHQhYfmY1++rFc
+	tUpBR6aTGuc/rVY2eaA9mtn7INn+luT+iF/K9hr8YlXjCxqTtFKGXAN5UmzhxUHOn9Zh
+	Vo8eRk1afjroe4Wv4PWaOmMywjjx22m+KYzU2rHb+rKNy9UERKEWGxbwFicUjTkf9BbS
+	H/rH2hhJm9sXVrtGtiMLAQ5qXoY6yKkF1f6SaOApn54iwsSvUgYYgvE1atA2AQy1X1UO
+	lm24uhwn3SbGzhbyfS5wMMVscAJX+5pNDr7JYwZv3Y6N+r5M/+UcoJziHKi2uB6Oh0f/
+	y80g==
+X-Gm-Message-State: AOUpUlFMp7AzpdJAb0zwjqcuJexJR0CiInYxh5yi7cEIwW4FVbIjuBF2
+	aEGgShvK3n/hxD2Y4DZyAAXxzpdw6R6QYesxKVE=
+X-Google-Smtp-Source: AA+uWPydV4M1VnFu+HefkdKjEkyb2Fh8NU2AKECNaFSvq+mVfuc/0m/Tg7+qH51VQ68XcSrdPAw6mQTxV7TJS6GeG/0=
+X-Received: by 2002:ab0:5b8f:: with SMTP id
+	y15-v6mr21426503uae.59.1534462706311; 
+	Thu, 16 Aug 2018 16:38:26 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Thu, 16 Aug 2018 16:38:25 -0700 (PDT)
+In-Reply-To: <20180717091035.26461-4-andrej.valek@siemens.com>
+References: <20180709125657.13192-1-andrej.valek@siemens.com>
+	<20180717091035.26461-1-andrej.valek@siemens.com>
+	<20180717091035.26461-4-andrej.valek@siemens.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 16 Aug 2018 16:38:25 -0700
+Message-ID: <CAJ86T=UH0JoFfz2x5gJNpjMugAUmK1ADR_8LsOwT0=b6Ekv5ww@mail.gmail.com>
+To: Andrej Valek <andrej.valek@siemens.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v6 3/3] openssl-1.1: /etc/ssl location compatibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,29 +58,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 21:44:20 -0000
+X-List-Received-Date: Thu, 16 Aug 2018 23:38:25 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-08-16 at 17:08 -0400, Bruce Ashfield wrote:
-> I'm getting a strange install issue with x86 that I've never seen
-> before, and that
-> part is unchanged from v3 to v4.
-> 
-> .. and then I realized that a file has changed in my builds, since
-> I'm
-> working on 4.18.
-> 
-> This is worth testing on the autobuilder, but I will have a v5 that
-> adds a test for some
-> files that may go missing, and hence we'll have issues across
-> versions.
+On Tue, Jul 17, 2018 at 2:10 AM, Andrej Valek <andrej.valek@siemens.com> wrote:
+> Some packages have hard-coded path to /etc/ssl location.
+> Create a symlinks to correct location.
+>
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> Signed-off-by: Marko Peter <peter.marko@siemens.com>
+> ---
+>  meta/recipes-connectivity/openssl/openssl_1.1.0h.bb | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+> index 7af527ca31..d6ef66ba51 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+> @@ -22,7 +22,7 @@ SRC_URI_append_class-nativesdk = " \
+>  SRC_URI[md5sum] = "5271477e4d93f4ea032b665ef095ff24"
+>  SRC_URI[sha256sum] = "5835626cde9e99656585fc7aaa2302a73a7e1340bf8c14fd635a62c66802a517"
+>
+> -inherit lib_package multilib_header ptest
+> +inherit lib_package multilib_header ptest relative_symlinks
+>
+>  #| engines/afalg/e_afalg.c: In function 'eventfd':
+>  #| engines/afalg/e_afalg.c:110:20: error: '__NR_eventfd' undeclared (first use in this function)
+> @@ -133,6 +133,18 @@ do_configure () {
+>  do_install () {
+>          oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
+>          oe_multilib_header openssl/opensslconf.h
+> +
+> +        # Create SSL structure for PATH hard-coded packages like ca-certificates
+> +        # Debian is also using this technique
+> +        install -d ${D}${sysconfdir}/ssl/
+> +        mv ${D}${libdir}/ssl-1.1/openssl.cnf \
+> +           ${D}${libdir}/ssl-1.1/certs \
+> +           ${D}${libdir}/ssl-1.1/private \
+> +           \
+> +           ${D}${sysconfdir}/ssl/
+> +        ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl-1.1/certs
+> +        ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl-1.1/private
+> +        ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl-1.1/openssl.cnf
+>  }
+>
+>  do_install_append_class-native () {
+> @@ -169,8 +181,8 @@ FILES_${PN}-engines = "${libdir}/engines-1.1"
+>  FILES_${PN}-misc = "${libdir}/ssl-1.1/misc"
+>  RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
+>
+> -FILES_openssl-conf = "${libdir}/ssl-1.1/openssl.cnf"
+> -CONFFILES_openssl-conf = "${libdir}/ssl-1.1/openssl.cnf"
+> +FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf ${libdir}/ssl-1.1/openssl.cnf"
 
-Thanks, I've added it into a build with a glibc and openssl change and
-set it away so its possible other issues may occur, we'll see how it
-works out...
+The openssl 1.0 recipe does not put the ${libdir} symlink in the
+openssl-conf package. The reasons for that are not entirely clear, but
+it does seem to be a deliberate choice according to comments in this
+thread:
 
-Cheers,
+  http://lists.openembedded.org/pipermail/openembedded-core/2017-April/135176.html
 
-Richard
+Is there a clear reason for the openssl 1.1 recipe to be different?
+
+> +CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+>  RRECOMMENDS_libcrypto += "openssl-conf"
+>
+>  RDEPENDS_${PN}-bin = "perl"
+> --
+> 2.11.0
 
