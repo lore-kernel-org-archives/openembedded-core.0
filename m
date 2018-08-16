@@ -1,51 +1,54 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
-	[209.85.222.42])
-	by mail.openembedded.org (Postfix) with ESMTP id B351679080
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A7CEF78E00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 19:34:43 +0000 (UTC)
-Received: by mail-ua1-f42.google.com with SMTP id m13-v6so4365595uaq.7
+	Thu, 16 Aug 2018 20:32:21 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id i134-v6so9198929wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 12:34:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HS36p8tGVaqP1b0e9RQNcFsfEevI6capVnjVXpwTbbg=;
-	b=Ugyttna9mfRiEG2y42AgtXqp9OniZ+ETVVfqcNnWy8AG9IZElAJTERO8uuN1Rs+zUr
-	1ln17d+fjuZpBKu/RjFm2klJhBrQ2aCXobn+qfq49Rb31VK7ParsFQ45/iK9hvosiQza
-	mu3TvI0j60BSCuluJum18v5vq0sfRzLXh7hNIRpsxzqDzG54OeygU98d0/ScYZ3wkXvl
-	PBKd6LC5N5t1gV8++2vVc92SjaqXCK67nqZ5fOfMTtrzZmysppQ2JHdmd6/wqEciYELo
-	iiAJBHDORtcAXxH7AAqE2XwukRF8q375m8QaO/NAWGyPkd2rI2NFPcJDJHfs5Y0jz+48
-	8Pmg==
+	Thu, 16 Aug 2018 13:32:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=itU2eip5BV93wIqy6zI7A5KLnUyqzAFh4THJxoVEZNw=;
+	b=VV17S4r5tCh4YhpDYBNuqUe2mr7ECMafe2aj2/XA+rmFj6ym40Z/8dVjw2O2g/4Izo
+	vstEtymxp0TwkuJWPl4uR3GGG3yeGaFsYlRGYuU07KhoLCiIW+zNZWI5UuAqkWIlB0/s
+	71PuIj/2xmwAVwpNuwnfEMaHzxFy08egZm81M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HS36p8tGVaqP1b0e9RQNcFsfEevI6capVnjVXpwTbbg=;
-	b=VR71UChXU+YVmuJ0akksRdsr2OUImiiXGFI2zwmetDHq5TaFTGdHus5aG04kHF/t7i
-	IJYXAaqX/nGaS0WkhWuN1AbPLvFQ71B4/qzMQuRgubha1XdRykMVAt8leBa5gBONtHay
-	p9Dq8dBUb86+tiUHcMpY1hfLVOezwwkMlrLqqIrdXH4iah5ZfXcLrDhqrNbx3Ux2J/d1
-	StzUjy4Iugqw8S8ZBOz/rBO5turHKkGVbaAyINB/DFtQ+HrreETN9/dNNlvGtGSdfQ72
-	F5RD+w1DpvtiSslRD2B0JLIo7AQ9xb6ubU0CiveHCujj9FPyDW7Nh4XQL+T5A8/hUFc1
-	ziVw==
-X-Gm-Message-State: AOUpUlHwOHJP96EU4LC71i52Sa9lm7IdG8SiAgmm9BPo3raYHImyGIiQ
-	Q2MGGSdkxXUxqNasmFf9097wBJ2agvE6W9hMNs8=
-X-Google-Smtp-Source: AA+uWPwpwtSVrMIw/OTdHW1R/KB9JPUiTfIC88FAOvDFF8/D/QqtUTVFlaO1xzTHWJxcz0o/Oj21VamnXn6L9wN+XBY=
-X-Received: by 2002:ab0:5b8f:: with SMTP id
-	y15-v6mr20927560uae.59.1534448084530; 
-	Thu, 16 Aug 2018 12:34:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Thu, 16 Aug 2018 12:34:44 -0700 (PDT)
-In-Reply-To: <20180717091035.26461-3-andrej.valek@siemens.com>
-References: <20180709125657.13192-1-andrej.valek@siemens.com>
-	<20180717091035.26461-1-andrej.valek@siemens.com>
-	<20180717091035.26461-3-andrej.valek@siemens.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 16 Aug 2018 12:34:44 -0700
-Message-ID: <CAJ86T=WL-za2Yd9d=jkQ48gBc9FB4uy3TH0VBR4vEy8hJcoPYQ@mail.gmail.com>
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6 2/3] openssl-1.1: rework packaging
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=itU2eip5BV93wIqy6zI7A5KLnUyqzAFh4THJxoVEZNw=;
+	b=d8ZGB+sZic+qwB/ei7T71vCKOy1TOIG45KBnWCA8ZUWni5TY9RwIBCbdJ2zwBpx1gk
+	a+tWSvvLGBiAohr1fEvt0DscrGlK8qnMBsb4EEjGGDzDLO0ipFXp1uU5MGmiiDf+0jEY
+	hNF92/vVXorpdtO/FlkGOcuSNVglnGnph12xzTj03Di0bOTjPPms5A6JtONuQQ9Z9Pn9
+	+cOLAk3N9zE6GtxpS+g5wwdaLb+x4UEOSH7safO/4MfcEF+KvC4hByBew1+B9+vGh1PD
+	KH5DMw7RVh+9udK5cKf8xKJilpHUWrIhllppEcM982ITah37Y6WvffllxUfT/TdLND01
+	7++g==
+X-Gm-Message-State: AOUpUlFkjjCG2bceMswW4Yp6HTIXIUMK+3dzCSJQY7fjAS7TgJ05sB3N
+	psIUwFGVuY/RZ74VZUAWYjWLJ/oc55k=
+X-Google-Smtp-Source: AA+uWPyoGEaNsqb3D42b2EoWW757KQD0aQht01hF02NZyyLs+pW6KEhb9krUT+nsNg+p+w5G9PsIfg==
+X-Received: by 2002:a1c:1584:: with SMTP id
+	126-v6mr17160831wmv.24.1534451542427; 
+	Thu, 16 Aug 2018 13:32:22 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	q70-v6sm4355537wmd.39.2018.08.16.13.32.20
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 16 Aug 2018 13:32:21 -0700 (PDT)
+Message-ID: <c04c47319e2d8072610db6bec2cfd619817c7e90.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Thu, 16 Aug 2018 21:32:19 +0100
+In-Reply-To: <f1d91166-bb69-d3ca-d611-427dbae3ab47@windriver.com>
+References: <1534339941-1968-1-git-send-email-bruce.ashfield@windriver.com>
+	<ebb9e2738e47c62514b0816b8d8c2ede13a54275.camel@linuxfoundation.org>
+	<32bf2998f462edc3286fbd04f44ab251ef1f90ed.camel@linuxfoundation.org>
+	<f1d91166-bb69-d3ca-d611-427dbae3ab47@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,62 +61,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 19:34:44 -0000
+X-List-Received-Date: Thu, 16 Aug 2018 20:32:22 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 17, 2018 at 2:10 AM, Andrej Valek <andrej.valek@siemens.com> wrote:
-> The main idea is to have libssl and libcrypto in separate packages.
-> This saves space if only single library is needed and also some recipes
-> (in other layers) depend on these library packages.
-> Together with this other packages like in 1.0.x were created.
-> The only difference is that openssl 1.1 has additional package openssl-bin.
->
-> Add missing dependency to perl for openssl-bin pkg, c_rehash requires it.
->
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> Signed-off-by: Marko Peter <peter.marko@siemens.com>
-> ---
->  meta/recipes-connectivity/openssl/openssl_1.1.0h.bb | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-> index c5de085521..7af527ca31 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-> @@ -158,12 +158,22 @@ do_install_ptest() {
->          sed -i 's/$target{shared_extension_simple}/".so.ptest"/' ${D}${PTEST_PATH}/test/recipes/90-test_shlibload.t
->  }
->
-> -PACKAGES =+ "${PN}-engines"
-> +PACKAGES =+ "libcrypto libssl ${PN}-misc ${PN}-engines openssl-conf"
->
-> +FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
-> +FILES_libssl = "${libdir}/libssl${SOLIBS}"
->  FILES_${PN} =+ "${libdir}/ssl-1.1/*"
->  FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
->  FILES_${PN}-engines = "${libdir}/engines-1.1"
->
-> +FILES_${PN}-misc = "${libdir}/ssl-1.1/misc"
-> +RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
+On Thu, 2018-08-16 at 13:30 -0400, Bruce Ashfield wrote:
+> I have both of the issues fixed, but am waiting for a build cycle to
+> complete.
+> 
+> Fundamentally nothing needs to mess with the kernel source for out of
+> tree builds anymore, so just testing for 'build' to exist and
+> trusting
+> that it is right is the proper thing to do.
+> 
+> I tweaked both this and the build-appliance image to do just that.
+> 
+> If you want, I can send the patch before my builds complete (since
+> it will be tomorrow before they are done).
 
-There is no "perl" PACKAGECONFIG in the openssl 1.1 recipe (there are
-no PACKAGECONFIG options at all...).
+Happy to take a patch and run it through the autobuilder in parallel...
 
-> +
-> +FILES_openssl-conf = "${libdir}/ssl-1.1/openssl.cnf"
-> +CONFFILES_openssl-conf = "${libdir}/ssl-1.1/openssl.cnf"
-> +RRECOMMENDS_libcrypto += "openssl-conf"
-> +
-> +RDEPENDS_${PN}-bin = "perl"
->  RDEPENDS_${PN}-ptest += "perl-module-file-spec-functions bash python"
->
->  BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+
+Richard
 
