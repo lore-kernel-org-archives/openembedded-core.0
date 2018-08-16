@@ -1,27 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 340BC79265
+Return-Path: <martin@geanix.com>
+Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
+	by mail.openembedded.org (Postfix) with ESMTP id 84E6B7925E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 06:22:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7G6MC27008204
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 23:22:12 -0700 (PDT)
-Received: from localhost.corp.ad.wrs.com (128.224.162.161) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Wed, 15 Aug 2018 23:22:10 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1534399650.git.liezhi.yang@windriver.com>
-	<2f1af64114464437840516b805fec7cd0773858c.1534399650.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <ca94ab6e-6f5e-e219-a639-81081636fd43@windriver.com>
-Date: Thu, 16 Aug 2018 14:25:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu, 16 Aug 2018 06:26:30 +0000 (UTC)
+Received: from [10.0.0.246] (unknown [85.184.147.232])
+	by mail.hundeboll.net (Postfix) with ESMTPSA id D844D1C13DA;
+	Thu, 16 Aug 2018 08:26:30 +0200 (CEST)
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <20180815115907.14045-1-martin@geanix.com>
+	<CAJ86T=UJ1xqGDjeO+i9Qyy8sbA_027c2GZQtaqSwp15VAaoUHw@mail.gmail.com>
+From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
+Message-ID: <b55e3c9e-bcee-7466-5fd5-8f98f7233899@geanix.com>
+Date: Thu, 16 Aug 2018 08:26:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.0
 MIME-Version: 1.0
-In-Reply-To: <2f1af64114464437840516b805fec7cd0773858c.1534399650.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/1] binutils: Improve check for input file matching output file
+In-Reply-To: <CAJ86T=UJ1xqGDjeO+i9Qyy8sbA_027c2GZQtaqSwp15VAaoUHw@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: fix wrong volatile dir for sshd host keys on read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,109 +30,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 06:22:11 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Aug 2018 06:26:30 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US-large
+Content-Transfer-Encoding: 8bit
 
+Hi Andre,
 
-
-On 08/16/2018 02:14 PM, Robert Yang wrote:
-> When the assembler reports that the input and output are the same, report the
-> file names involved, in order to help debugging.  Also do not equate two files
-> are the same if the have the same inode value but reside on different file
-> systems.
+On 15/08/2018 21.47, Andre McCurdy wrote:
+> On Wed, Aug 15, 2018 at 4:59 AM, Martin Hundebøll <martin@geanix.com> wrote:
+>> When the read-only-rootfs image feature is enabled, and openssh is
+>> installed into an image, the ssh daemon is reconfigured to use
+>> /var/run/ssh when generating host keys.
+>>
+>> Fix up the creation of the volatile dir to actually match what sshd is
+>> configured to.
+>>
+>> Signed-off-by: Martin Hundebøll <martin@geanix.com>
+>> ---
+>>   meta/recipes-connectivity/openssh/openssh/volatiles.99_sshd | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-connectivity/openssh/openssh/volatiles.99_sshd b/meta/recipes-connectivity/openssh/openssh/volatiles.99_sshd
+>> index a0d2af3c65..fcbc5ae9d5 100644
+>> --- a/meta/recipes-connectivity/openssh/openssh/volatiles.99_sshd
+>> +++ b/meta/recipes-connectivity/openssh/openssh/volatiles.99_sshd
+>> @@ -1,2 +1,2 @@
+>> -d root root 0755 /var/run/sshd none
+>> +d root root 0755 /var/run/ssh none
 > 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/recipes-devtools/binutils/binutils-2.31.inc   |  1 +
->   ...check-for-input-file-matching-output-file.patch | 59 ++++++++++++++++++++++
->   2 files changed, 60 insertions(+)
->   create mode 100644 meta/recipes-devtools/binutils/binutils/0017-improve-check-for-input-file-matching-output-file.patch
+> This doesn't look right.
 > 
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc b/meta/recipes-devtools/binutils/binutils-2.31.inc
-> index 02d5bca..6603873 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.31.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
-> @@ -36,6 +36,7 @@ SRC_URI = "\
->        file://0014-Detect-64-bit-MIPS-targets.patch \
->        file://0015-sync-with-OE-libtool-changes.patch \
->        file://0016-add-i386pep-emulation-for-x86_64.patch \
-> +     file://0017-improve-check-for-input-file-matching-output-file.patch \
->   "
->   S  = "${WORKDIR}/git"
->   
-> diff --git a/meta/recipes-devtools/binutils/binutils/0017-improve-check-for-input-file-matching-output-file.patch b/meta/recipes-devtools/binutils/binutils/0017-improve-check-for-input-file-matching-output-file.patch
-> new file mode 100644
-> index 0000000..6d8d8a3
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/0017-improve-check-for-input-file-matching-output-file.patch
-> @@ -0,0 +1,59 @@
-> +From 2a50366ded329bfb39d387253450c9d5302c3503 Mon Sep 17 00:00:00 2001
-> +From: Robert Yang <liezhi.yang@windriver.com>
-> +Date: Tue, 14 Aug 2018 12:22:35 +0100
-> +Subject: [PATCH] as.c: Improve check for input file matching output file.
-> +
-> +When the assembler reports that the input and output are the same, report the
-> +file names involved, in order to help debugging.  Also do not equate two files
-> +are the same if the have the same inode value but reside on different file
-> +systems.
-> +
-> +Upstream-Status: Backport
-> +
-> +Robert Yang <liezhi.yang@windriver.com>
+> /var/run/sshd is the directory used for privilege separation (grep for
+> --with-privsep-path ), so it's not correct to remove it.
 
-Sorry, here missed a SOB, I fixed it in the repo:
+I see - didn't know about openssh chrooting to do privilege separation.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Note that sshd_check_keys script runs "mkdir -p $SYSCONFDIR" (ie
+> /var/run/ssh in the read-only rootfs case) at run time before creating
+> any keys.
 
-// Robert
+Yes, it works without the volatile folder; for openssh at least.
 
-> +---
-> + gas/as.c      | 27 ++++++++++++++++++++-------
-> + 2 files changed, 20 insertions(+), 7 deletions(-)
-> +
-> +diff --git a/gas/as.c b/gas/as.c
-> +index b2a908a..3105d06 100644
-> +--- a/gas/as.c
-> ++++ b/gas/as.c
-> +@@ -1259,14 +1259,27 @@ main (int argc, char ** argv)
-> + 	{
-> + 	  struct stat sib;
-> +
-> +-	  if (stat (argv[i], &sib) == 0)
-> ++	  /* Check that the input file and output file are different.  */
-> ++	  if (stat (argv[i], &sib) == 0
-> ++	      && sib.st_ino == sob.st_ino
-> ++	      /* POSIX emulating systems may support stat() but if the
-> ++		 underlying file system does not support a file serial number
-> ++		 of some kind then they will return 0 for the inode.  So
-> ++		 two files with an inode of 0 may not actually be the same.
-> ++		 On real POSIX systems no ordinary file will ever have an
-> ++		 inode of 0.  */
-> ++	      && sib.st_ino != 0
-> ++	      /* Different files may have the same inode number if they
-> ++		 reside on different devices, so check the st_dev field as
-> ++		 well.  */
-> ++	      && sib.st_dev == sob.st_dev)
-> + 	    {
-> +-	      if (sib.st_ino == sob.st_ino && sib.st_ino != 0)
-> +-		{
-> +-		  /* Don't let as_fatal remove the output file!  */
-> +-		  out_file_name = NULL;
-> +-		  as_fatal (_("The input and output files must be distinct"));
-> +-		}
-> ++	      const char *saved_out_file_name = out_file_name;
-> ++
-> ++	      /* Don't let as_fatal remove the output file!  */
-> ++	      out_file_name = NULL;
-> ++	      as_fatal (_("The input '%s' and output '%s' files are the same"),
-> ++			argv[i], saved_out_file_name);
-> + 	    }
-> + 	}
-> +     }
-> +--
-> +2.7.4
-> +
-> 
+> What exactly was the problem that this patch tries to fix?
+
+I am running a custom image with the read-only-rootfs feature enabled, 
+and wanted to make the ssh host keys persistent across reboots.
+
+At first, I tried adding a bind-mount entry to fstab from /data/ssh to 
+/var/run/ssh, but the latter don't exist when mountall.sh is executed by 
+RC (/data is the mountpoint of a persistent partition).
+
+I then looked at the volatile entries and noticed that it created the 
+(empty) /var/run/sshd, so changed it to (wrongly) create /var/run/ssh 
+instead.
+
+That wasn't enough though, since populate-volatiles.sh comes after 
+mountall.sh.
+
+In the end I simply added a new entry to volatiles to create a symlink 
+from /var/run/ssh to /data/ssh, which works for me :)
+
+Maybe I should change the patch to add a comment about the /var/run/sshd 
+entry, so we don't end up doing mistakes like the 
+debian-predictable-keys story.
+
+// Martin
 
