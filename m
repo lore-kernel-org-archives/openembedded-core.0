@@ -1,32 +1,36 @@
 Return-Path: <denis@denix.org>
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id DA3247923B
+	by mail.openembedded.org (Postfix) with ESMTP id B8CEB79238
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 01:22:46 +0000 (UTC)
+	Thu, 16 Aug 2018 01:25:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id B57A020C46;
-	Thu, 16 Aug 2018 01:22:47 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id C5CFD20C46;
+	Thu, 16 Aug 2018 01:25:32 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id uDlVS6MAKipt; Thu, 16 Aug 2018 01:22:47 +0000 (UTC)
+	with ESMTP id Tb0PuJ1kfHFK; Thu, 16 Aug 2018 01:25:32 +0000 (UTC)
 Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
 	[100.15.91.218])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 676972014D;
-	Thu, 16 Aug 2018 01:22:42 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id E30EF16358C;
-	Wed, 15 Aug 2018 21:22:41 -0400 (EDT)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 92DD72014D;
+	Thu, 16 Aug 2018 01:25:30 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 33B5D16358D; Wed, 15 Aug 2018 21:25:30 -0400 (EDT)
+Date: Wed, 15 Aug 2018 21:25:30 -0400
 From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Aug 2018 21:22:27 -0400
-Message-Id: <1534382547-55346-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
+To: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <20180816012530.GX19965@denix.org>
+References: <20180728084950.13242-1-anuj.mittal@intel.com>
+	<20180728084950.13242-2-anuj.mittal@intel.com>
+	<20180816002636.GW19965@denix.org>
+MIME-Version: 1.0
+In-Reply-To: <20180816002636.GW19965@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: [rocko][PATCH] module-base.bbclass: fix out-of-tree module builds with custom EXTRA_OEMAKE
+	openembedded-core@lists.openembedded.org
+Subject: Re: [rocko][PATCH 2/2] make-mod-scripts: add build requirements for external modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,58 +43,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 01:22:47 -0000
+X-List-Received-Date: Thu, 16 Aug 2018 01:25:32 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Denys Dmytriyenko <denys@ti.com>
+On Wed, Aug 15, 2018 at 08:26:36PM -0400, Denys Dmytriyenko wrote:
+> On Sat, Jul 28, 2018 at 04:49:50PM +0800, Anuj Mittal wrote:
+> > From: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > 
+> > Newer kernels (4.14/v4.15+) have dependencies for the build of
+> > modules (and hence external modules). Without these dependencies
+> > explicitly in the build chain, you can end up with build failures like:
+> > 
+> >   work-shared/qemux86/kernel-source/scripts/extract-cert.c:21:25: fatal
+> >   error: openssl/bio.h: No such file or directory
+> >   |  #include <openssl/bio.h>
+> >   |                          ^
+> >   | compilation terminated.
+> >   | make[2]: *** [scripts/extract-cert] Error 1
+> >   | make[1]: *** [scripts] Error 2
+> > 
+> > To ensure that these headers are in place, and that the scripts use
+> > our build environment flags, we add a dependency on openssl-native
+> > and use oe_make to invoke the build.
+> > 
+> > Older kernels have no issues with the extra dependency, so there's no
+> > need to make this conditional.
+> > 
+> > (From OE-Core rev: 916cb2029d3c97bf12ebf03832b9ba980451dbcf)
+> > 
+> > Fixes [YOCTO #12860]
+> > 
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > [Tweaked to have changes in module*.bbclass instead from where
+> > make-mod-scripts was split in sumo]
+> > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> > ---
+> >  meta/classes/module-base.bbclass | 5 ++++-
+> >  meta/classes/module.bbclass      | 2 +-
+> >  2 files changed, 5 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
+> > index 64729770c7..9f3465eb9d 100644
+> > --- a/meta/classes/module-base.bbclass
+> > +++ b/meta/classes/module-base.bbclass
+> > @@ -12,6 +12,9 @@ export CROSS_COMPILE = "${TARGET_PREFIX}"
+> >  # we didn't pick the name.
+> >  export KBUILD_OUTPUT = "${STAGING_KERNEL_BUILDDIR}"
+> >  
+> > +DEPENDS += "bc-native"
+> > +EXTRA_OEMAKE += " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
+> > +
+> >  export KERNEL_VERSION = "${@base_read_file('${STAGING_KERNEL_BUILDDIR}/kernel-abiversion')}"
+> >  KERNEL_OBJECT_SUFFIX = ".ko"
+> >  
+> > @@ -22,6 +25,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+> >  # be called before do_compile. See module.bbclass for an example.
+> >  do_make_scripts() {
+> >  	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
+> > -	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
+> > +	oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
+> >  	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts prepare
+> 
+> This now breaks out-of-tree kernel modules that provide own non-standard 
+> Makefiles with something like "-f build.mak" added to EXTRA_OEMAKE.
+> 
+> That is because do_make_scripts() gets executed inside kernel-source directory 
+> (-C ${STAGING_KERNEL_DIR} above) and supposed to use kernel's Makefile, while 
+> do_compile()/do_install() are executed within module's sources and use 
+> whatever Makefile it provides. That is why it historically was using "make" 
+> here and not "oe_runmake".
+> 
+> When Bruce separated this code into make-mod-scripts, it was possible to also 
+> use oe_runmake there, as it now had own context. But the backport to rocko 
+> moved it back into module-base.bbclass and it gets executed within module's 
+> environment, including custom EXTRA_OEMAKE, which often breaks (i.e. few of my 
+> modules are now broken).
+> 
+> Should this backport only touch DEPENDS and do_make_scripts[depends], as the 
+> changelog claims, and leave make/oe_runmake and EXTRA_OEMAKE alone?
 
-Commit d2aa88a6a92985f21414fceea2dc0facbf7f8779 was meant to backport build
-dependencies on bc-native and openssl-native, but it also changed execution
-of do_make_scripts() from calling make directly to using oe_runmake. That
-change was made in master/sumo as part of a separate make-mod-scripts recipe.
+Patch submitted:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-August/154191.html
 
-Unfortunately, that doesn't work here in rocko in the context of module-base
-class, as it gets executed inside out-of-tree module environment. Quite often
-those out-of-tree modules provide own Makefile with custom EXTRA_OEMAKE var
-defined. But do_make_scripts() gets executed within STAGING_KERNEL_DIR and
-cannot simply use custom EXTRA_OEMAKE set by a module.
 
-Move back to calling make and passing HOSTCC/HOSTCPP directly w/o using
-EXTRA_OEMAKE.
-
-For more details please see:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-August/154189.html
-
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Anuj Mittal <anuj.mittal@intel.com>
-Cc: Armin Kuster <akuster808@gmail.com>
----
- meta/classes/module-base.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
-index 9f3465e..c1fa3ad 100644
---- a/meta/classes/module-base.bbclass
-+++ b/meta/classes/module-base.bbclass
-@@ -13,7 +13,6 @@ export CROSS_COMPILE = "${TARGET_PREFIX}"
- export KBUILD_OUTPUT = "${STAGING_KERNEL_BUILDDIR}"
- 
- DEPENDS += "bc-native"
--EXTRA_OEMAKE += " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
- 
- export KERNEL_VERSION = "${@base_read_file('${STAGING_KERNEL_BUILDDIR}/kernel-abiversion')}"
- KERNEL_OBJECT_SUFFIX = ".ko"
-@@ -25,6 +24,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- # be called before do_compile. See module.bbclass for an example.
- do_make_scripts() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
--	oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-+	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-+	           HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" \
- 	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts prepare
- }
--- 
-2.7.4
-
+> >  }
+> > diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+> > index 78d1b21dbd..282900dc6d 100644
+> > --- a/meta/classes/module.bbclass
+> > +++ b/meta/classes/module.bbclass
+> > @@ -2,7 +2,7 @@ inherit module-base kernel-module-split pkgconfig
+> >  
+> >  addtask make_scripts after do_prepare_recipe_sysroot before do_configure
+> >  do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
+> > -do_make_scripts[depends] += "virtual/kernel:do_shared_workdir"
+> > +do_make_scripts[depends] += "virtual/kernel:do_shared_workdir openssl-native:do_populate_sysroot"
+> >  
+> >  EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
+> >  
+> > -- 
+> > 2.17.1
+> > 
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
