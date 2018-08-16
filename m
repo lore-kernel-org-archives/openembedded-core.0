@@ -1,25 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C3DB79295
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 09:12:12 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w7G9CBsL015947
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Thu, 16 Aug 2018 10:12:12 +0100
-Message-ID: <a63df1ae1995451e42523aa8dd99af5d6611d5a3.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Sunny Shukla <ssshukla26@gmail.com>,
-	Openembedded-core@lists.openembedded.org
-Date: Thu, 16 Aug 2018 10:12:11 +0100
-In-Reply-To: <CAH4qu14LEam1dM0L6kKrKyhd0DPsSs=eHX7YTyoi60uEE_CDFw@mail.gmail.com>
-References: <CAH4qu14LEam1dM0L6kKrKyhd0DPsSs=eHX7YTyoi60uEE_CDFw@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: Libs compiled using Yocto has incorrect version appended to their names
+Return-Path: <mhm.dawod@gmail.com>
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 61B0B7928D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Aug 2018 09:30:17 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id f18-v6so4440835qtp.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Aug 2018 02:30:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=HCQiooCEdRuYL0QyuZYgtzM/GTQnWVTTLW/qH8LZ9W8=;
+	b=OFWgRireNny8ZuE8H4NuBJ2yWe/8CjEJ7PdMZnaai4SUh/u89C26OYThlNE/F2Do2y
+	TxmI2Ho57LAYbw0wldzA080i18fsIjC9W369isOGj3R1gYniL6ksmGXVTLrf1Oezs0Jx
+	snQhgPttyiPxS7n1feZmBrM+/r8qict1NYovW4huS39KItzcj1WqTjUpKNxeR6/rBXy4
+	jTPNgTPXJ60t4nHcOR1y7V6ExTGusVrF8HeUjX6WPUKPL4VdrXs2fmWZZkMirh6Ws1tp
+	3SAZaDQBQv1UD4chs8HYndhOgWgbLSCnfWeDyle1yye+YAYqQsNNfIXy2qPAAvJzyCrq
+	7qlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=HCQiooCEdRuYL0QyuZYgtzM/GTQnWVTTLW/qH8LZ9W8=;
+	b=gNn7UV/w9GGgEZ1iknhhWHpx2QNwFO3QATYBulhxEw4WVkOiNsQLEauZQRoMpljYdr
+	/VLj7GgURndYTJrltTu2jrBUCvUuGyEfTsjrtuiNQ8dzivupHFScT14dKSS1Idp+22wO
+	uDUSdgP22FfbHF1A6/Y0drvxscmDRFBXJqx/HBu7WFD9TAzDS+/G74eqUGRPnRtbiWy4
+	YnrBG7FvZ1w3c6barIyWBkwDxDs4sLl5RhKYxpZyBx6r2EfOtlQcHRJEATkgrHuLLnez
+	2OsnoZdiDeX0ueXe8hAVTLGZV96qEecuY3BhJW9d5QUbQpnfQuI6Ledh5AbHEVwzLC7t
+	GaeQ==
+X-Gm-Message-State: AOUpUlEBj5GkJRCcnxTk49A9s19V43xXICW5/37cu+tyGqSPRDe8dDU+
+	r/PNWFLA6+a+u1ABnRIGxatSiCKaByU4/4KbYeRnQjR4
+X-Google-Smtp-Source: AA+uWPw/ygiSNtTdWD4vDEbvWlkiU7LLs9pz+faFU6Mi6JCq4dQTeb92SVq866j4BUHBSLc8CVvyHAI2AHvIsaDlgac=
+X-Received: by 2002:a0c:c30f:: with SMTP id
+	f15-v6mr25517260qvi.104.1534411818127; 
+	Thu, 16 Aug 2018 02:30:18 -0700 (PDT)
+MIME-Version: 1.0
+From: Mohamed Dawod <mhm.dawod@gmail.com>
+Date: Thu, 16 Aug 2018 11:30:06 +0200
+Message-ID: <CAGCTLNQ+4GHr0CxseFp7qhGbKzrDqDpS2q=270nVnNpCkCc4rQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: running Qt5 applications with wayland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +50,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 09:12:13 -0000
+X-List-Received-Date: Thu, 16 Aug 2018 09:30:17 -0000
+Content-Type: multipart/alternative; boundary="0000000000005bd79c05738a1731"
+
+--0000000000005bd79c05738a1731
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-08-16 at 12:42 +0530, Sunny Shukla wrote:
-> We are using Rocko build for our am335x starter kit. While building
-> core-image-minimal (rootfs) we are facing a strange problem, some of
-> the libs we have included are getting build but the version appended
-> to libs names are not proper, as shown in the examples below.
+Hi,
+I need to know the modifications needed to run Qt5 apps on wayland custom
+image instead of x11.
+I removed x11 and run wayland weston instead.
+when i try to run Qt-cinemaexperience as a test I face the following error
+:
+-----------
+This application failed to start because it couldnt find or load the
+Qt pltform plugin "xcb".
+------------
+so, do i need to modify PACKAGECONFIG in qtbase_git.bb to be able to run
+qt5 apps on wayland weston ?
 
-In short this is entirely expected. The library version of any given
-bit of software doesn't have to match the main recipe/release version
-of that piece of software. Taking opkg as an example:
+Thanks,
+-- 
 
-> ls -l ./usr/lib/libopkg.so*
-> lrwxrwxrwx 1 root root 16 Aug 9 14:46 ./usr/lib/libopkg.so.1 ->
-> libopkg.so.1.0.0
-> -rwxr-xr-x 1 root root 143316 Aug 9 14:46 ./usr/lib/libopkg.so.1.0.0
-> 
-> Here the version number appended after libopkg.so under "./usr/lib/"
-> is 1.0.0 instead of 0.3.5 which is the version number of the package
-> as described by BB file opkg_0.3.5.bb.
+Mohamed Dawod
+Computer Engineering Department
+Faculty of Engineering
+Cairo University
 
-which comes from:
+--0000000000005bd79c05738a1731
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tmp/work/i586-poky-linux/opkg/1_0.3.6-r0/opkg-0.3.6/libopkg/Makefile.am
+<div dir=3D"ltr"><div>Hi,</div><div>I need to know the modifications needed=
+ to run Qt5 apps on wayland custom image instead of x11.<br></div><div>I re=
+moved x11 and run wayland weston instead.</div><div>when i try to run Qt-ci=
+nemaexperience as a test I face the following error : <br></div><div>------=
+-----<br></div><div>This application failed to start because it couldnt fin=
+d or load the <br>Qt pltform plugin &quot;xcb&quot;.</div><div>------------=
+</div><div>so, do i need to modify PACKAGECONFIG in <a href=3D"http://qtbas=
+e_git.bb">qtbase_git.bb</a> to be able to run qt5 apps on wayland weston ?<=
+/div><div><br></div><div>Thanks,<br></div><div>-- <br><div dir=3D"ltr" clas=
+s=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><=
+div>=C2=A0<br>Mohamed Dawod<br></div><div>
+Computer Engineering Department=C2=A0<br>
+Faculty of Engineering=C2=A0<br>
+Cairo University</div></div></div></div></div>
 
-which sets:
-
-libopkg_la_LDFLAGS = -version-info 1:0:0
-
-hence the library version for libopkg is 1.0.0.
-
-Cheers,
-
-Richard
-
+--0000000000005bd79c05738a1731--
