@@ -1,29 +1,49 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CCC1600BB
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 277A26E688
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 17:30:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7GHUwdk008966
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 16 Aug 2018 10:30:58 -0700
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 16 Aug 2018 10:30:57 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1534339941-1968-1-git-send-email-bruce.ashfield@windriver.com>
-	<ebb9e2738e47c62514b0816b8d8c2ede13a54275.camel@linuxfoundation.org>
-	<32bf2998f462edc3286fbd04f44ab251ef1f90ed.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <f1d91166-bb69-d3ca-d611-427dbae3ab47@windriver.com>
-Date: Thu, 16 Aug 2018 13:30:57 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <32bf2998f462edc3286fbd04f44ab251ef1f90ed.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] kernel-devsrc: restructure for out of tree (and on target) module builds
+	Thu, 16 Aug 2018 17:45:04 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id 8-v6so9538020oip.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Aug 2018 10:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=iqbrn1CxxPRNXoQmAfaJycJ2W081bners3aJZD5wToo=;
+	b=z5e0BDoZDrPdks7PJAwB7bQRt/yjjVSHVlL2RWo581u2tnHHSlNwsRfUGnJmuyMf9Y
+	/WvMee+ILfUEu9HmbVOR64Q+wjc2WMjBfA8YnPpL8WI4K+jGoODVIJ4aYjrlB6Ail5DL
+	23NFpG+HDemTqnKUwaPmJcZg89NEOpNUCbiCJ9V2zQKxIVM+00wgLiu+Jidq/q6+45Kr
+	LD3un2zVHWcRfID5BF/WRh8TXXVZNtpvZTejkALKhlhJ7zzy4itLZmLm8IpzEYyTi4QN
+	O6n5jnYKd17PV5FkJdzKWg8m4KqHuY6ZCkOx0B4Mza3zs+nf8uw8kqzPVNyUB5ggdYIo
+	EwyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=iqbrn1CxxPRNXoQmAfaJycJ2W081bners3aJZD5wToo=;
+	b=IGHL+PgiVvPAJeHW7SQBHzhkXLXVDSmeufReuCTNiLOhpffpK1451J8e7MI/NVEZ6/
+	Up/2HmFzlCykdszCawlYz7zEQDU2iuUT0sR+17m8aMHzsZyOE4L0lZxe1AXbkZuGRSqv
+	qaZSD8A9xJh7haVWs+GkA4jLv8OxSZnaT/UxzS9QNRufYSKPnLQtUPN0uIDKI6jeas3k
+	LTe/s+AD0aA7IqoTfnhL/HUnb60UoADFDjEQqJBCU1LlvlyQL5uiwWXDcCFuj4hDkID7
+	QsAOikvGDfv4+9s/xL9G24uNNui+lYrHBWKng1q9xXUkcNXAm5bvfQqJrcDvOijBEXpj
+	mF2A==
+X-Gm-Message-State: AOUpUlEPLgz/ewGKvOQuphhFLc8CZPBFQ1VhWKdDlBkHiathB2HHSZPh
+	8fCZLSTWNj4AuLcyGjftMq5Y3QdYVxs=
+X-Google-Smtp-Source: AA+uWPxE5wNLTKj6Tyh9XkPnrFMs8/2bNr6cTJ7Z22CVR2IKELtg3p5YsiUNXuhV5clvASSfjxW0xg==
+X-Received: by 2002:a54:4f94:: with SMTP id
+	g20-v6mr32905725oiy.130.1534441505884; 
+	Thu, 16 Aug 2018 10:45:05 -0700 (PDT)
+Received: from dell-laptop.mvista.com ([157.49.97.164])
+	by smtp.gmail.com with ESMTPSA id
+	m11-v6sm23306050oif.27.2018.08.16.10.45.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 16 Aug 2018 10:45:05 -0700 (PDT)
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Aug 2018 23:14:58 +0530
+Message-Id: <1534441498-4659-1-git-send-email-jkrishnanjanappa@mvista.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] oe-run-native: Add *-native directories under STAGING_BINDIR_NATIVE to PATH environment variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,65 +56,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 17:30:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Aug 2018 17:45:05 -0000
 
-On 08/15/2018 04:42 PM, Richard Purdie wrote:
-> On Wed, 2018-08-15 at 16:50 +0100, Richard Purdie wrote:
->> There has been one failure so far:
->>
->> https://autobuilder.yocto.io/builders/build-appliance/builds/1201/ste
->> ps/BuildImages_1/logs/stdio
->>
->> I suspect we need to tweak the do_populate_poky_src task in the
->> build-
->> appliance-image recipe given the kernel devsrc change.
->>
->> Other things are still building. Will reply if anything else comes
->> up.
-> 
-> It looks really close. There was one sanity test failure basically on
-> all arches/kernels:
-> 
-> | NOTE: ======================================================================
-> | NOTE: FAIL: test_stap (stap.StapTest)
-> | NOTE: ----------------------------------------------------------------------
-> | NOTE: Traceback (most recent call last):
-> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-> |     return func(*args, **kwargs)
-> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-> |     return func(*args, **kwargs)
-> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-> |     return func(*args, **kwargs)
-> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc/build/meta/lib/oeqa/runtime/cases/stap.py", line 33, in test_stap
-> |     self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
-> | AssertionError: 1 != 0 : cd /lib/modules/`uname -r` && (if [ ! -L build ]; then ln -s /usr/src/kernel build; fi)
-> | ln: failed to create symbolic link 'build/kernel': File exists
-> 
-> If we can fix that (may need the test to be tweaked?) I'll rerun and
-> check there isn't anything else. Looks like its hopefully not too hard
-> to fix!
+It helps to find/use native tools under ${STAGING_BINDIR_NATIVE}/*-native.
 
-I have both of the issues fixed, but am waiting for a build cycle to
-complete.
+Solving below error:
 
-Fundamentally nothing needs to mess with the kernel source for out of
-tree builds anymore, so just testing for 'build' to exist and trusting
-that it is right is the proper thing to do.
+$ oe-run-native python3-native python3
+Running bitbake -e python3-native
+Error: Unable to find 'python3' in .../tmp/work/x86_64-linux/python3-native/3.5.5-r1.0/recipe-sysroot-native/usr/bin:.../tmp/work/x86_64-linux/python3-native/3.5.5-r1.0/recipe-sysroot-native/bin:.../tmp/work/x86_64-linux/python3-native/3.5.5-r1.0/recipe-sysroot-native/usr/sbin:.../tmp/work/x86_64-linux/python3-native/3.5.5-r1.0/recipe-sysroot-native/sbin
+Error: Have you run 'bitbake python3-native -caddto_recipe_sysroot'?
+-- snip --
 
-I tweaked both this and the build-appliance image to do just that.
+After this change we have native python3 to be found:
 
-If you want, I can send the patch before my builds complete (since
-it will be tomorrow before they are done).
+$ oe-run-native python3-native python3
+Running bitbake -e python3-native
+Python 3.5.5 (default, Aug  8 2018, 17:45:49)
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-28)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+-- snip --
 
-Bruce
+[YOCTO #12889]
 
-> 
-> Cheers,
-> 
-> Richard
-> 
+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+---
+ scripts/oe-run-native | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/oe-run-native b/scripts/oe-run-native
+index bbdd1d8..8412b18 100755
+--- a/scripts/oe-run-native
++++ b/scripts/oe-run-native
+@@ -55,7 +55,7 @@ fi
+ OLD_PATH=$PATH
+ 
+ # look for a tool only in native sysroot
+-PATH=$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin
++PATH=$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin:$(find $OECORE_NATIVE_SYSROOT/usr/bin/*-native -maxdepth 1 -type d -printf ":%p")
+ tool_find=`/usr/bin/which $tool 2>/dev/null`
+ 
+ if [ -n "$tool_find" ] ; then
+-- 
+2.7.4
 
 
