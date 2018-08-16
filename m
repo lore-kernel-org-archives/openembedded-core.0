@@ -1,49 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 360EF79279
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
+	[209.85.222.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B351679080
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 19:31:33 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id s17-v6so2013394vke.10
+	Thu, 16 Aug 2018 19:34:43 +0000 (UTC)
+Received: by mail-ua1-f42.google.com with SMTP id m13-v6so4365595uaq.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 12:31:35 -0700 (PDT)
+	Thu, 16 Aug 2018 12:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kYmCYlJYZmyVYagaoicIjbr3qyJjGUARZpKQYn1e4Cc=;
-	b=l8gNubAOz5cWT8C7SZcT1PQJUkre0NpQ/cRw/02LYYazc91Lqmth3kwi6iZfb8tGaj
-	2IJeM1+7uFlIpl8vA5hzdKy9XNo/bYSGKGWhICxMKWADW7ikSDlk3GqPMEww1Z059ItH
-	rrd4vvotdx8b/4V2DqU+qM8IM6xLRTE0KiALZuJ35XNs7kGQJDKiyoBuVM45dafgFGXM
-	AtdmwJt8QRhGQY4P+kYuBBEwB+zE+ne1rZ9GO07oChlyjLxk7rdfVEOvt3sg3ADepPBP
-	FQsJkQ4fnYd1Jjqm8QiKuTYyEvzK2yafI1KH9PE2CIKl+iTVtB5mkUwDIZA6o8mOvxJ9
-	dRDQ==
+	:cc; bh=HS36p8tGVaqP1b0e9RQNcFsfEevI6capVnjVXpwTbbg=;
+	b=Ugyttna9mfRiEG2y42AgtXqp9OniZ+ETVVfqcNnWy8AG9IZElAJTERO8uuN1Rs+zUr
+	1ln17d+fjuZpBKu/RjFm2klJhBrQ2aCXobn+qfq49Rb31VK7ParsFQ45/iK9hvosiQza
+	mu3TvI0j60BSCuluJum18v5vq0sfRzLXh7hNIRpsxzqDzG54OeygU98d0/ScYZ3wkXvl
+	PBKd6LC5N5t1gV8++2vVc92SjaqXCK67nqZ5fOfMTtrzZmysppQ2JHdmd6/wqEciYELo
+	iiAJBHDORtcAXxH7AAqE2XwukRF8q375m8QaO/NAWGyPkd2rI2NFPcJDJHfs5Y0jz+48
+	8Pmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=kYmCYlJYZmyVYagaoicIjbr3qyJjGUARZpKQYn1e4Cc=;
-	b=g1U9akeBcucW5hRx37T+N7qphM3TtkltHhRRKjAdyKKffjU4WGfgVqqcz7XVvkqn/t
-	M377ZeZCyYVZWfwf3c5sw0DMRMyvENJjwI3AtcUaSZKZrO4JEX1S3GImNnJdzmo26VEV
-	3T4SmvdrQhiZoOXOMLoPQhHAEbPIRx6vRozwVLyNR9ldZuXeplYRQufpf9C+geyh5b2L
-	H9Rk+judgZNyCConaQxr13SBWp/nWmuuLUOwIl3NH+XaFKmBWGy1qj6fCmHGA1nSYNOp
-	FPs6o7aINdpsek2yCEaY6D+TG9x11g5aUsXtjN5r2NqObv+IOGb/DH5lRgxO0sc0GcVe
-	UsAg==
-X-Gm-Message-State: AOUpUlEOvHMDm48nn59ESGyR4ZtfOKsSbV06b2BA/wBSfh7n+6pbzspg
-	8u9EH5VWYls8w0LTLDYfUP1bB5eTpLp3fyV6fNY=
-X-Google-Smtp-Source: AA+uWPzuUJlJwSlY/DKr/V2Fzlb2Vvo/wiitdrpVOBdHumA9+88Z+n/QF7S4i39PJzb4oUIC34j6XYjewxiiZ5smUMY=
-X-Received: by 2002:a1f:10ce:: with SMTP id
-	75-v6mr20252451vkq.83.1534447894937; 
-	Thu, 16 Aug 2018 12:31:34 -0700 (PDT)
+	bh=HS36p8tGVaqP1b0e9RQNcFsfEevI6capVnjVXpwTbbg=;
+	b=VR71UChXU+YVmuJ0akksRdsr2OUImiiXGFI2zwmetDHq5TaFTGdHus5aG04kHF/t7i
+	IJYXAaqX/nGaS0WkhWuN1AbPLvFQ71B4/qzMQuRgubha1XdRykMVAt8leBa5gBONtHay
+	p9Dq8dBUb86+tiUHcMpY1hfLVOezwwkMlrLqqIrdXH4iah5ZfXcLrDhqrNbx3Ux2J/d1
+	StzUjy4Iugqw8S8ZBOz/rBO5turHKkGVbaAyINB/DFtQ+HrreETN9/dNNlvGtGSdfQ72
+	F5RD+w1DpvtiSslRD2B0JLIo7AQ9xb6ubU0CiveHCujj9FPyDW7Nh4XQL+T5A8/hUFc1
+	ziVw==
+X-Gm-Message-State: AOUpUlHwOHJP96EU4LC71i52Sa9lm7IdG8SiAgmm9BPo3raYHImyGIiQ
+	Q2MGGSdkxXUxqNasmFf9097wBJ2agvE6W9hMNs8=
+X-Google-Smtp-Source: AA+uWPwpwtSVrMIw/OTdHW1R/KB9JPUiTfIC88FAOvDFF8/D/QqtUTVFlaO1xzTHWJxcz0o/Oj21VamnXn6L9wN+XBY=
+X-Received: by 2002:ab0:5b8f:: with SMTP id
+	y15-v6mr20927560uae.59.1534448084530; 
+	Thu, 16 Aug 2018 12:34:44 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Thu, 16 Aug 2018 12:31:34 -0700 (PDT)
-In-Reply-To: <20180816062633.29868-1-anuj.mittal@intel.com>
-References: <20180816062633.29868-1-anuj.mittal@intel.com>
+	Thu, 16 Aug 2018 12:34:44 -0700 (PDT)
+In-Reply-To: <20180717091035.26461-3-andrej.valek@siemens.com>
+References: <20180709125657.13192-1-andrej.valek@siemens.com>
+	<20180717091035.26461-1-andrej.valek@siemens.com>
+	<20180717091035.26461-3-andrej.valek@siemens.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 16 Aug 2018 12:31:34 -0700
-Message-ID: <CAJ86T=Wzi5hzFUfChDLKTDyKf+X9_EUjFvPE9wfSp5UXaQycaA@mail.gmail.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
+Date: Thu, 16 Aug 2018 12:34:44 -0700
+Message-ID: <CAJ86T=WL-za2Yd9d=jkQ48gBc9FB4uy3TH0VBR4vEy8hJcoPYQ@mail.gmail.com>
+To: Andrej Valek <andrej.valek@siemens.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3: enable profile optimized builds
+Subject: Re: [PATCH v6 2/3] openssl-1.1: rework packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +58,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 19:31:34 -0000
+X-List-Received-Date: Thu, 16 Aug 2018 19:34:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 15, 2018 at 11:26 PM, Anuj Mittal <anuj.mittal@intel.com> wrote:
-> Enable profile guided optimization (pgo) for python3. Enabling pgo in
-> python is generally as simple as invoking the target profile-opt which:
+On Tue, Jul 17, 2018 at 2:10 AM, Andrej Valek <andrej.valek@siemens.com> wrote:
+> The main idea is to have libssl and libcrypto in separate packages.
+> This saves space if only single library is needed and also some recipes
+> (in other layers) depend on these library packages.
+> Together with this other packages like in 1.0.x were created.
+> The only difference is that openssl 1.1 has additional package openssl-bin.
 >
-> - builds python binaries with profile instrumentation enabled,
-> - runs a specific profile task using that python to get the profile
-> data and,
-> - feeds the compiler with this profile data and rebuilds python.
+> Add missing dependency to perl for openssl-bin pkg, c_rehash requires it.
 >
-> This change invokes qemu-user for the second step of running a profile
-> task using target python. Depending on how long profile task takes to
-> run, this might add a significant time to compilation (which would be
-> true for native builds too). The default profile task can be changed by
-> the users depending on what makes sense for their use case (or can be
-> left empty). In case qemu-user isn't supported, profile task won't be run.
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> Signed-off-by: Marko Peter <peter.marko@siemens.com>
+> ---
+>  meta/recipes-connectivity/openssl/openssl_1.1.0h.bb | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+> index c5de085521..7af527ca31 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+> @@ -158,12 +158,22 @@ do_install_ptest() {
+>          sed -i 's/$target{shared_extension_simple}/".so.ptest"/' ${D}${PTEST_PATH}/test/recipes/90-test_shlibload.t
+>  }
+>
+> -PACKAGES =+ "${PN}-engines"
+> +PACKAGES =+ "libcrypto libssl ${PN}-misc ${PN}-engines openssl-conf"
+>
+> +FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
+> +FILES_libssl = "${libdir}/libssl${SOLIBS}"
+>  FILES_${PN} =+ "${libdir}/ssl-1.1/*"
+>  FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
+>  FILES_${PN}-engines = "${libdir}/engines-1.1"
+>
+> +FILES_${PN}-misc = "${libdir}/ssl-1.1/misc"
+> +RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
 
-Is it important to re-create the profile data during every build or
-would we get most of the same benefits from using reference data which
-is generated offline? How big is the data file? Is it binary or text?
-Is the data expected to be target architecture specific?
+There is no "perl" PACKAGECONFIG in the openssl 1.1 recipe (there are
+no PACKAGECONFIG options at all...).
 
-If reference data were used, what are the consequences of the data not
-corresponding exactly to the current build configuration? A build
-failure? Or just a decrease in the effectiveness of the optimisation?
-
-Does the profiling instrumentation measure execution timing? Or only
-the frequency / order in which functions are called? ie is there any
-concern that data generated from running under qemu may not be optimal
-for running on the target?
+> +
+> +FILES_openssl-conf = "${libdir}/ssl-1.1/openssl.cnf"
+> +CONFFILES_openssl-conf = "${libdir}/ssl-1.1/openssl.cnf"
+> +RRECOMMENDS_libcrypto += "openssl-conf"
+> +
+> +RDEPENDS_${PN}-bin = "perl"
+>  RDEPENDS_${PN}-ptest += "perl-module-file-spec-functions bash python"
+>
+>  BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
