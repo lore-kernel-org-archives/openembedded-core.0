@@ -1,48 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ECAF74601
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 05A1A71A50
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 04:21:18 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id u11-v6so1437619plq.5
+	Thu, 16 Aug 2018 05:58:43 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id d4-v6so3982832qtn.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 21:21:19 -0700 (PDT)
+	Wed, 15 Aug 2018 22:58:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Ou2MYJkNKAsfd0g89Tb/wMExM0yyCe/JWvjW5eY4N2c=;
-	b=TtsKJNfYHgtVYFMd0GpyjfNdnPGbUE4IjSD7we2jqb2Gab7J1CBw61puvCA7Fksfb6
-	eAsL7IfC0FCUzPpPkLie6csdv0xfMbIp/gwX0zySxa4P8U9zlPUSmJa7AW0XHEYJiuwL
-	euX5yEIh5DUCIqS1otF5An0uSPvlLKNIq+DenOIPneE9/j4EtnIAdD5kx7dQPXXKxhXC
-	XFqDKDuwTplnDYzhQvbsp/ZEHj9MHRFabK5K48GwQ03FO1puKhuptx19CGRgGeFGK6W7
-	t5SbG5xQKWQuAeT6dvWc9p0ITA5r5maQYI9tr4dwCHx8crnsDj9KSPtBDreavvE8hUaZ
-	ow/A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=879htoeJB469eO7+vKk4uDRkw62Nhq6QaeqGIKn1Fg8=;
+	b=ncZ+Jexq2jlDKFkPu+bcRrtOjFSqdIYqIep05pA/iFNgaT0Mtc6A3zVQcShxIMsPgG
+	guiWymbLDgg9c0ilxm7lo79gjAf9azrPyZ57B6BclMjHRPbBCR3xCyyl5nqJ3uVxgIjb
+	eh78eHb1J1mKoRj6a1iRmd3dBp2dqkUmB5/ni9egEdECEmuSZURN7gQK5B0fJ3ibUm26
+	o40UmcZorha31tA8uYwygh2QAqcmpOjYTUSxwRQz69hgvFCewAimt1BIp/pmpDFGYG4Q
+	nRcrExH2GC4fZWzcBOqjM4d5QCdmysSwmxhBsNxdKcjoVUDH8iVdZW5kAlLtsS/Aq/Ij
+	Tt7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Ou2MYJkNKAsfd0g89Tb/wMExM0yyCe/JWvjW5eY4N2c=;
-	b=c01ZahAr8OvHxiyEglmnT5qj9Z9W7we7B+uCe1VhPSVzZneFVroeOU9692MnDQ6ZFa
-	K8tA5S0Chx/wQlqLLVViB0xbuCUTNEkLDrlH6cbJXqJq3RwDy0B1DnedNb12cOUnKXRd
-	ghGtidZI8uV2av3RuTMzhqYH3BwTomgSNpH6/Hegy5AEH71ojK7Xrphc99+Kakl9w7Jn
-	6IgmeJ/m9Zw8v7AEMssXnomJeYXKOKG2NltPAms0TkSp+RyRZ8AFzdcox1t20tEZDcIX
-	yK9wDmsycmRPs+/d7qIGAgnHd/e0Rqn5pT7M1f/IgtSJGHW5rgVGs0F2o8UJpb2/Jhit
-	s9Sw==
-X-Gm-Message-State: AOUpUlEQCwFpbNGI1OheZdelx2NKO1YUdZrEVp+IDWrBOexXDC3etLQv
-	p02j7rC/zjFiHDUZbluDaodwSbjH
-X-Google-Smtp-Source: AA+uWPx7Gs+yxgzto50ICPwC1dQIHAbVozvLPH6ZD8CFOHxG9tbmItMxgvVQ5oGwVamVk4R9vpBhXg==
-X-Received: by 2002:a17:902:280b:: with SMTP id
-	e11-v6mr26804787plb.298.1534393279222; 
-	Wed, 15 Aug 2018 21:21:19 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::f217])
-	by smtp.gmail.com with ESMTPSA id
-	t9-v6sm43185791pgi.87.2018.08.15.21.21.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Aug 2018 21:21:18 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=879htoeJB469eO7+vKk4uDRkw62Nhq6QaeqGIKn1Fg8=;
+	b=HcnjaFoY7Qus9YehmorhX3m2jZj21KAP+t+t84w6xoLKDP1fyYTM1SmFuudU7OivQC
+	C/MqbIwm1GIYJqrwgz88NUBmPejTRYCbG/yLs9l8AJTDnoAO59sn0uXZkbOcqwjuoy3H
+	CNuli8Pj/pDAjJY8y/viqOFmV/ylUspin8gu+2N2TsCCiKsvdOavRxUIVqS22HH+0B1A
+	JAq53hznqwtyiu4WFKc1+BB7pX/QZy45qGX+8vH4rUOumzYf/cs38agA9NKTdtaVgp6n
+	oKSu7TuXLAGOuacrYT5a91feAAL2NSiyD9q4+O7DKQtEeeGJfKhUbDXuwXEFppBYuAQS
+	SjsA==
+X-Gm-Message-State: AOUpUlHmSF0UlwCD30WgdCTwAmgw/a7P17Sg5BUDxD58gbM9PAnM43JN
+	IlEod+uPg/DMJs7FBwmfW3YsZOdlZ5pSjrnvXMM=
+X-Google-Smtp-Source: AA+uWPzXT/Ij+bSZH4xqKBzjexLYQhAlkf2zcW59F/o+CYFNR674/OgRwGuumJzUUIrOt5BXV6jofHVUSSpMTp4g2lA=
+X-Received: by 2002:a0c:d2f3:: with SMTP id
+	x48-v6mr25728655qvh.214.1534399124730; 
+	Wed, 15 Aug 2018 22:58:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180815222519.25303-1-alistair.francis@wdc.com>
+	<a02d6015-c5c7-9987-1f44-4744c6a75887@windriver.com>
+In-Reply-To: <a02d6015-c5c7-9987-1f44-4744c6a75887@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Aug 2018 21:21:11 -0700
-Message-Id: <20180816042111.30579-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-Subject: [PATCH] piglit: Upgrade to version from 2018-08-13
+Date: Wed, 15 Aug 2018 22:58:18 -0700
+Message-ID: <CAMKF1sr=HxiO0MuavSZq0n8-DQNjmxAeARKHDfv-NXFtBFvtFQ@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] recipes-devtools: Upgrade QEMU to 3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,29 +56,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 04:21:18 -0000
+X-List-Received-Date: Thu, 16 Aug 2018 05:58:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/piglit/piglit_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, Aug 15, 2018 at 9:05 PM Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+>
+> LGTM.
+>
+> Patched and built on an ubu-16.04 box.
+> I was able to log into both qemux86-64 and qemuppc
+> using core-image-minimal.
+>
+> As people might expect, loads has changed:
+> qemu.git $ git diff v2.12.0..v3.0.0| diffstat| tail -1
+>   1825 files changed, 101360 insertions(+), 46333 deletions(-)
+>
+> Have you tested all of the oe-core qemu archs with the upgrade?
+>
+> Any concerns other than what is listed here:
+>     https://wiki.qemu.org/ChangeLog/3.0
+>
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index c186ca9259..df810a33b4 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -8,8 +8,8 @@ SRC_URI = "git://anongit.freedesktop.org/piglit \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
--# From 2018-06-18
--SRCREV = "431bcc74ff54521ed1c498af9b13e629f949bda6"
-+# From 2018-08-13
-+SRCREV = "57859e15dc8ba4034348b04d0b72f213b74d6347"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr${SRCPV}"
- 
--- 
-2.18.0
+incompatible changes and deprecated options seems ok since we do not
+use any of them
+other changes nothing is eye popping.
 
+> ../Randy
+>
+>
+> On 08/15/2018 06:25 PM, Alistair Francis wrote:
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >   meta/conf/distro/include/tcmode-default.inc   |  2 +-
+> >   ...1806-QEMU-slirp-heap-buffer-overflow.patch | 70 -------------------
+> >   .../qemu/{qemu_2.12.0.bb => qemu_3.0.0.bb}    |  7 +-
+> >   3 files changed, 4 insertions(+), 75 deletions(-)
+> >   delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
+> >   rename meta/recipes-devtools/qemu/{qemu_2.12.0.bb => qemu_3.0.0.bb} (88%)
+> >
+> > diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> > index bed1594b7a..1c9226cb06 100644
+> > --- a/meta/conf/distro/include/tcmode-default.inc
+> > +++ b/meta/conf/distro/include/tcmode-default.inc
+> > @@ -28,7 +28,7 @@ BINUVERSION ?= "2.31%"
+> >   GDBVERSION ?= "8.1%"
+> >   GLIBCVERSION ?= "2.28%"
+> >   LINUXLIBCVERSION ?= "4.15%"
+> > -QEMUVERSION ?= "2.12%"
+> > +QEMUVERSION ?= "3.0%"
+> >
+> >   PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+> >   PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
+> > diff --git a/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch b/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
+> > deleted file mode 100644
+> > index 837b65a79a..0000000000
+> > --- a/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
+> > +++ /dev/null
+> > @@ -1,70 +0,0 @@
+> > -CVE: CVE-2018-11806
+> > -Upstream-Status: Backport
+> > -
+> > -https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg01012.html
+> > -
+> > -From dc21a9d2951f0a2a7e63633e2b5c68c54e4edc4b Mon Sep 17 00:00:00 2001
+> > -From: Jeremy Puhlman <jpuhlman@mvista.com>
+> > -Date: Thu, 14 Jun 2018 01:28:49 +0000
+> > -Subject: [PATCH] CVE-2018-11806 QEMU: slirp: heap buffer overflow
+> > -
+> > -Subject: [Qemu-devel] [PATCH 1/2] slirp: correct size computation while concatenating mbuf
+> > -Date:        Tue, 5 Jun 2018 23:38:35 +0530
+> > -From: Prasad J Pandit <address@hidden>
+> > -
+> > -While reassembling incoming fragmented datagrams, 'm_cat' routine
+> > -extends the 'mbuf' buffer, if it has insufficient room. It computes
+> > -a wrong buffer size, which leads to overwriting adjacent heap buffer
+> > -area. Correct this size computation in m_cat.
+> > -
+> > -Reported-by: ZDI Disclosures <address@hidden>
+> > -Signed-off-by: Prasad J Pandit <address@hidden>
+> > ----
+> > - slirp/mbuf.c | 8 ++++----
+> > - 1 file changed, 4 insertions(+), 4 deletions(-)
+> > -
+> > -Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+> > ----
+> > - slirp/mbuf.c | 8 ++++----
+> > - 1 file changed, 4 insertions(+), 4 deletions(-)
+> > -
+> > -diff --git a/slirp/mbuf.c b/slirp/mbuf.c
+> > -index 5ff2455..7fb4501 100644
+> > ---- a/slirp/mbuf.c
+> > -+++ b/slirp/mbuf.c
+> > -@@ -138,7 +138,7 @@ m_cat(struct mbuf *m, struct mbuf *n)
+> > -      * If there's no room, realloc
+> > -      */
+> > -     if (M_FREEROOM(m) < n->m_len)
+> > --            m_inc(m,m->m_size+MINCSIZE);
+> > -+               m_inc(m, m->m_len + n->m_len);
+> > -
+> > -     memcpy(m->m_data+m->m_len, n->m_data, n->m_len);
+> > -     m->m_len += n->m_len;
+> > -@@ -158,12 +158,12 @@ m_inc(struct mbuf *m, int size)
+> > -
+> > -         if (m->m_flags & M_EXT) {
+> > -       datasize = m->m_data - m->m_ext;
+> > --          m->m_ext = g_realloc(m->m_ext, size);
+> > -+          m->m_ext = g_realloc(m->m_ext, size + datasize);
+> > -       m->m_data = m->m_ext + datasize;
+> > -         } else {
+> > -       char *dat;
+> > -       datasize = m->m_data - m->m_dat;
+> > --          dat = g_malloc(size);
+> > -+          dat = g_malloc(size + datasize);
+> > -       memcpy(dat, m->m_dat, m->m_size);
+> > -
+> > -       m->m_ext = dat;
+> > -@@ -171,7 +171,7 @@ m_inc(struct mbuf *m, int size)
+> > -       m->m_flags |= M_EXT;
+> > -         }
+> > -
+> > --        m->m_size = size;
+> > -+        m->m_size = size + datasize;
+> > -
+> > - }
+> > -
+> > ---
+> > -2.13.3
+> > -
+> > diff --git a/meta/recipes-devtools/qemu/qemu_2.12.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+> > similarity index 88%
+> > rename from meta/recipes-devtools/qemu/qemu_2.12.0.bb
+> > rename to meta/recipes-devtools/qemu/qemu_3.0.0.bb
+> > index 98db44a8ef..80da0810f1 100644
+> > --- a/meta/recipes-devtools/qemu/qemu_2.12.0.bb
+> > +++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+> > @@ -7,7 +7,7 @@ RDEPENDS_${PN}-ptest = "bash make"
+> >   LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+> >                       file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+> >
+> > -SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+> > +SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+> >              file://powerpc_rom.bin \
+> >              file://0001-sdl.c-allow-user-to-disable-pointer-grabs.patch \
+> >              file://0002-qemu-Add-missing-wacom-HID-descriptor.patch \
+> > @@ -21,7 +21,6 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+> >              file://0009-apic-fixup-fallthrough-to-PIC.patch \
+> >              file://0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
+> >              file://0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch \
+> > -           file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
+> >              "
+> >   UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
+> >
+> > @@ -30,8 +29,8 @@ SRC_URI_append_class-native = " \
+> >               file://0013-cpus.c-Add-error-messages-when-qemi_cpu_kick_thread-.patch \
+> >               "
+> >
+> > -SRC_URI[md5sum] = "122fd7cdf241ff7eb1e42c0b503b5d1b"
+> > -SRC_URI[sha256sum] = "c9f4a147bc915d24df9784affc611a115f42d24720a89210b479f1ba7a3f679c"
+> > +SRC_URI[md5sum] = "6a5c8df583406ea24ef25b239c3243e0"
+> > +SRC_URI[sha256sum] = "8d7af64fe8bd5ea5c3bdf17131a8b858491bcce1ee3839425a6d91fb821b5713"
+> >
+> >   COMPATIBLE_HOST_mipsarchn32 = "null"
+> >   COMPATIBLE_HOST_mipsarchn64 = "null"
+> >
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
