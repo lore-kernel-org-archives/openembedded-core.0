@@ -1,33 +1,28 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id A626178A74
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 66FDF65CE8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 14:03:08 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0BAFCE006D2; Thu, 16 Aug 2018 07:03:10 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1AEFFE00D0B
+	Thu, 16 Aug 2018 15:18:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7GFIjgf018155
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 07:02:56 -0700 (PDT)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id 12FD7440001
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 07:02:56 -0700 (PDT)
+	Thu, 16 Aug 2018 08:18:45 -0700 (PDT)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Thu, 16 Aug 2018 08:18:43 -0700
+To: Kai Kang <kai.kang@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20180810144830.3436-1-kai.kang@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <9895c8e8-d22a-12ec-b30a-3b46f88d2586@windriver.com>
+Date: Thu, 16 Aug 2018 11:18:42 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Message-Id: <20180816140256.12FD7440001@auh.yoctoproject.org>
-Date: Thu, 16 Aug 2018 07:02:56 -0700 (PDT)
-Subject: [AUH] Upgrade status: 2018-08-16
+In-Reply-To: <20180810144830.3436-1-kai.kang@windriver.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH] lttng-tools: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,161 +35,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 14:03:08 -0000
-Content-Type: multipart/mixed; boundary="===============6874612619424161455=="
+X-List-Received-Date: Thu, 16 Aug 2018 15:18:44 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---===============6874612619424161455==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+On 08/10/2018 10:48 AM, Kai Kang wrote:
+> Add systemd service file of lttng-tools from Fedora
+> 
+> ftp://fr2.rpmfind.net/linux/fedora/linux/development/rawhide
+> /Everything/source/tree/Packages/l/lttng-tools-2.10.5-1.fc29.src.rpm
+> 
+> And disable the service by default.
+s/And disable the service by default./
+   but disable the service by default since lttng is a heavy-weight
+   debugging tool./
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZChkb19jb21waWxlKTogMTUK
-ICAgICAgICBnZGIsIDguMS4xLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAg
-IGxpYnNvbHYsIDAuNi4zNSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAg
-ICAgICAgcHl0aG9uMy1weWNhaXJvLCAxLjE3LjEsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJp
-dXMuaW8+CiAgICAgICAgbWVzYSwgMTguMS42LCBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2
-YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIG9wZW5zc2wsIDEuMC4ycCwgQWxleGFuZGVy
-IEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgZWxmdXRpbHMsIDAuMTcz
-LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgaXB0YWJsZXMs
-IDEuOC4wLCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAbGdlLmNvbT4KICAgICAgICBi
-b29zdCwgMS42OC4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4K
-ICAgICAgICBnbGliLW5ldHdvcmtpbmcsIDIuNTYuMSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9o
-bkBpbnRlbC5jb20+CiAgICAgICAgZHBrZywgMS4xOS4wLjUsIEFuw61iYWwgTGltw7NuIDxsaW1v
-bi5hbmliYWxAZ21haWwuY29tPgogICAgICAgIGFjcGljYSwgMjAxODA4MTAsIEZhdGhpIEJvdWRy
-YSA8ZmF0aGkuYm91ZHJhQGxpbmFyby5vcmc+CiAgICAgICAgbmZzLXV0aWxzLCAyLjMuMiwgUm9i
-ZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgdnVsa2FuLWRlbW9z
-LCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGlu
-dGVsLmNvbT4KICAgICAgICBmcmVldHlwZSwgMi45LjEsIE1heGluIEIuIEpvaG4gPG1heGluLmpv
-aG5AaW50ZWwuY29tPgogICAgICAgIGxpYmpwZWctdHVyYm8sIDIuMC4wLCBNYXhpbiBCLiBKb2hu
-IDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICogU3VjY2VlZGVkOiAzOAogICAgICAgIGRidXMs
-IDEuMTIuMTAsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBzdWJ2ZXJz
-aW9uLCAxLjEwLjIsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
-b24ub3JnPgogICAgICAgIHV0aWwtbGludXgsIDIuMzIuMSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5k
-cml2ZXIuY29tPgogICAgICAgIGhhcmZidXp6LCAxLjguOCwgTWF4aW4gQi4gSm9obiA8bWF4aW4u
-am9obkBpbnRlbC5jb20+CiAgICAgICAgcGtnY29uZiwgMS41LjMsIE1heGluIEIuIEpvaG4gPG1h
-eGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIHNxbGl0ZTMsIDMuMjQuMCwgTWF4aW4gQi4gSm9o
-biA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgcHl0aG9uMy1naXRkYiwgMi4wLjQsIERl
-cmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgbGlieGtiY29tbW9uLCAwLjgu
-MiwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBsaWJhdG9taWMt
-b3BzLCA3LjYuNiwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAg
-Y21ha2UsIDMuMTIuMSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1z
-LmNvbS5icj4KICAgICAgICBsaWdodHRwZCwgMS40LjUwLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
-eC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBwaWdsaXQsIDEuMC1uZXctY29tbWl0cy1hdmFp
-bGFibGUsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIHB5dGhv
-bi1udW1weSwgMS4xNS4wLCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAg
-IHhmODYtdmlkZW8tZmJkZXYsIDAuNS4wLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwu
-Y29tPgogICAgICAgIGlwcm91dGUyLCA0LjE4LjAsIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9r
-LmJhZUBsZ2UuY29tPgogICAgICAgIGJ0cmZzLXRvb2xzLCA0LjE3LjEsIEFsZXhhbmRlciBLYW5h
-dmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGFjcGlkLCAyLjAuMzAsIE1heGlu
-IEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIGNhLWNlcnRpZmljYXRlcywg
-MjAxODA0MDksIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAg
-ICAgIG5jdXJzZXMsIDYuMSsyMDE4MDcxNCwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2
-ZXIuY29tPgogICAgICAgIGJpbmQsIDkuMTMuMiwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdt
-YWlsLmNvbT4KICAgICAgICBsaWJwbmcsIDEuNi4zNSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9o
-bkBpbnRlbC5jb20+CiAgICAgICAgcGNpdXRpbHMsIDMuNi4yLCBDaGVuIFFpIDxRaS5DaGVuQHdp
-bmRyaXZlci5jb20+CiAgICAgICAgbGliaW5wdXQsIDEuMTEuMywgTWF4aW4gQi4gSm9obiA8bWF4
-aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgYmFiZWx0cmFjZSwgMS41LjYsIEFsZXhhbmRlciBL
-YW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIHN5c3N0YXQsIDEyLjAuMSwg
-Q2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHdheWxhbmQsIDEuMTUuOTMs
-IERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+CiAgICAgICAgeHNlcnZlci14b3JnLCAx
-LjIwLjEsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgZGJ1cy10
-ZXN0LCAxLjEyLjEwLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgcHl0
-aG9uMy1naXQsIDIuMS4xMSwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAg
-ICBweXRob24zLW51bXB5LCAxLjE1LjAsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+
-CiAgICAgICAgbGludXgtZmlybXdhcmUsIDAuMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIE90YXZp
-byBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgZ251
-dGxzLCAzLjYuMywgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBj
-YW50YXJlbGwtZm9udHMsIDAuMC4yNSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
-bWFpbC5jb20+CiAgICAgICAgcHl0aG9uMy1waXAsIDE4LjAsIERlcmVrIFN0cmFrYSA8ZGVyZWtA
-YXN0ZXJpdXMuaW8+CiAgICAgICAgZ3B0ZmRpc2ssIDEuMC40LCBBbGV4YW5kZXIgS2FuYXZpbiA8
-YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBnbnUtY29uZmlnLCAyMDE4MDcxMy1uZXct
-Y29tbWl0cy1hdmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29t
-PgogICAgICAgIGV4cGF0LCAyLjIuNiwgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgog
-ICAgICAgIGxpYmRybSwgMi40LjkzLCBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2YWRvckBv
-c3N5c3RlbXMuY29tLmJyPgogICAgKiBGYWlsZWQgKGRldnRvb2wgZXJyb3IpOiAzMAogICAgICAg
-IGJ1c3lib3gsIDEuMjkuMiwgQW5kcmVqIFZhbGVrIDxhbmRyZWoudmFsZWtAc2llbWVucy5jb20+
-CiAgICAgICAgc2VkLCA0LjUsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAg
-ICBhY2wsIDIuMi41MywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGdk
-Ym0sIDEuMTcsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAg
-ICAgIGx6b3AsIDEuMDQsIERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+CiAgICAgICAg
-YnVpbGQtY29tcGFyZSwgMjAxNS4wMi4xMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFBhdWwgRWdn
-bGV0b24gPHBhdWwuZWdnbGV0b25AbGludXguaW50ZWwuY29tPgogICAgICAgIGx0dG5nLW1vZHVs
-ZXMsIDIuMTAuNywgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlv
-bi5vcmc+CiAgICAgICAgZ28tZGVwLCAwLjUuMCwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2Fs
-dmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBsaWJpY2FsLCAzLjAuNCwgTWF4aW4gQi4g
-Sm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgYXR0ciwgMi40LjQ4LCBDaGVuIFFp
-IDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgc3lzdmluaXQsIDIuOTAsIFJvc3MgQnVy
-dG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgbGlicmVwbywgMS45LjEsIEFsZXhh
-bmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGZsZXgsIDIuNi40
-LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgYmlzb24sIDMuMC41LCBD
-aGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgbHR0bmctdG9vbHMsIDIuMTAu
-NSwgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAg
-ICAgICAgbWVzb24sIDAuNDcuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFp
-bC5jb20+CiAgICAgICAgbHNiaW5pdHNjcmlwdHMsIDEwLjAxLCBSb3NzIEJ1cnRvbiA8cm9zcy5i
-dXJ0b25AaW50ZWwuY29tPgogICAgICAgIHNxdWFzaGZzLXRvb2xzLCA0LjMtbmV3LWNvbW1pdHMt
-YXZhaWxhYmxlLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAg
-ICBnbywgMS4xMC4zLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIGFwdCwg
-MS42LjMsIEFuw61iYWwgTGltw7NuIDxsaW1vbi5hbmliYWxAZ21haWwuY29tPgogICAgICAgIG1w
-ZnIsIDQuMC4xLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIHJwY2JpbmQs
-IDEuMi41LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgbGli
-cGNhcCwgMS45LjAsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAg
-IG1hbi1kYiwgMi44LjQsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAg
-ICAgICBpZnVwZG93biwgMC44LjMzLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNv
-bT4KICAgICAgICBmb250Y29uZmlnLCAyLjEzLjAsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5A
-aW50ZWwuY29tPgogICAgICAgIHJlMmMsIDEuMC4xLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
-Y29tPgogICAgICAgIHBlcmwsIDUuMjguMCwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRl
-bC5jb20+CiAgICAgICAgbGx2bSwgNi4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgS2hlbSBSYWog
-PHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBweXRob24zLCAzLjcuMCwgRGVyZWsgU3RyYWth
-IDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICogRmFpbGVkKG90aGVyIGVycm9ycyk6IDE3CiAgICAg
-ICAgcHV6emxlcywgMC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgTWF4aW4gQi4gSm9obiA8bWF4
-aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgZG5mLCAzLjMuMCwgQWxleGFuZGVyIEthbmF2aW4g
-PGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgcHVsc2VhdWRpbywgMTIuMiwgVGFudSBL
-YXNraW5lbiA8dGFudWtAaWtpLmZpPgogICAgICAgIHBhbmdvLCAxLjQyLjMsIE1heGluIEIuIEpv
-aG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIGxpYmRuZiwgMC4xNy4yLCBBbGV4YW5k
-ZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBzdHJhY2UsIDQuMjQs
-IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHdlYmtpdGd0
-aywgMi4yMC41LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAg
-ICAgICBkaXN0Y2MsIDMuMy4yLCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+
-CiAgICAgICAgYmludXRpbHMsIDIuMzEuMSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4K
-ICAgICAgICBidWlsZC1hcHBsaWFuY2UtaW1hZ2UsIDE5LjAuMCwgUmljaGFyZCBQdXJkaWUgPHJp
-Y2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAgZ3N0LWV4YW1wbGVzLCAw
-LjAuMS1uZXctY29tbWl0cy1hdmFpbGFibGUsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRl
-bC5jb20+CiAgICAgICAgY29ubm1hbiwgMS4zNiwgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2su
-YmFlQGxnZS5jb20+CiAgICAgICAgZ2RrLXBpeGJ1ZiwgMi4zNi4xMiwgTWF4aW4gQi4gSm9obiA8
-bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgZXBpcGhhbnksIDMuMjguMy4xLCBBbGV4YW5k
-ZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsaWJzb3VwLTIuNCwg
-Mi42Mi4zLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICB3ZXN0
-b24sIDQuMC45MywgRGVueXMgRG15dHJpeWVua28gPGRlbnlzQHRpLmNvbT4KICAgICAgICBxZW11
-LCAzLjAuMCwgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5v
-cmc+CgogICAgVE9UQUw6IGF0dGVtcHRlZD0xMDAgc3VjY2VlZGVkPTM4KDM4LjAwJSkgZmFpbGVk
-PTYyKDYyLjAwJSkKClJlY2lwZSB1cGdyYWRlIHN0YXRpc3RpY3MgcGVyIE1haW50YWluZXI6Cgog
-ICAgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3I6IGF0dGVtcHRlZD01IHN1Y2NlZWRl
-ZD0zKDYwLjAwJSkgZmFpbGVkPTIoNDAuMDAlKQogICAgRGVueXMgRG15dHJpeWVua28gPGRlbnlz
-OiBhdHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9MSgzMy4zMyUpIGZhaWxlZD0yKDY2LjY3JSkKICAgIERl
-cmVrIFN0cmFrYSA8ZGVyZWs6IGF0dGVtcHRlZD03IHN1Y2NlZWRlZD01KDcxLjQzJSkgZmFpbGVk
-PTIoMjguNTclKQogICAgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nOiBhdHRlbXB0ZWQ9NCBzdWNj
-ZWVkZWQ9MSgyNS4wMCUpIGZhaWxlZD0zKDc1LjAwJSkKICAgIEFudWogTWl0dGFsIDxhbnVqLm1p
-dHRhbDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAg
-ICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsOiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgw
-LjAwJSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIFRhbnUgS2Fza2luZW4gPHRhbnVrOiBhdHRlbXB0
-ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIEFuZHJlaiBWYWxl
-ayA8YW5kcmVqLnZhbGVrOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEo
-MTAwLjAwJSkKICAgIFBhdWwgRWdnbGV0b24gPHBhdWwuZWdnbGV0b246IGF0dGVtcHRlZD0xIHN1
-Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgQXJtaW4gS3VzdGVyIDxha3Vz
-dGVyODA4OiBhdHRlbXB0ZWQ9NSBzdWNjZWVkZWQ9NSgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkK
-ICAgIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWE6IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD0xKDIwLjAw
-JSkgZmFpbGVkPTQoODAuMDAlKQogICAgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlOiBh
-dHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9MSgzMy4zMyUpIGZhaWxlZD0yKDY2LjY3JSkKICAgIENoZW4g
-UWkgPFFpLkNoZW46IGF0dGVtcHRlZD0xMCBzdWNjZWVkZWQ9NSg1MC4wMCUpIGZhaWxlZD01KDUw
-LjAwJSkKICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4w
-MCUpIGZhaWxlZD0wKDAuMDAlKQogICAgS2hlbSBSYWogPHJhai5raGVtOiBhdHRlbXB0ZWQ9NiBz
-dWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTYoMTAwLjAwJSkKICAgIEZhdGhpIEJvdWRyYSA8ZmF0
-aGkuYm91ZHJhOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAw
-JSkKICAgIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZTogYXR0ZW1wdGVkPTUgc3VjY2Vl
-ZGVkPTEoMjAuMDAlKSBmYWlsZWQ9NCg4MC4wMCUpCiAgICBNYXhpbiBCLiBKb2huIDxtYXhpbi5q
-b2huOiBhdHRlbXB0ZWQ9MjIgc3VjY2VlZGVkPTgoMzYuMzYlKSBmYWlsZWQ9MTQoNjMuNjQlKQog
-ICAgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uOiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgwLjAw
-JSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW46
-IGF0dGVtcHRlZD0xNSBzdWNjZWVkZWQ9Nig0MC4wMCUpIGZhaWxlZD05KDYwLjAwJSkK
+This is what we did when adding the service file to a *released*
+product but one could argue that if you add lttng-tools to your
+image then you really do want it to be enabled.
 
---===============6874612619424161455==--
+It's a small thing but could be important to someone so
+speak up if it is. I think that it's better to enable it
+by default for oe-core-2.6.
+
+../Randy
+> 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/recipes-kernel/lttng/lttng-tools/lttng-sessiond.service |  9 +++++++++
+>   meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb               | 12 +++++++++++-
+>   2 files changed, 20 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-kernel/lttng/lttng-tools/lttng-sessiond.service
+> 
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools/lttng-sessiond.service b/meta/recipes-kernel/lttng/lttng-tools/lttng-sessiond.service
+> new file mode 100644
+> index 00000000000..aaf81305923
+> --- /dev/null
+> +++ b/meta/recipes-kernel/lttng/lttng-tools/lttng-sessiond.service
+> @@ -0,0 +1,9 @@
+> +[Unit]
+> +Description=LTTng 2.x central tracing registry session daemon
+> +
+> +[Service]
+> +Type=forking
+> +ExecStart=/usr/bin/lttng-sessiond -d
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb b/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+> index e4969c30807..0314b536376 100644
+> --- a/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+> @@ -31,12 +31,16 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+>              file://x32.patch \
+>              file://run-ptest \
+>              file://0001-Allow-multiple-attempts-to-connect-to-relayd.patch \
+> +           file://lttng-sessiond.service \
+>              "
+>   
+>   SRC_URI[md5sum] = "051224eb991aee07f8721ff1877d0b96"
+>   SRC_URI[sha256sum] = "77839eb6fc6c652125f08acfd9369701c2516eb05cc2084160e7efc7a3fb731c"
+>   
+> -inherit autotools ptest pkgconfig useradd python3-dir manpages
+> +inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
+> +
+> +SYSTEMD_SERVICE_${PN} = "lttng-sessiond.service"
+> +SYSTEMD_AUTO_ENABLE = "disable"
+>   
+>   USERADD_PACKAGES = "${PN}"
+>   GROUPADD_PARAM_${PN} = "tracing"
+> @@ -52,6 +56,12 @@ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/*.la"
+>   INSANE_SKIP_${PN} = "libexec dev-so"
+>   INSANE_SKIP_${PN}-dbg = "libexec"
+>   
+> +do_install_append () {
+> +    # install systemd unit file
+> +    install -d ${D}${systemd_unitdir}/system
+> +    install -m 0644 ${WORKDIR}/lttng-sessiond.service ${D}${systemd_unitdir}/system
+> +}
+> +
+>   do_install_ptest () {
+>       for f in Makefile tests/Makefile tests/utils/utils.sh ; do
+>           install -D "${B}/$f" "${D}${PTEST_PATH}/$f"
+> 
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
+
