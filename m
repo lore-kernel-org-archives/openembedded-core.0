@@ -1,28 +1,48 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AF07E79092
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 7353974601
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 04:05:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7G454Hp020417
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Aug 2018 21:05:05 -0700
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 15 Aug 2018 21:05:03 -0700
-To: Alistair Francis <alistair.francis@wdc.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20180815222519.25303-1-alistair.francis@wdc.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <a02d6015-c5c7-9987-1f44-4744c6a75887@windriver.com>
-Date: Thu, 16 Aug 2018 00:05:01 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180815222519.25303-1-alistair.francis@wdc.com>
-X-Originating-IP: [172.25.44.4]
-Subject: Re: [PATCH] recipes-devtools: Upgrade QEMU to 3.0
+	Thu, 16 Aug 2018 04:12:07 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id w10-v6so1438859pgv.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Aug 2018 21:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=DM623naAdaIlsELnFLx33Z1sPguvjwJJ3uKVuqrVA60=;
+	b=RdVHbo3qP4b6PwZpg4uloaJNsb4ZICACZ3e50muZFMc6uY1hhkuJnePctBKVYCz+3f
+	TRAX8VfjQpB4WWIK4ALQujy/Biq8kp8PF43S6nDJCQTdy3z91hHSaa8XozdcUA6+4w42
+	nsKqM5Ck0ke8RbkXv2fNkXhMl5sNZEgos8TV+8gCJCsQlaAHN+hwwkw0z+aDTImYza5Q
+	Ked5DPLLZShRIvM1z7TzpZkmhbP+Q0aNCoifeP4/niGeLIQAYWzNuz/MRD8BBMVMvgYV
+	MVfNN/1HBHbn0r7Vu6dv5eJzRWE7qTU83t5zak1Ki/JsyKJC5shi6YLrX1kw2eIslyHJ
+	vMcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=DM623naAdaIlsELnFLx33Z1sPguvjwJJ3uKVuqrVA60=;
+	b=N/NQbed2v2Oe0LuU8EpTI4hh7Gq3LRjOkXe4Hrg1KdChFEH/2neJK+tNGBSJvxWFRW
+	7IIUBMNeVgrRj2THgrifVQ22sdpw1fvKfs8Exlju/vJaiRI6fhx0Is1jzGlZwvputG0Z
+	BWoc5pxwzLSUgX8nWgJjoGDqpN44Ne6pp6sawvV6xjT7vZ472hlU8Py9IQq9YlT1+u3z
+	KY7XK5Ww6V6jrkV3hCgX1o3FIWz/7P5uFIYics5lHuXkBYc20u5Tvi0j26Uo9dHAPxT0
+	gMZfsZyS218oJGPWjyCUcRCBv0Qno6uG/UUWQLdp63pN1Db4FuOAk7xPcd/u3SxCQoZH
+	KTaw==
+X-Gm-Message-State: AOUpUlEJAmD5S5ChfD0ZtWRB/Q93KStHV5TO5X1fVK8GG8HJ6tz30LrV
+	o/vaMeoGp+QTor11cjO+LdOeF03Y
+X-Google-Smtp-Source: AA+uWPzYCAr2TYPK2v0H/zthdiCyoOyhwc5sPJd3GqEkmSzgRl69Xdiz8MQ/VUTTG7BJiT3IGXAzkg==
+X-Received: by 2002:a63:d916:: with SMTP id
+	r22-v6mr26991566pgg.381.1534392728079; 
+	Wed, 15 Aug 2018 21:12:08 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::f217])
+	by smtp.gmail.com with ESMTPSA id
+	u9-v6sm47623075pfi.104.2018.08.15.21.12.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Aug 2018 21:12:07 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Aug 2018 21:12:00 -0700
+Message-Id: <20180816041200.44366-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH V2] llvm: Update to 6.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,167 +55,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 04:05:04 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Aug 2018 04:12:07 -0000
 
-LGTM.
+Drop upstreamed patch
 
-Patched and built on an ubu-16.04 box.
-I was able to log into both qemux86-64 and qemuppc
-using core-image-minimal.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+V2: Drop an already applied patch
 
-As people might expect, loads has changed:
-qemu.git $ git diff v2.12.0..v3.0.0| diffstat| tail -1
-  1825 files changed, 101360 insertions(+), 46333 deletions(-)
+ ...able-generating-a-native-llvm-config.patch | 41 -------------------
+ meta/recipes-devtools/llvm/llvm_git.bb        |  5 +--
+ 2 files changed, 2 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch
 
-Have you tested all of the oe-core qemu archs with the upgrade?
-
-Any concerns other than what is listed here:
-    https://wiki.qemu.org/ChangeLog/3.0
-
-../Randy
-
-
-On 08/15/2018 06:25 PM, Alistair Francis wrote:
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   meta/conf/distro/include/tcmode-default.inc   |  2 +-
->   ...1806-QEMU-slirp-heap-buffer-overflow.patch | 70 -------------------
->   .../qemu/{qemu_2.12.0.bb => qemu_3.0.0.bb}    |  7 +-
->   3 files changed, 4 insertions(+), 75 deletions(-)
->   delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
->   rename meta/recipes-devtools/qemu/{qemu_2.12.0.bb => qemu_3.0.0.bb} (88%)
-> 
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> index bed1594b7a..1c9226cb06 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -28,7 +28,7 @@ BINUVERSION ?= "2.31%"
->   GDBVERSION ?= "8.1%"
->   GLIBCVERSION ?= "2.28%"
->   LINUXLIBCVERSION ?= "4.15%"
-> -QEMUVERSION ?= "2.12%"
-> +QEMUVERSION ?= "3.0%"
->   
->   PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
->   PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
-> diff --git a/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch b/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
-> deleted file mode 100644
-> index 837b65a79a..0000000000
-> --- a/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
-> +++ /dev/null
-> @@ -1,70 +0,0 @@
-> -CVE: CVE-2018-11806
-> -Upstream-Status: Backport
-> -
-> -https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg01012.html
-> -
-> -From dc21a9d2951f0a2a7e63633e2b5c68c54e4edc4b Mon Sep 17 00:00:00 2001
-> -From: Jeremy Puhlman <jpuhlman@mvista.com>
-> -Date: Thu, 14 Jun 2018 01:28:49 +0000
-> -Subject: [PATCH] CVE-2018-11806 QEMU: slirp: heap buffer overflow
-> -
-> -Subject: [Qemu-devel] [PATCH 1/2] slirp: correct size computation while concatenating mbuf
-> -Date:	Tue, 5 Jun 2018 23:38:35 +0530
-> -From: Prasad J Pandit <address@hidden>
-> -
-> -While reassembling incoming fragmented datagrams, 'm_cat' routine
-> -extends the 'mbuf' buffer, if it has insufficient room. It computes
-> -a wrong buffer size, which leads to overwriting adjacent heap buffer
-> -area. Correct this size computation in m_cat.
-> -
-> -Reported-by: ZDI Disclosures <address@hidden>
-> -Signed-off-by: Prasad J Pandit <address@hidden>
-> ----
-> - slirp/mbuf.c | 8 ++++----
-> - 1 file changed, 4 insertions(+), 4 deletions(-)
-> -
-> -Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-> ----
-> - slirp/mbuf.c | 8 ++++----
-> - 1 file changed, 4 insertions(+), 4 deletions(-)
-> -
-> -diff --git a/slirp/mbuf.c b/slirp/mbuf.c
-> -index 5ff2455..7fb4501 100644
-> ---- a/slirp/mbuf.c
-> -+++ b/slirp/mbuf.c
-> -@@ -138,7 +138,7 @@ m_cat(struct mbuf *m, struct mbuf *n)
-> - 	 * If there's no room, realloc
-> - 	 */
-> - 	if (M_FREEROOM(m) < n->m_len)
-> --		m_inc(m,m->m_size+MINCSIZE);
-> -+               m_inc(m, m->m_len + n->m_len);
-> -
-> - 	memcpy(m->m_data+m->m_len, n->m_data, n->m_len);
-> - 	m->m_len += n->m_len;
-> -@@ -158,12 +158,12 @@ m_inc(struct mbuf *m, int size)
-> -
-> -         if (m->m_flags & M_EXT) {
-> - 	  datasize = m->m_data - m->m_ext;
-> --          m->m_ext = g_realloc(m->m_ext, size);
-> -+          m->m_ext = g_realloc(m->m_ext, size + datasize);
-> - 	  m->m_data = m->m_ext + datasize;
-> -         } else {
-> - 	  char *dat;
-> - 	  datasize = m->m_data - m->m_dat;
-> --          dat = g_malloc(size);
-> -+          dat = g_malloc(size + datasize);
-> - 	  memcpy(dat, m->m_dat, m->m_size);
-> -
-> - 	  m->m_ext = dat;
-> -@@ -171,7 +171,7 @@ m_inc(struct mbuf *m, int size)
-> - 	  m->m_flags |= M_EXT;
-> -         }
-> -
-> --        m->m_size = size;
-> -+        m->m_size = size + datasize;
-> -
-> - }
-> -
-> ---
-> -2.13.3
-> -
-> diff --git a/meta/recipes-devtools/qemu/qemu_2.12.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-> similarity index 88%
-> rename from meta/recipes-devtools/qemu/qemu_2.12.0.bb
-> rename to meta/recipes-devtools/qemu/qemu_3.0.0.bb
-> index 98db44a8ef..80da0810f1 100644
-> --- a/meta/recipes-devtools/qemu/qemu_2.12.0.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-> @@ -7,7 +7,7 @@ RDEPENDS_${PN}-ptest = "bash make"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
->                       file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
->   
-> -SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
-> +SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
->              file://powerpc_rom.bin \
->              file://0001-sdl.c-allow-user-to-disable-pointer-grabs.patch \
->              file://0002-qemu-Add-missing-wacom-HID-descriptor.patch \
-> @@ -21,7 +21,6 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
->              file://0009-apic-fixup-fallthrough-to-PIC.patch \
->              file://0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
->              file://0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch \
-> -           file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
->              "
->   UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
->   
-> @@ -30,8 +29,8 @@ SRC_URI_append_class-native = " \
->               file://0013-cpus.c-Add-error-messages-when-qemi_cpu_kick_thread-.patch \
->               "
->   
-> -SRC_URI[md5sum] = "122fd7cdf241ff7eb1e42c0b503b5d1b"
-> -SRC_URI[sha256sum] = "c9f4a147bc915d24df9784affc611a115f42d24720a89210b479f1ba7a3f679c"
-> +SRC_URI[md5sum] = "6a5c8df583406ea24ef25b239c3243e0"
-> +SRC_URI[sha256sum] = "8d7af64fe8bd5ea5c3bdf17131a8b858491bcce1ee3839425a6d91fb821b5713"
->   
->   COMPATIBLE_HOST_mipsarchn32 = "null"
->   COMPATIBLE_HOST_mipsarchn64 = "null"
-> 
-
-
+diff --git a/meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch b/meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch
+deleted file mode 100644
+index 2809e4c594..0000000000
+--- a/meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 7f7743ce233fcd735ec580c75270413493658aa6 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 19 Apr 2018 18:08:31 -0700
+-Subject: [PATCH] Disable generating a native llvm-config
+-
+-OpenEmbedded already builds this as part of llvm-native
+-
+-Upstream-Status: Inappropriate [OE-Specific]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- tools/llvm-config/CMakeLists.txt | 16 ----------------
+- 1 file changed, 16 deletions(-)
+-
+-diff --git a/tools/llvm-config/CMakeLists.txt b/tools/llvm-config/CMakeLists.txt
+-index 25f99cec978..c45e9b642a8 100644
+---- a/tools/llvm-config/CMakeLists.txt
+-+++ b/tools/llvm-config/CMakeLists.txt
+-@@ -63,19 +63,3 @@ endif()
+- 
+- # Add the dependency on the generation step.
+- add_file_dependencies(${CMAKE_CURRENT_SOURCE_DIR}/llvm-config.cpp ${BUILDVARIABLES_OBJPATH})
+--
+--if(CMAKE_CROSSCOMPILING)
+--  set(${project}_LLVM_CONFIG_EXE "${LLVM_NATIVE_BUILD}/bin/llvm-config")
+--  set(${project}_LLVM_CONFIG_EXE ${${project}_LLVM_CONFIG_EXE} PARENT_SCOPE)
+--
+--  add_custom_command(OUTPUT "${${project}_LLVM_CONFIG_EXE}"
+--    COMMAND ${CMAKE_COMMAND} --build . --target llvm-config --config $<CONFIGURATION>
+--    DEPENDS ${LLVM_NATIVE_BUILD}/CMakeCache.txt
+--    WORKING_DIRECTORY ${LLVM_NATIVE_BUILD}
+--    COMMENT "Building native llvm-config..."
+--    USES_TERMINAL)
+--  add_custom_target(${project}NativeLLVMConfig DEPENDS ${${project}_LLVM_CONFIG_EXE})
+--  add_dependencies(${project}NativeLLVMConfig CONFIGURE_LLVM_NATIVE)
+--
+--  add_dependencies(llvm-config ${project}NativeLLVMConfig)
+--endif(CMAKE_CROSSCOMPILING)
+--- 
+-2.17.0
+-
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index cb3bba6fab..bb83012231 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -19,14 +19,13 @@ PROVIDES += "llvm${PV}"
+ LLVM_RELEASE = "${PV}"
+ LLVM_DIR = "llvm${LLVM_RELEASE}"
+ 
+-SRCREV = "089d4c0c490687db6c75f1d074e99c4d42936a50"
++SRCREV = "5136df4d089a086b70d452160ad5451861269498"
+ PV = "6.0"
+ BRANCH = "release_60"
+-PATCH_VERSION = "0"
++PATCH_VERSION = "1"
+ SRC_URI = "git://github.com/llvm-mirror/llvm.git;branch=${BRANCH};protocol=http \
+            file://0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch \
+            file://0002-llvm-allow-env-override-of-exe-path.patch \
+-           file://0001-Disable-generating-a-native-llvm-config.patch \
+           "
+ UPSTREAM_CHECK_COMMITS = "1"
+ S = "${WORKDIR}/git"
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.18.0
+
 
