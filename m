@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 150837925E;
+	by mail.openembedded.org (Postfix) with ESMTP id F129F79272;
 	Thu, 16 Aug 2018 06:37:53 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 16 Aug 2018 06:37:54 -0000
-Message-ID: <20180816063754.13841.43981@do.openembedded.org>
-References: <cover.1534399650.git.liezhi.yang@windriver.com>
+Date: Thu, 16 Aug 2018 06:37:55 -0000
+Message-ID: <20180816063755.13840.99629@do.openembedded.org>
+References: <cover.1534400247.git.liezhi.yang@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1534399650.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1534400247.git.liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmludXRpbHM6IGJhY2twb3J0IGEgcGF0Y2ggdG8gZml4IGZpbGUgbWF0Y2hpbmcgcHJvYmxlbQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHJlbGluazogZml4ZWQgc2VnbWVudGF0aW9uIGZhdWx0IHdoZW4gaW5zdGFsbCBsaWJxYg==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 06:37:53 -0000
+X-List-Received-Date: Thu, 16 Aug 2018 06:37:54 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: binutils: backport a patch to fix file matching problem
+Series: prelink: fixed segmentation fault when install libqb
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/13548/
+URL   : https://patchwork.openembedded.org/series/13549/
 State : failure
 
 == Summary ==
@@ -45,8 +45,10 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-devtools/binutils/binutils/0017-improve-check-for-input-file-matching-output-file.patch)
+* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
+  Suggested fix    Include where 0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch was submitted
+  Current          Upstream-Status: Submitted
+  Standard format  Upstream-Status: Submitted [where]
 
 
 
