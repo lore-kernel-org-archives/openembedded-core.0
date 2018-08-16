@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ABE957926E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E2CF79261
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 06:09:13 +0000 (UTC)
+	Thu, 16 Aug 2018 06:09:14 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7G69EVW013708
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7G69G5w008123
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2018 23:09:14 -0700 (PDT)
+	Wed, 15 Aug 2018 23:09:16 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Wed, 15 Aug 2018 23:09:13 -0700
+	14.3.399.0; Wed, 15 Aug 2018 23:09:14 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Aug 2018 14:19:46 +0800
-Message-ID: <a72f9d73653cd4cac9239b27c3971df9caafe4ce.1534400247.git.liezhi.yang@windriver.com>
+Date: Thu, 16 Aug 2018 14:19:47 +0800
+Message-ID: <23d58f9f27c7b25605e3f58810138df6599a6e13.1534400247.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1534400247.git.liezhi.yang@windriver.com>
 References: <cover.1534400247.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] prelink: use ehdr.e_shstrndx as index rather than ehdr.e_shnum
+Subject: [PATCH 2/2] elfutils: check data_list.data.d.d_buf before free it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,21 +32,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2018 06:09:13 -0000
+X-List-Received-Date: Thu, 16 Aug 2018 06:09:15 -0000
 Content-Type: text/plain
 
 [YOCTO #12791]
 
-According to struct elf32_hd, the e_shnum is section header number, and the
-index is e_shstrndx, not e_shnum.
+The one which actually saves the data is data_list.data.d.d_buf, so check it
+before free rawdata_base.
 
-This can fix segmention fault when handle libqb.so.0.18.2 from libqb_1.0.3.
-It fails to handle libqb.so.0.18.2 and get errors:
-Symbol section index outside of section numbers
+This can fix a segmentation fault when prelink libqb_1.0.3:
+prelink: /usr/lib/libqb.so.0.18.2: Symbol section index outside of section numbers
 
-Then segmentation fault, this is because the e_shnum is 34, while e_shstrndx is
-27 (it would be 33 when no errors), I've checked several elf files to confirm
-that the ones after e_shstrndx is NULL, so use e_shstrndx should be correct.
+The segmentation fault happens when prelink call elf_end().
 
 Fixed:
 MACHINE="qemux86-64"
@@ -56,71 +53,68 @@ Segmention fault
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...01-src-dso.c-use-ehdr.e_shstrndx-as-index.patch | 39 ++++++++++++++++++++++
- meta/recipes-devtools/prelink/prelink_git.bb       |  4 ++-
- 2 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/prelink/prelink/0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch
+ meta/recipes-devtools/elfutils/elfutils_0.172.bb   |  1 +
+ ...end.c-check-data_list.data.d.d_buf-before.patch | 39 ++++++++++++++++++++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch
 
-diff --git a/meta/recipes-devtools/prelink/prelink/0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch b/meta/recipes-devtools/prelink/prelink/0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.172.bb b/meta/recipes-devtools/elfutils/elfutils_0.172.bb
+index 9d02211..1cdff40 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.172.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.172.bb
+@@ -16,6 +16,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://0006-Fix-build-on-aarch64-musl.patch \
+            file://0007-Fix-control-path-where-we-have-str-as-uninitialized-.patch \
+            file://0001-libasm-may-link-with-libbz2-if-found.patch \
++           file://0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch \
+            file://debian/0001-hppa_backend.patch \
+            file://debian/0001-arm_backend.patch \
+            file://debian/0001-mips_backend.patch \
+diff --git a/meta/recipes-devtools/elfutils/files/0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch b/meta/recipes-devtools/elfutils/files/0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch
 new file mode 100644
-index 0000000..397c7d3
+index 0000000..7ea038f
 --- /dev/null
-+++ b/meta/recipes-devtools/prelink/prelink/0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch
++++ b/meta/recipes-devtools/elfutils/files/0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch
 @@ -0,0 +1,39 @@
-+From 107290910ff846532d944ddb78edda436bb6ae63 Mon Sep 17 00:00:00 2001
++From d68822e93c57c3fbb77b93eada5986d2240157c2 Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Wed, 15 Aug 2018 17:53:43 +0800
-+Subject: [PATCH] src/dso.c: use ehdr.e_shstrndx as index
++Date: Thu, 16 Aug 2018 09:58:26 +0800
++Subject: [PATCH] libelf/elf_end.c: check data_list.data.d.d_buf before free it
 +
-+According to struct elf32_hd, the e_shnum is section header number, and the
-+index is e_shstrndx, not e_shnum.
++The one which actually saves the data is data_list.data.d.d_buf, so check it
++before free rawdata_base.
 +
-+This can fix segmention fault when handle libqb.so.0.18.2 from libqb_1.0.3.
-+It fails to handle libqb.so.0.18.2 and get errors:
-+Symbol section index outside of section numbers
++This can fix a segmentation fault when prelink libqb_1.0.3:
++prelink: /usr/lib/libqb.so.0.18.2: Symbol section index outside of section numbers
 +
-+Then segmentation fault, this is because the e_shnum is 34, while e_shstrndx is
-+27 (it would be 33 when no errors), I've checked several elf files to confirm
-+that the ones after e_shstrndx is NULL, so use e_shstrndx should be correct.
++The segmentation fault happens when prelink call elf_end().
 +
 +Upstream-Status: Submitted
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +---
-+ src/dso.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ libelf/elf_end.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/dso.c b/src/dso.c
-+index ae5e04d..c59d81f 100644
-+--- a/src/dso.c
-++++ b/src/dso.c
-+@@ -1659,7 +1659,7 @@ close_dso_1 (DSO *dso)
-+     {
-+       int i;
++diff --git a/libelf/elf_end.c b/libelf/elf_end.c
++index 160f0b8..5388e80 100644
++--- a/libelf/elf_end.c
+++++ b/libelf/elf_end.c
++@@ -165,9 +165,10 @@ elf_end (Elf *elf)
 + 
-+-      for (i = 1; i < dso->ehdr.e_shnum; ++i)
-++      for (i = 1; i < dso->ehdr.e_shstrndx; ++i)
-+ 	{
-+ 	  Elf_Scn *scn = dso->scn[i];
-+ 	  Elf_Data *data = NULL;
++ 		/* The section data is allocated if we couldn't mmap
++ 		   the file.  Or if we had to decompress.  */
++-		if (elf->map_address == NULL
+++		if ((elf->map_address == NULL
++ 		    || scn->rawdata_base == scn->zdata_base
++ 		    || (scn->flags & ELF_F_MALLOCED) != 0)
+++		    && (scn->data_list.data.d.d_buf != NULL))
++ 		  free (scn->rawdata_base);
++ 
++ 		/* Free the list of data buffers for the section.
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index 0f6d16e..c5eaedd 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -31,7 +31,9 @@ SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink \
-            file://prelink.conf \
-            file://prelink.cron.daily \
-            file://prelink.default \
--	   file://macros.prelink"
-+           file://macros.prelink \
-+           file://0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch \
-+"
- UPSTREAM_CHECK_COMMITS = "1"
- 
- TARGET_OS_ORIG := "${TARGET_OS}"
 -- 
 2.7.4
 
