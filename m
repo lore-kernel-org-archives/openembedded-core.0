@@ -1,26 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E452D79303
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B5FB860801
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 09:12:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7H9CpUk031773
+	Fri, 17 Aug 2018 09:26:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7H9Qr7i024025
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 02:12:52 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Fri, 17 Aug 2018 02:12:51 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Fri, 17 Aug 2018 02:26:53 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Fri, 17 Aug 2018 02:26:53 -0700
+From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Aug 2018 17:17:14 +0800
-Message-ID: <760193dd3732a2239aa96f7660dd85ed4071ebd2.1534497181.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1534497181.git.Qi.Chen@windriver.com>
-References: <cover.1534497181.git.Qi.Chen@windriver.com>
+Date: Fri, 17 Aug 2018 17:26:50 +0800
+Message-ID: <1534498011-388674-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 1/1] assimp.py: fix AttributeError in tearDownClass
+Subject: [PATCH] sstate: Avoid indirect auto-archive-native dependencies (via SSTATE_EXCLUDEDEPS_SYSROOT)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 09:12:52 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 09:26:52 -0000
 Content-Type: text/plain
 
-When running this test case, we will see the following error.
+From: Changqing Li <changqing.li@windriver.com>
 
-  AttributeError: type object 'BuildAssimp' has no attribute 'project'
+remove the indirect dependcy of auto-archive-native to avoid
+not needed .m4 installed into sysroot, which may cause
+compile problem.
 
-assimp.py test case does not make use of SDKBuildProject, so remove
-the import statement and the tearDownClass.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/lib/oeqa/sdk/cases/assimp.py | 5 -----
- 1 file changed, 5 deletions(-)
+ meta/conf/layer.conf | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/sdk/cases/assimp.py b/meta/lib/oeqa/sdk/cases/assimp.py
-index 7251bdf..26c1df0 100644
---- a/meta/lib/oeqa/sdk/cases/assimp.py
-+++ b/meta/lib/oeqa/sdk/cases/assimp.py
-@@ -1,7 +1,6 @@
- import os, subprocess, unittest
- import bb
- from oeqa.sdk.case import OESDKTestCase
--from oeqa.sdk.utils.sdkbuildproject import SDKBuildProject
- 
- from oeqa.utils.subprocesstweak import errors_have_output
- errors_have_output()
-@@ -62,7 +61,3 @@ class BuildAssimp(OESDKTestCase):
-             self.assertEqual(machine, elf.machine())
-             self.assertEqual(bits, elf.abiSize())
-             self.assertEqual(endian, elf.isLittleEndian())
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index cc77d07..63346ae 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -90,6 +90,8 @@ SSTATE_EXCLUDEDEPS_SYSROOT += "\
+     .*->.*-initial.* \
+     .*(base-passwd|shadow-sysroot)->.* \
+ "
 -
--    @classmethod
--    def tearDownClass(self):
--        self.project.clean()
++# Avoid adding autoconf-archive-native to sysroot without a specific
++# dependency in the recipe. 
++SSTATE_EXCLUDEDEPS_SYSROOT += ".*->autoconf-archive-native"
+ # We need to keep bitbake tools in PATH
+ PATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}:${HOSTTOOLS_DIR}"
 -- 
-1.9.1
+2.7.4
 
 
