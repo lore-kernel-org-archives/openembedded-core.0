@@ -1,103 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1368179374
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 22:39:31 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id q11-v6so16586605oic.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 15:39:33 -0700 (PDT)
+Return-Path: <davis.roman84@gmail.com>
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+	[209.85.167.49])
+	by mail.openembedded.org (Postfix) with ESMTP id EA65F78FBD;
+	Fri, 17 Aug 2018 22:54:11 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id g9-v6so1726468lfh.1;
+	Fri, 17 Aug 2018 15:54:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=ahu2ZQawb3Js94EL0rNN3WrLIqZGQtO/GU6/CkYLMr4=;
-	b=hsdiscWOrKXKZg0pP/s5WizRHSwt1tQQDnLFwtretacQBQX38VcVJjWL86R5SMEw10
-	EEa2/R9QsBya1yidTDpes5IQMFVaKm+P+HNPytGG6d+yc6apWmX6j5M0uB1md0Jaq9lK
-	41F61DTy/Q9ylqRgA3zZfxboPWPzQk9eYTd7dPzxiwVGgYyro81E5jcvMY0Tiw4bpjNZ
-	ydBlDcb7f7njzeh6UD1OR5dTi9i/5E/HXl0uprzk2VGut9vdx7Uqa29Y8F7n2ZrKbTf3
-	NIxLbkUpcNJGAD3qBNKQUO4ESXfboUPhgvmjYm9vRAkOwOsb5+1NecmTQAZFSd2SouLM
-	ansA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=b2QRMb7wl37On9mvaG8EUzLthFHyYkB17PSE/p2FnSc=;
+	b=cCxY9tqKUWZ/eKB89/DxdCvYguORQID+1HN5/TJNPavMA7Dxola0L8uh4dnXbTU5O5
+	eQc9oxdhh75jmO12a4XhDzVeYRw3LqQ5/BQPCd1zVLF7e6F/RVzVqTklp01wuxUjuKlT
+	yeV/lY7GWpmGHx3cMaUGNwcn57x6s8ueuAF89XnWJlfncNjrAcjrsFKZQlROYqvElHQB
+	3gYTNdshufrTviYQlMkcqB6iwsn22LB+GsBl6VO/7G2r4Vy0YpJ/2xtUYl69I3DSADyy
+	R3O8pCofqTdxIDooJAAPqblnDWc5qQSyHz+tZ6wZVRoDxf2uozzaYu2kehYFhXqSuf5e
+	3Fow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=ahu2ZQawb3Js94EL0rNN3WrLIqZGQtO/GU6/CkYLMr4=;
-	b=dB8qHi7RRjdZ9lbVOtmXh8S4QPPDew9F3PmGFpZbycWezh3b7YtYO74YbbTXvklkBL
-	GiAcm2HAdv/az8i4+h31MzqLvcGfxEeTZbKEROs6qHtWks4aEWijfpO+sD7tovgGLF3z
-	Fiy38qP3EI7HOJxrj1POHCvWGbIKkBndIem5RVSP5+cXjXeN58HMfAepbYWuo3IxdcyT
-	w8St7imFoYycs5pPQNHsjZREef/VSEhcwNTrjF5lRanZ6MxYhtobP3UoFT/7HLwB78a5
-	0NLcH3BqWEgtPvy5g09wBR9HCikA+NI9a8rgT6fu2dP3vhvAdXfc3jvyJ6iBj4mP5gxD
-	vQtA==
-X-Gm-Message-State: AOUpUlHKAyKav0Y91pnqf4HrIvbZanoScYCsbmS5QMWsf7B0T2MFExNR
-	EXNkbQAx6KJ1GheuSV2ExrRXmrwN
-X-Google-Smtp-Source: AA+uWPy3DnJp+LNNwxig5JMKhhJKjhjdxoUko2jnBWSi9v3mOl9epr5UNP83ZLTMJYxVkvVnNzVH0Q==
-X-Received: by 2002:aca:6141:: with SMTP id
-	v62-v6mr4579540oib.240.1534545572847; 
-	Fri, 17 Aug 2018 15:39:32 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:5080:df55:2eb5:9a92?
-	([2601:202:4180:c33:5080:df55:2eb5:9a92])
-	by smtp.gmail.com with ESMTPSA id
-	s3-v6sm6164592oif.22.2018.08.17.15.39.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 Aug 2018 15:39:31 -0700 (PDT)
-To: Andre McCurdy <armccurdy@gmail.com>, Armin Kuster <akuster808@gmail.com>
-References: <20180817141411.31825-1-akuster808@gmail.com>
-	<CAJ86T=WfkmRWbrj6EgQXyRNhYxTxhzEfNvCkLySa3q1=hNmK_Q@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <c658c3fa-b055-ba33-af4e-e5f599fe53e4@gmail.com>
-Date: Fri, 17 Aug 2018 15:39:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=b2QRMb7wl37On9mvaG8EUzLthFHyYkB17PSE/p2FnSc=;
+	b=pleXDEQOdBFoUjTCVZIkZNpvdDfPMTq0M3fCdAzERpJszJqnul9O3aaHHIMfSZEEz1
+	ISt9z7gvzRBlv4HfIKTASo+x0eauwG7afpytW+hJmHlIVtVz5qxoqXIT51DOtNcg9Mtc
+	Z73h5EYL9iuPsBsI4REIHZ3IAuGGJsPQZPdEUuUT+9LQ03ewI2stEHHYUx9Rm/GoMsoQ
+	8I9Jknj5xC8h6VfMy5eajVDjN3WscPNRoUrs1C/kgPrkA8EnIorMTwSkUuvAWP6WAbzT
+	1riScNYuG9g77I/lZu7eHb87l0ilISB7w+xPJW921HLvqLARAW1479kwy+epxF+9i52m
+	4TAg==
+X-Gm-Message-State: AOUpUlHFAMVeJatuJVNx1Y6JzvSKwcnvE0Z35zKmI+PUd+dLwlRAYjZL
+	k2fK26PkB0S7LBquPUZpfUc0rN5bVsJJfUpQuFA=
+X-Google-Smtp-Source: AA+uWPxYcasykQr1sSfAdfO200QhiH6bzAKlEnWQUl7+PC132BUTRKzlmzWAOuhAUuRFrjtAWjNaI0pql7CF0CKnv8w=
+X-Received: by 2002:a19:de50:: with SMTP id
+	v77-v6mr8468692lfg.14.1534546452319; 
+	Fri, 17 Aug 2018 15:54:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=WfkmRWbrj6EgQXyRNhYxTxhzEfNvCkLySa3q1=hNmK_Q@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [V2][PATCH] gnutls: Update to 3.6.3
+Received: by 2002:a2e:1712:0:0:0:0:0 with HTTP; Fri, 17 Aug 2018 15:54:11
+	-0700 (PDT)
+In-Reply-To: <CABcZANkABH+b1z+c-Ey9PrB7Sbj9NSM4KbA1cNsn0f-WAtLdXA@mail.gmail.com>
+References: <CACfi_Z2Zvwiq-iB7ckmmT0LgthOPRxCMC6OCSW3ywbZ2=oSY4A@mail.gmail.com>
+	<CABcZANkABH+b1z+c-Ey9PrB7Sbj9NSM4KbA1cNsn0f-WAtLdXA@mail.gmail.com>
+From: Davis Roman <davis.roman84@gmail.com>
+Date: Fri, 17 Aug 2018 18:54:11 -0400
+Message-ID: <CACfi_Z1xk+u+=Csd8rWxJ4-xSh7zWpD6jKXGLLvj23u0qr4Umg@mail.gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: yocto <yocto@yoctoproject.org>, bitbake-devel@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [bitbake-devel] how to store a modification of a bbclass in the poky layer in my own layer.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,84 +57,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 22:39:32 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 17 Aug 2018 22:54:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Christopher,
+
+I am very intrigued by your response.
+
+Initially I had mentioned that the 'bitbake-layers show-layers'
+command indicates that my layer, meta-hon-grip, has a priority of 8
+which is among the highest while the meta layer only has a priority of
+5.
+
+However, now that you mentioned the bblayers.conf file, I see that the
+meta-hon-grip layer is defined after the meta layer.
+
+Therefore it appears to me that my bblayers.conf contradicts
+'bitbake-layers show-layers'
+
+Could you please help me make sense of this?
+
+Thank you,
+
+Davis
 
 
+--------------------------------------------------------------------------------------------
 
-On 08/17/2018 02:31 PM, Andre McCurdy wrote:
-> On Fri, Aug 17, 2018 at 7:14 AM, Armin Kuster <akuster808@gmail.com> wrote:
->> [v2]
->> Fix new config options form with to disable.
->>
->> [v1]
->> release notes: https://lists.gnupg.org/pipermail/gnutls-devel/2018-July/008584.html
->>
->> add ssl3 and tls1.3 config options now supported.
->>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>  meta/recipes-support/gnutls/gnutls.inc                       | 2 ++
->>  .../gnutls/{gnutls_3.6.2.bb => gnutls_3.6.3.bb}              | 5 +++--
->>  2 files changed, 5 insertions(+), 2 deletions(-)
->>  rename meta/recipes-support/gnutls/{gnutls_3.6.2.bb => gnutls_3.6.3.bb} (53%)
->>
->> diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
->> index 04c0fd2af8..f204e5f4c0 100644
->> --- a/meta/recipes-support/gnutls/gnutls.inc
->> +++ b/meta/recipes-support/gnutls/gnutls.inc
->> @@ -30,6 +30,8 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
->>  PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
->>  PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
->>  PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
->> +PACKAGECONFIG[ssl3] = "--enable-ssl3-support,--disable-ssl3-support,"
->> +PACKAGECONFIG[tls13] = "--enable-tls13-support,--disable-tls13-support,"
-> I'm not sure whether either of these should have PACKAGECONFIG options.
+POKY_BBLAYERS_CONF_VERSION = "2"
+
+BBPATH = "${TOPDIR}"
+BSPDIR := "${@os.path.abspath(os.path.dirname(d.getVar('FILE', True))
++ '/../..')}"
+
+BBFILES ?= ""
+BBLAYERS = " \
+  ${BSPDIR}/sources/poky/meta \
+  ${BSPDIR}/sources/poky/meta-poky \
+  \
+  ${BSPDIR}/sources/meta-openembedded/meta-oe \
+  ${BSPDIR}/sources/meta-openembedded/meta-multimedia \
+  \
+  ${BSPDIR}/sources/meta-fsl-arm \
+  ${BSPDIR}/sources/meta-fsl-arm-extra \
+  ${BSPDIR}/sources/meta-fsl-demos \
+"
+##Freescale Yocto Project Release layer
+BBLAYERS += " ${BSPDIR}/sources/meta-fsl-bsp-release/imx/meta-bsp "
+BBLAYERS += " ${BSPDIR}/sources/meta-fsl-bsp-release/imx/meta-sdk "
+BBLAYERS += " ${BSPDIR}/sources/meta-browser "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-gnome "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-networking "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-python "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-filesystems "
+BBLAYERS += " ${BSPDIR}/sources/meta-qt5 "
+BBLAYERS += " ${BSPDIR}/sources/meta-hon-grip "
+BBLAYERS += " ${BSPDIR}/sources/meta-java "
+BBLAYERS += " ${BSPDIR}/sources/meta-swupdate "
+BBLAYERS += " ${BSPDIR}/sources/meta-bc "
+BBLAYERS += " ${BSPDIR}/sources/meta-updater "
+BBLAYERS += " ${BSPDIR}/sources/meta-gplv2 "
+
+On Fri, Aug 17, 2018 at 6:01 PM, Christopher Larson <kergoth@gmail.com> wrote:
+> Your layer has to be before poky/meta in BBLAYERS, as that determines
+> BBPATH, which is how bbclasses and config files are found (much like PATH).
 >
-> SSL v3 is obsolete and if gnutls is disabling it by default now then
-> it's probably best to leave it that way (dead and buried). Experienced
-> users can always enable via EXTRA_OECONF if they really need it.
->
-> TLS 1.3 is the opposite - it's brand new. If we add a PACKAGECONFIG
-> option to control it then it becomes the gnutls recipe maintainer's
-> job to figure out when to enable it by default. I think it's better to
-> leave that decision to upstream gnutls.
-No change in behavior in the way its setup now.
-
-You can send a patch to correct them. I am not doing a v3 for this.
-
-
-- armin
->
->>  EXTRA_OECONF = " \
->>      --enable-doc \
->> diff --git a/meta/recipes-support/gnutls/gnutls_3.6.2.bb b/meta/recipes-support/gnutls/gnutls_3.6.3.bb
->> similarity index 53%
->> rename from meta/recipes-support/gnutls/gnutls_3.6.2.bb
->> rename to meta/recipes-support/gnutls/gnutls_3.6.3.bb
->> index e540528a8e..c560305032 100644
->> --- a/meta/recipes-support/gnutls/gnutls_3.6.2.bb
->> +++ b/meta/recipes-support/gnutls/gnutls_3.6.3.bb
->> @@ -3,7 +3,8 @@ require gnutls.inc
->>  SRC_URI += "file://0001-configure.ac-fix-sed-command.patch \
->>              file://arm_eabi.patch \
->>             "
->> -SRC_URI[md5sum] = "8b4912c6c0e5ffefd3dbb4888eaf8a58"
->> -SRC_URI[sha256sum] = "bcd5db7b234e02267f36b5d13cf5214baac232b7056a506252b7574ea7738d1f"
->> +
->> +SRC_URI[md5sum] = "d3b1b05c2546b80832101a423a80faf8"
->> +SRC_URI[sha256sum] = "ed642b66a4ecf4851ab2d809cd1475c297b6201d8e8bd14b4d1c08b53ffca993"
+> On Fri, Aug 17, 2018 at 12:11 PM Davis Roman <davis.roman84@gmail.com>
+> wrote:
 >>
->>  BBCLASSEXTEND = "native nativesdk"
->> --
->> 2.17.1
+>> Hello!
 >>
+>>
+>> I've made a modification in poky/meta/classes/libc-package.bbclass (
+>> shown below)
+>>
+>> However I don't want this change to be stored here long term and
+>> instead feel that it should live in my project specific layer,
+>> meta-hon-grip.
+>>
+>> After checking with bitbake-layers, I saw that my layer has a higher
+>> priority than the poky layer so my layer should be checked first ( or
+>> so I thought)
+>>
+>> I copied the modified version of libc-packages.bbclass into
+>> meta-hon-grip/classes and I restored the version in the poky layer to
+>> its original state.
+>>
+>> After making this change, I found that the modified version in my
+>> layer is not being used and instead the version in the poky layer is
+>> the one in play.
+>>
+>> I'm trying to figure out what else to try.
+>>
+>> Any suggestions would be greatly appreciated!
+>>
+>> Thank you,
+>>
+>> Davis
+>>
+>> diff --git a/meta/classes/libc-package.bbclass
+>> b/meta/classes/libc-package.bbclass
+>> index 467d567..72d447a 100644
+>> --- a/meta/classes/libc-package.bbclass
+>> +++ b/meta/classes/libc-package.bbclass
+>> @@ -287,7 +287,7 @@ python package_do_split_gconvs () {
+>>                  bb.error("locale_arch_options not found for
+>> target_arch=" + target_arch)
+>>                  raise bb.build.FuncFailed("unknown arch:" +
+>> target_arch + " for locale_arch_options")
+>>
+>> -            localedef_opts += " --force --old-style --no-archive
+>> --prefix=%s \
+>> +            localedef_opts += " --force --no-archive --prefix=%s \
+>>                  --inputfile=%s/%s/i18n/locales/%s --charmap=%s %s/%s" \
+>>                  % (treedir, treedir, datadir, locale, encoding,
+>> outputpath, name)
+>>
+>> @@ -295,7 +295,7 @@ python package_do_split_gconvs () {
+>>                  (path, i18npath, gconvpath, localedef_opts)
+>>          else: # earlier slower qemu way
+>>              qemu = qemu_target_binary(d)
+>> -            localedef_opts = "--force --old-style --no-archive
+>> --prefix=%s \
+>> +            localedef_opts = "--force --no-archive --prefix=%s \
+>>                  --inputfile=%s/i18n/locales/%s --charmap=%s %s" \
+>>                  % (treedir, datadir, locale, encoding, name)
 >> --
 >> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+>> bitbake-devel mailing list
+>> bitbake-devel@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/bitbake-devel
+>
+>
+>
+> --
+> Christopher Larson
+> kergoth at gmail dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Senior Software Engineer, Mentor Graphics
 
