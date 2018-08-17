@@ -1,39 +1,39 @@
 Return-Path: <straka.derek@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C037D78FB3
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 963ED745BC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 12:25:51 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id 126-v6so6072418qke.5
+	Fri, 17 Aug 2018 12:28:26 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id r21-v6so8482030qtm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 05:25:53 -0700 (PDT)
+	Fri, 17 Aug 2018 05:28:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Bo0RwQPPIWVDdtzP4d8JSK0w8sX+1gJzwCRnUk9VTJ8=;
-	b=BE4ae3nzBK0T9uen/t9ZJdS+xxEsNm+hnMb2zXArYNqoStAXeLLQvaMC6vHfwjiXb5
-	S9Lu+uH2c0/f+t9xKHhmAee/i+CaiNKdrkFU2WuLOnfSgHkzR8OxI268afIxeC+zVZlo
-	wwDq7FazCdhoiUj8IWHx7DmoX2CtbrHf49wgkyW9zV2LNE9rMybQScHZFlwjyruCwnlS
-	sRj4/sGBcBPvRVUP2bHQFkpFF5zZcD3V9k3/tAamX70z4WBZ3d6+JZK5sh0TZ+E8rF47
-	dIOZsRtWfDjAnA23T3SVss5yIgqHX1eq6RPP1SdU/secLR0+WrSO454i9IMbblbWUlqL
-	LgWQ==
-X-Gm-Message-State: AOUpUlHQdm/KistaJbwSgnLqf46xPC1BBjwfGFF4TfxBHmFt6XJC3xJg
-	hfg5A451RoS8sxzErGdfWOySB3K0
-X-Google-Smtp-Source: AA+uWPzl8JNFfAck2A09tn7BdEIOnwfGW7qYU4AOhZnlmuHk2hGrerx5zY83TuYzsQQH0jc570lHyg==
-X-Received: by 2002:a37:484a:: with SMTP id
-	v71-v6mr30652679qka.38.1534508752288; 
-	Fri, 17 Aug 2018 05:25:52 -0700 (PDT)
+	bh=4YXkH7h492+eDrpdwaV0CjUA8qqqdFeBdcusN7C+sS4=;
+	b=iJrDdhoEW+ERsMOyFASEJQAZH9Mlx0b3etGqM4YWlgRp7m8tlu4JTao35fZc2rLG0Q
+	JwjFwVvRr0pK/IYW2G3p7RrpyOLDTKvjUN3m4+nDU2n88qMyG6BCpe+5HUgCPciiWvx6
+	UzJpevDgHoxDZ79TVDZM/bA5qA1WabXkg1yB26zsj1CEhGOViZvQ+AcqMMAZae1bUPDa
+	o1sowff8ce58ZxtzAI0YomCVwGy9oqNCQMbRLKF09ft81H7IV8ZO5tZlH6uWXRiWKpuH
+	0w+L4/kPPmN4QIKw4H8gZlWFb67O5zJkUyBXj1oDEN3eu6elsdUXEj/Si3iGxMWQnry0
+	kLtQ==
+X-Gm-Message-State: AOUpUlGT7BhJ8MCVgG7TbHyyCq0t0yMNwq+udxaOMPFVehSXIaC0yOso
+	vnna793fnpx+ZQ5azky5yxT/hfD5
+X-Google-Smtp-Source: AA+uWPz6FlDhup5EoqIBucS7QJDwmBk+Hi8G+xBuperpSJTGoRMWY6/jWGBB2vPN6K+59NQuYegf5A==
+X-Received: by 2002:a0c:d24d:: with SMTP id
+	o13-v6mr29708045qvh.210.1534508907125; 
+	Fri, 17 Aug 2018 05:28:27 -0700 (PDT)
 Received: from sparta.ny.asterius.io ([68.132.61.164])
 	by smtp.gmail.com with ESMTPSA id
-	c127-v6sm1120743qka.13.2018.08.17.05.25.51
+	u25-v6sm1107414qkk.7.2018.08.17.05.28.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 17 Aug 2018 05:25:51 -0700 (PDT)
+	Fri, 17 Aug 2018 05:28:26 -0700 (PDT)
 From: Derek Straka <derek@asterius.io>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2018 08:25:42 -0400
-Message-Id: <1534508742-25387-1-git-send-email-derek@asterius.io>
+Date: Fri, 17 Aug 2018 08:28:20 -0400
+Message-Id: <1534508900-1733-1-git-send-email-derek@asterius.io>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python3-pip: update to version 18.0
+Subject: [PATCH] python3-gitdb: update to version 2.0.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,41 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 12:25:52 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 12:28:26 -0000
 
-License-Update: Update checksum for copyright year changes
-
-Update to the latest stable version
+Update to the latest stable release
 
 Signed-off-by: Derek Straka <derek@asterius.io>
 ---
- .../python/{python3-pip_10.0.1.bb => python3-pip_18.0.bb}           | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-pip_10.0.1.bb => python3-pip_18.0.bb} (71%)
+ meta/recipes-devtools/python/python-gitdb.inc                         | 4 ++--
+ .../python/{python3-gitdb_2.0.3.bb => python3-gitdb_2.0.4.bb}         | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-gitdb_2.0.3.bb => python3-gitdb_2.0.4.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_10.0.1.bb b/meta/recipes-devtools/python/python3-pip_18.0.bb
-similarity index 71%
-rename from meta/recipes-devtools/python/python3-pip_10.0.1.bb
-rename to meta/recipes-devtools/python/python3-pip_18.0.bb
-index 8deec2b..3fcdb80 100644
---- a/meta/recipes-devtools/python/python3-pip_10.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-pip_18.0.bb
-@@ -2,12 +2,12 @@ SUMMARY = "The PyPA recommended tool for installing Python packages"
- HOMEPAGE = "https://pypi.python.org/pypi/pip"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3f8d33acaac5c5dac8c613904bd56a6f"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=593c6cd9d639307226978cbcae61ad4b"
+diff --git a/meta/recipes-devtools/python/python-gitdb.inc b/meta/recipes-devtools/python/python-gitdb.inc
+index 2d5292e..789ab95 100644
+--- a/meta/recipes-devtools/python/python-gitdb.inc
++++ b/meta/recipes-devtools/python/python-gitdb.inc
+@@ -8,8 +8,8 @@ inherit pypi
  
- DEPENDS += "python3 python3-setuptools-native"
+ PYPI_PACKAGE = "gitdb2"
  
--SRC_URI[md5sum] = "83a177756e2c801d0b3a6f7b0d4f3f7e"
--SRC_URI[sha256sum] = "f2bd08e0cd1b06e10218feaf6fef299f473ba706582eb3bd9d52203fdbd7ee68"
-+SRC_URI[md5sum] = "52f75ceb21e96c258f289859a2996b60"
-+SRC_URI[sha256sum] = "a0e11645ee37c90b40c46d607070c4fd583e2cd46231b1c06e389c5e814eed76"
+-SRC_URI[md5sum] = "d5217eb94ebd36fcec62b929d1f72b00"
+-SRC_URI[sha256sum] = "b60e29d4533e5e25bb50b7678bbc187c8f6bcff1344b4f293b2ba55c85795f09"
++SRC_URI[md5sum] = "6e21f5795a204f7afecb0a72fff66932"
++SRC_URI[sha256sum] = "bb4c85b8a58531c51373c89f92163b92f30f81369605a67cd52d1fc21246c044"
  
- inherit pypi distutils3
+ DEPENDS = "${PYTHON_PN}-async ${PYTHON_PN}-setuptools-native ${PYTHON_PN}-smmap"
  
+diff --git a/meta/recipes-devtools/python/python3-gitdb_2.0.3.bb b/meta/recipes-devtools/python/python3-gitdb_2.0.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-gitdb_2.0.3.bb
+rename to meta/recipes-devtools/python/python3-gitdb_2.0.4.bb
 -- 
 2.7.4
 
