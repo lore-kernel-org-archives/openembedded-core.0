@@ -1,51 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f48.google.com (mail-pl0-f48.google.com
-	[209.85.160.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E263B792B2
+Received: from mail-pl0-f49.google.com (mail-pl0-f49.google.com
+	[209.85.160.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 2207078AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 04:43:43 +0000 (UTC)
-Received: by mail-pl0-f48.google.com with SMTP id w14-v6so3134815plp.6
+	Fri, 17 Aug 2018 04:43:46 +0000 (UTC)
+Received: by mail-pl0-f49.google.com with SMTP id g23-v6so169606plq.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 21:43:45 -0700 (PDT)
+	Thu, 16 Aug 2018 21:43:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=31IrPAeP2ZDvprgF1W8oTUzP1gbYROE2iRXA8ZFJ63U=;
-	b=UpcyrzW7cXgVft4/g0rETtK6XP8Kyb1gZ6XolGLUd6VyVCYZRuKXuBGeVW2XjR0Zt6
-	xVty0ZOmTDSYcxQ2wmujAo5/tvzttK4Iodsh2jy5pB/Giz8vwjsTuAdc+4um2UpYFFWr
-	Cnji+uwmlYQZhq/knaHZR+lfmJn+WDA8e6km9wWsL/Vhseb2fTQ288WRTB/rOMjLEKlu
-	efWsrPAlxWPExdq3nnz+1VHeZr7+bWpMmnKNqIScOvF3ZOBOJRVH4d1jGlAeAsnWhcFS
-	zHl23vrsCuJhEVt94dR5G5dX07VN99V7uNOWGxTeBsY3Neymik3eQ872CVWH1RVAu4KV
-	vvRA==
+	bh=TMTY4aRlnxogUU7bArzBzs0i8XRkdXhcFnvH1ktgFoY=;
+	b=e4tIZO7fhPmilMZsXgHX6qNU2U8qamlF+vUY4ib1gdnDr42uHnbgfQQNnHxlAL3gM1
+	saL5tYeqAwf/IF2/sPoRw4FXobhQ7y+sj4r3jhdzHyzCImodoDqcaKfx/4w381y08s8P
+	WVA4+PR9M8BB/zNy2cJtP1giUKTl+T6mcvxKdZda/37FmTKmrLexfZRS7vaNzt72G3Lo
+	77HFbZPIZoGxyoGqA7pQB2rfhVcHBi8to9n6XyF828UhdqH3fkOldKXnLsb0cq1OdN30
+	tM8Xkevr8/nTltUU1W4EblwhRhhboX4KC/yt897+EmcqytiUU/EQRfnuxUtDRnWojHHe
+	ZEAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=31IrPAeP2ZDvprgF1W8oTUzP1gbYROE2iRXA8ZFJ63U=;
-	b=BKwTQTKv0u1qeFe/M/E3w0Zq8+R868UkWuYl5jgXVSpmENVRuvtMw8aqI0vCKtz0ri
-	jWBxf1+3VEGw5py8dLiJICOqMGEVy7dV0kebyN7Qady67JVHDsrLXHlOECDTBzRVz+1F
-	AdrDTCXqKi9eT9BOTR6utPZMqQpZImj4xlPu0Fvx0BYzb5gLyRaBStv9kllCDJ0xYUvx
-	vgsP53/ieOh50qneKbdvtoMcgNkV3DF76567jkJ4yQlUSoJr2hSfEv1Y7Hlo2ayXgRo0
-	7NHplAidacdHDsNh3U9q+aHsPYZRWYTMClIOt2vdy4w+TGGjVxD1wI9C+BejBfHynDtE
-	QISQ==
-X-Gm-Message-State: AOUpUlFzg0XcwCRfKu1VlvB6CSfg52i2cDZUdUCn1GgvMB4dAu4kciek
-	+EpYMfHaQiCe2DHXO9LnKxb02ffk
-X-Google-Smtp-Source: AA+uWPwPYdeBj1gFexI/2C23nfsqmBdVGN2YJIdRAQYnc45DPGP2DU2aSTt1kQHkVfGE2jLjcXVu8Q==
-X-Received: by 2002:a17:902:d710:: with SMTP id
-	w16-v6mr31797152ply.93.1534481024948; 
-	Thu, 16 Aug 2018 21:43:44 -0700 (PDT)
+	bh=TMTY4aRlnxogUU7bArzBzs0i8XRkdXhcFnvH1ktgFoY=;
+	b=QqxHsLhPleYq4c/kc1jKDVmeYuWw8Vx9Q7XP4KFkkNZiZy2cdfXgCrNeCBO1szDV1m
+	OjgjDYwAqb25bKdFXjoctK5LEFrm3tcklhYkic1oACQZAeXcwK60ieWqYN/DeTF+aFX9
+	uRoYq5fLrU7zkftlr8Au7m1981QzvEq4DC8kZdhO5lKNTTIR2jyt2vBOf8RPS4JZKQpD
+	gKEFnTSVzEC8pl+jXQIbsYZfaq2INVJbjE2K7C+vQxV49g4I55jH8WgJ9ngVg8/OJmjJ
+	nbTRNv3diQWx0h4Ar2I7Jc7Zsyn84QdpEIhkPYV4uhbxVqaULMRIHd5iwNyQC5AjogqT
+	mFMQ==
+X-Gm-Message-State: AOUpUlHiqQjs0o7Q7IpOUWzUa9XhYDTX0lX7ADsGPy/WtL8JPWcjdP0x
+	h1BFNth6mCxCilzu1pat8GXHj/fO
+X-Google-Smtp-Source: AA+uWPzJ4xFXj1R+SoCqpuG8/S25MtBdqY8/yDtYkj0WHAqamCXoRvZFyqV7pzSfoBpiTUlsTBuH7w==
+X-Received: by 2002:a17:902:9a8a:: with SMTP id
+	w10-v6mr31882905plp.14.1534481027056; 
+	Thu, 16 Aug 2018 21:43:47 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	r64-v6sm1157526pfk.157.2018.08.16.21.43.44
+	r64-v6sm1157526pfk.157.2018.08.16.21.43.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 16 Aug 2018 21:43:44 -0700 (PDT)
+	Thu, 16 Aug 2018 21:43:46 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Aug 2018 21:43:32 -0700
-Message-Id: <1534481017-17310-2-git-send-email-armccurdy@gmail.com>
+Date: Thu, 16 Aug 2018 21:43:33 -0700
+Message-Id: <1534481017-17310-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1534481017-17310-1-git-send-email-armccurdy@gmail.com>
 References: <1534481017-17310-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/7] openssl: update 32bit x86 target from linux-elf -> linux-x86
+Subject: [PATCH 3/7] openssl: minor reformatting to align the 1.0 and 1.1 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +58,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 04:43:44 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 04:43:46 -0000
 
-According to comments in Configurations/10-main.conf, the linux-elf
-target is "... to be used on older Linux machines where gcc doesn't
-understand -m32 and -m64".
-
-The linux-x86 target appears to be the newer replacement (currently
-the only difference between the two is that linux-x86 adds -m32 to
-cflags).
+Formatting and comment tweaks only, no functional changes.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.0i.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../recipes-connectivity/openssl/openssl_1.0.2p.bb | 43 +++++++++++-----------
+ .../recipes-connectivity/openssl/openssl_1.1.0i.bb | 36 ++++++++++--------
+ 2 files changed, 42 insertions(+), 37 deletions(-)
 
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
+index 5a2593c..1abf894 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
+@@ -223,10 +223,11 @@ do_install () {
+ 	install -d ${D}${includedir}
+ 	cp --dereference -R include/openssl ${D}${includedir}
+ 
++	oe_multilib_header openssl/opensslconf.h
++
+ 	install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
+ 	sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
+ 
+-	oe_multilib_header openssl/opensslconf.h
+ 	if [ "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}" ]; then
+ 		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+ 		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/tsget
+@@ -234,12 +235,12 @@ do_install () {
+ 		rm -f ${D}${libdir}/ssl/misc/CA.pl ${D}${libdir}/ssl/misc/tsget
+ 	fi
+ 
+-	# Create SSL structure
+-	install -d ${D}${sysconfdir}/ssl/
+-	mv ${D}${libdir}/ssl/openssl.cnf \
+-	   ${D}${libdir}/ssl/certs \
++	# Create SSL structure for packages such as ca-certificates which
++	# contain hard-coded paths to /etc/ssl. Debian does the same.
++	install -d ${D}${sysconfdir}/ssl
++	mv ${D}${libdir}/ssl/certs \
+ 	   ${D}${libdir}/ssl/private \
+-	   \
++	   ${D}${libdir}/ssl/openssl.cnf \
+ 	   ${D}${sysconfdir}/ssl/
+ 	ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl/certs
+ 	ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl/private
+@@ -256,6 +257,19 @@ do_install () {
+ 	done
+ }
+ 
++do_install_append_class-native () {
++	create_wrapper ${D}${bindir}/openssl \
++	    OPENSSL_CONF=${libdir}/ssl/openssl.cnf \
++	    SSL_CERT_DIR=${libdir}/ssl/certs \
++	    SSL_CERT_FILE=${libdir}/ssl/cert.pem \
++	    OPENSSL_ENGINES=${libdir}/ssl/engines
++}
++
++do_install_append_class-nativesdk () {
++	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
++	install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++}
++
+ do_install_ptest () {
+ 	cp -r -L Makefile.org Makefile test ${D}${PTEST_PATH}
+ 
+@@ -304,21 +318,8 @@ do_install_ptest () {
+ 	${D}${PTEST_PATH}/Makefile ${D}${PTEST_PATH}/Configure
+ }
+ 
+-do_install_append_class-native() {
+-	create_wrapper ${D}${bindir}/openssl \
+-	    OPENSSL_CONF=${libdir}/ssl/openssl.cnf \
+-	    SSL_CERT_DIR=${libdir}/ssl/certs \
+-	    SSL_CERT_FILE=${libdir}/ssl/cert.pem \
+-	    OPENSSL_ENGINES=${libdir}/ssl/engines
+-}
+-
+-do_install_append_class-nativesdk() {
+-	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
+-	install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
+-}
+-
+-# Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
+-# package RRECOMMENDS on this package.  This will enable the configuration
++# Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
++# package RRECOMMENDS on this package. This will enable the configuration
+ # file to be installed for both the base openssl package and the libcrypto
+ # package since the base openssl package depends on the libcrypto package.
+ 
 diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
-index 8a8d928..ab0d264 100644
+index ab0d264..3d4b7ee 100644
 --- a/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
-@@ -58,7 +58,7 @@ do_configure () {
- 		target=linux-aarch64
- 		;;
- 	linux-i?86 | linux-viac3)
--		target=linux-elf
-+		target=linux-x86
- 		;;
- 	linux-gnux32-x86_64 | linux-muslx32-x86_64 )
- 		target=linux-x32
+@@ -106,16 +106,16 @@ do_configure () {
+ 
+ do_install () {
+ 	oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
++
+ 	oe_multilib_header openssl/opensslconf.h
+ 
+-	# Create SSL structure for PATH hard-coded packages like ca-certificates
+-	# Debian is also using this technique
+-	install -d ${D}${sysconfdir}/ssl/
+-	mv ${D}${libdir}/ssl-1.1/openssl.cnf \
+-		${D}${libdir}/ssl-1.1/certs \
+-		${D}${libdir}/ssl-1.1/private \
+-		\
+-		${D}${sysconfdir}/ssl/
++	# Create SSL structure for packages such as ca-certificates which
++	# contain hard-coded paths to /etc/ssl. Debian does the same.
++	install -d ${D}${sysconfdir}/ssl
++	mv ${D}${libdir}/ssl-1.1/certs \
++	   ${D}${libdir}/ssl-1.1/private \
++	   ${D}${libdir}/ssl-1.1/openssl.cnf \
++	   ${D}${sysconfdir}/ssl/
+ 	ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl-1.1/certs
+ 	ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl-1.1/private
+ 	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl-1.1/openssl.cnf
+@@ -134,7 +134,7 @@ do_install_append_class-nativesdk () {
+ 	install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
+ }
+ 
+-do_install_ptest() {
++do_install_ptest () {
+ 	cp -r * ${D}${PTEST_PATH}
+ 
+ 	# Putting .so files in ptest package will mess up the dependencies of the main openssl package
+@@ -144,22 +144,26 @@ do_install_ptest() {
+ 	sed -i 's/$target{shared_extension_simple}/".so.ptest"/' ${D}${PTEST_PATH}/test/recipes/90-test_shlibload.t
+ }
+ 
+-PACKAGES =+ "libcrypto libssl ${PN}-misc ${PN}-engines openssl-conf"
++# Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
++# package RRECOMMENDS on this package. This will enable the configuration
++# file to be installed for both the openssl-bin package and the libcrypto
++# package since the openssl-bin package depends on the libcrypto package.
++
++PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc"
+ 
+ FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
+ FILES_libssl = "${libdir}/libssl${SOLIBS}"
+-FILES_${PN} =+ "${libdir}/ssl-1.1/*"
+-FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
++FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf ${libdir}/ssl-1.1/openssl.cnf"
+ FILES_${PN}-engines = "${libdir}/engines-1.1"
+-
+ FILES_${PN}-misc = "${libdir}/ssl-1.1/misc"
+-RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
++FILES_${PN} =+ "${libdir}/ssl-1.1/*"
++FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
+ 
+-FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf ${libdir}/ssl-1.1/openssl.cnf"
+ CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+-RRECOMMENDS_libcrypto += "openssl-conf"
+ 
++RRECOMMENDS_libcrypto += "openssl-conf"
+ RDEPENDS_${PN}-bin = "perl"
++RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
+ RDEPENDS_${PN}-ptest += "perl-module-file-spec-functions bash python"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 1.9.1
 
