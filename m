@@ -1,49 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id AE1187910D
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E9DE27910D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 00:30:14 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id y5-v6so2809130pgv.1
+	Fri, 17 Aug 2018 00:35:38 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id ba4-v6so2870423plb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 17:30:16 -0700 (PDT)
+	Thu, 16 Aug 2018 17:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:openpgp:autocrypt:organization
 	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=99TTt1MwVXFvrzPS9EYOhiS+V9RWEobw8LCr/wzWnwU=;
-	b=RNTW56eIvfAfFgjQdv0uT4u3GBUv2O5XAfvOPrHFX6zu7n7Kqo3tKMaxTXzCEXMGp1
-	TyzJsqxKqP1vPrgHfZ4tqhZjScaChGK11P4zzh0a4NOeFjAnfIeKes9ymqLPemy2o+3S
-	1+41JNAkLCqPRX5U7zo1WD8Z3409TXnXyvjYO/7JSvzcJA8qn8O7JFCQ+vVPogzx8aoX
-	iGZxxxynEv7WNwAR1KLDmE7KNgN8f5ivDWJwPNqNggM/Jy2NrQ++hYIZu2hcMxRPPlMc
-	UmBuOXx24Fh5F7xQcLnW/D4hyPEBzQ5nktyOXLhjbHQoHQkQuyklol4TjuncYkwut7lk
-	OWjg==
+	bh=kSQLl0f5wmN+qxohZ1+pgJ9ozDaVfg03Z0wV3COSYso=;
+	b=MF+bcUMhkFAZFhYEc2x0gvWBi9lvlgzIfpQvh5BgUPgw1DcRB9RCDMFBjKDjmQFhN+
+	GnMdIYDDCh828qZWa5oNoPYdo+ffJ00HXNUhucYHZEIEB7OjeS2To9lq4FprS5DY03Lq
+	puqOY4u9PDwa/aoC/kHlsSoc3tNwSheK9EgqMHFj289oHb0EseHh8x7LrqoYvTWhyOen
+	FTGTpFnOSga8Fzszde578JhhuWEUmTOj6R5zTcNnmPJq3IBLYH9RC4HlJ+dVOXkBofQd
+	+/XaPCM3oX68eGj2vibdmio/cOMU9k5yTkj94/hZBPnosVL97wibGRxIDN19kBbG2CHD
+	AOhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:organization:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=99TTt1MwVXFvrzPS9EYOhiS+V9RWEobw8LCr/wzWnwU=;
-	b=ALCa1xzAp4V4g9ZKGv0Ejupd5hSGH8OUO7SkISLF1dzCGutXN/qVMs/ShDnSbfvAhw
-	FbpTQIup0kWS2GFw0u3SgrnsZlH8XybBLaDdhvbSQ7PdFAWxwVq/o4THMEAFIQ1r8TlT
-	kNCP54c1qIoN6gvtPU994pT++BicYtRa/JNH7ktqfHG5vO7qk7aI68fMD25UsB7jn1j0
-	VTi3YgibHGA5El1KUN2/4FyK+xzyb7xkO8JyXAJHmt2Wz08HbC9FDHxMRGzlit5U8qcQ
-	rX7vQ8H3N39u0zRcfXokxl7NEAoXeJO6pQtVCrMGvgImF9OTgvgrgW6jCU4hu9veKCzB
-	UdOQ==
-X-Gm-Message-State: AOUpUlEz/GD2MH+WzgrE5llcKhVYuZ8ZUJAE2bwb5TfK6WcVvCZWt045
-	g0rMQVZjszYTrxfzqHgM6V+dFNrj
-X-Google-Smtp-Source: AA+uWPxfqN0dRexd+qCRUUp4hRA3dRuD0oem7Dhx8O1Rc1NiNpzYOshtPncKemV0qaS0sDO+N9mSig==
-X-Received: by 2002:a63:c24c:: with SMTP id
-	l12-v6mr3497242pgg.255.1534465815286; 
-	Thu, 16 Aug 2018 17:30:15 -0700 (PDT)
+	bh=kSQLl0f5wmN+qxohZ1+pgJ9ozDaVfg03Z0wV3COSYso=;
+	b=YEtuZMqoboM3BLxzZw1Z7jcxa34gnG0T7Hfwem7PPtYSlOOkMl8rCdALiIeKG5jRBb
+	ltgT+2Mddd1/pIauVR4Qoccjms96A8b21Zzjo3yn65WWgXP5GZCuyfTx0RbUZZsmxxp/
+	Z3E8MSdN/j3ERlxjHSTFNYW0m6UTDC57nXNJ1duw2jYx3RjoxILZcCJ7A8cFTibBLwG/
+	0pD8dG2qw8IB4jY5QtfJQT3mvxmx1YllavnhcFWmVqazzztzHmzSt8uQzDGrn0i0tIg7
+	LPSSCUGQ2GxCEjO4RC4ZQ663cqfY7y3xWRUCHCRk0uVtT4FAreJd9GKKppeM1VtG1BPS
+	rndA==
+X-Gm-Message-State: AOUpUlEA4zDKaYKSeAF1fsxLAPUg7POVGniflHpLGSe1Biv6lrSUgIqj
+	PsL6YhxjmamSp2Ta0llmK/Fzz6D5
+X-Google-Smtp-Source: AA+uWPxL0vI/6TQ8uS9T7cZGv2SckI0k6VJICMMAG9qurLA33MI+2+e0FwJwgIa2/IPFLawWTzsaaQ==
+X-Received: by 2002:a17:902:2d24:: with SMTP id
+	o33-v6mr31378705plb.38.1534466139649; 
+	Thu, 16 Aug 2018 17:35:39 -0700 (PDT)
 Received: from hermes.local ([2601:646:877f:9499:2490:104c:b925:26c4])
 	by smtp.gmail.com with ESMTPSA id
-	87-v6sm667533pfn.103.2018.08.16.17.30.13
+	16-v6sm663665pfo.164.2018.08.16.17.35.38
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Aug 2018 17:30:13 -0700 (PDT)
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1534399650.git.liezhi.yang@windriver.com>
-	<2f1af64114464437840516b805fec7cd0773858c.1534399650.git.liezhi.yang@windriver.com>
-	<ca94ab6e-6f5e-e219-a639-81081636fd43@windriver.com>
+	Thu, 16 Aug 2018 17:35:39 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+References: <cover.1534415298.git.Qi.Chen@windriver.com>
+	<ff26a8565e39359ed0247b3c12bfd80eb6021223.1534415298.git.Qi.Chen@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=raj.khem@gmail.com; prefer-encrypt=mutual; keydata=
@@ -79,13 +78,13 @@ Autocrypt: addr=raj.khem@gmail.com; prefer-encrypt=mutual; keydata=
 	XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiwkkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
 	VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 Organization: HIMVIS LLC
-Message-ID: <4a27756b-30b1-074f-61d2-1de6a29371e2@gmail.com>
-Date: Thu, 16 Aug 2018 17:30:05 -0700
+Message-ID: <b0654a3c-4456-73d8-3019-b500cc50742b@gmail.com>
+Date: Thu, 16 Aug 2018 17:35:33 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
 	Gecko/20100101 Thunderbird/60.0
 MIME-Version: 1.0
-In-Reply-To: <ca94ab6e-6f5e-e219-a639-81081636fd43@windriver.com>
-Subject: Re: [PATCH 1/1] binutils: Improve check for input file matching output file
+In-Reply-To: <ff26a8565e39359ed0247b3c12bfd80eb6021223.1534415298.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] glibc: re-package for libnss-db
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -98,203 +97,352 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 00:30:14 -0000
-X-Groupsio-MsgNum: 114840
+X-List-Received-Date: Fri, 17 Aug 2018 00:35:39 -0000
+X-Groupsio-MsgNum: 114841
 Content-Type: multipart/signed; micalg=pgp-sha1;
 	protocol="application/pgp-signature";
-	boundary="YZPZqWaaULNZY38TZDw1WI4ePX4sFCngn"
+	boundary="0nnZ6BwctFPf5WQvLROWyHGfp7UKxQX2d"
 
---YZPZqWaaULNZY38TZDw1WI4ePX4sFCngn
-Content-Type: multipart/mixed; boundary="nhcRoQkl6vDsJdYwCKQ04XegtthvNO3TS";
+--0nnZ6BwctFPf5WQvLROWyHGfp7UKxQX2d
+Content-Type: multipart/mixed; boundary="5VHiuwjezfZZfcTtegTdTJ5hkEO0Q4UMF";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>,
- openembedded-core@lists.openembedded.org
-Message-ID: <4a27756b-30b1-074f-61d2-1de6a29371e2@gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] binutils: Improve check for input file
- matching output file
-References: <cover.1534399650.git.liezhi.yang@windriver.com>
- <2f1af64114464437840516b805fec7cd0773858c.1534399650.git.liezhi.yang@windriver.com>
- <ca94ab6e-6f5e-e219-a639-81081636fd43@windriver.com>
-In-Reply-To: <ca94ab6e-6f5e-e219-a639-81081636fd43@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <b0654a3c-4456-73d8-3019-b500cc50742b@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] glibc: re-package for libnss-db
+References: <cover.1534415298.git.Qi.Chen@windriver.com>
+ <ff26a8565e39359ed0247b3c12bfd80eb6021223.1534415298.git.Qi.Chen@windriver.com>
+In-Reply-To: <ff26a8565e39359ed0247b3c12bfd80eb6021223.1534415298.git.Qi.Chen@windriver.com>
 
---nhcRoQkl6vDsJdYwCKQ04XegtthvNO3TS
+--5VHiuwjezfZZfcTtegTdTJ5hkEO0Q4UMF
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 8/15/18 11:25 PM, Robert Yang wrote:
+On 8/16/18 3:37 AM, Chen Qi wrote:
+> On other distros like ubuntu/centos, libnss-db usually provides:
+> - The libraries
+> - The Makefile to create database
+>   (in /var/db for centos, /var/lib/misc/ for ubuntu)
+> - The makedb command (it's in glibc-common for centos7)
 >=20
+> What we had is:
+> - The libraries are in glibc-extra-nss
+> - The Makefile is removed
+> - The makedb command is in glibc-utils (lack of dependency)
 >=20
-> On 08/16/2018 02:14 PM, Robert Yang wrote:
->> When the assembler reports that the input and output are the same,
->> report the
->> file names involved, in order to help debugging.=C2=A0 Also do not equ=
-ate
->> two files
->> are the same if the have the same inode value but reside on different
->> file
->> systems.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->> =C2=A0 meta/recipes-devtools/binutils/binutils-2.31.inc=C2=A0=C2=A0 |=C2=
-=A0 1 +
->> =C2=A0 ...check-for-input-file-matching-output-file.patch | 59
->> ++++++++++++++++++++++
->> =C2=A0 2 files changed, 60 insertions(+)
->> =C2=A0 create mode 100644
->> meta/recipes-devtools/binutils/binutils/0017-improve-check-for-input-f=
-ile-matching-output-file.patch
->>
->>
->> diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc
->> b/meta/recipes-devtools/binutils/binutils-2.31.inc
->> index 02d5bca..6603873 100644
->> --- a/meta/recipes-devtools/binutils/binutils-2.31.inc
->> +++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
->> @@ -36,6 +36,7 @@ SRC_URI =3D "\
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0014-Detect-64-bit-MIPS-ta=
-rgets.patch \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0015-sync-with-OE-libtool-=
-changes.patch \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0016-add-i386pep-emulation=
--for-x86_64.patch \
->> +=C2=A0=C2=A0=C2=A0=C2=A0
->> file://0017-improve-check-for-input-file-matching-output-file.patch \
->> =C2=A0 "
->> =C2=A0 S=C2=A0 =3D "${WORKDIR}/git"
->> =C2=A0 diff --git
->> a/meta/recipes-devtools/binutils/binutils/0017-improve-check-for-input=
--file-matching-output-file.patch
->> b/meta/recipes-devtools/binutils/binutils/0017-improve-check-for-input=
--file-matching-output-file.patch
->>
->> new file mode 100644
->> index 0000000..6d8d8a3
->> --- /dev/null
->> +++
->> b/meta/recipes-devtools/binutils/binutils/0017-improve-check-for-input=
--file-matching-output-file.patch
->>
->> @@ -0,0 +1,59 @@
->> +From 2a50366ded329bfb39d387253450c9d5302c3503 Mon Sep 17 00:00:00 200=
-1
->> +From: Robert Yang <liezhi.yang@windriver.com>
->> +Date: Tue, 14 Aug 2018 12:22:35 +0100
->> +Subject: [PATCH] as.c: Improve check for input file matching output
->> file.
->> +
->> +When the assembler reports that the input and output are the same,
->> report the
->> +file names involved, in order to help debugging.=C2=A0 Also do not eq=
-uate
->> two files
->> +are the same if the have the same inode value but reside on different=
-
->> file
->> +systems.
->> +
->> +Upstream-Status: Backport
->> +
->> +Robert Yang <liezhi.yang@windriver.com>
+> So when glibc-extra-nss is installed but glibc-utils is not,
+> we see error like:
+> nscd[165]: 165 checking for monitored file `/var/db/group.db': No such =
+file or directory
+> nscd[165]: 165 checking for monitored file `/var/db/passwd.db': No such=
+ file or directory
 >=20
-> Sorry, here missed a SOB, I fixed it in the repo:
+> And there is not an easy way to create these databases.
 >=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-
-
-patch is ok
-
+> To fix the issue:
+> - Re-package the libraries into libnss-db
+> - Don't remove the Makefile and add it in libnss-db
+> - Add RDEPENDS for libnss-db on glibc-utils
+> - Provide a shell script, makedbs.sh, to generate the db files.
+>   This is to avoid dependency on 'make'.
 >=20
-> // Robert
+> Notes:
+> 1. For external toolchain, an extra package 'libnss-db' need to be prov=
+ided
+>    If replacing glibc from core.
+> 2. I've check the git history of nss/db-Makefile, the last two function=
+ality
+>    fix is as below.
+>    - fix non-portable `echo -n` usage   --  Date:   Thu Aug 6 04:14:20 =
+2015 -0400
+>    - Fix db makefile rule for group.db  --  Date:   Fri Nov 11 14:43:36=
+ 2011 +0100
+>    So I think this file is stable enough. And using makedbs.sh which is=
+ crafted according
+>    to that file is not likely to cause maintanence problem.
+
+
+using a shell script instead of Makefile is worthwhile change to submit
+upstream. Please go ahead and submit it to glibc mailing lists.
+
+Overall the changes look ok to me.
 >=20
->> +---
->> + gas/as.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 27 ++++++++++++++++++++----=
----
->> + 2 files changed, 20 insertions(+), 7 deletions(-)
->> +
->> +diff --git a/gas/as.c b/gas/as.c
->> +index b2a908a..3105d06 100644
->> +--- a/gas/as.c
->> ++++ b/gas/as.c
->> +@@ -1259,14 +1259,27 @@ main (int argc, char ** argv)
->> +=C2=A0=C2=A0=C2=A0=C2=A0 {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct stat sib;
->> +
->> +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (stat (argv[i], &sib) =3D=3D 0)
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Check that the input file and outp=
-ut file are different.=C2=A0 */
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (stat (argv[i], &sib) =3D=3D 0
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 && sib.st_ino=
- =3D=3D sob.st_ino
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* POSIX emul=
-ating systems may support stat() but if the
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 underlying file sys=
-tem does not support a file serial number
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 of some kind then t=
-hey will return 0 for the inode.=C2=A0 So
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 two files with an i=
-node of 0 may not actually be the same.
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 On real POSIX syste=
-ms no ordinary file will ever have an
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inode of 0.=C2=A0 *=
-/
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 && sib.st_ino=
- !=3D 0
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Different =
-files may have the same inode number if they
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reside on different=
- devices, so check the st_dev field as
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 well.=C2=A0 */
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 && sib.st_dev=
- =3D=3D sob.st_dev)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
->> +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (sib.st_in=
-o =3D=3D sob.st_ino && sib.st_ino !=3D 0)
->> +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
->> +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Don't let =
-as_fatal remove the output file!=C2=A0 */
->> +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 out_file_name=
- =3D NULL;
->> +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 as_fatal (_("=
-The input and output files must be distinct"));
->> +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char *s=
-aved_out_file_name =3D out_file_name;
->> ++
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Don't let =
-as_fatal remove the output file!=C2=A0 */
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 out_file_name=
- =3D NULL;
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 as_fatal (_("=
-The input '%s' and output '%s' files are the
->> same"),
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 a=
-rgv[i], saved_out_file_name);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +--
->> +2.7.4
->> +
->>
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-core/glibc/glibc-package.inc |   6 +-
+>  meta/recipes-core/glibc/glibc/makedbs.sh  | 177 ++++++++++++++++++++++=
+++++++++
+>  meta/recipes-core/glibc/glibc_2.28.bb     |   1 +
+>  3 files changed, 182 insertions(+), 2 deletions(-)
+>  create mode 100755 meta/recipes-core/glibc/glibc/makedbs.sh
+>=20
+> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-c=
+ore/glibc/glibc-package.inc
+> index 07ce75d..9ea41b7 100644
+> --- a/meta/recipes-core/glibc/glibc-package.inc
+> +++ b/meta/recipes-core/glibc/glibc-package.inc
+> @@ -1,6 +1,6 @@
+>  INHIBIT_SYSROOT_STRIP =3D "1"
+> =20
+> -PACKAGES =3D "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db =
+${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN=
+} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
+> +PACKAGES =3D "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db =
+${PN}-pic libcidn libmemusage libnss-db libsegfault ${PN}-pcprofile libso=
+truss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-d=
+oc"
+> =20
+>  # The ld.so in this glibc supports the GNU_HASH
+>  RPROVIDES_${PN} =3D "eglibc rtld(GNU_HASH)"
+> @@ -23,6 +23,8 @@ FILES_ldd =3D "${bindir}/ldd"
+>  FILES_libsegfault =3D "${base_libdir}/libSegFault*"
+>  FILES_libcidn =3D "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.=
+so.*"
+>  FILES_libmemusage =3D "${base_libdir}/libmemusage.so"
+> +FILES_libnss-db =3D "${base_libdir}/libnss_db.so.* ${base_libdir}/libn=
+ss_db-*.so ${localstatedir}/db/Makefile ${localstatedir}/db/makedbs.sh"
+> +RDEPENDS_libnss-db =3D "${PN}-utils"
+>  FILES_glibc-extra-nss =3D "${base_libdir}/libnss_*-*.so ${base_libdir}=
+/libnss_*.so.*"
+>  FILES_sln =3D "${base_sbindir}/sln"
+>  FILES_${PN}-pic =3D "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/l=
+ibc_pic/*.o"
+> @@ -59,7 +61,6 @@ inherit libc-common multilib_header
+> =20
+>  do_install_append () {
+>  	rm -f ${D}${sysconfdir}/localtime
+> -	rm -rf ${D}${localstatedir}
+> =20
+>  	# remove empty glibc dir
+>  	if [ -d ${D}${libexecdir} ]; then
+> @@ -95,6 +96,7 @@ do_install_append () {
+>  	install -d ${D}${localstatedir}/db/nscd
+>  	install -m 0755 ${S}/nscd/nscd.init ${D}${sysconfdir}/init.d/nscd
+>  	install -m 0755 ${S}/nscd/nscd.conf ${D}${sysconfdir}/nscd.conf
+> +	install -m 0755 ${WORKDIR}/makedbs.sh ${D}${localstatedir}/db
+>  	sed -i "s%daemon%start-stop-daemon --start --exec%g" ${D}${sysconfdir=
+}/init.d/nscd
+>  	sed -i "s|\(enable-cache\t\+netgroup\t\+\)yes|\1no|" ${D}${sysconfdir=
+}/nscd.conf
+> =20
+> diff --git a/meta/recipes-core/glibc/glibc/makedbs.sh b/meta/recipes-co=
+re/glibc/glibc/makedbs.sh
+> new file mode 100755
+> index 0000000..7d51a67
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/makedbs.sh
+> @@ -0,0 +1,177 @@
+> +#!/bin/sh
+> +
+> +#
+> +# Make passwd.db, group.db, etc.
+> +#
+> +
+> +VAR_DB=3D/var/db
+> +
+> +# Use make if available
+> +if [ -x /usr/bin/make -o -x /bin/make ]; then
+> +	make -C $VAR_DB
+> +	exit 0
+> +fi
+> +
+> +# No make available, do it in hard way
+> +
+> +# passwd.db
+> +if [ -e /etc/passwd ]; then
+> +target=3D$VAR_DB/passwd.db
+> +echo -n "passwd... "
+> +awk 'BEGIN { FS=3D":"; OFS=3D":" } \
+> + /^[ \t]*$$/ { next } \
+> + /^[ \t]*#/ { next } \
+> + /^[^#]/ { printf ".%s ", $$1; print; \
+> +	   printf "=3D%s ", $$3; print }' /etc/passwd | \
+> +makedb --quiet -o $target -
+> +echo "done."
+> +fi
+> +
+> +# group.db
+> +if [ -e /etc/group ]; then
+> +target=3D$VAR_DB/group.db
+> +echo -n "group... "
+> +awk 'BEGIN { FS=3D":"; OFS=3D":" } \
+> + /^[ \t]*$$/ { next } \
+> + /^[ \t]*#/ { next } \
+> + /^[^#]/ { printf ".%s ", $$1; print; \
+> +	   printf "=3D%s ", $$3; print; \
+> +	   if ($$4 !=3D "") { \
+> +	     split($$4, grmems, ","); \
+> +	     for (memidx in grmems) { \
+> +	       mem=3Dgrmems[memidx]; \
+> +	       if (members[mem] =3D=3D "") \
+> +		 members[mem]=3D$$3; \
+> +	       else \
+> +		 members[mem]=3Dmembers[mem] "," $$3; \
+> +	     } \
+> +	     delete grmems; } } \
+> + END { for (mem in members) \
+> +	 printf ":%s %s %s\n", mem, mem, members[mem]; }' /etc/group | \
+> +makedb --quiet -o $target -
+> +echo "done."
+> +fi
+> +
+> +# ethers.db
+> +if [ -e /etc/ethers ]; then
+> +target=3D$VAR_DB/ethers.db
+> +echo -n "ethers... "
+> +awk '/^[ \t]*$$/ { next } \
+> + /^[ \t]*#/ { next } \
+> + /^[^#]/ { printf ".%s ", $$1; print; \
+> +	   printf "=3D%s ", $$2; print }' /etc/ethers | \
+> +makedb --quiet -o $target -
+> +echo "done."
+> +fi
+> +
+> +# protocols.db
+> +if [ -e /etc/protocols ]; then
+> +target=3D$VAR_DB/protocols.db
+> +echo -n "protocols... "
+> +awk '/^[ \t]*$$/ { next } \
+> + /^[ \t]*#/ { next } \
+> + /^[^#]/ { printf ".%s ", $$1; print; \
+> +	   printf "=3D%s ", $$2; print; \
+> +	   for (i =3D 3; i <=3D NF && !($$i ~ /^#/); ++i) \
+> +	     { printf ".%s ", $$i; print } }' /etc/protocols | \
+> +makedb --quiet -o $target -
+> +echo "done."
+> +fi
+> +
+> +# rpc.db
+> +if [ -e /etc/rpc ]; then
+> +target=3D$VAR_DB/rpc.db
+> +echo -n "rpc... "
+> +awk '/^[ \t]*$$/ { next } \
+> + /^[ \t]*#/ { next } \
+> + /^[^#]/ { printf ".%s ", $$1; print; \
+> +	   printf "=3D%s ", $$2; print; \
+> +	   for (i =3D 3; i <=3D NF && !($$i ~ /^#/); ++i) \
+> +	     { printf ".%s ", $$i; print } }' /etc/rpc | \
+> +makedb --quiet -o $target -
+> +echo "done."
+> +fi
+> +
+> +# services.db
+> +if [ -e /etc/services ]; then
+> +target=3D$VAR_DB/services.db
+> +echo -n "services... "
+> +awk 'BEGIN { FS=3D"[ \t/]+" } \
+> + /^[ \t]*$$/ { next } \
+> + /^[ \t]*#/ { next } \
+> + /^[^#]/ { sub(/[ \t]*#.*$$/, "");\
+> +	   printf ":%s/%s ", $$1, $$3; print; \
+> +	   printf ":%s/ ", $$1; print; \
+> +	   printf "=3D%s/%s ", $$2, $$3; print; \
+> +	   printf "=3D%s/ ", $$2; print; \
+> +	   for (i =3D 4; i <=3D NF && !($$i ~ /^#/); ++i) \
+> +	     { printf ":%s/%s ", $$i, $$3; print; \
+> +	       printf ":%s/ ", $$i; print } }' /etc/services | \
+> +makedb --quiet -o $target -
+> +echo "done."
+> +fi
+> +
+> +# shadow.db
+> +if [ -e /etc/shadow ]; then
+> +target=3D$VAR_DB/shadow.db
+> +echo -n "shadow... "
+> +awk 'BEGIN { FS=3D":"; OFS=3D":" } \
+> + /^[ \t]*$$/ { next } \
+> + /^[ \t]*#/ { next } \
+> + /^[^#]/ { printf ".%s ", $$1; print }' /etc/shadow | \
+> +(umask 077 && makedb --quiet -o $target -)
+> +echo "done."
+> +if chgrp shadow $target 2>/dev/null; then
+> +	chmod g+r $target
+> +else
+> +	chown 0 $target; chgrp 0 $target; chmod 600 $target;
+> +	echo
+> +	echo "Warning: The shadow password database $target"
+> +	echo "has been set to be readable only by root.  You may want"
+> +	echo "to make it readable by the \`shadow' group depending"
+> +	echo "on your configuration."
+> +	echo
+> +fi
+> +fi
+> +
+> +# gshadow.db
+> +if [ -e /etc/gshadow ]; then
+> +target=3D$VAR_DB/gshadow.db
+> +echo -n "gshadow... "
+> +awk 'BEGIN { FS=3D":"; OFS=3D":" } \
+> + /^[ \t]*$$/ { next } \
+> + /^[ \t]*#/ { next } \
+> + /^[^#]/ { printf ".%s ", $$1; print }' /etc/gshadow | \
+> +(umask 077 && makedb --quiet -o $target -)
+> +echo "done."
+> +if chgrp shadow $target 2>/dev/null; then
+> +	chmod g+r $target
+> +else
+> +	chown 0 $target; chgrp 0 $target; chmod 600 $target
+> +	echo
+> +	echo "Warning: The shadow group database $target"
+> +	echo "has been set to be readable only by root.  You may want"
+> +	echo "to make it readable by the \`shadow' group depending"
+> +	echo "on your configuration."
+> +	echo
+> +fi
+> +fi
+> +
+> +# netgroup.db
+> +if [ -e /etc/netgroup ]; then
+> +target=3D$VAR_DB/netgroup.db
+> +echo -n "netgroup... "
+> +awk 'BEGIN { ini=3D1 } \
+> + /^[ \t]*$$/ { next } \
+> + /^[ \t]*#/ { next } \
+> + /^[^#]/ { if (sub(/[ \t]*\\$$/, " ") =3D=3D 0) end=3D"\n"; \
+> +	   else end=3D""; \
+> +	   gsub(/[ \t]+/, " "); \
+> +	   sub(/^[ \t]*/, ""); \
+> +	   if (ini =3D=3D 0) printf "%s%s", $$0, end; \
+> +	   else printf ".%s %s%s", $$1, $$0, end; \
+> +	   ini=3Dend =3D=3D "" ? 0 : 1; } \
+> + END { if (ini=3D=3D0) printf "\n" }' /etc/netgroup | \
+> +makedb --quiet -o $target
+> +echo "done."
+> +fi
+> diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/=
+glibc/glibc_2.28.bb
+> index 95e333d..0ebbaf9 100644
+> --- a/meta/recipes-core/glibc/glibc_2.28.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.28.bb
+> @@ -17,6 +17,7 @@ UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+\.\d+(\.(=
+?!90)\d+)*)"
+>  SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=3Dglibc \
+>             file://etc/ld.so.conf \
+>             file://generate-supported.mk \
+> +           file://makedbs.sh \
+>             \
+>             ${NATIVESDKFIXES} \
+>             file://0006-fsl-e500-e5500-e6500-603e-fsqrt-implementation.=
+patch \
+>=20
 
 
---nhcRoQkl6vDsJdYwCKQ04XegtthvNO3TS--
+--5VHiuwjezfZZfcTtegTdTJ5hkEO0Q4UMF--
 
---YZPZqWaaULNZY38TZDw1WI4ePX4sFCngn
+--0nnZ6BwctFPf5WQvLROWyHGfp7UKxQX2d
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCW3YXDQAKCRC7BTNVkZ0z
-FPTsAJ4o2sWMnHKffg5ncNA5/99SPVqw5QCeLT6PifD9ndM6Y+COcEibjU7nFyY=
-=Wf60
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCW3YYVQAKCRC7BTNVkZ0z
+FNVWAJ9UyaqSMpZ/q7SMFU3FI9/M3uUS+gCfbm22fmvILIdh8UxVvdkM/z4oAW0=
+=abdr
 -----END PGP SIGNATURE-----
 
---YZPZqWaaULNZY38TZDw1WI4ePX4sFCngn--
+--0nnZ6BwctFPf5WQvLROWyHGfp7UKxQX2d--
