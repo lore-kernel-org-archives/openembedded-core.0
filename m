@@ -1,56 +1,25 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 11F527936D
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 927D679362
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 21:14:55 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id y9-v6so8536101wma.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 14:14:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=XVPNXTV7vDazWtQ3eOTyZ8DPpQIZRUb6hDxD1xT/d6w=;
-	b=iNmOBGul6TRnCROGga6hKcfAtOIhGnkQLI7rAxl70HR8D9YW9BGwoO3ogoLFstMh5V
-	EskwD/P3LBnBtbTVzOPL6GXTznHfQRhLDs6grphEypBHvT2XLnoLtP3EWnpNHmsgb/EI
-	rqkQqFr09Kf6Q6YL0xbsPqmf0oIW86bH46vzc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=XVPNXTV7vDazWtQ3eOTyZ8DPpQIZRUb6hDxD1xT/d6w=;
-	b=brxiDDVsnJlBtIWbrpFXMHXm2I4R9WIdSZj99VyoI1Fe1ZjFfMMKPAX4i8ZS+++6pw
-	Ro1oVmSRsEjfUlzwbcTVtfRUSuILbQ/vvDpniBgSnJH6+5gR05yLfkuO1fvNrjzfYbKd
-	45Blx8uN5PsOPoYasxv0GFFNM2rFgEECvyx47aNXWLF+3P8wfVgJGc1iXrn399YFPjDA
-	KgXPfMlxgYNujURY8DhuRCTiwpXfDgWBjnXQowP02Z8OV/JM9InOKF/x/cETshozgGdN
-	uD05yyhtXgXVm+l/WIWZROriYJxctpzBQ1b5lXXYUmlWMfiYVoFDTnwf5cspUU+xqDg4
-	VFPA==
-X-Gm-Message-State: AOUpUlEe1zVEonzu7G8m2y9y9DuhN8zxb7B9Zffx0ancZwbjyMUf38t+
-	AH/P1RphCckX08pKyoM45tPQiQ==
-X-Google-Smtp-Source: AA+uWPxEgqPLSj6ZeJodZSXUilRO85KrJ/Za9wUOWmGy0F2efAsK9kq/PtVhXb9Pyqz+N4d+RB83FQ==
-X-Received: by 2002:a1c:af53:: with SMTP id
-	y80-v6mr18907062wme.55.1534540496839; 
-	Fri, 17 Aug 2018 14:14:56 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t70-v6sm3967175wmt.30.2018.08.17.14.14.55
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 17 Aug 2018 14:14:55 -0700 (PDT)
-Message-ID: <d4b82bdbcbf9b984482f49ec0230646d45898270.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 17 Aug 2018 22:14:55 +0100
-In-Reply-To: <CAJ86T=Xx=QwjS9ZpYyY78E_3sqd=_3JmncJJx6WpufoNQiwseg@mail.gmail.com>
-References: <1534453421-28943-1-git-send-email-bruce.ashfield@windriver.com>
-	<CADkTA4OrPcXQEZ+d1HEeNZBrJy_VcyJcv_7DmhnBddmLQPVYZg@mail.gmail.com>
-	<3927163d00059d0559412175c903ba60ce383dcd.camel@linuxfoundation.org>
-	<e8e403ab1cd0a3e4a5754d4d4079508946da0c3f.camel@linuxfoundation.org>
-	<CAJ86T=Xx=QwjS9ZpYyY78E_3sqd=_3JmncJJx6WpufoNQiwseg@mail.gmail.com>
+	Fri, 17 Aug 2018 21:30:22 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7HLUJaK023342
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Fri, 17 Aug 2018 22:30:21 +0100
+Message-ID: <3baf10fc85c46ee6ada3f4a93b004195a0f4fd10.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Zhixiong Chi <zhixiong.chi@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 17 Aug 2018 22:30:19 +0100
+In-Reply-To: <20180817085427.8557-1-zhixiong.chi@windriver.com>
+References: <20180817085427.8557-1-zhixiong.chi@windriver.com>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] kernel-devsrc: restructure for out of tree (and on target) module builds
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/2] populate_sdk_base: only depend on nativesdk-glibc-locale when SDK_OS is not mingw32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,61 +32,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 21:14:56 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 21:30:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-08-17 at 12:46 -0700, Andre McCurdy wrote:
-> On Thu, Aug 16, 2018 at 10:53 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Thu, 2018-08-16 at 22:44 +0100, richard.purdie@linuxfoundation.o
-> > rg
-> > wrote:
-> > > On Thu, 2018-08-16 at 17:08 -0400, Bruce Ashfield wrote:
-> > > > I'm getting a strange install issue with x86 that I've never
-> > > > seen
-> > > > before, and that
-> > > > part is unchanged from v3 to v4.
-> > > > 
-> > > > .. and then I realized that a file has changed in my builds,
-> > > > since
-> > > > I'm
-> > > > working on 4.18.
-> > > > 
-> > > > This is worth testing on the autobuilder, but I will have a v5
-> > > > that
-> > > > adds a test for some
-> > > > files that may go missing, and hence we'll have issues across
-> > > > versions.
-> > > 
-> > > Thanks, I've added it into a build with a glibc and openssl
-> > > change
-> > > and
-> > > set it away so its possible other issues may occur, we'll see how
-> > > it
-> > > works out...
-> > 
-> > The openssl change caused problems but I did spot qemumips64
-> > failing:
+On Fri, 2018-08-17 at 01:54 -0700, Zhixiong Chi wrote:
+> When we add the nativesdk-glibc-locale dependence for libc-glibc, if
+> the SDK_OS
+> is mingw32, it will broken the building with the following error:
+> > NOTE: Resolving any missing task queue dependencies
+> > ERROR: Nothing RPROVIDES 'nativesdk-glibc' (but
+> > virtual:nativesdk:layers/oe-core/meta/recipes-core/glibc/glibc-
+> > locale_2.24.bb
+> > RDEPENDS on or otherwise requires it)
+> > ERROR: nativesdk-glibc was skipped:
+> > PREFERRED_PROVIDER_virtual/nativesdk-libc set to nativesdk-mingw-
+> > w64-runtime, not nativesdk-glibc
+> > NOTE: Runtime target 'nativesdk-glibc' is unbuildable, removing...
+> > Missing or unbuildable dependency chain was: ['nativesdk-glibc']
+> > ERROR: Required build target 'meta-toolchain' has no buildable
+> > providers.
+> > Missing or unbuildable dependency chain was: ['meta-toolchain',
+> > 'nativesdk-glibc-locale', 'nativesdk-glibc']
 > 
-> What were the problems related to the openssl updates?
+> mingw32 SDK_OS doesn't need to depend on nativesdk-glibc-locale.
+> 
+> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+> ---
+>  meta/classes/populate_sdk_base.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index c456c52866..65c27b0077 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -48,7 +48,7 @@ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+>  SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+>  SDK_DEPENDS = "virtual/fakeroot-native xz-native cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
+>  PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
+> -SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
+> +SDK_DEPENDS_append_libc-glibc = " ${@bb.utils.contains('SDK_OS', 'mingw32', '', 'nativesdk-glibc-locale', d)}"
+>  
+>  # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
+>  # could be set to the MACHINE_ARCH
 
-SDK sanity test failing where wget is failing to work:
+I appreciate this fixes a specific problem but this code is wrong
+anyway, libc-glibc is a target override and we're talking about the sdk
+ here. To illustrate, if a target image was musl based but the sdk
+glibc based, this code wouldn't work.
 
-https://autobuilder.yocto.io/builders/nightly-arm/builds/1285/steps/Running%20SDK%20Sanity%20Tests/logs/stdio
-
-I've not definitively narrowed it down to openssl but it has to be one
-of:
-
-kernel-devsrc: restructure for out of tree (and on target) module
-openssl: update 1.1.0h -> 1.1.0i
-openssl: update 1.0.2o -> 1.0.2p
-vala: refresh patch
-glibc: re-package for libnss-db
+Could we therefore correct this to correctly determine which libc is
+being used in the SDK? If we're going to fix it, lets fix it
+properly...
 
 Cheers,
 
 Richard
+
+
 
 
 
