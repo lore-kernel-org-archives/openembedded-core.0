@@ -1,53 +1,39 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EBB5860745
+Return-Path: <lukma@denx.de>
+X-Greylist: delayed 314 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 17 Aug 2018 21:03:33 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id D094C7915E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 19:46:41 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id h1-v6so6384433uao.8
+	Fri, 17 Aug 2018 21:03:33 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 41sbC00wQPz1qvTn
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 12:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ftgvpSCgThbAu1/NmCUN74igj5W0mFwSue8At5Uu4IA=;
-	b=rKMpp++YB31E34pPc172LR1Vwv7Mz/jMXe8g81AqZT0A/2RZh+B2VW88pVEWrPMKlf
-	Ay64JZFv394UQ/LATBvSt2txoBy9gJbPvXkmqqxWs/EALG6FToA7DR2xtC+AEzz+Mzfx
-	TGg0b9la0VMPUga2ZYHFaI9M1M753gH2gnFUXIdUyHtdUlEeSEP4Xdjztrnsd5/AZ2gJ
-	kx9KhENOXM1eenYzAoPgGzfg+nuiUCWfX7YdBtyJSW/Gx48o/xd3CDG6eKAvp/VrYfQV
-	PIS+ed4+aOdLIHQpvY1a6WurZ2quI8+n5FPHsZrU3rdczycP0w1FIt88xlbbSO4+t6ed
-	rSwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ftgvpSCgThbAu1/NmCUN74igj5W0mFwSue8At5Uu4IA=;
-	b=Cnm4aKsFNUxJ6VHlnFbsMVSshEk8Jd7yE5eYwFsvEpS59l6wTckfkKGDwksgXorpF7
-	E2B0JSQNfr/YD/LTtHCfzaVVqqhbaN/ZxzpIVzpxufwehDcYRIZESCxs5VTl0sX7Z9j7
-	/YdFiXtBY3R6cbgIgkW+jKAk8ccoIOKekn9J7GKUrzCLBRVgcrgT3X+mxL9ESkRxqtAA
-	6rEg0MPYr9HaWHCvmMiakqLAGqmd2JyKw0Un8pAd+KiL0Y0nDzamycJXdegOlv2/aFq7
-	SRvv7w37O8NAbrROrobJbMELySWMhhqaE3CsbIIy90l+2D0yt8wlDvH3d1dn/jOgR4P9
-	FwpA==
-X-Gm-Message-State: AOUpUlFspERd/epJpk6+eJWRGTOD1sDgTGhpWx2Bd0ZwFmZ9yGCJhwVN
-	e8SdhQu+mqBzzxEjfz8knQh0dPuPa8VGtXfHIoM=
-X-Google-Smtp-Source: AA+uWPwsiZUTZ4NCXe/CBpwFdNHri1hlvAsKsgcpMmnyBoW4Wf9bwuRlXRVGMkQbFpgKhL2ofecvN8Vpc35d4sG5UCg=
-X-Received: by 2002:ab0:74d1:: with SMTP id
-	f17-v6mr23675596uaq.105.1534535202939; 
-	Fri, 17 Aug 2018 12:46:42 -0700 (PDT)
+	Fri, 17 Aug 2018 22:58:20 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 41sbC005Tbz1qqkJ
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2018 22:58:20 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024) with ESMTP id 78uL0CyoN9RY
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2018 22:58:19 +0200 (CEST)
+X-Auth-Info: XNQ/BGAQEvkB6JRzyvHh4AHPdB94bL/wn9wKgoAbnHA=
+Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2018 22:58:19 +0200 (CEST)
+Date: Fri, 17 Aug 2018 22:58:11 +0200
+From: Lukasz Majewski <lukma@denx.de>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20180817225811.53b55f2d@jawa>
+Organization: denx.de
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Fri, 17 Aug 2018 12:46:42 -0700 (PDT)
-In-Reply-To: <e8e403ab1cd0a3e4a5754d4d4079508946da0c3f.camel@linuxfoundation.org>
-References: <1534453421-28943-1-git-send-email-bruce.ashfield@windriver.com>
-	<CADkTA4OrPcXQEZ+d1HEeNZBrJy_VcyJcv_7DmhnBddmLQPVYZg@mail.gmail.com>
-	<3927163d00059d0559412175c903ba60ce383dcd.camel@linuxfoundation.org>
-	<e8e403ab1cd0a3e4a5754d4d4079508946da0c3f.camel@linuxfoundation.org>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 17 Aug 2018 12:46:42 -0700
-Message-ID: <CAJ86T=Xx=QwjS9ZpYyY78E_3sqd=_3JmncJJx6WpufoNQiwseg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] kernel-devsrc: restructure for out of tree (and on target) module builds
+Subject: Question regarding docker and sumo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,33 +46,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 19:46:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 17 Aug 2018 21:03:34 -0000
+X-Groupsio-MsgNum: 114894
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	boundary="Sig_/nFtio3LwbAfRx1K3Hx+sgIK";
+	protocol="application/pgp-signature"
 
-On Thu, Aug 16, 2018 at 10:53 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2018-08-16 at 22:44 +0100, richard.purdie@linuxfoundation.org
-> wrote:
->> On Thu, 2018-08-16 at 17:08 -0400, Bruce Ashfield wrote:
->> > I'm getting a strange install issue with x86 that I've never seen
->> > before, and that
->> > part is unchanged from v3 to v4.
->> >
->> > .. and then I realized that a file has changed in my builds, since
->> > I'm
->> > working on 4.18.
->> >
->> > This is worth testing on the autobuilder, but I will have a v5 that
->> > adds a test for some
->> > files that may go missing, and hence we'll have issues across
->> > versions.
->>
->> Thanks, I've added it into a build with a glibc and openssl change
->> and
->> set it away so its possible other issues may occur, we'll see how it
->> works out...
->
-> The openssl change caused problems but I did spot qemumips64 failing:
+--Sig_/nFtio3LwbAfRx1K3Hx+sgIK
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-What were the problems related to the openssl updates?
+Dear All,
 
+I do port yocto/OE from 2.3 to 2.5.1
+
+For packagegroups-foo-common I do see following error=20
+
+cd <workdir>/packagegroup-foo-common/1.0-r0/sstate-build-package/=20
+
+as expected, there are needed directories: package packages-split
+pkgdata=20
+
+The problem is in sstate_create_package () at
+poky/meta/classes/sstate.bbclass
+
+To be precise in:
+tar: tar -czf temporary.tgz.XXXXXXX package packages-split pkgdata=20
+
+tar (child): gzip: Cannot exec: Invalid argument=20
+tar (child): Error is not recoverable: exiting now=20
+
+
+Tar version tar (GNU tar) 1.28 (the same for both versions on host).
+Also 'env' command shows 'unlimited' size for pipes.
+
+
+ls -alh <install>/poky/build-lwn/tmp/hosttools and there is a link=20
+tar -> /bin/tar=20
+
+The sumo runs inside docker container (with recommended ubuntu). The
+only change is from pyro to sumo.
+
+
+To be even more strange - the sumo version of BSP builds correctly when
+run natively on Debian 9=20
+
+
+The problem seems to be with sumo and docker.
+
+| rt_sigprocmask(SIG_SETMASK, [], NULL, 8) =3D
+0 | write(4, "packages-split/packagegroup-lwn-"..., 10240) =3D -1 EPIPE
+(Broken pipe) | --- SIGPIPE {si_signo=3DSIGPIPE, si_code=3DSI_USER,
+si_pid=3D15063, si_uid=3D1000} --- | +++ killed by SIGPIPE
++++                                                                        =
+  =20
+
+Any idea on how to solve (or debug) this issue further? Apparently
+something is closing the pipe between tar and gzip...
+
+Thanks in advance for any hints :-)
+
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+
+--Sig_/nFtio3LwbAfRx1K3Hx+sgIK
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAlt3NuMACgkQAR8vZIA0
+zr2/kQf/e1keNAYJG/4fVLbYDpy0jlTMzzfxalnHcBtrjiirJTcAoQv2mM6Y35hT
+Utnq+R4t5gOqB7BDoOFeZfoHN2sCwLoZTuQi1izpbRpYdLo0gjmr4U6N+ntMD3ms
+OctDmQNZI19PAV6FPBvQ6xE4vsTPnEQMzTevzvCLfdV7YIz+LsUULMCp5chAHsfX
+hJlGvMQubUJuzz+ymYDbHHAGkpkewExqrTuN3Rcp+eeoz6okHhWUEfSYv74LDcVB
+Tgh2+GwDdHT/ucoSzVGqkbeCwpONFR/OaNjqsKGKRbGN2eVRxD5Rz72zNT3BXRUZ
+d0L51UfP8ZH99H/bqD4+RoyW/KdHgw==
+=ClR2
+-----END PGP SIGNATURE-----
+
+--Sig_/nFtio3LwbAfRx1K3Hx+sgIK--
