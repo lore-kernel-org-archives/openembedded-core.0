@@ -1,49 +1,23 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id ADD287931D
+Return-Path: <Quanyang.Wang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6883A6FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 14:14:11 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id r64-v6so2481669pgr.0
+	Fri, 17 Aug 2018 15:01:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7HF1oa1028795
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 07:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=m1dkyeBD26z7wiRNisM6FhIx5jW12+M4QGcEzrXmyTY=;
-	b=UU2u0/1ZecMYpzwQZsPTOg73F7LAf5xzTFMxneAExKUP0gE+xO+x5hPfVY1XPEwOdI
-	UwF9tCkhfnAcFaY6o2gH+SHTG909xV4Nw8dPov2nR0aHJx5vvFDu5Bkqf+NOGGQOazlN
-	Qy8U4V4cN+1UUoUzgkxd9Y5zC8Vg53H7K6uNM+UEW9icDNaUNxJVTIzr9Jb0Ztx+1kFp
-	hnDa8l3Pu8uLwvo5nlr/N7QcPROAWLqS8fFEavdSqyJptfaQ7k8iUhmxo+8J4h+6v0MA
-	5DGp2rEWG9dZdBw1UXx+KD6GcQ3Bsev1k+dZ5lbYmxmoJbJR9Dly/fI1YbNjjL8kMw1z
-	7g0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=m1dkyeBD26z7wiRNisM6FhIx5jW12+M4QGcEzrXmyTY=;
-	b=bCIdFNatlWc3SsI7QXuedjIL3bss4nKdjghR8OhEzE0r+WGAOSFpSyB0l6E0Rpr7n4
-	CpfuV9xHVgV2s+7WLuo1HOu2W5gAWg3qwSTWllt4O5OjlNAX48BE1hF0tJGQigMoFhCE
-	TI8NO5agYexCCDFixPagRCOL+WbLiLoxSsb//7C4If1WzG9FXsROT5atliqzLYQsWTW+
-	Qz0ViwhxCKtF2mAUPVC7xkee+f+s3EnxL21BzM/IqTav2Pm3l/jp2r9GX6mjj/uXqIWT
-	/GLQ0cvAsZkLKL7p5e2tckG4Rv0ZIXcSS658NKfgqGF5vdEfi8c9GNuR9pqdhFtDNaGc
-	rMBQ==
-X-Gm-Message-State: AOUpUlFjBP0e46kZJRa3jrSy4BdjbzXKwJ9+T9PjuRwE4m6H8MHoPye5
-	9eCRtJsB1tTTctOBrS+icB8=
-X-Google-Smtp-Source: AA+uWPwwANwXZPll/bj97xt1AJTA3uP8x0vdXtGO20rT18MUKgb6CG24a5cER00DcE53qRWKqShhVQ==
-X-Received: by 2002:a63:344b:: with SMTP id
-	b72-v6mr5008420pga.184.1534515252802; 
-	Fri, 17 Aug 2018 07:14:12 -0700 (PDT)
-Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
-	[67.181.203.136]) by smtp.gmail.com with ESMTPSA id
-	p3-v6sm2645388pfo.130.2018.08.17.07.14.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 Aug 2018 07:14:12 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2018 07:14:11 -0700
-Message-Id: <20180817141411.31825-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [V2][PATCH] gnutls: Update to 3.6.3
+	Fri, 17 Aug 2018 08:01:50 -0700 (PDT)
+Received: from pek-lpggp3.wrs.com (128.224.153.76) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
+	Fri, 17 Aug 2018 08:01:49 -0700
+From: <quanyang.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Aug 2018 11:01:37 -0400
+Message-ID: <1534518097-24981-1-git-send-email-quanyang.wang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: weston-init: run login before start weston.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,55 +30,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 14:14:11 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 15:01:49 -0000
+Content-Type: text/plain
 
-[v2]
-Fix new config options form with to disable.
+From: Wang Quanyang <quanyang.wang@windriver.com>
 
-[v1]
-release notes: https://lists.gnupg.org/pipermail/gnutls-devel/2018-July/008584.html
+When systemd start the weston.service, the script "weston-start" will
+check if the dir "XDG_RUNTIME_DIR" (usually is /run/user/0) exits and
+create it. Then weston will create a socket file "wayland-0" for communications
+with clients in this dir.
 
-add ssl3 and tls1.3 config options now supported.
+If systemd is built with enabling "pam" feature, the login will call "run-user-0.mount"
+to mount tmpfs at the dir "/run/user/0", then the socket file "wayland-0" will be
+missing since it is created in the old "/run/user/0".
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+So add "PAMName=login" to let weston.service call login first, once tmpfs is mounted at
+"/run/user/0", then call weston-start to create a socket file in it.
+
+Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
 ---
- meta/recipes-support/gnutls/gnutls.inc                       | 2 ++
- .../gnutls/{gnutls_3.6.2.bb => gnutls_3.6.3.bb}              | 5 +++--
- 2 files changed, 5 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.6.2.bb => gnutls_3.6.3.bb} (53%)
+ meta/recipes-graphics/wayland/weston-init/weston.service | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 04c0fd2af8..f204e5f4c0 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -30,6 +30,8 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
- PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
- PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
- PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
-+PACKAGECONFIG[ssl3] = "--enable-ssl3-support,--disable-ssl3-support,"
-+PACKAGECONFIG[tls13] = "--enable-tls13-support,--disable-tls13-support,"
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
+index 689ce41..18f7262 100644
+--- a/meta/recipes-graphics/wayland/weston-init/weston.service
++++ b/meta/recipes-graphics/wayland/weston-init/weston.service
+@@ -4,6 +4,7 @@ RequiresMountsFor=/run
  
- EXTRA_OECONF = " \
-     --enable-doc \
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.2.bb b/meta/recipes-support/gnutls/gnutls_3.6.3.bb
-similarity index 53%
-rename from meta/recipes-support/gnutls/gnutls_3.6.2.bb
-rename to meta/recipes-support/gnutls/gnutls_3.6.3.bb
-index e540528a8e..c560305032 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.2.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.3.bb
-@@ -3,7 +3,8 @@ require gnutls.inc
- SRC_URI += "file://0001-configure.ac-fix-sed-command.patch \
-             file://arm_eabi.patch \
-            "
--SRC_URI[md5sum] = "8b4912c6c0e5ffefd3dbb4888eaf8a58"
--SRC_URI[sha256sum] = "bcd5db7b234e02267f36b5d13cf5214baac232b7056a506252b7574ea7738d1f"
-+
-+SRC_URI[md5sum] = "d3b1b05c2546b80832101a423a80faf8"
-+SRC_URI[sha256sum] = "ed642b66a4ecf4851ab2d809cd1475c297b6201d8e8bd14b4d1c08b53ffca993"
+ [Service]
+ User=root
++PAMName=login
+ EnvironmentFile=-/etc/default/weston
+ ExecStart=/usr/bin/weston-start -v -e -- $OPTARGS
  
- BBCLASSEXTEND = "native nativesdk"
 -- 
-2.17.1
+1.9.1
 
 
