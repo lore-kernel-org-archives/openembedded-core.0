@@ -1,50 +1,55 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
-	[209.85.222.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 56E0079365
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C8E979362
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 21:31:25 +0000 (UTC)
-Received: by mail-ua1-f50.google.com with SMTP id y10-v6so6567593uao.4
+	Fri, 17 Aug 2018 21:47:15 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id o82-v6so3870722vko.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 14:31:26 -0700 (PDT)
+	Fri, 17 Aug 2018 14:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Fib6xrnMWrucAqlvlWe4VxOVlXNMY/2mN8exlv6y18g=;
-	b=hWSAMeue7TbKK7pZi9mCubR4e0oeyzVhS6nWmlefRa7CP1pe4nhf4pI+8ObKL27H2n
-	s/qgi9mgYwIU4t7fJs9f4tFgOdS76VJjYuPoZCVW07rk3YWgX2XWVq+eAD1OQFviB01X
-	o/Qa9+u3iP4NaOTdKkAkxB6W/RlhfCkqPYgqNyT5D4/8uJPjdalQL7v1UIAlnlhGhOrh
-	pJXSp6A33Z7E14TogRS18pz85hnojm2aYnZN4IEoO7DrZg+R10GyIm9FsM9OUxAYDkOS
-	8dA4NJ1wrKcbI3Tsq8xvCUUHmhR+saw1URPVCaSrjYFeuxD23qEXvdjrOVpWUz4aLQom
-	ClAQ==
+	:cc; bh=4NFapC+RtOx174Dm0MACU84krK/Y3Z5RrsqyDaveDE8=;
+	b=M1UrZTISxoTG/aPckNndK1rQdJ+/z8UhvNVfU3wvEkjxFBkcR2bdNAHghEWM38BYjo
+	ADseUvYOYAwxODXeGkQ+yGs6mtsgKGfbnfmlX0le/PHylzEFtFaU7ww9HDhlcQMx3Bfa
+	TUARz3SSSlSoMzTRSVeliapzRjmzn9Vo4HGb0aW4zL+JdbNIuo5o0qJSqL6qGQCLAUbL
+	g1u9l14uvlzkYCFr8B8q0A1Cn6W3q2lzcSidxjCEkzAjJbQ3qtIcS5bETpfybetEMz39
+	lA60++/i204QJlnVHIfX7oW8JC897yxjJUMZ394FEdEp9ODQ7tNpJBMX/9MpmoB+BmN/
+	2ncw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Fib6xrnMWrucAqlvlWe4VxOVlXNMY/2mN8exlv6y18g=;
-	b=jpL6daAZTCELEEOK5Lso0A9QR9W0nfVxGDpa6WP+36K5/NHNXMpolIcl/BrszJIJW2
-	IzTdgEKqpGOTRb0HYUheKGA+rNqoXqTLUGiSyGK+a6Uw7rKLIaQ3XQ9NkO7ykcCNULLg
-	oP37omc6wJpVmxAHDUrp9ez2I5+NUa5kMhkK9c8xK9mxUz3+XoJT5NaJlt/fF0hICOi9
-	FCBKbovAEWIrjIjsApZ7KeiI9DEOM7d2CD1Vye3SQuNX163jgEbcGvwEU68FtAdx0gNV
-	8kIcH7lUX0FiHXjOTZr/FUzD5ANgVzZoM8oFRA31nxEgI2GMw6+JRlegSLvxiGRWld/C
-	60sQ==
-X-Gm-Message-State: AOUpUlHa09P2Nba/H+9w4jlWUksjsbpw/lrSz78oqtBf3kgoJ2XZNJCN
-	LaNnJZUaiZmOC91VPgwGeS2sOI+9RAttclNkTaY=
-X-Google-Smtp-Source: AA+uWPzW0Im4h8SAD3mWHxExIWuVyP+xjvXGLcG14WB7slSryO8tmNDaoRnaxz7youRJZ/YjSEBtq/+ax/q77ShMHmU=
-X-Received: by 2002:ab0:5b8f:: with SMTP id
-	y15-v6mr23898116uae.59.1534541486196; 
-	Fri, 17 Aug 2018 14:31:26 -0700 (PDT)
+	bh=4NFapC+RtOx174Dm0MACU84krK/Y3Z5RrsqyDaveDE8=;
+	b=Jol879Zlwt7YodkNciFSE1MEZMtrQ21xlJZaurs92vSMeot3fg9duT7Rf9FVayB2ti
+	+9zh7HUkP7XaypmROHjnynIlmKRxGz8Pj0jMg2sESFf9b76806weuruboRe2Ectf2LA4
+	L/SDKk7kSYpo6ysJJL38aI5Ospj3bufQXfJGHS+xNHnzHBfy1kw4QAAppGQ/HhTqoZBj
+	2pcjqsykfSWwnTl4PLaVgKWGtBZCgIA5Su+HbJoY2AQVFa0TC7bKtZOJtrDG/49ewceU
+	nu7cAVYQyGc7a2XsvBSPOU8EN/eeEcQWUlCsaobrmpn1Xw+rmOLokWEb4Rroph9wuxlY
+	uHYA==
+X-Gm-Message-State: AOUpUlHCV5GgJiTCR02TUXs//eahjxYn/8pnr5YsgP+KNsf+bBJNbpBw
+	JxDxDGauz34guhMAz2pXJ9Idjhu3/+BDTnPA8+Y=
+X-Google-Smtp-Source: AA+uWPx1PPgJ6+ZukBg3qfMbjZkmsvHMlmJGS+i2YPk4DUrEhrhTqUl8sy0KfaNNiB71jpGUwyi3MxlG+pvWVEawUZY=
+X-Received: by 2002:a1f:d844:: with SMTP id
+	p65-v6mr24335026vkg.54.1534542436294; 
+	Fri, 17 Aug 2018 14:47:16 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Fri, 17 Aug 2018 14:31:25 -0700 (PDT)
-In-Reply-To: <20180817141411.31825-1-akuster808@gmail.com>
-References: <20180817141411.31825-1-akuster808@gmail.com>
+	Fri, 17 Aug 2018 14:47:15 -0700 (PDT)
+In-Reply-To: <d4b82bdbcbf9b984482f49ec0230646d45898270.camel@linuxfoundation.org>
+References: <1534453421-28943-1-git-send-email-bruce.ashfield@windriver.com>
+	<CADkTA4OrPcXQEZ+d1HEeNZBrJy_VcyJcv_7DmhnBddmLQPVYZg@mail.gmail.com>
+	<3927163d00059d0559412175c903ba60ce383dcd.camel@linuxfoundation.org>
+	<e8e403ab1cd0a3e4a5754d4d4079508946da0c3f.camel@linuxfoundation.org>
+	<CAJ86T=Xx=QwjS9ZpYyY78E_3sqd=_3JmncJJx6WpufoNQiwseg@mail.gmail.com>
+	<d4b82bdbcbf9b984482f49ec0230646d45898270.camel@linuxfoundation.org>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 17 Aug 2018 14:31:25 -0700
-Message-ID: <CAJ86T=WfkmRWbrj6EgQXyRNhYxTxhzEfNvCkLySa3q1=hNmK_Q@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: akuster <akuster@mvista.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [V2][PATCH] gnutls: Update to 3.6.3
+Date: Fri, 17 Aug 2018 14:47:15 -0700
+Message-ID: <CAJ86T=XUR0xK-3M=yAB+P7xyVE0Ui7pmyDRm1SUr7Q86dZ=8rA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,73 +62,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 21:31:25 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 21:47:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 17, 2018 at 7:14 AM, Armin Kuster <akuster808@gmail.com> wrote:
-> [v2]
-> Fix new config options form with to disable.
+On Fri, Aug 17, 2018 at 2:14 PM,  <richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2018-08-17 at 12:46 -0700, Andre McCurdy wrote:
+>> On Thu, Aug 16, 2018 at 10:53 PM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > On Thu, 2018-08-16 at 22:44 +0100, richard.purdie@linuxfoundation.o
+>> > rg
+>> > wrote:
+>> > > On Thu, 2018-08-16 at 17:08 -0400, Bruce Ashfield wrote:
+>> > > > I'm getting a strange install issue with x86 that I've never
+>> > > > seen
+>> > > > before, and that
+>> > > > part is unchanged from v3 to v4.
+>> > > >
+>> > > > .. and then I realized that a file has changed in my builds,
+>> > > > since
+>> > > > I'm
+>> > > > working on 4.18.
+>> > > >
+>> > > > This is worth testing on the autobuilder, but I will have a v5
+>> > > > that
+>> > > > adds a test for some
+>> > > > files that may go missing, and hence we'll have issues across
+>> > > > versions.
+>> > >
+>> > > Thanks, I've added it into a build with a glibc and openssl
+>> > > change
+>> > > and
+>> > > set it away so its possible other issues may occur, we'll see how
+>> > > it
+>> > > works out...
+>> >
+>> > The openssl change caused problems but I did spot qemumips64
+>> > failing:
+>>
+>> What were the problems related to the openssl updates?
 >
-> [v1]
-> release notes: https://lists.gnupg.org/pipermail/gnutls-devel/2018-July/008584.html
+> SDK sanity test failing where wget is failing to work:
 >
-> add ssl3 and tls1.3 config options now supported.
+> https://autobuilder.yocto.io/builders/nightly-arm/builds/1285/steps/Running%20SDK%20Sanity%20Tests/logs/stdio
 >
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->  meta/recipes-support/gnutls/gnutls.inc                       | 2 ++
->  .../gnutls/{gnutls_3.6.2.bb => gnutls_3.6.3.bb}              | 5 +++--
->  2 files changed, 5 insertions(+), 2 deletions(-)
->  rename meta/recipes-support/gnutls/{gnutls_3.6.2.bb => gnutls_3.6.3.bb} (53%)
+> I've not definitively narrowed it down to openssl but it has to be one
+> of:
 >
-> diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-> index 04c0fd2af8..f204e5f4c0 100644
-> --- a/meta/recipes-support/gnutls/gnutls.inc
-> +++ b/meta/recipes-support/gnutls/gnutls.inc
-> @@ -30,6 +30,8 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
->  PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
->  PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
->  PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
-> +PACKAGECONFIG[ssl3] = "--enable-ssl3-support,--disable-ssl3-support,"
-> +PACKAGECONFIG[tls13] = "--enable-tls13-support,--disable-tls13-support,"
+> kernel-devsrc: restructure for out of tree (and on target) module
+> openssl: update 1.1.0h -> 1.1.0i
+> openssl: update 1.0.2o -> 1.0.2p
+> vala: refresh patch
+> glibc: re-package for libnss-db
 
-I'm not sure whether either of these should have PACKAGECONFIG options.
+wget builds against gnutls (rather than openssl), but there's a
+dependency chain from wget -> ca-certificates -> openssl so definitely
+something could have gone wrong there.
 
-SSL v3 is obsolete and if gnutls is disabling it by default now then
-it's probably best to leave it that way (dead and buried). Experienced
-users can always enable via EXTRA_OECONF if they really need it.
-
-TLS 1.3 is the opposite - it's brand new. If we add a PACKAGECONFIG
-option to control it then it becomes the gnutls recipe maintainer's
-job to figure out when to enable it by default. I think it's better to
-leave that decision to upstream gnutls.
-
->  EXTRA_OECONF = " \
->      --enable-doc \
-> diff --git a/meta/recipes-support/gnutls/gnutls_3.6.2.bb b/meta/recipes-support/gnutls/gnutls_3.6.3.bb
-> similarity index 53%
-> rename from meta/recipes-support/gnutls/gnutls_3.6.2.bb
-> rename to meta/recipes-support/gnutls/gnutls_3.6.3.bb
-> index e540528a8e..c560305032 100644
-> --- a/meta/recipes-support/gnutls/gnutls_3.6.2.bb
-> +++ b/meta/recipes-support/gnutls/gnutls_3.6.3.bb
-> @@ -3,7 +3,8 @@ require gnutls.inc
->  SRC_URI += "file://0001-configure.ac-fix-sed-command.patch \
->              file://arm_eabi.patch \
->             "
-> -SRC_URI[md5sum] = "8b4912c6c0e5ffefd3dbb4888eaf8a58"
-> -SRC_URI[sha256sum] = "bcd5db7b234e02267f36b5d13cf5214baac232b7056a506252b7574ea7738d1f"
-> +
-> +SRC_URI[md5sum] = "d3b1b05c2546b80832101a423a80faf8"
-> +SRC_URI[sha256sum] = "ed642b66a4ecf4851ab2d809cd1475c297b6201d8e8bd14b4d1c08b53ffca993"
->
->  BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Interesting that this test is running wget without passing
+--no-check-certificate (which the wget fetcher always uses).
 
