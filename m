@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D9D77927F;
-	Fri, 17 Aug 2018 07:32:55 +0000 (UTC)
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 774E37927F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2018 07:37:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7H7bOir029454
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2018 00:37:25 -0700
+Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Fri, 17 Aug 2018 00:37:23 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Aug 2018 15:37:21 +0800
+Message-ID: <1534491441-24028-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Fri, 17 Aug 2018 07:32:57 -0000
-Message-ID: <20180817073257.13840.94208@do.openembedded.org>
-References: <1534490562-15144-1-git-send-email-hongxu.jia@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1534490562-15144-1-git-send-email-hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImxpYnhtbDI6IGZpeCBDVkUtMjAxOC05MjUxIGFuZC4uLiIgYW5kIDEgbW9yZQ==?=
+X-Originating-IP: [128.224.162.137]
+Subject: [PATCH] expat: upgrade 2.2.5 -> 2.2.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,44 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 07:32:55 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Aug 2018 07:37:24 -0000
+Content-Type: text/plain
 
-== Series Details ==
-
-Series: "libxml2: fix CVE-2018-9251 and..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13574/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
-  Suggested fix    Fix Upstream-Status format in 0001-Verify-that-we-are-not-reading-past-end-of-a-buffer.patch
-  Current          Upstream-Status: Cherry pick from upstream bugzilla [https://bugzilla.nasm.us/show_bug.cgi?id=3392447]
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-core/expat/{expat_2.2.5.bb => expat_2.2.6.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/expat/{expat_2.2.5.bb => expat_2.2.6.bb} (82%)
+
+diff --git a/meta/recipes-core/expat/expat_2.2.5.bb b/meta/recipes-core/expat/expat_2.2.6.bb
+similarity index 82%
+rename from meta/recipes-core/expat/expat_2.2.5.bb
+rename to meta/recipes-core/expat/expat_2.2.6.bb
+index c68a2ef..c9e6081 100644
+--- a/meta/recipes-core/expat/expat_2.2.5.bb
++++ b/meta/recipes-core/expat/expat_2.2.6.bb
+@@ -11,8 +11,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+            file://libtool-tag.patch \
+ 	  "
+ 
+-SRC_URI[md5sum] = "789e297f547980fc9ecc036f9a070d49"
+-SRC_URI[sha256sum] = "d9dc32efba7e74f788fcc4f212a43216fc37cf5f23f4c2339664d473353aedf6"
++SRC_URI[md5sum] = "ca047ae951b40020ac831c28859161b2"
++SRC_URI[sha256sum] = "17b43c2716d521369f82fc2dc70f359860e90fa440bea65b3b85f0b246ea81f2"
+ 
+ inherit autotools lib_package
+ 
+-- 
+2.7.4
 
 
