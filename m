@@ -1,23 +1,26 @@
 Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B36EB789FF
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E95C8789FF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 08:54:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7H8sSOn023856
+	Fri, 17 Aug 2018 08:54:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7H8sTeE031423
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 01:54:28 -0700 (PDT)
+	Fri, 17 Aug 2018 01:54:30 -0700
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Fri, 17 Aug 2018 01:54:27 -0700
+	Fri, 17 Aug 2018 01:54:28 -0700
 From: Zhixiong Chi <zhixiong.chi@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Aug 2018 01:54:26 -0700
-Message-ID: <20180817085427.8557-1-zhixiong.chi@windriver.com>
+Date: Fri, 17 Aug 2018 01:54:27 -0700
+Message-ID: <20180817085427.8557-2-zhixiong.chi@windriver.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180817085427.8557-1-zhixiong.chi@windriver.com>
+References: <20180817085427.8557-1-zhixiong.chi@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] populate_sdk_base: only depend on nativesdk-glibc-locale when SDK_OS is not mingw32
+Subject: [PATCH 2/2][V2] sdk: don't install glibc locales for mingw32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,40 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 08:54:27 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 08:54:29 -0000
 Content-Type: text/plain
-
-When we add the nativesdk-glibc-locale dependence for libc-glibc, if the SDK_OS
-is mingw32, it will broken the building with the following error:
->NOTE: Resolving any missing task queue dependencies
->ERROR: Nothing RPROVIDES 'nativesdk-glibc' (but virtual:nativesdk:layers/oe-core/meta/recipes-core/glibc/glibc-locale_2.24.bb
->RDEPENDS on or otherwise requires it)
->ERROR: nativesdk-glibc was skipped: PREFERRED_PROVIDER_virtual/nativesdk-libc set to nativesdk-mingw-w64-runtime, not nativesdk-glibc
->NOTE: Runtime target 'nativesdk-glibc' is unbuildable, removing...
->Missing or unbuildable dependency chain was: ['nativesdk-glibc']
->ERROR: Required build target 'meta-toolchain' has no buildable providers.
->Missing or unbuildable dependency chain was: ['meta-toolchain', 'nativesdk-glibc-locale', 'nativesdk-glibc']
-
-mingw32 SDK_OS doesn't need to depend on nativesdk-glibc-locale.
 
 Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
- meta/classes/populate_sdk_base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/sdk.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index c456c52866..65c27b0077 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -48,7 +48,7 @@ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
- SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
- SDK_DEPENDS = "virtual/fakeroot-native xz-native cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
- PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
--SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
-+SDK_DEPENDS_append_libc-glibc = " ${@bb.utils.contains('SDK_OS', 'mingw32', '', 'nativesdk-glibc-locale', d)}"
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index 153b07d76b..5d7e4ed2ac 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -88,6 +88,10 @@ class Sdk(object, metaclass=ABCMeta):
+         if self.d.getVar("TCLIBC") != "glibc":
+             return
  
- # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
- # could be set to the MACHINE_ARCH
++        # Don't install locales for mingw32 SDK_OS
++        if self.d.getVar("SDK_OS") == "mingw32":
++            return
++
+         linguas = self.d.getVar("SDKIMAGE_LINGUAS")
+         if linguas:
+             import fnmatch
 -- 
 2.17.1
 
