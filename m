@@ -1,25 +1,22 @@
-Return-Path: <Mingli.Yu@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A9BB792F8
+	by mail.openembedded.org (Postfix) with ESMTP id 90D6A6E688
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 06:27:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7H6RGR3010803
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 23:27:17 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 16 Aug 2018 23:27:16 -0700
-From: <mingli.yu@windriver.com>
+	Fri, 17 Aug 2018 07:22:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7H7MxpT018107
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 17 Aug 2018 00:22:59 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Fri, 17 Aug 2018 00:22:46 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Aug 2018 14:27:10 +0800
-Message-ID: <1534487230-438571-2-git-send-email-mingli.yu@windriver.com>
+Date: Fri, 17 Aug 2018 15:22:41 +0800
+Message-ID: <1534490562-15144-1-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1534487230-438571-1-git-send-email-mingli.yu@windriver.com>
-References: <1534487230-438571-1-git-send-email-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] mingetty: fix usrmerge install path
+Subject: [PATCH 1/2] libxml2: fix CVE-2018-9251 and CVE-2018-14567
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +29,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 06:27:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Aug 2018 07:22:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
-
-Update /sbin to $base_sbindir to fix the
-below warning when usrmerge enabled in
-DISTRO_FEATURES.
-
-WARNING: mingetty-1.08-r3 do_package: mingetty: NOT adding alternative provide /usr/sbin/getty: /usr/sbin/mingetty does not exist
-WARNING: mingetty-1.08-r3 do_package: QA Issue: mingetty: Files/directories were installed but not shipped in any package:
-  /sbin
-  /usr/sbin
-
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-extended/mingetty/mingetty_1.08.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...1-Fix-infinite-loop-in-LZMA-decompression.patch | 55 ++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.8.bb          |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-Fix-infinite-loop-in-LZMA-decompression.patch
 
-diff --git a/meta/recipes-extended/mingetty/mingetty_1.08.bb b/meta/recipes-extended/mingetty/mingetty_1.08.bb
-index 3c16228..491b892 100644
---- a/meta/recipes-extended/mingetty/mingetty_1.08.bb
-+++ b/meta/recipes-extended/mingetty/mingetty_1.08.bb
-@@ -16,6 +16,7 @@ EXTRA_OEMAKE = "CC='${CC}' \
-                 CFLAGS='${CFLAGS} -D_GNU_SOURCE'"
+diff --git a/meta/recipes-core/libxml/libxml2/0001-Fix-infinite-loop-in-LZMA-decompression.patch b/meta/recipes-core/libxml/libxml2/0001-Fix-infinite-loop-in-LZMA-decompression.patch
+new file mode 100644
+index 0000000..16c2295
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/0001-Fix-infinite-loop-in-LZMA-decompression.patch
+@@ -0,0 +1,55 @@
++From 28a9dc642ffd759df1e48be247a114f440a6c16e Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Mon, 30 Jul 2018 13:14:11 +0200
++Subject: [PATCH] Fix infinite loop in LZMA decompression
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Check the liblzma error code more thoroughly to avoid infinite loops.
++
++Closes: https://gitlab.gnome.org/GNOME/libxml2/issues/13
++Closes: https://bugzilla.gnome.org/show_bug.cgi?id=794914
++
++This is CVE-2018-9251 and CVE-2018-14567.
++
++Thanks to Dongliang Mu and Simon Wörner for the reports.
++
++CVE: CVE-2018-9251
++CVE: CVE-2018-14567
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/2240fbf5912054af025fb6e01e26375100275e74]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ xzlib.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/xzlib.c b/xzlib.c
++index a839169..0ba88cf 100644
++--- a/xzlib.c
+++++ b/xzlib.c
++@@ -562,6 +562,10 @@ xz_decomp(xz_statep state)
++                          "internal error: inflate stream corrupt");
++                 return -1;
++             }
+++            /*
+++             * FIXME: Remapping a couple of error codes and falling through
+++             * to the LZMA error handling looks fragile.
+++             */
++             if (ret == Z_MEM_ERROR)
++                 ret = LZMA_MEM_ERROR;
++             if (ret == Z_DATA_ERROR)
++@@ -587,6 +591,11 @@ xz_decomp(xz_statep state)
++             xz_error(state, LZMA_PROG_ERROR, "compression error");
++             return -1;
++         }
+++        if ((state->how != GZIP) &&
+++            (ret != LZMA_OK) && (ret != LZMA_STREAM_END)) {
+++            xz_error(state, ret, "lzma error");
+++            return -1;
+++        }
++     } while (strm->avail_out && ret != LZMA_STREAM_END);
++ 
++     /* update available output and crc check value */
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+index 4ebd2ef..f01cb2c 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+@@ -22,6 +22,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://fix-execution-of-ptests.patch \
+            file://fix-CVE-2017-8872.patch \
+            file://fix-CVE-2018-14404.patch \
++           file://0001-Fix-infinite-loop-in-LZMA-decompression.patch \
+            "
  
- do_install(){
-+    sed -i -e "s;SBINDIR=/sbin;SBINDIR=$base_sbindir;"  ${S}/Makefile
-     install -d ${D}${mandir}/man8 ${D}/${base_sbindir}
-     oe_runmake install DESTDIR=${D}
- }
+ SRC_URI[libtar.md5sum] = "b786e353e2aa1b872d70d5d1ca0c740d"
 -- 
 2.7.4
 
