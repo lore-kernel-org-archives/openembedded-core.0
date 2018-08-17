@@ -1,25 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 927D679362
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+	[209.85.222.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 56E0079365
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 21:30:22 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w7HLUJaK023342
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Fri, 17 Aug 2018 22:30:21 +0100
-Message-ID: <3baf10fc85c46ee6ada3f4a93b004195a0f4fd10.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2018 22:30:19 +0100
-In-Reply-To: <20180817085427.8557-1-zhixiong.chi@windriver.com>
-References: <20180817085427.8557-1-zhixiong.chi@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/2] populate_sdk_base: only depend on nativesdk-glibc-locale when SDK_OS is not mingw32
+	Fri, 17 Aug 2018 21:31:25 +0000 (UTC)
+Received: by mail-ua1-f50.google.com with SMTP id y10-v6so6567593uao.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2018 14:31:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Fib6xrnMWrucAqlvlWe4VxOVlXNMY/2mN8exlv6y18g=;
+	b=hWSAMeue7TbKK7pZi9mCubR4e0oeyzVhS6nWmlefRa7CP1pe4nhf4pI+8ObKL27H2n
+	s/qgi9mgYwIU4t7fJs9f4tFgOdS76VJjYuPoZCVW07rk3YWgX2XWVq+eAD1OQFviB01X
+	o/Qa9+u3iP4NaOTdKkAkxB6W/RlhfCkqPYgqNyT5D4/8uJPjdalQL7v1UIAlnlhGhOrh
+	pJXSp6A33Z7E14TogRS18pz85hnojm2aYnZN4IEoO7DrZg+R10GyIm9FsM9OUxAYDkOS
+	8dA4NJ1wrKcbI3Tsq8xvCUUHmhR+saw1URPVCaSrjYFeuxD23qEXvdjrOVpWUz4aLQom
+	ClAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Fib6xrnMWrucAqlvlWe4VxOVlXNMY/2mN8exlv6y18g=;
+	b=jpL6daAZTCELEEOK5Lso0A9QR9W0nfVxGDpa6WP+36K5/NHNXMpolIcl/BrszJIJW2
+	IzTdgEKqpGOTRb0HYUheKGA+rNqoXqTLUGiSyGK+a6Uw7rKLIaQ3XQ9NkO7ykcCNULLg
+	oP37omc6wJpVmxAHDUrp9ez2I5+NUa5kMhkK9c8xK9mxUz3+XoJT5NaJlt/fF0hICOi9
+	FCBKbovAEWIrjIjsApZ7KeiI9DEOM7d2CD1Vye3SQuNX163jgEbcGvwEU68FtAdx0gNV
+	8kIcH7lUX0FiHXjOTZr/FUzD5ANgVzZoM8oFRA31nxEgI2GMw6+JRlegSLvxiGRWld/C
+	60sQ==
+X-Gm-Message-State: AOUpUlHa09P2Nba/H+9w4jlWUksjsbpw/lrSz78oqtBf3kgoJ2XZNJCN
+	LaNnJZUaiZmOC91VPgwGeS2sOI+9RAttclNkTaY=
+X-Google-Smtp-Source: AA+uWPzW0Im4h8SAD3mWHxExIWuVyP+xjvXGLcG14WB7slSryO8tmNDaoRnaxz7youRJZ/YjSEBtq/+ax/q77ShMHmU=
+X-Received: by 2002:ab0:5b8f:: with SMTP id
+	y15-v6mr23898116uae.59.1534541486196; 
+	Fri, 17 Aug 2018 14:31:26 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Fri, 17 Aug 2018 14:31:25 -0700 (PDT)
+In-Reply-To: <20180817141411.31825-1-akuster808@gmail.com>
+References: <20180817141411.31825-1-akuster808@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 17 Aug 2018 14:31:25 -0700
+Message-ID: <CAJ86T=WfkmRWbrj6EgQXyRNhYxTxhzEfNvCkLySa3q1=hNmK_Q@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: akuster <akuster@mvista.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [V2][PATCH] gnutls: Update to 3.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,64 +57,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 21:30:23 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 21:31:25 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-08-17 at 01:54 -0700, Zhixiong Chi wrote:
-> When we add the nativesdk-glibc-locale dependence for libc-glibc, if
-> the SDK_OS
-> is mingw32, it will broken the building with the following error:
-> > NOTE: Resolving any missing task queue dependencies
-> > ERROR: Nothing RPROVIDES 'nativesdk-glibc' (but
-> > virtual:nativesdk:layers/oe-core/meta/recipes-core/glibc/glibc-
-> > locale_2.24.bb
-> > RDEPENDS on or otherwise requires it)
-> > ERROR: nativesdk-glibc was skipped:
-> > PREFERRED_PROVIDER_virtual/nativesdk-libc set to nativesdk-mingw-
-> > w64-runtime, not nativesdk-glibc
-> > NOTE: Runtime target 'nativesdk-glibc' is unbuildable, removing...
-> > Missing or unbuildable dependency chain was: ['nativesdk-glibc']
-> > ERROR: Required build target 'meta-toolchain' has no buildable
-> > providers.
-> > Missing or unbuildable dependency chain was: ['meta-toolchain',
-> > 'nativesdk-glibc-locale', 'nativesdk-glibc']
-> 
-> mingw32 SDK_OS doesn't need to depend on nativesdk-glibc-locale.
-> 
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+On Fri, Aug 17, 2018 at 7:14 AM, Armin Kuster <akuster808@gmail.com> wrote:
+> [v2]
+> Fix new config options form with to disable.
+>
+> [v1]
+> release notes: https://lists.gnupg.org/pipermail/gnutls-devel/2018-July/008584.html
+>
+> add ssl3 and tls1.3 config options now supported.
+>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
 > ---
->  meta/classes/populate_sdk_base.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-> index c456c52866..65c27b0077 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -48,7 +48,7 @@ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
->  SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
->  SDK_DEPENDS = "virtual/fakeroot-native xz-native cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
->  PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
-> -SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
-> +SDK_DEPENDS_append_libc-glibc = " ${@bb.utils.contains('SDK_OS', 'mingw32', '', 'nativesdk-glibc-locale', d)}"
->  
->  # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
->  # could be set to the MACHINE_ARCH
+>  meta/recipes-support/gnutls/gnutls.inc                       | 2 ++
+>  .../gnutls/{gnutls_3.6.2.bb => gnutls_3.6.3.bb}              | 5 +++--
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+>  rename meta/recipes-support/gnutls/{gnutls_3.6.2.bb => gnutls_3.6.3.bb} (53%)
+>
+> diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+> index 04c0fd2af8..f204e5f4c0 100644
+> --- a/meta/recipes-support/gnutls/gnutls.inc
+> +++ b/meta/recipes-support/gnutls/gnutls.inc
+> @@ -30,6 +30,8 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
+>  PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
+>  PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
+>  PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
+> +PACKAGECONFIG[ssl3] = "--enable-ssl3-support,--disable-ssl3-support,"
+> +PACKAGECONFIG[tls13] = "--enable-tls13-support,--disable-tls13-support,"
 
-I appreciate this fixes a specific problem but this code is wrong
-anyway, libc-glibc is a target override and we're talking about the sdk
- here. To illustrate, if a target image was musl based but the sdk
-glibc based, this code wouldn't work.
+I'm not sure whether either of these should have PACKAGECONFIG options.
 
-Could we therefore correct this to correctly determine which libc is
-being used in the SDK? If we're going to fix it, lets fix it
-properly...
+SSL v3 is obsolete and if gnutls is disabling it by default now then
+it's probably best to leave it that way (dead and buried). Experienced
+users can always enable via EXTRA_OECONF if they really need it.
 
-Cheers,
+TLS 1.3 is the opposite - it's brand new. If we add a PACKAGECONFIG
+option to control it then it becomes the gnutls recipe maintainer's
+job to figure out when to enable it by default. I think it's better to
+leave that decision to upstream gnutls.
 
-Richard
-
-
-
-
+>  EXTRA_OECONF = " \
+>      --enable-doc \
+> diff --git a/meta/recipes-support/gnutls/gnutls_3.6.2.bb b/meta/recipes-support/gnutls/gnutls_3.6.3.bb
+> similarity index 53%
+> rename from meta/recipes-support/gnutls/gnutls_3.6.2.bb
+> rename to meta/recipes-support/gnutls/gnutls_3.6.3.bb
+> index e540528a8e..c560305032 100644
+> --- a/meta/recipes-support/gnutls/gnutls_3.6.2.bb
+> +++ b/meta/recipes-support/gnutls/gnutls_3.6.3.bb
+> @@ -3,7 +3,8 @@ require gnutls.inc
+>  SRC_URI += "file://0001-configure.ac-fix-sed-command.patch \
+>              file://arm_eabi.patch \
+>             "
+> -SRC_URI[md5sum] = "8b4912c6c0e5ffefd3dbb4888eaf8a58"
+> -SRC_URI[sha256sum] = "bcd5db7b234e02267f36b5d13cf5214baac232b7056a506252b7574ea7738d1f"
+> +
+> +SRC_URI[md5sum] = "d3b1b05c2546b80832101a423a80faf8"
+> +SRC_URI[sha256sum] = "ed642b66a4ecf4851ab2d809cd1475c297b6201d8e8bd14b4d1c08b53ffca993"
+>
+>  BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
