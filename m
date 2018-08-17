@@ -1,23 +1,49 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CB81779193
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CCFC748D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 02:02:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7H22KR9021813
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 17 Aug 2018 02:24:02 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id 8-v6so11651530oip.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 19:02:20 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 16 Aug 2018 19:02:14 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Aug 2018 10:02:13 +0800
-Message-ID: <1534471333-368241-1-git-send-email-changqing.li@windriver.com>
+	Thu, 16 Aug 2018 19:24:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=8VmnTHyd+T/HpJbAjCkeLtObaoF2atq3YzjGyeaiZrc=;
+	b=FY/ADiiJKMlU2/1OuMEzt9yMzQ4Ec8uPYWlT8QxLVLnXhSirBDS2DDxOg6ee3AHMRm
+	e97NB8CwkzLyVvcKZZk5+ywodnJZbUC0rjZqQx2BYl03nxJQbDG7OlfmlSK5M9JLIXwq
+	ERrKFeZ/evORWbOWVwMPPmabig1pAergPI1NOUgukn9bBUilnCUpXHql+O+5rrHlsfiH
+	3/J/F+5IvCru/GivqYM6n+rG8+sDwUGO4Q9j6xA+uERa8B3w9bsz8BW6LXBf4Cyc9HQp
+	285Fn6lQVHf9xR6NiVX+RzJS4YC6ruxS2qoBkZ1m7A9L7psTO48BCYq4QD6s+V3sZPME
+	RElQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8VmnTHyd+T/HpJbAjCkeLtObaoF2atq3YzjGyeaiZrc=;
+	b=I1XaEgA5JgrBpieYGNLuKeALeSX99MXO8sEkkKt+H84hwCMhyzvX0DH5s7+8YOA+aF
+	1vTN8T6vxzNnRjQ8IXdROeliRsoJ7u/S1sYEyLA1dNIHjblDrfKfwMvoPYr47AfG7hlX
+	nBK7k88OjlD8NjrzbvF7/llHujkRdEViCK/WKmAne9F5CW+y8nNfcH/8P1ytm/cbtB3c
+	zw8VIhzIRlaSqcr0iFUeyIu7VqfVHNajuC/s2qnPKdnvGYZWZyZLRnkaz5pCYIyGkYnf
+	3U7QKzwAfeY3Y6h1YIMeyx6klSzeMGlk9J/mHkLSjN1MnORkvoiqIwEjtzhpf/ysarat
+	/KXg==
+X-Gm-Message-State: AOUpUlF8Svw5gmGAXURQd5ZXNNAhinDqL2SgTvAkOVR/9g+3F0SeNA2z
+	WsixwbDUJg5pb6kP2YXlrrFxdSxh8/Q=
+X-Google-Smtp-Source: AA+uWPw7r+XOUU7XgMCuUByDA7QzDH/o7tcQvw72oICn3HeM0xLcSzkYxNzAt+T7C/Fvl2ogI86c2g==
+X-Received: by 2002:aca:e8c9:: with SMTP id
+	f192-v6mr498004oih.87.1534472643377; 
+	Thu, 16 Aug 2018 19:24:03 -0700 (PDT)
+Received: from dell-laptop.mvista.com ([157.49.79.78])
+	by smtp.gmail.com with ESMTPSA id
+	d5-v6sm494969oia.57.2018.08.16.19.24.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 16 Aug 2018 19:24:02 -0700 (PDT)
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Aug 2018 07:53:54 +0530
+Message-Id: <1534472634-13554-1-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH V2] unzip: fix CVE-2018-1000035
+Subject: [PATCH v2] oe-run-native: Add *-native directories under STAGING_BINDIR_NATIVE to PATH environment variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,84 +56,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 02:02:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Aug 2018 02:24:02 -0000
 
-From: Changqing Li <changqing.li@windriver.com>
+It helps to find/use native tools under ${STAGING_BINDIR_NATIVE}/*-native.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Solving below error:
+
+$ oe-run-native python3-native python3
+Running bitbake -e python3-native
+Error: Unable to find 'python3' in .../tmp/work/x86_64-linux/python3-native/3.5.5-r1.0/recipe-sysroot-native/usr/bin:.../tmp/work/x86_64-linux/python3-native/3.5.5-r1.0/recipe-sysroot-native/bin:.../tmp/work/x86_64-linux/python3-native/3.5.5-r1.0/recipe-sysroot-native/usr/sbin:.../tmp/work/x86_64-linux/python3-native/3.5.5-r1.0/recipe-sysroot-native/sbin
+Error: Have you run 'bitbake python3-native -caddto_recipe_sysroot'?
+-- snip --
+
+After this change we have native python3 to be found:
+
+$ oe-run-native python3-native python3
+Running bitbake -e python3-native
+Python 3.5.5 (default, Aug  8 2018, 17:45:49)
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-28)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+-- snip --
+
+[YOCTO #12889]
+
+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../unzip/0001-unzip-fix-CVE-2018-1000035.patch    | 48 ++++++++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb           |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch
+* v2 changes:
+  Removed extra colon (":") at the end of the PATH value, if no *-native
+  subdirectories are not found.
+  
+ scripts/oe-run-native | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch b/meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch
-new file mode 100644
-index 0000000..37289d1
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/0001-unzip-fix-CVE-2018-1000035.patch
-@@ -0,0 +1,48 @@
-+From 349f566e6e757458843fa164a0f0584280e1501e Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 15 Aug 2018 16:20:53 +0800
-+Subject: [PATCH] unzip: fix CVE-2018-1000035
-+
-+Upstream-Status: Backport
-+
-+CVE: CVE-2018-1000035
-+
-+backport from unzip6.10c23
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ fileio.c | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
-+
-+diff --git a/fileio.c b/fileio.c
-+index 36bfea3..7605a29 100644
-+--- a/fileio.c
-++++ b/fileio.c
-+@@ -1582,6 +1582,8 @@ int UZ_EXP UzpPassword (pG, rcnt, pwbuf, size, zfn, efn)
-+     int r = IZ_PW_ENTERED;
-+     char *m;
-+     char *prompt;
-++    char *ep;
-++    char *zp;
-+ 
-+ #ifndef REENTRANT
-+     /* tell picky compilers to shut up about "unused variable" warnings */
-+@@ -1590,9 +1592,12 @@ int UZ_EXP UzpPassword (pG, rcnt, pwbuf, size, zfn, efn)
-+ 
-+     if (*rcnt == 0) {           /* First call for current entry */
-+         *rcnt = 2;
-+-        if ((prompt = (char *)malloc(2*FILNAMSIZ + 15)) != (char *)NULL) {
-+-            sprintf(prompt, LoadFarString(PasswPrompt),
-+-                    FnFilter1(zfn), FnFilter2(efn));
-++        zp = FnFilter1( zfn);
-++        ep = FnFilter2( efn);
-++        prompt = (char *)malloc(    /* Slightly too long (2* "%s"). */
-++         sizeof( PasswPrompt)+ strlen( zp)+ strlen( ep));
-++        if (prompt != (char *)NULL) {
-++            sprintf(prompt, LoadFarString(PasswPrompt), zp, ep);
-+             m = prompt;
-+         } else
-+             m = (char *)LoadFarString(PasswPrompt2);
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index dbf4112..a47491e 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
- 	file://18-cve-2014-9913-unzip-buffer-overflow.patch \
- 	file://19-cve-2016-9844-zipinfo-buffer-overflow.patch \
- 	file://symlink.patch \
-+	file://0001-unzip-fix-CVE-2018-1000035.patch \
- "
- UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/scripts/oe-run-native b/scripts/oe-run-native
+index bbdd1d8..8412b18 100755
+--- a/scripts/oe-run-native
++++ b/scripts/oe-run-native
+@@ -55,7 +55,7 @@ fi
+ OLD_PATH=$PATH
  
+ # look for a tool only in native sysroot
+-PATH=$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin
++PATH=$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin$(find $OECORE_NATIVE_SYSROOT/usr/bin/*-native -maxdepth 1 -type d -printf ":%p")
+ tool_find=`/usr/bin/which $tool 2>/dev/null`
+ 
+ if [ -n "$tool_find" ] ; then
 -- 
 2.7.4
 
