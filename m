@@ -1,48 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f50.google.com (mail-pl0-f50.google.com
-	[209.85.160.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2750678AB5
+Received: from mail-pl0-f48.google.com (mail-pl0-f48.google.com
+	[209.85.160.48])
+	by mail.openembedded.org (Postfix) with ESMTP id E263B792B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 04:43:42 +0000 (UTC)
-Received: by mail-pl0-f50.google.com with SMTP id b90-v6so3143193plb.0
+	Fri, 17 Aug 2018 04:43:43 +0000 (UTC)
+Received: by mail-pl0-f48.google.com with SMTP id w14-v6so3134815plp.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 21:43:43 -0700 (PDT)
+	Thu, 16 Aug 2018 21:43:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=GrZRi5WE6cX0EPbkcO90L4dD/uXWYVJpCf5GiUA1008=;
-	b=H0w5S8bp3oYWvhLqwjJc3vp6G0ojv6tzKmu3WxfDwH9hWqUbT0PremhRT4+KjgxMPx
-	nBdVEru1+oj9imrcKzgZtRVzKCZAYCo7z8MyMh/eS5WyuOycMDii0ZfFSLaUajywNKQk
-	itglW+wu4YhPzRiRecnI4dr63rD3FnfaywLeo6z1W9HBFopw0vwr++Maw6Sevu2Xw1jX
-	WaU8S0ysEnIyGVeKadJoqr4iQBOFbFxKJaEzG4L4VK3N+r2+IXpZMNRz24qLSpURHzxk
-	FDOS60I4+aifOdUR9OO7vbKHX2AmFNjDWV1wQlSpdgp33NJSXgbMbGeS4B7b7ZHPkyKr
-	24wg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=31IrPAeP2ZDvprgF1W8oTUzP1gbYROE2iRXA8ZFJ63U=;
+	b=UpcyrzW7cXgVft4/g0rETtK6XP8Kyb1gZ6XolGLUd6VyVCYZRuKXuBGeVW2XjR0Zt6
+	xVty0ZOmTDSYcxQ2wmujAo5/tvzttK4Iodsh2jy5pB/Giz8vwjsTuAdc+4um2UpYFFWr
+	Cnji+uwmlYQZhq/knaHZR+lfmJn+WDA8e6km9wWsL/Vhseb2fTQ288WRTB/rOMjLEKlu
+	efWsrPAlxWPExdq3nnz+1VHeZr7+bWpMmnKNqIScOvF3ZOBOJRVH4d1jGlAeAsnWhcFS
+	zHl23vrsCuJhEVt94dR5G5dX07VN99V7uNOWGxTeBsY3Neymik3eQ872CVWH1RVAu4KV
+	vvRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=GrZRi5WE6cX0EPbkcO90L4dD/uXWYVJpCf5GiUA1008=;
-	b=WjvAkCfccZFs6P5582IOJYoMItFuhd5CAmCbZxL/TjUjkTjshHrPD3DXFK3sqCGTbj
-	blaIzJGClDswijyZmZx+ZwlukdOnwg/Cph1YE5JkCR7/PIDQpgwCNcbSd+ccPRpWzPFS
-	1alAt2TiVrWbPGGiTO9c8C6YGbmey+TMBtPwbPyECPYkFpMVLt0gifaKRiqQzrfRWFhW
-	+hvvskmXTROE38aLtrOv54KxLY+bP+RcNwR7Sgf1Gu7466MhKavT9GNGmlGEgW3b8DSY
-	Actj+AhEvz24El8PGnhKTg1vCte2lS9KmpQNVwD2kTWKRoRT1sUfVDZfu4tK0qSZdSe2
-	9a+w==
-X-Gm-Message-State: AOUpUlHuu4HTFN73A5qi74hEE5kRsRojG1E7UYiv+c086gwVOeO3cGwU
-	K7+Jh0V9K5Yhfa4V9ZIs6Q+85gTK
-X-Google-Smtp-Source: AA+uWPxU0uWHehmAaev02Ed2+mnIlwpP+b7uBXXQ+DBXR2wAX5HDt1fy6looQ2LG3lzYiV6MEwdfWA==
-X-Received: by 2002:a17:902:925:: with SMTP id
-	34-v6mr31899241plm.307.1534481023041; 
-	Thu, 16 Aug 2018 21:43:43 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=31IrPAeP2ZDvprgF1W8oTUzP1gbYROE2iRXA8ZFJ63U=;
+	b=BKwTQTKv0u1qeFe/M/E3w0Zq8+R868UkWuYl5jgXVSpmENVRuvtMw8aqI0vCKtz0ri
+	jWBxf1+3VEGw5py8dLiJICOqMGEVy7dV0kebyN7Qady67JVHDsrLXHlOECDTBzRVz+1F
+	AdrDTCXqKi9eT9BOTR6utPZMqQpZImj4xlPu0Fvx0BYzb5gLyRaBStv9kllCDJ0xYUvx
+	vgsP53/ieOh50qneKbdvtoMcgNkV3DF76567jkJ4yQlUSoJr2hSfEv1Y7Hlo2ayXgRo0
+	7NHplAidacdHDsNh3U9q+aHsPYZRWYTMClIOt2vdy4w+TGGjVxD1wI9C+BejBfHynDtE
+	QISQ==
+X-Gm-Message-State: AOUpUlFzg0XcwCRfKu1VlvB6CSfg52i2cDZUdUCn1GgvMB4dAu4kciek
+	+EpYMfHaQiCe2DHXO9LnKxb02ffk
+X-Google-Smtp-Source: AA+uWPwPYdeBj1gFexI/2C23nfsqmBdVGN2YJIdRAQYnc45DPGP2DU2aSTt1kQHkVfGE2jLjcXVu8Q==
+X-Received: by 2002:a17:902:d710:: with SMTP id
+	w16-v6mr31797152ply.93.1534481024948; 
+	Thu, 16 Aug 2018 21:43:44 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	r64-v6sm1157526pfk.157.2018.08.16.21.43.42
+	r64-v6sm1157526pfk.157.2018.08.16.21.43.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 16 Aug 2018 21:43:42 -0700 (PDT)
+	Thu, 16 Aug 2018 21:43:44 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Aug 2018 21:43:31 -0700
-Message-Id: <1534481017-17310-1-git-send-email-armccurdy@gmail.com>
+Date: Thu, 16 Aug 2018 21:43:32 -0700
+Message-Id: <1534481017-17310-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 1/7] openssl: consolidate target name mapping rules
+In-Reply-To: <1534481017-17310-1-git-send-email-armccurdy@gmail.com>
+References: <1534481017-17310-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH 2/7] openssl: update 32bit x86 target from linux-elf -> linux-x86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,123 +58,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 04:43:42 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 04:43:44 -0000
 
-Merge duplicates + minor reformatting (no functional changes).
+According to comments in Configurations/10-main.conf, the linux-elf
+target is "... to be used on older Linux machines where gcc doesn't
+understand -m32 and -m64".
 
-Note that the openssl 1.1 recipe still needs to be updated to handle
-MIPS Release 6 ISA targets (e.g. linux-mipsisa32r6, etc).
+The linux-x86 target appears to be the newer replacement (currently
+the only difference between the two is that linux-x86 adds -m32 to
+cflags).
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../recipes-connectivity/openssl/openssl_1.0.2p.bb |  7 ++--
- .../recipes-connectivity/openssl/openssl_1.1.0i.bb | 39 ++++------------------
- 2 files changed, 8 insertions(+), 38 deletions(-)
+ meta/recipes-connectivity/openssl/openssl_1.1.0i.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
-index 5d41977..5a2593c 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
-@@ -164,7 +164,7 @@ do_configure () {
- 	linux-mips*)
- 		target=debian-mips
- 		;;
--	linux-microblaze*|linux-nios2*|linux-gnu*ilp32**)
-+	linux-microblaze* | linux-nios2* | linux-gnu*ilp32**)
- 		target=linux-generic32
- 		;;
- 	linux-powerpc)
-@@ -179,10 +179,7 @@ do_configure () {
- 	linux-riscv64)
- 		target=linux-generic64
- 		;;
--	linux-supersparc)
--		target=linux-sparcv8
--		;;
--	linux-sparc)
-+	linux-sparc | linux-supersparc)
- 		target=linux-sparcv8
- 		;;
- 	esac
 diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
-index 7929d81..8a8d928 100644
+index 8a8d928..ab0d264 100644
 --- a/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
-@@ -51,28 +51,13 @@ do_configure () {
- 	esac
- 	target="$os-${HOST_ARCH}"
- 	case $target in
--	linux-arm)
--		target=linux-armv4
--		;;
--	linux-armeb)
-+	linux-arm*)
- 		target=linux-armv4
- 		;;
- 	linux-aarch64*)
+@@ -58,7 +58,7 @@ do_configure () {
  		target=linux-aarch64
  		;;
--	linux-sh3)
--		target=linux-generic32
--		;;
--	linux-sh4)
--		target=linux-generic32
--		;;
--	linux-i486)
+ 	linux-i?86 | linux-viac3)
 -		target=linux-elf
--		;;
--	linux-i586 | linux-viac3)
--		target=linux-elf
--		;;
--	linux-i686)
-+	linux-i?86 | linux-viac3)
- 		target=linux-elf
++		target=linux-x86
  		;;
  	linux-gnux32-x86_64 | linux-muslx32-x86_64 )
-@@ -81,23 +66,17 @@ do_configure () {
- 	linux-gnu64-x86_64)
- 		target=linux-x86_64
- 		;;
--	linux-mips)
-+	linux-mips | linux-mipsel)
- 		# specifying TARGET_CC_ARCH prevents openssl from (incorrectly) adding target architecture flags
- 		target="linux-mips32 ${TARGET_CC_ARCH}"
- 		;;
--	linux-mipsel)
--		target="linux-mips32 ${TARGET_CC_ARCH}"
--		;;
- 	linux-gnun32-mips*)
- 		target=linux-mips64
- 		;;
--	linux-*-mips64 | linux-mips64)
--		target=linux64-mips64
--		;;
--	linux-*-mips64el | linux-mips64el)
-+	linux-*-mips64 | linux-mips64 | linux-*-mips64el | linux-mips64el)
- 		target=linux64-mips64
- 		;;
--	linux-microblaze*|linux-nios2*)
-+	linux-microblaze* | linux-nios2* | linux-sh3 | linux-sh4)
- 		target=linux-generic32
- 		;;
- 	linux-powerpc)
-@@ -112,15 +91,9 @@ do_configure () {
- 	linux-riscv64)
- 		target=linux-generic64
- 		;;
--	linux-supersparc)
--		target=linux-sparcv9
--		;;
--	linux-sparc)
-+	linux-sparc | linux-supersparc)
- 		target=linux-sparcv9
- 		;;
--	darwin-i386)
--		target=darwin-i386-cc
--		;;
- 	esac
- 
- 	useprefix=${prefix}
+ 		target=linux-x32
 -- 
 1.9.1
 
