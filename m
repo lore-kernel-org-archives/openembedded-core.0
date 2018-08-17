@@ -1,53 +1,75 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A856878FB3
+Return-Path: <Mark.Jonas@de.bosch.com>
+Received: from de-deferred1.bosch-org.com (de-deferred1.bosch-org.com
+	[139.15.180.216])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C1BB78FB3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 12:03:36 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id w16-v6so6151390ljh.12
+	Fri, 17 Aug 2018 12:09:03 +0000 (UTC)
+Received: from de-out1.bosch-org.com (unknown [139.15.180.215])
+	by si0vms0224.rbdmz01.com (Postfix) with ESMTPS id 41sMSH71Dfz1MT
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 05:03:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kzhXRvReF39DAxXl8LThy0byzwJeCkQ4wzq/SXFa1R8=;
-	b=Ed1vkklUsOJYju4/HdG9pV3tCtWZe60o/E593OLFSioCbt+ugFV4hLCjQlH4L0y9No
-	rRQ0ROVrfZE+Smghl2dN6SA3vAv+aqtrkX1ygVzBNhWgenR2xggsR29UwpGWCbN3/wZl
-	mC5kaDzfM6kHSbv55pcXQQCJAP0UzSMKW5AtaxMBe/rkC2AXHFDH3tqzJKSCCaHm/DtO
-	qOLrl37cu+n8qiZcrgy6L+o1t2U9P7fN+NfqJCY6bZKo6LPX7TURqCjGtFsibUJm4gn2
-	BlacVD8stNXquCFsfxPR1XLLmvEJJp+ymBSgIjUqAFJ8Qi+uFQ7LhJYBG78kVRVHSFbK
-	3zYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=kzhXRvReF39DAxXl8LThy0byzwJeCkQ4wzq/SXFa1R8=;
-	b=o1e/fCm2wcseQ9oHO5PCEnYvaBCoiVLEJpQniZN+wFZ4W2DBFeL7t3+LCW5AaPB4Hi
-	IRpQRxSa32UUl/BjStwOsHajYab8uM5HsUS04JCTJI2v2Cw8jkB8cCI12vpaNPVaAolS
-	T2UMigFGEm8WrcIttksu5coyTPuOq1ddCbf2sjJ7sZDWhigJLc38P6YksOY1I56WLF7N
-	0cdh2lyPdBacXXtHf/NQ+1lKiaKEiH2KCbSuzXuHy/30Nm1+4XHfF6CDs1rDWZ3wwGbu
-	Z26GNzlpCJPEYzpxAXOf+jC4hTvzp71CuLYxCLX+rqIxWjpvsjsO1UfV79DORNyLFW+X
-	r3Kw==
-X-Gm-Message-State: AOUpUlETc5et48SBb1mw4avI7pRSVy/0WwYV6wOYLjqSn6cllL1steab
-	tMUmjCRs9ofVw51bImfa6tXbmZ20dXjOPMDxutw=
-X-Google-Smtp-Source: AA+uWPy00D61E7uVNPAkVEN4kpwhzyPZWfvgQ4VbyRk+xfutA4F1FbmxjDB5ARnIyiSiX7X/x3QB71P64NLoGRCFq5M=
-X-Received: by 2002:a2e:9854:: with SMTP id
-	e20-v6mr23492140ljj.143.1534507416888; 
-	Fri, 17 Aug 2018 05:03:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:8688:0:0:0:0:0 with HTTP; Fri, 17 Aug 2018 05:03:36
-	-0700 (PDT)
-In-Reply-To: <e8e403ab1cd0a3e4a5754d4d4079508946da0c3f.camel@linuxfoundation.org>
-References: <1534453421-28943-1-git-send-email-bruce.ashfield@windriver.com>
-	<CADkTA4OrPcXQEZ+d1HEeNZBrJy_VcyJcv_7DmhnBddmLQPVYZg@mail.gmail.com>
-	<3927163d00059d0559412175c903ba60ce383dcd.camel@linuxfoundation.org>
-	<e8e403ab1cd0a3e4a5754d4d4079508946da0c3f.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 17 Aug 2018 08:03:36 -0400
-Message-ID: <CADkTA4NOWG7yHkdoCeYoi4i8Wr0ECOTjuGayKid7c1Q3Vez_=w@mail.gmail.com>
+	Fri, 17 Aug 2018 14:09:03 +0200 (CEST)
+Received: from fe0vm1650.rbesz01.com (unknown [139.15.230.188])
+	by si0vms0217.rbdmz01.com (Postfix) with ESMTPS id 41sMSD6WQMz4f3klG;
+	Fri, 17 Aug 2018 14:09:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=de.bosch.com;
+	s=2015-01-21; t=1534507740;
+	bh=POrmznnVCvuZwVTUe2aSGj8086oni2VDOCpwkkJYpfY=; l=10;
+	h=From:From:Reply-To:Sender;
+	b=iI8WpMJXbwQNHfYS2tbCEraXz5Zg17oZ7j9Bmp6zP01zpI7qaUHzdtQW9GJ7hdQ/n
+	RPrVIfbzu8BsSnjtRCrUZT3G2HqRpOadsHEdK9NPH/Vvk33OdpQcrh2AoCY93oSTNi
+	bQm9vIciofX/oVZrUk5JNxMoPRvLAypRSF/Uf6Q4=
+Received: from fe0vm1740.rbesz01.com (unknown [10.58.172.176])
+	by fe0vm1650.rbesz01.com (Postfix) with ESMTPS id 41sMSD6C29z2gj;
+	Fri, 17 Aug 2018 14:09:00 +0200 (CEST)
+X-AuditID: 0a3aad14-9abff7000000690f-b2-5b76baddd74c
+Received: from fe0vm1651.rbesz01.com ( [10.58.173.29])
+	(using TLS with cipher AES128-SHA (128/128 bits))
+	(Client did not present a certificate)
+	by fe0vm1740.rbesz01.com (SMG Outbound) with SMTP id
+	BC.50.26895.DDAB67B5; Fri, 17 Aug 2018 14:09:01 +0200 (CEST)
+Received: from FE-MBX2051.de.bosch.com (fe-mbx2051.de.bosch.com [10.3.231.61])
+	by fe0vm1651.rbesz01.com (Postfix) with ESMTPS id 41sMSD3zGvzlbG3;
+	Fri, 17 Aug 2018 14:09:00 +0200 (CEST)
+Received: from FE-MBX2051.de.bosch.com (10.3.231.61) by
+	FE-MBX2051.de.bosch.com (10.3.231.61) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.1.1466.3; Fri, 17 Aug 2018 14:09:00 +0200
+Received: from FE-MBX2051.de.bosch.com ([fe80::d5b5:44fa:ef15:153e]) by
+	FE-MBX2051.de.bosch.com ([fe80::d5b5:44fa:ef15:153e%6]) with mapi id
+	15.01.1466.008; Fri, 17 Aug 2018 14:09:00 +0200
+From: "Jonas Mark (BT-FIR/ENG1)" <Mark.Jonas@de.bosch.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+Thread-Topic: [OE-core] [meta-oe][PATCH] directfb: fix tslib version check in
+	configure.in
+Thread-Index: AdQ2Iqgw1madm27sQL2eoCaC2vXKMA==
+Date: Fri, 17 Aug 2018 12:09:00 +0000
+Message-ID: <76d5914a10d947d698c0dabfd0633a21@de.bosch.com>
+Accept-Language: de-DE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.19.142.147]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA22TbUxbZRTHeXpbeqlc9rSlclYoczXToZPB3BwBQ4zZh8UP6qYmzppgkQtt
+	7AvpbStdjDKI3SgYgW28tJUsseBG5vriEhkSCmVK2RIxsCVQMXtxEsY2MLoXkNl5LxfWfvDL
+	k//zP+d3znnOzSUJWROpJPUmK20xaQ3qVIlQUvyt6oXf+u2agsbQhqKZ5QVx0dJsi+gVwd7w
+	V6fFe38OnkRvCt6TvFxBG/R22rK99AOJLjayQlTPbqq57+sW1qKHuS6URgLeCcPTfyMXkpAy
+	fFgAQ545MX8ZQHDs0om1yx0E7aPTIv4yhOBr3w0Bx6fiYjjcc1HM6Uy8G5YbelO5JAKPIXAu
+	3F4NyLEGjp4aZwGSTXofnN4cPj8fam/9hDgtxFvAFbq4qilcAqP3Y6saYRUEAuMEpwmcBaHZ
+	ByJ+bgy+Ad4HrICbv8dFXHnAm8Hb8SonCZwH/v7tPLkZjjVeE/PVpTDWeUPYjBTupKLuBOFO
+	ItxJxAkk7EWKSrrAbizcvbMg31JOMwcLCvM/NBtDiP8mmX1oJVIZQZhE6nTKH7JrZCKtnXEY
+	I2gXKVArqH3fs1ZGubnCodMyujKLzUAzaiWFUlJSZPLHNmMrN+oZRm82RRCQhDqTOvANy1EV
+	WsdB2mLmsQjKJoXqLMq0r0Ijw1VaK/0RTVfTlvVoCUmqgRo4x4JSC11F11TqDdb1sFrF93wy
+	OZLcVkCmRdCLZDrbe1M/15up1hoZfdUavpHHZetuAr2A3iBj9U2tBPlw8Th7zjS2tRIyocls
+	opVZ1BauFuYonc30eBplDnX5B0YjUyQFEhXn0RRi9ymnxByczv4GiTmA6pN7D8ika2YC2uFj
+	GRxOh8D1Yjh/dwJBeHoSgT9+h4Au3xUhfNc1mQaPAuwR7B58AkY6AhT0fjlHQdjTmgGHXIMZ
+	cG9hNgP+6Ty+AZaidRhut0QxTJydksL1qbAcohMTWXCkuQOgy/0XwJG7cYBfLl3LgUcnP1dB
+	cOl8LiydnsuFez7PU3Buvudp8F69+QzE/23fCmdil7dCsOHo8/PsjgXsjtuwjduxVWv9nx2v
+	uYnHKWuR19GzsfFdTdo2U3CmR7XiWvTVO6daBuv3jB0a3mUrcezHhtjys5oaiP84Li274mx6
+	La9ZL9HltX8c9ewo++xCp+gtsv/XOm3fmT1/ZreKF4Ohd9q2NQ19EpFMnq0rGhktfdvfIHh9
+	+A91aerVkuzMT295vNGu/S9FH3Q7/eSpLxbUQkanLXyOsDDa/wCYWVXLnwQAAA==
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] kernel-devsrc: restructure for out of tree (and on target) module builds
+Subject: Re: [meta-oe][PATCH] directfb: fix tslib version check in configure.in
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,149 +82,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 12:03:36 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 17 Aug 2018 12:09:03 -0000
+Content-Language: de-DE
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, Aug 17, 2018 at 1:53 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2018-08-16 at 22:44 +0100, richard.purdie@linuxfoundation.org
-> wrote:
->> On Thu, 2018-08-16 at 17:08 -0400, Bruce Ashfield wrote:
->> > I'm getting a strange install issue with x86 that I've never seen
->> > before, and that
->> > part is unchanged from v3 to v4.
->> >
->> > .. and then I realized that a file has changed in my builds, since
->> > I'm
->> > working on 4.18.
->> >
->> > This is worth testing on the autobuilder, but I will have a v5 that
->> > adds a test for some
->> > files that may go missing, and hence we'll have issues across
->> > versions.
->>
->> Thanks, I've added it into a build with a glibc and openssl change
->> and
->> set it away so its possible other issues may occur, we'll see how it
->> works out...
->
-> The openssl change caused problems but I did spot qemumips64 failing:
-
-lttng was getting in the way of my mips testing, so I missed that one.
-
-I'll fix this and send a v5 today.
-
-Bruce
-
->
-> NOTE: ======================================================================
-> | NOTE: FAIL: test_kernel_module (kernelmodule.KernelModuleTest)
-> | NOTE: ----------------------------------------------------------------------
-> | NOTE: Traceback (most recent call last):
-> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips64/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-> |     return func(*args, **kwargs)
-> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips64/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-> |     return func(*args, **kwargs)
-> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips64/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-> |     return func(*args, **kwargs)
-> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips64/build/meta/lib/oeqa/runtime/cases/kernelmodule.py", line 40, in test_kernel_module
-> |     self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
-> | AssertionError: 2 != 0 : cd /usr/src/kernel && make scripts prepare
-> |   HOSTCC  scripts/basic/fixdep
-> |   HOSTCC  scripts/basic/bin2c
-> |   HOSTCC  scripts/kconfig/conf.o
-> |   SHIPPED scripts/kconfig/zconf.tab.c
-> |   SHIPPED scripts/kconfig/zconf.lex.c
-> |   HOSTCC  scripts/kconfig/zconf.tab.o
-> | In file included from scripts/kconfig/zconf.tab.c:2468:
-> | scripts/kconfig/confdata.c: In function 'conf_write':
-> | scripts/kconfig/confdata.c:773:19: warning: '%s' directive writing likely 7 or more bytes into a region of size between 1 and 4097 [-Wformat-overflow=]
-> |   sprintf(newname, "%s%s", dirname, basename);
-> |                    ^~~~~~
-> | scripts/kconfig/confdata.c:773:19: note: assuming directive output of 7 bytes
-> | scripts/kconfig/confdata.c:773:2: note: 'sprintf' output 1 or more bytes (assuming 4104) into a destination of size 4097
-> |   sprintf(newname, "%s%s", dirname, basename);
-> |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> | scripts/kconfig/confdata.c:776:20: warning: '.tmpconfig.' directive writing 11 bytes into a region of size between 1 and 4097 [-Wformat-overflow=]
-> |    sprintf(tmpname, "%s.tmpconfig.%d", dirname, (int)getpid());
-> |                     ^~~~~~~~~~~~~~~~~
-> | scripts/kconfig/confdata.c:776:3: note: 'sprintf' output between 13 and 4119 bytes into a destination of size 4097
-> |    sprintf(tmpname, "%s.tmpconfig.%d", dirname, (int)getpid());
-> |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> |   HOSTLD  scripts/kconfig/conf
-> | scripts/kconfig/conf  --silentoldconfig Kconfig
-> |   WRAP    arch/mips/include/generated/uapi/asm/ipcbuf.h
-> |   WRAP    arch/mips/include/generated/asm/clkdev.h
-> |   WRAP    arch/mips/include/generated/asm/current.h
-> |   WRAP    arch/mips/include/generated/asm/dma-contiguous.h
-> |   WRAP    arch/mips/include/generated/asm/emergency-restart.h
-> |   WRAP    arch/mips/include/generated/asm/export.h
-> |   WRAP    arch/mips/include/generated/asm/irq_work.h
-> |   WRAP    arch/mips/include/generated/asm/local64.h
-> |   WRAP    arch/mips/include/generated/asm/mcs_spinlock.h
-> |   WRAP    arch/mips/include/generated/asm/mm-arch-hooks.h
-> |   WRAP    arch/mips/include/generated/asm/parport.h
-> |   WRAP    arch/mips/include/generated/asm/percpu.h
-> |   WRAP    arch/mips/include/generated/asm/preempt.h
-> |   WRAP    arch/mips/include/generated/asm/qrwlock.h
-> |   WRAP    arch/mips/include/generated/asm/qspinlock.h
-> |   WRAP    arch/mips/include/generated/asm/sections.h
-> |   WRAP    arch/mips/include/generated/asm/segment.h
-> |   WRAP    arch/mips/include/generated/asm/trace_clock.h
-> |   WRAP    arch/mips/include/generated/asm/unaligned.h
-> |   WRAP    arch/mips/include/generated/asm/user.h
-> |   WRAP    arch/mips/include/generated/asm/word-at-a-time.h
-> |   WRAP    arch/mips/include/generated/asm/xor.h
-> |   HOSTCC  scripts/dtc/dtc.o
-> |   HOSTCC  scripts/dtc/flattree.o
-> |   HOSTCC  scripts/dtc/fstree.o
-> |   HOSTCC  scripts/dtc/data.o
-> |   HOSTCC  scripts/dtc/livetree.o
-> |   HOSTCC  scripts/dtc/treesource.o
-> |   HOSTCC  scripts/dtc/srcpos.o
-> |   HOSTCC  scripts/dtc/checks.o
-> |   HOSTCC  scripts/dtc/util.o
-> |   SHIPPED scripts/dtc/dtc-lexer.lex.c
-> |   SHIPPED scripts/dtc/dtc-parser.tab.h
-> |   HOSTCC  scripts/dtc/dtc-lexer.lex.o
-> |   SHIPPED scripts/dtc/dtc-parser.tab.c
-> |   HOSTCC  scripts/dtc/dtc-parser.tab.o
-> |   HOSTLD  scripts/dtc/dtc
-> |   CC      scripts/mod/empty.o
-> |   HOSTCC  scripts/mod/mk_elfconfig
-> |   MKELF   scripts/mod/elfconfig.h
-> |   HOSTCC  scripts/mod/modpost.o
-> |   CC      scripts/mod/devicetable-offsets.s
-> |   CHK     scripts/mod/devicetable-offsets.h
-> |   UPD     scripts/mod/devicetable-offsets.h
-> |   HOSTCC  scripts/mod/file2alias.o
-> |   HOSTCC  scripts/mod/sumversion.o
-> |   HOSTLD  scripts/mod/modpost
-> |   HOSTCC  scripts/kallsyms
-> |   HOSTCC  scripts/conmakehash
-> |   HOSTCC  scripts/sortextable
-> |   HOSTCC  arch/mips/boot/tools/relocs_32.o
-> |   HOSTCC  arch/mips/boot/tools/relocs_64.o
-> |   HOSTCC  arch/mips/boot/tools/relocs_main.o
-> |   HOSTLD  arch/mips/boot/tools/relocs
-> |   CHK     include/config/kernel.release
-> |   CHK     include/generated/uapi/linux/version.h
-> |   CHK     include/generated/utsrelease.h
-> |   Checking missing-syscalls for N32
-> | make[1]: *** No rule to make target 'missing-syscalls'.  Stop.
-> | make: *** [arch/mips/Makefile:422: archprepare] Error 2
->
-> https://autobuilder.yocto.io/builders/nightly-mips64/builds/1209/steps/Running%20Sanity%20Tests/logs/stdio
->
-> I think the kernel piece was otherwise good.
->
-> Cheers,
->
-> Richard
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+SGkgUmljaGFyZCwNCg0KSSBhbHJlYWR5IHNlbnQgYW4gdXBkYXRlZCB2ZXJzaW9uIG9mIHRoZSBw
+YXRjaCB0byB0aGUNCm9wZW5lbWJlZGRlZC1kZXZlbEBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIG1h
+aWxpbmcgbGlzdCBiZWNhdXNlIGFuDQphdXRvbWF0aWMgc3lzdGVtIGluZm9ybWVkIG1lIHRoYXQg
+SSBoaXQgdGhlIHdyb25nIG1haWxpbmcgbGlzdC4gSQ0KcHJvcG9zZSB0byBzd2l0Y2ggdG8gb3Bl
+bmVtYmVkZGVkLWRldmVsIGZvciBmdXJ0aGVyIGRpc2N1c3Npb25zLg0KDQpbbWV0YS1vZSx2Ml0g
+ZGlyZWN0ZmI6IGZpeCB0c2xpYiB2ZXJzaW9uIGNoZWNrIGluIGNvbmZpZ3VyZS5pbg0KaHR0cHM6
+Ly9wYXRjaHdvcmsub3BlbmVtYmVkZGVkLm9yZy9wYXRjaC8xNTM0NzAvDQoNClNhZGx5LCB0aGVy
+ZSBoYXNuJ3QgYmVlbiBhbnkgcmVhY3Rpb24geWV0Lg0KDQo+ID4gRnJvbTogR3VhbiBCZW4gPGJl
+bi5ndWFuQGNuLmJvc2NoLmNvbT4NCj4gPg0KPiA+IFRoZSBwYXRjaCBtYWtlcyBzdXJlIHRoYXQg
+dGhlIG9sZCBhcyB3ZWxsIGFzIHRoZSBuZXcgdHNsaWIgcGtnLWNvbmZpZw0KPiA+IG1ldGFkYXRh
+IGZpbGUgbmFtaW5nIHN0eWxlIGlzIGhhbmRsZWQgY29ycmVjdGx5Lg0KPiA+DQo+ID4gdHNsaWIg
+MC4wIHRvIDEuMCBjcmVhdGVkIG9ubHkgYSB0c2xpYi08VkVSU0lPTj4ucGMgcGtnLWNvbmZpZw0K
+PiA+IG1ldGFkYXRhDQo+ID4gZmlsZS4NCj4gPg0KPiA+IFdpdGggdHNsaWIgMS4xIHRoZSB0c2xp
+Yi08VkVSU0lPTj4ucGMgcGhhc2Ugb3V0IHdhcyBzdGFydGVkLg0KPiA+IEFkZGl0aW9uYWxseSwg
+dGhlIHBrZy1jb25maWcgbWV0YWRhdGEgZmlsZSB0c2xpYi5wYyB3YXMgYWRkZWQuDQo+ID4NCj4g
+PiBTaW5jZSB0c2xpYiAxLjYgdGhlIHRzbGliLTxWRVJTSU9OPi5wYyBtZXRhZGF0YSBmaWxlIGlz
+IGRlcHJlY2F0ZWQuDQo+ID4gTm93LCB0aGVyZSBpcyBvbmx5IGEgdHNsaWIucGMuDQo+IA0KPiBJ
+J20gYSBsaXR0bGUgY29uZnVzZWQgYWJvdXQgd2h5IE9FIG5lZWRzIHRoaXMgcGF0Y2g/IFN1cmVs
+eSBPRSBpcyB1c2luZw0KPiB0aGUgbW9yZSByZWNlbnQgdHNsaWIgcmVsZWFzZXMgYW5kIHRoZXJl
+Zm9yZSB3ZSBkb24ndCBuZWVkIHRoaXMgcGF0Y2g/DQoNCk9FIG5lZWRzIHRoaXMgcGF0Y2ggYmVj
+YXVzZSBpdCB1c2VzIERpcmVjdEZCJ3MgYnVpbGQgc3lzdGVtIGFuZCB0aGF0IGlzDQpicm9rZW4g
+d2l0aCB0aGUgbW9zdCByZWNlbnQgdHNsaWIgcmVsZWFzZXMuDQoNCkluIHRoZSBiZWdpbm5pbmcg
+dHNsaWIgb25seSBoYWQgYSB0c2xpYi08VkVSU0lPTj4ucGMgZm9yIHBrZ2NvbmZpZy4NCg0KU3Rh
+cnRpbmcgd2l0aCB0c2xpYiAxLjEsIHRzbGliLnBjIGFuZCB0c2xpYi08VkVSU0lPTj4ucGMgd2Vy
+ZSBjcmVhdGVkDQpmb3IgcGtnY29uZmlnLiBBbmQgdGhlIHRzbGliLTxWRVJTSU9OPi5wYyBmaWxl
+IHdhcyBkZWNsYXJlZCB0byBiZQ0KZGVwcmVjYXRlZC4NCg0KRnJvbSB0c2xpYiAxLjYgb24gb25s
+eSB0aGUgdHNsaWIucGMgZmlsZSBpcyBhdmFpbGFibGUuDQoNCkRpcmVjdEZCJ3MgY29uZmlndXJl
+LmluIGlzIG5vdCBhd2FyZSB0aGF0IHRoZXJlIGlzIGEgc2l0dWF0aW9uIHdpdGhvdXQNCmEgdHNs
+aWItPFZFUlNJT04+LnBjIGZpbGUuIFRodXMgaXQgd2lsbCBub3QgZmluZCB0c2xpYiBhbmQgdGhp
+cyBjYXVzZXMNCnRoYXQgdGhlIHRzbGliIGlucHV0IGRyaXZlciB3b24ndCBiZSBidWlsdC4NCg0K
+RGlyZWN0RkIgMS43Ljc6DQoNCmVuYWJsZV90c2xpYj1ubw0KaWYgdGVzdCAiJGNoZWNrZm9yX3Rz
+bGliIiA9ICJ5ZXMiOyB0aGVuDQogIFBLR19DSEVDS19NT0RVTEVTKFtUU0xJQl0sIFt0c2xpYi0x
+LjAgPj0gMS4wLjBdLCBbZW5hYmxlX3RzbGliPXllc10sIFtlbmFibGVfdHNsaWI9bm9dKQ0KICBp
+ZiB0ZXN0ICIkZW5hYmxlX3RzbGliIiA9ICJubyI7IHRoZW4NCiAgICAgUEtHX0NIRUNLX01PRFVM
+RVMoW1RTTElCXSwgW3RzbGliLTAuMF0sIFtlbmFibGVfdHNsaWI9eWVzXSwgW2VuYWJsZV90c2xp
+Yj1ubw0KICAgICAgIEFDX01TR19XQVJOKFsqKiogbm8gdHNsaWIgLS0gdHNsaWIgZHJpdmVyIHdp
+bGwgbm90IGJlIGJ1aWx0Ll0pXSkNCiAgZmkNCmZpDQoNCg0KUGF0Y2hlZDoNCg0KZW5hYmxlX3Rz
+bGliPW5vDQppZiB0ZXN0ICIkY2hlY2tmb3JfdHNsaWIiID0gInllcyI7IHRoZW4NCiAgUEtHX0NI
+RUNLX01PRFVMRVMoW1RTTElCXSwgW3RzbGliID49IDEuMV0sIFtlbmFibGVfdHNsaWI9eWVzXSwg
+W2VuYWJsZV90c2xpYj1ub10pDQogIGlmIHRlc3QgIiRlbmFibGVfdHNsaWIiID0gIm5vIjsgdGhl
+bg0KICAgIFBLR19DSEVDS19NT0RVTEVTKFtUU0xJQl0sIFt0c2xpYi0xLjAgPj0gMS4wXSwgW2Vu
+YWJsZV90c2xpYj15ZXNdLCBbZW5hYmxlX3RzbGliPW5vXSkNCiAgICBpZiB0ZXN0ICIkZW5hYmxl
+X3RzbGliIiA9ICJubyI7IHRoZW4NCiAgICAgIFBLR19DSEVDS19NT0RVTEVTKFtUU0xJQl0sIFt0
+c2xpYi0wLjBdLCBbZW5hYmxlX3RzbGliPXllc10sIFtlbmFibGVfdHNsaWI9bm8NCiAgICAgICAg
+QUNfTVNHX1dBUk4oWyoqKiBubyB0c2xpYiAtLSB0c2xpYiBkcml2ZXIgd2lsbCBub3QgYmUgYnVp
+bHQuXSldKQ0KICAgIGZpDQogIGZpDQpmaQ0KDQpHcmVldGluZ3MsDQpNYXJrDQoNCkJ1aWxkaW5n
+IFRlY2hub2xvZ2llcywgUGFuZWwgU29mdHdhcmUgRmlyZSAoQlQtRklSL0VORzEpIA0KQm9zY2gg
+U2ljaGVyaGVpdHNzeXN0ZW1lIEdtYkggfCBQb3N0ZmFjaCAxMSAxMSB8IDg1NjI2IEdyYXNicnVu
+biB8IEdFUk1BTlkgfCB3d3cuYm9zY2hzZWN1cml0eS5jb20NCg0KU2l0ejogU3R1dHRnYXJ0LCBS
+ZWdpc3RlcmdlcmljaHQ6IEFtdHNnZXJpY2h0IFN0dXR0Z2FydCBIUkIgMjMxMTggDQpBdWZzaWNo
+dHNyYXRzdm9yc2l0emVuZGVyOiBTdGVmYW4gSGFydHVuZzsgR2VzY2jDpGZ0c2bDvGhydW5nOiBU
+YW5qYSBSw7xja2VydCwgQW5kcmVhcyBCYXJ0eiwgVGhvbWFzIFF1YW50ZSwgQmVybmhhcmQgU2No
+dXN0ZXINCg==
 
