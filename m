@@ -1,51 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E8334792E2
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 666D778AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 04:43:52 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id s15-v6so272558pgv.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 21:43:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=cMka7ccxSoWZixsaDKCDkZbVnMhrmItvtWh9We0ub7Q=;
-	b=Djofuf9Af/KY5ddV1hCdDycgrZZvP+O3bjHWK+mTDaTHKQjkN3I3E7e4SRGAAK5UIH
-	eV6HDIPgEmOg29yy+M/9R2q//GyeBKa5nakZlBfUAiY6NIYDL7qgWEnrJoVcwgkpimEz
-	/To8juM9WqR/KfsCK5WgWq8KFJ1nFSPt2UXmyHfckKzgnHeyAN0TgnoMoCEV6L8OUeUZ
-	ZPtBK0oSsOwki+9rFBq8lnZ+/SGo6+p6827aAEIfNqpasda0HWJ1+BZwoHHpDx1GTnjI
-	Q4elVzB/5VfGa+KnMMV7PF7mnJ+4PhN7gxLR9YoMKrqMD4ZnfosHQk6zcrDdoZPmKyL/
-	buEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=cMka7ccxSoWZixsaDKCDkZbVnMhrmItvtWh9We0ub7Q=;
-	b=YBsInOL0otltXGX5l+BkQ+bSccz6M0lUL5k0d1fuUTzYIJbJHHTQhCCJbQ9byN+HBl
-	RtWbwtKERkXVOPA+CRQLRd1XDZ7l/7GNttIsa8Mqmm3tex18yyqWZl1FxO17JrLm+6+m
-	r51vuW1yzL/61vnBdF9Db4HDhmjvnZdBu/1d5DZCBp7OQ7mLQUFp2xFLhod5UG1ZvHUG
-	wsrsMLrHr+gM59BOWZ98dYa/jNomxUNHn6hDybumUTJc+s5UJZCSnI5xuFBJd04JuOpU
-	KGKgcoAkYorKUEpYlSTu5G5YDyyECXtBXxg9HuVWIDdDpgLAWMxghGtwyHaPS0wQEApq
-	bR4A==
-X-Gm-Message-State: AOUpUlE6dApYD1SsbpQUzad0W7QUKwNdp+x4LfIZ+fz1BoNQx9COjhl0
-	3xH89DlRkWnjfZNExujgH+hJTIiN
-X-Google-Smtp-Source: AA+uWPwctmjqXcyTxvqTda8FhbSBoIBn1HK/HZ7oO489etoDq2g2vIpA8lMLruv1cqOuaIbYZweQdg==
-X-Received: by 2002:a62:954:: with SMTP id
-	e81-v6mr35109914pfd.231.1534481033987; 
-	Thu, 16 Aug 2018 21:43:53 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	r64-v6sm1157526pfk.157.2018.08.16.21.43.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 16 Aug 2018 21:43:53 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Aug 2018 21:43:37 -0700
-Message-Id: <1534481017-17310-7-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1534481017-17310-1-git-send-email-armccurdy@gmail.com>
-References: <1534481017-17310-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 7/7] openssl: drop obsolete no-afalgeng workaround for aarch64
+	Fri, 17 Aug 2018 04:48:27 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Aug 2018 21:48:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,249,1531810800"; d="scan'208";a="73471086"
+Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.21.195])
+	([10.221.21.195])
+	by FMSMGA003.fm.intel.com with ESMTP; 16 Aug 2018 21:48:27 -0700
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <20180816062633.29868-1-anuj.mittal@intel.com>
+	<CAJ86T=Wzi5hzFUfChDLKTDyKf+X9_EUjFvPE9wfSp5UXaQycaA@mail.gmail.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <188b139f-5d52-b2e3-fdd7-e231deb56052@intel.com>
+Date: Fri, 17 Aug 2018 12:48:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=Wzi5hzFUfChDLKTDyKf+X9_EUjFvPE9wfSp5UXaQycaA@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3: enable profile optimized builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +37,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 04:43:53 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 04:48:27 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The aarch64 build issue in the afalg engine appears to have been
-fixed upstream since openssl 1.1.0g:
+On 08/17/2018 03:31 AM, Andre McCurdy wrote:
+> On Wed, Aug 15, 2018 at 11:26 PM, Anuj Mittal <anuj.mittal@intel.com> wrote:
+>> Enable profile guided optimization (pgo) for python3. Enabling pgo in
+>> python is generally as simple as invoking the target profile-opt which:
+>>
+>> - builds python binaries with profile instrumentation enabled,
+>> - runs a specific profile task using that python to get the profile
+>> data and,
+>> - feeds the compiler with this profile data and rebuilds python.
+>>
+>> This change invokes qemu-user for the second step of running a profile
+>> task using target python. Depending on how long profile task takes to
+>> run, this might add a significant time to compilation (which would be
+>> true for native builds too). The default profile task can be changed by
+>> the users depending on what makes sense for their use case (or can be
+>> left empty). In case qemu-user isn't supported, profile task won't be run.
+> 
+> Is it important to re-create the profile data during every build or
+> would we get most of the same benefits from using reference data which
+> is generated offline? 
 
-  https://github.com/openssl/openssl/commit/a0c262644eab897b51faf1fa013008052c3754c2
+We should get the same benefit using the data generated offline as long
+as the source code/configure options/flags are same I believe. I have
+only tried with data generate offline using the same build configuration
+though.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-connectivity/openssl/openssl_1.1.0i.bb | 6 ------
- 1 file changed, 6 deletions(-)
+It would however need tweaking of the Makefiles to pass
+-fprofile-dir=<path> while using the profile data among other things.
+Please see this if you'd like an example that works:
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
-index 92f3059..507f8f8 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
-@@ -25,12 +25,6 @@ SRC_URI[sha256sum] = "ebbfc844a8c8cc0ea5dc10b86c9ce97f401837f3fa08c17b2cdadc1182
- 
- inherit lib_package multilib_header ptest relative_symlinks
- 
--#| engines/afalg/e_afalg.c: In function 'eventfd':
--#| engines/afalg/e_afalg.c:110:20: error: '__NR_eventfd' undeclared (first use in this function)
--#|      return syscall(__NR_eventfd, n);
--#|                     ^~~~~~~~~~~~
--EXTRA_OECONF_append_aarch64 = " no-afalgeng"
--
- #| ./libcrypto.so: undefined reference to `getcontext'
- #| ./libcrypto.so: undefined reference to `setcontext'
- #| ./libcrypto.so: undefined reference to `makecontext'
--- 
-1.9.1
+https://git.yoctoproject.org/clean/cgit.cgi/poky-contrib/commit/?h=anujm/9338&id=e57654cb51b121e9dfa76e66432c4d37fd339d42
+
+> How big is the data file? Is it binary or text?
+
+gcc -fprofile-generate generates .gcda files which are used only for
+profile use and can be deleted later and aren't installed. For more
+information:
+
+https://gcc.gnu.org/onlinedocs/gcc/Gcov-Data-Files.html
+
+> Is the data expected to be target architecture specific?>
+> If reference data were used, what are the consequences of the data not
+> corresponding exactly to the current build configuration? A build
+> failure? Or just a decrease in the effectiveness of the optimisation?
+
+From gcc man page:
+
+"By default, GCC emits an error message if the feedback profiles do not
+match the source code. This error can be turned into a warning by using
+-Wcoverage-mismatch. Note this may result in poorly optimized code."
+
+> 
+> Does the profiling instrumentation measure execution timing? Or only
+> the frequency / order in which functions are called? ie is there any
+> concern that data generated from running under qemu may not be optimal
+> for running on the target?
+
+It tries to identify code hot spots, how many times each branch and call
+is executed and how many times it is taken or returns etc. so I don't
+think it should matter. I did try on target hardware and using qemu as
+well and at least performance wise, I didn't see any difference. I
+didn't perform any exhaustive analysis though.
 
 
