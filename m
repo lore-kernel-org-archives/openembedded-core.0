@@ -1,47 +1,53 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BF1F79304
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A856878FB3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 10:07:06 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id f21-v6so7080715wmc.5
+	Fri, 17 Aug 2018 12:03:36 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id w16-v6so6151390ljh.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 03:07:07 -0700 (PDT)
+	Fri, 17 Aug 2018 05:03:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=FrhkB8088pDADlWQe1BJzNSeIPQx5AcnRhbcd1rPRqk=;
-	b=j4cRSm1lm1ufOtnoetULYB2YQNftR0qm+v9UmOv8lo46QjXR3uwKQBUN2W3dC1Ch0T
-	yjHzgP2lU4+AVXBkyUSnmwtuLdcTJPnRbJBhXnexwBZpv8oiTomPBykWQh1np+/44Y1V
-	ydeYZeWKltxh0uE+qv4wl6VUB9JcUI1NsMcTgswvtp0UMtIj3Ibb+ThlOSUBsOqowFLe
-	pdvY3znQy8mL6zYUBfu/ExkASOvOhhCbpscXd1WtBH/dFhYM1qGAkMU/GEQZPbqEvUly
-	ym1k5ILw1diFPuRArOTS2AK6G+11uMmSBOg6U2TT1NPwhndCRyXvdgmazf2zdlRb7lih
-	Z8Qg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=kzhXRvReF39DAxXl8LThy0byzwJeCkQ4wzq/SXFa1R8=;
+	b=Ed1vkklUsOJYju4/HdG9pV3tCtWZe60o/E593OLFSioCbt+ugFV4hLCjQlH4L0y9No
+	rRQ0ROVrfZE+Smghl2dN6SA3vAv+aqtrkX1ygVzBNhWgenR2xggsR29UwpGWCbN3/wZl
+	mC5kaDzfM6kHSbv55pcXQQCJAP0UzSMKW5AtaxMBe/rkC2AXHFDH3tqzJKSCCaHm/DtO
+	qOLrl37cu+n8qiZcrgy6L+o1t2U9P7fN+NfqJCY6bZKo6LPX7TURqCjGtFsibUJm4gn2
+	BlacVD8stNXquCFsfxPR1XLLmvEJJp+ymBSgIjUqAFJ8Qi+uFQ7LhJYBG78kVRVHSFbK
+	3zYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=FrhkB8088pDADlWQe1BJzNSeIPQx5AcnRhbcd1rPRqk=;
-	b=IcjxT3SIzraYkuGzbtMRBb0A8oQacxIhAZErBNUKZK83hV+syqgZkK7UOzBmGmBXKq
-	aLcnZx8XkI1Sy8hXQ439R13IIhAe6v7LpMhcljZi00OHhnWdGPiAoxrWO0WVFwlzVaMY
-	dAWcgDtYcryF8r715AN0huwyu9z/L0bcbMYRG6n/javIIvtNOgrNFclBo+EBLhfzWCl0
-	Rzu/Rn3lTatF9kBaXycE1jooP6ey84/jpztxkqXeY6246LnDUgD25SLh7GZnjJ2VtBTr
-	SFcyH5v0xInBAQJs3+yJdeYrOtaRlWPKtrExRxx6LrCjNIqkHj4B3vMRyeC8ft0kX/Do
-	PYMw==
-X-Gm-Message-State: AOUpUlGUpn3dkxA4RxDL/rJG4/wLCZhki92zPGzGArsYOx6VmlUsORZO
-	tWuL60mRB/7Eed6uWoPlC9GfUe95gdB2In8oCZKacg==
-X-Google-Smtp-Source: AA+uWPwm+FNa0lKI+6RbJrcTa3aWPVVDY75JNnk1mcantfVMGAZr0xfTyL/l69cCcF8P98v4Y+UuLQbN8JF6T7dmt5g=
-X-Received: by 2002:a1c:8c08:: with SMTP id
-	o8-v6mr17397230wmd.60.1534500427252; 
-	Fri, 17 Aug 2018 03:07:07 -0700 (PDT)
+	bh=kzhXRvReF39DAxXl8LThy0byzwJeCkQ4wzq/SXFa1R8=;
+	b=o1e/fCm2wcseQ9oHO5PCEnYvaBCoiVLEJpQniZN+wFZ4W2DBFeL7t3+LCW5AaPB4Hi
+	IRpQRxSa32UUl/BjStwOsHajYab8uM5HsUS04JCTJI2v2Cw8jkB8cCI12vpaNPVaAolS
+	T2UMigFGEm8WrcIttksu5coyTPuOq1ddCbf2sjJ7sZDWhigJLc38P6YksOY1I56WLF7N
+	0cdh2lyPdBacXXtHf/NQ+1lKiaKEiH2KCbSuzXuHy/30Nm1+4XHfF6CDs1rDWZ3wwGbu
+	Z26GNzlpCJPEYzpxAXOf+jC4hTvzp71CuLYxCLX+rqIxWjpvsjsO1UfV79DORNyLFW+X
+	r3Kw==
+X-Gm-Message-State: AOUpUlETc5et48SBb1mw4avI7pRSVy/0WwYV6wOYLjqSn6cllL1steab
+	tMUmjCRs9ofVw51bImfa6tXbmZ20dXjOPMDxutw=
+X-Google-Smtp-Source: AA+uWPy00D61E7uVNPAkVEN4kpwhzyPZWfvgQ4VbyRk+xfutA4F1FbmxjDB5ARnIyiSiX7X/x3QB71P64NLoGRCFq5M=
+X-Received: by 2002:a2e:9854:: with SMTP id
+	e20-v6mr23492140ljj.143.1534507416888; 
+	Fri, 17 Aug 2018 05:03:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <1534498011-388674-1-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1534498011-388674-1-git-send-email-changqing.li@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 17 Aug 2018 12:06:55 +0200
-Message-ID: <CA+chaQfV0oD4j5wB=OAQmgu53S=Zddcsjqbd=aK=nHSnoF-LWA@mail.gmail.com>
-To: changqing.li@windriver.com
+Received: by 2002:a2e:8688:0:0:0:0:0 with HTTP; Fri, 17 Aug 2018 05:03:36
+	-0700 (PDT)
+In-Reply-To: <e8e403ab1cd0a3e4a5754d4d4079508946da0c3f.camel@linuxfoundation.org>
+References: <1534453421-28943-1-git-send-email-bruce.ashfield@windriver.com>
+	<CADkTA4OrPcXQEZ+d1HEeNZBrJy_VcyJcv_7DmhnBddmLQPVYZg@mail.gmail.com>
+	<3927163d00059d0559412175c903ba60ce383dcd.camel@linuxfoundation.org>
+	<e8e403ab1cd0a3e4a5754d4d4079508946da0c3f.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 17 Aug 2018 08:03:36 -0400
+Message-ID: <CADkTA4NOWG7yHkdoCeYoi4i8Wr0ECOTjuGayKid7c1Q3Vez_=w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sstate: Avoid indirect auto-archive-native dependencies (via SSTATE_EXCLUDEDEPS_SYSROOT)
+Subject: Re: [PATCH v4] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,101 +60,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 10:07:07 -0000
-Content-Type: multipart/alternative; boundary="000000000000dfcb0405739eb8be"
-
---000000000000dfcb0405739eb8be
+X-List-Received-Date: Fri, 17 Aug 2018 12:03:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Please update the summary and commit message "auto-" > "autoconf-"
-
-On Fri, Aug 17, 2018 at 11:27 AM <changqing.li@windriver.com> wrote:
-
-> From: Changqing Li <changqing.li@windriver.com>
+On Fri, Aug 17, 2018 at 1:53 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2018-08-16 at 22:44 +0100, richard.purdie@linuxfoundation.org
+> wrote:
+>> On Thu, 2018-08-16 at 17:08 -0400, Bruce Ashfield wrote:
+>> > I'm getting a strange install issue with x86 that I've never seen
+>> > before, and that
+>> > part is unchanged from v3 to v4.
+>> >
+>> > .. and then I realized that a file has changed in my builds, since
+>> > I'm
+>> > working on 4.18.
+>> >
+>> > This is worth testing on the autobuilder, but I will have a v5 that
+>> > adds a test for some
+>> > files that may go missing, and hence we'll have issues across
+>> > versions.
+>>
+>> Thanks, I've added it into a build with a glibc and openssl change
+>> and
+>> set it away so its possible other issues may occur, we'll see how it
+>> works out...
 >
-> remove the indirect dependcy of auto-archive-native to avoid
-> not needed .m4 installed into sysroot, which may cause
-> compile problem.
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/conf/layer.conf | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index cc77d07..63346ae 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -90,6 +90,8 @@ SSTATE_EXCLUDEDEPS_SYSROOT += "\
->      .*->.*-initial.* \
->      .*(base-passwd|shadow-sysroot)->.* \
->  "
-> -
-> +# Avoid adding autoconf-archive-native to sysroot without a specific
-> +# dependency in the recipe.
-> +SSTATE_EXCLUDEDEPS_SYSROOT += ".*->autoconf-archive-native"
->  # We need to keep bitbake tools in PATH
->  PATH :=
-> "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}:${HOSTTOOLS_DIR}"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> The openssl change caused problems but I did spot qemumips64 failing:
 
---000000000000dfcb0405739eb8be
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+lttng was getting in the way of my mips testing, so I missed that one.
 
-<div dir=3D"ltr">Please update the summary and commit message &quot;auto-&q=
-uot; &gt; &quot;autoconf-&quot;</div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr">On Fri, Aug 17, 2018 at 11:27 AM &lt;<a href=3D"mailto:changqing.=
-li@windriver.com">changqing.li@windriver.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">From: Changqing Li &lt;<a href=3D"mailto:changqing=
-.li@windriver.com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
-<br>
-remove the indirect dependcy of auto-archive-native to avoid<br>
-not needed .m4 installed into sysroot, which may cause<br>
-compile problem.<br>
-<br>
-Signed-off-by: Changqing Li &lt;<a href=3D"mailto:changqing.li@windriver.co=
-m" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/layer.conf | 4 +++-<br>
-=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf<br>
-index cc77d07..63346ae 100644<br>
---- a/meta/conf/layer.conf<br>
-+++ b/meta/conf/layer.conf<br>
-@@ -90,6 +90,8 @@ SSTATE_EXCLUDEDEPS_SYSROOT +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0.*-&gt;.*-initial.* \<br>
-=C2=A0 =C2=A0 =C2=A0.*(base-passwd|shadow-sysroot)-&gt;.* \<br>
-=C2=A0&quot;<br>
--<br>
-+# Avoid adding autoconf-archive-native to sysroot without a specific<br>
-+# dependency in the recipe. <br>
-+SSTATE_EXCLUDEDEPS_SYSROOT +=3D &quot;.*-&gt;autoconf-archive-native&quot;=
-<br>
-=C2=A0# We need to keep bitbake tools in PATH<br>
-=C2=A0PATH :=3D &quot;${@os.path.dirname(bb.utils.which(d.getVar(&#39;PATH&=
-#39;),&#39;bitbake&#39;))}:${HOSTTOOLS_DIR}&quot;<br>
--- <br>
-2.7.4<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+I'll fix this and send a v5 today.
 
---000000000000dfcb0405739eb8be--
+Bruce
+
+>
+> NOTE: ======================================================================
+> | NOTE: FAIL: test_kernel_module (kernelmodule.KernelModuleTest)
+> | NOTE: ----------------------------------------------------------------------
+> | NOTE: Traceback (most recent call last):
+> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips64/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
+> |     return func(*args, **kwargs)
+> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips64/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
+> |     return func(*args, **kwargs)
+> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips64/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
+> |     return func(*args, **kwargs)
+> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips64/build/meta/lib/oeqa/runtime/cases/kernelmodule.py", line 40, in test_kernel_module
+> |     self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
+> | AssertionError: 2 != 0 : cd /usr/src/kernel && make scripts prepare
+> |   HOSTCC  scripts/basic/fixdep
+> |   HOSTCC  scripts/basic/bin2c
+> |   HOSTCC  scripts/kconfig/conf.o
+> |   SHIPPED scripts/kconfig/zconf.tab.c
+> |   SHIPPED scripts/kconfig/zconf.lex.c
+> |   HOSTCC  scripts/kconfig/zconf.tab.o
+> | In file included from scripts/kconfig/zconf.tab.c:2468:
+> | scripts/kconfig/confdata.c: In function 'conf_write':
+> | scripts/kconfig/confdata.c:773:19: warning: '%s' directive writing likely 7 or more bytes into a region of size between 1 and 4097 [-Wformat-overflow=]
+> |   sprintf(newname, "%s%s", dirname, basename);
+> |                    ^~~~~~
+> | scripts/kconfig/confdata.c:773:19: note: assuming directive output of 7 bytes
+> | scripts/kconfig/confdata.c:773:2: note: 'sprintf' output 1 or more bytes (assuming 4104) into a destination of size 4097
+> |   sprintf(newname, "%s%s", dirname, basename);
+> |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> | scripts/kconfig/confdata.c:776:20: warning: '.tmpconfig.' directive writing 11 bytes into a region of size between 1 and 4097 [-Wformat-overflow=]
+> |    sprintf(tmpname, "%s.tmpconfig.%d", dirname, (int)getpid());
+> |                     ^~~~~~~~~~~~~~~~~
+> | scripts/kconfig/confdata.c:776:3: note: 'sprintf' output between 13 and 4119 bytes into a destination of size 4097
+> |    sprintf(tmpname, "%s.tmpconfig.%d", dirname, (int)getpid());
+> |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> |   HOSTLD  scripts/kconfig/conf
+> | scripts/kconfig/conf  --silentoldconfig Kconfig
+> |   WRAP    arch/mips/include/generated/uapi/asm/ipcbuf.h
+> |   WRAP    arch/mips/include/generated/asm/clkdev.h
+> |   WRAP    arch/mips/include/generated/asm/current.h
+> |   WRAP    arch/mips/include/generated/asm/dma-contiguous.h
+> |   WRAP    arch/mips/include/generated/asm/emergency-restart.h
+> |   WRAP    arch/mips/include/generated/asm/export.h
+> |   WRAP    arch/mips/include/generated/asm/irq_work.h
+> |   WRAP    arch/mips/include/generated/asm/local64.h
+> |   WRAP    arch/mips/include/generated/asm/mcs_spinlock.h
+> |   WRAP    arch/mips/include/generated/asm/mm-arch-hooks.h
+> |   WRAP    arch/mips/include/generated/asm/parport.h
+> |   WRAP    arch/mips/include/generated/asm/percpu.h
+> |   WRAP    arch/mips/include/generated/asm/preempt.h
+> |   WRAP    arch/mips/include/generated/asm/qrwlock.h
+> |   WRAP    arch/mips/include/generated/asm/qspinlock.h
+> |   WRAP    arch/mips/include/generated/asm/sections.h
+> |   WRAP    arch/mips/include/generated/asm/segment.h
+> |   WRAP    arch/mips/include/generated/asm/trace_clock.h
+> |   WRAP    arch/mips/include/generated/asm/unaligned.h
+> |   WRAP    arch/mips/include/generated/asm/user.h
+> |   WRAP    arch/mips/include/generated/asm/word-at-a-time.h
+> |   WRAP    arch/mips/include/generated/asm/xor.h
+> |   HOSTCC  scripts/dtc/dtc.o
+> |   HOSTCC  scripts/dtc/flattree.o
+> |   HOSTCC  scripts/dtc/fstree.o
+> |   HOSTCC  scripts/dtc/data.o
+> |   HOSTCC  scripts/dtc/livetree.o
+> |   HOSTCC  scripts/dtc/treesource.o
+> |   HOSTCC  scripts/dtc/srcpos.o
+> |   HOSTCC  scripts/dtc/checks.o
+> |   HOSTCC  scripts/dtc/util.o
+> |   SHIPPED scripts/dtc/dtc-lexer.lex.c
+> |   SHIPPED scripts/dtc/dtc-parser.tab.h
+> |   HOSTCC  scripts/dtc/dtc-lexer.lex.o
+> |   SHIPPED scripts/dtc/dtc-parser.tab.c
+> |   HOSTCC  scripts/dtc/dtc-parser.tab.o
+> |   HOSTLD  scripts/dtc/dtc
+> |   CC      scripts/mod/empty.o
+> |   HOSTCC  scripts/mod/mk_elfconfig
+> |   MKELF   scripts/mod/elfconfig.h
+> |   HOSTCC  scripts/mod/modpost.o
+> |   CC      scripts/mod/devicetable-offsets.s
+> |   CHK     scripts/mod/devicetable-offsets.h
+> |   UPD     scripts/mod/devicetable-offsets.h
+> |   HOSTCC  scripts/mod/file2alias.o
+> |   HOSTCC  scripts/mod/sumversion.o
+> |   HOSTLD  scripts/mod/modpost
+> |   HOSTCC  scripts/kallsyms
+> |   HOSTCC  scripts/conmakehash
+> |   HOSTCC  scripts/sortextable
+> |   HOSTCC  arch/mips/boot/tools/relocs_32.o
+> |   HOSTCC  arch/mips/boot/tools/relocs_64.o
+> |   HOSTCC  arch/mips/boot/tools/relocs_main.o
+> |   HOSTLD  arch/mips/boot/tools/relocs
+> |   CHK     include/config/kernel.release
+> |   CHK     include/generated/uapi/linux/version.h
+> |   CHK     include/generated/utsrelease.h
+> |   Checking missing-syscalls for N32
+> | make[1]: *** No rule to make target 'missing-syscalls'.  Stop.
+> | make: *** [arch/mips/Makefile:422: archprepare] Error 2
+>
+> https://autobuilder.yocto.io/builders/nightly-mips64/builds/1209/steps/Running%20Sanity%20Tests/logs/stdio
+>
+> I think the kernel piece was otherwise good.
+>
+> Cheers,
+>
+> Richard
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
+
