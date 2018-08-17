@@ -1,55 +1,47 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C8E979362
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 21:47:15 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id o82-v6so3870722vko.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 14:47:16 -0700 (PDT)
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id BD4D9745AB;
+	Fri, 17 Aug 2018 22:01:16 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id j205-v6so16510333oib.4;
+	Fri, 17 Aug 2018 15:01:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4NFapC+RtOx174Dm0MACU84krK/Y3Z5RrsqyDaveDE8=;
-	b=M1UrZTISxoTG/aPckNndK1rQdJ+/z8UhvNVfU3wvEkjxFBkcR2bdNAHghEWM38BYjo
-	ADseUvYOYAwxODXeGkQ+yGs6mtsgKGfbnfmlX0le/PHylzEFtFaU7ww9HDhlcQMx3Bfa
-	TUARz3SSSlSoMzTRSVeliapzRjmzn9Vo4HGb0aW4zL+JdbNIuo5o0qJSqL6qGQCLAUbL
-	g1u9l14uvlzkYCFr8B8q0A1Cn6W3q2lzcSidxjCEkzAjJbQ3qtIcS5bETpfybetEMz39
-	lA60++/i204QJlnVHIfX7oW8JC897yxjJUMZ394FEdEp9ODQ7tNpJBMX/9MpmoB+BmN/
-	2ncw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=9/dV1LbdcKVLIsb9Xq8NkzFd9VwKGxzLwuylmIb0ai4=;
+	b=HMpw1PgsPYTjE9t1qiEzuXfifHjG63P4bMr9jCwwfKvmR8dYNps6AuIFUa+ZYM3bhE
+	WAz0+3wpMoee/hwhUmtkdR4PNQ5BB4uM2G5o47u06g8Q2QYY5shRoGF23q2VmfkvbU9B
+	LlP/IUr/nUej8jfnZAqLBeX+vuSvs0t4riO/fHPCQj1oy4e+DUhMzTkz1484NUAyMvey
+	NW/WKhoE+C6cz1LxJvdgCGz8o8O02Tgh4w9xqm0jPGQ+kEqb4T2rFQGFyuppA4aKWZ6/
+	gdcSENkdxYNpDjtBJRAF7bV5Y8gXf7oN7KyK2fUM/I8fSxgtNjD2n+d6Z/XUcEW5eZaF
+	MFDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=4NFapC+RtOx174Dm0MACU84krK/Y3Z5RrsqyDaveDE8=;
-	b=Jol879Zlwt7YodkNciFSE1MEZMtrQ21xlJZaurs92vSMeot3fg9duT7Rf9FVayB2ti
-	+9zh7HUkP7XaypmROHjnynIlmKRxGz8Pj0jMg2sESFf9b76806weuruboRe2Ectf2LA4
-	L/SDKk7kSYpo6ysJJL38aI5Ospj3bufQXfJGHS+xNHnzHBfy1kw4QAAppGQ/HhTqoZBj
-	2pcjqsykfSWwnTl4PLaVgKWGtBZCgIA5Su+HbJoY2AQVFa0TC7bKtZOJtrDG/49ewceU
-	nu7cAVYQyGc7a2XsvBSPOU8EN/eeEcQWUlCsaobrmpn1Xw+rmOLokWEb4Rroph9wuxlY
-	uHYA==
-X-Gm-Message-State: AOUpUlHCV5GgJiTCR02TUXs//eahjxYn/8pnr5YsgP+KNsf+bBJNbpBw
-	JxDxDGauz34guhMAz2pXJ9Idjhu3/+BDTnPA8+Y=
-X-Google-Smtp-Source: AA+uWPx1PPgJ6+ZukBg3qfMbjZkmsvHMlmJGS+i2YPk4DUrEhrhTqUl8sy0KfaNNiB71jpGUwyi3MxlG+pvWVEawUZY=
-X-Received: by 2002:a1f:d844:: with SMTP id
-	p65-v6mr24335026vkg.54.1534542436294; 
-	Fri, 17 Aug 2018 14:47:16 -0700 (PDT)
+	bh=9/dV1LbdcKVLIsb9Xq8NkzFd9VwKGxzLwuylmIb0ai4=;
+	b=hWB4Wh1A+8qeEsoWSc3A9Ytr2yyuiR2fv1LjdlalbC089AvBCmoxoUE6oJlq6tlsgu
+	G/154qfRHFKJYOaEB9SzfgxenLrqZ813ua8Gv9nMl1/UeiOt8FAXWJ7D/jEwHnG0vJXy
+	b5BnMV6DmD11m8ZrK+g3MxdDzdJMbo+l8HGObXKuX0DbbGob0QxE5iQW0ROLl17I9PlF
+	HeAt0myWfm4mqWlywJJPiy0cDFdvAUsN9LuWt9paU/wVIBxARweXJzp5UZBRI87vu43V
+	u+iZDI1kY6j/9DqkVZsKqc8aiL/OMaKP+NO6YsUUskFXhwkrBpaRmkS6aZ+EeOINpTcq
+	713Q==
+X-Gm-Message-State: AOUpUlGWtjpTxzsa+1/vrAbffgvsiJbRfQVgXgMOWNqrZQ6ahyKNHGF6
+	Lj9saenBzQAzVTcEX5Mt7yiKRWYZeAxzIqhrEAs=
+X-Google-Smtp-Source: AA+uWPw6I/aN4qL92VqkD90VNrZxKN8YXysrNL1/3eOa3sBjyhooAPVNyc6Yno4v6PD/iiWBKVSAeKhzghPzuaF3ROI=
+X-Received: by 2002:aca:6cc6:: with SMTP id
+	h189-v6mr4080285oic.140.1534543277602; 
+	Fri, 17 Aug 2018 15:01:17 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Fri, 17 Aug 2018 14:47:15 -0700 (PDT)
-In-Reply-To: <d4b82bdbcbf9b984482f49ec0230646d45898270.camel@linuxfoundation.org>
-References: <1534453421-28943-1-git-send-email-bruce.ashfield@windriver.com>
-	<CADkTA4OrPcXQEZ+d1HEeNZBrJy_VcyJcv_7DmhnBddmLQPVYZg@mail.gmail.com>
-	<3927163d00059d0559412175c903ba60ce383dcd.camel@linuxfoundation.org>
-	<e8e403ab1cd0a3e4a5754d4d4079508946da0c3f.camel@linuxfoundation.org>
-	<CAJ86T=Xx=QwjS9ZpYyY78E_3sqd=_3JmncJJx6WpufoNQiwseg@mail.gmail.com>
-	<d4b82bdbcbf9b984482f49ec0230646d45898270.camel@linuxfoundation.org>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 17 Aug 2018 14:47:15 -0700
-Message-ID: <CAJ86T=XUR0xK-3M=yAB+P7xyVE0Ui7pmyDRm1SUr7Q86dZ=8rA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+References: <CACfi_Z2Zvwiq-iB7ckmmT0LgthOPRxCMC6OCSW3ywbZ2=oSY4A@mail.gmail.com>
+In-Reply-To: <CACfi_Z2Zvwiq-iB7ckmmT0LgthOPRxCMC6OCSW3ywbZ2=oSY4A@mail.gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Fri, 17 Aug 2018 15:01:06 -0700
+Message-ID: <CABcZANkABH+b1z+c-Ey9PrB7Sbj9NSM4KbA1cNsn0f-WAtLdXA@mail.gmail.com>
+To: davis.roman84@gmail.com
+Cc: yocto <yocto@yoctoproject.org>, bitbake-devel@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] kernel-devsrc: restructure for out of tree (and on target) module builds
+Subject: Re: [bitbake-devel] how to store a modification of a bbclass in the poky layer in my own layer.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,62 +54,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 21:47:15 -0000
+X-List-Received-Date: Fri, 17 Aug 2018 22:01:17 -0000
+Content-Type: multipart/alternative; boundary="000000000000f43c220573a8b2da"
+
+--000000000000f43c220573a8b2da
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 17, 2018 at 2:14 PM,  <richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2018-08-17 at 12:46 -0700, Andre McCurdy wrote:
->> On Thu, Aug 16, 2018 at 10:53 PM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > On Thu, 2018-08-16 at 22:44 +0100, richard.purdie@linuxfoundation.o
->> > rg
->> > wrote:
->> > > On Thu, 2018-08-16 at 17:08 -0400, Bruce Ashfield wrote:
->> > > > I'm getting a strange install issue with x86 that I've never
->> > > > seen
->> > > > before, and that
->> > > > part is unchanged from v3 to v4.
->> > > >
->> > > > .. and then I realized that a file has changed in my builds,
->> > > > since
->> > > > I'm
->> > > > working on 4.18.
->> > > >
->> > > > This is worth testing on the autobuilder, but I will have a v5
->> > > > that
->> > > > adds a test for some
->> > > > files that may go missing, and hence we'll have issues across
->> > > > versions.
->> > >
->> > > Thanks, I've added it into a build with a glibc and openssl
->> > > change
->> > > and
->> > > set it away so its possible other issues may occur, we'll see how
->> > > it
->> > > works out...
->> >
->> > The openssl change caused problems but I did spot qemumips64
->> > failing:
->>
->> What were the problems related to the openssl updates?
->
-> SDK sanity test failing where wget is failing to work:
->
-> https://autobuilder.yocto.io/builders/nightly-arm/builds/1285/steps/Running%20SDK%20Sanity%20Tests/logs/stdio
->
-> I've not definitively narrowed it down to openssl but it has to be one
-> of:
->
-> kernel-devsrc: restructure for out of tree (and on target) module
-> openssl: update 1.1.0h -> 1.1.0i
-> openssl: update 1.0.2o -> 1.0.2p
-> vala: refresh patch
-> glibc: re-package for libnss-db
+Your layer has to be before poky/meta in BBLAYERS, as that determines
+BBPATH, which is how bbclasses and config files are found (much like PATH).
 
-wget builds against gnutls (rather than openssl), but there's a
-dependency chain from wget -> ca-certificates -> openssl so definitely
-something could have gone wrong there.
+On Fri, Aug 17, 2018 at 12:11 PM Davis Roman <davis.roman84@gmail.com>
+wrote:
 
-Interesting that this test is running wget without passing
---no-check-certificate (which the wget fetcher always uses).
+> Hello!
+>
+>
+> I've made a modification in poky/meta/classes/libc-package.bbclass (
+> shown below)
+>
+> However I don't want this change to be stored here long term and
+> instead feel that it should live in my project specific layer,
+> meta-hon-grip.
+>
+> After checking with bitbake-layers, I saw that my layer has a higher
+> priority than the poky layer so my layer should be checked first ( or
+> so I thought)
+>
+> I copied the modified version of libc-packages.bbclass into
+> meta-hon-grip/classes and I restored the version in the poky layer to
+> its original state.
+>
+> After making this change, I found that the modified version in my
+> layer is not being used and instead the version in the poky layer is
+> the one in play.
+>
+> I'm trying to figure out what else to try.
+>
+> Any suggestions would be greatly appreciated!
+>
+> Thank you,
+>
+> Davis
+>
+> diff --git a/meta/classes/libc-package.bbclass
+> b/meta/classes/libc-package.bbclass
+> index 467d567..72d447a 100644
+> --- a/meta/classes/libc-package.bbclass
+> +++ b/meta/classes/libc-package.bbclass
+> @@ -287,7 +287,7 @@ python package_do_split_gconvs () {
+>                  bb.error("locale_arch_options not found for
+> target_arch=" + target_arch)
+>                  raise bb.build.FuncFailed("unknown arch:" +
+> target_arch + " for locale_arch_options")
+>
+> -            localedef_opts += " --force --old-style --no-archive
+> --prefix=%s \
+> +            localedef_opts += " --force --no-archive --prefix=%s \
+>                  --inputfile=%s/%s/i18n/locales/%s --charmap=%s %s/%s" \
+>                  % (treedir, treedir, datadir, locale, encoding,
+> outputpath, name)
+>
+> @@ -295,7 +295,7 @@ python package_do_split_gconvs () {
+>                  (path, i18npath, gconvpath, localedef_opts)
+>          else: # earlier slower qemu way
+>              qemu = qemu_target_binary(d)
+> -            localedef_opts = "--force --old-style --no-archive
+> --prefix=%s \
+> +            localedef_opts = "--force --no-archive --prefix=%s \
+>                  --inputfile=%s/i18n/locales/%s --charmap=%s %s" \
+>                  % (treedir, datadir, locale, encoding, name)
+> --
+> _______________________________________________
+> bitbake-devel mailing list
+> bitbake-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/bitbake-devel
+>
 
+
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
+
+--000000000000f43c220573a8b2da
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Your layer has to be before poky/meta in BBLAYERS, as that=
+ determines BBPATH, which is how bbclasses and config files are found (much=
+ like PATH).<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Fr=
+i, Aug 17, 2018 at 12:11 PM Davis Roman &lt;<a href=3D"mailto:davis.roman84=
+@gmail.com">davis.roman84@gmail.com</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">Hello!<br>
+<br>
+<br>
+I&#39;ve made a modification in poky/meta/classes/libc-package.bbclass (<br=
+>
+shown below)<br>
+<br>
+However I don&#39;t want this change to be stored here long term and<br>
+instead feel that it should live in my project specific layer,<br>
+meta-hon-grip.<br>
+<br>
+After checking with bitbake-layers, I saw that my layer has a higher<br>
+priority than the poky layer so my layer should be checked first ( or<br>
+so I thought)<br>
+<br>
+I copied the modified version of libc-packages.bbclass into<br>
+meta-hon-grip/classes and I restored the version in the poky layer to<br>
+its original state.<br>
+<br>
+After making this change, I found that the modified version in my<br>
+layer is not being used and instead the version in the poky layer is<br>
+the one in play.<br>
+<br>
+I&#39;m trying to figure out what else to try.<br>
+<br>
+Any suggestions would be greatly appreciated!<br>
+<br>
+Thank you,<br>
+<br>
+Davis<br>
+<br>
+diff --git a/meta/classes/libc-package.bbclass<br>
+b/meta/classes/libc-package.bbclass<br>
+index 467d567..72d447a 100644<br>
+--- a/meta/classes/libc-package.bbclass<br>
++++ b/meta/classes/libc-package.bbclass<br>
+@@ -287,7 +287,7 @@ python package_do_split_gconvs () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.error(&quo=
+t;locale_arch_options not found for<br>
+target_arch=3D&quot; + target_arch)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise bb.buil=
+d.FuncFailed(&quot;unknown arch:&quot; +<br>
+target_arch + &quot; for locale_arch_options&quot;)<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 localedef_opts +=3D &quot; --for=
+ce --old-style --no-archive --prefix=3D%s \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 localedef_opts +=3D &quot; --for=
+ce --no-archive --prefix=3D%s \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--inputfile=
+=3D%s/%s/i18n/locales/%s --charmap=3D%s %s/%s&quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0% (treedir, t=
+reedir, datadir, locale, encoding,<br>
+outputpath, name)<br>
+<br>
+@@ -295,7 +295,7 @@ python package_do_split_gconvs () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(path, i18npa=
+th, gconvpath, localedef_opts)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else: # earlier slower qemu way<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu =3D qemu_target_binary=
+(d)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 localedef_opts =3D &quot;--force=
+ --old-style --no-archive --prefix=3D%s \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 localedef_opts =3D &quot;--force=
+ --no-archive --prefix=3D%s \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--inputfile=
+=3D%s/i18n/locales/%s --charmap=3D%s %s&quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0% (treedir, d=
+atadir, locale, encoding, name)<br>
+-- <br>
+_______________________________________________<br>
+bitbake-devel mailing list<br>
+<a href=3D"mailto:bitbake-devel@lists.openembedded.org" target=3D"_blank">b=
+itbake-devel@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/bitbake-devel" re=
+l=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailman/li=
+stinfo/bitbake-devel</a><br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><d=
+iv dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - =
+BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Mentor Graph=
+ics</div></div></div></div>
+
+--000000000000f43c220573a8b2da--
