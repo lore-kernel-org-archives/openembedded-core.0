@@ -1,25 +1,48 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6703E791F0
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pl0-f50.google.com (mail-pl0-f50.google.com
+	[209.85.160.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 2750678AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 04:29:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7H4TdKS021611
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 17 Aug 2018 04:43:42 +0000 (UTC)
+Received: by mail-pl0-f50.google.com with SMTP id b90-v6so3143193plb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2018 21:29:39 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 16 Aug 2018 21:29:39 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Aug 2018 21:29:38 -0700
-Message-ID: <20180817042938.59347-2-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180817042938.59347-1-zhixiong.chi@windriver.com>
-References: <20180817042938.59347-1-zhixiong.chi@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] sdk: don't install glibc locales for mingw32
+	Thu, 16 Aug 2018 21:43:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=GrZRi5WE6cX0EPbkcO90L4dD/uXWYVJpCf5GiUA1008=;
+	b=H0w5S8bp3oYWvhLqwjJc3vp6G0ojv6tzKmu3WxfDwH9hWqUbT0PremhRT4+KjgxMPx
+	nBdVEru1+oj9imrcKzgZtRVzKCZAYCo7z8MyMh/eS5WyuOycMDii0ZfFSLaUajywNKQk
+	itglW+wu4YhPzRiRecnI4dr63rD3FnfaywLeo6z1W9HBFopw0vwr++Maw6Sevu2Xw1jX
+	WaU8S0ysEnIyGVeKadJoqr4iQBOFbFxKJaEzG4L4VK3N+r2+IXpZMNRz24qLSpURHzxk
+	FDOS60I4+aifOdUR9OO7vbKHX2AmFNjDWV1wQlSpdgp33NJSXgbMbGeS4B7b7ZHPkyKr
+	24wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=GrZRi5WE6cX0EPbkcO90L4dD/uXWYVJpCf5GiUA1008=;
+	b=WjvAkCfccZFs6P5582IOJYoMItFuhd5CAmCbZxL/TjUjkTjshHrPD3DXFK3sqCGTbj
+	blaIzJGClDswijyZmZx+ZwlukdOnwg/Cph1YE5JkCR7/PIDQpgwCNcbSd+ccPRpWzPFS
+	1alAt2TiVrWbPGGiTO9c8C6YGbmey+TMBtPwbPyECPYkFpMVLt0gifaKRiqQzrfRWFhW
+	+hvvskmXTROE38aLtrOv54KxLY+bP+RcNwR7Sgf1Gu7466MhKavT9GNGmlGEgW3b8DSY
+	Actj+AhEvz24El8PGnhKTg1vCte2lS9KmpQNVwD2kTWKRoRT1sUfVDZfu4tK0qSZdSe2
+	9a+w==
+X-Gm-Message-State: AOUpUlHuu4HTFN73A5qi74hEE5kRsRojG1E7UYiv+c086gwVOeO3cGwU
+	K7+Jh0V9K5Yhfa4V9ZIs6Q+85gTK
+X-Google-Smtp-Source: AA+uWPxU0uWHehmAaev02Ed2+mnIlwpP+b7uBXXQ+DBXR2wAX5HDt1fy6looQ2LG3lzYiV6MEwdfWA==
+X-Received: by 2002:a17:902:925:: with SMTP id
+	34-v6mr31899241plm.307.1534481023041; 
+	Thu, 16 Aug 2018 21:43:43 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	r64-v6sm1157526pfk.157.2018.08.16.21.43.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 16 Aug 2018 21:43:42 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Aug 2018 21:43:31 -0700
+Message-Id: <1534481017-17310-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/7] openssl: consolidate target name mapping rules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +55,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 04:29:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Aug 2018 04:43:42 -0000
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+Merge duplicates + minor reformatting (no functional changes).
+
+Note that the openssl 1.1 recipe still needs to be updated to handle
+MIPS Release 6 ISA targets (e.g. linux-mipsisa32r6, etc).
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/lib/oe/sdk.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../recipes-connectivity/openssl/openssl_1.0.2p.bb |  7 ++--
+ .../recipes-connectivity/openssl/openssl_1.1.0i.bb | 39 ++++------------------
+ 2 files changed, 8 insertions(+), 38 deletions(-)
 
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index 153b07d76b..5d7e4ed2ac 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -88,6 +88,10 @@ class Sdk(object, metaclass=ABCMeta):
-         if self.d.getVar("TCLIBC") != "glibc":
-             return
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
+index 5d41977..5a2593c 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
+@@ -164,7 +164,7 @@ do_configure () {
+ 	linux-mips*)
+ 		target=debian-mips
+ 		;;
+-	linux-microblaze*|linux-nios2*|linux-gnu*ilp32**)
++	linux-microblaze* | linux-nios2* | linux-gnu*ilp32**)
+ 		target=linux-generic32
+ 		;;
+ 	linux-powerpc)
+@@ -179,10 +179,7 @@ do_configure () {
+ 	linux-riscv64)
+ 		target=linux-generic64
+ 		;;
+-	linux-supersparc)
+-		target=linux-sparcv8
+-		;;
+-	linux-sparc)
++	linux-sparc | linux-supersparc)
+ 		target=linux-sparcv8
+ 		;;
+ 	esac
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
+index 7929d81..8a8d928 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
+@@ -51,28 +51,13 @@ do_configure () {
+ 	esac
+ 	target="$os-${HOST_ARCH}"
+ 	case $target in
+-	linux-arm)
+-		target=linux-armv4
+-		;;
+-	linux-armeb)
++	linux-arm*)
+ 		target=linux-armv4
+ 		;;
+ 	linux-aarch64*)
+ 		target=linux-aarch64
+ 		;;
+-	linux-sh3)
+-		target=linux-generic32
+-		;;
+-	linux-sh4)
+-		target=linux-generic32
+-		;;
+-	linux-i486)
+-		target=linux-elf
+-		;;
+-	linux-i586 | linux-viac3)
+-		target=linux-elf
+-		;;
+-	linux-i686)
++	linux-i?86 | linux-viac3)
+ 		target=linux-elf
+ 		;;
+ 	linux-gnux32-x86_64 | linux-muslx32-x86_64 )
+@@ -81,23 +66,17 @@ do_configure () {
+ 	linux-gnu64-x86_64)
+ 		target=linux-x86_64
+ 		;;
+-	linux-mips)
++	linux-mips | linux-mipsel)
+ 		# specifying TARGET_CC_ARCH prevents openssl from (incorrectly) adding target architecture flags
+ 		target="linux-mips32 ${TARGET_CC_ARCH}"
+ 		;;
+-	linux-mipsel)
+-		target="linux-mips32 ${TARGET_CC_ARCH}"
+-		;;
+ 	linux-gnun32-mips*)
+ 		target=linux-mips64
+ 		;;
+-	linux-*-mips64 | linux-mips64)
+-		target=linux64-mips64
+-		;;
+-	linux-*-mips64el | linux-mips64el)
++	linux-*-mips64 | linux-mips64 | linux-*-mips64el | linux-mips64el)
+ 		target=linux64-mips64
+ 		;;
+-	linux-microblaze*|linux-nios2*)
++	linux-microblaze* | linux-nios2* | linux-sh3 | linux-sh4)
+ 		target=linux-generic32
+ 		;;
+ 	linux-powerpc)
+@@ -112,15 +91,9 @@ do_configure () {
+ 	linux-riscv64)
+ 		target=linux-generic64
+ 		;;
+-	linux-supersparc)
+-		target=linux-sparcv9
+-		;;
+-	linux-sparc)
++	linux-sparc | linux-supersparc)
+ 		target=linux-sparcv9
+ 		;;
+-	darwin-i386)
+-		target=darwin-i386-cc
+-		;;
+ 	esac
  
-+        # Don't install locales for mingw32 SDK_OS
-+	    if self.d.getVar("SDK_OS") == "mingw32":
-+            return
-+
-         linguas = self.d.getVar("SDKIMAGE_LINGUAS")
-         if linguas:
-             import fnmatch
+ 	useprefix=${prefix}
 -- 
-2.17.1
+1.9.1
 
 
