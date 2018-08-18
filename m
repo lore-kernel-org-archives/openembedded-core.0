@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
-	[209.85.215.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C6D4B79209
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D35B679209
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Aug 2018 19:25:45 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id y4-v6so4962756pgp.9
+	Sat, 18 Aug 2018 19:25:46 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id j26-v6so4893265pfi.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Aug 2018 12:25:47 -0700 (PDT)
+	Sat, 18 Aug 2018 12:25:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=3nYzkTML3LkpTfybUutNp2wAEPbS1wOSwsfnGtdBfv4=;
-	b=pmZcOu1QpsswGIM7Zwo60kViY+MoO51g7hTj7VBYctQYhPG+WE7Ze3aqCVSiiFQyUr
-	LvmonB3GSiBtZsxwiZwqBNQuWBCGn+qAaRiC/ST8i8QylavWNp25pj4GsCs730BUcsmZ
-	UHeEVHtOACmFBSBuJ7QNKcCfSLDOXDCdNsNPQaBwswk5bpJswonfuZyDxOsi3WlwafnP
-	ZNhwAELxkkBdI2f7ol6YO9gLUb9cAfGvuKvpVocoFIjc5yZRsxy1IcC1zEsc/cCZUTW0
-	MXzsHaTdHq05A2P8ux8lOaSjCAvC8kKtAKGp/FFTfAJVVhW/UfkHJqYr4taLGLnKpy6g
-	t5HA==
+	bh=aRwH16y3FbAMWaCGvwYkkhLhkfCbhgR8G/jyQGSXQkg=;
+	b=q3dC1Cd30YbIsKiBo5wSjDvn8x+XqmTzvWcU6E6G68gQRxDl6m4uxgPhgo3F5STSV+
+	Pd35A/kz/Zvt8QcAYg1SSz2R7tL6jDA43FjULfNZgmlwr+IdtGRjqKkhKhc+H25G+ApH
+	pnH8v3riMeeKsJ+kyTQSlevGDlD+iKoQkmj4C794QKUKOkQ1l98LARUIeIUS5vCUVgvX
+	6gFZL9Yh7H5kbePCF4+Lx/UX5TA2HJC6BpTy6UsJuqNsbhf5fUU09ty1ZyxWRUeEmdWg
+	w/CL7z2s1+T/bGkIN83HcPW6kbeA1p3RKvGrEBDBJcOy7dMzDFq2N7hObNqFdk+sI32D
+	ECoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=3nYzkTML3LkpTfybUutNp2wAEPbS1wOSwsfnGtdBfv4=;
-	b=grljHKk26jT/isPiJzxTG4LJlDyp4jHLreOmZGVDEnWcJq3PdIK1hmfbpPwOLv/6aC
-	Jiyk6q9y95nQBGrcSDWoISWfaU1r4w70LUFPs42z1rd1FSiMdQxnMNY1pVt1rpONN+rp
-	HSshyyrS1L0zKz5rrlWkNa+dmw9FD+3xigR1bpLzDgXx/wbpUMWrhDWSYfryZ+PW3sbq
-	6Qi4v0Rl7lMa0b+Pnve2HUyNjCas+S7TjWaLiTsDmKbLs/DyKq6EkwBhnzAVJq9Gu7J9
-	QPkDSj1KRZPYObtIR9dnIji8B78I4PXN+R2dvPe61Ac6Le2pOPhXJGXdKYfnYvT9Afpk
-	us8Q==
-X-Gm-Message-State: AOUpUlG+Qk2q/BjMeoXab9bjf1151sH4f81lCFR14AMIuX5FjuBi/YpG
-	gI9E1zA1Sr1SQvSt7HV1/VIJBN0m
-X-Google-Smtp-Source: AA+uWPwrmuAkCZTss+Q2Jl4y5a01hsIJJo7WLJPnx/MjY/Vd8+YC3PFgtWPhOJW1TliiE4n4E73bjA==
-X-Received: by 2002:a63:4a61:: with SMTP id
-	j33-v6mr37585907pgl.436.1534620346495; 
-	Sat, 18 Aug 2018 12:25:46 -0700 (PDT)
+	bh=aRwH16y3FbAMWaCGvwYkkhLhkfCbhgR8G/jyQGSXQkg=;
+	b=fkA+A0vNt/9PMLvlAeihUXopIUWpyY28ASz+t1QhqrNFl2Ztc0wCCOTPxygon5QC5Z
+	GsnwgspuR91pHydQGdKuBvyzakc6XBecmTSdk89rEiFrMBm7e5oVA3civglfaXCMFx4N
+	OlF0/t8oiwSXNqSHPJEmUeqwSD4CYzz35p66hV+KwJPhhh2oN2vrlK7WoA3CG1ZSZ57v
+	xammE0BxpkiEvOSCbRpiH+ciEeAVCbrObYYwqd6NMBuT3G5emSTAnnHEowAUCY7phe9E
+	P/72PiB662LzGQCq7pTSH5c4Tl9RzH4EI+azMLLVvZ4nn2daw1P9a6p1QK58sUw8JoHD
+	E1Qw==
+X-Gm-Message-State: AOUpUlH37JLBk8TaqpT+5a2ygFAvz/GfzFSsYHKKDrcbQI6NhSVfnRXP
+	VSXs36p64WYaisdMHvCAAkLb3D1g
+X-Google-Smtp-Source: AA+uWPwrH5ybzF6qU7XNogH4DnwyDxmv/274OZc+G+RozZY8H8Mizj8ysf4JOLvOhV20tVI62yQm0g==
+X-Received: by 2002:a62:7886:: with SMTP id
+	t128-v6mr41815749pfc.213.1534620347666; 
+	Sat, 18 Aug 2018 12:25:47 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::4add])
 	by smtp.gmail.com with ESMTPSA id
-	k64-v6sm6723068pgd.47.2018.08.18.12.25.45
+	k64-v6sm6723068pgd.47.2018.08.18.12.25.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Sat, 18 Aug 2018 12:25:46 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Aug 2018 12:25:33 -0700
-Message-Id: <fd71511579cd19139560a803c40d4537072e537d.1534620189.git.raj.khem@gmail.com>
+Date: Sat, 18 Aug 2018 12:25:34 -0700
+Message-Id: <3960c1904968dcdd90face48829e13395f7b32d2.1534620189.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1534620189.git.raj.khem@gmail.com>
 References: <cover.1534620189.git.raj.khem@gmail.com>
-Subject: [PATCH 1/6] mesa: Enable gallium-llvm on x86 and x86_64
+Subject: [PATCH 2/6] powerpc: Remove pie flags from compiler cmdline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +58,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Aug 2018 19:25:45 -0000
+X-List-Received-Date: Sat, 18 Aug 2018 19:25:47 -0000
+
+Original approach to add -no-<pie> flags cause link time behavior changes
+where packages start to lose the -fPIC -DPIC in compiler cmdline and this
+list keeps growing as we build more and more packages,
+
+Instead lets just remove the options we dont need from SECURITY_CFLAGS
+this makes it more robust and less intrusive
+
+This also means we do not need to re-add pic options as we started to do
+for affected packages
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-graphics/cairo/cairo.inc | 3 ++-
- meta/recipes-graphics/mesa/mesa.inc   | 3 +++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ meta/conf/distro/include/security_flags.inc | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-index 20e0d2c92a..7347f223ff 100644
---- a/meta/recipes-graphics/cairo/cairo.inc
-+++ b/meta/recipes-graphics/cairo/cairo.inc
-@@ -22,7 +22,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
- DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 52e1e4ebc5..4e20a4d0f8 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -28,13 +28,10 @@ SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
+ SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
  
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
--           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}"
-+           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)}"
+ # powerpc does not get on with pie for reasons not looked into as yet
+-SECURITY_CFLAGS_powerpc = "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_NOPIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libgcc_powerpc = ""
+-SECURITY_CFLAGS_append_powerpc_pn-libdrm = " -fPIC -DPIC"
+-SECURITY_CFLAGS_append_powerpc_pn-libinput = " -fPIC -DPIC"
+-SECURITY_CFLAGS_append_powerpc_pn-at-spi2-core = " -fPIC -DPIC"
+ GCCPIE_powerpc = ""
+ GLIBCPIE_powerpc = ""
++SECURITY_CFLAGS_remove_powerpc = "${SECURITY_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-libgcc_powerpc = ""
  
- PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
- PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 6aedeee9dc..2671d4de4d 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -47,6 +47,9 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
- 		   "
- 
-+PACKAGECONFIG_append_x86 = " gallium-llvm gallium r600"
-+PACKAGECONFIG_append_x86-64 = " gallium-llvm gallium r600"
-+
- # "gbm" requires "dri", "opengl"
- PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
- 
+ SECURITY_CFLAGS_pn-glibc = ""
+ SECURITY_CFLAGS_pn-glibc-initial = ""
 -- 
 2.18.0
 
