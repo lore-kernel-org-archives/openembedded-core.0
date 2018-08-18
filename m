@@ -1,52 +1,49 @@
-Return-Path: <ankur.tyagi85@gmail.com>
-Received: from mail-pl0-f43.google.com (mail-pl0-f43.google.com
-	[209.85.160.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 91FC379382
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
+	[209.85.222.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 45DF078DD3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Aug 2018 00:59:51 +0000 (UTC)
-Received: by mail-pl0-f43.google.com with SMTP id b90-v6so4438240plb.0
+	Sat, 18 Aug 2018 01:37:30 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id o11-v6so6805729uak.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2018 17:59:53 -0700 (PDT)
+	Fri, 17 Aug 2018 18:37:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KFWqMT4sm8VvY+e2I0igQvaZ2RGaLKOH3sCDkSw3n2M=;
-	b=IoMk6p9sATJN4ed/6fx1+4sdEJeXRwTnzzNHmkOk6gSlYHzk0wuevNXHllLkuz/lUc
-	FY9zgrC+tbQZNMoGPNip+nKoqA7P/Rhac2o/tI2Zz6kx2lDgEU9EY19Mv8+ZxCsZQtRR
-	j04Lh3pCiiJ7oUp1zlrg3hktEeuDgxKsRzh3sJuKDEiPahXUQVea558+rHsbHBdlabUT
-	v0EmMYfYlz0flAq4BPDCbs4kUYq6UnpjvDQjArHO6OOkcXJiuNx/3b93gobc1prTCUDv
-	JrkvN3Nuw8TQwV2WQZ0CgcJOF4uIIrlP355aPjszUwmBMFreh2P6q2KhXmGbQ0bF/WD+
-	82kw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0erCoH5VnVupgCquxV9eqv276JkkHslf34YrAefFkW4=;
+	b=J6fhDxCRbgG0wOWOY5/BWA9Mu1u3mLW6A8c3sAJzbeveKE2NmGyLqdY7o0FOBQBKE6
+	1FsNPFSDtjQBrS2YQFqrHjqStm5tpFxtuBmFkii94tEMKG+p/+keMcozyUrkVh5P7lZT
+	uqCibTkJVbzHjHx5YC9hC9J81B/t4wnnGYR+jMf9ntCMG8UqrtzTjEmjHrfJXD9RWiCc
+	byzfU7bxLBOfi/czk6Fgr+BSNWfKnsypbGrgiCaeLgOMXecsqQlAIjfJ5sV9AfH1mMDV
+	xqoeofhDL240r7XocUoJ5aqNDXGxX5rE7qZBEbtWVCJd5RJ8FHcZz7ldB/Ly34Xp+Ly6
+	NC5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=KFWqMT4sm8VvY+e2I0igQvaZ2RGaLKOH3sCDkSw3n2M=;
-	b=oz3tMhXIlbAOQBPe6rv+NhRmlxW+++L5t65wkTtIe6eNa8lDy5qMIerio8BVJN0IBm
-	4RfzT8frZ0sv3lzAV7xVFp2FpAtr/ShuwXECwN2H/SgW++fZqu8EhBs/bSHnAqG+Gxj/
-	lPEJuMbKovtpaxnM1yvkbkjHTJqfz5Ij2Bnoub03+xcy0z7xnCCofLBHsbTNA9sjq6ZN
-	eLF/XmHvUtCLB3e/te39bC5WtvqFH+RwOXuFYjuAvE+yjcoXQ94n75Zfch4er00zLabi
-	WBr6PcLsGwqDdnSt7swJFBzGCGLIHZPZ9eZ7+ckYuh9WTLJ7+4n0homJxZqjfJ6D42A9
-	gsyQ==
-X-Gm-Message-State: AOUpUlGgcgp/lzOB9EbSi4ZqIA8uUD3FXgPeQ5LY2QS6Cbmt9llaFvnZ
-	gjTLHgE7M7d3Il5baZqdMXk66go8
-X-Google-Smtp-Source: AA+uWPxZqf76ia9lvJ1V1RncgcBj1EWn1ISUk9kzN3zU9DNJuMz7nOEkeWF8OejR/NhIoBAV26hrAg==
-X-Received: by 2002:a17:902:9693:: with SMTP id
-	n19-v6mr35500090plp.282.1534553992506; 
-	Fri, 17 Aug 2018 17:59:52 -0700 (PDT)
-Received: from localhost.localdomain (163-47-106-192.flip.co.nz.
-	[163.47.106.192]) by smtp.gmail.com with ESMTPSA id
-	t15-v6sm5986311pfa.158.2018.08.17.17.59.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 17 Aug 2018 17:59:52 -0700 (PDT)
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Aug 2018 12:59:24 +1200
-Message-Id: <1534553964-16157-2-git-send-email-ankur.tyagi85@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
-References: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
-Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [rocko][sumo][master][PATCH 2/2] base-files: respect PERSISTENT_LOG_DIR
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0erCoH5VnVupgCquxV9eqv276JkkHslf34YrAefFkW4=;
+	b=OWRUHoB0DEj3oRiR+DtCtUqGcble8b2bc8Acx8xHyHRrb1DnfR4qd3GT/U+WQRTPz/
+	EOZsVSkv51GOaSzBxFjFHHe9R9nQeEU5MJQeqtksBwvjCC0ErR1HOuv9MGnbg4pRgUdT
+	nhmbcBCVJnbyhMdjGQcTh1z/BYC5g6kHIIU7gpQgYsjxzUCiqbR96ZFDJ7bTrthjvJmJ
+	/mEq3po/nIOTPploFS81mJT/1nBGjpvMgdgJkA4gO4nHR18y6aVXR1+4h3iIYjMnLE2Q
+	84ImQwxI49fqdhjI/3HGSsjEA5aeBG8RM1yUt9G+BbpfSiwI7JekbWyPuz1AxVUgtHrQ
+	JBbw==
+X-Gm-Message-State: AOUpUlGupV+PuDmH4Ns17ZxzwJ3UQBDSxZM4jSiakmzmvRogyfSRIJJr
+	mDXFyiiHdBKutZKRuBJzMYgQMWr8joOAMNHcW8J1vbIG
+X-Google-Smtp-Source: AA+uWPzDkNsCJQW4+xxNnkanmQWuWigj4DubFa0pz2Mj+1fsGUpCHGWjPP3/UeKmN+M0BtnUoOUjpcCASZU1/lvQkS0=
+X-Received: by 2002:ab0:5c0c:: with SMTP id
+	q12-v6mr24509708uaf.134.1534556247970; 
+	Fri, 17 Aug 2018 18:37:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Fri, 17 Aug 2018 18:37:27 -0700 (PDT)
+In-Reply-To: <20180817225811.53b55f2d@jawa>
+References: <20180817225811.53b55f2d@jawa>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 17 Aug 2018 18:37:27 -0700
+Message-ID: <CAJ86T=W0-O_Puxr6rvR0SdCTptzEq7MXAFnArmtA=zvVrqcM4A@mail.gmail.com>
+To: Lukasz Majewski <lukma@denx.de>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Question regarding docker and sumo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,42 +56,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Aug 2018 00:59:51 -0000
+X-List-Received-Date: Sat, 18 Aug 2018 01:37:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Respect PERSISTENT_LOG_DIR variable. In this way, if the user overrides
-this variable to be e.g "/home/root/log", /var/log on the final image would
-be a link pointing to /home/root/log on persistent storage.
+On Fri, Aug 17, 2018 at 1:58 PM, Lukasz Majewski <lukma@denx.de> wrote:
+> Dear All,
+>
+> I do port yocto/OE from 2.3 to 2.5.1
+>
+> For packagegroups-foo-common I do see following error
+>
+> cd <workdir>/packagegroup-foo-common/1.0-r0/sstate-build-package/
+>
+> as expected, there are needed directories: package packages-split
+> pkgdata
+>
+> The problem is in sstate_create_package () at
+> poky/meta/classes/sstate.bbclass
+>
+> To be precise in:
+> tar: tar -czf temporary.tgz.XXXXXXX package packages-split pkgdata
+>
+> tar (child): gzip: Cannot exec: Invalid argument
 
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
----
- meta/recipes-core/base-files/base-files_3.0.14.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+It looks like tar tries to run gzip but the exec call returns "Invalid
+argument". According to the execve manpage, that means:
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 1c0863b..597fdaa 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -42,7 +42,7 @@ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
-            ${localstatedir}/backups ${localstatedir}/lib \
-            /sys ${localstatedir}/lib/misc ${localstatedir}/spool \
-            ${localstatedir}/volatile \
--           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
-+           ${@'${localstatedir}/volatile/log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else '${PERSISTENT_LOG_DIR}' if d.getVar('PERSISTENT_LOG_DIR') else '${localstatedir}/log' } \
-            /home ${prefix}/src ${localstatedir}/local \
-            /media"
- 
-@@ -106,6 +106,10 @@ do_install () {
- 		ln -sf volatile/$d ${D}${localstatedir}/$d
- 	done
- 
-+	if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = False -a ! -z ${PERSISTENT_LOG_DIR} ]; then
-+		ln -sf ${PERSISTENT_LOG_DIR} ${D}/${localstatedir}/log
-+	fi
-+
- 	ln -snf ../run ${D}${localstatedir}/run
- 	ln -snf ../run/lock ${D}${localstatedir}/lock
- 
--- 
-2.7.4
+  EINVAL The new process image file has the appropriate permission and
+has a recognized executable binary format, but the system does not
+support execution of a file with this format.
 
+So, first find which gzip binary tar will use (ie check PATH) and then
+try to figure out why that gzip binary can't be executed.
+
+> tar (child): Error is not recoverable: exiting now
+>
+>
+> Tar version tar (GNU tar) 1.28 (the same for both versions on host).
+> Also 'env' command shows 'unlimited' size for pipes.
+>
+>
+> ls -alh <install>/poky/build-lwn/tmp/hosttools and there is a link
+> tar -> /bin/tar
+>
+> The sumo runs inside docker container (with recommended ubuntu). The
+> only change is from pyro to sumo.
+>
+>
+> To be even more strange - the sumo version of BSP builds correctly when
+> run natively on Debian 9
+>
+>
+> The problem seems to be with sumo and docker.
+>
+> | rt_sigprocmask(SIG_SETMASK, [], NULL, 8) =
+> 0 | write(4, "packages-split/packagegroup-lwn-"..., 10240) = -1 EPIPE
+> (Broken pipe) | --- SIGPIPE {si_signo=SIGPIPE, si_code=SI_USER,
+> si_pid=15063, si_uid=1000} --- | +++ killed by SIGPIPE
+> +++
+>
+> Any idea on how to solve (or debug) this issue further? Apparently
+> something is closing the pipe between tar and gzip...
+>
+> Thanks in advance for any hints :-)
+>
+>
+> Best regards,
+>
+> Lukasz Majewski
+>
+> --
+>
+> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+> Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
