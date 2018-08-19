@@ -1,58 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EFDC0600EA
+Return-Path: <nickaein.i@gmail.com>
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 9672C65CE8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 06:21:38 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id o18-v6so10872478wmc.0
+	Sun, 19 Aug 2018 11:56:36 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id t5-v6so13436499qtn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Aug 2018 23:21:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=7h9J4aSiyG215qaRnZbs7vlhep8SgZ9Q1Ewhl4ofuRw=;
-	b=AKxgHHFCtytVloPJRXe220FxQY+Co97Bv2lwCNIxYsqg35MaV6HlVrcU+rY37CzqW4
-	gFKNX1QRU9pbvRQngV+KZbqmziqPSuIfp1qFZEQZ010oVVq6doAA4WnQ/AJVcxJ4LKU1
-	Nh0TKGc2PFccA/hxG+ve/Ms2BLaAVfS7CcPws=
+	Sun, 19 Aug 2018 04:56:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=GWodbSxYwb/LfCkvjegym9AhxiaxN10xlaGHv9Qh6q0=;
+	b=CaA6DG/Us1420potqaInLmeilJnF8uTsdc25crLYVcgtEi5Aajjil5sG+w7nNjwSvX
+	htoEJ+KYgVcp2xiKaoZjmSD5i+WElhsItjmzCquR6hzx+TvLn+r2FKwxfIjXitqvIvsX
+	Ol8yoRJYdUWr5xi3heuXBm9K9Y01xMjsRq40MlD0vJaHqmRVAFuJ61w3NAadX7HQgfrq
+	P8WQquaMp2l/zQ1s6GSjUy4L8u5kGr856h0dAmDPM+xyBuSPHIc3PtWPcKNfCqUXz0NP
+	BojpYd9BaE0pvK2p40FUX0tPWBd4Ch0Zs2nUxiQr8KE8SpIG+sgTGRbNe+6wEMVCOtoz
+	G/Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=7h9J4aSiyG215qaRnZbs7vlhep8SgZ9Q1Ewhl4ofuRw=;
-	b=hDuUgZuT2gQPWjHq8sbZAVcul7OiRJCP51ufLBxBDQKtUqgGth/31pVnkX1Wei/0Jv
-	BYuB/IAjeuO94iRcwbUp/gClLrM0rT24WSEE+p8uKAjOeXMm6K7iQe5Fr2tgi4m0+3t6
-	i6Hxdp9r7IqgpR2jVMBXRSIlGn5zwqeQMZWrDtgsoPqThVBs+sjL9On5y4pOK4P5NmiU
-	WHDvcJIjKswwyjLS0jU9iDoO8iuxDoGZoWkBokpW/6TroDV/3BRrG3tBpn6ZnAQwMf2U
-	ILcbP4aZUBnRKKpsdyTvPqI0MkYKx7BKMhH/qdN0FXD28sOTGDJmUtpeXQXUyPs3UT7t
-	ATxw==
-X-Gm-Message-State: AOUpUlG+cu3+XQqeDbeUdDpN4/gB8tzqiBu+qLBLKAqYBLHX17HXhIer
-	PX/IOAkLhQxhQJ37AfnRvhvIQA==
-X-Google-Smtp-Source: AA+uWPxhvqnbWyUKcnxrJLagqcnFdm0nCiPFxxG919f54UlbDyWyDCMokuTP01a6kAn7jeCl3eD/rw==
-X-Received: by 2002:a1c:c501:: with SMTP id
-	v1-v6mr22024924wmf.115.1534659699600; 
-	Sat, 18 Aug 2018 23:21:39 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	q11-v6sm6026722wrp.58.2018.08.18.23.21.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 18 Aug 2018 23:21:38 -0700 (PDT)
-Message-ID: <0b003d4cfff278c6115d04a1d692a8af01f4fab9.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Sun, 19 Aug 2018 07:21:37 +0100
-In-Reply-To: <CAJ86T=XUR0xK-3M=yAB+P7xyVE0Ui7pmyDRm1SUr7Q86dZ=8rA@mail.gmail.com>
-References: <1534453421-28943-1-git-send-email-bruce.ashfield@windriver.com>
-	<CADkTA4OrPcXQEZ+d1HEeNZBrJy_VcyJcv_7DmhnBddmLQPVYZg@mail.gmail.com>
-	<3927163d00059d0559412175c903ba60ce383dcd.camel@linuxfoundation.org>
-	<e8e403ab1cd0a3e4a5754d4d4079508946da0c3f.camel@linuxfoundation.org>
-	<CAJ86T=Xx=QwjS9ZpYyY78E_3sqd=_3JmncJJx6WpufoNQiwseg@mail.gmail.com>
-	<d4b82bdbcbf9b984482f49ec0230646d45898270.camel@linuxfoundation.org>
-	<CAJ86T=XUR0xK-3M=yAB+P7xyVE0Ui7pmyDRm1SUr7Q86dZ=8rA@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] kernel-devsrc: restructure for out of tree (and on target) module builds
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=GWodbSxYwb/LfCkvjegym9AhxiaxN10xlaGHv9Qh6q0=;
+	b=UQHlDtVEdzwc0te7CntJBW0wZbfc/dVeJTpAfDhWqN1BSdZC5il4fA+SSpf/194T2r
+	vkbah6vop83HwACu+ftfum1ALEgS4FP9XKkXdKkHNJaanCPDT5YXFPcDJoHzSBTxUC5H
+	sYuCb3jgqWku03aCIUNiTZTVYswO/W+OE7eNwCgI663yRSE0V7mc64SUAfi6TNqN4DzY
+	HeZ6jYTYAH+3/SuscPKEhGJOQ16p7POQaCDLprNgooHxAdyXrgzwlHf4qQCG6QlK/+n5
+	UqUIV75F3wKeGhRVKGZhsRKvOuEh9qLzUo8g4Z+wP0ugFJHSFYFlKlK0bJMYWw4/CWXt
+	csVg==
+X-Gm-Message-State: AOUpUlFdrtepiGX2cSWvet2cYXQp3KnXq7x6+7rob7FRk7pYWR/U2rK1
+	SHalWay2mc+OKDuyrNUgTN/yrYfZU4hpVGlmrnhZxM3dXIA=
+X-Google-Smtp-Source: AA+uWPxyeivVkf+gCul1IBr5TpxrjeqOZPqrKpcdS0rDWePL1mQM+royPQtde2SQt6777u/im+VVrZIAjMnQHwKGRtk=
+X-Received: by 2002:ad4:40d2:: with SMTP id
+	x18-v6mr19078436qvp.232.1534679797170; 
+	Sun, 19 Aug 2018 04:56:37 -0700 (PDT)
+MIME-Version: 1.0
+From: Isaac Nickaein <nickaein.i@gmail.com>
+Date: Sun, 19 Aug 2018 16:24:40 +0430
+Message-ID: <CA+NJmkd2gUD6mgzOruaqN8y-upO9BVqt8bKbAd-nzKL4dnJbaQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Specifying incorrect license in recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,33 +50,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Aug 2018 06:21:39 -0000
+X-List-Received-Date: Sun, 19 Aug 2018 11:56:36 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-08-17 at 14:47 -0700, Andre McCurdy wrote:
-> > I've not definitively narrowed it down to openssl but it has to be
-> > one
-> > of:
-> > 
-> > kernel-devsrc: restructure for out of tree (and on target) module
-> > openssl: update 1.1.0h -> 1.1.0i
-> > openssl: update 1.0.2o -> 1.0.2p
-> > vala: refresh patch
-> > glibc: re-package for libnss-db
-> 
-> wget builds against gnutls (rather than openssl), but there's a
-> dependency chain from wget -> ca-certificates -> openssl so
-> definitely
-> something could have gone wrong there.
-> 
-> Interesting that this test is running wget without passing
-> --no-check-certificate (which the wget fetcher always uses).
+I was in middle of writing a recipe for a library which I wasn't sure
+about its licensing. I wondered what if somebody get the licensing
+incorrect and submit the recipe to open-embedded upstream.
 
-It turned out to be a transient network issue as far as I can tell.
-Things worked out ok with a retest.
+Since Yocto doesn't enforce the presence of license text inside the
+source code (which would be crippling as not all source codes contains
+their license), a careless submitter can specify an incorrect license
+inside the recipe and just set LIC_FILES_CHKSUM to a README file.
 
-Cheers,
-
-Richard
+How such issues is prevented in openembedded (e.g. throughout review
+of new recipes)?
+Who is responsible in the cases that license is violated?
 
