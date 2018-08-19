@@ -1,48 +1,51 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id DABEC78EE9
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B9537918C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 22:16:00 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id a108-v6so8733605wrc.13
+	Sun, 19 Aug 2018 22:16:32 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id b15-v6so11389583wrv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 15:16:02 -0700 (PDT)
+	Sun, 19 Aug 2018 15:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=VP7tvR9rAbVPVtSvORBmXRNNWoaSwwzWCGLTtW5kXHU=;
-	b=O3v8RvXwJqW3CwiqZIcmwvtnM3GemudtAobbZ4uSKaQufjC3blj/PCnDi+qxdzp76Q
-	gog0EbE9Ok06RLs4NLxkqdxGDcVul16yJ9qYpFV/h9dwxtd3lRKd9BzCFNsKafN0+7gb
-	NH0mMOyyzHJ1ssST68OwkQ37K6nOi2N2CnBgbctfCap2NlFGeWabaFmspjuETJzjcxVD
-	M39OEfTNx0SbiUKGeaGeoVMIxSGoJcXLYBoQvFXlL/0H84CoQDgIm8UFjjFUqrhltgjP
-	Yuo/Op/G9zIb9ZNdiXJrKqNsvIgX8Y92ENZT5cbXUZ5nwnJjvZjvL3lj6UlGiWArgEKC
-	R8Cw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=rz/GpP89VJFBJ3vJ443gW39Q7VRLP95fmt+jBDEk758=;
+	b=eDx7ZlHBdI1KO3RtSLQYruC9T0Rh13MsBKjToO5SRU175Zl2G6F+IujFwA3FOXLq3l
+	mC4v9ez8Ml1a9iLlQjg2FQihM1IuVtlhukp53yYvAffqMbujKdCTVdEXlbPLdfjsd02J
+	6kBVa39MYQkgeenjrRXLm65n7R6UMbdjdm//R2uqkv/H3DuP3t7g45wGP3QrEmV98GBN
+	ttnWaLqIYUKlHlM7WP8hD46ZafcTlinnByGplKFlGRZPldPoTN+EFaPytet9KoxW7NiF
+	ZY5M2T4y4OULIWodBuiaqR87PI3bxl3EpDn/jlsm5wQYvaSUmyhzkVji75+uy6M6IwhI
+	mTNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=VP7tvR9rAbVPVtSvORBmXRNNWoaSwwzWCGLTtW5kXHU=;
-	b=W2/QIxPrhS/7QuHlNvd1/3LLNHo/89XDE96+bsMqo4MQTDfpeQQs1Ou5dbyxU2pZlg
-	xJSbAy6wOnRzAofVt+lhLF8pfHdqxDM3B9PEftEz2jAbYTvM79TA5EILgqcPIdmuwIHS
-	HPppRCZiqF5hZRKVClWFG0CmUe0DL483OBBDVImZerLkJQYDvNCl1jyT9kDiKCfhygEn
-	IUOHj3aC3LAKczn4G+tHvl24P/YavfVCA71VLmjU41tl3igKlP15RBB2F4d8Ndxu3Mvg
-	nHQcfCCN+ut0zSXdJqORdr1bQpVXvxTkhcp/xtHyM37IX8lT+e57htLpSK/wQTlBW0N4
-	cRAQ==
-X-Gm-Message-State: APzg51APCmivP8t7s1ETE0ZxZtD0oypQ3iDRUdkhXno0vuXUN9RcW/3A
-	R/8RBBg8sXlANUTLAZUNZ7aOag3t
-X-Google-Smtp-Source: ANB0VdaRGRCGg7KM8MFj3BCwImp7exY4EDyhxpcMylhvPL4ojjN+gqB58LbldTJ3JTYsYuTU81Nrvg==
-X-Received: by 2002:adf:9a21:: with SMTP id
-	z30-v6mr1477344wrb.47.1534716961334; 
-	Sun, 19 Aug 2018 15:16:01 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=rz/GpP89VJFBJ3vJ443gW39Q7VRLP95fmt+jBDEk758=;
+	b=bnnppQd5bUVwHsSOZw3275MRuN2GpeneHXku5dwM0GgomOiDtSrHAIuUVefu0L2sAa
+	O2vk9HTBllpdUxxnAJRM9xrSPoft/b6OivDVzSp655ANqdmbdHccNWwdj6f1KtlTpO5L
+	YQS8awEfNMJBTxiUYVNIwhL1ziYHZ0AoxnQfuS88GaS0l83ukROncZXNrX428oeyZEld
+	JEn3cr3wvmLqrnXSgiMZpuscMHbBz4JmJ1PwYPn95ByWCKKa33/dDg58UgptMm1wNIxC
+	kfFQfSFb+yNguKBAIDNspvWRpfJjTHDkQJkuRu1uebWE0ykgr6biYefHuxUq5UF2atw0
+	EOgw==
+X-Gm-Message-State: AOUpUlGm3lff26Zt3BedMvilQjEmhIGE+t5kbOxZbxjC7Oy7f7hKi0Ak
+	4yAgWXA63HQsNg4NGC5nqhpJht2X
+X-Google-Smtp-Source: AA+uWPzhHnbImIBgKMcnwtlmnsqgD+3Ix2kbOXilAujhyjDDg+6EvslJoU4fklpIOekRnAaqZ6m/MQ==
+X-Received: by 2002:a5d:6b01:: with SMTP id
+	v1-v6mr27702867wrw.208.1534716993673; 
+	Sun, 19 Aug 2018 15:16:33 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	q2-v6sm7245013wmc.44.2018.08.19.15.16.00
+	e141-v6sm16467340wmd.32.2018.08.19.15.16.32
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 19 Aug 2018 15:16:00 -0700 (PDT)
+	Sun, 19 Aug 2018 15:16:32 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Aug 2018 22:15:07 +0000
-Message-Id: <cover.1534716156.git.Martin.Jansa@gmail.com>
+Date: Sun, 19 Aug 2018 22:15:58 +0000
+Message-Id: <ca2d5b0b4debe5d4cbc98b15aa417bfd490dd9dc.1534716156.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 0/6] deployed artifacts naming improvements
+In-Reply-To: <cover.1534716156.git.Martin.Jansa@gmail.com>
+References: <cover.1534716156.git.Martin.Jansa@gmail.com>
+Subject: [PATCH 1/6] bitbake.conf, kernel-artifact-names.bbclass: introduce IMAGE_VERSION_SUFFIX instead of using DATETIME directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,59 +58,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Aug 2018 22:16:01 -0000
+X-List-Received-Date: Sun, 19 Aug 2018 22:16:33 -0000
 
-This is just the preparation for last bigger change to have consistent
-naming across all deployed artifacts. These 6 preparation commits
-shouldn't change any names yet, verified with core-image-base for
-qemux86 and raspberrypi3.
+* this makes it easier to use different version string than DATETIME, e.g. set from jenkins job
+  while keeping the suffix consistent across all artifacts stored in DEPLOYDIR
 
-Using more variables allows to simplify appending some release
-information to the images, corresponding kernels and other artifacts as
-shown in:
-https://github.com/webOS-ports/meta-webos-ports/commit/6fd0af4dbd3da396d41e330f9dd932e859c5f7f0
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/kernel-artifact-names.bbclass | 13 ++++---------
+ meta/conf/bitbake.conf                     |  5 +++--
+ 2 files changed, 7 insertions(+), 11 deletions(-)
 
-The recipes and classes which generate or use new artifacts might need
-to inherit kernel-artifact-names and update the variables as shown in
-example here:
-https://github.com/shr-distribution/meta-smartphone/commit/5e70b3779e0d6c90fbfbafeca2c9e4c4943d1196
-
-The final change which allows to re-use do_deploy from sstate, while
-still producing the consistent naming scheme (e.g. image as well as
-kernel will have the same DATETIME stamp or for release the same build
-number even when the kernel.do_deploy was used for multiple builds will
-look like this:
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=jansa/master&id=91e5b30f10f24210c31d3f5ec137de22f89967d7
-
-The following changes since commit 176e50fb177dc40e439700d5f3f838dd7eaaa427:
-
-  runtime selftest: limit kernel hw bp arches (2018-08-16 22:40:06 +0100)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib jansa/kernel
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=jansa/kernel
-
-Martin Jansa (6):
-  bitbake.conf, kernel-artifact-names.bbclass: introduce
-    IMAGE_VERSION_SUFFIX instead of using DATETIME directly
-  kernel-artifact-names, kernel-fitimage: add KERNEL_FIT_BASE_NAME,
-    KERNEL_FIT_SYMLINK_NAME variables
-  kernel*.bbclass: rename *_SYMLINK_NAME variables to *_LINK_NAME and
-    *_BASE_NAME to *_NAME
-  kernel-artifact-names.bbclass, kernel.bbclass: remove prefix and
-    extension from MODULE_TARBALL_* variables
-  kernel-artifact-names.bbclass: Add 2 more variables to make it easier
-    to change all names with one variable
-  kernel.bbclass: rename type variable to imageType
-
- meta/classes/kernel-artifact-names.bbclass | 27 +++++-----
- meta/classes/kernel-devicetree.bbclass     | 22 ++++----
- meta/classes/kernel-fitimage.bbclass       | 34 +++++-------
- meta/classes/kernel.bbclass                | 62 +++++++++++-----------
- meta/conf/bitbake.conf                     |  5 +-
- 5 files changed, 70 insertions(+), 80 deletions(-)
-
+diff --git a/meta/classes/kernel-artifact-names.bbclass b/meta/classes/kernel-artifact-names.bbclass
+index d696888322..70b1cb804d 100644
+--- a/meta/classes/kernel-artifact-names.bbclass
++++ b/meta/classes/kernel-artifact-names.bbclass
+@@ -1,19 +1,14 @@
+-KERNEL_IMAGE_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+-# Don't include the DATETIME variable in the sstate package signatures
+-KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
++KERNEL_IMAGE_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+ KERNEL_IMAGE_SYMLINK_NAME ?= "${MACHINE}"
+ 
+-KERNEL_DTB_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+-KERNEL_DTB_BASE_NAME[vardepsexclude] = "DATETIME"
++KERNEL_DTB_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+ KERNEL_DTB_SYMLINK_NAME ?= "${MACHINE}"
+ 
+-MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+-MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
++MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+ 
+ MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
+ MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
+ MODULE_TARBALL_DEPLOY ?= "1"
+ 
+-INITRAMFS_BASE_NAME ?= "initramfs-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+-INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
++INITRAMFS_BASE_NAME ?= "initramfs-${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+ INITRAMFS_SYMLINK_NAME ?= "initramfs-${MACHINE}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index f68954c511..1941633a54 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -445,8 +445,9 @@ STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifac
+ 
+ IMAGE_ROOTFS = "${WORKDIR}/rootfs"
+ IMAGE_BASENAME = "${PN}"
+-IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
+-IMAGE_NAME[vardepsexclude] += "DATETIME"
++IMAGE_VERSION_SUFFIX = "-${DATETIME}"
++IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME"
++IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+ IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
+ 
+ # This option allows for a percentage overage of the actual image size rather than a
 -- 
 2.17.1
 
