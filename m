@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 89AC37922F
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D6CD7922F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 17:23:55 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id f14-v6so5643416pgv.13
+	Sun, 19 Aug 2018 17:23:56 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id c6-v6so1099581pls.4
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 19 Aug 2018 10:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=+drmlVReINFpgVT8zC+g2o+eL0AzCILaEOH/FuMmHHg=;
-	b=XR6wOV4fe9hdpLJim3m/aMwAHqtuncSGacCdk9FMpXgAvKkHXI1pr0SrA87UVTSltn
-	myJ4Ek5p0gzlOqv/PaZSlDEACEJHTP+13Rv5Swjl/9F7bihQ988Q+IMrU9KwY93SMtmt
-	Xm1Q2murc3k9hduv5s1LlYaoN0Ov85Pq0ptV6p9rH9+9QU0Oga9lDRZA4yeto9tCui1m
-	aZQQ8JYe425tlgJaqSdtegGFXCHGm5iQqgAS0nHXaD4+2POmLcZtxtQ5FE1C7B1w5cJX
-	lH4sLPbNZFyfuw18sWeZXHsSfMNHTL7Ei4yEwZUiU17tNDCwgrFjj3nDxu3F8gwdoZ6f
-	4rPg==
+	bh=LLSa+1FFOYXZIhwiE85U9yNuZhxaeBesfS3+zgZhh8g=;
+	b=s394nI0F9Yx/vW64z135RKkJuqoJKr17LdQK/7X/JkWFCZsAfkoWzZuFoeNbl/xXwl
+	6wf3FK0rUTgiTnS8b0FN5SRCT+0eYVA/F4SWMbv0Wv1YklIqDAr7ZMhNTfMXuFFOwZad
+	/6S2YpZ9FZ9M9F3WO4Z2lI7SPSSE7rn6LgTC/TeZySDLEEwKaQJnJ0sAx933i2Lf7p2F
+	4PSxbgsMp57wUeudrWGlClJ1MZtxyQhpUVW/wHextkr/9pEtQbeOm0jfocBCqns/NAPl
+	TPe2wJBLVb8EMvLy51D1HRrwMOcAWZabl1vcRzI4XkyUfdkpqH4BZTsp4JsxipHVhQOA
+	AQvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=+drmlVReINFpgVT8zC+g2o+eL0AzCILaEOH/FuMmHHg=;
-	b=H/EKXw7hF8woFeBB1NtM5kZBmwU+bMvH+KdbbVjrs0x9jLPS2JiHk9QthC/CXW/fwX
-	xOKyrw8Kzy7qJXLuo/Mq5B6kbZZsUfpEGmOhUk0KMrOQh24QTluyq9gzKsUUZQxB8EDh
-	EdjnBCSkTS8GzO6nuQp4IyBRmR7+J0NZ2duJyTs9DRDEAN75FqaHPufUFK4FmHjwToJI
-	XdaizJUB3xiDQpIQHL2Q7C2I+9xbiBI+21+6qADUWeP5an66xmlncU/sl4VjeL5nAAI7
-	b/YMXMayhOP8wdsSG4y44wrCnMyyn9pnDgUGdXrjLeR2NOvaYZlvssrdwGYSaFyAi9RZ
-	gwiw==
-X-Gm-Message-State: AOUpUlFABi+hGPpMAWZrw8EnI4FYjn6HB0+vrtpLcgJjnhrvQxIa03eZ
-	6AHVtaL79dBqrtd2EYCm19vWzlj6
-X-Google-Smtp-Source: AA+uWPwXo4p9F26g6REbxRwQBcztYiIWSilkMXfaK7nUbIQ25y4wx5myJEway4OPLXbVVI+CwjM9YQ==
-X-Received: by 2002:aa7:860b:: with SMTP id
-	p11-v6mr44452938pfn.247.1534699436256; 
+	bh=LLSa+1FFOYXZIhwiE85U9yNuZhxaeBesfS3+zgZhh8g=;
+	b=lVQD9t4Dx22Ng+Imu7RpzFSvRC3SEkV+Lf3oCpoiebAr3UABK2kZpGyZHdOw1lupdx
+	Nm3DmR+O4HwPQIUu776q7OPigb+t6H5T4CHTQXM5dhJyykAKmAxvjnfHN4iBRGu7BtSO
+	iiVfgraK6o5GBsdrKvuTFYb5BQyt4IXLb2sW0gQ+PplPS6HeqTLc7+t7XcfTiXVRCFho
+	o9E1IDE+Us3WKEpmnnMm/6VvbH2uK8x+C1gyG3Wle4HcGyue/0tztJ4ZN4WNJegeHEHk
+	Ad/sm+Yz+iOm876pWLCt+3GbJi9X4DMPgKtLNbCiv9WdC0I9UkkBsEc5PHUaoDiTuFUs
+	ZQUQ==
+X-Gm-Message-State: AOUpUlHJ8CET6Ezra1rvZUFsqvoqOU9fHMPaF6uJeAMhGofVV1uXgSpC
+	rH+FRTPZtX5RanSAp/IuxV0ffUOj
+X-Google-Smtp-Source: AA+uWPwPn9PqozQaYk4KrUnPm4BbGSkzNCPRL61Ge8sNyVgZJlMi2WmnOGb9psZNUghaW1dL8hrnQg==
+X-Received: by 2002:a17:902:8604:: with SMTP id
+	f4-v6mr42417882plo.225.1534699436933; 
 	Sun, 19 Aug 2018 10:23:56 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::4add])
 	by smtp.gmail.com with ESMTPSA id
-	x1-v6sm8293466pgr.59.2018.08.19.10.23.55
+	x1-v6sm8293466pgr.59.2018.08.19.10.23.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 Aug 2018 10:23:55 -0700 (PDT)
+	Sun, 19 Aug 2018 10:23:56 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Aug 2018 10:23:40 -0700
-Message-Id: <74b92c8785cfa4377a1738f28e3991d6adee321f.1534699224.git.raj.khem@gmail.com>
+Date: Sun, 19 Aug 2018 10:23:41 -0700
+Message-Id: <911a9ac98e1ad924f22dff0582b276a0ff1cd74b.1534699224.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1534699224.git.raj.khem@gmail.com>
 References: <cover.1534699224.git.raj.khem@gmail.com>
-Subject: [PATCH 8/9] gdb: Upgrade to 8.1.1
+Subject: [PATCH 9/9] libidn2: Fix libunistring detection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,48 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Aug 2018 17:23:55 -0000
+X-List-Received-Date: Sun, 19 Aug 2018 17:23:56 -0000
+
+libunistring is one such library which many autotooled packages
+mistake to use from build system if its installed on it. This
+is specifically toxic when build host arch is same as target arch
+since we only see the problem during runtime but thankfully OE
+has build time QA which warns about it.
+
+QA Issue: libidn2: The compile log indicates that host include and/or library paths were used.
+
+Using --with-libunistring-prefix nudges the autoconf system for the
+component to first look into target sysroot before going on to search
+on the build host
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gdb/{gdb-8.1.inc => gdb-8.1.1.inc}      | 4 ++--
- ...{gdb-cross-canadian_8.1.bb => gdb-cross-canadian_8.1.1.bb} | 0
- .../gdb/{gdb-cross_8.1.bb => gdb-cross_8.1.1.bb}              | 0
- meta/recipes-devtools/gdb/{gdb_8.1.bb => gdb_8.1.1.bb}        | 0
- 4 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/gdb/{gdb-8.1.inc => gdb-8.1.1.inc} (89%)
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_8.1.bb => gdb-cross-canadian_8.1.1.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_8.1.bb => gdb-cross_8.1.1.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb_8.1.bb => gdb_8.1.1.bb} (100%)
+ meta/recipes-extended/libidn/libidn2_2.0.5.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/gdb/gdb-8.1.inc b/meta/recipes-devtools/gdb/gdb-8.1.1.inc
-similarity index 89%
-rename from meta/recipes-devtools/gdb/gdb-8.1.inc
-rename to meta/recipes-devtools/gdb/gdb-8.1.1.inc
-index 4d9faa2d4b..ad80dd3e4d 100644
---- a/meta/recipes-devtools/gdb/gdb-8.1.inc
-+++ b/meta/recipes-devtools/gdb/gdb-8.1.1.inc
-@@ -18,6 +18,6 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
-            file://package_devel_gdb_patches_120-sigprocmask-invalid-call.patch \
-            file://gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch \
- "
--SRC_URI[md5sum] = "f46487561f9a16916a8102316f7fd105"
--SRC_URI[sha256sum] = "af61a0263858e69c5dce51eab26662ff3d2ad9aa68da9583e8143b5426be4b34"
-+SRC_URI[md5sum] = "372fa63a53adeee1bfbfd581d8da9e34"
-+SRC_URI[sha256sum] = "97dcc3169bd430270fc29adb65145846a58c1b55cdbb73382a4a89307bdad03c"
+diff --git a/meta/recipes-extended/libidn/libidn2_2.0.5.bb b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
+index 0d7bddbc7f..0daf7a6877 100644
+--- a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
++++ b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
+@@ -19,6 +19,10 @@ DEPENDS = "virtual/libiconv libunistring"
  
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_8.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_8.1.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross-canadian_8.1.bb
-rename to meta/recipes-devtools/gdb/gdb-cross-canadian_8.1.1.bb
-diff --git a/meta/recipes-devtools/gdb/gdb-cross_8.1.bb b/meta/recipes-devtools/gdb/gdb-cross_8.1.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross_8.1.bb
-rename to meta/recipes-devtools/gdb/gdb-cross_8.1.1.bb
-diff --git a/meta/recipes-devtools/gdb/gdb_8.1.bb b/meta/recipes-devtools/gdb/gdb_8.1.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb_8.1.bb
-rename to meta/recipes-devtools/gdb/gdb_8.1.1.bb
+ inherit pkgconfig autotools gettext texinfo gtk-doc lib_package
+ 
++EXTRA_OECONF += "--disable-rpath \
++                 --with-libunistring-prefix=${STAGING_EXECPREFIXDIR} \
++                 "
++
+ LICENSE_${PN} = "(GPLv2+ | LGPLv3)"
+ LICENSE_${PN}-bin = "GPLv3+"
+ 
 -- 
 2.18.0
 
