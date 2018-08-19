@@ -1,52 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DDBDA71BF9
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id C006679186
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 15:36:30 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id g1-v6so10952081wru.2
+	Sun, 19 Aug 2018 16:38:08 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id v8-v6so21882997oie.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 08:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=fdLEnF9sv3qQehfEAAK/tQZIScUg+u/y3Mo0C+gmFmE=;
-	b=RSOEUCzuKKul5qJdD7BqfnXOHoxRmteqnXv41c4CjzI11fgycBsuMwTk8pNDHKtmBO
-	5mUg+JFZ78p3JwHv5QHIYb338r+Z/PmjcLTKbXFhD/jQMA10TICSXLo++Yr2UuSv0zFd
-	AklC+fo7csW8bwYKd1w0RNm3JISid7Gt0KwKE=
+	Sun, 19 Aug 2018 09:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dH73PELHNdLzJAnUcoQ9r20cmOrpp8sQHUNcHOHj5Y4=;
+	b=iGIwrlochnXszkprwNIGBi4oVrDvorBaeccjcuS76BTfbujMzeMthL2U9x8E2c3P1p
+	dtiLvPWOhGMsVG5ctTW52wEdIOGIc0OgHo3QV0DQH0iS9fT3R9wNDbPY7vd11k6lkJD3
+	8+m9fe2jQT8/AcAlKaBf7kUMWxB9AnfXb9QLa/4a4M8mJlysEdMXJmbtKFfRe0KQQFFV
+	oDIst2CDXxkcgGWqyus8rUs1zpZUJ18lgciW9EX+yh1ZbgfRiSXnkjFH8dMKa/Qa09vj
+	f26ui/WyxvxP5do7v8UsDBDsWG5Rx4xNjpNg7yyETW4q87KwJU8QzVaCj7tKsUKJVTJd
+	KSLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=fdLEnF9sv3qQehfEAAK/tQZIScUg+u/y3Mo0C+gmFmE=;
-	b=StPvni30KK5cpdImV9jXjQKwsa4yfu/5/lXrTpF+QQ6rL5JEymrN3ojAevmQdKwIXx
-	rbe+RDmjqw36hf+7Lv+hYdvk0pDeItjgpa3gY52mZoNnk9ayqFAPMQ+5T/a719n3Ddgg
-	JnJWZMAumMpzPMD/++b0yWbZZ1tBTJRnhrkU1Vjyw5q0ETXPxyEm080Cr3fEqg2qvvHt
-	A8RBinA8yB9KZnYVYlvEiagiYLo/nGAlaSPZ9DOvI1U4srqAoS/iUmp9uw1bBoJCJNfu
-	tSBDjYbApym2yyxYFnZb8/nUHBkDGOrpSpjKAGu+2fUeJ08wm1xHAvs2AycYWCO5nPhQ
-	R81Q==
-X-Gm-Message-State: AOUpUlEd3/GUAJQyU/JWsGULHX+4HdiU17QMyGopf6b6SIzZy7Ko2sJv
-	imXShXLCJ/t6VIOw8PpUhasp2Q==
-X-Google-Smtp-Source: AA+uWPxhGrNkPm5rw0cWaR4LWNNwTLWHlPxv6oxdbB6MdVux/dYj4pctTNGK2snZMmUoS7q9AR1WIA==
-X-Received: by 2002:adf:a512:: with SMTP id
-	i18-v6mr8984335wrb.220.1534692991652; 
-	Sun, 19 Aug 2018 08:36:31 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	z101-v6sm17918227wrb.55.2018.08.19.08.36.30
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 19 Aug 2018 08:36:30 -0700 (PDT)
-Message-ID: <411c449a525d073ac6165ed59532e314d08388dd.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Sun, 19 Aug 2018 16:36:29 +0100
-In-Reply-To: <1534647044-14420-1-git-send-email-bruce.ashfield@windriver.com>
-References: <1534647044-14420-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5] kernel-devsrc: restructure for out of tree (and on target) module builds
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dH73PELHNdLzJAnUcoQ9r20cmOrpp8sQHUNcHOHj5Y4=;
+	b=Mo15Y6t350twj74/Id30UD+Qqjdy6PkIhDS4mSQiCBKVHafJzy21BYSyUggf9v/X8X
+	6YlpuGcAxxleaM6yKEGj3U8ZCBVsqRzGKGBfQKCmfgQR8GxQcUWfgPymDqACUN0QToEL
+	1pk2Hs0+ia21OK59cNW60yBhFTZ2f87Sg21Dnp0lUYWC+5fc0TAqQBV1t0zAfkW754Fa
+	CzbCG6J7Sy+jvesniILpEtxFV7LbgItFrrof0ABN0EBQ+E1WXu0U0V19kv0IKw26Pt+/
+	SVba0KH1WR8ZgOWODopqJaHD/Qj6S/bCklszXanouKxeG/yPk46teK1ZF3KR0x/Af3ZV
+	LVow==
+X-Gm-Message-State: AOUpUlGB8ih5+Z52bmIfRg4xuyCu0jTlPSPKyLMR0uYDulabjq9XzPcA
+	kybjOtfrJUj0Cz/kWYl/AIyWmbnWuVfoiW4Dxlk=
+X-Google-Smtp-Source: AA+uWPzmSNM+Fnv0sR3VW8BVefSaPmXAuKsJeCELCA34xvEMapyYOZaiynzZkl4Z1I24NopcLJDd7FjypN6OQv8NGJU=
+X-Received: by 2002:aca:d015:: with SMTP id
+	h21-v6mr11385022oig.142.1534696689827; 
+	Sun, 19 Aug 2018 09:38:09 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90ed:0:0:0:0:0 with HTTP; Sun, 19 Aug 2018 09:38:09
+	-0700 (PDT)
+In-Reply-To: <CA+NJmkd2gUD6mgzOruaqN8y-upO9BVqt8bKbAd-nzKL4dnJbaQ@mail.gmail.com>
+References: <CA+NJmkd2gUD6mgzOruaqN8y-upO9BVqt8bKbAd-nzKL4dnJbaQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 19 Aug 2018 18:38:09 +0200
+Message-ID: <CANNYZj9wG5zVdAAQqyu=eXYo1d=1wY4XCWcpWK+Etod7_B9V-w@mail.gmail.com>
+To: Isaac Nickaein <nickaein.i@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Specifying incorrect license in recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,24 +56,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Aug 2018 15:36:31 -0000
+X-List-Received-Date: Sun, 19 Aug 2018 16:38:08 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sat, 2018-08-18 at 22:50 -0400, Bruce Ashfield wrote:
-> [...]
-> 
-> v5:
->   - added failure catch for x86 purgatory files which changed in 4.18
->     and hence are not universal across versions
->   - added explicity bison and flex rdepends for mips64 prepare phase
->   - added mips64 files required for scripts/prepare phase
->   - added files required for missing syscall support
+2018-08-19 13:54 GMT+02:00 Isaac Nickaein <nickaein.i@gmail.com>:
 
-Tests passed so I've merged it, thanks for persevering, we finally got
-there! :)
+> How such issues is prevented in openembedded (e.g. throughout review
+> of new recipes)?
 
-Cheers,
+Basically yes. Note that we regularly find deficiencies in old recipes
+as well. It's not the end of the world.
 
-Richard
+> Who is responsible in the cases that license is violated?
+
+Obviously the one who shipped the product to the consumer, which is
+not the Yocto Project :-) It's up to the OEMs or their contractors to
+thoroughly review what goes into images and under which licenses.
+
+Alex
 
