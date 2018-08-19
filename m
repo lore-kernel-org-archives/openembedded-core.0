@@ -1,51 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
-	[209.85.160.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D6CD7922F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5473D79083
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 17:23:56 +0000 (UTC)
-Received: by mail-pl0-f65.google.com with SMTP id c6-v6so1099581pls.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 10:23:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=LLSa+1FFOYXZIhwiE85U9yNuZhxaeBesfS3+zgZhh8g=;
-	b=s394nI0F9Yx/vW64z135RKkJuqoJKr17LdQK/7X/JkWFCZsAfkoWzZuFoeNbl/xXwl
-	6wf3FK0rUTgiTnS8b0FN5SRCT+0eYVA/F4SWMbv0Wv1YklIqDAr7ZMhNTfMXuFFOwZad
-	/6S2YpZ9FZ9M9F3WO4Z2lI7SPSSE7rn6LgTC/TeZySDLEEwKaQJnJ0sAx933i2Lf7p2F
-	4PSxbgsMp57wUeudrWGlClJ1MZtxyQhpUVW/wHextkr/9pEtQbeOm0jfocBCqns/NAPl
-	TPe2wJBLVb8EMvLy51D1HRrwMOcAWZabl1vcRzI4XkyUfdkpqH4BZTsp4JsxipHVhQOA
-	AQvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=LLSa+1FFOYXZIhwiE85U9yNuZhxaeBesfS3+zgZhh8g=;
-	b=lVQD9t4Dx22Ng+Imu7RpzFSvRC3SEkV+Lf3oCpoiebAr3UABK2kZpGyZHdOw1lupdx
-	Nm3DmR+O4HwPQIUu776q7OPigb+t6H5T4CHTQXM5dhJyykAKmAxvjnfHN4iBRGu7BtSO
-	iiVfgraK6o5GBsdrKvuTFYb5BQyt4IXLb2sW0gQ+PplPS6HeqTLc7+t7XcfTiXVRCFho
-	o9E1IDE+Us3WKEpmnnMm/6VvbH2uK8x+C1gyG3Wle4HcGyue/0tztJ4ZN4WNJegeHEHk
-	Ad/sm+Yz+iOm876pWLCt+3GbJi9X4DMPgKtLNbCiv9WdC0I9UkkBsEc5PHUaoDiTuFUs
-	ZQUQ==
-X-Gm-Message-State: AOUpUlHJ8CET6Ezra1rvZUFsqvoqOU9fHMPaF6uJeAMhGofVV1uXgSpC
-	rH+FRTPZtX5RanSAp/IuxV0ffUOj
-X-Google-Smtp-Source: AA+uWPwPn9PqozQaYk4KrUnPm4BbGSkzNCPRL61Ge8sNyVgZJlMi2WmnOGb9psZNUghaW1dL8hrnQg==
-X-Received: by 2002:a17:902:8604:: with SMTP id
-	f4-v6mr42417882plo.225.1534699436933; 
-	Sun, 19 Aug 2018 10:23:56 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::4add])
-	by smtp.gmail.com with ESMTPSA id
-	x1-v6sm8293466pgr.59.2018.08.19.10.23.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 Aug 2018 10:23:56 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Aug 2018 10:23:41 -0700
-Message-Id: <911a9ac98e1ad924f22dff0582b276a0ff1cd74b.1534699224.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1534699224.git.raj.khem@gmail.com>
-References: <cover.1534699224.git.raj.khem@gmail.com>
-Subject: [PATCH 9/9] libidn2: Fix libunistring detection
+	Sun, 19 Aug 2018 22:14:35 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7JMEXIx004313
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Sun, 19 Aug 2018 23:14:34 +0100
+Message-ID: <7c9d87fab906f591a715f298fd21f46e51797f05.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paulo Neves <ptsneves@gmail.com>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Date: Sun, 19 Aug 2018 23:14:33 +0100
+In-Reply-To: <CAJO0J4jmZYMGNHBUbJ70c=9d3JHVFFYwHJq4NrQUzYdBooy9Qw@mail.gmail.com>
+References: <1533929879-22972-1-git-send-email-ptsneves@gmail.com>
+	<CAJO0J4ig3xhEaukBrZFw2RCMzpXjbuXXFiMt8vP2edpsA8Wdxw@mail.gmail.com>
+	<CAJO0J4jmZYMGNHBUbJ70c=9d3JHVFFYwHJq4NrQUzYdBooy9Qw@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [meta-oe][PATCH 1/3] testimage: Refactoring and fixing.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,41 +34,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Aug 2018 17:23:56 -0000
+X-List-Received-Date: Sun, 19 Aug 2018 22:14:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-libunistring is one such library which many autotooled packages
-mistake to use from build system if its installed on it. This
-is specifically toxic when build host arch is same as target arch
-since we only see the problem during runtime but thankfully OE
-has build time QA which warns about it.
+On Sat, 2018-08-18 at 18:40 +0200, Paulo Neves wrote:
+> Ping.
+> 
+> Does anybody have any comments? Also I noticed that my commit once
+> was in the master-next but it was removed. Without it being in master
+> I cannot submit my changes to poky mailing list with the fixes for
+> the remaining targets.
 
-QA Issue: libidn2: The compile log indicates that host include and/or library paths were used.
+I tried adding it to master-next, it broke things, I did reply about
+it, I dropped it from -next due to the problems. My reply is here:
 
-Using --with-libunistring-prefix nudges the autoconf system for the
-component to first look into target sysroot before going on to search
-on the build host
+http://lists.openembedded.org/pipermail/openembedded-core/2018-August/154037.html
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-extended/libidn/libidn2_2.0.5.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+Cheers,
 
-diff --git a/meta/recipes-extended/libidn/libidn2_2.0.5.bb b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-index 0d7bddbc7f..0daf7a6877 100644
---- a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-+++ b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-@@ -19,6 +19,10 @@ DEPENDS = "virtual/libiconv libunistring"
- 
- inherit pkgconfig autotools gettext texinfo gtk-doc lib_package
- 
-+EXTRA_OECONF += "--disable-rpath \
-+                 --with-libunistring-prefix=${STAGING_EXECPREFIXDIR} \
-+                 "
-+
- LICENSE_${PN} = "(GPLv2+ | LGPLv3)"
- LICENSE_${PN}-bin = "GPLv3+"
- 
--- 
-2.18.0
-
+Richard
 
