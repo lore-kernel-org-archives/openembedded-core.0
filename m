@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 44A3579229
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 49DC879223
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 17:23:51 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id f1-v6so5643598pgq.12
+	Sun, 19 Aug 2018 17:23:52 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id k21-v6so5602657pff.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 10:23:52 -0700 (PDT)
+	Sun, 19 Aug 2018 10:23:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qZM+k1KU8s7xfQtdaD63yjEtMmugyH6RnXDLGMxs+5U=;
-	b=Ka+KVNpITpo4cw6Lb3dbD+0eLxM30Cv5WJeYAg777uJmeeSZeHNTvBm5019Crl3GRz
-	7pXzuY0wDLmyqqlQxcpF2iFpeZMM53BPeK+VgmbLgdr5Y9Te9hIIl+1Rg4rnh3BUZtEc
-	knYHTQ0BnorVFuBxytJFMcEjUbIwfXjx879NkXKprQxiygCtIygOl1+VHXLKzqKnwTVf
-	Ih25qlDHFp7iK+SBp4XdbN9BqISIB8aV1J72H1gt8jB8Gp8ilaK/EDQR1f0Epc1YeQ2+
-	EmissN7W0V0SE3CGtQfFjgqS6JhqrgU0ZV2SpRtA6A7mU6l+dj0Sau3GviJcma1wwG16
-	eyBQ==
+	bh=cRvlbR+wfYBR/Oj+8cfsSdOvd7S7k40ieppO+sH52Oc=;
+	b=NI+5uJunEsXr85+DAC5By9cl+HYmQh8Ymptj7cCfrZy1VrPa44YT0VVO8Gf75LLsUK
+	r51DA+fJ1a6jpH6BqxWg0Y0La3ZkqedC/vjmi0KokE79gL7QILIj4sKl80BVcOdxtO4E
+	LilbaNaDqF5UhcGHyaoxUzI7sAdaFGYgYmNQBQFpQRrt1GsnWT6jFwS5idB1UaL3TGW8
+	V4REA+jVQO7gzJDL7gXkYK8OeR0ZN6DJ1JRJrEuWryOHVIzqPOKGFnZ5YVWB8sqtoYGJ
+	2Hu45iY0GYrT0NjzyqsG0NZ624dqICoYxTzupCaVZsH3OQsleSgPcPe3VuwU32XGbbxd
+	5XVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=qZM+k1KU8s7xfQtdaD63yjEtMmugyH6RnXDLGMxs+5U=;
-	b=lALoox8yj+l2SGZ7WuzOFzkIfM+gV+Qsx8Hb6r4XOpyACrKuXoU8htMSe/bhyAlChp
-	MruV8A4NhFZu0+fDAs1SsEh6Gys7jIzpbth/XUgRP87XxG7NjCUICNy8UuZdJ02+3/oa
-	WQsGaVOmyZ7KaZqfJN/gyv52/sHX6ofs5ouX3jwlStIA7QCP32gixWfnBDpMcsD6IVmz
-	6InML1bgeeRZvGupM4FXym758mqVGIEPPgWcn22WI3es21oIuQ1fWZdqe6qbnm+xKaKX
-	Dxd5pcA2r7TCTOpz4QVfoUNuJ1rpAnKVqP2gpQz6JTs2MotMT7vU45whNQdMXX5IKnOz
-	sW8w==
-X-Gm-Message-State: AOUpUlGBv/oA0DYIpwOhuSfz8JO6kCL0MQZIKpBRkptZifOi6KKvhvbv
-	s9P4BBFgkEFf1RYiJy/CKpZRHhJZ
-X-Google-Smtp-Source: AA+uWPy+1MwdEuw+WXKydy7LzuL66cvZAZU8vg0/1kr7HO5V7Uouy7n3cb330NkVquyMyhRHaGnSNA==
-X-Received: by 2002:a63:fa18:: with SMTP id
-	y24-v6mr40290645pgh.362.1534699432034; 
+	bh=cRvlbR+wfYBR/Oj+8cfsSdOvd7S7k40ieppO+sH52Oc=;
+	b=Iu/hXQE6UaZIwYoofUUO9uZOyUVam1m1bTrJPoGIwyIRzOBDZPPREWRussAfJgqtgG
+	+BS0jGLyufz0aQznvRU+Wttat/1Jfbfcm+4H3Sw/h7iehuYVtKlsa3T2Pr5ZYpZxnHU6
+	8LIAmaKjjNtUqLDU+dPbkH22GvmDUw7czsp+C2mZMj9BfnwOnTCZFXtCNVy9dv2yGhNE
+	YFbNe7B6iMJl33tLxYCr55+8Tq+rfP5g9CWN0pnj72XxyFiz+95xXAHiYHaRHgQPMrfk
+	Y45pzwNpxL7pclmmh3YML00M6Dkwcq6BobLBUgfftu2w8IYqPMDppm0DsNQXXCiRKOR3
+	xtLg==
+X-Gm-Message-State: AOUpUlEx6dQSWhYRvZ7SSD9X4811x/nkHXnNeTe++0/hp2mN0zqTjhR6
+	z21TuzUXZ1WOT7lh4P4CYNGhaUOs
+X-Google-Smtp-Source: AA+uWPxciwsl79D7O4uuMkU2LDasjYe9lDhsGaha52NvGIEKcf37gIZ9x4ZK7X08p5d5fJdp69RWaA==
+X-Received: by 2002:a63:7f0b:: with SMTP id
+	a11-v6mr12437048pgd.22.1534699432972; 
 	Sun, 19 Aug 2018 10:23:52 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::4add])
 	by smtp.gmail.com with ESMTPSA id
-	x1-v6sm8293466pgr.59.2018.08.19.10.23.50
+	x1-v6sm8293466pgr.59.2018.08.19.10.23.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 Aug 2018 10:23:51 -0700 (PDT)
+	Sun, 19 Aug 2018 10:23:52 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Aug 2018 10:23:35 -0700
-Message-Id: <5917b02b97e854be114bc0641d5c5a7dc07eef94.1534699224.git.raj.khem@gmail.com>
+Date: Sun, 19 Aug 2018 10:23:36 -0700
+Message-Id: <f1c6008db923f577cb03d5461c06ad97d55a57f6.1534699224.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1534699224.git.raj.khem@gmail.com>
 References: <cover.1534699224.git.raj.khem@gmail.com>
-Subject: [PATCH 3/9] llvm: Point llvm-config to one built with llvm-native
+Subject: [PATCH 4/9] dos2unix.bbclass: Move to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,47 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Aug 2018 17:23:51 -0000
+X-List-Received-Date: Sun, 19 Aug 2018 17:23:52 -0000
 
-If not defined, llvm build system tries to build one
-which then confuses the OE QA system since its building
-native tool and target packages in same package build
-moreover it is not required since we already have it via
-llvm-native
+- Import from meta-oe layer
 
-Fixes
-ERROR: llvm-6.0-r0 do_package_qa: QA Issue: llvm: The compile log indicates that host include and/or library paths were used.
+- This is useful for many packages where CR-LF
+  needs to be adjusted, many recipes depend on it
+  e.g. meta-multimedia libebml and so on.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/llvm/llvm_git.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/classes/dos2unix.bbclass | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ create mode 100644 meta/classes/dos2unix.bbclass
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index bb83012231..d853d4151d 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -64,17 +64,19 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
-                   -DLLVM_ENABLE_FFI=ON \
-                   -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
-                   -DLLVM_OPTIMIZED_TABLEGEN=ON \
--                  -DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS}" \
-+                  -DLLVM_TARGETS_TO_BUILD='${LLVM_TARGETS}' \
-                   -G Ninja"
- 
- EXTRA_OECMAKE_append_class-target = "\
-                   -DCMAKE_CROSSCOMPILING:BOOL=ON \
-                   -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen${PV} \
-+                  -DLLVM_CONFIG_PATH=${STAGING_BINDIR_NATIVE}/llvm-config${PV} \
-                  "
- 
- EXTRA_OECMAKE_append_class-nativesdk = "\
-                   -DCMAKE_CROSSCOMPILING:BOOL=ON \
-                   -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen${PV} \
-+                  -DLLVM_CONFIG_PATH=${STAGING_BINDIR_NATIVE}/llvm-config${PV} \
-                  "
- 
- do_configure_prepend() {
+diff --git a/meta/classes/dos2unix.bbclass b/meta/classes/dos2unix.bbclass
+new file mode 100644
+index 0000000000..3fc17e2196
+--- /dev/null
++++ b/meta/classes/dos2unix.bbclass
+@@ -0,0 +1,14 @@
++# Class for use to convert all CRLF line terminators to LF
++# provided that some projects are being developed/maintained
++# on Windows so they have different line terminators(CRLF) vs
++# on Linux(LF), which can cause annoying patching errors during
++# git push/checkout processes.
++
++do_convert_crlf_to_lf[depends] += "dos2unix-native:do_populate_sysroot"
++
++# Convert CRLF line terminators to LF
++do_convert_crlf_to_lf () {
++	find ${S} -type f -exec dos2unix {} \;
++}
++
++addtask convert_crlf_to_lf after do_unpack before do_patch
 -- 
 2.18.0
 
