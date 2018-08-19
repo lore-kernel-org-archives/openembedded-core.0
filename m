@@ -1,43 +1,52 @@
-Return-Path: <nickaein.i@gmail.com>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 9672C65CE8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id DDBDA71BF9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 11:56:36 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id t5-v6so13436499qtn.3
+	Sun, 19 Aug 2018 15:36:30 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id g1-v6so10952081wru.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 04:56:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=GWodbSxYwb/LfCkvjegym9AhxiaxN10xlaGHv9Qh6q0=;
-	b=CaA6DG/Us1420potqaInLmeilJnF8uTsdc25crLYVcgtEi5Aajjil5sG+w7nNjwSvX
-	htoEJ+KYgVcp2xiKaoZjmSD5i+WElhsItjmzCquR6hzx+TvLn+r2FKwxfIjXitqvIvsX
-	Ol8yoRJYdUWr5xi3heuXBm9K9Y01xMjsRq40MlD0vJaHqmRVAFuJ61w3NAadX7HQgfrq
-	P8WQquaMp2l/zQ1s6GSjUy4L8u5kGr856h0dAmDPM+xyBuSPHIc3PtWPcKNfCqUXz0NP
-	BojpYd9BaE0pvK2p40FUX0tPWBd4Ch0Zs2nUxiQr8KE8SpIG+sgTGRbNe+6wEMVCOtoz
-	G/Zg==
+	Sun, 19 Aug 2018 08:36:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=fdLEnF9sv3qQehfEAAK/tQZIScUg+u/y3Mo0C+gmFmE=;
+	b=RSOEUCzuKKul5qJdD7BqfnXOHoxRmteqnXv41c4CjzI11fgycBsuMwTk8pNDHKtmBO
+	5mUg+JFZ78p3JwHv5QHIYb338r+Z/PmjcLTKbXFhD/jQMA10TICSXLo++Yr2UuSv0zFd
+	AklC+fo7csW8bwYKd1w0RNm3JISid7Gt0KwKE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=GWodbSxYwb/LfCkvjegym9AhxiaxN10xlaGHv9Qh6q0=;
-	b=UQHlDtVEdzwc0te7CntJBW0wZbfc/dVeJTpAfDhWqN1BSdZC5il4fA+SSpf/194T2r
-	vkbah6vop83HwACu+ftfum1ALEgS4FP9XKkXdKkHNJaanCPDT5YXFPcDJoHzSBTxUC5H
-	sYuCb3jgqWku03aCIUNiTZTVYswO/W+OE7eNwCgI663yRSE0V7mc64SUAfi6TNqN4DzY
-	HeZ6jYTYAH+3/SuscPKEhGJOQ16p7POQaCDLprNgooHxAdyXrgzwlHf4qQCG6QlK/+n5
-	UqUIV75F3wKeGhRVKGZhsRKvOuEh9qLzUo8g4Z+wP0ugFJHSFYFlKlK0bJMYWw4/CWXt
-	csVg==
-X-Gm-Message-State: AOUpUlFdrtepiGX2cSWvet2cYXQp3KnXq7x6+7rob7FRk7pYWR/U2rK1
-	SHalWay2mc+OKDuyrNUgTN/yrYfZU4hpVGlmrnhZxM3dXIA=
-X-Google-Smtp-Source: AA+uWPxyeivVkf+gCul1IBr5TpxrjeqOZPqrKpcdS0rDWePL1mQM+royPQtde2SQt6777u/im+VVrZIAjMnQHwKGRtk=
-X-Received: by 2002:ad4:40d2:: with SMTP id
-	x18-v6mr19078436qvp.232.1534679797170; 
-	Sun, 19 Aug 2018 04:56:37 -0700 (PDT)
-MIME-Version: 1.0
-From: Isaac Nickaein <nickaein.i@gmail.com>
-Date: Sun, 19 Aug 2018 16:24:40 +0430
-Message-ID: <CA+NJmkd2gUD6mgzOruaqN8y-upO9BVqt8bKbAd-nzKL4dnJbaQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Specifying incorrect license in recipe
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=fdLEnF9sv3qQehfEAAK/tQZIScUg+u/y3Mo0C+gmFmE=;
+	b=StPvni30KK5cpdImV9jXjQKwsa4yfu/5/lXrTpF+QQ6rL5JEymrN3ojAevmQdKwIXx
+	rbe+RDmjqw36hf+7Lv+hYdvk0pDeItjgpa3gY52mZoNnk9ayqFAPMQ+5T/a719n3Ddgg
+	JnJWZMAumMpzPMD/++b0yWbZZ1tBTJRnhrkU1Vjyw5q0ETXPxyEm080Cr3fEqg2qvvHt
+	A8RBinA8yB9KZnYVYlvEiagiYLo/nGAlaSPZ9DOvI1U4srqAoS/iUmp9uw1bBoJCJNfu
+	tSBDjYbApym2yyxYFnZb8/nUHBkDGOrpSpjKAGu+2fUeJ08wm1xHAvs2AycYWCO5nPhQ
+	R81Q==
+X-Gm-Message-State: AOUpUlEd3/GUAJQyU/JWsGULHX+4HdiU17QMyGopf6b6SIzZy7Ko2sJv
+	imXShXLCJ/t6VIOw8PpUhasp2Q==
+X-Google-Smtp-Source: AA+uWPxhGrNkPm5rw0cWaR4LWNNwTLWHlPxv6oxdbB6MdVux/dYj4pctTNGK2snZMmUoS7q9AR1WIA==
+X-Received: by 2002:adf:a512:: with SMTP id
+	i18-v6mr8984335wrb.220.1534692991652; 
+	Sun, 19 Aug 2018 08:36:31 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	z101-v6sm17918227wrb.55.2018.08.19.08.36.30
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 19 Aug 2018 08:36:30 -0700 (PDT)
+Message-ID: <411c449a525d073ac6165ed59532e314d08388dd.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Sun, 19 Aug 2018 16:36:29 +0100
+In-Reply-To: <1534647044-14420-1-git-send-email-bruce.ashfield@windriver.com>
+References: <1534647044-14420-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v5] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,19 +59,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Aug 2018 11:56:36 -0000
+X-List-Received-Date: Sun, 19 Aug 2018 15:36:31 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I was in middle of writing a recipe for a library which I wasn't sure
-about its licensing. I wondered what if somebody get the licensing
-incorrect and submit the recipe to open-embedded upstream.
+On Sat, 2018-08-18 at 22:50 -0400, Bruce Ashfield wrote:
+> [...]
+> 
+> v5:
+>   - added failure catch for x86 purgatory files which changed in 4.18
+>     and hence are not universal across versions
+>   - added explicity bison and flex rdepends for mips64 prepare phase
+>   - added mips64 files required for scripts/prepare phase
+>   - added files required for missing syscall support
 
-Since Yocto doesn't enforce the presence of license text inside the
-source code (which would be crippling as not all source codes contains
-their license), a careless submitter can specify an incorrect license
-inside the recipe and just set LIC_FILES_CHKSUM to a README file.
+Tests passed so I've merged it, thanks for persevering, we finally got
+there! :)
 
-How such issues is prevented in openembedded (e.g. throughout review
-of new recipes)?
-Who is responsible in the cases that license is violated?
+Cheers,
+
+Richard
 
