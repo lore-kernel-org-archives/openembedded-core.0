@@ -1,50 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 48D0579096
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AB277908E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 17:14:35 +0000 (UTC)
-Received: by mail-qt0-f177.google.com with SMTP id r21-v6so17032278qtm.2
+	Mon, 20 Aug 2018 17:22:26 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id d131-v6so1329578qke.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 10:14:36 -0700 (PDT)
+	Mon, 20 Aug 2018 10:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=yCmpeChyD6GU5rSRMng8IVeTO6CnB7SzloSho3tBKPo=;
-	b=TAyvz1aB1RWmR7THzuwy0uT+O/wAcsnU+DfnQa1jpncQlxn7g2kZuJI819Rm/Gqld6
-	gPM1Si1MdSoQAU2jlY0Hr3TKz8Lflkp2/YVEjJw2zXS9GLpTpsBNVUOTLkLTKLCWpkzJ
-	sWkMtxJWz0u9vqLPXMByzj5DL20aM9KqL+k3VyoMHzm3Z/NwstwCDkTW4UMNQ62+40lN
-	oJmuKVlJCAUTQYiuCzH3rP+ThkR9HdPuetWsIp0Dn3G3jPvplPxdXe5YtdSomw22+wPS
-	EJPOJyt5edB19WZ8n7YBvZ/KzDwxU8NT+LRax5KFKvpCrc7pmT/CbBv/2LOkKxgOX077
-	Xxpw==
+	:cc:content-transfer-encoding;
+	bh=tr7lUX2rDY10Mktwpl1hP5e1rUHt4lyYx5itIZNsNA8=;
+	b=qOXn5+aRmECQHY5buBomMHG2NlexH8ikJUz12w/V4gOn9zTkIGlJ2Tlu6RYo81OJh6
+	SbM/lL50xCWKlo2l97DVhpggFY89pmNHH1N/9e9GXa0mqWoE44p4IrZGSUtwPz6Uunm/
+	rBmCzYPCn3N4AIotSrm49F/FbF4bgVhj36qSNPMpu4t5Hbtu+o1zImepTuYGGm2VyaKn
+	+3lBpyR1RJ1Hpo1MQkkunXPV+0Ua6e5DpNPFZkPLVITwzvf6mvx8/FisPsSFWSvzPOv0
+	osMAU9aeUc87kAlMoOYmVfJ/4BfVG3C94CSUd74ZwpY7jYs53aswJDe42YBavK51NGkn
+	P+Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=yCmpeChyD6GU5rSRMng8IVeTO6CnB7SzloSho3tBKPo=;
-	b=irzprDE4hPJ+FuPUgy973LODMObaNFFQP3lrLrEvZaGCX0xet42+6dvF/5961ML1C2
-	Hzquef/SYZyPEb1I5ZypBLyUDJBsLBw2FndVOYpnsRaZHAHuvI9Df44Zrs9w7FBEvb0+
-	QMir9xHrd08KZW9On6p1ydX7VswAhwsbihfzAduHwwkkVVBj9U6nG3k3CRKLFrvAHl7+
-	z9po9vd2Arz5kRkDpBgrJD8cCCuelY9pCi5Owq3dNcY/EA421oBUcfRrLjAavZ7t3E3W
-	pPgFhehNOf4NwrWqm6cOhR5lE70Ebo9nb4FO7diKDQxMb1ZiqA1oMRf1QHbx+FpXUZV2
-	ntwA==
-X-Gm-Message-State: AOUpUlHzfMztfSxa85Bb986tq6oWFDs+0groMW6bJar5Il7AX/DxdKit
-	KDenR+inYHSDMqtlaS1kGN+afTa9d9/HpWp68Fs=
-X-Google-Smtp-Source: AA+uWPzc/EbFu8rQ8CDj3ZntB3hV8QVthYp/nGAFPUW3NDTR4KtqDlu8MvcRwmt8pY6b0226Zvya6apFXxSM5zaSQKA=
-X-Received: by 2002:ac8:2ad8:: with SMTP id
-	c24-v6mr45553532qta.117.1534785276001; 
-	Mon, 20 Aug 2018 10:14:36 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=tr7lUX2rDY10Mktwpl1hP5e1rUHt4lyYx5itIZNsNA8=;
+	b=c8xgJS5K7qC9fBJ10vrpM6op6thuGG9rkVKZL5XjBtM141AeUZNrleTvWd/6pGuOYf
+	nnTILOdSyet/tYA9AztrTeswe3WEdCBs+qc96n38lJ+VjgRuSyKS9akn6LmxSDVnMcBn
+	ku/LyxAxCrRr0fCuz9Tj+NXR/t14DDkyUk9V0k3K78YhMc6wT7PvL6i6UzJzAhquHEgN
+	YKxygV+U22p/OHkmvALtdwFx804PwN8ARWlZVUDI7TMCs99Fx2vlaPyNHN1H62ZNrQ3e
+	x9B8eLt1bN1E7t+4JAmVFJSCEJCfhe97EeFLX7FJ1cXRrZ2Vp8pjyegS6yxrD3ZG5vKa
+	xLWQ==
+X-Gm-Message-State: AOUpUlH/Ml/Nxx+2FH3TsU/N8o4+c5YeFFEFp9j6ByEDt98QEkDflai4
+	LiQpWNKUbR+ene/DXCFth+3tDhQ3X3ucSwQ+oMg=
+X-Google-Smtp-Source: AA+uWPwpqvB3MFWyIdbr9LtYirt/4PtJ2GA9AO0QesUECH1n4HR9dZ/kvpUPlBzvq1W+P+Errs8G8AclhSa9sjv3tiM=
+X-Received: by 2002:a37:a24f:: with SMTP id
+	l76-v6mr40420101qke.406.1534785747166; 
+	Mon, 20 Aug 2018 10:22:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1534699224.git.raj.khem@gmail.com>
-	<0d484e3706a46b34f4edfc3fec906e576a29a9bd.1534699224.git.raj.khem@gmail.com>
-	<9b1b218cfaba5dbc2d582f1b570674a4577db7ba.camel@linuxfoundation.org>
-In-Reply-To: <9b1b218cfaba5dbc2d582f1b570674a4577db7ba.camel@linuxfoundation.org>
+	<f1c6008db923f577cb03d5461c06ad97d55a57f6.1534699224.git.raj.khem@gmail.com>
+	<45c972cc-6abf-8df2-e4db-ee84abd49dc9@geanix.com>
+	<73a419cb40a67f5e2dfa71820c048645583a1d75.camel@linuxfoundation.org>
+	<CAMKF1sqgKJ8-inLr3XHzgCLp5+kAHvFam0da5h65OE71c4NCpA@mail.gmail.com>
+In-Reply-To: <CAMKF1sqgKJ8-inLr3XHzgCLp5+kAHvFam0da5h65OE71c4NCpA@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 Aug 2018 10:14:09 -0700
-Message-ID: <CAMKF1srzRT2s0GGR34wu-TNHqgxTPZJf=UMjtc8tyBxkGTFWNA@mail.gmail.com>
+Date: Mon, 20 Aug 2018 10:22:00 -0700
+Message-ID: <CAMKF1sox+m+Mb-nYty1LhmZXHZ94kiHre=nMuQx-i2QjjeJOFQ@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/9] mesa: Enable gallium-llvm on x86 and x86_64
+Subject: Re: [PATCH 4/9] dos2unix.bbclass: Move to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,72 +60,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 17:14:35 -0000
+X-List-Received-Date: Mon, 20 Aug 2018 17:22:26 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 20, 2018 at 2:40 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+I updated this in pull branch to include recipe as well.
+On Mon, Aug 20, 2018 at 10:02 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> On Sun, 2018-08-19 at 10:23 -0700, Khem Raj wrote:
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-graphics/cairo/cairo.inc | 3 ++-
-> >  meta/recipes-graphics/mesa/mesa.inc   | 3 +++
-> >  2 files changed, 5 insertions(+), 1 deletion(-)
+> On Mon, Aug 20, 2018 at 2:43 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
 > >
-> > diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-
-> > graphics/cairo/cairo.inc
-> > index 20e0d2c92a..7347f223ff 100644
-> > --- a/meta/recipes-graphics/cairo/cairo.inc
-> > +++ b/meta/recipes-graphics/cairo/cairo.inc
-> > @@ -22,7 +22,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender
-> > libxext"
-> >  DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
+> > On Mon, 2018-08-20 at 11:23 +0200, Martin Hundeb=C3=B8ll wrote:
+> > > Hi Khem,
+> > >
+> > > On 19/08/2018 19.23, Khem Raj wrote:
+> > > > - Import from meta-oe layer
+> > > >
+> > > > - This is useful for many packages where CR-LF
+> > > >    needs to be adjusted, many recipes depend on it
+> > > >    e.g. meta-multimedia libebml and so on.
+> > > >
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > ---
+> > > >   meta/classes/dos2unix.bbclass | 14 ++++++++++++++
+> > > >   1 file changed, 14 insertions(+)
+> > > >   create mode 100644 meta/classes/dos2unix.bbclass
+> > > >
+> > > > diff --git a/meta/classes/dos2unix.bbclass
+> > > > b/meta/classes/dos2unix.bbclass
+> > > > new file mode 100644
+> > > > index 0000000000..3fc17e2196
+> > > > --- /dev/null
+> > > > +++ b/meta/classes/dos2unix.bbclass
+> > > > @@ -0,0 +1,14 @@
+> > > > +# Class for use to convert all CRLF line terminators to LF
+> > > > +# provided that some projects are being developed/maintained
+> > > > +# on Windows so they have different line terminators(CRLF) vs
+> > > > +# on Linux(LF), which can cause annoying patching errors during
+> > > > +# git push/checkout processes.
+> > > > +
+> > > > +do_convert_crlf_to_lf[depends] +=3D "dos2unix-
+> > > > native:do_populate_sysroot"
+> > >
+> > > Shouldn't the dos2unix recipe live in oe-core also, when a class
+> > > depends upon it?
 > >
-> >  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11',
-> > 'x11 xcb', '', d)} \
-> > -           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}"
-> > +           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
-> > +           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
-> > 'opengl', '', d)}"
+> > Not necessarily, we do have a number of core classes which aren't
+> > directly used in OE-Core but are needed by many layers and having a
+> > common copy makes sense.
 > >
-> >  PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --
-> > disable-xlib,${X11DEPENDS}"
-> >  PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
-> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-
-> > graphics/mesa/mesa.inc
-> > index 6aedeee9dc..2671d4de4d 100644
-> > --- a/meta/recipes-graphics/mesa/mesa.inc
-> > +++ b/meta/recipes-graphics/mesa/mesa.inc
-> > @@ -47,6 +47,9 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATU
-> > RES', 'wayland vulkan', d)} \
-> >                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11
-> > vulkan', 'dri3', '', d)} \
-> >                  "
+> > I'd agree it is good to try and have something which tests them though.
 > >
-> > +PACKAGECONFIG_append_x86 = " gallium-llvm gallium r600"
-> > +PACKAGECONFIG_append_x86-64 = " gallium-llvm gallium r600"
-> > +
-> >  # "gbm" requires "dri", "opengl"
-> >  PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
 >
-> Adding this patch causes:
+> in this case, I think it would make sense to bring in recipe as well, sin=
+ce the
+> motivation to bring this into core is to unlink dependency on meta-oe lay=
+er
 >
-> "oe-selftest -r sstatetests.SStateTests.test_sstate_32_64_same_hash"
->
-> to fail. I've not looked into it in more detail other than to narrow it
-> down to this patch.
->
-
- my hunch is that its due to new env variables
-probably we need to add them to exclude list...?
-see
-YOCTO_ALTERNATE_* vars
-
-http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=c5a27bd4d450911afa38846bc00ef762e4414eda
-
-> Cheers,
->
-> Richard
->
+> > Cheers,
+> >
+> > Richard
 
