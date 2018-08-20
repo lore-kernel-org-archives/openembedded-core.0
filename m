@@ -1,55 +1,50 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E30879023
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 48D0579096
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 17:09:33 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w7KH9YME008026
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 19:09:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1534784974;
-	bh=TkVQim/H1aSnQrkXK+RVgOgVsA4zw0eRwa/9mZ3ECZw=; l=2224;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To;
-	b=HbE8E+7+ygMGIYjwDh6XPJp5UMrJ33fq7UzeTuwSUg60IqzTRvumm4KO0VgbwkrC2
-	TaTTLEcFIuUCPIxK0qF+1iU9dn1OvNZiPxlW396E7Gm7S0Qf8oMKisAH60YV5SRCoT
-	1aDowkeK1no166//W1S26MqLwpylfVEGw+c+EXNw=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w7KH9QPh017547 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Mon, 20 Aug 2018 19:09:26 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 3C42602FFF3;
-	Mon, 20 Aug 2018 19:17:25 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w7KH9Oib017544
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NO); Mon, 20 Aug 2018 19:09:24 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.91) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1frngC-007T96-CK; Mon, 20 Aug 2018 19:09:24 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <lywoslrvbf.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CANNYZj9NvALbQks02PS_Q-9cc=ZACfxWX8O3FKDC1-aP1p964A@mail.gmail.com>
-	<lysh39rpwx.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CANNYZj9Ac=riDSLr1wANmKzNe-DoP5jd-YUVrM2-Us+1ci=zkA@mail.gmail.com>
-Date: Mon, 20 Aug 2018 19:09:24 +0200
-In-Reply-To: <CANNYZj9Ac=riDSLr1wANmKzNe-DoP5jd-YUVrM2-Us+1ci=zkA@mail.gmail.com>
-	(Alexander Kanavin's message of "Mon, 20 Aug 2018 18:19:06 +0200")
-Message-ID: <lyh8jprmm3.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	Mon, 20 Aug 2018 17:14:35 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id r21-v6so17032278qtm.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 10:14:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=yCmpeChyD6GU5rSRMng8IVeTO6CnB7SzloSho3tBKPo=;
+	b=TAyvz1aB1RWmR7THzuwy0uT+O/wAcsnU+DfnQa1jpncQlxn7g2kZuJI819Rm/Gqld6
+	gPM1Si1MdSoQAU2jlY0Hr3TKz8Lflkp2/YVEjJw2zXS9GLpTpsBNVUOTLkLTKLCWpkzJ
+	sWkMtxJWz0u9vqLPXMByzj5DL20aM9KqL+k3VyoMHzm3Z/NwstwCDkTW4UMNQ62+40lN
+	oJmuKVlJCAUTQYiuCzH3rP+ThkR9HdPuetWsIp0Dn3G3jPvplPxdXe5YtdSomw22+wPS
+	EJPOJyt5edB19WZ8n7YBvZ/KzDwxU8NT+LRax5KFKvpCrc7pmT/CbBv/2LOkKxgOX077
+	Xxpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=yCmpeChyD6GU5rSRMng8IVeTO6CnB7SzloSho3tBKPo=;
+	b=irzprDE4hPJ+FuPUgy973LODMObaNFFQP3lrLrEvZaGCX0xet42+6dvF/5961ML1C2
+	Hzquef/SYZyPEb1I5ZypBLyUDJBsLBw2FndVOYpnsRaZHAHuvI9Df44Zrs9w7FBEvb0+
+	QMir9xHrd08KZW9On6p1ydX7VswAhwsbihfzAduHwwkkVVBj9U6nG3k3CRKLFrvAHl7+
+	z9po9vd2Arz5kRkDpBgrJD8cCCuelY9pCi5Owq3dNcY/EA421oBUcfRrLjAavZ7t3E3W
+	pPgFhehNOf4NwrWqm6cOhR5lE70Ebo9nb4FO7diKDQxMb1ZiqA1oMRf1QHbx+FpXUZV2
+	ntwA==
+X-Gm-Message-State: AOUpUlHzfMztfSxa85Bb986tq6oWFDs+0groMW6bJar5Il7AX/DxdKit
+	KDenR+inYHSDMqtlaS1kGN+afTa9d9/HpWp68Fs=
+X-Google-Smtp-Source: AA+uWPzc/EbFu8rQ8CDj3ZntB3hV8QVthYp/nGAFPUW3NDTR4KtqDlu8MvcRwmt8pY6b0226Zvya6apFXxSM5zaSQKA=
+X-Received: by 2002:ac8:2ad8:: with SMTP id
+	c24-v6mr45553532qta.117.1534785276001; 
+	Mon, 20 Aug 2018 10:14:36 -0700 (PDT)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Submission of 'emit-buildvars' class?
+References: <cover.1534699224.git.raj.khem@gmail.com>
+	<0d484e3706a46b34f4edfc3fec906e576a29a9bd.1534699224.git.raj.khem@gmail.com>
+	<9b1b218cfaba5dbc2d582f1b570674a4577db7ba.camel@linuxfoundation.org>
+In-Reply-To: <9b1b218cfaba5dbc2d582f1b570674a4577db7ba.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 20 Aug 2018 10:14:09 -0700
+Message-ID: <CAMKF1srzRT2s0GGR34wu-TNHqgxTPZJf=UMjtc8tyBxkGTFWNA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/9] mesa: Enable gallium-llvm on x86 and x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,97 +57,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 17:09:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Aug 2018 17:14:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Alexander Kanavin <alex.kanavin@gmail.com> writes:
-
->> I do not know, how this can be done with plain OE.  As said, SDKs are too
->> heavy weighted, 'devshell' too slow and can not be scripted, 'externalsrc'
->> is broken, slow and can not be scripted.
+On Mon, Aug 20, 2018 at 2:40 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> For better or worse, Yocto Project has standardized on devtool (not
-> devshell!)
+> On Sun, 2018-08-19 at 10:23 -0700, Khem Raj wrote:
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-graphics/cairo/cairo.inc | 3 ++-
+> >  meta/recipes-graphics/mesa/mesa.inc   | 3 +++
+> >  2 files changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-
+> > graphics/cairo/cairo.inc
+> > index 20e0d2c92a..7347f223ff 100644
+> > --- a/meta/recipes-graphics/cairo/cairo.inc
+> > +++ b/meta/recipes-graphics/cairo/cairo.inc
+> > @@ -22,7 +22,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender
+> > libxext"
+> >  DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
+> >
+> >  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11',
+> > 'x11 xcb', '', d)} \
+> > -           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}"
+> > +           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+> > +           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
+> > 'opengl', '', d)}"
+> >
+> >  PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --
+> > disable-xlib,${X11DEPENDS}"
+> >  PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-
+> > graphics/mesa/mesa.inc
+> > index 6aedeee9dc..2671d4de4d 100644
+> > --- a/meta/recipes-graphics/mesa/mesa.inc
+> > +++ b/meta/recipes-graphics/mesa/mesa.inc
+> > @@ -47,6 +47,9 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATU
+> > RES', 'wayland vulkan', d)} \
+> >                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11
+> > vulkan', 'dri3', '', d)} \
+> >                  "
+> >
+> > +PACKAGECONFIG_append_x86 = " gallium-llvm gallium r600"
+> > +PACKAGECONFIG_append_x86-64 = " gallium-llvm gallium r600"
+> > +
+> >  # "gbm" requires "dri", "opengl"
+> >  PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
+>
+> Adding this patch causes:
+>
+> "oe-selftest -r sstatetests.SStateTests.test_sstate_32_64_same_hash"
+>
+> to fail. I've not looked into it in more detail other than to narrow it
+> down to this patch.
+>
 
-'devtool' is for writing recipes, not for writing software.
+ my hunch is that its due to new env variables
+probably we need to add them to exclude list...?
+see
+YOCTO_ALTERNATE_* vars
 
+http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=c5a27bd4d450911afa38846bc00ef762e4414eda
 
-> and externalsrc for these kind of local development workflows. You are
-> very welcome to improve and add to them, so they are not broken
-
-I tried 'externalsrc' after the per-package sysroot changes but just run
-into bugs (class tried to write into read-only mounted source dir, every
-2nd 'do_fetch' failed because sysroot was already populated).
-
-
-Doing a 'make -f ../Makefile.common install' which writes data directly
-into the NFS root is much faster than doing all the steps of the dev*
-tools.
-
-
-> or slow,
-
-They *are* slow.
-
-| $ cd workspace/kernel
-| 
-| $ git commit -m 'empty' --allow-empty
-| 
-| $ time bitbake linux-mainline
-| real    4m7.417s
-| user    0m0.763s
-| sys     0m0.110s
-
-vs.
-
-| time make -f ../Makefile.kernel  -j12
-| real    0m13.204s
-| user    0m54.888s
-| sys     0m17.970s
-
-
-
-Even a plain 'bitbake'  is takes 0.5 sec:
-
-| $ time bitbake
-| Nothing to do.  Use 'bitbake world' to build everything, or run 'bitbake --help' for usage information.
-| 
-| real    0m0.588s
-| user    0m0.255s
-| sys     0m0.023s
-
-vs.
-
-| $ time make
-| real    0m0.007s
-| user    0m0.002s
-| sys     0m0.005s
-
-
-
-And some things are impossible because they are not supported by the
-design.  E.g. how would would you implement the flymake 'check-syntax'
-target[1]
-
-| check-syntax:
-|         gcc -o /dev/null -S ${CHK_SOURCES} || true
-
-with devtool/devshell/externalsrc?
-
-
-Deciding which task to execute (compile, do_compile_kernelmodules) and
-installation into NFS root is not supported by dev* either.
-
-
-
-Enrico
-
-
-Footnotes: 
-[1]  https://www.gnu.org/software/emacs/manual/html_mono/flymake.html#Example_002d_002d_002dConfiguring-a-tool-called-via-make
-
--- 
-SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
-Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
-09128 Chemnitz
+> Cheers,
+>
+> Richard
+>
 
