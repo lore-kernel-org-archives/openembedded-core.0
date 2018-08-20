@@ -1,43 +1,53 @@
-Return-Path: <mcfrisk@kapsi.fi>
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id D12C47908E
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id CE4D874703
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 15:21:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Subject:Message-Id:Date:Cc:To:From:Sender:Reply-To:
-	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=+8RiFjp1iKOqx/YdrrPqc4pTR0OtVXoxgcicMur++Zw=;
-	b=llRJ7/CdFEOnm1Rp0BTFLINSU9
-	wafF9Vcija8A8oebRCW9IzRa667yd1nUebEx6dqLAshYtpDZ3ZeWpcAw0RVED2MnAyh486d6M5rjU
-	HrmMmiTqs8e7hc3P621PWK2Cw2qD8qIxyoylstnwFVvRytiJ79qAv5C6SEhsCj2cauAJizCSXNb5l
-	1hurwPy0dEYhiCExT0L4g7QDYaFguLYj9KfP93zyfwpLTp9tfOj50m6Bmp9QEkoAoIkNU8bf/DkAE
-	Fwi/J0lelK3DUlMS0zC7JrEW7WAubKqdjALl2a3nlNrB5BdXYbQMGL2uEAAi8KYo+//F9uTvdYOc6
-	D8TjqFEA==;
-Received: from [91.232.154.11] (helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1frm00-0006DK-Ob; Mon, 20 Aug 2018 18:21:45 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1frlzg-0005DS-LB; Mon, 20 Aug 2018 18:21:24 +0300
-From: Mikko Rapeli <mikko.rapeli@bmw.de>
+	Mon, 20 Aug 2018 15:55:01 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id v71-v6so19768itb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 08:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=nzm4PP8Rfr9dLQ6rQ78qn9qhBRnbD0EX9ZPUHX2FxNI=;
+	b=IDFF9mBhwP0JnDO5WZupVH6YkpfPmpmGNSmWfNiH+iJEYLaW/KZk3eXU59lmwBxU0s
+	1gekTX97qawea2NOXxs6KpCpUiJ98iE/jZqQysPhFyKMelQYccLWp80OxW4bJVxmCI3W
+	w1IYTAYHDBzATKon27SSmcNxwj5LxO8dLpkJjw25HjagA6wchc8vMCag6VosF/08rV8z
+	gh0OI12TAza/DVg/cAJaziTHVkp7HX+t1gjS3FpL98TFKcgZPozgWwtc8B/wmH9j4l2M
+	r+FjVcSlf1aKXDuftEZySsHoEkxwocrQI6qtrhu9abkh3GTENzkfErOEukURZTSp2xRj
+	Yo5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=nzm4PP8Rfr9dLQ6rQ78qn9qhBRnbD0EX9ZPUHX2FxNI=;
+	b=aCXGcysHMQIdRdGVP3X4W2bxc3n5d9B49DKjSduB4U+LPI1w45zRRem7dg3V9UPd2U
+	t4DT8FOqGTWHGXmyd6fonU9aCgxJp1TABefdbia1Koq5qZYDRIqKvKmlRkAa4jOZWNO3
+	2HsGBEzZAcN8kcyXucdvQWe+3qCJhy4XutFXDTL4JEuP2nqKH52sfG9r3Yjhgb7mzy7K
+	bZ3Mz1xTHAE5EKZFBS2Y+RGEI8ZfVxzOr4/gX9gFv9cmqb5TsnUGrf0H8Nkk7zutKnpa
+	GNW4awKfXKZzrDxlJRbkj8jcaHISdi6M3MrUVCv5i0rBSWrpEwPk86CFW4//eaOp7KNZ
+	CUmw==
+X-Gm-Message-State: AOUpUlEDF9tJJov62dVQuv0I+vqRNKsImhG4tNPE/vekG9X03n0ETmLb
+	X8YBXQ7TU1Zw7bkCFacMw+MCdVx2
+X-Google-Smtp-Source: AA+uWPy03yeh6yy61O5qWgawNlxu2q297U0GQ5dNwyEVS7CEPxES5U3GKCpcEDFJGQyRMQjr6J7hKA==
+X-Received: by 2002:a02:9936:: with SMTP id
+	r51-v6mr41183295jaj.46.1534780502716; 
+	Mon, 20 Aug 2018 08:55:02 -0700 (PDT)
+Received: from localhost.localdomain
+	([2605:a601:21d1:5200:620a:c230:ada8:3135])
+	by smtp.gmail.com with ESMTPSA id
+	x7-v6sm1319136ioh.3.2018.08.20.08.55.01
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 20 Aug 2018 08:55:02 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Aug 2018 18:21:19 +0300
-Message-Id: <1534778479-19256-1-git-send-email-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.1.4
-X-SA-Exim-Connect-IP: 91.232.154.11
-X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
-X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on mail
-X-Spam-Level: **
-X-Spam-Status: No, score=2.4 required=5.0 tests=BAYES_50,
-	HEADER_FROM_DIFFERENT_DOMAINS,RDNS_NONE,SPF_NEUTRAL autolearn=no
-	autolearn_force=no version=3.4.1
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
-Subject: [PATCH] autoconf: update runtime perl module dependencies
+Date: Mon, 20 Aug 2018 10:54:40 -0500
+Message-Id: <20180820155440.12626-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180820024342.15484-1-JPEWhacker@gmail.com>
+References: <20180820024342.15484-1-JPEWhacker@gmail.com>
+Subject: [PATCH v2] classes/package: Clean up getstatusoutput
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,86 +60,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 15:21:46 -0000
+X-List-Received-Date: Mon, 20 Aug 2018 15:55:02 -0000
 
-Test in SDK was failing to execute:
+Replaces usage of the deprecated oe.utils.getstatusoutput() with Python
+subprocess calls.
 
-$ autoreconf --install --force
-
-due to missing perl modules. Add the needed perl modules
-for target build:
-
-perl-module-bytes
-perl-module-thread-queue
-perl-module-threads
-
-Duplicate the perl module dependencies for SDK as well.
-
-Now autoreconf runs with a trivial example.
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-devtools/autoconf/autoconf.inc | 31 ++++++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
+ meta/classes/package.bbclass | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
-index df81bc6..b82af5a 100644
---- a/meta/recipes-devtools/autoconf/autoconf.inc
-+++ b/meta/recipes-devtools/autoconf/autoconf.inc
-@@ -10,24 +10,49 @@ DEPENDS_class-native = "m4-native gnu-config-native"
- DEPENDS_class-nativesdk = "nativesdk-m4 nativesdk-gnu-config"
- RDEPENDS_${PN} = "m4 gnu-config \
- 		  perl \
-+		  perl-module-bytes \
- 		  perl-module-carp \
- 		  perl-module-constant \
-+		  perl-module-data-dumper \
- 		  perl-module-errno \
- 		  perl-module-exporter \
- 		  perl-module-file-basename \
- 		  perl-module-file-compare \
- 		  perl-module-file-copy \
-+		  perl-module-file-find \
- 		  perl-module-file-glob \
- 		  perl-module-file-path \
- 		  perl-module-file-stat \
--		  perl-module-file-find \
- 		  perl-module-getopt-long \
- 		  perl-module-io-file \
- 		  perl-module-posix \
--		  perl-module-data-dumper \
-+		  perl-module-thread-queue \
-+		  perl-module-threads \
- 		 "
- RDEPENDS_${PN}_class-native = "m4-native gnu-config-native"
--RDEPENDS_${PN}_class-nativesdk = "nativesdk-m4 nativesdk-gnu-config"
-+RDEPENDS_${PN}_class-nativesdk = "\
-+		  nativesdk-gnu-config \
-+		  nativesdk-m4 \
-+		  nativesdk-perl \
-+		  nativesdk-perl-module-bytes \
-+		  nativesdk-perl-module-carp \
-+		  nativesdk-perl-module-constant \
-+		  nativesdk-perl-module-data-dumper \
-+		  nativesdk-perl-module-errno \
-+		  nativesdk-perl-module-exporter \
-+		  nativesdk-perl-module-file-basename \
-+		  nativesdk-perl-module-file-compare \
-+		  nativesdk-perl-module-file-copy \
-+		  nativesdk-perl-module-file-find \
-+		  nativesdk-perl-module-file-glob \
-+		  nativesdk-perl-module-file-path \
-+		  nativesdk-perl-module-file-stat \
-+		  nativesdk-perl-module-getopt-long \
-+		  nativesdk-perl-module-io-file \
-+		  nativesdk-perl-module-posix \
-+		  nativesdk-perl-module-thread-queue \
-+		  nativesdk-perl-module-threads \
-+                  "
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 4ce9de2f573..3976811d19f 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -380,6 +380,7 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
+     # sourcefile is also generated containing a list of debugsources
  
- SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.gz \
- 	   file://program_prefix.patch"
+     import stat
++    import subprocess
+ 
+     src = file[len(dvar):]
+     dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(src) + debugappend
+@@ -409,16 +410,10 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
+ 
+     bb.utils.mkdirhier(os.path.dirname(debugfile))
+ 
+-    cmd = "'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile)
+-    (retval, output) = oe.utils.getstatusoutput(cmd)
+-    if retval:
+-        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
++    subprocess.check_output([objcopy, '--only-keep-debug', file, debugfile])
+ 
+     # Set the debuglink to have the view of the file path on the target
+-    cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
+-    (retval, output) = oe.utils.getstatusoutput(cmd)
+-    if retval:
+-        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
++    subprocess.check_output([objcopy, '--add-gnu-debuglink', debugfile, file])
+ 
+     if newmode:
+         os.chmod(file, origmode)
 -- 
-1.9.1
+2.17.1
 
 
