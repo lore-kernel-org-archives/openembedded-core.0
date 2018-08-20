@@ -1,53 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AB277908E
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E6A6790E6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 17:22:26 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id d131-v6so1329578qke.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 10:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=tr7lUX2rDY10Mktwpl1hP5e1rUHt4lyYx5itIZNsNA8=;
-	b=qOXn5+aRmECQHY5buBomMHG2NlexH8ikJUz12w/V4gOn9zTkIGlJ2Tlu6RYo81OJh6
-	SbM/lL50xCWKlo2l97DVhpggFY89pmNHH1N/9e9GXa0mqWoE44p4IrZGSUtwPz6Uunm/
-	rBmCzYPCn3N4AIotSrm49F/FbF4bgVhj36qSNPMpu4t5Hbtu+o1zImepTuYGGm2VyaKn
-	+3lBpyR1RJ1Hpo1MQkkunXPV+0Ua6e5DpNPFZkPLVITwzvf6mvx8/FisPsSFWSvzPOv0
-	osMAU9aeUc87kAlMoOYmVfJ/4BfVG3C94CSUd74ZwpY7jYs53aswJDe42YBavK51NGkn
-	P+Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=tr7lUX2rDY10Mktwpl1hP5e1rUHt4lyYx5itIZNsNA8=;
-	b=c8xgJS5K7qC9fBJ10vrpM6op6thuGG9rkVKZL5XjBtM141AeUZNrleTvWd/6pGuOYf
-	nnTILOdSyet/tYA9AztrTeswe3WEdCBs+qc96n38lJ+VjgRuSyKS9akn6LmxSDVnMcBn
-	ku/LyxAxCrRr0fCuz9Tj+NXR/t14DDkyUk9V0k3K78YhMc6wT7PvL6i6UzJzAhquHEgN
-	YKxygV+U22p/OHkmvALtdwFx804PwN8ARWlZVUDI7TMCs99Fx2vlaPyNHN1H62ZNrQ3e
-	x9B8eLt1bN1E7t+4JAmVFJSCEJCfhe97EeFLX7FJ1cXRrZ2Vp8pjyegS6yxrD3ZG5vKa
-	xLWQ==
-X-Gm-Message-State: AOUpUlH/Ml/Nxx+2FH3TsU/N8o4+c5YeFFEFp9j6ByEDt98QEkDflai4
-	LiQpWNKUbR+ene/DXCFth+3tDhQ3X3ucSwQ+oMg=
-X-Google-Smtp-Source: AA+uWPwpqvB3MFWyIdbr9LtYirt/4PtJ2GA9AO0QesUECH1n4HR9dZ/kvpUPlBzvq1W+P+Errs8G8AclhSa9sjv3tiM=
-X-Received: by 2002:a37:a24f:: with SMTP id
-	l76-v6mr40420101qke.406.1534785747166; 
-	Mon, 20 Aug 2018 10:22:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1534699224.git.raj.khem@gmail.com>
-	<f1c6008db923f577cb03d5461c06ad97d55a57f6.1534699224.git.raj.khem@gmail.com>
-	<45c972cc-6abf-8df2-e4db-ee84abd49dc9@geanix.com>
-	<73a419cb40a67f5e2dfa71820c048645583a1d75.camel@linuxfoundation.org>
-	<CAMKF1sqgKJ8-inLr3XHzgCLp5+kAHvFam0da5h65OE71c4NCpA@mail.gmail.com>
-In-Reply-To: <CAMKF1sqgKJ8-inLr3XHzgCLp5+kAHvFam0da5h65OE71c4NCpA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 Aug 2018 10:22:00 -0700
-Message-ID: <CAMKF1sox+m+Mb-nYty1LhmZXHZ94kiHre=nMuQx-i2QjjeJOFQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+	Mon, 20 Aug 2018 17:42:17 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Aug 2018 10:42:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,266,1531810800"; d="scan'208,217";a="78485743"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2018 10:42:18 -0700
+Received: from fmsmsx125.amr.corp.intel.com (10.18.125.40) by
+	fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Mon, 20 Aug 2018 10:42:18 -0700
+Received: from fmsmsx112.amr.corp.intel.com ([169.254.5.84]) by
+	FMSMSX125.amr.corp.intel.com ([169.254.2.116]) with mapi id
+	14.03.0319.002; Mon, 20 Aug 2018 10:42:17 -0700
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/9] dos2unix.bbclass: Move to oe-core
+Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
+Thread-Index: AdQXlGn2RYGWCO8aQne3TGYivsbGuQ==
+Date: Mon, 20 Aug 2018 17:42:16 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECE4681DC@FMSMSX112.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.108]
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWM1NTVhNjktYmU4ZS00NzkzLTkyMDgtZGVlNGE1OTA2YTZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaUlWbjdERDJ5eExEVTQ0dWhmcVE5RVV6NVQrT1dlMmtFek5FSTNwUjZ2TE5cL05hT2ZBdXpzZk1EV2tlUzRkNGQifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+MIME-Version: 1.0
+Subject: Yocto Project Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,64 +50,215 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 17:22:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 20 Aug 2018 17:42:17 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECE4681DCFMSMSX112amrcor_"
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECE4681DCFMSMSX112amrcor_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-I updated this in pull branch to include recipe as well.
-On Mon, Aug 20, 2018 at 10:02 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Mon, Aug 20, 2018 at 2:43 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Mon, 2018-08-20 at 11:23 +0200, Martin Hundeb=C3=B8ll wrote:
-> > > Hi Khem,
-> > >
-> > > On 19/08/2018 19.23, Khem Raj wrote:
-> > > > - Import from meta-oe layer
-> > > >
-> > > > - This is useful for many packages where CR-LF
-> > > >    needs to be adjusted, many recipes depend on it
-> > > >    e.g. meta-multimedia libebml and so on.
-> > > >
-> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > ---
-> > > >   meta/classes/dos2unix.bbclass | 14 ++++++++++++++
-> > > >   1 file changed, 14 insertions(+)
-> > > >   create mode 100644 meta/classes/dos2unix.bbclass
-> > > >
-> > > > diff --git a/meta/classes/dos2unix.bbclass
-> > > > b/meta/classes/dos2unix.bbclass
-> > > > new file mode 100644
-> > > > index 0000000000..3fc17e2196
-> > > > --- /dev/null
-> > > > +++ b/meta/classes/dos2unix.bbclass
-> > > > @@ -0,0 +1,14 @@
-> > > > +# Class for use to convert all CRLF line terminators to LF
-> > > > +# provided that some projects are being developed/maintained
-> > > > +# on Windows so they have different line terminators(CRLF) vs
-> > > > +# on Linux(LF), which can cause annoying patching errors during
-> > > > +# git push/checkout processes.
-> > > > +
-> > > > +do_convert_crlf_to_lf[depends] +=3D "dos2unix-
-> > > > native:do_populate_sysroot"
-> > >
-> > > Shouldn't the dos2unix recipe live in oe-core also, when a class
-> > > depends upon it?
-> >
-> > Not necessarily, we do have a number of core classes which aren't
-> > directly used in OE-Core but are needed by many layers and having a
-> > common copy makes sense.
-> >
-> > I'd agree it is good to try and have something which tests them though.
-> >
->
-> in this case, I think it would make sense to bring in recipe as well, sin=
-ce the
-> motivation to bring this into core is to unlink dependency on meta-oe lay=
-er
->
-> > Cheers,
-> >
-> > Richard
+All,
 
+
+
+The triage team meets weekly and does its best to handle the bugs reported =
+into the bugzilla. The number of people attending that meeting has fallen, =
+as have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage team) a=
+re therefore going to start reporting out the currently 314 unassigned bugs=
+.
+
+
+
+We're hoping people may be able to spare some time now and again to help ou=
+t with these.
+
+
+
+Bugs are split into two types, "true bugs" where things don't work as they =
+should and "enhancements" which are features we'd want to add to the system=
+.
+
+
+
+There are also roughly three different "priority" classes right now, "2.6",=
+ "2.99" and "Future", the more pressing/urgent issues being in "2.6".
+
+
+
+Please review this link and if a bug is something you would be able to help=
+ with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
+com) an e-mail with the bug number you would like and I will assign it to y=
+ou (please make sure you have a bugzilla account).
+
+
+
+The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
+gs
+
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+*    Cell:                (208) 244-4460
+* Email:                             stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECE4681DCFMSMSX112amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:2 11 5 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoPlainText">All,<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
+ handle the bugs reported into the bugzilla. The number of people attending=
+ that meeting has fallen, as have the number of people available to help fi=
+x bugs. One of the things we hear
+ users report is they don't know how to help. We (the triage team) are ther=
+efore going to start reporting out the currently 314 unassigned bugs.<o:p><=
+/o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
+e now and again to help out with these.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
+ot; where things don't work as they should and &quot;enhancements&quot; whi=
+ch are features we'd want to add to the system.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">There are also roughly three different &quot;prio=
+rity&quot; classes right now, &quot;2.6&quot;, &quot;2.99&quot; and &quot;F=
+uture&quot;, the more pressing/urgent issues being in &quot;2.6&quot;.<o:p>=
+</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Please review this link and if a bug is something=
+ you would be able to help with either take ownership of the bug, or send m=
+e (Stephen.k.jolley@intel.com) an e-mail with the bug number you would like=
+ and I will assign it to you (please
+ make sure you have a bugzilla account).<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
+ect.org/wiki/Bug_Triage#Unassigned_Bugs">
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
+></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
+=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
+"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;,serif;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;,serif;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+,serif">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;,serif;color:teal">:</span><span =
+lang=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;,=
+serif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;
+<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
+span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
+ns-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECE4681DCFMSMSX112amrcor_--
