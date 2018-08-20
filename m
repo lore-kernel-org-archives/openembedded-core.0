@@ -1,49 +1,43 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
-	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BD8DF7908D
+Return-Path: <mcfrisk@kapsi.fi>
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id D12C47908E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 15:14:15 +0000 (UTC)
-Received: by mail-oi0-f47.google.com with SMTP id 13-v6so26415293ois.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 08:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xYQQJDE7T8OeGeyQf+PMtBIhmRZQ+SrsibWTU4evxis=;
-	b=E1bnypVgrtBkWYlkGdwKhzQiSkvG9ftecgTCNYg7m7wo6UaMuNPvsZzihw44I/M1kW
-	sWPdIsSqurHYmRHd8hzhxJwxMNj1Wv9uwXK7gOmGL5Mf5T5jiV2p0d4KK7Egtg8bGxTv
-	cMLf2QKoYB7zd308W8tdG7OFWDEy5O0kV5Dqj1RqNYmKDYxZKBMcgYl0FbqSM84imFdx
-	1fhw1jPIGVE9mEg1lkEbvzIkrCgfleWEcF3KrSAvrewtG/wKRO1IR/p5sgBaudhDKoDG
-	OP74bWsyG++Quot9AtMuiucrQS1d40NyE+aShaemDeiR2Q/OauI8xvMMSZEUt0vFZxMc
-	FGHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=xYQQJDE7T8OeGeyQf+PMtBIhmRZQ+SrsibWTU4evxis=;
-	b=TTcnctg8jqTClNbXRhFnnavwl9pvPnBp718g1bR8n5gmbh8qo9WPqXPBPCWFOuDc6c
-	JykUuBLcV6VQz8Swl5EzS9s936GVdefVPFt9EYHLttfc/YKjYiOMvAj9/bqwhkr2Z/iV
-	qZiPvzmwrfnwMecFHwtNcqu+FL5MPSkKeulYS9Vchp4f1yuCIhi+vkWsr3qHEXGwZb3t
-	HRrA+mY47M0kH/2lmNEcMyHYLRe8DMYHwOd0RCVr1F90x56D9q3TgAYVFM3bjFqWQzRY
-	8fRnywUGdbxOzUZDSqsNINzAPg87YLHD1H1asSKmGk6Kf6PD21A+HlHAMaDWSt8dM8ul
-	BN9Q==
-X-Gm-Message-State: AOUpUlHN2TazFBe+jdy7kq0Wbrwvv2W8/f7lBMYi70imgN5XxcnF/aS9
-	LZgE19FXZYsJc6EMI9ycfORvKYdcitaKrxnc8gWzDdH4
-X-Google-Smtp-Source: AA+uWPxGpX/XmtpteNCApjBzGlJuQomy/ZUdrpS0btZvDCNDJDZhGvrVXTJAao4gMwOD1kICbg03ZdD45MWOGGg1FR8=
-X-Received: by 2002:aca:edc1:: with SMTP id
-	l184-v6mr14442024oih.65.1534778056649; 
-	Mon, 20 Aug 2018 08:14:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90ed:0:0:0:0:0 with HTTP; Mon, 20 Aug 2018 08:14:16
-	-0700 (PDT)
-In-Reply-To: <lywoslrvbf.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <lywoslrvbf.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 20 Aug 2018 17:14:16 +0200
-Message-ID: <CANNYZj9NvALbQks02PS_Q-9cc=ZACfxWX8O3FKDC1-aP1p964A@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Submission of 'emit-buildvars' class?
+	Mon, 20 Aug 2018 15:21:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Subject:Message-Id:Date:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=+8RiFjp1iKOqx/YdrrPqc4pTR0OtVXoxgcicMur++Zw=;
+	b=llRJ7/CdFEOnm1Rp0BTFLINSU9
+	wafF9Vcija8A8oebRCW9IzRa667yd1nUebEx6dqLAshYtpDZ3ZeWpcAw0RVED2MnAyh486d6M5rjU
+	HrmMmiTqs8e7hc3P621PWK2Cw2qD8qIxyoylstnwFVvRytiJ79qAv5C6SEhsCj2cauAJizCSXNb5l
+	1hurwPy0dEYhiCExT0L4g7QDYaFguLYj9KfP93zyfwpLTp9tfOj50m6Bmp9QEkoAoIkNU8bf/DkAE
+	Fwi/J0lelK3DUlMS0zC7JrEW7WAubKqdjALl2a3nlNrB5BdXYbQMGL2uEAAi8KYo+//F9uTvdYOc6
+	D8TjqFEA==;
+Received: from [91.232.154.11] (helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1frm00-0006DK-Ob; Mon, 20 Aug 2018 18:21:45 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1frlzg-0005DS-LB; Mon, 20 Aug 2018 18:21:24 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Aug 2018 18:21:19 +0300
+Message-Id: <1534778479-19256-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-SA-Exim-Connect-IP: 91.232.154.11
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on mail
+X-Spam-Level: **
+X-Spam-Status: No, score=2.4 required=5.0 tests=BAYES_50,
+	HEADER_FROM_DIFFERENT_DOMAINS,RDNS_NONE,SPF_NEUTRAL autolearn=no
+	autolearn_force=no version=3.4.1
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
+Subject: [PATCH] autoconf: update runtime perl module dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,18 +50,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 15:14:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 20 Aug 2018 15:21:46 -0000
 
-2018-08-20 16:01 GMT+02:00 Enrico Scholz via Openembedded-core
-<openembedded-core@lists.openembedded.org>:
-> we are using for some time an 'emit-buildvars' class which exports
-> bitbake variables into makefile fragments.  This class is used for for
-> developing of kernel, u-boot and other low level software and for
-> generic packaging.
+Test in SDK was failing to execute:
 
-I don't quite understand how this is useful? Can you provide specific
-usage scenarios please?
+$ autoreconf --install --force
 
-Alex
+due to missing perl modules. Add the needed perl modules
+for target build:
+
+perl-module-bytes
+perl-module-thread-queue
+perl-module-threads
+
+Duplicate the perl module dependencies for SDK as well.
+
+Now autoreconf runs with a trivial example.
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+---
+ meta/recipes-devtools/autoconf/autoconf.inc | 31 ++++++++++++++++++++++++++---
+ 1 file changed, 28 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
+index df81bc6..b82af5a 100644
+--- a/meta/recipes-devtools/autoconf/autoconf.inc
++++ b/meta/recipes-devtools/autoconf/autoconf.inc
+@@ -10,24 +10,49 @@ DEPENDS_class-native = "m4-native gnu-config-native"
+ DEPENDS_class-nativesdk = "nativesdk-m4 nativesdk-gnu-config"
+ RDEPENDS_${PN} = "m4 gnu-config \
+ 		  perl \
++		  perl-module-bytes \
+ 		  perl-module-carp \
+ 		  perl-module-constant \
++		  perl-module-data-dumper \
+ 		  perl-module-errno \
+ 		  perl-module-exporter \
+ 		  perl-module-file-basename \
+ 		  perl-module-file-compare \
+ 		  perl-module-file-copy \
++		  perl-module-file-find \
+ 		  perl-module-file-glob \
+ 		  perl-module-file-path \
+ 		  perl-module-file-stat \
+-		  perl-module-file-find \
+ 		  perl-module-getopt-long \
+ 		  perl-module-io-file \
+ 		  perl-module-posix \
+-		  perl-module-data-dumper \
++		  perl-module-thread-queue \
++		  perl-module-threads \
+ 		 "
+ RDEPENDS_${PN}_class-native = "m4-native gnu-config-native"
+-RDEPENDS_${PN}_class-nativesdk = "nativesdk-m4 nativesdk-gnu-config"
++RDEPENDS_${PN}_class-nativesdk = "\
++		  nativesdk-gnu-config \
++		  nativesdk-m4 \
++		  nativesdk-perl \
++		  nativesdk-perl-module-bytes \
++		  nativesdk-perl-module-carp \
++		  nativesdk-perl-module-constant \
++		  nativesdk-perl-module-data-dumper \
++		  nativesdk-perl-module-errno \
++		  nativesdk-perl-module-exporter \
++		  nativesdk-perl-module-file-basename \
++		  nativesdk-perl-module-file-compare \
++		  nativesdk-perl-module-file-copy \
++		  nativesdk-perl-module-file-find \
++		  nativesdk-perl-module-file-glob \
++		  nativesdk-perl-module-file-path \
++		  nativesdk-perl-module-file-stat \
++		  nativesdk-perl-module-getopt-long \
++		  nativesdk-perl-module-io-file \
++		  nativesdk-perl-module-posix \
++		  nativesdk-perl-module-thread-queue \
++		  nativesdk-perl-module-threads \
++                  "
+ 
+ SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.gz \
+ 	   file://program_prefix.patch"
+-- 
+1.9.1
+
 
