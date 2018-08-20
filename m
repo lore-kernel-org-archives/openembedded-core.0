@@ -1,44 +1,24 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
-	[209.85.167.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 38C947918A
+Return-Path: <Kexin.Hao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C62B279157
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 10:06:16 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id v22-v6so10461517lfe.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 03:06:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=KdnvKlAdt9jBUnhQ3OY+KijSXCnOUs8goW7ZFvI127c=;
-	b=T0mn9P2tjBX0G5P7pjwEN5wuqr6CnOB67Z7TQFHshI91fMjAxE0+IDYZThp/jL0gvo
-	79agky24FvkQYxWYv5cRDTC6JVuBU5lx3K5KN1lI7Zd2Z+2jXBssvTfuOVP/jjWD0BjF
-	rG+dbjFJgPRr83Ta14xjR9L7CtLtZTHAhZQzoaxINUX2lGDEeKrusOQWcgl1bm72/AzX
-	b6oPoSLDqkgeLqS4mJDs0fAopeFJOuLXDq15ixz++oKY5Vqbi38EZsV8ZuVOVrDHPrHD
-	Urbcw8UIDJ3tpMeEFRm5OFPgsLIf13bITl56XObGkwNfFuWrPanpn/TFbnmdw1adq08h
-	oeeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=KdnvKlAdt9jBUnhQ3OY+KijSXCnOUs8goW7ZFvI127c=;
-	b=AoXg14xMiBo6gz286P09Fa6+JqBbfn9bVtwOyS14uNNLJMonQYnxplYnAumcpFg9ti
-	JSmnDmFDkWoLC+B/ArKMKf4A5CCPDQaJvM0DzTiJx/mvb9w/QFVjGD7pTHr3Dky+INbt
-	qIeB5AIVMZOEcDoATUXbZew801EFfbgF5wn01KOv+WRxRbBfQW1UirNuSztJUof6fAXo
-	eDZ4dPy7ZIqcezzCB8XOzp+aBzEdSEn5UsOHraSe1YMw7eBnFhnn2rHu3/S8aLEVwMaB
-	t5oeTQ2FQxOhXbzYd4QISYCSvt1tjyNf3JOPmj/mQsmmbKZ3i0m2BRuKgaIRcftSG9Li
-	gSsw==
-X-Gm-Message-State: AOUpUlHi2Kj9tw2DV6AxvozdM+Xuf/cOY+SMyNOIeNLRW2WsgK1AzoDt
-	8JZnh4giVcTPp78ELBDhiyv361ebjCDtf1ji5tyN70Be
-X-Google-Smtp-Source: AA+uWPz505oEyY9+rx6nRnfUkp6sLv1n4YPIIpN23ya7mUtV+4aca2HNmVbDW/1rWphuLVF01DfsiDSqIu3jzTCPN1o=
-X-Received: by 2002:a19:5788:: with SMTP id
-	l130-v6mr29957017lfb.93.1534759577291; 
-	Mon, 20 Aug 2018 03:06:17 -0700 (PDT)
+	Mon, 20 Aug 2018 10:47:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7KAlwcu009582
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Aug 2018 03:47:58 -0700
+Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Mon, 20 Aug 2018 03:47:57 -0700
+From: Kevin Hao <kexin.hao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Aug 2018 18:42:24 +0800
+Message-ID: <20180820104225.90976-1-kexin.hao@windriver.com>
+X-Mailer: git-send-email 2.14.4
 MIME-Version: 1.0
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Mon, 20 Aug 2018 12:06:00 +0200
-Message-ID: <CAPybu_0OGj5z+qHP0f=s30cEOAo6nryJm2x=+S2JLAV_4HWtjw@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: x86_64: ldd does not work (not a dynamic executable)
+Cc: Tom Rini <trini@konsulko.com>
+Subject: [PATCH 1/2] wic: bootimg-partition: Add support to specify a custom extlinux.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,53 +31,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 10:06:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 20 Aug 2018 10:47:59 -0000
+Content-Type: text/plain
 
-Hi
+Add support to specify a custom extlinux.conf via something like:
+    bootloader --configfile="extlinux.conf"
 
-I think that I found a bug with ldd on sumo. Whenever I try to use it
-on the target with an dynamic binary, it returns:
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+---
+ .../lib/wic/plugins/source/bootimg-partition.py    | 79 +++++++++++++---------
+ 1 file changed, 47 insertions(+), 32 deletions(-)
 
-root@qt5122:~# ldd ./qtec_webcam
-not a dynamic executable
-
-
-The reason seems to be that it cannot find the dynamic linker:
-
-It is searching for:
-RTLDLIST="/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2
-/libx32/ld-linux-x32.so.2"
-
-whith ldd being at:
-/lib/ld-linux-x86-64.so.2
-
-This can be patched on glibc with:
-
-git diff ./sysdeps/unix/sysv/linux/x86_64/ldd-rewrite.sed
-diff --git a/sysdeps/unix/sysv/linux/x86_64/ldd-rewrite.sed
-b/sysdeps/unix/sysv/linux/x86_64/ldd-rewrite.sed
-index 44d76e8aa1..611efd56b0 100644
---- a/sysdeps/unix/sysv/linux/x86_64/ldd-rewrite.sed
-+++ b/sysdeps/unix/sysv/linux/x86_64/ldd-rewrite.sed
-@@ -1,3 +1,3 @@
- /LD_TRACE_LOADED_OBJECTS=1/a\
- add_env="$add_env LD_LIBRARY_VERSION=\\$verify_out"
--s_^\(RTLDLIST=\)\(.*lib\)\(\|64\|x32\)\(/[^/]*\)\(-x86-64\|-x32\)\(\.so\.[0-9.]*\)[
-   ]*$_\1"\2\4\6 \264\4-x86-64\6 \2x32\4-x32\6"_
-+s_^\(RTLDLIST=\)\(.*lib\)\(\|64\|x32\)\(/[^/]*\)\(-x86-64\|-x32\)\(\.so\.[0-9.]*\)[
-   ]*$_\1"\2\4\6 \264\4-x86-64\6 \2x32\4-x32\6 \2\3\4\5\6"_
-
-I can very easily make a patch for this and send it, but  it is too
-strange, that I have been the first person to stumble with this thing
-:), and I do not know if this is a bug OE-specific or shall I also
-ping upstream.
-
-Any ideas?
-
-Thanks!
-
-
+diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
+index 7d61595d0414..2e9b9f5ed657 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-partition.py
++++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
+@@ -30,6 +30,7 @@ import re
+ from glob import glob
+ 
+ from wic import WicError
++from wic.engine import get_custom_config
+ from wic.pluginbase import SourcePlugin
+ from wic.misc import exec_cmd, get_bitbake_var
+ 
+@@ -114,38 +115,52 @@ class BootimgPartitionPlugin(SourcePlugin):
+         if source_params.get('loader') != "u-boot":
+             return
+ 
+-        # The kernel types supported by the sysboot of u-boot
+-        kernel_types = ["uImage", "zImage", "Image", "vmlinux", "fitImage"]
+-        has_dtb = False
+-        fdt_dir = '/'
+-        kernel_name = None
+-        for task in cls.install_task:
+-            src, dst = task
+-            # Find the kernel image name
+-            for image in kernel_types:
+-                if re.match(image, src):
+-                    if not kernel_name:
+-                        kernel_name = os.path.join('/', dst)
+-                    else:
+-                        raise WicError('Multi kernel file founded')
+-
+-            # We suppose that all the dtb are in the same directory
+-            if re.search(r'\.dtb', src) and fdt_dir == '/':
+-                has_dtb = True
+-                fdt_dir = os.path.join(fdt_dir, os.path.dirname(dst))
+-
+-        if not kernel_name:
+-            raise WicError('No kernel file founded')
+-
+-        # Compose the extlinux.conf
+-        extlinux_conf = "default Yocto\n"
+-        extlinux_conf += "label Yocto\n"
+-        extlinux_conf += "   kernel %s\n" % kernel_name
+-        if has_dtb:
+-            extlinux_conf += "   fdtdir %s\n" % fdt_dir
+-        bootloader = cr.ks.bootloader
+-        extlinux_conf += "append root=%s rootwait %s\n" \
+-                         % (cr.rootdev, bootloader.append if bootloader.append else '')
++        configfile = cr.ks.bootloader.configfile
++        custom_cfg = None
++        if configfile:
++            custom_cfg = get_custom_config(configfile)
++            if custom_cfg:
++                # Use a custom configuration for extlinux.conf
++                extlinux_conf = custom_cfg
++                logger.debug("Using custom configuration file "
++                             "%s for extlinux.cfg", configfile)
++            else:
++                raise WicError("configfile is specified but failed to "
++                               "get it from %s." % configfile)
++
++        if not custom_cfg:
++            # The kernel types supported by the sysboot of u-boot
++            kernel_types = ["uImage", "zImage", "Image", "vmlinux", "fitImage"]
++            has_dtb = False
++            fdt_dir = '/'
++            kernel_name = None
++            for task in cls.install_task:
++                src, dst = task
++                # Find the kernel image name
++                for image in kernel_types:
++                    if re.match(image, src):
++                        if not kernel_name:
++                            kernel_name = os.path.join('/', dst)
++                        else:
++                            raise WicError('Multi kernel file founded')
++
++                # We suppose that all the dtb are in the same directory
++                if re.search(r'\.dtb', src) and fdt_dir == '/':
++                    has_dtb = True
++                    fdt_dir = os.path.join(fdt_dir, os.path.dirname(dst))
++
++            if not kernel_name:
++                raise WicError('No kernel file founded')
++
++            # Compose the extlinux.conf
++            extlinux_conf = "default Yocto\n"
++            extlinux_conf += "label Yocto\n"
++            extlinux_conf += "   kernel %s\n" % kernel_name
++            if has_dtb:
++                extlinux_conf += "   fdtdir %s\n" % fdt_dir
++            bootloader = cr.ks.bootloader
++            extlinux_conf += "append root=%s rootwait %s\n" \
++                             % (cr.rootdev, bootloader.append if bootloader.append else '')
+ 
+         install_cmd = "install -d %s/extlinux/" % hdddir
+         exec_cmd(install_cmd)
 -- 
-Ricardo Ribalda
+2.14.4
+
 
