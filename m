@@ -1,52 +1,27 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 0009574561
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 37A79790E6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 12:02:20 +0000 (UTC)
-Received: by mail-qt0-f174.google.com with SMTP id r37-v6so8592099qtc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 05:02:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=LmX4XuMeGzXYnzp2N5gY5DJdFKNawE3/lG4aSwHMl/k=;
-	b=KwfN4qaeA3Mn9WUsxjcNd0rsSERyZRjZvrTYMDc2ghB2P+mqA3JLpdpZQ6anp1zMTu
-	Dujt9I5VYYSGVwpijF3wdiEF7aP3r8eKONmO0muSOAyKsgWWTj4UhQSXLzc7IH+ICsnX
-	SUVgibo46qkQSe3VMmzWGqSfLYXmAsYATybOs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=LmX4XuMeGzXYnzp2N5gY5DJdFKNawE3/lG4aSwHMl/k=;
-	b=EjsyU0CbcndO3W9mUbi5zvZYjQKAHqFA6Kg0MJ4Re0fsgeqqIPgC+wNqFEGlWhlUMB
-	GRnLvoj1ZqFCsSVJyqqMMkE1pZBUkLYMr+7ghR2fAiqalmEg9C2Ajd8FcCOoMumDqHBy
-	Xuqp9V6h/M60Bn2qSwiwgtqik4vLwlId3uRuppNvbjLYPmUZ/TZT4EHIu9LCrsO/+UJW
-	l6FUqU4TW2tVFy7x0ggdakRhmodrtuVXFgtVa7KDtDd7JH0BHxByKCx2OG2ZqpHQpXRF
-	tKPDcuv0D06T97g9XwCF6khyyLFzREbwAnGpllLgqkBQWkpAd5CXuV/lKdWyr+5EjcGh
-	xS7w==
-X-Gm-Message-State: AOUpUlHMQNSz4kjdqOuhUj2qoCIsseXROLjvQx8OSfjPE9hXbRCoRG4y
-	bgETXNCKVTRQzfimLeEf9mj1Rg==
-X-Google-Smtp-Source: AA+uWPwgmtpc8MBvD9015PtqB8cYpINyQGG0uwIboMlMe6O/Pz4yLggPy3BL69PWFA4fuTfEh/Yong==
-X-Received: by 2002:a0c:8a6f:: with SMTP id
-	44-v6mr40151519qvu.120.1534766541777; 
-	Mon, 20 Aug 2018 05:02:21 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
-	by smtp.gmail.com with ESMTPSA id
-	c184-v6sm5008109qkd.43.2018.08.20.05.02.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Aug 2018 05:02:20 -0700 (PDT)
-Date: Mon, 20 Aug 2018 08:02:18 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Kevin Hao <kexin.hao@windriver.com>
-Message-ID: <20180820120218.GN11769@bill-the-cat>
-References: <20180820104225.90976-1-kexin.hao@windriver.com>
-	<20180820104225.90976-2-kexin.hao@windriver.com>
+	Mon, 20 Aug 2018 13:42:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7KDgfLh017725
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Aug 2018 06:42:41 -0700 (PDT)
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Mon, 20 Aug 2018 06:42:40 -0700
+To: <richard.purdie@linuxfoundation.org>
+References: <1534647044-14420-1-git-send-email-bruce.ashfield@windriver.com>
+	<411c449a525d073ac6165ed59532e314d08388dd.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <5d8c5237-ec3c-04d8-9716-2a46baca8db2@windriver.com>
+Date: Mon, 20 Aug 2018 09:42:40 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180820104225.90976-2-kexin.hao@windriver.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <411c449a525d073ac6165ed59532e314d08388dd.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] wic: bootimg-partition: Select a preferred type if multi kernel images are installed
+Subject: Re: [PATCH v5] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,48 +34,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 12:02:21 -0000
-X-Groupsio-MsgNum: 114965
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="JLiXfqD9/Kt1b+Pq"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 20 Aug 2018 13:42:41 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---JLiXfqD9/Kt1b+Pq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 08/19/2018 11:36 AM, richard.purdie@linuxfoundation.org wrote:
+> On Sat, 2018-08-18 at 22:50 -0400, Bruce Ashfield wrote:
+>> [...]
+>>
+>> v5:
+>>    - added failure catch for x86 purgatory files which changed in 4.18
+>>      and hence are not universal across versions
+>>    - added explicity bison and flex rdepends for mips64 prepare phase
+>>    - added mips64 files required for scripts/prepare phase
+>>    - added files required for missing syscall support
+> 
+> Tests passed so I've merged it, thanks for persevering, we finally got
+> there! :)
 
-On Mon, Aug 20, 2018 at 06:42:25PM +0800, Kevin Hao wrote:
+Excellent! I was hoping v6 wasn't going to be required :D
 
-> Automatically select one kernel type image based on a predefined
-> precedence list if there are multi kernel images installed.
->=20
-> Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+I'm sure that more corner cases will start popping up as it
+gets exercised in the tree.
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+When they do pop up, I can handle them (via bugs, or whatever),
+since I'm pretty familiar with this right now.
 
---=20
-Tom
+Onto 4.18, which I expect to have to you by mid-week.
 
---JLiXfqD9/Kt1b+Pq
-Content-Type: application/pgp-signature; name="signature.asc"
+Cheers,
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+Bruce
 
-iQIcBAEBAgAGBQJbeq3KAAoJEIf59jXTHXZSCikP/3MBZPTYL+vJ91mS5GM++7W7
-LxjYnY914/8dAIqQDBMR1fhA/8/MOGv8doOAQx5s/ldxYOcI92qt50GGvi7DBGo5
-TzFWEeAldGC9CwdDAJYRloNOvKNln1YnldE107go4CVtU7SMYsOscyiOjlkQFGv8
-mefqn7JZwaN0iAMW7kZ/Kym/RDGrQFGDc70uyCx7VPKRzOcJKNWKuJUir7Pe6KSk
-J0Dfjgya/ufJRFmUBo6oOHoUbn3L5PsvnQwf+wK42fTlIDNgGzoL+HwbGwhBEqKe
-1/4OsOEk6QybyklNyOFTGe0z50m1HQVvMsKN2ORAefWqfrwXU/K7rxV4VACesmvX
-mgIUdhf7bkYF66g2G09lDVvxWbLFIAhbNXJDerBte8iMHCd/IW36ItWkDYt3jP40
-hJZLY+zMJoGtoXPdoYmTtR0b2mwDA4J3zhxg43pk1zmcpzUPIQPQkgDCZoJlhdA9
-9EPFA8PWbChAsc3WWTXI8zVloGnV6OpcEK22WPQ6BFAtJH6qeh5T+mH4EjXQuX/o
-7Pt3VfBF+0l0fL9ihKCzW1D0Dz1JVPwqBQ2yc3uLyWbcLv64YRIF6jzKQzDXSmlV
-TsEl2yZiavQ7JIiSAcHHytJNhfWGZsBTS6ZnkBGiNw9wSKf9d8wDd4YoDPNVUOal
-U2izU04OchxJ0DBDqL6Y
-=RV+Z
------END PGP SIGNATURE-----
+> 
+> Cheers,
+> 
+> Richard
+> 
 
---JLiXfqD9/Kt1b+Pq--
+
