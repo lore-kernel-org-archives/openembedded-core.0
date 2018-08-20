@@ -1,53 +1,27 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 60970790FA
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D1A479192
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 02:46:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id D9BEB18585
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id gqwGo4DrZl1X
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 4705D18560
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3209D1E057
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 260391E054
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 1900A16F2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w7K2kI18012563
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 04:46:18 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w7K2kIfC012560
-	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2018 04:46:18 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Aug 2018 04:46:16 +0200
-Message-Id: <20180820024616.12501-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] busybox: Add a dependency on virtual/crypt
+	Mon, 20 Aug 2018 03:28:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7K3S6lQ007894
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 19 Aug 2018 20:28:06 -0700 (PDT)
+Received: from [128.224.162.207] (128.224.162.207) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Sun, 19 Aug 2018 20:28:05 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <20180817085427.8557-1-zhixiong.chi@windriver.com>
+	<3baf10fc85c46ee6ada3f4a93b004195a0f4fd10.camel@linuxfoundation.org>
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+Message-ID: <f3ad4cbe-7eeb-4d1c-ae05-6c5ab3bfecd5@windriver.com>
+Date: Mon, 20 Aug 2018 11:28:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <3baf10fc85c46ee6ada3f4a93b004195a0f4fd10.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] populate_sdk_base: only depend on nativesdk-glibc-locale when SDK_OS is not mingw32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,30 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 02:46:33 -0000
+X-List-Received-Date: Mon, 20 Aug 2018 03:28:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-busybox needs crypt() if CONFIG_USE_BB_CRYPT is not defined.
+Hi,
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-core/busybox/busybox.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I have seen the two commits from meta-mingw layer upstream:
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 8c6dbbaf9b..a8ba10d21c 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -3,7 +3,8 @@ DESCRIPTION = "BusyBox combines tiny versions of many common UNIX utilities into
- HOMEPAGE = "http://www.busybox.net"
- BUGTRACKER = "https://bugs.busybox.net/"
- 
--DEPENDS += "kern-tools-native"
-+# Depend on virtual/crypt in case CONFIG_USE_BB_CRYPT is not defined
-+DEPENDS += "kern-tools-native virtual/crypt"
- 
- # bzip2 applet in busybox is based on lightly-modified bzip2 source
- # the GPL is version 2 only
+f49ac31f64a1adffaeb9706eb552dab66b4baff2
+a07fe304228b7f41b5558de7d8f39fd5e8a430d2
+
+, and I haven't updated the git repo for this layer in my local machine.
+These two patches fixed the issue, so the patches from me are not needed 
+any more.
+
+Thanks.
+
+On 2018年08月18日 05:30, Richard Purdie wrote:
+> On Fri, 2018-08-17 at 01:54 -0700, Zhixiong Chi wrote:
+>> When we add the nativesdk-glibc-locale dependence for libc-glibc, if
+>> the SDK_OS
+>> is mingw32, it will broken the building with the following error:
+>>> NOTE: Resolving any missing task queue dependencies
+>>> ERROR: Nothing RPROVIDES 'nativesdk-glibc' (but
+>>> virtual:nativesdk:layers/oe-core/meta/recipes-core/glibc/glibc-
+>>> locale_2.24.bb
+>>> RDEPENDS on or otherwise requires it)
+>>> ERROR: nativesdk-glibc was skipped:
+>>> PREFERRED_PROVIDER_virtual/nativesdk-libc set to nativesdk-mingw-
+>>> w64-runtime, not nativesdk-glibc
+>>> NOTE: Runtime target 'nativesdk-glibc' is unbuildable, removing...
+>>> Missing or unbuildable dependency chain was: ['nativesdk-glibc']
+>>> ERROR: Required build target 'meta-toolchain' has no buildable
+>>> providers.
+>>> Missing or unbuildable dependency chain was: ['meta-toolchain',
+>>> 'nativesdk-glibc-locale', 'nativesdk-glibc']
+>> mingw32 SDK_OS doesn't need to depend on nativesdk-glibc-locale.
+>>
+>> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+>> ---
+>>   meta/classes/populate_sdk_base.bbclass | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+>> index c456c52866..65c27b0077 100644
+>> --- a/meta/classes/populate_sdk_base.bbclass
+>> +++ b/meta/classes/populate_sdk_base.bbclass
+>> @@ -48,7 +48,7 @@ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+>>   SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+>>   SDK_DEPENDS = "virtual/fakeroot-native xz-native cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
+>>   PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
+>> -SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
+>> +SDK_DEPENDS_append_libc-glibc = " ${@bb.utils.contains('SDK_OS', 'mingw32', '', 'nativesdk-glibc-locale', d)}"
+>>   
+>>   # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
+>>   # could be set to the MACHINE_ARCH
+> I appreciate this fixes a specific problem but this code is wrong
+> anyway, libc-glibc is a target override and we're talking about the sdk
+>   here. To illustrate, if a target image was musl based but the sdk
+> glibc based, this code wouldn't work.
+>
+> Could we therefore correct this to correctly determine which libc is
+> being used in the SDK? If we're going to fix it, lets fix it
+> properly...
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+
 -- 
-2.12.0
+---------------------
+Thanks,
+Zhixiong Chi
+Tel: +86-10-8477-7036
 
 
