@@ -1,44 +1,51 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yw1-f50.google.com (mail-yw1-f50.google.com
-	[209.85.161.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B6AFD79017
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C586278D39
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 08:15:11 +0000 (UTC)
-Received: by mail-yw1-f50.google.com with SMTP id r3-v6so6535812ywc.5
+	Mon, 20 Aug 2018 08:19:15 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id 20-v6so6233161wrb.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 01:15:13 -0700 (PDT)
+	Mon, 20 Aug 2018 01:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=akY3tnwtkrtnO3W/iq/0H91XQCiM7UJUVvlCzCUqaPQ=;
+	b=Fsz5gLfYBr6wSjiRNEd4ZD9T7xSdtN5tBStnPY/E0MXgW5mGItb54taATOyfWjgD9i
+	BjEkWaFo0wF0/2QyOaNCM6tSICu5BTeWI3aeIf3WRBk/SQMUkZtYCf+R/8dSZoJM+GBA
+	EqFiFnRFKTleinuX4jBdW//NorkWUDSALaeg8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=LppR8pINdBsKdWfat3pvKk4nxLhHUMj96p98ArEI4/E=;
-	b=V/TB+PR192xKs5w1K1FyIL0qJe8ekn79DiHK3zrAJHhSVib2znfzeMNttkp9Jm/SVK
-	LB9JLbem+0y2LR6yjUmRTh31GVMpt3JG7P3cwo2LoCTACjwHnk3E93anZ6TowM1B6anh
-	pozALnqoNhl6qQ4OD2h7VSmFdDPXi/0Nn41tFMu4uH47/1FvF5gZ3r9wbI9NnO7Eslpz
-	xTrZQ37qI9nc9GSpOtNwE6RN+B4xpzAiz7Pzp9Eyr1Eq8RYxYF7ZRXy7kw1G7+4tos93
-	XkLzTgeI3i1EMh/r+S+SfY6v7TMDxzcuQUt+G4JXv524zmZJUvMUZAf7M8ecyucUKby7
-	Hn2A==
-X-Gm-Message-State: APzg51AB7KAcy/qX5LRMq6CKHNaaTYcC4f8tjNdhH/axejYS8zk1CeWw
-	KcOidD3KfhDWU7JellUk5g65rvfN
-X-Google-Smtp-Source: ANB0VdZ13mgyLT1Y+AOIxZdJptPZ3TBseM7hrXo77kxSmCAgHGkAupIZKnENGPAP/mSMZo2alUqwvg==
-X-Received: by 2002:a81:5e03:: with SMTP id
-	s3-v6mr2268420ywb.456.1534752912480; 
-	Mon, 20 Aug 2018 01:15:12 -0700 (PDT)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
+	bh=akY3tnwtkrtnO3W/iq/0H91XQCiM7UJUVvlCzCUqaPQ=;
+	b=od03OR4+dB4vzKd/a1rHNDVbPLJ9OuNFR58Snps4VXYzVK0KSl7WKRJOAYMER+CZR+
+	0OgSjbsvKJyTXXE8eQPOpKJwwT/EKsgz6l1N7r67PrYAWiQ/+G3nSrDjJyA7PMCT9CJd
+	eifJs19BQNP9VZ2JXkYHU9W+PQE0Rok5VKDNwlnuew4A9gIqgNXkG0I5Q2+FTR1AUIwB
+	dMwAdFSZ3PSBPzzCDBtJfgGXXtfxOa4XRm2YjgrQGnUoj7BjjUifpmVLIXfdaYgBQGtb
+	5W1hpQHfpUgry5LB/b26xmwuQ99V0H2wupEJqZ4ACS9pzOa1yztLNtUvgPBcbI3LTKBi
+	hy4w==
+X-Gm-Message-State: APzg51BqA3kp84y2JWcoSyQr8K9INLcmQ0DIA7NWX/7Fy+1GUmMNHt+q
+	mkQKYGf5hcJhHeuOTHmdTeCrhQ==
+X-Google-Smtp-Source: ANB0Vdb+sE2zcXzP/jkfn8PSGwa+6ipfAGlHAtRjCXh0h0mKLvI/634PSAQdJ7cxeNEbu3nqJSCxlw==
+X-Received: by 2002:adf:f749:: with SMTP id z9-v6mr4737864wrp.85.1534753156318;
+	Mon, 20 Aug 2018 01:19:16 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	135-v6sm4447140ywm.74.2018.08.20.01.15.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Aug 2018 01:15:11 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Aug 2018 09:15:09 +0100
-Message-Id: <20180820081509.13459-1-git@andred.net>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180309130000.1937-1-git@andred.net>
-References: <20180309130000.1937-1-git@andred.net>
-MIME-Version: 1.0
-Subject: [PATCH v3] rootfs-postcommands: put image testdata under sstate control
+	j66-v6sm9718654wrj.28.2018.08.20.01.19.15
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 20 Aug 2018 01:19:15 -0700 (PDT)
+Message-ID: <f31411d21297235d7324b6d55ffd588f44c439fd.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Joshua Watt <jpewhacker@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 20 Aug 2018 09:19:14 +0100
+In-Reply-To: <20180820024342.15484-1-JPEWhacker@gmail.com>
+References: <20180820024342.15484-1-JPEWhacker@gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Subject: Re: [PATCH] classes/package: Clean up getstatusoutput
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,59 +58,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 08:15:12 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 20 Aug 2018 08:19:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: André Draszik <andre.draszik@jci.com>
+On Sun, 2018-08-19 at 21:43 -0500, Joshua Watt wrote:
+> Replaces usage of the deprecated oe.utils.getstatusoutput() with Python
+> subprocess calls.
+> 
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/classes/package.bbclass | 19 +++++++++++--------
+>  1 file changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 4ce9de2f573..b05d2858281 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -380,6 +380,7 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
+>      # sourcefile is also generated containing a list of debugsources
+>  
+>      import stat
+> +    import subprocess
+>  
+>      src = file[len(dvar):]
+>      dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(src) + debugappend
+> @@ -409,16 +410,18 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
+>  
+>      bb.utils.mkdirhier(os.path.dirname(debugfile))
+>  
+> -    cmd = "'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile)
+> -    (retval, output) = oe.utils.getstatusoutput(cmd)
+> -    if retval:
+> -        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
+> +    cmd = (objcopy, '--only-keep-debug', file, debugfile)
+> +    try:
+> +        subprocess.check_output(cmd)
+> +    except subprocess.CalledProcessError as e:
+> +        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (e.returncode, ' '.join(cmd), ":\n%s" % output.decode('utf-8') if e.output else ""))
+>  
+>      # Set the debuglink to have the view of the file path on the target
+> -    cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
+> -    (retval, output) = oe.utils.getstatusoutput(cmd)
+> -    if retval:
+> -        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
+> +    cmd = (objcopy, '--add-gnu-debuglink', debugfile, file)
+> +    try:
+> +        subprocess.check_output(cmd)
+> +    except subprocess.CalledProcessError as e:
+> +        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (e.returncode, ' '.join(cmd), ":\n%s" % output.decode('utf-8') if e.output else ""))
+>  
+>      if newmode:
+>          os.chmod(file, origmode)
 
-The testdata.json is being written to DEPLOY_DIR_IMAGE directly,
-thus bypassing sstate, which results in an ever growing list
-of files.
+I appreciate this is a direct replacement and functionally equivalent
+but are these custom exceptions any real use? Its hard to actually get
+them right and I suspect we may be better off without them using the
+standard formatter?
 
-Write them to IMGDEPLOYDIR instead, so as to benefit from the
-automatic management via sstate.
+Cheers,
 
-Signed-off-by: André Draszik <andre.draszik@jci.com>
-
----
-v3: rebased
-v2: fix typo in subject line
----
- meta/classes/rootfs-postcommands.bbclass | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index ca690a6e59..e816824f28 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -316,17 +316,18 @@ rootfs_sysroot_relativelinks () {
- python write_image_test_data() {
-     from oe.data import export2json
- 
--    testdata = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_NAME'))
--    testdata_link = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_LINK_NAME'))
-+    deploy_dir = d.getVar('IMGDEPLOYDIR')
-+    link_name = d.getVar('IMAGE_LINK_NAME')
-+    testdata_name = os.path.join(deploy_dir, "%s.testdata.json" % d.getVar('IMAGE_NAME'))
- 
--    bb.utils.mkdirhier(os.path.dirname(testdata))
-     searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
--    export2json(d, testdata,searchString=searchString,replaceString="")
-+    export2json(d, testdata_name, searchString=searchString, replaceString="")
- 
--    if testdata_link != testdata:
-+    if os.path.exists(testdata_name):
-+        testdata_link = os.path.join(deploy_dir, "%s.testdata.json" % link_name)
-         if os.path.lexists(testdata_link):
--           os.remove(testdata_link)
--        os.symlink(os.path.basename(testdata), testdata_link)
-+            os.remove(testdata_link)
-+        os.symlink(os.path.basename(testdata_name), testdata_link)
- }
- write_image_test_data[vardepsexclude] += "TOPDIR"
- 
--- 
-2.18.0
-
+Richard
 
