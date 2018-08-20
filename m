@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2040260116;
-	Mon, 20 Aug 2018 01:36:42 +0000 (UTC)
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B63AD7920E
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 01:49:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7K1n5Ls028718
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 19 Aug 2018 18:49:05 -0700
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Sun, 19 Aug 2018 18:49:04 -0700
+To: Ankur Tyagi <ankur.tyagi85@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <8a3a6d85-3c46-3144-9530-7487ba773a2f@windriver.com>
+Date: Mon, 20 Aug 2018 09:53:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: changqing.li@windriver.com
-Date: Mon, 20 Aug 2018 01:36:43 -0000
-Message-ID: <20180820013643.13841.57270@do.openembedded.org>
-References: <1534727952-32389-1-git-send-email-changqing.li@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1534727952-32389-1-git-send-email-changqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3N0YXRlOiBBdm9pZCBpbmRpcmVjdCBhdXRvY29uZi1hcmNoaXZlLW5hdGl2ZSBkZXBlbmRlbmNpZXMgKHZpYSBTU1RBVEVfRVhDTFVERURFUFNfU1lTUk9PVCk=?=
+In-Reply-To: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [rocko][sumo][master][PATCH 1/2] bitbake.conf: add PERSISTENT_LOG_DIR variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 01:36:42 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 20 Aug 2018 01:49:05 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+The requirement is to put logs into directories other than /var/log.
+Could it be achieved by modifying the syslog daemon configuration file 
+(e.g. /etc/syslog.conf) to replace /var/log with the specified 
+directory. Maybe the corresponding logrotate configuration file also 
+needs to be modified.
 
-Series: sstate: Avoid indirect autoconf-archive-native dependencies (via SSTATE_EXCLUDEDEPS_SYSROOT)
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13601/
-State : failure
+Best Regards,
+Chen Qi
 
-== Summary ==
+On 08/18/2018 08:59 AM, Ankur Tyagi wrote:
+> This variable is only respected when VOLATILE_LOG_DIR is "no".
+>
+> The default value is "" which results in the /var/log being log directory.
+>
+> The user could override this value to a path e.g "/home/root/log" which
+> results /var/log being a link pointing to /home/root/log directory on
+> persistent storage.
+>
+> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> ---
+>   meta/conf/bitbake.conf | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index e5dc1ac..9db22c8 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -88,6 +88,8 @@ ROOT_HOME ??= "/home/root"
+>   # If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log links to /var/volatile/log.
+>   # If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on persistent storage.
+>   VOLATILE_LOG_DIR ?= "yes"
+> +# If VOLATILE_LOG_DIR is false and PERSISTENT_LOG_DIR is set, /var/log links to PERSISTENT_LOG_DIR
+> +PERSISTENT_LOG_DIR ??= ""
+>   
+>   ##################################################################
+>   # Architecture-dependent build variables.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [V2] sstate: Avoid indirect autoconf-archive-native dependencies (via SSTATE_EXCLUDEDEPS_SYSROOT)
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 92 characters)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
