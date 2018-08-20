@@ -1,51 +1,49 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 0077079035
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id C44E279000
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 15:58:16 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w7KFwGuF004966
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 17:58:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1534780697;
-	bh=MBi2sm8X9/uw97iHVTzUhkhwmpSfpj5O/Ifll9+z8ic=; l=1677;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To;
-	b=HMKeLKBqxiR81TjDbX2IAT9w9CC1gH+xpVnnZogmSiSo2cq/gRYQFk2H4L8d+s7Fl
-	ohOHekpNWEXRtjgYUwzdGpEylaStjRBoq2Z/a0qN5Drb8lESLxNuskHxfRsHepSyzM
-	hAkQyCrJ9gyejJxFpaEa2084sL14d7b0ifBimb6w=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w7KFw8E8014098 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Mon, 20 Aug 2018 17:58:09 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 3AD970A4462;
-	Mon, 20 Aug 2018 18:06:07 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w7KFw7mT014092
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NO); Mon, 20 Aug 2018 17:58:07 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.91) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1frmZD-006lr7-04; Mon, 20 Aug 2018 17:58:07 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+	Mon, 20 Aug 2018 16:19:05 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id 13-v6so26806102ois.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 09:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=WhhijPkBaGO8MhgpYw/TYCveiU5hnXXZ35YnT8OyNnM=;
+	b=b58fIXbUep1MxznKZbkqxR6XMLVVSqQuDac4G3GxuszrjLiCB2C2KcNlR4IWR7Do/G
+	kxSaCLGaxqH/sm3xyEF4dUAWxjX/h/VeJ4PM3Qn0ZHKWIwxXRs+bVtjBy5eNdd6+EgkD
+	IgygWdOya5rXtwtJeQSXxuP9N5Ffyz+imCEjVe7h1ROZYUG/zOOvDMcwKiT/wycl3OIR
+	po0LTBfLP7SIQ1g7Gu2F/ilhksi5bXBVwFJEA3Rzg5s7S4jnSnVkC0Wy/+NzOQQYmiFy
+	ODih+MHeMnNkIDa9SQNLvhz+PCC2r3vASdG40tsJmrP2retD6h6ALPSwnghr+ytNzklU
+	zjDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=WhhijPkBaGO8MhgpYw/TYCveiU5hnXXZ35YnT8OyNnM=;
+	b=cvqy9EFx4XSKbwSx+eRT+lsrdcqUFsNqeF9ezgE8j9cLwjQl6bTNWrroq1urfO/pLu
+	gX5wfWhs79CPQFHRq2pgnU00Mb16aSXRGIErqxPV8gtWxdZn5pY2LaG1JQvZc1eIgbwS
+	jjWGETLnrnE9NURzwea4alNtAoXs6rGI4U7psiiCq8i28oK/R36KFe66sKy8Oemq8cpy
+	iNBzFO3QkQYgosya41KlMz7gDKi+c9l8x9jvqzE7Bf9++a6MHwhbaTFU82u9OuzDcgEe
+	2vpDiQgXp+m3ewWZT/NZypJIf74gHBAB6MYADMw/qaTgPDbOViy/Dd7TPn4V+VvU0FtB
+	vbHQ==
+X-Gm-Message-State: AOUpUlFZTW2twXwD3qOrHhUIB7HMDVKKE/KfivR8bKFtXGx9Om0jUG9m
+	wTU/w9i1L2J02IAUFieVLnha/ZKs5Bhz+Ybp5djtO1FFLtg=
+X-Google-Smtp-Source: AA+uWPwF4PcoAZ90zkaSm+NFNr3juZec+wlS5WilN509qRHdQF4oEw23/W5AmhLgnru514TAqkm+4zH/cHRYi6ZBSgI=
+X-Received: by 2002:aca:5cd4:: with SMTP id
+	q203-v6mr13476008oib.217.1534781946671; 
+	Mon, 20 Aug 2018 09:19:06 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90ed:0:0:0:0:0 with HTTP; Mon, 20 Aug 2018 09:19:06
+	-0700 (PDT)
+In-Reply-To: <lysh39rpwx.fsf@ensc-virt.intern.sigma-chemnitz.de>
 References: <lywoslrvbf.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CANNYZj9NvALbQks02PS_Q-9cc=ZACfxWX8O3FKDC1-aP1p964A@mail.gmail.com>
-Date: Mon, 20 Aug 2018 17:58:06 +0200
-In-Reply-To: <CANNYZj9NvALbQks02PS_Q-9cc=ZACfxWX8O3FKDC1-aP1p964A@mail.gmail.com>
-	(Alexander Kanavin's message of "Mon, 20 Aug 2018 17:14:16 +0200")
-Message-ID: <lysh39rpwx.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	<lysh39rpwx.fsf@ensc-virt.intern.sigma-chemnitz.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 20 Aug 2018 18:19:06 +0200
+Message-ID: <CANNYZj9Ac=riDSLr1wANmKzNe-DoP5jd-YUVrM2-Us+1ci=zkA@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Submission of 'emit-buildvars' class?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -60,56 +58,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 15:58:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Aug 2018 16:19:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Alexander Kanavin <alex.kanavin@gmail.com> writes:
+2018-08-20 17:58 GMT+02:00 Enrico Scholz <enrico.scholz@sigma-chemnitz.de>:
+> I do not know, how this can be done with plain OE.  As said, SDKs are too
+> heavy weighted, 'devshell' too slow and can not be scripted, 'externalsrc'
+> is broken, slow and can not be scripted.
 
->> we are using for some time an 'emit-buildvars' class which exports
->> bitbake variables into makefile fragments.  This class is used for for
->> developing of kernel, u-boot and other low level software and for
->> generic packaging.
->
-> I don't quite understand how this is useful? Can you provide specific
-> usage scenarios please?
+For better or worse, Yocto Project has standardized on devtool (not
+devshell!) and externalsrc for these kind of local development
+workflows. You are very welcome to improve and add to them, so they
+are not broken or slow, but a wholly different mechanism is not likely
+to be accepted.
 
-I ma doing perhaps 70% of my development for kernel, u-boot and barebox.
-Building them with the actual toolchain requires only a
-
-| make -f ../Makefile.kernel tftp
-
-Result is available after a few seconds on the TFTP server; when using a
-specialized variant ('kbuild-file=...'), even faster so that it can be
-used in Emacs flymake mode.
-
-
-Ditto for other programs (testsuites or so); you write your recipe with
-all the 'DEPENDS', execute the 'emit_buildvars' task and build your
-application with
-
-| make -f ../Makefile.common R=my-app
-
-When you see that something is missing in DEPENDS, add it, reexecute
-'emit_buildvars' and it will be in the per-package sysroot.  Excluding
-the build time of the dependency, this won't take more than 30 seconds.
-
-
-Or, it is trivial to run unfsd in the enviornment of the image recipe
-and to build kernel modules with
-
-| make -f ../Makefile.kernel modules modules-install
-
-These modules will be installed there and can be used immediately on the
-target system:
-
-| # rmmod foo-module
-| # modprobe foo-module
-
-
-I do not know, how this can be done with plain OE.  As said, SDKs are too
-heavy weighted, 'devshell' too slow and can not be scripted, 'externalsrc'
-is broken, slow and can not be scripted.
-
-
-Enrico
+Alex
 
