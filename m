@@ -1,51 +1,25 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
-	[209.85.218.50])
-	by mail.openembedded.org (Postfix) with ESMTP id C44E279000
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id BD12A79023
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 16:19:05 +0000 (UTC)
-Received: by mail-oi0-f50.google.com with SMTP id 13-v6so26806102ois.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 09:19:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WhhijPkBaGO8MhgpYw/TYCveiU5hnXXZ35YnT8OyNnM=;
-	b=b58fIXbUep1MxznKZbkqxR6XMLVVSqQuDac4G3GxuszrjLiCB2C2KcNlR4IWR7Do/G
-	kxSaCLGaxqH/sm3xyEF4dUAWxjX/h/VeJ4PM3Qn0ZHKWIwxXRs+bVtjBy5eNdd6+EgkD
-	IgygWdOya5rXtwtJeQSXxuP9N5Ffyz+imCEjVe7h1ROZYUG/zOOvDMcwKiT/wycl3OIR
-	po0LTBfLP7SIQ1g7Gu2F/ilhksi5bXBVwFJEA3Rzg5s7S4jnSnVkC0Wy/+NzOQQYmiFy
-	ODih+MHeMnNkIDa9SQNLvhz+PCC2r3vASdG40tsJmrP2retD6h6ALPSwnghr+ytNzklU
-	zjDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=WhhijPkBaGO8MhgpYw/TYCveiU5hnXXZ35YnT8OyNnM=;
-	b=cvqy9EFx4XSKbwSx+eRT+lsrdcqUFsNqeF9ezgE8j9cLwjQl6bTNWrroq1urfO/pLu
-	gX5wfWhs79CPQFHRq2pgnU00Mb16aSXRGIErqxPV8gtWxdZn5pY2LaG1JQvZc1eIgbwS
-	jjWGETLnrnE9NURzwea4alNtAoXs6rGI4U7psiiCq8i28oK/R36KFe66sKy8Oemq8cpy
-	iNBzFO3QkQYgosya41KlMz7gDKi+c9l8x9jvqzE7Bf9++a6MHwhbaTFU82u9OuzDcgEe
-	2vpDiQgXp+m3ewWZT/NZypJIf74gHBAB6MYADMw/qaTgPDbOViy/Dd7TPn4V+VvU0FtB
-	vbHQ==
-X-Gm-Message-State: AOUpUlFZTW2twXwD3qOrHhUIB7HMDVKKE/KfivR8bKFtXGx9Om0jUG9m
-	wTU/w9i1L2J02IAUFieVLnha/ZKs5Bhz+Ybp5djtO1FFLtg=
-X-Google-Smtp-Source: AA+uWPwF4PcoAZ90zkaSm+NFNr3juZec+wlS5WilN509qRHdQF4oEw23/W5AmhLgnru514TAqkm+4zH/cHRYi6ZBSgI=
-X-Received: by 2002:aca:5cd4:: with SMTP id
-	q203-v6mr13476008oib.217.1534781946671; 
-	Mon, 20 Aug 2018 09:19:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90ed:0:0:0:0:0 with HTTP; Mon, 20 Aug 2018 09:19:06
-	-0700 (PDT)
-In-Reply-To: <lysh39rpwx.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <lywoslrvbf.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CANNYZj9NvALbQks02PS_Q-9cc=ZACfxWX8O3FKDC1-aP1p964A@mail.gmail.com>
-	<lysh39rpwx.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 20 Aug 2018 18:19:06 +0200
-Message-ID: <CANNYZj9Ac=riDSLr1wANmKzNe-DoP5jd-YUVrM2-Us+1ci=zkA@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Submission of 'emit-buildvars' class?
+	Mon, 20 Aug 2018 16:53:59 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7KGrvSc002987
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 20 Aug 2018 17:53:59 +0100
+Message-ID: <179b2fa5f801bc5f8cf6618489889352039a4ad9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 20 Aug 2018 17:53:57 +0100
+In-Reply-To: <760193dd3732a2239aa96f7660dd85ed4071ebd2.1534497181.git.Qi.Chen@windriver.com>
+References: <cover.1534497181.git.Qi.Chen@windriver.com>
+	<760193dd3732a2239aa96f7660dd85ed4071ebd2.1534497181.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/1] assimp.py: fix AttributeError in tearDownClass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,19 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 16:19:05 -0000
+X-List-Received-Date: Mon, 20 Aug 2018 16:54:00 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-2018-08-20 17:58 GMT+02:00 Enrico Scholz <enrico.scholz@sigma-chemnitz.de>:
-> I do not know, how this can be done with plain OE.  As said, SDKs are too
-> heavy weighted, 'devshell' too slow and can not be scripted, 'externalsrc'
-> is broken, slow and can not be scripted.
+On Fri, 2018-08-17 at 17:17 +0800, Chen Qi wrote:
+> When running this test case, we will see the following error.
+> 
+>   AttributeError: type object 'BuildAssimp' has no attribute
+> 'project'
+> 
+> assimp.py test case does not make use of SDKBuildProject, so remove
+> the import statement and the tearDownClass.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/lib/oeqa/sdk/cases/assimp.py | 5 -----
+>  1 file changed, 5 deletions(-)
 
-For better or worse, Yocto Project has standardized on devtool (not
-devshell!) and externalsrc for these kind of local development
-workflows. You are very welcome to improve and add to them, so they
-are not broken or slow, but a wholly different mechanism is not likely
-to be accepted.
+I'm not seeing this error when I run the test and I can't see it on the
+autobuilders. Why are you seeing this and we're not?
 
-Alex
+I'm trying to understand some other odd behaviour in SDK tests and am
+wondering if this is related or not.
+
+(e.g. https://autobuilder.yocto.io/builders/nightly-mips/builds/1221/st
+eps/Running%20SDK%20Sanity%20Tests/logs/stdio)
+
+Cheers,
+
+Richard
 
