@@ -1,53 +1,53 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id CE4D874703
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
+	by mail.openembedded.org (Postfix) with ESMTP id 0077079035
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 15:55:01 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id v71-v6so19768itb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 08:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=nzm4PP8Rfr9dLQ6rQ78qn9qhBRnbD0EX9ZPUHX2FxNI=;
-	b=IDFF9mBhwP0JnDO5WZupVH6YkpfPmpmGNSmWfNiH+iJEYLaW/KZk3eXU59lmwBxU0s
-	1gekTX97qawea2NOXxs6KpCpUiJ98iE/jZqQysPhFyKMelQYccLWp80OxW4bJVxmCI3W
-	w1IYTAYHDBzATKon27SSmcNxwj5LxO8dLpkJjw25HjagA6wchc8vMCag6VosF/08rV8z
-	gh0OI12TAza/DVg/cAJaziTHVkp7HX+t1gjS3FpL98TFKcgZPozgWwtc8B/wmH9j4l2M
-	r+FjVcSlf1aKXDuftEZySsHoEkxwocrQI6qtrhu9abkh3GTENzkfErOEukURZTSp2xRj
-	Yo5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=nzm4PP8Rfr9dLQ6rQ78qn9qhBRnbD0EX9ZPUHX2FxNI=;
-	b=aCXGcysHMQIdRdGVP3X4W2bxc3n5d9B49DKjSduB4U+LPI1w45zRRem7dg3V9UPd2U
-	t4DT8FOqGTWHGXmyd6fonU9aCgxJp1TABefdbia1Koq5qZYDRIqKvKmlRkAa4jOZWNO3
-	2HsGBEzZAcN8kcyXucdvQWe+3qCJhy4XutFXDTL4JEuP2nqKH52sfG9r3Yjhgb7mzy7K
-	bZ3Mz1xTHAE5EKZFBS2Y+RGEI8ZfVxzOr4/gX9gFv9cmqb5TsnUGrf0H8Nkk7zutKnpa
-	GNW4awKfXKZzrDxlJRbkj8jcaHISdi6M3MrUVCv5i0rBSWrpEwPk86CFW4//eaOp7KNZ
-	CUmw==
-X-Gm-Message-State: AOUpUlEDF9tJJov62dVQuv0I+vqRNKsImhG4tNPE/vekG9X03n0ETmLb
-	X8YBXQ7TU1Zw7bkCFacMw+MCdVx2
-X-Google-Smtp-Source: AA+uWPy03yeh6yy61O5qWgawNlxu2q297U0GQ5dNwyEVS7CEPxES5U3GKCpcEDFJGQyRMQjr6J7hKA==
-X-Received: by 2002:a02:9936:: with SMTP id
-	r51-v6mr41183295jaj.46.1534780502716; 
-	Mon, 20 Aug 2018 08:55:02 -0700 (PDT)
-Received: from localhost.localdomain
-	([2605:a601:21d1:5200:620a:c230:ada8:3135])
-	by smtp.gmail.com with ESMTPSA id
-	x7-v6sm1319136ioh.3.2018.08.20.08.55.01
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 20 Aug 2018 08:55:02 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Aug 2018 10:54:40 -0500
-Message-Id: <20180820155440.12626-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180820024342.15484-1-JPEWhacker@gmail.com>
-References: <20180820024342.15484-1-JPEWhacker@gmail.com>
-Subject: [PATCH v2] classes/package: Clean up getstatusoutput
+	Mon, 20 Aug 2018 15:58:16 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w7KFwGuF004966
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 17:58:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1534780697;
+	bh=MBi2sm8X9/uw97iHVTzUhkhwmpSfpj5O/Ifll9+z8ic=; l=1677;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To;
+	b=HMKeLKBqxiR81TjDbX2IAT9w9CC1gH+xpVnnZogmSiSo2cq/gRYQFk2H4L8d+s7Fl
+	ohOHekpNWEXRtjgYUwzdGpEylaStjRBoq2Z/a0qN5Drb8lESLxNuskHxfRsHepSyzM
+	hAkQyCrJ9gyejJxFpaEa2084sL14d7b0ifBimb6w=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w7KFw8E8014098 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Mon, 20 Aug 2018 17:58:09 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 3AD970A4462;
+	Mon, 20 Aug 2018 18:06:07 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w7KFw7mT014092
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NO); Mon, 20 Aug 2018 17:58:07 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.91) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1frmZD-006lr7-04; Mon, 20 Aug 2018 17:58:07 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <lywoslrvbf.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CANNYZj9NvALbQks02PS_Q-9cc=ZACfxWX8O3FKDC1-aP1p964A@mail.gmail.com>
+Date: Mon, 20 Aug 2018 17:58:06 +0200
+In-Reply-To: <CANNYZj9NvALbQks02PS_Q-9cc=ZACfxWX8O3FKDC1-aP1p964A@mail.gmail.com>
+	(Alexander Kanavin's message of "Mon, 20 Aug 2018 17:14:16 +0200")
+Message-ID: <lysh39rpwx.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Submission of 'emit-buildvars' class?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,48 +60,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 15:55:02 -0000
+X-List-Received-Date: Mon, 20 Aug 2018 15:58:17 -0000
+Content-Type: text/plain
 
-Replaces usage of the deprecated oe.utils.getstatusoutput() with Python
-subprocess calls.
+Alexander Kanavin <alex.kanavin@gmail.com> writes:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/package.bbclass | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+>> we are using for some time an 'emit-buildvars' class which exports
+>> bitbake variables into makefile fragments.  This class is used for for
+>> developing of kernel, u-boot and other low level software and for
+>> generic packaging.
+>
+> I don't quite understand how this is useful? Can you provide specific
+> usage scenarios please?
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 4ce9de2f573..3976811d19f 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -380,6 +380,7 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
-     # sourcefile is also generated containing a list of debugsources
- 
-     import stat
-+    import subprocess
- 
-     src = file[len(dvar):]
-     dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(src) + debugappend
-@@ -409,16 +410,10 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
- 
-     bb.utils.mkdirhier(os.path.dirname(debugfile))
- 
--    cmd = "'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile)
--    (retval, output) = oe.utils.getstatusoutput(cmd)
--    if retval:
--        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+    subprocess.check_output([objcopy, '--only-keep-debug', file, debugfile])
- 
-     # Set the debuglink to have the view of the file path on the target
--    cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
--    (retval, output) = oe.utils.getstatusoutput(cmd)
--    if retval:
--        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+    subprocess.check_output([objcopy, '--add-gnu-debuglink', debugfile, file])
- 
-     if newmode:
-         os.chmod(file, origmode)
--- 
-2.17.1
+I ma doing perhaps 70% of my development for kernel, u-boot and barebox.
+Building them with the actual toolchain requires only a
 
+| make -f ../Makefile.kernel tftp
+
+Result is available after a few seconds on the TFTP server; when using a
+specialized variant ('kbuild-file=...'), even faster so that it can be
+used in Emacs flymake mode.
+
+
+Ditto for other programs (testsuites or so); you write your recipe with
+all the 'DEPENDS', execute the 'emit_buildvars' task and build your
+application with
+
+| make -f ../Makefile.common R=my-app
+
+When you see that something is missing in DEPENDS, add it, reexecute
+'emit_buildvars' and it will be in the per-package sysroot.  Excluding
+the build time of the dependency, this won't take more than 30 seconds.
+
+
+Or, it is trivial to run unfsd in the enviornment of the image recipe
+and to build kernel modules with
+
+| make -f ../Makefile.kernel modules modules-install
+
+These modules will be installed there and can be used immediately on the
+target system:
+
+| # rmmod foo-module
+| # modprobe foo-module
+
+
+I do not know, how this can be done with plain OE.  As said, SDKs are too
+heavy weighted, 'devshell' too slow and can not be scripted, 'externalsrc'
+is broken, slow and can not be scripted.
+
+
+Enrico
 
