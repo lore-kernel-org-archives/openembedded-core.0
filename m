@@ -1,52 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 68D7C79023
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E30879023
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 17:02:45 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id n6-v6so16984293qtl.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 10:02:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=NIPjeFNOc8jHpRtd5HTj9YkvLOwzlV+rps1wZQepiis=;
-	b=Ae1Ui6EqDOy5zrq4bfAuUyr8UjwFyTELKBjisAFIOmtychJ7yJA/w40qHGKQ2XiEn8
-	4pHkUQk2Oa7tj2Pbls9HRYWyPRBTlfQGwyTFImE7ufjnNAcvEnzeT22J7b8MEZG5Bkzl
-	RDBbohLFfAHq2iqI/nRyrGGh/YxGgnM0541YkoWgv8i5WJIbVPKkK1ohKBwkTmDV+ctr
-	j6NB5YuZ1nUiMNQb2OKi2Ns8amc7DfvRg/V1pqD3JnRxbqRUb6IOuZsxiZE18Fq/n5g4
-	KJVcxAsj541aEIAwNcSUPf4OoK0Qz8cN5qMoIlOjqndDfiMF+IwVjjs+Nl8Ur9vqTZs+
-	sNuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=NIPjeFNOc8jHpRtd5HTj9YkvLOwzlV+rps1wZQepiis=;
-	b=q8VF/WyOC9z927CwmYgwD1bPYV09+Dj7+4KuphU1kX2fWM4t6RKqHljMdmQp5qSFh7
-	mCLJWsudXYpOFzcZcSHd7k43Oqfoq5vSabrtQ9HPAJ3E1IWcdgdYi6CFMHC3R/9DoISL
-	zqxf9SCF/mhrkJ7lv1DLGwclItyINhxc3ct2k/AqeDF93Yre1CzbPUNtF3/LmcBplpjV
-	Wn9E+/dBhugYvtaAiCpaa2yriMTqa53I8wke9MaAOQZUHEQedJjy9bq4+q5gMXrrkinI
-	6KAX16wn37CYNNTYyo5g25dqPeUfQSKd79r1j3SeeiIWfW7+QLcznXyzJ6M2W1C5cRS6
-	cqCw==
-X-Gm-Message-State: AOUpUlEEi71sncq4//LGsfGY15rFMp7z16X1x+WmWFfRsF3Xa+q3hAGc
-	MmnYLEsJ/t9UMX4BZWVpOOzRQLhAshNY0LjY33U=
-X-Google-Smtp-Source: AA+uWPzFvrbhez9qyyla4MwAg9XKhL7Ps5z8REdGF94gLA8MwsRjsw4yUhlfTFr/yxcff6fcgTd7dVTi6B1UGdtAfHQ=
-X-Received: by 2002:a0c:f791:: with SMTP id
-	s17-v6mr42463583qvn.194.1534784566018; 
-	Mon, 20 Aug 2018 10:02:46 -0700 (PDT)
+	Mon, 20 Aug 2018 17:09:33 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w7KH9YME008026
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 19:09:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1534784974;
+	bh=TkVQim/H1aSnQrkXK+RVgOgVsA4zw0eRwa/9mZ3ECZw=; l=2224;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To;
+	b=HbE8E+7+ygMGIYjwDh6XPJp5UMrJ33fq7UzeTuwSUg60IqzTRvumm4KO0VgbwkrC2
+	TaTTLEcFIuUCPIxK0qF+1iU9dn1OvNZiPxlW396E7Gm7S0Qf8oMKisAH60YV5SRCoT
+	1aDowkeK1no166//W1S26MqLwpylfVEGw+c+EXNw=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w7KH9QPh017547 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Mon, 20 Aug 2018 19:09:26 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 3C42602FFF3;
+	Mon, 20 Aug 2018 19:17:25 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w7KH9Oib017544
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NO); Mon, 20 Aug 2018 19:09:24 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.91) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1frngC-007T96-CK; Mon, 20 Aug 2018 19:09:24 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <lywoslrvbf.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CANNYZj9NvALbQks02PS_Q-9cc=ZACfxWX8O3FKDC1-aP1p964A@mail.gmail.com>
+	<lysh39rpwx.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CANNYZj9Ac=riDSLr1wANmKzNe-DoP5jd-YUVrM2-Us+1ci=zkA@mail.gmail.com>
+Date: Mon, 20 Aug 2018 19:09:24 +0200
+In-Reply-To: <CANNYZj9Ac=riDSLr1wANmKzNe-DoP5jd-YUVrM2-Us+1ci=zkA@mail.gmail.com>
+	(Alexander Kanavin's message of "Mon, 20 Aug 2018 18:19:06 +0200")
+Message-ID: <lyh8jprmm3.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-References: <cover.1534699224.git.raj.khem@gmail.com>
-	<f1c6008db923f577cb03d5461c06ad97d55a57f6.1534699224.git.raj.khem@gmail.com>
-	<45c972cc-6abf-8df2-e4db-ee84abd49dc9@geanix.com>
-	<73a419cb40a67f5e2dfa71820c048645583a1d75.camel@linuxfoundation.org>
-In-Reply-To: <73a419cb40a67f5e2dfa71820c048645583a1d75.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 Aug 2018 10:02:19 -0700
-Message-ID: <CAMKF1sqgKJ8-inLr3XHzgCLp5+kAHvFam0da5h65OE71c4NCpA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/9] dos2unix.bbclass: Move to oe-core
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Submission of 'emit-buildvars' class?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,60 +62,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 17:02:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 20 Aug 2018 17:09:35 -0000
+Content-Type: text/plain
 
-On Mon, Aug 20, 2018 at 2:43 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2018-08-20 at 11:23 +0200, Martin Hundeb=C3=B8ll wrote:
-> > Hi Khem,
-> >
-> > On 19/08/2018 19.23, Khem Raj wrote:
-> > > - Import from meta-oe layer
-> > >
-> > > - This is useful for many packages where CR-LF
-> > >    needs to be adjusted, many recipes depend on it
-> > >    e.g. meta-multimedia libebml and so on.
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > >   meta/classes/dos2unix.bbclass | 14 ++++++++++++++
-> > >   1 file changed, 14 insertions(+)
-> > >   create mode 100644 meta/classes/dos2unix.bbclass
-> > >
-> > > diff --git a/meta/classes/dos2unix.bbclass
-> > > b/meta/classes/dos2unix.bbclass
-> > > new file mode 100644
-> > > index 0000000000..3fc17e2196
-> > > --- /dev/null
-> > > +++ b/meta/classes/dos2unix.bbclass
-> > > @@ -0,0 +1,14 @@
-> > > +# Class for use to convert all CRLF line terminators to LF
-> > > +# provided that some projects are being developed/maintained
-> > > +# on Windows so they have different line terminators(CRLF) vs
-> > > +# on Linux(LF), which can cause annoying patching errors during
-> > > +# git push/checkout processes.
-> > > +
-> > > +do_convert_crlf_to_lf[depends] +=3D "dos2unix-
-> > > native:do_populate_sysroot"
-> >
-> > Shouldn't the dos2unix recipe live in oe-core also, when a class
-> > depends upon it?
->
-> Not necessarily, we do have a number of core classes which aren't
-> directly used in OE-Core but are needed by many layers and having a
-> common copy makes sense.
->
-> I'd agree it is good to try and have something which tests them though.
->
+Alexander Kanavin <alex.kanavin@gmail.com> writes:
 
-in this case, I think it would make sense to bring in recipe as well, since=
- the
-motivation to bring this into core is to unlink dependency on meta-oe layer
-
-> Cheers,
+>> I do not know, how this can be done with plain OE.  As said, SDKs are too
+>> heavy weighted, 'devshell' too slow and can not be scripted, 'externalsrc'
+>> is broken, slow and can not be scripted.
 >
-> Richard
+> For better or worse, Yocto Project has standardized on devtool (not
+> devshell!)
+
+'devtool' is for writing recipes, not for writing software.
+
+
+> and externalsrc for these kind of local development workflows. You are
+> very welcome to improve and add to them, so they are not broken
+
+I tried 'externalsrc' after the per-package sysroot changes but just run
+into bugs (class tried to write into read-only mounted source dir, every
+2nd 'do_fetch' failed because sysroot was already populated).
+
+
+Doing a 'make -f ../Makefile.common install' which writes data directly
+into the NFS root is much faster than doing all the steps of the dev*
+tools.
+
+
+> or slow,
+
+They *are* slow.
+
+| $ cd workspace/kernel
+| 
+| $ git commit -m 'empty' --allow-empty
+| 
+| $ time bitbake linux-mainline
+| real    4m7.417s
+| user    0m0.763s
+| sys     0m0.110s
+
+vs.
+
+| time make -f ../Makefile.kernel  -j12
+| real    0m13.204s
+| user    0m54.888s
+| sys     0m17.970s
+
+
+
+Even a plain 'bitbake'  is takes 0.5 sec:
+
+| $ time bitbake
+| Nothing to do.  Use 'bitbake world' to build everything, or run 'bitbake --help' for usage information.
+| 
+| real    0m0.588s
+| user    0m0.255s
+| sys     0m0.023s
+
+vs.
+
+| $ time make
+| real    0m0.007s
+| user    0m0.002s
+| sys     0m0.005s
+
+
+
+And some things are impossible because they are not supported by the
+design.  E.g. how would would you implement the flymake 'check-syntax'
+target[1]
+
+| check-syntax:
+|         gcc -o /dev/null -S ${CHK_SOURCES} || true
+
+with devtool/devshell/externalsrc?
+
+
+Deciding which task to execute (compile, do_compile_kernelmodules) and
+installation into NFS root is not supported by dev* either.
+
+
+
+Enrico
+
+
+Footnotes: 
+[1]  https://www.gnu.org/software/emacs/manual/html_mono/flymake.html#Example_002d_002d_002dConfiguring-a-tool-called-via-make
+
+-- 
+SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
+Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
+09128 Chemnitz
 
