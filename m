@@ -1,50 +1,53 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 14506791A0
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 60970790FA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 02:43:48 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id v71-v6so18676026itb.3
+	Mon, 20 Aug 2018 02:46:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id D9BEB18585
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2018 19:43:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=frbiwBg0bwlu0djFjPqjCipHOxcunZ927/wLiMj2LVg=;
-	b=Ls7CS/w79iFdu2O1YheTIODi4jZQBylOPU/rQea1m9faWYPMiz2lensiNKRrmrXs2+
-	SiA202oM+4HADI579jtVLO0vusT+f4nWsqAwcU/faJJk/TsAVQ8T3P00e5so+v+uzIEW
-	yNjVZm5i6DAHBnJvm5knqEuDx7CHH8+YC2nQO7Cz2fG/Ve5Egs+iAAqeuImQcgMj3VCL
-	Hle8NklK2SILInfoVHXA7/RxvcW0wYcDfHNomKiG+Bwn4CWsqyaDYxy38CwQTgEZYZx9
-	2n3MKY9a643y1NzOudfuVksMi7MnNMHoevCtjb+PyR57DIlXGCyVW89G5ass7wqTTBw9
-	3+4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=frbiwBg0bwlu0djFjPqjCipHOxcunZ927/wLiMj2LVg=;
-	b=bUcwzSpUxaIP/wQIw2S84gGfutQhV9lfFyo2CNSMvnDP1aW+0eKuJyGDYk04BlJ2lC
-	Wgz3FsOU25mTLmfQtoksYYz4BZfSkmvvFcdlP9IIV343zvCMRyTQBlB76Iv7jRWHuWxS
-	sguqCXr+QKEKk/4wlIF5Rp8qEpBnNaxi7zIjQssWSHCpILM47VE1t5+wfm34lvmGsjOR
-	E5QvtiEktPQTPjskZnzgcWMmWPX0MRyVXYAa2MSurR78Rg4mRoLx7c/0L83shti4Ay29
-	FD9N2bA25ZnY/Wa+Hp7zK968UKuJ6CX0ljTATpim33LXtS7sVIpRV4OKKoo+ouajYmZt
-	b/VQ==
-X-Gm-Message-State: AOUpUlGnmD7X44i1M2XBBV7zauYENnfY7MIuKHHm7PY2+65TveZfo9fs
-	L03+thocJy7p2WbkIF3bSCV1ia+v
-X-Google-Smtp-Source: AA+uWPyTf3cS9k28B60r6AkBK+06QHJUrgGVqYF7vzSyXYUE5CbjYR/1iFCK1oKZi8lgyWZfTnZ/pQ==
-X-Received: by 2002:a24:3ec3:: with SMTP id
-	s186-v6mr33171562its.73.1534733028922; 
-	Sun, 19 Aug 2018 19:43:48 -0700 (PDT)
-Received: from localhost.localdomain
-	([2605:a601:21d1:5200:620a:c230:ada8:3135])
-	by smtp.gmail.com with ESMTPSA id
-	x7-v6sm866978ioh.3.2018.08.19.19.43.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 19 Aug 2018 19:43:48 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id gqwGo4DrZl1X
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 4705D18560
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3209D1E057
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 260391E054
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 1900A16F2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 04:46:33 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w7K2kI18012563
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2018 04:46:18 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w7K2kIfC012560
+	for openembedded-core@lists.openembedded.org;
+	Mon, 20 Aug 2018 04:46:18 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Aug 2018 21:43:42 -0500
-Message-Id: <20180820024342.15484-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] classes/package: Clean up getstatusoutput
+Date: Mon, 20 Aug 2018 04:46:16 +0200
+Message-Id: <20180820024616.12501-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] busybox: Add a dependency on virtual/crypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,56 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 02:43:48 -0000
+X-List-Received-Date: Mon, 20 Aug 2018 02:46:33 -0000
 
-Replaces usage of the deprecated oe.utils.getstatusoutput() with Python
-subprocess calls.
+busybox needs crypt() if CONFIG_USE_BB_CRYPT is not defined.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/package.bbclass | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ meta/recipes-core/busybox/busybox.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 4ce9de2f573..b05d2858281 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -380,6 +380,7 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
-     # sourcefile is also generated containing a list of debugsources
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 8c6dbbaf9b..a8ba10d21c 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -3,7 +3,8 @@ DESCRIPTION = "BusyBox combines tiny versions of many common UNIX utilities into
+ HOMEPAGE = "http://www.busybox.net"
+ BUGTRACKER = "https://bugs.busybox.net/"
  
-     import stat
-+    import subprocess
+-DEPENDS += "kern-tools-native"
++# Depend on virtual/crypt in case CONFIG_USE_BB_CRYPT is not defined
++DEPENDS += "kern-tools-native virtual/crypt"
  
-     src = file[len(dvar):]
-     dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(src) + debugappend
-@@ -409,16 +410,18 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
- 
-     bb.utils.mkdirhier(os.path.dirname(debugfile))
- 
--    cmd = "'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile)
--    (retval, output) = oe.utils.getstatusoutput(cmd)
--    if retval:
--        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+    cmd = (objcopy, '--only-keep-debug', file, debugfile)
-+    try:
-+        subprocess.check_output(cmd)
-+    except subprocess.CalledProcessError as e:
-+        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (e.returncode, ' '.join(cmd), ":\n%s" % output.decode('utf-8') if e.output else ""))
- 
-     # Set the debuglink to have the view of the file path on the target
--    cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
--    (retval, output) = oe.utils.getstatusoutput(cmd)
--    if retval:
--        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+    cmd = (objcopy, '--add-gnu-debuglink', debugfile, file)
-+    try:
-+        subprocess.check_output(cmd)
-+    except subprocess.CalledProcessError as e:
-+        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (e.returncode, ' '.join(cmd), ":\n%s" % output.decode('utf-8') if e.output else ""))
- 
-     if newmode:
-         os.chmod(file, origmode)
+ # bzip2 applet in busybox is based on lightly-modified bzip2 source
+ # the GPL is version 2 only
 -- 
-2.17.1
+2.12.0
 
 
