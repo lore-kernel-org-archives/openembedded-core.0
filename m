@@ -1,25 +1,29 @@
-Return-Path: <Kexin.Hao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A8F879164
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1165E74C4D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 10:48:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7KAm0Ya021414
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 Aug 2018 03:48:00 -0700 (PDT)
-Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Mon, 20 Aug 2018 03:48:00 -0700
-From: Kevin Hao <kexin.hao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Aug 2018 18:42:25 +0800
-Message-ID: <20180820104225.90976-2-kexin.hao@windriver.com>
-X-Mailer: git-send-email 2.14.4
-In-Reply-To: <20180820104225.90976-1-kexin.hao@windriver.com>
-References: <20180820104225.90976-1-kexin.hao@windriver.com>
-MIME-Version: 1.0
-Cc: Tom Rini <trini@konsulko.com>
-Subject: [PATCH 2/2] wic: bootimg-partition: Select a preferred type if multi kernel images are installed
+	Mon, 20 Aug 2018 10:59:32 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7KAxV9R007970
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 20 Aug 2018 11:59:32 +0100
+Message-ID: <d7b2186dfc7f0b24fb45e779aa0086288e05080a.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, ChenQi <Qi.Chen@windriver.com>
+Date: Mon, 20 Aug 2018 11:59:31 +0100
+In-Reply-To: <CAMKF1srgDJK9M7=y5LGxB-93FGk-dwyh0W+ALyC5a0_NidkE8Q@mail.gmail.com>
+References: <cover.1534699224.git.raj.khem@gmail.com>
+	<74b92c8785cfa4377a1738f28e3991d6adee321f.1534699224.git.raj.khem@gmail.com>
+	<f64a8311-b32f-3074-96dd-ff7364a43b2d@windriver.com>
+	<CAMKF1srgDJK9M7=y5LGxB-93FGk-dwyh0W+ALyC5a0_NidkE8Q@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/9] gdb: Upgrade to 8.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,60 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 10:48:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Aug 2018 10:59:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Automatically select one kernel type image based on a predefined
-precedence list if there are multi kernel images installed.
+On Sun, 2018-08-19 at 19:41 -0700, Khem Raj wrote:
+> On Sun, Aug 19, 2018 at 7:19 PM ChenQi <Qi.Chen@windriver.com> wrote:
+> > 
+> > There's a build failure on autobuilder.
+> > 
+> > https://autobuilder.yocto.io/builders/nightly-musl-x86-64/builds/70
+> > 0/steps/BuildImages/logs/stdio
+> > 
+> 
+>  I pushed a patch to pull branch which should fix it
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/
+> master&id=a05cc1ee8eb1cb05064164a9ae62db6dc78d022b
 
-Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
----
- .../lib/wic/plugins/source/bootimg-partition.py    | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+I'm afraid not:
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index 2e9b9f5ed657..ddc880be366f 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -130,24 +130,28 @@ class BootimgPartitionPlugin(SourcePlugin):
- 
-         if not custom_cfg:
-             # The kernel types supported by the sysboot of u-boot
--            kernel_types = ["uImage", "zImage", "Image", "vmlinux", "fitImage"]
-+            kernel_types = ["zImage", "Image", "fitImage", "uImage", "vmlinux"]
-             has_dtb = False
-             fdt_dir = '/'
-             kernel_name = None
--            for task in cls.install_task:
--                src, dst = task
--                # Find the kernel image name
--                for image in kernel_types:
-+
-+            # Find the kernel image name, from the highest precedence to lowest
-+            for image in kernel_types:
-+                for task in cls.install_task:
-+                    src, dst = task
-                     if re.match(image, src):
--                        if not kernel_name:
--                            kernel_name = os.path.join('/', dst)
--                        else:
--                            raise WicError('Multi kernel file founded')
-+                        kernel_name = os.path.join('/', dst)
-+                        break
-+                if kernel_name:
-+                    break
- 
-+            for task in cls.install_task:
-+                src, dst = task
-                 # We suppose that all the dtb are in the same directory
-                 if re.search(r'\.dtb', src) and fdt_dir == '/':
-                     has_dtb = True
-                     fdt_dir = os.path.join(fdt_dir, os.path.dirname(dst))
-+                    break
- 
-             if not kernel_name:
-                 raise WicError('No kernel file founded')
--- 
-2.14.4
+https://autobuilder.yocto.io/builders/nightly-musl/builds/1252/steps/Bu
+ildImages/logs/stdio
 
+https://autobuilder.yocto.io/builders/nightly-musl-x86-64/builds/701/st
+eps/BuildImages/logs/stdio
+
+Cheers,
+
+Richard
 
