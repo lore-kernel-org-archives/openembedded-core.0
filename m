@@ -1,54 +1,31 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
-	[209.85.222.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D71B07908E
+Return-Path: <sukdo399@daum.net>
+X-Greylist: delayed 314 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 20 Aug 2018 23:26:33 UTC
+Received: from mail-smail-vm78.hanmail.net (mail-smail-vm78.daum.net
+	[211.231.106.153])
+	by mail.openembedded.org (Postfix) with ESMTP id 39DD879022
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 21:28:23 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id m13-v6so10611765uaq.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 14:28:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BUn1bGISHmrcY5jw7PUsck89GvpSFilANWlgIMrfH5s=;
-	b=FGqc5xyulUISAUW0R65VgqMgBcOz+Au7fv0Y+G0TpNf9qfyB7w9xtKlpG13UizaOdX
-	a7tWlL06i1q8cIGddaZT2+dAq4gYPNIFmGlZNU7LQMYINYye45dI0ibayUCO841fPcgX
-	652QgOPivqz0YLJ1Kw8Zs26EhbxX25vaZdo2uppipa0xujC6RKJY6JZV1WK7Rt10+vj+
-	9pLG47JByDKT3FJmCyTNkd8txbQu8fIZ/rSdmEcCr/BT+II8B2YE7gQ/TwsX1f0lOjHU
-	TTtWHvVbqBynQNiMKNOE5lphS3zgN+2s7miCDRT7aTlRC2FGwZbMogqyLJSZQzGtLzEU
-	6fmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=BUn1bGISHmrcY5jw7PUsck89GvpSFilANWlgIMrfH5s=;
-	b=OBQE+JDf6xap07RicMhahsf0S8UJlDGtpNIuF2GTYxvgY1citnfT7YwEKmcQxCOzvm
-	pZzqi17dcYthEpGjZrapRIOdFdx2hJlj9pIFGBNCw3qlKw9WkITV2zzhy3D+TW2l7xPj
-	+MrszbeoA8iVtoW2f/fXxtnYutsxglTp7NZ1YCRr9NKKfgyDcyIrgtMgOB2QbEXjFOmE
-	ccjwgs0Ih/hg94WhXKfZlsbyr3OWVDykaXGGY1pqNFUBL7KAHQZjMSO1fu5AGFdWD37F
-	JCK7xls9+prXDeQwDaallsfvk7GH3B+fhIXdPr9HGimsjOIX1xeOBGuUlW8jTqYBMZZ9
-	5GCA==
-X-Gm-Message-State: AOUpUlH9Eopc8NRrqZRCqHeYj9aNMUAqGRRZFF5fFlGiTZxRpnYbuAaP
-	QMt6CKDDavig7GCVqu3kDv7SZQ5BPhqKQ4MnbTU=
-X-Google-Smtp-Source: AA+uWPwKKuTIOVOD7hK9fQtP9Z3w/2v1GOm/IZhpCFo8Gk3poL35XFMECL6kqe34A9zIkSdqQbSQ3rUejj5c89zRVm4=
-X-Received: by 2002:a9f:3a46:: with SMTP id
-	r6-v6mr31487636uag.145.1534800504599; 
-	Mon, 20 Aug 2018 14:28:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Mon, 20 Aug 2018 14:28:24 -0700 (PDT)
-In-Reply-To: <49a3ae3e0305424992d5683f84b82816@XBOX02.axis.com>
-References: <20180820024616.12501-1-pkj@axis.com>
-	<9efc95dd0b5186463b9e35dfa6d572513ed8e525.camel@linuxfoundation.org>
-	<CAMKF1soPC5rCXEzZN78NuQS3qyFNQMv03QQVF8w3kduJn59tRQ@mail.gmail.com>
-	<CAJ86T=U_bNmw77eL-F7GJFUVe_zDzEMBpzRiHS397C1wxMwO7Q@mail.gmail.com>
-	<49a3ae3e0305424992d5683f84b82816@XBOX02.axis.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 20 Aug 2018 14:28:24 -0700
-Message-ID: <CAJ86T=UuQq0V4V76TA6iyY9aYPO_wAd_wo5Dy+gSGoNx3ZGbjA@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox: Add a dependency on virtual/crypt
+	Mon, 20 Aug 2018 23:26:32 +0000 (UTC)
+Received: from mail-hmail-smtp2.pg1.krane.9rum.cc ([10.194.31.52])
+	by mail-smail-vm78.hanmail.net (8.13.8/8.9.1) with SMTP id
+	w7KNLI8w028934; Tue, 21 Aug 2018 08:21:18 +0900
+X-Hermes-Message-Id: m7L8LG7jd1284353406
+Received: from mail-qpsmtp-vm16 ([10.61.241.163]) by hermes of
+	mail-hmail-smtp2.pg1.krane.9rum.cc (10.194.31.52) with ESMTP id
+	m7L8LG7jd1284353406; Tue, 21 Aug 2018 08:21:16 +0900 (KST)
+Received: from [182.212.44.138] (HELO localhost.localdomain) (182.212.44.138)
+	by  (8.12.9/8.9.1) with ESMTPA; ??, 21  8?? 2018 08:21:16 +0900
+Authentication-Results: mail-qpsmtp-vm16;
+	auth=pass (plain) smtp.auth=sukdo399@daum.net
+Errors-To: <sukdo399@daum.net>
+X-Originating-IP: 182.212.44.138
+From: Seokha Ko <sukdo399@daum.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Aug 2018 08:21:05 +0900
+Message-Id: <20180820232105.20179-1-sukdo399@daum.net>
+X-Mailer: git-send-email 2.17.1
+X-HM-UT: qXZ0Qt+h/LZTwUkdi5FHG/FdugrUhY3upSfJ6//IJWw=
+Subject: [PATCH] nativesdk-packagegroup-sdk-host: Add wayland-scanner to the SDK native toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,108 +38,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2018 21:28:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 20 Aug 2018 23:26:33 -0000
 
-On Mon, Aug 20, 2018 at 2:03 PM, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->> -----Original Message-----
->> From: Andre McCurdy <armccurdy@gmail.com>
->> Sent: den 20 augusti 2018 22:23
->> To: Khem Raj <raj.khem@gmail.com>
->> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>; Peter
->> Kjellerstedt <peter.kjellerstedt@axis.com>; Patches and discussions
->> about the oe-core layer <openembedded-core@lists.openembedded.org>
->> Subject: Re: [OE-core] [PATCH] busybox: Add a dependency on
->> virtual/crypt
->>
->> On Mon, Aug 20, 2018 at 12:45 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> > On Mon, Aug 20, 2018 at 2:45 AM Richard Purdie
->> > <richard.purdie@linuxfoundation.org> wrote:
->> >>
->> >> On Mon, 2018-08-20 at 04:46 +0200, Peter Kjellerstedt wrote:
->> >> > busybox needs crypt() if CONFIG_USE_BB_CRYPT is not defined.
->> >> >
->> >> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->> >> > ---
->> >> >  meta/recipes-core/busybox/busybox.inc | 3 ++-
->> >> >  1 file changed, 2 insertions(+), 1 deletion(-)
->> >> >
->> >> > diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-
->> >> > core/busybox/busybox.inc
->> >> > index 8c6dbbaf9b..a8ba10d21c 100644
->> >> > --- a/meta/recipes-core/busybox/busybox.inc
->> >> > +++ b/meta/recipes-core/busybox/busybox.inc
->> >> > @@ -3,7 +3,8 @@ DESCRIPTION = "BusyBox combines tiny versions of
->> many
->> >> > common UNIX utilities into
->> >> >  HOMEPAGE = "http://www.busybox.net"
->> >> >  BUGTRACKER = "https://bugs.busybox.net/"
->> >> >
->> >> > -DEPENDS += "kern-tools-native"
->> >> > +# Depend on virtual/crypt in case CONFIG_USE_BB_CRYPT is not
->> defined
->> >> > +DEPENDS += "kern-tools-native virtual/crypt"
->> >>
->> >> I'm not a bug fan of adding dependencies which might not be needed.
->> How
->> >> common is CONFIG_USE_BB_CRYPT not being defined? I assume that isn't
->> >> our default config?
->> >
->> > yes perhaps it should be packageconfig
->>
->> Busybox doesn't use PACKAGECONFIG. Conditional configuration is
->> handled by adding / removing cfg fragments and testing whether SRC_URI
->> contains "foo.cfg" (and also parsing the final .config within tasks
->> such as do_install). Unfortunately that approach doesn't work so well
->> for conditional build dependencies...
->>
->> Our Busybox defconfig does enable CONFIG_USE_BB_CRYPT (and there's no
->> cfg fragment to disable it) so the virtual/crypt dependency isn't
->> needed in our default builds.
->
-> In our case we have our own defconfig. I am not responsible for it, it is
-> maintained by our busybox maintainer, and he has apparently decided that
-> we don't want CONFIG_USE_BB_CRYPT enabled.
+The wayland-scanner was missing from the native toolchain for SDK build
+because it's copied from wayland dev package.
 
-Could you ask him about it? Maybe there's some advantage to it that isn't clear.
+Signed-off-by: Seokha Ko <sukdo399@daum.net>
+---
+ .../packagegroups/nativesdk-packagegroup-sdk-host.bb            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The general OE approach is to use system libraries when possible so
-using external libcrypt does actually align to that.
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index e2f6169994..4dc6eea23e 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -23,7 +23,7 @@ RDEPENDS_${PN} = "\
+     nativesdk-makedevs \
+     nativesdk-dnf \
+     nativesdk-cmake \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland-dev', '', d)} \
+     nativesdk-sdk-provides-dummy \
+     "
+ 
+-- 
+2.17.1
 
-Maybe we should use external libcrypt by default (with the option to
-switch back to the built-in crypt functions via a cfg fragment)?
-
-> I can of course add the dependency via a bbappend, but having to do that
-> seems wrong given how the rest of busybox is configured (with defconfig
-> and cfg fragments) and where enabling some options that don't happen to
-> be enabled in the OE-Core default configuration will then break the build.
->
->> Disabling busybox's internal crypt functions doesn't seem like a very
->> common thing to want to do.
->>
->> config USE_BB_CRYPT
->>     bool "Use internal crypt functions"
->>     default y
->>     help
->>       Busybox has internal DES and MD5 crypt functions.
->>       They produce results which are identical to corresponding
->>       standard C library functions.
->>
->>       If you leave this disabled, busybox will use the system's
->>       crypt functions. Most C libraries use large (~70k)
->>       static buffers there, and also combine them with more general
->>       DES encryption/decryption.
->>
->>       For busybox, having large static buffers is undesirable,
->>       especially on NOMMU machines. Busybox also doesn't need
->>       DES encryption/decryption and can do with smaller code.
->>
->>       If you enable this option, it will add about 4.8k of code
->>       if you are building dynamically linked executable.
->>       In static build, it makes code _smaller_ by about 1.2k,
->>       and likely many kilobytes less of bss.
->
-> //Peter
->
 
