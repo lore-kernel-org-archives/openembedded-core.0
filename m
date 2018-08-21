@@ -1,35 +1,23 @@
-Return-Path: <sukdo399@daum.net>
-Received: from mail-smail-vm74.hanmail.net (mail-smail-vm74.daum.net
-	[211.231.106.73])
-	by mail.openembedded.org (Postfix) with ESMTP id 554B37900C
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D63537900A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 07:11:11 +0000 (UTC)
-Received: from mail-hmail-smtp3.pg1.krane.9rum.cc ([10.194.31.36])
-	by mail-smail-vm74.hanmail.net (8.13.8/8.9.1) with SMTP id
-	w7L7B3BB030769; Tue, 21 Aug 2018 16:11:03 +0900
-X-Hermes-Message-Id: m7LGB2xfS1945410081
-Received: from mail-qpsmtp-vm4 ([10.61.241.127]) by hermes of
-	mail-hmail-smtp3.pg1.krane.9rum.cc (10.194.31.36) with ESMTP id
-	m7LGB2xfS1945410081; Tue, 21 Aug 2018 16:11:02 +0900 (KST)
-Received: from [182.212.44.138] (HELO [192.168.219.137]) (182.212.44.138)
-	by  (8.12.9/8.9.1) with ESMTPA; ??, 21  8?? 2018 16:11:02 +0900
-Authentication-Results: mail-qpsmtp-vm4; auth=pass (plain) smtp.auth=sukdo399
-Errors-To: <sukdo399@daum.net>
-X-Originating-IP: 182.212.44.138
-To: Khem Raj <raj.khem@gmail.com>
-References: <20180820232105.20179-1-sukdo399@daum.net>
-	<CAMKF1sr+670v4NnJqh++SVrFRaFFMXf3ZfNQkoBJXCZJgOnWsQ@mail.gmail.com>
-From: Seokha Ko <sukdo399@daum.net>
-Message-ID: <1eba2212-41ee-01e4-d5e0-98567dbd468b@daum.net>
-Date: Tue, 21 Aug 2018 16:10:50 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Tue, 21 Aug 2018 07:13:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7L7DN74008223
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 21 Aug 2018 00:13:24 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Tue, 21 Aug 2018 00:13:23 -0700
+From: <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 21 Aug 2018 14:36:04 +0800
+Message-ID: <cover.1534832871.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sr+670v4NnJqh++SVrFRaFFMXf3ZfNQkoBJXCZJgOnWsQ@mail.gmail.com>
-X-HM-UT: qXZ0Qt+h/LakpjrGGn7R0fFdugrUhY3upSfJ6//IJWw=
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nativesdk-packagegroup-sdk-host: Add wayland-scanner to the SDK native toolchain
+Cc: openembedded-core@lists.openembedded.org
+Subject: [V2][PATCH 0/3] allarch: disable allarch when multilib is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,54 +30,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 07:11:12 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 21 Aug 2018 07:13:24 -0000
+Content-Type: text/plain
 
-currently nativesdk-wayland-dev package copies bin directory which 
-includes wayland-scanner only.
+From: Kai Kang <kai.kang@windriver.com>
 
-And, IMHO, if there are other tools for dev package, we need them for 
-nativesdk target also.
+V2:
+* move content of allarch.bbclass to allarch-enabled.bbclass and only
+  inherit allarch-enabled when multilib is not used
+* update SSTATE_DUPWHITELIST
 
-Thank you.
+Build pass for following targets on qemux86-64 and qemuarm64 for rpm,
+ipk and deb.
+
+* core-image-sato
+* core-image-sato -c populate_sdk
+* world
+* buildtools-tarball
+
+Known issues:
+There are 2 *existing* multilib related issues which are not caused by
+this serial of patches:
+
+1 QA warnings of lib32-meta-ide-support and lib32-perf
+
+WARNING: lib32-meta-ide-support-1.0-r3 do_configure: Manifest
+/buildarea1/jkang-taf/WRL1018/OV/0730/host/build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-ncurses.populate_sysroot
+not found in intel_x86_64 corei7-32 core2-32 i686 i586 x86 allarch
+x86_64_x86_64-nativesdk (variant '')?
+
+WARNING: lib32-perf-1.0-r9 do_install: Manifest
+/buildarea1/jkang-taf/WRL1018/OV/0730/host/build/tmp-glibc/sstate-control/manifest-x86_64_i686-binutils-cross-x86_64.populate_sysroot
+not found in x86_64_i686 (variant '')?
+
+2 fails to build lib32-buildtools-tarball
+
+ERROR: lib32-buildtools-tarball-1.0-r0 do_populate_sdk: No manifest
+generated from: qemuwrapper-cross in
+/buildarea3/kkang/poky-20141111/poky/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
+
+I am working on them.
 
 
-On 08/21/2018 09:50 AM, Khem Raj wrote:
-> On Mon, Aug 20, 2018 at 4:26 PM Seokha Ko <sukdo399@daum.net> wrote:
->> The wayland-scanner was missing from the native toolchain for SDK build
->> because it's copied from wayland dev package.
->>
->> Signed-off-by: Seokha Ko <sukdo399@daum.net>
->> ---
->>   .../packagegroups/nativesdk-packagegroup-sdk-host.bb            | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
->> index e2f6169994..4dc6eea23e 100644
->> --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
->> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
->> @@ -23,7 +23,7 @@ RDEPENDS_${PN} = "\
->>       nativesdk-makedevs \
->>       nativesdk-dnf \
->>       nativesdk-cmake \
->> -    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
->> +    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland-dev', '', d)} \
-> Do we need the whole dev package ? if not I would suggest to package
-> it into a separate output package
-> and include that along with nativesdk-wayland
->
->>       nativesdk-sdk-provides-dummy \
->>       "
->>
->> --
->> 2.17.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The following changes since commit 99506b0017bdf8dbf42ec5dc048d91a5609dabe3:
+
+  weston-init: run login before start weston.service (2018-08-20 17:38:23 +0100)
+
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/allarch-enabled
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/allarch-enabled
+
+Kai Kang (3):
+  cmake.bbclass: fix wrong toolchain flags of nativesdk package
+  allarch: disable allarch when multilib is used
+  sstate.bbclass: update SSTATE_DUPWHITELIST
+
+ meta/classes/allarch-enabled.bbclass | 52 ++++++++++++++++++++++++++++
+ meta/classes/allarch.bbclass         | 51 ++-------------------------
+ meta/classes/cmake.bbclass           |  1 +
+ meta/classes/icecc.bbclass           |  2 +-
+ meta/classes/multilib.bbclass        |  2 +-
+ meta/classes/multilib_global.bbclass |  2 +-
+ meta/classes/package.bbclass         |  6 ++--
+ meta/classes/sstate.bbclass          |  4 ++-
+ 8 files changed, 64 insertions(+), 56 deletions(-)
+ create mode 100644 meta/classes/allarch-enabled.bbclass
+
+-- 
+2.18.0
 
 
