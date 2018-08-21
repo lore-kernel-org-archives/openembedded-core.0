@@ -1,48 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D2587451E
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EBC760116
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 00:51:03 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id d4-v6so18380820qtn.13
+	Tue, 21 Aug 2018 01:30:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7L1UKuE017237
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 17:51:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oBiT9gxSPtYKsBHfxWmvB0iTXu0NR78EEFPbz5vKrdE=;
-	b=E+b1w3eJDhW/8QIyUnXOAf/sBKz7bo3tapR3O5cvCeTw9LNh59aZh19qwhxVbsTdDW
-	nG8lyoQXLdJ2+ihC6ZRlpo2h5nkFTq9cLINoqd56OORXDP9mtN6tJLTc6kxmipEHrwYr
-	Z1wU62SBj1um5wMG8O3gaXcUs1T1pLesx62f+eZnCa5+md3Br88kNytH4yIeBis19KfJ
-	8yqe3j/zVst2SHPtPmcLAyxX9KCLYEM4DGu360YlPWdGigN+ycsUO7Qk7LeSHcFXNj4b
-	0/Qh/TZhkAcDyQAFoP3t/rI9+HCBANOjCDCRdNAjZDM5Azm2ZZ1mjMWdLnxdlMJwdb3J
-	24jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=oBiT9gxSPtYKsBHfxWmvB0iTXu0NR78EEFPbz5vKrdE=;
-	b=oxU1hb64o0s0IV43I4SdUgV1SIIzOWF7YVW82hXIsnn72a2FryLGOdW+uVRMRdnN7W
-	QAvwIlWCodY1RPnLTaoTG/8XUujB2ZbQLR8W4L/2BCzGBuldgi4heCkzu2vyh8n5ZZ/g
-	HETztPneN5RHqCSOYH7K8DiiMLlf1BNdTwIYEKutwO9wJA7ituJtBGskMMQ7zSBo23Yw
-	ddRUaEwO9rea4KJ2AP1OMj3XWj9OZjzTzLUVKO97WS7r4chl4NPwqe/VsvOiNPYk9ZIH
-	Uh3YmSZgeEEJ7pQa4NwlS5ec7aKU4v5rIKw4DK/vq4+nnASUXrTZkO3ghb0Ucy0FQiWr
-	XOwA==
-X-Gm-Message-State: AOUpUlHej8ci025CK0Po4Xu09QcFP0v/xQR/UTtieHHji/RY9TUQx6YQ
-	hDuDZecJnIvpgytd5f1sPrcj+mHZ/+hKZzTINiI=
-X-Google-Smtp-Source: AA+uWPwRrsK3pCDCdWv2MnK4PcvPuyKKXBVwE75tlAykRQUQJ1A0C7gvoXcjU60vYumdbP32oiR7yG+vlHlEcW0SBpA=
-X-Received: by 2002:ac8:25f1:: with SMTP id
-	f46-v6mr48357937qtf.20.1534812664091; 
-	Mon, 20 Aug 2018 17:51:04 -0700 (PDT)
+	Mon, 20 Aug 2018 18:30:20 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Mon, 20 Aug 2018 18:30:19 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Aug 2018 09:30:18 +0800
+Message-ID: <1534815018-138367-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20180820232105.20179-1-sukdo399@daum.net>
-In-Reply-To: <20180820232105.20179-1-sukdo399@daum.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 Aug 2018 17:50:38 -0700
-Message-ID: <CAMKF1sr+670v4NnJqh++SVrFRaFFMXf3ZfNQkoBJXCZJgOnWsQ@mail.gmail.com>
-To: sukdo399@daum.net
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nativesdk-packagegroup-sdk-host: Add wayland-scanner to the SDK native toolchain
+Subject: [PATCH V4] sstate: Avoid indirect autoconf-archive-native dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 00:51:03 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 21 Aug 2018 01:30:20 -0000
+Content-Type: text/plain
 
-On Mon, Aug 20, 2018 at 4:26 PM Seokha Ko <sukdo399@daum.net> wrote:
->
-> The wayland-scanner was missing from the native toolchain for SDK build
-> because it's copied from wayland dev package.
->
-> Signed-off-by: Seokha Ko <sukdo399@daum.net>
-> ---
->  .../packagegroups/nativesdk-packagegroup-sdk-host.bb            | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-> index e2f6169994..4dc6eea23e 100644
-> --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-> @@ -23,7 +23,7 @@ RDEPENDS_${PN} = "\
->      nativesdk-makedevs \
->      nativesdk-dnf \
->      nativesdk-cmake \
-> -    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
-> +    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland-dev', '', d)} \
+From: Changqing Li <changqing.li@windriver.com>
 
-Do we need the whole dev package ? if not I would suggest to package
-it into a separate output package
-and include that along with nativesdk-wayland
+remove the indirect dependcy of autoconf-archive-native via
+SSTATE_EXCLUDEDEPS_SYSROOT to avoid not needed .m4 installed
+into sysroot, which may cause compile problem.
 
->      nativesdk-sdk-provides-dummy \
->      "
->
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/conf/layer.conf | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index cc77d07..2cbe952 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -90,6 +90,9 @@ SSTATE_EXCLUDEDEPS_SYSROOT += "\
+     .*->.*-initial.* \
+     .*(base-passwd|shadow-sysroot)->.* \
+ "
++# Avoid adding autoconf-archive-native to sysroot without a specific
++# dependency in the recipe.
++SSTATE_EXCLUDEDEPS_SYSROOT += ".*->autoconf-archive-native"
+ 
+ # We need to keep bitbake tools in PATH
+ PATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}:${HOSTTOOLS_DIR}"
+-- 
+2.7.4
+
 
