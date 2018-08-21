@@ -1,48 +1,58 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7844874E1A;
-	Tue, 21 Aug 2018 22:02:16 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id d131-v6so4365597qke.11;
-	Tue, 21 Aug 2018 15:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OzTwNt0Tdqr6fYbRauKBx+xan3EfZM2mm1AtQ2RySvc=;
-	b=t89YbJb+eYsRav8ttNBS22ZSSEGdICGNZ3Rdkd+XHPzDLGmyGe9owEvB4UcRRktbQx
-	7vA7/TBQ7RBiqvXn+dlrZjMq3eoANxYTWOtRk64GewgcmyrAjt1v+REdF14kLdpdtNGt
-	l7fx6Tg4j8n5Wqi3//w3iaeA7fj6pojQTVLxMzm4LfEfRbuGwENg2SK1V5wzVdmOAfFJ
-	huguez3dy8gwlDl/VAEIe7yl7lAhTAT2PZFKjRRppzJaK6FOYMA5P56epbHVa47qDEm7
-	3SclZo69bfs50NxVVf5bLafhbjrdWv4h+A+MsRKjKLafyjm1chcI0R0Lm+rewsWqBLRd
-	WqUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=OzTwNt0Tdqr6fYbRauKBx+xan3EfZM2mm1AtQ2RySvc=;
-	b=tZBRoQlqxBLAparWMfeciyu4OLAcng/5byR/sOAnucOBXDyXU/aE6Xgo1hLlmq2l0d
-	asJPMPt1iqXPN7fS5nfgWo4Alu5xVECiMsK2M6jplAe/9bytQV7Hdypkf+oU0Q5nInlE
-	0p8/ehvRMnnR/z2hG0WywjEhxgM9bpXNiW15GGNZc8kpTmVRuei1OrUekcc2RJN+nZZm
-	ZkCgxCQ16hFQh5r3bUwbrAp7Q/uXqanIuAnkuWCjfBLJktUDqhOWtJc4WWU99rrI7KQy
-	DihWMMyYgBKVUjpbHQ3uYR7c5nUoVcADYN1LeQs7KPGTY1NjenoYNEYKl05DUsFXnTqG
-	kwvA==
-X-Gm-Message-State: AOUpUlFYjyaDfwizC4MiVoMyGDhgN2/V2a2Am8Jupgyb0M30KuDoS7Sh
-	+WmbJLcjd0SIl0dGvNhoMsd3+2BvHUb3q3um+EM=
-X-Google-Smtp-Source: AA+uWPwvrT8l3NZYTGorNLhBt0XLBmDce82M8hwdM9FVee3FO+kssJIe+3VfKN4aobhwb137cfSfTU9ppeSCHRIx9jQ=
-X-Received: by 2002:a37:21a5:: with SMTP id
-	f37-v6mr22006982qki.206.1534888937072; 
-	Tue, 21 Aug 2018 15:02:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <664116f8b9fb427aaa911962e77f1a3d@de.bosch.com>
-	<a6e6fea9d8763611b2df805006639187f9c95326.camel@linuxfoundation.org>
-In-Reply-To: <a6e6fea9d8763611b2df805006639187f9c95326.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Aug 2018 15:01:50 -0700
-Message-ID: <CAMKF1spOozHrDEvdzWf+YKVP3OqGg7uicLpYBitLAGMPF4RQdA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B1E6979022
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2018 22:48:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id E6FF21836E;
+	Wed, 22 Aug 2018 00:48:05 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id YSHWT5EsZMCV; Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id E358818134;
+	Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CC05A1A07B;
+	Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C0D0B1A077;
+	Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by thoth.se.axis.com (Postfix) with ESMTP id B4B372F7D;
+	Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 22 Aug 2018 00:48:03 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Wed, 22 Aug 2018 00:48:03 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andrej Valek
+	<andrej.valek@siemens.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] directfb: fix tslib version check in configure.in
+Thread-Topic: [OE-core] [PATCH v2] busybox: update to 1.29.1
+Thread-Index: AQHUH1P2j3IvBzLYn0+4pao6VLo2VKTDpXAAgAcVzYCAAEB3YA==
+Date: Tue, 21 Aug 2018 22:48:03 +0000
+Message-ID: <1d41027052aa40659d2d164dc15b38be@XBOX02.axis.com>
+References: <20180719085353.4499-1-andrej.valek@siemens.com>
+	<20180719113037.6337-1-andrej.valek@siemens.com>
+	<3540cc10-ffab-8805-c471-0a7f12b81acc@siemens.com>
+	<5adbae192a432b8997d266ddb4fb6860be4f5ccf.camel@linuxfoundation.org>
+In-Reply-To: <5adbae192a432b8997d266ddb4fb6860be4f5ccf.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH v2] busybox: update to 1.29.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +65,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 22:02:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 21 Aug 2018 22:48:06 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 21, 2018 at 2:58 PM <richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2018-08-21 at 08:36 +0000, Jonas Mark (BT-FIR/ENG1) wrote:
-> > Hi Richard,
-> >
-> > This is my third attempt getting my reply onto the mailing list. I
-> > suspect the first two attempts were filtered due to the link to the
-> > v2
-> > patch I added. I removed the link this time.
-> >
-> > I already sent an updated version of the patch to the
-> > openembedded-devel@lists.openembedded.org mailing list because an
-> > automatic system informed me that I hit the wrong mailing list. I
-> > propose to switch to openembedded-devel for further discussions.
-> >
-> > [meta-oe,v2] directfb: fix tslib version check in configure.in
-> >
-> > Sadly, there hasn't been any reaction yet.
->
-> FWIW your messages do appear to be making it to the mailing list(s) and
-> you can see them in the archives, e.g.:
->
-> http://lists.openembedded.org/pipermail/openembedded-devel/2018-August/120115.html
->
-> I look after OE-Core, not meta-oe where this patch needs to go so I
-> can't help with that but the patch is on the right list for them to see
-> it.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Richard Purdie
+> Sent: den 21 augusti 2018 22:30
+> To: Andrej Valek <andrej.valek@siemens.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH v2] busybox: update to 1.29.1
+>=20
+> On Fri, 2018-08-17 at 10:18 +0200, Andrej Valek wrote:
+> > ping
+>=20
+> Fails to build on the autobuilder due to missing crypt headers. That is
+> probably a missing DEPENDS
 
-its in master
+Well, the patch I sent to add a dependency on virtual/crypt will solve=20
+this, but see below.
 
->
+> but I'm wondering what changed and if the
+> change was intentional.
+
+The change was intentional, but it should have been conditional.
+libbb/pw_encrypt.c now unconditionally includes crypt.h, but it should=20
+only include it if ENABLE_USE_BB_CRYPT is not set:
+
+diff --git a/libbb/pw_encrypt.c b/libbb/pw_encrypt.c
+index 86455cd0d..47c20690f 100644
+--- a/libbb/pw_encrypt.c
++++ b/libbb/pw_encrypt.c
+@@ -6,7 +6,9 @@
+  *
+  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
+  */
++#if !ENABLE_USE_BB_CRYPT
+ #include <crypt.h>
++#endif
+ #include "libbb.h"
+
+ /* static const uint8_t ascii64[] ALIGN1 =3D
+
+> https://autobuilder.yocto.io/builders/nightly-x86/builds/1259/steps/Build=
+Images/logs/stdio
+>=20
+> https://autobuilder.yocto.io/builders/nightly-x32/builds/1225/steps/Build=
+Images/logs/stdio
+>=20
+> and more...
+>=20
 > Cheers,
->
+>=20
 > Richard
+
+//Peter
+
 
