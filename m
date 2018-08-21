@@ -1,53 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 874FF7915F
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C92257901C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 08:22:04 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id w24-v6so2019926wmc.1
+	Tue, 21 Aug 2018 08:25:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7L8Pl3p008823
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 01:22:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=DzIQhIB22iPXfxxt34xgY117PgLbKuiI3QadTk+Zaos=;
-	b=NmExnFjWXSxF40NgKMV48RV7yWxnWOOvX3sl2g190WRXstpE6xMA+QUozMdLME7CEU
-	uq7USMnoczdCPBxBLjmR562LLRbZXokyk1ZKhBZZtMc/WWV79BTk6ZSEKTuAAHF8lAUx
-	eXi0vG/e8TBjQ8UFSvmLK7VVvg710n42Zyle0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=DzIQhIB22iPXfxxt34xgY117PgLbKuiI3QadTk+Zaos=;
-	b=KDy3Md6bzUOX2Vf39IC/xttyg+TkXqcmweLoq8Uxk/Hh1oijMlWPsvwxXk1PhH5EEl
-	R0jwYLix1Y6HwLWc8g0v1HachiotcATqjYgg4ITsvFAZjeT835P2ccFzqOEopir+0SxV
-	lDcuuPw2ogfSk7JyAxmYkqt+BHSWvzhqHW0c5eRMzLC6Q7KXJkruOfuGp32mnFouG+mn
-	IefCJsG4DOBIf5gOCEdw7HNfPQFTj1jvyQ7nJoZjaNfMyU7DgfD6jJ7MZE/3f8NNgeao
-	FYFHhZ9Vej1Io/9yMBD7fMvKkxMHjMTSTnKipVcxC7q+u7eyg7QAfzM1czEoSkg4pafm
-	OOqQ==
-X-Gm-Message-State: AOUpUlFPbuoI6E5EJNzix0XHa4DBL1akmawYfN33x3Gwmj5cFRhaRLcr
-	a1w5H0dPLk3JP5kNa8NC2uU8bg==
-X-Google-Smtp-Source: AA+uWPyjq1l/yIFk6FiTFImUVjCkq71EvVgD3i4O8LzYnC2OM3tLlYfsMWyG9M62O3ZQv5I7XFTE1g==
-X-Received: by 2002:a1c:9e89:: with SMTP id
-	h131-v6mr26608309wme.13.1534839725216; 
-	Tue, 21 Aug 2018 01:22:05 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	m8-v6sm9084119wrn.72.2018.08.21.01.22.03
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 Aug 2018 01:22:04 -0700 (PDT)
-Message-ID: <77b26139005bcfac54f24cf4e261499e68595e10.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: ChenQi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 21 Aug 2018 09:22:03 +0100
-In-Reply-To: <c3f18902-3719-cb74-197e-787a42663953@windriver.com>
-References: <cover.1534497181.git.Qi.Chen@windriver.com>
-	<760193dd3732a2239aa96f7660dd85ed4071ebd2.1534497181.git.Qi.Chen@windriver.com>
-	<179b2fa5f801bc5f8cf6618489889352039a4ad9.camel@linuxfoundation.org>
-	<c3f18902-3719-cb74-197e-787a42663953@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] assimp.py: fix AttributeError in tearDownClass
+	Tue, 21 Aug 2018 01:25:47 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Tue, 21 Aug 2018 01:25:46 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Aug 2018 16:25:45 +0800
+Message-ID: <1534839945-264601-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] flac: patch for CVE-2017-6888
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,63 +30,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 08:22:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Aug 2018 08:25:46 -0000
+Content-Type: text/plain
 
-On Tue, 2018-08-21 at 10:18 +0800, ChenQi wrote:
-> On 08/21/2018 12:53 AM, Richard Purdie wrote:
-> > On Fri, 2018-08-17 at 17:17 +0800, Chen Qi wrote:
-> > > When running this test case, we will see the following error.
-> > > 
-> > >   AttributeError: type object 'BuildAssimp' has no attribute
-> > > 'project'
-> > > 
-> > > assimp.py test case does not make use of SDKBuildProject, so
-> > > remove
-> > > the import statement and the tearDownClass.
-> > > 
-> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > > ---
-> > >  meta/lib/oeqa/sdk/cases/assimp.py | 5 -----
-> > >  1 file changed, 5 deletions(-)
-> > 
-> > I'm not seeing this error when I run the test and I can't see it on
-> > the
-> > autobuilders. Why are you seeing this and we're not?
-> > 
-> > I'm trying to understand some other odd behaviour in SDK tests and
-> > am
-> > wondering if this is related or not.
-> > 
-> > (e.g. https://autobuilder.yocto.io/builders/nightly-mips/builds/122
-> > 1/st
-> > eps/Running%20SDK%20Sanity%20Tests/logs/stdio)
-> > 
-> > Cheers,
-> > 
-> > Richard
-> > 
->  I did a quick search and found this one: https://github.com/pexpect/
-> pexpect/pull/31
-> """
-> sys.stdout.buffer is not guaranteed to exist - e.g. if sys.stdout has
-> been reassigned to an io.StringIO instance, it won't.
-> """
-> 
-> And we have in ConcurrencyTestSuite:
-> process_result._stdout_buffer = io.StringIO()
+From: Changqing Li <changqing.li@windriver.com>
 
-Note http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/lib/oeqa/core/utils/concurrencytest.py#n103
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../flac/flac/CVE-2017-6888.patch                  | 36 ++++++++++++++++++++++
+ meta/recipes-multimedia/flac/flac_1.3.2.bb         |  4 ++-
+ 2 files changed, 39 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/flac/flac/CVE-2017-6888.patch
 
-process_result._stderr_buffer.buffer = dummybuf(process_result._stderr_buffer)
-
-which creates a dummy buffer object...
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-multimedia/flac/flac/CVE-2017-6888.patch b/meta/recipes-multimedia/flac/flac/CVE-2017-6888.patch
+new file mode 100644
+index 0000000..0977f30
+--- /dev/null
++++ b/meta/recipes-multimedia/flac/flac/CVE-2017-6888.patch
+@@ -0,0 +1,36 @@
++From 43ecb6431077ff54e9df27f71737e6e96d6c039f Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Tue, 21 Aug 2018 14:46:43 +0800
++Subject: [PATCH] From 5f47b63e9c971e6391590caf00a0f2a5ed612e67 Mon Sep 17
++ 00:00:00 2001 From: Erik de Castro Lopo <erikd@mega-nerd.com> Date: Sat, 8
++ Apr 2017 18:34:49 +1000 Subject: [PATCH] stream_decoder.c: Fix a memory leak
++
++Leak reported by Secunia Research.
++
++Upstream-Status: Backport[https://git.xiph.org/?p=flac.git;a=commit;
++                 h=4f47b63e9c971e6391590caf00a0f2a5ed612e67]
++
++Update patch to version 1.3.2
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ src/libFLAC/stream_decoder.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/src/libFLAC/stream_decoder.c b/src/libFLAC/stream_decoder.c
++index d364b0c..ebf93da 100644
++--- a/src/libFLAC/stream_decoder.c
+++++ b/src/libFLAC/stream_decoder.c
++@@ -1759,6 +1759,9 @@ FLAC__bool read_metadata_vorbiscomment_(FLAC__StreamDecoder *decoder, FLAC__Stre
++ 					}
++ 					memset (obj->comments[i].entry, 0, obj->comments[i].length) ;
++ 					if (!FLAC__bitreader_read_byte_block_aligned_no_crc(decoder->private_->input, obj->comments[i].entry, obj->comments[i].length)) {
+++						/* Current i-th entry is bad, so we delete it. */\
+++						free (obj->comments[i].entry) ;
+++						obj->comments[i].entry = NULL ;						
++ 						obj->num_comments = i;
++ 						goto skip;
++ 					}
++-- 
++2.7.4
++
+diff --git a/meta/recipes-multimedia/flac/flac_1.3.2.bb b/meta/recipes-multimedia/flac/flac_1.3.2.bb
+index 8315ab5..92ef897 100644
+--- a/meta/recipes-multimedia/flac/flac_1.3.2.bb
++++ b/meta/recipes-multimedia/flac/flac_1.3.2.bb
+@@ -14,7 +14,9 @@ LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=ad1419ecc56e060eccf8184a87c4285f \
+                     file://include/FLAC/all.h;beginline=65;endline=70;md5=64474f2b22e9e77b28d8b8b25c983a48"
+ DEPENDS = "libogg"
+ 
+-SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz"
++SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz \
++           file://CVE-2017-6888.patch "
++
+ 
+ SRC_URI[md5sum] = "454f1bfa3f93cc708098d7890d0499bd"
+ SRC_URI[sha256sum] = "91cfc3ed61dc40f47f050a109b08610667d73477af6ef36dcad31c31a4a8d53f"
+-- 
+2.7.4
 
 
