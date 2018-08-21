@@ -1,76 +1,46 @@
-Return-Path: <Mark.Jonas@de.bosch.com>
-Received: from de-deferred2.bosch-org.com (de-deferred2.bosch-org.com
-	[139.15.180.217])
-	by mail.openembedded.org (Postfix) with ESMTP id E6C457915B;
-	Tue, 21 Aug 2018 08:36:57 +0000 (UTC)
-Received: from de-out1.bosch-org.com (unknown [139.15.180.215])
-	by fe0vms0193.rbdmz01.com (Postfix) with ESMTPS id 41vkYk2qv8z3RQ;
-	Tue, 21 Aug 2018 10:36:58 +0200 (CEST)
-Received: from si0vm1948.rbesz01.com (unknown [139.15.230.188])
-	by si0vms0216.rbdmz01.com (Postfix) with ESMTPS id 41vkYh2Fj3z1XLFj4;
-	Tue, 21 Aug 2018 10:36:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=de.bosch.com;
-	s=2015-01-21; t=1534840616;
-	bh=POrmznnVCvuZwVTUe2aSGj8086oni2VDOCpwkkJYpfY=; l=10;
-	h=From:From:Reply-To:Sender;
-	b=dyMK2GRGFOKZpIKZJ3eyZGzeMOWFtKJgqYkCsfpRqiP+lFMbrmGtmo5Mb3eH7MY7u
-	aFugEjzf85MTETIxSMdg6TkIFIRLohW+KaE8eYlANO/jHZPUXTMOC6964A+BAsOOhi
-	Vl0rbAfcn8ts9Mlkk1EGon7o36AWTIyfvo/yNEXA=
-Received: from si0vm2083.rbesz01.com (unknown [10.58.172.176])
-	by si0vm1948.rbesz01.com (Postfix) with ESMTPS id 41vkYh1njcz3rq;
-	Tue, 21 Aug 2018 10:36:56 +0200 (CEST)
-X-AuditID: 0a3aad17-93bff70000000e54-0c-5b7bcf1c82b6
-Received: from si0vm1949.rbesz01.com ( [10.58.173.29])
-	(using TLS with cipher AES128-SHA (128/128 bits))
-	(Client did not present a certificate)
-	by si0vm2083.rbesz01.com (SMG Outbound) with SMTP id
-	06.A8.03668.C1FCB7B5; Tue, 21 Aug 2018 10:36:44 +0200 (CEST)
-Received: from FE-MBX2050.de.bosch.com (fe-mbx2050.de.bosch.com [10.3.231.60])
-	by si0vm1949.rbesz01.com (Postfix) with ESMTPS id 41vkYh0BgVz6D6mNk; 
-	Tue, 21 Aug 2018 10:36:56 +0200 (CEST)
-Received: from FE-MBX2051.de.bosch.com (10.3.231.61) by
-	FE-MBX2050.de.bosch.com (10.3.231.60) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.1.1466.3; Tue, 21 Aug 2018 10:36:55 +0200
-Received: from FE-MBX2051.de.bosch.com ([fe80::dd3b:6759:60a1:e2]) by
-	FE-MBX2051.de.bosch.com ([fe80::dd3b:6759:60a1:e2%6]) with mapi id
-	15.01.1466.009; Tue, 21 Aug 2018 10:36:55 +0200
-From: "Jonas Mark (BT-FIR/ENG1)" <Mark.Jonas@de.bosch.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [meta-oe][PATCH] directfb: fix tslib version check in
-	configure.in
-Thread-Index: AdQ5KVmK3bpdqoosTnKoB6aL8gqjJQ==
-Date: Tue, 21 Aug 2018 08:36:55 +0000
-Message-ID: <664116f8b9fb427aaa911962e77f1a3d@de.bosch.com>
-Accept-Language: de-DE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.142.137.25]
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA22Tb0xbZRTGeXv751K47G1L7YHBAs2c/yKw4WLDFmPiFslmojPxw4bLLHKh
-	jbTF3oIUsoxVhAJGEGWwDmqd7WSEbe22GFxYwRYTxAyEGVYdBh0L6Ui2aQNbUVe87YW1H/zy
-	5r7Pc37POffcXJKQOshMUqs30Ua9ulIpFPPFReeyn8+aqi8puLSUoppbvSdSTftdhKrphg2p
-	woufClRzwRDvZUHxt7bfRMUjfYOi4klPP3qDOCTeXUZXamtoY/5L74g13T97RVWnc2u9N3uE
-	DehyTitKJgG/AAsuC9GKxKQUN/NgdLSFx128CK6ePyfkLncRtA/7EXcZRvBnnwdFeSEuguYz
-	P4qiz+n4RVhtGYgRBG4gYDkQIqKGDJfAZ2en2FySLXobmnqzuPo8eDgbjJXw8ZMQ6H4UK6Hw
-	LvjElReVEc4Gt3sqVkJgBVxcfCjgxsbgHOZ0wHK4sxBZ13PBfvwfIhpD4GfgwpV8Ds2Fz9v+
-	iE1JYQn8cPI2vwPJbQmptjhhSyBsCYQD8QeQnNEW1Oh2FKgK84ylNFNXsD3vXYPuIuK+k2II
-	fT1b7kOYRMpU6pirvkQqUNcwZp0P7SR5Sjk1Wc5KaaWGMrNGzWiOGKsraUaZSaGkpCSp7LHM
-	VJfqtAyjNeh9CEhCmU7t97McVaY219FGA4f50GaSr1RQay26EimuUJvo92i6ijZuuLtIUgnU
-	6DUWlBjpCrq2XFtp2rCV2VzPJxKdxLY8MtmHCslUtvdaNIJiqtQ6RluxjmdwuHRDjaMT6HXy
-	1w8/7iTIf+93sedc24lOQsrXG/R0poI6Mclm4SilqdY/niYzi8rvZw15ghFPXEIBxO5TRomj
-	cCr7a8TnAGpI1ntQKlkX49AOJ8vgIQrct4pgbHkGwcgv1xFciNwlwO6c58Ml+/VkWHOzh8fl
-	TYHGNgsF/h43BQPtQQpGTnWmwfFWbxqs3FtMg79Pdm2C8LgFw8pXExhmLgckcCswIoNepyMd
-	PJPfy2F8ZkYB1o4eALstBGBdjgCs9jVlwFr/R9ngCY9tgfBgcAusOE/lQO/vd7ZB5FH300vs
-	jnnsjkVCc3THJrXpf3a8rsZfLrMB7dm055s39z2wdszW2yPhnRnz7QtP1XW9Uuw6dH7rQFd5
-	/oOx5poDP43jq0s3/rrtOmI82rhN8NbhM/Yc7/sp0zrz3sKju618yVr7gSv3HchedWyvyu+4
-	edhCNO7vF1Kbr62ernVokKPj1e/GgoOvWUI+83PzW61oOvTlQXriiw+8Z5V8RqPe/ixhZNT/
-	AQfAWjSzBAAA
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] directfb: fix tslib version check in configure.in
+Return-Path: <rv@rasmusvillemoes.dk>
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+	[209.85.208.172])
+	by mail.openembedded.org (Postfix) with ESMTP id BFD607900C
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2018 10:01:47 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id q127-v6so13841169ljq.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2018 03:01:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=rasmusvillemoes.dk; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=+mEoPPVLQ6RLDr/1lIhntBY0cXO1xXgMuotzVp1Hn94=;
+	b=Bj7CltqMH8keaCv7Dd+hUNdqiCj+60EjQ4nuGNC4LYb27TWCDo2LnCaxjJY/O+9AFl
+	tPhgcTzV+NIgkKruu9k9OgSODeGYBOYzUm3ExQujChCk13plZpL5C9vydB8JV2sOge84
+	UTPlzXEzFico8oW4tCmD4HWHNoDKP5xqTLNXc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+mEoPPVLQ6RLDr/1lIhntBY0cXO1xXgMuotzVp1Hn94=;
+	b=B5jWG6xS/8SCXjpKjhFhgFR5RcjU1Nj6lx8RCHVkrFRw5a3CY+37LkI4XH/vH/5NFU
+	lxHkkZeDM9ys5nHP2PEwTRRXj+3Upg+6QAjHwuWzSIYMvPztEWkNxchFUTHTdqrIa6Xf
+	JBSz/Mjz6ir2upaf325v3GyVh4qHdFRpJXsr2idVpmp2U0doBuvCTRwsFUzoh2+KVgTh
+	3dSKkGYltT7vvJplUXEnef3qgZke1CVXD3eEKsSk24D2ZQ3Fuct3QNE65pSCHfU24DUl
+	kFAvpRBQndvHOPsLiKcpP7CyP4ujjH59xR2hceSiXOgwInW/5fQ8cwMN9FBkciKpx1zy
+	XZig==
+X-Gm-Message-State: APzg51C3F5mg4hILwbOBjLYw/i8GuK8gRUNK0Hn6jC578kUz3lQpjHYf
+	gfcNASDkty6egbaoQv3ODeUhYO5UC5a5Dw==
+X-Google-Smtp-Source: ANB0VdYkD3QCVdpULIH9ULWRmC80he73WjjH5+EoulpRtmRt7CE84HNsYsxhM+CpJZ9EwzXzhFvJrw==
+X-Received: by 2002:a2e:1d46:: with SMTP id
+	d67-v6mr2329582ljd.41.1534845708066; 
+	Tue, 21 Aug 2018 03:01:48 -0700 (PDT)
+Received: from prevas-ravi.prevas.se ([81.216.59.226])
+	by smtp.gmail.com with ESMTPSA id
+	h16-v6sm2037104ljh.26.2018.08.21.03.01.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 21 Aug 2018 03:01:47 -0700 (PDT)
+From: Rasmus Villemoes <rv@rasmusvillemoes.dk>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Aug 2018 12:01:44 +0200
+Message-Id: <20180821100145.12696-1-rv@rasmusvillemoes.dk>
+X-Mailer: git-send-email 2.16.4
+Subject: [PATCH 1/2] package.bbclass: use bb.utils.break_hardlinks helper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -83,64 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 08:36:58 -0000
-Content-Language: de-DE
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 21 Aug 2018 10:01:48 -0000
 
-SGkgUmljaGFyZCwNCg0KVGhpcyBpcyBteSB0aGlyZCBhdHRlbXB0IGdldHRpbmcgbXkgcmVwbHkg
-b250byB0aGUgbWFpbGluZyBsaXN0LiBJDQpzdXNwZWN0IHRoZSBmaXJzdCB0d28gYXR0ZW1wdHMg
-d2VyZSBmaWx0ZXJlZCBkdWUgdG8gdGhlIGxpbmsgdG8gdGhlIHYyDQpwYXRjaCBJIGFkZGVkLiBJ
-IHJlbW92ZWQgdGhlIGxpbmsgdGhpcyB0aW1lLg0KCQ0KSSBhbHJlYWR5IHNlbnQgYW4gdXBkYXRl
-ZCB2ZXJzaW9uIG9mIHRoZSBwYXRjaCB0byB0aGUNCm9wZW5lbWJlZGRlZC1kZXZlbEBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnIG1haWxpbmcgbGlzdCBiZWNhdXNlIGFuDQphdXRvbWF0aWMgc3lzdGVt
-IGluZm9ybWVkIG1lIHRoYXQgSSBoaXQgdGhlIHdyb25nIG1haWxpbmcgbGlzdC4gSQ0KcHJvcG9z
-ZSB0byBzd2l0Y2ggdG8gb3BlbmVtYmVkZGVkLWRldmVsIGZvciBmdXJ0aGVyIGRpc2N1c3Npb25z
-Lg0KDQpbbWV0YS1vZSx2Ml0gZGlyZWN0ZmI6IGZpeCB0c2xpYiB2ZXJzaW9uIGNoZWNrIGluIGNv
-bmZpZ3VyZS5pbg0KDQpTYWRseSwgdGhlcmUgaGFzbid0IGJlZW4gYW55IHJlYWN0aW9uIHlldC4N
-Cg0KPiA+IEZyb206IEd1YW4gQmVuIDxiZW4uZ3VhbkBjbi5ib3NjaC5jb20+DQo+ID4NCj4gPiBU
-aGUgcGF0Y2ggbWFrZXMgc3VyZSB0aGF0IHRoZSBvbGQgYXMgd2VsbCBhcyB0aGUgbmV3IHRzbGli
-IHBrZy1jb25maWcNCj4gPiBtZXRhZGF0YSBmaWxlIG5hbWluZyBzdHlsZSBpcyBoYW5kbGVkIGNv
-cnJlY3RseS4NCj4gPg0KPiA+IHRzbGliIDAuMCB0byAxLjAgY3JlYXRlZCBvbmx5IGEgdHNsaWIt
-PFZFUlNJT04+LnBjIHBrZy1jb25maWcNCj4gPiBtZXRhZGF0YQ0KPiA+IGZpbGUuDQo+ID4NCj4g
-PiBXaXRoIHRzbGliIDEuMSB0aGUgdHNsaWItPFZFUlNJT04+LnBjIHBoYXNlIG91dCB3YXMgc3Rh
-cnRlZC4NCj4gPiBBZGRpdGlvbmFsbHksIHRoZSBwa2ctY29uZmlnIG1ldGFkYXRhIGZpbGUgdHNs
-aWIucGMgd2FzIGFkZGVkLg0KPiA+DQo+ID4gU2luY2UgdHNsaWIgMS42IHRoZSB0c2xpYi08VkVS
-U0lPTj4ucGMgbWV0YWRhdGEgZmlsZSBpcyBkZXByZWNhdGVkLg0KPiA+IE5vdywgdGhlcmUgaXMg
-b25seSBhIHRzbGliLnBjLg0KPiANCj4gSSdtIGEgbGl0dGxlIGNvbmZ1c2VkIGFib3V0IHdoeSBP
-RSBuZWVkcyB0aGlzIHBhdGNoPyBTdXJlbHkgT0UgaXMgdXNpbmcNCj4gdGhlIG1vcmUgcmVjZW50
-IHRzbGliIHJlbGVhc2VzIGFuZCB0aGVyZWZvcmUgd2UgZG9uJ3QgbmVlZCB0aGlzIHBhdGNoPw0K
-DQpPRSBuZWVkcyB0aGlzIHBhdGNoIGJlY2F1c2UgaXQgdXNlcyBEaXJlY3RGQidzIGJ1aWxkIHN5
-c3RlbSBhbmQgdGhhdCBpcw0KYnJva2VuIHdpdGggdGhlIG1vc3QgcmVjZW50IHRzbGliIHJlbGVh
-c2VzLg0KDQpJbiB0aGUgYmVnaW5uaW5nIHRzbGliIG9ubHkgaGFkIGEgdHNsaWItPFZFUlNJT04+
-LnBjIGZvciBwa2djb25maWcuDQoNClN0YXJ0aW5nIHdpdGggdHNsaWIgMS4xLCB0c2xpYi5wYyBh
-bmQgdHNsaWItPFZFUlNJT04+LnBjIHdlcmUgY3JlYXRlZA0KZm9yIHBrZ2NvbmZpZy4gQW5kIHRo
-ZSB0c2xpYi08VkVSU0lPTj4ucGMgZmlsZSB3YXMgZGVjbGFyZWQgdG8gYmUNCmRlcHJlY2F0ZWQu
-DQoNCkZyb20gdHNsaWIgMS42IG9uIG9ubHkgdGhlIHRzbGliLnBjIGZpbGUgaXMgYXZhaWxhYmxl
-Lg0KDQpEaXJlY3RGQidzIGNvbmZpZ3VyZS5pbiBpcyBub3QgYXdhcmUgdGhhdCB0aGVyZSBpcyBh
-IHNpdHVhdGlvbiB3aXRob3V0DQphIHRzbGliLTxWRVJTSU9OPi5wYyBmaWxlLiBUaHVzIGl0IHdp
-bGwgbm90IGZpbmQgdHNsaWIgYW5kIHRoaXMgY2F1c2VzDQp0aGF0IHRoZSB0c2xpYiBpbnB1dCBk
-cml2ZXIgd29uJ3QgYmUgYnVpbHQuDQoNCkRpcmVjdEZCIDEuNy43Og0KDQplbmFibGVfdHNsaWI9
-bm8NCmlmIHRlc3QgIiRjaGVja2Zvcl90c2xpYiIgPSAieWVzIjsgdGhlbg0KICBQS0dfQ0hFQ0tf
-TU9EVUxFUyhbVFNMSUJdLCBbdHNsaWItMS4wID49IDEuMC4wXSwgW2VuYWJsZV90c2xpYj15ZXNd
-LCBbZW5hYmxlX3RzbGliPW5vXSkNCiAgaWYgdGVzdCAiJGVuYWJsZV90c2xpYiIgPSAibm8iOyB0
-aGVuDQogICAgIFBLR19DSEVDS19NT0RVTEVTKFtUU0xJQl0sIFt0c2xpYi0wLjBdLCBbZW5hYmxl
-X3RzbGliPXllc10sIFtlbmFibGVfdHNsaWI9bm8NCiAgICAgICBBQ19NU0dfV0FSTihbKioqIG5v
-IHRzbGliIC0tIHRzbGliIGRyaXZlciB3aWxsIG5vdCBiZSBidWlsdC5dKV0pDQogIGZpDQpmaQ0K
-DQoNClBhdGNoZWQ6DQoNCmVuYWJsZV90c2xpYj1ubw0KaWYgdGVzdCAiJGNoZWNrZm9yX3RzbGli
-IiA9ICJ5ZXMiOyB0aGVuDQogIFBLR19DSEVDS19NT0RVTEVTKFtUU0xJQl0sIFt0c2xpYiA+PSAx
-LjFdLCBbZW5hYmxlX3RzbGliPXllc10sIFtlbmFibGVfdHNsaWI9bm9dKQ0KICBpZiB0ZXN0ICIk
-ZW5hYmxlX3RzbGliIiA9ICJubyI7IHRoZW4NCiAgICBQS0dfQ0hFQ0tfTU9EVUxFUyhbVFNMSUJd
-LCBbdHNsaWItMS4wID49IDEuMF0sIFtlbmFibGVfdHNsaWI9eWVzXSwgW2VuYWJsZV90c2xpYj1u
-b10pDQogICAgaWYgdGVzdCAiJGVuYWJsZV90c2xpYiIgPSAibm8iOyB0aGVuDQogICAgICBQS0df
-Q0hFQ0tfTU9EVUxFUyhbVFNMSUJdLCBbdHNsaWItMC4wXSwgW2VuYWJsZV90c2xpYj15ZXNdLCBb
-ZW5hYmxlX3RzbGliPW5vDQogICAgICAgIEFDX01TR19XQVJOKFsqKiogbm8gdHNsaWIgLS0gdHNs
-aWIgZHJpdmVyIHdpbGwgbm90IGJlIGJ1aWx0Ll0pXSkNCiAgICBmaQ0KICBmaQ0KZmkNCg0KR3Jl
-ZXRpbmdzLA0KTWFyaw0KDQpCdWlsZGluZyBUZWNobm9sb2dpZXMsIFBhbmVsIFNvZnR3YXJlIEZp
-cmUgKEJULUZJUi9FTkcxKSANCkJvc2NoIFNpY2hlcmhlaXRzc3lzdGVtZSBHbWJIIHwgUG9zdGZh
-Y2ggMTEgMTEgfCA4NTYyNiBHcmFzYnJ1bm4gfCBHRVJNQU5ZIHwgd3d3LmJvc2Noc2VjdXJpdHku
-Y29tDQoNClNpdHo6IFN0dXR0Z2FydCwgUmVnaXN0ZXJnZXJpY2h0OiBBbXRzZ2VyaWNodCBTdHV0
-dGdhcnQgSFJCIDIzMTE4IA0KQXVmc2ljaHRzcmF0c3ZvcnNpdHplbmRlcjogU3RlZmFuIEhhcnR1
-bmc7IEdlc2Now6RmdHNmw7xocnVuZzogVGFuamEgUsO8Y2tlcnQsIEFuZHJlYXMgQmFydHosIFRo
-b21hcyBRdWFudGUsIEJlcm5oYXJkIFNjaHVzdGVyDQo=
+This does the same thing, but is more efficient in case st_nlinks
+is (already) 1.
+
+Depends on bitbake commit 7ae93cf40ab91965147055100432961436bce46c .
+
+Signed-off-by: Rasmus Villemoes <rv@rasmusvillemoes.dk>
+---
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 4ce9de2f57..8dca3b0191 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1029,7 +1029,7 @@ python split_and_strip_files () {
+                 else:
+                     inodes[file_reference] = [file]
+                     # break hardlink
+-                    bb.utils.copyfile(file, file)
++                    bb.utils.break_hardlinks(file)
+                     elffiles[file] = elf_file
+                 # Modified the file so clear the cache
+                 cpath.updatecache(file)
+-- 
+2.16.4
+
 
