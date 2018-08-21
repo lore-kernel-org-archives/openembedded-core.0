@@ -1,29 +1,28 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D568079234
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DE1A7918F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 20:25:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7LKPHSX017514
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Aug 2018 13:25:17 -0700 (PDT)
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 21 Aug 2018 13:25:17 -0700
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <20180821062333.21393-1-hongzhi.song@windriver.com>
-	<84bd9292-69b4-bf25-6385-2c92df108651@windriver.com>
-	<CAJ86T=UP_i1_dyk3PDy+x4FyMzphg-Xpy1SgeXErqn8RKDykaQ@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <f431e85e-3536-b339-0cea-d53fc95bb371@windriver.com>
-Date: Tue, 21 Aug 2018 16:25:16 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=UP_i1_dyk3PDy+x4FyMzphg-Xpy1SgeXErqn8RKDykaQ@mail.gmail.com>
-X-Originating-IP: [172.25.44.4]
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runtime selftest: hw breakpoint case correct syntax
+	Tue, 21 Aug 2018 20:29:52 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7LKTpst022475
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 21 Aug 2018 21:29:53 +0100
+Message-ID: <5adbae192a432b8997d266ddb4fb6860be4f5ccf.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Aug 2018 21:29:51 +0100
+In-Reply-To: <3540cc10-ffab-8805-c471-0a7f12b81acc@siemens.com>
+References: <20180719085353.4499-1-andrej.valek@siemens.com>
+	<20180719113037.6337-1-andrej.valek@siemens.com>
+	<3540cc10-ffab-8805-c471-0a7f12b81acc@siemens.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH v2] busybox: update to 1.29.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,94 +35,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 20:25:18 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
+X-List-Received-Date: Tue, 21 Aug 2018 20:29:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/21/2018 03:02 PM, Andre McCurdy wrote:
-> On Tue, Aug 21, 2018 at 8:30 AM, Randy MacLeod
-> <randy.macleod@windriver.com> wrote:
->> On 08/21/2018 02:23 AM, Hongzhi.Song wrote:
->>>
->>> 1. There is a wrong syntax.
->>
->> Usually the word syntax refers to code and grammar refers
->> to English phrasing (but it's a weird language and the
->> rules are sometimes ignored).
->>
->>> 2. Since last commit has exclude the arm64, so remove arm64.
->>
->> What last commit? Please write the log help people who
->> have not been working on the patch.
->>
->> See:
->>     https://chris.beams.io/posts/git-commit/
->> for guidelines.
->>
->> Something like:
->>
->> Subject:
->>     runtime selftest: hw breakpoint drop arm64, correct grammar
->>
->> Improve grammar in skip test output.
-> 
-> I don't see any grammar fixes in the original patch? Just a syntax fix
-> (adding a missing % to the format string).
+On Fri, 2018-08-17 at 10:18 +0200, Andrej Valek wrote:
+> ping
 
-Oops, you're right; my mistake.
-Thanks,
-../Randy
+Fails to build on the autobuilder due to missing crypt headers. That is
+probably a missing DEPENDS but I'm wondering what changed and if the
+change was intentional.
 
-> 
->> Do not run the test for arm64 because commit XXXXXX did YYYYY.
->>
->>
->>
->> Thanks!
->>
->> ../Randy
->>>
->>>
->>> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
->>> ---
->>>    meta/lib/oeqa/runtime/cases/ksample.py | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/lib/oeqa/runtime/cases/ksample.py
->>> b/meta/lib/oeqa/runtime/cases/ksample.py
->>> index eb8713351a..0e00cdeeb6 100644
->>> --- a/meta/lib/oeqa/runtime/cases/ksample.py
->>> +++ b/meta/lib/oeqa/runtime/cases/ksample.py
->>> @@ -166,9 +166,9 @@ class KSampleTest(KSample):
->>>        def test_hw_breakpoint_example(self):
->>>            # check arch
->>>            status, output = self.target.run("uname -m")
->>> -        result = ("x86" in output) or ("aarch64" in output)
->>> +        result = "x86" in output
->>>            if not result:
->>> -            self.skipTest("the arch doesn't support hw breakpoint" %
->>> output)
->>> +            self.skipTest("the arch %s doesn't support hw breakpoint" %
->>> output)
->>>            # check config
->>>            self.check_config("CONFIG_KALLSYMS_ALL")
->>>            # make sure if module exists
->>>
->>
->>
->> --
->> # Randy MacLeod
->> # Wind River Linux
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+https://autobuilder.yocto.io/builders/nightly-x86/builds/1259/steps/BuildImages/logs/stdio
 
+https://autobuilder.yocto.io/builders/nightly-x32/builds/1225/steps/BuildImages/logs/stdio
 
--- 
-# Randy MacLeod
-# Wind River Linux
+and more...
+
+Cheers,
+
+Richard
 
