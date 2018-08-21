@@ -1,57 +1,53 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B1E6979022
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com
+	[209.85.213.41])
+	by mail.openembedded.org (Postfix) with ESMTP id CFF8279158
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 22:48:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id E6FF21836E;
-	Wed, 22 Aug 2018 00:48:05 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id YSHWT5EsZMCV; Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id E358818134;
-	Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CC05A1A07B;
-	Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C0D0B1A077;
-	Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by thoth.se.axis.com (Postfix) with ESMTP id B4B372F7D;
-	Wed, 22 Aug 2018 00:48:03 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Wed, 22 Aug 2018 00:48:03 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Wed, 22 Aug 2018 00:48:03 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andrej Valek
-	<andrej.valek@siemens.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2] busybox: update to 1.29.1
-Thread-Index: AQHUH1P2j3IvBzLYn0+4pao6VLo2VKTDpXAAgAcVzYCAAEB3YA==
-Date: Tue, 21 Aug 2018 22:48:03 +0000
-Message-ID: <1d41027052aa40659d2d164dc15b38be@XBOX02.axis.com>
+	Tue, 21 Aug 2018 23:37:25 +0000 (UTC)
+Received: by mail-vk0-f41.google.com with SMTP id h200-v6so51807vke.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2018 16:37:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=FWJUMJZ3QasyoqTXcFNiiugkRhRnu4uin1vGPYbVCpk=;
+	b=JR/ls61G96qdrduHyj7zm3xkd4uULGGTXuuA9ZfG1Ivqy8vd07rv4o/oShATwgKEBV
+	Kq9Gfy/TqpOv1mpflZ2zKwbuAROs1GHB8mbh9GtGeX/YbKYe/YL8JqF2QmIFPHctmW2d
+	0KwnBKFJGpADkU6bCAixSb6OarKybKF3pbTpYl4UYYMBlczsyghgqrmUGa7I0FY8yq4W
+	sUmmNV9xfIF6gS0r9Ewwk99F2a0Mn9QxcV5+ZgSwc4Q1riZmg+cg+ol2pYdQzQ+4dwnb
+	E6a/juwnVWfCXH3cAA4++IRTHxisV3HK8miZyl591mdlRZUKfHDTNfuqm9/HV8WAqsG1
+	nJSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=FWJUMJZ3QasyoqTXcFNiiugkRhRnu4uin1vGPYbVCpk=;
+	b=brB4rRy8VakYw0sZYuCNugq6AXmaQ6OqtdYZLxLUjMPyS9aPhBiYJU+F5FZ9B9Lyjp
+	9O2DjivFyvKy4dJ5uOFt/ehD54/I3Vk4/EsHejzVEg8JZ6Y2mKAUALQEvehsn3RkHepI
+	Nk6UeURuKaVpEmaeuF/uJMXARKbi9xP3x+0bMPP6lQI+N0xE2p7EfFXo6FE9/QqLL/SM
+	vCrz4i5IAFpG/ZOw1jkk5InWpLpxb5r3H82huP9XP652lKKNh7EFkjukMB81z/q/Z9mB
+	+RgS176TD5EzuloTzlf+r0xxicxMxCaqjaJiQ+lbNw1HYi0aHhDFo2HGh1iScti4vtMI
+	18BA==
+X-Gm-Message-State: APzg51C7tJA2h5wF//TCWcUdOLytggpVO3+m3dRg6NhLZvy9VoLzuC6J
+	B8m7sJyb9imEtOBpE1dHEEo/5tJMR3cTWe+6Gr0=
+X-Google-Smtp-Source: ANB0VdZAbL/YfQ1L/m5AZp1EZ159atUUDEY9zdBquDaKvtUiyrbNw6d5dr65PHn/FDY2hHUdKyepbLEdv0Sh5Sum9Yw=
+X-Received: by 2002:a1f:8b88:: with SMTP id
+	n130-v6mr7672539vkd.83.1534894646535; 
+	Tue, 21 Aug 2018 16:37:26 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Tue, 21 Aug 2018 16:37:26 -0700 (PDT)
+In-Reply-To: <1d41027052aa40659d2d164dc15b38be@XBOX02.axis.com>
 References: <20180719085353.4499-1-andrej.valek@siemens.com>
 	<20180719113037.6337-1-andrej.valek@siemens.com>
 	<3540cc10-ffab-8805-c471-0a7f12b81acc@siemens.com>
 	<5adbae192a432b8997d266ddb4fb6860be4f5ccf.camel@linuxfoundation.org>
-In-Reply-To: <5adbae192a432b8997d266ddb4fb6860be4f5ccf.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
+	<1d41027052aa40659d2d164dc15b38be@XBOX02.axis.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 21 Aug 2018 16:37:26 -0700
+Message-ID: <CAJ86T=WXac7+_PavCOcaE9ZkDyhcV=Xpn0dwbJXxxy92TPuPLw@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] busybox: update to 1.29.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -65,62 +61,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 22:48:06 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Aug 2018 23:37:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Richard Purdie
-> Sent: den 21 augusti 2018 22:30
-> To: Andrej Valek <andrej.valek@siemens.com>; openembedded-
-> core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH v2] busybox: update to 1.29.1
->=20
-> On Fri, 2018-08-17 at 10:18 +0200, Andrej Valek wrote:
-> > ping
->=20
-> Fails to build on the autobuilder due to missing crypt headers. That is
-> probably a missing DEPENDS
+On Tue, Aug 21, 2018 at 3:48 PM, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+>> core-bounces@lists.openembedded.org> On Behalf Of Richard Purdie
+>> Sent: den 21 augusti 2018 22:30
+>> To: Andrej Valek <andrej.valek@siemens.com>; openembedded-
+>> core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH v2] busybox: update to 1.29.1
+>>
+>> On Fri, 2018-08-17 at 10:18 +0200, Andrej Valek wrote:
+>> > ping
+>>
+>> Fails to build on the autobuilder due to missing crypt headers. That is
+>> probably a missing DEPENDS
+>
+> Well, the patch I sent to add a dependency on virtual/crypt will solve
+> this, but see below.
+>
+>> but I'm wondering what changed and if the
+>> change was intentional.
+>
+> The change was intentional, but it should have been conditional.
+> libbb/pw_encrypt.c now unconditionally includes crypt.h, but it should
+> only include it if ENABLE_USE_BB_CRYPT is not set:
+>
+> diff --git a/libbb/pw_encrypt.c b/libbb/pw_encrypt.c
+> index 86455cd0d..47c20690f 100644
+> --- a/libbb/pw_encrypt.c
+> +++ b/libbb/pw_encrypt.c
+> @@ -6,7 +6,9 @@
+>   *
+>   * Licensed under GPLv2 or later, see file LICENSE in this source tree.
+>   */
+> +#if !ENABLE_USE_BB_CRYPT
+>  #include <crypt.h>
+> +#endif
+>  #include "libbb.h"
 
-Well, the patch I sent to add a dependency on virtual/crypt will solve=20
-this, but see below.
+Do you plan to submit the fix upstream?
 
-> but I'm wondering what changed and if the
-> change was intentional.
-
-The change was intentional, but it should have been conditional.
-libbb/pw_encrypt.c now unconditionally includes crypt.h, but it should=20
-only include it if ENABLE_USE_BB_CRYPT is not set:
-
-diff --git a/libbb/pw_encrypt.c b/libbb/pw_encrypt.c
-index 86455cd0d..47c20690f 100644
---- a/libbb/pw_encrypt.c
-+++ b/libbb/pw_encrypt.c
-@@ -6,7 +6,9 @@
-  *
-  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
-  */
-+#if !ENABLE_USE_BB_CRYPT
- #include <crypt.h>
-+#endif
- #include "libbb.h"
-
- /* static const uint8_t ascii64[] ALIGN1 =3D
-
-> https://autobuilder.yocto.io/builders/nightly-x86/builds/1259/steps/Build=
-Images/logs/stdio
->=20
-> https://autobuilder.yocto.io/builders/nightly-x32/builds/1225/steps/Build=
-Images/logs/stdio
->=20
-> and more...
->=20
-> Cheers,
->=20
-> Richard
-
-//Peter
-
+>  /* static const uint8_t ascii64[] ALIGN1 =
+>
+>> https://autobuilder.yocto.io/builders/nightly-x86/builds/1259/steps/BuildImages/logs/stdio
+>>
+>> https://autobuilder.yocto.io/builders/nightly-x32/builds/1225/steps/BuildImages/logs/stdio
+>>
+>> and more...
+>>
+>> Cheers,
+>>
+>> Richard
+>
+> //Peter
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
