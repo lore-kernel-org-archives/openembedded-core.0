@@ -1,28 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F25C7903E
+Return-Path: <sukdo399@daum.net>
+Received: from mail-smail-vm79.hanmail.net (mail-smail-vm79.daum.net
+	[211.231.106.154])
+	by mail.openembedded.org (Postfix) with ESMTP id C42E379011
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 03:44:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7L3iBHn006689
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2018 20:44:11 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Mon, 20 Aug 2018 20:44:10 -0700
-To: Hongxu Jia <hongxu.jia@windriver.com>,
+	Tue, 21 Aug 2018 05:22:51 +0000 (UTC)
+Received: from mail-hmail-was5.s2.krane.9rum.cc ([10.197.10.47])
+	by mail-smail-vm79.hanmail.net (8.13.8/8.9.1) with SMTP id
+	w7L5MlKs009490 for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2018 14:22:47 +0900
+X-Hermes-Message-Id: m7LEMkshi1405499449
+Date: Tue, 21 Aug 2018 14:22:46 +0900 (KST)
+From: Seokha Ko <sukdo399@daum.net>
+To: Khem Raj <raj.khem@gmail.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1534728196-29017-1-git-send-email-hongxu.jia@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <3d233f00-ece7-a451-7818-535c16977cc6@windriver.com>
-Date: Tue, 21 Aug 2018 11:48:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+Message-ID: <20180821142246._iSqKl9WTLOkNkbhXCg-Ow@sukdo399.hanmail.net>
 MIME-Version: 1.0
-In-Reply-To: <1534728196-29017-1-git-send-email-hongxu.jia@windriver.com>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH V2] nasm: fix CVE-2018-8883 & CVE-2018-8882 & CVE-2018-10016 & CVE-2018-10316
+X-Mailer: Daum Mint Web 1.0
+X-Originating-IP: [182.212.44.138]
+X-HM-UT: qXZ0Qt+h/LYAl+M7w+AV3PFdugrUhY3upSfJ6//IJWw=
+Received: from mail-hammer-was10.s2.krane.9rum.cc ([10.197.10.43]) by hermes
+	of mail-hmail-was5.s2.krane.9rum.cc (10.197.10.47) with ESMTP
+	id m7LEMkshi1405499449 for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2018 14:22:46 +0900 (KST)
+Subject: Re: [PATCH] nativesdk-packagegroup-sdk-host: Add wayland-scanner to
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,255 +37,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 03:44:10 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Aug 2018 05:22:52 -0000
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
 
-Caused ovmf do_compile failure.
-https://autobuilder.yocto.io/builders/nightly-musl/builds/1254/steps/BuildImages/logs/stdio 
-
-
-Best Regards,
-Chen Qi
-
-On 08/20/2018 09:23 AM, Hongxu Jia wrote:
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   ...t-we-are-not-reading-past-end-of-a-buffer.patch | 65 ++++++++++++++++++++++
->   ...001-asm-eval.c-Avoid-possible-divide-by-0.patch | 40 +++++++++++++
->   .../0001-assemble-Check-global-line-limit.patch    | 50 +++++++++++++++++
->   .../nasm/nasm/0001-fix-CVE-2018-8882.patch         | 30 ++++++++++
->   meta/recipes-devtools/nasm/nasm_2.13.03.bb         |  4 ++
->   5 files changed, 189 insertions(+)
->   create mode 100644 meta/recipes-devtools/nasm/nasm/0001-Verify-that-we-are-not-reading-past-end-of-a-buffer.patch
->   create mode 100644 meta/recipes-devtools/nasm/nasm/0001-asm-eval.c-Avoid-possible-divide-by-0.patch
->   create mode 100644 meta/recipes-devtools/nasm/nasm/0001-assemble-Check-global-line-limit.patch
->   create mode 100644 meta/recipes-devtools/nasm/nasm/0001-fix-CVE-2018-8882.patch
->
-> diff --git a/meta/recipes-devtools/nasm/nasm/0001-Verify-that-we-are-not-reading-past-end-of-a-buffer.patch b/meta/recipes-devtools/nasm/nasm/0001-Verify-that-we-are-not-reading-past-end-of-a-buffer.patch
-> new file mode 100644
-> index 0000000..a56a08b
-> --- /dev/null
-> +++ b/meta/recipes-devtools/nasm/nasm/0001-Verify-that-we-are-not-reading-past-end-of-a-buffer.patch
-> @@ -0,0 +1,65 @@
-> +From c5785fdf1d660eaefb9711284414262d0cfe8843 Mon Sep 17 00:00:00 2001
-> +From: Adam Majer <amajer@suse.de>
-> +Date: Fri, 17 Aug 2018 14:48:17 +0800
-> +Subject: [PATCH] Verify that we are not reading past end of a buffer
-> +
-> +Simple reproducer is just,
-> +
-> +    ret &d:ep
-> +
-> +which triggers a buffer overread due to parsing of an invalid
-> +segment override.
-> +
-> +Signed-off-by: Adam Majer <amajer@suse.de>
-> +
-> +Upstream-Status: Submitted [https://bugzilla.nasm.us/show_bug.cgi?id=3392447]
-> +CVE: CVE-2018-8883
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + include/opflags.h | 2 +-
-> + include/tables.h  | 1 +
-> + x86/regs.pl       | 3 ++-
-> + 3 files changed, 4 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/include/opflags.h b/include/opflags.h
-> +index ef2838c1..8d4b6b1e 100644
-> +--- a/include/opflags.h
-> ++++ b/include/opflags.h
-> +@@ -166,7 +166,7 @@
-> + #define REG_CLASS_BND           GEN_REG_CLASS(9)
-> +
-> + #define is_class(class, op)         (!((opflags_t)(class) & ~(opflags_t)(op)))
-> +-#define is_reg_class(class, reg)    is_class((class), nasm_reg_flags[(reg)])
-> ++#define is_reg_class(class, reg)    is_class((class), ((reg) < nasm_reg_flags_size ? nasm_reg_flags[(reg)] : 0))
-> +
-> + #define IS_SREG(reg)                is_reg_class(REG_SREG, (reg))
-> + #define IS_FSGS(reg)                is_reg_class(REG_FSGS, (reg))
-> +diff --git a/include/tables.h b/include/tables.h
-> +index 24a665e2..458752ce 100644
-> +--- a/include/tables.h
-> ++++ b/include/tables.h
-> +@@ -64,6 +64,7 @@ extern const char * const nasm_reg_names[];
-> + typedef uint64_t opflags_t;
-> + typedef uint16_t  decoflags_t;
-> + extern const opflags_t nasm_reg_flags[];
-> ++extern const size_t nasm_reg_flags_size;
-> + /* regvals.c */
-> + extern const int nasm_regvals[];
-> +
-> +diff --git a/x86/regs.pl b/x86/regs.pl
-> +index 3a1b56f5..cb5cea68 100755
-> +--- a/x86/regs.pl
-> ++++ b/x86/regs.pl
-> +@@ -158,7 +158,8 @@ if ( $fmt eq 'h' ) {
-> + 	printf "    %-15s /* %-5s */\n",
-> + 		$regs{$reg}.',', $reg;
-> +     }
-> +-    print "};\n";
-> ++    print "};\n\n";
-> ++    print "const size_t nasm_reg_flags_size = sizeof(nasm_reg_flags) / sizeof(opflags_t);\n";
-> + } elsif ( $fmt eq 'vc' ) {
-> +     # Output regvals.c
-> +     print "/* automatically generated from $file - do not edit */\n\n";
-> +--
-> +2.17.1
-> +
-> diff --git a/meta/recipes-devtools/nasm/nasm/0001-asm-eval.c-Avoid-possible-divide-by-0.patch b/meta/recipes-devtools/nasm/nasm/0001-asm-eval.c-Avoid-possible-divide-by-0.patch
-> new file mode 100644
-> index 0000000..6ceeca0
-> --- /dev/null
-> +++ b/meta/recipes-devtools/nasm/nasm/0001-asm-eval.c-Avoid-possible-divide-by-0.patch
-> @@ -0,0 +1,40 @@
-> +From 8ad049cf9ccda2a5133a97506011862bcfc4a0c0 Mon Sep 17 00:00:00 2001
-> +From: Adam Majer <amajer@suse.de>
-> +Date: Fri, 17 Aug 2018 14:15:35 +0800
-> +Subject: [PATCH] asm/eval.c: Avoid possible divide by 0
-> +
-> +During a divide operation, we already tested that the
-> +divisor has is_simple, but then when testing it for 0,
-> +we again verify that it does not contain any unknown parts.
-> +This extra check prevents detection of cases when
-> +reloc_value returns 0.
-> +
-> +Use reloc_value instead in detection of 0 divisor.
-> +
-> +https://bugzilla.nasm.us/show_bug.cgi?id=3392473
-> +
-> +Signed-off-by: Adam Majer <amajer@suse.de>
-> +
-> +Upstream-Status: Submitted [https://bugzilla.nasm.us/show_bug.cgi?id=3392473]
-> +CVE: CVE-2018-10016
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + asm/eval.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/asm/eval.c b/asm/eval.c
-> +index 816983b9..57c598c5 100644
-> +--- a/asm/eval.c
-> ++++ b/asm/eval.c
-> +@@ -585,7 +585,7 @@ static expr *expr5(int critical)
-> +                   " scalar values");
-> +             return NULL;
-> +         }
-> +-        if (j != '*' && !is_unknown(f) && reloc_value(f) == 0) {
-> ++        if (j != '*' && reloc_value(f) == 0) {
-> +             nasm_error(ERR_NONFATAL, "division by zero");
-> +             return NULL;
-> +         }
-> +--
-> +2.17.1
-> +
-> diff --git a/meta/recipes-devtools/nasm/nasm/0001-assemble-Check-global-line-limit.patch b/meta/recipes-devtools/nasm/nasm/0001-assemble-Check-global-line-limit.patch
-> new file mode 100644
-> index 0000000..682d4c7
-> --- /dev/null
-> +++ b/meta/recipes-devtools/nasm/nasm/0001-assemble-Check-global-line-limit.patch
-> @@ -0,0 +1,50 @@
-> +From 7a46d6b9e3a1d8a0ab0d816ef1bf194ad285e082 Mon Sep 17 00:00:00 2001
-> +From: "Chang S. Bae" <chang.seok.bae@intel.com>
-> +Date: Fri, 17 Aug 2018 14:26:03 +0800
-> +Subject: [PATCH] assemble: Check global line limit
-> +
-> +Without the limit, the while loop opens to semi-infinite
-> +that will exhaustively consume the heap space. Also, the
-> +index value gets into the garbage.
-> +
-> +https://bugzilla.nasm.us/show_bug.cgi?id=3392474
-> +
-> +Reported-by : Dongliang Mu <mudongliangabcd@gmail.com>
-> +Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-> +Signed-off-by: Cyrill Gorcunov <gorcunov@gmail.com>
-> +
-> +Upstream-Status: Backport from upstream [http://repo.or.cz/nasm.git]
-> +CVE: CVE-2018-10316
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + asm/nasm.c | 7 ++++++-
-> + 1 file changed, 6 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/asm/nasm.c b/asm/nasm.c
-> +index 8497ec9..81f6cee 100644
-> +--- a/asm/nasm.c
-> ++++ b/asm/nasm.c
-> +@@ -99,6 +99,8 @@ static char outname[FILENAME_MAX];
-> + static char listname[FILENAME_MAX];
-> + static char errname[FILENAME_MAX];
-> + static int globallineno;        /* for forward-reference tracking */
-> ++#define GLOBALLINENO_MAX    INT32_MAX
-> ++
-> + /* static int pass = 0; */
-> + const struct ofmt *ofmt = &OF_DEFAULT;
-> + const struct ofmt_alias *ofmt_alias = NULL;
-> +@@ -1360,7 +1362,10 @@ static void assemble_file(char *fname, StrList **depend_ptr)
-> +         location.offset = offs = get_curr_offs();
-> +
-> +         while ((line = preproc->getline())) {
-> +-            globallineno++;
-> ++            if (globallineno++ == GLOBALLINENO_MAX)
-> ++                nasm_error(ERR_FATAL,
-> ++                    "overall line number reaches the maximum %d\n",
-> ++                    GLOBALLINENO_MAX);
-> +
-> +             /*
-> +              * Here we parse our directives; this is not handled by the
-> +--
-> +2.7.4
-> +
-> diff --git a/meta/recipes-devtools/nasm/nasm/0001-fix-CVE-2018-8882.patch b/meta/recipes-devtools/nasm/nasm/0001-fix-CVE-2018-8882.patch
-> new file mode 100644
-> index 0000000..bc706c3
-> --- /dev/null
-> +++ b/meta/recipes-devtools/nasm/nasm/0001-fix-CVE-2018-8882.patch
-> @@ -0,0 +1,30 @@
-> +From 33438037e00ec750bff020578b1a5b6f75f60555 Mon Sep 17 00:00:00 2001
-> +From: Adam Majer <amajer@suse.de>
-> +Date: Fri, 17 Aug 2018 14:41:02 +0800
-> +Subject: [PATCH] fix CVE-2018-8882
-> +
-> +https://bugzilla.nasm.us/show_bug.cgi?id=3392445
-> +
-> +Upstream-Status: Submitted [https://bugzilla.nasm.us/show_bug.cgi?id=3392445]
-> +CVE: CVE-2018-8882
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + asm/float.c | 2 ++
-> + 1 file changed, 2 insertions(+)
-> +
-> +diff --git a/asm/float.c b/asm/float.c
-> +index dcf69fea..2965d3db 100644
-> +--- a/asm/float.c
-> ++++ b/asm/float.c
-> +@@ -608,6 +608,8 @@ static void ieee_shr(fp_limb *mant, int i)
-> +         if (offs)
-> +             for (j = MANT_LIMBS-1; j >= offs; j--)
-> +                 mant[j] = mant[j-offs];
-> ++    } else if (MANT_LIMBS-1-offs < 0) {
-> ++        j = MANT_LIMBS-1;
-> +     } else {
-> +         n = mant[MANT_LIMBS-1-offs] >> sr;
-> +         for (j = MANT_LIMBS-1; j > offs; j--) {
-> +--
-> +2.17.1
-> +
-> diff --git a/meta/recipes-devtools/nasm/nasm_2.13.03.bb b/meta/recipes-devtools/nasm/nasm_2.13.03.bb
-> index 236d7e5..ae2ad7f 100644
-> --- a/meta/recipes-devtools/nasm/nasm_2.13.03.bb
-> +++ b/meta/recipes-devtools/nasm/nasm_2.13.03.bb
-> @@ -5,6 +5,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
->   
->   SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
->              file://0001-asmlib-Drop-pure-function-attribute-from-seg_init.patch \
-> +           file://0001-asm-eval.c-Avoid-possible-divide-by-0.patch \
-> +           file://0001-assemble-Check-global-line-limit.patch \
-> +           file://0001-fix-CVE-2018-8882.patch \
-> +           file://0001-Verify-that-we-are-not-reading-past-end-of-a-buffer.patch \
->              "
->   
->   SRC_URI[md5sum] = "0c581d482f39d5111879ca9601938f74"
-
-
+PGh0bWw+CjxoZWFkPgogICAgPHN0eWxlPgogICAgICAgIHB7bWFyZ2luLXRvcDowO21hcmdpbi1i
+b3R0b206MH0KICAgIDwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CiAgICA8dGFibGUgY2xhc3M9InR4
+Yy13cmFwcGVyIiBib3JkZXI9IjAiIGNlbGxzcGFjaW5nPSIwIiBjZWxscGFkZGluZz0iMCIgd2lk
+dGg9IjEwMCUiPjx0cj48dGQgY2xhc3M9InR4Yy13cmFwcGVyLXRkIj48ZGl2IGNsYXNzPSJ0eGMt
+Y29udGVudC13cmFwcGVyIiBzdHlsZT0iY29sb3I6IzExMTtmb250LWZhbWlseTpBcHBsZSBTRCBH
+b3RoaWMgTmVvLE1hbGd1biBHb3RoaWMsJ+unkeydgCDqs6DrlJUnLHNhbnMtc2VyaWY7Zm9udC1z
+aXplOjEwcHQ7bGluZS1oZWlnaHQ6MS41OyI+PHRhYmxlIGJvcmRlcj0iMCIgY2VsbHNwYWNpbmc9
+IjAiIGNlbGxwYWRkaW5nPSIwIiB3aWR0aD0iMTAwJSIgc3R5bGU9ImZvbnQtc2l6ZToxNHB4O3dv
+cmQtYnJlYWs6YnJlYWstYWxsO3dvcmQtd3JhcDpicmVhay13b3JkO2NvbG9yOnJnYigxNywxNywx
+Nyk7Zm9udC1mYW1pbHk6JnF1b3Q7Zm9udC1zdHlsZTpub3JtYWw7Zm9udC12YXJpYW50LWxpZ2F0
+dXJlczpub3JtYWw7Zm9udC12YXJpYW50LWNhcHM6bm9ybWFsO2ZvbnQtd2VpZ2h0OjQwMDtsZXR0
+ZXItc3BhY2luZzpub3JtYWw7b3JwaGFuczoyO3RleHQtYWxpZ246c3RhcnQ7dGV4dC1pbmRlbnQ6
+MHB4O3RleHQtdHJhbnNmb3JtOm5vbmU7d2hpdGUtc3BhY2U6bm9ybWFsO3dpZG93czoyO3dvcmQt
+c3BhY2luZzowcHg7LXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDowcHg7YmFja2dyb3VuZC1jb2xv
+cjpyZ2IoMjU1LCAyNTUsIDI1NSk7dGV4dC1kZWNvcmF0aW9uLXN0eWxlOmluaXRpYWw7dGV4dC1k
+ZWNvcmF0aW9uLWNvbG9yOmluaXRpYWw7Ij48dGJvZHk+PHRyPjx0ZCBzdHlsZT0ibWFyZ2luOjBw
+eDtwYWRkaW5nOjBweDtsaW5lLWhlaWdodDoxLjU7Zm9udC1mYW1pbHk6JnF1b3Q7Y29sb3I6cmdi
+KDE3LDE3LDE3KTt3b3JkLWJyZWFrOmJyZWFrLWFsbDt3b3JkLXdyYXA6YnJlYWstd29yZDsiPjxk
+aXYgc3R5bGU9Im1hcmdpbjowcHg7cGFkZGluZzowcHg7Zm9udC1zaXplOjEwcHQ7d29yZC1icmVh
+azpicmVhay1hbGw7d29yZC13cmFwOmJyZWFrLXdvcmQ7Y29sb3I6cmdiKDE3LDE3LDE3KTtmb250
+LWZhbWlseTomcXVvdDtsaW5lLWhlaWdodDoxLjU7Ij48cCBzdHlsZT0ibWFyZ2luOjBweDtwYWRk
+aW5nOjBweDt3b3JkLWJyZWFrOmJyZWFrLWFsbDt3b3JkLXdyYXA6YnJlYWstd29yZDsiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTBwdDt3b3JkLWJyZWFrOmJyZWFrLWFsbDt3b3JkLXdyYXA6YnJl
+YWstd29yZDsiPmN1cnJlbnRseSBuYXRpdmVzZGstd2F5bGFuZC1kZXYgcGFja2FnZSBiaW4gZGly
+ZWN0b3J5IHdoaWNoIGluY2x1ZGVzIHdheWxhbmQtc2Nhbm5lciBvbmx5Ljwvc3Bhbj48YnIgc3R5
+bGU9IndvcmQtYnJlYWs6YnJlYWstYWxsO3dvcmQtd3JhcDpicmVhay13b3JkOyI+PC9wPgo8cCBz
+dHlsZT0ibWFyZ2luOjBweDtwYWRkaW5nOjBweDt3b3JkLWJyZWFrOmJyZWFrLWFsbDt3b3JkLXdy
+YXA6YnJlYWstd29yZDsiPkFuZCwgSU1ITywgaWYgdGhlcmUgYXJlIG90aGVyIHRvb2xzIGZvciBk
+ZXYgcGFja2FnZSwgd2UgbmVlZCB0aGVtIGZvciBuYXRpdmVzZGsgdGFyZ2V0IGFsc28uPC9wPgo8
+cCBzdHlsZT0ibWFyZ2luOjBweDtwYWRkaW5nOjBweDt3b3JkLWJyZWFrOmJyZWFrLWFsbDt3b3Jk
+LXdyYXA6YnJlYWstd29yZDsiPlRoYW5rIHlvdS48L3A+PC9kaXY+PC90ZD48L3RyPjwvdGJvZHk+
+PC90YWJsZT48cD48YnI+PC9wPgo8cD48YnI+PC9wPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTRw
+eDttYXJnaW4tbGVmdDowLjhleDtmb250LWZhbWlseTphcmlhbCwnQXBwbGUgU0QgR290aGljIE5l
+bycsJ01hbGd1biBHb3RoaWMnLCfrp5HsnYAg6rOg65SVJyxzYW5zLXNlcmlmIj4tLS0tLS0tLS0g
+T3JpZ2luYWwgTWVzc2FnZSAtLS0tLS0tLS08YnI+PC9zcGFuPgo8YmxvY2txdW90ZSBzdHlsZT0i
+Zm9udC1zaXplOjE0cHg7Ym9yZGVyLWxlZnQtc3R5bGU6c29saWQ7Ym9yZGVyLWxlZnQtd2lkdGg6
+MnB4O21hcmdpbi1ib3R0b206MHB0O21hcmdpbi1sZWZ0OjAuOGV4O21hcmdpbi1yaWdodDowcHQ7
+bWFyZ2luLXRvcDowcHQ7cGFkZGluZy1sZWZ0OjFleDsiPgogICAgPHAgc3R5bGU9ImZvbnQtZmFt
+aWx5OmFyaWFsLCdBcHBsZSBTRCBHb3RoaWMgTmVvJywnTWFsZ3VuIEdvdGhpYycsJ+unkeydgCDq
+s6DrlJUnLHNhbnMtc2VyaWY7bGluZS1oZWlnaHQ6MjBweCI+CiAgICAgICAgPGI+RnJvbTwvYj46
+IEtoZW0gUmFqICZsdDtyYWoua2hlbUBnbWFpbC5jb20mZ3Q7PGJyPgogICAgICAgIDxiPlRvPC9i
+PjogICZsdDtzdWtkbzM5OUBkYXVtLm5ldCZndDs8YnI+CiAgICAgICAgCiAgICAgICAgICAgIDxi
+PkNjPC9iPjogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIg
+Jmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPgogICAg
+ICAgIAogICAgICAgIDxiPlNlbnQ8L2I+OiAxOC4wOC4yMSAwOTo1MCBHTVQgKzA5MDA8YnI+CiAg
+ICAgICAgPGI+U3ViamVjdDwvYj46IFJlOiBbT0UtY29yZV0gW1BBVENIXSBuYXRpdmVzZGstcGFj
+a2FnZWdyb3VwLXNkay1ob3N0OiBBZGQKIHdheWxhbmQtc2Nhbm5lciB0bzxicj4KICAgICAgICAK
+ICAgICAgICA8YnI+CiAgICA8L3A+CiAgICA8ZGl2IHN0eWxlPSJmb250LWZhbWlseTphcmlhbCwn
+QXBwbGUgU0QgR290aGljIE5lbycsJ01hbGd1biBHb3RoaWMnLCfrp5HsnYAg6rOg65SVJyxzYW5z
+LXNlcmlmOyI+CiAgICAgICAgT24mbmJzcDtNb24sJm5ic3A7QXVnJm5ic3A7MjAsJm5ic3A7MjAx
+OCZuYnNwO2F0Jm5ic3A7NDoyNiZuYnNwO1BNJm5ic3A7U2Vva2hhJm5ic3A7S28mbmJzcDsmbHQ7
+c3VrZG8zOTlAZGF1bS5uZXQmZ3Q7Jm5ic3A7d3JvdGU6PGJyPiZndDs8YnI+Jmd0OyZuYnNwO1Ro
+ZSZuYnNwO3dheWxhbmQtc2Nhbm5lciZuYnNwO3dhcyZuYnNwO21pc3NpbmcmbmJzcDtmcm9tJm5i
+c3A7dGhlJm5ic3A7bmF0aXZlJm5ic3A7dG9vbGNoYWluJm5ic3A7Zm9yJm5ic3A7U0RLJm5ic3A7
+YnVpbGQ8YnI+Jmd0OyZuYnNwO2JlY2F1c2UmbmJzcDtpdCdzJm5ic3A7Y29waWVkJm5ic3A7ZnJv
+bSZuYnNwO3dheWxhbmQmbmJzcDtkZXYmbmJzcDtwYWNrYWdlLjxicj4mZ3Q7PGJyPiZndDsmbmJz
+cDtTaWduZWQtb2ZmLWJ5OiZuYnNwO1Nlb2toYSZuYnNwO0tvJm5ic3A7Jmx0O3N1a2RvMzk5QGRh
+dW0ubmV0Jmd0Ozxicj4mZ3Q7Jm5ic3A7LS0tPGJyPiZndDsmbmJzcDsmbmJzcDsuLi4vcGFja2Fn
+ZWdyb3Vwcy9uYXRpdmVzZGstcGFja2FnZWdyb3VwLXNkay1ob3N0LmJiJm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+fCZuYnNwOzImbmJzcDsrLTxicj4mZ3Q7Jm5ic3A7Jm5ic3A7MSZuYnNwO2ZpbGUmbmJzcDtjaGFu
+Z2VkLCZuYnNwOzEmbmJzcDtpbnNlcnRpb24oKyksJm5ic3A7MSZuYnNwO2RlbGV0aW9uKC0pPGJy
+PiZndDs8YnI+Jmd0OyZuYnNwO2RpZmYmbmJzcDstLWdpdCZuYnNwO2EvbWV0YS9yZWNpcGVzLWNv
+cmUvcGFja2FnZWdyb3Vwcy9uYXRpdmVzZGstcGFja2FnZWdyb3VwLXNkay1ob3N0LmJiJm5ic3A7
+Yi9tZXRhL3JlY2lwZXMtY29yZS9wYWNrYWdlZ3JvdXBzL25hdGl2ZXNkay1wYWNrYWdlZ3JvdXAt
+c2RrLWhvc3QuYmI8YnI+Jmd0OyZuYnNwO2luZGV4Jm5ic3A7ZTJmNjE2OTk5NC4uNGRjNmVlYTIz
+ZSZuYnNwOzEwMDY0NDxicj4mZ3Q7Jm5ic3A7LS0tJm5ic3A7YS9tZXRhL3JlY2lwZXMtY29yZS9w
+YWNrYWdlZ3JvdXBzL25hdGl2ZXNkay1wYWNrYWdlZ3JvdXAtc2RrLWhvc3QuYmI8YnI+Jmd0OyZu
+YnNwOysrKyZuYnNwO2IvbWV0YS9yZWNpcGVzLWNvcmUvcGFja2FnZWdyb3Vwcy9uYXRpdmVzZGst
+cGFja2FnZWdyb3VwLXNkay1ob3N0LmJiPGJyPiZndDsmbmJzcDtAQCZuYnNwOy0yMyw3Jm5ic3A7
+KzIzLDcmbmJzcDtAQCZuYnNwO1JERVBFTkRTXyR7UE59Jm5ic3A7PSZuYnNwOyJcPGJyPiZndDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtuYXRpdmVzZGstbWFrZWRldnMmbmJz
+cDtcPGJyPiZndDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtuYXRpdmVzZGst
+ZG5mJm5ic3A7XDxicj4mZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7bmF0
+aXZlc2RrLWNtYWtlJm5ic3A7XDxicj4mZ3Q7Jm5ic3A7LSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCZuYnNwOyd3YXlsYW5kJywm
+bmJzcDsnbmF0aXZlc2RrLXdheWxhbmQnLCZuYnNwOycnLCZuYnNwO2QpfSZuYnNwO1w8YnI+Jmd0
+OyZuYnNwOysmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDske0BiYi51dGlscy5jb250YWlucygnRElT
+VFJPX0ZFQVRVUkVTJywmbmJzcDsnd2F5bGFuZCcsJm5ic3A7J25hdGl2ZXNkay13YXlsYW5kLWRl
+dicsJm5ic3A7JycsJm5ic3A7ZCl9Jm5ic3A7XDxicj48YnI+RG8mbmJzcDt3ZSZuYnNwO25lZWQm
+bmJzcDt0aGUmbmJzcDt3aG9sZSZuYnNwO2RldiZuYnNwO3BhY2thZ2UmbmJzcDs/Jm5ic3A7aWYm
+bmJzcDtub3QmbmJzcDtJJm5ic3A7d291bGQmbmJzcDtzdWdnZXN0Jm5ic3A7dG8mbmJzcDtwYWNr
+YWdlPGJyPml0Jm5ic3A7aW50byZuYnNwO2EmbmJzcDtzZXBhcmF0ZSZuYnNwO291dHB1dCZuYnNw
+O3BhY2thZ2U8YnI+YW5kJm5ic3A7aW5jbHVkZSZuYnNwO3RoYXQmbmJzcDthbG9uZyZuYnNwO3dp
+dGgmbmJzcDtuYXRpdmVzZGstd2F5bGFuZDxicj48YnI+Jmd0OyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwO25hdGl2ZXNkay1zZGstcHJvdmlkZXMtZHVtbXkmbmJzcDtcPGJyPiZn
+dDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsiPGJyPiZndDs8YnI+Jmd0OyZu
+YnNwOy0tPGJyPiZndDsmbmJzcDsyLjE3LjE8YnI+Jmd0Ozxicj4mZ3Q7Jm5ic3A7LS08YnI+Jmd0
+OyZuYnNwO19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fPGJy
+PiZndDsmbmJzcDtPcGVuZW1iZWRkZWQtY29yZSZuYnNwO21haWxpbmcmbmJzcDtsaXN0PGJyPiZn
+dDsmbmJzcDtPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPiZndDsm
+bmJzcDs8YSBocmVmPSJodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL29wZW5lbWJlZGRlZC1jb3JlIiBlYWNoPSJfYmxhbmsiIHRhcmdldD0iX2JsYW5rIiByZWw9
+Im5vb3BlbmVyIG5vcmVmZXJyZXIiPmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxt
+YW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmU8L2E+PGJyPgogICAgPC9kaXY+CjwvYmxvY2tx
+dW90ZT4KPHA+PGJyPjwvcD48L2Rpdj48L3RkPjwvdHI+PC90YWJsZT4KPC9ib2R5Pgo8L2h0bWw+
+CjxpbWcgc3JjPSJodHRwczovL2NvbmZpcm0ubWFpbC5kYXVtLm5ldC9jb25maXJtYXBpL3YxL3Vz
+ZXJzL3N1a2RvMzk5JTQwaGFubWFpbCUyRW5ldC9jbWFpbHMvMjAxODA4MjExNDIyNDYlMkVfaVNx
+S2w5V1RMT2tOa2JoWENnLU93JTQwc3VrZG8zOTklMkVoYW5tYWlsJTJFbmV0L3JlY2lwaWVudHMv
+b3BlbmVtYmVkZGVkLWNvcmUlNDBsaXN0cyUyRW9wZW5lbWJlZGRlZCUyRW9yZyI+
 
