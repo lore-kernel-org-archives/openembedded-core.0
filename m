@@ -1,23 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D63537900A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F13817900A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 07:13:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7L7DN74008223
+	Tue, 21 Aug 2018 07:13:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7L7DPTr025186
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Aug 2018 00:13:24 -0700 (PDT)
+	Tue, 21 Aug 2018 00:13:26 -0700
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 21 Aug 2018 00:13:23 -0700
+	14.3.399.0; Tue, 21 Aug 2018 00:13:24 -0700
 From: <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 21 Aug 2018 14:36:04 +0800
-Message-ID: <cover.1534832871.git.kai.kang@windriver.com>
+Date: Tue, 21 Aug 2018 14:36:05 +0800
+Message-ID: <b68ee7dc304de0c95a26b8a5da3b94ad266ba5a3.1534832871.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <cover.1534832871.git.kai.kang@windriver.com>
+References: <cover.1534832871.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [V2][PATCH 0/3] allarch: disable allarch when multilib is used
+Subject: [PATCH 1/3] cmake.bbclass: fix wrong toolchain flags of nativesdk package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,73 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 07:13:24 -0000
+X-List-Received-Date: Tue, 21 Aug 2018 07:13:26 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-V2:
-* move content of allarch.bbclass to allarch-enabled.bbclass and only
-  inherit allarch-enabled when multilib is not used
-* update SSTATE_DUPWHITELIST
+When enable multilib in an existing build project, if already build a
+nativesdk package which inherits cmake, rebuild it will cause configure
+error when test compiler:
 
-Build pass for following targets on qemux86-64 and qemuarm64 for rpm,
-ipk and deb.
+| .../libexec/x86_64-pokysdk-linux/gcc/x86_64-pokysdk-linux/8.2.0/ld:
+| cannot find crt1.o: No such file or directory
 
-* core-image-sato
-* core-image-sato -c populate_sdk
-* world
-* buildtools-tarball
+The STAGING_DIR_TARGET is different when multilib is enabled and
+disabled. And it is a component of compiler option '--sysroot'. The
+values are stored in file ${WORKDIR}/toolchain.cmake which is generated
+by task generate_toolchain_file. But the task doesn't be re-run with
+multilib status change.
 
-Known issues:
-There are 2 *existing* multilib related issues which are not caused by
-this serial of patches:
+Add ${STAGING_DIR_TARGET} to var flag 'vardeps' of generate_toolchain_file
+to make sure file toolchain.cmake is re-gerated when toggle multilib.
 
-1 QA warnings of lib32-meta-ide-support and lib32-perf
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/classes/cmake.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-WARNING: lib32-meta-ide-support-1.0-r3 do_configure: Manifest
-/buildarea1/jkang-taf/WRL1018/OV/0730/host/build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-ncurses.populate_sysroot
-not found in intel_x86_64 corei7-32 core2-32 i686 i586 x86 allarch
-x86_64_x86_64-nativesdk (variant '')?
-
-WARNING: lib32-perf-1.0-r9 do_install: Manifest
-/buildarea1/jkang-taf/WRL1018/OV/0730/host/build/tmp-glibc/sstate-control/manifest-x86_64_i686-binutils-cross-x86_64.populate_sysroot
-not found in x86_64_i686 (variant '')?
-
-2 fails to build lib32-buildtools-tarball
-
-ERROR: lib32-buildtools-tarball-1.0-r0 do_populate_sdk: No manifest
-generated from: qemuwrapper-cross in
-/buildarea3/kkang/poky-20141111/poky/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-
-I am working on them.
-
-
-The following changes since commit 99506b0017bdf8dbf42ec5dc048d91a5609dabe3:
-
-  weston-init: run login before start weston.service (2018-08-20 17:38:23 +0100)
-
-are available in the Git repository at:
-
-  git://git.pokylinux.org/poky-contrib kangkai/allarch-enabled
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/allarch-enabled
-
-Kai Kang (3):
-  cmake.bbclass: fix wrong toolchain flags of nativesdk package
-  allarch: disable allarch when multilib is used
-  sstate.bbclass: update SSTATE_DUPWHITELIST
-
- meta/classes/allarch-enabled.bbclass | 52 ++++++++++++++++++++++++++++
- meta/classes/allarch.bbclass         | 51 ++-------------------------
- meta/classes/cmake.bbclass           |  1 +
- meta/classes/icecc.bbclass           |  2 +-
- meta/classes/multilib.bbclass        |  2 +-
- meta/classes/multilib_global.bbclass |  2 +-
- meta/classes/package.bbclass         |  6 ++--
- meta/classes/sstate.bbclass          |  4 ++-
- 8 files changed, 64 insertions(+), 56 deletions(-)
- create mode 100644 meta/classes/allarch-enabled.bbclass
-
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index fd40a9863e..bb63414b77 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -112,6 +112,7 @@ EOF
+ }
+ 
+ addtask generate_toolchain_file after do_patch before do_configure
++do_generate_toolchain_file[vardeps] += "${STAGING_DIR_TARGET}"
+ 
+ CONFIGURE_FILES = "CMakeLists.txt"
+ 
 -- 
 2.18.0
 
