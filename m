@@ -1,47 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0627479234
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AEFDF79180
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 18:30:34 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id u12-v6so16655646wrr.4
+	Tue, 21 Aug 2018 19:02:45 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id y9-v6so8763853vky.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 11:30:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=wWdnYae73h10I9vrlfJ3k3fobCYurE8I8+zpi2GKBeg=;
-	b=eU9alJldGNN5I4aTg/CdB+SrDGA9uQhj+PsaZZ+aIdc77LrJZRS3QwiR8pV80LGx7H
-	hSHPbK5qXHJYC2WPjeqYt2FJQUsJ+qswIqTITb8mBnManO4aKe6yY5aIunnxHMWgyXJi
-	d3hZvRy8ofhsp6ibnTrqZTNg1p9MvN3zAB+uo=
+	Tue, 21 Aug 2018 12:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ZE6OapGJJo/UCBczRcSLc7DGNfMG07UbiGGAKyTP/dg=;
+	b=CoacsdTVzar4ZSsVhvb4I6tzZGX2i/DwNwSEevWSg31u5qjMPwNuphjLvXfIG4/QnI
+	FCZDjRub/fqsLAFJyAbdcZYzL/izq0G4ffFRa39pvbAhVbUBCKpoF+ZTGyOrJZmHCr/o
+	QEIpShs8JpBKVrlFsuAnlOxN9RaLD3vawcb8euiTW76EXueLaVQWt2ncDmU5eDAdSaAQ
+	OasAb2M9dMOtpZV0CUt9SDBESd7C26dUh/fOXqgRymrlLl8QNT4Gz9rWfe926oVAoA50
+	O/7+NzdR8iStU7N1jwS00Ja6elOiU8H1WvCtgc2SBCuNtBng4sIsWAnjSEcZGL6gWNqs
+	I0rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=wWdnYae73h10I9vrlfJ3k3fobCYurE8I8+zpi2GKBeg=;
-	b=tN7twvfdfmMzvKkpUE7prL16vyLP+UNowgkTOnWSp7TmR3HTk1cUbn0/AGuriEsK9P
-	+B3FEzMsewxhs0ySOzJhbNEWSF/+EC0JTjY8gnFCxg1Uqij3orTxRhUfQxvGaW4Dsu1+
-	3J4OhNlwPjtQLzJWcg6CYWbGyDJTdrM+OtuHeCNGvw1CyuP9HHOTP3qREz8qh/cbiWnI
-	lbCcWQpOOiOk88SgnDh4e2KIOhG7pK1NnPzTKfw+YNFs3bVBtZooEJoV8at8iXuXIH8i
-	y1HqinIJIW5riSczhS8/MggD7a0AGdqya05N6KwpvEA9DIr/GnNh9EKJCJk4Pbab7pv9
-	EHDA==
-X-Gm-Message-State: AOUpUlFvGOpYSgjGinAgqcEyRbcp6TDDOn8zyAGVfoPXiOSjUDXMBAmS
-	ahIVYqIK2TJI6OmXEWjGzk7tgwDCGxU=
-X-Google-Smtp-Source: ANB0VdZN4xDtu+CuI5f+PpafI3zDmLXsOVSxeIinMU86yNIHFTXKyDrDa5QMt5A+tN1dwDVCNjyTOw==
-X-Received: by 2002:adf:9ae5:: with SMTP id
-	a92-v6mr6573057wrc.125.1534876235418; 
-	Tue, 21 Aug 2018 11:30:35 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w4-v6sm11282663wrt.40.2018.08.21.11.30.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Aug 2018 11:30:34 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Aug 2018 19:30:33 +0100
-Message-Id: <20180821183033.8080-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] oeqa/concurrencytest: Ensure subunit streams are flushed at exit
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ZE6OapGJJo/UCBczRcSLc7DGNfMG07UbiGGAKyTP/dg=;
+	b=tlioN7Cqz7Pnflu31cQy+A41OBSOyM6matpSU0EliJaj0YmnMtSrQuTkD8EgbVha60
+	2FS2KmASsU3OxYKXfWYeV17eEb0hSu5J/o3LleocmqiFrEItrY1a9R29w1Oy9IrU2lkD
+	hz53VflZJ1Fzl5sQUZ/xzTlLE2u+T9H11e2HNdrcLyF4IT6XDqORps7nOWn4BM4wlOjn
+	J+f7KEM38oCdYe+Z8Ri0vH7duCYZU4zuHfKccBydk+arpN42B8JW0uYQs00zJZBf4y5L
+	GjDaydJ5FoeQbTdH9KfrLLQa5cE4Js3dxMZU4Ou69KZBTQou/wno1Ad8wJoRLJ04AiOJ
+	HoTQ==
+X-Gm-Message-State: AOUpUlHQitw6VHka4QxCjWaeOfs8GsNM4Vce4RXqYb5uEuyzIjaErwU6
+	geyOcKE7SBk6dKnS99L6KFzSGHLJ0QRmFkXBOgnviw==
+X-Google-Smtp-Source: AA+uWPzUhJspShx3iHS2c7HvKbDlLD5QMaTRzXuj9gz5XJpSAbaRt5fhQDEC3o0PDdjPPC2qGbF0lW6ZZUQMgNHkdaQ=
+X-Received: by 2002:a1f:c252:: with SMTP id
+	s79-v6mr33788457vkf.127.1534878166214; 
+	Tue, 21 Aug 2018 12:02:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Tue, 21 Aug 2018 12:02:45 -0700 (PDT)
+In-Reply-To: <84bd9292-69b4-bf25-6385-2c92df108651@windriver.com>
+References: <20180821062333.21393-1-hongzhi.song@windriver.com>
+	<84bd9292-69b4-bf25-6385-2c92df108651@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 21 Aug 2018 12:02:45 -0700
+Message-ID: <CAJ86T=UP_i1_dyk3PDy+x4FyMzphg-Xpy1SgeXErqn8RKDykaQ@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runtime selftest: hw breakpoint case correct syntax
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +57,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 18:30:35 -0000
+X-List-Received-Date: Tue, 21 Aug 2018 19:02:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Without this, error output such as that in the teardown can be lost
-and processes may recieve signals they're not expecting causing other
-strange errors.
+On Tue, Aug 21, 2018 at 8:30 AM, Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+> On 08/21/2018 02:23 AM, Hongzhi.Song wrote:
+>>
+>> 1. There is a wrong syntax.
+>
+> Usually the word syntax refers to code and grammar refers
+> to English phrasing (but it's a weird language and the
+> rules are sometimes ignored).
+>
+>> 2. Since last commit has exclude the arm64, so remove arm64.
+>
+> What last commit? Please write the log help people who
+> have not been working on the patch.
+>
+> See:
+>    https://chris.beams.io/posts/git-commit/
+> for guidelines.
+>
+> Something like:
+>
+> Subject:
+>    runtime selftest: hw breakpoint drop arm64, correct grammar
+>
+> Improve grammar in skip test output.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/core/utils/concurrencytest.py | 2 ++
- 1 file changed, 2 insertions(+)
+I don't see any grammar fixes in the original patch? Just a syntax fix
+(adding a missing % to the format string).
 
-diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
-index 850586516a4..6404cb4668c 100644
---- a/meta/lib/oeqa/core/utils/concurrencytest.py
-+++ b/meta/lib/oeqa/core/utils/concurrencytest.py
-@@ -225,7 +225,9 @@ def fork_for_tests(concurrency_num, suite):
-                 finally:
-                     if newbuilddir:
-                         removebuilddir(newbuilddir)
-+                    stream.flush()
-                     os._exit(1)
-+            stream.flush()
-             os._exit(0)
-         else:
-             os.close(c2pwrite)
--- 
-2.17.1
-
+> Do not run the test for arm64 because commit XXXXXX did YYYYY.
+>
+>
+>
+> Thanks!
+>
+> ../Randy
+>>
+>>
+>> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+>> ---
+>>   meta/lib/oeqa/runtime/cases/ksample.py | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/lib/oeqa/runtime/cases/ksample.py
+>> b/meta/lib/oeqa/runtime/cases/ksample.py
+>> index eb8713351a..0e00cdeeb6 100644
+>> --- a/meta/lib/oeqa/runtime/cases/ksample.py
+>> +++ b/meta/lib/oeqa/runtime/cases/ksample.py
+>> @@ -166,9 +166,9 @@ class KSampleTest(KSample):
+>>       def test_hw_breakpoint_example(self):
+>>           # check arch
+>>           status, output = self.target.run("uname -m")
+>> -        result = ("x86" in output) or ("aarch64" in output)
+>> +        result = "x86" in output
+>>           if not result:
+>> -            self.skipTest("the arch doesn't support hw breakpoint" %
+>> output)
+>> +            self.skipTest("the arch %s doesn't support hw breakpoint" %
+>> output)
+>>           # check config
+>>           self.check_config("CONFIG_KALLSYMS_ALL")
+>>           # make sure if module exists
+>>
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
