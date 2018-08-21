@@ -1,30 +1,75 @@
-Return-Path: <sukdo399@daum.net>
-Received: from mail-smail-vm77.hanmail.net (mail-smail-vm77.daum.net
-	[211.231.106.152])
-	by mail.openembedded.org (Postfix) with ESMTP id 5592278D5B
+Return-Path: <Vignesh.Rajendran@in.bosch.com>
+Received: from de-out1.bosch-org.com (de-out1.bosch-org.com [139.15.230.186])
+	by mail.openembedded.org (Postfix) with ESMTP id 27F5C6FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 02:42:42 +0000 (UTC)
-Received: from mail-hmail-was3.s2.krane.9rum.cc ([10.197.6.229])
-	by mail-smail-vm77.hanmail.net (8.13.8/8.9.1) with SMTP id
-	w7L2gd9o005956 for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 11:42:39 +0900
-X-Hermes-Message-Id: m7LBgcFwq1221976189
-Date: Tue, 21 Aug 2018 11:42:38 +0900 (KST)
-From: Seokha Ko <sukdo399@daum.net>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20180821114238.-tFeSnZ4SgOFZeDwJEZyQA@sukdo399.hanmail.net>
+	Tue, 21 Aug 2018 03:14:04 +0000 (UTC)
+Received: from fe0vm1649.rbesz01.com (unknown [139.15.230.188])
+	by si0vms0216.rbdmz01.com (Postfix) with ESMTPS id 41vbP83LJGz1XLH5V;
+	Tue, 21 Aug 2018 05:14:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=in.bosch.com;
+	s=2015-01-21; t=1534821244;
+	bh=ckgAMoDPDsDixSrxZWZkYGvt5FOk9N4NFZUJOI+lVnY=; l=10;
+	h=From:From:Reply-To:Sender;
+	b=UmQe2qXG4n14GQ+AaQqOaIkY4ni4bfkYdwjhiedktWEZC4mErG/O7/n28KBYHnu2C
+	fv23aKylxDYweIE5VT29NZaUSH7OLHMmoyfpxZDY0on1Z0Xt5kpij0OJD0pmeiL87E
+	f1qYTKSi3Zh8Uf2XWdtAPNWR4OUECOkWbyP7CaTE=
+Received: from si0vm4642.rbesz01.com (unknown [10.58.172.176])
+	by fe0vm1649.rbesz01.com (Postfix) with ESMTPS id 41vbP82xs5z2K2;
+	Tue, 21 Aug 2018 05:14:04 +0200 (CEST)
+X-AuditID: 0a3aad12-92fff70000000ca7-be-5b7b836ea192
+Received: from si0vm1949.rbesz01.com ( [10.58.173.29])
+	(using TLS with cipher AES128-SHA (128/128 bits))
+	(Client did not present a certificate)
+	by si0vm4642.rbesz01.com (SMG Outbound) with SMTP id
+	75.B2.03239.E638B7B5; Tue, 21 Aug 2018 05:13:50 +0200 (CEST)
+Received: from FE-MBX2016.de.bosch.com (fe-mbx2016.de.bosch.com [10.3.231.22])
+	by si0vm1949.rbesz01.com (Postfix) with ESMTPS id 41vbP80hXCz6D6mNf; 
+	Tue, 21 Aug 2018 05:14:04 +0200 (CEST)
+Received: from SGPMBX2020.APAC.bosch.com (10.187.83.43) by
+	FE-MBX2016.de.bosch.com (10.3.231.22) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.1.1466.3; Tue, 21 Aug 2018 05:14:03 +0200
+Received: from SGPMBX2020.APAC.bosch.com (10.187.83.43) by
+	SGPMBX2020.APAC.bosch.com (10.187.83.43) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.1.1466.3; Tue, 21 Aug 2018 11:14:00 +0800
+Received: from SGPMBX2020.APAC.bosch.com ([fe80::b526:b737:7eb9:3a96]) by
+	SGPMBX2020.APAC.bosch.com ([fe80::b526:b737:7eb9:3a96%6]) with mapi id
+	15.01.1466.009; Tue, 21 Aug 2018 11:14:00 +0800
+From: "Vignesh Rajendran (RBEI/ECF3)" <Vignesh.Rajendran@in.bosch.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, Khem Raj
+	<raj.khem@gmail.com>
+Thread-Topic: [OE-core]: feedback on externalsrc patch
+Thread-Index: AdQ4/IdfM9JcmdSdSbiERCsIg79S+A==
+Date: Tue, 21 Aug 2018 03:14:00 +0000
+Message-ID: <e1348b9c8f444b0ba01f0beea5f2f810@in.bosch.com>
+Accept-Language: en-US, en-SG
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.187.56.214]
 MIME-Version: 1.0
-X-Mailer: Daum Mint Web 1.0
-X-Originating-IP: [182.212.44.138]
-X-HM-UT: qXZ0Qt+h/LbxLitdWzINePFdugrUhY3upSfJ6//IJWw=
-Received: from mail-hammer-was10.s2.krane.9rum.cc ([10.197.10.43]) by hermes
-	of mail-hmail-was3.s2.krane.9rum.cc (10.197.6.229) with ESMTP
-	id m7LBgcFwq1221976189 for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 11:42:38 +0900 (KST)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nativesdk-packagegroup-sdk-host: Add wayland-scanner to the SDK native toolchain
+X-Brightmail-Tracker: H4sIAAAAAAAAA21TbUwTZxzn6V3bo+HccbXrfx0sWyOwqWVUC2nG1r0kLsz4YdMsZpBsFjlo
+	N9qSXukE+UAgClMHghRHGS9uk6CuTJCRbhKUqtjKwpjTAVUx07J1uIHzZZFldrvjwPbDvjz5
+	3e/teZ7/kyMw2keoCLPVwditxmK1RIbLXvAka6zVO/My7tel6q8uzEn1l91K/e4JN3oFy/nG
+	fU2a0x54K2estxu9ieXKXixgis1Oxv68YZvM5Ar4UYnv2R0X7nhQJdq/ag+KJ4DSwXzkNs5j
+	mqoRwWDNtj1IxuEhBA336iSCcBtB2yGtINxF8OvDMCZ8nEVweF/loktCvQ7HmqpEPF5JbQZv
+	2zDOmzDqNILAt39gvCCntOCKzGGCKQvGxgdwAafDXyeFIpxKgUhnZBGTVDa03LiOeIyoZPhs
+	qnHRj1FKCIY6RMIdKPhi8HtMwAr47WZELOBnoKvjqFTw58NQcFQkdCZCoCWE70cKd0yVO8bm
+	jrEJfDpMupokAl4DXYduYQLWwCcRHx7LdyLpUaRgzRlOiy5Lty7dns+w5Rna9O02Sx8SnpD2
+	ot6fCn2IIpA6gfQ6d+bRYqOTLbP4UCYhUivIsUKOWpFvKygzGVnTe/bSYoZVq0gUFxdHyx/R
+	bGm+xcyyZpvVh4DA1CtJA19FFhjLyhm7TYj50JMErlaS9w5Y8miqyOhgPmCYEsa+rGYThBrI
+	3ioumGhnipgdheZix7KsThb2fDxWid1WRMT70Hoigdt7PV9BsiVGC2suWoo/IcTpZTYavYDe
+	JoLV+xox4ux0E7eOL67/zLsaMRq32qyMSklW8I0UnzWVWh+dSZVESvs/zKMVMUK0dxZNIW6q
+	ctLAhxO4fyd6GiC98k/foROXyGho3WEuQw2IYXa+H0F780ciCEcO4NCz+6IYwt4hKTw4XR0P
+	M547JHx1bUQO3uYfVDB+6eckCHbufQqmu048Df7gyCr4fdSfyi0/PgeT3bVrYNf9I2thb2Qg
+	A8KTHTqojXTroL2xNRNOzJ3LhH8f1mdBz/HmLHAdadXD4GSfHkZ7Bl6F2ettG2Dac3UD+Be+
+	3AhXxmY2Qm+oZtMsN2oRN2qppIwftcPo+J9RL7HR26kqEbVpfOR44WNrkdj658ea8hWJFZ7K
+	+teyPTOB4dSDqLXa37M95VTVqfPvXjm/5cb7Lz041ndxwhXaNbWlhS6f+PtkOO3S4HdJlCS3
+	SXPuZYV3usHsDL3R0VSh3WxI84SUFf2Xh7eSuQZx3ddpaZrVxOcNt2xnzowu3L3ZWbs1VP9L
+	Sp8aZ01G7WrMzhr/A+aAUDfVBAAA
+Cc: Patches and discussions about
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: : feedback on externalsrc patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,89 +82,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 02:42:43 -0000
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 21 Aug 2018 03:14:05 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_e1348b9c8f444b0ba01f0beea5f2f810inboschcom_"
 
-PGh0bWw+CjxoZWFkPgogICAgPHN0eWxlPgogICAgICAgIHB7bWFyZ2luLXRvcDowO21hcmdpbi1i
-b3R0b206MH0KICAgIDwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CiAgICA8dGFibGUgY2xhc3M9InR4
-Yy13cmFwcGVyIiBib3JkZXI9IjAiIGNlbGxzcGFjaW5nPSIwIiBjZWxscGFkZGluZz0iMCIgd2lk
-dGg9IjEwMCUiPjx0cj48dGQgY2xhc3M9InR4Yy13cmFwcGVyLXRkIj48ZGl2IGNsYXNzPSJ0eGMt
-Y29udGVudC13cmFwcGVyIiBzdHlsZT0iY29sb3I6IzExMTtmb250LWZhbWlseTpBcHBsZSBTRCBH
-b3RoaWMgTmVvLE1hbGd1biBHb3RoaWMsJ+unkeydgCDqs6DrlJUnLHNhbnMtc2VyaWY7Zm9udC1z
-aXplOjEwcHQ7bGluZS1oZWlnaHQ6MS41OyI+PHA+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTBw
-dDsiPmN1cnJlbnRseSBuYXRpdmVzZGstd2F5bGFuZC1kZXYgcGFja2FnZSBiaW4gZGlyZWN0b3J5
-IHdoaWNoIGluY2x1ZGVzIHdheWxhbmQtc2Nhbm5lciBvbmx5Ljwvc3Bhbj48YnI+PC9wPgo8cD5B
-bmQsIElNSE8sIGlmIHRoZXJlIGFyZSBvdGhlciB0b29scyBmb3IgZGV2IHBhY2thZ2UsIHdlIG5l
-ZWQgdGhlbSBmb3IgbmF0aXZlc2RrIHRhcmdldCBhbHNvLjwvcD4KPHA+VGhhbmsgeW91LjwvcD4K
-PHA+PGJyPjwvcD48c3BhbiBzdHlsZT0iZm9udC1zaXplOjE0cHg7bWFyZ2luLWxlZnQ6MC44ZXg7
-Zm9udC1mYW1pbHk6YXJpYWwsJ0FwcGxlIFNEIEdvdGhpYyBOZW8nLCdNYWxndW4gR290aGljJywn
-66eR7J2AIOqzoOuUlScsc2Fucy1zZXJpZiI+LS0tLS0tLS0tIE9yaWdpbmFsJm5ic3A7IE1lc3Nh
-Z2UgLS0tLS0tLS0tPGJyPjwvc3Bhbj4KPGJsb2NrcXVvdGUgc3R5bGU9ImZvbnQtc2l6ZToxNHB4
-O2JvcmRlci1sZWZ0LXN0eWxlOnNvbGlkO2JvcmRlci1sZWZ0LXdpZHRoOjJweDttYXJnaW4tYm90
-dG9tOjBwdDttYXJnaW4tbGVmdDowLjhleDttYXJnaW4tcmlnaHQ6MHB0O21hcmdpbi10b3A6MHB0
-O3BhZGRpbmctbGVmdDoxZXg7Ij4KICAgIDxwIHN0eWxlPSJmb250LWZhbWlseTphcmlhbCwnQXBw
-bGUgU0QgR290aGljIE5lbycsJ01hbGd1biBHb3RoaWMnLCfrp5HsnYAg6rOg65SVJyxzYW5zLXNl
-cmlmO2xpbmUtaGVpZ2h0OjIwcHgiPgogICAgICAgIDxiPkZyb208L2I+OiBLaGVtIFJhaiAmbHQ7
-cmFqLmtoZW1AZ21haWwuY29tJmd0Ozxicj4KICAgICAgICA8Yj5UbzwvYj46ICAmbHQ7c3VrZG8z
-OTlAZGF1bS5uZXQmZ3Q7PGJyPgogICAgICAgIAogICAgICAgICAgICA8Yj5DQzwvYj46IFBhdGNo
-ZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyICZsdDtvcGVuZW1iZWRk
-ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxicj4KICAgICAgICAKICAgICAgICA8
-Yj5TZW50PC9iPjogMTguMDguMjEgMDk6NTAgR01UICswOTAwPGJyPgogICAgICAgIDxiPlN1Ympl
-Y3Q8L2I+OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gbmF0aXZlc2RrLXBhY2thZ2Vncm91cC1zZGst
-aG9zdDogQWRkIHdheWxhbmQtc2Nhbm5lciB0byB0aGUgU0RLIG5hdGl2ZSB0b29sY2hhaW48YnI+
-CiAgICAgICAgCiAgICAgICAgPGJyPgogICAgPC9wPgogICAgPGRpdiBzdHlsZT0iZm9udC1mYW1p
-bHk6YXJpYWwsJ0FwcGxlIFNEIEdvdGhpYyBOZW8nLCdNYWxndW4gR290aGljJywn66eR7J2AIOqz
-oOuUlScsc2Fucy1zZXJpZjsiPgogICAgICAgIE9uJm5ic3A7TW9uLCZuYnNwO0F1ZyZuYnNwOzIw
-LCZuYnNwOzIwMTgmbmJzcDthdCZuYnNwOzQ6MjYmbmJzcDtQTSZuYnNwO1Nlb2toYSZuYnNwO0tv
-Jm5ic3A7Jmx0O3N1a2RvMzk5QGRhdW0ubmV0Jmd0OyZuYnNwO3dyb3RlOjxicj4mZ3Q7PGJyPiZn
-dDsmbmJzcDtUaGUmbmJzcDt3YXlsYW5kLXNjYW5uZXImbmJzcDt3YXMmbmJzcDttaXNzaW5nJm5i
-c3A7ZnJvbSZuYnNwO3RoZSZuYnNwO25hdGl2ZSZuYnNwO3Rvb2xjaGFpbiZuYnNwO2ZvciZuYnNw
-O1NESyZuYnNwO2J1aWxkPGJyPiZndDsmbmJzcDtiZWNhdXNlJm5ic3A7aXQncyZuYnNwO2NvcGll
-ZCZuYnNwO2Zyb20mbmJzcDt3YXlsYW5kJm5ic3A7ZGV2Jm5ic3A7cGFja2FnZS48YnI+Jmd0Ozxi
-cj4mZ3Q7Jm5ic3A7U2lnbmVkLW9mZi1ieTombmJzcDtTZW9raGEmbmJzcDtLbyZuYnNwOyZsdDtz
-dWtkbzM5OUBkYXVtLm5ldCZndDs8YnI+Jmd0OyZuYnNwOy0tLTxicj4mZ3Q7Jm5ic3A7Jm5ic3A7
-Li4uL3BhY2thZ2Vncm91cHMvbmF0aXZlc2RrLXBhY2thZ2Vncm91cC1zZGstaG9zdC5iYiZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwO3wmbmJzcDsyJm5ic3A7Ky08YnI+Jmd0OyZuYnNwOyZuYnNwOzEmbmJzcDtmaWxl
-Jm5ic3A7Y2hhbmdlZCwmbmJzcDsxJm5ic3A7aW5zZXJ0aW9uKCspLCZuYnNwOzEmbmJzcDtkZWxl
-dGlvbigtKTxicj4mZ3Q7PGJyPiZndDsmbmJzcDtkaWZmJm5ic3A7LS1naXQmbmJzcDthL21ldGEv
-cmVjaXBlcy1jb3JlL3BhY2thZ2Vncm91cHMvbmF0aXZlc2RrLXBhY2thZ2Vncm91cC1zZGstaG9z
-dC5iYiZuYnNwO2IvbWV0YS9yZWNpcGVzLWNvcmUvcGFja2FnZWdyb3Vwcy9uYXRpdmVzZGstcGFj
-a2FnZWdyb3VwLXNkay1ob3N0LmJiPGJyPiZndDsmbmJzcDtpbmRleCZuYnNwO2UyZjYxNjk5OTQu
-LjRkYzZlZWEyM2UmbmJzcDsxMDA2NDQ8YnI+Jmd0OyZuYnNwOy0tLSZuYnNwO2EvbWV0YS9yZWNp
-cGVzLWNvcmUvcGFja2FnZWdyb3Vwcy9uYXRpdmVzZGstcGFja2FnZWdyb3VwLXNkay1ob3N0LmJi
-PGJyPiZndDsmbmJzcDsrKysmbmJzcDtiL21ldGEvcmVjaXBlcy1jb3JlL3BhY2thZ2Vncm91cHMv
-bmF0aXZlc2RrLXBhY2thZ2Vncm91cC1zZGstaG9zdC5iYjxicj4mZ3Q7Jm5ic3A7QEAmbmJzcDst
-MjMsNyZuYnNwOysyMyw3Jm5ic3A7QEAmbmJzcDtSREVQRU5EU18ke1BOfSZuYnNwOz0mbmJzcDsi
-XDxicj4mZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7bmF0aXZlc2RrLW1h
-a2VkZXZzJm5ic3A7XDxicj4mZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-bmF0aXZlc2RrLWRuZiZuYnNwO1w8YnI+Jmd0OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwO25hdGl2ZXNkay1jbWFrZSZuYnNwO1w8YnI+Jmd0OyZuYnNwOy0mbmJzcDsmbmJzcDsm
-bmJzcDsmbmJzcDske0BiYi51dGlscy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywmbmJzcDsn
-d2F5bGFuZCcsJm5ic3A7J25hdGl2ZXNkay13YXlsYW5kJywmbmJzcDsnJywmbmJzcDtkKX0mbmJz
-cDtcPGJyPiZndDsmbmJzcDsrJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7JHtAYmIudXRpbHMuY29u
-dGFpbnMoJ0RJU1RST19GRUFUVVJFUycsJm5ic3A7J3dheWxhbmQnLCZuYnNwOyduYXRpdmVzZGst
-d2F5bGFuZC1kZXYnLCZuYnNwOycnLCZuYnNwO2QpfSZuYnNwO1w8YnI+PGJyPkRvJm5ic3A7d2Um
-bmJzcDtuZWVkJm5ic3A7dGhlJm5ic3A7d2hvbGUmbmJzcDtkZXYmbmJzcDtwYWNrYWdlJm5ic3A7
-PyZuYnNwO2lmJm5ic3A7bm90Jm5ic3A7SSZuYnNwO3dvdWxkJm5ic3A7c3VnZ2VzdCZuYnNwO3Rv
-Jm5ic3A7cGFja2FnZTxicj5pdCZuYnNwO2ludG8mbmJzcDthJm5ic3A7c2VwYXJhdGUmbmJzcDtv
-dXRwdXQmbmJzcDtwYWNrYWdlPGJyPmFuZCZuYnNwO2luY2x1ZGUmbmJzcDt0aGF0Jm5ic3A7YWxv
-bmcmbmJzcDt3aXRoJm5ic3A7bmF0aXZlc2RrLXdheWxhbmQ8YnI+PGJyPiZndDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtuYXRpdmVzZGstc2RrLXByb3ZpZGVzLWR1bW15Jm5i
-c3A7XDxicj4mZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Ijxicj4mZ3Q7
-PGJyPiZndDsmbmJzcDstLTxicj4mZ3Q7Jm5ic3A7Mi4xNy4xPGJyPiZndDs8YnI+Jmd0OyZuYnNw
-Oy0tPGJyPiZndDsmbmJzcDtfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXzxicj4mZ3Q7Jm5ic3A7T3BlbmVtYmVkZGVkLWNvcmUmbmJzcDttYWlsaW5nJm5ic3A7
-bGlzdDxicj4mZ3Q7Jm5ic3A7T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zzxicj4mZ3Q7Jm5ic3A7PGEgaHJlZj0iaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZSIgZWFjaD0iX2JsYW5rIiB0YXJnZXQ9Il9i
-bGFuayIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRwOi8vbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlPC9hPjxicj4KICAgIDwvZGl2
-Pgo8L2Jsb2NrcXVvdGU+CjxwPjxicj48L3A+PC9kaXY+PC90ZD48L3RyPjwvdGFibGU+CjwvYm9k
-eT4KPC9odG1sPgo8aW1nIHNyYz0iaHR0cHM6Ly9jb25maXJtLm1haWwuZGF1bS5uZXQvY29uZmly
-bWFwaS92MS91c2Vycy9zdWtkbzM5OSU0MGhhbm1haWwlMkVuZXQvY21haWxzLzIwMTgwODIxMTE0
-MjM4JTJFLXRGZVNuWjRTZ09GWmVEd0pFWnlRQSU0MHN1a2RvMzk5JTJFaGFubWFpbCUyRW5ldC9y
-ZWNpcGllbnRzL29wZW5lbWJlZGRlZC1jb3JlJTQwbGlzdHMlMkVvcGVuZW1iZWRkZWQlMkVvcmci
-Pg==
+--_000_e1348b9c8f444b0ba01f0beea5f2f810inboschcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
+Hello Khem, Paul,
+
+I am waiting for any feedback for the patch changes.
+https://patchwork.openembedded.org/patch/150819/
+
+
+The approach suggested to use "DEBUG_PREFIX_MAP relative to S instead of WO=
+RKDIR" seems not possible due to the package.bbclass approach.
+https://github.com/openembedded/openembedded-core/blob/f9324af88a99eca28b16=
+0fa31aa4516fd397e44b/meta/classes/package.bbclass#L449
+
+the sources are explicitly copied from workparentdir path
+cmd =3D processdebugsrc % (sourcefile, workbasedir, localsrc_prefix, workpa=
+rentdir, dvar, debugsrcdir)
+
+Can you please clarify if my view is correct or Do I am missing something?
+
+Thanks in Advance.
+
+Mit freundlichen Gr=FC=DFen / Best regards
+
+Rajendran Vignesh
+RBEI/ECF33
+
+Tel. +91 422 67-65103
+
+
+--_000_e1348b9c8f444b0ba01f0beea5f2f810inboschcom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+pre
+	{mso-style-priority:99;
+	mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-priority:99;
+	mso-style-link:"HTML Preformatted";
+	font-family:"Courier New";}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hello Khem, Paul,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I am waiting for any feedback for the patch changes.=
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"https://patchwork.openembedded.org/patch/=
+150819/">https://patchwork.openembedded.org/patch/150819/</a>
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<pre><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-s=
+erif">The approach suggested to use</span> &#8220;DEBUG_PREFIX_MAP relative=
+ to S instead of WORKDIR&#8221; <span style=3D"font-size:11.0pt;font-family=
+:&quot;Calibri&quot;,sans-serif">seems not possible due to the package.bbcl=
+ass approach.</span><o:p></o:p></pre>
+<p class=3D"MsoNormal"><a href=3D"https://github.com/openembedded/openembed=
+ded-core/blob/f9324af88a99eca28b160fa31aa4516fd397e44b/meta/classes/package=
+.bbclass#L449">https://github.com/openembedded/openembedded-core/blob/f9324=
+af88a99eca28b160fa31aa4516fd397e44b/meta/classes/package.bbclass#L449</a>
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">the sources are explicitly copied from workparentdir=
+ path<o:p></o:p></p>
+<p class=3D"MsoNormal">cmd =3D processdebugsrc % (sourcefile, workbasedir, =
+localsrc_prefix, workparentdir, dvar, debugsrcdir)<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Can you please clarify if my view is correct or Do I=
+ am missing something?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks in Advance.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif;color:black">Mit freundlichen Gr=FC=DFen / Best regard=
+s
+<br>
+<br>
+<b>Rajendran Vignesh<br>
+RBEI/ECF33<br>
+</b><br>
+Tel. &#43;91 422 67-65103 </span><span style=3D"font-size:8.0pt;font-family=
+:&quot;Arial&quot;,sans-serif;color:black"><br>
+<br>
+</span><o:p></o:p></p>
+</div>
+</body>
+</html>
+
+--_000_e1348b9c8f444b0ba01f0beea5f2f810inboschcom_--
