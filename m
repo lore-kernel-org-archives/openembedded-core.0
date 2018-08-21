@@ -1,30 +1,23 @@
-Return-Path: <sukdo399@daum.net>
-Received: from mail-smail-vm79.hanmail.net (mail-smail-vm79.daum.net
-	[211.231.106.154])
-	by mail.openembedded.org (Postfix) with ESMTP id C42E379011
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EC27C78DC7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 05:22:51 +0000 (UTC)
-Received: from mail-hmail-was5.s2.krane.9rum.cc ([10.197.10.47])
-	by mail-smail-vm79.hanmail.net (8.13.8/8.9.1) with SMTP id
-	w7L5MlKs009490 for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 14:22:47 +0900
-X-Hermes-Message-Id: m7LEMkshi1405499449
-Date: Tue, 21 Aug 2018 14:22:46 +0900 (KST)
-From: Seokha Ko <sukdo399@daum.net>
-To: Khem Raj <raj.khem@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20180821142246._iSqKl9WTLOkNkbhXCg-Ow@sukdo399.hanmail.net>
+	Tue, 21 Aug 2018 05:44:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7L5iwWC022887
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Aug 2018 22:44:58 -0700
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Mon, 20 Aug 2018 22:44:57 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Aug 2018 13:44:55 +0800
+Message-ID: <1534830295-5057-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Mailer: Daum Mint Web 1.0
-X-Originating-IP: [182.212.44.138]
-X-HM-UT: qXZ0Qt+h/LYAl+M7w+AV3PFdugrUhY3upSfJ6//IJWw=
-Received: from mail-hammer-was10.s2.krane.9rum.cc ([10.197.10.43]) by hermes
-	of mail-hmail-was5.s2.krane.9rum.cc (10.197.10.47) with ESMTP
-	id m7LEMkshi1405499449 for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 14:22:46 +0900 (KST)
-Subject: Re: [PATCH] nativesdk-packagegroup-sdk-host: Add wayland-scanner to
+Subject: [PATCH] python/python3: add virtual/crypt to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,108 +30,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 05:22:52 -0000
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 21 Aug 2018 05:44:59 -0000
+Content-Type: text/plain
 
-PGh0bWw+CjxoZWFkPgogICAgPHN0eWxlPgogICAgICAgIHB7bWFyZ2luLXRvcDowO21hcmdpbi1i
-b3R0b206MH0KICAgIDwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CiAgICA8dGFibGUgY2xhc3M9InR4
-Yy13cmFwcGVyIiBib3JkZXI9IjAiIGNlbGxzcGFjaW5nPSIwIiBjZWxscGFkZGluZz0iMCIgd2lk
-dGg9IjEwMCUiPjx0cj48dGQgY2xhc3M9InR4Yy13cmFwcGVyLXRkIj48ZGl2IGNsYXNzPSJ0eGMt
-Y29udGVudC13cmFwcGVyIiBzdHlsZT0iY29sb3I6IzExMTtmb250LWZhbWlseTpBcHBsZSBTRCBH
-b3RoaWMgTmVvLE1hbGd1biBHb3RoaWMsJ+unkeydgCDqs6DrlJUnLHNhbnMtc2VyaWY7Zm9udC1z
-aXplOjEwcHQ7bGluZS1oZWlnaHQ6MS41OyI+PHRhYmxlIGJvcmRlcj0iMCIgY2VsbHNwYWNpbmc9
-IjAiIGNlbGxwYWRkaW5nPSIwIiB3aWR0aD0iMTAwJSIgc3R5bGU9ImZvbnQtc2l6ZToxNHB4O3dv
-cmQtYnJlYWs6YnJlYWstYWxsO3dvcmQtd3JhcDpicmVhay13b3JkO2NvbG9yOnJnYigxNywxNywx
-Nyk7Zm9udC1mYW1pbHk6JnF1b3Q7Zm9udC1zdHlsZTpub3JtYWw7Zm9udC12YXJpYW50LWxpZ2F0
-dXJlczpub3JtYWw7Zm9udC12YXJpYW50LWNhcHM6bm9ybWFsO2ZvbnQtd2VpZ2h0OjQwMDtsZXR0
-ZXItc3BhY2luZzpub3JtYWw7b3JwaGFuczoyO3RleHQtYWxpZ246c3RhcnQ7dGV4dC1pbmRlbnQ6
-MHB4O3RleHQtdHJhbnNmb3JtOm5vbmU7d2hpdGUtc3BhY2U6bm9ybWFsO3dpZG93czoyO3dvcmQt
-c3BhY2luZzowcHg7LXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDowcHg7YmFja2dyb3VuZC1jb2xv
-cjpyZ2IoMjU1LCAyNTUsIDI1NSk7dGV4dC1kZWNvcmF0aW9uLXN0eWxlOmluaXRpYWw7dGV4dC1k
-ZWNvcmF0aW9uLWNvbG9yOmluaXRpYWw7Ij48dGJvZHk+PHRyPjx0ZCBzdHlsZT0ibWFyZ2luOjBw
-eDtwYWRkaW5nOjBweDtsaW5lLWhlaWdodDoxLjU7Zm9udC1mYW1pbHk6JnF1b3Q7Y29sb3I6cmdi
-KDE3LDE3LDE3KTt3b3JkLWJyZWFrOmJyZWFrLWFsbDt3b3JkLXdyYXA6YnJlYWstd29yZDsiPjxk
-aXYgc3R5bGU9Im1hcmdpbjowcHg7cGFkZGluZzowcHg7Zm9udC1zaXplOjEwcHQ7d29yZC1icmVh
-azpicmVhay1hbGw7d29yZC13cmFwOmJyZWFrLXdvcmQ7Y29sb3I6cmdiKDE3LDE3LDE3KTtmb250
-LWZhbWlseTomcXVvdDtsaW5lLWhlaWdodDoxLjU7Ij48cCBzdHlsZT0ibWFyZ2luOjBweDtwYWRk
-aW5nOjBweDt3b3JkLWJyZWFrOmJyZWFrLWFsbDt3b3JkLXdyYXA6YnJlYWstd29yZDsiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTBwdDt3b3JkLWJyZWFrOmJyZWFrLWFsbDt3b3JkLXdyYXA6YnJl
-YWstd29yZDsiPmN1cnJlbnRseSBuYXRpdmVzZGstd2F5bGFuZC1kZXYgcGFja2FnZSBiaW4gZGly
-ZWN0b3J5IHdoaWNoIGluY2x1ZGVzIHdheWxhbmQtc2Nhbm5lciBvbmx5Ljwvc3Bhbj48YnIgc3R5
-bGU9IndvcmQtYnJlYWs6YnJlYWstYWxsO3dvcmQtd3JhcDpicmVhay13b3JkOyI+PC9wPgo8cCBz
-dHlsZT0ibWFyZ2luOjBweDtwYWRkaW5nOjBweDt3b3JkLWJyZWFrOmJyZWFrLWFsbDt3b3JkLXdy
-YXA6YnJlYWstd29yZDsiPkFuZCwgSU1ITywgaWYgdGhlcmUgYXJlIG90aGVyIHRvb2xzIGZvciBk
-ZXYgcGFja2FnZSwgd2UgbmVlZCB0aGVtIGZvciBuYXRpdmVzZGsgdGFyZ2V0IGFsc28uPC9wPgo8
-cCBzdHlsZT0ibWFyZ2luOjBweDtwYWRkaW5nOjBweDt3b3JkLWJyZWFrOmJyZWFrLWFsbDt3b3Jk
-LXdyYXA6YnJlYWstd29yZDsiPlRoYW5rIHlvdS48L3A+PC9kaXY+PC90ZD48L3RyPjwvdGJvZHk+
-PC90YWJsZT48cD48YnI+PC9wPgo8cD48YnI+PC9wPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTRw
-eDttYXJnaW4tbGVmdDowLjhleDtmb250LWZhbWlseTphcmlhbCwnQXBwbGUgU0QgR290aGljIE5l
-bycsJ01hbGd1biBHb3RoaWMnLCfrp5HsnYAg6rOg65SVJyxzYW5zLXNlcmlmIj4tLS0tLS0tLS0g
-T3JpZ2luYWwgTWVzc2FnZSAtLS0tLS0tLS08YnI+PC9zcGFuPgo8YmxvY2txdW90ZSBzdHlsZT0i
-Zm9udC1zaXplOjE0cHg7Ym9yZGVyLWxlZnQtc3R5bGU6c29saWQ7Ym9yZGVyLWxlZnQtd2lkdGg6
-MnB4O21hcmdpbi1ib3R0b206MHB0O21hcmdpbi1sZWZ0OjAuOGV4O21hcmdpbi1yaWdodDowcHQ7
-bWFyZ2luLXRvcDowcHQ7cGFkZGluZy1sZWZ0OjFleDsiPgogICAgPHAgc3R5bGU9ImZvbnQtZmFt
-aWx5OmFyaWFsLCdBcHBsZSBTRCBHb3RoaWMgTmVvJywnTWFsZ3VuIEdvdGhpYycsJ+unkeydgCDq
-s6DrlJUnLHNhbnMtc2VyaWY7bGluZS1oZWlnaHQ6MjBweCI+CiAgICAgICAgPGI+RnJvbTwvYj46
-IEtoZW0gUmFqICZsdDtyYWoua2hlbUBnbWFpbC5jb20mZ3Q7PGJyPgogICAgICAgIDxiPlRvPC9i
-PjogICZsdDtzdWtkbzM5OUBkYXVtLm5ldCZndDs8YnI+CiAgICAgICAgCiAgICAgICAgICAgIDxi
-PkNjPC9iPjogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIg
-Jmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPgogICAg
-ICAgIAogICAgICAgIDxiPlNlbnQ8L2I+OiAxOC4wOC4yMSAwOTo1MCBHTVQgKzA5MDA8YnI+CiAg
-ICAgICAgPGI+U3ViamVjdDwvYj46IFJlOiBbT0UtY29yZV0gW1BBVENIXSBuYXRpdmVzZGstcGFj
-a2FnZWdyb3VwLXNkay1ob3N0OiBBZGQKIHdheWxhbmQtc2Nhbm5lciB0bzxicj4KICAgICAgICAK
-ICAgICAgICA8YnI+CiAgICA8L3A+CiAgICA8ZGl2IHN0eWxlPSJmb250LWZhbWlseTphcmlhbCwn
-QXBwbGUgU0QgR290aGljIE5lbycsJ01hbGd1biBHb3RoaWMnLCfrp5HsnYAg6rOg65SVJyxzYW5z
-LXNlcmlmOyI+CiAgICAgICAgT24mbmJzcDtNb24sJm5ic3A7QXVnJm5ic3A7MjAsJm5ic3A7MjAx
-OCZuYnNwO2F0Jm5ic3A7NDoyNiZuYnNwO1BNJm5ic3A7U2Vva2hhJm5ic3A7S28mbmJzcDsmbHQ7
-c3VrZG8zOTlAZGF1bS5uZXQmZ3Q7Jm5ic3A7d3JvdGU6PGJyPiZndDs8YnI+Jmd0OyZuYnNwO1Ro
-ZSZuYnNwO3dheWxhbmQtc2Nhbm5lciZuYnNwO3dhcyZuYnNwO21pc3NpbmcmbmJzcDtmcm9tJm5i
-c3A7dGhlJm5ic3A7bmF0aXZlJm5ic3A7dG9vbGNoYWluJm5ic3A7Zm9yJm5ic3A7U0RLJm5ic3A7
-YnVpbGQ8YnI+Jmd0OyZuYnNwO2JlY2F1c2UmbmJzcDtpdCdzJm5ic3A7Y29waWVkJm5ic3A7ZnJv
-bSZuYnNwO3dheWxhbmQmbmJzcDtkZXYmbmJzcDtwYWNrYWdlLjxicj4mZ3Q7PGJyPiZndDsmbmJz
-cDtTaWduZWQtb2ZmLWJ5OiZuYnNwO1Nlb2toYSZuYnNwO0tvJm5ic3A7Jmx0O3N1a2RvMzk5QGRh
-dW0ubmV0Jmd0Ozxicj4mZ3Q7Jm5ic3A7LS0tPGJyPiZndDsmbmJzcDsmbmJzcDsuLi4vcGFja2Fn
-ZWdyb3Vwcy9uYXRpdmVzZGstcGFja2FnZWdyb3VwLXNkay1ob3N0LmJiJm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-fCZuYnNwOzImbmJzcDsrLTxicj4mZ3Q7Jm5ic3A7Jm5ic3A7MSZuYnNwO2ZpbGUmbmJzcDtjaGFu
-Z2VkLCZuYnNwOzEmbmJzcDtpbnNlcnRpb24oKyksJm5ic3A7MSZuYnNwO2RlbGV0aW9uKC0pPGJy
-PiZndDs8YnI+Jmd0OyZuYnNwO2RpZmYmbmJzcDstLWdpdCZuYnNwO2EvbWV0YS9yZWNpcGVzLWNv
-cmUvcGFja2FnZWdyb3Vwcy9uYXRpdmVzZGstcGFja2FnZWdyb3VwLXNkay1ob3N0LmJiJm5ic3A7
-Yi9tZXRhL3JlY2lwZXMtY29yZS9wYWNrYWdlZ3JvdXBzL25hdGl2ZXNkay1wYWNrYWdlZ3JvdXAt
-c2RrLWhvc3QuYmI8YnI+Jmd0OyZuYnNwO2luZGV4Jm5ic3A7ZTJmNjE2OTk5NC4uNGRjNmVlYTIz
-ZSZuYnNwOzEwMDY0NDxicj4mZ3Q7Jm5ic3A7LS0tJm5ic3A7YS9tZXRhL3JlY2lwZXMtY29yZS9w
-YWNrYWdlZ3JvdXBzL25hdGl2ZXNkay1wYWNrYWdlZ3JvdXAtc2RrLWhvc3QuYmI8YnI+Jmd0OyZu
-YnNwOysrKyZuYnNwO2IvbWV0YS9yZWNpcGVzLWNvcmUvcGFja2FnZWdyb3Vwcy9uYXRpdmVzZGst
-cGFja2FnZWdyb3VwLXNkay1ob3N0LmJiPGJyPiZndDsmbmJzcDtAQCZuYnNwOy0yMyw3Jm5ic3A7
-KzIzLDcmbmJzcDtAQCZuYnNwO1JERVBFTkRTXyR7UE59Jm5ic3A7PSZuYnNwOyJcPGJyPiZndDsm
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtuYXRpdmVzZGstbWFrZWRldnMmbmJz
-cDtcPGJyPiZndDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtuYXRpdmVzZGst
-ZG5mJm5ic3A7XDxicj4mZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7bmF0
-aXZlc2RrLWNtYWtlJm5ic3A7XDxicj4mZ3Q7Jm5ic3A7LSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCZuYnNwOyd3YXlsYW5kJywm
-bmJzcDsnbmF0aXZlc2RrLXdheWxhbmQnLCZuYnNwOycnLCZuYnNwO2QpfSZuYnNwO1w8YnI+Jmd0
-OyZuYnNwOysmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDske0BiYi51dGlscy5jb250YWlucygnRElT
-VFJPX0ZFQVRVUkVTJywmbmJzcDsnd2F5bGFuZCcsJm5ic3A7J25hdGl2ZXNkay13YXlsYW5kLWRl
-dicsJm5ic3A7JycsJm5ic3A7ZCl9Jm5ic3A7XDxicj48YnI+RG8mbmJzcDt3ZSZuYnNwO25lZWQm
-bmJzcDt0aGUmbmJzcDt3aG9sZSZuYnNwO2RldiZuYnNwO3BhY2thZ2UmbmJzcDs/Jm5ic3A7aWYm
-bmJzcDtub3QmbmJzcDtJJm5ic3A7d291bGQmbmJzcDtzdWdnZXN0Jm5ic3A7dG8mbmJzcDtwYWNr
-YWdlPGJyPml0Jm5ic3A7aW50byZuYnNwO2EmbmJzcDtzZXBhcmF0ZSZuYnNwO291dHB1dCZuYnNw
-O3BhY2thZ2U8YnI+YW5kJm5ic3A7aW5jbHVkZSZuYnNwO3RoYXQmbmJzcDthbG9uZyZuYnNwO3dp
-dGgmbmJzcDtuYXRpdmVzZGstd2F5bGFuZDxicj48YnI+Jmd0OyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwO25hdGl2ZXNkay1zZGstcHJvdmlkZXMtZHVtbXkmbmJzcDtcPGJyPiZn
-dDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsiPGJyPiZndDs8YnI+Jmd0OyZu
-YnNwOy0tPGJyPiZndDsmbmJzcDsyLjE3LjE8YnI+Jmd0Ozxicj4mZ3Q7Jm5ic3A7LS08YnI+Jmd0
-OyZuYnNwO19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fPGJy
-PiZndDsmbmJzcDtPcGVuZW1iZWRkZWQtY29yZSZuYnNwO21haWxpbmcmbmJzcDtsaXN0PGJyPiZn
-dDsmbmJzcDtPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPiZndDsm
-bmJzcDs8YSBocmVmPSJodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL29wZW5lbWJlZGRlZC1jb3JlIiBlYWNoPSJfYmxhbmsiIHRhcmdldD0iX2JsYW5rIiByZWw9
-Im5vb3BlbmVyIG5vcmVmZXJyZXIiPmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxt
-YW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmU8L2E+PGJyPgogICAgPC9kaXY+CjwvYmxvY2tx
-dW90ZT4KPHA+PGJyPjwvcD48L2Rpdj48L3RkPjwvdHI+PC90YWJsZT4KPC9ib2R5Pgo8L2h0bWw+
-CjxpbWcgc3JjPSJodHRwczovL2NvbmZpcm0ubWFpbC5kYXVtLm5ldC9jb25maXJtYXBpL3YxL3Vz
-ZXJzL3N1a2RvMzk5JTQwaGFubWFpbCUyRW5ldC9jbWFpbHMvMjAxODA4MjExNDIyNDYlMkVfaVNx
-S2w5V1RMT2tOa2JoWENnLU93JTQwc3VrZG8zOTklMkVoYW5tYWlsJTJFbmV0L3JlY2lwaWVudHMv
-b3BlbmVtYmVkZGVkLWNvcmUlNDBsaXN0cyUyRW9wZW5lbWJlZGRlZCUyRW9yZyI+
+Since  `6146b8c glibc: Disable crypt support in glibc' in oe-core,
+python2/3 could not find symbol crypt which caused import crypt failed.
+[snip]
+>>> import crypt
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib64/python3.5/crypt.py", line 3, in <module>
+    import _crypt
+ImportError: /usr/lib64/python3.5/lib-dynload/_crypt.cpython-35m-x86_64-linux-gnu.so: undefined symbol: crypt
+[snip]
+
+Add virtual/crypt to DEPENDS, and python's build system (setup.py)
+will search libcrypt.so in recipe-sysroot and add `-lcrypt' if it
+exists.
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-devtools/python/python3_3.5.5.bb | 4 +++-
+ meta/recipes-devtools/python/python_2.7.15.bb | 3 ++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python3_3.5.5.bb b/meta/recipes-devtools/python/python3_3.5.5.bb
+index beaf3dc..bfe91fb 100644
+--- a/meta/recipes-devtools/python/python3_3.5.5.bb
++++ b/meta/recipes-devtools/python/python3_3.5.5.bb
+@@ -1,6 +1,8 @@
+ require recipes-devtools/python/python.inc
+ 
+-DEPENDS = "python3-native libffi bzip2 gdbm openssl sqlite3 zlib virtual/libintl xz qemu-native qemu-helper-native"
++DEPENDS = "python3-native libffi bzip2 gdbm openssl \
++           sqlite3 zlib virtual/libintl xz qemu-native \
++           qemu-helper-native virtual/crypt"
+ 
+ PR = "${INC_PR}.0"
+ PYTHON_MAJMIN = "3.5"
+diff --git a/meta/recipes-devtools/python/python_2.7.15.bb b/meta/recipes-devtools/python/python_2.7.15.bb
+index 3044c3d..43d9ff5 100644
+--- a/meta/recipes-devtools/python/python_2.7.15.bb
++++ b/meta/recipes-devtools/python/python_2.7.15.bb
+@@ -1,6 +1,7 @@
+ require python.inc
+ 
+-DEPENDS = "python-native libffi bzip2 gdbm openssl readline sqlite3 zlib"
++DEPENDS = "python-native libffi bzip2 gdbm openssl \
++           readline sqlite3 zlib virtual/crypt"
+ 
+ PR = "${INC_PR}"
+ 
+-- 
+2.7.4
+
 
