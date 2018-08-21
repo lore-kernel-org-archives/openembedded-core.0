@@ -1,25 +1,53 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C86FF79020
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 874FF7915F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 07:13:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7L7DTiA008226
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Aug 2018 00:13:29 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 21 Aug 2018 00:13:29 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 21 Aug 2018 14:36:07 +0800
-Message-ID: <f4a2f7e627f1d85b63fa1df9dfe343bce4792512.1534832871.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1534832871.git.kai.kang@windriver.com>
-References: <cover.1534832871.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] sstate.bbclass: update SSTATE_DUPWHITELIST
+	Tue, 21 Aug 2018 08:22:04 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id w24-v6so2019926wmc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2018 01:22:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=DzIQhIB22iPXfxxt34xgY117PgLbKuiI3QadTk+Zaos=;
+	b=NmExnFjWXSxF40NgKMV48RV7yWxnWOOvX3sl2g190WRXstpE6xMA+QUozMdLME7CEU
+	uq7USMnoczdCPBxBLjmR562LLRbZXokyk1ZKhBZZtMc/WWV79BTk6ZSEKTuAAHF8lAUx
+	eXi0vG/e8TBjQ8UFSvmLK7VVvg710n42Zyle0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=DzIQhIB22iPXfxxt34xgY117PgLbKuiI3QadTk+Zaos=;
+	b=KDy3Md6bzUOX2Vf39IC/xttyg+TkXqcmweLoq8Uxk/Hh1oijMlWPsvwxXk1PhH5EEl
+	R0jwYLix1Y6HwLWc8g0v1HachiotcATqjYgg4ITsvFAZjeT835P2ccFzqOEopir+0SxV
+	lDcuuPw2ogfSk7JyAxmYkqt+BHSWvzhqHW0c5eRMzLC6Q7KXJkruOfuGp32mnFouG+mn
+	IefCJsG4DOBIf5gOCEdw7HNfPQFTj1jvyQ7nJoZjaNfMyU7DgfD6jJ7MZE/3f8NNgeao
+	FYFHhZ9Vej1Io/9yMBD7fMvKkxMHjMTSTnKipVcxC7q+u7eyg7QAfzM1czEoSkg4pafm
+	OOqQ==
+X-Gm-Message-State: AOUpUlFPbuoI6E5EJNzix0XHa4DBL1akmawYfN33x3Gwmj5cFRhaRLcr
+	a1w5H0dPLk3JP5kNa8NC2uU8bg==
+X-Google-Smtp-Source: AA+uWPyjq1l/yIFk6FiTFImUVjCkq71EvVgD3i4O8LzYnC2OM3tLlYfsMWyG9M62O3ZQv5I7XFTE1g==
+X-Received: by 2002:a1c:9e89:: with SMTP id
+	h131-v6mr26608309wme.13.1534839725216; 
+	Tue, 21 Aug 2018 01:22:05 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	m8-v6sm9084119wrn.72.2018.08.21.01.22.03
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 21 Aug 2018 01:22:04 -0700 (PDT)
+Message-ID: <77b26139005bcfac54f24cf4e261499e68595e10.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: ChenQi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 21 Aug 2018 09:22:03 +0100
+In-Reply-To: <c3f18902-3719-cb74-197e-787a42663953@windriver.com>
+References: <cover.1534497181.git.Qi.Chen@windriver.com>
+	<760193dd3732a2239aa96f7660dd85ed4071ebd2.1534497181.git.Qi.Chen@windriver.com>
+	<179b2fa5f801bc5f8cf6618489889352039a4ad9.camel@linuxfoundation.org>
+	<c3f18902-3719-cb74-197e-787a42663953@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] assimp.py: fix AttributeError in tearDownClass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +60,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 07:13:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 21 Aug 2018 08:22:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Kai Kang <kai.kang@windriver.com>
+On Tue, 2018-08-21 at 10:18 +0800, ChenQi wrote:
+> On 08/21/2018 12:53 AM, Richard Purdie wrote:
+> > On Fri, 2018-08-17 at 17:17 +0800, Chen Qi wrote:
+> > > When running this test case, we will see the following error.
+> > > 
+> > >   AttributeError: type object 'BuildAssimp' has no attribute
+> > > 'project'
+> > > 
+> > > assimp.py test case does not make use of SDKBuildProject, so
+> > > remove
+> > > the import statement and the tearDownClass.
+> > > 
+> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > > ---
+> > >  meta/lib/oeqa/sdk/cases/assimp.py | 5 -----
+> > >  1 file changed, 5 deletions(-)
+> > 
+> > I'm not seeing this error when I run the test and I can't see it on
+> > the
+> > autobuilders. Why are you seeing this and we're not?
+> > 
+> > I'm trying to understand some other odd behaviour in SDK tests and
+> > am
+> > wondering if this is related or not.
+> > 
+> > (e.g. https://autobuilder.yocto.io/builders/nightly-mips/builds/122
+> > 1/st
+> > eps/Running%20SDK%20Sanity%20Tests/logs/stdio)
+> > 
+> > Cheers,
+> > 
+> > Richard
+> > 
+>  I did a quick search and found this one: https://github.com/pexpect/
+> pexpect/pull/31
+> """
+> sys.stdout.buffer is not guaranteed to exist - e.g. if sys.stdout has
+> been reassigned to an io.StringIO instance, it won't.
+> """
+> 
+> And we have in ConcurrencyTestSuite:
+> process_result._stdout_buffer = io.StringIO()
 
-Update SSTATE_DUPWHITELIST in sstate.bbclass.
+Note http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/lib/oeqa/core/utils/concurrencytest.py#n103
 
-* remove ${DEPLOY_DIR_RPM}/noarch/ which is not overwritten any more
-* add directories for package target-sdk-provides-dummy
+process_result._stderr_buffer.buffer = dummybuf(process_result._stderr_buffer)
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/classes/sstate.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+which creates a dummy buffer object...
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index c0e54a398d..4b940eb48d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -25,12 +25,14 @@ PV[vardepvalue] = "${PV}"
- SSTATE_EXTRAPATH[vardepvalue] = ""
- 
- # For multilib rpm the allarch packagegroup files can overwrite (in theory they're identical)
--SSTATE_DUPWHITELIST = "${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_RPM}/noarch/"
-+SSTATE_DUPWHITELIST = "${DEPLOY_DIR}/licenses/"
- # Avoid docbook/sgml catalog warnings for now
- SSTATE_DUPWHITELIST += "${STAGING_ETCDIR_NATIVE}/sgml ${STAGING_DATADIR_NATIVE}/sgml"
- # sdk-provides-dummy-nativesdk and nativesdk-buildtools-perl-dummy overlap for different SDKMACHINE
- SSTATE_DUPWHITELIST += "${DEPLOY_DIR_RPM}/sdk_provides_dummy_nativesdk/ ${DEPLOY_DIR_IPK}/sdk-provides-dummy-nativesdk/"
- SSTATE_DUPWHITELIST += "${DEPLOY_DIR_RPM}/buildtools_dummy_nativesdk/ ${DEPLOY_DIR_IPK}/buildtools-dummy-nativesdk/"
-+# target-sdk-provides-dummy overlaps that allarch is disabled when multilib is used
-+SSTATE_DUPWHITELIST += "${COMPONENTS_DIR}/sdk-provides-dummy-target/ ${DEPLOY_DIR_RPM}/sdk_provides_dummy_target/ ${DEPLOY_DIR_IPK}/sdk-provides-dummy-target/"
- # Archive the sources for many architectures in one deploy folder
- SSTATE_DUPWHITELIST += "${DEPLOY_DIR_SRC}"
- # ovmf/grub-efi/systemd-boot multilib recipes can generate identical overlapping files
--- 
-2.18.0
+Cheers,
+
+Richard
+
+
 
 
