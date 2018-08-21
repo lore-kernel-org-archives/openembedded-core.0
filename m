@@ -1,29 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 43E3074573
+Return-Path: <sukdo399@daum.net>
+Received: from mail-smail-vm77.hanmail.net (mail-smail-vm77.daum.net
+	[211.231.106.152])
+	by mail.openembedded.org (Postfix) with ESMTP id 5592278D5B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 02:13:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7L2DjWH006019
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 Aug 2018 19:13:45 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Mon, 20 Aug 2018 19:13:44 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1534497181.git.Qi.Chen@windriver.com>
-	<760193dd3732a2239aa96f7660dd85ed4071ebd2.1534497181.git.Qi.Chen@windriver.com>
-	<179b2fa5f801bc5f8cf6618489889352039a4ad9.camel@linuxfoundation.org>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <c3f18902-3719-cb74-197e-787a42663953@windriver.com>
-Date: Tue, 21 Aug 2018 10:18:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Tue, 21 Aug 2018 02:42:42 +0000 (UTC)
+Received: from mail-hmail-was3.s2.krane.9rum.cc ([10.197.6.229])
+	by mail-smail-vm77.hanmail.net (8.13.8/8.9.1) with SMTP id
+	w7L2gd9o005956 for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2018 11:42:39 +0900
+X-Hermes-Message-Id: m7LBgcFwq1221976189
+Date: Tue, 21 Aug 2018 11:42:38 +0900 (KST)
+From: Seokha Ko <sukdo399@daum.net>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20180821114238.-tFeSnZ4SgOFZeDwJEZyQA@sukdo399.hanmail.net>
 MIME-Version: 1.0
-In-Reply-To: <179b2fa5f801bc5f8cf6618489889352039a4ad9.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH 1/1] assimp.py: fix AttributeError in tearDownClass
+X-Mailer: Daum Mint Web 1.0
+X-Originating-IP: [182.212.44.138]
+X-HM-UT: qXZ0Qt+h/LbxLitdWzINePFdugrUhY3upSfJ6//IJWw=
+Received: from mail-hammer-was10.s2.krane.9rum.cc ([10.197.10.43]) by hermes
+	of mail-hmail-was3.s2.krane.9rum.cc (10.197.6.229) with ESMTP
+	id m7LBgcFwq1221976189 for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2018 11:42:38 +0900 (KST)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] nativesdk-packagegroup-sdk-host: Add wayland-scanner to the SDK native toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,116 +37,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 02:13:46 -0000
-Content-Type: multipart/alternative;
-	boundary="------------3BA94B4EECD5FF11F16EA6E1"
+X-List-Received-Date: Tue, 21 Aug 2018 02:42:43 -0000
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
 
---------------3BA94B4EECD5FF11F16EA6E1
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+PGh0bWw+CjxoZWFkPgogICAgPHN0eWxlPgogICAgICAgIHB7bWFyZ2luLXRvcDowO21hcmdpbi1i
+b3R0b206MH0KICAgIDwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CiAgICA8dGFibGUgY2xhc3M9InR4
+Yy13cmFwcGVyIiBib3JkZXI9IjAiIGNlbGxzcGFjaW5nPSIwIiBjZWxscGFkZGluZz0iMCIgd2lk
+dGg9IjEwMCUiPjx0cj48dGQgY2xhc3M9InR4Yy13cmFwcGVyLXRkIj48ZGl2IGNsYXNzPSJ0eGMt
+Y29udGVudC13cmFwcGVyIiBzdHlsZT0iY29sb3I6IzExMTtmb250LWZhbWlseTpBcHBsZSBTRCBH
+b3RoaWMgTmVvLE1hbGd1biBHb3RoaWMsJ+unkeydgCDqs6DrlJUnLHNhbnMtc2VyaWY7Zm9udC1z
+aXplOjEwcHQ7bGluZS1oZWlnaHQ6MS41OyI+PHA+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTBw
+dDsiPmN1cnJlbnRseSBuYXRpdmVzZGstd2F5bGFuZC1kZXYgcGFja2FnZSBiaW4gZGlyZWN0b3J5
+IHdoaWNoIGluY2x1ZGVzIHdheWxhbmQtc2Nhbm5lciBvbmx5Ljwvc3Bhbj48YnI+PC9wPgo8cD5B
+bmQsIElNSE8sIGlmIHRoZXJlIGFyZSBvdGhlciB0b29scyBmb3IgZGV2IHBhY2thZ2UsIHdlIG5l
+ZWQgdGhlbSBmb3IgbmF0aXZlc2RrIHRhcmdldCBhbHNvLjwvcD4KPHA+VGhhbmsgeW91LjwvcD4K
+PHA+PGJyPjwvcD48c3BhbiBzdHlsZT0iZm9udC1zaXplOjE0cHg7bWFyZ2luLWxlZnQ6MC44ZXg7
+Zm9udC1mYW1pbHk6YXJpYWwsJ0FwcGxlIFNEIEdvdGhpYyBOZW8nLCdNYWxndW4gR290aGljJywn
+66eR7J2AIOqzoOuUlScsc2Fucy1zZXJpZiI+LS0tLS0tLS0tIE9yaWdpbmFsJm5ic3A7IE1lc3Nh
+Z2UgLS0tLS0tLS0tPGJyPjwvc3Bhbj4KPGJsb2NrcXVvdGUgc3R5bGU9ImZvbnQtc2l6ZToxNHB4
+O2JvcmRlci1sZWZ0LXN0eWxlOnNvbGlkO2JvcmRlci1sZWZ0LXdpZHRoOjJweDttYXJnaW4tYm90
+dG9tOjBwdDttYXJnaW4tbGVmdDowLjhleDttYXJnaW4tcmlnaHQ6MHB0O21hcmdpbi10b3A6MHB0
+O3BhZGRpbmctbGVmdDoxZXg7Ij4KICAgIDxwIHN0eWxlPSJmb250LWZhbWlseTphcmlhbCwnQXBw
+bGUgU0QgR290aGljIE5lbycsJ01hbGd1biBHb3RoaWMnLCfrp5HsnYAg6rOg65SVJyxzYW5zLXNl
+cmlmO2xpbmUtaGVpZ2h0OjIwcHgiPgogICAgICAgIDxiPkZyb208L2I+OiBLaGVtIFJhaiAmbHQ7
+cmFqLmtoZW1AZ21haWwuY29tJmd0Ozxicj4KICAgICAgICA8Yj5UbzwvYj46ICAmbHQ7c3VrZG8z
+OTlAZGF1bS5uZXQmZ3Q7PGJyPgogICAgICAgIAogICAgICAgICAgICA8Yj5DQzwvYj46IFBhdGNo
+ZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyICZsdDtvcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxicj4KICAgICAgICAKICAgICAgICA8
+Yj5TZW50PC9iPjogMTguMDguMjEgMDk6NTAgR01UICswOTAwPGJyPgogICAgICAgIDxiPlN1Ympl
+Y3Q8L2I+OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gbmF0aXZlc2RrLXBhY2thZ2Vncm91cC1zZGst
+aG9zdDogQWRkIHdheWxhbmQtc2Nhbm5lciB0byB0aGUgU0RLIG5hdGl2ZSB0b29sY2hhaW48YnI+
+CiAgICAgICAgCiAgICAgICAgPGJyPgogICAgPC9wPgogICAgPGRpdiBzdHlsZT0iZm9udC1mYW1p
+bHk6YXJpYWwsJ0FwcGxlIFNEIEdvdGhpYyBOZW8nLCdNYWxndW4gR290aGljJywn66eR7J2AIOqz
+oOuUlScsc2Fucy1zZXJpZjsiPgogICAgICAgIE9uJm5ic3A7TW9uLCZuYnNwO0F1ZyZuYnNwOzIw
+LCZuYnNwOzIwMTgmbmJzcDthdCZuYnNwOzQ6MjYmbmJzcDtQTSZuYnNwO1Nlb2toYSZuYnNwO0tv
+Jm5ic3A7Jmx0O3N1a2RvMzk5QGRhdW0ubmV0Jmd0OyZuYnNwO3dyb3RlOjxicj4mZ3Q7PGJyPiZn
+dDsmbmJzcDtUaGUmbmJzcDt3YXlsYW5kLXNjYW5uZXImbmJzcDt3YXMmbmJzcDttaXNzaW5nJm5i
+c3A7ZnJvbSZuYnNwO3RoZSZuYnNwO25hdGl2ZSZuYnNwO3Rvb2xjaGFpbiZuYnNwO2ZvciZuYnNw
+O1NESyZuYnNwO2J1aWxkPGJyPiZndDsmbmJzcDtiZWNhdXNlJm5ic3A7aXQncyZuYnNwO2NvcGll
+ZCZuYnNwO2Zyb20mbmJzcDt3YXlsYW5kJm5ic3A7ZGV2Jm5ic3A7cGFja2FnZS48YnI+Jmd0Ozxi
+cj4mZ3Q7Jm5ic3A7U2lnbmVkLW9mZi1ieTombmJzcDtTZW9raGEmbmJzcDtLbyZuYnNwOyZsdDtz
+dWtkbzM5OUBkYXVtLm5ldCZndDs8YnI+Jmd0OyZuYnNwOy0tLTxicj4mZ3Q7Jm5ic3A7Jm5ic3A7
+Li4uL3BhY2thZ2Vncm91cHMvbmF0aXZlc2RrLXBhY2thZ2Vncm91cC1zZGstaG9zdC5iYiZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwO3wmbmJzcDsyJm5ic3A7Ky08YnI+Jmd0OyZuYnNwOyZuYnNwOzEmbmJzcDtmaWxl
+Jm5ic3A7Y2hhbmdlZCwmbmJzcDsxJm5ic3A7aW5zZXJ0aW9uKCspLCZuYnNwOzEmbmJzcDtkZWxl
+dGlvbigtKTxicj4mZ3Q7PGJyPiZndDsmbmJzcDtkaWZmJm5ic3A7LS1naXQmbmJzcDthL21ldGEv
+cmVjaXBlcy1jb3JlL3BhY2thZ2Vncm91cHMvbmF0aXZlc2RrLXBhY2thZ2Vncm91cC1zZGstaG9z
+dC5iYiZuYnNwO2IvbWV0YS9yZWNpcGVzLWNvcmUvcGFja2FnZWdyb3Vwcy9uYXRpdmVzZGstcGFj
+a2FnZWdyb3VwLXNkay1ob3N0LmJiPGJyPiZndDsmbmJzcDtpbmRleCZuYnNwO2UyZjYxNjk5OTQu
+LjRkYzZlZWEyM2UmbmJzcDsxMDA2NDQ8YnI+Jmd0OyZuYnNwOy0tLSZuYnNwO2EvbWV0YS9yZWNp
+cGVzLWNvcmUvcGFja2FnZWdyb3Vwcy9uYXRpdmVzZGstcGFja2FnZWdyb3VwLXNkay1ob3N0LmJi
+PGJyPiZndDsmbmJzcDsrKysmbmJzcDtiL21ldGEvcmVjaXBlcy1jb3JlL3BhY2thZ2Vncm91cHMv
+bmF0aXZlc2RrLXBhY2thZ2Vncm91cC1zZGstaG9zdC5iYjxicj4mZ3Q7Jm5ic3A7QEAmbmJzcDst
+MjMsNyZuYnNwOysyMyw3Jm5ic3A7QEAmbmJzcDtSREVQRU5EU18ke1BOfSZuYnNwOz0mbmJzcDsi
+XDxicj4mZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7bmF0aXZlc2RrLW1h
+a2VkZXZzJm5ic3A7XDxicj4mZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+bmF0aXZlc2RrLWRuZiZuYnNwO1w8YnI+Jmd0OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwO25hdGl2ZXNkay1jbWFrZSZuYnNwO1w8YnI+Jmd0OyZuYnNwOy0mbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDske0BiYi51dGlscy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywmbmJzcDsn
+d2F5bGFuZCcsJm5ic3A7J25hdGl2ZXNkay13YXlsYW5kJywmbmJzcDsnJywmbmJzcDtkKX0mbmJz
+cDtcPGJyPiZndDsmbmJzcDsrJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7JHtAYmIudXRpbHMuY29u
+dGFpbnMoJ0RJU1RST19GRUFUVVJFUycsJm5ic3A7J3dheWxhbmQnLCZuYnNwOyduYXRpdmVzZGst
+d2F5bGFuZC1kZXYnLCZuYnNwOycnLCZuYnNwO2QpfSZuYnNwO1w8YnI+PGJyPkRvJm5ic3A7d2Um
+bmJzcDtuZWVkJm5ic3A7dGhlJm5ic3A7d2hvbGUmbmJzcDtkZXYmbmJzcDtwYWNrYWdlJm5ic3A7
+PyZuYnNwO2lmJm5ic3A7bm90Jm5ic3A7SSZuYnNwO3dvdWxkJm5ic3A7c3VnZ2VzdCZuYnNwO3Rv
+Jm5ic3A7cGFja2FnZTxicj5pdCZuYnNwO2ludG8mbmJzcDthJm5ic3A7c2VwYXJhdGUmbmJzcDtv
+dXRwdXQmbmJzcDtwYWNrYWdlPGJyPmFuZCZuYnNwO2luY2x1ZGUmbmJzcDt0aGF0Jm5ic3A7YWxv
+bmcmbmJzcDt3aXRoJm5ic3A7bmF0aXZlc2RrLXdheWxhbmQ8YnI+PGJyPiZndDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtuYXRpdmVzZGstc2RrLXByb3ZpZGVzLWR1bW15Jm5i
+c3A7XDxicj4mZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Ijxicj4mZ3Q7
+PGJyPiZndDsmbmJzcDstLTxicj4mZ3Q7Jm5ic3A7Mi4xNy4xPGJyPiZndDs8YnI+Jmd0OyZuYnNw
+Oy0tPGJyPiZndDsmbmJzcDtfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXzxicj4mZ3Q7Jm5ic3A7T3BlbmVtYmVkZGVkLWNvcmUmbmJzcDttYWlsaW5nJm5ic3A7
+bGlzdDxicj4mZ3Q7Jm5ic3A7T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zzxicj4mZ3Q7Jm5ic3A7PGEgaHJlZj0iaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZSIgZWFjaD0iX2JsYW5rIiB0YXJnZXQ9Il9i
+bGFuayIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRwOi8vbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlPC9hPjxicj4KICAgIDwvZGl2
+Pgo8L2Jsb2NrcXVvdGU+CjxwPjxicj48L3A+PC9kaXY+PC90ZD48L3RyPjwvdGFibGU+CjwvYm9k
+eT4KPC9odG1sPgo8aW1nIHNyYz0iaHR0cHM6Ly9jb25maXJtLm1haWwuZGF1bS5uZXQvY29uZmly
+bWFwaS92MS91c2Vycy9zdWtkbzM5OSU0MGhhbm1haWwlMkVuZXQvY21haWxzLzIwMTgwODIxMTE0
+MjM4JTJFLXRGZVNuWjRTZ09GWmVEd0pFWnlRQSU0MHN1a2RvMzk5JTJFaGFubWFpbCUyRW5ldC9y
+ZWNpcGllbnRzL29wZW5lbWJlZGRlZC1jb3JlJTQwbGlzdHMlMkVvcGVuZW1iZWRkZWQlMkVvcmci
+Pg==
 
-On 08/21/2018 12:53 AM, Richard Purdie wrote:
-> On Fri, 2018-08-17 at 17:17 +0800, Chen Qi wrote:
->> When running this test case, we will see the following error.
->>
->>    AttributeError: type object 'BuildAssimp' has no attribute
->> 'project'
->>
->> assimp.py test case does not make use of SDKBuildProject, so remove
->> the import statement and the tearDownClass.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/lib/oeqa/sdk/cases/assimp.py | 5 -----
->>   1 file changed, 5 deletions(-)
-> I'm not seeing this error when I run the test and I can't see it on the
-> autobuilders. Why are you seeing this and we're not?
->
-> I'm trying to understand some other odd behaviour in SDK tests and am
-> wondering if this is related or not.
->
-> (e.g. https://autobuilder.yocto.io/builders/nightly-mips/builds/1221/st
-> eps/Running%20SDK%20Sanity%20Tests/logs/stdio)
->
-> Cheers,
->
-> Richard
->
-I did a quick search and found this one: 
-https://github.com/pexpect/pexpect/pull/31
-"""
-|sys.stdout.buffer| is not guaranteed to exist - e.g. if |sys.stdout| 
-has been reassigned to an |io.StringIO| instance, it won't.
-"""
-
-And we have in ConcurrencyTestSuite:
-process_result._stdout_buffer = io.StringIO()
-
-Best Regards,
-Chen Qi
-
---------------3BA94B4EECD5FF11F16EA6E1
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 08/21/2018 12:53 AM, Richard Purdie
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:179b2fa5f801bc5f8cf6618489889352039a4ad9.camel@linuxfoundation.org"
-      type="cite">
-      <pre wrap="">On Fri, 2018-08-17 at 17:17 +0800, Chen Qi wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">When running this test case, we will see the following error.
-
-  AttributeError: type object 'BuildAssimp' has no attribute
-'project'
-
-assimp.py test case does not make use of SDKBuildProject, so remove
-the import statement and the tearDownClass.
-
-Signed-off-by: Chen Qi <a class="moz-txt-link-rfc2396E" href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a>
----
- meta/lib/oeqa/sdk/cases/assimp.py | 5 -----
- 1 file changed, 5 deletions(-)
-</pre>
-      </blockquote>
-      <pre wrap="">
-I'm not seeing this error when I run the test and I can't see it on the
-autobuilders. Why are you seeing this and we're not?
-
-I'm trying to understand some other odd behaviour in SDK tests and am
-wondering if this is related or not.
-
-(e.g. <a class="moz-txt-link-freetext" href="https://autobuilder.yocto.io/builders/nightly-mips/builds/1221/st">https://autobuilder.yocto.io/builders/nightly-mips/builds/1221/st</a>
-eps/Running%20SDK%20Sanity%20Tests/logs/stdio)
-
-Cheers,
-
-Richard
-
-</pre>
-    </blockquote>
-    I did a quick search and found this one:
-    <a class="moz-txt-link-freetext" href="https://github.com/pexpect/pexpect/pull/31">https://github.com/pexpect/pexpect/pull/31</a><br>
-    """<br>
-    <code>sys.stdout.buffer</code> is not guaranteed to exist - e.g. if
-    <code>sys.stdout</code> has been reassigned to an <code>io.StringIO</code>
-    instance, it won't.<br>
-    """<br>
-    <br>
-    And we have in ConcurrencyTestSuite:<br>
-    process_result._stdout_buffer = io.StringIO()<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-  </body>
-</html>
-
---------------3BA94B4EECD5FF11F16EA6E1--
