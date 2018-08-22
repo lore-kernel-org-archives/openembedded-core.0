@@ -1,52 +1,60 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
-	[209.85.218.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 48A3179466
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BE5697940F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:10:18 +0000 (UTC)
-Received: by mail-oi0-f44.google.com with SMTP id c190-v6so3708383oig.6
+	Wed, 22 Aug 2018 15:42:35 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id b19-v6so1516024qkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:10:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=7BeKQoe62SiQ10OoOpaSnBPahk/muQpOp/Ts6TuGeW0=;
-	b=WmD15oKNi4jvTIlbtSMyxRE9jXzcNGpB5vXNXcGbNLeg4fod2RIrPBJ0BOEEcFwgWk
-	EkiFaynaIq4lzY1lGNVQb+K5uEcQEPWGn5uMP/f98WsyhO1CtHRlx2vXdTOLIrbiCJen
-	vvT0rh6TS3fyipkVD4xvjOYFHhu8/1EbsXn7w6qC21fOMIW2qMu97c+0wqgTJkwR0XO9
-	GVXZ8G6Rr/N57JZ+c+/TqnUynOaxkbjlT41bDIOFmNrciUWIw7S5DnxUxJ/n64nz8jhH
-	tNzXG06aj9DbNl4lkUo7mT6bfVHVj/7d/pmOwhX1WZ3jlwt+wA2PxHiKKZbv9wky9E5Y
-	W0PQ==
+	Wed, 22 Aug 2018 08:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=p53krYv26kFHbVhE1TImA729sBCiUF2cYBFkyb+8Xq0=;
+	b=tRFSrrfnh6BNbeKYTqgyBGcD88q58gRSPgD2/FiDbBEi0UD/Ap+BXXnvyrFc5aS2do
+	qgWrku8PAP7s8G47a+t0UJASEnqtjbgkl97sIfMaTtbQkrCa5wfRRwGMqogCWE3AfR/h
+	7PKtxZOlg2PW7o5SQucW3fYQpYKjS+BqdogrdeEjBZ2sCpmP5uZDWsUW8CaujnflUrUa
+	cs8zTFRqaQn0BrYlh0Uivj3mBAk/avlF9vanymKG+2PClnx8Uxid5Tx6xl99Mve3wg1G
+	1Gz6yatSRFQnvpEkQgnatr9+O60tXZLdESrC+VSRC7hV75nsVFQHa+p4SqMFUaSk33iK
+	zPPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=7BeKQoe62SiQ10OoOpaSnBPahk/muQpOp/Ts6TuGeW0=;
-	b=pD5Fpx7ODNhdWFWXKfCy2PyYp3njt2Mcd9XJ7nVGEtvKHeCmH2CzLLqo3kfN1pJfBm
-	UKgY7nmeJJgPvBFAmDMYcjVuy3HakF/uizCEJYOCY3ooN9YKsQnXEfZ1MYARA8WYCL4M
-	Upoh/M4tMBomh6XcsxsSbbuknv76Agz14KMQ0NWnEP6raAgpPGS5DO67Zz0H86lqs3Nz
-	fq28JG4dH5xLWF21yGD4QLfv3F9/YgtCOAiizKaQo1tRKIIBDqhg9q7GjzuaTVd6qvbx
-	CVGV+APSHOFkPQg2YTwYm93SDSEo/nqMrP+37bVnmHEhfZRlMrHikyvRnjPbDYkjD6+z
-	9doA==
-X-Gm-Message-State: APzg51AfBivQNyU6D5+kV72U6XShbyI/SsVKSoockUA8YNQS6Gcbed/2
-	M6n6Rvgwuq0LUmAaQJ5tkqHJYbu8bXE=
-X-Google-Smtp-Source: ANB0Vdb1kIazx1e2oHp8OdlqAqjhq9vadLXw3Wr3F3nPs2ZB7YZ4+V7BV8KixMyJsFvK2qJpOg94fg==
-X-Received: by 2002:aca:e485:: with SMTP id
-	b127-v6mr4565056oih.309.1534950619054; 
-	Wed, 22 Aug 2018 08:10:19 -0700 (PDT)
-Received: from dell-laptop.mvista.com ([157.49.107.222])
-	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.10.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:10:18 -0700 (PDT)
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:52 +0530
-Message-Id: <1534950532-23850-34-git-send-email-jkrishnanjanappa@mvista.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V3 34/34] libgcrypt: CVE-2018-0495
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=p53krYv26kFHbVhE1TImA729sBCiUF2cYBFkyb+8Xq0=;
+	b=GrOkmiiBZMB7xm2OlgqetDkxhjdf4mWc+qgWS5i4J0lFPSzH4gzEQ9El4NDO7aUPS/
+	X4bvI33gjyaipoNO3gLXfEXDH03HvMnH8Gldzh/7Z9FoL3x9D8Np16rD0aS53b+NraVf
+	TPQN2qADzpO8ibB/RQS7fRSqjJGBSsBfSZSPM1HTv4oEt2en7wSKYPEv6VsU3HKuLVPU
+	z3h0y/XfgfvA5Kftc2OzWFwV3phl2VMDjhR6ZDcxfIR/X+gKK172vjRZJdSVuzqErcM0
+	0cncvqVN6e6MJvL1wt+hiU9/rSVU9q0tVCgCnNyrop14Uwl2Y6MdZrXXXmIt10ZUtZJ3
+	uvRw==
+X-Gm-Message-State: AOUpUlF4dEa/6KFNenOveseMv7jjYidmuxLzead7uo7uRpiwTtL1VjT/
+	y9UxgJBm5g/62KM/ydl/Nrlk02kdVzRGK22/YDc=
+X-Google-Smtp-Source: AA+uWPzgBTuUUi1cNaIW1H07EvvCeMsXDUMkRIm8kCloFqeovDMlUjFPTouoG0wnfUg6DxtzT9bZgsgIttKNTPtx8EY=
+X-Received: by 2002:a37:9904:: with SMTP id
+	b4-v6mr40780276qke.102.1534952556204; 
+	Wed, 22 Aug 2018 08:42:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180821145858.18459-1-ricardo.ribalda@gmail.com>
+	<10e5ea973727e06604a83299fdd5a8d4cfa2633a.camel@linuxfoundation.org>
+	<CAPybu_3tUu0LKA1gdSj-MFYfhxiHz62wXrP2ivETSMNiWdWyDg@mail.gmail.com>
+	<83a93f3542ad88b01b073b7875839dd2e2c1bf44.camel@linuxfoundation.org>
+	<CAPybu_0+uwJghGGyPEAR1bQEtOcFKeH9P2okdhcUBzJ_E-BLDw@mail.gmail.com>
+	<a031c89ea6cdb522999796f93b8c1a2c8ec8e4c5.camel@linuxfoundation.org>
+	<CAPybu_0QAOWyz9+XGKEADtZqj+wj2Ro7hQx_q8BkX9BBrjPPCg@mail.gmail.com>
+	<e0ffd2ccefb534b1c4171449256c123e9e6b5e55.camel@linuxfoundation.org>
+	<CAPybu_1NAf_p0zfZSPTAbweKYunAyGL_6tLwhao-Kw6be3FX9w@mail.gmail.com>
+	<CAPybu_0oQ2sjiVTMqXXbvTs+3dagLn8Wps5-AxYhqtjKz-9M6w@mail.gmail.com>
+	<15ac7737a9a1a20bfbb6ed98a79ba140a6e6c786.camel@linuxfoundation.org>
+	<CAPybu_2BB1XmsvrrME9poTKABtW+C6qZvJo3eoo=MDUDJa5cuA@mail.gmail.com>
+	<8fe6af7262abdf19ade58f0c04a25637b20d5aef.camel@linuxfoundation.org>
+In-Reply-To: <8fe6af7262abdf19ade58f0c04a25637b20d5aef.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 22 Aug 2018 08:42:09 -0700
+Message-ID: <CAMKF1srqxVG639au7ikhM+CEhuSROSfyYEzYWU1M7+PG=EkP9g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: Fix ldd bug: not a dynamic executable error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,121 +67,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:10:18 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:42:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-ecc: Add blinding for ECDSA.
+On Wed, Aug 22, 2018 at 7:57 AM <richard.purdie@linuxfoundation.org> wrote:
+>
+> On Wed, 2018-08-22 at 15:39 +0200, Ricardo Ribalda Delgado wrote:
+> > On Wed, Aug 22, 2018 at 3:37 PM <richard.purdie@linuxfoundation.org>
+> > wrote:
+> > > > RTLDLIST="/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2
+> > > > /libx32/ld-linux-x32.so.
+> > >
+> > > I just looked at what the function is doing and its broken. What is
+> > > DEFAULTTUNE set to in your build?
+> >
+> > DEFAULTTUNE="dbfp4"
+>
+> As I suspected.
+>
+> Try applying:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=d69f0127b44a5216dd21ad972d6f2b2e4cda6d13
+>
 
-* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Blind secret D with
-randomized nonce B.
+this makes it a lot better thanks for doing it. Perhaps we should check for
+libc-glibc override for glibc case and throw an error if no conditions are met
+it might affect nativesdk version probably.
 
---
-
-CVE-id: CVE-2018-0495
-
-Affects libgcrypt < 1.7.10 and libgcrypt < 1.8.3
-
-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
----
- .../libgcrypt/files/CVE-2018-0495.patch            | 76 ++++++++++++++++++++++
- meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb  |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
-
-diff --git a/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch b/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
-new file mode 100644
-index 0000000..c16bd3a
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
-@@ -0,0 +1,76 @@
-+From 9010d1576e278a4274ad3f4aa15776c28f6ba965 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Wed, 13 Jun 2018 15:28:58 +0900
-+Subject: [PATCH] ecc: Add blinding for ECDSA.
-+
-+* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Blind secret D with
-+randomized nonce B.
-+
-+--
-+
-+Reported-by: Keegan Ryan <Keegan.Ryan@nccgroup.trust>
-+CVE-id: CVE-2018-0495
-+
-+Upstream-Status: Backport [http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=9010d1576e278a4274ad3f4aa15776c28f6ba965]
-+
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-+---
-+ cipher/ecc-ecdsa.c | 20 ++++++++++++++++++--
-+ 1 file changed, 18 insertions(+), 2 deletions(-)
-+
-+diff --git a/cipher/ecc-ecdsa.c b/cipher/ecc-ecdsa.c
-+index 1484830b..140e8c09 100644
-+--- a/cipher/ecc-ecdsa.c
-++++ b/cipher/ecc-ecdsa.c
-+@@ -50,6 +50,8 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+   const void *abuf;
-+   unsigned int abits, qbits;
-+   mpi_ec_t ctx;
-++  gcry_mpi_t b;                /* Random number needed for blinding.  */
-++  gcry_mpi_t bi;               /* multiplicative inverse of B.        */
-+ 
-+   if (DBG_CIPHER)
-+     log_mpidump ("ecdsa sign hash  ", input );
-+@@ -61,6 +63,15 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+   if (rc)
-+     return rc;
-+ 
-++  b  = mpi_snew (qbits);
-++  bi = mpi_snew (qbits);
-++  do
-++    {
-++      _gcry_mpi_randomize (b, qbits, GCRY_WEAK_RANDOM);
-++      mpi_mod (b, b, skey->E.n);
-++    }
-++  while (!mpi_invm (bi, b, skey->E.n));
-++
-+   k = NULL;
-+   dr = mpi_alloc (0);
-+   sum = mpi_alloc (0);
-+@@ -115,8 +126,11 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+         }
-+       while (!mpi_cmp_ui (r, 0));
-+ 
-+-      mpi_mulm (dr, skey->d, r, skey->E.n); /* dr = d*r mod n  */
-+-      mpi_addm (sum, hash, dr, skey->E.n);  /* sum = hash + (d*r) mod n  */
-++      mpi_mulm (dr, b, skey->d, skey->E.n);
-++      mpi_mulm (dr, dr, r, skey->E.n);      /* dr = d*r mod n (blinded with b) */
-++      mpi_mulm (sum, b, hash, skey->E.n);
-++      mpi_addm (sum, sum, dr, skey->E.n);   /* sum = hash + (d*r) mod n  (blinded with b) */
-++      mpi_mulm (sum, bi, sum, skey->E.n);   /* undo blinding by b^-1 */
-+       mpi_invm (k_1, k, skey->E.n);         /* k_1 = k^(-1) mod n  */
-+       mpi_mulm (s, k_1, sum, skey->E.n);    /* s = k^(-1)*(hash+(d*r)) mod n */
-+     }
-+@@ -129,6 +143,8 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+     }
-+ 
-+  leave:
-++  mpi_free (b);
-++  mpi_free (bi);
-+   _gcry_mpi_ec_free (ctx);
-+   point_free (&I);
-+   mpi_free (x);
-+-- 
-+2.13.3
-+
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-index 02982f0..3d189f5 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.gz \
-            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
-            file://0005-ecc-Add-input-validation-for-X25519.patch \
-            file://0006-Fix-building-AArch32-CE-implementations-when-target-.patch \
-+           file://CVE-2018-0495.patch \
- "
- SRC_URI[md5sum] = "110ce4352f9ea6f560bdc6c5644ae93c"
- SRC_URI[sha256sum] = "f6e470b7f2d3a703e8747f05a8c19d9e10e26ebf2d5f3d71ff75a40f504e12ee"
--- 
-2.7.4
-
+> and
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=95aa56ae11852c100be68d13aaffa9c83273b46b
+>
+> and then seen if that fixes things.
+>
+> Cheers,
+>
+> Richard
 
