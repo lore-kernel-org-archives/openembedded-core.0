@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
-	[209.85.218.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EA7A7934B
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4830C79266
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 11:19:02 +0000 (UTC)
-Received: by mail-oi0-f44.google.com with SMTP id 8-v6so2537575oip.0
+	Wed, 22 Aug 2018 11:19:05 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id s198-v6so2454903oih.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 04:19:03 -0700 (PDT)
+	Wed, 22 Aug 2018 04:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=sdTvmd+sxgO9yC4PeBiV2dE+QmzFLx1Kqum6weRldAk=;
-	b=Y7+FsNftcnuRf3Sa2/mIAmoIX07luRco2kLJLTEfT+ubDmTby5l9iRuKFawJgsP1nU
-	pHl1EEy+TgIRSBi53MRdMMHHQbgojmW9itT+vTxQjKlvBB298nuza+4WyRp1JXnGYNJI
-	bFloK/2hLdxE3tL3UtC6iWSsWJrWApAqXkWhnbq3QlVvalhNyh1Y8JmrE63GjELN3qn6
-	fow9eNKOK60hHz6R6/Cy3MevYUQ26ZHkQUl6TG/P3jf37CHcsBBjD1oE5v3WwvwaGgQV
-	g/QAw+xGldzUVTVYrakXqd5qyV7+K0zQ8Zjie14SoAL6gdIBH6wuTVa3b/QQJEIVRf+i
-	Y0Rw==
+	bh=OQak+YnoC1ilmJVlNxZXcCnege0sk2FcscFSPTyd3cA=;
+	b=mHildW7wjWg919FQspjmF4yKL04qMtC1VbeYf2OmX8+yv0GEjsDRs3oOmDd2c4RoLg
+	GOjBOUeljSoN39VLlvkpJ5U7E9wb7jibNYXqQKzUYSAvDuD4wX/y2giWIGmYTg9KYoFu
+	rSKX+DrCUwWiIlp4iILq1wjCM7/4QWiuoB84JbmD4QNE1cYciEl/02cbAnRI8XQGxfcd
+	mgAIczBkwcLiYa5b0OybzUjW4p23hC01Tnz0CiJtZlnveJVDtBc9k2qkeiMKUoD8NiCF
+	/ZDZKbf8rz6B15DlDmcjOxa/U/NCZEA5u1ud2RZeKU4ihx1VKMV+kEhZZdiFQiuMXILV
+	XVQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=sdTvmd+sxgO9yC4PeBiV2dE+QmzFLx1Kqum6weRldAk=;
-	b=UnsMZ0JSXG3LmG53SkQeeHv9TF4Q94V7hVnELAm7FOu0DZvjTpbIr4tqCwL59idS7O
-	f4qS9jgGJDnyGenuw0LCO0o2ZT5IGUDVxxb0vsxWWZfYw2CGX/GR3n4yDwfBTq8SFhJB
-	/lYRT1KwChMGZ1dVOzZsQvgvxWDHIrTFfgYXVCwUIqITlm9sODUgyEWA/cZBly1O9HN7
-	197ZuVAbAJIDpvuLBOZAyx5reVhP9n6Sp3GeRsaKoHAbPRu7+RzzocIXGogKRQNNQZr4
-	tbaJeBB2rOBYifXWxLoJFECw82bKf1aQWdYwZ00F3gk7sllmcLFl+4LV9obRYZIleO2w
-	WN/g==
-X-Gm-Message-State: APzg51Asmik3Jrs7iSgA0Y1q4qWpl184Ul2WvZNgkFn+fhZnp0BDxnt1
-	GSu/EDKsqkWyAffaxjNwG+nsXB0IRyc=
-X-Google-Smtp-Source: ANB0VdYLAzdTozd28HdRYCf4DNoTaxwXcupGt5ifKFX+pKJkWUpLqTahAGVVNqmyKHY6F5ks9LJe3Q==
-X-Received: by 2002:aca:ba57:: with SMTP id
-	k84-v6mr3643995oif.10.1534936743433; 
-	Wed, 22 Aug 2018 04:19:03 -0700 (PDT)
+	bh=OQak+YnoC1ilmJVlNxZXcCnege0sk2FcscFSPTyd3cA=;
+	b=JDZYHVBYLzverSw8LcMZOiE7PAymK74yQX/DzIrkLYTS9K6eJBQZMM9XT1THChzRm9
+	IFhNDuPZ5/YZznr+Fp4YuSSHz7xVKBjrzz9NjeZgULWV3Fb7kEgdk8csxJzaD+yXRuZx
+	ul58OIKqVKpId8gve9LyJqQGhngy5D3To6jRQsE7j+bKQ8Ji8tQRRj/m3qFFx3gtWxkM
+	K6KaKzFIx7MeJbYagv2IasMG6p8wf8YdnRA5N09n26Cf/A5wH+2+OLcyRV2CAxuT3OVM
+	j+eRiJrJJ6+zZYfDvXz2dDb6xqSaaDltPXvzJj+2E7DOHHVCBuMSCFJ2hI/6nlmFI+MH
+	I2Cg==
+X-Gm-Message-State: APzg51CK9ZcR3v86fGieuNNbhbNKbMld8ZspRIY4cJVhfXp6l43SjApM
+	hlxS702S+v8JLFf+xMFo9MI4ioRsrYQ=
+X-Google-Smtp-Source: ANB0VdZbtnyYRPTZ5RlpFOW5CvEtxkTG5xB2slZtKhVDlZExlPkgCdwSY4jcl6Zfnz/j7ma/ubaEXg==
+X-Received: by 2002:aca:fd01:: with SMTP id
+	b1-v6mr3598423oii.307.1534936746212; 
+	Wed, 22 Aug 2018 04:19:06 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	c9-v6sm862308oia.1.2018.08.22.04.19.00
+	c9-v6sm862308oia.1.2018.08.22.04.19.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 04:19:03 -0700 (PDT)
+	Wed, 22 Aug 2018 04:19:05 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 16:47:56 +0530
-Message-Id: <1534936692-11736-18-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 16:47:57 +0530
+Message-Id: <1534936692-11736-19-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534936692-11736-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534936692-11736-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH 18/34] pcmanfm: CVE-2017-8934
+Subject: [ROCKO][PATCH 19/34] openssh: CVE-2017-15906
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,99 +59,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:19:03 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 11:19:05 -0000
 
-Fix potential access violation, use runtime user dir instead of tmp dir.
+disallow creation (of empty files) in read-only mode; reported by
+Michal Zalewski, feedback & ok deraadt@
 
-pcmanfm = 1.2.5
+Affects openssh < 7.6
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../recipes-sato/pcmanfm/files/CVE-2017-8934.patch | 60 ++++++++++++++++++++++
- meta/recipes-sato/pcmanfm/pcmanfm_1.2.5.bb         |  3 +-
- 2 files changed, 62 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-sato/pcmanfm/files/CVE-2017-8934.patch
+ .../openssh/openssh/CVE-2017-15906.patch           | 38 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssh/openssh_7.5p1.bb |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2017-15906.patch
 
-diff --git a/meta/recipes-sato/pcmanfm/files/CVE-2017-8934.patch b/meta/recipes-sato/pcmanfm/files/CVE-2017-8934.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2017-15906.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2017-15906.patch
 new file mode 100644
-index 0000000..ea34555
+index 0000000..3ad683d
 --- /dev/null
-+++ b/meta/recipes-sato/pcmanfm/files/CVE-2017-8934.patch
-@@ -0,0 +1,60 @@
-+From bc8c3d871e9ecc67c47ff002b68cf049793faf08 Mon Sep 17 00:00:00 2001
-+From: Andriy Grytsenko <andrej@rep.kiev.ua>
-+Date: Sun, 14 May 2017 21:35:40 +0300
-+Subject: [PATCH] Fix potential access violation, use runtime user dir instead
-+ of tmp dir.
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2017-15906.patch
+@@ -0,0 +1,38 @@
++From a6981567e8e215acc1ef690c8dbb30f2d9b00a19 Mon Sep 17 00:00:00 2001
++From: djm <djm@openbsd.org>
++Date: Tue, 4 Apr 2017 00:24:56 +0000
++Subject: [PATCH] disallow creation (of empty files) in read-only mode;
++ reported by Michal Zalewski, feedback & ok deraadt@
 +
-+CVE: CVE-2017-8934
-+Upstream-Status: Backport [https://git.lxde.org/gitweb/?p=lxde/pcmanfm.git;a=commitdiff;h=bc8c3d871e9ecc67c47ff002b68cf049793faf08]
++CVE: CVE-2017-15906
++Upstream-Status: Backport [https://github.com/openbsd/src/commit/a6981567e8e215acc1ef690c8dbb30f2d9b00a19]
 +
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ NEWS              | 4 ++++
-+ src/single-inst.c | 7 ++++++-
-+ 2 files changed, 10 insertions(+), 1 deletion(-)
++ usr.bin/ssh/sftp-server.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/NEWS b/NEWS
-+index 8c2049a..876f7f3 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -1,3 +1,7 @@
-++* Fixed potential access violation, use runtime user dir instead of tmp dir
-++    for single instance socket.
-++
-++
-+ Changes on 1.2.5 since 1.2.4:
-+ 
-+ * Removed options to Cut, Remove and Rename from context menu on mounted
-+diff --git a/src/single-inst.c b/src/single-inst.c
-+index 62c37b3..aaf84ab 100644
-+--- a/src/single-inst.c
-++++ b/src/single-inst.c
-+@@ -2,7 +2,7 @@
-+  *      single-inst.c: simple IPC mechanism for single instance app
++diff --git a/usr.bin/ssh/sftp-server.c b/usr.bin/ssh/sftp-server.c
++index 2510d234a3a..42249ebd60d 100644
++--- a/usr.bin/ssh/sftp-server.c
+++++ b/usr.bin/ssh/sftp-server.c
++@@ -1,4 +1,4 @@
++-/* $OpenBSD: sftp-server.c,v 1.110 2016/09/12 01:22:38 deraadt Exp $ */
+++/* $OpenBSD: sftp-server.c,v 1.111 2017/04/04 00:24:56 djm Exp $ */
++ /*
++  * Copyright (c) 2000-2004 Markus Friedl.  All rights reserved.
 +  *
-+  *      Copyright 2010 Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
-+- *      Copyright 2012 Andriy Grytsenko (LStranger) <andrej@rep.kiev.ua>
-++ *      Copyright 2012-2017 Andriy Grytsenko (LStranger) <andrej@rep.kiev.ua>
-+  *
-+  *      This program is free software; you can redistribute it and/or modify
-+  *      it under the terms of the GNU General Public License as published by
-+@@ -404,11 +404,16 @@ static void get_socket_name(SingleInstData* data, char* buf, int len)
-+     }
-+     else
-+         dpynum = 0;
-++#if GLIB_CHECK_VERSION(2, 28, 0)
-++    g_snprintf(buf, len, "%s/%s-socket-%s-%d", g_get_user_runtime_dir(),
-++               data->prog_name, host ? host : "", dpynum);
-++#else
-+     g_snprintf(buf, len, "%s/.%s-socket-%s-%d-%s",
-+                 g_get_tmp_dir(),
-+                 data->prog_name,
-+                 host ? host : "",
-+                 dpynum,
-+                 g_get_user_name());
-++#endif
-+ }
-+ 
++@@ -683,8 +683,8 @@ process_open(u_int32_t id)
++ 	logit("open \"%s\" flags %s mode 0%o",
++ 	    name, string_from_portable(pflags), mode);
++ 	if (readonly &&
++-	    ((flags & O_ACCMODE) == O_WRONLY ||
++-	    (flags & O_ACCMODE) == O_RDWR)) {
+++	    ((flags & O_ACCMODE) != O_RDONLY ||
+++	    (flags & (O_CREAT|O_TRUNC)) != 0)) {
++ 		verbose("Refusing open request in read-only mode");
++ 		status = SSH2_FX_PERMISSION_DENIED;
++ 	} else {
 +-- 
 +2.13.3
 +
-diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.2.5.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.2.5.bb
-index 75ff773..0ab8a2e 100644
---- a/meta/recipes-sato/pcmanfm/pcmanfm_1.2.5.bb
-+++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.2.5.bb
-@@ -17,7 +17,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.xz \
- 	   file://gnome-fs-regular.png \
- 	   file://gnome-mime-text-plain.png \
- 	   file://emblem-symbolic-link.png \
--	   file://no-desktop.patch"
-+	   file://no-desktop.patch \
-+	   file://CVE-2017-8934.patch"
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+index 86ca6ff..395c21b 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+@@ -28,6 +28,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://0001-openssh-Fix-syntax-error-on-x32.patch \
+            file://sshd_check_keys \
++           file://CVE-2017-15906.patch;striplevel=3 \
+            "
  
- SRC_URI[md5sum] = "b4d1f8ce08d87e4f27805a246fc51ac2"
- SRC_URI[sha256sum] = "0c86cac028b705ff314c7464d814c2cf7ff604c17491c20aa204b1ef1a80ad67"
+ PAM_SRC_URI = "file://sshd"
 -- 
 2.7.4
 
