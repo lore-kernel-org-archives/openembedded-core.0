@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A35A793C3
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
+	[209.85.218.54])
+	by mail.openembedded.org (Postfix) with ESMTP id A9285792BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 13:20:32 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id k12-v6so3039882oiw.8
+	Wed, 22 Aug 2018 13:20:35 +0000 (UTC)
+Received: by mail-oi0-f54.google.com with SMTP id r69-v6so2487016oie.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 06:20:33 -0700 (PDT)
+	Wed, 22 Aug 2018 06:20:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=AVk8aXXPcpszE06bEwdS7u7GHxjoz7zOuKU2t9myDCw=;
-	b=ka1GyJRbGxALFL0F17cel17KPl2HSyjaDcIOxnnQg/NBdwFRc0jN7S5gWe8PG0fMXv
-	yJQvRW8r6ytAOkTq8EDQUJ6KTO6g99rdMuR7ZRb3s0RZ4robjIht6cHaoMQhzX94iLdj
-	mORW7zCaoriHRXtVs0rYSqifXVqc1rrwNLNB7q2SBxtn1iO+F8sESMgDc2U41SHwrBhw
-	JyhOxrQ/bXprTbDvJEnRLe5Dl5buYKlJdnfVNM0/WPXZF+oIQ7DvhAbpIxVgIRzhA739
-	VR/9k57PB3IYALIC8FlqJISTqbAgXH2uTSRD0+zpL/s1ZhfXWPJgca7m72Rv+xPk9Ivy
-	4ZZg==
+	bh=RA97xvEqCp7lDD/seQLhrhDnqMneELbOmzaBY45Rz3w=;
+	b=m7vGtDBwyJnHs5+jkEhsr7Va65ekEVWZHQQEhpNIb4CbHVHADpyM9Xc8uqOnNr+EPu
+	KLgdCFmkJ5soEX4OU4r+h7oNPcOk3kzyQ0iN9X5vRUj3fuMR+GirPOQ/fJqnMg/wYnPR
+	r1pfkvf4f1fJQtekSDJhFBNmxgug8ExmyGuJJT04tRGTC/NW9Z/aNt3c2RiuNyYXEKJV
+	dLOqQIzGMP7L6+F0NtgmzTrCDocq2xjPBjSXGeQNlgoKOQ0GbkxTF6IRgAGwynlM5yMo
+	s3oAwx0isCtSfNHyWHe3Q4f466tWgQionInl3LvaWI3P1FE+79vv1NM51AcK2a9IKIMV
+	E5Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=AVk8aXXPcpszE06bEwdS7u7GHxjoz7zOuKU2t9myDCw=;
-	b=Jnc3a6i/+OZdwvoH6/Dezq6T5WzDwRhSFfQZFpcsCJhUXspctJEmlogOCoEvKOpnsB
-	Kyp/dvyJeZ/d2EYCVXm5X5uXy/ssyzGrvdQcrIKVckDC5GX7OBjFaGdRdcHwadr7ylnS
-	DWiDB1rFeT0JzJOx/M5SJmaiwbHL8M67mEg8VTtgOWyvsSlME4h2od7FkDq++lx/EB6I
-	3NEDdBUkO2iS47zKJvh1Pc+E0AufzN7LnSqReoBR0kN+hrSp4O9T6Ya2xWLc50uZHhNZ
-	rBr+9aVU+YCddZml38cBIHu5ZBr3BmXUf+HaVNhtqpji3jD6hFlNIaN5ylg/dVnG9q24
-	dfjw==
-X-Gm-Message-State: APzg51A7rcXr5kVOfHVdyuZ+KbvPidnDdD5bFt5J8agjp/1iJv6vYOyv
-	/ICNiIgqwv2PFfxsN466NHLk2B5RUww=
-X-Google-Smtp-Source: ANB0Vdaat/D5Xq6Q90vVXUCQKwN7I9XH09ZB5qevNdtWsgskUZjdWDzBd3ihix8Azc16IGbHqnGEcA==
-X-Received: by 2002:aca:ad4f:: with SMTP id
-	w76-v6mr4091022oie.233.1534944033011; 
-	Wed, 22 Aug 2018 06:20:33 -0700 (PDT)
+	bh=RA97xvEqCp7lDD/seQLhrhDnqMneELbOmzaBY45Rz3w=;
+	b=sgXMTWjQROAuh2SH1ztZURhIHwJT2ndzEB0ngpev/T0mYKAqsWSvxR4W0SKOczaySU
+	1aG8ZNO+qwMrdRlWkrrVdCfaofl2LbPGHTw+orB56OFOl4DO7p9/KTxIW8SwrR3C+tSZ
+	SHMsZKGC6qQ6s7ybbqK4IH7zwk7UFaLhfnHRS0g0Vv0jgUdPr57mVT/dZNMzFiA5Ufve
+	B7Vz6ZRHszdHEX0vmse4M0RUSWDHq0Fk3rD1N8b5t2zEh2l/c7Xjr8A6o1QfdgcVpg+p
+	m8jmZVvbRyeYPTrIEt4Tha72jaIswNIT2bgFzedcL1mBCnrpmys6ybHxS03CkmmCafnc
+	xAVw==
+X-Gm-Message-State: APzg51BySK7x4qloFzuORrABcPZAXeeH4ixf5h56dr/Lbff5lbaU5aC4
+	0OjzhHhlA8sqsYPhT4zkIT0GVvC/I2s=
+X-Google-Smtp-Source: ANB0VdakiEM/bAMMHwyGvjsR5mEbxQfCiIH8zN6ElVXd/ik0Gl8vmntjhw6G6NHQUgfAVJk9C7SMaA==
+X-Received: by 2002:aca:ed45:: with SMTP id
+	l66-v6mr4127066oih.40.1534944036371; 
+	Wed, 22 Aug 2018 06:20:36 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	t141-v6sm2354715oif.18.2018.08.22.06.20.31
+	t141-v6sm2354715oif.18.2018.08.22.06.20.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 06:20:32 -0700 (PDT)
+	Wed, 22 Aug 2018 06:20:35 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 18:49:55 +0530
-Message-Id: <1534944009-21362-5-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 18:49:56 +0530
+Message-Id: <1534944009-21362-6-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534944009-21362-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534944009-21362-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [SUMO][PATCH 05/19] perl: CVE-2018-6798
+Subject: [SUMO][PATCH 06/19] procps: CVE-2018-1124
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,230 +59,268 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 13:20:32 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 13:20:36 -0000
 
-* CVE-2018-6798-1
- The proximal cause is several instances in regexec.c of the code
- assuming that the input was valid UTF-8, whereas the input was too short
- for what the start byte claimed it would be.
+proc/readproc.c: Fix bugs and overflows in file2strvec().
 
- I grepped through the core for any other similar uses, and did not find
- any.
+Note: this is by far the most important and complex patch of the whole
+series, please review it carefully; thank you very much!
 
- (cherry picked from commit fe7d8ba0a1bf567af8fa8fea128e2b9f4c553e84)
+For this patch, we decided to keep the original function's design and
+skeleton, to avoid regressions and behavior changes, while fixing the
+various bugs and overflows. And like the "Harden file2str()" patch, this
+patch does not fail when about to overflow, but truncates instead: there
+is information available about this process, so return it to the caller;
+also, we used INT_MAX as a limit, but a lower limit could be used.
 
-* CVE-2018-6798-2
- The first patch for 132063 prevented the buffer read overflow when
- dumping the warning but didn't fix the underlying problem.
+The easy changes:
 
- The next change treats the supplied buffer correctly, preventing the
- non-UTF-8 SV from being treated as UTF-8, preventing the warning.
+- Replace sprintf() with snprintf() (and check for truncation).
 
- (cherry picked from commit 1e8b61488f195e1396aa801c685340b156104f4f)
+- Replace "if (n == 0 && rbuf == 0)" with "if (n <= 0 && tot <= 0)" and
+  do break instead of return: it simplifies the code (only one place to
+  handle errors), and also guarantees that in the while loop either n or
+  tot is > 0 (or both), even if n is reset to 0 when about to overflow.
 
-Affects perl >= 5.22 && perl <= 5.26
+- Remove the "if (n < 0)" block in the while loop: it is (and was) dead
+  code, since we enter the while loop only if n >= 0.
+
+- Rewrite the missing-null-terminator detection: in the original
+  function, if the size of the file is a multiple of 2047, a null-
+  terminator is appended even if the file is already null-terminated.
+
+- Replace "if (n <= 0 && !end_of_file)" with "if (n < 0 || tot <= 0)":
+  originally, it was equivalent to "if (n < 0)", but we added "tot <= 0"
+  to handle the first break of the while loop, and to guarantee that in
+  the rest of the function tot is > 0.
+
+- Double-force ("belt and suspenders") the null-termination of rbuf:
+  this is (and was) essential to the correctness of the function.
+
+- Replace the final "while" loop with a "for" loop that behaves just
+  like the preceding "for" loop: in the original function, this would
+  lead to unexpected results (for example, if rbuf is |\0|A|\0|, this
+  would return the array {"",NULL} but should return {"","A",NULL}; and
+  if rbuf is |A|\0|B| (should never happen because rbuf should be null-
+  terminated), this would make room for two pointers in ret, but would
+  write three pointers to ret).
+
+The hard changes:
+
+- Prevent the integer overflow of tot in the while loop, but unlike
+  file2str(), file2strvec() cannot let tot grow until it almost reaches
+  INT_MAX, because it needs more space for the pointers: this is why we
+  introduced ARG_LEN, which also guarantees that we can add "align" and
+  a few sizeof(char*)s to tot without overflowing.
+
+- Prevent the integer overflow of "tot + c + align": when INT_MAX is
+  (almost) reached, we write the maximal safe amount of pointers to ret
+  (ARG_LEN guarantees that there is always space for *ret = rbuf and the
+  NULL terminator).
+
+Affects procps-ng < 3.3.15
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../perl/perl/CVE-2018-6798-1.patch                | 130 +++++++++++++++++++++
- .../perl/perl/CVE-2018-6798-2.patch                |  37 ++++++
- meta/recipes-devtools/perl/perl_5.24.1.bb          |   2 +
- 3 files changed, 169 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-6798-1.patch
- create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-6798-2.patch
+ .../procps/procps/CVE-2018-1124.patch              | 176 +++++++++++++++++++++
+ meta/recipes-extended/procps/procps_3.3.12.bb      |   1 +
+ 2 files changed, 177 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps/CVE-2018-1124.patch
 
-diff --git a/meta/recipes-devtools/perl/perl/CVE-2018-6798-1.patch b/meta/recipes-devtools/perl/perl/CVE-2018-6798-1.patch
+diff --git a/meta/recipes-extended/procps/procps/CVE-2018-1124.patch b/meta/recipes-extended/procps/procps/CVE-2018-1124.patch
 new file mode 100644
-index 0000000..3477162
+index 0000000..bc78faf
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/CVE-2018-6798-1.patch
-@@ -0,0 +1,130 @@
-+From 0abf1e8d89aecd32dbdabda5da4d52a2d57a7cff Mon Sep 17 00:00:00 2001
-+From: Karl Williamson <khw@cpan.org>
-+Date: Tue, 6 Feb 2018 14:50:48 -0700
-+Subject: [PATCH] [perl #132063]: Heap buffer overflow
++++ b/meta/recipes-extended/procps/procps/CVE-2018-1124.patch
+@@ -0,0 +1,176 @@
++From bdd058a0e676d2f013027fcfb2b344c313112a50 Mon Sep 17 00:00:00 2001
++From: Qualys Security Advisory <qsa@qualys.com>
++Date: Thu, 1 Jan 1970 00:00:00 +0000
++Subject: [PATCH 074/126] proc/readproc.c: Fix bugs and overflows in
++ file2strvec().
 +
-+The proximal cause is several instances in regexec.c of the code
-+assuming that the input was valid UTF-8, whereas the input was too short
-+for what the start byte claimed it would be.
++Note: this is by far the most important and complex patch of the whole
++series, please review it carefully; thank you very much!
 +
-+I grepped through the core for any other similar uses, and did not find
-+any.
++For this patch, we decided to keep the original function's design and
++skeleton, to avoid regressions and behavior changes, while fixing the
++various bugs and overflows. And like the "Harden file2str()" patch, this
++patch does not fail when about to overflow, but truncates instead: there
++is information available about this process, so return it to the caller;
++also, we used INT_MAX as a limit, but a lower limit could be used.
 +
-+(cherry picked from commit fe7d8ba0a1bf567af8fa8fea128e2b9f4c553e84)
++The easy changes:
 +
-+CVE: CVE-2018-6798
-+Upstream-Status: Backport [https://perl5.git.perl.org/perl.git/patch/0abf1e8d89aecd32dbdabda5da4d52a2d57a7cff]
++- Replace sprintf() with snprintf() (and check for truncation).
++
++- Replace "if (n == 0 && rbuf == 0)" with "if (n <= 0 && tot <= 0)" and
++  do break instead of return: it simplifies the code (only one place to
++  handle errors), and also guarantees that in the while loop either n or
++  tot is > 0 (or both), even if n is reset to 0 when about to overflow.
++
++- Remove the "if (n < 0)" block in the while loop: it is (and was) dead
++  code, since we enter the while loop only if n >= 0.
++
++- Rewrite the missing-null-terminator detection: in the original
++  function, if the size of the file is a multiple of 2047, a null-
++  terminator is appended even if the file is already null-terminated.
++
++- Replace "if (n <= 0 && !end_of_file)" with "if (n < 0 || tot <= 0)":
++  originally, it was equivalent to "if (n < 0)", but we added "tot <= 0"
++  to handle the first break of the while loop, and to guarantee that in
++  the rest of the function tot is > 0.
++
++- Double-force ("belt and suspenders") the null-termination of rbuf:
++  this is (and was) essential to the correctness of the function.
++
++- Replace the final "while" loop with a "for" loop that behaves just
++  like the preceding "for" loop: in the original function, this would
++  lead to unexpected results (for example, if rbuf is |\0|A|\0|, this
++  would return the array {"",NULL} but should return {"","A",NULL}; and
++  if rbuf is |A|\0|B| (should never happen because rbuf should be null-
++  terminated), this would make room for two pointers in ret, but would
++  write three pointers to ret).
++
++The hard changes:
++
++- Prevent the integer overflow of tot in the while loop, but unlike
++  file2str(), file2strvec() cannot let tot grow until it almost reaches
++  INT_MAX, because it needs more space for the pointers: this is why we
++  introduced ARG_LEN, which also guarantees that we can add "align" and
++  a few sizeof(char*)s to tot without overflowing.
++
++- Prevent the integer overflow of "tot + c + align": when INT_MAX is
++  (almost) reached, we write the maximal safe amount of pointers to ret
++  (ARG_LEN guarantees that there is always space for *ret = rbuf and the
++  NULL terminator).
++[carnil: backport for 3.3.9: Add include for limits.h and use of MAX_INT]
++
++CVE: CVE-2018-1124
++Upstream-Status: Backport [https://gitlab.com/procps-ng/procps/commit/36c350f07c75aabf747fb833f52a234ae5781b20]
 +
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ regexec.c              | 29 ++++++++++++++++-------------
-+ t/lib/warnings/regexec |  7 +++++++
-+ 2 files changed, 23 insertions(+), 13 deletions(-)
++ proc/readproc.c | 53 ++++++++++++++++++++++++++++++++---------------------
++ 1 file changed, 32 insertions(+), 21 deletions(-)
 +
-+diff --git a/regexec.c b/regexec.c
-+index 5735b997fd..ea432c39d3 100644
-+--- a/regexec.c
-++++ b/regexec.c
-+@@ -1466,7 +1466,9 @@ Perl_re_intuit_start(pTHX_
-+                                            ? trie_utf8_fold                         \
-+                                            :   trie_latin_utf8_fold)))
++diff -Naurp procps-ng-3.3.12_org/proc/readproc.c procps-ng-3.3.12/proc/readproc.c
++--- procps-ng-3.3.12_org/proc/readproc.c	2016-07-09 14:49:25.825306872 -0700
+++++ procps-ng-3.3.12/proc/readproc.c	2018-07-24 00:46:49.366202531 -0700
++@@ -37,6 +37,7 @@
++ #include <dirent.h>
++ #include <sys/types.h>
++ #include <sys/stat.h>
+++#include <limits.h>
++ #ifdef WITH_SYSTEMD
++ #include <systemd/sd-login.h>
++ #endif
++--- a/proc/readproc.c
+++++ b/proc/readproc.c
++@@ -600,11 +601,12 @@ static int file2str(const char *director
 + 
-+-#define REXEC_TRIE_READ_CHAR(trie_type, trie, widecharmap, uc, uscan, len, uvc, charid, foldlen, foldbuf, uniflags) \
-++/* 'uscan' is set to foldbuf, and incremented, so below the end of uscan is
-++ * 'foldbuf+sizeof(foldbuf)' */
-++#define REXEC_TRIE_READ_CHAR(trie_type, trie, widecharmap, uc, uc_end, uscan, len, uvc, charid, foldlen, foldbuf, uniflags) \
-+ STMT_START {                                                                        \
-+     STRLEN skiplen;                                                                 \
-+     U8 flags = FOLD_FLAGS_FULL;                                                     \
-+@@ -1474,7 +1476,7 @@ STMT_START {
-+     case trie_flu8:                                                                 \
-+         _CHECK_AND_WARN_PROBLEMATIC_LOCALE;                                         \
-+         if (utf8_target && UTF8_IS_ABOVE_LATIN1(*uc)) {                             \
-+-            _CHECK_AND_OUTPUT_WIDE_LOCALE_UTF8_MSG(uc, uc + UTF8SKIP(uc));          \
-++            _CHECK_AND_OUTPUT_WIDE_LOCALE_UTF8_MSG(uc, uc_end - uc);                \
-+         }                                                                           \
-+         goto do_trie_utf8_fold;                                                     \
-+     case trie_utf8_exactfa_fold:                                                    \
-+@@ -1483,7 +1485,7 @@ STMT_START {
-+     case trie_utf8_fold:                                                            \
-+       do_trie_utf8_fold:                                                            \
-+         if ( foldlen>0 ) {                                                          \
-+-            uvc = utf8n_to_uvchr( (const U8*) uscan, UTF8_MAXLEN, &len, uniflags ); \
-++            uvc = utf8n_to_uvchr( (const U8*) uscan, foldlen, &len, uniflags );     \
-+             foldlen -= len;                                                         \
-+             uscan += len;                                                           \
-+             len=0;                                                                  \
-+@@ -1500,7 +1502,7 @@ STMT_START {
-+         /* FALLTHROUGH */                                                           \
-+     case trie_latin_utf8_fold:                                                      \
-+         if ( foldlen>0 ) {                                                          \
-+-            uvc = utf8n_to_uvchr( (const U8*) uscan, UTF8_MAXLEN, &len, uniflags ); \
-++            uvc = utf8n_to_uvchr( (const U8*) uscan, foldlen, &len, uniflags );     \
-+             foldlen -= len;                                                         \
-+             uscan += len;                                                           \
-+             len=0;                                                                  \
-+@@ -1519,7 +1521,7 @@ STMT_START {
-+         }                                                                           \
-+         /* FALLTHROUGH */                                                           \
-+     case trie_utf8:                                                                 \
-+-        uvc = utf8n_to_uvchr( (const U8*) uc, UTF8_MAXLEN, &len, uniflags );        \
-++        uvc = utf8n_to_uvchr( (const U8*) uc, uc_end - uc, &len, uniflags );        \
-+         break;                                                                      \
-+     case trie_plain:                                                                \
-+         uvc = (UV)*uc;                                                              \
-+@@ -2599,10 +2601,10 @@ S_find_byclass(pTHX_ regexp * prog, const regnode *c, char *s,
-+                     }
-+                     points[pointpos++ % maxlen]= uc;
-+                     if (foldlen || uc < (U8*)strend) {
-+-                        REXEC_TRIE_READ_CHAR(trie_type, trie,
-+-                                         widecharmap, uc,
-+-                                         uscan, len, uvc, charid, foldlen,
-+-                                         foldbuf, uniflags);
-++                        REXEC_TRIE_READ_CHAR(trie_type, trie, widecharmap, uc,
-++                                             (U8 *) strend, uscan, len, uvc,
-++                                             charid, foldlen, foldbuf,
-++                                             uniflags);
-+                         DEBUG_TRIE_EXECUTE_r({
-+                             dump_exec_pos( (char *)uc, c, strend,
-+                                         real_start, s, utf8_target, 0);
-+@@ -5511,8 +5513,9 @@ S_regmatch(pTHX_ regmatch_info *reginfo, char *startpos, regnode *prog)
-+ 		    if ( base && (foldlen || uc < (U8*)(reginfo->strend))) {
-+ 			I32 offset;
-+ 			REXEC_TRIE_READ_CHAR(trie_type, trie, widecharmap, uc,
-+-					     uscan, len, uvc, charid, foldlen,
-+-					     foldbuf, uniflags);
-++                                             (U8 *) reginfo->strend, uscan,
-++                                             len, uvc, charid, foldlen,
-++                                             foldbuf, uniflags);
-+ 			charcount++;
-+ 			if (foldlen>0)
-+ 			    ST.longfold = TRUE;
-+@@ -5642,8 +5645,8 @@ S_regmatch(pTHX_ regmatch_info *reginfo, char *startpos, regnode *prog)
-+ 			while (foldlen) {
-+ 			    if (!--chars)
-+ 				break;
-+-			    uvc = utf8n_to_uvchr(uscan, UTF8_MAXLEN, &len,
-+-					    uniflags);
-++			    uvc = utf8n_to_uvchr(uscan, foldlen, &len,
-++                                                 uniflags);
-+ 			    uscan += len;
-+ 			    foldlen -= len;
-+ 			}
-+diff --git a/t/lib/warnings/regexec b/t/lib/warnings/regexec
-+index 900dd6ee7f..6635142dea 100644
-+--- a/t/lib/warnings/regexec
-++++ b/t/lib/warnings/regexec
-+@@ -260,3 +260,10 @@ setlocale(&POSIX::LC_CTYPE, $utf8_locale);
-+ "k" =~ /(?[ \N{KELVIN SIGN} ])/i;
-+ ":" =~ /(?[ \: ])/;
-+ EXPECT
-++########
-++# NAME perl #132063, read beyond buffer end
-++# OPTION fatal
-++"\xff" =~ /(?il)\x{100}|\x{100}/;
-++EXPECT
-++Malformed UTF-8 character: \xff (too short; 1 byte available, need 13) in pattern match (m//) at - line 2.
-++Malformed UTF-8 character (fatal) at - line 2.
-+-- 
-+2.15.1-424-g9478a660812
-+
-diff --git a/meta/recipes-devtools/perl/perl/CVE-2018-6798-2.patch b/meta/recipes-devtools/perl/perl/CVE-2018-6798-2.patch
-new file mode 100644
-index 0000000..fb9b41a
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/CVE-2018-6798-2.patch
-@@ -0,0 +1,37 @@
-+From f65da1ca2eee74696d9c120e9d69af37b4fa1920 Mon Sep 17 00:00:00 2001
-+From: Tony Cook <tony@develop-help.com>
-+Date: Mon, 19 Feb 2018 15:11:42 +1100
-+Subject: [PATCH] (perl #132063) we should no longer warn for this code
-+
-+The first patch for 132063 prevented the buffer read overflow when
-+dumping the warning but didn't fix the underlying problem.
-+
-+The next change treats the supplied buffer correctly, preventing the
-+non-UTF-8 SV from being treated as UTF-8, preventing the warning.
-+
-+(cherry picked from commit 1e8b61488f195e1396aa801c685340b156104f4f)
-+
-+CVE: CVE-2018-6798
-+Upstream-Status: Backport [https://perl5.git.perl.org/perl.git/commitdiff/f65da1ca2eee74696d9c120e9d69af37b4fa1920]
-+
-+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-+---
-+ t/lib/warnings/regexec | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/t/lib/warnings/regexec b/t/lib/warnings/regexec
-+index 6635142dea..c370ddc3c7 100644
-+--- a/t/lib/warnings/regexec
-++++ b/t/lib/warnings/regexec
-+@@ -262,8 +262,5 @@ setlocale(&POSIX::LC_CTYPE, $utf8_locale);
-+ EXPECT
-+ ########
-+ # NAME perl #132063, read beyond buffer end
-+-# OPTION fatal
-+ "\xff" =~ /(?il)\x{100}|\x{100}/;
-+ EXPECT
-+-Malformed UTF-8 character: \xff (too short; 1 byte available, need 13) in pattern match (m//) at - line 2.
-+-Malformed UTF-8 character (fatal) at - line 2.
-+-- 
-+2.15.1-424-g9478a660812
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index 91f310d..311df40 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -66,6 +66,8 @@ SRC_URI += " \
-         file://perl-5.26.1-guard_old_libcrypt_fix.patch \
-         file://CVE-2017-12883.patch \
-         file://CVE-2017-12837.patch \
-+        file://CVE-2018-6798-1.patch \
-+        file://CVE-2018-6798-2.patch \
- "
++ static char** file2strvec(const char* directory, const char* what) {
++     char buf[2048];	/* read buf bytes at a time */
++-    char *p, *rbuf = 0, *endbuf, **q, **ret;
+++    char *p, *rbuf = 0, *endbuf, **q, **ret, *strp;
++     int fd, tot = 0, n, c, end_of_file = 0;
++     int align;
++ 
++-    sprintf(buf, "%s/%s", directory, what);
+++    const int len = snprintf(buf, sizeof buf, "%s/%s", directory, what);
+++    if(len <= 0 || (size_t)len >= sizeof buf) return NULL;
++     fd = open(buf, O_RDONLY, 0);
++     if(fd==-1) return NULL;
++ 
++@@ -612,18 +614,23 @@ static char** file2strvec(const char* di
++     while ((n = read(fd, buf, sizeof buf - 1)) >= 0) {
++ 	if (n < (int)(sizeof buf - 1))
++ 	    end_of_file = 1;
++-	if (n == 0 && rbuf == 0) {
++-	    close(fd);
++-	    return NULL;	/* process died between our open and read */
+++	if (n <= 0 && tot <= 0) { /* nothing read now, nothing read before */
+++	    break;		/* process died between our open and read */
++ 	}
++-	if (n < 0) {
++-	    if (rbuf)
++-		free(rbuf);
++-	    close(fd);
++-	    return NULL;	/* read error */
+++	/* ARG_LEN is our guesstimated median length of a command-line argument
+++	   or environment variable (the minimum is 1, the maximum is 131072) */
+++	#define ARG_LEN 64
+++	if (tot >= INT_MAX / (ARG_LEN + (int)sizeof(char*)) * ARG_LEN - n) {
+++	    end_of_file = 1; /* integer overflow: null-terminate and break */
+++	    n = 0; /* but tot > 0 */
++ 	}
++-	if (end_of_file && (n == 0 || buf[n-1]))/* last read char not null */
+++	#undef ARG_LEN
+++	if (end_of_file &&
+++	    ((n > 0 && buf[n-1] != '\0') ||	/* last read char not null */
+++	     (n <= 0 && rbuf[tot-1] != '\0')))	/* last read char not null */
++ 	    buf[n++] = '\0';			/* so append null-terminator */
+++
+++	if (n <= 0) break; /* unneeded (end_of_file = 1) but avoid realloc */
++ 	rbuf = xrealloc(rbuf, tot + n);		/* allocate more memory */
++ 	memcpy(rbuf + tot, buf, n);		/* copy buffer into it */
++ 	tot += n;				/* increment total byte ctr */
++@@ -631,29 +638,34 @@ static char** file2strvec(const char* di
++ 	    break;
++     }
++     close(fd);
++-    if (n <= 0 && !end_of_file) {
+++    if (n < 0 || tot <= 0) {	/* error, or nothing read */
++ 	if (rbuf) free(rbuf);
++ 	return NULL;		/* read error */
++     }
+++    rbuf[tot-1] = '\0'; /* belt and suspenders (the while loop did it, too) */
++     endbuf = rbuf + tot;			/* count space for pointers */
++     align = (sizeof(char*)-1) - ((tot + sizeof(char*)-1) & (sizeof(char*)-1));
++-    for (c = 0, p = rbuf; p < endbuf; p++) {
++-	if (!*p || *p == '\n')
+++    c = sizeof(char*);				/* one extra for NULL term */
+++    for (p = rbuf; p < endbuf; p++) {
+++	if (!*p || *p == '\n') {
+++	    if (c >= INT_MAX - (tot + (int)sizeof(char*) + align)) break;
++ 	    c += sizeof(char*);
+++	}
++ 	if (*p == '\n')
++ 	    *p = 0;
++     }
++-    c += sizeof(char*);				/* one extra for NULL term */
++ 
++     rbuf = xrealloc(rbuf, tot + c + align);	/* make room for ptrs AT END */
++     endbuf = rbuf + tot;			/* addr just past data buf */
++     q = ret = (char**) (endbuf+align);		/* ==> free(*ret) to dealloc */
++-    *q++ = p = rbuf;				/* point ptrs to the strings */
++-    endbuf--;					/* do not traverse final NUL */
++-    while (++p < endbuf)
++-    	if (!*p)				/* NUL char implies that */
++-	    *q++ = p+1;				/* next string -> next char */
++-
+++    for (strp = p = rbuf; p < endbuf; p++) {
+++	if (!*p) {				/* NUL char implies that */
+++	    if (c < 2 * (int)sizeof(char*)) break;
+++	    c -= sizeof(char*);
+++	    *q++ = strp;			/* point ptrs to the strings */
+++	    strp = p+1;				/* next string -> next char */
+++	}
+++    }
++     *q = 0;					/* null ptr list terminator */
++     return ret;
++ }
+diff --git a/meta/recipes-extended/procps/procps_3.3.12.bb b/meta/recipes-extended/procps/procps_3.3.12.bb
+index ecf215f..6e15b0a 100644
+--- a/meta/recipes-extended/procps/procps_3.3.12.bb
++++ b/meta/recipes-extended/procps/procps_3.3.12.bb
+@@ -14,6 +14,7 @@ inherit autotools gettext pkgconfig update-alternatives
  
- # Fix test case issues
+ SRC_URI = "http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
+            file://sysctl.conf \
++           file://CVE-2018-1124.patch \
+           "
+ 
+ SRC_URI[md5sum] = "957e42e8b193490b2111252e4a2b443c"
 -- 
 2.7.4
 
