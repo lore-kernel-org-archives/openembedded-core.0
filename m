@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id BCD4179265
+Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com
+	[209.85.218.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 16439792F4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 11:18:51 +0000 (UTC)
-Received: by mail-oi0-f52.google.com with SMTP id q11-v6so2451267oic.12
+	Wed, 22 Aug 2018 11:18:54 +0000 (UTC)
+Received: by mail-oi0-f49.google.com with SMTP id 8-v6so2537038oip.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 04:18:53 -0700 (PDT)
+	Wed, 22 Aug 2018 04:18:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=q2L8wFEN95FN3pheS7ubAxlMBJZnDiNTkZPnQhphHMw=;
-	b=LrFHIntM733H7hOfZJlJotlmbj8NMVwA9TgCVW5NsH0Bcue3XvC0BL2kvWLCFRHSH3
-	WsvItPw2c/x08hU15ZyuSRRnfJvSUQ7wLfQ37InuByM6hyvtzKnEqAl6MOpmk//Aw6J9
-	S433ST8ODvsSABnL6TOEZFQLU2YKEfSIpVwzL/7O12zJRJJDtE2ge47mYC1PbAJy+p1u
-	y1J+iYq1kKxvk44l9i2sjni0pht6hHzcABWEoNJxkQ+mXB/tE1NPuA3QwE4MuNbZU83n
-	RPfboNH+IWC1638nNoHRTQEQSsN5/3wqN+XxylEmxw9T452KuHa9VwZFYR+0sVvlV9fx
-	hltg==
+	bh=xZGrPys9xvpeG1xeK6/PHG/QfTwmj1Ea33WEsaDLDXw=;
+	b=wCrm028TIpqvC1tp/YtSOpNfzYMzUhMyEXotBklFyo87gMx/VEhSsJEFu1vdZA6tKz
+	8+3pXk/XKtieIyjV4RKbBgHQVQvjkopzEgqJDqKgn9Ie+IXVyjyfYo2yz3PnNVBwe8f/
+	xjKVsCZ5yylY1PlivQis3gZAoDthhj9Csl1xp16NxGfa0JH9vAN030qs+snvEE4KHXvo
+	XZ723hJ9rWyXF0RaYCcYbbGKpWrLVxH1hmv9eJYdEK7NssDL9w7Y+3TE8ilaZbQJrrJY
+	mvapqnHqqDO2xv7bZvtYz9XbRc0SWe2y5tKcdgSMsuV4TANgxKIX24NA+VBwoy0wJKxQ
+	ilPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=q2L8wFEN95FN3pheS7ubAxlMBJZnDiNTkZPnQhphHMw=;
-	b=kxov6D0MacAm7tA1Fdavp8DaQ7pLatZRo9x+tA6lW+l5jaFxFEfOYRsTIB0XIUhtOD
-	2HydqM2vtpGlpOQt29rKLuAi7I2iIXgZeSKY7a9N45dtZkNb52UGPjyB19mzhxuMWC83
-	wxksrBPvQ1isDuqeI/NoOmvEyoSj6WXZ+aripOZmb1uafg/tWaSHjLOUoBbSN+Ch/Pwq
-	5MzmopUhVFsh3IM3TNmKsEL+BWms2xfFZ/dz7n4J7ToCr7PsHmtYLmMYEwNSJes0hFrR
-	27DSbOUsBY+iErH7zcW25hSxZ0nvBB0zQjzlOt2hEOlGETgPDBHWO1R3YHgqOiPBwxsf
-	ysfw==
-X-Gm-Message-State: APzg51C13y6gp4siAGFvE4Y7uv99AjofQuVTeKSvf//EvPDZatiiT8/m
-	1C6+oqtGGyWpG8NVZrYfWBZF8VWfO7I=
-X-Google-Smtp-Source: ANB0VdZE61KEEFwsaMH8wpk45Wh719hK/k+xqk9S/bvP9SaAQfPqwePMwcNhUXdGldNNeTwcN6NxcQ==
-X-Received: by 2002:aca:3fc2:: with SMTP id
-	m185-v6mr67578oia.240.1534936732785; 
-	Wed, 22 Aug 2018 04:18:52 -0700 (PDT)
+	bh=xZGrPys9xvpeG1xeK6/PHG/QfTwmj1Ea33WEsaDLDXw=;
+	b=CB9A7L28cMVqGIYNOd3dHmqp+pFTx0326g+/JjquXeMv3fTi5C3+TxFMuzCV2yFmR8
+	HnVs/Zq3mmh+T2dXZDZPGLKx3jHxs5wxEgcSu1IvOvlLuriE2fel7rYwMaq5pP63hplc
+	KhdiNuTJpD58Xv0zf1JnZLeu4iPtEKtTtHVBOj0ypDFd9B0ns0qq4DgqhaElGTn2GUok
+	qTklESwgy/4XkGfVH1Sa48kRo52mG4D28B66mE5hgCVGp9XZFx0itfd0aP1na+y1f+m5
+	O7dPeVqMk9ci8NF5p3xz2uQVXhwzZ1cy28ketncuI1T/O+5S8DaZnawKTFg+rvOhQ4aJ
+	6+Eg==
+X-Gm-Message-State: APzg51B9Y87mKAQEbkXnxV8khn4W74IVBFChej2Ge6MkC75bSVnGGOdb
+	QX9clEzCUY91iRAEcpCjF/Y+ASrshnU=
+X-Google-Smtp-Source: ANB0VdYapKdt5lFqX1iVIQWXyzubWTxifXNxFtmtpYkNvupSDQlz9BrMOCQJp3X2mfpjk4C+5U+69g==
+X-Received: by 2002:aca:5397:: with SMTP id
+	h145-v6mr3595731oib.188.1534936735045; 
+	Wed, 22 Aug 2018 04:18:55 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	c9-v6sm862308oia.1.2018.08.22.04.18.50
+	c9-v6sm862308oia.1.2018.08.22.04.18.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 04:18:52 -0700 (PDT)
+	Wed, 22 Aug 2018 04:18:54 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 16:47:52 +0530
-Message-Id: <1534936692-11736-14-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 16:47:53 +0530
+Message-Id: <1534936692-11736-15-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534936692-11736-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534936692-11736-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH 14/34] gnupg: CVE-2018-12020
+Subject: [ROCKO][PATCH 15/34] curl: CVE-2018-0500
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,96 +59,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:18:52 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 11:18:54 -0000
 
-gpg: Sanitize diagnostic with the original file name.
+smtp: use the upload buffer size for scratch buffer malloc
 
-* g10/mainproc.c (proc_plaintext): Sanitize verbose output.
---
+... not the read buffer size, as that can be set smaller and thus cause
+a buffer overflow! CVE-2018-0500
 
-This fixes a forgotten sanitation of user supplied data in a verbose
-mode diagnostic.  The mention CVE is about using this to inject
-status-fd lines into the stderr output.  Other harm good as well be
-done.  Note that GPGME based applications are not affected because
-GPGME does not fold status output into stderr.
+Reported-by: Peter Wu
+Bug: https://curl.haxx.se/docs/adv_2018-70a2.html
 
-CVE-id: CVE-2018-12020
-GnuPG-bug-id: 4012
-
-Affects gnupg < 2.2.8
+Affects curl >= 7.54.1 && curl <= 7.60.0
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../gnupg/gnupg/CVE-2018-12020.patch               | 47 ++++++++++++++++++++++
- meta/recipes-support/gnupg/gnupg_2.2.0.bb          |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
+ meta/recipes-support/curl/curl/CVE-2018-0500.patch | 39 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.58.0.bb           |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2018-0500.patch
 
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch b/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2018-0500.patch b/meta/recipes-support/curl/curl/CVE-2018-0500.patch
 new file mode 100644
-index 0000000..14698db
+index 0000000..4395a3c
 --- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
-@@ -0,0 +1,47 @@
-+From 13f135c7a252cc46cff96e75968d92b6dc8dce1b Mon Sep 17 00:00:00 2001
-+From: Werner Koch <wk@gnupg.org>
-+Date: Fri, 8 Jun 2018 10:45:21 +0200
-+Subject: [PATCH] gpg: Sanitize diagnostic with the original file name.
++++ b/meta/recipes-support/curl/curl/CVE-2018-0500.patch
+@@ -0,0 +1,39 @@
++From ba1dbd78e5f1ed67c1b8d37ac89d90e5e330b628 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 13 Jun 2018 12:24:40 +0200
++Subject: [PATCH] smtp: use the upload buffer size for scratch buffer malloc
 +
-+* g10/mainproc.c (proc_plaintext): Sanitize verbose output.
-+--
++... not the read buffer size, as that can be set smaller and thus cause
++a buffer overflow! CVE-2018-0500
 +
-+This fixes a forgotten sanitation of user supplied data in a verbose
-+mode diagnostic.  The mention CVE is about using this to inject
-+status-fd lines into the stderr output.  Other harm good as well be
-+done.  Note that GPGME based applications are not affected because
-+GPGME does not fold status output into stderr.
++Reported-by: Peter Wu
++Bug: https://curl.haxx.se/docs/adv_2018-70a2.html
 +
-+CVE-id: CVE-2018-12020
-+GnuPG-bug-id: 4012
-+
-+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=13f135c7a252cc46cff96e75968d92b6dc8dce1b]
++CVE: CVE-2018-0500
++Upstream-Status: Backport [https://github.com/curl/curl/commit/ba1dbd78e5f1e.patch]
 +
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ g10/mainproc.c | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
++ lib/smtp.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/g10/mainproc.c b/g10/mainproc.c
-+index d2ceec2fd..a9da08f74 100644
-+--- a/g10/mainproc.c
-++++ b/g10/mainproc.c
-+@@ -851,7 +851,14 @@ proc_plaintext( CTX c, PACKET *pkt )
-+   if (pt->namelen == 8 && !memcmp( pt->name, "_CONSOLE", 8))
-+     log_info (_("Note: sender requested \"for-your-eyes-only\"\n"));
-+   else if (opt.verbose)
-+-    log_info (_("original file name='%.*s'\n"), pt->namelen, pt->name);
-++    {
-++      /* We don't use print_utf8_buffer because that would require a
-++       * string change which we don't want in 2.2.  It is also not
-++       * clear whether the filename is always utf-8 encoded.  */
-++      char *tmp = make_printable_string (pt->name, pt->namelen, 0);
-++      log_info (_("original file name='%.*s'\n"), (int)strlen (tmp), tmp);
-++      xfree (tmp);
-++    }
++diff --git a/lib/smtp.c b/lib/smtp.c
++index e6872badb8..ecf10a41ac 100644
++--- a/lib/smtp.c
+++++ b/lib/smtp.c
++@@ -1563,13 +1563,14 @@ CURLcode Curl_smtp_escape_eob(struct connectdata *conn, const ssize_t nread)
++   if(!scratch || data->set.crlf) {
++     oldscratch = scratch;
 + 
-+   free_md_filter_context (&c->mfx);
-+   if (gcry_md_open (&c->mfx.md, 0, 0))
-+-- 
-+2.13.3
-+
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.0.bb b/meta/recipes-support/gnupg/gnupg_2.2.0.bb
-index 0176ddd..962ae82 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.0.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.2.0.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-use-pkgconfig-instead-of-npth-config.patch \
-            file://0003-dirmngr-uses-libgpg-error.patch \
-            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
-+           file://CVE-2018-12020.patch \
-           "
++-    scratch = newscratch = malloc(2 * data->set.buffer_size);
+++    scratch = newscratch = malloc(2 * UPLOAD_BUFSIZE);
++     if(!newscratch) {
++       failf(data, "Failed to alloc scratch buffer!");
++ 
++       return CURLE_OUT_OF_MEMORY;
++     }
++   }
+++  DEBUGASSERT(UPLOAD_BUFSIZE >= nread);
++ 
++   /* Have we already sent part of the EOB? */
++   eob_sent = smtp->eob;
+diff --git a/meta/recipes-support/curl/curl_7.58.0.bb b/meta/recipes-support/curl/curl_7.58.0.bb
+index 4376bb3..7dc5381 100644
+--- a/meta/recipes-support/curl/curl_7.58.0.bb
++++ b/meta/recipes-support/curl/curl_7.58.0.bb
+@@ -9,6 +9,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+            file://CVE-2018-1000300.patch \
+            file://CVE-2018-1000301.patch \
++           file://CVE-2018-0500.patch \
+ "
  
- SRC_URI[md5sum] = "789f16949fae2d003d387f49e9da4b74"
+ 
 -- 
 2.7.4
 
