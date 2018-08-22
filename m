@@ -1,30 +1,52 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D9BD96FFD4
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6242A79164
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 02:25:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7M2PVw4019881
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Aug 2018 19:25:31 -0700 (PDT)
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 21 Aug 2018 19:25:31 -0700
-To: "Wang, Yang (Young)" <yang.wang@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <7AA7B88A6FC2B84F9AA5EF03A8A6FCB201348A030B@ALA-MBD.corp.ad.wrs.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <bebc4ced-47eb-9cb8-4df5-4716a2dd4d11@windriver.com>
-Date: Tue, 21 Aug 2018 22:25:29 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <7AA7B88A6FC2B84F9AA5EF03A8A6FCB201348A030B@ALA-MBD.corp.ad.wrs.com>
-X-Originating-IP: [172.25.44.4]
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	jair.de.jesus.gonzalez.plascencia@intel.com
-Subject: Re: [RFC] Yocto Project Bug 12372 - Automate the execution of pTest with LAVA
+	Wed, 22 Aug 2018 02:29:00 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id e14-v6so1114996itf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2018 19:29:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=YBI4hggGeQM92VtlFFbUsTRuNjOVmBOlwpDArghKn78=;
+	b=WHCbIck15/YRsrjxVk9a5EE+ST03wkB8+UzqBI8VXQdNUEr7YagWOP6c5l99ra14Xi
+	XiZHFwZLkDOUWho23lKjZRSMI5O8uNFJ6mSx0X34XRkJ7TKAPNb8Hf+LSNQutg4V13FF
+	42pJL4lbv5w2qa3ulnt4FkeF7AUT5UrXp1WcFjruy8I5fAdvzhbq11CysMJFl2XkKALq
+	HWwWCCW6QpUBY1+9wccYFXxsaw3ktc4TU51tg6DQVD/O2cECSNRs//0wkr9bCqN/4hFs
+	NFRwgW3pKjN7w7V5h+kTQXOzDb0r8MGmagrpGUFAUSxEK7jtY3s+V95WzzB+eeNJWuJc
+	39+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=YBI4hggGeQM92VtlFFbUsTRuNjOVmBOlwpDArghKn78=;
+	b=TtlRIf0t7SSoAbVAgWIJ5LKKH4lTawKsfpxWi+RFoMi/GZZxHCxozj4IWz2XM+RNS0
+	hmngAU4AxasF3h454ehpF3UIJJVbTNHN1GpFJakCq2+1NYZhmQm1fc9eYlvSKLjjCXfV
+	tLhZeh0LbzeYb8xfYau6bxvKkxk90SsZMjij7hfjjUNvKj2UmXZPHdCNiLC3aLJ1kM97
+	7HbvI+aZkOWXu/2PiiUYIRyF5pK8s7ZXGF22L668ASiEXznUcSjDkKtiDanUb6ztC/Ts
+	2cvFXd2Fylvtd8vU5yXAsNJtYDFI0WRt+7Y5DRJgWWo+FHN8lFdSUw1farayI4bswRm7
+	rcew==
+X-Gm-Message-State: AOUpUlGhxh118+jmRUClzdPLJPKFCgyRfOzX/K8f5zFc8Lh7WaaeH8ui
+	APNGQtEdGZrFL9TLzp+Icj1KE0kx
+X-Google-Smtp-Source: AA+uWPyCOMy4VtrvHr8YNOkEIdtFJ1U45uUKAI2U2iwFRiMTwSN1eEpWup0t3zBRmJXXDiOkhZT8Lw==
+X-Received: by 2002:a02:8b7c:: with SMTP id
+	w57-v6mr10758869jak.123.1534904941160; 
+	Tue, 21 Aug 2018 19:29:01 -0700 (PDT)
+Received: from farscape.garmin.com ([2605:a601:21d1:5200:620a:c230:ada8:3135])
+	by smtp.gmail.com with ESMTPSA id
+	v5-v6sm174631ioe.61.2018.08.21.19.29.00
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 21 Aug 2018 19:29:00 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Aug 2018 21:28:52 -0500
+Message-Id: <20180822022852.8270-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180822022134.7947-1-JPEWhacker@gmail.com>
+References: <20180822022134.7947-1-JPEWhacker@gmail.com>
+Subject: [PATCH v4] classes/package: Clean up getstatusoutput
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,105 +59,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 02:25:35 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Aug 2018 02:29:00 -0000
 
-On 08/21/2018 11:04 AM, Wang, Yang (Young) wrote:
-> Hi All,
-> 
-> I'm working on this ticket:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12372
+Replaces usage of the deprecated oe.utils.getstatusoutput() with Python
+subprocess calls.
 
-Thanks for investigating the bug/enhancement and posting your thoughts.
-I'm jumping in without much expertise to try to get the ball rolling.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/package.bbclass | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-> 
-> As far as I know, the following are all true nowadays:
-> - Ptest needs to be run on real hardware and it takes few hours to finish
-> - Ptest can be run within OEQA, it can also be run independently
-> - LAVA is a good open source test  framework which:
->     - can manage both real hardware and different kinds of simulators as the test devices
->     - provides well managed logging system and test reports
->   
-> How to automatically run Ptest? I think running it with LAVA is a good solution, but ...
->   
-> LAVA is running as a server which can manage test jobs submitted to it, here is a typical LAVA job:
-> https://staging.validation.linaro.org/scheduler/job/231942/definition
-> As you can see, it defines the device type, test images which will used, the test cases and a lot of others.
-
-That's a good clear format.
-
-I believe that what people are thinking is that we'd have:
-
-device_type: x86
-
-job_name: x86_64 oeqa
-...
-
-actions:
-- deploy:
-  ...
-
-- boot:
-...
-
-- test:
-     timeout:
-       minutes: 2
-     definitions:
-  << some thing that makes the target and lava server wait for
-     oeqa to run >>
-       name: oeqa-test
-
->   
-> So the typical automatic way to run a test through LAVA is to write a script which use a LAVA job template, replace images with the expected ones, and then submit it to LAVA though a command, for example:
-> $ lava-tool submit-job http://<user>@<lava-server> x86_64_ job_oeqa-ptest.yaml
-
-That would still work given the above oeqa job.
-
-No doubt there's additional glue code that would
-be nice to write that would allow automatically creating
-the lava yaml that boots the system into a state where oeqa
-code takes over.
-
-I've never used it and only just found the code but
-I bet that adding another controller to:
-
-git://git.yoctoproject.org/meta-yocto
-
-$ ls  meta-yocto-bsp/lib/oeqa/controllers/
-beaglebonetarget.py  edgeroutertarget.py  grubtarget.py  __init__.py
-
-is what would make sense.
-
-> This command will return a job id (take #231942 as an example), and then the script can get all logs and reports based on LAVA server address and this job id, for example:
-> - execution log: https://staging.validation.linaro.org/scheduler/job/231942
-> - test report: https://staging.validation.linaro.org/results/231942/0_smoke-tests
-
-Suspect that this is were the design intent diverges.
-
-Usually lava runs the whole system, and I think we just
-want it to manage the hardware and then step out of the way.
-There'd likely be an api to allow oeqa and lava to communicate
-so that for example oeqa could tell lava that the tests were done.
-
-All lava would know is that an oeqa test ran and it's completion
-status.
-
-> So, as far as I can tell, it may not be an appropriate way to integrate LAVA test into a bitbake command as we run it with simple test harness, LAVA is an advanced test framework and it manages all jobs submit to it well.
->   
-> Please comment if you have better idea about this ticket.
-
-I'm really going on a few conversations that I've had or chats
-on IRC so hopefully someone else can step up and comment on both Young's
-initial email and my interpretation of where we're trying to
-get to.
-
-Thanks,
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 4ce9de2f573..323ba051ae0 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -380,6 +380,7 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
+     # sourcefile is also generated containing a list of debugsources
+ 
+     import stat
++    import subprocess
+ 
+     src = file[len(dvar):]
+     dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(src) + debugappend
+@@ -409,16 +410,10 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
+ 
+     bb.utils.mkdirhier(os.path.dirname(debugfile))
+ 
+-    cmd = "'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile)
+-    (retval, output) = oe.utils.getstatusoutput(cmd)
+-    if retval:
+-        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
++    subprocess.check_output([objcopy, '--only-keep-debug', file, debugfile], stderr=subprocess.STDOUT)
+ 
+     # Set the debuglink to have the view of the file path on the target
+-    cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
+-    (retval, output) = oe.utils.getstatusoutput(cmd)
+-    if retval:
+-        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
++    subprocess.check_output([objcopy, '--add-gnu-debuglink', debugfile, file], stderr=subprocess.STDOUT)
+ 
+     if newmode:
+         os.chmod(file, origmode)
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.17.1
+
 
