@@ -1,47 +1,46 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E275D7929B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 201AD7929B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 12:48:21 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id j19-v6so1327223ljc.7
+	Wed, 22 Aug 2018 12:49:39 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id q8-v6so2057285wmq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 05:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=KxVO1r4Xk4ELFsN4Iu/cirSCIbSIpKkzDJU1nf9tKi8=;
-	b=LoFPvHf+69KwOfsTlQ1N3H+en7/C4Qt+3r7TDxLv8vhQn4dhE5tPy79xb1lLkTJEWF
-	X5e1P9w3pP/ySxRpLdzXcsCBmOHtTiHvlRskZTHNNtCTU/6IpEHkmi8G4ziAn6o1CX9j
-	LykxQsVKy1r8Powz73yD5dpYt5i9s+uhn5zP8VFbdJtOL8CgXvXI5/ijxLKr/FkbBKbv
-	HSikt2PFd4Chu60L+AB5Zj/9DAXjpqiRJYQIauy16Rduke5CAMX5+XX7Dwd7qkkiCp15
-	4OeaGZJFjwaBTR0Fiy7PJexPtbGmwmh4r4ImDmTHEPIdP95AP72Lsp68f+q6k43IF/UV
-	WGOQ==
+	Wed, 22 Aug 2018 05:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=remUsvpSP6Q5ad69rhJpmvRLiNZYKiybcedKZv6hvQ0=;
+	b=gmLwUPJzZZUxNslMinpuiG8nkUIMf/Fo+ksnwQjbMvmG2tKRDYyAMM0YG90KZLEq4c
+	2RqiP36Zax5KlCchQ5vJGfYxKeq8C4lePaH1aagHOabKNQy8GWKvPU5bQiUJeybUX5U7
+	MSoEM+EghMeTTfutBhNICXkm3ptzrrl7saPSs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=KxVO1r4Xk4ELFsN4Iu/cirSCIbSIpKkzDJU1nf9tKi8=;
-	b=Bw7+c9NIQzcaNHH5tRMup2f4T06UmXCOXZEr1Ub1LchinAnAAEtdVtKFKX0Mis4bC6
-	Ml7ZeG8HS+chC51VjsGkAr6OxZv7er9Nq1m59bMh22wT4uoj723L2T8vpk+PpsFVLgFw
-	0WpEoosu9gyA1XMVMQIcO03D63qqsjq89IqWIc/69j2BxaJynA2to/w0IxbOhzojyDY/
-	CtyuMRbLDT1gVgkvLCI9VqHtvo9xPLKKoQH6T/yxJ4MnCX44s8Tasapn+ylSqlJNLzNK
-	FdNuBwHrD7pmQ6mnhzKNA4iz0NBTqIFach4Y9UGXT4vdnn6bfYogUySqDZKx5cNnfbQm
-	fntw==
-X-Gm-Message-State: APzg51DRM/16yLRNai41z6VIYn33qw26f8HX9FOoq9ZB6v9fxL09VuNO
-	9vLBYxr8VHtlSwHcOYEEV99W7zZ+98UMWDEmfgw=
-X-Google-Smtp-Source: ANB0Vdb4tlcAg4NS5yz1XxkPo8CfUmpkp5xcbxqF0va/bXDwieRdOP/jgV1fZfGtzLcTQSA7qLlFPDBYTUGCEDGTmEc=
-X-Received: by 2002:a2e:1086:: with SMTP id 6-v6mr2440317ljq.59.1534942102321; 
-	Wed, 22 Aug 2018 05:48:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180821145858.18459-1-ricardo.ribalda@gmail.com>
-	<10e5ea973727e06604a83299fdd5a8d4cfa2633a.camel@linuxfoundation.org>
-In-Reply-To: <10e5ea973727e06604a83299fdd5a8d4cfa2633a.camel@linuxfoundation.org>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Wed, 22 Aug 2018 14:48:05 +0200
-Message-ID: <CAPybu_3tUu0LKA1gdSj-MFYfhxiHz62wXrP2ivETSMNiWdWyDg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: Fix ldd bug: not a dynamic executable error
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=remUsvpSP6Q5ad69rhJpmvRLiNZYKiybcedKZv6hvQ0=;
+	b=l3s9ekXYRxSIDBG+aVsbsT8XsWVOxUPMu5JzSELTF8Lf4Jrw/XWNkHE4V52U0fNyOM
+	8Lms81vr5ElTAHPj0sHiUk1G9ejjX+d7uR4IhneK0606fdS2HFe4ph9FzG4GmQGCAb+w
+	a8dc2rOlMLqFx/p8zHDdee5nKoGnkl3M2o6Do1MRDfEl2I0sXqkpoe9guCoheIHPTLEz
+	pNVF/u71keBqEpDaZEktslMMz+RxlGD2omIz71Ux8I0O3Hcl4nal+C31G5etEYvAXahQ
+	BdV1XQd0qdCDD38KMnfUdg2WlYvv1QUaTPz+WRq3q/cll1hL6NfreJdqz+yGIbm6JiUl
+	q8ow==
+X-Gm-Message-State: APzg51Df/4TtPHR/J8VAV5QwOVx8pjYx4ki2hOo7+2d7rZ2OQwrPNBCS
+	aK0Bpt7iCT/ROGgHubl/0xEAjt5Ktek=
+X-Google-Smtp-Source: ANB0VdbjBkyyB/OgBZ9ocyk/wT6vZvr0aZcKPwLNa9UP54K/OaErby0MPH+pSsDPMqV0vwS41zjOSA==
+X-Received: by 2002:a1c:ea53:: with SMTP id
+	i80-v6mr2445108wmh.113.1534942180595; 
+	Wed, 22 Aug 2018 05:49:40 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	u40-v6sm2179369wrc.43.2018.08.22.05.49.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 Aug 2018 05:49:39 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Aug 2018 13:49:38 +0100
+Message-Id: <20180822124938.3937-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] oeqa/runtime/ldd: Clean up test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,54 +53,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 12:48:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 Aug 2018 12:49:40 -0000
 
-Hi Richard
+* Merge the two tests together as having them separate is pointless
+* Test that ldd runs correctly
+* Add in a dependency on the "ldd" package being installed instead of
+  the sdk tools feature
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/runtime/cases/ldd.py | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-On Wed, Aug 22, 2018 at 2:45 PM <richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2018-08-21 at 16:58 +0200, Ricardo Ribalda Delgado wrote:
-> > RTLDLIST table does not include /lib/ld-linux-x86-64.so.2, resulting
-> > on the following error:
-> >
-> > root@qt5122:~# ldd ./qtec_webcam
-> > not a dynamic executable
-> >
-> > Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-> > ---
-> >  .../glibc/glibc/0031-ldd-rewrite.patch        | 22
-> > +++++++++++++++++++
-> >  meta/recipes-core/glibc/glibc_2.28.bb         |  1 +
-> >  2 files changed, 23 insertions(+)
-> >  create mode 100644 meta/recipes-core/glibc/glibc/0031-ldd-
-> > rewrite.patch
->
-> I'm a bit confused as with MACHINE=qemux86-64, building core-image-sato
-> with ldd added to IMAGE_INSTALL, ldd works correctly even though it has
-> /lib/ld-linux-x86-64.so.2 (which is listed in RTLDLIST).
->
-> We have an automated QA test checking this too:
->
-> http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/lib/oeqa/runtime/cases/ldd.py
->
-> Which version of the project are you using? How would we reproduce the
-> issue?
->
-
-I am using yocto-sumo
-
-Maybe your tests are run agains an image that has the package lsb
-installed. Which creates symbolic links to the standard locations
-
-
-> Regards,
->
-> Richard
-
-
-
+diff --git a/meta/lib/oeqa/runtime/cases/ldd.py b/meta/lib/oeqa/runtime/cases/ldd.py
+index c6d92fd5af8..5bde1845d9c 100644
+--- a/meta/lib/oeqa/runtime/cases/ldd.py
++++ b/meta/lib/oeqa/runtime/cases/ldd.py
+@@ -2,24 +2,23 @@ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
+ from oeqa.core.decorator.oeid import OETestID
+ from oeqa.core.decorator.data import skipIfNotFeature
++from oeqa.runtime.decorator.package import OEHasPackage
+ 
+ class LddTest(OERuntimeTestCase):
+ 
+     @OETestID(962)
+-    @skipIfNotFeature('tools-sdk',
+-                      'Test requires tools-sdk to be in IMAGE_FEATURES')
++    @OEHasPackage(["ldd"])
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+-    def test_ldd_exists(self):
++    def test_ldd(self):
+         status, output = self.target.run('which ldd')
+         msg = 'ldd does not exist in PATH: which ldd: %s' % output
+         self.assertEqual(status, 0, msg=msg)
+ 
+-    @OETestID(239)
+-    @OETestDepends(['ldd.LddTest.test_ldd_exists'])
+-    def test_ldd_rtldlist_check(self):
+         cmd = ('for i in $(which ldd | xargs cat | grep "^RTLDLIST"| '
+               'cut -d\'=\' -f2|tr -d \'"\'); '
+               'do test -f $i && echo $i && break; done')
+         status, output = self.target.run(cmd)
+-        msg = "ldd path not correct or RTLDLIST files don't exist."
+-        self.assertEqual(status, 0, msg=msg)
++        self.assertEqual(status, 0, msg="ldd path not correct or RTLDLIST files don't exist.")
++
++        status, output = self.target.run("ldd /bin/true")
++        self.assertEqual(status, 0, msg="ldd failed to execute: %s" % output)
 -- 
-Ricardo Ribalda
+2.17.1
+
 
