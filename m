@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
 Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
 	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 4699E79466
+	by mail.openembedded.org (Postfix) with ESMTP id C422379436
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:09:21 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id s198-v6so3678004oih.11
+	Wed, 22 Aug 2018 15:09:23 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id w126-v6so3694497oie.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:09:22 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Ottu2vJCfxqGEpLnOozyDkmr4ynItCK05+Wp007J3ow=;
-	b=i16Br4okpUQOPCYWISwimuTMBj8887/5Fzjd3K3SpZ/i4tw/+qYmpZwhtZ6a7hm8Ok
-	0i5U0LUIm3NBMkBwMY40uvr2oYf+jGCqIDfq+OB9Is4jE/yolGh9109uXnOWlW/4csX0
-	I/cUeEBfPOxqRx1Twx5LWSEJBaUMlGhf3Vj9P77KrfrWQ5WiNqDD8x7sQpQjb3lpEW+K
-	I6AmM41HjCK8sNSEAmwujyIhl0/HlTqp5X2qCu+Fndgzrshy1uXHh7tiv2Zx4ZrHuGP/
-	GkdXKzXWw7qlLqGD7ySCtLctVjw5B/B7ibPYeuWNTUSdyViGL+vBGchuy+192ZOcdo1i
-	/P4Q==
+	bh=bvjAggxl3o8jyJYPtFDOKRLkKIfQ1iAFeIZyvH7BVXE=;
+	b=Jn+a4O/u19wjLe91GHpWLZZ74uLdrXRlJ9Tfoz3yfhp0Fu40UGNcV7cuUNQ+fUf9za
+	5WewZlT4rLr9xsvbwB3fjYmbqfx9ln1KOV2zYfeKp1z5f7j9ZbxQ1Z6ITgI0hcDeh+PF
+	Gx7KGenPfce9nNVYqTOlHlSdMOhAui4nX91EUFH87iKU2YsN1NfmJn36VzgfxxEYy5MM
+	zlkC6M4AAB+pQO3o4i+oibNnqcU+6HH9GW0gh6tyGT4F1SCT2PgnvzW4IrC/AwB8Vbp/
+	bosA3cXpRUA1M82GglOwtJTLiF6V668O+Npj1Zgib3Dbz5NJm3jLEYAtdt2mlu1CPXUR
+	2dPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Ottu2vJCfxqGEpLnOozyDkmr4ynItCK05+Wp007J3ow=;
-	b=ZqY5FOr2nlWRHrG3kX2yIKSrmUfprjte2nMyA41UeX7jezzmHqSdcKRwUPR1QsHn0B
-	H7C+EdMVucCxRW4RF2g4zPjvTB2ZyHODLLtrifMwf+TMuBU/e6h7fQQUr7B0afUJ2YAz
-	QC6T9H/uam0DXmxjQyb/sCBPoTpXVC5vkNP8rVh8v+NfL/SmJxwp9aNA2ZPc2DMG2nvJ
-	C24CqJAYVWmnoblftvk507D8w7QAe5FXk3f5WXBKazf1yApTWmXWJQ2hj5xbjial7qrU
-	onopNSSgHUewt/0Of0Vd71NUGpX4Hc8Y75gU286vTtJGwWk8zcxq/7pf/LMQSmJcdCVF
-	FmHw==
-X-Gm-Message-State: APzg51CQhvm0PeJ1Qodh4y/0ZfqrHFkK4i+c4H7P5s/jjtEkVkuG6ezf
-	S83q469qo4FdoZ12QnPcltLqoXaSzVw=
-X-Google-Smtp-Source: ANB0VdYQDd2xr1KOuYH8LYETBYD1szJbacnIVpuEtRXxxrtGiok4tSMSi+Zh7OjSGHdSerqTyXtkjA==
-X-Received: by 2002:aca:d48c:: with SMTP id
-	l134-v6mr4336338oig.15.1534950562167; 
-	Wed, 22 Aug 2018 08:09:22 -0700 (PDT)
+	bh=bvjAggxl3o8jyJYPtFDOKRLkKIfQ1iAFeIZyvH7BVXE=;
+	b=e74lJ3h7HQ6FjYfifEuF4px2aGzz8hjCvrzwY0CG+PNZefYVqG3b2mWaK0AeYFdw/7
+	NvA6++sQft6eeA8hQeK63M285BgQMtwTHHterZPJ9NEujfwIGZkX1daKkr0ypCv0OdiD
+	SoYx1Gg5b/xxrJWmMuRF8NsGKBVvaN8uxUSy2IOXQNnpgmJ7190q+5L8BkTNHoLnC9ok
+	x/B9pqj8Cvy7MrLCKWBP4DHQYcAW94Ac5qXi3C4ZQFgfKkQxE9tIQczGoHE/1ZM9FWC1
+	rFxCXK0LbVqDs4vyJ5Id1N9F4IQfrHkvghWvziV860Vimn0tglMoNt7+hJxhBud0Zlgt
+	9LYg==
+X-Gm-Message-State: APzg51CqUvR0SVIK3ntlcp84cvgxDBkejBZOTcuIb6YytfjtMrnlVWTi
+	t+T+9InfLx4RGSUBC3KZYYzmf5iT5co=
+X-Google-Smtp-Source: ANB0VdbzLh1SbLv/v+cGRLmUIau+0QfGFByoF6wuXDrsdaV0raB+8tusr2wPID/noHbAP881l3GcOQ==
+X-Received: by 2002:aca:bf88:: with SMTP id
+	p130-v6mr4032637oif.344.1534950564608; 
+	Wed, 22 Aug 2018 08:09:24 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.09.20
+	i132-v6sm1024281oif.20.2018.08.22.08.09.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:09:21 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:24 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:28 +0530
-Message-Id: <1534950532-23850-10-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 20:38:29 +0530
+Message-Id: <1534950532-23850-11-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V3 10/34] perl: CVE-2018-6798
+Subject: [ROCKO][PATCH V3 11/34] curl: CVE-2018-1000300
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,230 +59,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:09:21 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:09:24 -0000
 
-* CVE-2018-6798-1
- The proximal cause is several instances in regexec.c of the code
- assuming that the input was valid UTF-8, whereas the input was too short
- for what the start byte claimed it would be.
+pingpong: fix response cache memcpy overflow
 
- I grepped through the core for any other similar uses, and did not find
- any.
+Response data for a handle with a large buffer might be cached and then
+used with the "closure" handle when it has a smaller buffer and then
+he
+larger cache will be copied and overflow the new smaller heap based
+buffer.
 
- (cherry picked from commit fe7d8ba0a1bf567af8fa8fea128e2b9f4c553e84)
+Reported-by: Dario Weisser
+CVE: CVE-2018-1000300
+Bug: https://curl.haxx.se/docs/adv_2018-82c2.html
 
-* CVE-2018-6798-2
- The first patch for 132063 prevented the buffer read overflow when
- dumping the warning but didn't fix the underlying problem.
-
- The next change treats the supplied buffer correctly, preventing the
- non-UTF-8 SV from being treated as UTF-8, preventing the warning.
-
- (cherry picked from commit 1e8b61488f195e1396aa801c685340b156104f4f)
-
-Affects perl >= 5.22 && perl <= 5.26
+Affects curl >= 7.54.1 && curl <= 7.59.0
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../perl/perl/CVE-2018-6798-1.patch                | 130 +++++++++++++++++++++
- .../perl/perl/CVE-2018-6798-2.patch                |  37 ++++++
- meta/recipes-devtools/perl/perl_5.24.1.bb          |   2 +
- 3 files changed, 169 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-6798-1.patch
- create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-6798-2.patch
+ .../curl/curl/CVE-2018-1000300.patch               | 44 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.58.0.bb           |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2018-1000300.patch
 
-diff --git a/meta/recipes-devtools/perl/perl/CVE-2018-6798-1.patch b/meta/recipes-devtools/perl/perl/CVE-2018-6798-1.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2018-1000300.patch b/meta/recipes-support/curl/curl/CVE-2018-1000300.patch
 new file mode 100644
-index 0000000..3477162
+index 0000000..893d45c
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/CVE-2018-6798-1.patch
-@@ -0,0 +1,130 @@
-+From 0abf1e8d89aecd32dbdabda5da4d52a2d57a7cff Mon Sep 17 00:00:00 2001
-+From: Karl Williamson <khw@cpan.org>
-+Date: Tue, 6 Feb 2018 14:50:48 -0700
-+Subject: [PATCH] [perl #132063]: Heap buffer overflow
++++ b/meta/recipes-support/curl/curl/CVE-2018-1000300.patch
+@@ -0,0 +1,44 @@
++From 0a79d714bd55779a3a223efb5c089d0ad7e128a8 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Fri, 23 Mar 2018 23:30:04 +0100
++Subject: [PATCH] pingpong: fix response cache memcpy overflow
 +
-+The proximal cause is several instances in regexec.c of the code
-+assuming that the input was valid UTF-8, whereas the input was too short
-+for what the start byte claimed it would be.
++Response data for a handle with a large buffer might be cached and then
++used with the "closure" handle when it has a smaller buffer and then the
++larger cache will be copied and overflow the new smaller heap based
++buffer.
 +
-+I grepped through the core for any other similar uses, and did not find
-+any.
++Reported-by: Dario Weisser
 +
-+(cherry picked from commit fe7d8ba0a1bf567af8fa8fea128e2b9f4c553e84)
-+
-+CVE: CVE-2018-6798
-+Upstream-Status: Backport [https://perl5.git.perl.org/perl.git/patch/0abf1e8d89aecd32dbdabda5da4d52a2d57a7cff]
++CVE: CVE-2018-1000300
++Bug: https://curl.haxx.se/docs/adv_2018-82c2.html
++Upstream-Status: Backport [https://github.com/curl/curl-www/commit/3ee30b2b5e3836345ac510bc1674aa3a4272936e]
 +
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ regexec.c              | 29 ++++++++++++++++-------------
-+ t/lib/warnings/regexec |  7 +++++++
-+ 2 files changed, 23 insertions(+), 13 deletions(-)
++ lib/pingpong.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
 +
-+diff --git a/regexec.c b/regexec.c
-+index 5735b997fd..ea432c39d3 100644
-+--- a/regexec.c
-++++ b/regexec.c
-+@@ -1466,7 +1466,9 @@ Perl_re_intuit_start(pTHX_
-+                                            ? trie_utf8_fold                         \
-+                                            :   trie_latin_utf8_fold)))
-+ 
-+-#define REXEC_TRIE_READ_CHAR(trie_type, trie, widecharmap, uc, uscan, len, uvc, charid, foldlen, foldbuf, uniflags) \
-++/* 'uscan' is set to foldbuf, and incremented, so below the end of uscan is
-++ * 'foldbuf+sizeof(foldbuf)' */
-++#define REXEC_TRIE_READ_CHAR(trie_type, trie, widecharmap, uc, uc_end, uscan, len, uvc, charid, foldlen, foldbuf, uniflags) \
-+ STMT_START {                                                                        \
-+     STRLEN skiplen;                                                                 \
-+     U8 flags = FOLD_FLAGS_FULL;                                                     \
-+@@ -1474,7 +1476,7 @@ STMT_START {
-+     case trie_flu8:                                                                 \
-+         _CHECK_AND_WARN_PROBLEMATIC_LOCALE;                                         \
-+         if (utf8_target && UTF8_IS_ABOVE_LATIN1(*uc)) {                             \
-+-            _CHECK_AND_OUTPUT_WIDE_LOCALE_UTF8_MSG(uc, uc + UTF8SKIP(uc));          \
-++            _CHECK_AND_OUTPUT_WIDE_LOCALE_UTF8_MSG(uc, uc_end - uc);                \
-+         }                                                                           \
-+         goto do_trie_utf8_fold;                                                     \
-+     case trie_utf8_exactfa_fold:                                                    \
-+@@ -1483,7 +1485,7 @@ STMT_START {
-+     case trie_utf8_fold:                                                            \
-+       do_trie_utf8_fold:                                                            \
-+         if ( foldlen>0 ) {                                                          \
-+-            uvc = utf8n_to_uvchr( (const U8*) uscan, UTF8_MAXLEN, &len, uniflags ); \
-++            uvc = utf8n_to_uvchr( (const U8*) uscan, foldlen, &len, uniflags );     \
-+             foldlen -= len;                                                         \
-+             uscan += len;                                                           \
-+             len=0;                                                                  \
-+@@ -1500,7 +1502,7 @@ STMT_START {
-+         /* FALLTHROUGH */                                                           \
-+     case trie_latin_utf8_fold:                                                      \
-+         if ( foldlen>0 ) {                                                          \
-+-            uvc = utf8n_to_uvchr( (const U8*) uscan, UTF8_MAXLEN, &len, uniflags ); \
-++            uvc = utf8n_to_uvchr( (const U8*) uscan, foldlen, &len, uniflags );     \
-+             foldlen -= len;                                                         \
-+             uscan += len;                                                           \
-+             len=0;                                                                  \
-+@@ -1519,7 +1521,7 @@ STMT_START {
-+         }                                                                           \
-+         /* FALLTHROUGH */                                                           \
-+     case trie_utf8:                                                                 \
-+-        uvc = utf8n_to_uvchr( (const U8*) uc, UTF8_MAXLEN, &len, uniflags );        \
-++        uvc = utf8n_to_uvchr( (const U8*) uc, uc_end - uc, &len, uniflags );        \
-+         break;                                                                      \
-+     case trie_plain:                                                                \
-+         uvc = (UV)*uc;                                                              \
-+@@ -2599,10 +2601,10 @@ S_find_byclass(pTHX_ regexp * prog, const regnode *c, char *s,
-+                     }
-+                     points[pointpos++ % maxlen]= uc;
-+                     if (foldlen || uc < (U8*)strend) {
-+-                        REXEC_TRIE_READ_CHAR(trie_type, trie,
-+-                                         widecharmap, uc,
-+-                                         uscan, len, uvc, charid, foldlen,
-+-                                         foldbuf, uniflags);
-++                        REXEC_TRIE_READ_CHAR(trie_type, trie, widecharmap, uc,
-++                                             (U8 *) strend, uscan, len, uvc,
-++                                             charid, foldlen, foldbuf,
-++                                             uniflags);
-+                         DEBUG_TRIE_EXECUTE_r({
-+                             dump_exec_pos( (char *)uc, c, strend,
-+                                         real_start, s, utf8_target, 0);
-+@@ -5511,8 +5513,9 @@ S_regmatch(pTHX_ regmatch_info *reginfo, char *startpos, regnode *prog)
-+ 		    if ( base && (foldlen || uc < (U8*)(reginfo->strend))) {
-+ 			I32 offset;
-+ 			REXEC_TRIE_READ_CHAR(trie_type, trie, widecharmap, uc,
-+-					     uscan, len, uvc, charid, foldlen,
-+-					     foldbuf, uniflags);
-++                                             (U8 *) reginfo->strend, uscan,
-++                                             len, uvc, charid, foldlen,
-++                                             foldbuf, uniflags);
-+ 			charcount++;
-+ 			if (foldlen>0)
-+ 			    ST.longfold = TRUE;
-+@@ -5642,8 +5645,8 @@ S_regmatch(pTHX_ regmatch_info *reginfo, char *startpos, regnode *prog)
-+ 			while (foldlen) {
-+ 			    if (!--chars)
-+ 				break;
-+-			    uvc = utf8n_to_uvchr(uscan, UTF8_MAXLEN, &len,
-+-					    uniflags);
-++			    uvc = utf8n_to_uvchr(uscan, foldlen, &len,
-++                                                 uniflags);
-+ 			    uscan += len;
-+ 			    foldlen -= len;
-+ 			}
-+diff --git a/t/lib/warnings/regexec b/t/lib/warnings/regexec
-+index 900dd6ee7f..6635142dea 100644
-+--- a/t/lib/warnings/regexec
-++++ b/t/lib/warnings/regexec
-+@@ -260,3 +260,10 @@ setlocale(&POSIX::LC_CTYPE, $utf8_locale);
-+ "k" =~ /(?[ \N{KELVIN SIGN} ])/i;
-+ ":" =~ /(?[ \: ])/;
-+ EXPECT
-++########
-++# NAME perl #132063, read beyond buffer end
-++# OPTION fatal
-++"\xff" =~ /(?il)\x{100}|\x{100}/;
-++EXPECT
-++Malformed UTF-8 character: \xff (too short; 1 byte available, need 13) in pattern match (m//) at - line 2.
-++Malformed UTF-8 character (fatal) at - line 2.
++diff --git a/lib/pingpong.c b/lib/pingpong.c
++index 438856a99..ad370ee82 100644
++--- a/lib/pingpong.c
+++++ b/lib/pingpong.c
++@@ -302,11 +302,14 @@ CURLcode Curl_pp_readresp(curl_socket_t sockfd,
++        *
++        * pp->cache_size is cast to ssize_t here.  This should be safe, because
++        * it would have been populated with something of size int to begin
++        * with, even though its datatype may be larger than an int.
++        */
++-      DEBUGASSERT((ptr + pp->cache_size) <= (buf + data->set.buffer_size + 1));
+++      if((ptr + pp->cache_size) > (buf + data->set.buffer_size + 1)) {
+++        failf(data, "cached response data too big to handle");
+++        return CURLE_RECV_ERROR;
+++      }
++       memcpy(ptr, pp->cache, pp->cache_size);
++       gotbytes = (ssize_t)pp->cache_size;
++       free(pp->cache);    /* free the cache */
++       pp->cache = NULL;   /* clear the pointer */
++       pp->cache_size = 0; /* zero the size just in case */
 +-- 
-+2.15.1-424-g9478a660812
++2.17.0
 +
-diff --git a/meta/recipes-devtools/perl/perl/CVE-2018-6798-2.patch b/meta/recipes-devtools/perl/perl/CVE-2018-6798-2.patch
-new file mode 100644
-index 0000000..fb9b41a
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/CVE-2018-6798-2.patch
-@@ -0,0 +1,37 @@
-+From f65da1ca2eee74696d9c120e9d69af37b4fa1920 Mon Sep 17 00:00:00 2001
-+From: Tony Cook <tony@develop-help.com>
-+Date: Mon, 19 Feb 2018 15:11:42 +1100
-+Subject: [PATCH] (perl #132063) we should no longer warn for this code
-+
-+The first patch for 132063 prevented the buffer read overflow when
-+dumping the warning but didn't fix the underlying problem.
-+
-+The next change treats the supplied buffer correctly, preventing the
-+non-UTF-8 SV from being treated as UTF-8, preventing the warning.
-+
-+(cherry picked from commit 1e8b61488f195e1396aa801c685340b156104f4f)
-+
-+CVE: CVE-2018-6798
-+Upstream-Status: Backport [https://perl5.git.perl.org/perl.git/commitdiff/f65da1ca2eee74696d9c120e9d69af37b4fa1920]
-+
-+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-+---
-+ t/lib/warnings/regexec | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/t/lib/warnings/regexec b/t/lib/warnings/regexec
-+index 6635142dea..c370ddc3c7 100644
-+--- a/t/lib/warnings/regexec
-++++ b/t/lib/warnings/regexec
-+@@ -262,8 +262,5 @@ setlocale(&POSIX::LC_CTYPE, $utf8_locale);
-+ EXPECT
-+ ########
-+ # NAME perl #132063, read beyond buffer end
-+-# OPTION fatal
-+ "\xff" =~ /(?il)\x{100}|\x{100}/;
-+ EXPECT
-+-Malformed UTF-8 character: \xff (too short; 1 byte available, need 13) in pattern match (m//) at - line 2.
-+-Malformed UTF-8 character (fatal) at - line 2.
-+-- 
-+2.15.1-424-g9478a660812
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index ac78dda..e696910 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -68,6 +68,8 @@ SRC_URI += " \
-         file://perl-5.26.1-guard_old_libcrypt_fix.patch \
-         file://CVE-2017-12883.patch \
-         file://CVE-2017-12837.patch \
-+        file://CVE-2018-6798-1.patch \
-+        file://CVE-2018-6798-2.patch \
+diff --git a/meta/recipes-support/curl/curl_7.58.0.bb b/meta/recipes-support/curl/curl_7.58.0.bb
+index d2d0180..fdfbb3d 100644
+--- a/meta/recipes-support/curl/curl_7.58.0.bb
++++ b/meta/recipes-support/curl/curl_7.58.0.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e66
+ 
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
++           file://CVE-2018-1000300.patch \
  "
  
- # Fix test case issues
+ 
 -- 
 2.7.4
 
