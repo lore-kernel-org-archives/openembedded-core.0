@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BD4B79292
+Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
+	[209.85.218.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A47C792A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 11:42:10 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id p84-v6so2595496oic.4
+	Wed, 22 Aug 2018 11:42:14 +0000 (UTC)
+Received: by mail-oi0-f43.google.com with SMTP id c190-v6so2580253oig.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 04:42:12 -0700 (PDT)
+	Wed, 22 Aug 2018 04:42:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eeNaqUGraspbBoKxHwLXIij9/wD3UZSS+PNXGa6jWMs=;
-	b=lHr1XAAQrsoeSSKmDsBp2PvbSfWZzUMrmDl9t/2XgfDZLjkp1Pu5uBbOB9O+COds1J
-	sAv3qdADlOfslFdFiaw5K93V6CAXX+qtUOkEf9D51QgJRhHxbW296yeIhYUQmPT+9ySf
-	ESnxr272t01L4IWoMHpl88UITI3Xi5qOu43/k1Gj0nuKRczqB368e2+iYBbpgkF5G9RQ
-	/JTIRpcUqhlvI2XHv6sbmM4Z377iYrzt2YyjsPuNXXIjJdTNdFQWSHDHDU4M2XwKVoxr
-	lRo23eFt4t95jdXdPusYyUcM5puqSQnRdlK39wrperDskxRBwDrFoaOmGp1KXfi/yR2Y
-	nQZg==
+	bh=Q9wtT0n94wVn0FGBwNO5ei9DlkyQI1CTc6zNy/S4HXY=;
+	b=IDr1Vv1Wk+Vgf+t7SqJvT7FvMwXX7L6p9pZ6xyWUqcG/n93gTypcT/qwol7TE1/K5O
+	kCVi+nkxa7AvwMuvhnnJMHs8JiTvyEHDvZhhgUQV2hUF6gdhzpyGsExWQXemqWSFaoRa
+	3XH9b/TRy/E+c2klXvl66owY3p8WIHApXadE12wbe5LrT5yy71MT5dYApH97rOErkt4r
+	O4/aS3XrJsWd0tLJmO1ojj0v9psTt8s2NK7/iEBgSEoGRS10V8hBqCTkEhhgoGManLNv
+	/7lOnn5P4kcQkFy/xU6W5Qss/0LP9GQBetK+btrM6MtNwcisMsNnYA+607Y/IWRwu0I5
+	k2sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=eeNaqUGraspbBoKxHwLXIij9/wD3UZSS+PNXGa6jWMs=;
-	b=j836ggB8xZqGH8WlCYolcxwnazRbRfDVf2OD77KBR0xSnSI8wY0RIS5wUrLgPuoiZL
-	YkiOoW1/vlES9+MFjsRrQTO+78ik+FhORDOsx6NWewX+c4tU6kgDPsTT2sIB8BcspLjz
-	XoQbdy7PTE0r4ri9LTT+aqOfRdSkt1BQU52dFpOnxf/2evBQXDoqljfMc/I2o9G3Oz1L
-	IdmUK/kuGsjJedu/C5GTRhljv/SfVPrndydRGYJ+60Gurwp6UJPxlaXLuPYDmt72t+BH
-	yOCypfqhdd4SG7W44CpR4pPciovKFKGvigAod7oa2QCXGnnWTbQOE3D+Qp5rKsaVzeKV
-	An2Q==
-X-Gm-Message-State: APzg51D01qrZQgYHoA94tYESthdQ2725c4qIvLdcOfgs+JEqRlQ6F2+Y
-	rjeOmj3WuwyfXGFTY/MmuRYw7zqLNkw=
-X-Google-Smtp-Source: ANB0VdbeEzHVIyLxyomDbQhqF3FF++BUskdfROgi6gxZWwCy/sxPis5NWHKmitEHUk+AN6FO4a2vhQ==
-X-Received: by 2002:aca:b541:: with SMTP id
-	e62-v6mr3840386oif.136.1534938131944; 
-	Wed, 22 Aug 2018 04:42:11 -0700 (PDT)
+	bh=Q9wtT0n94wVn0FGBwNO5ei9DlkyQI1CTc6zNy/S4HXY=;
+	b=NrYF6sBRJm8+hSqi6ypkh1Rs+taUibT+4zTi34Ba1FTqHXKn/fKjzoWhEEQHSqftYB
+	QVuUsBr1qK6lMVsJz4BdMV6J6Apo0Brn0pfemUGZ2O0MMMDYllGwj++cs6opeaFPDd1v
+	CrdFtZlh2VwjKuPywL4T09Ow7DtTsjYlf51jLq0dC7bUIszbmLwf15JnBRGQXjFffl1f
+	GDTL45CEfK8zgQabLbH1q1l2fm1Oi1EZ++j6BFN95DKJndt5CU/MeKoVLVaS67Vr8VvW
+	8CSl8pBriYXeIF+inV0gJwCMJPYW4DGywvv9dxbuJYF1M63o1cdVQH+IcdO6EYEc0I2e
+	EmSA==
+X-Gm-Message-State: APzg51BBbZ1OQj8dPogj9YnbJK9LvcK2Xt5iT0f2hVlhAlgo/AIKtswO
+	DJ/mUzT53EAqaCxvDhRm44vakAgFZFI=
+X-Google-Smtp-Source: ANB0VdbkLw2GAfw/jdx8n8NbYyj5mTt3WsZU+ssfhhgOe3gBN+mLbmZ+mvw8cVKRWTqOkvLuKUIAHA==
+X-Received: by 2002:aca:3882:: with SMTP id
+	f124-v6mr3640915oia.195.1534938135079; 
+	Wed, 22 Aug 2018 04:42:15 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	f144-v6sm1323750oib.39.2018.08.22.04.42.09
+	f144-v6sm1323750oib.39.2018.08.22.04.42.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 04:42:11 -0700 (PDT)
+	Wed, 22 Aug 2018 04:42:14 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 17:11:45 +0530
-Message-Id: <1534938113-12197-5-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 17:11:46 +0530
+Message-Id: <1534938113-12197-6-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534938113-12197-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534938113-12197-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [SUMO][PATCH V2] gnupg: CVE-2018-12020
+Subject: [SUMO][PATCH V2] qemu: CVE-2018-7550
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,98 +59,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:42:11 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 11:42:14 -0000
 
-gpg: Sanitize diagnostic with the original file name.
+multiboot: bss_end_addr can be zero
 
-* g10/mainproc.c (proc_plaintext): Sanitize verbose output.
---
+The multiboot spec
+(https://www.gnu.org/software/grub/manual/multiboot/),
+section 3.1.3, allows for bss_end_addr to be zero.
 
-This fixes a forgotten sanitation of user supplied data in a verbose
-mode diagnostic.  The mention CVE is about using this to inject
-status-fd lines into the stderr output.  Other harm good as well be
-done.  Note that GPGME based applications are not affected because
-GPGME does not fold status output into stderr.
+A zero bss_end_addr signifies there is no .bss section.
 
-CVE-id: CVE-2018-12020
-GnuPG-bug-id: 4012
-
-Affects gnupg < 2.2.8
+Affects qemu < v2.12.0
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
 v2:
   Corrected "From:" address
 
- .../gnupg/gnupg/CVE-2018-12020.patch               | 47 ++++++++++++++++++++++
- meta/recipes-support/gnupg/gnupg_2.2.4.bb          |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
+ .../recipes-devtools/qemu/qemu/CVE-2018-7550.patch | 62 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.11.1.bb          |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
 
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch b/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
 new file mode 100644
-index 0000000..14698db
+index 0000000..9923d12
 --- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
-@@ -0,0 +1,47 @@
-+From 13f135c7a252cc46cff96e75968d92b6dc8dce1b Mon Sep 17 00:00:00 2001
-+From: Werner Koch <wk@gnupg.org>
-+Date: Fri, 8 Jun 2018 10:45:21 +0200
-+Subject: [PATCH] gpg: Sanitize diagnostic with the original file name.
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
+@@ -0,0 +1,62 @@
++From 2a8fcd119eb7c6bb3837fc3669eb1b2dfb31daf8 Mon Sep 17 00:00:00 2001
++From: Jack Schwartz <jack.schwartz@oracle.com>
++Date: Thu, 21 Dec 2017 09:25:15 -0800
++Subject: [PATCH] multiboot: bss_end_addr can be zero
 +
-+* g10/mainproc.c (proc_plaintext): Sanitize verbose output.
-+--
++The multiboot spec (https://www.gnu.org/software/grub/manual/multiboot/),
++section 3.1.3, allows for bss_end_addr to be zero.
 +
-+This fixes a forgotten sanitation of user supplied data in a verbose
-+mode diagnostic.  The mention CVE is about using this to inject
-+status-fd lines into the stderr output.  Other harm good as well be
-+done.  Note that GPGME based applications are not affected because
-+GPGME does not fold status output into stderr.
++A zero bss_end_addr signifies there is no .bss section.
 +
-+CVE-id: CVE-2018-12020
-+GnuPG-bug-id: 4012
++CVE: CVE-2018-7550
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commitdiff;h=2a8fcd119eb7c6bb3837fc3669eb1b2dfb31daf8]
 +
-+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=13f135c7a252cc46cff96e75968d92b6dc8dce1b]
-+
++Suggested-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Jack Schwartz <jack.schwartz@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
++Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ g10/mainproc.c | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
++ hw/i386/multiboot.c | 18 ++++++++++--------
++ 1 file changed, 10 insertions(+), 8 deletions(-)
 +
-+diff --git a/g10/mainproc.c b/g10/mainproc.c
-+index d2ceec2fd..a9da08f74 100644
-+--- a/g10/mainproc.c
-++++ b/g10/mainproc.c
-+@@ -851,7 +851,14 @@ proc_plaintext( CTX c, PACKET *pkt )
-+   if (pt->namelen == 8 && !memcmp( pt->name, "_CONSOLE", 8))
-+     log_info (_("Note: sender requested \"for-your-eyes-only\"\n"));
-+   else if (opt.verbose)
-+-    log_info (_("original file name='%.*s'\n"), pt->namelen, pt->name);
-++    {
-++      /* We don't use print_utf8_buffer because that would require a
-++       * string change which we don't want in 2.2.  It is also not
-++       * clear whether the filename is always utf-8 encoded.  */
-++      char *tmp = make_printable_string (pt->name, pt->namelen, 0);
-++      log_info (_("original file name='%.*s'\n"), (int)strlen (tmp), tmp);
-++      xfree (tmp);
-++    }
++diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
++index 46d9c68bf5..bb8d8e4629 100644
++--- a/hw/i386/multiboot.c
+++++ b/hw/i386/multiboot.c
++@@ -233,12 +233,6 @@ int load_multiboot(FWCfgState *fw_cfg,
++         mh_entry_addr = ldl_p(header+i+28);
 + 
-+   free_md_filter_context (&c->mfx);
-+   if (gcry_md_open (&c->mfx.md, 0, 0))
++         if (mh_load_end_addr) {
++-            if (mh_bss_end_addr < mh_load_addr) {
++-                fprintf(stderr, "invalid mh_bss_end_addr address\n");
++-                exit(1);
++-            }
++-            mb_kernel_size = mh_bss_end_addr - mh_load_addr;
++-
++             if (mh_load_end_addr < mh_load_addr) {
++                 fprintf(stderr, "invalid mh_load_end_addr address\n");
++                 exit(1);
++@@ -249,8 +243,16 @@ int load_multiboot(FWCfgState *fw_cfg,
++                 fprintf(stderr, "invalid kernel_file_size\n");
++                 exit(1);
++             }
++-            mb_kernel_size = kernel_file_size - mb_kernel_text_offset;
++-            mb_load_size = mb_kernel_size;
+++            mb_load_size = kernel_file_size - mb_kernel_text_offset;
+++        }
+++        if (mh_bss_end_addr) {
+++            if (mh_bss_end_addr < (mh_load_addr + mb_load_size)) {
+++                fprintf(stderr, "invalid mh_bss_end_addr address\n");
+++                exit(1);
+++            }
+++            mb_kernel_size = mh_bss_end_addr - mh_load_addr;
+++        } else {
+++            mb_kernel_size = mb_load_size;
++         }
++ 
++         /* Valid if mh_flags sets MULTIBOOT_HEADER_HAS_VBE.
 +-- 
 +2.13.3
 +
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.4.bb b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-index d3f1a8f..d6bfaff 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-use-pkgconfig-instead-of-npth-config.patch \
-            file://0003-dirmngr-uses-libgpg-error.patch \
-            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
-+           file://CVE-2018-12020.patch \
-           "
- SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch"
+diff --git a/meta/recipes-devtools/qemu/qemu_2.11.1.bb b/meta/recipes-devtools/qemu/qemu_2.11.1.bb
+index 7de21ac..db7ead7 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.11.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.11.1.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+            file://0012-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch \
+            file://0013-ps2-check-PS2Queue-pointers-in-post_load-routine.patch \
+            file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
++           file://CVE-2018-7550.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
  
 -- 
 2.7.4
