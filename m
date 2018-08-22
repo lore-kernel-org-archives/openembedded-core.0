@@ -1,55 +1,49 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B4FA1792A6
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 143277919C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 13:33:50 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id p10-v6so1463887ljg.2
+	Wed, 22 Aug 2018 13:36:02 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id z185-v6so2702139oia.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 06:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=h2Yub5D9dj3KZol6gsw8qt7VgWMm49+Wh7jJOysXjIY=;
-	b=pVGFYhHG1fcwvRd9ZLfmuWPa7vfGbKzhSh8ah8lYBaOnbQVBqViD/A5p+1xMNJW4Ec
-	oOPT1KSXczgzFdYGekk1D5wA4+fcxlsdJcUmbyq5EE8J7xz9MnW9UOAgXrH0AGryfyim
-	M7faDZBeYrfT3NRStg5n8z2JLzeNdaYM19Gk7OwFmHaFvumcfCHykj2aazyu7dtsSY1v
-	uRqxEqQ32K1qNuVGCYVG1bUj98qD3TFwXMBXGKGb6VncMydXwnmsTsEOm779KaRblHMB
-	g/yCt1mi+l9yMABl1nLKFOdrukb0TLMcOlkQH52rwMXV27wLstKJB/K2YUdynElHFX+U
-	QClA==
+	Wed, 22 Aug 2018 06:36:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=2dwtxnS/G+E9P8NJ+dybZKV8j1I6t+zInrEIlkfTi5o=;
+	b=YZ5tTnq1BU/3OXrSMfpaOQIUOfCu7c/cDPs5+vPbSy1iWd+x+ym+X9vIMX2sw8Ogvg
+	dSOj0jPadiOFBVfGaOYkIsesnEGLz5KDAH5Q5c11nyX453LRNo86WKmDdKrhu2fA2c68
+	PT5DyqdSBEYuAraVH+p8CdMhIqbjhDD8eSXB0O+TvS3AbtXmjApUYvSUyTpjZ3pvVnD2
+	n+HKac6UIV2yS615mENM8ELqf6+tjWQiBLhvUIFfyrBE+zrcwq684/fRYKmQgSi/KKJn
+	2d8pCXIRVmuhBzQpFy0S8Ixrah0r23rEl2eVlx73zVRE1VCoEM/QW8zu7AmOnkei2gbx
+	Q8hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=h2Yub5D9dj3KZol6gsw8qt7VgWMm49+Wh7jJOysXjIY=;
-	b=RyWWPtdkCcot+ZHnT6Q7RqgsDkHDoYpVl4iJw9Y+seL5Xo1XrWWZZaMWc+BLIvLHaS
-	ZvEV+wyqHE3S0NFSR2HSrfg4d1FxwUoqs5erGl4m445TjWtudD5RhhdoXlZooZo1s16v
-	T6fvJz+JJoJOxgUc4w7++9wILKCdrmGZfKau+mBjLXApEaCqkLwiAfgGfqyvgoCQe7Oy
-	b9qofdlXSg055KI6kjO059drDffweCX/aHEAhG0ZlHgjmv8dZZBlZS7ZmwS6bNKpdHY0
-	gbnHyN6TL3YhQuE/VkX1zS7nVEgEYJ+ouPV8FSBQwAWkRE/jdPIEs6jv4kqKK1E5k3ML
-	WdhQ==
-X-Gm-Message-State: AOUpUlEpe9Hr6QjFrOUbnUmTc9HNYWs+yL/oyWXnkbxk3jOSLvtXtiID
-	h5RCxd5i2U+JJAn8H0CxMnZEZHS4lFY2WuaxB7U=
-X-Google-Smtp-Source: AA+uWPz9Mwmko7PJfbfhFsh3ZiMQ0Vk2pXGs8LCcNzb0PYTkorAL+MvSsVlCGhppCW2SE2of21X977HN2ULfWjvGeKw=
-X-Received: by 2002:a2e:8514:: with SMTP id
-	j20-v6mr13265191lji.10.1534944831260; 
-	Wed, 22 Aug 2018 06:33:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180821145858.18459-1-ricardo.ribalda@gmail.com>
-	<10e5ea973727e06604a83299fdd5a8d4cfa2633a.camel@linuxfoundation.org>
-	<CAPybu_3tUu0LKA1gdSj-MFYfhxiHz62wXrP2ivETSMNiWdWyDg@mail.gmail.com>
-	<83a93f3542ad88b01b073b7875839dd2e2c1bf44.camel@linuxfoundation.org>
-	<CAPybu_0+uwJghGGyPEAR1bQEtOcFKeH9P2okdhcUBzJ_E-BLDw@mail.gmail.com>
-	<a031c89ea6cdb522999796f93b8c1a2c8ec8e4c5.camel@linuxfoundation.org>
-	<CAPybu_0QAOWyz9+XGKEADtZqj+wj2Ro7hQx_q8BkX9BBrjPPCg@mail.gmail.com>
-	<e0ffd2ccefb534b1c4171449256c123e9e6b5e55.camel@linuxfoundation.org>
-	<CAPybu_1NAf_p0zfZSPTAbweKYunAyGL_6tLwhao-Kw6be3FX9w@mail.gmail.com>
-In-Reply-To: <CAPybu_1NAf_p0zfZSPTAbweKYunAyGL_6tLwhao-Kw6be3FX9w@mail.gmail.com>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Wed, 22 Aug 2018 15:33:34 +0200
-Message-ID: <CAPybu_0oQ2sjiVTMqXXbvTs+3dagLn8Wps5-AxYhqtjKz-9M6w@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: Fix ldd bug: not a dynamic executable error
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=2dwtxnS/G+E9P8NJ+dybZKV8j1I6t+zInrEIlkfTi5o=;
+	b=dcp4mYCiRaYiuX56+Ak9Imked0wWZM3xAzqsFZPs2xkpjzghtl3gtr1mBwkUrP96XE
+	BMETBJyjYxV3J/9bdF7mMqZ8srLELQURIa3JLC/rzdL1+NlQ/TSvJ+n5rlGvjGZ/tVuC
+	mwmFD1QPxLnmar7FS1Zptvzc75wDFZHVewI2Q3teqS+KkYPlHPwwvMD1/PmZ+3+BKPhi
+	IjqqhHEZm3Eubo2zUto/6jY/nD23G5QI8N0t8WJaKSk4NvJflN9vnUYw2nHs6NkLYMLw
+	yckJLQJWbDVMJwAjOW++0arVbeEqAuQtxeRE5QNwXTN6YngRKBKbNZP6Fg27brdpE6ec
+	As+w==
+X-Gm-Message-State: APzg51A489c3mZYCKyMcpal6JJAlxAlNIkthT6y5pDfC5F0uMC73HZsR
+	qfhk23AT+O46FlrfCmtQHExWszkxj8U=
+X-Google-Smtp-Source: ANB0VdaCF2ff0judXg5CJtQHHLuOgU/RhdU4BudoTI4Ia6XXOAj3Rlm3Pp4cHRlbIS1CLuS2eaalPw==
+X-Received: by 2002:aca:d44a:: with SMTP id
+	l71-v6mr4134220oig.199.1534944962502; 
+	Wed, 22 Aug 2018 06:36:02 -0700 (PDT)
+Received: from dell-laptop.mvista.com ([157.49.3.26])
+	by smtp.gmail.com with ESMTPSA id
+	h186-v6sm3746773oib.55.2018.08.22.06.35.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 22 Aug 2018 06:36:02 -0700 (PDT)
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Aug 2018 19:05:07 +0530
+Message-Id: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [ROCKO][PATCH V2 01/34] sqlite3: CVE-2017-15286
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,117 +56,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 13:33:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 Aug 2018 13:36:03 -0000
 
-Hello
-On Wed, Aug 22, 2018 at 3:28 PM Ricardo Ribalda Delgado
-<ricardo.ribalda@gmail.com> wrote:
->
-> On Wed, Aug 22, 2018 at 3:21 PM <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Wed, 2018-08-22 at 15:13 +0200, Ricardo Ribalda Delgado wrote:
-> > > > Here I see:
-> > > >
-> > > > $ MACHINE=qemux86-64 bitbake glibc -e | grep ^RTLDLIST=
-> > > > RTLDLIST="/lib/ld-linux-x86-64.so.2"
-> > >
-> > > The output of RTLDLIST that I shared was from
-> > > root@qt5122:~# cat /usr/bin/ldd | grep ^RTLD
-> > > RTLDLIST="/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2
-> > > /libx32/ld-linux-x32.so.2"
-> > >
-> > > If I run your command
-> > >
-> > > pokyuser@c10753884d1a:/workdir/build$ bitbake glibc -e | grep
-> > > ^RTLDLIST=
-> > > RTLDLIST=""
-> > >
-> > > If we look at log.do_compile we can see how the the value from ldd is
-> > > rewritten:
-> > >
-> > > LC_ALL=C sed -e 's%@RTLD@%/lib/ld-linux-x86-64.so.2%g' -e
-> > > 's%@VERSION@%2.27%g' -e 's|@PKGVERSION@|(GNU libc) |g' -e
-> > > 's|@REPORT_BUGS_TO@|<http://www.gnu.org/software/libc/bugs.html>|g'
-> > > -e
-> > > 's%@BASH@%/bin/bash%g' -e 's%@TEXTDOMAINDIR@%/usr/share/locale%g' <
-> > > ldd.bash.in | LC_ALL=C sed -f
-> > > ../sysdeps/unix/sysv/linux/x86_64/ldd-rewrite.sed >
-> > > /workdir/build/tmp/work/dbfp4-poky-linux/glibc/2.27-r0/build-x86_64-
-> > > poky-linux/elf/ldd.new
-> > >
-> > > cat git/sysdeps/unix/sysv/linux/x86_64/ldd-rewrite.sed
-> > > /LD_TRACE_LOADED_OBJECTS=1/a\
-> > > add_env="$add_env LD_LIBRARY_VERSION=\\$verify_out"
-> > > s_^\(RTLDLIST=\)\(.*lib\)\(\|64\|x32\)\(/[^/]*\)\(-x86-64\|-
-> > > x32\)\(\.so\.[0-9.]*\)[
-> > > ]*$_\1"\2\4\6 \264\4-x86-64\6 \2x32\4-x32\6 \2\3\4\5\6"_
-> > >
-> > > which basically converts
-> > > /lib/ld-linux-x86-64.so.2
-> > >  into:
-> > >  /lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2 /libx32/ld-linux-
-> > > x32.so.2
-> > >
-> > > I agree that this bug is too obvious for not being noticed for a long
-> > > time. At least I use ldd a lot when thing fails ;)
-> >
-> > If you look at glibc_2.28.bb, it rewrites RTLDLIST if the value passed
-> > in is not empty. Yours is empty, the question is therefore why.
-> >
-> > Can you add -C10 to the command and see the variable history, here its:
-> >
-> > # $RTLDLIST [2 operations]
-> > #   set /media/build3/poky/meta/recipes-core/glibc/glibc-ld.inc:46
-> > #     "${@glibc_dl_info(d)['lddrewrite']}"
-> > #   override[class-nativesdk]:set /media/build3/poky/meta/recipes-core/glibc/glibc-ld.inc:47
-> > #     "${base_libdir}/${@bb.utils.contains('SDK_ARCH', 'x86_64', 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
-> > # pre-expansion value:
-> > #   "${@glibc_dl_info(d)['lddrewrite']}"
-> > RTLDLIST="/lib/ld-linux-x86-64.so.2"
-> >
->
->
-> # $RTLDLIST [2 operations]
-> #   set /workdir/repo/poky/meta/recipes-core/glibc/glibc-ld.inc:46
-> #     "${@glibc_dl_info(d)['lddrewrite']}"
-> #   override[class-nativesdk]:set
-> /workdir/repo/poky/meta/recipes-core/glibc/glibc-ld.inc:47
-> #     "${base_libdir}/${@bb.utils.contains('SDK_ARCH', 'x86_64',
-> 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
-> # pre-expansion value:
-> #   "${@glibc_dl_info(d)['lddrewrite']}"
-> RTLDLIST=""
-> #
->
-> # $RTLDLIST_class-nativesdk
-> #   set /workdir/repo/poky/meta/recipes-core/glibc/glibc-ld.inc:47
-> #     "${base_libdir}/${@bb.utils.contains('SDK_ARCH', 'x86_64',
-> 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
-> RTLDLIST_class-nativesdk="/lib/ld-linux-x86-64.so.2"
->
->
-> I have just upgraded my work build to 19.0.1 / 2.5.1 Let me build ldd
-> again to see if the problem still persists
+CVE-2017-15286: Make sure the tableColumnList() routine of the command-line
+shell does not cause a null-pointer dereference in an error condition.
 
-19.0.1 gives the same results as 19.0.0
+Affects sqlite3 < 3.21
 
+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+---
+ .../sqlite/files/CVE-2017-15286.patch              | 34 ++++++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.20.0.bb      |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2017-15286.patch
 
-RTLDLIST="/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2
-/libx32/ld-linux-x32.so.
-
-
-> > Cheers,
-> >
-> > Richard
->
->
->
-> --
-> Ricardo Ribalda
-
-
-
+diff --git a/meta/recipes-support/sqlite/files/CVE-2017-15286.patch b/meta/recipes-support/sqlite/files/CVE-2017-15286.patch
+new file mode 100644
+index 0000000..954f8d5
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/CVE-2017-15286.patch
+@@ -0,0 +1,34 @@
++SQLite 3.20.1 has a NULL pointer dereference in tableColumnList in shell.c 
++because it fails to consider certain cases where 
++`sqlite3_step(pStmt)==SQLITE_ROW` is false and a data structure 
++is never initialized.
++
++This CVE patch applies neatly on sqlite v3.20.0, hence applying
++for sqlite v3.20.0.
++
++Also, removed hunk of "src/shell.c.in" present in upstream 
++commit https://www.sqlite.org/src/info/5d0ceb8dcdef92cd; as v3.20.0
++does not have src/shell.c.in file.
++
++CVE: CVE-2017-15286
++Upstream-Status: Backport from v3.21
++
++Signed-off-by: drh <name@hidden-address>
++Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
++
++Index: src/shell.c
++==================================================================
++--- src/shell.c
+++++ src/shell.c
++@@ -3799,10 +3799,11 @@
++         isIPK = 0;
++       }
++     }
++   }
++   sqlite3_finalize(pStmt);
+++  if( azCol==0 ) return 0;
++   azCol[0] = 0;
++   azCol[nCol+1] = 0;
++ 
++   /* The decision of whether or not a rowid really needs to be preserved
++   ** is tricky.  We never need to preserve a rowid for a WITHOUT ROWID table
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.20.0.bb b/meta/recipes-support/sqlite/sqlite3_3.20.0.bb
+index e508258..1b82289 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.20.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.20.0.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
+ SRC_URI = "\
+   http://www.sqlite.org/2017/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+   file://sqlite3-fix-CVE-2017-13685.patch \
++  file://CVE-2017-15286.patch \
+   "
+ SRC_URI[md5sum] = "e262a28b73cc330e7e83520c8ce14e4d"
+ SRC_URI[sha256sum] = "3814c6f629ff93968b2b37a70497cfe98b366bf587a2261a56a5f750af6ae6a0"
 -- 
-Ricardo Ribalda
+2.7.4
+
 
