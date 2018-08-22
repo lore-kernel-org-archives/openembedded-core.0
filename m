@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 0681879064;
-	Wed, 22 Aug 2018 12:35:19 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 2EAAE79064;
+	Wed, 22 Aug 2018 12:35:21 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-Date: Wed, 22 Aug 2018 12:35:20 -0000
-Message-ID: <20180822123520.13841.90473@do.openembedded.org>
+Date: Wed, 22 Aug 2018 12:35:22 -0000
+Message-ID: <20180822123522.13840.85835@do.openembedded.org>
 References: <1534938113-12197-1-git-send-email-jkrishnanjanappa@mvista.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <1534938113-12197-1-git-send-email-jkrishnanjanappa@mvista.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY29yZXV0aWxzOiBDVkUtMjAxNy0xODAxOCAocmV2MTAp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY29yZXV0aWxzOiBDVkUtMjAxNy0xODAxOCAocmV2MTIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 12:35:19 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 12:35:21 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: coreutils: CVE-2017-18018 (rev10)
-Revision: 10
+Series: coreutils: CVE-2017-18018 (rev12)
+Revision: 12
 URL   : https://patchwork.openembedded.org/series/13660/
 State : failure
 
