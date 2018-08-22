@@ -1,47 +1,27 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
-	[209.85.208.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 71E496FF78
+Return-Path: <ahedges@student.ethz.ch>
+Received: from edge20.ethz.ch (edge20.ethz.ch [82.130.99.26])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E1B47900D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 06:51:55 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id 203-v6so607583ljj.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 23:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=RKV64qc5JbemV8tEaRgfP8yE8PgIkmly5heNh6sJFW0=;
-	b=bnQgOXR04ydiXBjr0Q1rLvdOlw0rnY6WFbp/NCPuPvOFHIksIYIP+efVR7dpL+ERL5
-	OxKNsdHnijK8te4DqlrRNr6VZZwm+K5vkyKeAfTmu7t1ZSfrQBypFaVgFs2mEbxIAWvg
-	qzTCN5sYfRP4gFg9KJcvyruYu+9OYJp0Rp9IA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=RKV64qc5JbemV8tEaRgfP8yE8PgIkmly5heNh6sJFW0=;
-	b=cWrTdQbrq3WigUHrOO0BsnSyxGWnWkzz8IGDz5lUz5m91w+hdJM1AJAQT6KJaZRw7W
-	lUjOpTc3tnRfhPf5+27bjf0VVN+8lybwXa48ucoTEQoIjHXTESVrjgqVNpxyAiXUioFr
-	22mODmLnVR7MJ5WkryZfniolt2abQr+yNGdE5Ut5tHC0bt2eSrLYX6AwW1CH+EAll744
-	I8M7I6fmnZPf/kp12blv22aIoXmOyaHk+Vr2tNvkddp1XI8lvZDn3B6Zbp1Cx332dWdx
-	qxyAEWfkwjm4DI3Ws/Bx1m1gEjvROGBFgfGCyhlZyShNvZoNefyjwGCvup36mXL6zR6q
-	AQBA==
-X-Gm-Message-State: APzg51AUISg1aMz17iJEKwBWu9uxurFUr9r0rX03IO+cKLgw3TO1pfX1
-	froR89iyiyWxT5LVOdRvuojmZKPPf6zY5GtlL9oxeA==
-X-Google-Smtp-Source: ANB0VdZ1vKlS6u7COHS1RoPcCYhfjpqg2vCHH+EcOZB5GtIkY4Krsn4iqKK0+bgnl5F82pMYqveax742RbghNvQF+mw=
-X-Received: by 2002:a2e:658a:: with SMTP id
-	e10-v6mr2055685ljf.99.1534920715921; 
-	Tue, 21 Aug 2018 23:51:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <7AA7B88A6FC2B84F9AA5EF03A8A6FCB201348A030B@ALA-MBD.corp.ad.wrs.com>
-	<bebc4ced-47eb-9cb8-4df5-4716a2dd4d11@windriver.com>
-In-Reply-To: <bebc4ced-47eb-9cb8-4df5-4716a2dd4d11@windriver.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Wed, 22 Aug 2018 08:51:44 +0200
-Message-ID: <CAP71WjxgSESvWm=FO=O0cmY+UE82OEc3L=2ioJp9K4xuhZ_hRQ@mail.gmail.com>
-To: randy.macleod@windriver.com
-Cc: richard.purdie@intel.com, jair.de.jesus.gonzalez.plascencia@intel.com,
-	Patches and discussions about the oe-core layer
+	Wed, 22 Aug 2018 07:12:17 +0000 (UTC)
+Received: from CAS10.d.ethz.ch (172.31.38.210) by edge20.ethz.ch
+	(82.130.99.26) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Wed, 22 Aug 2018 09:10:59 +0200
+Received: from MBX215.d.ethz.ch ([fe80::8572:f435:81be:9baf]) by
+	CAS10.d.ethz.ch ([fe80::cce:fc66:7b56:a06a%10]) with mapi id
+	14.03.0415.000; Wed, 22 Aug 2018 09:10:53 +0200
+From: "Hedges  Alexander" <ahedges@student.ethz.ch>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Yocto Project Bug 12372 - Automate the execution of pTest with LAVA
+Thread-Topic: [PATCH v2] u-boot: Fix inconsistent indentation
+Thread-Index: AdQ55oX+O3jFHBVkRneJ/inyzAqA3Q==
+Date: Wed, 22 Aug 2018 07:10:52 +0000
+Message-ID: <5D23E7CAADD3BE4A97642792FFC691C561C98CEE@MBX215.d.ethz.ch>
+Accept-Language: en-US, de-CH
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [129.132.139.8]
+MIME-Version: 1.0
+Subject: [PATCH v2] u-boot: Fix inconsistent indentation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,165 +34,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 06:51:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 Aug 2018 07:12:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-hi,
-
-On Wed, Aug 22, 2018 at 4:25 AM Randy MacLeod
-<randy.macleod@windriver.com> wrote:
->
-> On 08/21/2018 11:04 AM, Wang, Yang (Young) wrote:
-> > Hi All,
-> >
-> > I'm working on this ticket:
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=12372
->
-> Thanks for investigating the bug/enhancement and posting your thoughts.
-> I'm jumping in without much expertise to try to get the ball rolling.
->
-> >
-> > As far as I know, the following are all true nowadays:
-> > - Ptest needs to be run on real hardware and it takes few hours to finish
-> > - Ptest can be run within OEQA, it can also be run independently
-> > - LAVA is a good open source test  framework which:
-> >     - can manage both real hardware and different kinds of simulators as the test devices
-> >     - provides well managed logging system and test reports
-> >
-> > How to automatically run Ptest? I think running it with LAVA is a good solution, but ...
-> >
-> > LAVA is running as a server which can manage test jobs submitted to it, here is a typical LAVA job:
-> > https://staging.validation.linaro.org/scheduler/job/231942/definition
-> > As you can see, it defines the device type, test images which will used, the test cases and a lot of others.
->
-> That's a good clear format.
->
-> I believe that what people are thinking is that we'd have:
->
-> device_type: x86
->
-> job_name: x86_64 oeqa
-> ...
->
-> actions:
-> - deploy:
->   ...
->
-> - boot:
-> ...
->
-> - test:
->      timeout:
->        minutes: 2
->      definitions:
->   << some thing that makes the target and lava server wait for
->      oeqa to run >>
->        name: oeqa-test
->
-> >
-> > So the typical automatic way to run a test through LAVA is to write a script which use a LAVA job template, replace images with the expected ones, and then submit it to LAVA though a command, for example:
-> > $ lava-tool submit-job http://<user>@<lava-server> x86_64_ job_oeqa-ptest.yaml
-
-This is more or less something that we are doing as part of our CI
-loop. The process is the following:
-
-1. fetch layers updates
-2. make a new build for one or more $MACHINE
-3. use LAVA job template to generate an actual LAVA job
-4. run this LAVA job on the Linaro LAVA Board farm
-
-There is no integration into oe-core / bitbake, it is run outside of
-the OE builds.
-
-You can check our ptest LAVA job from our most recent build:
-https://validation.linaro.org/scheduler/job/1890442
-
-The generated LAVA job is:
-https://validation.linaro.org/scheduler/job/1890442/definition
-
-The job deals with all the flashing/management of the device to test
-(a dragonboard 820c in this specific example), so there is a bit of
-boiler plate , but the base template for running ptest can be found
-here:
-
-https://git.linaro.org/ci/job/configs.git/tree/lt-qcom/lava-job-definitions/boards/template-ptest.yaml
-
-which itself points the the LAVA job definition for ptest:
-
-https://git.linaro.org/qa/test-definitions.git/tree/automated/linux/ptest
-
-This is where LAVA communicates and manages how to run ptests and get
-status from each test.
-
-And finally... you can view the test results for this ptest run in LAVA:
-
-https://validation.linaro.org/results/1890442/0_linux-ptest
-
->
-> That would still work given the above oeqa job.
->
-> No doubt there's additional glue code that would
-> be nice to write that would allow automatically creating
-> the lava yaml that boots the system into a state where oeqa
-> code takes over.
-
-I think most of what needs to be created is there in all the links I
-shared above. This is what we came up with , and it is not integrated
-with oeqa. But this can be used as a baseline at least.
-
->
-> I've never used it and only just found the code but
-> I bet that adding another controller to:
->
-> git://git.yoctoproject.org/meta-yocto
->
-> $ ls  meta-yocto-bsp/lib/oeqa/controllers/
-> beaglebonetarget.py  edgeroutertarget.py  grubtarget.py  __init__.py
->
-> is what would make sense.
->
-> > This command will return a job id (take #231942 as an example), and then the script can get all logs and reports based on LAVA server address and this job id, for example:
-> > - execution log: https://staging.validation.linaro.org/scheduler/job/231942
-> > - test report: https://staging.validation.linaro.org/results/231942/0_smoke-tests
->
-> Suspect that this is were the design intent diverges.
->
-> Usually lava runs the whole system, and I think we just
-> want it to manage the hardware and then step out of the way.
-> There'd likely be an api to allow oeqa and lava to communicate
-> so that for example oeqa could tell lava that the tests were done.
-
-Yes, LAVA runs the whole system. Including management of devices to
-test, reboot, flashing.. It also has a LAVA test definition format
-that must be used. So to benefit from LAVA, a LAVA instance must be
-setup, and then we need to have lab instances where boards are
-attached to. A LAVA instance can have several labs, and labs can be
-spread physically. LAVA must know how to deal with each
-hardware/machine (e.g. how to power it on, get a serial console). The
-linux rootfs can be flashed into onboard memory, or NFS can be used as
-well. That is left to the JOB writer.
-
->
-> All lava would know is that an oeqa test ran and it's completion
-> status.
->
-> > So, as far as I can tell, it may not be an appropriate way to integrate LAVA test into a bitbake command as we run it with simple test harness, LAVA is an advanced test framework and it manages all jobs submit to it well.
-> >
-> > Please comment if you have better idea about this ticket.
->
-> I'm really going on a few conversations that I've had or chats
-> on IRC so hopefully someone else can step up and comment on both Young's
-> initial email and my interpretation of where we're trying to
-> get to.
->
-> Thanks,
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+From 23438137cea726c9144db29b593b7034f5ac2408 Mon Sep 17 00:00:00 2001=0A=
+From: Alexander Hedges <ahedges@ethz.ch>=0A=
+Date: Tue, 21 Aug 2018 19:17:50 +0200=0A=
+=0A=
+This removes some extra spaces.=0A=
+=0A=
+Signed-off-by: Alexander Hedges <ahedges@ethz.ch>=0A=
+---=0A=
+As a side note, doing the development linux-style on the mailing list via p=
+atches=0A=
+is a real pain and off-putting for anyone who did not grow up doing develop=
+ment =0A=
+this way. Please consider accepting pull requests via github (or gitlab or =
+whatever)=0A=
+in the future.=0A=
+=0A=
+Regards,=0A=
+Alexander Hedges=0A=
+=0A=
+ meta/recipes-bsp/u-boot/u-boot.inc | 54 +++++++++++++++---------------=0A=
+ 1 file changed, 27 insertions(+), 27 deletions(-)=0A=
+=0A=
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u=
+-boot.inc=0A=
+index 95c2f4db14..48fbc57215 100644=0A=
+--- a/meta/recipes-bsp/u-boot/u-boot.inc=0A=
++++ b/meta/recipes-bsp/u-boot/u-boot.inc=0A=
+@@ -231,7 +231,7 @@ do_deploy () {=0A=
+         rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}=0A=
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}=0A=
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}=0A=
+-   fi=0A=
++    fi=0A=
+ =0A=
+     if [ -n "${UBOOT_ELF}" ]=0A=
+     then=0A=
+@@ -263,32 +263,32 @@ do_deploy () {=0A=
+ =0A=
+      if [ -n "${SPL_BINARY}" ]=0A=
+      then=0A=
+-         if [ -n "${UBOOT_CONFIG}" ]=0A=
+-         then=0A=
+-             for config in ${UBOOT_MACHINE}; do=0A=
+-                 i=3D$(expr $i + 1);=0A=
+-                 for type in ${UBOOT_CONFIG}; do=0A=
+-                     j=3D$(expr $j + 1);=0A=
+-                     if [ $j -eq $i ]=0A=
+-                     then=0A=
+-                         install -m 644 ${B}/${config}/${SPL_BINARY} ${DEP=
+LOYDIR}/${SPL_IMAGE}-${type}-${PV}-${PR}=0A=
+-                         rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}=
+/${SPL_SYMLINK}-${type}=0A=
+-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
+IR}/${SPL_BINARYNAME}-${type}=0A=
+-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
+IR}/${SPL_BINARYNAME}=0A=
+-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
+IR}/${SPL_SYMLINK}-${type}=0A=
+-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
+IR}/${SPL_SYMLINK}=0A=
+-                     fi=0A=
+-                 done=0A=
+-                 unset  j=0A=
+-             done=0A=
+-             unset  i=0A=
+-         else=0A=
+-             install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}=
+=0A=
+-             rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLI=
+NK}=0A=
+-             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}=0A=
+-             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}=0A=
+-         fi=0A=
+-     fi=0A=
++        if [ -n "${UBOOT_CONFIG}" ]=0A=
++        then=0A=
++            for config in ${UBOOT_MACHINE}; do=0A=
++                i=3D$(expr $i + 1);=0A=
++                for type in ${UBOOT_CONFIG}; do=0A=
++                    j=3D$(expr $j + 1);=0A=
++                    if [ $j -eq $i ]=0A=
++                    then=0A=
++                        install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPL=
+OYDIR}/${SPL_IMAGE}-${type}-${PV}-${PR}=0A=
++                        rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/=
+${SPL_SYMLINK}-${type}=0A=
++                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
+R}/${SPL_BINARYNAME}-${type}=0A=
++                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
+R}/${SPL_BINARYNAME}=0A=
++                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
+R}/${SPL_SYMLINK}-${type}=0A=
++                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
+R}/${SPL_SYMLINK}=0A=
++                    fi=0A=
++                done=0A=
++                unset  j=0A=
++            done=0A=
++            unset  i=0A=
++        else=0A=
++            install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}=0A=
++            rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLIN=
+K}=0A=
++            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}=0A=
++            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}=0A=
++        fi=0A=
++    fi=0A=
+ =0A=
+ =0A=
+     if [ -n "${UBOOT_ENV}" ]=0A=
+-- =0A=
+2.17.1=0A=
 
