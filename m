@@ -1,49 +1,24 @@
-Return-Path: <ankur.tyagi85@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B23E06011A
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 88558750F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:11:50 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id z185-v6so1335409oia.5
+	Wed, 22 Aug 2018 08:37:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7M8bDJI030363
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 01:11:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=01xyIG/8xvSmJD/fUWIncDTjtWKe0bg6dPjXNkFXdKI=;
-	b=h5HuzrIWRbotoIGrFA9abTlzjJwmeyQGTUNb42jPZ6l8cJ58Sbpwmf8EaiGwCHzdZy
-	bQHxjA5p+1sQHsI/ctvXu+H8UZd7RgBRNPCY3XZAXM4/+k0rtpAPWWWWibPYwhhPQFLi
-	izPtSOWF5wi65EFezUkZ9WGFx12bt+kcOz6uC3P1Zqb50IF3JVnVGnEKQ/VMnnxvzel7
-	syRIB1IXY0cBsYW9+XGN6hvthCa1QCPrpmJrScsR3iZGPBKnMjzTezUcl+xhTlmKiTPu
-	6mWW3Evw1dPafx1crhqlTdZYMTwEilGKzp8fQTGm5sCfhJwxvzUodZ1D5FFvaC0l9w4P
-	w6YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=01xyIG/8xvSmJD/fUWIncDTjtWKe0bg6dPjXNkFXdKI=;
-	b=EsHkKsBI6rDe/dTjokzLq1CmZYIOs8wBVkRuR9Ga5rrSsV2M1ncZC1XrcrWzjYWBKr
-	O6/soLK9B+2butCdtVQEWdDrtAf1Igkgy7mT5FjzYIRSt/SowdxlEc5Re92DiV9A4lNC
-	ldaYZGKYEtPcyDycnY22bQZreMENy0zvMlapm96w4qZf3LpU0FfJG6qsCZLzupBH7geS
-	ups5jq844a6XCmYsXKMxy0BGrE9BVIqpNm8oYj9BnOIWksGRE81T/hNPdWCTtAaKxQcA
-	wVqQtgkTGpGDXM0I4RM4pQYdM0xoXxRZ7PwfQOMzpzyhkdnirh/NmyVduKQF9YTZA+XL
-	QoWA==
-X-Gm-Message-State: APzg51BGmq5flWVNbxgug2j0YqgridI9KLXOXSbAPRDuWwCjSQ5gFrWh
-	fN/2/Hs4DqYNkGqLxS39OKEpjibA334VnjClPaQ=
-X-Google-Smtp-Source: ANB0VdYBCOevUf/bGUFhw5naB+nNyz2f7tqW7vm4SS9XCliAK1ILgcywPG7c5fQ3c5OSk5A0JHZbl8Vj/GqPda4j9aE=
-X-Received: by 2002:aca:ebcc:: with SMTP id
-	j195-v6mr3163603oih.298.1534925511445; 
-	Wed, 22 Aug 2018 01:11:51 -0700 (PDT)
+	Wed, 22 Aug 2018 01:37:13 -0700
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
+	Wed, 22 Aug 2018 01:37:12 -0700
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Aug 2018 01:37:12 -0700
+Message-ID: <20180822083712.46032-1-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-References: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
-	<8a3a6d85-3c46-3144-9530-7487ba773a2f@windriver.com>
-	<CADySD0GXj7gKC0VsXzKprf2e1VapwHwCVnZs5_9W-4ekwGVZXg@mail.gmail.com>
-In-Reply-To: <CADySD0GXj7gKC0VsXzKprf2e1VapwHwCVnZs5_9W-4ekwGVZXg@mail.gmail.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Wed, 22 Aug 2018 20:11:38 +1200
-Message-ID: <CADySD0Ef8wzLji9LLmDZ=Yp8e5mfzupnBkEHh6QCpUKfBg_oWg@mail.gmail.com>
-To: Qi.Chen@windriver.com
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [rocko][sumo][master][PATCH 1/2] bitbake.conf: add PERSISTENT_LOG_DIR variable
+Subject: [PATCH] cryptodev-linux: Fixes a kernel crash observed with cipher-gcm test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,157 +31,474 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 08:11:50 -0000
-Content-Type: multipart/alternative; boundary="000000000000ddd42e057401b18a"
+X-List-Received-Date: Wed, 22 Aug 2018 08:37:12 -0000
+Content-Type: text/plain
 
---000000000000ddd42e057401b18a
-Content-Type: text/plain; charset="UTF-8"
+The crypto API for AEAD ciphers changed in recent kernels, so that
+associated data is now part of both source and destination scatter
+gathers. The source, destination and associated data buffers need
+to be stiched accordingly for the operations to succeed.
 
-Ping
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+---
+ .../cryptodev/cryptodev-module_1.9.bb              |   3 +
+ ...-split-big-function-to-simplify-maintaina.patch | 250 +++++++++++++++++++++
+ ...g-relocate-code-to-simplify-later-patches.patch |  64 ++++++
+ ...ert-to-new-AEAD-interface-in-kernels-v4.2.patch | 102 +++++++++
+ 4 files changed, 419 insertions(+)
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0001-refactoring-split-big-function-to-simplify-maintaina.patch
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0002-refactoring-relocate-code-to-simplify-later-patches.patch
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0003-convert-to-new-AEAD-interface-in-kernels-v4.2.patch
 
-Regards
-Ankur
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
+index 6052650c95..ed4327d40d 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
+@@ -11,6 +11,9 @@ SRC_URI += " \
+ file://0001-Disable-installing-header-file-provided-by-another-p.patch \
+ file://0001-ioctl.c-Fix-build-with-linux-4.13.patch \
+ file://0001-ioctl.c-Fix-build-with-linux-4.17.patch \
++file://0001-refactoring-split-big-function-to-simplify-maintaina.patch \
++file://0002-refactoring-relocate-code-to-simplify-later-patches.patch \
++file://0003-convert-to-new-AEAD-interface-in-kernels-v4.2.patch \
+ "
+ 
+ EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
+diff --git a/meta/recipes-kernel/cryptodev/files/0001-refactoring-split-big-function-to-simplify-maintaina.patch b/meta/recipes-kernel/cryptodev/files/0001-refactoring-split-big-function-to-simplify-maintaina.patch
+new file mode 100644
+index 0000000000..ed5b7e44b3
+--- /dev/null
++++ b/meta/recipes-kernel/cryptodev/files/0001-refactoring-split-big-function-to-simplify-maintaina.patch
+@@ -0,0 +1,250 @@
++From 20dcf071bc3076ee7db9d603cfbe6a06e86c7d5f Mon Sep 17 00:00:00 2001
++From: Cristian Stoica <cristian.stoica@nxp.com>
++Date: Thu, 4 May 2017 15:06:20 +0300
++Subject: [PATCH 1/3] refactoring: split big function to simplify maintainance
++
++The setup of auth_buf in tls and aead is now duplicated but this
++is temporary and allows necessary corrections for the aead case
++with v4.2+ kernels.
++
++Signed-off-by: Cristian Stoica <cristian.stoica@nxp.com>
++
++Upstream-Status: Backported
++
++Commit ID: 20dcf071bc3076ee7db9d603c
++
++Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
++---
++ authenc.c | 197 ++++++++++++++++++++++++++++++++++++++++----------------------
++ 1 file changed, 126 insertions(+), 71 deletions(-)
++
++diff --git a/authenc.c b/authenc.c
++index 1bd7377..28eb0f9 100644
++--- a/authenc.c
+++++ b/authenc.c
++@@ -609,96 +609,151 @@ auth_n_crypt(struct csession *ses_ptr, struct kernel_crypt_auth_op *kcaop,
++ 	return 0;
++ }
++ 
++-/* This is the main crypto function - zero-copy edition */
++-static int
++-__crypto_auth_run_zc(struct csession *ses_ptr, struct kernel_crypt_auth_op *kcaop)
+++static int crypto_auth_zc_srtp(struct csession *ses_ptr, struct kernel_crypt_auth_op *kcaop)
++ {
++-	struct scatterlist *dst_sg, *auth_sg, *src_sg;
+++	struct scatterlist *dst_sg, *auth_sg;
++ 	struct crypt_auth_op *caop = &kcaop->caop;
++-	int ret = 0;
+++	int ret;
++ 
++-	if (caop->flags & COP_FLAG_AEAD_SRTP_TYPE) {
++-		if (unlikely(ses_ptr->cdata.init != 0 &&
++-		             (ses_ptr->cdata.stream == 0 ||
++-			      ses_ptr->cdata.aead != 0))) {
++-			derr(0, "Only stream modes are allowed in SRTP mode (but not AEAD)");
++-			return -EINVAL;
++-		}
+++	if (unlikely(ses_ptr->cdata.init != 0 &&
+++		(ses_ptr->cdata.stream == 0 || ses_ptr->cdata.aead != 0))) {
+++		derr(0, "Only stream modes are allowed in SRTP mode (but not AEAD)");
+++		return -EINVAL;
+++	}
++ 
++-		ret = get_userbuf_srtp(ses_ptr, kcaop, &auth_sg, &dst_sg);
++-		if (unlikely(ret)) {
++-			derr(1, "get_userbuf_srtp(): Error getting user pages.");
++-			return ret;
++-		}
+++	ret = get_userbuf_srtp(ses_ptr, kcaop, &auth_sg, &dst_sg);
+++	if (unlikely(ret)) {
+++		derr(1, "get_userbuf_srtp(): Error getting user pages.");
+++		return ret;
+++	}
++ 
++-		ret = srtp_auth_n_crypt(ses_ptr, kcaop, auth_sg, caop->auth_len,
++-			   dst_sg, caop->len);
+++	ret = srtp_auth_n_crypt(ses_ptr, kcaop, auth_sg, caop->auth_len,
+++			dst_sg, caop->len);
++ 
++-		release_user_pages(ses_ptr);
++-	} else { /* TLS and normal cases. Here auth data are usually small
++-	          * so we just copy them to a free page, instead of trying
++-	          * to map them.
++-	          */
++-		unsigned char *auth_buf = NULL;
++-		struct scatterlist tmp;
+++	release_user_pages(ses_ptr);
++ 
++-		if (unlikely(caop->auth_len > PAGE_SIZE)) {
++-			derr(1, "auth data len is excessive.");
++-			return -EINVAL;
++-		}
+++	return ret;
+++}
++ 
++-		auth_buf = (char *)__get_free_page(GFP_KERNEL);
++-		if (unlikely(!auth_buf)) {
++-			derr(1, "unable to get a free page.");
++-			return -ENOMEM;
++-		}
+++static int crypto_auth_zc_tls(struct csession *ses_ptr, struct kernel_crypt_auth_op *kcaop)
+++{
+++	struct crypt_auth_op *caop = &kcaop->caop;
+++	struct scatterlist *dst_sg, *auth_sg;
+++	unsigned char *auth_buf = NULL;
+++	struct scatterlist tmp;
+++	int ret;
++ 
++-		if (caop->auth_src && caop->auth_len > 0) {
++-			if (unlikely(copy_from_user(auth_buf, caop->auth_src, caop->auth_len))) {
++-				derr(1, "unable to copy auth data from userspace.");
++-				ret = -EFAULT;
++-				goto free_auth_buf;
++-			}
+++	if (unlikely(ses_ptr->cdata.aead != 0)) {
+++		return -EINVAL;
+++	}
+++
+++	if (unlikely(caop->auth_len > PAGE_SIZE)) {
+++		derr(1, "auth data len is excessive.");
+++		return -EINVAL;
+++	}
+++
+++	auth_buf = (char *)__get_free_page(GFP_KERNEL);
+++	if (unlikely(!auth_buf)) {
+++		derr(1, "unable to get a free page.");
+++		return -ENOMEM;
+++	}
++ 
++-			sg_init_one(&tmp, auth_buf, caop->auth_len);
++-			auth_sg = &tmp;
++-		} else {
++-			auth_sg = NULL;
+++	if (caop->auth_src && caop->auth_len > 0) {
+++		if (unlikely(copy_from_user(auth_buf, caop->auth_src, caop->auth_len))) {
+++			derr(1, "unable to copy auth data from userspace.");
+++			ret = -EFAULT;
+++			goto free_auth_buf;
++ 		}
++ 
++-		if (caop->flags & COP_FLAG_AEAD_TLS_TYPE && ses_ptr->cdata.aead == 0) {
++-			ret = get_userbuf_tls(ses_ptr, kcaop, &dst_sg);
++-			if (unlikely(ret)) {
++-				derr(1, "get_userbuf_tls(): Error getting user pages.");
++-				goto free_auth_buf;
++-			}
+++		sg_init_one(&tmp, auth_buf, caop->auth_len);
+++		auth_sg = &tmp;
+++	} else {
+++		auth_sg = NULL;
+++	}
++ 
++-			ret = tls_auth_n_crypt(ses_ptr, kcaop, auth_sg, caop->auth_len,
++-				   dst_sg, caop->len);
++-		} else {
++-			if (unlikely(ses_ptr->cdata.init == 0 ||
++-			             (ses_ptr->cdata.stream == 0 &&
++-				      ses_ptr->cdata.aead == 0))) {
++-				derr(0, "Only stream and AEAD ciphers are allowed for authenc");
++-				ret = -EINVAL;
++-				goto free_auth_buf;
++-			}
+++	ret = get_userbuf_tls(ses_ptr, kcaop, &dst_sg);
+++	if (unlikely(ret)) {
+++		derr(1, "get_userbuf_tls(): Error getting user pages.");
+++		goto free_auth_buf;
+++	}
++ 
++-			ret = get_userbuf(ses_ptr, caop->src, caop->len, caop->dst, kcaop->dst_len,
++-					  kcaop->task, kcaop->mm, &src_sg, &dst_sg);
++-			if (unlikely(ret)) {
++-				derr(1, "get_userbuf(): Error getting user pages.");
++-				goto free_auth_buf;
++-			}
+++	ret = tls_auth_n_crypt(ses_ptr, kcaop, auth_sg, caop->auth_len,
+++			dst_sg, caop->len);
+++	release_user_pages(ses_ptr);
+++
+++free_auth_buf:
+++	free_page((unsigned long)auth_buf);
+++	return ret;
+++}
+++
+++static int crypto_auth_zc_aead(struct csession *ses_ptr, struct kernel_crypt_auth_op *kcaop)
+++{
+++	struct scatterlist *dst_sg, *auth_sg, *src_sg;
+++	struct crypt_auth_op *caop = &kcaop->caop;
+++	unsigned char *auth_buf = NULL;
+++	struct scatterlist tmp;
+++	int ret;
++ 
++-			ret = auth_n_crypt(ses_ptr, kcaop, auth_sg, caop->auth_len,
++-					   src_sg, dst_sg, caop->len);
+++	if (unlikely(ses_ptr->cdata.init == 0 ||
+++		(ses_ptr->cdata.stream == 0 && ses_ptr->cdata.aead == 0))) {
+++		derr(0, "Only stream and AEAD ciphers are allowed for authenc");
+++		return -EINVAL;
+++	}
+++
+++	if (unlikely(caop->auth_len > PAGE_SIZE)) {
+++		derr(1, "auth data len is excessive.");
+++		return -EINVAL;
+++	}
+++
+++	auth_buf = (char *)__get_free_page(GFP_KERNEL);
+++	if (unlikely(!auth_buf)) {
+++		derr(1, "unable to get a free page.");
+++		return -ENOMEM;
+++	}
+++
+++	if (caop->auth_src && caop->auth_len > 0) {
+++		if (unlikely(copy_from_user(auth_buf, caop->auth_src, caop->auth_len))) {
+++			derr(1, "unable to copy auth data from userspace.");
+++			ret = -EFAULT;
+++			goto free_auth_buf;
++ 		}
++ 
++-		release_user_pages(ses_ptr);
+++		sg_init_one(&tmp, auth_buf, caop->auth_len);
+++		auth_sg = &tmp;
+++	} else {
+++		auth_sg = NULL;
+++	}
+++
+++	ret = get_userbuf(ses_ptr, caop->src, caop->len, caop->dst, kcaop->dst_len,
+++			kcaop->task, kcaop->mm, &src_sg, &dst_sg);
+++	if (unlikely(ret)) {
+++		derr(1, "get_userbuf(): Error getting user pages.");
+++		goto free_auth_buf;
+++	}
+++
+++	ret = auth_n_crypt(ses_ptr, kcaop, auth_sg, caop->auth_len,
+++			src_sg, dst_sg, caop->len);
+++
+++	release_user_pages(ses_ptr);
++ 
++ free_auth_buf:
++-		free_page((unsigned long)auth_buf);
+++	free_page((unsigned long)auth_buf);
+++
+++	return ret;
+++}
+++
+++static int
+++__crypto_auth_run_zc(struct csession *ses_ptr, struct kernel_crypt_auth_op *kcaop)
+++{
+++	struct crypt_auth_op *caop = &kcaop->caop;
+++	int ret;
+++
+++	if (caop->flags & COP_FLAG_AEAD_SRTP_TYPE) {
+++		ret = crypto_auth_zc_srtp(ses_ptr, kcaop);
+++	} else if (caop->flags & COP_FLAG_AEAD_TLS_TYPE) {
+++		ret = crypto_auth_zc_tls(ses_ptr, kcaop);
+++	} else {
+++		ret = crypto_auth_zc_aead(ses_ptr, kcaop);
++ 	}
++ 
++ 	return ret;
++-- 
++2.11.0
++
+diff --git a/meta/recipes-kernel/cryptodev/files/0002-refactoring-relocate-code-to-simplify-later-patches.patch b/meta/recipes-kernel/cryptodev/files/0002-refactoring-relocate-code-to-simplify-later-patches.patch
+new file mode 100644
+index 0000000000..ceb4f83554
+--- /dev/null
++++ b/meta/recipes-kernel/cryptodev/files/0002-refactoring-relocate-code-to-simplify-later-patches.patch
+@@ -0,0 +1,64 @@
++From c2bf0e42b1d9fda60cde4a3a682784d349ef1c0b Mon Sep 17 00:00:00 2001
++From: Cristian Stoica <cristian.stoica@nxp.com>
++Date: Thu, 4 May 2017 15:06:21 +0300
++Subject: [PATCH 2/3] refactoring: relocate code to simplify later patches
++
++This code move will simplify the conversion to new AEAD interface in
++next patches
++
++Signed-off-by: Cristian Stoica <cristian.stoica@nxp.com>
++
++Upstream-Status: Backported
++
++Commit ID: c2bf0e42b1d9fda
++
++Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
++---
++ authenc.c | 17 +++++++++--------
++ 1 file changed, 9 insertions(+), 8 deletions(-)
++
++diff --git a/authenc.c b/authenc.c
++index 28eb0f9..95727b4 100644
++--- a/authenc.c
+++++ b/authenc.c
++@@ -711,11 +711,18 @@ static int crypto_auth_zc_aead(struct csession *ses_ptr, struct kernel_crypt_aut
++ 		return -ENOMEM;
++ 	}
++ 
+++	ret = get_userbuf(ses_ptr, caop->src, caop->len, caop->dst, kcaop->dst_len,
+++			kcaop->task, kcaop->mm, &src_sg, &dst_sg);
+++	if (unlikely(ret)) {
+++		derr(1, "get_userbuf(): Error getting user pages.");
+++		goto free_auth_buf;
+++	}
+++
++ 	if (caop->auth_src && caop->auth_len > 0) {
++ 		if (unlikely(copy_from_user(auth_buf, caop->auth_src, caop->auth_len))) {
++ 			derr(1, "unable to copy auth data from userspace.");
++ 			ret = -EFAULT;
++-			goto free_auth_buf;
+++			goto free_pages;
++ 		}
++ 
++ 		sg_init_one(&tmp, auth_buf, caop->auth_len);
++@@ -724,16 +731,10 @@ static int crypto_auth_zc_aead(struct csession *ses_ptr, struct kernel_crypt_aut
++ 		auth_sg = NULL;
++ 	}
++ 
++-	ret = get_userbuf(ses_ptr, caop->src, caop->len, caop->dst, kcaop->dst_len,
++-			kcaop->task, kcaop->mm, &src_sg, &dst_sg);
++-	if (unlikely(ret)) {
++-		derr(1, "get_userbuf(): Error getting user pages.");
++-		goto free_auth_buf;
++-	}
++-
++ 	ret = auth_n_crypt(ses_ptr, kcaop, auth_sg, caop->auth_len,
++ 			src_sg, dst_sg, caop->len);
++ 
+++free_pages:
++ 	release_user_pages(ses_ptr);
++ 
++ free_auth_buf:
++-- 
++2.11.0
++
+diff --git a/meta/recipes-kernel/cryptodev/files/0003-convert-to-new-AEAD-interface-in-kernels-v4.2.patch b/meta/recipes-kernel/cryptodev/files/0003-convert-to-new-AEAD-interface-in-kernels-v4.2.patch
+new file mode 100644
+index 0000000000..f494e011fc
+--- /dev/null
++++ b/meta/recipes-kernel/cryptodev/files/0003-convert-to-new-AEAD-interface-in-kernels-v4.2.patch
+@@ -0,0 +1,102 @@
++From a705360197260d28535746ae98c461ba2cfb7a9e Mon Sep 17 00:00:00 2001
++From: Cristian Stoica <cristian.stoica@nxp.com>
++Date: Thu, 4 May 2017 15:06:22 +0300
++Subject: [PATCH 3/3] convert to new AEAD interface in kernels v4.2+
++
++The crypto API for AEAD ciphers changed in recent kernels so that
++associated data is now part of both source and destination scatter
++gathers. The source, destination and associated data buffers need
++to be stiched accordingly for the operations to succeed:
++
++src_sg: auth_buf + src_buf
++dst_sg: auth_buf + (dst_buf + tag space)
++
++This patch fixes a kernel crash observed with cipher-gcm test.
++
++See also kernel patch: 81c4c35eb61a69c229871c490b011c1171511d5a
++    crypto: ccm - Convert to new AEAD interface
++
++Reported-by: Phil Sutter <phil@nwl.cc>
++Signed-off-by: Cristian Stoica <cristian.stoica@nxp.com>
++
++Upstream-Status: Backported
++
++Commit ID: a705360197260d2853574
++
++Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
++---
++ authenc.c | 40 ++++++++++++++++++++++++++++++++++++++--
++ 1 file changed, 38 insertions(+), 2 deletions(-)
++
++diff --git a/authenc.c b/authenc.c
++index 95727b4..692951f 100644
++--- a/authenc.c
+++++ b/authenc.c
++@@ -688,12 +688,20 @@ free_auth_buf:
++ 
++ static int crypto_auth_zc_aead(struct csession *ses_ptr, struct kernel_crypt_auth_op *kcaop)
++ {
++-	struct scatterlist *dst_sg, *auth_sg, *src_sg;
+++	struct scatterlist *dst_sg;
+++	struct scatterlist *src_sg;
++ 	struct crypt_auth_op *caop = &kcaop->caop;
++ 	unsigned char *auth_buf = NULL;
++-	struct scatterlist tmp;
++ 	int ret;
++ 
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 2, 0))
+++	struct scatterlist tmp;
+++	struct scatterlist *auth_sg;
+++#else
+++	struct scatterlist auth1[2];
+++	struct scatterlist auth2[2];
+++#endif
+++
++ 	if (unlikely(ses_ptr->cdata.init == 0 ||
++ 		(ses_ptr->cdata.stream == 0 && ses_ptr->cdata.aead == 0))) {
++ 		derr(0, "Only stream and AEAD ciphers are allowed for authenc");
++@@ -718,6 +726,7 @@ static int crypto_auth_zc_aead(struct csession *ses_ptr, struct kernel_crypt_aut
++ 		goto free_auth_buf;
++ 	}
++ 
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 2, 0))
++ 	if (caop->auth_src && caop->auth_len > 0) {
++ 		if (unlikely(copy_from_user(auth_buf, caop->auth_src, caop->auth_len))) {
++ 			derr(1, "unable to copy auth data from userspace.");
++@@ -733,6 +742,33 @@ static int crypto_auth_zc_aead(struct csession *ses_ptr, struct kernel_crypt_aut
++ 
++ 	ret = auth_n_crypt(ses_ptr, kcaop, auth_sg, caop->auth_len,
++ 			src_sg, dst_sg, caop->len);
+++#else
+++	if (caop->auth_src && caop->auth_len > 0) {
+++		if (unlikely(copy_from_user(auth_buf, caop->auth_src, caop->auth_len))) {
+++			derr(1, "unable to copy auth data from userspace.");
+++			ret = -EFAULT;
+++			goto free_pages;
+++		}
+++
+++		sg_init_table(auth1, 2);
+++		sg_set_buf(auth1, auth_buf, caop->auth_len);
+++		sg_chain(auth1, 2, src_sg);
+++
+++		if (src_sg == dst_sg) {
+++			src_sg = auth1;
+++			dst_sg = auth1;
+++		} else {
+++			sg_init_table(auth2, 2);
+++			sg_set_buf(auth2, auth_buf, caop->auth_len);
+++			sg_chain(auth2, 2, dst_sg);
+++			src_sg = auth1;
+++			dst_sg = auth2;
+++		}
+++	}
+++
+++	ret = auth_n_crypt(ses_ptr, kcaop, NULL, caop->auth_len,
+++			src_sg, dst_sg, caop->len);
+++#endif
++ 
++ free_pages:
++ 	release_user_pages(ses_ptr);
++-- 
++2.11.0
++
+-- 
+2.11.0
 
-On Mon 20 Aug, 2018, 9:12 PM Ankur Tyagi, <ankur.tyagi85@gmail.com> wrote:
 
-> Initially I thought of doing that but then dropped it because it would
-> create a dependency on syslog configuration file.
-> If in future syslog configuration parameter (LOGFILE) gets renamed, then
-> we need to make corresponding change as well.
->
-> I think creating /var/log as a link is a less dependent change.
->
-> Let me know your thoughts.
->
-> Regards
-> Ankur
->
-> On Mon, Aug 20, 2018 at 1:49 PM ChenQi <Qi.Chen@windriver.com> wrote:
->
->> The requirement is to put logs into directories other than /var/log.
->> Could it be achieved by modifying the syslog daemon configuration file
->> (e.g. /etc/syslog.conf) to replace /var/log with the specified
->> directory. Maybe the corresponding logrotate configuration file also
->> needs to be modified.
->>
->> Best Regards,
->> Chen Qi
->>
->> On 08/18/2018 08:59 AM, Ankur Tyagi wrote:
->> > This variable is only respected when VOLATILE_LOG_DIR is "no".
->> >
->> > The default value is "" which results in the /var/log being log
->> directory.
->> >
->> > The user could override this value to a path e.g "/home/root/log" which
->> > results /var/log being a link pointing to /home/root/log directory on
->> > persistent storage.
->> >
->> > Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
->> > ---
->> >   meta/conf/bitbake.conf | 2 ++
->> >   1 file changed, 2 insertions(+)
->> >
->> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> > index e5dc1ac..9db22c8 100644
->> > --- a/meta/conf/bitbake.conf
->> > +++ b/meta/conf/bitbake.conf
->> > @@ -88,6 +88,8 @@ ROOT_HOME ??= "/home/root"
->> >   # If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log
->> links to /var/volatile/log.
->> >   # If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is
->> on persistent storage.
->> >   VOLATILE_LOG_DIR ?= "yes"
->> > +# If VOLATILE_LOG_DIR is false and PERSISTENT_LOG_DIR is set, /var/log
->> links to PERSISTENT_LOG_DIR
->> > +PERSISTENT_LOG_DIR ??= ""
->> >
->> >   ##################################################################
->> >   # Architecture-dependent build variables.
->>
->>
->>
-
---000000000000ddd42e057401b18a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Ping<div dir=3D"auto"><br></div><div dir=3D"auto">Regards=
-</div><div dir=3D"auto">Ankur</div></div><br><div class=3D"gmail_quote"><di=
-v dir=3D"ltr">On Mon 20 Aug, 2018, 9:12 PM Ankur Tyagi, &lt;<a href=3D"mail=
-to:ankur.tyagi85@gmail.com">ankur.tyagi85@gmail.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_defaul=
-t" style=3D"font-family:arial,helvetica,sans-serif">Initially I thought of =
-doing that but then dropped it because it would create a dependency on sysl=
-og configuration file.</div><div class=3D"gmail_default" style=3D"font-fami=
-ly:arial,helvetica,sans-serif">If in future syslog configuration parameter =
-(LOGFILE) gets renamed, then we need to make corresponding change as well.<=
-/div><div class=3D"gmail_default" style=3D"font-family:arial,helvetica,sans=
--serif"><br></div><div class=3D"gmail_default" style=3D"font-family:arial,h=
-elvetica,sans-serif">I think creating /var/log as a link is a less dependen=
-t change.</div><div class=3D"gmail_default" style=3D"font-family:arial,helv=
-etica,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-fami=
-ly:arial,helvetica,sans-serif">Let me know your thoughts.</div><div class=
-=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-serif"><br></d=
-iv><div class=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-s=
-erif">Regards</div><div class=3D"gmail_default" style=3D"font-family:arial,=
-helvetica,sans-serif">Ankur</div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr">On Mon, Aug 20, 2018 at 1:49 PM ChenQi &lt;<a href=3D"mailto:Qi.Chen@=
-windriver.com" target=3D"_blank" rel=3D"noreferrer">Qi.Chen@windriver.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Th=
-e requirement is to put logs into directories other than /var/log.<br>
-Could it be achieved by modifying the syslog daemon configuration file <br>
-(e.g. /etc/syslog.conf) to replace /var/log with the specified <br>
-directory. Maybe the corresponding logrotate configuration file also <br>
-needs to be modified.<br>
-<br>
-Best Regards,<br>
-Chen Qi<br>
-<br>
-On 08/18/2018 08:59 AM, Ankur Tyagi wrote:<br>
-&gt; This variable is only respected when VOLATILE_LOG_DIR is &quot;no&quot=
-;.<br>
-&gt;<br>
-&gt; The default value is &quot;&quot; which results in the /var/log being =
-log directory.<br>
-&gt;<br>
-&gt; The user could override this value to a path e.g &quot;/home/root/log&=
-quot; which<br>
-&gt; results /var/log being a link pointing to /home/root/log directory on<=
-br>
-&gt; persistent storage.<br>
-&gt;<br>
-&gt; Signed-off-by: Ankur Tyagi &lt;<a href=3D"mailto:ankur.tyagi85@gmail.c=
-om" target=3D"_blank" rel=3D"noreferrer">ankur.tyagi85@gmail.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0meta/conf/bitbake.conf | 2 ++<br>
-&gt;=C2=A0 =C2=A01 file changed, 2 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
-&gt; index e5dc1ac..9db22c8 100644<br>
-&gt; --- a/meta/conf/bitbake.conf<br>
-&gt; +++ b/meta/conf/bitbake.conf<br>
-&gt; @@ -88,6 +88,8 @@ ROOT_HOME ??=3D &quot;/home/root&quot;<br>
-&gt;=C2=A0 =C2=A0# If set to boolean true (&#39;yes&#39;, &#39;y&#39;, &#39=
-;true&#39;, &#39;t&#39;, &#39;1&#39;), /var/log links to /var/volatile/log.=
-<br>
-&gt;=C2=A0 =C2=A0# If set to boolean false (&#39;no&#39;, &#39;n&#39;, &#39=
-;false&#39;, &#39;f&#39;, &#39;0&#39;), /var/log is on persistent storage.<=
-br>
-&gt;=C2=A0 =C2=A0VOLATILE_LOG_DIR ?=3D &quot;yes&quot;<br>
-&gt; +# If VOLATILE_LOG_DIR is false and PERSISTENT_LOG_DIR is set, /var/lo=
-g links to PERSISTENT_LOG_DIR<br>
-&gt; +PERSISTENT_LOG_DIR ??=3D &quot;&quot;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0##########################################################=
-########<br>
-&gt;=C2=A0 =C2=A0# Architecture-dependent build variables.<br>
-<br>
-<br>
-</blockquote></div></div>
-</blockquote></div>
-
---000000000000ddd42e057401b18a--
