@@ -1,51 +1,22 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5396079034
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CBA9D74A32
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 09:04:31 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id c14-v6so1302957wmb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 02:04:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dBKXX5gXhmmRVzzffuBU3Wr860GaNeJHF2IT+3ZCYDU=;
-	b=MMCPZDjJwFbw5jHR6nw3CjSUnA1CeCMa1TurESUC/3J1WAOfh3nqNRG1LRA9kz0qdh
-	hgFmTHhuPXXL9EAY6Mu9esWWKYa+LtxATYXPb581JQ/LuXrh/iu8GDraclKiNhq2Q0ym
-	QFwF3wHLtkmk1pgUZdCnJXJh6d/R777NkWcePI/Hl+tGLo/Y6BV2lC9yji1x/ddjDcT9
-	W5ASXIMRZrlDxF7wTDnrrvR0NvSxIc4W8bLqhrhNGwXOaoxe+GZICrS8EDL4elw5OwmF
-	KIdftu5+fC/3Ov5jG4EuV9tmnzgBhk58nEH7DaKxSjXB8JNT21hm6Z3SuElwlsmuLQnS
-	fBJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:in-reply-to:references;
-	bh=dBKXX5gXhmmRVzzffuBU3Wr860GaNeJHF2IT+3ZCYDU=;
-	b=eDgf3Gw8myxH4KJwMOpwz98O49WguVmfuLENKoAOqeifl9+V1zvEgl6xa3awDL4FK7
-	qBxt32MlJs8n2qoChjc2t/wVMptD2bDnJv05wmefFbyQ6n+Zdivn2dhvXAdOblHu80hd
-	lBwX0Wdd6hr2N9F0StUUBWdJZuLaOCe4sRa9M4IaaoLarKV2GbQUP8WWb8MW1QnVVR7I
-	Af5LnHtlyn4idcRvlZLqrEDQNTNkQ6PiYmHXY3koQoRrRAQyTpCERbDcbzg3jkya9dps
-	ZZoPXkiZfe9FiADo3mZiQD8FmeQ/7xhZJ8h/klwV9KY4s32NxyyWWk/BHWmuaVq7/aOr
-	dU/Q==
-X-Gm-Message-State: APzg51CRHvVEwXImOn/z+y/w2lTNrSq/KKVMz9hZmxP/TpQ8R5Lsam2j
-	Mme+dl00WHUe/wB3m1M389x+uhWr
-X-Google-Smtp-Source: ANB0VdZAhd2eP4/cil6zKm8v/anJl7pXtZHH9l4HmQlTl7SVWie+wmqBOz4JDuVlXZ25kM7Z8l9zjA==
-X-Received: by 2002:a1c:8016:: with SMTP id b22-v6mr1851641wmd.9.1534928671784;
-	Wed, 22 Aug 2018 02:04:31 -0700 (PDT)
-Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	v5-v6sm1093753wru.60.2018.08.22.02.04.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 Aug 2018 02:04:30 -0700 (PDT)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 11:04:24 +0200
-Message-Id: <20180822090424.14573-2-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180822090424.14573-1-sno@netbsd.org>
-References: <20180822090424.14573-1-sno@netbsd.org>
-Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH 2/2] libxml-parser-perl: fix "...contains bad RPATH"
+	Wed, 22 Aug 2018 09:16:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7M9GiDo026863
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 22 Aug 2018 02:16:44 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Wed, 22 Aug 2018 02:16:43 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Aug 2018 17:16:42 +0800
+Message-ID: <1534929402-6673-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] mtools: fix race issue while mtools invoked frequently
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +29,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 09:04:31 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 09:16:43 -0000
+Content-Type: text/plain
 
-The perl distribution "XML-Parser" relies for configuration
-on the tooling of Devel::CheckLib - which is not aware of
-sysroot locations nor of reasonable compiler/link definitions
-from outside.
+While invoking mtools frequently, the unblocking request
+caused race issue. Here is an example of syslinux
+[snip]
+dd if=/dev/zero of=floppy.img bs=1024 count=144
+losetup /dev/loop1 floppy.img
+mkdosfs /dev/loop1
+syslinux -i /dev/loop1
+|plain floppy: device "/proc/6351/fd/3" busy (Resource temporarily unavailable):
+|Cannot initialize 'S:'
+|Bad target s:/ldlinux.sys
+[snip]
 
-This causes
+The idea is from:
+https://bugzilla.redhat.com/show_bug.cgi?id=1235016
+https://groups.google.com/a/chromium.org/forum/#!msg/chromium-os-dev/bRPUCFHoBTQ/ZjB8kjjx1vUJ
 
-    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: QA Issue: package libxml-parser-perl contains bad RPATH ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/recipe-sysroot/usr/lib in file ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/packages-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.24.4/auto/XML/Parser/Expat/Expat.so
-    package libxml-parser-perl contains bad RPATH ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/recipe-sysroot/usr/lib in file ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/packages-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.24.4/auto/XML/Parser/Expat/Expat.so [rpaths]
-    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: QA run found fatal errors. Please consider fixing them.
-    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: Function failed: do_package_qa
-
-It's strongly encouraged to the maintainer @toddr to rework the
-toolchain for up to date environments.
-
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ ...01-remove-LOCK_NB-to-use-blocking-request.patch | 44 ++++++++++++++++++++++
+ meta/recipes-devtools/mtools/mtools_4.0.18.bb      |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch
 
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-index c5e0ae6769..4494e2286c 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-@@ -18,8 +18,16 @@ inherit cpan ptest-perl
- 
- # fix up sub MakeMaker project as arguments don't get propagated though
- # see https://rt.cpan.org/Public/Bug/Display.html?id=28632
-+do_configure_append_class-target() {
-+	sed -E \
-+	    -e 's:-L${STAGING_LIBDIR}::g' -e 's:-I${STAGING_INCDIR}::g' \
-+	    -e 's:LD_RUN_PATH ?= ?"?[^"]*"?::g' \
-+	    -i Makefile Expat/Makefile
-+}
+diff --git a/meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch b/meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch
+new file mode 100644
+index 0000000..47385a5
+--- /dev/null
++++ b/meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch
+@@ -0,0 +1,44 @@
++From 5bdbfe0a63fed48104b17412854b26ee2275869a Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 22 Aug 2018 16:54:39 +0800
++Subject: [PATCH] remove LOCK_NB to use blocking request
 +
- do_configure_append() {
--	sed 's:--sysroot=.*\(\s\|$\):--sysroot=${STAGING_DIR_TARGET} :g' -i Makefile Expat/Makefile
-+	sed -e 's:--sysroot=.*\(\s\|$\):--sysroot=${STAGING_DIR_TARGET} :g' \
-+	    -i Makefile Expat/Makefile
- 	sed 's:^FULL_AR = .*:FULL_AR = ${AR}:g' -i Expat/Makefile
- 	# make sure these two do not build in parallel
- 	sed 's!^$(INST_DYNAMIC):!$(INST_DYNAMIC): $(BOOTSTRAP)!' -i Expat/Makefile
++While invoking mtools frequently, the unblocking request
++caused race issue. Here is an example of syslinux
++[snip]
++dd if=/dev/zero of=floppy.img bs=1024 count=144
++losetup /dev/loop1 floppy.img
++mkdosfs /dev/loop1
++syslinux -i /dev/loop1
++|plain floppy: device "/proc/6351/fd/3" busy (Resource temporarily unavailable):
++|Cannot initialize 'S:'
++|Bad target s:/ldlinux.sys
++[snip]
++
++The idea is from:
++https://bugzilla.redhat.com/show_bug.cgi?id=1235016
++https://groups.google.com/a/chromium.org/forum/#!msg/chromium-os-dev/bRPUCFHoBTQ/ZjB8kjjx1vUJ
++
++Upstream-Status: Pending
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ lockdev.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lockdev.h b/lockdev.h
++index 4467bc2..5a135ad 100644
++--- a/lockdev.h
+++++ b/lockdev.h
++@@ -43,7 +43,7 @@ int lock_dev(int fd, int mode, struct device *dev)
++ 		return 0;
++ 
++ #if (defined(HAVE_FLOCK) && defined (LOCK_EX) && defined(LOCK_NB))
++-	if (flock(fd, (mode ? LOCK_EX : LOCK_SH)|LOCK_NB) < 0)
+++	if (flock(fd, (mode ? LOCK_EX : LOCK_SH)) < 0)
++ #else /* FLOCK */
++ 
++ #if (defined(HAVE_LOCKF) && defined(F_TLOCK))
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.18.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+index dcd32ed..91f7b7c 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.18.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+@@ -31,6 +31,7 @@ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
+            file://no-x11.gplv3.patch \
+            file://0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch \
++           file://0001-remove-LOCK_NB-to-use-blocking-request.patch \
+            "
+ 
+ SRC_URI_append_class-native = " file://disable-hardcoded-configs.patch"
 -- 
-2.17.1
+2.7.4
 
 
