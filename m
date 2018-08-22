@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com
-	[209.85.218.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 16439792F4
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 090267927C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 11:18:54 +0000 (UTC)
-Received: by mail-oi0-f49.google.com with SMTP id 8-v6so2537038oip.0
+	Wed, 22 Aug 2018 11:18:56 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id q11-v6so2451647oic.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 04:18:55 -0700 (PDT)
+	Wed, 22 Aug 2018 04:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=xZGrPys9xvpeG1xeK6/PHG/QfTwmj1Ea33WEsaDLDXw=;
-	b=wCrm028TIpqvC1tp/YtSOpNfzYMzUhMyEXotBklFyo87gMx/VEhSsJEFu1vdZA6tKz
-	8+3pXk/XKtieIyjV4RKbBgHQVQvjkopzEgqJDqKgn9Ie+IXVyjyfYo2yz3PnNVBwe8f/
-	xjKVsCZ5yylY1PlivQis3gZAoDthhj9Csl1xp16NxGfa0JH9vAN030qs+snvEE4KHXvo
-	XZ723hJ9rWyXF0RaYCcYbbGKpWrLVxH1hmv9eJYdEK7NssDL9w7Y+3TE8ilaZbQJrrJY
-	mvapqnHqqDO2xv7bZvtYz9XbRc0SWe2y5tKcdgSMsuV4TANgxKIX24NA+VBwoy0wJKxQ
-	ilPQ==
+	bh=kgjbVyyP5bgEcrkekTvJUV6agI36G0nrF+w5gAPdwQA=;
+	b=Ph47DYyPvj3c14Zmg9U7uxQ66JH5i0N736+VyYa07qFr2lVbRZALHCfI0sMC0AK0Mw
+	ff5GGqWgJRALlg5TlOqRrj+JWVIAJLXMhEHX9FglbrSw7WTqZc9C1PXfbEY8T90oLnfV
+	kY6PGXcAt/1KyBKbOE7HOF5kKVC+mRpVtmNhZZhqleL7dGugU1+TUe4NMqPAK5bNp19N
+	72I21zJc79CqEggA3UnFpvZXyyOhmnBpoOVN0vWTCxh/koUa1VEftVWs98fSQxEjpT6/
+	1v9C7jj/yGwOoi+ndrO1JtcLx9R1SmNeYeeFACl7DYSnJqtgYT857cYNsZ5BaYdQLc/0
+	5Pfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=xZGrPys9xvpeG1xeK6/PHG/QfTwmj1Ea33WEsaDLDXw=;
-	b=CB9A7L28cMVqGIYNOd3dHmqp+pFTx0326g+/JjquXeMv3fTi5C3+TxFMuzCV2yFmR8
-	HnVs/Zq3mmh+T2dXZDZPGLKx3jHxs5wxEgcSu1IvOvlLuriE2fel7rYwMaq5pP63hplc
-	KhdiNuTJpD58Xv0zf1JnZLeu4iPtEKtTtHVBOj0ypDFd9B0ns0qq4DgqhaElGTn2GUok
-	qTklESwgy/4XkGfVH1Sa48kRo52mG4D28B66mE5hgCVGp9XZFx0itfd0aP1na+y1f+m5
-	O7dPeVqMk9ci8NF5p3xz2uQVXhwzZ1cy28ketncuI1T/O+5S8DaZnawKTFg+rvOhQ4aJ
-	6+Eg==
-X-Gm-Message-State: APzg51B9Y87mKAQEbkXnxV8khn4W74IVBFChej2Ge6MkC75bSVnGGOdb
-	QX9clEzCUY91iRAEcpCjF/Y+ASrshnU=
-X-Google-Smtp-Source: ANB0VdYapKdt5lFqX1iVIQWXyzubWTxifXNxFtmtpYkNvupSDQlz9BrMOCQJp3X2mfpjk4C+5U+69g==
-X-Received: by 2002:aca:5397:: with SMTP id
-	h145-v6mr3595731oib.188.1534936735045; 
-	Wed, 22 Aug 2018 04:18:55 -0700 (PDT)
+	bh=kgjbVyyP5bgEcrkekTvJUV6agI36G0nrF+w5gAPdwQA=;
+	b=MsQsYQecqSvCZYp09WDjXNATMty73MpYOuetjCkUzZ3WKSNEsyZXcgLfidm1DGekfu
+	eASEDNdeU2o/CmqiuJBtDz+aH1k+6Ec4ZoEtRQTvMcawinqoSVlFQZwi9FR3DbGXXXv1
+	bw/kIaMKdFhY52DTPujfIQYbjDcga9GRWvGECKD+jzejr22kfRSKBYU02WfeC69HPlQX
+	S7uw8aAFJzRPnbQAWAImI7J+wkF3aFy4/y8I/4QLiTEQ7d3PiEmjbEYqzt2YPrWyu3iC
+	jw1JzPc26lzUUlzRv1gtUzarAzZRQ0F1VKxThX1h+EY2jvJJQd1ylvlb+GjspQlS5Mn3
+	KIUA==
+X-Gm-Message-State: APzg51ADfJg6anW2o+I+4lhWZR015SCeJDHZ1c3EYwNPO+1xb5/qzmRf
+	kpQJizTNjfGei8VgwdsnAc2tqN5+EgU=
+X-Google-Smtp-Source: ANB0VdanYKY/C/fgERZ528fBwd2Okyd0dhsX7HmqJO0FosQ9Gj5LcoNL1TmfX2zzLNGVWgZHH0OIXw==
+X-Received: by 2002:aca:4784:: with SMTP id
+	u126-v6mr3485720oia.229.1534936737957; 
+	Wed, 22 Aug 2018 04:18:57 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	c9-v6sm862308oia.1.2018.08.22.04.18.53
+	c9-v6sm862308oia.1.2018.08.22.04.18.55
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 04:18:54 -0700 (PDT)
+	Wed, 22 Aug 2018 04:18:57 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 16:47:53 +0530
-Message-Id: <1534936692-11736-15-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 16:47:54 +0530
+Message-Id: <1534936692-11736-16-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534936692-11736-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534936692-11736-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH 15/34] curl: CVE-2018-0500
+Subject: [ROCKO][PATCH 16/34] Qemu CVE-2018-11806 slirp-heap-buffer-overflow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,81 +59,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:18:54 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 11:18:57 -0000
 
-smtp: use the upload buffer size for scratch buffer malloc
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-... not the read buffer size, as that can be set smaller and thus cause
-a buffer overflow! CVE-2018-0500
+slirp: correct size computation while concatenating mbuf
 
-Reported-by: Peter Wu
-Bug: https://curl.haxx.se/docs/adv_2018-70a2.html
+While reassembling incoming fragmented datagrams, 'm_cat' routine
+extends the 'mbuf' buffer, if it has insufficient room. It computes
+a wrong buffer size, which leads to overwriting adjacent heap buffer
+area. Correct this size computation in m_cat.
 
-Affects curl >= 7.54.1 && curl <= 7.60.0
+Affects qemu < 3.0.0
 
-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 ---
- meta/recipes-support/curl/curl/CVE-2018-0500.patch | 39 ++++++++++++++++++++++
- meta/recipes-support/curl/curl_7.58.0.bb           |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2018-0500.patch
+ ...018-11806-QEMU-slirp-heap-buffer-overflow.patch | 69 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.10.0.bb          |  1 +
+ 2 files changed, 70 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2018-0500.patch b/meta/recipes-support/curl/curl/CVE-2018-0500.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch b/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
 new file mode 100644
-index 0000000..4395a3c
+index 0000000..6a518b4
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2018-0500.patch
-@@ -0,0 +1,39 @@
-+From ba1dbd78e5f1ed67c1b8d37ac89d90e5e330b628 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 13 Jun 2018 12:24:40 +0200
-+Subject: [PATCH] smtp: use the upload buffer size for scratch buffer malloc
++++ b/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
+@@ -0,0 +1,69 @@
++Upstream-status: Backport
 +
-+... not the read buffer size, as that can be set smaller and thus cause
-+a buffer overflow! CVE-2018-0500
++https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg01012.html
 +
-+Reported-by: Peter Wu
-+Bug: https://curl.haxx.se/docs/adv_2018-70a2.html
++From dc21a9d2951f0a2a7e63633e2b5c68c54e4edc4b Mon Sep 17 00:00:00 2001
++From: Jeremy Puhlman <jpuhlman@mvista.com>
++Date: Thu, 14 Jun 2018 01:28:49 +0000
++Subject: [PATCH] CVE-2018-11806 QEMU: slirp: heap buffer overflow
 +
-+CVE: CVE-2018-0500
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/ba1dbd78e5f1e.patch]
++Subject: [Qemu-devel] [PATCH 1/2] slirp: correct size computation while concatenating mbuf
++Date:	Tue, 5 Jun 2018 23:38:35 +0530
++From: Prasad J Pandit <address@hidden>
 +
-+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
++While reassembling incoming fragmented datagrams, 'm_cat' routine
++extends the 'mbuf' buffer, if it has insufficient room. It computes
++a wrong buffer size, which leads to overwriting adjacent heap buffer
++area. Correct this size computation in m_cat.
++
++Reported-by: ZDI Disclosures <address@hidden>
++Signed-off-by: Prasad J Pandit <address@hidden>
 +---
-+ lib/smtp.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ slirp/mbuf.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/lib/smtp.c b/lib/smtp.c
-+index e6872badb8..ecf10a41ac 100644
-+--- a/lib/smtp.c
-++++ b/lib/smtp.c
-+@@ -1563,13 +1563,14 @@ CURLcode Curl_smtp_escape_eob(struct connectdata *conn, const ssize_t nread)
-+   if(!scratch || data->set.crlf) {
-+     oldscratch = scratch;
++Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
++---
++ slirp/mbuf.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/slirp/mbuf.c b/slirp/mbuf.c
++index 5ff2455..7fb4501 100644
++--- a/slirp/mbuf.c
+++++ b/slirp/mbuf.c
++@@ -138,7 +138,7 @@ m_cat(struct mbuf *m, struct mbuf *n)
++ 	 * If there's no room, realloc
++ 	 */
++ 	if (M_FREEROOM(m) < n->m_len)
++-		m_inc(m,m->m_size+MINCSIZE);
+++               m_inc(m, m->m_len + n->m_len);
 + 
-+-    scratch = newscratch = malloc(2 * data->set.buffer_size);
-++    scratch = newscratch = malloc(2 * UPLOAD_BUFSIZE);
-+     if(!newscratch) {
-+       failf(data, "Failed to alloc scratch buffer!");
++ 	memcpy(m->m_data+m->m_len, n->m_data, n->m_len);
++ 	m->m_len += n->m_len;
++@@ -158,12 +158,12 @@ m_inc(struct mbuf *m, int size)
 + 
-+       return CURLE_OUT_OF_MEMORY;
-+     }
-+   }
-++  DEBUGASSERT(UPLOAD_BUFSIZE >= nread);
++         if (m->m_flags & M_EXT) {
++ 	  datasize = m->m_data - m->m_ext;
++-          m->m_ext = g_realloc(m->m_ext, size);
+++          m->m_ext = g_realloc(m->m_ext, size + datasize);
++ 	  m->m_data = m->m_ext + datasize;
++         } else {
++ 	  char *dat;
++ 	  datasize = m->m_data - m->m_dat;
++-          dat = g_malloc(size);
+++          dat = g_malloc(size + datasize);
++ 	  memcpy(dat, m->m_dat, m->m_size);
 + 
-+   /* Have we already sent part of the EOB? */
-+   eob_sent = smtp->eob;
-diff --git a/meta/recipes-support/curl/curl_7.58.0.bb b/meta/recipes-support/curl/curl_7.58.0.bb
-index 4376bb3..7dc5381 100644
---- a/meta/recipes-support/curl/curl_7.58.0.bb
-+++ b/meta/recipes-support/curl/curl_7.58.0.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
-            file://CVE-2018-1000300.patch \
-            file://CVE-2018-1000301.patch \
-+           file://CVE-2018-0500.patch \
- "
- 
++ 	  m->m_ext = dat;
++@@ -171,7 +171,7 @@ m_inc(struct mbuf *m, int size)
++ 	  m->m_flags |= M_EXT;
++         }
++ 
++-        m->m_size = size;
+++        m->m_size = size + datasize;
++ 
++ }
++ 
++-- 
++2.13.3
++
+diff --git a/meta/recipes-devtools/qemu/qemu_2.10.0.bb b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
+index bdf6c21..89c68f2 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.10.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
+@@ -30,6 +30,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+            file://CVE-2017-14167.patch \
+            file://ppc_locking.patch \
+            file://memfd.patch \
++           file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
  
 -- 
 2.7.4
