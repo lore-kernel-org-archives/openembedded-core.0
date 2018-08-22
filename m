@@ -1,49 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
-	[209.85.218.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 603B1793F7
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
+	[209.85.218.42])
+	by mail.openembedded.org (Postfix) with ESMTP id CE47479439
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:09:00 +0000 (UTC)
-Received: by mail-oi0-f46.google.com with SMTP id z185-v6so3268115oia.5
+	Wed, 22 Aug 2018 15:09:02 +0000 (UTC)
+Received: by mail-oi0-f42.google.com with SMTP id z185-v6so3268342oia.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:09:01 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=2dwtxnS/G+E9P8NJ+dybZKV8j1I6t+zInrEIlkfTi5o=;
-	b=COev6fMcRKz7FjSz1X4OjOZGULwsk9Jk+UjpNrhRWEv8ZVda6J41FX1X/iMEun/088
-	0LJJoRodUvYwM/oWgQ/0ro/cT7HZIzuCIrmkH4xluk0y1mG8xnUCzhVtoG/ZumtHSaGq
-	ZXUn252wy0HL1S1EvvtnglIHNC586Uo+wOX69GTbTtU1DP5A7HHU6GZxnV2QjFwLVXcB
-	E58I7Q4VMsPrS5njA/yq3dorA0+qfP/zB56wtDWHQRbEw+UCyoN4HN7xELX6eRxI2qE3
-	Mf/yDXSzHGkxWaJmsJd4UvYPVCSx34oIrLeB17BA9fp6992bcW1vK2Sl0xxACet1o+XP
-	SxCA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=d1aSwXMIO/XmlxBdV790Q5kjkUt747gcLsbjB032iMM=;
+	b=cmton8beMd8ZnhTymClKuHT32qzvA6mN+2ndWziGCFlKW4n6XQ4Liv0twn2jE5Mr77
+	v3kowdvIK96g4WvwQ/CQ1FXrR8Ks4fkAiir/qyqF6MTRpHU5Hwz4uRvxjO4AgnQngmb5
+	aoI/plSqy8NHLFR8RkYGqpapIolYE4uubI7xrowM6N5zCQCES/jaH2WYETHQ3MHS8fZ4
+	hc2Tl5iPFEs7huE5Q9prHsMHdZJ2waSpVvgAQqvlIhvnB9J4FX8wjPeX2usIEaseqC0z
+	nTUXHvowwBX98okm3RJBv1Kk9gUJnD+OTYbNgl7UZ6BvEx3Ry9URggNCVLBcd0nQ9mC0
+	RFMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2dwtxnS/G+E9P8NJ+dybZKV8j1I6t+zInrEIlkfTi5o=;
-	b=altsHhEYTI+rig1+yN00vpLFdX6cDnRoEl9ruXIcWN+17LIXVR/xo3oRxcIl373m2a
-	HEy7EkhRIUgSHogNVFlg8F5IKkeO1Meanqh7cH95SzAo43WqNW41b5lulM71PHeWm0L2
-	Npdc2zNm94Bv0Ul7CbkVnOQMf7lCbg47htV1Gpg3plX3v9Tn4q85i68WdwGm6qilda7x
-	SMpoSO9muoDSX8HlOk4bzohCkh3QRl3JietUhA6neTvNhK2H/9hM4s7OzN6rM01sS+EK
-	/ez0eZIrOU0viVCD3eB+nC00/JWaS+1pgCo69vTOZZa8myHKmqs4Zn0CqBZj9HExHm2z
-	mBFQ==
-X-Gm-Message-State: APzg51B/d8ChQox0vZ2lWkZouMHvzAp1m17nLiVT9qdSPKT9NW8roy8T
-	aLKPNc12RNYY49vEztn8xv8dVaHpI8g=
-X-Google-Smtp-Source: ANB0VdZSzYBQ/mW/3vV5BrglgKvGF5XvXZXxtXNmh0dWsgPbVvXD+ysmpOa/f7IJgGWXp37ddy+iCw==
-X-Received: by 2002:aca:d946:: with SMTP id
-	q67-v6mr2000999oig.212.1534950541065; 
-	Wed, 22 Aug 2018 08:09:01 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=d1aSwXMIO/XmlxBdV790Q5kjkUt747gcLsbjB032iMM=;
+	b=C/yWviwUczsk6tsria9p0BCgleeRa3/4RGNBiYM3tfZs/j4qIgmY4ZTjlCCpbbYHmr
+	5m5eI2PyWC1CG2vxhdV+nhpsBdAy9LEHl2i8k61DzWMrbNQJKz8GRwTV6VFyWFpCriiX
+	RSdBx4gai/Fwvy3WZ8yFMUD0BNtGc39KhytEwIcjIqVZ3flAfabF6KfvRVYGeVCxbaTJ
+	ofAlpU+Uahp4QgdgJJsH99L5pWvtKbmpHqC4ja0XR9UXlSfQXZIfOTIhk2L+7JBibi1X
+	vq9K+V4B/WQX72BJvLx6XYuURo1DNonvWaijtAb+HBW/YMB3VAOCUY1va/dX8fWd/Z5B
+	r94Q==
+X-Gm-Message-State: APzg51DfoSpJVZWbmoBefJAr2qz0iX7kH+uN/YJJiAHmx+mqwUTG8mos
+	FjT/xWtsUJjCdHtmEsNGposi6E3Y3Qo=
+X-Google-Smtp-Source: ANB0VdbDYDgai5its1sQSmyMWRkZkTHbpPJtJZ3MQEdZYo3vAd41kZsxOucdEXiIvpLsK0oRmEqEJw==
+X-Received: by 2002:aca:5714:: with SMTP id
+	l20-v6mr3385750oib.100.1534950543610; 
+	Wed, 22 Aug 2018 08:09:03 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.08.59
+	i132-v6sm1024281oif.20.2018.08.22.08.09.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:09:00 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:03 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:19 +0530
-Message-Id: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 20:38:20 +0530
+Message-Id: <1534950532-23850-2-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [ROCKO][PATCH V3 01/34] sqlite3: CVE-2017-15286
+In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
+References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
+Subject: [ROCKO][PATCH V3 02/34] busybox: CVE-2017-16544
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,72 +59,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:09:00 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:09:03 -0000
 
-CVE-2017-15286: Make sure the tableColumnList() routine of the command-line
-shell does not cause a null-pointer dereference in an error condition.
+lineedit: do not tab-complete any strings which have control characters
 
-Affects sqlite3 < 3.21
+function old new delta
+add_match 41 68 +27
+
+Affects busybox <= 1.27.2
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../sqlite/files/CVE-2017-15286.patch              | 34 ++++++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.20.0.bb      |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2017-15286.patch
+ .../busybox/busybox/CVE-2017-16544.patch           | 44 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2017-16544.patch
 
-diff --git a/meta/recipes-support/sqlite/files/CVE-2017-15286.patch b/meta/recipes-support/sqlite/files/CVE-2017-15286.patch
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2017-16544.patch b/meta/recipes-core/busybox/busybox/CVE-2017-16544.patch
 new file mode 100644
-index 0000000..954f8d5
+index 0000000..8038886
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/files/CVE-2017-15286.patch
-@@ -0,0 +1,34 @@
-+SQLite 3.20.1 has a NULL pointer dereference in tableColumnList in shell.c 
-+because it fails to consider certain cases where 
-+`sqlite3_step(pStmt)==SQLITE_ROW` is false and a data structure 
-+is never initialized.
++++ b/meta/recipes-core/busybox/busybox/CVE-2017-16544.patch
+@@ -0,0 +1,44 @@
++From c3797d40a1c57352192c6106cc0f435e7d9c11e8 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Tue, 7 Nov 2017 18:09:29 +0100
++Subject: lineedit: do not tab-complete any strings which have control
++ characters
 +
-+This CVE patch applies neatly on sqlite v3.20.0, hence applying
-+for sqlite v3.20.0.
++function                                             old     new   delta
++add_match                                             41      68     +27
 +
-+Also, removed hunk of "src/shell.c.in" present in upstream 
-+commit https://www.sqlite.org/src/info/5d0ceb8dcdef92cd; as v3.20.0
-+does not have src/shell.c.in file.
++CVE: CVE-2017-16544
++Upstream-Status: Backport from v1.28.0
 +
-+CVE: CVE-2017-15286
-+Upstream-Status: Backport from v3.21
-+
-+Signed-off-by: drh <name@hidden-address>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++---
++ libbb/lineedit.c | 12 ++++++++++++
++ 1 file changed, 12 insertions(+)
 +
-+Index: src/shell.c
-+==================================================================
-+--- src/shell.c
-++++ src/shell.c
-+@@ -3799,10 +3799,11 @@
-+         isIPK = 0;
-+       }
-+     }
-+   }
-+   sqlite3_finalize(pStmt);
-++  if( azCol==0 ) return 0;
-+   azCol[0] = 0;
-+   azCol[nCol+1] = 0;
++diff --git a/libbb/lineedit.c b/libbb/lineedit.c
++index c0e35bb..56e8140 100644
++--- a/libbb/lineedit.c
+++++ b/libbb/lineedit.c
++@@ -645,6 +645,18 @@ static void free_tab_completion_data(void)
 + 
-+   /* The decision of whether or not a rowid really needs to be preserved
-+   ** is tricky.  We never need to preserve a rowid for a WITHOUT ROWID table
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.20.0.bb b/meta/recipes-support/sqlite/sqlite3_3.20.0.bb
-index e508258..1b82289 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.20.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.20.0.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
- SRC_URI = "\
-   http://www.sqlite.org/2017/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-   file://sqlite3-fix-CVE-2017-13685.patch \
-+  file://CVE-2017-15286.patch \
-   "
- SRC_URI[md5sum] = "e262a28b73cc330e7e83520c8ce14e4d"
- SRC_URI[sha256sum] = "3814c6f629ff93968b2b37a70497cfe98b366bf587a2261a56a5f750af6ae6a0"
++ static void add_match(char *matched)
++ {
+++	unsigned char *p = (unsigned char*)matched;
+++	while (*p) {
+++		/* ESC attack fix: drop any string with control chars */
+++		if (*p < ' '
+++		 || (!ENABLE_UNICODE_SUPPORT && *p >= 0x7f)
+++		 || (ENABLE_UNICODE_SUPPORT && *p == 0x7f)
+++		) {
+++			free(matched);
+++			return;
+++		}
+++		p++;
+++	}
++ 	matches = xrealloc_vector(matches, 4, num_matches);
++ 	matches[num_matches] = matched;
++ 	num_matches++;
++-- 
++cgit v0.12
++
+diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
+index 1c85808..a2c0aa3 100644
+--- a/meta/recipes-core/busybox/busybox_1.24.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
+@@ -61,6 +61,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://busybox-tar-add-IF_FEATURE_-checks.patch \
+            file://0001-iproute-support-scope-.-Closes-8561.patch \
+            file://0001-ip-fix-an-improper-optimization-req.r.rtm_scope-may-.patch \
++           file://CVE-2017-16544.patch \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
 -- 
 2.7.4
 
