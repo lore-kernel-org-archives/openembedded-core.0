@@ -1,23 +1,22 @@
-Return-Path: <Yongxin.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CBF4F79007
+Return-Path: <prvs=765f72d04=Richard.Leitner@skidata.com>
+X-Greylist: delayed 591 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 22 Aug 2018 09:32:10 UTC
+Received: from mail2.skidata.com (mail2.skidata.com [91.230.2.91])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A4C479007
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 09:29:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7M9TqBh022906
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 02:29:53 -0700 (PDT)
-Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 22 Aug 2018 02:29:52 -0700
-From: Yongxin Liu <yongxin.liu@windriver.com>
+	Wed, 22 Aug 2018 09:32:10 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.53,273,1531778400"; 
+   d="scan'208";a="1618928"
+From: Richard Leitner <richard.leitner@skidata.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Aug 2018 17:24:36 +0800
-Message-ID: <20180822092436.51204-1-yongxin.liu@windriver.com>
-X-Mailer: git-send-email 2.14.4
+Date: Wed, 22 Aug 2018 11:22:52 +0200
+Message-ID: <20180822092252.26067-1-richard.leitner@skidata.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Subject: [PATCH] sstate: add intel-microcode to SSTATE_DUPWHITELIST
+X-Originating-IP: [192.168.111.252]
+X-ClientProxiedBy: sdex3srv.skidata.net (192.168.111.81) To
+	sdex5srv.skidata.net (192.168.111.83)
+Subject: [PATCH] oeqa/core/decorator: add skipIfInDataVar
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,35 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 09:29:51 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 09:32:11 -0000
 Content-Type: text/plain
 
-intel-microcode multilib recipes can generate identical overlapping
-files: microcode.cpio.
+skipIfInDataVar will skip a test if a value is in a certain variable.
 
-Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
 ---
- meta/classes/sstate.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/core/decorator/data.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index c0e54a398d..084d631523 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -33,10 +33,11 @@ SSTATE_DUPWHITELIST += "${DEPLOY_DIR_RPM}/sdk_provides_dummy_nativesdk/ ${DEPLOY
- SSTATE_DUPWHITELIST += "${DEPLOY_DIR_RPM}/buildtools_dummy_nativesdk/ ${DEPLOY_DIR_IPK}/buildtools-dummy-nativesdk/"
- # Archive the sources for many architectures in one deploy folder
- SSTATE_DUPWHITELIST += "${DEPLOY_DIR_SRC}"
--# ovmf/grub-efi/systemd-boot multilib recipes can generate identical overlapping files
-+# ovmf/grub-efi/systemd-boot/intel-microcode multilib recipes can generate identical overlapping files
- SSTATE_DUPWHITELIST += "${DEPLOY_DIR_IMAGE}/ovmf"
- SSTATE_DUPWHITELIST += "${DEPLOY_DIR_IMAGE}/grub-efi"
- SSTATE_DUPWHITELIST += "${DEPLOY_DIR_IMAGE}/systemd-boot"
-+SSTATE_DUPWHITELIST += "${DEPLOY_DIR_IMAGE}/microcode"
+diff --git a/meta/lib/oeqa/core/decorator/data.py b/meta/lib/oeqa/core/decorator/data.py
+index 31c6dd6be7..f0f65abb39 100644
+--- a/meta/lib/oeqa/core/decorator/data.py
++++ b/meta/lib/oeqa/core/decorator/data.py
+@@ -54,6 +54,20 @@ class skipIfNotDataVar(OETestDecorator):
+             self.case.skipTest(self.msg)
  
- SSTATE_SCAN_FILES ?= "*.la *-config *_config postinst-*"
- SSTATE_SCAN_CMD ??= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES").split())}" \) -type f'
+ @registerDecorator
++class skipIfInDataVar(OETestDecorator):
++    """
++        Skip test if value is in data store's variable.
++    """
++
++    attrs = ('var', 'value', 'msg')
++    def setUpDecorator(self):
++        msg = ('Checking if %r value contains %r to skip '
++              'the test' % (self.var, self.value))
++        self.logger.debug(msg)
++        if self.value in (self.case.td.get(self.var)):
++            self.case.skipTest(self.msg)
++
++@registerDecorator
+ class skipIfNotInDataVar(OETestDecorator):
+     """
+         Skip test if value is not in data store's variable.
 -- 
-2.14.4
+2.11.0
 
 
