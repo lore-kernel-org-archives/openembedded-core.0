@@ -1,37 +1,18 @@
-Return-Path: <lukma@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 12EED7918E
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 14:05:23 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 41wTpD2KlDz1qwfQ;
-	Wed, 22 Aug 2018 16:05:24 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 41wTpD23sYz1tLNZ;
-	Wed, 22 Aug 2018 16:05:24 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id ZiVmOMB9wJVf; Wed, 22 Aug 2018 16:05:23 +0200 (CEST)
-X-Auth-Info: 1lZNoaGGDJ/eHALcv/7kHdludmvjBci3XLqgzuqTibM=
-Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Wed, 22 Aug 2018 16:05:23 +0200 (CEST)
-Date: Wed, 22 Aug 2018 16:05:15 +0200
-From: Lukasz Majewski <lukma@denx.de>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <20180822160515.72d37bb3@jawa>
-In-Reply-To: <5293a704-cd9d-9e94-dc78-631d02c4a67e@windriver.com>
-References: <20180822134022.1067-1-lukma@denx.de>
-	<5293a704-cd9d-9e94-dc78-631d02c4a67e@windriver.com>
-Organization: denx.de
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 0480971A70;
+	Wed, 22 Aug 2018 14:07:09 +0000 (UTC)
 MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 14:07:10 -0000
+Message-ID: <20180822140710.13843.75954@do.openembedded.org>
+References: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel: yocto: Add dependency on do_prepare_recipe_sysroot
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltST0NLTyxWMl0gc3FsaXRlMzogQ1ZFLTIwMTctMS4uLiIgYW5kIDMzIG1vcmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,145 +25,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 14:05:24 -0000
-X-Groupsio-MsgNum: 115223
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	boundary="Sig_/0vnKBIP9mGXfWdshAOh.SBE";
-	protocol="application/pgp-signature"
+X-List-Received-Date: Wed, 22 Aug 2018 14:07:09 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---Sig_/0vnKBIP9mGXfWdshAOh.SBE
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+== Series Details ==
 
-Hi Bruce,
+Series: "[ROCKO,V2] sqlite3: CVE-2017-1..." and 33 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13666/
+State : failure
 
-> On 08/22/2018 09:40 AM, Lukasz Majewski wrote:
-> > Without this patch it happens that do_populate_recipe_sysroot is
-> > called just before do_compile (on multi core build machines).
-> > This is way too late as the .config generated in
-> > do_kernel_configme() is already broken.
-> >=20
-> > The problem is that do_kernel_configme() calls native's
-> > merge_config.sh script which may call bison and arm-linux-*-gcc to
-> > compile kconfig infrastructure to create base .config
-> > (scripts/kconfig/conf  --allnoconfig Kconfig.)
-> >=20
-> > It turns out that we only got above binaries after
-> > do_prepare_recipe_sysroot() is called.
-> > If those binaries are not available, the merge_config.sh do not
-> > generate base .config and without any error produces
-> > malfunctioned .config. The build process continues and as a result
-> > broken kernel is compiled.
-> >=20
-> > To reproduce:
-> >=20
-> > bitbake -c cleansstate virtual/kernel
-> > bitbake -c kernel_metadata -v virtual/kernel
-> > bitbake -c do_kernel_configme -v virtual/kernel
-> > (one shall see broken .config in ${B}/.config)
-> > bitbake -c do_populate_sysroot -v virtual/kernel
-> > bitbake -c do_compile -v virtual/kernel
-> >=20
-> > (Poky) SHA1: bb91b2ae3ee5cf108aa2f9b78abb14d5aa00831d
-> >=20
-> > Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> > ---
-> >   meta/classes/kernel-yocto.bbclass | 1 +
-> >   1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/meta/classes/kernel-yocto.bbclass
-> > b/meta/classes/kernel-yocto.bbclass index 4ac3a39e47..19a3f2bc46
-> > 100644 --- a/meta/classes/kernel-yocto.bbclass
-> > +++ b/meta/classes/kernel-yocto.bbclass
-> > @@ -276,6 +276,7 @@ do_kernel_metadata[depends] =3D
-> > "kern-tools-native:do_populate_sysroot"
-> > do_validate_branches[depends] =3D
-> > "kern-tools-native:do_populate_sysroot" do_kernel_configme[dirs] +=3D
-> > "${S} ${B}" +do_kernel_configme[depends] +=3D
-> > "virtual/kernel:do_prepare_recipe_sysroot" =20
->=20
-> On a closer look .. what branch is this from ? We already have a
-> change that triggered breakage on 4.17+ that should fix this.
->=20
-> i.e. commit ff1bdd75d50f0ebac3d599e461685ace29559a82 in oe-core, adds:
->=20
-> ----------
->=20
->   do_kernel_metadata[depends] =3D
-> "kern-tools-native:do_populate_sysroot" do_validate_branches[depends]
-> =3D "kern-tools-native:do_populate_sysroot"
->=20
-> +do_kernel_configme[depends] +=3D=20
-> "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
-> +do_kernel_configme[depends] +=3D=20
-> "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
-> +do_kernel_configme[depends] +=3D "bc-native:do_populate_sysroot=20
-> bison-native:do_populate_sysroot"
->   do_kernel_configme[dirs] +=3D "${S} ${B}"
->   do_kernel_configme() {
->=20
-> ----------
->=20
-> Which I don't see in the context of your patch.
->=20
-
-I do use poky as in the commit message.
-
-Regarding the kernel - I do have my own recipe;
-inherit kernel=20
-
-require
-recipes-kernel/linux/linux-yocto.inc                                       =
-                                                                           =
-                                                                           =
-     =20
+== Summary ==
 
 
-And then I do have:
-COMPATIBLE_MACHINE_display5 =3D "display5"=20
-
-KBUILD_DEFCONFIG_pn-linux-yocto-custom_display5 =3D
-"imx6q_display5_defconfig"                                                 =
-                                                                           =
-                                      =20
-
-As the board is in mainline I just point to Linus tree.
-
-> Bruce
->=20
-> >   do_kernel_configme() {
-> >   	set +e
-> >  =20
-> >  =20
->=20
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
 
 
+* Patch            [ROCKO,V2,16/34] Qemu CVE-2018-11806 slirp-heap-buffer-overflow
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
 
-Best regards,
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
+  Suggested fix    Fix Upstream-Status format in 0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
+  Current          Upstream-status: Backport [https://github.com/qemu/qemu/commit/864036e251f54c99d31df124aad7f34f01f5344c#diff-de3b23fd63b9e35d35c454525498d51c]
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
-Lukasz Majewski
 
---
 
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
 
---Sig_/0vnKBIP9mGXfWdshAOh.SBE
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAlt9bZsACgkQAR8vZIA0
-zr0Uzwf/fSEZtjhRtbBfxdS7+6Zp9bGhv+SRPVatLD9idOvU9YMKCWFO1WMWgnVz
-zmg/7Yee4yrh5SmtmWusxupeUO+JJvtL4vl5dFtuScmsikn+IUug8/b7hVeMjahx
-YEpeRGf0JXtHZkeSoTOczBSkouQLes4ZOtfp2vAwywL4fSjmUx05dbx4ExSAP0QP
-3Wo/FID+mtmj+AgBynxL4sujfHi+7RZlZrQGyM/RMy6XMeZQFn3tbeNbRiXBWx0H
-EHiMftinlFtCJ7UQPE31XFXAJZnguUx3e/+DFNK3hm0GczLhq5qXgp2Cu68Z3j5J
-0B03tiJ1sGxvwH+OLZAAI9FykdiCDQ==
-=V1Rq
------END PGP SIGNATURE-----
-
---Sig_/0vnKBIP9mGXfWdshAOh.SBE--
