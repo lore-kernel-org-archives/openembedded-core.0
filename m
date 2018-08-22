@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A9FC67929A
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id DF4FE792A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 11:42:23 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id q204-v6so2562197oig.9
+	Wed, 22 Aug 2018 11:42:25 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id p84-v6so2596443oic.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 04:42:25 -0700 (PDT)
+	Wed, 22 Aug 2018 04:42:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=cd4iclqZlx2O5Az9kM3eZpAU7cEYGldXw01HzFNKhVg=;
-	b=0bPVuz1c9B4nMTsZAZnDIKNztO/yGIaPYXL9FI5pWp+M4zqNU380gvzKTY1aIKpKpF
-	OO1gDhcewwmR4nUx9oGALtVqH8rt33TQHucn+ydGHgD1S86VBpliRh7SI2bhjYoZr63W
-	QQPQqL4hWCefnEIlf3GGfbLWrG/hb0fojTgm0Vj+0NKCzgQGLYbgVn5ja2hRwAimYUpu
-	5SJza5Ibp0PhKD4Y2ttOdXSjVduM0NwNfkXup78mym2JUoQg/X/TiTXsDeENFR4tV5uY
-	8Dta5DdXlR8sj7SxcVJPfTOOPRzwM6/5yA9yVg88DEmOg4zNi22GERTKMkm37pAWGCJ1
-	bhvg==
+	bh=mqRDpU2Grwx2p6r2AwI7doBqgd2S82bNRdLv6zzDr/Y=;
+	b=Byqn4N56as0r9pRsIqFV7MTIcJJdiao0S4zgbLvujgrmtWAOG45h+V1fTxhOgyPHay
+	6L61IoNrGHwFwmb67eE41GMleWI6LvyaKKX4MsotZKrqEiMbL29hmfif/z1feyujr+X8
+	WGiUixoxd42eR3HdQYgE78sSiP1vpmlx35uwxLEODBZwBfWLdl3RG9gVhfvytmSqTBT/
+	WbJZzTxV5MF16GN7Bogy+23+1RGWoMK01rdL7jpgFl6E5EqM/cUHlE32+uI6r40/7873
+	zOob2uh32QnXVeQ1UCYWaG5N0aOZraOvyKGmyV2RklVJOboLaU3cNWeU/lgJ8bxnKzIg
+	NR6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=cd4iclqZlx2O5Az9kM3eZpAU7cEYGldXw01HzFNKhVg=;
-	b=eqKoInskzDxvXJiOwtXOcfbzOg4MUNgR1WpXdi3bpVniGUML3OBknirUOPttPy9TQd
-	+W6BpSV8AHcaWbDlrrsaiJzCAbAlkAjXs54pWJpiCZ5Y8DSjC1So+9xGOzGePBShq4eM
-	JnseC8TiWoftlbCMNkDGchTlo/y6Q1ShT2y+GshjVMxiHeC177EtpYqV6aK+o+hU406G
-	IPKcry0b9UAuvHlh/XPSJf162u3JCufUHA868/4JJuXcIKCVB2g27WuPeaM8+PbVa5lV
-	EZSG7Ey4/aHZm8G4ZXJ5gNfll3lb9qgIS7P0Pg6Uc/6svhr5IDwhoUf1GZMhymE7kiN5
-	dqOw==
-X-Gm-Message-State: APzg51BI07Fue/8er0r85CPPACWzFtdQmbzWr3QgAkPt7Yxr0brbmD9q
-	dAUxTueuTaBJqcrn+1doa9QPK1wG8xM=
-X-Google-Smtp-Source: ANB0VdZ3vaSbIuQ3LLcPeUVz4sHVXeTEPd6qCpKIxnojdAdjCldQzVCPFborlFFUXdBtuTKjQw6DzQ==
-X-Received: by 2002:aca:2311:: with SMTP id
-	e17-v6mr3306984oie.47.1534938144379; 
-	Wed, 22 Aug 2018 04:42:24 -0700 (PDT)
+	bh=mqRDpU2Grwx2p6r2AwI7doBqgd2S82bNRdLv6zzDr/Y=;
+	b=qaAuGjhp3CRIdoffY/NXs3IOiryWI8zyFL8WI+tpCloCWzOmH9FIylhqjZSXXilntu
+	RJ1vYb6M0nNC71Btvigu/xu0QSUYQPX/W+LSsEyYLHWmubusr32u/ZNsQPtayZD2XDsL
+	aqkbdrDRgDOJnKhjYkuXytSA1WGuGjG0YgQ31z7FJhhSn+ZZ2/CGjV0vEd47YT7Ah4rr
+	zTAHv/wLP/WrVBlpLGzNFu8ug2P/zB77wfHcQEZ71ax9Bh2K3YMTsLRP/rqCvWYUgJzy
+	BoPf2NPkyp/VYdieFhgn82Yils+ecO6dkJZqbZLYmliMq40PKGj5Pyf98pcyFJ6cGmOb
+	zuJA==
+X-Gm-Message-State: APzg51DJNk2vO8/fFm97wX59p3J6SJN3homjhgGGQvsrFcsWHIoXuU6s
+	TIh3gWYzTKCi6sGydq9wVwOAU8sGUEM=
+X-Google-Smtp-Source: ANB0VdZk4+Wd2KGGOWY9a/inmY1W2LW3Re4VOb2XBmEND4BwJ6oEQzCGoJvLSBqKr3jlHKfIIgBwGQ==
+X-Received: by 2002:aca:f189:: with SMTP id
+	p131-v6mr3596568oih.14.1534938146612; 
+	Wed, 22 Aug 2018 04:42:26 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	f144-v6sm1323750oib.39.2018.08.22.04.42.22
+	f144-v6sm1323750oib.39.2018.08.22.04.42.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 04:42:23 -0700 (PDT)
+	Wed, 22 Aug 2018 04:42:26 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 17:11:50 +0530
-Message-Id: <1534938113-12197-10-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 17:11:51 +0530
+Message-Id: <1534938113-12197-11-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534938113-12197-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534938113-12197-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [SUMO][PATCH V2] perl: CVE-2018-6913
+Subject: [SUMO][PATCH V2] git: CVE-2018-11235
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,237 +59,392 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:42:23 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 11:42:26 -0000
 
-(perl #131844) fix various space calculation issues in
- pp_pack.c
+submodule-config: verify submodule names as paths
 
-- for the originally reported case, if the start/cur pointer is in the
-  top 75% of the address space the add (cur) + glen addition would
-  overflow, resulting in the condition failing incorrectly.
+Submodule "names" come from the untrusted .gitmodules file,
+but we blindly append them to $GIT_DIR/modules to create our
+on-disk repo paths. This means you can do bad things by
+putting "../" into the name (among other things).
 
-- the addition of the existing space used to the space needed could
-  overflow, resulting in too small an allocation and a buffer overflow.
+Let's sanity-check these names to avoid building a path that
+can be exploited. There are two main decisions:
 
-- the scaling for UTF8 could overflow.
+  1. What should the allowed syntax be?
 
-- the multiply to calculate the space needed for many items could
-  overflow.
+     It's tempting to reuse verify_path(), since submodule
+     names typically come from in-repo paths. But there are
+     two reasons not to:
 
-For the first case, do a space calculation without making new pointers.
+       a. It's technically more strict than what we need, as
+          we really care only about breaking out of the
+          $GIT_DIR/modules/ hierarchy.  E.g., having a
+          submodule named "foo/.git" isn't actually
+          dangerous, and it's possible that somebody has
+          manually given such a funny name.
 
-For the other cases, detect the overflow and croak if there's an
-overflow.
+       b. Since we'll eventually use this checking logic in
+          fsck to prevent downstream repositories, it should
+          be consistent across platforms. Because
+          verify_path() relies on is_dir_sep(), it wouldn't
+          block "foo\..\bar" on a non-Windows machine.
 
-Originally this used Size_t_MAX as the maximum size of a memory
-allocation, but for -DDEBUGGING builds realloc() throws a panic for
-allocations over half the address space in size, changing the error
-reported for the allocation.
+  2. Where should we enforce it? These days most of the
+     .gitmodules reads go through submodule-config.c, so
+     I've put it there in the reading step. That should
+     cover all of the C code.
 
-For non-DEBUGGING builds the Size_t_MAX limit has the small chance
-of finding a system that has 3GB of contiguous space available, and
-allocating that space, which could be a denial of servce in some cases.
+     We also construct the name for "git submodule add"
+     inside the git-submodule.sh script. This is probably
+     not a big deal for security since the name is coming
+     from the user anyway, but it would be polite to remind
+     them if the name they pick is invalid (and we need to
+     expose the name-checker to the shell anyway for our
+     test scripts).
 
-Unfortunately changing the limit to half the address space means that
-the exact case with the original issue can no longer occur, so the
-test is no longer testing against the address + length issue that
-caused the original problem, since the allocation is failing earlier.
+     This patch issues a warning when reading .gitmodules
+     and just ignores the related config entry completely.
+     This will generally end up producing a sensible error,
+     as it works the same as a .gitmodules file which is
+     missing a submodule entry (so "submodule update" will
+     barf, but "git clone --recurse-submodules" will print
+     an error but not abort the clone.
 
-One option would be to change the test so the size request by pack is
-just under 2GB, but this has a higher (but still low) probability that
-the system has the address space available, and will actually try to
-allocate the memory, so let's not do that.
+     There is one minor oddity, which is that we print the
+     warning once per malformed config key (since that's how
+     the config subsystem gives us the entries). So in the
+     new test, for example, the user would see three
+     warnings. That's OK, since the intent is that this case
+     should never come up outside of malicious repositories
+     (and then it might even benefit the user to see the
+     message multiple times).
 
-Note: changed
-plan tests => 14713;
-to
-plan tests => 14712;
-in a/t/op/pack.t
-to apply this patch on perl 5.24.1.
+Credit for finding this vulnerability and the proof of
+concept from which the test script was adapted goes to
+Etienne Stalmans.
 
-Affects perl < 5.26.2
+Affects: git < 2.13.7 and  git < 2.14.4 and git < 2.15.2 and git < 2.16.4 and
+         git < 2.17.1
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
 v2:
   Corrected "From:" address
 
- .../recipes-devtools/perl/perl/CVE-2018-6913.patch | 153 +++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.24.1.bb          |   1 +
- 2 files changed, 154 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-6913.patch
+ .../git/files/CVE-2018-11235.patch                 | 288 +++++++++++++++++++++
+ meta/recipes-devtools/git/git.inc                  |   3 +-
+ 2 files changed, 290 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2018-11235.patch
 
-diff --git a/meta/recipes-devtools/perl/perl/CVE-2018-6913.patch b/meta/recipes-devtools/perl/perl/CVE-2018-6913.patch
+diff --git a/meta/recipes-devtools/git/files/CVE-2018-11235.patch b/meta/recipes-devtools/git/files/CVE-2018-11235.patch
 new file mode 100644
-index 0000000..157af7b
+index 0000000..c272eac
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/CVE-2018-6913.patch
-@@ -0,0 +1,153 @@
-+From f17fed5006177dce8ac48229c424a2da0d6ba492 Mon Sep 17 00:00:00 2001
-+From: Tony Cook <tony@develop-help.com>
-+Date: Tue, 8 Aug 2017 09:32:58 +1000
-+Subject: [PATCH] (perl #131844) fix various space calculation issues in
-+ pp_pack.c
++++ b/meta/recipes-devtools/git/files/CVE-2018-11235.patch
+@@ -0,0 +1,288 @@
++From 0383bbb9015898cbc79abd7b64316484d7713b44 Mon Sep 17 00:00:00 2001
++From: Jeff King <peff@peff.net>
++Date: Mon, 30 Apr 2018 03:25:25 -0400
++Subject: [PATCH] submodule-config: verify submodule names as paths
 +
-+- for the originally reported case, if the start/cur pointer is in the
-+  top 75% of the address space the add (cur) + glen addition would
-+  overflow, resulting in the condition failing incorrectly.
++Submodule "names" come from the untrusted .gitmodules file,
++but we blindly append them to $GIT_DIR/modules to create our
++on-disk repo paths. This means you can do bad things by
++putting "../" into the name (among other things).
 +
-+- the addition of the existing space used to the space needed could
-+  overflow, resulting in too small an allocation and a buffer overflow.
++Let's sanity-check these names to avoid building a path that
++can be exploited. There are two main decisions:
 +
-+- the scaling for UTF8 could overflow.
++  1. What should the allowed syntax be?
 +
-+- the multiply to calculate the space needed for many items could
-+  overflow.
++     It's tempting to reuse verify_path(), since submodule
++     names typically come from in-repo paths. But there are
++     two reasons not to:
 +
-+For the first case, do a space calculation without making new pointers.
++       a. It's technically more strict than what we need, as
++          we really care only about breaking out of the
++          $GIT_DIR/modules/ hierarchy.  E.g., having a
++          submodule named "foo/.git" isn't actually
++          dangerous, and it's possible that somebody has
++          manually given such a funny name.
 +
-+For the other cases, detect the overflow and croak if there's an
-+overflow.
++       b. Since we'll eventually use this checking logic in
++          fsck to prevent downstream repositories, it should
++          be consistent across platforms. Because
++          verify_path() relies on is_dir_sep(), it wouldn't
++          block "foo\..\bar" on a non-Windows machine.
 +
-+Originally this used Size_t_MAX as the maximum size of a memory
-+allocation, but for -DDEBUGGING builds realloc() throws a panic for
-+allocations over half the address space in size, changing the error
-+reported for the allocation.
++  2. Where should we enforce it? These days most of the
++     .gitmodules reads go through submodule-config.c, so
++     I've put it there in the reading step. That should
++     cover all of the C code.
 +
-+For non-DEBUGGING builds the Size_t_MAX limit has the small chance
-+of finding a system that has 3GB of contiguous space available, and
-+allocating that space, which could be a denial of servce in some cases.
++     We also construct the name for "git submodule add"
++     inside the git-submodule.sh script. This is probably
++     not a big deal for security since the name is coming
++     from the user anyway, but it would be polite to remind
++     them if the name they pick is invalid (and we need to
++     expose the name-checker to the shell anyway for our
++     test scripts).
 +
-+Unfortunately changing the limit to half the address space means that
-+the exact case with the original issue can no longer occur, so the
-+test is no longer testing against the address + length issue that
-+caused the original problem, since the allocation is failing earlier.
++     This patch issues a warning when reading .gitmodules
++     and just ignores the related config entry completely.
++     This will generally end up producing a sensible error,
++     as it works the same as a .gitmodules file which is
++     missing a submodule entry (so "submodule update" will
++     barf, but "git clone --recurse-submodules" will print
++     an error but not abort the clone.
 +
-+One option would be to change the test so the size request by pack is
-+just under 2GB, but this has a higher (but still low) probability that
-+the system has the address space available, and will actually try to
-+allocate the memory, so let's not do that.
++     There is one minor oddity, which is that we print the
++     warning once per malformed config key (since that's how
++     the config subsystem gives us the entries). So in the
++     new test, for example, the user would see three
++     warnings. That's OK, since the intent is that this case
++     should never come up outside of malicious repositories
++     (and then it might even benefit the user to see the
++     message multiple times).
 +
-+Note: changed 
-+plan tests => 14713;
-+to 
-+plan tests => 14712;
-+in a/t/op/pack.t
-+to apply this patch on perl 5.24.1.
++Credit for finding this vulnerability and the proof of
++concept from which the test script was adapted goes to
++Etienne Stalmans.
 +
-+CVE: CVE-2018-6913
-+Upstream-Status: Backport [https://perl5.git.perl.org/perl.git/commitdiff/f17fed5006177dce8ac48229c424a2da0d6ba492]
++CVE: CVE-2018-11235
++Upstream-Status: Backport [https://github.com/gitster/git/commit/0383bbb9015898cbc79abd7b64316484d7713b44#diff-1772b951776d1647ca31a2256f7fe88f]
 +
++Signed-off-by: Jeff King <peff@peff.net>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ pp_pack.c   | 25 +++++++++++++++++++++----
-+ t/op/pack.t | 24 +++++++++++++++++++++++-
-+ 2 files changed, 44 insertions(+), 5 deletions(-)
++ builtin/submodule--helper.c | 24 ++++++++++++++
++ git-submodule.sh            |  5 +++
++ submodule-config.c          | 31 ++++++++++++++++++
++ submodule-config.h          |  7 +++++
++ t/t7415-submodule-names.sh  | 76 +++++++++++++++++++++++++++++++++++++++++++++
++ 5 files changed, 143 insertions(+)
++ create mode 100755 t/t7415-submodule-names.sh
 +
-+diff --git a/pp_pack.c b/pp_pack.c
-+index 8937d6d715..5e9cc64301 100644
-+--- a/pp_pack.c
-++++ b/pp_pack.c
-+@@ -357,11 +357,28 @@ STMT_START {							\
-+     }								\
-+ } STMT_END
-+ 
-++#define SAFE_UTF8_EXPAND(var)	\
-++STMT_START {				\
-++    if ((var) > SSize_t_MAX / UTF8_EXPAND) \
-++        Perl_croak(aTHX_ "%s", "Out of memory during pack()"); \
-++    (var) = (var) * UTF8_EXPAND; \
-++} STMT_END
-++
-++#define GROWING2(utf8, cat, start, cur, item_size, item_count)	\
-++STMT_START {							\
-++    if (SSize_t_MAX / (item_size) < (item_count))		\
-++        Perl_croak(aTHX_ "%s", "Out of memory during pack()");	\
-++    GROWING((utf8), (cat), (start), (cur), (item_size) * (item_count)); \
-++} STMT_END
-++
-+ #define GROWING(utf8, cat, start, cur, in_len)	\
-+ STMT_START {					\
-+     STRLEN glen = (in_len);			\
-+-    if (utf8) glen *= UTF8_EXPAND;		\
-+-    if ((cur) + glen >= (start) + SvLEN(cat)) {	\
-++    STRLEN catcur = (STRLEN)((cur) - (start));	\
-++    if (utf8) SAFE_UTF8_EXPAND(glen);		\
-++    if (SSize_t_MAX - glen < catcur)		\
-++        Perl_croak(aTHX_ "%s", "Out of memory during pack()"); \
-++    if (catcur + glen >= SvLEN(cat)) {	\
-+ 	(start) = sv_exp_grow(cat, glen);	\
-+ 	(cur) = (start) + SvCUR(cat);		\
-+     }						\
-+@@ -372,7 +389,7 @@ STMT_START {					\
-+ STMT_START {					\
-+     const STRLEN glen = (in_len);		\
-+     STRLEN gl = glen;				\
-+-    if (utf8) gl *= UTF8_EXPAND;		\
-++    if (utf8) SAFE_UTF8_EXPAND(gl);		\
-+     if ((cur) + gl >= (start) + SvLEN(cat)) {	\
-+         *cur = '\0';				\
-+         SvCUR_set((cat), (cur) - (start));	\
-+@@ -2126,7 +2143,7 @@ S_pack_rec(pTHX_ SV *cat, tempsym_t* sym
-+ 	    if (props && !(props & PACK_SIZE_UNPREDICTABLE)) {
-+ 		/* We can process this letter. */
-+ 		STRLEN size = props & PACK_SIZE_MASK;
-+-		GROWING(utf8, cat, start, cur, (STRLEN) len * size);
-++		GROWING2(utf8, cat, start, cur, size, (STRLEN)len);
-+ 	    }
-+         }
-+ 
-+diff --git a/t/op/pack.t b/t/op/pack.t
-+index 664aaaf1b0..cf0e286509 100644
-+--- a/t/op/pack.t
-++++ b/t/op/pack.t
-+@@ -12,7 +12,7 @@ my $no_endianness = $] > 5.009 ? '' :
-+ my $no_signedness = $] > 5.009 ? '' :
-+   "Signed/unsigned pack modifiers not available on this perl";
-+ 
-+-plan tests => 14712;
-++plan tests => 14717;
-+ 
-+ use strict;
-+ use warnings qw(FATAL all);
-+@@ -2044,3 +2044,25 @@ ok(1, "argument underflow did not crash"
-+     is(pack("H40", $up_nul), $twenty_nuls,
-+        "check pack H zero fills (utf8 source)");
++diff --git a/builtin/submodule--helper.c b/builtin/submodule--helper.c
++index cbb17a902..b4b4d29d8 100644
++--- a/builtin/submodule--helper.c
+++++ b/builtin/submodule--helper.c
++@@ -1480,6 +1480,29 @@ static int is_active(int argc, const cha
++ 	return !is_submodule_active(the_repository, argv[1]);
 + }
-++
-++SKIP:
++ 
+++/*
+++ * Exit non-zero if any of the submodule names given on the command line is
+++ * invalid. If no names are given, filter stdin to print only valid names
+++ * (which is primarily intended for testing).
+++ */
+++static int check_name(int argc, const char **argv, const char *prefix)
 ++{
-++  # [perl #131844] pointer addition overflow
-++    $Config{ptrsize} == 4
-++      or skip "[perl #131844] need 32-bit build for this test", 4;
-++    # prevent ASAN just crashing on the allocation failure
-++    local $ENV{ASAN_OPTIONS} = $ENV{ASAN_OPTIONS};
-++    $ENV{ASAN_OPTIONS} .= ",allocator_may_return_null=1";
-++    fresh_perl_like('pack "f999999999"', qr/Out of memory during pack/, { stderr => 1 },
-++		    "pointer addition overflow");
-++
-++    # integer (STRLEN) overflow from addition of glen to current length
-++    fresh_perl_like('pack "c10f1073741823"', qr/Out of memory during pack/, { stderr => 1 },
-++		    "integer overflow calculating allocation (addition)");
-++
-++    fresh_perl_like('pack "W10f536870913", 256', qr/Out of memory during pack/, { stderr => 1 },
-++		    "integer overflow calculating allocation (utf8)");
-++
-++    fresh_perl_like('pack "c10f1073741824"', qr/Out of memory during pack/, { stderr => 1 },
-++		    "integer overflow calculating allocation (multiply)");
+++	if (argc > 1) {
+++		while (*++argv) {
+++			if (check_submodule_name(*argv) < 0)
+++				return 1;
+++		}
+++	} else {
+++		struct strbuf buf = STRBUF_INIT;
+++		while (strbuf_getline(&buf, stdin) != EOF) {
+++			if (!check_submodule_name(buf.buf))
+++				printf("%s\n", buf.buf);
+++		}
+++		strbuf_release(&buf);
+++	}
+++	return 0;
 ++}
+++
++ #define SUPPORT_SUPER_PREFIX (1<<0)
++ 
++ struct cmd_struct {
++@@ -1502,6 +1525,7 @@ static struct cmd_struct commands[] = {
++ 	{"push-check", push_check, 0},
++ 	{"absorb-git-dirs", absorb_git_dirs, SUPPORT_SUPER_PREFIX},
++ 	{"is-active", is_active, 0},
+++	{"check-name", check_name, 0},
++ };
++ 
++ int cmd_submodule__helper(int argc, const char **argv, const char *prefix)
++diff --git a/git-submodule.sh b/git-submodule.sh
++index c0d0e9a4c..92750b9e2 100755
++--- a/git-submodule.sh
+++++ b/git-submodule.sh
++@@ -229,6 +229,11 @@ Use -f if you really want to add it." >&
++ 		sm_name="$sm_path"
++ 	fi
++ 
+++	if ! git submodule--helper check-name "$sm_name"
+++	then
+++		die "$(eval_gettext "'$sm_name' is not a valid submodule name")"
+++	fi
+++
++ 	# perhaps the path exists and is already a git repo, else clone it
++ 	if test -e "$sm_path"
++ 	then
++diff --git a/submodule-config.c b/submodule-config.c
++index 4f58491dd..de54351c6 100644
++--- a/submodule-config.c
+++++ b/submodule-config.c
++@@ -190,6 +190,31 @@ static struct submodule *cache_lookup_na
++ 	return NULL;
++ }
++ 
+++int check_submodule_name(const char *name)
+++{
+++	/* Disallow empty names */
+++	if (!*name)
+++		return -1;
+++
+++	/*
+++	 * Look for '..' as a path component. Check both '/' and '\\' as
+++	 * separators rather than is_dir_sep(), because we want the name rules
+++	 * to be consistent across platforms.
+++	 */
+++	goto in_component; /* always start inside component */
+++	while (*name) {
+++		char c = *name++;
+++		if (c == '/' || c == '\\') {
+++in_component:
+++			if (name[0] == '.' && name[1] == '.' &&
+++			    (!name[2] || name[2] == '/' || name[2] == '\\'))
+++				return -1;
+++		}
+++	}
+++
+++	return 0;
+++}
+++
++ static int name_and_item_from_var(const char *var, struct strbuf *name,
++ 				  struct strbuf *item)
++ {
++@@ -201,6 +226,12 @@ static int name_and_item_from_var(const
++ 		return 0;
++ 
++ 	strbuf_add(name, subsection, subsection_len);
+++	if (check_submodule_name(name->buf) < 0) {
+++		warning(_("ignoring suspicious submodule name: %s"), name->buf);
+++		strbuf_release(name);
+++		return 0;
+++	}
+++
++ 	strbuf_addstr(item, key);
++ 
++ 	return 1;
++diff --git a/submodule-config.h b/submodule-config.h
++index d434ecdb4..103cc79dd 100644
++--- a/submodule-config.h
+++++ b/submodule-config.h
++@@ -48,4 +48,11 @@ extern const struct submodule *submodule
++ 						    const char *key);
++ extern void submodule_free(void);
++ 
+++/*
+++ * Returns 0 if the name is syntactically acceptable as a submodule "name"
+++ * (e.g., that may be found in the subsection of a .gitmodules file) and -1
+++ * otherwise.
+++ */
+++int check_submodule_name(const char *name);
+++
++ #endif /* SUBMODULE_CONFIG_H */
++diff --git a/t/t7415-submodule-names.sh b/t/t7415-submodule-names.sh
++new file mode 100755
++index 000000000..75fa071c6
++--- /dev/null
+++++ b/t/t7415-submodule-names.sh
++@@ -0,0 +1,76 @@
+++#!/bin/sh
+++
+++test_description='check handling of .. in submodule names
+++
+++Exercise the name-checking function on a variety of names, and then give a
+++real-world setup that confirms we catch this in practice.
+++'
+++. ./test-lib.sh
+++
+++test_expect_success 'check names' '
+++	cat >expect <<-\EOF &&
+++	valid
+++	valid/with/paths
+++	EOF
+++
+++	git submodule--helper check-name >actual <<-\EOF &&
+++	valid
+++	valid/with/paths
+++
+++	../foo
+++	/../foo
+++	..\foo
+++	\..\foo
+++	foo/..
+++	foo/../
+++	foo\..
+++	foo\..\
+++	foo/../bar
+++	EOF
+++
+++	test_cmp expect actual
+++'
+++
+++test_expect_success 'create innocent subrepo' '
+++	git init innocent &&
+++	git -C innocent commit --allow-empty -m foo
+++'
+++
+++test_expect_success 'submodule add refuses invalid names' '
+++	test_must_fail \
+++		git submodule add --name ../../modules/evil "$PWD/innocent" evil
+++'
+++
+++test_expect_success 'add evil submodule' '
+++	git submodule add "$PWD/innocent" evil &&
+++
+++	mkdir modules &&
+++	cp -r .git/modules/evil modules &&
+++	write_script modules/evil/hooks/post-checkout <<-\EOF &&
+++	echo >&2 "RUNNING POST CHECKOUT"
+++	EOF
+++
+++	git config -f .gitmodules submodule.evil.update checkout &&
+++	git config -f .gitmodules --rename-section \
+++		submodule.evil submodule.../../modules/evil &&
+++	git add modules &&
+++	git commit -am evil
+++'
+++
+++# This step seems like it shouldn't be necessary, since the payload is
+++# contained entirely in the evil submodule. But due to the vagaries of the
+++# submodule code, checking out the evil module will fail unless ".git/modules"
+++# exists. Adding another submodule (with a name that sorts before "evil") is an
+++# easy way to make sure this is the case in the victim clone.
+++test_expect_success 'add other submodule' '
+++	git submodule add "$PWD/innocent" another-module &&
+++	git add another-module &&
+++	git commit -am another
+++'
+++
+++test_expect_success 'clone evil superproject' '
+++	git clone --recurse-submodules . victim >output 2>&1 &&
+++	! grep "RUNNING POST CHECKOUT" output
+++'
+++
+++test_done
 +-- 
-+2.15.1-424-g9478a660812
++2.13.3
 +
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index 882c1cf..bb18c6a 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -69,6 +69,7 @@ SRC_URI += " \
-         file://CVE-2018-6798-1.patch \
-         file://CVE-2018-6798-2.patch \
-         file://CVE-2018-6797.patch \
-+        file://CVE-2018-6913.patch \
- "
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index dd9d792..bea23ec 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -7,7 +7,8 @@ DEPENDS = "openssl curl zlib expat"
+ PROVIDES_append_class-native = " git-replacement-native"
  
- # Fix test case issues
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+-           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages"
++           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
++           file://CVE-2018-11235.patch"
+ 
+ S = "${WORKDIR}/git-${PV}"
+ 
 -- 
 2.7.4
 
