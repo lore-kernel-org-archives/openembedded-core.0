@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A47C792A0
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F6E879223
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 11:42:14 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id c190-v6so2580253oig.6
+	Wed, 22 Aug 2018 11:42:16 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id 8-v6so2631333oip.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 04:42:15 -0700 (PDT)
+	Wed, 22 Aug 2018 04:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Q9wtT0n94wVn0FGBwNO5ei9DlkyQI1CTc6zNy/S4HXY=;
-	b=IDr1Vv1Wk+Vgf+t7SqJvT7FvMwXX7L6p9pZ6xyWUqcG/n93gTypcT/qwol7TE1/K5O
-	kCVi+nkxa7AvwMuvhnnJMHs8JiTvyEHDvZhhgUQV2hUF6gdhzpyGsExWQXemqWSFaoRa
-	3XH9b/TRy/E+c2klXvl66owY3p8WIHApXadE12wbe5LrT5yy71MT5dYApH97rOErkt4r
-	O4/aS3XrJsWd0tLJmO1ojj0v9psTt8s2NK7/iEBgSEoGRS10V8hBqCTkEhhgoGManLNv
-	/7lOnn5P4kcQkFy/xU6W5Qss/0LP9GQBetK+btrM6MtNwcisMsNnYA+607Y/IWRwu0I5
-	k2sQ==
+	bh=Ph6lourI0FggrTtzWFB89sTURSJwjn5zNNCBMHXSvqQ=;
+	b=R5d7FDzFXgXt/jkuJiuyT5pkhIg+5kPHF5wJ5sDBJ54kS4NENhobE4Q1E/omlTiOLq
+	HDu6AqPSdMu+sowos6G38SXjqnnVCwS322x1kFD59O2LVyJAvLUBv120gzt6YUJIV2vo
+	dKRUZ5mw6TB6oXqioc+dIoGjc7nVaDBZauGgIBEuN9B04eAa+1UxCeZySqROUGxpwHOT
+	bRpVrlM7jGCt2O/e/IGlNAKtSV/kKVgd9IWP1MQEVOcfSubNwIefafPrjH/Gmk3jSbxU
+	v5+zmJiWRjsbP5ZHUVem9EapsZH9lY+v6cJOh0IR+AmEjIen+EvB+Uz096TCkCkxW++B
+	OJ7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Q9wtT0n94wVn0FGBwNO5ei9DlkyQI1CTc6zNy/S4HXY=;
-	b=NrYF6sBRJm8+hSqi6ypkh1Rs+taUibT+4zTi34Ba1FTqHXKn/fKjzoWhEEQHSqftYB
-	QVuUsBr1qK6lMVsJz4BdMV6J6Apo0Brn0pfemUGZ2O0MMMDYllGwj++cs6opeaFPDd1v
-	CrdFtZlh2VwjKuPywL4T09Ow7DtTsjYlf51jLq0dC7bUIszbmLwf15JnBRGQXjFffl1f
-	GDTL45CEfK8zgQabLbH1q1l2fm1Oi1EZ++j6BFN95DKJndt5CU/MeKoVLVaS67Vr8VvW
-	8CSl8pBriYXeIF+inV0gJwCMJPYW4DGywvv9dxbuJYF1M63o1cdVQH+IcdO6EYEc0I2e
-	EmSA==
-X-Gm-Message-State: APzg51BBbZ1OQj8dPogj9YnbJK9LvcK2Xt5iT0f2hVlhAlgo/AIKtswO
-	DJ/mUzT53EAqaCxvDhRm44vakAgFZFI=
-X-Google-Smtp-Source: ANB0VdbkLw2GAfw/jdx8n8NbYyj5mTt3WsZU+ssfhhgOe3gBN+mLbmZ+mvw8cVKRWTqOkvLuKUIAHA==
-X-Received: by 2002:aca:3882:: with SMTP id
-	f124-v6mr3640915oia.195.1534938135079; 
-	Wed, 22 Aug 2018 04:42:15 -0700 (PDT)
+	bh=Ph6lourI0FggrTtzWFB89sTURSJwjn5zNNCBMHXSvqQ=;
+	b=Y8TAlLMTRWqVZHgo0Dg10UcZm3SI8UEqVBbEfy7xGE2Gke995pZpVOTE3jokG6gklw
+	n1At0jXVhq56uC0S088cniTLZd1LiwYrXL+R2Lpo1ynImUX3YlpGwYkt9tt4vOoN7q3k
+	1KByG6knOIyjv/8dfEmE39L/12cgWrV+7Z0i/6u66lWAQRq38fH0JvnQ6ttqR7TGMYB1
+	9u0AbfnmeIzVzk7PC7lUErIh/Hcjiz+XxGL6yLOTvYf7emY6MGdHI3dKv0QdRsifukO8
+	TKfZPkVdnfa2/M3YquDS5230HQkeL7PQGXWKuX/CdJu7oSa2R0Ky/lUGvN4/GjCLmlQe
+	Dltw==
+X-Gm-Message-State: APzg51D4T+2bchDzP5o4Gbbv58Fon8A9wzBGgpE+ncf49xCFNztoKd3T
+	6itN99BwQXetUn6AN4Afizunu4HfDwA=
+X-Google-Smtp-Source: ANB0VdZZgczFLDDT4dRhoiWmDenp1KJgM4DagaduHL49DGCOMJO9EJ8jD92nv+udgcQMdTpM7C9eCQ==
+X-Received: by 2002:aca:bf88:: with SMTP id
+	p130-v6mr3292217oif.344.1534938137305; 
+	Wed, 22 Aug 2018 04:42:17 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	f144-v6sm1323750oib.39.2018.08.22.04.42.12
+	f144-v6sm1323750oib.39.2018.08.22.04.42.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 04:42:14 -0700 (PDT)
+	Wed, 22 Aug 2018 04:42:16 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 17:11:46 +0530
-Message-Id: <1534938113-12197-6-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 17:11:47 +0530
+Message-Id: <1534938113-12197-7-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534938113-12197-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534938113-12197-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [SUMO][PATCH V2] qemu: CVE-2018-7550
+Subject: [SUMO][PATCH V2] qemu: CVE-2018-12617
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,105 +59,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:42:14 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 11:42:16 -0000
 
-multiboot: bss_end_addr can be zero
+qga: check bytes count read by guest-file-read
 
-The multiboot spec
-(https://www.gnu.org/software/grub/manual/multiboot/),
-section 3.1.3, allows for bss_end_addr to be zero.
+While reading file content via 'guest-file-read' command,
+'qmp_guest_file_read' routine allocates buffer of count+1
+bytes. It could overflow for large values of 'count'.
+Add check to avoid it.
 
-A zero bss_end_addr signifies there is no .bss section.
-
-Affects qemu < v2.12.0
+Affects qemu < v3.0.0
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
 v2:
   Corrected "From:" address
 
- .../recipes-devtools/qemu/qemu/CVE-2018-7550.patch | 62 ++++++++++++++++++++++
+ .../qemu/qemu/CVE-2018-12617.patch                 | 53 ++++++++++++++++++++++
  meta/recipes-devtools/qemu/qemu_2.11.1.bb          |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-12617.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-12617.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-12617.patch
 new file mode 100644
-index 0000000..9923d12
+index 0000000..c89f189
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
-@@ -0,0 +1,62 @@
-+From 2a8fcd119eb7c6bb3837fc3669eb1b2dfb31daf8 Mon Sep 17 00:00:00 2001
-+From: Jack Schwartz <jack.schwartz@oracle.com>
-+Date: Thu, 21 Dec 2017 09:25:15 -0800
-+Subject: [PATCH] multiboot: bss_end_addr can be zero
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-12617.patch
+@@ -0,0 +1,53 @@
++From 141b197408ab398c4f474ac1a728ab316e921f2b Mon Sep 17 00:00:00 2001
++From: Prasad J Pandit <pjp@fedoraproject.org>
++Date: Wed, 13 Jun 2018 11:46:57 +0530
++Subject: [PATCH] qga: check bytes count read by guest-file-read
 +
-+The multiboot spec (https://www.gnu.org/software/grub/manual/multiboot/),
-+section 3.1.3, allows for bss_end_addr to be zero.
++While reading file content via 'guest-file-read' command,
++'qmp_guest_file_read' routine allocates buffer of count+1
++bytes. It could overflow for large values of 'count'.
++Add check to avoid it.
 +
-+A zero bss_end_addr signifies there is no .bss section.
++Reported-by: Fakhri Zulkifli <mohdfakhrizulkifli@gmail.com>
++Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Cc: qemu-stable@nongnu.org
++Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 +
-+CVE: CVE-2018-7550
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commitdiff;h=2a8fcd119eb7c6bb3837fc3669eb1b2dfb31daf8]
++CVE: CVE-2018-12617
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commitdiff;h=141b197408ab398c4f474ac1a728ab316e921f2b]
 +
-+Suggested-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jack Schwartz <jack.schwartz@oracle.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ hw/i386/multiboot.c | 18 ++++++++++--------
-+ 1 file changed, 10 insertions(+), 8 deletions(-)
++ qga/commands-posix.c | 2 +-
++ qga/commands-win32.c | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
-+index 46d9c68bf5..bb8d8e4629 100644
-+--- a/hw/i386/multiboot.c
-++++ b/hw/i386/multiboot.c
-+@@ -233,12 +233,6 @@ int load_multiboot(FWCfgState *fw_cfg,
-+         mh_entry_addr = ldl_p(header+i+28);
++diff --git a/qga/commands-posix.c b/qga/commands-posix.c
++index 594d21ef3e..9284e71666 100644
++--- a/qga/commands-posix.c
+++++ b/qga/commands-posix.c
++@@ -458,7 +458,7 @@ struct GuestFileRead *qmp_guest_file_read(int64_t handle, bool has_count,
 + 
-+         if (mh_load_end_addr) {
-+-            if (mh_bss_end_addr < mh_load_addr) {
-+-                fprintf(stderr, "invalid mh_bss_end_addr address\n");
-+-                exit(1);
-+-            }
-+-            mb_kernel_size = mh_bss_end_addr - mh_load_addr;
-+-
-+             if (mh_load_end_addr < mh_load_addr) {
-+                 fprintf(stderr, "invalid mh_load_end_addr address\n");
-+                 exit(1);
-+@@ -249,8 +243,16 @@ int load_multiboot(FWCfgState *fw_cfg,
-+                 fprintf(stderr, "invalid kernel_file_size\n");
-+                 exit(1);
-+             }
-+-            mb_kernel_size = kernel_file_size - mb_kernel_text_offset;
-+-            mb_load_size = mb_kernel_size;
-++            mb_load_size = kernel_file_size - mb_kernel_text_offset;
-++        }
-++        if (mh_bss_end_addr) {
-++            if (mh_bss_end_addr < (mh_load_addr + mb_load_size)) {
-++                fprintf(stderr, "invalid mh_bss_end_addr address\n");
-++                exit(1);
-++            }
-++            mb_kernel_size = mh_bss_end_addr - mh_load_addr;
-++        } else {
-++            mb_kernel_size = mb_load_size;
-+         }
-+ 
-+         /* Valid if mh_flags sets MULTIBOOT_HEADER_HAS_VBE.
++     if (!has_count) {
++         count = QGA_READ_COUNT_DEFAULT;
++-    } else if (count < 0) {
+++    } else if (count < 0 || count >= UINT32_MAX) {
++         error_setg(errp, "value '%" PRId64 "' is invalid for argument count",
++                    count);
++         return NULL;
++diff --git a/qga/commands-win32.c b/qga/commands-win32.c
++index 70ee5379f6..73f31fa8c2 100644
++--- a/qga/commands-win32.c
+++++ b/qga/commands-win32.c
++@@ -318,7 +318,7 @@ GuestFileRead *qmp_guest_file_read(int64_t handle, bool has_count,
++     }
++     if (!has_count) {
++         count = QGA_READ_COUNT_DEFAULT;
++-    } else if (count < 0) {
+++    } else if (count < 0 || count >= UINT32_MAX) {
++         error_setg(errp, "value '%" PRId64
++                    "' is invalid for argument count", count);
++         return NULL;
 +-- 
 +2.13.3
 +
 diff --git a/meta/recipes-devtools/qemu/qemu_2.11.1.bb b/meta/recipes-devtools/qemu/qemu_2.11.1.bb
-index 7de21ac..db7ead7 100644
+index db7ead7..a447dc7 100644
 --- a/meta/recipes-devtools/qemu/qemu_2.11.1.bb
 +++ b/meta/recipes-devtools/qemu/qemu_2.11.1.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
-            file://0012-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch \
+@@ -25,6 +25,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
             file://0013-ps2-check-PS2Queue-pointers-in-post_load-routine.patch \
             file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
-+           file://CVE-2018-7550.patch \
+            file://CVE-2018-7550.patch \
++           file://CVE-2018-12617.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
  
