@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 51CF379436
+Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
+	[209.85.218.43])
+	by mail.openembedded.org (Postfix) with ESMTP id EC34A794A7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:09:59 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id y207-v6so3663583oie.13
+	Wed, 22 Aug 2018 15:10:01 +0000 (UTC)
+Received: by mail-oi0-f43.google.com with SMTP id c190-v6so3706489oig.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:10:00 -0700 (PDT)
+	Wed, 22 Aug 2018 08:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Guj1scQUjEDrWgwNyl+Ch5//O7Pb59L7fvRJ0pLD6yM=;
-	b=uVOtyq7ZKmc0JLTdAPmURBw8VSCJ/K37EUXnv1s+54ljuQ8NjhO4bP8NyY5H76igCi
-	3shYu3C2kq+jguX2zcF3FntDtnoelGaFqyKihApCPYeKOSSOGMFMTIRplru/me8EremP
-	jph56pJLYzJ4CyA0q5b6e8MgHSW6le5/T60ONghHtxKtVrJgJzCBhRm/S37kqfmSp7cG
-	fZKj2p6Z+g7tuAfg/xLifxZEhux8DIoRALP80svH4svHBSJ0ZEaX+nivS9Kaf7zbXIV+
-	eaHktnA8ixPgM72o3rOglp+7PkfcnBEjkeo1CgmO1GtXjYZK6YRBpGsyfwp2+/WUcomw
-	voYQ==
+	bh=jGyCiCx7loJQdm8YseD5aSR6THHe2V2FQsrDez2/1t8=;
+	b=YVN2RXUzigEIClkgCFhgnwIcxEjKbdHkQprxFFa9S65jQjl8EgEixMsW4UsPIIw2cj
+	ODwUIne82ohhJWELGdCf0StweYMBFj3HMst5lHkSZjSX4C16R3VsJINttH6bxQ6eff9A
+	xpV2ND4NVWFkWZLLgblJhMYdcCVF9XcA19b+NF6QKd2XgnjZWnsLa+MbjdrNE4OC0ZMO
+	t16dL9OgGzxeq6Ckhoxng67EXkseYPHSdiv2tX805BX/FYIZFFjs+j6z1by7TyXt0Cb9
+	fdxzZJ8gd7I9mzncFPrmLV+/McrI7qtmLGUO20KGByifQ6jk6TaUr/qYUB7F1IH7dgA3
+	Y10g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Guj1scQUjEDrWgwNyl+Ch5//O7Pb59L7fvRJ0pLD6yM=;
-	b=lLy4m60M0vG3jExzztDdxQNHQ6sAl8j5hxYRwH8PPeWu5AmRzvYEdVI2SDqE6WO5M/
-	cFUePPq9Kfl8JFgRhH7ouXUT3twFSap1nN1IZguCLUuvK5TOvSLh98MdpHTEWUWBVN/7
-	m/HWP1D111kYnjlfOnQEopIpJcosobndd+b91jG0eTqVZXmD5x+3F8NJHYlSetnDliq1
-	btHsDlS5wB9POsmAnvk3VsAYHA7He/zp/VqB2pSRAQ4WoD2Pca1r7AzRfw1p+WsBgGxB
-	tTbj9e35PMOTd7kL7xpf8kp4vRSLfOIRCzikGzPXjvXoGlIbp1RESGw2+GfLKvFQWRK+
-	MHHQ==
-X-Gm-Message-State: APzg51CtLFnEoQ1H1VXQ5sSdpFUVbxDCzwaVD4bBRefTZ0s6JebXySxU
-	yMm1l2D11KCrcZ27PfnIhmBbUrkwpVM=
-X-Google-Smtp-Source: ANB0VdZYf+JMLVZdwKHsNnlAcPx+CIUpjZD4Nz3mv7PJ+hbZR9T1XmSrC6LQRjnOblT7aDI87mpJgQ==
-X-Received: by 2002:aca:3357:: with SMTP id
-	z84-v6mr4064655oiz.49.1534950600153; 
-	Wed, 22 Aug 2018 08:10:00 -0700 (PDT)
+	bh=jGyCiCx7loJQdm8YseD5aSR6THHe2V2FQsrDez2/1t8=;
+	b=XQ9F7yPmfM2MTO/2KmffCsPoJaBX4OP99qBDCj+/ouY/JS7tYng8adPeOshXwBFqoE
+	CwcSsPqRUPssKtXQatyFTzar1KQiSM7uQpRraM0aYhFlX7kURLpX2D5cAZ7EpPP5YdIN
+	2F3Y0AimmZmRxDQ0JXNkzfDGth03Z+8sy2X2/LEHY9jskLoT3TXckUKyAQxkD8tra2FJ
+	wv/wmpUkwykLb2/yjSezJzkFpftBxFYF2luk5J7CM9CQ+tqoCIxukRcu6oY11LtuhL8Y
+	LXxcW1oHSBagSPhYtb1ZGQiTpE59pJkfKWBJmfX6GiiRPCpmAS4AlWLxt9cba7oRiCNZ
+	TJQQ==
+X-Gm-Message-State: APzg51ATPGmrAm3JpMCvd3OQ9jDf/breZjyCf7psT/uzCLBfbt4y4o7A
+	JIDrxsejgbwOA3qROT76mPcMB+VJ4bA=
+X-Google-Smtp-Source: ANB0VdZEapukrRkyn5BNmf+bIgzRk63J5cpMs3MonQ3iL1KFtS05t4jX6t1yXLoEt+2mjY0NntXkhA==
+X-Received: by 2002:aca:5714:: with SMTP id
+	l20-v6mr3390074oib.100.1534950602745; 
+	Wed, 22 Aug 2018 08:10:02 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.09.58
+	i132-v6sm1024281oif.20.2018.08.22.08.10.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:09:59 -0700 (PDT)
+	Wed, 22 Aug 2018 08:10:02 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:44 +0530
-Message-Id: <1534950532-23850-26-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 20:38:45 +0530
+Message-Id: <1534950532-23850-27-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V3 26/34] shadow: CVE-2018-7169
+Subject: [ROCKO][PATCH V3 27/34] perl: CVE-2018-6797
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,245 +59,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:09:59 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:10:02 -0000
 
-newgidmap: enforce setgroups=deny if self-mapping a group
+(perl #132227) restart a node if we change to uni rules within the node and encounter...
+This could lead to a buffer overflow.
 
-This is necessary to match the kernel-side policy of "self-mapping in a
-user namespace is fine, but you cannot drop groups" -- a policy that was
-created in order to stop user namespaces from allowing trivial privilege
-escalation by dropping supplementary groups that were "blacklisted" from
-certain paths.
+(cherry picked from commit a02c70e35d1313a5f4e245e8f863c810e991172d)
 
-This is the simplest fix for the underlying issue, and effectively makes
-it so that unless a user has a valid mapping set in /etc/subgid (which
-only administrators can modify) -- and they are currently trying to use
-that mapping -- then /proc/$pid/setgroups will be set to deny. This
-workaround is only partial, because ideally it should be possible to set
-an "allow_setgroups" or "deny_setgroups" flag in /etc/subgid to allow
-administrators to further restrict newgidmap(1).
-
-We also don't write anything in the "allow" case because "allow" is the
-default, and users may have already written "deny" even if they
-technically are allowed to use setgroups. And we don't write anything if
-the setgroups policy is already "deny".
-
-Ref: https://bugs.launchpad.net/ubuntu/+source/shadow/+bug/1729357
-Fixes: CVE-2018-7169
-
-Affects shadow <= 4.5
+Affects perl >= 5.18 && perl <= 5.26
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../shadow/files/CVE-2018-7169.patch               | 186 +++++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc            |   1 +
- 2 files changed, 187 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/CVE-2018-7169.patch
+ .../recipes-devtools/perl/perl/CVE-2018-6797.patch | 45 ++++++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.24.1.bb          |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-6797.patch
 
-diff --git a/meta/recipes-extended/shadow/files/CVE-2018-7169.patch b/meta/recipes-extended/shadow/files/CVE-2018-7169.patch
+diff --git a/meta/recipes-devtools/perl/perl/CVE-2018-6797.patch b/meta/recipes-devtools/perl/perl/CVE-2018-6797.patch
 new file mode 100644
-index 0000000..36887d4
+index 0000000..b56ebd3
 --- /dev/null
-+++ b/meta/recipes-extended/shadow/files/CVE-2018-7169.patch
-@@ -0,0 +1,186 @@
-+From fb28c99b8a66ff2605c5cb96abc0a4d975f92de0 Mon Sep 17 00:00:00 2001
-+From: Aleksa Sarai <asarai@suse.de>
-+Date: Thu, 15 Feb 2018 23:49:40 +1100
-+Subject: [PATCH] newgidmap: enforce setgroups=deny if self-mapping a group
++++ b/meta/recipes-devtools/perl/perl/CVE-2018-6797.patch
+@@ -0,0 +1,45 @@
++From abe1e6c568b96bcb382dfa4f61c56d1ab001ea51 Mon Sep 17 00:00:00 2001
++From: Karl Williamson <khw@cpan.org>
++Date: Fri, 2 Feb 2018 15:14:27 -0700
++Subject: [PATCH] (perl #132227) restart a node if we change to uni rules
++ within the node and encounter a sharp S
 +
-+This is necessary to match the kernel-side policy of "self-mapping in a
-+user namespace is fine, but you cannot drop groups" -- a policy that was
-+created in order to stop user namespaces from allowing trivial privilege
-+escalation by dropping supplementary groups that were "blacklisted" from
-+certain paths.
++This could lead to a buffer overflow.
 +
-+This is the simplest fix for the underlying issue, and effectively makes
-+it so that unless a user has a valid mapping set in /etc/subgid (which
-+only administrators can modify) -- and they are currently trying to use
-+that mapping -- then /proc/$pid/setgroups will be set to deny. This
-+workaround is only partial, because ideally it should be possible to set
-+an "allow_setgroups" or "deny_setgroups" flag in /etc/subgid to allow
-+administrators to further restrict newgidmap(1).
++(cherry picked from commit a02c70e35d1313a5f4e245e8f863c810e991172d)
 +
-+We also don't write anything in the "allow" case because "allow" is the
-+default, and users may have already written "deny" even if they
-+technically are allowed to use setgroups. And we don't write anything if
-+the setgroups policy is already "deny".
++CVE: CVE-2018-6797
++Upstream-Status: Backport [https://perl5.git.perl.org/perl.git/commitdiff/abe1e6c568b96bcb382dfa4f61c56d1ab001ea51]
 +
-+Ref: https://bugs.launchpad.net/ubuntu/+source/shadow/+bug/1729357
-+Fixes: CVE-2018-7169
-+
-+Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/fb28c99b8a66ff2605c5cb96abc0a4d975f92de0]
-+Reported-by: Craig Furman <craig.furman89@gmail.com>
-+Signed-off-by: Aleksa Sarai <asarai@suse.de>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ src/newgidmap.c | 89 +++++++++++++++++++++++++++++++++++++++++++++++++++------
-+ 1 file changed, 80 insertions(+), 9 deletions(-)
++ regcomp.c | 12 ++++++++++++
++ 1 file changed, 12 insertions(+)
 +
-+diff --git a/src/newgidmap.c b/src/newgidmap.c
-+index b1e33513..59a2e75c 100644
-+--- a/src/newgidmap.c
-++++ b/src/newgidmap.c
-+@@ -46,32 +46,37 @@
-+  */
-+ const char *Prog;
-+ 
-+-static bool verify_range(struct passwd *pw, struct map_range *range)
++diff --git a/regcomp.c b/regcomp.c
++index 3b9550b10d..a7dee9a09e 100644
++--- a/regcomp.c
+++++ b/regcomp.c
++@@ -13543,6 +13543,18 @@ S_regatom(pTHX_ RExC_state_t *pRExC_state, I32 *flagp, U32 depth)
++                          * /u.  This includes the multi-char fold SHARP S to
++                          * 'ss' */
++                         if (UNLIKELY(ender == LATIN_SMALL_LETTER_SHARP_S)) {
 ++
-++static bool verify_range(struct passwd *pw, struct map_range *range, bool *allow_setgroups)
-+ {
-+ 	/* An empty range is invalid */
-+ 	if (range->count == 0)
-+ 		return false;
-+ 
-+-	/* Test /etc/subgid */
-+-	if (have_sub_gids(pw->pw_name, range->lower, range->count))
-++	/* Test /etc/subgid. If the mapping is valid then we allow setgroups. */
-++	if (have_sub_gids(pw->pw_name, range->lower, range->count)) {
-++		*allow_setgroups = true;
-+ 		return true;
-++	}
-+ 
-+-	/* Allow a process to map it's own gid */
-+-	if ((range->count == 1) && (pw->pw_gid == range->lower))
-++	/* Allow a process to map its own gid. */
-++	if ((range->count == 1) && (pw->pw_gid == range->lower)) {
-++		/* noop -- if setgroups is enabled already we won't disable it. */
-+ 		return true;
-++	}
-+ 
-+ 	return false;
-+ }
-+ 
-+ static void verify_ranges(struct passwd *pw, int ranges,
-+-	struct map_range *mappings)
-++	struct map_range *mappings, bool *allow_setgroups)
-+ {
-+ 	struct map_range *mapping;
-+ 	int idx;
-+ 
-+ 	mapping = mappings;
-+ 	for (idx = 0; idx < ranges; idx++, mapping++) {
-+-		if (!verify_range(pw, mapping)) {
-++		if (!verify_range(pw, mapping, allow_setgroups)) {
-+ 			fprintf(stderr, _( "%s: gid range [%lu-%lu) -> [%lu-%lu) not allowed\n"),
-+ 				Prog,
-+ 				mapping->upper,
-+@@ -89,6 +94,70 @@ static void usage(void)
-+ 	exit(EXIT_FAILURE);
-+ }
-+ 
-++void write_setgroups(int proc_dir_fd, bool allow_setgroups)
-++{
-++	int setgroups_fd;
-++	char *policy, policy_buffer[4096];
+++                            /* If the node started out having uni rules, we
+++                             * wouldn't have gotten here.  So this means
+++                             * something in the middle has changed it, but
+++                             * didn't think it needed to reparse.  But this
+++                             * sharp s now does indicate the need for
+++                             * reparsing. */
+++                            if (RExC_uni_semantics) {
+++                                p = oldp;
+++                                goto loopdone;
+++                            }
 ++
-++	/*
-++	 * Default is "deny", and any "allow" will out-rank a "deny". We don't
-++	 * forcefully write an "allow" here because the process we are writing
-++	 * mappings for may have already set themselves to "deny" (and "allow"
-++	 * is the default anyway). So allow_setgroups == true is a noop.
-++	 */
-++	policy = "deny\n";
-++	if (allow_setgroups)
-++		return;
-++
-++	setgroups_fd = openat(proc_dir_fd, "setgroups", O_RDWR|O_CLOEXEC);
-++	if (setgroups_fd < 0) {
-++		/*
-++		 * If it's an ENOENT then we are on too old a kernel for the setgroups
-++		 * code to exist. Emit a warning and bail on this.
-++		 */
-++		if (ENOENT == errno) {
-++			fprintf(stderr, _("%s: kernel doesn't support setgroups restrictions\n"), Prog);
-++			goto out;
-++		}
-++		fprintf(stderr, _("%s: couldn't open process setgroups: %s\n"),
-++			Prog,
-++			strerror(errno));
-++		exit(EXIT_FAILURE);
-++	}
-++
-++	/*
-++	 * Check whether the policy is already what we want. /proc/self/setgroups
-++	 * is write-once, so attempting to write after it's already written to will
-++	 * fail.
-++	 */
-++	if (read(setgroups_fd, policy_buffer, sizeof(policy_buffer)) < 0) {
-++		fprintf(stderr, _("%s: failed to read setgroups: %s\n"),
-++			Prog,
-++			strerror(errno));
-++		exit(EXIT_FAILURE);
-++	}
-++	if (!strncmp(policy_buffer, policy, strlen(policy)))
-++		goto out;
-++
-++	/* Write the policy. */
-++	if (lseek(setgroups_fd, 0, SEEK_SET) < 0) {
-++		fprintf(stderr, _("%s: failed to seek setgroups: %s\n"),
-++			Prog,
-++			strerror(errno));
-++		exit(EXIT_FAILURE);
-++	}
-++	if (dprintf(setgroups_fd, "%s", policy) < 0) {
-++		fprintf(stderr, _("%s: failed to setgroups %s policy: %s\n"),
-++			Prog,
-++			policy,
-++			strerror(errno));
-++		exit(EXIT_FAILURE);
-++	}
-++
-++out:
-++	close(setgroups_fd);
-++}
-++
-+ /*
-+  * newgidmap - Set the gid_map for the specified process
-+  */
-+@@ -103,6 +172,7 @@ int main(int argc, char **argv)
-+ 	struct stat st;
-+ 	struct passwd *pw;
-+ 	int written;
-++	bool allow_setgroups = false;
-+ 
-+ 	Prog = Basename (argv[0]);
-+ 
-+@@ -145,7 +215,7 @@ int main(int argc, char **argv)
-+ 				(unsigned long) getuid ()));
-+ 		return EXIT_FAILURE;
-+ 	}
-+-	
-++
-+ 	/* Get the effective uid and effective gid of the target process */
-+ 	if (fstat(proc_dir_fd, &st) < 0) {
-+ 		fprintf(stderr, _("%s: Could not stat directory for target %u\n"),
-+@@ -177,8 +247,9 @@ int main(int argc, char **argv)
-+ 	if (!mappings)
-+ 		usage();
-+ 
-+-	verify_ranges(pw, ranges, mappings);
-++	verify_ranges(pw, ranges, mappings, &allow_setgroups);
-+ 
-++	write_setgroups(proc_dir_fd, allow_setgroups);
-+ 	write_mapping(proc_dir_fd, ranges, mappings, "gid_map");
-+ 	sub_gid_close();
-+ 
++                             RExC_seen_unfolded_sharp_s = 1;
++                             maybe_exactfu = FALSE;
++                         }
 +-- 
-+2.13.3
++2.15.1-424-g9478a660812
 +
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index ccae091..c172ae3 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -20,6 +20,7 @@ SRC_URI = "https://downloads.yoctoproject.org/mirror/sources/${BP}.tar.xz \
-            file://0001-useradd-copy-extended-attributes-of-home.patch \
-            file://0001-shadow-CVE-2017-12424 \
-            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
-+           file://CVE-2018-7169.patch \
-            "
++
+diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
+index e696910..dafd268 100644
+--- a/meta/recipes-devtools/perl/perl_5.24.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
+@@ -70,6 +70,7 @@ SRC_URI += " \
+         file://CVE-2017-12837.patch \
+         file://CVE-2018-6798-1.patch \
+         file://CVE-2018-6798-2.patch \
++        file://CVE-2018-6797.patch \
+ "
  
- SRC_URI_append_class-target = " \
+ # Fix test case issues
 -- 
 2.7.4
 
