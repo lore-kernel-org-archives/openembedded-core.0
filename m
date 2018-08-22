@@ -1,52 +1,27 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 6242A79164
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C506C791B6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 02:29:00 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id e14-v6so1114996itf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 19:29:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=YBI4hggGeQM92VtlFFbUsTRuNjOVmBOlwpDArghKn78=;
-	b=WHCbIck15/YRsrjxVk9a5EE+ST03wkB8+UzqBI8VXQdNUEr7YagWOP6c5l99ra14Xi
-	XiZHFwZLkDOUWho23lKjZRSMI5O8uNFJ6mSx0X34XRkJ7TKAPNb8Hf+LSNQutg4V13FF
-	42pJL4lbv5w2qa3ulnt4FkeF7AUT5UrXp1WcFjruy8I5fAdvzhbq11CysMJFl2XkKALq
-	HWwWCCW6QpUBY1+9wccYFXxsaw3ktc4TU51tg6DQVD/O2cECSNRs//0wkr9bCqN/4hFs
-	NFRwgW3pKjN7w7V5h+kTQXOzDb0r8MGmagrpGUFAUSxEK7jtY3s+V95WzzB+eeNJWuJc
-	39+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=YBI4hggGeQM92VtlFFbUsTRuNjOVmBOlwpDArghKn78=;
-	b=TtlRIf0t7SSoAbVAgWIJ5LKKH4lTawKsfpxWi+RFoMi/GZZxHCxozj4IWz2XM+RNS0
-	hmngAU4AxasF3h454ehpF3UIJJVbTNHN1GpFJakCq2+1NYZhmQm1fc9eYlvSKLjjCXfV
-	tLhZeh0LbzeYb8xfYau6bxvKkxk90SsZMjij7hfjjUNvKj2UmXZPHdCNiLC3aLJ1kM97
-	7HbvI+aZkOWXu/2PiiUYIRyF5pK8s7ZXGF22L668ASiEXznUcSjDkKtiDanUb6ztC/Ts
-	2cvFXd2Fylvtd8vU5yXAsNJtYDFI0WRt+7Y5DRJgWWo+FHN8lFdSUw1farayI4bswRm7
-	rcew==
-X-Gm-Message-State: AOUpUlGhxh118+jmRUClzdPLJPKFCgyRfOzX/K8f5zFc8Lh7WaaeH8ui
-	APNGQtEdGZrFL9TLzp+Icj1KE0kx
-X-Google-Smtp-Source: AA+uWPyCOMy4VtrvHr8YNOkEIdtFJ1U45uUKAI2U2iwFRiMTwSN1eEpWup0t3zBRmJXXDiOkhZT8Lw==
-X-Received: by 2002:a02:8b7c:: with SMTP id
-	w57-v6mr10758869jak.123.1534904941160; 
-	Tue, 21 Aug 2018 19:29:01 -0700 (PDT)
-Received: from farscape.garmin.com ([2605:a601:21d1:5200:620a:c230:ada8:3135])
-	by smtp.gmail.com with ESMTPSA id
-	v5-v6sm174631ioe.61.2018.08.21.19.29.00
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 Aug 2018 19:29:00 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Aug 2018 21:28:52 -0500
-Message-Id: <20180822022852.8270-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180822022134.7947-1-JPEWhacker@gmail.com>
-References: <20180822022134.7947-1-JPEWhacker@gmail.com>
-Subject: [PATCH v4] classes/package: Clean up getstatusoutput
+	Wed, 22 Aug 2018 02:31:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7M2VVLr010117
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 21 Aug 2018 19:31:31 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Tue, 21 Aug 2018 19:31:30 -0700
+To: <kai.kang@windriver.com>, <richard.purdie@linuxfoundation.org>
+References: <cover.1534832871.git.kai.kang@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <c3486f8b-70ae-028b-5208-97f876462c71@windriver.com>
+Date: Wed, 22 Aug 2018 10:36:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1534832871.git.kai.kang@windriver.com>
+X-Originating-IP: [128.224.162.218]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [V2][PATCH 0/3] allarch: disable allarch when multilib is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,48 +34,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 02:29:00 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 02:31:31 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Replaces usage of the deprecated oe.utils.getstatusoutput() with Python
-subprocess calls.
+There's some oe-selftest failures on autobuiler.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/package.bbclass | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/1300/steps/Running%20oe-selftest/logs/stdio
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 4ce9de2f573..323ba051ae0 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -380,6 +380,7 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
-     # sourcefile is also generated containing a list of debugsources
- 
-     import stat
-+    import subprocess
- 
-     src = file[len(dvar):]
-     dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(src) + debugappend
-@@ -409,16 +410,10 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
- 
-     bb.utils.mkdirhier(os.path.dirname(debugfile))
- 
--    cmd = "'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile)
--    (retval, output) = oe.utils.getstatusoutput(cmd)
--    if retval:
--        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+    subprocess.check_output([objcopy, '--only-keep-debug', file, debugfile], stderr=subprocess.STDOUT)
- 
-     # Set the debuglink to have the view of the file path on the target
--    cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
--    (retval, output) = oe.utils.getstatusoutput(cmd)
--    if retval:
--        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+    subprocess.check_output([objcopy, '--add-gnu-debuglink', debugfile, file], stderr=subprocess.STDOUT)
- 
-     if newmode:
-         os.chmod(file, origmode)
--- 
-2.17.1
+Best Regards,
+Chen Qi
+
+On 08/21/2018 02:36 PM, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> V2:
+> * move content of allarch.bbclass to allarch-enabled.bbclass and only
+>    inherit allarch-enabled when multilib is not used
+> * update SSTATE_DUPWHITELIST
+>
+> Build pass for following targets on qemux86-64 and qemuarm64 for rpm,
+> ipk and deb.
+>
+> * core-image-sato
+> * core-image-sato -c populate_sdk
+> * world
+> * buildtools-tarball
+>
+> Known issues:
+> There are 2 *existing* multilib related issues which are not caused by
+> this serial of patches:
+>
+> 1 QA warnings of lib32-meta-ide-support and lib32-perf
+>
+> WARNING: lib32-meta-ide-support-1.0-r3 do_configure: Manifest
+> /buildarea1/jkang-taf/WRL1018/OV/0730/host/build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-ncurses.populate_sysroot
+> not found in intel_x86_64 corei7-32 core2-32 i686 i586 x86 allarch
+> x86_64_x86_64-nativesdk (variant '')?
+>
+> WARNING: lib32-perf-1.0-r9 do_install: Manifest
+> /buildarea1/jkang-taf/WRL1018/OV/0730/host/build/tmp-glibc/sstate-control/manifest-x86_64_i686-binutils-cross-x86_64.populate_sysroot
+> not found in x86_64_i686 (variant '')?
+>
+> 2 fails to build lib32-buildtools-tarball
+>
+> ERROR: lib32-buildtools-tarball-1.0-r0 do_populate_sdk: No manifest
+> generated from: qemuwrapper-cross in
+> /buildarea3/kkang/poky-20141111/poky/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
+>
+> I am working on them.
+>
+>
+> The following changes since commit 99506b0017bdf8dbf42ec5dc048d91a5609dabe3:
+>
+>    weston-init: run login before start weston.service (2018-08-20 17:38:23 +0100)
+>
+> are available in the Git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib kangkai/allarch-enabled
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/allarch-enabled
+>
+> Kai Kang (3):
+>    cmake.bbclass: fix wrong toolchain flags of nativesdk package
+>    allarch: disable allarch when multilib is used
+>    sstate.bbclass: update SSTATE_DUPWHITELIST
+>
+>   meta/classes/allarch-enabled.bbclass | 52 ++++++++++++++++++++++++++++
+>   meta/classes/allarch.bbclass         | 51 ++-------------------------
+>   meta/classes/cmake.bbclass           |  1 +
+>   meta/classes/icecc.bbclass           |  2 +-
+>   meta/classes/multilib.bbclass        |  2 +-
+>   meta/classes/multilib_global.bbclass |  2 +-
+>   meta/classes/package.bbclass         |  6 ++--
+>   meta/classes/sstate.bbclass          |  4 ++-
+>   8 files changed, 64 insertions(+), 56 deletions(-)
+>   create mode 100644 meta/classes/allarch-enabled.bbclass
+>
 
 
