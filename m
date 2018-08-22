@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CC5D792BC
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F977793C1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 13:36:05 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id q11-v6so3105974oic.12
+	Wed, 22 Aug 2018 13:36:08 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id q204-v6so3121156oig.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 06:36:07 -0700 (PDT)
+	Wed, 22 Aug 2018 06:36:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=d1aSwXMIO/XmlxBdV790Q5kjkUt747gcLsbjB032iMM=;
-	b=igtZ5yLvwFzXL0q2IDqf8nwTrbcDjg3wyp8cNs1oREK6zzbwDay1U17xnhTP7wPtZu
-	8fyphKhyw476POWnPc1cccdADgNSSvCBPGTZVRbOPbBibXAIebbfX0FJ72ILVHrS/b7E
-	UvpB3LOL4FE1BSkKUt42OKjY7q0pifnCXm2mjnx245Dy/HRrn3wWcGuKpDPZNmTtzbPK
-	3Urr4pINHFMsFo/IKvbt75VJ07ABb9rV5+6RK2wX9JItDgC7Y5fG98ZCZeIqhvEHsiYz
-	Xr2aZzECELF1hzr14WCqPgmDKPEp/otfmhwttR3tb8f1CyungweGvAemhVC5yvI1En8z
-	MKqg==
+	bh=MpDQTne1X8zrMJgt5bfN3keWj9aRfih1b/gt7e8Nok0=;
+	b=Y8qyFmRMs1u14fPkIEtC0DIDRm6bcFcWpw6tM+HUrTrgtL0NMdWp8P4oB6jfRHwxQO
+	M50x8PqQwUN8f9MaBoC40FlJzwkzzyO0BtI2BbHnSl8WOmhFdSAJohcjiUMUZYWq+1p7
+	47rLDUYoaQ7vnE9kxV9RrDcZEvcnMST+mcaDia/iWLDG2nYSoZDsKbjdXzO/Vyj+2zwq
+	IfVtrqL6UhOjTUQGzMvUzkYFn81GYLUZajBQxsxfHiwqBJr7uwe+7rhSkn8OUK4KpFoI
+	42/D3wYh4Urqns5732ZmonMpHv6e3xqjEYPlQbFzdtkTrDGo0AS/Iu+TNj//reybh189
+	ILNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=d1aSwXMIO/XmlxBdV790Q5kjkUt747gcLsbjB032iMM=;
-	b=Us03SqrZYtPENDbpQQEaJgTNexECs9xNWxvjfGoPW3nOykqqczWQ3Ze7Dy5/WsrOLN
-	mIuNPncplzZS+fVhkQ/ZkSyda/Q8GsLqGh+b4LEhZ3lR6du3va1emMN9MoWsjQuXxuS5
-	7VsTcTvIxgeMXKUZv0ypKX7m/GP+7sAs/ld0zwDIkmAxEK70Qqc82CIeirFZx+0ttEPK
-	pMh+uHR27RZS0z+TBCsPD3bHsIC9y1+7KvXFPuYDTGDaXjnrgf5+m/0ILYd6mGrOnuKf
-	R4sB8b4wtcwf7UVNPu0u6juSLs6db2s2LXM1+qMBOwoWCKvM683JJG2XdjCH2eTArDGq
-	oeHQ==
-X-Gm-Message-State: APzg51D6l5o3YVuXbwsn6Z3jUcmNB/4YoQ/GNah+XNmwMzWzpPwEVdOJ
-	QHnw/t4LJWZHOrrFX/s1geKDjk7fZAs=
-X-Google-Smtp-Source: ANB0VdbjDJkveTsgsEK456ij+vSbCqPa0yyD5zYegwuNoi9laTQqbSkTICkgKQRUWiD7rCWT+CJVVw==
-X-Received: by 2002:aca:df55:: with SMTP id
-	w82-v6mr4175096oig.355.1534944966841; 
-	Wed, 22 Aug 2018 06:36:06 -0700 (PDT)
+	bh=MpDQTne1X8zrMJgt5bfN3keWj9aRfih1b/gt7e8Nok0=;
+	b=Of8WJk0IQTMyTPfxXuYQ4rF5Z/b+qoS1Bvg/9/uXpXzsHyajTcO71XAwSYqRPvjk4P
+	fm4B+Bu//H9RpeaJs1mybtgYJiw9h8wugCWMAOB5bO4clDb81mu84y4mCyBYJSHkNvmV
+	NPvybwO5HZmUYk1JT7IJuORIfn/SFO1+KuxnsOrPFm49C2Q5T/1oYodl53R5bVAIE91H
+	5UOObweHe9TcyEcVVQQm4R+SMLY6+5gIveIzSu0gNYI73gfVKqsgQfAUWVFk3HIpaOT6
+	1vYS7bOg0myk7SJZZ3AD12Lua7RMTnyMHNRFun5iimXZC0Aud374VHInQ54y7D8hLVyS
+	/zqQ==
+X-Gm-Message-State: APzg51AYEvufQlmjftabNN+nH3jo/B2YSEJ94hi1XGKd05vfVZ8i5/S3
+	j9dus5A//R1Ad6OvfUcMIDspLnlfVMI=
+X-Google-Smtp-Source: ANB0VdZn0E4n44UXVibtRaBJH65tXXo7NBrKnVSL/KqLYTzkC+PeeP9S8EwM4cdAgVc6CpUznDJk6g==
+X-Received: by 2002:aca:b3d6:: with SMTP id
+	c205-v6mr4072268oif.133.1534944969102; 
+	Wed, 22 Aug 2018 06:36:09 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	h186-v6sm3746773oib.55.2018.08.22.06.36.03
+	h186-v6sm3746773oib.55.2018.08.22.06.36.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 06:36:06 -0700 (PDT)
+	Wed, 22 Aug 2018 06:36:08 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 19:05:08 +0530
-Message-Id: <1534944940-21566-2-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 19:05:09 +0530
+Message-Id: <1534944940-21566-3-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V2 02/34] busybox: CVE-2017-16544
+Subject: [ROCKO][PATCH V2 03/34] libsndfile1: CVE-2017-14245 CVE-2017-14246
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,84 +59,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 13:36:06 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 13:36:08 -0000
 
-lineedit: do not tab-complete any strings which have control characters
+sfe_copy_data_fp: check value of "max" variable for being normal
+and check elements of the data[] array for being finite.
 
-function old new delta
-add_match 41 68 +27
+Both checks use functions provided by the <math.h> header as declared
+by the C99 standard.
 
-Affects busybox <= 1.27.2
+Fixes #317
+CVE-2017-14245
+CVE-2017-14246
+
+Affects libsndfile1 = 1.0.28
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../busybox/busybox/CVE-2017-16544.patch           | 44 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2017-16544.patch
+ .../libsndfile1/CVE-2017-14245-14246.patch         | 121 +++++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.28.bb               |   1 +
+ 2 files changed, 122 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2017-16544.patch b/meta/recipes-core/busybox/busybox/CVE-2017-16544.patch
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
 new file mode 100644
-index 0000000..8038886
+index 0000000..07c7d13
 --- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2017-16544.patch
-@@ -0,0 +1,44 @@
-+From c3797d40a1c57352192c6106cc0f435e7d9c11e8 Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Tue, 7 Nov 2017 18:09:29 +0100
-+Subject: lineedit: do not tab-complete any strings which have control
-+ characters
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
+@@ -0,0 +1,121 @@
++From 2d54514a4f6437b67829717c05472d2e3300a258 Mon Sep 17 00:00:00 2001
++From: Fabian Greffrath <fabian@greffrath.com>
++Date: Wed, 27 Sep 2017 14:46:17 +0200
++Subject: [PATCH] sfe_copy_data_fp: check value of "max" variable for being
++ normal
 +
-+function                                             old     new   delta
-+add_match                                             41      68     +27
++and check elements of the data[] array for being finite.
 +
-+CVE: CVE-2017-16544
-+Upstream-Status: Backport from v1.28.0
++Both checks use functions provided by the <math.h> header as declared
++by the C99 standard.
 +
++Fixes #317
++CVE: CVE-2017-14245
++CVE: CVE-2017-14246
++
++Upstream-Status: Backport [https://github.com/fabiangreffrath/libsndfile/commit/2d54514a4f6437b67829717c05472d2e3300a258]
++
++Signed-off-by: Fabian Greffrath <fabian@greffrath.com>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
 +---
-+ libbb/lineedit.c | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
++ programs/common.c          | 20 ++++++++++++++++----
++ programs/common.h          |  2 +-
++ programs/sndfile-convert.c |  6 +++++-
++ 3 files changed, 22 insertions(+), 6 deletions(-)
 +
-+diff --git a/libbb/lineedit.c b/libbb/lineedit.c
-+index c0e35bb..56e8140 100644
-+--- a/libbb/lineedit.c
-++++ b/libbb/lineedit.c
-+@@ -645,6 +645,18 @@ static void free_tab_completion_data(void)
++diff --git a/programs/common.c b/programs/common.c
++index a21e62c..a249a58 100644
++--- a/programs/common.c
+++++ b/programs/common.c
++@@ -36,6 +36,7 @@
++ #include <string.h>
++ #include <ctype.h>
++ #include <stdint.h>
+++#include <math.h>
 + 
-+ static void add_match(char *matched)
-+ {
-++	unsigned char *p = (unsigned char*)matched;
-++	while (*p) {
-++		/* ESC attack fix: drop any string with control chars */
-++		if (*p < ' '
-++		 || (!ENABLE_UNICODE_SUPPORT && *p >= 0x7f)
-++		 || (ENABLE_UNICODE_SUPPORT && *p == 0x7f)
-++		) {
-++			free(matched);
-++			return;
++ #include <sndfile.h>
++ 
++@@ -45,7 +46,7 @@
++ 
++ #define	MIN(x, y)	((x) < (y) ? (x) : (y))
++ 
++-void
+++int
++ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize)
++ {	static double	data [BUFFER_LEN], max ;
++ 	sf_count_t		frames, readcount, k ;
++@@ -54,6 +55,8 @@ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize
++ 	readcount = frames ;
++ 
++ 	sf_command (infile, SFC_CALC_SIGNAL_MAX, &max, sizeof (max)) ;
+++	if (!isnormal (max)) /* neither zero, subnormal, infinite, nor NaN */
+++		return 1 ;
++ 
++ 	if (!normalize && max < 1.0)
++ 	{	while (readcount > 0)
++@@ -67,12 +70,16 @@ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize
++ 		while (readcount > 0)
++ 		{	readcount = sf_readf_double (infile, data, frames) ;
++ 			for (k = 0 ; k < readcount * channels ; k++)
++-				data [k] /= max ;
+++			{	data [k] /= max ;
+++
+++				if (!isfinite (data [k])) /* infinite or NaN */
+++					return 1;
+++				}
++ 			sf_writef_double (outfile, data, readcount) ;
++ 			} ;
++ 		} ;
++ 
++-	return ;
+++	return 0 ;
++ } /* sfe_copy_data_fp */
++ 
++ void
++@@ -252,7 +259,12 @@ sfe_apply_metadata_changes (const char * filenames [2], const METADATA_INFO * in
++ 
++ 		/* If the input file is not the same as the output file, copy the data. */
++ 		if ((infileminor == SF_FORMAT_DOUBLE) || (infileminor == SF_FORMAT_FLOAT))
++-			sfe_copy_data_fp (outfile, infile, sfinfo.channels, SF_FALSE) ;
+++		{	if (sfe_copy_data_fp (outfile, infile, sfinfo.channels, SF_FALSE) != 0)
+++			{	printf ("Error : Not able to decode input file '%s'\n", filenames [0]) ;
+++				error_code = 1 ;
+++				goto cleanup_exit ;
+++				} ;
+++			}
++ 		else
++ 			sfe_copy_data_int (outfile, infile, sfinfo.channels) ;
++ 		} ;
++diff --git a/programs/common.h b/programs/common.h
++index eda2d7d..986277e 100644
++--- a/programs/common.h
+++++ b/programs/common.h
++@@ -62,7 +62,7 @@ typedef SF_BROADCAST_INFO_VAR (2048) SF_BROADCAST_INFO_2K ;
++ 
++ void sfe_apply_metadata_changes (const char * filenames [2], const METADATA_INFO * info) ;
++ 
++-void sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize) ;
+++int sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize) ;
++ 
++ void sfe_copy_data_int (SNDFILE *outfile, SNDFILE *infile, int channels) ;
++ 
++diff --git a/programs/sndfile-convert.c b/programs/sndfile-convert.c
++index dff7f79..e6de593 100644
++--- a/programs/sndfile-convert.c
+++++ b/programs/sndfile-convert.c
++@@ -335,7 +335,11 @@ main (int argc, char * argv [])
++ 			|| (outfileminor == SF_FORMAT_DOUBLE) || (outfileminor == SF_FORMAT_FLOAT)
++ 			|| (infileminor == SF_FORMAT_DOUBLE) || (infileminor == SF_FORMAT_FLOAT)
++ 			|| (infileminor == SF_FORMAT_VORBIS) || (outfileminor == SF_FORMAT_VORBIS))
++-		sfe_copy_data_fp (outfile, infile, sfinfo.channels, normalize) ;
+++	{	if (sfe_copy_data_fp (outfile, infile, sfinfo.channels, normalize) != 0)
+++		{	printf ("Error : Not able to decode input file %s.\n", infilename) ;
+++			return 1 ;
+++			} ;
 ++		}
-++		p++;
-++	}
-+ 	matches = xrealloc_vector(matches, 4, num_matches);
-+ 	matches[num_matches] = matched;
-+ 	num_matches++;
++ 	else
++ 		sfe_copy_data_int (outfile, infile, sfinfo.channels) ;
++ 
 +-- 
-+cgit v0.12
++2.7.4
 +
-diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index 1c85808..a2c0aa3 100644
---- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -61,6 +61,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://busybox-tar-add-IF_FEATURE_-checks.patch \
-            file://0001-iproute-support-scope-.-Closes-8561.patch \
-            file://0001-ip-fix-an-improper-optimization-req.r.rtm_scope-may-.patch \
-+           file://CVE-2017-16544.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index 281ac82..c6f2a46 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -10,6 +10,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
+            file://CVE-2017-8361-8365.patch \
+            file://CVE-2017-8362.patch \
+            file://CVE-2017-8363.patch \
++           file://CVE-2017-14245-14246.patch \
+           "
  
+ SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
 -- 
 2.7.4
 
