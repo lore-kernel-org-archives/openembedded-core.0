@@ -1,49 +1,51 @@
 Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 099DD79007
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5396079034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 09:04:29 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id y2-v6so1321672wma.1
+	Wed, 22 Aug 2018 09:04:31 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id c14-v6so1302957wmb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 02:04:31 -0700 (PDT)
+	Wed, 22 Aug 2018 02:04:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=+pVAOyOdSfu1x9shCXoyKAe7pfPpeOiDg3A4qsJbtw8=;
-	b=Ki/JXNz8a4hkqA16arapm0v0zxb5dN4NxsH79rWdLn/2KVjwXaRp+95sidYysY0gow
-	lYvnUjIKVMni40aU3YzlOjOC4Ez+krAYuiBAT4Y6NmsCpN+doh0SFX/H6aaZqmGzJmpG
-	lmfrNg8A6J6AcX+/0B/OSp6VBAzniHhp5E3Kq2PwsrJhzvkJLEKpdTrVl5C9HD/IKeHE
-	BiBGYKR9Axucek4gNra05eBxbmNnld/QL86i7ihPA5ghbEDXJO8PFlNJZUnFmzkOTD6V
-	SL63MhwL3h+bv/psM0T7PQhcs1AD/L4VK61qPq05uHCLGm6rVwMEFoUBVxZUn7hfxG6y
-	bUpA==
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=dBKXX5gXhmmRVzzffuBU3Wr860GaNeJHF2IT+3ZCYDU=;
+	b=MMCPZDjJwFbw5jHR6nw3CjSUnA1CeCMa1TurESUC/3J1WAOfh3nqNRG1LRA9kz0qdh
+	hgFmTHhuPXXL9EAY6Mu9esWWKYa+LtxATYXPb581JQ/LuXrh/iu8GDraclKiNhq2Q0ym
+	QFwF3wHLtkmk1pgUZdCnJXJh6d/R777NkWcePI/Hl+tGLo/Y6BV2lC9yji1x/ddjDcT9
+	W5ASXIMRZrlDxF7wTDnrrvR0NvSxIc4W8bLqhrhNGwXOaoxe+GZICrS8EDL4elw5OwmF
+	KIdftu5+fC/3Ov5jG4EuV9tmnzgBhk58nEH7DaKxSjXB8JNT21hm6Z3SuElwlsmuLQnS
+	fBJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=+pVAOyOdSfu1x9shCXoyKAe7pfPpeOiDg3A4qsJbtw8=;
-	b=nPnMM5I9XoxeOATAbH8WtvK3L8y/+S3Y0olKp0LCRJQeKeomqzlZOckDqSN3xnnc8q
-	o92/W3r7pi+0TDo8bY+EYudhaqIklGUCYWh3qzHGch3tAUuwmbc4LO72BgQHT1KcLY/0
-	0GnkSz7mLtfEsXsYhe2Rk7+rbglVtTf3ZsTBauuCRtFXvcN69xWvap+/nmSOWEhU5HPx
-	sjFBj+XS2vUfYCwVR/1c6B7rtouNa1Vb4thwPpz4hPl1SZ2/sN+FeCDIojBqMtIqwk0r
-	xk6vAV+fsE9FcmldTiV8wAa4HWQiB1xHFgrLD0WU9MWolY7rEHF+UbIQZzaG18GZshw2
-	Dffg==
-X-Gm-Message-State: APzg51Ct5LpYMz+5hEqJBpl8uwJHlbwnJd/aM8rqNto4XyIOlZSkYELK
-	I1JSZ5jJ7MzhfqwMQPtQOKwNtuMA
-X-Google-Smtp-Source: ANB0VdbsE7CIe6ApxI9BKdA4bdKZM6zFov2MSr2w/H+4DcWzhvGA7uJ6d9eZFGEfIg21bJR4L18gJQ==
-X-Received: by 2002:a1c:a60e:: with SMTP id
-	p14-v6mr1892693wme.64.1534928670598; 
-	Wed, 22 Aug 2018 02:04:30 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:in-reply-to:references;
+	bh=dBKXX5gXhmmRVzzffuBU3Wr860GaNeJHF2IT+3ZCYDU=;
+	b=eDgf3Gw8myxH4KJwMOpwz98O49WguVmfuLENKoAOqeifl9+V1zvEgl6xa3awDL4FK7
+	qBxt32MlJs8n2qoChjc2t/wVMptD2bDnJv05wmefFbyQ6n+Zdivn2dhvXAdOblHu80hd
+	lBwX0Wdd6hr2N9F0StUUBWdJZuLaOCe4sRa9M4IaaoLarKV2GbQUP8WWb8MW1QnVVR7I
+	Af5LnHtlyn4idcRvlZLqrEDQNTNkQ6PiYmHXY3koQoRrRAQyTpCERbDcbzg3jkya9dps
+	ZZoPXkiZfe9FiADo3mZiQD8FmeQ/7xhZJ8h/klwV9KY4s32NxyyWWk/BHWmuaVq7/aOr
+	dU/Q==
+X-Gm-Message-State: APzg51CRHvVEwXImOn/z+y/w2lTNrSq/KKVMz9hZmxP/TpQ8R5Lsam2j
+	Mme+dl00WHUe/wB3m1M389x+uhWr
+X-Google-Smtp-Source: ANB0VdZAhd2eP4/cil6zKm8v/anJl7pXtZHH9l4HmQlTl7SVWie+wmqBOz4JDuVlXZ25kM7Z8l9zjA==
+X-Received: by 2002:a1c:8016:: with SMTP id b22-v6mr1851641wmd.9.1534928671784;
+	Wed, 22 Aug 2018 02:04:31 -0700 (PDT)
 Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
 	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	v5-v6sm1093753wru.60.2018.08.22.02.04.29
+	v5-v6sm1093753wru.60.2018.08.22.02.04.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 Aug 2018 02:04:29 -0700 (PDT)
+	Wed, 22 Aug 2018 02:04:30 -0700 (PDT)
 Sender: Jens Rehsack <rehsack@gmail.com>
 From: Jens Rehsack <sno@netbsd.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 11:04:23 +0200
-Message-Id: <20180822090424.14573-1-sno@netbsd.org>
+Date: Wed, 22 Aug 2018 11:04:24 +0200
+Message-Id: <20180822090424.14573-2-sno@netbsd.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180822090424.14573-1-sno@netbsd.org>
+References: <20180822090424.14573-1-sno@netbsd.org>
 Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH 1/2] cpan.bbclass: adopt to recent EU::MM
+Subject: [PATCH 2/2] libxml-parser-perl: fix "...contains bad RPATH"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +58,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 09:04:30 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 09:04:31 -0000
 
-The modern the time, the improvements in ExtUtils::MakeMaker.
+The perl distribution "XML-Parser" relies for configuration
+on the tooling of Devel::CheckLib - which is not aware of
+sysroot locations nor of reasonable compiler/link definitions
+from outside.
 
-Nowadays, .packlist and perllocal.pod aren't touched anymore when appropriate
-flags set during configure stage. Controlling the flags globally avoids
-dual-life recipes need share patching.
+This causes
 
-Further: remove prepending ${PERL_ARCHLIB} in PERL5LIB - it's wrong (search
-order is site_lib, vendor_lib, core) - and ${PERL_ARCHLIB} contains core
-libpath only ...
+    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: QA Issue: package libxml-parser-perl contains bad RPATH ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/recipe-sysroot/usr/lib in file ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/packages-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.24.4/auto/XML/Parser/Expat/Expat.so
+    package libxml-parser-perl contains bad RPATH ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/recipe-sysroot/usr/lib in file ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-r0/packages-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.24.4/auto/XML/Parser/Expat/Expat.so [rpaths]
+    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: QA run found fatal errors. Please consider fixing them.
+    ERROR: libxml-parser-perl-2.44-r0 do_package_qa: Function failed: do_package_qa
+
+It's strongly encouraged to the maintainer @toddr to rework the
+toolchain for up to date environments.
 
 Signed-off-by: Jens Rehsack <sno@netbsd.org>
 ---
- meta/classes/cpan.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
-index 8e079e0d55..926c6358a6 100644
---- a/meta/classes/cpan.bbclass
-+++ b/meta/classes/cpan.bbclass
-@@ -16,8 +16,7 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version
- export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_version(d)}/"
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
+index c5e0ae6769..4494e2286c 100644
+--- a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
++++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
+@@ -18,8 +18,16 @@ inherit cpan ptest-perl
  
- cpan_do_configure () {
--	export PERL5LIB="${PERL_ARCHLIB}"
--	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL INSTALLDIRS=vendor ${EXTRA_CPANFLAGS}
-+	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL INSTALLDIRS=vendor NO_PERLLOCAL=1 NO_PACKLIST=1 ${EXTRA_CPANFLAGS}
- 
- 	# Makefile.PLs can exit with success without generating a
- 	# Makefile, e.g. in cases of missing configure time
+ # fix up sub MakeMaker project as arguments don't get propagated though
+ # see https://rt.cpan.org/Public/Bug/Display.html?id=28632
++do_configure_append_class-target() {
++	sed -E \
++	    -e 's:-L${STAGING_LIBDIR}::g' -e 's:-I${STAGING_INCDIR}::g' \
++	    -e 's:LD_RUN_PATH ?= ?"?[^"]*"?::g' \
++	    -i Makefile Expat/Makefile
++}
++
+ do_configure_append() {
+-	sed 's:--sysroot=.*\(\s\|$\):--sysroot=${STAGING_DIR_TARGET} :g' -i Makefile Expat/Makefile
++	sed -e 's:--sysroot=.*\(\s\|$\):--sysroot=${STAGING_DIR_TARGET} :g' \
++	    -i Makefile Expat/Makefile
+ 	sed 's:^FULL_AR = .*:FULL_AR = ${AR}:g' -i Expat/Makefile
+ 	# make sure these two do not build in parallel
+ 	sed 's!^$(INST_DYNAMIC):!$(INST_DYNAMIC): $(BOOTSTRAP)!' -i Expat/Makefile
 -- 
 2.17.1
 
