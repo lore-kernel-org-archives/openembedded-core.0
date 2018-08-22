@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
-	[209.85.218.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A5F7794A3
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 880D779487
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:09:52 +0000 (UTC)
-Received: by mail-oi0-f41.google.com with SMTP id p84-v6so3719602oic.4
+	Wed, 22 Aug 2018 15:09:54 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id 13-v6so3757036ois.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:09:54 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=5yMIe9+RHhkPhH/OB0imGjLYYmGeFDsUdz+UzHI60Mk=;
-	b=O1U4rw66SJyEsr4jUd5W+VlDTAPbFl/ouTFh1vJnjRE15wwJSuP9GTDemfHAcYBCzA
-	PTaZZ/dy8uTdLIZSIM+WPF/qVTAptvnW9uRDDHHW1v7k90xcXStM0tUzpqzZTPV/vknz
-	sNcJrcAAHyFlQfdse+tFzq7xw4xO2GM08+eJ3V4gvBENeTkFt1H7zL4pZc37yidhNryu
-	0RN9c1mP+l4Q2VGEv7ppB980LBvffQQNvoJKac9dU4jjIEjP0LKX3g+J4G03N7fO8KGi
-	MvTI+WQFfKkGt4N7KzhQARUaTbloSjtwXvtbPgEsk3DxVTwvs+C4ar1LY3ey1YBByoiD
-	97fQ==
+	bh=fgLExMHlY+0t+HwphjigR0pg2LmveIjqF6nLOVlI/Sw=;
+	b=BDi5IvUbaQP/iJsC82VvTvefAYoE/kOwkgLRMcwO2j8VC3RSOYkO+Xy9YrtDFjPGRn
+	J2tbi86uLhE3z3tKkGKGFj+oGxeXIBC9E7WSE34x7fj+lMW1QqoJDVK4CDCdp7XA9Etx
+	NlkkyrDAp94VCOKP8HBplXduoXwId4hIiB7lDKAZ4jls1hpCaIUOpfHqOo0WoEOWPBCk
+	AfwUayZSsUtHlW9d/zP+bIn0CTthMWXfu26nPkuggnxGT8kWmuETFhEW/D1HJZW++fWt
+	Sxfr3biecHObVkwi32TRWbk+0ZI8xU3MctOCYJ/O4jjN/S6jMYtThxEChi3WJQ3a86qF
+	gxpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=5yMIe9+RHhkPhH/OB0imGjLYYmGeFDsUdz+UzHI60Mk=;
-	b=MnvIfmXxjxhsOIBD5CePP5WtZub8tPSQgWWQ2SuqXuzWbhR6dcumCOfh+7z8WJimP/
-	sZCxe6d4H6a7gI/v3X3UJvnHMShyq05gVG4fIFVEhclEn52vdZXIP4QOcDPj1gGWD++P
-	IbBi6w5BdEnSQ14EBf8KnHgG615HXEcHahqT3dp/xBozrHyAIxMD5oz7qqs8hizipwuS
-	N95Vyta6+mkeCVyIknWTYF8O3P3ixzSG3OzmbKJauM6PXbu9l4EBaItP7w+Y0fJBoZxJ
-	sFPIYmAYFFu4KS4CbFtvdW9uai/Ig+an+hkbFS1jmSi8fOsh7/prvhkdHy2B8zH8enB3
-	u/Mw==
-X-Gm-Message-State: APzg51AFI9LDy0dqsff+krCNPaET6vNwjdKsvuUeWTjC1F3bT+A3oXja
-	MB7bGwxeHddC93EoM7mJQTXM9qaHTPw=
-X-Google-Smtp-Source: ANB0VdbI2YaPsaDFPkGsUnwv66VS3bmMHHfWXWMBVF/OrqPNLIdsOMtpv8OAjN0F57jzPyS23fd7lg==
-X-Received: by 2002:aca:5b88:: with SMTP id
-	p130-v6mr4583396oib.247.1534950593398; 
-	Wed, 22 Aug 2018 08:09:53 -0700 (PDT)
+	bh=fgLExMHlY+0t+HwphjigR0pg2LmveIjqF6nLOVlI/Sw=;
+	b=OUwpGNHvV8Xj4OuEwO84q0Qld/bMIfaexA4bpiBTIJb9V1XzZ7MDPEpl5vxMyMA9E8
+	K6NtpVcPiRd0rX65V4u1yr8XVagRqHdFk2FXsvJPaNCvqsPSlvR7w2ztlFRLpwbOaL9i
+	H69G8bTJJMdkQp9rFJftDUD8Q/GkgxFSFr1hf3VD9wVaiwDkhbxzHD/eFPmdcRH9VOtX
+	7b/GjObSVzhKJ5rI4IwxsxLBR+Zkfgd3JS+PhMBTxvXyg1/uNqPEQ6Xea52sBSTMYXXr
+	uBbmHrBAs9pZ02SYmJH+XlcOAzh5jmpfj+22o6b5ULZzUyyTfuHrPYVEgZjhu0u94vjU
+	Axzg==
+X-Gm-Message-State: APzg51DtREKPalR3HP7aWV3Aa1OmzU5G1GYSp9r3vqMVhqWh49m4/i11
+	SjTAYA+OSO2tF4Wp586tzxCQATTo5lA=
+X-Google-Smtp-Source: ANB0VdYMyFvSWHstf0dTkNVATJpnGmUuYcQt3xLItniCj2istgMXJIDVuqonP9mMeUU1uJ93pdVlxQ==
+X-Received: by 2002:aca:adc6:: with SMTP id
+	w189-v6mr4539065oie.174.1534950595540; 
+	Wed, 22 Aug 2018 08:09:55 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.09.51
+	i132-v6sm1024281oif.20.2018.08.22.08.09.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:09:53 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:55 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:41 +0530
-Message-Id: <1534950532-23850-23-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 20:38:42 +0530
+Message-Id: <1534950532-23850-24-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V3 23/34] qemu: CVE-2017-18043
+Subject: [ROCKO][PATCH V3 24/34] qemu: CVE-2018-7550
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,117 +59,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:09:52 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:09:54 -0000
 
-osdep: Fix ROUND_UP(64-bit, 32-bit)
+multiboot: bss_end_addr can be zero
 
-When using bit-wise operations that exploit the power-of-two
-nature of the second argument of ROUND_UP(), we still need to
-ensure that the mask is as wide as the first argument (done
-by using a ternary to force proper arithmetic promotion).
-Unpatched, ROUND_UP(2ULL*1024*1024*1024*1024, 512U) produces 0,
-instead of the intended 2TiB, because negation of an unsigned
-32-bit quantity followed by widening to 64-bits does not
-sign-extend the mask.
+The multiboot spec
+(https://www.gnu.org/software/grub/manual/multiboot/),
+section 3.1.3, allows for bss_end_addr to be zero.
 
-Broken since its introduction in commit 292c8e50 (v1.5.0).
-Callers that passed the same width type to both macro parameters,
-or that had other code to ensure the first parameter's maximum
-runtime value did not exceed the second parameter's width, are
-unaffected, but I did not audit to see which (if any) existing
-clients of the macro could trigger incorrect behavior (I found
-the bug while adding a new use of the macro).
+A zero bss_end_addr signifies there is no .bss section.
 
-While preparing the patch, checkpatch complained about poor
-spacing, so I also fixed that here and in the nearby DIV_ROUND_UP.
-
-Affects qemu < v2.11.0
+Affects qemu < v2.12.0
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../qemu/qemu/CVE-2017-18043.patch                 | 63 ++++++++++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2018-7550.patch | 62 ++++++++++++++++++++++
  meta/recipes-devtools/qemu/qemu_2.10.0.bb          |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2017-18043.patch
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2017-18043.patch b/meta/recipes-devtools/qemu/qemu/CVE-2017-18043.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
 new file mode 100644
-index 0000000..955a24c
+index 0000000..9923d12
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2017-18043.patch
-@@ -0,0 +1,63 @@
-+From 2098b073f398cd628c09c5a78537a6854e85830d Mon Sep 17 00:00:00 2001
-+From: Eric Blake <eblake@redhat.com>
-+Date: Thu, 14 Sep 2017 08:49:23 -0500
-+Subject: [PATCH] osdep: Fix ROUND_UP(64-bit, 32-bit)
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
+@@ -0,0 +1,62 @@
++From 2a8fcd119eb7c6bb3837fc3669eb1b2dfb31daf8 Mon Sep 17 00:00:00 2001
++From: Jack Schwartz <jack.schwartz@oracle.com>
++Date: Thu, 21 Dec 2017 09:25:15 -0800
++Subject: [PATCH] multiboot: bss_end_addr can be zero
 +
-+When using bit-wise operations that exploit the power-of-two
-+nature of the second argument of ROUND_UP(), we still need to
-+ensure that the mask is as wide as the first argument (done
-+by using a ternary to force proper arithmetic promotion).
-+Unpatched, ROUND_UP(2ULL*1024*1024*1024*1024, 512U) produces 0,
-+instead of the intended 2TiB, because negation of an unsigned
-+32-bit quantity followed by widening to 64-bits does not
-+sign-extend the mask.
++The multiboot spec (https://www.gnu.org/software/grub/manual/multiboot/),
++section 3.1.3, allows for bss_end_addr to be zero.
 +
-+Broken since its introduction in commit 292c8e50 (v1.5.0).
-+Callers that passed the same width type to both macro parameters,
-+or that had other code to ensure the first parameter's maximum
-+runtime value did not exceed the second parameter's width, are
-+unaffected, but I did not audit to see which (if any) existing
-+clients of the macro could trigger incorrect behavior (I found
-+the bug while adding a new use of the macro).
++A zero bss_end_addr signifies there is no .bss section.
 +
-+While preparing the patch, checkpatch complained about poor
-+spacing, so I also fixed that here and in the nearby DIV_ROUND_UP.
++CVE: CVE-2018-7550
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commitdiff;h=2a8fcd119eb7c6bb3837fc3669eb1b2dfb31daf8]
 +
-+CVE: CVE-2017-18043
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commitdiff;h=2098b073f398cd628c09c5a78537a6854]
-+
-+CC: qemu-trivial@nongnu.org
-+CC: qemu-stable@nongnu.org
-+Signed-off-by: Eric Blake <eblake@redhat.com>
-+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++Suggested-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Jack Schwartz <jack.schwartz@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
++Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ include/qemu/osdep.h | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++ hw/i386/multiboot.c | 18 ++++++++++--------
++ 1 file changed, 10 insertions(+), 8 deletions(-)
 +
-+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-+index 72b75bf044..9dd318a7dd 100644
-+--- a/include/qemu/osdep.h
-++++ b/include/qemu/osdep.h
-+@@ -205,13 +205,13 @@ extern int daemon(int, int);
++diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
++index 46d9c68bf5..bb8d8e4629 100644
++--- a/hw/i386/multiboot.c
+++++ b/hw/i386/multiboot.c
++@@ -233,12 +233,6 @@ int load_multiboot(FWCfgState *fw_cfg,
++         mh_entry_addr = ldl_p(header+i+28);
 + 
-+ /* Round number up to multiple. Requires that d be a power of 2 (see
-+  * QEMU_ALIGN_UP for a safer but slower version on arbitrary
-+- * numbers) */
-++ * numbers); works even if d is a smaller type than n.  */
-+ #ifndef ROUND_UP
-+-#define ROUND_UP(n,d) (((n) + (d) - 1) & -(d))
-++#define ROUND_UP(n, d) (((n) + (d) - 1) & -(0 ? (n) : (d)))
-+ #endif
++         if (mh_load_end_addr) {
++-            if (mh_bss_end_addr < mh_load_addr) {
++-                fprintf(stderr, "invalid mh_bss_end_addr address\n");
++-                exit(1);
++-            }
++-            mb_kernel_size = mh_bss_end_addr - mh_load_addr;
++-
++             if (mh_load_end_addr < mh_load_addr) {
++                 fprintf(stderr, "invalid mh_load_end_addr address\n");
++                 exit(1);
++@@ -249,8 +243,16 @@ int load_multiboot(FWCfgState *fw_cfg,
++                 fprintf(stderr, "invalid kernel_file_size\n");
++                 exit(1);
++             }
++-            mb_kernel_size = kernel_file_size - mb_kernel_text_offset;
++-            mb_load_size = mb_kernel_size;
+++            mb_load_size = kernel_file_size - mb_kernel_text_offset;
+++        }
+++        if (mh_bss_end_addr) {
+++            if (mh_bss_end_addr < (mh_load_addr + mb_load_size)) {
+++                fprintf(stderr, "invalid mh_bss_end_addr address\n");
+++                exit(1);
+++            }
+++            mb_kernel_size = mh_bss_end_addr - mh_load_addr;
+++        } else {
+++            mb_kernel_size = mb_load_size;
++         }
 + 
-+ #ifndef DIV_ROUND_UP
-+-#define DIV_ROUND_UP(n,d) (((n) + (d) - 1) / (d))
-++#define DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-+ #endif
-+ 
-+ /*
++         /* Valid if mh_flags sets MULTIBOOT_HEADER_HAS_VBE.
 +-- 
 +2.13.3
 +
 diff --git a/meta/recipes-devtools/qemu/qemu_2.10.0.bb b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
-index a3cfb7c..48b8675 100644
+index 48b8675..5b88154 100644
 --- a/meta/recipes-devtools/qemu/qemu_2.10.0.bb
 +++ b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
-@@ -32,6 +32,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
-            file://memfd.patch \
+@@ -33,6 +33,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
             file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
             file://CVE-2017-15119.patch \
-+           file://CVE-2017-18043.patch \
+            file://CVE-2017-18043.patch \
++           file://CVE-2018-7550.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
  
