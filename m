@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 382AF7934E
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id F0C257935E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 11:19:12 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id 13-v6so2534321ois.1
+	Wed, 22 Aug 2018 11:19:14 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id w126-v6so2474278oie.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 04:19:13 -0700 (PDT)
+	Wed, 22 Aug 2018 04:19:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=tlPMpFQ/jWy9w3l6onaeFsNKK+8dxwgnUVzkpdvKMqA=;
-	b=MNKfkwp3TkmlYclYfcQSUn3W2mbCmFHJPBWu/3+3Xzte/wp+pEJ5g86QDCa/5ZQ3ht
-	k3xWxcVep8S8uOtBaqdsjEjDSz1PDMllFhR3BqyD/RkETSR2YXGVEmVcnOtQaYAcfca6
-	zIxbN737OinFg+Nr+9zLlZrM7g1MDsDkYLxWzqibQmK/CFu1eOw3DN5HHMnpREtHEHcR
-	z3y7WiGSJ/BNsWtLsqe3UfJXKJd1UUZ24bFgvPdzyIuWZNx6BIBZU+B7b1dXecYoFvb+
-	/Bcdcp0M7ZSJ5Ea+YP3B5h0Gb8N0OMKGxmdXE7+i3mVm2/SFLEqZlUcMeLmPw+duqK54
-	lfBw==
+	bh=5yMIe9+RHhkPhH/OB0imGjLYYmGeFDsUdz+UzHI60Mk=;
+	b=bR0dNqYvcxN60BfDoang53+l47DX+RfXJHG5Xh8IpqKGrtEMykEsXb8avHpKP6c2W3
+	aAwImaN/5ZcNTmt+XmEnxIle9Gz42hcATBedJdcweVTDspeFAZnWoWqHYnSjwppFUnB2
+	edu9AzclJ63mjwqObxXXIbrmhbEgEYM8TQqaia1dDLHXIyI1PXEy2PFCQw71D3VpLa18
+	gmMjaxXQ0OmMoE02A4d+5D9/r+PgITFZVRjF91qsmlbRFxOtcMkdDQ4uSFoFnj0wfkUs
+	hJPONTIOILIAyq2/Rs0bXrUveoh85jW3oZ/t+8P6ZfpHOn7dro0iZaC1bUIn/hgJB2gu
+	JMqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=tlPMpFQ/jWy9w3l6onaeFsNKK+8dxwgnUVzkpdvKMqA=;
-	b=az45Hagqo2cA2NZ+uYck4cdY0rf8rDTOWvyLzsyyFAHI67a6Dp6QQTvXQt+ZNmu0ab
-	AQ9IZGMFvNdDThfN0z7uQFLvP7Lx956EIWu2RR0q5NQMvR1y++lS9vEb4yaY6MHOtQoh
-	TWcVqLUUUf39YVt6vFyqadMbWW5mbeV81Te+DKJtkERIiUtmZmpImqFKPMcbwzBvN3GW
-	y3dziPF2wtcdwrLHBiOQARHscC1s4NYGOZ7brIM1mNT5KIJ4Xx97ecRUsyYHN0+KviK6
-	pZKj5c4QRAcA4oXJKyTh0633Lz9S9isUVzfrFOW0fQnoPTHRcvlqqz34fNjd0TadvcgX
-	E0Uw==
-X-Gm-Message-State: APzg51Bvg1pgsZmcuujHGsG2/L7JpM8aOPf77MRbRrRvLKpWvvJKw+DN
-	Us3Iah+Af4s3Qjtwq5LfVaihzwKeNeI=
-X-Google-Smtp-Source: ANB0VdYtDnPQMDNQU/U+plLsCoox/EU4ifmEX0mh4To+JKLFwtzUJTd+V4zcYDjpCogVGkpryQuLjA==
-X-Received: by 2002:aca:45d6:: with SMTP id
-	s205-v6mr3601951oia.147.1534936753273; 
-	Wed, 22 Aug 2018 04:19:13 -0700 (PDT)
+	bh=5yMIe9+RHhkPhH/OB0imGjLYYmGeFDsUdz+UzHI60Mk=;
+	b=LRhsS90FadPCy0KBBYjGrRXSzn1ci1y/XkLkc8iG+BY5u0kgtDTdJJyRhH5CTTIjjB
+	5QcyAveRcguru/EnUXyso0nlb3TeMzaui7404i2jLxpfbBFI1cNO3gjkZn8zA0/1OuQH
+	oBcvB894/iFmZl4tNFGb31Na3n73zPhrOWkcmwFSTYBxY2dGJO4JOGgpJHk1xkRiZ8B4
+	WcNJJwwGnj9s3S0f7uZ5yhf52xGoJUkCKTs3QfRsbophjv7kMlNksUlV4a/X1ZsXo74/
+	WQTF9hBAqnwHBijXH1AnFvKEd5w2cfPSN6QOnrdbquUVbHiVo0oJhaIL+U3OEKFtQXCU
+	W+eA==
+X-Gm-Message-State: APzg51Ck+QvX3Ir1IsNNhoWvUzWODzbuEVHxXU0rJuRl6WTWTWEGrX8G
+	2fVMMI8w5SlGkl2o8Wpjyls758CMrFE=
+X-Google-Smtp-Source: ANB0VdZUpp+sMhqvoFgqgR3g5wNSweADgTb6VGwGPXM+tzALPBrySs1KT47Kq81ankkpBQk5HRSBxQ==
+X-Received: by 2002:aca:a982:: with SMTP id
+	s124-v6mr3725247oie.80.1534936755964; 
+	Wed, 22 Aug 2018 04:19:15 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	c9-v6sm862308oia.1.2018.08.22.04.19.11
+	c9-v6sm862308oia.1.2018.08.22.04.19.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 04:19:12 -0700 (PDT)
+	Wed, 22 Aug 2018 04:19:15 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 16:48:00 +0530
-Message-Id: <1534936692-11736-22-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 16:48:01 +0530
+Message-Id: <1534936692-11736-23-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534936692-11736-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534936692-11736-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH 22/34] libarchive: CVE-2017-14503
+Subject: [ROCKO][PATCH 23/34] qemu: CVE-2017-18043
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,66 +59,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:19:12 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 11:19:15 -0000
 
-Reject LHA archive entries with negative size.
+osdep: Fix ROUND_UP(64-bit, 32-bit)
 
-Affects libarchive = 3.3.2
+When using bit-wise operations that exploit the power-of-two
+nature of the second argument of ROUND_UP(), we still need to
+ensure that the mask is as wide as the first argument (done
+by using a ternary to force proper arithmetic promotion).
+Unpatched, ROUND_UP(2ULL*1024*1024*1024*1024, 512U) produces 0,
+instead of the intended 2TiB, because negation of an unsigned
+32-bit quantity followed by widening to 64-bits does not
+sign-extend the mask.
+
+Broken since its introduction in commit 292c8e50 (v1.5.0).
+Callers that passed the same width type to both macro parameters,
+or that had other code to ensure the first parameter's maximum
+runtime value did not exceed the second parameter's width, are
+unaffected, but I did not audit to see which (if any) existing
+clients of the macro could trigger incorrect behavior (I found
+the bug while adding a new use of the macro).
+
+While preparing the patch, checkpatch complained about poor
+spacing, so I also fixed that here and in the nearby DIV_ROUND_UP.
+
+Affects qemu < v2.11.0
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../libarchive/libarchive/CVE-2017-14503.patch     | 29 ++++++++++++++++++++++
- .../libarchive/libarchive_3.3.2.bb                 |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch
+ .../qemu/qemu/CVE-2017-18043.patch                 | 63 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.10.0.bb          |  1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2017-18043.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2017-18043.patch b/meta/recipes-devtools/qemu/qemu/CVE-2017-18043.patch
 new file mode 100644
-index 0000000..f82b096
+index 0000000..955a24c
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch
-@@ -0,0 +1,29 @@
-+From 2c8c83b9731ff822fad6cc8c670ea5519c366a14 Mon Sep 17 00:00:00 2001
-+From: Joerg Sonnenberger <joerg@bec.de>
-+Date: Thu, 19 Jul 2018 21:14:53 +0200
-+Subject: [PATCH] Reject LHA archive entries with negative size.
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2017-18043.patch
+@@ -0,0 +1,63 @@
++From 2098b073f398cd628c09c5a78537a6854e85830d Mon Sep 17 00:00:00 2001
++From: Eric Blake <eblake@redhat.com>
++Date: Thu, 14 Sep 2017 08:49:23 -0500
++Subject: [PATCH] osdep: Fix ROUND_UP(64-bit, 32-bit)
 +
++When using bit-wise operations that exploit the power-of-two
++nature of the second argument of ROUND_UP(), we still need to
++ensure that the mask is as wide as the first argument (done
++by using a ternary to force proper arithmetic promotion).
++Unpatched, ROUND_UP(2ULL*1024*1024*1024*1024, 512U) produces 0,
++instead of the intended 2TiB, because negation of an unsigned
++32-bit quantity followed by widening to 64-bits does not
++sign-extend the mask.
++
++Broken since its introduction in commit 292c8e50 (v1.5.0).
++Callers that passed the same width type to both macro parameters,
++or that had other code to ensure the first parameter's maximum
++runtime value did not exceed the second parameter's width, are
++unaffected, but I did not audit to see which (if any) existing
++clients of the macro could trigger incorrect behavior (I found
++the bug while adding a new use of the macro).
++
++While preparing the patch, checkpatch complained about poor
++spacing, so I also fixed that here and in the nearby DIV_ROUND_UP.
++
++CVE: CVE-2017-18043
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commitdiff;h=2098b073f398cd628c09c5a78537a6854]
++
++CC: qemu-trivial@nongnu.org
++CC: qemu-stable@nongnu.org
++Signed-off-by: Eric Blake <eblake@redhat.com>
++Reviewed-by: Laszlo Ersek <lersek@redhat.com>
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ libarchive/archive_read_support_format_lha.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ include/qemu/osdep.h | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/libarchive/archive_read_support_format_lha.c b/libarchive/archive_read_support_format_lha.c
-+index b8ef4ae1..95c99bb1 100644
-+--- a/libarchive/archive_read_support_format_lha.c
-++++ b/libarchive/archive_read_support_format_lha.c
-+@@ -701,6 +701,12 @@ archive_read_format_lha_read_header(struct archive_read *a,
-+ 	 * Prepare variables used to read a file content.
-+ 	 */
-+ 	lha->entry_bytes_remaining = lha->compsize;
-++	if (lha->entry_bytes_remaining < 0) {
-++		archive_set_error(&a->archive,
-++		    ARCHIVE_ERRNO_FILE_FORMAT,
-++		    "Invalid LHa entry size");
-++		return (ARCHIVE_FATAL);
-++	}
-+ 	lha->entry_offset = 0;
-+ 	lha->entry_crc_calculated = 0;
++diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
++index 72b75bf044..9dd318a7dd 100644
++--- a/include/qemu/osdep.h
+++++ b/include/qemu/osdep.h
++@@ -205,13 +205,13 @@ extern int daemon(int, int);
 + 
++ /* Round number up to multiple. Requires that d be a power of 2 (see
++  * QEMU_ALIGN_UP for a safer but slower version on arbitrary
++- * numbers) */
+++ * numbers); works even if d is a smaller type than n.  */
++ #ifndef ROUND_UP
++-#define ROUND_UP(n,d) (((n) + (d) - 1) & -(d))
+++#define ROUND_UP(n, d) (((n) + (d) - 1) & -(0 ? (n) : (d)))
++ #endif
++ 
++ #ifndef DIV_ROUND_UP
++-#define DIV_ROUND_UP(n,d) (((n) + (d) - 1) / (d))
+++#define DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
++ #endif
++ 
++ /*
 +-- 
 +2.13.3
 +
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.3.2.bb b/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-index 5daca27..3269716 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-@@ -36,6 +36,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://CVE-2017-14166.patch \
-            file://CVE-2017-14502.patch \
-            file://non-recursive-extract-and-list.patch \
-+           file://CVE-2017-14503.patch \
-           "
+diff --git a/meta/recipes-devtools/qemu/qemu_2.10.0.bb b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
+index a3cfb7c..48b8675 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.10.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
+@@ -32,6 +32,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+            file://memfd.patch \
+            file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
+            file://CVE-2017-15119.patch \
++           file://CVE-2017-18043.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
  
- SRC_URI[md5sum] = "4583bd6b2ebf7e0e8963d90879eb1b27"
 -- 
 2.7.4
 
