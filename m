@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A6DE79368
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 767CD793CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 13:36:29 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id p84-v6so3154757oic.4
+	Wed, 22 Aug 2018 13:36:32 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id z185-v6so2704957oia.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 06:36:31 -0700 (PDT)
+	Wed, 22 Aug 2018 06:36:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BOVvpHgtMcGaIxL8IaICmQWMEr3oeLMOvpAK8Z6FEA4=;
-	b=V/VVOVC24FCOYoeWIYp4uYk8jh93zOPtPZ3UFAVHPdQojXfVbFC/qYx1Cl3d+0Eoop
-	0lXVkjp9HoTxP+xP/sO7lzX+ntEqlrExnV6w44Yoz73lJ6k/Nh7uGIUagAENBt07z9vz
-	yeaBSgFnjPbVLavh/rwINPyaieNy6/0AvOOjz3BnQ5CJ3cTGWuNkC7VKK95d4W+LTg8C
-	Ni7Oaql6jZ6F/3at9SkTIUhmQf/0GahLJn0NiWuRnKvoJ+jjXWIAkqHx9L9yJDaV8vDG
-	RAQGHryVGyrKq/cYBDJh3jIrXDSPAY5SiYDiy8td2teTP4WHnUQ1n/dQAoqiq4bX5ySi
-	2t4A==
+	bh=74nhZ8xLYk8DtJgZwS+lMGHpGQaZxTJ3UUywxpIEF3s=;
+	b=yhgth04cuKyeUjI48uH/30aqmC6IIVitbeh0B5Yr070qkFDLBvRHlavdqZT0913S0B
+	gofLm2ZVXrbxpYuH+rCgSzi+NJdZis8pJRAl8uaveUUL+BmChd7Ug86II8Nny+RW52GF
+	ti4a4iCHHMPe71yS0I5SwX9n2wCtovpKJKqv10hm8xA6qjhXo/bxTR7pvqmur+xGM7XE
+	U3ncviSeHWL1eLLH+HUGu/NeHH2zoMKzOWNIYzRYiqt2bo4af0dCmahz+70teiVGGjqs
+	T/MlpQ8mWVYWevXamNdtsYEO72jmGqwiNlS0Eiq8y5vTz/HVNvFkWDB7GLzUnUvrfkzY
+	iTIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=BOVvpHgtMcGaIxL8IaICmQWMEr3oeLMOvpAK8Z6FEA4=;
-	b=qg6rVL3gnCqPNOkk+Henglbg2jy+QAlKMH0RS+Tzo10kymG7+khZTicnuliuhSAhG6
-	wfnRJzx7mnGO29YqDtUYazJvtocA193AUvmzz8oF7y/44qWAsBtKKHj9NNXNT43hfoj5
-	Prw5HBy6YeCXzAjpMbv3wAH0lWGILfMn5NzxKU8pYP/+JDRVu0NN+facvt7uq2kcMI+V
-	lScy68v2jTEnvLUbGcZBhylZDtA1BWta34kB2hcOEfZtloS71u4lV6bbiJ23Azt2sb5w
-	XsfteqKBpUMcXUECD8UdHbb/PhWlXRWxgH2l1tdFVKxnm1SwvR/TdrqSKufDkQCC/J/Q
-	5RAg==
-X-Gm-Message-State: APzg51A4oM5MlYLqT1Prtg++j03pBjBFfcwMxs9tdiVoLH0h2wMv0p3k
-	Z09+Eq+ZFkUEjRKI76Hij/5XAU5cgWA=
-X-Google-Smtp-Source: ANB0Vdb+M8lT/ZiC4MEtXhax/24+Zq/CaIDvAp7ZRWI7WHQSdTwLFS3ubf/+cHjrZ8kPn+3tU5Qeyw==
-X-Received: by 2002:aca:d946:: with SMTP id
-	q67-v6mr1657971oig.212.1534944990867; 
-	Wed, 22 Aug 2018 06:36:30 -0700 (PDT)
+	bh=74nhZ8xLYk8DtJgZwS+lMGHpGQaZxTJ3UUywxpIEF3s=;
+	b=WRoirQ8xWzT3+sRQ2CDfLYhAQ8IJZrLLYexKGFh2lGCoPqhZPzduFOBMeG1GLf2ohb
+	ZyDhw33eRHSuwH3vVPMr536TlhtAm7oz4yk9mdhZ2I0kam3ul2IBg+E3h3RYJRuszwkW
+	wuW8ybHvdpBp4K7j3R3WSpACwj87Q2ln57VHW0Z1lR24iSLEVwQYCep2f7nVDO2yNSmn
+	roihITIiN3ieQApSFvRM5IV4keehjbLDYjB7wP3YgZIFwOINS5N/i2Y5n+S4OcFv+jYj
+	JeRhrWfpjgJosOerLwz1p7UMqvB10BYX2NoJSEr5GT3Q2Z7uyZ3lqM9uPUkF3IcbxI4H
+	TwZA==
+X-Gm-Message-State: APzg51D/gHWYTsaDLQD00JHv3XwSQNavMmExRFu3PxR4nk6gZKRceV5V
+	zXsDh74qIJCWZTn3JtoKh2yVFlJ3ThM=
+X-Google-Smtp-Source: ANB0VdbOxafjy0a2TapHFzi5kA9QPMXxG34/zn/e259A1O9sM9zEZGMxAj0pLobh1LSznbkPmh9Cpg==
+X-Received: by 2002:aca:6541:: with SMTP id
+	j1-v6mr3690262oiw.157.1534944993157; 
+	Wed, 22 Aug 2018 06:36:33 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	h186-v6sm3746773oib.55.2018.08.22.06.36.28
+	h186-v6sm3746773oib.55.2018.08.22.06.36.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 06:36:30 -0700 (PDT)
+	Wed, 22 Aug 2018 06:36:32 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 19:05:18 +0530
-Message-Id: <1534944940-21566-12-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 19:05:19 +0530
+Message-Id: <1534944940-21566-13-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V2 12/34] curl: CVE-2018-1000301
+Subject: [ROCKO][PATCH V2 13/34] procps: CVE-2018-1124
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,100 +59,268 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 13:36:30 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 13:36:32 -0000
 
-http: restore buffer pointer when bad response-line is parsed
+proc/readproc.c: Fix bugs and overflows in file2strvec().
 
-... leaving the k->str could lead to buffer over-reads later on.
+Note: this is by far the most important and complex patch of the whole
+series, please review it carefully; thank you very much!
 
-CVE: CVE-2018-1000301
-Assisted-by: Max Dymond
+For this patch, we decided to keep the original function's design and
+skeleton, to avoid regressions and behavior changes, while fixing the
+various bugs and overflows. And like the "Harden file2str()" patch, this
+patch does not fail when about to overflow, but truncates instead: there
+is information available about this process, so return it to the caller;
+also, we used INT_MAX as a limit, but a lower limit could be used.
 
-Detected by OSS-Fuzz.
-Bug: https://curl.haxx.se/docs/adv_2018-b138.html
-Bug: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=7105
+The easy changes:
 
-Affects curl >= 7.20.0 && curl <= 7.59.0
+- Replace sprintf() with snprintf() (and check for truncation).
+
+- Replace "if (n == 0 && rbuf == 0)" with "if (n <= 0 && tot <= 0)" and
+  do break instead of return: it simplifies the code (only one place to
+  handle errors), and also guarantees that in the while loop either n or
+  tot is > 0 (or both), even if n is reset to 0 when about to overflow.
+
+- Remove the "if (n < 0)" block in the while loop: it is (and was) dead
+  code, since we enter the while loop only if n >= 0.
+
+- Rewrite the missing-null-terminator detection: in the original
+  function, if the size of the file is a multiple of 2047, a null-
+  terminator is appended even if the file is already null-terminated.
+
+- Replace "if (n <= 0 && !end_of_file)" with "if (n < 0 || tot <= 0)":
+  originally, it was equivalent to "if (n < 0)", but we added "tot <= 0"
+  to handle the first break of the while loop, and to guarantee that in
+  the rest of the function tot is > 0.
+
+- Double-force ("belt and suspenders") the null-termination of rbuf:
+  this is (and was) essential to the correctness of the function.
+
+- Replace the final "while" loop with a "for" loop that behaves just
+  like the preceding "for" loop: in the original function, this would
+  lead to unexpected results (for example, if rbuf is |\0|A|\0|, this
+  would return the array {"",NULL} but should return {"","A",NULL}; and
+  if rbuf is |A|\0|B| (should never happen because rbuf should be null-
+  terminated), this would make room for two pointers in ret, but would
+  write three pointers to ret).
+
+The hard changes:
+
+- Prevent the integer overflow of tot in the while loop, but unlike
+  file2str(), file2strvec() cannot let tot grow until it almost reaches
+  INT_MAX, because it needs more space for the pointers: this is why we
+  introduced ARG_LEN, which also guarantees that we can add "align" and
+  a few sizeof(char*)s to tot without overflowing.
+
+- Prevent the integer overflow of "tot + c + align": when INT_MAX is
+  (almost) reached, we write the maximal safe amount of pointers to ret
+  (ARG_LEN guarantees that there is always space for *ret = rbuf and the
+  NULL terminator).
+
+Affects procps-ng < 3.3.15
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../curl/curl/CVE-2018-1000301.patch               | 54 ++++++++++++++++++++++
- meta/recipes-support/curl/curl_7.58.0.bb           |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2018-1000301.patch
+ .../procps/procps/CVE-2018-1124.patch              | 176 +++++++++++++++++++++
+ meta/recipes-extended/procps/procps_3.3.12.bb      |   1 +
+ 2 files changed, 177 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps/CVE-2018-1124.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2018-1000301.patch b/meta/recipes-support/curl/curl/CVE-2018-1000301.patch
+diff --git a/meta/recipes-extended/procps/procps/CVE-2018-1124.patch b/meta/recipes-extended/procps/procps/CVE-2018-1124.patch
 new file mode 100644
-index 0000000..f42178e
+index 0000000..bc78faf
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2018-1000301.patch
-@@ -0,0 +1,54 @@
-+From 8c7b3737d29ed5c0575bf592063de8a51450812d Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sat, 24 Mar 2018 23:47:41 +0100
-+Subject: [PATCH] http: restore buffer pointer when bad response-line is parsed
++++ b/meta/recipes-extended/procps/procps/CVE-2018-1124.patch
+@@ -0,0 +1,176 @@
++From bdd058a0e676d2f013027fcfb2b344c313112a50 Mon Sep 17 00:00:00 2001
++From: Qualys Security Advisory <qsa@qualys.com>
++Date: Thu, 1 Jan 1970 00:00:00 +0000
++Subject: [PATCH 074/126] proc/readproc.c: Fix bugs and overflows in
++ file2strvec().
 +
-+... leaving the k->str could lead to buffer over-reads later on.
++Note: this is by far the most important and complex patch of the whole
++series, please review it carefully; thank you very much!
 +
-+CVE: CVE-2018-1000301
-+Assisted-by: Max Dymond
++For this patch, we decided to keep the original function's design and
++skeleton, to avoid regressions and behavior changes, while fixing the
++various bugs and overflows. And like the "Harden file2str()" patch, this
++patch does not fail when about to overflow, but truncates instead: there
++is information available about this process, so return it to the caller;
++also, we used INT_MAX as a limit, but a lower limit could be used.
 +
-+Detected by OSS-Fuzz.
-+Bug: https://curl.haxx.se/docs/adv_2018-b138.html
-+Bug: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=7105
++The easy changes:
 +
-+Upstream-Status: Backport [https://github.com/curl/curl-www/commit/3ee30b2b5e3836345ac510bc1674aa3a4272936e]
++- Replace sprintf() with snprintf() (and check for truncation).
++
++- Replace "if (n == 0 && rbuf == 0)" with "if (n <= 0 && tot <= 0)" and
++  do break instead of return: it simplifies the code (only one place to
++  handle errors), and also guarantees that in the while loop either n or
++  tot is > 0 (or both), even if n is reset to 0 when about to overflow.
++
++- Remove the "if (n < 0)" block in the while loop: it is (and was) dead
++  code, since we enter the while loop only if n >= 0.
++
++- Rewrite the missing-null-terminator detection: in the original
++  function, if the size of the file is a multiple of 2047, a null-
++  terminator is appended even if the file is already null-terminated.
++
++- Replace "if (n <= 0 && !end_of_file)" with "if (n < 0 || tot <= 0)":
++  originally, it was equivalent to "if (n < 0)", but we added "tot <= 0"
++  to handle the first break of the while loop, and to guarantee that in
++  the rest of the function tot is > 0.
++
++- Double-force ("belt and suspenders") the null-termination of rbuf:
++  this is (and was) essential to the correctness of the function.
++
++- Replace the final "while" loop with a "for" loop that behaves just
++  like the preceding "for" loop: in the original function, this would
++  lead to unexpected results (for example, if rbuf is |\0|A|\0|, this
++  would return the array {"",NULL} but should return {"","A",NULL}; and
++  if rbuf is |A|\0|B| (should never happen because rbuf should be null-
++  terminated), this would make room for two pointers in ret, but would
++  write three pointers to ret).
++
++The hard changes:
++
++- Prevent the integer overflow of tot in the while loop, but unlike
++  file2str(), file2strvec() cannot let tot grow until it almost reaches
++  INT_MAX, because it needs more space for the pointers: this is why we
++  introduced ARG_LEN, which also guarantees that we can add "align" and
++  a few sizeof(char*)s to tot without overflowing.
++
++- Prevent the integer overflow of "tot + c + align": when INT_MAX is
++  (almost) reached, we write the maximal safe amount of pointers to ret
++  (ARG_LEN guarantees that there is always space for *ret = rbuf and the
++  NULL terminator).
++[carnil: backport for 3.3.9: Add include for limits.h and use of MAX_INT]
++
++CVE: CVE-2018-1124
++Upstream-Status: Backport [https://gitlab.com/procps-ng/procps/commit/36c350f07c75aabf747fb833f52a234ae5781b20]
++
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ lib/http.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
++ proc/readproc.c | 53 ++++++++++++++++++++++++++++++++---------------------
++ 1 file changed, 32 insertions(+), 21 deletions(-)
 +
-+diff --git a/lib/http.c b/lib/http.c
-+index 1a313b4fb..e080ae513 100644
-+--- a/lib/http.c
-++++ b/lib/http.c
-+@@ -3012,10 +3012,12 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
-+                                        ssize_t *nread,
-+                                        bool *stop_reading)
-+ {
-+   CURLcode result;
-+   struct SingleRequest *k = &data->req;
-++  ssize_t onread = *nread;
-++  char *ostr = k->str;
++diff -Naurp procps-ng-3.3.12_org/proc/readproc.c procps-ng-3.3.12/proc/readproc.c
++--- procps-ng-3.3.12_org/proc/readproc.c	2016-07-09 14:49:25.825306872 -0700
+++++ procps-ng-3.3.12/proc/readproc.c	2018-07-24 00:46:49.366202531 -0700
++@@ -37,6 +37,7 @@
++ #include <dirent.h>
++ #include <sys/types.h>
++ #include <sys/stat.h>
+++#include <limits.h>
++ #ifdef WITH_SYSTEMD
++ #include <systemd/sd-login.h>
++ #endif
++--- a/proc/readproc.c
+++++ b/proc/readproc.c
++@@ -600,11 +601,12 @@ static int file2str(const char *director
 + 
-+   /* header line within buffer loop */
-+   do {
-+     size_t rest_length;
-+     size_t full_length;
-+@@ -3076,11 +3078,13 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
-+           /* since there's more, this is a partial bad header */
-+           k->badheader = HEADER_PARTHEADER;
-+         else {
-+           /* this was all we read so it's all a bad header */
-+           k->badheader = HEADER_ALLBAD;
-+-          *nread = (ssize_t)rest_length;
-++          *nread = onread;
-++          k->str = ostr;
-++          return CURLE_OK;
-+         }
-+         break;
-+       }
++ static char** file2strvec(const char* directory, const char* what) {
++     char buf[2048];	/* read buf bytes at a time */
++-    char *p, *rbuf = 0, *endbuf, **q, **ret;
+++    char *p, *rbuf = 0, *endbuf, **q, **ret, *strp;
++     int fd, tot = 0, n, c, end_of_file = 0;
++     int align;
++ 
++-    sprintf(buf, "%s/%s", directory, what);
+++    const int len = snprintf(buf, sizeof buf, "%s/%s", directory, what);
+++    if(len <= 0 || (size_t)len >= sizeof buf) return NULL;
++     fd = open(buf, O_RDONLY, 0);
++     if(fd==-1) return NULL;
++ 
++@@ -612,18 +614,23 @@ static char** file2strvec(const char* di
++     while ((n = read(fd, buf, sizeof buf - 1)) >= 0) {
++ 	if (n < (int)(sizeof buf - 1))
++ 	    end_of_file = 1;
++-	if (n == 0 && rbuf == 0) {
++-	    close(fd);
++-	    return NULL;	/* process died between our open and read */
+++	if (n <= 0 && tot <= 0) { /* nothing read now, nothing read before */
+++	    break;		/* process died between our open and read */
++ 	}
++-	if (n < 0) {
++-	    if (rbuf)
++-		free(rbuf);
++-	    close(fd);
++-	    return NULL;	/* read error */
+++	/* ARG_LEN is our guesstimated median length of a command-line argument
+++	   or environment variable (the minimum is 1, the maximum is 131072) */
+++	#define ARG_LEN 64
+++	if (tot >= INT_MAX / (ARG_LEN + (int)sizeof(char*)) * ARG_LEN - n) {
+++	    end_of_file = 1; /* integer overflow: null-terminate and break */
+++	    n = 0; /* but tot > 0 */
++ 	}
++-	if (end_of_file && (n == 0 || buf[n-1]))/* last read char not null */
+++	#undef ARG_LEN
+++	if (end_of_file &&
+++	    ((n > 0 && buf[n-1] != '\0') ||	/* last read char not null */
+++	     (n <= 0 && rbuf[tot-1] != '\0')))	/* last read char not null */
++ 	    buf[n++] = '\0';			/* so append null-terminator */
+++
+++	if (n <= 0) break; /* unneeded (end_of_file = 1) but avoid realloc */
++ 	rbuf = xrealloc(rbuf, tot + n);		/* allocate more memory */
++ 	memcpy(rbuf + tot, buf, n);		/* copy buffer into it */
++ 	tot += n;				/* increment total byte ctr */
++@@ -631,29 +638,34 @@ static char** file2strvec(const char* di
++ 	    break;
 +     }
++     close(fd);
++-    if (n <= 0 && !end_of_file) {
+++    if (n < 0 || tot <= 0) {	/* error, or nothing read */
++ 	if (rbuf) free(rbuf);
++ 	return NULL;		/* read error */
++     }
+++    rbuf[tot-1] = '\0'; /* belt and suspenders (the while loop did it, too) */
++     endbuf = rbuf + tot;			/* count space for pointers */
++     align = (sizeof(char*)-1) - ((tot + sizeof(char*)-1) & (sizeof(char*)-1));
++-    for (c = 0, p = rbuf; p < endbuf; p++) {
++-	if (!*p || *p == '\n')
+++    c = sizeof(char*);				/* one extra for NULL term */
+++    for (p = rbuf; p < endbuf; p++) {
+++	if (!*p || *p == '\n') {
+++	    if (c >= INT_MAX - (tot + (int)sizeof(char*) + align)) break;
++ 	    c += sizeof(char*);
+++	}
++ 	if (*p == '\n')
++ 	    *p = 0;
++     }
++-    c += sizeof(char*);				/* one extra for NULL term */
 + 
-+-- 
-+2.17.0
-diff --git a/meta/recipes-support/curl/curl_7.58.0.bb b/meta/recipes-support/curl/curl_7.58.0.bb
-index fdfbb3d..4376bb3 100644
---- a/meta/recipes-support/curl/curl_7.58.0.bb
-+++ b/meta/recipes-support/curl/curl_7.58.0.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e66
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
-            file://CVE-2018-1000300.patch \
-+           file://CVE-2018-1000301.patch \
- "
++     rbuf = xrealloc(rbuf, tot + c + align);	/* make room for ptrs AT END */
++     endbuf = rbuf + tot;			/* addr just past data buf */
++     q = ret = (char**) (endbuf+align);		/* ==> free(*ret) to dealloc */
++-    *q++ = p = rbuf;				/* point ptrs to the strings */
++-    endbuf--;					/* do not traverse final NUL */
++-    while (++p < endbuf)
++-    	if (!*p)				/* NUL char implies that */
++-	    *q++ = p+1;				/* next string -> next char */
++-
+++    for (strp = p = rbuf; p < endbuf; p++) {
+++	if (!*p) {				/* NUL char implies that */
+++	    if (c < 2 * (int)sizeof(char*)) break;
+++	    c -= sizeof(char*);
+++	    *q++ = strp;			/* point ptrs to the strings */
+++	    strp = p+1;				/* next string -> next char */
+++	}
+++    }
++     *q = 0;					/* null ptr list terminator */
++     return ret;
++ }
+diff --git a/meta/recipes-extended/procps/procps_3.3.12.bb b/meta/recipes-extended/procps/procps_3.3.12.bb
+index adabd75..a0c1bf4 100644
+--- a/meta/recipes-extended/procps/procps_3.3.12.bb
++++ b/meta/recipes-extended/procps/procps_3.3.12.bb
+@@ -14,6 +14,7 @@ inherit autotools gettext pkgconfig update-alternatives
  
+ SRC_URI = "http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
+            file://sysctl.conf \
++           file://CVE-2018-1124.patch \
+           "
  
+ SRC_URI[md5sum] = "957e42e8b193490b2111252e4a2b443c"
 -- 
 2.7.4
 
