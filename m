@@ -1,60 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id BE5697940F
+Return-Path: <yang.wang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BCDB57940F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:42:35 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id b19-v6so1516024qkc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=p53krYv26kFHbVhE1TImA729sBCiUF2cYBFkyb+8Xq0=;
-	b=tRFSrrfnh6BNbeKYTqgyBGcD88q58gRSPgD2/FiDbBEi0UD/Ap+BXXnvyrFc5aS2do
-	qgWrku8PAP7s8G47a+t0UJASEnqtjbgkl97sIfMaTtbQkrCa5wfRRwGMqogCWE3AfR/h
-	7PKtxZOlg2PW7o5SQucW3fYQpYKjS+BqdogrdeEjBZ2sCpmP5uZDWsUW8CaujnflUrUa
-	cs8zTFRqaQn0BrYlh0Uivj3mBAk/avlF9vanymKG+2PClnx8Uxid5Tx6xl99Mve3wg1G
-	1Gz6yatSRFQnvpEkQgnatr9+O60tXZLdESrC+VSRC7hV75nsVFQHa+p4SqMFUaSk33iK
-	zPPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=p53krYv26kFHbVhE1TImA729sBCiUF2cYBFkyb+8Xq0=;
-	b=GrOkmiiBZMB7xm2OlgqetDkxhjdf4mWc+qgWS5i4J0lFPSzH4gzEQ9El4NDO7aUPS/
-	X4bvI33gjyaipoNO3gLXfEXDH03HvMnH8Gldzh/7Z9FoL3x9D8Np16rD0aS53b+NraVf
-	TPQN2qADzpO8ibB/RQS7fRSqjJGBSsBfSZSPM1HTv4oEt2en7wSKYPEv6VsU3HKuLVPU
-	z3h0y/XfgfvA5Kftc2OzWFwV3phl2VMDjhR6ZDcxfIR/X+gKK172vjRZJdSVuzqErcM0
-	0cncvqVN6e6MJvL1wt+hiU9/rSVU9q0tVCgCnNyrop14Uwl2Y6MdZrXXXmIt10ZUtZJ3
-	uvRw==
-X-Gm-Message-State: AOUpUlF4dEa/6KFNenOveseMv7jjYidmuxLzead7uo7uRpiwTtL1VjT/
-	y9UxgJBm5g/62KM/ydl/Nrlk02kdVzRGK22/YDc=
-X-Google-Smtp-Source: AA+uWPzgBTuUUi1cNaIW1H07EvvCeMsXDUMkRIm8kCloFqeovDMlUjFPTouoG0wnfUg6DxtzT9bZgsgIttKNTPtx8EY=
-X-Received: by 2002:a37:9904:: with SMTP id
-	b4-v6mr40780276qke.102.1534952556204; 
-	Wed, 22 Aug 2018 08:42:36 -0700 (PDT)
+	Wed, 22 Aug 2018 15:44:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7MFiL3v028064
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 22 Aug 2018 08:44:21 -0700 (PDT)
+Received: from [147.11.118.189] (147.11.118.189) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Wed, 22 Aug 2018 08:44:21 -0700
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
+	<randy.macleod@windriver.com>
+References: <7AA7B88A6FC2B84F9AA5EF03A8A6FCB201348A030B@ALA-MBD.corp.ad.wrs.com>
+	<bebc4ced-47eb-9cb8-4df5-4716a2dd4d11@windriver.com>
+	<CAP71WjxgSESvWm=FO=O0cmY+UE82OEc3L=2ioJp9K4xuhZ_hRQ@mail.gmail.com>
+From: Yang Wang <yang.wang@windriver.com>
+Message-ID: <0f31c417-75ef-fdd4-925f-de320a778275@windriver.com>
+Date: Wed, 22 Aug 2018 11:44:20 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20180821145858.18459-1-ricardo.ribalda@gmail.com>
-	<10e5ea973727e06604a83299fdd5a8d4cfa2633a.camel@linuxfoundation.org>
-	<CAPybu_3tUu0LKA1gdSj-MFYfhxiHz62wXrP2ivETSMNiWdWyDg@mail.gmail.com>
-	<83a93f3542ad88b01b073b7875839dd2e2c1bf44.camel@linuxfoundation.org>
-	<CAPybu_0+uwJghGGyPEAR1bQEtOcFKeH9P2okdhcUBzJ_E-BLDw@mail.gmail.com>
-	<a031c89ea6cdb522999796f93b8c1a2c8ec8e4c5.camel@linuxfoundation.org>
-	<CAPybu_0QAOWyz9+XGKEADtZqj+wj2Ro7hQx_q8BkX9BBrjPPCg@mail.gmail.com>
-	<e0ffd2ccefb534b1c4171449256c123e9e6b5e55.camel@linuxfoundation.org>
-	<CAPybu_1NAf_p0zfZSPTAbweKYunAyGL_6tLwhao-Kw6be3FX9w@mail.gmail.com>
-	<CAPybu_0oQ2sjiVTMqXXbvTs+3dagLn8Wps5-AxYhqtjKz-9M6w@mail.gmail.com>
-	<15ac7737a9a1a20bfbb6ed98a79ba140a6e6c786.camel@linuxfoundation.org>
-	<CAPybu_2BB1XmsvrrME9poTKABtW+C6qZvJo3eoo=MDUDJa5cuA@mail.gmail.com>
-	<8fe6af7262abdf19ade58f0c04a25637b20d5aef.camel@linuxfoundation.org>
-In-Reply-To: <8fe6af7262abdf19ade58f0c04a25637b20d5aef.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 Aug 2018 08:42:09 -0700
-Message-ID: <CAMKF1srqxVG639au7ikhM+CEhuSROSfyYEzYWU1M7+PG=EkP9g@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+In-Reply-To: <CAP71WjxgSESvWm=FO=O0cmY+UE82OEc3L=2ioJp9K4xuhZ_hRQ@mail.gmail.com>
+Cc: richard.purdie@intel.com, jair.de.jesus.gonzalez.plascencia@intel.com,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: Fix ldd bug: not a dynamic executable error
+Subject: Re: [RFC] Yocto Project Bug 12372 - Automate the execution of pTest with LAVA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,40 +38,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:42:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 Aug 2018 15:44:23 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Wed, Aug 22, 2018 at 7:57 AM <richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2018-08-22 at 15:39 +0200, Ricardo Ribalda Delgado wrote:
-> > On Wed, Aug 22, 2018 at 3:37 PM <richard.purdie@linuxfoundation.org>
-> > wrote:
-> > > > RTLDLIST="/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2
-> > > > /libx32/ld-linux-x32.so.
-> > >
-> > > I just looked at what the function is doing and its broken. What is
-> > > DEFAULTTUNE set to in your build?
-> >
-> > DEFAULTTUNE="dbfp4"
->
-> As I suspected.
->
-> Try applying:
->
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=d69f0127b44a5216dd21ad972d6f2b2e4cda6d13
->
+On 18-08-22 02:51 AM, Nicolas Dechesne wrote:
 
-this makes it a lot better thanks for doing it. Perhaps we should check for
-libc-glibc override for glibc case and throw an error if no conditions are met
-it might affect nativesdk version probably.
+> hi,
+>
+> On Wed, Aug 22, 2018 at 4:25 AM Randy MacLeod
+> <randy.macleod@windriver.com> wrote:
+>> On 08/21/2018 11:04 AM, Wang, Yang (Young) wrote:
+>>> Hi All,
+>>>
+>>> I'm working on this ticket:
+>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12372
+>> Thanks for investigating the bug/enhancement and posting your thoughts.
+>> I'm jumping in without much expertise to try to get the ball rolling.
+>>
+>>> As far as I know, the following are all true nowadays:
+>>> - Ptest needs to be run on real hardware and it takes few hours to finish
+>>> - Ptest can be run within OEQA, it can also be run independently
+>>> - LAVA is a good open source test  framework which:
+>>>     - can manage both real hardware and different kinds of simulators as the test devices
+>>>     - provides well managed logging system and test reports
+>>>
+>>> How to automatically run Ptest? I think running it with LAVA is a good solution, but ...
+>>>
+>>> LAVA is running as a server which can manage test jobs submitted to it, here is a typical LAVA job:
+>>> https://staging.validation.linaro.org/scheduler/job/231942/definition
+>>> As you can see, it defines the device type, test images which will used, the test cases and a lot of others.
+>> That's a good clear format.
+>>
+>> I believe that what people are thinking is that we'd have:
+>>
+>> device_type: x86
+>>
+>> job_name: x86_64 oeqa
+>> ...
+>>
+>> actions:
+>> - deploy:
+>>   ...
+>>
+>> - boot:
+>> ...
+>>
+>> - test:
+>>      timeout:
+>>        minutes: 2
+>>      definitions:
+>>   << some thing that makes the target and lava server wait for
+>>      oeqa to run >>
+>>        name: oeqa-test
+>>
+>>> So the typical automatic way to run a test through LAVA is to write a script which use a LAVA job template, replace images with the expected ones, and then submit it to LAVA though a command, for example:
+>>> $ lava-tool submit-job http://<user>@<lava-server> x86_64_ job_oeqa-ptest.yaml
+> This is more or less something that we are doing as part of our CI
+> loop. The process is the following:
+>
+> 1. fetch layers updates
+> 2. make a new build for one or more $MACHINE
+> 3. use LAVA job template to generate an actual LAVA job
+> 4. run this LAVA job on the Linaro LAVA Board farm
+>
+> There is no integration into oe-core / bitbake, it is run outside of
+> the OE builds.
+This is clear, the test automation through LAVA needs to be done outside
+of OE.
+> You can check our ptest LAVA job from our most recent build:
+> https://validation.linaro.org/scheduler/job/1890442
+>
+> The generated LAVA job is:
+> https://validation.linaro.org/scheduler/job/1890442/definition
+>
+> The job deals with all the flashing/management of the device to test
+> (a dragonboard 820c in this specific example), so there is a bit of
+> boiler plate , but the base template for running ptest can be found
+> here:
+>
+> https://git.linaro.org/ci/job/configs.git/tree/lt-qcom/lava-job-definitions/boards/template-ptest.yaml
+>
+> which itself points the the LAVA job definition for ptest:
+>
+> https://git.linaro.org/qa/test-definitions.git/tree/automated/linux/ptest
+>
+> This is where LAVA communicates and manages how to run ptests and get
+> status from each test.
+>
+> And finally... you can view the test results for this ptest run in LAVA:
+>
+> https://validation.linaro.org/results/1890442/0_linux-ptest
+My private test automation framework is doing the similar job on daily
+basis.
 
-> and
+So there are some preconditions of doing test automation through LAVA
+publicly:
+1. Select a public LAVA server with an accessible account
+2. Exactly know which type of hardware we would like to use, and that
+has to be set in the LAVA job
+    - It doesn't need to set a specific board since LAVA supports
+device-types, for example:
+https://validation.linaro.org/scheduler/device_types
+3. Devices under this specific device-type need to be maintained by
+someone, if they don't work, our tests will fail all the time
+
+So, go back to the original ticket, we can definitely create some
+scripts to run Ptest automatically through LAVA, but specific settings
+of LAVA server and device-type have to be there as well. I'm concerned
+if this is what the ticket reporter would like to get.
+
+Thanks,
+-Yang Wang
+>> That would still work given the above oeqa job.
+>>
+>> No doubt there's additional glue code that would
+>> be nice to write that would allow automatically creating
+>> the lava yaml that boots the system into a state where oeqa
+>> code takes over.
+> I think most of what needs to be created is there in all the links I
+> shared above. This is what we came up with , and it is not integrated
+> with oeqa. But this can be used as a baseline at least.
 >
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=95aa56ae11852c100be68d13aaffa9c83273b46b
+>> I've never used it and only just found the code but
+>> I bet that adding another controller to:
+>>
+>> git://git.yoctoproject.org/meta-yocto
+>>
+>> $ ls  meta-yocto-bsp/lib/oeqa/controllers/
+>> beaglebonetarget.py  edgeroutertarget.py  grubtarget.py  __init__.py
+>>
+>> is what would make sense.
+>>
+>>> This command will return a job id (take #231942 as an example), and then the script can get all logs and reports based on LAVA server address and this job id, for example:
+>>> - execution log: https://staging.validation.linaro.org/scheduler/job/231942
+>>> - test report: https://staging.validation.linaro.org/results/231942/0_smoke-tests
+>> Suspect that this is were the design intent diverges.
+>>
+>> Usually lava runs the whole system, and I think we just
+>> want it to manage the hardware and then step out of the way.
+>> There'd likely be an api to allow oeqa and lava to communicate
+>> so that for example oeqa could tell lava that the tests were done.
+> Yes, LAVA runs the whole system. Including management of devices to
+> test, reboot, flashing.. It also has a LAVA test definition format
+> that must be used. So to benefit from LAVA, a LAVA instance must be
+> setup, and then we need to have lab instances where boards are
+> attached to. A LAVA instance can have several labs, and labs can be
+> spread physically. LAVA must know how to deal with each
+> hardware/machine (e.g. how to power it on, get a serial console). The
+> linux rootfs can be flashed into onboard memory, or NFS can be used as
+> well. That is left to the JOB writer.
 >
-> and then seen if that fixes things.
->
-> Cheers,
->
-> Richard
+>> All lava would know is that an oeqa test ran and it's completion
+>> status.
+>>
+>>> So, as far as I can tell, it may not be an appropriate way to integrate LAVA test into a bitbake command as we run it with simple test harness, LAVA is an advanced test framework and it manages all jobs submit to it well.
+>>>
+>>> Please comment if you have better idea about this ticket.
+>> I'm really going on a few conversations that I've had or chats
+>> on IRC so hopefully someone else can step up and comment on both Young's
+>> initial email and my interpretation of where we're trying to
+>> get to.
+>>
+>> Thanks,
+>>
+>> --
+>> # Randy MacLeod
+>> # Wind River Linux
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
