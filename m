@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A75260620;
-	Wed, 22 Aug 2018 11:41:08 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 9E96660620;
+	Wed, 22 Aug 2018 11:41:11 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-Date: Wed, 22 Aug 2018 11:41:09 -0000
-Message-ID: <20180822114109.13843.77311@do.openembedded.org>
-References: <1534936500-11509-1-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 11:41:13 -0000
+Message-ID: <20180822114113.13841.98112@do.openembedded.org>
+References: <1534936615-11658-1-git-send-email-jkrishnanjanappa@mvista.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1534936500-11509-1-git-send-email-jkrishnanjanappa@mvista.com>
+In-Reply-To: <1534936615-11658-1-git-send-email-jkrishnanjanappa@mvista.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImxpYnNuZGZpbGUxOiBDVkUtMjAxNy0xNDI0NSBDVi4uLiIgYW5kIDMgbW9yZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltTVU1PXSBsaWJzbmRmaWxlMTogQ1ZFLTIwMTctMS4uLiIgYW5kIDE4IG1vcmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:41:10 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 11:41:11 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "libsndfile1: CVE-2017-14245 CV..." and 3 more
+Series: "[SUMO] libsndfile1: CVE-2017-1..." and 18 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/13657/
+URL   : https://patchwork.openembedded.org/series/13658/
 State : failure
 
 == Summary ==
@@ -44,6 +44,10 @@ an automated response. Several tests have been executed on the proposed
 series by patchtest resulting in the following failures:
 
 
+
+* Patch            [SUMO,17/19] openssl: CVE-2018-0732
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
 
 * Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
   Suggested fix    Sign off the added patch file (meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch)
