@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9342479494
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id B113E79491
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:09:45 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id c190-v6so3704808oig.6
+	Wed, 22 Aug 2018 15:09:47 +0000 (UTC)
+Received: by mail-oi0-f41.google.com with SMTP id c190-v6so3705028oig.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:09:47 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eG7pATp4CTP5/Ef8LkTSmctrHMM6Gi7thWoZ23M+8O8=;
-	b=qt0ZcG5/2fXiZ+K+N9dOGlF9xeUW6VtNc/ECNjD2MYng1dpJFjM68FZgI3GekWKD4B
-	jHbQP688aAKRFtUV9bqjCalX5LWo5pk+pqdTw17XZl1Gjh4+IesuHK8z93QoS7FBH2eF
-	BuNQxjorcuQMTKfHvm+eS6UTjrRCYzSBc1mbT0fYNalKC6I9vJsXBHKbpnddWsy6svo8
-	+1OHTVwrtOVwkE2Mk8+2gJLskYPtCIQbZtLrk19IcdBEdjIlE8z8QAYQVsDXP1l/ch+S
-	QNxxncrxRJN1PIJGwkF0DNjZIdw9CTg7xeO0CxmF5eFTG+RPIE0BreVJhLWP7y4aQgde
-	LbFQ==
+	bh=Y4Nh6rOj88MWjicoY7bIJIWzAa3Mj02Is47U6JkJtd0=;
+	b=Bu4mbsOlnOj6uta6nZis0fLTqVSNoC/el7JZ3x5KObwGNNzzlGgW1uF+Km2vmEReOZ
+	7s70JiR+QY1tjhfoYKeaG2Df+yXXIRClOu9cD2+xAeTSJuNul7e84hM2+nB4KYMxHvaj
+	13uqB1YZi6cx14X5Ve5U6w4TUvWlaTIjPDrw6zufIQKCWSZPv/WS1pIPtu21MQDPmcrH
+	7OcsUKjHWBa0IGUEzrvAl7GRDSSSCMbSc4/Xc1zZr5/syz3XiYSW5BvM+BERJV3Kyg+c
+	64F5T/XSeRytZwG2HK3ZD7teHs56GCmS9vqCEulSb0vqacnZL5iZ6RuMjmbsIopmRP7/
+	9aJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=eG7pATp4CTP5/Ef8LkTSmctrHMM6Gi7thWoZ23M+8O8=;
-	b=h3aoR7v0iLvaF3T0qiK0H6C16XPHXKzXx73DGBfJzXq80z79MlCePQJ/GkZ5+A1hFm
-	y6utsIQvZMVeG9vQOTVD5xyYRFi91OKhKruQkwxEv8WaQp/+GYtm/BUtLE/TKQJw67Dk
-	b6qQVb9geQfJu/sJw/A56COURZFmi8zL1zB0Hfkw7DHDYcEh0uIdwasfoSyWZ5TMu0AO
-	Y/VrJ6lQhVq1X3wMJNO4sRQs8BuormnGzs5KUjSZ4V5Yd68PjDHpijz3B1KwE8qxr2HL
-	D86p0Plh9YHknuDk65gUpLv3vxTYDmaAQJBSF+6d2YOGusS7OkUhChMyenqCw+ViPAH0
-	SMXg==
-X-Gm-Message-State: APzg51BeS0eIG/+Te/Jaysn6qjkn64zBp4B68PNUGL2SYDZRPB1vLR2S
-	qTJQMGO0tCRp3v5nJpm+dRtKOiDC0Qc=
-X-Google-Smtp-Source: ANB0VdaUweMrIRuevKkcfLWiZqGhZXoAHrcGx/RhqOJtoKootA/SN7x7fPeCXfMRqUBi7u0flruZUw==
-X-Received: by 2002:aca:3f55:: with SMTP id
-	m82-v6mr4654454oia.237.1534950586406; 
-	Wed, 22 Aug 2018 08:09:46 -0700 (PDT)
+	bh=Y4Nh6rOj88MWjicoY7bIJIWzAa3Mj02Is47U6JkJtd0=;
+	b=eY9tKzw5nqV0GcKKDvLuxCgoaPjApEpeaXcAXzlE5NztNUpvV69+wL2H20S/Su9b3F
+	qeKwCqnxB5ebErUmfutzHSQV2aNz7Wgv2H5DslJteYnz1JjbLs1uoUpsAz4oC31SNBc7
+	b7cAW8Kvv91oJIeQWcEVJ71a/bY3fzxaqCNv5WczowPvkreqTPdzlbr2anikAbaRWGmu
+	nG/nRI1AiUyE6Q5zvHTQ9r9x9+ZvWsTnFrPJPmUXrbcVRLV4bl2x3Z3FgwwVj6cAQtcr
+	VLT9ivWLTIMBUNxKQxAhMxJGZsYTTnk6b97ZF148RdD1zakh0P6JSAOT+gnoq9UeO7ge
+	MUJA==
+X-Gm-Message-State: APzg51D8DQNd/n6rS0u0ry1LUzaTts5hCA2Aifs17wbTXAvm0cMbrZ21
+	CNG1HcGAyFYXywws/wd27YaQmKA5FME=
+X-Google-Smtp-Source: ANB0VdY0B7RUq5WuVRO8Kf39A6ztv6teyGF6L0oShxXMl3MZXzTTyltUuwURDNz9b6knno+Io02rRg==
+X-Received: by 2002:aca:4ed3:: with SMTP id
+	c202-v6mr4613314oib.92.1534950588637; 
+	Wed, 22 Aug 2018 08:09:48 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.09.44
+	i132-v6sm1024281oif.20.2018.08.22.08.09.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:09:46 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:48 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:38 +0530
-Message-Id: <1534950532-23850-20-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 20:38:39 +0530
+Message-Id: <1534950532-23850-21-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V3 20/34] git: CVE-2017-15298
+Subject: [ROCKO][PATCH V3 21/34] libsndfile1: CVE-2017-14634
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,228 +59,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:09:46 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:09:47 -0000
 
-revision: quit pruning diff more quickly when possible
-When the revision traversal machinery is given a pathspec,
-we must compute the parent-diff for each commit to determine
-which ones are TREESAME. We set the QUICK diff flag to avoid
-looking at more entries than we need; we really just care
-whether there are any changes at all.
+double64_init: Check psf->sf.channels against upper bound
 
-But there is one case where we want to know a bit more: if
---remove-empty is set, we care about finding cases where the
-change consists only of added entries (in which case we may
-prune the parent in try_to_simplify_commit()). To cover that
-case, our file_add_remove() callback does not quit the diff
-upon seeing an added entry; it keeps looking for other types
-of entries.
+This prevents division by zero later in the code.
 
-But this means when --remove-empty is not set (and it is not
-by default), we compute more of the diff than is necessary.
-You can see this in a pathological case where a commit adds
-a very large number of entries, and we limit based on a
-broad pathspec. E.g.:
+While the trivial case to catch this (i.e. sf.channels < 1) has already
+been covered, a crafted file may report a number of channels that is
+so high (i.e. > INT_MAX/sizeof(double)) that it "somehow" gets
+miscalculated to zero (if this makes sense) in the determination of the
+blockwidth. Since we only support a limited number of channels anyway,
+make sure to check here as well.
 
-  perl -e '
-    chomp(my $blob = `git hash-object -w --stdin </dev/null`);
-    for my $a (1..1000) {
-      for my $b (1..1000) {
-        print "100644 $blob\t$a/$b\n";
-      }
-    }
-  ' | git update-index --index-info
-  git commit -qm add
+CVE-2017-14634
 
-  git rev-list HEAD -- .
+Closes: #318
 
-This case takes about 100ms now, but after this patch only
-needs 6ms. That's not a huge improvement, but it's easy to
-get and it protects us against even more pathological cases
-(e.g., going from 1 million to 10 million files would take
-ten times as long with the current code, but not increase at
-all after this patch).
-
-This is reported to minorly speed-up pathspec limiting in
-real world repositories (like the 100-million-file Windows
-repository), but probably won't make a noticeable difference
-outside of pathological setups.
-
-This patch actually covers the case without --remove-empty,
-and the case where we see only deletions. See the in-code
-comment for details.
-
-Note that we have to add a new member to the diff_options
-struct so that our callback can see the value of
-revs->remove_empty_trees. This callback parameter could be
-passed to the "add_remove" and "change" callbacks, but
-there's not much point. They already receive the
-diff_options struct, and doing it this way avoids having to
-update the function signature of the other callbacks
-(arguably the format_callback and output_prefix functions
-could benefit from the same simplification).
-
-Affects git <= 2.14.2
+Affects libsndfile1 = 1.0.28
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../git/files/CVE-2017-15298.patch                 | 132 +++++++++++++++++++++
- meta/recipes-devtools/git/git.inc                  |   3 +-
- 2 files changed, 134 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/git/files/CVE-2017-15298.patch
+ .../libsndfile/libsndfile1/CVE-2017-14634.patch    | 42 ++++++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.28.bb               |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14634.patch
 
-diff --git a/meta/recipes-devtools/git/files/CVE-2017-15298.patch b/meta/recipes-devtools/git/files/CVE-2017-15298.patch
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14634.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14634.patch
 new file mode 100644
-index 0000000..0d349dd
+index 0000000..39b4ec1
 --- /dev/null
-+++ b/meta/recipes-devtools/git/files/CVE-2017-15298.patch
-@@ -0,0 +1,132 @@
-+From a937b37e766479c8e780b17cce9c4b252fd97e40 Mon Sep 17 00:00:00 2001
-+From: Jeff King <peff@peff.net>
-+Date: Fri, 13 Oct 2017 11:27:45 -0400
-+Subject: revision: quit pruning diff more quickly when possible
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14634.patch
+@@ -0,0 +1,42 @@
++From 85c877d5072866aadbe8ed0c3e0590fbb5e16788 Mon Sep 17 00:00:00 2001
++From: Fabian Greffrath <fabian@greffrath.com>
++Date: Thu, 28 Sep 2017 12:15:04 +0200
++Subject: [PATCH] double64_init: Check psf->sf.channels against upper bound
 +
-+When the revision traversal machinery is given a pathspec,
-+we must compute the parent-diff for each commit to determine
-+which ones are TREESAME. We set the QUICK diff flag to avoid
-+looking at more entries than we need; we really just care
-+whether there are any changes at all.
++This prevents division by zero later in the code.
 +
-+But there is one case where we want to know a bit more: if
-+--remove-empty is set, we care about finding cases where the
-+change consists only of added entries (in which case we may
-+prune the parent in try_to_simplify_commit()). To cover that
-+case, our file_add_remove() callback does not quit the diff
-+upon seeing an added entry; it keeps looking for other types
-+of entries.
++While the trivial case to catch this (i.e. sf.channels < 1) has already
++been covered, a crafted file may report a number of channels that is
++so high (i.e. > INT_MAX/sizeof(double)) that it "somehow" gets
++miscalculated to zero (if this makes sense) in the determination of the
++blockwidth. Since we only support a limited number of channels anyway,
++make sure to check here as well.
 +
-+But this means when --remove-empty is not set (and it is not
-+by default), we compute more of the diff than is necessary.
-+You can see this in a pathological case where a commit adds
-+a very large number of entries, and we limit based on a
-+broad pathspec. E.g.:
++CVE: CVE-2017-14634
 +
-+  perl -e '
-+    chomp(my $blob = `git hash-object -w --stdin </dev/null`);
-+    for my $a (1..1000) {
-+      for my $b (1..1000) {
-+        print "100644 $blob\t$a/$b\n";
-+      }
-+    }
-+  ' | git update-index --index-info
-+  git commit -qm add
++Closes: https://github.com/erikd/libsndfile/issues/318
 +
-+  git rev-list HEAD -- .
++Upstream-Status: Backport [https://github.com/erikd/libsndfile/commit/85c877d5072866aadbe8ed0c3e0590fbb5e16788]
 +
-+This case takes about 100ms now, but after this patch only
-+needs 6ms. That's not a huge improvement, but it's easy to
-+get and it protects us against even more pathological cases
-+(e.g., going from 1 million to 10 million files would take
-+ten times as long with the current code, but not increase at
-+all after this patch).
-+
-+This is reported to minorly speed-up pathspec limiting in
-+real world repositories (like the 100-million-file Windows
-+repository), but probably won't make a noticeable difference
-+outside of pathological setups.
-+
-+This patch actually covers the case without --remove-empty,
-+and the case where we see only deletions. See the in-code
-+comment for details.
-+
-+Note that we have to add a new member to the diff_options
-+struct so that our callback can see the value of
-+revs->remove_empty_trees. This callback parameter could be
-+passed to the "add_remove" and "change" callbacks, but
-+there's not much point. They already receive the
-+diff_options struct, and doing it this way avoids having to
-+update the function signature of the other callbacks
-+(arguably the format_callback and output_prefix functions
-+could benefit from the same simplification).
-+
-+CVE: CVE-2017-15298
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/git/git.git/commit/?id=a937b37e76]
-+
-+Signed-off-by: Jeff King <peff@peff.net>
-+Signed-off-by: Junio C Hamano <gitster@pobox.com>
++Signed-off-by: Erik de Castro Lopo <erikd@mega-nerd.com>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ diff.h     |  1 +
-+ revision.c | 16 +++++++++++++---
-+ 2 files changed, 14 insertions(+), 3 deletions(-)
++ src/double64.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/diff.h b/diff.h
-+index e9ccb38c26..fe5c287a70 100644
-+--- a/diff.h
-++++ b/diff.h
-+@@ -180,6 +180,7 @@ struct diff_options {
-+ 	pathchange_fn_t pathchange;
-+ 	change_fn_t change;
-+ 	add_remove_fn_t add_remove;
-++	void *change_fn_data;
-+ 	diff_format_fn_t format_callback;
-+ 	void *format_callback_data;
-+ 	diff_prefix_fn_t output_prefix;
-+diff --git a/revision.c b/revision.c
-+index 771d079f6e..7c23ab7afe 100644
-+--- a/revision.c
-++++ b/revision.c
-+@@ -394,8 +394,16 @@ static struct commit *one_relevant_parent(const struct rev_info *revs,
-+  * if the whole diff is removal of old data, and otherwise
-+  * REV_TREE_DIFFERENT (of course if the trees are the same we
-+  * want REV_TREE_SAME).
-+- * That means that once we get to REV_TREE_DIFFERENT, we do not
-+- * have to look any further.
-++ *
-++ * The only time we care about the distinction is when
-++ * remove_empty_trees is in effect, in which case we care only about
-++ * whether the whole change is REV_TREE_NEW, or if there's another type
-++ * of change. Which means we can stop the diff early in either of these
-++ * cases:
-++ *
-++ *   1. We're not using remove_empty_trees at all.
-++ *
-++ *   2. We saw anything except REV_TREE_NEW.
-+  */
-+ static int tree_difference = REV_TREE_SAME;
++diff --git a/src/double64.c b/src/double64.c
++index b318ea8..78dfef7 100644
++--- a/src/double64.c
+++++ b/src/double64.c
++@@ -91,7 +91,7 @@ int
++ double64_init	(SF_PRIVATE *psf)
++ {	static int double64_caps ;
 + 
-+@@ -406,9 +414,10 @@ static void file_add_remove(struct diff_options *options,
-+ 		    const char *fullpath, unsigned dirty_submodule)
-+ {
-+ 	int diff = addremove == '+' ? REV_TREE_NEW : REV_TREE_OLD;
-++	struct rev_info *revs = options->change_fn_data;
-+ 
-+ 	tree_difference |= diff;
-+-	if (tree_difference == REV_TREE_DIFFERENT)
-++	if (!revs->remove_empty_trees || tree_difference != REV_TREE_NEW)
-+ 		DIFF_OPT_SET(options, HAS_CHANGES);
-+ }
-+ 
-+@@ -1346,6 +1355,7 @@ void init_revisions(struct rev_info *revs, const char *prefix)
-+ 	DIFF_OPT_SET(&revs->pruning, QUICK);
-+ 	revs->pruning.add_remove = file_add_remove;
-+ 	revs->pruning.change = file_change;
-++	revs->pruning.change_fn_data = revs;
-+ 	revs->sort_order = REV_SORT_IN_GRAPH_ORDER;
-+ 	revs->dense = 1;
-+ 	revs->prefix = prefix;
++-	if (psf->sf.channels < 1)
+++	if (psf->sf.channels < 1 || psf->sf.channels > SF_MAX_CHANNELS)
++ 	{	psf_log_printf (psf, "double64_init : internal error : channels = %d\n", psf->sf.channels) ;
++ 		return SFE_INTERNAL ;
++ 		} ;
 +-- 
-+cgit 1.2-0.3.lf.el7
++2.13.3
 +
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 9b4c128..1ffc41d 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -7,7 +7,8 @@ DEPENDS = "openssl curl zlib expat"
- PROVIDES_append_class-native = " git-replacement-native"
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index c6f2a46..ed43b74 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -11,6 +11,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
+            file://CVE-2017-8362.patch \
+            file://CVE-2017-8363.patch \
+            file://CVE-2017-14245-14246.patch \
++           file://CVE-2017-14634.patch \
+           "
  
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
--           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages"
-+           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
-+           file://CVE-2017-15298.patch"
- 
- S = "${WORKDIR}/git-${PV}"
- 
+ SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
 -- 
 2.7.4
 
