@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id CE92E79487
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 90FA17943C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:09:35 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id y207-v6so3661207oie.13
+	Wed, 22 Aug 2018 15:09:38 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id y207-v6so3661488oie.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:09:37 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ujbz8tefcpfv2E5EUiBrch4Og9zmQJTSZswOqkiJEx4=;
-	b=usMjBU3v+HsQ4RstcLxSz+rpxaqEo83A6bnSZBXQTKqHPxUkrjP3Eibx5zruFy8L6J
-	8JaUvrc8yGl/NBawRK7nk0+93e5M9SL+FxvDO7K9cyKZs3G0I0vu8CEjAtXD/InrFFxa
-	JE0gm6W/xuJisDJ5Q3JGnarSsZfUHxcrZJ2nrxjrzQFL1WhxlMCd4IPCkglkRvYSqeV0
-	44c8m4G8tK8CzjLeqPATa8FZH9GaSQAu8oNhiiMoksGFNKtyjZ0fTLBczPCW0ylHBpB1
-	Cr4Wn1h4NbW/67GksxTL8JVilozroqIOtPXkDfrZleqI8VvLXGgKdkyvORU9FZPvveME
-	8ecw==
+	bh=1eDJhNHwgB2M4Clbon9iXTrvVX2RJWcRcInDv15dvwo=;
+	b=X983ez5AHey2VY4IOwcnZe8drFYXQrEor2lJr3MdPYGYcqM0RwUoMicFm+8lR+OXe9
+	tWhYa/G7N/v2p2+SKxixzMiw3Da/fZX1toyHKzY3j/MTggP5zq20vGGcHUm1Kbm5X9BX
+	K98R3VrATQJVGubWoWyFgJ5g1QOLMYSSJqZPDvg2OeHH49SBnuwOtpHbLAajq3cIxJFu
+	ukmFt9AMi6ThwuOLupg8RQHUvysF5+Ylp1Xh7FoaoycfD25tWWuKpnzSvruMplt3DwvO
+	YsdxkM+fRCb6Vt7ZCfqatG5UpyBLoQ+/4tbGKCcB8X5FjIqyA9CJSK8U6PkmkC2czyHf
+	v9AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ujbz8tefcpfv2E5EUiBrch4Og9zmQJTSZswOqkiJEx4=;
-	b=QS5fqaSd5oGlzHpBsBl+8Fm1rYd2RMZQTV4bUKBMJfnGTvDPrVrDEVjtaTkQ5B1eit
-	EfVpLILn9DRKpbGPEx8kGqB3gamJhs40CDDXQnAEV56qw+vsC2pVk3ifkh+nq6Nb+Duc
-	heRbhJFc32Iwv2VLI71c2YFp2C39g3GxpAa3NXGdsNpLT7sPHsR1O4hU682g/Sjug6qd
-	m56hMo9aQ4nMTwKTSqhhnHx5jOSAZPF4SIPZy7Jt75Fp+FcL4dtKWtynDbWDzmdq4eDP
-	ReJWGoL7+x0AP/F/PUSt7mFZ0iUqyaIW83GpsXgwXj4YnHGFQEqxokmAxhAd4XbAC2Ol
-	rrPg==
-X-Gm-Message-State: APzg51BBsztbKOXFOoxMQVyUFQdDci2I1YT8BBBHKMJoM0LwKZaQ8aPk
-	UWpNqa6zgcgUYzA+FynR6NWPgtGrSUs=
-X-Google-Smtp-Source: ANB0VdbXfIlGkHTd5i4UKYnc8/sPGQV/SfsbyijsCcC/1WzUVZI5QbQ74icNTVuPL/rsKL+yFzvC+g==
-X-Received: by 2002:aca:30c4:: with SMTP id
-	w187-v6mr4580854oiw.67.1534950576847; 
-	Wed, 22 Aug 2018 08:09:36 -0700 (PDT)
+	bh=1eDJhNHwgB2M4Clbon9iXTrvVX2RJWcRcInDv15dvwo=;
+	b=JloMP4JyxnyWdtui+RPWMPm6HUwDPO6OWEOHBHC4KWMxxbcJL/I12MG2FEEVUEAzdl
+	PhPYgI94Lj/GFTeHkwd5hqEqqvAR5qRzhTxrqZUaWNTqV0XHEqANEW/FXO2CtMfw+2fT
+	rzThk9/ad7xI/va0TMOAQZA0nGg1iiFDIFKgOvGEsfAVWAfNOIisW2iAHKQoz0DHmz77
+	NGDZQU8q+VkBuOGHbM0qR/0tMuT2db6+5qrTT6VPGI+ZsI4H04hneO/awRQO0KKL3YBl
+	fHzk9sK7oSWixEFJsxx1Fx5arAKsbO/KcB1ZWJbAzeMuj2as7E9zj+x14AtsXLNzNcS1
+	ePVg==
+X-Gm-Message-State: APzg51DyzKSbxli4AnppVUqb28a3lrP0DgBb4z+ZLjskBSXb3TZNWGMn
+	PAHT3B6bBMtaPq38q1FRo2PHCiTP5eI=
+X-Google-Smtp-Source: ANB0VdatLjvP4XiNWpYxrGiultHBhdWsb+LxpYuq9HZiTIdur5OhZ0Fld94mDuA3i4ndwVCbfV09LA==
+X-Received: by 2002:aca:3357:: with SMTP id
+	z84-v6mr4063292oiz.49.1534950579066; 
+	Wed, 22 Aug 2018 08:09:39 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.09.34
+	i132-v6sm1024281oif.20.2018.08.22.08.09.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:09:36 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:38 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:34 +0530
-Message-Id: <1534950532-23850-16-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 20:38:35 +0530
+Message-Id: <1534950532-23850-17-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V3 16/34] Qemu: CVE-2018-11806 slirp-heap-buffer-overflow
+Subject: [ROCKO][PATCH V3 17/34] qemu: CVE-2017-15119
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,112 +59,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:09:36 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:09:38 -0000
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+nbd/server: CVE-2017-15119 Reject options larger than 32M
 
-slirp: correct size computation while concatenating mbuf
+The NBD spec gives us permission to abruptly disconnect on clients
+that send outrageously large option requests, rather than having
+to spend the time reading to the end of the option.  No real
+option request requires that much data anyways; and meanwhile, we
+already have the practice of abruptly dropping the connection on
+any client that sends NBD_CMD_WRITE with a payload larger than 32M.
 
-While reassembling incoming fragmented datagrams, 'm_cat' routine
-extends the 'mbuf' buffer, if it has insufficient room. It computes
-a wrong buffer size, which leads to overwriting adjacent heap buffer
-area. Correct this size computation in m_cat.
+For comparison, nbdkit drops the connection on any request with
+more than 4096 bytes; however, that limit is probably too low
+(as the NBD spec states an export name can theoretically be up
+to 4096 bytes, which means a valid NBD_OPT_INFO could be even
+longer) - even if qemu doesn't permit exports longer than 256
+bytes.
 
-Affects qemu < 3.0.0
+It could be argued that a malicious client trying to get us to
+read nearly 4G of data on a bad request is a form of denial of
+service.  In particular, if the server requires TLS, but a client
+that does not know the TLS credentials sends any option (other
+than NBD_OPT_STARTTLS or NBD_OPT_EXPORT_NAME) with a stated
+payload of nearly 4G, then the server was keeping the connection
+alive trying to read all the payload, tying up resources that it
+would rather be spending on a client that can get past the TLS
+handshake.  Hence, this warranted a CVE.
 
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+Present since at least 2.5 when handling known options, and made
+worse in 2.6 when fixing support for NBD_FLAG_C_FIXED_NEWSTYLE
+to handle unknown options.
+
+Affects qemu < 2.11
+
+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- ...018-11806-QEMU-slirp-heap-buffer-overflow.patch | 71 ++++++++++++++++++++++
+ .../qemu/qemu/CVE-2017-15119.patch                 | 63 ++++++++++++++++++++++
  meta/recipes-devtools/qemu/qemu_2.10.0.bb          |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2017-15119.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch b/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2017-15119.patch b/meta/recipes-devtools/qemu/qemu/CVE-2017-15119.patch
 new file mode 100644
-index 0000000..b3fab26
+index 0000000..10da519
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
-@@ -0,0 +1,71 @@
-+From dc21a9d2951f0a2a7e63633e2b5c68c54e4edc4b Mon Sep 17 00:00:00 2001
-+From: Jeremy Puhlman <jpuhlman@mvista.com>
-+Date: Thu, 14 Jun 2018 01:28:49 +0000
-+Subject: [PATCH] QEMU: slirp heap buffer overflow
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2017-15119.patch
+@@ -0,0 +1,63 @@
++From fdad35ef6c5839d50dfc14073364ac893afebc30 Mon Sep 17 00:00:00 2001
++From: Eric Blake <eblake@redhat.com>
++Date: Wed, 22 Nov 2017 16:25:16 -0600
++Subject: [PATCH] nbd/server: CVE-2017-15119 Reject options larger than 32M
 +
-+Subject: [Qemu-devel] [PATCH 1/2] slirp: correct size computation while concatenating mbuf
-+Date:	Tue, 5 Jun 2018 23:38:35 +0530
-+From: Prasad J Pandit <address@hidden>
++The NBD spec gives us permission to abruptly disconnect on clients
++that send outrageously large option requests, rather than having
++to spend the time reading to the end of the option.  No real
++option request requires that much data anyways; and meanwhile, we
++already have the practice of abruptly dropping the connection on
++any client that sends NBD_CMD_WRITE with a payload larger than 32M.
 +
-+While reassembling incoming fragmented datagrams, 'm_cat' routine
-+extends the 'mbuf' buffer, if it has insufficient room. It computes
-+a wrong buffer size, which leads to overwriting adjacent heap buffer
-+area. Correct this size computation in m_cat.
++For comparison, nbdkit drops the connection on any request with
++more than 4096 bytes; however, that limit is probably too low
++(as the NBD spec states an export name can theoretically be up
++to 4096 bytes, which means a valid NBD_OPT_INFO could be even
++longer) - even if qemu doesn't permit exports longer than 256
++bytes.
 +
-+Reported-by: ZDI Disclosures <address@hidden>
-+Signed-off-by: Prasad J Pandit <address@hidden>
++It could be argued that a malicious client trying to get us to
++read nearly 4G of data on a bad request is a form of denial of
++service.  In particular, if the server requires TLS, but a client
++that does not know the TLS credentials sends any option (other
++than NBD_OPT_STARTTLS or NBD_OPT_EXPORT_NAME) with a stated
++payload of nearly 4G, then the server was keeping the connection
++alive trying to read all the payload, tying up resources that it
++would rather be spending on a client that can get past the TLS
++handshake.  Hence, this warranted a CVE.
 +
-+CVE: CVE-2018-11806
-+Upstream-Status: Backport [https://github.com/qemu/qemu/commit/864036e251f54c99d31df124aad7f34f01f5344c#diff-de3b23fd63b9e35d35c454525498d51c]
++Present since at least 2.5 when handling known options, and made
++worse in 2.6 when fixing support for NBD_FLAG_C_FIXED_NEWSTYLE
++to handle unknown options.
 +
-+https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg01012.html
++CC: qemu-stable@nongnu.org
++CVE: CVE-2017-15119
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=fdad35ef6c5839d50dfc14073364ac893afebc30]
 +
++Signed-off-by: Eric Blake <eblake@redhat.com>
++Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ slirp/mbuf.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++ nbd/server.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-+---
-+ slirp/mbuf.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/slirp/mbuf.c b/slirp/mbuf.c
-+index 5ff2455..7fb4501 100644
-+--- a/slirp/mbuf.c
-++++ b/slirp/mbuf.c
-+@@ -138,7 +138,7 @@ m_cat(struct mbuf *m, struct mbuf *n)
-+ 	 * If there's no room, realloc
-+ 	 */
-+ 	if (M_FREEROOM(m) < n->m_len)
-+-		m_inc(m,m->m_size+MINCSIZE);
-++               m_inc(m, m->m_len + n->m_len);
-+ 
-+ 	memcpy(m->m_data+m->m_len, n->m_data, n->m_len);
-+ 	m->m_len += n->m_len;
-+@@ -158,12 +158,12 @@ m_inc(struct mbuf *m, int size)
-+ 
-+         if (m->m_flags & M_EXT) {
-+ 	  datasize = m->m_data - m->m_ext;
-+-          m->m_ext = g_realloc(m->m_ext, size);
-++          m->m_ext = g_realloc(m->m_ext, size + datasize);
-+ 	  m->m_data = m->m_ext + datasize;
-+         } else {
-+ 	  char *dat;
-+ 	  datasize = m->m_data - m->m_dat;
-+-          dat = g_malloc(size);
-++          dat = g_malloc(size + datasize);
-+ 	  memcpy(dat, m->m_dat, m->m_size);
-+ 
-+ 	  m->m_ext = dat;
-+@@ -171,7 +171,7 @@ m_inc(struct mbuf *m, int size)
-+ 	  m->m_flags |= M_EXT;
++diff --git a/nbd/server.c b/nbd/server.c
++index 7d6801b427..a81801e3bc 100644
++--- a/nbd/server.c
+++++ b/nbd/server.c
++@@ -673,6 +673,12 @@ static int nbd_negotiate_options(NBDClient *client, uint16_t myflags,
 +         }
++         length = be32_to_cpu(length);
 + 
-+-        m->m_size = size;
-++        m->m_size = size + datasize;
-+ 
-+ }
-+ 
+++        if (length > NBD_MAX_BUFFER_SIZE) {
+++            error_setg(errp, "len (%" PRIu32" ) is larger than max len (%u)",
+++                       length, NBD_MAX_BUFFER_SIZE);
+++            return -EINVAL;
+++        }
+++
++         trace_nbd_negotiate_options_check_option(option,
++                                                  nbd_opt_lookup(option));
++         if (client->tlscreds &&
 +-- 
 +2.13.3
 +
 diff --git a/meta/recipes-devtools/qemu/qemu_2.10.0.bb b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
-index bdf6c21..89c68f2 100644
+index 89c68f2..a3cfb7c 100644
 --- a/meta/recipes-devtools/qemu/qemu_2.10.0.bb
 +++ b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
-@@ -30,6 +30,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
-            file://CVE-2017-14167.patch \
+@@ -31,6 +31,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
             file://ppc_locking.patch \
             file://memfd.patch \
-+           file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
+            file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
++           file://CVE-2017-15119.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
  
