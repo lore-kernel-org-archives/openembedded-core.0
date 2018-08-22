@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
-	[209.85.218.41])
-	by mail.openembedded.org (Postfix) with ESMTP id ACBA879436
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E9E16794C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:10:13 +0000 (UTC)
-Received: by mail-oi0-f41.google.com with SMTP id b15-v6so3686063oib.10
+	Wed, 22 Aug 2018 15:10:15 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id w126-v6so3699954oie.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:10:15 -0700 (PDT)
+	Wed, 22 Aug 2018 08:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=F+2ZlZS4LPBAR1AdzFP+cmfiDmn0EkXVTT/6Rfa5iFU=;
-	b=s2QNnaNpJPZE9m8p54nFUALbVwLjEey1GnpKFEg5NeU0Mt/2I7312+/S65P1gxkUUT
-	KjmJ+aZlzo9JReIwipnUXu/qTdfDmWdMzK9U/o4LtLKDGK6z49i5QB0kt8RMa7yq6mev
-	G2cewNWQQOXi1FmOy2WHND/w7SllNIaB8P6iCFZplD7V8GUTpU/oSbibQl8rpybufUfS
-	LbNul2drPSB2VKKwc0yrvC1C7e0EqLSRVZR9/qIJEB9Q/kXjjchR1eUYHsQylYnyM1Wi
-	JotG9TeJ+51hFIHHPqt0RZNZPs9sJJPTF3yVSNn7nWrGmPI6w2IK/fJUVTGpl96m93ox
-	+ghw==
+	bh=b5b2SaNYiGfnIwykx0E/hhBeM1B8Fmkr9zPcGne88k8=;
+	b=F47eYn6pKPJM11bF0wmC1R2ivqrAAPJlEmHrTwiepT0jg0l6eNkk9Xf+hl0EhJS+nl
+	BFOLp+JvXxJaqcn2t2b2O92YR6mNiTYxVmjdoDLm6u2OuQZDBnivDxN6OGlphYPR5p3i
+	GBBmGXXWwD8eIjgxcMAqNYO6N7gUVTQXWDivxF0bksLSbbECW65moKhMD9vfGf59m+dg
+	0ZFdrLRuS/sbgBXNhoOUTJ/AsfhK/WjrViLeC7wH5ZNIDqbi+VPBx+YAoGJgxFwuJ1SP
+	DtNKa4vHo/Ud3NTuZgRZu92AaxMhNgMGXd+c/wW5RrpHK9UoEQ7QMD8WAYgWIKANuGrE
+	XvCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=F+2ZlZS4LPBAR1AdzFP+cmfiDmn0EkXVTT/6Rfa5iFU=;
-	b=Yvz3sac0arUGQbhOaJQfyd7D0aglTzYAQEaOcFM1+l363cqYlHQTYVMVSzwZg93VW6
-	M3W0xZIvnIspmjlo9CBgaISq1M4RmlVqre8BUA2BObhP4hirpzBIswh3FBHcccG4LbpL
-	DcexnLgqh+zeSN4wIhmkA5sg7HSZrSeGlIM3FIegZZwj6+BSMb5dgW/GVbYkgb0z6piR
-	Mfbx/LTWD7Z6kTI1IJegcMFU+hvLaNabm3mEfE0cQ9+H1EcVZzu3MvGK1mZQ4l0W2xc1
-	Ye5UWtzsnQz3nPklnvDvDguTp4mgatJrNB+NobsgrPKeixIscJEHN9JVExnZSsYWo70T
-	AlQg==
-X-Gm-Message-State: APzg51DDayWW392gi5oy9CjZkEHmsMjYjqgvd6WeVk5WFH5FuBCBkE7E
-	d3zalzYYbiZhrxwdqE/1sr3tHQ+RfHo=
-X-Google-Smtp-Source: ANB0Vdaf67yk9Iz8bsjnn1x8HpIenuUPWOutYPcv6+m4vhx98/UF+l7uYMqjoG4tMFbFfiD5RPjnAQ==
-X-Received: by 2002:aca:c351:: with SMTP id
-	t78-v6mr4685116oif.338.1534950614584; 
-	Wed, 22 Aug 2018 08:10:14 -0700 (PDT)
+	bh=b5b2SaNYiGfnIwykx0E/hhBeM1B8Fmkr9zPcGne88k8=;
+	b=Qb7NbovoCHjC+ysFhNBr/4w+9pd6mpGjnLscE48AJ2CtLvNn1RQ5Z2aMVPeVAXebec
+	gZ0xINNxze/nJdX/i1/XAboNxB3QnNL2kVXbBSAMEIbvUTw5A8jjSqUq8XeSSFrjtwHW
+	MfsKzbaCpG2ZUlTQbE0gvhuWP1zViC43c84KW72tUh6H3QFWwVVkhPK2qefVIA86vJTr
+	Q1cf4J7gohkTtgwhURt1TLz8qAQ9GXMvwTkL0YO/j2xingH33NVEimTvBjZ1jZ5NDb+I
+	o2+xr0BUhLrzi93FU0hXuKzrzP9UwRBC+t+J1/Kt0Pszg/ytOmsas7P8GePE0bg71qg2
+	GHLg==
+X-Gm-Message-State: APzg51BOrEitGcjJ3P0wrGc9Yhf9IRqpsJCQNwc+yuv/BjGaGN2364Vy
+	9UDOqNepSMtgDcKvfCbcDD7dg9IZs08=
+X-Google-Smtp-Source: ANB0VdaKWVwur5e6qGklSDqB5TzJ2CNbdqnv7ha1m0rNGfJXH4rkIggozR1DRbW5uggD7flsqTl60w==
+X-Received: by 2002:aca:adc6:: with SMTP id
+	w189-v6mr4540631oie.174.1534950616777; 
+	Wed, 22 Aug 2018 08:10:16 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.10.12
+	i132-v6sm1024281oif.20.2018.08.22.08.10.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:10:14 -0700 (PDT)
+	Wed, 22 Aug 2018 08:10:16 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:50 +0530
-Message-Id: <1534950532-23850-32-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 20:38:51 +0530
+Message-Id: <1534950532-23850-33-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V3 32/34] openssl: CVE-2018-0732
+Subject: [ROCKO][PATCH V3 33/34] perl: CVE-2018-12015
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,85 +59,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:10:13 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:10:16 -0000
 
-Reject excessively large primes in DH key generation.
+Remove existing files before overwriting them
 
-CVE-2018-0732
+Archive should extract only the latest same-named entry.
+Extracted regular file should not be writtent into existing block
+device (or any other one).
 
-Affects openssl 1.0.2 to 1.0.2o
+https://rt.cpan.org/Ticket/Display.html?id=125523
+
+Affects perl <= 5.26.2
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../openssl/openssl-1.0.2o/CVE-2018-0732.patch     | 46 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2o.bb |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2o/CVE-2018-0732.patch
+ .../perl/perl/CVE-2018-12015.patch                 | 48 ++++++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.24.1.bb          |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2o/CVE-2018-0732.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2o/CVE-2018-0732.patch
+diff --git a/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch b/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
 new file mode 100644
-index 0000000..d4d0bb4
+index 0000000..a2b0109
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.2o/CVE-2018-0732.patch
-@@ -0,0 +1,46 @@
-+From 3984ef0b72831da8b3ece4745cac4f8575b19098 Mon Sep 17 00:00:00 2001
-+From: Guido Vranken <guidovranken@gmail.com>
-+Date: Mon, 11 Jun 2018 19:38:54 +0200
-+Subject: [PATCH] Reject excessively large primes in DH key generation.
++++ b/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
+@@ -0,0 +1,48 @@
++From ae65651eab053fc6dc4590dbb863a268215c1fc5 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Petr=20P=C3=ADsa=C5=99?= <ppisar@redhat.com>
++Date: Fri, 8 Jun 2018 11:45:40 +0100
++Subject: [PATCH] [PATCH] Remove existing files before overwriting them
 +
-+CVE: CVE-2018-0732
++Archive should extract only the latest same-named entry.
++Extracted regular file should not be writtent into existing block
++device (or any other one).
 +
-+Signed-off-by: Guido Vranken <guidovranken@gmail.com>
++https://rt.cpan.org/Ticket/Display.html?id=125523
 +
-+(cherry picked from commit 91f7361f47b082ae61ffe1a7b17bb2adf213c7fe)
++CVE: CVE-2018-12015
++Upstream-Status: Backport [https://github.com/jib/archive-tar-new/commit/ae65651eab053fc6dc4590dbb863a268215c1fc5]
 +
-+Reviewed-by: Tim Hudson <tjh@openssl.org>
-+Reviewed-by: Matt Caswell <matt@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/6457)
-+
-+Upstream-Status: Backport [https://github.com/openssl/openssl/commit/ea7abeeabf92b7aca160bdd0208636d4da69f4f4]
-+
++Signed-off-by: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ crypto/dh/dh_key.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
++ lib/Archive/Tar.pm | 14 ++++++++++++++
++ 1 file changed, 14 insertions(+)
 +
-+diff --git a/crypto/dh/dh_key.c b/crypto/dh/dh_key.c
-+index 387558f146..f235e0d682 100644
-+--- a/crypto/dh/dh_key.c
-++++ b/crypto/dh/dh_key.c
-+@@ -130,10 +130,15 @@ static int generate_key(DH *dh)
-+     int ok = 0;
-+     int generate_new_key = 0;
-+     unsigned l;
-+-    BN_CTX *ctx;
-++    BN_CTX *ctx = NULL;
-+     BN_MONT_CTX *mont = NULL;
-+     BIGNUM *pub_key = NULL, *priv_key = NULL;
++diff --git a/cpan/Archive-Tar/lib/Archive/Tar.pm b/cpan/Archive-Tar/lib/Archive/Tar.pm
++index 6244369..a83975f 100644
++--- a/cpan/Archive-Tar/lib/Archive/Tar.pm
+++++ b/cpan/Archive-Tar/lib/Archive/Tar.pm
++@@ -845,6 +845,20 @@ sub _extract_file {
++         return;
++     }
 + 
-++    if (BN_num_bits(dh->p) > OPENSSL_DH_MAX_MODULUS_BITS) {
-++        DHerr(DH_F_GENERATE_KEY, DH_R_MODULUS_TOO_LARGE);
-++        return 0;
+++    ### If a file system already contains a block device with the same name as
+++    ### the being extracted regular file, we would write the file's content
+++    ### to the block device. So remove the existing file (block device) now.
+++    ### If an archive contains multiple same-named entries, the last one
+++    ### should replace the previous ones. So remove the old file now.
+++    ### If the old entry is a symlink to a file outside of the CWD, the new
+++    ### entry would create a file there. This is CVE-2018-12015
+++    ### <https://rt.cpan.org/Ticket/Display.html?id=125523>.
+++    if (-l $full || -e _) {
+++	if (!unlink $full) {
+++	    $self->_error( qq[Could not remove old file '$full': $!] );
+++	    return;
+++	}
 ++    }
-++
-+     ctx = BN_CTX_new();
-+     if (ctx == NULL)
-+         goto err;
++     if( length $entry->type && $entry->is_file ) {
++         my $fh = IO::File->new;
++         $fh->open( $full, '>' ) or (
 +-- 
 +2.13.3
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
-index 413ebf3..57912a1 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
-@@ -41,6 +41,7 @@ SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
-            file://Use-SHA256-not-MD5-as-default-digest.patch \
-            file://0001-Fix-build-with-clang-using-external-assembler.patch \
-            file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
-+           file://CVE-2018-0732.patch \
-            "
+diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
+index aec30c8..8dfe34a 100644
+--- a/meta/recipes-devtools/perl/perl_5.24.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
+@@ -72,6 +72,7 @@ SRC_URI += " \
+         file://CVE-2018-6798-2.patch \
+         file://CVE-2018-6797.patch \
+         file://CVE-2018-6913.patch \
++        file://CVE-2018-12015.patch \
+ "
  
- SRC_URI_append_class-target = "\
+ # Fix test case issues
 -- 
 2.7.4
 
