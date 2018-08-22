@@ -1,22 +1,28 @@
-Return-Path: <prvs=765f72d04=Richard.Leitner@skidata.com>
-X-Greylist: delayed 591 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 22 Aug 2018 09:32:10 UTC
-Received: from mail2.skidata.com (mail2.skidata.com [91.230.2.91])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A4C479007
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id E79777459B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 09:32:10 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.53,273,1531778400"; 
-   d="scan'208";a="1618928"
-From: Richard Leitner <richard.leitner@skidata.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Aug 2018 11:22:52 +0200
-Message-ID: <20180822092252.26067-1-richard.leitner@skidata.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-X-Originating-IP: [192.168.111.252]
-X-ClientProxiedBy: sdex3srv.skidata.net (192.168.111.81) To
-	sdex5srv.skidata.net (192.168.111.83)
-Subject: [PATCH] oeqa/core/decorator: add skipIfInDataVar
+	Wed, 22 Aug 2018 10:25:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Aug 2018 03:25:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,273,1531810800"; d="scan'208";a="67209823"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga008.jf.intel.com with ESMTP; 22 Aug 2018 03:25:29 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 0A0645802C8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Aug 2018 03:25:28 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Aug 2018 13:27:19 +0300
+Message-Id: <1534933645-30369-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 0/6] package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,42 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 09:32:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Aug 2018 10:25:29 -0000
 
-skipIfInDataVar will skip a test if a value is in a certain variable.
+Upgrades provided by Automated Upgrade Helper
 
-Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
----
- meta/lib/oeqa/core/decorator/data.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Maxin B. John (6):
+  harfbuzz: upgrade 1.8.4 -> 1.8.8
+  pkgconf: upgrade 1.4.2 -> 1.5.3
+  libatomic-ops: upgrade 7.6.4 -> 7.6.6
+  libpng: upgrade 1.6.34 -> 1.6.35
+  acpid: upgrade 2.0.29 -> 2.0.30
+  libinput: upgrade 1.11.2 -> 1.11.3
 
-diff --git a/meta/lib/oeqa/core/decorator/data.py b/meta/lib/oeqa/core/decorator/data.py
-index 31c6dd6be7..f0f65abb39 100644
---- a/meta/lib/oeqa/core/decorator/data.py
-+++ b/meta/lib/oeqa/core/decorator/data.py
-@@ -54,6 +54,20 @@ class skipIfNotDataVar(OETestDecorator):
-             self.case.skipTest(self.msg)
- 
- @registerDecorator
-+class skipIfInDataVar(OETestDecorator):
-+    """
-+        Skip test if value is in data store's variable.
-+    """
-+
-+    attrs = ('var', 'value', 'msg')
-+    def setUpDecorator(self):
-+        msg = ('Checking if %r value contains %r to skip '
-+              'the test' % (self.var, self.value))
-+        self.logger.debug(msg)
-+        if self.value in (self.case.td.get(self.var)):
-+            self.case.skipTest(self.msg)
-+
-+@registerDecorator
- class skipIfNotInDataVar(OETestDecorator):
-     """
-         Skip test if value is not in data store's variable.
+ meta/recipes-bsp/acpid/{acpid_2.0.29.bb => acpid_2.0.30.bb}      | 4 ++--
+ .../pkgconf/{pkgconf_1.4.2.bb => pkgconf_1.5.3.bb}               | 4 ++--
+ .../harfbuzz/{harfbuzz_1.8.4.bb => harfbuzz_1.8.8.bb}            | 4 ++--
+ .../wayland/{libinput_1.11.2.bb => libinput_1.11.3.bb}           | 4 ++--
+ .../libpng/{libpng_1.6.34.bb => libpng_1.6.35.bb}                | 9 +++++----
+ .../{libatomic-ops_7.6.4.bb => libatomic-ops_7.6.6.bb}           | 6 +++---
+ 6 files changed, 16 insertions(+), 15 deletions(-)
+ rename meta/recipes-bsp/acpid/{acpid_2.0.29.bb => acpid_2.0.30.bb} (55%)
+ rename meta/recipes-devtools/pkgconf/{pkgconf_1.4.2.bb => pkgconf_1.5.3.bb} (95%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.8.4.bb => harfbuzz_1.8.8.bb} (88%)
+ rename meta/recipes-graphics/wayland/{libinput_1.11.2.bb => libinput_1.11.3.bb} (86%)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.34.bb => libpng_1.6.35.bb} (72%)
+ rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.6.4.bb => libatomic-ops_7.6.6.bb} (76%)
+
 -- 
-2.11.0
+2.4.0
 
 
