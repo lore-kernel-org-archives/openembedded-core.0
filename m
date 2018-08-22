@@ -1,52 +1,51 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
-	[209.85.218.48])
-	by mail.openembedded.org (Postfix) with ESMTP id D24D179437
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 73F4279445
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:09:04 +0000 (UTC)
-Received: by mail-oi0-f48.google.com with SMTP id s198-v6so3676221oih.11
+	Wed, 22 Aug 2018 15:09:07 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id r69-v6so3133664oie.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:09:06 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MpDQTne1X8zrMJgt5bfN3keWj9aRfih1b/gt7e8Nok0=;
-	b=Jisea8y8p4QAt9995YtBP+uLIejetpk6wva4ZtXKzMw7AhT5ayLiKiLqty61eYgsPZ
-	13dskxyW3r4qsNqYBgKqZOi3PGehceWSm/+9ip603CzXrVceeR+3ybOuTcU70JOsRDF4
-	H5GqvuuynaYOMBWfYm0ojUS5wNTrwN75qKGmSKfWJDfhm4ve9aAXA1WzbQBEaDuO4Psq
-	fYhwK800M7Quu56uVfZ0tCOaON9WIwq3qMhfkAS9pgWzy0JWthO2arDBSkgNOETPhYtq
-	1ofDFKN2C9llN2fDkaqrtpOxgQKmiUqQCJ4x0dG2572JMRq7P0vds61kjYiPS5gREyUT
-	oj6g==
+	bh=n9ZwKqLqAgt5/y7Fj39LSKcXINxxBk3Vqnvu33xZL24=;
+	b=D7da2e/+4/EnKFPmaOfqKUzaqyCT8vVjC6xWF2hTezzovTy3kZLAzpOjU6EFKdcydY
+	QuQSn109P36f8c7aPbGcL1+hCYdWzq8Xp+frP6VjALIbMtjpfxBoGFrgUae7Q1NZ3AKt
+	aczBcNsWFwJw1QHWVFibL7wL05ChQAorzLNBK60grLVIOiySbUCZqLBqt6w4it5wpM54
+	F7x10iL/nHt8QmBYVaW/STqQpKNmS1HakX1DflZ7B5GRAxfw+OddPdy75axpp9Pw+E2z
+	s/fUg0syszTAjpNUMPe8lUCy4xBGg7PMAcg1NGEIvyKtfIp31/bdNDVcA6w4taW7JTeq
+	8LtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=MpDQTne1X8zrMJgt5bfN3keWj9aRfih1b/gt7e8Nok0=;
-	b=qrPpxXLgyxvTgfYZ6TXt0PshOoGXbxA1eOtfmuu/BznIO4TmNJluObL39uytOBHhhS
-	JsNCjE9qOQUqwmXT9DvuVwEkBOD0cSG/MpBi2dMXwsRXlhpeIb4HoV7BpuUiC4aOESPO
-	0d879TabMVAkv5sETxHyBIgDQQUh14lXd+/XlvtDlpB836i41kn/+YRBwsxoEl4Kfk9w
-	if6prr7jk97Fscl5y5+SFyMXOnTCor4K7QTqrx9sTGfK3fV1C7FmSpZrXiMgeuicAJ47
-	8PpviQPBa3KcFvgwmCh/b23xqPnEvu14xS/BUUv0+zEQqOIznJRN/2BbNk/5bAxNJpZK
-	pM0Q==
-X-Gm-Message-State: APzg51AYUY4DwIVtLR5CsrUbSghZN41dBoiGYnUfhNX7bvdpb/jDa2QL
-	XRLOuUScpbkhGE+gecPE0J6PKvbkmGw=
-X-Google-Smtp-Source: ANB0VdYgKghX7bEbxj0sSlDrbgrxq67KpNNASw99L6MpDpK8SnTFM0YBOZPZ4Z3aDiEc8ZvjVUdxHA==
-X-Received: by 2002:aca:5b88:: with SMTP id
-	p130-v6mr4579902oib.247.1534950545725; 
-	Wed, 22 Aug 2018 08:09:05 -0700 (PDT)
+	bh=n9ZwKqLqAgt5/y7Fj39LSKcXINxxBk3Vqnvu33xZL24=;
+	b=EnrzpfkuyDq83uKV0STrtDuXh7cdf0XLTvov89L8bznc8gM00UEKmElg7G02Mel0I3
+	l3tQPZtNgbII7b67m+7PG5qcVwypZE9D8uQQYbfR5Cw9iB2MpSL3MkhJ0I8LfPl/BhJx
+	beU8mkfbWn2pat3uAbOheTh0h19dvCKXYbjHV/nsEIRf9J9F/LL9WTDbAOaY/0VJG6EY
+	JlMSc96kzbqeun9lUMrOHUaie2U8R9NcgGXvsxFU2quLm1YjF+RGdpvBh35s4ERn5Cuz
+	A9PGlAvYMdeARXRp+HlTVs1h+4TaVOTVYjS8cSjrT4boOjrq8J0lVtiTIzQUpVz7dS+4
+	2zcA==
+X-Gm-Message-State: APzg51AabYQfRwaJKGMZWUaDzJKEzDMr8SDhjUWods04ILgy0VyzKyXd
+	mAPe6q0JXU3PRL6aWfa2jYJKu9UL5ME=
+X-Google-Smtp-Source: ANB0VdaxbFHkAE2RXnPXrHm3Clf8EMQ0OLxEy2veazFF9j90GbdsnR1NnibEV//QXmQgryB6LiIadQ==
+X-Received: by 2002:aca:ac54:: with SMTP id v81-v6mr4115959oie.1.1534950548332;
+	Wed, 22 Aug 2018 08:09:08 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.09.03
+	i132-v6sm1024281oif.20.2018.08.22.08.09.06
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:09:05 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:07 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:21 +0530
-Message-Id: <1534950532-23850-3-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 20:38:22 +0530
+Message-Id: <1534950532-23850-4-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V3 03/34] libsndfile1: CVE-2017-14245 CVE-2017-14246
+Subject: [ROCKO][PATCH V3 04/34] libvorbis: CVE-2017-14160
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,166 +58,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:09:05 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:09:07 -0000
 
-sfe_copy_data_fp: check value of "max" variable for being normal
-and check elements of the data[] array for being finite.
+CVE-2017-14160: fix bounds check on very low sample rates.
 
-Both checks use functions provided by the <math.h> header as declared
-by the C99 standard.
-
-Fixes #317
-CVE-2017-14245
-CVE-2017-14246
-
-Affects libsndfile1 = 1.0.28
+Affects libvorbis = 1.3.5
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../libsndfile1/CVE-2017-14245-14246.patch         | 121 +++++++++++++++++++++
- .../libsndfile/libsndfile1_1.0.28.bb               |   1 +
- 2 files changed, 122 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
+ .../libvorbis/libvorbis/CVE-2017-14160.patch       | 33 ++++++++++++++++++++++
+ .../libvorbis/libvorbis_1.3.5.bb                   |  2 ++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
+diff --git a/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch b/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch
 new file mode 100644
-index 0000000..07c7d13
+index 0000000..5f304aa
 --- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
-@@ -0,0 +1,121 @@
-+From 2d54514a4f6437b67829717c05472d2e3300a258 Mon Sep 17 00:00:00 2001
-+From: Fabian Greffrath <fabian@greffrath.com>
-+Date: Wed, 27 Sep 2017 14:46:17 +0200
-+Subject: [PATCH] sfe_copy_data_fp: check value of "max" variable for being
-+ normal
++++ b/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch
+@@ -0,0 +1,33 @@
++From 018ca26dece618457dd13585cad52941193c4a25 Mon Sep 17 00:00:00 2001
++From: Thomas Daede <daede003@umn.edu>
++Date: Wed, 9 May 2018 14:56:59 -0700
++Subject: [PATCH] CVE-2017-14160: fix bounds check on very low sample rates.
 +
-+and check elements of the data[] array for being finite.
++CVE: CVE-2017-14160
++CVE: CVE-2018-10393
++Upstream-Status: Backport [https://gitlab.xiph.org/xiph/vorbis/commit/018ca26dece618457dd13585cad52941193c4a25]
 +
-+Both checks use functions provided by the <math.h> header as declared
-+by the C99 standard.
-+
-+Fixes #317
-+CVE: CVE-2017-14245
-+CVE: CVE-2017-14246
-+
-+Upstream-Status: Backport [https://github.com/fabiangreffrath/libsndfile/commit/2d54514a4f6437b67829717c05472d2e3300a258]
-+
-+Signed-off-by: Fabian Greffrath <fabian@greffrath.com>
++Signed-off-by: Thomas Daede <daede003@umn.edu>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ programs/common.c          | 20 ++++++++++++++++----
-+ programs/common.h          |  2 +-
-+ programs/sndfile-convert.c |  6 +++++-
-+ 3 files changed, 22 insertions(+), 6 deletions(-)
++ lib/psy.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/programs/common.c b/programs/common.c
-+index a21e62c..a249a58 100644
-+--- a/programs/common.c
-++++ b/programs/common.c
-+@@ -36,6 +36,7 @@
-+ #include <string.h>
-+ #include <ctype.h>
-+ #include <stdint.h>
-++#include <math.h>
++diff --git a/lib/psy.c b/lib/psy.c
++index 422c6f1..1310123 100644
++--- a/lib/psy.c
+++++ b/lib/psy.c
++@@ -602,8 +602,9 @@ static void bark_noise_hybridmp(int n,const long *b,
++   for (i = 0, x = 0.f;; i++, x += 1.f) {
 + 
-+ #include <sndfile.h>
++     lo = b[i] >> 16;
++-    if( lo>=0 ) break;
++     hi = b[i] & 0xffff;
+++    if( lo>=0 ) break;
+++    if( hi>=n ) break;
 + 
-+@@ -45,7 +46,7 @@
-+ 
-+ #define	MIN(x, y)	((x) < (y) ? (x) : (y))
-+ 
-+-void
-++int
-+ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize)
-+ {	static double	data [BUFFER_LEN], max ;
-+ 	sf_count_t		frames, readcount, k ;
-+@@ -54,6 +55,8 @@ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize
-+ 	readcount = frames ;
-+ 
-+ 	sf_command (infile, SFC_CALC_SIGNAL_MAX, &max, sizeof (max)) ;
-++	if (!isnormal (max)) /* neither zero, subnormal, infinite, nor NaN */
-++		return 1 ;
-+ 
-+ 	if (!normalize && max < 1.0)
-+ 	{	while (readcount > 0)
-+@@ -67,12 +70,16 @@ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize
-+ 		while (readcount > 0)
-+ 		{	readcount = sf_readf_double (infile, data, frames) ;
-+ 			for (k = 0 ; k < readcount * channels ; k++)
-+-				data [k] /= max ;
-++			{	data [k] /= max ;
-++
-++				if (!isfinite (data [k])) /* infinite or NaN */
-++					return 1;
-++				}
-+ 			sf_writef_double (outfile, data, readcount) ;
-+ 			} ;
-+ 		} ;
-+ 
-+-	return ;
-++	return 0 ;
-+ } /* sfe_copy_data_fp */
-+ 
-+ void
-+@@ -252,7 +259,12 @@ sfe_apply_metadata_changes (const char * filenames [2], const METADATA_INFO * in
-+ 
-+ 		/* If the input file is not the same as the output file, copy the data. */
-+ 		if ((infileminor == SF_FORMAT_DOUBLE) || (infileminor == SF_FORMAT_FLOAT))
-+-			sfe_copy_data_fp (outfile, infile, sfinfo.channels, SF_FALSE) ;
-++		{	if (sfe_copy_data_fp (outfile, infile, sfinfo.channels, SF_FALSE) != 0)
-++			{	printf ("Error : Not able to decode input file '%s'\n", filenames [0]) ;
-++				error_code = 1 ;
-++				goto cleanup_exit ;
-++				} ;
-++			}
-+ 		else
-+ 			sfe_copy_data_int (outfile, infile, sfinfo.channels) ;
-+ 		} ;
-+diff --git a/programs/common.h b/programs/common.h
-+index eda2d7d..986277e 100644
-+--- a/programs/common.h
-++++ b/programs/common.h
-+@@ -62,7 +62,7 @@ typedef SF_BROADCAST_INFO_VAR (2048) SF_BROADCAST_INFO_2K ;
-+ 
-+ void sfe_apply_metadata_changes (const char * filenames [2], const METADATA_INFO * info) ;
-+ 
-+-void sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize) ;
-++int sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize) ;
-+ 
-+ void sfe_copy_data_int (SNDFILE *outfile, SNDFILE *infile, int channels) ;
-+ 
-+diff --git a/programs/sndfile-convert.c b/programs/sndfile-convert.c
-+index dff7f79..e6de593 100644
-+--- a/programs/sndfile-convert.c
-++++ b/programs/sndfile-convert.c
-+@@ -335,7 +335,11 @@ main (int argc, char * argv [])
-+ 			|| (outfileminor == SF_FORMAT_DOUBLE) || (outfileminor == SF_FORMAT_FLOAT)
-+ 			|| (infileminor == SF_FORMAT_DOUBLE) || (infileminor == SF_FORMAT_FLOAT)
-+ 			|| (infileminor == SF_FORMAT_VORBIS) || (outfileminor == SF_FORMAT_VORBIS))
-+-		sfe_copy_data_fp (outfile, infile, sfinfo.channels, normalize) ;
-++	{	if (sfe_copy_data_fp (outfile, infile, sfinfo.channels, normalize) != 0)
-++		{	printf ("Error : Not able to decode input file %s.\n", infilename) ;
-++			return 1 ;
-++			} ;
-++		}
-+ 	else
-+ 		sfe_copy_data_int (outfile, infile, sfinfo.channels) ;
-+ 
++     tN = N[hi] + N[-lo];
++     tX = X[hi] - X[-lo];
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-index 281ac82..c6f2a46 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
-            file://CVE-2017-8361-8365.patch \
-            file://CVE-2017-8362.patch \
-            file://CVE-2017-8363.patch \
-+           file://CVE-2017-14245-14246.patch \
-           "
+diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
+index 20f887c..1a49e59 100644
+--- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
++++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
+@@ -9,12 +9,14 @@ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7d2c487d2fc7dd3e3c7c465a5b7f6217 \
+                     file://include/vorbis/vorbisenc.h;beginline=1;endline=11;md5=d1c1d138863d6315131193d4046d81cb"
+ DEPENDS = "libogg"
++PR = "r1"
  
- SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
+ SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz \
+            file://0001-configure-Check-for-clang.patch \
+            file://CVE-2017-14633.patch \
+            file://CVE-2017-14632.patch \
+            file://CVE-2018-5146.patch \
++           file://CVE-2017-14160.patch \
+           "
+ SRC_URI[md5sum] = "28cb28097c07a735d6af56e598e1c90f"
+ SRC_URI[sha256sum] = "54f94a9527ff0a88477be0a71c0bab09a4c3febe0ed878b24824906cd4b0e1d1"
 -- 
 2.7.4
 
