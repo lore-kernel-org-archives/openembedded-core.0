@@ -1,51 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 73F4279445
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id B02AD79452
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:09:07 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id r69-v6so3133664oie.3
+	Wed, 22 Aug 2018 15:09:09 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id y207-v6so3658353oie.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:09:08 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=n9ZwKqLqAgt5/y7Fj39LSKcXINxxBk3Vqnvu33xZL24=;
-	b=D7da2e/+4/EnKFPmaOfqKUzaqyCT8vVjC6xWF2hTezzovTy3kZLAzpOjU6EFKdcydY
-	QuQSn109P36f8c7aPbGcL1+hCYdWzq8Xp+frP6VjALIbMtjpfxBoGFrgUae7Q1NZ3AKt
-	aczBcNsWFwJw1QHWVFibL7wL05ChQAorzLNBK60grLVIOiySbUCZqLBqt6w4it5wpM54
-	F7x10iL/nHt8QmBYVaW/STqQpKNmS1HakX1DflZ7B5GRAxfw+OddPdy75axpp9Pw+E2z
-	s/fUg0syszTAjpNUMPe8lUCy4xBGg7PMAcg1NGEIvyKtfIp31/bdNDVcA6w4taW7JTeq
-	8LtQ==
+	bh=YvasmTQCEkhjZ00hYUKyTBsgb/5eRgPbshxJsDAWLf0=;
+	b=fupl1p58RpEiOXREdl6orXaC3/20gAO4yhzq00q4GThFtOIJQnawREZY4e51/elgAm
+	P4jzl8sgvIPCYCBwWch02ytkRP2HhsdYl8BhN5iBwhzZawSoEZLXO4ZwK8XHqsqqvzMc
+	6pqH22r0VRa6Ca3ZkSCMiEFJY3wRmtuGn7eeYF7iETiw9oCryG4ZV7BXSzkHcc6BgFSy
+	kLx5oxprpSoEzyshnXrGbeqGoEZwIABMZoaYWEgeDXJTiuKnYH7ib0nCEuG3vJT2Iwol
+	AyM6IX7wUmV7Yg3Vaet4PJxq9xdXLJF/JPdLW4oscX/6VTbgDnqM9aVjKzEvHmp1jC52
+	+CzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=n9ZwKqLqAgt5/y7Fj39LSKcXINxxBk3Vqnvu33xZL24=;
-	b=EnrzpfkuyDq83uKV0STrtDuXh7cdf0XLTvov89L8bznc8gM00UEKmElg7G02Mel0I3
-	l3tQPZtNgbII7b67m+7PG5qcVwypZE9D8uQQYbfR5Cw9iB2MpSL3MkhJ0I8LfPl/BhJx
-	beU8mkfbWn2pat3uAbOheTh0h19dvCKXYbjHV/nsEIRf9J9F/LL9WTDbAOaY/0VJG6EY
-	JlMSc96kzbqeun9lUMrOHUaie2U8R9NcgGXvsxFU2quLm1YjF+RGdpvBh35s4ERn5Cuz
-	A9PGlAvYMdeARXRp+HlTVs1h+4TaVOTVYjS8cSjrT4boOjrq8J0lVtiTIzQUpVz7dS+4
-	2zcA==
-X-Gm-Message-State: APzg51AabYQfRwaJKGMZWUaDzJKEzDMr8SDhjUWods04ILgy0VyzKyXd
-	mAPe6q0JXU3PRL6aWfa2jYJKu9UL5ME=
-X-Google-Smtp-Source: ANB0VdaxbFHkAE2RXnPXrHm3Clf8EMQ0OLxEy2veazFF9j90GbdsnR1NnibEV//QXmQgryB6LiIadQ==
-X-Received: by 2002:aca:ac54:: with SMTP id v81-v6mr4115959oie.1.1534950548332;
-	Wed, 22 Aug 2018 08:09:08 -0700 (PDT)
+	bh=YvasmTQCEkhjZ00hYUKyTBsgb/5eRgPbshxJsDAWLf0=;
+	b=gc5HJMD0Of7+wM9tweU/DS4axyn+L09cHF4qKajnnZMrgGIVWvQcIDcW7Lup2gmoYL
+	JP6zs5fwewNgy4UyvU05K+2+Fmd26rMlHPil8atlO5gdPelug5r29fWMsc4S6WyZBUU1
+	mjMFmw3jp5Kc/kNzOzkRZVS+rMNJAkW1pX18Dbo0eJarlypgSYXC0Z49xabpR6CdjJs7
+	dKDx7ZtJ1pU4BLcPsL91if7LlsAhNMjV1sQ4cAVEBFw0r4GMYvpT8aklXYXHoBpetu/M
+	2VExfxAKbGe5UdtZE0BHz3lsKJawC9Q2QQUO9ekfzTtVAsq7MnTuHddW6hAHalqXmTzq
+	sQgQ==
+X-Gm-Message-State: APzg51BBariy5eN/egAyOIc+Eg7dOIlHgskmKeHinMQFQ3Ec/O6XBG5V
+	PMdHnNLIz5y5DEe2Vfbo37stqLNPFas=
+X-Google-Smtp-Source: ANB0VdZIwzbERsXbJpfdfojGT9CWdCG8+iFLrQHvlh9JGmGsy3bnXsd0B55730Ufd4jGGpjm2ZLCug==
+X-Received: by 2002:aca:bf88:: with SMTP id
+	p130-v6mr4031719oif.344.1534950550552; 
+	Wed, 22 Aug 2018 08:09:10 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.09.06
+	i132-v6sm1024281oif.20.2018.08.22.08.09.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:09:07 -0700 (PDT)
+	Wed, 22 Aug 2018 08:09:10 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:22 +0530
-Message-Id: <1534950532-23850-4-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 20:38:23 +0530
+Message-Id: <1534950532-23850-5-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V3 04/34] libvorbis: CVE-2017-14160
+Subject: [ROCKO][PATCH V3 05/34] rpm: CVE-2017-7501
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,77 +59,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:09:07 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:09:10 -0000
 
-CVE-2017-14160: fix bounds check on very low sample rates.
+Open newly created files with O_EXCL to prevent symlink tricks.
+When reopening hardlinks for writing the actual content, use append
+mode instead. This is compatible with the write-only permissions but
+is not destructive in case we got redirected to somebody elses file,
+verify the target before actually writing anything.
 
-Affects libvorbis = 1.3.5
+As these are files with the temporary suffix, errors mean a local
+user with sufficient privileges to break the installation of the package
+anyway is trying to goof us on purpose, don't bother trying to mend it
+(we couldn't fix the hardlink case anyhow) but just bail out.
+
+Based on a patch by Florian Festi.
+
+Affects rpm < 4.13.0.2
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../libvorbis/libvorbis/CVE-2017-14160.patch       | 33 ++++++++++++++++++++++
- .../libvorbis/libvorbis_1.3.5.bb                   |  2 ++
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch
+ .../recipes-devtools/rpm/files/CVE-2017-7501.patch | 106 +++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_git.bb               |   1 +
+ 2 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/CVE-2017-7501.patch
 
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch b/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch
+diff --git a/meta/recipes-devtools/rpm/files/CVE-2017-7501.patch b/meta/recipes-devtools/rpm/files/CVE-2017-7501.patch
 new file mode 100644
-index 0000000..5f304aa
+index 0000000..fb299d9
 --- /dev/null
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch
-@@ -0,0 +1,33 @@
-+From 018ca26dece618457dd13585cad52941193c4a25 Mon Sep 17 00:00:00 2001
-+From: Thomas Daede <daede003@umn.edu>
-+Date: Wed, 9 May 2018 14:56:59 -0700
-+Subject: [PATCH] CVE-2017-14160: fix bounds check on very low sample rates.
++++ b/meta/recipes-devtools/rpm/files/CVE-2017-7501.patch
+@@ -0,0 +1,106 @@
++From 404ef011c300207cdb1e531670384564aae04bdc Mon Sep 17 00:00:00 2001
++From: Panu Matilainen <pmatilai@redhat.com>
++Date: Tue, 19 Sep 2017 14:46:36 +0300
++Subject: [PATCH] Don't follow symlinks on file creation (CVE-2017-7501)
 +
-+CVE: CVE-2017-14160
-+CVE: CVE-2018-10393
-+Upstream-Status: Backport [https://gitlab.xiph.org/xiph/vorbis/commit/018ca26dece618457dd13585cad52941193c4a25]
++Open newly created files with O_EXCL to prevent symlink tricks.
++When reopening hardlinks for writing the actual content, use append
++mode instead. This is compatible with the write-only permissions but
++is not destructive in case we got redirected to somebody elses file,
++verify the target before actually writing anything.
 +
-+Signed-off-by: Thomas Daede <daede003@umn.edu>
++As these are files with the temporary suffix, errors mean a local
++user with sufficient privileges to break the installation of the package
++anyway is trying to goof us on purpose, don't bother trying to mend it
++(we couldn't fix the hardlink case anyhow) but just bail out.
++
++Based on a patch by Florian Festi.
++
++CVE: CVE-2017-7501
++Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/404ef011c300207cdb1e531670384564aae04bdc]
++
++Signed-off-by: Panu Matilainen <pmatilai@redhat.com>
++Signed-off-by: Florian Festi <ffesti@redhat.com>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ lib/psy.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ lib/fsm.c | 29 +++++++++++++++++++++++------
++ 1 file changed, 23 insertions(+), 6 deletions(-)
 +
-+diff --git a/lib/psy.c b/lib/psy.c
-+index 422c6f1..1310123 100644
-+--- a/lib/psy.c
-++++ b/lib/psy.c
-+@@ -602,8 +602,9 @@ static void bark_noise_hybridmp(int n,const long *b,
-+   for (i = 0, x = 0.f;; i++, x += 1.f) {
++diff --git a/lib/fsm.c b/lib/fsm.c
++index 553774b..e0e9d03 100644
++--- a/lib/fsm.c
+++++ b/lib/fsm.c
++@@ -206,11 +206,22 @@ static int fsmSetFCaps(const char *path, const char *captxt)
++     return rc;
++ }
 + 
-+     lo = b[i] >> 16;
-+-    if( lo>=0 ) break;
-+     hi = b[i] & 0xffff;
-++    if( lo>=0 ) break;
-++    if( hi>=n ) break;
-+ 
-+     tN = N[hi] + N[-lo];
-+     tX = X[hi] - X[-lo];
+++/* Check dest is the same, empty and regular file with writeonly permissions */
+++static int linkSane(FD_t wfd, const char *dest)
+++{
+++    struct stat sb, lsb;
+++
+++    return (fstat(Fileno(wfd), &sb) == 0 && sb.st_size == 0 &&
+++	    (sb.st_mode & ~S_IFMT) == S_IWUSR &&
+++	    lstat(dest, &lsb) == 0 && S_ISREG(lsb.st_mode) &&
+++	    sb.st_dev == lsb.st_dev && sb.st_ino == lsb.st_ino);
+++}
+++
++ /** \ingroup payload
++  * Create file from payload stream.
++  * @return		0 on success
++  */
++-static int expandRegular(rpmfi fi, const char *dest, rpmpsm psm, int nodigest, int nocontent)
+++static int expandRegular(rpmfi fi, const char *dest, rpmpsm psm, int exclusive, int nodigest, int nocontent)
++ {
++     FD_t wfd = NULL;
++     int rc = 0;
++@@ -218,8 +229,14 @@ static int expandRegular(rpmfi fi, const char *dest, rpmpsm psm, int nodigest, i
++     /* Create the file with 0200 permissions (write by owner). */
++     {
++ 	mode_t old_umask = umask(0577);
++-	wfd = Fopen(dest, "w.ufdio");
+++	wfd = Fopen(dest, exclusive ? "wx.ufdio" : "a.ufdio");
++ 	umask(old_umask);
+++
+++	/* If reopening, make sure the file is what we expect */
+++	if (!exclusive && wfd != NULL && !linkSane(wfd, dest)) {
+++	    rc = RPMERR_OPEN_FAILED;
+++	    goto exit;
+++	}
++     }
++     if (Ferror(wfd)) {
++ 	rc = RPMERR_OPEN_FAILED;
++@@ -248,7 +265,7 @@ static int fsmMkfile(rpmfi fi, const char *dest, rpmfiles files,
++ 	/* Create first hardlinked file empty */
++ 	if (*firsthardlink < 0) {
++ 	    *firsthardlink = rpmfiFX(fi);
++-	    rc = expandRegular(fi, dest, psm, nodigest, 1);
+++	    rc = expandRegular(fi, dest, psm, 1, nodigest, 1);
++ 	} else {
++ 	    /* Create hard links for others */
++ 	    char *fn = rpmfilesFN(files, *firsthardlink);
++@@ -263,10 +280,10 @@ static int fsmMkfile(rpmfi fi, const char *dest, rpmfiles files,
++        existing) file with content */
++     if (numHardlinks<=1) {
++ 	if (!rc)
++-	    rc = expandRegular(fi, dest, psm, nodigest, 0);
+++	    rc = expandRegular(fi, dest, psm, 1, nodigest, 0);
++     } else if (rpmfiArchiveHasContent(fi)) {
++ 	if (!rc)
++-	    rc = expandRegular(fi, dest, psm, nodigest, 0);
+++	    rc = expandRegular(fi, dest, psm, 0, nodigest, 0);
++ 	*firsthardlink = -1;
++     } else {
++ 	*setmeta = 0;
++@@ -939,7 +956,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmfiles files,
++ 	    /* we skip the hard linked file containing the content */
++ 	    /* write the content to the first used instead */
++ 	    char *fn = rpmfilesFN(files, firsthardlink);
++-	    rc = expandRegular(fi, fn, psm, nodigest, 0);
+++	    rc = expandRegular(fi, fn, psm, 0, nodigest, 0);
++ 	    firsthardlink = -1;
++ 	    free(fn);
++ 	}
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-index 20f887c..1a49e59 100644
---- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-@@ -9,12 +9,14 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7d2c487d2fc7dd3e3c7c465a5b7f6217 \
-                     file://include/vorbis/vorbisenc.h;beginline=1;endline=11;md5=d1c1d138863d6315131193d4046d81cb"
- DEPENDS = "libogg"
-+PR = "r1"
+diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
+index 7866314..bec0630 100644
+--- a/meta/recipes-devtools/rpm/rpm_git.bb
++++ b/meta/recipes-devtools/rpm/rpm_git.bb
+@@ -43,6 +43,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm \
+            file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
+            file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
+            file://0001-perl-disable-auto-reqs.patch \
++           file://CVE-2017-7501.patch \
+            "
+ UPSTREAM_VERSION_UNKNOWN = "1"
  
- SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz \
-            file://0001-configure-Check-for-clang.patch \
-            file://CVE-2017-14633.patch \
-            file://CVE-2017-14632.patch \
-            file://CVE-2018-5146.patch \
-+           file://CVE-2017-14160.patch \
-           "
- SRC_URI[md5sum] = "28cb28097c07a735d6af56e598e1c90f"
- SRC_URI[sha256sum] = "54f94a9527ff0a88477be0a71c0bab09a4c3febe0ed878b24824906cd4b0e1d1"
 -- 
 2.7.4
 
