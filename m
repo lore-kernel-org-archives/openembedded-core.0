@@ -1,27 +1,28 @@
-Return-Path: <ahedges@student.ethz.ch>
-Received: from edge20.ethz.ch (edge20.ethz.ch [82.130.99.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E1B47900D
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AF62179008
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 07:12:17 +0000 (UTC)
-Received: from CAS10.d.ethz.ch (172.31.38.210) by edge20.ethz.ch
-	(82.130.99.26) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Wed, 22 Aug 2018 09:10:59 +0200
-Received: from MBX215.d.ethz.ch ([fe80::8572:f435:81be:9baf]) by
-	CAS10.d.ethz.ch ([fe80::cce:fc66:7b56:a06a%10]) with mapi id
-	14.03.0415.000; Wed, 22 Aug 2018 09:10:53 +0200
-From: "Hedges  Alexander" <ahedges@student.ethz.ch>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2] u-boot: Fix inconsistent indentation
-Thread-Index: AdQ55oX+O3jFHBVkRneJ/inyzAqA3Q==
-Date: Wed, 22 Aug 2018 07:10:52 +0000
-Message-ID: <5D23E7CAADD3BE4A97642792FFC691C561C98CEE@MBX215.d.ethz.ch>
-Accept-Language: en-US, de-CH
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [129.132.139.8]
+	Wed, 22 Aug 2018 07:47:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7M7ll8R022184
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 22 Aug 2018 00:47:48 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Wed, 22 Aug 2018 00:47:47 -0700
+To: ChenQi <Qi.Chen@windriver.com>, <richard.purdie@linuxfoundation.org>
+References: <cover.1534832871.git.kai.kang@windriver.com>
+	<c3486f8b-70ae-028b-5208-97f876462c71@windriver.com>
+	<550826f7-2436-7a3a-843c-d59d5dd2e750@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <4b7725d7-6adb-9cae-1925-b335db4a9618@windriver.com>
+Date: Wed, 22 Aug 2018 15:47:26 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Subject: [PATCH v2] u-boot: Fix inconsistent indentation
+In-Reply-To: <550826f7-2436-7a3a-843c-d59d5dd2e750@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [V2][PATCH 0/3] allarch: disable allarch when multilib is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,121 +35,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 07:12:18 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 07:47:49 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-From 23438137cea726c9144db29b593b7034f5ac2408 Mon Sep 17 00:00:00 2001=0A=
-From: Alexander Hedges <ahedges@ethz.ch>=0A=
-Date: Tue, 21 Aug 2018 19:17:50 +0200=0A=
-=0A=
-This removes some extra spaces.=0A=
-=0A=
-Signed-off-by: Alexander Hedges <ahedges@ethz.ch>=0A=
----=0A=
-As a side note, doing the development linux-style on the mailing list via p=
-atches=0A=
-is a real pain and off-putting for anyone who did not grow up doing develop=
-ment =0A=
-this way. Please consider accepting pull requests via github (or gitlab or =
-whatever)=0A=
-in the future.=0A=
-=0A=
-Regards,=0A=
-Alexander Hedges=0A=
-=0A=
- meta/recipes-bsp/u-boot/u-boot.inc | 54 +++++++++++++++---------------=0A=
- 1 file changed, 27 insertions(+), 27 deletions(-)=0A=
-=0A=
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u=
--boot.inc=0A=
-index 95c2f4db14..48fbc57215 100644=0A=
---- a/meta/recipes-bsp/u-boot/u-boot.inc=0A=
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc=0A=
-@@ -231,7 +231,7 @@ do_deploy () {=0A=
-         rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}=0A=
-         ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}=0A=
-         ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}=0A=
--   fi=0A=
-+    fi=0A=
- =0A=
-     if [ -n "${UBOOT_ELF}" ]=0A=
-     then=0A=
-@@ -263,32 +263,32 @@ do_deploy () {=0A=
- =0A=
-      if [ -n "${SPL_BINARY}" ]=0A=
-      then=0A=
--         if [ -n "${UBOOT_CONFIG}" ]=0A=
--         then=0A=
--             for config in ${UBOOT_MACHINE}; do=0A=
--                 i=3D$(expr $i + 1);=0A=
--                 for type in ${UBOOT_CONFIG}; do=0A=
--                     j=3D$(expr $j + 1);=0A=
--                     if [ $j -eq $i ]=0A=
--                     then=0A=
--                         install -m 644 ${B}/${config}/${SPL_BINARY} ${DEP=
-LOYDIR}/${SPL_IMAGE}-${type}-${PV}-${PR}=0A=
--                         rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}=
-/${SPL_SYMLINK}-${type}=0A=
--                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
-IR}/${SPL_BINARYNAME}-${type}=0A=
--                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
-IR}/${SPL_BINARYNAME}=0A=
--                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
-IR}/${SPL_SYMLINK}-${type}=0A=
--                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
-IR}/${SPL_SYMLINK}=0A=
--                     fi=0A=
--                 done=0A=
--                 unset  j=0A=
--             done=0A=
--             unset  i=0A=
--         else=0A=
--             install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}=
-=0A=
--             rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLI=
-NK}=0A=
--             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}=0A=
--             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}=0A=
--         fi=0A=
--     fi=0A=
-+        if [ -n "${UBOOT_CONFIG}" ]=0A=
-+        then=0A=
-+            for config in ${UBOOT_MACHINE}; do=0A=
-+                i=3D$(expr $i + 1);=0A=
-+                for type in ${UBOOT_CONFIG}; do=0A=
-+                    j=3D$(expr $j + 1);=0A=
-+                    if [ $j -eq $i ]=0A=
-+                    then=0A=
-+                        install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPL=
-OYDIR}/${SPL_IMAGE}-${type}-${PV}-${PR}=0A=
-+                        rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/=
-${SPL_SYMLINK}-${type}=0A=
-+                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
-R}/${SPL_BINARYNAME}-${type}=0A=
-+                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
-R}/${SPL_BINARYNAME}=0A=
-+                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
-R}/${SPL_SYMLINK}-${type}=0A=
-+                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
-R}/${SPL_SYMLINK}=0A=
-+                    fi=0A=
-+                done=0A=
-+                unset  j=0A=
-+            done=0A=
-+            unset  i=0A=
-+        else=0A=
-+            install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}=0A=
-+            rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLIN=
-K}=0A=
-+            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}=0A=
-+            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}=0A=
-+        fi=0A=
-+    fi=0A=
- =0A=
- =0A=
-     if [ -n "${UBOOT_ENV}" ]=0A=
--- =0A=
-2.17.1=0A=
+On 2018年08月22日 10:46, ChenQi wrote:
+> And also a few other failures:
+>
+> https://autobuilder.yocto.io/builders/nightly-qa-extras/builds/1242/steps/BuildImages_7/logs/stdio 
+>
+
+> https://autobuilder.yocto.io/builders/nightly-multilib/builds/1255/steps/BuildImages_3/logs/stdio 
+>
+
+It adds extra package to core-image-sato which calls postinstall script 
+update_font_cache-lib32 and it is not handles well.
+
+--Kai
+
+>
+> Best Regards,
+> Chen Qi
+>
+> On 08/22/2018 10:36 AM, ChenQi wrote:
+>> There's some oe-selftest failures on autobuiler.
+>>
+>> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/1300/steps/Running%20oe-selftest/logs/stdio 
+>>
+>>
+>> Best Regards,
+>> Chen Qi
+>>
+>> On 08/21/2018 02:36 PM, kai.kang@windriver.com wrote:
+>>> From: Kai Kang <kai.kang@windriver.com>
+>>>
+>>> V2:
+>>> * move content of allarch.bbclass to allarch-enabled.bbclass and only
+>>>    inherit allarch-enabled when multilib is not used
+>>> * update SSTATE_DUPWHITELIST
+>>>
+>>> Build pass for following targets on qemux86-64 and qemuarm64 for rpm,
+>>> ipk and deb.
+>>>
+>>> * core-image-sato
+>>> * core-image-sato -c populate_sdk
+>>> * world
+>>> * buildtools-tarball
+>>>
+>>> Known issues:
+>>> There are 2 *existing* multilib related issues which are not caused by
+>>> this serial of patches:
+>>>
+>>> 1 QA warnings of lib32-meta-ide-support and lib32-perf
+>>>
+>>> WARNING: lib32-meta-ide-support-1.0-r3 do_configure: Manifest
+>>> /buildarea1/jkang-taf/WRL1018/OV/0730/host/build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-ncurses.populate_sysroot 
+>>>
+>>> not found in intel_x86_64 corei7-32 core2-32 i686 i586 x86 allarch
+>>> x86_64_x86_64-nativesdk (variant '')?
+>>>
+>>> WARNING: lib32-perf-1.0-r9 do_install: Manifest
+>>> /buildarea1/jkang-taf/WRL1018/OV/0730/host/build/tmp-glibc/sstate-control/manifest-x86_64_i686-binutils-cross-x86_64.populate_sysroot 
+>>>
+>>> not found in x86_64_i686 (variant '')?
+>>>
+>>> 2 fails to build lib32-buildtools-tarball
+>>>
+>>> ERROR: lib32-buildtools-tarball-1.0-r0 do_populate_sdk: No manifest
+>>> generated from: qemuwrapper-cross in
+>>> /buildarea3/kkang/poky-20141111/poky/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb 
+>>>
+>>>
+>>> I am working on them.
+>>>
+>>>
+>>> The following changes since commit 
+>>> 99506b0017bdf8dbf42ec5dc048d91a5609dabe3:
+>>>
+>>>    weston-init: run login before start weston.service (2018-08-20 
+>>> 17:38:23 +0100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>    git://git.pokylinux.org/poky-contrib kangkai/allarch-enabled
+>>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/allarch-enabled 
+>>>
+>>>
+>>> Kai Kang (3):
+>>>    cmake.bbclass: fix wrong toolchain flags of nativesdk package
+>>>    allarch: disable allarch when multilib is used
+>>>    sstate.bbclass: update SSTATE_DUPWHITELIST
+>>>
+>>>   meta/classes/allarch-enabled.bbclass | 52 
+>>> ++++++++++++++++++++++++++++
+>>>   meta/classes/allarch.bbclass         | 51 ++-------------------------
+>>>   meta/classes/cmake.bbclass           |  1 +
+>>>   meta/classes/icecc.bbclass           |  2 +-
+>>>   meta/classes/multilib.bbclass        |  2 +-
+>>>   meta/classes/multilib_global.bbclass |  2 +-
+>>>   meta/classes/package.bbclass         |  6 ++--
+>>>   meta/classes/sstate.bbclass          |  4 ++-
+>>>   8 files changed, 64 insertions(+), 56 deletions(-)
+>>>   create mode 100644 meta/classes/allarch-enabled.bbclass
+>>>
+>>
+>
+>
+
+-- 
+Regards,
+Neil | Kai Kang
+
 
