@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id A09277941C
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A6DE79368
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 13:36:27 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id 8-v6so3194578oip.0
+	Wed, 22 Aug 2018 13:36:29 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id p84-v6so3154757oic.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 06:36:29 -0700 (PDT)
+	Wed, 22 Aug 2018 06:36:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=bvjAggxl3o8jyJYPtFDOKRLkKIfQ1iAFeIZyvH7BVXE=;
-	b=mrGCX0GTRdPGuavoS8DhlX6x8ZNinaGBb5ONPen4iI48G4adiOFsrh63rIikZ3UlbQ
-	C1zbaucbj1arFb2EB1lpCMMuoLAtuDnysvjC0oW5EIHw5Prk+8miMw44GecmMoHg+CH1
-	DRHh1ws/1iYGgR52AQLx2juG3xEwRBWP/jdFOHExBUK29L9eEmretOAKjRqJVdf8EC3f
-	ljbWZaNGrA2crajGg25VDmBg4N0DPZmDQ9ZF+RnIyBtMfXBa2hxmWJ9ZL4Tt7znTmU7K
-	Y5hPopca7FAmMpq/3WmAiKJ6+m6yPrIhXHqLDAsYZ2CJQQtNUIn2U1aeHgPqC8XuNHeY
-	ZmVA==
+	bh=BOVvpHgtMcGaIxL8IaICmQWMEr3oeLMOvpAK8Z6FEA4=;
+	b=V/VVOVC24FCOYoeWIYp4uYk8jh93zOPtPZ3UFAVHPdQojXfVbFC/qYx1Cl3d+0Eoop
+	0lXVkjp9HoTxP+xP/sO7lzX+ntEqlrExnV6w44Yoz73lJ6k/Nh7uGIUagAENBt07z9vz
+	yeaBSgFnjPbVLavh/rwINPyaieNy6/0AvOOjz3BnQ5CJ3cTGWuNkC7VKK95d4W+LTg8C
+	Ni7Oaql6jZ6F/3at9SkTIUhmQf/0GahLJn0NiWuRnKvoJ+jjXWIAkqHx9L9yJDaV8vDG
+	RAQGHryVGyrKq/cYBDJh3jIrXDSPAY5SiYDiy8td2teTP4WHnUQ1n/dQAoqiq4bX5ySi
+	2t4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=bvjAggxl3o8jyJYPtFDOKRLkKIfQ1iAFeIZyvH7BVXE=;
-	b=EdQo02bvbxvtJBo4Bis86lEPiXB25H23XCGAZSH6y3Jb98+FJxU4giMAgQrhvEK38+
-	e1gBI7DIki1P46UgV6hM2lFwiy0vZmbVGhImBZwBcsftkIZwifoNHzXDg/vtsDEgSeDs
-	UgqKGjhcutzSj/48cMrPnsNPAa5I8phnW5aVOqFbVlYFlHO99poGuZ//FF/V2ITDMUD8
-	+2Ko6h0JOPo26akVhGO8SuBH6MD3TrIkavSoayofVHoJQvmFbMSTGlaM8tfONVcUMIUQ
-	jMhjL+0Z+/VHBdlQCuEEmNkw9mAr0LEjNjVyEKy/rs/XJZ+OCXsFbWO8b3lpqNdcXPA1
-	S7xQ==
-X-Gm-Message-State: APzg51AmgKWFQZtrdJAMI4rqO/O/yv7V8F1OodSIEUoGxzkrKejKcXid
-	Vav8dlKwfciC4w9MEyzM0g4KzxC9QpY=
-X-Google-Smtp-Source: ANB0Vdbd5L43kN0cPfGSv5QaG7z9BCCThAR6hHYughISV4la5SFyT9r8e8ZGf/Kd8zvbge6ldbGrDw==
-X-Received: by 2002:aca:3d83:: with SMTP id
-	k125-v6mr3808698oia.86.1534944988384; 
-	Wed, 22 Aug 2018 06:36:28 -0700 (PDT)
+	bh=BOVvpHgtMcGaIxL8IaICmQWMEr3oeLMOvpAK8Z6FEA4=;
+	b=qg6rVL3gnCqPNOkk+Henglbg2jy+QAlKMH0RS+Tzo10kymG7+khZTicnuliuhSAhG6
+	wfnRJzx7mnGO29YqDtUYazJvtocA193AUvmzz8oF7y/44qWAsBtKKHj9NNXNT43hfoj5
+	Prw5HBy6YeCXzAjpMbv3wAH0lWGILfMn5NzxKU8pYP/+JDRVu0NN+facvt7uq2kcMI+V
+	lScy68v2jTEnvLUbGcZBhylZDtA1BWta34kB2hcOEfZtloS71u4lV6bbiJ23Azt2sb5w
+	XsfteqKBpUMcXUECD8UdHbb/PhWlXRWxgH2l1tdFVKxnm1SwvR/TdrqSKufDkQCC/J/Q
+	5RAg==
+X-Gm-Message-State: APzg51A4oM5MlYLqT1Prtg++j03pBjBFfcwMxs9tdiVoLH0h2wMv0p3k
+	Z09+Eq+ZFkUEjRKI76Hij/5XAU5cgWA=
+X-Google-Smtp-Source: ANB0Vdb+M8lT/ZiC4MEtXhax/24+Zq/CaIDvAp7ZRWI7WHQSdTwLFS3ubf/+cHjrZ8kPn+3tU5Qeyw==
+X-Received: by 2002:aca:d946:: with SMTP id
+	q67-v6mr1657971oig.212.1534944990867; 
+	Wed, 22 Aug 2018 06:36:30 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	h186-v6sm3746773oib.55.2018.08.22.06.36.26
+	h186-v6sm3746773oib.55.2018.08.22.06.36.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 06:36:27 -0700 (PDT)
+	Wed, 22 Aug 2018 06:36:30 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 19:05:17 +0530
-Message-Id: <1534944940-21566-11-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 19:05:18 +0530
+Message-Id: <1534944940-21566-12-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V2 11/34] curl: CVE-2018-1000300
+Subject: [ROCKO][PATCH V2 12/34] curl: CVE-2018-1000301
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,88 +59,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 13:36:28 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 13:36:30 -0000
 
-pingpong: fix response cache memcpy overflow
+http: restore buffer pointer when bad response-line is parsed
 
-Response data for a handle with a large buffer might be cached and then
-used with the "closure" handle when it has a smaller buffer and then
-he
-larger cache will be copied and overflow the new smaller heap based
-buffer.
+... leaving the k->str could lead to buffer over-reads later on.
 
-Reported-by: Dario Weisser
-CVE: CVE-2018-1000300
-Bug: https://curl.haxx.se/docs/adv_2018-82c2.html
+CVE: CVE-2018-1000301
+Assisted-by: Max Dymond
 
-Affects curl >= 7.54.1 && curl <= 7.59.0
+Detected by OSS-Fuzz.
+Bug: https://curl.haxx.se/docs/adv_2018-b138.html
+Bug: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=7105
+
+Affects curl >= 7.20.0 && curl <= 7.59.0
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../curl/curl/CVE-2018-1000300.patch               | 44 ++++++++++++++++++++++
+ .../curl/curl/CVE-2018-1000301.patch               | 54 ++++++++++++++++++++++
  meta/recipes-support/curl/curl_7.58.0.bb           |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2018-1000300.patch
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2018-1000301.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2018-1000300.patch b/meta/recipes-support/curl/curl/CVE-2018-1000300.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2018-1000301.patch b/meta/recipes-support/curl/curl/CVE-2018-1000301.patch
 new file mode 100644
-index 0000000..893d45c
+index 0000000..f42178e
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2018-1000300.patch
-@@ -0,0 +1,44 @@
-+From 0a79d714bd55779a3a223efb5c089d0ad7e128a8 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2018-1000301.patch
+@@ -0,0 +1,54 @@
++From 8c7b3737d29ed5c0575bf592063de8a51450812d Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Fri, 23 Mar 2018 23:30:04 +0100
-+Subject: [PATCH] pingpong: fix response cache memcpy overflow
++Date: Sat, 24 Mar 2018 23:47:41 +0100
++Subject: [PATCH] http: restore buffer pointer when bad response-line is parsed
 +
-+Response data for a handle with a large buffer might be cached and then
-+used with the "closure" handle when it has a smaller buffer and then the
-+larger cache will be copied and overflow the new smaller heap based
-+buffer.
++... leaving the k->str could lead to buffer over-reads later on.
 +
-+Reported-by: Dario Weisser
++CVE: CVE-2018-1000301
++Assisted-by: Max Dymond
 +
-+CVE: CVE-2018-1000300
-+Bug: https://curl.haxx.se/docs/adv_2018-82c2.html
++Detected by OSS-Fuzz.
++Bug: https://curl.haxx.se/docs/adv_2018-b138.html
++Bug: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=7105
++
 +Upstream-Status: Backport [https://github.com/curl/curl-www/commit/3ee30b2b5e3836345ac510bc1674aa3a4272936e]
-+
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ lib/pingpong.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
++ lib/http.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
 +
-+diff --git a/lib/pingpong.c b/lib/pingpong.c
-+index 438856a99..ad370ee82 100644
-+--- a/lib/pingpong.c
-++++ b/lib/pingpong.c
-+@@ -302,11 +302,14 @@ CURLcode Curl_pp_readresp(curl_socket_t sockfd,
-+        *
-+        * pp->cache_size is cast to ssize_t here.  This should be safe, because
-+        * it would have been populated with something of size int to begin
-+        * with, even though its datatype may be larger than an int.
-+        */
-+-      DEBUGASSERT((ptr + pp->cache_size) <= (buf + data->set.buffer_size + 1));
-++      if((ptr + pp->cache_size) > (buf + data->set.buffer_size + 1)) {
-++        failf(data, "cached response data too big to handle");
-++        return CURLE_RECV_ERROR;
-++      }
-+       memcpy(ptr, pp->cache, pp->cache_size);
-+       gotbytes = (ssize_t)pp->cache_size;
-+       free(pp->cache);    /* free the cache */
-+       pp->cache = NULL;   /* clear the pointer */
-+       pp->cache_size = 0; /* zero the size just in case */
++diff --git a/lib/http.c b/lib/http.c
++index 1a313b4fb..e080ae513 100644
++--- a/lib/http.c
+++++ b/lib/http.c
++@@ -3012,10 +3012,12 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
++                                        ssize_t *nread,
++                                        bool *stop_reading)
++ {
++   CURLcode result;
++   struct SingleRequest *k = &data->req;
+++  ssize_t onread = *nread;
+++  char *ostr = k->str;
++ 
++   /* header line within buffer loop */
++   do {
++     size_t rest_length;
++     size_t full_length;
++@@ -3076,11 +3078,13 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
++           /* since there's more, this is a partial bad header */
++           k->badheader = HEADER_PARTHEADER;
++         else {
++           /* this was all we read so it's all a bad header */
++           k->badheader = HEADER_ALLBAD;
++-          *nread = (ssize_t)rest_length;
+++          *nread = onread;
+++          k->str = ostr;
+++          return CURLE_OK;
++         }
++         break;
++       }
++     }
++ 
 +-- 
 +2.17.0
-+
 diff --git a/meta/recipes-support/curl/curl_7.58.0.bb b/meta/recipes-support/curl/curl_7.58.0.bb
-index d2d0180..fdfbb3d 100644
+index fdfbb3d..4376bb3 100644
 --- a/meta/recipes-support/curl/curl_7.58.0.bb
 +++ b/meta/recipes-support/curl/curl_7.58.0.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e66
- 
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e66
  SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
             file://0001-replace-krb5-config-with-pkg-config.patch \
-+           file://CVE-2018-1000300.patch \
+            file://CVE-2018-1000300.patch \
++           file://CVE-2018-1000301.patch \
  "
  
  
