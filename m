@@ -1,53 +1,53 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id AC1E179258
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id AB06F792D1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 11:18:00 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id m11-v6so2511963oic.2
+	Wed, 22 Aug 2018 11:18:03 +0000 (UTC)
+Received: by mail-oi0-f41.google.com with SMTP id r69-v6so1913790oie.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 04:18:02 -0700 (PDT)
+	Wed, 22 Aug 2018 04:18:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=xMY0FiQqGMtHEUpQ/s8J84O7p2lyLxfFmSRkzA1NIh8=;
-	b=yqb4cKRLA2CJrC9Q058lIuT6/2m87Yq4sKD3VcBaMd6TNXoRW2SRqDxhs8E6TeuvnF
-	i7PUxhFFU3p9TGQTXkM9KXg6tNn4gPTWiBWN60BXvJvqj3kaOQNNaqZ5YLyScGBuUo9j
-	s6f+W8D/GpjCpp/RbKWqHgP2ROPsNQ3r0gM7Y0Xj4n9dXqDo32g0w1RklUakC+7KAoq9
-	nzSfIW2Z84YclGdEUPest8hp1RUuanumF4x4edL2pOkrX3+3gImxL+RfAH44bYAAv9fj
-	yLEXJcWjHzPL6gCY4bkOuEyTEoOH/nG86L8eqd4MOhgEK5l8D7M9Nwr8PBZEOxH6jrjB
-	Rzug==
+	bh=jFTPWMUaP8tELjD49uXJ9jw+TuVYg9KOmYfxUs0WuMA=;
+	b=nao6mPMvtQaM1wSrU6DahUUt3XgP34lBaW5hCcUQRI1ZwsHRrC9RmvZw9S6XpQIt7O
+	C/GJIOR872fHC6t+rkZLBCdQ0pTAaeT92RmG1n4cNggTTz+Q+50YQqPXcaPfHB0RysZT
+	AtgHclq9VKH4JgkRBeuqwkRIzyXtY363jJS+eK9prhOPMtOKKxukfdG86Jn1zeWwbiqa
+	LLVDSZf5RbWL2lp/QuU3V+lUOLceSsoT/pgPrC7GvakIDubZiC1XwhzaJ8HcxM+F5WR+
+	lXXAzuj480LKDdN3i4gT1yajKRuuBAt+c92w2bHRLzjrgLNHRQaTcVbQZOa6ZHwdTtyS
+	GvVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=xMY0FiQqGMtHEUpQ/s8J84O7p2lyLxfFmSRkzA1NIh8=;
-	b=q12cB5p1SlVuh7GQb8U1Tew8cHZmUCcNeAyuBF+iHjT7Itlo4OmBEVdZFkjZPu9yN+
-	wUqz/3OxZqLlW7MWiiHMaEs/fZ84Djvr4KuwNSakaow+wxNFYRikPk1xfF5y2fFue5dt
-	czO6qlS3BQVIeIO5zBhYKCbXaNNngvKr2HzGjocYSDhzFWgJ57ggGLhSJBPu3TQb0Iix
-	l0/iPEYqu/RV86lVAGMOwB1pW5/3nhJsQiyn5eTHdR5Y9ttavDkLC14pkuU1rz4qP8ZQ
-	mPpzWefmnjLaZlJuGUHBhkp71xd8ottyAM12Qoi7zV9TTQPGpRBPJNMHMC/oSrSSvi6z
-	TRkA==
-X-Gm-Message-State: APzg51Bak6NYJLn+1d9qjxeFbv1uOHVTfwOFqFJyCJHrTskG1LHhv27e
-	b1rn/yOEULne9+AGmSKhL2EYwURQOrY=
-X-Google-Smtp-Source: ANB0VdbnrfhAeGXvxaWS/Jf51OuWzJkMgvzZh5XTjCgAIeSEohQG49nck3lC/vSpvD1iBDpDZyVsmg==
-X-Received: by 2002:aca:5a45:: with SMTP id
-	o66-v6mr3487364oib.155.1534936681605; 
-	Wed, 22 Aug 2018 04:18:01 -0700 (PDT)
+	bh=jFTPWMUaP8tELjD49uXJ9jw+TuVYg9KOmYfxUs0WuMA=;
+	b=Ag5YSRxImJEiBDeWJjXtGbdIZKNuRdV8aWTT0az9RcobmwUyReTc0c1mrxDatdsFu/
+	A79+7ybyfHCT/ic/uueP3qJaxdIxOJ0904GH/ETx+kZlfJdhqgmaROW/yBNRHR1CbPgb
+	eL7H+nM45WuQ3VPkbff/KzfePhHHvgOaRDiOqgrrGoyO20FLeJhyvk2R5uN6MlNkWbxB
+	BaQ39I+rPeY+ObvNMd45jxVleQu774XNQy2HO4I/K133nbIoURoaclxZtutFjuhsTl5W
+	0CKfrGeiIVNNrQ0ZL3AogFC7CbyOokhquvXhxuEyohiDo06qLZaBqAZWNZqTNijWhExT
+	s5xg==
+X-Gm-Message-State: APzg51CEq3v1Q+ivbu5Zh28EoX0DzWpeWm+jl3VXzglsjDBQZktKBrwf
+	T6e7duKBPT4laoSxIFlOyMYlSo40ots=
+X-Google-Smtp-Source: ANB0VdbDvnyq6grH6xiQ5GlFyr9ALXdD0HVizxUnYAILbQs1lb2zuY8qunXfqoGJKIVwcmXPTbqmng==
+X-Received: by 2002:a54:4618:: with SMTP id
+	p24-v6mr3615470oip.172.1534936684534; 
+	Wed, 22 Aug 2018 04:18:04 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	v5-v6sm694446oix.36.2018.08.22.04.17.59
+	v5-v6sm694446oix.36.2018.08.22.04.18.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 04:18:01 -0700 (PDT)
+	Wed, 22 Aug 2018 04:18:04 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 16:46:54 +0530
-Message-Id: <1534936615-11658-18-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 16:46:55 +0530
+Message-Id: <1534936615-11658-19-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534936615-11658-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534936615-11658-1-git-send-email-jkrishnanjanappa@mvista.com>
 Cc: Ferret on Shark <shark_admin@mvista.co>
-Subject: [SUMO][PATCH 18/19] perl: CVE-2018-12015
+Subject: [SUMO][PATCH 19/19] libgcrypt: CVE-2018-0495
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,93 +60,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:18:00 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 11:18:03 -0000
 
 From: Ferret on Shark <shark_admin@mvista.co>
 
-Remove existing files before overwriting them
+ecc: Add blinding for ECDSA.
 
-Archive should extract only the latest same-named entry.
-Extracted regular file should not be writtent into existing block
-device (or any other one).
+* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Blind secret D with
+randomized nonce B.
 
-https://rt.cpan.org/Ticket/Display.html?id=125523
+--
 
-Affects perl <= 5.26.2
+CVE-id: CVE-2018-0495
+
+Affects libgcrypt < 1.7.10 and libgcrypt < 1.8.3
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../perl/perl/CVE-2018-12015.patch                 | 48 ++++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.24.1.bb          |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
+ .../libgcrypt/files/CVE-2018-0495.patch            | 76 ++++++++++++++++++++++
+ meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb  |  1 +
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
 
-diff --git a/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch b/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
+diff --git a/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch b/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
 new file mode 100644
-index 0000000..a33deaf
+index 0000000..c16bd3a
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
-@@ -0,0 +1,48 @@
-+From ae65651eab053fc6dc4590dbb863a268215c1fc5 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Petr=20P=C3=ADsa=C5=99?= <ppisar@redhat.com>
-+Date: Fri, 8 Jun 2018 11:45:40 +0100
-+Subject: [PATCH] [PATCH] Remove existing files before overwriting them
++++ b/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
+@@ -0,0 +1,76 @@
++From 9010d1576e278a4274ad3f4aa15776c28f6ba965 Mon Sep 17 00:00:00 2001
++From: NIIBE Yutaka <gniibe@fsij.org>
++Date: Wed, 13 Jun 2018 15:28:58 +0900
++Subject: [PATCH] ecc: Add blinding for ECDSA.
 +
-+Archive should extract only the latest same-named entry.
-+Extracted regular file should not be writtent into existing block
-+device (or any other one).
++* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Blind secret D with
++randomized nonce B.
 +
-+https://rt.cpan.org/Ticket/Display.html?id=125523
++--
 +
-+CVE: CVE-2018-12015
-+Upstream-Status: Backport [https://github.com/jib/archive-tar-new/commit/ae65651eab053fc6dc4590dbb863a268215c1fc5]
++Reported-by: Keegan Ryan <Keegan.Ryan@nccgroup.trust>
++CVE-id: CVE-2018-0495
 +
-+Signed-off-by: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
++Upstream-Status: Backport [http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=9010d1576e278a4274ad3f4aa15776c28f6ba965]
++
++Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ lib/Archive/Tar.pm | 14 ++++++++++++++
-+ 1 file changed, 14 insertions(+)
++ cipher/ecc-ecdsa.c | 20 ++++++++++++++++++--
++ 1 file changed, 18 insertions(+), 2 deletions(-)
 +
-+diff --git a/cpan/Archive-Tar/lib/Archive/Tar.pm b/cpan/Archive-Tar/lib/Archive/Tar.pm
-+index 6244369..a83975f 100644
-+--- a/cpan/Archive-Tar/lib/Archive/Tar.pm
-++++ b/cpan/Archive-Tar/lib/Archive/Tar.pm
-+@@ -845,6 +845,20 @@ sub _extract_file {
-+         return;
++diff --git a/cipher/ecc-ecdsa.c b/cipher/ecc-ecdsa.c
++index 1484830b..140e8c09 100644
++--- a/cipher/ecc-ecdsa.c
+++++ b/cipher/ecc-ecdsa.c
++@@ -50,6 +50,8 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
++   const void *abuf;
++   unsigned int abits, qbits;
++   mpi_ec_t ctx;
+++  gcry_mpi_t b;                /* Random number needed for blinding.  */
+++  gcry_mpi_t bi;               /* multiplicative inverse of B.        */
++ 
++   if (DBG_CIPHER)
++     log_mpidump ("ecdsa sign hash  ", input );
++@@ -61,6 +63,15 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
++   if (rc)
++     return rc;
++ 
+++  b  = mpi_snew (qbits);
+++  bi = mpi_snew (qbits);
+++  do
+++    {
+++      _gcry_mpi_randomize (b, qbits, GCRY_WEAK_RANDOM);
+++      mpi_mod (b, b, skey->E.n);
+++    }
+++  while (!mpi_invm (bi, b, skey->E.n));
+++
++   k = NULL;
++   dr = mpi_alloc (0);
++   sum = mpi_alloc (0);
++@@ -115,8 +126,11 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
++         }
++       while (!mpi_cmp_ui (r, 0));
++ 
++-      mpi_mulm (dr, skey->d, r, skey->E.n); /* dr = d*r mod n  */
++-      mpi_addm (sum, hash, dr, skey->E.n);  /* sum = hash + (d*r) mod n  */
+++      mpi_mulm (dr, b, skey->d, skey->E.n);
+++      mpi_mulm (dr, dr, r, skey->E.n);      /* dr = d*r mod n (blinded with b) */
+++      mpi_mulm (sum, b, hash, skey->E.n);
+++      mpi_addm (sum, sum, dr, skey->E.n);   /* sum = hash + (d*r) mod n  (blinded with b) */
+++      mpi_mulm (sum, bi, sum, skey->E.n);   /* undo blinding by b^-1 */
++       mpi_invm (k_1, k, skey->E.n);         /* k_1 = k^(-1) mod n  */
++       mpi_mulm (s, k_1, sum, skey->E.n);    /* s = k^(-1)*(hash+(d*r)) mod n */
++     }
++@@ -129,6 +143,8 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
 +     }
 + 
-++    ### If a file system already contains a block device with the same name as
-++    ### the being extracted regular file, we would write the file's content
-++    ### to the block device. So remove the existing file (block device) now.
-++    ### If an archive contains multiple same-named entries, the last one
-++    ### should replace the previous ones. So remove the old file now.
-++    ### If the old entry is a symlink to a file outside of the CWD, the new
-++    ### entry would create a file there. This is CVE-2018-12015
-++    ### <https://rt.cpan.org/Ticket/Display.html?id=125523>.
-++    if (-l $full || -e _) {
-++	if (!unlink $full) {
-++	    $self->_error( qq[Could not remove old file '$full': $!] );
-++	    return;
-++	}
-++    }
-+     if( length $entry->type && $entry->is_file ) {
-+         my $fh = IO::File->new;
-+         $fh->open( '>' . $full ) or (
++  leave:
+++  mpi_free (b);
+++  mpi_free (bi);
++   _gcry_mpi_ec_free (ctx);
++   point_free (&I);
++   mpi_free (x);
 +-- 
 +2.13.3
 +
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index bb18c6a..5fed896 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -70,6 +70,7 @@ SRC_URI += " \
-         file://CVE-2018-6798-2.patch \
-         file://CVE-2018-6797.patch \
-         file://CVE-2018-6913.patch \
-+        file://CVE-2018-12015.patch \
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb
+index b36e653..9d036c8 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb
+@@ -20,6 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
+            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
+            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
++           file://CVE-2018-0495.patch \
  "
- 
- # Fix test case issues
+ SRC_URI[md5sum] = "cfb0b5c79eab07686b6898160a407139"
+ SRC_URI[sha256sum] = "c8064cae7558144b13ef0eb87093412380efa16c4ee30ad12ecb54886a524c07"
 -- 
 2.7.4
 
