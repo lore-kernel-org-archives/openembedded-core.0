@@ -1,51 +1,51 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
 Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
 	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 2305F79009
+	by mail.openembedded.org (Postfix) with ESMTP id E90F3792A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 12:00:50 +0000 (UTC)
-Received: by mail-oi0-f47.google.com with SMTP id r69-v6so2087087oie.3
+	Wed, 22 Aug 2018 12:00:52 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id s198-v6so2624551oih.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 05:00:51 -0700 (PDT)
+	Wed, 22 Aug 2018 05:00:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=7zdGfri/rAfOpjxqtlE7zlXtI2txKuhg/EMmBkSI2Z4=;
-	b=uP1ag1RFkpwCbUTzYi+VCTiSHiu+FFtzvP9QjLvnxFCr80ff1bO6o7lnL95Rd/OHlg
-	ZUVOEgxOZcno/df7PgLJERpT/m3ulA/6iTfxhH5KV7WEe9+vqU462zOpsC1KtEthBO0m
-	YP7yvR25Wt2TV9DYYhZKbklZeikcgjpwLbFFrCX39rSDnGRLDecs9aTumnypYc/ZBwkj
-	yudWQzdceAIElHFA11VR6cZ23ovxYSlrgNrfeC6VzAEjJuEiDUk6TCv5oI8LodJ7Alee
-	IOBtGr3kh8wq4Wdg5msfFilplWcNQqfcVxYbGpi2IKcflkuEZGpMjIbb6jKeEwN9y+Ex
-	qfJQ==
+	bh=c4JQEcKpNGq65G651OzRRROh367v8zo9NWRedTaAC1E=;
+	b=W2uYKHZ9SYmMhZcTXVoMrWSUvHc0fxFna3Q7VfHjMwlI2eWceFlWIpxko5WU8wDEOq
+	HVPEf895a8/FQRHyEo6q+vhK+3RJo7lWHByf1nYlZyFO2n+tOtizDsAMsno7enxpk+OE
+	6YsVAxEsLBsVo05higFREZAnVEeZnyWE9sVjltuP8JXkYcbywqNSc2NOo7XmfHaxguLi
+	cP+fed5Ud7pNBp6CUI9Imrg4EarMOncll0g+R7wdfBbdpxJTiJuIW8XoANDGZmfJkk2/
+	t5SO/8VSitJtYm6tm4Ut0sYQptm3lCEiEJudAMTif31CvFQGYz3ja5Z4tBn7ksi/Ks5s
+	buNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=7zdGfri/rAfOpjxqtlE7zlXtI2txKuhg/EMmBkSI2Z4=;
-	b=oTMaK2+0kJlSFqyMxtBXDw6MPath+LEHIbB8sXtLNyzDuha3bLeJfN8jlWbz05avMH
-	J03PUjdwAx94KfhtGalx+bxEvCYPZuJGmn2ENJYrSxpHLNY8+hhJ+Yyu8/KVQYNi/GT8
-	dXf7RVNAQ6rIQUMKv4Xxl6fq89NuOOxDDPHQp55iMlp79RTnJe3cnmAaa3gMdHATbuyO
-	nAzMI6E+zrI1an4a3a6ptXqFunIecfpgObgOiGcy4pau85BjDxvWMw52uAbBd+OybyY/
-	iYQu2rwbhlvmTEUGuIGGM0gew+pK64M671bRuM150UriHb/VZEmDMqb9yaxWIF7br9Ss
-	bUYA==
-X-Gm-Message-State: APzg51C8OWQzIFJIYxnkurOdPKZFKENobmUAXrhyyjLFmmZAbp/ozzai
-	1Xwc3kCSFnlrZoSLYGxIVQd+cdqJ98Q=
-X-Google-Smtp-Source: ANB0Vda0F09u7y4BGKhYz6gMVyKsFFqoTsKrAgLhUAW5/WrIEYHHDhfnQBlZKuv0sOeVSkzK0BTuRA==
-X-Received: by 2002:aca:c00a:: with SMTP id q10-v6mr3412990oif.4.1534939251106;
-	Wed, 22 Aug 2018 05:00:51 -0700 (PDT)
+	bh=c4JQEcKpNGq65G651OzRRROh367v8zo9NWRedTaAC1E=;
+	b=r3iY1Em1bwibW9P0vYomzJUlMX+OblSVn8SmbDulCHbByGZ/hCh+TBJR6pYQJLN5x4
+	aNfeuRz9wJTf2Ntme8p2zWuTs1Vzl5CMGsXF4x/eOSuTyJFWrhDi6IpbfenA+4IZ6PLK
+	jaZJeUXDpJ8O9V5ofkWTffbBqquSoPVQ02MLxsKh6F093ChTlhhGVozscUuIxjsocCku
+	F1P+DfxzaUstzIB+f2ECqIeOUFYQ434cHsYXiWnEMjmCo2qaps4MYq24iIbrEzvv4pd5
+	HdahOxCpXWbzpvfUOPmw4K2AXXDu6I1Vy2T4t+s3Lhfw7XHrgSHV5wSf0tj+qZjlnnjp
+	xRlg==
+X-Gm-Message-State: APzg51Bz6p3KxkXotNFEyRC2ZZdttqGAvIKD9EJL+DiSnvhOfB8IBRfi
+	HgO5HOgPdMVFSq9b3+SbZIh4tOfVaeQ=
+X-Google-Smtp-Source: ANB0VdapkSiGmNODDk3aamke+bvfWs0aZ9bygcNpNHsc8yIxYdbX6/Z1PYb/GkIHVn+JVV+H2GdczA==
+X-Received: by 2002:aca:acb:: with SMTP id k72-v6mr3523444oiy.78.1534939253412;
+	Wed, 22 Aug 2018 05:00:53 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	h186-v6sm3129596oib.55.2018.08.22.05.00.48
+	h186-v6sm3129596oib.55.2018.08.22.05.00.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 05:00:50 -0700 (PDT)
+	Wed, 22 Aug 2018 05:00:52 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 17:30:31 +0530
-Message-Id: <1534939232-13249-3-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 17:30:32 +0530
+Message-Id: <1534939232-13249-4-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534939232-13249-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534939232-13249-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [PATCH V2 3/4] libarchive: CVE-2017-14503
+Subject: [PATCH V2 4/4] perl: CVE-2018-12015
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,70 +58,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 12:00:50 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 12:00:53 -0000
 
-Reject LHA archive entries with negative size.
+Remove existing files before overwriting them
 
-Affects libarchive = 3.3.2
+Archive should extract only the latest same-named entry.
+Extracted regular file should not be writtent into existing block
+device (or any other one).
+
+https://rt.cpan.org/Ticket/Display.html?id=125523
+
+Affects perl <= 5.26.2
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../libarchive/libarchive/CVE-2017-14503.patch     | 33 ++++++++++++++++++++++
- .../libarchive/libarchive_3.3.2.bb                 |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch
+ .../perl/perl/CVE-2018-12015.patch                 | 48 ++++++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.24.4.bb          |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch
+diff --git a/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch b/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
 new file mode 100644
-index 0000000..3cb01db
+index 0000000..a33deaf
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch
-@@ -0,0 +1,33 @@
-+From 2c8c83b9731ff822fad6cc8c670ea5519c366a14 Mon Sep 17 00:00:00 2001
-+From: Joerg Sonnenberger <joerg@bec.de>
-+Date: Thu, 19 Jul 2018 21:14:53 +0200
-+Subject: [PATCH] Reject LHA archive entries with negative size.
++++ b/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
+@@ -0,0 +1,48 @@
++From ae65651eab053fc6dc4590dbb863a268215c1fc5 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Petr=20P=C3=ADsa=C5=99?= <ppisar@redhat.com>
++Date: Fri, 8 Jun 2018 11:45:40 +0100
++Subject: [PATCH] [PATCH] Remove existing files before overwriting them
 +
-+CVE: CVE-2017-14503
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/2c8c83b9731ff822fad6cc8c670ea5519c366a14]
++Archive should extract only the latest same-named entry.
++Extracted regular file should not be writtent into existing block
++device (or any other one).
 +
-+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com> 
++https://rt.cpan.org/Ticket/Display.html?id=125523
++
++CVE: CVE-2018-12015
++Upstream-Status: Backport [https://github.com/jib/archive-tar-new/commit/ae65651eab053fc6dc4590dbb863a268215c1fc5]
++
++Signed-off-by: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
++Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ libarchive/archive_read_support_format_lha.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ lib/Archive/Tar.pm | 14 ++++++++++++++
++ 1 file changed, 14 insertions(+)
 +
-+diff --git a/libarchive/archive_read_support_format_lha.c b/libarchive/archive_read_support_format_lha.c
-+index b8ef4ae1..95c99bb1 100644
-+--- a/libarchive/archive_read_support_format_lha.c
-++++ b/libarchive/archive_read_support_format_lha.c
-+@@ -701,6 +701,12 @@ archive_read_format_lha_read_header(struct archive_read *a,
-+ 	 * Prepare variables used to read a file content.
-+ 	 */
-+ 	lha->entry_bytes_remaining = lha->compsize;
-++	if (lha->entry_bytes_remaining < 0) {
-++		archive_set_error(&a->archive,
-++		    ARCHIVE_ERRNO_FILE_FORMAT,
-++		    "Invalid LHa entry size");
-++		return (ARCHIVE_FATAL);
-++	}
-+ 	lha->entry_offset = 0;
-+ 	lha->entry_crc_calculated = 0;
++diff --git a/cpan/Archive-Tar/lib/Archive/Tar.pm b/cpan/Archive-Tar/lib/Archive/Tar.pm
++index 6244369..a83975f 100644
++--- a/cpan/Archive-Tar/lib/Archive/Tar.pm
+++++ b/cpan/Archive-Tar/lib/Archive/Tar.pm
++@@ -845,6 +845,20 @@ sub _extract_file {
++         return;
++     }
 + 
+++    ### If a file system already contains a block device with the same name as
+++    ### the being extracted regular file, we would write the file's content
+++    ### to the block device. So remove the existing file (block device) now.
+++    ### If an archive contains multiple same-named entries, the last one
+++    ### should replace the previous ones. So remove the old file now.
+++    ### If the old entry is a symlink to a file outside of the CWD, the new
+++    ### entry would create a file there. This is CVE-2018-12015
+++    ### <https://rt.cpan.org/Ticket/Display.html?id=125523>.
+++    if (-l $full || -e _) {
+++	if (!unlink $full) {
+++	    $self->_error( qq[Could not remove old file '$full': $!] );
+++	    return;
+++	}
+++    }
++     if( length $entry->type && $entry->is_file ) {
++         my $fh = IO::File->new;
++         $fh->open( '>' . $full ) or (
 +-- 
 +2.13.3
 +
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.3.2.bb b/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-index 5daca27..3269716 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-@@ -36,6 +36,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://CVE-2017-14166.patch \
-            file://CVE-2017-14502.patch \
-            file://non-recursive-extract-and-list.patch \
-+           file://CVE-2017-14503.patch \
-           "
+diff --git a/meta/recipes-devtools/perl/perl_5.24.4.bb b/meta/recipes-devtools/perl/perl_5.24.4.bb
+index 4709d3e..1dce3bc 100644
+--- a/meta/recipes-devtools/perl/perl_5.24.4.bb
++++ b/meta/recipes-devtools/perl/perl_5.24.4.bb
+@@ -64,6 +64,7 @@ SRC_URI += " \
+         file://perl-fix-conflict-between-skip_all-and-END.patch \
+         file://perl-test-customized.patch \
+         file://perl-5.26.1-guard_old_libcrypt_fix.patch \
++        file://CVE-2018-12015.patch \
+ "
  
- SRC_URI[md5sum] = "4583bd6b2ebf7e0e8963d90879eb1b27"
+ # Fix test case issues
 -- 
 2.7.4
 
