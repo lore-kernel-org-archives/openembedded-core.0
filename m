@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C715794C4
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id ACBA879436
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:10:11 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id k12-v6so3696265oiw.8
+	Wed, 22 Aug 2018 15:10:13 +0000 (UTC)
+Received: by mail-oi0-f41.google.com with SMTP id b15-v6so3686063oib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 08:10:13 -0700 (PDT)
+	Wed, 22 Aug 2018 08:10:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=tXxvtm4dAFgH9/q+gd2KCZWbVVAyANFyOzvqD4JGCk0=;
-	b=C7VQokhMINaPUa2Y2Df9aUs/8+wN53deUE7xBJHWp0/ZGXiODkT+58gYvRqPZL22aY
-	zOe/G9BZ1MDKHCBwKDEfcXyD+vf6njooeCYDjbKqYyIdXJfwlvGk8EJ3sp7jM/wwKIjQ
-	CQgtwQ9KqddNiw3DsRV++9Oww66vN8ogramHe/RT4W4t0vXz9dw1qyOS2DSlFFkPJWh8
-	qGFcj7635MLjBXk43f0Z9H1f2VPeTfDuYx/cEHaCsY5w9NXFvbrcYrJ0HrLpLip2fA66
-	Y0V1jJ0WxBDJ9ku1yP4EyYlGDvVfuApJ4sbinI040JB5oOxWggKKHxZGOnQDHf5/IhSa
-	QIrA==
+	bh=F+2ZlZS4LPBAR1AdzFP+cmfiDmn0EkXVTT/6Rfa5iFU=;
+	b=s2QNnaNpJPZE9m8p54nFUALbVwLjEey1GnpKFEg5NeU0Mt/2I7312+/S65P1gxkUUT
+	KjmJ+aZlzo9JReIwipnUXu/qTdfDmWdMzK9U/o4LtLKDGK6z49i5QB0kt8RMa7yq6mev
+	G2cewNWQQOXi1FmOy2WHND/w7SllNIaB8P6iCFZplD7V8GUTpU/oSbibQl8rpybufUfS
+	LbNul2drPSB2VKKwc0yrvC1C7e0EqLSRVZR9/qIJEB9Q/kXjjchR1eUYHsQylYnyM1Wi
+	JotG9TeJ+51hFIHHPqt0RZNZPs9sJJPTF3yVSNn7nWrGmPI6w2IK/fJUVTGpl96m93ox
+	+ghw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=tXxvtm4dAFgH9/q+gd2KCZWbVVAyANFyOzvqD4JGCk0=;
-	b=XYhAH9xogaNaS3sD7Wba7WuOq18HTU4KK+wUIGtvDZd6W2gubTZZSY8vEZgnK/V2pD
-	JvGrcn4o4cmeOzi9QmQs3HRRhd6ukap4hIgpD5FnC2Ak3PtXzvEZTdcL+kCE/rLYJ7PF
-	zdRcWJGHo9pe5gUYHfgAVgWSmQyNiwJw/CXLBGCM/ccIZkW98fpPskoUHvshJ+hPxepa
-	2kmVyQ0PHU0L3eyoT0qSAaRv/Ght7sG4+erSpqjpI4AxWizZLiezlHz3YwnDXiJbVYzK
-	hyPmUVtsbgup9hpzEB/nFnrbQOUF4rbupQ9gHP25A6tWSfbrJUhtzO5yRxRB2OWSQyDC
-	NaIg==
-X-Gm-Message-State: APzg51Agz6seqPoeqFDnLIvn0/HgrdNDY3/IygneicfxHpaeT4ozEdat
-	G9rrI/MifSxONsfLRFDXE6LXa+NWurI=
-X-Google-Smtp-Source: ANB0VdbvoObO2Bg+3JRWgrsuC1I5RKKr+JRFrQ5pVEQZSlOyQFqmUD0d9YStArAcAlCzosnEkohe0Q==
-X-Received: by 2002:aca:4aca:: with SMTP id
-	x193-v6mr2327183oia.211.1534950612327; 
-	Wed, 22 Aug 2018 08:10:12 -0700 (PDT)
+	bh=F+2ZlZS4LPBAR1AdzFP+cmfiDmn0EkXVTT/6Rfa5iFU=;
+	b=Yvz3sac0arUGQbhOaJQfyd7D0aglTzYAQEaOcFM1+l363cqYlHQTYVMVSzwZg93VW6
+	M3W0xZIvnIspmjlo9CBgaISq1M4RmlVqre8BUA2BObhP4hirpzBIswh3FBHcccG4LbpL
+	DcexnLgqh+zeSN4wIhmkA5sg7HSZrSeGlIM3FIegZZwj6+BSMb5dgW/GVbYkgb0z6piR
+	Mfbx/LTWD7Z6kTI1IJegcMFU+hvLaNabm3mEfE0cQ9+H1EcVZzu3MvGK1mZQ4l0W2xc1
+	Ye5UWtzsnQz3nPklnvDvDguTp4mgatJrNB+NobsgrPKeixIscJEHN9JVExnZSsYWo70T
+	AlQg==
+X-Gm-Message-State: APzg51DDayWW392gi5oy9CjZkEHmsMjYjqgvd6WeVk5WFH5FuBCBkE7E
+	d3zalzYYbiZhrxwdqE/1sr3tHQ+RfHo=
+X-Google-Smtp-Source: ANB0Vdaf67yk9Iz8bsjnn1x8HpIenuUPWOutYPcv6+m4vhx98/UF+l7uYMqjoG4tMFbFfiD5RPjnAQ==
+X-Received: by 2002:aca:c351:: with SMTP id
+	t78-v6mr4685116oif.338.1534950614584; 
+	Wed, 22 Aug 2018 08:10:14 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	i132-v6sm1024281oif.20.2018.08.22.08.10.10
+	i132-v6sm1024281oif.20.2018.08.22.08.10.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 08:10:11 -0700 (PDT)
+	Wed, 22 Aug 2018 08:10:14 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 20:38:49 +0530
-Message-Id: <1534950532-23850-31-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 20:38:50 +0530
+Message-Id: <1534950532-23850-32-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534950532-23850-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V3 31/34] git: CVE-2018-11235
+Subject: [ROCKO][PATCH V3 32/34] openssl: CVE-2018-0732
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,389 +59,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:10:12 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 15:10:13 -0000
 
-submodule-config: verify submodule names as paths
+Reject excessively large primes in DH key generation.
 
-Submodule "names" come from the untrusted .gitmodules file,
-but we blindly append them to $GIT_DIR/modules to create our
-on-disk repo paths. This means you can do bad things by
-putting "../" into the name (among other things).
+CVE-2018-0732
 
-Let's sanity-check these names to avoid building a path that
-can be exploited. There are two main decisions:
-
-  1. What should the allowed syntax be?
-
-     It's tempting to reuse verify_path(), since submodule
-     names typically come from in-repo paths. But there are
-     two reasons not to:
-
-       a. It's technically more strict than what we need, as
-          we really care only about breaking out of the
-          $GIT_DIR/modules/ hierarchy.  E.g., having a
-          submodule named "foo/.git" isn't actually
-          dangerous, and it's possible that somebody has
-          manually given such a funny name.
-
-       b. Since we'll eventually use this checking logic in
-          fsck to prevent downstream repositories, it should
-          be consistent across platforms. Because
-          verify_path() relies on is_dir_sep(), it wouldn't
-          block "foo\..\bar" on a non-Windows machine.
-
-  2. Where should we enforce it? These days most of the
-     .gitmodules reads go through submodule-config.c, so
-     I've put it there in the reading step. That should
-     cover all of the C code.
-
-     We also construct the name for "git submodule add"
-     inside the git-submodule.sh script. This is probably
-     not a big deal for security since the name is coming
-     from the user anyway, but it would be polite to remind
-     them if the name they pick is invalid (and we need to
-     expose the name-checker to the shell anyway for our
-     test scripts).
-
-     This patch issues a warning when reading .gitmodules
-     and just ignores the related config entry completely.
-     This will generally end up producing a sensible error,
-     as it works the same as a .gitmodules file which is
-     missing a submodule entry (so "submodule update" will
-     barf, but "git clone --recurse-submodules" will print
-     an error but not abort the clone.
-
-     There is one minor oddity, which is that we print the
-     warning once per malformed config key (since that's how
-     the config subsystem gives us the entries). So in the
-     new test, for example, the user would see three
-     warnings. That's OK, since the intent is that this case
-     should never come up outside of malicious repositories
-     (and then it might even benefit the user to see the
-     message multiple times).
-
-Credit for finding this vulnerability and the proof of
-concept from which the test script was adapted goes to
-Etienne Stalmans.
-
-Affects: git < 2.13.7 and  git < 2.14.4 and git < 2.15.2 and git < 2.16.4 and
-         git < 2.17.1
+Affects openssl 1.0.2 to 1.0.2o
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../git/files/CVE-2018-11235.patch                 | 288 +++++++++++++++++++++
- meta/recipes-devtools/git/git.inc                  |   3 +-
- 2 files changed, 290 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/git/files/CVE-2018-11235.patch
+ .../openssl/openssl-1.0.2o/CVE-2018-0732.patch     | 46 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2o.bb |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2o/CVE-2018-0732.patch
 
-diff --git a/meta/recipes-devtools/git/files/CVE-2018-11235.patch b/meta/recipes-devtools/git/files/CVE-2018-11235.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2o/CVE-2018-0732.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2o/CVE-2018-0732.patch
 new file mode 100644
-index 0000000..b774d2f
+index 0000000..d4d0bb4
 --- /dev/null
-+++ b/meta/recipes-devtools/git/files/CVE-2018-11235.patch
-@@ -0,0 +1,288 @@
-+From 0383bbb9015898cbc79abd7b64316484d7713b44 Mon Sep 17 00:00:00 2001
-+From: Jeff King <peff@peff.net>
-+Date: Mon, 30 Apr 2018 03:25:25 -0400
-+Subject: [PATCH] submodule-config: verify submodule names as paths
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.2o/CVE-2018-0732.patch
+@@ -0,0 +1,46 @@
++From 3984ef0b72831da8b3ece4745cac4f8575b19098 Mon Sep 17 00:00:00 2001
++From: Guido Vranken <guidovranken@gmail.com>
++Date: Mon, 11 Jun 2018 19:38:54 +0200
++Subject: [PATCH] Reject excessively large primes in DH key generation.
 +
-+Submodule "names" come from the untrusted .gitmodules file,
-+but we blindly append them to $GIT_DIR/modules to create our
-+on-disk repo paths. This means you can do bad things by
-+putting "../" into the name (among other things).
++CVE: CVE-2018-0732
 +
-+Let's sanity-check these names to avoid building a path that
-+can be exploited. There are two main decisions:
++Signed-off-by: Guido Vranken <guidovranken@gmail.com>
 +
-+  1. What should the allowed syntax be?
++(cherry picked from commit 91f7361f47b082ae61ffe1a7b17bb2adf213c7fe)
 +
-+     It's tempting to reuse verify_path(), since submodule
-+     names typically come from in-repo paths. But there are
-+     two reasons not to:
++Reviewed-by: Tim Hudson <tjh@openssl.org>
++Reviewed-by: Matt Caswell <matt@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/6457)
 +
-+       a. It's technically more strict than what we need, as
-+          we really care only about breaking out of the
-+          $GIT_DIR/modules/ hierarchy.  E.g., having a
-+          submodule named "foo/.git" isn't actually
-+          dangerous, and it's possible that somebody has
-+          manually given such a funny name.
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/ea7abeeabf92b7aca160bdd0208636d4da69f4f4]
 +
-+       b. Since we'll eventually use this checking logic in
-+          fsck to prevent downstream repositories, it should
-+          be consistent across platforms. Because
-+          verify_path() relies on is_dir_sep(), it wouldn't
-+          block "foo\..\bar" on a non-Windows machine.
-+
-+  2. Where should we enforce it? These days most of the
-+     .gitmodules reads go through submodule-config.c, so
-+     I've put it there in the reading step. That should
-+     cover all of the C code.
-+
-+     We also construct the name for "git submodule add"
-+     inside the git-submodule.sh script. This is probably
-+     not a big deal for security since the name is coming
-+     from the user anyway, but it would be polite to remind
-+     them if the name they pick is invalid (and we need to
-+     expose the name-checker to the shell anyway for our
-+     test scripts).
-+
-+     This patch issues a warning when reading .gitmodules
-+     and just ignores the related config entry completely.
-+     This will generally end up producing a sensible error,
-+     as it works the same as a .gitmodules file which is
-+     missing a submodule entry (so "submodule update" will
-+     barf, but "git clone --recurse-submodules" will print
-+     an error but not abort the clone.
-+
-+     There is one minor oddity, which is that we print the
-+     warning once per malformed config key (since that's how
-+     the config subsystem gives us the entries). So in the
-+     new test, for example, the user would see three
-+     warnings. That's OK, since the intent is that this case
-+     should never come up outside of malicious repositories
-+     (and then it might even benefit the user to see the
-+     message multiple times).
-+
-+Credit for finding this vulnerability and the proof of
-+concept from which the test script was adapted goes to
-+Etienne Stalmans.
-+
-+CVE: CVE-2018-11235
-+Upstream-Status: Backport [https://github.com/gitster/git/commit/0383bbb9015898cbc79abd7b64316484d7713b44#diff-1772b951776d1647ca31a2256f7fe88f]
-+
-+Signed-off-by: Jeff King <peff@peff.net>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ builtin/submodule--helper.c | 24 ++++++++++++++
-+ git-submodule.sh            |  5 +++
-+ submodule-config.c          | 31 ++++++++++++++++++
-+ submodule-config.h          |  7 +++++
-+ t/t7415-submodule-names.sh  | 76 +++++++++++++++++++++++++++++++++++++++++++++
-+ 5 files changed, 143 insertions(+)
-+ create mode 100755 t/t7415-submodule-names.sh
++ crypto/dh/dh_key.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
 +
-+diff --git a/builtin/submodule--helper.c b/builtin/submodule--helper.c
-+index cbb17a902..b4b4d29d8 100644
-+--- a/builtin/submodule--helper.c
-++++ b/builtin/submodule--helper.c
-+@@ -1195,6 +1195,29 @@ static int is_active(int argc, const char **argv, const char *prefix)
-+ 	return !is_submodule_initialized(argv[1]);
-+ }
++diff --git a/crypto/dh/dh_key.c b/crypto/dh/dh_key.c
++index 387558f146..f235e0d682 100644
++--- a/crypto/dh/dh_key.c
+++++ b/crypto/dh/dh_key.c
++@@ -130,10 +130,15 @@ static int generate_key(DH *dh)
++     int ok = 0;
++     int generate_new_key = 0;
++     unsigned l;
++-    BN_CTX *ctx;
+++    BN_CTX *ctx = NULL;
++     BN_MONT_CTX *mont = NULL;
++     BIGNUM *pub_key = NULL, *priv_key = NULL;
 + 
-++/*
-++ * Exit non-zero if any of the submodule names given on the command line is
-++ * invalid. If no names are given, filter stdin to print only valid names
-++ * (which is primarily intended for testing).
-++ */
-++static int check_name(int argc, const char **argv, const char *prefix)
-++{
-++	if (argc > 1) {
-++		while (*++argv) {
-++			if (check_submodule_name(*argv) < 0)
-++				return 1;
-++		}
-++	} else {
-++		struct strbuf buf = STRBUF_INIT;
-++		while (strbuf_getline(&buf, stdin) != EOF) {
-++			if (!check_submodule_name(buf.buf))
-++				printf("%s\n", buf.buf);
-++		}
-++		strbuf_release(&buf);
-++	}
-++	return 0;
-++}
+++    if (BN_num_bits(dh->p) > OPENSSL_DH_MAX_MODULUS_BITS) {
+++        DHerr(DH_F_GENERATE_KEY, DH_R_MODULUS_TOO_LARGE);
+++        return 0;
+++    }
 ++
-+ #define SUPPORT_SUPER_PREFIX (1<<0)
-+ 
-+ struct cmd_struct {
-+@@ -1216,6 +1239,7 @@ static struct cmd_struct commands[] = {
-+ 	{"push-check", push_check, 0},
-+ 	{"absorb-git-dirs", absorb_git_dirs, SUPPORT_SUPER_PREFIX},
-+ 	{"is-active", is_active, 0},
-++	{"check-name", check_name, 0},
-+ };
-+ 
-+ int cmd_submodule__helper(int argc, const char **argv, const char *prefix)
-+diff --git a/git-submodule.sh b/git-submodule.sh
-+index c0d0e9a4c..92750b9e2 100755
-+--- a/git-submodule.sh
-++++ b/git-submodule.sh
-+@@ -228,6 +228,11 @@ Use -f if you really want to add it." >&2
-+ 		sm_name="$sm_path"
-+ 	fi
-+ 
-++	if ! git submodule--helper check-name "$sm_name"
-++	then
-++		die "$(eval_gettext "'$sm_name' is not a valid submodule name")"
-++	fi
-++
-+ 	# perhaps the path exists and is already a git repo, else clone it
-+ 	if test -e "$sm_path"
-+ 	then
-+diff --git a/submodule-config.c b/submodule-config.c
-+index 4f58491dd..de54351c6 100644
-+--- a/submodule-config.c
-++++ b/submodule-config.c
-+@@ -163,6 +163,31 @@ static struct submodule *cache_lookup_name(struct submodule_cache *cache,
-+ 	return NULL;
-+ }
-+ 
-++int check_submodule_name(const char *name)
-++{
-++	/* Disallow empty names */
-++	if (!*name)
-++		return -1;
-++
-++	/*
-++	 * Look for '..' as a path component. Check both '/' and '\\' as
-++	 * separators rather than is_dir_sep(), because we want the name rules
-++	 * to be consistent across platforms.
-++	 */
-++	goto in_component; /* always start inside component */
-++	while (*name) {
-++		char c = *name++;
-++		if (c == '/' || c == '\\') {
-++in_component:
-++			if (name[0] == '.' && name[1] == '.' &&
-++			    (!name[2] || name[2] == '/' || name[2] == '\\'))
-++				return -1;
-++		}
-++	}
-++
-++	return 0;
-++}
-++
-+ static int name_and_item_from_var(const char *var, struct strbuf *name,
-+ 				  struct strbuf *item)
-+ {
-+@@ -174,6 +199,12 @@ static int name_and_item_from_var(const char *var, struct strbuf *name,
-+ 		return 0;
-+ 
-+ 	strbuf_add(name, subsection, subsection_len);
-++	if (check_submodule_name(name->buf) < 0) {
-++		warning(_("ignoring suspicious submodule name: %s"), name->buf);
-++		strbuf_release(name);
-++		return 0;
-++	}
-++
-+ 	strbuf_addstr(item, key);
-+ 
-+ 	return 1;
-+diff --git a/submodule-config.h b/submodule-config.h
-+index d434ecdb4..103cc79dd 100644
-+--- a/submodule-config.h
-++++ b/submodule-config.h
-+@@ -35,4 +35,11 @@ extern int gitmodule_sha1_from_commit(const unsigned char *commit_sha1,
-+ 				      struct strbuf *rev);
-+ extern void submodule_free(void);
-+ 
-++/*
-++ * Returns 0 if the name is syntactically acceptable as a submodule "name"
-++ * (e.g., that may be found in the subsection of a .gitmodules file) and -1
-++ * otherwise.
-++ */
-++int check_submodule_name(const char *name);
-++
-+ #endif /* SUBMODULE_CONFIG_H */
-+diff --git a/t/t7415-submodule-names.sh b/t/t7415-submodule-names.sh
-+new file mode 100755
-+index 000000000..75fa071c6
-+--- /dev/null
-++++ b/t/t7415-submodule-names.sh
-+@@ -0,0 +1,76 @@
-++#!/bin/sh
-++
-++test_description='check handling of .. in submodule names
-++
-++Exercise the name-checking function on a variety of names, and then give a
-++real-world setup that confirms we catch this in practice.
-++'
-++. ./test-lib.sh
-++
-++test_expect_success 'check names' '
-++	cat >expect <<-\EOF &&
-++	valid
-++	valid/with/paths
-++	EOF
-++
-++	git submodule--helper check-name >actual <<-\EOF &&
-++	valid
-++	valid/with/paths
-++
-++	../foo
-++	/../foo
-++	..\foo
-++	\..\foo
-++	foo/..
-++	foo/../
-++	foo\..
-++	foo\..\
-++	foo/../bar
-++	EOF
-++
-++	test_cmp expect actual
-++'
-++
-++test_expect_success 'create innocent subrepo' '
-++	git init innocent &&
-++	git -C innocent commit --allow-empty -m foo
-++'
-++
-++test_expect_success 'submodule add refuses invalid names' '
-++	test_must_fail \
-++		git submodule add --name ../../modules/evil "$PWD/innocent" evil
-++'
-++
-++test_expect_success 'add evil submodule' '
-++	git submodule add "$PWD/innocent" evil &&
-++
-++	mkdir modules &&
-++	cp -r .git/modules/evil modules &&
-++	write_script modules/evil/hooks/post-checkout <<-\EOF &&
-++	echo >&2 "RUNNING POST CHECKOUT"
-++	EOF
-++
-++	git config -f .gitmodules submodule.evil.update checkout &&
-++	git config -f .gitmodules --rename-section \
-++		submodule.evil submodule.../../modules/evil &&
-++	git add modules &&
-++	git commit -am evil
-++'
-++
-++# This step seems like it shouldn't be necessary, since the payload is
-++# contained entirely in the evil submodule. But due to the vagaries of the
-++# submodule code, checking out the evil module will fail unless ".git/modules"
-++# exists. Adding another submodule (with a name that sorts before "evil") is an
-++# easy way to make sure this is the case in the victim clone.
-++test_expect_success 'add other submodule' '
-++	git submodule add "$PWD/innocent" another-module &&
-++	git add another-module &&
-++	git commit -am another
-++'
-++
-++test_expect_success 'clone evil superproject' '
-++	git clone --recurse-submodules . victim >output 2>&1 &&
-++	! grep "RUNNING POST CHECKOUT" output
-++'
-++
-++test_done
++     ctx = BN_CTX_new();
++     if (ctx == NULL)
++         goto err;
 +-- 
 +2.13.3
 +
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 1ffc41d..d668277 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -8,7 +8,8 @@ PROVIDES_append_class-native = " git-replacement-native"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+index 413ebf3..57912a1 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+@@ -41,6 +41,7 @@ SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
+            file://Use-SHA256-not-MD5-as-default-digest.patch \
+            file://0001-Fix-build-with-clang-using-external-assembler.patch \
+            file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
++           file://CVE-2018-0732.patch \
+            "
  
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
--           file://CVE-2017-15298.patch"
-+           file://CVE-2017-15298.patch \
-+           file://CVE-2018-11235.patch"
- 
- S = "${WORKDIR}/git-${PV}"
- 
+ SRC_URI_append_class-target = "\
 -- 
 2.7.4
 
