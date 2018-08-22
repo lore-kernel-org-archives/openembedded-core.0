@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 0480971A70;
-	Wed, 22 Aug 2018 14:07:09 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 0FF4E60110;
+	Wed, 22 Aug 2018 14:07:10 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-Date: Wed, 22 Aug 2018 14:07:10 -0000
-Message-ID: <20180822140710.13843.75954@do.openembedded.org>
-References: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
+To: Lukasz Majewski <lukma@denx.de>
+Date: Wed, 22 Aug 2018 14:07:11 -0000
+Message-ID: <20180822140711.13842.60986@do.openembedded.org>
+References: <20180822134022.1067-1-lukma@denx.de>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
+In-Reply-To: <20180822134022.1067-1-lukma@denx.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltST0NLTyxWMl0gc3FsaXRlMzogQ1ZFLTIwMTctMS4uLiIgYW5kIDMzIG1vcmU=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsOiB5b2N0bzogQWRkIGRlcGVuZGVuY3kgb24gZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 14:07:09 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 14:07:10 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "[ROCKO,V2] sqlite3: CVE-2017-1..." and 33 more
+Series: kernel: yocto: Add dependency on do_prepare_recipe_sysroot
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/13666/
+URL   : https://patchwork.openembedded.org/series/13667/
 State : failure
 
 == Summary ==
@@ -45,15 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [ROCKO,V2,16/34] Qemu CVE-2018-11806 slirp-heap-buffer-overflow
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
-  Suggested fix    Fix Upstream-Status format in 0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
-  Current          Upstream-status: Backport [https://github.com/qemu/qemu/commit/864036e251f54c99d31df124aad7f34f01f5344c#diff-de3b23fd63b9e35d35c454525498d51c]
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at d2a929d932)
 
 
 
