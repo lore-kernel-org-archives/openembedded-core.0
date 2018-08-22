@@ -1,49 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id B170274586
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+	[209.85.210.181])
+	by mail.openembedded.org (Postfix) with ESMTP id BF4E37916C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 23:55:38 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id f17-v6so100151qkh.4
+	Wed, 22 Aug 2018 00:43:35 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id h69-v6so128540pfd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 16:55:40 -0700 (PDT)
+	Tue, 21 Aug 2018 17:43:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=eTMYd9fc+8DEsimUC0G2a54qUwnfkq+/3IsJh2P/4Bc=;
-	b=LDbJla8PvpP25lQnOXJU+ILxVERTCElv5VfFW3ZsSu4k55Y0cunYtHbpLr89NjpdOl
-	7Az5mi47PNdasW7KC5ILt3Wa/BPzCP2oNd2XHrf37FJ6UZ8IYzIZTnzcORxACOCJDsOg
-	7KbWQRGbcheTg0NWyc3YywtpxlzWFTCrDPORK4SxgZTiX63N4vcRiKZOlPMuDeyydHoX
-	cyyX3rV3FcUmLsBEfP6VfLaGhShtfByOWNaANeT/4Z/jZ/OhSRe8aT2J6mfCBjAdJKTx
-	u5AKcmaBXmnsng6z+rD7hYy/VXUN2upufOPkYNixnnCpx/Ip+UBGKpitAiIIuilzcEl2
-	nR8A==
+	h=from:to:cc:subject:date:message-id;
+	bh=iazPc13ViUmUY9LYiKq5EC2G1Bez6Fp7+eRbKN1BUqw=;
+	b=ZANWh8K3bPNOyNsDb4RrT1hitNP2lXEB5IF/Q1n8VUxi98pbadLgj+exSjGUP7eNLm
+	h/KzLBU8dadrTTGIGcWm41hfU9d7obWNrozfzy0SyTinpqXMnyTwKZaJX65LbHY+mGS7
+	20Qt8UiH6wO3dhi3I9dwlouXutIjRvol7rXD79qn8ReIbGJtnpuDRnIxXhtlfPS1zKY8
+	zRj18TRVAycFYindIis4I/KYhLEoiPr2KhjiN24b1RN+94HxBsXw5w7BbNTa/NjsiNdM
+	DLhOjn1dwMcTaThjIsI+zvXUvw7EFahH3SN+qzdxcIWkre9S9VrX4085CvbLLdBa26CH
+	pswQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=eTMYd9fc+8DEsimUC0G2a54qUwnfkq+/3IsJh2P/4Bc=;
-	b=FfWrr8S1gOwJbZmCW6MVUhEo0v7/sThn51Qz14865LReAo95Zo794xOqGkxEAtZXcr
-	ZGUezpPWlBkrOCpLrwcibAdYeHw+BxvoyRIFszfxCaLmTBNWHhubAo9A36h/kHpxiC/c
-	JLE8E/NzVQTYY9hQUFaTCpEf4MRSEdpxoq1QSuQdk0IaBvmogdZ0uqyR7f1N3tuQxdOB
-	QmbmTkYCsuXbKn/RupNUefIr5jv9ErQyCOVYZqM+0qbVVerrwCR0rHHMJhohxCP/7Ano
-	NsYLY165HyOpxSeOyv1RIdyQr0QsQt1mutdZ3jxdzWA2IL1BXm1PziwVic87IA0modxA
-	TkDg==
-X-Gm-Message-State: AOUpUlF5rNzez/2j9EGdelDjP5IZBlSCNSYJnybKZcqKpvxlunjr1mIn
-	rlT/dSBHfyKAc2Nh6g+Dh9RodWYV4BC4UXstFUA=
-X-Google-Smtp-Source: AA+uWPxcu+G5zXHpY+EuJb8i2a9aJzHLRNv1ekq0NYj/j/3nZZnsxwYAwoQ/YettYfucTNcNG0tR1CT3AMuTCW5rmKQ=
-X-Received: by 2002:a37:21a5:: with SMTP id
-	f37-v6mr22359721qki.206.1534895739155; 
-	Tue, 21 Aug 2018 16:55:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180718111747.54105-1-raphael.kubo.da.costa@intel.com>
-In-Reply-To: <20180718111747.54105-1-raphael.kubo.da.costa@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Aug 2018 16:55:12 -0700
-Message-ID: <CAMKF1sqWC80yH74Opuq3L+s3-cEx6bKFKs7RnKggRd=GrGaL6A@mail.gmail.com>
-To: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>,
-	Armin Kuster <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [pyro][PATCH] gcc: Backport upstream r261799
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=iazPc13ViUmUY9LYiKq5EC2G1Bez6Fp7+eRbKN1BUqw=;
+	b=XNCqO1wQTWsXKVeDDmUcZrcpCdC3KPIWouj1uayG5fSHdv0uXKs7bOMMTRezO5lm0m
+	W02slYZKqHSF+UfcBRplZ+JN/EuM1lqcwE3sLMKTFZ59FjxQxSVJPdzllcEPYdwi3pAB
+	NKGKj9fqoPPyLTVv9aQ6yGgDA8AGn+ul2bIJzYJ2Uk1UOqVhtJzzDLrsX3KagPI1b2kR
+	P+ezDmZ5zfecBgj6R2g2TkyqEEiIuZ5emc9s8MhlYVbNl8VLIZ6EuU75MGa7J2HjLTDB
+	V9R8RM/r4x7k9L1FWLMdXiOH3PHCbzVXTsbDoqNT3eDhxJSfg1C/GlAQcBeib/4RIbDS
+	gFJQ==
+X-Gm-Message-State: AOUpUlFApuZZS1k3qKZqzpcO8/Sq0Z9WaUUm6kbk/JbJpODK4joCl7e9
+	kQ0+uYqoN9QP8QTyuJl+BMeTuMXo
+X-Google-Smtp-Source: AA+uWPyaCAUEffS+0/z1v73DCOj8s6p94q4sUnd0zd7zSi2LyxaWhWOXoZWUcvKcob/mcUlehNRyfg==
+X-Received: by 2002:a63:d518:: with SMTP id
+	c24-v6mr48894601pgg.357.1534898616547; 
+	Tue, 21 Aug 2018 17:43:36 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	h24-v6sm176217pgj.10.2018.08.21.17.43.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 21 Aug 2018 17:43:36 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Aug 2018 17:43:28 -0700
+Message-Id: <1534898610-15319-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/3] gnutls: merge gnutls.inc into the gnutls recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,561 +55,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2018 23:55:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 Aug 2018 00:43:35 -0000
 
-Hi Armin
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-support/gnutls/gnutls.inc      | 59 --------------------------
+ meta/recipes-support/gnutls/gnutls_3.6.3.bb | 65 +++++++++++++++++++++++++++--
+ 2 files changed, 61 insertions(+), 63 deletions(-)
+ delete mode 100644 meta/recipes-support/gnutls/gnutls.inc
 
-This change is fine.
-Please stage this for pyro.
-On Wed, Jul 18, 2018 at 4:18 AM Raphael Kubo da Costa
-<raphael.kubo.da.costa@intel.com> wrote:
->
-> The upstream commit merges several bug fixes into the GCC 6 branch; we are
-> specifically interested in the fix for GCC bug 83623, which was causing
-> Chromium 68+ to fail to build on ARM and aarch64 with
->
->     In file included from ../../third_party/skia/third_party/skcms/src/Transform.c:176:0:
->     ../../third_party/skia/third_party/skcms/src/Transform_inl.h: In function 'exec_ops':
->     ../../third_party/skia/third_party/skcms/src/Transform_inl.h:459:32: internal compiler error: in convert_move, at expr.c:299
->          v = (U16)( ((v<<8)|(v>>8)) & 0xffff );
->                   ~~~~~~~~~~~~~~~~~~^~~~~~~~~~
->
-> Signed-off-by: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-6.4.inc              |   1 +
->  ...18-06-20-Richard-Biener-rguenther-suse.de.patch | 504 +++++++++++++++++++++
->  2 files changed, 505 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0058-2018-06-20-Richard-Biener-rguenther-suse.de.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.4.inc b/meta/recipes-devtools/gcc/gcc-6.4.inc
-> index daa9e42af8..f3cada2e9f 100644
-> --- a/meta/recipes-devtools/gcc/gcc-6.4.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-6.4.inc
-> @@ -86,6 +86,7 @@ SRC_URI = "\
->  BACKPORTS = "\
->             file://CVE-2016-6131.patch \
->             file://0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch \
-> +           file://0058-2018-06-20-Richard-Biener-rguenther-suse.de.patch \
->             file://0001-enable-FL_LPAE-flag-for-armv7ve-cores.patch \
->             file://0001-i386-Move-struct-ix86_frame-to-machine_function.patch \
->             file://0002-i386-Use-reference-of-struct-ix86_frame-to-avoid-cop.patch \
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0058-2018-06-20-Richard-Biener-rguenther-suse.de.patch b/meta/recipes-devtools/gcc/gcc-6.4/0058-2018-06-20-Richard-Biener-rguenther-suse.de.patch
-> new file mode 100644
-> index 0000000000..55d420147b
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-6.4/0058-2018-06-20-Richard-Biener-rguenther-suse.de.patch
-> @@ -0,0 +1,504 @@
-> +Upstream-Status: Backport
-> +
-> +Upstream's GCC 6 backport includes several changes, but it's the fix
-> +for bug 63623 that is required to build Chromium >= 68 with GCC 6 on
-> +ARM-based architectures.
-> +
-> +Signed-off-by: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
-> +---
-> +From 4ff56937609df5e6373d83d197a85c062454bc05 Mon Sep 17 00:00:00 2001
-> +From: rguenth <rguenth@138bc75d-0d04-0410-961f-82ee72b054a4>
-> +Date: Wed, 20 Jun 2018 11:09:28 +0000
-> +Subject: [PATCH] 2018-06-20  Richard Biener  <rguenther@suse.de>
-> +
-> +       Backport from mainline
-> +       2018-01-01  Jakub Jelinek  <jakub@redhat.com>
-> +
-> +       PR middle-end/83623
-> +       * expmed.c (expand_shift_1): For 2-byte rotates by BITS_PER_UNIT,
-> +       check for bswap in mode rather than HImode and use that in expand_unop
-> +       too.
-> +
-> +       * gcc.dg/pr83623.c: New test.
-> +
-> +       2017-09-26  Richard Biener  <rguenther@suse.de>
-> +
-> +       Backport from mainline
-> +       2017-09-20  Richard Biener  <rguenther@suse.de>
-> +
-> +       PR tree-optimization/82264
-> +       * tree-ssa-sccvn.c (vn_phi_eq): Use safe_dyn_cast to check
-> +       for GIMPLE_CONDs.
-> +       (vn_phi_lookup): Likewise.
-> +       (vn_phi_insert): Likewise.
-> +       * is-a.h (safe_dyn_cast): New.
-> +
-> +       * gcc.dg/torture/pr82264.c: New testcase.
-> +
-> +       2017-09-25  Richard Biener  <rguenther@suse.de>
-> +
-> +       PR tree-optimization/82285
-> +       * tree-vect-patterns.c (vect_recog_bool_pattern): Also handle
-> +       enumeral types.
-> +
-> +       * gcc.dg/torture/pr82285.c: New testcase.
-> +
-> +       2017-11-24  Richard Biener  <rguenther@suse.de>
-> +
-> +       PR tree-optimization/82402
-> +       * tree-vect-loop-manip.c (create_lcssa_for_virtual_phi): Properly
-> +       set SSA_NAME_OCCURS_IN_ABNORMAL_PHI.
-> +
-> +       * gcc.dg/torture/pr82402.c: New testcase.
-> +
-> +       2017-10-24  Richard Biener  <rguenther@suse.de>
-> +
-> +       PR tree-optimization/82697
-> +       * tree-ssa-phiopt.c (cond_store_replacement): Use alias-set
-> +       zero for conditional load and unconditional store.
-> +
-> +       * gcc.dg/torture/pr82697.c: New testcase.
-> +
-> +       2017-11-02  Richard Biener  <rguenther@suse.de>
-> +
-> +       PR middle-end/82765
-> +       * varasm.c (decode_addr_const): Make offset HOST_WIDE_INT.
-> +       Truncate ARRAY_REF index and element size.
-> +
-> +       * gcc.dg/pr82765.c: New testcase.
-> +
-> +       2018-01-08  Richard Biener  <rguenther@suse.de>
-> +
-> +       PR middle-end/83713
-> +       * convert.c (do_narrow): Properly guard TYPE_OVERFLOW_WRAPS checks.
-> +
-> +       * g++.dg/torture/pr83713.C: New testcase.
-> +
-> +
-> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-6-branch@261799 138bc75d-0d04-0410-961f-82ee72b054a4
-> +---
-> + gcc/ChangeLog                          | 51 ++++++++++++++++++++++++++++++++++
-> + gcc/convert.c                          |  6 ++--
-> + gcc/expmed.c                           |  5 ++--
-> + gcc/is-a.h                             | 14 ++++++++++
-> + gcc/testsuite/ChangeLog                | 41 +++++++++++++++++++++++++++
-> + gcc/testsuite/g++.dg/torture/pr83713.C | 12 ++++++++
-> + gcc/testsuite/gcc.dg/pr82765.c         |  5 ++++
-> + gcc/testsuite/gcc.dg/pr83623.c         | 12 ++++++++
-> + gcc/testsuite/gcc.dg/torture/pr82264.c | 21 ++++++++++++++
-> + gcc/testsuite/gcc.dg/torture/pr82285.c | 16 +++++++++++
-> + gcc/testsuite/gcc.dg/torture/pr82402.c | 20 +++++++++++++
-> + gcc/testsuite/gcc.dg/torture/pr82697.c | 23 +++++++++++++++
-> + gcc/tree-ssa-alias.c                   | 31 +++++++++++++++------
-> + gcc/tree-ssa-phiopt.c                  | 17 +++++++++++-
-> + gcc/tree-ssa-sccvn.c                   | 17 +++++-------
-> + gcc/tree-vect-loop-manip.c             |  2 ++
-> + gcc/tree-vect-patterns.c               |  2 +-
-> + gcc/varasm.c                           |  7 +++--
-> + 18 files changed, 273 insertions(+), 29 deletions(-)
-> + create mode 100644 gcc/testsuite/g++.dg/torture/pr83713.C
-> + create mode 100644 gcc/testsuite/gcc.dg/pr82765.c
-> + create mode 100644 gcc/testsuite/gcc.dg/pr83623.c
-> + create mode 100644 gcc/testsuite/gcc.dg/torture/pr82264.c
-> + create mode 100644 gcc/testsuite/gcc.dg/torture/pr82285.c
-> + create mode 100644 gcc/testsuite/gcc.dg/torture/pr82402.c
-> + create mode 100644 gcc/testsuite/gcc.dg/torture/pr82697.c
-> +
-> +diff --git a/gcc/convert.c b/gcc/convert.c
-> +index 455304adb0c..f4b4712f023 100644
-> +--- a/gcc/convert.c
-> ++++ b/gcc/convert.c
-> +@@ -459,8 +459,10 @@ do_narrow (location_t loc,
-> +            type in case the operation in outprec precision
-> +            could overflow.  Otherwise, we would introduce
-> +            signed-overflow undefinedness.  */
-> +-        || ((!TYPE_OVERFLOW_WRAPS (TREE_TYPE (arg0))
-> +-             || !TYPE_OVERFLOW_WRAPS (TREE_TYPE (arg1)))
-> ++        || ((!(INTEGRAL_TYPE_P (TREE_TYPE (arg0))
-> ++               && TYPE_OVERFLOW_WRAPS (TREE_TYPE (arg0)))
-> ++             || !(INTEGRAL_TYPE_P (TREE_TYPE (arg1))
-> ++                  && TYPE_OVERFLOW_WRAPS (TREE_TYPE (arg1))))
-> +             && ((TYPE_PRECISION (TREE_TYPE (arg0)) * 2u
-> +                  > outprec)
-> +                 || (TYPE_PRECISION (TREE_TYPE (arg1)) * 2u
-> +diff --git a/gcc/expmed.c b/gcc/expmed.c
-> +index 80edb0d03fb..8e069455bc2 100644
-> +--- a/gcc/expmed.c
-> ++++ b/gcc/expmed.c
-> +@@ -2361,9 +2361,8 @@ expand_shift_1 (enum tree_code code, machine_mode mode, rtx shifted,
-> +       && CONST_INT_P (op1)
-> +       && INTVAL (op1) == BITS_PER_UNIT
-> +       && GET_MODE_SIZE (scalar_mode) == 2
-> +-      && optab_handler (bswap_optab, HImode) != CODE_FOR_nothing)
-> +-    return expand_unop (HImode, bswap_optab, shifted, NULL_RTX,
-> +-                                unsignedp);
-> ++      && optab_handler (bswap_optab, mode) != CODE_FOR_nothing)
-> ++    return expand_unop (mode, bswap_optab, shifted, NULL_RTX, unsignedp);
-> +
-> +   if (op1 == const0_rtx)
-> +     return shifted;
-> +diff --git a/gcc/is-a.h b/gcc/is-a.h
-> +index 872aec1f5e7..05dd11dbe75 100644
-> +--- a/gcc/is-a.h
-> ++++ b/gcc/is-a.h
-> +@@ -103,6 +103,11 @@ TYPE dyn_cast <TYPE> (pointer)
-> +     Note that we have converted two sets of assertions in the calls to varpool
-> +     into safe and efficient use of a variable.
-> +
-> ++TYPE safe_dyn_cast <TYPE> (pointer)
-> ++
-> ++    Like dyn_cast <TYPE> (pointer), except that it accepts null pointers
-> ++    and returns null results for them.
-> ++
-> +
-> + If you use these functions and get a 'inline function not defined' or a
-> + 'missing symbol' error message for 'is_a_helper<....>::test', it means that
-> +@@ -222,4 +227,13 @@ dyn_cast (U *p)
-> +     return static_cast <T> (0);
-> + }
-> +
-> ++/* Similar to dyn_cast, except that the pointer may be null.  */
-> ++
-> ++template <typename T, typename U>
-> ++inline T
-> ++safe_dyn_cast (U *p)
-> ++{
-> ++  return p ? dyn_cast <T> (p) : 0;
-> ++}
-> ++
-> + #endif  /* GCC_IS_A_H  */
-> +diff --git a/gcc/testsuite/g++.dg/torture/pr83713.C b/gcc/testsuite/g++.dg/torture/pr83713.C
-> +new file mode 100644
-> +index 00000000000..ca6af04406d
-> +--- /dev/null
-> ++++ b/gcc/testsuite/g++.dg/torture/pr83713.C
-> +@@ -0,0 +1,12 @@
-> ++// { dg-do compile }
-> ++
-> ++class a
-> ++{
-> ++  char b;
-> ++  void c ();
-> ++};
-> ++void
-> ++a::c ()
-> ++{
-> ++  &b + ((long long) &b & 0);
-> ++}
-> +diff --git a/gcc/testsuite/gcc.dg/pr82765.c b/gcc/testsuite/gcc.dg/pr82765.c
-> +new file mode 100644
-> +index 00000000000..dde0aeba7ef
-> +--- /dev/null
-> ++++ b/gcc/testsuite/gcc.dg/pr82765.c
-> +@@ -0,0 +1,5 @@
-> ++/* { dg-do compile } */
-> ++/* { dg-options "-Os -w" } */
-> ++
-> ++int a[1][1];
-> ++int main() { int *b[] = {a, a[1820408606019012862278468], a, a, a}; }
-> +diff --git a/gcc/testsuite/gcc.dg/pr83623.c b/gcc/testsuite/gcc.dg/pr83623.c
-> +new file mode 100644
-> +index 00000000000..5d62c04f542
-> +--- /dev/null
-> ++++ b/gcc/testsuite/gcc.dg/pr83623.c
-> +@@ -0,0 +1,12 @@
-> ++/* PR middle-end/83623 */
-> ++/* { dg-do compile } */
-> ++/* { dg-options "-O2" } */
-> ++/* { dg-additional-options "-mmovbe" { target i?86-*-* x86_64-*-* } } */
-> ++
-> ++unsigned short __attribute__ ((__vector_size__ (16))) x;
-> ++
-> ++void
-> ++foo (void)
-> ++{
-> ++  x = x << 8 | x >> 8;
-> ++}
-> +diff --git a/gcc/testsuite/gcc.dg/torture/pr82264.c b/gcc/testsuite/gcc.dg/torture/pr82264.c
-> +new file mode 100644
-> +index 00000000000..2bc03674ccd
-> +--- /dev/null
-> ++++ b/gcc/testsuite/gcc.dg/torture/pr82264.c
-> +@@ -0,0 +1,21 @@
-> ++/* { dg-do compile } */
-> ++
-> ++char a;
-> ++int c;
-> ++unsigned b ();
-> ++unsigned
-> ++setjmp ()
-> ++{
-> ++}
-> ++static void
-> ++d ()
-> ++{
-> ++  if (b ())
-> ++    c = 3;
-> ++}
-> ++void
-> ++e ()
-> ++{
-> ++  d ();
-> ++  a && ({ setjmp (); });
-> ++}
-> +diff --git a/gcc/testsuite/gcc.dg/torture/pr82285.c b/gcc/testsuite/gcc.dg/torture/pr82285.c
-> +new file mode 100644
-> +index 00000000000..6edc75070b2
-> +--- /dev/null
-> ++++ b/gcc/testsuite/gcc.dg/torture/pr82285.c
-> +@@ -0,0 +1,16 @@
-> ++/* { dg-do run } */
-> ++
-> ++enum tst { first = 0, second = 1 };
-> ++
-> ++int
-> ++main ()
-> ++{
-> ++  enum tst data[16];
-> ++
-> ++  for (unsigned i = 0; i < 16; i++)
-> ++    data[i] = (i < 5 ? second : first);
-> ++
-> ++  if (data[2] != second)
-> ++    __builtin_abort ();
-> ++  return 0;
-> ++}
-> +diff --git a/gcc/testsuite/gcc.dg/torture/pr82402.c b/gcc/testsuite/gcc.dg/torture/pr82402.c
-> +new file mode 100644
-> +index 00000000000..cf90d5c6faf
-> +--- /dev/null
-> ++++ b/gcc/testsuite/gcc.dg/torture/pr82402.c
-> +@@ -0,0 +1,20 @@
-> ++/* { dg-do compile } */
-> ++
-> ++typedef int jmp_buf[1];
-> ++
-> ++extern void exit(int) __attribute__((__noreturn__));
-> ++extern int setjmpx(jmp_buf) __attribute__((__returns_twice__));
-> ++
-> ++jmp_buf jbAnagram;
-> ++int a[6];
-> ++int d;
-> ++int b () { exit (1); }
-> ++int c () { b (); }
-> ++int e ()
-> ++{
-> ++  int f = 0;
-> ++  for (; f < 6; f++)
-> ++    a[f] = d;
-> ++  c ();
-> ++  setjmpx (jbAnagram);
-> ++}
-> +diff --git a/gcc/testsuite/gcc.dg/torture/pr82697.c b/gcc/testsuite/gcc.dg/torture/pr82697.c
-> +new file mode 100644
-> +index 00000000000..57da8a264b9
-> +--- /dev/null
-> ++++ b/gcc/testsuite/gcc.dg/torture/pr82697.c
-> +@@ -0,0 +1,23 @@
-> ++/* { dg-do run } */
-> ++
-> ++__attribute__((noinline,noclone))
-> ++void test(int *pi, long *pl, int f)
-> ++{
-> ++  *pl = 0;
-> ++
-> ++  *pi = 1;
-> ++
-> ++  if (f)
-> ++    *pl = 2;
-> ++}
-> ++
-> ++int main()
-> ++{
-> ++  void *p = __builtin_malloc(sizeof (long));
-> ++
-> ++  test(p, p, 0);
-> ++
-> ++  if (*(int *)p != 1)
-> ++    __builtin_abort ();
-> ++  return 0;
-> ++}
-> +diff --git a/gcc/tree-ssa-alias.c b/gcc/tree-ssa-alias.c
-> +index 08f10e5248b..3f0011f3d10 100644
-> +--- a/gcc/tree-ssa-alias.c
-> ++++ b/gcc/tree-ssa-alias.c
-> +@@ -2235,6 +2235,7 @@ stmt_kills_ref_p (gimple *stmt, ao_ref *ref)
-> +       if (ref->ref)
-> +       {
-> +         tree base = ref->ref;
-> ++        tree innermost_dropped_array_ref = NULL_TREE;
-> +         if (handled_component_p (base))
-> +           {
-> +             tree saved_lhs0 = NULL_TREE;
-> +@@ -2254,6 +2255,11 @@ stmt_kills_ref_p (gimple *stmt, ao_ref *ref)
-> +                 TREE_OPERAND (base, 0) = saved_base0;
-> +                 if (res)
-> +                   break;
-> ++                /* Remember if we drop an array-ref that we need to
-> ++                   double-check not being at struct end.  */
-> ++                if (TREE_CODE (base) == ARRAY_REF
-> ++                    || TREE_CODE (base) == ARRAY_RANGE_REF)
-> ++                  innermost_dropped_array_ref = base;
-> +                 /* Otherwise drop handled components of the access.  */
-> +                 base = saved_base0;
-> +               }
-> +@@ -2262,15 +2268,22 @@ stmt_kills_ref_p (gimple *stmt, ao_ref *ref)
-> +               TREE_OPERAND (lhs, 0) = saved_lhs0;
-> +           }
-> +         /* Finally check if the lhs has the same address and size as the
-> +-           base candidate of the access.  */
-> +-        if (lhs == base
-> +-            || (((TYPE_SIZE (TREE_TYPE (lhs))
-> +-                  == TYPE_SIZE (TREE_TYPE (base)))
-> +-                 || (TYPE_SIZE (TREE_TYPE (lhs))
-> +-                     && TYPE_SIZE (TREE_TYPE (base))
-> +-                     && operand_equal_p (TYPE_SIZE (TREE_TYPE (lhs)),
-> +-                                         TYPE_SIZE (TREE_TYPE (base)), 0)))
-> +-                && operand_equal_p (lhs, base, OEP_ADDRESS_OF)))
-> ++           base candidate of the access.  Watch out if we have dropped
-> ++           an array-ref that was at struct end, this means ref->ref may
-> ++           be outside of the TYPE_SIZE of its base.  */
-> ++        if ((! innermost_dropped_array_ref
-> ++             || ! array_at_struct_end_p (innermost_dropped_array_ref))
-> ++            && (lhs == base
-> ++                || (((TYPE_SIZE (TREE_TYPE (lhs))
-> ++                      == TYPE_SIZE (TREE_TYPE (base)))
-> ++                     || (TYPE_SIZE (TREE_TYPE (lhs))
-> ++                         && TYPE_SIZE (TREE_TYPE (base))
-> ++                         && operand_equal_p (TYPE_SIZE (TREE_TYPE (lhs)),
-> ++                                             TYPE_SIZE (TREE_TYPE (base)),
-> ++                                             0)))
-> ++                    && operand_equal_p (lhs, base,
-> ++                                        OEP_ADDRESS_OF
-> ++                                        | OEP_MATCH_SIDE_EFFECTS))))
-> +           return true;
-> +       }
-> +
-> +diff --git a/gcc/tree-ssa-phiopt.c b/gcc/tree-ssa-phiopt.c
-> +index f6880ba88f3..fb6e8be4343 100644
-> +--- a/gcc/tree-ssa-phiopt.c
-> ++++ b/gcc/tree-ssa-phiopt.c
-> +@@ -1761,9 +1761,24 @@ cond_store_replacement (basic_block middle_bb, basic_block join_bb,
-> +   gsi_remove (&gsi, true);
-> +   release_defs (assign);
-> +
-> ++  /* Make both store and load use alias-set zero as we have to
-> ++     deal with the case of the store being a conditional change
-> ++     of the dynamic type.  */
-> ++  lhs = unshare_expr (lhs);
-> ++  tree *basep = &lhs;
-> ++  while (handled_component_p (*basep))
-> ++    basep = &TREE_OPERAND (*basep, 0);
-> ++  if (TREE_CODE (*basep) == MEM_REF
-> ++      || TREE_CODE (*basep) == TARGET_MEM_REF)
-> ++    TREE_OPERAND (*basep, 1)
-> ++      = fold_convert (ptr_type_node, TREE_OPERAND (*basep, 1));
-> ++  else
-> ++    *basep = build2 (MEM_REF, TREE_TYPE (*basep),
-> ++                   build_fold_addr_expr (*basep),
-> ++                   build_zero_cst (ptr_type_node));
-> ++
-> +   /* 2) Insert a load from the memory of the store to the temporary
-> +         on the edge which did not contain the store.  */
-> +-  lhs = unshare_expr (lhs);
-> +   name = make_temp_ssa_name (TREE_TYPE (lhs), NULL, "cstore");
-> +   new_stmt = gimple_build_assign (name, lhs);
-> +   gimple_set_location (new_stmt, locus);
-> +diff --git a/gcc/tree-ssa-sccvn.c b/gcc/tree-ssa-sccvn.c
-> +index 65077ede43c..15838975f37 100644
-> +--- a/gcc/tree-ssa-sccvn.c
-> ++++ b/gcc/tree-ssa-sccvn.c
-> +@@ -2841,16 +2841,13 @@ vn_phi_eq (const_vn_phi_t const vp1, const_vn_phi_t const vp2)
-> +             return false;
-> +
-> +           /* Verify the controlling stmt is the same.  */
-> +-          gimple *last1 = last_stmt (idom1);
-> +-          gimple *last2 = last_stmt (idom2);
-> +-          if (gimple_code (last1) != GIMPLE_COND
-> +-              || gimple_code (last2) != GIMPLE_COND)
-> ++          gcond *last1 = safe_dyn_cast <gcond *> (last_stmt (idom1));
-> ++          gcond *last2 = safe_dyn_cast <gcond *> (last_stmt (idom2));
-> ++          if (! last1 || ! last2)
-> +             return false;
-> +           bool inverted_p;
-> +-          if (! cond_stmts_equal_p (as_a <gcond *> (last1),
-> +-                                    vp1->cclhs, vp1->ccrhs,
-> +-                                    as_a <gcond *> (last2),
-> +-                                    vp2->cclhs, vp2->ccrhs,
-> ++          if (! cond_stmts_equal_p (last1, vp1->cclhs, vp1->ccrhs,
-> ++                                    last2, vp2->cclhs, vp2->ccrhs,
-> +                                     &inverted_p))
-> +             return false;
-> +
-> +@@ -2935,7 +2932,7 @@ vn_phi_lookup (gimple *phi)
-> +   vp1.ccrhs = NULL_TREE;
-> +   basic_block idom1 = get_immediate_dominator (CDI_DOMINATORS, vp1.block);
-> +   if (EDGE_COUNT (idom1->succs) == 2)
-> +-    if (gcond *last1 = dyn_cast <gcond *> (last_stmt (idom1)))
-> ++    if (gcond *last1 = safe_dyn_cast <gcond *> (last_stmt (idom1)))
-> +       {
-> +       vp1.cclhs = vn_valueize (gimple_cond_lhs (last1));
-> +       vp1.ccrhs = vn_valueize (gimple_cond_rhs (last1));
-> +@@ -2981,7 +2978,7 @@ vn_phi_insert (gimple *phi, tree result)
-> +   vp1->ccrhs = NULL_TREE;
-> +   basic_block idom1 = get_immediate_dominator (CDI_DOMINATORS, vp1->block);
-> +   if (EDGE_COUNT (idom1->succs) == 2)
-> +-    if (gcond *last1 = dyn_cast <gcond *> (last_stmt (idom1)))
-> ++    if (gcond *last1 = safe_dyn_cast <gcond *> (last_stmt (idom1)))
-> +       {
-> +       vp1->cclhs = vn_valueize (gimple_cond_lhs (last1));
-> +       vp1->ccrhs = vn_valueize (gimple_cond_rhs (last1));
-> +diff --git a/gcc/tree-vect-loop-manip.c b/gcc/tree-vect-loop-manip.c
-> +index 7ec6daec0e6..ecd41d86b29 100644
-> +--- a/gcc/tree-vect-loop-manip.c
-> ++++ b/gcc/tree-vect-loop-manip.c
-> +@@ -1231,6 +1231,8 @@ slpeel_tree_peel_loop_to_edge (struct loop *loop, struct loop *scalar_loop,
-> +           gimple *stmt;
-> +           use_operand_p use_p;
-> +
-> ++          SSA_NAME_OCCURS_IN_ABNORMAL_PHI (new_vop)
-> ++            = SSA_NAME_OCCURS_IN_ABNORMAL_PHI (vop);
-> +           add_phi_arg (new_phi, vop, exit_e, UNKNOWN_LOCATION);
-> +           gimple_phi_set_result (new_phi, new_vop);
-> +           FOR_EACH_IMM_USE_STMT (stmt, imm_iter, vop)
-> +diff --git a/gcc/tree-vect-patterns.c b/gcc/tree-vect-patterns.c
-> +index c2a6f0d3fd5..1d419495dff 100644
-> +--- a/gcc/tree-vect-patterns.c
-> ++++ b/gcc/tree-vect-patterns.c
-> +@@ -3363,7 +3363,7 @@ vect_recog_bool_pattern (vec<gimple *> *stmts, tree *type_in,
-> +   rhs_code = gimple_assign_rhs_code (last_stmt);
-> +   if (CONVERT_EXPR_CODE_P (rhs_code))
-> +     {
-> +-      if (TREE_CODE (TREE_TYPE (lhs)) != INTEGER_TYPE
-> ++      if (! INTEGRAL_TYPE_P (TREE_TYPE (lhs))
-> +         || TYPE_PRECISION (TREE_TYPE (lhs)) == 1)
-> +       return NULL;
-> +       vectype = get_vectype_for_scalar_type (TREE_TYPE (lhs));
-> +diff --git a/gcc/varasm.c b/gcc/varasm.c
-> +index b65f29c13a4..2e88e71c25d 100644
-> +--- a/gcc/varasm.c
-> ++++ b/gcc/varasm.c
-> +@@ -2806,7 +2806,7 @@ static void
-> + decode_addr_const (tree exp, struct addr_const *value)
-> + {
-> +   tree target = TREE_OPERAND (exp, 0);
-> +-  int offset = 0;
-> ++  HOST_WIDE_INT offset = 0;
-> +   rtx x;
-> +
-> +   while (1)
-> +@@ -2820,8 +2820,9 @@ decode_addr_const (tree exp, struct addr_const *value)
-> +       else if (TREE_CODE (target) == ARRAY_REF
-> +              || TREE_CODE (target) == ARRAY_RANGE_REF)
-> +       {
-> +-        offset += (tree_to_uhwi (TYPE_SIZE_UNIT (TREE_TYPE (target)))
-> +-                   * tree_to_shwi (TREE_OPERAND (target, 1)));
-> ++        /* Truncate big offset.  */
-> ++        offset += (TREE_INT_CST_LOW (TYPE_SIZE_UNIT (TREE_TYPE (target)))
-> ++                   * TREE_INT_CST_LOW (TREE_OPERAND (target, 1)));
-> +         target = TREE_OPERAND (target, 0);
-> +       }
-> +       else if (TREE_CODE (target) == MEM_REF
-> +--
-> +2.14.4
-> +
-> --
-> 2.14.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+deleted file mode 100644
+index f204e5f..0000000
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ /dev/null
+@@ -1,59 +0,0 @@
+-SUMMARY = "GNU Transport Layer Security Library"
+-HOMEPAGE = "http://www.gnu.org/software/gnutls/"
+-BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
+-
+-LICENSE = "GPLv3+ & LGPLv2.1+"
+-LICENSE_${PN} = "LGPLv2.1+"
+-LICENSE_${PN}-xx = "LGPLv2.1+"
+-LICENSE_${PN}-bin = "GPLv3+"
+-LICENSE_${PN}-openssl = "GPLv3+"
+-
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=71391c8e0c1cfe68077e7fce3b586283 \
+-                    file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://doc/COPYING.LESSER;md5=a6f89e2100d9b6cdffcea4f398e37343"
+-
+-DEPENDS = "nettle gmp virtual/libiconv libunistring"
+-DEPENDS_append_libc-musl = " argp-standalone"
+-
+-SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+-
+-SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz"
+-
+-inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
+-
+-PACKAGECONFIG ??= "libidn"
+-
+-# You must also have CONFIG_SECCOMP enabled in the kernel for
+-# seccomp to work.
+-PACKAGECONFIG[seccomp] = "ac_cv_libseccomp=yes,ac_cv_libseccomp=no,libseccomp"
+-PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
+-PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
+-PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
+-PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
+-PACKAGECONFIG[ssl3] = "--enable-ssl3-support,--disable-ssl3-support,"
+-PACKAGECONFIG[tls13] = "--enable-tls13-support,--disable-tls13-support,"
+-
+-EXTRA_OECONF = " \
+-    --enable-doc \
+-    --disable-libdane \
+-    --disable-guile \
+-    --disable-rpath \
+-    --enable-local-libopts \
+-    --enable-openssl-compatibility \
+-    --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
+-    --without-libunistring-prefix \
+-"
+-
+-LDFLAGS_append_libc-musl = " -largp"
+-
+-do_configure_prepend() {
+-	for dir in . lib; do
+-		rm -f ${dir}/aclocal.m4 ${dir}/m4/libtool.m4 ${dir}/m4/lt*.m4
+-	done
+-}
+-
+-PACKAGES =+ "${PN}-openssl ${PN}-xx"
+-
+-FILES_${PN}-dev += "${bindir}/gnutls-cli-debug"
+-FILES_${PN}-openssl = "${libdir}/libgnutls-openssl.so.*"
+-FILES_${PN}-xx = "${libdir}/libgnutlsxx.so.*"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.3.bb b/meta/recipes-support/gnutls/gnutls_3.6.3.bb
+index c560305..dcb211e 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.3.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.3.bb
+@@ -1,10 +1,67 @@
+-require gnutls.inc
++SUMMARY = "GNU Transport Layer Security Library"
++HOMEPAGE = "http://www.gnu.org/software/gnutls/"
++BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
+ 
+-SRC_URI += "file://0001-configure.ac-fix-sed-command.patch \
+-            file://arm_eabi.patch \
+-           "
++LICENSE = "GPLv3+ & LGPLv2.1+"
++LICENSE_${PN} = "LGPLv2.1+"
++LICENSE_${PN}-xx = "LGPLv2.1+"
++LICENSE_${PN}-bin = "GPLv3+"
++LICENSE_${PN}-openssl = "GPLv3+"
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=71391c8e0c1cfe68077e7fce3b586283 \
++                    file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://doc/COPYING.LESSER;md5=a6f89e2100d9b6cdffcea4f398e37343"
++
++DEPENDS = "nettle gmp virtual/libiconv libunistring"
++DEPENDS_append_libc-musl = " argp-standalone"
++
++SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
++
++SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
++           file://0001-configure.ac-fix-sed-command.patch \
++           file://arm_eabi.patch \
++"
+ 
+ SRC_URI[md5sum] = "d3b1b05c2546b80832101a423a80faf8"
+ SRC_URI[sha256sum] = "ed642b66a4ecf4851ab2d809cd1475c297b6201d8e8bd14b4d1c08b53ffca993"
+ 
++inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
++
++PACKAGECONFIG ??= "libidn"
++
++# You must also have CONFIG_SECCOMP enabled in the kernel for
++# seccomp to work.
++PACKAGECONFIG[seccomp] = "ac_cv_libseccomp=yes,ac_cv_libseccomp=no,libseccomp"
++PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
++PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
++PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
++PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
++PACKAGECONFIG[ssl3] = "--enable-ssl3-support,--disable-ssl3-support,"
++PACKAGECONFIG[tls13] = "--enable-tls13-support,--disable-tls13-support,"
++
++EXTRA_OECONF = " \
++    --enable-doc \
++    --disable-libdane \
++    --disable-guile \
++    --disable-rpath \
++    --enable-local-libopts \
++    --enable-openssl-compatibility \
++    --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
++    --without-libunistring-prefix \
++"
++
++LDFLAGS_append_libc-musl = " -largp"
++
++do_configure_prepend() {
++	for dir in . lib; do
++		rm -f ${dir}/aclocal.m4 ${dir}/m4/libtool.m4 ${dir}/m4/lt*.m4
++	done
++}
++
++PACKAGES =+ "${PN}-openssl ${PN}-xx"
++
++FILES_${PN}-dev += "${bindir}/gnutls-cli-debug"
++FILES_${PN}-openssl = "${libdir}/libgnutls-openssl.so.*"
++FILES_${PN}-xx = "${libdir}/libgnutlsxx.so.*"
++
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+1.9.1
+
 
