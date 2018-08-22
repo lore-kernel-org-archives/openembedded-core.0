@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A9285792BA
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E775A793B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 13:20:35 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id r69-v6so2487016oie.3
+	Wed, 22 Aug 2018 13:20:37 +0000 (UTC)
+Received: by mail-oi0-f52.google.com with SMTP id c190-v6so3055096oig.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 06:20:37 -0700 (PDT)
+	Wed, 22 Aug 2018 06:20:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=RA97xvEqCp7lDD/seQLhrhDnqMneELbOmzaBY45Rz3w=;
-	b=m7vGtDBwyJnHs5+jkEhsr7Va65ekEVWZHQQEhpNIb4CbHVHADpyM9Xc8uqOnNr+EPu
-	KLgdCFmkJ5soEX4OU4r+h7oNPcOk3kzyQ0iN9X5vRUj3fuMR+GirPOQ/fJqnMg/wYnPR
-	r1pfkvf4f1fJQtekSDJhFBNmxgug8ExmyGuJJT04tRGTC/NW9Z/aNt3c2RiuNyYXEKJV
-	dLOqQIzGMP7L6+F0NtgmzTrCDocq2xjPBjSXGeQNlgoKOQ0GbkxTF6IRgAGwynlM5yMo
-	s3oAwx0isCtSfNHyWHe3Q4f466tWgQionInl3LvaWI3P1FE+79vv1NM51AcK2a9IKIMV
-	E5Jw==
+	bh=4tXptQq/bgMceGKQzEwD5c8aV1SKQnTJBbPDfeAfqHg=;
+	b=miIrZji965yOq2ran04dElAG/HqFTBFZgxkYNVE3kH1tASIRURZud+joucx7e94uKO
+	/Y4PlyRf/f0V5Wo5Jdbuq0yZiVXVt90ZSJZfYkPMoIu0YFxHB6hnjluF7XDkrQjq95wj
+	hG1/8voI6bgCoCLAArGqYHAUNKOv+gUEQqr3WrHt6YoSZLm8S+RBP4fZLeic0vOrviSB
+	V3BaqvGyAXd6ZhGz/o2Fbxof6v639TR0j02UbdsGhUAkZekmIgp9jG+SylspXQFqaPRv
+	KGJFheORz6JoVxhwp49XeHMxN5/SEJi35Z4/usMamQ5GcfW9DjVd+WEY+w2XvQwmtxp2
+	3jnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=RA97xvEqCp7lDD/seQLhrhDnqMneELbOmzaBY45Rz3w=;
-	b=sgXMTWjQROAuh2SH1ztZURhIHwJT2ndzEB0ngpev/T0mYKAqsWSvxR4W0SKOczaySU
-	1aG8ZNO+qwMrdRlWkrrVdCfaofl2LbPGHTw+orB56OFOl4DO7p9/KTxIW8SwrR3C+tSZ
-	SHMsZKGC6qQ6s7ybbqK4IH7zwk7UFaLhfnHRS0g0Vv0jgUdPr57mVT/dZNMzFiA5Ufve
-	B7Vz6ZRHszdHEX0vmse4M0RUSWDHq0Fk3rD1N8b5t2zEh2l/c7Xjr8A6o1QfdgcVpg+p
-	m8jmZVvbRyeYPTrIEt4Tha72jaIswNIT2bgFzedcL1mBCnrpmys6ybHxS03CkmmCafnc
-	xAVw==
-X-Gm-Message-State: APzg51BySK7x4qloFzuORrABcPZAXeeH4ixf5h56dr/Lbff5lbaU5aC4
-	0OjzhHhlA8sqsYPhT4zkIT0GVvC/I2s=
-X-Google-Smtp-Source: ANB0VdakiEM/bAMMHwyGvjsR5mEbxQfCiIH8zN6ElVXd/ik0Gl8vmntjhw6G6NHQUgfAVJk9C7SMaA==
-X-Received: by 2002:aca:ed45:: with SMTP id
-	l66-v6mr4127066oih.40.1534944036371; 
-	Wed, 22 Aug 2018 06:20:36 -0700 (PDT)
+	bh=4tXptQq/bgMceGKQzEwD5c8aV1SKQnTJBbPDfeAfqHg=;
+	b=ABVmUcQ5V5shvAS6A4LsU8/P7+Od7Uh3uwNmd/7l7DAv3OT7GxfYyadaDOFYmp8TkT
+	7e3HCnpkFFXDFbjmsEIEa61S1bVRnnSaNcQq+CvBTdq/23z5RI4wzXQxaAhdr4IykQGg
+	lwKCkhQ1mJMbblJrhMOUrMEA940lgM8LMy2uRiXq9SFUwbjUsbdomIlFJddPOMc276Yc
+	q2enluBI2obB1p8Kk1ZxWytyuiZEn349y0a4Q8Oy5pQeKsyWuCNLnmguHeE8tR6mfDbw
+	CdXMM8cN8AFOj5zWc3cvQ85FRXewNkPyWx+Qmu7UOTpzaK5OHT1o1EWvWK+tD83twRWi
+	M5jw==
+X-Gm-Message-State: APzg51At44Qy7WVXlaVUYG0InwRrGqZXChatl61ecpJOuTlZ4uwaklk/
+	9UIO00JnEG9DDbkv0Z3hEvuK0Nsn+Gs=
+X-Google-Smtp-Source: ANB0Vdb7jHH8BNS+T6u6s46u3Anxu0T2BUh2wFrY2B7B/AJQobFscTVraEgziArF1RDNEOo0ZkDOPw==
+X-Received: by 2002:aca:5c85:: with SMTP id
+	q127-v6mr3642123oib.127.1534944038706; 
+	Wed, 22 Aug 2018 06:20:38 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	t141-v6sm2354715oif.18.2018.08.22.06.20.33
+	t141-v6sm2354715oif.18.2018.08.22.06.20.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 06:20:35 -0700 (PDT)
+	Wed, 22 Aug 2018 06:20:38 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 18:49:56 +0530
-Message-Id: <1534944009-21362-6-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 18:49:57 +0530
+Message-Id: <1534944009-21362-7-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534944009-21362-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534944009-21362-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [SUMO][PATCH 06/19] procps: CVE-2018-1124
+Subject: [SUMO][PATCH 07/19] gnupg: CVE-2018-12020
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,268 +59,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 13:20:36 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 13:20:38 -0000
 
-proc/readproc.c: Fix bugs and overflows in file2strvec().
+gpg: Sanitize diagnostic with the original file name.
 
-Note: this is by far the most important and complex patch of the whole
-series, please review it carefully; thank you very much!
+* g10/mainproc.c (proc_plaintext): Sanitize verbose output.
+--
 
-For this patch, we decided to keep the original function's design and
-skeleton, to avoid regressions and behavior changes, while fixing the
-various bugs and overflows. And like the "Harden file2str()" patch, this
-patch does not fail when about to overflow, but truncates instead: there
-is information available about this process, so return it to the caller;
-also, we used INT_MAX as a limit, but a lower limit could be used.
+This fixes a forgotten sanitation of user supplied data in a verbose
+mode diagnostic.  The mention CVE is about using this to inject
+status-fd lines into the stderr output.  Other harm good as well be
+done.  Note that GPGME based applications are not affected because
+GPGME does not fold status output into stderr.
 
-The easy changes:
+CVE-id: CVE-2018-12020
+GnuPG-bug-id: 4012
 
-- Replace sprintf() with snprintf() (and check for truncation).
-
-- Replace "if (n == 0 && rbuf == 0)" with "if (n <= 0 && tot <= 0)" and
-  do break instead of return: it simplifies the code (only one place to
-  handle errors), and also guarantees that in the while loop either n or
-  tot is > 0 (or both), even if n is reset to 0 when about to overflow.
-
-- Remove the "if (n < 0)" block in the while loop: it is (and was) dead
-  code, since we enter the while loop only if n >= 0.
-
-- Rewrite the missing-null-terminator detection: in the original
-  function, if the size of the file is a multiple of 2047, a null-
-  terminator is appended even if the file is already null-terminated.
-
-- Replace "if (n <= 0 && !end_of_file)" with "if (n < 0 || tot <= 0)":
-  originally, it was equivalent to "if (n < 0)", but we added "tot <= 0"
-  to handle the first break of the while loop, and to guarantee that in
-  the rest of the function tot is > 0.
-
-- Double-force ("belt and suspenders") the null-termination of rbuf:
-  this is (and was) essential to the correctness of the function.
-
-- Replace the final "while" loop with a "for" loop that behaves just
-  like the preceding "for" loop: in the original function, this would
-  lead to unexpected results (for example, if rbuf is |\0|A|\0|, this
-  would return the array {"",NULL} but should return {"","A",NULL}; and
-  if rbuf is |A|\0|B| (should never happen because rbuf should be null-
-  terminated), this would make room for two pointers in ret, but would
-  write three pointers to ret).
-
-The hard changes:
-
-- Prevent the integer overflow of tot in the while loop, but unlike
-  file2str(), file2strvec() cannot let tot grow until it almost reaches
-  INT_MAX, because it needs more space for the pointers: this is why we
-  introduced ARG_LEN, which also guarantees that we can add "align" and
-  a few sizeof(char*)s to tot without overflowing.
-
-- Prevent the integer overflow of "tot + c + align": when INT_MAX is
-  (almost) reached, we write the maximal safe amount of pointers to ret
-  (ARG_LEN guarantees that there is always space for *ret = rbuf and the
-  NULL terminator).
-
-Affects procps-ng < 3.3.15
+Affects gnupg < 2.2.8
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../procps/procps/CVE-2018-1124.patch              | 176 +++++++++++++++++++++
- meta/recipes-extended/procps/procps_3.3.12.bb      |   1 +
- 2 files changed, 177 insertions(+)
- create mode 100644 meta/recipes-extended/procps/procps/CVE-2018-1124.patch
+ .../gnupg/gnupg/CVE-2018-12020.patch               | 47 ++++++++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_2.2.4.bb          |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
 
-diff --git a/meta/recipes-extended/procps/procps/CVE-2018-1124.patch b/meta/recipes-extended/procps/procps/CVE-2018-1124.patch
+diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch b/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
 new file mode 100644
-index 0000000..bc78faf
+index 0000000..14698db
 --- /dev/null
-+++ b/meta/recipes-extended/procps/procps/CVE-2018-1124.patch
-@@ -0,0 +1,176 @@
-+From bdd058a0e676d2f013027fcfb2b344c313112a50 Mon Sep 17 00:00:00 2001
-+From: Qualys Security Advisory <qsa@qualys.com>
-+Date: Thu, 1 Jan 1970 00:00:00 +0000
-+Subject: [PATCH 074/126] proc/readproc.c: Fix bugs and overflows in
-+ file2strvec().
++++ b/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
+@@ -0,0 +1,47 @@
++From 13f135c7a252cc46cff96e75968d92b6dc8dce1b Mon Sep 17 00:00:00 2001
++From: Werner Koch <wk@gnupg.org>
++Date: Fri, 8 Jun 2018 10:45:21 +0200
++Subject: [PATCH] gpg: Sanitize diagnostic with the original file name.
 +
-+Note: this is by far the most important and complex patch of the whole
-+series, please review it carefully; thank you very much!
++* g10/mainproc.c (proc_plaintext): Sanitize verbose output.
++--
 +
-+For this patch, we decided to keep the original function's design and
-+skeleton, to avoid regressions and behavior changes, while fixing the
-+various bugs and overflows. And like the "Harden file2str()" patch, this
-+patch does not fail when about to overflow, but truncates instead: there
-+is information available about this process, so return it to the caller;
-+also, we used INT_MAX as a limit, but a lower limit could be used.
++This fixes a forgotten sanitation of user supplied data in a verbose
++mode diagnostic.  The mention CVE is about using this to inject
++status-fd lines into the stderr output.  Other harm good as well be
++done.  Note that GPGME based applications are not affected because
++GPGME does not fold status output into stderr.
 +
-+The easy changes:
++CVE-id: CVE-2018-12020
++GnuPG-bug-id: 4012
 +
-+- Replace sprintf() with snprintf() (and check for truncation).
-+
-+- Replace "if (n == 0 && rbuf == 0)" with "if (n <= 0 && tot <= 0)" and
-+  do break instead of return: it simplifies the code (only one place to
-+  handle errors), and also guarantees that in the while loop either n or
-+  tot is > 0 (or both), even if n is reset to 0 when about to overflow.
-+
-+- Remove the "if (n < 0)" block in the while loop: it is (and was) dead
-+  code, since we enter the while loop only if n >= 0.
-+
-+- Rewrite the missing-null-terminator detection: in the original
-+  function, if the size of the file is a multiple of 2047, a null-
-+  terminator is appended even if the file is already null-terminated.
-+
-+- Replace "if (n <= 0 && !end_of_file)" with "if (n < 0 || tot <= 0)":
-+  originally, it was equivalent to "if (n < 0)", but we added "tot <= 0"
-+  to handle the first break of the while loop, and to guarantee that in
-+  the rest of the function tot is > 0.
-+
-+- Double-force ("belt and suspenders") the null-termination of rbuf:
-+  this is (and was) essential to the correctness of the function.
-+
-+- Replace the final "while" loop with a "for" loop that behaves just
-+  like the preceding "for" loop: in the original function, this would
-+  lead to unexpected results (for example, if rbuf is |\0|A|\0|, this
-+  would return the array {"",NULL} but should return {"","A",NULL}; and
-+  if rbuf is |A|\0|B| (should never happen because rbuf should be null-
-+  terminated), this would make room for two pointers in ret, but would
-+  write three pointers to ret).
-+
-+The hard changes:
-+
-+- Prevent the integer overflow of tot in the while loop, but unlike
-+  file2str(), file2strvec() cannot let tot grow until it almost reaches
-+  INT_MAX, because it needs more space for the pointers: this is why we
-+  introduced ARG_LEN, which also guarantees that we can add "align" and
-+  a few sizeof(char*)s to tot without overflowing.
-+
-+- Prevent the integer overflow of "tot + c + align": when INT_MAX is
-+  (almost) reached, we write the maximal safe amount of pointers to ret
-+  (ARG_LEN guarantees that there is always space for *ret = rbuf and the
-+  NULL terminator).
-+[carnil: backport for 3.3.9: Add include for limits.h and use of MAX_INT]
-+
-+CVE: CVE-2018-1124
-+Upstream-Status: Backport [https://gitlab.com/procps-ng/procps/commit/36c350f07c75aabf747fb833f52a234ae5781b20]
++Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=13f135c7a252cc46cff96e75968d92b6dc8dce1b]
 +
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ proc/readproc.c | 53 ++++++++++++++++++++++++++++++++---------------------
-+ 1 file changed, 32 insertions(+), 21 deletions(-)
++ g10/mainproc.c | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
 +
-+diff -Naurp procps-ng-3.3.12_org/proc/readproc.c procps-ng-3.3.12/proc/readproc.c
-+--- procps-ng-3.3.12_org/proc/readproc.c	2016-07-09 14:49:25.825306872 -0700
-++++ procps-ng-3.3.12/proc/readproc.c	2018-07-24 00:46:49.366202531 -0700
-+@@ -37,6 +37,7 @@
-+ #include <dirent.h>
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
-++#include <limits.h>
-+ #ifdef WITH_SYSTEMD
-+ #include <systemd/sd-login.h>
-+ #endif
-+--- a/proc/readproc.c
-++++ b/proc/readproc.c
-+@@ -600,11 +601,12 @@ static int file2str(const char *director
-+ 
-+ static char** file2strvec(const char* directory, const char* what) {
-+     char buf[2048];	/* read buf bytes at a time */
-+-    char *p, *rbuf = 0, *endbuf, **q, **ret;
-++    char *p, *rbuf = 0, *endbuf, **q, **ret, *strp;
-+     int fd, tot = 0, n, c, end_of_file = 0;
-+     int align;
-+ 
-+-    sprintf(buf, "%s/%s", directory, what);
-++    const int len = snprintf(buf, sizeof buf, "%s/%s", directory, what);
-++    if(len <= 0 || (size_t)len >= sizeof buf) return NULL;
-+     fd = open(buf, O_RDONLY, 0);
-+     if(fd==-1) return NULL;
-+ 
-+@@ -612,18 +614,23 @@ static char** file2strvec(const char* di
-+     while ((n = read(fd, buf, sizeof buf - 1)) >= 0) {
-+ 	if (n < (int)(sizeof buf - 1))
-+ 	    end_of_file = 1;
-+-	if (n == 0 && rbuf == 0) {
-+-	    close(fd);
-+-	    return NULL;	/* process died between our open and read */
-++	if (n <= 0 && tot <= 0) { /* nothing read now, nothing read before */
-++	    break;		/* process died between our open and read */
-+ 	}
-+-	if (n < 0) {
-+-	    if (rbuf)
-+-		free(rbuf);
-+-	    close(fd);
-+-	    return NULL;	/* read error */
-++	/* ARG_LEN is our guesstimated median length of a command-line argument
-++	   or environment variable (the minimum is 1, the maximum is 131072) */
-++	#define ARG_LEN 64
-++	if (tot >= INT_MAX / (ARG_LEN + (int)sizeof(char*)) * ARG_LEN - n) {
-++	    end_of_file = 1; /* integer overflow: null-terminate and break */
-++	    n = 0; /* but tot > 0 */
-+ 	}
-+-	if (end_of_file && (n == 0 || buf[n-1]))/* last read char not null */
-++	#undef ARG_LEN
-++	if (end_of_file &&
-++	    ((n > 0 && buf[n-1] != '\0') ||	/* last read char not null */
-++	     (n <= 0 && rbuf[tot-1] != '\0')))	/* last read char not null */
-+ 	    buf[n++] = '\0';			/* so append null-terminator */
-++
-++	if (n <= 0) break; /* unneeded (end_of_file = 1) but avoid realloc */
-+ 	rbuf = xrealloc(rbuf, tot + n);		/* allocate more memory */
-+ 	memcpy(rbuf + tot, buf, n);		/* copy buffer into it */
-+ 	tot += n;				/* increment total byte ctr */
-+@@ -631,29 +638,34 @@ static char** file2strvec(const char* di
-+ 	    break;
-+     }
-+     close(fd);
-+-    if (n <= 0 && !end_of_file) {
-++    if (n < 0 || tot <= 0) {	/* error, or nothing read */
-+ 	if (rbuf) free(rbuf);
-+ 	return NULL;		/* read error */
-+     }
-++    rbuf[tot-1] = '\0'; /* belt and suspenders (the while loop did it, too) */
-+     endbuf = rbuf + tot;			/* count space for pointers */
-+     align = (sizeof(char*)-1) - ((tot + sizeof(char*)-1) & (sizeof(char*)-1));
-+-    for (c = 0, p = rbuf; p < endbuf; p++) {
-+-	if (!*p || *p == '\n')
-++    c = sizeof(char*);				/* one extra for NULL term */
-++    for (p = rbuf; p < endbuf; p++) {
-++	if (!*p || *p == '\n') {
-++	    if (c >= INT_MAX - (tot + (int)sizeof(char*) + align)) break;
-+ 	    c += sizeof(char*);
-++	}
-+ 	if (*p == '\n')
-+ 	    *p = 0;
-+     }
-+-    c += sizeof(char*);				/* one extra for NULL term */
-+ 
-+     rbuf = xrealloc(rbuf, tot + c + align);	/* make room for ptrs AT END */
-+     endbuf = rbuf + tot;			/* addr just past data buf */
-+     q = ret = (char**) (endbuf+align);		/* ==> free(*ret) to dealloc */
-+-    *q++ = p = rbuf;				/* point ptrs to the strings */
-+-    endbuf--;					/* do not traverse final NUL */
-+-    while (++p < endbuf)
-+-    	if (!*p)				/* NUL char implies that */
-+-	    *q++ = p+1;				/* next string -> next char */
-+-
-++    for (strp = p = rbuf; p < endbuf; p++) {
-++	if (!*p) {				/* NUL char implies that */
-++	    if (c < 2 * (int)sizeof(char*)) break;
-++	    c -= sizeof(char*);
-++	    *q++ = strp;			/* point ptrs to the strings */
-++	    strp = p+1;				/* next string -> next char */
-++	}
++diff --git a/g10/mainproc.c b/g10/mainproc.c
++index d2ceec2fd..a9da08f74 100644
++--- a/g10/mainproc.c
+++++ b/g10/mainproc.c
++@@ -851,7 +851,14 @@ proc_plaintext( CTX c, PACKET *pkt )
++   if (pt->namelen == 8 && !memcmp( pt->name, "_CONSOLE", 8))
++     log_info (_("Note: sender requested \"for-your-eyes-only\"\n"));
++   else if (opt.verbose)
++-    log_info (_("original file name='%.*s'\n"), pt->namelen, pt->name);
+++    {
+++      /* We don't use print_utf8_buffer because that would require a
+++       * string change which we don't want in 2.2.  It is also not
+++       * clear whether the filename is always utf-8 encoded.  */
+++      char *tmp = make_printable_string (pt->name, pt->namelen, 0);
+++      log_info (_("original file name='%.*s'\n"), (int)strlen (tmp), tmp);
+++      xfree (tmp);
 ++    }
-+     *q = 0;					/* null ptr list terminator */
-+     return ret;
-+ }
-diff --git a/meta/recipes-extended/procps/procps_3.3.12.bb b/meta/recipes-extended/procps/procps_3.3.12.bb
-index ecf215f..6e15b0a 100644
---- a/meta/recipes-extended/procps/procps_3.3.12.bb
-+++ b/meta/recipes-extended/procps/procps_3.3.12.bb
-@@ -14,6 +14,7 @@ inherit autotools gettext pkgconfig update-alternatives
- 
- SRC_URI = "http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
-            file://sysctl.conf \
-+           file://CVE-2018-1124.patch \
++ 
++   free_md_filter_context (&c->mfx);
++   if (gcry_md_open (&c->mfx.md, 0, 0))
++-- 
++2.13.3
++
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.4.bb b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
+index d3f1a8f..d6bfaff 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.4.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-use-pkgconfig-instead-of-npth-config.patch \
+            file://0003-dirmngr-uses-libgpg-error.patch \
+            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
++           file://CVE-2018-12020.patch \
            "
+ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch"
  
- SRC_URI[md5sum] = "957e42e8b193490b2111252e4a2b443c"
 -- 
 2.7.4
 
