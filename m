@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
-	[209.85.218.46])
-	by mail.openembedded.org (Postfix) with ESMTP id E0305793CE
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5936F793FC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 13:36:13 +0000 (UTC)
-Received: by mail-oi0-f46.google.com with SMTP id q11-v6so3106658oic.12
+	Wed, 22 Aug 2018 13:36:16 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id k12-v6so3128386oiw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 06:36:15 -0700 (PDT)
+	Wed, 22 Aug 2018 06:36:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=YvasmTQCEkhjZ00hYUKyTBsgb/5eRgPbshxJsDAWLf0=;
-	b=JRgnhbEiiT87IVMV/+IfZNjjSvZSV9hC+1pbASoMZb9MUkrODzrDHz6iUOU8ay/7r9
-	/gAvHwi8LGg23pKdZ7uO+9vNAPwdXK/JtjXQJLHMFniyPiAWK6leapeUwmjhCCatfB3t
-	9hDluomZ3biOtCKqLl//VL565jy/O0ydsFM2a0UtXnY5TLCjc9cbnPWPPhs239tBd2VF
-	ZIrmxBSfwdAkIlBE9uf+lkstbJFsXN1tGrcbnZJ43GwAMH4RxLQBYlbJCK/wPXWZBbAD
-	VfVd3+BppPj/9tBL67b1gkGgBNAq77B7w8Dh107i7C5gwYH+u4cHY7sgKzNYaKnfuMdF
-	drxw==
+	bh=5a7RwrcinHcFFGJNkcrB3LOoSBbE228RgT1e8cB8Kp4=;
+	b=VfiDPfMjMJVGwZQQGdre60ENz70KiaTYwqDoZKBOQIgB8kjtv7NaoSMxOJ/EoLbF30
+	4GBsh5GgZ3ZOCF2I5Iv24jcuwe3OOoLE2usWPa8yDRbRZsHjQ6F82xVk+sxK/I9it69n
+	mfvOsyZx3HciDbSVuBV/7JNOeocpI/y8KJwYXXiTwDEbk6CLcQYGF58wkoDGPRMJ9NQX
+	qBgb93StZcJ7D9qAHmrs0rKGS3/C07IqSeXpQFz6N0pMYTpDFAuV7XZix6I7csw5qPRG
+	aZ/86olvBBzevaH+p9+3TP61TmbLmaMAG07YlMX8ik7pIeG/A4TLJ/ptLNCfIjQLC496
+	Fxiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=YvasmTQCEkhjZ00hYUKyTBsgb/5eRgPbshxJsDAWLf0=;
-	b=kIqq22yJuDOLhKfD5DSe/RilFrFCVDKatZK9KL/ZIKS+mniXsuXLdxGYVx+EQySAlA
-	xyy+2A+yKbwp4SwdabULtIFWpez+fm3jGfEr6pt1TycjU6kBKJz12HQ0lvT6MSo8EqZW
-	jZURAtVzckB1h1/g5XB+Cd/Y/pFHKnxlfGVMtnd9umTA/5zWcOcpvoMChqq/X4W2357R
-	Qrk8cR74u1AOSC4y8iXwXNFC/6XsLv/1KnPMosijmAN4niA3PoB5V8enZeIKygzvV5R2
-	TI/U0srrOEeTEJYdnPnHQuRs1sjZrAzi/1LWkoSMorCe56WGHo2StzI7d5Z2MF7/Qh9s
-	LAzQ==
-X-Gm-Message-State: APzg51At7v5nUuZw8AN9PVqdZv5DazGxD0Ud2tizfRG3+PnGTM221Sq4
-	mtJXZfYX6OPoo2ya552d96780frbHOw=
-X-Google-Smtp-Source: ANB0Vda25ZrBWfyKv5JQ1NWsF/e7+dG3tnU+HqbzXlmV8Prw/7eF7NN9kLk/lIRS/DV0yeFpq/laDg==
+	bh=5a7RwrcinHcFFGJNkcrB3LOoSBbE228RgT1e8cB8Kp4=;
+	b=dKjGJETDmgSNNGJTx8nlVHcYgue8CotUxfeE79+QDYuJQMQ2EOGc2FLMK004bWiKXC
+	DQbdxTyqV21fhgV3AAIgMycbCLQXr4ZuQT2gABDbIZBIy7IuW8hWMyAfSNM2WELg/fK7
+	01B8eqNuiV0U/vJzWUEHx0VNwk7j6EWzp+XdgD00yK89nJ2Pd1ziAnG86JfJnInvYe9u
+	Lu5KBTQtfJJLtu1hR+ye8GUAcKDfY9mY1TC/0RolCcS5F20ZVWto7AxQMPvdS4ktQrYF
+	ON6Lq8PDIFbJFP97oCZ7D/BAcw5+4rbYoWYUYd3mCgr5DA10hY3HWS2VqATJvBPDuvL0
+	y1gQ==
+X-Gm-Message-State: APzg51B/2BdJ1j8l13jsm6lgCJZZ36Vdl1AwAZxF+iX0pVu6cubqrz7I
+	JTyhIPQncmU5+VVXtla2WN+/t3TcESU=
+X-Google-Smtp-Source: ANB0VdYhGA6s0infGGHXqtEtFdP9H7HTh3o0+jcsL1N7XJS+qWzKcR7eYG3NLzZn12sb25YU1pX8zQ==
 X-Received: by 2002:aca:aa06:: with SMTP id
-	t6-v6mr4152848oie.152.1534944974890; 
-	Wed, 22 Aug 2018 06:36:14 -0700 (PDT)
+	t6-v6mr4152993oie.152.1534944977072; 
+	Wed, 22 Aug 2018 06:36:17 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	h186-v6sm3746773oib.55.2018.08.22.06.36.12
+	h186-v6sm3746773oib.55.2018.08.22.06.36.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 06:36:14 -0700 (PDT)
+	Wed, 22 Aug 2018 06:36:16 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 19:05:11 +0530
-Message-Id: <1534944940-21566-5-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 19:05:12 +0530
+Message-Id: <1534944940-21566-6-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V2 05/34] rpm: CVE-2017-7501
+Subject: [ROCKO][PATCH V2 06/34] coreutils: CVE-2017-18018
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,154 +59,185 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 13:36:14 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 13:36:16 -0000
 
-Open newly created files with O_EXCL to prevent symlink tricks.
-When reopening hardlinks for writing the actual content, use append
-mode instead. This is compatible with the write-only permissions but
-is not destructive in case we got redirected to somebody elses file,
-verify the target before actually writing anything.
+CVE-2017-18018-1:
+doc: clarify chown/chgrp --dereference defaults
+* doc/coreutils.texi: the documentation for the --dereference
+  flag of chown/chgrp states that it is the default mode of
+  operation. Document that this is only the case when operating
+  non-recursively.
 
-As these are files with the temporary suffix, errors mean a local
-user with sufficient privileges to break the installation of the package
-anyway is trying to goof us on purpose, don't bother trying to mend it
-(we couldn't fix the hardlink case anyhow) but just bail out.
+CVE-2017-18018-2:
+doc: warn about following symlinks recursively in chown/chgrp
+In both chown and chgrp (which shares its code with chown), operating
+on symlinks recursively has a window of vulnerability where the
+destination user or group can change the target of the operation.
+Warn about combining the --dereference, --recursive, and -L flags.
 
-Based on a patch by Florian Festi.
+* doc/coreutils.texi (warnOptDerefWithRec): Add macro.
+(node chown invocation): Add it to --dereference and -L.
+(node chgrp invocation): Likewise.
 
-Affects rpm < 4.13.0.2
+Affects coreutils <= 8.29
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../recipes-devtools/rpm/files/CVE-2017-7501.patch | 106 +++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_git.bb               |   1 +
- 2 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/CVE-2017-7501.patch
+ .../coreutils/coreutils/CVE-2017-18018-1.patch     | 40 +++++++++++
+ .../coreutils/coreutils/CVE-2017-18018-2.patch     | 83 ++++++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_8.27.bb      |  2 +
+ 3 files changed, 125 insertions(+)
+ create mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2017-18018-1.patch
+ create mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2017-18018-2.patch
 
-diff --git a/meta/recipes-devtools/rpm/files/CVE-2017-7501.patch b/meta/recipes-devtools/rpm/files/CVE-2017-7501.patch
+diff --git a/meta/recipes-core/coreutils/coreutils/CVE-2017-18018-1.patch b/meta/recipes-core/coreutils/coreutils/CVE-2017-18018-1.patch
 new file mode 100644
-index 0000000..fb299d9
+index 0000000..6f31eba
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/CVE-2017-7501.patch
-@@ -0,0 +1,106 @@
-+From 404ef011c300207cdb1e531670384564aae04bdc Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Tue, 19 Sep 2017 14:46:36 +0300
-+Subject: [PATCH] Don't follow symlinks on file creation (CVE-2017-7501)
++++ b/meta/recipes-core/coreutils/coreutils/CVE-2017-18018-1.patch
+@@ -0,0 +1,40 @@
++From 7597cfa482e42a00a69fb9577ee523762980a9a2 Mon Sep 17 00:00:00 2001
++From: Michael Orlitzky <michael@orlitzky.com>
++Date: Thu, 28 Dec 2017 15:52:42 -0500
++Subject: doc: clarify chown/chgrp --dereference defaults
 +
-+Open newly created files with O_EXCL to prevent symlink tricks.
-+When reopening hardlinks for writing the actual content, use append
-+mode instead. This is compatible with the write-only permissions but
-+is not destructive in case we got redirected to somebody elses file,
-+verify the target before actually writing anything.
++* doc/coreutils.texi: the documentation for the --dereference
++  flag of chown/chgrp states that it is the default mode of
++  operation. Document that this is only the case when operating
++  non-recursively.
 +
-+As these are files with the temporary suffix, errors mean a local
-+user with sufficient privileges to break the installation of the package
-+anyway is trying to goof us on purpose, don't bother trying to mend it
-+(we couldn't fix the hardlink case anyhow) but just bail out.
++CVE: CVE-2017-18018
++Upstream-Status: Backport from v8.30
 +
-+Based on a patch by Florian Festi.
-+
-+CVE: CVE-2017-7501
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/404ef011c300207cdb1e531670384564aae04bdc]
-+
-+Signed-off-by: Panu Matilainen <pmatilai@redhat.com>
-+Signed-off-by: Florian Festi <ffesti@redhat.com>
++Signed-off-by: Michael Orlitzky <michael@orlitzky.com>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ lib/fsm.c | 29 +++++++++++++++++++++++------
-+ 1 file changed, 23 insertions(+), 6 deletions(-)
++ doc/coreutils.texi | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/lib/fsm.c b/lib/fsm.c
-+index 553774b..e0e9d03 100644
-+--- a/lib/fsm.c
-++++ b/lib/fsm.c
-+@@ -206,11 +206,22 @@ static int fsmSetFCaps(const char *path, const char *captxt)
-+     return rc;
-+ }
++diff -Naurp coreutils-8.27_org/doc/coreutils.texi coreutils-8.27/doc/coreutils.texi
++--- coreutils-8.27_org/doc/coreutils.texi	2018-07-22 21:09:50.128736692 -0700
+++++ coreutils-8.27/doc/coreutils.texi	2018-07-22 21:12:59.972219770 -0700
++@@ -10952,7 +10952,7 @@ chown -h -R --from=OLDUSER NEWUSER /
++ @cindex symbolic links, changing owner
++ @findex lchown
++ Do not act on symbolic links themselves but rather on what they point to.
++-This is the default.
+++This is the default when not operating recursively.
 + 
-++/* Check dest is the same, empty and regular file with writeonly permissions */
-++static int linkSane(FD_t wfd, const char *dest)
-++{
-++    struct stat sb, lsb;
-++
-++    return (fstat(Fileno(wfd), &sb) == 0 && sb.st_size == 0 &&
-++	    (sb.st_mode & ~S_IFMT) == S_IWUSR &&
-++	    lstat(dest, &lsb) == 0 && S_ISREG(lsb.st_mode) &&
-++	    sb.st_dev == lsb.st_dev && sb.st_ino == lsb.st_ino);
-++}
-++
-+ /** \ingroup payload
-+  * Create file from payload stream.
-+  * @return		0 on success
-+  */
-+-static int expandRegular(rpmfi fi, const char *dest, rpmpsm psm, int nodigest, int nocontent)
-++static int expandRegular(rpmfi fi, const char *dest, rpmpsm psm, int exclusive, int nodigest, int nocontent)
-+ {
-+     FD_t wfd = NULL;
-+     int rc = 0;
-+@@ -218,8 +229,14 @@ static int expandRegular(rpmfi fi, const char *dest, rpmpsm psm, int nodigest, i
-+     /* Create the file with 0200 permissions (write by owner). */
-+     {
-+ 	mode_t old_umask = umask(0577);
-+-	wfd = Fopen(dest, "w.ufdio");
-++	wfd = Fopen(dest, exclusive ? "wx.ufdio" : "a.ufdio");
-+ 	umask(old_umask);
-++
-++	/* If reopening, make sure the file is what we expect */
-++	if (!exclusive && wfd != NULL && !linkSane(wfd, dest)) {
-++	    rc = RPMERR_OPEN_FAILED;
-++	    goto exit;
-++	}
-+     }
-+     if (Ferror(wfd)) {
-+ 	rc = RPMERR_OPEN_FAILED;
-+@@ -248,7 +265,7 @@ static int fsmMkfile(rpmfi fi, const char *dest, rpmfiles files,
-+ 	/* Create first hardlinked file empty */
-+ 	if (*firsthardlink < 0) {
-+ 	    *firsthardlink = rpmfiFX(fi);
-+-	    rc = expandRegular(fi, dest, psm, nodigest, 1);
-++	    rc = expandRegular(fi, dest, psm, 1, nodigest, 1);
-+ 	} else {
-+ 	    /* Create hard links for others */
-+ 	    char *fn = rpmfilesFN(files, *firsthardlink);
-+@@ -263,10 +280,10 @@ static int fsmMkfile(rpmfi fi, const char *dest, rpmfiles files,
-+        existing) file with content */
-+     if (numHardlinks<=1) {
-+ 	if (!rc)
-+-	    rc = expandRegular(fi, dest, psm, nodigest, 0);
-++	    rc = expandRegular(fi, dest, psm, 1, nodigest, 0);
-+     } else if (rpmfiArchiveHasContent(fi)) {
-+ 	if (!rc)
-+-	    rc = expandRegular(fi, dest, psm, nodigest, 0);
-++	    rc = expandRegular(fi, dest, psm, 0, nodigest, 0);
-+ 	*firsthardlink = -1;
-+     } else {
-+ 	*setmeta = 0;
-+@@ -939,7 +956,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmfiles files,
-+ 	    /* we skip the hard linked file containing the content */
-+ 	    /* write the content to the first used instead */
-+ 	    char *fn = rpmfilesFN(files, firsthardlink);
-+-	    rc = expandRegular(fi, fn, psm, nodigest, 0);
-++	    rc = expandRegular(fi, fn, psm, 0, nodigest, 0);
-+ 	    firsthardlink = -1;
-+ 	    free(fn);
-+ 	}
-+-- 
-+2.7.4
++ @item -h
++ @itemx --no-dereference
++@@ -11082,7 +11082,7 @@ changed.
++ @cindex symbolic links, changing owner
++ @findex lchown
++ Do not act on symbolic links themselves but rather on what they point to.
++-This is the default.
+++This is the default when not operating recursively.
++ 
++ @item -h
++ @itemx --no-dereference
+diff --git a/meta/recipes-core/coreutils/coreutils/CVE-2017-18018-2.patch b/meta/recipes-core/coreutils/coreutils/CVE-2017-18018-2.patch
+new file mode 100644
+index 0000000..c8f5f54
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils/CVE-2017-18018-2.patch
+@@ -0,0 +1,83 @@
++From bc2fd9796403e03bb757b064d44c22fab92e6842 Mon Sep 17 00:00:00 2001
++From: Michael Orlitzky <michael@orlitzky.com>
++Date: Thu, 4 Jan 2018 11:38:21 -0500
++Subject: doc: warn about following symlinks recursively in chown/chgrp
 +
-diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
-index 7866314..bec0630 100644
---- a/meta/recipes-devtools/rpm/rpm_git.bb
-+++ b/meta/recipes-devtools/rpm/rpm_git.bb
-@@ -43,6 +43,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm \
-            file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
-            file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
-            file://0001-perl-disable-auto-reqs.patch \
-+           file://CVE-2017-7501.patch \
-            "
- UPSTREAM_VERSION_UNKNOWN = "1"
++In both chown and chgrp (which shares its code with chown), operating
++on symlinks recursively has a window of vulnerability where the
++destination user or group can change the target of the operation.
++Warn about combining the --dereference, --recursive, and -L flags.
++
++* doc/coreutils.texi (warnOptDerefWithRec): Add macro.
++(node chown invocation): Add it to --dereference and -L.
++(node chgrp invocation): Likewise.
++
++See also: CVE-2017-18018
++CVE: CVE-2017-18018
++Upstream-Status: Backport from v8.30
++
++Signed-off-by: Michael Orlitzky <michael@orlitzky.com>
++Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
++---
++ doc/coreutils.texi | 17 +++++++++++++++++
++ 1 file changed, 17 insertions(+)
++
++diff --git a/doc/coreutils.texi b/doc/coreutils.texi
++index 6bb9f09..9f5f95b 100644
++--- a/doc/coreutils.texi
+++++ b/doc/coreutils.texi
++@@ -1428,6 +1428,19 @@ a command line argument is a symbolic link to a directory, traverse it.
++ In a recursive traversal, traverse every symbolic link to a directory
++ that is encountered.
++ @end macro
+++
+++@c Append the following warning to -L where appropriate (e.g. chown).
+++@macro warnOptDerefWithRec
+++
+++Combining this dereferencing option with the @option{--recursive} option
+++may create a security risk:
+++During the traversal of the directory tree, an attacker may be able to
+++introduce a symlink to an arbitrary target; when the tool reaches that,
+++the operation will be performed on the target of that symlink,
+++possibly allowing the attacker to escalate privileges.
+++
+++@end macro
+++
++ @choptL
++ 
++ @macro choptP
++@@ -10995,6 +11008,7 @@ chown -h -R --from=OLDUSER NEWUSER /
++ @findex lchown
++ Do not act on symbolic links themselves but rather on what they point to.
++ This is the default when not operating recursively.
+++@warnOptDerefWithRec
++ 
++ @item -h
++ @itemx --no-dereference
++@@ -11051,6 +11065,7 @@ Recursively change ownership of directories and their contents.
++ @xref{Traversing symlinks}.
++ 
++ @choptL
+++@warnOptDerefWithRec
++ @xref{Traversing symlinks}.
++ 
++ @choptP
++@@ -11125,6 +11140,7 @@ changed.
++ @findex lchown
++ Do not act on symbolic links themselves but rather on what they point to.
++ This is the default when not operating recursively.
+++@warnOptDerefWithRec
++ 
++ @item -h
++ @itemx --no-dereference
++@@ -11180,6 +11196,7 @@ Recursively change the group ownership of directories and their contents.
++ @xref{Traversing symlinks}.
++ 
++ @choptL
+++@warnOptDerefWithRec
++ @xref{Traversing symlinks}.
++ 
++ @choptP
++-- 
++cgit v1.0-41-gc330
++
+diff --git a/meta/recipes-core/coreutils/coreutils_8.27.bb b/meta/recipes-core/coreutils/coreutils_8.27.bb
+index ea8740a..922ea8c 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.27.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.27.bb
+@@ -21,6 +21,8 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
+            file://0001-uname-report-processor-and-hardware-correctly.patch \
+            file://disable-ls-output-quoting.patch \
+            file://0001-local.mk-fix-cross-compiling-problem.patch \
++           file://CVE-2017-18018-1.patch \
++           file://CVE-2017-18018-2.patch \
+           "
  
+ SRC_URI[tarball.md5sum] = "502795792c212932365e077946d353ae"
 -- 
 2.7.4
 
