@@ -1,31 +1,25 @@
-Return-Path: <yang.wang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BCDB57940F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E8A774572
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 15:44:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7MFiL3v028064
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 Aug 2018 08:44:21 -0700 (PDT)
-Received: from [147.11.118.189] (147.11.118.189) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 22 Aug 2018 08:44:21 -0700
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
-	<randy.macleod@windriver.com>
-References: <7AA7B88A6FC2B84F9AA5EF03A8A6FCB201348A030B@ALA-MBD.corp.ad.wrs.com>
-	<bebc4ced-47eb-9cb8-4df5-4716a2dd4d11@windriver.com>
-	<CAP71WjxgSESvWm=FO=O0cmY+UE82OEc3L=2ioJp9K4xuhZ_hRQ@mail.gmail.com>
-From: Yang Wang <yang.wang@windriver.com>
-Message-ID: <0f31c417-75ef-fdd4-925f-de320a778275@windriver.com>
-Date: Wed, 22 Aug 2018 11:44:20 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <CAP71WjxgSESvWm=FO=O0cmY+UE82OEc3L=2ioJp9K4xuhZ_hRQ@mail.gmail.com>
-Cc: richard.purdie@intel.com, jair.de.jesus.gonzalez.plascencia@intel.com,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Yocto Project Bug 12372 - Automate the execution of pTest with LAVA
+	Wed, 22 Aug 2018 15:56:41 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7MFufrs031015
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 22 Aug 2018 16:56:42 +0100
+Message-ID: <6f2c8337c703580fe1e993d160a8d72c6dd7f6fd.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jens Rehsack <sno@netbsd.org>, openembedded-core@lists.openembedded.org
+Date: Wed, 22 Aug 2018 16:56:41 +0100
+In-Reply-To: <20180822090424.14573-2-sno@netbsd.org>
+References: <20180822090424.14573-1-sno@netbsd.org>
+	<20180822090424.14573-2-sno@netbsd.org>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 2/2] libxml-parser-perl: fix "...contains bad RPATH"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,178 +32,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 15:44:23 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 22 Aug 2018 15:56:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 18-08-22 02:51 AM, Nicolas Dechesne wrote:
+On Wed, 2018-08-22 at 11:04 +0200, Jens Rehsack wrote:
+> The perl distribution "XML-Parser" relies for configuration
+> on the tooling of Devel::CheckLib - which is not aware of
+> sysroot locations nor of reasonable compiler/link definitions
+> from outside.
+> 
+> This causes
+> 
+>     ERROR: libxml-parser-perl-2.44-r0 do_package_qa: QA Issue:
+> package libxml-parser-perl contains bad RPATH
+> ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-
+> r0/recipe-sysroot/usr/lib in file ${BUILDDIR}/tmp/work/core2-64-poky-
+> linux/libxml-parser-perl/2.44-r0/packages-split/libxml-parser-
+> perl/usr/lib/perl/vendor_perl/5.24.4/auto/XML/Parser/Expat/Expat.so
+>     package libxml-parser-perl contains bad RPATH
+> ${BUILDDIR}/tmp/work/core2-64-poky-linux/libxml-parser-perl/2.44-
+> r0/recipe-sysroot/usr/lib in file ${BUILDDIR}/tmp/work/core2-64-poky-
+> linux/libxml-parser-perl/2.44-r0/packages-split/libxml-parser-
+> perl/usr/lib/perl/vendor_perl/5.24.4/auto/XML/Parser/Expat/Expat.so
+> [rpaths]
+>     ERROR: libxml-parser-perl-2.44-r0 do_package_qa: QA run found
+> fatal errors. Please consider fixing them.
+>     ERROR: libxml-parser-perl-2.44-r0 do_package_qa: Function failed:
+> do_package_qa
+> 
+> It's strongly encouraged to the maintainer @toddr to rework the
+> toolchain for up to date environments.
+> 
+> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+> ---
+>  meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb | 10
+> +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
+> b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
+> index c5e0ae6769..4494e2286c 100644
+> --- a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
+> +++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
+> @@ -18,8 +18,16 @@ inherit cpan ptest-perl
+>  
+>  # fix up sub MakeMaker project as arguments don't get propagated
+> though
+>  # see https://rt.cpan.org/Public/Bug/Display.html?id=28632
+> +do_configure_append_class-target() {
+> +	sed -E \
+> +	    -e 's:-L${STAGING_LIBDIR}::g' -e 's:-
+> I${STAGING_INCDIR}::g' \
+> +	    -e 's:LD_RUN_PATH ?= ?"?[^"]*"?::g' \
+> +	    -i Makefile Expat/Makefile
+> +}
+> +
+>  do_configure_append() {
+> -	sed 's:--sysroot=.*\(\s\|$\):--sysroot=${STAGING_DIR_TARGET}
+> :g' -i Makefile Expat/Makefile
+> +	sed -e 's:--sysroot=.*\(\s\|$\):
+> --sysroot=${STAGING_DIR_TARGET} :g' \
+> +	    -i Makefile Expat/Makefile
+>  	sed 's:^FULL_AR = .*:FULL_AR = ${AR}:g' -i Expat/Makefile
+>  	# make sure these two do not build in parallel
+>  	sed 's!^$(INST_DYNAMIC):!$(INST_DYNAMIC): $(BOOTSTRAP)!' -i
+> Expat/Makefile
 
-> hi,
->
-> On Wed, Aug 22, 2018 at 4:25 AM Randy MacLeod
-> <randy.macleod@windriver.com> wrote:
->> On 08/21/2018 11:04 AM, Wang, Yang (Young) wrote:
->>> Hi All,
->>>
->>> I'm working on this ticket:
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12372
->> Thanks for investigating the bug/enhancement and posting your thoughts.
->> I'm jumping in without much expertise to try to get the ball rolling.
->>
->>> As far as I know, the following are all true nowadays:
->>> - Ptest needs to be run on real hardware and it takes few hours to finish
->>> - Ptest can be run within OEQA, it can also be run independently
->>> - LAVA is a good open source test  framework which:
->>>     - can manage both real hardware and different kinds of simulators as the test devices
->>>     - provides well managed logging system and test reports
->>>
->>> How to automatically run Ptest? I think running it with LAVA is a good solution, but ...
->>>
->>> LAVA is running as a server which can manage test jobs submitted to it, here is a typical LAVA job:
->>> https://staging.validation.linaro.org/scheduler/job/231942/definition
->>> As you can see, it defines the device type, test images which will used, the test cases and a lot of others.
->> That's a good clear format.
->>
->> I believe that what people are thinking is that we'd have:
->>
->> device_type: x86
->>
->> job_name: x86_64 oeqa
->> ...
->>
->> actions:
->> - deploy:
->>   ...
->>
->> - boot:
->> ...
->>
->> - test:
->>      timeout:
->>        minutes: 2
->>      definitions:
->>   << some thing that makes the target and lava server wait for
->>      oeqa to run >>
->>        name: oeqa-test
->>
->>> So the typical automatic way to run a test through LAVA is to write a script which use a LAVA job template, replace images with the expected ones, and then submit it to LAVA though a command, for example:
->>> $ lava-tool submit-job http://<user>@<lava-server> x86_64_ job_oeqa-ptest.yaml
-> This is more or less something that we are doing as part of our CI
-> loop. The process is the following:
->
-> 1. fetch layers updates
-> 2. make a new build for one or more $MACHINE
-> 3. use LAVA job template to generate an actual LAVA job
-> 4. run this LAVA job on the Linaro LAVA Board farm
->
-> There is no integration into oe-core / bitbake, it is run outside of
-> the OE builds.
-This is clear, the test automation through LAVA needs to be done outside
-of OE.
-> You can check our ptest LAVA job from our most recent build:
-> https://validation.linaro.org/scheduler/job/1890442
->
-> The generated LAVA job is:
-> https://validation.linaro.org/scheduler/job/1890442/definition
->
-> The job deals with all the flashing/management of the device to test
-> (a dragonboard 820c in this specific example), so there is a bit of
-> boiler plate , but the base template for running ptest can be found
-> here:
->
-> https://git.linaro.org/ci/job/configs.git/tree/lt-qcom/lava-job-definitions/boards/template-ptest.yaml
->
-> which itself points the the LAVA job definition for ptest:
->
-> https://git.linaro.org/qa/test-definitions.git/tree/automated/linux/ptest
->
-> This is where LAVA communicates and manages how to run ptests and get
-> status from each test.
->
-> And finally... you can view the test results for this ptest run in LAVA:
->
-> https://validation.linaro.org/results/1890442/0_linux-ptest
-My private test automation framework is doing the similar job on daily
-basis.
+Sorry, this fails to build the nativesdk version:
 
-So there are some preconditions of doing test automation through LAVA
-publicly:
-1. Select a public LAVA server with an accessible account
-2. Exactly know which type of hardware we would like to use, and that
-has to be set in the LAVA job
-    - It doesn't need to set a specific board since LAVA supports
-device-types, for example:
-https://validation.linaro.org/scheduler/device_types
-3. Devices under this specific device-type need to be maintained by
-someone, if they don't work, our tests will fail all the time
+https://autobuilder.yocto.io/builders/nightly-x86/builds/1261/steps/Building%20Toolchain%20Images/logs/stdio
 
-So, go back to the original ticket, we can definitely create some
-scripts to run Ptest automatically through LAVA, but specific settings
-of LAVA server and device-type have to be there as well. I'm concerned
-if this is what the ticket reporter would like to get.
+I suspect you need to strip the RPATH in the nativesdk case...
 
-Thanks,
--Yang Wang
->> That would still work given the above oeqa job.
->>
->> No doubt there's additional glue code that would
->> be nice to write that would allow automatically creating
->> the lava yaml that boots the system into a state where oeqa
->> code takes over.
-> I think most of what needs to be created is there in all the links I
-> shared above. This is what we came up with , and it is not integrated
-> with oeqa. But this can be used as a baseline at least.
->
->> I've never used it and only just found the code but
->> I bet that adding another controller to:
->>
->> git://git.yoctoproject.org/meta-yocto
->>
->> $ ls  meta-yocto-bsp/lib/oeqa/controllers/
->> beaglebonetarget.py  edgeroutertarget.py  grubtarget.py  __init__.py
->>
->> is what would make sense.
->>
->>> This command will return a job id (take #231942 as an example), and then the script can get all logs and reports based on LAVA server address and this job id, for example:
->>> - execution log: https://staging.validation.linaro.org/scheduler/job/231942
->>> - test report: https://staging.validation.linaro.org/results/231942/0_smoke-tests
->> Suspect that this is were the design intent diverges.
->>
->> Usually lava runs the whole system, and I think we just
->> want it to manage the hardware and then step out of the way.
->> There'd likely be an api to allow oeqa and lava to communicate
->> so that for example oeqa could tell lava that the tests were done.
-> Yes, LAVA runs the whole system. Including management of devices to
-> test, reboot, flashing.. It also has a LAVA test definition format
-> that must be used. So to benefit from LAVA, a LAVA instance must be
-> setup, and then we need to have lab instances where boards are
-> attached to. A LAVA instance can have several labs, and labs can be
-> spread physically. LAVA must know how to deal with each
-> hardware/machine (e.g. how to power it on, get a serial console). The
-> linux rootfs can be flashed into onboard memory, or NFS can be used as
-> well. That is left to the JOB writer.
->
->> All lava would know is that an oeqa test ran and it's completion
->> status.
->>
->>> So, as far as I can tell, it may not be an appropriate way to integrate LAVA test into a bitbake command as we run it with simple test harness, LAVA is an advanced test framework and it manages all jobs submit to it well.
->>>
->>> Please comment if you have better idea about this ticket.
->> I'm really going on a few conversations that I've had or chats
->> on IRC so hopefully someone else can step up and comment on both Young's
->> initial email and my interpretation of where we're trying to
->> get to.
->>
->> Thanks,
->>
->> --
->> # Randy MacLeod
->> # Wind River Linux
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+
+Richard
+
 
 
