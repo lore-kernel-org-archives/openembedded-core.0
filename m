@@ -1,28 +1,49 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AF62179008
+Return-Path: <ankur.tyagi85@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B23E06011A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 07:47:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7M7ll8R022184
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 Aug 2018 00:47:48 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 22 Aug 2018 00:47:47 -0700
-To: ChenQi <Qi.Chen@windriver.com>, <richard.purdie@linuxfoundation.org>
-References: <cover.1534832871.git.kai.kang@windriver.com>
-	<c3486f8b-70ae-028b-5208-97f876462c71@windriver.com>
-	<550826f7-2436-7a3a-843c-d59d5dd2e750@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <4b7725d7-6adb-9cae-1925-b335db4a9618@windriver.com>
-Date: Wed, 22 Aug 2018 15:47:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Wed, 22 Aug 2018 08:11:50 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id z185-v6so1335409oia.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Aug 2018 01:11:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=01xyIG/8xvSmJD/fUWIncDTjtWKe0bg6dPjXNkFXdKI=;
+	b=h5HuzrIWRbotoIGrFA9abTlzjJwmeyQGTUNb42jPZ6l8cJ58Sbpwmf8EaiGwCHzdZy
+	bQHxjA5p+1sQHsI/ctvXu+H8UZd7RgBRNPCY3XZAXM4/+k0rtpAPWWWWibPYwhhPQFLi
+	izPtSOWF5wi65EFezUkZ9WGFx12bt+kcOz6uC3P1Zqb50IF3JVnVGnEKQ/VMnnxvzel7
+	syRIB1IXY0cBsYW9+XGN6hvthCa1QCPrpmJrScsR3iZGPBKnMjzTezUcl+xhTlmKiTPu
+	6mWW3Evw1dPafx1crhqlTdZYMTwEilGKzp8fQTGm5sCfhJwxvzUodZ1D5FFvaC0l9w4P
+	w6YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=01xyIG/8xvSmJD/fUWIncDTjtWKe0bg6dPjXNkFXdKI=;
+	b=EsHkKsBI6rDe/dTjokzLq1CmZYIOs8wBVkRuR9Ga5rrSsV2M1ncZC1XrcrWzjYWBKr
+	O6/soLK9B+2butCdtVQEWdDrtAf1Igkgy7mT5FjzYIRSt/SowdxlEc5Re92DiV9A4lNC
+	ldaYZGKYEtPcyDycnY22bQZreMENy0zvMlapm96w4qZf3LpU0FfJG6qsCZLzupBH7geS
+	ups5jq844a6XCmYsXKMxy0BGrE9BVIqpNm8oYj9BnOIWksGRE81T/hNPdWCTtAaKxQcA
+	wVqQtgkTGpGDXM0I4RM4pQYdM0xoXxRZ7PwfQOMzpzyhkdnirh/NmyVduKQF9YTZA+XL
+	QoWA==
+X-Gm-Message-State: APzg51BGmq5flWVNbxgug2j0YqgridI9KLXOXSbAPRDuWwCjSQ5gFrWh
+	fN/2/Hs4DqYNkGqLxS39OKEpjibA334VnjClPaQ=
+X-Google-Smtp-Source: ANB0VdYBCOevUf/bGUFhw5naB+nNyz2f7tqW7vm4SS9XCliAK1ILgcywPG7c5fQ3c5OSk5A0JHZbl8Vj/GqPda4j9aE=
+X-Received: by 2002:aca:ebcc:: with SMTP id
+	j195-v6mr3163603oih.298.1534925511445; 
+	Wed, 22 Aug 2018 01:11:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <550826f7-2436-7a3a-843c-d59d5dd2e750@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [V2][PATCH 0/3] allarch: disable allarch when multilib is used
+References: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
+	<8a3a6d85-3c46-3144-9530-7487ba773a2f@windriver.com>
+	<CADySD0GXj7gKC0VsXzKprf2e1VapwHwCVnZs5_9W-4ekwGVZXg@mail.gmail.com>
+In-Reply-To: <CADySD0GXj7gKC0VsXzKprf2e1VapwHwCVnZs5_9W-4ekwGVZXg@mail.gmail.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Wed, 22 Aug 2018 20:11:38 +1200
+Message-ID: <CADySD0Ef8wzLji9LLmDZ=Yp8e5mfzupnBkEHh6QCpUKfBg_oWg@mail.gmail.com>
+To: Qi.Chen@windriver.com
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [rocko][sumo][master][PATCH 1/2] bitbake.conf: add PERSISTENT_LOG_DIR variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,116 +56,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 07:47:49 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 22 Aug 2018 08:11:50 -0000
+Content-Type: multipart/alternative; boundary="000000000000ddd42e057401b18a"
 
-On 2018年08月22日 10:46, ChenQi wrote:
-> And also a few other failures:
->
-> https://autobuilder.yocto.io/builders/nightly-qa-extras/builds/1242/steps/BuildImages_7/logs/stdio 
->
+--000000000000ddd42e057401b18a
+Content-Type: text/plain; charset="UTF-8"
 
-> https://autobuilder.yocto.io/builders/nightly-multilib/builds/1255/steps/BuildImages_3/logs/stdio 
->
+Ping
 
-It adds extra package to core-image-sato which calls postinstall script 
-update_font_cache-lib32 and it is not handles well.
+Regards
+Ankur
 
---Kai
+On Mon 20 Aug, 2018, 9:12 PM Ankur Tyagi, <ankur.tyagi85@gmail.com> wrote:
 
+> Initially I thought of doing that but then dropped it because it would
+> create a dependency on syslog configuration file.
+> If in future syslog configuration parameter (LOGFILE) gets renamed, then
+> we need to make corresponding change as well.
 >
-> Best Regards,
-> Chen Qi
+> I think creating /var/log as a link is a less dependent change.
 >
-> On 08/22/2018 10:36 AM, ChenQi wrote:
->> There's some oe-selftest failures on autobuiler.
->>
->> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/1300/steps/Running%20oe-selftest/logs/stdio 
->>
+> Let me know your thoughts.
+>
+> Regards
+> Ankur
+>
+> On Mon, Aug 20, 2018 at 1:49 PM ChenQi <Qi.Chen@windriver.com> wrote:
+>
+>> The requirement is to put logs into directories other than /var/log.
+>> Could it be achieved by modifying the syslog daemon configuration file
+>> (e.g. /etc/syslog.conf) to replace /var/log with the specified
+>> directory. Maybe the corresponding logrotate configuration file also
+>> needs to be modified.
 >>
 >> Best Regards,
 >> Chen Qi
 >>
->> On 08/21/2018 02:36 PM, kai.kang@windriver.com wrote:
->>> From: Kai Kang <kai.kang@windriver.com>
->>>
->>> V2:
->>> * move content of allarch.bbclass to allarch-enabled.bbclass and only
->>>    inherit allarch-enabled when multilib is not used
->>> * update SSTATE_DUPWHITELIST
->>>
->>> Build pass for following targets on qemux86-64 and qemuarm64 for rpm,
->>> ipk and deb.
->>>
->>> * core-image-sato
->>> * core-image-sato -c populate_sdk
->>> * world
->>> * buildtools-tarball
->>>
->>> Known issues:
->>> There are 2 *existing* multilib related issues which are not caused by
->>> this serial of patches:
->>>
->>> 1 QA warnings of lib32-meta-ide-support and lib32-perf
->>>
->>> WARNING: lib32-meta-ide-support-1.0-r3 do_configure: Manifest
->>> /buildarea1/jkang-taf/WRL1018/OV/0730/host/build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-ncurses.populate_sysroot 
->>>
->>> not found in intel_x86_64 corei7-32 core2-32 i686 i586 x86 allarch
->>> x86_64_x86_64-nativesdk (variant '')?
->>>
->>> WARNING: lib32-perf-1.0-r9 do_install: Manifest
->>> /buildarea1/jkang-taf/WRL1018/OV/0730/host/build/tmp-glibc/sstate-control/manifest-x86_64_i686-binutils-cross-x86_64.populate_sysroot 
->>>
->>> not found in x86_64_i686 (variant '')?
->>>
->>> 2 fails to build lib32-buildtools-tarball
->>>
->>> ERROR: lib32-buildtools-tarball-1.0-r0 do_populate_sdk: No manifest
->>> generated from: qemuwrapper-cross in
->>> /buildarea3/kkang/poky-20141111/poky/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb 
->>>
->>>
->>> I am working on them.
->>>
->>>
->>> The following changes since commit 
->>> 99506b0017bdf8dbf42ec5dc048d91a5609dabe3:
->>>
->>>    weston-init: run login before start weston.service (2018-08-20 
->>> 17:38:23 +0100)
->>>
->>> are available in the Git repository at:
->>>
->>>    git://git.pokylinux.org/poky-contrib kangkai/allarch-enabled
->>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/allarch-enabled 
->>>
->>>
->>> Kai Kang (3):
->>>    cmake.bbclass: fix wrong toolchain flags of nativesdk package
->>>    allarch: disable allarch when multilib is used
->>>    sstate.bbclass: update SSTATE_DUPWHITELIST
->>>
->>>   meta/classes/allarch-enabled.bbclass | 52 
->>> ++++++++++++++++++++++++++++
->>>   meta/classes/allarch.bbclass         | 51 ++-------------------------
->>>   meta/classes/cmake.bbclass           |  1 +
->>>   meta/classes/icecc.bbclass           |  2 +-
->>>   meta/classes/multilib.bbclass        |  2 +-
->>>   meta/classes/multilib_global.bbclass |  2 +-
->>>   meta/classes/package.bbclass         |  6 ++--
->>>   meta/classes/sstate.bbclass          |  4 ++-
->>>   8 files changed, 64 insertions(+), 56 deletions(-)
->>>   create mode 100644 meta/classes/allarch-enabled.bbclass
->>>
+>> On 08/18/2018 08:59 AM, Ankur Tyagi wrote:
+>> > This variable is only respected when VOLATILE_LOG_DIR is "no".
+>> >
+>> > The default value is "" which results in the /var/log being log
+>> directory.
+>> >
+>> > The user could override this value to a path e.g "/home/root/log" which
+>> > results /var/log being a link pointing to /home/root/log directory on
+>> > persistent storage.
+>> >
+>> > Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+>> > ---
+>> >   meta/conf/bitbake.conf | 2 ++
+>> >   1 file changed, 2 insertions(+)
+>> >
+>> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> > index e5dc1ac..9db22c8 100644
+>> > --- a/meta/conf/bitbake.conf
+>> > +++ b/meta/conf/bitbake.conf
+>> > @@ -88,6 +88,8 @@ ROOT_HOME ??= "/home/root"
+>> >   # If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log
+>> links to /var/volatile/log.
+>> >   # If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is
+>> on persistent storage.
+>> >   VOLATILE_LOG_DIR ?= "yes"
+>> > +# If VOLATILE_LOG_DIR is false and PERSISTENT_LOG_DIR is set, /var/log
+>> links to PERSISTENT_LOG_DIR
+>> > +PERSISTENT_LOG_DIR ??= ""
+>> >
+>> >   ##################################################################
+>> >   # Architecture-dependent build variables.
 >>
+>>
+>>
+
+--000000000000ddd42e057401b18a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Ping<div dir=3D"auto"><br></div><div dir=3D"auto">Regards=
+</div><div dir=3D"auto">Ankur</div></div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr">On Mon 20 Aug, 2018, 9:12 PM Ankur Tyagi, &lt;<a href=3D"mail=
+to:ankur.tyagi85@gmail.com">ankur.tyagi85@gmail.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_defaul=
+t" style=3D"font-family:arial,helvetica,sans-serif">Initially I thought of =
+doing that but then dropped it because it would create a dependency on sysl=
+og configuration file.</div><div class=3D"gmail_default" style=3D"font-fami=
+ly:arial,helvetica,sans-serif">If in future syslog configuration parameter =
+(LOGFILE) gets renamed, then we need to make corresponding change as well.<=
+/div><div class=3D"gmail_default" style=3D"font-family:arial,helvetica,sans=
+-serif"><br></div><div class=3D"gmail_default" style=3D"font-family:arial,h=
+elvetica,sans-serif">I think creating /var/log as a link is a less dependen=
+t change.</div><div class=3D"gmail_default" style=3D"font-family:arial,helv=
+etica,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-fami=
+ly:arial,helvetica,sans-serif">Let me know your thoughts.</div><div class=
+=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-serif"><br></d=
+iv><div class=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-s=
+erif">Regards</div><div class=3D"gmail_default" style=3D"font-family:arial,=
+helvetica,sans-serif">Ankur</div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr">On Mon, Aug 20, 2018 at 1:49 PM ChenQi &lt;<a href=3D"mailto:Qi.Chen@=
+windriver.com" target=3D"_blank" rel=3D"noreferrer">Qi.Chen@windriver.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Th=
+e requirement is to put logs into directories other than /var/log.<br>
+Could it be achieved by modifying the syslog daemon configuration file <br>
+(e.g. /etc/syslog.conf) to replace /var/log with the specified <br>
+directory. Maybe the corresponding logrotate configuration file also <br>
+needs to be modified.<br>
+<br>
+Best Regards,<br>
+Chen Qi<br>
+<br>
+On 08/18/2018 08:59 AM, Ankur Tyagi wrote:<br>
+&gt; This variable is only respected when VOLATILE_LOG_DIR is &quot;no&quot=
+;.<br>
+&gt;<br>
+&gt; The default value is &quot;&quot; which results in the /var/log being =
+log directory.<br>
+&gt;<br>
+&gt; The user could override this value to a path e.g &quot;/home/root/log&=
+quot; which<br>
+&gt; results /var/log being a link pointing to /home/root/log directory on<=
+br>
+&gt; persistent storage.<br>
+&gt;<br>
+&gt; Signed-off-by: Ankur Tyagi &lt;<a href=3D"mailto:ankur.tyagi85@gmail.c=
+om" target=3D"_blank" rel=3D"noreferrer">ankur.tyagi85@gmail.com</a>&gt;<br=
 >
->
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0meta/conf/bitbake.conf | 2 ++<br>
+&gt;=C2=A0 =C2=A01 file changed, 2 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
+&gt; index e5dc1ac..9db22c8 100644<br>
+&gt; --- a/meta/conf/bitbake.conf<br>
+&gt; +++ b/meta/conf/bitbake.conf<br>
+&gt; @@ -88,6 +88,8 @@ ROOT_HOME ??=3D &quot;/home/root&quot;<br>
+&gt;=C2=A0 =C2=A0# If set to boolean true (&#39;yes&#39;, &#39;y&#39;, &#39=
+;true&#39;, &#39;t&#39;, &#39;1&#39;), /var/log links to /var/volatile/log.=
+<br>
+&gt;=C2=A0 =C2=A0# If set to boolean false (&#39;no&#39;, &#39;n&#39;, &#39=
+;false&#39;, &#39;f&#39;, &#39;0&#39;), /var/log is on persistent storage.<=
+br>
+&gt;=C2=A0 =C2=A0VOLATILE_LOG_DIR ?=3D &quot;yes&quot;<br>
+&gt; +# If VOLATILE_LOG_DIR is false and PERSISTENT_LOG_DIR is set, /var/lo=
+g links to PERSISTENT_LOG_DIR<br>
+&gt; +PERSISTENT_LOG_DIR ??=3D &quot;&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0##########################################################=
+########<br>
+&gt;=C2=A0 =C2=A0# Architecture-dependent build variables.<br>
+<br>
+<br>
+</blockquote></div></div>
+</blockquote></div>
 
--- 
-Regards,
-Neil | Kai Kang
-
-
+--000000000000ddd42e057401b18a--
