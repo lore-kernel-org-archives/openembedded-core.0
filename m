@@ -1,23 +1,29 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F86A74FCB
+Return-Path: <ahedges@student.ethz.ch>
+X-Greylist: delayed 383 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 22 Aug 2018 06:27:07 UTC
+Received: from edge10.ethz.ch (edge10.ethz.ch [82.130.75.186])
+	by mail.openembedded.org (Postfix) with ESMTP id 676357900D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 05:36:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7M5ax1g021293
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2018 22:36:59 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 21 Aug 2018 22:36:58 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Aug 2018 13:36:57 +0800
-Message-ID: <1534916217-446958-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 22 Aug 2018 06:27:07 +0000 (UTC)
+Received: from CAS10.d.ethz.ch (172.31.38.210) by edge10.ethz.ch
+	(82.130.75.186) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Wed, 22 Aug 2018 08:20:31 +0200
+Received: from MBX215.d.ethz.ch ([fe80::8572:f435:81be:9baf]) by
+	CAS10.d.ethz.ch ([fe80::cce:fc66:7b56:a06a%10]) with mapi id
+	14.03.0415.000; Wed, 22 Aug 2018 08:20:32 +0200
+From: "Hedges  Alexander" <ahedges@student.ethz.ch>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] Fix inconsistent indentation
+Thread-Index: AdQ54DrHUM7t9U4PQvCOk8H2+1sQ8Q==
+Date: Wed, 22 Aug 2018 06:20:32 +0000
+Message-ID: <5D23E7CAADD3BE4A97642792FFC691C561C97BF1@MBX215.d.ethz.ch>
+Accept-Language: en-US, de-CH
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [129.132.139.7]
 MIME-Version: 1.0
-Subject: [PATCH] u-boot: patch for CVE-2018-1000205
+Subject: [PATCH] Fix inconsistent indentation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,250 +36,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 05:36:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Aug 2018 06:27:08 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Changqing Li <changqing.li@windriver.com>
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../u-boot/files/CVE-2018-1000205-1.patch          |  59 +++++++++
- .../u-boot/files/CVE-2018-1000205-2.patch          | 143 +++++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot-common_2018.07.inc  |   5 +-
- 3 files changed, 206 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2018-1000205-1.patch
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2018-1000205-2.patch
-
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-1.patch b/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-1.patch
-new file mode 100644
-index 0000000..fed3c3d
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-1.patch
-@@ -0,0 +1,59 @@
-+From 7346c1e192d63cd35f99c7e845e53c5d4d0bdc24 Mon Sep 17 00:00:00 2001
-+From: Teddy Reed <teddy.reed@gmail.com>
-+Date: Sat, 9 Jun 2018 11:45:20 -0400
-+Subject: [PATCH] vboot: Do not use hashed-strings offset
-+
-+The hashed-strings signature property includes two uint32_t values.
-+The first is unneeded as there should never be a start offset into the
-+strings region. The second, the size, is needed because the added
-+signature node appends to this region.
-+
-+See tools/image-host.c, where a static 0 value is used for the offset.
-+
-+Signed-off-by: Teddy Reed <teddy.reed@gmail.com>
-+Reviewed-by: Simon Glass <sjg@chromium.org>
-+
-+Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
-+                 h=7346c1e192d63cd35f99c7e845e53c5d4d0bdc24]
-+
-+CVE: CVE-2018-1000205
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ common/image-sig.c | 7 +++++--
-+ tools/image-host.c | 1 +
-+ 2 files changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/common/image-sig.c b/common/image-sig.c
-+index 8d2fd10..5a269d3 100644
-+--- a/common/image-sig.c
-++++ b/common/image-sig.c
-+@@ -377,8 +377,11 @@ int fit_config_check_sig(const void *fit, int noffset, int required_keynode,
-+ 	/* Add the strings */
-+ 	strings = fdt_getprop(fit, noffset, "hashed-strings", NULL);
-+ 	if (strings) {
-+-		fdt_regions[count].offset = fdt_off_dt_strings(fit) +
-+-				fdt32_to_cpu(strings[0]);
-++		/*
-++		 * The strings region offset must be a static 0x0.
-++		 * This is set in tool/image-host.c
-++		 */
-++		fdt_regions[count].offset = fdt_off_dt_strings(fit);
-+ 		fdt_regions[count].size = fdt32_to_cpu(strings[1]);
-+ 		count++;
-+ 	}
-+diff --git a/tools/image-host.c b/tools/image-host.c
-+index 8e43671..be2d59b 100644
-+--- a/tools/image-host.c
-++++ b/tools/image-host.c
-+@@ -135,6 +135,7 @@ static int fit_image_write_sig(void *fit, int noffset, uint8_t *value,
-+ 
-+ 		ret = fdt_setprop(fit, noffset, "hashed-nodes",
-+ 				   region_prop, region_proplen);
-++		/* This is a legacy offset, it is unused, and must remain 0. */
-+ 		strdata[0] = 0;
-+ 		strdata[1] = cpu_to_fdt32(string_size);
-+ 		if (!ret) {
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-2.patch b/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-2.patch
-new file mode 100644
-index 0000000..bb79af1
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-2.patch
-@@ -0,0 +1,143 @@
-+From 72239fc85f3eda078547956608c063ab965e90e9 Mon Sep 17 00:00:00 2001
-+From: Teddy Reed <teddy.reed@gmail.com>
-+Date: Sat, 9 Jun 2018 11:38:05 -0400
-+Subject: [PATCH] vboot: Add FIT_SIGNATURE_MAX_SIZE protection
-+
-+This adds a new config value FIT_SIGNATURE_MAX_SIZE, which controls the
-+max size of a FIT header's totalsize field. The field is checked before
-+signature checks are applied to protect from reading past the intended
-+FIT regions.
-+
-+This field is not part of the vboot signature so it should be sanity
-+checked. If the field is corrupted then the structure or string region
-+reads may have unintended behavior, such as reading from device memory.
-+A default value of 256MB is set and intended to support most max storage
-+sizes.
-+
-+Suggested-by: Simon Glass <sjg@chromium.org>
-+Signed-off-by: Teddy Reed <teddy.reed@gmail.com>
-+Reviewed-by: Simon Glass <sjg@chromium.org>
-+
-+Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
-+                 h=72239fc85f3eda078547956608c063ab965e90e9]
-+
-+CVE: CVE-2018-1000205
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ Kconfig                     | 10 ++++++++++
-+ common/image-sig.c          |  5 +++++
-+ test/py/tests/test_vboot.py | 33 +++++++++++++++++++++++++++++++++
-+ tools/Makefile              |  1 +
-+ 4 files changed, 49 insertions(+)
-+
-+diff --git a/Kconfig b/Kconfig
-+index 5a82c95..c8b86cd 100644
-+--- a/Kconfig
-++++ b/Kconfig
-+@@ -267,6 +267,16 @@ config FIT_SIGNATURE
-+ 	  format support in this case, enable it using
-+ 	  CONFIG_IMAGE_FORMAT_LEGACY.
-+ 
-++config FIT_SIGNATURE_MAX_SIZE
-++	hex "Max size of signed FIT structures"
-++	depends on FIT_SIGNATURE
-++	default 0x10000000
-++	help
-++	  This option sets a max size in bytes for verified FIT uImages.
-++	  A sane value of 256MB protects corrupted DTB structures from overlapping
-++	  device memory. Assure this size does not extend past expected storage
-++	  space.
-++
-+ config FIT_VERBOSE
-+ 	bool "Show verbose messages when FIT images fail"
-+ 	help
-+diff --git a/common/image-sig.c b/common/image-sig.c
-+index f65d883..8d2fd10 100644
-+--- a/common/image-sig.c
-++++ b/common/image-sig.c
-+@@ -156,6 +156,11 @@ static int fit_image_setup_verify(struct image_sign_info *info,
-+ {
-+ 	char *algo_name;
-+ 
-++	if (fdt_totalsize(fit) > CONFIG_FIT_SIGNATURE_MAX_SIZE) {
-++		*err_msgp = "Total size too large";
-++		return 1;
-++	}
-++
-+ 	if (fit_image_hash_get_algo(fit, noffset, &algo_name)) {
-+ 		*err_msgp = "Can't get hash algo property";
-+ 		return -1;
-+diff --git a/test/py/tests/test_vboot.py b/test/py/tests/test_vboot.py
-+index ee939f2..3d25ec3 100644
-+--- a/test/py/tests/test_vboot.py
-++++ b/test/py/tests/test_vboot.py
-+@@ -26,6 +26,7 @@ Tests run with both SHA1 and SHA256 hashing.
-+ 
-+ import pytest
-+ import sys
-++import struct
-+ import u_boot_utils as util
-+ 
-+ @pytest.mark.boardspec('sandbox')
-+@@ -105,6 +106,26 @@ def test_vboot(u_boot_console):
-+         util.run_and_log(cons, [mkimage, '-F', '-k', tmpdir, '-K', dtb,
-+                                 '-r', fit])
-+ 
-++    def replace_fit_totalsize(size):
-++        """Replace FIT header's totalsize with something greater.
-++
-++        The totalsize must be less than or equal to FIT_SIGNATURE_MAX_SIZE.
-++        If the size is greater, the signature verification should return false.
-++
-++        Args:
-++            size: The new totalsize of the header
-++
-++        Returns:
-++            prev_size: The previous totalsize read from the header
-++        """
-++        total_size = 0
-++        with open(fit, 'r+b') as handle:
-++            handle.seek(4)
-++            total_size = handle.read(4)
-++            handle.seek(4)
-++            handle.write(struct.pack(">I", size))
-++        return struct.unpack(">I", total_size)[0]
-++
-+     def test_with_algo(sha_algo):
-+         """Test verified boot with the given hash algorithm.
-+ 
-+@@ -146,6 +167,18 @@ def test_vboot(u_boot_console):
-+         util.run_and_log(cons, [fit_check_sign, '-f', fit, '-k', tmpdir,
-+                                 '-k', dtb])
-+ 
-++        # Replace header bytes
-++        bcfg = u_boot_console.config.buildconfig
-++        max_size = int(bcfg.get('config_fit_signature_max_size', 0x10000000), 0)
-++        existing_size = replace_fit_totalsize(max_size + 1)
-++        run_bootm(sha_algo, 'Signed config with bad hash', 'Bad Data Hash', False)
-++        cons.log.action('%s: Check overflowed FIT header totalsize' % sha_algo)
-++
-++        # Replace with existing header bytes
-++        replace_fit_totalsize(existing_size)
-++        run_bootm(sha_algo, 'signed config', 'dev+', True)
-++        cons.log.action('%s: Check default FIT header totalsize' % sha_algo)
-++
-+         # Increment the first byte of the signature, which should cause failure
-+         sig = util.run_and_log(cons, 'fdtget -t bx %s %s value' %
-+                                (fit, sig_node))
-+diff --git a/tools/Makefile b/tools/Makefile
-+index 5dd33ed..0c3341e 100644
-+--- a/tools/Makefile
-++++ b/tools/Makefile
-+@@ -133,6 +133,7 @@ ifdef CONFIG_FIT_SIGNATURE
-+ # This affects include/image.h, but including the board config file
-+ # is tricky, so manually define this options here.
-+ HOST_EXTRACFLAGS	+= -DCONFIG_FIT_SIGNATURE
-++HOST_EXTRACFLAGS	+= -DCONFIG_FIT_SIGNATURE_MAX_SIZE=$(CONFIG_FIT_SIGNATURE_MAX_SIZE)
-+ endif
-+ 
-+ ifdef CONFIG_SYS_U_BOOT_OFFS
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2018.07.inc b/meta/recipes-bsp/u-boot/u-boot-common_2018.07.inc
-index d945253..22b44dc 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common_2018.07.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common_2018.07.inc
-@@ -10,6 +10,9 @@ PE = "1"
- # repo during parse
- SRCREV = "8c5d4fd0ec222701598a27b26ab7265d4cee45a3"
- 
--SRC_URI = "git://git.denx.de/u-boot.git"
-+SRC_URI = "git://git.denx.de/u-boot.git \
-+           file://CVE-2018-1000205-1.patch \
-+           file://CVE-2018-1000205-2.patch \
-+"
- 
- S = "${WORKDIR}/git"
--- 
-2.7.4
-
+From 23438137cea726c9144db29b593b7034f5ac2408 Mon Sep 17 00:00:00 2001=0A=
+From: Alexander Hedges <ahedges@ethz.ch>=0A=
+Date: Tue, 21 Aug 2018 19:17:50 +0200=0A=
+=0A=
+This removes some extra spaces.=0A=
+=0A=
+Signed-off-by: Alexander Hedges <ahedges@ethz.ch>=0A=
+---=0A=
+ meta/recipes-bsp/u-boot/u-boot.inc | 54 +++++++++++++++---------------=0A=
+ 1 file changed, 27 insertions(+), 27 deletions(-)=0A=
+=0A=
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u=
+-boot.inc=0A=
+index 95c2f4db14..48fbc57215 100644=0A=
+--- a/meta/recipes-bsp/u-boot/u-boot.inc=0A=
++++ b/meta/recipes-bsp/u-boot/u-boot.inc=0A=
+@@ -231,7 +231,7 @@ do_deploy () {=0A=
+         rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}=0A=
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}=0A=
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}=0A=
+-   fi=0A=
++    fi=0A=
+ =0A=
+     if [ -n "${UBOOT_ELF}" ]=0A=
+     then=0A=
+@@ -263,32 +263,32 @@ do_deploy () {=0A=
+ =0A=
+      if [ -n "${SPL_BINARY}" ]=0A=
+      then=0A=
+-         if [ -n "${UBOOT_CONFIG}" ]=0A=
+-         then=0A=
+-             for config in ${UBOOT_MACHINE}; do=0A=
+-                 i=3D$(expr $i + 1);=0A=
+-                 for type in ${UBOOT_CONFIG}; do=0A=
+-                     j=3D$(expr $j + 1);=0A=
+-                     if [ $j -eq $i ]=0A=
+-                     then=0A=
+-                         install -m 644 ${B}/${config}/${SPL_BINARY} ${DEP=
+LOYDIR}/${SPL_IMAGE}-${type}-${PV}-${PR}=0A=
+-                         rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}=
+/${SPL_SYMLINK}-${type}=0A=
+-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
+IR}/${SPL_BINARYNAME}-${type}=0A=
+-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
+IR}/${SPL_BINARYNAME}=0A=
+-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
+IR}/${SPL_SYMLINK}-${type}=0A=
+-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYD=
+IR}/${SPL_SYMLINK}=0A=
+-                     fi=0A=
+-                 done=0A=
+-                 unset  j=0A=
+-             done=0A=
+-             unset  i=0A=
+-         else=0A=
+-             install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}=
+=0A=
+-             rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLI=
+NK}=0A=
+-             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}=0A=
+-             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}=0A=
+-         fi=0A=
+-     fi=0A=
++        if [ -n "${UBOOT_CONFIG}" ]=0A=
++        then=0A=
++            for config in ${UBOOT_MACHINE}; do=0A=
++                i=3D$(expr $i + 1);=0A=
++                for type in ${UBOOT_CONFIG}; do=0A=
++                    j=3D$(expr $j + 1);=0A=
++                    if [ $j -eq $i ]=0A=
++                    then=0A=
++                        install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPL=
+OYDIR}/${SPL_IMAGE}-${type}-${PV}-${PR}=0A=
++                        rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/=
+${SPL_SYMLINK}-${type}=0A=
++                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
+R}/${SPL_BINARYNAME}-${type}=0A=
++                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
+R}/${SPL_BINARYNAME}=0A=
++                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
+R}/${SPL_SYMLINK}-${type}=0A=
++                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
+R}/${SPL_SYMLINK}=0A=
++                    fi=0A=
++                done=0A=
++                unset  j=0A=
++            done=0A=
++            unset  i=0A=
++        else=0A=
++            install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}=0A=
++            rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLIN=
+K}=0A=
++            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}=0A=
++            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}=0A=
++        fi=0A=
++    fi=0A=
+ =0A=
+ =0A=
+     if [ -n "${UBOOT_ENV}" ]=0A=
+-- =0A=
+2.17.1=0A=
 
