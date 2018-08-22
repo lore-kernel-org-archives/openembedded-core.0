@@ -1,52 +1,52 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id E775A793B4
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 0887A79074
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 13:20:37 +0000 (UTC)
-Received: by mail-oi0-f52.google.com with SMTP id c190-v6so3055096oig.6
+	Wed, 22 Aug 2018 13:20:40 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id q11-v6so3020666oic.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 06:20:39 -0700 (PDT)
+	Wed, 22 Aug 2018 06:20:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4tXptQq/bgMceGKQzEwD5c8aV1SKQnTJBbPDfeAfqHg=;
-	b=miIrZji965yOq2ran04dElAG/HqFTBFZgxkYNVE3kH1tASIRURZud+joucx7e94uKO
-	/Y4PlyRf/f0V5Wo5Jdbuq0yZiVXVt90ZSJZfYkPMoIu0YFxHB6hnjluF7XDkrQjq95wj
-	hG1/8voI6bgCoCLAArGqYHAUNKOv+gUEQqr3WrHt6YoSZLm8S+RBP4fZLeic0vOrviSB
-	V3BaqvGyAXd6ZhGz/o2Fbxof6v639TR0j02UbdsGhUAkZekmIgp9jG+SylspXQFqaPRv
-	KGJFheORz6JoVxhwp49XeHMxN5/SEJi35Z4/usMamQ5GcfW9DjVd+WEY+w2XvQwmtxp2
-	3jnA==
+	bh=Y4Nh6rOj88MWjicoY7bIJIWzAa3Mj02Is47U6JkJtd0=;
+	b=VZk9AnOjQ5fWn1fvvV0pscgy1vanOQXS31sOmVUBEJWDmuo6U75Ge9z6SZBuZOWX1k
+	ezWqDtKScorAM5DErdrlDUBTORlik1aICu+is9qR70bS3jXxU49hJUyEFzOFdHegrv0T
+	uSv8ebEQr2UGcu9X2CEDvzYdJFCLLkvXQ9rik0DhGZDGz3pBl89YB33zoAkd08YFFpjV
+	RjhiVmfGDery8Q7/8OCGon/nAXdzdB8AFacXF3GBzabZX3fTlPllxrC3Mc7WkGDVF2cO
+	2g39TGxXPJlf13DLAW0NgJY/CWuISmH7hQRud3oGw3Sbif9eoHHM5lkDROOCBW1qCdIP
+	W5FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=4tXptQq/bgMceGKQzEwD5c8aV1SKQnTJBbPDfeAfqHg=;
-	b=ABVmUcQ5V5shvAS6A4LsU8/P7+Od7Uh3uwNmd/7l7DAv3OT7GxfYyadaDOFYmp8TkT
-	7e3HCnpkFFXDFbjmsEIEa61S1bVRnnSaNcQq+CvBTdq/23z5RI4wzXQxaAhdr4IykQGg
-	lwKCkhQ1mJMbblJrhMOUrMEA940lgM8LMy2uRiXq9SFUwbjUsbdomIlFJddPOMc276Yc
-	q2enluBI2obB1p8Kk1ZxWytyuiZEn349y0a4Q8Oy5pQeKsyWuCNLnmguHeE8tR6mfDbw
-	CdXMM8cN8AFOj5zWc3cvQ85FRXewNkPyWx+Qmu7UOTpzaK5OHT1o1EWvWK+tD83twRWi
-	M5jw==
-X-Gm-Message-State: APzg51At44Qy7WVXlaVUYG0InwRrGqZXChatl61ecpJOuTlZ4uwaklk/
-	9UIO00JnEG9DDbkv0Z3hEvuK0Nsn+Gs=
-X-Google-Smtp-Source: ANB0Vdb7jHH8BNS+T6u6s46u3Anxu0T2BUh2wFrY2B7B/AJQobFscTVraEgziArF1RDNEOo0ZkDOPw==
-X-Received: by 2002:aca:5c85:: with SMTP id
-	q127-v6mr3642123oib.127.1534944038706; 
-	Wed, 22 Aug 2018 06:20:38 -0700 (PDT)
+	bh=Y4Nh6rOj88MWjicoY7bIJIWzAa3Mj02Is47U6JkJtd0=;
+	b=TlUsxkU8LGl3+dGqnvhkuJ0ZbJabRQxymtPkJRtomlKQC/XeeQ/XY0JJVfL/3rWkzW
+	1f7JFF8WKMTWO3C5MXRkOQ0EGDiGoa2BphV+TklhjDLQ/5gyYv7z3bHX6hQ0bqiRfNax
+	ch/M/hwLanZZ6JR6RWJWmrxVHYGyHFHtTbxY9DGlwitOHvEDQM1XOCRLcYxIS04+Y7dW
+	Bp0ptik2BuDIvqHHAY8+jlCbZFJfK38xeyvtHCVb3ctTOsCxiJ1FXGec/3L4qc1bAksC
+	lbDfhwD/YNl23zDhhtWLc1Y7Lye0tE8puARXStWl5gVq9EScRLKyOf8EZ3pqDjfGjMhE
+	PHNA==
+X-Gm-Message-State: APzg51Bzwve30ArCnH3WgoFxLbvV2Nga02gw9katGn3NHM76xPmcP0Cv
+	f3AHAv1D9pVq9C197wW76Z47VMmbh+c=
+X-Google-Smtp-Source: ANB0Vdb5bnajgj6E905y6Z30TlH3w0i8e1BHZCjAJez8BfhvjKYwMQ/ZK/vtUCLZ0JyF2tBoOvgoQQ==
+X-Received: by 2002:aca:cf97:: with SMTP id
+	f145-v6mr4100819oig.131.1534944041035; 
+	Wed, 22 Aug 2018 06:20:41 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	t141-v6sm2354715oif.18.2018.08.22.06.20.36
+	t141-v6sm2354715oif.18.2018.08.22.06.20.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 06:20:38 -0700 (PDT)
+	Wed, 22 Aug 2018 06:20:40 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 18:49:57 +0530
-Message-Id: <1534944009-21362-7-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 18:49:58 +0530
+Message-Id: <1534944009-21362-8-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534944009-21362-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534944009-21362-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [SUMO][PATCH 07/19] gnupg: CVE-2018-12020
+Subject: [SUMO][PATCH 08/19] libsndfile1: CVE-2017-14634
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,96 +59,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 13:20:38 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 13:20:40 -0000
 
-gpg: Sanitize diagnostic with the original file name.
+double64_init: Check psf->sf.channels against upper bound
 
-* g10/mainproc.c (proc_plaintext): Sanitize verbose output.
---
+This prevents division by zero later in the code.
 
-This fixes a forgotten sanitation of user supplied data in a verbose
-mode diagnostic.  The mention CVE is about using this to inject
-status-fd lines into the stderr output.  Other harm good as well be
-done.  Note that GPGME based applications are not affected because
-GPGME does not fold status output into stderr.
+While the trivial case to catch this (i.e. sf.channels < 1) has already
+been covered, a crafted file may report a number of channels that is
+so high (i.e. > INT_MAX/sizeof(double)) that it "somehow" gets
+miscalculated to zero (if this makes sense) in the determination of the
+blockwidth. Since we only support a limited number of channels anyway,
+make sure to check here as well.
 
-CVE-id: CVE-2018-12020
-GnuPG-bug-id: 4012
+CVE-2017-14634
 
-Affects gnupg < 2.2.8
+Closes: #318
+
+Affects libsndfile1 = 1.0.28
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../gnupg/gnupg/CVE-2018-12020.patch               | 47 ++++++++++++++++++++++
- meta/recipes-support/gnupg/gnupg_2.2.4.bb          |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
+ .../libsndfile/libsndfile1/CVE-2017-14634.patch    | 42 ++++++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.28.bb               |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14634.patch
 
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch b/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14634.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14634.patch
 new file mode 100644
-index 0000000..14698db
+index 0000000..39b4ec1
 --- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2018-12020.patch
-@@ -0,0 +1,47 @@
-+From 13f135c7a252cc46cff96e75968d92b6dc8dce1b Mon Sep 17 00:00:00 2001
-+From: Werner Koch <wk@gnupg.org>
-+Date: Fri, 8 Jun 2018 10:45:21 +0200
-+Subject: [PATCH] gpg: Sanitize diagnostic with the original file name.
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14634.patch
+@@ -0,0 +1,42 @@
++From 85c877d5072866aadbe8ed0c3e0590fbb5e16788 Mon Sep 17 00:00:00 2001
++From: Fabian Greffrath <fabian@greffrath.com>
++Date: Thu, 28 Sep 2017 12:15:04 +0200
++Subject: [PATCH] double64_init: Check psf->sf.channels against upper bound
 +
-+* g10/mainproc.c (proc_plaintext): Sanitize verbose output.
-+--
++This prevents division by zero later in the code.
 +
-+This fixes a forgotten sanitation of user supplied data in a verbose
-+mode diagnostic.  The mention CVE is about using this to inject
-+status-fd lines into the stderr output.  Other harm good as well be
-+done.  Note that GPGME based applications are not affected because
-+GPGME does not fold status output into stderr.
++While the trivial case to catch this (i.e. sf.channels < 1) has already
++been covered, a crafted file may report a number of channels that is
++so high (i.e. > INT_MAX/sizeof(double)) that it "somehow" gets
++miscalculated to zero (if this makes sense) in the determination of the
++blockwidth. Since we only support a limited number of channels anyway,
++make sure to check here as well.
 +
-+CVE-id: CVE-2018-12020
-+GnuPG-bug-id: 4012
++CVE: CVE-2017-14634
 +
-+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=13f135c7a252cc46cff96e75968d92b6dc8dce1b]
++Closes: https://github.com/erikd/libsndfile/issues/318
 +
++Upstream-Status: Backport [https://github.com/erikd/libsndfile/commit/85c877d5072866aadbe8ed0c3e0590fbb5e16788]
++
++Signed-off-by: Erik de Castro Lopo <erikd@mega-nerd.com>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ g10/mainproc.c | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
++ src/double64.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/g10/mainproc.c b/g10/mainproc.c
-+index d2ceec2fd..a9da08f74 100644
-+--- a/g10/mainproc.c
-++++ b/g10/mainproc.c
-+@@ -851,7 +851,14 @@ proc_plaintext( CTX c, PACKET *pkt )
-+   if (pt->namelen == 8 && !memcmp( pt->name, "_CONSOLE", 8))
-+     log_info (_("Note: sender requested \"for-your-eyes-only\"\n"));
-+   else if (opt.verbose)
-+-    log_info (_("original file name='%.*s'\n"), pt->namelen, pt->name);
-++    {
-++      /* We don't use print_utf8_buffer because that would require a
-++       * string change which we don't want in 2.2.  It is also not
-++       * clear whether the filename is always utf-8 encoded.  */
-++      char *tmp = make_printable_string (pt->name, pt->namelen, 0);
-++      log_info (_("original file name='%.*s'\n"), (int)strlen (tmp), tmp);
-++      xfree (tmp);
-++    }
++diff --git a/src/double64.c b/src/double64.c
++index b318ea8..78dfef7 100644
++--- a/src/double64.c
+++++ b/src/double64.c
++@@ -91,7 +91,7 @@ int
++ double64_init	(SF_PRIVATE *psf)
++ {	static int double64_caps ;
 + 
-+   free_md_filter_context (&c->mfx);
-+   if (gcry_md_open (&c->mfx.md, 0, 0))
++-	if (psf->sf.channels < 1)
+++	if (psf->sf.channels < 1 || psf->sf.channels > SF_MAX_CHANNELS)
++ 	{	psf_log_printf (psf, "double64_init : internal error : channels = %d\n", psf->sf.channels) ;
++ 		return SFE_INTERNAL ;
++ 		} ;
 +-- 
 +2.13.3
 +
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.4.bb b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-index d3f1a8f..d6bfaff 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-use-pkgconfig-instead-of-npth-config.patch \
-            file://0003-dirmngr-uses-libgpg-error.patch \
-            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
-+           file://CVE-2018-12020.patch \
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index c6f2a46..ed43b74 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -11,6 +11,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
+            file://CVE-2017-8362.patch \
+            file://CVE-2017-8363.patch \
+            file://CVE-2017-14245-14246.patch \
++           file://CVE-2017-14634.patch \
            "
- SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch"
  
+ SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
 -- 
 2.7.4
 
