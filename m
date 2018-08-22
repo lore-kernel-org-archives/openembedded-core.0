@@ -1,52 +1,53 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 9300B7927A
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 281A179282
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 11:17:34 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id z185-v6so2041824oia.5
+	Wed, 22 Aug 2018 11:17:38 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id b15-v6so2454432oib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 04:17:35 -0700 (PDT)
+	Wed, 22 Aug 2018 04:17:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=tlPMpFQ/jWy9w3l6onaeFsNKK+8dxwgnUVzkpdvKMqA=;
-	b=peY77Leq0Tvuk+vYIKIeu8MLsRjIb2Qns18ljXIvH9E+QlAMc9hAH8HPYxsZvIlMwl
-	mzJx7mgP+a3AkYBkKppUmh7h/apkG2Snl8fciSD1Wdmc4rdqr47+lxJ2urX1koW9PNwl
-	0WqIEixKwyYrndk5pkHH6q7g3CqEA3LeUTo7MaJLY/DwMCVXEdSX22PtE2x38PZPUaZ3
-	Yxcp0Df0D5tdN4CVlx6nhXB7z1428E5mkCvlr02jYoS2kVywj38uKbnF3W1q3a4XiacD
-	hJGjGUnShsZa2rXMEKbjeLtCJU/hWyMMe8eDioujL0vBgYT+OLkkMPD1Nk3yLIEWB8T4
-	hqaw==
+	bh=0i+DHqfPw5hB3x5c8sdQnJKyzV1pl1CqETwVXn6QHDg=;
+	b=MGg/AYeh1nvcpDJ5po/abOxv545XwaNGQlSBxWJIw4NPle76ioWFtGU7P/O1hXSYJu
+	eKKzBad9uJQf/1SVO3o0Xlx+aXoQhMIn5HATx6zHhsZLCItLTs8KVrwA4nWzwHsOZoCQ
+	KGzOo8QTA7QAxptsE4nEOBUSi/ejI+WFfnWzqj3IEbLsqfUyGlqaycIIgIORgL6XpBD5
+	P0pomHgBzHoqPhEZxuhVOS59wpx0OuwkP55RCVLfgEasZrQUneSAc8uq6lhb/WdA5H88
+	PXbLppjJVRuVkViimlg6YxklnLBYXJVtB5YqQedsCHGz3R/7toZKWZJm14e6XYIAp/iB
+	tI5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=tlPMpFQ/jWy9w3l6onaeFsNKK+8dxwgnUVzkpdvKMqA=;
-	b=r4HdugDY6TXwdoQ+WKQfxAssbl1acsoys9MRQUhm6xSIHH/e/k9Xi+Wkqml4q41PKn
-	4EiAHvaHU1I+FRkFaKGz+/lk+SOzNnz34TA0yMk92NU1Dy4Kf38I/JvBAOYlRc5e9L1I
-	FryKNn4lrM5bE4SBIvdP1pCQyR//bOqU0a4dLrjIBbBhoP3SpU/suA6BR36AlYfDeQbG
-	jFX/ELPQcFj3SOXlBbItlyxoBcHzVkUB4aQ9uOLwR12Pa+clI9UJnG0FGx6bkK7YTGWW
-	LgXgFiXzxDjYa0QjMruOxmBIe7RxqHVYgJglVlqUr9/CMKwhjpRXFSiieEkCrPX8zTC3
-	0X0A==
-X-Gm-Message-State: APzg51Cb+Kb3Q3qg2SLOwydF5y4dnSXAOuPHyeF1ITkU6k/yJFiRF2hl
-	tublmYI0gTtkhuturJFsKnkiygMNivc=
-X-Google-Smtp-Source: ANB0VdZXYbEg91UoCqW9IVZPhEQGRanGkTmxxknZAZHIDo0yjR7Wr1/cgIJXn7kP1I7uaqTknSnB/Q==
-X-Received: by 2002:aca:e6d4:: with SMTP id
-	d203-v6mr3605766oih.311.1534936655328; 
-	Wed, 22 Aug 2018 04:17:35 -0700 (PDT)
+	bh=0i+DHqfPw5hB3x5c8sdQnJKyzV1pl1CqETwVXn6QHDg=;
+	b=WmZo4zDvwBuJNmRfQPFarNPszwJngx2cd6P+jbG5VgCkPJo27cjYEljf/c51f2LOqz
+	bWQq02JMGs0ui68DTYguRmNaKz5b/ueL1F+1rFzaRgvZMIx1y+SWGw0XCGj818DQzjeR
+	eGHqVKrHmK23Bn+xOKlXjWX3rJnJq/RmyAklLwtFvhuJO1lkzknYH9MMewf8Ai0zeJCi
+	ND17LBzX0DXo8KWleBv+a4MVBZNjKdYNXAYAT0wsQH7TAONX9qZTuYLxZLJW+4VuJho8
+	v1BnD72dEmi86qh6Zsbrj6w9Kwlip1U2pqLK/m27TFeprM+LzW6/pK1ZDdkHJlKMfeol
+	dCWw==
+X-Gm-Message-State: APzg51D8p93l5IR+ttYyPvNa9+yA1CoYGMjOTfOugnWjP4p2czqTI7gd
+	Bjqjr2DC2MSuV+SJ6UOApiM4QbkvgIY=
+X-Google-Smtp-Source: ANB0VdacmY3iKnmE4Wc7MMKjdDuCfR9SeY70rjMLTU8X33q6ARVlPlUl3dSYntY0hfpiBneAmq+D/Q==
+X-Received: by 2002:aca:894:: with SMTP id
+	142-v6mr3617296oii.125.1534936659210; 
+	Wed, 22 Aug 2018 04:17:39 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.107.222])
 	by smtp.gmail.com with ESMTPSA id
-	v5-v6sm694446oix.36.2018.08.22.04.17.33
+	v5-v6sm694446oix.36.2018.08.22.04.17.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 04:17:34 -0700 (PDT)
+	Wed, 22 Aug 2018 04:17:38 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 16:46:45 +0530
-Message-Id: <1534936615-11658-9-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 16:46:46 +0530
+Message-Id: <1534936615-11658-10-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1534936615-11658-1-git-send-email-jkrishnanjanappa@mvista.com>
 References: <1534936615-11658-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [SUMO][PATCH 09/19] libarchive: CVE-2017-14503
+Cc: Ferret on Shark <shark_admin@mvista.co>
+Subject: [SUMO][PATCH 10/19] qemu: CVE-2018-7550
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,66 +60,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:17:34 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 11:17:38 -0000
 
-Reject LHA archive entries with negative size.
+From: Ferret on Shark <shark_admin@mvista.co>
 
-Affects libarchive = 3.3.2
+multiboot: bss_end_addr can be zero
+
+The multiboot spec
+(https://www.gnu.org/software/grub/manual/multiboot/),
+section 3.1.3, allows for bss_end_addr to be zero.
+
+A zero bss_end_addr signifies there is no .bss section.
+
+Affects qemu < v2.12.0
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../libarchive/libarchive/CVE-2017-14503.patch     | 29 ++++++++++++++++++++++
- .../libarchive/libarchive_3.3.2.bb                 |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch
+ .../recipes-devtools/qemu/qemu/CVE-2018-7550.patch | 62 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.11.1.bb          |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
 new file mode 100644
-index 0000000..f82b096
+index 0000000..9923d12
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2017-14503.patch
-@@ -0,0 +1,29 @@
-+From 2c8c83b9731ff822fad6cc8c670ea5519c366a14 Mon Sep 17 00:00:00 2001
-+From: Joerg Sonnenberger <joerg@bec.de>
-+Date: Thu, 19 Jul 2018 21:14:53 +0200
-+Subject: [PATCH] Reject LHA archive entries with negative size.
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-7550.patch
+@@ -0,0 +1,62 @@
++From 2a8fcd119eb7c6bb3837fc3669eb1b2dfb31daf8 Mon Sep 17 00:00:00 2001
++From: Jack Schwartz <jack.schwartz@oracle.com>
++Date: Thu, 21 Dec 2017 09:25:15 -0800
++Subject: [PATCH] multiboot: bss_end_addr can be zero
 +
++The multiboot spec (https://www.gnu.org/software/grub/manual/multiboot/),
++section 3.1.3, allows for bss_end_addr to be zero.
++
++A zero bss_end_addr signifies there is no .bss section.
++
++CVE: CVE-2018-7550
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commitdiff;h=2a8fcd119eb7c6bb3837fc3669eb1b2dfb31daf8]
++
++Suggested-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Jack Schwartz <jack.schwartz@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
++Signed-off-by: Kevin Wolf <kwolf@redhat.com>
++Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ libarchive/archive_read_support_format_lha.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ hw/i386/multiboot.c | 18 ++++++++++--------
++ 1 file changed, 10 insertions(+), 8 deletions(-)
 +
-+diff --git a/libarchive/archive_read_support_format_lha.c b/libarchive/archive_read_support_format_lha.c
-+index b8ef4ae1..95c99bb1 100644
-+--- a/libarchive/archive_read_support_format_lha.c
-++++ b/libarchive/archive_read_support_format_lha.c
-+@@ -701,6 +701,12 @@ archive_read_format_lha_read_header(struct archive_read *a,
-+ 	 * Prepare variables used to read a file content.
-+ 	 */
-+ 	lha->entry_bytes_remaining = lha->compsize;
-++	if (lha->entry_bytes_remaining < 0) {
-++		archive_set_error(&a->archive,
-++		    ARCHIVE_ERRNO_FILE_FORMAT,
-++		    "Invalid LHa entry size");
-++		return (ARCHIVE_FATAL);
-++	}
-+ 	lha->entry_offset = 0;
-+ 	lha->entry_crc_calculated = 0;
++diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
++index 46d9c68bf5..bb8d8e4629 100644
++--- a/hw/i386/multiboot.c
+++++ b/hw/i386/multiboot.c
++@@ -233,12 +233,6 @@ int load_multiboot(FWCfgState *fw_cfg,
++         mh_entry_addr = ldl_p(header+i+28);
 + 
++         if (mh_load_end_addr) {
++-            if (mh_bss_end_addr < mh_load_addr) {
++-                fprintf(stderr, "invalid mh_bss_end_addr address\n");
++-                exit(1);
++-            }
++-            mb_kernel_size = mh_bss_end_addr - mh_load_addr;
++-
++             if (mh_load_end_addr < mh_load_addr) {
++                 fprintf(stderr, "invalid mh_load_end_addr address\n");
++                 exit(1);
++@@ -249,8 +243,16 @@ int load_multiboot(FWCfgState *fw_cfg,
++                 fprintf(stderr, "invalid kernel_file_size\n");
++                 exit(1);
++             }
++-            mb_kernel_size = kernel_file_size - mb_kernel_text_offset;
++-            mb_load_size = mb_kernel_size;
+++            mb_load_size = kernel_file_size - mb_kernel_text_offset;
+++        }
+++        if (mh_bss_end_addr) {
+++            if (mh_bss_end_addr < (mh_load_addr + mb_load_size)) {
+++                fprintf(stderr, "invalid mh_bss_end_addr address\n");
+++                exit(1);
+++            }
+++            mb_kernel_size = mh_bss_end_addr - mh_load_addr;
+++        } else {
+++            mb_kernel_size = mb_load_size;
++         }
++ 
++         /* Valid if mh_flags sets MULTIBOOT_HEADER_HAS_VBE.
 +-- 
 +2.13.3
 +
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.3.2.bb b/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-index 5daca27..3269716 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-@@ -36,6 +36,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://CVE-2017-14166.patch \
-            file://CVE-2017-14502.patch \
-            file://non-recursive-extract-and-list.patch \
-+           file://CVE-2017-14503.patch \
-           "
+diff --git a/meta/recipes-devtools/qemu/qemu_2.11.1.bb b/meta/recipes-devtools/qemu/qemu_2.11.1.bb
+index 7de21ac..db7ead7 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.11.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.11.1.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+            file://0012-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch \
+            file://0013-ps2-check-PS2Queue-pointers-in-post_load-routine.patch \
+            file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
++           file://CVE-2018-7550.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
  
- SRC_URI[md5sum] = "4583bd6b2ebf7e0e8963d90879eb1b27"
 -- 
 2.7.4
 
