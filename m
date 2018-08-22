@@ -1,32 +1,63 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E2F9679164
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 22D5F793C6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 14:50:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7MEo86O027746
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 Aug 2018 07:50:08 -0700 (PDT)
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 22 Aug 2018 07:50:08 -0700
-To: Lukasz Majewski <lukma@denx.de>
-References: <20180822134022.1067-1-lukma@denx.de>
-	<5293a704-cd9d-9e94-dc78-631d02c4a67e@windriver.com>
-	<20180822160515.72d37bb3@jawa>
-	<dc51efd5-c251-5f66-15fc-dca2fd81c2d8@windriver.com>
-	<20180822162040.33304bef@jawa>
-	<a5f08555-3cd7-d367-d679-05440d424916@windriver.com>
-	<20180822164757.34c36ac9@jawa>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <42c35010-9a50-d948-dc52-6607154111b4@windriver.com>
-Date: Wed, 22 Aug 2018 10:50:07 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180822164757.34c36ac9@jawa>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel: yocto: Add dependency on do_prepare_recipe_sysroot
+	Wed, 22 Aug 2018 14:57:04 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id j26-v6so1880814wre.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Aug 2018 07:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=c7fgg+heCKxDb2wmorsC0WLYXGk4KXikHKq8M3juyLI=;
+	b=CLGMRfkoDbSsQkq25U1TZZEYKlnfENpjyqW0XUMck5/gk3qaabd23bRZrzfK4WMHMw
+	EHqfi+9dKITVMazCPu33fgIY0yjDXIAV4tCWh8H+AWwuSBcgw+stRdhG+/haj6ul3duL
+	tA1EhiCQBOCXHxD0wtXizJOb2SPGtGqmCjnHQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=c7fgg+heCKxDb2wmorsC0WLYXGk4KXikHKq8M3juyLI=;
+	b=RC/Xp1rOavQ9cyPm7u9sBmYhdFB86TN5YcW0wgcLQTMqbRRM83TLBd2oBiDOjEa9e0
+	/H8emo0F1DKny8AFj+30P4U7EEztJUF+qv62KtvOIsNFHOLUqwG0nhLa7fNSixS+mL7G
+	1DCnixEoszdei/zADj090klGQpV1WULg0PPZsvxDAOBCZdATcPsEo90iFBkHZFO5Fe5L
+	XVWn9zN9dK4hdYaQMNdYIMrsUr3tIsmLe4CRThGDqM5gh7BFjweoAQC5hi4+N5JDVdQe
+	kxMpr4M5g3SUJtsKi8qKrE11USEdpGpYU48FhN0E1iMnikuMnda62A8pgYzOlUEOI78u
+	wIZw==
+X-Gm-Message-State: APzg51DEG5yaUkkkw8nBOXx+zo93kQl3s5fmCdGwwXI5IctzPxKWfsHo
+	qlPbQiZP9kTxYfTIPWuhgC4FRinOpT4=
+X-Google-Smtp-Source: ANB0VdZw5gmbI9BzCvsOKViDJhA84gW9nY5wQKLTTnLKiUAnlfys4bYJtxGmpPDohdpYwi9mVv1CSA==
+X-Received: by 2002:adf:ad47:: with SMTP id
+	p65-v6mr14756559wrc.222.1534949825770; 
+	Wed, 22 Aug 2018 07:57:05 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	72-v6sm2209273wrb.48.2018.08.22.07.57.04
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 22 Aug 2018 07:57:04 -0700 (PDT)
+Message-ID: <8fe6af7262abdf19ade58f0c04a25637b20d5aef.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Wed, 22 Aug 2018 15:56:58 +0100
+In-Reply-To: <CAPybu_2BB1XmsvrrME9poTKABtW+C6qZvJo3eoo=MDUDJa5cuA@mail.gmail.com>
+References: <20180821145858.18459-1-ricardo.ribalda@gmail.com>
+	<10e5ea973727e06604a83299fdd5a8d4cfa2633a.camel@linuxfoundation.org>
+	<CAPybu_3tUu0LKA1gdSj-MFYfhxiHz62wXrP2ivETSMNiWdWyDg@mail.gmail.com>
+	<83a93f3542ad88b01b073b7875839dd2e2c1bf44.camel@linuxfoundation.org>
+	<CAPybu_0+uwJghGGyPEAR1bQEtOcFKeH9P2okdhcUBzJ_E-BLDw@mail.gmail.com>
+	<a031c89ea6cdb522999796f93b8c1a2c8ec8e4c5.camel@linuxfoundation.org>
+	<CAPybu_0QAOWyz9+XGKEADtZqj+wj2Ro7hQx_q8BkX9BBrjPPCg@mail.gmail.com>
+	<e0ffd2ccefb534b1c4171449256c123e9e6b5e55.camel@linuxfoundation.org>
+	<CAPybu_1NAf_p0zfZSPTAbweKYunAyGL_6tLwhao-Kw6be3FX9w@mail.gmail.com>
+	<CAPybu_0oQ2sjiVTMqXXbvTs+3dagLn8Wps5-AxYhqtjKz-9M6w@mail.gmail.com>
+	<15ac7737a9a1a20bfbb6ed98a79ba140a6e6c786.camel@linuxfoundation.org>
+	<CAPybu_2BB1XmsvrrME9poTKABtW+C6qZvJo3eoo=MDUDJa5cuA@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: Fix ldd bug: not a dynamic executable error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,207 +70,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 14:50:12 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Wed, 22 Aug 2018 14:57:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/22/2018 10:47 AM, Lukasz Majewski wrote:
-> On Wed, 22 Aug 2018 10:44:08 -0400
-> Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+On Wed, 2018-08-22 at 15:39 +0200, Ricardo Ribalda Delgado wrote:
+> On Wed, Aug 22, 2018 at 3:37 PM <richard.purdie@linuxfoundation.org>
+> wrote:
+> > > RTLDLIST="/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2
+> > > /libx32/ld-linux-x32.so.
+> > 
+> > I just looked at what the function is doing and its broken. What is
+> > DEFAULTTUNE set to in your build?
 > 
->> On 08/22/2018 10:20 AM, Lukasz Majewski wrote:
->>> On Wed, 22 Aug 2018 10:13:33 -0400
->>> Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
->>>    
->>>> On 08/22/2018 10:05 AM, Lukasz Majewski wrote:
->>>>> Hi Bruce,
->>>>>       
->>>>>> On 08/22/2018 09:40 AM, Lukasz Majewski wrote:
->>>>>>> Without this patch it happens that do_populate_recipe_sysroot is
->>>>>>> called just before do_compile (on multi core build machines).
->>>>>>> This is way too late as the .config generated in
->>>>>>> do_kernel_configme() is already broken.
->>>>>>>
->>>>>>> The problem is that do_kernel_configme() calls native's
->>>>>>> merge_config.sh script which may call bison and arm-linux-*-gcc
->>>>>>> to compile kconfig infrastructure to create base .config
->>>>>>> (scripts/kconfig/conf  --allnoconfig Kconfig.)
->>>>>>>
->>>>>>> It turns out that we only got above binaries after
->>>>>>> do_prepare_recipe_sysroot() is called.
->>>>>>> If those binaries are not available, the merge_config.sh do not
->>>>>>> generate base .config and without any error produces
->>>>>>> malfunctioned .config. The build process continues and as a
->>>>>>> result broken kernel is compiled.
->>>>>>>
->>>>>>> To reproduce:
->>>>>>>
->>>>>>> bitbake -c cleansstate virtual/kernel
->>>>>>> bitbake -c kernel_metadata -v virtual/kernel
->>>>>>> bitbake -c do_kernel_configme -v virtual/kernel
->>>>>>> (one shall see broken .config in ${B}/.config)
->>>>>>> bitbake -c do_populate_sysroot -v virtual/kernel
->>>>>>> bitbake -c do_compile -v virtual/kernel
->>>>>>>
->>>>>>> (Poky) SHA1: bb91b2ae3ee5cf108aa2f9b78abb14d5aa00831d
->>>>>>>
->>>>>>> Signed-off-by: Lukasz Majewski <lukma@denx.de>
->>>>>>> ---
->>>>>>>      meta/classes/kernel-yocto.bbclass | 1 +
->>>>>>>      1 file changed, 1 insertion(+)
->>>>>>>
->>>>>>> diff --git a/meta/classes/kernel-yocto.bbclass
->>>>>>> b/meta/classes/kernel-yocto.bbclass index 4ac3a39e47..19a3f2bc46
->>>>>>> 100644 --- a/meta/classes/kernel-yocto.bbclass
->>>>>>> +++ b/meta/classes/kernel-yocto.bbclass
->>>>>>> @@ -276,6 +276,7 @@ do_kernel_metadata[depends] =
->>>>>>> "kern-tools-native:do_populate_sysroot"
->>>>>>> do_validate_branches[depends] =
->>>>>>> "kern-tools-native:do_populate_sysroot" do_kernel_configme[dirs]
->>>>>>> += "${S} ${B}" +do_kernel_configme[depends] +=
->>>>>>> "virtual/kernel:do_prepare_recipe_sysroot"
->>>>>>
->>>>>> On a closer look .. what branch is this from ? We already have a
->>>>>> change that triggered breakage on 4.17+ that should fix this.
->>>>>>
->>>>>> i.e. commit ff1bdd75d50f0ebac3d599e461685ace29559a82 in oe-core,
->>>>>> adds:
->>>>>>
->>>>>> ----------
->>>>>>
->>>>>>      do_kernel_metadata[depends] =
->>>>>> "kern-tools-native:do_populate_sysroot"
->>>>>> do_validate_branches[depends] =
->>>>>> "kern-tools-native:do_populate_sysroot"
->>>>>>
->>>>>> +do_kernel_configme[depends] +=
->>>>>> "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
->>>>>> +do_kernel_configme[depends] +=
->>>>>> "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
->>>>>> +do_kernel_configme[depends] += "bc-native:do_populate_sysroot
->>>>>> bison-native:do_populate_sysroot"
->>>>>>      do_kernel_configme[dirs] += "${S} ${B}"
->>>>>>      do_kernel_configme() {
->>>>>>
->>>>>> ----------
->>>>>>
->>>>>> Which I don't see in the context of your patch.
->>>>>>      
->>>>>
->>>>> I do use poky as in the commit message.
->>>>
->>>> Yes, I checked that .. but that isn't a useful part of a patch
->>>> to oe-core.
->>>>
->>>> The kernel-yocto bbclass in that context is not the one in master,
->>>> and if I run a --contains on that commit ID, I don't get an active
->>>> branch.
->>>
->>> I might have misunderstood something... apparently.
->>>
->>> The changes which I did were to:
->>>
->>> poky/meta/classes/kernel-yocto.bbclass
->>>
->>> Is this a wrong place to add the fix?
->>
->> It is the right place to add the fix, but the tree that you are
->> using is not up to date with the current poky or oe-core master.
->>
->> There are other changes in place that address a similar failure.
->>
->> For us to look at this change, it needs to be rebased on top of
->> master (or master-next).
-> 
-> Now I got it. I shall sent the fix against cutting edge -master.
-> 
-> Shall I re-send the fix, of will you first check if patches in the
-> queue doesn't fix it already?
+> DEFAULTTUNE="dbfp4"
 
-I'll run the steps in your reproducer and let you know if it
-works here.
+As I suspected.
 
-Bruce
+Try applying:
 
-> 
->>
->> Bruce
->>
->>>    
->>>>
->>>> So the patch as it stands, cannot be applied to master (and I
->>>> also checked master-next in case something snuck in that I
->>>> missed) of oe-core or poky, so there's no way to work with it.
->>>>
->>>> Bruce
->>>>   
->>>>>
->>>>> Regarding the kernel - I do have my own recipe;
->>>>> inherit kernel
->>>>>
->>>>> require
->>>>> recipes-kernel/linux/linux-yocto.inc
->>>>>
->>>>>
->>>>> And then I do have:
->>>>> COMPATIBLE_MACHINE_display5 = "display5"
->>>>>
->>>>> KBUILD_DEFCONFIG_pn-linux-yocto-custom_display5 =
->>>>> "imx6q_display5_defconfig"
->>>>>
->>>>> As the board is in mainline I just point to Linus tree.
->>>>>       
->>>>>> Bruce
->>>>>>      
->>>>>>>      do_kernel_configme() {
->>>>>>>      	set +e
->>>>>>>      
->>>>>>>          
->>>>>>      
->>>>>
->>>>>
->>>>>
->>>>>
->>>>> Best regards,
->>>>>
->>>>> Lukasz Majewski
->>>>>
->>>>> --
->>>>>
->>>>> DENX Software Engineering GmbH,      Managing Director: Wolfgang
->>>>> Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
->>>>> Germany Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email:
->>>>> wd@denx.de
->>>>   
->>>
->>>
->>>
->>>
->>> Best regards,
->>>
->>> Lukasz Majewski
->>>
->>> --
->>>
->>> DENX Software Engineering GmbH,      Managing Director: Wolfgang
->>> Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
->>> Germany Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email:
->>> wd@denx.de
->>
-> 
-> 
-> 
-> 
-> Best regards,
-> 
-> Lukasz Majewski
-> 
-> --
-> 
-> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-> 
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=d69f0127b44a5216dd21ad972d6f2b2e4cda6d13
 
+and 
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=95aa56ae11852c100be68d13aaffa9c83273b46b
+
+and then seen if that fixes things.
+
+Cheers,
+
+Richard
 
