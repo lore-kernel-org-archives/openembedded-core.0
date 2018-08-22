@@ -1,52 +1,48 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 05E4A79306
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id D15C578FBD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 11:42:32 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id w126-v6so2568257oie.7
+	Wed, 22 Aug 2018 12:00:44 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id 13-v6so2703723ois.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 04:42:33 -0700 (PDT)
+	Wed, 22 Aug 2018 05:00:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Azef0BA/2bDwkzkARyiVHvem387AAc2TUsAEEV+x5cM=;
-	b=ZuqOH5RMWlESI7iBE/1yVYzyaUKbKoy4djKquWrL+xlxS67cCy5bZVL0x/jAVS9+RV
-	pRbg7LG7S4UaNDlnjfJH9E5zRIRsHCPprSc9Aj3I7FBMSv7TtSZ78LUu/AkiB46Zj+hX
-	F2YJRnJ2lthYTEVHoMV1Nzx9OWvQ/1S9F/wtonYkO6nNtZzjTufe/9KyBEqlmRW8CxmB
-	Ny2tVdFR20pbYFz7UtGdQg4UHHVUdiaBRO98PAQSJ/27m9pXTkNMiG/Ln+9ddkHQkKPH
-	ctZG2Za8JCKvZRXbk/4WfA7j3RC8HQ50J66T1+c62PwAepBl8MM8+LEPO8XOl9TNVs6C
-	fbTw==
+	h=from:to:cc:subject:date:message-id;
+	bh=m7sWGMXWrwUM43JT9JhC23ovHoOTYCjIAcZL/2uj2YM=;
+	b=1utjtN46hoeFkhQc3LG+7NcROpIeWtu1eDAOBtIKUpBPe4NRGEVv6hw8tgXyAdea+W
+	o1dE3k6c2S4bT1VrhwYR/6qBSyLC8B52Bzw4ZNRpSDM+4m+GE+58Me1RlJ2AHx94PTHD
+	06BXmFYJC2H9ciCgtkos6SHGqfWgpc6dyR8VCNOFJ7PrqUtmcRiQDnLnQ5WFY5wzsSAA
+	EG3yJ1x0WSid4B44h/AuRNgCzvrI74keLSsZ5qbQAVXPWlVBz/ja1K06o7qotsEgRnWC
+	zv5nHdY5AZbjQQLMPo4YMJgCFT/dpjJ9Joo0+TaunYlVh5+o73pSf6L6VjsXECifzjEk
+	Zarw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Azef0BA/2bDwkzkARyiVHvem387AAc2TUsAEEV+x5cM=;
-	b=CsltCzwHZ5YTJkFwgq9o7EKQ7Mg/RvIJka9U1beMY9DJKC/9ZbPz2tkrCQcZtZnIqu
-	z0TbDrZJVSlocKdhSLyzBHGPAyRPm6t05zey1H9AbSe4Ak0drMImCYEKMVIb4FjGIfUP
-	cI2wkAhcHJzh+TAiTEIp7UNUNdtCoWyPX6kVWL0yTvmP+Jwm4OxfbrF/uF/zPJL3brFH
-	GruLVPBv3aSoMGMVdf3O9pTrwBxWhrXpgGP7r0TOgOrIUsBOvC7LZWZs8nXvmKtOYMdU
-	WUkn0saazYo6vsWQwpeParWh5aLgfRZr36opGWVDj4wjIffHwQVFXV270/8DBYQ179IS
-	0Rew==
-X-Gm-Message-State: APzg51BUf3uM5tgJXmk7so0CuyF2zPZHXemdGckU4dZEh5awTTkiS2pZ
-	b+ZgHKe3iOEAmV1q2vPNNO8mbh3Ds28=
-X-Google-Smtp-Source: ANB0VdZeOD8H0SRoqPn0wEgLwJacR6zD+/Bl/pliR9LBcyyCUEgg+XNxyal6yf5HD5lH+/cMj7VeYg==
-X-Received: by 2002:aca:4e50:: with SMTP id
-	c77-v6mr3369827oib.254.1534938152977; 
-	Wed, 22 Aug 2018 04:42:32 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=m7sWGMXWrwUM43JT9JhC23ovHoOTYCjIAcZL/2uj2YM=;
+	b=GtM2bxuEvRyTZhcjPE9WnvI0G3vpLPjFhqE8zMP6uwMFHh6HH9ezSy6SYCJ1XtDsUF
+	V1UlebPD2mi4leKIYzlMKT/hBwmQs+yyoeN+aFI30crUwNCc2Mm4tIpp68xfCj4fe8uc
+	vu1fiyRlLjQ2kJ4Eb0yoB78E2Un1DuKB3LJwarK24BHfeyXxuGcnQEr+vxKyhzot6iNQ
+	7tQ5YLQiWq+FElOyM8Iph0pIg0E8yRIY+lHeU5SbLeg5VJMOQMV+e5I/F8LaxmT6QlIU
+	3lQBwq2AZm8pDeRHli0JeaSFydTrhL34h6DJEjxN7+53egI4LodxL65vlBD3ZZnNi8ib
+	u8Bg==
+X-Gm-Message-State: APzg51D4LNq71/TgDsRDUb9hE/GFv9/cLZ4dQCEuMqZTv95o7RX4fvYU
+	uEV6rgd779MW+nIo7hkjPZIXBhi2Br8=
+X-Google-Smtp-Source: ANB0VdZV8o3Sd7GJh8z0tmOwjQlHg3AzKEemkFapfdxKuPHLJRFD62IpDeO+Btbhg1LFTdAzHFWlTA==
+X-Received: by 2002:aca:3c02:: with SMTP id j2-v6mr3833775oia.50.1534939245590;
+	Wed, 22 Aug 2018 05:00:45 -0700 (PDT)
 Received: from dell-laptop.mvista.com ([157.49.3.26])
 	by smtp.gmail.com with ESMTPSA id
-	f144-v6sm1323750oib.39.2018.08.22.04.42.29
+	h186-v6sm3129596oib.55.2018.08.22.05.00.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 04:42:32 -0700 (PDT)
+	Wed, 22 Aug 2018 05:00:44 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 17:11:53 +0530
-Message-Id: <1534938113-12197-13-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Wed, 22 Aug 2018 17:30:29 +0530
+Message-Id: <1534939232-13249-1-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1534938113-12197-1-git-send-email-jkrishnanjanappa@mvista.com>
-References: <1534938113-12197-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [SUMO][PATCH V2] libgcrypt: CVE-2018-0495
+Subject: [PATCH V2 1/4] libsndfile1: CVE-2017-14245 CVE-2017-14246
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,123 +55,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 11:42:32 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 12:00:45 -0000
 
-ecc: Add blinding for ECDSA.
+sfe_copy_data_fp: check value of "max" variable for being normal
+and check elements of the data[] array for being finite.
 
-* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Blind secret D with
-randomized nonce B.
+Both checks use functions provided by the <math.h> header as declared
+by the C99 standard.
 
---
+Fixes #317
+CVE-2017-14245
+CVE-2017-14246
 
-CVE-id: CVE-2018-0495
-
-Affects libgcrypt < 1.7.10 and libgcrypt < 1.8.3
+Affects libsndfile1 = 1.0.28
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
-v2:
-  Corrected "From:" address
+ .../libsndfile1/CVE-2017-14245-14246.patch         | 121 +++++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.28.bb               |   1 +
+ 2 files changed, 122 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
 
- .../libgcrypt/files/CVE-2018-0495.patch            | 76 ++++++++++++++++++++++
- meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb  |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
-
-diff --git a/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch b/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
 new file mode 100644
-index 0000000..c16bd3a
+index 0000000..a17ec21
 --- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
-@@ -0,0 +1,76 @@
-+From 9010d1576e278a4274ad3f4aa15776c28f6ba965 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Wed, 13 Jun 2018 15:28:58 +0900
-+Subject: [PATCH] ecc: Add blinding for ECDSA.
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
+@@ -0,0 +1,121 @@
++From 2d54514a4f6437b67829717c05472d2e3300a258 Mon Sep 17 00:00:00 2001
++From: Fabian Greffrath <fabian@greffrath.com>
++Date: Wed, 27 Sep 2017 14:46:17 +0200
++Subject: [PATCH] sfe_copy_data_fp: check value of "max" variable for being
++ normal
 +
-+* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Blind secret D with
-+randomized nonce B.
++and check elements of the data[] array for being finite.
 +
-+--
++Both checks use functions provided by the <math.h> header as declared
++by the C99 standard.
 +
-+Reported-by: Keegan Ryan <Keegan.Ryan@nccgroup.trust>
-+CVE-id: CVE-2018-0495
++Fixes #317
++CVE: CVE-2017-14245
++CVE: CVE-2017-14246
 +
-+Upstream-Status: Backport [http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=9010d1576e278a4274ad3f4aa15776c28f6ba965]
++Upstream-Status: Backport [https://github.com/fabiangreffrath/libsndfile/commit/2d54514a4f6437b67829717c05472d2e3300a258]
 +
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
++Signed-off-by: Fabian Greffrath <fabian@greffrath.com>
 +Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 +---
-+ cipher/ecc-ecdsa.c | 20 ++++++++++++++++++--
-+ 1 file changed, 18 insertions(+), 2 deletions(-)
++ programs/common.c          | 20 ++++++++++++++++----
++ programs/common.h          |  2 +-
++ programs/sndfile-convert.c |  6 +++++-
++ 3 files changed, 22 insertions(+), 6 deletions(-)
 +
-+diff --git a/cipher/ecc-ecdsa.c b/cipher/ecc-ecdsa.c
-+index 1484830b..140e8c09 100644
-+--- a/cipher/ecc-ecdsa.c
-++++ b/cipher/ecc-ecdsa.c
-+@@ -50,6 +50,8 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+   const void *abuf;
-+   unsigned int abits, qbits;
-+   mpi_ec_t ctx;
-++  gcry_mpi_t b;                /* Random number needed for blinding.  */
-++  gcry_mpi_t bi;               /* multiplicative inverse of B.        */
++diff --git a/programs/common.c b/programs/common.c
++index a21e62c..a249a58 100644
++--- a/programs/common.c
+++++ b/programs/common.c
++@@ -36,6 +36,7 @@
++ #include <string.h>
++ #include <ctype.h>
++ #include <stdint.h>
+++#include <math.h>
 + 
-+   if (DBG_CIPHER)
-+     log_mpidump ("ecdsa sign hash  ", input );
-+@@ -61,6 +63,15 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+   if (rc)
-+     return rc;
++ #include <sndfile.h>
 + 
-++  b  = mpi_snew (qbits);
-++  bi = mpi_snew (qbits);
-++  do
-++    {
-++      _gcry_mpi_randomize (b, qbits, GCRY_WEAK_RANDOM);
-++      mpi_mod (b, b, skey->E.n);
-++    }
-++  while (!mpi_invm (bi, b, skey->E.n));
++@@ -45,7 +46,7 @@
++ 
++ #define	MIN(x, y)	((x) < (y) ? (x) : (y))
++ 
++-void
+++int
++ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize)
++ {	static double	data [BUFFER_LEN], max ;
++ 	int		frames, readcount, k ;
++@@ -54,6 +55,8 @@ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize
++ 	readcount = frames ;
++ 
++ 	sf_command (infile, SFC_CALC_SIGNAL_MAX, &max, sizeof (max)) ;
+++	if (!isnormal (max)) /* neither zero, subnormal, infinite, nor NaN */
+++		return 1 ;
++ 
++ 	if (!normalize && max < 1.0)
++ 	{	while (readcount > 0)
++@@ -67,12 +70,16 @@ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize
++ 		while (readcount > 0)
++ 		{	readcount = sf_readf_double (infile, data, frames) ;
++ 			for (k = 0 ; k < readcount * channels ; k++)
++-				data [k] /= max ;
+++			{	data [k] /= max ;
 ++
-+   k = NULL;
-+   dr = mpi_alloc (0);
-+   sum = mpi_alloc (0);
-+@@ -115,8 +126,11 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+         }
-+       while (!mpi_cmp_ui (r, 0));
+++				if (!isfinite (data [k])) /* infinite or NaN */
+++					return 1;
+++				}
++ 			sf_writef_double (outfile, data, readcount) ;
++ 			} ;
++ 		} ;
 + 
-+-      mpi_mulm (dr, skey->d, r, skey->E.n); /* dr = d*r mod n  */
-+-      mpi_addm (sum, hash, dr, skey->E.n);  /* sum = hash + (d*r) mod n  */
-++      mpi_mulm (dr, b, skey->d, skey->E.n);
-++      mpi_mulm (dr, dr, r, skey->E.n);      /* dr = d*r mod n (blinded with b) */
-++      mpi_mulm (sum, b, hash, skey->E.n);
-++      mpi_addm (sum, sum, dr, skey->E.n);   /* sum = hash + (d*r) mod n  (blinded with b) */
-++      mpi_mulm (sum, bi, sum, skey->E.n);   /* undo blinding by b^-1 */
-+       mpi_invm (k_1, k, skey->E.n);         /* k_1 = k^(-1) mod n  */
-+       mpi_mulm (s, k_1, sum, skey->E.n);    /* s = k^(-1)*(hash+(d*r)) mod n */
-+     }
-+@@ -129,6 +143,8 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+     }
++-	return ;
+++	return 0 ;
++ } /* sfe_copy_data_fp */
 + 
-+  leave:
-++  mpi_free (b);
-++  mpi_free (bi);
-+   _gcry_mpi_ec_free (ctx);
-+   point_free (&I);
-+   mpi_free (x);
++ void
++@@ -252,7 +259,12 @@ sfe_apply_metadata_changes (const char * filenames [2], const METADATA_INFO * in
++ 
++ 		/* If the input file is not the same as the output file, copy the data. */
++ 		if ((infileminor == SF_FORMAT_DOUBLE) || (infileminor == SF_FORMAT_FLOAT))
++-			sfe_copy_data_fp (outfile, infile, sfinfo.channels, SF_FALSE) ;
+++		{	if (sfe_copy_data_fp (outfile, infile, sfinfo.channels, SF_FALSE) != 0)
+++			{	printf ("Error : Not able to decode input file '%s'\n", filenames [0]) ;
+++				error_code = 1 ;
+++				goto cleanup_exit ;
+++				} ;
+++			}
++ 		else
++ 			sfe_copy_data_int (outfile, infile, sfinfo.channels) ;
++ 		} ;
++diff --git a/programs/common.h b/programs/common.h
++index eda2d7d..986277e 100644
++--- a/programs/common.h
+++++ b/programs/common.h
++@@ -62,7 +62,7 @@ typedef SF_BROADCAST_INFO_VAR (2048) SF_BROADCAST_INFO_2K ;
++ 
++ void sfe_apply_metadata_changes (const char * filenames [2], const METADATA_INFO * info) ;
++ 
++-void sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize) ;
+++int sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize) ;
++ 
++ void sfe_copy_data_int (SNDFILE *outfile, SNDFILE *infile, int channels) ;
++ 
++diff --git a/programs/sndfile-convert.c b/programs/sndfile-convert.c
++index dff7f79..e6de593 100644
++--- a/programs/sndfile-convert.c
+++++ b/programs/sndfile-convert.c
++@@ -335,7 +335,11 @@ main (int argc, char * argv [])
++ 			|| (outfileminor == SF_FORMAT_DOUBLE) || (outfileminor == SF_FORMAT_FLOAT)
++ 			|| (infileminor == SF_FORMAT_DOUBLE) || (infileminor == SF_FORMAT_FLOAT)
++ 			|| (infileminor == SF_FORMAT_VORBIS) || (outfileminor == SF_FORMAT_VORBIS))
++-		sfe_copy_data_fp (outfile, infile, sfinfo.channels, normalize) ;
+++	{	if (sfe_copy_data_fp (outfile, infile, sfinfo.channels, normalize) != 0)
+++		{	printf ("Error : Not able to decode input file %s.\n", infilename) ;
+++			return 1 ;
+++			} ;
+++		}
++ 	else
++ 		sfe_copy_data_int (outfile, infile, sfinfo.channels) ;
++ 
 +-- 
-+2.13.3
++2.7.4
 +
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb
-index b36e653..9d036c8 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
-            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
-            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
-+           file://CVE-2018-0495.patch \
- "
- SRC_URI[md5sum] = "cfb0b5c79eab07686b6898160a407139"
- SRC_URI[sha256sum] = "c8064cae7558144b13ef0eb87093412380efa16c4ee30ad12ecb54886a524c07"
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index 281ac82..c6f2a46 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -10,6 +10,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
+            file://CVE-2017-8361-8365.patch \
+            file://CVE-2017-8362.patch \
+            file://CVE-2017-8363.patch \
++           file://CVE-2017-14245-14246.patch \
+           "
+ 
+ SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
 -- 
 2.7.4
 
