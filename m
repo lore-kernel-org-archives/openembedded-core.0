@@ -1,52 +1,60 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 79C8779466
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EEDF6793EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 13:37:22 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id s198-v6so3119259oih.11
+	Wed, 22 Aug 2018 13:37:50 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id v90-v6so1663904wrc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2018 06:37:23 -0700 (PDT)
+	Wed, 22 Aug 2018 06:37:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=7BeKQoe62SiQ10OoOpaSnBPahk/muQpOp/Ts6TuGeW0=;
-	b=gg0ibOLc/6vD0TcvpFKwybjy9z3kD0rCdj4qwb8X5mN3QRanj0cT3kh2+qHEhVthq3
-	RzxuJ1qcfd4WDyW8S93I7a6UxVKHBsL6arLOAft99z0KWV46WhWVgD24J92eag7zBaeH
-	uA6ZcnLIHKcsejMUDeTa1Cc+MYfZb7IVSLRTbI2J6dYPhDX4xFg0H7zkw29qfwZjE3Sv
-	dXFozQMW1tI17peGfw9fJTm9xzfAxFm5sldl8iK1lG/zOvYCn/iUgLtRQZp68WmymxdD
-	u3/tw+r/VZ64a/YP5PwJbOejdSmNsXubqWhiCKJi5jvhVqR1J5yKNicESBm7lkwnTGe4
-	lpNg==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=zMjUt8FAOPvj1kIP4WUnZiIYxLDJKnopC2+RaBa2dNg=;
+	b=II4V67NVTFp5zimOpzKULrBA++dlIQvHigR1ZVvdISC9xySIrV/10oRXhOuAlV/bdi
+	VRdDHH8T317QgOKg2wSZfBhxXDXwdqst5pfLwQZBh9kYTU+EfoccdenK1zFJdStt3mck
+	BDWp8b/smcvD1ODb3Lha1LBzQO2i5MHxebbUk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=7BeKQoe62SiQ10OoOpaSnBPahk/muQpOp/Ts6TuGeW0=;
-	b=ssb7S8m4DB4/jARM9Gxnaqm3kVwEFq7w5LusM9M94Pz9boB4DKU5WDUf44G0s9u/tl
-	Krb8MJzqzZGCm2AeJ5638xCYtfx9m8UjY7La3p2n16YNyUBciLK1iZWGD/kkL6RiXSJe
-	6aff0goQcqDC6dJJ7t4Jl5yJPX3tHF/eQm5e2kM6l7/wPg+qhpl82fugOUHB0BLAXnlb
-	+w/cJKCA8/odHIIGJdA+I3EM310Z3KpXkgtJ4/fMdiWLYCe/sLXk7T3RzSQB5Hvr/eub
-	CU55xFUjj96ODfA5wCnbsAHMr6RlGKISWq2NksgEmgygxdaFg55vblkx283eu2duM8Nb
-	SLwQ==
-X-Gm-Message-State: APzg51AIc/9kakI8SbijiGubHEfNPZ5nb+Kfv7YCD3GG9N5rPOSUjm5X
-	7/DWAO43tvtN2WlrKMBxBnn8GV3y1Lc=
-X-Google-Smtp-Source: ANB0VdZcPXhQB9fnQLcBK1WzV5czarSaccPuA4iTN86XEM718K5cdPWRvcB76I6V6pLaP3q+Y6JYLg==
-X-Received: by 2002:aca:45d6:: with SMTP id
-	s205-v6mr4133368oia.147.1534945043326; 
-	Wed, 22 Aug 2018 06:37:23 -0700 (PDT)
-Received: from dell-laptop.mvista.com ([157.49.3.26])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=zMjUt8FAOPvj1kIP4WUnZiIYxLDJKnopC2+RaBa2dNg=;
+	b=udpylKSWVLAIhPpfkOMGhedBGFeVrE9mNGtip1aXsgkESH6b04iaROKdsJnxRv48r/
+	zRp3OWVD8OfjVZ37ybm69QkivzGWtLvVj22BpeFi87AWjYsb6dMriaeb3zIIrMSwQ3b4
+	LImWVh6NH16Ief4zy8967QhaPT7h9rIryIEJb63X+xAQVHRNLH0ndW4zPwglw3zQxPh7
+	VCxpaVB/C65ZcDC1ZoYAyg5EXPZmsaOM8nxYs1+cNaAFPDhXXAJVCuwTSL1WNhDTprQJ
+	jYyF9azlFALmOKQdc/xQByooqfCVkEIK3kpC/wvvzPyMv3Min+UJjGCIyaIBJddxNArK
+	Q7oA==
+X-Gm-Message-State: APzg51AZulM/Tvj0nIMGqhxjZHkcoVcOT3Z3K295/KCniYgpzKLL99nl
+	9QX5D5elDGxqVWdmD5wchlPxOQ==
+X-Google-Smtp-Source: ANB0VdYuKS6s+hTx0/vVvjWFLsBICoEldzKBoan1X1Hmq5c0bqfJiqFYJyAQ0GXOe1gWRktB2yNJGQ==
+X-Received: by 2002:a5d:574b:: with SMTP id q11-v6mr47073wrw.272.1534945071704;
+	Wed, 22 Aug 2018 06:37:51 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h186-v6sm3746773oib.55.2018.08.22.06.37.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Aug 2018 06:37:22 -0700 (PDT)
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2018 19:05:40 +0530
-Message-Id: <1534944940-21566-34-git-send-email-jkrishnanjanappa@mvista.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
-References: <1534944940-21566-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: [ROCKO][PATCH V2 34/34] libgcrypt: CVE-2018-0495
+	m8-v6sm2217486wrf.93.2018.08.22.06.37.50
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 22 Aug 2018 06:37:50 -0700 (PDT)
+Message-ID: <15ac7737a9a1a20bfbb6ed98a79ba140a6e6c786.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Wed, 22 Aug 2018 14:37:49 +0100
+In-Reply-To: <CAPybu_0oQ2sjiVTMqXXbvTs+3dagLn8Wps5-AxYhqtjKz-9M6w@mail.gmail.com>
+References: <20180821145858.18459-1-ricardo.ribalda@gmail.com>
+	<10e5ea973727e06604a83299fdd5a8d4cfa2633a.camel@linuxfoundation.org>
+	<CAPybu_3tUu0LKA1gdSj-MFYfhxiHz62wXrP2ivETSMNiWdWyDg@mail.gmail.com>
+	<83a93f3542ad88b01b073b7875839dd2e2c1bf44.camel@linuxfoundation.org>
+	<CAPybu_0+uwJghGGyPEAR1bQEtOcFKeH9P2okdhcUBzJ_E-BLDw@mail.gmail.com>
+	<a031c89ea6cdb522999796f93b8c1a2c8ec8e4c5.camel@linuxfoundation.org>
+	<CAPybu_0QAOWyz9+XGKEADtZqj+wj2Ro7hQx_q8BkX9BBrjPPCg@mail.gmail.com>
+	<e0ffd2ccefb534b1c4171449256c123e9e6b5e55.camel@linuxfoundation.org>
+	<CAPybu_1NAf_p0zfZSPTAbweKYunAyGL_6tLwhao-Kw6be3FX9w@mail.gmail.com>
+	<CAPybu_0oQ2sjiVTMqXXbvTs+3dagLn8Wps5-AxYhqtjKz-9M6w@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: Fix ldd bug: not a dynamic executable error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,121 +67,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2018 13:37:22 -0000
+X-List-Received-Date: Wed, 22 Aug 2018 13:37:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-ecc: Add blinding for ECDSA.
+On Wed, 2018-08-22 at 15:33 +0200, Ricardo Ribalda Delgado wrote:
+> Hello
+> On Wed, Aug 22, 2018 at 3:28 PM Ricardo Ribalda Delgado
+> <ricardo.ribalda@gmail.com> wrote:
+> > 
+> > On Wed, Aug 22, 2018 at 3:21 PM <richard.purdie@linuxfoundation.org
+> > > wrote:
+> > > 
+> > > On Wed, 2018-08-22 at 15:13 +0200, Ricardo Ribalda Delgado wrote:
+> > > > > Here I see:
+> > > > > 
+> > > > > $ MACHINE=qemux86-64 bitbake glibc -e | grep ^RTLDLIST=
+> > > > > RTLDLIST="/lib/ld-linux-x86-64.so.2"
+> > > > 
+> > > > The output of RTLDLIST that I shared was from
+> > > > root@qt5122:~# cat /usr/bin/ldd | grep ^RTLD
+> > > > RTLDLIST="/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2
+> > > > /libx32/ld-linux-x32.so.2"
+> > > > 
+> > > > If I run your command
+> > > > 
+> > > > pokyuser@c10753884d1a:/workdir/build$ bitbake glibc -e | grep
+> > > > ^RTLDLIST=
+> > > > RTLDLIST=""
+> > > > 
+> > > > If we look at log.do_compile we can see how the the value from
+> > > > ldd is
+> > > > rewritten:
+> > > > 
+> > > > LC_ALL=C sed -e 's%@RTLD@%/lib/ld-linux-x86-64.so.2%g' -e
+> > > > 's%@VERSION@%2.27%g' -e 's|@PKGVERSION@|(GNU libc) |g' -e
+> > > > 's|@REPORT_BUGS_TO@|<http://www.gnu.org/software/libc/bugs.html
+> > > > >|g'
+> > > > -e
+> > > > 's%@BASH@%/bin/bash%g' -e 's%@TEXTDOMAINDIR@%/usr/share/locale%
+> > > > g' <
+> > > > ldd.bash.in | LC_ALL=C sed -f
+> > > > ../sysdeps/unix/sysv/linux/x86_64/ldd-rewrite.sed >
+> > > > /workdir/build/tmp/work/dbfp4-poky-linux/glibc/2.27-r0/build-
+> > > > x86_64-
+> > > > poky-linux/elf/ldd.new
+> > > > 
+> > > > cat git/sysdeps/unix/sysv/linux/x86_64/ldd-rewrite.sed
+> > > > /LD_TRACE_LOADED_OBJECTS=1/a\
+> > > > add_env="$add_env LD_LIBRARY_VERSION=\\$verify_out"
+> > > > s_^\(RTLDLIST=\)\(.*lib\)\(\|64\|x32\)\(/[^/]*\)\(-x86-64\|-
+> > > > x32\)\(\.so\.[0-9.]*\)[
+> > > > ]*$_\1"\2\4\6 \264\4-x86-64\6 \2x32\4-x32\6 \2\3\4\5\6"_
+> > > > 
+> > > > which basically converts
+> > > > /lib/ld-linux-x86-64.so.2
+> > > >  into:
+> > > >  /lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2 /libx32/ld-
+> > > > linux-
+> > > > x32.so.2
+> > > > 
+> > > > I agree that this bug is too obvious for not being noticed for
+> > > > a long
+> > > > time. At least I use ldd a lot when thing fails ;)
+> > > 
+> > > If you look at glibc_2.28.bb, it rewrites RTLDLIST if the value
+> > > passed
+> > > in is not empty. Yours is empty, the question is therefore why.
+> > > 
+> > > Can you add -C10 to the command and see the variable history,
+> > > here its:
+> > > 
+> > > # $RTLDLIST [2 operations]
+> > > #   set /media/build3/poky/meta/recipes-core/glibc/glibc-
+> > > ld.inc:46
+> > > #     "${@glibc_dl_info(d)['lddrewrite']}"
+> > > #   override[class-nativesdk]:set
+> > > /media/build3/poky/meta/recipes-core/glibc/glibc-ld.inc:47
+> > > #     "${base_libdir}/${@bb.utils.contains('SDK_ARCH', 'x86_64',
+> > > 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
+> > > # pre-expansion value:
+> > > #   "${@glibc_dl_info(d)['lddrewrite']}"
+> > > RTLDLIST="/lib/ld-linux-x86-64.so.2"
+> > > 
+> > 
+> > 
+> > # $RTLDLIST [2 operations]
+> > #   set /workdir/repo/poky/meta/recipes-core/glibc/glibc-ld.inc:46
+> > #     "${@glibc_dl_info(d)['lddrewrite']}"
+> > #   override[class-nativesdk]:set
+> > /workdir/repo/poky/meta/recipes-core/glibc/glibc-ld.inc:47
+> > #     "${base_libdir}/${@bb.utils.contains('SDK_ARCH', 'x86_64',
+> > 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
+> > # pre-expansion value:
+> > #   "${@glibc_dl_info(d)['lddrewrite']}"
+> > RTLDLIST=""
+> > #
+> > 
+> > # $RTLDLIST_class-nativesdk
+> > #   set /workdir/repo/poky/meta/recipes-core/glibc/glibc-ld.inc:47
+> > #     "${base_libdir}/${@bb.utils.contains('SDK_ARCH', 'x86_64',
+> > 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
+> > RTLDLIST_class-nativesdk="/lib/ld-linux-x86-64.so.2"
+> > 
+> > 
+> > I have just upgraded my work build to 19.0.1 / 2.5.1 Let me build
+> > ldd
+> > again to see if the problem still persists
+> 
+> 19.0.1 gives the same results as 19.0.0
+> 
+> 
+> RTLDLIST="/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2
+> /libx32/ld-linux-x32.so.
 
-* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Blind secret D with
-randomized nonce B.
+I just looked at what the function is doing and its broken. What is
+DEFAULTTUNE set to in your build?
 
---
+Cheers,
 
-CVE-id: CVE-2018-0495
-
-Affects libgcrypt < 1.7.10 and libgcrypt < 1.8.3
-
-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
----
- .../libgcrypt/files/CVE-2018-0495.patch            | 76 ++++++++++++++++++++++
- meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb  |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
-
-diff --git a/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch b/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
-new file mode 100644
-index 0000000..c16bd3a
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/CVE-2018-0495.patch
-@@ -0,0 +1,76 @@
-+From 9010d1576e278a4274ad3f4aa15776c28f6ba965 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Wed, 13 Jun 2018 15:28:58 +0900
-+Subject: [PATCH] ecc: Add blinding for ECDSA.
-+
-+* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Blind secret D with
-+randomized nonce B.
-+
-+--
-+
-+Reported-by: Keegan Ryan <Keegan.Ryan@nccgroup.trust>
-+CVE-id: CVE-2018-0495
-+
-+Upstream-Status: Backport [http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=9010d1576e278a4274ad3f4aa15776c28f6ba965]
-+
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-+---
-+ cipher/ecc-ecdsa.c | 20 ++++++++++++++++++--
-+ 1 file changed, 18 insertions(+), 2 deletions(-)
-+
-+diff --git a/cipher/ecc-ecdsa.c b/cipher/ecc-ecdsa.c
-+index 1484830b..140e8c09 100644
-+--- a/cipher/ecc-ecdsa.c
-++++ b/cipher/ecc-ecdsa.c
-+@@ -50,6 +50,8 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+   const void *abuf;
-+   unsigned int abits, qbits;
-+   mpi_ec_t ctx;
-++  gcry_mpi_t b;                /* Random number needed for blinding.  */
-++  gcry_mpi_t bi;               /* multiplicative inverse of B.        */
-+ 
-+   if (DBG_CIPHER)
-+     log_mpidump ("ecdsa sign hash  ", input );
-+@@ -61,6 +63,15 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+   if (rc)
-+     return rc;
-+ 
-++  b  = mpi_snew (qbits);
-++  bi = mpi_snew (qbits);
-++  do
-++    {
-++      _gcry_mpi_randomize (b, qbits, GCRY_WEAK_RANDOM);
-++      mpi_mod (b, b, skey->E.n);
-++    }
-++  while (!mpi_invm (bi, b, skey->E.n));
-++
-+   k = NULL;
-+   dr = mpi_alloc (0);
-+   sum = mpi_alloc (0);
-+@@ -115,8 +126,11 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+         }
-+       while (!mpi_cmp_ui (r, 0));
-+ 
-+-      mpi_mulm (dr, skey->d, r, skey->E.n); /* dr = d*r mod n  */
-+-      mpi_addm (sum, hash, dr, skey->E.n);  /* sum = hash + (d*r) mod n  */
-++      mpi_mulm (dr, b, skey->d, skey->E.n);
-++      mpi_mulm (dr, dr, r, skey->E.n);      /* dr = d*r mod n (blinded with b) */
-++      mpi_mulm (sum, b, hash, skey->E.n);
-++      mpi_addm (sum, sum, dr, skey->E.n);   /* sum = hash + (d*r) mod n  (blinded with b) */
-++      mpi_mulm (sum, bi, sum, skey->E.n);   /* undo blinding by b^-1 */
-+       mpi_invm (k_1, k, skey->E.n);         /* k_1 = k^(-1) mod n  */
-+       mpi_mulm (s, k_1, sum, skey->E.n);    /* s = k^(-1)*(hash+(d*r)) mod n */
-+     }
-+@@ -129,6 +143,8 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+     }
-+ 
-+  leave:
-++  mpi_free (b);
-++  mpi_free (bi);
-+   _gcry_mpi_ec_free (ctx);
-+   point_free (&I);
-+   mpi_free (x);
-+-- 
-+2.13.3
-+
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-index 02982f0..3d189f5 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.gz \
-            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
-            file://0005-ecc-Add-input-validation-for-X25519.patch \
-            file://0006-Fix-building-AArch32-CE-implementations-when-target-.patch \
-+           file://CVE-2018-0495.patch \
- "
- SRC_URI[md5sum] = "110ce4352f9ea6f560bdc6c5644ae93c"
- SRC_URI[sha256sum] = "f6e470b7f2d3a703e8747f05a8c19d9e10e26ebf2d5f3d71ff75a40f504e12ee"
--- 
-2.7.4
-
+Richard
 
