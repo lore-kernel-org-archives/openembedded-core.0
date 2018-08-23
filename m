@@ -1,28 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 92ABC7953B
+Return-Path: <logyourself@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 204077953C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 08:27:57 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w7N8RncA012245
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Thu, 23 Aug 2018 09:27:50 +0100
-Message-ID: <5a6bf05b6a04f09ed3f148c996a2b6d0d562924d.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>, Anuj Mittal <anuj.mittal@intel.com>
-Date: Thu, 23 Aug 2018 09:27:49 +0100
-In-Reply-To: <CAJ86T=W5cVZ+VEdRVi96-QRx5BhmTPpWZ1HU29UuXhmrZbS6Xg@mail.gmail.com>
-References: <20180816062633.29868-1-anuj.mittal@intel.com>
-	<CAJ86T=Wzi5hzFUfChDLKTDyKf+X9_EUjFvPE9wfSp5UXaQycaA@mail.gmail.com>
-	<188b139f-5d52-b2e3-fdd7-e231deb56052@intel.com>
-	<CAJ86T=W5cVZ+VEdRVi96-QRx5BhmTPpWZ1HU29UuXhmrZbS6Xg@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3: enable profile optimized builds
+	Thu, 23 Aug 2018 08:31:53 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id z4-v6so2229285pgv.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Aug 2018 01:31:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=v+1rTE+7i4dpgB7bKekry0h7g9rp8OBeGDdcMxljwEo=;
+	b=RFsZjcjbhNnSe4bIPKHvHNNHI0jO6Pq3wJP7wfNIwjUtniuDoaXu5qtepDT4G7Ndcl
+	yy30rrjzS+kmGGTa7/snu0s1M5QpTKXjbrtIlzZBKJzJsyy+eaFuQ0LAg74tilkpuG6i
+	GHDe2VnsEyLczl4o2cJBcteWDI9Wzif3deUSFVtc73vXLkgYzDP/EBgdL7IE7EfiEH3p
+	v/Pp8i8zB0Vf7pyD9VDkZpHXO4GFYnqeFZ7cPQa1pMeaLUr0d0yjYWHZX8vfjNjKurRK
+	6IaEqT0Z2ZgXKXAge5C/PhE9UIiMScpN/MjoH7nOoUDRcPATKuk36Nt5sMnM9puMq7ty
+	dloQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=v+1rTE+7i4dpgB7bKekry0h7g9rp8OBeGDdcMxljwEo=;
+	b=iIqTFddMAQnP9CjWEl1MJx5swrmeOfLzpMSuFIRA404X+JfL0cBOPepHWfByAf/dKP
+	YugMS0sDXnXaKMYKtfr24dnFJUXS41vff2WxvE2u1FDV8TbA2ZuOlx6OzkLRtogCKN2s
+	NH75IJX2XuXnr7JbWKpv2+XvsXEA22suMyWwm+aCNz9vPkW/6GK4BLqkakaed3lRfk06
+	jcfNuucgmuy9uHQSAGhM0muoCyz3dKTSvYuIzdT2IGMzpWY6FvOPPmDp7475oqAkxB0F
+	duGZuqrf+pJuaOAiIji6UNmA4n+Ex3ZmzcDdZAhTJc6MTYFTXbNCTkadhKTgLcP3Pzti
+	giHg==
+X-Gm-Message-State: AOUpUlFqTqT2WEueSbda5x6f4Wv4e4oxYZRa53ATZvGSWMy0Tc9yLKq0
+	DvjtgE10aD6hOMGq/bk8LPuVUe7lDw4=
+X-Google-Smtp-Source: AA+uWPwuOwbpvs+FdhwYjI5nr3Ums+7YoLflKv2tqFXqEHLQdFqFcxQP1ThJ9IoZl6+gP6jqslXzBA==
+X-Received: by 2002:a63:f111:: with SMTP id
+	f17-v6mr53472163pgi.87.1535013114600; 
+	Thu, 23 Aug 2018 01:31:54 -0700 (PDT)
+Received: from localhost.localdomain ([182.212.44.138])
+	by smtp.gmail.com with ESMTPSA id
+	z19-v6sm5233944pgi.33.2018.08.23.01.31.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Aug 2018 01:31:53 -0700 (PDT)
+From: Junil Kim <logyourself@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Aug 2018 17:31:46 +0900
+Message-Id: <20180823083146.15408-1-logyourself@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Junil Kim <jjunil79.kim@lge.com>
+Subject: [meta-oe, morty][PATCH] ltrace_git: Update SRC_URI due to inaccessible problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 08:27:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Aug 2018 08:31:54 -0000
 
-On Wed, 2018-08-22 at 18:44 -0700, Andre McCurdy wrote:
-> On Thu, Aug 16, 2018 at 9:48 PM, Anuj Mittal <anuj.mittal@intel.com>
-> wrote:
-> > On 08/17/2018 03:31 AM, Andre McCurdy wrote:
-> > > On Wed, Aug 15, 2018 at 11:26 PM, Anuj Mittal <anuj.mittal@intel.
-> > > com> wrote:
-> > > Is it important to re-create the profile data during every build
-> > > or
-> > > would we get most of the same benefits from using reference data
-> > > which
-> > > is generated offline?
-> > 
-> > We should get the same benefit using the data generated offline as
-> > long
-> > as the source code/configure options/flags are same I believe. I
-> > have
-> > only tried with data generate offline using the same build
-> > configuration
-> > though.
-> 
-> As an additional data point, python do_compile now takes approx 18
-> minutes on my laptop. A single qemu-i386 thread loading one CPU core
-> at 100%, with nothing else being scheduled in parallel for most of
-> that time.
-> 
-> If we can get most of the benefits of pgo with a pre-generated data
-> file then that might still be something to explore.
+Existing URI service was closed and fetch error occurred.
+Change existing repository to another mirrored SRC URI.
 
-I've also noticed the increased build times. I'd love to see if we
-could create an sstate object which would contain the pgo data and
-which didn't depend on the usual compiler/toolchain pieces, only the
-do_patch stage checksum. In theory, the same sstate object should be
-reusable between target/native/nativesdk too as long as we had the same
-python patchset (which I know we don't for native).
+Signed-off-by: Junil Kim <jjunil79.kim@lge.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta-oe/recipes-devtools/ltrace/ltrace_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Anyone fancy such a challenge? We should probably have a bug open for
-this at least...
-
-Cheers,
-
-Richard
+diff --git a/meta-oe/recipes-devtools/ltrace/ltrace_git.bb b/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
+index 8ae018503..097723802 100644
+--- a/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
++++ b/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
+@@ -15,7 +15,7 @@ SRCREV = "01b10e191e99d8cb147e5a2b7da8196e0ec6fb94"
+ 
+ DEPENDS = "elfutils"
+ RDEPENDS_${PN} = "elfutils"
+-SRC_URI = "git://anonscm.debian.org/collab-maint/ltrace.git;branch=master \
++SRC_URI = "git://github.com/sparkleholic/ltrace.git;branch=master;protocol=http \
+            file://configure-allow-to-disable-selinux-support.patch \
+            file://0001-replace-readdir_r-with-readdir.patch \
+           "
+-- 
+2.17.1
 
 
