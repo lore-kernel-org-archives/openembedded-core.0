@@ -1,49 +1,28 @@
-Return-Path: <logyourself@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 204077953C
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 91D9D79557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 08:31:53 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id z4-v6so2229285pgv.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 01:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=v+1rTE+7i4dpgB7bKekry0h7g9rp8OBeGDdcMxljwEo=;
-	b=RFsZjcjbhNnSe4bIPKHvHNNHI0jO6Pq3wJP7wfNIwjUtniuDoaXu5qtepDT4G7Ndcl
-	yy30rrjzS+kmGGTa7/snu0s1M5QpTKXjbrtIlzZBKJzJsyy+eaFuQ0LAg74tilkpuG6i
-	GHDe2VnsEyLczl4o2cJBcteWDI9Wzif3deUSFVtc73vXLkgYzDP/EBgdL7IE7EfiEH3p
-	v/Pp8i8zB0Vf7pyD9VDkZpHXO4GFYnqeFZ7cPQa1pMeaLUr0d0yjYWHZX8vfjNjKurRK
-	6IaEqT0Z2ZgXKXAge5C/PhE9UIiMScpN/MjoH7nOoUDRcPATKuk36Nt5sMnM9puMq7ty
-	dloQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=v+1rTE+7i4dpgB7bKekry0h7g9rp8OBeGDdcMxljwEo=;
-	b=iIqTFddMAQnP9CjWEl1MJx5swrmeOfLzpMSuFIRA404X+JfL0cBOPepHWfByAf/dKP
-	YugMS0sDXnXaKMYKtfr24dnFJUXS41vff2WxvE2u1FDV8TbA2ZuOlx6OzkLRtogCKN2s
-	NH75IJX2XuXnr7JbWKpv2+XvsXEA22suMyWwm+aCNz9vPkW/6GK4BLqkakaed3lRfk06
-	jcfNuucgmuy9uHQSAGhM0muoCyz3dKTSvYuIzdT2IGMzpWY6FvOPPmDp7475oqAkxB0F
-	duGZuqrf+pJuaOAiIji6UNmA4n+Ex3ZmzcDdZAhTJc6MTYFTXbNCTkadhKTgLcP3Pzti
-	giHg==
-X-Gm-Message-State: AOUpUlFqTqT2WEueSbda5x6f4Wv4e4oxYZRa53ATZvGSWMy0Tc9yLKq0
-	DvjtgE10aD6hOMGq/bk8LPuVUe7lDw4=
-X-Google-Smtp-Source: AA+uWPwuOwbpvs+FdhwYjI5nr3Ums+7YoLflKv2tqFXqEHLQdFqFcxQP1ThJ9IoZl6+gP6jqslXzBA==
-X-Received: by 2002:a63:f111:: with SMTP id
-	f17-v6mr53472163pgi.87.1535013114600; 
-	Thu, 23 Aug 2018 01:31:54 -0700 (PDT)
-Received: from localhost.localdomain ([182.212.44.138])
-	by smtp.gmail.com with ESMTPSA id
-	z19-v6sm5233944pgi.33.2018.08.23.01.31.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Aug 2018 01:31:53 -0700 (PDT)
-From: Junil Kim <logyourself@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Aug 2018 17:31:46 +0900
-Message-Id: <20180823083146.15408-1-logyourself@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Junil Kim <jjunil79.kim@lge.com>
-Subject: [meta-oe, morty][PATCH] ltrace_git: Update SRC_URI due to inaccessible problem
+	Thu, 23 Aug 2018 08:45:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7N8jEfs010473
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 23 Aug 2018 01:45:14 -0700 (PDT)
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Thu, 23 Aug 2018 01:45:14 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <1534900232-59325-1-git-send-email-changqing.li@windriver.com>
+	<eafbe2693401ebc8616f45970924141394b491da.camel@linuxfoundation.org>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <a5e9abb3-adbf-f07d-2ff7-1bf798c989ee@windriver.com>
+Date: Thu, 23 Aug 2018 16:45:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <eafbe2693401ebc8616f45970924141394b491da.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.228]
+Subject: Re: [PATCH] freetype: Upgrade 2.9 -> 2.9.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +35,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 08:31:54 -0000
+X-List-Received-Date: Thu, 23 Aug 2018 08:45:14 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Existing URI service was closed and fetch error occurred.
-Change existing repository to another mirrored SRC URI.
 
-Signed-off-by: Junil Kim <jjunil79.kim@lge.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta-oe/recipes-devtools/ltrace/ltrace_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-oe/recipes-devtools/ltrace/ltrace_git.bb b/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
-index 8ae018503..097723802 100644
---- a/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
-+++ b/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
-@@ -15,7 +15,7 @@ SRCREV = "01b10e191e99d8cb147e5a2b7da8196e0ec6fb94"
- 
- DEPENDS = "elfutils"
- RDEPENDS_${PN} = "elfutils"
--SRC_URI = "git://anonscm.debian.org/collab-maint/ltrace.git;branch=master \
-+SRC_URI = "git://github.com/sparkleholic/ltrace.git;branch=master;protocol=http \
-            file://configure-allow-to-disable-selinux-support.patch \
-            file://0001-replace-readdir_r-with-readdir.patch \
-           "
+On 08/23/2018 04:15 PM, Richard Purdie wrote:
+> On Wed, 2018-08-22 at 09:10 +0800, changqing.li@windriver.com wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>   .../freetype/fix-potential-numeric-overflow.patch  | 28 ------------
+>> ----------
+>>   .../{freetype_2.9.bb => freetype_2.9.1.bb}         | 10 ++++----
+>>   2 files changed, 4 insertions(+), 34 deletions(-)
+>>   delete mode 100644 meta/recipes-graphics/freetype/freetype/fix-
+>> potential-numeric-overflow.patch
+>>   rename meta/recipes-graphics/freetype/{freetype_2.9.bb =>
+>> freetype_2.9.1.bb} (85%)
+>>
+>> diff --git a/meta/recipes-graphics/freetype/freetype/fix-potential-numeric-overflow.patch b/meta/recipes-graphics/freetype/freetype/fix-potential-numeric-overflow.patch
+>> deleted file mode 100644
+>> index 0b5b3c6..0000000
+>> --- a/meta/recipes-graphics/freetype/freetype/fix-potential-numeric-overflow.patch
+>> +++ /dev/null
+>> @@ -1,28 +0,0 @@
+>> -freetype-2.9: Fix potential numeric overflow
+>> -
+>> -[No upstream tracking] -- https://savannah.nongnu.org/bugs/index.php?54023
+>> -
+>> -ttcmap: (tt_cmap2_validate): Fix potential numeric overflow
+>> -
+>> -The dead loop appears in the function tt_cmap2_char_next()
+>> -in "src\sfnt\ttcmap.c" in version 2.9 when "charcode == 256".
+>> -According to the notes, is seems that "subheader" should
+>> -not be NULL when "charcode == 256".
+>> -
+>> -Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/src/sfnt/ttcmap.c?id=5bd76524ef786d942b28dc52618aeda3aebfa3d6]
+>> -bug: 54023
+>> -Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+>> -
+>> -diff --git a/src/sfnt/ttcmap.c b/src/sfnt/ttcmap.c
+>> -index 5afa6ae..8fb9542 100644
+>> ---- a/src/sfnt/ttcmap.c
+>> -+++ b/src/sfnt/ttcmap.c
+>> -@@ -358,7 +358,7 @@
+>> -       /* check range within 0..255 */
+>> -       if ( valid->level >= FT_VALIDATE_PARANOID )
+>> -       {
+>> --        if ( first_code >= 256 || first_code + code_count > 256 )
+>> -+        if ( first_code >= 256 || code_count > 256 - first_code )
+>> -           FT_INVALID_DATA;
+>> -       }
+>> -
+>> diff --git a/meta/recipes-graphics/freetype/freetype_2.9.bb b/meta/recipes-graphics/freetype/freetype_2.9.1.bb
+>> similarity index 85%
+>> rename from meta/recipes-graphics/freetype/freetype_2.9.bb
+>> rename to meta/recipes-graphics/freetype/freetype_2.9.1.bb
+>> index 216ecf3..1e6f66e 100644
+>> --- a/meta/recipes-graphics/freetype/freetype_2.9.bb
+>> +++ b/meta/recipes-graphics/freetype/freetype_2.9.1.bb
+>> @@ -14,16 +14,15 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=4af6221506f202774ef74f64932878a1
+>>   
+>>   SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
+>>              file://use-right-libtool.patch \
+>> -           file://fix-potential-numeric-overflow.patch \
+>>             "
+>>   
+>>   UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/freetype/files/freetype2/"
+>>   UPSTREAM_CHECK_REGEX = "freetype-(?P<pver>\d+(\.\d+)+)"
+>>   
+>> -SRC_URI[md5sum] = "513c403c110016fdc7e537216a642b1d"
+>> -SRC_URI[sha256sum] = "e6ffba3c8cef93f557d1f767d7bc3dee860ac7a3aaff588a521e081bc36f4c8a"
+>> +SRC_URI[md5sum] = "60ef7d8160cd4bf8cb118ee9d65367ca"
+>> +SRC_URI[sha256sum] = "db8d87ea720ea9d5edc5388fc7a0497bb11ba9fe972245e0f7f4c7e8b1e1e84d"
+>>   
+>> -inherit autotools pkgconfig binconfig-disabled multilib_header
+>> +inherit autotools pkgconfig multilib_header
+>>   
+>>   # Adapt autotools to work with the minimal autoconf usage in freetype
+>>   AUTOTOOLS_SCRIPT_PATH = "${S}/builds/unix"
+>> @@ -37,6 +36,7 @@ PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2"
+>>   PACKAGECONFIG[harfbuzz] = "--with-harfbuzz,--without-harfbuzz,harfbuzz"
+>>   PACKAGECONFIG[pixmap] = "--with-png,--without-png,libpng"
+>>   PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
+>> +PACKAGECONFIG[freetypeconfig] = "--enable-freetype-config=yes,--enable-freetype-config=no,"
+>>   
+>>   EXTRA_OECONF = "CC_BUILD='${BUILD_CC}'"
+>>   
+>> @@ -46,6 +46,4 @@ do_install_append() {
+>>   	oe_multilib_header freetype2/freetype/config/ftconfig.h
+>>   }
+>>   
+>> -BINCONFIG = "${bindir}/freetype-config"
+>> -
+>>   BBCLASSEXTEND = "native nativesdk"
+> The commit message makes no mention of the removal/disabling of the
+> config script or the removal of the patch. You need to explain why
+> these changes were made.
+>
+> In this case I fixed the commit message when merging.
+>
+> Cheers,
+>
+> Richard
+>
+
+Thanks.  I will pay attention to this next time.
+
+//changqing
+
 -- 
-2.17.1
+BRs
+
+Sandy(Li Changqing)
++861084778653
 
 
