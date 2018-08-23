@@ -1,46 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F3F479540
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 8615179540
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 08:24:59 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id f21-v6so4332786wmc.5
+	Thu, 23 Aug 2018 08:25:00 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id m27-v6so3863995wrf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 01:25:00 -0700 (PDT)
+	Thu, 23 Aug 2018 01:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=0MIBo+j6HXwF+dPzPsnftwfRz++AfavW8D+OypvSk2k=;
-	b=NQUtk39DtUujpiJMq5HGEeCVh3gN0xb4GI1NLmsQw1zRVBRoksfvfSTNO7H0E5vQe2
-	+e+yis2gn+BVzhwPGrALjNf8mIlHAFNeiEONXhUxOsLhHGfG7bosoKnEg5ytkV5CMvvx
-	hU9aeVsFkYq9WjGR/L8MHWp9E5wdXE7eo/w+4=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=JEUQZjVxvZHsHWRx+EoyIyIEmkrpPd6ATvsbXRNHt7Q=;
+	b=UcW7dCE9v3VFSJFrfly/XwUaYxngAFTFy6uIrlo8E/jKagVZeXkaC9cmqNpJjzBhAA
+	vdme1XzIvVuRuPkxRFAehCW6g1jvqNASm/vnRBL54UxwnyBnUP/KSffE45qY5QPEzroh
+	FcCWxd1TKRE1RHqJ6Xx4LBka5hEe3yxhodGac=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=0MIBo+j6HXwF+dPzPsnftwfRz++AfavW8D+OypvSk2k=;
-	b=h6PpplIHDZIwrG6zLRWQmEIQJ9G7JG3Lno6Fps10p2aXDt9cTQCZne/miGnIakISj4
-	qf1KYkIJgO+joREHGVGEwq8YejMExBp8cVBRou6UYp/RFNFfP7cXvHZzeAEwAMv0XKnb
-	QCVdJkRt9thxh7fW9vxiJlG5DUDzd446CygZaj81il42IChs3GTDkeX2GcMKoEVLa1RJ
-	e924NiwDW3kn/R1jjCsX3r8rId87OCxiKml0rD5y8MMiz61Du+s1lPXiLkaPp77/N9HH
-	DLr3lvcccKY/xKi+FH736gS+1eqvcOUCS2GcbjMWtfjfrMRYtN9hFCE2xi8ZTgc8E5MR
-	cgkA==
-X-Gm-Message-State: APzg51DvI6AD53r06Bi6cFDDUsFaEWzjEZwE/fiC+iBNtHLS115kBtig
-	UzpCCCDC+U8d6I5pSrX6fGa4jaPyAUs=
-X-Google-Smtp-Source: ANB0VdZmg3Q+M5winD9DPXs6Lt1wLNOh8V0UpU4Q9ZbxZI/HMMaF4rc/+G8tOaVLCWfbkAbZyL9EOA==
-X-Received: by 2002:a1c:6f8b:: with SMTP id
-	c11-v6mr4726078wmi.138.1535012699655; 
-	Thu, 23 Aug 2018 01:24:59 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=JEUQZjVxvZHsHWRx+EoyIyIEmkrpPd6ATvsbXRNHt7Q=;
+	b=jzlRL6sya90YrvWtb7eGPOm0IjRVUjFf0Dt5ZEUtjRHuVLfh/xK35CNL132Eiv8tWH
+	7geWViqpm3DNG/j/kvCAB7+cUdWXxF9w7iExMBr+R6osUSkBOrGyQGlD7Qx8TP3q28+J
+	THTqquuZoBkJnp3HKdspDB5KEtjTIw3P5Ogkh/LTnHrQe8qdr2DixR9AVh+c0/JWEBBp
+	mh5OpFiAG3xn8WG7xA8xNkCLZ+tD9YqV7OteWundY9cI8vKpUk4ErZhZlP5wdeyUPZ2s
+	hS/53pdyl0MjMWRPSofJbihbepcFvsPquskyqSCkkXMvsrBcdcbtBIgeLfibwhcw1APh
+	+7gg==
+X-Gm-Message-State: APzg51DiOIMyegGsSw+nAaCvSBOAHNoJv7foNLUZdTn98gwEM2+M3OtW
+	L1GlHJt2zGFGn1lNbHtqnjaJpWuWIQI=
+X-Google-Smtp-Source: ANB0VdZoohsfKxbCSxF8Fb84ifjkXGjoeWjbclFrvLuF17qEUB3J2tz5lRljMR6cJl7TK0arrglmfA==
+X-Received: by 2002:adf:84e5:: with SMTP id 92-v6mr3577961wrg.9.1535012700978; 
+	Thu, 23 Aug 2018 01:25:00 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	p11-v6sm1316860wrd.74.2018.08.23.01.24.58
+	p11-v6sm1316860wrd.74.2018.08.23.01.24.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Aug 2018 01:24:58 -0700 (PDT)
+	Thu, 23 Aug 2018 01:24:59 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Aug 2018 09:24:53 +0100
-Message-Id: <20180823082457.32062-1-richard.purdie@linuxfoundation.org>
+Date: Thu, 23 Aug 2018 09:24:54 +0100
+Message-Id: <20180823082457.32062-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/5] linuxloader: Convert to python function
+In-Reply-To: <20180823082457.32062-1-richard.purdie@linuxfoundation.org>
+References: <20180823082457.32062-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/5] glibc: Improve ldd loader specification
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,166 +56,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 08:24:59 -0000
+X-List-Received-Date: Thu, 23 Aug 2018 08:25:01 -0000
 
-We could do with one decent general purpose python function to query the
-path to the dynamic loader. Convert the shell code into python.
+Currently if a tune isn't specified in the table, the loader defaults for the
+architecture are used which may or may not match our path specification. This
+leads to general confusion.
 
-Also correct baremetal to return "None", not musl loaders.
+Change the code to use the linuxloader class which works of architecture, not
+tune.
+
+This still isn't perfect as n32/x32 aren't covered but its an improvement
+to listing all tunes here.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/image-mklibs.bbclass  |   2 +-
- meta/classes/image-prelink.bbclass |   2 +-
- meta/classes/linuxloader.bbclass   | 112 ++++++++++++-----------------
- 3 files changed, 47 insertions(+), 69 deletions(-)
+ meta/recipes-core/glibc/glibc-ld.inc | 35 ++++++++--------------------
+ 1 file changed, 10 insertions(+), 25 deletions(-)
 
-diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
-index 5f6df1b17fd..68e11d43655 100644
---- a/meta/classes/image-mklibs.bbclass
-+++ b/meta/classes/image-mklibs.bbclass
-@@ -19,7 +19,7 @@ mklibs_optimize_image_doit() {
- 		echo $i
- 	done > ${WORKDIR}/mklibs/executables.list
+diff --git a/meta/recipes-core/glibc/glibc-ld.inc b/meta/recipes-core/glibc/glibc-ld.inc
+index c1d635dc8df..9b1d94a11e6 100644
+--- a/meta/recipes-core/glibc/glibc-ld.inc
++++ b/meta/recipes-core/glibc/glibc-ld.inc
+@@ -1,43 +1,28 @@
+-def ld_append_if_tune_exists(d, infos, dict):
+-    tune = d.getVar("DEFAULTTUNE") or ""
+-    libdir = d.getVar("base_libdir") or ""
+-    if tune in dict:
+-        infos['ldconfig'].add('{"' + libdir + '/' + dict[tune][0] + '",' + dict[tune][1] + ' }')
+-        infos['lddrewrite'].add(libdir+'/'+dict[tune][0])
++inherit linuxloader
  
--	dynamic_loader=$(linuxloader)
-+	dynamic_loader=${@get_linuxloader(d)}
+-def glibc_dl_info(d):
+-    ld_info_all = {
+-        "mipsarch": ["ld.so.1", "FLAG_ELF_LIBC6"],
+-        "mipsarchr6": ["ld-linux-mipsn8.so.1", "FLAG_ELF_LIBC6"],
+-        "powerpc": ["ld.so.1", "FLAG_ELF_LIBC6"],
+-        "powerpc-nf": ["ld.so.1", "FLAG_ELF_LIBC6"],
+-        "powerpc64": ["ld64.so.1", "FLAG_ELF_LIBC6"],
+-        "powerpc64-nf": ["ld64.so.1", "FLAG_ELF_LIBC6"],
+-        "core2-32": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
+-        "core2-64": ["ld-linux-x86-64.so.2", "FLAG_ELF_LIBC6"],
+-        "x86": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
+-        "x86-64": ["ld-linux-x86-64.so.2", "FLAG_ELF_LIBC6"],
+-        "i586": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
+-        "corei7-32": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
+-        "corei7-64": ["ld-linux-x86-64.so.2", "FLAG_ELF_LIBC6"],
+-    }
++def ld_append_if_tune_exists(d, infos):
++    loader = get_linuxloader(d)
++    if loader:
++        infos['ldconfig'].add('{"' + loader + '",' + "FLAG_ELF_LIBC6" + ' }')
++        infos['lddrewrite'].add(loader)
  
- 	mklibs -v \
- 		--ldlib ${dynamic_loader} \
-diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
-index 6a8afa8fa95..04dd57c940a 100644
---- a/meta/classes/image-prelink.bbclass
-+++ b/meta/classes/image-prelink.bbclass
-@@ -33,7 +33,7 @@ prelink_image () {
- 	fi
- 	cat ${STAGING_DIR_TARGET}${sysconfdir}/ld.so.conf >> $ldsoconf
++def glibc_dl_info(d):
+     infos = {'ldconfig':set(), 'lddrewrite':set()}
+-    ld_append_if_tune_exists(d, infos, ld_info_all)
++    ld_append_if_tune_exists(d, infos)
  
--	dynamic_loader=$(linuxloader)
-+	dynamic_loader=${@get_linuxloader(d)}
+     #DEFAULTTUNE_MULTILIB_ORIGINAL
+     original_tune=d.getVar("DEFAULTTUNE_MULTILIB_ORIGINAL")
+     if original_tune:
+         localdata = bb.data.createCopy(d)
+         localdata.setVar("DEFAULTTUNE", original_tune)
+-        ld_append_if_tune_exists(localdata, infos, ld_info_all)
++        ld_append_if_tune_exists(localdata, infos)
  
- 	# prelink!
- 	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
-diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxloader.bbclass
-index 8f30eb32e76..e1364a4e55b 100644
---- a/meta/classes/linuxloader.bbclass
-+++ b/meta/classes/linuxloader.bbclass
-@@ -1,70 +1,48 @@
--LDSO_TCLIBC = "glibc"
--LDSO_TCLIBC_libc-musl = "musl"
--LDSO_TCLIBC_libc-baremetal = "musl"
-+def get_linuxloader(d):
-+    import re
- 
--linuxloader_glibc () {
--	case ${TARGET_ARCH} in
--		powerpc | microblaze )
--			dynamic_loader="${base_libdir}/ld.so.1"
--			;;
--		mipsisa32r6el | mipsisa32r6 | mipsisa64r6el | mipsisa64r6)
--			dynamic_loader="${base_libdir}/ld-linux-mipsn8.so.1"
--			;;
--		mips* )
--			dynamic_loader="${base_libdir}/ld.so.1"
--			;;
--		powerpc64)
--			dynamic_loader="${base_libdir}/ld64.so.1"
--			;;
--		x86_64)
--			dynamic_loader="${base_libdir}/ld-linux-x86-64.so.2"
--			;;
--		i*86 )
--			dynamic_loader="${base_libdir}/ld-linux.so.2"
--			;;
--		arm )
--			dynamic_loader="${base_libdir}/ld-linux.so.3"
--			;;
--		* )
--			dynamic_loader="/unknown_dynamic_linker"
--			;;
--	esac
--	echo $dynamic_loader
--}
-+    targetarch = d.getVar("TARGET_ARCH")
-+    overrides = d.getVar("OVERRIDES").split(":")
- 
--linuxloader_musl () {
--	case ${TARGET_ARCH} in
--		microblaze* )
--			dynamic_loader="${base_libdir}/ld-musl-microblaze${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '', 'el' ,d)}.so.1"
--			;;
--		mips* )
--			dynamic_loader="${base_libdir}/ld-musl-mips${ABIEXTENSION}${MIPSPKGSFX_BYTE}${MIPSPKGSFX_R6}${MIPSPKGSFX_ENDIAN}${@['', '-sf'][d.getVar('TARGET_FPU') == 'soft']}.so.1"
--			;;
--		powerpc )
--			dynamic_loader="${base_libdir}/ld-musl-powerpc${@['', '-sf'][d.getVar('TARGET_FPU') == 'soft']}.so.1"
--			;;
--		powerpc64 )
--			dynamic_loader="${base_libdir}/ld-musl-powerpc64.so.1"
--			;;
--		x86_64 )
--			dynamic_loader="${base_libdir}/ld-musl-x86_64.so.1"
--			;;
--		i*86 )
--			dynamic_loader="${base_libdir}/ld-musl-i386.so.1"
--			;;
--		arm* )
--			dynamic_loader="${base_libdir}/ld-musl-arm${ARMPKGSFX_ENDIAN}${ARMPKGSFX_EABI}.so.1"
--			;;
--		aarch64* )
--			dynamic_loader="${base_libdir}/ld-musl-aarch64${ARMPKGSFX_ENDIAN_64}.so.1"
--			;;
--		* )
--			dynamic_loader="/unknown_dynamic_linker"
--			;;
--	esac
--	echo $dynamic_loader
--}
-+    # No loader for baremetal
-+    if "libc-baremetal" in overrides:
-+        return None
-+
-+    dynamic_loader = None
-+    if "libc-musl" in overrides:
-+        if targetarch.startswith("microblaze"):
-+            dynamic_loader = "${base_libdir}/ld-musl-microblaze${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '', 'el' ,d)}.so.1"
-+        elif targetarch.startswith("mips"):
-+            dynamic_loader = "${base_libdir}/ld-musl-mips${ABIEXTENSION}${MIPSPKGSFX_BYTE}${MIPSPKGSFX_R6}${MIPSPKGSFX_ENDIAN}${@['', '-sf'][d.getVar('TARGET_FPU') == 'soft']}.so.1"
-+        elif targetarch == "powerpc":
-+            dynamic_loader = "${base_libdir}/ld-musl-powerpc${@['', '-sf'][d.getVar('TARGET_FPU') == 'soft']}.so.1"
-+        elif targetarch == "powerpc64":
-+            dynamic_loader = "${base_libdir}/ld-musl-powerpc64.so.1"
-+        elif targetarch == "x86_64":
-+            dynamic_loader = "${base_libdir}/ld-musl-x86_64.so.1"
-+        elif re.search("i.86", targetarch):
-+            dynamic_loader = "${base_libdir}/ld-musl-i386.so.1"
-+        elif targetarch.startswith("arm"):
-+            dynamic_loader = "${base_libdir}/ld-musl-arm${ARMPKGSFX_ENDIAN}${ARMPKGSFX_EABI}.so.1"
-+        elif targetarch.startswith("aarch64"):
-+            dynamic_loader = "${base_libdir}/ld-musl-aarch64${ARMPKGSFX_ENDIAN_64}.so.1"
-+    else:
-+        # glibc
-+        if targetarch in ["powerpc", "microblaze"]:
-+            dynamic_loader = "${base_libdir}/ld.so.1"
-+        elif targetarch in ["mipsisa32r6el", "mipsisa32r6", "mipsisa64r6el", "mipsisa64r6"]:
-+            dynamic_loader = "${base_libdir}/ld-linux-mipsn8.so.1"
-+        elif targetarch.startswith("mips"):
-+            dynamic_loader = "${base_libdir}/ld.so.1"
-+        elif targetarch == "powerpc64":
-+            dynamic_loader = "${base_libdir}/ld64.so.1"
-+        elif targetarch == "x86_64":
-+            dynamic_loader = "${base_libdir}/ld-linux-x86-64.so.2"
-+        elif re.search("i.86", targetarch):
-+            dynamic_loader = "${base_libdir}/ld-linux.so.2"
-+        elif targetarch == "arm":
-+            dynamic_loader = "${base_libdir}/ld-linux.so.3"
-+
-+    return dynamic_loader
-+get_linuxloader[vardepvalue] = "${@get_linuxloader(d)}"
- 
--linuxloader () {
--	linuxloader_${LDSO_TCLIBC}
--}
+     variants = d.getVar("MULTILIB_VARIANTS") or ""
+     for item in variants.split():
+         localdata = bb.data.createCopy(d)
+         overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
+         localdata.setVar("OVERRIDES", overrides)
+-        ld_append_if_tune_exists(localdata, infos, ld_info_all)
++        ld_append_if_tune_exists(localdata, infos)
+     infos['ldconfig'] = ','.join(infos['ldconfig'])
+     infos['lddrewrite'] = ' '.join(infos['lddrewrite'])
+     return infos
 -- 
 2.17.1
 
