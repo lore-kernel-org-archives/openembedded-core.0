@@ -1,50 +1,24 @@
-Return-Path: <ryan.harkin@linaro.org>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E07287951D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DCCD079510
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 08:15:03 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id f8-v6so3490981ljk.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 01:15:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZWYPDl3l63SwA7EUwaWGxU49iJuBFDxBBiMgF7HyXdA=;
-	b=RfL1CFMkH1D2tPZ3caG9d1KLce7sDrfjwLz+bs1lGtD5DR00nN4JthRcuflmlcjfJ0
-	1pipRh3rShAe3H4DyF+L4IXBBzYxYoyKLkK1Je/NSPajTGJryYisW3NkeXUlKpKCFh4l
-	jEP7/fzWaizkQLCt3dQ/WdXQ4hVET75dI6r7Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ZWYPDl3l63SwA7EUwaWGxU49iJuBFDxBBiMgF7HyXdA=;
-	b=ukqhM7KWJWr1WmvEK2TTr/EuZ6Tm4DJihGZZ7mQbgr4mJyC2HGjJL/eT04Kx7y8RwW
-	LQQL5jmcxnv2iPVW7tsRMrpoOplG0H9j14IKAIY8vt23pIdaAvPURF4ZPbppBrjrfEc1
-	NY134wIaH2TXWVJj3gN6v7q2lP2cMQoh6gttRwm37t7iQVwIKHhVQeGVBbwS3obKkrSp
-	/HTZ9Vl6qQzHIkT43RHcKewplvwWBu76V3un4gRVRGPvIlqEglt62It+9+nMnwPyRRd5
-	fjm8dHWjqNwyeGl67nqm86KfHwQ/aEi/3Vf4dUJWi4IQuhmHdYNEhqDOdD9sA68HN6Sr
-	RfWg==
-X-Gm-Message-State: APzg51BV1cyD3uxDS6ssjiY8etL08c1OhmAZwYoPP/AwsR7G+Go3J2O6
-	bc9S2Aomlgj2sWpqcAMrEOedbYdxGuoW/UuPGOTOMw==
-X-Google-Smtp-Source: ANB0VdZsuD9/DCBu9EGQpYPbulED9QNW+kJ0nMLdnoR/M105ZqEi46s1IVjJmsbiJrcZl+fW6i/WAXxUKAbeSEjG+2I=
-X-Received: by 2002:a2e:9791:: with SMTP id
-	y17-v6mr1576245lji.41.1535012104432; 
-	Thu, 23 Aug 2018 01:15:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab3:1bc7:0:0:0:0:0 with HTTP; Thu, 23 Aug 2018 01:15:03
-	-0700 (PDT)
-In-Reply-To: <CA+chaQd0noT0sABT2ucXZOx6QvWhoQqQeqzWXO_nm89-5ZeREA@mail.gmail.com>
-References: <1534955436-729-1-git-send-email-ryan.harkin@linaro.org>
-	<1534955436-729-4-git-send-email-ryan.harkin@linaro.org>
-	<CA+chaQd0noT0sABT2ucXZOx6QvWhoQqQeqzWXO_nm89-5ZeREA@mail.gmail.com>
-From: Ryan Harkin <ryan.harkin@linaro.org>
-Date: Thu, 23 Aug 2018 09:15:03 +0100
-Message-ID: <CAD0U-h+BwzZg=gZtvVTneykKZb9k+UwgkR9Lt8jjo7Kvbj60Hw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: daiane.angolini@nxp.com, Patch Tracking <patches@linaro.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC 3/3] linux-firmware: MACHINEOVERRIDES for BCM43430 NVRAM
+	Thu, 23 Aug 2018 08:15:36 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7N8FajJ010647
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 23 Aug 2018 09:15:37 +0100
+Message-ID: <eafbe2693401ebc8616f45970924141394b491da.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+Date: Thu, 23 Aug 2018 09:15:36 +0100
+In-Reply-To: <1534900232-59325-1-git-send-email-changqing.li@windriver.com>
+References: <1534900232-59325-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] freetype: Upgrade 2.9 -> 2.9.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,212 +31,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 08:15:04 -0000
-Content-Type: multipart/alternative; boundary="000000000000360319057415dbfd"
-
---000000000000360319057415dbfd
+X-List-Received-Date: Thu, 23 Aug 2018 08:15:37 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 22 August 2018 at 17:41, Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> The "cd ${D}${nonarch_base_libdir}/firmware/brcm/" doesn't seem to be
-needed, just include the path in 2nd ln parameter.
+On Wed, 2018-08-22 at 09:10 +0800, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+> 
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  .../freetype/fix-potential-numeric-overflow.patch  | 28 ------------
+> ----------
+>  .../{freetype_2.9.bb => freetype_2.9.1.bb}         | 10 ++++----
+>  2 files changed, 4 insertions(+), 34 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/freetype/freetype/fix-
+> potential-numeric-overflow.patch
+>  rename meta/recipes-graphics/freetype/{freetype_2.9.bb =>
+> freetype_2.9.1.bb} (85%)
+> 
+> diff --git a/meta/recipes-graphics/freetype/freetype/fix-potential-numeric-overflow.patch b/meta/recipes-graphics/freetype/freetype/fix-potential-numeric-overflow.patch
+> deleted file mode 100644
+> index 0b5b3c6..0000000
+> --- a/meta/recipes-graphics/freetype/freetype/fix-potential-numeric-overflow.patch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -freetype-2.9: Fix potential numeric overflow
+> -
+> -[No upstream tracking] -- https://savannah.nongnu.org/bugs/index.php?54023
+> -
+> -ttcmap: (tt_cmap2_validate): Fix potential numeric overflow
+> -
+> -The dead loop appears in the function tt_cmap2_char_next()
+> -in "src\sfnt\ttcmap.c" in version 2.9 when "charcode == 256".
+> -According to the notes, is seems that "subheader" should
+> -not be NULL when "charcode == 256".
+> -
+> -Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/src/sfnt/ttcmap.c?id=5bd76524ef786d942b28dc52618aeda3aebfa3d6]
+> -bug: 54023
+> -Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> -
+> -diff --git a/src/sfnt/ttcmap.c b/src/sfnt/ttcmap.c
+> -index 5afa6ae..8fb9542 100644
+> ---- a/src/sfnt/ttcmap.c
+> -+++ b/src/sfnt/ttcmap.c
+> -@@ -358,7 +358,7 @@
+> -       /* check range within 0..255 */
+> -       if ( valid->level >= FT_VALIDATE_PARANOID )
+> -       {
+> --        if ( first_code >= 256 || first_code + code_count > 256 )
+> -+        if ( first_code >= 256 || code_count > 256 - first_code )
+> -           FT_INVALID_DATA;
+> -       }
+> - 
+> diff --git a/meta/recipes-graphics/freetype/freetype_2.9.bb b/meta/recipes-graphics/freetype/freetype_2.9.1.bb
+> similarity index 85%
+> rename from meta/recipes-graphics/freetype/freetype_2.9.bb
+> rename to meta/recipes-graphics/freetype/freetype_2.9.1.bb
+> index 216ecf3..1e6f66e 100644
+> --- a/meta/recipes-graphics/freetype/freetype_2.9.bb
+> +++ b/meta/recipes-graphics/freetype/freetype_2.9.1.bb
+> @@ -14,16 +14,15 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=4af6221506f202774ef74f64932878a1
+>  
+>  SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
+>             file://use-right-libtool.patch \
+> -           file://fix-potential-numeric-overflow.patch \
+>            "
+>  
+>  UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/freetype/files/freetype2/"
+>  UPSTREAM_CHECK_REGEX = "freetype-(?P<pver>\d+(\.\d+)+)"
+>  
+> -SRC_URI[md5sum] = "513c403c110016fdc7e537216a642b1d"
+> -SRC_URI[sha256sum] = "e6ffba3c8cef93f557d1f767d7bc3dee860ac7a3aaff588a521e081bc36f4c8a"
+> +SRC_URI[md5sum] = "60ef7d8160cd4bf8cb118ee9d65367ca"
+> +SRC_URI[sha256sum] = "db8d87ea720ea9d5edc5388fc7a0497bb11ba9fe972245e0f7f4c7e8b1e1e84d"
+>  
+> -inherit autotools pkgconfig binconfig-disabled multilib_header
+> +inherit autotools pkgconfig multilib_header
+>  
+>  # Adapt autotools to work with the minimal autoconf usage in freetype
+>  AUTOTOOLS_SCRIPT_PATH = "${S}/builds/unix"
+> @@ -37,6 +36,7 @@ PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2"
+>  PACKAGECONFIG[harfbuzz] = "--with-harfbuzz,--without-harfbuzz,harfbuzz"
+>  PACKAGECONFIG[pixmap] = "--with-png,--without-png,libpng"
+>  PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
+> +PACKAGECONFIG[freetypeconfig] = "--enable-freetype-config=yes,--enable-freetype-config=no,"
+>  
+>  EXTRA_OECONF = "CC_BUILD='${BUILD_CC}'"
+>  
+> @@ -46,6 +46,4 @@ do_install_append() {
+>  	oe_multilib_header freetype2/freetype/config/ftconfig.h
+>  }
+>  
+> -BINCONFIG = "${bindir}/freetype-config"
+> -
+>  BBCLASSEXTEND = "native nativesdk"
 
-Thanks Martin, and sorry for being so dumb. I'll send another series at
-some point, but for now, the patch looks like this:
+The commit message makes no mention of the removal/disabling of the
+config script or the removal of the patch. You need to explain why
+these changes were made.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 8c54f28..70d4f6a 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -226,6 +226,18 @@ do_install() {
-        ( cd ${D}${nonarch_base_libdir}/firmware ; ln -sf ti-connectivity/*
-. )
- }
+In this case I fixed the commit message when merging.
 
-+# Adding bcm43430-nvram-{module type} to MACHINEOVERRIDES will create a
-+# softlink for the module specific NVRAM file to the filename expected
-+# by the Linux kernel
-+FILES_${PN}-bcm43430-nvram_append_bcm43430-nvram-mur1dx = "
-${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt"
-+do_install_append_bcm43430-nvram-mur1dx() {
-+       ln -sf brcmfmac43430-sdio.MUR1DX.txt
-${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt
-+}
-+FILES_${PN}-bcm43430-nvram_append_bcm43430-nvram-ap6212 =
-"${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt"
-+do_install_append_bcm43430-nvram-ap6212() {
-+       ln -sf brcmfmac43430-sdio.AP6212.txt
-${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt
-+}
-+
+Cheers,
 
-So now the ln issue is resolved, I'm not convinced my MACHINEOVERRIDES is
-the correct approach. Does anyone have any feedback on how I can improve
-that?
-
-As per my cover letter, I originally wanted to be able to provide a
-MACHINE_EXTRA_RRECOMMENDS, or similar, but I'm not familiar with how to get
-an _append to apply based on that variable, unless I tested it incorrectly
-(again).
-
-If I add, say, "linux-firmware-bcm43430-nvram-mur1dx" to
-MACHINE_EXTRA_RRECOMMENDS,
-should this work:
-
-+FILES_${PN}-bcm43430-nvram_append_${PN}-bcm43430-nvram-mur1dx = "
-${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt"
-+do_install_append_${PN}-bcm43430-nvram-mur1dx() {
-+       ln -sf brcmfmac43430-sdio.MUR1DX.txt
-${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt
-+}
-
-Or is there a better way of achieving this?
+Richard
 
 
->
->
-> On Wed, Aug 22, 2018 at 6:30 PM Ryan Harkin <ryan.harkin@linaro.org>
-wrote:
->>
->> The Linux kernel currently expects a single NVRAM file for BCM43430
->> named brcmfmac43430-sdio.txt.
->>
->> Allow the machine to specify an override to link its module specific
->> NVRAM to the filename expected by the kernel.
->>
->> Signed-off-by: Ryan Harkin <ryan.harkin@linaro.org>
->> ---
->>  meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 12
-++++++++++++
->>  1 file changed, 12 insertions(+)
->>
->> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
->> index 8c54f28..b647abc 100644
->> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
->> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
->> @@ -226,6 +226,18 @@ do_install() {
->>         ( cd ${D}${nonarch_base_libdir}/firmware ; ln -sf
-ti-connectivity/* . )
->>  }
->>
->> +# Adding bcm43430-nvram-{module type} to MACHINEOVERRIDES will create a
->> +# softlink for the module specific NVRAM file to the filename expected
->> +# by the Linux kernel
->> +FILES_${PN}-bcm43430-nvram_append_bcm43430-nvram-mur1dx = "
-${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt"
->> +do_install_append_bcm43430-nvram-mur1dx() {
->> +       ( cd ${D}${nonarch_base_libdir}/firmware/brcm/ ; ln -sf
-brcmfmac43430-sdio.MUR1DX.txt brcmfmac43430-sdio.txt)
->> +}
->> +FILES_${PN}-bcm43430-nvram_append_bcm43430-nvram-ap6212 =
-"${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt"
->> +do_install_append_bcm43430-nvram-ap6212() {
->> +       ( cd ${D}${nonarch_base_libdir}/firmware/brcm/ ; ln -sf
-brcmfmac43430-sdio.AP6212.txt brcmfmac43430-sdio.txt)
->> +}
->> +
->>
->>  PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
->>               ${PN}-mt7601u-license ${PN}-mt7601u \
->> --
->> 2.7.4
->>
-
---000000000000360319057415dbfd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br>On 22 August 2018 at 17:41, Martin Jansa &lt;<a hr=
-ef=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<=
-br>&gt;<br>&gt; The &quot;cd ${D}${nonarch_base_libdir}/firmware/brcm/&quot=
-; doesn&#39;t seem to be needed, just include the path in 2nd ln parameter.=
-<br><br>Thanks Martin, and sorry for being so dumb. I&#39;ll send another s=
-eries at some point, but for now, the patch looks like this:<br><br>diff --=
-git a/meta/recipes-kernel/linux-firmware/<a href=3D"http://linux-firmware_g=
-it.bb">linux-firmware_git.bb</a> b/meta/recipes-kernel/linux-firmware/<a hr=
-ef=3D"http://linux-firmware_git.bb">linux-firmware_git.bb</a><br>index 8c54=
-f28..70d4f6a 100644<br>--- a/meta/recipes-kernel/linux-firmware/<a href=3D"=
-http://linux-firmware_git.bb">linux-firmware_git.bb</a><br>+++ b/meta/recip=
-es-kernel/linux-firmware/<a href=3D"http://linux-firmware_git.bb">linux-fir=
-mware_git.bb</a><br>@@ -226,6 +226,18 @@ do_install() {<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 ( cd ${D}${nonarch_base_libdir}/firmware ; ln -sf ti-connecti=
-vity/* . )<br>=C2=A0}<br>=C2=A0<br>+# Adding bcm43430-nvram-{module type} t=
-o MACHINEOVERRIDES will create a<br>+# softlink for the module specific NVR=
-AM file to the filename expected<br>+# by the Linux kernel<br>+FILES_${PN}-=
-bcm43430-nvram_append_bcm43430-nvram-mur1dx =3D &quot; ${nonarch_base_libdi=
-r}/firmware/brcm/brcmfmac43430-sdio.txt&quot;<br>+do_install_append_bcm4343=
-0-nvram-mur1dx() {<br>+ =C2=A0 =C2=A0 =C2=A0 ln -sf brcmfmac43430-sdio.MUR1=
-DX.txt ${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt<br>+=
-}<br>+FILES_${PN}-bcm43430-nvram_append_bcm43430-nvram-ap6212 =3D &quot;${n=
-onarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt&quot;<br>+do_insta=
-ll_append_bcm43430-nvram-ap6212() {<br>+ =C2=A0 =C2=A0 =C2=A0 ln -sf brcmfm=
-ac43430-sdio.AP6212.txt ${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43=
-430-sdio.txt<br>+}<br>+<br><br>So now the ln issue is resolved, I&#39;m not=
- convinced my MACHINEOVERRIDES is the correct approach. Does anyone have an=
-y feedback on how I can improve that?<br><br>As per my cover letter, I orig=
-inally wanted to be able to provide a MACHINE_EXTRA_RRECOMMENDS, or similar=
-, but I&#39;m not familiar with how to get an _append to apply based on tha=
-t variable, unless I tested it incorrectly (again).<div><br></div><div>If I=
- add, say, &quot;linux-firmware-bcm43430-nvram-mur1dx&quot; to=C2=A0<span s=
-tyle=3D"font-size:small;background-color:rgb(255,255,255);text-decoration-s=
-tyle:initial;text-decoration-color:initial;float:none;display:inline">MACHI=
-NE_EXTRA_RRECOMMENDS, should this work:</span></div><div><br></div><div><sp=
-an style=3D"font-size:small;background-color:rgb(255,255,255);text-decorati=
-on-style:initial;text-decoration-color:initial;float:none;display:inline">+=
-FILES_${PN}-bcm43430-nvram_append_${PN}-bcm43430-nvram-mur1dx =3D &quot; ${=
-nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt&quot;</span><br s=
-tyle=3D"font-size:small;text-decoration-style:initial;text-decoration-color=
-:initial"><span style=3D"font-size:small;background-color:rgb(255,255,255);=
-text-decoration-style:initial;text-decoration-color:initial;float:none;disp=
-lay:inline">+do_install_append_${PN}-bcm43430-nvram-mur1dx() {</span><br st=
-yle=3D"font-size:small;text-decoration-style:initial;text-decoration-color:=
-initial"><span style=3D"font-size:small;background-color:rgb(255,255,255);t=
-ext-decoration-style:initial;text-decoration-color:initial;float:none;displ=
-ay:inline">+ =C2=A0 =C2=A0 =C2=A0 ln -sf brcmfmac43430-sdio.MUR1DX.txt ${D}=
-${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt</span><br style=
-=3D"font-size:small;text-decoration-style:initial;text-decoration-color:ini=
-tial"><span style=3D"font-size:small;background-color:rgb(255,255,255);text=
--decoration-style:initial;text-decoration-color:initial;float:none;display:=
-inline">+}</span><br>=C2=A0</div><div>Or is there a better way of achieving=
- this?</div><div><br></div><div><br>&gt;<br>&gt;<br>&gt; On Wed, Aug 22, 20=
-18 at 6:30 PM Ryan Harkin &lt;<a href=3D"mailto:ryan.harkin@linaro.org">rya=
-n.harkin@linaro.org</a>&gt; wrote:<br>&gt;&gt;<br>&gt;&gt; The Linux kernel=
- currently expects a single NVRAM file for BCM43430<br>&gt;&gt; named brcmf=
-mac43430-sdio.txt.<br>&gt;&gt;<br>&gt;&gt; Allow the machine to specify an =
-override to link its module specific<br>&gt;&gt; NVRAM to the filename expe=
-cted by the kernel.<br>&gt;&gt;<br>&gt;&gt; Signed-off-by: Ryan Harkin &lt;=
-<a href=3D"mailto:ryan.harkin@linaro.org">ryan.harkin@linaro.org</a>&gt;<br=
->&gt;&gt; ---<br>&gt;&gt; =C2=A0meta/recipes-kernel/linux-firmware/<a href=
-=3D"http://linux-firmware_git.bb">linux-firmware_git.bb</a> | 12 ++++++++++=
-++<br>&gt;&gt; =C2=A01 file changed, 12 insertions(+)<br>&gt;&gt;<br>&gt;&g=
-t; diff --git a/meta/recipes-kernel/linux-firmware/<a href=3D"http://linux-=
-firmware_git.bb">linux-firmware_git.bb</a> b/meta/recipes-kernel/linux-firm=
-ware/<a href=3D"http://linux-firmware_git.bb">linux-firmware_git.bb</a><br>=
-&gt;&gt; index 8c54f28..b647abc 100644<br>&gt;&gt; --- a/meta/recipes-kerne=
-l/linux-firmware/<a href=3D"http://linux-firmware_git.bb">linux-firmware_gi=
-t.bb</a><br>&gt;&gt; +++ b/meta/recipes-kernel/linux-firmware/<a href=3D"ht=
-tp://linux-firmware_git.bb">linux-firmware_git.bb</a><br>&gt;&gt; @@ -226,6=
- +226,18 @@ do_install() {<br>&gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 ( cd ${D=
-}${nonarch_base_libdir}/firmware ; ln -sf ti-connectivity/* . )<br>&gt;&gt;=
- =C2=A0}<br>&gt;&gt;<br>&gt;&gt; +# Adding bcm43430-nvram-{module type} to =
-MACHINEOVERRIDES will create a<br>&gt;&gt; +# softlink for the module speci=
-fic NVRAM file to the filename expected<br>&gt;&gt; +# by the Linux kernel<=
-br>&gt;&gt; +FILES_${PN}-bcm43430-nvram_append_bcm43430-nvram-mur1dx =3D &q=
-uot; ${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt&quot;<br>&=
-gt;&gt; +do_install_append_bcm43430-nvram-mur1dx() {<br>&gt;&gt; + =C2=A0 =
-=C2=A0 =C2=A0 ( cd ${D}${nonarch_base_libdir}/firmware/brcm/ ; ln -sf brcmf=
-mac43430-sdio.MUR1DX.txt brcmfmac43430-sdio.txt)<br>&gt;&gt; +}<br>&gt;&gt;=
- +FILES_${PN}-bcm43430-nvram_append_bcm43430-nvram-ap6212 =3D &quot;${nonar=
-ch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt&quot;<br>&gt;&gt; +do_=
-install_append_bcm43430-nvram-ap6212() {<br>&gt;&gt; + =C2=A0 =C2=A0 =C2=A0=
- ( cd ${D}${nonarch_base_libdir}/firmware/brcm/ ; ln -sf brcmfmac43430-sdio=
-.AP6212.txt brcmfmac43430-sdio.txt)<br>&gt;&gt; +}<br>&gt;&gt; +<br>&gt;&gt=
-;<br>&gt;&gt; =C2=A0PACKAGES =3D+ &quot;${PN}-ralink-license ${PN}-ralink \=
-<br>&gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${PN}-mt7601u=
--license ${PN}-mt7601u \<br>&gt;&gt; --<br>&gt;&gt; 2.7.4<br>&gt;&gt;<br></=
-div></div>
-
---000000000000360319057415dbfd--
