@@ -1,57 +1,47 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 50AF279549
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 97CE378FEF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 16:47:04 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id t25-v6so6485364wmi.3
+	Thu, 23 Aug 2018 16:51:49 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id o37-v6so5198721wrf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 09:47:05 -0700 (PDT)
+	Thu, 23 Aug 2018 09:51:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=z3JOsq2GZJfsbOttcF+AEH3coAZs+qASlx3h0NXk+8o=;
-	b=LAM/7+LKsv28HdKLiPPA6WTpvhUTG484ObtFGEhhTsHDXJ2SCT1xGoigcTkj80lzYf
-	C/NAf/dv+lC6qIiIr62CraXWmbMR5iWyp11ToLFRhingMKxjCMc0z6QxzHuNnXc+7Ky2
-	lHhvX/xHPuHQrumnR7P7Za9J//rBN+agBuie4=
+	h=from:to:subject:date:message-id;
+	bh=NIgKVg8uteBrIKnGo20uNiJ8M5rBXVpx9tHFqw+PRzc=;
+	b=fMVywQx8lBWZvRox7zF4fKRcJpS0xX9tZ+BXm/pCq4Q5/rsT4c8f9A6bav2sUqG7+5
+	GI0NQhd0vTm2hO90iNRxMHA49wuSnbsOfBsgRkYlGeQMsB8UNDeEjfAjHXKkEGYUEg6K
+	E2ezLuhvSAkCHpX4P3L4cGFPOlvgnZ99TckA4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=z3JOsq2GZJfsbOttcF+AEH3coAZs+qASlx3h0NXk+8o=;
-	b=h3RR+JB4iFVvS0TfQ3bPm1Fpk3EnZrQIhJd960EUVUT+5azF2k+tnFxs0R1Z5VhLi6
-	UPgKwXXZhghTcGRYYvxMxRNFIkteKvrCjvlONyIbYfZuvC91EV3rMvFiICssGgm8GGa3
-	+cVuJGNj6R62sPIFUt/tsYsA0WgUP5mSQy+5bseLSBaU/84vvLwzJRl4F2QcKv80z0y/
-	GyNPEJiZPmqD4vEUeGGINyseQvbl1UmhOp4wdmt5rLQ8wpg3V8VubbALEwqvZB5flHZ8
-	EUpReN42GYVrWNDXIPqhC2u1Pturs4X/AjMuvcVbj4ippqqvwysdK5pj1lqgkP7GXbPU
-	kWpg==
-X-Gm-Message-State: APzg51DOsNfUqDOOO7iMWL591+6zipBCWWI92Z/WlEFL8KEqFnK51wdV
-	d+yT3mhdcznMiNLn4b/n2YPsFA==
-X-Google-Smtp-Source: ANB0VdaTTHfImgnxaFsR79xxv3YXqWD+kG73Y+q6AOg4Kvm4wyEQVPF3t3QgpkGS16ZZdDGCk/VD/w==
-X-Received: by 2002:a1c:36e4:: with SMTP id
-	y97-v6mr5463456wmh.71.1535042824967; 
-	Thu, 23 Aug 2018 09:47:04 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=NIgKVg8uteBrIKnGo20uNiJ8M5rBXVpx9tHFqw+PRzc=;
+	b=gBBHm+pvvNFntoMEfq9Gnup7oKIkhkQi85oT+kmXEtvZHgWgf0/A7gyF7GLAj2vBrt
+	Suhl7zPRkv7H3TQ67wzVdAJUZCgzm5xWJba9baBibK3HNSKDdtKVJQc4kXgMCZKzkxs1
+	CcBMjI2BU/qE3etrMLxEh32/rH8a+276g56vl3sxzWI37RMMgJlxXDcLVji/cVIFpGT9
+	KGqL3K2O25pmUmHoSc5fI2NYkQ79UDKuM0EjzwvdJz0nq+T1UIGirw3/AkOeYhy7xtgK
+	OLKLkLeM/EdVFRhnpuz5wsagMnOQgVzNTscXbnjbTVHgdDoPg9cznIvBHUtuw+tEGTfQ
+	T5nA==
+X-Gm-Message-State: APzg51BnbG7K1R96BqhDbrjR0yn16b0O+itKYF7MDE7CfGl6/rnlen88
+	OajyO0ftLocVfOUcvkKzJ3HGPEy7ijg=
+X-Google-Smtp-Source: ANB0VdZslhbzQRUkYrOZdI8FU0TMruKg8nfDj/NeFHkxAlCv/qxlUIKHAw2yqbntYhiMZyd4imHFcA==
+X-Received: by 2002:adf:f24e:: with SMTP id
+	b14-v6mr10097013wrp.184.1535043109910; 
+	Thu, 23 Aug 2018 09:51:49 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h75-v6sm784420wma.46.2018.08.23.09.47.03
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 Aug 2018 09:47:04 -0700 (PDT)
-Message-ID: <15914ed0e215c54338998783d1e386dddabe66c0.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Derek Straka <derek@asterius.io>, kergoth@gmail.com
-Date: Thu, 23 Aug 2018 17:47:02 +0100
-In-Reply-To: <CADNbA1qYW6AzgTmiCuwVj_XkEmFq7rqWCoz+5dBP_PPtuH_79w@mail.gmail.com>
-References: <20180816062633.29868-1-anuj.mittal@intel.com>
-	<CAJ86T=Wzi5hzFUfChDLKTDyKf+X9_EUjFvPE9wfSp5UXaQycaA@mail.gmail.com>
-	<188b139f-5d52-b2e3-fdd7-e231deb56052@intel.com>
-	<CAJ86T=W5cVZ+VEdRVi96-QRx5BhmTPpWZ1HU29UuXhmrZbS6Xg@mail.gmail.com>
-	<5a6bf05b6a04f09ed3f148c996a2b6d0d562924d.camel@linuxfoundation.org>
-	<CABcZANmK_H5kPGp2UQMBTszEXW3D++f8404c-GANqpaRShzffQ@mail.gmail.com>
-	<CADNbA1qYW6AzgTmiCuwVj_XkEmFq7rqWCoz+5dBP_PPtuH_79w@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3: enable profile optimized builds
+	u1-v6sm3420535wrt.59.2018.08.23.09.51.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Aug 2018 09:51:48 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Aug 2018 17:51:47 +0100
+Message-Id: <20180823165147.8544-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] scripts: Add autobuilder worker test script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,27 +54,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 16:47:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Aug 2018 16:51:49 -0000
 
-On Thu, 2018-08-23 at 12:40 -0400, Derek Straka wrote:
-> +1 for this being opt in.  It's a substantial hit to build time
-> 
-> On Thu, Aug 23, 2018 at 12:21 PM Christopher Larson <kergoth@gmail.co
-> m> wrote:
-> > IMO PGO should really stay opt-in, not opt-out, given the
-> > performance impact.
+Add a script which can be run on new autobuilder workers to check all needed configuration
+is present. Designed to be run in a repo where bitbake/oe-core are already present.
 
-I'm not arguing against that however I'd note that the performance of
-the resulting python binary is substantially different too, much more
-that you'd think.
+This means when we add new autobuilder workers, we can quickly test whether all the needed
+funcationality to support the standard yocto project autobuilder (ie. the standard
+OE-Core tests) are present.
 
-For older distros where we use buildtools tarball on the builders, pgo
-python binaries should help significantly with things like bitbake
-parsing speed (I'd love to see numbers).
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ scripts/autobuilder-worker-prereq-tests | 54 +++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+ create mode 100755 scripts/autobuilder-worker-prereq-tests
 
-Cheers,
+diff --git a/scripts/autobuilder-worker-prereq-tests b/scripts/autobuilder-worker-prereq-tests
+new file mode 100755
+index 00000000000..282657e8eee
+--- /dev/null
++++ b/scripts/autobuilder-worker-prereq-tests
+@@ -0,0 +1,54 @@
++#!/bin/bash
++#
++# Script which can be run on new autobuilder workers to check all needed configuration is present.
++# Designed to be run in a repo where bitbake/oe-core are already present.
++#
++
++#
++# Todo
++# Add testtools/subunit import test
++# Add python3-git test
++# Check for working x86 KVM acceleration
++#
++
++. ./oe-init-build-env > /dev/null
++if [ "$?" != "0" ]; then
++    exit 1
++fi
++git config --global user.name > /dev/null
++if [ "$?" != "0" ]; then
++    echo "Please set git config --global user.name"
++    exit 1
++fi
++git config --global user.email > /dev/null
++if [ "$?" != "0" ]; then
++    echo "Please set git config --global user.email"
++    exit 1
++fi
++bitbake -p
++if [ "$?" != "0" ]; then
++    echo "Bitbake parsing failed"
++    exit 1
++fi
++WATCHES=`sysctl fs.inotify.max_user_watches -n`
++if (( $WATCHES < 100000 )); then
++    echo 'Need to increase watches (echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf'
++    #exit 1
++fi
++mkdir -p tmp/deploy/images/qemux86-64
++pushd tmp/deploy/images/qemux86-64
++if [ ! -e core-image-minimal-qemux86-64.ext4 ]; then
++    wget http://downloads.yoctoproject.org/releases/yocto/yocto-2.5.1/machines/qemu/qemux86-64/core-image-minimal-qemux86-64.ext4
++fi
++if [ ! -e core-image-minimal-qemux86-64.qemuboot.conf ]; then
++    wget http://downloads.yoctoproject.org/releases/yocto/yocto-2.5.1/machines/qemu/qemux86-64/core-image-minimal-qemux86-64.qemuboot.conf
++fi
++if [ ! -e bzImage-qemux86-64.bin ]; then
++    wget http://downloads.yoctoproject.org/releases/yocto/yocto-2.5.1/machines/qemu/qemux86-64/bzImage-qemux86-64.bin
++fi
++popd
++runqemu qemux86-64
++if [ "$?" != "0" ]; then
++    echo "Unable to use runqemu"
++    exit 1
++fi
+-- 
+2.17.1
 
-Richard
 
