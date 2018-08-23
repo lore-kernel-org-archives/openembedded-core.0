@@ -1,47 +1,46 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 97CE378FEF
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D726D79558
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 16:51:49 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id o37-v6so5198721wrf.6
+	Thu, 23 Aug 2018 16:59:36 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id o18-v6so6590906wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 09:51:50 -0700 (PDT)
+	Thu, 23 Aug 2018 09:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id;
-	bh=NIgKVg8uteBrIKnGo20uNiJ8M5rBXVpx9tHFqw+PRzc=;
-	b=fMVywQx8lBWZvRox7zF4fKRcJpS0xX9tZ+BXm/pCq4Q5/rsT4c8f9A6bav2sUqG7+5
-	GI0NQhd0vTm2hO90iNRxMHA49wuSnbsOfBsgRkYlGeQMsB8UNDeEjfAjHXKkEGYUEg6K
-	E2ezLuhvSAkCHpX4P3L4cGFPOlvgnZ99TckA4=
+	bh=3ddrWGPAay0Hw1hjJmAyjQRk3H5bmw08k2Z22MW/B4o=;
+	b=GePfr9hJWiwYGSrXjy4VbsuIG/4NMf05Sc5EIMKF67ERG66dP1TXMRBjCOHbwxFlKA
+	FVDKWFndpyyyd3PyVJ6Sa8JC+8KT2kvWL1Wkv/8ZbYWUhfKS6DJBTcoYJUvdiy4eb0mO
+	wLwBE1Bln5kpe0jahDwRBtUeDhXB3sWUwdM04=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=NIgKVg8uteBrIKnGo20uNiJ8M5rBXVpx9tHFqw+PRzc=;
-	b=gBBHm+pvvNFntoMEfq9Gnup7oKIkhkQi85oT+kmXEtvZHgWgf0/A7gyF7GLAj2vBrt
-	Suhl7zPRkv7H3TQ67wzVdAJUZCgzm5xWJba9baBibK3HNSKDdtKVJQc4kXgMCZKzkxs1
-	CcBMjI2BU/qE3etrMLxEh32/rH8a+276g56vl3sxzWI37RMMgJlxXDcLVji/cVIFpGT9
-	KGqL3K2O25pmUmHoSc5fI2NYkQ79UDKuM0EjzwvdJz0nq+T1UIGirw3/AkOeYhy7xtgK
-	OLKLkLeM/EdVFRhnpuz5wsagMnOQgVzNTscXbnjbTVHgdDoPg9cznIvBHUtuw+tEGTfQ
-	T5nA==
-X-Gm-Message-State: APzg51BnbG7K1R96BqhDbrjR0yn16b0O+itKYF7MDE7CfGl6/rnlen88
-	OajyO0ftLocVfOUcvkKzJ3HGPEy7ijg=
-X-Google-Smtp-Source: ANB0VdZslhbzQRUkYrOZdI8FU0TMruKg8nfDj/NeFHkxAlCv/qxlUIKHAw2yqbntYhiMZyd4imHFcA==
-X-Received: by 2002:adf:f24e:: with SMTP id
-	b14-v6mr10097013wrp.184.1535043109910; 
-	Thu, 23 Aug 2018 09:51:49 -0700 (PDT)
+	bh=3ddrWGPAay0Hw1hjJmAyjQRk3H5bmw08k2Z22MW/B4o=;
+	b=BmMjMFy+UwTZsFM5HoI2McwZ8DKHACj/42HFqA4ufChVm3XPUGdYyjDmLhSRLQZSxy
+	SP4hY6ICv16fYIODoERNHhRo8MCZ6ie2QcNB+kB5w2t8sc6xB4wlE1ZgRgJRYL022hHA
+	XXMBzyBuASQ07lIDmgl+F2V+Dba6NoYUotGn8yh41SKj3wXpebtJL19eEgf7n8CHkS3r
+	ifTIuV1GHEM7v9UO1JLvnW0SJVdirdc06owK549DyD7QdtJ05jGAPPJIwXlwVVYcst7K
+	o/C4XLdRSR1iOB6vP7z6dHh4TNt3Ku5v1RMrZtcrDYZrSQ4o2RC5CrAZZGAkZeX7u2lg
+	Cogw==
+X-Gm-Message-State: APzg51AW26UzH6goHyLxCI070aAlNZ0nLoUIv9ArIqIYRsnjT3oFIpAx
+	IzVbKj9WH8FYMs67GxQvnoJNvs0O04o=
+X-Google-Smtp-Source: ANB0VdbQA3rup9m/2u0gGM8zsQvPmS8byLPOBro9TVrGgatarR8ikLEoJlrN4JIcL9gJIIFGLHOXRQ==
+X-Received: by 2002:a1c:7c13:: with SMTP id
+	x19-v6mr6096004wmc.27.1535043577194; 
+	Thu, 23 Aug 2018 09:59:37 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	u1-v6sm3420535wrt.59.2018.08.23.09.51.48
+	w4-v6sm7144312wro.24.2018.08.23.09.59.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Aug 2018 09:51:48 -0700 (PDT)
+	Thu, 23 Aug 2018 09:59:36 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Aug 2018 17:51:47 +0100
-Message-Id: <20180823165147.8544-1-richard.purdie@linuxfoundation.org>
+Date: Thu, 23 Aug 2018 17:59:35 +0100
+Message-Id: <20180823165935.10334-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] scripts: Add autobuilder worker test script
+Subject: [PATCH v2] scripts: Add autobuilder worker test script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,7 +53,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 16:51:49 -0000
+X-List-Received-Date: Thu, 23 Aug 2018 16:59:37 -0000
 
 Add a script which can be run on new autobuilder workers to check all needed configuration
 is present. Designed to be run in a repo where bitbake/oe-core are already present.
@@ -63,18 +62,20 @@ This means when we add new autobuilder workers, we can quickly test whether all 
 funcationality to support the standard yocto project autobuilder (ie. the standard
 OE-Core tests) are present.
 
+It uses images prebuilt in a previous release to cut build/testing time.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/autobuilder-worker-prereq-tests | 54 +++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ scripts/autobuilder-worker-prereq-tests | 59 +++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
  create mode 100755 scripts/autobuilder-worker-prereq-tests
 
 diff --git a/scripts/autobuilder-worker-prereq-tests b/scripts/autobuilder-worker-prereq-tests
 new file mode 100755
-index 00000000000..282657e8eee
+index 00000000000..b5742d5b28b
 --- /dev/null
 +++ b/scripts/autobuilder-worker-prereq-tests
-@@ -0,0 +1,54 @@
+@@ -0,0 +1,59 @@
 +#!/bin/bash
 +#
 +# Script which can be run on new autobuilder workers to check all needed configuration is present.
@@ -85,7 +86,6 @@ index 00000000000..282657e8eee
 +# Todo
 +# Add testtools/subunit import test
 +# Add python3-git test
-+# Check for working x86 KVM acceleration
 +#
 +
 +. ./oe-init-build-env > /dev/null
@@ -124,9 +124,15 @@ index 00000000000..282657e8eee
 +    wget http://downloads.yoctoproject.org/releases/yocto/yocto-2.5.1/machines/qemu/qemux86-64/bzImage-qemux86-64.bin
 +fi
 +popd
++bitbake qemu-helper-native
 +runqemu qemux86-64
 +if [ "$?" != "0" ]; then
 +    echo "Unable to use runqemu"
++    exit 1
++fi
++runqemu qemux86-64 kvm
++if [ "$?" != "0" ]; then
++    echo "Unable to use runqemu with kvm"
 +    exit 1
 +fi
 -- 
