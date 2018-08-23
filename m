@@ -1,50 +1,28 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FD4C79564
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 92ABC7953B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 08:25:04 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id w11-v6so3857823wrc.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 01:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=bNWVbwRrPMmpz5etLNRzgI7GC2+yLFKsAO0cl3wxoFs=;
-	b=WxxtoZ/C8LbLbv+TuldhzFRn2Uw45zbiohxeddjwHuLN2rF88qwSfFuNxiCvSOBSBi
-	monR5nNVlqeNg7hs2HLqZOCWHakStaoubthP4vJAQzZNkLT48Wt/hTukqfwVuoJRNEK/
-	8QrgTaCXIU+WJ3UJM0nlXccHbvn9TaF91Pl1I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=bNWVbwRrPMmpz5etLNRzgI7GC2+yLFKsAO0cl3wxoFs=;
-	b=sXiISQsqStN4IXgKm0Vj6choLvRmr5s4CCRUn7SWpKSzcdothmPPKtQXsvadDfPZco
-	5PXsGgkkAaRA0VhYDAs3OXs+PK+tHKZlzOwh1QUnB94XxBkSi4L3YNqKQu/BElxcpoHD
-	mUN9Zg6e330JE70gNb43GChOZLLkBhs35yF4c5DLT1R90db3aTCGRkmvOSd/Vje1mjrm
-	U2TXZBffWWoDpaVt4A6rzHel/4ExMmMqKBsC2/FLVyzpdOXixnkmI+3QmkSFx0djKvPO
-	OPr/gVIFZaa1/5OVkdCkFArwBQYlavNZON80wNb3Sk9oeojLAjR8IPGHuvF52X9pN0DA
-	17Xw==
-X-Gm-Message-State: APzg51AV4ldSjzLssIXsKeUnolxr0DVhW6grFk3wZNM2BMNTxYguyWwf
-	oDx6OtvRV54/3H4JzmgR+Pz63/de848=
-X-Google-Smtp-Source: ANB0Vdazii8TeKG5r63ED/GRu29dAp3Foyr6+sggyNE3TvpHnE3HW+Pl1Z8IJv6m+31EVBJsbmvhaw==
-X-Received: by 2002:adf:a602:: with SMTP id
-	k2-v6mr16564097wrc.181.1535012704998; 
-	Thu, 23 Aug 2018 01:25:04 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	p11-v6sm1316860wrd.74.2018.08.23.01.25.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Aug 2018 01:25:03 -0700 (PDT)
+	Thu, 23 Aug 2018 08:27:57 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7N8RncA012245
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 23 Aug 2018 09:27:50 +0100
+Message-ID: <5a6bf05b6a04f09ed3f148c996a2b6d0d562924d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Aug 2018 09:24:57 +0100
-Message-Id: <20180823082457.32062-5-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180823082457.32062-1-richard.purdie@linuxfoundation.org>
-References: <20180823082457.32062-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 5/5] utils: Rely on get_multilib_datastore() to get the original datastore
+To: Andre McCurdy <armccurdy@gmail.com>, Anuj Mittal <anuj.mittal@intel.com>
+Date: Thu, 23 Aug 2018 09:27:49 +0100
+In-Reply-To: <CAJ86T=W5cVZ+VEdRVi96-QRx5BhmTPpWZ1HU29UuXhmrZbS6Xg@mail.gmail.com>
+References: <20180816062633.29868-1-anuj.mittal@intel.com>
+	<CAJ86T=Wzi5hzFUfChDLKTDyKf+X9_EUjFvPE9wfSp5UXaQycaA@mail.gmail.com>
+	<188b139f-5d52-b2e3-fdd7-e231deb56052@intel.com>
+	<CAJ86T=W5cVZ+VEdRVi96-QRx5BhmTPpWZ1HU29UuXhmrZbS6Xg@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3: enable profile optimized builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,44 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 08:25:05 -0000
+X-List-Received-Date: Thu, 23 Aug 2018 08:27:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-get_multilib_datastore() should be able to handle the original datastore
-correctly now so rely upon this rather than custom coding.
+On Wed, 2018-08-22 at 18:44 -0700, Andre McCurdy wrote:
+> On Thu, Aug 16, 2018 at 9:48 PM, Anuj Mittal <anuj.mittal@intel.com>
+> wrote:
+> > On 08/17/2018 03:31 AM, Andre McCurdy wrote:
+> > > On Wed, Aug 15, 2018 at 11:26 PM, Anuj Mittal <anuj.mittal@intel.
+> > > com> wrote:
+> > > Is it important to re-create the profile data during every build
+> > > or
+> > > would we get most of the same benefits from using reference data
+> > > which
+> > > is generated offline?
+> > 
+> > We should get the same benefit using the data generated offline as
+> > long
+> > as the source code/configure options/flags are same I believe. I
+> > have
+> > only tried with data generate offline using the same build
+> > configuration
+> > though.
+> 
+> As an additional data point, python do_compile now takes approx 18
+> minutes on my laptop. A single qemu-i386 thread loading one CPU core
+> at 100%, with nothing else being scheduled in parallel for most of
+> that time.
+> 
+> If we can get most of the benefits of pgo with a pre-generated data
+> file then that might still be something to explore.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/utils.bbclass | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+I've also noticed the increased build times. I'd love to see if we
+could create an sstate object which would contain the pgo data and
+which didn't depend on the usual compiler/toolchain pieces, only the
+do_patch stage checksum. In theory, the same sstate object should be
+reusable between target/native/nativesdk too as long as we had the same
+python patchset (which I know we don't for native).
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index 7035f9da253..812129fda7b 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -361,21 +361,7 @@ def all_multilib_tune_list(vars, d):
-     for v in vars:
-         values[v] = []
- 
--    localdata = bb.data.createCopy(d)
--    overrides = localdata.getVar("OVERRIDES", False).split(":")
--    newoverrides = []
--    for o in overrides:
--        if not o.startswith("virtclass-multilib-"):
--            newoverrides.append(o)
--    localdata.setVar("OVERRIDES", ":".join(newoverrides))
--    localdata.setVar("MLPREFIX", "")
--    origdefault = localdata.getVar("DEFAULTTUNE_MULTILIB_ORIGINAL")
--    if origdefault:
--        localdata.setVar("DEFAULTTUNE", origdefault)
--    values['ml'] = ['']
--    for v in vars:
--        values[v].append(localdata.getVar(v))
--    variants = d.getVar("MULTILIB_VARIANTS") or ""
-+    variants = (d.getVar("MULTILIB_VARIANTS") or "").split() + ['']
-     for item in variants.split():
-         localdata = get_multilib_datastore(item, d)
-         values[v].append(localdata.getVar(v))
--- 
-2.17.1
+Anyone fancy such a challenge? We should probably have a bug open for
+this at least...
+
+Cheers,
+
+Richard
 
 
