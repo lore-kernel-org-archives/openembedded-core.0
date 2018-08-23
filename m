@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 53721794FC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 83E7679520
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 08:00:48 +0000 (UTC)
+	Thu, 23 Aug 2018 08:00:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7N80nkB019889
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7N80olW010226
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 01:00:49 -0700 (PDT)
+	Thu, 23 Aug 2018 01:00:50 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 23 Aug 2018 01:00:48 -0700
+	14.3.399.0; Thu, 23 Aug 2018 01:00:50 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Aug 2018 16:11:21 +0800
-Message-ID: <7945afdb9a06f3f121f2c14d7c52743b4a7b6cd3.1535011774.git.liezhi.yang@windriver.com>
+Date: Thu, 23 Aug 2018 16:11:22 +0800
+Message-ID: <11ec5b29e662de3e46b8bced7f46e56605ad8360.1535011774.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1535011774.git.liezhi.yang@windriver.com>
 References: <cover.1535011774.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/7] diffstat: 1.61 -> 1.62
+Subject: [PATCH 3/7] pciutils: 3.6.1 -> 3.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,73 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 08:00:48 -0000
+X-List-Received-Date: Thu, 23 Aug 2018 08:00:49 -0000
 Content-Type: text/plain
-
-Refresh avoid-check-user-break-cc.patch to fix fuzz warning.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../diffstat/diffstat/avoid-check-user-break-cc.patch        | 12 +++++++++---
- .../diffstat/{diffstat_1.61.bb => diffstat_1.62.bb}          |  4 ++--
- 2 files changed, 11 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/diffstat/{diffstat_1.61.bb => diffstat_1.62.bb} (84%)
+ meta/recipes-bsp/pciutils/{pciutils_3.6.1.bb => pciutils_3.6.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-bsp/pciutils/{pciutils_3.6.1.bb => pciutils_3.6.2.bb} (92%)
 
-diff --git a/meta/recipes-devtools/diffstat/diffstat/avoid-check-user-break-cc.patch b/meta/recipes-devtools/diffstat/diffstat/avoid-check-user-break-cc.patch
-index 2df2d00..811faa4 100644
---- a/meta/recipes-devtools/diffstat/diffstat/avoid-check-user-break-cc.patch
-+++ b/meta/recipes-devtools/diffstat/diffstat/avoid-check-user-break-cc.patch
-@@ -1,3 +1,8 @@
-+From 1046593aacb74ff888a0d68c0ff89b20c4bc9ed4 Mon Sep 17 00:00:00 2001
-+From: Kai Kang <kai.kang@windriver.com>
-+Date: Tue, 15 May 2018 17:17:01 +0800
-+Subject: [PATCH] diffstat: fix wrong evaluation of CC
-+
- Upstream-Status: Inappropriate [oe specific]
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.6.1.bb b/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
+similarity index 92%
+rename from meta/recipes-bsp/pciutils/pciutils_3.6.1.bb
+rename to meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
+index d71a29a..413421c 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.6.1.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
+@@ -11,8 +11,8 @@ DEPENDS = "zlib kmod"
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.xz \
+            file://configure.patch"
  
- m4 function CF_CC_ENV_FLAGS checks whether variable CC contains options '-I', '-U'
-@@ -7,15 +12,16 @@ be included in CC. And then CC will be wrongly filtered.
- So comment out CF_CC_ENV_FLAGS from function CF_PROG_CC.
+-SRC_URI[md5sum] = "1adbcc258030ea92609100703f29c92c"
+-SRC_URI[sha256sum] = "fcc0431cc951c3563f1e4f946d27c8e2161cfd81f25316e6bd783fa6118469e0"
++SRC_URI[md5sum] = "77963796d1be4f451b83e6da28ba4f82"
++SRC_URI[sha256sum] = "db452ec986edefd88af0d222d22f6102f8030a8633fdfe846c3ae4bde9bb93f3"
  
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
- ---
-  aclocal.m4 | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/aclocal.m4 b/aclocal.m4
--index 420fe83..eb73ea9 100644
-+index 9281aa8..dd57b7a 100644
- --- a/aclocal.m4
- +++ b/aclocal.m4
--@@ -1114,7 +1114,7 @@ CF_GCC_VERSION
-+@@ -1239,7 +1239,7 @@ CF_GCC_VERSION
-  CF_ACVERSION_CHECK(2.52,
-  	[AC_PROG_CC_STDC],
-  	[CF_ANSI_CC_REQD])
-@@ -23,4 +29,4 @@ index 420fe83..eb73ea9 100644
- +dnl CF_CC_ENV_FLAGS
-  ])dnl
-  dnl ---------------------------------------------------------------------------
-- dnl CF_PROG_GROFF version: 2 updated: 2015/07/04 11:16:27
-+ dnl CF_PROG_GROFF version: 3 updated: 2018/01/07 13:16:19
-diff --git a/meta/recipes-devtools/diffstat/diffstat_1.61.bb b/meta/recipes-devtools/diffstat/diffstat_1.62.bb
-similarity index 84%
-rename from meta/recipes-devtools/diffstat/diffstat_1.61.bb
-rename to meta/recipes-devtools/diffstat/diffstat_1.62.bb
-index 1a76e78..93d7779 100644
---- a/meta/recipes-devtools/diffstat/diffstat_1.61.bb
-+++ b/meta/recipes-devtools/diffstat/diffstat_1.62.bb
-@@ -12,8 +12,8 @@ SRC_URI = "http://invisible-mirror.net/archives/${BPN}/${BP}.tgz \
-            file://avoid-check-user-break-cc.patch \
- "
- 
--SRC_URI[md5sum] = "c048a32d55d8bd6724f382baf41f325f"
--SRC_URI[sha256sum] = "25359e0c27183f997b36c9202583b5dc2df390c20e22a92606af4bf7856a55ee"
-+SRC_URI[md5sum] = "91e106bb34cb097750db7ddc0ba1d8fc"
-+SRC_URI[sha256sum] = "7f09183644ed77a156b15346bbad4e89c93543e140add9dab18747e30522591f"
- 
- S = "${WORKDIR}/diffstat-${PV}"
+ inherit multilib_header pkgconfig
  
 -- 
 2.7.4
