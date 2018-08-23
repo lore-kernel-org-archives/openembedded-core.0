@@ -1,43 +1,48 @@
-Return-Path: <lukma@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 27CAB78D5B
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D46F5795A6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 21:15:27 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 41xHHz3g35z1qvBw;
-	Thu, 23 Aug 2018 23:15:27 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 41xHHz3Clbz1qrVt;
-	Thu, 23 Aug 2018 23:15:27 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id r4XYwO7SXpWL; Thu, 23 Aug 2018 23:15:25 +0200 (CEST)
-X-Auth-Info: UwbRR8QaAJ8KLKMofdYwBw5uvdbsqmWRT8eQhCK6kiY=
-Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Thu, 23 Aug 2018 23:15:25 +0200 (CEST)
-Date: Thu, 23 Aug 2018 23:15:18 +0200
-From: Lukasz Majewski <lukma@denx.de>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <20180823231518.0ff6eb70@jawa>
-In-Reply-To: <03e9e6be-fc51-acf7-ccfb-81291cd38af2@windriver.com>
-References: <20180822134022.1067-1-lukma@denx.de>
-	<5293a704-cd9d-9e94-dc78-631d02c4a67e@windriver.com>
-	<20180822160515.72d37bb3@jawa>
-	<dc51efd5-c251-5f66-15fc-dca2fd81c2d8@windriver.com>
-	<20180822162040.33304bef@jawa>
-	<a5f08555-3cd7-d367-d679-05440d424916@windriver.com>
-	<20180822164757.34c36ac9@jawa>
-	<03e9e6be-fc51-acf7-ccfb-81291cd38af2@windriver.com>
-Organization: denx.de
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel: yocto: Add dependency on do_prepare_recipe_sysroot
+	Thu, 23 Aug 2018 21:24:43 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id x79-v6so3540611ita.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Aug 2018 14:24:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=r90Uzwo6UGyRrMZw/b5QQmkI7+3VGfVxrpdEJJzN1tg=;
+	b=QNcJXFvvZp91kxlIHWF0S/6ZkSbhlwcQTMggdGwbGPOfhqINQFFC2huKRPEhMgYT/x
+	pabFENfS/GEMz2RZoeUzSED3zm2c/bENiogztbFIhYdi4TIpbUSB9h+gxCHWKW4mI/nx
+	6J82RdO4MY2Ww3CkTsOfdVCoPyMHofNPskMp5cTffhA+vlWNVgKywhdsMpk32TbL6soG
+	9RDVZL3ouRdb7kzPQTE42myx21BWJhrdyT0MB5H8eGBq2zsn8m03wEWDkcxZzVUg61k8
+	bn9UkZBTeIJexFKBixQxSPAfB+draovVDC+g6c9RVjPKHdd9oqVXyE6PkrZebyEW/z92
+	7rtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=r90Uzwo6UGyRrMZw/b5QQmkI7+3VGfVxrpdEJJzN1tg=;
+	b=hzaD2rxSyprXcyhtcXO41Z614ZQeEG6bjQq+Iq3KN9/ZXNpM0b86qCpsLdXJK24Cwt
+	cSGdTtcGC4nB2HsCyNzH7EOvMsG5O2LtjMVqFKbqDeWqqTTDdqvVN6nCjHyH/p2O3iFr
+	LqzXCLksz7y4UWxI7+wiv2Q6Zp/vOCG3BnzbukzWrJmxkBTXkN6obHvgB1HnxPAbw0XH
+	Jp6HBlUm/6sCkefQKYUK4+7THoseHK1ECMWwl2eyveKjtDE3iuFZsCAH33vEe5rz7d4Z
+	R2qWE8lAk0ibLCYcwbFguRmDhZGKiPTBMzDjyvOPVzBYibl0aDIatB2oPmwecS2tXFI0
+	fbmw==
+X-Gm-Message-State: APzg51AQUSVg95IMXX/TxH/CCswleWOCuvLyJQwdphhywdFcMthwAbHC
+	adCbhr86LNRP64sCf1YxHiN55h6z
+X-Google-Smtp-Source: ANB0Vdbks7LlcSbr1+ZR6ppYy4jLVZa6oPt08v/KH5wUMRJ5LtigYafM962WMABS5hlEZ1PEOnu9/Q==
+X-Received: by 2002:a24:f801:: with SMTP id a1-v6mr7704256ith.60.1535059484634;
+	Thu, 23 Aug 2018 14:24:44 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	d11-v6sm797020iok.77.2018.08.23.14.24.43
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 23 Aug 2018 14:24:44 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Aug 2018 16:24:37 -0500
+Message-Id: <20180823212437.10711-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] swig: Remove superfluous python dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,265 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 21:15:28 -0000
-X-Groupsio-MsgNum: 115351
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	boundary="Sig_/8SX.AHBXv_Q5BD8D2e/qx3D";
-	protocol="application/pgp-signature"
+X-List-Received-Date: Thu, 23 Aug 2018 21:24:44 -0000
 
---Sig_/8SX.AHBXv_Q5BD8D2e/qx3D
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The actual dependency on native Python and is handled by inheriting
+python3native
 
-Hi Bruce,
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-devtools/swig/swig.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On 08/22/2018 10:47 AM, Lukasz Majewski wrote:
-> > On Wed, 22 Aug 2018 10:44:08 -0400
-> > Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
-> >  =20
-> >> On 08/22/2018 10:20 AM, Lukasz Majewski wrote: =20
-> >>> On Wed, 22 Aug 2018 10:13:33 -0400
-> >>> Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
-> >>>     =20
-> >>>> On 08/22/2018 10:05 AM, Lukasz Majewski wrote: =20
-> >>>>> Hi Bruce,
-> >>>>>        =20
-> >>>>>> On 08/22/2018 09:40 AM, Lukasz Majewski wrote: =20
-> >>>>>>> Without this patch it happens that do_populate_recipe_sysroot
-> >>>>>>> is called just before do_compile (on multi core build
-> >>>>>>> machines). This is way too late as the .config generated in
-> >>>>>>> do_kernel_configme() is already broken.
-> >>>>>>>
-> >>>>>>> The problem is that do_kernel_configme() calls native's
-> >>>>>>> merge_config.sh script which may call bison and
-> >>>>>>> arm-linux-*-gcc to compile kconfig infrastructure to create
-> >>>>>>> base .config (scripts/kconfig/conf  --allnoconfig Kconfig.)
-> >>>>>>>
-> >>>>>>> It turns out that we only got above binaries after
-> >>>>>>> do_prepare_recipe_sysroot() is called.
-> >>>>>>> If those binaries are not available, the merge_config.sh do
-> >>>>>>> not generate base .config and without any error produces
-> >>>>>>> malfunctioned .config. The build process continues and as a
-> >>>>>>> result broken kernel is compiled.
-> >>>>>>>
-> >>>>>>> To reproduce:
-> >>>>>>>
-> >>>>>>> bitbake -c cleansstate virtual/kernel
-> >>>>>>> bitbake -c kernel_metadata -v virtual/kernel
-> >>>>>>> bitbake -c do_kernel_configme -v virtual/kernel
-> >>>>>>> (one shall see broken .config in ${B}/.config)
-> >>>>>>> bitbake -c do_populate_sysroot -v virtual/kernel
-> >>>>>>> bitbake -c do_compile -v virtual/kernel
-> >>>>>>>
-> >>>>>>> (Poky) SHA1: bb91b2ae3ee5cf108aa2f9b78abb14d5aa00831d
-> >>>>>>>
-> >>>>>>> Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> >>>>>>> ---
-> >>>>>>>      meta/classes/kernel-yocto.bbclass | 1 +
-> >>>>>>>      1 file changed, 1 insertion(+)
-> >>>>>>>
-> >>>>>>> diff --git a/meta/classes/kernel-yocto.bbclass
-> >>>>>>> b/meta/classes/kernel-yocto.bbclass index
-> >>>>>>> 4ac3a39e47..19a3f2bc46 100644 ---
-> >>>>>>> a/meta/classes/kernel-yocto.bbclass +++
-> >>>>>>> b/meta/classes/kernel-yocto.bbclass @@ -276,6 +276,7 @@
-> >>>>>>> do_kernel_metadata[depends] =3D
-> >>>>>>> "kern-tools-native:do_populate_sysroot"
-> >>>>>>> do_validate_branches[depends] =3D
-> >>>>>>> "kern-tools-native:do_populate_sysroot"
-> >>>>>>> do_kernel_configme[dirs] +=3D "${S} ${B}"
-> >>>>>>> +do_kernel_configme[depends] +=3D
-> >>>>>>> "virtual/kernel:do_prepare_recipe_sysroot" =20
-> >>>>>>
-> >>>>>> On a closer look .. what branch is this from ? We already have
-> >>>>>> a change that triggered breakage on 4.17+ that should fix this.
-> >>>>>>
-> >>>>>> i.e. commit ff1bdd75d50f0ebac3d599e461685ace29559a82 in
-> >>>>>> oe-core, adds:
-> >>>>>>
-> >>>>>> ----------
-> >>>>>>
-> >>>>>>      do_kernel_metadata[depends] =3D
-> >>>>>> "kern-tools-native:do_populate_sysroot"
-> >>>>>> do_validate_branches[depends] =3D
-> >>>>>> "kern-tools-native:do_populate_sysroot"
-> >>>>>>
-> >>>>>> +do_kernel_configme[depends] +=3D
-> >>>>>> "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
-> >>>>>> +do_kernel_configme[depends] +=3D
-> >>>>>> "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
-> >>>>>> +do_kernel_configme[depends] +=3D "bc-native:do_populate_sysroot
-> >>>>>> bison-native:do_populate_sysroot"
-> >>>>>>      do_kernel_configme[dirs] +=3D "${S} ${B}"
-> >>>>>>      do_kernel_configme() {
-> >>>>>>
-> >>>>>> ----------
-> >>>>>>
-> >>>>>> Which I don't see in the context of your patch.
-> >>>>>>       =20
-> >>>>>
-> >>>>> I do use poky as in the commit message. =20
-> >>>>
-> >>>> Yes, I checked that .. but that isn't a useful part of a patch
-> >>>> to oe-core.
-> >>>>
-> >>>> The kernel-yocto bbclass in that context is not the one in
-> >>>> master, and if I run a --contains on that commit ID, I don't get
-> >>>> an active branch. =20
-> >>>
-> >>> I might have misunderstood something... apparently.
-> >>>
-> >>> The changes which I did were to:
-> >>>
-> >>> poky/meta/classes/kernel-yocto.bbclass
-> >>>
-> >>> Is this a wrong place to add the fix? =20
-> >>
-> >> It is the right place to add the fix, but the tree that you are
-> >> using is not up to date with the current poky or oe-core master.
-> >>
-> >> There are other changes in place that address a similar failure.
-> >>
-> >> For us to look at this change, it needs to be rebased on top of
-> >> master (or master-next). =20
-> >=20
-> > Now I got it. I shall sent the fix against cutting edge -master.
-> >=20
-> > Shall I re-send the fix, of will you first check if patches in the
-> > queue doesn't fix it already? =20
->=20
-> I ran the steps yesterday and wasn't able to trigger the issue
-> here.
->=20
-> so if you try against the current master of poky/oe-core, I'd be
-> interested to hear if you can make the problem happen (and I can
-> re-try as required).
-
-The upstream patch:
-
-"kernel: specify dependencies for compilation for config tasks"
-SHA1: 81e8a52e8e40e47c34f900db5d73e69ffc25f5d0
-
-Fixes the problem, which I've observed.
-
-(And also forces merge_config.sh to use HOST tools, which is a good
-thing.)
-
-Tested-by: Lukasz Majewski <lukma@denx.de>
-
-Thanks for providing the patch upstream.
-
->=20
-> Bruce
->=20
-> >  =20
-> >>
-> >> Bruce
-> >> =20
-> >>>     =20
-> >>>>
-> >>>> So the patch as it stands, cannot be applied to master (and I
-> >>>> also checked master-next in case something snuck in that I
-> >>>> missed) of oe-core or poky, so there's no way to work with it.
-> >>>>
-> >>>> Bruce
-> >>>>    =20
-> >>>>>
-> >>>>> Regarding the kernel - I do have my own recipe;
-> >>>>> inherit kernel
-> >>>>>
-> >>>>> require
-> >>>>> recipes-kernel/linux/linux-yocto.inc
-> >>>>>
-> >>>>>
-> >>>>> And then I do have:
-> >>>>> COMPATIBLE_MACHINE_display5 =3D "display5"
-> >>>>>
-> >>>>> KBUILD_DEFCONFIG_pn-linux-yocto-custom_display5 =3D
-> >>>>> "imx6q_display5_defconfig"
-> >>>>>
-> >>>>> As the board is in mainline I just point to Linus tree.
-> >>>>>        =20
-> >>>>>> Bruce
-> >>>>>>       =20
-> >>>>>>>      do_kernel_configme() {
-> >>>>>>>      	set +e
-> >>>>>>>     =20
-> >>>>>>>           =20
-> >>>>>>       =20
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Best regards,
-> >>>>>
-> >>>>> Lukasz Majewski
-> >>>>>
-> >>>>> --
-> >>>>>
-> >>>>> DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> >>>>> Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194
-> >>>>> Groebenzell, Germany Phone: (+49)-8142-66989-10 Fax:
-> >>>>> (+49)-8142-66989-80 Email: wd@denx.de =20
-> >>>>    =20
-> >>>
-> >>>
-> >>>
-> >>>
-> >>> Best regards,
-> >>>
-> >>> Lukasz Majewski
-> >>>
-> >>> --
-> >>>
-> >>> DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> >>> Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
-> >>> Germany Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email:
-> >>> wd@denx.de =20
-> >> =20
-> >=20
-> >=20
-> >=20
-> >=20
-> > Best regards,
-> >=20
-> > Lukasz Majewski
-> >=20
-> > --
-> >=20
-> > DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
-> > Germany Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email:
-> > wd@denx.de=20
->=20
+diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-devtools/swig/swig.inc
+index bf61b02d6fb..aec544997f9 100644
+--- a/meta/recipes-devtools/swig/swig.inc
++++ b/meta/recipes-devtools/swig/swig.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e7807a6282784a7dde4c846626b08fc6 \
+ 
+ SECTION = "devel"
+ 
+-DEPENDS = "libpcre python3"
++DEPENDS = "libpcre"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+ 
+-- 
+2.17.1
 
 
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-
---Sig_/8SX.AHBXv_Q5BD8D2e/qx3D
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAlt/I+YACgkQAR8vZIA0
-zr214gf/V8xzPtjhUelW1YTRR4UO0XVYHzDOWmjyus7xP9JLzQxITyMGr0CkAB65
-/XT4br9Q4LHR1XNyoUC+2XkZr6qwhWuyqQmLcqvrmWX+qVxe1EN/sMvbYyULhNG4
-qZEt/Z+Q/PGh/kePmv9bqNf2LNvhBol7ayijwatpx1LeZz8X8oDFKXG7gCyYBgLh
-kuBRYkWGSfnO4vu3oOYuNrx5PUvyDuggAfdHZkA0hmvCJZG9pf0m6c3LiYDCfkW3
-vEeSCdFzXuZmWrA+hT8/uPX6opR803Kx6e4wUvrWwbGLqkiAwkozjWB7PV1mhNMe
-LpPsLZrIgDjT3X6UduGwfh6gw5FaVQ==
-=Xho+
------END PGP SIGNATURE-----
-
---Sig_/8SX.AHBXv_Q5BD8D2e/qx3D--
