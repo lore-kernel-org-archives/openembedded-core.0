@@ -1,25 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CB12A79503
+	by mail.openembedded.org (Postfix) with ESMTP id 40E907949B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 08:00:56 +0000 (UTC)
+	Thu, 23 Aug 2018 08:07:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7N80wZa019903
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7N87D9I020996
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 01:00:58 -0700 (PDT)
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 23 Aug 2018 01:00:57 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Thu, 23 Aug 2018 01:07:13 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Thu, 23 Aug 2018 01:07:12 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Aug 2018 16:11:26 +0800
-Message-ID: <ff53db069cc9f4795e23f71fa1e9454cbf36cc76.1535011774.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1535011774.git.liezhi.yang@windriver.com>
-References: <cover.1535011774.git.liezhi.yang@windriver.com>
+Date: Thu, 23 Aug 2018 16:11:45 +0800
+Message-ID: <cover.1535011880.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 7/7] distcc: 3.3 -> 3.3.2
+Subject: [PATCH 0/1] util-linux: upgrade 2.32 -> 2.32.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +30,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 08:00:57 -0000
+X-List-Received-Date: Thu, 23 Aug 2018 08:07:12 -0000
 Content-Type: text/plain
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/distcc/{distcc_3.3.bb => distcc_3.3.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/distcc/{distcc_3.3.bb => distcc_3.3.2.bb} (97%)
+*** BLURB HERE ***
+The following changes since commit cbe2d3cb0af6c7a5cd368e7dc489960a13648bd0:
 
-diff --git a/meta/recipes-devtools/distcc/distcc_3.3.bb b/meta/recipes-devtools/distcc/distcc_3.3.2.bb
-similarity index 97%
-rename from meta/recipes-devtools/distcc/distcc_3.3.bb
-rename to meta/recipes-devtools/distcc/distcc_3.3.2.bb
-index 33a64ce..0d06963 100644
---- a/meta/recipes-devtools/distcc/distcc_3.3.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.3.2.bb
-@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/distcc/distcc.git \
-            file://distccmon-gnome.desktop \
-            file://distcc \
-            file://distcc.service"
--SRCREV = "002e68b766ccd7ad05551e67d162b71a7a773d0d"
-+SRCREV = "8600f0857dac55ea393dc11a860948692d215fc8"
- S = "${WORKDIR}/git"
- 
- inherit autotools pkgconfig update-rc.d useradd systemd
+  bitbake: daemonize: Flush stdio on exit (2018-08-23 08:50:23 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/util-linux-2.32.1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/util-linux-2.32.1
+
+Chen Qi (1):
+  util-linux: upgrade 2.32 -> 2.32.1
+
+ .../util-linux/{util-linux_2.32.bb => util-linux_2.32.1.bb}           | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/util-linux/{util-linux_2.32.bb => util-linux_2.32.1.bb} (84%)
+
 -- 
-2.7.4
+1.9.1
 
 
