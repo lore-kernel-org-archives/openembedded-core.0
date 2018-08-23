@@ -1,29 +1,43 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F20DC793F7
+Return-Path: <lukma@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 27CAB78D5B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 20:48:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7NKm12o026567
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 13:48:02 -0700
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 23 Aug 2018 13:48:00 -0700
-To: <openembedded-core@lists.openembedded.org>, "Jia, Hongxu"
-	<Hongxu.Jia@windriver.com>
-References: <1534929402-6673-1-git-send-email-hongxu.jia@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <6159825d-e050-fdd1-7d5a-5e6a6a59282f@windriver.com>
-Date: Thu, 23 Aug 2018 16:47:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu, 23 Aug 2018 21:15:27 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 41xHHz3g35z1qvBw;
+	Thu, 23 Aug 2018 23:15:27 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 41xHHz3Clbz1qrVt;
+	Thu, 23 Aug 2018 23:15:27 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id r4XYwO7SXpWL; Thu, 23 Aug 2018 23:15:25 +0200 (CEST)
+X-Auth-Info: UwbRR8QaAJ8KLKMofdYwBw5uvdbsqmWRT8eQhCK6kiY=
+Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Thu, 23 Aug 2018 23:15:25 +0200 (CEST)
+Date: Thu, 23 Aug 2018 23:15:18 +0200
+From: Lukasz Majewski <lukma@denx.de>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <20180823231518.0ff6eb70@jawa>
+In-Reply-To: <03e9e6be-fc51-acf7-ccfb-81291cd38af2@windriver.com>
+References: <20180822134022.1067-1-lukma@denx.de>
+	<5293a704-cd9d-9e94-dc78-631d02c4a67e@windriver.com>
+	<20180822160515.72d37bb3@jawa>
+	<dc51efd5-c251-5f66-15fc-dca2fd81c2d8@windriver.com>
+	<20180822162040.33304bef@jawa>
+	<a5f08555-3cd7-d367-d679-05440d424916@windriver.com>
+	<20180822164757.34c36ac9@jawa>
+	<03e9e6be-fc51-acf7-ccfb-81291cd38af2@windriver.com>
+Organization: denx.de
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <1534929402-6673-1-git-send-email-hongxu.jia@windriver.com>
-X-Originating-IP: [172.25.44.4]
-Subject: Re: [PATCH] mtools: fix race issue while mtools invoked frequently
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: yocto: Add dependency on do_prepare_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,136 +50,265 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 20:48:01 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Aug 2018 21:15:28 -0000
+X-Groupsio-MsgNum: 115351
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	boundary="Sig_/8SX.AHBXv_Q5BD8D2e/qx3D";
+	protocol="application/pgp-signature"
 
-On 08/22/2018 05:16 AM, Hongxu Jia wrote:
-> While invoking mtools frequently, the unblocking request
+--Sig_/8SX.AHBXv_Q5BD8D2e/qx3D
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-s/unblocking/non-blocking/
+Hi Bruce,
 
-I would read 'unblocking' as a request that results in the
-system becoming unblocked whereas non-blocking is more
-commonly used and refers to function calls that will
-not result in calling blocking system calls.
+> On 08/22/2018 10:47 AM, Lukasz Majewski wrote:
+> > On Wed, 22 Aug 2018 10:44:08 -0400
+> > Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+> >  =20
+> >> On 08/22/2018 10:20 AM, Lukasz Majewski wrote: =20
+> >>> On Wed, 22 Aug 2018 10:13:33 -0400
+> >>> Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+> >>>     =20
+> >>>> On 08/22/2018 10:05 AM, Lukasz Majewski wrote: =20
+> >>>>> Hi Bruce,
+> >>>>>        =20
+> >>>>>> On 08/22/2018 09:40 AM, Lukasz Majewski wrote: =20
+> >>>>>>> Without this patch it happens that do_populate_recipe_sysroot
+> >>>>>>> is called just before do_compile (on multi core build
+> >>>>>>> machines). This is way too late as the .config generated in
+> >>>>>>> do_kernel_configme() is already broken.
+> >>>>>>>
+> >>>>>>> The problem is that do_kernel_configme() calls native's
+> >>>>>>> merge_config.sh script which may call bison and
+> >>>>>>> arm-linux-*-gcc to compile kconfig infrastructure to create
+> >>>>>>> base .config (scripts/kconfig/conf  --allnoconfig Kconfig.)
+> >>>>>>>
+> >>>>>>> It turns out that we only got above binaries after
+> >>>>>>> do_prepare_recipe_sysroot() is called.
+> >>>>>>> If those binaries are not available, the merge_config.sh do
+> >>>>>>> not generate base .config and without any error produces
+> >>>>>>> malfunctioned .config. The build process continues and as a
+> >>>>>>> result broken kernel is compiled.
+> >>>>>>>
+> >>>>>>> To reproduce:
+> >>>>>>>
+> >>>>>>> bitbake -c cleansstate virtual/kernel
+> >>>>>>> bitbake -c kernel_metadata -v virtual/kernel
+> >>>>>>> bitbake -c do_kernel_configme -v virtual/kernel
+> >>>>>>> (one shall see broken .config in ${B}/.config)
+> >>>>>>> bitbake -c do_populate_sysroot -v virtual/kernel
+> >>>>>>> bitbake -c do_compile -v virtual/kernel
+> >>>>>>>
+> >>>>>>> (Poky) SHA1: bb91b2ae3ee5cf108aa2f9b78abb14d5aa00831d
+> >>>>>>>
+> >>>>>>> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> >>>>>>> ---
+> >>>>>>>      meta/classes/kernel-yocto.bbclass | 1 +
+> >>>>>>>      1 file changed, 1 insertion(+)
+> >>>>>>>
+> >>>>>>> diff --git a/meta/classes/kernel-yocto.bbclass
+> >>>>>>> b/meta/classes/kernel-yocto.bbclass index
+> >>>>>>> 4ac3a39e47..19a3f2bc46 100644 ---
+> >>>>>>> a/meta/classes/kernel-yocto.bbclass +++
+> >>>>>>> b/meta/classes/kernel-yocto.bbclass @@ -276,6 +276,7 @@
+> >>>>>>> do_kernel_metadata[depends] =3D
+> >>>>>>> "kern-tools-native:do_populate_sysroot"
+> >>>>>>> do_validate_branches[depends] =3D
+> >>>>>>> "kern-tools-native:do_populate_sysroot"
+> >>>>>>> do_kernel_configme[dirs] +=3D "${S} ${B}"
+> >>>>>>> +do_kernel_configme[depends] +=3D
+> >>>>>>> "virtual/kernel:do_prepare_recipe_sysroot" =20
+> >>>>>>
+> >>>>>> On a closer look .. what branch is this from ? We already have
+> >>>>>> a change that triggered breakage on 4.17+ that should fix this.
+> >>>>>>
+> >>>>>> i.e. commit ff1bdd75d50f0ebac3d599e461685ace29559a82 in
+> >>>>>> oe-core, adds:
+> >>>>>>
+> >>>>>> ----------
+> >>>>>>
+> >>>>>>      do_kernel_metadata[depends] =3D
+> >>>>>> "kern-tools-native:do_populate_sysroot"
+> >>>>>> do_validate_branches[depends] =3D
+> >>>>>> "kern-tools-native:do_populate_sysroot"
+> >>>>>>
+> >>>>>> +do_kernel_configme[depends] +=3D
+> >>>>>> "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
+> >>>>>> +do_kernel_configme[depends] +=3D
+> >>>>>> "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
+> >>>>>> +do_kernel_configme[depends] +=3D "bc-native:do_populate_sysroot
+> >>>>>> bison-native:do_populate_sysroot"
+> >>>>>>      do_kernel_configme[dirs] +=3D "${S} ${B}"
+> >>>>>>      do_kernel_configme() {
+> >>>>>>
+> >>>>>> ----------
+> >>>>>>
+> >>>>>> Which I don't see in the context of your patch.
+> >>>>>>       =20
+> >>>>>
+> >>>>> I do use poky as in the commit message. =20
+> >>>>
+> >>>> Yes, I checked that .. but that isn't a useful part of a patch
+> >>>> to oe-core.
+> >>>>
+> >>>> The kernel-yocto bbclass in that context is not the one in
+> >>>> master, and if I run a --contains on that commit ID, I don't get
+> >>>> an active branch. =20
+> >>>
+> >>> I might have misunderstood something... apparently.
+> >>>
+> >>> The changes which I did were to:
+> >>>
+> >>> poky/meta/classes/kernel-yocto.bbclass
+> >>>
+> >>> Is this a wrong place to add the fix? =20
+> >>
+> >> It is the right place to add the fix, but the tree that you are
+> >> using is not up to date with the current poky or oe-core master.
+> >>
+> >> There are other changes in place that address a similar failure.
+> >>
+> >> For us to look at this change, it needs to be rebased on top of
+> >> master (or master-next). =20
+> >=20
+> > Now I got it. I shall sent the fix against cutting edge -master.
+> >=20
+> > Shall I re-send the fix, of will you first check if patches in the
+> > queue doesn't fix it already? =20
+>=20
+> I ran the steps yesterday and wasn't able to trigger the issue
+> here.
+>=20
+> so if you try against the current master of poky/oe-core, I'd be
+> interested to hear if you can make the problem happen (and I can
+> re-try as required).
 
-Indeed the NB in LOCK_NB stand for non-blocking.
+The upstream patch:
 
-> caused race issue. Here is an example of syslinux
-> [snip]
-> dd if=/dev/zero of=floppy.img bs=1024 count=144
-> losetup /dev/loop1 floppy.img
-> mkdosfs /dev/loop1
-> syslinux -i /dev/loop1
-> |plain floppy: device "/proc/6351/fd/3" busy (Resource temporarily unavailable):
-> |Cannot initialize 'S:'
-> |Bad target s:/ldlinux.sys
-> [snip]
-> 
-> The idea is from:
-> https://bugzilla.redhat.com/show_bug.cgi?id=1235016
-> https://groups.google.com/a/chromium.org/forum/#!msg/chromium-os-dev/bRPUCFHoBTQ/ZjB8kjjx1vUJ
+"kernel: specify dependencies for compilation for config tasks"
+SHA1: 81e8a52e8e40e47c34f900db5d73e69ffc25f5d0
 
-I read though most of that and it seems that people think
-that this may be a work-around. What do you think?
+Fixes the problem, which I've observed.
 
-If I were used to using mtools and it never blocked,
-the I'd certainly be upset that we patched it to block.
-lockdev.h gets used by:
+(And also forces merge_config.sh to use HOST tools, which is a good
+thing.)
 
-$ grep -r "lockdev.h" mtools-4.0.18/
-mtools-4.0.18/plain_io.c:#include "lockdev.h"
-mtools-4.0.18/floppyd.c:#include "lockdev.h"
+Tested-by: Lukasz Majewski <lukma@denx.de>
 
-so until you can explain what the root cause of the
-problem is more clearly, and why this change won't cause
-problems for users of mtools, I think you should continue
-to work on this problem.
+Thanks for providing the patch upstream.
 
-Or maybe the commit just needs a more details technical
-explanation that summarizes the long thread that you linked
-to...
-
-../Randy
-
-
-> 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   ...01-remove-LOCK_NB-to-use-blocking-request.patch | 44 ++++++++++++++++++++++
->   meta/recipes-devtools/mtools/mtools_4.0.18.bb      |  1 +
->   2 files changed, 45 insertions(+)
->   create mode 100644 meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch
-> 
-> diff --git a/meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch b/meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch
-> new file mode 100644
-> index 0000000..47385a5
-> --- /dev/null
-> +++ b/meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch
-> @@ -0,0 +1,44 @@
-> +From 5bdbfe0a63fed48104b17412854b26ee2275869a Mon Sep 17 00:00:00 2001
-> +From: Hongxu Jia <hongxu.jia@windriver.com>
-> +Date: Wed, 22 Aug 2018 16:54:39 +0800
-> +Subject: [PATCH] remove LOCK_NB to use blocking request
-> +
-> +While invoking mtools frequently, the unblocking request
-> +caused race issue. Here is an example of syslinux
-> +[snip]
-> +dd if=/dev/zero of=floppy.img bs=1024 count=144
-> +losetup /dev/loop1 floppy.img
-> +mkdosfs /dev/loop1
-> +syslinux -i /dev/loop1
-> +|plain floppy: device "/proc/6351/fd/3" busy (Resource temporarily unavailable):
-> +|Cannot initialize 'S:'
-> +|Bad target s:/ldlinux.sys
-> +[snip]
-> +
-> +The idea is from:
-> +https://bugzilla.redhat.com/show_bug.cgi?id=1235016
-> +https://groups.google.com/a/chromium.org/forum/#!msg/chromium-os-dev/bRPUCFHoBTQ/ZjB8kjjx1vUJ
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + lockdev.h | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/lockdev.h b/lockdev.h
-> +index 4467bc2..5a135ad 100644
-> +--- a/lockdev.h
-> ++++ b/lockdev.h
-> +@@ -43,7 +43,7 @@ int lock_dev(int fd, int mode, struct device *dev)
-> + 		return 0;
-> +
-> + #if (defined(HAVE_FLOCK) && defined (LOCK_EX) && defined(LOCK_NB))
-> +-	if (flock(fd, (mode ? LOCK_EX : LOCK_SH)|LOCK_NB) < 0)
-> ++	if (flock(fd, (mode ? LOCK_EX : LOCK_SH)) < 0)
-
-> + #else /* FLOCK */
-> +
-> + #if (defined(HAVE_LOCKF) && defined(F_TLOCK))
-> +--
-> +2.7.4
-> +
-> diff --git a/meta/recipes-devtools/mtools/mtools_4.0.18.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-> index dcd32ed..91f7b7c 100644
-> --- a/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-> +++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-> @@ -31,6 +31,7 @@ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
->              file://mtools-makeinfo.patch \
->              file://no-x11.gplv3.patch \
->              file://0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch \
-> +           file://0001-remove-LOCK_NB-to-use-blocking-request.patch \
->              "
->   
->   SRC_URI_append_class-native = " file://disable-hardcoded-configs.patch"
-> 
+>=20
+> Bruce
+>=20
+> >  =20
+> >>
+> >> Bruce
+> >> =20
+> >>>     =20
+> >>>>
+> >>>> So the patch as it stands, cannot be applied to master (and I
+> >>>> also checked master-next in case something snuck in that I
+> >>>> missed) of oe-core or poky, so there's no way to work with it.
+> >>>>
+> >>>> Bruce
+> >>>>    =20
+> >>>>>
+> >>>>> Regarding the kernel - I do have my own recipe;
+> >>>>> inherit kernel
+> >>>>>
+> >>>>> require
+> >>>>> recipes-kernel/linux/linux-yocto.inc
+> >>>>>
+> >>>>>
+> >>>>> And then I do have:
+> >>>>> COMPATIBLE_MACHINE_display5 =3D "display5"
+> >>>>>
+> >>>>> KBUILD_DEFCONFIG_pn-linux-yocto-custom_display5 =3D
+> >>>>> "imx6q_display5_defconfig"
+> >>>>>
+> >>>>> As the board is in mainline I just point to Linus tree.
+> >>>>>        =20
+> >>>>>> Bruce
+> >>>>>>       =20
+> >>>>>>>      do_kernel_configme() {
+> >>>>>>>      	set +e
+> >>>>>>>     =20
+> >>>>>>>           =20
+> >>>>>>       =20
+> >>>>>
+> >>>>>
+> >>>>>
+> >>>>>
+> >>>>> Best regards,
+> >>>>>
+> >>>>> Lukasz Majewski
+> >>>>>
+> >>>>> --
+> >>>>>
+> >>>>> DENX Software Engineering GmbH,      Managing Director: Wolfgang
+> >>>>> Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194
+> >>>>> Groebenzell, Germany Phone: (+49)-8142-66989-10 Fax:
+> >>>>> (+49)-8142-66989-80 Email: wd@denx.de =20
+> >>>>    =20
+> >>>
+> >>>
+> >>>
+> >>>
+> >>> Best regards,
+> >>>
+> >>> Lukasz Majewski
+> >>>
+> >>> --
+> >>>
+> >>> DENX Software Engineering GmbH,      Managing Director: Wolfgang
+> >>> Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
+> >>> Germany Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email:
+> >>> wd@denx.de =20
+> >> =20
+> >=20
+> >=20
+> >=20
+> >=20
+> > Best regards,
+> >=20
+> > Lukasz Majewski
+> >=20
+> > --
+> >=20
+> > DENX Software Engineering GmbH,      Managing Director: Wolfgang
+> > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
+> > Germany Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email:
+> > wd@denx.de=20
+>=20
 
 
--- 
-# Randy MacLeod
-# Wind River Linux
 
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+
+--Sig_/8SX.AHBXv_Q5BD8D2e/qx3D
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAlt/I+YACgkQAR8vZIA0
+zr214gf/V8xzPtjhUelW1YTRR4UO0XVYHzDOWmjyus7xP9JLzQxITyMGr0CkAB65
+/XT4br9Q4LHR1XNyoUC+2XkZr6qwhWuyqQmLcqvrmWX+qVxe1EN/sMvbYyULhNG4
+qZEt/Z+Q/PGh/kePmv9bqNf2LNvhBol7ayijwatpx1LeZz8X8oDFKXG7gCyYBgLh
+kuBRYkWGSfnO4vu3oOYuNrx5PUvyDuggAfdHZkA0hmvCJZG9pf0m6c3LiYDCfkW3
+vEeSCdFzXuZmWrA+hT8/uPX6opR803Kx6e4wUvrWwbGLqkiAwkozjWB7PV1mhNMe
+LpPsLZrIgDjT3X6UduGwfh6gw5FaVQ==
+=Xho+
+-----END PGP SIGNATURE-----
+
+--Sig_/8SX.AHBXv_Q5BD8D2e/qx3D--
