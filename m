@@ -1,62 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id EB5A87953B
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 482B77953D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 15:59:22 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id d131-v6so3929286qke.11
+	Thu, 23 Aug 2018 16:21:34 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id z185-v6so9826632oia.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 08:59:24 -0700 (PDT)
+	Thu, 23 Aug 2018 09:21:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=Yuwy+oZWoNLZa1eDh99fupb94kd4B1WY0JNfPVy2QAU=;
-	b=UMqzQV6FL9w0lmA3Dgu9SqQEVz5YyN9kMJDhVFeOcpxR5DjFg3oXstaKA4gV2TXeW/
-	zhRIGqkhJYp1HdppV+VcG4obyDK8+WeSKMasqXysDT12cRbq33JSTffQk6v7jw6KBPDe
-	KT287wpO4LIj8SwcVOTttsDc3RhI/kgAdnl8R6qp8jws4WP62n6MaoKLG4Xjp0BHq+qw
-	Hv2kMUVfZ/GlP4s6QjzpOjcYj3c/Dwm2JELvmbZmItfqwolJIU1ovNju/70MPaom1Rij
-	0PP7VXpTAzrbGGFGwRhooOSte+F71xt3GAiu+LQrCxXlW6kiXEOlcRUv/P4rw8r4XfUH
-	E5BQ==
+	:cc; bh=wplcA+YFIonHmCrqcbycvG2snP8wQGib5bnYUaxkLa8=;
+	b=ByB+wcCiZYwxyWWdTr0Wp8Wugb0hOp/5cOYqCWcNnFqxrYCx6sVllyAKKae2waqssW
+	BKzZ5XzSAJYgpcUsfNbDOY5LsTt3YGsjihy3lZkJHly2u88gfOxYh6bOUAhcU6L9dyUy
+	b1qzwpEw4FSVLcSKtSJVgYIFWfZ7KupXDC1RIQ0p8wKEiYTmqmmhbDmB9NEHT5xUpi5R
+	3yJLfa/DWomTXxBDrwNEY6JvR/3ZEwN5HakiE9wit+JBr0chG++p9cmZoKihVjxfDGiP
+	yPabwtM+ocFU6ToUARtLje0dYmjM98Q+L460LCmrpOYUH1j/mxXImPEgMNLQcEyfykN5
+	2HuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=Yuwy+oZWoNLZa1eDh99fupb94kd4B1WY0JNfPVy2QAU=;
-	b=bSU8SlikcJcnG/kuciErqxAAszmJvoAiFZyJSU33zTsgjSva8hKjRYajGumnYyH7O6
-	qmjUOYydwF7sUJFhG2j44pdW98GT5r3wKWCS50RrSRLzf8XBWjgxn+fdxMDFW9KIXYSZ
-	oP0E8F4FMTe9vdIpJPu+CqTYvNkY9xTytz0K98De2cqlLU0f/vUxcRo9zL0dFkX8Pf/Z
-	MKNZs6AsSBDoVezSpt6Mkfn8U4RVyce7V1pqlnuJnOIRDhMX9Ga9JenPTwtEYG8mI/ka
-	OzBgxvKC4EOc4WpcZd//MBjNVpf04ytO+NvFv4xBcrjmZ2cMJcEHY+G97cRWfZTTLKsg
-	+6VQ==
-X-Gm-Message-State: AOUpUlF3LfESItWJAEVscUWPyuiKFReKrtEGEjRAALuGYMjMykcXnKX+
-	j3LW9/WA4bDl/pDr4lrfPskL7GIEUuYaGkHZNi4=
-X-Google-Smtp-Source: AA+uWPxRaNETuXTax9+cHJx8IVmG+FvdbO3GXoHGM5wlUVEjRnOyeQ74dgKiBq1f6gcdcoaIk3LBVQpsyjWM3+Edj8k=
-X-Received: by 2002:a37:2e03:: with SMTP id
-	u3-v6mr57058564qkh.223.1535039963423; 
-	Thu, 23 Aug 2018 08:59:23 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=wplcA+YFIonHmCrqcbycvG2snP8wQGib5bnYUaxkLa8=;
+	b=OBSb6yWE2mUl89E+gMQzD/wfF42PtPqxrTL6F0M/I+sLk/Oakj0Ux1gbC3O1XVXKHI
+	m65kKQG1UoUT32t4j2/O9dT/gzBYSzNvWNBScSI8NYkLYQn6xdjRa8Dz9lOvNjchhAj2
+	ACw9sVURWwcdKm40WHPuJGPr5cxYGDonq50nU+MRv1FFeThqD5hB5QB2j4P0cfjrGCIl
+	SZgaTmNRf5leKotYydU1ePM0s/c/GXPAkMUltMFLtmyaMn+AN+Lu06zPUmPnrTwK/vbt
+	lsd9SEq7ykp9/5ouuSWmZtAKdJywgo2WhmxdFsZRjSH4/FAEiqyxmCQTVkuTAMDKVlFd
+	KV1Q==
+X-Gm-Message-State: APzg51Dr5LSxI02gAfK5yvU70bcRq14bEX05ludtXsaAp06r9+XsCQNC
+	I/LgIdyDgg4v4g8tbP+W4+9H8rF0hB1TEqbwpX8=
+X-Google-Smtp-Source: ANB0VdaTQgEpGPAWQtV4b2YIi3NZUfbJyx/RiVa7kWXDK5dX0dA1tKhm2+ImRYQt9n/0W3qzVz9kuLjEpHK56vVPEkE=
+X-Received: by 2002:aca:e510:: with SMTP id
+	c16-v6mr9736851oih.44.1535041295156; 
+	Thu, 23 Aug 2018 09:21:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <1534955436-729-1-git-send-email-ryan.harkin@linaro.org>
-	<1534955436-729-4-git-send-email-ryan.harkin@linaro.org>
-	<CA+chaQd0noT0sABT2ucXZOx6QvWhoQqQeqzWXO_nm89-5ZeREA@mail.gmail.com>
-	<CAD0U-hLEPce-+gJcBcqQHFPkiHr1CPBEvaM6s1f1VTkEzpNnfQ@mail.gmail.com>
-	<CA+chaQezPDFAP1L0NYCaoFDjPfriUt3_wh9QKTaa0ZwWBHtKYQ@mail.gmail.com>
-	<CAD0U-hJHddn43O0WVxDqUft74RoHxfCQBb9XV-pG+GYqNU0iVQ@mail.gmail.com>
-	<CA+chaQc2EUcz+PHi=BT5RrMQsCqegytxgLd6gzpH-PUYvt59Mw@mail.gmail.com>
-	<CAD0U-hL6Mvxf+NYVJS64ygh+bMR2RMxwa=okW6g+yOGb-Xb7mA@mail.gmail.com>
-	<CAJ86T=UOiE+m=3__e13YpRex22Z9h1ennqyCxQMRDdSWMiFZTw@mail.gmail.com>
-	<CAD0U-hJ5Ef8+zV6fumw921=67hwS5yyqaDWWJGVm4D4rFyrYHQ@mail.gmail.com>
-	<CAJ86T=WjSNkzHpD0a-CxwmV1JfG7ksfezspi+5LvkdvJHdTcFw@mail.gmail.com>
-	<CAD0U-h+yMkaadysGDcmhZHSPY8tgbw_O8jquynJduChJjgypxA@mail.gmail.com>
-	<ef756a97-310a-63a9-1a3b-be0bb6634769@geanix.com>
-In-Reply-To: <ef756a97-310a-63a9-1a3b-be0bb6634769@geanix.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 23 Aug 2018 08:58:56 -0700
-Message-ID: <CAMKF1srhAp5+qEcXWap0PRO1BWfm5m3DAhhvgWr35uNQ_0fJog@mail.gmail.com>
-To: martin@geanix.com
+References: <20180816062633.29868-1-anuj.mittal@intel.com>
+	<CAJ86T=Wzi5hzFUfChDLKTDyKf+X9_EUjFvPE9wfSp5UXaQycaA@mail.gmail.com>
+	<188b139f-5d52-b2e3-fdd7-e231deb56052@intel.com>
+	<CAJ86T=W5cVZ+VEdRVi96-QRx5BhmTPpWZ1HU29UuXhmrZbS6Xg@mail.gmail.com>
+	<5a6bf05b6a04f09ed3f148c996a2b6d0d562924d.camel@linuxfoundation.org>
+In-Reply-To: <5a6bf05b6a04f09ed3f148c996a2b6d0d562924d.camel@linuxfoundation.org>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Thu, 23 Aug 2018 09:21:19 -0700
+Message-ID: <CABcZANmK_H5kPGp2UQMBTszEXW3D++f8404c-GANqpaRShzffQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	daiane.angolini@nxp.com, patches@linaro.org
-Subject: Re: [RFC 3/3] linux-firmware: MACHINEOVERRIDES for BCM43430 NVRAM
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3: enable profile optimized builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,203 +59,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 15:59:23 -0000
+X-List-Received-Date: Thu, 23 Aug 2018 16:21:34 -0000
+Content-Type: multipart/alternative; boundary="0000000000001d0b5905741ca7bf"
+
+--0000000000001d0b5905741ca7bf
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 22, 2018 at 11:40 PM Martin Hundeb=C3=B8ll <martin@geanix.com> =
-wrote:
->
-> May I suggest using the '-r, --relative' flag from 'ln':
->
->         -r, --relative
->                create symbolic links relative to link location
->
-> My life felt considerably better after discovering that feature :)
->
+IMO PGO should really stay opt-in, not opt-out, given the performance
+impact.
 
-ln -r is not available everywhere, but we do have lnr implemented as
-part of metadata see scripts/lnr so
-feel free to use that
+On Thu, Aug 23, 2018 at 1:28 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> // Martin
+> On Wed, 2018-08-22 at 18:44 -0700, Andre McCurdy wrote:
+> > On Thu, Aug 16, 2018 at 9:48 PM, Anuj Mittal <anuj.mittal@intel.com>
+> > wrote:
+> > > On 08/17/2018 03:31 AM, Andre McCurdy wrote:
+> > > > On Wed, Aug 15, 2018 at 11:26 PM, Anuj Mittal <anuj.mittal@intel.
+> > > > com> wrote:
+> > > > Is it important to re-create the profile data during every build
+> > > > or
+> > > > would we get most of the same benefits from using reference data
+> > > > which
+> > > > is generated offline?
+> > >
+> > > We should get the same benefit using the data generated offline as
+> > > long
+> > > as the source code/configure options/flags are same I believe. I
+> > > have
+> > > only tried with data generate offline using the same build
+> > > configuration
+> > > though.
+> >
+> > As an additional data point, python do_compile now takes approx 18
+> > minutes on my laptop. A single qemu-i386 thread loading one CPU core
+> > at 100%, with nothing else being scheduled in parallel for most of
+> > that time.
+> >
+> > If we can get most of the benefits of pgo with a pre-generated data
+> > file then that might still be something to explore.
 >
-> On 23/08/2018 08.12, Ryan Harkin wrote:
-> >
-> >
-> > On 22 August 2018 at 23:55, Andre McCurdy <armccurdy@gmail.com
-> > <mailto:armccurdy@gmail.com>> wrote:
-> >
-> >     On Wed, Aug 22, 2018 at 2:56 PM, Ryan Harkin <ryan.harkin@linaro.or=
-g
-> >     <mailto:ryan.harkin@linaro.org>> wrote:
-> >      > On Wed, 22 Aug 2018, 21:42 Andre McCurdy, <armccurdy@gmail.com
-> >     <mailto:armccurdy@gmail.com>> wrote:
-> >      >> On Wed, Aug 22, 2018 at 1:10 PM, Ryan Harkin
-> >     <ryan.harkin@linaro.org <mailto:ryan.harkin@linaro.org>>
-> >      >> wrote:
-> >      >> > On Wed, 22 Aug 2018, 20:02 Martin Jansa,
-> >     <martin.jansa@gmail.com <mailto:martin.jansa@gmail.com>> wrote:
-> >      >> >>
-> >      >> >> Your 1st parameter is wrong, compare again with the example =
-I
-> >     gave you
-> >      >> >> (don't include "brcm/" path in 1st param, because you want
-> >     the symlink
-> >      >> >> to
-> >      >> >> point to just brcmfmac43430-sdio.AP6212.txt like you did in
-> >     the version
-> >      >> >> after cd).
-> >      >> >
-> >      >> > That doesn't work either. I tried it with the same result, bu=
-t
-> >     didn't
-> >      >> > send a
-> >      >> > log of it. That works for you?
-> >      >>
-> >      >> Martin's example is correct so maybe check your tests again for
-> >     typos.
-> >      >> It it still doesn't work then please do send a log.
-> >      >>
-> >      >> The link will point to whatever you define via the first
-> >     parameter, so
-> >      >> if you changed the first parameter it shouldn't be possible to =
-get
-> >      >> "the same result".
-> >      >>
-> >      >>   $ mkdir foo
-> >      >>   $ ln -sf test_target foo/test1
-> >      >>   $ ln -sf brcm/test_target foo/test2
-> >      >>   $ ls -l foo
-> >      >>
-> >      >>   lrwxrwxrwx 1 andre andre 11 Aug 22 13:35 test1 -> test_target
-> >      >>   lrwxrwxrwx 1 andre andre 16 Aug 22 13:35 test2 -> brcm/test_t=
-arget
-> >      >
-> >      > Yes, that's essentially the same as what I'm getting.
-> >      >
-> >      > Now try "cat foo/test1" and what happens?
-> >      >
-> >      > There is no file called test_target in the foo directory. And
-> >     neither is
-> >      > there a file called brcm/test_target in the foo directory.
-> >
-> >     Correct. The above was just an example to show that you can * creat=
-e
-> >     symlinks * in the foo directory without cd'ing into the foo directo=
-ry
-> >     first.
-> >
-> >     If you'd like the symlinks in the example to point to valid targets
-> >     then you need to create the targets too, e.g.
-> >
-> >        $ mkdir -p foo/brcm
-> >        $ echo hello > foo/test_target
-> >        $ echo hello2 > foo/brcm/test_target
-> >
-> >     But note that the process of creating a symlink is always the same,
-> >     regardless of whether the symlink points to a valid target or not (=
-so
-> >     you can run these extra commands to create the targets before or af=
-ter
-> >     you create the symlinks).
-> >
-> >
-> > So that doesn't work for me how I expect it to work. I must be missing
-> > something fundamental here.
-> >
-> > The recipe is trying to create a soft link from a file in the current
-> > directory to a file in the sub-directory. On my system, your example
-> > creates links from a file in the sub-directory to the another file in
-> > the sub-directory.
-> >
-> > So, to copy your example, but creating the file "test_target" from the
-> > start:
-> >
-> > $ mkdir -p /tmp/test
-> > $ cd /tmp/test
-> > $ mkdir foo
-> > $ echo 1 > test_target
-> > $ ln -sf test_target foo/test1
-> > $ ln -sf brcm/test_target foo/test2
-> > $ ls -l foo
-> > total 0
-> > lrwxrwxrwx 1 ryan ryan 11 Aug 23 06:54 test1 -> test_target
-> > lrwxrwxrwx 1 ryan ryan 16 Aug 23 06:54 test2 -> brcm/test_target
-> > $ cat test_target
-> > 1
-> > $ cat foo/test1
-> > cat: foo/test1: No such file or directory
-> > $ cat foo/test2
-> > cat: foo/test2: No such file or directory
-> > $ echo hello > foo/test_target
-> > $ echo hello2 > foo/brcm/test_target
-> > bash: foo/brcm/test_target: No such file or directory
-> > $ cat foo/test1
-> > hello
-> > $ cat foo/test2
-> > cat: foo/test2: No such file or directory
-> > $ cat test_target
-> > 1
-> > $ tree
-> > .
-> > =E2=94=9C=E2=94=80=E2=94=80 foo
-> > =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 test1 -> test_target
-> > =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 test2 -> brcm/test_target
-> > =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 test_target
-> > =E2=94=94=E2=94=80=E2=94=80 test_target
-> >
-> > 1 directory, 4 files
-> >
-> > So, neither test1 nor test2 are linked to /tmp/test/test_target. test1
-> > is linked to /tmp/test/foo/test_target and test2 is linked to
-> > /tmp/test/brcm/test_target, which doesn't exist.
-> >
-> > AFAIK, when creating a softlink, you have to give it either an absolute
-> > path, or a path relative to the link being created. The path cannot be
-> > relative to the original file that you want to link to.
-> >
-> > So, this will work:
-> >
-> > $cd /tmp/test
-> > $ ln -sf ../test_target foo/test3
-> > $ cat foo/test3
-> > 1
-> > $ cat /tmp/test/foo/test3
-> > 1
-> >
-> > But that is a strange way to create the soft link, IMO.
-> >
-> > AFAICT, for the recipe, to get rid of the "cd", I'd have to specify an
-> > absolute path to the original file:
-> >
-> > +do_install_append_bcm43430-nvram-mur1dx() {
-> > +       ( ln -sf ${PWD}/brcmfmac43430-sdio.MUR1DX.txt
-> > ${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt)
-> >
-> > ... assuming PWD is available to the recipe. There will be a proper
-> > Yocto variable I can use, of course, but I can't think of it right now.
-> >
-> > Either way, Martin's example doesn't work for me. And adding the
-> > absolute path of the original file doesn't seem any neater or clearer
-> > than following the TI example from the do_install a few lines up in the
-> > recipe. But I'm happy to do it either way, so long as it works.
-> >
+> I've also noticed the increased build times. I'd love to see if we
+> could create an sstate object which would contain the pgo data and
+> which didn't depend on the usual compiler/toolchain pieces, only the
+> do_patch stage checksum. In theory, the same sstate object should be
+> reusable between target/native/nativesdk too as long as we had the same
+> python patchset (which I know we don't for native).
 >
-> --
-> Kind regards,
-> Martin Hundeb=C3=B8ll
-> Embedded Linux Consultant
+> Anyone fancy such a challenge? We should probably have a bug open for
+> this at least...
 >
-> +45 61 65 54 61
-> martin@geanix.com
+> Cheers,
 >
-> Geanix IVS
-> https://geanix.com
-> DK39600706
+> Richard
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
+
+--0000000000001d0b5905741ca7bf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">IMO PGO should really stay opt-in, not opt-out, given the =
+performance impact.<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
+">On Thu, Aug 23, 2018 at 1:28 AM Richard Purdie &lt;<a href=3D"mailto:rich=
+ard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex">On Wed, 2018-08-22 at 18:44 =
+-0700, Andre McCurdy wrote:<br>
+&gt; On Thu, Aug 16, 2018 at 9:48 PM, Anuj Mittal &lt;<a href=3D"mailto:anu=
+j.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt; &gt; On 08/17/2018 03:31 AM, Andre McCurdy wrote:<br>
+&gt; &gt; &gt; On Wed, Aug 15, 2018 at 11:26 PM, Anuj Mittal &lt;anuj.mitta=
+l@intel.<br>
+&gt; &gt; &gt; com&gt; wrote:<br>
+&gt; &gt; &gt; Is it important to re-create the profile data during every b=
+uild<br>
+&gt; &gt; &gt; or<br>
+&gt; &gt; &gt; would we get most of the same benefits from using reference =
+data<br>
+&gt; &gt; &gt; which<br>
+&gt; &gt; &gt; is generated offline?<br>
+&gt; &gt; <br>
+&gt; &gt; We should get the same benefit using the data generated offline a=
+s<br>
+&gt; &gt; long<br>
+&gt; &gt; as the source code/configure options/flags are same I believe. I<=
+br>
+&gt; &gt; have<br>
+&gt; &gt; only tried with data generate offline using the same build<br>
+&gt; &gt; configuration<br>
+&gt; &gt; though.<br>
+&gt; <br>
+&gt; As an additional data point, python do_compile now takes approx 18<br>
+&gt; minutes on my laptop. A single qemu-i386 thread loading one CPU core<b=
+r>
+&gt; at 100%, with nothing else being scheduled in parallel for most of<br>
+&gt; that time.<br>
+&gt; <br>
+&gt; If we can get most of the benefits of pgo with a pre-generated data<br=
+>
+&gt; file then that might still be something to explore.<br>
+<br>
+I&#39;ve also noticed the increased build times. I&#39;d love to see if we<=
+br>
+could create an sstate object which would contain the pgo data and<br>
+which didn&#39;t depend on the usual compiler/toolchain pieces, only the<br=
+>
+do_patch stage checksum. In theory, the same sstate object should be<br>
+reusable between target/native/nativesdk too as long as we had the same<br>
+python patchset (which I know we don&#39;t for native).<br>
+<br>
+Anyone fancy such a challenge? We should probably have a bug open for<br>
+this at least...<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><d=
+iv dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - =
+BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Mentor Graph=
+ics</div></div></div></div>
+
+--0000000000001d0b5905741ca7bf--
