@@ -1,47 +1,32 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 89E3179558
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E648C79549
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 16:42:11 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1535042532; h=Content-Type: Cc: To: Subject: Message-ID:
-	Date: From: In-Reply-To: References: MIME-Version: Sender;
-	bh=N8TVeKEmr12NuB/cvtGMmXIYrMPdR7JSI/EG8Zrd1Dw=;
-	b=dgO81hUJmCO+Osem5+bksTZAQFm/eOf99+a4mhecz+exuVpwLq/PZ9EchB9ps/HUQQFUINPM
-	kQqWsuNTKXGC9HQDUGoEXin4ITSBkI7gkem+NW0elSID0e4HxEVmEa3p7PtwnX9dfnMEKgDJ
-	iS4qVcmp1fUJLZaDT5k+YYnR0Sk=
-X-Mailgun-Sending-Ip: 104.130.122.4
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-Sender: derek@asterius.io
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mxa.mailgun.org with ESMTP id 5b7ee370.7f3c35bcc070-smtp-out-n01;
-	Thu, 23 Aug 2018 16:40:16 -0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id p81-v6so8404846itp.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 09:40:16 -0700 (PDT)
-X-Gm-Message-State: APzg51Db5Qzbuoj6UVPI3rWKndeNTIB3rBdsieBGhs7/wKZk/W2NFrHr
-	uWNlM23jHrD4QTGIJqaznScIWxMtkKQLqrrCZxM=
-X-Google-Smtp-Source: ANB0VdYn9zXUUpWJHJpM9bK+dh7xXaWxHVFQG6aJ00rFKCvNHonSxUbk4SaoH2HixiAcv/225K5F+qcXo5F307oq0/c=
-X-Received: by 2002:a02:dc8:: with SMTP id
-	191-v6mr10027077jax.117.1535042416245; 
-	Thu, 23 Aug 2018 09:40:16 -0700 (PDT)
+	Thu, 23 Aug 2018 16:45:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7NGjPnq017996
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 23 Aug 2018 09:45:27 -0700 (PDT)
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Thu, 23 Aug 2018 09:45:25 -0700
+To: Lukasz Majewski <lukma@denx.de>
+References: <20180822134022.1067-1-lukma@denx.de>
+	<5293a704-cd9d-9e94-dc78-631d02c4a67e@windriver.com>
+	<20180822160515.72d37bb3@jawa>
+	<dc51efd5-c251-5f66-15fc-dca2fd81c2d8@windriver.com>
+	<20180822162040.33304bef@jawa>
+	<a5f08555-3cd7-d367-d679-05440d424916@windriver.com>
+	<20180822164757.34c36ac9@jawa>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <03e9e6be-fc51-acf7-ccfb-81291cd38af2@windriver.com>
+Date: Thu, 23 Aug 2018 12:45:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20180816062633.29868-1-anuj.mittal@intel.com>
-	<CAJ86T=Wzi5hzFUfChDLKTDyKf+X9_EUjFvPE9wfSp5UXaQycaA@mail.gmail.com>
-	<188b139f-5d52-b2e3-fdd7-e231deb56052@intel.com>
-	<CAJ86T=W5cVZ+VEdRVi96-QRx5BhmTPpWZ1HU29UuXhmrZbS6Xg@mail.gmail.com>
-	<5a6bf05b6a04f09ed3f148c996a2b6d0d562924d.camel@linuxfoundation.org>
-	<CABcZANmK_H5kPGp2UQMBTszEXW3D++f8404c-GANqpaRShzffQ@mail.gmail.com>
-In-Reply-To: <CABcZANmK_H5kPGp2UQMBTszEXW3D++f8404c-GANqpaRShzffQ@mail.gmail.com>
-From: Derek Straka <derek@asterius.io>
-Date: Thu, 23 Aug 2018 12:40:04 -0400
-X-Gmail-Original-Message-ID: <CADNbA1qYW6AzgTmiCuwVj_XkEmFq7rqWCoz+5dBP_PPtuH_79w@mail.gmail.com>
-Message-ID: <CADNbA1qYW6AzgTmiCuwVj_XkEmFq7rqWCoz+5dBP_PPtuH_79w@mail.gmail.com>
-To: kergoth@gmail.com
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3: enable profile optimized builds
+In-Reply-To: <20180822164757.34c36ac9@jawa>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: yocto: Add dependency on do_prepare_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,173 +39,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 16:42:11 -0000
-Content-Type: multipart/alternative; boundary="000000000000ef80ab05741ce92b"
+X-List-Received-Date: Thu, 23 Aug 2018 16:45:34 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---000000000000ef80ab05741ce92b
-Content-Type: text/plain; charset="UTF-8"
+On 08/22/2018 10:47 AM, Lukasz Majewski wrote:
+> On Wed, 22 Aug 2018 10:44:08 -0400
+> Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+> 
+>> On 08/22/2018 10:20 AM, Lukasz Majewski wrote:
+>>> On Wed, 22 Aug 2018 10:13:33 -0400
+>>> Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+>>>    
+>>>> On 08/22/2018 10:05 AM, Lukasz Majewski wrote:
+>>>>> Hi Bruce,
+>>>>>       
+>>>>>> On 08/22/2018 09:40 AM, Lukasz Majewski wrote:
+>>>>>>> Without this patch it happens that do_populate_recipe_sysroot is
+>>>>>>> called just before do_compile (on multi core build machines).
+>>>>>>> This is way too late as the .config generated in
+>>>>>>> do_kernel_configme() is already broken.
+>>>>>>>
+>>>>>>> The problem is that do_kernel_configme() calls native's
+>>>>>>> merge_config.sh script which may call bison and arm-linux-*-gcc
+>>>>>>> to compile kconfig infrastructure to create base .config
+>>>>>>> (scripts/kconfig/conf  --allnoconfig Kconfig.)
+>>>>>>>
+>>>>>>> It turns out that we only got above binaries after
+>>>>>>> do_prepare_recipe_sysroot() is called.
+>>>>>>> If those binaries are not available, the merge_config.sh do not
+>>>>>>> generate base .config and without any error produces
+>>>>>>> malfunctioned .config. The build process continues and as a
+>>>>>>> result broken kernel is compiled.
+>>>>>>>
+>>>>>>> To reproduce:
+>>>>>>>
+>>>>>>> bitbake -c cleansstate virtual/kernel
+>>>>>>> bitbake -c kernel_metadata -v virtual/kernel
+>>>>>>> bitbake -c do_kernel_configme -v virtual/kernel
+>>>>>>> (one shall see broken .config in ${B}/.config)
+>>>>>>> bitbake -c do_populate_sysroot -v virtual/kernel
+>>>>>>> bitbake -c do_compile -v virtual/kernel
+>>>>>>>
+>>>>>>> (Poky) SHA1: bb91b2ae3ee5cf108aa2f9b78abb14d5aa00831d
+>>>>>>>
+>>>>>>> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+>>>>>>> ---
+>>>>>>>      meta/classes/kernel-yocto.bbclass | 1 +
+>>>>>>>      1 file changed, 1 insertion(+)
+>>>>>>>
+>>>>>>> diff --git a/meta/classes/kernel-yocto.bbclass
+>>>>>>> b/meta/classes/kernel-yocto.bbclass index 4ac3a39e47..19a3f2bc46
+>>>>>>> 100644 --- a/meta/classes/kernel-yocto.bbclass
+>>>>>>> +++ b/meta/classes/kernel-yocto.bbclass
+>>>>>>> @@ -276,6 +276,7 @@ do_kernel_metadata[depends] =
+>>>>>>> "kern-tools-native:do_populate_sysroot"
+>>>>>>> do_validate_branches[depends] =
+>>>>>>> "kern-tools-native:do_populate_sysroot" do_kernel_configme[dirs]
+>>>>>>> += "${S} ${B}" +do_kernel_configme[depends] +=
+>>>>>>> "virtual/kernel:do_prepare_recipe_sysroot"
+>>>>>>
+>>>>>> On a closer look .. what branch is this from ? We already have a
+>>>>>> change that triggered breakage on 4.17+ that should fix this.
+>>>>>>
+>>>>>> i.e. commit ff1bdd75d50f0ebac3d599e461685ace29559a82 in oe-core,
+>>>>>> adds:
+>>>>>>
+>>>>>> ----------
+>>>>>>
+>>>>>>      do_kernel_metadata[depends] =
+>>>>>> "kern-tools-native:do_populate_sysroot"
+>>>>>> do_validate_branches[depends] =
+>>>>>> "kern-tools-native:do_populate_sysroot"
+>>>>>>
+>>>>>> +do_kernel_configme[depends] +=
+>>>>>> "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
+>>>>>> +do_kernel_configme[depends] +=
+>>>>>> "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
+>>>>>> +do_kernel_configme[depends] += "bc-native:do_populate_sysroot
+>>>>>> bison-native:do_populate_sysroot"
+>>>>>>      do_kernel_configme[dirs] += "${S} ${B}"
+>>>>>>      do_kernel_configme() {
+>>>>>>
+>>>>>> ----------
+>>>>>>
+>>>>>> Which I don't see in the context of your patch.
+>>>>>>      
+>>>>>
+>>>>> I do use poky as in the commit message.
+>>>>
+>>>> Yes, I checked that .. but that isn't a useful part of a patch
+>>>> to oe-core.
+>>>>
+>>>> The kernel-yocto bbclass in that context is not the one in master,
+>>>> and if I run a --contains on that commit ID, I don't get an active
+>>>> branch.
+>>>
+>>> I might have misunderstood something... apparently.
+>>>
+>>> The changes which I did were to:
+>>>
+>>> poky/meta/classes/kernel-yocto.bbclass
+>>>
+>>> Is this a wrong place to add the fix?
+>>
+>> It is the right place to add the fix, but the tree that you are
+>> using is not up to date with the current poky or oe-core master.
+>>
+>> There are other changes in place that address a similar failure.
+>>
+>> For us to look at this change, it needs to be rebased on top of
+>> master (or master-next).
+> 
+> Now I got it. I shall sent the fix against cutting edge -master.
+> 
+> Shall I re-send the fix, of will you first check if patches in the
+> queue doesn't fix it already?
 
-+1 for this being opt in.  It's a substantial hit to build time
+I ran the steps yesterday and wasn't able to trigger the issue
+here.
 
-On Thu, Aug 23, 2018 at 12:21 PM Christopher Larson <kergoth@gmail.com>
-wrote:
+so if you try against the current master of poky/oe-core, I'd be
+interested to hear if you can make the problem happen (and I can
+re-try as required).
 
-> IMO PGO should really stay opt-in, not opt-out, given the performance
-> impact.
->
-> On Thu, Aug 23, 2018 at 1:28 AM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> On Wed, 2018-08-22 at 18:44 -0700, Andre McCurdy wrote:
->> > On Thu, Aug 16, 2018 at 9:48 PM, Anuj Mittal <anuj.mittal@intel.com>
->> > wrote:
->> > > On 08/17/2018 03:31 AM, Andre McCurdy wrote:
->> > > > On Wed, Aug 15, 2018 at 11:26 PM, Anuj Mittal <anuj.mittal@intel.
->> > > > com> wrote:
->> > > > Is it important to re-create the profile data during every build
->> > > > or
->> > > > would we get most of the same benefits from using reference data
->> > > > which
->> > > > is generated offline?
->> > >
->> > > We should get the same benefit using the data generated offline as
->> > > long
->> > > as the source code/configure options/flags are same I believe. I
->> > > have
->> > > only tried with data generate offline using the same build
->> > > configuration
->> > > though.
->> >
->> > As an additional data point, python do_compile now takes approx 18
->> > minutes on my laptop. A single qemu-i386 thread loading one CPU core
->> > at 100%, with nothing else being scheduled in parallel for most of
->> > that time.
->> >
->> > If we can get most of the benefits of pgo with a pre-generated data
->> > file then that might still be something to explore.
+Bruce
+
+> 
 >>
->> I've also noticed the increased build times. I'd love to see if we
->> could create an sstate object which would contain the pgo data and
->> which didn't depend on the usual compiler/toolchain pieces, only the
->> do_patch stage checksum. In theory, the same sstate object should be
->> reusable between target/native/nativesdk too as long as we had the same
->> python patchset (which I know we don't for native).
+>> Bruce
 >>
->> Anyone fancy such a challenge? We should probably have a bug open for
->> this at least...
+>>>    
+>>>>
+>>>> So the patch as it stands, cannot be applied to master (and I
+>>>> also checked master-next in case something snuck in that I
+>>>> missed) of oe-core or poky, so there's no way to work with it.
+>>>>
+>>>> Bruce
+>>>>   
+>>>>>
+>>>>> Regarding the kernel - I do have my own recipe;
+>>>>> inherit kernel
+>>>>>
+>>>>> require
+>>>>> recipes-kernel/linux/linux-yocto.inc
+>>>>>
+>>>>>
+>>>>> And then I do have:
+>>>>> COMPATIBLE_MACHINE_display5 = "display5"
+>>>>>
+>>>>> KBUILD_DEFCONFIG_pn-linux-yocto-custom_display5 =
+>>>>> "imx6q_display5_defconfig"
+>>>>>
+>>>>> As the board is in mainline I just point to Linus tree.
+>>>>>       
+>>>>>> Bruce
+>>>>>>      
+>>>>>>>      do_kernel_configme() {
+>>>>>>>      	set +e
+>>>>>>>      
+>>>>>>>          
+>>>>>>      
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>> Best regards,
+>>>>>
+>>>>> Lukasz Majewski
+>>>>>
+>>>>> --
+>>>>>
+>>>>> DENX Software Engineering GmbH,      Managing Director: Wolfgang
+>>>>> Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
+>>>>> Germany Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email:
+>>>>> wd@denx.de
+>>>>   
+>>>
+>>>
+>>>
+>>>
+>>> Best regards,
+>>>
+>>> Lukasz Majewski
+>>>
+>>> --
+>>>
+>>> DENX Software Engineering GmbH,      Managing Director: Wolfgang
+>>> Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
+>>> Germany Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email:
+>>> wd@denx.de
 >>
->> Cheers,
->>
->> Richard
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
+> 
+> 
+> 
+> 
+> Best regards,
+> 
+> Lukasz Majewski
+> 
 > --
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> 
+> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+> Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+> 
 
---000000000000ef80ab05741ce92b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">+1 for this being opt in.=C2=A0 It&#39;s a substantial hit=
- to build time<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On =
-Thu, Aug 23, 2018 at 12:21 PM Christopher Larson &lt;<a href=3D"mailto:kerg=
-oth@gmail.com">kergoth@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div dir=3D"ltr">IMO PGO should really stay opt-in, not opt-o=
-ut, given the performance impact.<br></div><br><div class=3D"gmail_quote"><=
-div dir=3D"ltr">On Thu, Aug 23, 2018 at 1:28 AM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
-rdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">On Wed, 2018-08-22 at 18:44 -0700, Andre McCurdy wrote:<br>
-&gt; On Thu, Aug 16, 2018 at 9:48 PM, Anuj Mittal &lt;<a href=3D"mailto:anu=
-j.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
-&gt; wrote:<br>
-&gt; &gt; On 08/17/2018 03:31 AM, Andre McCurdy wrote:<br>
-&gt; &gt; &gt; On Wed, Aug 15, 2018 at 11:26 PM, Anuj Mittal &lt;anuj.mitta=
-l@intel.<br>
-&gt; &gt; &gt; com&gt; wrote:<br>
-&gt; &gt; &gt; Is it important to re-create the profile data during every b=
-uild<br>
-&gt; &gt; &gt; or<br>
-&gt; &gt; &gt; would we get most of the same benefits from using reference =
-data<br>
-&gt; &gt; &gt; which<br>
-&gt; &gt; &gt; is generated offline?<br>
-&gt; &gt; <br>
-&gt; &gt; We should get the same benefit using the data generated offline a=
-s<br>
-&gt; &gt; long<br>
-&gt; &gt; as the source code/configure options/flags are same I believe. I<=
-br>
-&gt; &gt; have<br>
-&gt; &gt; only tried with data generate offline using the same build<br>
-&gt; &gt; configuration<br>
-&gt; &gt; though.<br>
-&gt; <br>
-&gt; As an additional data point, python do_compile now takes approx 18<br>
-&gt; minutes on my laptop. A single qemu-i386 thread loading one CPU core<b=
-r>
-&gt; at 100%, with nothing else being scheduled in parallel for most of<br>
-&gt; that time.<br>
-&gt; <br>
-&gt; If we can get most of the benefits of pgo with a pre-generated data<br=
->
-&gt; file then that might still be something to explore.<br>
-<br>
-I&#39;ve also noticed the increased build times. I&#39;d love to see if we<=
-br>
-could create an sstate object which would contain the pgo data and<br>
-which didn&#39;t depend on the usual compiler/toolchain pieces, only the<br=
->
-do_patch stage checksum. In theory, the same sstate object should be<br>
-reusable between target/native/nativesdk too as long as we had the same<br>
-python patchset (which I know we don&#39;t for native).<br>
-<br>
-Anyone fancy such a challenge? We should probably have a bug open for<br>
-this at least...<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"m=
-_4532180818432277067gmail_signature" data-smartmail=3D"gmail_signature"><di=
-v dir=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail =
-dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software E=
-ngineer, Mentor Graphics</div></div></div></div>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---000000000000ef80ab05741ce92b--
