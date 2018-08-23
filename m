@@ -1,32 +1,57 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E648C79549
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 50AF279549
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 16:45:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7NGjPnq017996
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 Aug 2018 09:45:27 -0700 (PDT)
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 23 Aug 2018 09:45:25 -0700
-To: Lukasz Majewski <lukma@denx.de>
-References: <20180822134022.1067-1-lukma@denx.de>
-	<5293a704-cd9d-9e94-dc78-631d02c4a67e@windriver.com>
-	<20180822160515.72d37bb3@jawa>
-	<dc51efd5-c251-5f66-15fc-dca2fd81c2d8@windriver.com>
-	<20180822162040.33304bef@jawa>
-	<a5f08555-3cd7-d367-d679-05440d424916@windriver.com>
-	<20180822164757.34c36ac9@jawa>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <03e9e6be-fc51-acf7-ccfb-81291cd38af2@windriver.com>
-Date: Thu, 23 Aug 2018 12:45:24 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180822164757.34c36ac9@jawa>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel: yocto: Add dependency on do_prepare_recipe_sysroot
+	Thu, 23 Aug 2018 16:47:04 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id t25-v6so6485364wmi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Aug 2018 09:47:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=z3JOsq2GZJfsbOttcF+AEH3coAZs+qASlx3h0NXk+8o=;
+	b=LAM/7+LKsv28HdKLiPPA6WTpvhUTG484ObtFGEhhTsHDXJ2SCT1xGoigcTkj80lzYf
+	C/NAf/dv+lC6qIiIr62CraXWmbMR5iWyp11ToLFRhingMKxjCMc0z6QxzHuNnXc+7Ky2
+	lHhvX/xHPuHQrumnR7P7Za9J//rBN+agBuie4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=z3JOsq2GZJfsbOttcF+AEH3coAZs+qASlx3h0NXk+8o=;
+	b=h3RR+JB4iFVvS0TfQ3bPm1Fpk3EnZrQIhJd960EUVUT+5azF2k+tnFxs0R1Z5VhLi6
+	UPgKwXXZhghTcGRYYvxMxRNFIkteKvrCjvlONyIbYfZuvC91EV3rMvFiICssGgm8GGa3
+	+cVuJGNj6R62sPIFUt/tsYsA0WgUP5mSQy+5bseLSBaU/84vvLwzJRl4F2QcKv80z0y/
+	GyNPEJiZPmqD4vEUeGGINyseQvbl1UmhOp4wdmt5rLQ8wpg3V8VubbALEwqvZB5flHZ8
+	EUpReN42GYVrWNDXIPqhC2u1Pturs4X/AjMuvcVbj4ippqqvwysdK5pj1lqgkP7GXbPU
+	kWpg==
+X-Gm-Message-State: APzg51DOsNfUqDOOO7iMWL591+6zipBCWWI92Z/WlEFL8KEqFnK51wdV
+	d+yT3mhdcznMiNLn4b/n2YPsFA==
+X-Google-Smtp-Source: ANB0VdaTTHfImgnxaFsR79xxv3YXqWD+kG73Y+q6AOg4Kvm4wyEQVPF3t3QgpkGS16ZZdDGCk/VD/w==
+X-Received: by 2002:a1c:36e4:: with SMTP id
+	y97-v6mr5463456wmh.71.1535042824967; 
+	Thu, 23 Aug 2018 09:47:04 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	h75-v6sm784420wma.46.2018.08.23.09.47.03
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 23 Aug 2018 09:47:04 -0700 (PDT)
+Message-ID: <15914ed0e215c54338998783d1e386dddabe66c0.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Derek Straka <derek@asterius.io>, kergoth@gmail.com
+Date: Thu, 23 Aug 2018 17:47:02 +0100
+In-Reply-To: <CADNbA1qYW6AzgTmiCuwVj_XkEmFq7rqWCoz+5dBP_PPtuH_79w@mail.gmail.com>
+References: <20180816062633.29868-1-anuj.mittal@intel.com>
+	<CAJ86T=Wzi5hzFUfChDLKTDyKf+X9_EUjFvPE9wfSp5UXaQycaA@mail.gmail.com>
+	<188b139f-5d52-b2e3-fdd7-e231deb56052@intel.com>
+	<CAJ86T=W5cVZ+VEdRVi96-QRx5BhmTPpWZ1HU29UuXhmrZbS6Xg@mail.gmail.com>
+	<5a6bf05b6a04f09ed3f148c996a2b6d0d562924d.camel@linuxfoundation.org>
+	<CABcZANmK_H5kPGp2UQMBTszEXW3D++f8404c-GANqpaRShzffQ@mail.gmail.com>
+	<CADNbA1qYW6AzgTmiCuwVj_XkEmFq7rqWCoz+5dBP_PPtuH_79w@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3: enable profile optimized builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,211 +64,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 16:45:34 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Thu, 23 Aug 2018 16:47:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/22/2018 10:47 AM, Lukasz Majewski wrote:
-> On Wed, 22 Aug 2018 10:44:08 -0400
-> Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+On Thu, 2018-08-23 at 12:40 -0400, Derek Straka wrote:
+> +1 for this being opt in.  It's a substantial hit to build time
 > 
->> On 08/22/2018 10:20 AM, Lukasz Majewski wrote:
->>> On Wed, 22 Aug 2018 10:13:33 -0400
->>> Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
->>>    
->>>> On 08/22/2018 10:05 AM, Lukasz Majewski wrote:
->>>>> Hi Bruce,
->>>>>       
->>>>>> On 08/22/2018 09:40 AM, Lukasz Majewski wrote:
->>>>>>> Without this patch it happens that do_populate_recipe_sysroot is
->>>>>>> called just before do_compile (on multi core build machines).
->>>>>>> This is way too late as the .config generated in
->>>>>>> do_kernel_configme() is already broken.
->>>>>>>
->>>>>>> The problem is that do_kernel_configme() calls native's
->>>>>>> merge_config.sh script which may call bison and arm-linux-*-gcc
->>>>>>> to compile kconfig infrastructure to create base .config
->>>>>>> (scripts/kconfig/conf  --allnoconfig Kconfig.)
->>>>>>>
->>>>>>> It turns out that we only got above binaries after
->>>>>>> do_prepare_recipe_sysroot() is called.
->>>>>>> If those binaries are not available, the merge_config.sh do not
->>>>>>> generate base .config and without any error produces
->>>>>>> malfunctioned .config. The build process continues and as a
->>>>>>> result broken kernel is compiled.
->>>>>>>
->>>>>>> To reproduce:
->>>>>>>
->>>>>>> bitbake -c cleansstate virtual/kernel
->>>>>>> bitbake -c kernel_metadata -v virtual/kernel
->>>>>>> bitbake -c do_kernel_configme -v virtual/kernel
->>>>>>> (one shall see broken .config in ${B}/.config)
->>>>>>> bitbake -c do_populate_sysroot -v virtual/kernel
->>>>>>> bitbake -c do_compile -v virtual/kernel
->>>>>>>
->>>>>>> (Poky) SHA1: bb91b2ae3ee5cf108aa2f9b78abb14d5aa00831d
->>>>>>>
->>>>>>> Signed-off-by: Lukasz Majewski <lukma@denx.de>
->>>>>>> ---
->>>>>>>      meta/classes/kernel-yocto.bbclass | 1 +
->>>>>>>      1 file changed, 1 insertion(+)
->>>>>>>
->>>>>>> diff --git a/meta/classes/kernel-yocto.bbclass
->>>>>>> b/meta/classes/kernel-yocto.bbclass index 4ac3a39e47..19a3f2bc46
->>>>>>> 100644 --- a/meta/classes/kernel-yocto.bbclass
->>>>>>> +++ b/meta/classes/kernel-yocto.bbclass
->>>>>>> @@ -276,6 +276,7 @@ do_kernel_metadata[depends] =
->>>>>>> "kern-tools-native:do_populate_sysroot"
->>>>>>> do_validate_branches[depends] =
->>>>>>> "kern-tools-native:do_populate_sysroot" do_kernel_configme[dirs]
->>>>>>> += "${S} ${B}" +do_kernel_configme[depends] +=
->>>>>>> "virtual/kernel:do_prepare_recipe_sysroot"
->>>>>>
->>>>>> On a closer look .. what branch is this from ? We already have a
->>>>>> change that triggered breakage on 4.17+ that should fix this.
->>>>>>
->>>>>> i.e. commit ff1bdd75d50f0ebac3d599e461685ace29559a82 in oe-core,
->>>>>> adds:
->>>>>>
->>>>>> ----------
->>>>>>
->>>>>>      do_kernel_metadata[depends] =
->>>>>> "kern-tools-native:do_populate_sysroot"
->>>>>> do_validate_branches[depends] =
->>>>>> "kern-tools-native:do_populate_sysroot"
->>>>>>
->>>>>> +do_kernel_configme[depends] +=
->>>>>> "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
->>>>>> +do_kernel_configme[depends] +=
->>>>>> "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
->>>>>> +do_kernel_configme[depends] += "bc-native:do_populate_sysroot
->>>>>> bison-native:do_populate_sysroot"
->>>>>>      do_kernel_configme[dirs] += "${S} ${B}"
->>>>>>      do_kernel_configme() {
->>>>>>
->>>>>> ----------
->>>>>>
->>>>>> Which I don't see in the context of your patch.
->>>>>>      
->>>>>
->>>>> I do use poky as in the commit message.
->>>>
->>>> Yes, I checked that .. but that isn't a useful part of a patch
->>>> to oe-core.
->>>>
->>>> The kernel-yocto bbclass in that context is not the one in master,
->>>> and if I run a --contains on that commit ID, I don't get an active
->>>> branch.
->>>
->>> I might have misunderstood something... apparently.
->>>
->>> The changes which I did were to:
->>>
->>> poky/meta/classes/kernel-yocto.bbclass
->>>
->>> Is this a wrong place to add the fix?
->>
->> It is the right place to add the fix, but the tree that you are
->> using is not up to date with the current poky or oe-core master.
->>
->> There are other changes in place that address a similar failure.
->>
->> For us to look at this change, it needs to be rebased on top of
->> master (or master-next).
-> 
-> Now I got it. I shall sent the fix against cutting edge -master.
-> 
-> Shall I re-send the fix, of will you first check if patches in the
-> queue doesn't fix it already?
+> On Thu, Aug 23, 2018 at 12:21 PM Christopher Larson <kergoth@gmail.co
+> m> wrote:
+> > IMO PGO should really stay opt-in, not opt-out, given the
+> > performance impact.
 
-I ran the steps yesterday and wasn't able to trigger the issue
-here.
+I'm not arguing against that however I'd note that the performance of
+the resulting python binary is substantially different too, much more
+that you'd think.
 
-so if you try against the current master of poky/oe-core, I'd be
-interested to hear if you can make the problem happen (and I can
-re-try as required).
+For older distros where we use buildtools tarball on the builders, pgo
+python binaries should help significantly with things like bitbake
+parsing speed (I'd love to see numbers).
 
-Bruce
+Cheers,
 
-> 
->>
->> Bruce
->>
->>>    
->>>>
->>>> So the patch as it stands, cannot be applied to master (and I
->>>> also checked master-next in case something snuck in that I
->>>> missed) of oe-core or poky, so there's no way to work with it.
->>>>
->>>> Bruce
->>>>   
->>>>>
->>>>> Regarding the kernel - I do have my own recipe;
->>>>> inherit kernel
->>>>>
->>>>> require
->>>>> recipes-kernel/linux/linux-yocto.inc
->>>>>
->>>>>
->>>>> And then I do have:
->>>>> COMPATIBLE_MACHINE_display5 = "display5"
->>>>>
->>>>> KBUILD_DEFCONFIG_pn-linux-yocto-custom_display5 =
->>>>> "imx6q_display5_defconfig"
->>>>>
->>>>> As the board is in mainline I just point to Linus tree.
->>>>>       
->>>>>> Bruce
->>>>>>      
->>>>>>>      do_kernel_configme() {
->>>>>>>      	set +e
->>>>>>>      
->>>>>>>          
->>>>>>      
->>>>>
->>>>>
->>>>>
->>>>>
->>>>> Best regards,
->>>>>
->>>>> Lukasz Majewski
->>>>>
->>>>> --
->>>>>
->>>>> DENX Software Engineering GmbH,      Managing Director: Wolfgang
->>>>> Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
->>>>> Germany Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email:
->>>>> wd@denx.de
->>>>   
->>>
->>>
->>>
->>>
->>> Best regards,
->>>
->>> Lukasz Majewski
->>>
->>> --
->>>
->>> DENX Software Engineering GmbH,      Managing Director: Wolfgang
->>> Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
->>> Germany Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email:
->>> wd@denx.de
->>
-> 
-> 
-> 
-> 
-> Best regards,
-> 
-> Lukasz Majewski
-> 
-> --
-> 
-> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-> 
-
+Richard
 
