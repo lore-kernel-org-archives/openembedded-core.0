@@ -1,25 +1,23 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 558717950F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E59A79010
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 07:56:54 +0000 (UTC)
+	Thu, 23 Aug 2018 08:00:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7N7utnw019384
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7N80k0I010223
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 00:56:55 -0700 (PDT)
+	Thu, 23 Aug 2018 01:00:46 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 23 Aug 2018 00:56:55 -0700
+	14.3.399.0; Thu, 23 Aug 2018 01:00:45 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Aug 2018 16:07:28 +0800
-Message-ID: <f3b19c25a3c5235bfa3e28a58961a09aeb0bef47.1535011588.git.liezhi.yang@windriver.com>
+Date: Thu, 23 Aug 2018 16:11:19 +0800
+Message-ID: <cover.1535011774.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1535011588.git.liezhi.yang@windriver.com>
-References: <cover.1535011588.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/5] compress_doc.bbclass: Clean up getstatusoutput usage
+Subject: [PATCH 0/7] Recipes upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,55 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 07:56:54 -0000
+X-List-Received-Date: Thu, 23 Aug 2018 08:00:45 -0000
 Content-Type: text/plain
 
-Replace usage of oe.utils.getstatusoutput() with direct subprocess calls.
+The following changes since commit 1314a6953aa647706107557faaba8574e307d2bd:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/compress_doc.bbclass | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+  patch: fix CVE-2018-6952 (2018-08-23 07:45:32 +0100)
 
-diff --git a/meta/classes/compress_doc.bbclass b/meta/classes/compress_doc.bbclass
-index 069d534..45bb8ff 100644
---- a/meta/classes/compress_doc.bbclass
-+++ b/meta/classes/compress_doc.bbclass
-@@ -79,6 +79,7 @@ def _collect_hardlink(hardlink_dict, file):
-     return hardlink_dict
- 
- def _process_hardlink(hardlink_dict, compress_mode, shell_cmds, decompress=False):
-+    import subprocess
-     for target in hardlink_dict:
-         if decompress:
-             compress_format = _get_compress_format(target, shell_cmds.keys())
-@@ -87,7 +88,7 @@ def _process_hardlink(hardlink_dict, compress_mode, shell_cmds, decompress=False
-         else:
-             cmd = "%s -f %s" % (shell_cmds[compress_mode], target)
-             bb.note('compress hardlink %s' % target)
--        (retval, output) = oe.utils.getstatusoutput(cmd)
-+        (retval, output) = subprocess.getstatusoutput(cmd)
-         if retval:
-             bb.warn("de/compress file failed %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-             return
-@@ -176,7 +177,7 @@ def compress_doc(topdir, compress_mode, compress_cmds):
-                 # Normal file
-                 elif os.path.isfile(file):
-                     cmd = "%s %s" % (compress_cmds[compress_mode], file)
--                    (retval, output) = oe.utils.getstatusoutput(cmd)
-+                    (retval, output) = subprocess.getstatusoutput(cmd)
-                     if retval:
-                         bb.warn("compress failed %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-                         continue
-@@ -206,7 +207,7 @@ def decompress_doc(topdir, compress_mode, decompress_cmds):
-                 # Normal file
-                 elif os.path.isfile(file):
-                     cmd = "%s %s" % (decompress_cmds[compress_format], file)
--                    (retval, output) = oe.utils.getstatusoutput(cmd)
-+                    (retval, output) = subprocess.getstatusoutput(cmd)
-                     if retval:
-                         bb.warn("decompress failed %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-                         continue
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/pu
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/pu
+
+Robert Yang (7):
+  strace: 4.23 -> 4.24
+  diffstat: 1.61 -> 1.62
+  pciutils: 3.6.1 -> 3.6.2
+  dbus: 1.12.8 -> 1.12.10
+  dbus-test: 1.12.8 -> 1.12.10
+  elfutils: 0.172 -> 0.173
+  distcc: 3.3 -> 3.3.2
+
+ .../{pciutils_3.6.1.bb => pciutils_3.6.2.bb}       |  4 +--
+ .../{dbus-test_1.12.8.bb => dbus-test_1.12.10.bb}  |  4 +--
+ .../dbus/{dbus_1.12.8.bb => dbus_1.12.10.bb}       |  4 +--
+ .../diffstat/avoid-check-user-break-cc.patch       | 12 +++++--
+ .../{diffstat_1.61.bb => diffstat_1.62.bb}         |  4 +--
+ .../distcc/{distcc_3.3.bb => distcc_3.3.2.bb}      |  2 +-
+ .../{elfutils_0.172.bb => elfutils_0.173.bb}       |  5 +--
+ .../0001-tests-fix-build-with-fresh-glibc.patch    | 42 ----------------------
+ .../strace/{strace_4.23.bb => strace_4.24.bb}      |  5 ++-
+ 9 files changed, 23 insertions(+), 59 deletions(-)
+ rename meta/recipes-bsp/pciutils/{pciutils_3.6.1.bb => pciutils_3.6.2.bb} (92%)
+ rename meta/recipes-core/dbus/{dbus-test_1.12.8.bb => dbus-test_1.12.10.bb} (95%)
+ rename meta/recipes-core/dbus/{dbus_1.12.8.bb => dbus_1.12.10.bb} (97%)
+ rename meta/recipes-devtools/diffstat/{diffstat_1.61.bb => diffstat_1.62.bb} (84%)
+ rename meta/recipes-devtools/distcc/{distcc_3.3.bb => distcc_3.3.2.bb} (97%)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.172.bb => elfutils_0.173.bb} (95%)
+ delete mode 100644 meta/recipes-devtools/strace/strace/0001-tests-fix-build-with-fresh-glibc.patch
+ rename meta/recipes-devtools/strace/{strace_4.23.bb => strace_4.24.bb} (90%)
+
 -- 
 2.7.4
 
