@@ -1,53 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 58340793B7
+Return-Path: <prvs=767f4520c=Mikko.Rapeli@bmw.de>
+Received: from esa7.bmw.c3s2.iphmx.com (esa7.bmw.c3s2.iphmx.com
+	[68.232.133.109])
+	by mail.openembedded.org (Postfix) with ESMTP id B9C2379609
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 16:24:11 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id f19-v6so9319827qtf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 09:24:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=vRJUgG5p3isc/is/cuEV8rx9Zojn8jw+ypkuNLNfGFg=;
-	b=bUMDsOFr8cHlOlK3NgQKim4noxiBsnk5/ejkbGwDleeRdgRceT3m+o0WCmkNei33rG
-	ivB10CYZHDRuBTXfVU7Tq10MRarAEbpxz+j4I3GQtdMWl40c6EEO/0EGxAnXiCcTn+7s
-	FEXOwtG/zORZpjIr/xa6CcBX+BvxBoDkIUMOMPl2ubw20ikDKnaQVA9pxmYdtbRU2ToI
-	dW9YWV6Jp4Nsxkp3lbrsshOBbFZWV9/mY55vmkjkgWEcsWdFKA0nh4KHIJs7yRgTYHSC
-	pu6l4zb1YhNtmo9gHQL5IIqozXgGncAHH/4TiKDiEnlMkyE26oT3SUADdljIjEHqcJzA
-	1aBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=vRJUgG5p3isc/is/cuEV8rx9Zojn8jw+ypkuNLNfGFg=;
-	b=VTxomTxxaV7lMsUyNrNDa6xws1sruC5oIt6GI2eKygAMOWDlAjfp9cL+nDyprh6DFM
-	Uy05vbfw2q+Gx0gMWoP4rr76enVZbT85JExigKUTJJPGhLeZX0KpR3GBr7fsdgzTF27o
-	EYXZjpbab4FyaRjtIvZaS1MyYURptt49qlhkB9F8ClmP9VmcqxxMKXPgx8eUMM/E+Pww
-	ecNuC/GoBfY+TTBhUtKA+FcBwAquVuy+NVzDes8WONwqaoF/a8wUEmn9barQTxoFetqR
-	a6dJzaLYUWXUC2/mLcU+5CmGp7w8Ep0EsI+tzeIMoyE61aGgR6/Px4UeEbvOc+pSCl+p
-	BgTw==
-X-Gm-Message-State: APzg51ABLMVSwMnnJUZbAvdvML6eFEvzpLrp6dYDhVZRFBMpc2ApS0+7
-	Iwe7ayypGE8xj5KQeDMrcbkqXpEUaFDxsBXzKdQ=
-X-Google-Smtp-Source: ANB0VdalDb2fTbyJX5kg5K9eXZx/YQympwMD6mXeTrIed6UO6DKXamF+MAwyaKdyHf8un/CZuGO5pT8dGgAEBQn62o4=
-X-Received: by 2002:a0c:f94e:: with SMTP id
-	i14-v6mr2615295qvo.50.1535127851962; 
-	Fri, 24 Aug 2018 09:24:11 -0700 (PDT)
-MIME-Version: 1.0
+	Fri, 24 Aug 2018 16:41:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1535128881; x=1566664881;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=UZM/ubi3qJFONTiitO8RN5FiOxK05jhGNlFtBHV9Bls=;
+	b=a1CaVLgzzZ8D1QCvTimSugusBkC57z5xZmBoDBOzccC35Ni+cMUXy0aV
+	UaGbchRJs9NUtNZOu8Y01j3epxdCsZlR/REFR6BYVh3rkhsUCAwvXF5ue
+	QWlGcj+Uxzkd+LVeiZ0Y4RNL5Ipa5lxDHsbXSjyuGE65nAAP9ox+jTSVT 8=;
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+	esa7.bmw.c3s2.iphmx.com with ESMTP/TLS; 24 Aug 2018 18:41:20 +0200
+Received: from esabb2.muc ([160.50.100.34])  by esagw6.muc with ESMTP/TLS;
+	24 Aug 2018 18:41:19 +0200
+Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
+	([160.48.96.46])
+	by esabb2.muc with ESMTP/TLS; 24 Aug 2018 18:41:19 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10j.europe.bmw.corp
+	(160.48.96.46) with Microsoft SMTP Server (TLS;
+	Fri, 24 Aug 2018 18:41:19 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1367.000;
+	Fri, 24 Aug 2018 18:41:19 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH] cmake: add CMAKE_SYSROOT to generated
+	toolchain file
+Thread-Index: AQHUO7TfP39PtwdlbkOrx+nUTU/G7KTO2KyAgAAHkQCAAAqXAIAAAO8AgAAHMYCAAAHDgIAABOmA
+Date: Fri, 24 Aug 2018 16:41:19 +0000
+Message-ID: <20180824164118.GM20864@hiutale>
 References: <20180824123346.8602-1-pascal.bach@siemens.com>
 	<20180824141512.GG20864@hiutale> <20180824144323.GJ20864@hiutale>
 	<355BE46A91031048906B695426A8D8E61B8A14FB@DEFTHW99EH4MSX.ww902.siemens.net>
 	<20180824154822.GK20864@hiutale>
 	<CAMKF1sqc6fQhZfSKZ80D2dyHL_D=2hRAS1zMFKScP8MpXgQRbA@mail.gmail.com>
 	<20180824161727.GL20864@hiutale>
-In-Reply-To: <20180824161727.GL20864@hiutale>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 24 Aug 2018 09:23:45 -0700
-Message-ID: <CAMKF1soK8gJP6NNwX3-7EWESEs11czMpi_qt5HBMJXaRp6tXAw@mail.gmail.com>
-To: Mikko Rapeli <Mikko.Rapeli@bmw.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CAMKF1soK8gJP6NNwX3-7EWESEs11czMpi_qt5HBMJXaRp6tXAw@mail.gmail.com>
+In-Reply-To: <CAMKF1soK8gJP6NNwX3-7EWESEs11czMpi_qt5HBMJXaRp6tXAw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.37]
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] cmake: add CMAKE_SYSROOT to generated toolchain file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -61,47 +63,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 16:24:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 24 Aug 2018 16:41:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9AEED13121DE4E4C9A73D1E93E1B1B67@bmwmail.corp>
+Content-Transfer-Encoding: base64
 
-On Fri, Aug 24, 2018 at 9:17 AM <Mikko.Rapeli@bmw.de> wrote:
->
-> On Fri, Aug 24, 2018 at 08:51:42AM -0700, Khem Raj wrote:
-> > On Fri, Aug 24, 2018 at 8:48 AM <Mikko.Rapeli@bmw.de> wrote:
-> > > So to me it looks like using SYSTEM with target_include_directories()
-> > > is no longer possible with CMake and gcc > 6:
-> > >
-> > >
-> > > https://cmake.org/cmake/help/v3.10/command/target_include_directories=
-.html?highlight=3Dtarget_include_directories
-> > >
-> >
-> > That=E2=80=99s right there is a patch I did  in WebKitgtk recipe in Oe =
-Core you
-> > might want to include similar fixes for this package the patch actually=
- it
-> > a workaround but then I also think using isystem in apps is a bad idea
->
-> Yes, I tend to agree, but developers have used this to silence compiler
-> warnings from system header files.
->
-> In a few cases I saw that there were no longer any warnings coming from t=
-he
-> headers but in some others there were.
->
-
-Unlike olden days, cross gcc compiler now a days knows about its
-system headers and adds them implicitly with right options
-so doing this include dance manually is not useful. Let compiler
-decide to do the needed
-for system headers, one must just specify --sysroot and let it handle
-everything from sysroot.
-
-> Any other ideas how to suppress compiler wanings from system headers?
->
-
-what kind of warnings do you see ?
-
-> -Mikko
+T24gRnJpLCBBdWcgMjQsIDIwMTggYXQgMDk6MjM6NDVBTSAtMDcwMCwgS2hlbSBSYWogd3JvdGU6
+DQo+IE9uIEZyaSwgQXVnIDI0LCAyMDE4IGF0IDk6MTcgQU0gPE1pa2tvLlJhcGVsaUBibXcuZGU+
+IHdyb3RlOg0KPiA+DQo+ID4gT24gRnJpLCBBdWcgMjQsIDIwMTggYXQgMDg6NTE6NDJBTSAtMDcw
+MCwgS2hlbSBSYWogd3JvdGU6DQo+ID4gPiBPbiBGcmksIEF1ZyAyNCwgMjAxOCBhdCA4OjQ4IEFN
+IDxNaWtrby5SYXBlbGlAYm13LmRlPiB3cm90ZToNCj4gPiA+ID4gU28gdG8gbWUgaXQgbG9va3Mg
+bGlrZSB1c2luZyBTWVNURU0gd2l0aCB0YXJnZXRfaW5jbHVkZV9kaXJlY3RvcmllcygpDQo+ID4g
+PiA+IGlzIG5vIGxvbmdlciBwb3NzaWJsZSB3aXRoIENNYWtlIGFuZCBnY2MgPiA2Og0KPiA+ID4g
+Pg0KPiA+ID4gPg0KPiA+ID4gPiBodHRwczovL2NtYWtlLm9yZy9jbWFrZS9oZWxwL3YzLjEwL2Nv
+bW1hbmQvdGFyZ2V0X2luY2x1ZGVfZGlyZWN0b3JpZXMuaHRtbD9oaWdobGlnaHQ9dGFyZ2V0X2lu
+Y2x1ZGVfZGlyZWN0b3JpZXMNCj4gPiA+ID4NCj4gPiA+DQo+ID4gPiBUaGF04oCZcyByaWdodCB0
+aGVyZSBpcyBhIHBhdGNoIEkgZGlkICBpbiBXZWJLaXRndGsgcmVjaXBlIGluIE9lIENvcmUgeW91
+DQo+ID4gPiBtaWdodCB3YW50IHRvIGluY2x1ZGUgc2ltaWxhciBmaXhlcyBmb3IgdGhpcyBwYWNr
+YWdlIHRoZSBwYXRjaCBhY3R1YWxseSBpdA0KPiA+ID4gYSB3b3JrYXJvdW5kIGJ1dCB0aGVuIEkg
+YWxzbyB0aGluayB1c2luZyBpc3lzdGVtIGluIGFwcHMgaXMgYSBiYWQgaWRlYQ0KPiA+DQo+ID4g
+WWVzLCBJIHRlbmQgdG8gYWdyZWUsIGJ1dCBkZXZlbG9wZXJzIGhhdmUgdXNlZCB0aGlzIHRvIHNp
+bGVuY2UgY29tcGlsZXINCj4gPiB3YXJuaW5ncyBmcm9tIHN5c3RlbSBoZWFkZXIgZmlsZXMuDQo+
+ID4NCj4gPiBJbiBhIGZldyBjYXNlcyBJIHNhdyB0aGF0IHRoZXJlIHdlcmUgbm8gbG9uZ2VyIGFu
+eSB3YXJuaW5ncyBjb21pbmcgZnJvbSB0aGUNCj4gPiBoZWFkZXJzIGJ1dCBpbiBzb21lIG90aGVy
+cyB0aGVyZSB3ZXJlLg0KPiA+DQo+IA0KPiBVbmxpa2Ugb2xkZW4gZGF5cywgY3Jvc3MgZ2NjIGNv
+bXBpbGVyIG5vdyBhIGRheXMga25vd3MgYWJvdXQgaXRzDQo+IHN5c3RlbSBoZWFkZXJzIGFuZCBh
+ZGRzIHRoZW0gaW1wbGljaXRseSB3aXRoIHJpZ2h0IG9wdGlvbnMNCj4gc28gZG9pbmcgdGhpcyBp
+bmNsdWRlIGRhbmNlIG1hbnVhbGx5IGlzIG5vdCB1c2VmdWwuIExldCBjb21waWxlcg0KPiBkZWNp
+ZGUgdG8gZG8gdGhlIG5lZWRlZA0KPiBmb3Igc3lzdGVtIGhlYWRlcnMsIG9uZSBtdXN0IGp1c3Qg
+c3BlY2lmeSAtLXN5c3Jvb3QgYW5kIGxldCBpdCBoYW5kbGUNCj4gZXZlcnl0aGluZyBmcm9tIHN5
+c3Jvb3QuDQo+IA0KPiA+IEFueSBvdGhlciBpZGVhcyBob3cgdG8gc3VwcHJlc3MgY29tcGlsZXIg
+d2FuaW5ncyBmcm9tIHN5c3RlbSBoZWFkZXJzPw0KPiA+DQo+IA0KPiB3aGF0IGtpbmQgb2Ygd2Fy
+bmluZ3MgZG8geW91IHNlZSA/DQoNCkFmdGVyIGEgdG9uIG9mIGNvbXBvbmVudHMgaGF2ZSBleHBv
+cnRlZCB0aGVpciBoZWFkZXJzIHRvIHN5c3RlbSBwYXRocywNCkkgc2VlIGFsbCBraW5kcyBvZiBj
+cmFwLiBTb21lIGRldmVsb3BlcnMgaGF2ZSBjbGVhbmVkIHVwIHRoZWlyIG93biB0cmVlDQphbmQg
+YWRkZWQgc3RyaWN0IGNvbXBpbGVyIGZsYWdzLCB3aGljaCBJIG5vdyBoYXZlIHRvIHJlbGF4IHNp
+bmNlDQpoZWFkZXIgZmlsZSB3YXJuaW5nIHN1cHByZXNzaW9ucyBkb24ndCB3b3JrLCBhbmQgbmV3
+IGNvbXBpbGVyIHByb2R1Y2VzDQpuZXcgYnVuY2ggb2Ygd2FybmluZ3MuIEhlcmUgYXJlIGZldyBz
+YW1wbGUgd2FybmluZ3MgZnJvbSBhbiBvbmdvaW5nIGJ1aWxkDQp3aXRoIGNvdW50cyByZWRhY3Rl
+ZDoNCg0KJCBlZ3JlcCAtaG8gIndhcm5pbmc6IC4qIiB0bXAtZ2xpYmMvd29yay8qLyovKi90ZW1w
+L2xvZy5kb19jb21waWxlfCBzb3J0IHwgdW5pcSAtY3xzb3J0IC1ybiB8IGhlYWQgLTgNCg0Kd2Fy
+bmluZzogZHluYW1pYyBleGNlcHRpb24gc3BlY2lmaWNhdGlvbnMgYXJlIGRlcHJlY2F0ZWQgaW4g
+QysrMTEgWy1XZGVwcmVjYXRlZF0NCndhcm5pbmc6ICd0ZW1wbGF0ZTxjbGFzcz4gY2xhc3Mgc3Rk
+OjphdXRvX3B0cicgaXMgZGVwcmVjYXRlZCBbLVdkZXByZWNhdGVkLWRlY2xhcmF0aW9uc10NCndh
+cm5pbmc6IGNvbnZlcnNpb24gdG8gJ2ludCcgZnJvbSAnbG9uZyB1bnNpZ25lZCBpbnQnIG1heSBh
+bHRlciBpdHMgdmFsdWUgWy1XY29udmVyc2lvbl0NCndhcm5pbmc6IG1pc3NlZCBsb29wIG9wdGlt
+aXphdGlvbiwgdGhlIGxvb3AgY291bnRlciBtYXkgb3ZlcmZsb3cgWy1XdW5zYWZlLWxvb3Atb3B0
+aW1pemF0aW9uc10NCndhcm5pbmc6IGNvbW1hbmQgbGluZSBvcHRpb24gJy1zdGQ9YysrMTEnIGlz
+IHZhbGlkIGZvciBDKysvT2JqQysrIGJ1dCBub3QgZm9yIEMNCndhcm5pbmc6IHRoaXMgc3RhdGVt
+ZW50IG1heSBmYWxsIHRocm91Z2ggWy1XaW1wbGljaXQtZmFsbHRocm91Z2g9XQ0Kd2FybmluZzog
+SVNPIEMrKyBmb3JiaWRzIHplcm8tc2l6ZSBhcnJheSAnZl9oYW5kbGUnIFstV3BlZGFudGljXQ0K
+DQotTWlra28=
 
