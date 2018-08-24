@@ -1,48 +1,35 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D46F5795A6
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EF3078D86
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 21:24:43 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id x79-v6so3540611ita.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 14:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=r90Uzwo6UGyRrMZw/b5QQmkI7+3VGfVxrpdEJJzN1tg=;
-	b=QNcJXFvvZp91kxlIHWF0S/6ZkSbhlwcQTMggdGwbGPOfhqINQFFC2huKRPEhMgYT/x
-	pabFENfS/GEMz2RZoeUzSED3zm2c/bENiogztbFIhYdi4TIpbUSB9h+gxCHWKW4mI/nx
-	6J82RdO4MY2Ww3CkTsOfdVCoPyMHofNPskMp5cTffhA+vlWNVgKywhdsMpk32TbL6soG
-	9RDVZL3ouRdb7kzPQTE42myx21BWJhrdyT0MB5H8eGBq2zsn8m03wEWDkcxZzVUg61k8
-	bn9UkZBTeIJexFKBixQxSPAfB+draovVDC+g6c9RVjPKHdd9oqVXyE6PkrZebyEW/z92
-	7rtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=r90Uzwo6UGyRrMZw/b5QQmkI7+3VGfVxrpdEJJzN1tg=;
-	b=hzaD2rxSyprXcyhtcXO41Z614ZQeEG6bjQq+Iq3KN9/ZXNpM0b86qCpsLdXJK24Cwt
-	cSGdTtcGC4nB2HsCyNzH7EOvMsG5O2LtjMVqFKbqDeWqqTTDdqvVN6nCjHyH/p2O3iFr
-	LqzXCLksz7y4UWxI7+wiv2Q6Zp/vOCG3BnzbukzWrJmxkBTXkN6obHvgB1HnxPAbw0XH
-	Jp6HBlUm/6sCkefQKYUK4+7THoseHK1ECMWwl2eyveKjtDE3iuFZsCAH33vEe5rz7d4Z
-	R2qWE8lAk0ibLCYcwbFguRmDhZGKiPTBMzDjyvOPVzBYibl0aDIatB2oPmwecS2tXFI0
-	fbmw==
-X-Gm-Message-State: APzg51AQUSVg95IMXX/TxH/CCswleWOCuvLyJQwdphhywdFcMthwAbHC
-	adCbhr86LNRP64sCf1YxHiN55h6z
-X-Google-Smtp-Source: ANB0Vdbks7LlcSbr1+ZR6ppYy4jLVZa6oPt08v/KH5wUMRJ5LtigYafM962WMABS5hlEZ1PEOnu9/Q==
-X-Received: by 2002:a24:f801:: with SMTP id a1-v6mr7704256ith.60.1535059484634;
-	Thu, 23 Aug 2018 14:24:44 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	d11-v6sm797020iok.77.2018.08.23.14.24.43
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 Aug 2018 14:24:44 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Aug 2018 16:24:37 -0500
-Message-Id: <20180823212437.10711-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] swig: Remove superfluous python dependency
+	Fri, 24 Aug 2018 01:16:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 1081320C49;
+	Fri, 24 Aug 2018 01:16:01 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id G4wJSpq8Yx4n; Fri, 24 Aug 2018 01:16:01 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
+	[100.15.91.218])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B5E2B20999;
+	Fri, 24 Aug 2018 01:15:55 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 3ECA516358F; Thu, 23 Aug 2018 21:15:55 -0400 (EDT)
+Date: Thu, 23 Aug 2018 21:15:55 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: akuster808 <akuster808@gmail.com>
+Message-ID: <20180824011555.GD19965@denix.org>
+References: <1534382547-55346-1-git-send-email-denis@denix.org>
+	<da127d48-fa98-c8c6-bae5-27ba6249e9d1@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <da127d48-fa98-c8c6-bae5-27ba6249e9d1@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Denys Dmytriyenko <denys@ti.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [rocko][PATCH] module-base.bbclass: fix out-of-tree module builds with custom EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,30 +42,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2018 21:24:44 -0000
+X-List-Received-Date: Fri, 24 Aug 2018 01:16:01 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The actual dependency on native Python and is handled by inheriting
-python3native
+On Wed, Aug 15, 2018 at 07:27:50PM -0700, akuster808 wrote:
+> 
+> 
+> On 08/15/2018 06:22 PM, Denys Dmytriyenko wrote:
+> > From: Denys Dmytriyenko <denys@ti.com>
+> >
+> > Commit d2aa88a6a92985f21414fceea2dc0facbf7f8779 was meant to backport build
+> > dependencies on bc-native and openssl-native, but it also changed execution
+> > of do_make_scripts() from calling make directly to using oe_runmake. That
+> > change was made in master/sumo as part of a separate make-mod-scripts recipe.
+> >
+> > Unfortunately, that doesn't work here in rocko in the context of module-base
+> > class, as it gets executed inside out-of-tree module environment. Quite often
+> > those out-of-tree modules provide own Makefile with custom EXTRA_OEMAKE var
+> > defined. But do_make_scripts() gets executed within STAGING_KERNEL_DIR and
+> > cannot simply use custom EXTRA_OEMAKE set by a module.
+> >
+> > Move back to calling make and passing HOSTCC/HOSTCPP directly w/o using
+> > EXTRA_OEMAKE.
+> 
+> Got this stagged it my rocko mut branch for testing.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/recipes-devtools/swig/swig.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ping
 
-diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-devtools/swig/swig.inc
-index bf61b02d6fb..aec544997f9 100644
---- a/meta/recipes-devtools/swig/swig.inc
-+++ b/meta/recipes-devtools/swig/swig.inc
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e7807a6282784a7dde4c846626b08fc6 \
- 
- SECTION = "devel"
- 
--DEPENDS = "libpcre python3"
-+DEPENDS = "libpcre"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
- 
--- 
-2.17.1
 
+> thanks
+> Armin
+> >
+> > For more details please see:
+> > http://lists.openembedded.org/pipermail/openembedded-core/2018-August/154189.html
+> >
+> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> > Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Cc: Anuj Mittal <anuj.mittal@intel.com>
+> > Cc: Armin Kuster <akuster808@gmail.com>
+> > ---
+> >  meta/classes/module-base.bbclass | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
+> > index 9f3465e..c1fa3ad 100644
+> > --- a/meta/classes/module-base.bbclass
+> > +++ b/meta/classes/module-base.bbclass
+> > @@ -13,7 +13,6 @@ export CROSS_COMPILE = "${TARGET_PREFIX}"
+> >  export KBUILD_OUTPUT = "${STAGING_KERNEL_BUILDDIR}"
+> >  
+> >  DEPENDS += "bc-native"
+> > -EXTRA_OEMAKE += " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
+> >  
+> >  export KERNEL_VERSION = "${@base_read_file('${STAGING_KERNEL_BUILDDIR}/kernel-abiversion')}"
+> >  KERNEL_OBJECT_SUFFIX = ".ko"
+> > @@ -25,6 +24,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+> >  # be called before do_compile. See module.bbclass for an example.
+> >  do_make_scripts() {
+> >  	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
+> > -	oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
+> > +	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
+> > +	           HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" \
+> >  	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts prepare
+> >  }
+> 
 
