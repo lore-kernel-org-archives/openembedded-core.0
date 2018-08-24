@@ -1,55 +1,43 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 65CFC795F2
+Return-Path: <pascal.bach@siemens.com>
+X-Greylist: delayed 528 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 24 Aug 2018 15:19:37 UTC
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 5372E71BF2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 15:01:51 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id w11-v6so7387166iob.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 08:01:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=ycD9ssamJfyI58tD57H1wOQoRIxrsw4+4gHAgQ3Ax70=;
-	b=MZEKdYbf1NEYJ5QuM0qm/dTJAG+Xbm+4J80QDSjS+WZM2T5og0jkYUa3tXy/D9aOyS
-	7tw0LgoSEjge/GEtVitSQ3/cfGPkXWjsMVd/NaBLz42bZwzhcXFGFkZfjm3Wb7wsBT9R
-	KVPHK+FkCkA+oqimLOEcLlwAiRcOo21dflHT27RH8Pul26GNV6WI3Srx2Vvyfk4FH1Sg
-	ls0kSp2kXn/EhX92VuXeWZRjSnj8JZQnPXipO9qdQtU0c6/fZ1yXSxbTjyVg4Zm7VVOm
-	iOJlT6Kqxxx+v0OnlzBArKxoIyO/z3gWnKmRVwmxX3WkBW7DIyXSJyuffz/fj0KMawoM
-	Lwkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=ycD9ssamJfyI58tD57H1wOQoRIxrsw4+4gHAgQ3Ax70=;
-	b=OM3kobQ2577Ec/JT+yk/o3pcnbWOnGP2f03PBdESx7gin66WT1Jj2cV/PZNM9STzzh
-	juj4nt+H7Jkk6UDOH/ATsZvvBSQHW4knlmJivDJE7gVs9XGQaL8mMhOuwJ84GSECwO0H
-	rB2qnOdlqY8mFqh7+0ITRd1B3XyUnaQT6eT0abssTPfN2ijB8b1DvBSSwU6h2gaMg/sd
-	/CDP0wrAMK91X6hNNLLPoSGJlkHMmwrtXMaewwafxJIluPpVB7jWnvECkzjWNta7KGcR
-	rw5TkbbuV5sqFkTWf31JTRoaoPFUZRh0c4QvONJ6eXbqFe+0uo59PEroNCkDw6e/u9Tr
-	reLQ==
-X-Gm-Message-State: APzg51DIoyEZwXWGx+nbzpJM76Jb47/tWY+I+teWE/e2Q1Sovov0offT
-	Ww0vmRxnexjdRMyxx6yxxeQT6hQT
-X-Google-Smtp-Source: ANB0VdbNHbTJRahXG/B+BG3C7YEp/qApRqxzeHQqyQBtrZHGMWYtWd9TDaGM+0YaGNEWrSuCbasrNg==
-X-Received: by 2002:a6b:cac3:: with SMTP id
-	a186-v6mr1559898iog.116.1535122912208; 
-	Fri, 24 Aug 2018 08:01:52 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	j14-v6sm2397713ioa.37.2018.08.24.08.01.51
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 24 Aug 2018 08:01:51 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <3ecc5eaa5b552bf06cfd88434d90bc3d0a89926d.camel@gmail.com>
-To: openembedded-core@lists.openembedded.org, Armin Kuster
-	<akuster808@gmail.com>
-Date: Fri, 24 Aug 2018 10:01:51 -0500
-In-Reply-To: <20180823212437.10711-1-JPEWhacker@gmail.com>
-References: <20180823212437.10711-1-JPEWhacker@gmail.com>
-X-Mailer: Evolution 3.28.3 (3.28.3-1.fc28) 
-Mime-Version: 1.0
-Subject: Re: [PATCH] swig: Remove superfluous python dependency
+	Fri, 24 Aug 2018 15:19:37 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id w7OFAlne000775
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 24 Aug 2018 17:10:47 +0200
+Received: from DEFTHW99ERGMSX.ww902.siemens.net
+	(defthw99ergmsx.ww902.siemens.net [139.22.70.132])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id w7OFAHvc029786
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 24 Aug 2018 17:10:47 +0200
+Received: from DEFTHW99ER2MSX.ww902.siemens.net (139.22.70.75) by
+	DEFTHW99ERGMSX.ww902.siemens.net (139.22.70.132) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Fri, 24 Aug 2018 17:10:29 +0200
+Received: from DEFTHW99EH4MSX.ww902.siemens.net ([169.254.2.97]) by
+	DEFTHW99ER2MSX.ww902.siemens.net ([139.22.70.75]) with mapi id
+	14.03.0408.000; Fri, 24 Aug 2018 17:10:29 +0200
+From: "Bach, Pascal" <pascal.bach@siemens.com>
+To: "Mikko.Rapeli@bmw.de" <Mikko.Rapeli@bmw.de>
+Thread-Topic: [OE-core] [PATCH] cmake: add CMAKE_SYSROOT to generated
+	toolchain file
+Thread-Index: AQHUO6a3HbelJDVjZk2JNMua/n9J0aTO0OkAgAAH4ICAAChVQA==
+Date: Fri, 24 Aug 2018 15:10:28 +0000
+Message-ID: <355BE46A91031048906B695426A8D8E61B8A14FB@DEFTHW99EH4MSX.ww902.siemens.net>
+References: <20180824123346.8602-1-pascal.bach@siemens.com>
+	<20180824141512.GG20864@hiutale> <20180824144323.GJ20864@hiutale>
+In-Reply-To: <20180824144323.GJ20864@hiutale>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [139.22.70.54]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake: add CMAKE_SYSROOT to generated toolchain file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,41 +50,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 15:01:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Aug 2018 15:19:37 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Armin,
+=20
+> > Fixes problems which we have also seen on sumo branch. Thanks for this!
+>=20
+> Sorry, spoke too soon. This fixes compilation on a few recipes in my tree=
+ but
+> there are still lots failures with the same error message. We had a hacky
+> patch to cmake as a workaround but that too causes some problems:
 
-Could you please backport this to sumo now that is has been accepted to
-master (409c8a32659ac707d427cd4cdcd105eb17d6f733)?
+I have not yet figured out what CMake based projects are affected and why.
+The error seems to happen only for certain projects.
 
-Thanks.
+> --- a/Modules/Compiler/GNU.cmake
+> +++ b/Modules/Compiler/GNU.cmake
+> @@ -45,7 +45,7 @@
+>    set(CMAKE_${lang}_CREATE_PREPROCESSED_SOURCE
+> "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -E
+> <SOURCE> > <PREPROCESSED_SOURCE>")
+>    set(CMAKE_${lang}_CREATE_ASSEMBLY_SOURCE
+> "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -S
+> <SOURCE> -o <ASSEMBLY_SOURCE>")
+>    if(NOT APPLE OR NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS
+> 4) # work around #4462
+> -    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
+> +    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-I ")
+>    endif()
+>=20
+>    set(_CMAKE_${lang}_IPO_SUPPORTED_BY_CMAKE YES)
+>=20
+> I wonder what the real fix could be...
+>=20
 
-On Thu, 2018-08-23 at 16:24 -0500, Joshua Watt wrote:
-> The actual dependency on native Python and is handled by inheriting
-> python3native
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/recipes-devtools/swig/swig.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-
-> devtools/swig/swig.inc
-> index bf61b02d6fb..aec544997f9 100644
-> --- a/meta/recipes-devtools/swig/swig.inc
-> +++ b/meta/recipes-devtools/swig/swig.inc
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e7807a6282784a
-> 7dde4c846626b08fc6 \
->  
->  SECTION = "devel"
->  
-> -DEPENDS = "libpcre python3"
-> +DEPENDS = "libpcre"
->  
->  SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
->  
--- 
-Joshua Watt <JPEWhacker@gmail.com>
+This looks similar to another workaround I saw.
+Setting CMAKE_NO_SYSTEM_FROM_IMPORTED to True. I'm also not sure what the r=
+eal fix is.
+The issue is also discussed here: https://gitlab.kitware.com/cmake/cmake/is=
+sues/16291
+
+Pascal
 
