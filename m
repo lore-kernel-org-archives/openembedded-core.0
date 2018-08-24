@@ -1,29 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AC37171A74
+	by mail.openembedded.org (Postfix) with ESMTP id B4FF774599
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 03:06:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7O36ClY021845
+	Fri, 24 Aug 2018 03:42:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7O3gHqY025589
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 20:06:12 -0700
-Received: from [128.224.162.202] (128.224.162.202) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 23 Aug 2018 20:06:11 -0700
-To: Randy MacLeod <randy.macleod@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1534929402-6673-1-git-send-email-hongxu.jia@windriver.com>
-	<6159825d-e050-fdd1-7d5a-5e6a6a59282f@windriver.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <f23c31cf-2272-1436-0a35-87437cb2023a@windriver.com>
-Date: Fri, 24 Aug 2018 11:06:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu, 23 Aug 2018 20:42:17 -0700
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Thu, 23 Aug 2018 20:42:04 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Aug 2018 11:46:39 +0800
+Message-ID: <cover.1535080661.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <6159825d-e050-fdd1-7d5a-5e6a6a59282f@windriver.com>
-Subject: Re: [PATCH] mtools: fix race issue while mtools invoked frequently
+Subject: [PATCH 0/1] utils.bbclass: fix KeyError exception
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,190 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 03:06:11 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 24 Aug 2018 03:42:16 -0000
+Content-Type: text/plain
 
-On 2018年08月24日 04:47, Randy MacLeod wrote:
-> On 08/22/2018 05:16 AM, Hongxu Jia wrote:
->> While invoking mtools frequently, the unblocking request
->
-> s/unblocking/non-blocking/
->
-> I would read 'unblocking' as a request that results in the
-> system becoming unblocked whereas non-blocking is more
-> commonly used and refers to function calls that will
-> not result in calling blocking system calls.
->
+*** BLURB HERE ***
+The following changes since commit bd374216048581bcb3ea54d69998342525cf2da5:
 
-OK, thanks  to point it out
+  util-linux: upgrade 2.32 -> 2.32.1 (2018-08-23 18:02:23 +0100)
 
-> Indeed the NB in LOCK_NB stand for non-blocking.
->
->> caused race issue. Here is an example of syslinux
->> [snip]
->> dd if=/dev/zero of=floppy.img bs=1024 count=144
->> losetup /dev/loop1 floppy.img
->> mkdosfs /dev/loop1
->> syslinux -i /dev/loop1
->> |plain floppy: device "/proc/6351/fd/3" busy (Resource temporarily 
->> unavailable):
->> |Cannot initialize 'S:'
->> |Bad target s:/ldlinux.sys
->> [snip]
->>
->> The idea is from:
->> https://bugzilla.redhat.com/show_bug.cgi?id=1235016
->> https://groups.google.com/a/chromium.org/forum/#!msg/chromium-os-dev/bRPUCFHoBTQ/ZjB8kjjx1vUJ 
->>
->
-> I read though most of that and it seems that people think
-> that this may be a work-around. What do you think?
->
-> If I were used to using mtools and it never blocked,
-> the I'd certainly be upset that we patched it to block.
-> lockdev.h gets used by:
->
-> $ grep -r "lockdev.h" mtools-4.0.18/
-> mtools-4.0.18/plain_io.c:#include "lockdev.h"
-> mtools-4.0.18/floppyd.c:#include "lockdev.h"
->
-> so until you can explain what the root cause of the
-> problem is more clearly, and why this change won't cause
-> problems for users of mtools, I think you should continue
-> to work on this problem.
->
-> Or maybe the commit just needs a more details technical
-> explanation that summarizes the long thread that you linked
-> to...
->
+are available in the git repository at:
 
- From the thread, and my confirm, the last update of mtools is 2013-01-09,
-and Ubuntu 1604/1804 has the same issue on `syslinux -i /dev/loop1'.
+  git://git.pokylinux.org/poky-contrib ChenQi/keyerror
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/keyerror
 
-With some digging on mtools, the user of mtools usually have a mtools.conf
-to customize it, and use `nolock' for specific device to workaround
-flock invoking (such as `drive c: file="/dev/sda1" nolock=1'). but 
-unfortunately
-syslinux does not follow the rule (it is hardly to know `/proc/***/fd/3' 
-before
-invoking syslinux )
+Chen Qi (1):
+  utils.bbclass: fix KeyError exception
 
-[snip]
-  42         if(IS_NOLOCK(dev))
-  43                 return 0;
-  44
-  45 #if (defined(HAVE_FLOCK) && defined (LOCK_EX) && defined(LOCK_NB))
-  46         if (flock(fd, (mode ? LOCK_EX : LOCK_SH)) < 0)
-[snip]
+ meta/classes/utils.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-On the other side, the error of `plain floppy: device "***" busy' 
-exactly comes
-from the error of flock invoking (not actual resource busy), so the fix 
-is safe
-for re-entry of mtools
-[snip]
-         /* lock the device on writes */
-         if (locked && lock_dev(This->fd, mode == O_RDWR, dev)) {
-                 if(errmsg)
-#ifdef HAVE_SNPRINTF
-                         snprintf(errmsg,199,
-                                 "plain floppy: device \"%s\" busy (%s):",
-                                 dev ? dev->name : "unknown", 
-strerror(errno));
-[snip]
-
-I think long time no maintenance of mtools, and not to fix this 
-obviously issue.
-
-//Hongxu
-
-> ../Randy
->
->
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   ...01-remove-LOCK_NB-to-use-blocking-request.patch | 44 
->> ++++++++++++++++++++++
->>   meta/recipes-devtools/mtools/mtools_4.0.18.bb      |  1 +
->>   2 files changed, 45 insertions(+)
->>   create mode 100644 
->> meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch
->>
->> diff --git 
->> a/meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch 
->> b/meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch 
->>
->> new file mode 100644
->> index 0000000..47385a5
->> --- /dev/null
->> +++ 
->> b/meta/recipes-devtools/mtools/mtools/0001-remove-LOCK_NB-to-use-blocking-request.patch
->> @@ -0,0 +1,44 @@
->> +From 5bdbfe0a63fed48104b17412854b26ee2275869a Mon Sep 17 00:00:00 2001
->> +From: Hongxu Jia <hongxu.jia@windriver.com>
->> +Date: Wed, 22 Aug 2018 16:54:39 +0800
->> +Subject: [PATCH] remove LOCK_NB to use blocking request
->> +
->> +While invoking mtools frequently, the unblocking request
->> +caused race issue. Here is an example of syslinux
->> +[snip]
->> +dd if=/dev/zero of=floppy.img bs=1024 count=144
->> +losetup /dev/loop1 floppy.img
->> +mkdosfs /dev/loop1
->> +syslinux -i /dev/loop1
->> +|plain floppy: device "/proc/6351/fd/3" busy (Resource temporarily 
->> unavailable):
->> +|Cannot initialize 'S:'
->> +|Bad target s:/ldlinux.sys
->> +[snip]
->> +
->> +The idea is from:
->> +https://bugzilla.redhat.com/show_bug.cgi?id=1235016
->> +https://groups.google.com/a/chromium.org/forum/#!msg/chromium-os-dev/bRPUCFHoBTQ/ZjB8kjjx1vUJ 
->>
->> +
->> +Upstream-Status: Pending
->> +
->> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> +---
->> + lockdev.h | 2 +-
->> + 1 file changed, 1 insertion(+), 1 deletion(-)
->> +
->> +diff --git a/lockdev.h b/lockdev.h
->> +index 4467bc2..5a135ad 100644
->> +--- a/lockdev.h
->> ++++ b/lockdev.h
->> +@@ -43,7 +43,7 @@ int lock_dev(int fd, int mode, struct device *dev)
->> +         return 0;
->> +
->> + #if (defined(HAVE_FLOCK) && defined (LOCK_EX) && defined(LOCK_NB))
->> +-    if (flock(fd, (mode ? LOCK_EX : LOCK_SH)|LOCK_NB) < 0)
->> ++    if (flock(fd, (mode ? LOCK_EX : LOCK_SH)) < 0)
->
->> + #else /* FLOCK */
->> +
->> + #if (defined(HAVE_LOCKF) && defined(F_TLOCK))
->> +--
->> +2.7.4
->> +
->> diff --git a/meta/recipes-devtools/mtools/mtools_4.0.18.bb 
->> b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
->> index dcd32ed..91f7b7c 100644
->> --- a/meta/recipes-devtools/mtools/mtools_4.0.18.bb
->> +++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
->> @@ -31,6 +31,7 @@ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
->>              file://mtools-makeinfo.patch \
->>              file://no-x11.gplv3.patch \
->> file://0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch \
->> + file://0001-remove-LOCK_NB-to-use-blocking-request.patch \
->>              "
->>     SRC_URI_append_class-native = " 
->> file://disable-hardcoded-configs.patch"
->>
->
->
+-- 
+1.9.1
 
 
