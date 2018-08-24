@@ -1,22 +1,23 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AEBA9795B0
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F030795AE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 07:00:34 +0000 (UTC)
+	Fri, 24 Aug 2018 07:06:52 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7O70Yrb002407
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Aug 2018 00:00:34 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7O76qUB025918
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Aug 2018 00:06:53 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Fri, 24 Aug 2018 00:00:33 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	14.3.399.0; Fri, 24 Aug 2018 00:06:52 -0700
+From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Aug 2018 15:00:31 +0800
-Message-ID: <1535094031-35363-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Date: Fri, 24 Aug 2018 14:29:23 +0800
+Message-ID: <cover.1535092036.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Subject: [PATCH] package.bbclass: only one hardlink of separated debug info file in each directory
+Subject: [PATCH 0/1] sstate.bbclass: make SSTATE_PRUNE_OBSOLETEWORKDIR could be overwritten
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,83 +30,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 07:00:34 -0000
+X-List-Received-Date: Fri, 24 Aug 2018 07:06:52 -0000
 Content-Type: text/plain
 
-While multiple hardlinks of binary located in different dirs,
-there are also multiple hardlinks of separated debug info file
-with the same binary name in same debug dirs. But in each dir,
-only one debug file with original name works. Because all of
-binary hardlinks have one `.gnu_debuglink' which is added in
-`splitdebuginfo'. It caused gdb could not find debugging
-symbols.
+From: Kai Kang <kai.kang@windriver.com>
 
-[Before the patch]
-$ find .
-./usr/bin/foo
-./usr/bin/foo-hd1
-./usr/bin/.debug
-./usr/bin/.debug/foo
-./usr/bin/.debug/foo-hd1
-./usr/libexec/foo-hd2
-./usr/libexec/.debug
-./usr/libexec/.debug/foo-hd2
+The following changes since commit bd374216048581bcb3ea54d69998342525cf2da5:
 
-$ readelf --debug-dump usr/libexec/foo-hd2
-Contents of the .gnu_debuglink section:
-  Separate debug info file: foo
+  util-linux: upgrade 2.32 -> 2.32.1 (2018-08-23 18:02:23 +0100)
 
-$ gdb usr/libexec/foo-hd2
-Reading symbols from usr/libexec/foo-hd2...(no debugging symbols found)...done.
-[Before the patch]
+are available in the Git repository at:
 
-[Apply the patch]
-$ find .
-./usr/bin/foo
-./usr/bin/foo-hd1
-./usr/bin/.debug
-./usr/bin/.debug/foo
-./usr/libexec/foo-hd2
-./usr/libexec/.debug
-./usr/libexec/.debug/foo
+  git://git.pokylinux.org/poky-contrib kangkai/sstate_prune
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/sstate_prune
 
-$ gdb usr/libexec/foo-hd2
-Reading symbols from usr/libexec/foo-hd2...Reading symbols from usr/libexec/.debug/foo...done.
-[Apply the patch]
+Kai Kang (1):
+  sstate.bbclass: make SSTATE_PRUNE_OBSOLETEWORKDIR could be overwritten
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes/package.bbclass | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ meta/classes/sstate.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 4ce9de2..a2a45f6 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1048,15 +1048,18 @@ python split_and_strip_files () {
-         for ref in inodes:
-             if len(inodes[ref]) == 1:
-                 continue
-+
-+            target = inodes[ref][0][len(dvar):]
-             for file in inodes[ref][1:]:
-                 src = file[len(dvar):]
--                dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(src) + debugappend
-+                dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(target) + debugappend
-                 fpath = dvar + dest
--                target = inodes[ref][0][len(dvar):]
-                 ftarget = dvar + debuglibdir + os.path.dirname(target) + debugdir + "/" + os.path.basename(target) + debugappend
-                 bb.utils.mkdirhier(os.path.dirname(fpath))
--                #bb.note("Link %s -> %s" % (fpath, ftarget))
--                os.link(ftarget, fpath)
-+                # Only one hardlink of separated debug info file in each directory
-+                if not os.access(fpath, os.R_OK):
-+                    #bb.note("Link %s -> %s" % (fpath, ftarget))
-+                    os.link(ftarget, fpath)
- 
-         # Create symlinks for all cases we were able to split symbols
-         for file in symlinks:
 -- 
-2.7.4
+2.18.0
 
 
