@@ -1,49 +1,46 @@
-Return-Path: <dan.dedrick@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 77F3B744AE
+Return-Path: <ankur.tyagi85@gmail.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BE25879615
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 20:47:18 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id g23-v6so1561704plq.9
+	Fri, 24 Aug 2018 21:07:40 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id k12-v6so17617816oiw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 13:47:19 -0700 (PDT)
+	Fri, 24 Aug 2018 14:07:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=tEyNnjVWmMqjPZvfJjCzj6o56UVVpoA7P4e2tjEICPQ=;
-	b=oxHJ25hTaY6t/F7nqn43p+2Syjr6KMd86r3AEDCYFy6BrJuOAd+L6I8s/1hV++R33i
-	JFBuzNjn/gJBrgbKj4YAfFt6Oh4wrCqcSZ/evmFVVHj4xOusEBgaNETtzGTbwjt+1kLK
-	K55LTyvmhiVld5QO5EewgOYCR8Xzltsn6SSFv7IdAVZeT/9II1nEzaZ6UuDjlAtxFkZj
-	f/I2vQELhQgAckdpXiZl4Sw1eGwBSiaiwOjLlHJXWl7nA1ov+/n2xr6Lyr0LKwvy7ImV
-	zZhs+l9Cx8HP63+vTGICBuuuded0a8JOCC+9S6oqWM3k/sSy+ABUAI6xl/q+RV/TUxlG
-	Lw5Q==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=z+xnvbEuYFm6alpJm4O4aiwFtFIUdrOQlI417wjafno=;
+	b=ZhVAeXjbGWaMwPES1hHCKlmn0r3/TrlCv4X25OTAfce6IqtzbZF9emG4XubNdsiQAK
+	lj+LrkhfigbuMiBpmjBTzNwfoVgD/MiUrD4lcPioXwHR/H14mIpWaABzHiC7MEIa2RsS
+	h3hqWkBEDUtPHALwcFkGehXRbgpoO1rs9Q9MqcpbAGI6YUgeyQCwxh+neq1UyMeT/2OW
+	iklllPChLmLHgBxz1R+g0PiQyB6kFpRzFlpAXeBUQrU6aPbkOLPRx4lYXdk/l25Onujz
+	jQtKd1Fj4Obqkdf/PPXQ9GdcukneV7gQxc9gIzRBAmiIs0uak5c58jO4NjhJDkqG4u9j
+	3GUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tEyNnjVWmMqjPZvfJjCzj6o56UVVpoA7P4e2tjEICPQ=;
-	b=DhdlDiRNsiqLtuR9b/jf3kfD2geDK7ZP7BoKmMj2VVPo/VO/WJIz8rDTu5R0x/AqTo
-	OWsCeRlOf2F4lU+GIErAs9rIimKeS7f5Q8SGXGlNFN8NhzBcjiRJtah9oq/Ga/F3Oprw
-	G8MeYKiJNRX8yKtGeoRg/Dvvb5r/6a6hGC3Tc3Avl3T9TbuOxoYnmUe6b11fri/3BOsr
-	Z/ADr0oXVJiFSU9fQXU92NHoWacE63JKvUn9F0u3JWoMm71XG36pQHa/2js/h4NKOf9k
-	Gi0gsF5bLm6OiDgNkC1Fxx4pUBDyhak+s4klAK9mg/eTsX1XudVUZeNmthXk0g8q9asv
-	2CGg==
-X-Gm-Message-State: APzg51AwXKTqmYIICFXTFGGIKmbH04S/cciFmIZBANaaFdUsqSe4z64f
-	SvZjRl2kcIV7Jm1N4wQfB3SZrW3P
-X-Google-Smtp-Source: ANB0VdagfrWJfM1Aa6HBfMM/Zbj0AQbpaX7NO9bT2drKXQsvgyzflnc/rXp5W+wehkphcLGYUOTFxQ==
-X-Received: by 2002:a17:902:e183:: with SMTP id
-	cd3-v6mr3031876plb.305.1535143639313; 
-	Fri, 24 Aug 2018 13:47:19 -0700 (PDT)
-Received: from talyn.lpdev.prtdev.lexmark.com ([192.146.101.90])
-	by smtp.gmail.com with ESMTPSA id
-	p64-v6sm13130046pfa.47.2018.08.24.13.47.17
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 24 Aug 2018 13:47:18 -0700 (PDT)
-From: Dan Dedrick <dan.dedrick@gmail.com>
-X-Google-Original-From: Dan Dedrick <ddedrick@lexmark.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Aug 2018 16:47:08 -0400
-Message-Id: <20180824204708.88608-1-ddedrick@lexmark.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] kernel-devicetree: build DTBs in parallel
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=z+xnvbEuYFm6alpJm4O4aiwFtFIUdrOQlI417wjafno=;
+	b=VRHq6rXb6iBU80j91ZaSeZ7UzeSBSTzDeOakpAIbQiyRYTZgZW/poT6cCHQBAfPWVp
+	Kh3SV13nxFn73Q+KjPz+Mgglm0yPwPsj16iPuyOlfjg4c+BHP+VWtoSlV15Rc1U3b6qT
+	3BdV32sDsJ/jZoGAJY4WsMgwRBQRNvdPiWGiZcWHzW3uDJV+IVkb5TUo1PaLzPqTcYvS
+	P/UqKMUSCNmalEg9AAJBHZGFXFSVlgw1BVSM8v6RJmufkLq1nLkaWOiCBAtvizhWgH5I
+	BzfTSIWVlHt3Zx5tAocMRmJW+2oY2iZwgACoSIOJfYKRxMWw02Z89XeMrvFNBCioKhr9
+	AGjg==
+X-Gm-Message-State: APzg51BgOULhvOWlYvF01ZoHuCknjCLQqzIn+CSThPhOQJmVJWYLuLnb
+	GRJqVz6uD8qrxm1fBIAl0iaW0thbvsBiHws9gB08cw==
+X-Google-Smtp-Source: ANB0VdZ5zAvDl3jTdvRVJZbyjju/llV4mwxabah35fW/9snjphLqsrxz29HtwEIV8H4hktQeJBXDjsPQaDMiCo2JOCQ=
+X-Received: by 2002:a54:4d9d:: with SMTP id
+	y29-v6mr3123775oix.273.1535144861549; 
+	Fri, 24 Aug 2018 14:07:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
+In-Reply-To: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Sat, 25 Aug 2018 09:07:28 +1200
+Message-ID: <CADySD0EOT72RZwVHn_FEr94mAUEp2x8pP-D2+1mZfCoUv+CW3g@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [rocko][sumo][master][PATCH 1/2] bitbake.conf: add PERSISTENT_LOG_DIR variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +53,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 20:47:18 -0000
+X-List-Received-Date: Fri, 24 Aug 2018 21:07:41 -0000
+Content-Type: multipart/alternative; boundary="00000000000026c7cd057434c447"
 
-When building more than one device tree it's inefficient to serially
-build them in multiple make calls. It's much faster and efficient to
-build them in one call where they can run in parallel.
+--00000000000026c7cd057434c447
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Dan Dedrick <ddedrick@lexmark.com>
----
- meta/classes/kernel-devicetree.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Ping
 
-diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
-index 867b776aa7..83270c4511 100644
---- a/meta/classes/kernel-devicetree.bbclass
-+++ b/meta/classes/kernel-devicetree.bbclass
-@@ -50,10 +50,14 @@ do_configure_append() {
- }
- 
- do_compile_append() {
-+	alldtb=""
- 	for dtbf in ${KERNEL_DEVICETREE}; do
- 		dtb=`normalize_dtb "$dtbf"`
--		oe_runmake $dtb
-+		alldtb="${alldtb} ${dtb}"
- 	done
-+	if [ -n "${alldtb}" ]; then
-+		oe_runmake ${alldtb}
-+	fi
- }
- 
- do_install_append() {
--- 
-2.17.1
+Regards
+Ankur
 
+On Sat 18 Aug, 2018, 12:59 PM Ankur Tyagi, <ankur.tyagi85@gmail.com> wrote:
 
+> This variable is only respected when VOLATILE_LOG_DIR is "no".
+>
+> The default value is "" which results in the /var/log being log directory.
+>
+> The user could override this value to a path e.g "/home/root/log" which
+> results /var/log being a link pointing to /home/root/log directory on
+> persistent storage.
+>
+> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> ---
+>  meta/conf/bitbake.conf | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index e5dc1ac..9db22c8 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -88,6 +88,8 @@ ROOT_HOME ??= "/home/root"
+>  # If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log links
+> to /var/volatile/log.
+>  # If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on
+> persistent storage.
+>  VOLATILE_LOG_DIR ?= "yes"
+> +# If VOLATILE_LOG_DIR is false and PERSISTENT_LOG_DIR is set, /var/log
+> links to PERSISTENT_LOG_DIR
+> +PERSISTENT_LOG_DIR ??= ""
+>
+>  ##################################################################
+>  # Architecture-dependent build variables.
+> --
+> 2.7.4
+>
+>
+
+--00000000000026c7cd057434c447
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Ping<div dir=3D"auto"><br></div><div dir=3D"auto">Regards=
+</div><div dir=3D"auto">Ankur</div></div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr">On Sat 18 Aug, 2018, 12:59 PM Ankur Tyagi, &lt;<a href=3D"mai=
+lto:ankur.tyagi85@gmail.com" target=3D"_blank" rel=3D"noreferrer">ankur.tya=
+gi85@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">This =
+variable is only respected when VOLATILE_LOG_DIR is &quot;no&quot;.<br>
+<br>
+The default value is &quot;&quot; which results in the /var/log being log d=
+irectory.<br>
+<br>
+The user could override this value to a path e.g &quot;/home/root/log&quot;=
+ which<br>
+results /var/log being a link pointing to /home/root/log directory on<br>
+persistent storage.<br>
+<br>
+Signed-off-by: Ankur Tyagi &lt;<a href=3D"mailto:ankur.tyagi85@gmail.com" r=
+el=3D"noreferrer noreferrer" target=3D"_blank">ankur.tyagi85@gmail.com</a>&=
+gt;<br>
+---<br>
+=C2=A0meta/conf/bitbake.conf | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
+index e5dc1ac..9db22c8 100644<br>
+--- a/meta/conf/bitbake.conf<br>
++++ b/meta/conf/bitbake.conf<br>
+@@ -88,6 +88,8 @@ ROOT_HOME ??=3D &quot;/home/root&quot;<br>
+=C2=A0# If set to boolean true (&#39;yes&#39;, &#39;y&#39;, &#39;true&#39;,=
+ &#39;t&#39;, &#39;1&#39;), /var/log links to /var/volatile/log.<br>
+=C2=A0# If set to boolean false (&#39;no&#39;, &#39;n&#39;, &#39;false&#39;=
+, &#39;f&#39;, &#39;0&#39;), /var/log is on persistent storage.<br>
+=C2=A0VOLATILE_LOG_DIR ?=3D &quot;yes&quot;<br>
++# If VOLATILE_LOG_DIR is false and PERSISTENT_LOG_DIR is set, /var/log lin=
+ks to PERSISTENT_LOG_DIR<br>
++PERSISTENT_LOG_DIR ??=3D &quot;&quot;<br>
+<br>
+=C2=A0##################################################################<br=
+>
+=C2=A0# Architecture-dependent build variables.<br>
+-- <br>
+2.7.4<br>
+<br>
+</blockquote></div>
+
+--00000000000026c7cd057434c447--
