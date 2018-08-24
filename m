@@ -1,56 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 61DF4795FF
+Return-Path: <dan.dedrick@gmail.com>
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 77F3B744AE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 16:45:07 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id r3-v6so6032029qte.10
+	Fri, 24 Aug 2018 20:47:18 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id g23-v6so1561704plq.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 09:45:08 -0700 (PDT)
+	Fri, 24 Aug 2018 13:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=0Fy2n8j/5ApmFDVy9WdIJ+pxV3xqp5DWhEwMnNvREEA=;
-	b=vUeBq7RJSB2CIbjlO4W3kcAhDfO2ca4De02s2PbqFPMTFUg9QrmWXdPzbf2N8sqMFL
-	x7SPn4Y82yCsvw7xSgVPmcXa0c/txy81y5LJ8DminHgVRlZBulQ9YHCJwsf5gk3NuP+A
-	q2xDGJKGkTcIObdibn90dk9tKhSPxgb42+sSFIKIyaRcTcf5VMQfknjiWSzkkoBQJGIr
-	OMux1oOtbiKPgsG+bGhMJ3pPP1noxdIR328P/04DkYRTLj6fHe0IxvrXJlQaBos9J67B
-	N2VU+rGIT2ufKlvKT0/z0u+9TA4NtNkuLA1D8IuUcIbSotwuGaOrW4z0EJ2xYtleI+/9
-	ulmg==
+	h=from:to:cc:subject:date:message-id;
+	bh=tEyNnjVWmMqjPZvfJjCzj6o56UVVpoA7P4e2tjEICPQ=;
+	b=oxHJ25hTaY6t/F7nqn43p+2Syjr6KMd86r3AEDCYFy6BrJuOAd+L6I8s/1hV++R33i
+	JFBuzNjn/gJBrgbKj4YAfFt6Oh4wrCqcSZ/evmFVVHj4xOusEBgaNETtzGTbwjt+1kLK
+	K55LTyvmhiVld5QO5EewgOYCR8Xzltsn6SSFv7IdAVZeT/9II1nEzaZ6UuDjlAtxFkZj
+	f/I2vQELhQgAckdpXiZl4Sw1eGwBSiaiwOjLlHJXWl7nA1ov+/n2xr6Lyr0LKwvy7ImV
+	zZhs+l9Cx8HP63+vTGICBuuuded0a8JOCC+9S6oqWM3k/sSy+ABUAI6xl/q+RV/TUxlG
+	Lw5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=0Fy2n8j/5ApmFDVy9WdIJ+pxV3xqp5DWhEwMnNvREEA=;
-	b=IOEjJkRyfHm43LtCK4v7KEtu1VOs3QbK7CSUJpiLXTP+a8m56S6TGG517wAMhTLn/n
-	uH8uCeveOxl8zkVp3+c7i4JSCLY/yycwMCwZcSjo2o6SUiRdHadkLBLd1/3Onuq/hRlB
-	rc2yDDbumiefc/m50LIa1h/uY/TE/tq5AYsrPpBaslL9B/XheB1hSxPmO+AGn8RaxFfP
-	oTl17QX87jXvyXQAXKXsGmq51PbRVO0QNrXln/B6XP1h6O8p75bQKjCf0Pd9Jgt+buZh
-	vXRXACW+Fpzb3U1DjcMxy5VWR1py1lvlJ03gusAk6SAOuDaTX3fM4853kBeCtxmd4j2G
-	zdPw==
-X-Gm-Message-State: APzg51A64fLqUtsf8+5DdPszdO3ygp5UD7ElRPk2oSsC1Mi0q8u0XPcD
-	NBl2z7d3TzzMKRbWoOLqeQWl7h0pkpqPpyBmVto=
-X-Google-Smtp-Source: ANB0VdZd6T9GEMDgozaHEzIfCH7hSsyU/LnCT96V4sQLwawDoxxj4aWGrWiBTjOvRfrzFLjiqLmmAjWzU0I/dnK8wGQ=
-X-Received: by 2002:a0c:f94e:: with SMTP id
-	i14-v6mr2715527qvo.50.1535129108045; 
-	Fri, 24 Aug 2018 09:45:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180824123346.8602-1-pascal.bach@siemens.com>
-	<20180824141512.GG20864@hiutale> <20180824144323.GJ20864@hiutale>
-	<355BE46A91031048906B695426A8D8E61B8A14FB@DEFTHW99EH4MSX.ww902.siemens.net>
-	<20180824154822.GK20864@hiutale>
-	<CAMKF1sqc6fQhZfSKZ80D2dyHL_D=2hRAS1zMFKScP8MpXgQRbA@mail.gmail.com>
-	<20180824161727.GL20864@hiutale>
-	<CAMKF1soK8gJP6NNwX3-7EWESEs11czMpi_qt5HBMJXaRp6tXAw@mail.gmail.com>
-	<20180824164118.GM20864@hiutale>
-In-Reply-To: <20180824164118.GM20864@hiutale>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 24 Aug 2018 09:44:41 -0700
-Message-ID: <CAMKF1spoousQbi6g8_v=O912tSdshm2C7LdUno+XfWbjv=LYUw@mail.gmail.com>
-To: Mikko Rapeli <Mikko.Rapeli@bmw.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake: add CMAKE_SYSROOT to generated toolchain file
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tEyNnjVWmMqjPZvfJjCzj6o56UVVpoA7P4e2tjEICPQ=;
+	b=DhdlDiRNsiqLtuR9b/jf3kfD2geDK7ZP7BoKmMj2VVPo/VO/WJIz8rDTu5R0x/AqTo
+	OWsCeRlOf2F4lU+GIErAs9rIimKeS7f5Q8SGXGlNFN8NhzBcjiRJtah9oq/Ga/F3Oprw
+	G8MeYKiJNRX8yKtGeoRg/Dvvb5r/6a6hGC3Tc3Avl3T9TbuOxoYnmUe6b11fri/3BOsr
+	Z/ADr0oXVJiFSU9fQXU92NHoWacE63JKvUn9F0u3JWoMm71XG36pQHa/2js/h4NKOf9k
+	Gi0gsF5bLm6OiDgNkC1Fxx4pUBDyhak+s4klAK9mg/eTsX1XudVUZeNmthXk0g8q9asv
+	2CGg==
+X-Gm-Message-State: APzg51AwXKTqmYIICFXTFGGIKmbH04S/cciFmIZBANaaFdUsqSe4z64f
+	SvZjRl2kcIV7Jm1N4wQfB3SZrW3P
+X-Google-Smtp-Source: ANB0VdagfrWJfM1Aa6HBfMM/Zbj0AQbpaX7NO9bT2drKXQsvgyzflnc/rXp5W+wehkphcLGYUOTFxQ==
+X-Received: by 2002:a17:902:e183:: with SMTP id
+	cd3-v6mr3031876plb.305.1535143639313; 
+	Fri, 24 Aug 2018 13:47:19 -0700 (PDT)
+Received: from talyn.lpdev.prtdev.lexmark.com ([192.146.101.90])
+	by smtp.gmail.com with ESMTPSA id
+	p64-v6sm13130046pfa.47.2018.08.24.13.47.17
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 24 Aug 2018 13:47:18 -0700 (PDT)
+From: Dan Dedrick <dan.dedrick@gmail.com>
+X-Google-Original-From: Dan Dedrick <ddedrick@lexmark.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Aug 2018 16:47:08 -0400
+Message-Id: <20180824204708.88608-1-ddedrick@lexmark.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] kernel-devicetree: build DTBs in parallel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,81 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 16:45:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 24 Aug 2018 20:47:18 -0000
 
-On Fri, Aug 24, 2018 at 9:41 AM <Mikko.Rapeli@bmw.de> wrote:
->
-> On Fri, Aug 24, 2018 at 09:23:45AM -0700, Khem Raj wrote:
-> > On Fri, Aug 24, 2018 at 9:17 AM <Mikko.Rapeli@bmw.de> wrote:
-> > >
-> > > On Fri, Aug 24, 2018 at 08:51:42AM -0700, Khem Raj wrote:
-> > > > On Fri, Aug 24, 2018 at 8:48 AM <Mikko.Rapeli@bmw.de> wrote:
-> > > > > So to me it looks like using SYSTEM with target_include_directori=
-es()
-> > > > > is no longer possible with CMake and gcc > 6:
-> > > > >
-> > > > >
-> > > > > https://cmake.org/cmake/help/v3.10/command/target_include_directo=
-ries.html?highlight=3Dtarget_include_directories
-> > > > >
-> > > >
-> > > > That=E2=80=99s right there is a patch I did  in WebKitgtk recipe in=
- Oe Core you
-> > > > might want to include similar fixes for this package the patch actu=
-ally it
-> > > > a workaround but then I also think using isystem in apps is a bad i=
-dea
-> > >
-> > > Yes, I tend to agree, but developers have used this to silence compil=
-er
-> > > warnings from system header files.
-> > >
-> > > In a few cases I saw that there were no longer any warnings coming fr=
-om the
-> > > headers but in some others there were.
-> > >
-> >
-> > Unlike olden days, cross gcc compiler now a days knows about its
-> > system headers and adds them implicitly with right options
-> > so doing this include dance manually is not useful. Let compiler
-> > decide to do the needed
-> > for system headers, one must just specify --sysroot and let it handle
-> > everything from sysroot.
-> >
-> > > Any other ideas how to suppress compiler wanings from system headers?
-> > >
-> >
-> > what kind of warnings do you see ?
->
-> After a ton of components have exported their headers to system paths,
-> I see all kinds of crap. Some developers have cleaned up their own tree
-> and added strict compiler flags, which I now have to relax since
-> header file warning suppressions don't work, and new compiler produces
-> new bunch of warnings. Here are few sample warnings from an ongoing build
-> with counts redacted:
->
-> $ egrep -ho "warning: .*" tmp-glibc/work/*/*/*/temp/log.do_compile| sort =
-| uniq -c|sort -rn | head -8
->
-> warning: dynamic exception specifications are deprecated in C++11 [-Wdepr=
-ecated]
-> warning: 'template<class> class std::auto_ptr' is deprecated [-Wdeprecate=
-d-declarations]
-> warning: conversion to 'int' from 'long unsigned int' may alter its value=
- [-Wconversion]
-> warning: missed loop optimization, the loop counter may overflow [-Wunsaf=
-e-loop-optimizations]
-> warning: command line option '-std=3Dc++11' is valid for C++/ObjC++ but n=
-ot for C
-> warning: this statement may fall through [-Wimplicit-fallthrough=3D]
-> warning: ISO C++ forbids zero-size array 'f_handle' [-Wpedantic]
->
+When building more than one device tree it's inefficient to serially
+build them in multiple make calls. It's much faster and efficient to
+build them in one call where they can run in parallel.
 
-Perhaps you can just remove adding these system headers at all and let
-compiler include
-them for you
+Signed-off-by: Dan Dedrick <ddedrick@lexmark.com>
+---
+ meta/classes/kernel-devicetree.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> -Mikko
+diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
+index 867b776aa7..83270c4511 100644
+--- a/meta/classes/kernel-devicetree.bbclass
++++ b/meta/classes/kernel-devicetree.bbclass
+@@ -50,10 +50,14 @@ do_configure_append() {
+ }
+ 
+ do_compile_append() {
++	alldtb=""
+ 	for dtbf in ${KERNEL_DEVICETREE}; do
+ 		dtb=`normalize_dtb "$dtbf"`
+-		oe_runmake $dtb
++		alldtb="${alldtb} ${dtb}"
+ 	done
++	if [ -n "${alldtb}" ]; then
++		oe_runmake ${alldtb}
++	fi
+ }
+ 
+ do_install_append() {
+-- 
+2.17.1
+
 
