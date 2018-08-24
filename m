@@ -1,23 +1,25 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C63A750F9
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D0E9750F9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 15:00:01 +0000 (UTC)
+	Fri, 24 Aug 2018 15:00:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7OF015n003234
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7OF046P008929
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Aug 2018 08:00:01 -0700 (PDT)
+	Fri, 24 Aug 2018 08:00:04 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Fri, 24 Aug 2018 08:00:00 -0700
+	14.3.399.0; Fri, 24 Aug 2018 08:00:03 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 24 Aug 2018 10:59:47 -0400
-Message-ID: <cover.1535118570.git.bruce.ashfield@windriver.com>
+Date: Fri, 24 Aug 2018 10:59:49 -0400
+Message-ID: <0f3a29fa7c1f9ab1329041f60198a2a816741f23.1535118570.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1535118570.git.bruce.ashfield@windriver.com>
+References: <cover.1535118570.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 00/12] kernel: consolidated pull request
+Subject: [PATCH 02/12] linux-yocto/standard: enable bpf configs in standard kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,123 +32,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 15:00:01 -0000
+X-List-Received-Date: Fri, 24 Aug 2018 15:00:03 -0000
 Content-Type: text/plain
 
-Hi all,
+Enabling the bpf feature for the standard kernel configurations
+by default. Systemd (and other) userspace applications are looking
+for BPF more often, and we get warnings such as this:
 
-This series is a collection of fixes I've been carrying, as well as new
-work for the upcoming release (in particular the 4.18 kernel work).
+  [   12.810554] systemd[1]: File
+    /lib/systemd/system/systemd-journald.service:36 configures an IP
+    firewall (IPAddressDeny=any), but the local system does not support
+    BPF/cgroup based firewalling.
 
-If there are isses with the 4.18 parts, everything else should be stand
-alone enough for merging.
+The configs don't add much overhead to the kernel, so we enable them
+by default.
 
-The breakdown of changes are:
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
- - stable updates:
-
-     [linux-yocto/4.12: update to v4.12.28]
-     [linux-yocto/4.14: update to v4.14.62]
-
- - config/bug fixes:
-
-     [linux-yocto/4.14: rt: Revert mm/vmstat.c: fix vmstat_update() preemption BUG]
-     [linux-yocto: add qemuarm64 preempt-rt BSP definition]
-     [linux-yocto: add selftest and security configuration blocks]
-     [linux-yocto/standard: enable bpf configs in standard kernel]
-
- - bsp audit/status cleanup:
-
-     [classes/kernel-yocto: Cleanup getstatusoutput usage]
-     [kernel-yocto: restore BSP audit visibility]
-
-     When working with the getstatusoutput patch from Joshua Watt, I noticed that
-     proper audit info hasn't been output for quite some time. I've fixed up the
-     warnings that I see, but expect to see a few more in the various kernels as
-     we iterate to clean them up.
-
- - 4.18 introduction
-
-     [lttng: uprev to 2.10.7]
-     [linux-yocto: introduce 4.18 recipes]
-     [libc-headers: update to 4.18]
-     [qemu/bsp: update 4.15 preferred versions to 4.18]
-
-     This is the suggested/proposed kernel for the upcoming release. Once we get
-     the hardware reference boards updated from 4.15 -> 4.18, I'll follow up with
-     the removal of 4.12/4.15 and that will leave us 4.14/4.18 for the release.
-
-     I have a patch I'll send to poky to make 4.18 the default kernel for qemu*
-     there, while we work on those last updates.
-
-     This block of changes also has an associated libc-headers update, as well
-     as an uprev of lttng to build against the 4.18 kernel.
-
-     I've built core-image-sato (booted, confirmed the desktop), core-image-kernel-dev
-     for qemu*, for both glibc and muslc. No issues were observed in my testing.
-
-     The -rt branches are also populated for this kernel version and boot tests
-     have been performed there as well.
-
-     I expect we'll need another revision of these patches, but they are ready
-     for more coverage.
-
-Cheers,
-
-Bruce
-    
-The following changes since commit 00b360c75bfcdc7f2b51ebd07e294b9912de9ded:
-
-  utils: Fix patch merging error (2018-08-23 17:58:59 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (11):
-  linux-yocto/4.14: rt: Revert mm/vmstat.c: fix vmstat_update() preemption  BUG
-  linux-yocto/standard: enable bpf configs in standard kernel
-  kernel-yocto: restore BSP audit visibility
-  linux-yocto: add qemuarm64 preempt-rt BSP definition
-  linux-yocto/4.12: update to v4.12.28
-  linux-yocto/4.14: update to v4.14.62
-  linux-yocto: add selftest and security configuration blocks
-  lttng: uprev to 2.10.7
-  linux-yocto: introduce 4.18 recipes
-  libc-headers: update to 4.18
-  qemu/bsp: update 4.15 preferred versions to 4.18
-
-Joshua Watt (1):
-  classes/kernel-yocto: Cleanup getstatusoutput usage
-
- meta/classes/kernel-yocto.bbclass                  | 44 +++++++++++++++++---
- meta/conf/distro/include/tcmode-default.inc        |  2 +-
- meta/conf/machine/include/x86-base.inc             |  2 +-
- meta/conf/machine/qemuarm.conf                     |  2 +-
- .../kern-tools/kern-tools-native_git.bb            |  2 +-
- .../linux-libc-headers/linux-libc-headers.inc      |  4 +-
- ...eaders_4.15.7.bb => linux-libc-headers_4.18.bb} |  5 +--
- meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  6 +--
- meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  6 +--
- meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb   | 43 +++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  6 +--
- meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  6 +--
- meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb | 29 +++++++++++++
- meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 20 ++++-----
- meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 20 ++++-----
- meta/recipes-kernel/linux/linux-yocto_4.15.bb      |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.18.bb      | 48 ++++++++++++++++++++++
- ...g-modules_2.10.6.bb => lttng-modules_2.10.7.bb} |  6 +--
- 20 files changed, 204 insertions(+), 53 deletions(-)
- rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.15.7.bb => linux-libc-headers_4.18.bb} (75%)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_4.18.bb
- rename meta/recipes-kernel/lttng/{lttng-modules_2.10.6.bb => lttng-modules_2.10.7.bb} (85%)
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+index cf6a733ceb69..afd76c2272bc 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+@@ -12,7 +12,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "7ba09f891939cbf2c58801a7a4a740365896d6ba"
+-SRCREV_meta ?= "367bd3633d5a661035f90f0b8daa38e97da1a587"
++SRCREV_meta ?= "99bef6252a7b9b5e38ea15112e9466ed6974a3fe"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
+index e2b45fa3e140..26d8382b38e0 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
+@@ -12,7 +12,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "3373c0cf71f2812eeb9694839456df6f67fd32ac"
+-SRCREV_meta ?= "d35642f0b65f7772a45e1457fd60de6d1bff8e58"
++SRCREV_meta ?= "3b43c318d9dca8858e0ec402db8a99ab2b79f16f"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.15;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+index 9d5e1582b531..870e7662fb46 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
+-SRCREV_meta ?= "367bd3633d5a661035f90f0b8daa38e97da1a587"
++SRCREV_meta ?= "99bef6252a7b9b5e38ea15112e9466ed6974a3fe"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
+index 3738e623c74b..d3759b0582f0 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
+@@ -11,7 +11,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "3373c0cf71f2812eeb9694839456df6f67fd32ac"
+-SRCREV_meta ?= "d35642f0b65f7772a45e1457fd60de6d1bff8e58"
++SRCREV_meta ?= "3b43c318d9dca8858e0ec402db8a99ab2b79f16f"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+index ac98ca85fc3f..57f29949c743 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
+ SRCREV_machine_qemux86-64 ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
+ SRCREV_machine_qemumips64 ?= "38da8c72733da9619bbbddf14140204631faf488"
+ SRCREV_machine ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
+-SRCREV_meta ?= "367bd3633d5a661035f90f0b8daa38e97da1a587"
++SRCREV_meta ?= "99bef6252a7b9b5e38ea15112e9466ed6974a3fe"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+index 84d46c418dd3..238d35a3c8f5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "3373c0cf71f2812eeb9694839456df6f67fd32ac"
+ SRCREV_machine_qemux86-64 ?= "3373c0cf71f2812eeb9694839456df6f67fd32ac"
+ SRCREV_machine_qemumips64 ?= "b98c113571c72a0d34832dd6fe5585529b32988b"
+ SRCREV_machine ?= "3373c0cf71f2812eeb9694839456df6f67fd32ac"
+-SRCREV_meta ?= "d35642f0b65f7772a45e1457fd60de6d1bff8e58"
++SRCREV_meta ?= "3b43c318d9dca8858e0ec402db8a99ab2b79f16f"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.15;destsuffix=${KMETA}"
 -- 
 2.5.0
 
