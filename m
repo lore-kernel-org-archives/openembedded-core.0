@@ -1,25 +1,25 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 42742795FC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 690E879603
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 15:00:04 +0000 (UTC)
+	Fri, 24 Aug 2018 15:00:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7OF04p3003239
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7OF077m008948
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Aug 2018 08:00:05 -0700 (PDT)
+	Fri, 24 Aug 2018 08:00:07 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Fri, 24 Aug 2018 08:00:04 -0700
+	14.3.399.0; Fri, 24 Aug 2018 08:00:05 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 24 Aug 2018 10:59:50 -0400
-Message-ID: <f04fdefbba7c8da549670f705c123b2286ed8682.1535118570.git.bruce.ashfield@windriver.com>
+Date: Fri, 24 Aug 2018 10:59:51 -0400
+Message-ID: <6d0bc23871a9280d074fca7a58f4d5a69ddf09c0.1535118570.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1535118570.git.bruce.ashfield@windriver.com>
 References: <cover.1535118570.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 03/12] classes/kernel-yocto: Cleanup getstatusoutput usage
+Subject: [PATCH 04/12] kernel-yocto: restore BSP audit visibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,81 +32,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 15:00:04 -0000
+X-List-Received-Date: Fri, 24 Aug 2018 15:00:06 -0000
 Content-Type: text/plain
 
-From: Joshua Watt <jpewhacker@gmail.com>
+During the re-working of kernel fragments and status output cleanup the
+visibility for BSP level errors was dropped/removed.
 
-Replace usage of os.utils.getstatusoutput() with direct subprocess
-calls. Pass a modified environment and working directory where necessary
-to bypass the need to execute in a shell.
+The audit phase can detect errors, redefinition and invalid
+configuration fragments. We control the visibility of these reports via
+the existing KCONF_BSP_AUDIT_LEVEL variable.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+By default, errors and invalid configuration values will be displayed as
+a warning. If redefinition values are to be shown the audit level must
+be raised above the deafult value of '2'. We inhibit these by default,
+since there are many valid reasons why a BSP will change a default /
+base config .. and showing them offers no value to the BSP user.
+
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel-yocto.bbclass                  | 24 +++++++++++++++-------
- .../kern-tools/kern-tools-native_git.bb            |  2 +-
- 2 files changed, 18 insertions(+), 8 deletions(-)
+ meta/classes/kernel-yocto.bbclass | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 077a1ab8ef71..19d74a78757b 100644
+index 19d74a78757b..2ecd06009321 100644
 --- a/meta/classes/kernel-yocto.bbclass
 +++ b/meta/classes/kernel-yocto.bbclass
-@@ -321,7 +321,7 @@ do_kernel_configme() {
- addtask kernel_configme before do_configure after do_patch
- 
- python do_kernel_configcheck() {
--    import re, string, sys
-+    import re, string, sys, subprocess
- 
-     # if KMETA isn't set globally by a recipe using this routine, we need to
-     # set the default to 'meta'. Otherwise, kconf_check is not passed a valid
-@@ -330,16 +330,26 @@ python do_kernel_configcheck() {
-     if not os.path.exists(kmeta):
-         kmeta = "." + kmeta
- 
--    pathprefix = "export PATH=%s:%s; " % (d.getVar('PATH'), "${S}/scripts/util/")
-+    s = d.getVar('S')
- 
--    cmd = d.expand("scc --configs -o ${S}/.kernel-meta")
--    ret, configs = oe.utils.getstatusoutput("%s%s" % (pathprefix, cmd))
-+    env = os.environ.copy()
-+    env['PATH'] = "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
- 
--    cmd = d.expand("cd ${S}; kconf_check --report -o ${S}/%s/cfg/ ${B}/.config ${S} %s" % (kmeta,configs))
--    ret, result = oe.utils.getstatusoutput("%s%s" % (pathprefix, cmd))
-+    try:
-+        configs = subprocess.check_output(['scc', '--configs', '-o', s + '/.kernel-meta'], env=env).decode('utf-8')
-+    except subprocess.CalledProcessError:
-+        bb.fatal( "Cannot gather config fragments for audit: %s" % configs)
-+
-+    try:
-+        subprocess.check_call(['kconf_check', '--report', '-o',
-+                '%s/%s/cfg' % (s, kmeta), d.getVar('B') + '/.config', s, configs], cwd=s, env=env)
-+    except subprocess.CalledProcessError:
-+        # The configuration gathering can return different exit codes, but
-+        # we interpret them based on the KCONF_AUDIT_LEVEL variable, so we catch
-+        # everything here, and let the run continue.
-+        pass
+@@ -350,6 +350,7 @@ python do_kernel_configcheck() {
+         pass
  
      config_check_visibility = int(d.getVar("KCONF_AUDIT_LEVEL") or 0)
--    bsp_check_visibility = int(d.getVar("KCONF_BSP_AUDIT_LEVEL") or 0)
++    bsp_check_visibility = int(d.getVar("KCONF_BSP_AUDIT_LEVEL") or 0)
  
      # if config check visibility is non-zero, report dropped configuration values
      mismatch_file = d.expand("${S}/%s/cfg/mismatch.txt" % kmeta)
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index 4ccf9b07f306..dca567f783b3 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1b
+@@ -358,6 +359,27 @@ python do_kernel_configcheck() {
+             with open (mismatch_file, "r") as myfile:
+                 results = myfile.read()
+                 bb.warn( "[kernel config]: specified values did not make it into the kernel's final configuration:\n\n%s" % results)
++
++    if bsp_check_visibility:
++        invalid_file = d.expand("${S}/%s/cfg/invalid.cfg" % kmeta)
++        if os.path.exists(invalid_file) and os.stat(invalid_file).st_size > 0:
++            with open (invalid_file, "r") as myfile:
++                results = myfile.read()
++                bb.warn( "[kernel config]: This BSP sets config options that are not offered anywhere within this kernel:\n\n%s" % results)
++        errors_file = d.expand("${S}/%s/cfg/fragment_errors.txt" % kmeta)
++        if os.path.exists(errors_file) and os.stat(errors_file).st_size > 0:
++            with open (errors_file, "r") as myfile:
++               results = myfile.read()
++               bb.warn( "[kernel config]: This BSP contains fragments with errors:\n\n%s" % results)
++
++    # if the audit level is greater than two, we report if a fragment has overriden
++    # a value from a base fragment. This is really only used for new kernel introduction
++    if bsp_check_visibility > 2:
++        redefinition_file = d.expand("${S}/%s/cfg/redefinition.txt" % kmeta)
++        if os.path.exists(redefinition_file) and os.stat(redefinition_file).st_size > 0:
++            with open (redefinition_file, "r") as myfile:
++                results = myfile.read()
++                bb.warn( "[kernel config]: This BSP has configuration options defined in more than one config, with differing values:\n\n%s" % results)
+ }
  
- DEPENDS = "git-native"
- 
--SRCREV = "8cd13500a27c0a6a911cc83c0349dec01ef66e27"
-+SRCREV = "602237a57487e969016db3085d181b585f5a74a7"
- PR = "r12"
- PV = "0.2+git${SRCPV}"
- 
+ # Ensure that the branches (BSP and meta) are on the locations specified by
 -- 
 2.5.0
 
