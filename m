@@ -1,53 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 501EB795B3
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D76967956F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 08:39:48 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id o37-v6so6787769wrf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 01:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=AphQ4mChQfHVGGla8D92BitB4sJhVgCVJfehjeXc+wE=;
-	b=SVawD3+5UbWS4G+j5f021lT+bsKqLVR+WQsHW5QQzBzJycEQhGGEoPAFDCnjphHOvU
-	1dnUWNKpc4AlX90ts0qKQJNZK20TyGZTOdJcp2kCakCkAQvW8kE7IZJvubwLNc/i2qnx
-	4bcZkuAXXoIOMj6V1Ld0SWdNo2R759HFxnzk4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=AphQ4mChQfHVGGla8D92BitB4sJhVgCVJfehjeXc+wE=;
-	b=gJCAATenUwE32kViSVbVw7Gutr0LMCpGTi+BxfNmyLvzVXbocNdZol/AgRUhoQkq+C
-	zXHZV4WQY8vWp9JHwnv5Fyj/mbLjyquHW2x86mezYfrsW84OGEQR7Rsa1AVzG3BPGFgY
-	URJpP04RWH9n+3d+DAF4FL7mkeEefYBM6G0RUtDkVgaSIxr95vyuVl5PtqhRRhm9kHYX
-	bBYNTUfK4Ggf8kB3ETgld0xk0Obu2rhOFD27lRsXXykhxq+c5wUxNP46gnW/6PHRlJVx
-	9xJUIsJ/puLZvdh7lDGPuPq2ASzf8cWpg9zJtWM5e8m/7Qx11OM8MfFQ0GohjnJqZcsE
-	QDGQ==
-X-Gm-Message-State: APzg51Ds0WxfUwUz6v8QorcRyijwGKBaxAxuW403Zs6tjQaI7cm1WcGG
-	o2UZjxsvOTVfwnKWUKi6wq6xog==
-X-Google-Smtp-Source: ANB0VdZMkf9BW8XbbUBhV+CGQq6BziGckxtwFUhr2EVoHyTLLi9hj/9/49d/bEp7UMJbPdmCVyIoaw==
-X-Received: by 2002:adf:f1cc:: with SMTP id
-	z12-v6mr533209wro.214.1535099989085; 
-	Fri, 24 Aug 2018 01:39:49 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	m68-v6sm1142193wmb.10.2018.08.24.01.39.47
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 24 Aug 2018 01:39:47 -0700 (PDT)
-Message-ID: <8ab2dfe5f21ed72bbf4da87126e6172b6d413ee2.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Hongxu Jia <hongxu.jia@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 24 Aug 2018 09:39:45 +0100
-In-Reply-To: <b6ef0030-8c15-7dee-e993-681b2aced85f@windriver.com>
-References: <1535094031-35363-1-git-send-email-hongxu.jia@windriver.com>
-	<b6ef0030-8c15-7dee-e993-681b2aced85f@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Subject: Re: [PATCH] package.bbclass: only one hardlink of separated debug info file in each directory
+	Fri, 24 Aug 2018 08:54:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7O8sD7l018091
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 24 Aug 2018 01:54:13 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Fri, 24 Aug 2018 01:54:06 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Aug 2018 16:54:04 +0800
+Message-ID: <1535100844-4514-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] terminal.bbclass: use var-SHELL as the shebang of wrapper script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,40 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 08:39:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Aug 2018 08:54:13 -0000
+Content-Type: text/plain
 
-On Fri, 2018-08-24 at 15:16 +0800, Hongxu Jia wrote:
-> Hi RP,
-> 
-> With this fix, we could not use yesterday's workaround fix
-> `git: create symlink rather than hardlink between bin/ and libexec/',
-> 
-> But it is no harm for us, btw, Ubuntu use symlink in git , and Fedora
-> use hardlink in git
+The devshell.bbclass set var-SHELL to var-DEVSHELL, and terminal.bbclass
+initial var-SHELL with `bash'. Keep sync with it, use var-SHELL rather
+than hardcoded `/bin/sh' as the shebang of wrapper script.
 
-Thanks, I was thinking there probably was a problem in package.bbclass
-which your change to git was working around and you've now fixed it!
+On Ubuntu host, default shell is dash (/bin/sh -> dash), even though
+we assign var-SHELL with `/bin/bash', the wrapper script is still dashism.
 
-I think I'd prefer to leave git using hardlinks so that we can
-potentially spot problems like this in future. There are other recipes
-that use hardlinks where the breakage may be more subtle (e.g.
-e2fsprogs) so having some recipes using hardlinks is good.
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/terminal.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I wondered if you'd fancy creating a new additional oqea test for this
-debug hardlink issue so that we'd detect any problems in future? The
-test I added was:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=318595754b66e8e4f3db1bce1ac086a2409e2eca
-
-and with the addition of a few directories, it could probably be extended?
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+index a27e10c..73e765d 100644
+--- a/meta/classes/terminal.bbclass
++++ b/meta/classes/terminal.bbclass
+@@ -25,7 +25,8 @@ def emit_terminal_func(command, envdata, d):
+     bb.utils.mkdirhier(os.path.dirname(runfile))
+ 
+     with open(runfile, 'w') as script:
+-        script.write('#!/bin/sh -e\n')
++        script.write('#!/usr/bin/env %s\n' % d.getVar('SHELL'))
++        script.write('set -e\n')
+         bb.data.emit_func(cmd_func, script, envdata)
+         script.write(cmd_func)
+         script.write("\n")
+-- 
+2.7.4
 
 
