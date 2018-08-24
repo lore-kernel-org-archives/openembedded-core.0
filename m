@@ -1,46 +1,47 @@
 Return-Path: <ankur.tyagi85@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id BE25879615
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 796AD7961C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 21:07:40 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id k12-v6so17617816oiw.8
+	Fri, 24 Aug 2018 21:08:12 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id q204-v6so17606620oig.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 14:07:42 -0700 (PDT)
+	Fri, 24 Aug 2018 14:08:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=z+xnvbEuYFm6alpJm4O4aiwFtFIUdrOQlI417wjafno=;
-	b=ZhVAeXjbGWaMwPES1hHCKlmn0r3/TrlCv4X25OTAfce6IqtzbZF9emG4XubNdsiQAK
-	lj+LrkhfigbuMiBpmjBTzNwfoVgD/MiUrD4lcPioXwHR/H14mIpWaABzHiC7MEIa2RsS
-	h3hqWkBEDUtPHALwcFkGehXRbgpoO1rs9Q9MqcpbAGI6YUgeyQCwxh+neq1UyMeT/2OW
-	iklllPChLmLHgBxz1R+g0PiQyB6kFpRzFlpAXeBUQrU6aPbkOLPRx4lYXdk/l25Onujz
-	jQtKd1Fj4Obqkdf/PPXQ9GdcukneV7gQxc9gIzRBAmiIs0uak5c58jO4NjhJDkqG4u9j
-	3GUg==
+	bh=478DN40+kBp1eJ476QNX0lrqn5b0J58Ul3qfb//IO0Y=;
+	b=fjCQcFJxJdJCN1ginHwsJrTB7/xmpMnrWbjRwoH/l+rShq8BYf1Sa0+1gVdMAc53zh
+	pMgiI+JVYZdv/tg2n1AfDkIUIcdmR3spye0N4+5MivSl8a7h8JhffJ7JlhuxPcu8ny9t
+	T1TrurUSqKAyXNI9JnomxJg79atKX3O5u3qAWYZXSHl0MQ6nCdsGRtCCucRZcS4mL8fT
+	P5BJmXECOy2haHnwgGP+NE0e5prZLjdAGUQD81bxOygyom/llHsmi3IxE8Qg1VENm/Mx
+	KCtJ0Ol1WYm2S8DCdW3+nw4FDEqKcHongWCe8jGIuxWZsI7/88zoiUuGfOI8fVIJe4MG
+	Z/Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to;
-	bh=z+xnvbEuYFm6alpJm4O4aiwFtFIUdrOQlI417wjafno=;
-	b=VRHq6rXb6iBU80j91ZaSeZ7UzeSBSTzDeOakpAIbQiyRYTZgZW/poT6cCHQBAfPWVp
-	Kh3SV13nxFn73Q+KjPz+Mgglm0yPwPsj16iPuyOlfjg4c+BHP+VWtoSlV15Rc1U3b6qT
-	3BdV32sDsJ/jZoGAJY4WsMgwRBQRNvdPiWGiZcWHzW3uDJV+IVkb5TUo1PaLzPqTcYvS
-	P/UqKMUSCNmalEg9AAJBHZGFXFSVlgw1BVSM8v6RJmufkLq1nLkaWOiCBAtvizhWgH5I
-	BzfTSIWVlHt3Zx5tAocMRmJW+2oY2iZwgACoSIOJfYKRxMWw02Z89XeMrvFNBCioKhr9
-	AGjg==
-X-Gm-Message-State: APzg51BgOULhvOWlYvF01ZoHuCknjCLQqzIn+CSThPhOQJmVJWYLuLnb
-	GRJqVz6uD8qrxm1fBIAl0iaW0thbvsBiHws9gB08cw==
-X-Google-Smtp-Source: ANB0VdZ5zAvDl3jTdvRVJZbyjju/llV4mwxabah35fW/9snjphLqsrxz29HtwEIV8H4hktQeJBXDjsPQaDMiCo2JOCQ=
-X-Received: by 2002:a54:4d9d:: with SMTP id
-	y29-v6mr3123775oix.273.1535144861549; 
-	Fri, 24 Aug 2018 14:07:41 -0700 (PDT)
+	bh=478DN40+kBp1eJ476QNX0lrqn5b0J58Ul3qfb//IO0Y=;
+	b=W41XbNHUgSULhWp3ya9dNA4swwBfciR9J2AemRAFDNDOZ9rjOOzxupm/99A9GhhQ5c
+	w+5dIKcBHRgaS7JeTm5394ktGrBNr0Eb9x2c23Q5gSHmd0QQm3BFp+l4hRCUEVAyMofY
+	llAdIzfnW/gOF19oCZFkG49ObJVj/s93z0FSsK9z1Ch8Gy5NGiILrhVXcPWFlqX+Q/Ep
+	WPUj5YfmnLPjjyCvLkeDTlrzItbGxibnZFRba5OGoOlsfyEdZlQE7IBhjLU7ksA4Y9Ua
+	x9AVHgJbyVNtr8xT/2Qlqqhzwkxlju9e4z0jS0AzrNSMIH2mxXSHoRvhOuTJiMYniOoF
+	BnVQ==
+X-Gm-Message-State: APzg51CKCkbvMVNeMYHu9eLh5kSliBfhlrVXM/owbJzm61iE/wvBh4jl
+	gVMRxW5kjcVJjYoHSvCDhREcgJ4RYViRIqTd7b29BQ==
+X-Google-Smtp-Source: ANB0VdYbx9DQlHYxWFgI7WIaEd5bhdisJlxLiA5/qGN9jEtXU2V7pu+jG1gbCpBomDtDWaAEeV6egDs2WyYffoXmg/0=
+X-Received: by 2002:aca:e748:: with SMTP id
+	e69-v6mr2996004oih.263.1535144893211; 
+	Fri, 24 Aug 2018 14:08:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
-In-Reply-To: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
+	<1534553964-16157-2-git-send-email-ankur.tyagi85@gmail.com>
+In-Reply-To: <1534553964-16157-2-git-send-email-ankur.tyagi85@gmail.com>
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Sat, 25 Aug 2018 09:07:28 +1200
-Message-ID: <CADySD0EOT72RZwVHn_FEr94mAUEp2x8pP-D2+1mZfCoUv+CW3g@mail.gmail.com>
+Date: Sat, 25 Aug 2018 09:08:00 +1200
+Message-ID: <CADySD0G+OPKMv1jCEJ1rd-aQBhAHkfzQr+LMQwGvh8NN=q-LFQ@mail.gmail.com>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [rocko][sumo][master][PATCH 1/2] bitbake.conf: add PERSISTENT_LOG_DIR variable
+Subject: Re: [rocko][sumo][master][PATCH 2/2] base-files: respect PERSISTENT_LOG_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,10 +54,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 21:07:41 -0000
-Content-Type: multipart/alternative; boundary="00000000000026c7cd057434c447"
+X-List-Received-Date: Fri, 24 Aug 2018 21:08:12 -0000
+Content-Type: multipart/alternative; boundary="00000000000009ec20057434c6e9"
 
---00000000000026c7cd057434c447
+--00000000000009ec20057434c6e9
 Content-Type: text/plain; charset="UTF-8"
 
 Ping
@@ -66,87 +67,121 @@ Ankur
 
 On Sat 18 Aug, 2018, 12:59 PM Ankur Tyagi, <ankur.tyagi85@gmail.com> wrote:
 
-> This variable is only respected when VOLATILE_LOG_DIR is "no".
->
-> The default value is "" which results in the /var/log being log directory.
->
-> The user could override this value to a path e.g "/home/root/log" which
-> results /var/log being a link pointing to /home/root/log directory on
-> persistent storage.
+> Respect PERSISTENT_LOG_DIR variable. In this way, if the user overrides
+> this variable to be e.g "/home/root/log", /var/log on the final image would
+> be a link pointing to /home/root/log on persistent storage.
 >
 > Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 > ---
->  meta/conf/bitbake.conf | 2 ++
->  1 file changed, 2 insertions(+)
+>  meta/recipes-core/base-files/base-files_3.0.14.bb | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index e5dc1ac..9db22c8 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -88,6 +88,8 @@ ROOT_HOME ??= "/home/root"
->  # If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log links
-> to /var/volatile/log.
->  # If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on
-> persistent storage.
->  VOLATILE_LOG_DIR ?= "yes"
-> +# If VOLATILE_LOG_DIR is false and PERSISTENT_LOG_DIR is set, /var/log
-> links to PERSISTENT_LOG_DIR
-> +PERSISTENT_LOG_DIR ??= ""
+> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb
+> b/meta/recipes-core/base-files/base-files_3.0.14.bb
+> index 1c0863b..597fdaa 100644
+> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
+> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+> @@ -42,7 +42,7 @@ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir}
+> ${base_libdir} \
+>             ${localstatedir}/backups ${localstatedir}/lib \
+>             /sys ${localstatedir}/lib/misc ${localstatedir}/spool \
+>             ${localstatedir}/volatile \
+> -           ${localstatedir}/${@'volatile/' if
+> oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
+> +           ${@'${localstatedir}/volatile/log' if
+> oe.types.boolean('${VOLATILE_LOG_DIR}') else '${PERSISTENT_LOG_DIR}' if
+> d.getVar('PERSISTENT_LOG_DIR') else '${localstatedir}/log' } \
+>             /home ${prefix}/src ${localstatedir}/local \
+>             /media"
 >
->  ##################################################################
->  # Architecture-dependent build variables.
+> @@ -106,6 +106,10 @@ do_install () {
+>                 ln -sf volatile/$d ${D}${localstatedir}/$d
+>         done
+>
+> +       if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = False -a ! -z
+> ${PERSISTENT_LOG_DIR} ]; then
+> +               ln -sf ${PERSISTENT_LOG_DIR} ${D}/${localstatedir}/log
+> +       fi
+> +
+>         ln -snf ../run ${D}${localstatedir}/run
+>         ln -snf ../run/lock ${D}${localstatedir}/lock
+>
 > --
 > 2.7.4
 >
 >
 
---00000000000026c7cd057434c447
+--00000000000009ec20057434c6e9
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto">Ping<div dir=3D"auto"><br></div><div dir=3D"auto">Regards=
 </div><div dir=3D"auto">Ankur</div></div><br><div class=3D"gmail_quote"><di=
 v dir=3D"ltr">On Sat 18 Aug, 2018, 12:59 PM Ankur Tyagi, &lt;<a href=3D"mai=
-lto:ankur.tyagi85@gmail.com" target=3D"_blank" rel=3D"noreferrer">ankur.tya=
-gi85@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">This =
-variable is only respected when VOLATILE_LOG_DIR is &quot;no&quot;.<br>
+lto:ankur.tyagi85@gmail.com">ankur.tyagi85@gmail.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">Respect PERSISTENT_LOG_DIR variable. In th=
+is way, if the user overrides<br>
+this variable to be e.g &quot;/home/root/log&quot;, /var/log on the final i=
+mage would<br>
+be a link pointing to /home/root/log on persistent storage.<br>
 <br>
-The default value is &quot;&quot; which results in the /var/log being log d=
-irectory.<br>
-<br>
-The user could override this value to a path e.g &quot;/home/root/log&quot;=
- which<br>
-results /var/log being a link pointing to /home/root/log directory on<br>
-persistent storage.<br>
-<br>
-Signed-off-by: Ankur Tyagi &lt;<a href=3D"mailto:ankur.tyagi85@gmail.com" r=
-el=3D"noreferrer noreferrer" target=3D"_blank">ankur.tyagi85@gmail.com</a>&=
-gt;<br>
+Signed-off-by: Ankur Tyagi &lt;<a href=3D"mailto:ankur.tyagi85@gmail.com" t=
+arget=3D"_blank" rel=3D"noreferrer">ankur.tyagi85@gmail.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/conf/bitbake.conf | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
+=C2=A0meta/recipes-core/base-files/<a href=3D"http://base-files_3.0.14.bb" =
+rel=3D"noreferrer noreferrer" target=3D"_blank">base-files_3.0.14.bb</a> | =
+6 +++++-<br>
+=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
 <br>
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
-index e5dc1ac..9db22c8 100644<br>
---- a/meta/conf/bitbake.conf<br>
-+++ b/meta/conf/bitbake.conf<br>
-@@ -88,6 +88,8 @@ ROOT_HOME ??=3D &quot;/home/root&quot;<br>
-=C2=A0# If set to boolean true (&#39;yes&#39;, &#39;y&#39;, &#39;true&#39;,=
- &#39;t&#39;, &#39;1&#39;), /var/log links to /var/volatile/log.<br>
-=C2=A0# If set to boolean false (&#39;no&#39;, &#39;n&#39;, &#39;false&#39;=
-, &#39;f&#39;, &#39;0&#39;), /var/log is on persistent storage.<br>
-=C2=A0VOLATILE_LOG_DIR ?=3D &quot;yes&quot;<br>
-+# If VOLATILE_LOG_DIR is false and PERSISTENT_LOG_DIR is set, /var/log lin=
-ks to PERSISTENT_LOG_DIR<br>
-+PERSISTENT_LOG_DIR ??=3D &quot;&quot;<br>
-<br>
-=C2=A0##################################################################<br=
+diff --git a/meta/recipes-core/base-files/<a href=3D"http://base-files_3.0.=
+14.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">base-files_3.0.14.bb=
+</a> b/meta/recipes-core/base-files/<a href=3D"http://base-files_3.0.14.bb"=
+ rel=3D"noreferrer noreferrer" target=3D"_blank">base-files_3.0.14.bb</a><b=
+r>
+index 1c0863b..597fdaa 100644<br>
+--- a/meta/recipes-core/base-files/<a href=3D"http://base-files_3.0.14.bb" =
+rel=3D"noreferrer noreferrer" target=3D"_blank">base-files_3.0.14.bb</a><br=
 >
-=C2=A0# Architecture-dependent build variables.<br>
++++ b/meta/recipes-core/base-files/<a href=3D"http://base-files_3.0.14.bb" =
+rel=3D"noreferrer noreferrer" target=3D"_blank">base-files_3.0.14.bb</a><br=
+>
+@@ -42,7 +42,7 @@ dirs755 =3D &quot;/boot /dev ${base_bindir} ${base_sbindi=
+r} ${base_libdir} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${localstatedir}/backups ${locals=
+tatedir}/lib \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /sys ${localstatedir}/lib/misc ${=
+localstatedir}/spool \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${localstatedir}/volatile \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${localstatedir}/${@&#39;volatile=
+/&#39; if oe.types.boolean(&#39;${VOLATILE_LOG_DIR}&#39;) else &#39;&#39;}l=
+og \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@&#39;${localstatedir}/volatile=
+/log&#39; if oe.types.boolean(&#39;${VOLATILE_LOG_DIR}&#39;) else &#39;${PE=
+RSISTENT_LOG_DIR}&#39; if d.getVar(&#39;PERSISTENT_LOG_DIR&#39;) else &#39;=
+${localstatedir}/log&#39; } \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /home ${prefix}/src ${localstated=
+ir}/local \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /media&quot;<br>
+<br>
+@@ -106,6 +106,10 @@ do_install () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf volatile/$d =
+${D}${localstatedir}/$d<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ${@ oe.types.boolean(&#39;${VOLATILE_LOG_D=
+IR}&#39;) } =3D False -a ! -z ${PERSISTENT_LOG_DIR} ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ${PERSISTENT=
+_LOG_DIR} ${D}/${localstatedir}/log<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -snf ../run ${D}${localstatedir}/run<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -snf ../run/lock ${D}${localstatedir}/lock<b=
+r>
+<br>
 -- <br>
 2.7.4<br>
 <br>
 </blockquote></div>
 
---00000000000026c7cd057434c447--
+--00000000000009ec20057434c6e9--
