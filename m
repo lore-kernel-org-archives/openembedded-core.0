@@ -1,26 +1,25 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 002BD79603
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D382879608
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 15:00:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7OF02qr012329
+	Fri, 24 Aug 2018 15:00:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7OF09Sb003242
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Aug 2018 08:00:02 -0700
+	Fri, 24 Aug 2018 08:00:09 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Fri, 24 Aug 2018 08:00:01 -0700
+	14.3.399.0; Fri, 24 Aug 2018 08:00:07 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 24 Aug 2018 10:59:48 -0400
-Message-ID: <d47d5ff09e4c6a778651686c2ed85abb768a906e.1535118570.git.bruce.ashfield@windriver.com>
+Date: Fri, 24 Aug 2018 10:59:52 -0400
+Message-ID: <014196e54dd030624d88b1301faca05b2eb4f1f8.1535118570.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1535118570.git.bruce.ashfield@windriver.com>
 References: <cover.1535118570.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 01/12] linux-yocto/4.14: rt: Revert mm/vmstat.c: fix vmstat_update() preemption BUG
+Subject: [PATCH 05/12] linux-yocto: add qemuarm64 preempt-rt BSP definition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +32,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 15:00:07 -0000
+X-List-Received-Date: Fri, 24 Aug 2018 15:00:09 -0000
 Content-Type: text/plain
 
-Reverting mm/vmstat.c: fix vmstat_update() preemption BUG, to fix
-failures in the 4.14 -rt kernel.
+Adding the preempt-rt BSP definition for qemuarm64 to allow -rt testing
+on this ARCH.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   | 2 +-
  meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb | 2 +-
  meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-index c5cb7b419ac6..4963612aacc5 100644
+index 4963612aacc5..e0c8f158ad12 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-@@ -11,8 +11,8 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+@@ -12,7 +12,7 @@ python () {
  }
  
--SRCREV_machine ?= "7e0d6d525a8deb7329c0d8f844880c5ec6c0b84a"
--SRCREV_meta ?= "d64aec9793d558ff49993ff6076be6d4daf101c2"
-+SRCREV_machine ?= "0f7a6d5209e60e88f9bc39298229113e58db1b82"
-+SRCREV_meta ?= "49e24e3e2cad518ae1fd7eff05f3228201b54a33"
+ SRCREV_machine ?= "0f7a6d5209e60e88f9bc39298229113e58db1b82"
+-SRCREV_meta ?= "49e24e3e2cad518ae1fd7eff05f3228201b54a33"
++SRCREV_meta ?= "f75450c33202c3090c8c0d7cae4e828809ea133c"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-index da1ba6193f6c..85f3ce1d99f3 100644
+index 85f3ce1d99f3..e78bbb117a16 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
 @@ -13,7 +13,7 @@ KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
  SRCREV_machine ?= "dd893e600276f4e05e416cf5be73a5fd5752e0cb"
--SRCREV_meta ?= "d64aec9793d558ff49993ff6076be6d4daf101c2"
-+SRCREV_meta ?= "49e24e3e2cad518ae1fd7eff05f3228201b54a33"
+-SRCREV_meta ?= "49e24e3e2cad518ae1fd7eff05f3228201b54a33"
++SRCREV_meta ?= "f75450c33202c3090c8c0d7cae4e828809ea133c"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
 diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-index 9ea313515171..1d038a91513b 100644
+index 1d038a91513b..4e3241c1fd6e 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
 @@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "97c8063d2df381b828b37608f88efa9b4dd9e379"
  SRCREV_machine_qemux86-64 ?= "97c8063d2df381b828b37608f88efa9b4dd9e379"
  SRCREV_machine_qemumips64 ?= "346488cf46ac4045fe257eb63836eb93c7c09859"
  SRCREV_machine ?= "97c8063d2df381b828b37608f88efa9b4dd9e379"
--SRCREV_meta ?= "d64aec9793d558ff49993ff6076be6d4daf101c2"
-+SRCREV_meta ?= "49e24e3e2cad518ae1fd7eff05f3228201b54a33"
+-SRCREV_meta ?= "49e24e3e2cad518ae1fd7eff05f3228201b54a33"
++SRCREV_meta ?= "f75450c33202c3090c8c0d7cae4e828809ea133c"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
