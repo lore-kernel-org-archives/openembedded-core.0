@@ -1,25 +1,25 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D0E9750F9
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 42742795FC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 15:00:03 +0000 (UTC)
+	Fri, 24 Aug 2018 15:00:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7OF046P008929
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7OF04p3003239
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Aug 2018 08:00:04 -0700 (PDT)
+	Fri, 24 Aug 2018 08:00:05 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Fri, 24 Aug 2018 08:00:03 -0700
+	14.3.399.0; Fri, 24 Aug 2018 08:00:04 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 24 Aug 2018 10:59:49 -0400
-Message-ID: <0f3a29fa7c1f9ab1329041f60198a2a816741f23.1535118570.git.bruce.ashfield@windriver.com>
+Date: Fri, 24 Aug 2018 10:59:50 -0400
+Message-ID: <f04fdefbba7c8da549670f705c123b2286ed8682.1535118570.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1535118570.git.bruce.ashfield@windriver.com>
 References: <cover.1535118570.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 02/12] linux-yocto/standard: enable bpf configs in standard kernel
+Subject: [PATCH 03/12] classes/kernel-yocto: Cleanup getstatusoutput usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,109 +32,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 15:00:03 -0000
+X-List-Received-Date: Fri, 24 Aug 2018 15:00:04 -0000
 Content-Type: text/plain
 
-Enabling the bpf feature for the standard kernel configurations
-by default. Systemd (and other) userspace applications are looking
-for BPF more often, and we get warnings such as this:
+From: Joshua Watt <jpewhacker@gmail.com>
 
-  [   12.810554] systemd[1]: File
-    /lib/systemd/system/systemd-journald.service:36 configures an IP
-    firewall (IPAddressDeny=any), but the local system does not support
-    BPF/cgroup based firewalling.
+Replace usage of os.utils.getstatusoutput() with direct subprocess
+calls. Pass a modified environment and working directory where necessary
+to bypass the need to execute in a shell.
 
-The configs don't add much overhead to the kernel, so we enable them
-by default.
-
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/kernel-yocto.bbclass                  | 24 +++++++++++++++-------
+ .../kern-tools/kern-tools-native_git.bb            |  2 +-
+ 2 files changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-index cf6a733ceb69..afd76c2272bc 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 077a1ab8ef71..19d74a78757b 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -321,7 +321,7 @@ do_kernel_configme() {
+ addtask kernel_configme before do_configure after do_patch
  
- SRCREV_machine ?= "7ba09f891939cbf2c58801a7a4a740365896d6ba"
--SRCREV_meta ?= "367bd3633d5a661035f90f0b8daa38e97da1a587"
-+SRCREV_meta ?= "99bef6252a7b9b5e38ea15112e9466ed6974a3fe"
+ python do_kernel_configcheck() {
+-    import re, string, sys
++    import re, string, sys, subprocess
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
-index e2b45fa3e140..26d8382b38e0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
-@@ -12,7 +12,7 @@ python () {
- }
+     # if KMETA isn't set globally by a recipe using this routine, we need to
+     # set the default to 'meta'. Otherwise, kconf_check is not passed a valid
+@@ -330,16 +330,26 @@ python do_kernel_configcheck() {
+     if not os.path.exists(kmeta):
+         kmeta = "." + kmeta
  
- SRCREV_machine ?= "3373c0cf71f2812eeb9694839456df6f67fd32ac"
--SRCREV_meta ?= "d35642f0b65f7772a45e1457fd60de6d1bff8e58"
-+SRCREV_meta ?= "3b43c318d9dca8858e0ec402db8a99ab2b79f16f"
+-    pathprefix = "export PATH=%s:%s; " % (d.getVar('PATH'), "${S}/scripts/util/")
++    s = d.getVar('S')
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.15;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-index 9d5e1582b531..870e7662fb46 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+-    cmd = d.expand("scc --configs -o ${S}/.kernel-meta")
+-    ret, configs = oe.utils.getstatusoutput("%s%s" % (pathprefix, cmd))
++    env = os.environ.copy()
++    env['PATH'] = "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
  
- SRCREV_machine ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
--SRCREV_meta ?= "367bd3633d5a661035f90f0b8daa38e97da1a587"
-+SRCREV_meta ?= "99bef6252a7b9b5e38ea15112e9466ed6974a3fe"
+-    cmd = d.expand("cd ${S}; kconf_check --report -o ${S}/%s/cfg/ ${B}/.config ${S} %s" % (kmeta,configs))
+-    ret, result = oe.utils.getstatusoutput("%s%s" % (pathprefix, cmd))
++    try:
++        configs = subprocess.check_output(['scc', '--configs', '-o', s + '/.kernel-meta'], env=env).decode('utf-8')
++    except subprocess.CalledProcessError:
++        bb.fatal( "Cannot gather config fragments for audit: %s" % configs)
++
++    try:
++        subprocess.check_call(['kconf_check', '--report', '-o',
++                '%s/%s/cfg' % (s, kmeta), d.getVar('B') + '/.config', s, configs], cwd=s, env=env)
++    except subprocess.CalledProcessError:
++        # The configuration gathering can return different exit codes, but
++        # we interpret them based on the KCONF_AUDIT_LEVEL variable, so we catch
++        # everything here, and let the run continue.
++        pass
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
+     config_check_visibility = int(d.getVar("KCONF_AUDIT_LEVEL") or 0)
+-    bsp_check_visibility = int(d.getVar("KCONF_BSP_AUDIT_LEVEL") or 0)
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
-index 3738e623c74b..d3759b0582f0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
-@@ -11,7 +11,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+     # if config check visibility is non-zero, report dropped configuration values
+     mismatch_file = d.expand("${S}/%s/cfg/mismatch.txt" % kmeta)
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 4ccf9b07f306..dca567f783b3 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1b
  
- SRCREV_machine ?= "3373c0cf71f2812eeb9694839456df6f67fd32ac"
--SRCREV_meta ?= "d35642f0b65f7772a45e1457fd60de6d1bff8e58"
-+SRCREV_meta ?= "3b43c318d9dca8858e0ec402db8a99ab2b79f16f"
+ DEPENDS = "git-native"
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
+-SRCREV = "8cd13500a27c0a6a911cc83c0349dec01ef66e27"
++SRCREV = "602237a57487e969016db3085d181b585f5a74a7"
+ PR = "r12"
+ PV = "0.2+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-index ac98ca85fc3f..57f29949c743 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
- SRCREV_machine_qemux86-64 ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
- SRCREV_machine_qemumips64 ?= "38da8c72733da9619bbbddf14140204631faf488"
- SRCREV_machine ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
--SRCREV_meta ?= "367bd3633d5a661035f90f0b8daa38e97da1a587"
-+SRCREV_meta ?= "99bef6252a7b9b5e38ea15112e9466ed6974a3fe"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-index 84d46c418dd3..238d35a3c8f5 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "3373c0cf71f2812eeb9694839456df6f67fd32ac"
- SRCREV_machine_qemux86-64 ?= "3373c0cf71f2812eeb9694839456df6f67fd32ac"
- SRCREV_machine_qemumips64 ?= "b98c113571c72a0d34832dd6fe5585529b32988b"
- SRCREV_machine ?= "3373c0cf71f2812eeb9694839456df6f67fd32ac"
--SRCREV_meta ?= "d35642f0b65f7772a45e1457fd60de6d1bff8e58"
-+SRCREV_meta ?= "3b43c318d9dca8858e0ec402db8a99ab2b79f16f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.15;destsuffix=${KMETA}"
 -- 
 2.5.0
 
