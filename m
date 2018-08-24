@@ -1,23 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F030795AE
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D2F8A795C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 07:06:52 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7O76qUB025918
+	Fri, 24 Aug 2018 07:06:54 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7O76sRC008248
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 00:06:53 -0700 (PDT)
+	Fri, 24 Aug 2018 00:06:55 -0700
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Fri, 24 Aug 2018 00:06:52 -0700
+	14.3.399.0; Fri, 24 Aug 2018 00:06:54 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Aug 2018 14:29:23 +0800
-Message-ID: <cover.1535092036.git.kai.kang@windriver.com>
+Date: Fri, 24 Aug 2018 14:29:24 +0800
+Message-ID: <f5dd46d682cbe4663cdd7e9b88010614254e8f88.1535092036.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <cover.1535092036.git.kai.kang@windriver.com>
+References: <cover.1535092036.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] sstate.bbclass: make SSTATE_PRUNE_OBSOLETEWORKDIR could be overwritten
+Subject: [PATCH 1/1] sstate.bbclass: make SSTATE_PRUNE_OBSOLETEWORKDIR could be overwritten
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,26 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 07:06:52 -0000
+X-List-Received-Date: Fri, 24 Aug 2018 07:06:55 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-The following changes since commit bd374216048581bcb3ea54d69998342525cf2da5:
+Define variable SSTATE_PRUNE_OBSOLETEWORKDIR with '?=' in sstate.bbclass,
+then it could be overwritten by user configuration.
 
-  util-linux: upgrade 2.32 -> 2.32.1 (2018-08-23 18:02:23 +0100)
-
-are available in the Git repository at:
-
-  git://git.pokylinux.org/poky-contrib kangkai/sstate_prune
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/sstate_prune
-
-Kai Kang (1):
-  sstate.bbclass: make SSTATE_PRUNE_OBSOLETEWORKDIR could be overwritten
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
  meta/classes/sstate.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 084d631523..ecf08fb2d0 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -1040,7 +1040,7 @@ python sstate_eventhandler() {
+         bb.siggen.dump_this_task(sstatepkg + '_' + taskname + ".tgz" ".siginfo", d)
+ }
+ 
+-SSTATE_PRUNE_OBSOLETEWORKDIR = "1"
++SSTATE_PRUNE_OBSOLETEWORKDIR ?= "1"
+ 
+ # Event handler which removes manifests and stamps file for
+ # recipes which are no longer reachable in a build where they
 -- 
 2.18.0
 
