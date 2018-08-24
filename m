@@ -1,23 +1,52 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DE4278E00
+Return-Path: <prvs=767f4520c=Mikko.Rapeli@bmw.de>
+Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
+	[68.232.139.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E89879617
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 15:45:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7OFjuCq017246
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Aug 2018 08:45:56 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Fri, 24 Aug 2018 08:45:56 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 24 Aug 2018 11:45:55 -0400
-Message-ID: <1535125555-28523-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+	Fri, 24 Aug 2018 15:48:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1535125705; x=1566661705;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=rDNuSAuLPjTTAEd5O+xwQhX/6BxNEDGbYPCTFMnG36c=;
+	b=pAl/ABwLdkuMLFEHQ3mqIwaYEEG+k5CCongWDmdIG8NYkqq5gVjLLFCd
+	bGvZfskvin+2jsEJq+eeRpl8CwXGtqIi7URg8sf2wkkxc9HIzNzjxUscB
+	M2Hn+1m/iu5CHvKUgDgQ9TuXDH6p3v992FIFMUEpHbjujvYJj485p31+F 4=;
+Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
+	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 24 Aug 2018 17:48:24 +0200
+Received: from esabb1.muc ([160.50.100.31])  by esagw3.muc with ESMTP/TLS;
+	24 Aug 2018 17:48:23 +0200
+Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
+	([160.48.96.47])
+	by esabb1.muc with ESMTP/TLS; 24 Aug 2018 17:48:23 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10k.europe.bmw.corp
+	(160.48.96.47) with Microsoft SMTP Server (TLS;
+	Fri, 24 Aug 2018 17:48:23 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1367.000;
+	Fri, 24 Aug 2018 17:48:22 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <pascal.bach@siemens.com>
+Thread-Topic: [OE-core] [PATCH] cmake: add CMAKE_SYSROOT to generated
+	toolchain file
+Thread-Index: AQHUO7TfP39PtwdlbkOrx+nUTU/G7KTO2KyAgAAHkQCAAAqXAA==
+Date: Fri, 24 Aug 2018 15:48:22 +0000
+Message-ID: <20180824154822.GK20864@hiutale>
+References: <20180824123346.8602-1-pascal.bach@siemens.com>
+	<20180824141512.GG20864@hiutale> <20180824144323.GJ20864@hiutale>
+	<355BE46A91031048906B695426A8D8E61B8A14FB@DEFTHW99EH4MSX.ww902.siemens.net>
+In-Reply-To: <355BE46A91031048906B695426A8D8E61B8A14FB@DEFTHW99EH4MSX.ww902.siemens.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.42]
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] lttng: uprev to 2.10.7
+Subject: Re: [PATCH] cmake: add CMAKE_SYSROOT to generated toolchain file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,237 +59,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 15:45:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Aug 2018 15:48:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <41F6B14F4681ED4A95C83F4159B781C4@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-Uprev'ing lttng to 2.10.7 to support 4.18+ kernels.
+On Fri, Aug 24, 2018 at 03:10:28PM +0000, Bach, Pascal wrote:
+> =20
+> > > Fixes problems which we have also seen on sumo branch. Thanks for thi=
+s!
+> >=20
+> > Sorry, spoke too soon. This fixes compilation on a few recipes in my tr=
+ee but
+> > there are still lots failures with the same error message. We had a hac=
+ky
+> > patch to cmake as a workaround but that too causes some problems:
+>=20
+> I have not yet figured out what CMake based projects are affected and why=
+.
+> The error seems to happen only for certain projects.
 
-Dropped the brtfs patch as it is no longer required to for the tested
-kernel range.
+In our case it looks like a library is adding target_include_directories()
+with SYSTEM keyword in its cmake module. Everyone who includes the cmake mo=
+dule
+fails to build. This repeats with a handful of cmake modules and causes all
+of their dependencies to fail build with errors like:
 
-License-Update: headers changed to include SPDX information
+.../recipe-sysroot/usr/include/c++/7.3.0/cstdlib:75:15: fatal error: stdlib=
+.h: No such file or directory
+|  #include_next <stdlib.h>
+|                ^~~~~~~~~~
+| compilation terminated.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
+or
 
-v2: addressed patch appliation issues
+| cc1plus: warning: include location "/usr/include" is unsafe for cross-com=
+pilation [-Wpoison-system-directories]
+...
+.../recipe-sysroot/usr/include/stdlib.h:133:35: error: missing binary opera=
+tor before token=20
+"("
+|  #if __HAVE_FLOAT16 && __GLIBC_USE (IEC_60559_TYPES_EXT)
+|                                    ^
 
-    Added License-Update: tag, and removed unneeded btrfs patch
+So to me it looks like using SYSTEM with target_include_directories()
+is no longer possible with CMake and gcc > 6:
 
- ...trfs-Remove-unnecessary-fs_info-parameter.patch | 116 ---------------------
- meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb  |  36 -------
- meta/recipes-kernel/lttng/lttng-modules_2.10.7.bb  |  35 +++++++
- 3 files changed, 35 insertions(+), 152 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.10.7.bb
+https://cmake.org/cmake/help/v3.10/command/target_include_directories.html?=
+highlight=3Dtarget_include_directories
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch
-deleted file mode 100644
-index 0fe4ee8294e8..000000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch
-+++ /dev/null
-@@ -1,116 +0,0 @@
--From 51ab0b1da29354375a19f865abcd233dd2178295 Mon Sep 17 00:00:00 2001
--From: Michael Jeanson <mjeanson@efficios.com>
--Date: Mon, 18 Jun 2018 14:53:19 -0400
--Subject: [PATCH] Fix: btrfs: Remove unnecessary fs_info parameter
--
--See upstream commit:
--
--  commit 3dca5c942dac60164e6a6e89172f25b86af07ce7
--  Author: Qu Wenruo <wqu@suse.com>
--  Date:   Thu Apr 26 14:24:25 2018 +0800
--
--    btrfs: trace: Remove unnecessary fs_info parameter for btrfs__reserve_extent event class
--
--    fs_info can be extracted from btrfs_block_group_cache, and all
--    btrfs_block_group_cache is created by btrfs_create_block_group_cache()
--    with fs_info initialized, no need to worry about NULL pointer
--    dereference.
--
--Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
--Upstream-Status: Backport
--Signed-off-by: He Zhe <zhe.he@windriver.com>
-----
-- instrumentation/events/lttng-module/btrfs.h | 54 ++++++++++++++++++++++++++++-
-- 1 file changed, 53 insertions(+), 1 deletion(-)
--
--diff --git a/instrumentation/events/lttng-module/btrfs.h b/instrumentation/events/lttng-module/btrfs.h
--index 75cc73b..fd1b6b8 100644
----- a/instrumentation/events/lttng-module/btrfs.h
--+++ b/instrumentation/events/lttng-module/btrfs.h
--@@ -1658,8 +1658,57 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserved_extent,  btrfs_reserved_extent_f
-- 
-- #endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0)) */
-- 
---#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,18,0))
--+LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
--+
--+	btrfs_find_free_extent,
--+
--+	TP_PROTO(const struct btrfs_fs_info *info, u64 num_bytes, u64 empty_size,
--+		 u64 data),
--+
--+	TP_ARGS(info, num_bytes, empty_size, data),
--+
--+	TP_FIELDS(
--+		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
--+		ctf_integer(u64, num_bytes, num_bytes)
--+		ctf_integer(u64, empty_size, empty_size)
--+		ctf_integer(u64, data, data)
--+	)
--+)
--+
--+LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
--+
--+	TP_PROTO(const struct btrfs_block_group_cache *block_group, u64 start,
--+		 u64 len),
--+
--+	TP_ARGS(block_group, start, len),
--+
--+	TP_FIELDS(
--+		ctf_array(u8, fsid, block_group->fs_info->fsid, BTRFS_UUID_SIZE)
--+		ctf_integer(u64, bg_objectid, block_group->key.objectid)
--+		ctf_integer(u64, flags, block_group->flags)
--+		ctf_integer(u64, start, start)
--+		ctf_integer(u64, len, len)
--+	)
--+)
--+
--+LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent,
--+
--+	TP_PROTO(const struct btrfs_block_group_cache *block_group, u64 start,
--+		 u64 len),
--+
--+	TP_ARGS(block_group, start, len)
--+)
--+
--+LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_cluster,
--+
--+	TP_PROTO(const struct btrfs_block_group_cache *block_group, u64 start,
--+		 u64 len),
--+
--+	TP_ARGS(block_group, start, len)
--+)
-- 
--+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
-- LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-- 
-- 	btrfs_find_free_extent,
--@@ -1670,6 +1719,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-- 	TP_ARGS(info, num_bytes, empty_size, data),
-- 
-- 	TP_FIELDS(
--+		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
-- 		ctf_integer(u64, num_bytes, num_bytes)
-- 		ctf_integer(u64, empty_size, empty_size)
-- 		ctf_integer(u64, data, data)
--@@ -1685,6 +1735,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-- 	TP_ARGS(info, block_group, start, len),
-- 
-- 	TP_FIELDS(
--+		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
-- 		ctf_integer(u64, bg_objectid, block_group->key.objectid)
-- 		ctf_integer(u64, flags, block_group->flags)
-- 		ctf_integer(u64, start, start)
--@@ -1722,6 +1773,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-- 	TP_ARGS(info, num_bytes, empty_size, data),
-- 
-- 	TP_FIELDS(
--+		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
-- 		ctf_integer(u64, num_bytes, num_bytes)
-- 		ctf_integer(u64, empty_size, empty_size)
-- 		ctf_integer(u64, data, data)
---- 
--2.13.3
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb
-deleted file mode 100644
-index d9d5588f9ac9..000000000000
---- a/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb
-+++ /dev/null
-@@ -1,36 +0,0 @@
--SECTION = "devel"
--SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
--DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
--LICENSE = "LGPLv2.1 & GPLv2 & MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=c4613d1f8a9587bd7b366191830364b3 \
--                    file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
--                    file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad \
--                    "
--
--inherit module
--
--COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-linux'
--
--SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
--           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
--           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
--           file://0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch \
--"
--
--SRC_URI[md5sum] = "8110099f4615fc89a74ffe9189b56cfc"
--SRC_URI[sha256sum] = "04a080c81743eb29d181bac29ceb0c15819a2f4210793f2cc9958d885435029f"
--
--export INSTALL_MOD_DIR="kernel/lttng-modules"
--
--EXTRA_OEMAKE += "KERNELDIR='${STAGING_KERNEL_DIR}'"
--
--do_install_append() {
--	# Delete empty directories to avoid QA failures if no modules were built
--	find ${D}/${nonarch_base_libdir} -depth -type d -empty -exec rmdir {} \;
--}
--
--python do_package_prepend() {
--    if not os.path.exists(os.path.join(d.getVar('D'), d.getVar('nonarch_base_libdir')[1:], 'modules')):
--        bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
--}
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.7.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.7.bb
-new file mode 100644
-index 000000000000..0e280b32c979
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.7.bb
-@@ -0,0 +1,35 @@
-+SECTION = "devel"
-+SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
-+DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
-+LICENSE = "LGPLv2.1 & GPLv2 & MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=c4613d1f8a9587bd7b366191830364b3 \
-+                    file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
-+                    file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad \
-+                    "
-+
-+inherit module
-+
-+COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-linux'
-+
-+SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-+           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-+           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-+"
-+
-+SRC_URI[md5sum] = "d3cb4520948083bf1573a2e4cb7406aa"
-+SRC_URI[sha256sum] = "f049428d3d131e103a7a7038d184731bf7bcdce00503fc19a2c9b5693ecbb3b5"
-+
-+export INSTALL_MOD_DIR="kernel/lttng-modules"
-+
-+EXTRA_OEMAKE += "KERNELDIR='${STAGING_KERNEL_DIR}'"
-+
-+do_install_append() {
-+	# Delete empty directories to avoid QA failures if no modules were built
-+	find ${D}/${nonarch_base_libdir} -depth -type d -empty -exec rmdir {} \;
-+}
-+
-+python do_package_prepend() {
-+    if not os.path.exists(os.path.join(d.getVar('D'), d.getVar('nonarch_base_libdir')[1:], 'modules')):
-+        bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
-+}
-+
--- 
-2.5.0
+> > --- a/Modules/Compiler/GNU.cmake
+> > +++ b/Modules/Compiler/GNU.cmake
+> > @@ -45,7 +45,7 @@
+> >    set(CMAKE_${lang}_CREATE_PREPROCESSED_SOURCE
+> > "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -E
+> > <SOURCE> > <PREPROCESSED_SOURCE>")
+> >    set(CMAKE_${lang}_CREATE_ASSEMBLY_SOURCE
+> > "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -S
+> > <SOURCE> -o <ASSEMBLY_SOURCE>")
+> >    if(NOT APPLE OR NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS
+> > 4) # work around #4462
+> > -    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
+> > +    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-I ")
+> >    endif()
+> >=20
+> >    set(_CMAKE_${lang}_IPO_SUPPORTED_BY_CMAKE YES)
+> >=20
+> > I wonder what the real fix could be...
+> >=20
+>=20
+> This looks similar to another workaround I saw.
+> Setting CMAKE_NO_SYSTEM_FROM_IMPORTED to True. I'm also not sure what the=
+ real fix is.
+> The issue is also discussed here: https://gitlab.kitware.com/cmake/cmake/=
+issues/16291
 
+Thanks for the ticket link.
+
+-Mikko=
 
