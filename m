@@ -1,25 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Mingli.Yu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0766160290
+	by mail.openembedded.org (Postfix) with ESMTP id 5D6236010D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 03:42:17 +0000 (UTC)
+	Fri, 24 Aug 2018 06:07:06 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7O3gJRu018050
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7O676la026831
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2018 20:42:19 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	Thu, 23 Aug 2018 23:07:07 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 23 Aug 2018 20:42:18 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	14.3.399.0; Thu, 23 Aug 2018 23:07:06 -0700
+From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Aug 2018 11:46:40 +0800
-Message-ID: <620b38a380c4e52a34592784f48bb5b0212f5ba0.1535080661.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1535080661.git.Qi.Chen@windriver.com>
-References: <cover.1535080661.git.Qi.Chen@windriver.com>
+Date: Fri, 24 Aug 2018 14:07:05 +0800
+Message-ID: <1535090825-318771-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 1/1] utils.bbclass: fix KeyError exception
+Subject: [PATCH] bluez5: Fix ptest hang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +30,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2018 03:42:18 -0000
+X-List-Received-Date: Fri, 24 Aug 2018 06:07:06 -0000
 Content-Type: text/plain
 
-The following statement was accidently removed. Add it back.
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-  values['ml'] = ['']
+The below test hangs infinitely
+$ ./run-ptest
 
-This patch fixes the following error.
+Actually it stuck at test-gatt unit test and
+the detailed test output as below:
+$ unit/test-gatt -p  /robustness/unkown-request -d
+/robustness/unkown-request - init
+/robustness/unkown-request - setup
+/robustness/unkown-request - setup complete
+/robustness/unkown-request - run
+GATT: < 02 17 00                                         ...
+bt_gatt_server:MTU exchange complete, with MTU: 23
+GATT: > 03 00 02                                         ...
+PDU: = 03 00 02                                         ...
+GATT: < bf 00
 
-  Exception: KeyError: 'ml'
+Considering the /robustness/unkown-request test
+actually does no action, update to raw_pdu() to
+fix the hang issue.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- meta/classes/utils.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
+ .../bluez5/0001-test-gatt-Fix-hung-issue.patch     | 43 ++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index e12e93a..0016e5c 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -360,6 +360,7 @@ def all_multilib_tune_list(vars, d):
-     values = {}
-     for v in vars:
-         values[v] = []
-+    values['ml'] = ['']
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index c0b6571..9d9739e 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -51,6 +51,7 @@ SRC_URI = "\
+     file://run-ptest \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+     file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
++    file://0001-test-gatt-Fix-hung-issue.patch \
+ "
+ S = "${WORKDIR}/bluez-${PV}"
  
-     variants = (d.getVar("MULTILIB_VARIANTS") or "").split() + ['']
-     for item in variants:
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
+new file mode 100644
+index 0000000..50cfd2d
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
+@@ -0,0 +1,43 @@
++From 61e741654cc2eb167bca212a3bb2ba8f3ba280c1 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Fri, 24 Aug 2018 12:04:03 +0800
++Subject: [PATCH] test-gatt: Fix hung issue
++
++The below test hangs infinitely
++$ unit/test-gatt -p  /robustness/unkown-request -d
++/robustness/unkown-request - init
++/robustness/unkown-request - setup
++/robustness/unkown-request - setup complete
++/robustness/unkown-request - run
++  GATT: < 02 17 00                                         ...
++  bt_gatt_server:MTU exchange complete, with MTU: 23
++  GATT: > 03 00 02                                         ...
++  PDU: = 03 00 02                                         ...
++  GATT: < bf 00
++
++Actually, the /robustness/unkown-request test does
++no action.
++
++Upsteam-Status: Submitted[https://marc.info/?l=linux-bluetooth&m=153508881804635&w=2]
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ unit/test-gatt.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/unit/test-gatt.c b/unit/test-gatt.c
++index c7e28f8..b57373b 100644
++--- a/unit/test-gatt.c
+++++ b/unit/test-gatt.c
++@@ -4463,7 +4463,7 @@ int main(int argc, char *argv[])
++ 			test_server, service_db_1, NULL,
++ 			raw_pdu(0x03, 0x00, 0x02),
++ 			raw_pdu(0xbf, 0x00),
++-			raw_pdu(0x01, 0xbf, 0x00, 0x00, 0x06));
+++			raw_pdu());
++ 
++ 	define_test_server("/robustness/unkown-command",
++ 			test_server, service_db_1, NULL,
++-- 
++2.7.4
++
 -- 
-1.9.1
+2.7.4
 
 
