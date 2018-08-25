@@ -1,49 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E71879164
+Return-Path: <tomohiro.komagata.aj@gmail.com>
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 29CE774623
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Aug 2018 00:17:22 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id g44-v6so11366563qtb.12
+	Sat, 25 Aug 2018 08:49:52 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id w14-v6so2049787plp.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2018 17:17:23 -0700 (PDT)
+	Sat, 25 Aug 2018 01:49:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=2vO4ds1dxl5XUT8zTej79EvCQVbY4BUQPh2J1Uspq1M=;
-	b=QLFgft5IRhkiPbw0bY9d7EcdzCHu8YRL8+ng8mSeVttPBb/2Ja18p2OLwZBvDag0Bs
-	lDS5P031D5EJulOxEJRe6qc4nCubU8QFUyVUyJmSjWgC10yL/JBxeRsW8QFTnVs8nD5u
-	iJDmf2z7KbFfDTOosMlDu63PHsC/duDOMY1UyeiaeEEWl25HKC4uumT4xoWfcW8+z9QN
-	6xW03mfoNK7mvNX9zcw/SJF1oSgXUS2df6KxXFZxUiBds+NBsiep57L15kKHNWbotjzZ
-	+jGlfOKc1suaPwcK5Yp9+sgmF/2/g/K2xm+X7bMU8OJGroOPGLfpJoOLbWn90oyXiyxG
-	zgvA==
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding:content-language;
+	bh=4uW9XpHNYSCiUrIArAasRhxu+AEdfxnO4qnh9evC1RU=;
+	b=SWIV83U07xv34RNjBLg64844XeodwL7KHYiiKmTdcMPYKORYv5ly/9BgNXdFXQbBUM
+	s+LbD28pQz2oqaiobAaRGQmjgcZUXMmIO/2elCxm2fwknFeNUBcoc4VVpsQ41AM6/hbK
+	dgWA5knT85eiPXyDbpmpe8T06EAZ+6Pq0CjgqGcxYstsJczDgTCe0HqUx1QbpUTO9yUs
+	J8hDCj+ju9FBxW0pS3O1K70BPZLEKQtj5wKMjkyJoeMPabda7g21wArH70jQuHHAQVTn
+	IV6kq6IJ5brURIOdanJjVIFWdVGes5qrcgesIIza+ufkuQ7ejbaBZYle4Qa9guUS76Oz
+	Zpdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=2vO4ds1dxl5XUT8zTej79EvCQVbY4BUQPh2J1Uspq1M=;
-	b=RA+xxOqO2lLBxYV404feLLeUMsFhV2CnXzu3OOQDD2UFfaRR4M7XhXmw/uCp7YCHrW
-	tjMWH8BqrYHho9VAS2yVF718vdQHYLMx+TgMDpnvJbeAQ06Vf0pY+1q2gXtKmM+IGcjv
-	GboY2eqwuixHrzUlB1mvwB61fKed7Dq9EzhuCU0H8wxeH7/b8q2XxPCViSw9FJcFNzMx
-	SSxfJsvV7MYpTWy4u+P8wRBvzooYQ3wHKOr/w4n4xjYXXpIenDbNKsN/PpnARpF0tuxX
-	49hImZSD2xapRaPJVp+JjiAlqidO4w2Fw3F4y6iaGLZ6M4weIo0iVoS/oXbDZF73SF6l
-	ylqw==
-X-Gm-Message-State: APzg51CLuK4IiaOaB8o0vEjG+kh8bQlz5VDo4EAOtqhs54vQHPJFNtV0
-	TirbIncEfDB12UeXZIXkpKZTSwtFuV/W6LiFTbI=
-X-Google-Smtp-Source: ANB0Vdbx6cim/YsSrRJfI9lHQD5RbymMNsXqrlGt5JuAXnTHOCVXsR9aDCl3OSdBSTaZ8ykt6kFmTt4isWKPX0gx8iw=
-X-Received: by 2002:aed:3848:: with SMTP id
-	j66-v6mr4227263qte.218.1535156243007; 
-	Fri, 24 Aug 2018 17:17:23 -0700 (PDT)
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding:content-language;
+	bh=4uW9XpHNYSCiUrIArAasRhxu+AEdfxnO4qnh9evC1RU=;
+	b=Iwq6I14A9m3kt6jsUkRAaocx2S3imBTluZrxMYbWudS1KYETk7ZN3ag9Bi4zjmS6xm
+	DaglStuVlqnvoShwMZTDVmPgHkGbTObuVu7d2l0o0NpWair9+gu02NZNTNw5bGyNQrWI
+	Dfhj1G6KWHF8RfLYoM75GonpJTHcHSAPPWXF1kOwBuKdFQUwsbe9s2JyWRBi2fYUW0Do
+	svU0EGlnHrKdmsFmiLmiKNkUExQ6yuyOJUMlKF/FlvibxV6XjL+bM+pfyvoiT4P4RiOf
+	rkiMSaaO3BoqNHrT7PgRFUn5kOC3jLUUjRe8hinx0Yk+ALio3TvU6w6JKrKvZNpYBEJ3
+	+O1w==
+X-Gm-Message-State: APzg51DUg+R4QNO+2v8yQ2B2JuFsOj6QYrz6/E0idn5xcbT295IHPrzx
+	JvR/WtO+xnoKKG0hFARExhs=
+X-Google-Smtp-Source: ANB0VdblRcJ87UDxSFieELuVpbidTcE8Jwp6K7TmD6ekqruQaXFhXVLrDWFXewjaH9eCvW+kWYLeyA==
+X-Received: by 2002:a17:902:740a:: with SMTP id
+	g10-v6mr5062872pll.22.1535186994246; 
+	Sat, 25 Aug 2018 01:49:54 -0700 (PDT)
+Received: from ?IPv6:240b:12:4260:6a00:350f:1421:8fe1:b168?
+	([240b:12:4260:6a00:350f:1421:8fe1:b168])
+	by smtp.gmail.com with ESMTPSA id
+	v7-v6sm14142201pgh.57.2018.08.25.01.49.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 25 Aug 2018 01:49:53 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+From: Tomohiro Komagata <tomohiro.komagata.aj@gmail.com>
+Message-ID: <6da833d1-a532-779e-8116-cb8b950bc8aa@gmail.com>
+Date: Sat, 25 Aug 2018 17:49:51 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
-	<1534553964-16157-2-git-send-email-ankur.tyagi85@gmail.com>
-In-Reply-To: <1534553964-16157-2-git-send-email-ankur.tyagi85@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 24 Aug 2018 17:16:57 -0700
-Message-ID: <CAMKF1spvcJfbdET14z+cjR9P-rCyWtXnb87G9wg=GC3zxDbiYg@mail.gmail.com>
-To: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [rocko][sumo][master][PATCH 2/2] base-files: respect PERSISTENT_LOG_DIR
+Subject: [Q&A] "http://sources.openembedded.org" is unavailable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +60,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Aug 2018 00:17:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 25 Aug 2018 08:49:53 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Fri, Aug 17, 2018 at 6:00 PM Ankur Tyagi <ankur.tyagi85@gmail.com> wrote:
->
-> Respect PERSISTENT_LOG_DIR variable. In this way, if the user overrides
-> this variable to be e.g "/home/root/log", /var/log on the final image would
-> be a link pointing to /home/root/log on persistent storage.
->
+Hi all,
 
-I would suggest to stick with VOLATILE_BINDS
+In this week, I have failed to bitbake,
+because "http://sources.openembedded.org" is unavailable and it occurs the fetch error.
 
-> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-> ---
->  meta/recipes-core/base-files/base-files_3.0.14.bb | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> index 1c0863b..597fdaa 100644
-> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> @@ -42,7 +42,7 @@ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
->             ${localstatedir}/backups ${localstatedir}/lib \
->             /sys ${localstatedir}/lib/misc ${localstatedir}/spool \
->             ${localstatedir}/volatile \
-> -           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
-> +           ${@'${localstatedir}/volatile/log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else '${PERSISTENT_LOG_DIR}' if d.getVar('PERSISTENT_LOG_DIR') else '${localstatedir}/log' } \
->             /home ${prefix}/src ${localstatedir}/local \
->             /media"
->
-> @@ -106,6 +106,10 @@ do_install () {
->                 ln -sf volatile/$d ${D}${localstatedir}/$d
->         done
->
-> +       if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = False -a ! -z ${PERSISTENT_LOG_DIR} ]; then
-> +               ln -sf ${PERSISTENT_LOG_DIR} ${D}/${localstatedir}/log
-> +       fi
-> +
->         ln -snf ../run ${D}${localstatedir}/run
->         ln -snf ../run/lock ${D}${localstatedir}/lock
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Does anyone have any information ?
+When will its server be available ?
+
+Best regards,
+　T.Komagata
+
 
