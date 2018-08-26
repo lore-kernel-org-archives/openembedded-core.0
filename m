@@ -1,24 +1,24 @@
 Return-Path: <kai.kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CDB47793F8
+	by mail.openembedded.org (Postfix) with ESMTP id C734979315
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Aug 2018 13:06:39 +0000 (UTC)
+	Sun, 26 Aug 2018 13:06:40 +0000 (UTC)
 Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
-	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w7QD6dEP002656;
-	Sun, 26 Aug 2018 06:06:39 -0700 (PDT)
+	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w7QD6e4w002659;
+	Sun, 26 Aug 2018 06:06:40 -0700 (PDT)
 Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
-	Sun, 26 Aug 2018 06:06:39 -0700
+	Sun, 26 Aug 2018 06:06:40 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Sun, 26 Aug 2018 06:06:29 -0700
-Message-Id: <83275801095fc92101ece399fe3b274705f03e0b.1535288685.git.kai.kang@windriver.com>
+Date: Sun, 26 Aug 2018 06:06:30 -0700
+Message-Id: <0b087c3754bd5e6daada9fe9df947ddbde0c3d39.1535288685.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1535288685.git.kai.kang@windriver.com>
 References: <cover.1535288685.git.kai.kang@windriver.com>
 In-Reply-To: <cover.1535288685.git.kai.kang@windriver.com>
 References: <cover.1535288685.git.kai.kang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/6] update_gtk_immodules_cache: update for multilib
+Subject: [PATCH 5/6] statetests.py: drop test_sstate_allarch_samesigs_multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +33,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 26 Aug 2018 13:06:40 -0000
 
-Postinstall script update_gtk_immodules_cache calls
-${bindir}/gtk-query-immodules-${version}. When multilib is enabled, both
-packages foo and lib32-foo call ${bindir}/gtk-query-immodules-${version}
-and one of them will fail to run obviously.
-
-Duplicate install files gtk-query-immodules-${version} to ${libexecdir}
-with ${MLPREFIX}. And update update_gtk_immodules_cache calls proper
-binary.
+allarch is disabled when multilib is used, so sstate oeqa case
+test_sstate_allarch_samesigs_multilib is useless. Remove check for
+allarch part and rename to test_sstate_nativesdk_samesigs_multilib.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-gnome/gtk+/gtk+.inc                       | 4 ++++
- meta/recipes-gnome/gtk+/gtk+3.inc                      | 4 ++++
- scripts/postinst-intercepts/update_gtk_immodules_cache | 8 ++++----
- 3 files changed, 12 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
-index 558bc485adc..b8f0abb49e1 100644
---- a/meta/recipes-gnome/gtk+/gtk+.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+.inc
-@@ -90,6 +90,10 @@ do_install () {
- 	install -m 0644 ${S}/gtk/gtkfilesystemmodel.h    ${D}${includedir}/gtk-2.0/gtk/
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 7b008e409f4..7194225c0a6 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -349,12 +349,9 @@ MACHINE = \"qemuarm\"
+         self.sstate_allarch_samesigs(configA, configB)
  
- 	mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-2.0
-+
-+    # duplicate gtk-query-immodules for post install script update_gtk_immodules_cache
-+    mkdir -p ${D}${libexecdir}
-+    cp ${D}${bindir}/gtk-query-immodules-2.0 ${D}${libexecdir}/${MLPREFIX}gtk-query-immodules-2.0
- }
+     @OETestID(1645)
+-    def test_sstate_allarch_samesigs_multilib(self):
++    def test_sstate_nativesdk_samesigs_multilib(self):
+         """
+-        The sstate checksums of allarch multilib packages should be independent of whichever
+-        MACHINE is set. Check this using bitbake -S.
+-        Also, rather than duplicate the test, check nativesdk stamps are the same between
+-        the two MACHINE values.
++        check nativesdk stamps are the same between the two MACHINE values.
+         """
  
- SYSROOT_PREPROCESS_FUNCS += "gtk_sysroot_preprocess"
-diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-index 420ead2ca2e..d8242ad5fc0 100644
---- a/meta/recipes-gnome/gtk+/gtk+3.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-@@ -53,6 +53,10 @@ PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,way
+         configA = """
+@@ -392,10 +389,6 @@ MULTILIBS = \"\"
+                         (_, task, _, shash) = name.rsplit(".", 3)
+                         f[os.path.join(os.path.basename(root), task)] = shash
+             return f
+-        files1 = get_files(self.topdir + "/tmp-sstatesamehash/stamps/all" + self.target_vendor + "-" + self.target_os)
+-        files2 = get_files(self.topdir + "/tmp-sstatesamehash2/stamps/all" + self.target_vendor + "-" + self.target_os)
+-        self.maxDiff = None
+-        self.assertEqual(files1, files2)
  
- do_install_append() {
- 	mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-3.0
-+
-+    # duplicate gtk-query-immodules for post install script update_gtk_immodules_cache
-+    mkdir -p ${D}${libexecdir}
-+    cp ${D}${bindir}/gtk-query-immodules-3.0 ${D}${libexecdir}/${MLPREFIX}gtk-query-immodules-3.0
- }
+         nativesdkdir = os.path.basename(glob.glob(self.topdir + "/tmp-sstatesamehash/stamps/*-nativesdk*-linux")[0])
  
- PACKAGES =+ "${PN}-demo"
-diff --git a/scripts/postinst-intercepts/update_gtk_immodules_cache b/scripts/postinst-intercepts/update_gtk_immodules_cache
-index d85d3622c21..395516971e9 100644
---- a/scripts/postinst-intercepts/update_gtk_immodules_cache
-+++ b/scripts/postinst-intercepts/update_gtk_immodules_cache
-@@ -2,14 +2,14 @@
- 
- set -e
- 
--if [ -x $D${bindir}/gtk-query-immodules-2.0 ]; then
--    PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D/${bindir}/gtk-query-immodules-2.0 \
-+if [ -x $D${libexecdir}/${binprefix}gtk-query-immodules-2.0 ]; then
-+    PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}gtk-query-immodules-2.0 \
-         > $D${libdir}/gtk-2.0/2.10.0/immodules.cache &&
-         sed -i -e "s:$D::" $D${libdir}/gtk-2.0/2.10.0/immodules.cache
-         chown root:root $D${libdir}/gtk-2.0/2.10.0/immodules.cache
- fi
--if [ -x $D${bindir}/gtk-query-immodules-3.0 ]; then
--    PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D/${bindir}/gtk-query-immodules-3.0 \
-+if [ -x $D${libexecdir}/${binprefix}gtk-query-immodules-3.0 ]; then
-+    PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}gtk-query-immodules-3.0 \
-         > $D${libdir}/gtk-3.0/3.0.0/immodules.cache &&
-         sed -i -e "s:$D::" $D${libdir}/gtk-3.0/3.0.0/immodules.cache
-         chown root:root $D${libdir}/gtk-3.0/3.0.0/immodules.cache
 -- 
 2.11.0
 
