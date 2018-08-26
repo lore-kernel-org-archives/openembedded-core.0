@@ -1,24 +1,24 @@
 Return-Path: <kai.kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D21B4793F8
+	by mail.openembedded.org (Postfix) with ESMTP id CDB47793F8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Aug 2018 13:06:38 +0000 (UTC)
+	Sun, 26 Aug 2018 13:06:39 +0000 (UTC)
 Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
-	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w7QD6bvN002653;
-	Sun, 26 Aug 2018 06:06:38 -0700 (PDT)
+	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w7QD6dEP002656;
+	Sun, 26 Aug 2018 06:06:39 -0700 (PDT)
 Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
-	Sun, 26 Aug 2018 06:06:37 -0700
+	Sun, 26 Aug 2018 06:06:39 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Sun, 26 Aug 2018 06:06:28 -0700
-Message-Id: <9ae08680d92897330510b0de660a9b2afc7d00bb.1535288685.git.kai.kang@windriver.com>
+Date: Sun, 26 Aug 2018 06:06:29 -0700
+Message-Id: <83275801095fc92101ece399fe3b274705f03e0b.1535288685.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1535288685.git.kai.kang@windriver.com>
 References: <cover.1535288685.git.kai.kang@windriver.com>
 In-Reply-To: <cover.1535288685.git.kai.kang@windriver.com>
 References: <cover.1535288685.git.kai.kang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/6] update_font_cache: update script for multilib
+Subject: [PATCH 4/6] update_gtk_immodules_cache: update for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Aug 2018 13:06:39 -0000
+X-List-Received-Date: Sun, 26 Aug 2018 13:06:40 -0000
 
-Packages which inherit fontcache.bbclass call postinstall script
-update_font_cache. And in update_font_cache, it calls ${bindir}/fc-cache
-by qemuwrapper. When multilib is enabled, both packages foo and lib32-foo
-will call ${bindir}/fc-cache and one of them will fail to run obviously.
+Postinstall script update_gtk_immodules_cache calls
+${bindir}/gtk-query-immodules-${version}. When multilib is enabled, both
+packages foo and lib32-foo call ${bindir}/gtk-query-immodules-${version}
+and one of them will fail to run obviously.
 
-Duplicate install file fc-cache to ${libexecdir} with ${MLPREFIX} and
-call proper fc-cache in update_font_cache.
+Duplicate install files gtk-query-immodules-${version} to ${libexecdir}
+with ${MLPREFIX}. And update update_gtk_immodules_cache calls proper
+binary.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb | 8 +++++++-
- scripts/postinst-intercepts/update_font_cache         | 2 +-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ meta/recipes-gnome/gtk+/gtk+.inc                       | 4 ++++
+ meta/recipes-gnome/gtk+/gtk+3.inc                      | 4 ++++
+ scripts/postinst-intercepts/update_gtk_immodules_cache | 8 ++++----
+ 3 files changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-index d4cbce80b45..db36c867741 100644
---- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-+++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-@@ -35,9 +35,15 @@ do_configure_prepend() {
-     rm -f ${S}/src/fcobjshash.h ${S}/src/fcobjshash.gperf
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index 558bc485adc..b8f0abb49e1 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -90,6 +90,10 @@ do_install () {
+ 	install -m 0644 ${S}/gtk/gtkfilesystemmodel.h    ${D}${includedir}/gtk-2.0/gtk/
+ 
+ 	mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-2.0
++
++    # duplicate gtk-query-immodules for post install script update_gtk_immodules_cache
++    mkdir -p ${D}${libexecdir}
++    cp ${D}${bindir}/gtk-query-immodules-2.0 ${D}${libexecdir}/${MLPREFIX}gtk-query-immodules-2.0
  }
  
-+do_install_append_class-target() {
-+    # duplicate fc-cache for postinstall script
-+    mkdir -p ${D}${libexecdir}
-+    cp ${D}${bindir}/fc-cache ${D}${libexecdir}/${MLPREFIX}fc-cache
-+}
-+
- PACKAGES =+ "fontconfig-utils"
- FILES_${PN} =+ "${datadir}/xml/*"
--FILES_fontconfig-utils = "${bindir}/*"
-+FILES_fontconfig-utils = "${bindir}/* ${libexecdir}/*"
+ SYSROOT_PREPROCESS_FUNCS += "gtk_sysroot_preprocess"
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index 420ead2ca2e..d8242ad5fc0 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -53,6 +53,10 @@ PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,way
  
- # Work around past breakage in debian.bbclass
- RPROVIDES_fontconfig-utils = "libfontconfig-utils"
-diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
-index 20e9048adfc..e0ec471964c 100644
---- a/scripts/postinst-intercepts/update_font_cache
-+++ b/scripts/postinst-intercepts/update_font_cache
-@@ -2,5 +2,5 @@
+ do_install_append() {
+ 	mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-3.0
++
++    # duplicate gtk-query-immodules for post install script update_gtk_immodules_cache
++    mkdir -p ${D}${libexecdir}
++    cp ${D}${bindir}/gtk-query-immodules-3.0 ${D}${libexecdir}/${MLPREFIX}gtk-query-immodules-3.0
+ }
+ 
+ PACKAGES =+ "${PN}-demo"
+diff --git a/scripts/postinst-intercepts/update_gtk_immodules_cache b/scripts/postinst-intercepts/update_gtk_immodules_cache
+index d85d3622c21..395516971e9 100644
+--- a/scripts/postinst-intercepts/update_gtk_immodules_cache
++++ b/scripts/postinst-intercepts/update_gtk_immodules_cache
+@@ -2,14 +2,14 @@
  
  set -e
  
--PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D -E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D --system-only ${fontconfigcacheparams}
-+PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D -E ${fontconfigcacheenv} $D${libexecdir}/${binprefix}fc-cache --sysroot=$D --system-only ${fontconfigcacheparams}
- chown -R root:root $D${fontconfigcachedir}
+-if [ -x $D${bindir}/gtk-query-immodules-2.0 ]; then
+-    PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D/${bindir}/gtk-query-immodules-2.0 \
++if [ -x $D${libexecdir}/${binprefix}gtk-query-immodules-2.0 ]; then
++    PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}gtk-query-immodules-2.0 \
+         > $D${libdir}/gtk-2.0/2.10.0/immodules.cache &&
+         sed -i -e "s:$D::" $D${libdir}/gtk-2.0/2.10.0/immodules.cache
+         chown root:root $D${libdir}/gtk-2.0/2.10.0/immodules.cache
+ fi
+-if [ -x $D${bindir}/gtk-query-immodules-3.0 ]; then
+-    PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D/${bindir}/gtk-query-immodules-3.0 \
++if [ -x $D${libexecdir}/${binprefix}gtk-query-immodules-3.0 ]; then
++    PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}gtk-query-immodules-3.0 \
+         > $D${libdir}/gtk-3.0/3.0.0/immodules.cache &&
+         sed -i -e "s:$D::" $D${libdir}/gtk-3.0/3.0.0/immodules.cache
+         chown root:root $D${libdir}/gtk-3.0/3.0.0/immodules.cache
 -- 
 2.11.0
 
