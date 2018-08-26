@@ -1,22 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <kai.kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 922E77943D
+	by mail.openembedded.org (Postfix) with ESMTP id 86DBD6E5E9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Aug 2018 05:05:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7Q55UFq008905
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 25 Aug 2018 22:05:31 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Sat, 25 Aug 2018 22:05:30 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 26 Aug 2018 13:05:28 +0800
-Message-ID: <1535259928-36808-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] selftest/package: Add package separated debug symbols hardlink test
+	Sun, 26 Aug 2018 13:06:36 +0000 (UTC)
+Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
+	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w7QD6ZUf002647;
+	Sun, 26 Aug 2018 06:06:35 -0700 (PDT)
+Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
+	Sun, 26 Aug 2018 06:06:35 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Sun, 26 Aug 2018 06:06:26 -0700
+Message-Id: <00a09c8156afc325f1b30392b66caf08e0310b38.1535288685.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <cover.1535288685.git.kai.kang@windriver.com>
+References: <cover.1535288685.git.kai.kang@windriver.com>
+In-Reply-To: <cover.1535288685.git.kai.kang@windriver.com>
+References: <cover.1535288685.git.kai.kang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/6] allarch: disable allarch when multilib is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,172 +31,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Aug 2018 05:05:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 26 Aug 2018 13:06:36 -0000
 
-Tweak recipe selftest-hardlink
-- addition of libexecdir to simulate multiple directories
-- add gdb.sh to run gdb from script which is invoked at test time.
-- rename `hello' -> `hello1' to workaround name confliction with the one in lmbench
+Some allarch packages rdepends non-allarch packages. When multilib is
+used, it doesn't expand the dependency chain correctly, e.g.
 
-Add test_gdb_hardlink_debug to selftest/package
-- run a qemu and invoke gdb.sh to gdb binaries of selftest-hardlink
-- check gdb to read symbols from separated debug hardlink file
-- check debug symbols works correctly
+core-image-sato -> ca-certificates(allarch) -> openssl
 
-[Test without commit `package.bbclass: only one hardlink of separated debug info file in each directory']
-2018-08-26 01:27:30,195 - oe-selftest - INFO - test_gdb_hardlink_debug (package.PackageTests)
-2018-08-26 01:30:29,005 - oe-selftest - INFO - gdbtest /usr/bin/hello1
-2018-08-26 01:30:36,539 - oe-selftest - INFO - gdbtest /usr/bin/hello2
-2018-08-26 01:30:43,568 - oe-selftest - INFO - gdbtest /usr/libexec/hello3
-2018-08-26 01:30:50,157 - oe-selftest - ERROR - No debugging symbols found. GDB result:
-Reading symbols from /usr/libexec/hello3...(no debugging symbols found)...done.^M
-(gdb) Function "main" not defined.^M
-Make breakpoint pending on future shared library load? (y or [n]) [answered N; input not from terminal]^M
-(gdb) Starting program: /usr/libexec/hello3 ^M
-Hello World!^M
-[Inferior 1 (process 320) exited normally]^M
-(gdb) The program is not being run.^M
-(gdb)
-2018-08-26 01:30:51,180 - oe-selftest - INFO -  ... FAIL
-2018-08-26 01:30:51,181 - oe-selftest - INFO - Traceback (most recent call last):
-  File "oe-core/meta/lib/oeqa/selftest/cases/package.py", line 148, in test_gdb_hardlink_debug
-    self.fail('GDB %s failed' % binary)
-AssertionError: GDB /usr/libexec/hello3 failed
-[Test without commit `package.bbclass: only one hardlink of separated debug info file in each directory']
+we expect dependency chain for lib32-core-image-sato:
 
-[Test with commit `package.bbclass: only one hardlink of separated debug info file in each directory']
-2018-08-26 12:40:30,976 - oe-selftest - INFO - test_gdb_hardlink_debug (package.PackageTests)
-2018-08-26 12:42:15,149 - oe-selftest - INFO - gdbtest /usr/bin/hello1
-2018-08-26 12:42:24,064 - oe-selftest - INFO - gdbtest /usr/bin/hello2
-2018-08-26 12:42:31,078 - oe-selftest - INFO - gdbtest /usr/libexec/hello3
-2018-08-26 12:42:38,646 - oe-selftest - INFO - gdbtest /usr/libexec/hello4
-2018-08-26 12:42:46,824 - oe-selftest - INFO -  ... ok
-[Test with commit `package.bbclass: only one hardlink of separated debug info file in each directory']
+lib32-core-image-sato -> ca-certificates(allarch) -> lib32-openssl
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+it should install lib32-openssl for ca-certificates but openssl is
+still wrongly required.
+
+Copy allarch.bbclass to allarch-enabled.bbclass and only inherit
+allarch-enabled.bbclass when multilib is not used.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../selftest-hardlink/selftest-hardlink.bb         | 22 ++++++++----
- .../selftest-hardlink/selftest-hardlink/gdb.sh     |  8 +++++
- meta/lib/oeqa/selftest/cases/package.py            | 39 ++++++++++++++++++++--
- 3 files changed, 61 insertions(+), 8 deletions(-)
- create mode 100755 meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/gdb.sh
+ meta/classes/allarch-enabled.bbclass | 52 ++++++++++++++++++++++++++++++++++++
+ meta/classes/allarch.bbclass         | 51 ++---------------------------------
+ meta/classes/icecc.bbclass           |  2 +-
+ meta/classes/multilib.bbclass        |  2 +-
+ meta/classes/multilib_global.bbclass |  2 +-
+ meta/classes/package.bbclass         |  6 ++---
+ 6 files changed, 60 insertions(+), 55 deletions(-)
+ create mode 100644 meta/classes/allarch-enabled.bbclass
 
-diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-index ec330fa..842a977 100644
---- a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-+++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-@@ -2,19 +2,29 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- 
- LICENSE = "MIT"
- 
--SRC_URI = "file://hello.c"
-+SRC_URI = "file://hello.c \
-+           file://gdb.sh \
-+"
- 
- S = "${WORKDIR}"
- 
- do_compile () {
--	${CC} hello.c -o hello ${CFLAGS} ${LDFLAGS}
-+	${CC} hello.c -o hello1 ${CFLAGS} ${LDFLAGS}
- }
- 
- do_install () {
- 	install -d ${D}${bindir}
--	install -m 755 hello ${D}${bindir}/hello
--	ln ${D}${bindir}/hello ${D}${bindir}/hello2
--	ln ${D}${bindir}/hello ${D}${bindir}/hello3
--	ln ${D}${bindir}/hello ${D}${bindir}/hello4
-+	install -m 755 ${WORKDIR}/gdb.sh ${D}${bindir}/
-+	install -m 755 hello1 ${D}${bindir}/hello1
-+	ln ${D}${bindir}/hello1 ${D}${bindir}/hello2
-+
-+	install -d ${D}${libexecdir}
-+	ln ${D}${bindir}/hello1 ${D}${libexecdir}/hello3
-+	ln ${D}${bindir}/hello1 ${D}${libexecdir}/hello4
-+
- 	dd if=/dev/zero of=${D}${bindir}/sparsetest bs=1 count=0 seek=1M
- }
-+
-+RDEPENDS_${PN}-gdb += "gdb"
-+PACKAGES =+ "${PN}-gdb"
-+FILES_${PN}-gdb = "${bindir}/gdb.sh"
-diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/gdb.sh b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/gdb.sh
-new file mode 100755
-index 0000000..f6417d5
+diff --git a/meta/classes/allarch-enabled.bbclass b/meta/classes/allarch-enabled.bbclass
+new file mode 100644
+index 00000000000..1eebe0bf2e7
 --- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/gdb.sh
-@@ -0,0 +1,8 @@
-+#!/bin/sh
-+gdb -q $1  <<'EOF'
-+b main
-+r
-+c
-+q
-+EOF
-+echo ""
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index ee6430a..0a88dc2 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -1,6 +1,6 @@
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.core.decorator.oeid import OETestID
--from oeqa.utils.commands import bitbake, get_bb_vars, get_bb_var
-+from oeqa.utils.commands import bitbake, get_bb_vars, get_bb_var, runqemu
- import stat
- import subprocess, os
- import oe.path
-@@ -98,7 +98,7 @@ class PackageTests(OESelftestTestCase):
-         def checkfiles():
-             # Recipe creates 4 hardlinked files, there is a copy in package/ and a copy in packages-split/
-             # so expect 8 in total.
--            self.assertEqual(os.stat(dest + "/selftest-hardlink" + bindir + "/hello").st_nlink, 8)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink" + bindir + "/hello1").st_nlink, 8)
++++ b/meta/classes/allarch-enabled.bbclass
+@@ -0,0 +1,52 @@
++#
++# This class is used for architecture independent recipes/data files (usually scripts)
++#
++
++PACKAGE_ARCH = "all"
++
++python () {
++    # Allow this class to be included but overridden - only set
++    # the values if we're still "all" package arch.
++    if d.getVar("PACKAGE_ARCH") == "all":
++        # No need for virtual/libc or a cross compiler
++        d.setVar("INHIBIT_DEFAULT_DEPS","1")
++
++        # Set these to a common set of values, we shouldn't be using them other that for WORKDIR directory
++        # naming anyway
++        d.setVar("baselib", "lib")
++        d.setVar("TARGET_ARCH", "allarch")
++        d.setVar("TARGET_OS", "linux")
++        d.setVar("TARGET_CC_ARCH", "none")
++        d.setVar("TARGET_LD_ARCH", "none")
++        d.setVar("TARGET_AS_ARCH", "none")
++        d.setVar("TARGET_FPU", "")
++        d.setVar("TARGET_PREFIX", "")
++        # Expand PACKAGE_EXTRA_ARCHS since the staging code needs this
++        # (this removes any dependencies from the hash perspective)
++        d.setVar("PACKAGE_EXTRA_ARCHS", d.getVar("PACKAGE_EXTRA_ARCHS"))
++        d.setVar("SDK_ARCH", "none")
++        d.setVar("SDK_CC_ARCH", "none")
++        d.setVar("TARGET_CPPFLAGS", "none")
++        d.setVar("TARGET_CFLAGS", "none")
++        d.setVar("TARGET_CXXFLAGS", "none")
++        d.setVar("TARGET_LDFLAGS", "none")
++        d.setVar("POPULATESYSROOTDEPS", "")
++
++        # Avoid this being unnecessarily different due to nuances of
++        # the target machine that aren't important for "all" arch
++        # packages.
++        d.setVar("LDFLAGS", "")
++
++        # No need to do shared library processing or debug symbol handling
++        d.setVar("EXCLUDE_FROM_SHLIBS", "1")
++        d.setVar("INHIBIT_PACKAGE_DEBUG_SPLIT", "1")
++        d.setVar("INHIBIT_PACKAGE_STRIP", "1")
++
++        # These multilib values shouldn't change allarch packages so exclude them
++        d.appendVarFlag("emit_pkgdata", "vardepsexclude", " MULTILIB_VARIANTS")
++        d.appendVarFlag("write_specfile", "vardepsexclude", " MULTILIBS")
++        d.appendVarFlag("do_package", "vardepsexclude", " package_do_shlibs")
++    elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
++        bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
++}
++
+diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+index 1eebe0bf2e7..0eca076df0b 100644
+--- a/meta/classes/allarch.bbclass
++++ b/meta/classes/allarch.bbclass
+@@ -1,52 +1,5 @@
+ #
+-# This class is used for architecture independent recipes/data files (usually scripts)
++# This class enables allarch only when multilib is not used.
+ #
  
-             # Test a sparse file remains sparse
-             sparsestat = os.stat(dest + "/selftest-hardlink" + bindir + "/sparsetest")
-@@ -112,3 +112,38 @@ class PackageTests(OESelftestTestCase):
-         bitbake("selftest-hardlink -c package")
+-PACKAGE_ARCH = "all"
+-
+-python () {
+-    # Allow this class to be included but overridden - only set
+-    # the values if we're still "all" package arch.
+-    if d.getVar("PACKAGE_ARCH") == "all":
+-        # No need for virtual/libc or a cross compiler
+-        d.setVar("INHIBIT_DEFAULT_DEPS","1")
+-
+-        # Set these to a common set of values, we shouldn't be using them other that for WORKDIR directory
+-        # naming anyway
+-        d.setVar("baselib", "lib")
+-        d.setVar("TARGET_ARCH", "allarch")
+-        d.setVar("TARGET_OS", "linux")
+-        d.setVar("TARGET_CC_ARCH", "none")
+-        d.setVar("TARGET_LD_ARCH", "none")
+-        d.setVar("TARGET_AS_ARCH", "none")
+-        d.setVar("TARGET_FPU", "")
+-        d.setVar("TARGET_PREFIX", "")
+-        # Expand PACKAGE_EXTRA_ARCHS since the staging code needs this
+-        # (this removes any dependencies from the hash perspective)
+-        d.setVar("PACKAGE_EXTRA_ARCHS", d.getVar("PACKAGE_EXTRA_ARCHS"))
+-        d.setVar("SDK_ARCH", "none")
+-        d.setVar("SDK_CC_ARCH", "none")
+-        d.setVar("TARGET_CPPFLAGS", "none")
+-        d.setVar("TARGET_CFLAGS", "none")
+-        d.setVar("TARGET_CXXFLAGS", "none")
+-        d.setVar("TARGET_LDFLAGS", "none")
+-        d.setVar("POPULATESYSROOTDEPS", "")
+-
+-        # Avoid this being unnecessarily different due to nuances of
+-        # the target machine that aren't important for "all" arch
+-        # packages.
+-        d.setVar("LDFLAGS", "")
+-
+-        # No need to do shared library processing or debug symbol handling
+-        d.setVar("EXCLUDE_FROM_SHLIBS", "1")
+-        d.setVar("INHIBIT_PACKAGE_DEBUG_SPLIT", "1")
+-        d.setVar("INHIBIT_PACKAGE_STRIP", "1")
+-
+-        # These multilib values shouldn't change allarch packages so exclude them
+-        d.appendVarFlag("emit_pkgdata", "vardepsexclude", " MULTILIB_VARIANTS")
+-        d.appendVarFlag("write_specfile", "vardepsexclude", " MULTILIBS")
+-        d.appendVarFlag("do_package", "vardepsexclude", " package_do_shlibs")
+-    elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
+-        bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
+-}
+-
++inherit ${@oe.utils.ifelse(d.getVar('MULTILIB_VARIANTS'), '', 'allarch-enabled')}
+diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+index 0ca8de86c24..bb925b8d244 100644
+--- a/meta/classes/icecc.bbclass
++++ b/meta/classes/icecc.bbclass
+@@ -171,7 +171,7 @@ def use_icecc(bb,d):
+     return "yes"
  
-         checkfiles()
-+
-+    # Verify gdb to read symbols from separated debug hardlink file correctly
-+    def test_gdb_hardlink_debug(self):
-+        features = 'IMAGE_INSTALL_append = " selftest-hardlink"\n'
-+        features += 'IMAGE_INSTALL_append = " selftest-hardlink-dbg"\n'
-+        features += 'IMAGE_INSTALL_append = " selftest-hardlink-gdb"\n'
-+        self.write_config(features)
-+        bitbake("core-image-minimal")
-+
-+        def gdbtest(qemu, binary):
-+            """
-+            Check that gdb ``binary`` to read symbols from separated debug file
-+            """
-+            self.logger.info("gdbtest %s" % binary)
-+            status, output = qemu.run_serial('/usr/bin/gdb.sh %s' % binary, timeout=60)
-+            for l in output.split('\n'):
-+                # Check debugging symbols exists
-+                if '(no debugging symbols found)' in l:
-+                    self.logger.error("No debugging symbols found. GDB result:\n%s" % output)
-+                    return False
-+
-+                # Check debugging symbols works correctly
-+                elif "Breakpoint 1, main () at hello.c:4" in l:
-+                    return True
-+
-+            self.logger.error("GDB result:\n%s: %s" % output)
-+            return False
-+
-+        with runqemu('core-image-minimal') as qemu:
-+            for binary in ['/usr/bin/hello1',
-+                           '/usr/bin/hello2',
-+                           '/usr/libexec/hello3',
-+                           '/usr/libexec/hello4']:
-+                if not gdbtest(qemu, binary):
-+                    self.fail('GDB %s failed' % binary)
+ def icecc_is_allarch(bb, d):
+-    return d.getVar("PACKAGE_ARCH") == "all" or bb.data.inherits_class('allarch', d)
++    return d.getVar("PACKAGE_ARCH") == "all" or bb.data.inherits_class('allarch-enabled', d)
+ 
+ def icecc_is_kernel(bb, d):
+     return \
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index f2ac8bdfef0..c576cd8b403 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -50,7 +50,7 @@ python multilib_virtclass_handler () {
+     if bb.data.inherits_class('nativesdk', e.data) or bb.data.inherits_class('crosssdk', e.data):
+         raise bb.parse.SkipRecipe("We can't extend nativesdk recipes")
+ 
+-    if bb.data.inherits_class('allarch', e.data) and not bb.data.inherits_class('packagegroup', e.data):
++    if bb.data.inherits_class('allarch-enabled', e.data) and not bb.data.inherits_class('packagegroup', e.data):
+         raise bb.parse.SkipRecipe("Don't extend allarch recipes which are not packagegroups")
+ 
+     # Expand this since this won't work correctly once we set a multilib into place
+diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
+index d2ec1adfea6..4e2b6718dfa 100644
+--- a/meta/classes/multilib_global.bbclass
++++ b/meta/classes/multilib_global.bbclass
+@@ -166,7 +166,7 @@ python multilib_virtclass_handler_global () {
+ 
+     if bb.data.inherits_class('kernel', e.data) or \
+             bb.data.inherits_class('module-base', e.data) or \
+-            (bb.data.inherits_class('allarch', e.data) and\
++            (bb.data.inherits_class('allarch-enabled', e.data) and\
+              not bb.data.inherits_class('packagegroup', e.data)):
+             variants = (e.data.getVar("MULTILIB_VARIANTS") or "").split()
+ 
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 9cfe43cbd14..d48336d0084 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -494,7 +494,7 @@ def get_package_mapping (pkg, basepkg, d):
+ 
+     if key in data:
+         # Have to avoid undoing the write_extra_pkgs(global_variants...)
+-        if bb.data.inherits_class('allarch', d) and data[key] == basepkg:
++        if bb.data.inherits_class('allarch-enabled', d) and data[key] == basepkg:
+             return pkg
+         return data[key]
+ 
+@@ -1409,7 +1409,7 @@ fi
+     if bb.data.inherits_class('kernel', d) or bb.data.inherits_class('module-base', d):
+         write_extra_pkgs(variants, pn, packages, pkgdatadir)
+ 
+-    if (bb.data.inherits_class('allarch', d) and not bb.data.inherits_class('packagegroup', d)):
++    if (bb.data.inherits_class('allarch-enabled', d) and not bb.data.inherits_class('packagegroup', d)):
+         write_extra_pkgs(global_variants, pn, packages, pkgdatadir)
+ 
+     workdir = d.getVar('WORKDIR')
+@@ -1498,7 +1498,7 @@ fi
+     if bb.data.inherits_class('kernel', d) or bb.data.inherits_class('module-base', d):
+         write_extra_runtime_pkgs(variants, packages, pkgdatadir)
+ 
+-    if bb.data.inherits_class('allarch', d) and not bb.data.inherits_class('packagegroup', d):
++    if bb.data.inherits_class('allarch-enabled', d) and not bb.data.inherits_class('packagegroup', d):
+         write_extra_runtime_pkgs(global_variants, packages, pkgdatadir)
+ 
+ }
 -- 
-2.7.4
+2.11.0
 
 
