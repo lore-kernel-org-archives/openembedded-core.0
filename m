@@ -1,49 +1,54 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A3E5178F78
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B93A60620
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 09:55:13 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id s12-v6so7491927wmc.0
+	Mon, 27 Aug 2018 11:29:15 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id u12-v6so11985307wrr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 02:55:15 -0700 (PDT)
+	Mon, 27 Aug 2018 04:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=BP9nyLjlhndE2lqIfepEbq7BRxkQwRoUBnANjX6v93E=;
-	b=DeKgs6y7UaSzkIQhaE21ilEzB94jYNp/nIDWv7xxqrT0xRB5CfbikA/oMXjm9nfbHr
-	lV28BWAxHQlcTLHD9JzQ+kmgXdt2TwiVrIPsJV9kIzS8KrZRD4mMXs/xcDPYvNaw3eVw
-	hU4amxMqd1NQJWsblyn8N4n0WtH5YRomMcNpzws8r0EdPZqycH5JO7DtOgPmkMUm8rtn
-	xAEWOwoNMzgsxJ3HkGwzwX0auXVRo7Q6s/nsxeMYWeScfVSY34oKQQ+T/iZs3Pqj7z2w
-	kO9Cn7G4hYGayNx2cDuPFOaBSndoNMWoS0UwGT891YGPCWaQ45a92ieCxyGnzmezbdex
-	71FA==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=X1eQ2/ZREk8agqEPcr5inIckwEDoIpVPFO3LX+YtKDI=;
+	b=JTTij4l/8+uQgUn9Z2DVuRnF/dHj/mp7Be+DmK8JxzOOMLvS4m0gN2BKFWGgP6rTL3
+	KBwHMWd1xWZiq/W1l1s9iQgsdnMa8WObnkd8SeG0p6Zs50gK/egIgHF4Y3ZUHjYGbNQB
+	7rpxmNg+5+T8b5rtHsXJgL2YlwW1wHxf2XG6xg/UgGWtAS/iTP2LEOxfKXHls7T3AGsK
+	Oi6bvgGYlLK0IQOofGlXoNIutAC1JqWU0oVu8FCSEIa4hXC1kkwJ5XPcIpxwkMH6LIFH
+	fMLc2b9/uxD96EnpoKvCZVrzezFZuWPBp506GsDVJ5cw5VNXphsCUrIdL88Mc+yhCrY8
+	vWbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=BP9nyLjlhndE2lqIfepEbq7BRxkQwRoUBnANjX6v93E=;
-	b=Nkz6RTjdZAOa6jqc1rvO4dWHJq0htgK5Zf/VR0RlyedMDiZDgR1WG1pR2OsYqAd3sy
-	bFNrjS8DvUJXhD1m2a6f05/ZcJS5Hb7p830dNmB/RrcDEW2KNqWfsU8LTdtZNhFbm4G5
-	YKj2zIjCyK9UykuGFhOJBupGyORA00aACqA8lhHBYHO+zj7ePPzBRBh+Yv5h5LRYqcNF
-	hwjk35WI0vj1oaJ0wCWtLBfDsLO9YJ9IxcouDmMvmAsFYXvolqiGad69txS2uAYWavxj
-	tQqVeyISHDUlfxprhTpEgqpts2tnWIETjI9d9CCun/3kxG/4Ym/1f5hxNEbLmudgggjb
-	CJ4A==
-X-Gm-Message-State: APzg51Dk8b97Pg7DDDH6IKZXfPM5yR5lk+vfgYuf4h0ciYgsEHTwbKB9
-	73vjqKh9GPbupJ/pxDPCbjbVosfx
-X-Google-Smtp-Source: ANB0VdZBiGPw6N2B+i4pX8i0GdeEgQ4Bl1zsqaSRcnkh5RF9kv/XB72WmD9m1c0veUrjziK/KgEvig==
-X-Received: by 2002:a1c:1351:: with SMTP id
-	78-v6mr4865102wmt.127.1535363714233; 
-	Mon, 27 Aug 2018 02:55:14 -0700 (PDT)
-Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	b124-v6sm8114318wmh.17.2018.08.27.02.55.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Aug 2018 02:55:13 -0700 (PDT)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Aug 2018 11:54:29 +0200
-Message-Id: <20180827095429.4949-1-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
-Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH] distutils3.bbclass: improve error messages
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=X1eQ2/ZREk8agqEPcr5inIckwEDoIpVPFO3LX+YtKDI=;
+	b=qzuEWpz2snOWB3CjhKj7Mw/VaWdEpHwQhH07xhz3o85At4LeZPShk/Stuyh1i/f6Wa
+	RIH06Cn9s5pNEBj8cttrSNL2zNuD8oktslgYet8yCmp4cRb+DdVLaV7tv0q9N0qkDHB4
+	bcZSQ5Gx3RCwFR6+YKoBTZGrf+ijYxketN/06e72B76enOrPr6K+ZBmpsq9FMbvyeB1k
+	1eIqOMLjb+QMMbxgq0wqN4mIAHvgdTDzCCpCAxQLMlq4aDqB6H4Mre6YIgpFm7ipbIj8
+	ZeWJa9lxd5Td980O3CoersNDwVe9HAKaakEGeGg/XLXQ3zAYeAGN/R2NhmHJGR1xwqA6
+	/6HA==
+X-Gm-Message-State: APzg51CVReyiYD5w/mjFvdfi7BEYTWdzHHTUIVcCt5NC1NE7KXgsgpXI
+	OsNLo9cxlBo5pJwy1M/bddc=
+X-Google-Smtp-Source: ANB0VdbaGgMiYvMVzMZLMnyYkIg7GN4zwkdeeS9xQ6QMSftNMuVQFTi2zzM4Iez7Ti8HbsI24Uk/eQ==
+X-Received: by 2002:adf:9b9b:: with SMTP id
+	d27-v6mr8534803wrc.240.1535369356780; 
+	Mon, 27 Aug 2018 04:29:16 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	200-v6sm12714074wmv.6.2018.08.27.04.29.15
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 27 Aug 2018 04:29:15 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 27 Aug 2018 13:29:16 +0200
+To: vincent.prince.fr@gmail.com
+Message-ID: <20180827112916.GA5442@jama>
+References: <1535359120-26088-1-git-send-email-vincent.prince.fr@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1535359120-26088-1-git-send-email-vincent.prince.fr@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Junil Kim <jjunil79.kim@lge.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][for-sumo][PATCH] ltrace_git: Update SRC_URI due to inaccessible problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +61,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2018 09:55:13 -0000
+X-List-Received-Date: Mon, 27 Aug 2018 11:29:16 -0000
+X-Groupsio-MsgNum: 115465
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="cWoXeonUoKmBZSoM"
+Content-Disposition: inline
 
-For non-python developers it's difficult to identify where start
-searching in case of errors. Fixing and marking the string to
-grep for might help finding some root causes of issues slightly
-quicker.
+--cWoXeonUoKmBZSoM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/classes/distutils3.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, Aug 27, 2018 at 10:38:40AM +0200, vincent.prince.fr@gmail.com wrote:
+> From: Junil Kim <logyourself@gmail.com>
+>=20
+> Existing URI service was closed and fetch error occurred.
+> Change existing repository to another mirrored SRC URI.
+>=20
+> Signed-off-by: Junil Kim <jjunil79.kim@lge.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
-index 1d0c54a513..9e31505f0c 100644
---- a/meta/classes/distutils3.bbclass
-+++ b/meta/classes/distutils3.bbclass
-@@ -23,14 +23,14 @@ distutils3_do_compile() {
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-         build ${DISTUTILS_BUILD_ARGS} || \
--        bbfatal_log "${PYTHON_PN} setup.py build_ext execution failed."
-+        bbfatal_log "'${PYTHON_PN} setup.py build ${DISTUTILS_BUILD_ARGS}' execution failed."
- }
- distutils3_do_compile[vardepsexclude] = "MACHINE"
- 
- distutils3_stage_headers() {
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
--        bbfatal_log "${PYTHON_PN} setup.py install_headers execution failed."
-+        bbfatal_log "'${PYTHON_PN} setup.py install_headers' execution failed."
- }
- distutils3_stage_headers[vardepsexclude] = "MACHINE"
- 
--- 
-2.17.1
+changes fro meta-oe need to go through openembedded-devel ML as
+explained in README file.
 
+> ---
+>  meta-oe/recipes-devtools/ltrace/ltrace_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta-oe/recipes-devtools/ltrace/ltrace_git.bb b/meta-oe/reci=
+pes-devtools/ltrace/ltrace_git.bb
+> index abe015d..f4033f7 100644
+> --- a/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
+> +++ b/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
+> @@ -15,7 +15,7 @@ SRCREV =3D "c22d359433b333937ee3d803450dc41998115685"
+> =20
+>  DEPENDS =3D "elfutils"
+>  RDEPENDS_${PN} =3D "elfutils"
+> -SRC_URI =3D "git://anonscm.debian.org/collab-maint/ltrace.git;branch=3Dm=
+aster \
+> +SRC_URI =3D "git://github.com/sparkleholic/ltrace.git;branch=3Dmaster;pr=
+otocol=3Dhttp \
+>             file://configure-allow-to-disable-selinux-support.patch \
+>             file://0001-replace-readdir_r-with-readdir.patch \
+>             file://0001-Use-correct-enum-type.patch \
+> --=20
+> 2.7.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--cWoXeonUoKmBZSoM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCW4PgigAKCRA3VSO3ZXaA
+HGTBAKC7nbHXy/QhQ+/FPgy0XAoCWSxbsgCeKXHWIU3KVhxztmhLVwUaRhTLGsQ=
+=auuO
+-----END PGP SIGNATURE-----
+
+--cWoXeonUoKmBZSoM--
