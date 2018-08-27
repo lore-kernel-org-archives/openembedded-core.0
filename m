@@ -1,49 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A85B87931D
+Return-Path: <vincent.prince.fr@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0241A78F7F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 06:59:07 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id t39-v6so16052822qtc.8
+	Mon, 27 Aug 2018 08:38:47 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 207-v6so7448018wme.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Aug 2018 23:59:09 -0700 (PDT)
+	Mon, 27 Aug 2018 01:38:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rJjUNwS8LsHHGXiyCY0UpzhJ/4mP5sDDk6NaXtBTR4E=;
-	b=UUIOrzfxXgPuCnvDx/ZOwamHPPf+o4ThJiewGkqJBCSqlG9xALsJBjBsLn1ujyFjud
-	GPdJA2qEFQ3VRYqYUtzNF+ieyI76GwRhvT2Wo5mbPdQc8xzCNfYBCUl6jlA4fyER4fMw
-	Lx5gEmE7izpx/sLVBPr6cEmCDyJrI43T8S3rVV1s4y8Db8WevVoVI68Oi/OP7M7V6UKw
-	UPo/os0DCzEVtdVjJ9tLMuC5FIFAwOD/qgEY4kiUsKHIFGYcjlZiV6KnhLcCaPm+0743
-	UWbopOu6Qody+fVh7/ATXcFSdocupMuXdmiRwLF1k1irGdGNyW/zg4TIIfTTFe3rk/md
-	hrQg==
+	h=from:to:cc:subject:date:message-id;
+	bh=ZVfYfqQVUMI9rwLanXUK7qylhD/sMwu20Vq8wxX3MC8=;
+	b=uUBiQPETy2kHCrm2Dyawid8sUFCpMlqKdVkDw8utYXbJYivnXwwfCYFpVUmZ/lP7Kh
+	BxbkQjDb9AeaQff9a+eZMMSq/27VkGpkf3WmVy475wSy2eD6cVhbvnpoe6gSZlnTTvnS
+	ejOJ5LztQFdqMr54PiVCGt8kf9sPao9QtqkyQYwxWkNOUAfbd7WBqFqZVVKsJ9fL/YmQ
+	LJRMvwmI3uUS8cxGYQQtbJ+5ddv2ud1ahnRPb6yZJwGm36gIze1GzYnnqpje+td7t6PO
+	cmcQXh9zqXN3Cprseu3ThuP2PkagQEnZA+UiHHz6XMbVxEzKkrpjFbkKcIAGlprBtRAG
+	evAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rJjUNwS8LsHHGXiyCY0UpzhJ/4mP5sDDk6NaXtBTR4E=;
-	b=a5FhUmZ2muahdQd0+BWTQ/4stA4ROPPa0r5Ym+SEBLik2OZbf425hHAiqrXmaj04JH
-	wRugxV35t5E3ts6X1sxdTa++NiEVV4j+ghu/GBvmjLCtUQDdH2dHPQO+abJaBzv8UCPk
-	Qw44rh+vBuQ+lBadd0TUkBO8aGMmTi7c3kdOryIgg2/vFcTETVOea9H5QdIkitpZMPF6
-	XJt0PCElR8992TgOeCMtLs6vlHRT7lFriG0mbrzEI80LXcYEUcqyps7BN+Gj3/hSziba
-	Dj4CYE5pmAHlexkhM9rB2qfZFYv6Avn4C581bynstfourUU8UonusNCZNSAvVH0uUvzn
-	80hg==
-X-Gm-Message-State: APzg51C3eUOpoIW3OI/YaGvg+8r3cqqT/A5o0GU5JGnRbcP9TiUVVH7h
-	mKqEGXyQU3mIVWgqIp4BP35NZdY333ifgNMLnZc=
-X-Google-Smtp-Source: ANB0VdY2pNv1BQGFwaYJqds+8e+CWS6meBsi7RmmVSmNIAt1EOHtYZvndZxew+lwJ03Jv61SS3Ef4x7DALzIbMG6xSE=
-X-Received: by 2002:a0c:e205:: with SMTP id
-	q5-v6mr11971515qvl.224.1535353148385; 
-	Sun, 26 Aug 2018 23:59:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1535118570.git.bruce.ashfield@windriver.com>
-	<07f521eca58e783f87bd11793d76a93e099befdb.1535118570.git.bruce.ashfield@windriver.com>
-In-Reply-To: <07f521eca58e783f87bd11793d76a93e099befdb.1535118570.git.bruce.ashfield@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 26 Aug 2018 23:58:42 -0700
-Message-ID: <CAMKF1so+yGob=_NhA9iovsF4dp5M_NspifripUz2OfpA4bgHNg@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/12] linux-yocto: introduce 4.18 recipes
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ZVfYfqQVUMI9rwLanXUK7qylhD/sMwu20Vq8wxX3MC8=;
+	b=VPmgOSQjnS4eP9vW70s0zX53xniDCgL2TazwCLTE4rdYWdQCGaCLjFezO8CEK/EZsc
+	6q7Aaobqd6foXaHn9rky+YS94qrtgnbWGtvBbiwvahEYzJOWSIo6qpkLskU5+koR4Uae
+	udnjyhGE9aE2GpL+9nriT9k0nh32UkYNqKS3XLnrElqB4UL6efVPIOTS0HlOO+76zI5T
+	JfeafCFJsZ+qAPc8QMa3JW5UiNpKRUxubh9C/8sZmHsw5G79GAYWWPG6SpMNtvtYREvS
+	VBHoHH/CGw2+FXqYE3Q9hU4NlLHc67e5STlgCitRatu79QrXjtAwrGE3UoBK6ERso7rn
+	vfmw==
+X-Gm-Message-State: APzg51D+/iukWdTJKIY9d+5ksS1IG9dvNVIbu47dWwlAEDdK7oKAnY/0
+	nnagMpx9L5JfntR/nzPE+nOOTH/1/EY=
+X-Google-Smtp-Source: ANB0VdbYnCgspyQuzKDwoxWeCKRMGQs/DWdMQL/WcGGGogHvm8XrS30CrwdH2iFHSvqRXzx4I16GxQ==
+X-Received: by 2002:a1c:be14:: with SMTP id
+	o20-v6mr5115607wmf.73.1535359128414; 
+	Mon, 27 Aug 2018 01:38:48 -0700 (PDT)
+Received: from localhost.localdomain ([80.215.33.180])
+	by smtp.gmail.com with ESMTPSA id
+	198-v6sm15856607wmm.0.2018.08.27.01.38.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 27 Aug 2018 01:38:47 -0700 (PDT)
+From: vincent.prince.fr@gmail.com
+To: openembedded-core@lists.openembedded.org,
+	akuster808@gmail.com
+Date: Mon, 27 Aug 2018 10:38:40 +0200
+Message-Id: <1535359120-26088-1-git-send-email-vincent.prince.fr@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Junil Kim <jjunil79.kim@lge.com>
+Subject: [meta-oe][for-sumo][PATCH] ltrace_git: Update SRC_URI due to inaccessible problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,176 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2018 06:59:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 27 Aug 2018 08:38:48 -0000
 
-There is one failure on meta-openembedded seen
+From: Junil Kim <logyourself@gmail.com>
 
-http://errors.yoctoproject.org/Errors/Details/187942/
-On Fri, Aug 24, 2018 at 8:01 AM Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
->
-> Introducing the 4.18 kernel as the 'newest' kernel for the oe core
-> release.
->
-> This update includes tweaked configs, carried forward BSPs, features
-> (aufs, yaffs2, preempt-rt) and has been tested on all arches for boot
-> and performance sanity.
->
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb   | 43 +++++++++++++++++++
->  meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb | 29 +++++++++++++
->  meta/recipes-kernel/linux/linux-yocto_4.18.bb      | 48 ++++++++++++++++++++++
->  3 files changed, 120 insertions(+)
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto_4.18.bb
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
-> new file mode 100644
-> index 000000000000..f740b1dcd892
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
-> @@ -0,0 +1,43 @@
-> +KBRANCH ?= "v4.18/standard/preempt-rt/base"
-> +
-> +require recipes-kernel/linux/linux-yocto.inc
-> +
-> +# Skip processing of this recipe if it is not explicitly specified as the
-> +# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
-> +# to build multiple virtual/kernel providers, e.g. as dependency of
-> +# core-image-rt-sdk, core-image-rt.
-> +python () {
-> +    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-> +        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
-> +}
-> +
-> +SRCREV_machine ?= "8a990322beb7b3aa5a06d7bd630f819b70911587"
-> +SRCREV_meta ?= "1f78e20cc98dd46637c0beb6007214fb3650992c"
-> +
-> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.18;destsuffix=${KMETA}"
-> +
-> +LINUX_VERSION ?= "4.18.3"
-> +
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-> +
-> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-> +DEPENDS += "openssl-native util-linux-native"
-> +
-> +PV = "${LINUX_VERSION}+git${SRCPV}"
-> +
-> +KMETA = "kernel-meta"
-> +KCONF_BSP_AUDIT_LEVEL = "2"
-> +
-> +LINUX_KERNEL_TYPE = "preempt-rt"
-> +
-> +COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
-> +
-> +KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
-> +
-> +# Functionality flags
-> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
-> +KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
-> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
-> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
-> new file mode 100644
-> index 000000000000..1f0b35ec25ec
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
-> @@ -0,0 +1,29 @@
-> +KBRANCH ?= "v4.18/standard/tiny/common-pc"
-> +LINUX_KERNEL_TYPE = "tiny"
-> +KCONFIG_MODE = "--allnoconfig"
-> +
-> +require recipes-kernel/linux/linux-yocto.inc
-> +
-> +LINUX_VERSION ?= "4.18.3"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-> +
-> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-> +DEPENDS += "openssl-native util-linux-native"
-> +
-> +KMETA = "kernel-meta"
-> +KCONF_BSP_AUDIT_LEVEL = "2"
-> +
-> +SRCREV_machine ?= "eba03655e8e436ef6090100423bcea43e4911478"
-> +SRCREV_meta ?= "1f78e20cc98dd46637c0beb6007214fb3650992c"
-> +
-> +PV = "${LINUX_VERSION}+git${SRCPV}"
-> +
-> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.18;destsuffix=${KMETA}"
-> +
-> +COMPATIBLE_MACHINE = "qemux86|qemux86-64"
-> +
-> +# Functionality flags
-> +KERNEL_FEATURES = ""
-> +
-> +KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.18.bb b/meta/recipes-kernel/linux/linux-yocto_4.18.bb
-> new file mode 100644
-> index 000000000000..b42c124c87da
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto_4.18.bb
-> @@ -0,0 +1,48 @@
-> +KBRANCH ?= "v4.18/standard/base"
-> +
-> +require recipes-kernel/linux/linux-yocto.inc
-> +
-> +# board specific branches
-> +KBRANCH_qemuarm  ?= "v4.18/standard/arm-versatile-926ejs"
-> +KBRANCH_qemuarm64 ?= "v4.18/standard/qemuarm64"
-> +KBRANCH_qemumips ?= "v4.18/standard/mti-malta32"
-> +KBRANCH_qemuppc  ?= "v4.18/standard/qemuppc"
-> +KBRANCH_qemux86  ?= "v4.18/standard/base"
-> +KBRANCH_qemux86-64 ?= "v4.18/standard/base"
-> +KBRANCH_qemumips64 ?= "v4.18/standard/mti-malta64"
-> +
-> +SRCREV_machine_qemuarm ?= "1af7de788a0d28968bd48ff733696de130e0427d"
-> +SRCREV_machine_qemuarm64 ?= "eba03655e8e436ef6090100423bcea43e4911478"
-> +SRCREV_machine_qemumips ?= "f431f068f06041a60b29628c97b507391c6ad92c"
-> +SRCREV_machine_qemuppc ?= "eba03655e8e436ef6090100423bcea43e4911478"
-> +SRCREV_machine_qemux86 ?= "eba03655e8e436ef6090100423bcea43e4911478"
-> +SRCREV_machine_qemux86-64 ?= "eba03655e8e436ef6090100423bcea43e4911478"
-> +SRCREV_machine_qemumips64 ?= "a8e005cb6453c4d59f4c460b6f034bba69ce7807"
-> +SRCREV_machine ?= "eba03655e8e436ef6090100423bcea43e4911478"
-> +SRCREV_meta ?= "1f78e20cc98dd46637c0beb6007214fb3650992c"
-> +
-> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.18;destsuffix=${KMETA}"
-> +
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-> +LINUX_VERSION ?= "4.18.3"
-> +
-> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-> +DEPENDS += "openssl-native util-linux-native"
-> +
-> +PV = "${LINUX_VERSION}+git${SRCPV}"
-> +
-> +KMETA = "kernel-meta"
-> +KCONF_BSP_AUDIT_LEVEL = "2"
-> +
-> +KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
-> +
-> +COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-> +
-> +# Functionality flags
-> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-> +KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
-> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
-> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> +KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
-> --
-> 2.5.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Existing URI service was closed and fetch error occurred.
+Change existing repository to another mirrored SRC URI.
+
+Signed-off-by: Junil Kim <jjunil79.kim@lge.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta-oe/recipes-devtools/ltrace/ltrace_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta-oe/recipes-devtools/ltrace/ltrace_git.bb b/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
+index abe015d..f4033f7 100644
+--- a/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
++++ b/meta-oe/recipes-devtools/ltrace/ltrace_git.bb
+@@ -15,7 +15,7 @@ SRCREV = "c22d359433b333937ee3d803450dc41998115685"
+ 
+ DEPENDS = "elfutils"
+ RDEPENDS_${PN} = "elfutils"
+-SRC_URI = "git://anonscm.debian.org/collab-maint/ltrace.git;branch=master \
++SRC_URI = "git://github.com/sparkleholic/ltrace.git;branch=master;protocol=http \
+            file://configure-allow-to-disable-selinux-support.patch \
+            file://0001-replace-readdir_r-with-readdir.patch \
+            file://0001-Use-correct-enum-type.patch \
+-- 
+2.7.4
+
 
