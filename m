@@ -1,59 +1,52 @@
-Return-Path: <tomohiro.komagata.aj@gmail.com>
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D9B078EEC
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B59D78EE9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 15:55:41 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id m3-v6so6721503pgp.6
+	Mon, 27 Aug 2018 17:13:31 +0000 (UTC)
+Received: by mail-oi0-f52.google.com with SMTP id r69-v6so28010967oie.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 08:55:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=Kk596+kvbwImsqKccUXNXd42CoB3kkz6e5Y9HhlMJq0=;
-	b=KdN4IXHUttIFE62uKuxkAlsP6FgwXMhid0Z0V4LHozQcJp0GukwkhCo2xwKqRbcPul
-	J06lYJfarWmEsbNakYzoW3He9SFjbEBSM8MSzF3Nqf4cp1UwVimAYyqmhKxYpmDUEi7I
-	dR1RWqR3OszXB/uWqLfw2BLJuJFNjE21/pik2e88pniQos84vjhyvqvLs7PUE3W5weM9
-	JxiiUJ4EmRgJ1b8oX4iDbVOj5pew6YIt8rfEUREoDdzeP2aftEmhVOmGZljbcLfBegtn
-	q59DuUERy+MUC7k+dMEE72bE/Xp+EFLOa2MqdqTmXvCIOdlsY4b2QQFggF6l3x52PC22
-	QFbQ==
+	Mon, 27 Aug 2018 10:13:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=I4iGAOvVXe7GKepebvPVOFQ3XN+k1r0uNFsQPPHNzG0=;
+	b=x5IuULDwZxdW6Idy52rtBk87cv5ykQ/46AO6L9DmMpYJbnUtHiQemsJYAtRV0wYz/U
+	GpGBSL0Bx6k9HeugLh+rD52xTmRsDBB2TvV6XngXZcCgflm6qSht9qDjxMlTVujqk0kK
+	HxVMxdf0qxklakIUBSw1tEZ+dKgCaQhgiiBu9gGFjbqodjzGBORlx9cUAAnSX8shYbhL
+	YAB/wHCDhS9Y/lcHjjrVJOcDtQo8mwJ/Pb8cSH76UOf0gT98gBSDnfKzACvcfWqRWIXw
+	6xzhx2hRJ8F6xodbMkBZ/akhMNxR5rEtUVb0yNQXc6p8INSnQq7i52bYpAKfVRjmadjj
+	DQ8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=Kk596+kvbwImsqKccUXNXd42CoB3kkz6e5Y9HhlMJq0=;
-	b=deBhCaV3X0QQXpYeZ2mnBumVuidtfDvdnPkpAyrXwyLECaAgHHREemUoUPK6awj/k0
-	Sc5C9m8Q4kwruX9D+zec+f/eaxdNyVrsVBtzBFDegUn8O+6VeGKrT64R53AOMtelLjDN
-	Lg92bbSvfCp4VPvEN2rVkhQ5DYWbYsnwhYhaj9oO9TSEYyZ6N/nFpZWgblvi4yJnaY+A
-	FdsN81AIA8j4ZdILl9qSe3jsRSSHBK5YYLwSwFJhDF9WljacRxOyk35GDJl/UXd8yzt9
-	HlRByq+j3oiBr3URr3H7tOYm7mBebKiYbRkQT4MVjLfjlsYRFNhG4A7rXDwjaDFuYjvq
-	jwJA==
-X-Gm-Message-State: APzg51CWOeD8dLW0cCHUO5EElvEDX36uoI9LmNLdiRd3OqXhbsF6WkbZ
-	xOvWeYCs4DDD5vyDgMaIs+M=
-X-Google-Smtp-Source: ANB0VdZqdV+xw8nAyF5g4ORN0MNNyJ1uxeT5DoJg89huob2kyvjinp1HQ4iEvo+4xt+g5Wx98vDkrA==
-X-Received: by 2002:a62:9349:: with SMTP id
-	b70-v6mr15113900pfe.193.1535385343356; 
-	Mon, 27 Aug 2018 08:55:43 -0700 (PDT)
-Received: from ?IPv6:240b:12:4260:6a00:50ac:d6c3:482a:6007?
-	([240b:12:4260:6a00:50ac:d6c3:482a:6007])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=I4iGAOvVXe7GKepebvPVOFQ3XN+k1r0uNFsQPPHNzG0=;
+	b=V5RP20JQzQw9kwj/DyNwQR9NI5oHBzFkQ4EFSsRChCxcrSla1KnPIOmZx4eqKoWcdK
+	AVBGcjyQbbjwTPQmQYWmLefW44mY2o0wFpr9krDXWkR7b4grTYm2IAil14py13KwhhVl
+	z95HkvGQkuwWjDeWq2OzQ0bDjyoF5hnYDcW9CiGLrSomG/oqabCxC7zF1bVCYcrWvRI7
+	WpMF8vtwwCfNM49B/ttnqUY/8AJ1Mii6cnYZ/xidQMZ0zb/gxj3mw7HE3pI2G6wPdOsz
+	qP+gwSVxugUKRM9c1YclKiYcZmh/PAGI/JsVu/bYm9IISCKOvPw4buzopKlvmPeD1G0d
+	oo8A==
+X-Gm-Message-State: APzg51Avk6h7wtYmai3fGN0azehCLWPjH+pbdsFW5Pc0RUsIdKhp8Zx0
+	sBxf3g3RsxJJqoyUQGIYrKVspFB9GL8=
+X-Google-Smtp-Source: ANB0VdZ0hnt3kTebjEQVOGuttqH1faeJ3u3dN4aEWcUlNnKiNRGtQIs6usnXioIlU/t9YHmmwRYeyA==
+X-Received: by 2002:aca:5b57:: with SMTP id
+	p84-v6mr13595968oib.20.1535390012218; 
+	Mon, 27 Aug 2018 10:13:32 -0700 (PDT)
+Received: from dell-laptop.mvista.com ([157.49.180.62])
 	by smtp.gmail.com with ESMTPSA id
-	g184-v6sm24852816pgc.22.2018.08.27.08.55.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Aug 2018 08:55:42 -0700 (PDT)
-To: Martin Jansa <martin.jansa@gmail.com>, Tom King <ka6sox@gmail.com>
-References: <6da833d1-a532-779e-8116-cb8b950bc8aa@gmail.com>
-	<CA+chaQd0nDr4x1AdJW=4AGDSeRDA03_svGyA+TsL+poYSgzJkw@mail.gmail.com>
-From: Tomohiro Komagata <tomohiro.komagata.aj@gmail.com>
-Message-ID: <70c54c3b-d6e4-4307-61e4-a4fa42ade473@gmail.com>
-Date: Tue, 28 Aug 2018 00:55:39 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <CA+chaQd0nDr4x1AdJW=4AGDSeRDA03_svGyA+TsL+poYSgzJkw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [Q&A] "http://sources.openembedded.org" is unavailable
+	y85-v6sm15109448oie.25.2018.08.27.10.13.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 27 Aug 2018 10:13:31 -0700 (PDT)
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Aug 2018 22:43:20 +0530
+Message-Id: <1535390000-7057-2-git-send-email-jkrishnanjanappa@mvista.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1535390000-7057-1-git-send-email-jkrishnanjanappa@mvista.com>
+References: <1535390000-7057-1-git-send-email-jkrishnanjanappa@mvista.com>
+Subject: [PATCH resend 2/2] libcgroup: CVE-2018-14348
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,34 +59,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2018 15:55:42 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 27 Aug 2018 17:13:35 -0000
 
-Thanks!
-Today, I could confirm that the server is available.
+Affects libcgroup <= 0.41
 
-On 2018/08/25 18:15, Martin Jansa wrote:
-> The server which is hosting this is I believe in transit and should be back online in couple days.
-> 
-> On Sat, Aug 25, 2018 at 10:50 AM Tomohiro Komagata <tomohiro.komagata.aj@gmail.com <mailto:tomohiro.komagata.aj@gmail.com>> wrote:
-> 
->     Hi all,
-> 
->     In this week, I have failed to bitbake,
->     because "http://sources.openembedded.org" is unavailable and it occurs the fetch error.
-> 
->     Does anyone have any information ?
->     When will its server be available ?
-> 
->     Best regards,
->     　T.Komagata
-> 
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+---
+ .../libcgroup/libcgroup/CVE-2018-14348.patch       | 37 ++++++++++++++++++++++
+ meta/recipes-core/libcgroup/libcgroup_0.41.bb      |  3 +-
+ 2 files changed, 39 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/libcgroup/libcgroup/CVE-2018-14348.patch
+
+diff --git a/meta/recipes-core/libcgroup/libcgroup/CVE-2018-14348.patch b/meta/recipes-core/libcgroup/libcgroup/CVE-2018-14348.patch
+new file mode 100644
+index 0000000..d133703
+--- /dev/null
++++ b/meta/recipes-core/libcgroup/libcgroup/CVE-2018-14348.patch
+@@ -0,0 +1,37 @@
++From 0d88b73d189ea3440ccaab00418d6469f76fa590 Mon Sep 17 00:00:00 2001
++From: Michal Hocko <mhocko@suse.com>
++Date: Wed, 18 Jul 2018 11:24:29 +0200
++Subject: [PATCH] cgrulesengd: remove umask(0)
++
++One of our partners has noticed that cgred daemon is creating a log file
++(/var/log/cgred) with too wide permissions (0666) and that is seen as
++a security bug because an untrusted user can write to otherwise
++restricted area. CVE-2018-14348 has been assigned to this issue.
++
++CVE: CVE-2018-14348
++Upstream-Status: Backport [https://sourceforge.net/p/libcg/libcg/ci/0d88b73d189ea3440ccaab00418d6469f76fa590]
++
++Signed-off-by: Michal Hocko <mhocko@suse.com>
++Acked-by: Balbir Singh <bsingharora@gmail.com>
++Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
++---
++ src/daemon/cgrulesengd.c | 3 ---
++ 1 file changed, 3 deletions(-)
++
++diff --git a/src/daemon/cgrulesengd.c b/src/daemon/cgrulesengd.c
++index ea51f11..0d288f3 100644
++--- a/src/daemon/cgrulesengd.c
+++++ b/src/daemon/cgrulesengd.c
++@@ -889,9 +889,6 @@ int cgre_start_daemon(const char *logp, const int logf,
++ 		} else if (pid > 0) {
++ 			exit(EXIT_SUCCESS);
++ 		}
++-
++-		/* Change the file mode mask. */
++-		umask(0);
++ 	} else {
++ 		flog(LOG_DEBUG, "Not using daemon mode\n");
++ 		pid = getpid();
++-- 
++2.13.3
++
+diff --git a/meta/recipes-core/libcgroup/libcgroup_0.41.bb b/meta/recipes-core/libcgroup/libcgroup_0.41.bb
+index 7ddc81e..92d7261 100644
+--- a/meta/recipes-core/libcgroup/libcgroup_0.41.bb
++++ b/meta/recipes-core/libcgroup/libcgroup_0.41.bb
+@@ -11,7 +11,8 @@ inherit autotools pkgconfig
+ 
+ DEPENDS = "bison-native flex-native"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/project/libcg/${BPN}/v0.41/${BPN}-${PV}.tar.bz2"
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/libcg/${BPN}/v0.41/${BPN}-${PV}.tar.bz2 \
++           file://CVE-2018-14348.patch"
+ SRC_URI_append_libc-musl = " file://musl-decls-compat.patch"
+ 
+ SRC_URI[md5sum] = "3dea9d50b8a5b73ff0bf1cdcb210f63f"
+-- 
+2.7.4
+
 
