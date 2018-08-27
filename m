@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C04A78F7F;
-	Mon, 27 Aug 2018 09:12:18 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 9F27A78F7F;
+	Mon, 27 Aug 2018 09:12:21 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Junil Kim <logyourself@gmail.com>
-Date: Mon, 27 Aug 2018 09:12:20 -0000
-Message-ID: <20180827091220.13841.55004@do.openembedded.org>
-References: <1535359120-26088-1-git-send-email-vincent.prince.fr@gmail.com>
+To: Vincent Prince <vincent.prince.fr@gmail.com>
+Date: Mon, 27 Aug 2018 09:12:23 -0000
+Message-ID: <20180827091223.13843.5032@do.openembedded.org>
+References: <1535360253-28627-1-git-send-email-vincent.prince.fr@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1535359120-26088-1-git-send-email-vincent.prince.fr@gmail.com>
+In-Reply-To: <1535360253-28627-1-git-send-email-vincent.prince.fr@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbHRyYWNlX2dpdDogVXBkYXRlIFNSQ19VUkkgZHVlIHRvIGluYWNjZXNzaWJsZSBwcm9ibGVtIChyZXYzKQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlic29kaXVtOiBVcGRhdGUgU1JDX1VSSSBkdWUgdG8gaW5hY2Nlc3NpYmxlIHByb2JsZW0=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2018 09:12:18 -0000
+X-List-Received-Date: Mon, 27 Aug 2018 09:12:21 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: ltrace_git: Update SRC_URI due to inaccessible problem (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/13629/
+Series: libsodium: Update SRC_URI due to inaccessible problem
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13746/
 State : failure
 
 == Summary ==
@@ -45,9 +45,10 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [meta-oe, for-sumo] ltrace_git: Update SRC_URI due to inaccessible problem
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe, for-sumo) and send the patch to the indicated list
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     openembedded-devel@lists.openembedded.org [http://git.openembedded.org/meta-openembedded/]
+  Patch's path:    meta-oe/recipes-crypto/libsodium/libsodium_1.0.11.bb
 
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
