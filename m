@@ -1,50 +1,18 @@
-Return-Path: <vincent.prince.fr@gmail.com>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id D269F79164
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 08:57:43 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id w11-v6so12856005wrc.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 01:57:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=IpA3boni2UEJNx1W53HkzS8gyNkNvwiYIddL4s3zztA=;
-	b=LK9F1Sj71QjUXc/ENzhZ3JtcUp+RgfqpHnOIJEZQo3esv6LvNZbOD9fdWThNVOsJLo
-	FG4rX7uq1W3q/nSNGWadx1AWMHapfxc9Bfjo9AWqNDz+Ajz8RohollBW5ONBJbFAzwjd
-	jCwRcogOg9WyCojjoACCc/nGHM91flnwlajc9PuzjtVqrEmUnrDfC3VP8ipFTnhZ2RxV
-	Cy+FDPumJYjm/13DxPxATRnQJk6c+Y1A0TUiFO4O5l09zTtadE+BmvO64Tb1AICVH4IK
-	FYhywgWSKq6PWH8+n0WuCOxn7JZe6jWsv67vTZUBzXXnqmbiBYmdK84yJwlk2da0IGBB
-	NDBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=IpA3boni2UEJNx1W53HkzS8gyNkNvwiYIddL4s3zztA=;
-	b=Yja19hJzW+8ppT21nqdiBy7dZ0zln08o9rDu4RWLdkVLOH6172CpBLlGNVZNafARCJ
-	WX6bNISXMPGXiTfcO7tvoktl6iS+Ltul6d3/MYXrMku1Yi0VYr8LkHXyScIbuseHmfk2
-	zaXGuCf3iBPfT8dccQcdsQY0YJAPWSYcxxz568/m3g9nMWceVZVtmTmutcDkrTd6/Ioj
-	vEPxxXY+cZH4ZfFLJ8geRMpiEBu02mo9Hu1JNTvPIvTAjeh72LPrG+8oSM9K0wVJbexd
-	ymOTnkWGIYlOgRB+nEXM8JgkO3GFVU3ZThFxH+oqzQ4lVjyfjdsRrtJpAVHOpFFFjpAt
-	ER/w==
-X-Gm-Message-State: APzg51AulUvwiTfkSGMPcomfR5DVvRb3FQXIJ5V5laQ4JOt2apPZ0eJn
-	4g1x4c7/LLgYj+6qbmZjOdoiw1ow6Bg=
-X-Google-Smtp-Source: ANB0VdYqhpdRIP3AIzaoWxG3c0oLiZX7G/ah1jp6rT5G4kB+OcOC+dOO/pN3WkDOyUSnw4hhsWoSsw==
-X-Received: by 2002:adf:ef89:: with SMTP id
-	d9-v6mr7814553wro.195.1535360264276; 
-	Mon, 27 Aug 2018 01:57:44 -0700 (PDT)
-Received: from localhost.localdomain ([80.215.33.180])
-	by smtp.gmail.com with ESMTPSA id
-	p11-v6sm16808845wrd.74.2018.08.27.01.57.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 27 Aug 2018 01:57:43 -0700 (PDT)
-From: vincent.prince.fr@gmail.com
-To: openembedded-core@lists.openembedded.org,
-	akuster808@gmail.com
-Date: Mon, 27 Aug 2018 10:57:33 +0200
-Message-Id: <1535360253-28627-1-git-send-email-vincent.prince.fr@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Vincent Prince <vincent.prince.external@saftbatteries.com>
-Subject: [for-sumo][PATCH] libsodium: Update SRC_URI due to inaccessible problem
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C04A78F7F;
+	Mon, 27 Aug 2018 09:12:18 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Junil Kim <logyourself@gmail.com>
+Date: Mon, 27 Aug 2018 09:12:20 -0000
+Message-ID: <20180827091220.13841.55004@do.openembedded.org>
+References: <1535359120-26088-1-git-send-email-vincent.prince.fr@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1535359120-26088-1-git-send-email-vincent.prince.fr@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbHRyYWNlX2dpdDogVXBkYXRlIFNSQ19VUkkgZHVlIHRvIGluYWNjZXNzaWJsZSBwcm9ibGVtIChyZXYzKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2018 08:57:44 -0000
+X-List-Received-Date: Mon, 27 Aug 2018 09:12:18 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Vincent Prince <vincent.prince.external@saftbatteries.com>
+== Series Details ==
 
-Signed-off-by: Vincent Prince <vincent.prince.external@saftbatteries.com>
+Series: ltrace_git: Update SRC_URI due to inaccessible problem (rev3)
+Revision: 3
+URL   : https://patchwork.openembedded.org/series/13629/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta-oe, for-sumo] ltrace_git: Update SRC_URI due to inaccessible problem
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-oe, for-sumo) and send the patch to the indicated list
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 0791c4d39e)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta-oe/recipes-crypto/libsodium/libsodium_1.0.11.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta-oe/recipes-crypto/libsodium/libsodium_1.0.11.bb b/meta-oe/recipes-crypto/libsodium/libsodium_1.0.11.bb
-index cbcbe96..00fa7aa 100644
---- a/meta-oe/recipes-crypto/libsodium/libsodium_1.0.11.bb
-+++ b/meta-oe/recipes-crypto/libsodium/libsodium_1.0.11.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://libsodium.org/"
- LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c9f00492f01f5610253fde01c3d2e866"
- 
--SRC_URI = "https://download.libsodium.org/libsodium/releases/${BPN}-${PV}.tar.gz"
-+SRC_URI = "https://download.libsodium.org/libsodium/releases/old/unsupported/${BPN}-${PV}.tar.gz"
- SRC_URI[md5sum] = "b58928d035064b2a46fb564937b83540"
- SRC_URI[sha256sum] = "a14549db3c49f6ae2170cbbf4664bd48ace50681045e8dbea7c8d9fb96f9c765"
- 
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
