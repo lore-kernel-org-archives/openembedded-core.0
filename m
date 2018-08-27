@@ -1,23 +1,18 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CE1879313
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 02:17:49 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7R2Ho18012041
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Aug 2018 19:17:50 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Sun, 26 Aug 2018 19:17:31 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Aug 2018 10:17:30 +0800
-Message-ID: <1535336250-197198-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 664CD79313;
+	Mon, 27 Aug 2018 02:35:21 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] libice: patch for CVE-2017-2626
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Yi Zhao <yi.zhao@windriver.com>
+Date: Mon, 27 Aug 2018 02:35:22 -0000
+Message-ID: <20180827023522.13841.77821@do.openembedded.org>
+References: <1535335862-21797-1-git-send-email-yi.zhao@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1535335862-21797-1-git-send-email-yi.zhao@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdGFnbGliOiBTZWN1cml0eSBmaXggQ1ZFLTIwMTgtMTE0Mzk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,187 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2018 02:17:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 27 Aug 2018 02:35:21 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+== Series Details ==
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Series: taglib: Security fix CVE-2018-11439
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13734/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            taglib: Security fix CVE-2018-11439
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../xorg-lib/libice/CVE-2017-2626.patch            | 149 +++++++++++++++++++++
- meta/recipes-graphics/xorg-lib/libice_1.0.9.bb     |   2 +
- 2 files changed, 151 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
-
-diff --git a/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch b/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
-new file mode 100644
-index 0000000..20c6dda
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
-@@ -0,0 +1,149 @@
-+From ff5e59f32255913bb1cdf51441b98c9107ae165b Mon Sep 17 00:00:00 2001
-+From: Benjamin Tissoires <benjamin.tissoires@gmail.com>
-+Date: Tue, 4 Apr 2017 19:12:53 +0200
-+Subject: Use getentropy() if arc4random_buf() is not available
-+
-+This allows to fix CVE-2017-2626 on Linux platforms without pulling in
-+libbsd.
-+The libc getentropy() is available since glibc 2.25 but also on OpenBSD.
-+For Linux, we need at least a v3.17 kernel. If the recommended
-+arc4random_buf() function is not available, emulate it by first trying
-+to use getentropy() on a supported glibc and kernel. If the call fails,
-+fall back to the current (partly vulnerable) code.
-+
-+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@gmail.com>
-+Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
-+Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+
-+Upstream-Status: Backport[https://cgit.freedesktop.org/xorg/lib/libICE
-+                 /commit/?id=ff5e59f32255913bb1cdf51441b98c9107ae165b]
-+
-+CVE: CVE-2017-2626
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ configure.ac  |  2 +-
-+ src/iceauth.c | 65 ++++++++++++++++++++++++++++++++++++++++++-----------------
-+ 2 files changed, 47 insertions(+), 20 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 458882a..c971ab6 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -38,7 +38,7 @@ AC_DEFINE(ICE_t, 1, [Xtrans transport type])
-+ 
-+ # Checks for library functions.
-+ AC_CHECK_LIB([bsd], [arc4random_buf])
-+-AC_CHECK_FUNCS([asprintf arc4random_buf])
-++AC_CHECK_FUNCS([asprintf arc4random_buf getentropy])
-+ 
-+ # Allow checking code with lint, sparse, etc.
-+ XORG_WITH_LINT
-+diff --git a/src/iceauth.c b/src/iceauth.c
-+index ed31683..de4785b 100644
-+--- a/src/iceauth.c
-++++ b/src/iceauth.c
-+@@ -44,31 +44,19 @@ Author: Ralph Mor, X Consortium
-+ 
-+ static int was_called_state;
-+ 
-+-/*
-+- * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
-+- * the SI.  It is not part of standard ICElib.
-+- */
-++#ifndef HAVE_ARC4RANDOM_BUF
-+ 
-+-
-+-char *
-+-IceGenerateMagicCookie (
-++static void
-++emulate_getrandom_buf (
-++	char *auth,
-+ 	int len
-+ )
-+ {
-+-    char    *auth;
-+-#ifndef HAVE_ARC4RANDOM_BUF
-+     long    ldata[2];
-+     int	    seed;
-+     int	    value;
-+     int	    i;
-+-#endif
-+ 
-+-    if ((auth = malloc (len + 1)) == NULL)
-+-	return (NULL);
-+-
-+-#ifdef HAVE_ARC4RANDOM_BUF
-+-    arc4random_buf(auth, len);
-+-#else
-+ #ifdef ITIMER_REAL
-+     {
-+ 	struct timeval  now;
-+@@ -76,13 +64,13 @@ IceGenerateMagicCookie (
-+ 	ldata[0] = now.tv_sec;
-+ 	ldata[1] = now.tv_usec;
-+     }
-+-#else
-++#else /* ITIMER_REAL */
-+     {
-+ 	long    time ();
-+ 	ldata[0] = time ((long *) 0);
-+ 	ldata[1] = getpid ();
-+     }
-+-#endif
-++#endif /* ITIMER_REAL */
-+     seed = (ldata[0]) + (ldata[1] << 16);
-+     srand (seed);
-+     for (i = 0; i < len; i++)
-+@@ -90,7 +78,46 @@ IceGenerateMagicCookie (
-+ 	value = rand ();
-+ 	auth[i] = value & 0xff;
-+     }
-+-#endif
-++}
-++
-++static void
-++arc4random_buf (
-++	char *auth,
-++	int len
-++)
-++{
-++    int	    ret;
-++
-++#if HAVE_GETENTROPY
-++    /* weak emulation of arc4random through the entropy libc */
-++    ret = getentropy (auth, len);
-++    if (ret == 0)
-++	return;
-++#endif /* HAVE_GETENTROPY */
-++
-++    emulate_getrandom_buf (auth, len);
-++}
-++
-++#endif /* !defined(HAVE_ARC4RANDOM_BUF) */
-++
-++/*
-++ * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
-++ * the SI.  It is not part of standard ICElib.
-++ */
-++
-++
-++char *
-++IceGenerateMagicCookie (
-++	int len
-++)
-++{
-++    char    *auth;
-++
-++    if ((auth = malloc (len + 1)) == NULL)
-++	return (NULL);
-++
-++    arc4random_buf (auth, len);
-++
-+     auth[len] = '\0';
-+     return (auth);
-+ }
-+-- 
-+cgit v1.1
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-index 0337d21..999434e 100644
---- a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-@@ -23,6 +23,8 @@ BBCLASSEXTEND = "native"
- SRC_URI[md5sum] = "addfb1e897ca8079531669c7c7711726"
- SRC_URI[sha256sum] = "8f7032f2c1c64352b5423f6b48a8ebdc339cc63064af34d66a6c9aa79759e202"
- 
-+SRC_URI += "file://CVE-2017-2626.patch"
-+
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[arc4] = "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
