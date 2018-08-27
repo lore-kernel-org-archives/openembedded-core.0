@@ -1,24 +1,42 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A97478EDC
+Return-Path: <prvs=7777a5c19a=alexandru.vasiu@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id DC14178EDC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 15:31:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7RFVYCG014793
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 27 Aug 2018 08:31:34 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 27 Aug 2018 08:31:34 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 27 Aug 2018 23:31:28 +0800
-Message-ID: <1535383888-28979-3-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1535383888-28979-1-git-send-email-hongxu.jia@windriver.com>
-References: <1535383888-28979-1-git-send-email-hongxu.jia@windriver.com>
+	Mon, 27 Aug 2018 15:31:35 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
+	w7REKQr5032587 for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Aug 2018 09:31:11 -0500
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2m34mw6gm8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Aug 2018 09:31:11 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod2.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
+	w7REVA0o016496
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Aug 2018 09:31:10 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Mon, 27 Aug 2018 09:31:10 -0500
+Received: from avasiuPC.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Mon, 27 Aug 2018 09:31:09 -0500
+From: Alexandru Vasiu <alexandru.vasiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Aug 2018 17:31:03 +0300
+Message-ID: <20180827143105.30059-1-alexandru.vasiu@ni.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Subject: [PATCH 3/3] ruby: improve reproducibility
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2018-08-27_06:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+Subject: [PATCH 1/3] isoimage-isohybrid: Fix creating initrd.cpio
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +49,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2018 15:31:34 -0000
+X-List-Received-Date: Mon, 27 Aug 2018 15:31:36 -0000
 Content-Type: text/plain
 
-Find out rbconfig.rb and created.rid from ${B}/.installed.list
-and remove build host directories
+Only bsdcpio works with numbers for option -R to specify user:group,
+while GNU cpio doesn't. Debian use GNU cpio so without this change,
+you cannot create ISO images without installing bsdcpio.
 
-- For rbconfig.rb, parse it like python's _sysconfigdata.py
-[snip rbconfig.rb]
- 26   CONFIG["INSTALL"] = 'install -c'
-[snip rbconfig.rb]
-
-- For created.rid, it records file created time, just strip ${WORKDIR} prefix.
-[snip created.rid]
-840 /ruby-2.5.1/doc/maintainers.rdoc        Fri, 22 Dec 2017 23:08:05 +0000
-[snip created.rid]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Alexandru Vasiu <alexandru.vasiu@ni.com>
 ---
- meta/recipes-devtools/ruby/ruby_2.5.1.bb | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/ruby/ruby_2.5.1.bb b/meta/recipes-devtools/ruby/ruby_2.5.1.bb
-index af2739a..1197323 100644
---- a/meta/recipes-devtools/ruby/ruby_2.5.1.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.5.1.bb
-@@ -35,6 +35,26 @@ do_install() {
-     oe_runmake 'DESTDIR=${D}' install
- }
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+index 0d4f50d1f7..4a0a57ef9e 100644
+--- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -191,7 +191,7 @@ class IsoImagePlugin(SourcePlugin):
+             else:
+                 raise WicError("Couldn't find or build initrd, exiting.")
  
-+do_install_append_class-target () {
-+    # Find out rbconfig.rb from .installed.list
-+    rbconfig_rb=`grep rbconfig.rb ${B}/.installed.list`
-+    # Remove build host directories
-+    sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' \
-+           -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
-+           -e 's|${DEBUG_PREFIX_MAP}||g' \
-+           -e 's:${HOSTTOOLS_DIR}/::g' \
-+           -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
-+           -e 's:${RECIPE_SYSROOT}::g' \
-+           -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
-+        ${D}$rbconfig_rb
-+
-+    # Find out created.rid from .installed.list
-+    created_rid=`grep created.rid ${B}/.installed.list`
-+    # Remove build host directories
-+    sed -i -e 's:${WORKDIR}::g' ${D}$created_rid
-+
-+}
-+
- PACKAGES =+ "${PN}-ri-docs ${PN}-rdoc"
- 
- SUMMARY_${PN}-ri-docs = "ri (Ruby Interactive) documentation for the Ruby standard library"
+-            exec_cmd("cd %s && find . | cpio -o -H newc -R +0:+0 >./initrd.cpio " \
++            exec_cmd("cd %s && find . | cpio -o -H newc -R root:root >./initrd.cpio " \
+                     % initrd_dir, as_shell=True)
+             exec_cmd("gzip -f -9 -c %s/initrd.cpio > %s" \
+                     % (cr_workdir, initrd), as_shell=True)
 -- 
-2.7.4
+2.18.0
 
 
