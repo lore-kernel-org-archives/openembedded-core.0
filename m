@@ -1,23 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EC0B27545B
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A103378EEC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 15:31:30 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7RFVVC9029280
+	Mon, 27 Aug 2018 15:31:32 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7RFVXb3006563
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 27 Aug 2018 08:31:31 -0700
+	Mon, 27 Aug 2018 08:31:33 -0700 (PDT)
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 27 Aug 2018 08:31:30 -0700
+	14.3.408.0; Mon, 27 Aug 2018 08:31:32 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 27 Aug 2018 23:31:26 +0800
-Message-ID: <1535383888-28979-1-git-send-email-hongxu.jia@windriver.com>
+Date: Mon, 27 Aug 2018 23:31:27 +0800
+Message-ID: <1535383888-28979-2-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1535383888-28979-1-git-send-email-hongxu.jia@windriver.com>
+References: <1535383888-28979-1-git-send-email-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] nss :improve reproducibility
+Subject: [PATCH 2/3] bind: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,50 +31,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2018 15:31:31 -0000
+X-List-Received-Date: Mon, 27 Aug 2018 15:31:32 -0000
 Content-Type: text/plain
 
-- Explicitly requests the newer database `sql:' rather than
-  retrieved from NSS_DEFAULT_DB_TYPE
+- Tweak var-DST_OPENSSL_LIBS assignment in configure.in, it is
+  helpful to fix build path issue in isc-config.sh
 
-- Removes build path prefix from pkcs11.txt
-
-Refers certutil manual:
-[certutil manual]
--d [prefix]directory
- Specify the database directory containing the certificate and key database files.
- certutil supports two types of databases: the legacy security databases (cert8.db,
-  key3.db, and secmod.db) and new SQLite databases (cert9.db, key4.db, and pkcs11.txt).
-
- NSS recognizes the following prefixes:
-  sql: requests the newer database
-  dbm: requests the legacy database
- If no prefix is specified the default type is retrieved from NSS_DEFAULT_DB_TYPE.
- If NSS_DEFAULT_DB_TYPE is not set then dbm: is the default.
-[certutil manual]
+- `named/lwresd -V' and start log hide build options which expose
+  build path directories.
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-support/nss/nss_3.38.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ ...igure.in-remove-useless-L-use_openssl-lib.patch | 32 ++++++++++++++++++++
+ ...lwresd-V-and-start-log-hide-build-options.patch | 34 ++++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.11.4.bb      |  2 ++
+ 3 files changed, 68 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
 
-diff --git a/meta/recipes-support/nss/nss_3.38.bb b/meta/recipes-support/nss/nss_3.38.bb
-index f3e5170..904b621 100644
---- a/meta/recipes-support/nss/nss_3.38.bb
-+++ b/meta/recipes-support/nss/nss_3.38.bb
-@@ -215,9 +215,11 @@ do_install_append_class-target() {
-     # Create a blank certificate
-     mkdir -p ${D}${sysconfdir}/pki/nssdb/
-     touch ./empty_password
--    certutil -N -d ${D}${sysconfdir}/pki/nssdb/ -f ./empty_password
-+    certutil -N -d sql:${D}${sysconfdir}/pki/nssdb/ -f ./empty_password
-     chmod 644 ${D}${sysconfdir}/pki/nssdb/*.db
-     rm ./empty_password
-+    # Remove build path prefix
-+    sed -i "s:${D}::g"  ${D}${sysconfdir}/pki/nssdb/pkcs11.txt
- }
+diff --git a/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch b/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch
+new file mode 100644
+index 0000000..871bb2a
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch
+@@ -0,0 +1,32 @@
++From 950867d9fd3f690e271c8c807b6eed144b2935b2 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 27 Aug 2018 15:00:51 +0800
++Subject: [PATCH] configure.in: remove useless `-L$use_openssl/lib'
++
++Since `--with-openssl=${STAGING_DIR_HOST}${prefix}' is used in bind recipe,
++the `-L$use_openssl/lib' has a hardcoded suffix, removing it is harmless
++and helpful for clean up host build path in isc-config.sh
++
++Upstream-Status: Inappropriate [oe-core specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ configure.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/configure.in b/configure.in
++index 54efc55..76ac0eb 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -1691,7 +1691,7 @@ If you don't want OpenSSL, use --without-openssl])
++ 				fi
++ 				;;
++ 			*)
++-				DST_OPENSSL_LIBS="-L$use_openssl/lib -lcrypto"
+++				DST_OPENSSL_LIBS="-lcrypto"
++ 				;;
++ 			esac
++ 		fi
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+new file mode 100644
+index 0000000..75908aa
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+@@ -0,0 +1,34 @@
++From a3af4a405baf5ff582e82aaba392dd9667d94bdc Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 27 Aug 2018 21:24:20 +0800
++Subject: [PATCH] `named/lwresd -V' and start log hide build options
++
++The build options expose build path directories, so hide them.
++[snip]
++$ named -V
++|built by make with *** (options are hidden)
++[snip]
++
++Upstream-Status: Inappropriate [oe-core specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ bin/named/include/named/globals.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bin/named/include/named/globals.h b/bin/named/include/named/globals.h
++index ba3457e..7741da7 100644
++--- a/bin/named/include/named/globals.h
+++++ b/bin/named/include/named/globals.h
++@@ -68,7 +68,7 @@ EXTERN const char *		ns_g_version		INIT(VERSION);
++ EXTERN const char *		ns_g_product		INIT(PRODUCT);
++ EXTERN const char *		ns_g_description	INIT(DESCRIPTION);
++ EXTERN const char *		ns_g_srcid		INIT(SRCID);
++-EXTERN const char *		ns_g_configargs		INIT(CONFIGARGS);
+++EXTERN const char *		ns_g_configargs		INIT("*** (options are hidden)");
++ EXTERN const char *		ns_g_builder		INIT(BUILDER);
++ EXTERN in_port_t		ns_g_port		INIT(0);
++ EXTERN isc_dscp_t		ns_g_dscp		INIT(-1);
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.11.4.bb
+index 7522fdb..d27068c 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.4.bb
+@@ -17,6 +17,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
+            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
++           file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
++           file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+ "
  
- PACKAGE_WRITE_DEPS += "nss-native"
+ SRC_URI[md5sum] = "9b4834d78f30cdb796ce437262272a36"
 -- 
 2.7.4
 
