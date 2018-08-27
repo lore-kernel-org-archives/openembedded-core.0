@@ -1,47 +1,48 @@
-Return-Path: <prvs=7777a5c19a=alexandru.vasiu@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FC2178EEC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C28B78EEC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 15:42:46 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
-	w7REKQr7032587 for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 09:31:16 -0500
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mx0a-00010702.pphosted.com with ESMTP id 2m34mw6gmk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 09:31:15 -0500
-Received: from us-aus-exch1.ni.corp.natinst.com
-	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
-	by us-aus-skprod2.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
-	w7REVEhs016524
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	Mon, 27 Aug 2018 15:45:07 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id t5-v6so18543743qtn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 09:31:14 -0500
-Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
-	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Mon, 27 Aug 2018 09:31:14 -0500
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Mon, 27 Aug 2018 09:31:14 -0500
-Received: from avasiuPC.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Mon, 27 Aug 2018 09:31:13 -0500
-From: Alexandru Vasiu <alexandru.vasiu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Aug 2018 17:31:05 +0300
-Message-ID: <20180827143105.30059-3-alexandru.vasiu@ni.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180827143105.30059-1-alexandru.vasiu@ni.com>
-References: <20180827143105.30059-1-alexandru.vasiu@ni.com>
+	Mon, 27 Aug 2018 08:45:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=A/0sxmW6d1GbvMn0fBBx2thUPyOFW//F3H2vPVvtS5s=;
+	b=NGCDFXjc6jsK95+/vKy+W9sMauddTP0vzljZKmNlcmEEY7hoy50kNMoyrN0D9Giw8a
+	zsaJh616h4s1IwTff2lZzxfdkFDMikzIYkDiosiUzA3TP6exBttgQVl+xGS20e4ya6Pb
+	QunxWXRXNdOOWKb5QPoQ1VZw52+W7janFC+Sjtb/Aw02jqbrMDGZDddAVoDOB5/N57WW
+	XV5VoDibgBZFn2GzzqRUR9a7Zer52f0edULOHYUoqOzMo/RaqHNGI+7XryzFfQw4ehM+
+	2TGQ1J78Os3z4tuh8KBjcw/hbIsmfXwAILD6xo93F5QG1ZQlZaY0BQRS9fniLZ70NP9m
+	J9dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=A/0sxmW6d1GbvMn0fBBx2thUPyOFW//F3H2vPVvtS5s=;
+	b=K/Afju9a2VO87rm2VMCYFmIVdtU2I9FO7o/z8lb8Whbs4NLPn8W3sfPSYMwgcxZ7vK
+	PFeXmBpk2weass1yCl3ztXUtzSy/GFSUIg3l4Knc26MjSCpvelmNDrJ8rd5y8kzWL8RU
+	Dicdb86Z67k3qrBA7n9TH9dTQUnC9hlNCAhTZqLlJIbsSP6imOTiweuLNfHszgjs5rXN
+	UGBazQlir2HLXBpFMa53bfgnKdJzvnSM66nJ1GsrFSEE0k588yMgBQ5OvdFKBTwmtx7G
+	0EZzhSDZlGMmOoFYnKUB8eC2/vcEJ2f8ElmFQCDNGA9Sd6bpueS0OdhWPtjd4uAFL+GC
+	KwrA==
+X-Gm-Message-State: APzg51BbvJ2NutYKJrAIQP0SEnGFuheOznvqu6rPS8gsk26O0mcQYJwj
+	ZkMaNoP7hSb1wuYphjDKFkTOyhOHWlNbZaUmcrA=
+X-Google-Smtp-Source: ANB0VdbBiwwx2mNzepSPKy5+qqkjjPph6QypRP3mAnfPekv6eTPB3SRG33sdPlZmLcw0hZGNcCLcJXG1u96c67YPJzw=
+X-Received: by 2002:aed:3848:: with SMTP id
+	j66-v6mr14478180qte.218.1535384708344; 
+	Mon, 27 Aug 2018 08:45:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2018-08-27_06:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
-Subject: [PATCH 3/3] image_types_wic: Add variable WIC_EXTENSION
+References: <20180824123346.8602-1-pascal.bach@siemens.com>
+In-Reply-To: <20180824123346.8602-1-pascal.bach@siemens.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 27 Aug 2018 08:44:42 -0700
+Message-ID: <CAMKF1soZoK+6SSbMG=tDwdVSJBcdb0ym5-drbHagXk2aci2t+A@mail.gmail.com>
+To: Pascal Bach <pascal.bach@siemens.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake: add CMAKE_SYSROOT to generated toolchain file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,54 +55,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2018 15:42:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 27 Aug 2018 15:45:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Used to specify what extention will have the image file which
-is created using wic. The default value is wic. For creating an
-ISO image, WIC_EXTENSION will be iso.
+since it was staged in oe-core/master-next, it got into my
+testing queue and is causing several recipes FTBFS
 
-Signed-off-by: Alexandru Vasiu <alexandru.vasiu@ni.com>
----
- meta/classes/image.bbclass           | 2 ++
- meta/classes/image_types_wic.bbclass | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+see
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 024d2d4c96..c6833a6770 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -607,6 +607,8 @@ python create_symlinks() {
-     if not link_name:
-         return
-     for type in subimages:
-+        if type == 'wic':
-+            type = d.getVar('WIC_EXTENSION')
-         dst = os.path.join(deploy_dir, link_name + "." + type)
-         src = img_name + imgsuffix + type
-         if os.path.exists(os.path.join(deploy_dir, src)):
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 5b40a9e919..77cde5763c 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -9,6 +9,7 @@ WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
- WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
- WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p for p in '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l for l in '${BBPATH}:${COREBASE}'.split(':'))}"
- WKS_FULL_PATH = "${@wks_search(d.getVar('WKS_FILES').split(), d.getVar('WKS_SEARCH_PATH')) or ''}"
-+WIC_EXTENSION ??= "wic"
- 
- def wks_search(files, search_path):
-     for f in files:
-@@ -30,7 +31,7 @@ IMAGE_CMD_wic () {
- 	fi
- 
- 	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/" ${WIC_CREATE_EXTRA_ARGS}
--	mv "$out/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.wic"
-+	mv "$out/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.${WIC_EXTENSION}"
- 	rm -rf "$out/"
- }
- IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES TOPDIR"
--- 
-2.18.0
-
+http://errors.yoctoproject.org/Errors/Build/66877/
+On Fri, Aug 24, 2018 at 5:34 AM Pascal Bach <pascal.bach@siemens.com> wrote:
+>
+> This already got fixed in the toolchain file that is used during development
+> in https://github.com/openembedded/openembedded-core/commit/cb42802f2fe1760f894a435b07286bca3a220364
+>
+> The toolchain file generated by the cmake.bbclass however does not set
+> CMAKE_SYSROOT. Under certain circumstances this also leads to the error:
+> `"stdlib.h: No such file or directory #include_next <stdlib.h>"`
+> during the build of a recipe.
+>
+> An example where this accured was during the upgrade of the Apache Thrift
+> recipe in meta-openembedded to 0.11.0. With this change the build works out of
+> the box.
+>
+> CMAKE_SYSROOT must only be set when crosscompiling, otherwise it will interfere
+> with the native compiler headers.
+>
+> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+> ---
+>  meta/classes/cmake.bbclass | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index fd40a9863e..251ddd9afe 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -64,9 +64,12 @@ def map_target_arch_to_uname_arch(target_arch):
+>          return "ppc64"
+>      return target_arch
+>
+> +
+>  cmake_do_generate_toolchain_file() {
+>         if [ "${BUILD_SYS}" = "${HOST_SYS}" ]; then
+>                 cmake_crosscompiling="set( CMAKE_CROSSCOMPILING FALSE )"
+> +       else
+> +               cmake_sysroot="set( CMAKE_SYSROOT \"${RECIPE_SYSROOT}\" )"
+>         fi
+>         cat > ${WORKDIR}/toolchain.cmake <<EOF
+>  # CMake system name must be something like "Linux".
+> @@ -95,6 +98,8 @@ set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
+>  set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+>  set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
+>
+> +$cmake_sysroot
+> +
+>  # Use qt.conf settings
+>  set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
+>
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
