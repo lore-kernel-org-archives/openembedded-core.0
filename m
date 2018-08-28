@@ -1,23 +1,54 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 26CD278FB7
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 04FF860123
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 05:58:56 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7S5wvSf002890
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 28 Aug 2018 06:43:09 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id p84-v6so936224oic.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 22:58:57 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 27 Aug 2018 22:58:56 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Aug 2018 13:58:55 +0800
-Message-ID: <1535435935-440809-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 27 Aug 2018 23:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=P2o4RuIoawm80SMI0WH35yHkzK1SYN4gDfir+NqTsZA=;
+	b=kS8zCXjGePMWfi4xn14FV1x1OMS1g4VjWfEHUIGOd64t2qnZViS4R1/RmS6q0xkLjo
+	JkbXXbMQi3KlsTC14HCejqtx9tjnzJpzn6/8YYRvd/fsELzhxqHyPpdxXmqcJUmzoOPc
+	TJY9wMqnFc+UTsGelQ80iefXN0O7qmJEerqqBTIJte9ObXwJhx0PwN9JkCFzVXcBdH8h
+	murZ72RKZYbpSuHdjPdNbOy89ytLbxh3RtF52N9CaLlsm4E5mfFVkw7VQrAvFQJBZhAs
+	BwO8xMcpf5NDbVKBJqJ2hYNLAltEen4oYeYMWUqc912EzQYzaUdRpu9ceXef53S4PqCt
+	bN6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=P2o4RuIoawm80SMI0WH35yHkzK1SYN4gDfir+NqTsZA=;
+	b=TLbRMd0hBx3cQCYfD9ysrlpFFlZez74+sQrcDB7ejgNiahWoTKxcJnI83YMBBUIjAL
+	AxcUL8xtKIZkgLpNzQvHJZtiKkdn0TcD6kXsE+fP/dWaROwVPHKRJFeU/lg0K2Q81R+H
+	96e5sfgTSBpu4TtXZaMIB/dbpIDIgBzKPw8VduqR8kvLZNp4FjpDkd2hZq0TywggutU2
+	Uo/LXArZrqWkaVkPDBzwL+W7UVYzhG6Tn8X6rTUOHWfdIZDiJwdwFUyL+MNWHciVXNoq
+	CI0Rdw2EAmNpleyS36NXKBxdNDA5441/oFl04UyY1wmzVdIbaY+BLHybTPa4MurqPYuC
+	XSww==
+X-Gm-Message-State: APzg51A2fmGQonDyviTi6CfTb+vsGmUSLrovpfRB6KMkKDCTZCgZbKue
+	Ctljh1w+7EKlVW4C5hpS2t9LaF5uduMZYy8/f+g5og==
+X-Google-Smtp-Source: ANB0Vdah0nms0PyzOld83rRVTjodwqAthOB2ZDOaptlyYWJfp3axXIG5LI+6W3rIcFOJtg40mz943KFHTzk8aWIJHmk=
+X-Received: by 2002:aca:aa8d:: with SMTP id
+	t135-v6mr180256oie.218.1535438591006; 
+	Mon, 27 Aug 2018 23:43:11 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] libid3tag: patch for CVE-2004-2779
+Received: by 2002:ac9:454b:0:0:0:0:0 with HTTP; Mon, 27 Aug 2018 23:43:10
+	-0700 (PDT)
+In-Reply-To: <CAMKF1so_wuCSh7uo=QOJvmxPSDX=OW-hwiV6KCuMVjHi6Aw0FQ@mail.gmail.com>
+References: <cover.1534791421.git.raj.khem@gmail.com>
+	<011962bd47ca60969fa50a3e890adadd6bddc487.1534791421.git.raj.khem@gmail.com>
+	<CALbNGRRN0gjg4VTu4mPh726Q6JyCf4BCmv32mDuVaJ5BtNxpjg@mail.gmail.com>
+	<CAMKF1so_wuCSh7uo=QOJvmxPSDX=OW-hwiV6KCuMVjHi6Aw0FQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Tue, 28 Aug 2018 08:43:10 +0200
+Message-ID: <CALbNGRRO4A6dpuncayo0L45G6nbsWq67XeJ_4J-FoXG08AUXXw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] mesa: Enable gallium-llvm on x86 and x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,70 +61,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 05:58:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Aug 2018 06:43:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Changqing Li <changqing.li@windriver.com>
+On Tue, Aug 28, 2018 at 12:55 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Mon, Aug 27, 2018 at 2:15 PM Andreas M=C3=BCller <schnitzeltony@gmail.=
+com> wrote:
+>>
+>> On Mon, Aug 20, 2018 at 8:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> > ---
+>> >  meta/recipes-graphics/cairo/cairo.inc | 3 ++-
+>> >  meta/recipes-graphics/mesa/mesa.inc   | 3 +++
+>> >  2 files changed, 5 insertions(+), 1 deletion(-)
+>> >
+>> > diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-grap=
+hics/cairo/cairo.inc
+>> > index 20e0d2c92a..7347f223ff 100644
+>> > --- a/meta/recipes-graphics/cairo/cairo.inc
+>> > +++ b/meta/recipes-graphics/cairo/cairo.inc
+>> > @@ -22,7 +22,8 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrender libx=
+ext"
+>> >  DEPENDS =3D "libpng fontconfig pixman glib-2.0 zlib"
+>> >
+>> >  PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '=
+x11 xcb', '', d)} \
+>> > -           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}"
+>> > +           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+>> > +           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'ope=
+ngl', '', d)}"
+>> >
+>> >  PACKAGECONFIG[x11] =3D "--with-x=3Dyes -enable-xlib,--with-x=3Dno --d=
+isable-xlib,${X11DEPENDS}"
+>> >  PACKAGECONFIG[xcb] =3D "--enable-xcb,--disable-xcb,libxcb"
+>> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphi=
+cs/mesa/mesa.inc
+>> > index 5afd0db4b7..dd626d9f00 100644
+>> ^ I think this came in accidentaly and it breaks builds when adding
+>> packageconfig glesv2:
+>>
+>> | configure: error: use either --enable-gl=3Dyes or --enable-glesv2=3Dye=
+s.
+>> Not both at the same time.
+>
+> do you remove opengl from DISTRO_FEATURES when enabling glesv2 ?
+> try that out.
+>
+>>
+Yes of course I can. But this patch is wrong - we don't have gles as
+distro feature - and it is not even mentioned in commit message why
+this is done.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../libid3tag/libid3tag/10_utf16.dpatch            | 33 ++++++++++++++++++++++
- .../libid3tag/libid3tag_0.15.1b.bb                 |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch
-
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch b/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch
-new file mode 100644
-index 0000000..8d09ce7
---- /dev/null
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch
-@@ -0,0 +1,33 @@
-+libid3tag: patch for CVE-2004-2779
-+
-+The patch comes from
-+https://sources.debian.org/patches/libid3tag/0.15.1b-13/10_utf16.dpatch
-+
-+Upstream-Status: Pending
-+
-+CVE: CVE-2004-2779
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+
-+diff -urNad libid3tag-0.15.1b/utf16.c /tmp/dpep.tKvO7a/libid3tag-0.15.1b/utf16.c
-+--- libid3tag-0.15.1b/utf16.c	2006-01-13 15:26:29.000000000 +0100
-++++ /tmp/dpep.tKvO7a/libid3tag-0.15.1b/utf16.c	2006-01-13 15:27:19.000000000 +0100
-+@@ -282,5 +282,18 @@
-+ 
-+   free(utf16);
-+ 
-++  if (end == *ptr && length % 2 != 0)
-++  {
-++     /* We were called with a bogus length.  It should always
-++      * be an even number.  We can deal with this in a few ways:
-++      * - Always give an error.
-++      * - Try and parse as much as we can and
-++      *   - return an error if we're called again when we
-++      *     already tried to parse everything we can.
-++      *   - tell that we parsed it, which is what we do here.
-++      */
-++     (*ptr)++;
-++  }
-++
-+   return ucs4;
-+ }
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-index f6139d6..fe31646 100644
---- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/mad/libid3tag-${PV}.tar.gz \
-            file://addpkgconfig.patch \
-            file://obsolete_automake_macros.patch \
-            file://0001-Fix-gperf-3.1-incompatibility.patch \
-+           file://10_utf16.dpatch \
-            "
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/mad/files/libid3tag/"
- UPSTREAM_CHECK_REGEX = "/projects/mad/files/libid3tag/(?P<pver>.*)/$"
--- 
-2.7.4
-
+Andreas
 
