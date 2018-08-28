@@ -1,48 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id DE8EA78DD1
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+	[209.85.210.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 45FCC78E25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 17:50:37 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id s17-v6so1044301plp.7
+	Tue, 28 Aug 2018 17:50:50 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id s13-v6so1042456pfi.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 10:50:39 -0700 (PDT)
+	Tue, 28 Aug 2018 10:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=woopAoc+36xY5OUznPtsm7zp//AggP8C3SsFKElRRvQ=;
-	b=tDn4rqe+LkmN6X/3nPJcFdaRWnGynwyOMlt4Tx/AMOyFarbiC1tBK+bSDEpP7lp+go
-	eXZEHNDWaaP6wH2tH5Emnb1qRpUVVF7zoxsF0m52yP1GxeOVRzVkclhoCoPDIJGaiyeg
-	kxMuqvNnrF3afeutAEfa8nPMw9XTYmM+IGVkcJiXACkKZ9kHhiwT3vdTIXaqF19u5mzD
-	fcqcfY2K+fhXiBtFI9+6mX8ssjmQATRtj1qZhujA14z4au281XI6IMP6YMh7R8rZ9n1O
-	gE/SmcDQkZvcHvchrAJLGHqxYIc1prOaDOf142Vs2i1du131zRv0Fjf7z+tVVRNEd/9q
-	ZxXQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=G27y9opvAnVJrtKfskCz0TDKWfwTBxfYX20OfxTeEL8=;
+	b=ftxrgl6jicPhVee78xJB+cctU8eu84rLUuwdGy4f9VXhsKj2qjY0m6upgEgcOSpVAa
+	OzZih4HnvPT/vxoweziY4uyOl4IK/V2b9RnOJydlMYDhTfFquE2k+0W6uH4mIvLOvK0J
+	yCDpydxQwGRMp7R75yEovZVHt7pHzQsFTqum4SVpjfRAvLyoYIOaOiJhAg+SZyBbaMhy
+	Sut6Zxs9vglmbIv0wj2QZhZwJ6xy4qI17laEvFTtVGt5/7Ffom6C5AhjKtnhKRKqflje
+	8Qw2NGHx7YH2jJeCKLNnkh3CLSHSwnfJUoDQNJs0TovihbkJTs5a12SJxaybP6HjXW/R
+	qFHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=woopAoc+36xY5OUznPtsm7zp//AggP8C3SsFKElRRvQ=;
-	b=AInaLVtoIgPq4hw1AnHBarI/3i7RENBc2nOqZcJqatso2jTs2ICxa9/SP+HisLbAF0
-	H57LUFnsFLWYHx759ctavdPy3xGm7Z9GWir9QLYDvdxnd48EqBe0b5BgDUYQ/KNsd47P
-	BLsOnxmLXW/lXmwDite/yXI3POF0RlCYwbFg6rhGseEjE5KMs0HKDLwOR/S1kQMeMR16
-	HOOI153JaU6qRRUvD6vmLZIC/k/riy8J1fFBlmgv9DQ7zsU30gxphNZgALdEnCo6UNna
-	Yn01KkfViUIUxOWisoDk6S5/6r/Im9Q0apO85IoEspFE7E6iXvMaM0c1H1/DEvmoA5mg
-	FkjA==
-X-Gm-Message-State: APzg51D/a2qBL2VuPebkr/3XfMR7WzC2/gZrE7Plw4MVroLiC6XICjgl
-	oNVd1cTc/Xu3ERXBmxzCMGnmynYW
-X-Google-Smtp-Source: ANB0VdbmyqvGiOZdyBBS4YB7g/3wX8z4NC8G2UMcmbgnL+dH7vJKc79InUgH5pIqI1u3QayKMrqByA==
-X-Received: by 2002:a17:902:a24:: with SMTP id
-	33-v6mr2449948plo.293.1535478638496; 
-	Tue, 28 Aug 2018 10:50:38 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=G27y9opvAnVJrtKfskCz0TDKWfwTBxfYX20OfxTeEL8=;
+	b=Qr6dvPxqzqDb5qWSgEKQg8LfwklCtZpyL1m194jd6MVRF2rDiWZ+rAFajOVFdxESfH
+	sAl/EPNFQoEembTzzDy9I7hGezihB/e8wNv4nuZMHrl4Tcown9sBqWhLxg1om2Ate703
+	5QVbP8stfyFKqey5P7q6uf8ydqmPJdmQ5DaARq0iZJYkfNqyIQMYSqk+e5OUGF+JCCt8
+	X3VR9iCCtf7G9mNrBL8Cc5N//SRgC/LHuqCiM0L5tFkS8z8NghyTNMO7irou+nXYZv4N
+	4mGBJtnbRflvQdWcUvCdDy2YBUWTjtMlVC1ZaVnO5K6SaYoK1Nz/Xt13NvpmG04i4f8R
+	MqLg==
+X-Gm-Message-State: APzg51DZyrPQBp8081tzNBvSI/bgqWObSZz4P7HICL7Ncq75rx57jDnl
+	O8Z7Le4cGLBfvc0jrdkr3Eg/3bm+
+X-Google-Smtp-Source: ANB0Vdagk9uL/6wGKIhHVla/Sd7rld60PmAQLbbuR100JuJ2OCMJqK3oQER+IFVqi4hXlEluF+kPaQ==
+X-Received: by 2002:a63:4757:: with SMTP id
+	w23-v6mr2553500pgk.140.1535478651017; 
+	Tue, 28 Aug 2018 10:50:51 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::f180])
 	by smtp.gmail.com with ESMTPSA id
-	i1-v6sm5136645pgj.38.2018.08.28.10.50.37
+	g184-v6sm3330295pgc.22.2018.08.28.10.50.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Aug 2018 10:50:37 -0700 (PDT)
+	Tue, 28 Aug 2018 10:50:50 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Aug 2018 10:50:30 -0700
-Message-Id: <cover.1535478536.git.raj.khem@gmail.com>
+Date: Tue, 28 Aug 2018 10:50:37 -0700
+Message-Id: <4835cadb099621a1510834e2d653864ba7a78a6d.1535478536.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
-Subject: [PATCH V2 0/4] Misc Fixes
+In-Reply-To: <cover.1535478536.git.raj.khem@gmail.com>
+References: <cover.1535478536.git.raj.khem@gmail.com>
+Subject: [PATCH 1/4] distutils-common-base.bbclass: Define commonly used compiler variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 17:50:38 -0000
+X-List-Received-Date: Tue, 28 Aug 2018 17:50:50 -0000
 
-Musl has some important fixes
-distutils fix is taking care of some missed flags
-for C/C++ plugins, helps builds with PIE/PIC
-Systemd patch fix is found out by clang
+This is inspired from
+https://github.com/python/cpython/blob/master/configure.ac
 
-v2:
-Add gpgme fix
+Helps cross compiling python C modules in some cases where they do
+not respect normal CFLAGS
 
-The following changes since commit a5439ff9627d309f6980947f5ee573d85e672228:
+Errors like using gcc to link when compiler is clang is fixed
 
-  cpan.bbclass: make RPATH fix more general (2018-08-28 10:27:15 +0100)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/distutils-common-base.bbclass | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib kraj/pu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu
-
-Khem Raj (4):
-  distutils-common-base.bbclass: Define commonly used compiler variables
-  systemd: Fix qsort_r patch for function return mismatch
-  musl: Update to latest
-  gpgme: Inherit distutils3-base
-
- meta/classes/distutils-common-base.bbclass       | 12 ++++++++++++
- meta/recipes-core/musl/musl_git.bb               |  2 +-
- .../0002-don-t-use-glibc-specific-qsort_r.patch  | 16 ++++++++--------
- meta/recipes-support/gpgme/gpgme_1.11.1.bb       |  4 ++--
- 4 files changed, 23 insertions(+), 11 deletions(-)
-
+diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
+index 824a1b68b1..94b5fd426d 100644
+--- a/meta/classes/distutils-common-base.bbclass
++++ b/meta/classes/distutils-common-base.bbclass
+@@ -1,6 +1,18 @@
+ export STAGING_INCDIR
+ export STAGING_LIBDIR
+ 
++# LDSHARED is the ld *command* used to create shared library
++export LDSHARED  = "${CCLD} -shared"
++# LDXXSHARED is the ld *command* used to create shared library of C++
++# objects
++export LDCXXSHARED  = "${CXX} -shared"
++# CCSHARED are the C *flags* used to create objects to go into a shared
++# library (module)
++export CCSHARED  = "-fPIC -DPIC"
++# LINKFORSHARED are the flags passed to the $(CC) command that links
++# the python executable
++export LINKFORSHARED = "{SECURITY_CFLAGS} -Xlinker -export-dynamic"
++
+ FILES_${PN} += "${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+ 
+ FILES_${PN}-staticdev += "\
 -- 
 2.18.0
 
