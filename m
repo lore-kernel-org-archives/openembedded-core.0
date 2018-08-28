@@ -1,34 +1,54 @@
-Return-Path: <yang.wang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B4FBF78DD1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id F2FC678D2D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 17:22:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7SHMXCw025194
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 28 Aug 2018 17:37:13 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id o15-v6so2655297qtk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 10:22:33 -0700
-Received: from [128.224.56.219] (128.224.56.219) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 28 Aug 2018 10:22:32 -0700
-Reply-To: <yang.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-References: <20180518085550.92085-1-mingli.yu@windriver.com>
-	<5B1E1444.9000407@windriver.com>
-	<30f93af9-5a38-059e-184f-bbbe52a01105@windriver.com>
-	<f248ce00-4c47-7a70-9902-585960c5ccd4@windriver.com>
-	<39d4429f-e3c6-33fc-3073-8cea08d81794@windriver.com>
-	<8c09821e-7076-ad73-2849-c6a7b7287a3e@windriver.com>
-From: Yang Wang <yang.wang@windriver.com>
-Organization: Wind River
-Message-ID: <63cfc1ec-10c0-a3bf-92be-4549d08c1d60@windriver.com>
-Date: Tue, 28 Aug 2018 13:22:45 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Tue, 28 Aug 2018 10:37:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=cH0UethUhtUY+CkkXY7uAXPBKW/AlOnXSvP4q3GQUoc=;
+	b=qAWni2FVXFzKs+D3xzRdv+teLx+Pe0f2F0TtA+r0/P3vX5vCrNS7LNcJiOWM3ZkP35
+	HlWB/mEBmvKAFq9ubf7pqHG4KQhcOiN2JiW6p3gveNHhg01ppzFwdZmZz2JKSLK2Hqt9
+	mUK60ZWSY7BxhoQ3CRcJLJL/ZNoizM4UkOawPL2+ciIn3+n8tZILNa0IrhIvCnf6Kf1v
+	Qy4L9YtXYC5EX13tcewr3ypwtha8ZqV4+4PxmTsRVQSARcrERK9i6G7F6MMoXoYNJIKU
+	QJqWkpm9m3qVFs+JgQ81fau/96pXmYPf1ATyIx1p/JJBpm3qkjfy6LxLBqkP8ajTy6oM
+	rsUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=cH0UethUhtUY+CkkXY7uAXPBKW/AlOnXSvP4q3GQUoc=;
+	b=pBCiUgjjGv7WemKAAD9So3nQAHFkGP2D5Pt9388OhwYS31ex9rwLfEdWA+Q6m3Fcfu
+	IocK4D6RjVNw9DCEGFYsvNPKvYk/DJdDJafriWOePbOI3Tpg0Xp4JMn1V3rdqWamvtHc
+	CoiG+4ObzEYcDj9AGr8cQ54fqDcwk0l59fT1WuoRX15YmiX+g40r0P1aLSbkTpZBZsbm
+	Ds1ooEs2M3JMKhpfaTKjOQ3qWsICU1Iz7BVYv7mjkkrrZgOBF3VRz/HY8AGCadkE7BTg
+	Em2EGtkKuu4HN++1kh1SQi0J21JqyhXr6rwxhNzuaXddohoUyunypo7+2/3YV5xpwyMV
+	tM/g==
+X-Gm-Message-State: APzg51As/lHzq8Qs/SoxFg3eh9pSyLlBrP+f/Qo1mdWY1FDXNzG/g0ZT
+	qlVXZm6ChP25f21OWNO91BddpqgAAvqpXNYatPQ=
+X-Google-Smtp-Source: ANB0VdY4XYiyoeRrjk4eusT8PiqcsOv55LO8xOKb/4DZF7INAALZ9JhiZngdzabq+GG3LjcjruyLI/rLTAlj2MvSUD8=
+X-Received: by 2002:a0c:e205:: with SMTP id
+	q5-v6mr2661819qvl.224.1535477834341; 
+	Tue, 28 Aug 2018 10:37:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8c09821e-7076-ad73-2849-c6a7b7287a3e@windriver.com>
-Subject: Re: [PATCH] boost: add ptest support
+References: <cover.1534791421.git.raj.khem@gmail.com>
+	<011962bd47ca60969fa50a3e890adadd6bddc487.1534791421.git.raj.khem@gmail.com>
+	<CALbNGRRN0gjg4VTu4mPh726Q6JyCf4BCmv32mDuVaJ5BtNxpjg@mail.gmail.com>
+	<CAMKF1so_wuCSh7uo=QOJvmxPSDX=OW-hwiV6KCuMVjHi6Aw0FQ@mail.gmail.com>
+	<CALbNGRRO4A6dpuncayo0L45G6nbsWq67XeJ_4J-FoXG08AUXXw@mail.gmail.com>
+	<CALbNGRRLYCYB7YqW5x1PYsUqYVw0zoorw9CYOmR=Tj+d-pg_bw@mail.gmail.com>
+In-Reply-To: <CALbNGRRLYCYB7YqW5x1PYsUqYVw0zoorw9CYOmR=Tj+d-pg_bw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 28 Aug 2018 10:36:48 -0700
+Message-ID: <CAMKF1spHi-Vi_rs3oRsqx0xjxfbCjW6WpeCvcs5HPdGDGKuUEg@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] mesa: Enable gallium-llvm on x86 and x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,92 +61,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 17:22:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 28 Aug 2018 17:37:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 08/28/2018 10:25 AM, Yang Wang wrote:
-> On 08/27/2018 08:57 PM, Randy MacLeod wrote:
->> On 08/27/2018 06:17 PM, Yang Wang wrote:
->>> Not sure if it's worth to run the Ptest on QEMU though, I also run 
->>> Ptest on SIMICS simulators, thousands of tests didn't get run, looks 
->>> like the result was not good as well.
->>>
->>> Now my nightly Ptest runs on x86 device and gets consistent result 
->>> every day:
->>>
->>>      2018-08-27T06:26 -- 2018-08-27T09:52
->>>      Passed:  40518
->>>      Failed:  289
->>>      Skipped: 1876
->>
->> Consistent results are good and > 90% pass rate is very good.
->> What are the stats using qemux86-64 and/or simics?
->>
->> I don't expect that qemu results would be as close to real hardware
->> as Simics but it is quite good and freely available.
->>
-> Actually, Ptest has 37 test suites as far as I know, different test 
-> suites spent different time on QEMU and hardware, here is a list of 
-> Ptest suites and their case number and spent time for running:
+Hi Andreas
+
+On Tue, Aug 28, 2018 at 10:21 AM Andreas M=C3=BCller <schnitzeltony@gmail.c=
+om> wrote:
 >
+> On Tue, Aug 28, 2018 at 8:43 AM, Andreas M=C3=BCller <schnitzeltony@gmail=
+.com> wrote:
+> > On Tue, Aug 28, 2018 at 12:55 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> >> On Mon, Aug 27, 2018 at 2:15 PM Andreas M=C3=BCller <schnitzeltony@gma=
+il.com> wrote:
+> >>>
+> >>> On Mon, Aug 20, 2018 at 8:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> >>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >>> > ---
+> >>> >  meta/recipes-graphics/cairo/cairo.inc | 3 ++-
+> >>> >  meta/recipes-graphics/mesa/mesa.inc   | 3 +++
+> >>> >  2 files changed, 5 insertions(+), 1 deletion(-)
+> >>> >
+> >>> > diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-g=
+raphics/cairo/cairo.inc
+> >>> > index 20e0d2c92a..7347f223ff 100644
+> >>> > --- a/meta/recipes-graphics/cairo/cairo.inc
+> >>> > +++ b/meta/recipes-graphics/cairo/cairo.inc
+> >>> > @@ -22,7 +22,8 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrender l=
+ibxext"
+> >>> >  DEPENDS =3D "libpng fontconfig pixman glib-2.0 zlib"
+> >>> >
+> >>> >  PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11'=
+, 'x11 xcb', '', d)} \
+> >>> > -           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}"
+> >>> > +           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+> >>> > +           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', '=
+opengl', '', d)}"
+> >>> >
+> >>> >  PACKAGECONFIG[x11] =3D "--with-x=3Dyes -enable-xlib,--with-x=3Dno =
+--disable-xlib,${X11DEPENDS}"
+> >>> >  PACKAGECONFIG[xcb] =3D "--enable-xcb,--disable-xcb,libxcb"
+> >>> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-gra=
+phics/mesa/mesa.inc
+> >>> > index 5afd0db4b7..dd626d9f00 100644
+> >>> ^ I think this came in accidentaly and it breaks builds when adding
+> >>> packageconfig glesv2:
+> >>>
+> >>> | configure: error: use either --enable-gl=3Dyes or --enable-glesv2=
+=3Dyes.
+> >>> Not both at the same time.
+> >>
+> >> do you remove opengl from DISTRO_FEATURES when enabling glesv2 ?
+> >> try that out.
+> >>
+> >>>
+> > Yes of course I can. But this patch is wrong - we don't have gles as
+> > distro feature - and it is not even mentioned in commit message why
+> > this is done.
+> >
+> I am tempted to send a revert for the cairo part:
 >
-Just want to make it look better:
-==============
-#    Suite Name    Case #    Time to Run    Case #    Time to Run
-                 qemu-x86-64            intel-xeon-core2
-1    acl            2        1m            380        1m
-2    attr        143        1m            143        1m
-3    bash        79        8m            79        4m
-4    bluez5        7        6m            7        6m
-5    bzip2        6        1m            6        1m
-6    dbus-test    15        3m            15        1m
-7    diffutils    20        1m            20        2m
-8    e2fsprogs    147        9m            335        10m
-9    ethtool        2        1m            2        1m
-10    flex        114        3m            114        1m
-11    gawk        300        3m            298        2m
-12    gdbm        30        2m            25        2m
-13    glib-2.0    62        14m            220        6m
-14    gzip        51        4m            18        1m
-15    kbd            15        1m            7        1m
-16    libevent    22        6m            1        3m
-17    libpcre        34        3m            3        1m
-18    libxml2        1        1m            0        1m
-19    lzo            75        8m            5        3m
-20    mdadm                6m                    6m
-21    nettle        90        3m            90        3m
-22    numactl                            8        3m
-23    openssh        13        27m            47        52m
-24    openssl        87        47m            56        15m
-25    parted        64        5m            38        10m
-26    perl        101        20m            2440    47m
-27    perl5        110        17m            2406    29m
-28    python        10961    1h 5m        32323    20m
-29    rsyslog        2200    3h 37m        25        8m
-30    sed            147        1m            86        3m
-31    slang                            96        1m
-32    strace        1557    1h 13m        431        6m
-33    systemd        305        9m            155        3m
-34    tcl            869        53m            206        6m
-35    tcpdump        451        7m            413        3m
-36    util-linux    516        25m            514        13m
-37    zlib        2        1m            2        1m
-     Overall        18080    10h 30m        40415    4h 15m
+> * Cross: It changes defaults valid for long time
+> * Native: As far as I can remember it causes trouble for cairo-native
+> * It went through without mentioning
+
+opengl as a DISTRO_FEATURE should tie into packageconfigs, the
+situation before this patch was not ideal, people got to work with it.
+
+as seen in the example you cited, we can't mix opengl and gles support
+in packages. other layers have solved your kind of usecase like below
+
+https://github.com/WebPlatformForEmbedded/meta-wpe/blob/master/recipes-grap=
+hics/cairo/cairo_%.bbappend
+
+
 
 >
-> As you can see, running subset of them on QEMU could be a solution if 
-> people do not want to spend too much time on it or simulator is the 
-> preferred test device.
->
-> Thanks,
-> -Yang
->>>
->>> Thanks,
->>> Yang Wang
->>
->>
->
-
+> Andreas
 
