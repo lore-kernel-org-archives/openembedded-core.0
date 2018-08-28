@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3889478F34
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F2DA78EFB
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Aug 2018 10:23:25 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id n2-v6so1046909wrw.7
+Received: by mail-wm0-f65.google.com with SMTP id n11-v6so1411174wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 03:23:26 -0700 (PDT)
+	Tue, 28 Aug 2018 03:23:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=qbo/YfVo1IP9OKLxjf5wDA/1yoinIgscA2Byx5V4RfQ=;
-	b=ZkryKvgmd0e+udtYS7gJVBJHRTNMBIfosxt+KiVmLQxSNI59vFGZgODuz4e/0T9gj4
-	ET96t7+j0TvHY9ENQhhL9yAJ4tKbIbXBJ/Np0WZs+nun3Ugww8YnWiEAsyaD3Pwnamkl
-	jp2H+rK/GNpveCw3aRTSHCHYjgnpIIDX1WFTW0R5yc+yOGAkzEwb8f+5B1d+UelzHEaA
-	sa0Sx6ZqgnGtlCrHySYH9qWh212cWKLuy5lVoE8TBTVSForbuhNScXLrItHzssMHBFcY
-	E6iCvtQ0JLNx4vm1oSlFSljDfwI/zJx12Etxcu00H0DqwkJNnuB1cHIzP0GuKppYTzXt
-	L8VA==
+	bh=36Dnx71N03MaSm2rKYjBfCB6plY/NitmmZujkwfm/BA=;
+	b=hTMzRtkU7igO0ORJhd927f1p0vS4cS7JprtFJsIGB0aG1lA1jNyTwa7ZJp9UzZA0F7
+	avi3yjauu4lLezYR49Nnwqtzl43d5eTx4IKuK5X4Ddr0fLurdGANwTbPkPFqxEhv5G0T
+	bLR4lFA7DSq18zvKHCGMY+bqP74/AgsvK1xwXVaa04d6zDh+wvomSM8aIH76D25C964D
+	e9aJDOsmUfQT/2zMKfX8MXVUoSxles7Wpy0EybxNvzwzSgEvsh1X7qQzdUzTvAMq/QR+
+	5dqDDISdDg0fmpQUV4XwRmwGxYobCDk/j9K5AX9dL3I2xo4qpajIPWURptVZ9fI/7nKG
+	0FIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=qbo/YfVo1IP9OKLxjf5wDA/1yoinIgscA2Byx5V4RfQ=;
-	b=dIpYEx3C1qtwKjOO3lm160QkQDNQVKRfyvHZki1mL+0CNVR1F7jWNpKSMyYvtge5BX
-	r0d03YqkmtsSwJTFzReD5NPja+MCKHJvZW+2kT8kzN6psBIJkY/B4WAETaCtJigqE461
-	JkSnaeJWoVkMfY9bIJ978E8ZFPqieyocWQIYsTqfY7LI3dLcvkohz2CnD3o6/DlXslZq
-	8Kk5IoRDxHLcIbrCqvp0gNYsELpf/gdo0b63MX2veDhwtip30+uiqIhG4UjOLEqCJh/5
-	9p8T3Ri/Ou7g0vON+Xig0QkxwZyidRxCiLTN0FsMFz66FGtc4tfY1jdIDC+Vw7OaEW2+
-	Myfw==
-X-Gm-Message-State: APzg51D+3PwAKypsC55kgb0MFkF0ZROMpiAd2mCB+ARk2FtN9Hbinh2j
-	KAex7XbMYkWM3vZU/jUL8Wkp1opV
-X-Google-Smtp-Source: ANB0VdaPWv6ycsNmVURuI6v204GI2hBWx7I68Tc64U7n6+MjakdQkEc880Cplo+JdcDsT0IE0lFsBQ==
-X-Received: by 2002:a5d:5009:: with SMTP id e9-v6mr749722wrt.18.1535451805500; 
-	Tue, 28 Aug 2018 03:23:25 -0700 (PDT)
+	bh=36Dnx71N03MaSm2rKYjBfCB6plY/NitmmZujkwfm/BA=;
+	b=Ho3t6TJ4l62XsfT1uTAW4PQ2pVPMMDvjZb9IpDld1V2qcUdH4qwu4sLs1+Tmtih6uV
+	KTwg/tGUt8Ommy2j75Owo6fqNr8/KPA61q7eb9K+7PRwtx90+MXCN6pLuie3RNntfbka
+	MP3ejGIrNO8vYpY4qmqttIffrbuPYuPEdERC9UX6H9nn/cb1Wz06TRMvm9/FEmvzqBCc
+	t3cMy3IhEnTqB4ycRjVgfzldorNs/tFKBOVe7jOovyapJQNfPbtQao3+BQxAAPu18GXT
+	921R/IulhlY1IEQoCwCVEndeSpppDFW/CbVLFFR2ATvraTIsvt5A9vZ5+pWuZwlKG2tF
+	qd8w==
+X-Gm-Message-State: APzg51CuoNJV5+ZfUdQ7LWxLDxswj4w/jKP034150ZPkFpnIQLZoz67+
+	ZNHUPVWBYZBLsrP6yF6n/Bsp0+rM
+X-Google-Smtp-Source: ANB0VdYGtNDoxfPisfNolHcqXqlGHvAnyKtL3IuqH5xybKaLr92SEpp7l46FE0tnAERKNUZgH6PiLQ==
+X-Received: by 2002:a1c:1bc2:: with SMTP id
+	b185-v6mr1013428wmb.160.1535451806560; 
+	Tue, 28 Aug 2018 03:23:26 -0700 (PDT)
 Received: from localhost.localdomain ([79.140.126.226])
 	by smtp.gmail.com with ESMTPSA id
-	198-v6sm771823wmm.0.2018.08.28.03.23.24
+	198-v6sm771823wmm.0.2018.08.28.03.23.25
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 28 Aug 2018 03:23:24 -0700 (PDT)
+	Tue, 28 Aug 2018 03:23:25 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Aug 2018 12:23:14 +0200
-Message-Id: <010e93a91991128a31f1dd4e30c08e425f733ec4.1535451643.git.alex.kanavin@gmail.com>
+Date: Tue, 28 Aug 2018 12:23:15 +0200
+Message-Id: <467e2d4b5501965f68e413797e85725cc655a3b7.1535451643.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1535451643.git.alex.kanavin@gmail.com>
 References: <cover.1535451643.git.alex.kanavin@gmail.com>
-Subject: [RFC PATCH 3/6] openssl: update to 1.1.1
+Subject: [RFC PATCH 4/6] libressl: add a recipe to support openssh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,174 +60,165 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 28 Aug 2018 10:23:26 -0000
 
-At the moment 1.1.1 is in pre-release stage, however the final release
-should be available within a few weeks. The major selling point is that
-it supports the new TLS 1.3 specification. It will also be the new long
-term support version. More information:
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 
-https://www.openssl.org/policies/releasestrat.html
+After reading through this:
+
+https://github.com/openssh/openssh-portable/pull/48
+
+and this thread:
+
+https://lists.mindrot.org/pipermail/openssh-unix-dev/2017-October/036344.html
+
+I've concluded that this is the best of the three not-great options. The alternatives:
+
+- bundle libressl inside openssh packages
+- keep openssh dependent on openssl 1.0 and wait until upstream does something
+
+are both inferior. Libressl is used with openssh in OpenBSD and in OS X,
+so it did get at least some testing in the real world.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...1-Take-linking-flags-from-LDFLAGS-env-var.patch | 43 ----------------------
- ...SLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch | 39 --------------------
- .../{openssl_1.1.0i.bb => openssl_1.1.1-pre9.bb}   | 23 +++++++-----
- 3 files changed, 14 insertions(+), 91 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-allow-OPENSSLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.1.0i.bb => openssl_1.1.1-pre9.bb} (83%)
+ meta/conf/distro/include/maintainers.inc           |  1 +
+ ...c-libraries-with-their-library-dependenci.patch | 73 ++++++++++++++++++++++
+ .../libressl/libressl_2.8.0.bb                     | 35 +++++++++++
+ 3 files changed, 109 insertions(+)
+ create mode 100644 meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch
+ create mode 100644 meta/recipes-connectivity/libressl/libressl_2.8.0.bb
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch b/meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
-deleted file mode 100644
-index 6ce4e47..0000000
---- a/meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 08face4353d80111973aba9c1304c92158cfad0e Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 28 Mar 2017 16:40:12 +0300
--Subject: [PATCH] Take linking flags from LDFLAGS env var
--
--This fixes "No GNU_HASH in the elf binary" issues.
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- Configurations/unix-Makefile.tmpl | 2 +-
-- Configure                         | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makefile.tmpl
--index c029817..43b769b 100644
----- a/Configurations/unix-Makefile.tmpl
--+++ b/Configurations/unix-Makefile.tmpl
--@@ -173,7 +173,7 @@ CROSS_COMPILE= {- $config{cross_compile_prefix} -}
-- CC= $(CROSS_COMPILE){- $target{cc} -}
-- CFLAGS={- our $cflags2 = join(" ",(map { "-D".$_} @{$target{defines}}, @{$config{defines}}),"-DOPENSSLDIR=\"\\\"\$(OPENSSLDIR)\\\"\"","-DENGINESDIR=\"\\\"\$(ENGINESDIR)\\\"\"") -} {- $target{cflags} -} {- $config{cflags} -}
-- CFLAGS_Q={- $cflags2 =~ s|([\\"])|\\$1|g; $cflags2 -} {- $config{cflags} -}
---LDFLAGS= {- $target{lflags} -}
--+LDFLAGS= {- $target{lflags}." ".$ENV{'LDFLAGS'} -}
-- PLIB_LDFLAGS= {- $target{plib_lflags} -}
-- EX_LIBS= {- $target{ex_libs} -} {- $config{ex_libs} -}
-- LIB_CFLAGS={- $target{shared_cflag} || "" -}
--diff --git a/Configure b/Configure
--index aee7cc3..274d236 100755
----- a/Configure
--+++ b/Configure
--@@ -979,7 +979,7 @@ $config{build_file} = $target{build_file};
-- $config{defines} = [];
-- $config{cflags} = "";
-- $config{ex_libs} = "";
---$config{shared_ldflag} = "";
--+$config{shared_ldflag} = $ENV{'LDFLAGS'};
-- 
-- # Make sure build_scheme is consistent.
-- $target{build_scheme} = [ $target{build_scheme} ]
---- 
--2.11.0
--
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-allow-OPENSSLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch b/meta/recipes-connectivity/openssl/openssl/0001-allow-OPENSSLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch
-deleted file mode 100644
-index 67d06fc..0000000
---- a/meta/recipes-connectivity/openssl/openssl/0001-allow-OPENSSLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 26e98beb8a987cdc69699aaffc5599926fb1b293 Mon Sep 17 00:00:00 2001
--From: Andre McCurdy <armccurdy@gmail.com>
--Date: Fri, 17 Aug 2018 20:33:44 -0700
--Subject: [PATCH] allow OPENSSLDIR and ENGINESDIR CFLAGS to be controlled
--
--Upstream-Status: Inappropriate [OE Specific]
--
--Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-----
-- Configurations/unix-Makefile.tmpl | 6 +++++-
-- 1 file changed, 5 insertions(+), 1 deletion(-)
--
--diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makefile.tmpl
--index 034d93e..2310d12 100644
----- a/Configurations/unix-Makefile.tmpl
--+++ b/Configurations/unix-Makefile.tmpl
--@@ -156,6 +156,10 @@ LIBDIR={- #
-- ENGINESDIR={- use File::Spec::Functions;
--               catdir($prefix,$libdir,"engines-$sover") -}
-- 
--+# Intermediate variables so the values defined via CFLAGS can be controlled.
--+OE_DOPENSSLDIR=$(OPENSSLDIR)
--+OE_DENGINESDIR=$(ENGINESDIR)
--+
-- # Convenience variable for those who want to set the rpath in shared
-- # libraries and applications
-- LIBRPATH=$(INSTALLTOP)/$(LIBDIR)
--@@ -174,7 +178,7 @@ HTMLSUFFIX=html
-- 
-- CROSS_COMPILE= {- $config{cross_compile_prefix} -}
-- CC= $(CROSS_COMPILE){- $target{cc} -}
---CFLAGS={- our $cflags2 = join(" ",(map { "-D".$_} @{$target{defines}}, @{$config{defines}}),"-DOPENSSLDIR=\"\\\"\$(OPENSSLDIR)\\\"\"","-DENGINESDIR=\"\\\"\$(ENGINESDIR)\\\"\"") -} {- $target{cflags} -} {- $config{cflags} -}
--+CFLAGS={- our $cflags2 = join(" ",(map { "-D".$_} @{$target{defines}}, @{$config{defines}}),"-DOPENSSLDIR=\"\\\"\$(OE_DOPENSSLDIR)\\\"\"","-DENGINESDIR=\"\\\"\$(OE_DENGINESDIR)\\\"\"") -} {- $target{cflags} -} {- $config{cflags} -}
-- CFLAGS_Q={- $cflags2 =~ s|([\\"])|\\$1|g; $cflags2 -} {- $config{cflags} -}
-- LDFLAGS= {- $target{lflags}." ".$ENV{'LDFLAGS'} -}
-- PLIB_LDFLAGS= {- $target{plib_lflags} -}
---- 
--1.9.1
--
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
-similarity index 83%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
-index a03f6ff..1917c33 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.0i.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
-@@ -13,26 +13,30 @@ DEPENDS = "hostperl-runtime-native"
- SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://run-ptest \
-            file://openssl-c_rehash.sh \
--           file://0001-Take-linking-flags-from-LDFLAGS-env-var.patch \
--           file://0001-allow-OPENSSLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch \
-            "
- 
- SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[md5sum] = "9495126aafd2659d357ea66a969c3fe1"
--SRC_URI[sha256sum] = "ebbfc844a8c8cc0ea5dc10b86c9ce97f401837f3fa08c17b2cdadc118253cf99"
-+SRC_URI[md5sum] = "6aa32e976e2c9a4aee858ced135d2573"
-+SRC_URI[sha256sum] = "95ebdfbb05e8451fb01a186ccaa4a7da0eff9a48999ede9fe1a7d90db75ccb4c"
- 
- inherit lib_package multilib_header ptest
- 
- #| ./libcrypto.so: undefined reference to `getcontext'
- #| ./libcrypto.so: undefined reference to `setcontext'
- #| ./libcrypto.so: undefined reference to `makecontext'
--EXTRA_OECONF_append_libc-musl = " -DOPENSSL_NO_ASYNC"
-+CPPFLAGS_append_libc-musl = " -DOPENSSL_NO_ASYNC"
- 
--EXTRA_OEMAKE_append_class-native = " OE_DOPENSSLDIR='/not/builtin' OE_DENGINESDIR='/not/builtin'"
--EXTRA_OEMAKE_append_class-nativesdk = " OE_DOPENSSLDIR='/not/builtin' OE_DENGINESDIR='/not/builtin'"
-+# This prevents openssl from using getrandom() which is not available on older glibc versions
-+# (native versions can be built with newer glibc, but then relocated onto a system with older glibc)
-+EXTRA_OECONF_class-native = "--with-rand-seed=devrandom"
-+EXTRA_OECONF_class-nativesdk = "--with-rand-seed=devrandom"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index c76f81f..de4f9af 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -344,6 +344,7 @@ RECIPE_MAINTAINER_pn-libpng = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libproxy = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libpthread-stubs = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-librepo = "Alexander Kanavin <alex.kanavin@gmail.com>"
++RECIPE_MAINTAINER_pn-libressl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-librsvg = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libsamplerate0 = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-libsdl = "Yi Zhao <yi.zhao@windriver.com>"
+diff --git a/meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch b/meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch
+new file mode 100644
+index 0000000..50b795d
+--- /dev/null
++++ b/meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch
+@@ -0,0 +1,73 @@
++From 0dd486ba596fea07742a9317542bce27e18fd830 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 9 Apr 2018 18:02:56 +0300
++Subject: [PATCH] Link dynamic libraries with their library dependencies.
 +
-+# Relying on hardcoded built-in paths causes openssl-native to not be relocateable from sstate.
-+CFLAGS_append_class-native = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/builtin"
-+CFLAGS_append_class-nativesdk = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/builtin"
- 
- do_configure () {
- 	os=${HOST_OS}
-@@ -98,8 +102,9 @@ do_configure () {
- 	if [ "x$useprefix" = "x" ]; then
- 		useprefix=/
- 	fi
--	libdirleaf="$(echo ${libdir} | sed s:$useprefix::)"
--	perl ./Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=$libdirleaf $target
-+	# WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
-+	# environment variables set by bitbake. Adjust the environment variables instead.
-+	perl ./Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=${libdir} $target
- }
- 
- do_install () {
++It does seem like outside of OpenBSD, no one has actually used libressl yet.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ CMakeLists.txt        | 5 +++++
++ crypto/CMakeLists.txt | 1 +
++ ssl/CMakeLists.txt    | 2 +-
++ 3 files changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 549849f..0f9d8f5 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -266,15 +266,19 @@ set(OPENSSL_LIBS tls ssl crypto)
++ 
++ # Add additional required libs
++ if(WIN32)
+++	set(OPENSSL_LIB_LIBS ws2_32)
++ 	set(OPENSSL_LIBS ${OPENSSL_LIBS} ws2_32)
++ endif()
++ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+++	set(OPENSSL_LIB_LIBS pthread)
++ 	set(OPENSSL_LIBS ${OPENSSL_LIBS} pthread)
++ endif()
++ if(CMAKE_SYSTEM_NAME MATCHES "HP-UX")
+++	set(OPENSSL_LIB_LIBS pthread)
++ 	set(OPENSSL_LIBS ${OPENSSL_LIBS} pthread)
++ endif()
++ if(CMAKE_SYSTEM_NAME MATCHES "SunOS")
+++	set(OPENSSL_LIB_LIBS nsl socket)
++ 	set(OPENSSL_LIBS ${OPENSSL_LIBS} nsl socket)
++ endif()
++ 
++@@ -282,6 +286,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
++ 	# Check if we need -lrt to get clock_gettime on Linux
++ 	check_library_exists(rt clock_gettime "time.h" HAVE_CLOCK_GETTIME)
++ 	if (HAVE_CLOCK_GETTIME)
+++		set(OPENSSL_LIB_LIBS ${OPENSSL_LIB_LIBS} rt)
++ 		set(OPENSSL_LIBS ${OPENSSL_LIBS} rt)
++ 	endif()
++ else()
++diff --git a/crypto/CMakeLists.txt b/crypto/CMakeLists.txt
++index 90e127e..08eceda 100644
++--- a/crypto/CMakeLists.txt
+++++ b/crypto/CMakeLists.txt
++@@ -813,6 +813,7 @@ target_include_directories(crypto
++ 		../include)
++ 
++ if (BUILD_SHARED_LIBS)
+++	target_link_libraries(crypto ${OPENSSL_LIB_LIBS})
++ 	export_symbol(crypto ${CMAKE_CURRENT_BINARY_DIR}/crypto_p.sym)
++ 	if (WIN32)
++ 		target_link_libraries(crypto Ws2_32.lib)
++diff --git a/ssl/CMakeLists.txt b/ssl/CMakeLists.txt
++index 1a559e6..ed17223 100644
++--- a/ssl/CMakeLists.txt
+++++ b/ssl/CMakeLists.txt
++@@ -51,7 +51,7 @@ target_include_directories(ssl
++ 
++ if (BUILD_SHARED_LIBS)
++ 	export_symbol(ssl ${CMAKE_CURRENT_SOURCE_DIR}/ssl.sym)
++-	target_link_libraries(ssl crypto)
+++	target_link_libraries(ssl crypto ${OPENSSL_LIB_LIBS})
++ 	if (WIN32)
++ 		target_link_libraries(ssl Ws2_32.lib)
++ 		set(SSL_POSTFIX -${SSL_MAJOR_VERSION})
+diff --git a/meta/recipes-connectivity/libressl/libressl_2.8.0.bb b/meta/recipes-connectivity/libressl/libressl_2.8.0.bb
+new file mode 100644
+index 0000000..b45f16a
+--- /dev/null
++++ b/meta/recipes-connectivity/libressl/libressl_2.8.0.bb
+@@ -0,0 +1,35 @@
++SUMMARY = "Drop-in replacement for openssl 1.0.x, maintained by OpenBSD"
++DESCRIPTION = "LibreSSL is a version of the TLS/crypto stack forked from \
++               OpenSSL in 2014, with goals of modernizing the codebase, \
++               improving security, and applying best practice development processes. "
++HOMEPAGE = "http://www.libressl.org/"
++
++LICENSE = "openssl"
++LIC_FILES_CHKSUM = "file://COPYING;md5=01f9bb4d275f5eeea905377bef3de622"
++
++SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${PV}.tar.gz \
++           file://0001-Link-dynamic-libraries-with-their-library-dependenci.patch \
++           "
++SRC_URI[md5sum] = "d922be6690e7de8949948aaec42a4563"
++SRC_URI[sha256sum] = "af2bba965b06063518eec6f192d411631dfe1d07713760c67c3c29d348789dc3"
++
++inherit cmake
++
++EXTRA_OECMAKE = "-DOPENSSLDIR=${sysconfdir}/libressl -DBUILD_SHARED_LIBS=ON"
++
++PACKAGE_PREPROCESS_FUNCS += "libressl_package_preprocess"
++
++# libressl development files and executable binaries clash with openssl 1.1
++# files when installed into target rootfs. So we don't put them into
++# packages, but they continue to be provided via target sysroot for
++# cross-compilation on the host, if some software needs specifically libressl.
++libressl_package_preprocess () {
++        for file in `find ${PKGD} -name *.h -o -name *.pc -o -name *.so`; do
++                rm $file
++        done
++}
++
++# {standard input}: Assembler messages:
++# {standard input}:303: Error: selected processor does not support `rev r0,r0' in ARM mode
++# {standard input}:303: Error: selected processor does not support `rev ip,ip' in ARM mode
++OECMAKE_C_FLAGS_append_arm = " -D__STRICT_ALIGNMENT"
 -- 
 2.7.4
 
