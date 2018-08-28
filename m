@@ -1,51 +1,24 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 8866578E59
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F11F78E59
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 12:38:12 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id k12-v6so2498055oiw.8
+	Tue, 28 Aug 2018 12:43:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7SCh16s001799
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 05:38:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=VTusi5MUXzG8vfhFuzDjWXGUNR+oBmmbsSY2OtxnU3g=;
-	b=kxdK7HkzJKt3L+F8CQ8BSghaukg6X0V1K2sFsyJ8afQMQsKhC/y+/ia2dBlxl3rCLJ
-	vMRggu2A9X4IGIS+hQtD043m4sJTxPH0+f7e4Q7T/KlZxx0KJ949qjOi9AztVJQ7wRIb
-	dcW7wR5WDRPn91NBOZQMlGnALlZ/mekhbvUK1PXRra3rXYYOZm14TmWWGOxZyUXqLsdK
-	3Rnnd3Sb8sRgBEf31ztpTNTPb3uCFlHr08huMkdTb7RT6n8Rq+EGQTe/OSQtz/5HnVtB
-	R/butE8aIUAcHUWOOt/1TuyTrx7fuGiG8OF56/cJy+Bk5/dv9OenbLvmeYgvsFbrjVC9
-	VZ9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=VTusi5MUXzG8vfhFuzDjWXGUNR+oBmmbsSY2OtxnU3g=;
-	b=n2aqp46KxuUjWi1GHd8/tA517HpDf1eJyBD/kykGQIZbKdC4PLSqGv2WTLebLNbJih
-	CdW4N8WxfQQrgRfW+ZP6Do94XEyNWFAO3u3N9aHiyMmcA6lzu/llJtGU5fIGKfQQzfie
-	2GXz25qVJkosF0fdYZqtr4bFKL8fUJz4CKi0hyqz2H2hhs/QC9HE18GFXw1ESYRysEp8
-	AosZgyN+Qm/FGiIk/be60sa1jzWL9NKvQf2eBtFGi3RgApgKI8HTTbEqPsQocrp+aC4O
-	HvN2S6EvdaT8EcuH7bqbY7NPuAzMU00uvS+2TsKMjprPAONQn7tKGetAyCLRWJMicGpK
-	pC7g==
-X-Gm-Message-State: APzg51Bjawny+rlhtOeC7vuE10AZsc+McDoQjMYgt28HQc4qCNufNeHy
-	S7UP5ktyIbqXYWrMtB8Fm9S2IxdhI0X/rHnx934+MQ==
-X-Google-Smtp-Source: ANB0VdbyoS/jM9dU5q/pT+HgfXSoA2yVH2sivdnVcTe1I/UwrHgLzG31lL+02lpCUZPvxv1vPymM8Qq7eOh6eLwf6Uw=
-X-Received: by 2002:aca:edd8:: with SMTP id
-	l207-v6mr1239118oih.65.1535459893503; 
-	Tue, 28 Aug 2018 05:38:13 -0700 (PDT)
+	Tue, 28 Aug 2018 05:43:02 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 28 Aug 2018 05:43:00 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Aug 2018 20:43:00 +0800
+Message-ID: <1535460180-251572-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:a4a:90ed:0:0:0:0:0 with HTTP; Tue, 28 Aug 2018 05:38:13
-	-0700 (PDT)
-In-Reply-To: <2b3b5c60-8c1a-325d-37cb-f29987f6737f@innovatrieste.it>
-References: <2f3b7c17-9233-5159-59bb-73e6858eebca@innovatrieste.it>
-	<CANNYZj_V1UfEQMWFJhbGy41+8j4rQWiCeZSA-Unpi=LDFzEyQQ@mail.gmail.com>
-	<2b3b5c60-8c1a-325d-37cb-f29987f6737f@innovatrieste.it>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 28 Aug 2018 14:38:13 +0200
-Message-ID: <CANNYZj8oBQciQKVnk1OriAtPsh4Ar_OsOgc2kqfSWN7UB2EW0w@mail.gmail.com>
-To: Marco Oman <marco.oman@innovatrieste.it>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: devtool recipe not working outside workspace
+Subject: [PATCH] ltp: Remove unnecessary check from creat08 and open10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,48 +31,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 12:38:12 -0000
-Content-Type: multipart/alternative; boundary="00000000000084ec0805747e1d3b"
+X-List-Received-Date: Tue, 28 Aug 2018 12:43:01 -0000
+Content-Type: text/plain
 
---00000000000084ec0805747e1d3b
-Content-Type: text/plain; charset="UTF-8"
+From: He Zhe <zhe.he@windriver.com>
 
-2018-08-28 14:29 GMT+02:00 Marco Oman <marco.oman@innovatrieste.it>:
+Issue: LIN1018-1797
 
->
-> That's from version 2.2 (morty), right?
->  Any alternative option for version 2.1?
->
+At the point of the following failure, the file being checked, setgid,
+is owned by "nobody" in the "nogroup" and tries to inherit SGID from
+its parent directory who is in group of "bin". This is forbidden since
+Linux kernel v4.18-rc4, unless current process is given CAP_FSETID
+beforehand. See "Fix up non-directory creation in SGID directories" in
+the kernel. The check in Block3 succeeds since it becomes root again
+then.
+
+creat08 3 TFAIL : creat08.c:368: testdir.B.1026/setgid: Incorrect modes, setgid bit should be set
+creat08 4 TFAIL : creat08.c:376: Test failed in block2.
+
+open10 3 TFAIL : open10.c:352: open10.testdir.B.1045/setgid: Incorrect modes, setgid bit not set
+open10 4 TFAIL : open10.c:359: Test failed in block2.
+open10 6 TFAIL : open10.c:443: Test failed because of above failures.
+
+Backport a patch from upstream.
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ ...skip-S_ISGID-check-on-files-created-by-no.patch | 81 ++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20180515.bb          |  1 +
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch
+
+diff --git a/meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch b/meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch
+new file mode 100644
+index 0000000..dc61fcc
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch
+@@ -0,0 +1,81 @@
++From 3c87ef2961dedb10d1f674c6a530e00dbab8ec1b Mon Sep 17 00:00:00 2001
++From: Jan Stancek <jstancek@redhat.com>
++Date: Tue, 17 Jul 2018 10:26:39 +0200
++Subject: [PATCH] open|creat: skip S_ISGID check on files created by non-group
++ members
++
++0fa3ecd87848 ("Fix up non-directory creation in SGID directories")
++fixes problem described in CVE-2018-13405. This commit is getting
++backported to older streams as well.
++
++This patch removes S_ISGID check for files created by non-group members
++in LTP tests creat08 and open10.
++
++Once 0fa3ecd87848 will be in non-rc kernel, we could add a new test
++for this CVE that would be limited to 4.18+ kernels.
++
++Signed-off-by: Jan Stancek <jstancek@redhat.com>
++Acked-by: Cyril Hrubis <chrubis@suse.cz>
++Reviewed-by: Naresh Kamboju <naresh.kamboju@linaro.org>
++
++Upstream-Status: Backport
++[ git://github.com/linux-test-project/ltp.git
++  3c87ef2961dedb10d1f674c6a530e00dbab8ec1b
++  "open|creat: skip S_ISGID check on files created by non-group members" ]
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ testcases/kernel/syscalls/creat/creat08.c | 13 ++++++-------
++ testcases/kernel/syscalls/open/open10.c   | 12 +++++-------
++ 2 files changed, 11 insertions(+), 14 deletions(-)
++
++diff --git a/testcases/kernel/syscalls/creat/creat08.c b/testcases/kernel/syscalls/creat/creat08.c
++index 50f2b3993..d22558ac3 100644
++--- a/testcases/kernel/syscalls/creat/creat08.c
+++++ b/testcases/kernel/syscalls/creat/creat08.c
++@@ -361,13 +361,12 @@ int main(int ac, char **av)
++ 			local_flag = FAILED;
++ 		}
++ 
++-		/* Verify modes */
++-		if (!(buf.st_mode & S_ISGID)) {
++-			tst_resm(TFAIL,
++-				 "%s: Incorrect modes, setgid bit should be set",
++-				 setgid_B);
++-			local_flag = FAILED;
++-		}
+++		/*
+++		 * Skip S_ISGID check
+++		 * 0fa3ecd87848 ("Fix up non-directory creation in SGID directories")
+++		 * clears S_ISGID for files created by non-group members
+++		 */
+++
++ 		close(fd);
++ 
++ 		if (local_flag == PASSED) {
++diff --git a/testcases/kernel/syscalls/open/open10.c b/testcases/kernel/syscalls/open/open10.c
++index 613f2288f..14feec9e1 100644
++--- a/testcases/kernel/syscalls/open/open10.c
+++++ b/testcases/kernel/syscalls/open/open10.c
++@@ -345,13 +345,11 @@ int main(int ac, char *av[])
++ 			local_flag = FAILED;
++ 		}
++ 
++-		/* Verify modes */
++-		if (!(buf.st_mode & S_ISGID)) {
++-			tst_resm(TFAIL,
++-				 "%s: Incorrect modes, setgid bit not set",
++-				 setgid_B);
++-			local_flag = FAILED;
++-		}
+++		/*
+++		 * Skip S_ISGID check
+++		 * 0fa3ecd87848 ("Fix up non-directory creation in SGID directories")
+++		 * clears S_ISGID for files created by non-group members
+++		 */
++ 
++ 		if (local_flag == PASSED) {
++ 			tst_resm(TPASS, "Test passed in block2.");
++-- 
++2.11.0
++
+diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180515.bb
+index 978d3cd..7c364a6 100644
+--- a/meta/recipes-extended/ltp/ltp_20180515.bb
++++ b/meta/recipes-extended/ltp/ltp_20180515.bb
+@@ -50,6 +50,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0040-read_all-Define-FNM_EXTMATCH-if-not-already-like-und.patch \
+            file://0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch \
+            file://0042-fs-ftest-ftest06.c-Fix-too-small-name-string-and-rel.patch \
++           file://0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.7.4
 
 
-I don't know - devtool is constantly evolving. I know best how it works in
-the master branch, I'd suggest you try from there if possible.
-
-
-Alex
-
---00000000000084ec0805747e1d3b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">2018-08-28 14:29 GMT+02:00 Marco Oman <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:marco.oman@innovatrieste.it" target=3D"_blank">marco.om=
-an@innovatrieste.it</a>&gt;</span>:<br><div class=3D"gmail_extra"><div clas=
-s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex">
- =20
-   =20
- =20
-  <div text=3D"#000000" bgcolor=3D"#FFFFFF"><div><div class=3D"h5"><br><blo=
-ckquote type=3D"cite">
-    </blockquote></div></div>
-    That&#39;s from version 2.2 (morty), right?<br>
-    =C2=A0Any alternative option for version 2.1?<br></div></blockquote></d=
-iv></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">I don&#39;t know - devtool is constantly=
- evolving. I know best how it works in the master branch, I&#39;d suggest y=
-ou try from there if possible.<br></div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Alex<br><=
-/div></div>
-
---00000000000084ec0805747e1d3b--
