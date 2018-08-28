@@ -1,26 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 70DEB75532
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BFE578FBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 23:00:59 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w7RN0wRX008400
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 28 Aug 2018 00:00:59 +0100
-Message-ID: <5e5a13cb317d319f7ab9cb2a149881cd0adaa5d9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexandru Vasiu <alexandru.vasiu@ni.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 28 Aug 2018 00:00:58 +0100
-In-Reply-To: <20180827143105.30059-3-alexandru.vasiu@ni.com>
-References: <20180827143105.30059-1-alexandru.vasiu@ni.com>
-	<20180827143105.30059-3-alexandru.vasiu@ni.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 3/3] image_types_wic: Add variable WIC_EXTENSION
+	Tue, 28 Aug 2018 00:57:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7S0vYwT026380
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Aug 2018 17:57:35 -0700 (PDT)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 27 Aug 2018 17:57:34 -0700
+To: <yang.wang@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <20180518085550.92085-1-mingli.yu@windriver.com>
+	<5B1E1444.9000407@windriver.com>
+	<30f93af9-5a38-059e-184f-bbbe52a01105@windriver.com>
+	<f248ce00-4c47-7a70-9902-585960c5ccd4@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <39d4429f-e3c6-33fc-3073-8cea08d81794@windriver.com>
+Date: Mon, 27 Aug 2018 20:57:33 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <f248ce00-4c47-7a70-9902-585960c5ccd4@windriver.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH] boost: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2018 23:00:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Aug 2018 00:57:34 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2018-08-27 at 17:31 +0300, Alexandru Vasiu wrote:
-> Used to specify what extention will have the image file which
-> is created using wic. The default value is wic. For creating an
-> ISO image, WIC_EXTENSION will be iso.
+On 08/27/2018 06:17 PM, Yang Wang wrote:
+> Not sure if it's worth to run the Ptest on QEMU though, I also run Ptest 
+> on SIMICS simulators, thousands of tests didn't get run, looks like the 
+> result was not good as well.
 > 
-> Signed-off-by: Alexandru Vasiu <alexandru.vasiu@ni.com>
-> ---
->  meta/classes/image.bbclass           | 2 ++
->  meta/classes/image_types_wic.bbclass | 3 ++-
->  2 files changed, 4 insertions(+), 1 deletion(-)
+> Now my nightly Ptest runs on x86 device and gets consistent result every 
+> day:
 > 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 024d2d4c96..c6833a6770 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -607,6 +607,8 @@ python create_symlinks() {
->      if not link_name:
->          return
->      for type in subimages:
-> +        if type == 'wic':
-> +            type = d.getVar('WIC_EXTENSION')
->          dst = os.path.join(deploy_dir, link_name + "." + type)
->          src = img_name + imgsuffix + type
->          if os.path.exists(os.path.join(deploy_dir, src)):
+>      2018-08-27T06:26 -- 2018-08-27T09:52
+>      Passed:  40518
+>      Failed:  289
+>      Skipped: 1876
 
-This is hardcoding an image type specific issue into common code. I
-really want to avoid doing that.
+Consistent results are good and > 90% pass rate is very good.
+What are the stats using qemux86-64 and/or simics?
 
-In the past I started the process of trying to untangle the spaghetti
-we had in image.bbclass and abstract it into common building blocks.
-The hope was to eventually have proper APIs around this.
+I don't expect that qemu results would be as close to real hardware
+as Simics but it is quite good and freely available.
 
-I never really got back to do further rounds of cleanup/improvement to
-get to that goal but the more image type specific pieces we add back
-in, the harder it will make those goals and the less maintainable the
-coed will become.
+> 
+> Thanks,
+> Yang Wang
 
-So is there some other way we can handle this. It looks like we don't
-even use this iso mode in OE-Core which is bad from a testing
-perspective too? I don't see WIC_EXTENSION being set to iso anywhere?
 
-Cheers,
-
-Richard
+-- 
+# Randy MacLeod
+# Wind River Linux
 
