@@ -1,55 +1,34 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 3124178DC5
+Return-Path: <yang.wang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B4FBF78DD1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 17:21:38 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id x197-v6so4257393oix.5
+	Tue, 28 Aug 2018 17:22:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7SHMXCw025194
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 10:21:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=4cye4piUZwiPpX4aPEEH/eyTxzWbrjpJETURHQ/Gn5g=;
-	b=VECbV3ngt/qNrHN5HNa+ccI3Bh0ZFg4C+mNHVkXcTRw/ZEEb0dMcs6WCiuvuhdqSjx
-	5+KZSVD63vp1tVRey9Zb/ePKZtiWmJCbxN3d+tFIhO7wkHpF8J52ahO2zxY3FtmMHI8n
-	Zak8q3jHmNz74eGJEfPTul9eUY6YosTI4tRLejji1aFyPWSyzWvoV3w0uUH6UCLwX0kW
-	Sx6+9fEnFnk8g06+yn2SZVhSttgj8YGbZVP6sL7QR2uV4TwA1F97MKxOGe4w7Vga5XFh
-	/o6xdzyIkwfnCZzEBNUvb2aK/w7OEsOgVTReSFPHB19W15ApibfaFmUb44BbgojP5l5F
-	oazA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=4cye4piUZwiPpX4aPEEH/eyTxzWbrjpJETURHQ/Gn5g=;
-	b=qlBEo+MWJgDvUYlAcWXHtYdPO2m71ckVSdsdX/zoY3OJADlHuDkBT9hkMSYYQn33dD
-	sgE52XehOho6ygdWSNFfei3A++xgk+qyBle4egqiz3I/lqSY/IpuDqWGLm4yB1bJeghp
-	wLa3eY4PbZZW7nWU+0T3y81LswVnroWvCJG/zEv2c3OSXYjw0hth7Gvy78n42GLzb0Xu
-	iwYXfoHlFtBP1oLQ/TpcJ3PHpxbIoxLyTsqzdQ3VzST0d98RjpTFHtoX+zV6WlMJuMDD
-	sreAdNly7ZYTbja7K/tCPfG3xE1adsoni4YkmqdGQFpEGkKDqLhFxOmEM8EBCJiUNBva
-	BJpA==
-X-Gm-Message-State: APzg51AfH/QzSyPWITSYCwaInXb87GnY6dSJnnKJoq6Kk5dsH1H85laT
-	PvITcELkUV332agE+ujFVSoSv+3Wfie3c+EiupjkKQ==
-X-Google-Smtp-Source: ANB0VdZSwdP1n7Qsg5nbehB6CG1L4HwLEynWdnt4JlymUHjpsLtSRLceJsq1EPuMXEP3POwCgyHnMoLxdFQcDf+DcIE=
-X-Received: by 2002:aca:c0c1:: with SMTP id
-	q184-v6mr2065444oif.61.1535476900085; 
-	Tue, 28 Aug 2018 10:21:40 -0700 (PDT)
+	Tue, 28 Aug 2018 10:22:33 -0700
+Received: from [128.224.56.219] (128.224.56.219) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 28 Aug 2018 10:22:32 -0700
+Reply-To: <yang.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+References: <20180518085550.92085-1-mingli.yu@windriver.com>
+	<5B1E1444.9000407@windriver.com>
+	<30f93af9-5a38-059e-184f-bbbe52a01105@windriver.com>
+	<f248ce00-4c47-7a70-9902-585960c5ccd4@windriver.com>
+	<39d4429f-e3c6-33fc-3073-8cea08d81794@windriver.com>
+	<8c09821e-7076-ad73-2849-c6a7b7287a3e@windriver.com>
+From: Yang Wang <yang.wang@windriver.com>
+Organization: Wind River
+Message-ID: <63cfc1ec-10c0-a3bf-92be-4549d08c1d60@windriver.com>
+Date: Tue, 28 Aug 2018 13:22:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Received: by 2002:ac9:454b:0:0:0:0:0 with HTTP; Tue, 28 Aug 2018 10:21:39
-	-0700 (PDT)
-In-Reply-To: <CALbNGRRO4A6dpuncayo0L45G6nbsWq67XeJ_4J-FoXG08AUXXw@mail.gmail.com>
-References: <cover.1534791421.git.raj.khem@gmail.com>
-	<011962bd47ca60969fa50a3e890adadd6bddc487.1534791421.git.raj.khem@gmail.com>
-	<CALbNGRRN0gjg4VTu4mPh726Q6JyCf4BCmv32mDuVaJ5BtNxpjg@mail.gmail.com>
-	<CAMKF1so_wuCSh7uo=QOJvmxPSDX=OW-hwiV6KCuMVjHi6Aw0FQ@mail.gmail.com>
-	<CALbNGRRO4A6dpuncayo0L45G6nbsWq67XeJ_4J-FoXG08AUXXw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Tue, 28 Aug 2018 19:21:39 +0200
-Message-ID: <CALbNGRRLYCYB7YqW5x1PYsUqYVw0zoorw9CYOmR=Tj+d-pg_bw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] mesa: Enable gallium-llvm on x86 and x86_64
+In-Reply-To: <8c09821e-7076-ad73-2849-c6a7b7287a3e@windriver.com>
+Subject: Re: [PATCH] boost: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,65 +41,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 17:21:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Aug 2018 17:22:32 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Tue, Aug 28, 2018 at 8:43 AM, Andreas M=C3=BCller <schnitzeltony@gmail.c=
-om> wrote:
-> On Tue, Aug 28, 2018 at 12:55 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Mon, Aug 27, 2018 at 2:15 PM Andreas M=C3=BCller <schnitzeltony@gmail=
-.com> wrote:
+On 08/28/2018 10:25 AM, Yang Wang wrote:
+> On 08/27/2018 08:57 PM, Randy MacLeod wrote:
+>> On 08/27/2018 06:17 PM, Yang Wang wrote:
+>>> Not sure if it's worth to run the Ptest on QEMU though, I also run 
+>>> Ptest on SIMICS simulators, thousands of tests didn't get run, looks 
+>>> like the result was not good as well.
 >>>
->>> On Mon, Aug 20, 2018 at 8:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> > ---
->>> >  meta/recipes-graphics/cairo/cairo.inc | 3 ++-
->>> >  meta/recipes-graphics/mesa/mesa.inc   | 3 +++
->>> >  2 files changed, 5 insertions(+), 1 deletion(-)
->>> >
->>> > diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-gra=
-phics/cairo/cairo.inc
->>> > index 20e0d2c92a..7347f223ff 100644
->>> > --- a/meta/recipes-graphics/cairo/cairo.inc
->>> > +++ b/meta/recipes-graphics/cairo/cairo.inc
->>> > @@ -22,7 +22,8 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrender lib=
-xext"
->>> >  DEPENDS =3D "libpng fontconfig pixman glib-2.0 zlib"
->>> >
->>> >  PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', =
-'x11 xcb', '', d)} \
->>> > -           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}"
->>> > +           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
->>> > +           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'op=
-engl', '', d)}"
->>> >
->>> >  PACKAGECONFIG[x11] =3D "--with-x=3Dyes -enable-xlib,--with-x=3Dno --=
-disable-xlib,${X11DEPENDS}"
->>> >  PACKAGECONFIG[xcb] =3D "--enable-xcb,--disable-xcb,libxcb"
->>> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graph=
-ics/mesa/mesa.inc
->>> > index 5afd0db4b7..dd626d9f00 100644
->>> ^ I think this came in accidentaly and it breaks builds when adding
->>> packageconfig glesv2:
+>>> Now my nightly Ptest runs on x86 device and gets consistent result 
+>>> every day:
 >>>
->>> | configure: error: use either --enable-gl=3Dyes or --enable-glesv2=3Dy=
-es.
->>> Not both at the same time.
+>>>      2018-08-27T06:26 -- 2018-08-27T09:52
+>>>      Passed:  40518
+>>>      Failed:  289
+>>>      Skipped: 1876
 >>
->> do you remove opengl from DISTRO_FEATURES when enabling glesv2 ?
->> try that out.
+>> Consistent results are good and > 90% pass rate is very good.
+>> What are the stats using qemux86-64 and/or simics?
 >>
->>>
-> Yes of course I can. But this patch is wrong - we don't have gles as
-> distro feature - and it is not even mentioned in commit message why
-> this is done.
+>> I don't expect that qemu results would be as close to real hardware
+>> as Simics but it is quite good and freely available.
+>>
+> Actually, Ptest has 37 test suites as far as I know, different test 
+> suites spent different time on QEMU and hardware, here is a list of 
+> Ptest suites and their case number and spent time for running:
 >
-I am tempted to send a revert for the cairo part:
+>
+Just want to make it look better:
+==============
+#    Suite Name    Case #    Time to Run    Case #    Time to Run
+                 qemu-x86-64            intel-xeon-core2
+1    acl            2        1m            380        1m
+2    attr        143        1m            143        1m
+3    bash        79        8m            79        4m
+4    bluez5        7        6m            7        6m
+5    bzip2        6        1m            6        1m
+6    dbus-test    15        3m            15        1m
+7    diffutils    20        1m            20        2m
+8    e2fsprogs    147        9m            335        10m
+9    ethtool        2        1m            2        1m
+10    flex        114        3m            114        1m
+11    gawk        300        3m            298        2m
+12    gdbm        30        2m            25        2m
+13    glib-2.0    62        14m            220        6m
+14    gzip        51        4m            18        1m
+15    kbd            15        1m            7        1m
+16    libevent    22        6m            1        3m
+17    libpcre        34        3m            3        1m
+18    libxml2        1        1m            0        1m
+19    lzo            75        8m            5        3m
+20    mdadm                6m                    6m
+21    nettle        90        3m            90        3m
+22    numactl                            8        3m
+23    openssh        13        27m            47        52m
+24    openssl        87        47m            56        15m
+25    parted        64        5m            38        10m
+26    perl        101        20m            2440    47m
+27    perl5        110        17m            2406    29m
+28    python        10961    1h 5m        32323    20m
+29    rsyslog        2200    3h 37m        25        8m
+30    sed            147        1m            86        3m
+31    slang                            96        1m
+32    strace        1557    1h 13m        431        6m
+33    systemd        305        9m            155        3m
+34    tcl            869        53m            206        6m
+35    tcpdump        451        7m            413        3m
+36    util-linux    516        25m            514        13m
+37    zlib        2        1m            2        1m
+     Overall        18080    10h 30m        40415    4h 15m
 
-* Cross: It changes defaults valid for long time
-* Native: As far as I can remember it causes trouble for cairo-native
-* It went through without mentioning
+>
+> As you can see, running subset of them on QEMU could be a solution if 
+> people do not want to spend too much time on it or simulator is the 
+> preferred test device.
+>
+> Thanks,
+> -Yang
+>>>
+>>> Thanks,
+>>> Yang Wang
+>>
+>>
+>
 
-Andreas
 
