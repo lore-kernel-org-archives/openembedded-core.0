@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B4C5378A0F
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D0E978F04
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 10:23:23 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id f21-v6so1343640wmc.5
+	Tue, 28 Aug 2018 10:23:24 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id j192-v6so1425439wmj.1
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Aug 2018 03:23:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=3G7gqNNtffc9mGWhvCZlDfPQZufx3mbB/04MUE4G9r4=;
-	b=fAB3+McS4VKIcBNIWpGqmg1atsECV1znqLGjPMyUe2Lq9aEPTRZLOhzRb4F9Py4Arp
-	kckbqkSc7Jvc3oCYZtsOuyCVFyUieqSQlwJKDuZ3LNPEgrajL8fZ1rH98HLCC1ckMPRC
-	w1P8HIqvHfZj2+IiQ2Oowc8g0z0SGwgJV6hXT305g64/rQdSinuvIj26dpXBVIssaem6
-	sPksMdKwCVVqEQI8qjwvk2iXyrwZOZX9Grull5fN9NrTNTxeZpFNtb7aNAuciYUwZefG
-	etIZcVmRV53w+9GiRoIJD2K/XAmDiOIEhpm/dq08+JkWHGsqLMmlPz9cIy1lrWQqOwKv
-	lpMA==
+	bh=qKFo6FHP7Ybr6pb3gZe6yi9Be13OJ5FvUzxVVXHx598=;
+	b=s7dhVWvASWRp2c3ElmYpgcuuEt5hnKHqK4JfFo/ei39sH0DMRf5FPHkVdMHy3C+L95
+	tEIUr8edgIN23FyduUCxo7f6t8RKiLhkZ92FJoUCY9oZn7R+tYlPumlxQONGM+PcoMb7
+	sznaDZyThUIL9QvfGUcLD5MK66LzcT4ufhWLlGouEctXvcKQvca7i52unfiTuFg6QSO9
+	mlj8XhlJWnCC/tFQJABHJhdMbzwDZKQrBC0omGG6ybQ+ndvs5fKoudvPDkL3h2iqlJ3x
+	OTY6j5tu845OrErwZyMKOLmCy22WWxjY7l32JrWdSq8Pkcc24zvBvS/uWMNGKL2Jatkp
+	cM3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=3G7gqNNtffc9mGWhvCZlDfPQZufx3mbB/04MUE4G9r4=;
-	b=R7M+O5km1YJ/t20a7k4JglVaQCnoWGtfJYE7F4CiKnYywu6LjI112wo2usWz3gH2Iv
-	BqnZjmB8jdc838ZSwrw3JC1jqAdRvN+CmaH/PfnD/FDZ3gxh6n4KyxKZBbS3b8wc3ugY
-	+8TsMcPBup2waa11MptdegQqTM4ps4rY259gW4N//9O1/i1qmvN7aE52vcKjKHP2kDap
-	k8ymrtJi8GKzXCVTX9NNusF2nWompW2pFrdzJHD7r2FRQbkrvyDwG5LY4A+ltJtQtxa+
-	BrZGem1zkuq4SRckaj/6XjlapMEWn5LWW/prNFDxk+0jOzeqKhDtx8VvtD1BPB/q5k/W
-	CsDw==
-X-Gm-Message-State: APzg51A6Y3g6ZSFEALFu0KyL18QlGgLkBPNuwxgAKaSt43ibbbg+iMQj
-	sfaiOOS6cVjLmdPDPgnRwLJyrg51
-X-Google-Smtp-Source: ANB0Vdbp6nvtebrLrhb3S7Ja1u0IU2GY/+K83ylwX5A6NbgjvxSWu2lg2UlozB4zFolcj8h/2d7AIQ==
-X-Received: by 2002:a1c:b143:: with SMTP id
-	a64-v6mr1005649wmf.114.1535451803819; 
-	Tue, 28 Aug 2018 03:23:23 -0700 (PDT)
+	bh=qKFo6FHP7Ybr6pb3gZe6yi9Be13OJ5FvUzxVVXHx598=;
+	b=O8KKjW9FVM+BWNfJ91vGHqi0cngSAFbzIjp8r/jNKQT5dEN9/BRw80O1BS1vIw51Cl
+	VQ3OODbMpcAih7G7/YUk152ZYSEpCQFp/f1dtr2q32dRV9OU+F14a/bOWxoRGOXZ0xed
+	sbbo64pyaYCdkO++BarrNGPTXFc2E0xa07/gfvVh00xyGT9rSi1BkaEV6aRE5NqKNpCj
+	3icLFxOYZIBrSGdAYV0L9ND1jPvsd5ubFJ1AVoF314t3IwHLYBU4orf6B6dfNM96loNV
+	5VUErCFn0iZu5aNIzDC6WJWhmuv9u3I0b5sS16TUwduYwDi9OwTgtL/IyJJj1w7AR22Q
+	6UrQ==
+X-Gm-Message-State: APzg51CQqHQG4LE3Oz4/zzc1ChccxtMWhoMRfOE0U9PMyVFiru1cXmcR
+	8o9P52eA+xYSrVuK0QFXIOwSEPCv
+X-Google-Smtp-Source: ANB0VdYl1/EulKfTn2jv1W0VqfNwRPrL3pYW0MnHJxYGca44IizHOeSOLV1fB0tdo4YWNwI3o3QotQ==
+X-Received: by 2002:a1c:a593:: with SMTP id
+	o141-v6mr975134wme.95.1535451804685; 
+	Tue, 28 Aug 2018 03:23:24 -0700 (PDT)
 Received: from localhost.localdomain ([79.140.126.226])
 	by smtp.gmail.com with ESMTPSA id
-	198-v6sm771823wmm.0.2018.08.28.03.23.22
+	198-v6sm771823wmm.0.2018.08.28.03.23.23
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 28 Aug 2018 03:23:22 -0700 (PDT)
+	Tue, 28 Aug 2018 03:23:24 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Aug 2018 12:23:12 +0200
-Message-Id: <b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
+Date: Tue, 28 Aug 2018 12:23:13 +0200
+Message-Id: <1f7ed298deed1f23ccd6e67b4701985660abe575.1535451643.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1535451643.git.alex.kanavin@gmail.com>
 References: <cover.1535451643.git.alex.kanavin@gmail.com>
-Subject: [RFC PATCH 1/6] openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the default version
+Subject: [RFC PATCH 2/6] cryptodev-tests: port to openssl 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,296 +62,141 @@ X-List-Received-Date: Tue, 28 Aug 2018 10:23:24 -0000
 
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 
-I believe the time has come to do this: openssl 1.0 upstream support stops at the end
-of 2019, and we do not want a situation where a supported YP release contains an
-unsupported version of a critical security component.
-
-Openssl 1.0 can still be utilized by depending on 'openssl10' recipe.
+This leaves openssh as the only recipe that requires openssl 1.0 (or libressl).
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/conf/distro/include/default-versions.inc      |  3 ---
- meta/conf/distro/include/maintainers.inc           |  1 +
- .../{openssl => files}/environment.d-openssl.sh    |  0
- ...build-with-clang-using-external-assembler.patch |  0
- .../0001-allow-manpages-to-be-disabled.patch       |  0
- ...penssl-force-soft-link-to-avoid-rare-race.patch |  0
- .../Makefiles-ptest.patch                          |  0
- .../Use-SHA256-not-MD5-as-default-digest.patch     |  0
- .../configure-musl-target.patch                    |  0
- .../configure-targets.patch                        |  0
- .../debian/c_rehash-compat.patch                   |  0
- .../debian/debian-targets.patch                    |  0
- .../debian/man-dir.patch                           |  0
- .../debian/man-section.patch                       |  0
- .../debian/no-rpath.patch                          |  0
- .../debian/no-symbolic.patch                       |  0
- .../{openssl-1.0.2p => openssl10}/debian/pic.patch |  0
- .../debian1.0.2/block_digicert_malaysia.patch      |  0
- .../debian1.0.2/block_diginotar.patch              |  0
- .../debian1.0.2/soname.patch                       |  0
- .../debian1.0.2/version-script.patch               |  0
- .../engines-install-in-libdir-ssl.patch            |  0
- .../{openssl-1.0.2p => openssl10}/oe-ldflags.patch |  0
- .../openssl-c_rehash.sh                            |  0
- .../openssl-fix-des.pod-error.patch                |  0
- .../openssl_fix_for_x32.patch                      |  0
- .../{openssl-1.0.2p => openssl10}/parallel.patch   |  0
- .../{openssl-1.0.2p => openssl10}/ptest-deps.patch |  0
- .../ptest_makefile_deps.patch                      |  0
- .../reproducible-cflags.patch                      |  0
- .../reproducible-mkbuildinf.patch                  |  0
- .../{openssl-1.0.2p => openssl10}/run-ptest        |  0
- .../shared-libs.patch                              |  0
- .../{openssl_1.0.2p.bb => openssl10_1.0.2p.bb}     | 31 ++++++++++++++++------
- 34 files changed, 24 insertions(+), 11 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl => files}/environment.d-openssl.sh (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-Fix-build-with-clang-using-external-assembler.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-allow-manpages-to-be-disabled.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-openssl-force-soft-link-to-avoid-rare-race.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/Makefiles-ptest.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/Use-SHA256-not-MD5-as-default-digest.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/configure-musl-target.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/configure-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/c_rehash-compat.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/debian-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/man-dir.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/man-section.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/no-rpath.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/no-symbolic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/pic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/block_digicert_malaysia.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/block_diginotar.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/soname.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/version-script.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/engines-install-in-libdir-ssl.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/oe-ldflags.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl-c_rehash.sh (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl-fix-des.pod-error.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl_fix_for_x32.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/parallel.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/ptest-deps.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/ptest_makefile_deps.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/reproducible-cflags.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/reproducible-mkbuildinf.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/run-ptest (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/shared-libs.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl_1.0.2p.bb => openssl10_1.0.2p.bb} (91%)
+ .../cryptodev/cryptodev-tests_1.9.bb               |   3 +-
+ .../files/0001-Port-tests-to-openssl-1.1.patch     | 103 +++++++++++++++++++++
+ 2 files changed, 105 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
 
-diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-index 3d88e8f..a6f3313 100644
---- a/meta/conf/distro/include/default-versions.inc
-+++ b/meta/conf/distro/include/default-versions.inc
-@@ -2,6 +2,3 @@
- # Default preferred versions
- #
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
+index 9afb3de..617db6c 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
+@@ -2,10 +2,11 @@ require cryptodev.inc
  
--PREFERRED_VERSION_openssl ?= "1.0.%"
--PREFERRED_VERSION_openssl-native ?= "1.0.%"
--PREFERRED_VERSION_nativesdk-openssl ?= "1.0.%"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 98b661d..c76f81f 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -503,6 +503,7 @@ RECIPE_MAINTAINER_pn-nss-myhostname = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-ofono = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-openssh = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-openssl = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-openssl10 = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-opkg = "Alejandro del Castillo <alejandro.delcastillo@ni.com>"
- RECIPE_MAINTAINER_pn-opkg-arch-config = "Alejandro del Castillo <alejandro.delcastillo@ni.com>"
- RECIPE_MAINTAINER_pn-opkg-keyrings = "Alejandro del Castillo <alejandro.delcastillo@ni.com>"
-diff --git a/meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
-rename to meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/0001-Fix-build-with-clang-using-external-assembler.patch b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-build-with-clang-using-external-assembler.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/0001-Fix-build-with-clang-using-external-assembler.patch
-rename to meta/recipes-connectivity/openssl/openssl10/0001-Fix-build-with-clang-using-external-assembler.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/0001-allow-manpages-to-be-disabled.patch b/meta/recipes-connectivity/openssl/openssl10/0001-allow-manpages-to-be-disabled.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/0001-allow-manpages-to-be-disabled.patch
-rename to meta/recipes-connectivity/openssl/openssl10/0001-allow-manpages-to-be-disabled.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/0001-openssl-force-soft-link-to-avoid-rare-race.patch b/meta/recipes-connectivity/openssl/openssl10/0001-openssl-force-soft-link-to-avoid-rare-race.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/0001-openssl-force-soft-link-to-avoid-rare-race.patch
-rename to meta/recipes-connectivity/openssl/openssl10/0001-openssl-force-soft-link-to-avoid-rare-race.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/Makefiles-ptest.patch b/meta/recipes-connectivity/openssl/openssl10/Makefiles-ptest.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/Makefiles-ptest.patch
-rename to meta/recipes-connectivity/openssl/openssl10/Makefiles-ptest.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/Use-SHA256-not-MD5-as-default-digest.patch b/meta/recipes-connectivity/openssl/openssl10/Use-SHA256-not-MD5-as-default-digest.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/Use-SHA256-not-MD5-as-default-digest.patch
-rename to meta/recipes-connectivity/openssl/openssl10/Use-SHA256-not-MD5-as-default-digest.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/configure-musl-target.patch b/meta/recipes-connectivity/openssl/openssl10/configure-musl-target.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/configure-musl-target.patch
-rename to meta/recipes-connectivity/openssl/openssl10/configure-musl-target.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl10/configure-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/configure-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl10/configure-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/c_rehash-compat.patch b/meta/recipes-connectivity/openssl/openssl10/debian/c_rehash-compat.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/c_rehash-compat.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian/c_rehash-compat.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/debian-targets.patch b/meta/recipes-connectivity/openssl/openssl10/debian/debian-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/debian-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian/debian-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/man-dir.patch b/meta/recipes-connectivity/openssl/openssl10/debian/man-dir.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/man-dir.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian/man-dir.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl10/debian/man-section.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/man-section.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian/man-section.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/no-rpath.patch b/meta/recipes-connectivity/openssl/openssl10/debian/no-rpath.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/no-rpath.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian/no-rpath.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/no-symbolic.patch b/meta/recipes-connectivity/openssl/openssl10/debian/no-symbolic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/no-symbolic.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian/no-symbolic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/pic.patch b/meta/recipes-connectivity/openssl/openssl10/debian/pic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian/pic.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian/pic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian1.0.2/block_digicert_malaysia.patch b/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_digicert_malaysia.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian1.0.2/block_digicert_malaysia.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_digicert_malaysia.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian1.0.2/block_diginotar.patch b/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_diginotar.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian1.0.2/block_diginotar.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_diginotar.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian1.0.2/soname.patch b/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/soname.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian1.0.2/soname.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian1.0.2/soname.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/debian1.0.2/version-script.patch b/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/version-script.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/debian1.0.2/version-script.patch
-rename to meta/recipes-connectivity/openssl/openssl10/debian1.0.2/version-script.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/engines-install-in-libdir-ssl.patch b/meta/recipes-connectivity/openssl/openssl10/engines-install-in-libdir-ssl.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/engines-install-in-libdir-ssl.patch
-rename to meta/recipes-connectivity/openssl/openssl10/engines-install-in-libdir-ssl.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/oe-ldflags.patch b/meta/recipes-connectivity/openssl/openssl10/oe-ldflags.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/oe-ldflags.patch
-rename to meta/recipes-connectivity/openssl/openssl10/oe-ldflags.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/openssl-c_rehash.sh b/meta/recipes-connectivity/openssl/openssl10/openssl-c_rehash.sh
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/openssl-c_rehash.sh
-rename to meta/recipes-connectivity/openssl/openssl10/openssl-c_rehash.sh
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/openssl-fix-des.pod-error.patch b/meta/recipes-connectivity/openssl/openssl10/openssl-fix-des.pod-error.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/openssl-fix-des.pod-error.patch
-rename to meta/recipes-connectivity/openssl/openssl10/openssl-fix-des.pod-error.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl10/openssl_fix_for_x32.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/openssl_fix_for_x32.patch
-rename to meta/recipes-connectivity/openssl/openssl10/openssl_fix_for_x32.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/parallel.patch b/meta/recipes-connectivity/openssl/openssl10/parallel.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/parallel.patch
-rename to meta/recipes-connectivity/openssl/openssl10/parallel.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/ptest-deps.patch b/meta/recipes-connectivity/openssl/openssl10/ptest-deps.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/ptest-deps.patch
-rename to meta/recipes-connectivity/openssl/openssl10/ptest-deps.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/ptest_makefile_deps.patch b/meta/recipes-connectivity/openssl/openssl10/ptest_makefile_deps.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/ptest_makefile_deps.patch
-rename to meta/recipes-connectivity/openssl/openssl10/ptest_makefile_deps.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/reproducible-cflags.patch b/meta/recipes-connectivity/openssl/openssl10/reproducible-cflags.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/reproducible-cflags.patch
-rename to meta/recipes-connectivity/openssl/openssl10/reproducible-cflags.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/reproducible-mkbuildinf.patch b/meta/recipes-connectivity/openssl/openssl10/reproducible-mkbuildinf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/reproducible-mkbuildinf.patch
-rename to meta/recipes-connectivity/openssl/openssl10/reproducible-mkbuildinf.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/run-ptest b/meta/recipes-connectivity/openssl/openssl10/run-ptest
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/run-ptest
-rename to meta/recipes-connectivity/openssl/openssl10/run-ptest
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2p/shared-libs.patch b/meta/recipes-connectivity/openssl/openssl10/shared-libs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.2p/shared-libs.patch
-rename to meta/recipes-connectivity/openssl/openssl10/shared-libs.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
-similarity index 91%
-rename from meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
-rename to meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
-index dbcb000..b7297fc 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2p.bb
-+++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
-@@ -11,8 +11,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f475368924827d06d4b416111c8bdb77"
- DEPENDS = "hostperl-runtime-native"
- DEPENDS_append_class-target = " openssl-native"
+ SUMMARY = "A test suite for /dev/crypto device driver"
  
--PROVIDES += "openssl10"
--
- SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://run-ptest \
-            file://openssl-c_rehash.sh \
-@@ -56,6 +54,8 @@ SRC_URI_append_class-nativesdk = " \
- SRC_URI[md5sum] = "ac5eb30bf5798aa14b1ae6d0e7da58df"
- SRC_URI[sha256sum] = "50a98e07b1a89eb8f6a99477f262df71c6fa7bef77df4dc83025a2845c827d00"
+-DEPENDS += "openssl10"
++DEPENDS += "openssl"
  
-+S = "${WORKDIR}/openssl-${PV}"
+ SRC_URI += " \
+ file://0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch \
++file://0001-Port-tests-to-openssl-1.1.patch \
+ "
+ 
+ EXTRA_OEMAKE='KERNEL_DIR="${STAGING_EXECPREFIXDIR}" PREFIX="${D}"'
+diff --git a/meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch b/meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
+new file mode 100644
+index 0000000..c969126
+--- /dev/null
++++ b/meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
+@@ -0,0 +1,103 @@
++From 2fe4bdeb8cdd0b0f46d9caed807812855d51ea56 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 28 Mar 2018 20:11:05 +0300
++Subject: [PATCH] Port tests to openssl 1.1
 +
- UPSTREAM_CHECK_REGEX = "openssl-(?P<pver>1\.0.+)\.tar"
- 
- inherit pkgconfig siteinfo multilib_header ptest manpages
-@@ -326,20 +326,35 @@ do_install_ptest () {
- # file to be installed for both the base openssl package and the libcrypto
- # package since the base openssl package depends on the libcrypto package.
- 
--PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc"
-+PACKAGES =+ "libcrypto10 libssl10 openssl10-conf ${PN}-engines ${PN}-misc"
- 
--FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
--FILES_libssl = "${libdir}/libssl${SOLIBS}"
--FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
-+FILES_libcrypto10 = "${libdir}/libcrypto${SOLIBS}"
-+FILES_libssl10 = "${libdir}/libssl${SOLIBS}"
-+FILES_openssl10-conf = "${sysconfdir}/ssl/openssl.cnf"
- FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
- FILES_${PN}-misc = "${libdir}/ssl/misc"
- FILES_${PN} =+ "${libdir}/ssl/*"
- FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
- 
--CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
-+CONFFILES_openssl10-conf = "${sysconfdir}/ssl/openssl.cnf"
- 
--RRECOMMENDS_libcrypto += "openssl-conf"
-+RRECOMMENDS_libcrypto10 += "openssl10-conf"
- RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
- RDEPENDS_${PN}-ptest += "${PN}-misc make perl perl-module-filehandle bc"
- 
- BBCLASSEXTEND = "native nativesdk"
-+PACKAGE_PREPROCESS_FUNCS += "openssl_package_preprocess"
++Upstream-Status: Accepted [https://github.com/cryptodev-linux/cryptodev-linux/pull/36]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +
-+# openssl 1.0 development files and executable binaries clash with openssl 1.1
-+# files when installed into target rootfs. So we don't put them into
-+# packages, but they continue to be provided via target sysroot for
-+# cross-compilation on the host, if some software still depends on openssl 1.0.
-+openssl_package_preprocess () {
-+        for file in `find ${PKGD} -name *.h -o -name *.pc -o -name *.so`; do
-+                rm $file
-+        done
-+        rm ${PKGD}/usr/bin/openssl
-+        rm ${PKGD}/usr/bin/c_rehash
-+        rmdir ${PKGD}/usr/bin
++---
++ tests/openssl_wrapper.c | 33 +++++++++++++++++++++++++++++++++
++ 1 file changed, 33 insertions(+)
 +
-+}
++diff --git a/tests/openssl_wrapper.c b/tests/openssl_wrapper.c
++index 038c58f..dea2496 100644
++--- a/tests/openssl_wrapper.c
+++++ b/tests/openssl_wrapper.c
++@@ -4,6 +4,7 @@
++ #include <openssl/aes.h>
++ #include <openssl/evp.h>
++ #include <openssl/hmac.h>
+++#include <openssl/opensslv.h>
++ 
++ //#define DEBUG
++ 
++@@ -23,10 +24,17 @@ enum ctx_type {
++ 	ctx_type_md,
++ };
++ 
+++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+++union openssl_ctx {
+++	HMAC_CTX *hmac;
+++	EVP_MD_CTX *md;
+++};
+++#else
++ union openssl_ctx {
++ 	HMAC_CTX hmac;
++ 	EVP_MD_CTX md;
++ };
+++#endif
++ 
++ struct ctx_mapping {
++ 	__u32 ses;
++@@ -63,6 +71,16 @@ static void remove_mapping(__u32 ses)
++ 	switch (mapping->type) {
++ 	case ctx_type_none:
++ 		break;
+++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+++	case ctx_type_hmac:
+++		dbgp("%s: calling HMAC_CTX_free\n", __func__);
+++		HMAC_CTX_free(mapping->ctx.hmac);
+++		break;
+++	case ctx_type_md:
+++		dbgp("%s: calling EVP_MD_CTX_free\n", __func__);
+++		EVP_MD_CTX_free(mapping->ctx.md);
+++		break;
+++#else
++ 	case ctx_type_hmac:
++ 		dbgp("%s: calling HMAC_CTX_cleanup\n", __func__);
++ 		HMAC_CTX_cleanup(&mapping->ctx.hmac);
++@@ -71,6 +89,7 @@ static void remove_mapping(__u32 ses)
++ 		dbgp("%s: calling EVP_MD_CTX_cleanup\n", __func__);
++ 		EVP_MD_CTX_cleanup(&mapping->ctx.md);
++ 		break;
+++#endif
++ 	}
++ 	memset(mapping, 0, sizeof(*mapping));
++ }
++@@ -127,10 +146,17 @@ static int openssl_hmac(struct session_op *sess, struct crypt_op *cop)
++ 
++ 		mapping->ses = sess->ses;
++ 		mapping->type = ctx_type_hmac;
+++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+++		ctx = mapping->ctx.hmac;
+++
+++		dbgp("calling HMAC_CTX_new");
+++		ctx = HMAC_CTX_new();
+++#else
++ 		ctx = &mapping->ctx.hmac;
++ 
++ 		dbgp("calling HMAC_CTX_init");
++ 		HMAC_CTX_init(ctx);
+++#endif
++ 		dbgp("calling HMAC_Init_ex");
++ 		if (!HMAC_Init_ex(ctx, sess->mackey, sess->mackeylen,
++ 				sess_to_evp_md(sess), NULL)) {
++@@ -172,10 +198,17 @@ static int openssl_md(struct session_op *sess, struct crypt_op *cop)
++ 
++ 		mapping->ses = sess->ses;
++ 		mapping->type = ctx_type_md;
+++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+++		ctx = mapping->ctx.md;
+++
+++		dbgp("calling EVP_MD_CTX_new");
+++		ctx = EVP_MD_CTX_new();
+++#else
++ 		ctx = &mapping->ctx.md;
++ 
++ 		dbgp("calling EVP_MD_CTX_init");
++ 		EVP_MD_CTX_init(ctx);
+++#endif
++ 		dbgp("calling EVP_DigestInit");
++ 		EVP_DigestInit(ctx, sess_to_evp_md(sess));
++ 	}
 -- 
 2.7.4
 
