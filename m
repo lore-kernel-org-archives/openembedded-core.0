@@ -1,59 +1,53 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 187A87892B
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 743A27531A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 20:51:49 +0000 (UTC)
-Received: by mail-oi0-f52.google.com with SMTP id b15-v6so5323851oib.10
+	Tue, 28 Aug 2018 21:17:48 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id s12-v6so3255147wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 13:51:51 -0700 (PDT)
+	Tue, 28 Aug 2018 14:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=1i2Q/bxPPxuGlPNkk1jfw/ShpjPby3t2OP5tLjfCpbE=;
-	b=NH9FixvePKPXjzalUJ6jxvbDa4JZZvGzpfuhNw7kJF5jBV80nSawLyh2XR28KPb/nU
-	cn2iXXooqYuLoVtkRlRYXFcQuPVAb6/VtwUWs52JoMeqxO6kOhH4hclmW1ZSZyCC4F9K
-	mAsw+FYCS21+U65cKdxbHtAu7PkXD/hP68WexgxaYJxwg+w79EGMlQ/Rs1USI+jaRcam
-	meCSh1PEAM9uP18AtWwybuCQykE1f0Zfrw7ss2DBfCKGFzRs7upAcY0RnEJCqLOc91B1
-	mNkH33Tx3rhYoMRzcDgJcvJ7Ig4QcHGDbHNNaFreWkN7CDnpP4ETKZgarR0DDp0Ocs2b
-	2vHA==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jwxDJsHJnb/YUtk+GIgqirV6spKXVwnH92+UIADMv74=;
+	b=PrSJ1zPX5PXYSlybRp+0Qhs46w5DCJ+9jIEJUSz2eLLk5yW7mhqAm+kcktwouNLfJu
+	DpeMJi1QxRvBhy1zmghBrafOziT4PU6wdvonW608uiNHF/qsuSPfL4Y4RXczGlOXuZOT
+	6tMSpvUFcM0DNifFM1dbPme9d3YI1qvg5EaKet1ts08CrRJmW9lzhpwa8mHd+dmskpbp
+	pxsfQVENmwFF82nMts+ElWzI8hCU3DWkQe4OPGMqVPZYJAU5kR1OBkCHjbAyU/7s+Qnj
+	0Gfcp7xx2lBU2odvCbfUuwUNRmhHkipGMQpyIf75LxXpWS5s5lV2Hi5wLLAuctMBCZLe
+	sz3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=1i2Q/bxPPxuGlPNkk1jfw/ShpjPby3t2OP5tLjfCpbE=;
-	b=slRwBiSfqMnIoxzX9s34fwgF1tZ/VapuzPKPf17hOZa5HCfl47zU8Rmsukq6/nXjyT
-	wCPyl8zoWopUshYsvbqOhNeYotrRS/KcoExnufoOU1wHRR0BZfS7x1Hd29pQv1+eNWpA
-	7WZsttqI4StN0ovznvI+7/+K9gVO7LB4jGj8Vma6QsE8ealwZ/TAAvgkh+4Ly2EtBR0r
-	vk/LWy2W8NB/d3leCBT1+ASmGPtFGZwiHF4a6lzT2ZVfExT7jZy3x2b4pbEYxAKX1Nze
-	/VQc/40H9KHXoPsAdxIa5YC2PjT0iLSaQxfCcBHDFMbmuMT6QfFwbl+woCcDYSwdNI2M
-	4EZA==
-X-Gm-Message-State: APzg51DaSKHbZbiU/7B9PkOf+LoHuznOSRXqKV5crq5CHzuDlK2B3bw6
-	imvpDCbGXpU1l/N6YjRukpySVtngJk50PTS1K+A=
-X-Google-Smtp-Source: ANB0VdYQaITtxnJcy4P3PDptVpsKhLCx9rUGEqzX8WpE733omqp+fOyT9Hm56caASgpgBafiOFnoG/XodUW1J/z/9LA=
-X-Received: by 2002:aca:dc55:: with SMTP id
-	t82-v6mr2294708oig.159.1535489510882; 
-	Tue, 28 Aug 2018 13:51:50 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jwxDJsHJnb/YUtk+GIgqirV6spKXVwnH92+UIADMv74=;
+	b=jZ7NekfzvTpx4krdcHvYp4YfLSNP2vFSobjdj7R/YLcArJ1gKGVY3XBoPwl586jJhY
+	Ux1iAv6IJLvr2seHfnlfm9lGteYy4dCMxACfiT373Phr/08f8mcY5UHuEWze++QfVKa1
+	tYWIDln51oZb0RnDGnzjxPhaNjbBD1FB7Iyg64StPRG/WNgcTjZn9CgHaRR72/XVSSzV
+	VxiaqLWo6lZyTAm5rBoceJiMW7Kbq3UQ0eLuzi2dnYUpBzGl8Jkybt3XYZYDbTXrTQna
+	EanKaIs4WsJs9FZyd+BO0h59hNxbzOBdUQ4rLtv/cD/wLgE5rpoquwMw5HdO3tLhN0JB
+	gdNQ==
+X-Gm-Message-State: APzg51Da9C5q1qqtLtXooPJcYAdXT4VzlUO1g6VSybQeFtElciz6AXeM
+	s/Basfp8yHkSOyjixcz3cu3MYH4J
+X-Google-Smtp-Source: ANB0VdaZKzIrcJBlN9XaaMIBPigH9LjCVNdpejez/p/QAiAFSQyhgFfwKH5mnvDHWtXcS2Hm8nECUA==
+X-Received: by 2002:a1c:2108:: with SMTP id
+	h8-v6mr2351556wmh.108.1535491068623; 
+	Tue, 28 Aug 2018 14:17:48 -0700 (PDT)
+Received: from localhost.localdomain
+	(p200300F07BD956381E6F65FFFE3E7F61.dip0.t-ipconnect.de.
+	[2003:f0:7bd9:5638:1e6f:65ff:fe3e:7f61])
+	by smtp.gmail.com with ESMTPSA id
+	j66-v6sm3978233wrj.28.2018.08.28.14.17.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 28 Aug 2018 14:17:48 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Aug 2018 23:17:37 +0200
+Message-Id: <20180828211737.16865-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.14.4
 MIME-Version: 1.0
-Received: by 2002:ac9:454b:0:0:0:0:0 with HTTP; Tue, 28 Aug 2018 13:51:50
-	-0700 (PDT)
-In-Reply-To: <CAMKF1sozJp8fyw6ShFE+ByQJR3RGrW1NORDTDn3gUyrVsKHUMQ@mail.gmail.com>
-References: <cover.1534791421.git.raj.khem@gmail.com>
-	<011962bd47ca60969fa50a3e890adadd6bddc487.1534791421.git.raj.khem@gmail.com>
-	<CALbNGRRN0gjg4VTu4mPh726Q6JyCf4BCmv32mDuVaJ5BtNxpjg@mail.gmail.com>
-	<CAMKF1so_wuCSh7uo=QOJvmxPSDX=OW-hwiV6KCuMVjHi6Aw0FQ@mail.gmail.com>
-	<CALbNGRRO4A6dpuncayo0L45G6nbsWq67XeJ_4J-FoXG08AUXXw@mail.gmail.com>
-	<CALbNGRRLYCYB7YqW5x1PYsUqYVw0zoorw9CYOmR=Tj+d-pg_bw@mail.gmail.com>
-	<CAMKF1spHi-Vi_rs3oRsqx0xjxfbCjW6WpeCvcs5HPdGDGKuUEg@mail.gmail.com>
-	<CALbNGRQNt-tTK=dSOT1Xi=waufsFOiDLNNPu9HwyVa6RAYp=3g@mail.gmail.com>
-	<CAMKF1sozJp8fyw6ShFE+ByQJR3RGrW1NORDTDn3gUyrVsKHUMQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Tue, 28 Aug 2018 22:51:50 +0200
-Message-ID: <CALbNGRQDQ4ALiL9fKTYYkhMQ1x+pw1L+dctOZbA4XoCub1fVYg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] mesa: Enable gallium-llvm on x86 and x86_64
+Subject: [PATCH] libsdl2: Fix left rotated display for RaspberryPi/VC4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,123 +60,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 20:51:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Aug 2018 21:17:48 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 28, 2018 at 10:20 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Hi Andreas
-> On Tue, Aug 28, 2018 at 11:28 AM Andreas M=C3=BCller <schnitzeltony@gmail=
-.com> wrote:
->>
->> On Tue, Aug 28, 2018 at 7:36 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> > Hi Andreas
->> >
->> > On Tue, Aug 28, 2018 at 10:21 AM Andreas M=C3=BCller <schnitzeltony@gm=
-ail.com> wrote:
->> >>
->> >> On Tue, Aug 28, 2018 at 8:43 AM, Andreas M=C3=BCller <schnitzeltony@g=
-mail.com> wrote:
->> >> > On Tue, Aug 28, 2018 at 12:55 AM, Khem Raj <raj.khem@gmail.com> wro=
-te:
->> >> >> On Mon, Aug 27, 2018 at 2:15 PM Andreas M=C3=BCller <schnitzeltony=
-@gmail.com> wrote:
->> >> >>>
->> >> >>> On Mon, Aug 20, 2018 at 8:59 PM, Khem Raj <raj.khem@gmail.com> wr=
-ote:
->> >> >>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> >> >>> > ---
->> >> >>> >  meta/recipes-graphics/cairo/cairo.inc | 3 ++-
->> >> >>> >  meta/recipes-graphics/mesa/mesa.inc   | 3 +++
->> >> >>> >  2 files changed, 5 insertions(+), 1 deletion(-)
->> >> >>> >
->> >> >>> > diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recip=
-es-graphics/cairo/cairo.inc
->> >> >>> > index 20e0d2c92a..7347f223ff 100644
->> >> >>> > --- a/meta/recipes-graphics/cairo/cairo.inc
->> >> >>> > +++ b/meta/recipes-graphics/cairo/cairo.inc
->> >> >>> > @@ -22,7 +22,8 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrend=
-er libxext"
->> >> >>> >  DEPENDS =3D "libpng fontconfig pixman glib-2.0 zlib"
->> >> >>> >
->> >> >>> >  PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', '=
-x11', 'x11 xcb', '', d)} \
->> >> >>> > -           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d=
-)}"
->> >> >>> > +           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d=
-)} \
->> >> >>> > +           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl=
-', 'opengl', '', d)}"
->> >> >>> >
->> >> >>> >  PACKAGECONFIG[x11] =3D "--with-x=3Dyes -enable-xlib,--with-x=
-=3Dno --disable-xlib,${X11DEPENDS}"
->> >> >>> >  PACKAGECONFIG[xcb] =3D "--enable-xcb,--disable-xcb,libxcb"
->> >> >>> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes=
--graphics/mesa/mesa.inc
->> >> >>> > index 5afd0db4b7..dd626d9f00 100644
->> >> >>> ^ I think this came in accidentaly and it breaks builds when addi=
-ng
->> >> >>> packageconfig glesv2:
->> >> >>>
->> >> >>> | configure: error: use either --enable-gl=3Dyes or --enable-gles=
-v2=3Dyes.
->> >> >>> Not both at the same time.
->> >> >>
->> >> >> do you remove opengl from DISTRO_FEATURES when enabling glesv2 ?
->> >> >> try that out.
->> >> >>
->> >> >>>
->> >> > Yes of course I can. But this patch is wrong - we don't have gles a=
-s
->> >> > distro feature - and it is not even mentioned in commit message why
->> >> > this is done.
->> >> >
->> >> I am tempted to send a revert for the cairo part:
->> >>
->> >> * Cross: It changes defaults valid for long time
->> >> * Native: As far as I can remember it causes trouble for cairo-native
->> >> * It went through without mentioning
->> >
->> > opengl as a DISTRO_FEATURE should tie into packageconfigs, the
->> > situation before this patch was not ideal, people got to work with it.
->> >
->> > as seen in the example you cited, we can't mix opengl and gles support
->> > in packages. other layers have solved your kind of usecase like below
->> >
->> > https://github.com/WebPlatformForEmbedded/meta-wpe/blob/master/recipes=
--graphics/cairo/cairo_%.bbappend
->> * ^The link is broken
->
-> ah see cairo bbappend here
-> https://github.com/WebPlatformForEmbedded/meta-wpe/tree/master/recipes-gr=
-aphics/cairo
-That is more or less the same I am doing in
+The patch should increase performance for GLES2 too.
 
-https://github.com/schnitzeltony/meta-misc/blob/master/appends-packageconfi=
-g/oe-core/cairo_%25.bbappend
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ ...01-GLES2-Get-sin-cos-out-of-vertex-shader.patch | 141 +++++++++++++++++++++
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb     |   1 +
+ 2 files changed, 142 insertions(+)
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
 
-So meta-wpe will break from now on when used together with a distro
-layer enabling opengl in DISTRO_FEATURES - right?
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
+new file mode 100644
+index 0000000000..621b7ea1a0
+--- /dev/null
++++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
+@@ -0,0 +1,141 @@
++From c215ba1d52a3d4ef03af3ab1a5baa1863f812aed Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
++Date: Fri, 24 Aug 2018 23:10:25 +0200
++Subject: [PATCH] GLES2: Get sin/cos out of vertex shader
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The only place angle is activated and causes effect is RenderCopyEx. All other
++methods which use vertex shader, leave angle disabled and cause useless sin/cos
++calculation in shader.
++
++To get around shader's interface is changed to a vector that contains results
++of sin and cos. To behave properly when disabled, cos value is set with offset
++-1.0 making 0.0 default when deactivated.
++
++As nice side effect it simplifies GLES2_UpdateVertexBuffer: All attributes are
++vectors now.
++
++Additional background:
++
++* On RaspberryPi it gives a performace win for operations. Tested with
++  [1] numbers go down for 5-10% (not easy to estimate due to huge variation).
++* SDL_RenderCopyEx was tested with [2]
++* It works around left rotated display caused by low accuracy sin implemetation
++  in RaspberryPi/VC4 [3]
++
++Upstream-Status: Applied [4]
++
++[1] https://github.com/schnitzeltony/sdl2box
++[2] https://github.com/schnitzeltony/sdl2rendercopyex
++[3] https://github.com/anholt/mesa/issues/110
++[4] https://hg.libsdl.org/SDL/rev/e5a666405750
++
++Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
++---
++ src/render/opengles2/SDL_render_gles2.c  | 17 ++++++++++++-----
++ src/render/opengles2/SDL_shaders_gles2.c | 14 +++++++++-----
++ 2 files changed, 21 insertions(+), 10 deletions(-)
++
++diff --git a/src/render/opengles2/SDL_render_gles2.c b/src/render/opengles2/SDL_render_gles2.c
++index 14671f7c8..7c54a7333 100644
++--- a/src/render/opengles2/SDL_render_gles2.c
+++++ b/src/render/opengles2/SDL_render_gles2.c
++@@ -1530,7 +1530,7 @@ GLES2_UpdateVertexBuffer(SDL_Renderer *renderer, GLES2_Attribute attr,
++     GLES2_DriverContext *data = (GLES2_DriverContext *)renderer->driverdata;
++ 
++ #if !SDL_GLES2_USE_VBOS
++-    data->glVertexAttribPointer(attr, attr == GLES2_ATTRIBUTE_ANGLE ? 1 : 2, GL_FLOAT, GL_FALSE, 0, vertexData);
+++    data->glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, vertexData);
++ #else
++     if (!data->vertex_buffers[attr]) {
++         data->glGenBuffers(1, &data->vertex_buffers[attr]);
++@@ -1545,7 +1545,7 @@ GLES2_UpdateVertexBuffer(SDL_Renderer *renderer, GLES2_Attribute attr,
++         data->glBufferSubData(GL_ARRAY_BUFFER, 0, dataSizeInBytes, vertexData);
++     }
++ 
++-    data->glVertexAttribPointer(attr, attr == GLES2_ATTRIBUTE_ANGLE ? 1 : 2, GL_FLOAT, GL_FALSE, 0, 0);
+++    data->glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, 0);
++ #endif
++ 
++     return 0;
++@@ -1853,6 +1853,8 @@ GLES2_RenderCopy(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect *s
++     return GL_CheckError("", renderer);
++ }
++ 
+++#define PI 3.14159265f
+++
++ static int
++ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect *srcrect,
++                  const SDL_FRect *dstrect, const double angle, const SDL_FPoint *center, const SDL_RendererFlip flip)
++@@ -1861,8 +1863,9 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
++     GLfloat vertices[8];
++     GLfloat texCoords[8];
++     GLfloat translate[8];
++-    GLfloat fAngle[4];
+++    GLfloat fAngle[8];
++     GLfloat tmp;
+++    float radian_angle;
++ 
++     GLES2_ActivateRenderer(renderer);
++ 
++@@ -1872,7 +1875,11 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
++ 
++     data->glEnableVertexAttribArray(GLES2_ATTRIBUTE_CENTER);
++     data->glEnableVertexAttribArray(GLES2_ATTRIBUTE_ANGLE);
++-    fAngle[0] = fAngle[1] = fAngle[2] = fAngle[3] = (GLfloat)(360.0f - angle);
+++
+++    radian_angle = PI * (360.0f - angle) / 180.f;
+++    fAngle[0] = fAngle[2] = fAngle[4] = fAngle[6] = (GLfloat)sin(radian_angle);
+++    /* render expects cos value - 1 (see GLES2_VertexSrc_Default_) */
+++    fAngle[1] = fAngle[3] = fAngle[5] = fAngle[7] = (GLfloat)cos(radian_angle) - 1.0f;
++     /* Calculate the center of rotation */
++     translate[0] = translate[2] = translate[4] = translate[6] = (center->x + dstrect->x);
++     translate[1] = translate[3] = translate[5] = translate[7] = (center->y + dstrect->y);
++@@ -1901,7 +1908,7 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
++     data->glVertexAttribPointer(GLES2_ATTRIBUTE_CENTER, 2, GL_FLOAT, GL_FALSE, 0, translate);
++     data->glVertexAttribPointer(GLES2_ATTRIBUTE_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);*/
++ 
++-    GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_ANGLE, fAngle, 4 * sizeof(GLfloat));
+++    GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_ANGLE, fAngle, 8 * sizeof(GLfloat));
++     GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_CENTER, translate, 8 * sizeof(GLfloat));
++     GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_POSITION, vertices, 8 * sizeof(GLfloat));
++ 
++diff --git a/src/render/opengles2/SDL_shaders_gles2.c b/src/render/opengles2/SDL_shaders_gles2.c
++index b0bcdff25..f428a4945 100644
++--- a/src/render/opengles2/SDL_shaders_gles2.c
+++++ b/src/render/opengles2/SDL_shaders_gles2.c
++@@ -30,20 +30,24 @@
++ /*************************************************************************************************
++  * Vertex/fragment shader source                                                                 *
++  *************************************************************************************************/
++-
+++/* Notes on a_angle:
+++   * It is a vector containing sin and cos for rotation matrix
+++   * To get correct rotation for most cases when a_angle is disabled cos
+++     value is decremented by 1.0 to get proper output with 0.0 which is
+++     default value
+++*/
++ static const Uint8 GLES2_VertexSrc_Default_[] = " \
++     uniform mat4 u_projection; \
++     attribute vec2 a_position; \
++     attribute vec2 a_texCoord; \
++-    attribute float a_angle; \
+++    attribute vec2 a_angle; \
++     attribute vec2 a_center; \
++     varying vec2 v_texCoord; \
++     \
++     void main() \
++     { \
++-        float angle = radians(a_angle); \
++-        float c = cos(angle); \
++-        float s = sin(angle); \
+++        float s = a_angle[0]; \
+++        float c = a_angle[1] + 1.0; \
++         mat2 rotationMatrix = mat2(c, -s, s, c); \
++         vec2 position = rotationMatrix * (a_position - a_center) + a_center; \
++         v_texCoord = a_texCoord; \
++-- 
++2.14.4
++
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+index accea38aaa..52bb93a17a 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+@@ -14,6 +14,7 @@ PROVIDES = "virtual/libsdl2"
+ 
+ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+            file://more-gen-depends.patch \
++           file://0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch \
+ "
+ 
+ S = "${WORKDIR}/SDL2-${PV}"
+-- 
+2.14.4
 
-Meanwhile I've checked the native case: It builds fine. To understand why I=
- did:
-
-| bitbake -e cairo | grep ^DISTRO_FEATURES
-| <...>
-| DISTRO_FEATURES=3D"<...> opengl <...>'
-| <...>
-
-and
-| bitbake -e cairo-native | grep ^DISTRO_FEATURES
-| <...>
-DISTRO_FEATURES=3D"ipv6 x11 xattr pulseaudio bluez5
-gobject-introspection-data ldconfig"
-| <...>
-
-Some magic which I can't find right now, removes opengl from
-DISTRO_FEATURES =3D> You patch does not break anything.
-
-Maybe you should send some patch to meta-wpe :)
-
-Andreas
 
