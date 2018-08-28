@@ -1,52 +1,50 @@
-Return-Path: <marco.oman@innovatrieste.it>
-Received: from mailserver.innovatrieste.it (mailserver.innovatrieste.com
-	[147.123.5.60])
-	by mail.openembedded.org (Postfix) with ESMTP id 46DA778DC7
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8866578E59
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 12:29:23 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
-	by mailserver.innovatrieste.it (Postfix) with ESMTP id 448431E3804A;
-	Tue, 28 Aug 2018 14:29:24 +0200 (CEST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mailserver.innovatrieste.it 448431E3804A
-Authentication-Results: mailserver.innovatrieste.it;
-	dmarc=fail (p=none dis=none)
-	header.from=innovatrieste.it
-Authentication-Results: mailserver.innovatrieste.it;
-	spf=fail smtp.mailfrom=marco.oman@innovatrieste.it
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=innovatrieste.it;
-	s=default; t=1535459364;
-	bh=mBcgs+sejwoKtZbE6d8hQmMCQi+1WaUtGszW6zAuAyQ=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To;
-	b=I70i6IyVCYwd08EEWtn8/W1+i/jqC/CDSCJUMzRYlue3gq7bYxCGIGCNsJAS5c2M1
-	KqXkde7Eu0MuVDV0FP7YAPK3ECEOaU5EGefVmV9u3uH9sOlGtep+YzBa6xx4XQQd9w
-	KyxIID2Lku4Z/H9u6GG6zHNjRwrOhEQPEUOzJIc8=
-X-Virus-Scanned: Mailserver - Amavis
-Received: from mailserver.innovatrieste.it ([127.0.0.1])
-	by localhost (mailserver.innovatrieste.it [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id EPro9XFWo5Fr; Tue, 28 Aug 2018 14:29:22 +0200 (CEST)
-Received: from [192.168.244.34] (unknown [192.168.244.34])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(Client CN "Marco Oman", Issuer "INNOVA S.p.A." (verified OK))
-	by mailserver.innovatrieste.it (Postfix) with ESMTPSA id C05DB1E38047; 
-	Tue, 28 Aug 2018 14:29:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=innovatrieste.it;
-	s=default; t=1535459361;
-	bh=mBcgs+sejwoKtZbE6d8hQmMCQi+1WaUtGszW6zAuAyQ=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To;
-	b=Gek3ep2cchApx65KmT4SvCHbdsDFm7m8bV9P+rUx1Vs9RBs2TX4eq8nFn0S+4uMdG
-	sk+HoICWXU0sEzxsnlk1rhFzk87Emdi7SPXIrcZyDkg2lgMl2MtukyO14YPwXA7kbU
-	0LAdhPAJ91yc4x2e+1UuCZRyp6ecND+iFVHVWx4A=
-To: OE-core <openembedded-core@lists.openembedded.org>
+	Tue, 28 Aug 2018 12:38:12 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id k12-v6so2498055oiw.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Aug 2018 05:38:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=VTusi5MUXzG8vfhFuzDjWXGUNR+oBmmbsSY2OtxnU3g=;
+	b=kxdK7HkzJKt3L+F8CQ8BSghaukg6X0V1K2sFsyJ8afQMQsKhC/y+/ia2dBlxl3rCLJ
+	vMRggu2A9X4IGIS+hQtD043m4sJTxPH0+f7e4Q7T/KlZxx0KJ949qjOi9AztVJQ7wRIb
+	dcW7wR5WDRPn91NBOZQMlGnALlZ/mekhbvUK1PXRra3rXYYOZm14TmWWGOxZyUXqLsdK
+	3Rnnd3Sb8sRgBEf31ztpTNTPb3uCFlHr08huMkdTb7RT6n8Rq+EGQTe/OSQtz/5HnVtB
+	R/butE8aIUAcHUWOOt/1TuyTrx7fuGiG8OF56/cJy+Bk5/dv9OenbLvmeYgvsFbrjVC9
+	VZ9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=VTusi5MUXzG8vfhFuzDjWXGUNR+oBmmbsSY2OtxnU3g=;
+	b=n2aqp46KxuUjWi1GHd8/tA517HpDf1eJyBD/kykGQIZbKdC4PLSqGv2WTLebLNbJih
+	CdW4N8WxfQQrgRfW+ZP6Do94XEyNWFAO3u3N9aHiyMmcA6lzu/llJtGU5fIGKfQQzfie
+	2GXz25qVJkosF0fdYZqtr4bFKL8fUJz4CKi0hyqz2H2hhs/QC9HE18GFXw1ESYRysEp8
+	AosZgyN+Qm/FGiIk/be60sa1jzWL9NKvQf2eBtFGi3RgApgKI8HTTbEqPsQocrp+aC4O
+	HvN2S6EvdaT8EcuH7bqbY7NPuAzMU00uvS+2TsKMjprPAONQn7tKGetAyCLRWJMicGpK
+	pC7g==
+X-Gm-Message-State: APzg51Bjawny+rlhtOeC7vuE10AZsc+McDoQjMYgt28HQc4qCNufNeHy
+	S7UP5ktyIbqXYWrMtB8Fm9S2IxdhI0X/rHnx934+MQ==
+X-Google-Smtp-Source: ANB0VdbyoS/jM9dU5q/pT+HgfXSoA2yVH2sivdnVcTe1I/UwrHgLzG31lL+02lpCUZPvxv1vPymM8Qq7eOh6eLwf6Uw=
+X-Received: by 2002:aca:edd8:: with SMTP id
+	l207-v6mr1239118oih.65.1535459893503; 
+	Tue, 28 Aug 2018 05:38:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90ed:0:0:0:0:0 with HTTP; Tue, 28 Aug 2018 05:38:13
+	-0700 (PDT)
+In-Reply-To: <2b3b5c60-8c1a-325d-37cb-f29987f6737f@innovatrieste.it>
 References: <2f3b7c17-9233-5159-59bb-73e6858eebca@innovatrieste.it>
 	<CANNYZj_V1UfEQMWFJhbGy41+8j4rQWiCeZSA-Unpi=LDFzEyQQ@mail.gmail.com>
-From: Marco Oman <marco.oman@innovatrieste.it>
-Message-ID: <2b3b5c60-8c1a-325d-37cb-f29987f6737f@innovatrieste.it>
-Date: Tue, 28 Aug 2018 14:29:21 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj_V1UfEQMWFJhbGy41+8j4rQWiCeZSA-Unpi=LDFzEyQQ@mail.gmail.com>
+	<2b3b5c60-8c1a-325d-37cb-f29987f6737f@innovatrieste.it>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 28 Aug 2018 14:38:13 +0200
+Message-ID: <CANNYZj8oBQciQKVnk1OriAtPsh4Ar_OsOgc2kqfSWN7UB2EW0w@mail.gmail.com>
+To: Marco Oman <marco.oman@innovatrieste.it>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: devtool recipe not working outside workspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,120 +58,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 12:29:24 -0000
-Content-Type: multipart/alternative;
-	boundary="------------C8C3A813F7E0109A6FFEB4EE"
-Content-Language: it-IT
+X-List-Received-Date: Tue, 28 Aug 2018 12:38:12 -0000
+Content-Type: multipart/alternative; boundary="00000000000084ec0805747e1d3b"
 
---------------C8C3A813F7E0109A6FFEB4EE
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--00000000000084ec0805747e1d3b
+Content-Type: text/plain; charset="UTF-8"
 
-On 28/08/2018 14:02, Alexander Kanavin wrote:
-> 2018-08-28 13:44 GMT+02:00 Marco Oman via Openembedded-core
-> <openembedded-core@lists.openembedded.org>:
->> So I gave the command
->>
->>   devtool add https://github.com/Unitech/pm2.git
->>
->> and then
->>
->> bitbake pm2
->>
->> Then added a patch. Everything is OK. At the end I moved the recipe under my
->> layer (sources/meta-mycompany/recipes-devtools/pm2)
->> and issued the command
->>
->> devtool reset pm2
-> That's not how you should be using devtool. Once you are satisfied
-> with the recipe and sources in devtool's workspace, issue 'devtool
-> finish' instead of moving the recipe manually etc.
+2018-08-28 14:29 GMT+02:00 Marco Oman <marco.oman@innovatrieste.it>:
+
 >
-> Alex
+> That's from version 2.2 (morty), right?
+>  Any alternative option for version 2.1?
 >
-That's from version 2.2 (morty), right?
-  Any alternative option for version 2.1?
 
 
-	
+I don't know - devtool is constantly evolving. I know best how it works in
+the master branch, I'd suggest you try from there if possible.
 
-
-	
-	
-
-
---------------C8C3A813F7E0109A6FFEB4EE
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    On 28/08/2018 14:02, Alexander Kanavin wrote:<br>
-    <blockquote type="cite"
-cite="mid:CANNYZj_V1UfEQMWFJhbGy41+8j4rQWiCeZSA-Unpi=LDFzEyQQ@mail.gmail.com">
-      <pre wrap="">2018-08-28 13:44 GMT+02:00 Marco Oman via Openembedded-core
-<a class="moz-txt-link-rfc2396E" href="mailto:openembedded-core@lists.openembedded.org">&lt;openembedded-core@lists.openembedded.org&gt;</a>:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">So I gave the command
-
- devtool add <a class="moz-txt-link-freetext" href="https://github.com/Unitech/pm2.git">https://github.com/Unitech/pm2.git</a>
-
-and then
-
-bitbake pm2
-
-Then added a patch. Everything is OK. At the end I moved the recipe under my
-layer (sources/meta-mycompany/recipes-devtools/pm2)
-and issued the command
-
-devtool reset pm2
-</pre>
-      </blockquote>
-      <pre wrap="">
-That's not how you should be using devtool. Once you are satisfied
-with the recipe and sources in devtool's workspace, issue 'devtool
-finish' instead of moving the recipe manually etc.
 
 Alex
 
-</pre>
-    </blockquote>
-    That's from version 2.2 (morty), right?<br>
-     Any alternative option for version 2.1?<br>
-    <br>
-    <div class="moz-signature">
-      <table cellspacing="0" cellpadding="0" width="640" border="0">
-        <tbody>
-          <tr>
-            <td valign="top" width="180"><br>
-            </td>
-            <td colspan="2" valign="top" width="300"><br>
-            </td>
-          </tr>
-          <tr>
-            <td valign="top" width="180"><br>
-            </td>
-          </tr>
-          <tr>
-            <td valign="top" width="180"><br>
-            </td>
-            <td valign="top" width="90"><br>
-            </td>
-            <td valign="top" width="300"><br>
-            </td>
-          </tr>
-          <tr>
-            <td class="privacy" colspan="3" valign="top"><br>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </body>
-</html>
+--00000000000084ec0805747e1d3b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---------------C8C3A813F7E0109A6FFEB4EE--
+<div dir=3D"ltr">2018-08-28 14:29 GMT+02:00 Marco Oman <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:marco.oman@innovatrieste.it" target=3D"_blank">marco.om=
+an@innovatrieste.it</a>&gt;</span>:<br><div class=3D"gmail_extra"><div clas=
+s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">
+ =20
+   =20
+ =20
+  <div text=3D"#000000" bgcolor=3D"#FFFFFF"><div><div class=3D"h5"><br><blo=
+ckquote type=3D"cite">
+    </blockquote></div></div>
+    That&#39;s from version 2.2 (morty), right?<br>
+    =C2=A0Any alternative option for version 2.1?<br></div></blockquote></d=
+iv></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><b=
+r></div><div class=3D"gmail_extra">I don&#39;t know - devtool is constantly=
+ evolving. I know best how it works in the master branch, I&#39;d suggest y=
+ou try from there if possible.<br></div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Alex<br><=
+/div></div>
+
+--00000000000084ec0805747e1d3b--
