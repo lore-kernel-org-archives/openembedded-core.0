@@ -1,23 +1,29 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EADA878558
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CDDD9784B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 09:03:51 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7S93q86010954
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 02:03:53 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 28 Aug 2018 02:03:52 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Aug 2018 17:03:51 +0800
-Message-ID: <1535447031-313038-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] squashfs-tools: patch for CVE-2015-4645(4646)
+	Tue, 28 Aug 2018 09:10:05 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7S9A2kN007896
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 28 Aug 2018 10:10:04 +0100
+Message-ID: <ddceb5bb2230ea780e27601a1ba289dd69351ea3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <randy.macleod@windriver.com>, yang.wang@windriver.com,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 28 Aug 2018 10:10:02 +0100
+In-Reply-To: <39d4429f-e3c6-33fc-3073-8cea08d81794@windriver.com>
+References: <20180518085550.92085-1-mingli.yu@windriver.com>
+	<5B1E1444.9000407@windriver.com>
+	<30f93af9-5a38-059e-184f-bbbe52a01105@windriver.com>
+	<f248ce00-4c47-7a70-9902-585960c5ccd4@windriver.com>
+	<39d4429f-e3c6-33fc-3073-8cea08d81794@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] boost: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,84 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 09:03:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Aug 2018 09:10:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+On Mon, 2018-08-27 at 20:57 -0400, Randy MacLeod wrote:
+> On 08/27/2018 06:17 PM, Yang Wang wrote:
+> > Not sure if it's worth to run the Ptest on QEMU though, I also run
+> > Ptest 
+> > on SIMICS simulators, thousands of tests didn't get run, looks like
+> > the 
+> > result was not good as well.
+> > 
+> > Now my nightly Ptest runs on x86 device and gets consistent result
+> > every 
+> > day:
+> > 
+> >      2018-08-27T06:26 -- 2018-08-27T09:52
+> >      Passed:  40518
+> >      Failed:  289
+> >      Skipped: 1876
+> 
+> Consistent results are good and > 90% pass rate is very good.
+> What are the stats using qemux86-64 and/or simics?
+> 
+> I don't expect that qemu results would be as close to real hardware
+> as Simics but it is quite good and freely available.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- ...-squashfs-tools-patch-for-CVE-2015-4645-6.patch | 47 ++++++++++++++++++++++
- .../squashfs-tools/squashfs-tools_git.bb           |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch
+I think this is an example of where we may need to start adding "stage
+2" testing to the autobuilder. The first stage tests would be enough to
+get patches merged and be the faster ones, the second stage would be
+the longer running things which we'd only trigger when stage one had
+passed, maybe on milestone releases.
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch
-new file mode 100644
-index 0000000..2261ea9
---- /dev/null
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch
-@@ -0,0 +1,47 @@
-+From 3c0d67184d6edb63f3b7d6d5eb81531daa6388f3 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Tue, 28 Aug 2018 16:25:36 +0800
-+Subject: [PATCH] squashfs-tools: patch for CVE-2015-4645(6)
-+
-+Upstream-Status: Backport[https://github.com/devttys0/sasquatch/pull/
-+                 5/commits/6777e08cc38bc780d27c69c1d8c272867b74524f]
-+
-+CVE: CVE-2015-4645 CVE-2015-4646
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ squashfs-tools/unsquash-4.c | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
-+
-+diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
-+index ecdaac7..692ae25 100644
-+--- a/squashfs-tools/unsquash-4.c
-++++ b/squashfs-tools/unsquash-4.c
-+@@ -31,9 +31,9 @@ static unsigned int *id_table;
-+ int read_fragment_table_4(long long *directory_table_end)
-+ {
-+ 	int res, i;
-+-	int bytes = SQUASHFS_FRAGMENT_BYTES(sBlk.s.fragments);
-+-	int  indexes = SQUASHFS_FRAGMENT_INDEXES(sBlk.s.fragments);
-+-	long long fragment_table_index[indexes];
-++	size_t bytes = SQUASHFS_FRAGMENT_BYTES(sBlk.s.fragments);
-++	size_t indexes = SQUASHFS_FRAGMENT_INDEXES(sBlk.s.fragments);
-++	long long *fragment_table_index;
-+ 
-+ 	TRACE("read_fragment_table: %d fragments, reading %d fragment indexes "
-+ 		"from 0x%llx\n", sBlk.s.fragments, indexes,
-+@@ -43,6 +43,11 @@ int read_fragment_table_4(long long *directory_table_end)
-+ 		*directory_table_end = sBlk.s.fragment_table_start;
-+ 		return TRUE;
-+ 	}
-++        
-++	fragment_table_index = malloc(indexes*sizeof(long long));
-++	if(fragment_table_index == NULL)
-++		EXIT_UNSQUASH("read_fragment_table: failed to allocate "
-++			"fragment table index\n");
-+ 
-+ 	fragment_table = malloc(bytes);
-+ 	if(fragment_table == NULL)
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index 4bee371..2f41263 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
-            file://0001-mksquashfs.c-get-inline-functions-work-with-C99.patch;striplevel=2 \
-            file://squashfs-tools-4.3-sysmacros.patch;striplevel=2 \
-            file://fix-compat.patch \
-+           file://0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch;striplevel=2 \
- "
- UPSTREAM_CHECK_COMMITS = "1"
- SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
--- 
-2.7.4
+We'd put off doing this due to the old creaking codebase. With the new
+autobuilder codebase, this should be much more straightforward to do...
 
+boost ptest would be something I'd put in the second stage.
+
+Cheers,
+
+Richard
 
