@@ -1,23 +1,32 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A230976EBF
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 6954878963
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 09:39:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7S9dOWv007897
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 28 Aug 2018 09:43:35 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="44069651"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 28 Aug 2018 17:43:35 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 160124B6ED48
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 02:39:24 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 28 Aug 2018 02:39:24 -0700
-From: <changqing.li@windriver.com>
+	Tue, 28 Aug 2018 17:43:36 +0800 (CST)
+Received: from localhost.local (10.167.225.78) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Tue, 28 Aug 2018 17:43:33 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Aug 2018 17:39:23 +0800
-Message-ID: <1535449163-22641-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Date: Tue, 28 Aug 2018 17:43:19 +0800
+Message-ID: <20180828094319.19765-3-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.14.3
+In-Reply-To: <20180828094319.19765-1-hongl.fnst@cn.fujitsu.com>
+References: <20180828094319.19765-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-Subject: [PATCH] libcroco: patch for CVE-2017-7960
+X-Originating-IP: [10.167.225.78]
+X-yoursite-MailScanner-ID: 160124B6ED48.AED5D
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [PATCH]ca-certificates:update to 20180409
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,93 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 09:39:23 -0000
+X-List-Received-Date: Tue, 28 Aug 2018 09:43:35 -0000
 Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+1.Upgrade ca-certificates from 20170717 to 20180409.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+2.Modify debain homepage from http to https
+
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- .../libcroco/libcroco/CVE-2017-7960.patch          | 56 ++++++++++++++++++++++
- meta/recipes-support/libcroco/libcroco_0.6.12.bb   |  2 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-support/libcroco/libcroco/CVE-2017-7960.patch
+ .../{ca-certificates_20170717.bb => ca-certificates_20180409.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/ca-certificates/{ca-certificates_20170717.bb => ca-certificates_20180409.bb} (95%)
 
-diff --git a/meta/recipes-support/libcroco/libcroco/CVE-2017-7960.patch b/meta/recipes-support/libcroco/libcroco/CVE-2017-7960.patch
-new file mode 100644
-index 0000000..f6f43c3
---- /dev/null
-+++ b/meta/recipes-support/libcroco/libcroco/CVE-2017-7960.patch
-@@ -0,0 +1,56 @@
-+input: check end of input before reading a byte
-+
-+When reading bytes we weren't check that the index wasn't
-+out of bound and this could produce an invalid read which
-+could deal to a security bug.
-+
-+Upstream-Status: Backport[https://gitlab.gnome.org/GNOME/libcroco/
-+                 commit/898e3a8c8c0314d2e6b106809a8e3e93cf9d4394]
-+
-+CVE: CVE-2017-7960 
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+
-+diff --git a/src/cr-input.c b/src/cr-input.c
-+index 49000b1f5f07fe057135f1b8fc69bdcf9613e300..3b63a88ee3b1c56778e58172d147d958951bf099 100644
-+--- a/src/cr-input.c
-++++ b/src/cr-input.c
-+@@ -256,7 +256,7 @@ cr_input_new_from_uri (const gchar * a_file_uri, enum CREncoding a_enc)
-+                  *we should  free buf here because it's own by CRInput.
-+                  *(see the last parameter of cr_input_new_from_buf().
-+                  */
-+-                buf = NULL ;
-++                buf = NULL;
-+         }
-+ 
-+  cleanup:
-+@@ -404,6 +404,8 @@ cr_input_get_nb_bytes_left (CRInput const * a_this)
-+ enum CRStatus
-+ cr_input_read_byte (CRInput * a_this, guchar * a_byte)
-+ {
-++        gulong nb_bytes_left = 0;
-++
-+         g_return_val_if_fail (a_this && PRIVATE (a_this)
-+                               && a_byte, CR_BAD_PARAM_ERROR);
-+ 
-+@@ -413,6 +415,12 @@ cr_input_read_byte (CRInput * a_this, guchar * a_byte)
-+         if (PRIVATE (a_this)->end_of_input == TRUE)
-+                 return CR_END_OF_INPUT_ERROR;
-+ 
-++        nb_bytes_left = cr_input_get_nb_bytes_left (a_this);
-++
-++        if (nb_bytes_left < 1) {
-++                return CR_END_OF_INPUT_ERROR;
-++        }
-++
-+         *a_byte = PRIVATE (a_this)->in_buf[PRIVATE (a_this)->next_byte_index];
-+ 
-+         if (PRIVATE (a_this)->nb_bytes -
-+@@ -477,7 +485,6 @@ cr_input_read_char (CRInput * a_this, guint32 * a_char)
-+                 if (*a_char == '\n') {
-+                         PRIVATE (a_this)->end_of_line = TRUE;
-+                 }
-+-
-+         }
-+ 
-+         return status;
-diff --git a/meta/recipes-support/libcroco/libcroco_0.6.12.bb b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-index d86ddd6..5b962ee 100644
---- a/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-+++ b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-@@ -16,5 +16,7 @@ BINCONFIG = "${bindir}/croco-0.6-config"
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb b/meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
+similarity index 95%
+rename from meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
+rename to meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
+index 24d3a6e..0d57083 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
+@@ -5,7 +5,7 @@ This derived from Debian's CA Certificates."
+ HOMEPAGE = "http://packages.debian.org/sid/ca-certificates"
+ SECTION = "misc"
+ LICENSE = "GPL-2.0+ & MPL-2.0"
+-LIC_FILES_CHKSUM = "file://debian/copyright;md5=e7358b9541ccf3029e9705ed8de57968"
++LIC_FILES_CHKSUM = "file://debian/copyright;md5=aeb420429b1659507e0a5a1b123e8308"
  
- inherit gnomebase gtk-doc binconfig-disabled
+ # This is needed to ensure we can run the postinst at image creation time
+ DEPENDS = ""
+@@ -14,7 +14,7 @@ DEPENDS_class-nativesdk = "openssl-native"
+ # Need c_rehash from openssl and run-parts from debianutils
+ PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
  
-+SRC_URI += "file://CVE-2017-7960.patch"
-+
- SRC_URI[archive.md5sum] = "bc0984fce078ba2ce29f9500c6b9ddce"
- SRC_URI[archive.sha256sum] = "ddc4b5546c9fb4280a5017e2707fbd4839034ed1aba5b7d4372212f34f84f860"
+-SRCREV = "34b8e19e541b8af4076616b2e170c7a70cdaded0"
++SRCREV = "dbbd11e56af93bb79f21d0ee6059a901f83f70a5"
+ 
+ SRC_URI = "git://salsa.debian.org/debian/ca-certificates.git;protocol=https \
+            file://0002-update-ca-certificates-use-SYSROOT.patch \
 -- 
 2.7.4
+
+
 
 
