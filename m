@@ -1,24 +1,30 @@
 Return-Path: <Zhe.He@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F11F78E59
+	by mail.openembedded.org (Postfix) with ESMTP id DD50A78F60
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 12:43:01 +0000 (UTC)
+	Tue, 28 Aug 2018 13:27:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7SCh16s001799
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 05:43:02 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 28 Aug 2018 05:43:00 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Aug 2018 20:43:00 +0800
-Message-ID: <1535460180-251572-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7SDRLMT005324
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 28 Aug 2018 06:27:22 -0700
+Received: from [128.224.162.216] (128.224.162.216) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Tue, 28 Aug 2018 06:27:21 -0700
+To: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	<richard.purdie@linuxfoundation.org>
+References: <cover.1535118570.git.bruce.ashfield@windriver.com>
+	<07f521eca58e783f87bd11793d76a93e099befdb.1535118570.git.bruce.ashfield@windriver.com>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <79b97355-ef12-d567-2212-92bda56acc14@windriver.com>
+Date: Tue, 28 Aug 2018 21:27:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Subject: [PATCH] ltp: Remove unnecessary check from creat08 and open10
+In-Reply-To: <07f521eca58e783f87bd11793d76a93e099befdb.1535118570.git.bruce.ashfield@windriver.com>
+X-Originating-IP: [128.224.162.216]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 10/12] linux-yocto: introduce 4.18 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,137 +37,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 12:43:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Aug 2018 13:27:23 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-From: He Zhe <zhe.he@windriver.com>
 
-Issue: LIN1018-1797
 
-At the point of the following failure, the file being checked, setgid,
-is owned by "nobody" in the "nogroup" and tries to inherit SGID from
-its parent directory who is in group of "bin". This is forbidden since
-Linux kernel v4.18-rc4, unless current process is given CAP_FSETID
-beforehand. See "Fix up non-directory creation in SGID directories" in
-the kernel. The check in Block3 succeeds since it becomes root again
-then.
+On 2018年08月24日 22:59, Bruce Ashfield wrote:
+> Introducing the 4.18 kernel as the 'newest' kernel for the oe core
+> release.
+>
+> This update includes tweaked configs, carried forward BSPs, features
+> (aufs, yaffs2, preempt-rt) and has been tested on all arches for boot
+> and performance sanity.
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb   | 43 +++++++++++++++++++
+>  meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb | 29 +++++++++++++
+>  meta/recipes-kernel/linux/linux-yocto_4.18.bb      | 48 ++++++++++++++++++++++
+>  3 files changed, 120 insertions(+)
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto_4.18.bb
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
+> new file mode 100644
+> index 000000000000..f740b1dcd892
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
+> @@ -0,0 +1,43 @@
+> +KBRANCH ?= "v4.18/standard/preempt-rt/base"
+> +
+> +require recipes-kernel/linux/linux-yocto.inc
+> +
+> +# Skip processing of this recipe if it is not explicitly specified as the
+> +# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
+> +# to build multiple virtual/kernel providers, e.g. as dependency of
+> +# core-image-rt-sdk, core-image-rt.
+> +python () {
+> +    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
+> +        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+> +}
+> +
+> +SRCREV_machine ?= "8a990322beb7b3aa5a06d7bd630f819b70911587"
+> +SRCREV_meta ?= "1f78e20cc98dd46637c0beb6007214fb3650992c"
+> +
+> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.18;destsuffix=${KMETA}"
+> +
+> +LINUX_VERSION ?= "4.18.3"
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+> +
+> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+> +DEPENDS += "openssl-native util-linux-native"
+> +
+> +PV = "${LINUX_VERSION}+git${SRCPV}"
+> +
+> +KMETA = "kernel-meta"
+> +KCONF_BSP_AUDIT_LEVEL = "2"
+> +
+> +LINUX_KERNEL_TYPE = "preempt-rt"
+> +
+> +COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
 
-creat08 3 TFAIL : creat08.c:368: testdir.B.1026/setgid: Incorrect modes, setgid bit should be set
-creat08 4 TFAIL : creat08.c:376: Test failed in block2.
+Should qemuarm64 be in here?
 
-open10 3 TFAIL : open10.c:352: open10.testdir.B.1045/setgid: Incorrect modes, setgid bit not set
-open10 4 TFAIL : open10.c:359: Test failed in block2.
-open10 6 TFAIL : open10.c:443: Test failed because of above failures.
+Zhe
 
-Backport a patch from upstream.
-
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- ...skip-S_ISGID-check-on-files-created-by-no.patch | 81 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20180515.bb          |  1 +
- 2 files changed, 82 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch b/meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch
-new file mode 100644
-index 0000000..dc61fcc
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch
-@@ -0,0 +1,81 @@
-+From 3c87ef2961dedb10d1f674c6a530e00dbab8ec1b Mon Sep 17 00:00:00 2001
-+From: Jan Stancek <jstancek@redhat.com>
-+Date: Tue, 17 Jul 2018 10:26:39 +0200
-+Subject: [PATCH] open|creat: skip S_ISGID check on files created by non-group
-+ members
-+
-+0fa3ecd87848 ("Fix up non-directory creation in SGID directories")
-+fixes problem described in CVE-2018-13405. This commit is getting
-+backported to older streams as well.
-+
-+This patch removes S_ISGID check for files created by non-group members
-+in LTP tests creat08 and open10.
-+
-+Once 0fa3ecd87848 will be in non-rc kernel, we could add a new test
-+for this CVE that would be limited to 4.18+ kernels.
-+
-+Signed-off-by: Jan Stancek <jstancek@redhat.com>
-+Acked-by: Cyril Hrubis <chrubis@suse.cz>
-+Reviewed-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-+
-+Upstream-Status: Backport
-+[ git://github.com/linux-test-project/ltp.git
-+  3c87ef2961dedb10d1f674c6a530e00dbab8ec1b
-+  "open|creat: skip S_ISGID check on files created by non-group members" ]
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ testcases/kernel/syscalls/creat/creat08.c | 13 ++++++-------
-+ testcases/kernel/syscalls/open/open10.c   | 12 +++++-------
-+ 2 files changed, 11 insertions(+), 14 deletions(-)
-+
-+diff --git a/testcases/kernel/syscalls/creat/creat08.c b/testcases/kernel/syscalls/creat/creat08.c
-+index 50f2b3993..d22558ac3 100644
-+--- a/testcases/kernel/syscalls/creat/creat08.c
-++++ b/testcases/kernel/syscalls/creat/creat08.c
-+@@ -361,13 +361,12 @@ int main(int ac, char **av)
-+ 			local_flag = FAILED;
-+ 		}
-+ 
-+-		/* Verify modes */
-+-		if (!(buf.st_mode & S_ISGID)) {
-+-			tst_resm(TFAIL,
-+-				 "%s: Incorrect modes, setgid bit should be set",
-+-				 setgid_B);
-+-			local_flag = FAILED;
-+-		}
-++		/*
-++		 * Skip S_ISGID check
-++		 * 0fa3ecd87848 ("Fix up non-directory creation in SGID directories")
-++		 * clears S_ISGID for files created by non-group members
-++		 */
-++
-+ 		close(fd);
-+ 
-+ 		if (local_flag == PASSED) {
-+diff --git a/testcases/kernel/syscalls/open/open10.c b/testcases/kernel/syscalls/open/open10.c
-+index 613f2288f..14feec9e1 100644
-+--- a/testcases/kernel/syscalls/open/open10.c
-++++ b/testcases/kernel/syscalls/open/open10.c
-+@@ -345,13 +345,11 @@ int main(int ac, char *av[])
-+ 			local_flag = FAILED;
-+ 		}
-+ 
-+-		/* Verify modes */
-+-		if (!(buf.st_mode & S_ISGID)) {
-+-			tst_resm(TFAIL,
-+-				 "%s: Incorrect modes, setgid bit not set",
-+-				 setgid_B);
-+-			local_flag = FAILED;
-+-		}
-++		/*
-++		 * Skip S_ISGID check
-++		 * 0fa3ecd87848 ("Fix up non-directory creation in SGID directories")
-++		 * clears S_ISGID for files created by non-group members
-++		 */
-+ 
-+ 		if (local_flag == PASSED) {
-+ 			tst_resm(TPASS, "Test passed in block2.");
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180515.bb
-index 978d3cd..7c364a6 100644
---- a/meta/recipes-extended/ltp/ltp_20180515.bb
-+++ b/meta/recipes-extended/ltp/ltp_20180515.bb
-@@ -50,6 +50,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0040-read_all-Define-FNM_EXTMATCH-if-not-already-like-und.patch \
-            file://0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch \
-            file://0042-fs-ftest-ftest06.c-Fix-too-small-name-string-and-rel.patch \
-+           file://0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.7.4
+> +
+> +KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> +
+> +# Functionality flags
+> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+> +KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
+> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
+> new file mode 100644
+> index 000000000000..1f0b35ec25ec
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
+> @@ -0,0 +1,29 @@
+> +KBRANCH ?= "v4.18/standard/tiny/common-pc"
+> +LINUX_KERNEL_TYPE = "tiny"
+> +KCONFIG_MODE = "--allnoconfig"
+> +
+> +require recipes-kernel/linux/linux-yocto.inc
+> +
+> +LINUX_VERSION ?= "4.18.3"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+> +
+> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+> +DEPENDS += "openssl-native util-linux-native"
+> +
+> +KMETA = "kernel-meta"
+> +KCONF_BSP_AUDIT_LEVEL = "2"
+> +
+> +SRCREV_machine ?= "eba03655e8e436ef6090100423bcea43e4911478"
+> +SRCREV_meta ?= "1f78e20cc98dd46637c0beb6007214fb3650992c"
+> +
+> +PV = "${LINUX_VERSION}+git${SRCPV}"
+> +
+> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.18;destsuffix=${KMETA}"
+> +
+> +COMPATIBLE_MACHINE = "qemux86|qemux86-64"
+> +
+> +# Functionality flags
+> +KERNEL_FEATURES = ""
+> +
+> +KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.18.bb b/meta/recipes-kernel/linux/linux-yocto_4.18.bb
+> new file mode 100644
+> index 000000000000..b42c124c87da
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/linux-yocto_4.18.bb
+> @@ -0,0 +1,48 @@
+> +KBRANCH ?= "v4.18/standard/base"
+> +
+> +require recipes-kernel/linux/linux-yocto.inc
+> +
+> +# board specific branches
+> +KBRANCH_qemuarm  ?= "v4.18/standard/arm-versatile-926ejs"
+> +KBRANCH_qemuarm64 ?= "v4.18/standard/qemuarm64"
+> +KBRANCH_qemumips ?= "v4.18/standard/mti-malta32"
+> +KBRANCH_qemuppc  ?= "v4.18/standard/qemuppc"
+> +KBRANCH_qemux86  ?= "v4.18/standard/base"
+> +KBRANCH_qemux86-64 ?= "v4.18/standard/base"
+> +KBRANCH_qemumips64 ?= "v4.18/standard/mti-malta64"
+> +
+> +SRCREV_machine_qemuarm ?= "1af7de788a0d28968bd48ff733696de130e0427d"
+> +SRCREV_machine_qemuarm64 ?= "eba03655e8e436ef6090100423bcea43e4911478"
+> +SRCREV_machine_qemumips ?= "f431f068f06041a60b29628c97b507391c6ad92c"
+> +SRCREV_machine_qemuppc ?= "eba03655e8e436ef6090100423bcea43e4911478"
+> +SRCREV_machine_qemux86 ?= "eba03655e8e436ef6090100423bcea43e4911478"
+> +SRCREV_machine_qemux86-64 ?= "eba03655e8e436ef6090100423bcea43e4911478"
+> +SRCREV_machine_qemumips64 ?= "a8e005cb6453c4d59f4c460b6f034bba69ce7807"
+> +SRCREV_machine ?= "eba03655e8e436ef6090100423bcea43e4911478"
+> +SRCREV_meta ?= "1f78e20cc98dd46637c0beb6007214fb3650992c"
+> +
+> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.18;destsuffix=${KMETA}"
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+> +LINUX_VERSION ?= "4.18.3"
+> +
+> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+> +DEPENDS += "openssl-native util-linux-native"
+> +
+> +PV = "${LINUX_VERSION}+git${SRCPV}"
+> +
+> +KMETA = "kernel-meta"
+> +KCONF_BSP_AUDIT_LEVEL = "2"
+> +
+> +KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> +
+> +COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+> +
+> +# Functionality flags
+> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+> +KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
+> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> +KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
 
 
