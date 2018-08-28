@@ -1,45 +1,23 @@
-Return-Path: <nwwinters@gmail.com>
-Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com
-	[209.85.218.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 599EA74F09
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 26CD278FB7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 05:52:43 +0000 (UTC)
-Received: by mail-oi0-f49.google.com with SMTP id 8-v6so775711oip.0
+	Tue, 28 Aug 2018 05:58:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7S5wvSf002890
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 22:52:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=c1FpwOtUxLHDGS4pSRPn/b/qlzxX0+d+u8+CJrmW4UM=;
-	b=i+WzLrsXlkzTCR4YBGyQuLubqgjXQmXm/G+BY8RZMv4gZrqfbqgzMoKVuhZ8C+d7WP
-	tAsW7xrk5UknOsD+biOYO0gwxiExeKZBRLRfQAZOvrT8YUrZz6jhz9QkUQbGLW0EqbHg
-	GR9mFtfRHtfkao98Gtksh9DrMqozOKuTjijt/nz+rz3TD2O141yeLLrXith2rD1q8Dj6
-	SxP8LYIy+FSW9nagt51u57rkuGD6al6pSETDMPPBpCBtx96NL8bBA8+LuKBhgKVu/3GK
-	8He3MbZ93Q5x/2keneoTdlNh+y9ZGLDacGYc+nGJBB7TKbh4skCJ+uA3CjAbBhwztEpg
-	YPiw==
-X-Gm-Message-State: APzg51A/iY3i2Uujvxy3YHMMtMukdMXC/LkzCrIOEFzyH/dC4feoh5+R
-	kaOPLJ45FsCECqvoDMaZ4HtbuKvI
-X-Google-Smtp-Source: ANB0VdYY9CtbyJNUTyzdCLwlZFWX+GpNBDudcsR45DRzCP1Mr+p2jWz+5btdXoqgXMGxZlhh5nMPIg==
-X-Received: by 2002:aca:180b:: with SMTP id h11-v6mr52182oih.91.1535435564150; 
-	Mon, 27 Aug 2018 22:52:44 -0700 (PDT)
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com.
-	[209.85.218.50]) by smtp.gmail.com with ESMTPSA id
-	o125-v6sm63199oig.44.2018.08.27.22.52.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Aug 2018 22:52:43 -0700 (PDT)
-Received: by mail-oi0-f50.google.com with SMTP id c190-v6so742307oig.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2018 22:52:43 -0700 (PDT)
-X-Received: by 2002:aca:ac54:: with SMTP id v81-v6mr52642oie.1.1535435563270; 
-	Mon, 27 Aug 2018 22:52:43 -0700 (PDT)
+	Mon, 27 Aug 2018 22:58:57 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 27 Aug 2018 22:58:56 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Aug 2018 13:58:55 +0800
+Message-ID: <1535435935-440809-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Nick Winters <nick@wintersteam.org>
-Date: Mon, 27 Aug 2018 22:53:05 -0700
-X-Gmail-Original-Message-ID: <CA+FvCj6uCS7iSwpyOnNx0Q-A7iXfzTg_NtcH98ihmsfLDGkn9Q@mail.gmail.com>
-Message-ID: <CA+FvCj6uCS7iSwpyOnNx0Q-A7iXfzTg_NtcH98ihmsfLDGkn9Q@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Troubleshooting sstate cache
+Subject: [PATCH] libid3tag: patch for CVE-2004-2779
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +30,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 05:52:43 -0000
-Content-Type: multipart/alternative; boundary="00000000000053077105747873ec"
+X-List-Received-Date: Tue, 28 Aug 2018 05:58:56 -0000
+Content-Type: text/plain
 
---00000000000053077105747873ec
-Content-Type: text/plain; charset="UTF-8"
+From: Changqing Li <changqing.li@windriver.com>
 
-Often when I use an sstate cache from another build, I run into problems
-where builds fail. Usually the failure is a result of not being able to
-find a shared library. If I delete the sstate cache, the build succeeds,
-although it is 8 hours later. I switched to using sstate mirrors and had
-similar problems.
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../libid3tag/libid3tag/10_utf16.dpatch            | 33 ++++++++++++++++++++++
+ .../libid3tag/libid3tag_0.15.1b.bb                 |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch
 
-Questions:
+diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch b/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch
+new file mode 100644
+index 0000000..8d09ce7
+--- /dev/null
++++ b/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch
+@@ -0,0 +1,33 @@
++libid3tag: patch for CVE-2004-2779
++
++The patch comes from
++https://sources.debian.org/patches/libid3tag/0.15.1b-13/10_utf16.dpatch
++
++Upstream-Status: Pending
++
++CVE: CVE-2004-2779
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++
++diff -urNad libid3tag-0.15.1b/utf16.c /tmp/dpep.tKvO7a/libid3tag-0.15.1b/utf16.c
++--- libid3tag-0.15.1b/utf16.c	2006-01-13 15:26:29.000000000 +0100
+++++ /tmp/dpep.tKvO7a/libid3tag-0.15.1b/utf16.c	2006-01-13 15:27:19.000000000 +0100
++@@ -282,5 +282,18 @@
++ 
++   free(utf16);
++ 
+++  if (end == *ptr && length % 2 != 0)
+++  {
+++     /* We were called with a bogus length.  It should always
+++      * be an even number.  We can deal with this in a few ways:
+++      * - Always give an error.
+++      * - Try and parse as much as we can and
+++      *   - return an error if we're called again when we
+++      *     already tried to parse everything we can.
+++      *   - tell that we parsed it, which is what we do here.
+++      */
+++     (*ptr)++;
+++  }
+++
++   return ucs4;
++ }
+diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
+index f6139d6..fe31646 100644
+--- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
++++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/mad/libid3tag-${PV}.tar.gz \
+            file://addpkgconfig.patch \
+            file://obsolete_automake_macros.patch \
+            file://0001-Fix-gperf-3.1-incompatibility.patch \
++           file://10_utf16.dpatch \
+            "
+ UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/mad/files/libid3tag/"
+ UPSTREAM_CHECK_REGEX = "/projects/mad/files/libid3tag/(?P<pver>.*)/$"
+-- 
+2.7.4
 
-* Are there any tools or bitbake commands to use for troubleshooting
-failures like this?
 
-* I am creating one sstate cache per architecture being built. Should this
-really be necessary?
-
-* Any other advice to help troubleshoot sstate cache issues?
-
-Thanks,
-Nick
-
---00000000000053077105747873ec
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Often when I use an sstate cache from another build, I run=
- into problems where builds fail. Usually the failure is a result of not be=
-ing able to find a shared library. If I delete the sstate cache, the build =
-succeeds, although it is 8 hours later. I switched to using sstate mirrors =
-and had similar problems.<div><br></div><div>Questions:</div><div><br></div=
-><div>* Are there any tools or bitbake commands to use for troubleshooting =
-failures like this?</div><div><br></div><div>* I am creating one sstate cac=
-he per architecture being built. Should this really be necessary?</div><div=
-><br></div><div>* Any other advice to help troubleshoot sstate cache issues=
-?</div><div><br></div><div>Thanks,<br></div><div>Nick</div></div>
-
---00000000000053077105747873ec--
