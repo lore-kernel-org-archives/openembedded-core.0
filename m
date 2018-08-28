@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 87937601F2;
-	Tue, 28 Aug 2018 10:10:15 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 9DC0378890;
+	Tue, 28 Aug 2018 10:10:17 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Date: Tue, 28 Aug 2018 10:10:17 -0000
-Message-ID: <20180828101017.13844.92577@do.openembedded.org>
+Date: Tue, 28 Aug 2018 10:10:19 -0000
+Message-ID: <20180828101019.13841.21543@do.openembedded.org>
 References: <20180828094319.19765-1-hongl.fnst@cn.fujitsu.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <20180828094319.19765-1-hongl.fnst@cn.fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY2EtY2VydGlmaWNhdGVzOnVwZGF0ZSB0byAyMDE4MDQwOQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY2EtY2VydGlmaWNhdGVzOnVwZGF0ZSB0byAyMDE4MDQwOSAocmV2Myk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 10:10:15 -0000
+X-List-Received-Date: Tue, 28 Aug 2018 10:10:17 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: ca-certificates:update to 20180409
-Revision: 1
+Series: ca-certificates:update to 20180409 (rev3)
+Revision: 3
 URL   : https://patchwork.openembedded.org/series/13775/
 State : failure
 
@@ -45,10 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             LIC_FILES_CHKSUM changed on target ca-certificates but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned] 
-  Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
-  Current checksum file://debian/copyright;md5=e7358b9541ccf3029e9705ed8de57968
-  New checksum     file://debian/copyright;md5=aeb420429b1659507e0a5a1b123e8308
+* Issue             Patches not removed from tree [test_src_uri_left_files] 
+  Suggested fix    Amend the patch containing the software patch file removal
+  Patch            0001-Drop-introspection-macros-from-acinclude.m4.patch
 
 
 
