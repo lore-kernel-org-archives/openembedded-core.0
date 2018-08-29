@@ -1,25 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C459607DE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 678677914C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 14:16:38 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w7TEGbEX024432
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Wed, 29 Aug 2018 15:16:38 +0100
-Message-ID: <66aa21df8fa33f677b8a65150da5af2f98c22268.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 29 Aug 2018 15:16:36 +0100
-In-Reply-To: <20180828221954.3214-1-schnitzeltony@gmail.com>
-References: <20180828221954.3214-1-schnitzeltony@gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH v2] libsdl2: Fix left rotated display for RaspPi/VC4/GLES2
+	Wed, 29 Aug 2018 14:30:27 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id g44-v6so5906467qtb.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Aug 2018 07:30:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=IusHwIbjCY8ITDtOlXPZSHMtX0DREJrC7h+zDFR/q48=;
+	b=YNqtRLeibSh7vjbvJC5NhfbPaY675cw0Y0jlqacm9uqXCQZWbD0s9+EHES287jpmzv
+	qAqln5HINZwpkFUTFL8vldVQiD0TVc2OOLVokPQrhy8Q/Pb0psqv7vcFTTBh0IV8aIUW
+	RF634ArZx8D2dRFR+2xE6Pmlx1l/xSnyB8zdd2yRuG6A4j2YKdBLNidQ4hzorTFeHrRa
+	tSVrRscNoTO+c9bLu0dsErBY/AR5SlgLwYENEzLNtgn3DjXuAt5pCaLcyL17Ze7RZow1
+	7bmf9FSCzzjrMJijzEggkUK/ajSrW+HJxoRW/Sdv6CXmYWVGFhOnskucQSwQxJ6qdgPS
+	plTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=IusHwIbjCY8ITDtOlXPZSHMtX0DREJrC7h+zDFR/q48=;
+	b=gzNwfe7KnyNyC+yfBqoaJs62xPCWm5noVYT7GhuX5M6KByy1Cc4bKlbqChpaXMbqiq
+	xjEW5CQwNgKIrFj0P613vBdNxlXQQY55h16t8AsFdYKz4teW3XzJYUlcnRWLAn9WjJ9y
+	3cWaTqg48S9ukJ9WcjtanPK8imbHesc6R9ufd+l+wM/N8ah7Jd9ZBLaHARiJkhDgeV1d
+	4PP0p9suncbO0iJ6UGx2j3LI+kxaI6CFCn5Zm7DuIfuAeH4mAynJsSVQRXCC/gjZFG7c
+	LxbQeycsWB9Hk4atiHPKxLbq+GDp2AyCbb+49qIDDGZ63fLoguXsStCE1usn06OqnLBW
+	g+5A==
+X-Gm-Message-State: APzg51B1dd5lNX78/fNONDwy7ihTII7/+AP5Pku4punetpucKs3TJ7OD
+	IKthlirYYPh19ruFY7hBWbvKRWHiKrqu5G+B/to=
+X-Google-Smtp-Source: ANB0VdbfFJBrUq+YZVfi91lNxR8CXuM9gtgOADy7SNXRuwW5I2oUvi+ZMzKYcfFl0Fne821JDZc/c5cshBVunlDD6hs=
+X-Received: by 2002:a0c:e205:: with SMTP id
+	q5-v6mr6519808qvl.224.1535553028085; 
+	Wed, 29 Aug 2018 07:30:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1535451643.git.alex.kanavin@gmail.com>
+	<c971e5fd32f999781ff4174c7c1ca6d0e54dea65.1535451643.git.alex.kanavin@gmail.com>
+In-Reply-To: <c971e5fd32f999781ff4174c7c1ca6d0e54dea65.1535451643.git.alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 29 Aug 2018 07:30:00 -0700
+Message-ID: <CAMKF1spm5a-Zsv5ygjAwf5omk4ekK=ek=awe6Q1RdG_bVntuGw@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 6/6] ca-certificates: update to 20180409
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,79 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2018 14:16:39 -0000
+X-List-Received-Date: Wed, 29 Aug 2018 14:30:27 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Wed, 2018-08-29 at 00:19 +0200, Andreas Müller wrote:
-> The patch should increase performance for libsdl2 on GLES2 too.
-> 
-> Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+On Tue, Aug 28, 2018 at 3:24 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+>
+> License-Update: URI fix
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->  ...01-GLES2-Get-sin-cos-out-of-vertex-shader.patch | 141
-> +++++++++++++++++++++
->  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb     |   1 +
->  2 files changed, 142 insertions(+)
->  create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-
-> Get-sin-cos-out-of-vertex-shader.patch
-> 
-> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-
-> sin-cos-out-of-vertex-shader.patch b/meta/recipes-
-> graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-
-> shader.patch
-> new file mode 100644
-> index 0000000000..621b7ea1a0
-> --- /dev/null
-> +++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-
-> out-of-vertex-shader.patch
-> @@ -0,0 +1,141 @@
-> +From c215ba1d52a3d4ef03af3ab1a5baa1863f812aed Mon Sep 17 00:00:00
-> 2001
-> +From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-> +Date: Fri, 24 Aug 2018 23:10:25 +0200
-> +Subject: [PATCH] GLES2: Get sin/cos out of vertex shader
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +The only place angle is activated and causes effect is RenderCopyEx.
-> All other
-> +methods which use vertex shader, leave angle disabled and cause
-> useless sin/cos
-> +calculation in shader.
-> +
-> +To get around shader's interface is changed to a vector that
-> contains results
-> +of sin and cos. To behave properly when disabled, cos value is set
-> with offset
-> +-1.0 making 0.0 default when deactivated.
-> +
-> +As nice side effect it simplifies GLES2_UpdateVertexBuffer: All
-> attributes are
-> +vectors now.
-> +
-> +Additional background:
-> +
-> +* On RaspberryPi it gives a performace win for operations. Tested
-> with
-> +  [1] numbers go down for 5-10% (not easy to estimate due to huge
-> variation).
-> +* SDL_RenderCopyEx was tested with [2]
-> +* It works around left rotated display caused by low accuracy sin
-> implemetation
-> +  in RaspberryPi/VC4 [3]
-> +
-> +Upstream-Status: Submitted [4]
+>  .../{ca-certificates_20170717.bb => ca-certificates_20180409.bb}      | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-support/ca-certificates/{ca-certificates_20170717.bb => ca-certificates_20180409.bb} (95%)
+>
+> diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb b/meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
+> similarity index 95%
+> rename from meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
+> rename to meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
+> index 24d3a6e..0d57083 100644
+> --- a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
+> +++ b/meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
+> @@ -5,7 +5,7 @@ This derived from Debian's CA Certificates."
+>  HOMEPAGE = "http://packages.debian.org/sid/ca-certificates"
+>  SECTION = "misc"
+>  LICENSE = "GPL-2.0+ & MPL-2.0"
+> -LIC_FILES_CHKSUM = "file://debian/copyright;md5=e7358b9541ccf3029e9705ed8de57968"
+> +LIC_FILES_CHKSUM = "file://debian/copyright;md5=aeb420429b1659507e0a5a1b123e8308"
+>
+>  # This is needed to ensure we can run the postinst at image creation time
+>  DEPENDS = ""
+> @@ -14,7 +14,7 @@ DEPENDS_class-nativesdk = "openssl-native"
+>  # Need c_rehash from openssl and run-parts from debianutils
+>  PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
+>
+> -SRCREV = "34b8e19e541b8af4076616b2e170c7a70cdaded0"
+> +SRCREV = "dbbd11e56af93bb79f21d0ee6059a901f83f70a5"
 
-If I'm reading the logs correctly, this was actually merged upstream so
-the status would become Accepted or Backport?
-
-> +[1] https://github.com/schnitzeltony/sdl2box
-> +[2] https://github.com/schnitzeltony/sdl2rendercopyex
-> +[3] https://github.com/anholt/mesa/issues/110
-> +[4] https://hg.libsdl.org/SDL/rev/e5a666405750
-
-Cheers,
-
-Richard
+It fails in do_patch for me.
+Patch 0002-update-ca-certificates-use-SYSROOT.patch does not apply
+(enforce with -f)
 
