@@ -1,24 +1,25 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 415EF745C3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C459607DE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 14:01:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7TE1hYj024020
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 29 Aug 2018 07:01:43 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 29 Aug 2018 07:01:42 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Aug 2018 22:01:40 +0800
-Message-ID: <1535551300-9964-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1535533498-36841-2-git-send-email-hongxu.jia@windriver.com>
-References: <1535533498-36841-2-git-send-email-hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V2] security_flags.inc: add var-SECURITY_STACK_PROTECTOR to improve variable OVERRIDES
+	Wed, 29 Aug 2018 14:16:38 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w7TEGbEX024432
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 29 Aug 2018 15:16:38 +0100
+Message-ID: <66aa21df8fa33f677b8a65150da5af2f98c22268.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 29 Aug 2018 15:16:36 +0100
+In-Reply-To: <20180828221954.3214-1-schnitzeltony@gmail.com>
+References: <20180828221954.3214-1-schnitzeltony@gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH v2] libsdl2: Fix left rotated display for RaspPi/VC4/GLES2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,66 +32,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2018 14:01:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 29 Aug 2018 14:16:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-There are var-SECURITY_PIE_CFLAGS, var-lcl_maybe_fortify and
-var-SECURITY_STRINGFORMAT which are helpful for OVERRIDES.
+On Wed, 2018-08-29 at 00:19 +0200, Andreas Müller wrote:
+> The patch should increase performance for libsdl2 on GLES2 too.
+> 
+> Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+> ---
+>  ...01-GLES2-Get-sin-cos-out-of-vertex-shader.patch | 141
+> +++++++++++++++++++++
+>  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb     |   1 +
+>  2 files changed, 142 insertions(+)
+>  create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-
+> Get-sin-cos-out-of-vertex-shader.patch
+> 
+> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-
+> sin-cos-out-of-vertex-shader.patch b/meta/recipes-
+> graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-
+> shader.patch
+> new file mode 100644
+> index 0000000000..621b7ea1a0
+> --- /dev/null
+> +++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-
+> out-of-vertex-shader.patch
+> @@ -0,0 +1,141 @@
+> +From c215ba1d52a3d4ef03af3ab1a5baa1863f812aed Mon Sep 17 00:00:00
+> 2001
+> +From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+> +Date: Fri, 24 Aug 2018 23:10:25 +0200
+> +Subject: [PATCH] GLES2: Get sin/cos out of vertex shader
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +The only place angle is activated and causes effect is RenderCopyEx.
+> All other
+> +methods which use vertex shader, leave angle disabled and cause
+> useless sin/cos
+> +calculation in shader.
+> +
+> +To get around shader's interface is changed to a vector that
+> contains results
+> +of sin and cos. To behave properly when disabled, cos value is set
+> with offset
+> +-1.0 making 0.0 default when deactivated.
+> +
+> +As nice side effect it simplifies GLES2_UpdateVertexBuffer: All
+> attributes are
+> +vectors now.
+> +
+> +Additional background:
+> +
+> +* On RaspberryPi it gives a performace win for operations. Tested
+> with
+> +  [1] numbers go down for 5-10% (not easy to estimate due to huge
+> variation).
+> +* SDL_RenderCopyEx was tested with [2]
+> +* It works around left rotated display caused by low accuracy sin
+> implemetation
+> +  in RaspberryPi/VC4 [3]
+> +
+> +Upstream-Status: Submitted [4]
 
-Also add var-SECURITY_STACK_PROTECTOR, and drop hardcoded `_remove'
-overrides. Such as `4ca946c security_flags: use -fstack-protector-strong',
-it s/-fstack-protector-all/-fstack-protector-strong/, only tweak
-var-SECURITY_STACK_PROTECTOR is sufficient.
+If I'm reading the logs correctly, this was actually merged upstream so
+the status would become Accepted or Backport?
 
-The fix does not have any side affect on SECURITY_CFLAGS of glibc/
-glibc-initial/gcc-runtime, these three directly assigned with "".
-...
-SECURITY_CFLAGS_pn-glibc = ""
-SECURITY_CFLAGS_pn-glibc-initial = ""
-SECURITY_CFLAGS_pn-gcc-runtime = ""
-...
+> +[1] https://github.com/schnitzeltony/sdl2box
+> +[2] https://github.com/schnitzeltony/sdl2rendercopyex
+> +[3] https://github.com/anholt/mesa/issues/110
+> +[4] https://hg.libsdl.org/SDL/rev/e5a666405750
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/conf/distro/include/security_flags.inc | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+Cheers,
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index e113f99..620978a 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -21,11 +21,13 @@ SECURITY_PIE_CFLAGS ?= "${@'' if '${GCCPIE}' else '-pie -fPIE'}"
- 
- SECURITY_NOPIE_CFLAGS ?= "-no-pie -fno-PIE"
- 
--SECURITY_CFLAGS ?= "-fstack-protector-strong ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
--SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-+SECURITY_STACK_PROTECTOR ?= "-fstack-protector-strong"
- 
--SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
--SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
-+SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-+SECURITY_NO_PIE_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-+
-+SECURITY_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro,-z,now"
-+SECURITY_X_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro"
- 
- # powerpc does not get on with pie for reasons not looked into as yet
- GCCPIE_powerpc = ""
-@@ -56,9 +58,9 @@ SECURITY_STRINGFORMAT_pn-gcc = ""
- TARGET_CC_ARCH_append_class-target = " ${SECURITY_CFLAGS}"
- TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
- 
--SECURITY_LDFLAGS_remove_pn-gcc-runtime = "-fstack-protector-strong"
--SECURITY_LDFLAGS_remove_pn-glibc = "-fstack-protector-strong"
--SECURITY_LDFLAGS_remove_pn-glibc-initial = "-fstack-protector-strong"
-+SECURITY_STACK_PROTECTOR_pn-gcc-runtime = ""
-+SECURITY_STACK_PROTECTOR_pn-glibc = ""
-+SECURITY_STACK_PROTECTOR_pn-glibc-initial = ""
- # All xorg module drivers need to be linked this way as well and are
- # handled in recipes-graphics/xorg-driver/xorg-driver-common.inc
- SECURITY_LDFLAGS_pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
--- 
-2.7.4
-
+Richard
 
