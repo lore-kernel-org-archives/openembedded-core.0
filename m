@@ -1,48 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
-	[209.85.218.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 21542793B2
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id E7D9579399
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 14:44:28 +0000 (UTC)
-Received: by mail-oi0-f50.google.com with SMTP id l202-v6so9553218oig.7
+	Wed, 29 Aug 2018 14:47:44 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id 13-v6so9624891ois.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 07:44:29 -0700 (PDT)
+	Wed, 29 Aug 2018 07:47:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=VvfUdHfgCUHffL9L3wSnf0/B8gojeps2hDM2wZKvW9c=;
-	b=Hs7Kay7zwxoynigWASEkfkRbwnTv74MO6DdQ3MYjAtAmwT1m6+RSN2TNrzJxqSNkXJ
-	rmkFLG67oBnaW69kao3zMxmn3WxdeqHJOmKJtKRdaZ1nGFxYFg/ZP8nuJ/fOoax+OtmQ
-	aN4ctOD92+74KDWxE0kTMQjHCTBz+yksqK5oZ8jlo2awKz4PKWVqZ123ba+V/19NZ+W0
-	/1zMU1RzXH6SBSeoF6luQ5rR4vWB2XFal2RqAlWu6TE4NFM+3EVmCi3eToabGot6IiIY
-	vxk1BHQQ4U6Cv9hQ3kZjixs7LSXDwPwr187V4/Kw1xzp0ZgdGK8tjxpSVQKv6RUMFG57
-	6iJA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=053Q3IcLPXNuhSC+I0wdYH3YjYCZmfsyYM8fh6AYUXc=;
+	b=cA4Gkh5IlTsWTnBcSvBgrmQVi9C00rr5cnNu2kePMm0at1cKmJLZ2AW15jxJrTxdIN
+	AWcLpeIphiXa7IwT71qtUY5L3lHUbN9uTRJ+uvrfjhZbyAQN8tNtY83LbJ4M1coKRyM9
+	mHVm7Wx/gEj0GP0XK3K7UpFhhfLo5bRjE/FhX9C0zFYoP/saeV6WQQnH/ab2HjYHPy/0
+	35j3kVxPHdDUfwHVH7agZFXsxM4YP8BdOSF9BQTPYAypjvFvWedpH5rQDewozVELYpPk
+	F+K9mdLd7H67IpUZpLGL4C9tJhKRciLtUJBsmJCMNkYbfXYpugoP8PzBbpJWlEKPhTMn
+	rMEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=VvfUdHfgCUHffL9L3wSnf0/B8gojeps2hDM2wZKvW9c=;
-	b=NrZkQv+fpHa7uRC4WcfMX3ib2UvKA8xeh96BupGNR2EeywJmkieMqbdvGNyZPxm3KY
-	sM+OJ6hE0TtMNOi5lWrFkURkUzjVNmnzTTj7X7/bCJ8AXJsTKSezVdptzs28zlT5qZKK
-	XvnfHQHqfKf/qcX/wFag5ultMFXCf2dJQmA4tb1iXn9lzbyQ6E9uZkDeJJbFokJ7BQBv
-	W3aMBLu0vdhcYPSlrMCxAa+Nvq5N8HHXB4QEqQPgzEmPwTAkJmmf2MeDTZmXvfxDNcNM
-	eBorRKhwu7guK7UHvNcoaWwgINHD6f3z0TVc7imCUdXQbZTMuYujO36RmPuFw4BkfBqq
-	thYQ==
-X-Gm-Message-State: APzg51D9urVD0mtNCJBchqVBDlUjvacYByWCMBM4dhg5PZ5yjOUcYTwc
-	fwrJ3yDqA89KDfm2Emu7xWLA+EV8/iN63U3klKnqUg==
-X-Google-Smtp-Source: ANB0VdaAl1plz0G0fuCGDLGGk3puCnQzlXctmeTA4wrUxsRpp4r2iEniJVt1c8mzbOjy4H+poqnzZszDdq/32Scy8aY=
-X-Received: by 2002:aca:d015:: with SMTP id
-	h21-v6mr3215382oig.142.1535553868894; 
-	Wed, 29 Aug 2018 07:44:28 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=053Q3IcLPXNuhSC+I0wdYH3YjYCZmfsyYM8fh6AYUXc=;
+	b=Km6/6iMuGL2+lpyqcD4ux4PlW6tkaJteX1z6MK6qQWeD6zOeELVTtK7KkA6H4aEnbV
+	xWBjGlBR2aQ0t7NQzW4Ujq76T5LWvUhpc2nCB07yorudA5voZWG1rQvFQK/eeoIaL9a/
+	DHf+8b1VTLmGM/xwpn5oCngYLJy6IUR6WojcqyOYgiad+4p0GQDS8j7zzCpJOcoBNurv
+	hpnfB63Y2WnkQ3Q/Az6Y0B7hsj1JEIzzB4GIS76s2eL+aN87q6rEqTCVUZDnexLJSSR5
+	Rrqcygg7/UBthV2FUclmfhVxPrUJEbqWUWjc11VbbOMhSSn7WAVfpGQlg/shPEPsuja9
+	+grw==
+X-Gm-Message-State: APzg51AhXpNLVkKg28HNaFgs3eypKDD2l3v++aKYIZMu3pgPw4+lXU21
+	Qz9UxKNONfEnh8CRaOAk42I/1dTO8fH5N1cA03U=
+X-Google-Smtp-Source: ANB0Vdbi8z13IIvUG3UkQefhtGrSkovPdTplwX6bZ510BFxnkOxZylBYMu2EzKJEWPQshq5eK97TmTTflcAds++DImM=
+X-Received: by 2002:aca:edd8:: with SMTP id
+	l207-v6mr3179351oih.65.1535554065848; 
+	Wed, 29 Aug 2018 07:47:45 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:90ed:0:0:0:0:0 with HTTP; Wed, 29 Aug 2018 07:44:28
+Received: by 2002:a4a:90ed:0:0:0:0:0 with HTTP; Wed, 29 Aug 2018 07:47:45
 	-0700 (PDT)
-In-Reply-To: <1535553827-23904-1-git-send-email-alex.kanavin@gmail.com>
-References: <1535553827-23904-1-git-send-email-alex.kanavin@gmail.com>
+In-Reply-To: <CAMKF1spm5a-Zsv5ygjAwf5omk4ekK=ek=awe6Q1RdG_bVntuGw@mail.gmail.com>
+References: <cover.1535451643.git.alex.kanavin@gmail.com>
+	<c971e5fd32f999781ff4174c7c1ca6d0e54dea65.1535451643.git.alex.kanavin@gmail.com>
+	<CAMKF1spm5a-Zsv5ygjAwf5omk4ekK=ek=awe6Q1RdG_bVntuGw@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 29 Aug 2018 16:44:28 +0200
-Message-ID: <CANNYZj8WMNgS_HAk7rpaTcf8JmEWg5XBca8nJ1iQ1NF5RGCPqQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] openssl: do not tweak so names, use PRIVATE_LIBS instead
+Date: Wed, 29 Aug 2018 16:47:45 +0200
+Message-ID: <CANNYZj8hsVXLe0q59PvMeuVb5=7DPJsndi1r6EqE8bC8RMc3sA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 6/6] ca-certificates: update to 20180409
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,45 +59,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2018 14:44:28 -0000
+X-List-Received-Date: Wed, 29 Aug 2018 14:47:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-This is supplementary to yesterdays' openssl 1.1 patchset.
+2018-08-29 16:30 GMT+02:00 Khem Raj <raj.khem@gmail.com>:
+
+>> -SRCREV = "34b8e19e541b8af4076616b2e170c7a70cdaded0"
+>> +SRCREV = "dbbd11e56af93bb79f21d0ee6059a901f83f70a5"
+>
+> It fails in do_patch for me.
+> Patch 0002-update-ca-certificates-use-SYSROOT.patch does not apply
+> (enforce with -f)
+
+Works for me though. I just did a cleansstate and build to double
+check. Can you try on plain poky master please?
 
 Alex
-
-2018-08-29 16:43 GMT+02:00 Alexander Kanavin <alex.kanavin@gmail.com>:
-> The tweaking was not sufficient to prevent package dependency issues,
-> but there is a standard mechanism to do exactly that kind of prevention
-> which I wasn't aware of.
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
-> index 1917c33..3f4e19f 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
-> @@ -149,14 +149,10 @@ do_install_append_class-nativesdk () {
->
->  do_install_ptest () {
->         cp -r * ${D}${PTEST_PATH}
-> -
-> -       # Putting .so files in ptest package will mess up the dependencies of the main openssl package
-> -       # so we rename them to .so.ptest and patch the test accordingly
-> -       mv ${D}${PTEST_PATH}/libcrypto.so ${D}${PTEST_PATH}/libcrypto.so.ptest
-> -       mv ${D}${PTEST_PATH}/libssl.so ${D}${PTEST_PATH}/libssl.so.ptest
-> -       sed -i 's/$target{shared_extension_simple}/".so.ptest"/' ${D}${PTEST_PATH}/test/recipes/90-test_shlibload.t
->  }
->
-> +PRIVATE_LIBS_${PN}-ptest = "libcrypto.so.1.1 libssl.so.1.1"
-> +
->  # Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
->  # package RRECOMMENDS on this package. This will enable the configuration
->  # file to be installed for both the openssl-bin package and the libcrypto
-> --
-> 2.7.4
->
 
