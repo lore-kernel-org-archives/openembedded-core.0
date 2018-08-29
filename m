@@ -1,29 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E7569771B1
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 74EB57918C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 09:21:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7T9LDXV018642
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 29 Aug 2018 02:21:13 -0700 (PDT)
-Received: from [128.224.162.202] (128.224.162.202) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 29 Aug 2018 02:21:12 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1535533498-36841-1-git-send-email-hongxu.jia@windriver.com>
-	<1535533498-36841-2-git-send-email-hongxu.jia@windriver.com>
-	<dcef97cf1a06461aabe990674fd25bd9@XBOX02.axis.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <7519fb76-4424-9904-e87a-8dc1dc5746e3@windriver.com>
-Date: Wed, 29 Aug 2018 17:21:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Wed, 29 Aug 2018 10:00:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7TA0tMu011408
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Aug 2018 03:00:55 -0700
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 29 Aug 2018 03:00:54 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Aug 2018 18:11:39 +0800
+Message-ID: <cover.1535537452.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <dcef97cf1a06461aabe990674fd25bd9@XBOX02.axis.com>
-Subject: Re: [PATCH 2/2] security_flags.inc: add var-FSTACK_PROTECTOR to improve variable OVERRIDES
+Subject: [PATCH 0/1] elfutils: Fix prelink libqb error on mips and mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,60 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2018 09:21:15 -0000
-Content-Type: multipart/alternative;
-	boundary="------------0A06E9A43D7BB95CBEF4C79A"
-Content-Language: en-US
+X-List-Received-Date: Wed, 29 Aug 2018 10:00:54 -0000
+Content-Type: text/plain
 
---------------0A06E9A43D7BB95CBEF4C79A
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+The following changes since commit 853e0499be449c71378c087e08b1926be8e2ac87:
 
-On 2018年08月29日 17:18, Peter Kjellerstedt wrote:
->> -SECURITY_CFLAGS ?= "-fstack-protector-strong ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
->> -SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
->> +FSTACK_PROTECTOR ?= "-fstack-protector-strong"
-> May I suggest to call it SECURITY_STACK_PROTECTOR instead? That aligns
-> it better with the other variables.
->
-I am no objection on it, after collection the reply, I
+  ruby: improve reproducibility (2018-08-29 10:40:08 +0100)
 
-will send V2 to tweak it
+are available in the git repository at:
 
-//Hongxu
+  git://git.openembedded.org/openembedded-core-contrib rbt/elfutils
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/elfutils
+
+Robert Yang (1):
+  elfutils: Fix prelink libqb error on mips and mips64
+
+ ...lf_end.c-check-data_list.data.d.d_buf-before.patch | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
+
+-- 
+2.7.4
 
 
---------------0A06E9A43D7BB95CBEF4C79A
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2018年08月29日 17:18, Peter
-      Kjellerstedt wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:dcef97cf1a06461aabe990674fd25bd9@XBOX02.axis.com">
-      <blockquote type="cite" style="color: #000000;">
-        <pre wrap="">-SECURITY_CFLAGS ?= "-fstack-protector-strong ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
--SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-+FSTACK_PROTECTOR ?= "-fstack-protector-strong"
-</pre>
-      </blockquote>
-      <pre wrap="">May I suggest to call it SECURITY_STACK_PROTECTOR instead? That aligns 
-it better with the other variables.
-
-</pre>
-    </blockquote>
-    <p>I am no objection on it, after collection the reply, I</p>
-    <p>will send V2 to tweak it<br>
-    </p>
-    <p>//Hongxu<br>
-    </p>
-  </body>
-</html>
-
---------------0A06E9A43D7BB95CBEF4C79A--
