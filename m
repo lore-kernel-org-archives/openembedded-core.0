@@ -1,53 +1,34 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id DC05B78E21
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id BA1A17451E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 22:20:10 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id q8-v6so3516302wmq.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2018 15:20:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=jk6gXKMdSntJcmgOTBcG7CY5luArwDzVj5U/oXCt7Yc=;
-	b=mXLSp1+GQMl6sJ7gtsHvUNippczshmMhmv4/0BERiQpuX08/3mf5ezTvXsLzVtTBU1
-	g1N4Rke79R+3zwfDnNu69hgo+KT/I5CTpnz+qcasLTd2Rjz22abYlVigkfiE4BKmXsfO
-	1idryh20v5TPuiKer+AGyvM/IMvmceaX2e/1xurOl5jVexLXhsS6TjJ9phip9vu41tGl
-	dSd14q3OF7XXP+HWux+eTRYdRFBtdOq+2h+30wjvLWZHGJc70yzwc2DCIkdyciYRBMdR
-	Z8hjyYWz/sNGUFBtJ2C67rQkkouSx1kzGDuXa+y7l1v+t8MWFIV6F5sqQ6VvbVhOENyd
-	30mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=jk6gXKMdSntJcmgOTBcG7CY5luArwDzVj5U/oXCt7Yc=;
-	b=sJc09n0x8ucw6LFKsDUCVEnX3YUPfx9Tv8OVmGiYhjpoCdA+iwguX26fWa3VgUc3AT
-	cY0KcE8rbtSI7GS3xUvOOfusFW6OrGpdamGfXbPLZ+yB5k9waK/9lpJPSJ9axaPvUhAJ
-	AdggilH8nfKTGbxSwkMJyJgoJsBx9Lr+oo/ftRLwWtNTUKdhcM5XSzl7wrPMz032YLkz
-	sSCB9aFU9LtUnFieM4kVyImSS7PHzXJ+teFluKXoobqNz2kXd8WmSuwH8snv0mPnlaac
-	3BE4MtN+zmsUrFjRSPmM8MZynzpEbFPB2iV0H9lScaf6MJwU+6vJVJh+/G8ONgVhHZgu
-	9Peg==
-X-Gm-Message-State: APzg51CMymqk0FGEgMBY34f8ovbIFDFNqTA2DZGWCtjoerkxUbdayeJv
-	+2pKfcrPp+E0sMZAt/ZiTEkOg4QP
-X-Google-Smtp-Source: ANB0VdZ9PekHks0Gv89rbES8Y18A051wyeYDZPs+d+H1gRHAPeB4x56FLPHhq6FSZOd+vxC5nQ0V6w==
-X-Received: by 2002:a1c:938a:: with SMTP id
-	v132-v6mr2644415wmd.114.1535494810925; 
-	Tue, 28 Aug 2018 15:20:10 -0700 (PDT)
-Received: from localhost.localdomain
-	(p200300F07BD956381E6F65FFFE3E7F61.dip0.t-ipconnect.de.
-	[2003:f0:7bd9:5638:1e6f:65ff:fe3e:7f61])
-	by smtp.gmail.com with ESMTPSA id
-	h17-v6sm3263061wrq.73.2018.08.28.15.20.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 28 Aug 2018 15:20:10 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Aug 2018 00:19:54 +0200
-Message-Id: <20180828221954.3214-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.14.4
+	Wed, 29 Aug 2018 01:02:13 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Aug 2018 18:02:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,300,1531810800"; d="scan'208";a="81033907"
+Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.20.116])
+	([10.221.20.116])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Aug 2018 18:02:11 -0700
+To: yang.wang@windriver.com, openembedded-core@lists.openembedded.org
+References: <20180518085550.92085-1-mingli.yu@windriver.com>
+	<5B1E1444.9000407@windriver.com>
+	<30f93af9-5a38-059e-184f-bbbe52a01105@windriver.com>
+	<f248ce00-4c47-7a70-9902-585960c5ccd4@windriver.com>
+	<39d4429f-e3c6-33fc-3073-8cea08d81794@windriver.com>
+	<8c09821e-7076-ad73-2849-c6a7b7287a3e@windriver.com>
+	<63cfc1ec-10c0-a3bf-92be-4549d08c1d60@windriver.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <1b7d0cea-03ca-a74b-d821-f3298f602d84@intel.com>
+Date: Wed, 29 Aug 2018 09:02:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Subject: [PATCH v2] libsdl2: Fix left rotated display for RaspPi/VC4/GLES2
+In-Reply-To: <63cfc1ec-10c0-a3bf-92be-4549d08c1d60@windriver.com>
+Subject: Re: [PATCH] boost: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,179 +41,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 22:20:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 29 Aug 2018 01:02:13 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-The patch should increase performance for libsdl2 on GLES2 too.
+On 08/29/2018 01:22 AM, openembedded-core-bounces@lists.openembedded.org
+wrote:
+> On 08/28/2018 10:25 AM, Yang Wang wrote:
+>> On 08/27/2018 08:57 PM, Randy MacLeod wrote:
+>>> On 08/27/2018 06:17 PM, Yang Wang wrote:
+>>>> Not sure if it's worth to run the Ptest on QEMU though, I also run 
+>>>> Ptest on SIMICS simulators, thousands of tests didn't get run, looks 
+>>>> like the result was not good as well.
+>>>>
+>>>> Now my nightly Ptest runs on x86 device and gets consistent result 
+>>>> every day:
+>>>>
+>>>>      2018-08-27T06:26 -- 2018-08-27T09:52
+>>>>      Passed:  40518
+>>>>      Failed:  289
+>>>>      Skipped: 1876
+>>>
+>>> Consistent results are good and > 90% pass rate is very good.
+>>> What are the stats using qemux86-64 and/or simics?
+>>>
+>>> I don't expect that qemu results would be as close to real hardware
+>>> as Simics but it is quite good and freely available.
+>>>
+>> Actually, Ptest has 37 test suites as far as I know, different test 
+>> suites spent different time on QEMU and hardware, here is a list of 
+>> Ptest suites and their case number and spent time for running:
+>>
+>>
+> Just want to make it look better:
+> ==============
+> #    Suite Name    Case #    Time to Run    Case #    Time to Run
+>                  qemu-x86-64            intel-xeon-core2
+> 1    acl            2        1m            380        1m
+> 2    attr        143        1m            143        1m
+> 3    bash        79        8m            79        4m
+> 4    bluez5        7        6m            7        6m
+> 5    bzip2        6        1m            6        1m
+> 6    dbus-test    15        3m            15        1m
+> 7    diffutils    20        1m            20        2m
+> 8    e2fsprogs    147        9m            335        10m
+> 9    ethtool        2        1m            2        1m
+> 10    flex        114        3m            114        1m
+> 11    gawk        300        3m            298        2m
+> 12    gdbm        30        2m            25        2m
+> 13    glib-2.0    62        14m            220        6m
+> 14    gzip        51        4m            18        1m
+> 15    kbd            15        1m            7        1m
+> 16    libevent    22        6m            1        3m
+> 17    libpcre        34        3m            3        1m
+> 18    libxml2        1        1m            0        1m
+> 19    lzo            75        8m            5        3m
+> 20    mdadm                6m                    6m
+> 21    nettle        90        3m            90        3m
+> 22    numactl                            8        3m
+> 23    openssh        13        27m            47        52m
+> 24    openssl        87        47m            56        15m
+> 25    parted        64        5m            38        10m
+> 26    perl        101        20m            2440    47m
+> 27    perl5        110        17m            2406    29m
+> 28    python        10961    1h 5m        32323    20m
+> 29    rsyslog        2200    3h 37m        25        8m
+> 30    sed            147        1m            86        3m
+> 31    slang                            96        1m
+> 32    strace        1557    1h 13m        431        6m
+> 33    systemd        305        9m            155        3m
+> 34    tcl            869        53m            206        6m
+> 35    tcpdump        451        7m            413        3m
+> 36    util-linux    516        25m            514        13m
+> 37    zlib        2        1m            2        1m
+>      Overall        18080    10h 30m        40415    4h 15m
+> 
+>>
+>> As you can see, running subset of them on QEMU could be a solution if 
+>> people do not want to spend too much time on it or simulator is the 
+>> preferred test device.
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- ...01-GLES2-Get-sin-cos-out-of-vertex-shader.patch | 141 +++++++++++++++++++++
- meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb     |   1 +
- 2 files changed, 142 insertions(+)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
+Would it make sense using qemu to run the `make check` tests (when
+available) and together with ptests and auto upgrade bot (which is run
+every two weeks?), automate upgrading of recipes to some extent?
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
-new file mode 100644
-index 0000000000..621b7ea1a0
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
-@@ -0,0 +1,141 @@
-+From c215ba1d52a3d4ef03af3ab1a5baa1863f812aed Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-+Date: Fri, 24 Aug 2018 23:10:25 +0200
-+Subject: [PATCH] GLES2: Get sin/cos out of vertex shader
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The only place angle is activated and causes effect is RenderCopyEx. All other
-+methods which use vertex shader, leave angle disabled and cause useless sin/cos
-+calculation in shader.
-+
-+To get around shader's interface is changed to a vector that contains results
-+of sin and cos. To behave properly when disabled, cos value is set with offset
-+-1.0 making 0.0 default when deactivated.
-+
-+As nice side effect it simplifies GLES2_UpdateVertexBuffer: All attributes are
-+vectors now.
-+
-+Additional background:
-+
-+* On RaspberryPi it gives a performace win for operations. Tested with
-+  [1] numbers go down for 5-10% (not easy to estimate due to huge variation).
-+* SDL_RenderCopyEx was tested with [2]
-+* It works around left rotated display caused by low accuracy sin implemetation
-+  in RaspberryPi/VC4 [3]
-+
-+Upstream-Status: Submitted [4]
-+
-+[1] https://github.com/schnitzeltony/sdl2box
-+[2] https://github.com/schnitzeltony/sdl2rendercopyex
-+[3] https://github.com/anholt/mesa/issues/110
-+[4] https://hg.libsdl.org/SDL/rev/e5a666405750
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-+---
-+ src/render/opengles2/SDL_render_gles2.c  | 17 ++++++++++++-----
-+ src/render/opengles2/SDL_shaders_gles2.c | 14 +++++++++-----
-+ 2 files changed, 21 insertions(+), 10 deletions(-)
-+
-+diff --git a/src/render/opengles2/SDL_render_gles2.c b/src/render/opengles2/SDL_render_gles2.c
-+index 14671f7c8..7c54a7333 100644
-+--- a/src/render/opengles2/SDL_render_gles2.c
-++++ b/src/render/opengles2/SDL_render_gles2.c
-+@@ -1530,7 +1530,7 @@ GLES2_UpdateVertexBuffer(SDL_Renderer *renderer, GLES2_Attribute attr,
-+     GLES2_DriverContext *data = (GLES2_DriverContext *)renderer->driverdata;
-+ 
-+ #if !SDL_GLES2_USE_VBOS
-+-    data->glVertexAttribPointer(attr, attr == GLES2_ATTRIBUTE_ANGLE ? 1 : 2, GL_FLOAT, GL_FALSE, 0, vertexData);
-++    data->glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, vertexData);
-+ #else
-+     if (!data->vertex_buffers[attr]) {
-+         data->glGenBuffers(1, &data->vertex_buffers[attr]);
-+@@ -1545,7 +1545,7 @@ GLES2_UpdateVertexBuffer(SDL_Renderer *renderer, GLES2_Attribute attr,
-+         data->glBufferSubData(GL_ARRAY_BUFFER, 0, dataSizeInBytes, vertexData);
-+     }
-+ 
-+-    data->glVertexAttribPointer(attr, attr == GLES2_ATTRIBUTE_ANGLE ? 1 : 2, GL_FLOAT, GL_FALSE, 0, 0);
-++    data->glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, 0);
-+ #endif
-+ 
-+     return 0;
-+@@ -1853,6 +1853,8 @@ GLES2_RenderCopy(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect *s
-+     return GL_CheckError("", renderer);
-+ }
-+ 
-++#define PI 3.14159265f
-++
-+ static int
-+ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect *srcrect,
-+                  const SDL_FRect *dstrect, const double angle, const SDL_FPoint *center, const SDL_RendererFlip flip)
-+@@ -1861,8 +1863,9 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
-+     GLfloat vertices[8];
-+     GLfloat texCoords[8];
-+     GLfloat translate[8];
-+-    GLfloat fAngle[4];
-++    GLfloat fAngle[8];
-+     GLfloat tmp;
-++    float radian_angle;
-+ 
-+     GLES2_ActivateRenderer(renderer);
-+ 
-+@@ -1872,7 +1875,11 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
-+ 
-+     data->glEnableVertexAttribArray(GLES2_ATTRIBUTE_CENTER);
-+     data->glEnableVertexAttribArray(GLES2_ATTRIBUTE_ANGLE);
-+-    fAngle[0] = fAngle[1] = fAngle[2] = fAngle[3] = (GLfloat)(360.0f - angle);
-++
-++    radian_angle = PI * (360.0f - angle) / 180.f;
-++    fAngle[0] = fAngle[2] = fAngle[4] = fAngle[6] = (GLfloat)sin(radian_angle);
-++    /* render expects cos value - 1 (see GLES2_VertexSrc_Default_) */
-++    fAngle[1] = fAngle[3] = fAngle[5] = fAngle[7] = (GLfloat)cos(radian_angle) - 1.0f;
-+     /* Calculate the center of rotation */
-+     translate[0] = translate[2] = translate[4] = translate[6] = (center->x + dstrect->x);
-+     translate[1] = translate[3] = translate[5] = translate[7] = (center->y + dstrect->y);
-+@@ -1901,7 +1908,7 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
-+     data->glVertexAttribPointer(GLES2_ATTRIBUTE_CENTER, 2, GL_FLOAT, GL_FALSE, 0, translate);
-+     data->glVertexAttribPointer(GLES2_ATTRIBUTE_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);*/
-+ 
-+-    GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_ANGLE, fAngle, 4 * sizeof(GLfloat));
-++    GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_ANGLE, fAngle, 8 * sizeof(GLfloat));
-+     GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_CENTER, translate, 8 * sizeof(GLfloat));
-+     GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_POSITION, vertices, 8 * sizeof(GLfloat));
-+ 
-+diff --git a/src/render/opengles2/SDL_shaders_gles2.c b/src/render/opengles2/SDL_shaders_gles2.c
-+index b0bcdff25..f428a4945 100644
-+--- a/src/render/opengles2/SDL_shaders_gles2.c
-++++ b/src/render/opengles2/SDL_shaders_gles2.c
-+@@ -30,20 +30,24 @@
-+ /*************************************************************************************************
-+  * Vertex/fragment shader source                                                                 *
-+  *************************************************************************************************/
-+-
-++/* Notes on a_angle:
-++   * It is a vector containing sin and cos for rotation matrix
-++   * To get correct rotation for most cases when a_angle is disabled cos
-++     value is decremented by 1.0 to get proper output with 0.0 which is
-++     default value
-++*/
-+ static const Uint8 GLES2_VertexSrc_Default_[] = " \
-+     uniform mat4 u_projection; \
-+     attribute vec2 a_position; \
-+     attribute vec2 a_texCoord; \
-+-    attribute float a_angle; \
-++    attribute vec2 a_angle; \
-+     attribute vec2 a_center; \
-+     varying vec2 v_texCoord; \
-+     \
-+     void main() \
-+     { \
-+-        float angle = radians(a_angle); \
-+-        float c = cos(angle); \
-+-        float s = sin(angle); \
-++        float s = a_angle[0]; \
-++        float c = a_angle[1] + 1.0; \
-+         mat2 rotationMatrix = mat2(c, -s, s, c); \
-+         vec2 position = rotationMatrix * (a_position - a_center) + a_center; \
-+         v_texCoord = a_texCoord; \
-+-- 
-+2.14.4
-+
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-index accea38aaa..52bb93a17a 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-@@ -14,6 +14,7 @@ PROVIDES = "virtual/libsdl2"
- 
- SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://more-gen-depends.patch \
-+           file://0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch \
- "
- 
- S = "${WORKDIR}/SDL2-${PV}"
--- 
-2.14.4
+If auto upgrade helper manages to use devtool to upgrade successfully,
+run these tests on image/qemu and if the tests pass (as compared against
+last good baseline which can be stored as metadata in AUH or the test
+result log repository), just send the upgraded recipe patch to list
+instead of sending to the recipe maintainer listed, reducing manual
+intervention to some extent and perhaps tested (to some extent),
+frequent and smaller upgrades ...
 
+Thanks,
+
+Anuj
 
