@@ -1,44 +1,24 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
-	[209.85.222.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D09B6010D
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 415EF745C3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 13:39:26 +0000 (UTC)
-Received: by mail-ua1-f66.google.com with SMTP id r15-v6so3255395uao.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 06:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=GV3QQYMVxwWONQXCdb9hW52iyVATUcVTfnUFWSgakRk=;
-	b=K0blluD4p4jqE9u20tQBEpLmvFivaHatoQxC7XT1hDsVrjPxqNieDjOjrkU0FaGbzP
-	HgDpldknY0KOpGz5tgaHmiHFJ85mTocRS0TrCx3unvX7UO4w7fD334pB8qWY+q5RWCm7
-	ceIL7Sl6n3iVLtKIsCtFefx5hm+uousWKMmxXUqWusp1NaAOaE6VtHjrFcuwz8AoUFBa
-	p++sctXVO15G0q7KjaRO78aTTbeco0AqngHcuQdjvUIPqK4oqCt8GIOEESWX5IJBV7J7
-	UHlcSoW20pXCzhfPla7rMLS+vzu9OHeFUDOEYvIcef3NwEKJ8qR0H+cVObteUHm+YBj/
-	rIOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=GV3QQYMVxwWONQXCdb9hW52iyVATUcVTfnUFWSgakRk=;
-	b=E4CN6x/WWQbEjcwCQq5jWB1+Uhb1Cd4iGYFjujs2xG/ipYE5WC6dpUtb0cfQVUnuaz
-	FXWQysfq5nkIBM2fOYXVLT25VDm33V9SDeB6ySBc+17CZg+vbp4NCmnm5D0ZWdq/Y1lk
-	PFyKpyV5pU4KU5cZePw/kQoC8ETJAoCD3gBoZ6IaedWuvJEZj0WZmz8YA5sk/D7AGTXe
-	2rKVUhG2reFgfJGBnjP2AeFjaO7gVAA5TL+kRIPvFeZ5mM3OILgWg8rpFBg3SvSgv58F
-	NNAk2tUIeANrEpxSBvdsuY7jdGhA0DoogPeZHAI5uRpw93RhcIkU85AfvFYF0LJqZLcM
-	VYHA==
-X-Gm-Message-State: APzg51Bbl8i7Firf6Bbzaib44FklgUDBsQDEWErpotEkV3AQPVqjDYE+
-	r70jBDyScs+dUOcvhdkLQ7blYkhQftPFzRCBlHY=
-X-Google-Smtp-Source: ANB0VdZpU84+lF/BHZyMp7byABcWP9n8lR7V803VMiN5zlXiN1VULOZgOvvaHTGXCA/Tf43A6LdnXfK66PLyhLUNYOc=
-X-Received: by 2002:a9f:33ee:: with SMTP id
-	y46-v6mr4120122uab.90.1535549967688; 
-	Wed, 29 Aug 2018 06:39:27 -0700 (PDT)
+	Wed, 29 Aug 2018 14:01:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7TE1hYj024020
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 29 Aug 2018 07:01:43 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 29 Aug 2018 07:01:42 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Aug 2018 22:01:40 +0800
+Message-ID: <1535551300-9964-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1535533498-36841-2-git-send-email-hongxu.jia@windriver.com>
+References: <1535533498-36841-2-git-send-email-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 29 Aug 2018 14:39:16 +0100
-Message-ID: <CAO5Uq5Q2QLz-TM-0Nugzj15Qzpdj1xFaLptGR_KJL6qtWQi7wg@mail.gmail.com>
-To: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Multiconfig builds broken in master
+Subject: [PATCH V2] security_flags.inc: add var-SECURITY_STACK_PROTECTOR to improve variable OVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,41 +31,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2018 13:39:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 29 Aug 2018 14:01:44 -0000
+Content-Type: text/plain
 
-I've run into a weird multiconfig problem on master which seems to
-have been introduced with
+There are var-SECURITY_PIE_CFLAGS, var-lcl_maybe_fortify and
+var-SECURITY_STRINGFORMAT which are helpful for OVERRIDES.
 
-b8730f6 ("bitbake: bitbake: Add support for multiconfig dependencies")
+Also add var-SECURITY_STACK_PROTECTOR, and drop hardcoded `_remove'
+overrides. Such as `4ca946c security_flags: use -fstack-protector-strong',
+it s/-fstack-protector-all/-fstack-protector-strong/, only tweak
+var-SECURITY_STACK_PROTECTOR is sufficient.
 
-Before that, I could happily use:
+The fix does not have any side affect on SECURITY_CFLAGS of glibc/
+glibc-initial/gcc-runtime, these three directly assigned with "".
+...
+SECURITY_CFLAGS_pn-glibc = ""
+SECURITY_CFLAGS_pn-glibc-initial = ""
+SECURITY_CFLAGS_pn-gcc-runtime = ""
+...
 
-bitbake multiconfig:gplv2:production-image
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/conf/distro/include/security_flags.inc | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-whereas now it fails (gplv2 is a multiconfig which basically just sets
-TMPDIR and INCOMPATIBLE_LICENSES).
-
-The error suggests failure to populate IMAGE_FEATURES correctly:
-
-ERROR: Nothing PROVIDES 'production-image'
-production-image was skipped: 'ostree' in IMAGE_FEATURES is not a
-valid image feature. Valid features: allow-empty-password
-allow-root-login autologin dbg-pkgs debug-tweaks dev-pkgs doc doc-pkgs
-eclipse-debug empty-root-password hwcodecs muted nfs-client nfs-server
-package-management post-install-logging ptest-pkgs read-only-rootfs
-splash ssh-server-dropbear ssh-server-openssh staticdev-pkgs
-tools-debug tools-profile tools-sdk tools-testapps usb-nmc x11
-x11-base x11-sato
-
-(the ostree feature is introduced by a layer derived from the Intel
-IoT refkit - https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/classes/ostree-image.bbclass)
-
-If I revert that single commit everything works again.
-
-Clearly there's nothing in that changeset which is touching
-IMAGE_FEATURES, so it's something way more subtle!
-
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index e113f99..620978a 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -21,11 +21,13 @@ SECURITY_PIE_CFLAGS ?= "${@'' if '${GCCPIE}' else '-pie -fPIE'}"
+ 
+ SECURITY_NOPIE_CFLAGS ?= "-no-pie -fno-PIE"
+ 
+-SECURITY_CFLAGS ?= "-fstack-protector-strong ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+-SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
++SECURITY_STACK_PROTECTOR ?= "-fstack-protector-strong"
+ 
+-SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
+-SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
++SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
++SECURITY_NO_PIE_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
++
++SECURITY_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro,-z,now"
++SECURITY_X_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro"
+ 
+ # powerpc does not get on with pie for reasons not looked into as yet
+ GCCPIE_powerpc = ""
+@@ -56,9 +58,9 @@ SECURITY_STRINGFORMAT_pn-gcc = ""
+ TARGET_CC_ARCH_append_class-target = " ${SECURITY_CFLAGS}"
+ TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
+ 
+-SECURITY_LDFLAGS_remove_pn-gcc-runtime = "-fstack-protector-strong"
+-SECURITY_LDFLAGS_remove_pn-glibc = "-fstack-protector-strong"
+-SECURITY_LDFLAGS_remove_pn-glibc-initial = "-fstack-protector-strong"
++SECURITY_STACK_PROTECTOR_pn-gcc-runtime = ""
++SECURITY_STACK_PROTECTOR_pn-glibc = ""
++SECURITY_STACK_PROTECTOR_pn-glibc-initial = ""
+ # All xorg module drivers need to be linked this way as well and are
+ # handled in recipes-graphics/xorg-driver/xorg-driver-common.inc
+ SECURITY_LDFLAGS_pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
 -- 
-Alex Kiernan
+2.7.4
+
 
