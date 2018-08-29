@@ -1,49 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 678677914C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+	[209.85.208.49])
+	by mail.openembedded.org (Postfix) with ESMTP id ABC8E793BC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 14:30:27 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id g44-v6so5906467qtb.12
+	Wed, 29 Aug 2018 14:43:54 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id f4-v6so4136448edq.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 07:30:28 -0700 (PDT)
+	Wed, 29 Aug 2018 07:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=IusHwIbjCY8ITDtOlXPZSHMtX0DREJrC7h+zDFR/q48=;
-	b=YNqtRLeibSh7vjbvJC5NhfbPaY675cw0Y0jlqacm9uqXCQZWbD0s9+EHES287jpmzv
-	qAqln5HINZwpkFUTFL8vldVQiD0TVc2OOLVokPQrhy8Q/Pb0psqv7vcFTTBh0IV8aIUW
-	RF634ArZx8D2dRFR+2xE6Pmlx1l/xSnyB8zdd2yRuG6A4j2YKdBLNidQ4hzorTFeHrRa
-	tSVrRscNoTO+c9bLu0dsErBY/AR5SlgLwYENEzLNtgn3DjXuAt5pCaLcyL17Ze7RZow1
-	7bmf9FSCzzjrMJijzEggkUK/ajSrW+HJxoRW/Sdv6CXmYWVGFhOnskucQSwQxJ6qdgPS
-	plTg==
+	h=from:to:cc:subject:date:message-id;
+	bh=0Y6oYAEl8Y3wEx5ZlZwhNKV+DWZWT/0Z2O9oQFpSHao=;
+	b=fJU7BJLn9bR7tTNpfYczU4yEVenlvON1Cshnud2qhnhKmUZfKZB5ZgC5EfSA0Cx5Vr
+	nXHxSsUnqULa/+kNs4ies0YDcMBQ98cVbyYpJaw13NeezU/Cl/VnT755zlZnnDccKx/F
+	ZVI/hKDlPTeRcGnDOMBBjjs7nOhvIMITj5MK+8Nb63SbTC4ZXGQb8UC3quorNUSskN7h
+	fS+890pxVeqAa2jwBda4zrHGhEGVUSeu9Lx7r2XNQAhh1ZCV9YYwbap2mRhDhnuqQHig
+	LeY+33HKoXHpNSfByKdq4c8uyhub2Es4Qh8LexHIKOeNnw7ye7O3dFVFUZ5nix1hFvwe
+	7Jlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=IusHwIbjCY8ITDtOlXPZSHMtX0DREJrC7h+zDFR/q48=;
-	b=gzNwfe7KnyNyC+yfBqoaJs62xPCWm5noVYT7GhuX5M6KByy1Cc4bKlbqChpaXMbqiq
-	xjEW5CQwNgKIrFj0P613vBdNxlXQQY55h16t8AsFdYKz4teW3XzJYUlcnRWLAn9WjJ9y
-	3cWaTqg48S9ukJ9WcjtanPK8imbHesc6R9ufd+l+wM/N8ah7Jd9ZBLaHARiJkhDgeV1d
-	4PP0p9suncbO0iJ6UGx2j3LI+kxaI6CFCn5Zm7DuIfuAeH4mAynJsSVQRXCC/gjZFG7c
-	LxbQeycsWB9Hk4atiHPKxLbq+GDp2AyCbb+49qIDDGZ63fLoguXsStCE1usn06OqnLBW
-	g+5A==
-X-Gm-Message-State: APzg51B1dd5lNX78/fNONDwy7ihTII7/+AP5Pku4punetpucKs3TJ7OD
-	IKthlirYYPh19ruFY7hBWbvKRWHiKrqu5G+B/to=
-X-Google-Smtp-Source: ANB0VdbfFJBrUq+YZVfi91lNxR8CXuM9gtgOADy7SNXRuwW5I2oUvi+ZMzKYcfFl0Fne821JDZc/c5cshBVunlDD6hs=
-X-Received: by 2002:a0c:e205:: with SMTP id
-	q5-v6mr6519808qvl.224.1535553028085; 
-	Wed, 29 Aug 2018 07:30:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1535451643.git.alex.kanavin@gmail.com>
-	<c971e5fd32f999781ff4174c7c1ca6d0e54dea65.1535451643.git.alex.kanavin@gmail.com>
-In-Reply-To: <c971e5fd32f999781ff4174c7c1ca6d0e54dea65.1535451643.git.alex.kanavin@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 29 Aug 2018 07:30:00 -0700
-Message-ID: <CAMKF1spm5a-Zsv5ygjAwf5omk4ekK=ek=awe6Q1RdG_bVntuGw@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 6/6] ca-certificates: update to 20180409
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0Y6oYAEl8Y3wEx5ZlZwhNKV+DWZWT/0Z2O9oQFpSHao=;
+	b=QHJdIwNcSXieqQC2udlHM/oNCU4WX+asl8tx3INSiMLZkqFU/nBSP/Racr6cMHL2jI
+	IcV5kCbXyd16WrS1wZZKEQh9+MwBq/Af3OzsJ++4btQFLdP/loXVl19NqAZJqfpNLY0y
+	8OVEJRemuknnTNDQWpHPH0M9++gneJ30euX/ZEiiWC/JWOnSilcr0C9laJs/ZLS6tbRL
+	w9nRGw51SqhxFgE7poISEqNGOHp7ml5qqZIj8N5SFSx1WDfbuQ0XvrOqUZ2VXhzTfUT4
+	rUqEdKU0ob4uSo8jA0JQz0Z62HrxjbeGtLQfQeFAijNAHE5EkwxMEPVbfKgyDrpEZIgL
+	9X7A==
+X-Gm-Message-State: APzg51DMY30YOpGY3P93id4aSpHHrx1A9ldAP7h0Dc1ODBmb8w3sT+mc
+	oRcVlbp2Z0TmSEUTtcpHkwVLJ9wK
+X-Google-Smtp-Source: ANB0VdYMUswXjCb1qxMpqwQSnyUAoAo6NrqbuAcMLpGK+tO6q6vMTHdzi8mu3Hxxg/cnsw2I4yMv9Q==
+X-Received: by 2002:a50:d512:: with SMTP id
+	u18-v6mr2853870edi.291.1535553835039; 
+	Wed, 29 Aug 2018 07:43:55 -0700 (PDT)
+Received: from localhost.localdomain ([79.140.126.226])
+	by smtp.gmail.com with ESMTPSA id
+	a19-v6sm3203217edd.69.2018.08.29.07.43.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 29 Aug 2018 07:43:54 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Aug 2018 16:43:47 +0200
+Message-Id: <1535553827-23904-1-git-send-email-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [RFC] openssl: do not tweak so names, use PRIVATE_LIBS instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,45 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2018 14:30:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 29 Aug 2018 14:43:55 -0000
 
-On Tue, Aug 28, 2018 at 3:24 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->
-> License-Update: URI fix
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  .../{ca-certificates_20170717.bb => ca-certificates_20180409.bb}      | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-support/ca-certificates/{ca-certificates_20170717.bb => ca-certificates_20180409.bb} (95%)
->
-> diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb b/meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
-> similarity index 95%
-> rename from meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
-> rename to meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
-> index 24d3a6e..0d57083 100644
-> --- a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
-> +++ b/meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
-> @@ -5,7 +5,7 @@ This derived from Debian's CA Certificates."
->  HOMEPAGE = "http://packages.debian.org/sid/ca-certificates"
->  SECTION = "misc"
->  LICENSE = "GPL-2.0+ & MPL-2.0"
-> -LIC_FILES_CHKSUM = "file://debian/copyright;md5=e7358b9541ccf3029e9705ed8de57968"
-> +LIC_FILES_CHKSUM = "file://debian/copyright;md5=aeb420429b1659507e0a5a1b123e8308"
->
->  # This is needed to ensure we can run the postinst at image creation time
->  DEPENDS = ""
-> @@ -14,7 +14,7 @@ DEPENDS_class-nativesdk = "openssl-native"
->  # Need c_rehash from openssl and run-parts from debianutils
->  PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
->
-> -SRCREV = "34b8e19e541b8af4076616b2e170c7a70cdaded0"
-> +SRCREV = "dbbd11e56af93bb79f21d0ee6059a901f83f70a5"
+The tweaking was not sufficient to prevent package dependency issues,
+but there is a standard mechanism to do exactly that kind of prevention
+which I wasn't aware of.
 
-It fails in do_patch for me.
-Patch 0002-update-ca-certificates-use-SYSROOT.patch does not apply
-(enforce with -f)
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
+index 1917c33..3f4e19f 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
+@@ -149,14 +149,10 @@ do_install_append_class-nativesdk () {
+ 
+ do_install_ptest () {
+ 	cp -r * ${D}${PTEST_PATH}
+-
+-	# Putting .so files in ptest package will mess up the dependencies of the main openssl package
+-	# so we rename them to .so.ptest and patch the test accordingly
+-	mv ${D}${PTEST_PATH}/libcrypto.so ${D}${PTEST_PATH}/libcrypto.so.ptest
+-	mv ${D}${PTEST_PATH}/libssl.so ${D}${PTEST_PATH}/libssl.so.ptest
+-	sed -i 's/$target{shared_extension_simple}/".so.ptest"/' ${D}${PTEST_PATH}/test/recipes/90-test_shlibload.t
+ }
+ 
++PRIVATE_LIBS_${PN}-ptest = "libcrypto.so.1.1 libssl.so.1.1"
++
+ # Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
+ # package RRECOMMENDS on this package. This will enable the configuration
+ # file to be installed for both the openssl-bin package and the libcrypto
+-- 
+2.7.4
+
 
