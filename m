@@ -1,72 +1,48 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A56078F5D
+Return-Path: <texier.pj2@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A55860807
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 21:37:33 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id x197-v6so11864972oix.5
+	Wed, 29 Aug 2018 22:18:04 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id m27-v6so6227708wrf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 14:37:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=4CEsdA5YCbApVlpamC36K+b9OX7TSKfYO15jjax5wFw=;
-	b=O0geEFfqeUjWf5UyQq0QWM0yEQ5gzwwrpinJPEZDV9VmqGPaKvC8L9tjrKxdZF7fk4
-	c6K2UwNRd/zaZewoIODzPWOS6Q+v0LqyMbPP3Jkhg2lusGmPB7+4x8QZj0HDdIdiTUUM
-	T0h5q/5zDtVfzaZ0moDT/E/8rkgHlCwP/Recjh5RRC+X0MrpiXRW21a7MU72+dWNkU37
-	qsOzG1DuUjPMNCTu2a7aTLanjPcIFUUt7nXBdjruDcMWx6GQpf7B1nkNxVoOOESgOPx+
-	h4svlEa7TC3G26um3glWsITEKFGuVo9TWWQblus43G0faZC159qKQbsK4GoGt98m8UYK
-	YK7A==
+	Wed, 29 Aug 2018 15:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=AzAL++5Toc/v8KsBo2oJe+0wQ5IoeOgxOqrpT0181U8=;
+	b=FZJ7zHJL0WT7GGFWcqB3MXrPs1YYPuPpxAbPRi3x4q1wK2e+hCKwYoirweT4j97oiA
+	efTYzjtA0pXZlW0LNdb6+AFBdOW0q1r7/JrRz9cv8lIxqRIOvJJemQB6a2hD2OXnrVLJ
+	nA7/FTTWS1JSar7iqexgZ6mK5Ztlaa6Y1G0hsXEZ3IfLDeYe3WGwy3h9c6HUd2j+IlTl
+	HuZ7Gf0yKwRj0/q245J8JOScNXaLq2yc3tF/WzL70KhNirDzWRFUMhiR3lQ/ZFGERFLV
+	2d1NdF1cdfD8HuItl2cxZ1hyWuSz91e0DTmWhTbkunwajkcV3qmul4psz1GangV5kIx8
+	s7QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-	:message-id:subject:to:cc;
-	bh=4CEsdA5YCbApVlpamC36K+b9OX7TSKfYO15jjax5wFw=;
-	b=kzJsQt7F8ZGamMVkNC8kcSmp47ilAZ6nqdbgbrSo1THM5gaRrR2mVpNgggeS7AaU24
-	UKr8ddYR5pQfgkv8ji/3RyYHtDFVCFxINxuj95ugXTcDlNU3/pLT/pXzWDhLDIJdzgeh
-	AXtCklR78VlkwwLm9BLkl5pwQ/ZYhfzYQM0vAoaeIm0auVIxVp7OFJZR4en7Nh4ThT65
-	zDbFhzdwxoH+ZkJsYHN2m1LYXci6TXYCEYtJrVfchq4x1mMOeKI/mI2krQHl0CK2VMiw
-	XxPjuaaGtLHeK+oWZLaq6vhdrFtoqT0T6LDLislsUyye0u0TgUZnzYcEDiccJ7Frg3jS
-	pboA==
-X-Gm-Message-State: APzg51CFLpGE7hcKtXoYTcwd6DGI4b0Zg8HwAp++w5q4BxU2X3BWQru6
-	phXnDpC0CDbgPyYPNaEgBPnCZVSjTaCEyQ==
-X-Google-Smtp-Source: ANB0VdaDuBxnjp0LXC5/V1VnRVHTp+h9gwc+70ef0zF1IOvqgMQqSbVGDYuzzPSbLSDR32LPdJhl9Q==
-X-Received: by 2002:aca:ce85:: with SMTP id
-	e127-v6mr4609573oig.169.1535578654081; 
-	Wed, 29 Aug 2018 14:37:34 -0700 (PDT)
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com.
-	[209.85.218.47]) by smtp.gmail.com with ESMTPSA id
-	v202-v6sm4293168oie.47.2018.08.29.14.37.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Aug 2018 14:37:32 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f47.google.com with SMTP id k81-v6so5723681oib.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 14:37:32 -0700 (PDT)
-X-Received: by 2002:aca:db09:: with SMTP id
-	s9-v6mr4246925oig.339.1535578652173; 
-	Wed, 29 Aug 2018 14:37:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <7AA7B88A6FC2B84F9AA5EF03A8A6FCB201348A030B@ALA-MBD.corp.ad.wrs.com>
-	<bebc4ced-47eb-9cb8-4df5-4716a2dd4d11@windriver.com>
-	<CAP71WjxgSESvWm=FO=O0cmY+UE82OEc3L=2ioJp9K4xuhZ_hRQ@mail.gmail.com>
-	<0f31c417-75ef-fdd4-925f-de320a778275@windriver.com>
-	<46251E21CF6D2D45A2D672A9B36E9FF34EC18912@fmsmsx104.amr.corp.intel.com>
-	<7AA7B88A6FC2B84F9AA5EF03A8A6FCB201348A4B2F@ALA-MBD.corp.ad.wrs.com>
-	<CAP9ODKoiejC--zVT=rCoT02emZ687eAxb8ZhZjcvCuNa+aBkTQ@mail.gmail.com>
-	<dffdb339-f835-7ad6-2d8f-a04b20237364@windriver.com>
-In-Reply-To: <dffdb339-f835-7ad6-2d8f-a04b20237364@windriver.com>
-Date: Wed, 29 Aug 2018 18:37:19 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqaDGPvpaGDZm6bFSZxcvewk1tGBw0sPMox5s1bzSHHxg@mail.gmail.com>
-Message-ID: <CAP9ODKqaDGPvpaGDZm6bFSZxcvewk1tGBw0sPMox5s1bzSHHxg@mail.gmail.com>
-To: yang.wang@windriver.com
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	jair.de.jesus.gonzalez.plascencia@intel.com,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Yocto Project Bug 12372 - Automate the execution of pTest with LAVA
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AzAL++5Toc/v8KsBo2oJe+0wQ5IoeOgxOqrpT0181U8=;
+	b=UgFMC6oAyphCfO854ItHQLw9rjee2pJDkna9CSMt/rBb84oijjpASxpFkFvkOIoPej
+	ytCsHrG801Ntdpog7p2QIzAvr4gHWNO4iPD03AaNN3CSml6vjwuI08bwpy5YTCwSk8+z
+	CbOPJYuqVF7iqTvxbGIAST7jwdCvyfMSGR5IZ8ODtiv+38dCxf4qc3Xi3joNOI4fkbdB
+	VLHUIluG9MvwO3DtwV/6K/TIgPY/6qw08BqKqoEjdL35y3myXbAuvqTjk+UqxRwwNbrY
+	9yr331CKw6iTl1mRP6fl/chjFkHUX1ll+4qvTOCJpIEKss0+Jtsp08TgUfWBvaF0SoG9
+	ExQA==
+X-Gm-Message-State: APzg51Ce/g/n6IgZmXDPgn/7EdHYcx7IffFl3rMNvlhM240ukKBNSzVM
+	K2hsf0coYFci71efVnLYlCcxnwTo
+X-Google-Smtp-Source: ANB0VdaPWNnupAYqeyPViCFfv4SsF9dz/yy8SCrMEoPP5qtv4d0cgx7ayDmsR95tHtsn3bXoCjWeMg==
+X-Received: by 2002:a5d:438d:: with SMTP id
+	i13-v6mr5856762wrq.156.1535581085037; 
+	Wed, 29 Aug 2018 15:18:05 -0700 (PDT)
+Received: from menoah.home ([2a01:cb19:190:c500:1198:c038:2f3f:1b47])
+	by smtp.gmail.com with ESMTPSA id
+	q200-v6sm545673wmd.2.2018.08.29.15.18.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 29 Aug 2018 15:18:04 -0700 (PDT)
+From: Pierre-Jean Texier <texier.pj2@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Aug 2018 00:18:00 +0200
+Message-Id: <1535581080-9010-1-git-send-email-texier.pj2@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] kernel-fitimage: Fix no reg property warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -79,35 +55,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2018 21:37:33 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 29 Aug 2018 22:18:04 -0000
 
-On Mon, Aug 27, 2018 at 7:08 PM Yang Wang <yang.wang@windriver.com> wrote:
->
-> On 08/26/2018 10:04 PM, Otavio Salvador wrote:
-> > On Fri, Aug 24, 2018 at 11:23 AM Wang, Yang (Young)
-> > <yang.wang@windriver.com> wrote:
-> >> I see some good feedback from people mentioned they are working on similar solutions and should come out soon. We will continuously work on this ticket.
-> > Did you consider using labgrid? It has a lot in common in current
-> > infra we use in OEQA (ptest and like) and has nice capabilities to be
-> > used locally and remotely.
-> >
-> Quickly had a look at labgrid, looks like it is using similar method to
-> control devices with using configuration files, in this case, target
-> controller is common, with using different type of YAML config files, it
-> can control different devices. (Please correct me if I'm wrong.)
->
-> I think the key point of this ticket is to run Ptest on hardware devices
-> automatically and make it as common as possible for Yocto. So, no matter
-> using LAVA or labgrid, the devices being controlled need to be publicly
-> accessible and maintained well.
->
-> Do you have examples similar to this ticket can share with us?
+The DT specifications demands a unit-address of a node name to match the "reg"
+property in that node. Newer dtc versions will throw warnings if this is
+not the case.
 
-I don't but I think it would be worth checking with Pengutronix if
-they could provide some.
+Fixes the following warnings:
+
+| <stdout>: Warning (unit_address_vs_reg): Node /images/kernel@1 has a unit name, but no reg property
+| <stdout>: Warning (unit_address_vs_reg): Node /images/kernel@1/hash@1 has a unit name, but no reg property
+| <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek.dtb has a unit name, but no reg property
+| <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek.dtb/hash@1 has a unit name, but no reg property
+| <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda4.dtb has a unit name, but no reg property
+| <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda4.dtb/hash@1 has a unit name, but no reg property
+| <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda7.dtb has a unit name, but no reg property
+| <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda7.dtb/hash@1 has a unit name, but no reg property
+| <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda7b.dtb has a unit name, but no reg property
+| <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda7b.dtb/hash@1 has a unit name, but no reg property
+
+Signed-off-by: Pierre-Jean Texier <texier.pj2@gmail.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 50a91e1..491784c 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -109,7 +109,7 @@ fitimage_emit_section_kernel() {
+ 	fi
+ 
+ 	cat << EOF >> ${1}
+-                kernel@${2} {
++                kernel-${2} {
+                         description = "Linux kernel";
+                         data = /incbin/("${3}");
+                         type = "kernel";
+@@ -118,7 +118,7 @@ fitimage_emit_section_kernel() {
+                         compression = "${4}";
+                         load = <${UBOOT_LOADADDRESS}>;
+                         entry = <${ENTRYPOINT}>;
+-                        hash@1 {
++                        hash-1 {
+                                 algo = "${kernel_csum}";
+                         };
+                 };
+@@ -136,13 +136,13 @@ fitimage_emit_section_dtb() {
+ 	dtb_csum="sha1"
+ 
+ 	cat << EOF >> ${1}
+-                fdt@${2} {
++                fdt-${2} {
+                         description = "Flattened Device Tree blob";
+                         data = /incbin/("${3}");
+                         type = "flat_dt";
+                         arch = "${UBOOT_ARCH}";
+                         compression = "none";
+-                        hash@1 {
++                        hash-1 {
+                                 algo = "${dtb_csum}";
+                         };
+                 };
+@@ -160,7 +160,7 @@ fitimage_emit_section_setup() {
+ 	setup_csum="sha1"
+ 
+ 	cat << EOF >> ${1}
+-                setup@${2} {
++                setup-${2} {
+                         description = "Linux setup.bin";
+                         data = /incbin/("${3}");
+                         type = "x86_setup";
+@@ -169,7 +169,7 @@ fitimage_emit_section_setup() {
+                         compression = "none";
+                         load = <0x00090000>;
+                         entry = <0x00090000>;
+-                        hash@1 {
++                        hash-1 {
+                                 algo = "${setup_csum}";
+                         };
+                 };
+@@ -215,7 +215,7 @@ fitimage_emit_section_ramdisk() {
+ 	esac
+ 
+ 	cat << EOF >> ${1}
+-                ramdisk@${2} {
++                ramdisk-${2} {
+                         description = "${INITRAMFS_IMAGE}";
+                         data = /incbin/("${3}");
+                         type = "ramdisk";
+@@ -224,7 +224,7 @@ fitimage_emit_section_ramdisk() {
+                         compression = "${ramdisk_ctype}";
+                         ${ramdisk_loadline}
+                         ${ramdisk_entryline}
+-                        hash@1 {
++                        hash-1 {
+                                 algo = "${ramdisk_csum}";
+                         };
+                 };
+@@ -249,7 +249,7 @@ fitimage_emit_section_config() {
+ 
+ 	# Test if we have any DTBs at all
+ 	conf_desc="Linux kernel"
+-	kernel_line="kernel = \"kernel@${2}\";"
++	kernel_line="kernel = \"kernel-${2}\";"
+ 	fdt_line=""
+ 	ramdisk_line=""
+ 	setup_line=""
+@@ -257,32 +257,32 @@ fitimage_emit_section_config() {
+ 
+ 	if [ -n "${3}" ]; then
+ 		conf_desc="${conf_desc}, FDT blob"
+-		fdt_line="fdt = \"fdt@${3}\";"
++		fdt_line="fdt = \"fdt-${3}\";"
+ 	fi
+ 
+ 	if [ -n "${4}" ]; then
+ 		conf_desc="${conf_desc}, ramdisk"
+-		ramdisk_line="ramdisk = \"ramdisk@${4}\";"
++		ramdisk_line="ramdisk = \"ramdisk-${4}\";"
+ 	fi
+ 
+ 	if [ -n "${5}" ]; then
+ 		conf_desc="${conf_desc}, setup"
+-		setup_line="setup = \"setup@${5}\";"
++		setup_line="setup = \"setup-${5}\";"
+ 	fi
+ 
+ 	if [ "${6}" = "1" ]; then
+-		default_line="default = \"conf@${3}\";"
++		default_line="default = \"conf-${3}\";"
+ 	fi
+ 
+ 	cat << EOF >> ${1}
+                 ${default_line}
+-                conf@${3} {
++                conf-${3} {
+ 			description = "${6} ${conf_desc}";
+ 			${kernel_line}
+ 			${fdt_line}
+ 			${ramdisk_line}
+ 			${setup_line}
+-                        hash@1 {
++                        hash-1 {
+                                 algo = "${conf_csum}";
+                         };
+ EOF
+@@ -306,7 +306,7 @@ EOF
+ 		sign_line="${sign_line};"
+ 
+ 		cat << EOF >> ${1}
+-                        signature@1 {
++                        signature-1 {
+                                 algo = "${conf_csum},rsa2048";
+                                 key-name-hint = "${conf_sign_keyname}";
+ 				${sign_line}
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.7.4
+
 
