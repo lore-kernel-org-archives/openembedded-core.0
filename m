@@ -1,57 +1,23 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D387774596
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DD227937D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 07:44:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id EC7F418495;
-	Thu, 30 Aug 2018 09:44:48 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id oqa5x02PQ1Fg; Thu, 30 Aug 2018 09:44:46 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 4206418454;
-	Thu, 30 Aug 2018 09:44:46 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D3FFA1E077;
-	Thu, 30 Aug 2018 09:44:45 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C8DAC1E06A;
-	Thu, 30 Aug 2018 09:44:45 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Thu, 30 Aug 2018 09:44:45 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 196FC204F;
-	Thu, 30 Aug 2018 09:44:46 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Thu, 30 Aug 2018 09:44:45 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Thu, 30 Aug 2018 09:44:46 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>, Markus Lehtonen
-	<markus.lehtonen@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 3/7] sysklogd: Use update-alternatives
-Thread-Index: AQHUQBVfqnyb8Qvxo0aTMqDV5J95a6TX5+sw
-Date: Thu, 30 Aug 2018 07:44:46 +0000
-Message-ID: <c712539f5fd74697831fb7ed806e6fea@XBOX02.axis.com>
-References: <cover.1535601148.git.raj.khem@gmail.com>
-	<fae07991f994982404930e78c225db460bd14ae6.1535601148.git.raj.khem@gmail.com>
-In-Reply-To: <fae07991f994982404930e78c225db460bd14ae6.1535601148.git.raj.khem@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Thu, 30 Aug 2018 07:52:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7U7q6m9017368
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 30 Aug 2018 00:52:06 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 30 Aug 2018 00:52:04 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Thu, 30 Aug 2018 15:52:03 +0800
+Message-ID: <1535615523-101240-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/7] sysklogd: Use update-alternatives
+Subject: [PATCH] libjpeg-turbo: fix wrongly defined HAVE_STDLIB_H
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,70 +30,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 07:44:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 Aug 2018 07:52:07 -0000
+Content-Type: text/plain
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
-> Sent: den 30 augusti 2018 05:56
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 3/7] sysklogd: Use update-alternatives
->=20
-> busybox also provides klogd and syslogd, this change makes it coexist
-> peacefully. Currently rootfs fails in situations where both of them are
-> providing these binaries and busybox postinsts fail
->=20
-> update-alternatives: Error: not linking
-> /mnt/a/oe/build/tmp/work/qemuriscv64-bec-linux/core-image-full-
-> cmdline/1.0-r0/rootfs/sbin/klogd
-> to /bin/busybox.nosuid since
-> /mnt/a/oe/build/tmp/work/qemuriscv64-bec-linux/core-image-full-
-> cmdline/1.0-r0/rootfs/sbin/klogd
-> exists and is not a link
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-extended/sysklogd/sysklogd.inc | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc
-> b/meta/recipes-extended/sysklogd/sysklogd.inc
-> index fc4e67c18e..2a8bed00f3 100644
-> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
-> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D8ca43cbc842c=
-2336e835926c2166c28b \
->                      file://klogd.c;beginline=3D2;endline=3D19;md5=3D7e87=
-ed0ae6142de079bce738c10c899d \
->                     "
->=20
-> -inherit update-rc.d systemd
-> +inherit update-rc.d systemd update-alternatives
->=20
->  SRC_URI =3D "http://www.infodrom.org/projects/sysklogd/download/sysklogd=
--${PV}.tar.gz \
->             file://no-strip-install.patch \
-> @@ -70,3 +70,9 @@ python () {
->      if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False,=
- d):
->          d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
->  }
-> +
-> +ALTERNATIVE_PRIORITY =3D "100"
-> +ALTERNATIVE_${PN} =3D "klogd syslogd"
-> +ALTERNATIVE_LINK_NAME[klogd] =3D "${base_sbindir}/klogd"
-> +ALTERNATIVE_LINK_NAME[syslogd] =3D "${base_sbindir}/syslogd"
-> +
-> --
-> 2.18.0
+From: Changqing Li <changqing.li@windriver.com>
 
-This is a (partial) revert of commit 988aad01b2 (sysklogd: don't use=20
-update-alternatives). Can you come to an agreement regarding which is=20
-the correct solution?
+After uprade to 2.0.0, build system change from
+autotools to cmake, wrong usage of #cmakedefine
+cause wrongly defined HAVE_STDLIB_H, which cause
+some other package compile failed.
 
-//Peter
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ ...bo-fix-wrongly-defined-define-HAVE_STDLIB.patch | 119 +++++++++++++++++++++
+ meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.0.bb  |   3 +-
+ 2 files changed, 121 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/jpeg/files/0001-libjpeg-turbo-fix-wrongly-defined-define-HAVE_STDLIB.patch
+
+diff --git a/meta/recipes-graphics/jpeg/files/0001-libjpeg-turbo-fix-wrongly-defined-define-HAVE_STDLIB.patch b/meta/recipes-graphics/jpeg/files/0001-libjpeg-turbo-fix-wrongly-defined-define-HAVE_STDLIB.patch
+new file mode 100644
+index 0000000..16767eb
+--- /dev/null
++++ b/meta/recipes-graphics/jpeg/files/0001-libjpeg-turbo-fix-wrongly-defined-define-HAVE_STDLIB.patch
+@@ -0,0 +1,119 @@
++From d301019d0f23d12b9666d3d88b0859067a4ade77 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 30 Aug 2018 15:08:23 +0800
++Subject: [PATCH] libjpeg-turbo: fix wrongly defined define HAVE_STDLIB_H
++
++when change build system from autotools to cmake, below
++part is replace wrongly:
++
++"#undef HAVE_STDLIB_H"
++should be change to "#cmakedefine HAVE_STDLIB_H 1"
++not "#cmakedefine HAVE_STDLIB_H"
++
++otherwise, even if stdlib.h is found, output file
++of configure_file() will define like: #define HAVE_STDLIB_H
++but we need it as #define HAVE_STDLIB_H 1, since for
++different defination of HAVE_STDLIB_H will cause below error:
++error: "HAVE_STDLIB_H" redefined [-Werror]
++
++Upstream-Status: Submitted[https://github.com/libjpeg-turbo/libjpeg-turbo/pull/275]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ jconfig.h.in    | 28 ++++++++++++++--------------
++ jconfigint.h.in |  4 ++--
++ 2 files changed, 16 insertions(+), 16 deletions(-)
++
++diff --git a/jconfig.h.in b/jconfig.h.in
++index 2842754..18a69a4 100644
++--- a/jconfig.h.in
+++++ b/jconfig.h.in
++@@ -10,16 +10,16 @@
++ #define LIBJPEG_TURBO_VERSION_NUMBER  @LIBJPEG_TURBO_VERSION_NUMBER@
++ 
++ /* Support arithmetic encoding */
++-#cmakedefine C_ARITH_CODING_SUPPORTED
+++#cmakedefine C_ARITH_CODING_SUPPORTED 1
++ 
++ /* Support arithmetic decoding */
++-#cmakedefine D_ARITH_CODING_SUPPORTED
+++#cmakedefine D_ARITH_CODING_SUPPORTED 1
++ 
++ /* Support in-memory source/destination managers */
++-#cmakedefine MEM_SRCDST_SUPPORTED
+++#cmakedefine MEM_SRCDST_SUPPORTED 1
++ 
++ /* Use accelerated SIMD routines. */
++-#cmakedefine WITH_SIMD
+++#cmakedefine WITH_SIMD 1
++ 
++ /*
++  * Define BITS_IN_JSAMPLE as either
++@@ -33,37 +33,37 @@
++ #define BITS_IN_JSAMPLE  @BITS_IN_JSAMPLE@      /* use 8 or 12 */
++ 
++ /* Define to 1 if you have the <locale.h> header file. */
++-#cmakedefine HAVE_LOCALE_H
+++#cmakedefine HAVE_LOCALE_H 1
++ 
++ /* Define to 1 if you have the <stddef.h> header file. */
++-#cmakedefine HAVE_STDDEF_H
+++#cmakedefine HAVE_STDDEF_H 1
++ 
++ /* Define to 1 if you have the <stdlib.h> header file. */
++-#cmakedefine HAVE_STDLIB_H
+++#cmakedefine HAVE_STDLIB_H 1
++ 
++ /* Define if you need to include <sys/types.h> to get size_t. */
++-#cmakedefine NEED_SYS_TYPES_H
+++#cmakedefine NEED_SYS_TYPES_H 1
++ 
++ /* Define if you have BSD-like bzero and bcopy in <strings.h> rather than
++    memset/memcpy in <string.h>. */
++-#cmakedefine NEED_BSD_STRINGS
+++#cmakedefine NEED_BSD_STRINGS 1
++ 
++ /* Define to 1 if the system has the type `unsigned char'. */
++-#cmakedefine HAVE_UNSIGNED_CHAR
+++#cmakedefine HAVE_UNSIGNED_CHAR 1
++ 
++ /* Define to 1 if the system has the type `unsigned short'. */
++-#cmakedefine HAVE_UNSIGNED_SHORT
+++#cmakedefine HAVE_UNSIGNED_SHORT 1
++ 
++ /* Compiler does not support pointers to undefined structures. */
++-#cmakedefine INCOMPLETE_TYPES_BROKEN
+++#cmakedefine INCOMPLETE_TYPES_BROKEN 1
++ 
++ /* Define if your (broken) compiler shifts signed values as if they were
++    unsigned. */
++-#cmakedefine RIGHT_SHIFT_IS_UNSIGNED
+++#cmakedefine RIGHT_SHIFT_IS_UNSIGNED 1
++ 
++ /* Define to 1 if type `char' is unsigned and you are not using gcc.  */
++ #ifndef __CHAR_UNSIGNED__
++-  #cmakedefine __CHAR_UNSIGNED__
+++  #cmakedefine __CHAR_UNSIGNED__ 1
++ #endif
++ 
++ /* Define to empty if `const' does not conform to ANSI C. */
++diff --git a/jconfigint.h.in b/jconfigint.h.in
++index 55df053..6c898ac 100644
++--- a/jconfigint.h.in
+++++ b/jconfigint.h.in
++@@ -17,10 +17,10 @@
++ #define SIZEOF_SIZE_T  @SIZE_T@
++ 
++ /* Define if your compiler has __builtin_ctzl() and sizeof(unsigned long) == sizeof(size_t). */
++-#cmakedefine HAVE_BUILTIN_CTZL
+++#cmakedefine HAVE_BUILTIN_CTZL 1
++ 
++ /* Define to 1 if you have the <intrin.h> header file. */
++-#cmakedefine HAVE_INTRIN_H
+++#cmakedefine HAVE_INTRIN_H 1
++ 
++ #if defined(_MSC_VER) && defined(HAVE_INTRIN_H)
++ #if (SIZEOF_SIZE_T == 8)
++-- 
++2.7.4
++
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.0.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.0.bb
+index 7737a59..282bf95 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.0.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.0.bb
+@@ -11,7 +11,8 @@ DEPENDS_append_x86-64_class-target = " nasm-native"
+ DEPENDS_append_x86_class-target    = " nasm-native"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+-           file://0001-libjpeg-turbo-fix-package_qa-error.patch"
++           file://0001-libjpeg-turbo-fix-package_qa-error.patch \
++           file://0001-libjpeg-turbo-fix-wrongly-defined-define-HAVE_STDLIB.patch"
+ 
+ SRC_URI[md5sum] = "b12a3fcf1d078db38410f27718a91b83"
+ SRC_URI[sha256sum] = "778876105d0d316203c928fd2a0374c8c01f755d0a00b12a1c8934aeccff8868"
+-- 
+2.7.4
 
 
