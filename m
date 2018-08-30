@@ -1,50 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DC686011B
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A9D4794ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 20:54:35 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id 13-v6so17993342ois.1
+	Thu, 30 Aug 2018 22:13:36 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id j25-v6so1932480wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 13:54:36 -0700 (PDT)
+	Thu, 30 Aug 2018 15:13:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zgtbMadfrHnr7L8ZKMbebl+UgabLSpzTh+zhIf2z7Q0=;
-	b=PGTnoXMmTJrkk77zicsi2m19kU19DFYklFiEQa80zEFHwPL//hHrd0vapoL6qy1KwJ
-	8MHHLSdPiefDohZcg0m0wvw7w7F112VHdZMYv5q2x7PXhzeC02TWdA3StDRVHbgtnRMr
-	kq18aljh8Af8GnaXA3SLGhtoKAhxxB1Ldgrt5r2SasKOazOibJgc9xqRwgRX90/KyQQi
-	yq1ewoObML5C4VeijI+tA2o/27UQhmIMw0TCKItYlGiRPCysrI3j70rl6BtTR2KkOXWz
-	ueo5WbZxd3hyZcQYEDUjNTkAUBdUeDECrFtfC9080GfbE2rFbvXV6lwlcjv1Gn87OKRb
-	5USA==
+	h=from:to:subject:date:message-id;
+	bh=SQOvmflIjH9TTeja8x4V7S3Krg4hvkbfl18LV0GkMNo=;
+	b=CpjIqYpEol/oXsSwLNp9/Z+CEVCB7wQTN99oWQIqrXNhMO6c+P05BTV07JTrTDIn6M
+	W6LrwnUn2nYOXoiTR6cBJYBref3LIFu40Xwl9cFaXQKrhsRWtSv/Z8JGsR5gntayJqFY
+	3gKihmdl3uNO6mtU4r6RNf5sCyto5sdqDaQBmcy8c8kA86amDuiC4qOxqwTPYWzFrbuJ
+	K6M7gIyoEvreX6rXzc46kyg4SckkALz6oMULwxR0m9br7imQLO7PGnTtsOPNCCaCTQ8F
+	0m1e4mEalA2zaQRxvLHk5QI8c0CFKR/hXNts8PdZjYEDRIrlM2ie1iX2J2oPL0NFffHA
+	bysg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zgtbMadfrHnr7L8ZKMbebl+UgabLSpzTh+zhIf2z7Q0=;
-	b=BsI5LqbP+lZDDvXDsB2/hueljDiLiI9Rv0U7pe0pGykPLa3p42bQV4yhN+T61yLy19
-	a2S9LYw1Y/oD1LR+NGF//BQy7I2RA6F6IO0qmetLZNzJKPRZeaSgcWvnUp/XnQneEfKr
-	a/3JiNVT4kGAovuHBrt+NsyYhzhTYPQ/bE8CPjuPN4zaWXWy8Fxxscp4QqWBkcLIcQbR
-	rpgpbILJIlwo5ok72GTuuUVfKOUSPjFOF00MLr+JvB8kFzd7Uz7UlyS+Ufk1Xyi+tVGK
-	yjvVg77HiXSleYIGAyA8z47y8R9OKqLgLZYRfDFk75o5v7kTfnMoPGIRuLVJ+Mlu1RAw
-	uPNQ==
-X-Gm-Message-State: APzg51DEK8RbX442pcHb+GwSTgjQ+OZRpjhUKj33CO+IBBfdsAAf+u52
-	/F2LPuG7Dv1o8d6QRTCfE/RSayeqGi0wHvWPH5aQJLXc
-X-Google-Smtp-Source: ANB0VdbaucGh3ksi2DisnaIL47wyOotozAuP4sulo51F209xACDy0Pm5U/45PsKYwXdpUk5xDdlsekLVcl48V/fvx+U=
-X-Received: by 2002:aca:506:: with SMTP id 6-v6mr4469500oif.23.1535662476391; 
-	Thu, 30 Aug 2018 13:54:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:7c0c:0:0:0:0:0 with HTTP; Thu, 30 Aug 2018 13:54:15
-	-0700 (PDT)
-In-Reply-To: <20180828094319.19765-2-hongl.fnst@cn.fujitsu.com>
-References: <20180828094319.19765-1-hongl.fnst@cn.fujitsu.com>
-	<20180828094319.19765-2-hongl.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Aug 2018 21:54:15 +0100
-Message-ID: <CAJTo0LZbfaVyUL+JUDi5C6CPxuRGvaCP6FCmaWU15FdwFtbFZA@mail.gmail.com>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH]python-setuptools:upgrade to 40.2.0
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=SQOvmflIjH9TTeja8x4V7S3Krg4hvkbfl18LV0GkMNo=;
+	b=Ri6YLBbJO0XXWRt4Uv+EKV3ZCijWQUauliBDYFb7qdas/U+U4w1KwRHthJIx3XHnkZ
+	hgmOpjWuRKdo54QQa0nBXWDjbfXnPxE8ebJUQjoHiyTKmdvLzj4dAQzAUP5P8iWdR5cr
+	Lp4xR23FxvEXOvabyEJlb4GpE9c50nTkQW1jOIzIePmj4ShCUolOxrklYvyB30tiOTxo
+	Lgb2dCFsgGJfpqa97tgBCrvYQmiKG+yRTaORg87CMjI9lQ3ULFxb7XKwQwifXtZFMBpx
+	sZ+i0uDfEdzZEz3xAG//G4OU+ZhODELG0qPkrlO+zGSuFn8wmIxSEumQxhVaRvUm3baZ
+	kFRQ==
+X-Gm-Message-State: APzg51AhrgC0zUoUM2GvB184trdimUVAfJFIT1ABy5OklPmbtudLTFtu
+	1Zynol4FP1hdArv6RFb5o+P6GpoR+2o=
+X-Google-Smtp-Source: ANB0VdaqgCf18OZuiRv1WwBmI+fL6ue5VYF2z4loAiq0hbz56U3J2cYvR9bVqVQZZ7A87WyBYi6RSg==
+X-Received: by 2002:a1c:3413:: with SMTP id
+	b19-v6mr3095864wma.21.1535667216890; 
+	Thu, 30 Aug 2018 15:13:36 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	f17-v6sm6432368wrs.1.2018.08.30.15.13.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 30 Aug 2018 15:13:36 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Aug 2018 23:13:33 +0100
+Message-Id: <20180830221333.31366-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] no-static-libs: disable static libraries in libjpeg-turbo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 20:54:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 30 Aug 2018 22:13:36 -0000
 
-Remember to upgrade both python and python3 variations, otherwise you
-break the other (the checksums are in the inc...)
+Previously this was done with the generic autotools support, but CMake doesn't
+have a standard option so set it explicitly.
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/distro/include/no-static-libs.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 28 August 2018 at 10:43, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
-> Upgrade python-setuptools from 40.0.0 to 40.2.0
->
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
->  .../{python-setuptools_40.0.0.bb => python-setuptools_40.2.0.bb}      | 0
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python-setuptools_40.0.0.bb => python-setuptools_40.2.0.bb} (100%)
->
-> diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-> index 315ba31..c3924b0 100644
-> --- a/meta/recipes-devtools/python/python-setuptools.inc
-> +++ b/meta/recipes-devtools/python/python-setuptools.inc
-> @@ -10,8 +10,8 @@ inherit pypi
->
->  SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
->
-> -SRC_URI[md5sum] = "260630ae1a64bafa39dcc53404d63829"
-> -SRC_URI[sha256sum] = "012adb8e25fbfd64c652e99e7bab58799a3aaf05d39ab38561f69190a909015f"
-> +SRC_URI[md5sum] = "592efabea3a65d8e97a025ed52f69b12"
-> +SRC_URI[sha256sum] = "47881d54ede4da9c15273bac65f9340f8929d4f0213193fa7894be384f2dcfa6"
->
->  DEPENDS += "${PYTHON_PN}"
->
-> diff --git a/meta/recipes-devtools/python/python-setuptools_40.0.0.bb b/meta/recipes-devtools/python/python-setuptools_40.2.0.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/python/python-setuptools_40.0.0.bb
-> rename to meta/recipes-devtools/python/python-setuptools_40.2.0.bb
-> --
-> 2.7.4
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
+index 7fd578b3ce7..cdc53916d07 100644
+--- a/meta/conf/distro/include/no-static-libs.inc
++++ b/meta/conf/distro/include/no-static-libs.inc
+@@ -36,6 +36,7 @@ DISABLE_STATIC_pn-libusb1-native = ""
+ EXTRA_OECONF_append = "${DISABLE_STATIC}"
+ 
+ EXTRA_OECMAKE_append_pn-libical = " -DSHARED_ONLY=True"
++EXTRA_OECMAKE_append_pn-libjpeg-turbo = " -DENABLE_STATIC=False"
+ 
+ EXCONFIG_ARGS_append_pn-ncurses = " --without-normal"
+ EXCONFIG_ARGS_append_pn-ncurses-native = " --without-normal"
+-- 
+2.11.0
+
 
