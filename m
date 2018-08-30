@@ -1,18 +1,50 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 60A15793ED;
-	Thu, 30 Aug 2018 14:06:56 +0000 (UTC)
+Return-Path: <diego.rondini@kynetics.com>
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 8431B748D2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Aug 2018 14:46:19 +0000 (UTC)
+Received: by mail-qt0-f169.google.com with SMTP id n6-v6so10218747qtl.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Aug 2018 07:46:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kynetics-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=Xq5qp2YqN/KNF9oojAHgzKzMfDCH5XzX3COOCU9aRfg=;
+	b=GR8nJjhkQ48jjXIRBcRqGk4qtyjwSZBa3sv6ImMdSw8Y9whjaOCuTRr9zdRP9MFcDR
+	fDdURcXmcrR2dqKaiSBaoVgTMVmYj5CpRafGEZPAsFQiUPpU+S4bhFQlkKeXwzhLBsos
+	SXtAQvG8i8zrr1UWmzEUI/lw42niO1SRZMph8/l23muNG0lhJm+CTuT2ju7whJ2xIzDG
+	V1caXpuiZ3PTEcHoJRAObldvwBee9cvJxx5KOvloSLO99Fex2bh9ORe124n7eo19+dDk
+	kt6mSWkyoSeKMfHYCOWEmph1NXqt5a6CAwRcobMI+VtXfWEDM+gwrUtwh3BS3sk74STm
+	v7SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=Xq5qp2YqN/KNF9oojAHgzKzMfDCH5XzX3COOCU9aRfg=;
+	b=MMR2Uwdk8BjtIXl8wN3+oxSkC2aWObMyus0eb4F/7tJZ/uHk60hAaBgXemPEowFA0A
+	6HE4uw0CmORd3o4ryPnVkSlq9TDwvoDCIpm9TJTR/2hHwb1ekshX76bmoSGoiQ8ke/8i
+	mdfmbNw7jGBAheowA6NXZvdotqNIJ65a0aqEF+58DbCT3HWXY/2hmSLj8T2Hf5tvNOL3
+	YA2U03j22kRKYgqlPNmB5cletYjSw2ei4KFg34ulq+mjcZVIF9qI7Lntcm25s8sqrXig
+	EAWIWypYZLGLwZVGtWy2HuA+vIjHr1Qq4XHXrPLYLmctCx6gCVMwTLhXxC9gT9H+4y66
+	JUdQ==
+X-Gm-Message-State: APzg51CGt/kk/WsaESPppJ2H8CBlJS3c182u4lEHlNy2QAgcP+pgsHPx
+	OZwAP0Vdf9Wr5oHCTlmnSb6af65h/1H+vahKtPJXhfU0uVA=
+X-Google-Smtp-Source: ANB0VdaVNdtqABcNliI1f6EZko2FyzN3oRbcg3ugc269sVPAhxSlekyRjl5gx0oJgmE64H++jxvQrRfFMDnmYqkVyQk=
+X-Received: by 2002:a37:f19:: with SMTP id
+	z25-v6mr11635460qkg.147.1535640380310; 
+	Thu, 30 Aug 2018 07:46:20 -0700 (PDT)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Diego Rondini <diego.rondini@kynetics.com>
-Date: Thu, 30 Aug 2018 14:06:57 -0000
-Message-ID: <20180830140657.13844.90930@do.openembedded.org>
-References: <1535636519-3244-1-git-send-email-diego.rondini@kynetics.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
+Received: by 2002:aed:357a:0:0:0:0:0 with HTTP; Thu, 30 Aug 2018 07:45:59
+	-0700 (PDT)
+X-Originating-IP: [79.7.224.57]
 In-Reply-To: <1535636519-3244-1-git-send-email-diego.rondini@kynetics.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdGJiOiBjaGVjayB0aGUgdmVyc2lvbiBvZiB0aGUgY3Jvc3MgZ2NjIGluc3RlYWQgb2YgaG9zdCBnY2M=?=
+References: <1535636519-3244-1-git-send-email-diego.rondini@kynetics.com>
+From: Diego Rondini <diego.rondini@kynetics.com>
+Date: Thu, 30 Aug 2018 16:45:59 +0200
+Message-ID: <CAMfw5YqyNPPV_WuP6MDoA0fe6Qr0q=xTGDv=SZhBTGheUgj8Mw@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][rocko][sumo][PATCH] tbb: check the version of the cross gcc instead of host gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,54 +57,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 14:06:56 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Aug 2018 14:46:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+Sorry, sent to the wrong mailing list. Please drop.
 
-Series: tbb: check the version of the cross gcc instead of host gcc
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13818/
-State : failure
+-- 
+Diego Rondini
+Sr. Embedded Engineer
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [meta-oe, rocko, sumo] tbb: check the version of the cross gcc instead of host gcc
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe, rocko, sumo) and send the patch to the indicated list
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  rocko (currently at eb3eaa6970)
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta-oe/recipes-support/tbb/tbb/0002-linux-Fix-gcc-version-check.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta-oe/recipes-support/tbb/tbb/0002-linux-Fix-gcc-version-check.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Kynetics
+www.kynetics.com
 
