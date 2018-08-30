@@ -1,56 +1,49 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 47925783DE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
+	[209.85.218.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 74E1A6FFC8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 19:11:35 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id p84-v6so17428127oic.4
+	Thu, 30 Aug 2018 20:52:54 +0000 (UTC)
+Received: by mail-oi0-f43.google.com with SMTP id c190-v6so17939129oig.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 12:11:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 30 Aug 2018 13:52:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=/hUt5uv/gl+0l6WIMWoDip+/yy0tMPAxPeEwMahEPOk=;
-	b=NHritY0CmL6Nf3rEOGkjaLNM0FxbRMPR3Fad5WU1DOPvgOURH1ybGp07Hya6tYTqvE
-	V0IOIEoK7MUtYWxIvwY88WQS4RT3DJcOz4ZEv2YZGJlzDVXbJEnmB0b6g4AI4S109mGv
-	sRiu/dHcuNBp7AfAIUODCvZCY0SEY1S7dvDlXukVpHf6oqlrvPLDXe8kBYwaw6KfAv61
-	sSoNuybkFLQUbGr8xZoAiwmMiLzqV3+eZfIa1qnbPzR2mSw1LGTMTEM4fXHVrLkINE5+
-	rFcj8uMESdAr+sABe0aYDHrmBPxwq2WUJrWUBICYEgmLS/m8bdqALDMhAY+lDAZPrUrd
-	OnVQ==
+	:cc; bh=TH4Kndt6Uy5tDkAMysMQ3Cuxvk2D2tXH66CeMXnWINw=;
+	b=krWbh62BiQIrwHT3YDVf82vMF64FRQ8dONskiRrzYAGJUMjBDekVqFkBdVmL8Dt8ka
+	4VIEBbtACThExPDwJNrluP50iHFuCkVnq781kr45RhCRcX1swsYWNAt+8YsK4oy2qvR+
+	MCflrmiltQCvoThH++pW9KjMAeA/4cn1TCK1ZL73JQHFZSBSk06qjkiZWRKohkRJLh5I
+	O/q9WNAnqdeIEv4ZT9Svo9xoO2scfrclmVIhruM5n6trmf65pWUZbmKb2AenfIRlYKkS
+	MH8EqkajgHLhJQRSMHYpGCn/vT1it7kWSRhSdaNpzWYcQ10PLMcezpvHvcK9cJdjuHZ1
+	Ha4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=/hUt5uv/gl+0l6WIMWoDip+/yy0tMPAxPeEwMahEPOk=;
-	b=j64iqRMSYARvCNF/BO4qc80bovT5B622qYKuaQcdW5j782yjNHQxzPTNU4HRz6WqBV
-	gjp3WmanRda9nruov/hUVlke7/jn2GxKvVZxoezO9T6fmaZrPOjzxw6++0SgRp2y7OX6
-	QNubOd7+yxatikRpTx8K8Bg4dJRucV3H+YtQTjC6p0aFQlAUwX8gItBI2WPzkU4a+gYk
-	KiSIUHJPH/atDUKrWUIGuR2wtoNa4WNvoleEA7+npwN9RFEFNPYGt+vHXdots/4dsiiw
-	xil3/0h7n1wHExmvVjJ25d45TqoILqYvK175qZ8uUaF54rGKCL4hdS+Ks5j3QJybzVnh
-	RpoQ==
-X-Gm-Message-State: APzg51Br/IZ5feFANfUym2oloExbl5Px1SvczVtYKwvdIM2/ZfYmY/NV
-	BiQ7s9wDqfVC4pTsfrKpbu1yl1uJPsucUaSMq9s=
-X-Google-Smtp-Source: ANB0Vda8/m9fIwCR8Rrz1S9QsEBE4k16u6iP2RRMLytQL8S4litfpAbRUG/vwvkc2TaJpKeXhSpdY055NW8vCfy7utQ=
-X-Received: by 2002:aca:c34b:: with SMTP id
-	t72-v6mr4183624oif.338.1535656296251; 
-	Thu, 30 Aug 2018 12:11:36 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=TH4Kndt6Uy5tDkAMysMQ3Cuxvk2D2tXH66CeMXnWINw=;
+	b=kxBTyHJtmvyd7icOE/2JhYJ/jkmCvM63Ko37cbQxKHyW4LgbPsXJJ4gMI/toWdER5x
+	3AT58wK6lRzpr9sT59gQdzWdZqBNmisHYeRpVuoEa+TANsmrTAkzLf1AHbRBwSTEH5wz
+	e95dulV0mZZ5K8LLj0HQ8l8oXacnPWjqSvrb8Htxn2suG1egkoBuZqlUOVxtIIqAKP+o
+	LM1ksQLj6F4t4shb2CBM2eux1ugd4e2YBYB2/b+IBp3/HtGIQMAu2OvRL5C3EamKrEOZ
+	jPk9me0EwyAqsE4keZqHnrdLNYUFtASbpc+Hv7/FD6AozHSakWUCk9O5IQ/yaHafUuJ5
+	NxPg==
+X-Gm-Message-State: APzg51AvGY6CV6kUIOM7k3I05Zc2enuDx+pkS0GE/3DYqLied057RvrE
+	bqN1tn1zQ47s6D7AfvNxBiJnntwBEUbLLHO3ar2uOw==
+X-Google-Smtp-Source: ANB0VdYf/tw3wkabzIZJTTb6gkcPTVeX2Q16g9O8c9NaWgDQ+uQEPZ+fXS9ynZKT4llvMDpyZjdiDFRowye1pCvtOLk=
+X-Received: by 2002:aca:506:: with SMTP id 6-v6mr4464035oif.23.1535662375410; 
+	Thu, 30 Aug 2018 13:52:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:454b:0:0:0:0:0 with HTTP; Thu, 30 Aug 2018 12:11:35
+Received: by 2002:ac9:7c0c:0:0:0:0:0 with HTTP; Thu, 30 Aug 2018 13:52:34
 	-0700 (PDT)
-In-Reply-To: <5d6ddab2b5eacfe864c99f0e67797c4bd4d96415.camel@linuxfoundation.org>
-References: <20180828221954.3214-1-schnitzeltony@gmail.com>
-	<66aa21df8fa33f677b8a65150da5af2f98c22268.camel@linuxfoundation.org>
-	<CALbNGRS2x76WRxtbNu417m8p5OVcF8pt1F7L3pUoUQ0PLvjTnw@mail.gmail.com>
-	<fcb8bc41a5f65715b41f2c9461cdd434467e6ad4.camel@linuxfoundation.org>
-	<CALbNGRQPs4mX70TdFnaHeBiPqp2hKJyrj1R9nUfGDe7BghGyAQ@mail.gmail.com>
-	<5d6ddab2b5eacfe864c99f0e67797c4bd4d96415.camel@linuxfoundation.org>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 30 Aug 2018 21:11:35 +0200
-Message-ID: <CALbNGRScmvEmQqFfNcM-tZVTY6_2Trn2FUXLNbFXLW8ZhwCGUQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] libsdl2: Fix left rotated display for RaspPi/VC4/GLES2
+In-Reply-To: <1535618064-18215-1-git-send-email-alex.kiernan@gmail.com>
+References: <1535618064-18215-1-git-send-email-alex.kiernan@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Aug 2018 21:52:34 +0100
+Message-ID: <CAJTo0LYyqaNRO39badfpH8F-H97-v0M_NpBrGhYamzaOn+MqEQ@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sudo: Add missing dep on virtual/crypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,27 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 19:11:35 -0000
+X-List-Received-Date: Thu, 30 Aug 2018 20:52:54 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 30, 2018 at 5:22 PM,  <richard.purdie@linuxfoundation.org> wrot=
-e:
-> On Thu, 2018-08-30 at 12:45 +0200, Andreas M=C3=BCller wrote:
->> > I'd have thought Accepted should have a []. A quick grep shows
->> > other
->> > patches which have that in the tree so I suspect that help text is
->> > misleading...
->> >
->>
->> V2 with Accepted?
->
-> I've tweaked it in -next to save reposting and remerging the patches :)
->
-> Cheers,
->
-Thanks and sorry for consuming your time on this - try to do better next ti=
-me
+That suggests that the crypt dependency is only needed if pam is
+disabled, is that the case?
 
-Andreas
+Ross
+
+On 30 August 2018 at 09:34, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> Ensure we have virtual/crypt even if building without PAM; fixes:
+>
+>   sudo: error in /etc/sudo.conf, line 0 while loading plugin "sudoers_policy"
+>   sudo: unable to load /usr/libexec/sudo/sudoers.so: /usr/libexec/sudo/sudoers.so: undefined symbol: crypt
+>   sudo: fatal error, unable to load plugins
+>
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> ---
+>
+>  meta/recipes-extended/sudo/sudo_1.8.23.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/sudo/sudo_1.8.23.bb b/meta/recipes-extended/sudo/sudo_1.8.23.bb
+> index ab9c8cb..18add22 100644
+> --- a/meta/recipes-extended/sudo/sudo_1.8.23.bb
+> +++ b/meta/recipes-extended/sudo/sudo_1.8.23.bb
+> @@ -10,7 +10,7 @@ PAM_SRC_URI = "file://sudo.pam"
+>  SRC_URI[md5sum] = "ea444d747feb1decfebdffd0b38b0739"
+>  SRC_URI[sha256sum] = "d863d29b6fc87bc784a3223350e2b28a2ff2c4738f0fb8f1c92bb38c3017e679"
+>
+> -DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+> +DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', 'virtual/crypt', d)}"
+>  RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+>
+>  EXTRA_OECONF += " \
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
