@@ -1,49 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A9D4794ED
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 368DA794EE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 22:13:36 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id j25-v6so1932480wmc.1
+	Thu, 30 Aug 2018 22:48:02 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n2-v6so9461729wrw.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 15:13:37 -0700 (PDT)
+	Thu, 30 Aug 2018 15:48:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=SQOvmflIjH9TTeja8x4V7S3Krg4hvkbfl18LV0GkMNo=;
-	b=CpjIqYpEol/oXsSwLNp9/Z+CEVCB7wQTN99oWQIqrXNhMO6c+P05BTV07JTrTDIn6M
-	W6LrwnUn2nYOXoiTR6cBJYBref3LIFu40Xwl9cFaXQKrhsRWtSv/Z8JGsR5gntayJqFY
-	3gKihmdl3uNO6mtU4r6RNf5sCyto5sdqDaQBmcy8c8kA86amDuiC4qOxqwTPYWzFrbuJ
-	K6M7gIyoEvreX6rXzc46kyg4SckkALz6oMULwxR0m9br7imQLO7PGnTtsOPNCCaCTQ8F
-	0m1e4mEalA2zaQRxvLHk5QI8c0CFKR/hXNts8PdZjYEDRIrlM2ie1iX2J2oPL0NFffHA
-	bysg==
+	bh=ySIsmZndPoJRpRYhPhSQYcehkKws1YgNmY3cVE09XP8=;
+	b=MiuFgiLWaM1sTxgA7JqD3Z0DtLFmcMz+bNNg8vuH2ToJPKokTgiIz0LQa71YABO9Bc
+	c6WvbXsocEDN9d7zI2jEN65zWcGDaczzdGw3KYSsiEn7xH+0No+JccusTLRCluula7QY
+	loNveVef+LTpRr/dzKJtG4oQn24p3lVNyzvrBKtmHMQ08nBE+5NYnLv/OnPIW5yZIPHg
+	CbdIsrxplkr1U7pPaUhCBG1JdjvW5ehes1wtT464ek2Fks+PORgPLxzOMuclMGXqA79V
+	L51iKl0wXosaRi+p+eiqBWVraP5FjHi80rc12usM+NnypOAjLFKEKh9/2hqM3mw1SyEq
+	fnXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=SQOvmflIjH9TTeja8x4V7S3Krg4hvkbfl18LV0GkMNo=;
-	b=Ri6YLBbJO0XXWRt4Uv+EKV3ZCijWQUauliBDYFb7qdas/U+U4w1KwRHthJIx3XHnkZ
-	hgmOpjWuRKdo54QQa0nBXWDjbfXnPxE8ebJUQjoHiyTKmdvLzj4dAQzAUP5P8iWdR5cr
-	Lp4xR23FxvEXOvabyEJlb4GpE9c50nTkQW1jOIzIePmj4ShCUolOxrklYvyB30tiOTxo
-	Lgb2dCFsgGJfpqa97tgBCrvYQmiKG+yRTaORg87CMjI9lQ3ULFxb7XKwQwifXtZFMBpx
-	sZ+i0uDfEdzZEz3xAG//G4OU+ZhODELG0qPkrlO+zGSuFn8wmIxSEumQxhVaRvUm3baZ
-	kFRQ==
-X-Gm-Message-State: APzg51AhrgC0zUoUM2GvB184trdimUVAfJFIT1ABy5OklPmbtudLTFtu
-	1Zynol4FP1hdArv6RFb5o+P6GpoR+2o=
-X-Google-Smtp-Source: ANB0VdaqgCf18OZuiRv1WwBmI+fL6ue5VYF2z4loAiq0hbz56U3J2cYvR9bVqVQZZ7A87WyBYi6RSg==
-X-Received: by 2002:a1c:3413:: with SMTP id
-	b19-v6mr3095864wma.21.1535667216890; 
-	Thu, 30 Aug 2018 15:13:36 -0700 (PDT)
+	bh=ySIsmZndPoJRpRYhPhSQYcehkKws1YgNmY3cVE09XP8=;
+	b=j0bKSr2mFMc1d7UNANDsokfAE9/mpvhXcBfrBZ81LE3lmr74NenUzh/qlZo8KGDa7u
+	HemGkhBUEY8rN+Ot+nKS182V7Dxi5uqyT6y/pQWe/AISEE/Eu3E7taeyfXhQoO0TfoTo
+	B7ApCaF7UR+NJeE24lIFTQXwPSvRzmGryKJHHfgt5KYU0sb2dWm0hgsfoX3AKvh7EHGM
+	x0c45O3WS+KTsSnU5OCOKoa8bRizNODUzKznhvEwaUTaQrZuamNculaXO2iJ2KdQArzL
+	/GKQ6OBEgKGIK0iHd8ZY2+WmgV4wMxlWuVI7F+VqUsD6wxxtNbTcZcV+LveGHOmpNXgc
+	3NAA==
+X-Gm-Message-State: APzg51DfMtbK8KfK+q1WO3F3XUyfbKUdNYVgEb5rsHjaUl5o/e20e/UW
+	OS4Jwb03Jk7GKFJogzJAGNjJx/4KWNk=
+X-Google-Smtp-Source: ANB0VdaimWvz5tG1lTXSRukiuOfi1zvYvxvtoWgiOGH8O7Kv40zMXQy+s7XIWjEd5YGGL5mi9AsEOw==
+X-Received: by 2002:adf:a599:: with SMTP id
+	g25-v6mr8951004wrc.88.1535669283434; 
+	Thu, 30 Aug 2018 15:48:03 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	f17-v6sm6432368wrs.1.2018.08.30.15.13.35
+	34-v6sm13493672wra.20.2018.08.30.15.48.02
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 Aug 2018 15:13:36 -0700 (PDT)
+	Thu, 30 Aug 2018 15:48:02 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Aug 2018 23:13:33 +0100
-Message-Id: <20180830221333.31366-1-ross.burton@intel.com>
+Date: Thu, 30 Aug 2018 23:48:00 +0100
+Message-Id: <20180830224800.16627-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] no-static-libs: disable static libraries in libjpeg-turbo
+Subject: [PATCH] harfbuzz: remove stale pkg.m4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,28 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 22:13:36 -0000
-
-Previously this was done with the generic autotools support, but CMake doesn't
-have a standard option so set it explicitly.
+X-List-Received-Date: Thu, 30 Aug 2018 22:48:03 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/distro/include/no-static-libs.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-graphics/harfbuzz/harfbuzz_1.8.8.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
-index 7fd578b3ce7..cdc53916d07 100644
---- a/meta/conf/distro/include/no-static-libs.inc
-+++ b/meta/conf/distro/include/no-static-libs.inc
-@@ -36,6 +36,7 @@ DISABLE_STATIC_pn-libusb1-native = ""
- EXTRA_OECONF_append = "${DISABLE_STATIC}"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.8.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.8.bb
+index f41db989c70..b904d935317 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.8.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.8.bb
+@@ -27,6 +27,12 @@ EXTRA_OECONF = " \
+     --without-graphite2 \
+ "
  
- EXTRA_OECMAKE_append_pn-libical = " -DSHARED_ONLY=True"
-+EXTRA_OECMAKE_append_pn-libjpeg-turbo = " -DENABLE_STATIC=False"
++do_configure_prepend() {
++    # This is ancient and can get used instead of the patched one we ship,
++    # so delete it. In 1.8.9 this should be removed upstream.
++    rm -f ${S}/m4/pkg.m4
++}
++
+ PACKAGES =+ "${PN}-icu ${PN}-icu-dev"
  
- EXCONFIG_ARGS_append_pn-ncurses = " --without-normal"
- EXCONFIG_ARGS_append_pn-ncurses-native = " --without-normal"
+ LEAD_SONAME = "libharfbuzz.so"
 -- 
 2.11.0
 
