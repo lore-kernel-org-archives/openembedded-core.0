@@ -1,43 +1,113 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B0C46011B
+Return-Path: <prvs=773e51b5e=Alistair.Francis@wdc.com>
+X-Greylist: delayed 379 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 30 Aug 2018 23:58:17 UTC
+Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
+	by mail.openembedded.org (Postfix) with ESMTP id E0E1575264
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 23:26:12 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id z8-v6so12673181qto.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 16:26:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=zsVPDNqR7yVvlU7xEZwDPS2Z/Q+P6H9l04/8qcfSibo=;
-	b=LcvQJd6rozm8+uqFFzLFtPmw+ezmmd9OMoHezr0/U+aXSUlaRpKWPX/L8GDdeymErP
-	Ef/7okU6Ti65uaBxrt0DCoohUp6rFT0I9T0x0UV9Slwj74UoV7Lg3vLkZKpCufTBf1+Z
-	SwRts8J8GJoVkNTYjNoJrMYCPe+IeQInEy9eES3qzP04rUicWXw/aSHz+KZUntpQUEFX
-	j/CTqHqEcbUcXDw+N0L/Mkz5UBywyPywn43UA95gWBuJXFxgJ46syXCc6Uicx0K2zOlv
-	ETh7FfcQHLe6G3U24oxp90Nm0QWWioU1yK6K9qhhCNXo/WQw7d/J1L9FvRtF7hjhGOz9
-	acIQ==
-X-Gm-Message-State: APzg51CfGLWf8ZStxAiUB6Ju2jmbz7VfSrPn2V2sqolNCs/pWcicxeSY
-	PUPu9IeobqbR/TjyITv8nuysDcIU2WE=
-X-Google-Smtp-Source: ANB0VdYEC6ZaED0DuVkz5z6Z+VUU6JvFPvk9lcSeidHDrA1NYLxHSxRRxl+QJfoQtqmXavs0ORWicA==
-X-Received: by 2002:ac8:2908:: with SMTP id
-	y8-v6mr13872484qty.45.1535671573305; 
-	Thu, 30 Aug 2018 16:26:13 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.218.61])
-	by smtp.gmail.com with ESMTPSA id
-	g64-v6sm4704879qkc.37.2018.08.30.16.26.10
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 30 Aug 2018 16:26:12 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Thu, 30 Aug 2018 20:26:05 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Aug 2018 20:26:04 -0300
-Message-Id: <20180830232604.10850-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.18.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] cmake: Update 3.11.4 -> 3.12.1
+	Thu, 30 Aug 2018 23:58:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1535673506; x=1567209506;
+	h=from:to:cc:subject:date:message-id:mime-version;
+	bh=qbTzUpNowBqSfclHYpCwXW6Y1qKnCiPYfOZkODPFwQs=;
+	b=VOqF6k7kvNhdSKX/54mk8VEdMFTgYknAiChg6Ya5LBzRSyjmb1IdlVte
+	rMtnAqTajyRJfYiDJafLl+PNoKpfnoyYGgq08xuAxXidxF+b/dWGag7Rb
+	UOb1wRKpyLJmv8jWSU6bkWxNTjvb8ERwp+6aXeU4eTeXoac1WdRtBAxHN
+	ZS7UcQuYK7SzOPpbN4CGrB/HxFyosJ9C+M4f3FiCyv6DEb1G21VWdWPlW
+	VXXFsPVIPYsejLtDhaMYHIuGjYwz+Q4SIKab9yE3vAZH+sOhKky+WOpsa
+	UNWy40tCgbsnOS4o5Xx0Vsa+pSe175kHY6HWU/SS6wxLQzHSbVfJGcwj4 w==;
+X-IronPort-AV: E=Sophos;i="5.53,309,1531756800"; d="scan'208";a="186246297"
+Received: from mail-by2nam05lp0240.outbound.protection.outlook.com (HELO
+	NAM05-BY2-obe.outbound.protection.outlook.com) ([216.32.181.240])
+	by ob1.hgst.iphmx.com with ESMTP; 31 Aug 2018 07:52:05 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=sharedspace.onmicrosoft.com; s=selector1-wdc-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=t167EZzLINN4vFnEcizYuFWaLDkYQgfdQdpX3BIX7Dg=;
+	b=GJJsn+68OId59SMyT+NE7wnVrCBjyNwHB6kM7rFJcwtueDWh113mfUZp6EXRuVmolM3Hoyy1aal6kkRG7AlupRknfUJBJWPnGEwNLSPeewFRpY3BD0tS7wl0wntH/XBFFx0haYss0TdRuRwS4aquvH8s2JBoibx+NFs+sO0gLdA=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=Alistair.Francis@wdc.com; 
+Received: from risc6-mainframe.int.fusionio.com (199.255.44.250) by
+	CY4PR04MB0392.namprd04.prod.outlook.com (2603:10b6:903:b1::17) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1101.14; Thu, 30 Aug 2018 23:51:56 +0000
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Aug 2018 16:51:31 -0700
+Message-Id: <20180830235131.18881-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+X-Originating-IP: [199.255.44.250]
+X-ClientProxiedBy: SG2PR01CA0114.apcprd01.prod.exchangelabs.com
+	(2603:1096:4:40::18) To CY4PR04MB0392.namprd04.prod.outlook.com
+	(2603:10b6:903:b1::17)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 736eb553-f25d-408c-f205-08d60ed392cc
+X-MS-Office365-Filtering-HT: Tenant
+X-Microsoft-Antispam: BCL:0; PCL:0;
+	RULEID:(7020095)(4652040)(8989137)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);
+	SRVR:CY4PR04MB0392; 
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR04MB0392;
+	3:QLgaPWCBHO+b7MQGi+GjZJ/ifp7bj+APYOan8S20RWqZr0bZqFRyqcNiIRo9B2DR2fTjPRNYr0j/PYyDCn5PS1CZfWZRthy9zFaa6/RU63tZ5pw2y4aWpRedo0aG7ZjlKUx39e3OlXbG1Xv9caTbWKsiYdbHgp7jcXSF6Uhgg+rvIggYNEvcPpaLbNua+r1LWk4Jq05wuDsiiQyoHV+6fQROXxfIVKne4mdLtslTObYZlPNSCJyoXmyNQKttdsdw;
+	25:5wgTJ1enIxsUwDHd//utMRi/E2Xc4n7+U64+CvUv3ZyfatPbMT18JDGIEWQX7cdHZ/SiYIBfDY8PzmaC5m4AbNt0bAe/8YYs5W+jhnfeyBWNo32c/fTd2xbcmuTyvioXMJ/z917WFGMdSpS9MpqvadVfNtK1TIx0LZcZXsYpIZpKqpKdHCmU6juOpccFBm2r6uwwfSkRDklm+QrZOE28MsUO6sX+NlMQGehaDdx+jevf7B/K84hnlpmNTsvFBzVXMpFdRpsz4NWfmJZ+a+hZC4Q94dXO8OyDwyfp/nxoakdGx4VVr3L0KH6FLL4I2/b+u8zv/c/Gib8xtgHWDhEwEQ==;
+	31:8CCNZqy2RSp/OYnktEzFuUoSazfiszL+Xtppv1Cn6+gEGJvnMLoEaTd7Y12BFx8o8wzU+l/6PvzPqAf8lITzi1xAh4sVW+GkPDuZAQGRzeieYlBqUem+5NG8fz4TeCXm4hrRUXOryTBKK0j15rW4iGybngr0E1cP+6M2mTY35BbsyrZUZDzvCO61Lke9FXa217ypBTyI3SqSBuvfGBFkfWbD7PJgipgHHP1ifU/eDIg=
+X-MS-TrafficTypeDiagnostic: CY4PR04MB0392:
+WDCIPOUTBOUND: EOP-TRUE
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR04MB0392;
+	20:78S4UbLZuUSI+iZrghU1bxeqtA1qrUHdM8Van9LEe7s1gkGCGKYo1pRorJ/lxKdakz9rOxURQFG9EvqvO2DVWcwVAJ0F5y50wKNoXA8V6tXGEujTwUbkMb43QoL9RwoOdFzZhxqdlOMWDeIWeFOMxHSyM5qZmyW6BRYaTxR33sJ3zGK54/MIi6TNed7n2KBkL2DYrVoq+l4XID+xPcs88opzRBAiYxZTRw+mioINJPLZvtcQLPCXiBsph8m42UCVSmAbguaVYTsyHnpkgqZ25UZxCIFjLlRof3h5BzH667l+FGi9WJb/eZrOniW/APKIqLDMAV+fa+NI1QK8vVGyiRDEoVUg8o3lgviejZiloLEUW4DKG1efNkAvv+fTWvjerlIkz8rvLwvNkqkF1jC8ZvR5XxjhPEl9m4NGm4bVGD2bqIFL6icpWrvM8T1Yd86mgTXD2S7tnnMphx8+waIf8d8b0Pu3M3sQJ24wDbYcA/PKudFi5s3NbpnAWnyyQ+k5;
+	4:hy00UPlDXrx5uZY3X/WP4TomUbtlpjidwIK/MKV5MnKhXhtAUAx4ScaOmOQ/ufeMXdbQM5fYJQtVGgwkEWBHwaFwPJx8oneg2yqlkU7IPTCq5vI9Q45WeRNq1om064oGCjVrcqRt1ZWaXWDJqJBzVes/H8vZvavhfzUYdIdGMxWNY5bLl7Kq6/vcxIxg8C52e7CVnu6nFBGK8i2CAhMv2C7JDPzCQZfpmz8vRAKqBjdZ4j6pST2VTYQEkKicE9+6sBDxN1srtdFAy48WGGcROPDI+Vz07ftTVVgMp4ro4XUW+0ZQ7iwIGeKlAS6Ja+atu6U36jfeCCUplLXIaa5jSbV2GTiQ+d+M3ooAmWgYtmo=
+X-Microsoft-Antispam-PRVS: <CY4PR04MB0392B272597E57E84E11BCDA90080@CY4PR04MB0392.namprd04.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(250305191791016)(22074186197030);
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(10201501046)(3002001)(93006095)(93001095)(3231311)(944501410)(52105095)(6055026)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123562045)(20161123564045)(20161123560045)(201708071742011)(7699016);
+	SRVR:CY4PR04MB0392; BCL:0; PCL:0; RULEID:; SRVR:CY4PR04MB0392; 
+X-Forefront-PRVS: 07807C55DC
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10019020)(979002)(366004)(376002)(136003)(396003)(39860400002)(346002)(199004)(189003)(316002)(50226002)(6916009)(6666003)(8936002)(2361001)(2906002)(16586007)(86362001)(6486002)(51416003)(52116002)(68736007)(97736004)(39060400002)(5660300001)(66066001)(47776003)(36756003)(478600001)(7736002)(72206003)(305945005)(8676002)(386003)(48376002)(50466002)(1076002)(105586002)(106356001)(4326008)(3846002)(6116002)(2351001)(6306002)(25786009)(2616005)(476003)(956004)(6506007)(486006)(14444005)(6512007)(1857600001)(44832011)(53936002)(81156014)(81166006)(26005)(16526019)(186003)(969003)(989001)(999001)(1009001)(1019001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR04MB0392;
+	H:risc6-mainframe.int.fusionio.com; FPR:; SPF:None; LANG:en;
+	PTR:InfoNoRecords; A:1; MX:1; 
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY4PR04MB0392;
+	23:tzSWDtl93LY8l87nLviLE/bx13oUYpwMxGIT7CiCa?=
+	=?us-ascii?Q?n4UfGFyQ3AYFwwRUlKhZd+QgUXLmgDrj6wVPzQA2prbbrzcf1aWj7w+DFnrd?=
+	=?us-ascii?Q?W5GpVNgC/KeNuHajYRNYu5mtmE8chq6VT6fbYik9oLNNws2q9+v/yAX9ZM84?=
+	=?us-ascii?Q?n8eplGNGv3+MsV5WHzT+TPc4xeBIuOCmxSIKeeVlqdJef9xCQOuwAsRzP7Z1?=
+	=?us-ascii?Q?L5VYLueQxaRWlccR0vl6Qy3Z2nC5VyTnNELbBME8bdZuQxG+9ub4dy1EO5Fy?=
+	=?us-ascii?Q?B3Y17bMawVASbJgpErK/Maumtu0/khWJPRH8Yg/Bjyzsxe64BzBOMLg8Cucg?=
+	=?us-ascii?Q?6VwOQ7ISnnIiHMXqngAzpWhME+gIvB7zf3IeffSx0JfJ/CwJjbX7juAApLsD?=
+	=?us-ascii?Q?mg5pNzblyIDRFN/w7NPdoPBROUmtZdX66V8EnbZWALBPRlmFW7OMw9zyuwQU?=
+	=?us-ascii?Q?9dOMOruEsbfJO59selRkHDN1c+gOpdld8DlQBf0HQQji66H1Qcl6h3gxafF6?=
+	=?us-ascii?Q?CtG2sWKhPznqGhjEEQodGH+UENRqiqlW58lOiJ/8S5XaziQRpcsjPcLcGxTY?=
+	=?us-ascii?Q?onUpoyf/9cUUQt1xjuGxVUAotdcVmpRLPMs6uMSViZ8vh15Pf3TllJNbrczY?=
+	=?us-ascii?Q?axz8sNHheYBArf705ga4z8o/reShaasTpSavRRUYnPk6Ot+iiJ23xWmXBtQC?=
+	=?us-ascii?Q?EZFvQUyNA0ivSJcgLLRYslCWtIdmSI+bNW0T10p/95OyR0MSanTlwzqe31R3?=
+	=?us-ascii?Q?lh9Q7bOgVxa2iLbLgxDqgvBfrFl6sZpc24LneyNdzfbJ7ByTN08p58S2prSf?=
+	=?us-ascii?Q?RggeyqoHY14JsKjQcg9DBZe+UodnhMs5IaRxeATfBLQLWC/uaDInisV7Lj4Z?=
+	=?us-ascii?Q?11wnBPlmG7uZTGPoA/bgc8+gQY5H3nNDIv6lnBU8JjpFEZROFWL9nlLlgciB?=
+	=?us-ascii?Q?1HvJFp2psvenRdiho/uuW1gxU+svXW4ZonN6XQGl9aWOcNplas/VTqDZL7ht?=
+	=?us-ascii?Q?ZCGYruOtX8e90tUgXWR+Swk36C1+gZDyA1GWwVaCpdlWaaTFxYDbKNURZoCq?=
+	=?us-ascii?Q?7r0DdnFu4OUVcOJHzF4wWp8MZkvvzULwsCWJ5Ru9w7qFb3BKByydFj3ee1aJ?=
+	=?us-ascii?Q?Q7fn/fMVu89C7FsUFYrSkHJUZ7/kAMnBVmSwL5kFR/mn2l2hAdBVk73+tmvf?=
+	=?us-ascii?Q?N+q0lODhU9s81HsDSNG8r2CPD7SJIgU2DyXMMkWW2rM08rWn/doH5++NRa6d?=
+	=?us-ascii?Q?4HMt9VbJqW/SHRSZndVIlzPOV1+WhwjqGf6GN8uNNdaEQf1hbbHrl6mMaNJj?=
+	=?us-ascii?Q?9bDNBvR6IB+M0d8WAKWFpN4ecNnxftXwO0VS7iZevlzAqHj83GwQc81O+v2K?=
+	=?us-ascii?Q?UwmMqDeFQbp15KvGDFb7Q5NJ43XmkyEdnfuOpYbDUsxVjmm?=
+X-Microsoft-Antispam-Message-Info: nXenV+LSG5VBnwfodAbRi0TKLy8K0AvPr8R7YNy/4mqIMGw3oOOWdk6NLmhX+4jXXBWy1dinBniu+6AcjEQeOTFmEreYYyd2uL1CJMwgmJ6zbbBpl4EVNP1GkcomKEBFugr0BAY0XTNOVbA/Lx9w4yaNnlZOWveiev/AmEyhoez53rvsl953LL0uRVEd+EmRzsX+LEphkaEgqqqsL+IOpbUDKnn8OjwoJ3E9iA+rX0qkJ7uC8JfraeS3ouz/HSDU8NxjETfr89AIxqbTLY4i/MeDc85ekGFyYasRPWh5ilrjhOrPJYAWbvYp/xTWoV4bg3tlnBMbRWKX9ZMA7tkTpM1wObtxBx8VzRXWcZm5A9s=
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR04MB0392;
+	6:NV/4TrNh/4MHwbg+OjLHqXPArkXWJsISMspHaj4i8pGFRFRJfMAdl1lXMAtBJSwsvKXn1pGhHMZoR9fOo1vplCukam2I3Ci2BI97UF+GB3zbjYQMh3TqwDUaS7XT7bMFZJhZgAEFNp0GqPQ+wkixbXWwAOZJhmXQMJpVHZqpu2hAp90rtpgbUb2IDAih+TuXtZyw445nBLvCWgpPnHHAFoe0WAajSIYXP5dkX7VWWvwiodb+p0lLXVmKraIUCByvD+6NyRtFHvQPj+/uuKTqgDCl+wNzjS0npsSaLYrJRk0FAWTvPSJTk1qH1zIgk/Mql3jsHUDfzECSJAFq0SCeHbVg9d7IRbHkJMbQQz3oozKQUHGfJNncVH+isoZ2tsxOVNjCERJ3kmnXiXzWgWlSPnoOzvZ654VCcaDRpnVVFmDUiqtvJsb5HsEfA2rrFk97myUrXhGaSPd6Tz0X+frIYQ==;
+	5:JUoqkc9YgZMR/azviAz2iuhAw/o7rCG7K4lK9divMLrGikldzSyH3k2814L4oxjWcTcktF2dfx+VvT3/8nJvNKFmTkNG3pM3boUhIxgdVvvZY55CIRoIwWROjCGNbGEIJBxhLQS/4nUstnnEoUJL2EH+oAmj3hdK1b2sIrk+CKc=;
+	7:n3mrXd1oZBEGCJcIy2EVcH3UD7wrZTxCxcFxkYg/Vp0gsO2f2A+NvFlrQZwQN7hJAIAw8dO3H8X3IuNE5GWkYOR9H09O6IFkRuVSdQHevHKsM9Rb+AZrKrtMbvGEivTS5CiWDq0jOjXZaUSs3OlOhJP9SlfxZXaLpftr4VW798nGRf6/NYGlBXe3OxpRwqU2dltXi6GLmhjWvRXXaBPu2asSXKo7ZKieUTPC1US8qfBjB0XvNkiKtEQ744/T06A4
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2018 23:51:56.4546 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 736eb553-f25d-408c-f205-08d60ed392cc
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB0392
+Subject: [PATCH] gdb: Add bison-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,259 +120,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 23:26:13 -0000
+X-List-Received-Date: Thu, 30 Aug 2018 23:58:18 -0000
+Content-Type: text/plain
 
-This updates CMake to the 3.12.1 stable release. All patches were
-rebase on top of the new source file and all them applied without
-changes.
+This fixes RISC-V GDB cross compile configure failure on missing bison.
 
-The number of patches has changed as all them were applied on the Git
-tree and re-exported, to avoid any fuzzy warnings.
-
-License-Update: new contributor added in Copyright.txt
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
+ meta/recipes-devtools/gdb/gdb-common.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- ...ake-native_3.11.4.bb => cmake-native_3.12.1.bb} |  4 ++--
- meta/recipes-devtools/cmake/cmake.inc              | 12 ++++++------
- ...ineSystem-use-oe-environment-vars-to-load.patch | 14 ++++++++------
- ... 0002-cmake-Prevent-the-detection-of-Qt5.patch} | 12 ++++++------
- ...pport-OpenEmbedded-Qt4-tool-binary-names.patch} |  8 ++++----
- ...ntly-if-system-Qt-installation-is-broken.patch} |  8 ++++----
- ...of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch} |  4 ++--
- .../cmake/{cmake_3.11.4.bb => cmake_3.12.1.bb}     |  0
- 8 files changed, 32 insertions(+), 30 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.11.4.bb => cmake-native_3.12.1.bb} (93%)
- rename meta/recipes-devtools/cmake/cmake/{0001-cmake-Prevent-the-detection-of-Qt5.patch => 0002-cmake-Prevent-the-detection-of-Qt5.patch} (93%)
- rename meta/recipes-devtools/cmake/cmake/{0002-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch => 0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch} (92%)
- rename meta/recipes-devtools/cmake/cmake/{0003-Fail-silently-if-system-Qt-installation-is-broken.patch => 0004-Fail-silently-if-system-Qt-installation-is-broken.patch} (92%)
- rename meta/recipes-devtools/cmake/cmake/{0004-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch => 0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch} (91%)
- rename meta/recipes-devtools/cmake/{cmake_3.11.4.bb => cmake_3.12.1.bb} (100%)
-
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.11.4.bb b/meta/recipes-devtools/cmake/cmake-native_3.12.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/cmake/cmake-native_3.11.4.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.12.1.bb
-index f55c519c8c..9a1390f96d 100644
---- a/meta/recipes-devtools/cmake/cmake-native_3.11.4.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_3.12.1.bb
-@@ -3,10 +3,10 @@ inherit native
- 
- DEPENDS += "bzip2-replacement-native expat-native xz-native zlib-native curl-native"
- 
--SRC_URI += "file://0004-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch \
--            file://OEToolchainConfig.cmake \
-+SRC_URI += "file://OEToolchainConfig.cmake \
-             file://environment.d-cmake.sh \
-             file://0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch \
-+            file://0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch \
-             "
- 
- 
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 436363e4e3..4c30162c19 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -6,19 +6,19 @@ HOMEPAGE = "http://www.cmake.org/"
- BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
- SECTION = "console/utils"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://Copyright.txt;md5=891b81f415fb25fbad03e41f87fd5dfb \
-+LIC_FILES_CHKSUM = "file://Copyright.txt;md5=f61f5f859bc5ddba2b050eb10335e013 \
-                     file://Source/cmake.h;md5=4494dee184212fc89c469c3acd555a14;beginline=1;endline=3 \
-                     "
- 
- CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- 
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
--           file://0001-cmake-Prevent-the-detection-of-Qt5.patch \
--           file://0002-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch \
--           file://0003-Fail-silently-if-system-Qt-installation-is-broken.patch \
-+           file://0002-cmake-Prevent-the-detection-of-Qt5.patch \
-+           file://0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch \
-+           file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
- "
- 
--SRC_URI[md5sum] = "72e168b3bad2f9c34dcebbad7af56ff0"
--SRC_URI[sha256sum] = "8f864e9f78917de3e1483e256270daabc4a321741592c5b36af028e72bff87f5"
-+SRC_URI[md5sum] = "10109246a51102bfda45ff3935275fbf"
-+SRC_URI[sha256sum] = "c53d5c2ce81d7a957ee83e3e635c8cda5dfe20c9d501a4828ee28e1615e57ab2"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
-index a2332879cf..f690720870 100644
---- a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
-@@ -1,8 +1,9 @@
--From a42cfebcd6c684cccf8ad33e5bd5130f7cdba135 Mon Sep 17 00:00:00 2001
-+From 71085723f8028b3e1c4029fc1abe1243ac49ffc6 Mon Sep 17 00:00:00 2001
- From: Cody P Schafer <dev@codyps.com>
- Date: Thu, 27 Apr 2017 11:35:05 -0400
--Subject: [PATCH] CMakeDetermineSystem: use oe environment vars to load default
-- toolchain file in sdk
-+Subject: [PATCH 1/5] CMakeDetermineSystem: use oe environment vars to load
-+ default toolchain file in sdk
-+Organization: O.S. Systems Software LTDA.
- 
- Passing the toolchain by:
- 
-@@ -18,15 +19,16 @@ because '-D' options are cache entries themselves.
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Cody P Schafer <dev@codyps.com>
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
- ---
-  Modules/CMakeDetermineSystem.cmake | 7 +++++++
-  1 file changed, 7 insertions(+)
- 
- diff --git a/Modules/CMakeDetermineSystem.cmake b/Modules/CMakeDetermineSystem.cmake
--index f34ec5d61..bcac3ef16 100644
-+index 600d5580e..32d7f1945 100644
- --- a/Modules/CMakeDetermineSystem.cmake
- +++ b/Modules/CMakeDetermineSystem.cmake
--@@ -74,6 +74,13 @@ else()
-+@@ -82,6 +82,13 @@ else()
-    endif()
-  endif()
-  
-@@ -41,5 +43,5 @@ index f34ec5d61..bcac3ef16 100644
-  # in this case read the toolchain file and keep the CMAKE_HOST_SYSTEM_*
-  # variables around so they can be used in CMakeLists.txt.
- -- 
--2.12.2
-+2.18.0
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-cmake-Prevent-the-detection-of-Qt5.patch b/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
-similarity index 93%
-rename from meta/recipes-devtools/cmake/cmake/0001-cmake-Prevent-the-detection-of-Qt5.patch
-rename to meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
-index b4976e918b..6f788ada00 100644
---- a/meta/recipes-devtools/cmake/cmake/0001-cmake-Prevent-the-detection-of-Qt5.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index 039577b8e2..05bda5a7f5 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
 @@ -1,7 +1,7 @@
--From 0f60f3922bc85994fcde5079ce5a52f9b51f6915 Mon Sep 17 00:00:00 2001
-+From 7a1f4e724f9c68498f401244c2938e784a2e6fbd Mon Sep 17 00:00:00 2001
- From: Otavio Salvador <otavio@ossystems.com.br>
- Date: Wed, 17 Jan 2018 10:02:14 -0200
--Subject: [PATCH 1/4] cmake: Prevent the detection of Qt5
-+Subject: [PATCH 2/5] cmake: Prevent the detection of Qt5
- Organization: O.S. Systems Software LTDA.
+ SUMMARY = "GNU debugger"
+ HOMEPAGE = "http://www.gnu.org/software/gdb/"
+ SECTION = "devel"
+-DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST}"
++DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST} bison-native"
  
- CMake doesn't have dependency on qt4/qt5, so these tests usually fail
-@@ -36,10 +36,10 @@ index 330b74729..e7709dee6 100644
-    include_directories(${Qt5Widgets_INCLUDE_DIRS})
-    add_definitions(${Qt5Widgets_DEFINITONS})
- diff --git a/Tests/CMakeLists.txt b/Tests/CMakeLists.txt
--index 08bfebe0e..dd4d7f4fb 100644
-+index b8b724ed8..63f6bb6d2 100644
- --- a/Tests/CMakeLists.txt
- +++ b/Tests/CMakeLists.txt
--@@ -1260,7 +1260,7 @@ ${CMake_BINARY_DIR}/bin/cmake -DDIR=dev -P ${CMake_SOURCE_DIR}/Utilities/Release
-+@@ -1322,7 +1322,7 @@ ${CMake_BINARY_DIR}/bin/cmake -DDIR=dev -P ${CMake_SOURCE_DIR}/Utilities/Release
-      set(CMake_TEST_Qt5 1)
-    endif()
-    if(CMake_TEST_Qt5)
-@@ -93,10 +93,10 @@ index 26d201926..e48e1c8de 100644
-  set(CMAKE_CXX_STANDARD 11)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output/bin)
- diff --git a/Tests/RunCMake/CMakeLists.txt b/Tests/RunCMake/CMakeLists.txt
--index c52f44ece..d39cd8828 100644
-+index 637c5c2cb..c0376effc 100644
- --- a/Tests/RunCMake/CMakeLists.txt
- +++ b/Tests/RunCMake/CMakeLists.txt
--@@ -285,7 +285,7 @@ add_RunCMake_test(configure_file)
-+@@ -291,7 +291,7 @@ add_RunCMake_test(configure_file)
-  add_RunCMake_test(CTestTimeoutAfterMatch)
-  
-  find_package(Qt4 QUIET)
-diff --git a/meta/recipes-devtools/cmake/cmake/0002-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch b/meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
-similarity index 92%
-rename from meta/recipes-devtools/cmake/cmake/0002-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
-rename to meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
-index acbe961c64..55cf47188a 100644
---- a/meta/recipes-devtools/cmake/cmake/0002-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
-@@ -1,7 +1,7 @@
--From 5fc9c33a7d6781008877b19dfdf0a526a50524f2 Mon Sep 17 00:00:00 2001
-+From c783ceeef485c23e13c3d9f0418719cb0e0b86ee Mon Sep 17 00:00:00 2001
- From: Otavio Salvador <otavio@ossystems.com.br>
- Date: Thu, 12 May 2011 15:36:03 +0000
--Subject: [PATCH 2/4] cmake: support OpenEmbedded Qt4 tool binary names
-+Subject: [PATCH 3/5] cmake: support OpenEmbedded Qt4 tool binary names
- Organization: O.S. Systems Software LTDA.
- 
- The FindQt4 module looks for Qt4 binaries to be able to gather the
-@@ -25,7 +25,7 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-  1 file changed, 5 insertions(+), 5 deletions(-)
- 
- diff --git a/Modules/FindQt4.cmake b/Modules/FindQt4.cmake
--index 5a7eadb96..d48a5bfd1 100644
-+index 847a798af..7ad981879 100644
- --- a/Modules/FindQt4.cmake
- +++ b/Modules/FindQt4.cmake
- @@ -517,7 +517,7 @@ endfunction()
-@@ -37,7 +37,7 @@ index 5a7eadb96..d48a5bfd1 100644
-  _qt4_find_qmake("${_QT4_QMAKE_NAMES}" QT_QMAKE_EXECUTABLE QTVERSION)
-  
-  if (QT_QMAKE_EXECUTABLE AND
--@@ -1143,12 +1143,12 @@ if (QT_QMAKE_EXECUTABLE AND
-+@@ -1135,12 +1135,12 @@ if (QT_QMAKE_EXECUTABLE AND
-    _find_qt4_program(QT_MOC_EXECUTABLE Qt4::moc moc-qt4 moc4 moc)
-    _find_qt4_program(QT_UIC_EXECUTABLE Qt4::uic uic-qt4 uic4 uic)
-    _find_qt4_program(QT_UIC3_EXECUTABLE Qt4::uic3 uic3)
-diff --git a/meta/recipes-devtools/cmake/cmake/0003-Fail-silently-if-system-Qt-installation-is-broken.patch b/meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch
-similarity index 92%
-rename from meta/recipes-devtools/cmake/cmake/0003-Fail-silently-if-system-Qt-installation-is-broken.patch
-rename to meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch
-index 301da0221d..a59c680454 100644
---- a/meta/recipes-devtools/cmake/cmake/0003-Fail-silently-if-system-Qt-installation-is-broken.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch
-@@ -1,7 +1,7 @@
--From b30da754a32213b5a0b3698f88e1302e5b18518b Mon Sep 17 00:00:00 2001
-+From 9516fc4260f701c6d9db0c341bb36480362e1747 Mon Sep 17 00:00:00 2001
- From: Otavio Salvador <otavio@ossystems.com.br>
- Date: Thu, 5 Jul 2018 10:26:48 -0300
--Subject: [PATCH 3/4] Fail silently if system Qt installation is broken
-+Subject: [PATCH 4/5] Fail silently if system Qt installation is broken
- Organization: O.S. Systems Software LTDA.
- 
- Fixes a regression in behaviour from 2.8.10 to 2.8.11 resulting in the
-@@ -28,10 +28,10 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-  1 file changed, 20 insertions(+), 19 deletions(-)
- 
- diff --git a/Modules/FindQt4.cmake b/Modules/FindQt4.cmake
--index d48a5bfd1..e6f22fe9b 100644
-+index 7ad981879..8b6f43cda 100644
- --- a/Modules/FindQt4.cmake
- +++ b/Modules/FindQt4.cmake
--@@ -995,25 +995,26 @@ if (QT_QMAKE_EXECUTABLE AND
-+@@ -987,25 +987,26 @@ if (QT_QMAKE_EXECUTABLE AND
-      endif()
-    endmacro()
-  
-diff --git a/meta/recipes-devtools/cmake/cmake/0004-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
-similarity index 91%
-rename from meta/recipes-devtools/cmake/cmake/0004-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
-rename to meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
-index 91dea4cbba..23ce8e9e4a 100644
---- a/meta/recipes-devtools/cmake/cmake/0004-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
-@@ -1,7 +1,7 @@
--From d9aa3f7c075dbd0db386995a44a2240ecdbb2c56 Mon Sep 17 00:00:00 2001
-+From 0df8d46d14c371f21c327966a553c4c187a8acfe Mon Sep 17 00:00:00 2001
- From: Otavio Salvador <otavio@ossystems.com.br>
- Date: Thu, 5 Jul 2018 10:28:04 -0300
--Subject: [PATCH 4/4] Disable use of ext2fs/ext2_fs.h by cmake's internal
-+Subject: [PATCH 5/5] Disable use of ext2fs/ext2_fs.h by cmake's internal
-  libarchive copy
- Organization: O.S. Systems Software LTDA.
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.11.4.bb b/meta/recipes-devtools/cmake/cmake_3.12.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.11.4.bb
-rename to meta/recipes-devtools/cmake/cmake_3.12.1.bb
+ LTTNGUST = "lttng-ust"
+ LTTNGUST_aarch64 = ""
 -- 
-2.18.0
+2.17.1
 
 
