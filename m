@@ -1,54 +1,51 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
-	[209.85.218.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 69581793CD
+Return-Path: <diego.rondini@kynetics.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BB4BD793CF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 10:45:41 +0000 (UTC)
-Received: by mail-oi0-f46.google.com with SMTP id p84-v6so14589052oic.4
+	Thu, 30 Aug 2018 13:42:37 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id s10-v6so6547976edb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 03:45:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=BTSYMadms6yFpsLaesOGPlKYQsKdZIreM9xc7fVpB9E=;
-	b=CiMeSgDw0XzoigybNWvkz4TTQeVTuHDD7Lqz64UKXUI63hemhCIXDTGqCfJ5pgbOV7
-	VMQE57XtE6wSXQKNxuigRPLG5+k683xpzFMlmudBddhWpzhkXMHIwB+hVig+57BiVG1X
-	loKiggVgn/+CUl/3/Aiz6uoBQBQet+epu1tTSa8hAPEzBqKvvWsbKP3Xnj6h7jnJMz/7
-	x3hIl18I1d4YxSBGDfqUy/05m90SdeDd1HN2SzDtHvAf7lg+ckQCHf9f3IFqRALSfRZc
-	sE53dQj+hCTUB0/YZhjniuSqZeNMecBfsBYIzO9mCOqSmHeoCVZm+q19OiwLYv23aOeM
-	LqBQ==
+	Thu, 30 Aug 2018 06:42:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kynetics-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=u4JyJxzS2jreVg6IZEFmzCVIWFjjipC1OH/HMEWBNt0=;
+	b=VOJHcPgTJHAtiOPM8Jh+g77IA98NaLRNtmcb+lwLkg2MCd/74XwLEbhn624g8XYHQ8
+	V3GFA+AG600hKIXsG+jmHSDhvPNX98O+a7BhNsPYWeyW8ydLmQlWAFzGCcwUFUIsVLRS
+	nRrSC5LXPfsTc76kS/09Yzw7we2HTeSMGpvT/80F/XSPxDiFeX/llsPaLiSsKw2dNP1k
+	tHDdUuCzrX4KMFJVC6siyzvmcYhckjukhB/RVTypq54oL5y04ln5SdDYMfSA2HIWYiga
+	AIPLLsD/aDlFzH7v+Tjy7BmoCOrHmiHSZIaGFZELc34+/jWyk5S1JpUEr21kz+enRx69
+	gu4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=BTSYMadms6yFpsLaesOGPlKYQsKdZIreM9xc7fVpB9E=;
-	b=nDFupQni/YUMUWWQbyp9ZjtpR1DTVkIWqvjC2k7yRQ7txQOi/d5UKtY+vHjMzuAZVR
-	OQqu4Daj1/mmwptVWu5gnf+3s3iYmXFEMR0ppJwndvs8qfDxkMbnvml4/Hk62LItDVGS
-	eQ1ePNpj4mIw7KCDdhsihoyVFZolAwRCpInql0wcxNDnfCp+z3LRJuWkfbc9rtjbARLN
-	ADM6ltgisduHjksJ87D+vYJtrqthdj6ol6ms40Q2/YjQuL2l7ZhJqd+ekkvfKTxLSDw5
-	Jv5q/RRnsOjcxmwSzYR4bJQ0SHo1mhHpf/F6N6LKF4UJTFkQ4yhyO4GwkYLOnr4Vw+Yc
-	n+PQ==
-X-Gm-Message-State: APzg51DRL1D6k5m9pFbwKVQ0C/Np6H8L0EqU4Tv4cOI5k+FJFfMi9Ovr
-	vkZt4itc6eX6CSO/bdMeEIX5pkvwjRB4gpGFbiYcjg==
-X-Google-Smtp-Source: ANB0VdZtf1SwpECf/XAUB4C/mF5jZ1S9TXt9ZFozsc3iqMLMY3NFz6joN67DFm1Ky49cnThZ3SbqRHKbjXfYQxeu6No=
-X-Received: by 2002:aca:f488:: with SMTP id
-	s130-v6mr2002066oih.269.1535625942310; 
-	Thu, 30 Aug 2018 03:45:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:454b:0:0:0:0:0 with HTTP; Thu, 30 Aug 2018 03:45:41
-	-0700 (PDT)
-In-Reply-To: <fcb8bc41a5f65715b41f2c9461cdd434467e6ad4.camel@linuxfoundation.org>
-References: <20180828221954.3214-1-schnitzeltony@gmail.com>
-	<66aa21df8fa33f677b8a65150da5af2f98c22268.camel@linuxfoundation.org>
-	<CALbNGRS2x76WRxtbNu417m8p5OVcF8pt1F7L3pUoUQ0PLvjTnw@mail.gmail.com>
-	<fcb8bc41a5f65715b41f2c9461cdd434467e6ad4.camel@linuxfoundation.org>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 30 Aug 2018 12:45:41 +0200
-Message-ID: <CALbNGRQPs4mX70TdFnaHeBiPqp2hKJyrj1R9nUfGDe7BghGyAQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] libsdl2: Fix left rotated display for RaspPi/VC4/GLES2
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=u4JyJxzS2jreVg6IZEFmzCVIWFjjipC1OH/HMEWBNt0=;
+	b=JOuh/jHlNOCDraRhYAD9t/CMrTk0NNty/djKRqgAp/Xf4ToJAW7VLjH0JtW0XYLt04
+	GYuHGIIc6EL1NK2FDb+b5SyhA4PcEM4Bk/eH7iLW0x19YC/+DtvQV81c1bl15nWRS8Q/
+	F6FvYan3RPH0iyCSn4dAAVb3mZkOO8emjrIzSlT8IgSwhtbI6IG3m7L48LOEMq9ik1VI
+	ktFLAUL6ab3Ebf6c+gj8mGJSs1WiMnu3GR2A1GpDfzgR+VagzNZbKIJz+C1LqDqqrJgO
+	D/o/tT7NFAKuswu0ebPle7o4TrK3l4xaEt2c/YsKECyoVnj71ZCe3KZyfyWIKhcUvWSG
+	UyuA==
+X-Gm-Message-State: APzg51AuW+PEs+rK+Fwq2D2nk6JRDj8C0NsUaizDNVAVzYe53xJphlrf
+	GCHw4mRVnbX0vU/2ZqVNW7IPevq/lqk=
+X-Google-Smtp-Source: ANB0VdbkUBuEKQoTAO6EGTdm3zDHuU3Zmp/ZlqfEt5ahtaXNuFlPqXwfzOhSkoCNJsd4u9bQPrwgKg==
+X-Received: by 2002:a50:a5e8:: with SMTP id
+	b37-v6mr13154510edc.268.1535636558033; 
+	Thu, 30 Aug 2018 06:42:38 -0700 (PDT)
+Received: from ip-172-31-7-228.eu-west-1.compute.internal
+	(ec2-54-171-5-113.eu-west-1.compute.amazonaws.com. [54.171.5.113])
+	by smtp.gmail.com with ESMTPSA id
+	e30-v6sm2895766ede.91.2018.08.30.06.42.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 30 Aug 2018 06:42:37 -0700 (PDT)
+From: Diego Rondini <diego.rondini@kynetics.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Aug 2018 13:41:59 +0000
+Message-Id: <1535636519-3244-1-git-send-email-diego.rondini@kynetics.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Gregory Vimont <gregory.vimont@softbankrobotics.com>
+Subject: [meta-oe][rocko][sumo][PATCH] tbb: check the version of the cross gcc instead of host gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,124 +58,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 10:45:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 Aug 2018 13:42:38 -0000
 
-On Thu, Aug 30, 2018 at 11:44 AM,  <richard.purdie@linuxfoundation.org> wro=
-te:
-> On Wed, 2018-08-29 at 19:22 +0200, Andreas M=C3=BCller wrote:
->> On Wed, Aug 29, 2018 at 4:16 PM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > On Wed, 2018-08-29 at 00:19 +0200, Andreas M=C3=BCller wrote:
->> > > The patch should increase performance for libsdl2 on GLES2 too.
->> > >
->> > > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
->> > > ---
->> > >  ...01-GLES2-Get-sin-cos-out-of-vertex-shader.patch | 141
->> > > +++++++++++++++++++++
->> > >  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb     |   1 +
->> > >  2 files changed, 142 insertions(+)
->> > >  create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-
->> > > GLES2-
->> > > Get-sin-cos-out-of-vertex-shader.patch
->> > >
->> > > diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-
->> > > Get-
->> > > sin-cos-out-of-vertex-shader.patch b/meta/recipes-
->> > > graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-
->> > > shader.patch
->> > > new file mode 100644
->> > > index 0000000000..621b7ea1a0
->> > > --- /dev/null
->> > > +++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-
->> > > cos-
->> > > out-of-vertex-shader.patch
->> > > @@ -0,0 +1,141 @@
->> > > +From c215ba1d52a3d4ef03af3ab1a5baa1863f812aed Mon Sep 17
->> > > 00:00:00
->> > > 2001
->> > > +From: =3D?UTF-8?q?Andreas=3D20M=3DC3=3DBCller?=3D <schnitzeltony@gm=
-ail.com
->> > > >
->> > > +Date: Fri, 24 Aug 2018 23:10:25 +0200
->> > > +Subject: [PATCH] GLES2: Get sin/cos out of vertex shader
->> > > +MIME-Version: 1.0
->> > > +Content-Type: text/plain; charset=3DUTF-8
->> > > +Content-Transfer-Encoding: 8bit
->> > > +
->> > > +The only place angle is activated and causes effect is
->> > > RenderCopyEx.
->> > > All other
->> > > +methods which use vertex shader, leave angle disabled and cause
->> > > useless sin/cos
->> > > +calculation in shader.
->> > > +
->> > > +To get around shader's interface is changed to a vector that
->> > > contains results
->> > > +of sin and cos. To behave properly when disabled, cos value is
->> > > set
->> > > with offset
->> > > +-1.0 making 0.0 default when deactivated.
->> > > +
->> > > +As nice side effect it simplifies GLES2_UpdateVertexBuffer: All
->> > > attributes are
->> > > +vectors now.
->> > > +
->> > > +Additional background:
->> > > +
->> > > +* On RaspberryPi it gives a performace win for operations.
->> > > Tested
->> > > with
->> > > +  [1] numbers go down for 5-10% (not easy to estimate due to
->> > > huge
->> > > variation).
->> > > +* SDL_RenderCopyEx was tested with [2]
->> > > +* It works around left rotated display caused by low accuracy
->> > > sin
->> > > implemetation
->> > > +  in RaspberryPi/VC4 [3]
->> > > +
->> > > +Upstream-Status: Submitted [4]
->> >
->> > If I'm reading the logs correctly, this was actually merged
->> > upstream so
->> > the status would become Accepted or Backport?
->> >
->> > > +[1] https://github.com/schnitzeltony/sdl2box
->> > > +[2] https://github.com/schnitzeltony/sdl2rendercopyex
->> > > +[3] https://github.com/anholt/mesa/issues/110
->> > > +[4] https://hg.libsdl.org/SDL/rev/e5a666405750
->> >
->> > Cheers,
->> >
->> > Richard
->>
->> LOL: V1 I tried 'Applied [4]'
->>
->> and received patch failure message with the following hint:
->>
->> > Valid status     Pending, Accepted, Backport, Denied, Inappropriate
->>
->> [reason], Submitted [where]
->>
->> My favourite would have been
->>
->> > Accepted[4]
->>
->> to state out clearly that '[4]' is oe-specific and not part of the
->> original patch. If I read the hint correctly that would have caused
->> another patch failure. So I chose Submitted.
->>
->> So Accepted without []?
->>
->> Sorry to ask such kind of questions...
->
-> I'd have thought Accepted should have a []. A quick grep shows other
-> patches which have that in the tree so I suspect that help text is
-> misleading...
->
-V2 with Accepted?
+From: Gregory Vimont <gregory.vimont@softbankrobotics.com>
 
-Andreas
+When cross compiling on linux with gcc, the host gcc was used instead of
+the cross gcc to set compilation flags according to gcc version.
+
+Signed-off-by: Gregory Vimont <gregory.vimont@softbankrobotics.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+The reason of the backport is to fix a crash, details here:
+http://lists.openembedded.org/pipermail/openembedded-devel/2018-August/120116.html
+---
+ meta-oe/recipes-support/tbb/tbb.bb                 |  1 +
+ .../tbb/tbb/0002-linux-Fix-gcc-version-check.patch | 57 ++++++++++++++++++++++
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta-oe/recipes-support/tbb/tbb/0002-linux-Fix-gcc-version-check.patch
+
+diff --git a/meta-oe/recipes-support/tbb/tbb.bb b/meta-oe/recipes-support/tbb/tbb.bb
+index bad9481..f870104 100644
+--- a/meta-oe/recipes-support/tbb/tbb.bb
++++ b/meta-oe/recipes-support/tbb/tbb.bb
+@@ -13,6 +13,7 @@ PV = "${PRDATE}+${SRCPV}"
+ SRC_URI = "git://github.com/01org/tbb;branch=${BRANCH} \
+            file://cross-compile.patch \
+            file://0001-mallinfo-is-glibc-specific-API-mark-it-so.patch \
++           file://0002-linux-Fix-gcc-version-check.patch \
+            file://tbb.pc \
+ "
+ 
+diff --git a/meta-oe/recipes-support/tbb/tbb/0002-linux-Fix-gcc-version-check.patch b/meta-oe/recipes-support/tbb/tbb/0002-linux-Fix-gcc-version-check.patch
+new file mode 100644
+index 0000000..9824b61
+--- /dev/null
++++ b/meta-oe/recipes-support/tbb/tbb/0002-linux-Fix-gcc-version-check.patch
+@@ -0,0 +1,57 @@
++From aee098f1bf0511c6b5544de3170a9e8b51673b60 Mon Sep 17 00:00:00 2001
++From: Pierre Le Magourou <plemagourou@softbankrobotics.com>
++Date: Tue, 23 Jan 2018 15:25:50 +0100
++Subject: [PATCH] linux.gcc: Fix cross compilation error.
++
++When cross compiling on linux with gcc, the host gcc was used instead of
++the cross gcc to set compilation flags according to gcc version.
++
++When the cross gcc was in version 5.X and the host gcc in version 7.X,
++tbb was compiled with the -flifetime-dse=1 flag that does not exist on
++gcc 5.X.
++---
++ build/linux.gcc.inc | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/build/linux.gcc.inc b/build/linux.gcc.inc
++index 5c1889c..a4d6698 100644
++--- a/build/linux.gcc.inc
+++++ b/build/linux.gcc.inc
++@@ -41,29 +41,29 @@ LINK_FLAGS = -Wl,-rpath-link=. -rdynamic
++ C_FLAGS = $(CPLUS_FLAGS)
++ 
++ # gcc 4.2 and higher support OpenMP
++-ifneq (,$(shell gcc -dumpversion | egrep  "^(4\.[2-9]|[5-9])"))
+++ifneq (,$(shell $(CC) -dumpversion | egrep  "^(4\.[2-9]|[5-9])"))
++     OPENMP_FLAG = -fopenmp
++ endif
++ 
++ # gcc 4.8 and later support RTM intrinsics, but require command line switch to enable them
++-ifneq (,$(shell gcc -dumpversion | egrep  "^(4\.[8-9]|[5-9])"))
+++ifneq (,$(shell $(CC) -dumpversion | egrep  "^(4\.[8-9]|[5-9])"))
++     RTM_KEY = -mrtm
++ endif
++ 
++ # gcc 4.0 and later have -Wextra that is used by some our customers.
++-ifneq (,$(shell gcc -dumpversion | egrep  "^([4-9])"))
+++ifneq (,$(shell $(CC) -dumpversion | egrep  "^([4-9])"))
++     TEST_WARNING_KEY += -Wextra
++ endif
++ 
++ # gcc 5.0 and later have -Wsuggest-override option
++ # enable it via a pre-included header in order to limit to C++11 and above
++-ifneq (,$(shell gcc -dumpversion | egrep  "^([5-9])"))
+++ifneq (,$(shell $(CC) -dumpversion | egrep  "^([5-9])"))
++     INCLUDE_TEST_HEADERS = -include $(tbb_root)/src/test/harness_preload.h
++ endif
++ 
++ # gcc 6.0 and later have -flifetime-dse option that controls
++ # elimination of stores done outside the object lifetime
++-ifneq (,$(shell gcc -dumpversion | egrep  "^([6-9])"))
+++ifneq (,$(shell $(CC) -dumpversion | egrep  "^([6-9])"))
++     # keep pre-contruction stores for zero initialization
++     DSE_KEY = -flifetime-dse=1
++ endif
++-- 
++2.15.1
++
+-- 
+2.7.4
+
 
