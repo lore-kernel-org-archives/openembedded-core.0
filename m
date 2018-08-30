@@ -1,50 +1,56 @@
-Return-Path: <diego.rondini@kynetics.com>
-Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 8431B748D2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id CC6DF793ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 14:46:19 +0000 (UTC)
-Received: by mail-qt0-f169.google.com with SMTP id n6-v6so10218747qtl.4
+	Thu, 30 Aug 2018 15:22:51 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id y2-v6so2413400wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 07:46:20 -0700 (PDT)
+	Thu, 30 Aug 2018 08:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kynetics-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=Xq5qp2YqN/KNF9oojAHgzKzMfDCH5XzX3COOCU9aRfg=;
-	b=GR8nJjhkQ48jjXIRBcRqGk4qtyjwSZBa3sv6ImMdSw8Y9whjaOCuTRr9zdRP9MFcDR
-	fDdURcXmcrR2dqKaiSBaoVgTMVmYj5CpRafGEZPAsFQiUPpU+S4bhFQlkKeXwzhLBsos
-	SXtAQvG8i8zrr1UWmzEUI/lw42niO1SRZMph8/l23muNG0lhJm+CTuT2ju7whJ2xIzDG
-	V1caXpuiZ3PTEcHoJRAObldvwBee9cvJxx5KOvloSLO99Fex2bh9ORe124n7eo19+dDk
-	kt6mSWkyoSeKMfHYCOWEmph1NXqt5a6CAwRcobMI+VtXfWEDM+gwrUtwh3BS3sk74STm
-	v7SQ==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=fi2SJM/KdNg91mg6f8AYi/AHxEIhI/5qDSwOsFkbFWc=;
+	b=MsJTgpfmbJJcsCwfZwjDVWtLPcEazFcib2Xw+OqBtdgvjP06RbommAqBOLH/p3Epex
+	p0a7DwQanX4mYtyeuCZW4D3CY2gsCTi++vXRu++GmkleUrkx9LUbkSSV7v/cA7uaPYvl
+	WvlUHNtM2cMDL8CC3Wu5YSgdG2DSD1mwwfnf0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=Xq5qp2YqN/KNF9oojAHgzKzMfDCH5XzX3COOCU9aRfg=;
-	b=MMR2Uwdk8BjtIXl8wN3+oxSkC2aWObMyus0eb4F/7tJZ/uHk60hAaBgXemPEowFA0A
-	6HE4uw0CmORd3o4ryPnVkSlq9TDwvoDCIpm9TJTR/2hHwb1ekshX76bmoSGoiQ8ke/8i
-	mdfmbNw7jGBAheowA6NXZvdotqNIJ65a0aqEF+58DbCT3HWXY/2hmSLj8T2Hf5tvNOL3
-	YA2U03j22kRKYgqlPNmB5cletYjSw2ei4KFg34ulq+mjcZVIF9qI7Lntcm25s8sqrXig
-	EAWIWypYZLGLwZVGtWy2HuA+vIjHr1Qq4XHXrPLYLmctCx6gCVMwTLhXxC9gT9H+4y66
-	JUdQ==
-X-Gm-Message-State: APzg51CGt/kk/WsaESPppJ2H8CBlJS3c182u4lEHlNy2QAgcP+pgsHPx
-	OZwAP0Vdf9Wr5oHCTlmnSb6af65h/1H+vahKtPJXhfU0uVA=
-X-Google-Smtp-Source: ANB0VdaVNdtqABcNliI1f6EZko2FyzN3oRbcg3ugc269sVPAhxSlekyRjl5gx0oJgmE64H++jxvQrRfFMDnmYqkVyQk=
-X-Received: by 2002:a37:f19:: with SMTP id
-	z25-v6mr11635460qkg.147.1535640380310; 
-	Thu, 30 Aug 2018 07:46:20 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:aed:357a:0:0:0:0:0 with HTTP; Thu, 30 Aug 2018 07:45:59
-	-0700 (PDT)
-X-Originating-IP: [79.7.224.57]
-In-Reply-To: <1535636519-3244-1-git-send-email-diego.rondini@kynetics.com>
-References: <1535636519-3244-1-git-send-email-diego.rondini@kynetics.com>
-From: Diego Rondini <diego.rondini@kynetics.com>
-Date: Thu, 30 Aug 2018 16:45:59 +0200
-Message-ID: <CAMfw5YqyNPPV_WuP6MDoA0fe6Qr0q=xTGDv=SZhBTGheUgj8Mw@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][rocko][sumo][PATCH] tbb: check the version of the cross gcc instead of host gcc
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=fi2SJM/KdNg91mg6f8AYi/AHxEIhI/5qDSwOsFkbFWc=;
+	b=QJBljhnn1XhH+H6A+HsyssvwxIl6Zwxgk9u8rKICy6ZLxPEr0eNGiG1wWTERFqPYgq
+	8X3YOLA+uQTco4z5xcWdYcM1cBzO95NeUR1uR2EOAflpz8LLHR4MOeT6l21gLXMmrx+W
+	C2XSBaxboJYVJyiEDFd1p8viDsVsfN5tUL5EeFJ4j7Uk5RklKjDpOPS9XgXhdxAjdyJr
+	B2KgCt2rfCbVMYMq1fIXlPvDp8C0znpBrnh4CPsBtVnXRWyrRVoRez/421HNbP//qvxz
+	2XndMbk95EshhRtYOnqm0WZBfl/PqxCEybMXBgXvo3G1afsWDqYV3FMObfyFDqUDG0LZ
+	HvdQ==
+X-Gm-Message-State: APzg51BmO1P9qdkwUhTz9Cva2wtWefidYecsng1e+uEnGpfJIug0wxEH
+	+2C92MBa8BQt6ZtKu28SGEBViA==
+X-Google-Smtp-Source: ANB0VdYgVfuSPXfagoc6DKcBuVtJr/mpm1pA+Rfjo4lL/A6qdsc6dUnkmNmFkbNlaklLV/XHWX/jBQ==
+X-Received: by 2002:a1c:c5cc:: with SMTP id
+	v195-v6mr2189021wmf.29.1535642572588; 
+	Thu, 30 Aug 2018 08:22:52 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	r30-v6sm15511316wrc.90.2018.08.30.08.22.51
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 30 Aug 2018 08:22:51 -0700 (PDT)
+Message-ID: <5d6ddab2b5eacfe864c99f0e67797c4bd4d96415.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>
+Date: Thu, 30 Aug 2018 16:22:50 +0100
+In-Reply-To: <CALbNGRQPs4mX70TdFnaHeBiPqp2hKJyrj1R9nUfGDe7BghGyAQ@mail.gmail.com>
+References: <20180828221954.3214-1-schnitzeltony@gmail.com>
+	<66aa21df8fa33f677b8a65150da5af2f98c22268.camel@linuxfoundation.org>
+	<CALbNGRS2x76WRxtbNu417m8p5OVcF8pt1F7L3pUoUQ0PLvjTnw@mail.gmail.com>
+	<fcb8bc41a5f65715b41f2c9461cdd434467e6ad4.camel@linuxfoundation.org>
+	<CALbNGRQPs4mX70TdFnaHeBiPqp2hKJyrj1R9nUfGDe7BghGyAQ@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] libsdl2: Fix left rotated display for RaspPi/VC4/GLES2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,15 +63,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 14:46:19 -0000
+X-List-Received-Date: Thu, 30 Aug 2018 15:22:52 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Sorry, sent to the wrong mailing list. Please drop.
+On Thu, 2018-08-30 at 12:45 +0200, Andreas Müller wrote:
+> > I'd have thought Accepted should have a []. A quick grep shows
+> > other
+> > patches which have that in the tree so I suspect that help text is
+> > misleading...
+> > 
+> 
+> V2 with Accepted?
 
--- 
-Diego Rondini
-Sr. Embedded Engineer
+I've tweaked it in -next to save reposting and remerging the patches :)
 
-Kynetics
-www.kynetics.com
+Cheers,
+
+Richard
 
