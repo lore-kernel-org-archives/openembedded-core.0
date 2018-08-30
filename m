@@ -1,25 +1,18 @@
-Return-Path: <Lu.Jiang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C049793E2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 10:03:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7UA3W79022622
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 03:03:32 -0700 (PDT)
-Received: from pek-ljiang0-d1.wrs.com (128.224.162.214) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 30 Aug 2018 03:03:31 -0700
-From: Jiang Lu <lu.jiang@windriver.com>
-To: <lu.jiang@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Aug 2018 18:01:22 +0800
-Message-ID: <1535623282-13919-8-git-send-email-lu.jiang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1535623282-13919-1-git-send-email-lu.jiang@windriver.com>
-References: <1535623282-13919-1-git-send-email-lu.jiang@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id CE6A9793D3;
+	Thu, 30 Aug 2018 10:32:57 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 7/7] wic:mkefidisk:add use-uuid for all partitions
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Jiang Lu <lu.jiang@windriver.com>
+Date: Thu, 30 Aug 2018 10:32:59 -0000
+Message-ID: <20180830103259.13844.8134@do.openembedded.org>
+References: <1535623282-13919-1-git-send-email-lu.jiang@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1535623282-13919-1-git-send-email-lu.jiang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2ljOmFsbG93IHdpYyBjb21waWxlIGFzIGFuIGluZGl2aWR1YWwgcGFja2FnZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 10:03:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Aug 2018 10:32:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Add use-uuid for all partitions on mkefidisk.wks.
+== Series Details ==
 
-Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
+Series: wic:allow wic compile as an individual package
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13816/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 853e0499be)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- scripts/lib/wic/canned-wks/mkefidisk.wks | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
-index 9f534fe..7bcb52f 100644
---- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-@@ -2,10 +2,10 @@
- # long-description: Creates a partitioned EFI disk image that the user
- # can directly dd to boot media.
- 
--part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
-+part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024 --use-uuid
- 
- part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
- 
--part swap --ondisk sda --size 44 --label swap1 --fstype=swap
-+part swap --ondisk sda --size 44 --label swap1 --fstype=swap --use-uuid
- 
- bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 console=ttyS0,115200 console=tty0"
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
