@@ -1,26 +1,31 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 703F1793D7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A35974AEB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 09:40:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w7U9eUYg028473
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 02:40:31 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 30 Aug 2018 02:40:30 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Aug 2018 17:45:13 +0800
-Message-ID: <5866ef08f2dff80047ec4513374c4d3a0cf800b7.1535621964.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1535621964.git.Qi.Chen@windriver.com>
-References: <cover.1535621964.git.Qi.Chen@windriver.com>
+	Thu, 30 Aug 2018 09:41:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7U9et3A022143
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 30 Aug 2018 02:40:55 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Thu, 30 Aug 2018 02:40:54 -0700
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Khem Raj
+	<raj.khem@gmail.com>, Markus Lehtonen <markus.lehtonen@linux.intel.com>
+References: <cover.1535601148.git.raj.khem@gmail.com>
+	<fae07991f994982404930e78c225db460bd14ae6.1535601148.git.raj.khem@gmail.com>
+	<c712539f5fd74697831fb7ed806e6fea@XBOX02.axis.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <02ee117d-3465-62e9-00da-8dedf441d0f2@windriver.com>
+Date: Thu, 30 Aug 2018 17:45:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] busybox: fix the alternatives logic
+In-Reply-To: <c712539f5fd74697831fb7ed806e6fea@XBOX02.axis.com>
+X-Originating-IP: [128.224.162.218]
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/7] sysklogd: Use update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,101 +38,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 09:40:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Aug 2018 09:41:03 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The current alternatives setting logic in busybox is not ideal.
-For example, the 'syslogd' alternative should be handled by
-busybox-syslog package, but it is now handled by the busybox package.
+On 08/30/2018 03:44 PM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+>> core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
+>> Sent: den 30 augusti 2018 05:56
+>> To: openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] [PATCH 3/7] sysklogd: Use update-alternatives
+>>
+>> busybox also provides klogd and syslogd, this change makes it coexist
+>> peacefully. Currently rootfs fails in situations where both of them are
+>> providing these binaries and busybox postinsts fail
+>>
+>> update-alternatives: Error: not linking
+>> /mnt/a/oe/build/tmp/work/qemuriscv64-bec-linux/core-image-full-
+>> cmdline/1.0-r0/rootfs/sbin/klogd
+>> to /bin/busybox.nosuid since
+>> /mnt/a/oe/build/tmp/work/qemuriscv64-bec-linux/core-image-full-
+>> cmdline/1.0-r0/rootfs/sbin/klogd
+>> exists and is not a link
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>   meta/recipes-extended/sysklogd/sysklogd.inc | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc
+>> b/meta/recipes-extended/sysklogd/sysklogd.inc
+>> index fc4e67c18e..2a8bed00f3 100644
+>> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
+>> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+>> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+>>                       file://klogd.c;beginline=2;endline=19;md5=7e87ed0ae6142de079bce738c10c899d \
+>>                      "
+>>
+>> -inherit update-rc.d systemd
+>> +inherit update-rc.d systemd update-alternatives
+>>
+>>   SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz \
+>>              file://no-strip-install.patch \
+>> @@ -70,3 +70,9 @@ python () {
+>>       if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+>>           d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+>>   }
+>> +
+>> +ALTERNATIVE_PRIORITY = "100"
+>> +ALTERNATIVE_${PN} = "klogd syslogd"
+>> +ALTERNATIVE_LINK_NAME[klogd] = "${base_sbindir}/klogd"
+>> +ALTERNATIVE_LINK_NAME[syslogd] = "${base_sbindir}/syslogd"
+>> +
+>> --
+>> 2.18.0
+> This is a (partial) revert of commit 988aad01b2 (sysklogd: don't use
+> update-alternatives). Can you come to an agreement regarding which is
+> the correct solution?
+>
+> //Peter
+>
 
-In other words, despite the fact that busybox recipe has multiple
-packages, the alternatives settings are all done for the main busybox
-package.
 
-This will cause problems. For example, if we have an image with sysklogd
-and busybox installed, there will be do_rootfs failure if busybox is
-installed after sysklogd.
+I think the previous commit (syslogd: don't use update-alternatives) is 
+made because syslog daemon conflict with each other. I guess the author 
+assumed that the 'syslogd' and 'klogd' alternatives entries are handled 
+by busybox-syslog package.
 
-Note that in the above situation, the image does not have busybox-syslog.
-The 'syslogd' entry should really be handled by busybox-syslog instead of
-busybox.
+On the other hand, I think the patch is trying to solve the problem of 
+busybox being installed after sysklogd.
+We are currently not seeing errors because busybox is likely to be 
+installed before sysklogd. Even in this situation, the result is not all 
+correct, because the links busybox's postinstall creates are covered by 
+the real binaries from sysklogd.
 
-And the same logic applies to other packages in the busybox recipe.
+I think the problem is about busybox's handling of alternatives.
 
-So change the alternatives handling codes in busybox to fix this problem.
+Khem, I've sent out a patch to fix busybox's alternatives logic. Could 
+you please help review it?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/busybox/busybox.inc | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 8c6dbba..5ca1bab 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -29,6 +29,13 @@ FILES_${PN}-udhcpd = "${sysconfdir}/init.d/busybox-udhcpd"
- FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc"
- FILES_${PN}-hwclock = "${sysconfdir}/init.d/hwclock.sh"
- 
-+ALTERNATIVE_${PN}-httpd = "httpd"
-+ALTERNATIVE_${PN}-syslog = "syslogd klogd"
-+ALTERNATIVE_${PN}-mdev = "mdev"
-+ALTERNATIVE_${PN}-udhcpd = "udhcpd"
-+ALTERNATIVE_${PN}-udhcpc = "udhcpc"
-+ALTERNATIVE_${PN}-hwclock = "hwclock"
-+
- INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock"
- 
- INITSCRIPT_NAME_${PN}-httpd = "busybox-httpd"
-@@ -357,21 +364,46 @@ python do_package_prepend () {
- 
-     dvar = d.getVar('D')
-     pn = d.getVar('PN')
-+    pkgs = d.getVar('PACKAGES').split()
-     def set_alternative_vars(links, target):
-         links = d.expand(links)
-         target = d.expand(target)
-         f = open('%s%s' % (dvar, links), 'r')
-+        valid_names = []
-         for alt_link_name in f:
-             alt_link_name = alt_link_name.strip()
-             alt_name = os.path.basename(alt_link_name)
-             # Match coreutils
-             if alt_name == '[':
-                 alt_name = 'lbracket'
--            d.appendVar('ALTERNATIVE_%s' % (pn), ' ' + alt_name)
-+            valid_names.append(alt_name)
-+            # if not already specified by ALTERNATIVE_pkg, default to put it in ALTERNATIVE_${PN}
-+            flag_default = True
-+            for pkg in pkgs:
-+                if pkg == pn:
-+                    continue
-+                if alt_name in (d.getVar('ALTERNATIVE_%s' % pkg) or '').split():
-+                    flag_default = False
-+                    break
-+            if flag_default:
-+                d.appendVar('ALTERNATIVE_%s' % (pn), ' ' + alt_name)
-             d.setVarFlag('ALTERNATIVE_LINK_NAME', alt_name, alt_link_name)
-             if os.path.exists('%s%s' % (dvar, target)):
-                 d.setVarFlag('ALTERNATIVE_TARGET', alt_name, target)
-         f.close()
-+        # iterate over pkgs to remove invalid entries for ALTERNATIVE_pkg
-+        for pkg in pkgs:
-+            if pkg == pn:
-+                continue
-+            final_names = []
-+            names = (d.getVar('ALTERNATIVE_%s' % pkg) or '').split()
-+            for name in names:
-+                if name in valid_names:
-+                    final_names.append(name)
-+            if final_names:
-+                d.setVar('ALTERNATIVE_%s' % pkg, ' '.join(final_names))
-+            else:
-+                d.delVar('ALTERNATIVE_%s' % pkg)
-         return
- 
-     if os.path.exists('%s/etc/busybox.links' % (dvar)):
--- 
-1.9.1
-
+Best Regards,
+Chen Qi
 
