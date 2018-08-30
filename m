@@ -1,47 +1,28 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
-	[209.85.222.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CB9A74CAF
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D14D660778
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 05:58:13 +0000 (UTC)
-Received: by mail-ua1-f66.google.com with SMTP id 101-v6so4770020uav.7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 22:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZK5UELL1IQOA+65ToH4i32f9EI1Ujb9KDcR8o0CxQxc=;
-	b=Er3xGPf0CfjlLXKb5H/FaqSrUtcejls3zKyKfI/2cmf9iYcmIw3/2jBy2tVN4X30bD
-	QLvoVmqoNxticGPqyW/78Guo6Brzq4YdSoAol0Xaik+6qTPm9NdNLjHif/hJyZT5uxOT
-	jFdQO4L2fCYVHTLHI1Pgpf1SUgLbLjYXf9kixNLjbmI/CRkIb7/nX0j7OjKn219uRqa8
-	N5qZ3qot/e5t6lJMs8oyi+V+G0KJm0CCV8H4pHB4BptT9L3th4RHH9x9CheSXyuEUVVY
-	35slWgMsnM0f7/XYKp/XQh6wk8gPbxcThNNmXIa6D0jO9PbeSTVK2OCwm9NDAGQFoe5J
-	KDkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZK5UELL1IQOA+65ToH4i32f9EI1Ujb9KDcR8o0CxQxc=;
-	b=cjkknYXK6iCtLOhy+CFGG1coA/PgNIJCk4/+QndxU7qfhgNya/0o9IBEngEegl9SAV
-	x6eo3R/cOFeH/zpwcF7nZiKSdG7a/kEI3ONaOz1OcliKYKTXLPROmOzrv6DODlvp/tqG
-	hYTLDhoDy6gPF4G1FudCeCiLGhnsOHBC0oWEnsTy2cXpfw8U7ne3zh64WTY6fJCxhZ3p
-	fE/K+acUGoU1pxIG+6Gm4hLjzYBWgSu69a6Ar3VUVrkk2GZaJNNK0ioKGEmrqtFpYgvd
-	Plzqs35c804zHSver0IioIAFpQCJ02lKGccqr+4cHcu7NppSi20gf04UJ6jdOjcxhgex
-	hY6A==
-X-Gm-Message-State: APzg51BeKch6tdFgdptmeah1wOJ5lJcdunQ4k87RT2C9Ogql5Z3cUpKC
-	Q0vFKSsKaqJ2+6FV/Ysdi4qLDcVg/vOaoNO3vCI=
-X-Google-Smtp-Source: ANB0VdbtJxvmpV7/ZVqE9VG8RUAlFqNIpkgmEjkLaqwVMSFdHi3aw/NLJ7W0V2BJqpfgX3RF2bF62BBJRdqcPe3FPoU=
-X-Received: by 2002:a9f:24ae:: with SMTP id
-	43-v6mr6301534uar.181.1535608694215; 
-	Wed, 29 Aug 2018 22:58:14 -0700 (PDT)
+	Thu, 30 Aug 2018 06:04:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7U6431H016412
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 29 Aug 2018 23:04:03 -0700 (PDT)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 29 Aug 2018 23:04:02 -0700
+To: <openembedded-core@lists.openembedded.org>, Alexander Kanavin
+	<alex.kanavin@gmail.com>
+References: <20180830033358.117202-1-Randy.MacLeod@windriver.com>
+	<7afee083-1906-1b6d-43ff-fc2819b4df0a@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <97653826-b4a4-f5db-8ccf-51b635082e09@windriver.com>
+Date: Thu, 30 Aug 2018 02:04:02 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <1535583563-7807-1-git-send-email-texier.pj2@gmail.com>
-In-Reply-To: <1535583563-7807-1-git-send-email-texier.pj2@gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 30 Aug 2018 06:58:03 +0100
-Message-ID: <CAO5Uq5S685HkwZJHtkHHWJ4yUJ+zLVytBC9UOuikQrNKpPC4mQ@mail.gmail.com>
-To: texier.pj2@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] kernel-fitimage: Fix no reg property warning
+In-Reply-To: <7afee083-1906-1b6d-43ff-fc2819b4df0a@windriver.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH] openssh: update from 7.7p1 to 7.8p1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,184 +35,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 05:58:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 30 Aug 2018 06:04:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 29, 2018 at 11:59 PM Pierre-Jean Texier
-<texier.pj2@gmail.com> wrote:
->
-> The DT specifications demands a unit-address of a node name to match the "reg"
-> property in that node. Newer dtc versions will throw warnings if this is
-> not the case.
->
-> Fixes the following warnings:
->
-> | <stdout>: Warning (unit_address_vs_reg): Node /images/kernel@1 has a unit name, but no reg property
-> | <stdout>: Warning (unit_address_vs_reg): Node /images/kernel@1/hash@1 has a unit name, but no reg property
-> | <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek.dtb has a unit name, but no reg property
-> | <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek.dtb/hash@1 has a unit name, but no reg property
-> | <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda4.dtb has a unit name, but no reg property
-> | <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda4.dtb/hash@1 has a unit name, but no reg property
-> | <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda7.dtb has a unit name, but no reg property
-> | <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda7.dtb/hash@1 has a unit name, but no reg property
-> | <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda7b.dtb has a unit name, but no reg property
-> | <stdout>: Warning (unit_address_vs_reg): Node /images/fdt@at91-sama5d27_som1_ek_pda7b.dtb/hash@1 has a unit name, but no reg property
->
-> Signed-off-by: Pierre-Jean Texier <texier.pj2@gmail.com>
+On 08/29/2018 11:47 PM, Randy MacLeod wrote:
+> 
+> Builds and works both with and without Alex's patch series:
+>     [OE-core] [RFC PATCH 0/6] openssl 1.1.1 update
+> 
+> but I had not noticed:
+>     DEPENDS = "zlib openssl10"
 
-This strikes me as a bad idea... it breaks existing boot
-configurations as it changes the name that has to be selected by
-U-Boot.
+Alex's patch series already fixed that:
+     -DEPENDS = "zlib openssl10"
+     +DEPENDS = "zlib libressl"
+so I don't need to do any additional tests.
 
-> ---
-> Changes in V2:
->         - rebase on master
->
->  meta/classes/kernel-fitimage.bbclass | 32 ++++++++++++++++----------------
->  1 file changed, 16 insertions(+), 16 deletions(-)
->
-> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-> index a4d7aca..3d7800a 100644
-> --- a/meta/classes/kernel-fitimage.bbclass
-> +++ b/meta/classes/kernel-fitimage.bbclass
-> @@ -109,7 +109,7 @@ fitimage_emit_section_kernel() {
->         fi
->
->         cat << EOF >> ${1}
-> -                kernel@${2} {
-> +                kernel-${2} {
->                          description = "Linux kernel";
->                          data = /incbin/("${3}");
->                          type = "kernel";
-> @@ -118,7 +118,7 @@ fitimage_emit_section_kernel() {
->                          compression = "${4}";
->                          load = <${UBOOT_LOADADDRESS}>;
->                          entry = <${ENTRYPOINT}>;
-> -                        hash@1 {
-> +                        hash-1 {
->                                  algo = "${kernel_csum}";
->                          };
->                  };
-> @@ -145,14 +145,14 @@ fitimage_emit_section_dtb() {
->                 dtb_loadline="load = <${UBOOT_DTB_LOADADDRESS}>;"
->         fi
->         cat << EOF >> ${1}
-> -                fdt@${2} {
-> +                fdt-${2} {
->                          description = "Flattened Device Tree blob";
->                          data = /incbin/("${3}");
->                          type = "flat_dt";
->                          arch = "${UBOOT_ARCH}";
->                          compression = "none";
->                          ${dtb_loadline}
-> -                        hash@1 {
-> +                        hash-1 {
->                                  algo = "${dtb_csum}";
->                          };
->                  };
-> @@ -170,7 +170,7 @@ fitimage_emit_section_setup() {
->         setup_csum="sha1"
->
->         cat << EOF >> ${1}
-> -                setup@${2} {
-> +                setup-${2} {
->                          description = "Linux setup.bin";
->                          data = /incbin/("${3}");
->                          type = "x86_setup";
-> @@ -179,7 +179,7 @@ fitimage_emit_section_setup() {
->                          compression = "none";
->                          load = <0x00090000>;
->                          entry = <0x00090000>;
-> -                        hash@1 {
-> +                        hash-1 {
->                                  algo = "${setup_csum}";
->                          };
->                  };
-> @@ -225,7 +225,7 @@ fitimage_emit_section_ramdisk() {
->         esac
->
->         cat << EOF >> ${1}
-> -                ramdisk@${2} {
-> +                ramdisk-${2} {
->                          description = "${INITRAMFS_IMAGE}";
->                          data = /incbin/("${3}");
->                          type = "ramdisk";
-> @@ -234,7 +234,7 @@ fitimage_emit_section_ramdisk() {
->                          compression = "${ramdisk_ctype}";
->                          ${ramdisk_loadline}
->                          ${ramdisk_entryline}
-> -                        hash@1 {
-> +                        hash-1 {
->                                  algo = "${ramdisk_csum}";
->                          };
->                  };
-> @@ -269,39 +269,39 @@ fitimage_emit_section_config() {
->         if [ -n "${2}" ]; then
->                 conf_desc="Linux kernel"
->                 sep=", "
-> -               kernel_line="kernel = \"kernel@${2}\";"
-> +               kernel_line="kernel = \"kernel-${2}\";"
->         fi
->
->         if [ -n "${3}" ]; then
->                 conf_desc="${conf_desc}${sep}FDT blob"
->                 sep=", "
-> -               fdt_line="fdt = \"fdt@${3}\";"
-> +               fdt_line="fdt = \"fdt-${3}\";"
->         fi
->
->         if [ -n "${4}" ]; then
->                 conf_desc="${conf_desc}${sep}ramdisk"
->                 sep=", "
-> -               ramdisk_line="ramdisk = \"ramdisk@${4}\";"
-> +               ramdisk_line="ramdisk = \"ramdisk-${4}\";"
->         fi
->
->         if [ -n "${5}" ]; then
->                 conf_desc="${conf_desc}${sep}setup"
-> -               setup_line="setup = \"setup@${5}\";"
-> +               setup_line="setup = \"setup-${5}\";"
->         fi
->
->         if [ "${6}" = "1" ]; then
-> -               default_line="default = \"conf@${3}\";"
-> +               default_line="default = \"conf-${3}\";"
->         fi
->
->         cat << EOF >> ${1}
->                  ${default_line}
-> -                conf@${3} {
-> +                conf-${3} {
->                         description = "${6} ${conf_desc}";
->                         ${kernel_line}
->                         ${fdt_line}
->                         ${ramdisk_line}
->                         ${setup_line}
-> -                        hash@1 {
-> +                        hash-1 {
->                                  algo = "${conf_csum}";
->                          };
->  EOF
-> @@ -333,7 +333,7 @@ EOF
->                 sign_line="${sign_line};"
->
->                 cat << EOF >> ${1}
-> -                        signature@1 {
-> +                        signature-1 {
->                                  algo = "${conf_csum},rsa2048";
->                                  key-name-hint = "${conf_sign_keyname}";
->                                 ${sign_line}
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+libressl+openssh queries below for the curious.
 
+../Randy
+
+root@qemux86-64:~# rpm -qa | grep libressl
+libressl-2.8.0-r0.core2_64
+
+root@qemux86-64:~# rpm -qa | grep openssh
+openssh-sshd-7.8p1-r0.core2_64
+openssh-keygen-7.8p1-r0.core2_64
+openssh-ssh-7.8p1-r0.core2_64
+openssh-scp-7.8p1-r0.core2_64
+openssh-7.8p1-r0.core2_64
+packagegroup-core-ssh-openssh-1.0-r1.noarch
+
+root@qemux86-64:~# rpm -qa | grep openssl
+openssl-conf-1.1.1+pre9-r0.core2_64
+openssl-1.1.1+pre9-r0.core2_64
+
+root@qemux86-64:~# rpm -ql libressl | grep so
+/usr/lib/libcrypto.so.43
+/usr/lib/libcrypto.so.43.1.0
+/usr/lib/libssl.so.45
+/usr/lib/libssl.so.45.1.0
+/usr/lib/libtls.so.17
+/usr/lib/libtls.so.17.1.0
+
+root@qemux86-64:~# ldd /usr/sbin/sshd
+         linux-vdso.so.1 (0x00007ffd797f7000)
+         libcrypto.so.43 => /usr/lib/libcrypto.so.43 (0x00007fcd91630000)
+         libutil.so.1 => /lib/libutil.so.1 (0x00007fcd9162b000)
+         libz.so.1 => /lib/libz.so.1 (0x00007fcd91611000)
+         libcrypt.so.1 => /usr/lib/libcrypt.so.1 (0x00007fcd915e6000)
+         libc.so.6 => /lib/libc.so.6 (0x00007fcd9142c000)
+         libpthread.so.0 => /lib/libpthread.so.0 (0x00007fcd9140b000)
+         /lib/ld-linux-x86-64.so.2 (0x00007fcd918c8000)
+
+root@qemux86-64:~# ldd /usr/bin/ssh.openssh  | grep crypto
+         libcrypto.so.43 => /usr/lib/libcrypto.so.43 (0x00007f7ea43bc000)
+
+> 
+> so I'll fix that and re-test if openssl 1.1.1 is accepted.
 
 
 -- 
-Alex Kiernan
+# Randy MacLeod
+# Wind River Linux
 
