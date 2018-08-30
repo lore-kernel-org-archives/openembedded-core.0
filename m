@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id F0021792BC
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 07458793C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 03:55:48 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id d12-v6so3242862pls.4
+	Thu, 30 Aug 2018 03:55:49 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id x17-v6so3260962pfh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 20:55:50 -0700 (PDT)
+	Wed, 29 Aug 2018 20:55:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=pqiXdvS1f+0VEn6CBhOEjtsCBeC4av4AMBd7e1OkBXg=;
-	b=aEcKYAM2jIVcTyzObATC/7/QYYP3AF/8O7U5SFGgqg4JNFQqh8AnuTvrLMfoilGfdQ
-	BVoiHhNQDLXVa+2v5Y+eDaYAaUOh1Xg5J5skSq2rxI2ixzPGe0ASBA6r3sNRpBuKnkER
-	GHCqII9YnyvCgt27vrgVMebmcEwVhK/pt3sZKDKl0bwDzru2yZuigUUz9V8O1cHI0/xx
-	TTvSj98BKSLmfRX9ioKH7GuePPUYjq4C86EMI4rbDeoV4gqngBqQUxRXzFPwMYe8lTcC
-	KLhSIWOwx9OKqloZxN2gzhcb2Ty6xwEDWME02rcoqPBAFmv12mxv53rL7hkUQftw0zUx
-	zyyw==
+	bh=i4FZFubAl8mUdHopqOn4T0iMMssQT5lcHaMSCleChXA=;
+	b=KLDh2gUVJ8k4HGtYeJR7W9thtMBLy4k8dTFaUkCMjeKOGF/MAfS59nszrcFRRHHTPJ
+	7x00OmeJYMc/v/Fqq9fbyl5j8bUSlm112NPdrjwHt8A2f11SzhHP6IH9Pw4Mcrli4Vps
+	kmWjWrYvY0geBu9tfSHAHJsHO/CxIsMG0yMZDsVGEgzud16BNoAFmxeZe/E9+k0FGDGH
+	aPK5FDBq0DRrIoGxo/5/EzfGGFBYOjr0+FwVKf4qtNRPCg/mGFSR2nmzL/0SWYVPesXC
+	uaS/m/ZIS7/99PVL2auwbrI9hbUhtsP475eueJzMTzvGl2u4t0v9UuJVnCP8fzrK/3Bh
+	zXIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=pqiXdvS1f+0VEn6CBhOEjtsCBeC4av4AMBd7e1OkBXg=;
-	b=oS2U4EmtNg88dXI1JR4fPKvoOJnnSGoZZY2H8YS2bbS5Yo+An4Mae4yKdipL5HVB/8
-	qStcmKZ6lLkZSUm+tUvjQq1MzG9Ox3n1gm4/uc84FR+/qwsinKJ637bitHjIIWp0eG4Z
-	twkDIWgncz8mYrfWqrY8fmtn5gYlYq83HinO6QzkJDFqDU39EOEJbLVK/YIS2ilX2v/Z
-	dYlcfL2XoCz+ToW72iixEgrnK5psrGpXUr9ljs13cv/EBjjcceIVwRo1rlfpFdGiNYhD
-	WKKzVmL4LZ8QwzMM88Zdj0g86qubpgqfqNAYByYj9q/4WxSvIs8Zl0a39W7BnIGSv6Td
-	DD6w==
-X-Gm-Message-State: APzg51CUm7/Bwss60Iy7GVOS1HeLoq4J0V2tA0cXZVnF+prWAf1+d7pS
-	dUgLA3Fahz6AEzYbpN4VgLl7yxm3
-X-Google-Smtp-Source: ANB0Vda7CbmEH8PcnX0VXWGArC3caRip4EEoySzV+RWsqw1OksD/rz76EnwXRE1jIXPMwxNXPqCw2g==
-X-Received: by 2002:a17:902:bccb:: with SMTP id
-	o11-v6mr6229552pls.167.1535601349693; 
-	Wed, 29 Aug 2018 20:55:49 -0700 (PDT)
+	bh=i4FZFubAl8mUdHopqOn4T0iMMssQT5lcHaMSCleChXA=;
+	b=MGjp4PSMjhjG8wgzvCo8In3mycWoJewRRDi+hKGymlJwpSUgFvno/CeVtdotA3OMNa
+	xkToRcLI5y25HKCGv2m6rtuyq94YiVYXZHAQPgu24PUljAZCb8hMKh0KLJvXDZ5m005Z
+	HJZnZA5u/FcszAuo/bM8crmL0CbMJpx+kfWEnH0Y1o0qi2pgtREGBrLQOadVzlsbGsF0
+	5rTUv/WTpTOSnNaWnW4LibW4JZeJPPGn/tj/v/0pONNFY1Ewm0hVRxdPIGLYjjeNqTeQ
+	hQPqldFrMC6RTxV+HEBVDf7TUzKgLMgWKHVsautQ96uPbUHbp3kdTbiM9A9CXVg5w4Oa
+	C01Q==
+X-Gm-Message-State: APzg51AYO1lVMn3++zw8OmXqE3MoZyObXSajP8LwZ/ues6cUyHdMasfR
+	yEBuHQ67pwolrT01kPB9qNrUSgnv
+X-Google-Smtp-Source: ANB0VdawHQ1qli6EOtVxc00JHcNahnEXbzymwYekKjuEJv2hi08M8nL27U4qZp6RCiQgG2l8sygSsQ==
+X-Received: by 2002:a62:dbc5:: with SMTP id
+	f188-v6mr8788484pfg.182.1535601350770; 
+	Wed, 29 Aug 2018 20:55:50 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::f180])
 	by smtp.gmail.com with ESMTPSA id
-	77-v6sm8056381pga.40.2018.08.29.20.55.48
+	77-v6sm8056381pga.40.2018.08.29.20.55.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Aug 2018 20:55:48 -0700 (PDT)
+	Wed, 29 Aug 2018 20:55:50 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Aug 2018 20:55:35 -0700
-Message-Id: <fae07991f994982404930e78c225db460bd14ae6.1535601148.git.raj.khem@gmail.com>
+Date: Wed, 29 Aug 2018 20:55:36 -0700
+Message-Id: <ed1d14d5b20bd6a359b4202751e13cc55869709d.1535601148.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1535601148.git.raj.khem@gmail.com>
 References: <cover.1535601148.git.raj.khem@gmail.com>
-Subject: [PATCH 3/7] sysklogd: Use update-alternatives
+Subject: [PATCH 4/7] glibc-locale: Enable riscv64 and riscv32 in BINARY_LOCALE_ARCHES supported architectures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,46 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 03:55:49 -0000
+X-List-Received-Date: Thu, 30 Aug 2018 03:55:50 -0000
 
-busybox also provides klogd and syslogd, this change makes it coexist
-peacefully. Currently rootfs fails in situations where both of them are
-providing these binaries and busybox postinsts fail
+This support is there using cross-localedef but was not enabled, this
+caused the post-install for locales to be emitted which delays the boot
+significantly.
 
-update-alternatives: Error: not linking
-/mnt/a/oe/build/tmp/work/qemuriscv64-bec-linux/core-image-full-cmdline/1.0-r0/rootfs/sbin/klogd
-to /bin/busybox.nosuid since
-/mnt/a/oe/build/tmp/work/qemuriscv64-bec-linux/core-image-full-cmdline/1.0-r0/rootfs/sbin/klogd
-exists and is not a link
+emitted postints for locales contain exit 1 which is flagged now and was
+causing image generation to fail.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/sysklogd/sysklogd.inc | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc-locale.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
-index fc4e67c18e..2a8bed00f3 100644
---- a/meta/recipes-extended/sysklogd/sysklogd.inc
-+++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-                     file://klogd.c;beginline=2;endline=19;md5=7e87ed0ae6142de079bce738c10c899d \
-                    "
+diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
+index e50e5cf5e3..1b676dc26e 100644
+--- a/meta/recipes-core/glibc/glibc-locale.inc
++++ b/meta/recipes-core/glibc/glibc-locale.inc
+@@ -21,13 +21,13 @@ RDEPENDS_localedef += "glibc"
+ # to decrease initial boot time and avoid localedef being killed by the OOM
+ # killer which used to effectively break i18n on machines with < 128MB RAM.
  
--inherit update-rc.d systemd
-+inherit update-rc.d systemd update-alternatives
+-# default to disabled 
++# default to disabled
+ ENABLE_BINARY_LOCALE_GENERATION ?= "0"
+ ENABLE_BINARY_LOCALE_GENERATION_pn-nativesdk-glibc-locale = "1"
  
- SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz \
-            file://no-strip-install.patch \
-@@ -70,3 +70,9 @@ python () {
-     if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
- }
-+
-+ALTERNATIVE_PRIORITY = "100"
-+ALTERNATIVE_${PN} = "klogd syslogd"
-+ALTERNATIVE_LINK_NAME[klogd] = "${base_sbindir}/klogd"
-+ALTERNATIVE_LINK_NAME[syslogd] = "${base_sbindir}/syslogd"
-+
+ #enable locale generation on these arches
+ # BINARY_LOCALE_ARCHES is a space separated list of regular expressions
+-BINARY_LOCALE_ARCHES ?= "arm.* aarch64 i[3-6]86 x86_64 powerpc mips mips64"
++BINARY_LOCALE_ARCHES ?= "arm.* aarch64 i[3-6]86 x86_64 powerpc mips mips64 riscv32 riscv64"
+ 
+ # set "1" to use cross-localedef for locale generation
+ # set "0" for qemu emulation of native localedef for locale generation
 -- 
 2.18.0
 
