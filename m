@@ -1,49 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 74E1A6FFC8
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DC686011B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 20:52:54 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id c190-v6so17939129oig.6
+	Thu, 30 Aug 2018 20:54:35 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id 13-v6so17993342ois.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 13:52:55 -0700 (PDT)
+	Thu, 30 Aug 2018 13:54:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TH4Kndt6Uy5tDkAMysMQ3Cuxvk2D2tXH66CeMXnWINw=;
-	b=krWbh62BiQIrwHT3YDVf82vMF64FRQ8dONskiRrzYAGJUMjBDekVqFkBdVmL8Dt8ka
-	4VIEBbtACThExPDwJNrluP50iHFuCkVnq781kr45RhCRcX1swsYWNAt+8YsK4oy2qvR+
-	MCflrmiltQCvoThH++pW9KjMAeA/4cn1TCK1ZL73JQHFZSBSk06qjkiZWRKohkRJLh5I
-	O/q9WNAnqdeIEv4ZT9Svo9xoO2scfrclmVIhruM5n6trmf65pWUZbmKb2AenfIRlYKkS
-	MH8EqkajgHLhJQRSMHYpGCn/vT1it7kWSRhSdaNpzWYcQ10PLMcezpvHvcK9cJdjuHZ1
-	Ha4w==
+	:cc; bh=zgtbMadfrHnr7L8ZKMbebl+UgabLSpzTh+zhIf2z7Q0=;
+	b=PGTnoXMmTJrkk77zicsi2m19kU19DFYklFiEQa80zEFHwPL//hHrd0vapoL6qy1KwJ
+	8MHHLSdPiefDohZcg0m0wvw7w7F112VHdZMYv5q2x7PXhzeC02TWdA3StDRVHbgtnRMr
+	kq18aljh8Af8GnaXA3SLGhtoKAhxxB1Ldgrt5r2SasKOazOibJgc9xqRwgRX90/KyQQi
+	yq1ewoObML5C4VeijI+tA2o/27UQhmIMw0TCKItYlGiRPCysrI3j70rl6BtTR2KkOXWz
+	ueo5WbZxd3hyZcQYEDUjNTkAUBdUeDECrFtfC9080GfbE2rFbvXV6lwlcjv1Gn87OKRb
+	5USA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=TH4Kndt6Uy5tDkAMysMQ3Cuxvk2D2tXH66CeMXnWINw=;
-	b=kxBTyHJtmvyd7icOE/2JhYJ/jkmCvM63Ko37cbQxKHyW4LgbPsXJJ4gMI/toWdER5x
-	3AT58wK6lRzpr9sT59gQdzWdZqBNmisHYeRpVuoEa+TANsmrTAkzLf1AHbRBwSTEH5wz
-	e95dulV0mZZ5K8LLj0HQ8l8oXacnPWjqSvrb8Htxn2suG1egkoBuZqlUOVxtIIqAKP+o
-	LM1ksQLj6F4t4shb2CBM2eux1ugd4e2YBYB2/b+IBp3/HtGIQMAu2OvRL5C3EamKrEOZ
-	jPk9me0EwyAqsE4keZqHnrdLNYUFtASbpc+Hv7/FD6AozHSakWUCk9O5IQ/yaHafUuJ5
-	NxPg==
-X-Gm-Message-State: APzg51AvGY6CV6kUIOM7k3I05Zc2enuDx+pkS0GE/3DYqLied057RvrE
-	bqN1tn1zQ47s6D7AfvNxBiJnntwBEUbLLHO3ar2uOw==
-X-Google-Smtp-Source: ANB0VdYf/tw3wkabzIZJTTb6gkcPTVeX2Q16g9O8c9NaWgDQ+uQEPZ+fXS9ynZKT4llvMDpyZjdiDFRowye1pCvtOLk=
-X-Received: by 2002:aca:506:: with SMTP id 6-v6mr4464035oif.23.1535662375410; 
-	Thu, 30 Aug 2018 13:52:55 -0700 (PDT)
+	bh=zgtbMadfrHnr7L8ZKMbebl+UgabLSpzTh+zhIf2z7Q0=;
+	b=BsI5LqbP+lZDDvXDsB2/hueljDiLiI9Rv0U7pe0pGykPLa3p42bQV4yhN+T61yLy19
+	a2S9LYw1Y/oD1LR+NGF//BQy7I2RA6F6IO0qmetLZNzJKPRZeaSgcWvnUp/XnQneEfKr
+	a/3JiNVT4kGAovuHBrt+NsyYhzhTYPQ/bE8CPjuPN4zaWXWy8Fxxscp4QqWBkcLIcQbR
+	rpgpbILJIlwo5ok72GTuuUVfKOUSPjFOF00MLr+JvB8kFzd7Uz7UlyS+Ufk1Xyi+tVGK
+	yjvVg77HiXSleYIGAyA8z47y8R9OKqLgLZYRfDFk75o5v7kTfnMoPGIRuLVJ+Mlu1RAw
+	uPNQ==
+X-Gm-Message-State: APzg51DEK8RbX442pcHb+GwSTgjQ+OZRpjhUKj33CO+IBBfdsAAf+u52
+	/F2LPuG7Dv1o8d6QRTCfE/RSayeqGi0wHvWPH5aQJLXc
+X-Google-Smtp-Source: ANB0VdbaucGh3ksi2DisnaIL47wyOotozAuP4sulo51F209xACDy0Pm5U/45PsKYwXdpUk5xDdlsekLVcl48V/fvx+U=
+X-Received: by 2002:aca:506:: with SMTP id 6-v6mr4469500oif.23.1535662476391; 
+	Thu, 30 Aug 2018 13:54:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:7c0c:0:0:0:0:0 with HTTP; Thu, 30 Aug 2018 13:52:34
+Received: by 2002:ac9:7c0c:0:0:0:0:0 with HTTP; Thu, 30 Aug 2018 13:54:15
 	-0700 (PDT)
-In-Reply-To: <1535618064-18215-1-git-send-email-alex.kiernan@gmail.com>
-References: <1535618064-18215-1-git-send-email-alex.kiernan@gmail.com>
+In-Reply-To: <20180828094319.19765-2-hongl.fnst@cn.fujitsu.com>
+References: <20180828094319.19765-1-hongl.fnst@cn.fujitsu.com>
+	<20180828094319.19765-2-hongl.fnst@cn.fujitsu.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Aug 2018 21:52:34 +0100
-Message-ID: <CAJTo0LYyqaNRO39badfpH8F-H97-v0M_NpBrGhYamzaOn+MqEQ@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Thu, 30 Aug 2018 21:54:15 +0100
+Message-ID: <CAJTo0LZbfaVyUL+JUDi5C6CPxuRGvaCP6FCmaWU15FdwFtbFZA@mail.gmail.com>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sudo: Add missing dep on virtual/crypt
+Subject: Re: [PATCH] [PATCH]python-setuptools:upgrade to 40.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +57,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 20:52:54 -0000
+X-List-Received-Date: Thu, 30 Aug 2018 20:54:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-That suggests that the crypt dependency is only needed if pam is
-disabled, is that the case?
+Remember to upgrade both python and python3 variations, otherwise you
+break the other (the checksums are in the inc...)
 
 Ross
 
-On 30 August 2018 at 09:34, Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> Ensure we have virtual/crypt even if building without PAM; fixes:
+On 28 August 2018 at 10:43, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+> Upgrade python-setuptools from 40.0.0 to 40.2.0
 >
->   sudo: error in /etc/sudo.conf, line 0 while loading plugin "sudoers_policy"
->   sudo: unable to load /usr/libexec/sudo/sudoers.so: /usr/libexec/sudo/sudoers.so: undefined symbol: crypt
->   sudo: fatal error, unable to load plugins
->
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 > ---
+>  meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
+>  .../{python-setuptools_40.0.0.bb => python-setuptools_40.2.0.bb}      | 0
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python-setuptools_40.0.0.bb => python-setuptools_40.2.0.bb} (100%)
 >
->  meta/recipes-extended/sudo/sudo_1.8.23.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+> index 315ba31..c3924b0 100644
+> --- a/meta/recipes-devtools/python/python-setuptools.inc
+> +++ b/meta/recipes-devtools/python/python-setuptools.inc
+> @@ -10,8 +10,8 @@ inherit pypi
 >
-> diff --git a/meta/recipes-extended/sudo/sudo_1.8.23.bb b/meta/recipes-extended/sudo/sudo_1.8.23.bb
-> index ab9c8cb..18add22 100644
-> --- a/meta/recipes-extended/sudo/sudo_1.8.23.bb
-> +++ b/meta/recipes-extended/sudo/sudo_1.8.23.bb
-> @@ -10,7 +10,7 @@ PAM_SRC_URI = "file://sudo.pam"
->  SRC_URI[md5sum] = "ea444d747feb1decfebdffd0b38b0739"
->  SRC_URI[sha256sum] = "d863d29b6fc87bc784a3223350e2b28a2ff2c4738f0fb8f1c92bb38c3017e679"
+>  SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
 >
-> -DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-> +DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', 'virtual/crypt', d)}"
->  RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+> -SRC_URI[md5sum] = "260630ae1a64bafa39dcc53404d63829"
+> -SRC_URI[sha256sum] = "012adb8e25fbfd64c652e99e7bab58799a3aaf05d39ab38561f69190a909015f"
+> +SRC_URI[md5sum] = "592efabea3a65d8e97a025ed52f69b12"
+> +SRC_URI[sha256sum] = "47881d54ede4da9c15273bac65f9340f8929d4f0213193fa7894be384f2dcfa6"
 >
->  EXTRA_OECONF += " \
+>  DEPENDS += "${PYTHON_PN}"
+>
+> diff --git a/meta/recipes-devtools/python/python-setuptools_40.0.0.bb b/meta/recipes-devtools/python/python-setuptools_40.2.0.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/python/python-setuptools_40.0.0.bb
+> rename to meta/recipes-devtools/python/python-setuptools_40.2.0.bb
 > --
 > 2.7.4
+>
+>
 >
 > --
 > _______________________________________________
