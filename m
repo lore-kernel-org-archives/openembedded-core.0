@@ -1,31 +1,55 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A35974AEB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+	[209.85.221.44])
+	by mail.openembedded.org (Postfix) with ESMTP id D493F6E688
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 09:41:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7U9et3A022143
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 Aug 2018 02:40:55 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Thu, 30 Aug 2018 02:40:54 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Khem Raj
-	<raj.khem@gmail.com>, Markus Lehtonen <markus.lehtonen@linux.intel.com>
-References: <cover.1535601148.git.raj.khem@gmail.com>
-	<fae07991f994982404930e78c225db460bd14ae6.1535601148.git.raj.khem@gmail.com>
-	<c712539f5fd74697831fb7ed806e6fea@XBOX02.axis.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <02ee117d-3465-62e9-00da-8dedf441d0f2@windriver.com>
-Date: Thu, 30 Aug 2018 17:45:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <c712539f5fd74697831fb7ed806e6fea@XBOX02.axis.com>
-X-Originating-IP: [128.224.162.218]
-Cc: "openembedded-core@lists.openembedded.org"
+	Thu, 30 Aug 2018 09:44:13 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id z96-v6so7429205wrb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Aug 2018 02:44:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=PiXsTavSoLRzlVvtuBZBbOZW3hvkQ8ibp5OgCgfTfmo=;
+	b=Vm1eZPU1KqfC5folKLompcVpXJEww/TvhSJT5esacdagObTBP2E1NN7zN99L6va1AR
+	LhqLXdrZ794sinW8mnkxZ2a5+hsnif0kflNrnCc7ytgs80akuqaeTrV1mEOATi/Ig0hz
+	M4xXPlkO9QoQqDmHplJhUAeqdoVF7sUr/xBgw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=PiXsTavSoLRzlVvtuBZBbOZW3hvkQ8ibp5OgCgfTfmo=;
+	b=jeLXsSXNH6HRbo430qAzxqSg2uK8gmrWOOVOUnTYj6FFP7KoEwjrpHNf4t0zjchKM/
+	aFavhN8pDkufP3ee09U25LvwqPymnu4MZBsIOSukOXHQhPPotnJofkiqv43ofGklagub
+	snNojoAqOUHTA1tJJRtMMtNFnkgiUHZbj3iaf2c/ArsXcHADDn24lyAYKztdVFfU/99I
+	vXziqGDso3SEigacfu9j1BvF375v/+oiPnGODM2DegUs9OyGHeFGeUMEcJvtweapaRr0
+	KFyNlyibkUJKnnOYhYAZKd0I3sDSaOiOQ4QLmAGKK1Q0mfzVZPjFmTzPY1DHDkaPv3fc
+	pj0w==
+X-Gm-Message-State: APzg51Ctwds3QSp83RWod6Wleu7ML+upffx9a4Z4dJ+UW5rEbDN45cLU
+	M6JrNxC6UqOC9oKco9zF6bZWjw==
+X-Google-Smtp-Source: ANB0VdZufdx1+VHvbQsOdropSFX+konEAgtLbMvMH8Pe96WpKgD/TTtpn1FJXJscUAAgm1dxBXAviA==
+X-Received: by 2002:a5d:6aca:: with SMTP id
+	u10-v6mr7181409wrw.44.1535622254457; 
+	Thu, 30 Aug 2018 02:44:14 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v6-v6sm1456989wmc.43.2018.08.30.02.44.13
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 30 Aug 2018 02:44:13 -0700 (PDT)
+Message-ID: <fcb8bc41a5f65715b41f2c9461cdd434467e6ad4.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>
+Date: Thu, 30 Aug 2018 10:44:12 +0100
+In-Reply-To: <CALbNGRS2x76WRxtbNu417m8p5OVcF8pt1F7L3pUoUQ0PLvjTnw@mail.gmail.com>
+References: <20180828221954.3214-1-schnitzeltony@gmail.com>
+	<66aa21df8fa33f677b8a65150da5af2f98c22268.camel@linuxfoundation.org>
+	<CALbNGRS2x76WRxtbNu417m8p5OVcF8pt1F7L3pUoUQ0PLvjTnw@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/7] sysklogd: Use update-alternatives
+Subject: Re: [PATCH v2] libsdl2: Fix left rotated display for RaspPi/VC4/GLES2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,86 +62,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 09:41:03 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Aug 2018 09:44:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 08/30/2018 03:44 PM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
->> Sent: den 30 augusti 2018 05:56
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH 3/7] sysklogd: Use update-alternatives
->>
->> busybox also provides klogd and syslogd, this change makes it coexist
->> peacefully. Currently rootfs fails in situations where both of them are
->> providing these binaries and busybox postinsts fail
->>
->> update-alternatives: Error: not linking
->> /mnt/a/oe/build/tmp/work/qemuriscv64-bec-linux/core-image-full-
->> cmdline/1.0-r0/rootfs/sbin/klogd
->> to /bin/busybox.nosuid since
->> /mnt/a/oe/build/tmp/work/qemuriscv64-bec-linux/core-image-full-
->> cmdline/1.0-r0/rootfs/sbin/klogd
->> exists and is not a link
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>   meta/recipes-extended/sysklogd/sysklogd.inc | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc
->> b/meta/recipes-extended/sysklogd/sysklogd.inc
->> index fc4e67c18e..2a8bed00f3 100644
->> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
->> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
->> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
->>                       file://klogd.c;beginline=2;endline=19;md5=7e87ed0ae6142de079bce738c10c899d \
->>                      "
->>
->> -inherit update-rc.d systemd
->> +inherit update-rc.d systemd update-alternatives
->>
->>   SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz \
->>              file://no-strip-install.patch \
->> @@ -70,3 +70,9 @@ python () {
->>       if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
->>           d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
->>   }
->> +
->> +ALTERNATIVE_PRIORITY = "100"
->> +ALTERNATIVE_${PN} = "klogd syslogd"
->> +ALTERNATIVE_LINK_NAME[klogd] = "${base_sbindir}/klogd"
->> +ALTERNATIVE_LINK_NAME[syslogd] = "${base_sbindir}/syslogd"
->> +
->> --
->> 2.18.0
-> This is a (partial) revert of commit 988aad01b2 (sysklogd: don't use
-> update-alternatives). Can you come to an agreement regarding which is
-> the correct solution?
->
-> //Peter
->
+On Wed, 2018-08-29 at 19:22 +0200, Andreas Müller wrote:
+> On Wed, Aug 29, 2018 at 4:16 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Wed, 2018-08-29 at 00:19 +0200, Andreas Müller wrote:
+> > > The patch should increase performance for libsdl2 on GLES2 too.
+> > > 
+> > > Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+> > > ---
+> > >  ...01-GLES2-Get-sin-cos-out-of-vertex-shader.patch | 141
+> > > +++++++++++++++++++++
+> > >  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb     |   1 +
+> > >  2 files changed, 142 insertions(+)
+> > >  create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-
+> > > GLES2-
+> > > Get-sin-cos-out-of-vertex-shader.patch
+> > > 
+> > > diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-
+> > > Get-
+> > > sin-cos-out-of-vertex-shader.patch b/meta/recipes-
+> > > graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-
+> > > shader.patch
+> > > new file mode 100644
+> > > index 0000000000..621b7ea1a0
+> > > --- /dev/null
+> > > +++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-
+> > > cos-
+> > > out-of-vertex-shader.patch
+> > > @@ -0,0 +1,141 @@
+> > > +From c215ba1d52a3d4ef03af3ab1a5baa1863f812aed Mon Sep 17
+> > > 00:00:00
+> > > 2001
+> > > +From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com
+> > > >
+> > > +Date: Fri, 24 Aug 2018 23:10:25 +0200
+> > > +Subject: [PATCH] GLES2: Get sin/cos out of vertex shader
+> > > +MIME-Version: 1.0
+> > > +Content-Type: text/plain; charset=UTF-8
+> > > +Content-Transfer-Encoding: 8bit
+> > > +
+> > > +The only place angle is activated and causes effect is
+> > > RenderCopyEx.
+> > > All other
+> > > +methods which use vertex shader, leave angle disabled and cause
+> > > useless sin/cos
+> > > +calculation in shader.
+> > > +
+> > > +To get around shader's interface is changed to a vector that
+> > > contains results
+> > > +of sin and cos. To behave properly when disabled, cos value is
+> > > set
+> > > with offset
+> > > +-1.0 making 0.0 default when deactivated.
+> > > +
+> > > +As nice side effect it simplifies GLES2_UpdateVertexBuffer: All
+> > > attributes are
+> > > +vectors now.
+> > > +
+> > > +Additional background:
+> > > +
+> > > +* On RaspberryPi it gives a performace win for operations.
+> > > Tested
+> > > with
+> > > +  [1] numbers go down for 5-10% (not easy to estimate due to
+> > > huge
+> > > variation).
+> > > +* SDL_RenderCopyEx was tested with [2]
+> > > +* It works around left rotated display caused by low accuracy
+> > > sin
+> > > implemetation
+> > > +  in RaspberryPi/VC4 [3]
+> > > +
+> > > +Upstream-Status: Submitted [4]
+> > 
+> > If I'm reading the logs correctly, this was actually merged
+> > upstream so
+> > the status would become Accepted or Backport?
+> > 
+> > > +[1] https://github.com/schnitzeltony/sdl2box
+> > > +[2] https://github.com/schnitzeltony/sdl2rendercopyex
+> > > +[3] https://github.com/anholt/mesa/issues/110
+> > > +[4] https://hg.libsdl.org/SDL/rev/e5a666405750
+> > 
+> > Cheers,
+> > 
+> > Richard
+> 
+> LOL: V1 I tried 'Applied [4]'
+> 
+> and received patch failure message with the following hint:
+> 
+> > Valid status     Pending, Accepted, Backport, Denied, Inappropriate
+> 
+> [reason], Submitted [where]
+> 
+> My favourite would have been
+> 
+> > Accepted[4]
+> 
+> to state out clearly that '[4]' is oe-specific and not part of the
+> original patch. If I read the hint correctly that would have caused
+> another patch failure. So I chose Submitted.
+> 
+> So Accepted without []?
+> 
+> Sorry to ask such kind of questions...
 
+I'd have thought Accepted should have a []. A quick grep shows other
+patches which have that in the tree so I suspect that help text is
+misleading...
 
-I think the previous commit (syslogd: don't use update-alternatives) is 
-made because syslog daemon conflict with each other. I guess the author 
-assumed that the 'syslogd' and 'klogd' alternatives entries are handled 
-by busybox-syslog package.
+Cheers,
 
-On the other hand, I think the patch is trying to solve the problem of 
-busybox being installed after sysklogd.
-We are currently not seeing errors because busybox is likely to be 
-installed before sysklogd. Even in this situation, the result is not all 
-correct, because the links busybox's postinstall creates are covered by 
-the real binaries from sysklogd.
-
-I think the problem is about busybox's handling of alternatives.
-
-Khem, I've sent out a patch to fix busybox's alternatives logic. Could 
-you please help review it?
-
-Best Regards,
-Chen Qi
+Richard
 
