@@ -1,51 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 76E8379322
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FE1C7842F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 00:06:12 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id d19-v6so3045951pgv.1
+	Thu, 30 Aug 2018 01:24:30 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id h4-v6so8066576qtj.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2018 17:06:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=i4FZFubAl8mUdHopqOn4T0iMMssQT5lcHaMSCleChXA=;
-	b=I1rZhj/qgrVEQvlrpAS0Zex8dlEEDmh7yTH2+00hJq+qq51WgZWXUxKKFbKVk7/49I
-	XXTyMliPI1eozzicB2c5cONziHHJlx7YiJl4RdkgJTvIf+jhF9dxapUqL6juPv6893g4
-	4QUWyJjXBLelTrI8Dq4kVO5xVYC/AhOHqVfqBRpdZlM8A8gbRxlBb9XyIzKtBrLNt62J
-	HOR7JABdEJKiBDzxeUXkUfIr/xy+4Gry0ue5PJvDo8vuhi5OWhECOFqSFxOsc0er+f8+
-	zCbD52ZS/mDtPaOb7NouXYBcwcQYjT0GtdrqZRxBOlffAqvBdCEuIZg2WWWu7kR2eis8
-	ESfw==
+	Wed, 29 Aug 2018 18:24:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=i4FZFubAl8mUdHopqOn4T0iMMssQT5lcHaMSCleChXA=;
-	b=LysaCW87GQ3sMusKakFPWpxT34o0HxV4Gupv8fkCXQHIoAjsdWBV1YB+hNDrMK8+uH
-	yXZeXupZTZ9gw1n0UsmWO/A2E9yjLCtXCgY9s4aW/pjwgJU3sDa/aHz8VxK/7XGOj7I+
-	fmpDgtDh0lTucfDhWbYSk1CvsghvtTlbhVNLRJuHJ31c/7SVvoPETcuGfBLboAQ+TR4G
-	eelQC/AxcHZhsWjnPRDoPrD8qLa6V3Fcu3OXEXGnTTPjJUVnyNwiIoMSuvedAj3nVCn6
-	Q1MYz07sL2GHolguREm0PJNuhqFz5WX+BULe0R3kS1npaYJI/Rvfz2q8A7BM6rg3sx9r
-	kj3g==
-X-Gm-Message-State: APzg51AExbEE5jlTb4a/83lzoELfBwIFWs0YK/l/SRFOnMZThkmPoFlQ
-	znqh4vgC6RS05CTJaN2YYyuYHPAd
-X-Google-Smtp-Source: ANB0VdZNV+m9KMRGkIAQTb473Mu9Jyix1qjRfKdl9tGXlNpKtvMYmqGh30Z82YmrCH29MTcbDGkiEg==
-X-Received: by 2002:a63:e647:: with SMTP id
-	p7-v6mr7246268pgj.218.1535587573115; 
-	Wed, 29 Aug 2018 17:06:13 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::f180])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=A40w+yu+021IVmVLrfmiYqsB8X3xoEc9sEvO2sU4t18=;
+	b=atHBQD5TY4K2BMkkDTfhvuYHEmVt/8JFjb1xu0NFoN+FfPBZqzrIwtnaqeUGMgAnwB
+	SppO9XzKrV2z3ReRF5gY79mI+JD6JF5WwDJMWUpXLBP04eZpOZm4tRBlfg2qKK+M2XgD
+	gIXHTxKYyAfGQ05f6lHrJL3tZiAvvn1/U7Tyh6pI82GLZSAP8rdn1SZRNqatUabEtw+8
+	YUaVOkzwP/y6ImUh6GdPZqllmWFIQubyqnaBGrB6jUzmVCbOVQpNf3FUtBZDHKivKQzg
+	DJ/5KQ9tWxIBhfzda8tiSwpNH0hDuhVIP6ykYcDHPQEvqteQkNpDZ0OVkWgOLBWM4Atx
+	GQRA==
+X-Gm-Message-State: APzg51CZ3VBFHpzDZN2ZPihevOU7HNh+j+0SIdteEUp3jJ8YbE4LfXZK
+	5vLM5/6R+1oaSPy32RRmEHZsIdE1GpE=
+X-Google-Smtp-Source: ANB0VdaY6lDNPUjB9g0gpyIZbbC3ExneF41ADpes8Q7nr9m+vkBFLWCKnwZsv+Ji5ow7135Jeliy6Q==
+X-Received: by 2002:ac8:1888:: with SMTP id
+	s8-v6mr9583638qtj.268.1535592271023; 
+	Wed, 29 Aug 2018 18:24:31 -0700 (PDT)
+Received: from localhost.localdomain ([177.194.218.61])
 	by smtp.gmail.com with ESMTPSA id
-	x65-v6sm8295727pfk.140.2018.08.29.17.06.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Aug 2018 17:06:12 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Aug 2018 17:06:02 -0700
-Message-Id: <ed1d14d5b20bd6a359b4202751e13cc55869709d.1535587162.git.raj.khem@gmail.com>
+	o5-v6sm3731665qtc.63.2018.08.29.18.24.28
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 29 Aug 2018 18:24:30 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Wed, 29 Aug 2018 22:24:23 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Aug 2018 22:24:20 -0300
+Message-Id: <20180830012422.7886-1-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1535587162.git.raj.khem@gmail.com>
-References: <cover.1535587162.git.raj.khem@gmail.com>
-Subject: [PATCH 4/4] glibc-locale: Enable riscv64 and riscv32 in BINARY_LOCALE_ARCHES supported architectures
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/3] go-dep: Update 0.4.1 -> 0.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,40 +50,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 00:06:12 -0000
+X-List-Received-Date: Thu, 30 Aug 2018 01:24:30 -0000
 
-This support is there using cross-localedef but was not enabled, this
-caused the post-install for locales to be emitted which delays the boot
-significantly.
+NEW FEATURES:
 
-emitted postints for locales contain exit 1 which is flagged now and was
-causing image generation to fail.
+- Add CI tests against go1.10. Drop support for go1.8. (#1620).
+- Added install.sh script. (#1533).
+- List out of date projects in dep status (#1553).
+- Enabled opt-in persistent caching via DEPCACHEAGE env var. (#1711).
+- Allow DEPPROJECTROOT environment variable to supersede GOPATH
+  deduction and explicitly set the current project's root (#1883).
+- dep ensure now explains what changes to the code or Gopkg.toml have
+  induced solving (#1912).
+- Hash digests of vendor contents are now stored in Gopkg.lock, and
+  the contents of vendor are only rewritten on change or hash
+  mismatch (#1912).
+- Added support for ppc64/ppc64le.
+- New subcommand dep check quickly reports if imports, Gopkg.toml,
+  Gopkg.lock, and vendor are out of sync (#1932).
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+BUG FIXES:
+
+- Excise certain git-related environment variables. (#1872)
+
+IMPROVEMENTS:
+
+- Add template operations support in dep status template output (#1549).
+- Reduce network access by trusting local source information and only
+  pulling from upstream when necessary (#1250).
+- Update our dependency on Masterminds/semver to follow upstream again
+  now that Masterminds/semver#67 is merged(#1792).
+- inputs-digest was removed from Gopkg.lock (#1912).
+- Hash digests of vendor contents are now stored in Gopkg.lock, and
+  the contents of vendor are only rewritten on change or hash
+  mismatch (#1912).
+- Don't exclude Godeps folder (#1822).
+- Add project-package relationship graph support in graphviz (#1588).
+- Limit concurrency of dep status to avoid hitting open file
+  limits (#1923).
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-core/glibc/glibc-locale.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-index e50e5cf5e3..1b676dc26e 100644
---- a/meta/recipes-core/glibc/glibc-locale.inc
-+++ b/meta/recipes-core/glibc/glibc-locale.inc
-@@ -21,13 +21,13 @@ RDEPENDS_localedef += "glibc"
- # to decrease initial boot time and avoid localedef being killed by the OOM
- # killer which used to effectively break i18n on machines with < 128MB RAM.
+ meta/recipes-devtools/go/{go-dep_0.4.1.bb => go-dep_0.5.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/go/{go-dep_0.4.1.bb => go-dep_0.5.0.bb} (93%)
+
+diff --git a/meta/recipes-devtools/go/go-dep_0.4.1.bb b/meta/recipes-devtools/go/go-dep_0.5.0.bb
+similarity index 93%
+rename from meta/recipes-devtools/go/go-dep_0.4.1.bb
+rename to meta/recipes-devtools/go/go-dep_0.5.0.bb
+index 10af1d660c..f0ce60a8ec 100644
+--- a/meta/recipes-devtools/go/go-dep_0.4.1.bb
++++ b/meta/recipes-devtools/go/go-dep_0.5.0.bb
+@@ -8,8 +8,8 @@ SRC_URI = "git://${GO_IMPORT} \
+            file://0001-Add-support-for-mips-mips64.patch;patchdir=src/github.com/golang/dep \
+           "
  
--# default to disabled 
-+# default to disabled
- ENABLE_BINARY_LOCALE_GENERATION ?= "0"
- ENABLE_BINARY_LOCALE_GENERATION_pn-nativesdk-glibc-locale = "1"
+-# Points to 0.4.1 tag
+-SRCREV = "37d9ea0ac16f0e0a05afc3b60e1ac8c364b6c329"
++# Points to 0.5.0 tag
++SRCREV = "224a564abe296670b692fe08bb63a3e4c4ad7978"
  
- #enable locale generation on these arches
- # BINARY_LOCALE_ARCHES is a space separated list of regular expressions
--BINARY_LOCALE_ARCHES ?= "arm.* aarch64 i[3-6]86 x86_64 powerpc mips mips64"
-+BINARY_LOCALE_ARCHES ?= "arm.* aarch64 i[3-6]86 x86_64 powerpc mips mips64 riscv32 riscv64"
+ inherit go
  
- # set "1" to use cross-localedef for locale generation
- # set "0" for qemu emulation of native localedef for locale generation
 -- 
 2.18.0
 
