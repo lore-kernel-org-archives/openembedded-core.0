@@ -1,23 +1,52 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D38660778
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BD8479343
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 08:36:32 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7U8aXfj029072
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 30 Aug 2018 08:38:29 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id 93-v6so5220980qks.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 01:36:33 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 30 Aug 2018 01:36:26 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Aug 2018 16:36:25 +0800
-Message-ID: <1535618185-236305-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 30 Aug 2018 01:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Cibg2Z5o5dg86+PVY8fsQxDcYIases9S3ZDdii7EnMs=;
+	b=nKyIZBuQ8bpq/ebEqWgNKK4KOqntuYZzRT4PYPnzfAtZI0cZXPG3k1D+ljICfkFZpq
+	gpkNmcVakhgD2Tg3yfp/OOknAzpFUqJp/4vU7vgduMfuxXpWUuq9pqSq7rJMIcat7bMx
+	uwNzA5srdXjpCBDBs7HW/7Q2jnSyDXyIswzX0EXLkwyJt7/GiBNPjgO3q74AA5IQLqFK
+	DdEJY5BmS8nznPvJS9raEKqPENWYzL0InLXe6OsGXyJBn5J8JL2G/fEo8zjYPT3NbZlw
+	9hwjCM5dOhDWkQvjspNDi87zABbaqqdltleszqyVOAmeI0PyueTkFUJ8OIIjIjU4Z2sL
+	fuCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Cibg2Z5o5dg86+PVY8fsQxDcYIases9S3ZDdii7EnMs=;
+	b=MAysaemCGFT69NHSl+3Ql+hvBWhVLufwwi6oboSHL+GAaQr1lDO3VumDk999F62Atc
+	Z/511Vk1BCS+wrpw7WT9mWhKufKb+3PjqfAwdj91RRwxFVknrdHHYLcquGh3vuDWIQAx
+	SQGKKhokjpfKh1EjIc3Gruh7PdI+TCn4epCXey51g337eQeP/btTMlVQ8JDCXRExGMUZ
+	WGv/kKnqd78/eKxMBs+a7JmV0EeP9UESUN5MGtcoEbJ8FQRGTE6W3iwuZDU/BG2xnhB4
+	Uu0yqFyLd4GT/45qUW95gWz4e3WTv63nxFsVjxLoVKuCKiSBo6Ig0ylPB9ZEvfZXbT4W
+	LnDw==
+X-Gm-Message-State: APzg51CW45d1FzckNlapsyRZAi41tJG9oxJWmrSsTlc6uSfFYV1mu18u
+	b8scE1lLASAPhaL5tfjNvzWBvOqsL32YOSv+h7k=
+X-Google-Smtp-Source: ANB0VdbgIMptIaz32cIsW917RJLFDfd3lx+z/qKP9FambsF8Bl++u5NmzqsLxWD8kca0T3alpLfloYqhmvofJ8iAZks=
+X-Received: by 2002:a37:c04f:: with SMTP id
+	o76-v6mr10187100qki.315.1535618310750; 
+	Thu, 30 Aug 2018 01:38:30 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] kexec-tools: fix for "Unhandled rela relocation: R_X86_64_PLT32" error
+References: <1534553964-16157-1-git-send-email-ankur.tyagi85@gmail.com>
+	<1534553964-16157-2-git-send-email-ankur.tyagi85@gmail.com>
+	<CAMKF1spvcJfbdET14z+cjR9P-rCyWtXnb87G9wg=GC3zxDbiYg@mail.gmail.com>
+	<CADySD0E8tuTywaRGN_-Nqe7OTFGxLmwZzc-J0gtWz2+53QUu5w@mail.gmail.com>
+	<CADySD0EdZByuMw3bN_oQ8uwzMPMM+rf5effef8bqA0OkZKzfPQ@mail.gmail.com>
+In-Reply-To: <CADySD0EdZByuMw3bN_oQ8uwzMPMM+rf5effef8bqA0OkZKzfPQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 30 Aug 2018 01:38:04 -0700
+Message-ID: <CAMKF1sorN3Tmn6dAzNKu0oGrYgPWc_VSHdnY00nUnMPoQ7fncg@mail.gmail.com>
+To: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [rocko][sumo][master][PATCH 2/2] base-files: respect PERSISTENT_LOG_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,89 +59,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 08:36:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Aug 2018 08:38:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+On Thu, Aug 30, 2018 at 1:34 AM Ankur Tyagi <ankur.tyagi85@gmail.com> wrote:
+>
+> Hi Khem,
+>
+> Is this patch being accepted ?
+>
 
-In response to a change in binutils, commit b21ebf2fb4c
-(x86: Treat R_X86_64_PLT32 as R_X86_64_PC32) was applied to
-the linux kernel during the 4.16 development cycle and has
-since been backported to earlier stable kernel series. The
-change results in the failure message as below when rebooting
-via kexec.
- # kexec -l /boot/bzImage --append="console=ttyS0,115200 root=/dev/sda1"
- Unhandled rela relocation: R_X86_64_PLT32
+I am not convinced if we need this patch as we can do this using volatile binds.
+or base-files changes if needed.
 
-Fix this by replicating the change in kexec.
-
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- ...or-Unhandled-rela-relocation-R_X86_64_PLT.patch | 41 ++++++++++++++++++++++
- meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb    |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
-
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
-new file mode 100644
-index 0000000..e0cced5
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
-@@ -0,0 +1,41 @@
-+From b9de21ef51a7ceab7122a707c188602eae22c4ee Mon Sep 17 00:00:00 2001
-+From: Chris Clayton <chris2553@googlemail.com>
-+Date: Mon, 20 Aug 2018 12:00:31 +0100
-+Subject: [PATCH] kexec: fix for "Unhandled rela relocation: R_X86_64_PLT32" error
-+
-+In response to a change in binutils, commit b21ebf2fb4c
-+(x86: Treat R_X86_64_PLT32 as R_X86_64_PC32) was applied to
-+the linux kernel during the 4.16 development cycle and has
-+since been backported to earlier stable kernel series. The
-+change results in the failure message in $SUBJECT when
-+rebooting via kexec.
-+
-+Fix this by replicating the change in kexec.
-+
-+Upstream-Status: Backport[https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git/commit/?id=b9de21ef51a7ceab7122a707c188602eae22c4ee]
-+
-+Signed-off-by: Chris Clayton <chris2553@googlemail.com>
-+Acked-by: Baoquan He <bhe@redhat.com>
-+Tested-by: Bhupesh Sharma <bhsharma@redhat.com>
-+Acked-by: Bhupesh Sharma <bhsharma@redhat.com>
-+Signed-off-by: Simon Horman <horms@verge.net.au>
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ kexec/arch/x86_64/kexec-elf-rel-x86_64.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-+index 7fdde73..db85b44 100644
-+--- a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-++++ b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-+@@ -79,6 +79,7 @@ void machine_apply_elf_rel(struct mem_ehdr *UNUSED(ehdr),
-+ 			goto overflow;
-+ 		break;
-+ 	case R_X86_64_PC32: 
-++	case R_X86_64_PLT32:
-+ 		*(uint32_t *)location = value - address;
-+ 		break;
-+ 	default:
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-index f4ec586..dd46901 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
-            file://0010-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch \
-            file://kexec-x32.patch \
-            file://0001-Disable-PIE-during-link.patch \
-+           file://0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch \
-            "
- 
- SRC_URI[md5sum] = "8e071ca473694a71e4ae60ed7ef6f377"
--- 
-2.7.4
-
+> regards
+> Ankur
+>
+> On Tue, Aug 28, 2018 at 7:45 AM Ankur Tyagi <ankur.tyagi85@gmail.com> wrote:
+> >
+> > On Sat, Aug 25, 2018 at 12:17 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > >
+> > > On Fri, Aug 17, 2018 at 6:00 PM Ankur Tyagi <ankur.tyagi85@gmail.com> wrote:
+> > > >
+> > > > Respect PERSISTENT_LOG_DIR variable. In this way, if the user overrides
+> > > > this variable to be e.g "/home/root/log", /var/log on the final image would
+> > > > be a link pointing to /home/root/log on persistent storage.
+> > > >
+> > >
+> > > I would suggest to stick with VOLATILE_BINDS
+> >
+> > But this won't help with VOLATILE_LOG_DIR set as "no".
+> > I think it is a common requirement to have persistent logging mounted
+> > in a separate partition.
+> > This patch makes it easy (hopefully) for the user to achieve the above
+> > without any additional recipe.
+> >
+> > >
+> > > > Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> > > > ---
+> > > >  meta/recipes-core/base-files/base-files_3.0.14.bb | 6 +++++-
+> > > >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+> > > > index 1c0863b..597fdaa 100644
+> > > > --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
+> > > > +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+> > > > @@ -42,7 +42,7 @@ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
+> > > >             ${localstatedir}/backups ${localstatedir}/lib \
+> > > >             /sys ${localstatedir}/lib/misc ${localstatedir}/spool \
+> > > >             ${localstatedir}/volatile \
+> > > > -           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
+> > > > +           ${@'${localstatedir}/volatile/log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else '${PERSISTENT_LOG_DIR}' if d.getVar('PERSISTENT_LOG_DIR') else '${localstatedir}/log' } \
+> > > >             /home ${prefix}/src ${localstatedir}/local \
+> > > >             /media"
+> > > >
+> > > > @@ -106,6 +106,10 @@ do_install () {
+> > > >                 ln -sf volatile/$d ${D}${localstatedir}/$d
+> > > >         done
+> > > >
+> > > > +       if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = False -a ! -z ${PERSISTENT_LOG_DIR} ]; then
+> > > > +               ln -sf ${PERSISTENT_LOG_DIR} ${D}/${localstatedir}/log
+> > > > +       fi
+> > > > +
+> > > >         ln -snf ../run ${D}${localstatedir}/run
+> > > >         ln -snf ../run/lock ${D}${localstatedir}/lock
+> > > >
+> > > > --
+> > > > 2.7.4
+> > > >
+> > > > --
+> > > > _______________________________________________
+> > > > Openembedded-core mailing list
+> > > > Openembedded-core@lists.openembedded.org
+> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
