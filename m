@@ -1,27 +1,48 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A36E378A0F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 88E5B79309
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 03:47:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7U3ln7J013483
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 29 Aug 2018 20:47:49 -0700 (PDT)
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 29 Aug 2018 20:47:48 -0700
-To: <openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	<alex.kanavin@gmail.com>
-References: <20180830033358.117202-1-Randy.MacLeod@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <7afee083-1906-1b6d-43ff-fc2819b4df0a@windriver.com>
-Date: Wed, 29 Aug 2018 23:47:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180830033358.117202-1-Randy.MacLeod@windriver.com>
-X-Originating-IP: [172.25.44.4]
-Subject: Re: [PATCH] openssh: update from 7.7p1 to 7.8p1
+	Thu, 30 Aug 2018 03:55:35 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id a4-v6so3224887plm.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Aug 2018 20:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=lOSLkQrLqvN43CSQZkOn9GT92mJ8/LdKeQ0diHywTpU=;
+	b=a9pDXPPoZOpwJ7u4yrtSETPY2w1AXkiqGGw2+QyBRZQ84GDAYC8Ws6zHvxm+7ducd6
+	SS1M7Rmsi6oyDIw+OA34f8sOlBmbenurcvMScUXkcjVB4w2KR5ImdT1Yt+feMmZhr002
+	1fC6zF+/unIPG7zF+grFJ81rdbVYVTh+t/nkJpHRr5dgUU7E3QIKF/Fiq5wBaWI4KfL5
+	kwSuA/IU6cRiJ1gNjhR7GifpDNgcnIdlHXPyq3HFhwNSDtZAzbJ+DXWm0Kygu/PEu8ac
+	5ihNcbPK2th1xYYURP3ivRpM20d9zEob13kgk57mDC7stsTp86Vp4kbJ6lRklDbnkZtk
+	AqKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=lOSLkQrLqvN43CSQZkOn9GT92mJ8/LdKeQ0diHywTpU=;
+	b=E0AeVE4lmyrzE9OpG1Anx2ztCoEa7oUCFAVad0N8cSFd6RAcO5LURzsAhWKlVRLQiK
+	zGx1muzXS/nerSxLsOwxHVUwidZemANzUxrheiRkWpEs7H27128HM1bBbFJ+MAb2lJMH
+	3ThMncwqxjbBTBrv+HBmCVJk+Zx6jcHpRhvgUuPNpVieheaw+bxKLNPA8r0SRqj4tmjo
+	UMsbUuMsZqRWlPEM4sWjD8PmU0ADSNk2fCzg4MAfH4rlU/y6D+dZM1lBV09z3VHElFvO
+	ANLXXpemjcvd5ajY9CdJAqmNxxsrhV//1GLa8cs+R09YAL5Q3YhLm0M8OTQYpdGxL9Ab
+	zMkQ==
+X-Gm-Message-State: APzg51DBppKhbZTX9NhYRGuoSHBJlfvGPGrxsHgTsYsmpG7O37yAgQ2X
+	NrnTdalPt/1PTKOLrXvDQRllb//9
+X-Google-Smtp-Source: ANB0Vdbr33DaxOHDKEU+wORrtKNJQjbSOn8uYXYkxKahBLc5hUq++V2Mo3g0vuxub2BmOsJgUv4QEA==
+X-Received: by 2002:a17:902:2e83:: with SMTP id
+	r3-v6mr8526329plb.80.1535601336211; 
+	Wed, 29 Aug 2018 20:55:36 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::f180])
+	by smtp.gmail.com with ESMTPSA id
+	g7-v6sm7133120pfi.175.2018.08.29.20.55.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 29 Aug 2018 20:55:35 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Aug 2018 20:55:17 -0700
+Message-Id: <cover.1535601148.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH V2 0/7] postinst and clang fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,107 +55,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2018 03:47:50 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Aug 2018 03:55:35 -0000
 
-On 08/29/2018 11:33 PM, Randy MacLeod wrote:
-> Drop the disable-ciphers patch since it has been integrated:
->     cec33896 Omit 3des-cbc if OpenSSL built without DES.
-> 
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+This pull fixes boost with clang
+other fixes are needed for risc-v to enable offline
+locale and postint generation, especially after
+https://patchwork.openembedded.org/patch/154363/
 
+Now we can boot qemuriscv64 quite fast
 
-Builds and works both with and without Alex's patch series:
-    [OE-core] [RFC PATCH 0/6] openssl 1.1.1 update
+v2:
+Fix core-image-lsb-sdk build for risc-v
 
-but I had not noticed:
-    DEPENDS = "zlib openssl10"
+The following changes since commit 0d69f86e50e57afe893dade095c1dbd3d05c3b0f:
 
-so I'll fix that and re-test if openssl 1.1.1 is accepted.
+  libsdl2: Fix left rotated display for RaspPi/VC4/GLES2 (2018-08-29 15:43:18 +0100)
 
-../Randy
+are available in the Git repository at:
 
-> ---
->   ...ciphers-not-supported-by-OpenSSL-DES.patch | 39 -------------------
->   .../{openssh_7.7p1.bb => openssh_7.8p1.bb}    |  5 +--
->   2 files changed, 2 insertions(+), 42 deletions(-)
->   delete mode 100644 meta/recipes-connectivity/openssh/openssh/disable-ciphers-not-supported-by-OpenSSL-DES.patch
->   rename meta/recipes-connectivity/openssh/{openssh_7.7p1.bb => openssh_7.8p1.bb} (96%)
-> 
-> diff --git a/meta/recipes-connectivity/openssh/openssh/disable-ciphers-not-supported-by-OpenSSL-DES.patch b/meta/recipes-connectivity/openssh/openssh/disable-ciphers-not-supported-by-OpenSSL-DES.patch
-> deleted file mode 100644
-> index 8a2d1a0a7c..0000000000
-> --- a/meta/recipes-connectivity/openssh/openssh/disable-ciphers-not-supported-by-OpenSSL-DES.patch
-> +++ /dev/null
-> @@ -1,39 +0,0 @@
-> -From 265eaab8b39d8d8721224a48eefed5bf1696d353 Mon Sep 17 00:00:00 2001
-> -From: Hongxu Jia <hongxu.jia@windriver.com>
-> -Date: Wed, 18 Apr 2018 21:58:32 +0800
-> -Subject: [PATCH] disable ciphers not supported by OpenSSL DES
-> -
-> -While compiling openssl with option `no-des', it caused the openssh
-> -build failure
-> -...
-> -cipher.c:85:41: error: 'EVP_des_ede3_cbc' undeclared here (not in a function);
-> -...
-> -
-> -OpenSSL configured that way defines OPENSSL_NO_DES to disable des
-> -
-> -Suggested by dtucker@
-> -
-> -Upstream-Status: Submitted [openssh-unix-dev@mindrot.org]
-> -
-> -Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ----
-> - cipher.c | 2 ++
-> - 1 file changed, 2 insertions(+)
-> -
-> -diff --git a/cipher.c b/cipher.c
-> -index c3cd5dc..86558e1 100644
-> ---- a/cipher.c
-> -+++ b/cipher.c
-> -@@ -82,7 +82,9 @@ struct sshcipher {
-> -
-> - static const struct sshcipher ciphers[] = {
-> - #ifdef WITH_OPENSSL
-> -+#ifndef OPENSSL_NO_DES
-> - 	{ "3des-cbc",		8, 24, 0, 0, CFLAG_CBC, EVP_des_ede3_cbc },
-> -+#endif
-> - 	{ "aes128-cbc",		16, 16, 0, 0, CFLAG_CBC, EVP_aes_128_cbc },
-> - 	{ "aes192-cbc",		16, 24, 0, 0, CFLAG_CBC, EVP_aes_192_cbc },
-> - 	{ "aes256-cbc",		16, 32, 0, 0, CFLAG_CBC, EVP_aes_256_cbc },
-> ---
-> -2.7.4
-> -
-> diff --git a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb b/meta/recipes-connectivity/openssh/openssh_7.8p1.bb
-> similarity index 96%
-> rename from meta/recipes-connectivity/openssh/openssh_7.7p1.bb
-> rename to meta/recipes-connectivity/openssh/openssh_7.8p1.bb
-> index b3da5f6761..f4b295f2df 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_7.8p1.bb
-> @@ -25,13 +25,12 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
->              file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
->              file://sshd_check_keys \
->              file://add-test-support-for-busybox.patch \
-> -           file://disable-ciphers-not-supported-by-OpenSSL-DES.patch \
->              "
->   
->   PAM_SRC_URI = "file://sshd"
->   
-> -SRC_URI[md5sum] = "68ba883aff6958297432e5877e9a0fe2"
-> -SRC_URI[sha256sum] = "d73be7e684e99efcd024be15a30bffcbe41b012b2f7b3c9084aed621775e6b8f"
-> +SRC_URI[md5sum] = "ce1d090fa6239fd38eb989d5e983b074"
-> +SRC_URI[sha256sum] = "1a484bb15152c183bb2514e112aa30dd34138c3cfb032eee5490a66c507144ca"
->   
->   inherit useradd update-rc.d update-alternatives systemd
->   
-> 
+  git://git.openembedded.org/openembedded-core-contrib kraj/pu-1
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu-1
 
+Khem Raj (7):
+  boost: Fix invalid const in atomic builtins
+  libc-package: Add risc-v specific options to cross-localedef
+    invocation
+  sysklogd: Use update-alternatives
+  glibc-locale: Enable riscv64 and riscv32 in BINARY_LOCALE_ARCHES
+    supported architectures
+  packagegroup-core-tools-testapps: Exclude gst-examples on riscv64
+  tcf-agent: Disable non-building features on riscv64
+  gdb: Seprate out gold and dwp into a variable
+
+ meta/classes/libc-package.bbclass             |  2 +
+ meta/recipes-core/glibc/glibc-locale.inc      |  4 +-
+ .../packagegroup-core-tools-testapps.bb       |  5 +-
+ meta/recipes-devtools/binutils/binutils.inc   |  5 +-
+ .../tcf-agent/tcf-agent_git.bb                |  1 +
+ meta/recipes-extended/sysklogd/sysklogd.inc   |  8 +-
+ ...ecific-branch-for-x86-DCAS-based-loa.patch | 76 +++++++++++++++++++
+ meta/recipes-support/boost/boost_1.67.0.bb    | 15 ++--
+ 8 files changed, 104 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-support/boost/boost/0001-Removed-clang-specific-branch-for-x86-DCAS-based-loa.patch
 
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.18.0
+
 
