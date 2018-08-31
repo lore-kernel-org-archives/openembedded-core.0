@@ -1,47 +1,63 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 500FF79540
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C328D795FD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 19:55:15 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id 89-v6so2176755qkp.2
+	Fri, 31 Aug 2018 20:54:17 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id r69-v6so24040496oie.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 12:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7pmPngcpwTmS6BMb74K2y3NN5Fwl7NkiHk0aAVllYH8=;
-	b=H5AEqWbFq5c8EvSbOSpqPJUPFvqq4xqHnbHbVtZK2vjeGN5O7BhckrjqYNhNEevxMm
-	Ueddg4zFRuRdGcdfPcVdg+G0yJEucsj5Ie+AEtL937yCkRIO34OZRD8ci3WjKMl1Wwqs
-	j8F9a6Ih8dsQpel1lWBozPEDL6YyDfdfdEYrlnyuVset/wFJK1T1G+UZWFkHeE7SgFAe
-	1uOP5QuUNerYLg5VAEEc0iexRPE3nYgZEsDsImn5fMepcFSTlrVpqd6ol3F+MADJEe0H
-	PPOQLPY7v/eIdu6+6WgrdyjNVQMFmdioQYXXaQaHFvhVR+ESRjFJWpbBZn4Q7sas6UB0
-	Cx5w==
+	Fri, 31 Aug 2018 13:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=izghTRivhACvjq3pJhVQ/m9biaKRRUCIBLAtvSGzjlQ=;
+	b=QIaf9HC65QoRkjuVzwC0+YZ/Ln1HB4iUYvZviswx3f5SVUD9GidS4JLx9QPAavSdcy
+	sFi3wwpXM+IkB4Cs7q3vs780UToFg2vLrKi9T/ZGH2kgLVwg1TiVVW4FxoQGSkqWzL+C
+	fTV6O3rE0qArS3D+fVTvDmLgJFFwgaHxwPiQMxXc7LiPwaLR0lJ2gheR6SD50mQnH0oY
+	g9uOP/gS/zk71btM3wnC9G3nVMPp45O9LVPq5e/IqYAFYi7NHnU5X7hCyGymJgW4zXjY
+	GZEpUx/ZwrPdnlJyWKTBEpE1xArLbxTHX2z9GRzMO14BbLaLrpwH90C48RmsHGWMw2C5
+	XCRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
 	:message-id:subject:to:cc;
-	bh=7pmPngcpwTmS6BMb74K2y3NN5Fwl7NkiHk0aAVllYH8=;
-	b=nI5jpezr3qPZybR7ZX+Xjney3LJZO9K5XQq0A84+/3V24r8rwRQ777rUEyQFOf/RW9
-	RPOufJsrqbhPWF0AFJCMDRk3/Zk3cGtnWYjDjThMn+ibjwRLAivnus3dyunwa/MOuzNl
-	6PinNazZERdF3nAYC+12+o5Cpfh9zJ2+o+YkzHfekuVd97VwwIEbRsMK9pHb8uxojE+a
-	rpJHPCxSNO4Nwm1KJwRYaDWgKni+9uIzORvr0x4ykmhDjXFf/O+bNkrcNhn2WHk9hSRp
-	qFG3ecMzTfjS4jr3t+O8bqOiOk3XMzf9OSRrEoAamkqE3dIwfazU9qPBBuazpg76Rh++
-	IYog==
-X-Gm-Message-State: APzg51AfacupoqQ7/9UnhtphliH1bO89LWvHhqyQBxCMU+LA9IhvqcDs
-	Joki/8gj3ug5VXsxqSofp52H+xRICwPCF8Qf+qs=
-X-Google-Smtp-Source: ANB0VdbZe9MH1S/1EqaB/gjRrp66ENc4zmVXecbPSIHrglf8uPIJJs7NZ0NCFaFg9fnUB8/7t41upbx49SAjD94B9dI=
-X-Received: by 2002:a37:9904:: with SMTP id
-	b4-v6mr16914569qke.102.1535745316006; 
-	Fri, 31 Aug 2018 12:55:16 -0700 (PDT)
+	bh=izghTRivhACvjq3pJhVQ/m9biaKRRUCIBLAtvSGzjlQ=;
+	b=Yszg9CC6s4NzmrRODUrVYRa3Zn2o62MUrnhQfqvvJY9tZ34QMZMDhiidBi0cS/edif
+	/rvzcEcUpXFI7zmmMMvn4Ir2SjbEH92eNeoixGsAJj7zXF5KZuq7Q74n1c3GJCdx/QRD
+	g0jFy8RvHqUodOPOgFQZWDmSyWL55ay+TpNkY+M6AsWyaXvYljfiKyP8oXlLnN2b6zzf
+	JIuvQweJiroxyr8hK7gfC+s9h4zx+Uz3Oek37yb9VuqdmmGhBFUAtFzI4c/VRR4Ezn3i
+	fkddNQt8IGTTdUzEtMAk8dxf8JfjMXVnVFP+cxR+xebOw/F1SB+oqJGNBTn7BudHxkyP
+	zEIA==
+X-Gm-Message-State: APzg51AGuGBXR1xWHNY2seKkRH2rcJ2tQmfHVYgtKprQYtAjOb1kBFCY
+	GyVimS6QEPAi2Wjpbf+Ig1YoH4eFo/43VQ==
+X-Google-Smtp-Source: ANB0Vdag8pyVa4SCwF8Ypj5EHv3Vw6PsE+Sp+uJorjRAX57T0JOP5XhBh4JU7iS9v0oPqFus3CVvUQ==
+X-Received: by 2002:aca:3546:: with SMTP id
+	c67-v6mr9415718oia.249.1535748858372; 
+	Fri, 31 Aug 2018 13:54:18 -0700 (PDT)
+Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com.
+	[209.85.218.49]) by smtp.gmail.com with ESMTPSA id
+	r81-v6sm7197289oih.28.2018.08.31.13.54.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 Aug 2018 13:54:17 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f49.google.com with SMTP id k12-v6so24010376oiw.8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Aug 2018 13:54:17 -0700 (PDT)
+X-Received: by 2002:aca:1802:: with SMTP id
+	h2-v6mr8820248oih.353.1535748856775; 
+	Fri, 31 Aug 2018 13:54:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20180830232604.10850-1-otavio@ossystems.com.br>
 	<CAMKF1sozB+uN8h3YcEXSnRvuQOWdYYzRC2iOrr54h-5VYnQUMA@mail.gmail.com>
 	<CAP9ODKopW2QbA0qvf4kdmq9j3vme_LO4y-43h1Uq5tspErb0Gw@mail.gmail.com>
-In-Reply-To: <CAP9ODKopW2QbA0qvf4kdmq9j3vme_LO4y-43h1Uq5tspErb0Gw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 31 Aug 2018 12:54:49 -0700
-Message-ID: <CAMKF1sr8BRcKEgQQYnfROQrrZ=0PocpWW11bFd_9X7RPuNpC5Q@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+	<CAMKF1sr8BRcKEgQQYnfROQrrZ=0PocpWW11bFd_9X7RPuNpC5Q@mail.gmail.com>
+In-Reply-To: <CAMKF1sr8BRcKEgQQYnfROQrrZ=0PocpWW11bFd_9X7RPuNpC5Q@mail.gmail.com>
+Date: Fri, 31 Aug 2018 17:54:04 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoLPC-BNnfqjoUzbDM+EPo1jmwGoqyk7=cMD4vord2Kyw@mail.gmail.com>
+Message-ID: <CAP9ODKoLPC-BNnfqjoUzbDM+EPo1jmwGoqyk7=cMD4vord2Kyw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -58,28 +74,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 19:55:15 -0000
+X-List-Received-Date: Fri, 31 Aug 2018 20:54:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 31, 2018 at 11:14 AM Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
->
-> On Fri, Aug 31, 2018 at 1:19 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > On Thu, Aug 30, 2018 at 4:26 PM Otavio Salvador <otavio@ossystems.com.br> wrote:
-> > > This updates CMake to the 3.12.1 stable release. All patches were
-> > > rebase on top of the new source file and all them applied without
-> > > changes.
+On Fri, Aug 31, 2018 at 4:55 PM Khem Raj <raj.khem@gmail.com> wrote:
+> On Fri, Aug 31, 2018 at 11:14 AM Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+> > On Fri, Aug 31, 2018 at 1:19 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > > On Thu, Aug 30, 2018 at 4:26 PM Otavio Salvador <otavio@ossystems.com.br> wrote:
+> > > > This updates CMake to the 3.12.1 stable release. All patches were
+> > > > rebase on top of the new source file and all them applied without
+> > > > changes.
+> > > >
+> > > > The number of patches has changed as all them were applied on the Git
+> > > > tree and re-exported, to avoid any fuzzy warnings.
+> > > >
 > > >
-> > > The number of patches has changed as all them were applied on the Git
-> > > tree and re-exported, to avoid any fuzzy warnings.
-> > >
+> > > This is a major version update and cmake is quite deep in foundation of build
+> > > there are large packages outside OE-Core which depend on it. Can you give
+> > > some details on testing to make us feel comfortable ?
 > >
-> > This is a major version update and cmake is quite deep in foundation of build
-> > there are large packages outside OE-Core which depend on it. Can you give
-> > some details on testing to make us feel comfortable ?
+> > I did basic testing but all patches applied fine. If desired, it can
+> > be postponed to next release as it is indeed not critical.
 >
-> I did basic testing but all patches applied fine. If desired, it can
-> be postponed to next release as it is indeed not critical.
+> build meta-qt5 with it there is lot of hairy stuff there
 
-build meta-qt5 with it there is lot of hairy stuff there
+bitbake qtscxml
+
+It went fine.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
