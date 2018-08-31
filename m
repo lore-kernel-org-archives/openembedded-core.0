@@ -1,51 +1,28 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 637346079E
+Return-Path: <maxin.john@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F51B6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 09:30:37 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id m11-v6so20589797oic.2
+	Fri, 31 Aug 2018 09:33:45 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Aug 2018 02:33:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,311,1531810800"; d="scan'208";a="253432357"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga005.jf.intel.com with ESMTP; 31 Aug 2018 02:33:41 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id D96C05802AD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 02:30:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=e1O3B2gyFevmauqWv/fS3gVINcf/3ncoZHOpgl8JOuA=;
-	b=hYgpkCzdEGWffG58OQtH0S+mFvcbMs7EyWTGia8DY+vx1BeDuymiLdl9Qwu90GMBQf
-	v7ThhdqWEO432rMqCIFKZXJvMq4UVhlJA1OrZU+lzC4nqEVE6Wt3WFEux896InLYi4zn
-	53/uM/UzZTIrPJie6d8qw9CJchsZgJ3JYZBmSvmJZSvICNE0kiM8Zlo7johjMvzrdcvw
-	7fzB2SI9rc5im3NDJUQi4mgYzcjR07fjto7tTx3bSMLoWiOp/XhYpv/fAHdeE3rUEAxU
-	Ox6iAIze3y+6GFDj6GbyHVFqJlhfIvXYUkkEQj+nc4J+TaZPq7bUMqSE4WXv+zTwQCqP
-	os2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=e1O3B2gyFevmauqWv/fS3gVINcf/3ncoZHOpgl8JOuA=;
-	b=n3T2wo6F+/TpYgP9PVxvKJwuUNOKFx1ql7sKaGpsubQpqe1DFgc5/QUiw48ad5EmaO
-	WN68ZNrrAACSYDt81eUABgm3DcdXkHEY2ME9gAWF3f+id6Iw5ooz27FD9Mx6qz6StMBk
-	nujqRHDylyS1trRXby4S2Agh0xKm9uRDWemCoXe5CjnUt2QFquW18KbiJSdCH5D949kV
-	rw4Kfxj/+v6aJZuSTf6Yu0bPzpZpxJZQM2l9Q6ADPBSRNHCgXlJyCk0UsmT7OR8/96nO
-	a1EmPvnfvVeeMAGQKlBz3YftOOz+Hpe7ahV5tK6szFjAXP3xWp1E+ExUe4IO53HXSAT0
-	DxlA==
-X-Gm-Message-State: APzg51DJFjowgC8jRxRy5vUo0zarrqzsTEKGcq7g8dN/G4G0fnXubRhR
-	rnxudiu9//i2Dq+DR0uPTaOWl70mGcUN9AK/s0A=
-X-Google-Smtp-Source: ANB0VdbLcV1qcJH7wryDoItSX1YQQHfQ/eaFzKdT51BE9qhO7PN7DyQiFanlCfP5IvCPUngvMEZ4fnuJtXBwq59eXg4=
-X-Received: by 2002:aca:5cd4:: with SMTP id
-	q203-v6mr5944541oib.217.1535707838359; 
-	Fri, 31 Aug 2018 02:30:38 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:1645:0:0:0:0:0 with HTTP; Fri, 31 Aug 2018 02:30:37
-	-0700 (PDT)
-In-Reply-To: <CAMKF1sqLt9FpEhhL977egq7DjKJDj7PvBV6MJ-jszjfzHgTyrA@mail.gmail.com>
-References: <cover.1535451643.git.alex.kanavin@gmail.com>
-	<CAMKF1sqLt9FpEhhL977egq7DjKJDj7PvBV6MJ-jszjfzHgTyrA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 31 Aug 2018 11:30:37 +0200
-Message-ID: <CANNYZj8JTkt2z056YRKpOzV+BkcjOkk6-w5R5mrp_EM1MWATFg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 0/6] openssl 1.1.1 update
+	Fri, 31 Aug 2018 02:33:40 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Aug 2018 12:35:52 +0300
+Message-Id: <1535708152-25053-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] glib-networking: upgrade to version 2.56.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,138 +35,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 09:30:37 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 31 Aug 2018 09:33:46 -0000
 
-The recipe has a guard for this, but maybe it stopped working, I'll take a look:
+Update the recipe to use meson since project moved to meson build system.
 
-#| ./libcrypto.so: undefined reference to `getcontext'
-#| ./libcrypto.so: undefined reference to `setcontext'
-#| ./libcrypto.so: undefined reference to `makecontext'
-CPPFLAGS_append_libc-musl = " -DOPENSSL_NO_ASYNC"
+License-Update: Updated license from LGPLv2 to LGPL-2.1
 
-Alex
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../glib-networking/glib-networking_2.54.1.bb      | 29 ----------------------
+ .../glib-networking/glib-networking_2.56.1.bb      | 29 ++++++++++++++++++++++
+ 2 files changed, 29 insertions(+), 29 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-networking/glib-networking_2.54.1.bb
+ create mode 100644 meta/recipes-core/glib-networking/glib-networking_2.56.1.bb
 
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.54.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.54.1.bb
+deleted file mode 100644
+index 2a6f8af..0000000
+--- a/meta/recipes-core/glib-networking/glib-networking_2.54.1.bb
++++ /dev/null
+@@ -1,29 +0,0 @@
+-SUMMARY = "GLib networking extensions"
+-DESCRIPTION = "glib-networking contains the implementations of certain GLib networking features that cannot be implemented directly in GLib itself because of their dependencies."
+-HOMEPAGE = "http://git.gnome.org/browse/glib-networking/"
+-BUGTRACKER = "http://bugzilla.gnome.org"
+-
+-LICENSE = "LGPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+-
+-SECTION = "libs"
+-DEPENDS = "glib-2.0"
+-
+-SRC_URI[archive.md5sum] = "99867463f182c2767bce0c74bc9cc981"
+-SRC_URI[archive.sha256sum] = "eaa787b653015a0de31c928e9a17eb57b4ce23c8cf6f277afaec0d685335012f"
+-
+-PACKAGECONFIG ??= "ca-certificates gnutls"
+-
+-# No explicit dependency as it works without ca-certificates installed
+-PACKAGECONFIG[ca-certificates] = "--with-ca-certificates=${sysconfdir}/ssl/certs/ca-certificates.crt,--without-ca-certificates"
+-PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
+-PACKAGECONFIG[libproxy] = "--with-libproxy,--without-libproxy,libproxy"
+-PACKAGECONFIG[pkcs11] = "--with-pkcs11,--without-pkcs11,p11-kit"
+-
+-EXTRA_OECONF = "--without-gnome-proxy"
+-
+-inherit gnomebase gettext upstream-version-is-even gio-module-cache
+-
+-FILES_${PN} += "${libdir}/gio/modules/libgio*.so ${datadir}/dbus-1/services/"
+-FILES_${PN}-dev += "${libdir}/gio/modules/libgio*.la"
+-FILES_${PN}-staticdev += "${libdir}/gio/modules/libgio*.a"
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.56.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.56.1.bb
+new file mode 100644
+index 0000000..862053a
+--- /dev/null
++++ b/meta/recipes-core/glib-networking/glib-networking_2.56.1.bb
+@@ -0,0 +1,29 @@
++SUMMARY = "GLib networking extensions"
++DESCRIPTION = "glib-networking contains the implementations of certain GLib networking features that cannot be implemented directly in GLib itself because of their dependencies."
++HOMEPAGE = "http://git.gnome.org/browse/glib-networking/"
++BUGTRACKER = "http://bugzilla.gnome.org"
++
++LICENSE = "LGPL-2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++
++SECTION = "libs"
++DEPENDS = "glib-2.0 gnutls"
++
++SRC_URI[archive.md5sum] = "456572f1e8fea32ef747541d64508a8e"
++SRC_URI[archive.sha256sum] = "df47b0e0a037d2dcf6b1846cbdf68dd4b3cc055e026bb40c4a55f19f29f635c8"
++
++PACKAGECONFIG ??= "ca-certificates"
++
++# No explicit dependency as it works without ca-certificates installed
++PACKAGECONFIG[ca-certificates] = "-Dca_certificates_path=${sysconfdir}/ssl/certs/ca-certificates.crt,"
++PACKAGECONFIG[libproxy] = "-Dlibproxy_support=true,-Dlibproxy_support=false,libproxy"
++PACKAGECONFIG[pkcs11] = "-Dpkcs11_support=true,-Dpkcs11_support=false,p11-kit"
++
++EXTRA_OEMESON = "-Dgnome_proxy_support=false"
++
++GNOMEBASEBUILDCLASS = "meson"
++inherit gnomebase gettext upstream-version-is-even gio-module-cache
++
++FILES_${PN} += "${libdir}/gio/modules/libgio*.so ${datadir}/dbus-1/services/"
++FILES_${PN}-dev += "${libdir}/gio/modules/libgio*.la"
++FILES_${PN}-staticdev += "${libdir}/gio/modules/libgio*.a"
+-- 
+2.4.0
 
-2018-08-31 8:22 GMT+02:00 Khem Raj <raj.khem@gmail.com>:
-> musl/mips seems to fail due to this see
->
-> http://errors.yoctoproject.org/Errors/Details/188615/
-> On Tue, Aug 28, 2018 at 3:23 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
->>
->> This patch series updates openssl to the soon-to-be released 1.1.1 version
->> (latest news is 11 September), sets it as default, and removes dependencies
->> on openssl 1.0 entirely from oe-core. openssl 1.0 remains available as openssl10
->> recipe.
->>
->> The following changes since commit a8368651ffed1bd6c4715a37dfe9f40c48ca23c4:
->>
->>   bitbake: fetcher: Fixed remote removal not throwing exception. (2018-08-28 10:32:08 +0100)
->>
->> are available in the git repository at:
->>
->>   git://push.yoctoproject.org/poky-contrib akanavin/openssl-1.1.1
->>
->> Alexander Kanavin (6):
->>   openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the
->>     default version
->>   cryptodev-tests: port to openssl 1.1
->>   openssl: update to 1.1.1
->>   libressl: add a recipe to support openssh
->>   openssh: depend on libressl
->>   ca-certificates: update to 20180409
->>
->>  meta/conf/distro/include/default-versions.inc      |   3 -
->>  meta/conf/distro/include/maintainers.inc           |   2 +
->>  ...c-libraries-with-their-library-dependenci.patch |  73 +++++++++++++++
->>  .../libressl/libressl_2.8.0.bb                     |  35 +++++++
->>  meta/recipes-connectivity/openssh/openssh_7.7p1.bb |   2 +-
->>  .../{openssl => files}/environment.d-openssl.sh    |   0
->>  ...1-Take-linking-flags-from-LDFLAGS-env-var.patch |  43 ---------
->>  ...SLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch |  39 --------
->>  ...build-with-clang-using-external-assembler.patch |   0
->>  .../0001-allow-manpages-to-be-disabled.patch       |   0
->>  ...penssl-force-soft-link-to-avoid-rare-race.patch |   0
->>  .../Makefiles-ptest.patch                          |   0
->>  .../Use-SHA256-not-MD5-as-default-digest.patch     |   0
->>  .../configure-musl-target.patch                    |   0
->>  .../configure-targets.patch                        |   0
->>  .../debian/c_rehash-compat.patch                   |   0
->>  .../debian/debian-targets.patch                    |   0
->>  .../debian/man-dir.patch                           |   0
->>  .../debian/man-section.patch                       |   0
->>  .../debian/no-rpath.patch                          |   0
->>  .../debian/no-symbolic.patch                       |   0
->>  .../{openssl-1.0.2p => openssl10}/debian/pic.patch |   0
->>  .../debian1.0.2/block_digicert_malaysia.patch      |   0
->>  .../debian1.0.2/block_diginotar.patch              |   0
->>  .../debian1.0.2/soname.patch                       |   0
->>  .../debian1.0.2/version-script.patch               |   0
->>  .../engines-install-in-libdir-ssl.patch            |   0
->>  .../{openssl-1.0.2p => openssl10}/oe-ldflags.patch |   0
->>  .../openssl-c_rehash.sh                            |   0
->>  .../openssl-fix-des.pod-error.patch                |   0
->>  .../openssl_fix_for_x32.patch                      |   0
->>  .../{openssl-1.0.2p => openssl10}/parallel.patch   |   0
->>  .../{openssl-1.0.2p => openssl10}/ptest-deps.patch |   0
->>  .../ptest_makefile_deps.patch                      |   0
->>  .../reproducible-cflags.patch                      |   0
->>  .../reproducible-mkbuildinf.patch                  |   0
->>  .../{openssl-1.0.2p => openssl10}/run-ptest        |   0
->>  .../shared-libs.patch                              |   0
->>  .../{openssl_1.0.2p.bb => openssl10_1.0.2p.bb}     |  31 +++++--
->>  .../{openssl_1.1.0i.bb => openssl_1.1.1-pre9.bb}   |  23 +++--
->>  .../cryptodev/cryptodev-tests_1.9.bb               |   3 +-
->>  .../files/0001-Port-tests-to-openssl-1.1.patch     | 103 +++++++++++++++++++++
->>  ...tes_20170717.bb => ca-certificates_20180409.bb} |   4 +-
->>  43 files changed, 255 insertions(+), 106 deletions(-)
->>  create mode 100644 meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch
->>  create mode 100644 meta/recipes-connectivity/libressl/libressl_2.8.0.bb
->>  rename meta/recipes-connectivity/openssl/{openssl => files}/environment.d-openssl.sh (100%)
->>  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
->>  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-allow-OPENSSLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-Fix-build-with-clang-using-external-assembler.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-allow-manpages-to-be-disabled.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-openssl-force-soft-link-to-avoid-rare-race.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/Makefiles-ptest.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/Use-SHA256-not-MD5-as-default-digest.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/configure-musl-target.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/configure-targets.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/c_rehash-compat.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/debian-targets.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/man-dir.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/man-section.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/no-rpath.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/no-symbolic.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/pic.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/block_digicert_malaysia.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/block_diginotar.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/soname.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/version-script.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/engines-install-in-libdir-ssl.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/oe-ldflags.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl-c_rehash.sh (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl-fix-des.pod-error.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl_fix_for_x32.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/parallel.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/ptest-deps.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/ptest_makefile_deps.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/reproducible-cflags.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/reproducible-mkbuildinf.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/run-ptest (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/shared-libs.patch (100%)
->>  rename meta/recipes-connectivity/openssl/{openssl_1.0.2p.bb => openssl10_1.0.2p.bb} (91%)
->>  rename meta/recipes-connectivity/openssl/{openssl_1.1.0i.bb => openssl_1.1.1-pre9.bb} (83%)
->>  create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
->>  rename meta/recipes-support/ca-certificates/{ca-certificates_20170717.bb => ca-certificates_20180409.bb} (95%)
->>
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
