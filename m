@@ -1,52 +1,66 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
-	[209.85.219.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 66FD479557
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 076C074CB4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 13:54:37 +0000 (UTC)
-Received: by mail-yb1-f193.google.com with SMTP id d4-v6so886892ybl.0
+	Fri, 31 Aug 2018 14:00:30 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id 13-v6so21862723ois.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 06:54:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=zKl0y70vuQ2zXw0QNt8TUkwlfJAXRSpX60Z4sVzQ268=;
-	b=fXr2mR1o+N8exFCUptvLZAfPMXBalD5rWjfggsLpF29K3ZpyFSU1Dw4/E/MoKtFlIx
-	DW0enUrtkuCaHb+XrmZvtvdTQai3RgtlMtUQjApG4z/kQDeQo5aayR/KGAJJD0o934UC
-	U6GKKLujIgyKgoKWpbYi3DhZo0sZGPMxdG5HQ=
+	Fri, 31 Aug 2018 07:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=+qbsSLxkhc+LBXosLUn36u0IlPtmY0pbhoTD5VxK+2w=;
+	b=U8/V+TzRVELO8aL5fPtJ/SapAP1mHEoV60KLI8HCxmkfuQl4bzgQZWyEHL+KaP0Fum
+	aQaP7U6A/D/7rlJmdIHS4tnojdJfl+6RsIQ89ZvTK01UF1JouBzT4u/SKSauJK1y+AeO
+	u9Z80YVHe4A97jsjsejepU+PUfNSVr4aiYgpHbhvPw3YQU8qNB8OJUOt8/YJ5hzMgAuE
+	tuoC1cqCpzo+TXo7Oqd+mzP41wi+GwDYYwDdlhHQ4mEJtlorgaQN4T2Y2MFKpd4dMqLT
+	9UsJ0r5IbkbUAGUjkFKL0zXdMrbu/ESEbSrZLPF0Pnb0uD4dFEoLK7Lg+NloYCbklx/k
+	mwSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=zKl0y70vuQ2zXw0QNt8TUkwlfJAXRSpX60Z4sVzQ268=;
-	b=OX4hIfXX4S/eBdhpxAVTfozYphwZ5EuVmKaShJARXVBgmSzV2LkPClf48JMaYsNgqg
-	m97vaQsjNlo5bZ0ClR4jFmCWVe22pXm8lGBqGwJbYc8ugriSql7sgBPp36v6rQRvcXeH
-	G1i9Uu0600+kl0kLAMF6sJzM/kNKnpz8fG3Fp4BGyZzMypeyi8OvWWr7p4yYXdu6W/tc
-	xgYS/KMeKEDyu4QHW5fgWFv26NonkD5i/sH3owab8SbD8hN8/JiWt8ZlWhIZIIDsYiK5
-	/G/wF07RLP8BkbaVxrUAhYqLWPfXuscsw5ZuRb8nFnJ7jkyR6XYbfMKf5PbX4l18oUWT
-	k9uA==
-X-Gm-Message-State: APzg51B6zhHOUbxfeoAtWzWpYiG8usqX5GaOsscd8l+Z5Vh86cMZgXTf
-	P72qp/Q9At5Dgnz00DTF16f62IyrYno=
-X-Google-Smtp-Source: ANB0VdbzEiDmazjqFYF+k2tF9X+dvXfYdDvZsS2QzXrCTBNcoj0Jb30maGm04WrtCWpZfYVTVLSvNw==
-X-Received: by 2002:a25:e6d6:: with SMTP id
-	d205-v6mr8982829ybh.341.1535723678244; 
-	Fri, 31 Aug 2018 06:54:38 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
-	by smtp.gmail.com with ESMTPSA id
-	w7-v6sm7246276ywc.82.2018.08.31.06.54.36
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+	:message-id:subject:to:cc;
+	bh=+qbsSLxkhc+LBXosLUn36u0IlPtmY0pbhoTD5VxK+2w=;
+	b=UMIgspeCdxeUVhVeuxf+N7iWxxgwlYAh8UdgVLHWRy/4sXeQQayk2TDQn75AxoGMAO
+	ny00Q5hjpkNxyZos9B0hVeSWYZywtpSwWcXLXiR+wxXY9zOED5nR12xfpQRbMXw+fm9m
+	+gNrrqcXP5sZhirNBDFAyKULzUGmepQAqr+OYAsHn+OxN/ixRBezT7m7yS8hz8Nn/f18
+	o/oBwPbcpfTi6F19Ur3qBD5uLTE/m05UADOBQqVUI08O6nWmZT0DEYMi6DYESXs55aOg
+	hhiy3adfl4P81gmXvU5J0eO3jLj1JPsOnn/woZfI2KGxemb0lFj5zWmOuDqPhjgPSpMm
+	+kEg==
+X-Gm-Message-State: APzg51ASrtI4lpITcgOUjQ2LORMfQZh0sL0Sq1hDVy9p5APuKZtEnLVN
+	sEAtLLM16KKBBfbpxLJjJXTTNJ8lnpgEbQ==
+X-Google-Smtp-Source: ANB0Vda44Jbk0Of+cg/Nkzs55QVfkL05NjpTPejQHN3QPhzRKSTP1e+6DR8uh23BHGUg4Y1Qn97W6A==
+X-Received: by 2002:aca:4ec6:: with SMTP id
+	c189-v6mr7926763oib.186.1535724031488; 
+	Fri, 31 Aug 2018 07:00:31 -0700 (PDT)
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com.
+	[209.85.218.50]) by smtp.gmail.com with ESMTPSA id
+	a8-v6sm6468936oia.24.2018.08.31.07.00.30
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 Aug 2018 06:54:37 -0700 (PDT)
-Date: Fri, 31 Aug 2018 09:54:34 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Jiang Lu <lu.jiang@windriver.com>
-Message-ID: <20180831135434.GP26633@bill-the-cat>
-References: <1535681710-29461-1-git-send-email-lu.jiang@windriver.com>
-	<1535681710-29461-6-git-send-email-lu.jiang@windriver.com>
+	Fri, 31 Aug 2018 07:00:30 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f50.google.com with SMTP id 13-v6so21862423ois.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Aug 2018 07:00:30 -0700 (PDT)
+X-Received: by 2002:aca:1802:: with SMTP id
+	h2-v6mr7202737oih.353.1535724029697; 
+	Fri, 31 Aug 2018 07:00:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1535681710-29461-6-git-send-email-lu.jiang@windriver.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/7] wic:direct:remove same entry when updating fstab
+References: <20180830172737.26950-1-otavio@ossystems.com.br>
+	<20180830172737.26950-2-otavio@ossystems.com.br>
+	<CAJTo0LZ0o1ZN7o-NgaRJxidKZb3eCh=4POf3nk+7aW7FdqGSNQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ0o1ZN7o-NgaRJxidKZb3eCh=4POf3nk+7aW7FdqGSNQ@mail.gmail.com>
+Date: Fri, 31 Aug 2018 11:00:17 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKquN+ek-9dzOgHZ3tq+L4QxCrG0goP_gWEfCbC6jNoZ_g@mail.gmail.com>
+Message-ID: <CAP9ODKquN+ek-9dzOgHZ3tq+L4QxCrG0goP_gWEfCbC6jNoZ_g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/3] linux-firmware: Update to feb25f3e revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,67 +73,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 13:54:37 -0000
-X-Groupsio-MsgNum: 115696
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="PnGHCg0cFrjzWebJ"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 31 Aug 2018 14:00:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---PnGHCg0cFrjzWebJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Aug 31, 2018 at 7:09 AM Burton, Ross <ross.burton@intel.com> wrote:
+>
+> ERROR: linux-firmware-1_0.0+gitAUTOINC+d114732723-r0 do_populate_lic:
+> QA Issue: linux-firmware: LIC_FILES_CHKSUM points to an invalid file:
+> /data/poky-tmp/master/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+d114732723-r0/git/LICENCE.cadence
+> [license-checksum]
+> ERROR: linux-firmware-1_0.0+gitAUTOINC+d114732723-r0 do_populate_lic:
+> QA Issue: linux-firmware: LIC_FILES_CHKSUM points to an invalid file:
+> /data/poky-tmp/master/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+d114732723-r0/git/LICENCE.mediatek
+> [license-checksum]
 
-On Fri, Aug 31, 2018 at 10:15:08AM +0800, Jiang Lu wrote:
+That's weird as I did test it here. Sorry for the problem. But I
+couldn't reproduce it here.
 
-> Remove same mountpoint entry when updating fstab.
->=20
-> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
-> ---
->  meta/recipes-support/wic/files/wic/plugins/imager/direct.py | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/meta/recipes-support/wic/files/wic/plugins/imager/direct.py =
-b/meta/recipes-support/wic/files/wic/plugins/imager/direct.py
-> index f648db4..d3ebc9c 100644
-> --- a/meta/recipes-support/wic/files/wic/plugins/imager/direct.py
-> +++ b/meta/recipes-support/wic/files/wic/plugins/imager/direct.py
-> @@ -163,6 +163,9 @@ class DirectPlugin(ImagerPlugin):
->              opts =3D part.fsopts if part.fsopts else "defaults"
->              line =3D "\t".join([device_name, part.mountpoint, part.fstyp=
-e,
->                                opts, "0", "0"]) + "\n"
-> +            for tmpline in fstab_lines:
-> +                if part.mountpoint in tmpline:
-> +                    fstab_lines.remove(tmpline)
-> =20
->              fstab_lines.append(line)
->              updated =3D True
+Are you sure you did use the v2?
 
-Can you explain how this happens?
+% ye l linux-firmware do_populate_lic | egrep '.(cadence|mediatek);'
+NOTE: linux-firmware: md5 checksum matched for
+file://LICENCE.cadence;md5=009f46816f6956cfb75ede13d3e1cee0
+NOTE: linux-firmware: md5 checksum matched for
+file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2
 
---=20
-Tom
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
---PnGHCg0cFrjzWebJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJbiUiaAAoJEIf59jXTHXZSVUAQALoZSMI2f8GH0Q2WZV8AGgJV
-q/R33EwVFlPzRLdHCZWV93wgkS1FHRbA9qlfSru+5Q+u5EmbkLWobmwBB/E/jK4C
-Yp1aM6067POgvhr3I6dwDp+5TW/NMa4iTMGBDkFxZWWPLH4qhNBPIrbANA2oxuZ6
-Kvl5ghOHZPNFE3Zm/ny5YNlA9MPVjZbdI9YHVkQEwf1WjOa33b+lAhJkg7lJzGgA
-y0W38U+AZ0WjbxyDKjTZOtxkw1LyBq0YsjVEgcnvi5JVoSEHh+NO6MJb98sZY6Pk
-4gBGl53qtgVYIUx4zx0X7RY+jIh8rM7dLz0CeGlI/4mNEX7IQR/d02tMplaSfq1a
-/4gACjwXh9fS8R4F2j9nutXjckOv273klG1Cd+Eszgast7W00s98DSO5qThBfQAD
-K5rsrZ1Bqif+cOVo8Tu6dT51RNCOgRe4tOraGXKy9pyaPd0XSkPoJArqqyWEMTYX
-s2dMsywtvwcEcMHhyk4DBA7PKsWffTxspQ6fk99ryCoLHwTvM5Lvy918wffj/jCK
-+UdGC9La+Qu+iTIk9Yl5cwsy+pnsfoTxWvwyiny14mkeR6Nf0QmC4B7HRfHh0r+B
-5ip7vgEUKiAsfRVJ8TgR7w0e5fo0H0Wf/dB1b29FJmmJa8uHvwyLElG5WE3cV5Oh
-9qDGdjz0wwwYVlRJfRRL
-=pPuT
------END PGP SIGNATURE-----
-
---PnGHCg0cFrjzWebJ--
