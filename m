@@ -1,23 +1,25 @@
 Return-Path: <Lu.Jiang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8712276059
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CD30A76059
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 02:17:06 +0000 (UTC)
+	Fri, 31 Aug 2018 02:17:07 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7V2H7jI015963
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7V2H9Lr021866
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2018 19:17:07 -0700 (PDT)
+	Thu, 30 Aug 2018 19:17:09 -0700 (PDT)
 Received: from pek-ljiang0-d1.wrs.com (128.224.162.214) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 30 Aug 2018 19:17:06 -0700
+	14.3.408.0; Thu, 30 Aug 2018 19:17:08 -0700
 From: Jiang Lu <lu.jiang@windriver.com>
 To: <lu.jiang@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 Aug 2018 10:15:03 +0800
-Message-ID: <1535681710-29461-1-git-send-email-lu.jiang@windriver.com>
+Date: Fri, 31 Aug 2018 10:15:04 +0800
+Message-ID: <1535681710-29461-2-git-send-email-lu.jiang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1535681710-29461-1-git-send-email-lu.jiang@windriver.com>
+References: <1535681710-29461-1-git-send-email-lu.jiang@windriver.com>
 MIME-Version: 1.0
-Subject: [v2] [PATCH 0/7] wic:allow wic compile as an individual package
+Subject: [PATCH 1/7] wic:enable wic compile as individual package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 02:17:06 -0000
+X-List-Received-Date: Fri, 31 Aug 2018 02:17:07 -0000
 Content-Type: text/plain
 
+Enable wic compile as an individual package.
 
-[V2]
-Rebase patch to latest oe-core commmit.
+Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
+---
+ meta/recipes-support/wic/files/setup.py | 18 ++++++++++++++++++
+ meta/recipes-support/wic/wic_0.2.0.bb   | 24 ++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-support/wic/files/setup.py
+ create mode 100644 meta/recipes-support/wic/wic_0.2.0.bb
 
-[V1 log]
-This patch set intend to allow wic compile as an individual package, then it can run both on host & target side.
+diff --git a/meta/recipes-support/wic/files/setup.py b/meta/recipes-support/wic/files/setup.py
+new file mode 100644
+index 0000000..5a147f9
+--- /dev/null
++++ b/meta/recipes-support/wic/files/setup.py
+@@ -0,0 +1,18 @@
++#!/usr/bin/env python3
++
++import os
++from distutils.core import setup
++
++packages = [
++            "wic",
++            "wic/plugins/imager",
++            "wic/plugins/source",
++           ]
++
++setup(name = "wic",
++      version="0.2.0",
++      description="wic' is the OpenEmbedded Image Creator",
++      author="Tom Zanussi",
++      author_email="tom.zanussi@linux.intel.com",
++      packages=packages
++)
+diff --git a/meta/recipes-support/wic/wic_0.2.0.bb b/meta/recipes-support/wic/wic_0.2.0.bb
+new file mode 100644
+index 0000000..1224768
+--- /dev/null
++++ b/meta/recipes-support/wic/wic_0.2.0.bb
+@@ -0,0 +1,24 @@
++SUMMARY = "Wic installer script"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
++
++RDEPENDS_${PN} += "mtools"
++
++SRC_URI = " \
++	file://wic.py \
++	file://setup.py \
++	file://wic \
++"
++
++FILESEXTRAPATHS_prepend := "${THISDIR}:${THISDIR}/files:"
++
++S = "${WORKDIR}/"
++
++inherit setuptools3
++
++do_install_append() {
++    install -d 0755 ${D}/${bindir}
++    install -m 0755 ${S}/wic.py ${D}${bindir}/wic
++}
++
++BBCLASSEXTEND = "native"
+-- 
+2.7.4
 
-On host, it invoke by image_type_wic.bbclass to as a native tool to generate wic image.
-
-Patch 1-4 make wic compile as a native tool.
-
-On trarget, it parse wks file, and use current rootfs & /boot folder to generated a new wic image on target.
-
-Patch 5-6 fix a few minor issue on target. 
-
-The patch is validate with mkefidisk.wks from oe-core layer on intel x86 platform.
-
-Assume /dev/sda2 is root device, then with following command, use could generate a new wic image
-
-	$mount /dev/sda2 /tmp/sda
-	$wic create /root/mkefidisk.wks  -k /boot -r /tmp/sda -o /tmp/ 
-
-The generated image is under /tmp with name mkefidisk-xxx-sda.direct. Then user may dump this file into another booting deivce.
-
-
-Thanks
-Jiang Lu
 
