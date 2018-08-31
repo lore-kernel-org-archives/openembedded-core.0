@@ -1,47 +1,50 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id D33A579163
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 44D7C790AB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 11:52:26 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id c14-v6so4970622wmb.4
+	Fri, 31 Aug 2018 12:10:18 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id v90-v6so11021952wrc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 04:52:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ZiIlZMOkNyAYxMhgGP0yzhrDTo1HMTnJs9xTO01nhPc=;
-	b=SQJ447Zw9HfvfsX9d2wXe1/PgrCeAUX6mF31O3qaWyEGgDitMvuSO/dQ5a4sBBZ7I5
-	qLKkPPLJ41XG6U/YGBwUzdXnyniQmWnHk7bzMlumyVzhBTypf+GAmu/YHBjv6SP+Tqug
-	GyA5F1YuQuGFeApOQHuOc6/gYN9+4neGxaAZtaknF39r+1d0eQmul2OQtgEsluqfFJuG
-	xh5KxT15JLr4KdpcpVfTLqb5Qr+KNWz/7PBcje2XG8BD5qasSDkk22QxYGfdquLVY8Oc
-	h33LKUkOdrfaZKUH4ck6rdp0oCeUlXVCcJcYWU2Z3aD03FWehPWapYzvMSvsUfE7dc8V
-	1HDg==
+	Fri, 31 Aug 2018 05:10:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=PR1LgIGmjHjhDGDBinJ28siEVEhxwRys2oXVigNDNXY=;
+	b=JmWzcytO6upuxkOVg5g1TqIL/gmOXvu1C+Oj+ORApps17wO2q9044Q00xvrUTryeQD
+	rHmV08Tvps+BJxBfI6KaEh8s5YBpFP7goPloU67nApS1U0BSyTofUoUANqr6pzQzsOz7
+	6Yj/bUTss7/iv4Uc2SoUX6LV1WLFNFpQHusmTRj4WbHwVrduC+JuRKuG+cCUwhi+lbjZ
+	O2SVJP+usXLJRL1g9VEM4b77c4wDskYrq3GwIPbKmUt/p1w0vt0LGKStcr0MEJROEQtb
+	zPnK5mCXM/+cSeEQmamBQJ5gIKx2/zLGtMhRWUvMrzCvQssVNPQb2vtVyiRyDYzOkrua
+	zQLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ZiIlZMOkNyAYxMhgGP0yzhrDTo1HMTnJs9xTO01nhPc=;
-	b=P+XyEElkDp8qp/6j2BSzsH4SKujpL0kpmajVZvUQAOzbTjznCfOdFbBE2ZrmQ+cVtj
-	4PRFmb82x1taDxfsq9Mg1reMqw6F2kz3Ahe797JfTF9TyX0UrLkNzPQED/BiKtWvUK1n
-	A80T8BWyvakN1xfCk7CMXdYDmaAlDHGFoKnUyriz5xEmztBHOo09Rz7lSeGuE6ZxKGIH
-	NWT4q0dbOiwoB3JYpVjrzW/laMaH53OQVM4bQSW4uEtoI1ez7CVFVqXi5mQhDi5q2yRR
-	Aa6019sYUvZkLuHv8ZIJm8WeB8WHoZKmZt6lnpZVn6AjOecwidcGOLbZvP9y28SlhzxK
-	SxpQ==
-X-Gm-Message-State: APzg51AE6udPSNfbO5LwDaUm92LqJ108tPZAwcU8UmDkKTuVMG7VcFfT
-	PjCPxoIR6tQyxdKe8YQjc1V8z0PaJ6M=
-X-Google-Smtp-Source: ANB0Vdaane+HBUPPzZ87Vorf5oRml3D0iBtWqb7otEPeV3+T1nrg71leBVOOPqWTIUPAFW7MMJJFBA==
-X-Received: by 2002:a1c:9616:: with SMTP id
-	y22-v6mr4514739wmd.72.1535716347232; 
-	Fri, 31 Aug 2018 04:52:27 -0700 (PDT)
-Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
-	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
-	t9-v6sm24313516wra.91.2018.08.31.04.52.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 31 Aug 2018 04:52:26 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=PR1LgIGmjHjhDGDBinJ28siEVEhxwRys2oXVigNDNXY=;
+	b=GoXc5rS7DQuhEis0tpDddIhUgqMrmeYfzMOQlUGo+amXNLgBkV4k3aXqYeZcMyHtgC
+	e3V6rvyf+hJGlOBx7FP5Rf8fxfj7LtrYOY0xJRjZLrK8PDv4v701v0nQqipGOAk69bAS
+	fIvkhpRFU3V+IisfTVYqpG77IQ+YLnNLwE/8qEMvnCAb54ukNSOKnv+6zjMWCQvHEflj
+	VfANV0HL3ninKMiWJRjPIRMpLFD34BBguCbOJoXvwinJ5gyALDRFIPmhVXeaGe+HvoNV
+	dbEK6IoXMZkyZtVCc2qg4myBGjK7A77PhL8qzp5If4GScon9bDV6HP2KV1cc+sBiNEgp
+	Q8iA==
+X-Gm-Message-State: APzg51Avjj+p6WleI2p/kURjy635IwdbICbsjqeegvztgX7jS5spKYEJ
+	OQYzRZbfQw0Z7Mu30O3NqFM5CKSDkYM=
+X-Google-Smtp-Source: ANB0VdZbrJqZY7R6EH2oA7LeogRIEjPUlsL7HT21TCJCuDFLt6drfkSlqqvAZPqyfghAhJ3pzjbAHw==
+X-Received: by 2002:adf:a789:: with SMTP id
+	j9-v6mr10708539wrc.277.1535717418491; 
+	Fri, 31 Aug 2018 05:10:18 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	k5-v6sm14587334wrm.96.2018.08.31.05.10.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 Aug 2018 05:10:17 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Aug 2018 11:52:23 +0000
-Message-Id: <1535716343-27025-1-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v2] sudo: Add missing dep on virtual/crypt
+Date: Fri, 31 Aug 2018 13:10:15 +0100
+Message-Id: <20180831121015.28985-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] oe-pkgdata-util: improve resiliance of lookup-recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 11:52:27 -0000
+X-List-Received-Date: Fri, 31 Aug 2018 12:10:18 -0000
 
-Ensure we have virtual/crypt even if building without PAM; fixes:
+If we can't find the pkgdata for a package, instead of erroring out just emit a
+message and continue.
 
-  sudo: error in /etc/sudo.conf, line 0 while loading plugin "sudoers_policy"
-  sudo: unable to load /usr/libexec/sudo/sudoers.so: /usr/libexec/sudo/sudoers.so: undefined symbol: crypt
-  sudo: fatal error, unable to load plugins
+This makes it possible to pass long lists of packages to oe-pkgdata-util and
+process the output.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
+ scripts/oe-pkgdata-util | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-Changes in v2:
-- include virtual/crypt unconditionally so it's not just satisfied by a
-  transitive dependency through libpam
-
- meta/recipes-extended/sudo/sudo_1.8.23.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.23.bb b/meta/recipes-extended/sudo/sudo_1.8.23.bb
-index ab9c8cb..ce32bd1 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.23.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.23.bb
-@@ -10,7 +10,7 @@ PAM_SRC_URI = "file://sudo.pam"
- SRC_URI[md5sum] = "ea444d747feb1decfebdffd0b38b0739"
- SRC_URI[sha256sum] = "d863d29b6fc87bc784a3223350e2b28a2ff2c4738f0fb8f1c92bb38c3017e679"
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index e6c9df94e83..53739b0bfc5 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -279,10 +279,14 @@ def lookup_recipe(args):
+                 parse_pkgdatafile(pkgdatafile)
+             continue
+         pkgdatafile = os.path.join(args.pkgdata_dir, 'runtime-reverse', pkg)
+-        if not os.path.exists(pkgdatafile):
+-            logger.error("The following packages could not be found: %s" % pkg)
+-            sys.exit(1)
+-        parse_pkgdatafile(pkgdatafile)
++        if os.path.exists(pkgdatafile):
++            parse_pkgdatafile(pkgdatafile)
++        else:
++            if args.carryon:
++                print("The following packages could not be found: %s" % pkg)
++            else:
++                logger.error("The following packages could not be found: %s" % pkg)
++                sys.exit(1)
  
--DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-+DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+ def package_info(args):
+     def parse_pkgdatafile(pkgdatafile):
+@@ -558,6 +562,7 @@ def main():
+                                           help='Find recipe producing one or more packages',
+                                           description='Looks up the specified runtime package(s) to see which recipe they were produced by')
+     parser_lookup_recipe.add_argument('pkg', nargs='+', help='Runtime package name to look up')
++    parser_lookup_recipe.add_argument('-c', '--continue', dest="carryon", help='Continue looking up recipes even if we can not find one', action='store_true')
+     parser_lookup_recipe.set_defaults(func=lookup_recipe)
  
- EXTRA_OECONF += " \
+     parser_package_info = subparsers.add_parser('package-info',
 -- 
-2.7.4
+2.11.0
 
 
