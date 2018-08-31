@@ -1,52 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A50DE79549
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 97826745F1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 09:38:56 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id b15-v6so20569898oib.10
+	Fri, 31 Aug 2018 09:58:48 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id l82-v6so20659604oih.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 02:38:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 31 Aug 2018 02:58:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0IDotOVCE1KbTtL9MFvBW62qade7nSArxux3mDlUrc8=;
-	b=fOruWQrypUk/j45X3ANcHe9iqM9lDJ9Q+z/1+/vUidLx+e0iDprk/NaP3FpCnTw/lC
-	oy5QGcdfkiLfMXwfLI1bIrnr68YScCavjXxKiQ5CZwctCQi+2jh4xFkH5B6Al3p39W1x
-	lSQYphBAboI4OBjhD4MKC4C+iy6J6bUm1xDlQLaiWaO7XTb5xIFh8PiwrWiJzcAK5b4j
-	vaD0/uyE+8baRcD4RLRV5NOqy+fnPWZR4GMIrhdn8APresOcqG6J+zKdDio2nrxjz6kZ
-	r5X0ku/98hiL6YCdXuCPcUO1bOjQI5GLkRS1e6Lq2ma2gLc3cB628g6QYrTYfKsUPgz+
-	oaNA==
+	:cc; bh=NRA1FrUbc3jI9IUz/UDFKbqfdKaKmxPdjAB47/TBQ3A=;
+	b=h8d6O/pDnLSX//Rrgv5nXvXrcCG3N/TG+6j71w3AG5xKW56ilkhqikqGj+xSEIC9JK
+	gbjdDaOJkvI0ncF0Et3U431wowGGjk1PJ04PrFNhK1PlDmmfGMUssiOcZ5CmKw8bRaGh
+	uo2DRYocxgjbuzNDs79dwtzFOpQLFl8N/Ywnw8nllZUYETqbYR9Bc0E9jQyyBXmfdvdI
+	lrSaj7421E5LIxSb2BQ6JW0u+nXYsf80evv4PIdxqIAxMQpROJr6n3p4cEFYkKKh0dK3
+	ryy2/d+yldNq3Bjk0mWmFcLMVzHZSRqw8SoFlSdnX/h6TEbY03J42jVzm/MojTIV6OcN
+	Uu+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=0IDotOVCE1KbTtL9MFvBW62qade7nSArxux3mDlUrc8=;
-	b=nGt7I7pg6IlV1qr5W+PxTqAPbSd+p5sPMZbwNA4CejhnXudHvnJIj6ORKfofssf7Kd
-	Nb3Eg/Cp/UjxDuHzDJr1P46yF2cmUWHDJ2pX8dDsof4u4AZyvwL3mc9sSAWARpLcX74y
-	D9zpCJpoOjuEZzgi6/e1qsq85QJpLAtwewwy0VaTOgt5PRpG0IYSSVHcT7D/YmOpmmrv
-	OI+mEoXQ+KcbzVzILzUIF4qMo/ucZbMRgRQ+P+ui11umb9+fiZrSHLY0wyVfq0Xz3r8/
-	fDln1RtS+zoOMKrqXS9T8AljbU4ds2CPomxItcU4HNoCcVfFf78wCqVgrUvQHTd3o2Cj
-	vibQ==
-X-Gm-Message-State: APzg51BNCSANIudpQ/kZCu4mSx7YVK0bUkdgQEQo9hckvhjNLV3JfcKx
-	zItaDlrG+C3CisGbBG6T/i5M5RkRPOK8mpPAB8k=
-X-Google-Smtp-Source: ANB0VdZXCBxOF7MojrWGCtSV2yuedRTAe9J51dJHysjBGMaBiBshH2PcRzukv+qhlzGA5GyqrdfMhHxwQ1hEE49leww=
-X-Received: by 2002:aca:a8c1:: with SMTP id
-	r184-v6mr6562914oie.215.1535708337565; 
-	Fri, 31 Aug 2018 02:38:57 -0700 (PDT)
+	bh=NRA1FrUbc3jI9IUz/UDFKbqfdKaKmxPdjAB47/TBQ3A=;
+	b=XEjly6AChCiL4WRGJR1w87RIpT2M+z7MY4+QDBsII1t9SFhNbJkfqbkCVeyzYOlnmk
+	VX5wo5XzicbkPNCulovnH8tfCXoAYsWtKaoPiqF6jksR1ifvnyKQC+nNabeOvtzfihkf
+	AN2hG4av0mL6hA2S+uAJF+yzdKLi8KoYMB5ldDSl2F710iSfpKrB2vixCYypfl09XY5a
+	baqIZlHF0f3HVVOZpWoReO9Hsu4/2D9/JJlj6NgC18kOVWm7h6/GFqcgtIRnjACcXSbm
+	WgXCvogEqjXx2gr/+ZXRE6mKg+3jzMuXnMmEIjLMywn8DpXu2ClwMwQA8n+Fe7Pyss4c
+	EAzA==
+X-Gm-Message-State: APzg51CNY+whhbrw7dRJapE4MSRmTZxIctbtYE3qij2VoOnU6p4iPwz9
+	Jf4z5+9PNCrg+YGur3TDKyqPcb18YjsyoEpMvM/Ogg==
+X-Google-Smtp-Source: ANB0VdZcAuagpynG+gUK8Vjoq5Fm1RNEleyS3GYsBnncIOJPAjlcAdg5SzEMS6FJuCmyc4WVp6NMw6MF6jL4k73E/rc=
+X-Received: by 2002:aca:6a48:: with SMTP id
+	f69-v6mr6122762oic.279.1535709529481; 
+	Fri, 31 Aug 2018 02:58:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:1645:0:0:0:0:0 with HTTP; Fri, 31 Aug 2018 02:38:57
+Received: by 2002:ac9:7c0c:0:0:0:0:0 with HTTP; Fri, 31 Aug 2018 02:58:28
 	-0700 (PDT)
-In-Reply-To: <CANNYZj8JTkt2z056YRKpOzV+BkcjOkk6-w5R5mrp_EM1MWATFg@mail.gmail.com>
-References: <cover.1535451643.git.alex.kanavin@gmail.com>
-	<CAMKF1sqLt9FpEhhL977egq7DjKJDj7PvBV6MJ-jszjfzHgTyrA@mail.gmail.com>
-	<CANNYZj8JTkt2z056YRKpOzV+BkcjOkk6-w5R5mrp_EM1MWATFg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 31 Aug 2018 11:38:57 +0200
-Message-ID: <CANNYZj_xGCEFTAWJLr2Hc5A7DFKYFB=9s7Uz7AusOtD3wW-+gw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 0/6] openssl 1.1.1 update
+In-Reply-To: <CAO5Uq5Ro-s04ePOeODyktaVS42POFwut6ADYAzYFf7Qve9SbCQ@mail.gmail.com>
+References: <1535618064-18215-1-git-send-email-alex.kiernan@gmail.com>
+	<CAJTo0LYyqaNRO39badfpH8F-H97-v0M_NpBrGhYamzaOn+MqEQ@mail.gmail.com>
+	<CAO5Uq5Ro-s04ePOeODyktaVS42POFwut6ADYAzYFf7Qve9SbCQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 31 Aug 2018 10:58:28 +0100
+Message-ID: <CAJTo0LaBhtM=jPYeOLMsfsmPyc23CyJg=D3ivx9q-LufJrwStA@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sudo: Add missing dep on virtual/crypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,146 +59,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 09:38:56 -0000
+X-List-Received-Date: Fri, 31 Aug 2018 09:58:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-I just did a quick musl build for qemux86, and " -DOPENSSL_NO_ASYNC"
-is there as expected. Something in your setup overrides it maybe? What
-does bitbake -e openssl say?
+Yeah, that sounds right.
 
+Ross
 
-Alex
-
-2018-08-31 11:30 GMT+02:00 Alexander Kanavin <alex.kanavin@gmail.com>:
-> The recipe has a guard for this, but maybe it stopped working, I'll take a look:
+On 31 August 2018 at 08:18, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> I have to admit, I didn't look, I just assumed it was working for the
+> pam case, since I don't have a build which needs pam.
 >
-> #| ./libcrypto.so: undefined reference to `getcontext'
-> #| ./libcrypto.so: undefined reference to `setcontext'
-> #| ./libcrypto.so: undefined reference to `makecontext'
-> CPPFLAGS_append_libc-musl = " -DOPENSSL_NO_ASYNC"
+> Looking at the sudo code/libpam, it looks like you need it, but you'd
+> get it through transitive dependencies - should we just add it
+> unconditionally here?
 >
-> Alex
->
->
-> 2018-08-31 8:22 GMT+02:00 Khem Raj <raj.khem@gmail.com>:
->> musl/mips seems to fail due to this see
+> On Thu, Aug 30, 2018 at 9:52 PM Burton, Ross <ross.burton@intel.com> wrote:
 >>
->> http://errors.yoctoproject.org/Errors/Details/188615/
->> On Tue, Aug 28, 2018 at 3:23 AM Alexander Kanavin
->> <alex.kanavin@gmail.com> wrote:
->>>
->>> This patch series updates openssl to the soon-to-be released 1.1.1 version
->>> (latest news is 11 September), sets it as default, and removes dependencies
->>> on openssl 1.0 entirely from oe-core. openssl 1.0 remains available as openssl10
->>> recipe.
->>>
->>> The following changes since commit a8368651ffed1bd6c4715a37dfe9f40c48ca23c4:
->>>
->>>   bitbake: fetcher: Fixed remote removal not throwing exception. (2018-08-28 10:32:08 +0100)
->>>
->>> are available in the git repository at:
->>>
->>>   git://push.yoctoproject.org/poky-contrib akanavin/openssl-1.1.1
->>>
->>> Alexander Kanavin (6):
->>>   openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the
->>>     default version
->>>   cryptodev-tests: port to openssl 1.1
->>>   openssl: update to 1.1.1
->>>   libressl: add a recipe to support openssh
->>>   openssh: depend on libressl
->>>   ca-certificates: update to 20180409
->>>
->>>  meta/conf/distro/include/default-versions.inc      |   3 -
->>>  meta/conf/distro/include/maintainers.inc           |   2 +
->>>  ...c-libraries-with-their-library-dependenci.patch |  73 +++++++++++++++
->>>  .../libressl/libressl_2.8.0.bb                     |  35 +++++++
->>>  meta/recipes-connectivity/openssh/openssh_7.7p1.bb |   2 +-
->>>  .../{openssl => files}/environment.d-openssl.sh    |   0
->>>  ...1-Take-linking-flags-from-LDFLAGS-env-var.patch |  43 ---------
->>>  ...SLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch |  39 --------
->>>  ...build-with-clang-using-external-assembler.patch |   0
->>>  .../0001-allow-manpages-to-be-disabled.patch       |   0
->>>  ...penssl-force-soft-link-to-avoid-rare-race.patch |   0
->>>  .../Makefiles-ptest.patch                          |   0
->>>  .../Use-SHA256-not-MD5-as-default-digest.patch     |   0
->>>  .../configure-musl-target.patch                    |   0
->>>  .../configure-targets.patch                        |   0
->>>  .../debian/c_rehash-compat.patch                   |   0
->>>  .../debian/debian-targets.patch                    |   0
->>>  .../debian/man-dir.patch                           |   0
->>>  .../debian/man-section.patch                       |   0
->>>  .../debian/no-rpath.patch                          |   0
->>>  .../debian/no-symbolic.patch                       |   0
->>>  .../{openssl-1.0.2p => openssl10}/debian/pic.patch |   0
->>>  .../debian1.0.2/block_digicert_malaysia.patch      |   0
->>>  .../debian1.0.2/block_diginotar.patch              |   0
->>>  .../debian1.0.2/soname.patch                       |   0
->>>  .../debian1.0.2/version-script.patch               |   0
->>>  .../engines-install-in-libdir-ssl.patch            |   0
->>>  .../{openssl-1.0.2p => openssl10}/oe-ldflags.patch |   0
->>>  .../openssl-c_rehash.sh                            |   0
->>>  .../openssl-fix-des.pod-error.patch                |   0
->>>  .../openssl_fix_for_x32.patch                      |   0
->>>  .../{openssl-1.0.2p => openssl10}/parallel.patch   |   0
->>>  .../{openssl-1.0.2p => openssl10}/ptest-deps.patch |   0
->>>  .../ptest_makefile_deps.patch                      |   0
->>>  .../reproducible-cflags.patch                      |   0
->>>  .../reproducible-mkbuildinf.patch                  |   0
->>>  .../{openssl-1.0.2p => openssl10}/run-ptest        |   0
->>>  .../shared-libs.patch                              |   0
->>>  .../{openssl_1.0.2p.bb => openssl10_1.0.2p.bb}     |  31 +++++--
->>>  .../{openssl_1.1.0i.bb => openssl_1.1.1-pre9.bb}   |  23 +++--
->>>  .../cryptodev/cryptodev-tests_1.9.bb               |   3 +-
->>>  .../files/0001-Port-tests-to-openssl-1.1.patch     | 103 +++++++++++++++++++++
->>>  ...tes_20170717.bb => ca-certificates_20180409.bb} |   4 +-
->>>  43 files changed, 255 insertions(+), 106 deletions(-)
->>>  create mode 100644 meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch
->>>  create mode 100644 meta/recipes-connectivity/libressl/libressl_2.8.0.bb
->>>  rename meta/recipes-connectivity/openssl/{openssl => files}/environment.d-openssl.sh (100%)
->>>  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
->>>  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-allow-OPENSSLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-Fix-build-with-clang-using-external-assembler.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-allow-manpages-to-be-disabled.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-openssl-force-soft-link-to-avoid-rare-race.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/Makefiles-ptest.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/Use-SHA256-not-MD5-as-default-digest.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/configure-musl-target.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/configure-targets.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/c_rehash-compat.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/debian-targets.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/man-dir.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/man-section.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/no-rpath.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/no-symbolic.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/pic.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/block_digicert_malaysia.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/block_diginotar.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/soname.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/version-script.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/engines-install-in-libdir-ssl.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/oe-ldflags.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl-c_rehash.sh (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl-fix-des.pod-error.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl_fix_for_x32.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/parallel.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/ptest-deps.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/ptest_makefile_deps.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/reproducible-cflags.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/reproducible-mkbuildinf.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/run-ptest (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/shared-libs.patch (100%)
->>>  rename meta/recipes-connectivity/openssl/{openssl_1.0.2p.bb => openssl10_1.0.2p.bb} (91%)
->>>  rename meta/recipes-connectivity/openssl/{openssl_1.1.0i.bb => openssl_1.1.1-pre9.bb} (83%)
->>>  create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
->>>  rename meta/recipes-support/ca-certificates/{ca-certificates_20170717.bb => ca-certificates_20180409.bb} (95%)
->>>
->>> --
->>> 2.7.4
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> That suggests that the crypt dependency is only needed if pam is
+>> disabled, is that the case?
+>>
+>> Ross
+>>
+>> On 30 August 2018 at 09:34, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+>> > Ensure we have virtual/crypt even if building without PAM; fixes:
+>> >
+>> >   sudo: error in /etc/sudo.conf, line 0 while loading plugin "sudoers_policy"
+>> >   sudo: unable to load /usr/libexec/sudo/sudoers.so: /usr/libexec/sudo/sudoers.so: undefined symbol: crypt
+>> >   sudo: fatal error, unable to load plugins
+>> >
+>> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+>> > ---
+>> >
+>> >  meta/recipes-extended/sudo/sudo_1.8.23.bb | 2 +-
+>> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >
+>> > diff --git a/meta/recipes-extended/sudo/sudo_1.8.23.bb b/meta/recipes-extended/sudo/sudo_1.8.23.bb
+>> > index ab9c8cb..18add22 100644
+>> > --- a/meta/recipes-extended/sudo/sudo_1.8.23.bb
+>> > +++ b/meta/recipes-extended/sudo/sudo_1.8.23.bb
+>> > @@ -10,7 +10,7 @@ PAM_SRC_URI = "file://sudo.pam"
+>> >  SRC_URI[md5sum] = "ea444d747feb1decfebdffd0b38b0739"
+>> >  SRC_URI[sha256sum] = "d863d29b6fc87bc784a3223350e2b28a2ff2c4738f0fb8f1c92bb38c3017e679"
+>> >
+>> > -DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+>> > +DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', 'virtual/crypt', d)}"
+>> >  RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+>> >
+>> >  EXTRA_OECONF += " \
+>> > --
+>> > 2.7.4
+>> >
+>> > --
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> Alex Kiernan
 
