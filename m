@@ -1,51 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
-	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 81A7379516
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
+	[209.85.222.45])
+	by mail.openembedded.org (Postfix) with ESMTP id C29C4771B1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 10:09:21 +0000 (UTC)
-Received: by mail-oi0-f47.google.com with SMTP id l202-v6so20704929oig.7
+	Fri, 31 Aug 2018 11:25:10 +0000 (UTC)
+Received: by mail-ua1-f45.google.com with SMTP id f4-v6so7894290uao.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 03:09:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6RRr6GHcUZ/xNFUw5UuMtj/M85kxFFYpBq7nEwzldyo=;
-	b=Gi6SJOQ28BrFrpeaLiKCQTEMDghhgnq3e7dPcGlQrtOf6gfI8r079+imhzRANu6aSg
-	1SETerUhO/1wdoyiOGxmvpAiW2JG+bHky2PI6ihWMnZla09CEn39tYFGyde1bOXwiL4T
-	AVe9o/dYl/LBbT3APhJg3qVjuU7vrw+ByaBRIm3g0xWmtVIfAkozK16plFWsLMqKWKCL
-	m+IcwrCtbKcfNMdMCGG9yu72halPN2/2rSNCEgwRmBZFdiUCf1ywx6uRlBCzDPVjztXh
-	nblJX4WkZbu+3Yk8EbmufACFTQWkzgNn5EROqnBC6EkrofreJX1kz0+XmkZRhoe+Og/u
-	JUiA==
+	Fri, 31 Aug 2018 04:25:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3AH9y0pv5z6iF1GOzK3X8+v4WC4D8B/K8+ELFu1EfZw=;
+	b=uSVlEJrzb/2p/q+210wqy/pFPFAH31LfZV95YtNnbTuLEcPZG7YVhV9GMeEe55O56w
+	TwcnFfPNCxbiFS3FG/4iwWWKTANyNXtTPEL+tft/NhJ5dunhBelptbIRfLEqrElQr6OS
+	86hY0lJp7v0P0rxoYqYTJSqQelB64Ra3SbEIRDXRQ2WJqt7mOY08qin/GGktBTOd38Jz
+	iKgRk+R5djSdxxdb5kLYUJclYRBkQmawRalcMYTSGLKWOG7A2zoAFQFjoXQ8+H+7HVjc
+	T5drEK8Trlqdj5AS20PL6k/BzboHbYZBFRUVi/7rQo//lt8URMxRArLbPr095Aal/SAS
+	c5qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=6RRr6GHcUZ/xNFUw5UuMtj/M85kxFFYpBq7nEwzldyo=;
-	b=FUV6HALzpIufkPx2y2iFipU1Ae33uoh9Fj1j49/u1iQdCQjjI6RO7e0etx4yQljyQO
-	+m0INz/kbPB9Uujmipjw693WJGBTGNZCCmNlPueZ53KSLPS+yQ5S4L52avr5VOLqAWs0
-	SERASLZ2HfjXRKHY65s8LAJltGBHCauJ1FsT2M3QdZhipjVLVecKcL2rF+bgWboIlDWu
-	EW5Yn9ujtR871vBnwMi2F1ZkxJlOgC0gsXYne6udTb8xtpR96JnqavXFul+uOgW7AAyV
-	udop9Mifr2fosXPEbm+pJUOueBPsIRYEcxYgQXXUGrA+UwuugMG+8ih8xrnaFAm0/c1Y
-	dd8w==
-X-Gm-Message-State: APzg51BHqrt7qxZDLEWieVjVeZxSB96PNSfGffdp4isuReu/ymVZJ6wh
-	Rs/D6SsDoYmKNFJWK3n4gF4qgvpEnvRTXIYuFr6duQ==
-X-Google-Smtp-Source: ANB0VdYiLoumACTNXnE7bNx/pslekCbPkwucLXOYNEF/RUd2MiTnLIkQB+msZP9MRmyDf+m+dAslDkh1RyLH4gooK4E=
-X-Received: by 2002:aca:cc04:: with SMTP id
-	c4-v6mr6986080oig.314.1535710162408; 
-	Fri, 31 Aug 2018 03:09:22 -0700 (PDT)
+	bh=3AH9y0pv5z6iF1GOzK3X8+v4WC4D8B/K8+ELFu1EfZw=;
+	b=UbnsLgREUWayDLEX7fy/tZ4vmI4JHB5W66Tr7PlCARrnVPwPs0a+3uOF944+y1wev9
+	eiDpj/Zu0/hjpb1SQKTyhuZadSKuqixC8QmkaAGL+uCnYqbheLlGmwYRxa4PjMb4OXCc
+	O2b3TN7rnC/6yTaGKxybYEhL1gOHGZdBzKtQwJZrqXO3e4Tp3I3NfkkKpaVqxkKNxZto
+	9n+3y4Es4ohf2fSaRVr0DR9uvqfDD5mjdeYD8Z2Jkam7Wyozo6YyT7s4UhYZoTgzFVKm
+	lG5/Nwz6VaaVzK9UAoBctCRljCFjRwSKaRmBld5TSSiuFe0OuW2Y45RMvnQF/6oR2zqB
+	xTcg==
+X-Gm-Message-State: APzg51D1kJrqVRJGPAXIwSMOWXX65+V2S+gN+T+9Q5RTBnJHLEZfj2TT
+	shIprRCXIMaZz5NLtGSd6kxMJkGAex8PQPdvz4GikxvJ
+X-Google-Smtp-Source: ANB0VdYMnjw2o/6Lgs3tIKi9+BxbnTbJki37Oj6r/tzXrL2N5rh9L3+QXPhV+07aQhE+LMbzP2CpIH20omvPljk3FmY=
+X-Received: by 2002:a67:3fca:: with SMTP id q71-v6mr2336482vsi.1.1535714711546;
+	Fri, 31 Aug 2018 04:25:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:7c0c:0:0:0:0:0 with HTTP; Fri, 31 Aug 2018 03:09:01
-	-0700 (PDT)
-In-Reply-To: <20180830172737.26950-2-otavio@ossystems.com.br>
-References: <20180830172737.26950-1-otavio@ossystems.com.br>
-	<20180830172737.26950-2-otavio@ossystems.com.br>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 31 Aug 2018 11:09:01 +0100
-Message-ID: <CAJTo0LZ0o1ZN7o-NgaRJxidKZb3eCh=4POf3nk+7aW7FdqGSNQ@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/3] linux-firmware: Update to feb25f3e revision
+References: <CAO5Uq5Q2QLz-TM-0Nugzj15Qzpdj1xFaLptGR_KJL6qtWQi7wg@mail.gmail.com>
+	<52bd5fc7-c48c-d1ed-019d-b5f2b0bb8722@xilinx.com>
+In-Reply-To: <52bd5fc7-c48c-d1ed-019d-b5f2b0bb8722@xilinx.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 31 Aug 2018 12:25:00 +0100
+Message-ID: <CAO5Uq5RkP_cc9KVA7rceXLUBP4VxjHGNwNtQQ3745WkKSo=SHg@mail.gmail.com>
+To: alejandro.enedino.hernandez-samaniego@xilinx.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Multiconfig builds broken in master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,153 +54,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 10:09:21 -0000
+X-List-Received-Date: Fri, 31 Aug 2018 11:25:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-ERROR: linux-firmware-1_0.0+gitAUTOINC+d114732723-r0 do_populate_lic:
-QA Issue: linux-firmware: LIC_FILES_CHKSUM points to an invalid file:
-/data/poky-tmp/master/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+d114732723-r0/git/LICENCE.cadence
-[license-checksum]
-ERROR: linux-firmware-1_0.0+gitAUTOINC+d114732723-r0 do_populate_lic:
-QA Issue: linux-firmware: LIC_FILES_CHKSUM points to an invalid file:
-/data/poky-tmp/master/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+d114732723-r0/git/LICENCE.mediatek
-[license-checksum]
+Thanks for the reply and the help.
 
-Ross
+I'm trying and failing to reproduce it separated out into a simple
+reproducible example... my supposition is it's something in our custom
+distro config that's wrong, which this change shows up, but I've
+failed to find it so far. If I comment out enough checks so that it
+doesn't fail on checks inside the layers so I can run `bitbake -e`
+then I get DISTRO_FEATURES which includes everything I expect.
 
-On 30 August 2018 at 18:27, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> It includes following changes:
+On Wed, Aug 29, 2018 at 9:02 PM Alejandro Enedino Hernandez Samaniego
+<alejandro.enedino.hernandez-samaniego@xilinx.com> wrote:
 >
-> fea76a0 amdgpu: sync up polaris10 firmware with 18.30 release
-> ffca603 amdgpu: sync up vega10 firmware with 18.30 release
-> 2ed60eb amdgpu: sync up raven firmware with 18.30 release
-> 02cc45f amdgpu: sync up polaris12 firmware with 18.30 release
-> b860e58 amdgpu: sync up tonga firmware with 18.30 release
-> 15ed096 amdgpu: sync up polaris11 firmware with 18.30 release
-> 005a9fe amdgpu: sync up fiji firmware with 18.30 release
-> 1d17c18 linux-firmware: add firmware for mhdp8546
-> c2e0d14 qed: Add firmware 8.37.7.0
-> f1b95fe linux-firmware:Update firmware patch for Intel Bluetooth 7265 (D1)
-> 8813230 linux-firmware: Update firmware file for Intel Bluetooth,9560
-> c2d8f1b linux-firmware: Update firmware file for Intel Bluetooth,9260
-> 9767096 linux-firmware: Update firmware file for Intel Bluetooth,8265
-> 41bdd3b linux-firmware: Update firmware patch for Intel Bluetooth 8260
-> fdd3468 linux-firmware: add firmware for mt76x0
-> eee8208 Merge commit 'c4883661c7eeedd061eb3b483135b47dab39a88d' of https://github.com/Netronome/linux-firmware
-> 6ae7a5b qcom: update venus firmware files for v5.2
-> c488366 nfp: update Agilio SmartNIC flower firmware to rev AOTC-2.9.A.31
-> 7b5835f linux-firmware: add firmware for mt76x2u
-> 3a5103f wl18xx: update firmware file 8.9.0.0.79
-> b01151b Mellanox: Add new mlxsw_spectrum firmware 13.1702.6
-> 0ff06f2 WHENCE: Remove reference to amdgpu/vegam_me_2.bin
-> 3fcf221 linux-firmware: mediatek: add MT7622 Bluetooth firmwares and license file
-> c8d6903 brcm: add 43430 based AP6212 and 1DX NVRAM
-> fad829d Merge git://git.marvell.com/mwifiex-firmware
-> 0ced724 linux-firmware: update Marvell USB8801 B0 firmware image
-> 8d69bab amdgpu: update copyright date
-> 153a51e amdgpu: add initial VegaM firmware
-> 10e2971 amdgpu: sync up vega10 firmware with 18.20 release
-> 4b05dee amdgpu: sync up raven firmware with 18.20 release
-> aeec108 amdgpu: sync up polaris12 firmware with 18.20 release
-> 5408150 amdgpu: sync up polaris11 firmware with 18.20 release
-> 34116bf amdgpu: sync up polaris10 firmware with 18.20 release
-> a8a2884 amdgpu: sync up verde firmware with 18.20 release
-> bea8c7f amdgpu: sync up pitcairn firmware with 18.20 release
-> d47f956 amdgpu: sync up tahiti firmware with 18.20 release
-> 1f92e00 amdgpu: sync up oland firmware with 18.20 release
-> effed45 amdgpu: sync up hainan firmware with 18.20 release
-> d50a667 amdgpu: sync up kaveri firmware with 18.20 release
-> 5b8eca3 amdgpu: sync up mullins firmware with 18.20 release
-> b4b5726 amdgpu: sync up kabini firmware with 18.20 release
-> fc80838 amdgpu: sync up hawaii firmware with 18.20 release
-> 5350953 amdgpu: sync up bonaire firmware with 18.20 release
-> 8c96b0d WHENCE: Fix typo Version
-> 6213586 cxgb4: update firmware to revision 1.20.8.0
+> Hello Alex,
 >
-> License-Update:
->  - LICENSE.amdgpu has a copyright year bump
->  - LICENCE.cadence is new
->  - LICENCE.mediatek is new
->  - WHENCE list the version bumps as well as the new Cadence and
->    MediaTek license files and its respective firmware files.
+> Firs of all, your issue is not a multiconfig problem, and is not caused
+> by commit b8730f6 .
 >
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
 >
-> Changes in v2:
-> - add new license files
-> - improve commit log to include License-Update field
+> I was able to reproduce your problem before and after reverting the
+> specified commit.
 >
->  .../linux-firmware/linux-firmware_git.bb               | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> index 69f9a2adea..1b6be054a2 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> @@ -66,12 +66,13 @@ LIC_FILES_CHKSUM = "\
->      file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
->      file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
->      file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-> -    file://LICENSE.amdgpu;md5=0aa3c2f3e736af320a08a3aeeccecf29 \
-> +    file://LICENSE.amdgpu;md5=88b865bc74f3ffcc54640b4ea8540b46 \
->      file://LICENSE.amd-ucode;md5=3c5399dc9148d7f0e1f41e34b69cf14f \
->      file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
->      file://LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3 \
->      file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
->      file://LICENCE.ca0132;md5=209b33e66ee5be0461f13d31da392198 \
-> +    file://LICENCE.cadence;md5=009f46816f6956cfb75ede13d3e1cee0 \
->      file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
->      file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
->      file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
-> @@ -91,6 +92,7 @@ LIC_FILES_CHKSUM = "\
->      file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88 \
->      file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
->      file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
-> +    file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
->      file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
->      file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed \
->      file://LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f \
-> @@ -120,7 +122,7 @@ LIC_FILES_CHKSUM = "\
->      file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
->      file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
->      file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
-> -    file://WHENCE;md5=eaaf310bac02fee05ea1b334f58c5caf \
-> +    file://WHENCE;md5=feb25f3efdbe10fcc121005d02d407d6 \
->  "
+> As your error log says, ostree is not in the list of valid image
+> features, if you add debug flags to bitbake
 >
->  # These are not common licenses, set NO_GENERIC_LICENSE for them
-> @@ -134,6 +136,7 @@ NO_GENERIC_LICENSE[Firmware-atheros_firmware] = "LICENCE.atheros_firmware"
->  NO_GENERIC_LICENSE[Firmware-atmel] = "LICENSE.atmel"
->  NO_GENERIC_LICENSE[Firmware-broadcom_bcm43xx] = "LICENCE.broadcom_bcm43xx"
->  NO_GENERIC_LICENSE[Firmware-ca0132] = "LICENCE.ca0132"
-> +NO_GENERIC_LICENSE[Firmware-cadence] = "LICENCE.cadence"
->  NO_GENERIC_LICENSE[Firmware-cavium] = "LICENCE.cavium"
->  NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENCE.chelsio_firmware"
->  NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENCE.cw1200"
-> @@ -153,6 +156,7 @@ NO_GENERIC_LICENSE[Firmware-it913x] = "LICENCE.it913x"
->  NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENCE.iwlwifi_firmware"
->  NO_GENERIC_LICENSE[Firmware-kaweth] = "LICENCE.kaweth"
->  NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENCE.Marvell"
-> +NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENCE.mediatek"
->  NO_GENERIC_LICENSE[Firmware-moxa] = "LICENCE.moxa"
->  NO_GENERIC_LICENSE[Firmware-myri10ge_firmware] = "LICENCE.myri10ge_firmware"
->  NO_GENERIC_LICENSE[Firmware-netronome] = "LICENCE.Netronome"
-> @@ -184,7 +188,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
->  NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
->  NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+> you can see that the ostree-image.bbclass file is not even being parsed,
+> hence why ostree was never added
 >
-> -SRCREV = "d1147327232ec4616a66ab898df84f9700c816c1"
-> +SRCREV = "fea76a04f25fd0a217c0d566ff5ff8f23ad3e648"
->  PE = "1"
->  PV = "0.0+git${SRCPV}"
+> as a valid image feature.
 >
-> --
-> 2.18.0
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Why was it never parsed?
+>
+> because theres no INHERITs/inherits pointing to it.
+>
+> greping though the iot-refkit repo we can see that for example the
+> refkit-image (I don't know what your production image is based on I'm
+> just assuming) contains the following:
+>
+> meta-refkit-core/classes/refkit-image.bbclass: inherit
+> ${@oe.utils.all_distro_features(d, 'ostree', 'ostree-image')}
+>
+> So it will only be inherited if the DISTRO_FEATURE ostree is included.
+>
+> Adding ostree to DISTRO_FEATURES on the <multiconf>.conf, allows the
+> build to find the ostree IMAGE_FEATURE correctly.
+>
+>
+> Alejandro
+>
+>
+>
+>
+> On 08/29/2018 06:39 AM, Alex Kiernan wrote:
+> > I've run into a weird multiconfig problem on master which seems to
+> > have been introduced with
+> >
+> > b8730f6 ("bitbake: bitbake: Add support for multiconfig dependencies")
+> >
+> > Before that, I could happily use:
+> >
+> > bitbake multiconfig:gplv2:production-image
+> >
+> > whereas now it fails (gplv2 is a multiconfig which basically just sets
+> > TMPDIR and INCOMPATIBLE_LICENSES).
+> >
+> > The error suggests failure to populate IMAGE_FEATURES correctly:
+> >
+> > ERROR: Nothing PROVIDES 'production-image'
+> > production-image was skipped: 'ostree' in IMAGE_FEATURES is not a
+> > valid image feature. Valid features: allow-empty-password
+> > allow-root-login autologin dbg-pkgs debug-tweaks dev-pkgs doc doc-pkgs
+> > eclipse-debug empty-root-password hwcodecs muted nfs-client nfs-server
+> > package-management post-install-logging ptest-pkgs read-only-rootfs
+> > splash ssh-server-dropbear ssh-server-openssh staticdev-pkgs
+> > tools-debug tools-profile tools-sdk tools-testapps usb-nmc x11
+> > x11-base x11-sato
+> >
+> > (the ostree feature is introduced by a layer derived from the Intel
+> > IoT refkit - https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/classes/ostree-image.bbclass)
+> >
+> > If I revert that single commit everything works again.
+> >
+> > Clearly there's nothing in that changeset which is touching
+> > IMAGE_FEATURES, so it's something way more subtle!
+> >
+>
+
+
+--
+Alex Kiernan
 
