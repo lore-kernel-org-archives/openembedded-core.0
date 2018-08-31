@@ -1,52 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 97826745F1
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 81A7379516
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 09:58:48 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id l82-v6so20659604oih.11
+	Fri, 31 Aug 2018 10:09:21 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id l202-v6so20704929oig.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 02:58:50 -0700 (PDT)
+	Fri, 31 Aug 2018 03:09:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NRA1FrUbc3jI9IUz/UDFKbqfdKaKmxPdjAB47/TBQ3A=;
-	b=h8d6O/pDnLSX//Rrgv5nXvXrcCG3N/TG+6j71w3AG5xKW56ilkhqikqGj+xSEIC9JK
-	gbjdDaOJkvI0ncF0Et3U431wowGGjk1PJ04PrFNhK1PlDmmfGMUssiOcZ5CmKw8bRaGh
-	uo2DRYocxgjbuzNDs79dwtzFOpQLFl8N/Ywnw8nllZUYETqbYR9Bc0E9jQyyBXmfdvdI
-	lrSaj7421E5LIxSb2BQ6JW0u+nXYsf80evv4PIdxqIAxMQpROJr6n3p4cEFYkKKh0dK3
-	ryy2/d+yldNq3Bjk0mWmFcLMVzHZSRqw8SoFlSdnX/h6TEbY03J42jVzm/MojTIV6OcN
-	Uu+A==
+	:cc; bh=6RRr6GHcUZ/xNFUw5UuMtj/M85kxFFYpBq7nEwzldyo=;
+	b=Gi6SJOQ28BrFrpeaLiKCQTEMDghhgnq3e7dPcGlQrtOf6gfI8r079+imhzRANu6aSg
+	1SETerUhO/1wdoyiOGxmvpAiW2JG+bHky2PI6ihWMnZla09CEn39tYFGyde1bOXwiL4T
+	AVe9o/dYl/LBbT3APhJg3qVjuU7vrw+ByaBRIm3g0xWmtVIfAkozK16plFWsLMqKWKCL
+	m+IcwrCtbKcfNMdMCGG9yu72halPN2/2rSNCEgwRmBZFdiUCf1ywx6uRlBCzDPVjztXh
+	nblJX4WkZbu+3Yk8EbmufACFTQWkzgNn5EROqnBC6EkrofreJX1kz0+XmkZRhoe+Og/u
+	JUiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=NRA1FrUbc3jI9IUz/UDFKbqfdKaKmxPdjAB47/TBQ3A=;
-	b=XEjly6AChCiL4WRGJR1w87RIpT2M+z7MY4+QDBsII1t9SFhNbJkfqbkCVeyzYOlnmk
-	VX5wo5XzicbkPNCulovnH8tfCXoAYsWtKaoPiqF6jksR1ifvnyKQC+nNabeOvtzfihkf
-	AN2hG4av0mL6hA2S+uAJF+yzdKLi8KoYMB5ldDSl2F710iSfpKrB2vixCYypfl09XY5a
-	baqIZlHF0f3HVVOZpWoReO9Hsu4/2D9/JJlj6NgC18kOVWm7h6/GFqcgtIRnjACcXSbm
-	WgXCvogEqjXx2gr/+ZXRE6mKg+3jzMuXnMmEIjLMywn8DpXu2ClwMwQA8n+Fe7Pyss4c
-	EAzA==
-X-Gm-Message-State: APzg51CNY+whhbrw7dRJapE4MSRmTZxIctbtYE3qij2VoOnU6p4iPwz9
-	Jf4z5+9PNCrg+YGur3TDKyqPcb18YjsyoEpMvM/Ogg==
-X-Google-Smtp-Source: ANB0VdZcAuagpynG+gUK8Vjoq5Fm1RNEleyS3GYsBnncIOJPAjlcAdg5SzEMS6FJuCmyc4WVp6NMw6MF6jL4k73E/rc=
-X-Received: by 2002:aca:6a48:: with SMTP id
-	f69-v6mr6122762oic.279.1535709529481; 
-	Fri, 31 Aug 2018 02:58:49 -0700 (PDT)
+	bh=6RRr6GHcUZ/xNFUw5UuMtj/M85kxFFYpBq7nEwzldyo=;
+	b=FUV6HALzpIufkPx2y2iFipU1Ae33uoh9Fj1j49/u1iQdCQjjI6RO7e0etx4yQljyQO
+	+m0INz/kbPB9Uujmipjw693WJGBTGNZCCmNlPueZ53KSLPS+yQ5S4L52avr5VOLqAWs0
+	SERASLZ2HfjXRKHY65s8LAJltGBHCauJ1FsT2M3QdZhipjVLVecKcL2rF+bgWboIlDWu
+	EW5Yn9ujtR871vBnwMi2F1ZkxJlOgC0gsXYne6udTb8xtpR96JnqavXFul+uOgW7AAyV
+	udop9Mifr2fosXPEbm+pJUOueBPsIRYEcxYgQXXUGrA+UwuugMG+8ih8xrnaFAm0/c1Y
+	dd8w==
+X-Gm-Message-State: APzg51BHqrt7qxZDLEWieVjVeZxSB96PNSfGffdp4isuReu/ymVZJ6wh
+	Rs/D6SsDoYmKNFJWK3n4gF4qgvpEnvRTXIYuFr6duQ==
+X-Google-Smtp-Source: ANB0VdYiLoumACTNXnE7bNx/pslekCbPkwucLXOYNEF/RUd2MiTnLIkQB+msZP9MRmyDf+m+dAslDkh1RyLH4gooK4E=
+X-Received: by 2002:aca:cc04:: with SMTP id
+	c4-v6mr6986080oig.314.1535710162408; 
+	Fri, 31 Aug 2018 03:09:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:7c0c:0:0:0:0:0 with HTTP; Fri, 31 Aug 2018 02:58:28
+Received: by 2002:ac9:7c0c:0:0:0:0:0 with HTTP; Fri, 31 Aug 2018 03:09:01
 	-0700 (PDT)
-In-Reply-To: <CAO5Uq5Ro-s04ePOeODyktaVS42POFwut6ADYAzYFf7Qve9SbCQ@mail.gmail.com>
-References: <1535618064-18215-1-git-send-email-alex.kiernan@gmail.com>
-	<CAJTo0LYyqaNRO39badfpH8F-H97-v0M_NpBrGhYamzaOn+MqEQ@mail.gmail.com>
-	<CAO5Uq5Ro-s04ePOeODyktaVS42POFwut6ADYAzYFf7Qve9SbCQ@mail.gmail.com>
+In-Reply-To: <20180830172737.26950-2-otavio@ossystems.com.br>
+References: <20180830172737.26950-1-otavio@ossystems.com.br>
+	<20180830172737.26950-2-otavio@ossystems.com.br>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 31 Aug 2018 10:58:28 +0100
-Message-ID: <CAJTo0LaBhtM=jPYeOLMsfsmPyc23CyJg=D3ivx9q-LufJrwStA@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sudo: Add missing dep on virtual/crypt
+Date: Fri, 31 Aug 2018 11:09:01 +0100
+Message-ID: <CAJTo0LZ0o1ZN7o-NgaRJxidKZb3eCh=4POf3nk+7aW7FdqGSNQ@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/3] linux-firmware: Update to feb25f3e revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,65 +58,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 09:58:48 -0000
+X-List-Received-Date: Fri, 31 Aug 2018 10:09:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Yeah, that sounds right.
+ERROR: linux-firmware-1_0.0+gitAUTOINC+d114732723-r0 do_populate_lic:
+QA Issue: linux-firmware: LIC_FILES_CHKSUM points to an invalid file:
+/data/poky-tmp/master/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+d114732723-r0/git/LICENCE.cadence
+[license-checksum]
+ERROR: linux-firmware-1_0.0+gitAUTOINC+d114732723-r0 do_populate_lic:
+QA Issue: linux-firmware: LIC_FILES_CHKSUM points to an invalid file:
+/data/poky-tmp/master/work/all-poky-linux/linux-firmware/1_0.0+gitAUTOINC+d114732723-r0/git/LICENCE.mediatek
+[license-checksum]
 
 Ross
 
-On 31 August 2018 at 08:18, Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> I have to admit, I didn't look, I just assumed it was working for the
-> pam case, since I don't have a build which needs pam.
+On 30 August 2018 at 18:27, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> It includes following changes:
 >
-> Looking at the sudo code/libpam, it looks like you need it, but you'd
-> get it through transitive dependencies - should we just add it
-> unconditionally here?
+> fea76a0 amdgpu: sync up polaris10 firmware with 18.30 release
+> ffca603 amdgpu: sync up vega10 firmware with 18.30 release
+> 2ed60eb amdgpu: sync up raven firmware with 18.30 release
+> 02cc45f amdgpu: sync up polaris12 firmware with 18.30 release
+> b860e58 amdgpu: sync up tonga firmware with 18.30 release
+> 15ed096 amdgpu: sync up polaris11 firmware with 18.30 release
+> 005a9fe amdgpu: sync up fiji firmware with 18.30 release
+> 1d17c18 linux-firmware: add firmware for mhdp8546
+> c2e0d14 qed: Add firmware 8.37.7.0
+> f1b95fe linux-firmware:Update firmware patch for Intel Bluetooth 7265 (D1)
+> 8813230 linux-firmware: Update firmware file for Intel Bluetooth,9560
+> c2d8f1b linux-firmware: Update firmware file for Intel Bluetooth,9260
+> 9767096 linux-firmware: Update firmware file for Intel Bluetooth,8265
+> 41bdd3b linux-firmware: Update firmware patch for Intel Bluetooth 8260
+> fdd3468 linux-firmware: add firmware for mt76x0
+> eee8208 Merge commit 'c4883661c7eeedd061eb3b483135b47dab39a88d' of https://github.com/Netronome/linux-firmware
+> 6ae7a5b qcom: update venus firmware files for v5.2
+> c488366 nfp: update Agilio SmartNIC flower firmware to rev AOTC-2.9.A.31
+> 7b5835f linux-firmware: add firmware for mt76x2u
+> 3a5103f wl18xx: update firmware file 8.9.0.0.79
+> b01151b Mellanox: Add new mlxsw_spectrum firmware 13.1702.6
+> 0ff06f2 WHENCE: Remove reference to amdgpu/vegam_me_2.bin
+> 3fcf221 linux-firmware: mediatek: add MT7622 Bluetooth firmwares and license file
+> c8d6903 brcm: add 43430 based AP6212 and 1DX NVRAM
+> fad829d Merge git://git.marvell.com/mwifiex-firmware
+> 0ced724 linux-firmware: update Marvell USB8801 B0 firmware image
+> 8d69bab amdgpu: update copyright date
+> 153a51e amdgpu: add initial VegaM firmware
+> 10e2971 amdgpu: sync up vega10 firmware with 18.20 release
+> 4b05dee amdgpu: sync up raven firmware with 18.20 release
+> aeec108 amdgpu: sync up polaris12 firmware with 18.20 release
+> 5408150 amdgpu: sync up polaris11 firmware with 18.20 release
+> 34116bf amdgpu: sync up polaris10 firmware with 18.20 release
+> a8a2884 amdgpu: sync up verde firmware with 18.20 release
+> bea8c7f amdgpu: sync up pitcairn firmware with 18.20 release
+> d47f956 amdgpu: sync up tahiti firmware with 18.20 release
+> 1f92e00 amdgpu: sync up oland firmware with 18.20 release
+> effed45 amdgpu: sync up hainan firmware with 18.20 release
+> d50a667 amdgpu: sync up kaveri firmware with 18.20 release
+> 5b8eca3 amdgpu: sync up mullins firmware with 18.20 release
+> b4b5726 amdgpu: sync up kabini firmware with 18.20 release
+> fc80838 amdgpu: sync up hawaii firmware with 18.20 release
+> 5350953 amdgpu: sync up bonaire firmware with 18.20 release
+> 8c96b0d WHENCE: Fix typo Version
+> 6213586 cxgb4: update firmware to revision 1.20.8.0
 >
-> On Thu, Aug 30, 2018 at 9:52 PM Burton, Ross <ross.burton@intel.com> wrote:
->>
->> That suggests that the crypt dependency is only needed if pam is
->> disabled, is that the case?
->>
->> Ross
->>
->> On 30 August 2018 at 09:34, Alex Kiernan <alex.kiernan@gmail.com> wrote:
->> > Ensure we have virtual/crypt even if building without PAM; fixes:
->> >
->> >   sudo: error in /etc/sudo.conf, line 0 while loading plugin "sudoers_policy"
->> >   sudo: unable to load /usr/libexec/sudo/sudoers.so: /usr/libexec/sudo/sudoers.so: undefined symbol: crypt
->> >   sudo: fatal error, unable to load plugins
->> >
->> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
->> > ---
->> >
->> >  meta/recipes-extended/sudo/sudo_1.8.23.bb | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/meta/recipes-extended/sudo/sudo_1.8.23.bb b/meta/recipes-extended/sudo/sudo_1.8.23.bb
->> > index ab9c8cb..18add22 100644
->> > --- a/meta/recipes-extended/sudo/sudo_1.8.23.bb
->> > +++ b/meta/recipes-extended/sudo/sudo_1.8.23.bb
->> > @@ -10,7 +10,7 @@ PAM_SRC_URI = "file://sudo.pam"
->> >  SRC_URI[md5sum] = "ea444d747feb1decfebdffd0b38b0739"
->> >  SRC_URI[sha256sum] = "d863d29b6fc87bc784a3223350e2b28a2ff2c4738f0fb8f1c92bb38c3017e679"
->> >
->> > -DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
->> > +DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', 'virtual/crypt', d)}"
->> >  RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
->> >
->> >  EXTRA_OECONF += " \
->> > --
->> > 2.7.4
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> License-Update:
+>  - LICENSE.amdgpu has a copyright year bump
+>  - LICENCE.cadence is new
+>  - LICENCE.mediatek is new
+>  - WHENCE list the version bumps as well as the new Cadence and
+>    MediaTek license files and its respective firmware files.
 >
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
 >
+> Changes in v2:
+> - add new license files
+> - improve commit log to include License-Update field
+>
+>  .../linux-firmware/linux-firmware_git.bb               | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> index 69f9a2adea..1b6be054a2 100644
+> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> @@ -66,12 +66,13 @@ LIC_FILES_CHKSUM = "\
+>      file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+>      file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
+>      file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+> -    file://LICENSE.amdgpu;md5=0aa3c2f3e736af320a08a3aeeccecf29 \
+> +    file://LICENSE.amdgpu;md5=88b865bc74f3ffcc54640b4ea8540b46 \
+>      file://LICENSE.amd-ucode;md5=3c5399dc9148d7f0e1f41e34b69cf14f \
+>      file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
+>      file://LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3 \
+>      file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
+>      file://LICENCE.ca0132;md5=209b33e66ee5be0461f13d31da392198 \
+> +    file://LICENCE.cadence;md5=009f46816f6956cfb75ede13d3e1cee0 \
+>      file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
+>      file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
+>      file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
+> @@ -91,6 +92,7 @@ LIC_FILES_CHKSUM = "\
+>      file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88 \
+>      file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
+>      file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
+> +    file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
+>      file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
+>      file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed \
+>      file://LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f \
+> @@ -120,7 +122,7 @@ LIC_FILES_CHKSUM = "\
+>      file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+>      file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+>      file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+> -    file://WHENCE;md5=eaaf310bac02fee05ea1b334f58c5caf \
+> +    file://WHENCE;md5=feb25f3efdbe10fcc121005d02d407d6 \
+>  "
+>
+>  # These are not common licenses, set NO_GENERIC_LICENSE for them
+> @@ -134,6 +136,7 @@ NO_GENERIC_LICENSE[Firmware-atheros_firmware] = "LICENCE.atheros_firmware"
+>  NO_GENERIC_LICENSE[Firmware-atmel] = "LICENSE.atmel"
+>  NO_GENERIC_LICENSE[Firmware-broadcom_bcm43xx] = "LICENCE.broadcom_bcm43xx"
+>  NO_GENERIC_LICENSE[Firmware-ca0132] = "LICENCE.ca0132"
+> +NO_GENERIC_LICENSE[Firmware-cadence] = "LICENCE.cadence"
+>  NO_GENERIC_LICENSE[Firmware-cavium] = "LICENCE.cavium"
+>  NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENCE.chelsio_firmware"
+>  NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENCE.cw1200"
+> @@ -153,6 +156,7 @@ NO_GENERIC_LICENSE[Firmware-it913x] = "LICENCE.it913x"
+>  NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENCE.iwlwifi_firmware"
+>  NO_GENERIC_LICENSE[Firmware-kaweth] = "LICENCE.kaweth"
+>  NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENCE.Marvell"
+> +NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENCE.mediatek"
+>  NO_GENERIC_LICENSE[Firmware-moxa] = "LICENCE.moxa"
+>  NO_GENERIC_LICENSE[Firmware-myri10ge_firmware] = "LICENCE.myri10ge_firmware"
+>  NO_GENERIC_LICENSE[Firmware-netronome] = "LICENCE.Netronome"
+> @@ -184,7 +188,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
+>  NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
+>  NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+>
+> -SRCREV = "d1147327232ec4616a66ab898df84f9700c816c1"
+> +SRCREV = "fea76a04f25fd0a217c0d566ff5ff8f23ad3e648"
+>  PE = "1"
+>  PV = "0.0+git${SRCPV}"
 >
 > --
-> Alex Kiernan
+> 2.18.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
