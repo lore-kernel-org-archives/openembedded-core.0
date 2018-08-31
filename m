@@ -1,50 +1,51 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 7033174CB4
+Return-Path: <trini@konsulko.com>
+Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
+	[209.85.219.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 739E7795B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 14:08:05 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id d19-v6so5515462pgv.1
+	Fri, 31 Aug 2018 14:21:42 +0000 (UTC)
+Received: by mail-yb1-f193.google.com with SMTP id h22-v6so511825ybg.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 07:08:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=aDwamju3kv+rNLEl15NR9LHG0aIic3TeTLq3JVQTVo8=;
-	b=TZnyAtyzStQBUDBqKOrCYkbbhAgr3NQONP/HnSOIB19qixjiGu37dh0Sa81wXJ8goz
-	3uTz+GtszavKvOLW70laj2vF0B7VQoGoM5Y+u5gTO+ZlCqUCt78eMKFqAr3yFRg/G/0u
-	FJtJQGsY38e4gG98p8TEYaOdkg+lrUajQsLPntA65LrV3UeNgM9pdOkzrd6KB1ynD4J3
-	Dg8OwNmXyB+PINgqqxXT/HDHq5Np9Ap2MUvoHr/uRh986OJTmK9pIt8m4DcG2YopZNVO
-	/RmyEoS+2FcsvWjmAjMPW8KFZitiwnsHO+Xd18vIiVrCrzzKTLLe03ReMyE2YOq/v8qQ
-	jc3Q==
+	Fri, 31 Aug 2018 07:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=hdjR8iVrszcS50+vGvlCpLvIqbqqn6X5brkQGXJxsz8=;
+	b=eETDkPjBhqk4R6dMfWhEYnYZJOiZy4jSPuH65IZq9CBgmvaqG2GRsINnDDxcuaC8hE
+	mem2DnM9kbqlvlbOQ7jwpMT++WC8uLPzB2jv+BG4xi9uDd0teDwaAnghDYM1QQWaqqW8
+	8w9DkUxormpbuPUD8y+qycbdDJArBuekRG/Rk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=aDwamju3kv+rNLEl15NR9LHG0aIic3TeTLq3JVQTVo8=;
-	b=BBYfJW5zZ73rtjixwX4RJavAul/sGapslusLOSlZlp/hlFY10BlRHAQQ2IJbkk9c4B
-	r7gYl/M3Kh4zIl+5yKOA3hzkOnI+KFjcSxdMrObwExsf/6JBMNcT6s2smrAn9iAJK2oS
-	1VRFrU4H6tSHBYCweK0LYumFqdi+k1sw3mnw+tdHpwZQHBE16WykdIcBWYrbmWstO+QV
-	vcswWna4StFkIFxwmkKlhj9S2AyyEl3w4wpMQo5g0JIWWY457J9jE+VDQBdRhVsU9V8Q
-	n94c/mQstTi+r2jzhUCF8eZ1tD/wQGrlNb+p8UGug+iqGboXbhqvnJ1cbids5R+WQwb/
-	1bZw==
-X-Gm-Message-State: APzg51AYgugq5dQzUOZJrBteclRt79ilTGFe7kp9KYPQZXqAlEnv+dgd
-	zqqMC7oaZzmYvi4lo2Yz38nAR5y6dvXenBR20Es=
-X-Google-Smtp-Source: ANB0Vdbh7CHpJ3PcGmZLbXDGw+ccPOT9/gDr2F4Pr5gp3p6JZZS6cf93r0V0ytih+bcHmSkaCYBoYWM6+4FQCNkyr6A=
-X-Received: by 2002:a62:3ac8:: with SMTP id
-	v69-v6mr15976192pfj.164.1535724486502; 
-	Fri, 31 Aug 2018 07:08:06 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=hdjR8iVrszcS50+vGvlCpLvIqbqqn6X5brkQGXJxsz8=;
+	b=eHnVHiBKvf4U3xmgtOVbDH1t9CvJZFmP+pyH8yrKDUITD1EJGb7ZOdXDp9N2FiE7W9
+	jaVXOR6/fx6cdjDZ9443LPg1HN1go2/nlGLP0VfOy8fB5fCMuFynqMAP9Qt7YwnrHhgP
+	nFdvAB6AHs9+Q5dfqtSOEi1UhYp6r8itGpGfMC7kwGf8PFWw+rPWgJa40MbFnbOWoydY
+	WHt1zPP/o0ha1FmcuzKvLgcMQHeD+TxkFmKj451WsgSqC7S4PD2p/uxJpHU0Zt39vIQ+
+	BVjWD0HNeJhbj7lBJ2yiRE5v/XKfyo8myO5qLd4QVELl5K0aeoyrUjGwUGVR9PQj+Xcx
+	Wiow==
+X-Gm-Message-State: APzg51DcsWt/zzx2/XKAOMm9pcnRTA89HoxSZ29hWBQG3WEcJ53KmhkM
+	w8sslbtnwTR5YvtnUAhWI/swRw==
+X-Google-Smtp-Source: ANB0VdYNwGYK86AtChlMUQxxgan8uldVx6Aj/BONx50U7jdfsrezUJIviVVxHQdwDhtn4zDgHG1tYg==
+X-Received: by 2002:a5b:c41:: with SMTP id d1-v6mr8744277ybr.136.1535723724834;
+	Fri, 31 Aug 2018 06:55:24 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	by smtp.gmail.com with ESMTPSA id
+	n6-v6sm3770295ywe.89.2018.08.31.06.55.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 Aug 2018 06:55:24 -0700 (PDT)
+Date: Fri, 31 Aug 2018 09:55:21 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Jiang Lu <lu.jiang@windriver.com>
+Message-ID: <20180831135521.GQ26633@bill-the-cat>
+References: <1535681710-29461-1-git-send-email-lu.jiang@windriver.com>
+	<1535681710-29461-8-git-send-email-lu.jiang@windriver.com>
 MIME-Version: 1.0
-References: <1535618185-236305-1-git-send-email-mingli.yu@windriver.com>
-	<5B88E0EA.9070107@windriver.com>
-In-Reply-To: <5B88E0EA.9070107@windriver.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-Date: Fri, 31 Aug 2018 16:07:53 +0200
-Message-ID: <CAAQYJAsXzHRXGoS=d_155-FLVRUoUG3Hw+PHB67Xmz_bExMODw@mail.gmail.com>
-To: mingli.yu@windriver.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kexec-tools: fix for "Unhandled rela relocation: R_X86_64_PLT32" error
+In-Reply-To: <1535681710-29461-8-git-send-email-lu.jiang@windriver.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 7/7] wic:mkefidisk:add use-uuid for all partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,122 +58,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 14:08:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 31 Aug 2018 14:21:42 -0000
+X-Groupsio-MsgNum: 115699
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="7U/eSuoI27ekLyyn"
+Content-Disposition: inline
+
+--7U/eSuoI27ekLyyn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 31, 2018 at 8:34 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
->
-> Ping.
->
-Hi,
-FYI it is in master upstream as of  b9de21ef51a7 so you could just
-upgrade the recipe.
-Cheers
-Andrea
+On Fri, Aug 31, 2018 at 10:15:10AM +0800, Jiang Lu wrote:
+> Add use-uuid for all partitions on mkefidisk.wks.
+>=20
+> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
+> ---
+>  scripts/lib/wic/canned-wks/mkefidisk.wks | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/c=
+anned-wks/mkefidisk.wks
+> index 9f534fe..7bcb52f 100644
+> --- a/scripts/lib/wic/canned-wks/mkefidisk.wks
+> +++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
+> @@ -2,10 +2,10 @@
+>  # long-description: Creates a partitioned EFI disk image that the user
+>  # can directly dd to boot media.
+> =20
+> -part /boot --source bootimg-efi --sourceparams=3D"loader=3Dgrub-efi" --o=
+ndisk sda --label msdos --active --align 1024
+> +part /boot --source bootimg-efi --sourceparams=3D"loader=3Dgrub-efi" --o=
+ndisk sda --label msdos --active --align 1024 --use-uuid
+> =20
+>  part / --source rootfs --ondisk sda --fstype=3Dext4 --label platform --a=
+lign 1024 --use-uuid
+> =20
+> -part swap --ondisk sda --size 44 --label swap1 --fstype=3Dswap
+> +part swap --ondisk sda --size 44 --label swap1 --fstype=3Dswap --use-uuid
+> =20
+>  bootloader --ptable gpt --timeout=3D5 --append=3D"rootfstype=3Dext4 cons=
+ole=3DttyS0,115200 console=3Dtty0"
 
+Please drop the ondisk lines as they're really not useful when using
+uuid, which is good and I'm glad to see happen.
 
+--=20
+Tom
 
-> On 2018=E5=B9=B408=E6=9C=8830=E6=97=A5 16:36, mingli.yu@windriver.com wro=
-te:
-> > From: Mingli Yu <Mingli.Yu@windriver.com>
-> >
-> > In response to a change in binutils, commit b21ebf2fb4c
-> > (x86: Treat R_X86_64_PLT32 as R_X86_64_PC32) was applied to
-> > the linux kernel during the 4.16 development cycle and has
-> > since been backported to earlier stable kernel series. The
-> > change results in the failure message as below when rebooting
-> > via kexec.
-> >   # kexec -l /boot/bzImage --append=3D"console=3DttyS0,115200 root=3D/d=
-ev/sda1"
-> >   Unhandled rela relocation: R_X86_64_PLT32
-> >
-> > Fix this by replicating the change in kexec.
-> >
-> > Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> > ---
-> >   ...or-Unhandled-rela-relocation-R_X86_64_PLT.patch | 41 +++++++++++++=
-+++++++++
-> >   meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb    |  1 +
-> >   2 files changed, 42 insertions(+)
-> >   create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0001-kexec-f=
-ix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
-> >
-> > diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-U=
-nhandled-rela-relocation-R_X86_64_PLT.patch b/meta/recipes-kernel/kexec/kex=
-ec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
-> > new file mode 100644
-> > index 0000000..e0cced5
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandle=
-d-rela-relocation-R_X86_64_PLT.patch
-> > @@ -0,0 +1,41 @@
-> > +From b9de21ef51a7ceab7122a707c188602eae22c4ee Mon Sep 17 00:00:00 2001
-> > +From: Chris Clayton <chris2553@googlemail.com>
-> > +Date: Mon, 20 Aug 2018 12:00:31 +0100
-> > +Subject: [PATCH] kexec: fix for "Unhandled rela relocation: R_X86_64_P=
-LT32" error
-> > +
-> > +In response to a change in binutils, commit b21ebf2fb4c
-> > +(x86: Treat R_X86_64_PLT32 as R_X86_64_PC32) was applied to
-> > +the linux kernel during the 4.16 development cycle and has
-> > +since been backported to earlier stable kernel series. The
-> > +change results in the failure message in $SUBJECT when
-> > +rebooting via kexec.
-> > +
-> > +Fix this by replicating the change in kexec.
-> > +
-> > +Upstream-Status: Backport[https://git.kernel.org/pub/scm/utils/kernel/=
-kexec/kexec-tools.git/commit/?id=3Db9de21ef51a7ceab7122a707c188602eae22c4ee=
-]
-> > +
-> > +Signed-off-by: Chris Clayton <chris2553@googlemail.com>
-> > +Acked-by: Baoquan He <bhe@redhat.com>
-> > +Tested-by: Bhupesh Sharma <bhsharma@redhat.com>
-> > +Acked-by: Bhupesh Sharma <bhsharma@redhat.com>
-> > +Signed-off-by: Simon Horman <horms@verge.net.au>
-> > +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> > +---
-> > + kexec/arch/x86_64/kexec-elf-rel-x86_64.c | 1 +
-> > + 1 file changed, 1 insertion(+)
-> > +
-> > +diff --git a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c b/kexec/arch/x86=
-_64/kexec-elf-rel-x86_64.c
-> > +index 7fdde73..db85b44 100644
-> > +--- a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-> > ++++ b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-> > +@@ -79,6 +79,7 @@ void machine_apply_elf_rel(struct mem_ehdr *UNUSED(e=
-hdr),
-> > +                     goto overflow;
-> > +             break;
-> > +     case R_X86_64_PC32:
-> > ++    case R_X86_64_PLT32:
-> > +             *(uint32_t *)location =3D value - address;
-> > +             break;
-> > +     default:
-> > +--
-> > +2.7.4
-> > +
-> > diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb b/meta/rec=
-ipes-kernel/kexec/kexec-tools_2.0.17.bb
-> > index f4ec586..dd46901 100644
-> > --- a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-> > +++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-> > @@ -18,6 +18,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/kernel/k=
-exec/kexec-tools-${PV}.tar.gz
-> >              file://0010-kexec-ARM-Fix-add_buffer_phys_virt-align-issue=
-.patch \
-> >              file://kexec-x32.patch \
-> >              file://0001-Disable-PIE-during-link.patch \
-> > +           file://0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_6=
-4_PLT.patch \
-> >              "
-> >
-> >   SRC_URI[md5sum] =3D "8e071ca473694a71e4ae60ed7ef6f377"
-> >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+--7U/eSuoI27ekLyyn
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJbiUjJAAoJEIf59jXTHXZSTqcP/1W6ejtMqpVzoTIdEey+b4+b
+ihC3QpXi6+G8iqe3ho2Hy6FM0dLAqXHpgk8xK9TvcSMuSz7QwDoiMpmAJFbTctiT
+aiUh4EZbkSo578JvJlwmYDK/PYVOZ+ReUFqOEmZ8qN/Z3d29n1rwMdHCdc0L62bh
+MIF9q81TaNyB0Vg98OigGDDXvhH7KYxoeEKfw/8gnfGNUbtCn0KY2coM2n1C9CM3
+vJ+r5a7FJhhguq9k69DPDMTwxXnKYSBtrR9BTKG71QCzV5zyY4Yz6pQadPzm8Gg5
+RNW/6At/RRViMCueQrSjaRydyR9GSC7cYCgH6/+3wFBwJ7wb+du4QWrRaVi7+kOM
+FPuqhFdDqrxjQzjmycaukuGAPiG2St5istzkYyBiKBhLjSuqUrx577/PptPKWGlG
+cTlZcBDgW2xiZc1TDeTSToHF7tr/+hAPoum2Ef/wKTaqhHEOCBggdGc9+9XJX4XP
+tCoeHFF77KKCip+gFI9ii6/zW2FiLkSrPwNi4VRZ39ILMFHG6CiFC52Vu5jIlAna
+xzJ+EltYB9s3obZY8sezE3tUKxx/UNB3uAlf6+pKKtt3L6FttLFVyXrh2TCDMuit
+DG2tBDKlyScmuP3RONdzZ/mOvXO80BWpCs6lAlk/55RxSdTeT1i0XUlAPffzYxln
+7h5ZDJEf8eCGs1oWcLic
+=YUIX
+-----END PGP SIGNATURE-----
+
+--7U/eSuoI27ekLyyn--
