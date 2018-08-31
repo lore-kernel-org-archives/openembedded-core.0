@@ -1,27 +1,48 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AD9779558
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+	[209.85.222.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C8E0745F1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 06:34:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w7V6Ygvm028168
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 Aug 2018 23:34:43 -0700 (PDT)
-Received: from [128.224.162.173] (128.224.162.173) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Thu, 30 Aug 2018 23:34:42 -0700
-To: <openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <1535618185-236305-1-git-send-email-mingli.yu@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5B88E0EA.9070107@windriver.com>
-Date: Fri, 31 Aug 2018 14:32:10 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Fri, 31 Aug 2018 07:18:33 +0000 (UTC)
+Received: by mail-ua1-f49.google.com with SMTP id h1-v6so7478722uao.8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Aug 2018 00:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=jObMdEodF6bE8fB8ca0t5uDhIKSSSKnH40L3hwBqLDU=;
+	b=PKANh6E8+kiaZKijQgZ6I4AUTOsvSPc1fdirmfVgOBbQHcjFD++35JCRI7mfxZUVYU
+	H2JJ3ho3K8dG37pW0OfuQFHY+ahhmMS6oG52X/IMkeEzVWXxeOgJemPu+zWRiYSfVsZq
+	J9cAv5jOob0bwIV7Fk7QsH8Pwy0qVBiOO8qoXLMBTsBs0b80Ie0L3svk9PFT2Z/mvm9X
+	XcuGaQ4AgWYB8lcE9oJYwSvi+DgS6QKdxORNhLB+eCwSSghtDJRzLuFPHtSs9/UgA38M
+	YhEsEvxJ0mbtSv1CIcEUJ7zoFXbWDp1R9R/HCR7aj/2bifFNhHeUOIPOFiICuebuN2No
+	ZdHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=jObMdEodF6bE8fB8ca0t5uDhIKSSSKnH40L3hwBqLDU=;
+	b=QFqS6fx89PSaE0f1fja6MJHXwuZLxelwCnUFaYRWB9Szekz/T7sw4/CXkJAEr6XqCs
+	LyYodsWdkmjIZClv9uY3BHd9C/R1wTr8dtk4ir4ZDapUl50kLL8VNpKN7YKQl1tq8kA6
+	JqCY4IrBVJfUI5n7qBAope/m9iadddHrZz5PBqm4zsJ+Yi37qgz+MeMNYoFG8HGzuxRZ
+	g7uRuiPCHdKPPdPtL4Rr7yVhbSVF9l+7dgCgYh0V5UFzZSrfJSxhyll3tg0KOjSzqVk+
+	q+j5MDcpO0m16iiOtiPQIWvSw3Lt0ua5/L9vj0qyCzsXuFeXPckqvFpIjljJpSv4Daog
+	slhA==
+X-Gm-Message-State: APzg51D49MLq8pZZ8AawqIRd81MAGr64X17HRia01aflSuYRIo+4iIGQ
+	4mY+kjPtv0h5tuau2LfCNgeS1AAuaTKlGMyCDXs=
+X-Google-Smtp-Source: ANB0VdY0QK8tXEJUob3W+B3VKKMX42wqvFfY4hcsnWY3FNa7zE2QT5kC7a8B7uUSCAqOXXJ2IsiJdoMjSkuE+5QmhL4=
+X-Received: by 2002:a9f:318a:: with SMTP id
+	v10-v6mr9303352uad.36.1535699914315; 
+	Fri, 31 Aug 2018 00:18:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1535618185-236305-1-git-send-email-mingli.yu@windriver.com>
-X-Originating-IP: [128.224.162.173]
-Subject: Re: [PATCH] kexec-tools: fix for "Unhandled rela relocation: R_X86_64_PLT32" error
+References: <1535618064-18215-1-git-send-email-alex.kiernan@gmail.com>
+	<CAJTo0LYyqaNRO39badfpH8F-H97-v0M_NpBrGhYamzaOn+MqEQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYyqaNRO39badfpH8F-H97-v0M_NpBrGhYamzaOn+MqEQ@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 31 Aug 2018 08:18:23 +0100
+Message-ID: <CAO5Uq5Ro-s04ePOeODyktaVS42POFwut6ADYAzYFf7Qve9SbCQ@mail.gmail.com>
+To: ross.burton@intel.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sudo: Add missing dep on virtual/crypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,91 +55,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 06:34:43 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 31 Aug 2018 07:18:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Ping.
+I have to admit, I didn't look, I just assumed it was working for the
+pam case, since I don't have a build which needs pam.
 
-On 2018年08月30日 16:36, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
+Looking at the sudo code/libpam, it looks like you need it, but you'd
+get it through transitive dependencies - should we just add it
+unconditionally here?
+
+On Thu, Aug 30, 2018 at 9:52 PM Burton, Ross <ross.burton@intel.com> wrote:
 >
-> In response to a change in binutils, commit b21ebf2fb4c
-> (x86: Treat R_X86_64_PLT32 as R_X86_64_PC32) was applied to
-> the linux kernel during the 4.16 development cycle and has
-> since been backported to earlier stable kernel series. The
-> change results in the failure message as below when rebooting
-> via kexec.
->   # kexec -l /boot/bzImage --append="console=ttyS0,115200 root=/dev/sda1"
->   Unhandled rela relocation: R_X86_64_PLT32
+> That suggests that the crypt dependency is only needed if pam is
+> disabled, is that the case?
 >
-> Fix this by replicating the change in kexec.
+> Ross
 >
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> ---
->   ...or-Unhandled-rela-relocation-R_X86_64_PLT.patch | 41 ++++++++++++++++++++++
->   meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb    |  1 +
->   2 files changed, 42 insertions(+)
->   create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
->
-> diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
-> new file mode 100644
-> index 0000000..e0cced5
-> --- /dev/null
-> +++ b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
-> @@ -0,0 +1,41 @@
-> +From b9de21ef51a7ceab7122a707c188602eae22c4ee Mon Sep 17 00:00:00 2001
-> +From: Chris Clayton <chris2553@googlemail.com>
-> +Date: Mon, 20 Aug 2018 12:00:31 +0100
-> +Subject: [PATCH] kexec: fix for "Unhandled rela relocation: R_X86_64_PLT32" error
-> +
-> +In response to a change in binutils, commit b21ebf2fb4c
-> +(x86: Treat R_X86_64_PLT32 as R_X86_64_PC32) was applied to
-> +the linux kernel during the 4.16 development cycle and has
-> +since been backported to earlier stable kernel series. The
-> +change results in the failure message in $SUBJECT when
-> +rebooting via kexec.
-> +
-> +Fix this by replicating the change in kexec.
-> +
-> +Upstream-Status: Backport[https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git/commit/?id=b9de21ef51a7ceab7122a707c188602eae22c4ee]
-> +
-> +Signed-off-by: Chris Clayton <chris2553@googlemail.com>
-> +Acked-by: Baoquan He <bhe@redhat.com>
-> +Tested-by: Bhupesh Sharma <bhsharma@redhat.com>
-> +Acked-by: Bhupesh Sharma <bhsharma@redhat.com>
-> +Signed-off-by: Simon Horman <horms@verge.net.au>
-> +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> +---
-> + kexec/arch/x86_64/kexec-elf-rel-x86_64.c | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-> +index 7fdde73..db85b44 100644
-> +--- a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-> ++++ b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
-> +@@ -79,6 +79,7 @@ void machine_apply_elf_rel(struct mem_ehdr *UNUSED(ehdr),
-> + 			goto overflow;
-> + 		break;
-> + 	case R_X86_64_PC32:
-> ++	case R_X86_64_PLT32:
-> + 		*(uint32_t *)location = value - address;
-> + 		break;
-> + 	default:
-> +--
-> +2.7.4
-> +
-> diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-> index f4ec586..dd46901 100644
-> --- a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-> +++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-> @@ -18,6 +18,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
->              file://0010-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch \
->              file://kexec-x32.patch \
->              file://0001-Disable-PIE-during-link.patch \
-> +           file://0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch \
->              "
->
->   SRC_URI[md5sum] = "8e071ca473694a71e4ae60ed7ef6f377"
->
+> On 30 August 2018 at 09:34, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> > Ensure we have virtual/crypt even if building without PAM; fixes:
+> >
+> >   sudo: error in /etc/sudo.conf, line 0 while loading plugin "sudoers_policy"
+> >   sudo: unable to load /usr/libexec/sudo/sudoers.so: /usr/libexec/sudo/sudoers.so: undefined symbol: crypt
+> >   sudo: fatal error, unable to load plugins
+> >
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > ---
+> >
+> >  meta/recipes-extended/sudo/sudo_1.8.23.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-extended/sudo/sudo_1.8.23.bb b/meta/recipes-extended/sudo/sudo_1.8.23.bb
+> > index ab9c8cb..18add22 100644
+> > --- a/meta/recipes-extended/sudo/sudo_1.8.23.bb
+> > +++ b/meta/recipes-extended/sudo/sudo_1.8.23.bb
+> > @@ -10,7 +10,7 @@ PAM_SRC_URI = "file://sudo.pam"
+> >  SRC_URI[md5sum] = "ea444d747feb1decfebdffd0b38b0739"
+> >  SRC_URI[sha256sum] = "d863d29b6fc87bc784a3223350e2b28a2ff2c4738f0fb8f1c92bb38c3017e679"
+> >
+> > -DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+> > +DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', 'virtual/crypt', d)}"
+> >  RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+> >
+> >  EXTRA_OECONF += " \
+> > --
+> > 2.7.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+Alex Kiernan
 
