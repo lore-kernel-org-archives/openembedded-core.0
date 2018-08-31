@@ -1,53 +1,51 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id BB3D27955B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 637346079E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 07:45:17 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id w7V7jHFi002449
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Fri, 31 Aug 2018 09:45:18 +0200
-Received: from [192.168.253.100] ([167.87.30.173])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id w7V7jHtH016983;
-	Fri, 31 Aug 2018 09:45:17 +0200
-To: Randy MacLeod <randy.macleod@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <8955c839-85a0-d8b0-e36f-8ed6f7152547@siemens.com>
-	<2b58bfb4-9acf-f273-1ca0-61d6c8b90bff@windriver.com>
-From: Andrej Valek <andrej.valek@siemens.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
-	xsBNBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
-	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
-	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
-	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
-	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
-	AAHNJ0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPsLAfgQTAQIAKAUC
-	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
-	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
-	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
-	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
-	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
-	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO587ATQRZEs03AQgA0oCu
-	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
-	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
-	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
-	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
-	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABwsBlBBgBAgAPBQJZ
-	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
-	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
-	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
-	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
-	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
-	emYHzsJ3+vLapH+kAEI=
-Message-ID: <3fc743ea-e98f-81dd-6157-ebca4dc5956d@siemens.com>
-Date: Fri, 31 Aug 2018 09:45:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Fri, 31 Aug 2018 09:30:37 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id m11-v6so20589797oic.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Aug 2018 02:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=e1O3B2gyFevmauqWv/fS3gVINcf/3ncoZHOpgl8JOuA=;
+	b=hYgpkCzdEGWffG58OQtH0S+mFvcbMs7EyWTGia8DY+vx1BeDuymiLdl9Qwu90GMBQf
+	v7ThhdqWEO432rMqCIFKZXJvMq4UVhlJA1OrZU+lzC4nqEVE6Wt3WFEux896InLYi4zn
+	53/uM/UzZTIrPJie6d8qw9CJchsZgJ3JYZBmSvmJZSvICNE0kiM8Zlo7johjMvzrdcvw
+	7fzB2SI9rc5im3NDJUQi4mgYzcjR07fjto7tTx3bSMLoWiOp/XhYpv/fAHdeE3rUEAxU
+	Ox6iAIze3y+6GFDj6GbyHVFqJlhfIvXYUkkEQj+nc4J+TaZPq7bUMqSE4WXv+zTwQCqP
+	os2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=e1O3B2gyFevmauqWv/fS3gVINcf/3ncoZHOpgl8JOuA=;
+	b=n3T2wo6F+/TpYgP9PVxvKJwuUNOKFx1ql7sKaGpsubQpqe1DFgc5/QUiw48ad5EmaO
+	WN68ZNrrAACSYDt81eUABgm3DcdXkHEY2ME9gAWF3f+id6Iw5ooz27FD9Mx6qz6StMBk
+	nujqRHDylyS1trRXby4S2Agh0xKm9uRDWemCoXe5CjnUt2QFquW18KbiJSdCH5D949kV
+	rw4Kfxj/+v6aJZuSTf6Yu0bPzpZpxJZQM2l9Q6ADPBSRNHCgXlJyCk0UsmT7OR8/96nO
+	a1EmPvnfvVeeMAGQKlBz3YftOOz+Hpe7ahV5tK6szFjAXP3xWp1E+ExUe4IO53HXSAT0
+	DxlA==
+X-Gm-Message-State: APzg51DJFjowgC8jRxRy5vUo0zarrqzsTEKGcq7g8dN/G4G0fnXubRhR
+	rnxudiu9//i2Dq+DR0uPTaOWl70mGcUN9AK/s0A=
+X-Google-Smtp-Source: ANB0VdbLcV1qcJH7wryDoItSX1YQQHfQ/eaFzKdT51BE9qhO7PN7DyQiFanlCfP5IvCPUngvMEZ4fnuJtXBwq59eXg4=
+X-Received: by 2002:aca:5cd4:: with SMTP id
+	q203-v6mr5944541oib.217.1535707838359; 
+	Fri, 31 Aug 2018 02:30:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2b58bfb4-9acf-f273-1ca0-61d6c8b90bff@windriver.com>
-Subject: Re: [PATCH v2] busybox: update to 1.29.2
+Received: by 2002:a4a:1645:0:0:0:0:0 with HTTP; Fri, 31 Aug 2018 02:30:37
+	-0700 (PDT)
+In-Reply-To: <CAMKF1sqLt9FpEhhL977egq7DjKJDj7PvBV6MJ-jszjfzHgTyrA@mail.gmail.com>
+References: <cover.1535451643.git.alex.kanavin@gmail.com>
+	<CAMKF1sqLt9FpEhhL977egq7DjKJDj7PvBV6MJ-jszjfzHgTyrA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 31 Aug 2018 11:30:37 +0200
+Message-ID: <CANNYZj8JTkt2z056YRKpOzV+BkcjOkk6-w5R5mrp_EM1MWATFg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/6] openssl 1.1.1 update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,317 +58,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 07:45:19 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 Aug 2018 09:30:37 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Randy,
+The recipe has a guard for this, but maybe it stopped working, I'll take a look:
 
-I had some network problems. I was trying to send patches likes general
-email instead of from git. But it was not so successful.
+#| ./libcrypto.so: undefined reference to `getcontext'
+#| ./libcrypto.so: undefined reference to `setcontext'
+#| ./libcrypto.so: undefined reference to `makecontext'
+CPPFLAGS_append_libc-musl = " -DOPENSSL_NO_ASYNC"
 
-This is the right one
-http://lists.openembedded.org/pipermail/openembedded-core/2018-August/155059.html
-.
+Alex
 
-Regards,
-Andrej
 
-On 08/30/18 20:27, Randy MacLeod wrote:
-> On 08/30/2018 04:25 AM, Andrej Valek wrote:
->>    - refresh busybox-udhcpc-no_deconfig.patch
->>    - remove obsolete patches which are included in this update
->>    - update defconfig
-> 
-> It seems that you just adapted to upstream changes so just say so
-> in the long log.
-> 
-> I looked at the defconfig changes and I have some minor comments
-> on that below. I think we should merge the defconfig as is with
-> a long log comment.
-> 
-> It might be nice to add the setfattr applet but that can be done
-> later or even in the next release if someone comes up with a real
-> need rather than thinking that it's  "nice to have".
-> 
-> 
-> Also, your patch email was in the wrong format and
-> even if I work around that, it didn't apply to master.
-> 
-> You email encoding is:
-> 
-> Openpgp: preference=signencrypt
-> Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
->          xsBNBFkSzTcBCADSJTRk7Y...bIFUmc7ck3KeuUGKy
->          ifrpWD6/7YPXbixv4sAlFl...zmMdr0BPLMsL96nBO
-> ...
->     Content-Type: text/plain; charset="utf-8"
->     Content-Transfer-Encoding: base64
-> 
-> so while I can read it in an email client such as Thunderbird,
-> if I save it and try to git am it, that doesn't work since
-> it's encoded.
-> 
-> Can you resend using:
->     Content-Type: text/plain; charset="us-ascii"
->     Content-Transfer-Encoding: 7bit
-> or maybe someone will explain how to deal with this encoding.
-> 
-> Even saving the text doesn't result in a good patch
-> due to line wrapping (which I tried to fix manually)
-> and then another error:
->    $ git am /tmp/bb-txt/busybox-update-fix.txt
->    Applying: busybox: update to 1.29.2
->    error: patch failed: \
->      meta/recipes-core/busybox/busybox/CVE-2011-5325.patch:1
->    error: meta/recipes-core/busybox/busybox/CVE-2011-5325.patch: \
->      patch does not apply
->    error: patch failed: \
->      meta/recipes-core/busybox/busybox/CVE-2017-15873.patch:1
->    error: meta/recipes-core/busybox/busybox/CVE-2017-15873.patch: \
->      patch does not apply
->    ...
-> 
-> I use 'git send-email' and usually remember to us:
->     --smtp-server=smtp.example.com
-> to avoid Outlook being a problem. I expect that some of
-> your co-workers have dealt with the problem already.
-> 
-> Or maybe just send punch cards! ;-)
-> 
-> 
-> Thanks Andrej!
-> 
-> ../Randy
+2018-08-31 8:22 GMT+02:00 Khem Raj <raj.khem@gmail.com>:
+> musl/mips seems to fail due to this see
+>
+> http://errors.yoctoproject.org/Errors/Details/188615/
+> On Tue, Aug 28, 2018 at 3:23 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
 >>
->> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
->> ---
->>   ...inittab_1.27.2.bb => busybox-inittab_1.29.2.bb} |   0
->>   .../busybox/busybox/CVE-2011-5325.patch            | 481
->> ---------------------
->>   .../busybox/busybox/CVE-2017-15873.patch           |  95 ----
->>   .../busybox/busybox/busybox-CVE-2017-16544.patch   |  43 --
->>   .../busybox/busybox-fix-lzma-segfaults.patch       | 106 -----
->>   .../busybox/busybox-udhcpc-no_deconfig.patch       |  48 +-
->>   meta/recipes-core/busybox/busybox/defconfig        |  46 +-
->>   .../busybox/busybox/umount-ignore-c.patch          |  40 --
->>   .../{busybox_1.27.2.bb => busybox_1.29.2.bb}       |   9 +-
->>   9 files changed, 66 insertions(+), 802 deletions(-)
->>   rename meta/recipes-core/busybox/{busybox-inittab_1.27.2.bb =>
->> busybox-inittab_1.29.2.bb} (100%)
->>   delete mode 100755 meta/recipes-core/busybox/busybox/CVE-2011-5325.patch
->>   delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2017-15873.patch
->>   delete mode 100644
->> meta/recipes-core/busybox/busybox/busybox-CVE-2017-16544.patch
->>   delete mode 100644
->> meta/recipes-core/busybox/busybox/busybox-fix-lzma-segfaults.patch
->>   delete mode 100644 meta/recipes-core/busybox/busybox/umount-ignore-c.patch
->>   rename meta/recipes-core/busybox/{busybox_1.27.2.bb =>
->> busybox_1.29.2.bb} (82%)
+>> This patch series updates openssl to the soon-to-be released 1.1.1 version
+>> (latest news is 11 September), sets it as default, and removes dependencies
+>> on openssl 1.0 entirely from oe-core. openssl 1.0 remains available as openssl10
+>> recipe.
 >>
-> 
-> ...
-> 
->> diff --git a/meta/recipes-core/busybox/busybox/defconfig
->> b/meta/recipes-core/busybox/busybox/defconfig
->> index 59d93c7079..f081f281cc 100644
->> --- a/meta/recipes-core/busybox/busybox/defconfig
->> +++ b/meta/recipes-core/busybox/busybox/defconfig
->> @@ -1,12 +1,12 @@
->>   #
->>   # Automatically generated make config: don't edit
->> -# Busybox version: 1.27.2
->> -# Wed Sep 27 08:56:13 2017
->> +# Busybox version: 1.29.1
-> 
-> s/1.29.1/1.29.2/
-> 
->> +# Thu Jul 19 11:09:46 2018
->>   #
->>   CONFIG_HAVE_DOT_CONFIG=y
+>> The following changes since commit a8368651ffed1bd6c4715a37dfe9f40c48ca23c4:
 >>
->>   #
->> -# Busybox Settings
->> +# Settings
->>   #
->>   # CONFIG_DESKTOP is not set
->>   # CONFIG_EXTRA_COMPAT is not set
->> @@ -78,7 +78,7 @@ CONFIG_NO_DEBUG_LIB=y
->>   # CONFIG_EFENCE is not set
+>>   bitbake: fetcher: Fixed remote removal not throwing exception. (2018-08-28 10:32:08 +0100)
 >>
->>   #
->> -# Busybox Library Tuning
->> +# Library Tuning
->>   #
->>   # CONFIG_FEATURE_USE_BSS_TAIL is not set
->>   CONFIG_FEATURE_RTMINMAX=y
->> @@ -90,6 +90,7 @@ CONFIG_MD5_SMALL=1
->>   CONFIG_SHA3_SMALL=1
->>   CONFIG_FEATURE_FAST_TOP=y
->>   # CONFIG_FEATURE_ETC_NETWORKS is not set
->> +# CONFIG_FEATURE_ETC_SERVICES is not set
->>   CONFIG_FEATURE_EDITING=y
->>   CONFIG_FEATURE_EDITING_MAX_LEN=1024
->>   # CONFIG_FEATURE_EDITING_VI is not set
->> @@ -321,6 +322,7 @@ CONFIG_TRUE=y
->>   CONFIG_TTY=y
->>   CONFIG_UNAME=y
->>   CONFIG_UNAME_OSNAME="GNU/Linux"
->> +# CONFIG_BB_ARCH is not set
->>   CONFIG_UNIQ=y
->>   CONFIG_UNLINK=y
->>   CONFIG_USLEEP=y
->> @@ -393,6 +395,14 @@ CONFIG_FEATURE_START_STOP_DAEMON_FANCY=y
->>   CONFIG_WHICH=y
+>> are available in the git repository at:
 >>
->>   #
->> +# klibc-utils
->> +#
->> +# CONFIG_MINIPS is not set
->> +# CONFIG_NUKE is not set
->> +# CONFIG_RESUME is not set
->> +# CONFIG_RUN_INIT is not set
->> +
->> +#
->>   # Editors
->>   #
->>   CONFIG_AWK=y
->> @@ -678,6 +688,10 @@ CONFIG_FEATURE_MOUNT_LOOP=y
->>   CONFIG_FEATURE_MOUNT_LOOP_CREATE=y
->>   # CONFIG_FEATURE_MTAB_SUPPORT is not set
->>   # CONFIG_VOLUMEID is not set
->> +
->> +#
->> +# Filesystem/Volume identification
->> +#
->>   # CONFIG_FEATURE_VOLUMEID_BCACHE is not set
->>   # CONFIG_FEATURE_VOLUMEID_BTRFS is not set
->>   # CONFIG_FEATURE_VOLUMEID_CRAMFS is not set
->> @@ -725,6 +739,7 @@ CONFIG_FEATURE_CROND_DIR=""
->>   # CONFIG_FEATURE_HDPARM_HDIO_DRIVE_RESET is not set
->>   # CONFIG_FEATURE_HDPARM_HDIO_TRISTATE_HWIF is not set
->>   # CONFIG_FEATURE_HDPARM_HDIO_GETSET_DMA is not set
->> +# CONFIG_HEXEDIT is not set
->>   # CONFIG_I2CGET is not set
->>   # CONFIG_I2CSET is not set
->>   # CONFIG_I2CDUMP is not set
->> @@ -807,6 +822,7 @@ CONFIG_MICROCOM=y
->>   # CONFIG_RUNLEVEL is not set
->>   # CONFIG_RX is not set
->>   # CONFIG_SETSID is not set
->> +# CONFIG_SETFATTR is not set
-> 
-> Seems like that might be useful and should be enabled by default
-> but I don't need it for 2.6
-> 
-> It's not a huge delta:
-> b278ac0e6 setfattr: new applet
-> ...
->     (add/remove: 7/0 grow/shrink: 4/0 up/down: 458/0)
->               Total: 458 bytes
-> 
-> 
->>   CONFIG_STRINGS=y
->>   CONFIG_TIME=y
->>   # CONFIG_TIMEOUT is not set
->> @@ -912,6 +928,8 @@ CONFIG_FEATURE_FANCY_PING=y
->>   CONFIG_ROUTE=y
->>   # CONFIG_SLATTACH is not set
->>   # CONFIG_SSL_CLIENT is not set
->> +# CONFIG_TC is not set
->> +# CONFIG_FEATURE_TC_INGRESS is not set
->>   # CONFIG_TCPSVD is not set
->>   # CONFIG_UDPSVD is not set
->>   CONFIG_TELNET=y
->> @@ -949,13 +967,9 @@ CONFIG_FEATURE_WGET_HTTPS=y
->>   # CONFIG_FEATURE_WGET_OPENSSL is not set
->>   # CONFIG_WHOIS is not set
->>   # CONFIG_ZCIP is not set
->> -# CONFIG_UDHCPC6 is not set
->> -# CONFIG_FEATURE_UDHCPC6_RFC3646 is not set
->> -# CONFIG_FEATURE_UDHCPC6_RFC4704 is not set
->> -# CONFIG_FEATURE_UDHCPC6_RFC4833 is not set
-> 
-> Ah, these are just moved down a few lines.
-> 
->>   CONFIG_UDHCPD=y
->> -# CONFIG_FEATURE_UDHCPD_WRITE_LEASES_EARLY is not set
->>   # CONFIG_FEATURE_UDHCPD_BASE_IP_ON_MAC is not set
->> +# CONFIG_FEATURE_UDHCPD_WRITE_LEASES_EARLY is not set
->>   CONFIG_DHCPD_LEASES_FILE="/var/lib/misc/udhcpd.leases"
->>   CONFIG_DUMPLEASES=y
->>   # CONFIG_DHCPRELAY is not set
->> @@ -963,6 +977,15 @@ CONFIG_UDHCPC=y
->>   CONFIG_FEATURE_UDHCPC_ARPING=y
->>   CONFIG_FEATURE_UDHCPC_SANITIZEOPT=y
->>   CONFIG_UDHCPC_DEFAULT_SCRIPT="/usr/share/udhcpc/default.script"
->> +# CONFIG_UDHCPC6 is not set
->> +# CONFIG_FEATURE_UDHCPC6_RFC3646 is not set
->> +# CONFIG_FEATURE_UDHCPC6_RFC4704 is not set
->> +# CONFIG_FEATURE_UDHCPC6_RFC4833 is not set
->> +# CONFIG_FEATURE_UDHCPC6_RFC5970 is not set
->> +
->> +#
->> +# Common options for DHCP applets
->> +#
->>   # CONFIG_FEATURE_UDHCP_PORT is not set
->>   CONFIG_UDHCP_DEBUG=0
->>   # CONFIG_FEATURE_UDHCP_RFC3397 is not set
->> @@ -1045,6 +1068,7 @@ CONFIG_WATCH=y
->>   # CONFIG_SV is not set
->>   CONFIG_SV_DEFAULT_SERVICE_DIR=""
->>   # CONFIG_SVC is not set
->> +# CONFIG_SVOK is not set
->>   # CONFIG_SVLOGD is not set
->>   # CONFIG_CHCON is not set
->>   # CONFIG_FEATURE_CHCON_LONG_OPTIONS is not set
->> @@ -1134,6 +1158,10 @@ CONFIG_FEATURE_SH_HISTFILESIZE=y
->>   # System Logging Utilities
->>   #
->>   CONFIG_KLOGD=y
->> +
->> +#
->> +# klogd should not be used together with syslog to kernel printk buffer
->> +#
->>   CONFIG_FEATURE_KLOGD_KLOGCTL=y
->>   CONFIG_LOGGER=y
->>   # CONFIG_LOGREAD is not set
->> diff --git a/meta/recipes-core/busybox/busybox/umount-ignore-c.patch
->> b/meta/recipes-core/busybox/busybox/umount-ignore-c.patch
->> deleted file mode 100644
->> index 9fe7998df3..0000000000
->> --- a/meta/recipes-core/busybox/busybox/umount-ignore-c.patch
->> +++ /dev/null
-> ...
->> diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb
->> b/meta/recipes-core/busybox/busybox_1.29.2.bb
->> similarity index 82%
->> rename from meta/recipes-core/busybox/busybox_1.27.2.bb
->> rename to meta/recipes-core/busybox/busybox_1.29.2.bb
->> index 1ce4823d47..c86b4f57b3 100644
->> --- a/meta/recipes-core/busybox/busybox_1.27.2.bb
->> +++ b/meta/recipes-core/busybox/busybox_1.29.2.bb
->> @@ -42,13 +42,8 @@ SRC_URI =
->> "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
->>              file://rcK \
->>              file://runlevel \
->>              file://makefile-libbb-race.patch \
->> -           file://CVE-2011-5325.patch \
->> -           file://CVE-2017-15873.patch \
->> -           file://busybox-CVE-2017-16544.patch \
->> -           file://busybox-fix-lzma-segfaults.patch \
->> -           file://umount-ignore-c.patch \
->>   "
->>   SRC_URI_append_libc-musl = " file://musl.cfg "
+>>   git://push.yoctoproject.org/poky-contrib akanavin/openssl-1.1.1
 >>
->> -SRC_URI[tarball.md5sum] = "476186f4bab81781dab2369bfd42734e"
->> -SRC_URI[tarball.sha256sum] =
->> "9d4be516b61e6480f156b11eb42577a13529f75d3383850bb75c50c285de63df"
->> +SRC_URI[tarball.md5sum] = "9cffb6c0e4df06914205f38ac8b40d80"
->> +SRC_URI[tarball.sha256sum] =
->> "fc250730ea16d28839bfecda3c431683fa6bd4273ffca6b632cbeb3556c914c3"
+>> Alexander Kanavin (6):
+>>   openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the
+>>     default version
+>>   cryptodev-tests: port to openssl 1.1
+>>   openssl: update to 1.1.1
+>>   libressl: add a recipe to support openssh
+>>   openssh: depend on libressl
+>>   ca-certificates: update to 20180409
 >>
-> 
-> 
+>>  meta/conf/distro/include/default-versions.inc      |   3 -
+>>  meta/conf/distro/include/maintainers.inc           |   2 +
+>>  ...c-libraries-with-their-library-dependenci.patch |  73 +++++++++++++++
+>>  .../libressl/libressl_2.8.0.bb                     |  35 +++++++
+>>  meta/recipes-connectivity/openssh/openssh_7.7p1.bb |   2 +-
+>>  .../{openssl => files}/environment.d-openssl.sh    |   0
+>>  ...1-Take-linking-flags-from-LDFLAGS-env-var.patch |  43 ---------
+>>  ...SLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch |  39 --------
+>>  ...build-with-clang-using-external-assembler.patch |   0
+>>  .../0001-allow-manpages-to-be-disabled.patch       |   0
+>>  ...penssl-force-soft-link-to-avoid-rare-race.patch |   0
+>>  .../Makefiles-ptest.patch                          |   0
+>>  .../Use-SHA256-not-MD5-as-default-digest.patch     |   0
+>>  .../configure-musl-target.patch                    |   0
+>>  .../configure-targets.patch                        |   0
+>>  .../debian/c_rehash-compat.patch                   |   0
+>>  .../debian/debian-targets.patch                    |   0
+>>  .../debian/man-dir.patch                           |   0
+>>  .../debian/man-section.patch                       |   0
+>>  .../debian/no-rpath.patch                          |   0
+>>  .../debian/no-symbolic.patch                       |   0
+>>  .../{openssl-1.0.2p => openssl10}/debian/pic.patch |   0
+>>  .../debian1.0.2/block_digicert_malaysia.patch      |   0
+>>  .../debian1.0.2/block_diginotar.patch              |   0
+>>  .../debian1.0.2/soname.patch                       |   0
+>>  .../debian1.0.2/version-script.patch               |   0
+>>  .../engines-install-in-libdir-ssl.patch            |   0
+>>  .../{openssl-1.0.2p => openssl10}/oe-ldflags.patch |   0
+>>  .../openssl-c_rehash.sh                            |   0
+>>  .../openssl-fix-des.pod-error.patch                |   0
+>>  .../openssl_fix_for_x32.patch                      |   0
+>>  .../{openssl-1.0.2p => openssl10}/parallel.patch   |   0
+>>  .../{openssl-1.0.2p => openssl10}/ptest-deps.patch |   0
+>>  .../ptest_makefile_deps.patch                      |   0
+>>  .../reproducible-cflags.patch                      |   0
+>>  .../reproducible-mkbuildinf.patch                  |   0
+>>  .../{openssl-1.0.2p => openssl10}/run-ptest        |   0
+>>  .../shared-libs.patch                              |   0
+>>  .../{openssl_1.0.2p.bb => openssl10_1.0.2p.bb}     |  31 +++++--
+>>  .../{openssl_1.1.0i.bb => openssl_1.1.1-pre9.bb}   |  23 +++--
+>>  .../cryptodev/cryptodev-tests_1.9.bb               |   3 +-
+>>  .../files/0001-Port-tests-to-openssl-1.1.patch     | 103 +++++++++++++++++++++
+>>  ...tes_20170717.bb => ca-certificates_20180409.bb} |   4 +-
+>>  43 files changed, 255 insertions(+), 106 deletions(-)
+>>  create mode 100644 meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch
+>>  create mode 100644 meta/recipes-connectivity/libressl/libressl_2.8.0.bb
+>>  rename meta/recipes-connectivity/openssl/{openssl => files}/environment.d-openssl.sh (100%)
+>>  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
+>>  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-allow-OPENSSLDIR-and-ENGINESDIR-CFLAGS-to-be-control.patch
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-Fix-build-with-clang-using-external-assembler.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-allow-manpages-to-be-disabled.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/0001-openssl-force-soft-link-to-avoid-rare-race.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/Makefiles-ptest.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/Use-SHA256-not-MD5-as-default-digest.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/configure-musl-target.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/configure-targets.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/c_rehash-compat.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/debian-targets.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/man-dir.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/man-section.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/no-rpath.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/no-symbolic.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian/pic.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/block_digicert_malaysia.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/block_diginotar.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/soname.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/debian1.0.2/version-script.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/engines-install-in-libdir-ssl.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/oe-ldflags.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl-c_rehash.sh (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl-fix-des.pod-error.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/openssl_fix_for_x32.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/parallel.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/ptest-deps.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/ptest_makefile_deps.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/reproducible-cflags.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/reproducible-mkbuildinf.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/run-ptest (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl-1.0.2p => openssl10}/shared-libs.patch (100%)
+>>  rename meta/recipes-connectivity/openssl/{openssl_1.0.2p.bb => openssl10_1.0.2p.bb} (91%)
+>>  rename meta/recipes-connectivity/openssl/{openssl_1.1.0i.bb => openssl_1.1.1-pre9.bb} (83%)
+>>  create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
+>>  rename meta/recipes-support/ca-certificates/{ca-certificates_20170717.bb => ca-certificates_20180409.bb} (95%)
+>>
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
