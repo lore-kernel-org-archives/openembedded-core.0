@@ -1,52 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E2BA779567
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw1-f67.google.com (mail-yw1-f67.google.com
+	[209.85.161.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 24205795B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 13:41:39 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id j25-v6so3407946wmc.1
+	Fri, 31 Aug 2018 13:52:30 +0000 (UTC)
+Received: by mail-yw1-f67.google.com with SMTP id p206-v6so5053192ywg.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2018 06:41:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=hv76uffxHkiR2+zLnTuaOgXhvUu4oXk0nAXdte1Fzr0=;
-	b=Equ6Q+cdLzG+McZb1EqhkFxMBun6fTHIrWjjBVb3DK/0sR1EQKCk4UJa3qA0V6sogh
-	R84sCsFCDeMAc8Xdj3TsBrDgzPF4SQLd8jOYPelj4gDe8Bnmmjw3ZmWSTLhMuPYqcULE
-	nove275UB5coWpiufhT4iszyYOfg00ndLw9Z/HjR4alY83+NoVgpa3px6LqwihuY48JD
-	Jb0giq9gDkiFPnNyRFHoN6A6qvmDz5ROtu21bCjQrE0+lD4ciH40Q4CstRX8M7dscFda
-	IrrV205H6MXNRorUlyaK2yrnWUtQ/kRvYAueczM4S418lUdB70QUk+zn4KEXnGf4O965
-	FsAg==
+	Fri, 31 Aug 2018 06:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=hGqQFa5DhnbYBC/zjK1p90KqksqW9vztZPelOEOnhsM=;
+	b=qmEgFfpJV8R+Z2ohKT7wiMVfJ7rw9u1RkdPT62sPjthyeXOTl5q373/TBOc5nSYpnt
+	DJrpphMbdEO/8xdQz3cLt/sBlWgEo4iU32AZHvr9JHaWdpzabmKKpNHicUStCvxDwXiX
+	wi7VaVwUzqlVCgrwu/siMZQZRCSbhTpZAhWBg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=hv76uffxHkiR2+zLnTuaOgXhvUu4oXk0nAXdte1Fzr0=;
-	b=Rltq15unf9mk8xQogx2YOkD9m3ygOWiIHHyJLnyeW31V2x8oqQXI8bp1Lbxy/Gzit9
-	lUqGotqlIwDh6EkupjGdL1XbUajmqdTlVDZ65gdjIs/4EMLE43p5fOVmpABWElT6ZBrj
-	ACFXXfjXRv1G6prQR7eQy4o8rk9dkH1jnPHD+6izgoOGjCORsnYxVjj7GOC78nA3iBoz
-	q1ylwhY24ErbNOk8FWI1BZwmPjNH27rH8p5/Buoxb42/1Rjocn6T2IRAmERJr6oyKedB
-	xpY1+IQ+a7eIdPy6YJ8EmwLMvCw1h/Sf9XXkJI3ahJVL+qzmoZbm1n4XZ39Il0qbFi5N
-	LOOA==
-X-Gm-Message-State: APzg51DW6GZRbZI4fc7N9t3JmKanyvPV8oYSLvYKboFzdQyPIdyX3Ve0
-	CzAgKbnjx05WrFjI/3FyFBDM3AD56XA=
-X-Google-Smtp-Source: ANB0Vda4e+D2gQmf5a8cf5+qYM+S0CY7AlFHLKlDFcJ9XzIK4kWFSKMdXkVKwk/+m7HdiXBkI/XgoA==
-X-Received: by 2002:a1c:ac1:: with SMTP id
-	184-v6mr4679466wmk.119.1535722900200; 
-	Fri, 31 Aug 2018 06:41:40 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h73-v6sm12602991wma.11.2018.08.31.06.41.38
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=hGqQFa5DhnbYBC/zjK1p90KqksqW9vztZPelOEOnhsM=;
+	b=dpXkv48UDjFA4zbHTd60+LaGbQ9NjnYJzxk2BLDM9TyO0wxJuVMV0H8CDM3Hy2EURl
+	E8/ZiqYkdKqkTbYVkfnaugt56lYf+QP87lb0li9+FBkDIP10gKASpbYmXBI2Cb3pngEF
+	pc+I9tjvXMWWjf2BhJiom/iFwJr0NzYPLmIc/3noN01RvOejk0TGDWAtDztUCiVF/2c1
+	7Mrktq2Adr5cq+jxXAdDlgpFJZ5PrStCmNCtqGi+eUa42Bl+cCm5AUWFguX5FIarBm+s
+	In3eDXMP6M00uu/3bg8h1qc32zIPrIhodBb+v4nFCG7QMCY1wvruKN3OFal0zK77C0zI
+	NFMg==
+X-Gm-Message-State: APzg51BG5ckLCdh3GVMv5Xpf5F/2awaGLF29JMSWfYgmChQ1yXjSAMHe
+	CggrG0idrXzaYNis0ux/6OPgJw==
+X-Google-Smtp-Source: ANB0VdYABVPHYbmjWBuo7YjeznopL2Vmv1Bwx0EbBIZArtf3RfuTyR9zNJbIN1UtFKAFSMPJrpsBfQ==
+X-Received: by 2002:a81:3a48:: with SMTP id h69-v6mr816514ywa.6.1535723551803; 
+	Fri, 31 Aug 2018 06:52:31 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	by smtp.gmail.com with ESMTPSA id
+	t2-v6sm14662109ywd.99.2018.08.31.06.52.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 Aug 2018 06:41:39 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Aug 2018 14:41:36 +0100
-Message-Id: <20180831134136.18889-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180831134136.18889-1-ross.burton@intel.com>
-References: <20180831134136.18889-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] pango: upgrade
+	Fri, 31 Aug 2018 06:52:30 -0700 (PDT)
+Date: Fri, 31 Aug 2018 09:52:28 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Jiang Lu <lu.jiang@windriver.com>
+Message-ID: <20180831135228.GN26633@bill-the-cat>
+References: <1535681710-29461-1-git-send-email-lu.jiang@windriver.com>
+	<1535681710-29461-7-git-send-email-lu.jiang@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <1535681710-29461-7-git-send-email-lu.jiang@windriver.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/7] wic:bootimg-efi:try other place for efi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,175 +58,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2018 13:41:40 -0000
+X-List-Received-Date: Fri, 31 Aug 2018 13:52:31 -0000
+X-Groupsio-MsgNum: 115694
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="+vRq5lKQn39NaQ8P"
+Content-Disposition: inline
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...op-introspection-macros-from-acinclude.m4.patch | 120 ---------------------
- .../pango/{pango_1.40.14.bb => pango_1.42.4.bb}    |  11 +-
- 2 files changed, 4 insertions(+), 127 deletions(-)
- delete mode 100644 meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch
- rename meta/recipes-graphics/pango/{pango_1.40.14.bb => pango_1.42.4.bb} (85%)
+--+vRq5lKQn39NaQ8P
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch b/meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch
-deleted file mode 100644
-index 9e1626e9a0d..00000000000
---- a/meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch
-+++ /dev/null
-@@ -1,120 +0,0 @@
--From 867a512eddbeb1899d3e7096df3da1dd0ce3e7b7 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 23 Oct 2015 14:06:17 +0300
--Subject: [PATCH] Drop introspection macros from acinclude.m4
--
--They take precendence over our customized macros, and so
--introspection doesn't work correctly.
--
--Upstream-Status: Backport [upstream 5ccfe0]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- acinclude.m4 | 96 ------------------------------------------------------------
-- 1 file changed, 96 deletions(-)
--
--diff --git a/acinclude.m4 b/acinclude.m4
--index 8899c7c..48fd5d8 100644
----- a/acinclude.m4
--+++ b/acinclude.m4
--@@ -55,99 +55,3 @@ AC_DEFUN([JH_CHECK_XML_CATALOG],
-- ])
-- 
-- 
---dnl REMOVE THIS WHEN introspection.m4 is widely available
---dnl
---dnl -*- mode: autoconf -*-
---dnl Copyright 2009 Johan Dahlin
---dnl
---dnl This file is free software; the author(s) gives unlimited
---dnl permission to copy and/or distribute it, with or without
---dnl modifications, as long as this notice is preserved.
---dnl
---
---# serial 1
---
---m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
---[
---    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
---    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
---    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
---
---    dnl enable/disable introspection
---    m4_if([$2], [require],
---    [dnl
---        enable_introspection=yes
---    ],[dnl
---        AC_ARG_ENABLE(introspection,
---                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
---                                 [Enable introspection for this build]),, 
---                                 [enable_introspection=auto])
---    ])dnl
---
---    AC_MSG_CHECKING([for gobject-introspection])
---
---    dnl presence/version checking
---    AS_CASE([$enable_introspection],
---    [no], [dnl
---        found_introspection="no (disabled, use --enable-introspection to enable)"
---    ],dnl
---    [yes],[dnl
---        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
---                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
---        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
---                         found_introspection=yes,
---                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
---    ],dnl
---    [auto],[dnl
---        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
---    ],dnl
---    [dnl	
---        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
---    ])dnl
---
---    AC_MSG_RESULT([$found_introspection])
---
---    INTROSPECTION_SCANNER=
---    INTROSPECTION_COMPILER=
---    INTROSPECTION_GENERATE=
---    INTROSPECTION_GIRDIR=
---    INTROSPECTION_TYPELIBDIR=
---    if test "x$found_introspection" = "xyes"; then
---       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
---       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
---       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
---       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
---       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
---       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
---       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
---       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
---    fi
---    AC_SUBST(INTROSPECTION_SCANNER)
---    AC_SUBST(INTROSPECTION_COMPILER)
---    AC_SUBST(INTROSPECTION_GENERATE)
---    AC_SUBST(INTROSPECTION_GIRDIR)
---    AC_SUBST(INTROSPECTION_TYPELIBDIR)
---    AC_SUBST(INTROSPECTION_CFLAGS)
---    AC_SUBST(INTROSPECTION_LIBS)
---    AC_SUBST(INTROSPECTION_MAKEFILE)
---
---    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
---])
---
---
---dnl Usage:
---dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
---
---AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
---[
---  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
---])
---
---dnl Usage:
---dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
---
---
---AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
---[
---  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
---])
---- 
--2.1.4
-diff --git a/meta/recipes-graphics/pango/pango_1.40.14.bb b/meta/recipes-graphics/pango/pango_1.42.4.bb
-similarity index 85%
-rename from meta/recipes-graphics/pango/pango_1.40.14.bb
-rename to meta/recipes-graphics/pango/pango_1.42.4.bb
-index 3bd9c647161..e73fd28dfda 100644
---- a/meta/recipes-graphics/pango/pango_1.40.14.bb
-+++ b/meta/recipes-graphics/pango/pango_1.42.4.bb
-@@ -14,20 +14,17 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
- inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspection
- 
- SRC_URI += "file://run-ptest \
--            file://0001-Drop-introspection-macros-from-acinclude.m4.patch \
-             file://0001-Enforce-recreation-of-docs-pango.types-it-is-build-c.patch \
- "
--SRC_URI[archive.md5sum] = "18d7eb8d52e7e445e733c109ddaa7b78"
--SRC_URI[archive.sha256sum] = "90af1beaa7bf9e4c52db29ec251ec4fd0a8f2cc185d521ad1f88d01b3a6a17e3"
-+SRC_URI[archive.md5sum] = "deb171a31a3ad76342d5195a1b5bbc7c"
-+SRC_URI[archive.sha256sum] = "1d2b74cd63e8bd41961f2f8d952355aa0f9be6002b52c8aa7699d9f5da597c9d"
- 
--DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz"
-+DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
- PACKAGECONFIG[x11] = "--with-xft,--without-xft,virtual/libx11 libxft"
- 
--EXTRA_OECONF = " \
--	        --disable-debug \
--	        "
-+EXTRA_OECONF = "--disable-debug"
- 
- LEAD_SONAME = "libpango-1.0*"
- LIBV = "1.8.0"
--- 
-2.11.0
+On Fri, Aug 31, 2018 at 10:15:09AM +0800, Jiang Lu wrote:
 
+> When there is no useful efi in $kerneldir, try copy
+> all efi from EFI/BOOT into boot image.
+>=20
+> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
+> ---
+>  .../wic/files/wic/plugins/source/bootimg-efi.py              | 12 ++++++=
+++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/meta/recipes-support/wic/files/wic/plugins/source/bootimg-ef=
+i.py b/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
+> index 0eb86a0..d435268 100644
+> --- a/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
+> +++ b/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
+> @@ -231,6 +231,18 @@ class BootimgEFIPlugin(SourcePlugin):
+>              else:
+>                  raise WicError("unrecognized bootimg-efi loader: %s" %
+>                                 source_params['loader'])
+> +            os.listdir("%s/EFI/BOOT/" % hdddir)
+> +            found_efi =3D False
+> +            for x in os.listdir("%s/EFI/BOOT/" % hdddir) :
+> +                if x.endswith(".efi"):
+> +                    found_efi =3D True
+> +                    break;
+> +            if not found_efi:
+> +                cp_cmd =3D "cp %s/EFI/BOOT/*.efi %s/EFI/BOOT/" % (kernel=
+_dir, hdddir)
+> +                try:
+> +                    exec_cmd(cp_cmd, True)
+> +                except:
+> +                    pass
+>          except KeyError:
+>              raise WicError("bootimg-efi requires a loader, none specifie=
+d")
 
+I'm not sure this is the right approach.  If you don't have things set
+up for automagic finding you should use bootimg-partition and
+IMAGE_BOOT_FILES.  I'm doing this right now for some EFI projects
+because it's also bad form to dump everything into EFI/BOOT and some
+things should end up in EFI/vendorname or similar.
+
+--=20
+Tom
+
+--+vRq5lKQn39NaQ8P
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJbiUgcAAoJEIf59jXTHXZSm7IP/jkNHBthsIXHf2bFg/B6m+Ni
+QR4GJB8O0BT91JPfNJO02WNS48pGTl0NelRGNRfpcZecRRmvRPCy7nhMelonrjNv
+3AY2Z9CWgWQOWCJeOsPw8nJgHW0cLcHH+PRoNAfQlWBB/BJ4CC7u3hS0170gTYts
+4pUmCzsXobFtmIB8JPfsfugdI5LiG65v0f8gGE5p6vPFMxYfTt0EAZ2SJPzNYmx9
++AVM3CLtvyR4AVo6xtvNzKGqh8ruUJyglFi+eUlPukw778GjGZDZgCprsgMY1NpU
+Px0vguINkSotEp8JbGv+hpvkySxY6diVKfubJt4rti5Ag+y3DAXiOLuXJern9d3F
+skZ4ku6YYod/EWwZs7PAH0qRrT9KRC0GH9Sm6L7lSs6Stpdb7CZk0Al+6Uz79tZl
+F/afrl4FJ8ir+lYhKaiy61P7wju9ssLHKt9TMns9eY+RJ0klCvtEiWlI9ONwneyP
+HipCjCfrZu0sxn0oqn47VC/pkNQ2WSX71dT7PTkpVSLMpsO5VPAKSSY5ezG+Dm/X
+AKD1FXGLgr7amk+PDKmARS5rSTBRqHdZApiCR9vlNwoE+/+azwV6+FH3rU+ekPvH
+q4uTDGjC5gGickaZeJwXa0IEdn+k96dopZFyULitqUSlraWjMpSSbb1Wu5ml411F
+KVJ4R+5su/FKgIbi13fX
+=DT2P
+-----END PGP SIGNATURE-----
+
+--+vRq5lKQn39NaQ8P--
