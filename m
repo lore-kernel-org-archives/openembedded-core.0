@@ -1,104 +1,47 @@
-Return-Path: <niko.mauno@vaisala.com>
-X-Greylist: delayed 45624 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 01 Sep 2018 11:19:04 UTC
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0073.outbound.protection.outlook.com [104.47.2.73])
-	by mail.openembedded.org (Postfix) with ESMTP id 80E6E7916C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A792279560
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Sep 2018 11:19:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=O3DnHzun9CqRM5hLiJgnG3CopEDNiFv2KTpCZ08B568=;
-	b=txjM4E4v2HieF8cyhsai6JXyEjJhjC0K/O/bHaNvjz6XzeUtHe0mnwjUdeodCV3I+U02riEZS9OkisXhsUngEjkDkSF2gNVO3Odt/UYzPrii6E6e2T0yuQ9KCIPRHUJJLFJorvTBtYo4nCEpajTFS3CSlUKuTupKW7QQI0fWS2Y=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=niko.mauno@vaisala.com; 
-Received: from [172.24.64.128] (193.143.230.131) by
-	AM6PR0602MB3541.eurprd06.prod.outlook.com (2603:10a6:209:e::14) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1080.15;
-	Fri, 31 Aug 2018 15:41:23 +0000
-To: openembedded-core@lists.openembedded.org
-From: Niko Mauno <niko.mauno@vaisala.com>
-Message-ID: <ed7c4dec-e2bd-905a-cf2e-9c5a0ed31cf2@vaisala.com>
-Date: Fri, 31 Aug 2018 18:41:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Sat,  1 Sep 2018 14:42:23 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id h138-v6so3237677qke.8
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 01 Sep 2018 07:42:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=CZ+xCjFuTKlVcJpjNUIwuX0RrjRSPfZ+KPpE+BzOGkk=;
+	b=qVvLko03vQnUflR4cQfmVG7rBXphMa/lrvoXN8mjRf/qoVVnfr6WKouGimHnr+YvM0
+	KGy6Qj9TiWJiJzDMKjZrFEp5J18qCh3UnqudCgzKXkMHG6JsPsR/8wCDCwy9AwsEIDPW
+	chmmZhsjQ0xtkAmYa/FxwnXGFnEGMF77jlPGj8B6awfDNVBaFcalsenZavS8+mr3Gto8
+	1sRWNHJsK/QCDJ1j4nAJMqofedmyDPy06ATkdEkeKBw2NPlfGgW/zbmnoZtde0e2bJtp
+	5MrIPo0yieMJ/8RHlD4QsWs5HoxH5cSlfMaA8KLClU9wsIb2vTb4aSVu+TUlRj92+fBT
+	CZaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=CZ+xCjFuTKlVcJpjNUIwuX0RrjRSPfZ+KPpE+BzOGkk=;
+	b=jzYDi9e7BbAlAcccC4maYVxwUHfyvHi5OCWbaga7GjLuodMNtdfPeP5EVZxXpYkP6B
+	UAYCyv1wjvhK++czCY4xIrPaAYEzVq5Ckkdwrj5IA4gkE6oN+9bmfnr4KjmSdij8FE/T
+	fSiPoX0GshV/u7R/MQy4B1iklHnUVpFe6euRinGLqy1JEtw/yJ7ck3wETUu+m+ea5l50
+	OMRg/yD/Ik9pClanPb5omdNjvMdD9CU91dajvo8gYg0CTTW3bZE8/Ll9x5d8Y9U1JpMj
+	h5BVWd/Fd+IFYh/rD+DWWFAuYmsQUaICer0sITAG/a+Gb1KBVQlR+Enm4b/FySQG0/B9
+	gdIw==
+X-Gm-Message-State: APzg51Au7St7c92CBZDytfVYDIO9KVBKFqsGxYdUAO1QdRmeNkhXDCoK
+	9i0RtfSQHJp+p7KlBJuKlbDr53H9HvPkq4EsNXY=
+X-Google-Smtp-Source: ANB0Vda5xi+yKsDU35OTWl/LspvTGgiuzocWouLH/U/sqrTOYLAJ5qxOLtQLiavmgVW1fRGLMzLX/D2uBbYkR9/ljdg=
+X-Received: by 2002:a37:ac02:: with SMTP id e2-v6mr10139245qkm.2.1535812944321;
+	Sat, 01 Sep 2018 07:42:24 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [193.143.230.131]
-X-ClientProxiedBy: AM6PR0502CA0065.eurprd05.prod.outlook.com
-	(2603:10a6:20b:56::42) To AM6PR0602MB3541.eurprd06.prod.outlook.com
-	(2603:10a6:209:e::14)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1c3a4817-afb2-477c-f989-08d60f5834a5
-X-Microsoft-Antispam: BCL:0; PCL:0;
-	RULEID:(7020095)(4652040)(8989137)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600074)(711020)(2017052603328)(7153060)(7193020);
-	SRVR:AM6PR0602MB3541; 
-X-Microsoft-Exchange-Diagnostics: 1; AM6PR0602MB3541;
-	3:fEW8fBDiog6Y4E84JLqIDYWqyNS4qcMWOjOllVSAFcV6lUUMpUb9h9j8m9LfaFERmFCkaIOH628nECHZCH9AQL5yStaR+DCM2ZepK3JfLzZf0d35Fq7KFuQl5G5ao5Fq3XOJVfXLP/DPku0Od6u77Mri37cZUoiAj1N3o4Z2E7EBGJns5uANU+ckqdaLiVoq6Xp5NsWRcIJN/6JAH11ViUzx4fa1UtfUvpDVluSS11nVZ6b7NY4He0B6+MCj7tGX;
-	25:Lcz6bIyUQH+PFG6cHH/lpODCWouOZ91En5ytAkHw8FtjDxkEM25+p3Sdm9GMngiqw7v/IAyi78BAfTYOtJRX6vEzaJ9aQAUJqiZPdvh1+lg5ReM/kKB3I5nTI/2Fa4K5s5ZW3gQsdYCMi1ZkCA7Z6V9W2Yk21w4dnXGJKH3dmDmyXWYqafpHSVZX128YHG4XL3Md1djjDsHeU566FK1H8XDHp9FB/g+zSOosGopVW5C2W1X33En5GMzu0lz4/+p66aQW22YVTULsM5hQ8ixKhd0xTzLTqQRE/Oip9C7KTSeePKk6Ph7d8yJ9RQscn5w4AsuZr++X0vl4voC9dQyqiQ==;
-	31:ZZkBt7qFDJdd6fDmKocbuBi1Wj8M+mWTd0EMoL3dIJ76cMMSi2q5gf9jLrW+Lgs/48co/DT5pZm5n+u/Nr3ibQTgp817EJuWzCCvLiybtKL/kZY9HBzWoyrZrbJoNVa8w1ZJDQO8VRKvTGHHfyJwBMp2PpWZmJHJ227I6tmTJBKjeV0j50aMJCscADYS4KfgK+FoPhCMM5+ee6IljfJCYYriRPI5FB2sUNDfRSL8dTE=
-X-MS-TrafficTypeDiagnostic: AM6PR0602MB3541:|AM6PR0602MB3541:
-X-Tenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-Microsoft-Exchange-Diagnostics: 1; AM6PR0602MB3541;
-	20:HeYSoPsJTZq4cgbtfH+lmllcO1RoUXTQQvMM18iYgJGIWPCaJaAUl+h1llBI+craWKJ8hG5Ay93SWj7kkp2ZrZfZRTEKuAAthm51a+AxMtMAlmF8QMgiWJELfu0Tz9LgIgSoCoxX3761D7CVhHoTNRYygWwpwCUD16oNGkRrWug=;
-	4:oZWUbj6yNlTTHSaUYbcE++cV5aQdqNCQk9T7PsTAYarVRnomqpOo4OlDF+kD1xNY6Ol/D7IUw0FReo1KDkj/o1qngvfY0AW5nXhiOHfIRmMCAYTmdDHKORshm59ihQfvK5Sj2zpErWx8ktwFF5qIm4ZKsij7NHjBZOttUl/4L2JwUfivE6jwobpRtDrRZoH9yrVZ0khe4CrifoioqnHmWxSJ0cz6e35FVWHhqk/TNh46NLLrVHz1nOLvcn5740IZaVNeSb7phFTIuCqmjnDDAA==
-X-Microsoft-Antispam-PRVS: <AM6PR0602MB3541C8071E1D67DA0535AC34810F0@AM6PR0602MB3541.eurprd06.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(8121501046)(5005006)(10201501046)(3231311)(944501410)(52105095)(93006095)(93001095)(3002001)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123562045)(20161123558120)(201708071742011)(7699016);
-	SRVR:AM6PR0602MB3541; BCL:0; PCL:0; RULEID:;
-	SRVR:AM6PR0602MB3541; 
-X-Forefront-PRVS: 07817FCC2D
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(6049001)(396003)(136003)(376002)(346002)(366004)(39850400004)(189003)(199004)(478600001)(31696002)(316002)(26005)(966005)(50466002)(6666003)(65826007)(5660300001)(6916009)(77096007)(305945005)(58126008)(7736002)(230700001)(476003)(386003)(16576012)(64126003)(8936002)(486006)(956004)(2616005)(36756003)(16526019)(23756003)(1857600001)(68736007)(186003)(6116002)(3846002)(6486002)(53936002)(81156014)(81166006)(8676002)(31686004)(2361001)(106356001)(105586002)(44832011)(2351001)(52116002)(25786009)(97736004)(2906002)(65956001)(65806001)(66066001)(86362001)(6306002)(47776003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR0602MB3541;
-	H:[172.24.64.128]; FPR:; SPF:None; LANG:en; PTR:InfoNoRecords;
-	MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: vaisala.com does not designate
-	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?iso-8859-15?Q?1; AM6PR0602MB3541;
-	23:m85v/t1HQdK5XmaBgJFfoiFNwGuRG7iND56A?=
-	=?iso-8859-15?Q?Sd8OViMADf1bvCcyTvM8u/8doARVfItBxQaYu0NKGQHyVrTP3lmx0qXA2?=
-	=?iso-8859-15?Q?YiAq7m/nxjk2zwT+cSCxqomi+9khGhXSrATf4/yRt/1YfDjQVcX9MCr7f?=
-	=?iso-8859-15?Q?AkO/Gw/bk9h25gJwZtNJkMwxX9UlKKxWokrSz7HAQ+zDKVA7vR0faBXsF?=
-	=?iso-8859-15?Q?BtzNSSZtL5jLyABsNIwrm0r0L8VHq45l019F4/A3IF11yZ8iwuIpfWWFY?=
-	=?iso-8859-15?Q?xu3HCQMo2KBlqbKPkmhYK9CYEoSw34ib6gQXg5vbCpbA0OWOlKHNIKEAl?=
-	=?iso-8859-15?Q?KzGhvpo70+bTRtbd+leNQlOArKAWi8W0/3dB7BO7hKd0vpNz+ajc9dFUp?=
-	=?iso-8859-15?Q?3tdRYEuTYPNNyzIJq005ZDq9JwWSSRkjejo5FnueP1nZBCHHVMn/Op+Yo?=
-	=?iso-8859-15?Q?UxchUOcaPuNAcwZTcghCC81v20hN5nJh53DimQh2QAotapNQeNnEwl8Zr?=
-	=?iso-8859-15?Q?W6T33jwyzjsDQ/z6+uhT25f8dp5EwvinSZ0fmKF145VGuKl3xTvNW2gkS?=
-	=?iso-8859-15?Q?a0pvKAu/KaW+oCMhBj7stpG+gp8lx+HBVBKv5pbDlD6aqRQETyfS9Li/C?=
-	=?iso-8859-15?Q?JOd9ozgx2xILyKUNW6pk8ZIIK99t6+hFJ1WtGM4+2scOMPNi7zyp+x2GL?=
-	=?iso-8859-15?Q?GIdzyJmCa0CvgymPXJvn4Y4hD4KMISAG4HD5730bSR31Au/cy6E4Suemf?=
-	=?iso-8859-15?Q?bdVxq5a1hsh3F4Olmq01qx1AzUAP28hla0v8cxY0125sH3Mgc9bBt53i+?=
-	=?iso-8859-15?Q?Ath7B6UAjGXr/YBsrbvECiZha2zKCvuF/J+s/is+SMwGG3Ca7TI1xRWYO?=
-	=?iso-8859-15?Q?yE6fVQzuCuCNX/uIsvlQhMWBKjA+CabrdnnbWh7zohI4p3ci4GdeTChmI?=
-	=?iso-8859-15?Q?H2IFHsiTrEIwS2avCHW2JCrH5gn18cKvVWiHmsMVQrIjNK5x+X/N155Xc?=
-	=?iso-8859-15?Q?p0Zwfx4vFh+NTXezlhExwF+bdX3vgiLnSgZ6SYc48tOnvZqt+P01sHq9H?=
-	=?iso-8859-15?Q?qhotwU+bHtxVVm8oVk5a2B+iov6EnBSe/mCbHsyzVMG2aoUxa4/i65HsH?=
-	=?iso-8859-15?Q?tH1wy3B6k61qzQbE02Db3BVdcr16B22fEK6A9aZV6XyZkBiTTT4tcaHkn?=
-	=?iso-8859-15?Q?ATIq7gu8Uv0e68nJ/LWYTaP4vVhIy3HxrI3NgjIo0AwsSrgPF7JNaoGCi?=
-	=?iso-8859-15?Q?QJv+na62d/fiM+3cBcBdmwZ+4mXzfXh5PE9DgjpZcGYRE3c00gKSLc2CR?=
-	=?iso-8859-15?Q?a7zPHytQ8Gq9t3II4u34QL+E5PvId5gXUrVZBUZEA3Ou7vh3N1Knvj3Vk?=
-	=?iso-8859-15?Q?LjBl8+WIJ/OMXQ/aUxQ+fp+eJbKwoQntbw9LgR1v0P5l0dtvXXnQWD?=
-X-Microsoft-Antispam-Message-Info: TEuCJMch9ptiD1og+5NhaxtIRW/TtsCVtJPKv054Qx1TLz/75JUE3oXVob/gCAsMw/GbJvJtn7RgGiV9pgkhoN+kiBEjg3ptxJLDh5+ZZEmoC0/ymxxS6n7zn1k8X/RXa3l2AE79nTYXGIcnpQg0E9QO2xsbp7A+2WLXX1v+aPDTGXA/OJkFuCMNEfNsCUUie2Fd3bqPACC/Xmtw07NShsfzAOk7qGY/Rpvr6kgNqItVNJS6HOLsKXSfiu3H7TDGOC05rcIBjbjrqBcSP9DbOBPp4fzZqfHs2WtG8mzpCMxMu68eJPpYpP0HBB8Xh++VJcvt+1zu4e1aKhXnJhlpnKLBCIXDzUrL+JsE5hHOc6I=
-X-Microsoft-Exchange-Diagnostics: 1; AM6PR0602MB3541;
-	6:l75CC/zV7yzMX8waFJTF12SZn7qrk+eDAgLo7zbQ5/FsyqUoJ1ZI9DsXoXR0iDV3I5pxLrs7Slk7EjNQI6t/cn98KjPLwTBSHOCCGERznnvTwt5lKUr0qf+nLAXHmW+Kt5xiEQtwKIMN/qsjV1eRDSM47XN9/HN40tqCi2QxWosd1oijTX6Yvx/XU6D//UbmZA27CzzPkcqL07fgvqe2wnGebIh2SlXFoVxadRAW4pZzaH5lhaXcBfnbjvv1GTPco/pYmxQQA7l8E/T5y5CuqMG5jNwf4G+itBUm+ud8fGqcozk7Kq8iX3RoWSyNHkxZPjDY5/Dc0TdEi0VEaUwHISlPxksFopaKtwqyJzEM9QmEYtlLQnXm/l4ckW0L5AX45OBPP/z2miKWUvZrFRw7E8YRVUetKu9vjZRtVoL1BfVvlVpRRgPiIYKvmPf+UlSUChyJQWOt6xdXwUVc4/HM9A==;
-	5:vSkZYpfK8HkJ8BrMx221D0O8Ce2aFAT7F2Sr8y05x1wVlyJUBAgRP9b02GjD07hpFtVrlfp0G7a0/HU7DPjOue73jVa903G2jc1kz0UBst2BcFjbEJ9bpGPHo+Ny3KpWRDjbWge3iJnA5VuEVhhWRZdQQA4iKtig3U1PDLts9BY=;
-	7:moiU/s97shRMQxrttXzPKQHTxHI4O7tK9qMJHB5McIB8/IeL8sTPLIF0rsiUfwnM/rmSV6+9u+h6CTgotF//uloHqdDj7vV9x8kxOgHeO1ivSigw9jQhJfnIJpqLC8RE9tsDYmR4o6Dni6WUOAxvo33yt1/GzMoYHtIJwHljpzO/dIIPEWNbgR4rhZdRFFZ5LXSgupQPiV2eTqoARa88I9/QIIc1i/rurzMPSc5T8JRy3eozcMse26pU1WJfaHQC
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2018 15:41:23.2934 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c3a4817-afb2-477c-f989-08d60f5834a5
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0602MB3541
-X-Microsoft-Exchange-Diagnostics: 1; AM6PR0602MB3541;
-	23:9EZv+81ixosDwOB11DkVqLg7GLrsvLYM3dsnJof9cjN7nEyhg12cNqa88adwPJEifyA8+GsIqlLF6+uPOxKB8DPn/ul8TNB5eZaHJTJ30EWhzSMNFfy/g6mGvljS8DUueEdtOdGvxbbfj6Ft4TKvjw==
-X-OriginatorOrg: vaisala.com
-Subject: recipes-kernel/linux-libc-headers/linux-libc-headers.inc question
+References: <20180831130634.9602-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20180831130634.9602-1-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 1 Sep 2018 07:41:58 -0700
+Message-ID: <CAMKF1soD8v7MgcZxUgP=GS0Z-ZgkcSjn4t5ovaVmxM5kLJBf9Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] recipes: Update git.gnome.org addresses after upstream changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -111,24 +54,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Sep 2018 11:19:05 -0000
-Content-Type: text/plain; charset=iso-8859-15
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 01 Sep 2018 14:42:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=eb24d4aeacaad9d41ddcbefd8d2ac96e95548183
-apparently is needed for 4.15, but it breaks with 4.14 as we get
+On Fri, Aug 31, 2018 at 6:06 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/clutter.bbclass                                  | 2 +-
+>  meta/classes/mirrors.bbclass                                  | 2 +-
+>  meta/conf/bitbake.conf                                        | 2 +-
+>  .../mobile-broadband-provider-info_git.bb                     | 2 +-
+>  meta/recipes-core/glib-networking/glib-networking_2.54.1.bb   | 2 +-
+>  meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb  | 4 ++--
+>  .../gnome-desktop-testing/update-output-syntax.patch          | 2 +-
+>  meta/recipes-support/libxslt/libxslt/fix-rvts-handling.patch  | 2 +-
+>  8 files changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/classes/clutter.bbclass b/meta/classes/clutter.bbclass
+> index 167407dfdcf..f5cd04f97f7 100644
+> --- a/meta/classes/clutter.bbclass
+> +++ b/meta/classes/clutter.bbclass
+> @@ -14,7 +14,7 @@ REALNAME = "${@get_real_name("${BPN}")}"
+>
+>  CLUTTER_SRC_FTP = "${GNOME_MIRROR}/${REALNAME}/${VERMINOR}/${REALNAME}-${PV}.tar.xz;name=archive"
+>
+> -CLUTTER_SRC_GIT = "git://git.gnome.org/${REALNAME}"
+> +CLUTTER_SRC_GIT = "git://gitlab.gnome.org/GNOME/${REALNAME};protocol=https"
+>
+>  SRC_URI = "${CLUTTER_SRC_FTP}"
+>  S = "${WORKDIR}/${REALNAME}-${PV}"
+> diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+> index ed53dfbca62..87bba41472e 100644
+> --- a/meta/classes/mirrors.bbclass
+> +++ b/meta/classes/mirrors.bbclass
+> @@ -69,7 +69,7 @@ ${CPAN_MIRROR}  http://search.cpan.org/CPAN/ \n \
+>
+>  MIRRORS += "\
+>  git://salsa.debian.org/.*     git://salsa.debian.org/PATH;protocol=https \n \
+> -git://git.gnome.org/.*        git://git.gnome.org/browse/PATH;protocol=https \n \
+> +git://git.gnome.org/.*        git://gitlab.gnome.org/GNOME/PATH;protocol=https \n \
+>  git://git.savannah.gnu.org/.* git://git.savannah.gnu.org/git/PATH;protocol=https \n \
+>  git://git.yoctoproject.org/.* git://git.yoctoproject.org/git/PATH;protocol=https \n \
+>  git://.*/.*                   git://HOST/PATH;protocol=https \n \
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 1941633a54b..faef77142ab 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -627,7 +627,7 @@ BBLAYERS_FETCH_DIR ??= "${COREBASE}"
+>  APACHE_MIRROR = "http://archive.apache.org/dist"
+>  DEBIAN_MIRROR = "http://ftp.debian.org/debian/pool"
+>  GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
+> -GNOME_GIT = "git://git.gnome.org"
+> +GNOME_GIT = "git://gitlab.gnome.org/GNOME"
+>  GNOME_MIRROR = "http://ftp.gnome.org/pub/GNOME/sources"
+>  GNU_MIRROR = "http://ftp.gnu.org/gnu"
+>  GNUPG_MIRROR = "https://www.gnupg.org/ftp/gcrypt"
+> diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+> index 7b64b25e89a..863b15a78da 100644
+> --- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+> +++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+> @@ -7,7 +7,7 @@ SRCREV = "befcbbc9867e742ac16415660b0b7521218a530c"
+>  PV = "20170310"
+>  PE = "1"
+>
+> -SRC_URI = "git://git.gnome.org/mobile-broadband-provider-info \
+> +SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info;protocol=https \
+>             file://multilibfix.patch \
+>  "
+>  S = "${WORKDIR}/git"
+> diff --git a/meta/recipes-core/glib-networking/glib-networking_2.54.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.54.1.bb
+> index 2a6f8af2b46..5d17a824f08 100644
+> --- a/meta/recipes-core/glib-networking/glib-networking_2.54.1.bb
+> +++ b/meta/recipes-core/glib-networking/glib-networking_2.54.1.bb
+> @@ -1,6 +1,6 @@
+>  SUMMARY = "GLib networking extensions"
+>  DESCRIPTION = "glib-networking contains the implementations of certain GLib networking features that cannot be implemented directly in GLib itself because of their dependencies."
+> -HOMEPAGE = "http://git.gnome.org/browse/glib-networking/"
+> +HOMEPAGE = "https://gitlab.gnome.org/GNOME/glib-networking/"
+>  BUGTRACKER = "http://bugzilla.gnome.org"
+>
+>  LICENSE = "LGPLv2"
+> diff --git a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
+> index c71ab1165d5..9d8fb28281c 100644
+> --- a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
+> +++ b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
+> @@ -5,7 +5,7 @@ DESCRIPTION = "The Cantarell font typeface is designed as a \
+>                 on-screen reading; in particular, reading web pages on an \
+>                 HTC Dream mobile phone."
+>
+> -HOMEPAGE = "https://git.gnome.org/browse/cantarell-fonts/"
+> +HOMEPAGE = "https://gitlab.gnome.org/GNOME/cantarell-fonts/"
+>  SECTION = "fonts"
+>  LICENSE = "OFL-1.1"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=df91e3ffcab8cfb972a66bf11255188d"
+> @@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=df91e3ffcab8cfb972a66bf11255188d"
+>  PV = "0.0.24"
+>
+>  SRCREV = "07b6ea2cbbebfc360aa4668612a376be5e214eaa"
+> -SRC_URI = "git://git.gnome.org/cantarell-fonts;protocol=git;branch=master"
+> +SRC_URI = "git://gitlab.gnome.org/GNOME/cantarell-fonts;protocol=https;branch=master"
 
-  ERROR: linux-libc-headers-4.14-r0 do_install: oe_multilib_header:
-  Unable to find header asm/bpf_perf_event.h.
+centos 7 comes with git 1.8.x and that seems to fail to fetch from gitlab/https
 
-I used following to work this around in our own linux-libc-headers_4.14.bb:
+Cloning into bare repository
+'TOPDIR/downloads/git2/gitlab.gnome.org.GNOME.cantarell-fonts'...
+error: RPC failed; result=22, HTTP code = 404
+fatal: The remote end hung up unexpectedly
 
-  do_install_armmultilib_prepend() {
-      touch ${D}${includedir}/asm/bpf_perf_event.h
-  }
+using newer version of git solves this
 
-but curious if somebody could suggest a better mitigation
+using the wandisco repo e.g.
 
--Niko
+yum install http://opensource.wandisco.com/centos/7/git/x86_64/wandisco-git-release-7-2.noarch.rpm
+yum update git
+
+helps.
+
+do we already state minimum git version somewhere ?
 
