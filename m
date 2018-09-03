@@ -1,30 +1,19 @@
-Return-Path: <Lu.Jiang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EBD2978F73
+Return-Path: <kai.kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E618F71BF0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Sep 2018 02:03:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8323Q3D022484
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 2 Sep 2018 19:03:26 -0700 (PDT)
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Sun, 2 Sep 2018 19:03:26 -0700
-Reply-To: <lu.jiang@windriver.com>
-To: Tom Rini <trini@konsulko.com>
-References: <1535681710-29461-1-git-send-email-lu.jiang@windriver.com>
-	<1535681710-29461-7-git-send-email-lu.jiang@windriver.com>
-	<20180831135228.GN26633@bill-the-cat>
-From: "Lu.Jiang" <lu.jiang@windriver.com>
-Message-ID: <3b8b5b68-5cdc-eddf-59c4-4ff70d00c551@windriver.com>
-Date: Mon, 3 Sep 2018 10:01:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180831135228.GN26633@bill-the-cat>
-X-Originating-IP: [128.224.162.214]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/7] wic:bootimg-efi:try other place for efi
+	Mon,  3 Sep 2018 02:20:10 +0000 (UTC)
+Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
+	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w832KAkH017258;
+	Sun, 2 Sep 2018 19:20:11 -0700 (PDT)
+Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
+	Sun, 02 Sep 2018 19:20:10 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  2 Sep 2018 19:20:07 -0700
+Message-Id: <20180903022007.4654-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v2] lttng-tools: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,55 +26,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2018 02:03:26 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 03 Sep 2018 02:20:11 -0000
 
-在 2018年08月31日 21:52, Tom Rini 写道:
-> On Fri, Aug 31, 2018 at 10:15:09AM +0800, Jiang Lu wrote:
->
->> When there is no useful efi in $kerneldir, try copy
->> all efi from EFI/BOOT into boot image.
->>
->> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
->> ---
->>   .../wic/files/wic/plugins/source/bootimg-efi.py              | 12 ++++++++++++
->>   1 file changed, 12 insertions(+)
->>
->> diff --git a/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py b/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
->> index 0eb86a0..d435268 100644
->> --- a/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
->> +++ b/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
->> @@ -231,6 +231,18 @@ class BootimgEFIPlugin(SourcePlugin):
->>               else:
->>                   raise WicError("unrecognized bootimg-efi loader: %s" %
->>                                  source_params['loader'])
->> +            os.listdir("%s/EFI/BOOT/" % hdddir)
->> +            found_efi = False
->> +            for x in os.listdir("%s/EFI/BOOT/" % hdddir) :
->> +                if x.endswith(".efi"):
->> +                    found_efi = True
->> +                    break;
->> +            if not found_efi:
->> +                cp_cmd = "cp %s/EFI/BOOT/*.efi %s/EFI/BOOT/" % (kernel_dir, hdddir)
->> +                try:
->> +                    exec_cmd(cp_cmd, True)
->> +                except:
->> +                    pass
->>           except KeyError:
->>               raise WicError("bootimg-efi requires a loader, none specified")
-> I'm not sure this is the right approach.  If you don't have things set
-> up for automagic finding you should use bootimg-partition and
-> IMAGE_BOOT_FILES.  I'm doing this right now for some EFI projects
-> because it's also bad form to dump everything into EFI/BOOT and some
-> things should end up in EFI/vendorname or similar.
->
-I will take a look about bootimage-partition. Thanks for remind.
+Add systemd service file of lttng-tools from Fedora
+
+ftp://fr2.rpmfind.net/linux/fedora/linux/development/rawhide
+/Everything/source/tree/Packages/l/lttng-tools-2.10.5-1.fc29.src.rpm
+
+It requires kernel configs CONFIG_STAGING and CONFIG_LTTNG2 to be set.
+But linux-yocto doesn't meet the requirement. So disable the service by
+default.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+v2:
+* update commit message that why disable the systemd service by default.
 
 
-Thanks
+ meta/recipes-kernel/lttng/lttng-tools/lttng-sessiond.service |  9 +++++++++
+ meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb               | 12 +++++++++++-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/lttng-sessiond.service
 
-Jiang Lu
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/lttng-sessiond.service b/meta/recipes-kernel/lttng/lttng-tools/lttng-sessiond.service
+new file mode 100644
+index 00000000000..aaf81305923
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-tools/lttng-sessiond.service
+@@ -0,0 +1,9 @@
++[Unit]
++Description=LTTng 2.x central tracing registry session daemon
++
++[Service]
++Type=forking
++ExecStart=/usr/bin/lttng-sessiond -d
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb b/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+index e4969c30807..0314b536376 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+@@ -31,12 +31,16 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://x32.patch \
+            file://run-ptest \
+            file://0001-Allow-multiple-attempts-to-connect-to-relayd.patch \
++           file://lttng-sessiond.service \
+            "
+ 
+ SRC_URI[md5sum] = "051224eb991aee07f8721ff1877d0b96"
+ SRC_URI[sha256sum] = "77839eb6fc6c652125f08acfd9369701c2516eb05cc2084160e7efc7a3fb731c"
+ 
+-inherit autotools ptest pkgconfig useradd python3-dir manpages
++inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
++
++SYSTEMD_SERVICE_${PN} = "lttng-sessiond.service"
++SYSTEMD_AUTO_ENABLE = "disable"
+ 
+ USERADD_PACKAGES = "${PN}"
+ GROUPADD_PARAM_${PN} = "tracing"
+@@ -52,6 +56,12 @@ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/*.la"
+ INSANE_SKIP_${PN} = "libexec dev-so"
+ INSANE_SKIP_${PN}-dbg = "libexec"
+ 
++do_install_append () {
++    # install systemd unit file
++    install -d ${D}${systemd_unitdir}/system
++    install -m 0644 ${WORKDIR}/lttng-sessiond.service ${D}${systemd_unitdir}/system
++}
++
+ do_install_ptest () {
+     for f in Makefile tests/Makefile tests/utils/utils.sh ; do
+         install -D "${B}/$f" "${D}${PTEST_PATH}/$f"
+-- 
+2.11.0
 
 
