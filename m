@@ -1,50 +1,50 @@
 Return-Path: <leon@sidebranch.com>
 Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
 	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A684579034
+	by mail.openembedded.org (Postfix) with ESMTP id D05A971BA0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Sep 2018 01:11:13 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id y20-v6so12845862edq.2
+	Mon,  3 Sep 2018 01:16:14 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id p52-v6so12812146eda.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Sep 2018 18:11:15 -0700 (PDT)
+	Sun, 02 Sep 2018 18:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=lCBptmNwgkhbxEqJtlMRKIwF4deD+/YnjDqYyH00fPA=;
-	b=Ki48Deh/2+2UPijRVSbrevO6f4BLItlMRvi4DKguo0u5FJZZBMMBhCI5evG1cVkyWG
-	8o22iWSc46tIRGOtUx60qiXE80Qw9QsACnXcnapJYT2qHxLY5g00KsQCMHIq5EqFU5lt
-	/vITI2Y7QoXQcy4cZx0K1gSDOcgpn6pWU9BZcQbXEUeuthlzW3hCf8GR9GtSP3PLRKpK
-	VUfB4IvUTVFmY6P4V64iGTR7ZY+7TF9M1Jon//rwqvAmuIUuYOUQCV9zTSgzJmpPBBoM
-	Zb8rO07COkCnCKrA3iNPfM+6zqKONF4kFTqR8R9k5iHex7GcOaOICAq3b9Fc9FGeoD6Q
-	F/XQ==
+	bh=208VntI+BHXXnLvoGiqE5VsjAivJLx1BOMJ2L0dCMsk=;
+	b=v9db1yryN4uD2eVWNefeO3SiMx8lZL6FGufXUEbZnZ7p8gDhIRQLhnvP2zqMSuuA/A
+	9wvOwOZ19VgC3pVcdVe//0BXA7uglCAlDEnk3v/NYUGN3neKHBiUjdsXIKrnqXARXW/v
+	Dfv/qqgF+r0sWbx5Ou/FPd6F7s7ParaWsfhR8Pj97NjS15/9tHGCUJM+9jchrZb+qiCZ
+	R9QXdQNzhc3GAoJ8xsgWruY7N7bXa2/Rahb8kRPIQ4O+UHUyZnAzatlvvCuKhVooCHdj
+	bmP3D2lCQvDnZ9Dg0//VYm8KTtTN7Q/yLPG4ecxbmCdVgQ4Bn/PfvlkDH8bAuK6hT/0r
+	3gJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=lCBptmNwgkhbxEqJtlMRKIwF4deD+/YnjDqYyH00fPA=;
-	b=B++Kc2y3QRUzXQvJ+iOu00AHTwZnQEfqWaNWVrNtx04CZHMr5ZHXy/0L/Me/hXzxjy
-	w/bBBBziJkEJfI+GhXQkMOG/KoTn5tSrasZix59y5epvgQVUDWANscQW6B0UDuUP5tCE
-	2Iwijs0PhgUxLV9Cljy47mW2HvbTVQoH0RE/KllSwCVOpibG/PMvKPWzQjNFd7E5VRfz
-	0nWIFXx8O3WcveXWwT02dv1DbxjkQONncXwmCyRuB4Q1lbx9oxOPe6fzTqLQJgu4H3pn
-	vQj/8oQ0w/d2x7yMMkGbwliZ+Y2uS9FxOijkyrRdlvgAdKglxWiSTcmgqylq2l9+71Ze
-	4qtQ==
-X-Gm-Message-State: APzg51Dx9nQJZ1t86MksssnMvK3CcaNkVoknpsMZ53f0Ma5dfllHVt9X
-	4pE8C1j/7gHzTn7k8+LObsI23eukzHeqZQ==
-X-Google-Smtp-Source: ANB0VdbsMyrj8ZayKbnuAMk/c0Phdokd/UJ7vBXgPaJw6kBVzIctnIZ3rFp5kVX9DU/9EPcGlSbR5A==
-X-Received: by 2002:a50:bc03:: with SMTP id
-	j3-v6mr29471102edh.34.1535937074141; 
-	Sun, 02 Sep 2018 18:11:14 -0700 (PDT)
+	bh=208VntI+BHXXnLvoGiqE5VsjAivJLx1BOMJ2L0dCMsk=;
+	b=qUGSONdjRbk2Jhat2l2v/whWEsusWxF2SYz7Ul61Jgm/QwChMmcjh2JW4NDRnhpF+1
+	UDZ8NFdPdXPfvVBDOTg9+R46ocYXj60s6VGbrue7ie6Sh/FXUi5xKez+TGPoOaTHOZgS
+	7hWNopSIuX5mEvMjHkDHco3iF1kR0Gu9PWzI68zh4gMrrcjEaWdtvoLJPNvHsER8mXP5
+	YlCNjcsOKAJwWWsqMPASP4R1WTqg7js1r8hrz+lczp80gfGnZViElOMwVIS8Z5XAfKpq
+	SsAxAI5Uf2wN0cdynjRUhwLBbDL4NqLlJvHyw7GCxIiWAtFm9LhB87oRw2x246+XQ8ON
+	XDyw==
+X-Gm-Message-State: APzg51DRq0ONZyEEqGIWDKCPgAxZVSSTqQcL121raIaMX8VeAAEnef7V
+	9eglxOjd1RkwTgDg1eGjTFsI2MYestbS6w==
+X-Google-Smtp-Source: ANB0Vdb9gzY2MsfXba54RquACxV/I4bDpnY7W57Qx3QFN9zG4BtWletvIOnqsqX6Smj0Q54TD7pGnA==
+X-Received: by 2002:a50:a7a2:: with SMTP id
+	i31-v6mr30367780edc.296.1535937375342; 
+	Sun, 02 Sep 2018 18:16:15 -0700 (PDT)
 Received: from localhost.localdomain ([145.130.96.189])
 	by smtp.gmail.com with ESMTPSA id
-	g54-v6sm8306251edb.47.2018.09.02.18.11.13
+	d12-v6sm8455905ede.78.2018.09.02.18.16.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 02 Sep 2018 18:11:13 -0700 (PDT)
+	Sun, 02 Sep 2018 18:16:14 -0700 (PDT)
 From: Leon Woestenberg <leon@sidebranch.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Sep 2018 03:10:40 +0200
-Message-Id: <1535937040-10025-1-git-send-email-leon@sidebranch.com>
+Date: Mon,  3 Sep 2018 03:16:06 +0200
+Message-Id: <1535937366-10340-1-git-send-email-leon@sidebranch.com>
 X-Mailer: git-send-email 2.7.4
 Cc: Walter Goossens <waltergoossens@creative-embedded.com>
-Subject: [openembedded-core][PATCH] kernel-fitimage.bbclass: Handle bundled initramfs case correctly.
+Subject: [openembedded-core][PATCH] kernel-fitimage.bbclass: Create a "fitImage" symlink to resulting FIT image.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,56 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2018 01:11:14 -0000
+X-List-Received-Date: Mon, 03 Sep 2018 01:16:15 -0000
 
 From: Walter Goossens <waltergoossens@creative-embedded.com>
 
-If INITRAMFS_IMAGE was set, but also INITRAMFS_BUNDLE = 1, then
-the kernel image already has the initramfs bundled inside. In that
-case do not pack the initramfs inside the FIT (again).
+If an initramfs was used, the fitImage link will point to the FIT containing
+the initramfs. Otherwise it will link to the FIT without initramfs.
 
-(The fitImage name does keep the suffix INITRAMFS_IMAGE for all
-initramfs cases.)
+This ensures the user can depend on "fitImage" to point to the desired
+FIT image.
 
 Signed-off-by: Leon Woestenberg <leon@sidebranch.com>
 ---
- meta/classes/kernel-fitimage.bbclass | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ meta/classes/kernel-fitimage.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 16499c8..6d02d74 100644
+index 6d02d74..b672579 100644
 --- a/meta/classes/kernel-fitimage.bbclass
 +++ b/meta/classes/kernel-fitimage.bbclass
-@@ -443,7 +443,9 @@ addtask assemble_fitimage before do_install after do_compile
- 
- do_assemble_fitimage_initramfs() {
- 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
--		test -n "${INITRAMFS_IMAGE}" ; then
-+		test -n "${INITRAMFS_IMAGE}" && \
-+		test ! -n "${INITRAMFS_IMAGE_BUNDLE}"; then
-+
- 		cd ${B}
- 		fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
+@@ -496,6 +496,9 @@ kernel_do_deploy_append() {
+ 		if [ -n "${INITRAMFS_IMAGE}" ]; then
+ 			ln -sf ${its_initramfs_base_name}.its ${its_initramfs_symlink_name}.its
+ 			ln -sf ${fit_initramfs_base_name}.bin ${fit_initramfs_symlink_name}.bin
++			ln -sf ${fit_initramfs_base_name}.bin fitImage
++		else
++			ln -sf ${linux_bin_base_name}.bin fitImage
+ 		fi
  	fi
-@@ -451,6 +453,18 @@ do_assemble_fitimage_initramfs() {
- 
- addtask assemble_fitimage_initramfs before do_deploy after do_install
- 
-+do_assemble_fitimage_bundled_initramfs() {
-+	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
-+		test -n "${INITRAMFS_IMAGE}" && \
-+		test -n "${INITRAMFS_IMAGE_BUNDLE}"; then
-+
-+		cd ${B}
-+		fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE}
-+	fi
-+}
-+
-+addtask assemble_fitimage_bundled_initramfs before do_deploy after do_bundle_initramfs
-+
- 
- kernel_do_deploy[vardepsexclude] = "DATETIME"
- kernel_do_deploy_append() {
+ }
 -- 
 2.7.4
 
