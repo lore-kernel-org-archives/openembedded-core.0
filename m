@@ -1,24 +1,49 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 38AB96006A
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C9E2791D2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Sep 2018 09:35:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w839ZVRZ008424
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Sep 2018 02:35:31 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 3 Sep 2018 02:35:30 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Sep 2018 17:35:26 +0800
-Message-ID: <1535967326-32322-2-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon,  3 Sep 2018 09:54:37 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id c190-v6so32627029oig.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Sep 2018 02:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=74p1ECZMsC/A86XldolGyOYJqn3pf2InbKXbXWaw7AE=;
+	b=k2AfimxlXc1oM6YxzyBE00NaPhHgGLIKD3b3jGIaLVO0bv4rHLSjU88Rq2ibr834io
+	sQB/9+als8cXC4EifmPE47P+nCd0d54/YHmp2CDxZkS+EVKRqH6YoCeYtU3aXse6k7E8
+	dgY8Zg7lJyjc+I5XH8wwicjEtco3QOzul6SszfN9wHlrIC7w3iUbrmsP3YmzTnXmTEj1
+	r6QOzvDjfTZshZ36ZUn/7BLEp6XLFszVxUYtATj02vjvB7HPg+4YNyehhXp5YjZMj1pv
+	St70o+Sw8QEIUqQ04W0Hvm9VDh5Jr2/EvECZM/+N+fy7BAdJviVIHhlGnP0Wq/p5qfAL
+	Cr+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=74p1ECZMsC/A86XldolGyOYJqn3pf2InbKXbXWaw7AE=;
+	b=RA/Lec9L1Lz+yoF7P2ZmwXfmOJWIPaVrdruUrLWLh4S93QodateGcEljN5n3LgM6Z0
+	4kgQbFSP+K0NJH66djxR3EL11wflCq7CvI/CNVP5/QfEGfebcrvHc3ZsBsn/QFTJxOYs
+	b/YyMSsbaskld5FHrWWB98TNzUdSZLUhGi62ZpZoon0GZmNBvWvFLOf3Zqu6sMwozcoh
+	EkwTV0ryFkPGx6DQtdnPv1NP6Uv7Iz/Si44NKO+fRKDzl6NbNsBj03bgiW9ZPAbhgcab
+	5V3HyyNiLoBvNJka185sP3BqcNrJYBSIclEg33C/360CPDyuITz4dBDUCYZ0Ex/L78ry
+	8smw==
+X-Gm-Message-State: APzg51D5g5kW/ARcdZbQTg1FnbQBs7spPmyGf2/Ullr7QFuLVBaaZCEC
+	CTSrnm+cT2b4yve+wiEYVYLJvGGy1u8on2N1LR4=
+X-Google-Smtp-Source: ANB0VdZRgxmI+XVO0fJwjDcIHUrPtkjzZgWJf//fC8A0TCXVw06WQfaxn3TW5wizoyhJZ7DTRmgjza0CpODhjdSoxmc=
+X-Received: by 2002:aca:d015:: with SMTP id
+	h21-v6mr20050946oig.142.1535968478289; 
+	Mon, 03 Sep 2018 02:54:38 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:1650:0:0:0:0:0 with HTTP;
+	Mon, 3 Sep 2018 02:54:37 -0700 (PDT)
 In-Reply-To: <1535967326-32322-1-git-send-email-hongxu.jia@windriver.com>
 References: <1535967326-32322-1-git-send-email-hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] weston: fix build failure with --disable-egl
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 3 Sep 2018 11:54:37 +0200
+Message-ID: <CANNYZj-4XNrwM4xEnnPrdgdobecJa3e+5RQYzoRWYYum=WRyoQ@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] webkitgtk: add opengl to REQUIRED_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,113 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2018 09:35:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Sep 2018 09:54:37 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Backport a patch from upstream to fix build failure
-with --disable-egl
-[snip]
-|weston-4.0.0/clients/simple-dmabuf-drm.c:783:30: error:
-'EGL_NO_DISPLAY' undeclared (first use in this function)
-[snip]
+2018-09-03 11:35 GMT+02:00 Hongxu Jia <hongxu.jia@windriver.com>:
+> They can't be built without opengl in DISTRO_FEATURES.
+> [snip]
+> |webkitgtk-2.20.3/Source/WebCore/platform/graphics/OpenGLShims.h:23:10:
+> fatal error: GL/gl.h: No such file or directory
+> [snip]
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...ple-dmabuf-drm-fix-build-with-disable-egl.patch | 71 ++++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_4.0.0.bb      |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston/0001-simple-dmabuf-drm-fix-build-with-disable-egl.patch
+Apologies, but NAK.
 
-diff --git a/meta/recipes-graphics/wayland/weston/0001-simple-dmabuf-drm-fix-build-with-disable-egl.patch b/meta/recipes-graphics/wayland/weston/0001-simple-dmabuf-drm-fix-build-with-disable-egl.patch
-new file mode 100644
-index 0000000..4820124
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/0001-simple-dmabuf-drm-fix-build-with-disable-egl.patch
-@@ -0,0 +1,71 @@
-+From 2b2d911ef088c430e9bdd135daadf1123d474b24 Mon Sep 17 00:00:00 2001
-+From: Emilio Pozuelo Monfort <pochu27@gmail.com>
-+Date: Mon, 3 Sep 2018 15:42:10 +0800
-+Subject: [PATCH] simple-dmabuf-drm: fix build with --disable-egl
-+
-+Just rely on getting the supported formats through the dmabuf
-+extension.
-+
-+Signed-off-by: Emilio Pozuelo Monfort <emilio.pozuelo@collabora.co.uk>
-+Reviewed-by: Daniel Stone <daniels@collabora.com>
-+
-+Upstream-Status: Backport [https://anongit.freedesktop.org/git/wayland/weston.git]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ clients/simple-dmabuf-drm.c | 11 -----------
-+ configure.ac                |  2 +-
-+ 2 files changed, 1 insertion(+), 12 deletions(-)
-+
-+diff --git a/clients/simple-dmabuf-drm.c b/clients/simple-dmabuf-drm.c
-+index 2975f3a..88ec451 100644
-+--- a/clients/simple-dmabuf-drm.c
-++++ b/clients/simple-dmabuf-drm.c
-+@@ -53,7 +53,6 @@
-+ 
-+ #include <wayland-client.h>
-+ #include "shared/zalloc.h"
-+-#include "shared/platform.h"
-+ #include "xdg-shell-unstable-v6-client-protocol.h"
-+ #include "fullscreen-shell-unstable-v1-client-protocol.h"
-+ #include "linux-dmabuf-unstable-v1-client-protocol.h"
-+@@ -763,7 +762,6 @@ static struct display *
-+ create_display(int opts, int format)
-+ {
-+ 	struct display *display;
-+-	const char *extensions;
-+ 
-+ 	display = malloc(sizeof *display);
-+ 	if (display == NULL) {
-+@@ -776,15 +774,6 @@ create_display(int opts, int format)
-+ 	display->req_dmabuf_immediate = opts & OPT_IMMEDIATE;
-+ 	display->req_dmabuf_modifiers = (format == DRM_FORMAT_NV12);
-+ 
-+-	/*
-+-	 * hard code format if the platform egl doesn't support format
-+-	 * querying / advertising.
-+-	 */
-+-	extensions = eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
-+-	if (extensions && !weston_check_egl_extension(extensions,
-+-				"EGL_EXT_image_dma_buf_import_modifiers"))
-+-		display->xrgb8888_format_found = 1;
-+-
-+ 	display->registry = wl_display_get_registry(display->display);
-+ 	wl_registry_add_listener(display->registry,
-+ 				 &registry_listener, display);
-+diff --git a/configure.ac b/configure.ac
-+index 48cf5cb..e6e9a3f 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -386,7 +386,7 @@ AC_ARG_ENABLE(simple-dmabuf-drm-client,
-+                              [do not build the simple dmabuf drm client]),,
-+               enable_simple_dmabuf_drm_client="auto")
-+ if ! test "x$enable_simple_dmabuf_drm_client" = "xno"; then
-+-  PKG_CHECK_MODULES(SIMPLE_DMABUF_DRM_CLIENT, [wayland-client libdrm egl], [have_simple_dmabuf_libs=yes],
-++  PKG_CHECK_MODULES(SIMPLE_DMABUF_DRM_CLIENT, [wayland-client libdrm], [have_simple_dmabuf_libs=yes],
-+ 		    [have_simple_dmabuf_libs=no])
-+ 
-+   PKG_CHECK_MODULES(LIBDRM_PLATFORM_FREEDRENO, [libdrm_freedreno],
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-graphics/wayland/weston_4.0.0.bb b/meta/recipes-graphics/wayland/weston_4.0.0.bb
-index 3d192cf..61e2881 100644
---- a/meta/recipes-graphics/wayland/weston_4.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_4.0.0.bb
-@@ -11,6 +11,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-make-error-portable.patch \
-            file://xwayland.weston-start \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
-+           file://0001-simple-dmabuf-drm-fix-build-with-disable-egl.patch \
- "
- SRC_URI[md5sum] = "33709aa4d5916f89643fca0fc0064b39"
- SRC_URI[sha256sum] = "a0fc0ae7ef83dfbed12abfe9b8096a24a7dd00705e86fa0db1e619ded18b4b58"
--- 
-2.7.4
+Webkit recipe already has the necessary configuration to handle this:
 
+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11',
+'x11', 'wayland' ,d)} \
+                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
+'webgl opengl', '' ,d)} \
+
+PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/libgl"
+PACKAGECONFIG[opengl] = "-DENABLE_OPENGL=ON,-DENABLE_OPENGL=OFF,virtual/libgl"
+
+
+If disabling opengl does not work, then you should look closer into
+why, instead of just requiring opengl to be present always.
+
+Alex
 
