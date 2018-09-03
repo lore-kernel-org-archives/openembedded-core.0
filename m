@@ -1,44 +1,48 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DB012751AE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E20B571B69
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Sep 2018 15:54:11 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Sep 2018 08:54:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,325,1531810800"; 
-	d="scan'208,217";a="254162894"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
-	by orsmga005.jf.intel.com with ESMTP; 03 Sep 2018 08:53:29 -0700
-Received: from FMSMSX110.amr.corp.intel.com (10.18.116.10) by
-	FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 3 Sep 2018 08:53:29 -0700
-Received: from fmsmsx123.amr.corp.intel.com ([169.254.7.120]) by
-	FMSMSX110.amr.corp.intel.com ([169.254.14.76]) with mapi id
-	14.03.0319.002; Mon, 3 Sep 2018 08:53:28 -0700
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
-Thread-Index: AdQXlGn2RYGWCO8aQne3TGYivsbGuQ==
-Date: Mon, 3 Sep 2018 15:53:28 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECEE3390D@fmsmsx123.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.107]
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWM1NTVhNjktYmU4ZS00NzkzLTkyMDgtZGVlNGE1OTA2YTZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaUlWbjdERDJ5eExEVTQ0dWhmcVE5RVV6NVQrT1dlMmtFek5FSTNwUjZ2TE5cL05hT2ZBdXpzZk1EV2tlUzRkNGQifQ==
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
+	Mon,  3 Sep 2018 16:31:19 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id b19-v6so672457qkc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Sep 2018 09:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=TmwY8Bc4tAv71XUgPec8ruFpXwnijflnPYCv7rqJbOw=;
+	b=o+AMwRaG3eGcNzgDGkwfZB19N3KPYdTBZSl94ZUiIJkY2s2CBpNYD78oOFtnOJ4dS/
+	h+TdZ4Q+QLT2MjB5xt5y7rCYf4Jfstc6dLd0sOMVK3vUPp/nl5dOH+2y5iglKbSoCx3V
+	RSkmnKY8e41cuAjBflkmidkqqsO21ovCOvhCnKuUTwAvWl7ro50Y1f+Ww9v8u+XGQy9E
+	QbJty4eHzLz6ckceX71hatJESTLKJGG46kMMjQ1xayEIumivU6iVtZVkeg7kzDNjlFW0
+	sTaqfhyBVYfIw244Aj1A+P55jLaTphF/1Gvh5uWgZVme2UOEDrrB91E8hSe3naxOUkOx
+	SZcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=TmwY8Bc4tAv71XUgPec8ruFpXwnijflnPYCv7rqJbOw=;
+	b=VNjoYHaCBdJsWnJ7t9dlUHGZudjxS9eCNPxLAyomROmtS/0nHqoSQNBeGqfrInoBh5
+	/ybTl5MpvTZQPDa5uRnoZHzMxKwjUXwQI+cosEoY9cAmxUgaOiqx/EBtGjWI3ET5J4ED
+	hbeLj0OyCNLvvoWYMGEBOl1kt5S1aJ8wm/Tvm1Q74QsYlQL0e6sMnP6zaYmKHAS7/cCn
+	I2UsLcThs844MpKYHTSE94/cyrBAACd3QlAuDAnnG+q7SiLBvzPo8EZxPllkA9PircGb
+	4RebWygtFyQAccGsyZZ1KWYFgoVHwF8tPBkNdt/OeTK8+/fKHuz79oR3ajpp6x13cD6/
+	ippw==
+X-Gm-Message-State: APzg51BRKbxIrLDj00nNA7Gz6drQ6HQ0uHjY4evwrJG7LDFOI7MnLKpt
+	C5J2ZsesQgbFu2LCGuuM4dAZwek8P1WTbCtlzao=
+X-Google-Smtp-Source: ANB0Vdbos59B5QwVQJo0fNmxQxbdQVHPdlElewjvO2rqzllVX5mdPnC5L8h2FX9LQK751420ENvhZFqkBM856OlsJMw=
+X-Received: by 2002:a37:cbdc:: with SMTP id
+	u89-v6mr25424238qkl.292.1535992280369; 
+	Mon, 03 Sep 2018 09:31:20 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Yocto Project Unassigned Bugs - Help Needed
+References: <1535981492-1670-1-git-send-email-hongxu.jia@windriver.com>
+In-Reply-To: <1535981492-1670-1-git-send-email-hongxu.jia@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 3 Sep 2018 09:30:54 -0700
+Message-ID: <CAMKF1sqgV3LvMF7c17QzE4WP=+wA67S1hpNTC6W9WThGSx5Qzg@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] security_flags.inc: Remove `-fstack-protector-strong' from LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,214 +55,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2018 15:54:12 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE3390Dfmsmsx123amrcor_"
+X-List-Received-Date: Mon, 03 Sep 2018 16:31:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE3390Dfmsmsx123amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-All,
-
-
-
-The triage team meets weekly and does its best to handle the bugs reported =
-into the bugzilla. The number of people attending that meeting has fallen, =
-as have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage team) a=
-re therefore going to start reporting out the currently 313 unassigned bugs=
-.
-
-
-
-We're hoping people may be able to spare some time now and again to help ou=
-t with these.
-
-
-
-Bugs are split into two types, "true bugs" where things don't work as they =
-should and "enhancements" which are features we'd want to add to the system=
-.
-
-
-
-There are also roughly three different "priority" classes right now, "2.6",=
- "2.99" and "Future", the more pressing/urgent issues being in "2.6".
-
-
-
-Please review this link and if a bug is something you would be able to help=
- with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
-com) an e-mail with the bug number you would like and I will assign it to y=
-ou (please make sure you have a bugzilla account).
-
-
-
-The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
-gs
-
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*    Cell:                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE3390Dfmsmsx123amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On Mon, Sep 3, 2018 at 6:31 AM Hongxu Jia <hongxu.jia@windriver.com> wrote:
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:2 11 5 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle19
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoPlainText">All,<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
- handle the bugs reported into the bugzilla. The number of people attending=
- that meeting has fallen, as have the number of people available to help fi=
-x bugs. One of the things we hear
- users report is they don't know how to help. We (the triage team) are ther=
-efore going to start reporting out the currently 313 unassigned bugs.<o:p><=
-/o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
-e now and again to help out with these.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
-ot; where things don't work as they should and &quot;enhancements&quot; whi=
-ch are features we'd want to add to the system.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">There are also roughly three different &quot;prio=
-rity&quot; classes right now, &quot;2.6&quot;, &quot;2.99&quot; and &quot;F=
-uture&quot;, the more pressing/urgent issues being in &quot;2.6&quot;.<o:p>=
-</o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Please review this link and if a bug is something=
- you would be able to help with either take ownership of the bug, or send m=
-e (Stephen.k.jolley@intel.com) an e-mail with the bug number you would like=
- and I will assign it to you (please
- make sure you have a bugzilla account).<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
-ect.org/wiki/Bug_Triage#Unassigned_Bugs">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
-></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
-=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+> The `-fstack-protector-***' should be passed to gcc rather than linker,
+> since `4ca946c security_flags: use -fstack-protector-strong', it was
+> added to LDFLAGS, although there is no extra build failure introduced,
+> but it is still unnecessary.(-Wl,** is for linker)
+>
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE3390Dfmsmsx123amrcor_--
+There are cases where CFLAGS is not combined into LDFLAGS by package
+component builds
+which creates the disjoint, If we remove this here then that will
+start to show up. remember we do
+not configure toolchains to provide the hardening flags by default as
+yet, so we have to be explicit.
+Do you see issues with current settings ?
+
+> Reported-by: Lans Zhang <https://github.com/jiazhang0>
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/conf/distro/include/security_flags.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+> index 620978a..362b1db 100644
+> --- a/meta/conf/distro/include/security_flags.inc
+> +++ b/meta/conf/distro/include/security_flags.inc
+> @@ -26,8 +26,8 @@ SECURITY_STACK_PROTECTOR ?= "-fstack-protector-strong"
+>  SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+>  SECURITY_NO_PIE_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+>
+> -SECURITY_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro,-z,now"
+> -SECURITY_X_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro"
+> +SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
+> +SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
+>
+>  # powerpc does not get on with pie for reasons not looked into as yet
+>  GCCPIE_powerpc = ""
+> --
+> 2.7.4
+>
+
