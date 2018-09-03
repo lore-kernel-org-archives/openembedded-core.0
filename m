@@ -1,22 +1,18 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A25274A12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Sep 2018 13:31:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w83DVen6012871
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Sep 2018 06:31:41 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 3 Sep 2018 06:31:40 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Sep 2018 21:31:32 +0800
-Message-ID: <1535981492-1670-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B75E78BA6;
+	Mon,  3 Sep 2018 14:02:57 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] security_flags.inc: Remove `-fstack-protector-strong' from LDFLAGS
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Mon, 03 Sep 2018 14:02:59 -0000
+Message-ID: <20180903140259.13841.87444@do.openembedded.org>
+References: <1535981492-1670-1-git-send-email-hongxu.jia@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1535981492-1670-1-git-send-email-hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2VjdXJpdHlfZmxhZ3MuaW5jOiBSZW1vdmUgYC1mc3RhY2stcHJvdGVjdG9yLXN0cm9uZycgZnJvbSBMREZMQUdT?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,37 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2018 13:31:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Sep 2018 14:02:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The `-fstack-protector-***' should be passed to gcc rather than linker,
-since `4ca946c security_flags: use -fstack-protector-strong', it was
-added to LDFLAGS, although there is no extra build failure introduced,
-but it is still unnecessary.(-Wl,** is for linker)
+== Series Details ==
 
-Reported-by: Lans Zhang <https://github.com/jiazhang0>
+Series: security_flags.inc: Remove `-fstack-protector-strong' from LDFLAGS
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13868/
+State : failure
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 853e0499be)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/conf/distro/include/security_flags.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 620978a..362b1db 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -26,8 +26,8 @@ SECURITY_STACK_PROTECTOR ?= "-fstack-protector-strong"
- SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
- SECURITY_NO_PIE_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
- 
--SECURITY_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro,-z,now"
--SECURITY_X_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro"
-+SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
-+SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
- 
- # powerpc does not get on with pie for reasons not looked into as yet
- GCCPIE_powerpc = ""
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
