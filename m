@@ -1,29 +1,49 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 909BA6025F
+Return-Path: <leon@sidebranch.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4817E6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Sep 2018 21:16:33 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Sep 2018 14:16:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,321,1531810800"; d="scan'208";a="229644991"
-Received: from zhenmeih-mobl.gar.corp.intel.com (HELO localhost.localdomain)
-	([10.255.170.9])
-	by orsmga004.jf.intel.com with ESMTP; 02 Sep 2018 14:16:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 03 Sep 2018 09:16:27 +1200
-Message-ID: <7568570.4qQvQMVyvU@localhost.localdomain>
-Organization: Intel Corporation
-In-Reply-To: <CAMKF1soD8v7MgcZxUgP=GS0Z-ZgkcSjn4t5ovaVmxM5kLJBf9Q@mail.gmail.com>
-References: <20180831130634.9602-1-richard.purdie@linuxfoundation.org>
-	<CAMKF1soD8v7MgcZxUgP=GS0Z-ZgkcSjn4t5ovaVmxM5kLJBf9Q@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] recipes: Update git.gnome.org addresses after upstream changes
+	Mon,  3 Sep 2018 00:38:18 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id p52-v6so12778423eda.12
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 02 Sep 2018 17:38:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=K6jQ89gDL5bjkfnmBJB3ZSJnqASCUFzO+PfcZnllk+k=;
+	b=ZW8FfR+8H9bOBOLeKnrbBmp084Vq1+jfaVWAVc/O/AmF6Jnp7SPYfd2dxRDZmLrLsz
+	Hpls1GvUb75qfd0KhgNb1+mWcxdA2nGd/qoYXCYPVcvzClMjgQZ+BVJZc6scvIHRKReO
+	f6i2sp6X6dybJBYxt0YNzsggBGEx2seEowEt1CFSMKsKQ7Ewo60iR8Todz1pSTcT8Ctp
+	oA7DALux1L5M8XBCRMtB+JzA3RQQz78mOZBWT47g6+EnOeH+89cNh0cI16FOy5tzzyU7
+	ccUOX1+JsN/MzozR3t883cy1+fYE3sHk01flo94VReo5rup+P5O/wjOGIH4NYMofpG78
+	hWKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=K6jQ89gDL5bjkfnmBJB3ZSJnqASCUFzO+PfcZnllk+k=;
+	b=MDj4kJ7ZZUs4yMWCiSI6keX8jeGvC2xDPUVOo+QLxgeIRbPvG9wiO0gsAcmYObXP+y
+	wC62O9/d42x/Vt3dWuM7UpkynzeK9JMYewhA7zr0jghlh6IG/G703jYLoYRxI/LztIj5
+	iS/cToWNckoIjBD5ea+AQEO0ZPPb7mapqBuI7HgS0J1aXNL+tW5roCeC+EX149ovt6A5
+	BrPOZW15tuozSEjKIQIwLDOAZGjbymG/nyXAE2jEv9C2RTb+RnAthykj9pADspuOcyy1
+	ke83MIbRAK+CEOmphOLllq7GjeI6T2cwhZavm4ZdUkeBwEcK9jJJDKSzi33zJ1mfsfdR
+	7PrA==
+X-Gm-Message-State: APzg51Ddbz8Tt/HArsWAZuBiBOqsISAWuuhimaYzfBqhpZlxHPvA/MXA
+	QXZhPzqPQMp06YYblL6jiwW5Bqx9eEoTEg==
+X-Google-Smtp-Source: ANB0VdYsgIXYUUhLkNZlv3M3rH4jIkRtHPQx2TR+QKvHnIYdWTdsZ/G7IyFHdhPjUHnXKoC8QmefSA==
+X-Received: by 2002:a50:d619:: with SMTP id
+	x25-v6mr29894392edi.178.1535935098703; 
+	Sun, 02 Sep 2018 17:38:18 -0700 (PDT)
+Received: from localhost.localdomain ([145.130.96.189])
+	by smtp.gmail.com with ESMTPSA id
+	h3-v6sm9072410ede.42.2018.09.02.17.38.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 02 Sep 2018 17:38:18 -0700 (PDT)
+From: Leon Woestenberg <leon@sidebranch.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Sep 2018 02:38:13 +0200
+Message-Id: <1535935093-30793-1-git-send-email-leon@sidebranch.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [openembedded-core][PATCH] kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +56,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Sep 2018 21:16:33 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 03 Sep 2018 00:38:18 -0000
 
-Hi Khem
+kernel-fitimage.bbclass replaces an occurance of "fitImage" in
+KERNEL_IMAGETYPE_FOR_MAKE by an image type that is buildable for the
+architecture (such as zImage). The kernel-fitimage.bbclass packs that
+image as sub-image in a flattened image tree image (fitImage) and
+deploys this fitImage along with the image tree source file (.its).
 
-On Sunday, 2 September 2018 2:41:58 AM NZST Khem Raj wrote:
-> centos 7 comes with git 1.8.x and that seems to fail to fetch from gitlab/https
-> 
-> Cloning into bare repository
-> 'TOPDIR/downloads/git2/gitlab.gnome.org.GNOME.cantarell-fonts'...
-> error: RPC failed; result=22, HTTP code = 404
-> fatal: The remote end hung up unexpectedly
-> 
-> using newer version of git solves this
-> 
-> using the wandisco repo e.g.
-> 
-> yum install http://opensource.wandisco.com/centos/7/git/x86_64/wandisco-git-release-7-2.noarch.rpm
-> yum update git
-> 
-> helps.
-> 
-> do we already state minimum git version somewhere ?
+kernel-fitimage.bbclass does not alter KERNEL_IMAGETYPES, which thus
+also contains "fitImage", which kernel.bbclass will also deploy
+redundantly with different naming.
 
-sanity.bbclass checks for git version 1.8.3.1 or later. This check only occurs on
-the first run or when SANITY_VERSION or NATIVELSBSTRING change (although with 
-the advent of uninative the latter isn't really the right thing to be looking
-at anymore - I've just filed https://bugzilla.yoctoproject.org/show_bug.cgi?id=12910
-for that).
+The result is a dual deployment with slightly different naming,
+each with a set of symlinks.
 
-Additionally it's mentioned in the YP "quick build" guide:
+The solution chosen is to have fitImage deployment be handled by
+kernel-fitimage.bbclass, and have kernel.bbclass ignore fitImage
+types during deployment.
 
-  https://www.yoctoproject.org/docs/current/brief-yoctoprojectqs/brief-yoctoprojectqs.html#brief-compatible-distro
+Signed-off-by: Leon Woestenberg <leon@sidebranch.com>
+---
+ meta/classes/kernel.bbclass | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index b341733..fd43ecd 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -675,8 +675,10 @@ kernel_do_deploy() {
+ 	fi
+ 
+ 	for type in ${KERNEL_IMAGETYPES} ; do
+-		base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
+-		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type} $deployDir/${base_name}.bin
++		if [ "$type" != "fitImage" ]; then
++			base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
++			install -m 0644 ${KERNEL_OUTPUT_DIR}/${type} $deployDir/${base_name}.bin
++		fi
+ 	done
+ 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		mkdir -p ${D}/lib
+@@ -685,21 +687,25 @@ kernel_do_deploy() {
+ 	fi
+ 
+ 	for type in ${KERNEL_IMAGETYPES} ; do
+-		base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
+-		symlink_name=${type}-${KERNEL_IMAGE_SYMLINK_NAME}
+-		ln -sf ${base_name}.bin $deployDir/${symlink_name}.bin
+-		ln -sf ${base_name}.bin $deployDir/${type}
++		if [ "$type" != "fitImage" ]; then
++			base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
++			symlink_name=${type}-${KERNEL_IMAGE_SYMLINK_NAME}
++			ln -sf ${base_name}.bin $deployDir/${symlink_name}.bin
++			ln -sf ${base_name}.bin $deployDir/${type}
++		fi
+ 	done
+ 
+ 	cd ${B}
+ 	# Update deploy directory
+ 	for type in ${KERNEL_IMAGETYPES} ; do
+-		if [ -e "${KERNEL_OUTPUT_DIR}/${type}.initramfs" ]; then
+-			echo "Copying deploy ${type} kernel-initramfs image and setting up links..."
+-			initramfs_base_name=${type}-${INITRAMFS_BASE_NAME}
+-			initramfs_symlink_name=${type}-initramfs-${MACHINE}
+-			install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}.initramfs $deployDir/${initramfs_base_name}.bin
+-			ln -sf ${initramfs_base_name}.bin $deployDir/${initramfs_symlink_name}.bin
++		if [ "$type" != "fitImage" ]; then
++			if [ -e "${KERNEL_OUTPUT_DIR}/${type}.initramfs" ]; then
++				echo "Copying deploy ${type} kernel-initramfs image and setting up links..."
++				initramfs_base_name=${type}-${INITRAMFS_BASE_NAME}
++				initramfs_symlink_name=${type}-initramfs-${MACHINE}
++				install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}.initramfs $deployDir/${initramfs_base_name}.bin
++				ln -sf ${initramfs_base_name}.bin $deployDir/${initramfs_symlink_name}.bin
++			fi
+ 		fi
+ 	done
+ }
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+2.7.4
 
 
