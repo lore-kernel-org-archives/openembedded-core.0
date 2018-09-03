@@ -1,28 +1,35 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 84ED978F73
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F0027914C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Sep 2018 05:52:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w835qT3Y006810
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 2 Sep 2018 22:52:29 -0700 (PDT)
-Received: from [128.224.162.202] (128.224.162.202) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Sun, 2 Sep 2018 22:52:28 -0700
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	Mon,  3 Sep 2018 06:49:06 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Sep 2018 23:49:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,323,1531810800"; d="scan'208";a="82498466"
+Received: from mlehtone-mac02.fi.intel.com (HELO [10.237.66.34])
+	([10.237.66.34])
+	by fmsmga002.fm.intel.com with ESMTP; 02 Sep 2018 23:49:06 -0700
+User-Agent: Microsoft-MacOutlook/10.10.0.180812
+Date: Mon, 03 Sep 2018 09:49:17 +0300
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: ChenQi <Qi.Chen@windriver.com>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	Khem Raj <raj.khem@gmail.com>
+Message-ID: <8F3C0D30-7FBD-468C-AE67-D190DB5EDB98@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 3/7] sysklogd: Use update-alternatives
+References: <cover.1535601148.git.raj.khem@gmail.com>
+	<fae07991f994982404930e78c225db460bd14ae6.1535601148.git.raj.khem@gmail.com>
+	<c712539f5fd74697831fb7ed806e6fea@XBOX02.axis.com>
+	<02ee117d-3465-62e9-00da-8dedf441d0f2@windriver.com>
+In-Reply-To: <02ee117d-3465-62e9-00da-8dedf441d0f2@windriver.com>
+Mime-version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <1535100844-4514-1-git-send-email-hongxu.jia@windriver.com>
-	<83f1c6c3-195c-b6c6-979c-3d58db4f9cb9@xilinx.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <591d25eb-bb99-746f-37ac-6769db4228b8@windriver.com>
-Date: Mon, 3 Sep 2018 13:52:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <83f1c6c3-195c-b6c6-979c-3d58db4f9cb9@xilinx.com>
-Subject: Re: [PATCH] terminal.bbclass: use var-SHELL as the shebang of wrapper script
+Subject: Re: [PATCH 3/7] sysklogd: Use update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,82 +42,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2018 05:52:28 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 03 Sep 2018 06:49:07 -0000
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: quoted-printable
 
-On 2018年09月01日 08:14, Alejandro Enedino Hernandez Samaniego wrote:
-> Hey Hongxu,
->
->
-> On 08/24/2018 01:54 AM, Hongxu Jia wrote:
->> The devshell.bbclass set var-SHELL to var-DEVSHELL, and terminal.bbclass
->> initial var-SHELL with `bash'. Keep sync with it, use var-SHELL rather
->> than hardcoded `/bin/sh' as the shebang of wrapper script.
->>
->> On Ubuntu host, default shell is dash (/bin/sh -> dash), even though
->> we assign var-SHELL with `/bin/bash', the wrapper script is still 
->> dashism.
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/classes/terminal.bbclass | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/terminal.bbclass 
->> b/meta/classes/terminal.bbclass
->> index a27e10c..73e765d 100644
->> --- a/meta/classes/terminal.bbclass
->> +++ b/meta/classes/terminal.bbclass
->> @@ -25,7 +25,8 @@ def emit_terminal_func(command, envdata, d):
->>       bb.utils.mkdirhier(os.path.dirname(runfile))
->>         with open(runfile, 'w') as script:
->> -        script.write('#!/bin/sh -e\n')
->> +        script.write('#!/usr/bin/env %s\n' % d.getVar('SHELL'))
->> +        script.write('set -e\n')
-> This is causing a bug on several systems, I believe that it is because 
-> the way our systems are set up,
-> basically, our running shell isn't necessarily $SHELL, so it is 
-> causing the process to exit immediately,
-> anything thats using this class is affected, devshell, menuconfig, etc.
->
->
-> $ echo $SHELL
-> /bin/csh
->
-> $ echo $0
-> /bin/bash
->
+Hi,
 
-The csh does not support `export', in you case, you should correct 
-var-SHELL to align with $0,
+IIRC, the problem was that all the syslog packages were providing ${sysconf=
+dir}/init.d/syslog which caused problems. And I don't think that has changed=
+.
 
-Such as:
-$ usermod <username> -s $0
+Why would you want to install two syslog daemons on the system? You should =
+be able to install busybox after syslog as busybox-syslog is packaged in sep=
+arate binary rpm.
 
+Cheers,
+  Markus
 
+=EF=BB=BFOn 30/08/2018, 12.41, "ChenQi" <Qi.Chen@windriver.com> wrote:
 
-But the script should be more robust, it should
-work well in this situation. I will try to fix it.
+    On 08/30/2018 03:44 PM, Peter Kjellerstedt wrote:
+    >> -----Original Message-----
+    >> From: openembedded-core-bounces@lists.openembedded.org <openembedded=
+-
+    >> core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
+    >> Sent: den 30 augusti 2018 05:56
+    >> To: openembedded-core@lists.openembedded.org
+    >> Subject: [OE-core] [PATCH 3/7] sysklogd: Use update-alternatives
+    >>
+    >> busybox also provides klogd and syslogd, this change makes it coexis=
+t
+    >> peacefully. Currently rootfs fails in situations where both of them =
+are
+    >> providing these binaries and busybox postinsts fail
+    >>
+    >> update-alternatives: Error: not linking
+    >> /mnt/a/oe/build/tmp/work/qemuriscv64-bec-linux/core-image-full-
+    >> cmdline/1.0-r0/rootfs/sbin/klogd
+    >> to /bin/busybox.nosuid since
+    >> /mnt/a/oe/build/tmp/work/qemuriscv64-bec-linux/core-image-full-
+    >> cmdline/1.0-r0/rootfs/sbin/klogd
+    >> exists and is not a link
+    >>
+    >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+    >> ---
+    >>   meta/recipes-extended/sysklogd/sysklogd.inc | 8 +++++++-
+    >>   1 file changed, 7 insertions(+), 1 deletion(-)
+    >>
+    >> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc
+    >> b/meta/recipes-extended/sysklogd/sysklogd.inc
+    >> index fc4e67c18e..2a8bed00f3 100644
+    >> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
+    >> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+    >> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D8ca43cbc842=
+c2336e835926c2166c28b \
+    >>                       file://klogd.c;beginline=3D2;endline=3D19;md5=3D7e87=
+ed0ae6142de079bce738c10c899d \
+    >>                      "
+    >>
+    >> -inherit update-rc.d systemd
+    >> +inherit update-rc.d systemd update-alternatives
+    >>
+    >>   SRC_URI =3D "http://www.infodrom.org/projects/sysklogd/download/sysk=
+logd-${PV}.tar.gz \
+    >>              file://no-strip-install.patch \
+    >> @@ -70,3 +70,9 @@ python () {
+    >>       if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, =
+False, d):
+    >>           d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+    >>   }
+    >> +
+    >> +ALTERNATIVE_PRIORITY =3D "100"
+    >> +ALTERNATIVE_${PN} =3D "klogd syslogd"
+    >> +ALTERNATIVE_LINK_NAME[klogd] =3D "${base_sbindir}/klogd"
+    >> +ALTERNATIVE_LINK_NAME[syslogd] =3D "${base_sbindir}/syslogd"
+    >> +
+    >> --
+    >> 2.18.0
+    > This is a (partial) revert of commit 988aad01b2 (sysklogd: don't use
+    > update-alternatives). Can you come to an agreement regarding which is
+    > the correct solution?
+    >
+    > //Peter
+    >
+   =20
+   =20
+    I think the previous commit (syslogd: don't use update-alternatives) is=
+=20
+    made because syslog daemon conflict with each other. I guess the author=
+=20
+    assumed that the 'syslogd' and 'klogd' alternatives entries are handled=
+=20
+    by busybox-syslog package.
+   =20
+    On the other hand, I think the patch is trying to solve the problem of=20
+    busybox being installed after sysklogd.
+    We are currently not seeing errors because busybox is likely to be=20
+    installed before sysklogd. Even in this situation, the result is not al=
+l=20
+    correct, because the links busybox's postinstall creates are covered by=
+=20
+    the real binaries from sysklogd.
+   =20
+    I think the problem is about busybox's handling of alternatives.
+   =20
+    Khem, I've sent out a patch to fix busybox's alternatives logic. Could=20
+    you please help review it?
+   =20
+    Best Regards,
+    Chen Qi
+   =20
 
-//Hongxu
-
->
->
-> Sadly we are unable to set $SHELL correctly.
->
-> I wonder if there is another way of doing this that wouldn't cause 
-> this behavior.
->
-> Cheers,
->
-> Alejandro
->
->
->>           bb.data.emit_func(cmd_func, script, envdata)
->>           script.write(cmd_func)
->>           script.write("\n")
->
 
 
