@@ -1,49 +1,22 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
-	[209.85.218.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C9E2791D2
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A25274A12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Sep 2018 09:54:37 +0000 (UTC)
-Received: by mail-oi0-f46.google.com with SMTP id c190-v6so32627029oig.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Sep 2018 02:54:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=74p1ECZMsC/A86XldolGyOYJqn3pf2InbKXbXWaw7AE=;
-	b=k2AfimxlXc1oM6YxzyBE00NaPhHgGLIKD3b3jGIaLVO0bv4rHLSjU88Rq2ibr834io
-	sQB/9+als8cXC4EifmPE47P+nCd0d54/YHmp2CDxZkS+EVKRqH6YoCeYtU3aXse6k7E8
-	dgY8Zg7lJyjc+I5XH8wwicjEtco3QOzul6SszfN9wHlrIC7w3iUbrmsP3YmzTnXmTEj1
-	r6QOzvDjfTZshZ36ZUn/7BLEp6XLFszVxUYtATj02vjvB7HPg+4YNyehhXp5YjZMj1pv
-	St70o+Sw8QEIUqQ04W0Hvm9VDh5Jr2/EvECZM/+N+fy7BAdJviVIHhlGnP0Wq/p5qfAL
-	Cr+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=74p1ECZMsC/A86XldolGyOYJqn3pf2InbKXbXWaw7AE=;
-	b=RA/Lec9L1Lz+yoF7P2ZmwXfmOJWIPaVrdruUrLWLh4S93QodateGcEljN5n3LgM6Z0
-	4kgQbFSP+K0NJH66djxR3EL11wflCq7CvI/CNVP5/QfEGfebcrvHc3ZsBsn/QFTJxOYs
-	b/YyMSsbaskld5FHrWWB98TNzUdSZLUhGi62ZpZoon0GZmNBvWvFLOf3Zqu6sMwozcoh
-	EkwTV0ryFkPGx6DQtdnPv1NP6Uv7Iz/Si44NKO+fRKDzl6NbNsBj03bgiW9ZPAbhgcab
-	5V3HyyNiLoBvNJka185sP3BqcNrJYBSIclEg33C/360CPDyuITz4dBDUCYZ0Ex/L78ry
-	8smw==
-X-Gm-Message-State: APzg51D5g5kW/ARcdZbQTg1FnbQBs7spPmyGf2/Ullr7QFuLVBaaZCEC
-	CTSrnm+cT2b4yve+wiEYVYLJvGGy1u8on2N1LR4=
-X-Google-Smtp-Source: ANB0VdZRgxmI+XVO0fJwjDcIHUrPtkjzZgWJf//fC8A0TCXVw06WQfaxn3TW5wizoyhJZ7DTRmgjza0CpODhjdSoxmc=
-X-Received: by 2002:aca:d015:: with SMTP id
-	h21-v6mr20050946oig.142.1535968478289; 
-	Mon, 03 Sep 2018 02:54:38 -0700 (PDT)
+	Mon,  3 Sep 2018 13:31:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w83DVen6012871
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 3 Sep 2018 06:31:41 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 3 Sep 2018 06:31:40 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 3 Sep 2018 21:31:32 +0800
+Message-ID: <1535981492-1670-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:a4a:1650:0:0:0:0:0 with HTTP;
-	Mon, 3 Sep 2018 02:54:37 -0700 (PDT)
-In-Reply-To: <1535967326-32322-1-git-send-email-hongxu.jia@windriver.com>
-References: <1535967326-32322-1-git-send-email-hongxu.jia@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 3 Sep 2018 11:54:37 +0200
-Message-ID: <CANNYZj-4XNrwM4xEnnPrdgdobecJa3e+5RQYzoRWYYum=WRyoQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] webkitgtk: add opengl to REQUIRED_DISTRO_FEATURES
+Subject: [PATCH] security_flags.inc: Remove `-fstack-protector-strong' from LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2018 09:54:37 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 03 Sep 2018 13:31:42 -0000
+Content-Type: text/plain
 
-2018-09-03 11:35 GMT+02:00 Hongxu Jia <hongxu.jia@windriver.com>:
-> They can't be built without opengl in DISTRO_FEATURES.
-> [snip]
-> |webkitgtk-2.20.3/Source/WebCore/platform/graphics/OpenGLShims.h:23:10:
-> fatal error: GL/gl.h: No such file or directory
-> [snip]
+The `-fstack-protector-***' should be passed to gcc rather than linker,
+since `4ca946c security_flags: use -fstack-protector-strong', it was
+added to LDFLAGS, although there is no extra build failure introduced,
+but it is still unnecessary.(-Wl,** is for linker)
 
-Apologies, but NAK.
+Reported-by: Lans Zhang <https://github.com/jiazhang0>
 
-Webkit recipe already has the necessary configuration to handle this:
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/conf/distro/include/security_flags.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11',
-'x11', 'wayland' ,d)} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
-'webgl opengl', '' ,d)} \
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 620978a..362b1db 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -26,8 +26,8 @@ SECURITY_STACK_PROTECTOR ?= "-fstack-protector-strong"
+ SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+ SECURITY_NO_PIE_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+ 
+-SECURITY_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro,-z,now"
+-SECURITY_X_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro"
++SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
++SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
+ 
+ # powerpc does not get on with pie for reasons not looked into as yet
+ GCCPIE_powerpc = ""
+-- 
+2.7.4
 
-PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/libgl"
-PACKAGECONFIG[opengl] = "-DENABLE_OPENGL=ON,-DENABLE_OPENGL=OFF,virtual/libgl"
-
-
-If disabling opengl does not work, then you should look closer into
-why, instead of just requiring opengl to be present always.
-
-Alex
 
