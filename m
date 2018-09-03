@@ -1,49 +1,28 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 8417A78F67
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 84ED978F73
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Sep 2018 04:06:01 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id s7-v6so963381pgc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Sep 2018 21:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=/jYVlNZP/LCcZTCiMHNdL8jSJHTRhelyQV+BkhQyKN4=;
-	b=PnQRLqt58Un8KX/bLyibphPTiSnjqRkafdIfyupMSVkYqal2CJY53upfzQHWQVjINl
-	aQ9rkLaR9SB3ocZfSuI1wjr+eYzERLWtPC4DSxp9Xv7jwlVU3N0AOnKQGwjpdrlLRC92
-	KrUC5mViqiopJuNGeOBYGt5q9cBTXmWdeoPIqpdgstDlP7MOYDnzi5BHt42xV1wVKvvM
-	7vRVgPxK0rQg2TTe7d5TDIiLusdj7BEITWd8TzRXYPDipW2AxFhCVddeIQ0BE7aFq9h3
-	2znLJI4fiJr6Gm95TxgpWFy35f3r2Skk8ls0C1OKqMDZxSG5cT10nJNrL0EQQkBTZpBV
-	dkgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/jYVlNZP/LCcZTCiMHNdL8jSJHTRhelyQV+BkhQyKN4=;
-	b=IRdVgzDMmM9B68TTOvv5n5lnI8Hf9CmkCZ0q/OruFL53EoMugnuD3+Hq04I6lQ/ney
-	Ojh5NnynkkzIYSthU+C/mo6kd3gJjDf5azqv3Gj91y3KKLEUQy+PYl8Z4grpr+ah9H4k
-	chY5P5ZdXm+21GMCnnegcgKkrChy3SkffoyAkjCS69TA79s2OxBrweXCNAhkA5/821At
-	gNfBGe9lfnlfVLvaP9W8aO8OZG3HBJuEVRelG6sBmDI07/r8MnDjLD2/EU41stVfUK4i
-	bviBli9w0gOLR5YF4olCUNtOSHXLoVHKf1Ilbk4trmXPw9Fold/ZMOcfJmuHZ/FknkAA
-	FYhg==
-X-Gm-Message-State: APzg51C7FopoPe3BKHS8bVGpyi4RTT6GhbX4Aw0SJYJORj9Z2cOZYOeY
-	dDt4XUyoH2N4OshbWGmnp0hf5vbg
-X-Google-Smtp-Source: ANB0Vdb11yIQzt+FWnYyAUL80JJyVlKfFsMGLMBHQkdvIQVgK6y+QlhUz1+a/21dyZarwhTvbReUMg==
-X-Received: by 2002:a65:5284:: with SMTP id
-	y4-v6mr24498791pgp.283.1535947562222; 
-	Sun, 02 Sep 2018 21:06:02 -0700 (PDT)
-Received: from ip-172-31-26-116.ap-northeast-2.compute.internal
-	(ec2-52-79-39-246.ap-northeast-2.compute.amazonaws.com.
-	[52.79.39.246]) by smtp.gmail.com with ESMTPSA id
-	u184-v6sm24118720pgd.46.2018.09.02.21.06.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 02 Sep 2018 21:06:01 -0700 (PDT)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Sep 2018 04:05:53 +0000
-Message-Id: <1535947553-14966-1-git-send-email-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] iproute2: Upgrade 4.17.0 -> 4.18.0
+	Mon,  3 Sep 2018 05:52:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w835qT3Y006810
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 2 Sep 2018 22:52:29 -0700 (PDT)
+Received: from [128.224.162.202] (128.224.162.202) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Sun, 2 Sep 2018 22:52:28 -0700
+To: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1535100844-4514-1-git-send-email-hongxu.jia@windriver.com>
+	<83f1c6c3-195c-b6c6-979c-3d58db4f9cb9@xilinx.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <591d25eb-bb99-746f-37ac-6769db4228b8@windriver.com>
+Date: Mon, 3 Sep 2018 13:52:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <83f1c6c3-195c-b6c6-979c-3d58db4f9cb9@xilinx.com>
+Subject: Re: [PATCH] terminal.bbclass: use var-SHELL as the shebang of wrapper script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +35,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2018 04:06:01 -0000
+X-List-Received-Date: Mon, 03 Sep 2018 05:52:28 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
----
- .../iproute2/{iproute2_4.17.0.bb => iproute2_4.18.0.bb}               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_4.17.0.bb => iproute2_4.18.0.bb} (72%)
+On 2018年09月01日 08:14, Alejandro Enedino Hernandez Samaniego wrote:
+> Hey Hongxu,
+>
+>
+> On 08/24/2018 01:54 AM, Hongxu Jia wrote:
+>> The devshell.bbclass set var-SHELL to var-DEVSHELL, and terminal.bbclass
+>> initial var-SHELL with `bash'. Keep sync with it, use var-SHELL rather
+>> than hardcoded `/bin/sh' as the shebang of wrapper script.
+>>
+>> On Ubuntu host, default shell is dash (/bin/sh -> dash), even though
+>> we assign var-SHELL with `/bin/bash', the wrapper script is still 
+>> dashism.
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/classes/terminal.bbclass | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/terminal.bbclass 
+>> b/meta/classes/terminal.bbclass
+>> index a27e10c..73e765d 100644
+>> --- a/meta/classes/terminal.bbclass
+>> +++ b/meta/classes/terminal.bbclass
+>> @@ -25,7 +25,8 @@ def emit_terminal_func(command, envdata, d):
+>>       bb.utils.mkdirhier(os.path.dirname(runfile))
+>>         with open(runfile, 'w') as script:
+>> -        script.write('#!/bin/sh -e\n')
+>> +        script.write('#!/usr/bin/env %s\n' % d.getVar('SHELL'))
+>> +        script.write('set -e\n')
+> This is causing a bug on several systems, I believe that it is because 
+> the way our systems are set up,
+> basically, our running shell isn't necessarily $SHELL, so it is 
+> causing the process to exit immediately,
+> anything thats using this class is affected, devshell, menuconfig, etc.
+>
+>
+> $ echo $SHELL
+> /bin/csh
+>
+> $ echo $0
+> /bin/bash
+>
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.17.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.18.0.bb
-similarity index 72%
-rename from meta/recipes-connectivity/iproute2/iproute2_4.17.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_4.18.0.bb
-index 12812b0..8eed377 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_4.17.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_4.18.0.bb
-@@ -6,8 +6,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-ip-Remove-unneed-header.patch \
-           "
- 
--SRC_URI[md5sum] = "6f3a87fe2d97c28214fc2faab2c257d6"
--SRC_URI[sha256sum] = "6fa991b092315887775b9e47dc6a89af7ae09dd3ad4ccff754d055c566b4be6e"
-+SRC_URI[md5sum] = "8b8680e91390c57cab788fbf8e929479"
-+SRC_URI[sha256sum] = "a9e6c70c95f513871c5e1f4e452c04fcb3c4d8a05be651bd794cd994a52daa45"
- 
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
--- 
-2.7.4
+The csh does not support `export', in you case, you should correct 
+var-SHELL to align with $0,
+
+Such as:
+$ usermod <username> -s $0
+
+
+
+But the script should be more robust, it should
+work well in this situation. I will try to fix it.
+
+//Hongxu
+
+>
+>
+> Sadly we are unable to set $SHELL correctly.
+>
+> I wonder if there is another way of doing this that wouldn't cause 
+> this behavior.
+>
+> Cheers,
+>
+> Alejandro
+>
+>
+>>           bb.data.emit_func(cmd_func, script, envdata)
+>>           script.write(cmd_func)
+>>           script.write("\n")
+>
 
 
