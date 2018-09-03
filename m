@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3311179034;
-	Mon,  3 Sep 2018 01:05:23 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 4B8AF79034;
+	Mon,  3 Sep 2018 01:05:24 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Leon Woestenberg <leon@sidebranch.com>
-Date: Mon, 03 Sep 2018 01:05:24 -0000
-Message-ID: <20180903010524.13843.37735@do.openembedded.org>
-References: <1535935093-30793-1-git-send-email-leon@sidebranch.com>
+Date: Mon, 03 Sep 2018 01:05:25 -0000
+Message-ID: <20180903010525.13844.61642@do.openembedded.org>
+References: <1535935102-30843-1-git-send-email-leon@sidebranch.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1535935093-30793-1-git-send-email-leon@sidebranch.com>
+In-Reply-To: <1535935102-30843-1-git-send-email-leon@sidebranch.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsLmJiY2xhc3M6IGRvIG5vdCBkZXBsb3kgZml0SW1hZ2U7IGtlcm5lbC1maXRpbWFnZS5iYmNsYXNzIGRvZXMgdGhhdC4=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsLWZpdGltYWdlLmJiY2xhc3M6IFdyb25nIGJpbmFyeSB3YXMgZGVwbG95ZWQgZm9yIGtlcm5lbC1vbmx5IEZJVCBpbWFnZS4=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2018 01:05:23 -0000
+X-List-Received-Date: Mon, 03 Sep 2018 01:05:24 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
+Series: kernel-fitimage.bbclass: Wrong binary was deployed for kernel-only FIT image.
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/13858/
+URL   : https://patchwork.openembedded.org/series/13859/
 State : failure
 
 == Summary ==
