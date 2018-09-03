@@ -1,42 +1,48 @@
-Return-Path: <mhm.dawod@gmail.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 077976067C;
-	Mon,  3 Sep 2018 19:53:01 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id g44-v6so1626730qtb.12;
-	Mon, 03 Sep 2018 12:53:03 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D8C7E753D7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Sep 2018 21:25:10 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id u11-v6so625291plq.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Sep 2018 14:25:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=CZpJtGKeHOLD/hsPqcUUAnkd70BA/2aaOHbeyiNT548=;
-	b=kh9qrvnAUAsfdY0mF4Dw5Qrb0kc1RsPihQPVpUXgxDNQhQ5RuiX1y7r+uhYwHlC0rB
-	LuJcQbiPwY6YQifelNrf3KYOmbLPCR0oxIJLGpyoBhesp8AaqPbnzeT9R/oNwkSBU147
-	u3l7kMRBiilz0gqLaU6uRosfxn28V2nM7EhBgC/+H2LsbIpy4jRNGBngsG1Gvc5WIs5f
-	ffi/Ll+hDpCBdT3J/8x2RgNcK3Fz1w+MJAsu3hYtLrPGYlIvSHFVVOl7fImPawS9jyGY
-	c46wNFfGF0eyxuQ52aNLWCDbjlhdmd7gft/yOlZ9K1kFr+L+6WHj1dSZNa66psQMYzOB
-	3G2Q==
+	h=from:to:cc:subject:date:message-id;
+	bh=LgdBeZAGpF1++TMvpvBVYfJhvbiNctN865qWpvabbxQ=;
+	b=YZas270qxS2YQvd3l1EhcEIa4kAzQLO2Z2Ot2Os6G86baLQq74rcqFNAXTuZJhrCyC
+	rFeWWcUyeoCALQNTLwIMRthl0lyVuiTRGKnnSo3oM+f9ZgjFoW+9kDUS/wlq1+EhPkwd
+	vaAuIqvKf4GjwGo3ztDD51iqughmO76GVI12kKPZ4pYw+4bQsp//kRB/gDh2O/nclWjK
+	9bugwzCxMVqSTiUybD4o8aCorkMLXkHjxI05qbBqSNWHHLv/ChiPMZYbtkMrgIfDyb9y
+	jFR3bc3u21q0FKpAOo2ytOHlZt6aWYmeIbmhHSRyWTUbxjD9xlCoNcUsGLfmkWYQXRzq
+	MNrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=CZpJtGKeHOLD/hsPqcUUAnkd70BA/2aaOHbeyiNT548=;
-	b=pnoaqH551kV33lve6NQfa58DHJraoJbMcH8QFI7HmN7LxY11PcdpPKbQl1uPnc0jUE
-	PslIhMOqSHPClto8rwYGHyEVlw+l/ms94GzAutILJHWt/2eah671gpxJGeRypi+zx279
-	i5MCfJcbfFTAX+oueoxyMoMxlFkx8gTIZnMmJUwLCcfbGeOeXQBiSx4mXNCXr7mVcg0i
-	l55HyMi3D9A+GMKjMkY56pgF27vzR4E+aLs9kqQ42p9tRfYBaVPBVsfv3hiVWgOxTlh+
-	CcSKE1O6zuEbqk8Tm4+CZE79iUYi8nvxyY5gLHQRiVz52ZywG5fHYPue12QG/pom5PEZ
-	sO0Q==
-X-Gm-Message-State: APzg51ATaO4gUnuAso0O23Hk5mObSuZQAm9rnnq33QsOax3RjLsYSR+B
-	WrxAsj8eGndXw2UpzZ0MQHssHZWhSOXMlXFp2opRPTWP
-X-Google-Smtp-Source: ANB0VdaOExNzA+3dpR6w5RdDlqH51+hIYEnsVgp4Ibie0cUrbIUGSfoR+MzBfsIGJxLkD1/XYY0cQSCB0pRfz+uLn1s=
-X-Received: by 2002:ac8:32ea:: with SMTP id
-	a39-v6mr28030649qtb.234.1536004382465; 
-	Mon, 03 Sep 2018 12:53:02 -0700 (PDT)
-MIME-Version: 1.0
-From: Mohamed Dawod <mhm.dawod@gmail.com>
-Date: Mon, 3 Sep 2018 22:51:14 +0300
-Message-ID: <CAGCTLNRLn3MzQakECzUXpfrC+gw_QdudgYxBn-GuU4FGChKt9Q@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org, 
-	openembedded-devel@lists.openembedded.org
-Subject: [openembedded][qt5] : Text is hidden in Qt5 apps
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=LgdBeZAGpF1++TMvpvBVYfJhvbiNctN865qWpvabbxQ=;
+	b=Ws57m3c9KlYsWe+C/+thmknnho7YbNqs7ugYKUllNcNujcZHocNKO2QMPSJLyoatjM
+	OQWhsORm7Cd89+Hdj+86i/dOcuUNiJlOLVE6dA7n62vi+UUBx628VUZ1XYoXERF7K4jq
+	jOOpCyX/a3sUOplxSGcUBcEB20BVcm3W5AXDbsPEjQ+H8q0j7DkqhcBuUTfoDmzzXFbI
+	Ypo7QxmuK1+V/HuP8zE4aoNAdTN+0VwbOicqUMFHkZXwFs6cEUdbQsw2cnSWZpXNJAWz
+	BIQwIMnL7nsEXWq37ARN3OEXu+qc5zjNLRaJfQTFZnBmP9MnRdqTi11CjDmTg2Uw8XXq
+	s94Q==
+X-Gm-Message-State: APzg51C5B8xVUbFtVtSmlEgHJXo/OwxVf0FuOelxxz80zMr5q0U9GsZB
+	Y9L/6cxejuBNfHBsOUfOFgwa4AnS
+X-Google-Smtp-Source: ANB0VdbK+2m4vqAfDUqJa9PnqwS5usoC826WEwG9xX6eRelmSs+OkGoLgo1GYA6m0l8PZ8NzdoXVbg==
+X-Received: by 2002:a17:902:5617:: with SMTP id
+	h23-v6mr30232441pli.324.1536009911467; 
+	Mon, 03 Sep 2018 14:25:11 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::f180])
+	by smtp.gmail.com with ESMTPSA id
+	p26-v6sm34626331pfi.183.2018.09.03.14.25.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Sep 2018 14:25:10 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Sep 2018 14:25:01 -0700
+Message-Id: <cover.1536009789.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH 0/3] Misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,46 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2018 19:53:02 -0000
-Content-Type: multipart/alternative; boundary="0000000000009721950574fce34a"
+X-List-Received-Date: Mon, 03 Sep 2018 21:25:11 -0000
 
---0000000000009721950574fce34a
-Content-Type: text/plain; charset="UTF-8"
+Some failures seen when host has python3 as python
+build core-image-sato for riscv64
 
-Hi,
-I built custom image based on wayland instead of x11
-it support Qt5 apps.
-I built simple Qt5 app and tried to build it for the custom image to run it
-there.
-the application is work but the text is hidden !
-The same for the test app "Qt5_Cinematicexperience"
-No text at all for all films.
+The following changes since commit 929b1b341b4b221ac10c8621bad27abfa7ae70bc:
 
-Thanks,
+  openssl: Handle -conf package file conflicts (2018-08-31 15:33:56 +0100)
 
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/misc
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/misc
+
+Khem Raj (3):
+  packagegroup-core-x11-sato: Make weak include for gst-examples
+  serf: Fix Sconstruct build with python 3.7
+  eglinfo: Upgrade contained waf version to 2.0.11 release
+
+ meta/recipes-graphics/eglinfo/eglinfo.inc     |   6 +-
+ meta/recipes-graphics/eglinfo/files/waf       | 169 ++++++++++++++++++
+ .../packagegroup-core-x11-sato.bb             |   5 +-
+ ...print-in-the-scons-file-to-unbreak-b.patch |  29 +++
+ ...-Fix-path-quoting-for-.def-generator.patch |  27 +++
+ .../serf/serf/0003-gen_def.patch              |  22 +++
+ ...11083-fix-building-with-scons-3.0.0-.patch |  29 +++
+ meta/recipes-support/serf/serf_1.3.9.bb       |   7 +-
+ 8 files changed, 291 insertions(+), 3 deletions(-)
+ create mode 100755 meta/recipes-graphics/eglinfo/files/waf
+ create mode 100644 meta/recipes-support/serf/serf/0001-Fix-syntax-of-a-print-in-the-scons-file-to-unbreak-b.patch
+ create mode 100644 meta/recipes-support/serf/serf/0002-SConstruct-Fix-path-quoting-for-.def-generator.patch
+ create mode 100644 meta/recipes-support/serf/serf/0003-gen_def.patch
+ create mode 100644 meta/recipes-support/serf/serf/0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch
 
 -- 
+2.18.0
 
-Mohamed Dawod
-Computer Engineering Department
-Faculty of Engineering
-Cairo University
 
---0000000000009721950574fce34a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,</div><div>I built custom image based on wayland i=
-nstead of x11</div><div>it support Qt5 apps.</div><div>I built simple Qt5 a=
-pp and tried to build it for the custom image to run it there.<br></div><di=
-v>the application is work but the text is hidden !<br></div><div>The same f=
-or the test app &quot;Qt5_Cinematicexperience&quot;<br></div><div>No text a=
-t all for all films.</div><div><br></div><div>Thanks,</div><br clear=3D"all=
-"><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"g=
-mail_signature"><div dir=3D"ltr"><div>=C2=A0<br>Mohamed Dawod<br></div><div=
->
-Computer Engineering Department=C2=A0<br>
-Faculty of Engineering=C2=A0<br>
-Cairo University</div></div></div></div>
-
---0000000000009721950574fce34a--
