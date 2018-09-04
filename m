@@ -1,51 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail.openembedded.org (Postfix) with ESMTP id D3BA977AAE
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id D690460684
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 19:00:36 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id j8-v6so2145774pff.6
+	Tue,  4 Sep 2018 19:12:45 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id s12-v6so5587624wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 12:00:38 -0700 (PDT)
+	Tue, 04 Sep 2018 12:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=52DhvfayZLazkhFuCqjoCgN0fz9gxCRTwHVxDg4n9Ls=;
-	b=ey8ovUX15AV0L0GuL+/kLSBP5SKxz1rli6d0ZOHGxL42kEkOFVVvg3SZmoQjmv7iwB
-	RdYLewTgD/s8WLhJiPQZgrrLVnXJxnknaUVzDChM1JvwoY3LuuYZI70A3KBiPQ9Uv5wj
-	F1nwYXTnaaMA7bHvkIByhxq+uMIVvW+uo9ce9US4MMc42TrCJDvi/Pr196ITIQGu1M+s
-	8mKuAxMC3wrfQwZsdAS897R/8IZTyhI7zixmOGRYD3MKJci1KL5DGzOZKUijTn3nrQKU
-	VZWI+15OhNgC1N5072tmEXLHeld2+6fU6o/0aHE84w309L2VcTM2j4SXwHeuhaXw3fRs
-	9+mw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=AInUlBUp8v+jnEJ7hB9pInZ8LFo7Fl7h0IBO6i0B0tg=;
+	b=IJ/NZAs7sKX31tPcSb1rBGyx+jnMKZrLaRIUB7vZ5I6AYSOnTk3V5y0+39yEpOkrYI
+	z3i/uev1vEDVPGDxCx2r8wQB9UaFjq8RizLSmdwOAKV9ZPs82g1qtWQQlgg4Wnyta/+s
+	wjptYZu9GdUfuOfEzNhWU14nPtctFeF5hiS2G+0/0WcnZ5uyB4mkIg9gDheGdA9q6x56
+	8/XuTzBOnt9YKC0UfMO/9G2wahpWI8BkgTWpSqZ06tTly2AjdR8ftACO/GTDRnmA8B7H
+	k+X3J8K3xGn7FcELqZidHp+9ORDk9hw/MTKdiVot2avXvrYAaotW1Cwpdcds+P56A0b6
+	XQtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=52DhvfayZLazkhFuCqjoCgN0fz9gxCRTwHVxDg4n9Ls=;
-	b=ZfoRRZWDs6RWDskydQR8/jnkjXK/bQ+Rn7Zo7WARwdb4FvpD1c4thUUUe9EFNQYVmz
-	a99WkDkVYtnt3BAw3wJR5COSIchTAGF12XjJdW0P5S9AeXXDatKZdDQVgjL9+ICdb9Wx
-	Z2QD7K4N3TDrCs9DxVxigi/sKiK5S+5bDkVzv1V/FQIVkaIuurxp+YkDzk79rZJ5Ym+K
-	Scd0sLC5JhoaJbbT8vr6WJLP6u8RWVLKu4pxyW2NCzqrplf4l7DS6iMVHnzPIzuW6LBu
-	sDCDc/MzmzEVhVHce6cpqyupG5QROT2e4e4C+j5LKVf3wkBhn2VgctOjgn4VEO9sLqCh
-	UdKA==
-X-Gm-Message-State: APzg51DT31P/0unm4wribIaPKPgTluY5Hyyf7cF71+C9/sZVnufImin0
-	iyX3NqiF1SBxCIJJecCMBEZbJSGP
-X-Google-Smtp-Source: ANB0VdbMF4TcfWNpZl0SRawbHRSiVV6qP6A2Hom2zJi5LBz5i5c70v1nooHN1cafEanAmIFEU843Bg==
-X-Received: by 2002:a63:5055:: with SMTP id
-	q21-v6mr32534358pgl.397.1536087637400; 
-	Tue, 04 Sep 2018 12:00:37 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::71e7])
-	by smtp.gmail.com with ESMTPSA id
-	i20-v6sm29364805pfj.82.2018.09.04.12.00.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Sep 2018 12:00:35 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Sep 2018 12:00:27 -0700
-Message-Id: <20180904190027.1410-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180904190027.1410-1-raj.khem@gmail.com>
-References: <20180904190027.1410-1-raj.khem@gmail.com>
-Subject: [PATCH 2/2] musl: Update latest on master
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=AInUlBUp8v+jnEJ7hB9pInZ8LFo7Fl7h0IBO6i0B0tg=;
+	b=Ih/gx6WYijpf2jjD9lo/00mjsnHmWbZNk1BgHRCE9yOieDY3Zr+Y+MJkm6N8gT+YYn
+	4vsNz9mB6C3QfDsjIu1I3RibBq+LtSdy53/rGGhJnmIr/wcygXoB7KEM6PsyyOrrl1RJ
+	ac7jmfPgwtnc2FiYNLa4vdqV6s1+xVxK9oCsMXf+qHVAKXJmA5tpqGVMKUMLFmnbAxw9
+	Lf8aqtRqYkb/0kV4RTxQR3og5xtVmDLsJb02a79cZ5LUwXUD6pRrwCcsWrEOQd6Cq/Du
+	ByynRXOk+szRGu572QAXjkiqnBJ7D9aL/efi9DdyQVOdKwxpU0chQTC1iKMXMS5usRhh
+	qYTg==
+X-Gm-Message-State: APzg51DF8zXsLm5cB4iy8J6t8Zr4dcQOFppWiu0mSZMekHP+xxO1b65+
+	lE4fq6kCQoj4A8q8UIROgaoV8kNm3kfM2j0Ld4o=
+X-Google-Smtp-Source: ANB0VdbNtYmRoI9HiC1ek0kXA0Sx8UIVUAIn44/YwOkMjvds+NzcZo8QJmUtidJwEDoDE1a37oQzhVJiIia4yZS5OY0=
+X-Received: by 2002:a1c:3413:: with SMTP id
+	b19-v6mr3363316wma.21.1536088366563; 
+	Tue, 04 Sep 2018 12:12:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1535451643.git.alex.kanavin@gmail.com>
+	<b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
+In-Reply-To: <b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 4 Sep 2018 21:12:35 +0200
+Message-ID: <CA+chaQfSBfzWoDKkWH0arU388zqewFMVKQ+bJwo4TMABZhAiog@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 1/6] openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the default version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +55,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 19:00:37 -0000
+X-List-Received-Date: Tue, 04 Sep 2018 19:12:46 -0000
+Content-Type: multipart/alternative; boundary="0000000000006ec7f40575107138"
 
-hopefully last bump before 1.1.20 is released
+--0000000000006ec7f40575107138
+Content-Type: text/plain; charset="UTF-8"
 
-ChangeLog
+On Tue, Aug 28, 2018 at 12:23 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-https://git.musl-libc.org/cgit/musl/log/?qt=range&q=767f7a1091af3a3dcee2f7a49d0713359a81961c..64466094ede4162ddd4049cea5da09feb9abfaa6
+> From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+>
+> I believe the time has come to do this: openssl 1.0 upstream support stops
+> at the end
+> of 2019, and we do not want a situation where a supported YP release
+> contains an
+> unsupported version of a critical security component.
+>
+> Openssl 1.0 can still be utilized by depending on 'openssl10' recipe.
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This still isn't true for most recipes, as long as there is something
+depending on openssl in the dependency tree, it will
+cause do_prepare_recipe_sysroot failures like last time
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index f4f156042a..997eb14959 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,7 +3,7 @@
- 
- require musl.inc
- 
--SRCREV = "767f7a1091af3a3dcee2f7a49d0713359a81961c"
-+SRCREV = "64466094ede4162ddd4049cea5da09feb9abfaa6"
- 
- PV = "1.1.19+git${SRCPV}"
- 
--- 
-2.18.0
+ERROR: The file /usr/lib/libssl.so is installed by both openssl10 and
+openssl, aborting
+DEBUG: Python function extend_recipe_sysroot finished
+DEBUG: Python function do_prepare_recipe_sysroot finished
+ERROR: Function failed: extend_recipe_sysroot
 
+From 15 failures caused by openssl-1.1 detected in my builds, just changing
+DEPENDS from openssl to openssl10 didn't help in any case.
 
+Regards,
+
+--0000000000006ec7f40575107138
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_quot=
+e"><div dir=3D"ltr">On Tue, Aug 28, 2018 at 12:23 PM Alexander Kanavin &lt;=
+<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Alexa=
+nder Kanavin &lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" targe=
+t=3D"_blank">alexander.kanavin@linux.intel.com</a>&gt;<br>
+<br>
+I believe the time has come to do this: openssl 1.0 upstream support stops =
+at the end<br>
+of 2019, and we do not want a situation where a supported YP release contai=
+ns an<br>
+unsupported version of a critical security component.<br>
+<br>
+Openssl 1.0 can still be utilized by depending on &#39;openssl10&#39; recip=
+e.<br></blockquote><div><br></div><div>This still isn&#39;t true for most r=
+ecipes, as long as there is something depending on openssl in the dependenc=
+y tree, it will cause=C2=A0do_prepare_recipe_sysroot failures like last tim=
+e</div><div><br></div><div>ERROR: The file /usr/lib/libssl.so is installed =
+by both openssl10 and openssl, aborting</div><div>DEBUG: Python function ex=
+tend_recipe_sysroot finished</div><div>DEBUG: Python function do_prepare_re=
+cipe_sysroot finished</div><div>ERROR: Function failed: extend_recipe_sysro=
+ot</div><div><br></div><div>From 15 failures caused by openssl-1.1 detected=
+ in my builds, just changing DEPENDS from openssl to openssl10 didn&#39;t h=
+elp in any case.</div><div><br></div><div>Regards,</div></div></div></div><=
+/div>
+
+--0000000000006ec7f40575107138--
