@@ -1,28 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AE1997550F
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 183DA78D24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 11:19:33 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w84BJTZG024269
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 4 Sep 2018 12:19:30 +0100
-Message-ID: <57b7ac2a8b41e1c54460989cd27231330bb6cc33.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Robert Yang
-	<liezhi.yang@windriver.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 04 Sep 2018 12:19:29 +0100
-In-Reply-To: <8db3e1637d3c4714aa90df95492b2f84@XBOX02.axis.com>
-References: <cover.1536042978.git.liezhi.yang@windriver.com>
-	<ea8e96b3f2b09db17ecf9a28765b709433febe9b.1536042978.git.liezhi.yang@windriver.com>
-	<8db3e1637d3c4714aa90df95492b2f84@XBOX02.axis.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/1] bitbake.conf: Make BUILD_OPTIMIZATION respect	to DEBUG_BUILD
+	Tue,  4 Sep 2018 13:29:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w84DT23h029128
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 4 Sep 2018 06:29:03 -0700
+Received: from [128.224.162.202] (128.224.162.202) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 4 Sep 2018 06:29:02 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <1535967326-32322-1-git-send-email-hongxu.jia@windriver.com>
+	<CANNYZj-4XNrwM4xEnnPrdgdobecJa3e+5RQYzoRWYYum=WRyoQ@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <3b83ec3a-af68-928e-6fae-ef71fbca77f6@windriver.com>
+Date: Tue, 4 Sep 2018 21:29:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj-4XNrwM4xEnnPrdgdobecJa3e+5RQYzoRWYYum=WRyoQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] webkitgtk: add opengl to REQUIRED_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,74 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 11:19:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Sep 2018 13:29:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Tue, 2018-09-04 at 08:15 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > <openembedded-
-> > core-bounces@lists.openembedded.org> On Behalf Of Robert Yang
-> > Sent: den 4 september 2018 08:37
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH 1/1] bitbake.conf: Make
-> > BUILD_OPTIMIZATION
-> > respect to DEBUG_BUILD
-> > 
-> > We may also need debug native tools, so make BUILD_OPTIMIZATION
-> > respect to
-> > DEBUG_BUILD, otherwise, we need set CFLAGS in the recipe which
-> > isn't
-> > convenient.
-> > 
-> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > ---
-> >  meta/conf/bitbake.conf | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index 1941633..df62445 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -612,7 +612,7 @@ FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
-> >  DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS}
-> > -pipe"
-> >  SELECTED_OPTIMIZATION = "${@d.getVar(['FULL_OPTIMIZATION',
-> > 'DEBUG_OPTIMIZATION'][d.getVar('DEBUG_BUILD') == '1'])}"
-> >  SELECTED_OPTIMIZATION[vardeps] += "FULL_OPTIMIZATION
-> > DEBUG_OPTIMIZATION"
-> > -BUILD_OPTIMIZATION = "-O2 -pipe"
-> > +BUILD_OPTIMIZATION = "${@['-O2', '-O -g -feliminate-unused-debug-
-> > types -fno-omit-frame-pointer'][d.getVar('DEBUG_BUILD') == '1']}
-> > -pipe"
-> 
-> Can we make that more readable:
-> 
-> BUILD_OPTIMIZATION = "${@'-O -g -feliminate-unused-debug-types -fno-
-> omit-frame-pointer' if d.getVar('DEBUG_BUILD') == '1' else '-O2'}
-> -pipe"
-> 
-> Should probably do the same for SELECTED_OPTIMIZATION while at it:
-> 
-> SELECTED_OPTIMIZATION = "${@d.getVar('DEBUG_OPTIMIZATION' if
-> d.getVar('DEBUG_BUILD') == '1' else 'FULL_OPTIMIZATION')}"
+On 2018年09月03日 17:54, Alexander Kanavin wrote:
+> 2018-09-03 11:35 GMT+02:00 Hongxu Jia <hongxu.jia@windriver.com>:
+>> They can't be built without opengl in DISTRO_FEATURES.
+>> [snip]
+>> |webkitgtk-2.20.3/Source/WebCore/platform/graphics/OpenGLShims.h:23:10:
+>> fatal error: GL/gl.h: No such file or directory
+>> [snip]
+> Apologies, but NAK.
+>
+> Webkit recipe already has the necessary configuration to handle this:
+>
+> PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11',
+> 'x11', 'wayland' ,d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
+> 'webgl opengl', '' ,d)} \
+>
+> PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/libgl"
+> PACKAGECONFIG[opengl] = "-DENABLE_OPENGL=ON,-DENABLE_OPENGL=OFF,virtual/libgl"
+>
+>
+> If disabling opengl does not work, then you should look closer into
+> why, instead of just requiring opengl to be present always.
+I am afraid whether opengl or not, it always requires virtual/libql
+just like Ubuntu/Fedora does.
 
-If we're going to deal with readability and usability we could add
-something like:
+[Fedora webkitgtk.spec]
+BuildRequires:  mesa-libGL-devel
+[Fedora webkitgtk.spec]
 
-def vartrue(var, iftrue, iffalse, d):
-    if oe.types.boolean(d.getVar(var)):
-        return iftrue
-    else:
-        return iffalse
+[Ubuntu debian/control]
+Build-Depends: libgl1-mesa-dev [!armel !armhf !arm64]
+[Ubuntu debian/control]
 
-to lib/oe/utils and then:
+I tried to move `virtual/libgl' from PACKAGECONFIG to DEPENDS,
+but unfortunately, the provider of `virtual/libgl' -- mesa/mesa-ql,
+they require `opengl 'or `vulkan' in distro features check.
 
-BUILD_OPTIMIZATION = "${@oe.utils.vartrue('DEBUG_BUILD', '-O -g -feliminate-unused-debug-types -fno-omit-frame-pointer', '-O2', d)}"
+//Hongxu
 
-Cheers,
+> Alex
 
-Richard
 
 
