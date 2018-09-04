@@ -1,54 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com
-	[209.85.222.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AA29674F09
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 89176771B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 19:14:17 +0000 (UTC)
-Received: by mail-ua1-f67.google.com with SMTP id u11-v6so3780998uan.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 12:14:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=5mD6eMc5R331itylZ9EqCBmBAJnnmp0DjRfyIgiNu8s=;
-	b=DSYnmseXedNyWPonYhBKcF+Tbn5gqFcBHQo/1x0kt8QV+wwgFka4WkGhN5gFZvfJDT
-	2Wu4lmVJvhyYQ44DgGfnLYxwbybwimH4/45DZn4DJUZWG3TUTPVztBgSWvVnLJNNzRCZ
-	sgQPn6RXb3LIb8dhsrar+bggA8oDuAwWqlm7yDMlUj92jkN0wG9mkwofyMDOTkp47W7e
-	7SvRSripYtw4HQIf95cca6HdBfW55I3+HJNzckQnMP6MTSm8AuoFmDPHWBzdImT9Jgnq
-	IkVrM4dufi7d1fBr7BhtmRct/oiozEUItCpFTgS9U2fCYEsM0oilpMhby8tns1dxBqwh
-	glXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=5mD6eMc5R331itylZ9EqCBmBAJnnmp0DjRfyIgiNu8s=;
-	b=CxaqUNwT5QB+3bJPWYVF7zL1g8ZzhrZlwkw3jtBHGwJ4dEqxtA04gSEYTLZrbYtjWS
-	Ev0BqVVkv+HXqWUw/fXN/DXQGgII9wkH+mTQpATE2Qv25GN+MiQSFjmR2z3aq8adWUMI
-	Ui1AgUK2K6iQRyd/0PRd8geWRWJ03woPKXw4XF3eZMejjQaIt+J0h+mTh6aU57r/ZpFk
-	wjKpjprE0OgsWSVdwFqFYYeFmQL977VZ/cf3NWT/+lTHn5BKwKfMFMXPJHFAT/L9vzuf
-	lJidET8Ad1NRYZ5d3w5V25zo6LhxxN9SlPym8saSvuaAbAue9Mz6Vfr6igSKFuyGuEjT
-	rAiQ==
-X-Gm-Message-State: APzg51C0Mq6mLvWtucJH4Q2q68chTZMQ+GNB/5HQLRJPwyLj+mNWt+Sd
-	Gv7/qKt13T+LNPXV6jS4bWvINKL1M0FdkXNcjw4=
-X-Google-Smtp-Source: ANB0VdYOR21thjB1N5A+4Ran6F4+2/Exys58944Z9u8b8bfMTnOJv5x3koaTtAvoSAZIzf889okxjuGSS6DvIPOmQW4=
-X-Received: by 2002:ab0:1950:: with SMTP id
-	u16-v6mr18532913uag.179.1536088458528; 
-	Tue, 04 Sep 2018 12:14:18 -0700 (PDT)
+	Tue,  4 Sep 2018 19:31:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w84JV7wp009267
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 4 Sep 2018 12:31:08 -0700 (PDT)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 4 Sep 2018 12:31:06 -0700
+To: Andrej Valek <andrej.valek@siemens.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20180830155702.21700-1-andrej.valek@siemens.com>
+	<d3d2454e-72d5-bf4d-351a-7ed1efe1a7f4@siemens.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <fe5d1e09-7923-61e7-9bab-6238de83de8e@windriver.com>
+Date: Tue, 4 Sep 2018 15:31:05 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Received: by 2002:a9f:2b46:0:0:0:0:0 with HTTP;
-	Tue, 4 Sep 2018 12:14:18 -0700 (PDT)
-In-Reply-To: <217b44d6-0d44-8f9f-80c6-7262324d751f@xilinx.com>
-References: <1535100844-4514-1-git-send-email-hongxu.jia@windriver.com>
-	<83f1c6c3-195c-b6c6-979c-3d58db4f9cb9@xilinx.com>
-	<591d25eb-bb99-746f-37ac-6769db4228b8@windriver.com>
-	<217b44d6-0d44-8f9f-80c6-7262324d751f@xilinx.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 4 Sep 2018 12:14:18 -0700
-Message-ID: <CAJ86T=WdMgTuGVRCZHhNrGSL8YkVswP8JNXHdM2ryF7wJMxL5Q@mail.gmail.com>
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal.bbclass: use var-SHELL as the shebang of wrapper script
+In-Reply-To: <d3d2454e-72d5-bf4d-351a-7ed1efe1a7f4@siemens.com>
+X-Originating-IP: [172.25.44.4]
+Cc: "Purdie, Richard" <richard.purdie@intel.com>
+Subject: Re: [PATCH] busybox: update to 1.29.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,80 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 19:14:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 04 Sep 2018 19:31:07 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 4, 2018 at 9:36 AM, Alejandro Enedino Hernandez Samaniego
-<alejandro.enedino.hernandez-samaniego@xilinx.com> wrote:
-> Hey Hongxu,
->
->
->
-> On 09/02/2018 10:52 PM, Hongxu Jia wrote:
->>
->> On 2018=E5=B9=B409=E6=9C=8801=E6=97=A5 08:14, Alejandro Enedino Hernande=
-z Samaniego wrote:
->>>
->>> Hey Hongxu,
->>>
->>>
->>> On 08/24/2018 01:54 AM, Hongxu Jia wrote:
->>>>
->>>> The devshell.bbclass set var-SHELL to var-DEVSHELL, and terminal.bbcla=
-ss
->>>> initial var-SHELL with `bash'. Keep sync with it, use var-SHELL rather
->>>> than hardcoded `/bin/sh' as the shebang of wrapper script.
->>>>
->>>> On Ubuntu host, default shell is dash (/bin/sh -> dash), even though
->>>> we assign var-SHELL with `/bin/bash', the wrapper script is still
->>>> dashism.
->>>>
->>>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->>>> ---
->>>>   meta/classes/terminal.bbclass | 3 ++-
->>>>   1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/classes/terminal.bbclass
->>>> b/meta/classes/terminal.bbclass
->>>> index a27e10c..73e765d 100644
->>>> --- a/meta/classes/terminal.bbclass
->>>> +++ b/meta/classes/terminal.bbclass
->>>> @@ -25,7 +25,8 @@ def emit_terminal_func(command, envdata, d):
->>>>       bb.utils.mkdirhier(os.path.dirname(runfile))
->>>>         with open(runfile, 'w') as script:
->>>> -        script.write('#!/bin/sh -e\n')
->>>> +        script.write('#!/usr/bin/env %s\n' % d.getVar('SHELL'))
->>>> +        script.write('set -e\n')
->>>
->>> This is causing a bug on several systems, I believe that it is because
->>> the way our systems are set up,
->>> basically, our running shell isn't necessarily $SHELL, so it is causing
->>> the process to exit immediately,
->>> anything thats using this class is affected, devshell, menuconfig, etc.
->>>
->>>
->>> $ echo $SHELL
->>> /bin/csh
->>>
->>> $ echo $0
->>> /bin/bash
->>>
->>
->> The csh does not support `export', in you case, you should correct
->> var-SHELL to align with $0,
->>
->> Such as:
->> $ usermod <username> -s $0
->
->
-> I absolutely agree, but as I was saying, because the way the system is se=
-t
-> up, it does not allow me to do so.
+We really want to get this change merged this week so
+that it's part of the 2.6-M3 content that will be well tested.
 
-Maybe I'm missing something, but what's the advantage of using SHELL
-to run this little wrapper script rather than hardcoding /bin/sh ?
+On 08/31/2018 03:42 AM, Andrej Valek wrote:
+> I had some network problems.
+> 
+> This patch could be ignored, because, it's same as
+> http://lists.openembedded.org/pipermail/openembedded-core/2018-August/155059.html
 
-Task shell scripts created by bitbake use hardcoded /bin/sh (see
-bitbake/lib/bb/build.py -> shell_trap_code())
+
+That patch dropped the:
+
+    Openpgp: preference=signencrypt
+    Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual;
+    keydata=
+         xsBNBFkSzTcBCADSJTRk7Y...bIFUmc7ck3KeuUGKy
+         ifrpWD6/7YPXbixv4sAlFl...zmMdr0BPLMsL96nBO
+...
+
+but it's still base64 encoded:
+    Content-Type: text/plain; charset="utf-8"
+    Content-Transfer-Encoding: base64
+
+whereas other patches to the list use:
+    Content-Type: text/plain; charset="us-ascii"
+    Content-Transfer-Encoding: 7bit
+
+
+Can you fix that and/or send a pull request:
+ 
+http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Committing_your_patch
+
+
+Thanks,
+-- 
+# Randy MacLeod
+# Wind River Linux
 
