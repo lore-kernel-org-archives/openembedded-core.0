@@ -1,49 +1,51 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com
-	[209.85.213.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 03F317469B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AFFE7552F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 20:38:44 +0000 (UTC)
-Received: by mail-vk0-f41.google.com with SMTP id 125-v6so1858954vke.11
+	Tue,  4 Sep 2018 20:43:41 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id b19-v6so3417809qkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 13:38:46 -0700 (PDT)
+	Tue, 04 Sep 2018 13:43:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TatWDCLoNuo231By8hutMamRUjV1iihaae1EwcJ+4f8=;
-	b=fdTuJRe2zGtk6DPyFE3nYRlBSqaSTDwwYRIs8DHz4C1Vb6e27A5tiBp6GPe1/ja6CK
-	hvlscTGfV7Lxl5n8u6Z+LoNFfd/1cQqpvAPTQmn95DJqwGVx7slBfLM0ECNWvnyPr6Ms
-	8222sIGXhPE+HP4Do/P1DtRPO/Gr57wX1VvAsoe4b1Xv1sJEElKhhvfPqHwC6BK2jPck
-	i0exu4Turx63Pif0F5GgFkd03QI37wMHBootQZ4FJse7dbdnaVEssEz96DUX5zrlyAbG
-	noIkak+B9ZnKZsKXAf4vQtD6BtJnAIq8lpkrqgaAx7uCWIlQX2eOooA0Ve8GZoCUV5VE
-	VAgQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=j9g4CDksFsgAhwl4gzbXvPMt5w3ePFTwk+uNRzjJ0oA=;
+	b=XOQdSfzEw5qC7FVuUzqJ8/wVYX58Ul/MafFYYcZcBPKcr/garnaN3HcNkArShJWWBh
+	COfzE64M5nhJgHk/QEKjoBu99cgmlHM43Mdy8TyWZF7H87ou70YQHRJCK17JgizcQYIV
+	HJC5B4VK/Y8w5+mVNO+MqTPLfS9SThhw/RnswB6pYjlZTCG7bXXiCEIIf3k0c2qsT0KA
+	xc8u39ZUn2yqHjnwt5I+8qaUWti+7M4EO5wWBpgaGHQYCplXgloOzUtZaWKuWRzKw8wk
+	Ng8KrlijezZT/Z+W8AV5b8eY0xT4FL8v/rKRc7aXc/HELmTEVTbl1HhvQShJXW0KJ+7X
+	0LPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=TatWDCLoNuo231By8hutMamRUjV1iihaae1EwcJ+4f8=;
-	b=VWHdtRWAoIGYGNMwu5WMtm1V++rt8lXC3flTtT7bMW6d0zYAKrHGjHxpEHZ94jyC5h
-	gqaFmXAKJ7pPWJCD1eqLd5XLspqV3jFPq2QvxfLWZzg9+tg1fPVf+9SB2CpdZsRnloGb
-	j4L3dYAKa4ncWJiTBugX/De9Ymq9NQ6YW+51ORmPr/CCSWTW2AXELWchrvSsYLjo20fw
-	ht29zlqtEstw4pW49IfoICi4SLDOiDl3WlMbEi21bbsRNSv2GlCMlA1bvQqDuXq7ggIh
-	SC4MXuhit1luvI8BxFzXHXk4SEziPL74vku1FeSWaPvDa469/P60aCb+XFbhoafIRdcX
-	FwKQ==
-X-Gm-Message-State: APzg51BW6w820N8aWDydnykvFsI6Qa5t2ix+5le4KbebqXkFSmtU/7aa
-	SVEXI/OntLeQk819SeD34s84dS1SzipSP1FbKFA=
-X-Google-Smtp-Source: ANB0Vdb/BFwEXRs7/oeu+cgFnwkwrNd1KMbXND8OWVU3ueDSU9Kcf8qFhgIYXm99PMdk7q2BylgxiJdnPSiWQds5lrM=
-X-Received: by 2002:a1f:c2:: with SMTP id 185-v6mr6178407vka.53.1536093525479; 
-	Tue, 04 Sep 2018 13:38:45 -0700 (PDT)
+	bh=j9g4CDksFsgAhwl4gzbXvPMt5w3ePFTwk+uNRzjJ0oA=;
+	b=aE/fzvqvhVMW7RdP83a+aYcvfhr7aN1M//RmfdjTIjasi1594Ln/kprdLvp+K8c20Y
+	CGqpL+4trHEob4vVlvVc89usQJ7rg9i1lcdOLKINWVPr0i6mDhoLWUnDggel7jQOLUNa
+	08G/fo2gHlgCFlzo4qhZ9RX6//OT7PvLkXISRxvm3SM2yFy06Rz5qV/oVvr2MP8j7hqB
+	ZB+E3I0I5tCHViFq/9WgXXB7k9E5oTPwttkj5XEDTsxbvU9zu4t3zzs33cn8mrmUn4YL
+	bH76hU+T7Izq5s9GOqJhWxgf56qSFVZZ08dn5SdVkQC7khgVhDStOrceSTsHoNEDMlfE
+	A7hg==
+X-Gm-Message-State: APzg51AVGS7ap8aeDgIRdKV9AooU5qrrbBm026TEnWCHfcrcAJtDzQzA
+	A8JO9xV/Y8b0FGhv1OAEnRsUe9JVusixamL6nHc=
+X-Google-Smtp-Source: ANB0Vda58RikA83i9NeIr27hQkDQlTvVLsZWcX43Jc89xjCpJcGKQmUNBIx0S/fiq5M1nKUB2Jfr5/tOR9e8lNvh5OY=
+X-Received: by 2002:a37:b246:: with SMTP id
+	b67-v6mr16424544qkf.284.1536093822630; 
+	Tue, 04 Sep 2018 13:43:42 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9f:3481:0:0:0:0:0 with HTTP;
-	Tue, 4 Sep 2018 13:38:44 -0700 (PDT)
-In-Reply-To: <1f7ed298deed1f23ccd6e67b4701985660abe575.1535451643.git.alex.kanavin@gmail.com>
 References: <cover.1535451643.git.alex.kanavin@gmail.com>
-	<1f7ed298deed1f23ccd6e67b4701985660abe575.1535451643.git.alex.kanavin@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 4 Sep 2018 13:38:44 -0700
-Message-ID: <CAJ86T=XVPbDxD82w8h5ZgZNvf4sFKaYo9pBEWwT_aZjNTJYAdg@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 2/6] cryptodev-tests: port to openssl 1.1
+	<b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
+	<CA+chaQfSBfzWoDKkWH0arU388zqewFMVKQ+bJwo4TMABZhAiog@mail.gmail.com>
+	<a12df2950bb8cbe607429ba26247543ba63367af.camel@linuxfoundation.org>
+In-Reply-To: <a12df2950bb8cbe607429ba26247543ba63367af.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 4 Sep 2018 13:43:16 -0700
+Message-ID: <CAMKF1spTfZD2B19zQFH+PhAytChCe1k-05ma2QQ9TCVp3TNrgw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 1/6] openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the default version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,161 +58,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 20:38:45 -0000
+X-List-Received-Date: Tue, 04 Sep 2018 20:43:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 28, 2018 at 3:23 AM, Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
-> From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+On Tue, Sep 4, 2018 at 1:35 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> This leaves openssh as the only recipe that requires openssl 1.0 (or libressl).
+> On Tue, 2018-09-04 at 21:12 +0200, Martin Jansa wrote:
+> > On Tue, Aug 28, 2018 at 12:23 PM Alexander Kanavin <alex.kanavin@gmai
+> > l.com> wrote:
+> > > From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> > >
+> > > I believe the time has come to do this: openssl 1.0 upstream
+> > > support stops at the end
+> > > of 2019, and we do not want a situation where a supported YP
+> > > release contains an
+> > > unsupported version of a critical security component.
+> > >
+> > > Openssl 1.0 can still be utilized by depending on 'openssl10'
+> > > recipe.
+> >
+> > This still isn't true for most recipes, as long as there is something
+> > depending on openssl in the dependency tree, it will
+> > cause do_prepare_recipe_sysroot failures like last time
+> >
+> > ERROR: The file /usr/lib/libssl.so is installed by both openssl10 and
+> > openssl, aborting
+> > DEBUG: Python function extend_recipe_sysroot finished
+> > DEBUG: Python function do_prepare_recipe_sysroot finished
+> > ERROR: Function failed: extend_recipe_sysroot
+> >
+> > From 15 failures caused by openssl-1.1 detected in my builds, just
+> > changing DEPENDS from openssl to openssl10 didn't help in any case.
 >
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  .../cryptodev/cryptodev-tests_1.9.bb               |   3 +-
->  .../files/0001-Port-tests-to-openssl-1.1.patch     | 103 +++++++++++++++++++++
->  2 files changed, 105 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
+> That isn't good news. Do you have an idea of which components are in
+> the dependency chains and if any of them are common? It'd also be
+> useful to understand which ones are breaking...
 >
-> diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
-> index 9afb3de..617db6c 100644
-> --- a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
-> +++ b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
-> @@ -2,10 +2,11 @@ require cryptodev.inc
->
->  SUMMARY = "A test suite for /dev/crypto device driver"
->
-> -DEPENDS += "openssl10"
-> +DEPENDS += "openssl"
->
->  SRC_URI += " \
->  file://0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch \
-> +file://0001-Port-tests-to-openssl-1.1.patch \
->  "
->
->  EXTRA_OEMAKE='KERNEL_DIR="${STAGING_EXECPREFIXDIR}" PREFIX="${D}"'
-> diff --git a/meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch b/meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
-> new file mode 100644
-> index 0000000..c969126
-> --- /dev/null
-> +++ b/meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
-> @@ -0,0 +1,103 @@
-> +From 2fe4bdeb8cdd0b0f46d9caed807812855d51ea56 Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Wed, 28 Mar 2018 20:11:05 +0300
-> +Subject: [PATCH] Port tests to openssl 1.1
-> +
-> +Upstream-Status: Accepted [https://github.com/cryptodev-linux/cryptodev-linux/pull/36]
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +
-> +---
-> + tests/openssl_wrapper.c | 33 +++++++++++++++++++++++++++++++++
-> + 1 file changed, 33 insertions(+)
-> +
-> +diff --git a/tests/openssl_wrapper.c b/tests/openssl_wrapper.c
-> +index 038c58f..dea2496 100644
-> +--- a/tests/openssl_wrapper.c
-> ++++ b/tests/openssl_wrapper.c
-> +@@ -4,6 +4,7 @@
-> + #include <openssl/aes.h>
-> + #include <openssl/evp.h>
-> + #include <openssl/hmac.h>
-> ++#include <openssl/opensslv.h>
-> +
-> + //#define DEBUG
-> +
-> +@@ -23,10 +24,17 @@ enum ctx_type {
-> +       ctx_type_md,
-> + };
-> +
-> ++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
-> ++union openssl_ctx {
-> ++      HMAC_CTX *hmac;
-> ++      EVP_MD_CTX *md;
-> ++};
-> ++#else
-> + union openssl_ctx {
-> +       HMAC_CTX hmac;
-> +       EVP_MD_CTX md;
-> + };
-> ++#endif
-> +
-> + struct ctx_mapping {
-> +       __u32 ses;
-> +@@ -63,6 +71,16 @@ static void remove_mapping(__u32 ses)
-> +       switch (mapping->type) {
-> +       case ctx_type_none:
-> +               break;
-> ++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
-> ++      case ctx_type_hmac:
-> ++              dbgp("%s: calling HMAC_CTX_free\n", __func__);
-> ++              HMAC_CTX_free(mapping->ctx.hmac);
-> ++              break;
-> ++      case ctx_type_md:
-> ++              dbgp("%s: calling EVP_MD_CTX_free\n", __func__);
-> ++              EVP_MD_CTX_free(mapping->ctx.md);
-> ++              break;
-> ++#else
-> +       case ctx_type_hmac:
-> +               dbgp("%s: calling HMAC_CTX_cleanup\n", __func__);
-> +               HMAC_CTX_cleanup(&mapping->ctx.hmac);
-> +@@ -71,6 +89,7 @@ static void remove_mapping(__u32 ses)
-> +               dbgp("%s: calling EVP_MD_CTX_cleanup\n", __func__);
-> +               EVP_MD_CTX_cleanup(&mapping->ctx.md);
-> +               break;
-> ++#endif
-> +       }
-> +       memset(mapping, 0, sizeof(*mapping));
-> + }
-> +@@ -127,10 +146,17 @@ static int openssl_hmac(struct session_op *sess, struct crypt_op *cop)
-> +
-> +               mapping->ses = sess->ses;
-> +               mapping->type = ctx_type_hmac;
-> ++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
-> ++              ctx = mapping->ctx.hmac;
 
-Assigning the (uninitialised?) value of mapping->ctx.hmac to ctx here
-looks redundant?
+I pointed this earlier before merge as well
+meta-openembedded has 40 odd recipes failing due to openssl 1.1 upgrade
 
-> ++
-> ++              dbgp("calling HMAC_CTX_new");
-> ++              ctx = HMAC_CTX_new();
-> ++#else
-> +               ctx = &mapping->ctx.hmac;
-> +
-> +               dbgp("calling HMAC_CTX_init");
-> +               HMAC_CTX_init(ctx);
-> ++#endif
-> +               dbgp("calling HMAC_Init_ex");
-> +               if (!HMAC_Init_ex(ctx, sess->mackey, sess->mackeylen,
-> +                               sess_to_evp_md(sess), NULL)) {
-> +@@ -172,10 +198,17 @@ static int openssl_md(struct session_op *sess, struct crypt_op *cop)
-> +
-> +               mapping->ses = sess->ses;
-> +               mapping->type = ctx_type_md;
-> ++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
-> ++              ctx = mapping->ctx.md;
+http://errors.yoctoproject.org/Errors/Build/67457/?page=2&limit=50
 
-And same comment here.
+so obvious fix was to keep them pinned to openssl10 and i created
+couple of fixes
+to start
 
-> ++
-> ++              dbgp("calling EVP_MD_CTX_new");
-> ++              ctx = EVP_MD_CTX_new();
-> ++#else
-> +               ctx = &mapping->ctx.md;
-> +
-> +               dbgp("calling EVP_MD_CTX_init");
-> +               EVP_MD_CTX_init(ctx);
-> ++#endif
-> +               dbgp("calling EVP_DigestInit");
-> +               EVP_DigestInit(ctx, sess_to_evp_md(sess));
-> +       }
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+https://patchwork.openembedded.org/patch/154517/
+https://patchwork.openembedded.org/patch/154516/
+
+and the effects are showing up where sysroot task now starts to fail
+for dependent
+recipes here
+
+http://errors.yoctoproject.org/Errors/Details/190427/
+http://errors.yoctoproject.org/Errors/Details/190433/
+
+in meta-oe certain recipes can be upgraded and we can get openssl 1.1 support
+but others like the two examples I cited above do not have openSSL 1.1 port.
+so I think we can not live without openSSL 1.0 and OpenSSL 2.0 being able to
+co-exist.
 
