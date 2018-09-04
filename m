@@ -1,57 +1,24 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E89B860191
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B7B3B74500
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 08:15:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 59EA51834E;
-	Tue,  4 Sep 2018 10:15:35 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id dpRd6vHH7fVP; Tue,  4 Sep 2018 10:15:29 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id A704F18378;
-	Tue,  4 Sep 2018 10:15:29 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 809DD1A07B;
-	Tue,  4 Sep 2018 10:15:29 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 74CD61A077;
-	Tue,  4 Sep 2018 10:15:29 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue,  4 Sep 2018 10:15:29 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 67E542957;
-	Tue,  4 Sep 2018 10:15:29 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 4 Sep 2018 10:15:29 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Tue, 4 Sep 2018 10:15:29 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/1] bitbake.conf: Make BUILD_OPTIMIZATION
-	respect	to DEBUG_BUILD
-Thread-Index: AQHURBgm2+sbz2k690agia8x/+hKqKTfwtzA
-Date: Tue, 4 Sep 2018 08:15:29 +0000
-Message-ID: <8db3e1637d3c4714aa90df95492b2f84@XBOX02.axis.com>
-References: <cover.1536042978.git.liezhi.yang@windriver.com>
-	<ea8e96b3f2b09db17ecf9a28765b709433febe9b.1536042978.git.liezhi.yang@windriver.com>
-In-Reply-To: <ea8e96b3f2b09db17ecf9a28765b709433febe9b.1536042978.git.liezhi.yang@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Tue,  4 Sep 2018 08:25:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w848Pajh024594
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Sep 2018 01:25:36 -0700 (PDT)
+Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Tue, 4 Sep 2018 01:25:35 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 4 Sep 2018 16:25:33 +0800
+Message-ID: <1536049533-17773-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 1/1] bitbake.conf: Make BUILD_OPTIMIZATION respect	to DEBUG_BUILD
+X-Originating-IP: [128.224.162.137]
+Subject: [PATCH] dhcp: make dhclient to get configuration for other programs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,59 +31,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 08:15:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 04 Sep 2018 08:25:36 -0000
+Content-Type: text/plain
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Robert Yang
-> Sent: den 4 september 2018 08:37
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 1/1] bitbake.conf: Make BUILD_OPTIMIZATION
-> respect to DEBUG_BUILD
->=20
-> We may also need debug native tools, so make BUILD_OPTIMIZATION respect t=
-o
-> DEBUG_BUILD, otherwise, we need set CFLAGS in the recipe which isn't
-> convenient.
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 1941633..df62445 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -612,7 +612,7 @@ FULL_OPTIMIZATION =3D "-O2 -pipe ${DEBUG_FLAGS}"
->  DEBUG_OPTIMIZATION =3D "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
->  SELECTED_OPTIMIZATION =3D "${@d.getVar(['FULL_OPTIMIZATION', 'DEBUG_OPTI=
-MIZATION'][d.getVar('DEBUG_BUILD') =3D=3D '1'])}"
->  SELECTED_OPTIMIZATION[vardeps] +=3D "FULL_OPTIMIZATION DEBUG_OPTIMIZATIO=
-N"
-> -BUILD_OPTIMIZATION =3D "-O2 -pipe"
-> +BUILD_OPTIMIZATION =3D "${@['-O2', '-O -g -feliminate-unused-debug-types=
- -fno-omit-frame-pointer'][d.getVar('DEBUG_BUILD') =3D=3D '1']} -pipe"
+From: Li Wang <li.wang@windriver.com>
 
-Can we make that more readable:
+Make dhclient to run /etc/dhcp/dhclient.d/*.sh, and get the configuration
+for ntp, nis or other programes
 
-BUILD_OPTIMIZATION =3D "${@'-O -g -feliminate-unused-debug-types -fno-omit-=
-frame-pointer' if d.getVar('DEBUG_BUILD') =3D=3D '1' else '-O2'} -pipe"
+These codes are from redhat rpm package.
 
-Should probably do the same for SELECTED_OPTIMIZATION while at it:
+Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../dhcp/dhcp/dhcp-add-exec-script-function.patch  | 90 ++++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb       |  1 +
+ meta/recipes-connectivity/dhcp/files/dhclient.conf |  1 +
+ 3 files changed, 92 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
 
-SELECTED_OPTIMIZATION =3D "${@d.getVar('DEBUG_OPTIMIZATION' if d.getVar('DE=
-BUG_BUILD') =3D=3D '1' else 'FULL_OPTIMIZATION')}"
-
->=20
->  ##################################################################
->  # Settings used by bitbake-layers.
-> --
-> 2.7.4
-
-//Peter
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch b/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+new file mode 100644
+index 0000000..1809b78
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+@@ -0,0 +1,90 @@
++From 36a4423d82291f6e01ee26a6f5bf0b5d0d75d07e Mon Sep 17 00:00:00 2001
++From: Li Wang <li.wang@windriver.com>
++Date: Fri, 17 Jul 2015 14:31:49 +0800
++Subject: [PATCH] [PATCH] dhcp: add exec script function
++
++Make dhclient to run /etc/dhcp/dhclient.d/*.sh, and get the configuration
++for ntp, nis or other programes
++
++These codes are from redhat rpm packages.
++
++Upstream-Status: Inappropriate [embedded specific]
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ client/scripts/linux | 21 +++++++++++++++++++++
++ 1 file changed, 21 insertions(+)
++
++diff --git a/client/scripts/linux b/client/scripts/linux
++index e9ea379..716d7e8 100755
++--- a/client/scripts/linux
+++++ b/client/scripts/linux
++@@ -31,6 +31,8 @@
++ # overwirte this line to use a fake ip-echo tool. It's also convenient
++ # if your system holds ip tool in a non-standard location.
++ ip=/sbin/ip
+++ETCDIR="/etc/dhcp"
+++export SAVEDIR=/var/lib/dhcp
++ 
++ # update /etc/resolv.conf based on received values
++ # This updated version mostly follows Debian script by Andrew Pollock et al.
++@@ -182,6 +184,20 @@ exit_with_hooks() {
++     exit $exit_status
++ }
++ 
+++execute_client_side_configuration_scripts() {
+++# execute any additional client side configuration scripts we have
+++    if [ "${1}" == "config" ] || [ "${1}" == "restore" ]; then
+++        for f in ${ETCDIR}/dhclient.d/*.sh ; do
+++            if [ -x "${f}" ]; then
+++                subsystem="${f%.sh}"
+++                subsystem="${subsystem##*/}"
+++                . "${f}"
+++                "${subsystem}_${1}"
+++            fi
+++        done
+++    fi
+++}
+++
++ # This function was largely borrowed from dhclient-script that
++ # ships with Centos, authored by Jiri Popelka and David Cantrell
++ # of Redhat. Thanks guys.
++@@ -325,10 +341,12 @@ case "$reason" in
++ 
++         # update /etc/resolv.conf
++         make_resolv_conf
+++        execute_client_side_configuration_scripts "config"
++ 
++         ;;
++ 
++     EXPIRE|FAIL|RELEASE|STOP)
+++        execute_client_side_configuration_scripts "restore"
++         if [ -n "$alias_ip_address" ]; then
++             # flush alias IP
++             ${ip} -4 addr flush dev ${interface} label ${interface}:0
++@@ -464,6 +482,7 @@ case "$reason" in
++            [ "${new_dhcp6_domain_search}" != "${old_dhcp6_domain_search}" ]; then
++             make_resolv_conf
++         fi
+++        execute_client_side_configuration_scripts "config"
++ 
++         ;;
++ 
++@@ -476,6 +495,7 @@ case "$reason" in
++         ${ip} -6 addr change ${cur_ip6_address}/${cur_ip6_prefixlen} \
++             dev ${interface} scope global preferred_lft 0
++ 
+++        execute_client_side_configuration_scripts "config"
++         ;;
++ 
++     EXPIRE6|RELEASE6|STOP6)
++@@ -487,6 +507,7 @@ case "$reason" in
++         ${ip} -6 addr del ${old_ip6_address}/${old_ip6_prefixlen} \
++             dev ${interface}
++ 
+++        execute_client_side_configuration_scripts "restore"
++         ;;
++ esac
++ 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+index 159abbc..85ceaba 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+             file://0009-remove-dhclient-script-bash-dependency.patch \
+             file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
+             file://0013-fixup_use_libbind.patch \
++            file://dhcp-add-exec-script-function.patch \
+ "
+ 
+ SRC_URI[md5sum] = "18c7f4dcbb0a63df25098216d47b1ede"
+diff --git a/meta/recipes-connectivity/dhcp/files/dhclient.conf b/meta/recipes-connectivity/dhcp/files/dhclient.conf
+index 0e6dcf9..0f7d42f 100644
+--- a/meta/recipes-connectivity/dhcp/files/dhclient.conf
++++ b/meta/recipes-connectivity/dhcp/files/dhclient.conf
+@@ -17,6 +17,7 @@
+ #supersede domain-name "fugue.com home.vix.com";
+ #prepend domain-name-servers 127.0.0.1;
+ request subnet-mask, broadcast-address, time-offset, routers,
++	nis-domain, nis-servers, domain-search, ntp-servers,
+ 	domain-name, domain-name-servers, host-name,
+ 	netbios-name-servers, netbios-scope;
+ #require subnet-mask, domain-name-servers;
+-- 
+2.7.4
 
 
