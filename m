@@ -1,49 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B6B4474CAF
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 59F95745C9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 23:00:27 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id 130-v6so3640158qkd.10
+	Tue,  4 Sep 2018 23:43:46 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id f62-v6so1982523qke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 16:00:29 -0700 (PDT)
+	Tue, 04 Sep 2018 16:43:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JaejV7d68FWRR3jrPhDauqQM8dOwqSVyf3MR4HhjiEE=;
-	b=DrBTTdQtOesdUx4wCO430ggR3vgqzHH5jjSVyYSqxOW86Lrn2A0yPljk5pSdKCHoWu
-	cpAHTxk7M444bdOc8IDh/Uj0/MVfHIR5WaS9l9NyhhoyXdaOXREnEyD9ZwTrPYz1VhDN
-	5MMWqelL/ancdBD3dWXzZjhJcZQ+2FrjVZKlMKA5UPv/ZhI9bwJ2pTwNfgKY95VvBV32
-	O3Ki499lvVxnDtBuqFNWAh7bXkuqRoKCdIARnVudXmIMag5TSyllv+iU0JkTyz/Xnjv8
-	ks0tSn6QOsTHLFb9MrJUBdSeBBlwpeoTfQrS5G0qQpjK8MLlfSc1tspzz+/3EH1WcgyT
-	K1wQ==
+	:cc; bh=hGyDVoUOkByRd5bvQuBw4ORjsO4lkfp+PLO4/apBHms=;
+	b=MATDcU8HI95+wKtYcBwmBPQpto4vDqX6RBgqdsOjMe8ltdK6kp72vwwEMfLGcTSD70
+	D0zPYIBS9e/ECL+oBKrQE86EYJA5/P0s9eO7rTMTDOToZFFghdTzdhooeG46Jb+cme7p
+	bHVRTfjP+gt5QPFO33zDF31ZAzOd3X/iTJ7q0ziLGTvrY9fwNKuZBWkUuylONlySMAHV
+	b89jbBQo3IsflvcuK6nq9ZKbin3PqqM4wtwaPWT/+oILoskRjpCCLI1q5quFNhwJv8+l
+	s59sXyHARYHo2VT439EGLN1scU4IPp8g+L4etw7eZizj7HovplVkLxBCgG1loLt29850
+	Gkqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=JaejV7d68FWRR3jrPhDauqQM8dOwqSVyf3MR4HhjiEE=;
-	b=KpH53e/EccPw8bOm9LEYkUUpEDcb5cGIrnhN//R+eZyCoF9TVk7Gj5aPDPua61peqD
-	ahDyCkn1DP3v1HJghdJ+cahkJ815oLp1Hu06cf+0qZ3UEURsMEwZ9u/F43uTk1NGu8t9
-	NjinSLc+NiXChc/vaKxHi3Q3IEhVEZZhADpBhFqnokGxFTZeoOZ7paW21qkLpCCzmNzj
-	Iko4CVwUCbmJBI2fapClUmjpVa7D2H1IKcoCY4mjsI8Uf7k10Kl8OxwrAoSwG0/HwDwJ
-	Xq4Xyh5JRNiQwYGJgaLodCWauNdQ8Of7zxMFwuLjARkyJan2+ud4fkPk8GybavT9Divb
-	SvUg==
-X-Gm-Message-State: APzg51Cty2JeYIHUz/9wK4t/6K+aOgmTos+YX/M04M1GxD3UX1A/3v1E
-	nRehTnB+MNBDgYyjPufBL5xb9M2+bunYFvNR90c=
-X-Google-Smtp-Source: ANB0VdZonzfG7CNn49OBVh98NBUh5v+tV5dHXkCUEsp7F9iO3dsPchIDC5YxQ2/BtXZ5FvjS0jDn0TFkz+hl/bCCBXg=
-X-Received: by 2002:a37:e118:: with SMTP id
-	c24-v6mr25470276qkm.68.1536102028472; 
-	Tue, 04 Sep 2018 16:00:28 -0700 (PDT)
+	bh=hGyDVoUOkByRd5bvQuBw4ORjsO4lkfp+PLO4/apBHms=;
+	b=msrTmkviV76bA/LBr8vjxzDAKWP0CC6I73PyLLWONwGhswItnj8Y1k55n5lDjxiHFQ
+	OAcl/Fn+unKxhqCkLOL4Gn2mk3d5HeAb8nB/ujZS1XhX+Xi7xnNAPdDk3pqLS1+rIqzB
+	6K7D+zVieOMlBKI3prVH/jXZ3r0a2gC5G36oBjE41xq1nlLwCHBqr1hqCr09B1CNhb1i
+	V0j9N6vxFxG8QCkqpxt6Tz0S1fzMJgj9+Hr2vSWJjCIa11KdakOz81qU9iLyY4/6jaDq
+	IhffMqTkpe/nXOseAOEMAt5hQQbNbyT9KWGsVEjhbYddUzYbd434dHn+/OoGxfbNNaIT
+	uyEw==
+X-Gm-Message-State: APzg51Cz9yDfI1pIeZsTk9mi1QNBqKIZKUQ0NuhSwoHz2hcCSjnlfDaI
+	eNQT1uld6M9PD17I5eAMot7MDBdByiIB6Oms3rwUxcVj
+X-Google-Smtp-Source: ANB0Vda0EjyDMK7L0m5zYL/53J42593QZXEfjXy21iTew99q/znTwIexvqJ3BQtsb12cb6Gv90gHgKWkKw2Gz85tJM4=
+X-Received: by 2002:a37:a811:: with SMTP id
+	r17-v6mr30900495qke.81.1536104626927; 
+	Tue, 04 Sep 2018 16:43:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180904155000.3715-1-ross.burton@intel.com>
-In-Reply-To: <20180904155000.3715-1-ross.burton@intel.com>
+References: <20180830232604.10850-1-otavio@ossystems.com.br>
+	<CAMKF1sozB+uN8h3YcEXSnRvuQOWdYYzRC2iOrr54h-5VYnQUMA@mail.gmail.com>
+	<CAP9ODKopW2QbA0qvf4kdmq9j3vme_LO4y-43h1Uq5tspErb0Gw@mail.gmail.com>
+	<CAMKF1sr8BRcKEgQQYnfROQrrZ=0PocpWW11bFd_9X7RPuNpC5Q@mail.gmail.com>
+	<CAP9ODKoLPC-BNnfqjoUzbDM+EPo1jmwGoqyk7=cMD4vord2Kyw@mail.gmail.com>
+In-Reply-To: <CAP9ODKoLPC-BNnfqjoUzbDM+EPo1jmwGoqyk7=cMD4vord2Kyw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 4 Sep 2018 16:00:01 -0700
-Message-ID: <CAMKF1so7rCiavW+_mW3rHfvZrhBCaLvUkFeWKYwOP+A0wQhv_g@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Joshua Lock <joshua.g.lock@intel.com>,
+Date: Tue, 4 Sep 2018 16:43:20 -0700
+Message-ID: <CAMKF1sr9+bzRBVfV5J=ad4v_m1kQ5hLg=qDqX_dyEUWcFeocAQ@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] os-release: fix to install in the expected location
+Subject: Re: [PATCH] cmake: Update 3.11.4 -> 3.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,51 +60,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 23:00:28 -0000
+X-List-Received-Date: Tue, 04 Sep 2018 23:43:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 4, 2018 at 8:50 AM Ross Burton <ross.burton@intel.com> wrote:
->
-> From: Joshua Lock <joshua.g.lock@intel.com>
->
-> os-release (5) recommends that the os-release file be installed in
-> /usr/lib/os-release and that /etc/os-release be a relative symlink to it.
->
-> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-core/os-release/os-release.bb | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
-> index f9887047561..c6e36001dc5 100644
-> --- a/meta/recipes-core/os-release/os-release.bb
-> +++ b/meta/recipes-core/os-release/os-release.bb
-> @@ -1,7 +1,7 @@
->  inherit allarch
->
->  SUMMARY = "Operating system identification"
-> -DESCRIPTION = "The /etc/os-release file contains operating system identification data."
-> +DESCRIPTION = "The /usr/lib/os-release file contains operating system identification data."
->  LICENSE = "MIT"
->  INHIBIT_DEFAULT_DEPS = "1"
->
-> @@ -42,6 +42,7 @@ python do_compile () {
->  do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
->
->  do_install () {
-> -    install -d ${D}${sysconfdir}
-> -    install -m 0644 os-release ${D}${sysconfdir}/
-> +    install -d ${D}${libdir}
-> +    install -m 0644 os-release ${D}${libdir}/
-> +    lnr ${D}${libdir}/os-release ${D}${sysconfdir}
->  }
+Hi Otavio
 
-I am also seeing packaging failures
+Here is one failiure that is seen in meta-oe with updates cmake
 
-ERROR: os-release-1.0-r0 do_package: QA Issue: os-release:
-Files/directories were installed but not shipped in any package:
-  /usr
-  /usr/lib
-  /usr/lib/os-release
+http://errors.yoctoproject.org/Errors/Details/190510/
+
+
+On Fri, Aug 31, 2018 at 1:54 PM Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
+>
+> On Fri, Aug 31, 2018 at 4:55 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > On Fri, Aug 31, 2018 at 11:14 AM Otavio Salvador
+> > <otavio.salvador@ossystems.com.br> wrote:
+> > > On Fri, Aug 31, 2018 at 1:19 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > > > On Thu, Aug 30, 2018 at 4:26 PM Otavio Salvador <otavio@ossystems.com.br> wrote:
+> > > > > This updates CMake to the 3.12.1 stable release. All patches were
+> > > > > rebase on top of the new source file and all them applied without
+> > > > > changes.
+> > > > >
+> > > > > The number of patches has changed as all them were applied on the Git
+> > > > > tree and re-exported, to avoid any fuzzy warnings.
+> > > > >
+> > > >
+> > > > This is a major version update and cmake is quite deep in foundation of build
+> > > > there are large packages outside OE-Core which depend on it. Can you give
+> > > > some details on testing to make us feel comfortable ?
+> > >
+> > > I did basic testing but all patches applied fine. If desired, it can
+> > > be postponed to next release as it is indeed not critical.
+> >
+> > build meta-qt5 with it there is lot of hairy stuff there
+>
+> bitbake qtscxml
+>
+> It went fine.
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
