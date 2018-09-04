@@ -1,48 +1,54 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id D690460684
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com
+	[209.85.222.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AA29674F09
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 19:12:45 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id s12-v6so5587624wmc.0
+	Tue,  4 Sep 2018 19:14:17 +0000 (UTC)
+Received: by mail-ua1-f67.google.com with SMTP id u11-v6so3780998uan.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 12:12:47 -0700 (PDT)
+	Tue, 04 Sep 2018 12:14:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=AInUlBUp8v+jnEJ7hB9pInZ8LFo7Fl7h0IBO6i0B0tg=;
-	b=IJ/NZAs7sKX31tPcSb1rBGyx+jnMKZrLaRIUB7vZ5I6AYSOnTk3V5y0+39yEpOkrYI
-	z3i/uev1vEDVPGDxCx2r8wQB9UaFjq8RizLSmdwOAKV9ZPs82g1qtWQQlgg4Wnyta/+s
-	wjptYZu9GdUfuOfEzNhWU14nPtctFeF5hiS2G+0/0WcnZ5uyB4mkIg9gDheGdA9q6x56
-	8/XuTzBOnt9YKC0UfMO/9G2wahpWI8BkgTWpSqZ06tTly2AjdR8ftACO/GTDRnmA8B7H
-	k+X3J8K3xGn7FcELqZidHp+9ORDk9hw/MTKdiVot2avXvrYAaotW1Cwpdcds+P56A0b6
-	XQtw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=5mD6eMc5R331itylZ9EqCBmBAJnnmp0DjRfyIgiNu8s=;
+	b=DSYnmseXedNyWPonYhBKcF+Tbn5gqFcBHQo/1x0kt8QV+wwgFka4WkGhN5gFZvfJDT
+	2Wu4lmVJvhyYQ44DgGfnLYxwbybwimH4/45DZn4DJUZWG3TUTPVztBgSWvVnLJNNzRCZ
+	sgQPn6RXb3LIb8dhsrar+bggA8oDuAwWqlm7yDMlUj92jkN0wG9mkwofyMDOTkp47W7e
+	7SvRSripYtw4HQIf95cca6HdBfW55I3+HJNzckQnMP6MTSm8AuoFmDPHWBzdImT9Jgnq
+	IkVrM4dufi7d1fBr7BhtmRct/oiozEUItCpFTgS9U2fCYEsM0oilpMhby8tns1dxBqwh
+	glXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=AInUlBUp8v+jnEJ7hB9pInZ8LFo7Fl7h0IBO6i0B0tg=;
-	b=Ih/gx6WYijpf2jjD9lo/00mjsnHmWbZNk1BgHRCE9yOieDY3Zr+Y+MJkm6N8gT+YYn
-	4vsNz9mB6C3QfDsjIu1I3RibBq+LtSdy53/rGGhJnmIr/wcygXoB7KEM6PsyyOrrl1RJ
-	ac7jmfPgwtnc2FiYNLa4vdqV6s1+xVxK9oCsMXf+qHVAKXJmA5tpqGVMKUMLFmnbAxw9
-	Lf8aqtRqYkb/0kV4RTxQR3og5xtVmDLsJb02a79cZ5LUwXUD6pRrwCcsWrEOQd6Cq/Du
-	ByynRXOk+szRGu572QAXjkiqnBJ7D9aL/efi9DdyQVOdKwxpU0chQTC1iKMXMS5usRhh
-	qYTg==
-X-Gm-Message-State: APzg51DF8zXsLm5cB4iy8J6t8Zr4dcQOFppWiu0mSZMekHP+xxO1b65+
-	lE4fq6kCQoj4A8q8UIROgaoV8kNm3kfM2j0Ld4o=
-X-Google-Smtp-Source: ANB0VdbNtYmRoI9HiC1ek0kXA0Sx8UIVUAIn44/YwOkMjvds+NzcZo8QJmUtidJwEDoDE1a37oQzhVJiIia4yZS5OY0=
-X-Received: by 2002:a1c:3413:: with SMTP id
-	b19-v6mr3363316wma.21.1536088366563; 
-	Tue, 04 Sep 2018 12:12:46 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=5mD6eMc5R331itylZ9EqCBmBAJnnmp0DjRfyIgiNu8s=;
+	b=CxaqUNwT5QB+3bJPWYVF7zL1g8ZzhrZlwkw3jtBHGwJ4dEqxtA04gSEYTLZrbYtjWS
+	Ev0BqVVkv+HXqWUw/fXN/DXQGgII9wkH+mTQpATE2Qv25GN+MiQSFjmR2z3aq8adWUMI
+	Ui1AgUK2K6iQRyd/0PRd8geWRWJ03woPKXw4XF3eZMejjQaIt+J0h+mTh6aU57r/ZpFk
+	wjKpjprE0OgsWSVdwFqFYYeFmQL977VZ/cf3NWT/+lTHn5BKwKfMFMXPJHFAT/L9vzuf
+	lJidET8Ad1NRYZ5d3w5V25zo6LhxxN9SlPym8saSvuaAbAue9Mz6Vfr6igSKFuyGuEjT
+	rAiQ==
+X-Gm-Message-State: APzg51C0Mq6mLvWtucJH4Q2q68chTZMQ+GNB/5HQLRJPwyLj+mNWt+Sd
+	Gv7/qKt13T+LNPXV6jS4bWvINKL1M0FdkXNcjw4=
+X-Google-Smtp-Source: ANB0VdYOR21thjB1N5A+4Ran6F4+2/Exys58944Z9u8b8bfMTnOJv5x3koaTtAvoSAZIzf889okxjuGSS6DvIPOmQW4=
+X-Received: by 2002:ab0:1950:: with SMTP id
+	u16-v6mr18532913uag.179.1536088458528; 
+	Tue, 04 Sep 2018 12:14:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1535451643.git.alex.kanavin@gmail.com>
-	<b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
-In-Reply-To: <b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 4 Sep 2018 21:12:35 +0200
-Message-ID: <CA+chaQfSBfzWoDKkWH0arU388zqewFMVKQ+bJwo4TMABZhAiog@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 1/6] openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the default version
+Received: by 2002:a9f:2b46:0:0:0:0:0 with HTTP;
+	Tue, 4 Sep 2018 12:14:18 -0700 (PDT)
+In-Reply-To: <217b44d6-0d44-8f9f-80c6-7262324d751f@xilinx.com>
+References: <1535100844-4514-1-git-send-email-hongxu.jia@windriver.com>
+	<83f1c6c3-195c-b6c6-979c-3d58db4f9cb9@xilinx.com>
+	<591d25eb-bb99-746f-37ac-6769db4228b8@windriver.com>
+	<217b44d6-0d44-8f9f-80c6-7262324d751f@xilinx.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 4 Sep 2018 12:14:18 -0700
+Message-ID: <CAJ86T=WdMgTuGVRCZHhNrGSL8YkVswP8JNXHdM2ryF7wJMxL5Q@mail.gmail.com>
+To: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] terminal.bbclass: use var-SHELL as the shebang of wrapper script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,70 +61,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 19:12:46 -0000
-Content-Type: multipart/alternative; boundary="0000000000006ec7f40575107138"
-
---0000000000006ec7f40575107138
+X-List-Received-Date: Tue, 04 Sep 2018 19:14:17 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-On Tue, Aug 28, 2018 at 12:23 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->
-> I believe the time has come to do this: openssl 1.0 upstream support stops
-> at the end
-> of 2019, and we do not want a situation where a supported YP release
-> contains an
-> unsupported version of a critical security component.
->
-> Openssl 1.0 can still be utilized by depending on 'openssl10' recipe.
->
-
-This still isn't true for most recipes, as long as there is something
-depending on openssl in the dependency tree, it will
-cause do_prepare_recipe_sysroot failures like last time
-
-ERROR: The file /usr/lib/libssl.so is installed by both openssl10 and
-openssl, aborting
-DEBUG: Python function extend_recipe_sysroot finished
-DEBUG: Python function do_prepare_recipe_sysroot finished
-ERROR: Function failed: extend_recipe_sysroot
-
-From 15 failures caused by openssl-1.1 detected in my builds, just changing
-DEPENDS from openssl to openssl10 didn't help in any case.
-
-Regards,
-
---0000000000006ec7f40575107138
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_quot=
-e"><div dir=3D"ltr">On Tue, Aug 28, 2018 at 12:23 PM Alexander Kanavin &lt;=
-<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Alexa=
-nder Kanavin &lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" targe=
-t=3D"_blank">alexander.kanavin@linux.intel.com</a>&gt;<br>
-<br>
-I believe the time has come to do this: openssl 1.0 upstream support stops =
-at the end<br>
-of 2019, and we do not want a situation where a supported YP release contai=
-ns an<br>
-unsupported version of a critical security component.<br>
-<br>
-Openssl 1.0 can still be utilized by depending on &#39;openssl10&#39; recip=
-e.<br></blockquote><div><br></div><div>This still isn&#39;t true for most r=
-ecipes, as long as there is something depending on openssl in the dependenc=
-y tree, it will cause=C2=A0do_prepare_recipe_sysroot failures like last tim=
-e</div><div><br></div><div>ERROR: The file /usr/lib/libssl.so is installed =
-by both openssl10 and openssl, aborting</div><div>DEBUG: Python function ex=
-tend_recipe_sysroot finished</div><div>DEBUG: Python function do_prepare_re=
-cipe_sysroot finished</div><div>ERROR: Function failed: extend_recipe_sysro=
-ot</div><div><br></div><div>From 15 failures caused by openssl-1.1 detected=
- in my builds, just changing DEPENDS from openssl to openssl10 didn&#39;t h=
-elp in any case.</div><div><br></div><div>Regards,</div></div></div></div><=
-/div>
+On Tue, Sep 4, 2018 at 9:36 AM, Alejandro Enedino Hernandez Samaniego
+<alejandro.enedino.hernandez-samaniego@xilinx.com> wrote:
+> Hey Hongxu,
+>
+>
+>
+> On 09/02/2018 10:52 PM, Hongxu Jia wrote:
+>>
+>> On 2018=E5=B9=B409=E6=9C=8801=E6=97=A5 08:14, Alejandro Enedino Hernande=
+z Samaniego wrote:
+>>>
+>>> Hey Hongxu,
+>>>
+>>>
+>>> On 08/24/2018 01:54 AM, Hongxu Jia wrote:
+>>>>
+>>>> The devshell.bbclass set var-SHELL to var-DEVSHELL, and terminal.bbcla=
+ss
+>>>> initial var-SHELL with `bash'. Keep sync with it, use var-SHELL rather
+>>>> than hardcoded `/bin/sh' as the shebang of wrapper script.
+>>>>
+>>>> On Ubuntu host, default shell is dash (/bin/sh -> dash), even though
+>>>> we assign var-SHELL with `/bin/bash', the wrapper script is still
+>>>> dashism.
+>>>>
+>>>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>>>> ---
+>>>>   meta/classes/terminal.bbclass | 3 ++-
+>>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/classes/terminal.bbclass
+>>>> b/meta/classes/terminal.bbclass
+>>>> index a27e10c..73e765d 100644
+>>>> --- a/meta/classes/terminal.bbclass
+>>>> +++ b/meta/classes/terminal.bbclass
+>>>> @@ -25,7 +25,8 @@ def emit_terminal_func(command, envdata, d):
+>>>>       bb.utils.mkdirhier(os.path.dirname(runfile))
+>>>>         with open(runfile, 'w') as script:
+>>>> -        script.write('#!/bin/sh -e\n')
+>>>> +        script.write('#!/usr/bin/env %s\n' % d.getVar('SHELL'))
+>>>> +        script.write('set -e\n')
+>>>
+>>> This is causing a bug on several systems, I believe that it is because
+>>> the way our systems are set up,
+>>> basically, our running shell isn't necessarily $SHELL, so it is causing
+>>> the process to exit immediately,
+>>> anything thats using this class is affected, devshell, menuconfig, etc.
+>>>
+>>>
+>>> $ echo $SHELL
+>>> /bin/csh
+>>>
+>>> $ echo $0
+>>> /bin/bash
+>>>
+>>
+>> The csh does not support `export', in you case, you should correct
+>> var-SHELL to align with $0,
+>>
+>> Such as:
+>> $ usermod <username> -s $0
+>
+>
+> I absolutely agree, but as I was saying, because the way the system is se=
+t
+> up, it does not allow me to do so.
 
---0000000000006ec7f40575107138--
+Maybe I'm missing something, but what's the advantage of using SHELL
+to run this little wrapper script rather than hardcoding /bin/sh ?
+
+Task shell scripts created by bitbake use hardcoded /bin/sh (see
+bitbake/lib/bb/build.py -> shell_trap_code())
+
