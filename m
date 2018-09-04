@@ -1,50 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
-	[209.85.222.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 39563753D4
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+	[209.85.210.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 45E3E753D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 20:46:59 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id z125-v6so3406148qkb.12
+	Tue,  4 Sep 2018 21:12:55 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id x17-v6so2303935pfh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 13:47:00 -0700 (PDT)
+	Tue, 04 Sep 2018 14:12:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ICOoU1em1O+QNIj2CTvku+5nM2JVIqzSpYZ3EFLlSgg=;
-	b=KDpijhr/FE/wWRMYrYCxcVeZWY9cIVZj6ukRqxm3cBjvPWNelunIiuy+obVA3fP2ES
-	rkhUKCLBdtC50m40nvoD3btZwe1+sdJLHswg0XYGpKG+JjbkHlDZ4qdaKpS6sn25ZveE
-	ffy+5qj1/K3SRU2cUWsrBejNUMZihZ91cRanoOPYuI21kxLoq2EcbFWV7QHv741+OIPb
-	DkAy/RhEFZ/pZ8DCdEpCDk7VLr8kSrFBc6EW4Y88j9LNxgJ10FzAPTtyq2SZPZ+3ttkT
-	LQ6dP/0go4f93ht0OMRK640DDygrqIogpHjTqE8WezasjMYm+DgUh1sYDtCfAxCU0LRn
-	f/+w==
+	h=from:to:cc:subject:date:message-id;
+	bh=E01eAb0bl7hyXz9uSfb0K1WDpRKZuogUP18DlilaI/M=;
+	b=kiXcKht5zg05xpz7lMbHtGm54gMX7UuazZyOwQNGKenhe588p/JKv1A4yPyiQoxTJo
+	GCOx4FV/HViedGlTYK4EU0/nIRY4vwwt6TUQ8sB18kiyODTnfAMRQuFOrtJn3wsiaGNl
+	kTGMa4goU3RmHN/id5s9UFSJL2Z2iXSEIUnYti8Waltez5TphvuCWL5GmYH3f9fNsMi/
+	aQ2cQcZBpXliN2rIVylcOvrGfjPHocNVGJKE7c+iOIMlikH5vKRc69L3OOGvsDVC5Grk
+	5M0MEHy6qimpUNEJgMnHOdi6OKb7paAf8M/W9z2ZO981f3a0zT6vtbPmqoPCVtH12JIE
+	HUUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ICOoU1em1O+QNIj2CTvku+5nM2JVIqzSpYZ3EFLlSgg=;
-	b=eE5Lg5rK1eJE7Yay9JQxogEITtqqr3S8wKVCVmLQ0IcdAHGEX4gG79vbzhr56uhRaO
-	JqpvRvfhVi1JGnswR/bGyeCZB8H3zlt7oS8uWeNTi7AUzOWCSd5nuye1MndmOl8StPH/
-	mFCyJijW8AwkWb6OEm88869wdJkHo02rhcDYyzlfL1Ehor2Nqj7sWDHX9QLuduxdbikh
-	AA5kP/K+ohScqfBn/rbyHqPCuxgiTl5RswX0oFl5sAuCvEcR2uQpaUHfskbvwLVabjFf
-	+kqYflUktF/AEI55LHq1dGkIbvAadya9Ml5mSURzwOI/nq92j4Edry5yle8tx+6bybE+
-	uh0w==
-X-Gm-Message-State: APzg51DIOrzQUakQ8pzsfAdnnA3bcL4Bl2YaQ/SCfslEB2potYTIbmkS
-	hsH26/XLKmX6vIdc14tdQwS1A1bhLiMawhmOsME=
-X-Google-Smtp-Source: ANB0Vdbt/mhEgplqYzzJsJWUFT5p6mdw5UzW7FVnGgpHZvUYotFRtd5ntQ1aiqn2aEmvqR6BchU84p5t2zHHGCajunE=
-X-Received: by 2002:a37:a811:: with SMTP id
-	r17-v6mr30446087qke.81.1536094019895; 
-	Tue, 04 Sep 2018 13:46:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180904155000.3715-1-ross.burton@intel.com>
-	<CAJ86T=VeOq1i0Vg7EnWfP=4hJmXFDvnzdO1ADkk5U081_g2LxA@mail.gmail.com>
-In-Reply-To: <CAJ86T=VeOq1i0Vg7EnWfP=4hJmXFDvnzdO1ADkk5U081_g2LxA@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=E01eAb0bl7hyXz9uSfb0K1WDpRKZuogUP18DlilaI/M=;
+	b=cSX+IQvHP21FFOOv7Y59c3vGf+wv5h6WlIKENcSlXFKBEBSQRMwWHDrp8NZBlb0weQ
+	0cl01OsRtb71hlyjX+Q9k5VP/drhnMsNqJAtlWetI0jd3Qt25q8vnMIl8ZmMhw00HkEm
+	eGIAxaZj6MV7fGFvvz3+ksl/AntlJzs2VijtyUadeJCfdG1nU7EpZlGyliAR2BuCXeog
+	4GJIt0ozZ1xNm8xoqgiVW9pnuNSKw/QXfJ7fWNWXX3qU1jtnAUOXszs8regNFkfzM5xG
+	xEcjakdRyet/t6uzW8SM/G+Q5eqN01rRwnRO+7kCMM2QZAQUiuoxFPHCU3aozAC08den
+	aJ9g==
+X-Gm-Message-State: APzg51AbgJ40h7x2EI0pxkelQ0CoQShGjv0zwlcvy6YSMRuAwc30HqLb
+	IfBLQZ/+h/MhR0snJYakkOXphLE1
+X-Google-Smtp-Source: ANB0VdZr0WrxpUKQIcjI9rEJfqo8V/eZxWcUCLN6TH1d8COM/OLwhsWXYyNwu1kXUIb7JDkpeuUWyA==
+X-Received: by 2002:a63:4306:: with SMTP id
+	q6-v6mr31976160pga.181.1536095575803; 
+	Tue, 04 Sep 2018 14:12:55 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::71e7])
+	by smtp.gmail.com with ESMTPSA id
+	187-v6sm41488172pfu.184.2018.09.04.14.12.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 04 Sep 2018 14:12:55 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 4 Sep 2018 13:46:33 -0700
-Message-ID: <CAMKF1sqNV5vj41Z5ikLzg0VJLVn+i_VAohLBh=u-a=dKPL0Xdg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Joshua Lock <joshua.g.lock@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] os-release: fix to install in the expected location
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Sep 2018 14:12:45 -0700
+Message-Id: <20180904211245.43302-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH V2 2/2] musl: Upgrade to 1.1.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,65 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 20:46:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 04 Sep 2018 21:12:55 -0000
 
-On Tue, Sep 4, 2018 at 1:19 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Tue, Sep 4, 2018 at 8:50 AM, Ross Burton <ross.burton@intel.com> wrote:
-> > From: Joshua Lock <joshua.g.lock@intel.com>
-> >
-> > os-release (5) recommends that the os-release file be installed in
-> > /usr/lib/os-release and that /etc/os-release be a relative symlink to it.
-> >
-> > Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > ---
-> >  meta/recipes-core/os-release/os-release.bb | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
-> > index f9887047561..c6e36001dc5 100644
-> > --- a/meta/recipes-core/os-release/os-release.bb
-> > +++ b/meta/recipes-core/os-release/os-release.bb
-> > @@ -1,7 +1,7 @@
-> >  inherit allarch
-> >
-> >  SUMMARY = "Operating system identification"
-> > -DESCRIPTION = "The /etc/os-release file contains operating system identification data."
-> > +DESCRIPTION = "The /usr/lib/os-release file contains operating system identification data."
-> >  LICENSE = "MIT"
-> >  INHIBIT_DEFAULT_DEPS = "1"
-> >
-> > @@ -42,6 +42,7 @@ python do_compile () {
-> >  do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
-> >
-> >  do_install () {
-> > -    install -d ${D}${sysconfdir}
-> > -    install -m 0644 os-release ${D}${sysconfdir}/
-> > +    install -d ${D}${libdir}
-> > +    install -m 0644 os-release ${D}${libdir}/
+All 1.1.20 Release Notes
 
-both install calls above could be squashed into install -D -m 0644 ...
+https://git.musl-libc.org/cgit/musl/commit/?id=0fa1e638e87cf257e9f96b4019b2076afd674a19
 
-> > +    lnr ${D}${libdir}/os-release ${D}${sysconfdir}
->
-> This probably needs an "rm -f ${D}${sysconfdir}/os-release" too to
-> prevent problems if install is run twice as lnr doesn't handle the
-> case where the target already exists.
->
-> >  }
-> > --
-> > 2.11.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ChangeLog for this change in OE
+
+https://git.musl-libc.org/cgit/musl/log/?qt=range&q=767f7a1091af3a3dcee2f7a49d0713359a81961c..0fa1e638e87cf257e9f96b4019b2076afd674a19
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+Changes in v2: Upgrade to 1.1.20 tag
+
+ meta/recipes-core/musl/musl_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index f4f156042a..de1cfd0058 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,9 +3,9 @@
+ 
+ require musl.inc
+ 
+-SRCREV = "767f7a1091af3a3dcee2f7a49d0713359a81961c"
++SRCREV = "0fa1e638e87cf257e9f96b4019b2076afd674a19"
+ 
+-PV = "1.1.19+git${SRCPV}"
++PV = "1.1.20+git${SRCPV}"
+ 
+ # mirror is at git://github.com/kraj/musl.git
+ 
+-- 
+2.18.0
+
 
