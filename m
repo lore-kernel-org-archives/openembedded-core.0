@@ -1,34 +1,32 @@
 Return-Path: <Lu.Jiang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A729A74A35
+	by mail.openembedded.org (Postfix) with ESMTP id 5C9386011C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 02:12:59 +0000 (UTC)
+	Tue,  4 Sep 2018 02:17:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w842Cw8S008405
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w842Hi1g008669
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Sep 2018 19:12:58 -0700
+	Mon, 3 Sep 2018 19:17:45 -0700
 Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 3 Sep 2018 19:12:57 -0700
+	Mon, 3 Sep 2018 19:17:44 -0700
 Reply-To: <lu.jiang@windriver.com>
-To: Tim Orling <ticotimo@gmail.com>, Tom Rini <trini@konsulko.com>
+To: Tom Rini <trini@konsulko.com>
 References: <1535681710-29461-1-git-send-email-lu.jiang@windriver.com>
-	<1535681710-29461-3-git-send-email-lu.jiang@windriver.com>
-	<20180831135324.GO26633@bill-the-cat>
-	<e7261e4b-1d4b-afaf-7078-3884021878d3@windriver.com>
-	<20180903025056.GE26633@bill-the-cat>
-	<CANx9H-A0SdVkXY-Nyb91WSJU4Xp9bWYwOtmep9Jgd2P-_hGiJw@mail.gmail.com>
+	<1535681710-29461-7-git-send-email-lu.jiang@windriver.com>
+	<20180831135228.GN26633@bill-the-cat>
+	<3b8b5b68-5cdc-eddf-59c4-4ff70d00c551@windriver.com>
 From: "Lu.Jiang" <lu.jiang@windriver.com>
-Message-ID: <1551786b-ce15-921c-2a87-ecb6c9ae581a@windriver.com>
-Date: Tue, 4 Sep 2018 10:10:58 +0800
+Message-ID: <ea8d1d09-85f9-503a-49c7-8e21bcaafe5b@windriver.com>
+Date: Tue, 4 Sep 2018 10:15:44 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <CANx9H-A0SdVkXY-Nyb91WSJU4Xp9bWYwOtmep9Jgd2P-_hGiJw@mail.gmail.com>
+In-Reply-To: <3b8b5b68-5cdc-eddf-59c4-4ff70d00c551@windriver.com>
 X-Originating-IP: [128.224.162.214]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/7] wic:move wic src into meta/receipt-support/wic
+Subject: Re: [PATCH 6/7] wic:bootimg-efi:try other place for efi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,129 +39,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 02:12:59 -0000
-Content-Type: multipart/alternative;
-	boundary="------------6BE1B5D8011C052F3DBE4492"
-Content-Language: en-US
-
---------------6BE1B5D8011C052F3DBE4492
+X-List-Received-Date: Tue, 04 Sep 2018 02:17:44 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-The patch move source code for wic from lib/script into 
-meta/receipt-support/wic. Then wic compiled as an individual package.
 
-When building wic image on host, imagetype-wic.bbclass invoke 
-wic-native. This is almost same as before.
+在 2018年09月03日 10:01, Lu.Jiang 写道:
+> 在 2018年08月31日 21:52, Tom Rini 写道:
+>> On Fri, Aug 31, 2018 at 10:15:09AM +0800, Jiang Lu wrote:
+>>
+>>> When there is no useful efi in $kerneldir, try copy
+>>> all efi from EFI/BOOT into boot image.
+>>>
+>>> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
+>>> ---
+>>>   .../wic/files/wic/plugins/source/bootimg-efi.py | 12 ++++++++++++
+>>>   1 file changed, 12 insertions(+)
+>>>
+>>> diff --git 
+>>> a/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py 
+>>> b/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
+>>> index 0eb86a0..d435268 100644
+>>> --- a/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
+>>> +++ b/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
+>>> @@ -231,6 +231,18 @@ class BootimgEFIPlugin(SourcePlugin):
+>>>               else:
+>>>                   raise WicError("unrecognized bootimg-efi loader: 
+>>> %s" %
+>>>                                  source_params['loader'])
+>>> +            os.listdir("%s/EFI/BOOT/" % hdddir)
+>>> +            found_efi = False
+>>> +            for x in os.listdir("%s/EFI/BOOT/" % hdddir) :
+>>> +                if x.endswith(".efi"):
+>>> +                    found_efi = True
+>>> +                    break;
+>>> +            if not found_efi:
+>>> +                cp_cmd = "cp %s/EFI/BOOT/*.efi %s/EFI/BOOT/" % 
+>>> (kernel_dir, hdddir)
+>>> +                try:
+>>> +                    exec_cmd(cp_cmd, True)
+>>> +                except:
+>>> +                    pass
+>>>           except KeyError:
+>>>               raise WicError("bootimg-efi requires a loader, none 
+>>> specified")
+>> I'm not sure this is the right approach.  If you don't have things set
+>> up for automagic finding you should use bootimg-partition and
+>> IMAGE_BOOT_FILES.  I'm doing this right now for some EFI projects
+>> because it's also bad form to dump everything into EFI/BOOT and some
+>> things should end up in EFI/vendorname or similar.
+>>
 
-After applied those patch, wic also run on target, allow user create wic 
-image on target board based on supplied components image or based on a 
-running system.
+Hi Tom,
 
-BTW, I checked code moved in this patch, didn't found reference path in 
-code.
+By indicating IMAGE_BOOT_FILES for bootimg-partition, can perform copy 
+file work. While we still need the code in bootimg-efi to re-generate 
+grub.cfg.
+
+I prefer use bootimg-efi for this case, but we can add a new parameter 
+to distinguish kernel dir & bootloader dir(for efi files)
 
 Thanks
 Jiang Lu
 
-在 2018年09月03日 23:14, Tim Orling 写道:
-> Also, what is the reason for the move? What problem does it solve? Why 
-> is it better to move it?
-> On Sun, Sep 2, 2018 at 7:51 PM Tom Rini <trini@konsulko.com 
-> <mailto:trini@konsulko.com>> wrote:
+> I will take a look about bootimage-partition. Thanks for remind.
 >
->     On Mon, Sep 03, 2018 at 09:58:01AM +0800, Lu.Jiang wrote:
 >
->     > This patch simply move code from script/lib/wic into
->     > meta/recipes-support/wic/files. I didn't touch code in this patch.
->     >
->     > Please see attachment for patch formatted with -M.
+> Thanks
 >
->     Exactly, formatted with -M it's clear and a short patch.  A follow-up
->     question now, are there any comment paths, etc, that should be changed
->     as part of the move?
->
->     -- 
->     Tom
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Jiang Lu
 >
 
 
---------------6BE1B5D8011C052F3DBE4492
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">The patch move source code for wic from
-      lib/script into meta/receipt-support/wic. Then wic compiled as an
-      individual package. <br>
-      <br>
-      When building wic image on host, imagetype-wic.bbclass invoke
-      wic-native. This is almost same as before.<br>
-      <br>
-      After applied those patch, wic also run on target, allow user
-      create wic image on target board based on supplied components
-      image or based on a running system.<br>
-      <br>
-      BTW, I checked code moved in this patch, didn't found reference
-      path in code.<br>
-      <br>
-      Thanks<br>
-      Jiang Lu <br>
-      <br>
-      在 2018年09月03日 23:14, Tim Orling 写道:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CANx9H-A0SdVkXY-Nyb91WSJU4Xp9bWYwOtmep9Jgd2P-_hGiJw@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      Also, what is the reason for the move? What problem does it solve?
-      Why is it better to move it?<br>
-      <div class="gmail_quote">
-        <div dir="ltr">On Sun, Sep 2, 2018 at 7:51 PM Tom Rini &lt;<a
-            href="mailto:trini@konsulko.com" moz-do-not-send="true">trini@konsulko.com</a>&gt;
-          wrote:<br>
-        </div>
-        <blockquote class="gmail_quote" style="margin:0 0 0
-          .8ex;border-left:1px #ccc solid;padding-left:1ex">On Mon, Sep
-          03, 2018 at 09:58:01AM +0800, Lu.Jiang wrote:<br>
-          <br>
-          &gt; This patch simply move code from script/lib/wic into<br>
-          &gt; meta/recipes-support/wic/files. I didn't touch code in
-          this patch.<br>
-          &gt; <br>
-          &gt; Please see attachment for patch formatted with -M.<br>
-          <br>
-          Exactly, formatted with -M it's clear and a short patch.  A
-          follow-up<br>
-          question now, are there any comment paths, etc, that should be
-          changed<br>
-          as part of the move?<br>
-          <br>
-          -- <br>
-          Tom<br>
-          -- <br>
-          _______________________________________________<br>
-          Openembedded-core mailing list<br>
-          <a href="mailto:Openembedded-core@lists.openembedded.org"
-            target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
-          <a
-            href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-            rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-        </blockquote>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------6BE1B5D8011C052F3DBE4492--
