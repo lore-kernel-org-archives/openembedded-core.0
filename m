@@ -1,50 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
-	[209.85.222.52])
-	by mail.openembedded.org (Postfix) with ESMTP id E7C2B74E47
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A0E6074E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 20:19:27 +0000 (UTC)
-Received: by mail-ua1-f52.google.com with SMTP id r15-v6so3994190uao.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 13:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=aEAjhAY2LzjCAIP/3Y3RrgLmIjC3ka+XrlUnBZq6bZk=;
-	b=dE6pOD0X3qPhucls80f/Qz4HiSAcygD+WEBUt26w5Ty+X7jN2xNqvIe6YDJ9mr5Mdy
-	hegHLnvdytIKhZeRIjjK9c7xSdBPozqhKWiK/KS7Pfdh7ajE6BKS5u6Ajui11xn9A2gd
-	H8vju5R7qU/FhoTJFk3g7108n3ngYJXJ1vupMDoInVc/EpmfCmdFHJWrobgt3PjzMbCh
-	KqbASiUtadoRVEq22Y95PhUsPXRV8QzxUg7aTPJW7Qd934HzW5iwn4ZISsVsP3OkoKCq
-	92Eh4Vks84ZGWLIKY7NsV35E9gRAUPP/cc8kQSzpjitp87DOh2rsz03s6L7uFvX5Jn47
-	lCRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=aEAjhAY2LzjCAIP/3Y3RrgLmIjC3ka+XrlUnBZq6bZk=;
-	b=aM/xvWlLWLs2uVjvoYfFDlIDE71nHWO9Ckxyq2Wzs9DVYHRskx/DWdNopQeC7/HSVf
-	7Wy+g9IwmBkZVhyBk68w1G0ZXx5C9lb26oibzP473bDnJZmLlVH3taBx5sq5yIlQFSce
-	xy3UsVhByhZ9h5NNW+c9yIrNf6ac7hlzMHDV/XzDmN+BwwSmlFexDE4Gdv64KDm/ihC7
-	Gc8gDrpH1XyzRr0A04zaYe0wNwleA5bqVOG/Q0Z3F9ph21jD1GM32Q8ICgjQhMOHMJUi
-	WBKo9Ln2ysgzwSkBdkBlRs3r+NvU2arX16Q8uHpJjN1d15f2mQHKDhFHdwtYk5Adl8Gt
-	SVoQ==
-X-Gm-Message-State: APzg51DpCtxuibTVTqpAg8VP5HNbr7H1pimwCEL1mZkR9kGl1Mz7ouc0
-	PJ0RofXAPhECM08soPKs2uvgVTOYGzIvw0LT9Iw=
-X-Google-Smtp-Source: ANB0VdYy8Xxd1CQmHSGiHpFweLcw+0H2ZSwMnIAEECF4sGewsbZeslA2k8UXCsIAlaFOO9W1eTzqdN6KCXvNKiKSk18=
-X-Received: by 2002:ab0:1950:: with SMTP id
-	u16-v6mr18655019uag.179.1536092368746; 
-	Tue, 04 Sep 2018 13:19:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9f:2b46:0:0:0:0:0 with HTTP;
-	Tue, 4 Sep 2018 13:19:28 -0700 (PDT)
-In-Reply-To: <20180904155000.3715-1-ross.burton@intel.com>
-References: <20180904155000.3715-1-ross.burton@intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 4 Sep 2018 13:19:28 -0700
-Message-ID: <CAJ86T=VeOq1i0Vg7EnWfP=4hJmXFDvnzdO1ADkk5U081_g2LxA@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Joshua Lock <joshua.g.lock@intel.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] os-release: fix to install in the expected location
+	Tue,  4 Sep 2018 20:35:37 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w84KZZAB029103
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 4 Sep 2018 21:35:36 +0100
+Message-ID: <a12df2950bb8cbe607429ba26247543ba63367af.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, Alexander Kanavin
+	<alex.kanavin@gmail.com>
+Date: Tue, 04 Sep 2018 21:35:35 +0100
+In-Reply-To: <CA+chaQfSBfzWoDKkWH0arU388zqewFMVKQ+bJwo4TMABZhAiog@mail.gmail.com>
+References: <cover.1535451643.git.alex.kanavin@gmail.com>
+	<b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
+	<CA+chaQfSBfzWoDKkWH0arU388zqewFMVKQ+bJwo4TMABZhAiog@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 1/6] openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the default version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,55 +36,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 20:19:28 -0000
+X-List-Received-Date: Tue, 04 Sep 2018 20:35:38 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 4, 2018 at 8:50 AM, Ross Burton <ross.burton@intel.com> wrote:
-> From: Joshua Lock <joshua.g.lock@intel.com>
->
-> os-release (5) recommends that the os-release file be installed in
-> /usr/lib/os-release and that /etc/os-release be a relative symlink to it.
->
-> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-core/os-release/os-release.bb | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
-> index f9887047561..c6e36001dc5 100644
-> --- a/meta/recipes-core/os-release/os-release.bb
-> +++ b/meta/recipes-core/os-release/os-release.bb
-> @@ -1,7 +1,7 @@
->  inherit allarch
->
->  SUMMARY = "Operating system identification"
-> -DESCRIPTION = "The /etc/os-release file contains operating system identification data."
-> +DESCRIPTION = "The /usr/lib/os-release file contains operating system identification data."
->  LICENSE = "MIT"
->  INHIBIT_DEFAULT_DEPS = "1"
->
-> @@ -42,6 +42,7 @@ python do_compile () {
->  do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
->
->  do_install () {
-> -    install -d ${D}${sysconfdir}
-> -    install -m 0644 os-release ${D}${sysconfdir}/
-> +    install -d ${D}${libdir}
-> +    install -m 0644 os-release ${D}${libdir}/
-> +    lnr ${D}${libdir}/os-release ${D}${sysconfdir}
+On Tue, 2018-09-04 at 21:12 +0200, Martin Jansa wrote:
+> On Tue, Aug 28, 2018 at 12:23 PM Alexander Kanavin <alex.kanavin@gmai
+> l.com> wrote:
+> > From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> > 
+> > I believe the time has come to do this: openssl 1.0 upstream
+> > support stops at the end
+> > of 2019, and we do not want a situation where a supported YP
+> > release contains an
+> > unsupported version of a critical security component.
+> > 
+> > Openssl 1.0 can still be utilized by depending on 'openssl10'
+> > recipe.
+> 
+> This still isn't true for most recipes, as long as there is something
+> depending on openssl in the dependency tree, it will
+> cause do_prepare_recipe_sysroot failures like last time
+> 
+> ERROR: The file /usr/lib/libssl.so is installed by both openssl10 and
+> openssl, aborting
+> DEBUG: Python function extend_recipe_sysroot finished
+> DEBUG: Python function do_prepare_recipe_sysroot finished
+> ERROR: Function failed: extend_recipe_sysroot
+> 
+> From 15 failures caused by openssl-1.1 detected in my builds, just
+> changing DEPENDS from openssl to openssl10 didn't help in any case.
 
-This probably needs an "rm -f ${D}${sysconfdir}/os-release" too to
-prevent problems if install is run twice as lnr doesn't handle the
-case where the target already exists.
+That isn't good news. Do you have an idea of which components are in
+the dependency chains and if any of them are common? It'd also be
+useful to understand which ones are breaking...
 
->  }
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+
+Richard
 
