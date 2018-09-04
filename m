@@ -1,51 +1,48 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C26678D56
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A2AED78D56
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 14:39:05 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id 8-v6so7189278oip.0
+	Tue,  4 Sep 2018 14:42:50 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id l5so3455992edw.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 07:39:06 -0700 (PDT)
+	Tue, 04 Sep 2018 07:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xwhqcM/iarGAV11nyA/oGeoq+NtLEF2IaRqVBXjtpL0=;
-	b=VnA4A47nRaE2qhQuIWJCSN/N31ZCM5VMOhwpreG7/ag92FUqvXkxRONhdGMDQYmubJ
-	QcxB9iXJhm0LYEAd779LAb3mByL8xUkpGC7zJ+AUrEXDNrNq9l62NXZNEiTgtX6Ic72X
-	t9mtSUK5fP9OxXLf4aMSOfD94hpWPZweSLPX9KnurLKJxzZ6uIwSBIKB23QG/u47GnOz
-	sh8Um6m6SxHFsA4y55UsNov4DkL82NVAex4yV+yai6iVmGi05fHAAyCU500U/Up8idob
-	nZg3tf8o2UEXE776q0bm1uXIcPGWf1NQl5L7gzlYhUudP0nTQ0ryoaeGWXvJKCpsTG+j
-	CJug==
+	h=from:to:cc:subject:date:message-id;
+	bh=WbYO9/rrT3lQm6llc5iZsOAyGASoogyY6GkbsNkPFkA=;
+	b=cTmTCgkgT52aHRe4+zWOVU5oGH5MnhmSEpgsefQ6hgTBzsF1o9cbk4trLkdcmhQK+4
+	G1hK118IK/mDZPNxrHm0n8se1hBx9DLMdQYh/nPQOBfbOM8NWde1uo2dNGfpuvdrgNHa
+	ce3lMqomDnYt1Te66L8yPbeRnOh6MIdNIWk+TACD7G4b6rxCQEPm25EomSzjx2TPgfDc
+	iApusFLcKTG2Pr06axgWzaa3IoHCjJDaMUyo4x1/6V6Du5gnX9gyZcyORK/jAutpNIYe
+	4tLjcsZeedSwXPH3JG4mzQWUFPr6U/K3GUQTyeoAjFO2aclHHA2PZu6VjeS3Hk+XALIb
+	jAEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=xwhqcM/iarGAV11nyA/oGeoq+NtLEF2IaRqVBXjtpL0=;
-	b=aqzzAoDuJYhKhaVM2oy7taIJYQaNCeopnzr5LhGXtuyOSYYtGk/05Ps7BbGyz64HJi
-	4pnOUuT0BQLq+JS79ql8MsjbaW7yAe6o4mAvNVInF4tAIuZz2OkXMUhI++hvz+jNEkj2
-	qD8ussQRKWlK5t9IbggcPHAf/zvYaLRqLedG/p50DJZ1Y+jJ3y1VhGkxUb5hCp7diXLh
-	Nit3foeXNz1Aze2aruZzIOHl9YSiIEfZtJ487/CbziTR+8Y1wD39bitb2VKEUWvUFQxP
-	CIXyw9nbu3AX3f2U6gQyuawg77LS3dw44iv/JAznvtglcuBlLubIUels5pM4hwik9fHT
-	lGYw==
-X-Gm-Message-State: APzg51DHrIHndHqOyZcUeckbGk1t2r1CkXTV+TpWFEZHJYMasaqo+K5R
-	4CMo5eIKDBIG374p9PcDuHpERFi8fuK/TYnrCgo=
-X-Google-Smtp-Source: ANB0VdYlt9KsyVJYXUfzSiG5qG4e1Zp9p44mSF2xb9txKQz4dDNpv8/6v7Ep/qeTivoIKgOZ5do2hXcXzDW/Ol/UpDM=
-X-Received: by 2002:aca:e80c:: with SMTP id
-	f12-v6mr22876239oih.38.1536071946554; 
-	Tue, 04 Sep 2018 07:39:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:1650:0:0:0:0:0 with HTTP;
-	Tue, 4 Sep 2018 07:39:06 -0700 (PDT)
-In-Reply-To: <3b83ec3a-af68-928e-6fae-ef71fbca77f6@windriver.com>
-References: <1535967326-32322-1-git-send-email-hongxu.jia@windriver.com>
-	<CANNYZj-4XNrwM4xEnnPrdgdobecJa3e+5RQYzoRWYYum=WRyoQ@mail.gmail.com>
-	<3b83ec3a-af68-928e-6fae-ef71fbca77f6@windriver.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=WbYO9/rrT3lQm6llc5iZsOAyGASoogyY6GkbsNkPFkA=;
+	b=YyBwbL0gfWA/5+wwpW7H4Jc7vU65owGFjv7CdlCz7LB3PWoRIUm9av0jYZ4Ja17rAn
+	DkvOuT2k+5K8fjXVZrGLvLzZOJPqs/5SW2Zq2ZWb5wJ+Ag2N2X0FnBsV4ZEOUcWW0eq/
+	Tolj6dvk9iVpEh+yxNtnxQW6rpjyExdHUl40ei17jSfKape606KXTMhThy/B05L5o/0Z
+	tQOw4Ou+stWkEYn2cJh8IzOgXf1X6w2D51Ngj9EisP/x+0i8M7EFwFOAt7hyp+3b/Shg
+	nVRu7yULEdxQ+pdfIpHm043xt/SNJEIJXX6KwzpQnX3vT5wA0XNae/pjf36wSIACA06T
+	Xu0g==
+X-Gm-Message-State: APzg51AetLnzpiAquWk3REyuh9ngZ8H7xUY1GwVX94KA2Oq9UB+soN8G
+	m2elLuxfEdaCRo1FQRJ/jpwomOba
+X-Google-Smtp-Source: ANB0Vda1SzLHAaCgzI7q/PdpmanzO5reG/p7eEDnLJaJwpKiR4VTWzc/n7HBl7cAruA6CnMxII+Vag==
+X-Received: by 2002:a50:e185:: with SMTP id
+	k5-v6mr31090996edl.195.1536072171182; 
+	Tue, 04 Sep 2018 07:42:51 -0700 (PDT)
+Received: from localhost.localdomain ([79.140.126.226])
+	by smtp.gmail.com with ESMTPSA id
+	a11-v6sm8769426edn.95.2018.09.04.07.42.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 04 Sep 2018 07:42:50 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 4 Sep 2018 16:39:06 +0200
-Message-ID: <CANNYZj9wvHuQs3aNabMBcgV2gqY3_kSSmwA9cJ3W+0vdrC5xyQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] webkitgtk: add opengl to REQUIRED_DISTRO_FEATURES
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Sep 2018 16:42:45 +0200
+Message-Id: <1536072165-24922-1-git-send-email-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] openssl: rename PV to 1.1.1~pre9 to avoid future versions from going backwards
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 14:39:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 04 Sep 2018 14:42:50 -0000
 
-2018-09-04 15:29 GMT+02:00 Hongxu Jia <hongxu.jia@windriver.com>:
->>> They can't be built without opengl in DISTRO_FEATURES.
->>> [snip]
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> I am afraid whether opengl or not, it always requires virtual/libql
-> just like Ubuntu/Fedora does.
->
-> [Fedora webkitgtk.spec]
-> BuildRequires:  mesa-libGL-devel
-> [Fedora webkitgtk.spec]
->
-> [Ubuntu debian/control]
-> Build-Depends: libgl1-mesa-dev [!armel !armhf !arm64]
-> [Ubuntu debian/control]
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
+index 7fcb9c2..7122cfc 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
+@@ -10,7 +10,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d57d511030c9d66ef5f5966bee5a7eff"
+ 
+ DEPENDS = "hostperl-runtime-native"
+ 
+-SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
++# This short sort lower than 1.1.1 final, to avoid package version going downwards issue
++PV = "1.1.1~pre9"
++S = "${WORKDIR}/openssl-1.1.1-pre9"
++
++SRC_URI = "http://www.openssl.org/source/openssl-1.1.1-pre9.tar.gz \
+            file://run-ptest \
+            file://openssl-c_rehash.sh \
+            "
+-- 
+2.7.4
 
-Fedora and Ubuntu have elected to enable opengl in their distros, that
-does not in itself mean it cannot be disabled. So please disable it,
-and inspect the source code for reasons it breaks the build. That
-header file you cited  in particular is guarded by ENABLE_OPENGL
-conditional, which should be false when opengl is switched off.
-
-
-Alex
 
