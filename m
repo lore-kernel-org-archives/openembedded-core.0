@@ -1,30 +1,29 @@
-Return-Path: <hongl.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 599AC750F5
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FAD374FCB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 09:36:32 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="44439535"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 04 Sep 2018 17:36:32 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id F1F1F4B6EC84
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 17:36:31 +0800 (CST)
-Received: from localhost.local (10.167.225.78) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 4 Sep 2018 17:36:30 +0800
-From: Hong Liu <hongl.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Sep 2018 17:36:29 +0800
-Message-ID: <20180904093629.31250-1-hongl.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.14.3
+	Tue,  4 Sep 2018 09:42:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w849gBBS011055
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 4 Sep 2018 02:42:11 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 4 Sep 2018 02:42:10 -0700
+To: <richard.purdie@linuxfoundation.org>
+References: <cover.1535288685.git.kai.kang@windriver.com>
+	<9ae08680d92897330510b0de660a9b2afc7d00bb.1535288685.git.kai.kang@windriver.com>
+	<040ce37698d169827043fa7ca17e2509a45cd58f.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <23399419-f0b3-35bc-2bcf-0be471793a68@windriver.com>
+Date: Tue, 4 Sep 2018 17:41:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.78]
-X-yoursite-MailScanner-ID: F1F1F4B6EC84.A1C4B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] [PATCH] libdrm:2.4.93 -> 2.4.94
+In-Reply-To: <040ce37698d169827043fa7ca17e2509a45cd58f.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/6] update_font_cache: update script for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +36,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 09:36:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 04 Sep 2018 09:42:13 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Upgrade libdrm from 2.4.93 to 2.4.94.
+On 2018年09月04日 17:12, richard.purdie@linuxfoundation.org wrote:
+> On Sun, 2018-08-26 at 06:06 -0700, Kai Kang wrote:
+>> Packages which inherit fontcache.bbclass call postinstall script
+>> update_font_cache. And in update_font_cache, it calls ${bindir}/fc-
+>> cache
+>> by qemuwrapper. When multilib is enabled, both packages foo and
+>> lib32-foo
+>> will call ${bindir}/fc-cache and one of them will fail to run
+>> obviously.
+>>
+>> Duplicate install file fc-cache to ${libexecdir} with ${MLPREFIX} and
+>> call proper fc-cache in update_font_cache.
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb | 8 +++++++-
+>>   scripts/postinst-intercepts/update_font_cache         | 2 +-
+>>   2 files changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>> b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>> index d4cbce80b45..db36c867741 100644
+>> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>> @@ -35,9 +35,15 @@ do_configure_prepend() {
+>>       rm -f ${S}/src/fcobjshash.h ${S}/src/fcobjshash.gperf
+>>   }
+>>   
+>> +do_install_append_class-target() {
+>> +    # duplicate fc-cache for postinstall script
+>> +    mkdir -p ${D}${libexecdir}
+>> +    cp ${D}${bindir}/fc-cache ${D}${libexecdir}/${MLPREFIX}fc-cache
+> We may as well hardlink this, same for the following patch too.
 
-Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
----
- meta/recipes-graphics/drm/{libdrm_2.4.93.bb => libdrm_2.4.94.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.93.bb => libdrm_2.4.94.bb} (95%)
+OK. Got it.
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.93.bb b/meta/recipes-graphics/drm/libdrm_2.4.94.bb
-similarity index 95%
-rename from meta/recipes-graphics/drm/libdrm_2.4.93.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.94.bb
-index 9219d87..d654292 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.93.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.94.bb
-@@ -12,8 +12,8 @@ DEPENDS = "libpthread-stubs"
- 
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-            file://musl-ioctl.patch"
--SRC_URI[md5sum] = "0ba45ad1551b2c1b6df0797a3e65f827"
--SRC_URI[sha256sum] = "6e84d1dc9548a76f20b59a85cf80a0b230cd8196084f5243469d9e65354fcd3c"
-+SRC_URI[md5sum] = "e9803233838007047f39eb385c70d9e0"
-+SRC_URI[sha256sum] = "b73c59b0a3760502c428ba81de49cd4807657d26be5e697eba3a87dd021d16be"
- 
- inherit meson pkgconfig manpages
- 
+--Kai
+
+>
+> Cheers,
+>
+> Richard
+>
+
 -- 
-2.7.4
-
-
+Regards,
+Neil | Kai Kang
 
 
