@@ -1,53 +1,53 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AB9260557
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 654D274FCB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 09:12:47 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id k5-v6so3109927wre.10
+	Tue,  4 Sep 2018 09:16:50 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id k5-v6so3123286wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 02:12:48 -0700 (PDT)
+	Tue, 04 Sep 2018 02:16:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=QuO+YMkWC2+mr51wRvLMKEjaBb1mZIkEsTNxFBm2LZI=;
-	b=RSJ7wKxMP5CpRr7ZMmXNWE0wVuKGPL+pR8x/zzr/F5pmiXohEpNY6eEdwuaRWqGDKK
-	cHk8rcEIf8h0jKN+FZlNFYH3ne5Rti6mMngDBm8X5yqeiL3lV8t8D+Feg4Ap3lM5jvI7
-	aptasBDVU/4FpMK0ndyunPzJ1zxuxWd3s4JBg=
+	bh=h+PNxn9Ls9OdBasPtA5uvHwNUWd7nFyr625TSP9bYNs=;
+	b=YYHtL8xvmDuj/mqAqO74wLWAdIUzDpI702h8IfXa4+W19lbJxrtL9YK8+zK4EF2VIj
+	SqFKBjYBBbM/cJlP404qiElAq1YRwRU4IScw0IZsqw7D+OPb8hxHDOZ83s97vOVXDMtJ
+	x26uV+xjENJ09wj4ropqYaYWS1uUldhvQbJqM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=QuO+YMkWC2+mr51wRvLMKEjaBb1mZIkEsTNxFBm2LZI=;
-	b=LGWEdw4A9keq6NS9siC8760ROi75tWtABdm4i6v9urDSqlaEbYGac3XDHruxGeCJF9
-	lcW3MZhIVR9BTbchNzz/deHXxO4YqRMp/i9yx4Zq4HYGUDDDREBejSaw4qXV0+6F8ctg
-	kxRyj5Utr0entS3OrVRwd26eDIrqavspYvODH7PP7WuOwccqE5Gww2acIEGnNZoBq240
-	1s2/kaKOR4aWvUIj1y0Rx1abt8QrB8qUWNbYzprhy9OLC8syfB6ZAs+tXj0PJ6m15zuI
-	ZuQvxCjmpGb4e4U2ByTdMPgouMRMrlmOuEl+h6fd/QyM75s6Neyj/YP+Xgx+Jj8iKcpS
-	Cwqw==
-X-Gm-Message-State: APzg51AessUUn6RmD/dIu9Z0aBWyIPUAeneW2XmV7wzI8zwbya7z6Er8
-	wCNua8kKpw2R/gsamnwaK5WyEQ==
-X-Google-Smtp-Source: ANB0Vdbk0JHlQzMz9YWjxiGGeIwGJegvNLAkq0+7BRSnuTA/Cb3CuQtVKMerlaO5AH2LHTxt6ZnKhQ==
-X-Received: by 2002:adf:9081:: with SMTP id
-	i1-v6mr22667209wri.271.1536052368164; 
-	Tue, 04 Sep 2018 02:12:48 -0700 (PDT)
+	bh=h+PNxn9Ls9OdBasPtA5uvHwNUWd7nFyr625TSP9bYNs=;
+	b=kmkDG58UNsWBp0Av0Qg/eWI/7JLbsdjHb+l70F4m5uIuKsLDTziw5fzYfjune3yf+H
+	T/k4VKH4zRNo791WgJygU1ScUN7SoOHV7iWz8UFyN+qWx2rpA2YMC6QWYjEmtXoTyCb7
+	DyJcUtKWtTz9mKkJ7K7DT0li+YYChtqUwqDavWG2owwoiqlKCJvhXz3v1fKlBSkcWH9l
+	6oW0C1EJdrPOptyl+BJxgcJ0U4LoyBq/Znf1ayr1S/l7HTc31hpPR8wOS2cBReTOLfYK
+	V9f4e9m3OgkOX1iuzZ+D8nnhjD1XXX4f1UzToIS5MDGZ+rPteUs7cyZfvJFXUe8KnKmw
+	YKFg==
+X-Gm-Message-State: APzg51BazyVmoYaEXciTgxKRUEPcx9G8XThA5DTbNkYwNnoDtUUmYsDq
+	DR0JAlsOvkXPrwInVkgUiiddaA==
+X-Google-Smtp-Source: ANB0VdZx2y75U41baVBj74KDhH4/fqPEekGTu0vCGDwPbJaFndpINsUtn0L+IwaVDvVd/KWwPrA+Kg==
+X-Received: by 2002:adf:e486:: with SMTP id
+	i6-v6mr22740324wrm.145.1536052611115; 
+	Tue, 04 Sep 2018 02:16:51 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h17-v6sm19439154wrq.73.2018.09.04.02.12.46
+	q16-v6sm16748140wrw.2.2018.09.04.02.16.49
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 04 Sep 2018 02:12:47 -0700 (PDT)
-Message-ID: <040ce37698d169827043fa7ca17e2509a45cd58f.camel@linuxfoundation.org>
+	Tue, 04 Sep 2018 02:16:50 -0700 (PDT)
+Message-ID: <ee98b583c37153254c89db81f231fc9acd52a023.camel@linuxfoundation.org>
 From: richard.purdie@linuxfoundation.org
 To: Kai Kang <kai.kang@windriver.com>
-Date: Tue, 04 Sep 2018 10:12:45 +0100
-In-Reply-To: <9ae08680d92897330510b0de660a9b2afc7d00bb.1535288685.git.kai.kang@windriver.com>
+Date: Tue, 04 Sep 2018 10:16:49 +0100
+In-Reply-To: <5495bfab4433691120e9300132a3a16a0a77d182.1535288685.git.kai.kang@windriver.com>
 References: <cover.1535288685.git.kai.kang@windriver.com>
-	<9ae08680d92897330510b0de660a9b2afc7d00bb.1535288685.git.kai.kang@windriver.com>
+	<5495bfab4433691120e9300132a3a16a0a77d182.1535288685.git.kai.kang@windriver.com>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/6] update_font_cache: update script for multilib
+Subject: Re: [PATCH 6/6] multilib: fix install file conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,43 +60,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 09:12:47 -0000
+X-List-Received-Date: Tue, 04 Sep 2018 09:16:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Sun, 2018-08-26 at 06:06 -0700, Kai Kang wrote:
-> Packages which inherit fontcache.bbclass call postinstall script
-> update_font_cache. And in update_font_cache, it calls ${bindir}/fc-
-> cache
-> by qemuwrapper. When multilib is enabled, both packages foo and
-> lib32-foo
-> will call ${bindir}/fc-cache and one of them will fail to run
-> obviously.
+> Fix install files conflicts between multlib packages:
 > 
-> Duplicate install file fc-cache to ${libexecdir} with ${MLPREFIX} and
-> call proper fc-cache in update_font_cache.
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb | 8 +++++++-
->  scripts/postinst-intercepts/update_font_cache         | 2 +-
->  2 files changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-> b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-> index d4cbce80b45..db36c867741 100644
-> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-> @@ -35,9 +35,15 @@ do_configure_prepend() {
->      rm -f ${S}/src/fcobjshash.h ${S}/src/fcobjshash.gperf
->  }
->  
-> +do_install_append_class-target() {
-> +    # duplicate fc-cache for postinstall script
-> +    mkdir -p ${D}${libexecdir}
-> +    cp ${D}${bindir}/fc-cache ${D}${libexecdir}/${MLPREFIX}fc-cache
+> > Error: Transaction check error:
+> >   file /usr/bin/g-ir-annotation-tool conflicts between attempted installs of lib32-gobject-introspection-1.56.1-r0.x86 and gobject-introspection-1.56.1-r0.core2_64
+> >   file /usr/bin/g-ir-scanner conflicts between attempted installs of lib32-gobject-introspection-1.56.1-r0.x86 and gobject-introspection-1.56.1-r0.core2_64
+> >   file /usr/bin/cairo-trace conflicts between attempted installs of lib32-libcairo-perf-utils-1.14.12-r0.x86 and libcairo-perf-utils-1.14.12-r0.core2_64
+> >   file /usr/bin/icu-config conflicts between attempted installs of lib32-icu-dev-62.1-r0.x86 and icu-dev-62.1-r0.core2_64
+> >   file /usr/share/gir-1.0/GLib-2.0.gir conflicts between attempted installs of gobject-introspection-dev-1.56.1-r0.core2_64 and lib32-gobject-introspection-dev-1.56.1-r0.x86
+> >   file /usr/bin/gpgrt-config conflicts between attempted installs of lib32-libgpg-error-dev-1.32-r0.x86 and libgpg-error-dev-1.32-r0.core2_64
+> >   file /usr/share/pkgconfig/udev.pc conflicts between attempted installs of eudev-dev-3.2.5-r0.core2_64 and lib32-eudev-dev-3.2.5-r0.x86
 
-We may as well hardlink this, same for the following patch too.
+.pc files installed into /usr/share are architecture
+independent. Either it is arch dependent in which case its in the wrong
+place, or it needs to be fixed.
+
+We are not putting these under control of update-alternatives!
+
+It would be helpful to understand the kinds of differences in some of
+these files. gir files in /usr/share/gir-1.0/ should also really be
+arch independent...
 
 Cheers,
 
