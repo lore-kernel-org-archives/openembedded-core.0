@@ -1,49 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f43.google.com (mail-vk0-f43.google.com
-	[209.85.213.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E0CB27458C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 06249771B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 19:44:47 +0000 (UTC)
-Received: by mail-vk0-f43.google.com with SMTP id b78-v6so1795221vka.12
+	Tue,  4 Sep 2018 19:54:17 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id g13-v6so3298286qki.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 12:44:49 -0700 (PDT)
+	Tue, 04 Sep 2018 12:54:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uZXVK3sRL4c2mKw9gwxo0tQh5vuF0AjeCApgE7leiEw=;
-	b=oc+J+9l0bjcXOL9/ilGvmeClnms0fcSOCwtwMyXcpsxaTbMtMGNoePgBprvM3ewCRj
-	lpF/SUmALZZ+bc2gDofjIb5ZWjktC7r3gK7sllpAV6dDsYp3S3DmYD2qDauLwl6Tnp7U
-	XSZRYsNnao8bZ/Y5fB7ghV/sXpscYNqAtEXgsyF/anLy6ADze+JqUDpBX3hEOyo0DRkF
-	vlUYORtDHyVAujIC5UqM/Lr1qHHhxI3eZFrxT7dxWx6V/Nd/TwFKLQQdHJtM0GXS1njb
-	jJYJuliM/YaBddtos74t1/v9ncOcSQkigEC7nzfJQatO0ryma+jB5UPxn7QMsqtwPqOf
-	VIAg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=htXS8vnhOeAzXdOn3l8hTZ0XDeJRpIfbqeYTr3a64Ss=;
+	b=eCikC2C1UciKawDH+B7eiWyKz+Mjhfn5cRUFMPMgPp6mx5tisWV548dQQQ9OmxmDpf
+	VCrvfZrh1ZPypFVv0dgUfSkFydOHZVxGPcuo60CnrhYtNDVxwRaHipsUFVY1gAV6R/W3
+	IWRmLS2vqNPGNF2cXp2Yd08xQPOS4n9y/AAbDfQs5cpadCRq6kaYsBs0Fm4HND/NDEvY
+	i8jRxpY6rdbkXDaKcthVNd4MlzWM2iKRe3vIZ4FhKsDeGxPZE87GkXQ6TTZIEQRJ10d0
+	wnxcTMDfl3HPTtqX1BLUJTa+G+PJ1jdU8wij62SrSQxB7heQQUPvtWV3+4dOUF2t+qY4
+	02pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=uZXVK3sRL4c2mKw9gwxo0tQh5vuF0AjeCApgE7leiEw=;
-	b=isZyyyrjnYkvrQanr74albiu5/mqAFg9ij2/O39EGoZW2fHjCBgp78rsdInXsFJ2LT
-	41KsvI5i7GHvG0yO7oP6Xh39mo16hkiv8uciJlNgLpAWGZR4RovrslDpROTM+Gqc+ifI
-	tFgVHtFOhpJ//UF1JvwfUclWIl3znoZGv9rKJBkEooYPhh7dGnKNpquZ/92/P0rVRdd3
-	L5XvPuHB8jAIDlwlqUdIuwe7+rw4J9MAw8CRXlupOpl/tx0N8nDy7rp6A23teWM0EMma
-	ZlgzVYZD4MxLkvyeaLxHF8d2hUdcyJDQsvMHTbkx9NUFaUn7WvRQJFbvWKYlL7EMiwTu
-	h8pQ==
-X-Gm-Message-State: APzg51DO6+rPUNv3rW/5USt6+GJ+SSY5BCa9rKhPUhXd3y8Nfy76xvU6
-	cq9ZPmwYb6BUqO7XfmmDEKYW5CoZ6RTyuEqS9R8=
-X-Google-Smtp-Source: ANB0VdZYl3SFnjw2/EuMaUrJUtM/+R0Vf3+RONGgpIHsMGl/eCG2BntnQZjMP42QlWAvM0P7D8DQgA0i8mIf1ANFa2w=
-X-Received: by 2002:a1f:6ac3:: with SMTP id
-	f186-v6mr16764317vkc.119.1536090288723; 
-	Tue, 04 Sep 2018 12:44:48 -0700 (PDT)
+	bh=htXS8vnhOeAzXdOn3l8hTZ0XDeJRpIfbqeYTr3a64Ss=;
+	b=d7OmPWLMRcfft6CXFSoZynIIoAjRjeUYY/lPGn+ICSMoVmmhRSjrhQlki3AI2XQhqe
+	U7Th1rA446ofMtnadQiOztBR+clFsfOH8t0Vsmaz7SeYkix2yeNLLIV60uKbU88vl5XR
+	cmruT4B9MghVKhuWM/rLNroyFL//Ybrkjxi0B2NlStr/ZdTCn87mIp0zUKrvxsx2pz7s
+	CPGM0ck9uvM/uoeFYRpR/XNZXBI7UHfjKH42Mle4WYEkSlk41+R6dF4hK6sgC7eFV35j
+	424X8s+FjzRNX0POzmdEqhToD2MWitkdEWk1jCdL6S4yMW7XtcnU5EAJAt08u5/aZyPB
+	WkHg==
+X-Gm-Message-State: APzg51BWz8yUh+1AC59oFeDukImSerLZ4Iu+b73+y41O62r3J3z5UNTv
+	uGWVa+RnDLOSJJrYCOSTaqCRH9vs29vjqdTDcPc=
+X-Google-Smtp-Source: ANB0Vda+v1gfFfBr7bFRih/BBjEODum4oiKOPMhRAwQeqK7rSwIzhBVPvj5EGxUrby1ApfNVm7DOTwqz89/j9gehBps=
+X-Received: by 2002:a37:2169:: with SMTP id
+	h102-v6mr12329923qkh.7.1536090858395; 
+	Tue, 04 Sep 2018 12:54:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9f:2b46:0:0:0:0:0 with HTTP;
-	Tue, 4 Sep 2018 12:44:48 -0700 (PDT)
-In-Reply-To: <20180904190027.1410-2-raj.khem@gmail.com>
 References: <20180904190027.1410-1-raj.khem@gmail.com>
 	<20180904190027.1410-2-raj.khem@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 4 Sep 2018 12:44:48 -0700
-Message-ID: <CAJ86T=UuKyknCjZw2rHu7=e0tG1u2uwvasX-muVzrN8B=QmO=g@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+	<CAJ86T=UuKyknCjZw2rHu7=e0tG1u2uwvasX-muVzrN8B=QmO=g@mail.gmail.com>
+In-Reply-To: <CAJ86T=UuKyknCjZw2rHu7=e0tG1u2uwvasX-muVzrN8B=QmO=g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 4 Sep 2018 12:53:51 -0700
+Message-ID: <CAMKF1sptzigqGk=RRu0sxu-JfDauX69UhEm-JBX-7r3hXSjPQA@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] musl: Update latest on master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,42 +57,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 19:44:48 -0000
+X-List-Received-Date: Tue, 04 Sep 2018 19:54:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 4, 2018 at 12:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> hopefully last bump before 1.1.20 is released
+On Tue, Sep 4, 2018 at 12:44 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+>
+> On Tue, Sep 4, 2018 at 12:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > hopefully last bump before 1.1.20 is released
+>
+> 1.1.20 has been released.
+>
 
-1.1.20 has been released.
+indeed right in time, I will update the commit message. its actually
+same commit with a release commit on top.
 
-> ChangeLog
->
-> https://git.musl-libc.org/cgit/musl/log/?qt=range&q=767f7a1091af3a3dcee2f7a49d0713359a81961c..64466094ede4162ddd4049cea5da09feb9abfaa6
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/musl/musl_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-> index f4f156042a..997eb14959 100644
-> --- a/meta/recipes-core/musl/musl_git.bb
-> +++ b/meta/recipes-core/musl/musl_git.bb
-> @@ -3,7 +3,7 @@
->
->  require musl.inc
->
-> -SRCREV = "767f7a1091af3a3dcee2f7a49d0713359a81961c"
-> +SRCREV = "64466094ede4162ddd4049cea5da09feb9abfaa6"
->
->  PV = "1.1.19+git${SRCPV}"
->
-> --
-> 2.18.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > ChangeLog
+> >
+> > https://git.musl-libc.org/cgit/musl/log/?qt=range&q=767f7a1091af3a3dcee2f7a49d0713359a81961c..64466094ede4162ddd4049cea5da09feb9abfaa6
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-core/musl/musl_git.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+> > index f4f156042a..997eb14959 100644
+> > --- a/meta/recipes-core/musl/musl_git.bb
+> > +++ b/meta/recipes-core/musl/musl_git.bb
+> > @@ -3,7 +3,7 @@
+> >
+> >  require musl.inc
+> >
+> > -SRCREV = "767f7a1091af3a3dcee2f7a49d0713359a81961c"
+> > +SRCREV = "64466094ede4162ddd4049cea5da09feb9abfaa6"
+> >
+> >  PV = "1.1.19+git${SRCPV}"
+> >
+> > --
+> > 2.18.0
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
