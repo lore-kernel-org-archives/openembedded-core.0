@@ -1,25 +1,49 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id DA8B874C8C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2253374CB4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2018 15:49:27 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w84FnR2L019898
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Tue,  4 Sep 2018 15:50:10 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id c14-v6so4970740wmb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 4 Sep 2018 17:49:28 +0200
-Received: from dev.vm6.ccp.siemens.com ([167.87.2.224])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w84FnRCX003398;
-	Tue, 4 Sep 2018 17:49:27 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id F41F86635EF;
-	Tue,  4 Sep 2018 17:49:27 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Tue, 04 Sep 2018 08:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=rN+xTzd27pWuY8YL6LSXa8anGeFP3sW8uWfwoNok6mc=;
+	b=jHC2DeU2oHwZtpHvowbeB1oHhEUg4POzc6KovE8T5u3XuOoxzU2nPc4vo2S4rj2Yw0
+	NeBK20uVBYXsOzB4xZCJYBljI7p2pwkbmBcQ63fFwdSqmYgaSsuoFW+dJyVToGSSXsCP
+	yprW9obsHhcC5dNDjglkJxD78dsJvZfGlJdcguIkJ9HL/mGlpm74XeXHgjPI4xEmPrAy
+	Oqr5cCj6QOiyu7aOn7J34yEDsesDigQ7xtbI5lwDR6dzZifm1n52EchPQqBR6QFjLq/s
+	CH/a78R2rRobnjmFmLAZKc9FUzL4FJCwAGBpe+PEoG2zi4HamHmyQvFw8a+4ChY+qthZ
+	NHOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rN+xTzd27pWuY8YL6LSXa8anGeFP3sW8uWfwoNok6mc=;
+	b=gjAEUm9HdljMB2hU7BX28X2B+2RvJ37ru84HSvJoIzmH08ysfzqdKyppEg+ajace2P
+	qtiucyYthYmRmuva5kcBJ7+qBTYEQ3hVEOD5WlwTPMyL4PS4IOv6wQ1RAnprnkzrozeW
+	6glFwnPwIohnNLGKjVbyx/nCHEFozLRy+fE6MvFo6XOhLN4PTP+LrXNosYbjDnrEcY11
+	ZBQIhHWO6+f7WlKB6M7bQbbKtt5LFRE6gOSP9Lbp3FotmQsIiI+o9QNpEH4R6d4MfIKA
+	IxGBjlCLRJT+ZhIKEq2+V9/1wkqtMJ7CnnV8DHSfwM65ZJ56XlOndEXdVPrXfrmwhEEB
+	+XMQ==
+X-Gm-Message-State: APzg51C6wQnGg1gOzoLDAeOR94lGEzPOi3/C7dYcbultJPhmcgV0oKI4
+	zGQra9eC/grYcXwezVpNOj3TYdkfMLQ=
+X-Google-Smtp-Source: ANB0VdYFf01jzR7uuaZWfYozwwkA3PHqrwXp0++6+rddP6ZvwhncETzcQdaiMF7AN4Rvmk4F0wndNg==
+X-Received: by 2002:a1c:5f82:: with SMTP id
+	t124-v6mr2963768wmb.14.1536076210500; 
+	Tue, 04 Sep 2018 08:50:10 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	w18-v6sm45231059wrc.38.2018.09.04.08.50.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 04 Sep 2018 08:50:09 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Sep 2018 17:48:06 +0200
-Message-Id: <20180904154806.7108-1-andrej.valek@siemens.com>
+Date: Tue,  4 Sep 2018 16:50:00 +0100
+Message-Id: <20180904155000.3715-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] wpa-supplicant: fix CVE-2018-14526
+Cc: Joshua Lock <joshua.g.lock@intel.com>
+Subject: [PATCH] os-release: fix to install in the expected location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,81 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 15:49:28 -0000
+X-List-Received-Date: Tue, 04 Sep 2018 15:50:10 -0000
 
-Ignore unauthenticated encrypted EAPOL-Key data in supplicant
-processing. When using WPA2, these are frames that have the Encrypted
-flag set, but not the MIC flag.
+From: Joshua Lock <joshua.g.lock@intel.com>
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+os-release (5) recommends that the os-release file be installed in
+/usr/lib/os-release and that /etc/os-release be a relative symlink to it.
+
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../wpa_supplicant-CVE-2018-14526.patch            | 44 ++++++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.6.bb           |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa_supplicant-CVE-2018-14526.patch
+ meta/recipes-core/os-release/os-release.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa_supplicant-CVE-2018-14526.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa_supplicant-CVE-2018-14526.patch
-new file mode 100644
-index 0000000000..e800a410ea
---- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa_supplicant-CVE-2018-14526.patch
-@@ -0,0 +1,44 @@
-+wpa_supplicant-2.6: Fix CVE-2018-14526
-+
-+[No upstream tracking] -- https://w1.fi/security/2018-1/unauthenticated-eapol-key-decryption.txt
-+
-+wpa: Ignore unauthenticated encrypted EAPOL-Key data
-+
-+Ignore unauthenticated encrypted EAPOL-Key data in supplicant
-+processing. When using WPA2, these are frames that have the Encrypted
-+flag set, but not the MIC flag.
-+
-+When using WPA2, EAPOL-Key frames that had the Encrypted flag set but
-+not the MIC flag, had their data field decrypted without first verifying
-+the MIC. In case the data field was encrypted using RC4 (i.e., when
-+negotiating TKIP as the pairwise cipher), this meant that
-+unauthenticated but decrypted data would then be processed. An adversary
-+could abuse this as a decryption oracle to recover sensitive information
-+in the data field of EAPOL-Key messages (e.g., the group key).
-+
-+Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/src/rsn_supp/wpa.c?id=3e34cfdff6b192fe337c6fb3f487f73e96582961]
-+CVE: CVE-2018-14526
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+
-+diff --git a/src/rsn_supp/wpa.c b/src/rsn_supp/wpa.c
-+index 3c47879..6bdf923 100644
-+--- a/src/rsn_supp/wpa.c
-++++ b/src/rsn_supp/wpa.c
-+@@ -2016,6 +2016,17 @@ int wpa_sm_rx_eapol(struct wpa_sm *sm, const u8 *src_addr,
-+
-+ 	if ((sm->proto == WPA_PROTO_RSN || sm->proto == WPA_PROTO_OSEN) &&
-+ 	    (key_info & WPA_KEY_INFO_ENCR_KEY_DATA)) {
-++		/*
-++		 * Only decrypt the Key Data field if the frame's authenticity
-++		 * was verified. When using AES-SIV (FILS), the MIC flag is not
-++		 * set, so this check should only be performed if mic_len != 0
-++		 * which is the case in this code branch.
-++		 */
-++		if (!(key_info & WPA_KEY_INFO_MIC)) {
-++			wpa_msg(sm->ctx->msg_ctx, MSG_WARNING,
-++				"WPA: Ignore EAPOL-Key with encrypted but unauthenticated data");
-++			goto out;
-++		}
-+ 		if (wpa_supplicant_decrypt_key_data(sm, key, ver, key_data,
-+ 						    &key_data_len))
-+ 			goto out;
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-index e684537486..aa4c4c2da0 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-@@ -32,6 +32,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
-            file://key-replay-cve-multiple6.patch \
-            file://key-replay-cve-multiple7.patch \
-            file://key-replay-cve-multiple8.patch \
-+           file://wpa_supplicant-CVE-2018-14526.patch \
-           "
- SRC_URI[md5sum] = "091569eb4440b7d7f2b4276dbfc03c3c"
- SRC_URI[sha256sum] = "b4936d34c4e6cdd44954beba74296d964bc2c9668ecaa5255e499636fe2b1450"
+diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
+index f9887047561..c6e36001dc5 100644
+--- a/meta/recipes-core/os-release/os-release.bb
++++ b/meta/recipes-core/os-release/os-release.bb
+@@ -1,7 +1,7 @@
+ inherit allarch
+ 
+ SUMMARY = "Operating system identification"
+-DESCRIPTION = "The /etc/os-release file contains operating system identification data."
++DESCRIPTION = "The /usr/lib/os-release file contains operating system identification data."
+ LICENSE = "MIT"
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+@@ -42,6 +42,7 @@ python do_compile () {
+ do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
+ 
+ do_install () {
+-    install -d ${D}${sysconfdir}
+-    install -m 0644 os-release ${D}${sysconfdir}/
++    install -d ${D}${libdir}
++    install -m 0644 os-release ${D}${libdir}/
++    lnr ${D}${libdir}/os-release ${D}${sysconfdir}
+ }
 -- 
 2.11.0
 
