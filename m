@@ -1,44 +1,55 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com
-	[209.85.222.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 0833774D0C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D2F1F74A13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2018 08:37:27 +0000 (UTC)
-Received: by mail-ua1-f44.google.com with SMTP id 101-v6so5142839uav.7
+	Wed,  5 Sep 2018 08:47:54 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id j192-v6so6864954wmj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2018 01:37:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=a6qJ0Wattyt6ds4D3mP1J7wvjFo0VZdnzgcixOQuJCI=;
-	b=Ouv6QkkwkJSuQOSE5P2sR7s3L3iotfa/2XbdA8d/nKCKoQDqAE8wibLy3xXQEHTNsz
-	FEt+EA4x4wqJoOkqEHr1168LUybjNEm64joXMum8vZP6s8q3Xct3dcRJ/xDF4LsMcGsO
-	Xg9CoWZmosHq/sx4r4jGFRsGlDzbZBJNq3AwDHp/2yerGqDvuz2SynBBgWJRZ60gQ51Y
-	Mms4EfmsaN9LKO4a4lhZCigIhksYpkR3pJ+FU4SdrmsgMWKVnJm7Nfl4WVJWZGEfrQOv
-	MKWVegpKbXKrRy8r/EyNGPKQtZuoDvP7RuZVnJYOGrLjDWkSZ5NCKSpWsQzgKQFGx1EB
-	6OGQ==
+	Wed, 05 Sep 2018 01:47:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=tNieNeGa4ElL90Z6SowPqSxGZlKS21EOFLLLIX5OjMQ=;
+	b=WHfcbc3D9Onfoa3rIYJZgq8NRZForYLNfL7/D/lK+01SJft+3s5HXOk+L8fMn6kgs7
+	dpEaNaISOhPC0pgA+0tAKgxGvZwRWcE/qWxgsmcfOu+EvujTbo3l+zEANN2M8mj8T2zY
+	YfBFJMjWTwlDBKk+GpRHBsBDHUUOp8o+YtnKI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=a6qJ0Wattyt6ds4D3mP1J7wvjFo0VZdnzgcixOQuJCI=;
-	b=re8HZKjQOCyliHO6ixGbVon4nHJqHtxo8/jama4+dfbC/wM6mWKhLxQA1tXKkE0bct
-	PNHJcAoLRfvoinden6bxe7EMYS18FBnZCmkjnFUenwSmWvpfPEm+JdAivo9g5sF9SSFC
-	fItIdwXVVcaVgRuOHo34R9k8cI4WZwW185RndEbMrlIwOB3/FkIGnqulPqfJMCFR18Ol
-	Yvg3129PjVRTxjKUoYGf24C2zmoa0HR74fzlxu2zE4iLvBd1NBdwXmlM0J2/D/9HLhfh
-	f6IMoDmDHgb5kUfSn/8+xhoG1kX2StDRoGbgkuvLjSSRdXdQUmSs3wOLpeuKueB2JRIy
-	1vSw==
-X-Gm-Message-State: APzg51AFOV624IE9V7K8AKsYfAtC4/tQIeM2N5Y1yID1MB2QBvoiRdgQ
-	ftuI/nbMXPBkIwXH0je4aoIZHi5gNSf7NpnpD3QBHb4d4hQ=
-X-Google-Smtp-Source: ANB0VdZhE6UU+bOQKO/ahtIysw0X+FNLSQwrE9gvT2RWfCUP1ykdhOHCCnJr6Xew4BCxGKR2TuvB7rD4QfRqdQ2gCng=
-X-Received: by 2002:a67:ba09:: with SMTP id
-	l9-v6mr12509681vsn.114.1536136648598; 
-	Wed, 05 Sep 2018 01:37:28 -0700 (PDT)
-MIME-Version: 1.0
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 5 Sep 2018 09:37:17 +0100
-Message-ID: <CAO5Uq5SjWvxmEXisPRmgM92JaGRHgAdd0qoCsTb=P=1PDzh+fg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org, andrej.valek@siemens.com, 
-	Chen Qi <Qi.Chen@windriver.com>
-Subject: systemd/busybox fsck fail to run
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=tNieNeGa4ElL90Z6SowPqSxGZlKS21EOFLLLIX5OjMQ=;
+	b=lAUcoptzUkWFzHjW3d9kzlSZ6VTEd4rSGQ2wFHezJWM3WDz9OMzMUBE3L/PkT5OxFB
+	pypj88fwK3ALHQRjNnCLf5VgqHLX/sQ0MVzL1x+CN75bIYjaP30ZCa3DAsswp3r0RD3A
+	xkWzJDxLllTpKHTSeVkonvzaPH/z+FuvMbdc+QOIVki9ctuVEj8KJAoeYsOKrVH+xvWV
+	RD/BhJXah8p/yK9vbT5SOna+7Qws1i1WB4MpankhUdPnQwZLM0CSZTPnziqvybixwMt0
+	JUsdHWrRL1TJX7fbQ9gybltAfteuFA2Ua6fuefaTfxLzxCIikeb3sB2X8UggzTrOrCQD
+	9fTA==
+X-Gm-Message-State: APzg51DFd/F9oRJFmO65sUrjEZSIZHWIwv6JFlKwSek6Gz5Lrvdxd/Jr
+	POny3ZtQnN8KGLUvodw01VEjMA==
+X-Google-Smtp-Source: ANB0VdZQX37z17HUBkx3ngOUBYPd7nToHZNkt5fN2KcN5RV/Cgb9ThqKcnImy5u8o2RUgxx7tvDfjw==
+X-Received: by 2002:a1c:c64c:: with SMTP id
+	w73-v6mr4797289wmf.98.1536137275554; 
+	Wed, 05 Sep 2018 01:47:55 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b189-v6sm1741427wmd.39.2018.09.05.01.47.53
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 05 Sep 2018 01:47:54 -0700 (PDT)
+Message-ID: <31af238ebb7cd5b1be0188a4d705ba93db8a490a.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 05 Sep 2018 09:47:53 +0100
+In-Reply-To: <CAJ86T=V1rPqM8EYT+y-U2gt0znODtNZ7enaGM5TVBMnPmefgVw@mail.gmail.com>
+References: <20180904155000.3715-1-ross.burton@intel.com>
+	<CAJ86T=VeOq1i0Vg7EnWfP=4hJmXFDvnzdO1ADkk5U081_g2LxA@mail.gmail.com>
+	<23275ba8a359cdc7edd4f0f85bcecda99bd60aaf.camel@linuxfoundation.org>
+	<CAJ86T=V1rPqM8EYT+y-U2gt0znODtNZ7enaGM5TVBMnPmefgVw@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: Joshua Lock <joshua.g.lock@intel.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] os-release: fix to install in the expected location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,46 +62,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 08:37:28 -0000
+X-List-Received-Date: Wed, 05 Sep 2018 08:47:55 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I've just come across a box with a corrupt filesystem which wasn't
-being cleaned (using systemd and busybox):
+On Tue, 2018-09-04 at 19:04 -0700, Andre McCurdy wrote:
+> On Tue, Sep 4, 2018 at 3:36 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Tue, 2018-09-04 at 13:19 -0700, Andre McCurdy wrote:
+> > > On Tue, Sep 4, 2018 at 8:50 AM, Ross Burton <ross.burton@intel.co
+> > > m>
+> > > wrote:
+> > > This probably needs an "rm -f ${D}${sysconfdir}/os-release" too
+> > > to
+> > > prevent problems if install is run twice as lnr doesn't handle
+> > > the
+> > > case where the target already exists.
+> > 
+> > Doesn't do_install clean out ${D} each time it reruns though?
+> 
+> Yes, it does. Sometimes it's useful to rerun the run.do_install
+> script
+> manually though.
 
-Aug 29 16:03:22 localhost systemd-fsck[143]: read_bad_blocks_file: No
-such file or directory while trying to open -M
-Aug 29 16:03:22 localhost systemd-fsck[143]: Warning: fsck.ext4
-/dev/mmcblk0p4 terminated by signal 8
-Aug 29 16:03:22 localhost systemd-fsck[143]: fsck failed with exit status 8.
-Aug 29 16:03:22 localhost systemd-fsck[143]: Ignoring error.
-Aug 29 16:03:22 localhost systemd[1]:
-systemd-fsck@dev-mmcblk0p4.service: cgroup is empty
-Aug 29 16:03:22 localhost systemd[1]:
-systemd-fsck@dev-mmcblk0p4.service: Child 143 belongs to
-systemd-fsck@dev-mmcblk0p4.service.
-Aug 29 16:03:22 localhost systemd[1]:
-systemd-fsck@dev-mmcblk0p4.service: Main process exited, code=exited,
-status=0/SUCCESS
-Aug 29 16:03:22 localhost systemd[1]:
-systemd-fsck@dev-mmcblk0p4.service: Changed start -> exited
-Aug 29 16:03:22 localhost systemd[1]:
-systemd-fsck@dev-mmcblk0p4.service: Job
-systemd-fsck@dev-mmcblk0p4.service/start finished, result=done
-Aug 29 16:03:22 localhost systemd[1]: Started File System Check on
-/dev/mmcblk0p4.
+We don't support that, I think its reasonable to assume that ${D} is
+empty at the start of do_install. To do otherwise would mean changing a
+lot of do_install functions for very little gain IMO.
 
-It turns out systemd-fsck unconditionally passes `-l` to lock the filesystem:
+Cheers,
 
-https://github.com/systemd/systemd/blame/master/src/fsck/fsck.c#L408
-
-which busybox fsck doesn't interpret and so passes on to fsck.ext4,
-which then interprets it as a badblocks file...
-
-What's the right answer here? Add a patch to busybox fsck so it just
-ignores `-l`, or do we need something more sophisticated?
-
-Obviously swapping in util-linux-fsck works around the problem.
-
--- 
-Alex Kiernan
+Richard
 
