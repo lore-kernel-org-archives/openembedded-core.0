@@ -1,35 +1,59 @@
-Return-Path: <Lu.Jiang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BE6771BFC
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com
+	[209.85.222.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 594EE746B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2018 02:34:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w852YXOi021469
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Sep 2018 19:34:33 -0700 (PDT)
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 4 Sep 2018 19:34:31 -0700
-Reply-To: <lu.jiang@windriver.com>
-To: Tom Rini <trini@konsulko.com>
-References: <1535681710-29461-1-git-send-email-lu.jiang@windriver.com>
-	<1535681710-29461-7-git-send-email-lu.jiang@windriver.com>
-	<20180831135228.GN26633@bill-the-cat>
-	<3b8b5b68-5cdc-eddf-59c4-4ff70d00c551@windriver.com>
-	<ea8d1d09-85f9-503a-49c7-8e21bcaafe5b@windriver.com>
-	<20180904022609.GL26633@bill-the-cat>
-	<e8e665b9-1493-822e-3cb1-ec980c382eaf@windriver.com>
-	<20180905003319.GZ26633@bill-the-cat>
-From: "Lu.Jiang" <lu.jiang@windriver.com>
-Message-ID: <a610db8d-99cc-e256-6c3f-a7a41daf4729@windriver.com>
-Date: Wed, 5 Sep 2018 10:32:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Wed,  5 Sep 2018 02:41:39 +0000 (UTC)
+Received: by mail-ua1-f67.google.com with SMTP id m26-v6so4612932uap.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Sep 2018 19:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Gga/AON31GSLwruNlQTUuz0S3HSNXUvN47DOU5iklv8=;
+	b=S5fAi2vekbzt9q7J+LYxW7qKwshF9VCIx5gQrzaqml/Z/zCBeTfiG0qGWBT4IZoHI0
+	oGkQYloYaD23u/n8KFbjNr/k/9gM+jKk3Ohw/Ck6QffoUTyeRnnE7mwah9wkRqh7nE97
+	iC2oqzhZdqWiW7z4QVFCsPeL/dkGaUjNbePvCIyNJypPVi/+qD3uDaJjMPfXyHuroZwO
+	l84vNfB+ATGS6v1hyw/SpBdQuJiVIWMkxubvyg+VY8n4qaLDOxO7nmqUbwIk4jUoknQi
+	2TpmdwPos/tjTdyYakBmGp6Q6FsTqt4c7Pcbf+GqNaHulTlXr0WTfDbWkohbvw8dXLTV
+	8Mzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Gga/AON31GSLwruNlQTUuz0S3HSNXUvN47DOU5iklv8=;
+	b=BpZ3kyfqG6xvOexFht7evnL+WmUL3skfA8vvmS7ZWUem0VkjPeLiyoQlH5dGppU4vv
+	XW7IGhvCHqK3bmAvjRKKq0lrxwZVegyYnKeVOBpoJsFgrWtpPOGTfKQycEHaY1HMTTy1
+	i4TKX1K6iuNyELcCaISAGd2dNmDEr7uvgE1BMO9WyhIKElmV39KNXASaW3CjDjUQmspf
+	t0K39kFA9Z2ukUxmsh2VUpi/LVkaFaqaoYwn8B2W6i2gB2ZcXzdqgzGXmDA9728aQDN9
+	WFVm3n7oZJcb7LiBdZuPzj2fN5YnfHBt6h+IWXPyvVJGq/onw3ddbQOZQpHGaff8n5BZ
+	v9Ig==
+X-Gm-Message-State: APzg51AGuqqoYmX/R2Omyqs7Ka83FfFdeNoypMiLyX3cE7ZDaJAMx6Jg
+	jAB3/QQKok0bNUQcyOvIk1V69B+odeduBB4960rG0fAY
+X-Google-Smtp-Source: ANB0VdZKEgLfGXIoWdHmFD9r0Iyy92f8IFD84qXi6qR7YVCbGjb7g6UBlyK5LtV27xmyeHuIyNj/eDw5jyHHGVTKBRo=
+X-Received: by 2002:ab0:5594:: with SMTP id
+	v20-v6mr19034026uaa.146.1536115300233; 
+	Tue, 04 Sep 2018 19:41:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180905003319.GZ26633@bill-the-cat>
-X-Originating-IP: [128.224.162.214]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/7] wic:bootimg-efi:try other place for efi
+Received: by 2002:ab0:2904:0:0:0:0:0 with HTTP;
+	Tue, 4 Sep 2018 19:41:39 -0700 (PDT)
+In-Reply-To: <52da2a71-147d-4431-b196-911d66e04b4e@windriver.com>
+References: <1535100844-4514-1-git-send-email-hongxu.jia@windriver.com>
+	<83f1c6c3-195c-b6c6-979c-3d58db4f9cb9@xilinx.com>
+	<591d25eb-bb99-746f-37ac-6769db4228b8@windriver.com>
+	<217b44d6-0d44-8f9f-80c6-7262324d751f@xilinx.com>
+	<CAJ86T=WdMgTuGVRCZHhNrGSL8YkVswP8JNXHdM2ryF7wJMxL5Q@mail.gmail.com>
+	<76e69943-5fe5-b629-08ab-852745136e95@windriver.com>
+	<CAJ86T=VKYgJEg9M81r3+0U6N1XgfRMM48O8DAd_R5vf207Q-ZQ@mail.gmail.com>
+	<52da2a71-147d-4431-b196-911d66e04b4e@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 4 Sep 2018 19:41:39 -0700
+Message-ID: <CAJ86T=XV4GgPYHXnNEw5cO4Y1rq_5OtqHCVnw8nVc2cmwNg6nA@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] terminal.bbclass: use var-SHELL as the shebang of wrapper script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,138 +66,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 02:34:33 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 05 Sep 2018 02:41:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-在 2018年09月05日 08:33, Tom Rini 写道:
-> On Tue, Sep 04, 2018 at 10:33:43AM +0800, Lu.Jiang wrote:
->> 在 2018年09月04日 10:26, Tom Rini 写道:
->>> On Tue, Sep 04, 2018 at 10:15:44AM +0800, Lu.Jiang wrote:
->>>> 在 2018年09月03日 10:01, Lu.Jiang 写道:
->>>>> 在 2018年08月31日 21:52, Tom Rini 写道:
->>>>>> On Fri, Aug 31, 2018 at 10:15:09AM +0800, Jiang Lu wrote:
->>>>>>
->>>>>>> When there is no useful efi in $kerneldir, try copy
->>>>>>> all efi from EFI/BOOT into boot image.
->>>>>>>
->>>>>>> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
->>>>>>> ---
->>>>>>>    .../wic/files/wic/plugins/source/bootimg-efi.py | 12 ++++++++++++
->>>>>>>    1 file changed, 12 insertions(+)
->>>>>>>
->>>>>>> diff --git
->>>>>>> a/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
->>>>>>> b/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
->>>>>>> index 0eb86a0..d435268 100644
->>>>>>> --- a/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
->>>>>>> +++ b/meta/recipes-support/wic/files/wic/plugins/source/bootimg-efi.py
->>>>>>> @@ -231,6 +231,18 @@ class BootimgEFIPlugin(SourcePlugin):
->>>>>>>                else:
->>>>>>>                    raise WicError("unrecognized bootimg-efi loader: %s"
->>>>>>> %
->>>>>>>                                   source_params['loader'])
->>>>>>> +            os.listdir("%s/EFI/BOOT/" % hdddir)
->>>>>>> +            found_efi = False
->>>>>>> +            for x in os.listdir("%s/EFI/BOOT/" % hdddir) :
->>>>>>> +                if x.endswith(".efi"):
->>>>>>> +                    found_efi = True
->>>>>>> +                    break;
->>>>>>> +            if not found_efi:
->>>>>>> +                cp_cmd = "cp %s/EFI/BOOT/*.efi %s/EFI/BOOT/" %
->>>>>>> (kernel_dir, hdddir)
->>>>>>> +                try:
->>>>>>> +                    exec_cmd(cp_cmd, True)
->>>>>>> +                except:
->>>>>>> +                    pass
->>>>>>>            except KeyError:
->>>>>>>                raise WicError("bootimg-efi requires a loader, none
->>>>>>> specified")
->>>>>> I'm not sure this is the right approach.  If you don't have things set
->>>>>> up for automagic finding you should use bootimg-partition and
->>>>>> IMAGE_BOOT_FILES.  I'm doing this right now for some EFI projects
->>>>>> because it's also bad form to dump everything into EFI/BOOT and some
->>>>>> things should end up in EFI/vendorname or similar.
->>>>>>
->>>> Hi Tom,
+On Tue, Sep 4, 2018 at 7:16 PM, Hongxu Jia <hongxu.jia@windriver.com> wrote=
+:
+> On 2018=E5=B9=B409=E6=9C=8805=E6=97=A5 09:59, Andre McCurdy wrote:
+>>
+>> On Tue, Sep 4, 2018 at 6:02 PM, Hongxu Jia <hongxu.jia@windriver.com>
+>> wrote:
+>>>
+>>> On 2018=E5=B9=B409=E6=9C=8805=E6=97=A5 03:14, Andre McCurdy wrote:
 >>>>
->>>> By indicating IMAGE_BOOT_FILES for bootimg-partition, can perform copy file
->>>> work. While we still need the code in bootimg-efi to re-generate grub.cfg.
+>>>> Maybe I'm missing something, but what's the advantage of using SHELL
+>>>> to run this little wrapper script rather than hardcoding /bin/sh ?
 >>>>
->>>> I prefer use bootimg-efi for this case, but we can add a new parameter to
->>>> distinguish kernel dir & bootloader dir(for efi files)
->>> I'm still not seeing why we need this, sorry.
+>>>> Task shell scripts created by bitbake use hardcoded /bin/sh (see
+>>>> bitbake/lib/bb/build.py -> shell_trap_code())
 >>>
->>> If we need files in the ESP in EFI/BOOT/ then in our root filesystem
->>> they're already in as /boot/efi/EFI/BOOT and we say that we populate
->>> things from /boot/efi and this also gets us things like
->>> /boot/efi/EFI/vendor and so forth populated and matches other Linux
->>> distributions.
+>>> Keep align with the devshell as the comments mentioned above
+>>
+>> Yeah, I've read the comments. I still don't really understand why.
+>>
+>>> The devshell.bbclass set var-SHELL to var-DEVSHELL, and terminal.bbclas=
+s
+>>> initial var-SHELL with `bash'. Keep sync with it, use var-SHELL rather
+>>> than hardcoded `/bin/sh' as the shebang of wrapper script.
 >>>
->>> If we need something more complex, we have IMAGE_BOOT_FILES available
->>> and can and should be populating the deploy directory like other
->>> architectures and loaders do.
->>>
->> bootimg-efi performed following for grub boot partition:
+>>> On Ubuntu host, default shell is dash (/bin/sh -> dash), even though
+>>> we assign var-SHELL with `/bin/bash', the wrapper script is still
+>>> dashism.
 >>
->> 1.copy grub-efi-* from $KERNEL_DIR into $/boot/EFI/BOOT/
->>
->> 2.copy bzImage from $KERNEL_DIR into $/boot/
->>
->> 3.generate grub.cfg based select booting device.
->>
->> On target system, if we select booting device from running system as source
->> for booting-efi will meet issue. Because the *.efi & bzImage is not in the
->> same directory.
->>
->> As you suggested, we may invoke booting-partition by feeding
->> $IMAGE_BOOT_FILES to indicating file need copy, this could done work 1 & 2.
->> While we still need generated grub.cfg.
-> One of the great strengths of wic is that it can cover a lot of
-> different fairly complex use cases automatically, and still provide an
-> expert "out" for when you're doing something fairly different but still
-> want to leverage wic.  While I don't understand the use case of turning
-> a live system into a wic image, it sounds like what you're looking for
-> is the case of "and we provide our own loader config file".  You should
-> be including grub.cfg into the IMAGE_BOOT_FILES list and generate this
-> however you need it.  Since you've already booted you should already
-> have a correct EFI/ directory to look at (we ought to stop having
-> top-level bzImage, that's not right, but that's orthogonal to this
-> thread).
-
-The grub.cfg is generated in bootimg-efi.py. At least, it need include 
-the new generated uuid info for rootfs partition.
-So we still need a piece of code from bootimg-efi.py to generate 
-grub.cfg at runtime.
-
-The issue this patch try to fix is bootimg-efi assume bzImage & 
-grub-*.efi located at top level of $KERNEL_DIR.
-This is true for bitbake's deploy dir. However, it didn't apply to 
-target. We need provide a way for adding search path for *.efi.
-
-I believe wic is a powerful tool not only working under oe environment, 
-it can be a simply implement tool on target. So try to add  a few patch 
-to make it working on target.
-
-Thanks
-Jiang Lu
-
+>> What exactly is a dashism?
 >
-> All that said, I'm also not sure why, roughly, this doesn't work for the
-> use case:
-> IMAGE_BOOT_FILE = "\
->    /boot/efi/EFI/BOOT/bootx64.efi;EFI/BOOT/bootx64.efi \
->    ...
->    /boot/bzImage;EFI/yocto/bzImage \
->    "
 >
-> And you may want to address that we don't package our default grub
-> binary, or have the script that's running wic make your grub.efi binary.
-> I kind of lean towards the former being something we should be doing and
-> aren't.  There's I think a lot of stuff that could be made more
-> consistent with other architectures and loaders but isn't currently.
-> That too is somewhat orthogonal to this series I'll admit.
+> In another word, it does not support bashism.
 >
+> Here is a case which `export -f' is bashism although
+>
+> devshell using bash, but /bin/sh -> dash
+>
+> [case]
+>
+> function foobar { echo foobar; };
+>  export -f foobar
+> bitbake -c devshell virtual/kernel
+>
+> [case]
+>
+>
+> BTW, I've sent anther patch to fix it `[OE-core] [PATCH]
+> devshell.bbclass/terminal.bbclass: add a shell check at devshell'
 
+OK, but run.do_terminal.xxx is a trivial wrapper which (apart from
+exporting environment variables) just contains something like:
+
+  do_terminal() {
+  exec pseudo /bin/bash
+  }
+
+  do_terminal
+
+I'm not sure what the problem is running that with /bin/sh, regardless
+of whether /bin/sh points to bash or dash?
 
