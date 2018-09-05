@@ -1,48 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A07D74765
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 97B4D74C97
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2018 16:52:31 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id t25-v6so8444763wmi.3
+	Wed,  5 Sep 2018 16:52:32 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n2-v6so8414854wrw.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2018 09:52:32 -0700 (PDT)
+	Wed, 05 Sep 2018 09:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zmQ+asCAJCYwZjGbrgYTlpfbejau4G7oV3bHBIH4uoI=;
-	b=YoDgdfwrS6dBYg83lZ08e2AVvGzkmAeweg7WfrNb+/mvEsNCNbD8F4O01ZEpI0xebs
-	ZwguLp5jeKyqDuHs3NSzQzI0sgEezTe8E3oEGMNfHbVWd476WdjmGsVYFRL/MzLfN+o0
-	b/hhruqtturxsWbCHaJeJEsk89Xqw93Z5RIG4=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=E38yVy3QhHjPbeLoAXYjG3xO4Y5S8sxY2txjTjJ8ajs=;
+	b=H1Yg/Q5Bi+zqT8zEqODm9TJbUmBQw7TudSYIjN87l0LKwSRr18jo97UUHJJG1vbo7P
+	fNq2WT3KEY4BMOw3meArJoT3JjCCIj+AT5tTgf/VqQ9JW8gDaFbQMb84uUShYu5aLC5l
+	zEzSrlTfm3QSgiOkInJixQkJSOMh7ckcvCe9c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=zmQ+asCAJCYwZjGbrgYTlpfbejau4G7oV3bHBIH4uoI=;
-	b=Y9AuEyCK3kC/RVrleYDh0lPH4XH97oTfM2p+WVXDibTymU+5sK6L2EPuPdZun6Ew8U
-	XOMrYu7GhsEU09CWDvaS/iaCbxpf0j4gsoPxhJdYPVxKz8D74OvN7FwjBjs3GbpiF3gr
-	/jMfBOj1H/fo16gBNUZ2Ep8y2sGTJi3NKmNft5Gnbl5P07ZbEgdffD/RA51tEkZMApt5
-	FUwTZwT6ypY+h96WJPigUijjhbWNhnfLxlZk/NgTfOJD2EyfUGKhV1Ax6FDoz5tyqJvc
-	XLb9hxz9ENbE/g+fD5f76p9V0XWLgTxrYJf3L5oN3ZnuT/mkopqJ57ho2PxsjmTFcTev
-	jT7Q==
-X-Gm-Message-State: APzg51D21R8/GHCg+pQF0xq+khrpAixNXWZFMWa7/pTIWTTl0M3epdoO
-	6rzfzPD6qdVpZD/N/YRgJpW2AZF0Xh0=
-X-Google-Smtp-Source: ANB0VdZ9tbq0TbV0SsyjY17SqITV4hUYnFuGEGm/cudW0BnWKvM20D4ExnyPe7N/HF3itgk2qfTfUA==
-X-Received: by 2002:a1c:de05:: with SMTP id v5-v6mr765343wmg.127.1536166351643;
-	Wed, 05 Sep 2018 09:52:31 -0700 (PDT)
+	bh=E38yVy3QhHjPbeLoAXYjG3xO4Y5S8sxY2txjTjJ8ajs=;
+	b=a7LjcOyII+mkpiDOoPziKvwKGGP6vPna4rDzML8PymvumF+sjTbPJ3ghZ+YLgP5/PJ
+	QlXsLtdbqFlVR2ogl6PHOVB5T0bXcG62lrMjo7IYG93y5BO3P9wPoDg7cU4gbrnZcH21
+	0CbKB49FA9Im4PglRNJ3P/4HA1i0c8fbzQDo+cruDfSa8I2JY5rUNaz54MDFO1zsJoJy
+	TOLIDc+cC//Tv2v10VteI/jNIwUbIhYNQbfkMwYvY+Kky+9/furBMgbELsAP2gwXJhOD
+	QyHjmtp136AikP+wDkpKrlpzPTRagwkfTdDFjfKQdoYWWBSUOsnmKTzP/+wd7RRTL83f
+	LSHA==
+X-Gm-Message-State: APzg51Di+KS6qSw8tO+g1h80CcQ1EP7Rd3NYWtSs15pHzlb8dih4Ci03
+	WuZgSQZazTk4IZ3RHzdel5NB6Vh2f6w=
+X-Google-Smtp-Source: ANB0VdaH2EjGJvZFguxLn+Winl6uL/f60Y2kJtXl1p7WvtBruNEL5Tt6Sj8qcfof6yBJduVBXWhVvA==
+X-Received: by 2002:a5d:51cf:: with SMTP id
+	n15-v6mr28138859wrv.107.1536166352915; 
+	Wed, 05 Sep 2018 09:52:32 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	u65-v6sm3476169wmd.31.2018.09.05.09.52.30
+	u65-v6sm3476169wmd.31.2018.09.05.09.52.31
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Sep 2018 09:52:30 -0700 (PDT)
+	Wed, 05 Sep 2018 09:52:31 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Sep 2018 17:52:21 +0100
-Message-Id: <20180905165227.29435-2-richard.purdie@linuxfoundation.org>
+Date: Wed,  5 Sep 2018 17:52:22 +0100
+Message-Id: <20180905165227.29435-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180905165227.29435-1-richard.purdie@linuxfoundation.org>
 References: <20180905165227.29435-1-richard.purdie@linuxfoundation.org>
-Cc: Joshua Lock <joshua.g.lock@intel.com>
-Subject: [PATCH 2/8] os-release: fix to install in the expected location
+Subject: [PATCH 3/8] gcc: Merge two related patches together
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,45 +57,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 16:52:31 -0000
+X-List-Received-Date: Wed, 05 Sep 2018 16:52:33 -0000
 
-From: Joshua Lock <joshua.g.lock@intel.com>
+These patches may as well be merged together as they affect the same code
+and things are clearer this way.
 
-os-release (5) recommends that the os-release file be installed in
-/usr/lib/os-release and that /etc/os-release be a relative symlink to it.
-
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/os-release/os-release.bb | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/gcc/gcc-8.2.inc         |  1 -
+ .../0003-gcc-poison-system-directories.patch  |  6 ++-
+ .../gcc-8.2/0004-gcc-poison-dir-extend.patch  | 39 -------------------
+ 3 files changed, 4 insertions(+), 42 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-8.2/0004-gcc-poison-dir-extend.patch
 
-diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
-index f9887047561..dae5748ba7a 100644
---- a/meta/recipes-core/os-release/os-release.bb
-+++ b/meta/recipes-core/os-release/os-release.bb
-@@ -1,7 +1,7 @@
- inherit allarch
- 
- SUMMARY = "Operating system identification"
--DESCRIPTION = "The /etc/os-release file contains operating system identification data."
-+DESCRIPTION = "The /usr/lib/os-release file contains operating system identification data."
- LICENSE = "MIT"
- INHIBIT_DEFAULT_DEPS = "1"
- 
-@@ -42,6 +42,9 @@ python do_compile () {
- do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
- 
- do_install () {
--    install -d ${D}${sysconfdir}
--    install -m 0644 os-release ${D}${sysconfdir}/
-+    install -d ${D}${libdir} ${D}${sysconfdir}
-+    install -m 0644 os-release ${D}${libdir}/
-+    lnr ${D}${libdir}/os-release ${D}${sysconfdir}/os-relea
- }
-+
-+FILES_${PN} += "${libdir}/os-release"
+diff --git a/meta/recipes-devtools/gcc/gcc-8.2.inc b/meta/recipes-devtools/gcc/gcc-8.2.inc
+index 8503a66b074..889187e9c42 100644
+--- a/meta/recipes-devtools/gcc/gcc-8.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-8.2.inc
+@@ -33,7 +33,6 @@ SRC_URI = "\
+            ${BASEURI} \
+            file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
+            file://0003-gcc-poison-system-directories.patch \
+-           file://0004-gcc-poison-dir-extend.patch \
+            file://0005-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch \
+            file://0006-64-bit-multilib-hack.patch \
+            file://0007-optional-libstdc.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-8.2/0003-gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc-8.2/0003-gcc-poison-system-directories.patch
+index 1839d4c7b8e..05138976c3b 100644
+--- a/meta/recipes-devtools/gcc/gcc-8.2/0003-gcc-poison-system-directories.patch
++++ b/meta/recipes-devtools/gcc/gcc-8.2/0003-gcc-poison-system-directories.patch
+@@ -162,7 +162,7 @@ index b11c6a57939..e3b7a21966f 100644
+  
+  /* Microsoft Windows does not natively support inodes.
+     VMS has non-numeric inodes.  */
+-@@ -393,6 +394,24 @@ merge_include_chains (const char *sysroot, cpp_reader *pfile, int verbose)
++@@ -393,6 +394,26 @@ merge_include_chains (const char *sysroot, cpp_reader *pfile, int verbose)
+  	}
+        fprintf (stderr, _("End of search list.\n"));
+      }
+@@ -176,7 +176,9 @@ index b11c6a57939..e3b7a21966f 100644
+ +         {
+ +          if ((!strncmp (p->name, "/usr/include", 12))
+ +              || (!strncmp (p->name, "/usr/local/include", 18))
+-+              || (!strncmp (p->name, "/usr/X11R6/include", 18)))
+++              || (!strncmp (p->name, "/usr/X11R6/include", 18))
+++              || (!strncmp (p->name, "/sw/include", 11))
+++              || (!strncmp (p->name, "/opt/include", 12)))
+ +            warning (OPT_Wpoison_system_directories,
+ +                     "include location \"%s\" is unsafe for "
+ +                     "cross-compilation",
+diff --git a/meta/recipes-devtools/gcc/gcc-8.2/0004-gcc-poison-dir-extend.patch b/meta/recipes-devtools/gcc/gcc-8.2/0004-gcc-poison-dir-extend.patch
+deleted file mode 100644
+index 1072d5b18fb..00000000000
+--- a/meta/recipes-devtools/gcc/gcc-8.2/0004-gcc-poison-dir-extend.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From 97370eadcd10da5da529dfb734df56993ce24644 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 29 Mar 2013 09:00:34 +0400
+-Subject: [PATCH 04/39] gcc-poison-dir-extend
+-
+-Add /sw/include and /opt/include based on the original
+-zecke-no-host-includes.patch patch.  The original patch checked for
+-/usr/include, /sw/include and /opt/include and then triggered a failure and
+-aborted.
+-
+-Instead, we add the two missing items to the current scan.  If the user
+-wants this to be a failure, they can add "-Werror=poison-system-directories".
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+----
+- gcc/incpath.c | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/gcc/incpath.c b/gcc/incpath.c
+-index e3b7a21966f..9a457e02dd3 100644
+---- a/gcc/incpath.c
+-+++ b/gcc/incpath.c
+-@@ -404,7 +404,9 @@ merge_include_chains (const char *sysroot, cpp_reader *pfile, int verbose)
+-          {
+-           if ((!strncmp (p->name, "/usr/include", 12))
+-               || (!strncmp (p->name, "/usr/local/include", 18))
+--              || (!strncmp (p->name, "/usr/X11R6/include", 18)))
+-+              || (!strncmp (p->name, "/usr/X11R6/include", 18))
+-+              || (!strncmp (p->name, "/sw/include", 11))
+-+              || (!strncmp (p->name, "/opt/include", 12)))
+-             warning (OPT_Wpoison_system_directories,
+-                      "include location \"%s\" is unsafe for "
+-                      "cross-compilation",
+--- 
+-2.17.0
+-
 -- 
 2.17.1
 
