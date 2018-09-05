@@ -1,51 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 55BCB60684
+Return-Path: <tarun4690@gmail.com>
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
+	[209.85.219.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 0421374BBC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2018 14:15:38 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id 8-v6so13933266oip.0
+	Wed,  5 Sep 2018 14:25:43 +0000 (UTC)
+Received: by mail-yb1-f174.google.com with SMTP id e18-v6so2749423ybq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2018 07:15:39 -0700 (PDT)
+	Wed, 05 Sep 2018 07:25:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7FVasBbd0Iuer6EalrwZ9gsiblAI9JuHN8AcZiXc6+0=;
-	b=LViH1GYseC+HNPCmy1YaozanVwTk0S5nI91Fyu4i7wnvJCoUgJnESdWsi/QJecXLWc
-	OIfMHiq0w8IE1rR+o6qIjk6Wbc7MbcQkSrDX4W1IByGkZMzDC6YEypu3n6ovE6yfySyb
-	a0BjYWgzt8DVP1PLqNmIe1QV7aOeXe5yOlfBcUgYARs5e0XaZjhfsKuULqb54F9zKb7Y
-	U56gcYg1O4GS5UdBSvN5+G9pFxqIa2wyya2M85D6JkKDZ5bp7li74pVsHjX+5tl9gbHL
-	DlP7X/60iFhoBHkzDlPC3XkU9q1gUMioNhrCC5DlgocYDUGlWhxpfWYVpwgxQNPsnFSf
-	0FBg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=OJPylK1aUzgTZcL+q1Vere/tHUDvQdtLrUbDcZvwo/4=;
+	b=XWnWCj0YTtcWzAktL8Sq1djoaYHLcG+HFBq1ZOFHuSM/Osij9QKXrCKxi0yc0LxHV/
+	4DHbo7ubPkDsKsfpjoACHyovabyOMQihNOl8HUGTBFGzd0NhyuBcGHTEVarfx5y5ZPOK
+	N4kINI2PkAcCpzdPTdAQ2QW/knKTmRXvKJFJmc+ZA8GXtS/yaxKfNiT707VowyZNRjGZ
+	8Zd0c1IBTyFTQYnzaWOwyaTg6kGQJTXFuxvAxiV96mAzCIpbcNAEq1uCP6iVT4RN2go9
+	oS3Bp/znC2vhEJPrSSb/Z2SVWpNodhDgWf/1ERcRLvsaK2/u6EcZk3o0DAo8jZCEdoiJ
+	FjCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=7FVasBbd0Iuer6EalrwZ9gsiblAI9JuHN8AcZiXc6+0=;
-	b=JsWqQig6ZBl7nWRYL4BiBgosoSIBf8+yaOTlJuxgQp/SKyKDgccy/+6xCj30Y6Mqn4
-	yFbKvzMmE4QyNKPUmPNYrcKv2YhupTnix+85MR/LyasC1wEFuRUd52dRAuKmjZPnW/QV
-	9kjz4y0Wz9jipSfSnA7wFCcrNMROaHQEv/uyXmXL9ViBMZEZsvY4UU3pRcQ1dDIFNlV7
-	0CWaJe7uT/uyXMN49zYKNfEZAmo6yhjok+6ULoNzQW+Fl1s5Uo7roD4KVyz+TrW5SA4L
-	1FZMq6mcwSro3uRRQt82fbBItOCL8b/F4B8twZumK3UpkJJagH1KOA9esxJg6NBK2OI+
-	zQOw==
-X-Gm-Message-State: APzg51C5iNJvqdX4nO/klhOO+VY8eaRp4noB+XFrGqCsLdJrl9EPuv8+
-	yKO41q0S5SjiXc4l3/nsvLwmF6lTMD5T4spyhLfJiA==
-X-Google-Smtp-Source: ANB0VdZPdvQ/rNRofP7FksZIUPKlRf+YbaGInOKOEXxuucxKaIineI6dSGn9kpjy2Q0orIc9W9Rlm+O6vullfSK/7XU=
-X-Received: by 2002:aca:a8c1:: with SMTP id
-	r184-v6mr30772639oie.215.1536156939231; 
-	Wed, 05 Sep 2018 07:15:39 -0700 (PDT)
+	bh=OJPylK1aUzgTZcL+q1Vere/tHUDvQdtLrUbDcZvwo/4=;
+	b=XMah5Pi/uTQ/YCTVa8KeGn6aBRybetDk2xvXG5p1WX8PtEfFH8L/9g31kcmNrSIBbF
+	2hK3jNL9zNIBgiqV/d/9izm1h03oXUoLwYS3eU3cBI3/nablFo8aOqcf7T9POGi7VZBp
+	iQU68jqS2wvtc6NVZcl0vDWV/fRKNa+rkju5MPBWeibjXvagCX7svY+dDHWYFGC5ELCu
+	t2ZB+44tcO5gkW4prY0RkpL1nbKZIrB38Y3yLoZbODkgS+fCJl7mpNWqT3gIGTxOC3xS
+	0vP2g5Y9QoeOiF2kXEMLaBu2hqrp2rMgcHRngBtZ2rY3Wj1nvCVYKtZzUSYKPfxkF9pL
+	gYew==
+X-Gm-Message-State: APzg51A8PDaMe4U4EvLGygEYPqK0Hk6WNFKyde/SYmGr6qolFMlJcYQG
+	wQ6IW9sG2ftskx6PnrlCOeYiIOhb+ewkoTNCbiU=
+X-Google-Smtp-Source: ANB0VdYe9CecRJj544p+Od5JAB9bL5/nlgSsH/S9Cw0WY/7yqZav0fC0mTVXJAzcjcnsdHtAsTJzChecm7zmx4F6xs4=
+X-Received: by 2002:a25:a20a:: with SMTP id
+	b10-v6mr4590711ybi.374.1536157544752; 
+	Wed, 05 Sep 2018 07:25:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:5c9b:0:0:0:0:0 with HTTP;
-	Wed, 5 Sep 2018 07:15:38 -0700 (PDT)
-In-Reply-To: <CAJ86T=XVPbDxD82w8h5ZgZNvf4sFKaYo9pBEWwT_aZjNTJYAdg@mail.gmail.com>
-References: <cover.1535451643.git.alex.kanavin@gmail.com>
-	<1f7ed298deed1f23ccd6e67b4701985660abe575.1535451643.git.alex.kanavin@gmail.com>
-	<CAJ86T=XVPbDxD82w8h5ZgZNvf4sFKaYo9pBEWwT_aZjNTJYAdg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 5 Sep 2018 16:15:38 +0200
-Message-ID: <CANNYZj9wJy7D34Q07du659rhUPce=38tfLj2owpc3BXr_0FKVA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 2/6] cryptodev-tests: port to openssl 1.1
+References: <CAMvyGd-9c41OHDgy1qaxhiNyQwH9Hf9Nzo3bqfw+fanGF-AdNg@mail.gmail.com>
+	<CANNYZj9_WHwO4iM1dkhQDKkBXfeNyNdA7cAioh7=D-5DEgLb2A@mail.gmail.com>
+In-Reply-To: <CANNYZj9_WHwO4iM1dkhQDKkBXfeNyNdA7cAioh7=D-5DEgLb2A@mail.gmail.com>
+From: Tarun Tej K <tarun4690@gmail.com>
+Date: Wed, 5 Sep 2018 19:55:33 +0530
+Message-ID: <CAMvyGd_XsQCHnfPiJNuLpD-ATzHnPgHcOARkRzTB-3Z0B5pXyw@mail.gmail.com>
+To: alex.kanavin@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: bitbake gstreamer1.0 : "Nothing PROVIDES 'gobject-introspection'"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,168 +55,208 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 14:15:38 -0000
+X-List-Received-Date: Wed, 05 Sep 2018 14:25:44 -0000
+Content-Type: multipart/alternative; boundary="000000000000c62c310575208cc9"
+
+--000000000000c62c310575208cc9
 Content-Type: text/plain; charset="UTF-8"
 
-Note that the upstream accepted the patch as it is (frankly I don't
-remember how the line appeared there), so you should probably send a
-fix directly to them :)
+Thanks for the response.
 
-Alex
+The issue I have is, although I have added the
+gobject-introspection.bbclass within the classes directory, I get an error
+saying 'Nothing PROVIDES 'gobject-introspection'.
 
-2018-09-04 22:38 GMT+02:00 Andre McCurdy <armccurdy@gmail.com>:
-> On Tue, Aug 28, 2018 at 3:23 AM, Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
->> From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->>
->> This leaves openssh as the only recipe that requires openssl 1.0 (or libressl).
->>
->> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->> ---
->>  .../cryptodev/cryptodev-tests_1.9.bb               |   3 +-
->>  .../files/0001-Port-tests-to-openssl-1.1.patch     | 103 +++++++++++++++++++++
->>  2 files changed, 105 insertions(+), 1 deletion(-)
->>  create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
->>
->> diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
->> index 9afb3de..617db6c 100644
->> --- a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
->> +++ b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
->> @@ -2,10 +2,11 @@ require cryptodev.inc
->>
->>  SUMMARY = "A test suite for /dev/crypto device driver"
->>
->> -DEPENDS += "openssl10"
->> +DEPENDS += "openssl"
->>
->>  SRC_URI += " \
->>  file://0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch \
->> +file://0001-Port-tests-to-openssl-1.1.patch \
->>  "
->>
->>  EXTRA_OEMAKE='KERNEL_DIR="${STAGING_EXECPREFIXDIR}" PREFIX="${D}"'
->> diff --git a/meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch b/meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
->> new file mode 100644
->> index 0000000..c969126
->> --- /dev/null
->> +++ b/meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
->> @@ -0,0 +1,103 @@
->> +From 2fe4bdeb8cdd0b0f46d9caed807812855d51ea56 Mon Sep 17 00:00:00 2001
->> +From: Alexander Kanavin <alex.kanavin@gmail.com>
->> +Date: Wed, 28 Mar 2018 20:11:05 +0300
->> +Subject: [PATCH] Port tests to openssl 1.1
->> +
->> +Upstream-Status: Accepted [https://github.com/cryptodev-linux/cryptodev-linux/pull/36]
->> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> +
->> +---
->> + tests/openssl_wrapper.c | 33 +++++++++++++++++++++++++++++++++
->> + 1 file changed, 33 insertions(+)
->> +
->> +diff --git a/tests/openssl_wrapper.c b/tests/openssl_wrapper.c
->> +index 038c58f..dea2496 100644
->> +--- a/tests/openssl_wrapper.c
->> ++++ b/tests/openssl_wrapper.c
->> +@@ -4,6 +4,7 @@
->> + #include <openssl/aes.h>
->> + #include <openssl/evp.h>
->> + #include <openssl/hmac.h>
->> ++#include <openssl/opensslv.h>
->> +
->> + //#define DEBUG
->> +
->> +@@ -23,10 +24,17 @@ enum ctx_type {
->> +       ctx_type_md,
->> + };
->> +
->> ++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
->> ++union openssl_ctx {
->> ++      HMAC_CTX *hmac;
->> ++      EVP_MD_CTX *md;
->> ++};
->> ++#else
->> + union openssl_ctx {
->> +       HMAC_CTX hmac;
->> +       EVP_MD_CTX md;
->> + };
->> ++#endif
->> +
->> + struct ctx_mapping {
->> +       __u32 ses;
->> +@@ -63,6 +71,16 @@ static void remove_mapping(__u32 ses)
->> +       switch (mapping->type) {
->> +       case ctx_type_none:
->> +               break;
->> ++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
->> ++      case ctx_type_hmac:
->> ++              dbgp("%s: calling HMAC_CTX_free\n", __func__);
->> ++              HMAC_CTX_free(mapping->ctx.hmac);
->> ++              break;
->> ++      case ctx_type_md:
->> ++              dbgp("%s: calling EVP_MD_CTX_free\n", __func__);
->> ++              EVP_MD_CTX_free(mapping->ctx.md);
->> ++              break;
->> ++#else
->> +       case ctx_type_hmac:
->> +               dbgp("%s: calling HMAC_CTX_cleanup\n", __func__);
->> +               HMAC_CTX_cleanup(&mapping->ctx.hmac);
->> +@@ -71,6 +89,7 @@ static void remove_mapping(__u32 ses)
->> +               dbgp("%s: calling EVP_MD_CTX_cleanup\n", __func__);
->> +               EVP_MD_CTX_cleanup(&mapping->ctx.md);
->> +               break;
->> ++#endif
->> +       }
->> +       memset(mapping, 0, sizeof(*mapping));
->> + }
->> +@@ -127,10 +146,17 @@ static int openssl_hmac(struct session_op *sess, struct crypt_op *cop)
->> +
->> +               mapping->ses = sess->ses;
->> +               mapping->type = ctx_type_hmac;
->> ++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
->> ++              ctx = mapping->ctx.hmac;
->
-> Assigning the (uninitialised?) value of mapping->ctx.hmac to ctx here
-> looks redundant?
->
->> ++
->> ++              dbgp("calling HMAC_CTX_new");
->> ++              ctx = HMAC_CTX_new();
->> ++#else
->> +               ctx = &mapping->ctx.hmac;
->> +
->> +               dbgp("calling HMAC_CTX_init");
->> +               HMAC_CTX_init(ctx);
->> ++#endif
->> +               dbgp("calling HMAC_Init_ex");
->> +               if (!HMAC_Init_ex(ctx, sess->mackey, sess->mackeylen,
->> +                               sess_to_evp_md(sess), NULL)) {
->> +@@ -172,10 +198,17 @@ static int openssl_md(struct session_op *sess, struct crypt_op *cop)
->> +
->> +               mapping->ses = sess->ses;
->> +               mapping->type = ctx_type_md;
->> ++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
->> ++              ctx = mapping->ctx.md;
->
-> And same comment here.
->
->> ++
->> ++              dbgp("calling EVP_MD_CTX_new");
->> ++              ctx = EVP_MD_CTX_new();
->> ++#else
->> +               ctx = &mapping->ctx.md;
->> +
->> +               dbgp("calling EVP_MD_CTX_init");
->> +               EVP_MD_CTX_init(ctx);
->> ++#endif
->> +               dbgp("calling EVP_DigestInit");
->> +               EVP_DigestInit(ctx, sess_to_evp_md(sess));
->> +       }
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The other class I use (upstream-version-is-even.bbclass) is also present in
+the same directory but it gets inherited by gstreamer1.0_1.14.2.bb without
+any error. Why is there a problem for gobject-introspection only?
 
+I totally agree to your point about updating to latest YP release. It is
+just that our project is depending on some recipes related to older version
+BSP so it will be a while before we completely migrate to latest release.
+
+Thanks
+Tarun
+
+On Wed, Sep 5, 2018 at 7:44 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> What is the issue though? You need to be clear about it: paste the
+> exact, specific error message you are getting.
+>
+> Generally, I would recommend that you update to the latest YP release
+> first. Backporting recipes in this fashion is a complicated task.
+>
+>
+>
+> Alex
+>
+> 2018-09-05 15:36 GMT+02:00 Tarun Tej K <tarun4690@gmail.com>:
+> > Hi,
+> >
+> > I am trying to build the latest gstreamer version 1.14.2 using the yocto
+> > recipes from
+> >
+> https://github.com/openembedded/openembedded-core/tree/master/meta/recipes-multimedia/gstreamer
+> >
+> > I have added new version recipes to my custom yocto layer; added the
+> > required .bbclass files to 'classes' directory inside my custom layer.
+> There
+> > are older version (1.4.5, 1.6.0) recipes in other layers but my layer has
+> > higher priority so the 'bitbake -s' shows 1.14.2 as the version of
+> gstreamer
+> > family, so that proves the recipes are successfully parsed.
+> >
+> > After that I am trying to build gstreamer1.0 using the command 'bitbake
+> > gstreamer1.0' but I get an error saying
+> > Nothing PROVIDES 'gobject-introspection' ..........
+> > Close matches:
+> > gobject-introspection-stub
+> > gobject-introspection-native
+> >
+> > I have verified that the gobject-introspection.bbclass file has been
+> added
+> > to classed directory of my layer. I have removed gobject-introspection
+> from
+> > the inherit list in the  gstreamer1.0_1.14.2.bb and it successfully
+> > continued to bitbake until some 'installed but not shipped' error
+> occurred
+> > at do_package_qa task. Also another class
+> 'upstream-version-is-even.bbclass'
+> > is also inherited by gstreamer1.0_1.14.2.bb and that is also present in
+> same
+> > directory as gobject-introspection.bbclass but I don't get any error with
+> > that.
+> >
+> > I am using the yocto setup cloned from freescale's repository
+> > (
+> http://git.freescale.com/git/cgit.cgi/imx/fsl-arm-yocto-bsp.git/tree/imx-4.1.15-1.1.2.xml?h=imx-4.1.15-1.0.0_ga
+> ),
+> > so this might contain older dependency libraries. Also the bitbake
+> version
+> > is 1.28.0
+> >
+> > What could be the problem? Please let me know if I need to provide any
+> > additional information to understand issue better.
+> >
+> > Thanks
+> > Tarun
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+>
+
+--000000000000c62c310575208cc9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thanks for the response.<div><br></div><div>The issue I ha=
+ve is, although I have added the gobject-introspection.bbclass within the c=
+lasses directory, I get an error saying &#39;<span style=3D"color:rgb(32,33=
+,36);font-family:&quot;Google Sans&quot;,Roboto,RobotoDraft,Helvetica,Arial=
+,sans-serif;font-variant-ligatures:no-contextual">Nothing PROVIDES &#39;gob=
+ject-introspecti</span><span style=3D"color:rgb(32,33,36);font-family:&quot=
+;Google Sans&quot;,Roboto,RobotoDraft,Helvetica,Arial,sans-serif;font-varia=
+nt-ligatures:no-contextual">on&#39;.=C2=A0</span></div><div><br></div><div>=
+The other class I use (upstream-version-is-even.bbclass) is also present in=
+ the same directory but it gets inherited by <a href=3D"http://gstreamer1.0=
+_1.14.2.bb">gstreamer1.0_1.14.2.bb</a> without any error. Why is there a pr=
+oblem for gobject-introspection only?</div><div><br></div><div>I totally ag=
+ree to your point about updating to latest YP release. It is just that our =
+project is depending on some recipes related to older version BSP so it wil=
+l be a while before we completely migrate to latest release.</div><div><br>=
+</div><div>Thanks<br>Tarun</div><br><div class=3D"gmail_quote"><div dir=3D"=
+ltr">On Wed, Sep 5, 2018 at 7:44 PM Alexander Kanavin &lt;<a href=3D"mailto=
+:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">What is the issue though? You need to be clear =
+about it: paste the<br>
+exact, specific error message you are getting.<br>
+<br>
+Generally, I would recommend that you update to the latest YP release<br>
+first. Backporting recipes in this fashion is a complicated task.<br>
+<br>
+<br>
+<br>
+Alex<br>
+<br>
+2018-09-05 15:36 GMT+02:00 Tarun Tej K &lt;<a href=3D"mailto:tarun4690@gmai=
+l.com" target=3D"_blank">tarun4690@gmail.com</a>&gt;:<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; I am trying to build the latest gstreamer version 1.14.2 using the yoc=
+to<br>
+&gt; recipes from<br>
+&gt; <a href=3D"https://github.com/openembedded/openembedded-core/tree/mast=
+er/meta/recipes-multimedia/gstreamer" rel=3D"noreferrer" target=3D"_blank">=
+https://github.com/openembedded/openembedded-core/tree/master/meta/recipes-=
+multimedia/gstreamer</a><br>
+&gt;<br>
+&gt; I have added new version recipes to my custom yocto layer; added the<b=
+r>
+&gt; required .bbclass files to &#39;classes&#39; directory inside my custo=
+m layer. There<br>
+&gt; are older version (1.4.5, 1.6.0) recipes in other layers but my layer =
+has<br>
+&gt; higher priority so the &#39;bitbake -s&#39; shows 1.14.2 as the versio=
+n of gstreamer<br>
+&gt; family, so that proves the recipes are successfully parsed.<br>
+&gt;<br>
+&gt; After that I am trying to build gstreamer1.0 using the command &#39;bi=
+tbake<br>
+&gt; gstreamer1.0&#39; but I get an error saying<br>
+&gt; Nothing PROVIDES &#39;gobject-introspection&#39; ..........<br>
+&gt; Close matches:<br>
+&gt; gobject-introspection-stub<br>
+&gt; gobject-introspection-native<br>
+&gt;<br>
+&gt; I have verified that the gobject-introspection.bbclass file has been a=
+dded<br>
+&gt; to classed directory of my layer. I have removed gobject-introspection=
+ from<br>
+&gt; the inherit list in the=C2=A0 <a href=3D"http://gstreamer1.0_1.14.2.bb=
+" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.14.2.bb</a> and it su=
+ccessfully<br>
+&gt; continued to bitbake until some &#39;installed but not shipped&#39; er=
+ror occurred<br>
+&gt; at do_package_qa task. Also another class &#39;upstream-version-is-eve=
+n.bbclass&#39;<br>
+&gt; is also inherited by <a href=3D"http://gstreamer1.0_1.14.2.bb" rel=3D"=
+noreferrer" target=3D"_blank">gstreamer1.0_1.14.2.bb</a> and that is also p=
+resent in same<br>
+&gt; directory as gobject-introspection.bbclass but I don&#39;t get any err=
+or with<br>
+&gt; that.<br>
+&gt;<br>
+&gt; I am using the yocto setup cloned from freescale&#39;s repository<br>
+&gt; (<a href=3D"http://git.freescale.com/git/cgit.cgi/imx/fsl-arm-yocto-bs=
+p.git/tree/imx-4.1.15-1.1.2.xml?h=3Dimx-4.1.15-1.0.0_ga" rel=3D"noreferrer"=
+ target=3D"_blank">http://git.freescale.com/git/cgit.cgi/imx/fsl-arm-yocto-=
+bsp.git/tree/imx-4.1.15-1.1.2.xml?h=3Dimx-4.1.15-1.0.0_ga</a>),<br>
+&gt; so this might contain older dependency libraries. Also the bitbake ver=
+sion<br>
+&gt; is 1.28.0<br>
+&gt;<br>
+&gt; What could be the problem? Please let me know if I need to provide any=
+<br>
+&gt; additional information to understand issue better.<br>
+&gt;<br>
+&gt; Thanks<br>
+&gt; Tarun<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+&gt;<br>
+</blockquote></div></div>
+
+--000000000000c62c310575208cc9--
