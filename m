@@ -1,25 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BBBD774C97
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A982D74AFA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2018 16:30:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w85GUhpH021121
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  5 Sep 2018 16:52:29 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id w11-v6so8409547wrc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Sep 2018 09:30:43 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 5 Sep 2018 09:30:42 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Sep 2018 12:30:40 -0400
-Message-ID: <20180905163040.171177-2-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.16.0.rc2
-In-Reply-To: <20180905163040.171177-1-mark.hatle@windriver.com>
-References: <20180905163040.171177-1-mark.hatle@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] prelink: Update to the latest version of prelink
+	Wed, 05 Sep 2018 09:52:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=8W5pzQGkBBhYCpfg542UJ+FnH/KeEeofipRv7mm1LXA=;
+	b=RYrSUKSINQs4uXQIEVey9PL9hv3oRyVSBJkWQsrkYnzw6bVPu2S6+CTtzpB/RT+RnE
+	D9nNJXjC4P36LpAP2t5Bxq5gHi00eWIR9PI7NZKTpow8rXANrO0XEECxfdg/SS1xcwvd
+	fO6p88rttmlIqTeknJ7YQ0Mv+1DzuQjMzlPbw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8W5pzQGkBBhYCpfg542UJ+FnH/KeEeofipRv7mm1LXA=;
+	b=dxqsMvVNuFpnrHBz/7WVGApAKdo9QqiD0+N7O7Ao/P9eTFzbNogrI/iM/yWTenE/l4
+	8jWXv/DjmI4BFV4m9EY5IQxIv311bsezQdFM2maWsALmf5CYVA3sxBRCnSW4OPX3gNTl
+	adWTYfEP21dcuTYVtDe+5zSm1OJQfONUJO5uXVWbgRMWbkLBgucljiDxwRSDpXglpTF5
+	aBs6cntpWnPkeini82YAN7YvHcYzzOf10bYQC1Hy669fbvOXfP22u+xxLsPGlLMCa5Q9
+	+DqztPUOIvCej3uXJY2YgsUYYk0OhIzUNKnqngS7MQvWBtVjJ9TpDZlna3J0C3Sz7RKW
+	U1lA==
+X-Gm-Message-State: APzg51Ay3qeUc+pKoFSV9+aanbrqzQINmhyq41lR9n3FPWFsKXqsj0rC
+	BDnE9UmiYCI+EG1rdTdp+vQAzLkX8ew=
+X-Google-Smtp-Source: ANB0VdYF1YBjfqzvtiz+xd7OS1P0mx/ZldPojjIVHxpZaaCN3XIAX2o/BdnI0sD/O6L8kb8TqUJT7A==
+X-Received: by 2002:a5d:484f:: with SMTP id
+	n15-v6mr25676940wrs.234.1536166350120; 
+	Wed, 05 Sep 2018 09:52:30 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	u65-v6sm3476169wmd.31.2018.09.05.09.52.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Sep 2018 09:52:29 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Sep 2018 17:52:20 +0100
+Message-Id: <20180905165227.29435-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/8] python: Run pybench once for optimisation task in pgo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,114 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 16:30:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Sep 2018 16:52:30 -0000
 
-The new version of prelink includes the fix for a segmentation fault due to
-using e_shnum vs e_shstrndx.
+From: Ross Burton <ross.burton@intel.com>
 
-In addition the following changes are incorporated:
+There is no good reason to loop 10 times on the test since the profile
+optimisation won't change between runs, we don't need/want a statistical
+average. This is just burning cpu cycles, just make 1 run.
 
-    2018-08-29   Khem Raj <raj.khem@gmail.com>
-	* src/elf.h: Add RISC-V defines
-	* src/rtld/dl-tls.c: Add RISC-V support
-	* src/rtld/rtld.c: Add RISC-V support
-
-    2018-08-29  Robert Yang  <liezhi.yang@windriver.com>
-	* src/dso.c: use ehdr.e_shstrndx as index
-
-    2017-06-20  Andrew Stubbs  <ams@codesourcery.com>
-	* src/arch-x86_64.c (x86_64_prelink_conflict_rela): Also convert
-	R_X86_64_32 conflicts to R_X86_64_IRELATIVE for ifuncs.
-	* src/arch-x86_64.c (PL_ARCH(x32)): Set mmap_end to 0x60000000.
-
-    2017-06-20  Joseph Myers  <joseph@codesourcery.com>
-	* src/rtld/rtld.c (load_ld_so_conf): Add argument use_x32.
-	(main): Update call to load_ld_so_conf.
-
-    2017-06-20   Kyle Russell <bkylerussell@gmail.com>
-	* src/rtld/rtld.c: Add missing DT_NEEDED DSOs to needed_list
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...01-src-dso.c-use-ehdr.e_shstrndx-as-index.patch | 39 ----------------------
- meta/recipes-devtools/prelink/prelink_git.bb       |  5 ++-
- 2 files changed, 2 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-devtools/prelink/prelink/0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch
+ meta/recipes-devtools/python/python3_3.5.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/prelink/prelink/0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch b/meta/recipes-devtools/prelink/prelink/0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch
-deleted file mode 100644
-index d2cd1a70e2..0000000000
---- a/meta/recipes-devtools/prelink/prelink/0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 107290910ff846532d944ddb78edda436bb6ae63 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Wed, 15 Aug 2018 17:53:43 +0800
--Subject: [PATCH] src/dso.c: use ehdr.e_shstrndx as index
--
--According to struct elf32_hd, the e_shnum is section header number, and the
--index is e_shstrndx, not e_shnum.
--
--This can fix segmention fault when handle libqb.so.0.18.2 from libqb_1.0.3.
--It fails to handle libqb.so.0.18.2 and get errors:
--Symbol section index outside of section numbers
--
--Then segmentation fault, this is because the e_shnum is 34, while e_shstrndx is
--27 (it would be 33 when no errors), I've checked several elf files to confirm
--that the ones after e_shstrndx is NULL, so use e_shstrndx should be correct.
--
--Upstream-Status: Submitted [https://lists.yoctoproject.org/pipermail/yocto/2018-August/042240.html]
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- src/dso.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/dso.c b/src/dso.c
--index ae5e04d..c59d81f 100644
----- a/src/dso.c
--+++ b/src/dso.c
--@@ -1659,7 +1659,7 @@ close_dso_1 (DSO *dso)
--     {
--       int i;
-- 
---      for (i = 1; i < dso->ehdr.e_shnum; ++i)
--+      for (i = 1; i < dso->ehdr.e_shstrndx; ++i)
-- 	{
-- 	  Elf_Scn *scn = dso->scn[i];
-- 	  Elf_Data *data = NULL;
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index c5eaedd4d9..3f2a2e227d 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -9,7 +9,7 @@ and executables, so that far fewer relocations need to be resolved at \
- runtime and thus programs come up faster."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
--SRCREV = "05aeafd053e56356ec8c62f4bb8f7b95bae192f3"
-+SRCREV = "a853a5d715d84eec93aa68e8f2df26b7d860f5b2"
- PV = "1.0+git${SRCPV}"
+diff --git a/meta/recipes-devtools/python/python3_3.5.5.bb b/meta/recipes-devtools/python/python3_3.5.5.bb
+index bfe91fb1c71..8afe15eee6a 100644
+--- a/meta/recipes-devtools/python/python3_3.5.5.bb
++++ b/meta/recipes-devtools/python/python3_3.5.5.bb
+@@ -74,7 +74,7 @@ TARGET_CC_ARCH += "-DNDEBUG -fno-inline"
+ SDK_CC_ARCH += "-DNDEBUG -fno-inline"
+ EXTRA_OEMAKE += "CROSS_COMPILE=yes"
+ EXTRA_OECONF += "CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ --without-ensurepip --enable-optimizations"
+-PYTHON3_PROFILE_TASK ?= "${S}/Tools/pybench/pybench.py -n 10"
++PYTHON3_PROFILE_TASK ?= "${S}/Tools/pybench/pybench.py -n 1"
  
- #
-@@ -27,12 +27,11 @@ FILES_${PN}-cron = "${sysconfdir}/cron.daily ${sysconfdir}/default"
- 
- PACKAGES =+ "${PN}-cron"
- 
--SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink \
-+SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink_staging \
-            file://prelink.conf \
-            file://prelink.cron.daily \
-            file://prelink.default \
-            file://macros.prelink \
--           file://0001-src-dso.c-use-ehdr.e_shstrndx-as-index.patch \
- "
- UPSTREAM_CHECK_COMMITS = "1"
- 
+ export CROSS_COMPILE = "${TARGET_PREFIX}"
+ export _PYTHON_PROJECT_BASE = "${B}"
 -- 
-2.16.0.rc2
+2.17.1
 
 
