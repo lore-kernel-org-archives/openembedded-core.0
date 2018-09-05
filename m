@@ -1,61 +1,56 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
-	[209.85.222.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0369C74D73
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FFCD74553
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2018 03:36:46 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id g18-v6so4687162uam.6
+	Wed,  5 Sep 2018 04:08:19 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id m125-v6so2202201vka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2018 20:36:48 -0700 (PDT)
+	Tue, 04 Sep 2018 21:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=UMRTRthJGyfpJ8FxVTC92Sy+BDdUEeSDV5Z3RM+v2CE=;
-	b=eCexIkgwkcLaiidaBhjC2O866VhaMiCSygyds2e+17+ZYM64qqT0XTN6VaNOytlzAX
-	Y8VY8LRBzi5rLE82pwZMn1qIn62F67KxtRGsR62bxF08ISt1yI0ecv6vuAkNvaPJfluI
-	V8naob0Dt3jWGk0xseS6U9fbTuzFAIC2GoY3pAoCd7KtKfk95Fny1VbWcAY0fjb1Xzzk
-	uaxcMj4kDlVHXTrTXBReDCziCWiBGoTfXrYWv0tJaAWHefw/cDQFd1yX0eSQWJ9w06UZ
-	Vw6tXrNQmOwRIjV+d42Bbm7vdyYT55zDqaBCUFQ+LxRrD8yMfXKlYL8od0AsZr6myNfn
-	ohQw==
+	:cc; bh=Rdo6Dm2foeoec2B8Fpma95gr6matsZx49LwFdSrC984=;
+	b=YMOFluJ3dY1I88BR1IuehoPVI9lMJcHP7DYv9MKt4dQFrgNRBB4Ji4DRAC7ZIobRnS
+	SXDOkxQ/mWiH1xLQNCpyZx1QG2qREpXDwB2wdxVOf3HBLi7uQhKVPBxPeNymOzZajla4
+	SPq2d0m0MLHIG4TDBBVX5OtyDgImMPwrKYf1jiwC5jvbR3lsykJHk1QQySf9BwHFqGz6
+	EIUpEEQAf1ACjt5BOxwQenTCQMRJQzonf7U7oQLcqUe+BuRYM85Tlw4hc6b4WgW/jRmp
+	R5Jf7yi4p9CMyO5FSSXGxMNe5a+rVhXRLCukSdOOyODOYPS4ZJVPgTMZhxTKE0bNygCj
+	QOXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=UMRTRthJGyfpJ8FxVTC92Sy+BDdUEeSDV5Z3RM+v2CE=;
-	b=I3RRiNL+KHH0Dy6nmJhejGuGNjuRQR/BEV+kM3dP5GHAAZnbyHex9lDzwLNBnSCCEQ
-	mY7lbD4HcSgNPuiLVVOZIkD0vNkNfxSq8m4w7xYwRcXSc6VB2D4bVrLCwnd6z0Pka8kO
-	9cYX330pAXGDA6ZnvuQoFpFHpV9VS4v4AXS+dEbyraJgA1YPiuY3VKP+9HfC8gZKCm73
-	2QlOecw3w+g95UE4TLYv5CtqTJtx+ibYUob3Y+W+In0hIE+AObRTiOe0ixthMmqj/JyQ
-	+AcYml3hfQis2zVlUOjqVmKEUX0qsqR9m0S1EK9N/1JeDZI5th/J1DpghAr8YWdiMDFJ
-	/ArQ==
-X-Gm-Message-State: APzg51AExM/rhO5ZdK+/hqsPjh6ljunlQI/OSdZ//tNrGZtDRMt40cBk
-	SGhponr2WSVvJZDwalnk2bAtqO2VU6NMcyDh6Gs=
-X-Google-Smtp-Source: ANB0VdZ4SEY/z12lMzrhwdsBf0ZskyONk+zOIUt6YZRDR86cUue2OToHg6qM3ikICKjyNcmjCEHJpVnS5MR59q/IVnA=
-X-Received: by 2002:a67:4991:: with SMTP id
-	d17-v6mr11974324vsg.41.1536118607751; 
-	Tue, 04 Sep 2018 20:36:47 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=Rdo6Dm2foeoec2B8Fpma95gr6matsZx49LwFdSrC984=;
+	b=NV4TsvGerGXOz6eDpb/Ddr0uPLTHDewzOUAkGKhSbajTuSlAjIrIY604eS0QHxQr56
+	eAAWESLJ2jawEbgtoT4vSbTps6CsR5smgHR2mSG4krGwjrrO8V1TV9U3m9+oOZJRp6UX
+	vlI9pfyP3tygRcI7RBrAW1ZnE+4V0l4qZNeTHdJ/+Q7w+49NJ1R+5XP5ruV1+4wXuOSg
+	ygK4kX+4j04xDgowOlzmUOCODpQttw1njgDGWxEJRnvW9JdX1GpEnbwtsvFsh79nEiuR
+	sqYb+s+93ZM7aV1FLN6YTyXGyGM3NHUe7NZxR6TEvF/hVI+O+DWdfp9qDiuEO5oH6LXy
+	W+7A==
+X-Gm-Message-State: APzg51AHwjhVmHqVd7pmyp/8hOqlF5zPJddLC3fBGF/gi+eEUEQg7m/9
+	mewmL9PL+6Hp/bzo9r2wFr6hrcD/lduCqmGK2po=
+X-Google-Smtp-Source: ANB0VdaZmC3sFs7YkiloAfyi4pQmcE0XKZMRPB63cV/K/CSW9VUgYFJVRMqpgWsqrnu0j/Cb3vYw8kkuDUbzMNJEzaY=
+X-Received: by 2002:a1f:c252:: with SMTP id
+	s79-v6mr17711747vkf.127.1536120500125; 
+	Tue, 04 Sep 2018 21:08:20 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:ab0:2904:0:0:0:0:0 with HTTP;
-	Tue, 4 Sep 2018 20:36:47 -0700 (PDT)
-In-Reply-To: <689ddde0-d3a1-59a4-a20d-6d5ebd5bd7d0@windriver.com>
-References: <1535100844-4514-1-git-send-email-hongxu.jia@windriver.com>
-	<83f1c6c3-195c-b6c6-979c-3d58db4f9cb9@xilinx.com>
-	<591d25eb-bb99-746f-37ac-6769db4228b8@windriver.com>
-	<217b44d6-0d44-8f9f-80c6-7262324d751f@xilinx.com>
-	<CAJ86T=WdMgTuGVRCZHhNrGSL8YkVswP8JNXHdM2ryF7wJMxL5Q@mail.gmail.com>
-	<76e69943-5fe5-b629-08ab-852745136e95@windriver.com>
-	<CAJ86T=VKYgJEg9M81r3+0U6N1XgfRMM48O8DAd_R5vf207Q-ZQ@mail.gmail.com>
-	<52da2a71-147d-4431-b196-911d66e04b4e@windriver.com>
-	<CAJ86T=XV4GgPYHXnNEw5cO4Y1rq_5OtqHCVnw8nVc2cmwNg6nA@mail.gmail.com>
-	<689ddde0-d3a1-59a4-a20d-6d5ebd5bd7d0@windriver.com>
+	Tue, 4 Sep 2018 21:08:19 -0700 (PDT)
+In-Reply-To: <CAMKF1sp9uBnKKKu5nTKu_dS2=onTJvOgeroNDQtNx4DrWqBeRg@mail.gmail.com>
+References: <cover.1535451643.git.alex.kanavin@gmail.com>
+	<b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
+	<CA+chaQfSBfzWoDKkWH0arU388zqewFMVKQ+bJwo4TMABZhAiog@mail.gmail.com>
+	<a12df2950bb8cbe607429ba26247543ba63367af.camel@linuxfoundation.org>
+	<CAMKF1spTfZD2B19zQFH+PhAytChCe1k-05ma2QQ9TCVp3TNrgw@mail.gmail.com>
+	<fbe407b0f91278f2d416884eb1d737af30a20808.camel@linuxfoundation.org>
+	<CAMKF1sp9uBnKKKu5nTKu_dS2=onTJvOgeroNDQtNx4DrWqBeRg@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 4 Sep 2018 20:36:47 -0700
-Message-ID: <CAJ86T=WBCxtuTF+0x0qg22jtGtnxmr=0zQjraVOg2yXGB3qiJQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal.bbclass: use var-SHELL as the shebang of wrapper script
+Date: Tue, 4 Sep 2018 21:08:19 -0700
+Message-ID: <CAJ86T=V2QTuiz=KzNzZeyLKyvZd6m+ZPKmkP+tZwhfM_=fTASg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 1/6] openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the default version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,93 +63,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 03:36:47 -0000
+X-List-Received-Date: Wed, 05 Sep 2018 04:08:19 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 4, 2018 at 8:18 PM, Hongxu Jia <hongxu.jia@windriver.com> wrote=
-:
-> On 2018=E5=B9=B409=E6=9C=8805=E6=97=A5 10:41, Andre McCurdy wrote:
+On Tue, Sep 4, 2018 at 6:49 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Sep 4, 2018 at 3:58 PM <richard.purdie@linuxfoundation.org> wrote:
 >>
->> On Tue, Sep 4, 2018 at 7:16 PM, Hongxu Jia <hongxu.jia@windriver.com>
->> wrote:
->>>
->>> On 2018=E5=B9=B409=E6=9C=8805=E6=97=A5 09:59, Andre McCurdy wrote:
->>>>
->>>> On Tue, Sep 4, 2018 at 6:02 PM, Hongxu Jia <hongxu.jia@windriver.com>
->>>> wrote:
->>>>>
->>>>> On 2018=E5=B9=B409=E6=9C=8805=E6=97=A5 03:14, Andre McCurdy wrote:
->>>>>>
->>>>>> Maybe I'm missing something, but what's the advantage of using SHELL
->>>>>> to run this little wrapper script rather than hardcoding /bin/sh ?
->>>>>>
->>>>>> Task shell scripts created by bitbake use hardcoded /bin/sh (see
->>>>>> bitbake/lib/bb/build.py -> shell_trap_code())
->>>>>
->>>>> Keep align with the devshell as the comments mentioned above
->>>>
->>>> Yeah, I've read the comments. I still don't really understand why.
->>>>
->>>>> The devshell.bbclass set var-SHELL to var-DEVSHELL, and
->>>>> terminal.bbclass
->>>>> initial var-SHELL with `bash'. Keep sync with it, use var-SHELL rathe=
-r
->>>>> than hardcoded `/bin/sh' as the shebang of wrapper script.
->>>>>
->>>>> On Ubuntu host, default shell is dash (/bin/sh -> dash), even though
->>>>> we assign var-SHELL with `/bin/bash', the wrapper script is still
->>>>> dashism.
->>>>
->>>> What exactly is a dashism?
->>>
->>>
->>> In another word, it does not support bashism.
->>>
->>> Here is a case which `export -f' is bashism although
->>>
->>> devshell using bash, but /bin/sh -> dash
->>>
->>> [case]
->>>
->>> function foobar { echo foobar; };
->>>   export -f foobar
->>> bitbake -c devshell virtual/kernel
->>>
->>> [case]
->>>
->>>
->>> BTW, I've sent anther patch to fix it `[OE-core] [PATCH]
->>> devshell.bbclass/terminal.bbclass: add a shell check at devshell'
+>> On Tue, 2018-09-04 at 13:43 -0700, Khem Raj wrote:
+>> > I pointed this earlier before merge as well
+>> > meta-openembedded has 40 odd recipes failing due to openssl 1.1
+>> > upgrade
 >>
->> OK, but run.do_terminal.xxx is a trivial wrapper which (apart from
->> exporting environment variables) just contains something like:
+>> Sorry, I think I missed something somewhere as I thought the
+>> indications were the bigger problems like qt5 were working now :/.
 >>
->>    do_terminal() {
->>    exec pseudo /bin/bash
->>    }
+>> > http://errors.yoctoproject.org/Errors/Build/67457/?page=2&limit=50
+>> >
+>> > so obvious fix was to keep them pinned to openssl10 and i created
+>> > couple of fixes
+>> > to start
+>> >
+>> > https://patchwork.openembedded.org/patch/154517/
+>> > https://patchwork.openembedded.org/patch/154516/
+>> >
+>> > and the effects are showing up where sysroot task now starts to fail
+>> > for dependent
+>> > recipes here
+>> >
+>> > http://errors.yoctoproject.org/Errors/Details/190427/
+>> > http://errors.yoctoproject.org/Errors/Details/190433/
+>> >
+>> > in meta-oe certain recipes can be upgraded and we can get openssl 1.1
+>> > support
+>> > but others like the two examples I cited above do not have openSSL
+>> > 1.1 port.
+>> > so I think we can not live without openSSL 1.0 and OpenSSL 2.0 being
+>> > able to
+>> > co-exist.
 >>
->>    do_terminal
+>> The latter link is php 7.2 which should have openssl 1.1 support
+>> (https://bugs.php.net/bug.php?id=72360).
 >>
->> I'm not sure what the problem is running that with /bin/sh, regardless
->> of whether /bin/sh points to bash or dash?
+>> For the former, libgdata doesn't have an openssl depends so I guessed
+>> at liboauth pulling it in which does have an openssl 1.1 patch at:
+>> https://github.com/x42/liboauth/issues/9
+>>
 >
->
-> Isn't clear? In above case, even though `exec pseudo /bin/bash',
->
-> since /bin/sh points to dash, the devshell started failed
->
-> [snip]
->
-> bitbake -c devshell virtual/kernel
-> Trying to run: screen -r devshell_23640
-> Cannot open your terminal '/dev/pts/39' - please check.
->
-> [snip]
->
-> Since `export -f' is bashism, use dash to load wrapper script failed
+> Thanks for pointers and they do help. However IMO the problem that
+> Martin decribed
+> is going to be a real blocker. Unless we can provide a solution to let
+> both openssl versions
+> coexist, this change is going to be problematic since we maintain
+> several old recipes which
+> would have to be fixed for openssl 1.1 and this can take time, right
+> now we are only seeing
+> meta-openembedded layers, we don't even know all other layers which
+> might get into similar
+> issues.
 
-I understand that dash can not run bash specific syntax. What I don't
-understand is where does the bash specific syntax in the terminal
-wrapper script come from?
+To be clear, the issue is ( foo depends on openssl 1.1 and bar ) and (
+bar depends on openssl 1.0 ), right?
+
+Anyway, just for reference, it looks like Debian is packaging both
+openssl 1.0 and 1.1:
+
+  https://packages.debian.org/source/sid/openssl1.0
+  https://packages.debian.org/source/sid/openssl
+
+In the case of liboauth, they avoid to need to patch by configuring
+liboauth to build with nss instead of openssl.
 
