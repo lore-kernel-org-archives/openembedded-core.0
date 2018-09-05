@@ -1,24 +1,53 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F40778A06
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id BF7A774CB8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2018 12:37:09 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w85Cb9on012278
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 5 Sep 2018 05:37:09 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 5 Sep 2018 05:37:03 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 5 Sep 2018 08:36:03 -0400
-Message-ID: <1536150963-173280-3-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1536150963-173280-1-git-send-email-hongxu.jia@windriver.com>
-References: <1536150963-173280-1-git-send-email-hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] prelink: do not use 'exit 0' to incorrectly postpone to first boot
+	Wed,  5 Sep 2018 12:43:24 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id c14-v6so7831779wmb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Sep 2018 05:43:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=fssFVcLbGwz/xIh2LBp/JMYc8zdFV5UppOBHUEEQmEU=;
+	b=XgWx0PInGxLf0cLZYVS1YAFOSgdxbFoTxI3TwNiZ8W6MeHa7RafNymiucTKHRTRHm7
+	psdNtbIFJbZsJ1afgLXSpimiu1QUd2GsfTJ957emQl8VP+t4JnQtsZ6YHEO5krSToPDH
+	8Z+vn+zAp2/HnNeVnUBQzFEzhrOal3WS3uVto=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=fssFVcLbGwz/xIh2LBp/JMYc8zdFV5UppOBHUEEQmEU=;
+	b=sR9uyuyTf8Dez5+dFlRiv35qcW3l2oRBTLrfe64JILmhDZfbJPfvsEcZdTENG8phBm
+	xrR9oAZAwW+PDaXnGSp4JZiBJt9rWpIPEEblyL1AQu+e7HSZHx0gleGxkd7QSjAlStlI
+	fu1jBrLaEt6owwaMkNRqpSv1ohNMtKifYwgyyR75Ix+LdiiYalB0NerTvs4mHvFNRnea
+	uJ62z5MtHyy4dNZ3NEY+/eqYIcwO0/JoQ6U6Z+4BpPDTB5JU2WTL5B4BzjimZuG8p0Vv
+	OCinWBmRqepjHOAfEofyzNZrnxny6W46leIZCDAt4RMnHSFVB6LC9sNgtJMcfv2o5uWM
+	gC+g==
+X-Gm-Message-State: APzg51ANUJljOP8fJVwhYez0RWZH+1BIuEXEONnTciPuraxau/f9wb3Z
+	9Pce404LCPG8ZBp6S+7s0UspxQ==
+X-Google-Smtp-Source: ANB0VdbxMPtcqUWECIRVPAB8Ipe/6G8zVJrcGgccHNp0//mHAUSvNt+p5HzvjJv44w+CHfwHtBlqVQ==
+X-Received: by 2002:a1c:b709:: with SMTP id h9-v6mr127308wmf.130.1536151405278;
+	Wed, 05 Sep 2018 05:43:25 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	w15-v6sm2802643wrs.8.2018.09.05.05.43.23
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 05 Sep 2018 05:43:23 -0700 (PDT)
+Message-ID: <3d2233af61b189875478bfe65fefb96b0c2c97c5.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Steffen Sledz <sledz@dresearch-fe.de>, Koen Kooi
+	<koen@dominion.thruhere.net>, Khem Raj <raj.khem@gmail.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	angstrom-distro-devel <angstrom-distro-devel@linuxtogo.org>
+Date: Wed, 05 Sep 2018 13:43:22 +0100
+In-Reply-To: <94e49755-3c5a-a4fe-47da-b5881a2d7c43@dresearch-fe.de>
+References: <94e49755-3c5a-a4fe-47da-b5881a2d7c43@dresearch-fe.de>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Subject: =?UTF-8?B?UmU6IERlcGVuZGVuY3kgbG9vcHMgd2hlbiBlbmFibGluZyBwdGVzdCB3aXRoIMOFbmdzdHLDtm0=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +60,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 12:37:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Sep 2018 12:43:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-After postinst was executed at do_rootfs successfully,
-there will be no first boot to redo.
+On Wed, 2018-09-05 at 13:51 +0200, Steffen Sledz wrote:
+> [Sorry for the big addressee group, but I'm not sure where to address
+> this issue correctly.]
+> 
+> We're using meta-angstrom as base for our own software. At the moment
+> we try to activate ptest for some of our components. Unfortunately
+> the trys lead to dependency loops. :(
+> 
+> To exclude our own stuff I've set up a pure Ångström environment
+> according to <https://github.com/Angstrom-distribution/angstrom-manif
+> est> (angstrom-v2018.06-sumo branch).
+> 
+> After selecting nitrogen6x as machine and adding
+> 
+>  DISTRO_FEATURES_append = " ptest"
+> 
+> to conf/local.conf we see the same dependency loops (see attached
+> loop.txt) when bitbaking e.g. console-image.
+> 
+> For a first analysis we've purified the logs. The first of the loops
+> is that one (after removing all the unnecessary stuff):
+> 
+>  glib-2.0_2.54.3.bb:do_packagedata
+>  glib-2.0_2.54.3.bb:do_package
+>  dbus_1.12.2.bb:do_packagedata
+>  dbus_1.12.2.bb:do_package
+>  systemd_239.bb:do_packagedata
+>  systemd_239.bb:do_package
+> 
+> Any ideas what's going wrong here?
+> Is this worth to create an issue in Ångström bug tracker?
+> Or elsewhere?
 
-Since `229f4e9 package.bbclass: add support for
-pkg_postinst_ontarget()' applied in oe-core, use
-pkg_postinst_ontarget to instead.
+Those are all OE-Core components and build fine with ptest enabled in
+poky. That suggests one of the layers does something to the recipes in
+a bbappend which breaks things. I'd try bisecting your layers, remove
+some and see what makes the problem go away. I'd also start by creating
+the simplest test case you can (is "bitbake systemd" enough?).
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-devtools/prelink/prelink_git.bb | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index c5eaedd..c110bd2 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -158,13 +158,7 @@ do_install_append () {
- # Prelinking during a cross install should be handled by the image-prelink
- # bbclass.  If the user desires this to run on the target at first boot
- # they will need to create a custom boot script.
--pkg_postinst_prelink() {
--#!/bin/sh
--
--if [ "x$D" != "x" ]; then
--  exit 0
--fi
--
-+pkg_postinst_ontarget_prelink() {
- prelink -a
- }
- 
--- 
-2.8.1
+Richard
+
 
 
