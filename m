@@ -1,51 +1,37 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DA2374621
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 10CB674703
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2018 14:31:53 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id 8-v6so14046786oip.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2018 07:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xZJncSnbAKqvL0nBTRR7oH2rfBL9CJlxKcMTk5wJOf8=;
-	b=CqbtZpW/lpZ/qUCzQq9Om0EidRtSvQxWm8XrOXp8oWR36Dtk/oyXUva3r6ZhDelA4M
-	Jut99fX4bhb+qfHx6A7k7s3bNe+XBVjO3tFGlzh7E0p4AA6UFa5V8A3bqODeAvIHt3DQ
-	XeS1hoCqRtPXldFjlmy7DOR6tyrcgFpAVRbic72klEodWPjl7y1eH46JnIbPpNI2vNuy
-	GVqMzmbgpIX2ioHDeoKBAEGEZpAeBbCaX0tyIdCLW7YgmbKPF/yqAo4ry2cnYcijCRf6
-	yTOUi3TZ7g5Np3ZCpiniQdkWDo0yYFn6nIvv6SgHGhw2tCKd5B0/vVCsEv6QeawdPUUF
-	QiAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=xZJncSnbAKqvL0nBTRR7oH2rfBL9CJlxKcMTk5wJOf8=;
-	b=EuDV71pcUoECHgGDAAcKkgnb8L8SVHysPLW5GpqBPDIA/rVeZKVZADF3RUgfo4fQL8
-	yzBdOKcQwbRanFqNxGH8jnpjNLPSeZ2iomcKpyRWRiU54zPIGp3dmRrLHorrV5TKO03U
-	y9xOXgYt6qrwKg5M/0oUPyrpz3V0EykccBBW2DXu5GvzSUl/M7gjtj1ZTZOlj1WdKBiH
-	TWWfRqJHcw3z1QqqDPjjoAcxJ7PcfLZU081ORiKjljrVtTKTDkWpaLjDu8I7Kzql/OPj
-	7xjxDL4z8XeljLq012KAC93ZdcFDd76gMwyMEx7rIbamNvritmaHXW4QW2BncqJ5VCwH
-	Tv2g==
-X-Gm-Message-State: APzg51BEaIjppC+BGopCxr2RfXI/4ES1DlX8imac9oQtR0qlQ2umLGmK
-	o8Ayky+GO9FuRn2DJHtbOS4oPzpVj2/hRsWMGC4=
-X-Google-Smtp-Source: ANB0VdZuYsqUeBxkGjWaTtwUUh9KFohHV9GMbyc5olPiGDsJPf/ExgyUQREGfyy0+xkkUzlQ+oSz5a4x38we7765IXs=
-X-Received: by 2002:aca:3ad4:: with SMTP id
-	h203-v6mr28803002oia.294.1536157914499; 
-	Wed, 05 Sep 2018 07:31:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:5c9b:0:0:0:0:0 with HTTP;
-	Wed, 5 Sep 2018 07:31:53 -0700 (PDT)
-In-Reply-To: <CAMvyGd_XsQCHnfPiJNuLpD-ATzHnPgHcOARkRzTB-3Z0B5pXyw@mail.gmail.com>
-References: <CAMvyGd-9c41OHDgy1qaxhiNyQwH9Hf9Nzo3bqfw+fanGF-AdNg@mail.gmail.com>
-	<CANNYZj9_WHwO4iM1dkhQDKkBXfeNyNdA7cAioh7=D-5DEgLb2A@mail.gmail.com>
-	<CAMvyGd_XsQCHnfPiJNuLpD-ATzHnPgHcOARkRzTB-3Z0B5pXyw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 5 Sep 2018 16:31:53 +0200
-Message-ID: <CANNYZj9wCiYfHO3vWjO-2dwF8E0vKd7rJHh7zTdkodU0HApsmw@mail.gmail.com>
-To: Tarun Tej K <tarun4690@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: bitbake gstreamer1.0 : "Nothing PROVIDES 'gobject-introspection'"
+	Wed,  5 Sep 2018 14:45:06 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w85Ej5bw002251
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 5 Sep 2018 15:45:06 +0100
+Message-ID: <e7847d5e6eb6103ddf02e6da14a1449227e5665a.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, Alexander Kanavin
+	<alex.kanavin@gmail.com>
+Date: Wed, 05 Sep 2018 15:45:04 +0100
+In-Reply-To: <20180905085322.GA1795@jama>
+References: <cover.1535451643.git.alex.kanavin@gmail.com>
+	<b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
+	<CA+chaQfSBfzWoDKkWH0arU388zqewFMVKQ+bJwo4TMABZhAiog@mail.gmail.com>
+	<a12df2950bb8cbe607429ba26247543ba63367af.camel@linuxfoundation.org>
+	<CAMKF1spTfZD2B19zQFH+PhAytChCe1k-05ma2QQ9TCVp3TNrgw@mail.gmail.com>
+	<fbe407b0f91278f2d416884eb1d737af30a20808.camel@linuxfoundation.org>
+	<CAMKF1sp9uBnKKKu5nTKu_dS2=onTJvOgeroNDQtNx4DrWqBeRg@mail.gmail.com>
+	<CAJ86T=V2QTuiz=KzNzZeyLKyvZd6m+ZPKmkP+tZwhfM_=fTASg@mail.gmail.com>
+	<CAMKF1sqWuf8sQj7TA_G-prWpOB5mtXo7F8k_K0bj2ufHXRa6Yg@mail.gmail.com>
+	<CANNYZj9rQ-vFT09JPs0pJ46HEYK8_UNzA5Di9G6OXosHOKt3mQ@mail.gmail.com>
+	<20180905085322.GA1795@jama>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 1/6] openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the default version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,103 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 14:31:54 -0000
+X-List-Received-Date: Wed, 05 Sep 2018 14:45:07 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-'Nothing PROVIDES 'gobject-introspection' means you do not have the
-gobject-introspection recipe, which is added as a dependency by the
-g-i class. I do not recommend you try to backport it though: just
-remove the class inherit from gstreamer recipes.
+On Wed, 2018-09-05 at 10:53 +0200, Martin Jansa wrote:
+> But patching the components to use libssl10 might actually work
+> (unlike
+> just changing DEPENDS to openssl10).
+> 
+> It's not only conflicting in build-time in RSS, but it will conflict
+> on target as well. You either need to migrate all components included
+> in image to 1.1 or all stay on 1.0.
 
-Alex
+That isn't quite the case. For OE-Core we have images using both 1.0
+(openssh) and 1.1 installed together. Its true there are some issues if
+you try and parallel install both the -dev packages but normal target
+images are working.
 
-2018-09-05 16:25 GMT+02:00 Tarun Tej K <tarun4690@gmail.com>:
-> Thanks for the response.
->
-> The issue I have is, although I have added the gobject-introspection.bbclass
-> within the classes directory, I get an error saying 'Nothing PROVIDES
-> 'gobject-introspection'.
->
-> The other class I use (upstream-version-is-even.bbclass) is also present in
-> the same directory but it gets inherited by gstreamer1.0_1.14.2.bb without
-> any error. Why is there a problem for gobject-introspection only?
->
-> I totally agree to your point about updating to latest YP release. It is
-> just that our project is depending on some recipes related to older version
-> BSP so it will be a while before we completely migrate to latest release.
->
-> Thanks
-> Tarun
->
-> On Wed, Sep 5, 2018 at 7:44 PM Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
->>
->> What is the issue though? You need to be clear about it: paste the
->> exact, specific error message you are getting.
->>
->> Generally, I would recommend that you update to the latest YP release
->> first. Backporting recipes in this fashion is a complicated task.
->>
->>
->>
->> Alex
->>
->> 2018-09-05 15:36 GMT+02:00 Tarun Tej K <tarun4690@gmail.com>:
->> > Hi,
->> >
->> > I am trying to build the latest gstreamer version 1.14.2 using the yocto
->> > recipes from
->> >
->> > https://github.com/openembedded/openembedded-core/tree/master/meta/recipes-multimedia/gstreamer
->> >
->> > I have added new version recipes to my custom yocto layer; added the
->> > required .bbclass files to 'classes' directory inside my custom layer.
->> > There
->> > are older version (1.4.5, 1.6.0) recipes in other layers but my layer
->> > has
->> > higher priority so the 'bitbake -s' shows 1.14.2 as the version of
->> > gstreamer
->> > family, so that proves the recipes are successfully parsed.
->> >
->> > After that I am trying to build gstreamer1.0 using the command 'bitbake
->> > gstreamer1.0' but I get an error saying
->> > Nothing PROVIDES 'gobject-introspection' ..........
->> > Close matches:
->> > gobject-introspection-stub
->> > gobject-introspection-native
->> >
->> > I have verified that the gobject-introspection.bbclass file has been
->> > added
->> > to classed directory of my layer. I have removed gobject-introspection
->> > from
->> > the inherit list in the  gstreamer1.0_1.14.2.bb and it successfully
->> > continued to bitbake until some 'installed but not shipped' error
->> > occurred
->> > at do_package_qa task. Also another class
->> > 'upstream-version-is-even.bbclass'
->> > is also inherited by gstreamer1.0_1.14.2.bb and that is also present in
->> > same
->> > directory as gobject-introspection.bbclass but I don't get any error
->> > with
->> > that.
->> >
->> > I am using the yocto setup cloned from freescale's repository
->> >
->> > (http://git.freescale.com/git/cgit.cgi/imx/fsl-arm-yocto-bsp.git/tree/imx-4.1.15-1.1.2.xml?h=imx-4.1.15-1.0.0_ga),
->> > so this might contain older dependency libraries. Also the bitbake
->> > version
->> > is 1.28.0
->> >
->> > What could be the problem? Please let me know if I need to provide any
->> > additional information to understand issue better.
->> >
->> > Thanks
->> > Tarun
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >
+We could probably "fix" the -dev images to an extent by making 1.1
+replace 1.0 dev pieces.
+
+The build time sysroot problem is harder unfortunately, I've ideas
+about things we might be able to do but haven't experimented as yet.
+
+Cheers,
+
+Richard
 
