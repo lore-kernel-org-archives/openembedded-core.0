@@ -1,53 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BF7A774CB8
+Return-Path: <andrej.valek@siemens.com>
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id B5AF6744B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2018 12:43:24 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id c14-v6so7831779wmb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2018 05:43:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=fssFVcLbGwz/xIh2LBp/JMYc8zdFV5UppOBHUEEQmEU=;
-	b=XgWx0PInGxLf0cLZYVS1YAFOSgdxbFoTxI3TwNiZ8W6MeHa7RafNymiucTKHRTRHm7
-	psdNtbIFJbZsJ1afgLXSpimiu1QUd2GsfTJ957emQl8VP+t4JnQtsZ6YHEO5krSToPDH
-	8Z+vn+zAp2/HnNeVnUBQzFEzhrOal3WS3uVto=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=fssFVcLbGwz/xIh2LBp/JMYc8zdFV5UppOBHUEEQmEU=;
-	b=sR9uyuyTf8Dez5+dFlRiv35qcW3l2oRBTLrfe64JILmhDZfbJPfvsEcZdTENG8phBm
-	xrR9oAZAwW+PDaXnGSp4JZiBJt9rWpIPEEblyL1AQu+e7HSZHx0gleGxkd7QSjAlStlI
-	fu1jBrLaEt6owwaMkNRqpSv1ohNMtKifYwgyyR75Ix+LdiiYalB0NerTvs4mHvFNRnea
-	uJ62z5MtHyy4dNZ3NEY+/eqYIcwO0/JoQ6U6Z+4BpPDTB5JU2WTL5B4BzjimZuG8p0Vv
-	OCinWBmRqepjHOAfEofyzNZrnxny6W46leIZCDAt4RMnHSFVB6LC9sNgtJMcfv2o5uWM
-	gC+g==
-X-Gm-Message-State: APzg51ANUJljOP8fJVwhYez0RWZH+1BIuEXEONnTciPuraxau/f9wb3Z
-	9Pce404LCPG8ZBp6S+7s0UspxQ==
-X-Google-Smtp-Source: ANB0VdbxMPtcqUWECIRVPAB8Ipe/6G8zVJrcGgccHNp0//mHAUSvNt+p5HzvjJv44w+CHfwHtBlqVQ==
-X-Received: by 2002:a1c:b709:: with SMTP id h9-v6mr127308wmf.130.1536151405278;
-	Wed, 05 Sep 2018 05:43:25 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w15-v6sm2802643wrs.8.2018.09.05.05.43.23
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 05 Sep 2018 05:43:23 -0700 (PDT)
-Message-ID: <3d2233af61b189875478bfe65fefb96b0c2c97c5.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Steffen Sledz <sledz@dresearch-fe.de>, Koen Kooi
-	<koen@dominion.thruhere.net>, Khem Raj <raj.khem@gmail.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	angstrom-distro-devel <angstrom-distro-devel@linuxtogo.org>
-Date: Wed, 05 Sep 2018 13:43:22 +0100
-In-Reply-To: <94e49755-3c5a-a4fe-47da-b5881a2d7c43@dresearch-fe.de>
-References: <94e49755-3c5a-a4fe-47da-b5881a2d7c43@dresearch-fe.de>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Subject: =?UTF-8?B?UmU6IERlcGVuZGVuY3kgbG9vcHMgd2hlbiBlbmFibGluZyBwdGVzdCB3aXRoIMOFbmdzdHLDtm0=?=
+	Wed,  5 Sep 2018 12:46:06 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id w85Ck6Tf021050
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 5 Sep 2018 14:46:06 +0200
+Received: from [192.168.253.100] ([163.242.50.201])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id w85Ck5p4009451;
+	Wed, 5 Sep 2018 14:46:05 +0200
+To: Alex Kiernan <alex.kiernan@gmail.com>,
+	"Denys Vlasenko <vda.linux@googlemail.com>; Chen Qi"
+	<Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <CAO5Uq5SjWvxmEXisPRmgM92JaGRHgAdd0qoCsTb=P=1PDzh+fg@mail.gmail.com>
+From: Andrej Valek <andrej.valek@siemens.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
+	xsBNBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
+	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
+	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
+	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
+	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
+	AAHNJ0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPsLAfgQTAQIAKAUC
+	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
+	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
+	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
+	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
+	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
+	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO587ATQRZEs03AQgA0oCu
+	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
+	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
+	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
+	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
+	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABwsBlBBgBAgAPBQJZ
+	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
+	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
+	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
+	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
+	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
+	emYHzsJ3+vLapH+kAEI=
+Message-ID: <4b1aadc2-475b-df41-270c-ffbfbcf086c1@siemens.com>
+Date: Wed, 5 Sep 2018 14:46:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CAO5Uq5SjWvxmEXisPRmgM92JaGRHgAdd0qoCsTb=P=1PDzh+fg@mail.gmail.com>
+Subject: Re: systemd/busybox fsck fail to run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,52 +60,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 12:43:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 05 Sep 2018 12:46:07 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2018-09-05 at 13:51 +0200, Steffen Sledz wrote:
-> [Sorry for the big addressee group, but I'm not sure where to address
-> this issue correctly.]
-> 
-> We're using meta-angstrom as base for our own software. At the moment
-> we try to activate ptest for some of our components. Unfortunately
-> the trys lead to dependency loops. :(
-> 
-> To exclude our own stuff I've set up a pure Ångström environment
-> according to <https://github.com/Angstrom-distribution/angstrom-manif
-> est> (angstrom-v2018.06-sumo branch).
-> 
-> After selecting nitrogen6x as machine and adding
-> 
->  DISTRO_FEATURES_append = " ptest"
-> 
-> to conf/local.conf we see the same dependency loops (see attached
-> loop.txt) when bitbaking e.g. console-image.
-> 
-> For a first analysis we've purified the logs. The first of the loops
-> is that one (after removing all the unnecessary stuff):
-> 
->  glib-2.0_2.54.3.bb:do_packagedata
->  glib-2.0_2.54.3.bb:do_package
->  dbus_1.12.2.bb:do_packagedata
->  dbus_1.12.2.bb:do_package
->  systemd_239.bb:do_packagedata
->  systemd_239.bb:do_package
-> 
-> Any ideas what's going wrong here?
-> Is this worth to create an issue in Ångström bug tracker?
-> Or elsewhere?
+Hi Alex,
 
-Those are all OE-Core components and build fine with ptest enabled in
-poky. That suggests one of the layers does something to the recipes in
-a bbappend which breaks things. I'd try bisecting your layers, remove
-some and see what makes the problem go away. I'd also start by creating
-the simplest test case you can (is "bitbake systemd" enough?).
+There could be multiple options, how to handle this.
+
+My 2cents about this problem:
+ 1. Use update-alternatives to handle this
+ 2. Rework busybox itself to handle this option
+ 3. Just create a patch to ignore this option
 
 Cheers,
+Andrej
 
-Richard
-
-
+On 09/05/18 10:37, Alex Kiernan wrote:
+> I've just come across a box with a corrupt filesystem which wasn't
+> being cleaned (using systemd and busybox):
+> 
+> Aug 29 16:03:22 localhost systemd-fsck[143]: read_bad_blocks_file: No
+> such file or directory while trying to open -M
+> Aug 29 16:03:22 localhost systemd-fsck[143]: Warning: fsck.ext4
+> /dev/mmcblk0p4 terminated by signal 8
+> Aug 29 16:03:22 localhost systemd-fsck[143]: fsck failed with exit status 8.
+> Aug 29 16:03:22 localhost systemd-fsck[143]: Ignoring error.
+> Aug 29 16:03:22 localhost systemd[1]:
+> systemd-fsck@dev-mmcblk0p4.service: cgroup is empty
+> Aug 29 16:03:22 localhost systemd[1]:
+> systemd-fsck@dev-mmcblk0p4.service: Child 143 belongs to
+> systemd-fsck@dev-mmcblk0p4.service.
+> Aug 29 16:03:22 localhost systemd[1]:
+> systemd-fsck@dev-mmcblk0p4.service: Main process exited, code=exited,
+> status=0/SUCCESS
+> Aug 29 16:03:22 localhost systemd[1]:
+> systemd-fsck@dev-mmcblk0p4.service: Changed start -> exited
+> Aug 29 16:03:22 localhost systemd[1]:
+> systemd-fsck@dev-mmcblk0p4.service: Job
+> systemd-fsck@dev-mmcblk0p4.service/start finished, result=done
+> Aug 29 16:03:22 localhost systemd[1]: Started File System Check on
+> /dev/mmcblk0p4.
+> 
+> It turns out systemd-fsck unconditionally passes `-l` to lock the filesystem:
+> 
+> https://github.com/systemd/systemd/blame/master/src/fsck/fsck.c#L408
+> 
+> which busybox fsck doesn't interpret and so passes on to fsck.ext4,
+> which then interprets it as a badblocks file...
+> 
+> What's the right answer here? Add a patch to busybox fsck so it just
+> ignores `-l`, or do we need something more sophisticated?
+> 
+> Obviously swapping in util-linux-fsck works around the problem.
+> 
 
