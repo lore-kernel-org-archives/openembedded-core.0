@@ -1,30 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C004F762B4
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FD7874C8C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2018 06:09:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8569Dp3027292
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Sep 2018 23:09:13 -0700 (PDT)
-Received: from localhost.corp.ad.wrs.com (128.224.162.161) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 4 Sep 2018 23:09:12 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Peter Kjellerstedt
-	<peter.kjellerstedt@axis.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1536042978.git.liezhi.yang@windriver.com>
-	<ea8e96b3f2b09db17ecf9a28765b709433febe9b.1536042978.git.liezhi.yang@windriver.com>
-	<8db3e1637d3c4714aa90df95492b2f84@XBOX02.axis.com>
-	<57b7ac2a8b41e1c54460989cd27231330bb6cc33.camel@linuxfoundation.org>
+	Wed,  5 Sep 2018 07:05:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8575R8t015913
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Sep 2018 00:05:28 -0700
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 5 Sep 2018 00:05:27 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <e8d15baa-ee1f-430f-d58c-9a79ff3ea145@windriver.com>
-Date: Wed, 5 Sep 2018 14:12:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Sep 2018 15:16:16 +0800
+Message-ID: <cover.1536130313.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <57b7ac2a8b41e1c54460989cd27231330bb6cc33.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/1] bitbake.conf: Make BUILD_OPTIMIZATION respect to DEBUG_BUILD
+Subject: [PATCH 0/2 V2] Add oe.utils.vartrue() and update BUILD_OPTIMIZATION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,84 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 06:09:19 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Sep 2018 07:05:27 -0000
+Content-Type: text/plain
 
+* V2:
+  - Improve readability as RP and Peter suggested.
 
-
-On 09/04/2018 07:19 PM, Richard Purdie wrote:
-> On Tue, 2018-09-04 at 08:15 +0000, Peter Kjellerstedt wrote:
->>> -----Original Message-----
->>> From: openembedded-core-bounces@lists.openembedded.org
->>> <openembedded-
->>> core-bounces@lists.openembedded.org> On Behalf Of Robert Yang
->>> Sent: den 4 september 2018 08:37
->>> To: openembedded-core@lists.openembedded.org
->>> Subject: [OE-core] [PATCH 1/1] bitbake.conf: Make
->>> BUILD_OPTIMIZATION
->>> respect to DEBUG_BUILD
->>>
->>> We may also need debug native tools, so make BUILD_OPTIMIZATION
->>> respect to
->>> DEBUG_BUILD, otherwise, we need set CFLAGS in the recipe which
->>> isn't
->>> convenient.
->>>
->>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>> ---
->>>   meta/conf/bitbake.conf | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->>> index 1941633..df62445 100644
->>> --- a/meta/conf/bitbake.conf
->>> +++ b/meta/conf/bitbake.conf
->>> @@ -612,7 +612,7 @@ FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
->>>   DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS}
->>> -pipe"
->>>   SELECTED_OPTIMIZATION = "${@d.getVar(['FULL_OPTIMIZATION',
->>> 'DEBUG_OPTIMIZATION'][d.getVar('DEBUG_BUILD') == '1'])}"
->>>   SELECTED_OPTIMIZATION[vardeps] += "FULL_OPTIMIZATION
->>> DEBUG_OPTIMIZATION"
->>> -BUILD_OPTIMIZATION = "-O2 -pipe"
->>> +BUILD_OPTIMIZATION = "${@['-O2', '-O -g -feliminate-unused-debug-
->>> types -fno-omit-frame-pointer'][d.getVar('DEBUG_BUILD') == '1']}
->>> -pipe"
->>
->> Can we make that more readable:
->>
->> BUILD_OPTIMIZATION = "${@'-O -g -feliminate-unused-debug-types -fno-
->> omit-frame-pointer' if d.getVar('DEBUG_BUILD') == '1' else '-O2'}
->> -pipe"
->>
->> Should probably do the same for SELECTED_OPTIMIZATION while at it:
->>
->> SELECTED_OPTIMIZATION = "${@d.getVar('DEBUG_OPTIMIZATION' if
->> d.getVar('DEBUG_BUILD') == '1' else 'FULL_OPTIMIZATION')}"
-> 
-> If we're going to deal with readability and usability we could add
-> something like:
-> 
-> def vartrue(var, iftrue, iffalse, d):
->      if oe.types.boolean(d.getVar(var)):
->          return iftrue
->      else:
->          return iffalse
-
-Thanks, looks good, I will send a V2.
+* V1:
+  Initial version
 
 // Robert
 
-> 
-> to lib/oe/utils and then:
-> 
-> BUILD_OPTIMIZATION = "${@oe.utils.vartrue('DEBUG_BUILD', '-O -g -feliminate-unused-debug-types -fno-omit-frame-pointer', '-O2', d)}"
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
+The following changes since commit bd92ff5759809df2542ce1bcba2c45bbd11d1e10:
+
+  openssl: Handle -conf package file conflicts (2018-09-04 11:03:31 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/debug
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/debug
+
+Robert Yang (2):
+  oe/utils.py: Add vartrue()
+  bitbake.conf: Make BUILD_OPTIMIZATION respect to DEBUG_BUILD
+
+ meta/conf/bitbake.conf | 4 ++--
+ meta/lib/oe/utils.py   | 7 +++++++
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+-- 
+2.7.4
+
 
