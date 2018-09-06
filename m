@@ -1,51 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
-	[209.85.208.46])
-	by mail.openembedded.org (Postfix) with ESMTP id AB2D179551
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E363F795F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 10:29:47 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id k14-v6so8444062edr.13
+	Thu,  6 Sep 2018 10:29:48 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id k14-v6so8444107edr.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 03:29:49 -0700 (PDT)
+	Thu, 06 Sep 2018 03:29:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=azYBVctx/YQmLIIDs5d6ZyiRqY5fJh+TqSk2So+Rr5E=;
-	b=Jco0dKpfBKSWeAKkNHBqqDdGvc4BXdJhvIVQ1p9S+BRMalJsE5B4e+UTkBjtgTLJ+B
-	gwVBb/XaG1EizrnuSRPdo3A9GgghOL1r6YEUul9JHgtMJgBNHyMrF7nq8NOkpBvL7Ldd
-	tnu+bOjinDr4/K8KBoLwAzfesZMTjRFqYGe6w1hdBZ3Dz0/udpyLY2xAAhrQAjsMhrW9
-	eFonmYXLS5BoPR8rTyPOknAtUCLVS8vura+WMnAWrRZB5UVKao+8UVau3qvo86YXeW5y
-	wjCpyV05BonQzd1/2I6QSImsjOMoc4cmgnPBHLKfUpm9aHbwdZeWELxcSENHvX0Z+9Wj
-	j0IA==
+	bh=da3pT/ma1xKhaW5Mg9mdrjCENGHaMd1QDlIsh4VsUdE=;
+	b=P6AXOk83/oM/aVS6R+BMizDhFeIgBE3kcnV1zT5l5SFGcrKxFpfSU/ANFnWiwOKxvt
+	NU+kfEVgXupY87CoB07nQ2qB7/D1PpPNUIwsaT3eB0NevyzpuXWFTW8/9M4RLHK8h95q
+	rwCr4lcwvNN8Zh9QeLzqhxTso2HGkk5MHh5N9OI/ZfbKWtP56/cNTe00VOUgsiPkwr5e
+	+c4O1jXVD3pLB2PjIIIC+1+zK4WSBBL4yrwsAWfEanYk8yaOwABHvJAKTum7qlN8hQnD
+	uTsAB+Gop/8Gy1h4iqK75chTiWGu/MCRKI3dsUSuEZNVJ5/XXuLGgKClLiz9O896ZCyO
+	gAsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=azYBVctx/YQmLIIDs5d6ZyiRqY5fJh+TqSk2So+Rr5E=;
-	b=YnSomnGYjk3KbTjXTNrPiU+j2Ek6ZtDeZd4xY92w7G3xEZ0xwaT78N/VY3LNwlMYi2
-	QX5GPrfajyqvZoYAnGyr03Ndvb0eCMOxPfbxf2KSg1WZik+iH36E7hJSLAYG59nsUaKS
-	kMnM9oSaw81A1oStuNKgivmygI1HUQhMa+UfYWpz13vtZkVnlvWZ7H9LoZL0k5aMSrDM
-	c1N+OzcqU9/uM1MkjyXMgh2ZCDstpboY/2audOfJiPI6iEflFDmnTu0dcSbMIkBAy/Tf
-	zyd49kxbzHD6d7Ki97IvyXi7BMcm4M7UcwNMaWLSFQIWaZs8mN1uu6s4m4aIfg60kUb0
-	+AfQ==
-X-Gm-Message-State: APzg51DZ9IV4GumhpM1CYmxjqQ2w75mviDLJO4jJsOAoCKdJ728CtJ+1
-	A5Vbz5iWWOmKmv4KEl4eFYR9+DbuMAM=
-X-Google-Smtp-Source: ANB0VdZCxN/QGaB5WeFKMg6f+0j0sv6K8moie5vNa5t6vJSFoYIP+8kGskWTEdKZZbbixwjCsPPixw==
-X-Received: by 2002:a50:a5e8:: with SMTP id
-	b37-v6mr2815201edc.268.1536229788160; 
-	Thu, 06 Sep 2018 03:29:48 -0700 (PDT)
+	bh=da3pT/ma1xKhaW5Mg9mdrjCENGHaMd1QDlIsh4VsUdE=;
+	b=WB1lzXRFKN0yrv6q3nsbxApzz9+9atglmvrRdbi3n6jXXfbamUI8piPJCC1TqGAHxD
+	gpfDE/IpZfXWAO4cIdkeEjYcGXZivolP8KQA3uWLKjTaH2c1xhyX0wUTlpyMH7ZVHjPI
+	Yu6JX8GxVUmopD4BBgqmPSwUk1jP4BbXPn4kQ4uURc7xPUkJJqo5dphjaKXhwYR+Iu0E
+	YwWBIxN4z7vpA9FgU/hVwFjpX5bLm2nLbBsFdDPf6cYkoWiaOaS/YFPXWrCmUE+fY29B
+	txFC7o7hRGLX8p7d+LmuXhzjLpMl6QrudW9kqc2ob4FyUy5SKgAFnOYIq0oG5HHBmF2j
+	rT2g==
+X-Gm-Message-State: APzg51ARQM4CfrGYaAXvZ/4Qv2leTbOCJtyVZPvMdqYUBKs5hHTcN2H1
+	sXFXPucF/B6M3KbQTxq7ajQh5j40W/U=
+X-Google-Smtp-Source: ANB0VdZYI6e64yIJ7euyW5TEqj3HoY28tSgr/KhfzPXG5wgMWAPh68479fPU5klyhreB92WX1ECv0Q==
+X-Received: by 2002:a50:96c4:: with SMTP id z4-v6mr2875621eda.14.1536229789499;
+	Thu, 06 Sep 2018 03:29:49 -0700 (PDT)
 Received: from localhost.localdomain ([79.140.126.226])
 	by smtp.gmail.com with ESMTPSA id
-	d3-v6sm2495886edi.80.2018.09.06.03.29.47
+	d3-v6sm2495886edi.80.2018.09.06.03.29.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 06 Sep 2018 03:29:47 -0700 (PDT)
+	Thu, 06 Sep 2018 03:29:48 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2018 12:29:18 +0200
-Message-Id: <1536229770-29600-9-git-send-email-alex.kanavin@gmail.com>
+Date: Thu,  6 Sep 2018 12:29:19 +0200
+Message-Id: <1536229770-29600-10-git-send-email-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1536229770-29600-1-git-send-email-alex.kanavin@gmail.com>
 References: <1536229770-29600-1-git-send-email-alex.kanavin@gmail.com>
-Subject: [PATCH 09/21] btrfs-tools: update to 4.17.1
+Subject: [PATCH 10/21] iso-codes: update to 4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,116 +57,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 10:29:47 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 10:29:49 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../btrfs-tools/btrfs-tools_4.17.1.bb              | 44 ++++++++++++++++++++++
- .../btrfs-tools/btrfs-tools_4.17.bb                | 44 ----------------------
- 2 files changed, 44 insertions(+), 44 deletions(-)
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.1.bb
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.bb
+ meta/recipes-support/iso-codes/iso-codes_3.79.bb | 19 -------------------
+ meta/recipes-support/iso-codes/iso-codes_4.1.bb  | 19 +++++++++++++++++++
+ 2 files changed, 19 insertions(+), 19 deletions(-)
+ delete mode 100644 meta/recipes-support/iso-codes/iso-codes_3.79.bb
+ create mode 100644 meta/recipes-support/iso-codes/iso-codes_4.1.bb
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.1.bb
-new file mode 100644
-index 0000000..6b53fbcd
---- /dev/null
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.1.bb
-@@ -0,0 +1,44 @@
-+SUMMARY = "Checksumming Copy on Write Filesystem utilities"
-+DESCRIPTION = "Btrfs is a new copy on write filesystem for Linux aimed at \
-+implementing advanced features while focusing on fault tolerance, repair and \
-+easy administration. \
-+This package contains utilities (mkfs, fsck, btrfsctl) used to work with \
-+btrfs and an utility (btrfs-convert) to make a btrfs filesystem from an ext3."
-+
-+HOMEPAGE = "https://btrfs.wiki.kernel.org"
-+
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
-+SECTION = "base"
-+DEPENDS = "util-linux attr e2fsprogs lzo acl python3-setuptools-native"
-+DEPENDS_append_class-target = " udev"
-+RDEPENDS_${PN} = "libgcc"
-+
-+SRCREV = "7faaca0d9f78f7162ae603231f693dd8e1af2a41"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
-+           file://0001-Makefile-build-mktables-using-native-gcc.patch \
-+           file://0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch \
-+           file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
-+           "
-+
-+inherit autotools-brokensep pkgconfig manpages distutils3-base
-+
-+CLEANBROKEN = "1"
-+
-+PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
-+EXTRA_OECONF = " --disable-zstd"
-+EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
-+
-+do_configure_prepend() {
-+	# Upstream doesn't ship this and autoreconf won't install it as automake isn't used.
-+	mkdir -p ${S}/config
-+	cp -f $(automake --print-libdir)/install-sh ${S}/config/
-+}
-+
-+S = "${WORKDIR}/git"
-+
-+do_install_append() {
-+    oe_runmake 'DESTDIR=${D}' 'PYTHON_SITEPACKAGES_DIR=${PYTHON_SITEPACKAGES_DIR}' install_python
-+}
-+
-+BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.bb
+diff --git a/meta/recipes-support/iso-codes/iso-codes_3.79.bb b/meta/recipes-support/iso-codes/iso-codes_3.79.bb
 deleted file mode 100644
-index a3690d6..0000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.bb
+index 68d8fdc..0000000
+--- a/meta/recipes-support/iso-codes/iso-codes_3.79.bb
 +++ /dev/null
-@@ -1,44 +0,0 @@
--SUMMARY = "Checksumming Copy on Write Filesystem utilities"
--DESCRIPTION = "Btrfs is a new copy on write filesystem for Linux aimed at \
--implementing advanced features while focusing on fault tolerance, repair and \
--easy administration. \
--This package contains utilities (mkfs, fsck, btrfsctl) used to work with \
--btrfs and an utility (btrfs-convert) to make a btrfs filesystem from an ext3."
+@@ -1,19 +0,0 @@
+-SUMMARY = "ISO language, territory, currency, script codes and their translations"
+-HOMEPAGE = "https://salsa.debian.org/iso-codes-team/iso-codes"
+-BUGTRACKER = "https://salsa.debian.org/iso-codes-team/iso-codes/issues"
 -
--HOMEPAGE = "https://btrfs.wiki.kernel.org"
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 -
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
--SECTION = "base"
--DEPENDS = "util-linux attr e2fsprogs lzo acl python3-setuptools-native"
--DEPENDS_append_class-target = " udev"
--RDEPENDS_${PN} = "libgcc"
+-SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http"
+-SRCREV = "c1d5dd96b33cb815ebc21d2708bc045b1545249d"
 -
--SRCREV = "33d16ffc0d176ff4a217a0491378d20ad34e0a90"
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
--           file://0001-Makefile-build-mktables-using-native-gcc.patch \
--           file://0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch \
--           file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
--           "
--
--inherit autotools-brokensep pkgconfig manpages distutils3-base
--
--CLEANBROKEN = "1"
--
--PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
--EXTRA_OECONF = " --disable-zstd"
--EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
--
--do_configure_prepend() {
--	# Upstream doesn't ship this and autoreconf won't install it as automake isn't used.
--	mkdir -p ${S}/config
--	cp -f $(automake --print-libdir)/install-sh ${S}/config/
--}
+-# inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
+-# are inhibited by allarch
+-DEPENDS = "gettext-native"
 -
 -S = "${WORKDIR}/git"
 -
--do_install_append() {
--    oe_runmake 'DESTDIR=${D}' 'PYTHON_SITEPACKAGES_DIR=${PYTHON_SITEPACKAGES_DIR}' install_python
--}
+-inherit allarch autotools
 -
--BBCLASSEXTEND = "native"
+-FILES_${PN} += "${datadir}/xml/"
+diff --git a/meta/recipes-support/iso-codes/iso-codes_4.1.bb b/meta/recipes-support/iso-codes/iso-codes_4.1.bb
+new file mode 100644
+index 0000000..1761ded
+--- /dev/null
++++ b/meta/recipes-support/iso-codes/iso-codes_4.1.bb
+@@ -0,0 +1,19 @@
++SUMMARY = "ISO language, territory, currency, script codes and their translations"
++HOMEPAGE = "https://salsa.debian.org/iso-codes-team/iso-codes"
++BUGTRACKER = "https://salsa.debian.org/iso-codes-team/iso-codes/issues"
++
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++
++SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http"
++SRCREV = "164802d5fd8c7a8167816fd86a62b286680619f0"
++
++# inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
++# are inhibited by allarch
++DEPENDS = "gettext-native"
++
++S = "${WORKDIR}/git"
++
++inherit allarch autotools
++
++FILES_${PN} += "${datadir}/xml/"
 -- 
 2.7.4
 
