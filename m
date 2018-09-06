@@ -1,47 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2859F796E2
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 62B47795E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 17:25:15 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id t39-v6so13160346qtc.8
+	Thu,  6 Sep 2018 17:29:27 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id g13-v6so7869450qki.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 10:25:16 -0700 (PDT)
+	Thu, 06 Sep 2018 10:29:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=aiPXa1icvGK9U//XI4RuFwLxhoSMO5s13m3q3wFfl38=;
-	b=Tep7e5aG9zpchdbCx79ToH77myI1GYNeQlWwbdRXMkRJerchv6awdMycvWXRESD3/2
-	8M1SOkdli12E8GfNC4pSyC9XsKboWPV6aPINW+mzSPWpcRvEISJf2NzX0FfGc3WF86zZ
-	fw198f68AmyllJ7cbI0DOmSS867dQ8pAS4lJHI70HuA43Het6SsW7Ek31eXUQkF5UJBW
-	PlNVmG7D5nbTKYSqkIE9M465+ybiFPxv7G/N6TGRdDMEN2ODXOVDmBY0a9Xjgge4sJP0
-	0JMJyz91mkGjCGP+SytO8Y3Agc0NCS7U3WUMZftDfbTNtPxQ1Ie0AhDwUZVq8UxVe8Af
-	uqzg==
+	:cc; bh=MYt5znOJSCnYcyPLrV+ttRIc0rkeOVXGgsIYLhYDLpM=;
+	b=RwfJ5zsO6r3WjikBmgPX7V9rwlaerc938r4UyNv8dhErbrIJ932ak3c7fG+ARrzIw1
+	mJzFa4VZZkkOtvMMFbarle1oin9wcTfEIhO16zNxFIMLL20c21+9A7dh2LQdOXvYcmcr
+	XPCo9dw3r0H6wtUmzAe9PhuPZ7GneBwWrnEnp/ETwuTllK8q7AWt29UPS4PVqhn7rkZn
+	LIJHMJN8XX8IW1hZChOpJJDhLd0Jg7BBVSLk1Fjy6qNNZu5EH7kmXJEKNpX10K2TOpaE
+	KCeMLK8oP83+i/DVsEEXCbregfRzKmR3H8B8nI+0QmlQ3SrHKmU3VgkM7q7mQKvACjY8
+	qMxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=aiPXa1icvGK9U//XI4RuFwLxhoSMO5s13m3q3wFfl38=;
-	b=Bt/LoGCeyAJIHvQKW3sL4muwQv9X0mZ2UtphF5ygbON/D+V5571mLdA5ib0gMqPMIN
-	Q1m+aPucRrfXbtYsb770uTRN5yiExfgjr1ylFdpZgnmNohtwLUVGUL93sZ7UfX7NBas/
-	evlnaqEqIgTJd9swae6+xkzp5o3nCIBl1aTgulb5IkgYqEhP6bKIwHALlekbDFenoVDF
-	QURhRR/QjHERBI5EEF3pdbcNH1fqHnucl/1Pe+5krRKsrY7jG9Inz/T0TsqxrN3cbwLL
-	EH/NFm1uNY2w7piLQxvEtJoibxqYfX1A4QgOiC/DzGlpDBh6ZlgHDtA9i4X4utnKRiEc
-	xW9A==
-X-Gm-Message-State: APzg51COsArA2Q3/Yu06VB7yglG6NTv/lDAR45xImkLvSMnD2ojZG9Vh
-	yEMVgIEMHYmkjmyjY6A+DXt1nM5PcyTLAYO8o+I=
-X-Google-Smtp-Source: ANB0VdbGsIYLxHmI650BdIvXdrrhMv9PDJdZRH6SeghOeK94+6cVPodxljlhirNWiHmLf+wWQBp0Ix54jy7ovu1WfNs=
-X-Received: by 2002:ac8:6c8:: with SMTP id j8-v6mr2955085qth.314.1536254715981;
-	Thu, 06 Sep 2018 10:25:15 -0700 (PDT)
+	bh=MYt5znOJSCnYcyPLrV+ttRIc0rkeOVXGgsIYLhYDLpM=;
+	b=m8QHTT9BeldjOJ1xkfXqYhyV4BOEX51612LC4pS3+xSdFp9qRf+i8oTAfSA7g+McnJ
+	GYQTQ7brdk6iOcYjgJRpWSqYCyn5MNNnrpwEsqm8K55z73c8Jp5lm3czt+Fs9RBF9urX
+	JKFhBMF/nyet90GUtzITC75JFgIO4ZHle49exNo/yBNn3VaaJ44YGRR5Uoud9E6ma7Lw
+	crfPe2fw/tR3uPWwUibjO04MUnXPde9uVFzqPye3OeLX6JHNNC18uP0cHgoxyqyMJLBX
+	tEWFoVSrAnr8vDrUo124SFkaTMdRH108kk6W66cJhzanqOfqJJ3+Suo2kP3N69F9Yd2J
+	ia7w==
+X-Gm-Message-State: APzg51AKiMJDuaJaJIAR6XR4KnUXPz7bga9/GQhUs7T/utvU6qnhqZLT
+	aao0wWYpRW9dJ211/w8FseN7Yw/71XY7nDAUImFC3Q==
+X-Google-Smtp-Source: ANB0VdabvuZXLNDGfAAqgEjaZfMoxHgQHRMDDiejQlLdPitIHlC+JzmKa+0Xd1Gii7sz/Env2E72s7mkKdW8XNLWNKQ=
+X-Received: by 2002:a37:c04f:: with SMTP id
+	o76-v6mr2897308qki.315.1536254968106; 
+	Thu, 06 Sep 2018 10:29:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180906150727.24915-1-ross.burton@intel.com>
-In-Reply-To: <20180906150727.24915-1-ross.burton@intel.com>
+References: <20180906135533.18664-1-trevor@toganlabs.com>
+In-Reply-To: <20180906135533.18664-1-trevor@toganlabs.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 6 Sep 2018 10:24:48 -0700
-Message-ID: <CAMKF1so6CnZzfYsNDymQbH+R_v60XCgEJfuDQ2jcRf7PqY0caQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 6 Sep 2018 10:29:00 -0700
+Message-ID: <CAMKF1sqJ-ZS6K9CLf+dk9NP46tzdZT8Hg80yoD6_nO8D0pKVxw@mail.gmail.com>
+To: trevor@toganlabs.com
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: disable LLVM on x86
+Subject: Re: [PATCH] gdb: PACKAGECONFIG for tui
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 17:25:15 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 17:29:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 6, 2018 at 8:07 AM Ross Burton <ross.burton@intel.com> wrote:
+On Thu, Sep 6, 2018 at 6:56 AM Trevor Woerner <trevor@toganlabs.com> wrote:
 >
-> Whilst turning on the LLVM drivers is a honourable goal, the performance impact
-> is *huge*.  Instead let specific BSPs turn it on as required.
+> Allow the tui (Terminal User Interface) option to be set via a PACKAGECONFIG.
 >
 
-Can we turn this into a variable so we can add it in a bbappend ?
+seems harmless
 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Trevor Woerner <trevor@toganlabs.com>
 > ---
->  meta/recipes-graphics/mesa/mesa.inc | 3 ---
->  1 file changed, 3 deletions(-)
+>  meta/recipes-devtools/gdb/gdb-common.inc | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-> index dd626d9f00c..5afd0db4b7d 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -48,9 +48,6 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
->                    "
+> diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+> index 039577b8e2..52476b6146 100644
+> --- a/meta/recipes-devtools/gdb/gdb-common.inc
+> +++ b/meta/recipes-devtools/gdb/gdb-common.inc
+> @@ -20,7 +20,7 @@ EXTRA_OEMAKE = "'SUBDIRS=intl mmalloc libiberty opcodes bfd sim gdb etc utils'"
 >
-> -PACKAGECONFIG_append_x86 = " gallium-llvm gallium r600"
-> -PACKAGECONFIG_append_x86-64 = " gallium-llvm gallium r600"
-> -
->  # "gbm" requires "dri", "opengl"
->  PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
+>  EXPAT = "--with-expat --with-libexpat-prefix=${STAGING_DIR_HOST}"
+>
+> -EXTRA_OECONF = "--disable-gdbtk --disable-tui --disable-x --disable-werror \
+> +EXTRA_OECONF = "--disable-gdbtk --disable-x --disable-werror \
+>                  --with-curses --disable-multilib --disable-sim \
+>                  --without-lzma --without-guile \
+>                  ${GDBPROPREFIX} ${EXPAT} \
+> @@ -36,6 +36,8 @@ PACKAGECONFIG ??= "readline"
+>  PACKAGECONFIG[readline] = "--with-system-readline,--without-system-readline,readline"
+>  PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,python3,python3 python3-codecs"
+>  PACKAGECONFIG[babeltrace] = "--with-babeltrace,--without-babeltrace,babeltrace"
+> +# ncurses is already a hard DEPENDS, but would be added here if it weren't
+> +PACKAGECONFIG[tui] = "--enable-tui,--disable-tui"
+>
+>  GDBPROPREFIX = "--program-prefix=''"
 >
 > --
-> 2.11.0
+> 2.17.0.582.gccdcbd54c
 >
 > --
 > _______________________________________________
