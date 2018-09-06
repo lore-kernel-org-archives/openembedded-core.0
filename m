@@ -1,51 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F10927965B
+Return-Path: <Kexin.Hao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D0AF66093A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 13:08:13 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id 13-v6so20413223ois.1
+	Thu,  6 Sep 2018 13:17:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w86DHYa6019156
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 06:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mUTaDQ3hwxrJV58ccplKia4o/FSO5uRxEp7udOFydVA=;
-	b=Zo2UX2EFuoM7haiJ+YJ8ggVolLYNo6Cwxzdb1AvTABuacRa20nPzKhv4SCW84PQZ0D
-	cGV3w5SJNkX8xqiMoYs5P102HdpNC7N0TKYNl3JqNwI7nbLcJsT2OUNkOj8q3b4MjsgE
-	6Xf420HrxbaMDOdh0SolNROImutmDoY3WJNJI2cgZJROk8BV7Wn89csRwUhuE4HS1SqE
-	UD5e/dRGfUBMQvPJ5WyunbPQMq+qJmeijaFYWtf6hHMsH921Xrr90NtjFvOSFm2vQ34G
-	azzpSyBRlxoIch9/uJiMPoZhMAFe/zTm93NiTB6RH1jfM7hmh7Y3xCL6YDkRVxgAhzBo
-	CgSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mUTaDQ3hwxrJV58ccplKia4o/FSO5uRxEp7udOFydVA=;
-	b=EX/6hd9YABBZLHQ0jYUtOaIWJ0G2oXSQ5Az7NlHBLaxUmLsTuogyspb3DrVSVnGamG
-	G6JeYvcdGXh7uIloGrM9zv+T+7c9bPIikEAkKxGZXQPofcyZ0nhDrcpbEQ9NI7p6VuVJ
-	bFH9FhrXxwiYAyXgv5zxtup4DXX5F3JnlPcskdogfySTIVFsfJ3uL7LHvizeCipVTokR
-	Cs8PS8roQ/w/Zg9j6X8azagLTCOvJ0l4xia6WdrjyGbzgCp/H4KcAZtn14Fr9RxpRoJV
-	fT/+tOIO5GCiqsE4gm+O59vtgumWDoWZnlsqkBZdFgnOjQMQsTxRQftIwHFwZtMT3rME
-	gadw==
-X-Gm-Message-State: APzg51Bod2na7twc4IwutpFCzHpzmabIQaQFR4Kk1gBslH+2YduKfovB
-	1o+50Ua4HEoFeSvy6D/GdT6XWGpEAIIyAnoLfEcpfw==
-X-Google-Smtp-Source: ANB0VdaPfqNgRrT+wPIYr6JwF7nxJicTdKrAGF0uHVfTW5EmTX2PMCqtgwGJkrbPL1AM6w58+6HWc2ZBVdRHBTdQeXY=
-X-Received: by 2002:aca:6a48:: with SMTP id
-	f69-v6mr2645891oic.279.1536239294874; 
-	Thu, 06 Sep 2018 06:08:14 -0700 (PDT)
+	Thu, 6 Sep 2018 06:17:34 -0700 (PDT)
+Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 6 Sep 2018 06:17:33 -0700
+From: Kevin Hao <kexin.hao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Sep 2018 21:11:20 +0800
+Message-ID: <20180906131120.87405-1-kexin.hao@windriver.com>
+X-Mailer: git-send-email 2.14.4
 MIME-Version: 1.0
-Received: by 2002:ac9:385d:0:0:0:0:0 with HTTP;
-	Thu, 6 Sep 2018 06:07:54 -0700 (PDT)
-In-Reply-To: <3ad79c14cede673c5e42a24ee5d50866f3cee092.1536212473.git.raj.khem@gmail.com>
-References: <cover.1536212473.git.raj.khem@gmail.com>
-	<3ad79c14cede673c5e42a24ee5d50866f3cee092.1536212473.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 6 Sep 2018 14:07:54 +0100
-Message-ID: <CAJTo0LaQWkmo_X7L-BG36BukRC+mOk56dYdBk82Y69BBt_RU2w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gdb: Update to 8.2
+Subject: [PATCH] wic: Introduce the --use-label partition parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,24 +30,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 13:08:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Sep 2018 13:17:34 -0000
+Content-Type: text/plain
 
-On 6 September 2018 at 06:42, Khem Raj <raj.khem@gmail.com> wrote:
-> --- a/meta/recipes-devtools/gdb/gdb-8.1.1.inc
-> +++ b/meta/recipes-devtools/gdb/gdb-8.2.inc
-> @@ -15,9 +15,6 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
->             file://0008-Use-exorted-definitions-of-SIGRTMIN.patch \
->             file://0009-Change-order-of-CFLAGS.patch \
->             file://0010-resolve-restrict-keyword-conflict.patch \
-> -           file://package_devel_gdb_patches_120-sigprocmask-invalid-call.patch \
-> -           file://gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch \
-> +           file://0011-Fix-invalid-sigprocmask-call.patch \
->  "
-> -SRC_URI[md5sum] = "372fa63a53adeee1bfbfd581d8da9e34"
-> -SRC_URI[sha256sum] = "97dcc3169bd430270fc29adb65145846a58c1b55cdbb73382a4a89307bdad03c"
+We can use this parameter to make the wic use the label to name a
+partition in /etc/fstab.
 
-The checksums disappeared.
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+---
+ scripts/lib/wic/help.py                  | 18 +++++++++++++-----
+ scripts/lib/wic/ksparser.py              |  7 ++++++-
+ scripts/lib/wic/partition.py             |  1 +
+ scripts/lib/wic/plugins/imager/direct.py |  2 ++
+ 4 files changed, 22 insertions(+), 6 deletions(-)
 
-Ross
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index 842b868a575a..e250e130ef46 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -866,11 +866,11 @@ DESCRIPTION
+        Partitions with a <mountpoint> specified will be automatically mounted.
+        This is achieved by wic adding entries to the fstab during image
+        generation. In order for a valid fstab to be generated one of the
+-       --ondrive, --ondisk or --use-uuid partition options must be used for
+-       each partition that specifies a mountpoint.  Note that with --use-uuid
+-       and non-root <mountpoint>, including swap, the mount program must
+-       understand the PARTUUID syntax.  This currently excludes the busybox
+-       versions of these applications.
++       --ondrive, --ondisk, --use-uuid or --use-label partition options must
++       be used for each partition that specifies a mountpoint.  Note that with
++       --use-{uuid,label} and non-root <mountpoint>, including swap, the mount
++       program must understand the PARTUUID or LABEL syntax.  This currently
++       excludes the busybox versions of these applications.
+ 
+ 
+        The following are supported 'part' options:
+@@ -945,6 +945,14 @@ DESCRIPTION
+                         label is already in use by another filesystem,
+                         a new label is created for the partition.
+ 
++         --use-label: This option is specific to wic. It makes wic to use the
++                      label in /etc/fstab to specify a partition. If the
++                      --use-label and --use-uuid are used at the same time,
++                      we prefer the uuid because it is less likely to cause
++                      name confliction. We don't support to use this parameter
++                      on a root partition since the kernel can't understand the
++                      LABEL syntax.
++
+          --active: Marks the partition as active.
+ 
+          --align (in KBytes): This option is specific to wic and says
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index e590b2fe3c0d..220495b76654 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -141,6 +141,7 @@ class KickStart():
+                                    'squashfs', 'vfat', 'msdos', 'swap'))
+         part.add_argument('--mkfs-extraopts', default='')
+         part.add_argument('--label')
++        part.add_argument('--use-label', action='store_true')
+         part.add_argument('--no-table', action='store_true')
+         part.add_argument('--ondisk', '--ondrive', dest='disk', default='sda')
+         part.add_argument("--overhead-factor", type=overheadtype)
+@@ -197,10 +198,14 @@ class KickStart():
+                                              (confpath, lineno, err))
+                     if line.startswith('part'):
+                         # SquashFS does not support UUID
+-                        if parsed.fstype == 'squashfs' and parsed.use_uuid:
++                        if parsed.fstype == 'squashfs' and (parsed.use_uuid or parsed.use_label):
+                             err = "%s:%d: SquashFS does not support UUID" \
+                                   % (confpath, lineno)
+                             raise KickStartError(err)
++                        if parsed.use_label and not parsed.label:
++                            err = "%s:%d: Must set the label with --label" \
++                                  % (confpath, lineno)
++                            raise KickStartError(err)
+                         # using ArgumentParser one cannot easily tell if option
+                         # was passed as argument, if said option has a default
+                         # value; --overhead-factor/--extra-space cannot be used
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 5054779b1b6b..3da7e23e617e 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -47,6 +47,7 @@ class Partition():
+         self.fsopts = args.fsopts
+         self.fstype = args.fstype
+         self.label = args.label
++        self.use_label = args.use_label
+         self.mkfs_extraopts = args.mkfs_extraopts
+         self.mountpoint = args.mountpoint
+         self.no_table = args.no_table
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 81583e97b9f7..bb14a334b2ce 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -155,6 +155,8 @@ class DirectPlugin(ImagerPlugin):
+                         device_name = "UUID=%s" % part.fsuuid
+                 else:
+                     device_name = "PARTUUID=%s" % part.uuid
++            elif part.use_label:
++                device_name = "LABEL=%s" % part.label
+             else:
+                 # mmc device partitions are named mmcblk0p1, mmcblk0p2..
+                 prefix = 'p' if  part.disk.startswith('mmcblk') else ''
+-- 
+2.14.4
+
 
