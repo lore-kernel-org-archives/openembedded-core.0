@@ -1,31 +1,28 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CA99E79261
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E91779261
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 01:24:34 +0000 (UTC)
+	Thu,  6 Sep 2018 02:06:59 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w861OYoW006506
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8626uxE009796
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 5 Sep 2018 18:24:34 -0700 (PDT)
-Received: from [128.224.162.173] (128.224.162.173) by ALA-HCA.corp.ad.wrs.com
+	Wed, 5 Sep 2018 19:06:56 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Wed, 5 Sep 2018 18:24:34 -0700
-To: Andrea Adami <andrea.adami@gmail.com>
-References: <1535618185-236305-1-git-send-email-mingli.yu@windriver.com>
-	<5B88E0EA.9070107@windriver.com>
-	<CAAQYJAsXzHRXGoS=d_155-FLVRUoUG3Hw+PHB67Xmz_bExMODw@mail.gmail.com>
-	<5B8C8DC8.8090901@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5B908129.3010802@windriver.com>
-Date: Thu, 6 Sep 2018 09:21:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
-MIME-Version: 1.0
-In-Reply-To: <5B8C8DC8.8090901@windriver.com>
-X-Originating-IP: [128.224.162.173]
-Cc: Patches and discussions about the oe-core layer
+	Wed, 5 Sep 2018 19:06:55 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kexec-tools: fix for "Unhandled rela relocation: R_X86_64_PLT32" error
+References: <20180905165227.29435-1-richard.purdie@linuxfoundation.org>
+	<20180905165227.29435-7-richard.purdie@linuxfoundation.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <a7d35d68-e546-408f-561e-c5a3a8f4aaa5@windriver.com>
+Date: Thu, 6 Sep 2018 10:11:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <20180905165227.29435-7-richard.purdie@linuxfoundation.org>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [PATCH 7/8] busybox: Put klogd/syslogd alternative links in syslog package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,141 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 01:24:35 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 06 Sep 2018 02:07:00 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Ping.
+Hi Richard,
 
-Thanks,
+I think my previous patch has covered this case.
 
-On 2018年09月03日 09:26, Yu, Mingli wrote:
+   git://git.pokylinux.org/poky-contrib ChenQi/busybox-alternatives
+   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/busybox-alternatives
+
+Chen Qi (1):
+   busybox: fix the alternatives logic
+
+
+Is there some problem with the patch?
+
+Best Regards,
+Chen Qi
+
+On 09/06/2018 12:52 AM, Richard Purdie wrote:
+> Currently these are in ${PN} and ${PN}-syslog may get replaced by
+> other packages but update-alternatives would error in the postinst
+> if other files were installed first. Avoid the problems by putting
+> the links in the correct package.
 >
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   meta/recipes-core/busybox/busybox.inc | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> On 2018年08月31日 22:07, Andrea Adami wrote:
->> On Fri, Aug 31, 2018 at 8:34 AM Yu, Mingli <mingli.yu@windriver.com>
->> wrote:
->>>
->>> Ping.
->>>
->> Hi,
->> FYI it is in master upstream as of  b9de21ef51a7 so you could just
->> upgrade the recipe.
->> Cheers
->> Andrea
->
-> Thanks Andrea! But the current kexec-tools version is already 2.0.17
-> which is the latest version.
->
-> Thanks,
->
->>
->>
->>
->>> On 2018年08月30日 16:36, mingli.yu@windriver.com wrote:
->>>> From: Mingli Yu <Mingli.Yu@windriver.com>
->>>>
->>>> In response to a change in binutils, commit b21ebf2fb4c
->>>> (x86: Treat R_X86_64_PLT32 as R_X86_64_PC32) was applied to
->>>> the linux kernel during the 4.16 development cycle and has
->>>> since been backported to earlier stable kernel series. The
->>>> change results in the failure message as below when rebooting
->>>> via kexec.
->>>>    # kexec -l /boot/bzImage --append="console=ttyS0,115200
->>>> root=/dev/sda1"
->>>>    Unhandled rela relocation: R_X86_64_PLT32
->>>>
->>>> Fix this by replicating the change in kexec.
->>>>
->>>> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
->>>> ---
->>>>    ...or-Unhandled-rela-relocation-R_X86_64_PLT.patch | 41
->>>> ++++++++++++++++++++++
->>>>    meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb    |  1 +
->>>>    2 files changed, 42 insertions(+)
->>>>    create mode 100644
->>>> meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
->>>>
->>>>
->>>> diff --git
->>>> a/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
->>>> b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
->>>>
->>>> new file mode 100644
->>>> index 0000000..e0cced5
->>>> --- /dev/null
->>>> +++
->>>> b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
->>>>
->>>> @@ -0,0 +1,41 @@
->>>> +From b9de21ef51a7ceab7122a707c188602eae22c4ee Mon Sep 17 00:00:00 2001
->>>> +From: Chris Clayton <chris2553@googlemail.com>
->>>> +Date: Mon, 20 Aug 2018 12:00:31 +0100
->>>> +Subject: [PATCH] kexec: fix for "Unhandled rela relocation:
->>>> R_X86_64_PLT32" error
->>>> +
->>>> +In response to a change in binutils, commit b21ebf2fb4c
->>>> +(x86: Treat R_X86_64_PLT32 as R_X86_64_PC32) was applied to
->>>> +the linux kernel during the 4.16 development cycle and has
->>>> +since been backported to earlier stable kernel series. The
->>>> +change results in the failure message in $SUBJECT when
->>>> +rebooting via kexec.
->>>> +
->>>> +Fix this by replicating the change in kexec.
->>>> +
->>>> +Upstream-Status:
->>>> Backport[https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git/commit/?id=b9de21ef51a7ceab7122a707c188602eae22c4ee]
->>>>
->>>> +
->>>> +Signed-off-by: Chris Clayton <chris2553@googlemail.com>
->>>> +Acked-by: Baoquan He <bhe@redhat.com>
->>>> +Tested-by: Bhupesh Sharma <bhsharma@redhat.com>
->>>> +Acked-by: Bhupesh Sharma <bhsharma@redhat.com>
->>>> +Signed-off-by: Simon Horman <horms@verge.net.au>
->>>> +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
->>>> +---
->>>> + kexec/arch/x86_64/kexec-elf-rel-x86_64.c | 1 +
->>>> + 1 file changed, 1 insertion(+)
->>>> +
->>>> +diff --git a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
->>>> b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
->>>> +index 7fdde73..db85b44 100644
->>>> +--- a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
->>>> ++++ b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
->>>> +@@ -79,6 +79,7 @@ void machine_apply_elf_rel(struct mem_ehdr
->>>> *UNUSED(ehdr),
->>>> +                     goto overflow;
->>>> +             break;
->>>> +     case R_X86_64_PC32:
->>>> ++    case R_X86_64_PLT32:
->>>> +             *(uint32_t *)location = value - address;
->>>> +             break;
->>>> +     default:
->>>> +--
->>>> +2.7.4
->>>> +
->>>> diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
->>>> b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
->>>> index f4ec586..dd46901 100644
->>>> --- a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
->>>> +++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
->>>> @@ -18,6 +18,7 @@ SRC_URI =
->>>> "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
->>>>
->>>> file://0010-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch \
->>>>               file://kexec-x32.patch \
->>>>               file://0001-Disable-PIE-during-link.patch \
->>>> +
->>>> file://0001-kexec-fix-for-Unhandled-rela-relocation-R_X86_64_PLT.patch
->>>> \
->>>>               "
->>>>
->>>>    SRC_URI[md5sum] = "8e071ca473694a71e4ae60ed7ef6f377"
->>>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+> index 586d5342e60..c26ef56bf78 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -367,7 +367,10 @@ python do_package_prepend () {
+>               # Match coreutils
+>               if alt_name == '[':
+>                   alt_name = 'lbracket'
+> -            d.appendVar('ALTERNATIVE_%s' % (pn), ' ' + alt_name)
+> +            if alt_name == 'klogd' or alt_name == 'syslogd':
+> +                d.appendVar('ALTERNATIVE_%s-syslog' % (pn), ' ' + alt_name)
+> +            else:
+> +                d.appendVar('ALTERNATIVE_%s' % (pn), ' ' + alt_name)
+>               d.setVarFlag('ALTERNATIVE_LINK_NAME', alt_name, alt_link_name)
+>               if os.path.exists('%s%s' % (dvar, target)):
+>                   d.setVarFlag('ALTERNATIVE_TARGET', alt_name, target)
+
+
 
