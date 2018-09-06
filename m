@@ -1,51 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A74079519
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com
+	[209.85.222.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5788579519
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 08:17:16 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id j25-v6so15929802wmc.1
+	Thu,  6 Sep 2018 08:18:16 +0000 (UTC)
+Received: by mail-ua1-f67.google.com with SMTP id y10-v6so8045211uao.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 01:17:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=VE63MdbPU+m55ACbSu5wNXVB2etaUlaf2XHYLkawoME=;
-	b=aYb1JuAT8h2WIPlA5rX8zZM806AhWYlPVSOELsUcPOp6xiTtAAKucp6bvkz/SQlxFi
-	n6lbTzc0b6GBQf4g/rA2Qgu+d9EJlNFSv2FUOlmHz27fcD8nYED7fOF6RMmTpfWJvVSh
-	76k1Vxt8jUkCnsMzvvnn0wVkuYQ9t9iHbbDNI=
+	Thu, 06 Sep 2018 01:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=kDM6qrNSfWPK/HF04+ECkPr9m6bk1DchsxGQ22mnl4c=;
+	b=BvgzY8Kuu2zcgDvtlknQW2SZ5YkUrb3RiPOYhUYT9E7A0h0YXexSjDnj37YZKmzPJK
+	+/VYk9fQeIOajSTpJ5dIhQNMxYACSlyQDIl4DOwHk1Lti+dRGEcOXGzo26HFaBiOD9a8
+	VN0HwW2j+JwrA7dzjeHy8JAG55b7ImT2yw2X8ApZFLbh1hKN7XKnrB/YLs3iXnkN2nvn
+	dKm8ZrZ8yWOit7QBVJoGc6xn1kYItb74PwEzmcgLI68Qyc5SMWu2dJiwpzVG+THxgheK
+	ChLeOk3xoCRcfNUE9YIMIoWOhn9tyutzd1nNIfRxQGEHQweCTkoSB2l9LywMUygD7MhL
+	ennw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=VE63MdbPU+m55ACbSu5wNXVB2etaUlaf2XHYLkawoME=;
-	b=iGOMuJa3wb4SX3TX4JxOsqZHi2xKJ81Eg+QCEHHk6SylnpV3KXn2TdMW8g9XsuclJz
-	++0lfG62I9PxAqbLras9nTFv0f6ToYCXkX+H0klYDkRNtWt11jp/trw/tLW9zKqjmGFg
-	vFuSBehxEhPgeAIlACtxGctnP8qHFQfYE5rH1Ibb8JMaYh4J3uCY5AexsKsYUJcssHmn
-	Nqsv9oUfBTMSd3rFg08XawylHsBIc3lU2q7BsE6vlW4aZc5rSugt6Itext7yRL1sK+ge
-	ygw+IBrWCXd7o+27VOBACA4ipGLfYbXwJQLJjGfGwA/VQjgvrJSv2HO7HUDUB3fr99P3
-	oycg==
-X-Gm-Message-State: APzg51A/sa2V7yUW64sDCbA7LgAR9A+LAXXADxd/SGmGpeI01ObnLIfi
-	ZcXpc1oUJlRYBFGVgrt6bYa4p1GM4Yk=
-X-Google-Smtp-Source: ANB0VdZf5XGbiAKE8A10BzNicPFwMsZYcjDr3re2WoHOjM/+VwuHOzXTlhm5qpWpzMJ1yDcB/q55HA==
-X-Received: by 2002:a1c:c3:: with SMTP id 186-v6mr1356597wma.126.1536221837050;
-	Thu, 06 Sep 2018 01:17:17 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	139-v6sm7077394wmp.4.2018.09.06.01.17.15
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 06 Sep 2018 01:17:15 -0700 (PDT)
-Message-ID: <cea8be2755a95002fb28718121baa756a7e4f668.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 06 Sep 2018 09:17:14 +0100
-In-Reply-To: <57018506-c661-a554-01a9-42f4de2cabb9@windriver.com>
-References: <20180905165227.29435-1-richard.purdie@linuxfoundation.org>
-	<57018506-c661-a554-01a9-42f4de2cabb9@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/8] python: Run pybench once for optimisation task in pgo
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=kDM6qrNSfWPK/HF04+ECkPr9m6bk1DchsxGQ22mnl4c=;
+	b=WndSfgTCiNyB307j9yBqFknp3XB/cF9JTNpVzKRqY2y1IrFeHgBDDmVTmj49nq9giH
+	6Nxh33zBSduzgKaF8XAqAWP75xbxFwSdE9vai4YbVEFQchocZlLuJxY97C029U3payW0
+	BPc8giSGjmCZqm7kFxlDXxAXR+zi5TUJKbw1VGptHbyxhZyjQCn1dmj3g6j0432dwnk+
+	B41A9QrMrtnHFa0YfJkFOv9IRR0OJQ+DUrRdo420/xH6LFVprrsdZUYCKnWVBIMSh7OR
+	3t4D1F+VuEgXEGejmWfN2dDKy6BYVkTNZR2oZyipuxm0SUjLqtJdFNMGIVxGLqV+YuoU
+	ftDQ==
+X-Gm-Message-State: APzg51AjCcTRghmEk49+qfmnaUfxPzG8G/vli5yq9zz8a2j3tz4xLSmO
+	8h1roG+Fcdlxtv5HVsbpFwyMUA43X6Es795ub7U=
+X-Google-Smtp-Source: ANB0VdbvA8t+eX/Somuw8eLuXlyr1to22LAIru+YzKRPZECBDGWItSMwrAXsoMH29zGwYOTaspksmWVm8vm1Jztx2Z4=
+X-Received: by 2002:a9f:24ae:: with SMTP id 43-v6mr553517uar.181.1536221897162;
+	Thu, 06 Sep 2018 01:18:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAO5Uq5SjWvxmEXisPRmgM92JaGRHgAdd0qoCsTb=P=1PDzh+fg@mail.gmail.com>
+	<4b1aadc2-475b-df41-270c-ffbfbcf086c1@siemens.com>
+	<e24b16d0-eab7-da62-d4a6-aa517809158b@gmail.com>
+In-Reply-To: <e24b16d0-eab7-da62-d4a6-aa517809158b@gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Thu, 6 Sep 2018 09:18:05 +0100
+Message-ID: <CAO5Uq5QY2nb3ygKzPGNrtf+7wpqtpy6jAb=91y6nyf2mT4ryDw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: systemd/busybox fsck fail to run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,45 +55,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 08:17:16 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 08:18:16 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-09-06 at 16:15 +0800, Robert Yang wrote:
-> What's the fault if I don't run it, please ? This is very slow, here
-> are some rough thoughts to speed it up:
-> 
-> 1) Make it optional to run, and default to no if there isn't any
-> faults without running it.
+On Wed, Sep 5, 2018 at 9:25 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+>
+>
+> On 9/5/18 5:46 AM, Andrej Valek wrote:
+> > Hi Alex,
+> >
+> > There could be multiple options, how to handle this.
+> >
+> > My 2cents about this problem:
+> >  1. Use update-alternatives to handle this
+> >  2. Rework busybox itself to handle this option
+> >  3. Just create a patch to ignore this option
+> >
+>
+> I am not sure if systemd-fsck is supposed to work with anything other
+> than util-linux and e2progfs tools. So lets add a hard dependency in
+> systemd for this.
+>
 
-Without running it, python is not profile optimised and runs slower.
+I started prepping this change and then realised why I'm seeing
+this... I've been chopping away at image size so am running with
+NO_RECOMMENDATIONS in my image recipe and we currently have
+util-linux-fsck as a RRECOMMENDS not an RDEPEND, so I end up not
+taking it.
 
-> 2) Use qemu-kvm to run the tests if qemu kvm has been setup (I tried
-> it, it can
->     reduce form 12m -> 4m, saved 8 mins:
->     * Without kvm
->       $ bitbake python3 -ccleansstate && time bitbake python3
->       real    12m28.070s
->       user    0m1.316s
->       sys     0m0.184s
-> 
->     * With kvm:
->     real    3m53.781s
->     user    0m1.080s
->     sys     0m0.220s
-> 
->    We may need a oe-core/scripts/qemu-kvm-check to check strictly
-> whether kvm
->    can be used or not.
-> 
-> Please feel free to give your comments.
+But... my feeling is we should probably still make it a hard
+dependency as it doesn't seem to me that it meets the definition of
+"packages that extends the usability of a package being built".
 
-Ross has some patches coming in this area which should improve things a
-lot so I'd suggest we wait for those. I merged the n10 -> n1 change
-simply because it was an easy fix to same some time whilst the other
-patches a debugged.
+> > Cheers,
+> > Andrej
+> >
+> > On 09/05/18 10:37, Alex Kiernan wrote:
+> >> I've just come across a box with a corrupt filesystem which wasn't
+> >> being cleaned (using systemd and busybox):
+> >>
+> >> Aug 29 16:03:22 localhost systemd-fsck[143]: read_bad_blocks_file: No
+> >> such file or directory while trying to open -M
+> >> Aug 29 16:03:22 localhost systemd-fsck[143]: Warning: fsck.ext4
+> >> /dev/mmcblk0p4 terminated by signal 8
+> >> Aug 29 16:03:22 localhost systemd-fsck[143]: fsck failed with exit status 8.
+> >> Aug 29 16:03:22 localhost systemd-fsck[143]: Ignoring error.
+> >> Aug 29 16:03:22 localhost systemd[1]:
+> >> systemd-fsck@dev-mmcblk0p4.service: cgroup is empty
+> >> Aug 29 16:03:22 localhost systemd[1]:
+> >> systemd-fsck@dev-mmcblk0p4.service: Child 143 belongs to
+> >> systemd-fsck@dev-mmcblk0p4.service.
+> >> Aug 29 16:03:22 localhost systemd[1]:
+> >> systemd-fsck@dev-mmcblk0p4.service: Main process exited, code=exited,
+> >> status=0/SUCCESS
+> >> Aug 29 16:03:22 localhost systemd[1]:
+> >> systemd-fsck@dev-mmcblk0p4.service: Changed start -> exited
+> >> Aug 29 16:03:22 localhost systemd[1]:
+> >> systemd-fsck@dev-mmcblk0p4.service: Job
+> >> systemd-fsck@dev-mmcblk0p4.service/start finished, result=done
+> >> Aug 29 16:03:22 localhost systemd[1]: Started File System Check on
+> >> /dev/mmcblk0p4.
+> >>
+> >> It turns out systemd-fsck unconditionally passes `-l` to lock the filesystem:
+> >>
+> >> https://github.com/systemd/systemd/blame/master/src/fsck/fsck.c#L408
+> >>
+> >> which busybox fsck doesn't interpret and so passes on to fsck.ext4,
+> >> which then interprets it as a badblocks file...
+> >>
+> >> What's the right answer here? Add a patch to busybox fsck so it just
+> >> ignores `-l`, or do we need something more sophisticated?
+> >>
+> >> Obviously swapping in util-linux-fsck works around the problem.
+> >>
+>
 
-Cheers,
 
-Richard
+-- 
+Alex Kiernan
 
