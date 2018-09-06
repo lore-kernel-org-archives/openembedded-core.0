@@ -1,50 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 73A4F795CF
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C66A7964D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 11:16:50 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id s14-v6so1985074wrw.6
+	Thu,  6 Sep 2018 11:16:58 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id t25-v6so10791467wmi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 04:16:51 -0700 (PDT)
+	Thu, 06 Sep 2018 04:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=wnczhCc8fFW97tPXY401FG/YF0TYghbEASFTQXzWUvw=;
-	b=sF1K8tkeU7rEac76PdF0TNJoCYrqyVi4klCFojAApsAw6d5XQBNqyp3tCoV+81lGo2
-	1nYyTIU9GAG3l+vUqHubroccRd9Tl45PZfHS0JfA6S46WXHHJ4DeCD3XKx5GwdP3Lc+t
-	1gAhZQnv0MRZGhPRd4R+Oao9RWQ7k9uTO8yfexOGLy3j9CYP31kJK9JanIo7DMwWWoGI
-	XLAK8SkkVPzd7WYrIfZU8zuPEOUyhdalDRfyo5gbfm+0zzya41qP1YJF8XBkjkMqIIcd
-	K0X4r8TBMYAu/QKDrrOfYn360+FZsjDJVrsDKMBwYq1Xn21aIF7L2beGOLCzdDA8ngzu
-	aZgg==
+	bh=JWtaV1ejrbgSuwS1CWTu/1R84vGNHr704OVugpdTipo=;
+	b=WISjA7h/WdsLQbU+OIfvB3RMv7Si7C8GcsCHCvMAKwS98xRBkDPX8+uum+IeKCDQSn
+	IWCUiVCNY7GN20pVSniNeALb/gp1lUH1ChqwHAYACTJyqyS1+uVFTNm9GZjBM4DqsMj3
+	HFDiWMjP0Y9u8npYhC0B9ZhpfE1dO3EaMO6im9RZ1FVFWoWz2zI3eioV3kwkezwHR0Wb
+	zHwiR67z+qARsuxna5HPqK9fvDMPkCPEj94zK/pE4sARY4gXp67VKJIogeKa9DAWy6zQ
+	u4ponslzKdaaHcZfWdNRCDFkGzvCCMOvdN2MjPagEUj4xq0rQpnd4tNn7rPaYz4A0/Mt
+	RdiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=wnczhCc8fFW97tPXY401FG/YF0TYghbEASFTQXzWUvw=;
-	b=IomHNWpJog/uEvKYLopTCyfv32EcqPSz+FvYbD30yhR/3Y/KufQ2kVlwcj2pUzon27
-	d5qeOLQjjEaVqoKOva+UI0HlYE6nyGP/FpfrvV6Btso4Ij+X3MjqvsuZe0w7aUsOF6Iz
-	afvEbGnY5b/aqH6wPAotj5VVIays+dOcu/zJRXN1cbW2oTGuK3qwuG7CVRDaRXxA3KPS
-	wbN3w+JkY6hpG66IFo5GMIaPUTT3X6Po+xH7jqmCqg41I160lVxcsRyqjoxEUjbt01Gi
-	z1RHNhPLUeu6lv32Cbz91cHY1cD8ZTdcR8NbURoWHLf/WZtpUQChjOTHT8VpY8lSpkmB
-	K7aQ==
-X-Gm-Message-State: APzg51D7mJ7au8xAo2EMRzsY8V7CR+NNn3uwM16CaEqkVUHnTHOB8mmi
-	apFU504qH8ccP+o4VgGbGoNXe+lXCjg=
-X-Google-Smtp-Source: ANB0VdZVal53B52N4askVPejntlNxbG3okhoqM1KlUkwAO0xZFGV9p+doM5izeMC2eopC6wfK5NTNA==
-X-Received: by 2002:adf:b7c9:: with SMTP id
-	t9-v6mr1881295wre.274.1536232610985; 
-	Thu, 06 Sep 2018 04:16:50 -0700 (PDT)
+	bh=JWtaV1ejrbgSuwS1CWTu/1R84vGNHr704OVugpdTipo=;
+	b=ma+bhIeokXJeOYJ5gjhXm8uLXAP11+XtPbf9Wy+6meBSgLKFcTx271wlOk9vZexldB
+	V/6txum7Wn9Tsv5I+2yeZNR4AdDVQerXKUM4PhwxhvRcENj87jhLzTK51/MrSooHJVbF
+	wPIlxQNhdL66cjaQeqJZorapHNgYQPakGclBWxo3xtGGc0CfFh+ydJdS4VTq7/ZX75t4
+	ljRUtXiMhNMpxpeNZgpm5JosiL5+shzZC3DINyiKGCDtV/ykJQm/NPInoadNORbSqvw+
+	GF9ULqXX4lQ7YAMU11i1FPygrFfDT5hD3gzcO7p4eiCUn2UtqRFCLVctYL6DVZ0lx4BP
+	7bMw==
+X-Gm-Message-State: APzg51A7t0OGn4KEruZD37Py95f6hG5RxombGQ/sa82AL4WPvSH3fNO4
+	sfD3TxuiHe3Ilyh/T6b87tiKjU94AfI=
+X-Google-Smtp-Source: ANB0VdZeFfxT2L8CCDSCue8Cda2vp4dsQUDsj2MTigdsaqVLvXafUV3j3j9TGFuZqUQ9ygLwOkWr0g==
+X-Received: by 2002:a1c:a745:: with SMTP id
+	q66-v6mr1768176wme.49.1536232619046; 
+	Thu, 06 Sep 2018 04:16:59 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	g2-v6sm7516955wrd.71.2018.09.06.04.16.50
+	j2-v6sm6951066wmj.5.2018.09.06.04.16.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Sep 2018 04:16:50 -0700 (PDT)
+	Thu, 06 Sep 2018 04:16:58 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2018 12:16:48 +0100
-Message-Id: <20180906111648.22924-1-ross.burton@intel.com>
+Date: Thu,  6 Sep 2018 12:16:56 +0100
+Message-Id: <20180906111656.22987-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] ffmpeg: use nasm instead of yasm
+Subject: [PATCH] gstreamer1.0-libav: use nasm instead of yasm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 11:16:50 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 11:16:58 -0000
 
-As ffmpeg can use both yasm and nasm let's unify on nasm (last release six
-months ago, fifteen RCs since) instead of yasm (last release 2014).
+The options are still called yasm and there's some cleanup to be done, but as
+libav can use both yasm and nasm let's unify on nasm (last release six months
+ago, fifteen RCs since) instead of yasm (last release 2014).
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb
-index 2917a080cd4..b4a4ffd2840 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb
-@@ -38,7 +38,7 @@ ARM_INSTRUCTION_SET_armv6 = "arm"
- # libpostproc was previously packaged from a separate recipe
- PROVIDES = "libav libpostproc"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.2.bb
+index 57f03e8d47a..718db17d0d3 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.2.bb
+@@ -36,7 +36,7 @@ PACKAGECONFIG ??= "orc yasm"
+ PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl,"
+ PACKAGECONFIG[libav] = "--with-system-libav,,libav"
+ PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
+-PACKAGECONFIG[yasm] = "--enable-yasm,--disable-yasm,yasm-native"
++PACKAGECONFIG[yasm] = "--enable-yasm,--disable-yasm,nasm-native"
+ PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind"
  
--DEPENDS = "alsa-lib zlib libogg yasm-native"
-+DEPENDS = "alsa-lib zlib libogg nasm-native"
- 
- inherit autotools pkgconfig
- 
+ GSTREAMER_1_0_DEBUG ?= "--disable-debug"
 -- 
 2.11.0
 
