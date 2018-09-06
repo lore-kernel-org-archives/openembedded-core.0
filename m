@@ -1,24 +1,43 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D98087953E
+Return-Path: <mans.zigher@gmail.com>
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E2AF74FD5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 09:33:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w869XUv5013176
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  6 Sep 2018 09:35:29 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id t68-v6so19219495oie.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Sep 2018 02:33:30 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 6 Sep 2018 02:33:29 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Sep 2018 17:33:28 +0800
-Message-ID: <1536226408-24922-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 06 Sep 2018 02:35:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=Sk6C3vFwEfX5GuAr/3p9OLDwyhI0pZ+OAf8W+qcqxTA=;
+	b=lor1kKfakr0uw/F9l6zi1dzLmNyEmI3Ppv3iqj0/N2Dt1BkbADAyBDIn5ls4BozLTJ
+	WcE/8UAsy/S/yCnXXDHIi3RwzBis8dF1yA+Gh7i5YjfdIT2XvvrbpOp+zgnjEXaAiOGm
+	29YwtD1clCGbtBtscX9VTNr1UWwLj398bG4M+BpdEdo8tmTeXeYpfyxdTYEp6RUmvF2U
+	R7P76vW5mm9+oDEhFroSwlaXwuGDt80AffY6hRxA/pHN97IocRSSRc/waWWAN0VV958o
+	wopKMrEuglDv+luiqxMR3KzPOuRSW2aM93jwAiT6CDrSoBzH0WNQCeLfG9oRyCYqqtog
+	LdkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=Sk6C3vFwEfX5GuAr/3p9OLDwyhI0pZ+OAf8W+qcqxTA=;
+	b=pyi5wHdEz4lzaRiftDdRi50qaFxULB+BAyujHEqM5IIuNIsXbUv+mGUenkdsiJut+5
+	EiarzbMKQj2J67kdiv1UNuycKaV9HK29QWj3zz2AKxnwYcPdIgqArR/PhVK/aUxJXYiH
+	90AvCtwveg5RS+Te4b9Hm86B+qCvU8awDJ8UNUhIPGsgjj+KM0o1OQFVJlZQ+vrxOBbs
+	Kv7bbTJJmNqUqNEwVEo0CKfNyvq5Bj6pM4IWWBK3EqSY3ikkrFi42lA6ddrVuUq6Y4iy
+	i3WPDD9djJ6xWR9fo+RxIecaqBX1Khmugt/kuAst1fn23tQPalwDxKqpyGlxj1A6wnsi
+	SYAQ==
+X-Gm-Message-State: APzg51Aj8qO1S4fQmN3rAgwNh2fOnqXoHBTIXdLA+tydsHAvbQ2d43qF
+	uWlb67ZM0rgrb+WgJElexEXC0hSjsyfm9jXa5NkucZVDqKg=
+X-Google-Smtp-Source: ANB0VdYuO0IHIYK0NZBPB0ZdYKibmLEDecYLEKc8ur/3TQm3hL7K4gjIdxdNYv/lKDNXv8mVEtKq35FG+CRztRZXLbw=
+X-Received: by 2002:aca:b208:: with SMTP id
+	b8-v6mr1947281oif.144.1536226530253; 
+	Thu, 06 Sep 2018 02:35:30 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] ffmpeg: Fix CVE-2018-15822
+From: =?UTF-8?B?TcOlbnMgWmlnaGVy?= <mans.zigher@gmail.com>
+Date: Thu, 6 Sep 2018 11:35:19 +0200
+Message-ID: <CAEhQi8=0vP0=ubyPM_i9a24YBfnOj4UY9CbqOHfQQwEhY71N4w@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: bitbake cannot find git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +50,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 09:33:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Sep 2018 09:35:29 -0000
+Content-Type: multipart/alternative; boundary="000000000000a162550575309c07"
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+--000000000000a162550575309c07
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: Assertion failure
-Fixes: assert_flvenc.c:941_1.swf
+Hi,
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- .../ffmpeg/ffmpeg/CVE-2018-15822.patch             | 37 ++++++++++++++++++++++
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb     |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2018-15822.patch
+I have maybe a a bit unusual project that is causing some headache. The
+project is a Cmake project and is including ExternalProject_Add which is
+then using git to checkout these external projects this is failing because
+it cannot find git. When trying to add dependency to git-native to get it
+included into the sysroot it is ignored because of ASSUME_PROVIDED which
+includes git. I assume that the problem is that the actual git clone is
+called from inside of the configure task and when running this bitbake
+assume any tool dependencies should be in sysroot so it will not check for
+it on the build host. Is this not a supported use case or is there a
+workaround for this?
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2018-15822.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2018-15822.patch
-new file mode 100644
-index 0000000..7d5868a
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2018-15822.patch
-@@ -0,0 +1,37 @@
-+From 6b67d7f05918f7a1ee8fc6ff21355d7e8736aa10 Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Sat, 28 Jul 2018 15:03:50 +0200
-+Subject: [PATCH] avformat/flvenc: Check audio packet size
-+
-+Fixes: Assertion failure
-+Fixes: assert_flvenc.c:941_1.swf
-+
-+Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/6b67d7f05918f7a1ee8fc6ff21355d7e8736aa10]
-+CVE: CVE-2018-15822
-+
-+Found-by: #CHEN HONGXU# <HCHEN017@e.ntu.edu.sg>
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ libavformat/flvenc.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/libavformat/flvenc.c b/libavformat/flvenc.c
-+index 1c552a3e6b..e4863f1fc7 100644
-+--- a/libavformat/flvenc.c
-++++ b/libavformat/flvenc.c
-+@@ -883,6 +883,11 @@ static int flv_write_packet(AVFormatContext *s, AVPacket *pkt)
-+     int flags = -1, flags_size, ret;
-+     int64_t cur_offset = avio_tell(pb);
-+ 
-++    if (par->codec_type == AVMEDIA_TYPE_AUDIO && !pkt->size) {
-++        av_log(s, AV_LOG_WARNING, "Empty audio Packet\n");
-++        return AVERROR(EINVAL);
-++    }
-++
-+     if (par->codec_id == AV_CODEC_ID_VP6F || par->codec_id == AV_CODEC_ID_VP6A ||
-+         par->codec_id == AV_CODEC_ID_VP6  || par->codec_id == AV_CODEC_ID_AAC)
-+         flags_size = 2;
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb
-index 57731e8..74c8e66 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb
-@@ -25,6 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://mips64_cpu_detection.patch \
-+           file://CVE-2018-15822.patch \
-            "
- SRC_URI[md5sum] = "ae0bfdf809306a212b4f0e6eb8d1c75e"
- SRC_URI[sha256sum] = "a95c0cc9eb990e94031d2183f2e6e444cc61c99f6f182d1575c433d62afb2f97"
--- 
-2.7.4
+BR
+M=C3=A5ns Zigher
 
+--000000000000a162550575309c07
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi,<div><br></div><div>I have maybe a a bit unusual projec=
+t that is causing some headache. The project is a Cmake project and is incl=
+uding ExternalProject_Add which is then using git to checkout these externa=
+l projects this is failing because it cannot find git. When trying to add d=
+ependency to git-native to get it=C2=A0 included into the sysroot it is ign=
+ored because of ASSUME_PROVIDED which includes git. I assume that the probl=
+em is that the actual git clone is called from inside of the configure task=
+ and when running this bitbake assume any tool dependencies should be in sy=
+sroot so it will not check for it on the build host. Is this not a supporte=
+d use case or is there a workaround for this?</div><div><br></div><div>BR</=
+div><div>M=C3=A5ns Zigher</div></div>
+
+--000000000000a162550575309c07--
