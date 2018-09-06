@@ -1,58 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 324A27935C
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F1AE7949B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 03:14:50 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id z78-v6so6405616qka.0
+	Thu,  6 Sep 2018 03:25:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w863Pb7M016271
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2018 20:14:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=d7Qaej+wtfO6+Hahlc1xxY1s8Zkvr8vDUq/bJD/BNq4=;
-	b=urgP46NltIwRwxXvm4qezlKamKBWEUt/KlBJ1ecXwKKQgON2MCAq8RMLKEnPl8AQt9
-	duGHaxS9/uAA5F8o0fgkqWJAolZwGdYEvZNYgb7uIprdQSiISsaXv4CIcgehYQz8PqaU
-	9GYXvIpD539EM7kFROpSoIEir9I1fL+i3MpSwrwIaDUNbeS51IubLvvJWbG/XY9VBPBj
-	h/WD8rY1qt/wBwu3X4fPOZ4wxhfUIKU9Rs+ksLmYCycVAHen66vVkg4VuyHgHWxdQeMk
-	A9nK+bPKP545exiyos2eEXiHD9eh6xPAxgXJqrotYI14WbtarIhL7vwU5Up4Uf9uXeed
-	C+3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=d7Qaej+wtfO6+Hahlc1xxY1s8Zkvr8vDUq/bJD/BNq4=;
-	b=Dh0wnBsTGI2S0dRniT0IhuEeF6N87wfKSaz8ULmEpsFyVs6ncbW+uusSUgBtddfr+I
-	yVsjmgN2eqKJnW5AvJ+AaxS6m8Kvig4trXQEaVAuddf8I3TzyJKHgN0JWG9s4bkif1rA
-	7YAExaFQ3uF7MCy5YyAFssOf8p8KOMjbKW0wfUyzOPKARAa/iQriOEPryRkhJkxv4XVm
-	yQTY68brrOf4jCI9DWSuJUdMT+0qYpoKMLbTqmuklDJ4Qh5YaUm7EWMLbQU9usM7cBdf
-	NPY25W58cCeaOHXL6/a7XFvHLf6DfQ+bVCldl0qwjS+C5XpYWUZkHHUKk34JQUkiypcP
-	SShg==
-X-Gm-Message-State: APzg51D6hOzow8XPfF4Ss3xIZTSXKMVk/geQgqsGU5TqyQBF3J8C6LRI
-	vHBb/Y7uslIMxxS+pXnDhk5VFZQMYI/SiERBJMRjbDkC
-X-Google-Smtp-Source: ANB0VdY4mNp/sPkXpUC4w1OhMO9pz/UJxgsM5QMDnbRZbUyqK8dCIJXl1lEyWt8sXtEtEBVJ8zrgd1gTUwKrcdYH9hY=
-X-Received: by 2002:a37:9904:: with SMTP id b4-v6mr531119qke.102.1536203690827;
-	Wed, 05 Sep 2018 20:14:50 -0700 (PDT)
+	Wed, 5 Sep 2018 20:25:37 -0700 (PDT)
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Wed, 5 Sep 2018 20:25:36 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <1535336250-197198-1-git-send-email-changqing.li@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <d9b89d2e-0681-bc0a-9158-a89ff576edd8@windriver.com>
+Date: Thu, 6 Sep 2018 11:25:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-References: <20180830232604.10850-1-otavio@ossystems.com.br>
-	<CAMKF1sozB+uN8h3YcEXSnRvuQOWdYYzRC2iOrr54h-5VYnQUMA@mail.gmail.com>
-	<CAP9ODKopW2QbA0qvf4kdmq9j3vme_LO4y-43h1Uq5tspErb0Gw@mail.gmail.com>
-	<CAMKF1sr8BRcKEgQQYnfROQrrZ=0PocpWW11bFd_9X7RPuNpC5Q@mail.gmail.com>
-	<CAP9ODKoLPC-BNnfqjoUzbDM+EPo1jmwGoqyk7=cMD4vord2Kyw@mail.gmail.com>
-	<CAMKF1sr9+bzRBVfV5J=ad4v_m1kQ5hLg=qDqX_dyEUWcFeocAQ@mail.gmail.com>
-	<CAP9ODKpfrTs+vQQcG=TyTO6nPZHR8U3xHyg4i_xsn17eOKc41A@mail.gmail.com>
-	<CAMKF1sq7UQMb7qGtEZhXiB5W09sTxYQdt1ZMq6cEUic6UcCd_g@mail.gmail.com>
-	<CAP9ODKom3jT=M_X6wrz5WKRat3yRxtukm5Hrg3FnEtJUiis_vA@mail.gmail.com>
-	<CAMKF1sp0rF18CtGd3NZigqtqAnrpot+kgNzd2zWQ1LQezzBVUw@mail.gmail.com>
-	<CAP9ODKpWTf6bg8E496Eb2FHd-_P+aFds4g+w+N1N5gF06iZZEA@mail.gmail.com>
-In-Reply-To: <CAP9ODKpWTf6bg8E496Eb2FHd-_P+aFds4g+w+N1N5gF06iZZEA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 5 Sep 2018 20:14:24 -0700
-Message-ID: <CAMKF1soHC14RDtbnJFdgOWiwkf0vvQUnwquSNnRwfCkgPjOEzA@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake: Update 3.11.4 -> 3.12.1
+In-Reply-To: <1535336250-197198-1-git-send-email-changqing.li@windriver.com>
+X-Originating-IP: [128.224.162.228]
+Subject: Re: [PATCH] libice: patch for CVE-2017-2626
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,75 +34,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 03:14:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Sep 2018 03:25:36 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Wed, Sep 5, 2018 at 6:01 PM Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
+Ping
+
+
+On 08/27/2018 10:17 AM, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
 >
-> On Wed, Sep 5, 2018 at 8:19 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Wed, Sep 5, 2018 at 3:38 PM Otavio Salvador
-> > <otavio.salvador@ossystems.com.br> wrote:
-> > >
-> > > On Wed, Sep 5, 2018 at 12:18 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > > >
-> > > > On Wed, Sep 5, 2018 at 6:42 AM Otavio Salvador
-> > > > <otavio.salvador@ossystems.com.br> wrote:
-> > > > >
-> > > > >
-> > > > >
-> > > > > On Tue, Sep 4, 2018 at 8:43 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > > > >>
-> > > > >> Here is one failiure that is seen in meta-oe with updates cmake
-> > > > >>
-> > > > >> http://errors.yoctoproject.org/Errors/Details/190510/
-> > > > >
-> > > > >
-> > > > > I am looking at it...
-> > > > >
-> > > > > Seems not related. I built poco using cmake bump and OE master.
-> > > > >
-> > > > > Seems related to the musl update on master-next.
-> > > > >
-> > > >
-> > > > here is glibc failure log
-> > > > http://errors.yoctoproject.org/Errors/Details/190886/
-> > >
-> > > I did build against master and master-next and couldn't reproduce it.
-> > > I saw you are using 'bec' distribution and I used 'oel' so it might be
-> > > changing the end result.
-> > >
-> >
-> > did you try poky ? we now build with security flags turned on. Soon
-> > to be propagated to nodistro in oe-core as well.
-> >
-> > BEC distro policies are same as poky with few additions
-> > see
-> >
-> > distro
-> > https://github.com/cbrake/meta-bec/blob/master/conf/distro/bec.conf
-> >
-> > local.conf
-> > https://github.com/cbrake/oe-build/blob/master/conf/local.conf
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>   .../xorg-lib/libice/CVE-2017-2626.patch            | 149 +++++++++++++++++++++
+>   meta/recipes-graphics/xorg-lib/libice_1.0.9.bb     |   2 +
+>   2 files changed, 151 insertions(+)
+>   create mode 100644 meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
 >
-> I did enable the security flags and I cannot reproduce it. I think you
-> will need to take a deeper look at it.
+> diff --git a/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch b/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
+> new file mode 100644
+> index 0000000..20c6dda
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
+> @@ -0,0 +1,149 @@
+> +From ff5e59f32255913bb1cdf51441b98c9107ae165b Mon Sep 17 00:00:00 2001
+> +From: Benjamin Tissoires <benjamin.tissoires@gmail.com>
+> +Date: Tue, 4 Apr 2017 19:12:53 +0200
+> +Subject: Use getentropy() if arc4random_buf() is not available
+> +
+> +This allows to fix CVE-2017-2626 on Linux platforms without pulling in
+> +libbsd.
+> +The libc getentropy() is available since glibc 2.25 but also on OpenBSD.
+> +For Linux, we need at least a v3.17 kernel. If the recommended
+> +arc4random_buf() function is not available, emulate it by first trying
+> +to use getentropy() on a supported glibc and kernel. If the call fails,
+> +fall back to the current (partly vulnerable) code.
+> +
+> +Signed-off-by: Benjamin Tissoires <benjamin.tissoires@gmail.com>
+> +Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+> +Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+> +Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+> +
+> +Upstream-Status: Backport[https://cgit.freedesktop.org/xorg/lib/libICE
+> +                 /commit/?id=ff5e59f32255913bb1cdf51441b98c9107ae165b]
+> +
+> +CVE: CVE-2017-2626
+> +
+> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> +---
+> + configure.ac  |  2 +-
+> + src/iceauth.c | 65 ++++++++++++++++++++++++++++++++++++++++++-----------------
+> + 2 files changed, 47 insertions(+), 20 deletions(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index 458882a..c971ab6 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -38,7 +38,7 @@ AC_DEFINE(ICE_t, 1, [Xtrans transport type])
+> +
+> + # Checks for library functions.
+> + AC_CHECK_LIB([bsd], [arc4random_buf])
+> +-AC_CHECK_FUNCS([asprintf arc4random_buf])
+> ++AC_CHECK_FUNCS([asprintf arc4random_buf getentropy])
+> +
+> + # Allow checking code with lint, sparse, etc.
+> + XORG_WITH_LINT
+> +diff --git a/src/iceauth.c b/src/iceauth.c
+> +index ed31683..de4785b 100644
+> +--- a/src/iceauth.c
+> ++++ b/src/iceauth.c
+> +@@ -44,31 +44,19 @@ Author: Ralph Mor, X Consortium
+> +
+> + static int was_called_state;
+> +
+> +-/*
+> +- * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
+> +- * the SI.  It is not part of standard ICElib.
+> +- */
+> ++#ifndef HAVE_ARC4RANDOM_BUF
+> +
+> +-
+> +-char *
+> +-IceGenerateMagicCookie (
+> ++static void
+> ++emulate_getrandom_buf (
+> ++	char *auth,
+> + 	int len
+> + )
+> + {
+> +-    char    *auth;
+> +-#ifndef HAVE_ARC4RANDOM_BUF
+> +     long    ldata[2];
+> +     int	    seed;
+> +     int	    value;
+> +     int	    i;
+> +-#endif
+> +
+> +-    if ((auth = malloc (len + 1)) == NULL)
+> +-	return (NULL);
+> +-
+> +-#ifdef HAVE_ARC4RANDOM_BUF
+> +-    arc4random_buf(auth, len);
+> +-#else
+> + #ifdef ITIMER_REAL
+> +     {
+> + 	struct timeval  now;
+> +@@ -76,13 +64,13 @@ IceGenerateMagicCookie (
+> + 	ldata[0] = now.tv_sec;
+> + 	ldata[1] = now.tv_usec;
+> +     }
+> +-#else
+> ++#else /* ITIMER_REAL */
+> +     {
+> + 	long    time ();
+> + 	ldata[0] = time ((long *) 0);
+> + 	ldata[1] = getpid ();
+> +     }
+> +-#endif
+> ++#endif /* ITIMER_REAL */
+> +     seed = (ldata[0]) + (ldata[1] << 16);
+> +     srand (seed);
+> +     for (i = 0; i < len; i++)
+> +@@ -90,7 +78,46 @@ IceGenerateMagicCookie (
+> + 	value = rand ();
+> + 	auth[i] = value & 0xff;
+> +     }
+> +-#endif
+> ++}
+> ++
+> ++static void
+> ++arc4random_buf (
+> ++	char *auth,
+> ++	int len
+> ++)
+> ++{
+> ++    int	    ret;
+> ++
+> ++#if HAVE_GETENTROPY
+> ++    /* weak emulation of arc4random through the entropy libc */
+> ++    ret = getentropy (auth, len);
+> ++    if (ret == 0)
+> ++	return;
+> ++#endif /* HAVE_GETENTROPY */
+> ++
+> ++    emulate_getrandom_buf (auth, len);
+> ++}
+> ++
+> ++#endif /* !defined(HAVE_ARC4RANDOM_BUF) */
+> ++
+> ++/*
+> ++ * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
+> ++ * the SI.  It is not part of standard ICElib.
+> ++ */
+> ++
+> ++
+> ++char *
+> ++IceGenerateMagicCookie (
+> ++	int len
+> ++)
+> ++{
+> ++    char    *auth;
+> ++
+> ++    if ((auth = malloc (len + 1)) == NULL)
+> ++	return (NULL);
+> ++
+> ++    arc4random_buf (auth, len);
+> ++
+> +     auth[len] = '\0';
+> +     return (auth);
+> + }
+> +--
+> +cgit v1.1
+> +
+> diff --git a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+> index 0337d21..999434e 100644
+> --- a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+> +++ b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+> @@ -23,6 +23,8 @@ BBCLASSEXTEND = "native"
+>   SRC_URI[md5sum] = "addfb1e897ca8079531669c7c7711726"
+>   SRC_URI[sha256sum] = "8f7032f2c1c64352b5423f6b48a8ebdc339cc63064af34d66a6c9aa79759e202"
+>   
+> +SRC_URI += "file://CVE-2017-2626.patch"
+> +
+>   PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+>   PACKAGECONFIG[arc4] = "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
+>   PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
 
-I am not sure if its due to ptest which I have enabled here.
-Regardless the problem is not related to cmake as it seems
+-- 
+BRs
 
-error is this
+Sandy(Li Changqing)
+Wind River Linux
 
-Error copying directory from
-"/mnt/a/oe/build/tmp/work/core2-64-bec-linux-musl/poco/1.9.0-r0/git/Encodings/testsuite/data"
-to "/mnt/a/oe/build/tmp/work/core2-64-bec-linux-musl/poco/1.9.0-r0/build/Encodings/testsuite/data".
-
-which is trying to copy a non existing test directory
-
-someone else also ran into same issue and has posted a fix
-
-https://github.com/pocoproject/poco/pull/2437
-
-which I have backported into OE as well.
 
