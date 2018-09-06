@@ -1,52 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 677C2795CF
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id F10927965B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 11:19:04 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id y139-v6so10933047wmc.2
+	Thu,  6 Sep 2018 13:08:13 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id 13-v6so20413223ois.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 04:19:06 -0700 (PDT)
+	Thu, 06 Sep 2018 06:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=MxnFYs8c1iR93F6tz96Sz90nt6Lwf4CNf+6gatxKjMA=;
-	b=0O3MaiYRP67e8eO++XM6um9DHShJwgLgxfckjgjof74l87XjZV3CoEFcN5VgcI3xzn
-	fXUyfBMecQkV8GCiO38q3NufWV9BNNwDDfCYt0ecSA0+m1ZH9+so3REs/QQ4ZzKVkz2w
-	OfynkCy8zYUemswE95Mb/P+xI38n2s7B18279pt5E1AfwzEdFuJmEzQ5bJGaK4RVjubc
-	P8WF0h7xIGc3cNydoaNp/ur0B1rer7T/6hzMB0Pt2eYU4Y10ybVPvjkeOte4uEcUw0S1
-	9lYSJLTj75O0yhp+2MrRoNY3xFYpVGoGyVvjF1LgZh4wCKylihpwUukEdBahAwH8Su26
-	h7Zw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mUTaDQ3hwxrJV58ccplKia4o/FSO5uRxEp7udOFydVA=;
+	b=Zo2UX2EFuoM7haiJ+YJ8ggVolLYNo6Cwxzdb1AvTABuacRa20nPzKhv4SCW84PQZ0D
+	cGV3w5SJNkX8xqiMoYs5P102HdpNC7N0TKYNl3JqNwI7nbLcJsT2OUNkOj8q3b4MjsgE
+	6Xf420HrxbaMDOdh0SolNROImutmDoY3WJNJI2cgZJROk8BV7Wn89csRwUhuE4HS1SqE
+	UD5e/dRGfUBMQvPJ5WyunbPQMq+qJmeijaFYWtf6hHMsH921Xrr90NtjFvOSFm2vQ34G
+	azzpSyBRlxoIch9/uJiMPoZhMAFe/zTm93NiTB6RH1jfM7hmh7Y3xCL6YDkRVxgAhzBo
+	CgSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=MxnFYs8c1iR93F6tz96Sz90nt6Lwf4CNf+6gatxKjMA=;
-	b=RgXvTXPM+DdsX6WLfDWPJc4Sid37k0ckBQ+k4K1omEUfw8ZOuByWIBAj0scFvrql29
-	tUdvA8yxY/tG1lfBv1u95YCR7O2I1vRiXNHGdgvJhhwQQCbACtx+FdAtQS2P9NWNgpgF
-	BdeiVUTCzoN1R7ipi6UQEI4r++eD32tSZAxWiQI5wpi8m8l8JP9DNPxqtAxZvsp63bdx
-	wOMDyhPBlND8j0lwNRW0v8+WfxfyBvwbppgTBeUCxeChtN+FyCywT+uIz+C6WS0v137u
-	6Ae0hfPxGoULxWc9QlI03OyoNfl9ki/FJB6TQU38D1j1n7Yyx8+QewXBSR2UUCVacYw8
-	B6Tg==
-X-Gm-Message-State: APzg51Bzx2BhtE2wJBfNozMEVfJDmv8xaDWCWvVNwDgOT7bPCiZpXhlQ
-	IeG4uWglEQ0o6qzm7YLSmLIRt3u0PRg=
-X-Google-Smtp-Source: ANB0VdZNpPiWMxJQmVEGbEwpRDrX/CtQ5hRkk/+JS3LvyEMIqVjjdtvZzuOEa6vRbwcBc+JJuNd43w==
-X-Received: by 2002:a1c:1584:: with SMTP id
-	126-v6mr1893201wmv.24.1536232745108; 
-	Thu, 06 Sep 2018 04:19:05 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	x15-v6sm4860834wrt.53.2018.09.06.04.19.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Sep 2018 04:19:04 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2018 12:19:00 +0100
-Message-Id: <20180906111900.23712-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180906111900.23712-1-ross.burton@intel.com>
-References: <20180906111900.23712-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] libbsd: drop obsolete patch
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mUTaDQ3hwxrJV58ccplKia4o/FSO5uRxEp7udOFydVA=;
+	b=EX/6hd9YABBZLHQ0jYUtOaIWJ0G2oXSQ5Az7NlHBLaxUmLsTuogyspb3DrVSVnGamG
+	G6JeYvcdGXh7uIloGrM9zv+T+7c9bPIikEAkKxGZXQPofcyZ0nhDrcpbEQ9NI7p6VuVJ
+	bFH9FhrXxwiYAyXgv5zxtup4DXX5F3JnlPcskdogfySTIVFsfJ3uL7LHvizeCipVTokR
+	Cs8PS8roQ/w/Zg9j6X8azagLTCOvJ0l4xia6WdrjyGbzgCp/H4KcAZtn14Fr9RxpRoJV
+	fT/+tOIO5GCiqsE4gm+O59vtgumWDoWZnlsqkBZdFgnOjQMQsTxRQftIwHFwZtMT3rME
+	gadw==
+X-Gm-Message-State: APzg51Bod2na7twc4IwutpFCzHpzmabIQaQFR4Kk1gBslH+2YduKfovB
+	1o+50Ua4HEoFeSvy6D/GdT6XWGpEAIIyAnoLfEcpfw==
+X-Google-Smtp-Source: ANB0VdaPfqNgRrT+wPIYr6JwF7nxJicTdKrAGF0uHVfTW5EmTX2PMCqtgwGJkrbPL1AM6w58+6HWc2ZBVdRHBTdQeXY=
+X-Received: by 2002:aca:6a48:: with SMTP id
+	f69-v6mr2645891oic.279.1536239294874; 
+	Thu, 06 Sep 2018 06:08:14 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:385d:0:0:0:0:0 with HTTP;
+	Thu, 6 Sep 2018 06:07:54 -0700 (PDT)
+In-Reply-To: <3ad79c14cede673c5e42a24ee5d50866f3cee092.1536212473.git.raj.khem@gmail.com>
+References: <cover.1536212473.git.raj.khem@gmail.com>
+	<3ad79c14cede673c5e42a24ee5d50866f3cee092.1536212473.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 6 Sep 2018 14:07:54 +0100
+Message-ID: <CAJTo0LaQWkmo_X7L-BG36BukRC+mOk56dYdBk82Y69BBt_RU2w@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] gdb: Update to 8.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,70 +58,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 11:19:05 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 13:08:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This was only needed with old pkg-config, but we have 0.29.2 so this can be
-dropped.
+On 6 September 2018 at 06:42, Khem Raj <raj.khem@gmail.com> wrote:
+> --- a/meta/recipes-devtools/gdb/gdb-8.1.1.inc
+> +++ b/meta/recipes-devtools/gdb/gdb-8.2.inc
+> @@ -15,9 +15,6 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
+>             file://0008-Use-exorted-definitions-of-SIGRTMIN.patch \
+>             file://0009-Change-order-of-CFLAGS.patch \
+>             file://0010-resolve-restrict-keyword-conflict.patch \
+> -           file://package_devel_gdb_patches_120-sigprocmask-invalid-call.patch \
+> -           file://gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch \
+> +           file://0011-Fix-invalid-sigprocmask-call.patch \
+>  "
+> -SRC_URI[md5sum] = "372fa63a53adeee1bfbfd581d8da9e34"
+> -SRC_URI[sha256sum] = "97dcc3169bd430270fc29adb65145846a58c1b55cdbb73382a4a89307bdad03c"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...overlay.pc.in-Set-Cflags-to-use-I-instead.patch | 33 ----------------------
- meta/recipes-support/libbsd/libbsd_0.9.1.bb        |  1 -
- 2 files changed, 34 deletions(-)
- delete mode 100644 meta/recipes-support/libbsd/libbsd/0001-src-libbsd-overlay.pc.in-Set-Cflags-to-use-I-instead.patch
+The checksums disappeared.
 
-diff --git a/meta/recipes-support/libbsd/libbsd/0001-src-libbsd-overlay.pc.in-Set-Cflags-to-use-I-instead.patch b/meta/recipes-support/libbsd/libbsd/0001-src-libbsd-overlay.pc.in-Set-Cflags-to-use-I-instead.patch
-deleted file mode 100644
-index 7e3a5b3be4b..00000000000
---- a/meta/recipes-support/libbsd/libbsd/0001-src-libbsd-overlay.pc.in-Set-Cflags-to-use-I-instead.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From b6972f1c29ebf073cbe19a4a669ee093259792a0 Mon Sep 17 00:00:00 2001
--From: Fabio Berton <fabio.berton@ossystems.com.br>
--Date: Mon, 30 Jan 2017 12:00:33 -0200
--Subject: [PATCH] src/libbsd-overlay.pc.in: Set Cflags to use -I instead of
-- -isystem
--Organization: O.S. Systems Software LTDA.
--
--pkg-config currently only handles -I and -L correctly, but misses
---isystem, so we need to do this workaround to fix this issue.
--
--There's a open bug in:
--https://bugzilla.freedesktop.org/show_bug.cgi?id=99516
--
--Upstream-Status: Pending
--
--Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-----
-- src/libbsd-overlay.pc.in | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/libbsd-overlay.pc.in b/src/libbsd-overlay.pc.in
--index ac8bf89..65dc3ae 100644
----- a/src/libbsd-overlay.pc.in
--+++ b/src/libbsd-overlay.pc.in
--@@ -8,4 +8,4 @@ Description: Utility functions from BSD systems (overlay)
-- Version: @VERSION@
-- URL: https://libbsd.freedesktop.org/
-- Libs: -L${libdir} -lbsd
---Cflags: -isystem ${includedir}/bsd -DLIBBSD_OVERLAY
--+Cflags: -I${includedir}/bsd -DLIBBSD_OVERLAY
---- 
--2.11.0
--
-diff --git a/meta/recipes-support/libbsd/libbsd_0.9.1.bb b/meta/recipes-support/libbsd/libbsd_0.9.1.bb
-index 2a1cd645352..2b75cdf9563 100644
---- a/meta/recipes-support/libbsd/libbsd_0.9.1.bb
-+++ b/meta/recipes-support/libbsd/libbsd_0.9.1.bb
-@@ -33,7 +33,6 @@ SECTION = "libs"
- 
- SRC_URI = " \
-     http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
--    file://0001-src-libbsd-overlay.pc.in-Set-Cflags-to-use-I-instead.patch \
-     file://0001-flopen-Add-missing-fcntl.h-include.patch \
- "
- 
--- 
-2.11.0
-
+Ross
 
