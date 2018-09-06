@@ -1,49 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D2E4779689
+Return-Path: <leon@sidebranch.com>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C0FAE796DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 15:14:52 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id f1-v6so5131178plt.4
+	Thu,  6 Sep 2018 15:14:57 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id l5so9193104edw.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 08:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=iAzNvY5ycR8hNAn/8j5EqvFNCpUNrIp33niqfFlZq5g=;
-	b=oWqjREbW4s0+Cew34kFU/xrpRBsCBlLnrpLosLSOPG/+98tZG4CtuUPp8NP8fMrHda
-	Y4nGqzxz1ziT5l6Ra2umwNGXS3F5ZswE4obHoDPqEjVVjXxuScyVHDx8thvAvPqrYk56
-	YqSfPec1F2CPH7mxbt8DzjXtUOQe363pFT9J4duRzPFCuFp5oneRkd3dW1bWfrMDIUpR
-	IV6GzxzWqqGE8nPE8egner9t8T2o2HTk8og8DhzovXBDlrAhTEWaZ2a/q+TMSari+t+5
-	OBReJ6p/YYbMxRj7cr+fNTfCXvPr8eWb8/zu4XkrvTcTOwfU7Vcj/eqESRls8XyuuEHR
-	xO2w==
+	Thu, 06 Sep 2018 08:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=82OOVNbuEzEdYfUOuLPnZAZjasCfvp5u39KOX06l97k=;
+	b=Lrk4CPw+WUkKYDun17FAmvt/OsA8zzNOuzpvPoC66BgHGEbF2khn+OwW4wVAMLsDeV
+	VyHWdDckKNpWPZ1OQ+9cYZCUGuw+5ov1ii5DwVWhbOrGCl8xPszzk39JjIhLOdrQugmQ
+	e7Ah5RX5K97NiCvmZSUrHuVVtIMizLvWoibCcd486ypuvyK7Ro4epx5scMnRl/UzlZOZ
+	91os4EZhAV80r5iBSWy69rJkT9YLJSGVHIztUo1QqGG5KHfSpVO9zlnUz8J3uK33kkgO
+	SK30FmLAnrRRG4iH+K4KuSh2cgqswgEHQCLK5F3mTjA1roYOhSNVoFmNrgdZar3rzRFd
+	27CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=iAzNvY5ycR8hNAn/8j5EqvFNCpUNrIp33niqfFlZq5g=;
-	b=F9BP8eDEwdXCvi3bjD2OeJ8eE6Ba/Ed3NGREula6zXN7WYsVUKFFVOM44wlk0PBrXc
-	mBOZlFOukp0a44H1KG9vdfQOovq13xz782wZajB1Aog0v7XOhs5WL/VUSg0VFDpUv888
-	p5e+WKlDBbb8FmsOYKf6FuxzPRUYeY+Ls3cvE8Xtl4bW1JAkP7C9eJxZUEbkj1XjVOpJ
-	2LVIBgquy/dG5xKvs32MCDzXZ+900yNiKSA8sRvCoHFx/NxpepzKiYGOfwGbWg8wHyTZ
-	9eJ2tTs5EQXQ2+cX9/sgGAQZGjPkW0NooforLSDMsrh/zup/Kl+sBjlzb9nhgXgr3oxx
-	ERrA==
-X-Gm-Message-State: APzg51DE30fYKkBi3WTzj3AvwWEJbX/uYJkFv445WoRKUPdmVcvQFR8E
-	Zt7ANkKg+W+zxl5k6U33uO0=
-X-Google-Smtp-Source: ANB0VdaJfPSSi1PeP0IcgEXVYlAz99yUHCFPrHvwVZ1CjzGZuePcUEnHhvveF3fW+afU1tbaKG/3uQ==
-X-Received: by 2002:a17:902:8542:: with SMTP id
-	d2-v6mr3167535plo.285.1536246893984; 
-	Thu, 06 Sep 2018 08:14:53 -0700 (PDT)
-Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
-	[67.181.203.136]) by smtp.gmail.com with ESMTPSA id
-	a15-v6sm11725846pfe.32.2018.09.06.08.14.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Sep 2018 08:14:53 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2018 08:14:52 -0700
-Message-Id: <20180906151452.1277-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] xserver-xorg: config: fix NULL value detection for ID_INPUT being unset
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=82OOVNbuEzEdYfUOuLPnZAZjasCfvp5u39KOX06l97k=;
+	b=X9MvRAnY7IZOUzUK7+Wt3ZX6g6I1vAZwmCJSFLQGGo5bmQOamWrl7wlH7C+a+5dUuA
+	2IHLmaM37OVHHdFvIrMLJLmIOYYKTWFL8TE0UHn4c5852KnQBMY74zlmNjXNVD/wV1A7
+	2/I0gZYw/XNmb8GzORyT4NX/r57IXtbIiXSWtA8RdieBIs5lBle+i1z+i/l9Cwz1dbPI
+	LG9mE2AviyfFihhQ6+zGBcedUGq3tbNyqy6mOvoL8Bo9rCgm3fmDBH4CK/grdKq5m/kb
+	nEGwH01CEQS5bnYE91EEjDPK5rwyiLXQuDmr3VzxVxqLdQ1arbBCuSVMuFsq1JuPn1UJ
+	jTgg==
+X-Gm-Message-State: APzg51BlWd7zf5xG/3LfI9j0ylWneckuI9zzrEUphqY09x1YmeubFLSU
+	b5Hzc57TYk8ndsk57O3f072agIsag9aE6g==
+X-Google-Smtp-Source: ANB0VdZCdoeckq2oesxfKvnDvAArZD5pH8FW0IeG3usPmmvR+95zBMUmDRatIbfKWYHMXcGiTnm30w==
+X-Received: by 2002:a50:94b3:: with SMTP id
+	s48-v6mr3997450eda.125.1536246898013; 
+	Thu, 06 Sep 2018 08:14:58 -0700 (PDT)
+Received: from localhost.localdomain ([145.130.96.189])
+	by smtp.gmail.com with ESMTPSA id
+	y7-v6sm2716027edd.13.2018.09.06.08.14.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 06 Sep 2018 08:14:57 -0700 (PDT)
+From: Leon Woestenberg <leon@sidebranch.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Sep 2018 17:14:52 +0200
+Message-Id: <1536246893-680-1-git-send-email-leon@sidebranch.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Walter Goossens <waltergoossens@creative-embedded.com>
+Subject: [openembedded-core][PATCH v2 1/2] kernel-fitimage.bbclass: Handle bundled initramfs case correctly.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,82 +57,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 15:14:53 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 15:14:58 -0000
 
-Fixes Yocto # 12899
+From: Walter Goossens <waltergoossens@creative-embedded.com>
 
-Xorg.log message:
+If INITRAMFS_IMAGE was set, but also INITRAMFS_BUNDLE = 1, then
+the kernel image already has the initramfs bundled inside. In that
+case do not pack the initramfs inside the FIT (again).
 
-(II) config/udev: Adding input device (unnamed) (/dev/tty59)
+(The fitImage name does keep the suffix INITRAMFS_IMAGE for all
+initramfs cases.)
 
-and cause system freezes.
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Leon Woestenberg <leon@sidebranch.com>
 ---
- ...value-detection-for-ID_INPUT-being-u.patch | 40 +++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.19.6.bb       |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-config-fix-NULL-value-detection-for-ID_INPUT-being-u.patch
+ meta/classes/kernel-fitimage.bbclass | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-config-fix-NULL-value-detection-for-ID_INPUT-being-u.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-config-fix-NULL-value-detection-for-ID_INPUT-being-u.patch
-new file mode 100644
-index 00000000000..964d5dd4cf4
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-config-fix-NULL-value-detection-for-ID_INPUT-being-u.patch
-@@ -0,0 +1,40 @@
-+From a309323328d9d6e0bf5d9ea1d75920e53b9beef3 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Fri, 5 Jan 2018 11:58:42 +1000
-+Subject: [PATCH] config: fix NULL value detection for ID_INPUT being unset
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 88d8022..8bda644 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -475,7 +475,9 @@ addtask assemble_fitimage before do_install after do_compile
+ 
+ do_assemble_fitimage_initramfs() {
+ 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
+-		test -n "${INITRAMFS_IMAGE}" ; then
++		test -n "${INITRAMFS_IMAGE}" && \
++		test ! -n "${INITRAMFS_IMAGE_BUNDLE}"; then
 +
-+Erroneous condition caused us to keep going with all devices that didn't have
-+ID_INPUT set.
+ 		cd ${B}
+ 		fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
+ 	fi
+@@ -483,6 +485,18 @@ do_assemble_fitimage_initramfs() {
+ 
+ addtask assemble_fitimage_initramfs before do_deploy after do_install
+ 
++do_assemble_fitimage_bundled_initramfs() {
++	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
++		test -n "${INITRAMFS_IMAGE}" && \
++		test -n "${INITRAMFS_IMAGE_BUNDLE}"; then
 +
-+Fixes: 5aad81445c8c3d6
-+Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=104382
-+Reviewed-by: Adam Jackson <ajax@redhat.com>
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
++		cd ${B}
++		fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE}
++	fi
++}
 +
-+Upstream-status: Backport
-+https://patchwork.freedesktop.org/patch/196090/
-+Affects: < 1.20.0
-+[Yocto # 12899]
++addtask assemble_fitimage_bundled_initramfs before do_deploy after do_bundle_initramfs
 +
-+Signed-off-by: Armin Kuster <akuser808@gmail.com>
-+
-+---
-+ config/udev.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/config/udev.c b/config/udev.c
-+index e198e8609..3a73189e2 100644
-+--- a/config/udev.c
-++++ b/config/udev.c
-+@@ -135,7 +135,7 @@ device_added(struct udev_device *udev_device)
-+ #endif
-+ 
-+     value = udev_device_get_property_value(udev_device, "ID_INPUT");
-+-    if (value && !strcmp(value, "0")) {
-++    if (!value || !strcmp(value, "0")) {
-+         LogMessageVerb(X_INFO, 10,
-+                        "config/udev: ignoring device %s without "
-+                        "property ID_INPUT set\n", path);
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
-index c680cf9e89b..7e8a9541cb4 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
-@@ -5,6 +5,7 @@ SRC_URI += "file://musl-arm-inb-outb.patch \
-             file://0003-modesetting-Fix-16-bit-depth-bpp-mode.patch \
-             file://0003-Remove-check-for-useSIGIO-option.patch \
-             file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-+            file://0001-config-fix-NULL-value-detection-for-ID_INPUT-being-u.patch \
-             "
- SRC_URI[md5sum] = "3e47777ff034a331aed2322b078694a8"
- SRC_URI[sha256sum] = "a732502f1db000cf36a376cd0c010ffdbf32ecdd7f1fa08ba7f5bdf9601cc197"
+ 
+ kernel_do_deploy[vardepsexclude] = "DATETIME"
+ kernel_do_deploy_append() {
 -- 
-2.17.1
+2.7.4
 
 
