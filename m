@@ -1,25 +1,18 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E0F5796C5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 16:31:10 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w86GVBwg003701
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Sep 2018 09:31:11 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 6 Sep 2018 09:31:10 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 6 Sep 2018 23:52:30 +0800
-Message-ID: <327f5c2b7be515d0490914bb90ca39b513e63f92.1536248856.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1536248856.git.kai.kang@windriver.com>
-References: <cover.1536248856.git.kai.kang@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 70F7E60290;
+	Thu,  6 Sep 2018 17:04:26 +0000 (UTC)
 MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Kang Kai <kai.kang@windriver.com>
+Date: Thu, 06 Sep 2018 17:04:27 -0000
+Message-ID: <20180906170427.13844.63948@do.openembedded.org>
+References: <cover.1536248856.git.kai.kang@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1536248856.git.kai.kang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/7] target-sdk-provides-dummy: skip package_qa_multilib check
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZGlzYWJsZSBhbGxhcmNoIHdoZW4gbXVsdGlsaWIgaXMgdXNlZA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,55 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 16:31:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Sep 2018 17:04:26 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Kai Kang <kai.kang@windriver.com>
+== Series Details ==
 
-The rprovides of target-sdk-provides-dummy don't be updated with
-multilib, so it fails package_qa_multilib check. Because
-target-sdk-provides-dummy doesn't install any file to sysroot, it is
-safe to skip package_qa_multilib check for target-sdk-provides-dummy.
+Series: disable allarch when multilib is used
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13937/
+State : failure
 
-Remove ${MLPREFIX}target-sdk-provides-dummy from TOOLCHAIN_TARGET_TASK
-at same time in populate_sdk_base.bbclass.
+== Summary ==
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [1/7] allarch: only enable allarch when multilib is not used
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/multilib.bbclass          | 4 ++++
- meta/classes/populate_sdk_base.bbclass | 3 +--
- 2 files changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 7b4d6472b0..e7b717eee1 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -146,6 +146,10 @@ python do_package_qa_multilib() {
-     if not ml:
-         return
- 
-+    # exception for ${MLPREFIX}target-sdk-provides-dummy
-+    if 'target-sdk-provides-dummy' in d.getVar('PN'):
-+        return
-+
-     packages = d.getVar('PACKAGES')
-     for pkg in packages.split():
-         check_mlprefix(pkg, 'RDEPENDS', ml)
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index bbf1ff1cd2..e07ad0cc6b 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -40,8 +40,7 @@ SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
- 
- TOOLCHAIN_HOST_TASK ?= "nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
- TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
--TOOLCHAIN_TARGET_TASK ?= "${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} \
--                          ${@multilib_pkg_extend(d, 'target-sdk-provides-dummy')}"
-+TOOLCHAIN_TARGET_TASK ?= "${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} target-sdk-provides-dummy"
- TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
- TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
- 
--- 
-2.18.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
