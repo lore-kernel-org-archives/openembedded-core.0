@@ -1,24 +1,47 @@
-Return-Path: <chong.yi.chai@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E6C2793EE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 96A8679357
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 03:29:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Sep 2018 20:29:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,334,1531810800"; d="scan'208";a="88048233"
-Received: from chongyic-ilbpg1.png.intel.com ([10.88.227.83])
-	by orsmga001.jf.intel.com with ESMTP; 05 Sep 2018 20:29:15 -0700
-From: chong.yi.chai@intel.com
+	Thu,  6 Sep 2018 05:42:40 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id p12-v6so4692305pfh.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Sep 2018 22:42:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=WVPpSrfBruqh+refr/NxrevlPoiTCoyQmfcRL2DLSLk=;
+	b=OpsvQesPYkPWOW319Gh4OtHpU4MpdFCT4xdWH0sb8tixBPAU155F7dZThsxLEig9Xl
+	PgMOWO6h6wCKB1TAKEcVeUYn9tKnAaCzc1SxeArS+0mSou/nZXrRyiwbqAAB8XjnBxZi
+	DtEzgMEn8/ExOfAmdS+xED8/eTwNZRILaTEFHJ5vKBvgbW2/fLYtLFdx2SJaYliiZzHM
+	ibBpPqKLZUfc9Jadye63wOpiK70E+wHoZMgSA6J3l3lF9EH5gLCgQA++RylOjo4vWo6F
+	HOklV1MSTefMG1SoezNpluEe3vQVaVORqj7jpPQ77exIU6KcVKlpWrpyH6/2CiIjPYI3
+	OAWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=WVPpSrfBruqh+refr/NxrevlPoiTCoyQmfcRL2DLSLk=;
+	b=doF62RgXDDZul9qcnQr6HLxQPrOTtYdpPP869Yk+esSZVt4F807/ZZDd0UrOCUb/dO
+	D2eALWRaMo/C+vCls2ME4GpKDE1gcZv+cucs06uXf5ZIhfZVGa1wiwpzLZ5TfKhmMcCH
+	m3QPzXixUrspR0/yJXp48Rxi1w7aCQGZET6eF8X7k9qJulHauAaaA4salE/B7FMd6bDe
+	DpS08FFnkb37A+3mc+Y2AF63bS5Ts9tLKGClcCKnkjQ2rDb/zOLRE7i4nmnQCGQErpzS
+	GCY3W26dYCye8bsK5vA7wj8ikOexO3H8TfyR4wIE45jeZ7KVcLtO67uFpcwH58mtG81g
+	UmGA==
+X-Gm-Message-State: APzg51CCSQVhsZXug0c5JVvETByfeAMS2r5nplnCuLEUvRK4cOZZgcB7
+	Z4Yzmi/kFj36HAOUFfYJMAFfS/Um
+X-Google-Smtp-Source: ANB0VdaBewS36i04ftHeh/DDuFHfCfdSlN+/71k72lihPevLx3L4runb3Lq3QcGEq6G0etTzw9EmrQ==
+X-Received: by 2002:a62:398c:: with SMTP id u12-v6mr1210055pfj.9.1536212561164;
+	Wed, 05 Sep 2018 22:42:41 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::71e7])
+	by smtp.gmail.com with ESMTPSA id
+	t86-v6sm5053267pfe.109.2018.09.05.22.42.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Sep 2018 22:42:40 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2018 11:29:08 +0800
-Message-Id: <1536204548-10423-1-git-send-email-chong.yi.chai@intel.com>
-X-Mailer: git-send-email 1.9.1
-Cc: chong.yi.chai@intel.com
-Subject: [sumo][PATCH] mkefidisk: fix installation of kernel image
+Date: Wed,  5 Sep 2018 22:42:33 -0700
+Message-Id: <cover.1536212473.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH 0/1] gdb: Update to 8.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 03:29:31 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 05:42:40 -0000
 
-From: Chong Yi Chai <chong.yi.chai@intel.com>
+gdb being a leaf package, this update is not as risky
 
-Kernel image can be 'vmlinuz' for 'bzImage' but the script is written to
-support 'vmlinuz' only. When building with meta-intel on sumo branch, the
-kernel image is now bzImage and the installation will fail. Add option to
-install bzImage as well.
+The following changes since commit 5645d09328ddd5eedbce3ff7757337b5ef176ead:
 
-Signed-off-by: Chong Yi Chai <chong.yi.chai@intel.com>
----
- scripts/contrib/mkefidisk.sh | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+  opkg: add strict package matching on removal patch (2018-09-05 20:29:33 +0100)
 
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index ac4ec9c..39e4bcf 100755
---- a/scripts/contrib/mkefidisk.sh
-+++ b/scripts/contrib/mkefidisk.sh
-@@ -381,7 +381,15 @@ mount $BOOTFS $BOOTFS_MNT >$OUT 2>&1 || error "Failed to mount $BOOTFS on $BOOTF
- 
- info "Preparing boot partition"
- EFIDIR="$BOOTFS_MNT/EFI/BOOT"
--cp $HDDIMG_MNT/vmlinuz $BOOTFS_MNT >$OUT 2>&1 || error "Failed to copy vmlinuz"
-+# Get kernel image name
-+if [ -e "$HDDIMG_MNT/vmlinuz" ]; then
-+	kernel_image="vmlinuz"
-+elif [ "$HDDIMG_MNT/bzImage" ]; then
-+	kernel_image="bzImage"
-+else
-+	die "No kernel image found"
-+fi
-+cp $HDDIMG_MNT/${kernel_image} $BOOTFS_MNT >$OUT 2>&1 || error "Failed to copy ${kernel_image}"
- # Copy the efi loader and configs (booti*.efi and grub.cfg if it exists)
- cp -r $HDDIMG_MNT/EFI $BOOTFS_MNT >$OUT 2>&1 || error "Failed to copy EFI dir"
- # Silently ignore a missing systemd-boot loader dir (we might just be a GRUB image)
-@@ -407,7 +415,7 @@ if [ -e "$GRUB_CFG" ]; then
- 	sed -i "s/ LABEL=[^ ]*/ /" $GRUB_CFG
- 
- 	sed -i "s@ root=[^ ]*@ @" $GRUB_CFG
--	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro rootwait console=ttyS0 console=tty0 @" $GRUB_CFG
-+	sed -i "s@${kernel_image} @${kernel_image} root=$TARGET_ROOTFS ro rootwait console=ttyS0 console=tty0 @" $GRUB_CFG
- fi
- 
- # Look for a systemd-boot installation
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/master
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/master
+
+Khem Raj (1):
+  gdb: Update to 8.2
+
+ .../gdb/{gdb-8.1.1.inc => gdb-8.2.inc}        |   5 +-
+ ...ian_8.1.1.bb => gdb-cross-canadian_8.2.bb} |   0
+ .../{gdb-cross_8.1.1.bb => gdb-cross_8.2.bb}  |   0
+ .../0001-include-sys-types.h-for-mode_t.patch |   9 +-
+ ...make-man-install-relative-to-DESTDIR.patch |   8 +-
+ ...ux-nat-Define-_ABIO32-if-not-defined.patch |  26 ++--
+ ...e-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch |  14 +-
+ ...port-for-Renesas-SH-sh4-architecture.patch | 139 +++++++++---------
+ ...readline.a-when-using-disable-static.patch |  10 +-
+ .../gdb/gdb/0007-use-asm-sgidefs.h.patch      |   8 +-
+ ...-Use-exorted-definitions-of-SIGRTMIN.patch |  12 +-
+ .../gdb/gdb/0009-Change-order-of-CFLAGS.patch |  10 +-
+ ...10-resolve-restrict-keyword-conflict.patch |   8 +-
+ ...> 0011-Fix-invalid-sigprocmask-call.patch} |  20 ++-
+ ...ining-TRAP_HWBKPT-before-including-g.patch |  56 -------
+ .../gdb/{gdb_8.1.1.bb => gdb_8.2.bb}          |   0
+ 16 files changed, 135 insertions(+), 190 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-8.1.1.inc => gdb-8.2.inc} (77%)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_8.1.1.bb => gdb-cross-canadian_8.2.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_8.1.1.bb => gdb-cross_8.2.bb} (100%)
+ rename meta/recipes-devtools/gdb/gdb/{package_devel_gdb_patches_120-sigprocmask-invalid-call.patch => 0011-Fix-invalid-sigprocmask-call.patch} (75%)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch
+ rename meta/recipes-devtools/gdb/{gdb_8.1.1.bb => gdb_8.2.bb} (100%)
+
 -- 
-1.9.1
+2.18.0
 
 
