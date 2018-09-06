@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
-	[209.85.208.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 37E66795D8
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+	[209.85.208.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B6BE79551
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 10:29:54 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id s10-v6so8445857edb.11
+	Thu,  6 Sep 2018 10:29:55 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id l5so8471532edw.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 03:29:55 -0700 (PDT)
+	Thu, 06 Sep 2018 03:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=O5W12mmTflysT0eNumfNv8Van7tWECClZ2HSXknHFbs=;
-	b=TC/m2P8Grl4iXGvq77dY3KChplYc5IXXYFz1xFS+joMlzhXQSaGCAKwxRljJjAUoIQ
-	oHAPz6t8hdeZhepfSOqH7sN61lod02qIqwjquiong7gKq1xde65EJ35evX7rNvakVp0b
-	XRqLJI/s7N90U409duzvhMFpduWbXB/k3hDuNbV7UOj7ODqd5mYci1hbNzMIzYg1eg2I
-	v7OQthg0H8aH8xke1RThBGa3RrROLxRg1jRX4LtVa/7uHO5RpJL+gtnEXblT7esD6XgP
-	wElHi68yVYu3Loo0lGiZ0izN/n7WQ9S3nEujqH9UxFx8NIQ0CAbuInk/zEeynLCwlqji
-	ID2w==
+	bh=xOnu9O8Wx/deCkqiRg9O52q/wCcZxtLuI5ItP/1UhYA=;
+	b=Djp4greD86LmsWYTCz0Yj9av6RCupnJJrV0PlH9xYMZ1R4KbdMXSpyRnvXvx+oqMsl
+	W5Bmx1zSwGkqYNB1znNfnqIhJciXQF9lpc8rKVJzb69bd53V9RqdypFFVnN4CiKwFnV/
+	Pp/k+4LIOnwQj9AFCavWA+ZGcQBA/jMqwjyFVVgFzE9f/sJzO4XJmAC38aoZvXTzB6l4
+	2t9gNAFZg476lH8cN1ya7Gb2juxcY8/6+hc/79DwpZI/5aoS/W4zBZiLOheasP1IkPYk
+	X2ckXjOvObZUe78BjtCh2mOnwc4N8sTapbGr+aIdIiKRY8AENREThTE8daRTiWMCtIwk
+	xZpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=O5W12mmTflysT0eNumfNv8Van7tWECClZ2HSXknHFbs=;
-	b=B2WR8ovq9gcA7ZHdsUEfuwUR916NgAfrl0KDeQySquJvn4hA6ekbEKKxuIAYHZkskJ
-	6B0ML4WwQQKkPVOWyj8cR7iiHwjRVDYC2BUjdVw6GBHZxuJ4D5VhjL3z9SxPHNpGgoyq
-	D0CpMXjC+jLzU/7OSvANGRsWTDZ8BF+WXoFJ7Gx+FqDGzvXUvu5FTDWQwIYXYVetA1ZR
-	AuKo0AkkxUoX7Y6ZwhiInS4m0Mex3zZoeDZ2A1XiJnVODarm9+movA65+0JIeD8NC3Uv
-	hI3vrUKKTKOITRnnl9EWaNmxdtCMOxW7qpoP31zAPdIcg0sj/LjZiB8VbdlvLWzIjvLE
-	SseQ==
-X-Gm-Message-State: APzg51BLtb9tLxObYzIPgeaETPwKH/NHqVXB+RbfEP1NWXnLMtzaIZen
-	yi3oSoAH4BlOxiYDYc9uJOiCJZdRvHo=
-X-Google-Smtp-Source: ANB0VdZTjttTc+VnnfvyMrY6qljXdMPxynpgOXEji/zVpa4yq1a7eGfQRruR9PLnNMOLDst6DX+0XA==
-X-Received: by 2002:a50:d6cd:: with SMTP id
-	l13-v6mr2738308edj.213.1536229794885; 
-	Thu, 06 Sep 2018 03:29:54 -0700 (PDT)
+	bh=xOnu9O8Wx/deCkqiRg9O52q/wCcZxtLuI5ItP/1UhYA=;
+	b=BK2DqzgfFEcsjKYA1y/T/TfIg7kKx038RpxfTIm+pkry4oNCE7ie9JDNp6mx6uDiMi
+	yP9eESOlZ9q/e1lLp6+gpSERYXDO+5vAfanbzeDsWH1S+KRon2290SDAAR4eFsGQhEtc
+	314NRa5qbjcmEXFkUsxCJpvmFZ2cZEf15bd6spzgQ3lpoYLLyDwPzFRvnTLeZctK5ykU
+	xdFrfonSV5UPndxTSGCSRHIgHnzSHLRyr3u/E/nakxZoQ/LnP5cLcpxhOZmBQCAVfBjm
+	EZkd8cQU71jZvX4owa8EIBZzbxzO8VZJZDi52/0IbNEP6HL3Z5fwwFGGXCjnmZAc3zjQ
+	8Dnw==
+X-Gm-Message-State: APzg51DxSkUOqmvSj3y0cwEH+N+XiPxP6yetm/j2Tjnawp3sqNHVz8m4
+	fa8/Ds0Akh6cxZjgmMsgoe3wJPiyg3M=
+X-Google-Smtp-Source: ANB0VdZYLai1MlgG3iCv/kJ0DQzWGG1SV4TJ1keOqGFpU+4pi24C4NBjY8Jvi4iEgeercMpdZ1nVKg==
+X-Received: by 2002:a50:b7db:: with SMTP id
+	i27-v6mr2894335ede.284.1536229795886; 
+	Thu, 06 Sep 2018 03:29:55 -0700 (PDT)
 Received: from localhost.localdomain ([79.140.126.226])
 	by smtp.gmail.com with ESMTPSA id
 	d3-v6sm2495886edi.80.2018.09.06.03.29.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 06 Sep 2018 03:29:54 -0700 (PDT)
+	Thu, 06 Sep 2018 03:29:55 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2018 12:29:25 +0200
-Message-Id: <1536229770-29600-16-git-send-email-alex.kanavin@gmail.com>
+Date: Thu,  6 Sep 2018 12:29:26 +0200
+Message-Id: <1536229770-29600-17-git-send-email-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1536229770-29600-1-git-send-email-alex.kanavin@gmail.com>
 References: <1536229770-29600-1-git-send-email-alex.kanavin@gmail.com>
-Subject: [PATCH 16/21] dtc: update to 1.4.7
+Subject: [PATCH 17/21] vala: update to 0.42.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,87 +58,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 10:29:54 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 10:29:55 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-kernel/dtc/dtc/make_install.patch | 23 ++++++++++++++++-------
- meta/recipes-kernel/dtc/dtc_1.4.6.bb           | 10 ----------
- meta/recipes-kernel/dtc/dtc_1.4.7.bb           | 10 ++++++++++
- 3 files changed, 26 insertions(+), 17 deletions(-)
- delete mode 100644 meta/recipes-kernel/dtc/dtc_1.4.6.bb
- create mode 100644 meta/recipes-kernel/dtc/dtc_1.4.7.bb
+ meta/recipes-devtools/vala/vala/disable-graphviz.patch | 12 ++++++------
+ meta/recipes-devtools/vala/vala_0.40.8.bb              | 10 ----------
+ meta/recipes-devtools/vala/vala_0.42.0.bb              | 10 ++++++++++
+ 3 files changed, 16 insertions(+), 16 deletions(-)
+ delete mode 100644 meta/recipes-devtools/vala/vala_0.40.8.bb
+ create mode 100644 meta/recipes-devtools/vala/vala_0.42.0.bb
 
-diff --git a/meta/recipes-kernel/dtc/dtc/make_install.patch b/meta/recipes-kernel/dtc/dtc/make_install.patch
-index ccf17b3..ea9359e 100644
---- a/meta/recipes-kernel/dtc/dtc/make_install.patch
-+++ b/meta/recipes-kernel/dtc/dtc/make_install.patch
-@@ -1,17 +1,26 @@
-+From e9852b9d206df1e42aa4c8afec55a0f5e099b533 Mon Sep 17 00:00:00 2001
-+From: Saul Wold <sgw@linux.intel.com>
-+Date: Thu, 3 Nov 2011 08:35:47 -0700
-+Subject: [PATCH] dtc: Add patch to correctly install shared libraries and
-+
- Upstream-Status: Inappropriate [configuration]
+diff --git a/meta/recipes-devtools/vala/vala/disable-graphviz.patch b/meta/recipes-devtools/vala/vala/disable-graphviz.patch
+index e7e38c7..477504d 100644
+--- a/meta/recipes-devtools/vala/vala/disable-graphviz.patch
++++ b/meta/recipes-devtools/vala/vala/disable-graphviz.patch
+@@ -1,4 +1,4 @@
+-From 5ae347907b8c65983365a6325ac990fcde28d508 Mon Sep 17 00:00:00 2001
++From 57f6b661d7865e8cecd17be36fab68f7f8447998 Mon Sep 17 00:00:00 2001
+ From: Rico Tzschichholz <ricotz@ubuntu.com>
+ Date: Wed, 6 Sep 2017 18:52:55 +0200
+ Subject: [PATCH] libvaladoc: Allow disabling the graphviz dependency of
+@@ -17,10 +17,10 @@ Upstream-Status: Submitted [bugzilla link above]
+  4 files changed, 63 insertions(+), 34 deletions(-)
  
--Index: git/Makefile
--===================================================================
----- git.orig/Makefile
--+++ git/Makefile
--@@ -168,8 +168,8 @@ install-bin: all $(SCRIPTS)
-+---
-+ Makefile | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index d8ebc4f..f5e01be 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -205,8 +205,8 @@ install-bin: all $(SCRIPTS)
-  install-lib: all
-  	@$(VECHO) INSTALL-LIB
-  	$(INSTALL) -d $(DESTDIR)$(LIBDIR)
---	$(INSTALL) $(LIBFDT_lib) $(DESTDIR)$(LIBDIR)
-+-	$(INSTALL_LIB) $(LIBFDT_lib) $(DESTDIR)$(LIBDIR)
- -	ln -sf $(notdir $(LIBFDT_lib)) $(DESTDIR)$(LIBDIR)/$(LIBFDT_soname)
- +	$(INSTALL) $(LIBFDT_lib) $(DESTDIR)$(LIBDIR)/$(LIBFDT_soname)
- +	ln -sf $(LIBFDT_soname) $(DESTDIR)$(LIBDIR)/$(notdir $(LIBFDT_lib))
-  	ln -sf $(LIBFDT_soname) $(DESTDIR)$(LIBDIR)/libfdt.$(SHAREDLIB_EXT)
-- 	$(INSTALL) -m 644 $(LIBFDT_archive) $(DESTDIR)$(LIBDIR)
-+ 	$(INSTALL_DATA) $(LIBFDT_archive) $(DESTDIR)$(LIBDIR)
+ diff --git a/configure.ac b/configure.ac
+-index 694ffd2..9150620 100644
++index 730c72d..af81986 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -112,34 +112,38 @@ PKG_CHECK_MODULES(GMODULE, gmodule-2.0 >= $GLIB_REQUIRED)
++@@ -119,34 +119,38 @@ PKG_CHECK_MODULES(GMODULE, gmodule-2.0 >= $GLIB_REQUIRED)
+  AC_SUBST(GMODULE_CFLAGS)
+  AC_SUBST(GMODULE_LIBS)
   
-diff --git a/meta/recipes-kernel/dtc/dtc_1.4.6.bb b/meta/recipes-kernel/dtc/dtc_1.4.6.bb
+@@ -202,7 +202,7 @@ index 37c731c..e0326ef 100644
+  
+  	public void write_namespace_content (Namespace node, Api.Node? parent) {
+ diff --git a/libvaladoc/html/htmlmarkupwriter.vala b/libvaladoc/html/htmlmarkupwriter.vala
+-index dcc4dad..cf9c860 100644
++index 5aa4afd..e79b0b8 100644
+ --- a/libvaladoc/html/htmlmarkupwriter.vala
+ +++ b/libvaladoc/html/htmlmarkupwriter.vala
+ @@ -51,12 +51,16 @@ public class Valadoc.Html.MarkupWriter : Valadoc.MarkupWriter {
+@@ -210,14 +210,14 @@ index dcc4dad..cf9c860 100644
+  	}
+  
+ +#if HAVE_GRAPHVIZ
+- 	public MarkupWriter add_usemap (Charts.Chart chart) {
++ 	public unowned MarkupWriter add_usemap (Charts.Chart chart) {
+  		string? buf = (string?) chart.write_buffer ("cmapx");
+  		if (buf != null) {
+  			raw_text ("\n");
+  			raw_text ((!) buf);
+  		}
+ +#else
+-+	public MarkupWriter add_usemap (void* chart) {
+++	public unowned MarkupWriter add_usemap (void* chart) {
+ +#endif
+  
+  		return this;
+diff --git a/meta/recipes-devtools/vala/vala_0.40.8.bb b/meta/recipes-devtools/vala/vala_0.40.8.bb
 deleted file mode 100644
-index 78c5736..0000000
---- a/meta/recipes-kernel/dtc/dtc_1.4.6.bb
+index dba9f0d..0000000
+--- a/meta/recipes-devtools/vala/vala_0.40.8.bb
 +++ /dev/null
 @@ -1,10 +0,0 @@
--require dtc.inc
+-require ${BPN}.inc
 -
--LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
--		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
+-SRC_URI += " file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.patch \
+-             file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
+-	     file://disable-graphviz.patch \
+-	     file://0001-Disable-valadoc.patch \
+-"
 -
--SRCREV = "e54388015af1fb4bf04d0bca99caba1074d9cc42"
--
--S = "${WORKDIR}/git"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-kernel/dtc/dtc_1.4.7.bb b/meta/recipes-kernel/dtc/dtc_1.4.7.bb
+-SRC_URI[md5sum] = "3e3177692fb5d81a7b8aaa6b95a30bdd"
+-SRC_URI[sha256sum] = "5c35e087a7054e9f0a514a0c1f1d0a0d7cf68d3e43c1dbeb840f9b0d815c0fa5"
+diff --git a/meta/recipes-devtools/vala/vala_0.42.0.bb b/meta/recipes-devtools/vala/vala_0.42.0.bb
 new file mode 100644
-index 0000000..6ce462a
+index 0000000..2b02e0c
 --- /dev/null
-+++ b/meta/recipes-kernel/dtc/dtc_1.4.7.bb
++++ b/meta/recipes-devtools/vala/vala_0.42.0.bb
 @@ -0,0 +1,10 @@
-+require dtc.inc
++require ${BPN}.inc
 +
-+LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
-+		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
++SRC_URI += " file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.patch \
++             file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
++	     file://disable-graphviz.patch \
++	     file://0001-Disable-valadoc.patch \
++"
 +
-+SRCREV = "88f18909db731a627456f26d779445f84e449536"
-+
-+S = "${WORKDIR}/git"
-+
-+BBCLASSEXTEND = "native nativesdk"
++SRC_URI[md5sum] = "aa6eb8097d25b5847ad3fab34c0ff865"
++SRC_URI[sha256sum] = "62a55986da23cf3aaafd7624c32db2a1af11c8419e0bb0751727d10f1f7ab7be"
 -- 
 2.7.4
 
