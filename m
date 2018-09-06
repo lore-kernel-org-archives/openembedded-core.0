@@ -1,28 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 38DD27952D
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E3547952D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 08:19:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w868Jq3W000940
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Sep 2018 01:19:52 -0700 (PDT)
-Received: from localhost.corp.ad.wrs.com (128.224.162.161) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 6 Sep 2018 01:19:51 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <20180905165227.29435-1-richard.purdie@linuxfoundation.org>
-	<57018506-c661-a554-01a9-42f4de2cabb9@windriver.com>
-	<cea8be2755a95002fb28718121baa756a7e4f668.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <0b2eb458-7af6-3f7f-396c-461bb2bdb54c@windriver.com>
-Date: Thu, 6 Sep 2018 16:22:53 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <cea8be2755a95002fb28718121baa756a7e4f668.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/8] python: Run pybench once for optimisation task in pgo
+	Thu,  6 Sep 2018 08:27:42 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Sep 2018 01:27:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,337,1531810800"; d="scan'208";a="261179771"
+Received: from marquiz2.fi.intel.com ([10.237.72.79])
+	by fmsmga006.fm.intel.com with ESMTP; 06 Sep 2018 01:27:42 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Sep 2018 11:27:42 +0300
+Message-Id: <20180906082742.36210-1-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.13.7
+Subject: [PATCH] cantarell-fonts: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,55 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 08:19:52 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Sep 2018 08:27:42 -0000
 
+Fixes build for older git versions (e.g. in Centos 7) which are not able
+to redirect if the .git suffix is missing. Build got broken by
+25bac865def42650c0c0323322158ba338e8b753
 
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 09/06/2018 04:17 PM, richard.purdie@linuxfoundation.org wrote:
-> On Thu, 2018-09-06 at 16:15 +0800, Robert Yang wrote:
->> What's the fault if I don't run it, please ? This is very slow, here
->> are some rough thoughts to speed it up:
->>
->> 1) Make it optional to run, and default to no if there isn't any
->> faults without running it.
-> 
-> Without running it, python is not profile optimised and runs slower.
-> 
->> 2) Use qemu-kvm to run the tests if qemu kvm has been setup (I tried
->> it, it can
->>      reduce form 12m -> 4m, saved 8 mins:
->>      * Without kvm
->>        $ bitbake python3 -ccleansstate && time bitbake python3
->>        real    12m28.070s
->>        user    0m1.316s
->>        sys     0m0.184s
->>
->>      * With kvm:
->>      real    3m53.781s
->>      user    0m1.080s
->>      sys     0m0.220s
->>
->>     We may need a oe-core/scripts/qemu-kvm-check to check strictly
->> whether kvm
->>     can be used or not.
->>
->> Please feel free to give your comments.
-> 
-> Ross has some patches coming in this area which should improve things a
-> lot so I'd suggest we wait for those. I merged the n10 -> n1 change
-> simply because it was an easy fix to same some time whilst the other
-> patches a debugged.
+diff --git a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
+index 9d8fb28281..455892ef86 100644
+--- a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
++++ b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=df91e3ffcab8cfb972a66bf11255188d"
+ PV = "0.0.24"
+ 
+ SRCREV = "07b6ea2cbbebfc360aa4668612a376be5e214eaa"
+-SRC_URI = "git://gitlab.gnome.org/GNOME/cantarell-fonts;protocol=https;branch=master"
++SRC_URI = "git://gitlab.gnome.org/GNOME/cantarell-fonts.git;protocol=https;branch=master"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(?!0\.13)(?!0\.10\.1)\d+\.\d+(\.\d+)+)"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.13.7
 
-Sounds great, thanks.
-
-// Robert
-
-> 
-> Cheers,
-> 
-> Richard
-> 
 
