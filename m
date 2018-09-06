@@ -1,48 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
-	[209.85.208.53])
-	by mail.openembedded.org (Postfix) with ESMTP id B71E5795D2
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AA248795F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 10:40:40 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id y20-v6so8517278edq.2
+	Thu,  6 Sep 2018 10:40:41 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id y20-v6so8517322edq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 03:40:42 -0700 (PDT)
+	Thu, 06 Sep 2018 03:40:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=9O/dLOD728KFnT6DqdZIh1onV/MrYCM2IvOOsI+8Lcg=;
-	b=I9G94mngddLbp0GL4JGBHZYu/2Fd6+rFxNOMvlTw0UQ5/YiW643YmyKVilulm2+qLT
-	p0UBx+49PkYcvtWeJUbAZioCTN2sG+snRHw9/r7ANu9rsC1CS1gU0aYyYCr3Ys2XZs0T
-	3ndrgt2/iX3cbAZVq0VJPo6z6ybhJi7X1jLW7smVJHpARi9Xr+sjgBdisd4kVuA+s1jU
-	yrrAfO9iv2SJfadvJO1fbQxNH/UNZBYMi5ZY8Ddl32LTlayeq0rOmCdxf7lx96UAxpC4
-	+vDvOrmtj8mAOEIv6cTXxxOKzZ/0Ogl/fbTc3sdF9VyJvr5T075xjDFiKf26+skLY0tc
-	QAKw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=VzAyQk3F2g8Nrerx4XAcH38WL8Y9IyBsMVtyJa8k0tY=;
+	b=FTSAt3iP6k083gpQCgf9KXaUm7OvXNUsxyBg6H4nfaMvH3PKGBXi8wPv/G10jQzTXP
+	soQoRrTUqmYSUTZGumA9VGA7hNFnqizRIurcLcv4iQ38eF7K8JDbJ8vBJw0OUYYz1rJG
+	9qHiby4vj4DuDHYDMD4rUeTeKplHhs+awnNALwYlxhRAPZnlXHGB904PxfRZ1WEu1D2N
+	WaQofnygVn/wpfR++ggPZPhuCB9NzOfODVJHeDq3NjvCFxLULrveImjkTGFDwUtnK8ic
+	r1MFRg7W5HSDs6kfzI24f0teTob9UXiSVxQ7WA01phOTZ0ahPRshaDHYBMxyqTo8chMJ
+	slXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=9O/dLOD728KFnT6DqdZIh1onV/MrYCM2IvOOsI+8Lcg=;
-	b=RIroKtB4JMYkizfMD1sJOr/3w0/AXqQD/qnA4NfGlIcyqqAL5Pne2xtk06ZVb0qJWf
-	LmHPU6KRGJgkd2iOSYjFwJMIdzgCKcSANkPgvLbg5YTcZr3wb74tU4cuo+sjWoCSzpxx
-	eAsOflIwevSqIqTv7q3EOD4ofhYPT4aR7vfLEnsAM7ViveGUXSrYtYQwrjYPo+xp6tG7
-	nwpu1DNqOkOvFTETG5TaHdh1iU+SRy3vlAoG+IkxL2uNi/CuSNaG+G67Esl8Ybnn4fL1
-	wmA7pQy3HCYFnBq6jGtROA/+0j4kQbYLqWhmKMb7Vr+3h5ZjmDZYaiPIrZh+SO6xQyln
-	lz6g==
-X-Gm-Message-State: APzg51ArXOQCgo8BYraSh6cFF9+6X+hU5Y++oBc2G1dpVk2SdAXYo4hV
-	9Ue/61gEGZkLMvB8aOh76znqDSzXIKY=
-X-Google-Smtp-Source: ANB0VdYHcZ/iE5lTfJUtIJkOvence1BMVpgaWSJSXZJ+86zO6hfhUc3+bRzGCRy75EJywsJIZIAMXg==
-X-Received: by 2002:aa7:dc49:: with SMTP id
-	g9-v6mr2731785edu.115.1536230440964; 
-	Thu, 06 Sep 2018 03:40:40 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=VzAyQk3F2g8Nrerx4XAcH38WL8Y9IyBsMVtyJa8k0tY=;
+	b=B5lbIGUqFT0YTqAQcAOeHuHL7U95Xhpa0JxUq6WGt817AubmRg4Tb7b1dP25vR6YNa
+	IDo+U37591v1KpZvjg1DZSMyJ46ZDzKCT7Uez4cOhATPAfnKP9IWR4m2HFx4l21xPxJr
+	+/N39gQ4IOyvbin1rsnfQ+BM9f3A4YJECkRvA1eG4EkZoyB7veCKzCWMJstJqlKvdbJK
+	xQByp7XSBZWOhUfw6xTKQwovLFfXOGEYH1R2oevqRJmHiWf6bRnikuZ1E7brbrDc31xH
+	0SeOmASZf1h8pbK3MVPiKSPS/Cq0FxyZDZ2mVAjq/qZNRFOt4HyF7EYooZOaNZaE6fFj
+	d1mA==
+X-Gm-Message-State: APzg51AMfRNwmJ7wFqI+mawrlesBY0ss1dJ9fSk8MaL/gQF/Rjjvc9fN
+	9cwCkztWY62GzSZXXAT/n/Vud109xR8=
+X-Google-Smtp-Source: ANB0VdZzloWbdkQDi6tS0zNoDevUypaagN8+SnzrLYG2rpZuFQUraHaGJ3J3xX+pYv0MNLdK4/7gmQ==
+X-Received: by 2002:a50:ed1a:: with SMTP id
+	j26-v6mr2811918eds.29.1536230442262; 
+	Thu, 06 Sep 2018 03:40:42 -0700 (PDT)
 Received: from localhost.localdomain ([79.140.126.226])
 	by smtp.gmail.com with ESMTPSA id
 	k28-v6sm2256506ede.11.2018.09.06.03.40.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 06 Sep 2018 03:40:40 -0700 (PDT)
+	Thu, 06 Sep 2018 03:40:41 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2018 12:40:16 +0200
-Message-Id: <1536230436-30342-1-git-send-email-alex.kanavin@gmail.com>
+Date: Thu,  6 Sep 2018 12:40:17 +0200
+Message-Id: <1536230436-30342-2-git-send-email-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCHv2 01/21] eee-acpi-scripts: remove the recipe
+In-Reply-To: <1536230436-30342-1-git-send-email-alex.kanavin@gmail.com>
+References: <1536230436-30342-1-git-send-email-alex.kanavin@gmail.com>
+Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Subject: [PATCHv2 02/21] sysprof: update to 3.30.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,201 +59,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 10:40:41 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 10:40:42 -0000
 
-Asus EEEPc hardware is well obsolete, upstream repo is now gone.
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/distro/include/distro_alias.inc          |  1 -
- meta/conf/distro/include/maintainers.inc           |  1 -
- .../eee-acpi-scripts/eee-acpi-scripts_git.bb       | 39 --------------
- .../eee-acpi-scripts/files/policy-funcs            |  8 ---
- .../eee-acpi-scripts/files/powerbtn.patch          | 22 --------
- .../eee-acpi-scripts/files/remove-doc-check.patch  | 60 ----------------------
- 6 files changed, 131 deletions(-)
- delete mode 100644 meta/recipes-bsp/eee-acpi-scripts/eee-acpi-scripts_git.bb
- delete mode 100644 meta/recipes-bsp/eee-acpi-scripts/files/policy-funcs
- delete mode 100644 meta/recipes-bsp/eee-acpi-scripts/files/powerbtn.patch
- delete mode 100644 meta/recipes-bsp/eee-acpi-scripts/files/remove-doc-check.patch
+ ...-not-build-anything-in-help-as-it-requires-itstool.patch | 13 +++++++------
+ .../sysprof/{sysprof_3.26.1.bb => sysprof_3.30.0.bb}        |  5 +++--
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+ rename meta/recipes-kernel/sysprof/{sysprof_3.26.1.bb => sysprof_3.30.0.bb} (86%)
 
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index 793a1c2..7502542 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -80,7 +80,6 @@ DISTRO_PN_ALIAS_pn-docbook-xml-dtd4-native = "Ubuntu=docbook-xml Fedora=docbook-
- DISTRO_PN_ALIAS_pn-docbook-xsl-stylesheets = "Fedora=docbook-xsl-stylesheets Opensuse=docbook-xsl-stylesheets"
- DISTRO_PN_ALIAS_pn-dropbear = "Debian=dropbear Ubuntu=dropbear"
- DISTRO_PN_ALIAS_pn-dtc = "Fedora=dtc Ubuntu=dtc"
--DISTRO_PN_ALIAS_pn-eee-acpi-scripts = "Debian=eeepc-acpi-scripts Ubuntu=eeepc-acpi-scripts"
- DISTRO_PN_ALIAS_pn-eglinfo-fb = "OE-Core"
- DISTRO_PN_ALIAS_pn-eglinfo-x11 = "OE-Core"
- DISTRO_PN_ALIAS_pn-encodings = "Ubuntu=xfonts-encodings Mandriva=x11-font-encodings Debian=xfonts-encodings"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4ec3c20..2ecc3d6 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -142,7 +142,6 @@ RECIPE_MAINTAINER_pn-dtc = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-dwarfsrcfiles = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-e2fsprogs = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-ed = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-eee-acpi-scripts = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-eglinfo-fb = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-eglinfo-x11 = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
-diff --git a/meta/recipes-bsp/eee-acpi-scripts/eee-acpi-scripts_git.bb b/meta/recipes-bsp/eee-acpi-scripts/eee-acpi-scripts_git.bb
-deleted file mode 100644
-index c2a02aa..0000000
---- a/meta/recipes-bsp/eee-acpi-scripts/eee-acpi-scripts_git.bb
-+++ /dev/null
-@@ -1,39 +0,0 @@
--SUMMARY = "eeePC specific ACPI scripts"
--HOMEPAGE = "http://alioth.debian.org/projects/debian-eeepc/"
--SECTION = "base"
--
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://debian/copyright;md5=77ef83ab5f4af938a93edb61f7b74f2c"
--
--SRCREV = "9d4cdedca25b396405f8587f9c4fbf8229e041c2"
--PV = "1.1.12+git${SRCPV}"
--
--SRC_URI = "git://git.debian.org/git/debian-eeepc/eeepc-acpi-scripts.git \
--	   file://remove-doc-check.patch \
--	   file://powerbtn.patch \
--	   file://policy-funcs "
--
--S = "${WORKDIR}/git"
--
--FILES_${PN} = "${datadir}/acpi-support/ \
--               ${datadir}/eeepc-acpi-scripts \
--               ${sysconfdir}/default/ \
--               ${sysconfdir}/acpi/"
--
--do_install () {
--	install -d ${D}${sysconfdir}/default/
--	install -d ${D}${sysconfdir}/acpi/actions/
--	install -d ${D}${sysconfdir}/acpi/events/
--	install -d ${D}${sysconfdir}/acpi/lib/udev/rules.d
--	install -d ${D}${datadir}/eeepc-acpi-scripts/
--	install -d ${D}${datadir}/acpi-support/
--	install -m 644 ${S}/events/* ${D}${sysconfdir}/acpi/events/
--	install -m 644 ${S}/lib/udev/rules.d/* ${D}${sysconfdir}/acpi/lib/udev/rules.d/
--	install ${S}/actions/* ${D}${sysconfdir}/acpi/actions/
--	install -m 0644 ${S}/acpilib/functions.sh ${D}${datadir}/eeepc-acpi-scripts/
--	install -m 0644 ${WORKDIR}/policy-funcs ${D}${datadir}/acpi-support/
--	install -m 0644 ${S}/debian/eeepc-acpi-scripts.default* ${D}${sysconfdir}/default/
--}
--
--RDEPENDS_${PN} = "pm-utils"
--
-diff --git a/meta/recipes-bsp/eee-acpi-scripts/files/policy-funcs b/meta/recipes-bsp/eee-acpi-scripts/files/policy-funcs
-deleted file mode 100644
-index fd099df..0000000
---- a/meta/recipes-bsp/eee-acpi-scripts/files/policy-funcs
-+++ /dev/null
-@@ -1,8 +0,0 @@
--CheckPolicy() {
--	if pidof gnome-power-manager kpowersave > /dev/null ||
--	   (pidof dcopserver > /dev/null && test -x /usr/bin/dcop && /usr/bin/dcop kded kded loadedModules | grep -q klaptopdaemon) ; then
--		echo 0;
--	else
--		echo 1;
--	fi
--}
-diff --git a/meta/recipes-bsp/eee-acpi-scripts/files/powerbtn.patch b/meta/recipes-bsp/eee-acpi-scripts/files/powerbtn.patch
-deleted file mode 100644
-index 403e556..0000000
---- a/meta/recipes-bsp/eee-acpi-scripts/files/powerbtn.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
-----
-- actions/power.sh |    3 +++
-- events/powerbtn  |    2 ++
-- 2 files changed, 5 insertions(+)
--
--Upstream-Status: Inappropriate [enable feature]
--
--Index: git/events/powerbtn
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/events/powerbtn	2008-10-08 17:43:35.000000000 +0200
--@@ -0,0 +1,2 @@
--+event=button/power PWRF
--+action=/etc/acpi/actions/power.sh
--Index: git/actions/power.sh
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/actions/power.sh	2008-10-08 17:45:26.000000000 +0200
--@@ -0,0 +1,3 @@
--+#!/bin/sh
--+
--+/sbin/shutdown -h now "Power button pressed"
-diff --git a/meta/recipes-bsp/eee-acpi-scripts/files/remove-doc-check.patch b/meta/recipes-bsp/eee-acpi-scripts/files/remove-doc-check.patch
-deleted file mode 100644
-index efb3dca..0000000
---- a/meta/recipes-bsp/eee-acpi-scripts/files/remove-doc-check.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
-----
-- actions/hotkey.sh     |    3 ---
-- actions/suspend.sh    |    3 ---
-- actions/vga-toggle.sh |    3 ---
-- actions/volume.sh     |    3 ---
-- 4 files changed, 12 deletions(-)
--
--Upstream-Status: Inappropriate [configuration]
--
--Index: git/eeepc-acpi-scripts/volume.sh
--===================================================================
----- git.orig/eeepc-acpi-scripts/volume.sh	2011-11-29 19:21:55.000000000 +0800
--+++ git/eeepc-acpi-scripts/volume.sh	2011-11-29 19:41:36.000000000 +0800
--@@ -3,12 +3,10 @@
-- [ -d /sys/devices/platform/eeepc ] || [ -d /sys/devices/platform/eeepc-wmi ] || exit 0
-- # Volume controls
-- 
---# do nothing if package is removed
-- PKG=eeepc-acpi-scripts
-- PKG_DIR=/usr/share/acpi-support/$PKG
-- FUNC_LIB=$PKG_DIR/lib/functions.sh
-- DEFAULT=/etc/default/$PKG
---[ -e "$FUNC_LIB" ] || exit 0
-- 
-- . $FUNC_LIB
-- . $PKG_DIR/lib/sound.sh
--Index: git/eeepc-acpi-scripts/hotkey.sh
--===================================================================
----- git.orig/eeepc-acpi-scripts/hotkey.sh	2011-11-29 19:21:55.000000000 +0800
--+++ git/eeepc-acpi-scripts/hotkey.sh	2011-11-29 19:39:51.000000000 +0800
--@@ -1,12 +1,10 @@
-- #!/bin/sh
-- 
-- [ -d /sys/devices/platform/eeepc ] || [ -d /sys/devices/platform/eeepc-wmi ] || exit 0
---# do nothing if package is removed
-- PKG=eeepc-acpi-scripts
-- PKG_DIR=/usr/share/acpi-support/$PKG
-- FUNC_LIB=$PKG_DIR/lib/functions.sh
-- DEFAULT=/etc/default/$PKG
---[ -e "$FUNC_LIB" ] || exit 0
-- 
-- case $(runlevel) in
--     *0|*6)
--Index: git/eeepc-acpi-scripts/vga-toggle.sh
--===================================================================
----- git.orig/eeepc-acpi-scripts/vga-toggle.sh	2011-11-29 19:21:55.000000000 +0800
--+++ git/eeepc-acpi-scripts/vga-toggle.sh	2011-11-29 19:40:24.000000000 +0800
--@@ -1,12 +1,10 @@
-- #!/bin/sh
-- 
-- [ -d /sys/devices/platform/eeepc ] || [ -d /sys/devices/platform/eeepc-wmi ] || exit 0
---# do nothing if package is removed
-- PKG=eeepc-acpi-scripts
-- PKG_DIR=/usr/share/acpi-support/$PKG
-- FUNC_LIB=$PKG_DIR/lib/functions.sh
-- DEFAULT=/etc/default/$PKG
---[ -e "$FUNC_LIB" ] || exit 0
-- 
-- if [ -e "$DEFAULT" ]; then . "$DEFAULT"; fi
-- . $FUNC_LIB
+diff --git a/meta/recipes-kernel/sysprof/files/0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch b/meta/recipes-kernel/sysprof/files/0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch
+index e28fdca..ade51cf 100644
+--- a/meta/recipes-kernel/sysprof/files/0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch
++++ b/meta/recipes-kernel/sysprof/files/0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch
+@@ -1,26 +1,27 @@
+-From c2495a4c042e6a675da69bab20cc3669391e8e2a Mon Sep 17 00:00:00 2001
++From d332b480257aa98b63d39c3c94896a111536f937 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 Aug 2017 18:38:26 +0300
+-Subject: [PATCH 1/2] Do not build anything in help/ as it requires itstool.
++Subject: [PATCH 2/2] Do not build anything in help/ as it requires itstool.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  meson.build | 1 -
+  1 file changed, 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 4ac3934..8c4369a 100644
++index 3986273..ae2f65e 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -116,7 +116,6 @@ subdir('tools')
++@@ -164,7 +164,6 @@ subdir('tools')
+  subdir('tests')
+  
+  subdir('data')
+ -subdir('help')
+  subdir('po')
+  
+- meson.add_install_script('build-aux/meson_post_install.sh')
++ meson.add_install_script('build-aux/meson/post_install.sh')
+ -- 
+-2.14.1
++2.7.4
+ 
+diff --git a/meta/recipes-kernel/sysprof/sysprof_3.26.1.bb b/meta/recipes-kernel/sysprof/sysprof_3.30.0.bb
+similarity index 86%
+rename from meta/recipes-kernel/sysprof/sysprof_3.26.1.bb
+rename to meta/recipes-kernel/sysprof/sysprof_3.30.0.bb
+index 9fb4e57..4f1b750 100644
+--- a/meta/recipes-kernel/sysprof/sysprof_3.26.1.bb
++++ b/meta/recipes-kernel/sysprof/sysprof_3.30.0.bb
+@@ -9,8 +9,8 @@ inherit gnomebase gettext systemd upstream-version-is-even
+ 
+ DEPENDS = "glib-2.0 libxml2-native glib-2.0-native"
+ 
+-SRC_URI[archive.md5sum] = "6f9f947960ba79bb1269d8ee49b7db78"
+-SRC_URI[archive.sha256sum] = "d8b9d5c2246696e4a3776a312731dc7c014fbd33478bb14d5512c6f1f35a3b11"
++SRC_URI[archive.md5sum] = "ae896a8a2364e18c07fafa9573202f59"
++SRC_URI[archive.sha256sum] = "29cd2c4be277f00698dce48259219557c4fddc2c01254b8fac95900a8c663f63"
+ SRC_URI += " \
+            file://define-NT_GNU_BUILD_ID.patch \
+            file://0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch \
+@@ -29,4 +29,5 @@ SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains('PACKAGECONFIG', 'sysprofd', 'sysp
+ FILES_${PN} += " \
+                ${datadir}/dbus-1/system-services \
+                ${datadir}/dbus-1/system.d \
++               ${datadir}/metainfo \
+                "
 -- 
 2.7.4
 
