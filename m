@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 70B1579551
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+	[209.85.208.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 37E66795D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 10:29:53 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id l5so8471474edw.9
+	Thu,  6 Sep 2018 10:29:54 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id s10-v6so8445857edb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 03:29:54 -0700 (PDT)
+	Thu, 06 Sep 2018 03:29:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=krCnXbtfvMUmHa0RyOBWw6kWw1x2sXKIeUpn99oPlEc=;
-	b=mxml3B2yG7rUSL52C4sNdGL+M4uiu/92eCj2iNMDfeHtr4FMVaqBmsQAQ1we8m9cQm
-	tP3DB15WF4GVCrPE+TtbdFA5zkQNaglUwLaE/783onaA6bPR+19XtxFd/Mg8c9H9oXBr
-	LazMxpQ4oGL4I4hGifyXhGNA9j5k9Uj5wProYxFss62GxUORzYXDfOsBXpm6e3YVrZAe
-	BMujx/BS7KvIcMW/eIoyXW11vepqZAeujxsnCb0m5sZEdFYDOuQOOSLc19NZ9Saa1ehu
-	uqmmuSu5Z2v2O67Gq8BiG/3z/y5oczJqNMLiL+BzQFF5PE3pafdT5Jz3QDBaihfHFbN+
-	TU5w==
+	bh=O5W12mmTflysT0eNumfNv8Van7tWECClZ2HSXknHFbs=;
+	b=TC/m2P8Grl4iXGvq77dY3KChplYc5IXXYFz1xFS+joMlzhXQSaGCAKwxRljJjAUoIQ
+	oHAPz6t8hdeZhepfSOqH7sN61lod02qIqwjquiong7gKq1xde65EJ35evX7rNvakVp0b
+	XRqLJI/s7N90U409duzvhMFpduWbXB/k3hDuNbV7UOj7ODqd5mYci1hbNzMIzYg1eg2I
+	v7OQthg0H8aH8xke1RThBGa3RrROLxRg1jRX4LtVa/7uHO5RpJL+gtnEXblT7esD6XgP
+	wElHi68yVYu3Loo0lGiZ0izN/n7WQ9S3nEujqH9UxFx8NIQ0CAbuInk/zEeynLCwlqji
+	ID2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=krCnXbtfvMUmHa0RyOBWw6kWw1x2sXKIeUpn99oPlEc=;
-	b=tsgUce2UZhvX8tnIOF+tr04EwKmdHWzb1Yt3B9QbxYDPEUp4QjTsdpLsUc1FElg5DB
-	W6En6xPxjwZsqosTKeAUOpuRb7vbktqnrXeUI55w0VOssOO3E7KgCwJhP4iU2ekP8qn4
-	Zrd6gArMAdOhnjNXF7bKG07D8I9Ux+yf05CF62XBSlD1F3LKxmGwu7jtSFc/fj6UO/tJ
-	stwEd5XvP7EOmt9PCtvmYI06bFiC+D+q3PuM3s+0bXbRa2MMYWxIowmUsW4KpsIJlm2y
-	T3mCW2PD2PXXm8MkF3d6xS55AhkR8hMs5lqqDa7o67MwGDYRMyy2/Iccb46CdrB/8rEb
-	JTpA==
-X-Gm-Message-State: APzg51AfsoSzyxn6LyKXokpd7JshV+nSZ37VpTAl+iHCjTNI23JVqh66
-	QX129wMhBzl0tX8RJygnGDEkd/UUuBA=
-X-Google-Smtp-Source: ANB0VdY+fyM2naGWzLmvDztt/yiP21kE9cX4L9d/uWzsSyTsG8qTsASkj9OWcCJe/pNwtJPeZBbxXw==
-X-Received: by 2002:a50:acc6:: with SMTP id
-	x64-v6mr2847629edc.152.1536229794083; 
+	bh=O5W12mmTflysT0eNumfNv8Van7tWECClZ2HSXknHFbs=;
+	b=B2WR8ovq9gcA7ZHdsUEfuwUR916NgAfrl0KDeQySquJvn4hA6ekbEKKxuIAYHZkskJ
+	6B0ML4WwQQKkPVOWyj8cR7iiHwjRVDYC2BUjdVw6GBHZxuJ4D5VhjL3z9SxPHNpGgoyq
+	D0CpMXjC+jLzU/7OSvANGRsWTDZ8BF+WXoFJ7Gx+FqDGzvXUvu5FTDWQwIYXYVetA1ZR
+	AuKo0AkkxUoX7Y6ZwhiInS4m0Mex3zZoeDZ2A1XiJnVODarm9+movA65+0JIeD8NC3Uv
+	hI3vrUKKTKOITRnnl9EWaNmxdtCMOxW7qpoP31zAPdIcg0sj/LjZiB8VbdlvLWzIjvLE
+	SseQ==
+X-Gm-Message-State: APzg51BLtb9tLxObYzIPgeaETPwKH/NHqVXB+RbfEP1NWXnLMtzaIZen
+	yi3oSoAH4BlOxiYDYc9uJOiCJZdRvHo=
+X-Google-Smtp-Source: ANB0VdZTjttTc+VnnfvyMrY6qljXdMPxynpgOXEji/zVpa4yq1a7eGfQRruR9PLnNMOLDst6DX+0XA==
+X-Received: by 2002:a50:d6cd:: with SMTP id
+	l13-v6mr2738308edj.213.1536229794885; 
 	Thu, 06 Sep 2018 03:29:54 -0700 (PDT)
 Received: from localhost.localdomain ([79.140.126.226])
 	by smtp.gmail.com with ESMTPSA id
-	d3-v6sm2495886edi.80.2018.09.06.03.29.53
+	d3-v6sm2495886edi.80.2018.09.06.03.29.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 06 Sep 2018 03:29:53 -0700 (PDT)
+	Thu, 06 Sep 2018 03:29:54 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2018 12:29:24 +0200
-Message-Id: <1536229770-29600-15-git-send-email-alex.kanavin@gmail.com>
+Date: Thu,  6 Sep 2018 12:29:25 +0200
+Message-Id: <1536229770-29600-16-git-send-email-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1536229770-29600-1-git-send-email-alex.kanavin@gmail.com>
 References: <1536229770-29600-1-git-send-email-alex.kanavin@gmail.com>
-Subject: [PATCH 15/21] gptfdisk: update to 1.0.4
+Subject: [PATCH 16/21] dtc: update to 1.4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,78 +58,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 10:29:53 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 10:29:54 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/fdisk/gptfdisk_1.0.3.bb | 26 --------------------------
- meta/recipes-devtools/fdisk/gptfdisk_1.0.4.bb | 26 ++++++++++++++++++++++++++
- 2 files changed, 26 insertions(+), 26 deletions(-)
- delete mode 100644 meta/recipes-devtools/fdisk/gptfdisk_1.0.3.bb
- create mode 100644 meta/recipes-devtools/fdisk/gptfdisk_1.0.4.bb
+ meta/recipes-kernel/dtc/dtc/make_install.patch | 23 ++++++++++++++++-------
+ meta/recipes-kernel/dtc/dtc_1.4.6.bb           | 10 ----------
+ meta/recipes-kernel/dtc/dtc_1.4.7.bb           | 10 ++++++++++
+ 3 files changed, 26 insertions(+), 17 deletions(-)
+ delete mode 100644 meta/recipes-kernel/dtc/dtc_1.4.6.bb
+ create mode 100644 meta/recipes-kernel/dtc/dtc_1.4.7.bb
 
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.3.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.3.bb
+diff --git a/meta/recipes-kernel/dtc/dtc/make_install.patch b/meta/recipes-kernel/dtc/dtc/make_install.patch
+index ccf17b3..ea9359e 100644
+--- a/meta/recipes-kernel/dtc/dtc/make_install.patch
++++ b/meta/recipes-kernel/dtc/dtc/make_install.patch
+@@ -1,17 +1,26 @@
++From e9852b9d206df1e42aa4c8afec55a0f5e099b533 Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Thu, 3 Nov 2011 08:35:47 -0700
++Subject: [PATCH] dtc: Add patch to correctly install shared libraries and
++
+ Upstream-Status: Inappropriate [configuration]
+ 
+-Index: git/Makefile
+-===================================================================
+---- git.orig/Makefile
+-+++ git/Makefile
+-@@ -168,8 +168,8 @@ install-bin: all $(SCRIPTS)
++---
++ Makefile | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index d8ebc4f..f5e01be 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -205,8 +205,8 @@ install-bin: all $(SCRIPTS)
+  install-lib: all
+  	@$(VECHO) INSTALL-LIB
+  	$(INSTALL) -d $(DESTDIR)$(LIBDIR)
+--	$(INSTALL) $(LIBFDT_lib) $(DESTDIR)$(LIBDIR)
++-	$(INSTALL_LIB) $(LIBFDT_lib) $(DESTDIR)$(LIBDIR)
+ -	ln -sf $(notdir $(LIBFDT_lib)) $(DESTDIR)$(LIBDIR)/$(LIBFDT_soname)
+ +	$(INSTALL) $(LIBFDT_lib) $(DESTDIR)$(LIBDIR)/$(LIBFDT_soname)
+ +	ln -sf $(LIBFDT_soname) $(DESTDIR)$(LIBDIR)/$(notdir $(LIBFDT_lib))
+  	ln -sf $(LIBFDT_soname) $(DESTDIR)$(LIBDIR)/libfdt.$(SHAREDLIB_EXT)
+- 	$(INSTALL) -m 644 $(LIBFDT_archive) $(DESTDIR)$(LIBDIR)
++ 	$(INSTALL_DATA) $(LIBFDT_archive) $(DESTDIR)$(LIBDIR)
+  
+diff --git a/meta/recipes-kernel/dtc/dtc_1.4.6.bb b/meta/recipes-kernel/dtc/dtc_1.4.6.bb
 deleted file mode 100644
-index 4d617e3..0000000
---- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.3.bb
+index 78c5736..0000000
+--- a/meta/recipes-kernel/dtc/dtc_1.4.6.bb
 +++ /dev/null
-@@ -1,26 +0,0 @@
--SUMMARY = "Utility for modifying GPT disk partitioning"
--DESCRIPTION = "GPT fdisk is a disk partitioning tool loosely modeled on Linux fdisk, but used for modifying GUID Partition Table (GPT) disks. The related FixParts utility fixes some common problems on Master Boot Record (MBR) disks."
+@@ -1,10 +0,0 @@
+-require dtc.inc
 -
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+-LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
+-		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
 -
--DEPENDS = "util-linux popt ncurses"
+-SRCREV = "e54388015af1fb4bf04d0bca99caba1074d9cc42"
 -
--SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz"
--SRC_URI[md5sum] = "07b625a583b66c8c5840be5923f3e3fe"
--SRC_URI[sha256sum] = "89fd5aec35c409d610a36cb49c65b442058565ed84042f767bba614b8fc91b5c"
--
--UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/gptfdisk/files/gptfdisk/"
--UPSTREAM_CHECK_REGEX = "/gptfdisk/(?P<pver>(\d+[\.\-_]*)+)/"
--
--EXTRA_OEMAKE = "'CC=${CC}' 'CXX=${CXX}'"
--
--do_install() {
--    install -d ${D}${sbindir}
--    install -m 0755 cgdisk ${D}${sbindir}
--    install -m 0755 gdisk ${D}${sbindir}
--    install -m 0755 sgdisk ${D}${sbindir}
--    install -m 0755 fixparts ${D}${sbindir}
--}
+-S = "${WORKDIR}/git"
 -
 -BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.4.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.4.bb
+diff --git a/meta/recipes-kernel/dtc/dtc_1.4.7.bb b/meta/recipes-kernel/dtc/dtc_1.4.7.bb
 new file mode 100644
-index 0000000..4426a79
+index 0000000..6ce462a
 --- /dev/null
-+++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.4.bb
-@@ -0,0 +1,26 @@
-+SUMMARY = "Utility for modifying GPT disk partitioning"
-+DESCRIPTION = "GPT fdisk is a disk partitioning tool loosely modeled on Linux fdisk, but used for modifying GUID Partition Table (GPT) disks. The related FixParts utility fixes some common problems on Master Boot Record (MBR) disks."
++++ b/meta/recipes-kernel/dtc/dtc_1.4.7.bb
+@@ -0,0 +1,10 @@
++require dtc.inc
 +
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
++LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
++		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
 +
-+DEPENDS = "util-linux popt ncurses"
++SRCREV = "88f18909db731a627456f26d779445f84e449536"
 +
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz"
-+SRC_URI[md5sum] = "5ecc3c44913bb6b53d3708d1ac7ac295"
-+SRC_URI[sha256sum] = "b663391a6876f19a3cd901d862423a16e2b5ceaa2f4a3b9bb681e64b9c7ba78d"
-+
-+UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/gptfdisk/files/gptfdisk/"
-+UPSTREAM_CHECK_REGEX = "/gptfdisk/(?P<pver>(\d+[\.\-_]*)+)/"
-+
-+EXTRA_OEMAKE = "'CC=${CC}' 'CXX=${CXX}'"
-+
-+do_install() {
-+    install -d ${D}${sbindir}
-+    install -m 0755 cgdisk ${D}${sbindir}
-+    install -m 0755 gdisk ${D}${sbindir}
-+    install -m 0755 sgdisk ${D}${sbindir}
-+    install -m 0755 fixparts ${D}${sbindir}
-+}
++S = "${WORKDIR}/git"
 +
 +BBCLASSEXTEND = "native nativesdk"
 -- 
