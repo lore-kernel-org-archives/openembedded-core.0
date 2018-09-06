@@ -1,55 +1,53 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
-	[209.85.222.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 12FF8795E6
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BB4E9795E6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 23:37:33 +0000 (UTC)
-Received: by mail-ua1-f66.google.com with SMTP id m11-v6so10518119uao.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2018 16:37:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZheS5x79K/mCoKNZdyakKJN+g0p7vLY52S7DaV3b3AY=;
-	b=tRKosNNEw34o61xlRDjRPoksLk1c88DGhL3xWfD7Jwy+3sOz1siE/f2g/it3A3M++v
-	PCi2Diiv3MhOQTpfbEduu2EosVX4fYuPAasygUQjkanDMyKONd47GsHe8UQffhF01u5L
-	NfOQFIbNxtYHuEkNJ9LWBSQX0sJ+QLpgMs5X4wPcfFbvnsMmhEYbppQOPHhkPCegGO2F
-	eUHiha6M3+o8xHxE89fiwuHO7QC0QqYC0/Rrh2/yIv1S440b9pkMVSywYMwqYO/uQ7Nb
-	0kUnth6SjAztNF8wj1aKuqdEyidIgc3uhEmSzuV38lETxsM/s7yDP7IdoWio8MQxtyE/
-	BOHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ZheS5x79K/mCoKNZdyakKJN+g0p7vLY52S7DaV3b3AY=;
-	b=iDjTIMjy2OCLzG5rglTPSj8Zygg/4/9Dswnynw5b8Dx6bnMXfbgKuuijOCGsFoThmH
-	2tGEgSvoz4Ns5J3fTpwDQfWdOUVW//PKpxWMIeQnZvGuYg3tIzdQz6gMPF4JgP0BSwDl
-	D2OHYTFbPyTM4xziVE04/gfrBvFAz3AJJ0mt01I7fLgOSXTB2kdGls5s0LpDEdznv3Z1
-	cBMGgoWIOKLFvNrP2rx8fXIyt02Oua8rJMuFXPocmi7pjUtyScxHsL6BLassJjyTT0pV
-	rurPf+TBodT5xG0razYf1eLyvMQI6+R1dDjU0Lv8yor+ZaQTrog4K8ZNhKi8nHe9jCej
-	8Mcg==
-X-Gm-Message-State: APzg51DyBSjBtEfJK0YXsFuuNW+o/TZnBvXDXBpbDSGqtKUACC66MWg3
-	GdKMesqoIAY+on3Tc1p6/FAzwokCcU3ydVZMTQI=
-X-Google-Smtp-Source: ANB0VdYH50TcILZJco8mKAiqydwD7fqbjg7Bez6X2tfU0RoI/miEfCxrXNV1SYUlzDV4+P3wqFGGos4phr4jykjUwa4=
-X-Received: by 2002:a67:3515:: with SMTP id
-	c21-v6mr1978436vsa.42.1536277054910; 
-	Thu, 06 Sep 2018 16:37:34 -0700 (PDT)
+	Thu,  6 Sep 2018 23:43:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 3D019182C5;
+	Fri,  7 Sep 2018 01:43:22 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 0SMz9tFnZNRg; Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id C53631806E;
+	Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B11491A08B;
+	Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A51471A084;
+	Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id 98E361850;
+	Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Fri, 7 Sep 2018 01:43:21 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Fri, 7 Sep 2018 01:43:21 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "Khem Raj (raj.khem@gmail.com)" <raj.khem@gmail.com>
+Thread-Topic: glibc-locale fails when PACKAGE_NO_GCONV = 1
+Thread-Index: AdRGOv8uUYmU6mSuSM+FNk92Nq5kKw==
+Date: Thu, 6 Sep 2018 23:43:21 +0000
+Message-ID: <5164dac8b24a403693edd057b06a6341@XBOX02.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Received: by 2002:ab0:2904:0:0:0:0:0 with HTTP;
-	Thu, 6 Sep 2018 16:37:34 -0700 (PDT)
-In-Reply-To: <CAHUNapQ7s-GGYkGOp=ehd0EZCas7mtD=vqsdycWQVPSY1-R5Fw@mail.gmail.com>
-References: <0D62475714C01347BCA118AE7A61400376B2C64D@FMSMSX109.amr.corp.intel.com>
-	<5e8c54728e6990907fa60f2454ab7961c7561a93.camel@linuxfoundation.org>
-	<0D62475714C01347BCA118AE7A61400376B2C8A3@FMSMSX109.amr.corp.intel.com>
-	<CAJ86T=W4pbBfk2GxKz4dGdXptd2ndfezHdgqEWh4yN5PQo_8Xw@mail.gmail.com>
-	<CAHUNapQ7s-GGYkGOp=ehd0EZCas7mtD=vqsdycWQVPSY1-R5Fw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 6 Sep 2018 16:37:34 -0700
-Message-ID: <CAJ86T=VeCFOV_0VJ-bAAfV=3o56g45i6agFgbc2gpq4+eOtNOA@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: "Ocampo Coronado, Omar" <omar.ocampo.coronado@intel.com>,
-	"openembedded-core@lists.openembedded.org"
+X-TM-AS-GCONF: 00
+Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Strip kernel modules and signatures
+Subject: glibc-locale fails when PACKAGE_NO_GCONV = 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,37 +60,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 23:37:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Sep 2018 23:43:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 6, 2018 at 2:04 PM, Trevor Woerner <twoerner@gmail.com> wrote:
-> On Fri, Aug 3, 2018 at 4:16 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> On Thu, Aug 2, 2018 at 9:54 AM, Ocampo Coronado, Omar
->> <omar.ocampo.coronado@intel.com> wrote:
->> > Neither 'nm' or 'readelf' provide a symbol that we can use to strip.
->> > I'm having a hard time reading kernel-source/scripts/sign-file.c and how
->> > exactly how the sign works and what bytes are being added, so we can avoid
->> > stripping them.
->> >
->> > Looking into dracut, they simple avoid strip signed modules:
->> >         From dracut.sh:1671 # strip kernel modules, but do not touch
->> > signed modules
->> >
->> > Perhaps we can do the same as dracut within meta/lib/oe/package.py.
->>
->> Some more information here:
->>
->> https://www.kernel.org/doc/html/v4.17/admin-guide/module-signing.html#signed-modules-and-stripping
->
-> Reading the above "between the lines", could the module be stripped /then/
-> signed?
+Just thought I should mention this as I happened to stumble upon it=20
+when I accidentally set DISTRO_FEATURES to nothing:
 
-I think so. But right now the default assumption is that signing
-happens as part of the kernel's build process and stripping happens
-later, as part of OE's packaging process. Stripping before signing
-implies switching things around a little, e.g. either the kernel build
-process takes care of both stripping and signing, or OE is able to
-(re)sign modules after stripping them. Probably not a huge task to
-figure out, but not trivial either.
+If one builds with PACKAGE_NO_GCONV set to 1, or without all of=20
+libc-charsets, libc-locales and libc-locale-code being set in=20
+DISTRO_FEATURES (which results in PACKAGE_NO_GCONV being set to 1),=20
+then the build will fail for glibc-locale due to a lot of files in=20
+/usr/lib/gconv and /usr/share/i18n not being packaged.
+
+//Peter
+
 
