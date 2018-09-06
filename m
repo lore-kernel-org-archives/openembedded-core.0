@@ -1,30 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 17718794EA
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D98087953E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 08:59:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w868xrn0006362
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Sep 2018 01:59:53 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Thu, 6 Sep 2018 01:59:53 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <20180905165227.29435-1-richard.purdie@linuxfoundation.org>
-	<20180905165227.29435-7-richard.purdie@linuxfoundation.org>
-	<a7d35d68-e546-408f-561e-c5a3a8f4aaa5@windriver.com>
-	<4f62f20f8d4b9378684b6224ddf7d1bc5cfca814.camel@linuxfoundation.org>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <6a9fa2c4-b21c-38c5-cd4b-f8f4cfdb39ef@windriver.com>
-Date: Thu, 6 Sep 2018 17:04:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thu,  6 Sep 2018 09:33:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w869XUv5013176
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Sep 2018 02:33:30 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 6 Sep 2018 02:33:29 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Sep 2018 17:33:28 +0800
+Message-ID: <1536226408-24922-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <4f62f20f8d4b9378684b6224ddf7d1bc5cfca814.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH 7/8] busybox: Put klogd/syslogd alternative links in syslog package
+Subject: [PATCH] ffmpeg: Fix CVE-2018-15822
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 08:59:54 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Sep 2018 09:33:30 -0000
+Content-Type: text/plain
 
-On 09/06/2018 04:19 PM, richard.purdie@linuxfoundation.org wrote:
-> On Thu, 2018-09-06 at 10:11 +0800, ChenQi wrote:
->> Hi Richard,
->>
->> I think my previous patch has covered this case.
->>
->>     git://git.pokylinux.org/poky-contrib ChenQi/busybox-alternatives
->>     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/busyb
->> ox-alternatives
->>
->> Chen Qi (1):
->>     busybox: fix the alternatives logic
->>
->>
->> Is there some problem with the patch?
-> Sorry, I thought I'd replied about this. There were build failures from
-> this patch and I had to drop it from the test branch. I'm afraid with
-> all the build failures we're had recently I'm struggling to find which
-> failures those were...
->
-> I merged my simpler but less complete fix simply to get patches moving
-> as I'd assumed this one was being debugged. I guess we need the
-> failures for that though...
->
-> Cheers,
->
-> Richard
->
-Got it.
-I just looked at some build failures, the ones that might be related are 
-those of testimage failures complaining 'No syslog daemon'.
-I'll check things locally first.
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Best Regards,
-Chen Qi
+Fixes: Assertion failure
+Fixes: assert_flvenc.c:941_1.swf
+
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ .../ffmpeg/ffmpeg/CVE-2018-15822.patch             | 37 ++++++++++++++++++++++
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb     |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2018-15822.patch
+
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2018-15822.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2018-15822.patch
+new file mode 100644
+index 0000000..7d5868a
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2018-15822.patch
+@@ -0,0 +1,37 @@
++From 6b67d7f05918f7a1ee8fc6ff21355d7e8736aa10 Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Sat, 28 Jul 2018 15:03:50 +0200
++Subject: [PATCH] avformat/flvenc: Check audio packet size
++
++Fixes: Assertion failure
++Fixes: assert_flvenc.c:941_1.swf
++
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/6b67d7f05918f7a1ee8fc6ff21355d7e8736aa10]
++CVE: CVE-2018-15822
++
++Found-by: #CHEN HONGXU# <HCHEN017@e.ntu.edu.sg>
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ libavformat/flvenc.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/libavformat/flvenc.c b/libavformat/flvenc.c
++index 1c552a3e6b..e4863f1fc7 100644
++--- a/libavformat/flvenc.c
+++++ b/libavformat/flvenc.c
++@@ -883,6 +883,11 @@ static int flv_write_packet(AVFormatContext *s, AVPacket *pkt)
++     int flags = -1, flags_size, ret;
++     int64_t cur_offset = avio_tell(pb);
++ 
+++    if (par->codec_type == AVMEDIA_TYPE_AUDIO && !pkt->size) {
+++        av_log(s, AV_LOG_WARNING, "Empty audio Packet\n");
+++        return AVERROR(EINVAL);
+++    }
+++
++     if (par->codec_id == AV_CODEC_ID_VP6F || par->codec_id == AV_CODEC_ID_VP6A ||
++         par->codec_id == AV_CODEC_ID_VP6  || par->codec_id == AV_CODEC_ID_AAC)
++         flags_size = 2;
++-- 
++2.17.1
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb
+index 57731e8..74c8e66 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.0.2.bb
+@@ -25,6 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ 
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
++           file://CVE-2018-15822.patch \
+            "
+ SRC_URI[md5sum] = "ae0bfdf809306a212b4f0e6eb8d1c75e"
+ SRC_URI[sha256sum] = "a95c0cc9eb990e94031d2183f2e6e444cc61c99f6f182d1575c433d62afb2f97"
+-- 
+2.7.4
+
 
