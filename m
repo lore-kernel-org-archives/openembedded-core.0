@@ -1,21 +1,21 @@
 Return-Path: <Changqing.Li@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F1AE7949B
+	by mail.openembedded.org (Postfix) with ESMTP id 5568C7949C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 03:25:36 +0000 (UTC)
+	Thu,  6 Sep 2018 03:26:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w863Pb7M016271
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w863QWjL016327
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Sep 2018 20:25:37 -0700 (PDT)
+	Wed, 5 Sep 2018 20:26:32 -0700 (PDT)
 Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Wed, 5 Sep 2018 20:25:36 -0700
+	Wed, 5 Sep 2018 20:26:31 -0700
 To: <openembedded-core@lists.openembedded.org>
 References: <1535336250-197198-1-git-send-email-changqing.li@windriver.com>
 From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <d9b89d2e-0681-bc0a-9158-a89ff576edd8@windriver.com>
-Date: Thu, 6 Sep 2018 11:25:32 +0800
+Message-ID: <8afa8e3d-b5b0-5d5b-88a6-7594fe7ecaf6@windriver.com>
+Date: Thu, 6 Sep 2018 11:26:29 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
@@ -34,7 +34,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 03:25:36 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 03:26:31 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
