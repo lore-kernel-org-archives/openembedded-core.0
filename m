@@ -1,47 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B2C4797C8
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id CB166797D5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2018 13:13:48 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id v90-v6so14982855wrc.0
+	Fri,  7 Sep 2018 13:13:49 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id u12-v6so14901840wrr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2018 06:13:49 -0700 (PDT)
+	Fri, 07 Sep 2018 06:13:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=rbxe4n7zHyCyBe2yQWq9BRjbmJ3u2B5EPX7P8QsTuLU=;
-	b=DHEbaGGrtkPVxiAa8o6CyAt1mPe3Yx4MhjU1K5IEwT8cGRRRDFJ7Rw3Jkcy2R7ji8k
-	sEWQ2V+ob7FyAvb+fhPh5TTYrdVMRlkmpMolLrZ+NbcU2w8drgO9tmVDNBms0TtH00e1
-	Ox4OpiVvHCoKZCmFdWs8Sm+NKCERlATmisMLw=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=HKfyD9ovAetTJIcvSB0qXbpRrAx5WZHqqSXtSKdRzXc=;
+	b=T4updyHVRs2cd8zSzzZdaTYJAIsg3inwNn6DiP+GX0V3oKAmM1+OGh/jZaDM4HAUyO
+	BthTpqEybRXhnqNWDUMfqcA2Y0MoCzXwjNRocmkB3wuzCc9KVhKs/fwIWQ/ohVgv9s2S
+	OmeSa5/eadVkTQpOv/BDOM6ZAP4R/res+RBR0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=rbxe4n7zHyCyBe2yQWq9BRjbmJ3u2B5EPX7P8QsTuLU=;
-	b=ERJPMTV7yEyyUA8wjoivRXMPkE7rGvjFWAsS4AISIaE9JiBr1P9rpQddxU2bjZvJDD
-	/WlR0Ytih/J+aMnet3sEEifncpYPN5h8GWEX3GugdqHMu5DH4LpsJYYj24F9/xX0KA7K
-	fISG50OOt0uNfEJeJqZVDI+DQFGedjNAOWiA8u8oZQzkYXcZgBYYQDOXgtU52xinkL2J
-	2ozzX5sdEEEUPRUuCDzaRoP4al+HabvCvCHK+oiNls2qgpVJ1AsfJOuucSr2ggZ+X7MR
-	tyjP/IjLJbI+y0JmSR7F6UfWlZ34Grohz56lbJiOgkg0b0/X5bQkpHAf0Ol6vdIYJkhg
-	nIVA==
-X-Gm-Message-State: APzg51AJfW0LB94LeI3Dlv7/JjXE6/B7YzsznpW4iZRbqcYYI3vkgnR5
-	rECgvUpERmK7aMj3rCqpL163hCONEy8=
-X-Google-Smtp-Source: ANB0Vda5jw56aY69ByOyftxL5v5ymQyntySNrDcKXJf1l5AEteWc03vH0HmUJD0Zx9pFc3svjZTjmQ==
-X-Received: by 2002:adf:e14f:: with SMTP id
-	f15-v6mr6183141wri.42.1536326028902; 
-	Fri, 07 Sep 2018 06:13:48 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=HKfyD9ovAetTJIcvSB0qXbpRrAx5WZHqqSXtSKdRzXc=;
+	b=jubjHj9oQkaf+rFfzVuATGbKUhqhBLWBOUwnLx/NWFjUbD7PXtyB3gRIAFqxIvJOqW
+	NEXcC7oMXVpc+SHYm2wUxE+h3njgkvFBfEQVTKO+t/sSRLTbyS7VQHMOEy/dUnVuk541
+	0a/Gmdrlqc6wlONfQWgfsDuxcE31asZDMsefEdl3jranguxiCZvHlwddyWzV/n7APHnN
+	oX28reClJVjQJ3moZBiuKXZKU1xYKeYTic5h/RBK/BMfAYsifeHqs7CSol6yNifqlRSu
+	12B1DZd7ufNbAB7wwrorVBV4UU+JkilKMoGjJsOaDKgNwai8beYNyR+KEpLSxanlaYF5
+	mbeQ==
+X-Gm-Message-State: APzg51DuNL3QOGYHgOBEA5UQd3PDMmG/iBQykBsJ316u99+37NslBc7p
+	4M/GW1ibm22SpMajOrjxAxRlzKcK38E=
+X-Google-Smtp-Source: ANB0VdaosZiJAEX8+cSmiwGU1zA3sjrdqM/qo3s/auuEwq5I+U+Ct/7pvzF44jYX7IFT6oQb3PyTuQ==
+X-Received: by 2002:adf:a292:: with SMTP id
+	s18-v6mr6516137wra.100.1536326030259; 
+	Fri, 07 Sep 2018 06:13:50 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	g2-v6sm12930301wrd.71.2018.09.07.06.13.47
+	g2-v6sm12930301wrd.71.2018.09.07.06.13.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Sep 2018 06:13:48 -0700 (PDT)
+	Fri, 07 Sep 2018 06:13:49 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Sep 2018 14:13:46 +0100
-Message-Id: <20180907131347.19537-1-richard.purdie@linuxfoundation.org>
+Date: Fri,  7 Sep 2018 14:13:47 +0100
+Message-Id: <20180907131347.19537-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] libpciaccess: Extend to native/nativesdk
+In-Reply-To: <20180907131347.19537-1-richard.purdie@linuxfoundation.org>
+References: <20180907131347.19537-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] core-image-tiny-initramfs: Avoid parsing failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,25 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 13:13:48 -0000
+X-List-Received-Date: Fri, 07 Sep 2018 13:13:50 -0000
 
-Avoids warnings from libdrm which has nativesdk/native variants and depends upon this.
+This variable is otherwise unset leading to missing dependency warnings. Give
+it the same default as used elsewhere in other recipes.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/xorg-lib/libpciaccess_0.14.bb | 2 ++
+ meta/recipes-core/images/core-image-tiny-initramfs.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.14.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.14.bb
-index a44a5c89279..d030c31bd0f 100644
---- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.14.bb
-+++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.14.bb
-@@ -16,3 +16,5 @@ LICENSE = "MIT & MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=277aada5222b9a22fbf3471ff3687068"
+diff --git a/meta/recipes-core/images/core-image-tiny-initramfs.bb b/meta/recipes-core/images/core-image-tiny-initramfs.bb
+index d7f97f3a170..4f11b4a90dd 100644
+--- a/meta/recipes-core/images/core-image-tiny-initramfs.bb
++++ b/meta/recipes-core/images/core-image-tiny-initramfs.bb
+@@ -5,6 +5,8 @@ first 'init' program more efficiently. core-image-tiny-initramfs doesn't \
+ actually generate an image but rather generates boot and rootfs artifacts \
+ that can subsequently be picked up by external image generation tools such as wic."
  
- REQUIRED_DISTRO_FEATURES = ""
++VIRTUAL-RUNTIME_dev_manager ?= "udev"
 +
-+BBCLASSEXTEND = "native nativesdk"
+ PACKAGE_INSTALL = "initramfs-live-boot-tiny packagegroup-core-boot dropbear ${VIRTUAL-RUNTIME_base-utils} ${VIRTUAL-RUNTIME_dev_manager} base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
+ 
+ # Do not pollute the initrd image with rootfs features
 -- 
 2.17.1
 
