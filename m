@@ -1,51 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 27350797E6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E3B76E660
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2018 16:04:00 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id d19-v6so7233518pgv.1
+	Fri,  7 Sep 2018 16:14:31 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id y207-v6so28166748oie.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2018 09:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MLz1eBQZOnwqkSCs/obeEbFU5coVyLCga0zW/YLVDKk=;
-	b=O7MazYmFFtum4DF5Gylq/KYokNU5Hxtl8+Sv2EOr1u6fP/AlzFyglyWg/rpQ1ixm6a
-	bvdZpktfJE3hfDeSCF69oy3u88Nf++GzyehXDbHsT2t0v9sm5MSH2X4FLW9HOHN8OUvm
-	tdzgUFmC0HVJSUZLQnlcnAmRZa0jXe6hnMuASWGKqWqYmOGDCT72Eq2rWx3Fl1zUrRyL
-	/ym/9cL/6SS4tpgStwqrkWFNed9DLm+y09+t55DtneXbWn1kuJ7fXU1xvGsj4csu0y+F
-	2zzmbBXCuClaepzKzqfz7JHYzGN4hIwdQ8Os+sULEjqurMPP2lxcXGQxpEdiJKcKWpsa
-	hVyg==
+	Fri, 07 Sep 2018 09:14:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=f/Pn/LKsUjNNNbU1JuZ2oqUaO6b7kZBPhFLNM3jNHy0=;
+	b=iW7vV4ytfYaoCuzAFcu5ENEYBzhuUM2KdjrTzTHQzym2DmQlOck72Tix56EF9Gc61p
+	K4rYLf1RMemnr7XPFNYrUlePbR6pSIiPhg7QZ4PSCYE2/u0n9IxHlomA5kn0MgffVIAP
+	QdkhBKwFDbMZWKkKzmdK9Xhg3iSapnChYvrXFyEf6Kz8Kg97UvCBoXOFp285Mv2l/g0C
+	FBhYVEhq4YKd65aO52mSyQHfPnDwP/UZa/jr64FOMR8jrHEiwn2yzVxmPAKXKPQXpf3X
+	Sq3sJE7nmyG6ZGZ54s9uAEFITavwNznWzoHMSM30xdEbpKR9qjwGikNKgME6yOl6DLAq
+	8uDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=MLz1eBQZOnwqkSCs/obeEbFU5coVyLCga0zW/YLVDKk=;
-	b=qIy7mfDdORZ2qlx3N7O1yFWxtdY5Y2m2VF7IcywjIe4oT0JsYWb0QyeCnxLu+c6QKg
-	N0qnFEUFqubsu4XocWpFji0OtuGgMosd8goluJGEfL/khqPB9yzjq83erxGqPlIDEnFp
-	/t6WAfFPuqdapMZpsc3xXSQftZ/JL+7KoBJLRAHQSJEIXO8wWQTu2aytYKv9GPLBFRAy
-	DDfiLJdAbYCRM6ABFD5TLh/lM23q1YxP4EZzKk+FmTll5Czh3zCNnahMiB3LG+xks8Cd
-	qMrY1x1VXeooCLU4nuK+1KQfLxv5TXEpvukVdsxc3RHVLypeLANapd92yMyVV+HAXzzW
-	/i4A==
-X-Gm-Message-State: APzg51BwMl1nfi99TQwma0rs8KeHHyRXFw7DFQW0t670cbYS9rg8B5zu
-	fqqZ6xN43WsT1bRPTN0U7O5O43OD
-X-Google-Smtp-Source: ANB0VdZq39WX8vfTsCxSw3ExLd44IW1BSori3+SjnBRcqb0wf0vDJ3J/jLXvTqnaI8vpY/lRL5uRTw==
-X-Received: by 2002:a63:31c2:: with SMTP id
-	x185-v6mr8926130pgx.373.1536336241620; 
-	Fri, 07 Sep 2018 09:04:01 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::71e7])
-	by smtp.gmail.com with ESMTPSA id
-	193-v6sm21208122pgh.47.2018.09.07.09.04.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Sep 2018 09:04:00 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Sep 2018 09:03:53 -0700
-Message-Id: <d0ae484bdd20a9c83a7f802447ab46f3c9fe6373.1536336171.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1536336171.git.raj.khem@gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=f/Pn/LKsUjNNNbU1JuZ2oqUaO6b7kZBPhFLNM3jNHy0=;
+	b=dgLRkSvOXb0oroC+9/53z5AHA62mNH1rztiqXLfS/o/Sr/dqvdQLoq6/aVST8bPpa7
+	EQX8q1BzgsiCvPKeZwF6loPFEfUgGit/O9napgjOPrMIz2efBK+Occ7VuH40flXYEwSH
+	rFbOgxvQUzG5a9OsMmEaLFT6fNGLt0XB9dxZfNJcJA6zN2s7RPShaajs8KxX/oLZgbGz
+	l9O7DkY2R1fmP1mKQVDPT6AdeAmYzqILVU5TSpsqhhD+E3mYXnAA4Ds4PLuBb0JfXoo7
+	fA1LzcKB1NDgVuCbqW4OarPzQGu4sq0Xy6ME/qYAVuJUxPuLskHf16SI//Yi3OUa3VR7
+	8MGw==
+X-Gm-Message-State: APzg51A1zYBJV4X/3okhvHwlUqjRbfRl+0hX0dYHCJIrQuYi0hN+M1kL
+	NpRauErLKyYd7J7AUWQV7M9X1wllWFTOtv++MQofx+2/iQw=
+X-Google-Smtp-Source: ANB0VdaAug6G8wPmrru9IAbMoCEoTUVt6P8ANnjgYEC28YEV/KLoacydBLZ/1pQvfkc6GGUf/2YD1D1XOMcLn0xXswk=
+X-Received: by 2002:aca:a04:: with SMTP id 4-v6mr9067792oik.203.1536336872614; 
+	Fri, 07 Sep 2018 09:14:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:385d:0:0:0:0:0 with HTTP;
+	Fri, 7 Sep 2018 09:14:12 -0700 (PDT)
+In-Reply-To: <d0ae484bdd20a9c83a7f802447ab46f3c9fe6373.1536336171.git.raj.khem@gmail.com>
 References: <cover.1536336171.git.raj.khem@gmail.com>
-Subject: [PATCH 1/1] sysprof: Fix build with clang
+	<d0ae484bdd20a9c83a7f802447ab46f3c9fe6373.1536336171.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 7 Sep 2018 17:14:12 +0100
+Message-ID: <CAJTo0LZoUY=94dH_pwpOU8c+JQ4BJMXpgEmHcO8V-60Voxu71g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] sysprof: Fix build with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +57,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 16:04:01 -0000
+X-List-Received-Date: Fri, 07 Sep 2018 16:14:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...fix-non-literal-format-string-issues.patch | 34 +++++++++++++++++++
- meta/recipes-kernel/sysprof/sysprof_3.30.0.bb |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-kernel/sysprof/files/0001-fix-non-literal-format-string-issues.patch
+On 7 September 2018 at 17:03, Khem Raj <raj.khem@gmail.com> wrote:
+> +Upstream-Status: Pending
 
-diff --git a/meta/recipes-kernel/sysprof/files/0001-fix-non-literal-format-string-issues.patch b/meta/recipes-kernel/sysprof/files/0001-fix-non-literal-format-string-issues.patch
-new file mode 100644
-index 0000000000..b77bfa4a65
---- /dev/null
-+++ b/meta/recipes-kernel/sysprof/files/0001-fix-non-literal-format-string-issues.patch
-@@ -0,0 +1,34 @@
-+From de13d1f908335cc882c447e4d7c4360b9e5da190 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 6 Sep 2018 17:49:44 -0700
-+Subject: [PATCH] fix non-literal format string issues
-+
-+clang errors out when using -Werror=format-nonliteral
-+since the definition of g_strdup_vprintf() from glib-2.0
-+is using va_list and clangs still warns where as
-+gcc doesn't do that for va_list arguments
-+
-+Fixes
-+src/sp-window.c:96:27: error: format string is not a string literal [-Werror,-Wformat-nonliteral]
-+|   str = g_strdup_vprintf (format, args);
-+|                           ^~~~~~
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/sp-window.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/sp-window.c b/src/sp-window.c
-+index 4dfac2d..aff4779 100644
-+--- a/src/sp-window.c
-++++ b/src/sp-window.c
-+@@ -80,7 +80,7 @@ static guint signals [N_SIGNALS];
-+ static void sp_window_set_profiler (SpWindow   *self,
-+                                     SpProfiler *profiler);
-+ 
-+-static void
-++static G_GNUC_PRINTF(3, 4) void
-+ sp_window_notify_user (SpWindow       *self,
-+                        GtkMessageType  message_type,
-+                        const gchar    *format,
-diff --git a/meta/recipes-kernel/sysprof/sysprof_3.30.0.bb b/meta/recipes-kernel/sysprof/sysprof_3.30.0.bb
-index 7783ab27f5..19dcf25a51 100644
---- a/meta/recipes-kernel/sysprof/sysprof_3.30.0.bb
-+++ b/meta/recipes-kernel/sysprof/sysprof_3.30.0.bb
-@@ -15,6 +15,7 @@ SRC_URI += " \
-            file://define-NT_GNU_BUILD_ID.patch \
-            file://0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch \
-            file://wordsize.patch \
-+           file://0001-fix-non-literal-format-string-issues.patch \
-            "
- RECIPE_NO_UPDATE_REASON = "Waiting for resolution of https://bugzilla.gnome.org/show_bug.cgi?id=794625"
- 
--- 
-2.18.0
+Make that Submitted: https://gitlab.gnome.org/GNOME/sysprof/merge_requests/6
 
+Ross
 
