@@ -1,48 +1,25 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DDB378C8A
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C49179724
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2018 13:28:28 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id v66-v6so7000100pgb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2018 06:28:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=S3/9SxiZuYF5oCiYo/+jtfX1zTv3kzLobkurYTV8vvU=;
-	b=kg03oNyMsNxuoepJgTSnD0OToYSBCPeD3n89z0ecXJ4zQE42cS79Hf2Jp/iq3v7aUY
-	lFYGLH92xdFKpxkfO1+e0HAnK2RNqrD7bVJdA0rvk11Yg509KISqga2wUn4ByBnDcFtj
-	qjpUY41zAzjvc2Gz2TTXZSLFDE06Ca+d+1DWQ96GUUhK5Rb79KLpwrtlI85AYFajuz2Z
-	CsLbnbNcrUpBw6nKPqmxjyZsQQ48FDtyAu4ZdRRGpYWvvWcYcCPoYtx6thuv8htJspkg
-	XR1JwZB7Lcf+pzso2+HTN95EhwTLZz+ya6StHALDfXNe0eyO1B50yrHeGLE/VFMVtXX/
-	VJeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=S3/9SxiZuYF5oCiYo/+jtfX1zTv3kzLobkurYTV8vvU=;
-	b=K6koFJh+ikJjHhkc7fpXpnW2p9Wn+2eX9b9i9PeRBIyd2E7FlUpj+899UYB6E59soE
-	IRX0gq2hhD2clJWfZdLSF8f5s3glO+Zo6+sYbPP95tl3fJ+G89K5CyJTce61ai6l6zwt
-	RXdzp8Rjqj9g3RN8jgvMKdN4STYt3ytVtLufxsPlt4DWKJacF0Jj6Ci/k1nHgllnk4HE
-	BsLfMki0n/ZUlUL5wrXteefm0jI99c5I3DYr4KOXkGVxemGhrdhxRR8wEHf5wlY/b/51
-	E9xGU04sMQpXm5/8i6rcp3svR1Uxys6Z7IyECR9jZiTTePktSoHjluwiU7j3P2KIDT8c
-	nU7A==
-X-Gm-Message-State: APzg51DZ81TOLBZzya00VMomX99hX0F1Zlun3Vq07wsunX6clul+7s4k
-	XarzAjBvEhnrdmozI4jyIKPunMN4kVQB7xz4BYo=
-X-Google-Smtp-Source: ANB0VdaWfzBpcsfzkEXha9VdmD68bG/OtG2LEwCKfOjq9e9S/3jzFPrWxoYL5qMuIceq/y+LMHmpm/I39kTlQz0SPhg=
-X-Received: by 2002:a63:2e09:: with SMTP id
-	u9-v6mr8351541pgu.294.1536326909365; 
-	Fri, 07 Sep 2018 06:28:29 -0700 (PDT)
+	Fri,  7 Sep 2018 13:38:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w87Dcibm027688
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 7 Sep 2018 06:38:44 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Fri, 7 Sep 2018 06:38:44 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 7 Sep 2018 09:38:40 -0400
+Message-ID: <684016751652a94a1defa101cf8c87ea86e289a1.1536327277.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1536327277.git.bruce.ashfield@windriver.com>
+References: <cover.1536327277.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-References: <20180727074130.19685-1-raj.khem@gmail.com>
-In-Reply-To: <20180727074130.19685-1-raj.khem@gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-Date: Fri, 7 Sep 2018 15:28:15 +0200
-Message-ID: <CAAQYJAv5m+H=aOsG=C2f8fWvw-oqgbuTWfbjQprEe2XtZjkiHQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] defaultsetup.conf: Enable security flags+pie by default
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] kern-tools: improve kernel config audit output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 13:28:28 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Sep 2018 13:38:44 -0000
+Content-Type: text/plain
 
-What is holding back this patch?
+Recent kernels broke the ability of kconfiglib to parse the Kconfig
+files and offer reasons why a symbol may not be set. To address this
+issue, we update to Kconfiglib2 and adjust the symbol_why script to
+work with the new API.
 
-Cheers
-Andrea
-On Fri, Jul 27, 2018 at 9:41 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> This has been an opt-in for so long, some distributions e.g.
-> poky-lsb uses it by default however, since most of linux
-> distros have started to default to these settings for security
-> enhancements, time has come for OE to make it default too
->
-> remove documentation from advanced local.conf sample
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v2:
-> - Remove references to explicitly enabling security flags
->
->  meta/conf/distro/defaultsetup.conf   |  1 +
->  meta/conf/local.conf.sample.extended | 11 -----------
->  2 files changed, 1 insertion(+), 11 deletions(-)
->
-> diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
-> index ca2f9178d2..352e279596 100644
-> --- a/meta/conf/distro/defaultsetup.conf
-> +++ b/meta/conf/distro/defaultsetup.conf
-> @@ -1,6 +1,7 @@
->  include conf/distro/include/default-providers.inc
->  include conf/distro/include/default-versions.inc
->  include conf/distro/include/default-distrovars.inc
-> +require conf/distro/include/security_flags.inc
->  include conf/distro/include/world-broken.inc
->
->  TCMODE ?= "default"
-> diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-> index e698acb84b..7f107831ee 100644
-> --- a/meta/conf/local.conf.sample.extended
-> +++ b/meta/conf/local.conf.sample.extended
-> @@ -270,17 +270,6 @@
->  #COPYLEFT_RECIPE_TYPES = 'target'
->  #
->
-> -#
-> -# GCC/LD FLAGS to enable more secure code generation
-> -#
-> -# By including the security_flags include file you enable flags
-> -# to the compiler and linker that cause them to generate more secure
-> -# code, this is enabled by default in the poky-lsb distro.
-> -# This does affect compile speed slightly.
-> -#
-> -# Use the following line to enable the security compiler and linker flags to your build
-> -#require conf/distro/include/security_flags.inc
-> -
->  # Image level user/group configuration.
->  # Inherit extrausers to make the setting of EXTRA_USERS_PARAMS effective.
->  #INHERIT += "extrausers"
-> --
-> 2.18.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+We also tweak the kconf_check script to allow the specification of
+a list of option as "non-hardware". This allows a BSP to inhibit
+warnings on options that it knows are mismatched for a valid reason
+(i.e. -tiny kernels using common fragments with known missing
+dependencies).
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index dca567f783b3..b353c21dfbad 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1b
+ 
+ DEPENDS = "git-native"
+ 
+-SRCREV = "602237a57487e969016db3085d181b585f5a74a7"
++SRCREV = "d6529f86fc5bcb3514953ff9fa2f51a3fbf03a0f"
+ PR = "r12"
+ PV = "0.2+git${SRCPV}"
+ 
+-- 
+2.5.0
+
 
