@@ -1,52 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 6887B7941F
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2018 08:32:06 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id v16-v6so14035465wro.11
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2018 01:32:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=4C4eqT1T6qkFS2whXG10Ploe+9AJvgn2ZgeU6VGc7RM=;
-	b=fUy+1pDZkMJGFjPv7VWFBHCiiJx/3GBi1vZQJyFGyWbWxsKZglELhPZ3ipNEKBrUSN
-	fkKlqX3e1+5vh6cpd1PNffp5c8pdf4vDEP8K5xdzCby5UUzkNfG4ixHUZtUYsPXr4E9s
-	6n38KNcFdie261N7utCwLp3I45vnB2zmVQv1g=
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com
+	[209.85.218.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AB9D79796;
+	Fri,  7 Sep 2018 10:33:41 +0000 (UTC)
+Received: by mail-oi0-f49.google.com with SMTP id v198-v6so8666576oif.9;
+	Fri, 07 Sep 2018 03:33:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dqLl59ZuIi+cEXnx4LtaRYKIBYRj8JGRJCdejZ60/b8=;
+	b=iPPOcTR9ush71oXAmfH8lwiPxTjN1dU4H5r+OgZoqi4nLS06iraL+TFPmuqABKy+00
+	ronJ9NpLTPRVypouY+X3oMxUObp5tMjD1oWuL27FNpNCvAHBEOy4V5hLDEuQfxuOXT+A
+	Ah9G15uMlTfUQf6KBqe5gFLrf8kM2cIhXV907jUHmBDkqc3h8xqar9yY1bZjzIxKg9Ry
+	sMyEdQggAbKcVzvpkqhsJoY7tpRawyWKdNEmAb9y3jENl0gNIYlRPem/woHC66X5IXnJ
+	Uyh5BtJumdGRpvWvUMV8sv277lNZjIWCv6rp/AWlhpinqtd441dg+mHajs7NWLyx/RGE
+	vqrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=4C4eqT1T6qkFS2whXG10Ploe+9AJvgn2ZgeU6VGc7RM=;
-	b=pCXBHFfW3SL8FXG5miecUuIb6OF+jDRWGnZioU5qBKDVwsx6twoiOf7Cnh00q/Xg/r
-	I4IPQSdhWgaw4egkE9xkcfP/xKOfDOFa1g4LbszcTEggP8NFqAHOyEED1g56Z1z6rdPx
-	8zXJPCphozyPaiCigNv1FXRRKLmlVID5q8/OFjuNUcU4w4H81pW2ykuk4Ow1wNHwQ/m6
-	M41f4FizrEBEk33d5lWqGzf/xqGUeaqh04Oqe3ScPLPCV/W/Mryt4ouTWZEK4wYmtiio
-	5Tbl1TPC6AE3fk9U8uiEYDFsG+nvn1/s9TjZum7X0R1A4etaQEPvS8yJ1AmqKdC2jxnH
-	CQsw==
-X-Gm-Message-State: APzg51Ad8shn4gBJKfAjaJaHYWqXZbhoxtFrMS4e+rjIiKh0T0HxFdjf
-	TPcYlDaT22bfFYvgAs3YT+dLZw==
-X-Google-Smtp-Source: ANB0VdZKkrxJUSLii2MNIfuI0ysXChhhICqUMZRp72ucbDeHFEa+UZLdqgESbu8FRm8DEKm0cvi6mw==
-X-Received: by 2002:adf:eb0d:: with SMTP id
-	s13-v6mr5192218wrn.174.1536309127023; 
-	Fri, 07 Sep 2018 01:32:07 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	g17-v6sm5713199wmh.19.2018.09.07.01.32.05
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 07 Sep 2018 01:32:06 -0700 (PDT)
-Message-ID: <a984728279d4ddd6664b0c15af35a2b3ce552067.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: kai.kang@windriver.com
-Date: Fri, 07 Sep 2018 09:32:04 +0100
-In-Reply-To: <cover.1536248856.git.kai.kang@windriver.com>
-References: <cover.1536248856.git.kai.kang@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5 0/7] disable allarch when multilib is used
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dqLl59ZuIi+cEXnx4LtaRYKIBYRj8JGRJCdejZ60/b8=;
+	b=GIi79fLOB2z0aQnwh3jbnc47VExMuIBk/cQbex4wYRZFkBuCL3l+UD1BIdtgKoFu53
+	MA9qXoC/YZPpGPpe6ufAOSUjlST9K2YIf0REGWWLNXEU8D+F8rNrPg6JOyBztkZG8MqU
+	Xk52jcmozeYOn4Xp93x/YGaMmGRNBj/d1BycZLscnt9fRuWqLAHP31PHiUBWaCjTCqq6
+	gRzQBKrDxEKI2St7lkF0UawCxC6tnbTYr+8LwXnBfV1p8o9W0n6kP3WsDUOVJ9rUjuxO
+	vyi82eQA2kUZUFS/Wh/g1+U3n0s1a0LBnoT7hsNnu/ywjS7dxKJm64kc1WY90FH5wbul
+	A5tA==
+X-Gm-Message-State: APzg51AzZEXcldGefDS1A8beii/8nc06p0FoIWyV4pzKzqk31bQHqMLg
+	H/wELvK1kfcPzhEb7Zox+Y1/nsDBjhKUTdc3o+5KtPJnjXQ=
+X-Google-Smtp-Source: ANB0VdbmJI8n6LlHg8ypHdsMUWjRZVvOPkHH6FxpH/hV43pho1vTPKBSDWZfmhJ4xOi2zSDXfdQM59VnNlwRTHVClmU=
+X-Received: by 2002:aca:3ad4:: with SMTP id
+	h203-v6mr7053206oia.294.1536316422217; 
+	Fri, 07 Sep 2018 03:33:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:5c9b:0:0:0:0:0 with HTTP;
+	Fri, 7 Sep 2018 03:33:41 -0700 (PDT)
+In-Reply-To: <2106BCC9-BFE5-4E40-979E-59B3D62022EB@linux.intel.com>
+References: <2106BCC9-BFE5-4E40-979E-59B3D62022EB@linux.intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 7 Sep 2018 12:33:41 +0200
+Message-ID: <CANNYZj83qDfCfJbUiWWQj2BsrV7cLVvkDHTsCALETWsx8Hba_Q@mail.gmail.com>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] [WIP] perl upgrade to 5.26.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,24 +57,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 08:32:06 -0000
+X-List-Received-Date: Fri, 07 Sep 2018 10:33:41 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-09-06 at 23:52 +0800, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> V5:
-> * set PACKAGE_ARCH in event handler bb.event.RecipePreFinalise
-> * add execption of target-sdk-provides-dummy for package_qa_multilib
-> check
+For what it's worth, I have started a similar project, but in a more
+radical way: rewrite existing recipe (unmaintainable mess imo), bring
+in perl-cross overlay from buildroot to do cross-builds without
+resorting to ugly hacks. I got a bit further: the whole thing builds
+and packages without errors or warnings but failures happen later in
+perl-dependent recipes. I hope to pick it up at some point later:
 
-In general this looks good but oe-selftest -r
-sstatetests.SStateTests.test_sstate_nativesdk_samesigs_multilib fails:
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/perl-sanity
 
-https://typhoon.yocto.io/#/builders/28/builds/44/steps/7/logs/step2d
-
-Cheers,
-
-Richard
+Alex
 
