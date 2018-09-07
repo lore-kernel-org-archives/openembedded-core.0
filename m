@@ -1,25 +1,29 @@
 Return-Path: <Lu.Jiang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 89DF77915F
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ADBF87979F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2018 03:18:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w873Iubg003763
+	Fri,  7 Sep 2018 03:20:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w873JRTV013805
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Sep 2018 20:18:56 -0700 (PDT)
-Received: from pek-ljiang0-d1.wrs.com (128.224.162.214) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 6 Sep 2018 20:18:56 -0700
-From: Jiang Lu <lu.jiang@windriver.com>
-To: <lu.jiang@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Sep 2018 11:16:48 +0800
-Message-ID: <1536290208-21599-2-git-send-email-lu.jiang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1536290208-21599-1-git-send-email-lu.jiang@windriver.com>
+	Thu, 6 Sep 2018 20:19:58 -0700
+Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 6 Sep 2018 20:19:39 -0700
+Reply-To: <lu.jiang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
 References: <1536290208-21599-1-git-send-email-lu.jiang@windriver.com>
+From: "Lu.Jiang" <lu.jiang@windriver.com>
+Message-ID: <bac0cafc-74e6-38cf-3f48-bbbd73701f53@windriver.com>
+Date: Fri, 7 Sep 2018 11:17:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <1536290208-21599-1-git-send-email-lu.jiang@windriver.com>
+X-Originating-IP: [128.224.162.214]
 Cc: trini@konsulko.com
-Subject: [PATCH] wic:mkefidisk:add use-uuid for all partitions
+Subject: Re: [PATCH 0/1] wic:mkefidisk:add use-uuid for all partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +36,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 03:18:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Sep 2018 03:20:23 -0000
+Content-Type: text/plain; charset="gbk"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Add use-uuid for all partitions on mkefidisk.wks.
+在 2018年09月07日 11:16, Jiang Lu 写道:
+> Hi all,
+>
+> This patch adds use-uuid for all partitions on mkefidisk.wks.
+>
+> Thanks
+> Jiang Lu
+>
+Please ignore this thread.
 
-Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
----
- scripts/lib/wic/canned-wks/mkefidisk.wks | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks
 
-diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
-index 9f534fe..7bcb52f 100644
---- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-@@ -2,10 +2,10 @@
- # long-description: Creates a partitioned EFI disk image that the user
- # can directly dd to boot media.
- 
--part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
-+part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024 --use-uuid
- 
- part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
- 
--part swap --ondisk sda --size 44 --label swap1 --fstype=swap
-+part swap --ondisk sda --size 44 --label swap1 --fstype=swap --use-uuid
- 
- bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 console=ttyS0,115200 console=tty0"
--- 
-2.7.4
+Jiang Lu
 
 
