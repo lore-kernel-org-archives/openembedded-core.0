@@ -1,50 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com
-	[209.85.218.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AB9D79796;
-	Fri,  7 Sep 2018 10:33:41 +0000 (UTC)
-Received: by mail-oi0-f49.google.com with SMTP id v198-v6so8666576oif.9;
-	Fri, 07 Sep 2018 03:33:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=dqLl59ZuIi+cEXnx4LtaRYKIBYRj8JGRJCdejZ60/b8=;
-	b=iPPOcTR9ush71oXAmfH8lwiPxTjN1dU4H5r+OgZoqi4nLS06iraL+TFPmuqABKy+00
-	ronJ9NpLTPRVypouY+X3oMxUObp5tMjD1oWuL27FNpNCvAHBEOy4V5hLDEuQfxuOXT+A
-	Ah9G15uMlTfUQf6KBqe5gFLrf8kM2cIhXV907jUHmBDkqc3h8xqar9yY1bZjzIxKg9Ry
-	sMyEdQggAbKcVzvpkqhsJoY7tpRawyWKdNEmAb9y3jENl0gNIYlRPem/woHC66X5IXnJ
-	Uyh5BtJumdGRpvWvUMV8sv277lNZjIWCv6rp/AWlhpinqtd441dg+mHajs7NWLyx/RGE
-	vqrw==
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D018F7970E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  7 Sep 2018 11:40:39 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id s14-v6so5673467wrw.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Sep 2018 04:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=6nXWdznswnO/Kye+RtEyvdUbqT3m75IxdgEyYC2Bu8s=;
+	b=OECnaLLvh3ocHrN5xNWdT4oU6YhLZG27uomQpZfLv+rd4UjY0e9vESXNnOb/gKi3xO
+	9HpvQIMWtFadvU2fvFa7oLRS86vlbcWQ/XznAvlQaW7CH0K3VRyLoVmi7B/P3/ZzGxmC
+	1sqK4ryM+mPN5Lkvb++9iPPAiBgutn3mjxiPI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=dqLl59ZuIi+cEXnx4LtaRYKIBYRj8JGRJCdejZ60/b8=;
-	b=GIi79fLOB2z0aQnwh3jbnc47VExMuIBk/cQbex4wYRZFkBuCL3l+UD1BIdtgKoFu53
-	MA9qXoC/YZPpGPpe6ufAOSUjlST9K2YIf0REGWWLNXEU8D+F8rNrPg6JOyBztkZG8MqU
-	Xk52jcmozeYOn4Xp93x/YGaMmGRNBj/d1BycZLscnt9fRuWqLAHP31PHiUBWaCjTCqq6
-	gRzQBKrDxEKI2St7lkF0UawCxC6tnbTYr+8LwXnBfV1p8o9W0n6kP3WsDUOVJ9rUjuxO
-	vyi82eQA2kUZUFS/Wh/g1+U3n0s1a0LBnoT7hsNnu/ywjS7dxKJm64kc1WY90FH5wbul
-	A5tA==
-X-Gm-Message-State: APzg51AzZEXcldGefDS1A8beii/8nc06p0FoIWyV4pzKzqk31bQHqMLg
-	H/wELvK1kfcPzhEb7Zox+Y1/nsDBjhKUTdc3o+5KtPJnjXQ=
-X-Google-Smtp-Source: ANB0VdbmJI8n6LlHg8ypHdsMUWjRZVvOPkHH6FxpH/hV43pho1vTPKBSDWZfmhJ4xOi2zSDXfdQM59VnNlwRTHVClmU=
-X-Received: by 2002:aca:3ad4:: with SMTP id
-	h203-v6mr7053206oia.294.1536316422217; 
-	Fri, 07 Sep 2018 03:33:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:5c9b:0:0:0:0:0 with HTTP;
-	Fri, 7 Sep 2018 03:33:41 -0700 (PDT)
-In-Reply-To: <2106BCC9-BFE5-4E40-979E-59B3D62022EB@linux.intel.com>
-References: <2106BCC9-BFE5-4E40-979E-59B3D62022EB@linux.intel.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 7 Sep 2018 12:33:41 +0200
-Message-ID: <CANNYZj83qDfCfJbUiWWQj2BsrV7cLVvkDHTsCALETWsx8Hba_Q@mail.gmail.com>
-To: Tim Orling <timothy.t.orling@linux.intel.com>
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] [WIP] perl upgrade to 5.26.2
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=6nXWdznswnO/Kye+RtEyvdUbqT3m75IxdgEyYC2Bu8s=;
+	b=dMAhLx4fPU8QDLfIS8m4wAPFTR0dmCGJUOT02zFSvFMabE9oexKklEjCgIIBTaXNWi
+	pVSC9j0NRcXWb/5N3Ltw4qKrIByOtrIMgVZMSxoP6sz1lFmxP3QO9FPLFWZO0K65Tsxu
+	A0nK4I+YI5SLsaEFJu534xlhKiNKzpzs94o3yGbLJGY0hjGkjnKvObH01Viqrq9aqyqD
+	TZVKWCdH9oA8j6fLQThcnfsPdzyT/tyuOlg//6uj9X1Ykn7wdZ0rvOh6Vk+d9Xyt5xvF
+	8Sb5QWxQt2v2ljW4gZeZz1RjHJod8pA1ejtaPtzrNn7Wy6CqV8jvesXg4R7wEWh/X+mw
+	WDSQ==
+X-Gm-Message-State: APzg51B1GqwJh8X2T/PQxUHidopBPH/7iXmxi5tdQJr/A2CkFAourEt4
+	PQ7NVz3gSAdBigbZhjvuvQ2nbbEgi7Q=
+X-Google-Smtp-Source: ANB0VdZhgsNetD04QimU7jtPCjdFB9Wl+aOf83Xg3EqoDERPSosV7bc7aUWQAGEl+fnxrFhDcr4/7w==
+X-Received: by 2002:adf:959a:: with SMTP id
+	p26-v6mr5662168wrp.202.1536320440197; 
+	Fri, 07 Sep 2018 04:40:40 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	g7-v6sm6642694wrw.30.2018.09.07.04.40.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 07 Sep 2018 04:40:39 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Sep 2018 12:40:34 +0100
+Message-Id: <20180907114036.16685-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/3] staging: Ensure we handle glibc-locale do_stash_locale correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,17 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 10:33:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Sep 2018 11:40:40 -0000
 
-For what it's worth, I have started a similar project, but in a more
-radical way: rewrite existing recipe (unmaintainable mess imo), bring
-in perl-cross overlay from buildroot to do cross-builds without
-resorting to ugly hacks. I got a bit further: the whole thing builds
-and packages without errors or warnings but failures happen later in
-perl-dependent recipes. I hope to pick it up at some point later:
+Occasionally we see warnings like:
 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/perl-sanity
+WARNING: core-image-sato-1.0-r0 do_populate_sdk: Manifest /home/pokybuild/yocto-worker/nightly-qa-extras/build/build/tmp/sstate-control/manifest-allarch-nativesdk-linux-libc-headers.populate_sysroot not found in i686_linux allarch (variant '')?
 
-Alex
+which occur when do_populate_sdk is run in an otherwise empty TMPDIR.
+
+It occurs because do_stash_locale is not recognised as a setscene task
+and is removed from the taskgraph meaning the dependency chains fed
+through setscene_depvalid don't match what was actually setscene'd.
+
+That task is recipe specific and not in the global SSTATETASKS so we
+hardcode the value for now to stop the build warnings. This is going to
+need to be revisited for a more generic solution.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/staging.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 27b012ecbdd..a1e4cf70900 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -294,6 +294,8 @@ python extend_recipe_sysroot() {
+     start = set([start])
+ 
+     sstatetasks = d.getVar("SSTATETASKS").split()
++    # Add recipe specific tasks referenced by setscene_depvalid()
++    sstatetasks.append("do_stash_locale")
+ 
+     def print_dep_tree(deptree):
+         data = ""
+-- 
+2.17.1
+
 
