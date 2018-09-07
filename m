@@ -1,52 +1,47 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw1-f65.google.com (mail-yw1-f65.google.com
-	[209.85.161.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 856EC78AB6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B2C4797C8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2018 12:19:10 +0000 (UTC)
-Received: by mail-yw1-f65.google.com with SMTP id j131-v6so5286199ywc.13
+	Fri,  7 Sep 2018 13:13:48 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id v90-v6so14982855wrc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2018 05:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Oh33bKkvo81YS8wzagpCXe+eWXh24XKWEcNFPZ6XrTU=;
-	b=aj1oqC7nEmSQ4+T0kyucRY6OSNC814PIyGwl2JOqJCq0uaPp6038T/lPY0BVNcdrqn
-	7tyOxjz/wbV8PqhmSttuhgC7AwyFU4iiZXoBXSSclz2XXFn1wHYb5mPVeSFGa2xHlIQz
-	DlCqIlnycpaNCb7WxI6KbQKfpkz7+Cyczxc2Y=
+	Fri, 07 Sep 2018 06:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=rbxe4n7zHyCyBe2yQWq9BRjbmJ3u2B5EPX7P8QsTuLU=;
+	b=DHEbaGGrtkPVxiAa8o6CyAt1mPe3Yx4MhjU1K5IEwT8cGRRRDFJ7Rw3Jkcy2R7ji8k
+	sEWQ2V+ob7FyAvb+fhPh5TTYrdVMRlkmpMolLrZ+NbcU2w8drgO9tmVDNBms0TtH00e1
+	Ox4OpiVvHCoKZCmFdWs8Sm+NKCERlATmisMLw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Oh33bKkvo81YS8wzagpCXe+eWXh24XKWEcNFPZ6XrTU=;
-	b=ap9knBjshPfs2BMgxw/qfIYzAclAR+V0yVToTBZ36WieR2nf1YScxSq9l7EY3Cglv1
-	B6F0lH/A+vM+1PgGwclCAjcMvBQT2QEPXJ8Izd2ypkP+1VLTWfrQke6tHrAH+g4g/SsP
-	MiThjsVymYv5ZTcLBJlGfN2tBxZAnWN0jrSbkF3s+b5eYOJWMH28mBjoNLICDi+//1m3
-	4ftieT38kWJ5a/LmZTcm4zFGbsgiJ+uiR9RTAB6K3SThcJ7o6Rld79Ufx7KYH6rF4DBE
-	B/YMEw7MGkEspaLw9iEaGcANdOKIgjaLZq3n49pD2b84tDBwdXUkUhWyzHkYUSG/6x8E
-	BSyw==
-X-Gm-Message-State: APzg51DQSsvTL0Zlilb1UsS9yICvVAQ7SqDQviPdBquGsuoHGCHPkhol
-	TizKE/BkaXwdSROEJobDEgiV6w==
-X-Google-Smtp-Source: ANB0VdZ1yjsjO0tsXg8h8n18H8+sNsopcTT6eCwB2vvW/u6ir3qimudBsrPPaOThd4nYq1l4OPck5Q==
-X-Received: by 2002:a81:a097:: with SMTP id
-	x145-v6mr3814349ywg.474.1536322751297; 
-	Fri, 07 Sep 2018 05:19:11 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rbxe4n7zHyCyBe2yQWq9BRjbmJ3u2B5EPX7P8QsTuLU=;
+	b=ERJPMTV7yEyyUA8wjoivRXMPkE7rGvjFWAsS4AISIaE9JiBr1P9rpQddxU2bjZvJDD
+	/WlR0Ytih/J+aMnet3sEEifncpYPN5h8GWEX3GugdqHMu5DH4LpsJYYj24F9/xX0KA7K
+	fISG50OOt0uNfEJeJqZVDI+DQFGedjNAOWiA8u8oZQzkYXcZgBYYQDOXgtU52xinkL2J
+	2ozzX5sdEEEUPRUuCDzaRoP4al+HabvCvCHK+oiNls2qgpVJ1AsfJOuucSr2ggZ+X7MR
+	tyjP/IjLJbI+y0JmSR7F6UfWlZ34Grohz56lbJiOgkg0b0/X5bQkpHAf0Ol6vdIYJkhg
+	nIVA==
+X-Gm-Message-State: APzg51AJfW0LB94LeI3Dlv7/JjXE6/B7YzsznpW4iZRbqcYYI3vkgnR5
+	rECgvUpERmK7aMj3rCqpL163hCONEy8=
+X-Google-Smtp-Source: ANB0Vda5jw56aY69ByOyftxL5v5ymQyntySNrDcKXJf1l5AEteWc03vH0HmUJD0Zx9pFc3svjZTjmQ==
+X-Received: by 2002:adf:e14f:: with SMTP id
+	f15-v6mr6183141wri.42.1536326028902; 
+	Fri, 07 Sep 2018 06:13:48 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	e126-v6sm2680964ywf.72.2018.09.07.05.19.10
+	g2-v6sm12930301wrd.71.2018.09.07.06.13.47
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Sep 2018 05:19:10 -0700 (PDT)
-Date: Fri, 7 Sep 2018 08:19:08 -0400
-From: Tom Rini <trini@konsulko.com>
-To: "Lu.Jiang" <lu.jiang@windriver.com>
-Message-ID: <20180907121908.GI26633@bill-the-cat>
-References: <1535681710-29461-1-git-send-email-lu.jiang@windriver.com>
-	<e16a6f29-9651-5b0e-7b81-e73750d0c7b7@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <e16a6f29-9651-5b0e-7b81-e73750d0c7b7@windriver.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [v2] [PATCH 0/7] wic:allow wic compile as an individual package
+	Fri, 07 Sep 2018 06:13:48 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Sep 2018 14:13:46 +0100
+Message-Id: <20180907131347.19537-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] libpciaccess: Extend to native/nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,61 +54,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 12:19:10 -0000
-X-Groupsio-MsgNum: 116037
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="W7DEIw0fpbPWP2dV"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 07 Sep 2018 13:13:48 -0000
 
---W7DEIw0fpbPWP2dV
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Avoids warnings from libdrm which has nativesdk/native variants and depends upon this.
 
-On Fri, Sep 07, 2018 at 11:02:23AM +0800, Lu.Jiang wrote:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-graphics/xorg-lib/libpciaccess_0.14.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> Hi all,
->=20
-> Thanks Tom help me review this patch.
->=20
-> The patch intend to bring wic into target, allow it generate new image at
-> runtime.
-> For example, most x86 board can boot from USB or SATA,=A0 then wic enable=
- uuid
-> for partition to distinguish different device. If we use same image for a=
-ll
-> device, uuid will be same. It is better to generate a new image based on
-> running system at runtime. Then wic is best choice.
+diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.14.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.14.bb
+index a44a5c89279..d030c31bd0f 100644
+--- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.14.bb
++++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.14.bb
+@@ -16,3 +16,5 @@ LICENSE = "MIT & MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=277aada5222b9a22fbf3471ff3687068"
+ 
+ REQUIRED_DISTRO_FEATURES = ""
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.17.1
 
-Ah, this is an interesting problem.  But, I wouldn't involve wic in
-solving "how do I take one image and get multiple unique
-partition/filesystem UUIDs".  Generally this problem (since you see it
-with clonezilla and other things of that nature) is to script up using
-sfdisk to change the partition UUIDs, tune2fs to change the filesystem
-UUIDs and correct the files that care.
 
---=20
-Tom
-
---W7DEIw0fpbPWP2dV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJbkmy8AAoJEIf59jXTHXZSSr0P/0oWPNI48wInZIjPA42ZWCF8
-Yefg5MY3zLVZyG5KP/kezuNuR2bCkiGcy6A2VmC/UMRMOqCt8V/+BF3HcaN60u3X
-SPmp7NhTQjQGx/UCksy1XOxf47MQOr9Pyuu4zo2TNTdYgHqRg5b+KzdoDJQiDVaR
-8Qv5m7oNuXxnOVqDoH3/tolGkPJngVJM7fuoFqkPgQ1yhTTRBRlHm+Nln95kv/xw
-j/nBuOiP0vWZ1/5ub57XBU+6T26E1t2pWOTsEkqWQCQge7d+6CJIWxFEmtQSinVj
-SBTqNL46IW4li5yughboU4VLva6a6s7wiaYxUoU1umgvChV325OxbxYzJDBkkree
-NvD/pw542BnuP9muokfa+9+JSDZZNeIMKsVC9i6L08JP1AZXMBvtFKrO6TPYNXH/
-Vf/CXjPI5fjbNMeFSw1ovlTs74rbI42pZgHnqyQd2Q0l/w4FRnCNuZwI2JK/SUpB
-be/Ow85BmObuuPpLg6O73m6pwdMHsA8Pt2Cs0hBkhyDSdpe4l6tVfJ3Ypq3k8rho
-99/FWoEEowq1Y4jheEcU0aPxilx5tIpEOR0sYdlK3CGcY1bxB2xjY7ILB1QyAH8d
-rcd9lJLA9cOERbmMXpZGiExKH5n5y/r/fwfa1wQHovs81E1cL7i9HBmlQ6P2b31B
-PdOjIGL6VoPurIHFYkpL
-=E7yh
------END PGP SIGNATURE-----
-
---W7DEIw0fpbPWP2dV--
