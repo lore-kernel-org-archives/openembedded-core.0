@@ -1,24 +1,26 @@
-Return-Path: <Lu.Jiang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 075D7797A6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2018 03:34:46 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w873Y5jp014185
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Sep 2018 20:34:21 -0700
-Received: from pek-ljiang0-d1.wrs.com (128.224.162.214) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 6 Sep 2018 20:34:15 -0700
-From: Jiang Lu <lu.jiang@windriver.com>
-To: <lu.jiang@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Sep 2018 11:32:10 +0800
-Message-ID: <1536291131-24332-1-git-send-email-lu.jiang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Cc: trini@konsulko.com
-Subject: [PATCH 0/1] wic:mkefidisk:add use-uuid for all partitions
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id F1A437976D;
+	Fri,  7 Sep 2018 05:15:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Sep 2018 22:15:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,340,1531810800"; d="scan'208";a="78638272"
+Received: from sablum-mobl1.amr.corp.intel.com ([10.254.180.208])
+	by FMSMGA003.fm.intel.com with ESMTP; 06 Sep 2018 22:13:39 -0700
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+Message-Id: <2106BCC9-BFE5-4E40-979E-59B3D62022EB@linux.intel.com>
+Date: Thu, 6 Sep 2018 22:13:39 -0700
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.3445.9.1)
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+Subject: [WIP] perl upgrade to 5.26.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,14 +33,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 03:34:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Sep 2018 05:15:03 -0000
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
+A while ago, I began to work on upgrading perl to 5.26.2. I am sharing =
+what I have in case anyone else wants to continue the effort. As I =
+remember it, this at least passes do_patch, but fails in do_compile. =
+YMMV.
 
-Hi all, 
-
-This patch adds use-uuid for all partitions on mkefidisk.wks.
-
-Thanks
-Jiang Lu
+=
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dtimo/per=
+l-5.26.2&id=3D610991e483d2cf6a6b82322406630ed30547e844=
 
