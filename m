@@ -1,43 +1,32 @@
-Return-Path: <geissonator@gmail.com>
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
-	[209.85.218.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 0355779832
+Return-Path: <joseph-reynolds@charter.net>
+X-Greylist: delayed 961 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 07 Sep 2018 19:32:52 UTC
+Received: from que001-public.msg.strl.va.charter.net
+	(que001-public.msg.strl.va.charter.net [68.114.190.38])
+	by mail.openembedded.org (Postfix) with ESMTP id 12E1A6FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2018 19:03:07 +0000 (UTC)
-Received: by mail-oi0-f41.google.com with SMTP id p84-v6so29160628oic.4
+	Fri,  7 Sep 2018 19:32:52 +0000 (UTC)
+Received: from impout004 ([68.114.189.19]) by mtaout003.msg.strl.va.charter.net
+	(InterMail vM.9.00.023.01 201-2473-194) with ESMTP id
+	<20180907191650.NZTS7355.mtaout003.msg.strl.va.charter.net@impout004>
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2018 12:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=jt1Pz7uUpi5MtkabRVbB4QlEOO2fegbYClI3LwEcGw8=;
-	b=ose6FFY5HmMsWOvHlxknzPiZPgyEvnq2nbD6f3FGCHl98ImCyukskjy88Vl7OTdLal
-	h9+HwbZXmCYhZQjTj45BOf/Jt5IHN1AmZrSo+22efOFnkD2aNmdMqF86CfUEN8Wj456d
-	mvCBGvykVJSbG9nSgTixYHkqf00AYMOD/XdLgxoLIWdYZHr2d+WaQU5r6peqTw7ptylO
-	/si7Pbqbx7xxXC8P9E1rZ9s3LrDkXwm41E2au/HTRH4SQcIg5N1PKFUQugoz5qAHqGog
-	Ibe5MBQDYPD3D/F7a53dCKpqmJhfGgagG6cePD1rsuugiRIkbdAoUsAufIY/sQhaDs4z
-	Kjgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=jt1Pz7uUpi5MtkabRVbB4QlEOO2fegbYClI3LwEcGw8=;
-	b=X2/IO5g6x+3mlE5ylA26GTtFGF23KNfghKNXVYBpLm0CUpiL6wnbSnWGc/yNvXFwSz
-	igKdRm+qwR2gkvck+Trq7pfSaBpJiTJaE/nyxm5rYT2YsbdbX8OlRsK8XTjHO7do9XwE
-	BTn6JZJBfsteSJR41MIM3gpOERTO/cJYWd2kZD0fo5yOqILCtCFx0HwCynOfHqwiSM4A
-	3PkdYYeGCcmEUEz9Ma5auwMYPyOrrldihSDzedqMVL6LNAhvufI8MbUW/VdUn+J+Ng1m
-	SFBYRkMbeYjV0aFeINlqm9xOC/Okp0xlGadPli2dcJ55G4YK30N6UJl/cqc0nMDqmVxp
-	pJRA==
-X-Gm-Message-State: APzg51DQ2Sc94LQSDpw3EyX3Vi5++opTV1fbcUD4WYTQS+KReYqKSart
-	uD3Ky9WF5v6IwJmQ/x8U+jJPd3rhXVau9s2ahgNgG5+i
-X-Google-Smtp-Source: ANB0VdZPIT1n16iB2uFV6Zz+tBKQCBuUb/MxjxnHQFZdeyTB3++51qkpQK/cLsujIiNRfI5cYF6LGzxKkGX1VVzGzKA=
-X-Received: by 2002:aca:5d07:: with SMTP id
-	r7-v6mr8713742oib.146.1536346988641; 
-	Fri, 07 Sep 2018 12:03:08 -0700 (PDT)
+	Fri, 7 Sep 2018 14:16:50 -0500
+Received: from localhost ([68.114.0.170]) by impout004 with charter.net
+	id YjGq1y00H3g4RYs01jGq8X; Fri, 07 Sep 2018 14:16:50 -0500
+X-Authority-Analysis: v=2.2 cv=Cat43Pjl c=1 sm=1 tr=0
+	a=TxbYGM+zWkYih0pDanbSSw==:117 a=TxbYGM+zWkYih0pDanbSSw==:17
+	a=2lbjVDu7A2UA:10 a=x7bEGLp0ZPQA:10 a=2Ev-Ocp92hkTL4OrrHUA:9
+	a=QEXdDO2ut3YA:10 a=hOpmn2quAAAA:8 a=QxPnUlmBzHtLDsajCz0A:9
+	a=9nCUo8GUUwNqz0qv:21 a=_W_S_7VecoQA:10 a=GyA-uvUxXSCciAkwuKQO:22
+Message-ID: <YjGq1y00H3g4RYs01jGq8X@charter.net>
+From: joseph-reynolds@charter.net
+To: "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Atmail 7.1.1.13434
+X-Originating-IP: [97.86.254.207]
+Date: Fri, 07 Sep 2018 14:16:50 -0500
 MIME-Version: 1.0
-From: Andrew Geissler <geissonator@gmail.com>
-Date: Fri, 7 Sep 2018 14:02:57 -0500
-Message-ID: <CALLMt=r-i5AhyYaXon9na0NSky3cvph9ZpbGx0ogeuzOh8pB=w@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: python test files installed in image on purpose?
+Subject: [PATCH] disable medium-strength dropbear ssh ciphers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,36 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 19:03:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Sep 2018 19:32:53 -0000
+Content-Type: multipart/alternative;
+	boundary="=_c06e39faff775aa0de8002df8c1caba5"
 
-Hi,
+--=_c06e39faff775aa0de8002df8c1caba5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-We've been running into some flash space issues over in the openbmc
-project. I noticed the python.bb file (python_2.7.14.bb for us) is
-installing some test folders/files in our rootfs image.
+This changes the Dropbear SSH server configuration so it will not=0Aacce=
+pt medium-strength encryption ciphers including: CBC mode, MD5,=0A96-bit=
+ MAC, and triple DES.=0A=0AUpstream-Status: Pending=0A=0ASigned-off-by:=
+ Joseph Reynolds =0A---=0A meta/recipes-core/dropbear/dropbear/localopti=
+ons.h | 8 ++++++++=0A 1 file changed, 8 insertions(+)=0A create mode 100=
+644 meta/recipes-core/dropbear/dropbear/localoptions.h=0A=0Adiff --git a=
+/meta/recipes-core/dropbear/dropbear/localoptions.h=0Ab/meta/recipes-cor=
+e/dropbear/dropbear/localoptions.h=0Anew file mode 100644=0Aindex 000000=
+0..ec48c26=0A--- /dev/null=0A+++ b/meta/recipes-core/dropbear/dropbear/l=
+ocaloptions.h=0A@@ -0,0 +1,8 @@=0A+/* Customize dropbear per default_opt=
+ions.h in the dropbear project=0A*/=0A+=0A+/* Disable insecure ciphers *=
+/=0A+#define DROPBEAR_TWOFISH256 0=0A+#define DROPBEAR_TWOFISH128 0=0A+#=
+define DROPBEAR_ENABLE_CBC_MODE 0=0A+#define DROPBEAR_SHA1_HMAC 0=0A+#de=
+fine DROPBEAR_SHA1_96_HMAC 0=0A-- =0A2.7.2=0A=0A
 
-# find /usr/lib/python2.7/ -name "test" -print
-/usr/lib/python2.7/ctypes/test
-/usr/lib/python2.7/email/test
+--=_c06e39faff775aa0de8002df8c1caba5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I'm looking to see if there's any functional reason these tests are
-included in the image.
+<html><body>This changes the Dropbear SSH server configuration so it wil=
+l not<br><div>accept medium-strength encryption ciphers including: CBC m=
+ode, MD5,<br>96-bit MAC, and triple DES.<br><br>Upstream-Status: Pending=
+<br><br>Signed-off-by: Joseph Reynolds &lt;joseph-reynolds@charter.net&g=
+t;<br>---<br>&nbsp;meta/recipes-core/dropbear/dropbear/localoptions.h |=
+ 8 ++++++++<br>&nbsp;1 file changed, 8 insertions(+)<br>&nbsp;create mod=
+e 100644 meta/recipes-core/dropbear/dropbear/localoptions.h<br><br>diff=
+ --git a/meta/recipes-core/dropbear/dropbear/localoptions.h b/meta/recip=
+es-core/dropbear/dropbear/localoptions.h<br>new file mode 100644<br>inde=
+x 0000000..ec48c26<br>--- /dev/null<br>+++ b/meta/recipes-core/dropbear/=
+dropbear/localoptions.h<br>@@ -0,0 +1,8 @@<br>+/* Customize dropbear per=
+ default_options.h in the dropbear project */<br>+<br>+/* Disable insecu=
+re ciphers */<br>+#define DROPBEAR_TWOFISH256 0<br>+#define DROPBEAR_TWO=
+FISH128 0<br>+#define DROPBEAR_ENABLE_CBC_MODE 0<br>+#define DROPBEAR_SH=
+A1_HMAC 0<br>+#define DROPBEAR_SHA1_96_HMAC 0<br>-- <br>2.7.2<br><br><br=
+></div></body></html>
 
-In our compressed filesystem we're talking about ~150KB of space but
-right now that's a pretty big deal for us. Would the community be
-interested in a patch to not install (or make it an option like is
-done with INCLUDE_PYCS) these test files?  Or is this something we
-should just handle in a .bbappend file for our distro?
-
-Here's a complete list of test directories in the python package.
-./Python-2.7.14/Lib/bsddb/test
-./Python-2.7.14/Lib/sqlite3/test
-./Python-2.7.14/Lib/ctypes/test
-./Python-2.7.14/Lib/unittest/test
-./Python-2.7.14/Lib/lib-tk/test
-./Python-2.7.14/Lib/email/test
-
-Thanks,
-Andrew
-
+--=_c06e39faff775aa0de8002df8c1caba5--
