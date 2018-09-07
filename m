@@ -1,53 +1,24 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BB4E9795E6
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 45F6279726
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Sep 2018 23:43:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 3D019182C5;
-	Fri,  7 Sep 2018 01:43:22 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 0SMz9tFnZNRg; Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id C53631806E;
-	Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B11491A08B;
-	Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A51471A084;
-	Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 98E361850;
-	Fri,  7 Sep 2018 01:43:21 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Fri, 7 Sep 2018 01:43:21 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Fri, 7 Sep 2018 01:43:21 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "Khem Raj (raj.khem@gmail.com)" <raj.khem@gmail.com>
-Thread-Topic: glibc-locale fails when PACKAGE_NO_GCONV = 1
-Thread-Index: AdRGOv8uUYmU6mSuSM+FNk92Nq5kKw==
-Date: Thu, 6 Sep 2018 23:43:21 +0000
-Message-ID: <5164dac8b24a403693edd057b06a6341@XBOX02.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Fri,  7 Sep 2018 00:22:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w870M8xq028532
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Sep 2018 17:22:08 -0700 (PDT)
+Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Thu, 6 Sep 2018 17:22:07 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 7 Sep 2018 08:22:05 +0800
+Message-ID: <1536279725-32608-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
-	<openembedded-core@lists.openembedded.org>
-Subject: glibc-locale fails when PACKAGE_NO_GCONV = 1
+X-Originating-IP: [128.224.162.137]
+Subject: [PATCH V2] taglib: Security fix CVE-2018-11439
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,20 +31,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 23:43:23 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 07 Sep 2018 00:22:07 -0000
+Content-Type: text/plain
 
-Just thought I should mention this as I happened to stumble upon it=20
-when I accidentally set DISTRO_FEATURES to nothing:
+CVE-2018-11439: The TagLib::Ogg::FLAC::File::scan function in
+oggflacfile.cpp in TagLib 1.11.1 allows remote attackers to cause
+information disclosure (heap-based buffer over-read) via a crafted audio
+file.
 
-If one builds with PACKAGE_NO_GCONV set to 1, or without all of=20
-libc-charsets, libc-locales and libc-locale-code being set in=20
-DISTRO_FEATURES (which results in PACKAGE_NO_GCONV being set to 1),=20
-then the build will fail for glibc-locale due to a lot of files in=20
-/usr/lib/gconv and /usr/share/i18n not being packaged.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2018-11439
 
-//Peter
+Patch from:
+https://github.com/taglib/taglib/pull/869/commits/272648ccfcccae30e002ccf34a22e075dd477278
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../taglib/taglib/CVE-2018-11439.patch             | 51 ++++++++++++++++++++++
+ meta/recipes-support/taglib/taglib_1.11.1.bb       |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-support/taglib/taglib/CVE-2018-11439.patch
+
+diff --git a/meta/recipes-support/taglib/taglib/CVE-2018-11439.patch b/meta/recipes-support/taglib/taglib/CVE-2018-11439.patch
+new file mode 100644
+index 0000000..cdd66e6
+--- /dev/null
++++ b/meta/recipes-support/taglib/taglib/CVE-2018-11439.patch
+@@ -0,0 +1,51 @@
++From 272648ccfcccae30e002ccf34a22e075dd477278 Mon Sep 17 00:00:00 2001
++From: Scott Gayou <github.scott@gmail.com>
++Date: Mon, 4 Jun 2018 11:34:36 -0400
++Subject: [PATCH] Fixed OOB read when loading invalid ogg flac file. (#868)
++
++This CVE is caused by a failure to check the minimum length
++of a ogg flac header. This header is detailed in full at:
++https://xiph.org/flac/ogg_mapping.html. Added more strict checking
++for entire header.
++
++Upstream-Status: Backport
++[https://github.com/taglib/taglib/pull/869/commits/272648ccfcccae30e002ccf34a22e075dd477278]
++
++CVE: CVE-2018-11439
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ taglib/ogg/flac/oggflacfile.cpp | 14 ++++++++++++--
++ 1 file changed, 12 insertions(+), 2 deletions(-)
++
++diff --git a/taglib/ogg/flac/oggflacfile.cpp b/taglib/ogg/flac/oggflacfile.cpp
++index 53d0450..07ea9dc 100644
++--- a/taglib/ogg/flac/oggflacfile.cpp
+++++ b/taglib/ogg/flac/oggflacfile.cpp
++@@ -231,11 +231,21 @@ void Ogg::FLAC::File::scan()
++ 
++   if(!metadataHeader.startsWith("fLaC"))  {
++     // FLAC 1.1.2+
+++    // See https://xiph.org/flac/ogg_mapping.html for the header specification.
+++    if(metadataHeader.size() < 13)
+++      return;
+++
+++    if(metadataHeader[0] != 0x7f)
+++      return;
+++
++     if(metadataHeader.mid(1, 4) != "FLAC")
++       return;
++ 
++-    if(metadataHeader[5] != 1)
++-      return; // not version 1
+++    if(metadataHeader[5] != 1 && metadataHeader[6] != 0)
+++      return; // not version 1.0
+++
+++    if(metadataHeader.mid(9, 4) != "fLaC")
+++      return;
++ 
++     metadataHeader = metadataHeader.mid(13);
++   }
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/taglib/taglib_1.11.1.bb b/meta/recipes-support/taglib/taglib_1.11.1.bb
+index 50439bc..01dcf66 100644
+--- a/meta/recipes-support/taglib/taglib_1.11.1.bb
++++ b/meta/recipes-support/taglib/taglib_1.11.1.bb
+@@ -10,6 +10,7 @@ DEPENDS = "zlib"
+ 
+ SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz \
+            file://CVE-2017-12678.patch \
++           file://CVE-2018-11439.patch \
+           "
+ 
+ SRC_URI[md5sum] = "cee7be0ccfc892fa433d6c837df9522a"
+-- 
+2.7.4
 
 
