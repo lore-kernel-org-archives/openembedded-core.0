@@ -1,24 +1,58 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 45F6279726
+Return-Path: <philip@balister.org>
+X-Greylist: delayed 401 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 07 Sep 2018 00:40:03 UTC
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with ESMTP id 14E197918C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2018 00:22:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w870M8xq028532
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Sep 2018 17:22:08 -0700 (PDT)
-Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Thu, 6 Sep 2018 17:22:07 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Sep 2018 08:22:05 +0800
-Message-ID: <1536279725-32608-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Fri,  7 Sep 2018 00:40:03 +0000 (UTC)
+Received: (qmail 24952 invoked by uid 1003); 7 Sep 2018 00:33:27 -0000
+Received: from unknown (HELO ?192.168.11.100?)
+	(philip@opensdr.com@73.152.143.112)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	7 Sep 2018 00:33:26 -0000
+To: Joshua Watt <jpewhacker@gmail.com>, Trevor Woerner <twoerner@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+References: <81713c72-e806-ba69-0e6d-7ef4a2c00010@gmail.com>
+	<CANNYZj8Doupz9W1zeuC5xygjqQ_ea3+v5Wa9xuBKSykLQ=yAJA@mail.gmail.com>
+	<CAHUNapR1AJEsDg8TUig18uSzYE74X7QGgj2pgc3Uo5OnaMxRVA@mail.gmail.com>
+	<bcaf6bfb74fb925d8987047c2a0552e726b3aea4.camel@gmail.com>
+From: Philip Balister <philip@balister.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
+	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
+	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
+	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
+	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
+	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
+	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
+	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
+	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
+	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
+	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
+	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
+	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
+	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
+	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
+	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
+	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
+	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
+	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
+	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
+	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
+	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
+	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
+	6eUfr0u7CwnEyqiQ
+Message-ID: <a20bb9e5-d5cb-3e39-a0f5-fcb98a042887@balister.org>
+Date: Thu, 6 Sep 2018 20:33:22 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.137]
-Subject: [PATCH V2] taglib: Security fix CVE-2018-11439
+In-Reply-To: <bcaf6bfb74fb925d8987047c2a0552e726b3aea4.camel@gmail.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] OEDEM Sunday, 21 October 2018 in Edinburgh (before ELCE) - Update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,97 +65,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 00:22:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Sep 2018 00:40:04 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 
-CVE-2018-11439: The TagLib::Ogg::FLAC::File::scan function in
-oggflacfile.cpp in TagLib 1.11.1 allows remote attackers to cause
-information disclosure (heap-based buffer over-read) via a crafted audio
-file.
+On 09/06/2018 04:08 PM, Joshua Watt wrote:
+> On Thu, 2018-09-06 at 16:00 -0400, Trevor Woerner wrote:
+>> On Thu, Sep 6, 2018 at 5:39 AM, Alexander Kanavin <alex.kanavin@gmail
+>> .com>
+>> wrote:
+>>
+>>> And the link for signing up is...? :)
+>>>
+>>
+>> https://www.openembedded.org/wiki/OEDEM_2018
+>>
+>> or email Armin
+> 
+> Will there be an opportunity to dial in remotely?
+> 
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2018-11439
+We try, but audio coverage can be tricky and the tech can be funny. No
+guarantees.
 
-Patch from:
-https://github.com/taglib/taglib/pull/869/commits/272648ccfcccae30e002ccf34a22e075dd477278
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- .../taglib/taglib/CVE-2018-11439.patch             | 51 ++++++++++++++++++++++
- meta/recipes-support/taglib/taglib_1.11.1.bb       |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-support/taglib/taglib/CVE-2018-11439.patch
-
-diff --git a/meta/recipes-support/taglib/taglib/CVE-2018-11439.patch b/meta/recipes-support/taglib/taglib/CVE-2018-11439.patch
-new file mode 100644
-index 0000000..cdd66e6
---- /dev/null
-+++ b/meta/recipes-support/taglib/taglib/CVE-2018-11439.patch
-@@ -0,0 +1,51 @@
-+From 272648ccfcccae30e002ccf34a22e075dd477278 Mon Sep 17 00:00:00 2001
-+From: Scott Gayou <github.scott@gmail.com>
-+Date: Mon, 4 Jun 2018 11:34:36 -0400
-+Subject: [PATCH] Fixed OOB read when loading invalid ogg flac file. (#868)
-+
-+This CVE is caused by a failure to check the minimum length
-+of a ogg flac header. This header is detailed in full at:
-+https://xiph.org/flac/ogg_mapping.html. Added more strict checking
-+for entire header.
-+
-+Upstream-Status: Backport
-+[https://github.com/taglib/taglib/pull/869/commits/272648ccfcccae30e002ccf34a22e075dd477278]
-+
-+CVE: CVE-2018-11439
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ taglib/ogg/flac/oggflacfile.cpp | 14 ++++++++++++--
-+ 1 file changed, 12 insertions(+), 2 deletions(-)
-+
-+diff --git a/taglib/ogg/flac/oggflacfile.cpp b/taglib/ogg/flac/oggflacfile.cpp
-+index 53d0450..07ea9dc 100644
-+--- a/taglib/ogg/flac/oggflacfile.cpp
-++++ b/taglib/ogg/flac/oggflacfile.cpp
-+@@ -231,11 +231,21 @@ void Ogg::FLAC::File::scan()
-+ 
-+   if(!metadataHeader.startsWith("fLaC"))  {
-+     // FLAC 1.1.2+
-++    // See https://xiph.org/flac/ogg_mapping.html for the header specification.
-++    if(metadataHeader.size() < 13)
-++      return;
-++
-++    if(metadataHeader[0] != 0x7f)
-++      return;
-++
-+     if(metadataHeader.mid(1, 4) != "FLAC")
-+       return;
-+ 
-+-    if(metadataHeader[5] != 1)
-+-      return; // not version 1
-++    if(metadataHeader[5] != 1 && metadataHeader[6] != 0)
-++      return; // not version 1.0
-++
-++    if(metadataHeader.mid(9, 4) != "fLaC")
-++      return;
-+ 
-+     metadataHeader = metadataHeader.mid(13);
-+   }
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/taglib/taglib_1.11.1.bb b/meta/recipes-support/taglib/taglib_1.11.1.bb
-index 50439bc..01dcf66 100644
---- a/meta/recipes-support/taglib/taglib_1.11.1.bb
-+++ b/meta/recipes-support/taglib/taglib_1.11.1.bb
-@@ -10,6 +10,7 @@ DEPENDS = "zlib"
- 
- SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz \
-            file://CVE-2017-12678.patch \
-+           file://CVE-2018-11439.patch \
-           "
- 
- SRC_URI[md5sum] = "cee7be0ccfc892fa433d6c837df9522a"
--- 
-2.7.4
-
+Philip
 
