@@ -1,33 +1,43 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id E4CC171984
+Return-Path: <geissonator@gmail.com>
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 0355779832
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2018 17:38:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id A70D620C69;
-	Fri,  7 Sep 2018 17:38:56 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id mOucFoL2-708; Fri,  7 Sep 2018 17:38:56 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
-	[100.15.91.218])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 89A6A2017C;
-	Fri,  7 Sep 2018 17:38:55 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 4FD9D16361D; Fri,  7 Sep 2018 13:38:55 -0400 (EDT)
-Date: Fri, 7 Sep 2018 13:38:55 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20180907173855.GX19965@denix.org>
-References: <1535216938-3765-1-git-send-email-denis@denix.org>
+	Fri,  7 Sep 2018 19:03:07 +0000 (UTC)
+Received: by mail-oi0-f41.google.com with SMTP id p84-v6so29160628oic.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Sep 2018 12:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=jt1Pz7uUpi5MtkabRVbB4QlEOO2fegbYClI3LwEcGw8=;
+	b=ose6FFY5HmMsWOvHlxknzPiZPgyEvnq2nbD6f3FGCHl98ImCyukskjy88Vl7OTdLal
+	h9+HwbZXmCYhZQjTj45BOf/Jt5IHN1AmZrSo+22efOFnkD2aNmdMqF86CfUEN8Wj456d
+	mvCBGvykVJSbG9nSgTixYHkqf00AYMOD/XdLgxoLIWdYZHr2d+WaQU5r6peqTw7ptylO
+	/si7Pbqbx7xxXC8P9E1rZ9s3LrDkXwm41E2au/HTRH4SQcIg5N1PKFUQugoz5qAHqGog
+	Ibe5MBQDYPD3D/F7a53dCKpqmJhfGgagG6cePD1rsuugiRIkbdAoUsAufIY/sQhaDs4z
+	Kjgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=jt1Pz7uUpi5MtkabRVbB4QlEOO2fegbYClI3LwEcGw8=;
+	b=X2/IO5g6x+3mlE5ylA26GTtFGF23KNfghKNXVYBpLm0CUpiL6wnbSnWGc/yNvXFwSz
+	igKdRm+qwR2gkvck+Trq7pfSaBpJiTJaE/nyxm5rYT2YsbdbX8OlRsK8XTjHO7do9XwE
+	BTn6JZJBfsteSJR41MIM3gpOERTO/cJYWd2kZD0fo5yOqILCtCFx0HwCynOfHqwiSM4A
+	3PkdYYeGCcmEUEz9Ma5auwMYPyOrrldihSDzedqMVL6LNAhvufI8MbUW/VdUn+J+Ng1m
+	SFBYRkMbeYjV0aFeINlqm9xOC/Okp0xlGadPli2dcJ55G4YK30N6UJl/cqc0nMDqmVxp
+	pJRA==
+X-Gm-Message-State: APzg51DQ2Sc94LQSDpw3EyX3Vi5++opTV1fbcUD4WYTQS+KReYqKSart
+	uD3Ky9WF5v6IwJmQ/x8U+jJPd3rhXVau9s2ahgNgG5+i
+X-Google-Smtp-Source: ANB0VdZPIT1n16iB2uFV6Zz+tBKQCBuUb/MxjxnHQFZdeyTB3++51qkpQK/cLsujIiNRfI5cYF6LGzxKkGX1VVzGzKA=
+X-Received: by 2002:aca:5d07:: with SMTP id
+	r7-v6mr8713742oib.146.1536346988641; 
+	Fri, 07 Sep 2018 12:03:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1535216938-3765-1-git-send-email-denis@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH 1/2] wayland: upgrade to 1.16.0
+From: Andrew Geissler <geissonator@gmail.com>
+Date: Fri, 7 Sep 2018 14:02:57 -0500
+Message-ID: <CALLMt=r-i5AhyYaXon9na0NSky3cvph9ZpbGx0ogeuzOh8pB=w@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: python test files installed in image on purpose?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,46 +50,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2018 17:38:56 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 07 Sep 2018 19:03:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Ping.
+Hi,
 
+We've been running into some flash space issues over in the openbmc
+project. I noticed the python.bb file (python_2.7.14.bb for us) is
+installing some test folders/files in our rootfs image.
 
-On Sat, Aug 25, 2018 at 01:08:57PM -0400, Denys Dmytriyenko wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
-> 
-> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> ---
->  .../recipes-graphics/wayland/{wayland_1.15.0.bb => wayland_1.16.0.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-graphics/wayland/{wayland_1.15.0.bb => wayland_1.16.0.bb} (92%)
-> 
-> diff --git a/meta/recipes-graphics/wayland/wayland_1.15.0.bb b/meta/recipes-graphics/wayland/wayland_1.16.0.bb
-> similarity index 92%
-> rename from meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> rename to meta/recipes-graphics/wayland/wayland_1.16.0.bb
-> index d037dc4..112ee1a 100644
-> --- a/meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> +++ b/meta/recipes-graphics/wayland/wayland_1.16.0.bb
-> @@ -15,8 +15,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
->  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->  	   file://fixpathinpcfiles.patch \
->             "
-> -SRC_URI[md5sum] = "b7393c17fdce9a8d383edab656c92fd2"
-> -SRC_URI[sha256sum] = "eb3fbebb8559d56a80ad3753ec3db800f587329067962dbf65e14488b4b7aeb0"
-> +SRC_URI[md5sum] = "0c215e53de71d6fb26f7102cdc6432d3"
-> +SRC_URI[sha256sum] = "4e72c2b56109ccfb6610d776e465f4ca0af2280c9c2f7d5cc23f0ed2548752f5"
->  
->  UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
->  
-> -- 
-> 2.7.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+# find /usr/lib/python2.7/ -name "test" -print
+/usr/lib/python2.7/ctypes/test
+/usr/lib/python2.7/email/test
+
+I'm looking to see if there's any functional reason these tests are
+included in the image.
+
+In our compressed filesystem we're talking about ~150KB of space but
+right now that's a pretty big deal for us. Would the community be
+interested in a patch to not install (or make it an option like is
+done with INCLUDE_PYCS) these test files?  Or is this something we
+should just handle in a .bbappend file for our distro?
+
+Here's a complete list of test directories in the python package.
+./Python-2.7.14/Lib/bsddb/test
+./Python-2.7.14/Lib/sqlite3/test
+./Python-2.7.14/Lib/ctypes/test
+./Python-2.7.14/Lib/unittest/test
+./Python-2.7.14/Lib/lib-tk/test
+./Python-2.7.14/Lib/email/test
+
+Thanks,
+Andrew
 
