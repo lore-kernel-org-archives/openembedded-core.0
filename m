@@ -1,52 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
-	[209.85.221.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DD7B79718
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
+	[209.85.221.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C5D17970E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Sep 2018 20:39:17 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id z96-v6so19769367wrb.8
+	Sun,  9 Sep 2018 22:38:25 +0000 (UTC)
+Received: by mail-vk1-f196.google.com with SMTP id b14-v6so2685976vke.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Sep 2018 13:39:19 -0700 (PDT)
+	Sun, 09 Sep 2018 15:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zvQ6ck2X4yW6leCHtxXcInRUgAHlYW+dD3OYmafhbXk=;
-	b=IoYI5cRyvbDKTIvkgNjmZ0RYta5zjvS3PXfCVcJPsu5nOs1nJ/mKgionDyHsb72kyg
-	rL6mnz1hWYW0BcwAERYdZsAS48yqzBYuW6MOxLqi9Z4tnhTA8kq0swei5IKoR6Pz+dkg
-	yp1rlXQgPNGeu/wjX36EUxyjFPTKuVZRGP3rqZrKTS3d+8Jp7X9/+vZgdB75Ue2Jd2jx
-	xUCWulRJ4yS/V+E0svnimM/AMDN0IPKawDSWnNrZZ+PqELqBzeWODZiFKAWFFIqMETmm
-	fePjbVPWCAt1ew4jtr4c3XwV/rbKWBbbsu98A5QuaiYu8zy6VGH2nIolDoXpW4P9spB0
-	uMKg==
+	:cc; bh=0MblkJoBs4T8gJk5PQwzMDs0Rr/LqTYFCOAuTbg9Y7s=;
+	b=tdcJa29dvZHQdMYbHrQ3D1PRmElGrceintTWhep+hTPE87BQQHYnqi0m0DOCb+z0ww
+	/VrtDwpFakSBdnGQ56qzlQF/shsfHTsHYX/nsS4Prz9cT3fIp/8DIKd8jLW2HJygJwaZ
+	VwD0lKo4+GsXoUbh2Mv/mW7KQ5BeqAs7bJLdtNU/iEvnTdNZd7HF7jo6OKKVd8IHHf3E
+	eo3amfY/Z7rN8g48dmQmU3LElxp8muzGj4RdQQHQ2Py5N7v38kD81J4tSNgmnL5IrkCo
+	yJw81SjH2fSFPF1LOVV9TvH2V/eO/ZwUZ3VNnIZr0M5jHHw1z/xYyMiWO0QFv4pVAhsO
+	rbaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=zvQ6ck2X4yW6leCHtxXcInRUgAHlYW+dD3OYmafhbXk=;
-	b=l9g8jrDG8HJQ4/5fsAd0VLtKEiks2xNM6bC3HgSgcfufAtsQ9a6b1ZOe75o0prae6E
-	s4s5JvOBozYfLdtIMqYpOSk1dS5IimgZ8iS3H+qhehd4pIP7gqc9NrRGrBHDvTWhoUOW
-	gKB1VxcOEilcgnF0FfYVhmKmop2IMGxVOJsvAa+nExrbUGjm32sunjPEkpE33RZDA7K0
-	w73ypcIavr1TB6ntMjwoD75cKmjV0lJoUcsZbyZ1td2K3kKzuCTrrxGgyF/hylLDtsq9
-	DMoD4AzOud3QhpgPPHVnDAnWNSD8B4oGhYNBPojtN8vV2+PiCugHnzBMA0ccQ6brZSAg
-	+rCw==
-X-Gm-Message-State: APzg51DwjlCxr6BE+Z4dYhIY1jSXB8AqBw/skhubhgYPhEwNRK4t1pzA
-	H/KX0KeqxmwdhIMFDfL9UxdbwVowi2jskryM7Lw=
-X-Google-Smtp-Source: ANB0VdZDsPIdXCIrZq/Ek/E2u4calqqin5xYWNvpIzE3rrOSSmYEJjqLxUCrpEx5vvGwd9LcCi+j9nSWV4IlQMK1vSA=
-X-Received: by 2002:adf:8567:: with SMTP id
-	94-v6mr13343366wrh.223.1536525558470; 
-	Sun, 09 Sep 2018 13:39:18 -0700 (PDT)
+	bh=0MblkJoBs4T8gJk5PQwzMDs0Rr/LqTYFCOAuTbg9Y7s=;
+	b=nI5PlJhyXhto7e0iih/tNbMPHqcZuk5e4O0ncZUWGg7H/a15H5UvO572r8/JDuUUFl
+	fkbFZHCn8LlhO9+KggKpWcZo4RehAwIHzZ2LCqAs5sQitcJeNsqnbJs4eft5mBhlbw6P
+	mXjAb76lxQDxKKWD5IktiemzEnFT+3X8dye23cqdHm2gA5C4YreRnplL5d8vBpEVwVBH
+	sRLQedDNZrw7nuMbadhJOBXhgOv9GCRCt1NP/S9YZCCaJRUPoQoy7Lpx26s+p0Km1GDA
+	eb0etOxmheXMWILayRWA3x3gH7VPBJne7sZ5Y8/NlT7v9uWdoTSatWno6okR4dIqAQgd
+	BNpQ==
+X-Gm-Message-State: APzg51DsJLKiyfqQfIH82caGPuVOPofNTYakIevQ+lS0tqr2mgcKEOwb
+	7QAbhRL+jZP3JMV0ZJWOmfjJyIJ44esgg0uzM5s=
+X-Google-Smtp-Source: ANB0Vdbu1oSNI/6en/wuieA2ytaGP6CMBC9oAqsjsrKI3KuwASnAZ582Mqg34w3M4N5+wnHWRBaoxrtLYY+HVtaUOKk=
+X-Received: by 2002:a1f:7c1:: with SMTP id 184-v6mr5526285vkh.89.1536532706101;
+	Sun, 09 Sep 2018 15:38:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1535216766.git.kai.kang@windriver.com>
-	<55b7afd2fc5b383ab482f4b004e38cb0797ca29c.1535216766.git.kai.kang@windriver.com>
-	<CA+chaQfurea5vwojwt6fgzNvhUfRDF9HmPf_YFBhgEGhQPO2dA@mail.gmail.com>
-	<4800fed2-8a51-7bb0-b6c6-fa1402289831@windriver.com>
-	<ab609cc5-dd34-bbc1-294f-be6985a30a2a@windriver.com>
-In-Reply-To: <ab609cc5-dd34-bbc1-294f-be6985a30a2a@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 9 Sep 2018 22:39:07 +0200
-Message-ID: <CA+chaQfWbCDxvytN8-akLY7B4Ymo7HnGU4s2CL=u4BahZ+bCfw@mail.gmail.com>
-To: Kai Kang <Kai.Kang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] update_font_cache: update script for multilib
+References: <20180907145533.31088-1-sno@netbsd.org>
+	<10772E09-62BB-4CFC-A99A-F4816FAE87C1@netbsd.org>
+In-Reply-To: <10772E09-62BB-4CFC-A99A-F4816FAE87C1@netbsd.org>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Sun, 9 Sep 2018 15:38:14 -0700
+Message-ID: <CANx9H-BfgTfmNs+oGxC-Cm=Tp464=fpZnMb17vbTWsRg2LTZdg@mail.gmail.com>
+To: sno@netbsd.org
+Cc: svenha@external.miltenyibiotec.de, igork@miltenyibiotec.de,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] python3{,-native}: update to 3.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,330 +55,252 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Sep 2018 20:39:18 -0000
-Content-Type: multipart/alternative; boundary="00000000000019dabe0575763c8b"
+X-List-Received-Date: Sun, 09 Sep 2018 22:38:25 -0000
+X-Groupsio-MsgNum: 116068
+Content-Type: multipart/mixed; boundary="000000000000224447057577e675"
 
---00000000000019dabe0575763c8b
+--000000000000224447057577e675
+Content-Type: multipart/alternative; boundary="000000000000224443057577e673"
+
+--000000000000224443057577e673
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-I'm still able to reproduce the issue in my builds, I'll find out what's
-different here.
+I did not review the patches closely, but I did try to build
+core-image-full-cmdline with the tip of poky and these patches applied.
+Everything was fine until do_rootfs... I've attached the log.
 
-It fails because of missing nativesdk-qemuwrapper here:
+Essentially, there are some bits of dnf and so on which are not ready for
+Python 3.7. We have dnf version 2.7.5, but the latest upstream release is
+3.4.0 (with a 3.5.0 just 3 days ago). Not sure yet if that would have
+helped.
 
-NOTE: Running intercept scripts:
-NOTE: > Executing update_gio_module_cache-nativesdk intercept ...
-NOTE: Exit code 127. Output:
-SDK/intercept_scripts-b9d7b319af0f1ca17a1619924c1df1e231252a4e81ebd84cfd6b6=
-76ebe12fb99/update_gio_module_cache-nativesdk:
-10:
-SDK/intercept_scripts-b9d7b319af0f1ca17a1619924c1df1e231252a4e81ebd84cfd6b6=
-76ebe12fb99/update_gio_module_cache-nativesdk:
-nativesdk-qemuwrapper: not found
-
-WARNING: The postinstall intercept hook 'update_gio_module_cache-nativesdk'
-failed, details in SDK/temp/log.do_populate_sdk
-
-
-On Thu, Sep 6, 2018 at 5:28 PM Kang Kai <Kai.Kang@windriver.com> wrote:
-
-> On 2018=E5=B9=B409=E6=9C=8804=E6=97=A5 18:02, Kang Kai wrote:
->
-> On 2018=E5=B9=B409=E6=9C=8804=E6=97=A5 17:44, Martin Jansa wrote:
->
-> Hi Kai,
->
-> do you have similar fix for update_gio_module_cache intercept? It seems t=
-o
-> fail similarly with multilib enabled.
->
->
-> The fix is from script update_gio_module_cache, so I thought it works and
-> didn't meet the failure. I'll check it.
->
-> Hi Martin,
->
-> It has been done by
-> http://git.openembedded.org/openembedded-core/commit/?id=3D1f53140528d79c=
-38d4f3a82cd0a03bd0ddc87275
-> Add lib23-gconf to image which inherits gio-module-cache, then build imag=
-e
-> successfully.
->
-> Regards,
-> Kai
->
->
->
-> Thanks,
-> Kai
->
->
-> Regards,
->
-> On Sat, Aug 25, 2018 at 7:14 PM Kai Kang <kai.kang@windriver.com> wrote:
->
->> Packages which inherit fontcache.bbclass call postinstall script
->> update_font_cache. And in update_font_cache, it calls ${bindir}/fc-cache
->> by qemuwrapper. When multilib is enabled, both packages foo and lib32-fo=
-o
->> will call ${bindir}/fc-cache and one of them will fail to run obviously.
->>
->> Duplicate install file fc-cache to ${libexecdir} with ${MLPREFIX} and
->> call proper fc-cache in update_font_cache.
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>  meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb | 8 +++++++-
->>  scripts/postinst-intercepts/update_font_cache         | 2 +-
->>  2 files changed, 8 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
->> b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
->> index d4cbce80b45..db36c867741 100644
->> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
->> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
->> @@ -35,9 +35,15 @@ do_configure_prepend() {
->>      rm -f ${S}/src/fcobjshash.h ${S}/src/fcobjshash.gperf
->>  }
->>
->> +do_install_append_class-target() {
->> +    # duplicate fc-cache for postinstall script
->> +    mkdir -p ${D}${libexecdir}
->> +    cp ${D}${bindir}/fc-cache ${D}${libexecdir}/${MLPREFIX}fc-cache
->> +}
->> +
->>  PACKAGES =3D+ "fontconfig-utils"
->>  FILES_${PN} =3D+ "${datadir}/xml/*"
->> -FILES_fontconfig-utils =3D "${bindir}/*"
->> +FILES_fontconfig-utils =3D "${bindir}/* ${libexecdir}/*"
->>
->>  # Work around past breakage in debian.bbclass
->>  RPROVIDES_fontconfig-utils =3D "libfontconfig-utils"
->> diff --git a/scripts/postinst-intercepts/update_font_cache
->> b/scripts/postinst-intercepts/update_font_cache
->> index 20e9048adfc..e0ec471964c 100644
->> --- a/scripts/postinst-intercepts/update_font_cache
->> +++ b/scripts/postinst-intercepts/update_font_cache
->> @@ -2,5 +2,5 @@
->>
->>  set -e
->>
->> -PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D -E ${fontconfigcacheenv=
-}
->> $D${bindir}/fc-cache --sysroot=3D$D --system-only ${fontconfigcacheparam=
-s}
->> +PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D -E ${fontconfigcacheenv=
-}
->> $D${libexecdir}/${binprefix}fc-cache --sysroot=3D$D --system-only
->> ${fontconfigcacheparams}
->>  chown -R root:root $D${fontconfigcachedir}
->> --
->> 2.11.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
-> --
-> Regards,
-> Neil | Kai Kang
->
->
-> --
-> Regards,
-> Neil | Kai Kang
->
->
-
---00000000000019dabe0575763c8b
+--000000000000224443057577e673
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">I&#39;m still able to reproduce the issue=
- in my builds, I&#39;ll find out what&#39;s different here.<div><br></div><=
-div>It fails because of missing nativesdk-qemuwrapper here:</div><div><br><=
-/div><div><div>NOTE: Running intercept scripts:</div><div>NOTE: &gt; Execut=
-ing update_gio_module_cache-nativesdk intercept ...</div><div>NOTE: Exit co=
-de 127. Output:</div><div>SDK/intercept_scripts-b9d7b319af0f1ca17a1619924c1=
-df1e231252a4e81ebd84cfd6b676ebe12fb99/update_gio_module_cache-nativesdk: 10=
-: SDK/intercept_scripts-b9d7b319af0f1ca17a1619924c1df1e231252a4e81ebd84cfd6=
-b676ebe12fb99/update_gio_module_cache-nativesdk: nativesdk-qemuwrapper: not=
- found</div><div><br></div><div>WARNING: The postinstall intercept hook &#3=
-9;update_gio_module_cache-nativesdk&#39; failed, details in SDK/temp/log.do=
-_populate_sdk</div></div><div><br></div></div></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr">On Thu, Sep 6, 2018 at 5:28 PM Kang Kai &lt;<a hre=
-f=3D"mailto:Kai.Kang@windriver.com">Kai.Kang@windriver.com</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">
- =20
-   =20
- =20
-  <div text=3D"#000000" bgcolor=3D"#FFFFFF">
-    <div class=3D"m_7851569581499868850moz-cite-prefix">On 2018=E5=B9=B409=
-=E6=9C=8804=E6=97=A5 18:02, Kang Kai wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-     =20
-      <div class=3D"m_7851569581499868850moz-cite-prefix">On 2018=E5=B9=B40=
-9=E6=9C=8804=E6=97=A5 17:44, Martin Jansa
-        wrote:<br>
-      </div>
-      <blockquote type=3D"cite">
-        <div dir=3D"ltr">
-          <div dir=3D"ltr">Hi Kai,
-            <div><br>
-            </div>
-            <div>do you have similar fix for=C2=A0update_gio_module_cache
-              intercept? It seems to fail similarly with multilib
-              enabled.</div>
-          </div>
-        </div>
-      </blockquote>
-      <br>
-      The fix is from script update_gio_module_cache, so I thought it
-      works and didn&#39;t meet the failure. I&#39;ll check it.<br>
-    </blockquote>
-    Hi Martin,<br>
-    <br>
-    It has been done by
-<a class=3D"m_7851569581499868850moz-txt-link-freetext" href=3D"http://git.=
-openembedded.org/openembedded-core/commit/?id=3D1f53140528d79c38d4f3a82cd0a=
-03bd0ddc87275" target=3D"_blank">http://git.openembedded.org/openembedded-c=
-ore/commit/?id=3D1f53140528d79c38d4f3a82cd0a03bd0ddc87275</a><br>
-    Add lib23-gconf to image which inherits gio-module-cache, then build
-    image successfully.<br>
-    <br>
-    Regards,<br>
-    Kai<br>
-    <br>
-    <br>
-    <blockquote type=3D"cite"> <br>
-      Thanks,<br>
-      Kai<br>
-      <br>
-      <blockquote type=3D"cite">
-        <div dir=3D"ltr">
-          <div dir=3D"ltr">
-            <div><br>
-            </div>
-            <div>Regards,</div>
-          </div>
-        </div>
-        <br>
-        <div class=3D"gmail_quote">
-          <div dir=3D"ltr">On Sat, Aug 25, 2018 at 7:14 PM Kai Kang &lt;<a =
-href=3D"mailto:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver=
-.com</a>&gt;
-            wrote:<br>
-          </div>
-          <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex">Packages
-            which inherit fontcache.bbclass call postinstall script<br>
-            update_font_cache. And in update_font_cache, it calls
-            ${bindir}/fc-cache<br>
-            by qemuwrapper. When multilib is enabled, both packages foo
-            and lib32-foo<br>
-            will call ${bindir}/fc-cache and one of them will fail to
-            run obviously.<br>
-            <br>
-            Duplicate install file fc-cache to ${libexecdir} with
-            ${MLPREFIX} and<br>
-            call proper fc-cache in update_font_cache.<br>
-            <br>
-            Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windrive=
-r.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
-            ---<br>
-            =C2=A0meta/recipes-graphics/fontconfig/<a href=3D"http://fontco=
-nfig_2.12.6.bb" rel=3D"noreferrer" target=3D"_blank">fontconfig_2.12.6.bb</=
-a>
-            | 8 +++++++-<br>
-            =C2=A0scripts/postinst-intercepts/update_font_cache=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 2
-            +-<br>
-            =C2=A02 files changed, 8 insertions(+), 2 deletions(-)<br>
-            <br>
-            diff --git a/meta/recipes-graphics/fontconfig/<a href=3D"http:/=
-/fontconfig_2.12.6.bb" rel=3D"noreferrer" target=3D"_blank">fontconfig_2.12=
-.6.bb</a>
-            b/meta/recipes-graphics/fontconfig/<a href=3D"http://fontconfig=
-_2.12.6.bb" rel=3D"noreferrer" target=3D"_blank">fontconfig_2.12.6.bb</a><b=
-r>
-            index d4cbce80b45..db36c867741 100644<br>
-            --- a/meta/recipes-graphics/fontconfig/<a href=3D"http://fontco=
-nfig_2.12.6.bb" rel=3D"noreferrer" target=3D"_blank">fontconfig_2.12.6.bb</=
-a><br>
-            +++ b/meta/recipes-graphics/fontconfig/<a href=3D"http://fontco=
-nfig_2.12.6.bb" rel=3D"noreferrer" target=3D"_blank">fontconfig_2.12.6.bb</=
-a><br>
-            @@ -35,9 +35,15 @@ do_configure_prepend() {<br>
-            =C2=A0 =C2=A0 =C2=A0rm -f ${S}/src/fcobjshash.h ${S}/src/fcobjs=
-hash.gperf<br>
-            =C2=A0}<br>
-            <br>
-            +do_install_append_class-target() {<br>
-            +=C2=A0 =C2=A0 # duplicate fc-cache for postinstall script<br>
-            +=C2=A0 =C2=A0 mkdir -p ${D}${libexecdir}<br>
-            +=C2=A0 =C2=A0 cp ${D}${bindir}/fc-cache
-            ${D}${libexecdir}/${MLPREFIX}fc-cache<br>
-            +}<br>
-            +<br>
-            =C2=A0PACKAGES =3D+ &quot;fontconfig-utils&quot;<br>
-            =C2=A0FILES_${PN} =3D+ &quot;${datadir}/xml/*&quot;<br>
-            -FILES_fontconfig-utils =3D &quot;${bindir}/*&quot;<br>
-            +FILES_fontconfig-utils =3D &quot;${bindir}/* ${libexecdir}/*&q=
-uot;<br>
-            <br>
-            =C2=A0# Work around past breakage in debian.bbclass<br>
-            =C2=A0RPROVIDES_fontconfig-utils =3D &quot;libfontconfig-utils&=
-quot;<br>
-            diff --git a/scripts/postinst-intercepts/update_font_cache
-            b/scripts/postinst-intercepts/update_font_cache<br>
-            index 20e9048adfc..e0ec471964c 100644<br>
-            --- a/scripts/postinst-intercepts/update_font_cache<br>
-            +++ b/scripts/postinst-intercepts/update_font_cache<br>
-            @@ -2,5 +2,5 @@<br>
-            <br>
-            =C2=A0set -e<br>
-            <br>
-            -PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D -E
-            ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=3D$D
-            --system-only ${fontconfigcacheparams}<br>
-            +PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D -E
-            ${fontconfigcacheenv} $D${libexecdir}/${binprefix}fc-cache
-            --sysroot=3D$D --system-only ${fontconfigcacheparams}<br>
-            =C2=A0chown -R root:root $D${fontconfigcachedir}<br>
-            -- <br>
-            2.11.0<br>
-            <br>
-            -- <br>
-            _______________________________________________<br>
-            Openembedded-core mailing list<br>
-            <a href=3D"mailto:Openembedded-core@lists.openembedded.org" tar=
-get=3D"_blank">Openembedded-core@lists.openembedded.org</a><br>
-            <a href=3D"http://lists.openembedded.org/mailman/listinfo/opene=
-mbedded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedde=
-d.org/mailman/listinfo/openembedded-core</a><br>
-          </blockquote>
-        </div>
-      </blockquote>
-      <p><br>
-      </p>
-      <pre class=3D"m_7851569581499868850moz-signature" cols=3D"72">--=20
-Regards,
-Neil | Kai Kang</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class=3D"m_7851569581499868850moz-signature" cols=3D"72">--=20
-Regards,
-Neil | Kai Kang</pre>
-  </div>
+<div dir=3D"ltr">I did not review the patches closely, but I did try to bui=
+ld core-image-full-cmdline with the tip of poky and these patches applied. =
+Everything was fine until do_rootfs... I&#39;ve attached the log.<div><br><=
+/div><div>Essentially, there are some bits of dnf and so on which are not r=
+eady for Python 3.7. We have dnf version 2.7.5, but the latest upstream rel=
+ease is 3.4.0 (with a 3.5.0 just 3 days ago). Not sure yet if that would ha=
+ve helped.</div></div>
 
-</blockquote></div>
+--000000000000224443057577e673--
 
---00000000000019dabe0575763c8b--
+--000000000000224447057577e675
+Content-Type: application/octet-stream; name="log.do_rootfs.22133"
+Content-Disposition: attachment; filename="log.do_rootfs.22133"
+Content-Transfer-Encoding: base64
+Content-ID: <f_jlvfpu960>
+X-Attachment-Id: f_jlvfpu960
+
+REVCVUc6IEV4ZWN1dGluZyBweXRob24gZnVuY3Rpb24gZXh0ZW5kX3JlY2lwZV9zeXNyb290Ck5P
+VEU6IERpcmVjdCBkZXBlbmRlbmNpZXMgYXJlIFsnL2hvbWUvdHRvcmxpbmcvUHJvamVjdHMvcG9r
+eS9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2QvZGVwbW9kd3JhcHBlci1jcm9zc18xLjAuYmI6ZG9f
+cG9wdWxhdGVfc3lzcm9vdCcsICd2aXJ0dWFsOm5hdGl2ZTovaG9tZS90dG9ybGluZy9Qcm9qZWN0
+cy9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jX2dp
+dC5iYjpkb19wb3B1bGF0ZV9zeXNyb290JywgJ3ZpcnR1YWw6bmF0aXZlOi9ob21lL3R0b3JsaW5n
+L1Byb2plY3RzL3Bva3kvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2cvb3BrZ18wLjMuNi5iYjpk
+b19wb3B1bGF0ZV9zeXNyb290JywgJy9ob21lL3R0b3JsaW5nL1Byb2plY3RzL3Bva3kvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL21rbGlicy9ta2xpYnMtbmF0aXZlXzAuMS40My5iYjpkb19wb3B1bGF0
+ZV9zeXNyb290JywgJ3ZpcnR1YWw6bmF0aXZlOi9ob21lL3R0b3JsaW5nL1Byb2plY3RzL3Bva3kv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3BzZXVkby9wc2V1ZG9fZ2l0LmJiOmRvX3BvcHVsYXRlX3N5
+c3Jvb3QnLCAnL2hvbWUvdHRvcmxpbmcvUHJvamVjdHMvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9n
+bGliYy9sZGNvbmZpZy1uYXRpdmVfMi4xMi4xLmJiOmRvX3BvcHVsYXRlX3N5c3Jvb3QnLCAndmly
+dHVhbDpuYXRpdmU6L2hvbWUvdHRvcmxpbmcvUHJvamVjdHMvcG9reS9tZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvcGJ6aXAyL3BiemlwMl8xLjEuMTMuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdCcsICd2aXJ0
+dWFsOm5hdGl2ZTovaG9tZS90dG9ybGluZy9Qcm9qZWN0cy9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9ycG0vcnBtXzQuMTQuMS5iYjpkb19wb3B1bGF0ZV9zeXNyb290JywgJ3ZpcnR1YWw6bmF0
+aXZlOi9ob21lL3R0b3JsaW5nL1Byb2plY3RzL3Bva3kvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3By
+ZWxpbmsvcHJlbGlua19naXQuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdCcsICcvaG9tZS90dG9ybGlu
+Zy9Qcm9qZWN0cy9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXV3cmFwcGVyLWNy
+b3NzXzEuMC5iYjpkb19wb3B1bGF0ZV9zeXNyb290JywgJ3ZpcnR1YWw6bmF0aXZlOi9ob21lL3R0
+b3JsaW5nL1Byb2plY3RzL3Bva3kvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMvb3Br
+Zy11dGlsc18wLjMuNi5iYjpkb19wb3B1bGF0ZV9zeXNyb290JywgJy9ob21lL3R0b3JsaW5nL1By
+b2plY3RzL3Bva3kvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvY3Jvc3MtbG9jYWxlZGVmLW5hdGl2
+ZV8yLjI4LmJiOmRvX3BvcHVsYXRlX3N5c3Jvb3QnLCAndmlydHVhbDpuYXRpdmU6L2hvbWUvdHRv
+cmxpbmcvUHJvamVjdHMvcG9reS9tZXRhL3JlY2lwZXMtY29yZS91cGRhdGUtcmMuZC91cGRhdGUt
+cmMuZF8wLjguYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdCcsICd2aXJ0dWFsOm5hdGl2ZTovaG9tZS90
+dG9ybGluZy9Qcm9qZWN0cy9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mXzIuNy41
+LmJiOmRvX3BvcHVsYXRlX3N5c3Jvb3QnLCAndmlydHVhbDpuYXRpdmU6L2hvbWUvdHRvcmxpbmcv
+UHJvamVjdHMvcG9reS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWFrZWRldnMvbWFrZWRldnNfMS4w
+LjEuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdCcsICd2aXJ0dWFsOm5hdGl2ZTovaG9tZS90dG9ybGlu
+Zy9Qcm9qZWN0cy9wb2t5L21ldGEvcmVjaXBlcy1leHRlbmRlZC9waWd6L3BpZ3pfMi40LmJiOmRv
+X3BvcHVsYXRlX3N5c3Jvb3QnXQpOT1RFOiBJbnN0YWxsZWQgaW50byBzeXNyb290OiBbJ2NyZWF0
+ZXJlcG8tYy1uYXRpdmUnLCAnb3BrZy1uYXRpdmUnLCAnbWtsaWJzLW5hdGl2ZScsICdsZGNvbmZp
+Zy1uYXRpdmUnLCAncGJ6aXAyLW5hdGl2ZScsICdycG0tbmF0aXZlJywgJ3ByZWxpbmstbmF0aXZl
+JywgJ29wa2ctdXRpbHMtbmF0aXZlJywgJ3VwZGF0ZS1yYy5kLW5hdGl2ZScsICdkbmYtbmF0aXZl
+JywgJ21ha2VkZXZzLW5hdGl2ZScsICdwaWd6LW5hdGl2ZScsICdjbWFrZS1uYXRpdmUnLCAnbGli
+eG1sMi1uYXRpdmUnLCAnZmlsZS1uYXRpdmUnLCAnbmluamEtbmF0aXZlJywgJ2V4cGF0LW5hdGl2
+ZScsICdjdXJsLW5hdGl2ZScsICdsaWJzb2x2LW5hdGl2ZScsICdsaWJhcmNoaXZlLW5hdGl2ZScs
+ICdzaGFkb3ctbmF0aXZlJywgJ2VsZnV0aWxzLW5hdGl2ZScsICdkYnVzLW5hdGl2ZScsICduc3Mt
+bmF0aXZlJywgJ3BvcHQtbmF0aXZlJywgJ2RiLW5hdGl2ZScsICdiaW51dGlscy1uYXRpdmUnLCAn
+bGliZG5mLW5hdGl2ZScsICdsaWJyZXBvLW5hdGl2ZScsICdweXRob24zLWluaXBhcnNlLW5hdGl2
+ZScsICdsaWJjb21wcy1uYXRpdmUnLCAncmUyYy1uYXRpdmUnLCAnZTJmc3Byb2dzLW5hdGl2ZScs
+ICduc3ByLW5hdGl2ZScsICdsaWJjaGVjay1uYXRpdmUnLCAnZ29iamVjdC1pbnRyb3NwZWN0aW9u
+LW5hdGl2ZScsICdncGdtZS1uYXRpdmUnLCAnYXR0ci1uYXRpdmUnLCAncHl0aG9uMy1zaXgtbmF0
+aXZlJywgJ2xpYmdwZy1lcnJvci1uYXRpdmUnLCAnc3dpZy1uYXRpdmUnLCAnbGliYXNzdWFuLW5h
+dGl2ZScsICdweXRob24zLXNldHVwdG9vbHMtbmF0aXZlJywgJ3VuemlwLW5hdGl2ZSddCk5PVEU6
+IFNraXBwaW5nIGFzIGFscmVhZHkgZXhpc3RzIGluIHN5c3Jvb3Q6IFsnZGVwbW9kd3JhcHBlci1j
+cm9zcycsICdwc2V1ZG8tbmF0aXZlJywgJ3FlbXV3cmFwcGVyLWNyb3NzJywgJ2Nyb3NzLWxvY2Fs
+ZWRlZi1uYXRpdmUnLCAncWVtdS1uYXRpdmUnLCAna21vZC1uYXRpdmUnLCAncXVpbHQtbmF0aXZl
+JywgJ3psaWItbmF0aXZlJywgJ3BrZ2NvbmZpZy1uYXRpdmUnLCAnc3FsaXRlMy1uYXRpdmUnLCAn
+b3BlbnNzbC1uYXRpdmUnLCAncHl0aG9uMy1uYXRpdmUnLCAneHotbmF0aXZlJywgJ2dsaWItMi4w
+LW5hdGl2ZScsICdsaWJ0b29sLW5hdGl2ZScsICdnbnUtY29uZmlnLW5hdGl2ZScsICdhdXRvbWFr
+ZS1uYXRpdmUnLCAnYXV0b2NvbmYtbmF0aXZlJywgJ2dldHRleHQtbWluaW1hbC1uYXRpdmUnLCAn
+YnppcDItbmF0aXZlJywgJ2R0Yy1uYXRpdmUnLCAnbGlic2RsMi1uYXRpdmUnLCAncGl4bWFuLW5h
+dGl2ZScsICdhbHNhLWxpYi1uYXRpdmUnLCAnZ3RrLWRvYy1uYXRpdmUnLCAncmVhZGxpbmUtbmF0
+aXZlJywgJ2dkYm0tbmF0aXZlJywgJ2xpYmZmaS1uYXRpdmUnLCAndXRpbC1saW51eC1uYXRpdmUn
+LCAnbGlicGNyZS1uYXRpdmUnLCAndGV4aW5mby1kdW1teS1uYXRpdmUnLCAnbTQtbmF0aXZlJywg
+J2x6by1uYXRpdmUnLCAnZmxleC1uYXRpdmUnLCAnbGlieDExLW5hdGl2ZScsICdsaWJ4ZXh0LW5h
+dGl2ZScsICdsaWJ4cmFuZHItbmF0aXZlJywgJ2xpYnhyZW5kZXItbmF0aXZlJywgJ3V0aWwtbWFj
+cm9zLW5hdGl2ZScsICdsaWJwbmctbmF0aXZlJywgJ25jdXJzZXMtbmF0aXZlJywgJ3h0cmFucy1u
+YXRpdmUnLCAnbGlieGNiLW5hdGl2ZScsICd4b3JncHJvdG8tbmF0aXZlJywgJ2xpYnhhdS1uYXRp
+dmUnLCAnbGlieGRtY3AtbmF0aXZlJywgJ3hjYi1wcm90by1uYXRpdmUnLCAnbGlicHRocmVhZC1z
+dHVicy1uYXRpdmUnXQpERUJVRzogc2VkIC1lICdzOl5bXi9dKi86L2J1aWxkL3R0b3JsaW5nL2J1
+aWxkLXB5dGhvbjM3L3RtcC93b3JrL3FlbXV4ODYtcG9reS1saW51eC9jb3JlLWltYWdlLWZ1bGwt
+Y21kbGluZS8xLjAtcjAvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlLzpnJyAvYnVpbGQvdHRvcmxpbmcv
+YnVpbGQtcHl0aG9uMzcvdG1wL3N5c3Jvb3RzLWNvbXBvbmVudHMveDg2XzY0L3JwbS1uYXRpdmUv
+Zml4bWVwYXRoIC9idWlsZC90dG9ybGluZy9idWlsZC1weXRob24zNy90bXAvc3lzcm9vdHMtY29t
+cG9uZW50cy94ODZfNjQvbGlieG1sMi1uYXRpdmUvZml4bWVwYXRoIC9idWlsZC90dG9ybGluZy9i
+dWlsZC1weXRob24zNy90bXAvc3lzcm9vdHMtY29tcG9uZW50cy94ODZfNjQvY3VybC1uYXRpdmUv
+Zml4bWVwYXRoIC9idWlsZC90dG9ybGluZy9idWlsZC1weXRob24zNy90bXAvc3lzcm9vdHMtY29t
+cG9uZW50cy94ODZfNjQvZWxmdXRpbHMtbmF0aXZlL2ZpeG1lcGF0aCAvYnVpbGQvdHRvcmxpbmcv
+YnVpbGQtcHl0aG9uMzcvdG1wL3N5c3Jvb3RzLWNvbXBvbmVudHMveDg2XzY0L2RidXMtbmF0aXZl
+L2ZpeG1lcGF0aCAvYnVpbGQvdHRvcmxpbmcvYnVpbGQtcHl0aG9uMzcvdG1wL3N5c3Jvb3RzLWNv
+bXBvbmVudHMveDg2XzY0L2UyZnNwcm9ncy1uYXRpdmUvZml4bWVwYXRoIC9idWlsZC90dG9ybGlu
+Zy9idWlsZC1weXRob24zNy90bXAvc3lzcm9vdHMtY29tcG9uZW50cy94ODZfNjQvbnNwci1uYXRp
+dmUvZml4bWVwYXRoIC9idWlsZC90dG9ybGluZy9idWlsZC1weXRob24zNy90bXAvc3lzcm9vdHMt
+Y29tcG9uZW50cy94ODZfNjQvbGliY2hlY2stbmF0aXZlL2ZpeG1lcGF0aCAvYnVpbGQvdHRvcmxp
+bmcvYnVpbGQtcHl0aG9uMzcvdG1wL3N5c3Jvb3RzLWNvbXBvbmVudHMveDg2XzY0L2dvYmplY3Qt
+aW50cm9zcGVjdGlvbi1uYXRpdmUvZml4bWVwYXRoIC9idWlsZC90dG9ybGluZy9idWlsZC1weXRo
+b24zNy90bXAvc3lzcm9vdHMtY29tcG9uZW50cy94ODZfNjQvZ3BnbWUtbmF0aXZlL2ZpeG1lcGF0
+aCAvYnVpbGQvdHRvcmxpbmcvYnVpbGQtcHl0aG9uMzcvdG1wL3N5c3Jvb3RzLWNvbXBvbmVudHMv
+eDg2XzY0L2xpYmdwZy1lcnJvci1uYXRpdmUvZml4bWVwYXRoIC9idWlsZC90dG9ybGluZy9idWls
+ZC1weXRob24zNy90bXAvc3lzcm9vdHMtY29tcG9uZW50cy94ODZfNjQvbGliYXNzdWFuLW5hdGl2
+ZS9maXhtZXBhdGggfCB4YXJncyBzZWQgLWkgLWUgJ3M6RklYTUVTVEFHSU5HRElSVEFSR0VUOi9i
+dWlsZC90dG9ybGluZy9idWlsZC1weXRob24zNy90bXAvd29yay9xZW11eDg2LXBva3ktbGludXgv
+Y29yZS1pbWFnZS1mdWxsLWNtZGxpbmUvMS4wLXIwL3JlY2lwZS1zeXNyb290Omc7IHM6RklYTUVT
+VEFHSU5HRElSSE9TVDovYnVpbGQvdHRvcmxpbmcvYnVpbGQtcHl0aG9uMzcvdG1wL3dvcmsvcWVt
+dXg4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lLzEuMC1yMC9yZWNpcGUtc3lz
+cm9vdC1uYXRpdmU6ZycgLWUgJ3M6RklYTUVfQ09NUE9ORU5UU19ESVI6L2J1aWxkL3R0b3JsaW5n
+L2J1aWxkLXB5dGhvbjM3L3RtcC9zeXNyb290cy1jb21wb25lbnRzOmcnIC1lICdzOkZJWE1FX0hP
+U1RUT09MU19ESVI6L2J1aWxkL3R0b3JsaW5nL2J1aWxkLXB5dGhvbjM3L3RtcC9ob3N0dG9vbHM6
+ZycgLWUgJ3M6RklYTUVfUEtHREFUQV9ESVI6L2J1aWxkL3R0b3JsaW5nL2J1aWxkLXB5dGhvbjM3
+L3RtcC9wa2dkYXRhL3FlbXV4ODY6ZycgLWUgJ3M6RklYTUVfUFNFVURPX0xPQ0FMU1RBVEVESVI6
+L2J1aWxkL3R0b3JsaW5nL2J1aWxkLXB5dGhvbjM3L3RtcC93b3JrL3FlbXV4ODYtcG9reS1saW51
+eC9jb3JlLWltYWdlLWZ1bGwtY21kbGluZS8xLjAtcjAvcHNldWRvLzpnJyAtZSAnczpGSVhNRV9M
+T0dGSUZPOi9idWlsZC90dG9ybGluZy9idWlsZC1weXRob24zNy90bXAvd29yay9xZW11eDg2LXBv
+a3ktbGludXgvY29yZS1pbWFnZS1mdWxsLWNtZGxpbmUvMS4wLXIwL3RlbXAvZmlmby4yMjEzMzpn
+JwpERUJVRzogUHl0aG9uIGZ1bmN0aW9uIGV4dGVuZF9yZWNpcGVfc3lzcm9vdCBmaW5pc2hlZApE
+RUJVRzogRXhlY3V0aW5nIHB5dGhvbiBmdW5jdGlvbiBkb19yb290ZnMKTk9URTogSW5pdGlhbGl6
+aW5nIGludGVyY2VwdCBkaXIgZm9yIC9idWlsZC90dG9ybGluZy9idWlsZC1weXRob24zNy90bXAv
+d29yay9xZW11eDg2LXBva3ktbGludXgvY29yZS1pbWFnZS1mdWxsLWNtZGxpbmUvMS4wLXIwL3Jv
+b3RmcwpERUJVRzogQ29sbGVjdGVkIGludGVyY2VwdHM6CiAgL2hvbWUvdHRvcmxpbmcvUHJvamVj
+dHMvcG9reS9zY3JpcHRzL3Bvc3RpbnN0LWludGVyY2VwdHMvZGVsYXlfdG9fZmlyc3RfYm9vdAog
+IC9ob21lL3R0b3JsaW5nL1Byb2plY3RzL3Bva3kvc2NyaXB0cy9wb3N0aW5zdC1pbnRlcmNlcHRz
+L3Bvc3RpbnN0X2ludGVyY2VwdAogIC9ob21lL3R0b3JsaW5nL1Byb2plY3RzL3Bva3kvc2NyaXB0
+cy9wb3N0aW5zdC1pbnRlcmNlcHRzL3VwZGF0ZV9mb250X2NhY2hlCiAgL2hvbWUvdHRvcmxpbmcv
+UHJvamVjdHMvcG9reS9zY3JpcHRzL3Bvc3RpbnN0LWludGVyY2VwdHMvdXBkYXRlX2dpb19tb2R1
+bGVfY2FjaGUKICAvaG9tZS90dG9ybGluZy9Qcm9qZWN0cy9wb2t5L3NjcmlwdHMvcG9zdGluc3Qt
+aW50ZXJjZXB0cy91cGRhdGVfZ3RrX2ltbW9kdWxlc19jYWNoZQogIC9ob21lL3R0b3JsaW5nL1By
+b2plY3RzL3Bva3kvc2NyaXB0cy9wb3N0aW5zdC1pbnRlcmNlcHRzL3VwZGF0ZV9pY29uX2NhY2hl
+CiAgL2hvbWUvdHRvcmxpbmcvUHJvamVjdHMvcG9reS9zY3JpcHRzL3Bvc3RpbnN0LWludGVyY2Vw
+dHMvdXBkYXRlX3BpeGJ1Zl9jYWNoZQoKTk9URTogIyMjIyMjIEdlbmVyYXRlIHJvb3RmcyAjIyMj
+IyMjCk5PVEU6IEV4ZWN1dGluZyAnL2J1aWxkL3R0b3JsaW5nL2J1aWxkLXB5dGhvbjM3L3RtcC93
+b3JrL3FlbXV4ODYtcG9reS1saW51eC9jb3JlLWltYWdlLWZ1bGwtY21kbGluZS8xLjAtcjAvcmVj
+aXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vY3JlYXRlcmVwb19jIC0tdXBkYXRlIC1xIC9idWls
+ZC90dG9ybGluZy9idWlsZC1weXRob24zNy90bXAvd29yay9xZW11eDg2LXBva3ktbGludXgvY29y
+ZS1pbWFnZS1mdWxsLWNtZGxpbmUvMS4wLXIwL29lLXJvb3Rmcy1yZXBvJyAuLi4KTk9URTogUnVu
+bmluZyAvYnVpbGQvdHRvcmxpbmcvYnVpbGQtcHl0aG9uMzcvdG1wL3dvcmsvcWVtdXg4Ni1wb2t5
+LWxpbnV4L2NvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lLzEuMC1yMC9yZWNpcGUtc3lzcm9vdC1uYXRp
+dmUvdXNyL2Jpbi9kbmYgLXYgLS1ycG12ZXJib3NpdHk9ZGVidWcgLXkgLWMgL2J1aWxkL3R0b3Js
+aW5nL2J1aWxkLXB5dGhvbjM3L3RtcC93b3JrL3FlbXV4ODYtcG9reS1saW51eC9jb3JlLWltYWdl
+LWZ1bGwtY21kbGluZS8xLjAtcjAvcm9vdGZzL2V0Yy9kbmYvZG5mLmNvbmYgLS1zZXRvcHQ9cmVw
+b3NkaXI9L2J1aWxkL3R0b3JsaW5nL2J1aWxkLXB5dGhvbjM3L3RtcC93b3JrL3FlbXV4ODYtcG9r
+eS1saW51eC9jb3JlLWltYWdlLWZ1bGwtY21kbGluZS8xLjAtcjAvcm9vdGZzL2V0Yy95dW0ucmVw
+b3MuZCAtLXJlcG9mcm9tcGF0aD1vZS1yZXBvLC9idWlsZC90dG9ybGluZy9idWlsZC1weXRob24z
+Ny90bXAvd29yay9xZW11eDg2LXBva3ktbGludXgvY29yZS1pbWFnZS1mdWxsLWNtZGxpbmUvMS4w
+LXIwL29lLXJvb3Rmcy1yZXBvIC0taW5zdGFsbHJvb3Q9L2J1aWxkL3R0b3JsaW5nL2J1aWxkLXB5
+dGhvbjM3L3RtcC93b3JrL3FlbXV4ODYtcG9reS1saW51eC9jb3JlLWltYWdlLWZ1bGwtY21kbGlu
+ZS8xLjAtcjAvcm9vdGZzIC0tc2V0b3B0PWxvZ2Rpcj0vYnVpbGQvdHRvcmxpbmcvYnVpbGQtcHl0
+aG9uMzcvdG1wL3dvcmsvcWVtdXg4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtZnVsbC1jbWRsaW5l
+LzEuMC1yMC90ZW1wIG1ha2VjYWNoZSAtLXJlZnJlc2gKRVJST1I6IENvdWxkIG5vdCBpbnZva2Ug
+ZG5mLiBDb21tYW5kICcvYnVpbGQvdHRvcmxpbmcvYnVpbGQtcHl0aG9uMzcvdG1wL3dvcmsvcWVt
+dXg4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lLzEuMC1yMC9yZWNpcGUtc3lz
+cm9vdC1uYXRpdmUvdXNyL2Jpbi9kbmYgLXYgLS1ycG12ZXJib3NpdHk9ZGVidWcgLXkgLWMgL2J1
+aWxkL3R0b3JsaW5nL2J1aWxkLXB5dGhvbjM3L3RtcC93b3JrL3FlbXV4ODYtcG9reS1saW51eC9j
+b3JlLWltYWdlLWZ1bGwtY21kbGluZS8xLjAtcjAvcm9vdGZzL2V0Yy9kbmYvZG5mLmNvbmYgLS1z
+ZXRvcHQ9cmVwb3NkaXI9L2J1aWxkL3R0b3JsaW5nL2J1aWxkLXB5dGhvbjM3L3RtcC93b3JrL3Fl
+bXV4ODYtcG9reS1saW51eC9jb3JlLWltYWdlLWZ1bGwtY21kbGluZS8xLjAtcjAvcm9vdGZzL2V0
+Yy95dW0ucmVwb3MuZCAtLXJlcG9mcm9tcGF0aD1vZS1yZXBvLC9idWlsZC90dG9ybGluZy9idWls
+ZC1weXRob24zNy90bXAvd29yay9xZW11eDg2LXBva3ktbGludXgvY29yZS1pbWFnZS1mdWxsLWNt
+ZGxpbmUvMS4wLXIwL29lLXJvb3Rmcy1yZXBvIC0taW5zdGFsbHJvb3Q9L2J1aWxkL3R0b3JsaW5n
+L2J1aWxkLXB5dGhvbjM3L3RtcC93b3JrL3FlbXV4ODYtcG9reS1saW51eC9jb3JlLWltYWdlLWZ1
+bGwtY21kbGluZS8xLjAtcjAvcm9vdGZzIC0tc2V0b3B0PWxvZ2Rpcj0vYnVpbGQvdHRvcmxpbmcv
+YnVpbGQtcHl0aG9uMzcvdG1wL3dvcmsvcWVtdXg4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtZnVs
+bC1jbWRsaW5lLzEuMC1yMC90ZW1wIG1ha2VjYWNoZSAtLXJlZnJlc2gnIHJldHVybmVkIDE6ClRy
+YWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIvYnVpbGQvdHRvcmxpbmcv
+YnVpbGQtcHl0aG9uMzcvdG1wL3dvcmsvcWVtdXg4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtZnVs
+bC1jbWRsaW5lLzEuMC1yMC9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2xpYi9weXRob24zLjcv
+c2l0ZS1wYWNrYWdlcy9kbmYvdXRpbC5weSIsIGxpbmUgMTIxLCBpbiBlbnN1cmVfZGlyCiAgICBv
+cy5tYWtlZGlycyhkbmFtZSwgbW9kZT0wbzc1NSkKICBGaWxlICIvYnVpbGQvdHRvcmxpbmcvYnVp
+bGQtcHl0aG9uMzcvdG1wL3dvcmsvcWVtdXg4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtZnVsbC1j
+bWRsaW5lLzEuMC1yMC9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2xpYi9weXRob24zLjcvb3Mu
+cHkiLCBsaW5lIDIyMSwgaW4gbWFrZWRpcnMKICAgIG1rZGlyKG5hbWUsIG1vZGUpCkZpbGVFeGlz
+dHNFcnJvcjogW0Vycm5vIDE3XSBGaWxlIGV4aXN0czogJy9idWlsZC90dG9ybGluZy9idWlsZC1w
+eXRob24zNy90bXAvd29yay9xZW11eDg2LXBva3ktbGludXgvY29yZS1pbWFnZS1mdWxsLWNtZGxp
+bmUvMS4wLXIwL3RlbXAnCgpEdXJpbmcgaGFuZGxpbmcgb2YgdGhlIGFib3ZlIGV4Y2VwdGlvbiwg
+YW5vdGhlciBleGNlcHRpb24gb2NjdXJyZWQ6CgpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwg
+bGFzdCk6CiAgRmlsZSAiL2J1aWxkL3R0b3JsaW5nL2J1aWxkLXB5dGhvbjM3L3RtcC93b3JrL3Fl
+bXV4ODYtcG9reS1saW51eC9jb3JlLWltYWdlLWZ1bGwtY21kbGluZS8xLjAtcjAvcmVjaXBlLXN5
+c3Jvb3QtbmF0aXZlL3Vzci9iaW4vZG5mLnJlYWwiLCBsaW5lIDU4LCBpbiA8bW9kdWxlPgogICAg
+bWFpbi51c2VyX21haW4oc3lzLmFyZ3ZbMTpdLCBleGl0X2NvZGU9VHJ1ZSkKICBGaWxlICIvYnVp
+bGQvdHRvcmxpbmcvYnVpbGQtcHl0aG9uMzcvdG1wL3dvcmsvcWVtdXg4Ni1wb2t5LWxpbnV4L2Nv
+cmUtaW1hZ2UtZnVsbC1jbWRsaW5lLzEuMC1yMC9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2xp
+Yi9weXRob24zLjcvc2l0ZS1wYWNrYWdlcy9kbmYvY2xpL21haW4ucHkiLCBsaW5lIDE3OSwgaW4g
+dXNlcl9tYWluCiAgICBlcnJjb2RlID0gbWFpbihhcmdzKQogIEZpbGUgIi9idWlsZC90dG9ybGlu
+Zy9idWlsZC1weXRob24zNy90bXAvd29yay9xZW11eDg2LXBva3ktbGludXgvY29yZS1pbWFnZS1m
+dWxsLWNtZGxpbmUvMS4wLXIwL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvbGliL3B5dGhvbjMu
+Ny9zaXRlLXBhY2thZ2VzL2RuZi9jbGkvbWFpbi5weSIsIGxpbmUgNjQsIGluIG1haW4KICAgIHJl
+dHVybiBfbWFpbihiYXNlLCBhcmdzLCBjbGlfY2xhc3MsIG9wdGlvbl9wYXJzZXJfY2xhc3MpCiAg
+RmlsZSAiL2J1aWxkL3R0b3JsaW5nL2J1aWxkLXB5dGhvbjM3L3RtcC93b3JrL3FlbXV4ODYtcG9r
+eS1saW51eC9jb3JlLWltYWdlLWZ1bGwtY21kbGluZS8xLjAtcjAvcmVjaXBlLXN5c3Jvb3QtbmF0
+aXZlL3Vzci9saWIvcHl0aG9uMy43L3NpdGUtcGFja2FnZXMvZG5mL2NsaS9tYWluLnB5IiwgbGlu
+ZSA5NSwgaW4gX21haW4KICAgIGNsaS5jb25maWd1cmUobGlzdChtYXAodWNkLCBhcmdzKSksIG9w
+dGlvbl9wYXJzZXIoKSkKICBGaWxlICIvYnVpbGQvdHRvcmxpbmcvYnVpbGQtcHl0aG9uMzcvdG1w
+L3dvcmsvcWVtdXg4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lLzEuMC1yMC9y
+ZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2xpYi9weXRob24zLjcvc2l0ZS1wYWNrYWdlcy9kbmYv
+Y2xpL2NsaS5weSIsIGxpbmUgODE1LCBpbiBjb25maWd1cmUKICAgIHNlbGYuX3JlYWRfY29uZl9m
+aWxlKG9wdHMucmVsZWFzZXZlcikKICBGaWxlICIvYnVpbGQvdHRvcmxpbmcvYnVpbGQtcHl0aG9u
+MzcvdG1wL3dvcmsvcWVtdXg4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lLzEu
+MC1yMC9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2xpYi9weXRob24zLjcvc2l0ZS1wYWNrYWdl
+cy9kbmYvY2xpL2NsaS5weSIsIGxpbmUgOTI2LCBpbiBfcmVhZF9jb25mX2ZpbGUKICAgIHNlbGYu
+YmFzZS5fbG9nZ2luZy5fc2V0dXBfZnJvbV9kbmZfY29uZihjb25mKQogIEZpbGUgIi9idWlsZC90
+dG9ybGluZy9idWlsZC1weXRob24zNy90bXAvd29yay9xZW11eDg2LXBva3ktbGludXgvY29yZS1p
+bWFnZS1mdWxsLWNtZGxpbmUvMS4wLXIwL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvbGliL3B5
+dGhvbjMuNy9zaXRlLXBhY2thZ2VzL2RuZi9sb2dnaW5nLnB5IiwgbGluZSAxNzAsIGluIF9zZXR1
+cF9mcm9tX2RuZl9jb25mCiAgICByZXR1cm4gc2VsZi5fc2V0dXAodmVyYm9zZV9sZXZlbF9yLCBl
+cnJvcl9sZXZlbF9yLCBsb2dkaXIpCiAgRmlsZSAiL2J1aWxkL3R0b3JsaW5nL2J1aWxkLXB5dGhv
+bjM3L3RtcC93b3JrL3FlbXV4ODYtcG9reS1saW51eC9jb3JlLWltYWdlLWZ1bGwtY21kbGluZS8x
+LjAtcjAvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9saWIvcHl0aG9uMy43L3NpdGUtcGFja2Fn
+ZXMvZG5mL2xvZ2dpbmcucHkiLCBsaW5lIDQ5LCBpbiBzd2FuX3NvbmcKICAgIGZ1bmMoc2VsZiwg
+KmFyZ3MsICoqa3dhcmdzKQogIEZpbGUgIi9idWlsZC90dG9ybGluZy9idWlsZC1weXRob24zNy90
+bXAvd29yay9xZW11eDg2LXBva3ktbGludXgvY29yZS1pbWFnZS1mdWxsLWNtZGxpbmUvMS4wLXIw
+L3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvbGliL3B5dGhvbjMuNy9zaXRlLXBhY2thZ2VzL2Ru
+Zi9sb2dnaW5nLnB5IiwgbGluZSAxMzYsIGluIF9zZXR1cAogICAgaGFuZGxlciA9IF9jcmVhdGVf
+ZmlsZWhhbmRsZXIobG9nZmlsZSkKICBGaWxlICIvYnVpbGQvdHRvcmxpbmcvYnVpbGQtcHl0aG9u
+MzcvdG1wL3dvcmsvcWVtdXg4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lLzEu
+MC1yMC9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2xpYi9weXRob24zLjcvc2l0ZS1wYWNrYWdl
+cy9kbmYvbG9nZ2luZy5weSIsIGxpbmUgODksIGluIF9jcmVhdGVfZmlsZWhhbmRsZXIKICAgIGRu
+Zi51dGlsLmVuc3VyZV9kaXIob3MucGF0aC5kaXJuYW1lKGxvZ2ZpbGUpKQogIEZpbGUgIi9idWls
+ZC90dG9ybGluZy9idWlsZC1weXRob24zNy90bXAvd29yay9xZW11eDg2LXBva3ktbGludXgvY29y
+ZS1pbWFnZS1mdWxsLWNtZGxpbmUvMS4wLXIwL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvbGli
+L3B5dGhvbjMuNy9zaXRlLXBhY2thZ2VzL2RuZi91dGlsLnB5IiwgbGluZSAxMjMsIGluIGVuc3Vy
+ZV9kaXIKICAgIGlmIGUuZXJybm8gIT0gb3MuZXJybm8uRUVYSVNUIG9yIG5vdCBvcy5wYXRoLmlz
+ZGlyKGRuYW1lKToKQXR0cmlidXRlRXJyb3I6IG1vZHVsZSAnb3MnIGhhcyBubyBhdHRyaWJ1dGUg
+J2Vycm5vJwoKREVCVUc6IFB5dGhvbiBmdW5jdGlvbiBkb19yb290ZnMgZmluaXNoZWQKRVJST1I6
+IEZ1bmN0aW9uIGZhaWxlZDogZG9fcm9vdGZzCg==
+
+--000000000000224447057577e675--
