@@ -1,18 +1,47 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 538F078D6F;
-	Mon, 10 Sep 2018 09:33:02 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: changqing.li@windriver.com
-Date: Mon, 10 Sep 2018 09:33:03 -0000
-Message-ID: <20180910093303.13844.38062@do.openembedded.org>
-References: <1536571126-391981-1-git-send-email-changqing.li@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1536571126-391981-1-git-send-email-changqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmluZDogcGF0Y2ggZm9yIENWRS0yMDE4LTU3NDA=?=
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 910FC79408
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Sep 2018 09:35:28 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id y139-v6so20663345wmc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Sep 2018 02:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=xFrPLAiLzHckR4pRWanb+d0cSgEURweMX/O/++3Pr7U=;
+	b=WEjHuflPvZYA7aOy+QOWXTVKfd3vwfimZAOUh+zbJs5HMG5Mra1Pn/opZHtyFU3O4q
+	0Q6ia7v+W2SAldZXWztLHxnFMTqtSWiAh+OgaleYCcsTF6vohl3SMyGbBRJZPguyhb5s
+	8ow8UAkn3nCEmLKHYAGrJpFYMi2Wh4Lo5o+aEk0wp3KZCUnY8TPb8xkPXr2mr4IB4EZG
+	w+4PCwDYuennl3nqkuh+3vB3QHehYYaL9Oz6bXaZ45uiGU62xMiPL1LADHUogg+HmqKt
+	EUJmkcIRDDNyQplOFms2CcDNPlgY6MQUBZwkM1iL0rNIMKYGypXWQY5H1ScI65RIk6Jn
+	K/jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=xFrPLAiLzHckR4pRWanb+d0cSgEURweMX/O/++3Pr7U=;
+	b=R/vUrmulv8/R1yKVmTVt39wExzWplz5ZFcjamqnsrUZ7Eby3MV42E9pCKoyBxAs1Po
+	OYrX9aY8/QFDVGi2/ejRZFLqLQmMVnb2Z6sv6m80YTsQ0op8t3iLgwkAW77Zevq7QBx4
+	QtrSTyzvo64YHi5p378LOZEA6N4QQZQULFHWhRHWHKKNXgBMAhdKZmxhAur7nh5QehEa
+	J6y68hNku5KkYeRJBtVSVOj20gniUhHkKsDN4mkYpupCoJc/MjA+i+pt2bqRHjAVJpDp
+	y7dY7f5vsivdMdpa3iusE1GL5LuCGz3hViShPbitUJhq8CkTenJtU62tuEwjDI8f3Fu8
+	RuvQ==
+X-Gm-Message-State: APzg51AygQkJSHZ7bhVj2Y/zoQQWMfP8P1WZi3QTUpN86ZEAo6M8oXw5
+	HPAzpzXChWsRvvYSGBM1Sder+W80
+X-Google-Smtp-Source: ANB0VdbnoxG95sULvlJX4JkPBMFytn75ia3iBm9GAzUxOew3WLvTVkAk9N5PzrVymVLt8c4019oNJQ==
+X-Received: by 2002:a1c:7dc7:: with SMTP id
+	y190-v6mr107581wmc.62.1536572128841; 
+	Mon, 10 Sep 2018 02:35:28 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	d18-v6sm11450325wmb.33.2018.09.10.02.35.27
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 10 Sep 2018 02:35:28 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Sep 2018 09:35:31 +0000
+Message-Id: <20180910093531.29164-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] attr: use u-a for setfattr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,44 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2018 09:33:02 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Sep 2018 09:35:29 -0000
 
-== Series Details ==
+setfattr is now provided also by busybox since 1.29.2 upgrade and
+do_rootfs is failing with:
+update-alternatives: Error: not linking usr/bin/setfattr to /bin/busybox.nosuid since
+usr/bin/setfattr exists and is not a link
 
-Series: bind: patch for CVE-2018-5740
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13987/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
-  Suggested fix    Fix Upstream-Status format in CVE-2018-5740.patch
-  Current          Upstream-Status: backport[https://ftp.isc.org/isc/bind9/9.11.4-P1/patches/CVE-2018-5740]
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-support/attr/attr.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+index 24ef5adfd3..9fc0f33cce 100644
+--- a/meta/recipes-support/attr/attr.inc
++++ b/meta/recipes-support/attr/attr.inc
+@@ -23,7 +23,11 @@ do_install_append() {
+ 	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
+ }
+ 
+-inherit ptest
++inherit ptest update-alternatives
++
++ALTERNATIVE_PRIORITY = "100"
++ALTERNATIVE_${PN} = "setfattr"
++ALTERNATIVE_TARGET[setfattr] = "${bindir}/setfattr"
+ 
+ do_install_ptest() {
+ 	tar -c --exclude=ext test/ | ( cd ${D}${PTEST_PATH} && tar -xf - )
+-- 
+2.17.1
 
 
