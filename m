@@ -1,48 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 12E32797B5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id DC45C797B6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 16:16:13 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id h4-v6so24810581qtj.7
+	Mon, 10 Sep 2018 16:17:07 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id y207-v6so41185630oie.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 09:16:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=UmXyzsM2+3xAIa6jxCfMDHmOU+zig9MMoOjr8E0aywo=;
-	b=nWFwLCqGAAb+dGdlvOnzYuLOocPxLWJ5fc8nWQa+jtRpGZO5Jl3P56n9F/Dw8jY4r5
-	shAQBqVwMJWUIyCLrYtcr2i0dq0Rbav1LQGaIZG/r4zr6dfJsvXqh473BSA3fURALyuU
-	FHgVgUMi+jXjiUqSAEBw8CdvHkwrVHRhesxzYkuV08rXyMr/4bEfoVMZToiXPu0Dqd3+
-	xCv3ZdXbFJfyVl86iVVMqQ/JvJ40AWPvSYVBaUx7O1f/nCHgpJvqlhh5FeIPkmIOS4V/
-	d67UpWe/PCLeZfEe9EL/FXBCSUA8moOR+WSbrxBXkue3+Zl5sx06VkSqfdbklrZBJjlO
-	sDcg==
+	Mon, 10 Sep 2018 09:17:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=vy6J2o61oWFeoYCgXmdn6auJmzLPQWBrQWGr8CfLxnE=;
+	b=kHK4CuFNDxwSURGiwgBm3FKAGHDgOwVb2TOQR4ZG4vjcWAUwH+NxQuH88uqsDQllFT
+	zb1YO1BQPUNszgmM0kHX2Fx8ljHkFLeNX2+blEAWfi5dYLNBuK+ZECH0vQPd4NYy62SF
+	OWJ9K3+cDqVvUwxpmnDcEpY9edkK5qxb+/z30MmjVtFOzBA8pB509yt3tjOnIrvNHJW2
+	GhLWckvIUz4gwrGN5hqXJH3hpk0r1DijlxBq7L+eA9GeTGm+LZZEy+G2LayllTqmhpkI
+	6fqfHN1Vu2vCdZHLjb4C7oN/9HiHGaGg/8KtT+B+N5W1ruC/0Mk3HHEcMXEUYTU0+BJG
+	a1Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=UmXyzsM2+3xAIa6jxCfMDHmOU+zig9MMoOjr8E0aywo=;
-	b=unWyWMCzGRh2SZJGs9/tOYIHnqHjgR+rjnQY5Uodemx1Xq0yC0j9M/KubGccahYX38
-	Z/n+Qd0R+Yo+2J/NQ4yst9iW4XATeegnOERjKoPhOXTrN6sMQKbBbYM3F0xPK9xowd0p
-	HgpoKVZwX5ZXtYtPrqeSepklcmnGRPZsexKn4Ze2w2mGSFPZlpucqGb3wZuksX41VmLz
-	YgI3+/RpDf8rLpIf2rZJM22lVhFCW7FsPfRMiiFu2xeSiwq0jggcb9Qw/IahMoBA9w1g
-	/vLY418YWhoRnkg5ePuKBTomQeu86BD7EcyQo4PjmAd/AXzsCUh2IqoByfguLUTP5C2x
-	ikpA==
-X-Gm-Message-State: APzg51BsxYUf3K25h7Ii7XJfykgzOTaWgCNb8u52YWGE5RTykRy46Awv
-	qy7Qsut0QhG3sQKwViSzdEWolsqWFlm3GJZ89vTzCw==
-X-Google-Smtp-Source: ANB0VdYC5P7sSxJz0Ceu4cMIHeN9IGl1AADb9r/8uJwmwc0CyKqFt+gFbnmGfdaI5k7MgbNpHcCNgNRVkDQazETcghw=
-X-Received: by 2002:a0c:87f8:: with SMTP id
-	53-v6mr15359526qvk.228.1536596174886; 
-	Mon, 10 Sep 2018 09:16:14 -0700 (PDT)
+	bh=vy6J2o61oWFeoYCgXmdn6auJmzLPQWBrQWGr8CfLxnE=;
+	b=X0/Ufn2v9zzDkR3Nt93EGzQDnA1GxJF3YXyJkwcw1AjRS6sDwbgfUOfYPF6nTeXkvK
+	QdSm8gW+30+7R/KdmTKDdT1a8bbWPUX56Wp4MN7FeYFolxfQUcWHv4JEQ5uJWD6wETW+
+	5xgB/lH5IJf9ZNfgY+ddHn38DpTt+1u8IH+ev2gU8c54WiRXO2zKNbmLtF5lw42GPmNX
+	GG05acTKmM1yh2TMKMe/ElTIPu0oLwP9oUQ2G5n6oUu06lffpIcvpvoa1G6m0YkBB00X
+	iu0+GxhICXfqTIZNQ7adn/EzkrQXpTTbxAoyRr8Fcs0ya+rci66IJUL1gHg1BQHFTs3T
+	wARg==
+X-Gm-Message-State: APzg51DaCs73+I6z9MGuRKhf7xR3Vazl3I46PtMbgm4p0bwg9z+QbP+h
+	Dn0/aqi0Pjq0giqUC+4jEOb/4ip1eKR4cO18ZyYq1w==
+X-Google-Smtp-Source: ANB0VdapqU8Xets8Axx74UDh5mWfhgWcgTtboJafFGdISFElopKW/692lhhppKjvjK6QrKQ+Eo6MJy5OmItelChXNzM=
+X-Received: by 2002:aca:c74d:: with SMTP id
+	x74-v6mr20969017oif.97.1536596228907; 
+	Mon, 10 Sep 2018 09:17:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180910124413.20946-1-nathan@nathanrossi.com>
-In-Reply-To: <20180910124413.20946-1-nathan@nathanrossi.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 10 Sep 2018 09:15:48 -0700
-Message-ID: <CAMKF1sqD-iTTogMVTX81Cr7-NgkPy0gYi2KAiTRiuo67+nn_+Q@mail.gmail.com>
-To: Nathan Rossi <nathan@nathanrossi.com>
+Received: by 2002:ac9:7ac:0:0:0:0:0 with HTTP;
+	Mon, 10 Sep 2018 09:16:48 -0700 (PDT)
+In-Reply-To: <CAMKF1so=k2qhez7uEwWS0saYnV+BJ+z=MjGdinhTKpzQYDw5dg@mail.gmail.com>
+References: <20180910133123.22372-1-ross.burton@intel.com>
+	<20180910133123.22372-2-ross.burton@intel.com>
+	<CAMKF1so=k2qhez7uEwWS0saYnV+BJ+z=MjGdinhTKpzQYDw5dg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 10 Sep 2018 17:16:48 +0100
+Message-ID: <CAJTo0LZjqGXsS_6MD+F4PMsXBomTiyJPEVUT-TEZ9gJXCzBCMA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tclibc: For newlib and baremetal disable some security features
+Subject: Re: [PATCH 2/4] python3: remove redundant patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,61 +60,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2018 16:16:14 -0000
+X-List-Received-Date: Mon, 10 Sep 2018 16:17:08 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 10, 2018 at 5:44 AM Nathan Rossi <nathan@nathanrossi.com> wrote:
->
-> With GCCPIE being enabled by default with security_flags.inc the
-> compiler will by default attempt to compile and link programs as PIE.
-> The targets that use newlib and baremetal in general do not support PIE
-> or are otherwise unable to use it due to how embedded targets are
-> compiled and executed. As such it makes sense to disable PIE by default
-> for these libc's in order to prevent build failures.
->
-> For baremetal tclibc there are no libc features or implementation as
-> such there is no implementation for the strong stack protector by
-> default.
->
+On 10 September 2018 at 17:12, Khem Raj <raj.khem@gmail.com> wrote:
+> patch is also substituting ./$(BUILDPYTHON) with $(HOSTPYTHON), how is
+> that taken care of ?
+> maybe try to a build where hostarch != targetarch might catch the
+> problem. If its handled in other
+> ways then its probably good riddance.
 
-LGTM.
-> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-> ---
->  meta/conf/distro/include/tclibc-baremetal.inc | 6 ++++++
->  meta/conf/distro/include/tclibc-newlib.inc    | 4 ++++
->  2 files changed, 10 insertions(+)
->
-> diff --git a/meta/conf/distro/include/tclibc-baremetal.inc b/meta/conf/distro/include/tclibc-baremetal.inc
-> index 1bf44c8591..b00917913f 100644
-> --- a/meta/conf/distro/include/tclibc-baremetal.inc
-> +++ b/meta/conf/distro/include/tclibc-baremetal.inc
-> @@ -28,3 +28,9 @@ TOOLCHAIN_HOST_TASK ?= "packagegroup-cross-canadian-${MACHINE}"
->  TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
->  TOOLCHAIN_TARGET_TASK ?= "libgcc-dev"
->  TOOLCHAIN_NEED_CONFIGSITE_CACHE_remove = "virtual/${MLPREFIX}libc zlib ncurses"
-> +
-> +# disable stack protector by default (no-libc, no protector implementation)
-> +SECURITY_STACK_PROTECTOR_libc-baremetal = ""
-> +# disable pie security flags by default
-> +SECURITY_CFLAGS_libc-baremetal = "${SECURITY_NOPIE_CFLAGS}"
-> +SECURITY_LDFLAGS_libc-baremetal = ""
-> diff --git a/meta/conf/distro/include/tclibc-newlib.inc b/meta/conf/distro/include/tclibc-newlib.inc
-> index dc631d8ada..896c0b16d7 100644
-> --- a/meta/conf/distro/include/tclibc-newlib.inc
-> +++ b/meta/conf/distro/include/tclibc-newlib.inc
-> @@ -42,3 +42,7 @@ TARGET_OS_arm = "eabi"
->  TOOLCHAIN_HOST_TASK ?= "packagegroup-cross-canadian-${MACHINE}"
->  TOOLCHAIN_TARGET_TASK ?= "${LIBC_DEPENDENCIES}"
->  TOOLCHAIN_NEED_CONFIGSITE_CACHE_remove = "zlib ncurses"
-> +
-> +# disable pie security flags by default
-> +SECURITY_CFLAGS_libc-newlib = "${SECURITY_NOPIE_CFLAGS}"
-> +SECURITY_LDFLAGS_libc-newlib = ""
-> ---
-> 2.18.0
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Target binaries have a different loader so they won't run.  From what
+I could tell none of the codepaths this touched were used in the
+build.  I'll review the changes again and either demonstrate why I'm
+right, or retract my patch.
+
+Ross
 
