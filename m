@@ -1,48 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B461792FE
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A6AE79709
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 00:44:30 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id b129-v6so9524386pga.13
+	Mon, 10 Sep 2018 01:48:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8A1mtBU012170
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Sep 2018 17:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=aTELmXiLei8nxw+yZBMmjrkITLEd9g/NdgAD0wulW6E=;
-	b=X4eiAVjiADnkzZqnfd44NYIbaWibxoyRUSxkrXOLqOyXO6HWDeiH6y61EGsZR2mMsC
-	fZY0bsX0c0OyfyV3iVWhr6jD0l9SbZZwwpK9uiTgH5GwOxdHrtuQZTt9zu0IxB/+65Yo
-	BnKH1czHap2iSxO3YVMbMrFx90Yx6KRpJNI7pUdjqP25pXBhxBXx8z1EdvvkN7DG4b9H
-	PsRSQUT6DHYLikVUsygBRyL4sItgU5vL54aRquZsKRCpEuS93MW09aPwU1sbzVxAy9+s
-	IcO8xGdFSgNII1Yv/9Uv6r+b+FyuCgemKtzM+NeQty0cd3Vp1PhrQfOkbubACNt3RGGx
-	AbfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=aTELmXiLei8nxw+yZBMmjrkITLEd9g/NdgAD0wulW6E=;
-	b=XTG1oxQf8t0a3u3FtqmiRPGPFmTLQ/2VEXuFLJt8MnfYovjqogyV76Yv5tbLj7rxUW
-	0Tm3H9wufWlZimJKKKQqLfMTVVwtMUZpKvQyYVgZGXKuLGhgM3Y63gpoU3aYxrNitQyR
-	OOOnTVuZj8vbDlpxkwf07w841JnA/kM8oQM34UPSvi+uzGCyoE5PU5OAkI6Hgf9NsCcl
-	1jIwIv+49orflIlXUBEKIGmMiOONroaiBuAPWs3AFNiFP8t6ZDFWVqNvhH1fvBGV+3Et
-	t9Kgx4s7bKLj6p3hwz5OtHUPn13lo/HKSv/j+oj66c6DEOOvOkXSuQg9ZTHTgdwbi2Yn
-	zuwQ==
-X-Gm-Message-State: APzg51CeuY8/asnDNrVCHx/jzu/TzS7H556D85KGpmCEJvu3CL4ooRez
-	Vi5hKzd7Lh2urL9PPLYUW7v3iGH7
-X-Google-Smtp-Source: ANB0VdYRd/Z9MTuzsYe/hzCc3VpqMw+QJ45vJCnko15uQyjqJWIYh81ZenjScHWCYtqdU3fxLb4nAg==
-X-Received: by 2002:a63:1316:: with SMTP id
-	i22-v6mr19467848pgl.86.1536540270626; 
-	Sun, 09 Sep 2018 17:44:30 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::71e7])
-	by smtp.gmail.com with ESMTPSA id
-	l70-v6sm21261938pge.36.2018.09.09.17.44.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 09 Sep 2018 17:44:30 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Sep 2018 17:44:22 -0700
-Message-Id: <20180910004422.15400-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-Subject: [PATCH] gst-validate: Fix build on musl
+	Sun, 9 Sep 2018 18:48:55 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Sun, 9 Sep 2018 18:48:54 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 10 Sep 2018 09:48:53 +0800
+Message-ID: <1536544133-34165-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] qemu: patch for CVE-2018-15746
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,85 +30,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2018 00:44:30 -0000
+X-List-Received-Date: Mon, 10 Sep 2018 01:48:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Connect has different signature on musl.
+From: Changqing Li <changqing.li@windriver.com>
 
-Fixes
-socket_interposer.c:103:1: error: conflicting types for 'connect'
-| connect (int socket, const struct sockaddr_in *addrin, socklen_t
-address_len)
-| ^
-|
-recipe-sysroot/usr/include/sys/socket.h:327:5:
-note: previous declaration is here
-| int connect (int, const struct sockaddr *, socklen_t);
-|     ^
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- ...ct-has-a-different-signature-on-musl.patch | 38 +++++++++++++++++++
- .../gstreamer/gst-validate_1.14.2.bb          |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/files/0001-connect-has-a-different-signature-on-musl.patch
+ .../qemu/qemu/CVE-2018-15746.patch                 | 64 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_3.0.0.bb           |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-15746.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/files/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/files/0001-connect-has-a-different-signature-on-musl.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-15746.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-15746.patch
 new file mode 100644
-index 0000000000..a0d215c5a0
+index 0000000..2f61ea0
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/files/0001-connect-has-a-different-signature-on-musl.patch
-@@ -0,0 +1,38 @@
-+From 0bd8004d8dddc486d3961a5316d24e8f2645e4c8 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 9 Sep 2018 17:38:10 -0700
-+Subject: [PATCH] connect has a different signature on musl
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-15746.patch
+@@ -0,0 +1,64 @@
++From 9acf4c64dd4560bd268006d7356c7455fab7e5b1 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 6 Sep 2018 14:52:12 +0800
++Subject: [PATCH] seccomp: set the seccomp filter to all threads
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+On linux when not using glibc and using musl for C library, connect
-+API has a different signature, this patch fixes this so it can compile
-+on musl, the functionality should remain same as it is immediately
-+typcasted to struct sockaddr_in* type inside the function before use
++When using "-seccomp on", the seccomp policy is only applied to the
++main thread, the vcpu worker thread and other worker threads created
++after seccomp policy is applied; the seccomp policy is not applied to
++e.g. the RCU thread because it is created before the seccomp policy is
++applied and SECCOMP_FILTER_FLAG_TSYNC isn't used.
 +
-+Upstream-Status: Pending
++This can be verified with
++for task in /proc/`pidof qemu`/task/*; do cat $task/status | grep Secc ; done
++Seccomp:	2
++Seccomp:	0
++Seccomp:	0
++Seccomp:	2
++Seccomp:	2
++Seccomp:	2
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Starting with libseccomp 2.2.0 and kernel >= 3.17, we can use
++seccomp_attr_set(ctx, > SCMP_FLTATR_CTL_TSYNC, 1) to update the policy
++on all threads.
++
++libseccomp requirement was bumped to 2.2.0 in previous patch.
++libseccomp should fail to set the filter if it can't honour
++SCMP_FLTATR_CTL_TSYNC (untested), and thus -sandbox will now fail on
++kernel < 3.17.
++
++Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
++Acked-by: Eduardo Otubo <otubo@redhat.com>
++
++Upstream-Status: Backport[https://github.com/qemu/qemu/commit/
++70dfabeaa79ba4d7a3b699abe1a047c8012db114#diff-18106d3b47a2d249f9d41e772b7db22d]
++
++CVE: CVE-2018-15746
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ plugins/fault_injection/socket_interposer.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
++ qemu-seccomp.c | 5 +++++
++ 1 file changed, 5 insertions(+)
 +
-+diff --git a/plugins/fault_injection/socket_interposer.c b/plugins/fault_injection/socket_interposer.c
-+index 53c1ebb..ad7adf8 100644
-+--- a/plugins/fault_injection/socket_interposer.c
-++++ b/plugins/fault_injection/socket_interposer.c
-+@@ -100,10 +100,15 @@ socket_interposer_set_callback (struct sockaddr_in *addrin,
-+ }
++diff --git a/qemu-seccomp.c b/qemu-seccomp.c
++index 9cd8eb9..ba5500a 100644
++--- a/qemu-seccomp.c
+++++ b/qemu-seccomp.c
++@@ -120,6 +120,11 @@ static int seccomp_start(uint32_t seccomp_opts)
++         goto seccomp_return;
++     }
 + 
-+ int
-+-connect (int socket, const struct sockaddr_in *addrin, socklen_t address_len)
-++#if defined(__linux__) && !defined(__GLIBC__)
-++connect (int socket, const struct sockaddr *addr, socklen_t address_len)
-++#else
-++connect (int socket, const struct sockaddr_in *addr, socklen_t address_len)
-++#endif
-+ {
-+   size_t i;
-+   int override_errno = 0;
-++  struct sockaddr_in* addrin = (struct sockaddr_in*)addr;
-+   typedef ssize_t (*real_connect_fn) (int, const struct sockaddr_in *,
-+       socklen_t);
-+   static real_connect_fn real_connect = 0;
-diff --git a/meta/recipes-multimedia/gstreamer/gst-validate_1.14.2.bb b/meta/recipes-multimedia/gstreamer/gst-validate_1.14.2.bb
-index cad64b2b80..f4438dc5a2 100644
---- a/meta/recipes-multimedia/gstreamer/gst-validate_1.14.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-validate_1.14.2.bb
-@@ -7,6 +7,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${BPN}/${BP}.tar.xz \
-+           file://0001-connect-has-a-different-signature-on-musl.patch \
+++    rc = seccomp_attr_set(ctx, SCMP_FLTATR_CTL_TSYNC, 1);
+++    if (rc != 0) {
+++        goto seccomp_return;
+++    }
+++
++     for (i = 0; i < ARRAY_SIZE(blacklist); i++) {
++         if (!(seccomp_opts & blacklist[i].set)) {
++             continue;
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu_3.0.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+index 80da081..6b14786 100644
+--- a/meta/recipes-devtools/qemu/qemu_3.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+@@ -21,6 +21,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0009-apic-fixup-fallthrough-to-PIC.patch \
+            file://0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
+            file://0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch \
++           file://CVE-2018-15746.patch \
             "
- SRC_URI[md5sum] = "f334102b0e706008505d00f7f5b5e023"
- SRC_URI[sha256sum] = "ea9e423e5470ef85ef8a0aea1714e7abfc49deb2ed282057367484cdeba6f19f"
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
+ 
 -- 
-2.18.0
+2.7.4
 
 
