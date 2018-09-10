@@ -1,62 +1,58 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id EFDD76079F
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C1C6F79663
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 18:09:36 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id h138-v6so14982090qke.8
+	Mon, 10 Sep 2018 18:10:11 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id u12-v6so22891983wrr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 11:09:38 -0700 (PDT)
+	Mon, 10 Sep 2018 11:10:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Yag14NWg9tWWczuGPfco0fh0WU5TvDdK8dhCYF3tVKc=;
-	b=imsTCeIK1IbzoVybVBDa49c0Yq/Lr87+/34u/23vAS29Ag2pNnvJt7eh18zX7GuDSr
-	jRae7LTaljaSxNiWfAToEIQOwhivkfqGMCeHrt6gMJT5b93OneV8BrQmvy8/vDTdErQL
-	A9KhjDPexAe4VfwsGWlI4Qf1GYG7uX5eTs/9cwEZujfFwSQSlvqBuU+d3spijgyIqqGk
-	Id66AMi8RZRxVACaZN5kO5/b9802rRSbZE+MrM7y1pRaF2VxMexzBJ2SnVh3OZDWwqga
-	3FXzHbnu14HRlrxKZhUBTtMr5KjTf1rL1XrI5t87hi4hU/nYaC6PMroTRAlhGLFqgqLn
-	5Lmg==
+	h=sender:from:message-id:mime-version:subject:date:in-reply-to:cc:to
+	:references; bh=JRD251LewmKN30xwchzhXWMivx96D5Y7ch0CDrQ6nuQ=;
+	b=QOqezV6uYengnYyu8/IhcmJPduOsKozgz8t7VzTIypCuvvNBtqvsX8yjYEtgxaT4ao
+	CEbjezQMWI4etgdcTCykkA6q/ajT7cIc4xQdUISmcXG5pV7lp+Qk1gUjlebkSrigG9q/
+	1g6F+pq4FzDYyh34TSLU3fLTHUcA3tA+DQIgUgbrb6fOlDtMhIwmFe2fYWnGDk7/27yA
+	Ub0nszGqwySp0uLw+/BSYZGjjvO26yLfgqvHLmSOv1bnX+NKptHnanFYcfkR/5Hfgxl0
+	Jm1ZxEOetlARrftOpkKWO4nPtwzPdacv75fBXXDwJkq1G+ymrzDHssYtyhSwYEKNR3yl
+	VSPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Yag14NWg9tWWczuGPfco0fh0WU5TvDdK8dhCYF3tVKc=;
-	b=F4QNalMCh8dP0cSr89FtyDop+D119dvO9ed0TRTjdKpZW2A3ZyBEJQ8C6JnlcEoh15
-	ZqHE1z8CoB3QsvoIXC4gFi73FnoBojirTwH2jhZqXO2pgmBRVuKgGPLAISjDep9iYT1V
-	6FTjq5ykryK/hasP/eCsil84f1AHDSPY2P1GD+bRUYbjQmPJP9C8lmqyWbUwuLsUhLnp
-	CPvLdkAZfo0n4gi/YVK8nNKoyt7kmRFSwyYx2ZiwbRgaf6y2Gv+K9m63rlxpsIT237a2
-	Zf8+e8gEUoC+LJwogtiwHBSo6ylEHmPf0oIOyxNXDXZtT+/okS7/74MqQBNLSfTqbkAd
-	WxsA==
-X-Gm-Message-State: APzg51DN+iGIafGqyffxOPsz539tzIEOh17W866qZToynqYUK1yd3Jfy
-	9Ez1CTh9OuwFtDqLvvUk3YzE6SIFzMq1n6yNHF4=
-X-Google-Smtp-Source: ANB0Vdb0Zo5Jdq0iR1GVRESWl9xNQzQj6GT8ROJFUUP8BdraxSY/ICrxO1qyhB2QekUOj3k5y9zh4vEzAOdWvmdMny8=
-X-Received: by 2002:a37:ac02:: with SMTP id e2-v6mr16292843qkm.2.1536602977411;
-	Mon, 10 Sep 2018 11:09:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1535451643.git.alex.kanavin@gmail.com>
-	<b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
-	<CA+chaQfSBfzWoDKkWH0arU388zqewFMVKQ+bJwo4TMABZhAiog@mail.gmail.com>
-	<a12df2950bb8cbe607429ba26247543ba63367af.camel@linuxfoundation.org>
-	<CAMKF1spTfZD2B19zQFH+PhAytChCe1k-05ma2QQ9TCVp3TNrgw@mail.gmail.com>
-	<fbe407b0f91278f2d416884eb1d737af30a20808.camel@linuxfoundation.org>
-	<CAMKF1sp9uBnKKKu5nTKu_dS2=onTJvOgeroNDQtNx4DrWqBeRg@mail.gmail.com>
-	<CAJ86T=V2QTuiz=KzNzZeyLKyvZd6m+ZPKmkP+tZwhfM_=fTASg@mail.gmail.com>
-	<CAMKF1sqWuf8sQj7TA_G-prWpOB5mtXo7F8k_K0bj2ufHXRa6Yg@mail.gmail.com>
-	<CANNYZj9rQ-vFT09JPs0pJ46HEYK8_UNzA5Di9G6OXosHOKt3mQ@mail.gmail.com>
-	<20180905085322.GA1795@jama>
-	<e7847d5e6eb6103ddf02e6da14a1449227e5665a.camel@linuxfoundation.org>
-	<CAMKF1sqynK2-5b9ex5fcLW3s2XTH086Ajps_-50stxVvGX9xLQ@mail.gmail.com>
-	<CAJ86T=V78dXJH8rOdN2LAshL8UqsC5aJ_njU8Dra9M=tCcBhgg@mail.gmail.com>
-	<CA+chaQdkmKDwrAT1Cq-tYApxMKHrSx36QDdLEAHaXp4GO+h0UA@mail.gmail.com>
-	<CAJ86T=VhxA4nq=UhBcU24qPci5E7C8PRHtG=rrhSCT8AjLSRZA@mail.gmail.com>
-In-Reply-To: <CAJ86T=VhxA4nq=UhBcU24qPci5E7C8PRHtG=rrhSCT8AjLSRZA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 10 Sep 2018 11:09:10 -0700
-Message-ID: <CAMKF1somSiGY20w3duezeikj-8Rpha6_J1QkHHtdqcgKaOCgcg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 1/6] openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the default version
+	h=x-gm-message-state:sender:from:message-id:mime-version:subject:date
+	:in-reply-to:cc:to:references;
+	bh=JRD251LewmKN30xwchzhXWMivx96D5Y7ch0CDrQ6nuQ=;
+	b=CFV/bsW7OCfytb6bNVG+z0ISC0Jfh2k1hod0Er5UM7ZjiF4Dq5N1qLiYcevPAKmeXt
+	PvQYtSGgVSBsAq9tZ9ssyDcdKe2ZlJuieLi3CqCd0ZtPuFKtHOhLKB9OmyHGB58LWJ5K
+	2oOxe+hXYfGCToKC3KgYhF1SWX7YjSCXwozZvS7CvhtxGwxCoYczAMV3Ff0JAvcZU3Na
+	mri1ZxV+lDoDTdkb2LhaV3rxIvxq53qOs37Mr3QV8DDcXQNytumxzjTimGNljiNAJhsE
+	tBbED899OX7omWdls6MzNguqcw9JRTrQQCXvtK5NAgg51TFeEmiCF0IetjykHrRXqHKk
+	RYWg==
+X-Gm-Message-State: APzg51Cva/9CwJRgpyY7FnppvwhST4zAw/EhfzvwXe7WGTlJB68dIUof
+	ILBLt2EVyK/UIYwDAAmy4XE=
+X-Google-Smtp-Source: ANB0VdZ7QkjfLuUXD7UJfDqi9F1ZmhqkdrzG1JSIr711HMoPe9yor1Pf8AyK4TkaOdHECmo9odEJ1w==
+X-Received: by 2002:adf:8485:: with SMTP id 5-v6mr16118262wrg.34.1536603012426;
+	Mon, 10 Sep 2018 11:10:12 -0700 (PDT)
+Received: from ernie.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
+	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
+	d1-v6sm31312218wrc.52.2018.09.10.11.10.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 10 Sep 2018 11:10:11 -0700 (PDT)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: Jens Rehsack <sno@netbsd.org>
+Message-Id: <5630C08D-12C8-4534-B2D4-A485B493931A@netbsd.org>
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+Date: Mon, 10 Sep 2018 20:10:09 +0200
+In-Reply-To: <CANNYZj8dyfuOnHxqE7V5n3sz=3XjqPS98E2n=t2uJbPkvczKyw@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20180907145533.31088-1-sno@netbsd.org>
+	<10772E09-62BB-4CFC-A99A-F4816FAE87C1@netbsd.org>
+	<CANx9H-BfgTfmNs+oGxC-Cm=Tp464=fpZnMb17vbTWsRg2LTZdg@mail.gmail.com>
+	<CANNYZj8dyfuOnHxqE7V5n3sz=3XjqPS98E2n=t2uJbPkvczKyw@mail.gmail.com>
+X-Mailer: Apple Mail (2.3445.9.1)
+Cc: =?utf-8?Q?Sven_H=C3=A4drich?= <svenha@external.miltenyibiotec.de>,
+	Igor Kreps <igork@miltenyibiotec.de>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] python3{,-native}: update to 3.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,62 +65,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2018 18:09:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 10 Sep 2018 18:10:12 -0000
+X-Groupsio-MsgNum: 116115
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_2C2F073B-4CF3-4793-A2E5-556B90927D1E";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
 
-we are good with fixes in master-next
-On Mon, Sep 10, 2018 at 10:54 AM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Wed, Sep 5, 2018 at 8:55 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > https://wiki.debian.org/OpenSSL-1.1 says it will cause runtime bugs like
-> > segmentation faults or just misbehaving applications.
-> >
-> > On Wed, Sep 5, 2018 at 5:45 PM Andre McCurdy <armccurdy@gmail.com> wrote:
-> >>
-> >> On Wed, Sep 5, 2018 at 8:15 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> >> > On Wed, Sep 5, 2018 at 7:45 AM Richard Purdie
-> >> > <richard.purdie@linuxfoundation.org> wrote:
-> >> >>
-> >> >> On Wed, 2018-09-05 at 10:53 +0200, Martin Jansa wrote:
-> >> >> > But patching the components to use libssl10 might actually work
-> >> >> > (unlike
-> >> >> > just changing DEPENDS to openssl10).
-> >> >> >
-> >> >> > It's not only conflicting in build-time in RSS, but it will conflict
-> >> >> > on target as well. You either need to migrate all components included
-> >> >> > in image to 1.1 or all stay on 1.0.
-> >> >>
-> >> >> That isn't quite the case. For OE-Core we have images using both 1.0
-> >> >> (openssh) and 1.1 installed together. Its true there are some issues if
-> >> >> you try and parallel install both the -dev packages but normal target
-> >> >> images are working.
-> >> >>
-> >> >> We could probably "fix" the -dev images to an extent by making 1.1
-> >> >> replace 1.0 dev pieces.
-> >> >>
-> >> >> The build time sysroot problem is harder unfortunately, I've ideas
-> >> >> about things we might be able to do but haven't experimented as yet.
-> >> >>
-> >> >
-> >> > If runtime conflicts are clear
-> >>
-> >> I don't think the runtime issues are clear.
-> >>
-> >> Being able to install both versions of openssl on the target and have
-> >> them be used by different applications is one case (already solved by
-> >> different sonames).
-> >>
-> >> But the builds that are failing in meta-oe are a different case - a
-> >> single application is indirectly linked against both versions of
-> >> openssl. Loading two versions of openssl into the same address space
-> >> at runtime hasn't been solved... and may not be realistically solvable
-> >> - e.g. what happens if code in an app compiled against openssl 1.1
-> >> tries to share an openssl data type with code in a library compiled
-> >> against openssl 1.0?
-> >>
->
-> Any further comments?
->
-> How are the meta-oe world builds looking now after the recent fixes?
-> Are there still issues?
+--Apple-Mail=_2C2F073B-4CF3-4793-A2E5-556B90927D1E
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_85A49478-4181-4924-BDA9-861C0B444002"
 
+--Apple-Mail=_85A49478-4181-4924-BDA9-861C0B444002
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+
+> Am 10.09.2018 um 11:35 schrieb Alexander Kanavin =
+<alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>:
+>=20
+> Large parts of dnf and friends have been rewritten in c++. I have not
+> yet updated and reviewed that, that will happen in the next cycle.
+
+If I can prepare something for you - drop me a note.
+Otherwise - the perl-5.28 update ("." in @INC, regex buffer overflow, =
+...) is also
+awaiting some progress (I can keep "myself" busy).
+
+> There's already enough disruption to deal with (postinsts errors,
+> openssl 1.1, both caused by me :)
+
+You know, corner, ash, ... things happen. But there is progress! Great!
+
+> Good that we got all the way to do_rootfs though with 3.7.
+
+Yeah, but than came postinst (coreutils :P) :D
+
+Cheers
+
+> Alex
+>=20
+> 2018-09-10 0:38 GMT+02:00 Tim Orling <ticotimo@gmail.com =
+<mailto:ticotimo@gmail.com>>:
+>> I did not review the patches closely, but I did try to build
+>> core-image-full-cmdline with the tip of poky and these patches =
+applied.
+>> Everything was fine until do_rootfs... I've attached the log.
+>>=20
+>> Essentially, there are some bits of dnf and so on which are not ready =
+for
+>> Python 3.7. We have dnf version 2.7.5, but the latest upstream =
+release is
+>> 3.4.0 (with a 3.5.0 just 3 days ago). Not sure yet if that would have
+>> helped.
+>>=20
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org =
+<mailto:Openembedded-core@lists.openembedded.org>
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>=20
+
+--
+Jens Rehsack - rehsack@gmail.com <mailto:rehsack@gmail.com>
+
+--Apple-Mail=_85A49478-4181-4924-BDA9-861C0B444002
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><meta=
+ http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii" =
+class=3D""><div style=3D"word-wrap: break-word; -webkit-nbsp-mode: =
+space; line-break: after-white-space;" class=3D""><br class=3D""><div =
+class=3D""><br class=3D""><blockquote type=3D"cite" class=3D""><div =
+class=3D"">Am 10.09.2018 um 11:35 schrieb Alexander Kanavin &lt;<a =
+href=3D"mailto:alex.kanavin@gmail.com" =
+class=3D"">alex.kanavin@gmail.com</a>&gt;:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div class=3D"">Large =
+parts of dnf and friends have been rewritten in c++. I have not<br =
+class=3D"">yet updated and reviewed that, that will happen in the next =
+cycle.<br class=3D""></div></div></blockquote><div class=3D""><br =
+class=3D""></div><div class=3D"">If I can prepare something for you - =
+drop me a note.</div><div class=3D"">Otherwise - the perl-5.28 update =
+("." in @INC, regex buffer overflow, ...) is also</div><div =
+class=3D"">awaiting some progress (I can keep "myself" busy).</div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
+class=3D"">There's already enough disruption to deal with (postinsts =
+errors,<br class=3D"">openssl 1.1, both caused by me :)<br =
+class=3D""></div></div></blockquote><div class=3D""><br =
+class=3D""></div><div class=3D"">You know, corner, ash, ... things =
+happen. But there is progress! Great!</div><br class=3D""><blockquote =
+type=3D"cite" class=3D""><div class=3D""><div class=3D"">Good that we =
+got all the way to do_rootfs though with 3.7.<br =
+class=3D""></div></div></blockquote><div class=3D""><br =
+class=3D""></div><div class=3D"">Yeah, but than came postinst (coreutils =
+:P) :D</div><div class=3D""><br class=3D""></div><div =
+class=3D"">Cheers</div><br class=3D""><blockquote type=3D"cite" =
+class=3D""><div class=3D""><div class=3D"">Alex<br class=3D""><br =
+class=3D"">2018-09-10 0:38 GMT+02:00 Tim Orling &lt;<a =
+href=3D"mailto:ticotimo@gmail.com" =
+class=3D"">ticotimo@gmail.com</a>&gt;:<br class=3D""><blockquote =
+type=3D"cite" class=3D"">I did not review the patches closely, but I did =
+try to build<br class=3D"">core-image-full-cmdline with the tip of poky =
+and these patches applied.<br class=3D"">Everything was fine until =
+do_rootfs... I've attached the log.<br class=3D""><br =
+class=3D"">Essentially, there are some bits of dnf and so on which are =
+not ready for<br class=3D"">Python 3.7. We have dnf version 2.7.5, but =
+the latest upstream release is<br class=3D"">3.4.0 (with a 3.5.0 just 3 =
+days ago). Not sure yet if that would have<br class=3D"">helped.<br =
+class=3D""><br class=3D"">--<br =
+class=3D"">_______________________________________________<br =
+class=3D"">Openembedded-core mailing list<br class=3D""><a =
+href=3D"mailto:Openembedded-core@lists.openembedded.org" =
+class=3D"">Openembedded-core@lists.openembedded.org</a><br class=3D""><a =
+href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
+class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
+e</a><br class=3D""><br =
+class=3D""></blockquote></div></div></blockquote></div><br class=3D""><div=
+ class=3D"">
+<div style=3D"color: rgb(0, 0, 0); letter-spacing: normal; orphans: =
+auto; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><div style=3D"color: rgb(0, 0, 0); letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><div class=3D"">--&nbsp;</div><div class=3D"">Jens Rehsack - =
+<a href=3D"mailto:rehsack@gmail.com" =
+class=3D"">rehsack@gmail.com</a></div></div></div>
+</div>
+<br class=3D""></div></body></html>=
+
+--Apple-Mail=_85A49478-4181-4924-BDA9-861C0B444002--
+
+--Apple-Mail=_2C2F073B-4CF3-4793-A2E5-556B90927D1E
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAluWs4EACgkQRJmWrtzl
+Cp0ugxAAnwgqh4+Ky8NPgxEhQukRFVjfqGyiViA+jfCSzMPVhR/WqhzrySlxUwVh
+eImFtk2oTIZJHwY+YvpqyODD0K3XZcBBv9hT3T1hlRk5Bnv7w4eF3CbYYHEH/aWI
+w+dgDBRRSjIOIb+JGU6l+OUqiR+mEnqB2es8VSuptdh9plX0nI22+CjQYxkdt707
+xu0jXdmLwDtUZjyjZGKiTy/P32Xiv4l1dSCZFyUJxPyAluaVA9BgNhdtur9U66ab
+K9PM4q12iBKypDno0dYVzkcT4rixpyHZcyOqHg+FzFxDUGcuXpV/GNI6vnXhKJBn
+0DQjc/ahnDl0XJTJYQiTYekrCWnvSbQTr1ZFDpFB2dnp5NTWNJqM3n+1SwUDbGkX
+X6Nlo5yJhLipvahABnBNi3HU+2TWQikfs5CsAF1qKKjTRcLjN78HjkFL0dSvcIJ0
+NFFUrBsrwNEQY2mN1LMKO6+yo+ffu6wAgAIng5pHsQc0Rj2Uo+nCL+tyUCEtG//O
+jlXi12A/Lz8ixeIg1sZsWWFBDno//Jv+0039C8MYAcFjJ0Zv77ScQJe+GJEvwiZ+
+6VUqW0LzurgxCAw8bLvI+rQsU7728XUqYIYPp7bClHDP6HLhvuzhIJunlX/CpV60
+rr4s69Hguag2M0MGhKGv9QxNl5OJSPGmc6K6b99o15s5TyzX02E=
+=yIzB
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_2C2F073B-4CF3-4793-A2E5-556B90927D1E--
