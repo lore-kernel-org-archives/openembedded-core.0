@@ -1,40 +1,64 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ED86796D9
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D444796E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 17:38:27 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Sep 2018 10:38:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,356,1531810800"; d="scan'208,217";a="69783577"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
-	by fmsmga008.fm.intel.com with ESMTP; 10 Sep 2018 10:38:27 -0700
-Received: from fmsmsx123.amr.corp.intel.com ([169.254.7.120]) by
-	FMSMSX103.amr.corp.intel.com ([169.254.2.126]) with mapi id
-	14.03.0319.002; Mon, 10 Sep 2018 10:38:26 -0700
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
-Thread-Index: AdQXlGn2RYGWCO8aQne3TGYivsbGuQ==
-Date: Mon, 10 Sep 2018 17:38:26 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECEE35FA3@fmsmsx123.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.108]
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWM1NTVhNjktYmU4ZS00NzkzLTkyMDgtZGVlNGE1OTA2YTZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaUlWbjdERDJ5eExEVTQ0dWhmcVE5RVV6NVQrT1dlMmtFek5FSTNwUjZ2TE5cL05hT2ZBdXpzZk1EV2tlUzRkNGQifQ==
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
+	Mon, 10 Sep 2018 17:54:26 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id l143-v6so690464vke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Sep 2018 10:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=FETkiqUQyezE6Hi4vzCibgFdEjPnwi7pi4anbCI9oYA=;
+	b=DPkMpSXsHHXFAYf023sQBluW+WxVDyZ9T+jUU/fuMdIWclLnWMBY6dUwhpzgQofl46
+	P3Ekh2KKGAzANrw049SkFl3ggcGeXpVr99pMXVyrxq4o10IZhPquqGpdoKGgI6zUk9hL
+	K2LnOt64ZIRUtW5f7mbG4Lf5tOZsVbOOPCW47Gj6f4VSfsKLtVe+DpKM2kpCU7BsUBE2
+	nlA2ymN9lC8qsHt9sSBVlL2kceej+gRIOIIUNPlv+S7agkebOXOXB5fvbj+B9c8VtIkW
+	w1b461wYSTLemVwsyTNI8HSnJXlJKEqM0lDiCUerYgp8E+oB4OzddOdqtf4CTrV7eGBi
+	1IwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=FETkiqUQyezE6Hi4vzCibgFdEjPnwi7pi4anbCI9oYA=;
+	b=a4fxfcTWm8VzGklVe55NgOadWnJn1PgJ9VgG4I6llKBdqbIchEI2rZAkDv3lo+EW48
+	vJskZMxDDGZV1aO/SpithooxZPCeGzdnZg0HZh8VnD9S+LkPqB5l0ieJIQzWJeC5ojos
+	ZTBqID29Ef0P3/U7vNIFsF7zMQK4SyPruwPJqRbMFk2gCJ/QCFkHF0EmK4e9gnPsU54z
+	NIKYf47yVPQHbqZsonKi2lQ9dxAGpSL5SPbvC97YJXD7T1zDNkaZg7sYb3UPEqOM7Tss
+	Rh3WImtde2QL5ZXbwsXWKkEe+VEW2/aG/d4OArLd2LkD134K1kWxjKULILT3sh2MR52O
+	OUCw==
+X-Gm-Message-State: APzg51ChD+oaqbDZR5Gdln/g9eWuZ8i8OItp5tA/Djovaz52/cd6293N
+	Z5koD+a2JZ2tvYl59tB7zCvP/dUPf4eWNq6Xve8=
+X-Google-Smtp-Source: ANB0VdbfCWggwmn3gK5FwP7w9MBJEaPbb+YDSbpCQ0M+T+5zXcKzAP/b2+eznhR/fwXHbxRSqz+o9JL1XsA3wOL62Ws=
+X-Received: by 2002:a1f:be13:: with SMTP id
+	o19-v6mr7072807vkf.22.1536602067120; 
+	Mon, 10 Sep 2018 10:54:27 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Yocto Project Unassigned Bugs - Help Needed
+Received: by 2002:ab0:2904:0:0:0:0:0 with HTTP; Mon, 10 Sep 2018 10:54:26
+	-0700 (PDT)
+In-Reply-To: <CA+chaQdkmKDwrAT1Cq-tYApxMKHrSx36QDdLEAHaXp4GO+h0UA@mail.gmail.com>
+References: <cover.1535451643.git.alex.kanavin@gmail.com>
+	<b0f6196af47cab59f634fbffea7121a684dd4ad0.1535451643.git.alex.kanavin@gmail.com>
+	<CA+chaQfSBfzWoDKkWH0arU388zqewFMVKQ+bJwo4TMABZhAiog@mail.gmail.com>
+	<a12df2950bb8cbe607429ba26247543ba63367af.camel@linuxfoundation.org>
+	<CAMKF1spTfZD2B19zQFH+PhAytChCe1k-05ma2QQ9TCVp3TNrgw@mail.gmail.com>
+	<fbe407b0f91278f2d416884eb1d737af30a20808.camel@linuxfoundation.org>
+	<CAMKF1sp9uBnKKKu5nTKu_dS2=onTJvOgeroNDQtNx4DrWqBeRg@mail.gmail.com>
+	<CAJ86T=V2QTuiz=KzNzZeyLKyvZd6m+ZPKmkP+tZwhfM_=fTASg@mail.gmail.com>
+	<CAMKF1sqWuf8sQj7TA_G-prWpOB5mtXo7F8k_K0bj2ufHXRa6Yg@mail.gmail.com>
+	<CANNYZj9rQ-vFT09JPs0pJ46HEYK8_UNzA5Di9G6OXosHOKt3mQ@mail.gmail.com>
+	<20180905085322.GA1795@jama>
+	<e7847d5e6eb6103ddf02e6da14a1449227e5665a.camel@linuxfoundation.org>
+	<CAMKF1sqynK2-5b9ex5fcLW3s2XTH086Ajps_-50stxVvGX9xLQ@mail.gmail.com>
+	<CAJ86T=V78dXJH8rOdN2LAshL8UqsC5aJ_njU8Dra9M=tCcBhgg@mail.gmail.com>
+	<CA+chaQdkmKDwrAT1Cq-tYApxMKHrSx36QDdLEAHaXp4GO+h0UA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 10 Sep 2018 10:54:26 -0700
+Message-ID: <CAJ86T=VhxA4nq=UhBcU24qPci5E7C8PRHtG=rrhSCT8AjLSRZA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 1/6] openssl: rename openssl 1.0.x to openssl10 and make openssl 1.1.x the default version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,215 +71,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2018 17:38:27 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE35FA3fmsmsx123amrcor_"
+X-List-Received-Date: Mon, 10 Sep 2018 17:54:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE35FA3fmsmsx123amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-All,
-
-
-
-The triage team meets weekly and does its best to handle the bugs reported =
-into the bugzilla. The number of people attending that meeting has fallen, =
-as have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage team) a=
-re therefore going to start reporting out the currently 313 unassigned bugs=
-.
-
-
-
-We're hoping people may be able to spare some time now and again to help ou=
-t with these.
-
-
-
-Bugs are split into two types, "true bugs" where things don't work as they =
-should and "enhancements" which are features we'd want to add to the system=
-.
-
-
-
-There are also roughly five different "priority" classes right now, "2.6", =
-"2.7", "2.8", "2.99" and "Future", the more pressing/urgent issues being in=
- "2.6" and then "2.7".
-
-
-
-Please review this link and if a bug is something you would be able to help=
- with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
-com) an e-mail with the bug number you would like and I will assign it to y=
-ou (please make sure you have a bugzilla account).
-
-
-
-The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
-gs
-
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*    Cell:                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE35FA3fmsmsx123amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On Wed, Sep 5, 2018 at 8:55 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> https://wiki.debian.org/OpenSSL-1.1 says it will cause runtime bugs like
+> segmentation faults or just misbehaving applications.
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:2 11 5 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle19
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoPlainText">All,<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
- handle the bugs reported into the bugzilla. The number of people attending=
- that meeting has fallen, as have the number of people available to help fi=
-x bugs. One of the things we hear
- users report is they don't know how to help. We (the triage team) are ther=
-efore going to start reporting out the currently 313 unassigned bugs.<o:p><=
-/o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
-e now and again to help out with these.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
-ot; where things don't work as they should and &quot;enhancements&quot; whi=
-ch are features we'd want to add to the system.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">There are also roughly five different &quot;prior=
-ity&quot; classes right now, &quot;2.6&quot;, &#8220;2.7&#8221;, &#8220;2.8=
-&#8221;, &quot;2.99&quot; and &quot;Future&quot;, the more pressing/urgent =
-issues being in &quot;2.6&quot; and then &#8220;2.7&#8221;.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Please review this link and if a bug is something=
- you would be able to help with either take ownership of the bug, or send m=
-e (Stephen.k.jolley@intel.com) an e-mail with the bug number you would like=
- and I will assign it to you (please
- make sure you have a bugzilla account).<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
-ect.org/wiki/Bug_Triage#Unassigned_Bugs">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
-></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
-=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+> On Wed, Sep 5, 2018 at 5:45 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> On Wed, Sep 5, 2018 at 8:15 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>> > On Wed, Sep 5, 2018 at 7:45 AM Richard Purdie
+>> > <richard.purdie@linuxfoundation.org> wrote:
+>> >>
+>> >> On Wed, 2018-09-05 at 10:53 +0200, Martin Jansa wrote:
+>> >> > But patching the components to use libssl10 might actually work
+>> >> > (unlike
+>> >> > just changing DEPENDS to openssl10).
+>> >> >
+>> >> > It's not only conflicting in build-time in RSS, but it will conflict
+>> >> > on target as well. You either need to migrate all components included
+>> >> > in image to 1.1 or all stay on 1.0.
+>> >>
+>> >> That isn't quite the case. For OE-Core we have images using both 1.0
+>> >> (openssh) and 1.1 installed together. Its true there are some issues if
+>> >> you try and parallel install both the -dev packages but normal target
+>> >> images are working.
+>> >>
+>> >> We could probably "fix" the -dev images to an extent by making 1.1
+>> >> replace 1.0 dev pieces.
+>> >>
+>> >> The build time sysroot problem is harder unfortunately, I've ideas
+>> >> about things we might be able to do but haven't experimented as yet.
+>> >>
+>> >
+>> > If runtime conflicts are clear
+>>
+>> I don't think the runtime issues are clear.
+>>
+>> Being able to install both versions of openssl on the target and have
+>> them be used by different applications is one case (already solved by
+>> different sonames).
+>>
+>> But the builds that are failing in meta-oe are a different case - a
+>> single application is indirectly linked against both versions of
+>> openssl. Loading two versions of openssl into the same address space
+>> at runtime hasn't been solved... and may not be realistically solvable
+>> - e.g. what happens if code in an app compiled against openssl 1.1
+>> tries to share an openssl data type with code in a library compiled
+>> against openssl 1.0?
+>>
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE35FA3fmsmsx123amrcor_--
+Any further comments?
+
+How are the meta-oe world builds looking now after the recent fixes?
+Are there still issues?
+
