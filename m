@@ -1,52 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id C862B7973C
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 2ED86796D9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 17:36:09 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id g44-v6so25088940qtb.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 10:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Uq9HhjhmEhX4WCzWP0UASw/yWnyw8THLiVxQcTPzDEE=;
-	b=WOnlh/yEm5r4iSSigjwzCs2+nBe0jwi0VdjenBH8bJJYp8EfcvgfEj/YdhSkQLiMKe
-	psd3oOBRQpArOmgrrc1z9FHHfh+r47HyKQ5dpSCtcAuHix61PZjacAZV0I7+ojQHQu9f
-	iMrMxL0wR90ER3ZdKEp/kDWfIDZP9dh1KoMOREO2qdyggGdGZWb9rF7zHiDkGDaY2UCE
-	uRmkaOfRN3Iv0kwNB+MQ7j1vGNA28/hH0cvTkI7Zu38fe94CxJIP23QwLa3ZPhiyOLCT
-	SuNJKtyrSxFSmaO83Fut2sR0/5Jt9nIQk6RztlOCJDxxuzIKpWTzeJkoJ+mBaRTMFj8N
-	CaDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Uq9HhjhmEhX4WCzWP0UASw/yWnyw8THLiVxQcTPzDEE=;
-	b=bRT5p0hTzEwwWxE11dvpefEA21MHmGB9z72uHYVznn6tFx6/d+1qnNxv+xBTwVAQpJ
-	rv2GiqpzRlCS7lVcZ8ChzGVL1OOwJdYuAq1wFFHWKFhPP+KQ+/sPbZa+twaRr/xApuFJ
-	cObHxCcmlLxPfbQu54jgk+c6oBj8liIXr90gHb5dfop+IFNe4IOPb6zJ/0954ARDOAEk
-	7W38fUekaVnhK7BN03zHBGxL+89PiWVL2VJLERYpGWqrstLL0MaP5Q/eFJ/543hIU+1V
-	/f9VzHkH45k/eNV3SKu8Ksp+f38IMXag8da2N2+bswUiNAO3EtayegerZBXw7dlQPVQ/
-	0pag==
-X-Gm-Message-State: APzg51A0y/3fKAgYB02URj5NtOEHlNpFRYvX4JR3TmX9uMrQTUP3+5HO
-	u0K3uW0GoInOSsnpTzfV9hvbXlYGK/BJlPiughI=
-X-Google-Smtp-Source: ANB0VdbaJcSQim5TptGgQY86sSeSemeGBtNeHzxPiY08mR3qeBpREuS2+jThQgt1ZxixyWj5SEsM7Ma4o3Iem5sISio=
-X-Received: by 2002:aed:3848:: with SMTP id
-	j66-v6mr16615423qte.218.1536600970375; 
-	Mon, 10 Sep 2018 10:36:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180910133123.22372-1-ross.burton@intel.com>
-	<20180910133123.22372-2-ross.burton@intel.com>
-	<CAMKF1so=k2qhez7uEwWS0saYnV+BJ+z=MjGdinhTKpzQYDw5dg@mail.gmail.com>
-	<CAJTo0LZjqGXsS_6MD+F4PMsXBomTiyJPEVUT-TEZ9gJXCzBCMA@mail.gmail.com>
-	<CAJTo0LYiiNJHRPXXxEzot8VL0CNak+UydbjT-_pdswNVbtmGvg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYiiNJHRPXXxEzot8VL0CNak+UydbjT-_pdswNVbtmGvg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 10 Sep 2018 10:35:44 -0700
-Message-ID: <CAMKF1sqdZQAcLCWhD=p=oftp9O93j7g2FN3gBpt+S6qSdDLrPw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Mon, 10 Sep 2018 17:38:27 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Sep 2018 10:38:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,356,1531810800"; d="scan'208,217";a="69783577"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+	by fmsmga008.fm.intel.com with ESMTP; 10 Sep 2018 10:38:27 -0700
+Received: from fmsmsx123.amr.corp.intel.com ([169.254.7.120]) by
+	FMSMSX103.amr.corp.intel.com ([169.254.2.126]) with mapi id
+	14.03.0319.002; Mon, 10 Sep 2018 10:38:26 -0700
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] python3: remove redundant patch
+Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
+Thread-Index: AdQXlGn2RYGWCO8aQne3TGYivsbGuQ==
+Date: Mon, 10 Sep 2018 17:38:26 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECEE35FA3@fmsmsx123.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.108]
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWM1NTVhNjktYmU4ZS00NzkzLTkyMDgtZGVlNGE1OTA2YTZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaUlWbjdERDJ5eExEVTQ0dWhmcVE5RVV6NVQrT1dlMmtFek5FSTNwUjZ2TE5cL05hT2ZBdXpzZk1EV2tlUzRkNGQifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+MIME-Version: 1.0
+Subject: Yocto Project Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,84 +47,215 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2018 17:36:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 10 Sep 2018 17:38:27 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE35FA3fmsmsx123amrcor_"
 
-Thanks for the clarification. It seems to be fine then
-On Mon, Sep 10, 2018 at 9:24 AM Burton, Ross <ross.burton@intel.com> wrote:
->
-> Line-by-line breakdown of the patch:
->
-> > diff --git a/Makefile.pre.in b/Makefile.pre.in
-> > index 144c1f8629..f252ac2417 100644
-> > --- a/Makefile.pre.in
-> > +++ b/Makefile.pre.in
-> > @@ -223,6 +223,7 @@ LIBOBJS= @LIBOBJS@
-> >  PYTHON= python$(EXE)
-> >  BUILDPYTHON= python$(BUILDEXE)
-> > +HOSTPYTHON=    $(BUILDPYTHON)
->
-> New variable added.
->
-> >  PGEN= Parser/pgen$(EXE)
-> > +HOSTPGEN= $(PGEN)$(EXE)
->
-> New variable added.  My removal simple sets PGEN=/path/to/pgen-native instead.
->
-> >  run_profile_task:
-> >   : # FIXME: can't run for a cross build
-> > - $(LLVM_PROF_FILE) $(RUNSHARED) ./$(BUILDPYTHON) $(PROFILE_TASK) || true
-> > + $(LLVM_PROF_FILE) $(RUNSHARED) $(HOSTPYTHON) $(PROFILE_TASK) || true
->
-> We never use run_profile_task.
->
-> > @@ -772,7 +774,7 @@ regen-grammar: $(PGEN)
-> >   # Regenerate Include/graminit.h and Python/graminit.c
-> >   # from Grammar/Grammar using pgen
-> >   @$(MKDIR_P) Include
-> > - $(PGEN) $(srcdir)/Grammar/Grammar \
-> > + $(HOSTPGEN) $(srcdir)/Grammar/Grammar \
->
-> As my patch changes PGEN directly, this is redundant.
->
-> > -TESTPYTHON= $(RUNSHARED) ./$(BUILDPYTHON) $(TESTPYTHONOPTS)
-> > +TESTPYTHON= $(RUNSHARED) $(HOSTPYTHON) $(TESTPYTHONOPTS)
->
-> TESTPYTHON is only used by the following targets:
-> - coverage-report
-> - test
-> - testall
-> - testuniversal
-> - quicktest
->
-> We don't invoke any of those during a build.
->
-> >  TESTRUNNER= $(TESTPYTHON) $(srcdir)/Tools/scripts/run_tests.py
-> >  TESTTIMEOUT= 3600
-> > @@ -1470,7 +1472,7 @@ frameworkinstallstructure: $(LDLIBRARY)
-> >   fi; \
-> >   done
-> >   $(LN) -fsn include/python$(LDVERSION) $(DESTDIR)$(prefix)/Headers
-> > - sed 's/%VERSION%/'"`$(RUNSHARED) ./$(BUILDPYTHON) -c 'import platform; print(platform.python_version())'`"'/g' < $(RESSRCDIR)/Info.plist > $(DESTDIR)$(prefix)/Resources/Info.plist
-> > + sed 's/%VERSION%/'"`$(RUNSHARED) $(HOSTPYTHON) -c 'import platform; print(platform.python_version())'`"'/g' < $(RESSRCDIR)/Info.plist > $(DESTDIR)$(prefix)/Resources/Info.plist
->
-> This is MacOS-specific.
->
-> >  # Run reindent on the library
-> >  reindent:
-> > - ./$(BUILDPYTHON) $(srcdir)/Tools/scripts/reindent.py -r $(srcdir)/Lib
-> > + $(HOSTPYTHON) $(srcdir)/Tools/scripts/reindent.py -r $(srcdir)/Lib
->
-> We never invoke reindent (as this is for maintainers).
->
-> > @@ -1678,7 +1680,7 @@ funny:
-> >  # Perform some verification checks on any modified files.
-> >  patchcheck: @DEF_MAKE_RULE@
-> > - $(RUNSHARED) ./$(BUILDPYTHON) $(srcdir)/Tools/scripts/patchcheck.py
-> > + $(RUNSHARED) $(HOSTPYTHON) $(srcdir)/Tools/scripts/patchcheck.py
-> >  # Dependencies
->
-> We never invoke patchcheck (as this is for maintainers).
->
-> Ross
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE35FA3fmsmsx123amrcor_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+All,
+
+
+
+The triage team meets weekly and does its best to handle the bugs reported =
+into the bugzilla. The number of people attending that meeting has fallen, =
+as have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage team) a=
+re therefore going to start reporting out the currently 313 unassigned bugs=
+.
+
+
+
+We're hoping people may be able to spare some time now and again to help ou=
+t with these.
+
+
+
+Bugs are split into two types, "true bugs" where things don't work as they =
+should and "enhancements" which are features we'd want to add to the system=
+.
+
+
+
+There are also roughly five different "priority" classes right now, "2.6", =
+"2.7", "2.8", "2.99" and "Future", the more pressing/urgent issues being in=
+ "2.6" and then "2.7".
+
+
+
+Please review this link and if a bug is something you would be able to help=
+ with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
+com) an e-mail with the bug number you would like and I will assign it to y=
+ou (please make sure you have a bugzilla account).
+
+
+
+The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
+gs
+
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+*    Cell:                (208) 244-4460
+* Email:                             stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE35FA3fmsmsx123amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:2 11 5 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoPlainText">All,<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
+ handle the bugs reported into the bugzilla. The number of people attending=
+ that meeting has fallen, as have the number of people available to help fi=
+x bugs. One of the things we hear
+ users report is they don't know how to help. We (the triage team) are ther=
+efore going to start reporting out the currently 313 unassigned bugs.<o:p><=
+/o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
+e now and again to help out with these.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
+ot; where things don't work as they should and &quot;enhancements&quot; whi=
+ch are features we'd want to add to the system.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">There are also roughly five different &quot;prior=
+ity&quot; classes right now, &quot;2.6&quot;, &#8220;2.7&#8221;, &#8220;2.8=
+&#8221;, &quot;2.99&quot; and &quot;Future&quot;, the more pressing/urgent =
+issues being in &quot;2.6&quot; and then &#8220;2.7&#8221;.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Please review this link and if a bug is something=
+ you would be able to help with either take ownership of the bug, or send m=
+e (Stephen.k.jolley@intel.com) an e-mail with the bug number you would like=
+ and I will assign it to you (please
+ make sure you have a bugzilla account).<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
+ect.org/wiki/Bug_Triage#Unassigned_Bugs">
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
+></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
+=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
+"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
+=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;
+<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
+span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
+ns-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE35FA3fmsmsx123amrcor_--
