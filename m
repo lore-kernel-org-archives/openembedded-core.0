@@ -1,59 +1,48 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DC70797B6
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 296E179719
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 16:47:11 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id v90-v6so22739374wrc.0
+	Mon, 10 Sep 2018 17:04:23 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id y139-v6so22158579wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 09:47:12 -0700 (PDT)
+	Mon, 10 Sep 2018 10:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:message-id:mime-version:subject:date:in-reply-to:cc:to
-	:references; bh=Bp6n0SAMUferywK5Qwb+U2Zi1FOQ0Q96HiNA1+VYZrA=;
-	b=notsZCxKO6x6m6dS9+F72Hbdpuxh3xLEc2Sd8F/pBX7crtYxtOrP+JDvCLqHByAj3B
-	rpV7XW+4tCiN4qDFdxceKuuDR0TsRo/dh5tf4hP1gSn6q2etiGpoGRu09XIjuSEwP3P+
-	hr++7ooutKFpLPAXyMcaQx19WoB2Lese+WNsQqz7aMpK+bwClKjdIe6jV9fYxQSIu3uT
-	pDlOCJxnkGGafoe0TOH/r02aMJcBxkHrCiYiSSX7NVfiJwPZzHxPvzYD5RUc/WuHP58X
-	e8fZP4qsRdFWaI62HcS6RTd4klvneL6SSvaMZKyp3VHkcUXhi6DCCNQyeWABkYyuX8A5
-	/N8A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YwpxC8D6wJBVpQhL6KPOqywRhgJ/KAJ3pXbDfZmRhV4=;
+	b=h5YPB71uuxTIraA+lI59OhsgBP2nFjMBP2Fze5mcxO9CRl0WwvKZsxH7awQHUnZWQR
+	l+3HQQsMUm/myTGJx0n5Nb2G+vGaPc93ax/ERJlN8vB89Yt0UgyPWIEwTsGXfemM1gmy
+	1iJMOpW3EdIHS1Tp4kMML2YLk2w8A2Zj0YJHPCYM+e1l1bbxE7PxK/I1Dfgo5hM57v93
+	d3ZJOrEEBcM81h+gNoTl9yslWqH7rLcQlbpnWtRShrw2mHYAnOlgbVmg/7NMg2V7uVM1
+	UZEN+g4jFnZxq1whN5X7x1o68+GJKuPpM5hzJhG6XqGal4XwKhDi18tCJsE5/Z7anTGA
+	sKow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:message-id:mime-version:subject:date
-	:in-reply-to:cc:to:references;
-	bh=Bp6n0SAMUferywK5Qwb+U2Zi1FOQ0Q96HiNA1+VYZrA=;
-	b=QE5IXhT5/e27QU1xmzrC1LPZEJaPFPI0X1cypoWtVBtppig9fYy4l9QHuGoUOt16CK
-	TrHxL0hoT4sSDveWxaSjtQIOVJxdRa0qMHDh+95OIl8w0MjLHNZy+Uz32zu1VOS45eSF
-	cYGVcq1lf78Y+W+lWY+W4D+P5i7YyOPR4xg5tr8Efl0QhgOijgOJHPUCkoIJrYv5pGA4
-	af9I+K1M1RZItJ/uP6RV4rLb39CCM9STD8dqfJqa8QK4oFOtis6KyuPok6zii58IhtRo
-	eg8lI7LDFUzdJa0Vs6dXK0m9XQI9cvvNboLvWnSiKawhIucZzWt8d5RpgUJp2ZxKRge/
-	zDgA==
-X-Gm-Message-State: APzg51A8vopdA4n4Q7iNdLagCwyEyKzjHvQNTA65lFe0lbNbDX6+m1Am
-	/01mk0vFq02TezYzN2Gpg5A=
-X-Google-Smtp-Source: ANB0VdYk7HVWwbAUaROfDctFV/iq/AWUu6UG20Z4RPLLyJE0Lg3NUyk7vOEppZzvWyXrHWQN4hnLmg==
-X-Received: by 2002:adf:ea4f:: with SMTP id
-	j15-v6mr16597563wrn.224.1536598032133; 
-	Mon, 10 Sep 2018 09:47:12 -0700 (PDT)
-Received: from ernie.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	o19-v6sm16019712wro.50.2018.09.10.09.47.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 10 Sep 2018 09:47:10 -0700 (PDT)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-Message-Id: <9001B3D6-85AF-4E00-BCAE-6C297A1E1582@netbsd.org>
-Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
-Date: Mon, 10 Sep 2018 18:42:51 +0200
-In-Reply-To: <CANNYZj8dyfuOnHxqE7V5n3sz=3XjqPS98E2n=t2uJbPkvczKyw@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20180907145533.31088-1-sno@netbsd.org>
-	<10772E09-62BB-4CFC-A99A-F4816FAE87C1@netbsd.org>
-	<CANx9H-BfgTfmNs+oGxC-Cm=Tp464=fpZnMb17vbTWsRg2LTZdg@mail.gmail.com>
-	<CANNYZj8dyfuOnHxqE7V5n3sz=3XjqPS98E2n=t2uJbPkvczKyw@mail.gmail.com>
-X-Mailer: Apple Mail (2.3445.9.1)
-Cc: =?utf-8?Q?Sven_H=C3=A4drich?= <svenha@external.miltenyibiotec.de>,
-	Igor Kreps <igork@miltenyibiotec.de>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] python3{,-native}: update to 3.7.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YwpxC8D6wJBVpQhL6KPOqywRhgJ/KAJ3pXbDfZmRhV4=;
+	b=tOgSq3a8JcqoyJdcYPGYG663qBWUPxpV8aPrbKPz9K6T4y7xCBD9S4PZp1PE9BsWOX
+	QnRWZNP2H+7XK7Ape5bnCzfm7lrRzjLKT2ebPb95pF1cSngOMRKvGOOPDZ9ZQUQ5BPEg
+	WoWAAY72+LRJKG+iENt5HtFeWZlsT8HkJpk/rutMDtBHAYHKKe6pNNWkLqfCnPRFe9bO
+	U6lBD2DGsQ41d7I7zIH9RotJ5MorGcsvOChzoeVEgMceKxBpek2XX4b0Mrokgixiwr4b
+	YUoBgoSRtJnYo6OSbSxOcEk1idKor/gpI7s9Sx//ye4GC4TuPCpPDNJbK0e7RdUzv1e2
+	urPg==
+X-Gm-Message-State: APzg51DIuHv+dFJU6HkrNB47nEWVNV8SjYIKgbjUwOs20hfResXirUQs
+	FxUBt6Fs2L2L9mK0XyURJNIrFi9l+tWd3wKpH8U=
+X-Google-Smtp-Source: ANB0VdY0i9RmvRZ1qleH7qSpzUZzYxmxRrB+j0mRGXxVJNc8xXNRyvb5izgL/yQNqwLRUF6Pfhd3IBuiBn/6oGu30VA=
+X-Received: by 2002:a1c:1188:: with SMTP id
+	130-v6mr1327283wmr.138.1536599063653; 
+	Mon, 10 Sep 2018 10:04:23 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180910151449.9133-1-baptiste.durand@gmail.com>
+	<CAMKF1srQ94o==a-i2mYWaH2-CELJ2gbVVxC=ZbVTrwqqrKvYZw@mail.gmail.com>
+In-Reply-To: <CAMKF1srQ94o==a-i2mYWaH2-CELJ2gbVVxC=ZbVTrwqqrKvYZw@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 10 Sep 2018 19:04:16 +0200
+Message-ID: <CA+chaQfdF=zddkP=6WVj6mtY-uJOYxJ=M5ZRvjrHvQ1W5H9pkA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH v2] minidlna: restore & fix recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,170 +55,345 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2018 16:47:11 -0000
-X-Groupsio-MsgNum: 116109
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_BE37EFD7-FA6A-4E44-BBAA-32D9F09808E8";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
+X-List-Received-Date: Mon, 10 Sep 2018 17:04:23 -0000
+Content-Type: multipart/alternative; boundary="00000000000059f13d0575875958"
 
---Apple-Mail=_BE37EFD7-FA6A-4E44-BBAA-32D9F09808E8
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_A9063B58-B9FD-476C-85AE-DAC1E593ABC0"
+--00000000000059f13d0575875958
+Content-Type: text/plain; charset="UTF-8"
 
---Apple-Mail=_A9063B58-B9FD-476C-85AE-DAC1E593ABC0
+And don't use tag name in SRCREV, use git SHA, so that bitbake fetcher
+doesn't need to access the git repository every time it parses the recipe.
+
+On Mon, Sep 10, 2018 at 5:49 PM Khem Raj <raj.khem@gmail.com> wrote:
+
+> this should be in meta-multmedia layer.
+> On Mon, Sep 10, 2018 at 8:15 AM Baptiste Durand
+> <baptiste.durand@gmail.com> wrote:
+> >
+> > Restore minidlna recipe and bump it to v1.2.1
+> >
+> > Signed-off-by: Baptiste Durand <baptiste.durand@gmail.com>
+> > ---
+> >  .../recipes-multimedia/minidlna/minidlna.inc  | 41 +++++++++++++++++++
+> >  .../0001-Update-Gettext-version.patch         | 34 +++++++++++++++
+> >  .../minidlna/minidlna_1.2.1.bb                |  4 ++
+> >  3 files changed, 79 insertions(+)
+> >  create mode 100644 meta-oe/recipes-multimedia/minidlna/minidlna.inc
+> >  create mode 100644
+> meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-Gettext-version.patch
+> >  create mode 100644 meta-oe/recipes-multimedia/minidlna/
+> minidlna_1.2.1.bb
+> >
+> > diff --git a/meta-oe/recipes-multimedia/minidlna/minidlna.inc
+> b/meta-oe/recipes-multimedia/minidlna/minidlna.inc
+> > new file mode 100644
+> > index 000000000..187ff536a
+> > --- /dev/null
+> > +++ b/meta-oe/recipes-multimedia/minidlna/minidlna.inc
+> > @@ -0,0 +1,41 @@
+> > +DESCRIPTION = "MiniDLNA (aka ReadyDLNA) is server software with the aim
+> of \
+> > +being fully compliant with DLNA/UPnP-AV clients."
+> > +LICENSE = "GPL-2.0|BSD"
+> > +DEPENDS = "ffmpeg flac libav jpeg sqlite3 libexif libogg libid3tag
+> libvorbis"
+> > +
+> > +# because it depends on libav which has commercial flag
+> > +LICENSE_FLAGS = "commercial"
+> > +
+> > +inherit gettext autotools-brokensep update-rc.d systemd
+> > +
+> > +SRC_URI = "git://
+> git.code.sf.net/p/minidlna/git;branch=master;module=git \
+> > +           file://minidlna-daemon.init.d \
+> > +           file://minidlna.service \
+> > +           file://0001-Update-Gettext-version.patch \
+> > +           "
+> > +
+> > +S = "${WORKDIR}/git"
+> > +
+> > +# This remove "--exclude=autopoint" option from autoreconf argument to
+> avoid
+> > +# configure.ac:30: error: required file './ABOUT-NLS' not found
+> > +EXTRA_AUTORECONF = ""
+> > +
+> > +do_install_append(){
+> > +    install -d ${D}${sysconfdir}
+> > +    install -m 0755 minidlna.conf ${D}${sysconfdir}
+> > +
+> > +# Systemd script
+> > +    install -d ${D}${nonarch_base_libdir}/systemd/system
+> > +    install -m 0755 ${WORKDIR}/minidlna.service
+> ${D}${nonarch_base_libdir}/systemd/system
+> > +
+> > +# Sysvinit script
+> > +    install -d ${D}${sysconfdir}/init.d
+> > +    install -m 0755 ${WORKDIR}/minidlna-daemon.init.d
+> ${D}${sysconfdir}/init.d/minidlna
+> > +
+> > +}
+> > +
+> > +SYSTEMD_SERVICE_${PN} = "minidlna.service"
+> > +
+> > +INITSCRIPT_NAME = "minidlna"
+> > +INITSCRIPT_PARAMS = "defaults 90"
+> > +
+> > diff --git
+> a/meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-Gettext-version.patch
+> b/meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-Gettext-version.patch
+> > new file mode 100644
+> > index 000000000..c18095d42
+> > --- /dev/null
+> > +++
+> b/meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-Gettext-version.patch
+> > @@ -0,0 +1,34 @@
+> > +From a4290bf1887f9203288858ca76bdd20b2edf337a Mon Sep 17 00:00:00 2001
+> > +From: Baptiste Durand <baptiste.durand@gmail.com>
+> > +Date: Sun, 9 Sep 2018 20:50:41 +0200
+> > +Subject: [PATCH] Update Gettext version
+> > +
+> > +Upstream-Status: Inappropriate [oe-core specific]
+> > +
+> > +Signed-off-by: Baptiste Durand <baptiste.durand@gmail.com>
+> > +---
+> > + configure.ac | 4 ++--
+> > + 1 file changed, 2 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/configure.ac b/configure.ac
+> > +index f343d21..a556b33 100644
+> > +--- a/configure.ac
+> > ++++ b/configure.ac
+> > +@@ -14,7 +14,7 @@
+> > + # License along with MiniDLNA; if not, write to the Free Software
+> > + # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+> > + # USA.
+> > +-AC_INIT(MiniDLNA,1.1.3,,minidlna)
+> > ++AC_INIT(MiniDLNA,1.2.1,,minidlna)
+> > + #LT_INIT
+> > +
+> > + AC_CANONICAL_TARGET
+> > +@@ -28,7 +28,7 @@ m4_ifdef([AC_USE_SYSTEM_EXTENSIONS],
+> [AC_USE_SYSTEM_EXTENSIONS])
+> > +
+> > + AM_ICONV
+> > + AM_GNU_GETTEXT([external])
+> > +-AM_GNU_GETTEXT_VERSION(0.18)
+> > ++AM_GNU_GETTEXT_VERSION(0.19)
+> > +
+> > + # Checks for programs.
+> > + AC_PROG_AWK
+> > diff --git a/meta-oe/recipes-multimedia/minidlna/minidlna_1.2.1.bb
+> b/meta-oe/recipes-multimedia/minidlna/minidlna_1.2.1.bb
+> > new file mode 100644
+> > index 000000000..fe6bebce2
+> > --- /dev/null
+> > +++ b/meta-oe/recipes-multimedia/minidlna/minidlna_1.2.1.bb
+> > @@ -0,0 +1,4 @@
+> > +require ${BPN}.inc
+> > +
+> > +SRCREV = "v1_2_1"
+> > +LIC_FILES_CHKSUM =
+> "file://LICENCE.miniupnpd;md5=b0dabf9d8e0f871554e309d62ead8d2b"
+> > --
+> > 2.17.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--00000000000059f13d0575875958
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+<div dir=3D"ltr">And don&#39;t use tag name in SRCREV, use git SHA, so that=
+ bitbake fetcher doesn&#39;t need to access the git repository every time i=
+t parses the recipe.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr">O=
+n Mon, Sep 10, 2018 at 5:49 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmai=
+l.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex">this should be in meta-multmedia layer.<br>
+On Mon, Sep 10, 2018 at 8:15 AM Baptiste Durand<br>
+&lt;<a href=3D"mailto:baptiste.durand@gmail.com" target=3D"_blank">baptiste=
+.durand@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Restore minidlna recipe and bump it to v1.2.1<br>
+&gt;<br>
+&gt; Signed-off-by: Baptiste Durand &lt;<a href=3D"mailto:baptiste.durand@g=
+mail.com" target=3D"_blank">baptiste.durand@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../recipes-multimedia/minidlna/minidlna.inc=C2=A0 | 41 ++++++++=
++++++++++++<br>
+&gt;=C2=A0 .../0001-Update-Gettext-version.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 34 +++++++++++++++<br>
+&gt;=C2=A0 .../minidlna/<a href=3D"http://minidlna_1.2.1.bb" rel=3D"norefer=
+rer" target=3D"_blank">minidlna_1.2.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++<br>
+&gt;=C2=A0 3 files changed, 79 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 meta-oe/recipes-multimedia/minidlna/minidlna.=
+inc<br>
+&gt;=C2=A0 create mode 100644 meta-oe/recipes-multimedia/minidlna/minidlna/=
+0001-Update-Gettext-version.patch<br>
+&gt;=C2=A0 create mode 100644 meta-oe/recipes-multimedia/minidlna/<a href=
+=3D"http://minidlna_1.2.1.bb" rel=3D"noreferrer" target=3D"_blank">minidlna=
+_1.2.1.bb</a><br>
+&gt;<br>
+&gt; diff --git a/meta-oe/recipes-multimedia/minidlna/minidlna.inc b/meta-o=
+e/recipes-multimedia/minidlna/minidlna.inc<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000..187ff536a<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta-oe/recipes-multimedia/minidlna/minidlna.inc<br>
+&gt; @@ -0,0 +1,41 @@<br>
+&gt; +DESCRIPTION =3D &quot;MiniDLNA (aka ReadyDLNA) is server software wit=
+h the aim of \<br>
+&gt; +being fully compliant with DLNA/UPnP-AV clients.&quot;<br>
+&gt; +LICENSE =3D &quot;GPL-2.0|BSD&quot;<br>
+&gt; +DEPENDS =3D &quot;ffmpeg flac libav jpeg sqlite3 libexif libogg libid=
+3tag libvorbis&quot;<br>
+&gt; +<br>
+&gt; +# because it depends on libav which has commercial flag<br>
+&gt; +LICENSE_FLAGS =3D &quot;commercial&quot;<br>
+&gt; +<br>
+&gt; +inherit gettext autotools-brokensep update-rc.d systemd<br>
+&gt; +<br>
+&gt; +SRC_URI =3D &quot;git://<a href=3D"http://git.code.sf.net/p/minidlna/=
+git;branch=3Dmaster;module=3Dgit" rel=3D"noreferrer" target=3D"_blank">git.=
+code.sf.net/p/minidlna/git;branch=3Dmaster;module=3Dgit</a> \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://minidlna-daemon.init.=
+d \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://minidlna.service \<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Update-Gettext-v=
+ersion.patch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt; +<br>
+&gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
+&gt; +<br>
+&gt; +# This remove &quot;--exclude=3Dautopoint&quot; option from autorecon=
+f argument to avoid<br>
+&gt; +# <a href=3D"http://configure.ac:30" rel=3D"noreferrer" target=3D"_bl=
+ank">configure.ac:30</a>: error: required file &#39;./ABOUT-NLS&#39; not fo=
+und<br>
+&gt; +EXTRA_AUTORECONF =3D &quot;&quot;<br>
+&gt; +<br>
+&gt; +do_install_append(){<br>
+&gt; +=C2=A0 =C2=A0 install -d ${D}${sysconfdir}<br>
+&gt; +=C2=A0 =C2=A0 install -m 0755 minidlna.conf ${D}${sysconfdir}<br>
+&gt; +<br>
+&gt; +# Systemd script<br>
+&gt; +=C2=A0 =C2=A0 install -d ${D}${nonarch_base_libdir}/systemd/system<br=
+>
+&gt; +=C2=A0 =C2=A0 install -m 0755 ${WORKDIR}/minidlna.service ${D}${nonar=
+ch_base_libdir}/systemd/system<br>
+&gt; +<br>
+&gt; +# Sysvinit script<br>
+&gt; +=C2=A0 =C2=A0 install -d ${D}${sysconfdir}/init.d<br>
+&gt; +=C2=A0 =C2=A0 install -m 0755 ${WORKDIR}/minidlna-daemon.init.d ${D}$=
+{sysconfdir}/init.d/minidlna<br>
+&gt; +<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +SYSTEMD_SERVICE_${PN} =3D &quot;minidlna.service&quot;<br>
+&gt; +<br>
+&gt; +INITSCRIPT_NAME =3D &quot;minidlna&quot;<br>
+&gt; +INITSCRIPT_PARAMS =3D &quot;defaults 90&quot;<br>
+&gt; +<br>
+&gt; diff --git a/meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-=
+Gettext-version.patch b/meta-oe/recipes-multimedia/minidlna/minidlna/0001-U=
+pdate-Gettext-version.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000..c18095d42<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-Gettext=
+-version.patch<br>
+&gt; @@ -0,0 +1,34 @@<br>
+&gt; +From a4290bf1887f9203288858ca76bdd20b2edf337a Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: Baptiste Durand &lt;<a href=3D"mailto:baptiste.durand@gmail.com=
+" target=3D"_blank">baptiste.durand@gmail.com</a>&gt;<br>
+&gt; +Date: Sun, 9 Sep 2018 20:50:41 +0200<br>
+&gt; +Subject: [PATCH] Update Gettext version<br>
+&gt; +<br>
+&gt; +Upstream-Status: Inappropriate [oe-core specific]<br>
+&gt; +<br>
+&gt; +Signed-off-by: Baptiste Durand &lt;<a href=3D"mailto:baptiste.durand@=
+gmail.com" target=3D"_blank">baptiste.durand@gmail.com</a>&gt;<br>
+&gt; +---<br>
+&gt; + <a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
+>configure.ac</a> | 4 ++--<br>
+&gt; + 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt; +<br>
+&gt; +diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" targe=
+t=3D"_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"nore=
+ferrer" target=3D"_blank">configure.ac</a><br>
+&gt; +index f343d21..a556b33 100644<br>
+&gt; +--- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
+lank">configure.ac</a><br>
+&gt; ++++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
+lank">configure.ac</a><br>
+&gt; +@@ -14,7 +14,7 @@<br>
+&gt; + # License along with MiniDLNA; if not, write to the Free Software<br=
+>
+&gt; + # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-130=
+7<br>
+&gt; + # USA.<br>
+&gt; +-AC_INIT(MiniDLNA,1.1.3,,minidlna)<br>
+&gt; ++AC_INIT(MiniDLNA,1.2.1,,minidlna)<br>
+&gt; + #LT_INIT<br>
+&gt; +<br>
+&gt; + AC_CANONICAL_TARGET<br>
+&gt; +@@ -28,7 +28,7 @@ m4_ifdef([AC_USE_SYSTEM_EXTENSIONS], [AC_USE_SYSTEM=
+_EXTENSIONS])<br>
+&gt; +<br>
+&gt; + AM_ICONV<br>
+&gt; + AM_GNU_GETTEXT([external])<br>
+&gt; +-AM_GNU_GETTEXT_VERSION(0.18)<br>
+&gt; ++AM_GNU_GETTEXT_VERSION(0.19)<br>
+&gt; +<br>
+&gt; + # Checks for programs.<br>
+&gt; + AC_PROG_AWK<br>
+&gt; diff --git a/meta-oe/recipes-multimedia/minidlna/<a href=3D"http://min=
+idlna_1.2.1.bb" rel=3D"noreferrer" target=3D"_blank">minidlna_1.2.1.bb</a> =
+b/meta-oe/recipes-multimedia/minidlna/<a href=3D"http://minidlna_1.2.1.bb" =
+rel=3D"noreferrer" target=3D"_blank">minidlna_1.2.1.bb</a><br>
+&gt; new file mode 100644<br>
+&gt; index 000000000..fe6bebce2<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta-oe/recipes-multimedia/minidlna/<a href=3D"http://minidlna_1=
+.2.1.bb" rel=3D"noreferrer" target=3D"_blank">minidlna_1.2.1.bb</a><br>
+&gt; @@ -0,0 +1,4 @@<br>
+&gt; +require ${BPN}.inc<br>
+&gt; +<br>
+&gt; +SRCREV =3D &quot;v1_2_1&quot;<br>
+&gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENCE.miniupnpd;md5=3Db0dabf9d8e0=
+f871554e309d62ead8d2b&quot;<br>
+&gt; --<br>
+&gt; 2.17.1<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-
-> Am 10.09.2018 um 11:35 schrieb Alexander Kanavin =
-<alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>:
->=20
-> Large parts of dnf and friends have been rewritten in c++. I have not
-> yet updated and reviewed that, that will happen in the next cycle.
-
-If I can prepare something for you - drop me a note.
-Otherwise - the perl-5.28 update ("." in @INC, regex buffer overflow, =
-...) is also
-awaiting some progress (I can keep "myself" busy).
-
-> There's already enough disruption to deal with (postinsts errors,
-> openssl 1.1, both caused by me :)
-
-You know, corner, ash, ... things happen. But there is progress! Great!
-
-> Good that we got all the way to do_rootfs though with 3.7.
-
-Yeah, but than came postinst (coreutils :P) :D
-
-Cheers
-
-> Alex
->=20
-> 2018-09-10 0:38 GMT+02:00 Tim Orling <ticotimo@gmail.com =
-<mailto:ticotimo@gmail.com>>:
->> I did not review the patches closely, but I did try to build
->> core-image-full-cmdline with the tip of poky and these patches =
-applied.
->> Everything was fine until do_rootfs... I've attached the log.
->>=20
->> Essentially, there are some bits of dnf and so on which are not ready =
-for
->> Python 3.7. We have dnf version 2.7.5, but the latest upstream =
-release is
->> 3.4.0 (with a 3.5.0 just 3 days ago). Not sure yet if that would have
->> helped.
->>=20
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org =
-<mailto:Openembedded-core@lists.openembedded.org>
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>=20
-
---
-Jens Rehsack - rehsack@gmail.com <mailto:rehsack@gmail.com>
-
---Apple-Mail=_A9063B58-B9FD-476C-85AE-DAC1E593ABC0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><meta=
- http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii" =
-class=3D""><div style=3D"word-wrap: break-word; -webkit-nbsp-mode: =
-space; line-break: after-white-space;" class=3D""><br class=3D""><div =
-class=3D""><br class=3D""><blockquote type=3D"cite" class=3D""><div =
-class=3D"">Am 10.09.2018 um 11:35 schrieb Alexander Kanavin &lt;<a =
-href=3D"mailto:alex.kanavin@gmail.com" =
-class=3D"">alex.kanavin@gmail.com</a>&gt;:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div class=3D"">Large =
-parts of dnf and friends have been rewritten in c++. I have not<br =
-class=3D"">yet updated and reviewed that, that will happen in the next =
-cycle.<br class=3D""></div></div></blockquote><div class=3D""><br =
-class=3D""></div><div class=3D"">If I can prepare something for you - =
-drop me a note.</div><div class=3D"">Otherwise - the perl-5.28 update =
-("." in @INC, regex buffer overflow, ...) is also</div><div =
-class=3D"">awaiting some progress (I can keep "myself" busy).</div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
-class=3D"">There's already enough disruption to deal with (postinsts =
-errors,<br class=3D"">openssl 1.1, both caused by me :)<br =
-class=3D""></div></div></blockquote><div class=3D""><br =
-class=3D""></div><div class=3D"">You know, corner, ash, ... things =
-happen. But there is progress! Great!</div><br class=3D""><blockquote =
-type=3D"cite" class=3D""><div class=3D""><div class=3D"">Good that we =
-got all the way to do_rootfs though with 3.7.<br =
-class=3D""></div></div></blockquote><div class=3D""><br =
-class=3D""></div><div class=3D"">Yeah, but than came postinst (coreutils =
-:P) :D</div><div class=3D""><br class=3D""></div><div =
-class=3D"">Cheers</div><br class=3D""><blockquote type=3D"cite" =
-class=3D""><div class=3D""><div class=3D"">Alex<br class=3D""><br =
-class=3D"">2018-09-10 0:38 GMT+02:00 Tim Orling &lt;<a =
-href=3D"mailto:ticotimo@gmail.com" =
-class=3D"">ticotimo@gmail.com</a>&gt;:<br class=3D""><blockquote =
-type=3D"cite" class=3D"">I did not review the patches closely, but I did =
-try to build<br class=3D"">core-image-full-cmdline with the tip of poky =
-and these patches applied.<br class=3D"">Everything was fine until =
-do_rootfs... I've attached the log.<br class=3D""><br =
-class=3D"">Essentially, there are some bits of dnf and so on which are =
-not ready for<br class=3D"">Python 3.7. We have dnf version 2.7.5, but =
-the latest upstream release is<br class=3D"">3.4.0 (with a 3.5.0 just 3 =
-days ago). Not sure yet if that would have<br class=3D"">helped.<br =
-class=3D""><br class=3D"">--<br =
-class=3D"">_______________________________________________<br =
-class=3D"">Openembedded-core mailing list<br class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-class=3D"">Openembedded-core@lists.openembedded.org</a><br class=3D""><a =
-href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
-class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e</a><br class=3D""><br =
-class=3D""></blockquote></div></div></blockquote></div><br class=3D""><div=
- class=3D"">
-<div style=3D"color: rgb(0, 0, 0); letter-spacing: normal; orphans: =
-auto; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><div style=3D"color: rgb(0, 0, 0); letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><div class=3D"">--&nbsp;</div><div class=3D"">Jens Rehsack - =
-<a href=3D"mailto:rehsack@gmail.com" =
-class=3D"">rehsack@gmail.com</a></div></div></div>
-</div>
-<br class=3D""></div></body></html>=
-
---Apple-Mail=_A9063B58-B9FD-476C-85AE-DAC1E593ABC0--
-
---Apple-Mail=_BE37EFD7-FA6A-4E44-BBAA-32D9F09808E8
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAluWnwsACgkQRJmWrtzl
-Cp1GiA/9F6Mh9FtXIVuGxKuMbl24AJjOUs/9KtZOCBS0Ay7IqMPijZBosPIGlleh
-fsM4vdKxXtf2JhRs+zXlAdgvbagOjN+4oSGNmo+ABL02ME2gFXwJiJyKebo6GMfJ
-lTrVVDucL0j/rQ29iiyeb5KPIMk2S5CtJiaPRWfbLE2zjE97fFY2fpbpVDSiAdsF
-adSsLXK9h/ZOuDUWTL3bKv/eDsQvRwOW0KSaVI6Bx8uWr1WET6xLenN8gKE1HObk
-EbyDdG/Goo7vaVM0t9xnXwimYuhjssLt05c/h2rABOvrCUqcJ1rj8itiL0AzJFGj
-eBxrgVOCIJG/QBR+FVANS6Mj+hvhXHvyU8FN1EcXa0myoxPvh1faJ6dSuY3hOHZ+
-FoGSQt0vQfOZDGSHVwAAnS1P93bc6kOSh608acRfN7kYhVHTUjgmA7vY/cipCQiP
-pGTibA57+pXmWbn8WSThIKoVK9DgamzX8jRdyHO1lroHlQ5Nn/uErc7DYNpAbFif
-SZuMNQA2aKDhKBChnO8MYSSmbiliZSdD38TvRWczGIMZFtDGGpbP5SWf22rQ8Wg2
-sW2cizgI/s8iZn8cTVpUHFhTggLkbbuhtVwyoU9Fo5fdJ5lYAoZXJWFPsTlgDh9B
-l8M5oXZvQsBWHpJfVmv/Iw83cBR6NnEq/92awjTRHDJpUxUlvIs=
-=3MmH
------END PGP SIGNATURE-----
-
---Apple-Mail=_BE37EFD7-FA6A-4E44-BBAA-32D9F09808E8--
+--00000000000059f13d0575875958--
