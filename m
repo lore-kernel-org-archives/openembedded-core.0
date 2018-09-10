@@ -1,49 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E7A2F60116
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id F3D1971A74
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 11:14:12 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id 8-v6so39359326oip.0
+	Mon, 10 Sep 2018 12:42:50 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id j8-v6so10425587pff.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 04:14:14 -0700 (PDT)
+	Mon, 10 Sep 2018 05:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ujRV7QncywpcuobQQB4ArgRTEJz6GUxw50azDh6l54k=;
-	b=e06rSU4ezqNjvWyqcwhMQz/zeTeq2kazGj12U8o2CKlJNEkoulPiuNaCowBf55S2ED
-	sWDlakMu2uhHreC5NBVsLdKF/150QXQC7x/OFMfqBppqIcPcWDxo7KndJafxzaKHPE9w
-	MqBoK/VJZg8nJE7+VuZjwabdUeP9fbQoma0LADzGY10vix43g2UpfZzjikVL5drgQZUL
-	hp2GcYubMxFykjkn7h7NvTLbLUammaAk13tePeswKGLCqzJu+kJDPSjih2IHsmKKYKMV
-	a79Jax8vpt6rZcrNjxUihVI532e7RULnIik/EWLi3P6YpyjiNRrYmrIINIkVeyyySzef
-	Egjg==
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:content-transfer-encoding
+	:mime-version; bh=Xcn0eiOHp/NjqvSFLBok1i7aB+ZQ7rXQ+szurV5IT7I=;
+	b=CQUYJlEcdVrd8qmMn7crobiwEY9AoG2GkVdjFQM5gYVzc9AeMW6kH30smevAH/qtzM
+	l819GCNLoFbVuzRr6WSMwSOUaF+3SR7AYq2p2ZVj8od83FLN1VFYyDmnIu1JUwhF9eKU
+	4ueIjV3jsAUirHWU9/0yvfS7kTeQmzlvQC07bZ5rqoTCM71Kw0DCrKnrcfC/xkX8vGVK
+	59YbTMOf92uLvSoDzlsiKQScm5qSttc9liDAcUT5qBgQsnNGiFcnRRoWTF6hz4qRXCJl
+	il3h731iEv8eJDI1mDX6gLgwcBtQFF+gpCN4ujiCqXf6A42avm1kpf3NgA4SWNba1/2L
+	jIpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ujRV7QncywpcuobQQB4ArgRTEJz6GUxw50azDh6l54k=;
-	b=ZV8nQHH8p8eCEDGj796Y28Imb6k+CXXqQUFxTgK3N6d8DZl685bCkUbMFcscwWKhuE
-	Qu03jeugh5dAJk6f1ZYFDXgTj2dGRmb715PdniMXQ7NJYLi2uedEvhNAAZMsfDyQ/M6f
-	lZF4Z9c9rJyKRXIHKi1OklrNn2n5YfU1JPJTZm8kmB57K/3s/p0l3RXx0tLGzgY8uJDQ
-	oqiK9dNXUVsvPI5OCnO1MQNYyRuIIEpWl8J56vMj9Uzc1afmmC26HcZEzIZ12NQVSXU5
-	jUonmh/eLmAxYBz0FAXPJg7ErsbMWDUvc1XD8hHS7QqM/FHohfMsR1pg3KNaEwYE5vHl
-	HgxA==
-X-Gm-Message-State: APzg51DVcib7XJJjjHvpcCtyzMR6TP7A0voPZKxZt1Mg0pxeOiOOvy7X
-	jvavGZ5G5eaJe2UDXP/op/RIwZgUZzTo/KubF5HRRw==
-X-Google-Smtp-Source: ANB0Vdbv2+l0ajwNEQOtbqA82WjeZaqSjMqDtje2E5y+SI2exH37WiECofbjyhUp+b+atzBMnXHDBMcDogznQ95BIxM=
-X-Received: by 2002:aca:a04:: with SMTP id 4-v6mr21942352oik.203.1536578053713;
-	Mon, 10 Sep 2018 04:14:13 -0700 (PDT)
+	h=x-gm-message-state:date:message-id:from:to:cc:subject
+	:content-transfer-encoding:mime-version;
+	bh=Xcn0eiOHp/NjqvSFLBok1i7aB+ZQ7rXQ+szurV5IT7I=;
+	b=ks3oEsDMaHCSgTkYJvnF2wtzeWxC7lZ/KCyoZqdiQN2NEYHy90GWwQu29K4DYDIV0m
+	nOC98f9xqxB7yYRbOlbiJRgtWDM7dzU2LnzY5yMfgeGo2RhTbC3nZzrn/RU1+CMI4hPq
+	6jP6iDywC8q5zzd8/mT93H/Fg107H6h5o0Bnou4lwP5KjclUXeQJyzV6Dq07f338N4l/
+	ytdLggdpsJKqyICHtpc4iW50Omtb/9sA8zGpCQDr/eNmLlEqAmgpVgumU1FH7e6zzR3v
+	SaoCBL3Tn7fYXG9NmpcGbCApBoVcsF4es4mBMrOS+2AixA0d0LwlDiGp03jJJwZpuKyd
+	+YOQ==
+X-Gm-Message-State: APzg51Cp5ONwKUvZ3uKOjkYxhHIuzYAWFJtGn3icy7Aa8KWMPyndYDRj
+	Xaf2xzo0eauZ9tu5vwVqWaSgX1qhoFQ=
+X-Google-Smtp-Source: ANB0VdYGTD9ICN0KW600+2Ok8Ysz9pnLPJZ6nZ8FQGcL6I/UcV6BQDObpwFU5tYXonUTvwuAl/+DNw==
+X-Received: by 2002:aa7:850b:: with SMTP id
+	v11-v6mr23604017pfn.165.1536583371838; 
+	Mon, 10 Sep 2018 05:42:51 -0700 (PDT)
+Received: from [127.0.1.1] ([101.184.120.183])
+	by smtp.gmail.com with UTF8SMTPSA id
+	f186-v6sm16759804pgc.4.2018.09.10.05.42.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 10 Sep 2018 05:42:50 -0700 (PDT)
+Date: Mon, 10 Sep 2018 12:42:38 +0000
+Message-Id: <20180910124238.20745-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Received: by 2002:ac9:7ac:0:0:0:0:0 with HTTP;
-	Mon, 10 Sep 2018 04:13:53 -0700 (PDT)
-In-Reply-To: <cover.1536009789.git.raj.khem@gmail.com>
-References: <cover.1536009789.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 10 Sep 2018 12:13:53 +0100
-Message-ID: <CAJTo0LaqQ61iT=wg8qVn0UUaeLaCB=FZ1g=uc6fgMjtKmFOimg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Misc fixes
+Subject: [PATCH] libgloss_3.0.0.bb: Fix up mv pattern to include libnosys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,57 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2018 11:14:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 10 Sep 2018 12:42:51 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-I never saw these on the list, just the cover letter.
+When installing libgloss libraries handle the ${TARGET_SYS}/lib contents
+so that it is placed in ${libdir} instead of ${libdir}/lib. This
+resolves a packaging QA issue.
 
-So the serf change introduces three patches, two of which are
-backports with nice descriptions but one (0003-gen_def.patch) doesn't
-have a description, upstream-status, or signed-off-by.  Can you add
-those as appropriate?
+  ERROR: libgloss-3.0.0-r0 do_package: QA Issue: libgloss:
+  Files/directories were installed but not shipped in any package:
+    /usr/lib/lib
+    /usr/lib/lib/libnosys.a
+    /usr/lib/lib/nosys.specs
+  Please set FILES such that these items are packaged. Alternatively
+  if they are unneeded, avoid installing them or delete them within
+  do_install.
+  libgloss: 3 installed and not shipped files. [installed-vs-shipped]
 
-Ross
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+ meta/recipes-core/newlib/libgloss_3.0.0.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-On 3 September 2018 at 22:25, Khem Raj <raj.khem@gmail.com> wrote:
-> Some failures seen when host has python3 as python
-> build core-image-sato for riscv64
->
-> The following changes since commit 929b1b341b4b221ac10c8621bad27abfa7ae70bc:
->
->   openssl: Handle -conf package file conflicts (2018-08-31 15:33:56 +0100)
->
-> are available in the Git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib kraj/misc
->   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/misc
->
-> Khem Raj (3):
->   packagegroup-core-x11-sato: Make weak include for gst-examples
->   serf: Fix Sconstruct build with python 3.7
->   eglinfo: Upgrade contained waf version to 2.0.11 release
->
->  meta/recipes-graphics/eglinfo/eglinfo.inc     |   6 +-
->  meta/recipes-graphics/eglinfo/files/waf       | 169 ++++++++++++++++++
->  .../packagegroup-core-x11-sato.bb             |   5 +-
->  ...print-in-the-scons-file-to-unbreak-b.patch |  29 +++
->  ...-Fix-path-quoting-for-.def-generator.patch |  27 +++
->  .../serf/serf/0003-gen_def.patch              |  22 +++
->  ...11083-fix-building-with-scons-3.0.0-.patch |  29 +++
->  meta/recipes-support/serf/serf_1.3.9.bb       |   7 +-
->  8 files changed, 291 insertions(+), 3 deletions(-)
->  create mode 100755 meta/recipes-graphics/eglinfo/files/waf
->  create mode 100644 meta/recipes-support/serf/serf/0001-Fix-syntax-of-a-print-in-the-scons-file-to-unbreak-b.patch
->  create mode 100644 meta/recipes-support/serf/serf/0002-SConstruct-Fix-path-quoting-for-.def-generator.patch
->  create mode 100644 meta/recipes-support/serf/serf/0003-gen_def.patch
->  create mode 100644 meta/recipes-support/serf/serf/0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch
->
-> --
-> 2.18.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-core/newlib/libgloss_3.0.0.bb b/meta/recipes-core/newlib/libgloss_3.0.0.bb
+index 664a922815..727062ca5d 100644
+--- a/meta/recipes-core/newlib/libgloss_3.0.0.bb
++++ b/meta/recipes-core/newlib/libgloss_3.0.0.bb
+@@ -18,9 +18,10 @@ do_install_prepend() {
+ 
+ do_install_append() {
+ 	# Move libs to default directories so they can be picked up later
+-	mv -v ${D}${prefix}/${TARGET_SYS}/lib ${D}${libdir}
++	mv -v ${D}${prefix}/${TARGET_SYS}/lib/* ${D}${libdir}
+ 
+ 	# Remove original directory
++	rmdir ${D}${prefix}/${TARGET_SYS}/lib
+ 	rmdir ${D}${prefix}/${TARGET_SYS}
+ }
+ 
+---
+2.18.0
 
