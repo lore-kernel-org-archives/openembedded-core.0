@@ -1,23 +1,33 @@
-Return-Path: <Changqing.Li@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0337F79709
+	by mail.openembedded.org (Postfix) with ESMTP id 6AB407548B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 02:33:31 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8A2XXRg015878
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 9 Sep 2018 19:33:33 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Sun, 9 Sep 2018 19:33:26 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Sep 2018 10:33:25 +0800
-Message-ID: <1536546805-365650-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 10 Sep 2018 03:45:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8A3jWMn021242
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 9 Sep 2018 20:45:32 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Sun, 9 Sep 2018 20:45:31 -0700
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1535216766.git.kai.kang@windriver.com>
+	<55b7afd2fc5b383ab482f4b004e38cb0797ca29c.1535216766.git.kai.kang@windriver.com>
+	<CA+chaQfurea5vwojwt6fgzNvhUfRDF9HmPf_YFBhgEGhQPO2dA@mail.gmail.com>
+	<4800fed2-8a51-7bb0-b6c6-fa1402289831@windriver.com>
+	<ab609cc5-dd34-bbc1-294f-be6985a30a2a@windriver.com>
+	<CA+chaQfWbCDxvytN8-akLY7B4Ymo7HnGU4s2CL=u4BahZ+bCfw@mail.gmail.com>
+	<CA+chaQdRbdwPWYKZMmWzHwLv4vRd=79dTCrEE4sepvE=5-RRGg@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <9b21eac0-adf3-d0be-d795-11f5671f13f5@windriver.com>
+Date: Mon, 10 Sep 2018 11:44:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Subject: [PATCH] libx11: Upgrade 1.6.5 ->1.6.6
+In-Reply-To: <CA+chaQdRbdwPWYKZMmWzHwLv4vRd=79dTCrEE4sepvE=5-RRGg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] update_font_cache: update script for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,369 +40,477 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2018 02:33:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 10 Sep 2018 03:45:33 -0000
+Content-Type: multipart/alternative;
+	boundary="------------F676326AE1D9DC003B8D7C0A"
+Content-Language: en-US
+
+--------------F676326AE1D9DC003B8D7C0A
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Changqing Li <changqing.li@windriver.com>
+On 2018年09月10日 06:58, Martin Jansa wrote:
+> And it fails in regular image build as well, because of qemu segfault:
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../{libx11-diet_1.6.5.bb => libx11-diet_1.6.6.bb} |   8 +-
- .../{X18NCMSstubs.diff => X18NCMSstubs.patch}      | 159 +++++++++++----------
- .../xorg-lib/libx11/fix-disable-xlocale.diff       |  17 ---
- .../xorg-lib/libx11/fix-disable-xlocale.patch      |  32 +++++
- .../xorg-lib/libx11/fix-utf8-wrong-define.patch    |  29 ++--
- .../xorg-lib/{libx11_1.6.5.bb => libx11_1.6.6.bb}  |   4 +-
- 6 files changed, 145 insertions(+), 104 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libx11-diet_1.6.5.bb => libx11-diet_1.6.6.bb} (56%)
- rename meta/recipes-graphics/xorg-lib/libx11/{X18NCMSstubs.diff => X18NCMSstubs.patch} (83%)
- delete mode 100644 meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.diff
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.patch
- rename meta/recipes-graphics/xorg-lib/{libx11_1.6.5.bb => libx11_1.6.6.bb} (65%)
+What do you mean regulare image here? core-image-minimal, -sato or fails 
+with all of them? I can't reproduce the failure, would you like to paste 
+you local.conf here?
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.5.bb b/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.6.bb
-similarity index 56%
-rename from meta/recipes-graphics/xorg-lib/libx11-diet_1.6.5.bb
-rename to meta/recipes-graphics/xorg-lib/libx11-diet_1.6.6.bb
-index 295f96a2..a4ba4e5 100644
---- a/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.5.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.6.bb
-@@ -3,16 +3,16 @@ require libx11.inc
- DESCRIPTION += " Support for XCMS and XLOCALE is disabled in \
- this version."
- 
--SRC_URI += "file://X18NCMSstubs.diff \
--            file://fix-disable-xlocale.diff \
-+SRC_URI += "file://X18NCMSstubs.patch \
-+            file://fix-disable-xlocale.patch \
-             file://fix-utf8-wrong-define.patch \
-            "
- 
- RPROVIDES_${PN}-dev = "libx11-dev"
- RPROVIDES_${PN}-locale = "libx11-locale"
- 
--SRC_URI[md5sum] = "0f618db70c4054ca67cee0cc156a4255"
--SRC_URI[sha256sum] = "4d3890db2ba225ba8c55ca63c6409c1ebb078a2806de59fb16342768ae63435d"
-+SRC_URI[md5sum] = "6b0f83e851b3b469dd660f3a95ac3e42"
-+SRC_URI[sha256sum] = "65fe181d40ec77f45417710c6a67431814ab252d21c2e85c75dd1ed568af414f"
- 
- EXTRA_OECONF += "--disable-xlocale"
- 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.diff b/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.patch
-similarity index 83%
-rename from meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.diff
-rename to meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.patch
-index 744cedc..4ca2f42 100644
---- a/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.diff
-+++ b/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.patch
-@@ -1,52 +1,49 @@
--Upstream-Status: Pending
-+From 62005ad019d6afb81da100b3113292a16472d241 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Mon, 10 Sep 2018 09:08:27 +0800
-+Subject: [PATCH] Upstream-Status: Inappropriate [configuration]
- 
--Upstream-Status: Inappropriate [configuration]
--Index: libX11-1.3/src/imConv.c
--===================================================================
----- libX11-1.3.orig/src/imConv.c
--+++ libX11-1.3/src/imConv.c
--@@ -83,6 +83,7 @@ static const struct SubstRec SubstTable[
--  * from UCS char to specified charset char.
--  * This converter is needed for _XimGetCharCode subroutine.
--  */
--+#ifdef XLOCALE
-- XPointer
-- _XimGetLocaleCode (
--     _Xconst char*	encoding_name)
--@@ -96,6 +97,7 @@ _XimGetLocaleCode (
--     }
--     return cvt;
-- }
--+#endif
-+Update patch to version 1.6.6
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ src/Makefile.am    |   5 +-
-+ src/X18NCMSstubs.c | 426 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ src/imConv.c       |   5 +-
-+ src/locking.c      |   4 +
-+ 4 files changed, 438 insertions(+), 2 deletions(-)
-+ create mode 100644 src/X18NCMSstubs.c
-+
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index f8c476d..cdbcbbd 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -336,13 +336,16 @@ if THRSTUBS
-+ libX11_la_SOURCES+=UIThrStubs.c
-+ endif
-  
-- /*
--  * Returns the locale dependent representation of a keysym.
--@@ -106,6 +108,7 @@ _XimGetLocaleCode (
--  * terminating NUL byte. Return 0 if the keysym is not representable in the
--  * locale
--  */
--+#ifdef XLOCALE
-- /*ARGSUSED*/
-- int
-- _XimGetCharCode (
--@@ -135,6 +138,7 @@ _XimGetCharCode (
--         buf[count]= '\0';
--     return count;
-- }
--+#endif
-++libX11_la_SOURCES+=X18NCMSstubs.c
-++
-+ x11datadir = @X11_DATADIR@
-+ x11data_DATA = XErrorDB
-  
-- #ifdef XKB
-- static int lookup_string(
--Index: libX11-1.3/src/X18NCMSstubs.c
--===================================================================
-+ EXTRA_DIST = \
-+ 	$(x11data_DATA) \
-+ 	os2Stubs.c \
-+-	UIThrStubs.c 
-++	UIThrStubs.c \
-++	X18NCMSstubs.c
-+ 
-+ libX11_xcb_la_SOURCES = x11_xcb.c Xxcbint.h
-+ libX11_xcb_la_LDFLAGS = -version-number 1:0:0 -no-undefined
-+diff --git a/src/X18NCMSstubs.c b/src/X18NCMSstubs.c
-+new file mode 100644
-+index 0000000..429cb31
- --- /dev/null
--+++ libX11-1.3/src/X18NCMSstubs.c
--@@ -0,0 +1,428 @@
--+/*
--+ * X18NCMSstubs.c
--+ * - Provides stubs and dummy funcs needed when Xcms and XLocale stuff removed
-++++ b/src/X18NCMSstubs.c
-+@@ -0,0 +1,426 @@
-++ /* - Provides stubs and dummy funcs needed when Xcms and XLocale stuff removed
- + *
--+ * Copyright � 2003 Matthew Allum
-++ * Copyright © 2003 Matthew Allum
- + *
- + * Permission to use, copy, modify, distribute, and sell this software and its
- + * documentation for any purpose is hereby granted without fee, provided that
-@@ -470,33 +467,48 @@ Index: libX11-1.3/src/X18NCMSstubs.c
- +}
- +
- +#endif
--Index: libX11-1.3/src/Makefile.am
--===================================================================
----- libX11-1.3.orig/src/Makefile.am
--+++ libX11-1.3/src/Makefile.am
--@@ -335,6 +335,8 @@ if THRSTUBS
-- libX11_la_SOURCES+=UIThrStubs.c
-- endif
-- 
--+libX11_la_SOURCES+=X18NCMSstubs.c
--+
-- x11datadir = @X11_DATADIR@
-- x11data_DATA = XKeysymDB XErrorDB
-- 
--@@ -342,6 +344,7 @@ EXTRA_DIST = \
-- 	$(x11data_DATA) \
-- 	os2Stubs.c \
---	UIThrStubs.c 
--+	UIThrStubs.c \
--+	X18NCMSstubs.c
-- 
-- if XCB
-- libX11_la_SOURCES += \
--Index: libX11-1.3/src/locking.c
--===================================================================
----- libX11-1.3.orig/src/locking.c
--+++ libX11-1.3/src/locking.c
--@@ -66,7 +66,9 @@ in this Software without prior written a
-+diff --git a/src/imConv.c b/src/imConv.c
-+index c3c1974..04ecc81 100644
-+--- a/src/imConv.c
-++++ b/src/imConv.c
-+@@ -80,6 +80,7 @@ static const struct SubstRec SubstTable[] = {
-+  * from UCS char to specified charset char.
-+  * This converter is needed for _XimGetCharCode subroutine.
-+  */
-++#ifdef XLOCALE
-+ XPointer
-+ _XimGetLocaleCode (
-+     _Xconst char*	encoding_name)
-+@@ -93,7 +94,7 @@ _XimGetLocaleCode (
-+     }
-+     return cvt;
-+ }
-+-
-++#endif
-+ /*
-+  * Returns the locale dependent representation of a keysym.
-+  * The locale's encoding is passed in form of pointer to UCS convertor.
-+@@ -105,6 +105,7 @@ _XimGetLocaleCode (
-+  * locale
-+  */
-+ /*ARGSUSED*/
-++#ifdef XLOCALE
-+ int
-+ _XimGetCharCode (
-+     XPointer            ucs_conv,
-+@@ -133,6 +134,7 @@ _XimGetCharCode (
-+         buf[count]= '\0';
-+     return count;
-+ }
-++#endif
-+
-+ #ifdef XKB
-+ static int lookup_string(
-+diff --git a/src/locking.c b/src/locking.c
-+index 9f4fe06..e6967ee 100644
-+--- a/src/locking.c
-++++ b/src/locking.c
-+@@ -65,7 +65,9 @@ in this Software without prior written authorization from The Open Group.
-  #define NUM_FREE_CVLS 4
-  
-  /* in lcWrap.c */
-@@ -506,7 +518,7 @@ Index: libX11-1.3/src/locking.c
-  
-  #ifdef WIN32
-  static DWORD _X_TlsIndex = (DWORD)-1;
--@@ -594,9 +596,11 @@ Status XInitThreads(void)
-+@@ -597,9 +599,11 @@ Status XInitThreads(void)
-      _Xglobal_lock = &global_lock;
-      xmutex_init(_Xglobal_lock->lock);
-      xmutex_set_name(_Xglobal_lock->lock, "Xlib global");
-@@ -518,3 +530,6 @@ Index: libX11-1.3/src/locking.c
-      _XLockMutex_fn = _XLockMutex;
-      _XUnlockMutex_fn = _XUnlockMutex;
-      _XCreateMutex_fn = _XCreateMutex;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.diff b/meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.diff
-deleted file mode 100644
-index a7c3984..0000000
---- a/meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.diff
-+++ /dev/null
-@@ -1,17 +0,0 @@
--Upstream-Status: Pending
--
--Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----- libX11-X11R7.0-1.0.0/src/Font.c.orig	2006-03-12 18:35:42.000000000 +0100
--+++ libX11-X11R7.0-1.0.0/src/Font.c	2006-03-12 18:40:27.000000000 +0100
--@@ -701,7 +701,11 @@
--     }
--     if (l - 2 - (p - charset) < 0)
-- 	return 0;
--+#ifdef XLOCALE
--     if (_XlcNCompareISOLatin1(name + l - 2 - (p - charset), charset, p - charset))
--+#else
--+    if (strncasecmp(name + l - 2 - (p - charset), charset, p - charset))
--+#endif
-- 	return 0;
--     if (strlen(p + 1) + l - 1 >= sizeof(buf) - 1)
-- 	return 0;
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.patch b/meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.patch
-new file mode 100644
-index 0000000..3677fb1
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.patch
-@@ -0,0 +1,32 @@
-+From 5c1693028ef12ab767d7cdbc349c27efa1ada87a Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Mon, 10 Sep 2018 09:13:38 +0800
-+Subject: [PATCH] Upstream-Status: Pending
-+
-+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-+
-+Update patch to version 1.6.6
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ src/Font.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/Font.c b/src/Font.c
-+index a73f9b1..8f4d210 100644
-+--- a/src/Font.c
-++++ b/src/Font.c
-+@@ -675,7 +675,11 @@ int _XF86LoadQueryLocaleFont(
-+     }
-+     if (l - 2 - (p - charset) < 0)
-+ 	return 0;
-++#ifdef XLOCALE
-+     if (_XlcNCompareISOLatin1(name + l - 2 - (p - charset), charset, p - charset))
-++#else
-++    if (strncasecmp(name + l - 2 - (p - charset), charset, p - charset))
-++#endif
-+ 	return 0;
-+     if (strlen(p + 1) + l - 1 >= sizeof(buf) - 1)
-+ 	return 0;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/fix-utf8-wrong-define.patch b/meta/recipes-graphics/xorg-lib/libx11/fix-utf8-wrong-define.patch
-index c6347f5..1a3069a 100644
---- a/meta/recipes-graphics/xorg-lib/libx11/fix-utf8-wrong-define.patch
-+++ b/meta/recipes-graphics/xorg-lib/libx11/fix-utf8-wrong-define.patch
-@@ -1,19 +1,30 @@
--Upstream-Status: Pending
-+From 046703373055c7029c19d171e415ff3caaa87372 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Mon, 10 Sep 2018 09:16:33 +0800
-+Subject: [PATCH] Upstream-Status: Pending
- 
- Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
- 
--#
--# Patch managed by http://www.holgerschurig.de/patcher.html
--#
-+Update patch to version 1.6.6
- 
----- libX11-X11R7.0-1.0.0/include/X11/Xlib.h~fix-utf8-wrong-define
--+++ libX11-X11R7.0-1.0.0/include/X11/Xlib.h
--@@ -103,7 +103,7 @@
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ include/X11/Xlib.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/include/X11/Xlib.h b/include/X11/Xlib.h
-+index 84403f7..56be654 100644
-+--- a/include/X11/Xlib.h
-++++ b/include/X11/Xlib.h
-+@@ -67,7 +67,7 @@ _Xmblen(
-  
-  /* API mentioning "UTF8" or "utf8" is an XFree86 extension, introduced in
-     November 2000. Its presence is indicated through the following macro. */
- -#define X_HAVE_UTF8_STRING 1
- +#undef X_HAVE_UTF8_STRING
-  
-- typedef char *XPointer;
-- 
-+ /* The Xlib structs are full of implicit padding to properly align members.
-+    We can't clean that up without breaking ABI, so tell clang not to bother
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.6.bb
-similarity index 65%
-rename from meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
-rename to meta/recipes-graphics/xorg-lib/libx11_1.6.6.bb
-index 427bf28..0fee1a9 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.6.bb
-@@ -10,5 +10,5 @@ do_configure_append () {
-     sed -i -e "/X11_CFLAGS/d" ${B}/src/util/Makefile
- }
- 
--SRC_URI[md5sum] = "0f618db70c4054ca67cee0cc156a4255"
--SRC_URI[sha256sum] = "4d3890db2ba225ba8c55ca63c6409c1ebb078a2806de59fb16342768ae63435d"
-+SRC_URI[md5sum] = "6b0f83e851b3b469dd660f3a95ac3e42"
-+SRC_URI[sha256sum] = "65fe181d40ec77f45417710c6a67431814ab252d21c2e85c75dd1ed568af414f"
+Regards,
+Kai
+
+>
+> NOTE: > Executing update_gio_module_cache intercept ...
+> NOTE: Exit code 139. Output:
+> + [ True = False ]
+> + qemu-i386 -r 3.2.0 -E 
+> LD_LIBRARY_PATH=WORKDIR/rootfs/usr/lib:WORKDIR/rootfs/lib -L 
+> WORKDIR/rootfs WORKDIR/rootfs/usr/libexec/gio-querymodules 
+> WORKDIR/rootfs/usr/lib/gio/modules/
+> qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+> Segmentation fault
+>
+> ERROR: The postinstall intercept hook 'update_gio_module_cache' 
+> failed, details in WORKDIR/temp/log.do_rootfs
+>
+>
+> On Sun, Sep 9, 2018 at 10:39 PM Martin Jansa <martin.jansa@gmail.com 
+> <mailto:martin.jansa@gmail.com>> wrote:
+>
+>     I'm still able to reproduce the issue in my builds, I'll find out
+>     what's different here.
+>
+>     It fails because of missing nativesdk-qemuwrapper here:
+>
+>     NOTE: Running intercept scripts:
+>     NOTE: > Executing update_gio_module_cache-nativesdk intercept ...
+>     NOTE: Exit code 127. Output:
+>     SDK/intercept_scripts-b9d7b319af0f1ca17a1619924c1df1e231252a4e81ebd84cfd6b676ebe12fb99/update_gio_module_cache-nativesdk:
+>     10:
+>     SDK/intercept_scripts-b9d7b319af0f1ca17a1619924c1df1e231252a4e81ebd84cfd6b676ebe12fb99/update_gio_module_cache-nativesdk:
+>     nativesdk-qemuwrapper: not found
+>
+>     WARNING: The postinstall intercept hook
+>     'update_gio_module_cache-nativesdk' failed, details in
+>     SDK/temp/log.do_populate_sdk
+>
+>
+>     On Thu, Sep 6, 2018 at 5:28 PM Kang Kai <Kai.Kang@windriver.com
+>     <mailto:Kai.Kang@windriver.com>> wrote:
+>
+>         On 2018年09月04日 18:02, Kang Kai wrote:
+>>         On 2018年09月04日 17:44, Martin Jansa wrote:
+>>>         Hi Kai,
+>>>
+>>>         do you have similar fix for update_gio_module_cache
+>>>         intercept? It seems to fail similarly with multilib enabled.
+>>
+>>         The fix is from script update_gio_module_cache, so I thought
+>>         it works and didn't meet the failure. I'll check it.
+>         Hi Martin,
+>
+>         It has been done by
+>         http://git.openembedded.org/openembedded-core/commit/?id=1f53140528d79c38d4f3a82cd0a03bd0ddc87275
+>         Add lib23-gconf to image which inherits gio-module-cache, then
+>         build image successfully.
+>
+>         Regards,
+>         Kai
+>
+>
+>>
+>>         Thanks,
+>>         Kai
+>>
+>>>
+>>>         Regards,
+>>>
+>>>         On Sat, Aug 25, 2018 at 7:14 PM Kai Kang
+>>>         <kai.kang@windriver.com <mailto:kai.kang@windriver.com>> wrote:
+>>>
+>>>             Packages which inherit fontcache.bbclass call
+>>>             postinstall script
+>>>             update_font_cache. And in update_font_cache, it calls
+>>>             ${bindir}/fc-cache
+>>>             by qemuwrapper. When multilib is enabled, both packages
+>>>             foo and lib32-foo
+>>>             will call ${bindir}/fc-cache and one of them will fail
+>>>             to run obviously.
+>>>
+>>>             Duplicate install file fc-cache to ${libexecdir} with
+>>>             ${MLPREFIX} and
+>>>             call proper fc-cache in update_font_cache.
+>>>
+>>>             Signed-off-by: Kai Kang <kai.kang@windriver.com
+>>>             <mailto:kai.kang@windriver.com>>
+>>>             ---
+>>>              meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>>>             <http://fontconfig_2.12.6.bb> | 8 +++++++-
+>>>              scripts/postinst-intercepts/update_font_cache        | 2 +-
+>>>              2 files changed, 8 insertions(+), 2 deletions(-)
+>>>
+>>>             diff --git
+>>>             a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>>>             <http://fontconfig_2.12.6.bb>
+>>>             b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>>>             <http://fontconfig_2.12.6.bb>
+>>>             index d4cbce80b45..db36c867741 100644
+>>>             ---
+>>>             a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>>>             <http://fontconfig_2.12.6.bb>
+>>>             +++
+>>>             b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>>>             <http://fontconfig_2.12.6.bb>
+>>>             @@ -35,9 +35,15 @@ do_configure_prepend() {
+>>>                  rm -f ${S}/src/fcobjshash.h ${S}/src/fcobjshash.gperf
+>>>              }
+>>>
+>>>             +do_install_append_class-target() {
+>>>             +    # duplicate fc-cache for postinstall script
+>>>             +    mkdir -p ${D}${libexecdir}
+>>>             +    cp ${D}${bindir}/fc-cache
+>>>             ${D}${libexecdir}/${MLPREFIX}fc-cache
+>>>             +}
+>>>             +
+>>>              PACKAGES =+ "fontconfig-utils"
+>>>              FILES_${PN} =+ "${datadir}/xml/*"
+>>>             -FILES_fontconfig-utils = "${bindir}/*"
+>>>             +FILES_fontconfig-utils = "${bindir}/* ${libexecdir}/*"
+>>>
+>>>              # Work around past breakage in debian.bbclass
+>>>              RPROVIDES_fontconfig-utils = "libfontconfig-utils"
+>>>             diff --git
+>>>             a/scripts/postinst-intercepts/update_font_cache
+>>>             b/scripts/postinst-intercepts/update_font_cache
+>>>             index 20e9048adfc..e0ec471964c 100644
+>>>             --- a/scripts/postinst-intercepts/update_font_cache
+>>>             +++ b/scripts/postinst-intercepts/update_font_cache
+>>>             @@ -2,5 +2,5 @@
+>>>
+>>>              set -e
+>>>
+>>>             -PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D -E
+>>>             ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D
+>>>             --system-only ${fontconfigcacheparams}
+>>>             +PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D -E
+>>>             ${fontconfigcacheenv}
+>>>             $D${libexecdir}/${binprefix}fc-cache --sysroot=$D
+>>>             --system-only ${fontconfigcacheparams}
+>>>              chown -R root:root $D${fontconfigcachedir}
+>>>             -- 
+>>>             2.11.0
+>>>
+>>>             -- 
+>>>             _______________________________________________
+>>>             Openembedded-core mailing list
+>>>             Openembedded-core@lists.openembedded.org
+>>>             <mailto:Openembedded-core@lists.openembedded.org>
+>>>             http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>
+>>         -- 
+>>         Regards,
+>>         Neil | Kai Kang
+>
+>
+>         -- 
+>         Regards,
+>         Neil | Kai Kang
+>
+
 -- 
-2.7.4
+Regards,
+Neil | Kai Kang
 
 
+--------------F676326AE1D9DC003B8D7C0A
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2018年09月10日 06:58, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CA+chaQdRbdwPWYKZMmWzHwLv4vRd=79dTCrEE4sepvE=5-RRGg@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div dir="ltr">
+          <div>And it fails in regular image build as well, because of
+            qemu segfault:</div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    What do you mean regulare image here? core-image-minimal, -sato or
+    fails with all of them? I can't reproduce the failure, would you
+    like to paste you local.conf here? <br>
+    <br>
+    Regards,<br>
+    Kai<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CA+chaQdRbdwPWYKZMmWzHwLv4vRd=79dTCrEE4sepvE=5-RRGg@mail.gmail.com">
+      <div dir="ltr">
+        <div dir="ltr">
+          <div><br>
+          </div>
+          <div>NOTE: &gt; Executing update_gio_module_cache intercept
+            ...</div>
+          <div>NOTE: Exit code 139. Output:</div>
+          <div>+ [ True = False ]</div>
+          <div>+ qemu-i386 -r 3.2.0 -E
+            LD_LIBRARY_PATH=WORKDIR/rootfs/usr/lib:WORKDIR/rootfs/lib -L
+            WORKDIR/rootfs WORKDIR/rootfs/usr/libexec/gio-querymodules
+            WORKDIR/rootfs/usr/lib/gio/modules/</div>
+          <div>qemu: uncaught target signal 11 (Segmentation fault) -
+            core dumped</div>
+          <div>Segmentation fault</div>
+          <div><br>
+          </div>
+          <div>ERROR: The postinstall intercept hook
+            'update_gio_module_cache' failed, details in
+            WORKDIR/temp/log.do_rootfs</div>
+          <div><br>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="gmail_quote">
+        <div dir="ltr">On Sun, Sep 9, 2018 at 10:39 PM Martin Jansa &lt;<a
+            href="mailto:martin.jansa@gmail.com" moz-do-not-send="true">martin.jansa@gmail.com</a>&gt;
+          wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0 0 0
+          .8ex;border-left:1px #ccc solid;padding-left:1ex">
+          <div dir="ltr">
+            <div dir="ltr">I'm still able to reproduce the issue in my
+              builds, I'll find out what's different here.
+              <div><br>
+              </div>
+              <div>It fails because of missing nativesdk-qemuwrapper
+                here:</div>
+              <div><br>
+              </div>
+              <div>
+                <div>NOTE: Running intercept scripts:</div>
+                <div>NOTE: &gt; Executing
+                  update_gio_module_cache-nativesdk intercept ...</div>
+                <div>NOTE: Exit code 127. Output:</div>
+                <div>SDK/intercept_scripts-b9d7b319af0f1ca17a1619924c1df1e231252a4e81ebd84cfd6b676ebe12fb99/update_gio_module_cache-nativesdk:
+                  10:
+SDK/intercept_scripts-b9d7b319af0f1ca17a1619924c1df1e231252a4e81ebd84cfd6b676ebe12fb99/update_gio_module_cache-nativesdk:
+                  nativesdk-qemuwrapper: not found</div>
+                <div><br>
+                </div>
+                <div>WARNING: The postinstall intercept hook
+                  'update_gio_module_cache-nativesdk' failed, details in
+                  SDK/temp/log.do_populate_sdk</div>
+              </div>
+              <div><br>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="gmail_quote">
+            <div dir="ltr">On Thu, Sep 6, 2018 at 5:28 PM Kang Kai &lt;<a
+                href="mailto:Kai.Kang@windriver.com" target="_blank"
+                moz-do-not-send="true">Kai.Kang@windriver.com</a>&gt;
+              wrote:<br>
+            </div>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div text="#000000" bgcolor="#FFFFFF">
+                <div
+                  class="m_-2700466882960693652m_7851569581499868850moz-cite-prefix">On
+                  2018年09月04日 18:02, Kang Kai wrote:<br>
+                </div>
+                <blockquote type="cite">
+                  <div
+                    class="m_-2700466882960693652m_7851569581499868850moz-cite-prefix">On
+                    2018年09月04日 17:44, Martin Jansa wrote:<br>
+                  </div>
+                  <blockquote type="cite">
+                    <div dir="ltr">
+                      <div dir="ltr">Hi Kai,
+                        <div><br>
+                        </div>
+                        <div>do you have similar fix
+                          for update_gio_module_cache intercept? It
+                          seems to fail similarly with multilib enabled.</div>
+                      </div>
+                    </div>
+                  </blockquote>
+                  <br>
+                  The fix is from script update_gio_module_cache, so I
+                  thought it works and didn't meet the failure. I'll
+                  check it.<br>
+                </blockquote>
+                Hi Martin,<br>
+                <br>
+                It has been done by
+                <a
+                  class="m_-2700466882960693652m_7851569581499868850moz-txt-link-freetext"
+href="http://git.openembedded.org/openembedded-core/commit/?id=1f53140528d79c38d4f3a82cd0a03bd0ddc87275"
+                  target="_blank" moz-do-not-send="true">http://git.openembedded.org/openembedded-core/commit/?id=1f53140528d79c38d4f3a82cd0a03bd0ddc87275</a><br>
+                Add lib23-gconf to image which inherits
+                gio-module-cache, then build image successfully.<br>
+                <br>
+                Regards,<br>
+                Kai<br>
+                <br>
+                <br>
+                <blockquote type="cite"> <br>
+                  Thanks,<br>
+                  Kai<br>
+                  <br>
+                  <blockquote type="cite">
+                    <div dir="ltr">
+                      <div dir="ltr">
+                        <div><br>
+                        </div>
+                        <div>Regards,</div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="gmail_quote">
+                      <div dir="ltr">On Sat, Aug 25, 2018 at 7:14 PM Kai
+                        Kang &lt;<a href="mailto:kai.kang@windriver.com"
+                          target="_blank" moz-do-not-send="true">kai.kang@windriver.com</a>&gt;
+                        wrote:<br>
+                      </div>
+                      <blockquote class="gmail_quote" style="margin:0 0
+                        0 .8ex;border-left:1px #ccc
+                        solid;padding-left:1ex">Packages which inherit
+                        fontcache.bbclass call postinstall script<br>
+                        update_font_cache. And in update_font_cache, it
+                        calls ${bindir}/fc-cache<br>
+                        by qemuwrapper. When multilib is enabled, both
+                        packages foo and lib32-foo<br>
+                        will call ${bindir}/fc-cache and one of them
+                        will fail to run obviously.<br>
+                        <br>
+                        Duplicate install file fc-cache to ${libexecdir}
+                        with ${MLPREFIX} and<br>
+                        call proper fc-cache in update_font_cache.<br>
+                        <br>
+                        Signed-off-by: Kai Kang &lt;<a
+                          href="mailto:kai.kang@windriver.com"
+                          target="_blank" moz-do-not-send="true">kai.kang@windriver.com</a>&gt;<br>
+                        ---<br>
+                         meta/recipes-graphics/fontconfig/<a
+                          href="http://fontconfig_2.12.6.bb"
+                          rel="noreferrer" target="_blank"
+                          moz-do-not-send="true">fontconfig_2.12.6.bb</a>
+                        | 8 +++++++-<br>
+                         scripts/postinst-intercepts/update_font_cache 
+                               | 2 +-<br>
+                         2 files changed, 8 insertions(+), 2
+                        deletions(-)<br>
+                        <br>
+                        diff --git a/meta/recipes-graphics/fontconfig/<a
+                          href="http://fontconfig_2.12.6.bb"
+                          rel="noreferrer" target="_blank"
+                          moz-do-not-send="true">fontconfig_2.12.6.bb</a>
+                        b/meta/recipes-graphics/fontconfig/<a
+                          href="http://fontconfig_2.12.6.bb"
+                          rel="noreferrer" target="_blank"
+                          moz-do-not-send="true">fontconfig_2.12.6.bb</a><br>
+                        index d4cbce80b45..db36c867741 100644<br>
+                        --- a/meta/recipes-graphics/fontconfig/<a
+                          href="http://fontconfig_2.12.6.bb"
+                          rel="noreferrer" target="_blank"
+                          moz-do-not-send="true">fontconfig_2.12.6.bb</a><br>
+                        +++ b/meta/recipes-graphics/fontconfig/<a
+                          href="http://fontconfig_2.12.6.bb"
+                          rel="noreferrer" target="_blank"
+                          moz-do-not-send="true">fontconfig_2.12.6.bb</a><br>
+                        @@ -35,9 +35,15 @@ do_configure_prepend() {<br>
+                             rm -f ${S}/src/fcobjshash.h
+                        ${S}/src/fcobjshash.gperf<br>
+                         }<br>
+                        <br>
+                        +do_install_append_class-target() {<br>
+                        +    # duplicate fc-cache for postinstall script<br>
+                        +    mkdir -p ${D}${libexecdir}<br>
+                        +    cp ${D}${bindir}/fc-cache
+                        ${D}${libexecdir}/${MLPREFIX}fc-cache<br>
+                        +}<br>
+                        +<br>
+                         PACKAGES =+ "fontconfig-utils"<br>
+                         FILES_${PN} =+ "${datadir}/xml/*"<br>
+                        -FILES_fontconfig-utils = "${bindir}/*"<br>
+                        +FILES_fontconfig-utils = "${bindir}/*
+                        ${libexecdir}/*"<br>
+                        <br>
+                         # Work around past breakage in debian.bbclass<br>
+                         RPROVIDES_fontconfig-utils =
+                        "libfontconfig-utils"<br>
+                        diff --git
+                        a/scripts/postinst-intercepts/update_font_cache
+                        b/scripts/postinst-intercepts/update_font_cache<br>
+                        index 20e9048adfc..e0ec471964c 100644<br>
+                        ---
+                        a/scripts/postinst-intercepts/update_font_cache<br>
+                        +++
+                        b/scripts/postinst-intercepts/update_font_cache<br>
+                        @@ -2,5 +2,5 @@<br>
+                        <br>
+                         set -e<br>
+                        <br>
+                        -PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D
+                        -E ${fontconfigcacheenv} $D${bindir}/fc-cache
+                        --sysroot=$D --system-only
+                        ${fontconfigcacheparams}<br>
+                        +PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D
+                        -E ${fontconfigcacheenv}
+                        $D${libexecdir}/${binprefix}fc-cache
+                        --sysroot=$D --system-only
+                        ${fontconfigcacheparams}<br>
+                         chown -R root:root $D${fontconfigcachedir}<br>
+                        -- <br>
+                        2.11.0<br>
+                        <br>
+                        -- <br>
+                        _______________________________________________<br>
+                        Openembedded-core mailing list<br>
+                        <a
+                          href="mailto:Openembedded-core@lists.openembedded.org"
+                          target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
+                        <a
+                          href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                          rel="noreferrer" target="_blank"
+                          moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+                      </blockquote>
+                    </div>
+                  </blockquote>
+                  <p><br>
+                  </p>
+                  <pre class="m_-2700466882960693652m_7851569581499868850moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+                </blockquote>
+                <p><br>
+                </p>
+                <pre class="m_-2700466882960693652m_7851569581499868850moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+              </div>
+            </blockquote>
+          </div>
+        </blockquote>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------F676326AE1D9DC003B8D7C0A--
