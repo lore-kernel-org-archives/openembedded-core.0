@@ -1,26 +1,51 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A716797FE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 66160797A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 09:58:07 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8A9vgWX010625
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 10 Sep 2018 10:25:02 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id b15-v6so39044797oib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 02:57:58 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 10 Sep 2018 02:57:53 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Sep 2018 18:02:21 +0800
-Message-ID: <d5a1d1701202d4323e15cb31c7f9a3afca88a00f.1536573689.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1536573689.git.Qi.Chen@windriver.com>
-References: <cover.1536573689.git.Qi.Chen@windriver.com>
+	Mon, 10 Sep 2018 03:25:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Mohp1pcGgGqznIknfceBZH+ZPgI6kyzz5/rkv/JszL4=;
+	b=a8W70PGPJ+9Y+MZizCFRuGQY+bUEI1CCibuLFlwL938S/ZnovFRZ/ouLuSG/YTeBqX
+	BqsYSSgKg4Zr0hal1ilRyuAoAjmiX+DBCf/82bNVWiRyGaU/mpPj6nQMvm4VdHYGiIyL
+	rHLvgYwtz2UZRZvzcRHm9665m3jm58t/L5qLJkm/Nx70gaITK3CBTAsHDzCB+8KuysUh
+	/rTBBEkGs2A9SJfgSIE4zfsNIL3NFgFkQD8IIXEL9NX2T6uLQNp5wn7tWBnDk4Ta5bKO
+	wf3O7szWTFqYGv4I4e5DIs4RV/yqqvR/R5SzeGn7aqh6lBBJ76o8CMUV5y1BIPmub2qv
+	4SDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Mohp1pcGgGqznIknfceBZH+ZPgI6kyzz5/rkv/JszL4=;
+	b=YJDkTHj2F3V2e6dV5ZTB0HyJxNMUErSN00sYV0/zKFBlmahUPeGDJIpHAAEhVlc2UE
+	CQSAo7RvhabvkwhZ9UfvCXhILJac4+gwXs383eTvmrC6CMAc3tO9nYSxw9M1aU3eIArh
+	sSBOJPyLqegtPuC2zwv6rWGTJUwLgD9bB/22zZ6Wv6mj0OZuSmI7ezeybtvyL4knSpkM
+	+S5jdrPvHGrp95w41k1AlVK5IWAS7qqSuUKXhL7k6b+Mdn33QCnt/saVaITAJjiu1Rg8
+	2uircsTcrlI2h6lkRe/8heiIxKm4De/NfzDvyLh5Wr7D0N1sjwHLNlv8nSi75ouBb01P
+	/nAg==
+X-Gm-Message-State: APzg51CfybryPmELg1VJGYqrogNCtPZ7saXfKADbbwop0TLh55gSKfZj
+	Cm87LgB4zxA/3johK2xwfiBXGcnXCa1FFJ/k65jZ0xcK
+X-Google-Smtp-Source: ANB0VdZKIsO275298nOBUQckU8n2orW6WCj61jxXl0OEzXbrjS0CGZAYzkv41AAGOkpwp+GYvErYB8TKqAaf81b/qRM=
+X-Received: by 2002:aca:55cd:: with SMTP id
+	j196-v6mr284459oib.202.1536575103396; 
+	Mon, 10 Sep 2018 03:25:03 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] autotools: do more cleanup when in do_configure
+Received: by 2002:ac9:7ac:0:0:0:0:0 with HTTP;
+	Mon, 10 Sep 2018 03:24:42 -0700 (PDT)
+In-Reply-To: <d5a1d1701202d4323e15cb31c7f9a3afca88a00f.1536573689.git.Qi.Chen@windriver.com>
+References: <cover.1536573689.git.Qi.Chen@windriver.com>
+	<d5a1d1701202d4323e15cb31c7f9a3afca88a00f.1536573689.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 10 Sep 2018 11:24:42 +0100
+Message-ID: <CAJTo0LZiPj8qNgTVUkvno50LhizJ57VKGCnnQqiTuJUyGNmNRA@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] autotools: do more cleanup when in do_configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2018 09:58:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 10 Sep 2018 10:25:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-I met the following error when compiling some projects.
+On 10 September 2018 at 11:02, Chen Qi <Qi.Chen@windriver.com> wrote:
+> I met the following error when compiling some projects.
+>
+> | configure: error: `LDFLAGS' has changed since the previous run:
+> | configure:   former value:  `-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed'
+> | configure:   current value: `-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now'
+> [snip]
+> | configure: error: changes in the environment can compromise the build
+> | configure: error: run `make distclean' and/or `rm .././config.cache' and start over
+>
+> I think when some recipe inherits autotools-brokensep, it should try to
+> do more cleanups before configure. So also do 'make distclean' and remove
+> config.cache just as what the error message told us.
 
-| configure: error: `LDFLAGS' has changed since the previous run:
-| configure:   former value:  `-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed'
-| configure:   current value: `-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now'
-[snip]
-| configure: error: changes in the environment can compromise the build
-| configure: error: run `make distclean' and/or `rm .././config.cache' and start over
+Does just removing config.cache work for your problem?  I'm concerned
+about running a distclean because some upstreams abuse that target and
+then can't rebuild.
 
-I think when some recipe inherits autotools-brokensep, it should try to
-do more cleanups before configure. So also do 'make distclean' and remove
-config.cache just as what the error message told us.
+Also obviously the proper fix is to not use autotools-brokensep in the
+recipe in the first place.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/autotools.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 8768a6a..f577461 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -113,6 +113,8 @@ autotools_preconfigure() {
- 				cd ${S}
- 				if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile -o -e makefile -o -e GNUmakefile \) ]; then
- 					oe_runmake clean
-+					oe_runmake distclean
-+					rm -f ${B}/config.cache
- 				fi
- 				find ${S} -ignore_readdir_race -name \*.la -delete
- 			fi
--- 
-1.9.1
-
+Ross
 
