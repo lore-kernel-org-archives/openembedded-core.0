@@ -1,42 +1,49 @@
-Return-Path: <mhm.dawod@gmail.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B51FF79660;
-	Tue, 11 Sep 2018 15:58:19 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id t5-v6so28783578qtn.3;
-	Tue, 11 Sep 2018 08:58:21 -0700 (PDT)
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D5CC17965B
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Sep 2018 16:45:48 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id t25-v6so1709323wmi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Sep 2018 09:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=eJQenhguI8d+BODUVA9hBwZPNBJ7vd+vWKcPyuZ21T4=;
-	b=qMhOCpUqv7Ii+GBLS7dtP+PzprDy2BbYYQ49OFDjaHIshoqAweMtmVu0UuKUYN+NYU
-	Vu1EEvvaEXGxzMrZoVPaVWldISb49g6P58nXlwYfGV8dez9xqxUPO7QTBkEk0lQGSCBM
-	HeQdK9RHtSmkGseVCHSdwrWtC8SOe/AyqL22OKHWP4T/wjd0d54yLlIFGw7LHAZ/HBxC
-	hYOpT+YJxsWmFOKBz8Xcm4WUIAoWE/4udijie5isan8ON8W6gP8lpc9kNJiGZoNqRNCv
-	idq0Zd12azumhUkav6wDGMohGtGCi5qwUdBXJY50dSOiiWtu/22UvKcFPc8c8D4zp7fq
-	E5KA==
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=ammzvHcbp2eEA40n562FvyPbjFrMGnFcRyUODfxk9dY=;
+	b=AgH1NIxsoci2/OVFH89eku/5o8ySZWr5nO986eI6aPksKc+W6X3Ft+vKCAj1O2sidC
+	BBFlr6UxvR2uWSveNjS7YVgiROgUIY1iVFqB6PvZ5IWZ0GkqtGJVRtRAswTsU705TEZX
+	dYmgIY4EWcLsRVl/wshIOkLPey9nL0LFQGhqQOt+ePYzQIuxDEW3KFWrnBkujFEkDPzk
+	QdBSi1k9ULK4DOF3Nc/w89wl3AFjtbdcKUdzzpse1cx5ScMUc2TUapl02DOZdYxn6mSC
+	BJAQKv5Hdm/psf09qpkkD89KPX2wwN/Lup5bUVnVaOQDHCvB0XXHipTo2JnT+9DbetEs
+	gZFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=eJQenhguI8d+BODUVA9hBwZPNBJ7vd+vWKcPyuZ21T4=;
-	b=lWmBGsbRwrgvxhmlNiK642qBU8PmScHw1ZgIGTYmmEsElvou+bgvUbkJDFUJbx8i5d
-	rEomYjgr+wzLBJhqai7gfV/JIeSOJDunIRTFrz3DWW5KjzNHrGNB3/roM6NilF1iU0Qr
-	iZJXOvv0nTAgwYTfbnvLZmV0pIAE0KGuF36u9WP33HHCy6tZarNcblZ3dWDUjc9NRkpT
-	Ybtb62arTjOWwSpw0NlHSFekgkmufItRuilY3o/9rtMUuWUVPcMporo2ESkd+C+OBfQ6
-	9qyKA8rzATun2ELR62zGok1tLPanw1/Roav6C4mY4Jl1XQLoi+QkA/KNLU4Y/9mBznL5
-	C66Q==
-X-Gm-Message-State: APzg51AsuEvkA90hiQOaV27X5HclNXpGvsAiwQY44o1LBD5GwY2xCgrJ
-	qn0oc9ZFAPBd7UIklhJSPASH9ytX1uWpA7m8i6IZwA==
-X-Google-Smtp-Source: ANB0VdaA3W7Q90L15FBGPHaz7NwKtWhlw426SPZG/r1almoOrSqETUE8xfAqGrVVb7xBKb97yFMgMSKLAGdpoURhJ/A=
-X-Received: by 2002:ac8:32ea:: with SMTP id
-	a39-v6mr20894658qtb.234.1536681500181; 
-	Tue, 11 Sep 2018 08:58:20 -0700 (PDT)
-MIME-Version: 1.0
-From: Mohamed Dawod <mhm.dawod@gmail.com>
-Date: Tue, 11 Sep 2018 17:58:06 +0200
-Message-ID: <CAGCTLNSFu5uE2K0c0JiarGyBJ1somNjsx_jZ2mf7+8NozCMfrQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org, 
-	openembedded-devel@lists.openembedded.org
-Subject: [openembedded][wayland][weston]
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=ammzvHcbp2eEA40n562FvyPbjFrMGnFcRyUODfxk9dY=;
+	b=O1TAVhTaW4qu5wXWVfa5au+Mgx2eLPo8QhhH5D6pyZQbOTBmRxm21tvlyvkWXPtqtq
+	S4efZU48AcvLBnoVvy+PaBnU2GqDKN+yFiEE6sX5oPWGNOVIETieIpJLciPP87fn6YfB
+	yvN6h4Xpr7yF1d8ePANc1uIb/WN8DoIgOYKnExiruf3x18W3y4kZSuVkOGWKAkk6vrnt
+	n3qXryRBNet1oGOwmI4ZGL7H8YksAd7zwLukfLeBvqQpsWHTUia4euFaqmq/sKgBVo5K
+	ucIvRzqTHBLCDDOl9o/4t2cdfDiYTLdyVkvAvA6IMHHfK1jRbAZtZteDBpSeKVpymDWK
+	YxwQ==
+X-Gm-Message-State: APzg51CSY5RiyNMqtuquqOcMIIJwPSyGdDbr8zkLHH8zUuqntZesIkpB
+	q/XWyaH3sk8pGotyEMZtI4lD6Fo9
+X-Google-Smtp-Source: ANB0VdYspqTNGrwGZJddEw5K5tM1D1mA/YrkED9ocvngY7eu9HjsEP1kTWvDWdkFUMRjDre8cE4/Bw==
+X-Received: by 2002:a1c:4007:: with SMTP id
+	n7-v6mr2014045wma.108.1536684349301; 
+	Tue, 11 Sep 2018 09:45:49 -0700 (PDT)
+Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
+	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
+	94-v6sm24930674wrc.10.2018.09.11.09.45.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Sep 2018 09:45:48 -0700 (PDT)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: Jens Rehsack <sno@netbsd.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Sep 2018 18:45:30 +0200
+Message-Id: <20180911164530.28493-1-sno@netbsd.org>
+X-Mailer: git-send-email 2.17.1
+Cc: Jens Rehsack <sno@netbsd.org>, Igor Kreps <igork@miltenyibiotec.de>
+Subject: [PATCH] coreutils: add alternative target for nice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,44 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2018 15:58:20 -0000
-Content-Type: multipart/alternative; boundary="000000000000f388c605759a8af7"
+X-List-Received-Date: Tue, 11 Sep 2018 16:45:49 -0000
 
---000000000000f388c605759a8af7
-Content-Type: text/plain; charset="UTF-8"
+Avoid coreutils conflicts with nice from other recipes, like
+busybox - even if that's not enabled by default.
+In situations, where coreutils is a dependency for -dev images
+and small busybox nice is available always, it avoids extra
+effort for coreutils for those users.
 
-Hi,
-I need to change the screen resolution of weston in my new custom image.
-I used weston.ini file and installed it to the image in the path
-"/etc/xdg/weston"
-and i also installed the file to this path "/home/root/.config"
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
+---
+ meta/recipes-core/coreutils/coreutils_8.30.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-This way worked well with Jethro release of openembedded
-but with sumo release it didn't work at all !!!
-
-Thanks in advance,
+diff --git a/meta/recipes-core/coreutils/coreutils_8.30.bb b/meta/recipes-core/coreutils/coreutils_8.30.bb
+index 053891f6ea..83bc20f298 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.30.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.30.bb
+@@ -77,7 +77,7 @@ do_install_class-native() {
+ }
+ 
+ do_install_append() {
+-	for i in df mktemp base64; do mv ${D}${bindir}/$i ${D}${bindir}/$i.${BPN}; done
++	for i in df mktemp nice base64; do mv ${D}${bindir}/$i ${D}${bindir}/$i.${BPN}; done
+ 
+ 	install -d ${D}${base_bindir}
+ 	[ "${base_bindir}" != "${bindir}" ] && for i in ${base_bindir_progs}; do mv ${D}${bindir}/$i ${D}${base_bindir}/$i.${BPN}; done
+@@ -113,6 +113,10 @@ ALTERNATIVE_LINK_NAME[df] = "${base_bindir}/df"
+ ALTERNATIVE_TARGET[df] = "${bindir}/df.${BPN}"
+ ALTERNATIVE_LINK_NAME[df.1] = "${mandir}/man1/df.1"
+ 
++ALTERNATIVE_LINK_NAME[nice] = "${base_bindir}/nice"
++ALTERNATIVE_TARGET[nice] = "${bindir}/nice.${BPN}"
++ALTERNATIVE_LINK_NAME[df.1] = "${mandir}/man1/nice.1"
++
+ ALTERNATIVE_LINK_NAME[lbracket] = "${bindir}/["
+ ALTERNATIVE_TARGET[lbracket] = "${bindir}/lbracket.${BPN}"
+ 
 -- 
+2.17.1
 
-Mohamed Dawod
-Computer Engineering Department
-Faculty of Engineering
-Cairo University
 
---000000000000f388c605759a8af7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,</div><div>I need to change the screen resolution =
-of weston in my new custom image.</div><div>I used weston.ini file and inst=
-alled it to the image in the path &quot;/etc/xdg/weston&quot;</div><div>and=
- i also installed the file to this path &quot;/home/root/.config&quot;<br><=
-/div><div><br></div><div>This way worked well with Jethro release of openem=
-bedded</div><div>but with sumo release it didn&#39;t work at all !!!</div><=
-div><br></div><div>Thanks in advance,<br></div><div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"l=
-tr"><div>=C2=A0<br>Mohamed Dawod<br></div><div>
-Computer Engineering Department=C2=A0<br>
-Faculty of Engineering=C2=A0<br>
-Cairo University</div></div></div></div></div>
-
---000000000000f388c605759a8af7--
