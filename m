@@ -1,48 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
-	[209.85.210.177])
-	by mail.openembedded.org (Postfix) with ESMTP id BC1D27964B
+Return-Path: <stefan@agner.ch>
+X-Greylist: delayed 315 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 11 Sep 2018 22:55:08 UTC
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 79B0178DFE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 19:18:41 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id b11-v6so12714026pfo.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 12:18:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ULqmwCBHzT3+zrGLf0S0e2Eq9EFq+tY7lvBT/4BG5NQ=;
-	b=KXneij1fi4yXGn9UVwbs6ip10W+OPlaM78cAc/pJa3B03uRWlHzBFfehtuS5/D/kem
-	nX0Zsdy77XRF2OJ7s5kEEeqOKpwa4+oV4CrQfPvTcF4g5KnE9Gfd9owY1Kk9JrtquCoz
-	ArJb+Hq2S/YI5PHnv423JU6YKTSKv1is0lD337n370bDeaXezykKsNTx+7p8SAz0fxjf
-	7Y2iwE+wT59Dgq1emZWkM8mtqd483JYe6gB5et47/yJHq5T5pYNCgULFJsq84Kr/sZTP
-	dvZiKJk77uUyQeq1EAfFEaxSylcZ4jTm0dUxw8u63zZsqIKg77nwySUtLgLDKkwPdMbW
-	drYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ULqmwCBHzT3+zrGLf0S0e2Eq9EFq+tY7lvBT/4BG5NQ=;
-	b=WqqRO+/J3KHBjjl4j5GD+DF7yI9nOcB5YUOZ7r+a03mLZIzmFP1pDPjQObml+TFXmw
-	1jNKEBHtDSXVR33guUq0Bjeya4OXLLxOdBx5l6RYZCbzafK/s8ENhP2nvPdaRCFRiwpt
-	xdUJ31GkVxHvGHASdSkeRXQQtg8UqEUlrKU+PDOPGarcXury0db0g6rtUew5C8NdEdLW
-	MicSF5MwAgId/epwksQWaVvnFuAhcBR9G34T6fhs9Gzf54Yi0u4pSmteGhNNGAWbSJjL
-	s6M0Iuv5SaPUjwFjDM9wBbZ9tJxa0DkKpqFBhT7NsFQPxXznn7NWLg6vtOeySbjdmtys
-	V97Q==
-X-Gm-Message-State: APzg51Ck+Q75Z99yZh8gXmHHx+tABucc2O0MXyzpn3pZr1OPN1cm8/2O
-	p3xPYLwWndPC4va7ubay/XZVtNEf
-X-Google-Smtp-Source: ANB0VdbaSGtj78bIC/5fy7BswSidQrvGKa2pMK9Msv4HCUsXEPQdJ3t/+YheXvAiChSecDopIPjxkQ==
-X-Received: by 2002:a63:6501:: with SMTP id
-	z1-v6mr29927167pgb.419.1536693522257; 
-	Tue, 11 Sep 2018 12:18:42 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::2887])
-	by smtp.gmail.com with ESMTPSA id
-	a20-v6sm54026189pfc.14.2018.09.11.12.18.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Sep 2018 12:18:41 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Tue, 11 Sep 2018 22:55:08 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 95EAA5C1877;
+	Wed, 12 Sep 2018 00:49:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1536706193;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:in-reply-to:
+	references; bh=xLgn5QtLFLxrtvtjM1G8Xi6lNHDunJ4OVMPLvxCW8Sc=;
+	b=e8r8eVv8ki9UipLSaESnRzNSUmhEPj23HTSbEs0c172XedyNEfKwZblqVLF4t+nOsIQbiE
+	Gz75n4JUmkK2A9cVHBJ5mM1qgD9S5cF8dR4kQ4OMuyuRhb3VhSiWXdl3qoGMv2zWK6xqmf
+	CK1DYbIoVCzs4+XYp62X5N4toljGkTo=
+MIME-Version: 1.0
+Date: Tue, 11 Sep 2018 15:49:53 -0700
+From: Stefan Agner <stefan@agner.ch>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2018 12:18:33 -0700
-Message-Id: <20180911191833.7675-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-Subject: [PATCH V2] socat: Cache shift value for CRDLY, TABDLY and CSIZE
+Message-ID: <ae881b799c12d2514345825d8fa5297f@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.4
+Cc: Brandon Shibley <brandon.shibley@toradex.com>, samuel.bissig@toradex.com,
+	ricardo@foundries.io
+Subject: Build failure with parallel build and opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +39,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2018 19:18:41 -0000
+X-List-Received-Date: Tue, 11 Sep 2018 22:55:09 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Match it to definitions in
-arch/<ARCH>/include/uapi/asm/termbits.h
+Hi,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Fix the ppc64 settings to match ppc
+We experience build errors as follows every now and then:
 
- .../recipes-connectivity/socat/socat_1.7.3.2.bb | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+...
+ERROR: full-container-image-0.1-r0 do_populate_sdk: Unable to install
+packages. Command
+'/workdir/oe/tmp/work/colibri_imx7-lmp-linux-gnueabi/full-container-image/0.1-r0/recipe-sysroot-native/usr/bin/opkg
+--volatile-cache -f
+/workdir/oe/tmp/work/colibri_imx7-lmp-linux-gnueabi/full-container-image/0.1-r0/opkg.conf
+-t
+/workdir/oe/tmp/work/colibri_imx7-lmp-linux-gnueabi/full-container-image/0.1-r0/temp/ipktemp/
+-o
+/workdir/oe/tmp/work/colibri_imx7-lmp-linux-gnueabi/full-container-image/0.1-r0/sdk/image/usr/local/tordy-x86_64/sysroots/armv7at2hf-neon-lmp-linux-gnueabi
+ --force_postinstall --prefer-arch-to-version   install 96boards-tools
+aktualizr aktualizr-host-tools aktualizr-runtime-prov base-passwd
+coreutils cpufrequtils docker gptfdisk haveged hostapd htop iptables
+kernel-modules ldd less lmp-device-register networkmanager
+networkmanager-nmtui openssh-sftp-server os-release ostree
+packagegroup-base-extended packagegroup-core-boot
+packagegroup-core-full-cmdline-extended
+packagegroup-core-full-cmdline-multiuser
+packagegroup-core-full-cmdline-utils packagegroup-core-ssh-openssh
+packagegroup-core-standalone-sdk-target pciutils python3-compression
+python3-distutils python3-docker python3-docker-compose python3-json
+python3-netclient python3-pkgutil python3-shell python3-unixadmin rsync
+run-postinsts shadow sshfs-fuse strace sudo target-sdk-provides-dummy
+tcpdump vim-tiny' returned 255:
+...
+Downloading
+file:/workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/nss_3.38-r0_armv7at2hf-neon.ipk.
+Removing corrupt package file
+/workdir/oe/tmp/work/colibri_imx7-lmp-linux-gnueabi/full-container-image/0.1-r0/sdk/image/usr/local/tordy-x86_64/sysroots/armv7at2hf-neon-lmp-linux-gnueabi//var/cache/opkg/volatile/8e392ecd3611e24a6a49a8b22ad6e1ff_nss_3.38-r0_armv7at2hf-neon.ipk.
+...
+Installing pam-plugin-faildelay (1.3.0) on root
+Downloading
+file:/workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/pam-plugin-faildelay_1.3.0-r5_armv7at2hf-neon.ipk.
+Removing corrupt package file
+/workdir/oe/tmp/work/colibri_imx7-lmp-linux-gnueabi/full-container-image/0.1-r0/sdk/image/usr/local/tordy-x86_64/sysroots/armv7at2hf-neon-lmp-linux-gnueabi//var/cache/opkg/volatile/0df6a8bc594a581f6ca3bcfa55e860e2_pam-plugin-faildelay_1.3.0-r5_armv7at2hf-neon.ipk.
+...
+Collected errors:
+ * opkg_install_pkg: Failed to download nss. Perhaps you need to run
+'opkg update'?
+ * opkg_install_pkg: Failed to download pam-plugin-faildelay. Perhaps
+you need to run 'opkg update'?
+.
+...
 
-diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.2.bb b/meta/recipes-connectivity/socat/socat_1.7.3.2.bb
-index 4dcb7b4adc..927df7463a 100644
---- a/meta/recipes-connectivity/socat/socat_1.7.3.2.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.7.3.2.bb
-@@ -11,7 +11,6 @@ LICENSE = "GPL-2.0+-with-OpenSSL-exception"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://README;beginline=257;endline=287;md5=338c05eadd013872abb1d6e198e10a3f"
- 
--
- SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
-            file://Makefile.in-fix-for-parallel-build.patch \
-            file://0001-define-NETDB_INTERNAL-to-1-if-not-available.patch \
-@@ -26,9 +25,23 @@ inherit autotools
- EXTRA_AUTORECONF += "--exclude=autoheader"
- 
- EXTRA_OECONF += "ac_cv_have_z_modifier=yes \
--        ac_cv_header_bsd_libutil_h=no \
-+                 ac_cv_header_bsd_libutil_h=no \
-+                 sc_cv_termios_ispeed=no \
-+                 ${TERMBITS_SHIFTS} \
- "
- 
-+TERMBITS_SHIFTS ?= "sc_cv_sys_crdly_shift=9 \
-+                    sc_cv_sys_tabdly_shift=11 \
-+                    sc_cv_sys_csize_shift=4"
-+
-+TERMBITS_SHIFTS_powerpc = "sc_cv_sys_crdly_shift=12 \
-+                           sc_cv_sys_tabdly_shift=10 \
-+                           sc_cv_sys_csize_shift=8"
-+
-+TERMBITS_SHIFTS_powerpc64 = "sc_cv_sys_crdly_shift=12 \
-+                             sc_cv_sys_tabdly_shift=10 \
-+                             sc_cv_sys_csize_shift=8"
-+
- PACKAGECONFIG_class-target ??= "tcp-wrappers"
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
--- 
-2.18.0
+We build our own OpenEmbedded core based distribution currently based on
+a recent master state. But we have seen this on and off back since
+rocko.
+
+We build the image using Jenkins with multiple builders running in
+parallel and sharing sstate. I think the fact that we run similar images
+in parallel is the culprit: Looking closer at the failed build directory
+reveals that the tmp-glibc/deploy/ipk/armv7at2hf-neon/Packages has a
+different MD5Sum than the actual package. We start with two builders
+simultaneously building an image, and it seems that they build the same
+package around the same time. I assume that the two builders somehow
+have a race between when the package get assembled and when the Package
+index gets built...
+
+We start with a clean sstate, and this typically only happens for the
+very first builds, when the sstate is cold.
+
+I guess there is some race/asynchronous operation going on around
+building index/getting package from sstate/pushing package to sstate.
+
+It seems an issue others have seen in the past too:
+https://www.yoctoproject.org/irc/%23yocto.2018-07-05.log.html#t2018-07-05T10:07:25
+
+Any idea?
+
+--
+Stefan
+
 
 
