@@ -1,29 +1,42 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A8C3B79699
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 15:18:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8BFI3O6018309
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Sep 2018 08:18:03 -0700 (PDT)
-Received: from [128.224.162.202] (128.224.162.202) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 11 Sep 2018 08:18:02 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <1536656353-30689-1-git-send-email-hongxu.jia@windriver.com>
-	<CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <41457254-4083-3d7c-4e93-95b320fe7dbb@windriver.com>
-Date: Tue, 11 Sep 2018 23:18:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+Return-Path: <mhm.dawod@gmail.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id B51FF79660;
+	Tue, 11 Sep 2018 15:58:19 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id t5-v6so28783578qtn.3;
+	Tue, 11 Sep 2018 08:58:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=eJQenhguI8d+BODUVA9hBwZPNBJ7vd+vWKcPyuZ21T4=;
+	b=qMhOCpUqv7Ii+GBLS7dtP+PzprDy2BbYYQ49OFDjaHIshoqAweMtmVu0UuKUYN+NYU
+	Vu1EEvvaEXGxzMrZoVPaVWldISb49g6P58nXlwYfGV8dez9xqxUPO7QTBkEk0lQGSCBM
+	HeQdK9RHtSmkGseVCHSdwrWtC8SOe/AyqL22OKHWP4T/wjd0d54yLlIFGw7LHAZ/HBxC
+	hYOpT+YJxsWmFOKBz8Xcm4WUIAoWE/4udijie5isan8ON8W6gP8lpc9kNJiGZoNqRNCv
+	idq0Zd12azumhUkav6wDGMohGtGCi5qwUdBXJY50dSOiiWtu/22UvKcFPc8c8D4zp7fq
+	E5KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=eJQenhguI8d+BODUVA9hBwZPNBJ7vd+vWKcPyuZ21T4=;
+	b=lWmBGsbRwrgvxhmlNiK642qBU8PmScHw1ZgIGTYmmEsElvou+bgvUbkJDFUJbx8i5d
+	rEomYjgr+wzLBJhqai7gfV/JIeSOJDunIRTFrz3DWW5KjzNHrGNB3/roM6NilF1iU0Qr
+	iZJXOvv0nTAgwYTfbnvLZmV0pIAE0KGuF36u9WP33HHCy6tZarNcblZ3dWDUjc9NRkpT
+	Ybtb62arTjOWwSpw0NlHSFekgkmufItRuilY3o/9rtMUuWUVPcMporo2ESkd+C+OBfQ6
+	9qyKA8rzATun2ELR62zGok1tLPanw1/Roav6C4mY4Jl1XQLoi+QkA/KNLU4Y/9mBznL5
+	C66Q==
+X-Gm-Message-State: APzg51AsuEvkA90hiQOaV27X5HclNXpGvsAiwQY44o1LBD5GwY2xCgrJ
+	qn0oc9ZFAPBd7UIklhJSPASH9ytX1uWpA7m8i6IZwA==
+X-Google-Smtp-Source: ANB0VdaA3W7Q90L15FBGPHaz7NwKtWhlw426SPZG/r1almoOrSqETUE8xfAqGrVVb7xBKb97yFMgMSKLAGdpoURhJ/A=
+X-Received: by 2002:ac8:32ea:: with SMTP id
+	a39-v6mr20894658qtb.234.1536681500181; 
+	Tue, 11 Sep 2018 08:58:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com>
-Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: build support openssl 1.1
+From: Mohamed Dawod <mhm.dawod@gmail.com>
+Date: Tue, 11 Sep 2018 17:58:06 +0200
+Message-ID: <CAGCTLNSFu5uE2K0c0JiarGyBJ1somNjsx_jZ2mf7+8NozCMfrQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org
+Subject: [openembedded][wayland][weston]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,167 +49,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2018 15:18:05 -0000
-Content-Type: multipart/alternative;
-	boundary="------------64209FE851525D1D11B27A76"
-Content-Language: en-US
+X-List-Received-Date: Tue, 11 Sep 2018 15:58:20 -0000
+Content-Type: multipart/alternative; boundary="000000000000f388c605759a8af7"
 
---------------64209FE851525D1D11B27A76
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+--000000000000f388c605759a8af7
+Content-Type: text/plain; charset="UTF-8"
 
-On 2018年09月11日 18:39, Alexander Kanavin wrote:
-> I'm afraid I have changed my mind, and I have to say no to this. It is
-> *not*  a backport, it is a very large patch that nobody understands, it
-> will need to be rebased every time there is new openssh out, we cannot
-> rely on Fedora doing this, as they apply this patch on top of their
-> other patches. Meanwhile, upstream pull request has been stalled for a
-> very long time and just isn't going anywhere.
->
-> I would suggest you make openssh depend on libressl and find out why
-> it is working everywhere except arm64 - that's the only reason we
-> haven't done it yet.
+Hi,
+I need to change the screen resolution of weston in my new custom image.
+I used weston.ini file and installed it to the image in the path
+"/etc/xdg/weston"
+and i also installed the file to this path "/home/root/.config"
 
-Use openssh depends on libressl could not fix the issue, which also 
-conflicts
-with openssl in the meta-selinux example (they provides the same 
-headers/libraries)
+This way worked well with Jethro release of openembedded
+but with sumo release it didn't work at all !!!
 
-The root cause is since rename libssl (1.0) -> libssl10, and drop 
-PRFERRED_VERSION,
-there are multiple recipes provide ssl (openssl, openssl10, libressl) 
-with different name
+Thanks in advance,
+-- 
 
-BTW, even though openssh depends `openssl10',  the `openssl' is installed
-to rootfs. It breaks DEPEND/RDEPENDS principle
+Mohamed Dawod
+Computer Engineering Department
+Faculty of Engineering
+Cairo University
 
-[local.conf]
-IMAGE_INSTALL_append = " openssh"
-[local.conf]
+--000000000000f388c605759a8af7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-$ bitbake core-image-minimal
+<div dir=3D"ltr"><div>Hi,</div><div>I need to change the screen resolution =
+of weston in my new custom image.</div><div>I used weston.ini file and inst=
+alled it to the image in the path &quot;/etc/xdg/weston&quot;</div><div>and=
+ i also installed the file to this path &quot;/home/root/.config&quot;<br><=
+/div><div><br></div><div>This way worked well with Jethro release of openem=
+bedded</div><div>but with sumo release it didn&#39;t work at all !!!</div><=
+div><br></div><div>Thanks in advance,<br></div><div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"l=
+tr"><div>=C2=A0<br>Mohamed Dawod<br></div><div>
+Computer Engineering Department=C2=A0<br>
+Faculty of Engineering=C2=A0<br>
+Cairo University</div></div></div></div></div>
 
-[log.do_rootfs]
-   Installing       : openssl-1.1.1~pre9-r0.core2_64
-[log.do_rootfs]
-
-The recipe depends on openssl10, but openssl10 will not be installed.
-
-Here are my suggestions
-
-1: Replace dependence openssl10  -> openssl, such as this fix, and drop 
-recipe openssl10 finally;
-     1 (openssh) in oe-core, 3 (umip, ipsec-tools, mailx) in oe, 3 
-(openssl-tpm-engine,
-     tpm-tools, trousers) in meta-secure-core
-
-Or 2: Unify openssl,openssl10 and libressl to provide one ssl,
-         we could add PROVIDER = 'virtual/ssl' to above recipe, any recipe
-         depends on `openssl' will be replced with `virtual/ssl', the recipe
-        depends on `openssl10' will not be changed.
-
-        Set PREFERRED_PROVIDER_virtual//ssl = "openssl | openssl10 | 
-libressl" in conf
-
-Or 3: Revert previously patch, rename recipe openssl10 -> openssl 1.0, 
-and set
-       PREFERRED_VERSION
-
-
-//Hongxu
-
->
-> Alex
-
-
-
---------------64209FE851525D1D11B27A76
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2018年09月11日 18:39, Alexander Kanavin
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com">
-      <pre wrap="">I'm afraid I have changed my mind, and I have to say no to this. It is
-<b class="moz-txt-star"><span class="moz-txt-tag">*</span>not<span class="moz-txt-tag">*</span></b> a backport, it is a very large patch that nobody understands, it
-will need to be rebased every time there is new openssh out, we cannot
-rely on Fedora doing this, as they apply this patch on top of their
-other patches. Meanwhile, upstream pull request has been stalled for a
-very long time and just isn't going anywhere.
-
-I would suggest you make openssh depend on libressl and find out why
-it is working everywhere except arm64 - that's the only reason we
-haven't done it yet.</pre>
-    </blockquote>
-    <br>
-    Use openssh depends on libressl could not fix the issue, which also
-    conflicts<br>
-    with openssl in the meta-selinux example (they provides the same
-    headers/libraries)<br>
-    <br>
-    The root cause is since rename libssl (1.0) -&gt; libssl10, and drop
-    PRFERRED_VERSION,<br>
-    there are multiple recipes provide ssl (openssl, openssl10,
-    libressl) with different name<br>
-    <br>
-    BTW, even though openssh depends `openssl10',  the `openssl' is
-    installed<br>
-    to rootfs. It breaks DEPEND/RDEPENDS principle<br>
-    <br>
-    [local.conf]<br>
-    IMAGE_INSTALL_append = " openssh"<br>
-    [local.conf]<br>
-    <br>
-    $ bitbake core-image-minimal<br>
-    <br>
-    [log.do_rootfs]<br>
-      Installing       : openssl-1.1.1~pre9-r0.core2_64<br>
-    [log.do_rootfs]<br>
-    <br>
-    The recipe depends on openssl10, but openssl10 will not be
-    installed.<br>
-    <br>
-    Here are my suggestions <br>
-    <br>
-    1: Replace dependence openssl10  -&gt; openssl, such as this fix,
-    and drop recipe openssl10 finally;<br>
-        1 (openssh) in oe-core, 3 (umip, ipsec-tools, mailx) in oe, 3
-    (openssl-tpm-engine,<br>
-        tpm-tools, trousers) in meta-secure-core<br>
-    <br>
-    Or 2: Unify openssl,openssl10 and libressl to provide one ssl,<br>
-            we could add PROVIDER = 'virtual/ssl' to above recipe, any
-    recipe<br>
-            depends on `openssl' will be replced with `virtual/ssl', the
-    recipe<br>
-           depends on `openssl10' will not be changed.<br>
-    <br>
-           Set PREFERRED_PROVIDER_virtual//ssl = "openssl | openssl10 |
-    libressl" in conf<br>
-    <br>
-    Or 3: Revert previously patch, rename recipe openssl10 -&gt; openssl
-    1.0, and set<br>
-          PREFERRED_VERSION<br>
-    <br>
-    <br>
-    //Hongxu<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com">
-      <pre wrap="">
-
-Alex</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------64209FE851525D1D11B27A76--
+--000000000000f388c605759a8af7--
