@@ -1,23 +1,30 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F1CE74D03
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 455A77943C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 01:23:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8B1N7Gv015278
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2018 18:23:07 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 10 Sep 2018 18:23:06 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Sep 2018 09:23:05 +0800
-Message-ID: <1536628985-377640-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 11 Sep 2018 01:25:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8B1P1CJ004724
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 10 Sep 2018 18:25:32 -0700
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Mon, 10 Sep 2018 18:25:15 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1536573689.git.Qi.Chen@windriver.com>
+	<d5a1d1701202d4323e15cb31c7f9a3afca88a00f.1536573689.git.Qi.Chen@windriver.com>
+	<CAJTo0LZiPj8qNgTVUkvno50LhizJ57VKGCnnQqiTuJUyGNmNRA@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <2ba2543a-d351-8df2-f946-dff83c8e2c22@windriver.com>
+Date: Tue, 11 Sep 2018 09:30:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH V2] bind: patch for CVE-2018-5740
+In-Reply-To: <CAJTo0LZiPj8qNgTVUkvno50LhizJ57VKGCnnQqiTuJUyGNmNRA@mail.gmail.com>
+X-Originating-IP: [128.224.162.218]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] autotools: do more cleanup when in do_configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,109 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2018 01:23:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Sep 2018 01:25:52 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+On 09/10/2018 06:24 PM, Burton, Ross wrote:
+> On 10 September 2018 at 11:02, Chen Qi <Qi.Chen@windriver.com> wrote:
+>> I met the following error when compiling some projects.
+>>
+>> | configure: error: `LDFLAGS' has changed since the previous run:
+>> | configure:   former value:  `-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed'
+>> | configure:   current value: `-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now'
+>> [snip]
+>> | configure: error: changes in the environment can compromise the build
+>> | configure: error: run `make distclean' and/or `rm .././config.cache' and start over
+>>
+>> I think when some recipe inherits autotools-brokensep, it should try to
+>> do more cleanups before configure. So also do 'make distclean' and remove
+>> config.cache just as what the error message told us.
+> Does just removing config.cache work for your problem?
+I guess it should, but I haven't checked.
+>    I'm concerned
+> about running a distclean because some upstreams abuse that target and
+> then can't rebuild.
+Hmm... I hold the opposite opinion.
+I suspect that just doing a `make clean' is more likely to break rebuild 
+while doing a `make distclean' should reduce the possibility.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../bind/bind/CVE-2018-5740.patch                  | 72 ++++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.11.4.bb      |  1 +
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch
+Conceptually, `make clean' is followed by `make' while `make distclean' 
+is followed by `configure & make'.
+At rebuild, we are doing `configure & make'; so we should use `make 
+distclean', in theory.
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch b/meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch
-new file mode 100644
-index 0000000..4236b3b
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch
-@@ -0,0 +1,72 @@
-+Upstream-Status: Backport[https://ftp.isc.org/isc/bind9/9.11.4-P1/patches/CVE-2018-5740]
-+
-+CVE: CVE-2018-5740
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+
-+diff --git a/CHANGES b/CHANGES
-+index 750b600..3d8d655 100644
-+--- a/CHANGES
-++++ b/CHANGES
-+@@ -1,3 +1,9 @@
-++	--- 9.11.4-P1 released ---
-++
-++4997.	[security]	named could crash during recursive processing
-++			of DNAME records when "deny-answer-aliases" was
-++			in use. (CVE-2018-5740) [GL #387]
-++
-+ 	--- 9.11.4 released ---
-+ 
-+ 	--- 9.11.4rc2 released ---
-+diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
-+index 8f674a2..41d1385 100644
-+--- a/lib/dns/resolver.c
-++++ b/lib/dns/resolver.c
-+@@ -6318,6 +6318,7 @@ is_answertarget_allowed(fetchctx_t *fctx, dns_name_t *qname, dns_name_t *rname,
-+ 	unsigned int nlabels;
-+ 	dns_fixedname_t fixed;
-+ 	dns_name_t prefix;
-++	int order;
-+ 
-+ 	REQUIRE(rdataset != NULL);
-+ 	REQUIRE(rdataset->type == dns_rdatatype_cname ||
-+@@ -6340,17 +6341,25 @@ is_answertarget_allowed(fetchctx_t *fctx, dns_name_t *qname, dns_name_t *rname,
-+ 		tname = &cname.cname;
-+ 		break;
-+ 	case dns_rdatatype_dname:
-++		if (dns_name_fullcompare(qname, rname, &order, &nlabels) !=
-++		    dns_namereln_subdomain)
-++		{
-++			return (ISC_TRUE);
-++		}
-+ 		result = dns_rdata_tostruct(&rdata, &dname, NULL);
-+ 		RUNTIME_CHECK(result == ISC_R_SUCCESS);
-+ 		dns_name_init(&prefix, NULL);
-+ 		tname = dns_fixedname_initname(&fixed);
-+-		nlabels = dns_name_countlabels(qname) -
-+-			  dns_name_countlabels(rname);
-++		nlabels = dns_name_countlabels(rname);
-+ 		dns_name_split(qname, nlabels, &prefix, NULL);
-+ 		result = dns_name_concatenate(&prefix, &dname.dname, tname,
-+ 					      NULL);
-+-		if (result == DNS_R_NAMETOOLONG)
-++		if (result == DNS_R_NAMETOOLONG) {
-++			if (chainingp != NULL) {
-++				*chainingp = ISC_TRUE;
-++			}
-+ 			return (ISC_TRUE);
-++		}
-+ 		RUNTIME_CHECK(result == ISC_R_SUCCESS);
-+ 		break;
-+ 	default:
-+@@ -7071,7 +7080,9 @@ answer_response(fetchctx_t *fctx) {
-+ 		}
-+ 		if ((ardataset->type == dns_rdatatype_cname ||
-+ 		     ardataset->type == dns_rdatatype_dname) &&
-+-		     !is_answertarget_allowed(fctx, qname, aname, ardataset,
-++		    type != ardataset->type &&
-++		    type != dns_rdatatype_any &&
-++		    !is_answertarget_allowed(fctx, qname, aname, ardataset,
-+ 					      NULL))
-+ 		{
-+ 			return (DNS_R_SERVFAIL);
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.11.4.bb
-index d27068c..23c3aad 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.4.bb
-@@ -19,6 +19,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
-            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
-            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
-+           file://CVE-2018-5740.patch \
- "
- 
- SRC_URI[md5sum] = "9b4834d78f30cdb796ce437262272a36"
--- 
-2.7.4
+I'll revisit this issue later and do more investigation.
+> Also obviously the proper fix is to not use autotools-brokensep in the
+> recipe in the first place.
+You are right.
+The recipe is cyrus-sasl and the newly updated version has fixed to use 
+autotools instead of autotools-brokensep.
+
+To summarize, ideally we should have no recipe inheriting 
+autotools-brokensep. But in reality, it's almost not possible.
+I sent out this patch because I thought it would be helpful for such 
+recipes.
+
+Best Regards,
+Chen Qi
+
+> Ross
+>
 
 
