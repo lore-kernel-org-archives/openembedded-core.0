@@ -1,50 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5362F79855
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C8DB79852
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 09:37:47 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id s14-v6so16086043wrw.6
+	Tue, 11 Sep 2018 09:37:51 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id n2-v6so25066152wrw.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 02:37:48 -0700 (PDT)
+	Tue, 11 Sep 2018 02:37:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=4CWYX/2z/ESkYso4tDkc+j16dH+NQgHiOjfMfwKssbA=;
-	b=iB5POn08Yw+SaQFLcw2LBg540X4FDU5hQFTjrXlFD9Eyh0CjF8k3pbtAOlJZPoKDR8
-	k57dlm4X5AxVL8k8FrQLsYxgNfhqrYicMaJbulDSuMFDMfkLKGq5fQ+2Jbne9yGlZXTb
-	IYq0I3yzd5BYhue8c+acx+knKvSJ/HLHw+FzjlclnorbKwjAkS7B9ptMkcbwy8sOMFVl
-	GXaLUOmgVi4cjFmWm0f64hZV2e1SAWOsSXMHCiUvUfHTqfRFplvkR2g6C+AjmJvqN9+a
-	z5D1CtmeZqp5M8UH1xr05abUvPSnGThIIT+lDsF/rJRguAMduHAATp0Oo8a+/AR4oPu7
-	O9mw==
+	bh=ocWIJ0mBEMDHy5CXvM0mj2TeXJ/zjhSPeEUQmANePcI=;
+	b=nFpuE9FoxWC8ngBgoGwWQOGOuVXmZsTciAioludNGe1VoJlEOvfEldoFyA0h/zRUCx
+	9/h72ULclVyD9rkURcN8aBis4YWYDGucL5lAaa8gx4k5UDzyA0MyTJASqrzNLJoa0x59
+	MsYBrRjoW0o7LguH0L9VgY2UVLLHiN1jaLalI5Wgy9JuOkYPaRiaUxSqBTwWKqOHLO9O
+	JFcl+5ODDwtMBzQADWsUs8ojhjNB5pjRRCvgBOX9ycR9uvyfUUjBDLxtUOuEbRkrk2FA
+	7yQHVyJHcjhR3QsadCjALwKOkvtuISzgagsLb9uken5McMkI/u/JrDW56az1VDX5Uxwf
+	p7Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=4CWYX/2z/ESkYso4tDkc+j16dH+NQgHiOjfMfwKssbA=;
-	b=rOzae3rVFmHnS1QuXfPN9fD/6KTN3c7LPuDsxAh3GDCEpPOYviCIvpj2ypadr41qmF
-	WtlTF8/HrX8ySsI06pXDOxBTdIb18VlM19JK1laFDeLTc/lMLtXWbEVZ8dm4tQxGuUWw
-	NMCTjGGHskel2Gx6XekEaVxoxYFBPy7u0ylXKkBD4BX1sNt3CuXAm6h/4G1jmQ0admF4
-	yJRKqzgVYnuamqhAmlLt0sFyecvS0OBBOaZgqIFh3Q6SGv7PKwgmTP7ag3CLG8LxZ540
-	D2Nb0+o7LTJxHq3zdi0ml9/EgLM7auIqqna5cS71Zv4RKrxB9EGnTEVC72M19G2BAGSu
-	EHMA==
-X-Gm-Message-State: APzg51Dik+HRD+T13sdxS2TWIcqEruf7YPjI3O0OC0OukP9hfFtwY/Fp
-	0Q/gvGIQMVbnMGDq8ty1UIupGzAf1Yg=
-X-Google-Smtp-Source: ANB0Vdas+EkA847bD6SU4UdBy4uM9XldSNt1TRLT5CbbgXbsuKWoZzlJ+CFQ+Gchm9majO7Ul/SXNg==
-X-Received: by 2002:adf:c684:: with SMTP id
-	j4-v6mr17551751wrg.243.1536658667694; 
-	Tue, 11 Sep 2018 02:37:47 -0700 (PDT)
+	bh=ocWIJ0mBEMDHy5CXvM0mj2TeXJ/zjhSPeEUQmANePcI=;
+	b=JCnEnjVhjKYvnJr9rRI68xhs5e1TVyTWBR649AbffJPLtiBURqJO+DuGf+l9Q766Ie
+	X9MCnr7PkDCQgiuM0muMjeJooTNLeDnw7bIrwIe6gjA5JA96d4vVUuJI3HuJkTvMfCCU
+	uw23OhNHqyLKrjvTIzaggpE6gIa1EP57fnowFZNxTnsOB0G4CTfCGbqVQ0X/OzE/TsQM
+	l2e0WfQIVe0WSNXI57593yFzI6Abk7oIy+cmrwjrtpbiObxEBr+3OFZJoMqE3l8uUPMR
+	csyXlSMfF6iKI5D8V5nS57XfbeSOF4zsvg183Ef6VFI7EO2g1Dt0hO+T8LBc7cKiP7By
+	WtQg==
+X-Gm-Message-State: APzg51A/XFIkQSmsjqHHETv/rtRN4FZgWL+zGab8D7JyWP/BWHcBpLwn
+	lwJGBGOEVPOWBhn9AXLayYDbM2WP+aY=
+X-Google-Smtp-Source: ANB0VdYiRwOm/gnqmngKpWrTxWmDuqju1RKGO2Ekpo6LoSiSzrma6C9bjzvOXy6Co7lysTPgQHP/AQ==
+X-Received: by 2002:a5d:4089:: with SMTP id
+	o9-v6mr18421682wrp.133.1536658672468; 
+	Tue, 11 Sep 2018 02:37:52 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a11-v6sm16636609wrr.81.2018.09.11.02.37.46
+	j66-v6sm25007071wrj.28.2018.09.11.02.37.51
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Sep 2018 02:37:47 -0700 (PDT)
+	Tue, 11 Sep 2018 02:37:51 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2018 10:37:45 +0100
-Message-Id: <20180911093745.5397-1-ross.burton@intel.com>
+Date: Tue, 11 Sep 2018 10:37:50 +0100
+Message-Id: <20180911093750.5460-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] pkgconf: don't use alternatives
+Subject: [PATCH] yasm: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2018 09:37:47 -0000
+X-List-Received-Date: Tue, 11 Sep 2018 09:37:52 -0000
 
-There's no need to do alternatives as pkgconf and pkg-config won't be installed
-at the same time, and pkg-config doesn't do alternatives either.
+Nothing in oe-core is using yasm now that gstreamer-libav and ffmpeg are using
+nasm, so remove it from oe-core.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/pkgconf/pkgconf_1.5.3.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/conf/distro/include/maintainers.inc |  1 -
+ meta/recipes-devtools/yasm/yasm_1.3.0.bb | 16 ----------------
+ 2 files changed, 17 deletions(-)
+ delete mode 100644 meta/recipes-devtools/yasm/yasm_1.3.0.bb
 
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.5.3.bb b/meta/recipes-devtools/pkgconf/pkgconf_1.5.3.bb
-index 2021d1ac602..415478d5cf9 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf_1.5.3.bb
-+++ b/meta/recipes-devtools/pkgconf/pkgconf_1.5.3.bb
-@@ -24,7 +24,7 @@ SRC_URI = "\
- SRC_URI[md5sum] = "c21743bca14c882c0f282746168a5edc"
- SRC_URI[sha256sum] = "d3468308553c94389dadfd10c4d1067269052b5364276a9d24a643c88485f715"
- 
--inherit autotools update-alternatives
-+inherit autotools
- 
- EXTRA_OECONF += "--with-pkg-config-dir='${libdir}/pkgconfig:${datadir}/pkgconfig'"
- 
-@@ -46,8 +46,6 @@ do_install_append_class-native () {
-     install -m755 ${B}/pkg-config-esdk ${D}${bindir}/pkg-config-esdk
- }
- 
--ALTERNATIVE_${PN} = "pkg-config"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 2ecc3d61e38..0c65e8f816c 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -732,6 +732,5 @@ RECIPE_MAINTAINER_pn-xvideo-tests = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-xvinfo = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xwininfo = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xz = "Denys Dmytriyenko <denys@ti.com>"
+-RECIPE_MAINTAINER_pn-yasm = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-zip = "Denys Dmytriyenko <denys@ti.com>"
+ RECIPE_MAINTAINER_pn-zlib = "Denys Dmytriyenko <denys@ti.com>"
+diff --git a/meta/recipes-devtools/yasm/yasm_1.3.0.bb b/meta/recipes-devtools/yasm/yasm_1.3.0.bb
+deleted file mode 100644
+index 31af1e287e9..00000000000
+--- a/meta/recipes-devtools/yasm/yasm_1.3.0.bb
++++ /dev/null
+@@ -1,16 +0,0 @@
+-SUMMARY = "x86 (SSE) assembler supporting NASM and GAS-syntaxes"
+-LICENSE = "BSD"
+-HOMEPAGE = "http://www.tortall.net/projects/yasm/"
 -
- # When using the RPM generated automatic package dependencies, some packages
- # will end up requiring 'pkgconfig(pkg-config)'.  Allow this behavior by
- # specifying an appropriate provide.
+-LIC_FILES_CHKSUM = "file://COPYING;md5=a12d8903508fb6bfd49d8d82c6170dd9"
+-
+-SRC_URI = "http://www.tortall.net/projects/yasm/releases/${BP}.tar.gz"
+-
+-SRC_URI[md5sum] = "fc9e586751ff789b34b1f21d572d96af"
+-SRC_URI[sha256sum] = "3dce6601b495f5b3d45b59f7d2492a340ee7e84b5beca17e48f862502bd5603f"
+-
+-export CCLD_FOR_BUILD = "${CC_FOR_BUILD}"
+-
+-inherit autotools gettext
+-
+-BBCLASSEXTEND = "native"
 -- 
 2.11.0
 
