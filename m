@@ -1,48 +1,146 @@
-Return-Path: <baptiste.durand@gmail.com>
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
-	[209.85.222.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 602DB79498
+Return-Path: <alejandr@xilinx.com>
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+	(mail-bl2nam02on0079.outbound.protection.outlook.com [104.47.38.79])
+	by mail.openembedded.org (Postfix) with ESMTP id 35CE874E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 18:12:52 +0000 (UTC)
-Received: by mail-ua1-f52.google.com with SMTP id u11-v6so21503092uan.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 11:12:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OuNRSmKqZDHyq14r2aJlNqj7Tw7e/0Gfa/ErtC/Gcmw=;
-	b=UFN2hWux/O25fNwFQJ/ov5yUGYkZ7vg2Q46eKK431gTUezUwPy6k2Dtip3QOYDk/K2
-	qWoJiA0N9phyfnIxUXyVJXlcG23VAAe8eu6DSdst3h2zN9zSJREFOKrJby8ZsUaVDif7
-	FwZlsNazPxnXdAVNj2ltQBrkiVLMxML7o+u5BFJAGABf/AB6fDB4EGCHg8dhAzSrHcMX
-	1YhZ2HncCIUAXZOsQGql/qi3fXDnw/ET9B8lD7UblSO7pD1EM/aNXymJGmqYDk9iITM8
-	lCK2GEbUzPxEXIwExulOWhWuBSLJ9BXFWJXiseOrQJdyuOfU6v0m1gcypyK4StPdSAEz
-	jTPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=OuNRSmKqZDHyq14r2aJlNqj7Tw7e/0Gfa/ErtC/Gcmw=;
-	b=VOJqaWAc/6beF4IBtCgZbJI2daT+raqMW8BDU5wJh9VenrKLs/BHt3v+x7+ra+bWEw
-	6mG+43ijhZJjKUB3vHYbQOL+c7td12oQ8VYcdDpA8O0NUGS7tdyYQGO3Re6hZFK1m5dH
-	s/DihrhySSG8ons+737qm/ckwzd3bK95kk9t9iLhs0ZtuwoP5q2pjdFTX5UZ6h+xFw9u
-	eWCTotxyObpJpzFmE2fe9TPfEAluPVB3K3P13dMBceRUDUVlB6k7T4Vx3DTmRkD3H9oA
-	YH4VoOyuUUje6jacN6I0IW/ETfR3OwcMjiZRmXiDLInrmqsMb+3X8elGAGdpnEJDMkU6
-	c/Dw==
-X-Gm-Message-State: APzg51CjxHcsruCX8b8f49jNs0yc8mYg4PGz09bfs9h5BtyzIP4Uq0Jv
-	6kGF4ZJ109xq9QUiDsuOoCqf1elfMycdp3SRS/TMFg==
-X-Google-Smtp-Source: ANB0VdbA1r7pKAEtG6TJAaqhR3BcekNOgU5G4rL7xc+BfvegxlwHulXCiXw+Tpc51MM/BUNH87VJUQCzxK3c4uMRy+M=
-X-Received: by 2002:a9f:2c87:: with SMTP id w7-v6mr9394779uaj.21.1536689572841;
-	Tue, 11 Sep 2018 11:12:52 -0700 (PDT)
+	Tue, 11 Sep 2018 18:56:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=mJBGhEfZhZ2Ymdld83tQdrAuY11FSTa0rbRTSBH1Tag=;
+	b=QeV30bHl/dIRzRyTpFviJJj9lZiYkwFWzl3OXmC484BvtoQ8rk1f3uKkn5qXT/jocqFqxuR6NAXi5aoVZhXNCqPJy2dcvjCKwp1e5/VsCXRdrbvOobQ4mTwlSKf9b9JTFq8VqhWWUsG72W9MDdBODM9/dyDXxKtFCYG3XRkcgbY=
+Received: from CY4PR02CA0038.namprd02.prod.outlook.com (2603:10b6:903:117::24)
+	by BYAPR02MB4757.namprd02.prod.outlook.com (2603:10b6:a03:4e::10)
+	with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1122.16;
+	Tue, 11 Sep 2018 18:56:33 +0000
+Received: from CY1NAM02FT059.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e45::206) by CY4PR02CA0038.outlook.office365.com
+	(2603:10b6:903:117::24) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1122.16 via
+	Frontend Transport; Tue, 11 Sep 2018 18:56:33 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=xilinx.com; netbsd.org; dkim=none (message not signed)
+	header.d=none;netbsd.org; dmarc=bestguesspass action=none
+	header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	CY1NAM02FT059.mail.protection.outlook.com (10.152.74.211) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1122.15
+	via Frontend Transport; Tue, 11 Sep 2018 18:56:33 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
+	id 1fznpw-0007uG-Jt; Tue, 11 Sep 2018 11:56:32 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
+	id 1fznpr-0003Dc-G3; Tue, 11 Sep 2018 11:56:27 -0700
+Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	w8BIuKoW004990; Tue, 11 Sep 2018 11:56:20 -0700
+Received: from [172.19.2.8] by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <alejandr@xilinx.com>)
+	id 1fznpj-0003DE-VS; Tue, 11 Sep 2018 11:56:19 -0700
+To: Jens Rehsack <sno@netbsd.org>, Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>
+References: <20180907145533.31088-1-sno@netbsd.org>
+	<10772E09-62BB-4CFC-A99A-F4816FAE87C1@netbsd.org>
+	<CANx9H-BfgTfmNs+oGxC-Cm=Tp464=fpZnMb17vbTWsRg2LTZdg@mail.gmail.com>
+	<CANNYZj8dyfuOnHxqE7V5n3sz=3XjqPS98E2n=t2uJbPkvczKyw@mail.gmail.com>
+	<6FC71ED0-1800-46FD-9A0D-1664CE908975@netbsd.org>
+	<CAJTo0LYHhteuX2y0cvW9DWOw1ey31EpWDB1Q8mHHCN2qaxUung@mail.gmail.com>
+	<27c3c64d-574e-e4b8-f1db-343e4a660724@xilinx.com>
+	<F9FC0A02-BAE6-45CB-A38D-7AE4E39E5587@netbsd.org>
+	<badf35f0-449f-d632-c016-509dfb3f0f01@xilinx.com>
+	<0EC3E010-56C9-4EB4-90B4-FD9A68F99AAC@netbsd.org>
+From: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>
+Message-ID: <17b3364c-32a6-91db-6583-6eb7e0131394@xilinx.com>
+Date: Tue, 11 Sep 2018 11:56:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
-References: <20180910151449.9133-1-baptiste.durand@gmail.com>
-	<CAMKF1srQ94o==a-i2mYWaH2-CELJ2gbVVxC=ZbVTrwqqrKvYZw@mail.gmail.com>
-	<CA+chaQfdF=zddkP=6WVj6mtY-uJOYxJ=M5ZRvjrHvQ1W5H9pkA@mail.gmail.com>
-In-Reply-To: <CA+chaQfdF=zddkP=6WVj6mtY-uJOYxJ=M5ZRvjrHvQ1W5H9pkA@mail.gmail.com>
-From: Baptiste Durand <baptiste.durand@gmail.com>
-Date: Tue, 11 Sep 2018 20:12:41 +0200
-Message-ID: <CAB0T2v8_dJcQZr_czgPuweJ+dpX8SnhV3Wc4BSmTAqHMBVDgPg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH v2] minidlna: restore & fix recipe
+In-Reply-To: <0EC3E010-56C9-4EB4-90B4-FD9A68F99AAC@netbsd.org>
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(396003)(136003)(376002)(346002)(39860400002)(2980300002)(438002)(189003)(199004)(31696002)(5660300001)(64126003)(606006)(478600001)(966005)(229853002)(2906002)(8676002)(316002)(9786002)(110136005)(58126008)(65806001)(37036004)(65956001)(16586007)(356003)(65826007)(236005)(76176011)(54896002)(6306002)(106002)(426003)(336012)(84326002)(63266004)(77096007)(53546011)(446003)(14444005)(5024004)(1720100001)(26005)(126002)(36386004)(186003)(476003)(11346002)(2616005)(486006)(270700001)(6246003)(81156014)(81166006)(8936002)(31686004)(4326008)(15650500001)(36756003)(93886005)(106466001)(2420400007)(107986001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4757; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; MX:1; A:1;
+X-Microsoft-Exchange-Diagnostics: 1; CY1NAM02FT059;
+	1:fb4UNsuh2giIkRfPMWAP/TMOkAs30A1+U0Ww1lSCxIf27ZBB7w3CPPzU4JEeNSJmqmKz6Ycf1MGhA2GupLRjPsnQmEuWoo9dcswcgPuwDcMUbthnavbvGdSmlquMrKtW
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bd219f50-95f0-4536-cb49-08d618184ad8
+X-Microsoft-Antispam: BCL:0; PCL:0;
+	RULEID:(7020095)(4652040)(8989137)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600074)(711020)(4608076)(2017052603328)(7153060);
+	SRVR:BYAPR02MB4757; 
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4757;
+	3:cfsSbjIKdtmiiVQ4Txl6O9zJf1XzEGBIlvHRtgpgVCAj4hY8iQVFC1Ol15JsJ7YK/3IznPe43lbxJqjkACTiFp8uPJ1BQ18ozEfi8JrBZiIhKtSvzbiKR1rG0YM7B6UHjsYyugwwTtomEJWWkd8ZtCPocFUb1q2M0rr6GCR/GHbILsuxaoVHsbG14PjExz1tBHNif87ruOnnR/uwzxim53tyKQz7sy653ItOQxDscwwsqRuPfVNQsH7lVDXTI7dXTjWawtkw85QgRi3Cf65EgwvM4iQMLDxE70mbUqYeszVDV+Hh+u77S4qEaPipvWg++58rOkpHRjiKNPR9rKEk2/2H6vfx5qqAkhadTvXKh+A=;
+	25:Lo6tMPZrd2W/oHCLjaO+6kr0/37XOEzwvvY02wAQROsAnsRE+Wj0tgHQsnsdw5TbZhMOA0M2uhdNrAcOBYJ1CjcDLJDJ76tg28Kqg227LUuGaWHV/PbBw68Ij2iUKri5GB8xNDDXhjr40sKVFkWmLgMmAKIIj82M2i35hg4T3wASJickBjli+BjBAb24W4nQSPUyOhCaziHFOMnmZ+Ui8ikluCXI9Fmtv5VAvgoUz98pVmdMC+Nfzdg7xW7B0Tv6e5znLPXKtB++lB4wJ6StaqdXQQrxW6/tVPh8iJFnqU3/x1TEOVtPJYbahGIZmDHIMVinP2u/fjvjJtNf3uPeKg==
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4757:
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4757;
+	31:z61q+v6Dq3PEDle/hPXwp54ZcPrTgZjxO3cZ/5YZP7CZw+0C3zw6ODiHe4oU/1uAoxdFvGx+pcf0gf1d9OWoJTMJ3qtw8YDha9tZoST9XODnaEleSn8VbC8i0im9yrSmlHV8sFJnA/d/8K9rV4OD154NenYqBeW+783zysYNexcjQHcwx81NUs/K5T8oyPnEepNc5zEIgUz3ZkDUSkQYGhBYz2L8Nmy8pb89KUV9ndI=;
+	20:oM2/B3T1WcCJprUfV4VHcvTDI6sNrI6Hhs1zaLooFTru3k7+slGTHzlbttV+l5plBRoHWmsxDKAhnVjI/vLmNEe83K+l9+SkDD/iXBTJplGmwAFoWfUyImdloPDK7hz+ma42HHt7aqQuMmEY/z2jrPRheFrPvPVY5yWpiFm66aUH8N7Iaz0aMCzML+T3JpN2hN4p3k1pt2EW0hmQN/b6w3+ptlW5KrHRI8UAvWhYZmhyosgvRnF+EHzv7tjXGt+Q35H2sytRoW4VhGqCOWfRj8p85/2K8UFiJ9ovmsPX57k/hJGgJDR+4kWMljtST63qRcsX5fGgH6PfhJ+8wiJWaKdhKjXIUxQoztzKnbSHo/rlHAol6qUsliGxfvkTIW4GuY+2h81W7AOPFak0vNAATblGuLzP2uVYLAgg/EF36rgJnHloNB1LaBkLzAh9QV/ctVLEtE6ASKG7jawRgxM4nbM2YHfixpBUiqJc2p7aaclPxoQ29/nQGVmLhCRV7OEr
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-Microsoft-Antispam-PRVS: <BYAPR02MB4757F5E1963422735C429175AC040@BYAPR02MB4757.namprd02.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(85827821059158)(264703809997249)(192813158149592)(17755550239193);
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(3231311)(944501410)(52105095)(93006095)(93004095)(6055026)(149027)(150027)(6041310)(20161123562045)(20161123564045)(20161123560045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699050);
+	SRVR:BYAPR02MB4757; BCL:0; PCL:0; RULEID:; SRVR:BYAPR02MB4757; 
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4757;
+	4:xH+/N5eCK8PmWXPyqQ5LUS8O35vzmgvU0iI2EFApUVpZXFRKkG4dOOEu4pMVRK4o2s9popz612Zht31NX2jflGK52hyCXCErUKW9t/1DrhbRrayHqFXrf74f4bJWU/CevfgrufIDafXM/iypL0mVEOi9pVHlvRjUNZZ5YzczmR1jdWP2I/7pfpu9nOd1TkFvQVlMFU3fISini7hGPwy14oYofp/BlMNz4SOAaapa9T2kV4X3z7aDe+7/z0ScB95BPYovzEAc/1JtIHKF57KKhzos9QKN/NQGXuNnGIKt83tUTuOZG5A34B6sLfRI2JV9bEWl9lSiHRc8xNIbEzR3Ra5t2OzftPpSzzyuZ5QVBf4cRd+VdBAhCMFzA7thQRm7hp8t+0iSS2BemXL9DLYwJTxs8CaY79hdKhLCfUg2FmE=
+X-Forefront-PRVS: 0792DBEAD0
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BYAPR02MB4757;
+	23:BPg/XrFJ+1rfUEkYfWkm7nadzabtKJoKVmdHCoK2r?=
+	=?us-ascii?Q?fT2qPOiF/7ZaKd9jjdiZV8upr/9X3Mw+9kYBIHnWkH90ACdnc2mIrLeZt72D?=
+	=?us-ascii?Q?D3Tl10I7AjEFr+48yChDC9Lmq2CZNzmeo9YgB3LAL54lLCrErL058dnVHEzX?=
+	=?us-ascii?Q?Es8DVdKj6BikCG4gEBpeXLeIPH/eYjCFKaSjUzGs8/AmyL4K5yPIX+RX8Mtz?=
+	=?us-ascii?Q?70BMt2RiC+ug9uj1ug2iYp5mTRZ3X4yiVTQh9sZN4Sj/DECDXAUc8i9iwYYh?=
+	=?us-ascii?Q?otAVWzxPL12hY4DSukhN+E1Na+eOfa66WM9gI4wgimBe/iCN2bsOAYRMQTC2?=
+	=?us-ascii?Q?8BL40UOT/L/5tqk6haIgbYtRQdSoqXRmR2lpuDrPuXRy6mHkzpDLmIo2uxG4?=
+	=?us-ascii?Q?UA+cYAm3nALlK0pd8zuz4KlY99AK/LlAE1GuNjXK89323cYEwSCimIOvkYNC?=
+	=?us-ascii?Q?iTMWpiyO7J23yQKmQUSRg9uev7UE5hLQUiDvS6ICcF/zvpEFvx8A1VII4HaM?=
+	=?us-ascii?Q?UjdHWtuoddHG8X4TH0SOS94H9LoAwOrD3csJigRQoCeNZc8k9HBtn/t6fyCJ?=
+	=?us-ascii?Q?N1sVaz8Fk1EKIo0I0xvetKY6+Xnxs4Bk8eaXMKK53I1eDvs/fw1QtvrBJyNF?=
+	=?us-ascii?Q?QXU/2bDjIe5MCrLoP7HmQPi0D2HzdJcq3fRJfUeCyQ3HTbA471oDwxdwmZcb?=
+	=?us-ascii?Q?ASkF1/rtZ0qxa4Edddd/qZz5MCRym61ueS43WpQnp0hwj/uyDj+3ieeXf9Ic?=
+	=?us-ascii?Q?bMpHbyKFwiA6muPcKSWQ+y+iZSBaX2IdkD66PuyZqgkYx/Oeg92961fcdWDU?=
+	=?us-ascii?Q?M/Qv6GBBJ3ouLN40h5Hn/USw3uh+1V0MNXCpp957lmVTGiSETivReldc4XVF?=
+	=?us-ascii?Q?E3UUnly4rkHu/W/QTKg33MqHZX7zwccMoOM4dAU8bguGwHCQsAL9drcKade4?=
+	=?us-ascii?Q?DpKRE64rDXiH5SPmQCQAeu7uJz67iQXGHuMolF4ThJfzjFVfKs4WZI2U7CvC?=
+	=?us-ascii?Q?fhivbsiLPVxniIk9BepdoQ5UsN+R7EIH08swOcKAaxR3dCaaeLPv4Dq8BEbj?=
+	=?us-ascii?Q?Bzq0F3tBoEPycz4WYPvJ0NlFCXW6o+MuPfyd2mSkVUTgRoop+Flme3LfmOaD?=
+	=?us-ascii?Q?rKvN2jXFrngu5cXUlH3vXehnWJzz/3Ve9QsXlQsxygwg/ct1EhZ3jW/uEbiF?=
+	=?us-ascii?Q?uUkzydhLCmV+epP8gnSoIE+bF1I/3/Sd0RW90fK1Xksx7CKYK/Yx3P3QBeGh?=
+	=?us-ascii?Q?6ix62MDk4uMRsBl9DTE9LSbuwupA9FybuPj/i78Yu5a8IPDc5PeZoZyuph/K?=
+	=?us-ascii?Q?+ay3YW47ZzZPT+IDZECq7fQJY140WudZEC/mkL/5PzR3n2Xhjs4/D7JXNNhM?=
+	=?us-ascii?Q?P/w7MCcn2//hs7nOmZMfummPvvacjaC3a9tFcWKidghpDdT?=
+X-Microsoft-Antispam-Message-Info: hP8chFNY2Q7IgRurWPnS4o/1+mWieuQ/jgBTclV4NcrN7jX9q7PcasrL+NREcYw86sYjrSq/ufzG76iSNUBxOxhutMFF6OEyogebUTjGyhoW9dZoQy3WkrjJrfFGcWB6UXTYuGHN9HgNg1mAopgg3cmdUNNFC3cLLekepr3xXq2Dw+q8yXqerQN0pHcyBbKcUwO6bMZ8bgP4gY51YfF/oBjDBQpvRjKF1sVqDU8DhWrrA9k/X9YY1v0uHT0SAMpzW2gboBmT9mk0RBnAWY6lFS7JOlvzkZ59lZfgl56EVyub0n/HrBRrsvtUTF8nbdCiwFqjc4+llOHbygbwOPA2yhGg5rwb9MYP/eAENY9HTvI=
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4757;
+	6:9uBfDP8TeNJnpIxuSaXQHOxhUpw0aC0WtD5jUvlbaGcRchnhmI9IB8xZsBi1JivylZV99QoU0DF7STba6mJGXLlQ7yhXXI7nKc43SlMI/H0C8QEnTc1HjToYhEb0j7eZ9XR0LGSC222a8zaH4H/V42pfNUM7lnNRP1qI/g9jwesuAJ7Kkziypt1Z1y9GtObrN9sfHjlFFsRVO6CkaDUsCNpLqMf+DB/WoYjiVaowyBPg8upaUzyqsFQGKzYowLn1Hz/2M7I0372uDIArk+X4lI99Qb5vzC1YXcAxGcRlSiJKg5wAHP2ShXvS/M9faLLKcO//4PYrclix0/BxTlmnarPq/6oo/XYlPCec/obAVrPkL2Ahm4T86XxJ/ZX19X3pWspFWbFGmNDlmvHhYBgDA8HHjItL7s/nEJ4VRxc1o7yp0KwEU8yWMCB4krZUtkVTCYH0NEJCUe6+vp/+94/mMg==;
+	5:FvSsymkk/9dRM0TJtLIkMyBiyYlSiuA7EsinVyWrGdk5vutyVFk/JNO/sDKVaMUwgS3b5zZaChP7JiuFWODVxDhtE0LJilsQiJn08Zr3IDZHGgW7ua/hd6E6BJumfuqjNvqMsdK1BIm0YnWjH1BJ6sNgCxc9uitp0zEnzLDjU7E=;
+	7:yXf0ZUfp9FNOzXjK9NBclbpwBcJyH6HkYdUt6uDZGyKGxAcuWINaYB1DtsnA59338TdC96IXifsddC5koWlA2e6aVl5hbfux6kA9hWRICYoSk8b7b6hFPdT9rOTC7saY4zmgjt84ZuRntxDkG0jtqvKQ/bNORqE2TN6JJuU+LrKheWat1z1+bZcQcaeeRLIwWZwK80zpGNdgDzVcgMHH7wdPLpG3lfqTiNiu+0w9X/PlWY6JcNn+Nu7umUWYFjNA
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2018 18:56:33.0226 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd219f50-95f0-4536-cb49-08d618184ad8
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4757
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] python3{,-native}: update to 3.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,377 +153,651 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2018 18:12:52 -0000
-Content-Type: multipart/alternative; boundary="0000000000001e8ec705759c6c7a"
+X-List-Received-Date: Tue, 11 Sep 2018 18:56:36 -0000
+Content-Type: multipart/alternative;
+	boundary="------------E99CCE779E1EC431B9E483B9"
+Content-Language: en-US
 
---0000000000001e8ec705759c6c7a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------E99CCE779E1EC431B9E483B9
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thanks for the review,
+Hey Jens,
 
-I will resend patch with changes according your comments.
 
-Le lun. 10 sept. 2018 =C3=A0 19:04, Martin Jansa <martin.jansa@gmail.com> a
-=C3=A9crit :
-
-> And don't use tag name in SRCREV, use git SHA, so that bitbake fetcher
-> doesn't need to access the git repository every time it parses the recipe=
-.
+On 09/10/2018 11:58 PM, Jens Rehsack wrote:
 >
-> On Mon, Sep 10, 2018 at 5:49 PM Khem Raj <raj.khem@gmail.com> wrote:
 >
->> this should be in meta-multmedia layer.
->> On Mon, Sep 10, 2018 at 8:15 AM Baptiste Durand
->> <baptiste.durand@gmail.com> wrote:
->> >
->> > Restore minidlna recipe and bump it to v1.2.1
->> >
->> > Signed-off-by: Baptiste Durand <baptiste.durand@gmail.com>
->> > ---
->> >  .../recipes-multimedia/minidlna/minidlna.inc  | 41 ++++++++++++++++++=
-+
->> >  .../0001-Update-Gettext-version.patch         | 34 +++++++++++++++
->> >  .../minidlna/minidlna_1.2.1.bb                |  4 ++
->> >  3 files changed, 79 insertions(+)
->> >  create mode 100644 meta-oe/recipes-multimedia/minidlna/minidlna.inc
->> >  create mode 100644
->> meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-Gettext-version=
-.patch
->> >  create mode 100644 meta-oe/recipes-multimedia/minidlna/
->> minidlna_1.2.1.bb
->> >
->> > diff --git a/meta-oe/recipes-multimedia/minidlna/minidlna.inc
->> b/meta-oe/recipes-multimedia/minidlna/minidlna.inc
->> > new file mode 100644
->> > index 000000000..187ff536a
->> > --- /dev/null
->> > +++ b/meta-oe/recipes-multimedia/minidlna/minidlna.inc
->> > @@ -0,0 +1,41 @@
->> > +DESCRIPTION =3D "MiniDLNA (aka ReadyDLNA) is server software with the
->> aim of \
->> > +being fully compliant with DLNA/UPnP-AV clients."
->> > +LICENSE =3D "GPL-2.0|BSD"
->> > +DEPENDS =3D "ffmpeg flac libav jpeg sqlite3 libexif libogg libid3tag
->> libvorbis"
->> > +
->> > +# because it depends on libav which has commercial flag
->> > +LICENSE_FLAGS =3D "commercial"
->> > +
->> > +inherit gettext autotools-brokensep update-rc.d systemd
->> > +
->> > +SRC_URI =3D "git://
->> git.code.sf.net/p/minidlna/git;branch=3Dmaster;module=3Dgit \
->> > +           file://minidlna-daemon.init.d \
->> > +           file://minidlna.service \
->> > +           file://0001-Update-Gettext-version.patch \
->> > +           "
->> > +
->> > +S =3D "${WORKDIR}/git"
->> > +
->> > +# This remove "--exclude=3Dautopoint" option from autoreconf argument=
- to
->> avoid
->> > +# configure.ac:30: error: required file './ABOUT-NLS' not found
->> > +EXTRA_AUTORECONF =3D ""
->> > +
->> > +do_install_append(){
->> > +    install -d ${D}${sysconfdir}
->> > +    install -m 0755 minidlna.conf ${D}${sysconfdir}
->> > +
->> > +# Systemd script
->> > +    install -d ${D}${nonarch_base_libdir}/systemd/system
->> > +    install -m 0755 ${WORKDIR}/minidlna.service
->> ${D}${nonarch_base_libdir}/systemd/system
->> > +
->> > +# Sysvinit script
->> > +    install -d ${D}${sysconfdir}/init.d
->> > +    install -m 0755 ${WORKDIR}/minidlna-daemon.init.d
->> ${D}${sysconfdir}/init.d/minidlna
->> > +
->> > +}
->> > +
->> > +SYSTEMD_SERVICE_${PN} =3D "minidlna.service"
->> > +
->> > +INITSCRIPT_NAME =3D "minidlna"
->> > +INITSCRIPT_PARAMS =3D "defaults 90"
->> > +
->> > diff --git
->> a/meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-Gettext-versi=
-on.patch
->> b/meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-Gettext-versi=
-on.patch
->> > new file mode 100644
->> > index 000000000..c18095d42
->> > --- /dev/null
->> > +++
->> b/meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-Gettext-versi=
-on.patch
->> > @@ -0,0 +1,34 @@
->> > +From a4290bf1887f9203288858ca76bdd20b2edf337a Mon Sep 17 00:00:00 200=
-1
->> > +From: Baptiste Durand <baptiste.durand@gmail.com>
->> > +Date: Sun, 9 Sep 2018 20:50:41 +0200
->> > +Subject: [PATCH] Update Gettext version
->> > +
->> > +Upstream-Status: Inappropriate [oe-core specific]
->> > +
->> > +Signed-off-by: Baptiste Durand <baptiste.durand@gmail.com>
->> > +---
->> > + configure.ac | 4 ++--
->> > + 1 file changed, 2 insertions(+), 2 deletions(-)
->> > +
->> > +diff --git a/configure.ac b/configure.ac
->> > +index f343d21..a556b33 100644
->> > +--- a/configure.ac
->> > ++++ b/configure.ac
->> > +@@ -14,7 +14,7 @@
->> > + # License along with MiniDLNA; if not, write to the Free Software
->> > + # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-130=
-7
->> > + # USA.
->> > +-AC_INIT(MiniDLNA,1.1.3,,minidlna)
->> > ++AC_INIT(MiniDLNA,1.2.1,,minidlna)
->> > + #LT_INIT
->> > +
->> > + AC_CANONICAL_TARGET
->> > +@@ -28,7 +28,7 @@ m4_ifdef([AC_USE_SYSTEM_EXTENSIONS],
->> [AC_USE_SYSTEM_EXTENSIONS])
->> > +
->> > + AM_ICONV
->> > + AM_GNU_GETTEXT([external])
->> > +-AM_GNU_GETTEXT_VERSION(0.18)
->> > ++AM_GNU_GETTEXT_VERSION(0.19)
->> > +
->> > + # Checks for programs.
->> > + AC_PROG_AWK
->> > diff --git a/meta-oe/recipes-multimedia/minidlna/minidlna_1.2.1.bb
->> b/meta-oe/recipes-multimedia/minidlna/minidlna_1.2.1.bb
->> > new file mode 100644
->> > index 000000000..fe6bebce2
->> > --- /dev/null
->> > +++ b/meta-oe/recipes-multimedia/minidlna/minidlna_1.2.1.bb
->> > @@ -0,0 +1,4 @@
->> > +require ${BPN}.inc
->> > +
->> > +SRCREV =3D "v1_2_1"
->> > +LIC_FILES_CHKSUM =3D
->> "file://LICENCE.miniupnpd;md5=3Db0dabf9d8e0f871554e309d62ead8d2b"
->> > --
->> > 2.17.1
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> --
+>> Am 10.09.2018 um 23:33 schrieb Alejandro Enedino Hernandez Samaniego 
+>> <alejandro.enedino.hernandez-samaniego@xilinx.com 
+>> <mailto:alejandro.enedino.hernandez-samaniego@xilinx.com>>:
+>>
+>> Hey Jens,
+>>
+>>
+>> As I explained before, when you create a manifest for python 
+>> (target), it uses the native build as base (it literally runs the 
+>> native python that was just built), it is assumed its the same 
+>> version as target and contains all the modules provided by upstream, 
+>> otherwise the missing modules cannot be checked for dependencies, and 
+>> the manifest becomes incoherent, so its not an option to have an 
+>> incomplete python native build.
+>>
+> In that case, uuid for target never gets deployed, but it is. And I 
+> didn't see any packaging issues for `python3` nor for `nativesdk-python3`
+
+
+I don't see what that has to do with anything, fixing the native build 
+should not affect what gets deployed on target, thats exactly why we 
+have a manifest, so they user can decide what to install and what not to 
+install.
+I know you didn't see any packaging issues, but that doesn't mean they 
+don't exist, just from the log I showed you, I can tell you that the 
+python3-crypt package is not created correctly, for example, if you do:
+
+IMAGE_INSTALL_append = " python3-crypt"
+
+Boot the image, run python3 and you try to import sha3, it will fail, 
+because the sha3*.so library won't be on the filesystem.
+
+
+And thats because the sha3.*.so library was just introduced in this 
+upgrade, and our manifest isn't aware it exists, hence it'll end up on 
+python3-misc and you have just created an unnecessary dependency from 
+python3-crypt to python3-misc (and worse, a dependency which were not 
+even aware of, until we test it manually), which beats the whole purpose 
+of the manifest.
+
+The do_package function is not gonna fail just because, so you won't see 
+errors, but the files will be packaged incorrectly, causing runtime 
+errors as a consequence, the create_manifest task tries to solve these 
+runtime issues before they happen.
+
+Cheers,
+
+Alejandro
+
+
+>> Yes you probably need a patch to look at the correct directories for 
+>> the h files, as well as a dependency to make the h files available on 
+>> recipe-sysroot-native.
+>>
+> Please check the submission.
+
+I did, its not checking inside recipe-sysroot-native.
+
+
+>
+> Jens
+>>
+>> Alejandro
+>>
+>>
+>> On 09/10/2018 02:05 PM, Jens Rehsack wrote:
+>>> Hey Alejandro,
+>>>
+>>> I fixed that for cross-compile only, since I would need add a patch 
+>>> and a dependency python3-native for one thing: calculate uuids.
+>>> When you can explain to me why the python-native needs that, I'll 
+>>> change that from -target & nativesdk to all.
+>>>
+>>> From my point of view it's not a question of having every (unneeded) 
+>>> python module being built for the native python, which is used for 
+>>> cross-compiling python and some modules only.
+>>>
+>>> Cheers,
+>>> Jens
+>>>
+>>>> Am 10.09.2018 um 22:17 schrieb Alejandro Enedino Hernandez 
+>>>> Samaniego <alejandro.enedino.hernandez-samaniego@xilinx.com 
+>>>> <mailto:alejandro.enedino.hernandez-samaniego@xilinx.com>>:
+>>>>
+>>>> Hey Jens,
+>>>>
+>>>> The compilation log for python3-native still shows that it didn't 
+>>>> build the uuid module
+>>>>
+>>>>
+>>>> Python build finished successfully!
+>>>> The necessary bits to build these optional modules were not found:
+>>>> _uuid
+>>>>
+>>>> Please look at my previous reply to find how this can be solved 
+>>>> (its likely a missing DEPENDS).
+>>>>
+>>>>
+>>>> Also, this patch is missing the new python3 manifest for this 
+>>>> release, there appears to be a few new modules that we need to 
+>>>> decide which package they belong to, this is the output of bitbake 
+>>>> python3 -c create_manifest:
+>>>>
+>>>>
+>>>> | ERROR:
+>>>> | The following files are repeated (contained in more than one 
+>>>> package),
+>>>> | this is likely to happen when new files are introduced after an 
+>>>> upgrade,
+>>>> | please check which package should get it,
+>>>> |  modify the manifest accordingly and re-run the create_manifest task:
+>>>> | ${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_blake2.*.so
+>>>> | ${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_sha3.*.so
+>>>> | ${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_contextvars.*.so
+>>>> | ${libdir}/python${PYTHON_MAJMIN}/contextvars.py
+>>>> | ${libdir}/python${PYTHON_MAJMIN}/__pycache__/contextvars.*.pyc
+>>>> | ${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_queue.*.so
+>>>>
+>>>>
+>>>> Cheers,
+>>>>
+>>>>
+>>>> Alejandro
+>>>>
+>>>>
+>>>> On 09/10/2018 09:38 AM, Burton, Ross wrote:
+>>>>> One thing to be aware of is that I've been fixing up Python's PGO
+>>>>> support and there's a slew of patches in master-next and more just
+>>>>> posted that this needs to be rebased on top of.  Good news is that my
+>>>>> patches remove two of the patches we've been carrying!
+>>>>>
+>>>>> Ross
+>>>>>
+>>>>> On 10 September 2018 at 17:36, Jens Rehsack <sno@netbsd.org 
+>>>>> <mailto:sno@netbsd.org>> wrote:
+>>>>>>
+>>>>>> Am 10.09.2018 um 11:35 schrieb Alexander Kanavin 
+>>>>>> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>:
+>>>>>>
+>>>>>> Large parts of dnf and friends have been rewritten in c++. I have not
+>>>>>> yet updated and reviewed that, that will happen in the next cycle.
+>>>>>>
+>>>>>>
+>>>>>> If I can prepare something for you - drop me a note.
+>>>>>> Otherwise - the perl-5.28 update ("." in @INC, regex buffer 
+>>>>>> overflow, ...)
+>>>>>> is also
+>>>>>> awaiting some progress (I can keep "myself" busy).
+>>>>>>
+>>>>>> There's already enough disruption to deal with (postinsts errors,
+>>>>>> openssl 1.1, both caused by me :)
+>>>>>>
+>>>>>>
+>>>>>> You know, corner, ash, ... things happen. But there is progress! 
+>>>>>> Great!
+>>>>>>
+>>>>>> Good that we got all the way to do_rootfs though with 3.7.
+>>>>>>
+>>>>>>
+>>>>>> Yeah, but than came postinst (coreutils :P) :D
+>>>>>>
+>>>>>> Cheers
+>>>>>>
+>>>>>> Alex
+>>>>>>
+>>>>>> 2018-09-10 0:38 GMT+02:00 Tim Orling <ticotimo@gmail.com 
+>>>>>> <mailto:ticotimo@gmail.com>>:
+>>>>>>
+>>>>>> I did not review the patches closely, but I did try to build
+>>>>>> core-image-full-cmdline with the tip of poky and these patches 
+>>>>>> applied.
+>>>>>> Everything was fine until do_rootfs... I've attached the log.
+>>>>>>
+>>>>>> Essentially, there are some bits of dnf and so on which are not 
+>>>>>> ready for
+>>>>>> Python 3.7. We have dnf version 2.7.5, but the latest upstream 
+>>>>>> release is
+>>>>>> 3.4.0 (with a 3.5.0 just 3 days ago). Not sure yet if that would have
+>>>>>> helped.
+>>>>>>
+>>>>>> --
+>>>>>> _______________________________________________
+>>>>>> Openembedded-core mailing list
+>>>>>> Openembedded-core@lists.openembedded.org 
+>>>>>> <mailto:Openembedded-core@lists.openembedded.org>
+>>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>>>
+>>>>>>
+>>>>>> --
+>>>>>> Jens Rehsack - rehsack@gmail.com
+>>>>>>
+>>>>>>
+>>>>>> --
+>>>>>> _______________________________________________
+>>>>>> Openembedded-core mailing list
+>>>>>> Openembedded-core@lists.openembedded.org
+>>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>>>
+>>>>
+>>>> -- 
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org 
+>>>> <mailto:Openembedded-core@lists.openembedded.org>
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>> -- 
+>>> Jens Rehsack - rehsack@gmail.com <mailto:rehsack@gmail.com>
+>>>
+>>
+>> -- 
 >> _______________________________________________
 >> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
+>> Openembedded-core@lists.openembedded.org 
+>> <mailto:Openembedded-core@lists.openembedded.org>
 >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+>
+> -- 
+> Jens Rehsack - rehsack@gmail.com <mailto:rehsack@gmail.com>
 >
 
---=20
-Baptiste DURAND
 
---0000000000001e8ec705759c6c7a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------E99CCE779E1EC431B9E483B9
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-<div dir=3D"ltr"><div>Thanks for the review,</div><div><br></div><div>I wil=
-l resend patch with changes according your comments.<br></div></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr">Le=C2=A0lun. 10 sept. 2018 =C3=A0=
-=C2=A019:04, Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">mar=
-tin.jansa@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div dir=3D"ltr">And don&#39;t use tag name in SRCREV, use gi=
-t SHA, so that bitbake fetcher doesn&#39;t need to access the git repositor=
-y every time it parses the recipe.</div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr">On Mon, Sep 10, 2018 at 5:49 PM Khem Raj &lt;<a href=3D"mailto=
-:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">this should be in meta-multmedia laye=
-r.<br>
-On Mon, Sep 10, 2018 at 8:15 AM Baptiste Durand<br>
-&lt;<a href=3D"mailto:baptiste.durand@gmail.com" target=3D"_blank">baptiste=
-.durand@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Restore minidlna recipe and bump it to v1.2.1<br>
-&gt;<br>
-&gt; Signed-off-by: Baptiste Durand &lt;<a href=3D"mailto:baptiste.durand@g=
-mail.com" target=3D"_blank">baptiste.durand@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../recipes-multimedia/minidlna/minidlna.inc=C2=A0 | 41 ++++++++=
-+++++++++++<br>
-&gt;=C2=A0 .../0001-Update-Gettext-version.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| 34 +++++++++++++++<br>
-&gt;=C2=A0 .../minidlna/<a href=3D"http://minidlna_1.2.1.bb" rel=3D"norefer=
-rer" target=3D"_blank">minidlna_1.2.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++<br>
-&gt;=C2=A0 3 files changed, 79 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta-oe/recipes-multimedia/minidlna/minidlna.=
-inc<br>
-&gt;=C2=A0 create mode 100644 meta-oe/recipes-multimedia/minidlna/minidlna/=
-0001-Update-Gettext-version.patch<br>
-&gt;=C2=A0 create mode 100644 meta-oe/recipes-multimedia/minidlna/<a href=
-=3D"http://minidlna_1.2.1.bb" rel=3D"noreferrer" target=3D"_blank">minidlna=
-_1.2.1.bb</a><br>
-&gt;<br>
-&gt; diff --git a/meta-oe/recipes-multimedia/minidlna/minidlna.inc b/meta-o=
-e/recipes-multimedia/minidlna/minidlna.inc<br>
-&gt; new file mode 100644<br>
-&gt; index 000000000..187ff536a<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta-oe/recipes-multimedia/minidlna/minidlna.inc<br>
-&gt; @@ -0,0 +1,41 @@<br>
-&gt; +DESCRIPTION =3D &quot;MiniDLNA (aka ReadyDLNA) is server software wit=
-h the aim of \<br>
-&gt; +being fully compliant with DLNA/UPnP-AV clients.&quot;<br>
-&gt; +LICENSE =3D &quot;GPL-2.0|BSD&quot;<br>
-&gt; +DEPENDS =3D &quot;ffmpeg flac libav jpeg sqlite3 libexif libogg libid=
-3tag libvorbis&quot;<br>
-&gt; +<br>
-&gt; +# because it depends on libav which has commercial flag<br>
-&gt; +LICENSE_FLAGS =3D &quot;commercial&quot;<br>
-&gt; +<br>
-&gt; +inherit gettext autotools-brokensep update-rc.d systemd<br>
-&gt; +<br>
-&gt; +SRC_URI =3D &quot;git://<a href=3D"http://git.code.sf.net/p/minidlna/=
-git;branch=3Dmaster;module=3Dgit" rel=3D"noreferrer" target=3D"_blank">git.=
-code.sf.net/p/minidlna/git;branch=3Dmaster;module=3Dgit</a> \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://minidlna-daemon.init.=
-d \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://minidlna.service \<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Update-Gettext-v=
-ersion.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt; +<br>
-&gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; +<br>
-&gt; +# This remove &quot;--exclude=3Dautopoint&quot; option from autorecon=
-f argument to avoid<br>
-&gt; +# <a href=3D"http://configure.ac:30" rel=3D"noreferrer" target=3D"_bl=
-ank">configure.ac:30</a>: error: required file &#39;./ABOUT-NLS&#39; not fo=
-und<br>
-&gt; +EXTRA_AUTORECONF =3D &quot;&quot;<br>
-&gt; +<br>
-&gt; +do_install_append(){<br>
-&gt; +=C2=A0 =C2=A0 install -d ${D}${sysconfdir}<br>
-&gt; +=C2=A0 =C2=A0 install -m 0755 minidlna.conf ${D}${sysconfdir}<br>
-&gt; +<br>
-&gt; +# Systemd script<br>
-&gt; +=C2=A0 =C2=A0 install -d ${D}${nonarch_base_libdir}/systemd/system<br=
->
-&gt; +=C2=A0 =C2=A0 install -m 0755 ${WORKDIR}/minidlna.service ${D}${nonar=
-ch_base_libdir}/systemd/system<br>
-&gt; +<br>
-&gt; +# Sysvinit script<br>
-&gt; +=C2=A0 =C2=A0 install -d ${D}${sysconfdir}/init.d<br>
-&gt; +=C2=A0 =C2=A0 install -m 0755 ${WORKDIR}/minidlna-daemon.init.d ${D}$=
-{sysconfdir}/init.d/minidlna<br>
-&gt; +<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +SYSTEMD_SERVICE_${PN} =3D &quot;minidlna.service&quot;<br>
-&gt; +<br>
-&gt; +INITSCRIPT_NAME =3D &quot;minidlna&quot;<br>
-&gt; +INITSCRIPT_PARAMS =3D &quot;defaults 90&quot;<br>
-&gt; +<br>
-&gt; diff --git a/meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-=
-Gettext-version.patch b/meta-oe/recipes-multimedia/minidlna/minidlna/0001-U=
-pdate-Gettext-version.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 000000000..c18095d42<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta-oe/recipes-multimedia/minidlna/minidlna/0001-Update-Gettext=
--version.patch<br>
-&gt; @@ -0,0 +1,34 @@<br>
-&gt; +From a4290bf1887f9203288858ca76bdd20b2edf337a Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Baptiste Durand &lt;<a href=3D"mailto:baptiste.durand@gmail.com=
-" target=3D"_blank">baptiste.durand@gmail.com</a>&gt;<br>
-&gt; +Date: Sun, 9 Sep 2018 20:50:41 +0200<br>
-&gt; +Subject: [PATCH] Update Gettext version<br>
-&gt; +<br>
-&gt; +Upstream-Status: Inappropriate [oe-core specific]<br>
-&gt; +<br>
-&gt; +Signed-off-by: Baptiste Durand &lt;<a href=3D"mailto:baptiste.durand@=
-gmail.com" target=3D"_blank">baptiste.durand@gmail.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + <a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
->configure.ac</a> | 4 ++--<br>
-&gt; + 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt; +<br>
-&gt; +diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" targe=
-t=3D"_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"nore=
-ferrer" target=3D"_blank">configure.ac</a><br>
-&gt; +index f343d21..a556b33 100644<br>
-&gt; +--- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
-lank">configure.ac</a><br>
-&gt; ++++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
-lank">configure.ac</a><br>
-&gt; +@@ -14,7 +14,7 @@<br>
-&gt; + # License along with MiniDLNA; if not, write to the Free Software<br=
->
-&gt; + # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-130=
-7<br>
-&gt; + # USA.<br>
-&gt; +-AC_INIT(MiniDLNA,1.1.3,,minidlna)<br>
-&gt; ++AC_INIT(MiniDLNA,1.2.1,,minidlna)<br>
-&gt; + #LT_INIT<br>
-&gt; +<br>
-&gt; + AC_CANONICAL_TARGET<br>
-&gt; +@@ -28,7 +28,7 @@ m4_ifdef([AC_USE_SYSTEM_EXTENSIONS], [AC_USE_SYSTEM=
-_EXTENSIONS])<br>
-&gt; +<br>
-&gt; + AM_ICONV<br>
-&gt; + AM_GNU_GETTEXT([external])<br>
-&gt; +-AM_GNU_GETTEXT_VERSION(0.18)<br>
-&gt; ++AM_GNU_GETTEXT_VERSION(0.19)<br>
-&gt; +<br>
-&gt; + # Checks for programs.<br>
-&gt; + AC_PROG_AWK<br>
-&gt; diff --git a/meta-oe/recipes-multimedia/minidlna/<a href=3D"http://min=
-idlna_1.2.1.bb" rel=3D"noreferrer" target=3D"_blank">minidlna_1.2.1.bb</a> =
-b/meta-oe/recipes-multimedia/minidlna/<a href=3D"http://minidlna_1.2.1.bb" =
-rel=3D"noreferrer" target=3D"_blank">minidlna_1.2.1.bb</a><br>
-&gt; new file mode 100644<br>
-&gt; index 000000000..fe6bebce2<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta-oe/recipes-multimedia/minidlna/<a href=3D"http://minidlna_1=
-.2.1.bb" rel=3D"noreferrer" target=3D"_blank">minidlna_1.2.1.bb</a><br>
-&gt; @@ -0,0 +1,4 @@<br>
-&gt; +require ${BPN}.inc<br>
-&gt; +<br>
-&gt; +SRCREV =3D &quot;v1_2_1&quot;<br>
-&gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENCE.miniupnpd;md5=3Db0dabf9d8e0=
-f871554e309d62ead8d2b&quot;<br>
-&gt; --<br>
-&gt; 2.17.1<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><d=
-iv><span><font color=3D"#888888">Baptiste DURAND<br></font></span></div><di=
-v><span><font color=3D"#888888"><br></font></span></div></div></div></div>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>Hey Jens,<br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 09/10/2018 11:58 PM, Jens Rehsack
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:0EC3E010-56C9-4EB4-90B4-FD9A68F99AAC@netbsd.org">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=windows-1252">
+      <br class="">
+      <div><br class="">
+        <blockquote type="cite" class="">
+          <div class="">Am 10.09.2018 um 23:33 schrieb Alejandro Enedino
+            Hernandez Samaniego &lt;<a
+              href="mailto:alejandro.enedino.hernandez-samaniego@xilinx.com"
+              class="" moz-do-not-send="true">alejandro.enedino.hernandez-samaniego@xilinx.com</a>&gt;:</div>
+          <br class="Apple-interchange-newline">
+          <div class="">
+            <meta http-equiv="Content-Type" content="text/html;
+              charset=windows-1252" class="">
+            <div text="#000000" bgcolor="#FFFFFF" class="">
+              <p class="">Hey Jens,</p>
+              <p class=""><br class="">
+              </p>
+              <p class="">As I explained before, when you create a
+                manifest for python (target), it uses the native build
+                as base (it literally runs the native python that was
+                just built), it is assumed its the same version as
+                target and contains all the modules provided by
+                upstream, otherwise the missing modules cannot be
+                checked for dependencies, and the manifest becomes
+                incoherent, so its not an option to have an incomplete
+                python native build.</p>
+            </div>
+          </div>
+        </blockquote>
+        <div>In that case, uuid for target never gets deployed, but it
+          is. And I didn't see any packaging issues for `python3` nor
+          for `nativesdk-python3`</div>
+      </div>
+    </blockquote>
+    <br>
+    <br>
+    I don't see what that has to do with anything, fixing the native
+    build should not affect what gets deployed on target, thats exactly
+    why we have a manifest, so they user can decide what to install and
+    what not to install.<br>
+    I know you didn't see any packaging issues, but that doesn't mean
+    they don't exist, just from the log I showed you, I can tell you
+    that the python3-crypt package is not created correctly, for
+    example, if you do:<br>
+    <br>
+    IMAGE_INSTALL_append = " python3-crypt"<br>
+    <br>
+    Boot the image, run python3 and you try to import sha3, it will
+    fail, because the sha3*.so library won't be on the filesystem.<br>
+    <br>
+    <br>
+    And thats because the sha3.*.so library was just introduced in this
+    upgrade, and our manifest isn't aware it exists, hence it'll end up
+    on python3-misc and you have just created an unnecessary dependency
+    from python3-crypt to python3-misc (and worse, a dependency which
+    were not even aware of, until we test it manually), which beats the
+    whole purpose of the manifest.<br>
+    <br>
+    The do_package function is not gonna fail just because, so you won't
+    see errors, but the files will be packaged incorrectly, causing
+    runtime errors as a consequence, the create_manifest task tries to
+    solve these runtime issues before they happen.<br>
+    <br>
+    Cheers,<br>
+    <br>
+    Alejandro<br>
+    <br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:0EC3E010-56C9-4EB4-90B4-FD9A68F99AAC@netbsd.org">
+      <div>
+        <blockquote type="cite" class="">
+          <div class="">
+            <div text="#000000" bgcolor="#FFFFFF" class="">
+              <p class="">Yes you probably need a patch to look at the
+                correct directories for the h files, as well as a
+                dependency to make the h files available on
+                recipe-sysroot-native.</p>
+            </div>
+          </div>
+        </blockquote>
+        Please check the submission.</div>
+    </blockquote>
+    <br>
+    I did, its not checking inside recipe-sysroot-native.<br>
+    <br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:0EC3E010-56C9-4EB4-90B4-FD9A68F99AAC@netbsd.org">
+      <div><br class="">
+      </div>
+      <div>Jens<br class="">
+        <blockquote type="cite" class="">
+          <div class="">
+            <div text="#000000" bgcolor="#FFFFFF" class="">
+              <p class="">Alejandro<br class="">
+              </p>
+              <br class="">
+              <div class="moz-cite-prefix">On 09/10/2018 02:05 PM, Jens
+                Rehsack wrote:<br class="">
+              </div>
+              <blockquote type="cite"
+                cite="mid:F9FC0A02-BAE6-45CB-A38D-7AE4E39E5587@netbsd.org"
+                class="">
+                <meta http-equiv="Content-Type" content="text/html;
+                  charset=windows-1252" class="">
+                Hey Alejandro,
+                <div class=""><br class="">
+                </div>
+                <div class="">I fixed that for cross-compile only, since
+                  I would need add a patch and a dependency
+                  python3-native for one thing: calculate uuids.</div>
+                <div class="">When you can explain to me why the
+                  python-native needs that, I'll change that from
+                  -target &amp; nativesdk to all.</div>
+                <div class=""><br class="">
+                </div>
+                <div class="">From my point of view it's not a question
+                  of having every (unneeded) python module being built
+                  for the native python, which is used for
+                  cross-compiling python and some modules only.</div>
+                <div class=""><br class="">
+                </div>
+                <div class="">Cheers,</div>
+                <div class="">Jens<br class="">
+                  <div class=""><br class="">
+                    <blockquote type="cite" class="">
+                      <div class="">Am 10.09.2018 um 22:17 schrieb
+                        Alejandro Enedino Hernandez Samaniego &lt;<a
+                          href="mailto:alejandro.enedino.hernandez-samaniego@xilinx.com"
+                          class="" moz-do-not-send="true">alejandro.enedino.hernandez-samaniego@xilinx.com</a>&gt;:</div>
+                      <br class="Apple-interchange-newline">
+                      <div class="">
+                        <div class="">Hey Jens,<br class="">
+                          <br class="">
+                          The compilation log for python3-native still
+                          shows that it didn't build the uuid module<br
+                            class="">
+                          <br class="">
+                          <br class="">
+                          Python build finished successfully!<br
+                            class="">
+                          The necessary bits to build these optional
+                          modules were not found:<br class="">
+                          _uuid<br class="">
+                          <br class="">
+                          Please look at my previous reply to find how
+                          this can be solved (its likely a missing
+                          DEPENDS).<br class="">
+                          <br class="">
+                          <br class="">
+                          Also, this patch is missing the new python3
+                          manifest for this release, there appears to be
+                          a few new modules that we need to decide which
+                          package they belong to, this is the output of
+                          bitbake python3 -c create_manifest:<br
+                            class="">
+                          <br class="">
+                          <br class="">
+                          | ERROR:<br class="">
+                          | The following files are repeated (contained
+                          in more than one package),<br class="">
+                          | this is likely to happen when new files are
+                          introduced after an upgrade,<br class="">
+                          | please check which package should get it,<br
+                            class="">
+                          |  modify the manifest accordingly and re-run
+                          the create_manifest task:<br class="">
+                          |
+                          ${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_blake2.*.so<br
+                            class="">
+                          |
+                          ${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_sha3.*.so<br
+                            class="">
+                          |
+                          ${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_contextvars.*.so<br
+                            class="">
+                          |
+                          ${libdir}/python${PYTHON_MAJMIN}/contextvars.py<br
+                            class="">
+                          |
+                          ${libdir}/python${PYTHON_MAJMIN}/__pycache__/contextvars.*.pyc<br
+                            class="">
+                          |
+                          ${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_queue.*.so<br
+                            class="">
+                          <br class="">
+                          <br class="">
+                          Cheers,<br class="">
+                          <br class="">
+                          <br class="">
+                          Alejandro<br class="">
+                          <br class="">
+                          <br class="">
+                          On 09/10/2018 09:38 AM, Burton, Ross wrote:<br
+                            class="">
+                          <blockquote type="cite" class="">One thing to
+                            be aware of is that I've been fixing up
+                            Python's PGO<br class="">
+                            support and there's a slew of patches in
+                            master-next and more just<br class="">
+                            posted that this needs to be rebased on top
+                            of.  Good news is that my<br class="">
+                            patches remove two of the patches we've been
+                            carrying!<br class="">
+                            <br class="">
+                            Ross<br class="">
+                            <br class="">
+                            On 10 September 2018 at 17:36, Jens Rehsack
+                            &lt;<a href="mailto:sno@netbsd.org" class=""
+                              moz-do-not-send="true">sno@netbsd.org</a>&gt;
+                            wrote:<br class="">
+                            <blockquote type="cite" class=""><br
+                                class="">
+                              Am 10.09.2018 um 11:35 schrieb Alexander
+                              Kanavin &lt;<a
+                                href="mailto:alex.kanavin@gmail.com"
+                                class="" moz-do-not-send="true">alex.kanavin@gmail.com</a>&gt;:<br
+                                class="">
+                              <br class="">
+                              Large parts of dnf and friends have been
+                              rewritten in c++. I have not<br class="">
+                              yet updated and reviewed that, that will
+                              happen in the next cycle.<br class="">
+                              <br class="">
+                              <br class="">
+                              If I can prepare something for you - drop
+                              me a note.<br class="">
+                              Otherwise - the perl-5.28 update ("." in
+                              @INC, regex buffer overflow, ...)<br
+                                class="">
+                              is also<br class="">
+                              awaiting some progress (I can keep
+                              "myself" busy).<br class="">
+                              <br class="">
+                              There's already enough disruption to deal
+                              with (postinsts errors,<br class="">
+                              openssl 1.1, both caused by me :)<br
+                                class="">
+                              <br class="">
+                              <br class="">
+                              You know, corner, ash, ... things happen.
+                              But there is progress! Great!<br class="">
+                              <br class="">
+                              Good that we got all the way to do_rootfs
+                              though with 3.7.<br class="">
+                              <br class="">
+                              <br class="">
+                              Yeah, but than came postinst (coreutils
+                              :P) :D<br class="">
+                              <br class="">
+                              Cheers<br class="">
+                              <br class="">
+                              Alex<br class="">
+                              <br class="">
+                              2018-09-10 0:38 GMT+02:00 Tim Orling &lt;<a
+                                href="mailto:ticotimo@gmail.com"
+                                class="" moz-do-not-send="true">ticotimo@gmail.com</a>&gt;:<br
+                                class="">
+                              <br class="">
+                              I did not review the patches closely, but
+                              I did try to build<br class="">
+                              core-image-full-cmdline with the tip of
+                              poky and these patches applied.<br
+                                class="">
+                              Everything was fine until do_rootfs...
+                              I've attached the log.<br class="">
+                              <br class="">
+                              Essentially, there are some bits of dnf
+                              and so on which are not ready for<br
+                                class="">
+                              Python 3.7. We have dnf version 2.7.5, but
+                              the latest upstream release is<br class="">
+                              3.4.0 (with a 3.5.0 just 3 days ago). Not
+                              sure yet if that would have<br class="">
+                              helped.<br class="">
+                              <br class="">
+                              --<br class="">
+_______________________________________________<br class="">
+                              Openembedded-core mailing list<br class="">
+                              <a
+                                href="mailto:Openembedded-core@lists.openembedded.org"
+                                class="" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br
+                                class="">
+                              <a class="moz-txt-link-freetext"
+                                href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                                moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br
+                                class="">
+                              <br class="">
+                              <br class="">
+                              --<br class="">
+                              Jens Rehsack - <a
+                                class="moz-txt-link-abbreviated"
+                                href="mailto:rehsack@gmail.com"
+                                moz-do-not-send="true">rehsack@gmail.com</a><br
+                                class="">
+                              <br class="">
+                              <br class="">
+                              --<br class="">
+_______________________________________________<br class="">
+                              Openembedded-core mailing list<br class="">
+                              <a class="moz-txt-link-abbreviated"
+                                href="mailto:Openembedded-core@lists.openembedded.org"
+                                moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br
+                                class="">
+                              <a class="moz-txt-link-freetext"
+                                href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                                moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br
+                                class="">
+                              <br class="">
+                            </blockquote>
+                          </blockquote>
+                          <br class="">
+                          -- <br class="">
+_______________________________________________<br class="">
+                          Openembedded-core mailing list<br class="">
+                          <a
+                            href="mailto:Openembedded-core@lists.openembedded.org"
+                            class="" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br
+                            class="">
+                          <a class="moz-txt-link-freetext"
+                            href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                            moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br
+                            class="">
+                        </div>
+                      </div>
+                    </blockquote>
+                  </div>
+                  <br class="">
+                  <div class="">
+                    <div style="letter-spacing: normal; text-align:
+                      start; text-indent: 0px; text-transform: none;
+                      white-space: normal; word-spacing: 0px;
+                      -webkit-text-stroke-width: 0px; word-wrap:
+                      break-word; -webkit-nbsp-mode: space; line-break:
+                      after-white-space;" class="">
+                      <div style="letter-spacing: normal; text-align:
+                        start; text-indent: 0px; text-transform: none;
+                        white-space: normal; word-spacing: 0px;
+                        -webkit-text-stroke-width: 0px; word-wrap:
+                        break-word; -webkit-nbsp-mode: space;
+                        line-break: after-white-space;" class="">
+                        <div class="">-- </div>
+                        <div class="">Jens Rehsack - <a
+                            href="mailto:rehsack@gmail.com" class=""
+                            moz-do-not-send="true">rehsack@gmail.com</a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <br class="">
+                </div>
+              </blockquote>
+              <br class="">
+            </div>
+            -- <br class="">
+            _______________________________________________<br class="">
+            Openembedded-core mailing list<br class="">
+            <a href="mailto:Openembedded-core@lists.openembedded.org"
+              class="" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br
+              class="">
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br
+              class="">
+          </div>
+        </blockquote>
+      </div>
+      <br class="">
+      <div class="">
+        <div style="color: rgb(0, 0, 0); letter-spacing: normal;
+          orphans: auto; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: auto;
+          word-spacing: 0px; -webkit-text-stroke-width: 0px; word-wrap:
+          break-word; -webkit-nbsp-mode: space; -webkit-line-break:
+          after-white-space;" class="">
+          <div style="color: rgb(0, 0, 0); letter-spacing: normal;
+            orphans: auto; text-align: start; text-indent: 0px;
+            text-transform: none; white-space: normal; widows: auto;
+            word-spacing: 0px; -webkit-text-stroke-width: 0px;
+            word-wrap: break-word; -webkit-nbsp-mode: space;
+            -webkit-line-break: after-white-space;" class="">
+            <div class="">-- </div>
+            <div class="">Jens Rehsack - <a
+                href="mailto:rehsack@gmail.com" class=""
+                moz-do-not-send="true">rehsack@gmail.com</a></div>
+          </div>
+        </div>
+      </div>
+      <br class="">
+    </blockquote>
+    <br>
+  </body>
+</html>
 
---0000000000001e8ec705759c6c7a--
+--------------E99CCE779E1EC431B9E483B9--
