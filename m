@@ -1,28 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3666579717
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 765E979844
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 08:08:10 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w8B8874u008065
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 11 Sep 2018 09:08:08 +0100
-Message-ID: <22e5590602f842f8cac99d5277dc7ebe185652de.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ChenQi <Qi.Chen@windriver.com>, "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Sep 2018 09:08:07 +0100
-In-Reply-To: <2ba2543a-d351-8df2-f946-dff83c8e2c22@windriver.com>
-References: <cover.1536573689.git.Qi.Chen@windriver.com>
-	<d5a1d1701202d4323e15cb31c7f9a3afca88a00f.1536573689.git.Qi.Chen@windriver.com>
-	<CAJTo0LZiPj8qNgTVUkvno50LhizJ57VKGCnnQqiTuJUyGNmNRA@mail.gmail.com>
-	<2ba2543a-d351-8df2-f946-dff83c8e2c22@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] autotools: do more cleanup when in do_configure
+	Tue, 11 Sep 2018 08:28:31 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id j7-v6so27354017qtp.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Sep 2018 01:28:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ADGjok9Fh5v3QxodM2IxFbtHsHbCr7DYRYy2kCo6+T8=;
+	b=LTDo9nfQTopr86jwTDeFKP/0/Bqr6ZwJgftFEc52OPfqjGA7BgUGNK+l2xbdrUhbR6
+	hRrmgA1mmWQkwzo1qhHc0bYoSDcp27pgbE1ERBPML3BA0ylnV+AGwsAQQuol2rrECH0+
+	2VrWreE6fLjlH89BN7NaJPruHps1QAqjNGJ43tzjNkCKW3i0iGZ0aq40Mzk7wEC6Qg2X
+	9ywR8s7IfOGHwtWFPNdIQ6iPYXHnmzQWyvl7myUYVhVkkHx9iJruljjU6fnuVPW/xRk+
+	FXut3S7cakPRL7VxGLiN5eHEXzDacOgVowkxTdLli6W+KebcdrsLxnyzQvJsvA/rtYSC
+	3r+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ADGjok9Fh5v3QxodM2IxFbtHsHbCr7DYRYy2kCo6+T8=;
+	b=WsGczI7oq+fI6aBoM0/yLQgA4ehZweaioCHLVEspvcatwiO4078vptNTMa0rqYb455
+	N5I+Hl6vaYtugo12XuI2AHrC6jmpjNiVYEi178/LMuh0QjzwNgg9d1gxh1lAf/Yq8O4A
+	rMUy4TjfAvBtS2nOKZlDAYQ3IqAWZ5vwUXbadcz5Zup0mAHeZpl61iq//iXTuUb1H9XA
+	naxEk7fVRrpFXnmywC2lidmMKIgnmyoY2WsJby2IP00LIVEE7PxrUkNQCqmQ4Shs7/Pi
+	BBe7bZi6bM+zi//8BE4HHSJpCy6+Wx9SSKkMdXkuHAFfxuHLlu2kzndUTXEJJNZUUA1R
+	CIug==
+X-Gm-Message-State: APzg51CybX7tikJKYOG7HjWSeOgsYMxYPP3LYiGcTPbI5U9AGVTBmev2
+	3Ph6qOGx0QZhn9heRguLpg5AQV30i9OZEJ8DE9DVDw==
+X-Google-Smtp-Source: ANB0Vda27a5adX0O0mfuCTnacKX56triWunrpgh205twKffRavTPJvgB8PjLcJlgUhBnsov4s85LjkGKH3d5kdIKzR4=
+X-Received: by 2002:a0c:8738:: with SMTP id
+	53-v6mr17991776qvh.47.1536654512039; 
+	Tue, 11 Sep 2018 01:28:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180910124238.20745-1-nathan@nathanrossi.com>
+	<CAMKF1sqRh69ZgpqRLu6zpgaQWeS0+sdLvxZQxupEikONSvgKhQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sqRh69ZgpqRLu6zpgaQWeS0+sdLvxZQxupEikONSvgKhQ@mail.gmail.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Tue, 11 Sep 2018 18:28:20 +1000
+Message-ID: <CA+aJhH325FkQK37U6DCDaRSkMUZ9ZCcgeN94iQvnqoMmr2Pf1A@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libgloss_3.0.0.bb: Fix up mv pattern to include libnosys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,78 +56,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2018 08:08:11 -0000
+X-List-Received-Date: Tue, 11 Sep 2018 08:28:31 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-09-11 at 09:30 +0800, ChenQi wrote:
-> On 09/10/2018 06:24 PM, Burton, Ross wrote:
-> > On 10 September 2018 at 11:02, Chen Qi <Qi.Chen@windriver.com>
-> > wrote:
-> > > I met the following error when compiling some projects.
-> > > 
-> > > > configure: error: `LDFLAGS' has changed since the previous run:
-> > > > configure:   former value:  `-Wl,-O1 -Wl,--hash-style=gnu -Wl,-
-> > > > -as-needed'
-> > > > configure:   current value: `-Wl,-O1 -Wl,--hash-style=gnu -Wl,-
-> > > > -as-needed -fstack-protector-strong -Wl,-z,relro,-z,now'
-> > > 
-> > > [snip]
-> > > > configure: error: changes in the environment can compromise the
-> > > > build
-> > > > configure: error: run `make distclean' and/or `rm
-> > > > .././config.cache' and start over
-> > > 
-> > > I think when some recipe inherits autotools-brokensep, it should
-> > > try to
-> > > do more cleanups before configure. So also do 'make distclean'
-> > > and remove
-> > > config.cache just as what the error message told us.
-> > 
-> > Does just removing config.cache work for your problem?
-> 
-> I guess it should, but I haven't checked.
-> >    I'm concerned
-> > about running a distclean because some upstreams abuse that target
-> > and
-> > then can't rebuild.
-> 
-> Hmm... I hold the opposite opinion.
-> I suspect that just doing a `make clean' is more likely to break
-> rebuild 
-> while doing a `make distclean' should reduce the possibility.
-> 
-> Conceptually, `make clean' is followed by `make' while `make
-> distclean' 
-> is followed by `configure & make'.
-> At rebuild, we are doing `configure & make'; so we should use `make 
-> distclean', in theory.
-> 
-> I'll revisit this issue later and do more investigation.
-> > Also obviously the proper fix is to not use autotools-brokensep in
-> > the
-> > recipe in the first place.
-> 
-> You are right.
-> The recipe is cyrus-sasl and the newly updated version has fixed to
-> use 
-> autotools instead of autotools-brokensep.
-> 
-> To summarize, ideally we should have no recipe inheriting 
-> autotools-brokensep. But in reality, it's almost not possible.
-> I sent out this patch because I thought it would be helpful for such 
-> recipes.
+On Tue, 11 Sep 2018 at 02:19, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Mon, Sep 10, 2018 at 5:43 AM Nathan Rossi <nathan@nathanrossi.com> wrote:
+> >
+> > When installing libgloss libraries handle the ${TARGET_SYS}/lib contents
+> > so that it is placed in ${libdir} instead of ${libdir}/lib. This
+> > resolves a packaging QA issue.
+> >
+> >   ERROR: libgloss-3.0.0-r0 do_package: QA Issue: libgloss:
+> >   Files/directories were installed but not shipped in any package:
+> >     /usr/lib/lib
+> >     /usr/lib/lib/libnosys.a
+> >     /usr/lib/lib/nosys.specs
+> >   Please set FILES such that these items are packaged. Alternatively
+> >   if they are unneeded, avoid installing them or delete them within
+> >   do_install.
+> >   libgloss: 3 installed and not shipped files. [installed-vs-shipped]
+> >
+> > Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> > ---
+> >  meta/recipes-core/newlib/libgloss_3.0.0.bb | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/newlib/libgloss_3.0.0.bb b/meta/recipes-core/newlib/libgloss_3.0.0.bb
+> > index 664a922815..727062ca5d 100644
+> > --- a/meta/recipes-core/newlib/libgloss_3.0.0.bb
+> > +++ b/meta/recipes-core/newlib/libgloss_3.0.0.bb
+> > @@ -18,9 +18,10 @@ do_install_prepend() {
+> >
+> >  do_install_append() {
+> >         # Move libs to default directories so they can be picked up later
+> > -       mv -v ${D}${prefix}/${TARGET_SYS}/lib ${D}${libdir}
+> > +       mv -v ${D}${prefix}/${TARGET_SYS}/lib/* ${D}${libdir}
+>
+> seems to some indentation problem, please check.
 
-I seem to remember trying distclean when we first implemented this
-code. A lot of tarballs have generated files in them which distclean
-will remove but we lack the code/dependencies to regenerate them.
-"clean" was something we could get to work, "distclean" led to a lot of
-build failures.
+Hmm, its all tabs (which is what the rest of the file is) and git-am
+seems to apply without issues. What am I missing?
 
-If we were to consider doing this it would need a lot of testing.
+>
+> >
+> >         # Remove original directory
+> > +       rmdir ${D}${prefix}/${TARGET_SYS}/lib
+>
+> maybe just use -p option above and remove the statement below
 
-Cheers,
+It looks like this patch was already merged into master. Should I send
+another patch to change it to rmdir -p --ignore-fail-on-non-empty?
 
-Richard
+Thanks,
+Nathan
 
+>
+> >         rmdir ${D}${prefix}/${TARGET_SYS}
+> >  }
+> >
+> > ---
+> > 2.18.0
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
