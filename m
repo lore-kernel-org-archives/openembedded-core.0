@@ -1,25 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B31FF79695
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A8C3B79699
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 15:09:00 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w8BF8vmR005972
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 11 Sep 2018 16:08:58 +0100
-Message-ID: <87f876151d5929e1fd83be41d255d594dd3694f6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2018 16:08:57 +0100
-In-Reply-To: <1535526306-26126-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1535526306-26126-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] test-result-log: testcase management tool to store test result
+	Tue, 11 Sep 2018 15:18:05 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8BFI3O6018309
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 11 Sep 2018 08:18:03 -0700 (PDT)
+Received: from [128.224.162.202] (128.224.162.202) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 11 Sep 2018 08:18:02 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <1536656353-30689-1-git-send-email-hongxu.jia@windriver.com>
+	<CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <41457254-4083-3d7c-4e93-95b320fe7dbb@windriver.com>
+Date: Tue, 11 Sep 2018 23:18:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com>
+Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: build support openssl 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +36,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2018 15:09:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Sep 2018 15:18:05 -0000
+Content-Type: multipart/alternative;
+	boundary="------------64209FE851525D1D11B27A76"
+Content-Language: en-US
 
-Hi Ee Peng,
+--------------64209FE851525D1D11B27A76
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-I've been having a look at this code and whilst some of it is good, I
-also have some concerns. With it coming in so late in the cycle, its
-made it hard to have time to review it and allow time to get it right.
-With something as important as this to the way the future QA work is
-done, we do need to ensure we use the right approach and that its
-maintainable.
+On 2018年09月11日 18:39, Alexander Kanavin wrote:
+> I'm afraid I have changed my mind, and I have to say no to this. It is
+> *not*  a backport, it is a very large patch that nobody understands, it
+> will need to be rebased every time there is new openssh out, we cannot
+> rely on Fedora doing this, as they apply this patch on top of their
+> other patches. Meanwhile, upstream pull request has been stalled for a
+> very long time and just isn't going anywhere.
+>
+> I would suggest you make openssh depend on libressl and find out why
+> it is working everywhere except arm64 - that's the only reason we
+> haven't done it yet.
 
-The patches are ok as a first attempt at this. My biggest concern is
-that its currently parsing log files which we control and generate
-within out own codebase and that parsing is likely to break. In
-particular, these lines worry me from the qalogparser:
+Use openssh depends on libressl could not fix the issue, which also 
+conflicts
+with openssl in the meta-selinux example (they provides the same 
+headers/libraries)
 
-regex = ".*RESULTS - (?P<case_name>.*) - Testcase .*: (?P<status>PASSED|FAILED|SKIPPED|ERROR|UNKNOWN).*$"
-regex = "core-image.*().*Ran.*tests in .*s"
-regex = "DEBUG: launchcmd=runqemu*
-qemu_list = ['qemuarm', 'qemuarm64', 'qemumips', 'qemumips64', 'qemuppc', 'qemux86', 'qemux86-64']
+The root cause is since rename libssl (1.0) -> libssl10, and drop 
+PRFERRED_VERSION,
+there are multiple recipes provide ssl (openssl, openssl10, libressl) 
+with different name
 
-since here we're hardcoding the list of qemu's we support, we're also
-only allowing core-image-* and we're relying upon the results format
-not changing. That makes it hard for anyone to extend/reuse this or to
-use it with real hardware?
+BTW, even though openssh depends `openssl10',  the `openssl' is installed
+to rootfs. It breaks DEPEND/RDEPENDS principle
 
-For example the recent oe-selftest parallelisation code did change the
-output of the tests slightly. I'm not sure if this broke the parsing or
-not but it is an example of the kind of fragility this code has.
+[local.conf]
+IMAGE_INSTALL_append = " openssh"
+[local.conf]
 
-What would probably work better for us is if the oeqa framework wrote
-out a json file directly containing the information we need in it, then
-this code would just need to collect up the json files.
+$ bitbake core-image-minimal
 
-I'm also a little concerned at the way unittest discovery is being
-done, grepping for *.py files as far as I understand it. We should
-probably use the list options to the various current test pieces? Also,
-this is something we probably only ever need to do once to seed the QA
-results store?
+[log.do_rootfs]
+   Installing       : openssl-1.1.1~pre9-r0.core2_64
+[log.do_rootfs]
 
-Finally, much of the code is using "internal" methods prefixed with
-"_". I can understand why but it seems the code doesn't have a good
-well structured public API as a result.
+The recipe depends on openssl10, but openssl10 will not be installed.
 
-As such there may me a little too much work needed on this to get it in
-for 2.6 :(
+Here are my suggestions
 
-Cheers,
+1: Replace dependence openssl10  -> openssl, such as this fix, and drop 
+recipe openssl10 finally;
+     1 (openssh) in oe-core, 3 (umip, ipsec-tools, mailx) in oe, 3 
+(openssl-tpm-engine,
+     tpm-tools, trousers) in meta-secure-core
 
-Richard
+Or 2: Unify openssl,openssl10 and libressl to provide one ssl,
+         we could add PROVIDER = 'virtual/ssl' to above recipe, any recipe
+         depends on `openssl' will be replced with `virtual/ssl', the recipe
+        depends on `openssl10' will not be changed.
 
+        Set PREFERRED_PROVIDER_virtual//ssl = "openssl | openssl10 | 
+libressl" in conf
+
+Or 3: Revert previously patch, rename recipe openssl10 -> openssl 1.0, 
+and set
+       PREFERRED_VERSION
+
+
+//Hongxu
+
+>
+> Alex
+
+
+
+--------------64209FE851525D1D11B27A76
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2018年09月11日 18:39, Alexander Kanavin
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com">
+      <pre wrap="">I'm afraid I have changed my mind, and I have to say no to this. It is
+<b class="moz-txt-star"><span class="moz-txt-tag">*</span>not<span class="moz-txt-tag">*</span></b> a backport, it is a very large patch that nobody understands, it
+will need to be rebased every time there is new openssh out, we cannot
+rely on Fedora doing this, as they apply this patch on top of their
+other patches. Meanwhile, upstream pull request has been stalled for a
+very long time and just isn't going anywhere.
+
+I would suggest you make openssh depend on libressl and find out why
+it is working everywhere except arm64 - that's the only reason we
+haven't done it yet.</pre>
+    </blockquote>
+    <br>
+    Use openssh depends on libressl could not fix the issue, which also
+    conflicts<br>
+    with openssl in the meta-selinux example (they provides the same
+    headers/libraries)<br>
+    <br>
+    The root cause is since rename libssl (1.0) -&gt; libssl10, and drop
+    PRFERRED_VERSION,<br>
+    there are multiple recipes provide ssl (openssl, openssl10,
+    libressl) with different name<br>
+    <br>
+    BTW, even though openssh depends `openssl10',  the `openssl' is
+    installed<br>
+    to rootfs. It breaks DEPEND/RDEPENDS principle<br>
+    <br>
+    [local.conf]<br>
+    IMAGE_INSTALL_append = " openssh"<br>
+    [local.conf]<br>
+    <br>
+    $ bitbake core-image-minimal<br>
+    <br>
+    [log.do_rootfs]<br>
+      Installing       : openssl-1.1.1~pre9-r0.core2_64<br>
+    [log.do_rootfs]<br>
+    <br>
+    The recipe depends on openssl10, but openssl10 will not be
+    installed.<br>
+    <br>
+    Here are my suggestions <br>
+    <br>
+    1: Replace dependence openssl10  -&gt; openssl, such as this fix,
+    and drop recipe openssl10 finally;<br>
+        1 (openssh) in oe-core, 3 (umip, ipsec-tools, mailx) in oe, 3
+    (openssl-tpm-engine,<br>
+        tpm-tools, trousers) in meta-secure-core<br>
+    <br>
+    Or 2: Unify openssl,openssl10 and libressl to provide one ssl,<br>
+            we could add PROVIDER = 'virtual/ssl' to above recipe, any
+    recipe<br>
+            depends on `openssl' will be replced with `virtual/ssl', the
+    recipe<br>
+           depends on `openssl10' will not be changed.<br>
+    <br>
+           Set PREFERRED_PROVIDER_virtual//ssl = "openssl | openssl10 |
+    libressl" in conf<br>
+    <br>
+    Or 3: Revert previously patch, rename recipe openssl10 -&gt; openssl
+    1.0, and set<br>
+          PREFERRED_VERSION<br>
+    <br>
+    <br>
+    //Hongxu<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com">
+      <pre wrap="">
+
+Alex</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------64209FE851525D1D11B27A76--
