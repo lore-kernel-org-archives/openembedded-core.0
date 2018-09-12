@@ -1,23 +1,32 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 50C18796E1
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AB7827969B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 09:40:48 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8C9enJO008153
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 02:40:49 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 12 Sep 2018 02:40:48 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Sep 2018 17:40:47 +0800
-Message-ID: <1536745247-187023-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 12 Sep 2018 10:01:07 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8C9xcUH022972
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 12 Sep 2018 02:59:48 -0700
+Received: from [128.224.162.202] (128.224.162.202) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 12 Sep 2018 02:59:27 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <1536656353-30689-1-git-send-email-hongxu.jia@windriver.com>
+	<CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com>
+	<41457254-4083-3d7c-4e93-95b320fe7dbb@windriver.com>
+	<CANNYZj9EZF5u2R55LBnBooyPpAhi7O69kVtWsvZesXZ3H7qxOQ@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <0a2370ce-a756-5cf8-256b-929b70367e3a@windriver.com>
+Date: Wed, 12 Sep 2018 17:59:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Subject: [PATCH V2] apr-util: fix ptest fail problem
+In-Reply-To: <CANNYZj9EZF5u2R55LBnBooyPpAhi7O69kVtWsvZesXZ3H7qxOQ@mail.gmail.com>
+Cc: lpd-cdc-core-dev <lpd-cdc-core-dev@windriver.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: build support openssl 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,181 +39,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 09:40:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Sep 2018 10:01:08 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-From: Changqing Li <changqing.li@windriver.com>
+On 2018年09月12日 17:26, Alexander Kanavin wrote:
+> 2018-09-11 17:18 GMT+02:00 Hongxu Jia <hongxu.jia@windriver.com>:
+>> Here are my suggestions
+>>
+>> 1: Replace dependence openssl10  -> openssl, such as this fix, and drop
+>> recipe openssl10 finally;
+>>      1 (openssh) in oe-core, 3 (umip, ipsec-tools, mailx) in oe, 3
+>> (openssl-tpm-engine,
+>>      tpm-tools, trousers) in meta-secure-core
+>>
+>> Or 2: Unify openssl,openssl10 and libressl to provide one ssl,
+>>          we could add PROVIDER = 'virtual/ssl' to above recipe, any recipe
+>>          depends on `openssl' will be replced with `virtual/ssl', the recipe
+>>         depends on `openssl10' will not be changed.
+>>
+>>         Set PREFERRED_PROVIDER_virtual//ssl = "openssl | openssl10 |
+>> libressl" in conf
+>>
+>> Or 3: Revert previously patch, rename recipe openssl10 -> openssl 1.0, and
+>> set
+>>        PREFERRED_VERSION
+> Option 1 creates a maintainability issue for openssh. You add the big
+> patch that no one understands, then someone else has to rebase it
+> later. Of course over time we need to move everything to 1.1 across
+> all layers, but at the moment it is not feasible for openssh
+> specifically.
 
-Test suite test_dbm failed after gdbm upgrtade to 13.1,
-from 13.1, return value of some function are changed.
+It's a long term target, we should try to push upstream to accept
+openssl 1.1, such as split one patch to multiple sub patches step
+by step, make it more reviewable,  not only openssh, ideally any
+recipe depends on 1.0 should be turned to 1.1
 
-* gdbm_fetch, gdbm_firstkey, and gdbm_nextkey behavior
+> Option 2 implies that openssl, openssl10 and libressl are all drop-in
+> replacements for each other which is not true. openssl 1.1 API is
+> significantly different, and choosing one or the other option will
+> cause significant build breakage. Especially as upstream components
+> begin to drop 1.0 support.
 
-If the requested key was not found, these functions return datum with
-dptr pointing to NULL and set gdbm_errno to GDBM_ITEM_NOT_FOUND (in
-prior releases, gdbm_errno was set to GDBM_NO_ERROR),
+Currently, use openssl10 as the standalone recipe to provide openssl,
+everything works well in oe-core + oe.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../apr-util/0001-Fix-error-handling-in-gdbm.patch | 135 +++++++++++++++++++++
- meta/recipes-support/apr/apr-util_1.6.1.bb         |   1 +
- 2 files changed, 136 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
+As I mention before, there is still a issue at run time image. Even though
+openssh depends on `openssl10',  but the `openssl' is installed at do_rootfs
 
-diff --git a/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch b/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
-new file mode 100644
-index 0000000..5d4855d
---- /dev/null
-+++ b/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
-@@ -0,0 +1,135 @@
-+From 6b638fa9afbeb54dfa19378e391465a5284ce1ad Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 12 Sep 2018 17:16:36 +0800
-+Subject: [PATCH] Fix error handling in gdbm
-+
-+Only check for gdbm_errno if the return value of the called gdbm_*
-+function says so. This fixes apr-util with gdbm 1.14, which does not
-+seem to always reset gdbm_errno.
-+
-+Also make the gdbm driver return error codes starting with
-+APR_OS_START_USEERR instead of always returning APR_EGENERAL. This is
-+what the berkleydb driver already does.
-+
-+Also ensure that dsize is 0 if dptr == NULL.
-+
-+Upstream-Stauts: Backport[https://svn.apache.org/viewvc?
-+view=revision&amp;revision=1825311]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ dbm/apr_dbm_gdbm.c | 47 +++++++++++++++++++++++++++++------------------
-+ 1 file changed, 29 insertions(+), 18 deletions(-)
-+
-+diff --git a/dbm/apr_dbm_gdbm.c b/dbm/apr_dbm_gdbm.c
-+index 749447a..1c86327 100644
-+--- a/dbm/apr_dbm_gdbm.c
-++++ b/dbm/apr_dbm_gdbm.c
-+@@ -36,13 +36,25 @@
-+ static apr_status_t g2s(int gerr)
-+ {
-+     if (gerr == -1) {
-+-        /* ### need to fix this */
-+-        return APR_EGENERAL;
-++        if (gdbm_errno == GDBM_NO_ERROR)
-++           return APR_SUCCESS;
-++        return APR_OS_START_USEERR + gdbm_errno;
-+     }
-+ 
-+     return APR_SUCCESS;
-+ }
-+ 
-++static apr_status_t gdat2s(datum d)
-++{
-++    if (d.dptr == NULL) {
-++        if (gdbm_errno == GDBM_NO_ERROR || gdbm_errno == GDBM_ITEM_NOT_FOUND)
-++           return APR_SUCCESS;
-++        return APR_OS_START_USEERR + gdbm_errno;
-++   }
-++
-++    return APR_SUCCESS;
-++}
-++
-+ static apr_status_t datum_cleanup(void *dptr)
-+ {
-+     if (dptr)
-+@@ -53,22 +65,15 @@ static apr_status_t datum_cleanup(void *dptr)
-+ 
-+ static apr_status_t set_error(apr_dbm_t *dbm, apr_status_t dbm_said)
-+ {
-+-    apr_status_t rv = APR_SUCCESS;
-+ 
-+-    /* ### ignore whatever the DBM said (dbm_said); ask it explicitly */
-++    dbm->errcode = dbm_said;  
-+ 
-+-    if ((dbm->errcode = gdbm_errno) == GDBM_NO_ERROR) {
-++    if (dbm_said == APR_SUCCESS)
-+         dbm->errmsg = NULL;
-+-    }
-+-    else {
-+-        dbm->errmsg = gdbm_strerror(gdbm_errno);
-+-        rv = APR_EGENERAL;        /* ### need something better */
-+-    }
-+-
-+-    /* captured it. clear it now. */
-+-    gdbm_errno = GDBM_NO_ERROR;
-++    else
-++        dbm->errmsg = gdbm_strerror(dbm_said - APR_OS_START_USEERR);
-+ 
-+-    return rv;
-++    return dbm_said;
-+ }
-+ 
-+ /* --------------------------------------------------------------------------
-+@@ -107,7 +112,7 @@ static apr_status_t vt_gdbm_open(apr_dbm_t **pdb, const char *pathname,
-+                      NULL);
-+ 
-+     if (file == NULL)
-+-        return APR_EGENERAL;      /* ### need a better error */
-++        return APR_OS_START_USEERR + gdbm_errno;   /* ### need a better error */
-+ 
-+     /* we have an open database... return it */
-+     *pdb = apr_pcalloc(pool, sizeof(**pdb));
-+@@ -141,10 +146,12 @@ static apr_status_t vt_gdbm_fetch(apr_dbm_t *dbm, apr_datum_t key,
-+     if (pvalue->dptr)
-+         apr_pool_cleanup_register(dbm->pool, pvalue->dptr, datum_cleanup,
-+                                   apr_pool_cleanup_null);
-++    else
-++       pvalue->dsize = 0;
-+ 
-+     /* store the error info into DBM, and return a status code. Also, note
-+        that *pvalue should have been cleared on error. */
-+-    return set_error(dbm, APR_SUCCESS);
-++    return set_error(dbm, gdat2s(rd));
-+ }
-+ 
-+ static apr_status_t vt_gdbm_store(apr_dbm_t *dbm, apr_datum_t key,
-+@@ -201,9 +208,11 @@ static apr_status_t vt_gdbm_firstkey(apr_dbm_t *dbm, apr_datum_t *pkey)
-+     if (pkey->dptr)
-+         apr_pool_cleanup_register(dbm->pool, pkey->dptr, datum_cleanup,
-+                                   apr_pool_cleanup_null);
-++    else
-++        pkey->dsize = 0;
-+ 
-+     /* store any error info into DBM, and return a status code. */
-+-    return set_error(dbm, APR_SUCCESS);
-++    return set_error(dbm, gdat2s(rd));
-+ }
-+ 
-+ static apr_status_t vt_gdbm_nextkey(apr_dbm_t *dbm, apr_datum_t *pkey)
-+@@ -221,9 +230,11 @@ static apr_status_t vt_gdbm_nextkey(apr_dbm_t *dbm, apr_datum_t *pkey)
-+     if (pkey->dptr)
-+         apr_pool_cleanup_register(dbm->pool, pkey->dptr, datum_cleanup,
-+                                   apr_pool_cleanup_null);
-++    else
-++       pkey->dsize = 0;
-+ 
-+     /* store any error info into DBM, and return a status code. */
-+-    return set_error(dbm, APR_SUCCESS);
-++    return set_error(dbm, gdat2s(rd));
-+ }
-+ 
-+ static void vt_gdbm_freedatum(apr_dbm_t *dbm, apr_datum_t data)
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb b/meta/recipes-support/apr/apr-util_1.6.1.bb
-index 88b4300..12d71cb 100644
---- a/meta/recipes-support/apr/apr-util_1.6.1.bb
-+++ b/meta/recipes-support/apr/apr-util_1.6.1.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
-            file://configfix.patch \
-            file://configure_fixes.patch \
-            file://run-ptest \
-+           file://0001-Fix-error-handling-in-gdbm.patch \
- "
- 
- SRC_URI[md5sum] = "bd502b9a8670a8012c4d90c31a84955f"
--- 
-2.7.4
+It breaks DEPEND/RDEPENDS principle
+
+[local.conf]
+IMAGE_INSTALL_append = " openssh"
+[local.conf]
+
+$ bitbake core-image-minimal
+
+[log.do_rootfs]
+   Installing       : openssl-1.1.1~pre9-r0.core2_64
+[log.do_rootfs]
+
+The recipe depends on openssl10, but openssl10 will not be installed.
+BTW, Is pre9 1.1.1 openssl a stable release?
+
+> Option 3 has the same issue.
+>
+> Can I suggest option 4? As openssh is already patched in meta-selinux,
+> and the problem is specific to that layer, you can add the 1.1 support
+> patch there, and replace the openssl10 dependency with openssl (1.1).
+> If, over time, that patch can be rebased to new versions of openssh
+> without too much trouble, and upstream still hasn't taken it, we can
+> re-consider adding it to oe-core.
+
+The meta-selinux only exposes the issue, any recipe depends on
+openssl10 and indirect depends openssl will trigger the conflict.
+
+A -> openssl10
+A -> B
+B -> openssl
+
+In oe-core, the most common situation is any recipe depends on
+openssl10 and python2/3, will have the problem
+
+Only openssh patched to meta-selinux is not enough, there are  3
+(umip, ipsec-tools, mailx) in oe, 3 (openssl-tpm-engine, tpm-tools,
+trousers) in meta-secure-core required to be patched. I think it is
+not acceptable for meta-selinux maintainer.
+
+Hi RP,
+
+What about your suggestions?
+
+//Hongxu
+
+> Alex
+
 
 
