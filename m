@@ -1,36 +1,44 @@
-Return-Path: <3Nk2ZWwgJABkz0G3HI71LzNBD.1DB@flex--abrestic.bounces.google.com>
-Received: from mail-qk1-f201.google.com (mail-qk1-f201.google.com
-	[209.85.222.201])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C47B746F0
+Return-Path: <adam.yh.lee@gmail.com>
+Received: from mail-yw1-f41.google.com (mail-yw1-f41.google.com
+	[209.85.161.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 607257966B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 17:30:29 +0000 (UTC)
-Received: by mail-qk1-f201.google.com with SMTP id u129-v6so2265495qkf.15
+	Wed, 12 Sep 2018 17:30:36 +0000 (UTC)
+Received: by mail-yw1-f41.google.com with SMTP id x67-v6so2422ywg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 10:30:30 -0700 (PDT)
+	Wed, 12 Sep 2018 10:30:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=dLYG7TfJU5tvVGiMT12sSNNM8QxbTw1Ai39N/B9jmtA=;
+	b=t1lmOVwylBNTM1141En+69tN0dN4jk81kGKlvxXFC7apDLmPtR9OFyADFDjk8NJ7u2
+	euvqmV1ZL2ItqJuwAtt3JIsLisPuuuXWx6K//GfxhC+t9U97QHMek8yw3XB8f8z6KH6X
+	SPiFjn33cqtVmfm/FvbYSqdOILI7r0qe9OOI/rvxiG6MYl3iEt5weUzxor/2e17Wl3fm
+	3RjVOka11HhZzpq2Hkx9YFxOYnKX2vSneVbFntB2VZgSbo6AnYfulWFYPB3xPUzYoliO
+	IgvN9SIf5c8dmmvgu2zBGmvcMxFrNq8LoTwcBikL/pMI8L+vDuuvMPwUXDpiYxvfyymR
+	C7mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-	bh=V9HiHenboURw21GmvnO3SNysA3IGWXccTppmaO+yHYY=;
-	b=O1s5fXduCrUTnTBW55phXjukNX0d2DKqCybNX2fEobMUbnb9uvKxzNFXLspGAefO+u
-	3pfmBBet2844foMFEHHTQfDZ/EFxZ9oBT89iTXCr+9Pc4wdbFrmhrq10ufbAN2sbZvYj
-	lzIoaOdJ1KP121mRqT8N1K+oha3nILbsmlfDj9gZYdkQxHCC+cuP0PJHLUMQgEHtkFKi
-	EccWQNWi8Bnf03fGT0D+iMRq4ufndn0mvv//nh3KCEVhhp6scB0RUhVbge+uubF1wEMY
-	REJdPTr3ECczZyQ4DM/wiWiJL31kwypMwJgsTinKL2ySGpDhIHqkHoa0+mGDl2S33KQx
-	aN3Q==
-X-Gm-Message-State: APzg51DwfINNV031YaiZUW8yD71Xjm2wgj1ENHVPe75uu4WNZiHddhVr
-	5X9M571DExKE3YPL+vj+JfzPIyuBt4wofSjwz4o3SEs69suwXJtfLpJGXqubRL95Yx6Lqc2kRUR
-	E+aHVUy0NBkR0eDkefGiYhciXL2Dds7H0zO6H69iMyXMN9Oo8EJSCfuEBOimoNnFTRuBDE/8RsZ
-	cRaF/8k75FwbpD
-X-Google-Smtp-Source: ANB0VdZkJBgzUc+9+sbRqs9wUsLweZ8R8tAhhulhLDTptuABiaitEjjtAuAdf0AADFl1M56JK7ZJMPbbeILasw==
-X-Received: by 2002:ac8:1c2e:: with SMTP id a43-v6mr993732qtk.49.1536773430215;
-	Wed, 12 Sep 2018 10:30:30 -0700 (PDT)
-Date: Wed, 12 Sep 2018 10:30:25 -0700
-Message-Id: <20180912173025.67852-1-abrestic@waymo.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.19.0.rc2.392.g5ba43deb5a-goog
-From: Andrew Bresticker <abrestic@waymo.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] perf: do not pull in any perl dependencies unless scripting is requested
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=dLYG7TfJU5tvVGiMT12sSNNM8QxbTw1Ai39N/B9jmtA=;
+	b=ocber7HslfL1yiXniK9pAJWpA5V+KekMLhTEkM58+GeNEqU6sWtpfg0u4YMtuNvmZX
+	4AUYbeoQbIg1IYzrURUYluE5gNyPbR6CRdFCiNdjchFjVE7YQPsvSRkaYofgemJFAyUZ
+	qa5uW4NhchgX2zIdKfslhHE0Noq2lrO/W9LOSp7jlg8ludz0JABzdTBRc6/bDyyCiUaD
+	kVdPMcSZsfHTw+Jc9b6ytNFqFmMVxLHVXqJ8fnvHvXGmvrE1t5LYfjV0Gt9/1uutohEk
+	PfCFziPpj30Jm5MXSIDPCGza7Aw7fc8jWFinxGM+rpQOEIIbZBa9gNVGoMGOV+WLkiSl
+	/Lpw==
+X-Gm-Message-State: APzg51DBjha4TMRr6rHNbuN/9TiKdLFGcyydd/hgU1VGpYXprfBBvxtk
+	yPZBVDMp0dm8x3RFNyGU75R9pmNbs+B7zHpZ1aGINQ==
+X-Google-Smtp-Source: ANB0VdaapFr6rE7Aw9xKHl5eT9J7LCwj7EPYypjrHZMccWrBGadoKhNpBefbbfM/LgJFT3XwxXoI/NeSAjsdESZbqeI=
+X-Received: by 2002:a0d:eb8a:: with SMTP id
+	u132-v6mr1443525ywe.102.1536773436903; 
+	Wed, 12 Sep 2018 10:30:36 -0700 (PDT)
+MIME-Version: 1.0
+From: Adam Lee <adam.yh.lee@gmail.com>
+Date: Wed, 12 Sep 2018 13:30:16 -0400
+Message-ID: <CAFeBWL6uk=k-59AC0wLhTCCQ2Bc26vtyf-twvCyn+78fSihfZg@mail.gmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: inputattach deprecated?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,52 +51,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 17:30:29 -0000
+X-List-Received-Date: Wed, 12 Sep 2018 17:30:36 -0000
+Content-Type: multipart/alternative; boundary="000000000000ce95b50575aff244"
+
+--000000000000ce95b50575aff244
 Content-Type: text/plain; charset="UTF-8"
 
-From: Dima Zavin <dmitriyz@waymo.com>
+I see "inputattach" tool has been used quite frequently until a few years
+ago (judging by Google search result).
+What have we replaced it with? I can't seem to find another way to attach a
+UART keyboard as an input device.
 
-Signed-off-by: Dima Zavin <dmitriyz@waymo.com>
-Signed-off-by: Andrew Bresticker <abrestic@waymo.com>
----
- meta/recipes-kernel/perf/perf-perl.inc | 7 +++++++
- meta/recipes-kernel/perf/perf.bb       | 8 +-------
- 2 files changed, 8 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-kernel/perf/perf-perl.inc
+Adam
 
-diff --git a/meta/recipes-kernel/perf/perf-perl.inc b/meta/recipes-kernel/perf/perf-perl.inc
-new file mode 100644
-index 0000000000..ae77319b20
---- /dev/null
-+++ b/meta/recipes-kernel/perf/perf-perl.inc
-@@ -0,0 +1,7 @@
-+inherit perlnative cpan-base
-+
-+# Env var which tells perl if it should use host (no) or target (yes) settings
-+export PERLCONFIGTARGET = "${@is_target(d)}"
-+export PERL_INC = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}/CORE"
-+export PERL_LIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}"
-+export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}"
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index e9db6c66c4..514c87835d 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -52,13 +52,7 @@ export WERROR = "0"
- do_populate_lic[depends] += "virtual/kernel:do_patch"
- 
- # needed for building the tools/perf Perl binding
--inherit ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'perlnative', '', d)}
--inherit cpan-base
--# Env var which tells perl if it should use host (no) or target (yes) settings
--export PERLCONFIGTARGET = "${@is_target(d)}"
--export PERL_INC = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}/CORE"
--export PERL_LIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}"
--export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}"
-+include ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'perf-perl.inc', '', d)}
- 
- inherit kernelsrc
- 
--- 
-2.19.0.rc2.392.g5ba43deb5a-goog
+--000000000000ce95b50575aff244
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">I see &quot;inputattach&quot; tool has been used quite fre=
+quently until a few years ago (judging by Google search result).<div>What h=
+ave we replaced it with? I can&#39;t seem to find another way to attach a U=
+ART keyboard as an input device.</div><div><br></div><div>Adam</div></div>
 
+--000000000000ce95b50575aff244--
