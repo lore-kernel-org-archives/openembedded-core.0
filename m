@@ -1,54 +1,65 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 148B27969F
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E583796A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 10:30:16 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id y207-v6so2601368oie.13
+	Wed, 12 Sep 2018 11:53:19 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id k5-v6so1707234wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 03:30:17 -0700 (PDT)
+	Wed, 12 Sep 2018 04:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=O9VSdrYqnkdESRP8Yx/rDnv7FIne9XaDb6oXoCJvZRQ=;
-	b=n6B/qOVMNbryiLwQVo1JHbRyytfaeHFfWDU+gRALqrO6wcOfCqCwBg80CR1+oyXvLj
-	qnwFt7IGXo5T7WFWJs/hn4rSfhZvpKD+nXesIT6chkecl5f0ueTx+wv/pBXv+v/vLWD8
-	yKw71V+vAocZR4z9II8iS6K5TjaYivd+EnSPNJVK2lnC+QIqhCLORNw+K6iqGeWmU0Pt
-	hwUts74zvR6rAszpev3/BwQrO/uGWmA24BLiSe6kktGkv4NGMM/prcYVdxgnRoTpFwnB
-	YSd4HhLoU2kpHOTNzYDRRpubAJB70TKR1C2goZpjFoyDMORSF2z3tprs/rQinunSrdnd
-	Vemg==
+	h=sender:from:message-id:mime-version:subject:date:in-reply-to:cc:to
+	:references; bh=89tqLZkg33o2NixdvtjkeEhGVgMtNpK9EF7zB0Vz3sw=;
+	b=rI7AL37pFV8vBO3nFT1u06V3PrkucAqJluQl5f3XZl4nWmnQAQoMN5TYtd25EH2xBR
+	MUvgt6wizhy7TAu+ZBE0ERSAzaWYz51E9XeQ3H1Yx6kt30UHua6vlLh0ZXOh/6w1ifU8
+	jAbG5kddCq5bV9Gj980Pfhyu9iO7TOiQWQUJyo7IV3+tyR9OW5HenbzhZps9L8XSlvcI
+	2iCjXzBvcBmV1gKkLaTPuskUbraOtNH9UcmeJDhN1sR4Vg4J3IbLGl1nN5EeQNL/3/dt
+	N5Nh1xjyaONJNeRc9LM7e2/gHf4asXKKVVTjf2UwRMsrK+Bfsa30ayms6JKTFVSQn8OQ
+	KMtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=O9VSdrYqnkdESRP8Yx/rDnv7FIne9XaDb6oXoCJvZRQ=;
-	b=NM3yAC9FBZrcqCDtmiXHBGfNrGMuFRfFPnnsmtQdHzFuBoFg6wLhqogwZ32Nz7wpKI
-	y0VO9b9mpsUVpkJ59n8INexlzz7TTY+LEwsa2ByoUwf4RbW7m82em/ENtLPR7LVQHp3R
-	NtfhM8kEwOIXDJND8Jqdy/UF3oT/UVJ6YuJNM9oFiMab8d+hNm2SDxZTY6fKw8Ec4sWj
-	Ajt3DCMvy+dqE6dBpP2V7gT/Kh2qnFN8CuWKHeQwOKF073xALCfFiPOXE5C4AFlj3GKV
-	zEvixNl6qT012KdZoXZDkAT+UQOb3q14I+lLyVVtskNlcSRHidarki966QbAJ6RnfYUo
-	1ZLA==
-X-Gm-Message-State: APzg51B1QZbHKynk9Apr4uU5KoX3I6jK19TLK4+kBWHwylxsw1sZubDG
-	Y2fnp2lkvKZAPuqTHzJZB6ZLlhVXCYGOiT6RNjY=
-X-Google-Smtp-Source: ANB0VdZvNXTGmhkJ/VAa/Cq9LehQ1fAJg5Xjk4xyX7aLEEl4BFwB+jRtCw/dH1ba0wJ/HH2waVzd2d9SUqDf3lTOaYs=
-X-Received: by 2002:aca:4aca:: with SMTP id
-	x193-v6mr1287374oia.211.1536748216772; 
-	Wed, 12 Sep 2018 03:30:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:b48b:0:0:0:0:0 with HTTP; Wed, 12 Sep 2018 03:30:15
-	-0700 (PDT)
-In-Reply-To: <0a2370ce-a756-5cf8-256b-929b70367e3a@windriver.com>
-References: <1536656353-30689-1-git-send-email-hongxu.jia@windriver.com>
-	<CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com>
-	<41457254-4083-3d7c-4e93-95b320fe7dbb@windriver.com>
-	<CANNYZj9EZF5u2R55LBnBooyPpAhi7O69kVtWsvZesXZ3H7qxOQ@mail.gmail.com>
-	<0a2370ce-a756-5cf8-256b-929b70367e3a@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 12 Sep 2018 12:30:15 +0200
-Message-ID: <CANNYZj90HLS4HZwtZK+9azCa1iMOjTXtWGy1RCBqCwRGPk+mfA@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: lpd-cdc-core-dev <lpd-cdc-core-dev@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: build support openssl 1.1
+	h=x-gm-message-state:sender:from:message-id:mime-version:subject:date
+	:in-reply-to:cc:to:references;
+	bh=89tqLZkg33o2NixdvtjkeEhGVgMtNpK9EF7zB0Vz3sw=;
+	b=mpBahO74Ha4ue47nAZQEWQ9cIPJ9imGCoAeWv19Ps1iVp7jwbAcnG1dqsyzEKAJluI
+	QSOeZLS3uz8aoS2PXF3bPu2g/O/lvwJdlZVmfiSfZiKkgCVRuD8bCr9bsHXcPZ6mlo/O
+	zN2xzRH9nRnOQiEZIsyZwifTvPyrDWK9zMkZV2lgdXeJEvmAVizqiBIJ005kYbjOnJLU
+	5GMZjo79CJM1tza8fywecqyLv0N7yxcNhznhfXhS5bU69fOtbTX2IuSdMYZGMwzZOkLM
+	5r4+OLPCOKA1QzSro0EEVUsjUEu+wUYFL+g+LAzzmNgAOuZndS5m0bPY8BxEsUXe92ec
+	8NlA==
+X-Gm-Message-State: APzg51CHMJ7TnSDWnTzPvHagY/Fuj6IMdYYf54DvlsChZ7T0vWX3i1VJ
+	rIRvBGYICq+Gf2QQ9Gbx7tRsRHJX
+X-Google-Smtp-Source: ANB0VdaHbiPBtOM7jQu2hAt1xFCbq/bPP8b+Yy5gSmiMHxQ0l968FwAnoikctmOnGiPzYKjo/Aq52Q==
+X-Received: by 2002:a5d:68c9:: with SMTP id
+	p9-v6mr1264465wrw.108.1536753199834; 
+	Wed, 12 Sep 2018 04:53:19 -0700 (PDT)
+Received: from [10.42.8.207] (b2b-78-94-80-58.unitymedia.biz. [78.94.80.58])
+	by smtp.gmail.com with ESMTPSA id
+	q135-v6sm2004703wmd.4.2018.09.12.04.53.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 12 Sep 2018 04:53:18 -0700 (PDT)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: Jens Rehsack <sno@netbsd.org>
+Message-Id: <8ABCF3BE-EFE8-4FE6-9886-65F6AE4E4EDC@netbsd.org>
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+Date: Wed, 12 Sep 2018 13:53:16 +0200
+In-Reply-To: <17b3364c-32a6-91db-6583-6eb7e0131394@xilinx.com>
+To: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>
+References: <20180907145533.31088-1-sno@netbsd.org>
+	<10772E09-62BB-4CFC-A99A-F4816FAE87C1@netbsd.org>
+	<CANx9H-BfgTfmNs+oGxC-Cm=Tp464=fpZnMb17vbTWsRg2LTZdg@mail.gmail.com>
+	<CANNYZj8dyfuOnHxqE7V5n3sz=3XjqPS98E2n=t2uJbPkvczKyw@mail.gmail.com>
+	<6FC71ED0-1800-46FD-9A0D-1664CE908975@netbsd.org>
+	<CAJTo0LYHhteuX2y0cvW9DWOw1ey31EpWDB1Q8mHHCN2qaxUung@mail.gmail.com>
+	<27c3c64d-574e-e4b8-f1db-343e4a660724@xilinx.com>
+	<F9FC0A02-BAE6-45CB-A38D-7AE4E39E5587@netbsd.org>
+	<badf35f0-449f-d632-c016-509dfb3f0f01@xilinx.com>
+	<0EC3E010-56C9-4EB4-90B4-FD9A68F99AAC@netbsd.org>
+	<17b3364c-32a6-91db-6583-6eb7e0131394@xilinx.com>
+X-Mailer: Apple Mail (2.3445.9.1)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] python3{,-native}: update to 3.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,51 +72,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 10:30:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 12 Sep 2018 11:53:19 -0000
+X-Groupsio-MsgNum: 116185
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_EAC7E66A-01C5-4767-AF63-D87BA6A368DB";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
 
-2018-09-12 11:59 GMT+02:00 Hongxu Jia <hongxu.jia@windriver.com>:
-> It's a long term target, we should try to push upstream to accept
-> openssl 1.1, such as split one patch to multiple sub patches step
-> by step, make it more reviewable,  not only openssh, ideally any
-> recipe depends on 1.0 should be turned to 1.1
+--Apple-Mail=_EAC7E66A-01C5-4767-AF63-D87BA6A368DB
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_7B0E3774-595D-4962-84D1-046A14C24F47"
 
-The pull request has been open for two years now:
-https://github.com/openssh/openssh-portable/pull/48
+--Apple-Mail=_7B0E3774-595D-4962-84D1-046A14C24F47
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-I don't think you'll get far with the pushing the upstream. They are
-happy using libressl on *BSD, and don't particularly care about Linux
-or openssl.
 
-> Currently, use openssl10 as the standalone recipe to provide openssl,
-> everything works well in oe-core + oe.
 
-openssl10 upstream support ends at the end of 2019. We can no longer
-afford to do nothing about the situation.
+> Am 11.09.2018 um 20:56 schrieb Alejandro Enedino Hernandez Samaniego =
+<alejandro.enedino.hernandez-samaniego@xilinx.com>:
+>=20
+> Hey Jens,
+>=20
+Hey Alejandro,
 
-> As I mention before, there is still a issue at run time image. Even though
-> openssh depends on `openssl10',  but the `openssl' is installed at do_rootfs
->
-> It breaks DEPEND/RDEPENDS principle
->
-> [local.conf]
-> IMAGE_INSTALL_append = " openssh"
-> [local.conf]
->
-> $ bitbake core-image-minimal
->
-> [log.do_rootfs]
->   Installing       : openssl-1.1.1~pre9-r0.core2_64
-> [log.do_rootfs]
->
-> The recipe depends on openssl10, but openssl10 will not be installed.
+> On 09/10/2018 11:58 PM, Jens Rehsack wrote:
+>>=20
+>>=20
+>>> Am 10.09.2018 um 23:33 schrieb Alejandro Enedino Hernandez Samaniego =
+<alejandro.enedino.hernandez-samaniego@xilinx.com =
+<mailto:alejandro.enedino.hernandez-samaniego@xilinx.com>>:
+>>>=20
+>>> Hey Jens,
+>>>=20
+>>>=20
+>>> As I explained before, when you create a manifest for python =
+(target), it uses the native build as base (it literally runs the native =
+python that was just built), it is assumed its the same version as =
+target and contains all the modules provided by upstream, otherwise the =
+missing modules cannot be checked for dependencies, and the manifest =
+becomes incoherent, so its not an option to have an incomplete python =
+native build.
+>>>=20
+>> In that case, uuid for target never gets deployed, but it is. And I =
+didn't see any packaging issues for `python3` nor for =
+`nativesdk-python3`
+>=20
+>=20
+> I don't see what that has to do with anything, fixing the native build =
+should not affect what gets deployed on target, thats exactly why we =
+have a manifest, so they user can decide what to install and what not to =
+install.
 
-There is a library package split, so you should be seeing libcrypto10
-or libssl10 installed as well. Can you provide the full log please?
+The manifest isn't used for python3-native.
+You try to argue whether there is an error to be fixed - and I don't =
+agree.
+Each fix requires effort - and that's why some errors will never become =
+fixed. When the impact is reasonable or high enough, fixes are more =
+likely.
 
-> BTW, Is pre9 1.1.1 openssl a stable release?
+So: before you try to force me into "that's all ugly und must be =
+seriously beautified just because ..." I will not do anything.
+When you give me a sane reason, I try to understand and make a decision.
 
-Final 1.1.1 has been released yesterday, so I'll send a patch in a moment.
+> I know you didn't see any packaging issues, but that doesn't mean they =
+don't exist, just from the log I showed you, I can tell you that the =
+python3-crypt package is not created correctly, for example, if you do:
+>=20
+> IMAGE_INSTALL_append =3D " python3-crypt"
+>=20
+> Boot the image, run python3 and you try to import sha3, it will fail, =
+because the sha3*.so library won't be on the filesystem.
+>=20
+>=20
+> And thats because the sha3.*.so library was just introduced in this =
+upgrade, and our manifest isn't aware it exists, hence it'll end up on =
+python3-misc and you have just created an unnecessary dependency from =
+python3-crypt to python3-misc (and worse, a dependency which were not =
+even aware of, until we test it manually), which beats the whole purpose =
+of the manifest.
+>=20
+> The do_package function is not gonna fail just because, so you won't =
+see errors, but the files will be packaged incorrectly, causing runtime =
+errors as a consequence, the create_manifest task tries to solve these =
+runtime issues before they happen.
 
-Alex
+That's something completely different. I'm not a python guy and I don't =
+get from the ChangeLog what I have to change in the manifest.
+I can and will do such stuff when doing the perl update. For python, I =
+ask for review because of things I don't know.
 
+You can give me a reasonable list of such changes and I update the =
+manifest accordingly when I rebase the patch after Ross PGO patches are =
+committed.
+
+> Cheers,
+>=20
+> Alejandro
+>=20
+>=20
+>>> Yes you probably need a patch to look at the correct directories for =
+the h files, as well as a dependency to make the h files available on =
+recipe-sysroot-native.
+>>>=20
+>> Please check the submission.
+>=20
+> I did, its not checking inside recipe-sysroot-native.
+
+I know. You could check the submission anyway and find the right patch =
+and then argue differently.
+
+Cheers
+--
+Jens Rehsack - rehsack@gmail.com
+
+
+--Apple-Mail=_7B0E3774-595D-4962-84D1-046A14C24F47
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; line-break: after-white-space;" class=""><br class=""><div><br class=""><blockquote type="cite" class=""><div class="">Am 11.09.2018 um 20:56 schrieb Alejandro Enedino Hernandez Samaniego &lt;<a href="mailto:alejandro.enedino.hernandez-samaniego@xilinx.com" class="">alejandro.enedino.hernandez-samaniego@xilinx.com</a>&gt;:</div><br class="Apple-interchange-newline"><div class="">
+  
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252" class="">
+  
+  <div text="#000000" bgcolor="#FFFFFF" class=""><p class="">Hey Jens,</p></div></div></blockquote><div>Hey&nbsp;<span style="caret-color: rgb(34, 34, 34); color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: small; background-color: rgb(255, 255, 255);" class="">Alejandro,</span></div><br class=""><blockquote type="cite" class=""><div class=""><div text="#000000" bgcolor="#FFFFFF" class="">
+    <div class="moz-cite-prefix">On 09/10/2018 11:58 PM, Jens Rehsack
+      wrote:<br class="">
+    </div>
+    <blockquote type="cite" cite="mid:0EC3E010-56C9-4EB4-90B4-FD9A68F99AAC@netbsd.org" class="">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=windows-1252" class="">
+      <br class="">
+      <div class=""><br class="">
+        <blockquote type="cite" class="">
+          <div class="">Am 10.09.2018 um 23:33 schrieb Alejandro Enedino
+            Hernandez Samaniego &lt;<a href="mailto:alejandro.enedino.hernandez-samaniego@xilinx.com" class="" moz-do-not-send="true">alejandro.enedino.hernandez-samaniego@xilinx.com</a>&gt;:</div>
+          <br class="Apple-interchange-newline">
+          <div class="">
+            <meta http-equiv="Content-Type" content="text/html;
+              charset=windows-1252" class="">
+            <div text="#000000" bgcolor="#FFFFFF" class=""><p class="">Hey Jens,</p><p class=""><br class="">
+              </p><p class="">As I explained before, when you create a
+                manifest for python (target), it uses the native build
+                as base (it literally runs the native python that was
+                just built), it is assumed its the same version as
+                target and contains all the modules provided by
+                upstream, otherwise the missing modules cannot be
+                checked for dependencies, and the manifest becomes
+                incoherent, so its not an option to have an incomplete
+                python native build.</p>
+            </div>
+          </div>
+        </blockquote>
+        <div class="">In that case, uuid for target never gets deployed, but it
+          is. And I didn't see any packaging issues for `python3` nor
+          for `nativesdk-python3`</div>
+      </div>
+    </blockquote>
+    <br class="">
+    <br class="">
+    I don't see what that has to do with anything, fixing the native
+    build should not affect what gets deployed on target, thats exactly
+    why we have a manifest, so they user can decide what to install and
+    what not to install.<br class=""></div></div></blockquote><div><br class=""></div><div>The manifest isn't used for python3-native.</div><div>You try to argue whether there is an error to be fixed - and I don't agree.</div><div>Each fix requires effort - and that's why some errors will never become fixed. When the impact is reasonable or high enough, fixes are more likely.</div><div><br class=""></div><div>So: before you try to force me into "that's all ugly und must be seriously beautified just because ..." I will not do anything.</div><div>When you give me a sane reason, I try to understand and make a decision.</div><br class=""><blockquote type="cite" class=""><div class=""><div text="#000000" bgcolor="#FFFFFF" class="">
+    I know you didn't see any packaging issues, but that doesn't mean
+    they don't exist, just from the log I showed you, I can tell you
+    that the python3-crypt package is not created correctly, for
+    example, if you do:<br class="">
+    <br class="">
+    IMAGE_INSTALL_append = " python3-crypt"<br class="">
+    <br class="">
+    Boot the image, run python3 and you try to import sha3, it will
+    fail, because the sha3*.so library won't be on the filesystem.<br class="">
+    <br class="">
+    <br class="">
+    And thats because the sha3.*.so library was just introduced in this
+    upgrade, and our manifest isn't aware it exists, hence it'll end up
+    on python3-misc and you have just created an unnecessary dependency
+    from python3-crypt to python3-misc (and worse, a dependency which
+    were not even aware of, until we test it manually), which beats the
+    whole purpose of the manifest.<br class="">
+    <br class="">
+    The do_package function is not gonna fail just because, so you won't
+    see errors, but the files will be packaged incorrectly, causing
+    runtime errors as a consequence, the create_manifest task tries to
+    solve these runtime issues before they happen.<br class=""></div></div></blockquote><div><br class=""></div><div>That's something completely different. I'm not a python guy and I don't get from the ChangeLog what I have to change in the manifest.</div><div>I can and will do such stuff when doing the perl update. For python, I ask for review because of things I don't know.</div><div><br class=""></div><div>You can give me a reasonable list of such changes and I update the manifest accordingly when I rebase the patch after Ross PGO patches are committed.</div><br class=""><blockquote type="cite" class=""><div class=""><div text="#000000" bgcolor="#FFFFFF" class="">
+    Cheers,<br class="">
+    <br class="">
+    Alejandro<br class="">
+    <br class="">
+    <br class="">
+    <blockquote type="cite" cite="mid:0EC3E010-56C9-4EB4-90B4-FD9A68F99AAC@netbsd.org" class="">
+      <div class="">
+        <blockquote type="cite" class="">
+          <div class="">
+            <div text="#000000" bgcolor="#FFFFFF" class=""><p class="">Yes you probably need a patch to look at the
+                correct directories for the h files, as well as a
+                dependency to make the h files available on
+                recipe-sysroot-native.</p>
+            </div>
+          </div>
+        </blockquote>
+        Please check the submission.</div>
+    </blockquote>
+    <br class="">
+    I did, its not checking inside recipe-sysroot-native.<br class=""></div></div></blockquote><div><br class=""></div><div>I know. You could check the submission anyway and find the right patch and then argue differently.</div></div><div class=""><br class=""></div>Cheers<br class=""><div class="">
+<div style="color: rgb(0, 0, 0); letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><div style="color: rgb(0, 0, 0); letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><div class="">--&nbsp;</div><div class="">Jens Rehsack - <a href="mailto:rehsack@gmail.com" class="">rehsack@gmail.com</a></div></div></div>
+</div>
+<br class=""></body></html>
+
+--Apple-Mail=_7B0E3774-595D-4962-84D1-046A14C24F47--
+
+--Apple-Mail=_EAC7E66A-01C5-4767-AF63-D87BA6A368DB
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAluY/iwACgkQRJmWrtzl
+Cp2XrBAAknL8lfPzVe1M3N2obJloAS2/cQg7XcKzu/TiUfzNVUkOco178PgaV6+4
+FLv04DqxBWTX5i9nQBwydf9lcCsz8d2afeQwqLUUH1wI2qINcbeWMaMosVA/Eea0
+JPmnKIES/qOk4LMg+sKjOFdSEiwHz2NrLI+Q9mdxWcfeISz5tPW9iG1oI0hTiEqH
+adiR2rzVOtiQjoBUiWjISXZey59MbSGCtUTHwmicHziNwn173S3LY843XB6MRtMI
+AEGxf6cx4vUm3IGMNDTLQcxUprUc7rvTjzqDfPspaMUPqSIB68cdTuDVat8gVJIK
+tXzYHej4vkKtJRibVY7g2Ct4/CxuXPzOUNcc3EJiqTKriIYbMXx6sI5I1Pc8gowI
+wv8PbCL6W0AHw0K0/Rc+OG4VWHaXdDb7y34fzUJrjWRrjQIPgI0Hg74HKk4JvSB9
+1RTS+dJVFFfK1+LMkPcmXO9xLovAOKhWomz2k1ngVtdbDF4cozXNCUfdEaZc0TK+
+BybJgEf73RAHRwJFWcBQ3xZlBDrECjGS1O/Hv/ffTmM3JXHUc0NKx87/ZlNkGJUF
+yzIzfQj3S4mUXiXFWAXcSgCt01hqN/H9gufjhSjXOa/xpoBpsOCLMEWe8l2Vhquc
+T09qwyxxMXV9NOUIBl3T2YmMKsxqRfvhuct1TvQE2BPVjFYbiEY=
+=dJsb
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_EAC7E66A-01C5-4767-AF63-D87BA6A368DB--
