@@ -1,44 +1,37 @@
-Return-Path: <adam.yh.lee@gmail.com>
-Received: from mail-yw1-f41.google.com (mail-yw1-f41.google.com
-	[209.85.161.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 607257966B
+Return-Path: <3fFCZWwgJAGUDEUHVWLFZDbPR.FRP@flex--abrestic.bounces.google.com>
+Received: from mail-qt0-f202.google.com (mail-qt0-f202.google.com
+	[209.85.216.202])
+	by mail.openembedded.org (Postfix) with ESMTP id BE9FF7966B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 17:30:36 +0000 (UTC)
-Received: by mail-yw1-f41.google.com with SMTP id x67-v6so2422ywg.0
+	Wed, 12 Sep 2018 17:44:27 +0000 (UTC)
+Received: by mail-qt0-f202.google.com with SMTP id u45-v6so2261296qte.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 10:30:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=dLYG7TfJU5tvVGiMT12sSNNM8QxbTw1Ai39N/B9jmtA=;
-	b=t1lmOVwylBNTM1141En+69tN0dN4jk81kGKlvxXFC7apDLmPtR9OFyADFDjk8NJ7u2
-	euvqmV1ZL2ItqJuwAtt3JIsLisPuuuXWx6K//GfxhC+t9U97QHMek8yw3XB8f8z6KH6X
-	SPiFjn33cqtVmfm/FvbYSqdOILI7r0qe9OOI/rvxiG6MYl3iEt5weUzxor/2e17Wl3fm
-	3RjVOka11HhZzpq2Hkx9YFxOYnKX2vSneVbFntB2VZgSbo6AnYfulWFYPB3xPUzYoliO
-	IgvN9SIf5c8dmmvgu2zBGmvcMxFrNq8LoTwcBikL/pMI8L+vDuuvMPwUXDpiYxvfyymR
-	C7mw==
+	Wed, 12 Sep 2018 10:44:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=dLYG7TfJU5tvVGiMT12sSNNM8QxbTw1Ai39N/B9jmtA=;
-	b=ocber7HslfL1yiXniK9pAJWpA5V+KekMLhTEkM58+GeNEqU6sWtpfg0u4YMtuNvmZX
-	4AUYbeoQbIg1IYzrURUYluE5gNyPbR6CRdFCiNdjchFjVE7YQPsvSRkaYofgemJFAyUZ
-	qa5uW4NhchgX2zIdKfslhHE0Noq2lrO/W9LOSp7jlg8ludz0JABzdTBRc6/bDyyCiUaD
-	kVdPMcSZsfHTw+Jc9b6ytNFqFmMVxLHVXqJ8fnvHvXGmvrE1t5LYfjV0Gt9/1uutohEk
-	PfCFziPpj30Jm5MXSIDPCGza7Aw7fc8jWFinxGM+rpQOEIIbZBa9gNVGoMGOV+WLkiSl
-	/Lpw==
-X-Gm-Message-State: APzg51DBjha4TMRr6rHNbuN/9TiKdLFGcyydd/hgU1VGpYXprfBBvxtk
-	yPZBVDMp0dm8x3RFNyGU75R9pmNbs+B7zHpZ1aGINQ==
-X-Google-Smtp-Source: ANB0VdaapFr6rE7Aw9xKHl5eT9J7LCwj7EPYypjrHZMccWrBGadoKhNpBefbbfM/LgJFT3XwxXoI/NeSAjsdESZbqeI=
-X-Received: by 2002:a0d:eb8a:: with SMTP id
-	u132-v6mr1443525ywe.102.1536773436903; 
-	Wed, 12 Sep 2018 10:30:36 -0700 (PDT)
-MIME-Version: 1.0
-From: Adam Lee <adam.yh.lee@gmail.com>
-Date: Wed, 12 Sep 2018 13:30:16 -0400
-Message-ID: <CAFeBWL6uk=k-59AC0wLhTCCQ2Bc26vtyf-twvCyn+78fSihfZg@mail.gmail.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: inputattach deprecated?
+	h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+	bh=u9sGGq1ePyT5Kk9kYk8VZd+3GjsStrvEs0RsfkxWAm4=;
+	b=j4C1gDwcyT5KhBPvaDVBle4ETS7JCpgxHZxhfFtrOr6DMDuMHnCpHx1m/k5+ZdGQwP
+	rqr4fqpoxtNXZL2bWS8iUdqnEQqyOofDXg6jcNwzposWxQQiCoErudIPOqaHDpsi9j3z
+	Yjn4oIcSaXScc2Sfe704/ecUFLCbCNgrXJQtlVO++TebH3246a8Y5Oh3ZSVpfi4a9EOV
+	Cy9F4/n1a3xnsJzACxJ8eNIvCe+I2gcfo54HXdL1zeaoV0AgImVFJOOLz8Tbx8bxp+Wp
+	R4YJCW5xQz5pFQloU+tvwS7sUWUvtb58E/ckTcHon/v0QSxpUotAwql/gU1/gV2jPVp+
+	UbKQ==
+X-Gm-Message-State: APzg51DJ/aHWT072tUvYVcas5nIvwvSFGnAYseds5Df9fpDabjFpTsrZ
+	MiWBtP1Dfcid4cYpaPUEXVqgYWrcNL4NQ7v2E+uFam3nHWKOUfVhBaXNaO9oinsGsxAy4ipKgcU
+	HniMORhVv4Jzmx6adkJhE7xw5DqQlMUz7Cv8X3N7HM7L9g+iDduFDXoa5BD7PzmDnNJaPeU1MI4
+	z7fjd4hjBPwQ1B
+X-Google-Smtp-Source: ANB0Vdb4C0RYf6uLFJoUvl3pqvZrIycylOTxaeyb8dUw4DyYcW4xxj5GaWsZ/p6Yg4zM5j/Px0RcdgN3jla0Vw==
+X-Received: by 2002:ac8:1019:: with SMTP id
+	z25-v6mr1008141qti.14.1536774268594; 
+	Wed, 12 Sep 2018 10:44:28 -0700 (PDT)
+Date: Wed, 12 Sep 2018 10:44:14 -0700
+Message-Id: <20180912174415.71497-1-abrestic@waymo.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.19.0.rc2.392.g5ba43deb5a-goog
+From: Andrew Bresticker <abrestic@waymo.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] kexec-tools: Install systemd service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,26 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 17:30:36 -0000
-Content-Type: multipart/alternative; boundary="000000000000ce95b50575aff244"
-
---000000000000ce95b50575aff244
+X-List-Received-Date: Wed, 12 Sep 2018 17:44:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-I see "inputattach" tool has been used quite frequently until a few years
-ago (judging by Google search result).
-What have we replaced it with? I can't seem to find another way to attach a
-UART keyboard as an input device.
+Set SYSTEMD_PACKAGES and SYSTEMD_SERVICE so that kdump.service actually
+gets installed.
 
-Adam
+Signed-off-by: Andrew Bresticker <abrestic@waymo.com>
+---
+ meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
---000000000000ce95b50575aff244
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
+index dd46901197..4b9b5accb6 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
+@@ -78,6 +78,9 @@ INITSCRIPT_PACKAGES = "kdump"
+ INITSCRIPT_NAME_kdump = "kdump"
+ INITSCRIPT_PARAMS_kdump = "start 56 2 3 4 5 . stop 56 0 1 6 ."
+ 
++SYSTEMD_PACKAGES = "kdump"
++SYSTEMD_SERVICE_kdump = "kdump.service"
++
+ SECURITY_PIE_CFLAGS_remove = "-fPIE -pie"
+ 
+ COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|powerpc.*|mips.*)-(linux|freebsd.*)'
+-- 
+2.19.0.rc2.392.g5ba43deb5a-goog
 
-<div dir=3D"ltr">I see &quot;inputattach&quot; tool has been used quite fre=
-quently until a few years ago (judging by Google search result).<div>What h=
-ave we replaced it with? I can&#39;t seem to find another way to attach a U=
-ART keyboard as an input device.</div><div><br></div><div>Adam</div></div>
 
---000000000000ce95b50575aff244--
