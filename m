@@ -1,52 +1,50 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
 	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A24F79704
+	by mail.openembedded.org (Postfix) with ESMTP id 268D579497
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 21:11:02 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id l82-v6so6582333oih.11
+	Wed, 12 Sep 2018 21:51:42 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id 13-v6so6861501ois.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 14:11:03 -0700 (PDT)
+	Wed, 12 Sep 2018 14:51:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DZsktly25PXVfFieTwaQVXHBf4N7VPRsEtFHiMfy+mU=;
-	b=fcbOjFGNXKShdGqR45ONcBDt3L+RIvTYoPgYvrNJbI7sxJqRLxDCWu09I1Z1lQPWI8
-	PRbTLt6TXMtG+3OWEE8020sXcLk2EzSVGhqsPot0zrTIpUividD4l2NKit2Enr96zaKR
-	KYM1lIqv/UejwwFrWQEG7RxY+obTtDVAHGmKOfK/TAA9nlcjudsTck+wqD0RjuBOvE9q
-	uS8r6/6CZuHn2H6qr76CooSWTJAXj8XHoxwQOZgAge+ebrmJV61724FeiDr5Osmi3VOt
-	h8AYSWovWj+8IxzzZZlSMVoCIa87zTBoya5NifDu28dqLHkFyZVaM9Yq0MwOq2n9vCGv
-	7kUQ==
+	:cc; bh=L0/nGFetBcRYXfjJ4ySH5/3SAsyPuBqZfDIYkmhFv4c=;
+	b=1O1AmqTb4PJrzjii6WFWQEij+gQuQnfZ+Tg5j+SFapkCFiUoPKMkDfAhIYONEwVkX+
+	CRgJa/JQonSCB/qzg90+B/GZnRnXYO93IJpInT4mlJehxJSHFHTlgC84nPrnzcQG5flq
+	+/wKNfk3xDPGxuILM+lFc3ZefWPLCZ+VXxfTItWXR1MjUX3aJnILACnkbUphizGBcLKL
+	gX02Qiv/mYBtx82BF402uIhtMh7OPkbLejSZslU5MOIN9eBxOsqp+r78jiRGPVivrLKl
+	MFxJBMwkt80dioeUJQVefab7o8dnxWxFFUGRfABDvY82ZnGg/qhKgXbAOGxx4mrLfBMZ
+	b9Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=DZsktly25PXVfFieTwaQVXHBf4N7VPRsEtFHiMfy+mU=;
-	b=suFgudT8CJ/taZWeNh9YrcWwK7OWn0ck5BoEYWYaDd3NXV5eZVeMYJpjDuFLE2JXlY
-	0aB4q+vnzkdZh60TbNXxxVzlQZosz0AvOLMXWB9ix8cekgy1wdE0+6Br6ZTy6BvnhKqH
-	wvabxA7UTXew95dC1UiagBv+kAhMdCeTbCmrHmzfOKPJlQwjfMmAzzQDCXTi4WVyoe6w
-	AYyIedCEBjiZiNwHMgGC1d/uQZpd2+CGHS3L5lWi+ypgE2aQNhp5x0HmM+dw/3vJFH6K
-	FcGIovG6gJzawKObSuI4z7yYQY+wfmsIaIufdMX42QEO8+IY/YYilqAUEE6TcJfokmxM
-	h/BQ==
-X-Gm-Message-State: APzg51DTr2oCLKKNHOKo2+zr9ppjdOkChPTErLmrOlbc3M9VJB155qK7
-	2SVvqQnUmoC5mY9w5CrVz6mjygsRBbmW1SrYP8DFuQ==
-X-Google-Smtp-Source: ANB0VdbjeS4LsTnFDDRkc+ZQdB2KYrqV251XyJEASAf89V69a3Bd9N5W8LftIy0rUAZzp2yG/w8C53OGOuGkS1W3SDE=
-X-Received: by 2002:aca:a04:: with SMTP id 4-v6mr4103450oik.203.1536786663104; 
-	Wed, 12 Sep 2018 14:11:03 -0700 (PDT)
+	bh=L0/nGFetBcRYXfjJ4ySH5/3SAsyPuBqZfDIYkmhFv4c=;
+	b=dm2I4WFpQeYJTZ+xf+xsGV8hMCBf3Cgfavyi+u9XvhBsXcZe+ShTqdwH1h3lwAgahx
+	40A8Hhibj3IR7qFSWDwS+h0Tu2+g4UmO13MfAtq3sMn9tbjoQKmSE3XZd4007h+D8q2z
+	Mj/c7tYF/QGwPCWtsXTZbDpR0DMYo7Ov3dgpS5wWKrYQJy0+Bzoc0Qa/0Oa/WWFZIfJ8
+	5874DpLAt8vMc58u6lOZMCYLodCZ/AUizyGfoLypVr4uFrD0E94HIpOxO5Yb/HAj6sqs
+	KK2DGE2zPKifEJBAazBFXvQ+tB5IHCjG8MqDYRxH0fQVW5SJM+ZD1ioUghwDPz4NbU3e
+	N1GQ==
+X-Gm-Message-State: APzg51DzFQnMxb1t+O7+dJQlA3N0kUPjC93DyjAe4fqicZyIpn75P7Oz
+	kVbLP3amviN5k+caiRV/rN2EXy1ycCeHuxV855Yp3g==
+X-Google-Smtp-Source: ANB0VdbMHiBZUJFlY+PH0QpQxVwF2yxyfMwm7+TiMTLkBnvTQa6ADxhcNqyYtH9lO+I/1wp6YnFS/4ILXGDNIVKwF14=
+X-Received: by 2002:aca:a04:: with SMTP id 4-v6mr4260763oik.203.1536789104007; 
+	Wed, 12 Sep 2018 14:51:44 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:ac9:7ac:0:0:0:0:0 with HTTP;
-	Wed, 12 Sep 2018 14:10:42 -0700 (PDT)
-In-Reply-To: <1536784825-4476-2-git-send-email-geissonator@gmail.com>
-References: <1536784825-4476-1-git-send-email-geissonator@gmail.com>
-	<1536784825-4476-2-git-send-email-geissonator@gmail.com>
+	Wed, 12 Sep 2018 14:51:23 -0700 (PDT)
+In-Reply-To: <al431y00B0lLAyC01l43Xu@charter.net>
+References: <al431y00B0lLAyC01l43Xu@charter.net>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Sep 2018 22:10:42 +0100
-Message-ID: <CAJTo0LZo8o+RNJR1KgqfQybfcv-QfNDEs+6a5NaR0U1tQ6uSJQ@mail.gmail.com>
-To: Andrew Geissler <geissonator@gmail.com>
-Cc: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] python/python3: Add option to remove test files
+Date: Wed, 12 Sep 2018 22:51:23 +0100
+Message-ID: <CAJTo0LZHmq9s2LfqMyDOv1hii=tG3SEUofMxm6nUNCWTj13FEA@mail.gmail.com>
+To: joseph-reynolds@charter.net
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] disable medium-strength dropbear ssh ciphers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,95 +57,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 21:11:02 -0000
+X-List-Received-Date: Wed, 12 Sep 2018 21:51:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-What are these files?  Are they needed by the test suite?  If so, lets
-just put them into python-tests along with the test suite.
+Yes, I'm aware that dropbear looks for that, but it won't be looking
+in the recipe folder. If you added it in SRC_URI then it would be in
+WORKDIR which is almost the right place, but not quite.
+
+Patching default_options does seem like the best idea moving forwards though.
 
 Ross
 
-On 12 September 2018 at 21:40, Andrew Geissler <geissonator@gmail.com> wrote:
-> A quick search in the python package shows the following test
-> directories being included in the python image:
-> ./Python-2.7.14/Lib/bsddb/test
-> ./Python-2.7.14/Lib/sqlite3/test
-> ./Python-2.7.14/Lib/ctypes/test
-> ./Python-2.7.14/Lib/unittest/test
-> ./Python-2.7.14/Lib/lib-tk/test
-> ./Python-2.7.14/Lib/email/test
+On 12 September 2018 at 22:04,  <joseph-reynolds@charter.net> wrote:
+>>From: "Burton, Ross"
+>>To: joseph-reynolds@charter.net
+>>Cc: "openembedded-core@lists.openembedded.org"
+>>Sent: Wednesday September 12 2018 7:20:27AM
+>>Subject: Re: [OE-core] [PATCH] disable medium-strength dropbear ssh ciphers
+>>
+>>Presumably this doesn't actually work as you're just adding a file to
+>>git without actually referring to it anywhere.
+>>
 >
-> In some distributions, the extra space taken up by these test files
-> is very valuable.
+> Thanks for your email.  I am still trying to get the Dropbear patch
+> upstreamed.  (This is my first patch, so I am a bit of an open source noob.)
 >
-> The default is to still include the test files.
+> To address your concern: Dropbear version 2018.76 and later build process
+> specifically looks for the localoptions.h file as the way to customize
+> dropbear.  (Note the  2017.75 and earlier versions use a different mechanism
+> to customize.)  See the Makefile.in file for details.
 >
-> Signed-off-by: Andrew Geissler <geissonator@gmail.com>
-> ---
->  meta/recipes-devtools/python/python3_3.5.5.bb | 9 +++++++++
->  meta/recipes-devtools/python/python_2.7.15.bb | 9 +++++++++
->  2 files changed, 18 insertions(+)
+> However, now I am wondering if patching Dropbear's default_options.h file
+> would be a better way to make this change.  Adding a localoption.h file is
+> the way to customize dropbear.  But I want to change the *default* behavior
+> of dropbear so that it uses the same encryption ciphers as OpenSSH.  I think
+> patching default_options.h would be better way to accomplish that goal.  And
+> that patch could be applied to the Dropbear project itself.
 >
-> diff --git a/meta/recipes-devtools/python/python3_3.5.5.bb b/meta/recipes-devtools/python/python3_3.5.5.bb
-> index c919a97..5d1397a 100644
-> --- a/meta/recipes-devtools/python/python3_3.5.5.bb
-> +++ b/meta/recipes-devtools/python/python3_3.5.5.bb
-> @@ -160,6 +160,11 @@ EOF
->         fi
->  }
->
-> +# Some packages include test/ directories and files. Provide option
-> +# to not include them.
-> +
-> +INCLUDE_TESTS ?= "1"
-> +
->  do_install() {
->         # make install needs the original Makefile, or otherwise the inclues would
->         # go to ${D}${STAGING...}/...
-> @@ -189,6 +194,10 @@ do_install() {
->         fi
->
->         oe_multilib_header python${PYTHON_BINABI}/pyconfig.h
-> +
-> +    if [ "${INCLUDE_TESTS}" -ne "1" ]; then
-> +        find ${D}${libdir}/python${PYTHON_MAJMIN} -name test -exec rm -rf {} +;
-> +    fi
->  }
->
->  do_install_append_class-nativesdk () {
-> diff --git a/meta/recipes-devtools/python/python_2.7.15.bb b/meta/recipes-devtools/python/python_2.7.15.bb
-> index 82b65d2..1839624 100644
-> --- a/meta/recipes-devtools/python/python_2.7.15.bb
-> +++ b/meta/recipes-devtools/python/python_2.7.15.bb
-> @@ -90,6 +90,11 @@ do_compile() {
->                 OPT="${CFLAGS}"
->  }
->
-> +# Some packages include test/ directories and files. Provide option
-> +# to not include them.
-> +
-> +INCLUDE_TESTS ?= "1"
-> +
->  do_install() {
->         # make install needs the original Makefile, or otherwise the inclues would
->         # go to ${D}${STAGING...}/...
-> @@ -127,6 +132,10 @@ do_install() {
->      if [ -z "${@bb.utils.filter('PACKAGECONFIG', 'bdb', d)}" ]; then
->          rm -rf ${D}/${libdir}/python${PYTHON_MAJMIN}/bsddb
->      fi
-> +
-> +    if [ "${INCLUDE_TESTS}" -ne "1" ]; then
-> +        find ${D}${libdir}/python${PYTHON_MAJMIN} -name test -exec rm -rf {} +;
-> +    fi
->  }
->
->  do_install_append_class-nativesdk () {
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
+>>Ross
+>>
+>>On 7 September 2018 at 20:16, <joseph-reynolds@charter.net> wrote:
+>> This changes the Dropbear SSH server configuration so it will not
+>> accept medium-strength encryption ciphers including: CBC mode, MD5,
+>> 96-bit MAC, and triple DES.
+>>
+>> Upstream-Status: Pending
+>>
+>> Signed-off-by: Joseph Reynolds <joseph-reynolds@charter.net>
+>> ---
+>> meta/recipes-core/dropbear/dropbear/localoptions.h | 8 ++++++++
+>> 1 file changed, 8 insertions(+)
+>> create mode 100644 meta/recipes-core/dropbear/dropbear/localoptions.h
+>>
+>> diff --git a/meta/recipes-core/dropbear/dropbear/localoptions.h
+>> b/meta/recipes-core/dropbear/dropbear/localoptions.h
+>> new file mode 100644
+>> index 0000000..ec48c26
+>> --- /dev/null
+>> +++ b/meta/recipes-core/dropbear/dropbear/localoptions.h
+>> @@ -0,0 +1,8 @@
+>> +/* Customize dropbear per default_options.h in the dropbear project */
+>> +
+>> +/* Disable insecure ciphers */
+>> +#define DROPBEAR_TWOFISH256 0
+>> +#define DROPBEAR_TWOFISH128 0
+>> +#define DROPBEAR_ENABLE_CBC_MODE 0
+>> +#define DROPBEAR_SHA1_HMAC 0
+>> +#define DROPBEAR_SHA1_96_HMAC 0
+>> --
+>> 2.7.2
+>>
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>>
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> /> >
 
