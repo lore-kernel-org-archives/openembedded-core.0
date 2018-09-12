@@ -1,51 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AE12679704
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id DBFA979164
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 12:20:25 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id l82-v6so3185513oih.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 05:20:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=H01FMBvpCiabIyrdlBOGkb8MxUA/8jo0ovp0EiLasZ0=;
-	b=wiX6dlcJgmx/Cm7PmueB6fZtDI0LMcatqOIF3BzQUE8hVUNGjl8BeRhfSgMAhX2Mxl
-	vH/WMUS5hf79K7igl6E1PbedijQqvgvXvQ2DPKrLZVGAaqXMGpI0P/yzGL/dtCRFCMu2
-	nYlL22hT/Ol6VMXYEI+esAnrFXTYG7Q65tdbYgYHzi+NWkLRbm81A8jrTnso/fzNLFm1
-	diigYa9/0jmEBk9ZV0annQl3dGNqUUxsEkooK/G1jEIseCtN65cb3x7TSbcBiUoP4vj1
-	rDlZi6RXee6LmgtrI4TEhAtXmw+Mr0UBwoSNx8tyz8fqR1Pq5gvEVRb+Vht97ZxvG/KI
-	whVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=H01FMBvpCiabIyrdlBOGkb8MxUA/8jo0ovp0EiLasZ0=;
-	b=m+p3mCoeYfnfDzCcAIx/CdRshdXYQ/DpaJuRg9mYJXttxsbABBpAhZ0gwgWABizy1T
-	XmeWqxcy7MG1j4Is29oNIie9oUiLonvzoRFrSF+wTfnQkTIwB4NpfL+UX1rhM8vnqPJk
-	3rK+15od+5YjYMM4fmBqBIBfXm6fg6jwyN+j3Ntu+TMdJ+5mh7UptrD8ZzlTEybLSOs2
-	nXntAn9cBdAHywV3iJxZEHTd7QstT821vZTOn7iW9QRXbEovUMA8paOVG/LfAgZqvT9p
-	FWQawqVjHDLlyoQVNusfcWrwYNnKcjH8yST0q7APAEWOlD+zDSCHb/cgRAkn/f40FiJr
-	RLuw==
-X-Gm-Message-State: APzg51Bp+4q9+SWzMtg2gWTMQfatoYTM+J13GvmE89dZw5qaWDJSuZqN
-	kUV7qD3Fb54iz3cwClDO512LX11QCwtaDXuWK6T3TjrX
-X-Google-Smtp-Source: ANB0Vdbcys3Vet47vNB9/eC52avJoXgF8zgzlkwgIaCBTkihHZ0J0xHSkpfH4CqjjhrHx0iurLQcNVbZ0+pyy8ietQ8=
-X-Received: by 2002:aca:c74d:: with SMTP id
-	x74-v6mr1627314oif.97.1536754826792; 
-	Wed, 12 Sep 2018 05:20:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:7ac:0:0:0:0:0 with HTTP;
-	Wed, 12 Sep 2018 05:20:06 -0700 (PDT)
-In-Reply-To: <YjGq1y00H3g4RYs01jGq8X@charter.net>
-References: <YjGq1y00H3g4RYs01jGq8X@charter.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Sep 2018 13:20:06 +0100
-Message-ID: <CAJTo0Lbh9uf7zg0MhmQtuBmnRxZZjO0ArLuX6hWPuX_zsuqeyg@mail.gmail.com>
-To: joseph-reynolds@charter.net
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] disable medium-strength dropbear ssh ciphers
+	Wed, 12 Sep 2018 12:56:34 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Sep 2018 05:56:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,364,1531810800"; d="scan'208";a="88108038"
+Received: from mjamduna-mobl4.gar.corp.intel.com (HELO
+	anmitta2-MOBL1.png.intel.com) ([10.255.164.232])
+	by fmsmga004.fm.intel.com with ESMTP; 12 Sep 2018 05:56:34 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Sep 2018 20:56:31 +0800
+Message-Id: <20180912125632.21152-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] python3{,native}: update to 3.5.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 12:20:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 12 Sep 2018 12:56:35 -0000
 
-Presumably this doesn't actually work as you're just adding a file to
-git without actually referring to it anywhere.
+Includes changes:
 
-Ross
+76aa2c0a9a bpo-33216: Clarify the documentation for CALL_FUNCTION_* (#8338)
+1b141b9553 Doc: Backport language switcher (bpo-33700, bpo-31045) (#8048)
+f381cfe07d [3.5] bpo-33001: Prevent buffer overrun in os.symlink (GH-5989) (#5991)
+937ac1fe06 [3.5] bpo-32981: Fix catastrophic backtracking vulns (GH-5955) (#6034)
 
-On 7 September 2018 at 20:16,  <joseph-reynolds@charter.net> wrote:
-> This changes the Dropbear SSH server configuration so it will not
-> accept medium-strength encryption ciphers including: CBC mode, MD5,
-> 96-bit MAC, and triple DES.
->
-> Upstream-Status: Pending
->
-> Signed-off-by: Joseph Reynolds <joseph-reynolds@charter.net>
-> ---
->  meta/recipes-core/dropbear/dropbear/localoptions.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
->  create mode 100644 meta/recipes-core/dropbear/dropbear/localoptions.h
->
-> diff --git a/meta/recipes-core/dropbear/dropbear/localoptions.h
-> b/meta/recipes-core/dropbear/dropbear/localoptions.h
-> new file mode 100644
-> index 0000000..ec48c26
-> --- /dev/null
-> +++ b/meta/recipes-core/dropbear/dropbear/localoptions.h
-> @@ -0,0 +1,8 @@
-> +/* Customize dropbear per default_options.h in the dropbear project */
-> +
-> +/* Disable insecure ciphers */
-> +#define DROPBEAR_TWOFISH256 0
-> +#define DROPBEAR_TWOFISH128 0
-> +#define DROPBEAR_ENABLE_CBC_MODE 0
-> +#define DROPBEAR_SHA1_HMAC 0
-> +#define DROPBEAR_SHA1_96_HMAC 0
-> --
-> 2.7.2
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../{python3-native_3.5.5.bb => python3-native_3.5.6.bb}      | 4 ++--
+ .../python/{python3_3.5.5.bb => python3_3.5.6.bb}             | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/python/{python3-native_3.5.5.bb => python3-native_3.5.6.bb} (96%)
+ rename meta/recipes-devtools/python/{python3_3.5.5.bb => python3_3.5.6.bb} (98%)
+
+diff --git a/meta/recipes-devtools/python/python3-native_3.5.5.bb b/meta/recipes-devtools/python/python3-native_3.5.6.bb
+similarity index 96%
+rename from meta/recipes-devtools/python/python3-native_3.5.5.bb
+rename to meta/recipes-devtools/python/python3-native_3.5.6.bb
+index b231542f46..46b3cf398d 100644
+--- a/meta/recipes-devtools/python/python3-native_3.5.5.bb
++++ b/meta/recipes-devtools/python/python3-native_3.5.6.bb
+@@ -26,8 +26,8 @@ file://support_SOURCE_DATE_EPOCH_in_py_compile.patch \
+ file://regen-all.patch \
+ "
+ 
+-SRC_URI[md5sum] = "f3763edf9824d5d3a15f5f646083b6e0"
+-SRC_URI[sha256sum] = "063d2c3b0402d6191b90731e0f735c64830e7522348aeb7ed382a83165d45009"
++SRC_URI[md5sum] = "f5a99f765e765336a3ebbb2a24ca2be3"
++SRC_URI[sha256sum] = "f55cde04f521f273c7cba08912921cc5642cfc15ca7b22d5829f0aff4371155f"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=b6ec515b22618f55fa07276b897bacea"
+ 
+diff --git a/meta/recipes-devtools/python/python3_3.5.5.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.5.5.bb
+rename to meta/recipes-devtools/python/python3_3.5.6.bb
+index 15ec7d7fda..13599c9216 100644
+--- a/meta/recipes-devtools/python/python3_3.5.5.bb
++++ b/meta/recipes-devtools/python/python3_3.5.6.bb
+@@ -43,8 +43,8 @@ SRC_URI += "\
+             file://ftplib.patch \
+             file://signal.patch \
+            "
+-SRC_URI[md5sum] = "f3763edf9824d5d3a15f5f646083b6e0"
+-SRC_URI[sha256sum] = "063d2c3b0402d6191b90731e0f735c64830e7522348aeb7ed382a83165d45009"
++SRC_URI[md5sum] = "f5a99f765e765336a3ebbb2a24ca2be3"
++SRC_URI[sha256sum] = "f55cde04f521f273c7cba08912921cc5642cfc15ca7b22d5829f0aff4371155f"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=b6ec515b22618f55fa07276b897bacea"
+ 
+-- 
+2.17.1
+
 
