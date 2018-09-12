@@ -1,19 +1,17 @@
 Return-Path: <douglas.royds@taitradio.com>
 Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id 9B1167955B
+	by mail.openembedded.org (Postfix) with SMTP id A0E7379585
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 12 Sep 2018 01:36:30 +0000 (UTC)
 Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id 4E63A220348;
-	Wed, 12 Sep 2018 13:27:12 +1200 (NZST)
+	by smtp0.taitradio.net (Postfix) with ESMTP id E134B220044;
+	Wed, 12 Sep 2018 13:27:11 +1200 (NZST)
 From: Douglas Royds <douglas.royds@taitradio.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Sep 2018 13:27:07 +1200
-Message-Id: <20180912012707.30046-7-douglas.royds@taitradio.com>
+Date: Wed, 12 Sep 2018 13:27:01 +1200
+Message-Id: <20180912012707.30046-1-douglas.royds@taitradio.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180912012707.30046-1-douglas.royds@taitradio.com>
-References: <20180912012707.30046-1-douglas.royds@taitradio.com>
-Subject: [PATCH 6/6] Reproducible: Consistent debug logging
+Subject: [PATCH 0/6] Reproducible: Find the git repo in WORKDIR/git or S first
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,88 +26,56 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 12 Sep 2018 01:36:41 -0000
 
-Log both the source of the source_date_epoch and the resulting
-source_date_epoch in all cases.
+Change the search regime for find_git_folder():
 
-Also, now that we are determining the source_date_epoch successfully for both
-yocto and non-yocto kernels, remove the inherits_class('kernel') exception.
-We will log a failure to find a source_date_epoch for kernels as well.
+1. WORKDIR/git: This is the default git fetcher unpack path
+2. ${S}
+3. Go looking for .git/ under the WORKDIR as a last resort.
 
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
----
- meta/classes/reproducible_build.bbclass | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+linux-yocto:
+We had an existing (silent) defect. The linux-yocto recipes all specify
+two git SRC_URIs, one for the kernel source itself, the other for the
+kmeta data (config fragments and friends). find_git_folder() was finding
+the git checkout for the kmeta data, but due to a typo in the git log -1
+--pretty=%ct line, we were (silently) reading the source_date_epoch from
+the ${S} directory = STAGING_KERNEL_DIR, which is empty. If your
+build/ happened to be inside a git checkout, git would walk up the
+directory tree, and silently read the commit timestamp from this other
+git checkout. The correct path to read the git commit timestamp from is
+the "gitpath", being that found by find_git_folder(), though this
+function was incorrectly finding the kmeta data checkout, not the kernel
+source tree.
 
-diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
-index a81f249790..4f3680a376 100644
---- a/meta/classes/reproducible_build.bbclass
-+++ b/meta/classes/reproducible_build.bbclass
-@@ -51,6 +51,7 @@ addtask do_deploy_source_date_epoch before do_configure after do_patch
- 
- def get_source_date_epoch_from_known_files(d, sourcedir):
-     source_date_epoch = None
-+    newest_file = None
-     known_files = set(["NEWS", "ChangeLog", "Changelog", "CHANGES"])
-     for file in known_files:
-         filepath = os.path.join(sourcedir, file)
-@@ -59,6 +60,9 @@ def get_source_date_epoch_from_known_files(d, sourcedir):
-             # There may be more than one "known_file" present, if so, use the youngest one
-             if not source_date_epoch or mtime > source_date_epoch:
-                 source_date_epoch = mtime
-+                newest_file = filepath
-+    if newest_file:
-+        bb.debug(1, "SOURCE_DATE_EPOCH taken from: %s" % newest_file)
-     return source_date_epoch
- 
- def find_git_folder(d, sourcedir):
-@@ -93,7 +97,7 @@ def get_source_date_epoch_from_git(d, sourcedir):
-         if gitpath:
-             import subprocess
-             source_date_epoch = int(subprocess.check_output(['git','log','-1','--pretty=%ct'], cwd=gitpath))
--            bb.debug(1, "git repo path: %s sde: %d" % (gitpath, source_date_epoch))
-+            bb.debug(1, "git repository: %s" % gitpath)
-     return source_date_epoch
- 
- def get_source_date_epoch_from_youngest_file(d, sourcedir):
-@@ -117,14 +121,14 @@ def get_source_date_epoch_from_youngest_file(d, sourcedir):
-                 source_date_epoch = mtime
-                 newest_file = filename
- 
--    if newest_file != None:
--        bb.debug(1," SOURCE_DATE_EPOCH %d derived from: %s" % (source_date_epoch, newest_file))
-+    if newest_file:
-+        bb.debug(1, "Newest file found: %s" % newest_file)
-     return source_date_epoch
- 
- python do_create_source_date_epoch_stamp() {
-     epochfile = d.getVar('SDE_FILE')
-     if os.path.isfile(epochfile):
--        bb.debug(1, " path: %s reusing __source_date_epoch.txt" % epochfile)
-+        bb.debug(1, "Reusing SOURCE_DATE_EPOCH from: %s" % epochfile)
-         return
- 
-     sourcedir = d.getVar('S')
-@@ -136,10 +140,9 @@ python do_create_source_date_epoch_stamp() {
-     )
-     if source_date_epoch == 0:
-         # empty folder, not a single file ...
--        # kernel source do_unpack is special cased
--        if not bb.data.inherits_class('kernel', d):
--            bb.debug(1, "Unable to determine source_date_epoch! path:%s" % sourcedir)
-+        bb.debug(1, "No files found to determine SOURCE_DATE_EPOCH")
- 
-+    bb.debug(1, "SOURCE_DATE_EPOCH: %d" % source_date_epoch)
-     bb.utils.mkdirhier(d.getVar('SDE_DIR'))
-     with open(epochfile, 'w') as f:
-         f.write(str(source_date_epoch))
-@@ -155,6 +158,6 @@ python () {
-         if os.path.isfile(epochfile):
-             with open(epochfile, 'r') as f:
-                 source_date_epoch = f.read()
--            bb.debug(1, "source_date_epoch stamp found ---> stamp %s" % source_date_epoch)
-+            bb.debug(1, "SOURCE_DATE_EPOCH: %s" % source_date_epoch)
-         d.setVar('SOURCE_DATE_EPOCH', source_date_epoch)
- }
+Non-kernel git recipes:
+The default git fetcher clones and checks out the sources at
+WORKDIR/git/ regardless of the setting of S (unless subpath or
+destsuffix is set). find_git_folder() now looks for the
+WORKDIR/git/.git/ directory first.
+
+Non-yocto linux kernels:
+Kernel recipes that don't inherit kernel-yocto should always set
+S = ${WORKDIR}/git, so that when base_do_unpack_append() in
+kernel.bbclass moves the checkout down to the STAGING_KERNEL_DIR and
+symlinks it as WORKDIR/git, the build can still work by following the
+symlink. We were previously failing to follow the symlink in the
+os.walk(), but we now look first for WORKDIR/git/.git/, and find it due
+to the symlink.
+
+If none of the above mechanisms work for finding the git checkout,
+perhaps there was a subpath or destsuffix specified in the SRC_URI.
+We go looking for the git checkout under the WORKDIR as a last resort.
+
+Douglas Royds (6):
+  Reproducible: Tidy class description
+  Reproducible: Refactor: get_source_date_epoch_from_youngest_file()
+  Reproducible: Rename ambiguous "path" var to sourcedir or workdir as appropriate
+  Reproducible: Find the git repo in WORKDIR/git or S first
+  Reproducible: Don't enforce existence of ${S} dir
+  Reproducible: Consistent debug logging
+
+ meta/classes/reproducible_build.bbclass | 149 +++++++++++++-----------
+ 1 file changed, 81 insertions(+), 68 deletions(-)
+
 -- 
 2.17.1
 
