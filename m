@@ -1,24 +1,21 @@
-Return-Path: <Kexin.Hao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B828479541
+Return-Path: <douglas.royds@taitradio.com>
+X-Greylist: delayed 542 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 12 Sep 2018 01:36:15 UTC
+Received: from smtp0.taitradio.net (unknown [202.37.96.22])
+	by mail.openembedded.org (Postfix) with SMTP id 2D7D279550
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 00:51:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8C0osHA010258
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 17:51:15 -0700
-Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 11 Sep 2018 17:51:04 -0700
-From: Kevin Hao <kexin.hao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Sep 2018 08:44:46 +0800
-Message-ID: <20180912004446.11661-1-kexin.hao@windriver.com>
-X-Mailer: git-send-email 2.14.4
-MIME-Version: 1.0
-Subject: [PATCH v3] wic: Introduce the --use-label partition parameter
+	Wed, 12 Sep 2018 01:36:15 +0000 (UTC)
+Received: from acheron.taitradio.net (unknown [172.16.169.141])
+	by smtp0.taitradio.net (Postfix) with ESMTP id 0D28022032A;
+	Wed, 12 Sep 2018 13:27:12 +1200 (NZST)
+From: Douglas Royds <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Sep 2018 13:27:03 +1200
+Message-Id: <20180912012707.30046-3-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180912012707.30046-1-douglas.royds@taitradio.com>
+References: <20180912012707.30046-1-douglas.royds@taitradio.com>
+Subject: [PATCH 2/6] Reproducible: Refactor: get_source_date_epoch_from_youngest_file()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,117 +28,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 00:51:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Sep 2018 01:36:27 -0000
 
-We can use this parameter to make the wic use the label to name a
-partition in /etc/fstab.
-
-Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-Reviewed-by: Tom Rini <trini@konsulko.com>
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 ---
-v3: No change since v2, just rebase on the master branch.
+ meta/classes/reproducible_build.bbclass | 59 ++++++++++++++-----------
+ 1 file changed, 33 insertions(+), 26 deletions(-)
 
- scripts/lib/wic/help.py                  | 18 +++++++++++++-----
- scripts/lib/wic/ksparser.py              | 14 ++++++++++++--
- scripts/lib/wic/partition.py             |  1 +
- scripts/lib/wic/plugins/imager/direct.py |  2 ++
- 4 files changed, 28 insertions(+), 7 deletions(-)
-
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 842b868a575a..64f08052c7a7 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -866,11 +866,11 @@ DESCRIPTION
-        Partitions with a <mountpoint> specified will be automatically mounted.
-        This is achieved by wic adding entries to the fstab during image
-        generation. In order for a valid fstab to be generated one of the
--       --ondrive, --ondisk or --use-uuid partition options must be used for
--       each partition that specifies a mountpoint.  Note that with --use-uuid
--       and non-root <mountpoint>, including swap, the mount program must
--       understand the PARTUUID syntax.  This currently excludes the busybox
--       versions of these applications.
-+       --ondrive, --ondisk, --use-uuid or --use-label partition options must
-+       be used for each partition that specifies a mountpoint.  Note that with
-+       --use-{uuid,label} and non-root <mountpoint>, including swap, the mount
-+       program must understand the PARTUUID or LABEL syntax.  This currently
-+       excludes the busybox versions of these applications.
+diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
+index 4e8850fb83..e118cfde01 100644
+--- a/meta/classes/reproducible_build.bbclass
++++ b/meta/classes/reproducible_build.bbclass
+@@ -49,15 +49,15 @@ do_deploy_source_date_epoch[sstate-plaindirs] = "${SDE_DIR}"
+ addtask do_deploy_source_date_epoch_setscene
+ addtask do_deploy_source_date_epoch before do_configure after do_patch
  
+-def get_source_date_epoch_known_files(d, path):
+-    source_date_epoch = 0
++def get_source_date_epoch_from_known_files(d, path):
++    source_date_epoch = None
+     known_files = set(["NEWS", "ChangeLog", "Changelog", "CHANGES"])
+     for file in known_files:
+         filepath = os.path.join(path,file)
+         if os.path.isfile(filepath):
+             mtime = int(os.lstat(filepath).st_mtime)
+             # There may be more than one "known_file" present, if so, use the youngest one
+-            if mtime > source_date_epoch:
++            if not source_date_epoch or mtime > source_date_epoch:
+                 source_date_epoch = mtime
+     return source_date_epoch
  
-        The following are supported 'part' options:
-@@ -945,6 +945,14 @@ DESCRIPTION
-                         label is already in use by another filesystem,
-                         a new label is created for the partition.
+@@ -68,8 +68,8 @@ def find_git_folder(path):
+         if '.git' in dirs:
+             return root
  
-+         --use-label: This option is specific to wic. It makes wic to use the
-+                      label in /etc/fstab to specify a partition. If the
-+                      --use-label and --use-uuid are used at the same time,
-+                      we prefer the uuid because it is less likely to cause
-+                      name confliction. We don't support using this parameter
-+                      on the root partition since it requires an initramfs to
-+                      parse this value and we do not currently support that.
+-def get_source_date_epoch_git(d, path):
+-    source_date_epoch = 0
++def get_source_date_epoch_from_git(d, path):
++    source_date_epoch = None
+     if "git://" in d.getVar('SRC_URI'):
+         gitpath = find_git_folder(d.getVar('WORKDIR'))
+         if gitpath != None:
+@@ -84,24 +84,13 @@ def get_source_date_epoch_git(d, path):
+             bb.warn("Failed to find a git repository for path:%s" % (path))
+     return source_date_epoch
+ 
+-python do_create_source_date_epoch_stamp() {
+-    path = d.getVar('S')
+-    if not os.path.isdir(path):
+-        bb.warn("Unable to determine source_date_epoch! path:%s" % path)
+-        return
+-
+-    epochfile = d.getVar('SDE_FILE')
+-    if os.path.isfile(epochfile):
+-        bb.debug(1, " path: %s reusing __source_date_epoch.txt" % epochfile)
+-        return
+-
+-    source_date_epoch = get_source_date_epoch_git(d, path)
+-    if source_date_epoch == 0:
+-        source_date_epoch = get_source_date_epoch_known_files(d, path)
+-    if source_date_epoch == 0:
++def get_source_date_epoch_from_youngest_file(d, path):
+     # Do it the hard way: check all files and find the youngest one...
+-        filename_dbg = None
+-        exclude = set(["temp", "license-destdir", "patches", "recipe-sysroot-native", "recipe-sysroot", "pseudo", "build", "image", "sysroot-destdir"])
++    source_date_epoch = None
++    newest_file = None
++    # Just in case S = WORKDIR
++    exclude = set(["build", "image", "license-destdir", "patches", "pseudo",
++                   "recipe-sysroot", "recipe-sysroot-native", "sysroot-destdir", "temp"])
+     for root, dirs, files in os.walk(path, topdown=True):
+         files = [f for f in files if not f[0] == '.']
+         dirs[:] = [d for d in dirs if d not in exclude]
+@@ -112,13 +101,31 @@ python do_create_source_date_epoch_stamp() {
+                 mtime = int(os.lstat(filename).st_mtime)
+             except ValueError:
+                 mtime = 0
+-                if mtime > source_date_epoch:
++            if not source_date_epoch or mtime > source_date_epoch:
+                 source_date_epoch = mtime
+-                    filename_dbg = filename
++                newest_file = filename
 +
-          --active: Marks the partition as active.
++    if newest_file != None:
++        bb.debug(1," SOURCE_DATE_EPOCH %d derived from: %s" % (source_date_epoch, newest_file))
++    return source_date_epoch
  
-          --align (in KBytes): This option is specific to wic and says
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index a5d29189b9b5..7e5a9c5092b0 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -141,6 +141,7 @@ class KickStart():
-                                    'squashfs', 'vfat', 'msdos', 'swap'))
-         part.add_argument('--mkfs-extraopts', default='')
-         part.add_argument('--label')
-+        part.add_argument('--use-label', action='store_true')
-         part.add_argument('--no-table', action='store_true')
-         part.add_argument('--ondisk', '--ondrive', dest='disk', default='sda')
-         part.add_argument("--overhead-factor", type=overheadtype)
-@@ -197,8 +198,17 @@ class KickStart():
-                                              (confpath, lineno, err))
-                     if line.startswith('part'):
-                         # SquashFS does not support filesystem UUID
--                        if parsed.fstype == 'squashfs' and parsed.fsuuid:
--                            err = "%s:%d: SquashFS does not support UUID" \
-+                        if parsed.fstype == 'squashfs':
-+                            if parsed.fsuuid:
-+                                err = "%s:%d: SquashFS does not support UUID" \
-+                                       % (confpath, lineno)
-+                                raise KickStartError(err)
-+                            if parsed.label:
-+                                err = "%s:%d: SquashFS does not support LABEL" \
-+                                       % (confpath, lineno)
-+                                raise KickStartError(err)
-+                        if parsed.use_label and not parsed.label:
-+                            err = "%s:%d: Must set the label with --label" \
-                                   % (confpath, lineno)
-                             raise KickStartError(err)
-                         # using ArgumentParser one cannot easily tell if option
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 5054779b1b6b..3da7e23e617e 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -47,6 +47,7 @@ class Partition():
-         self.fsopts = args.fsopts
-         self.fstype = args.fstype
-         self.label = args.label
-+        self.use_label = args.use_label
-         self.mkfs_extraopts = args.mkfs_extraopts
-         self.mountpoint = args.mountpoint
-         self.no_table = args.no_table
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 81583e97b9f7..bb14a334b2ce 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -155,6 +155,8 @@ class DirectPlugin(ImagerPlugin):
-                         device_name = "UUID=%s" % part.fsuuid
-                 else:
-                     device_name = "PARTUUID=%s" % part.uuid
-+            elif part.use_label:
-+                device_name = "LABEL=%s" % part.label
-             else:
-                 # mmc device partitions are named mmcblk0p1, mmcblk0p2..
-                 prefix = 'p' if  part.disk.startswith('mmcblk') else ''
+-        if filename_dbg != None:
+-            bb.debug(1," SOURCE_DATE_EPOCH %d derived from: %s" % (source_date_epoch, filename_dbg))
++python do_create_source_date_epoch_stamp() {
++    path = d.getVar('S')
++    if not os.path.isdir(path):
++        bb.warn("Unable to determine source_date_epoch! path:%s" % path)
++        return
++
++    epochfile = d.getVar('SDE_FILE')
++    if os.path.isfile(epochfile):
++        bb.debug(1, " path: %s reusing __source_date_epoch.txt" % epochfile)
++        return
+ 
++    source_date_epoch = (
++        get_source_date_epoch_from_git(d, path) or
++        get_source_date_epoch_from_known_files(d, path) or
++        get_source_date_epoch_from_youngest_file(d, path) or
++        0       # Last resort
++    )
+     if source_date_epoch == 0:
+         # empty folder, not a single file ...
+         # kernel source do_unpack is special cased
 -- 
-2.14.4
+2.17.1
 
 
