@@ -1,45 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D0E62796DD
+Return-Path: <Alexey.Brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
+	[198.182.60.111])
+	by mail.openembedded.org (Postfix) with ESMTP id E868379704
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 16:30:15 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id t39-v6so2456541qtc.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 09:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1CEGr9IfCrRy/j1mDuE/jb49xpW2ZdlWnEIaFpOqGHI=;
-	b=HRGWZz0kYIJExwcHlg7WuXID3DlSV4wJzjeoaAkFSNU0AYV81v9KxaifzjGCm76Y5h
-	POaj/rFuCsjC8gqMkxUU7R5GPQ/QLZ+CYkilwQ2brpRmggeDJuy/125LN7nzaKb3wY4F
-	27RrmGaFKjPIXLA4OnZwAlzD4gcFM2FXQ1ynaCQ2lZlD+/q3yvwCEHRgw6iKshkOTE+a
-	3fMV5yWmxHA6rVB3ZvOmPDejuubyEG8FJJ3ocnxYQOzQFvtnygdrclAOqmDTwDVRm2PU
-	wShTYPr/B7z1l2x4paeRDDcLZvztflv3MokJJhNVKjnxgmmRp2JM7FOFHWU4O7pkkHwE
-	BRew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=1CEGr9IfCrRy/j1mDuE/jb49xpW2ZdlWnEIaFpOqGHI=;
-	b=sVbG8tVKUgQ4IDh8Psf2UD6BnqZJutOZPS3kV1pzPP4q3iIpnh6VpcHPEqkxesVF5G
-	tqek7XirQxe4pyFENL9tgTKILVyBZ+/mUwNdynx650S08q2k1i8ZHxn968M/VgaJt3Kh
-	ckwUWWNVwLWEW7GiGNNMT4LPM82uGlsuLlW/o3raDKvsHMm5nLxJZDrLhZFyZkBcXK6M
-	MASgprIIZt4vmYVD86ZlVXBa6fWIa2Gy9gjAs11BiH7RbpxLir6HpQ9wuPZi9xVFwxo5
-	DvqmisFGvMG95Q0v4wfz7DEs3gGnx2JADYgNtJYbjVkelHjKzrC8JyhcAS7a6VIOOgSj
-	3J5w==
-X-Gm-Message-State: APzg51B9Byy8T3BmQdyvrkOg0jkqHt7KhDIlJfOfwNH3cuJ3dUsavy9u
-	PgtPzF6f3BQA5B1IzgCB8+k1SSGGMwng9nk+VrNym6Wh
-X-Google-Smtp-Source: ANB0VdadjNq6WG7nNA77+wo16gbVMPuYStKTxfkU0QYj4EsVcSXo5wvNgUU8/dqNL2qORJs09wL0IvxJow7Dxv+krNk=
-X-Received: by 2002:a0c:f208:: with SMTP id h8-v6mr2138732qvk.55.1536769816314;
-	Wed, 12 Sep 2018 09:30:16 -0700 (PDT)
-MIME-Version: 1.0
+	Wed, 12 Sep 2018 16:35:42 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id EEEA310C1B59;
+	Wed, 12 Sep 2018 09:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1536770144; bh=YcsyTz/p24GbHp7Ps3Y+lkpaOb0Ez1HEEjnd7SfqejU=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=XXZucCyjMl5546L5n/kd8QH/dEXsz7Xiop5pr8Hq/ZyXLjuKaH3dsbK/BI50iy9zl
+	BwEkemh/sCZfJM5vCt39xjXg+Tc0kdFxIro3/gYgWzqWhg5RD2zxpGYaN0f7QCc4yN
+	sIK1wyubcsJQbwkSld5wcIK5gsLgZSBZD045FhWdTx5juqZKaMA++DlCm7EoE/mxdk
+	mvh3UNNY3uGgiOlw1hQE6tJJB3q8/mwU7PckBrNBbQqLjh2PdNKkEozaBLmryFykxC
+	FdGyjQmn9Zg4KIznd5saMwYi57IKU18ZhfbVH9GC0NZe/V4+BkoJ3RUlAN/OSRXvup
+	gxtI0sM66YCag==
+Received: from US01WEHTC3.internal.synopsys.com
+	(us01wehtc3.internal.synopsys.com [10.15.84.232])
+	by mailhost.synopsys.com (Postfix) with ESMTP id DBE303EE1;
+	Wed, 12 Sep 2018 09:35:43 -0700 (PDT)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+	US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Wed, 12 Sep 2018 09:35:43 -0700
+Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
+	by DE02WEHTCA.internal.synopsys.com ([::1]) with mapi id
+	14.03.0361.001; Wed, 12 Sep 2018 18:35:43 +0200
+From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+To: "raj.khem@gmail.com" <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH] linux-libc-headers: Don't do useless
+	configuration
+Thread-Index: AQHUSrEH6casaJzNLEe3JlDNc0JshKTstL4AgAABooA=
+Date: Wed, 12 Sep 2018 16:35:42 +0000
+Message-ID: <55a9c23a7768c79e94f676ca7665f6c6571358bd.camel@synopsys.com>
 References: <20180912155519.7513-1-abrodkin@synopsys.com>
-In-Reply-To: <20180912155519.7513-1-abrodkin@synopsys.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 12 Sep 2018 09:29:50 -0700
-Message-ID: <CAMKF1spaqXM5Yr8u4j2ppQXAUdLS2QvOqasy+tdju3VceAvVhQ@mail.gmail.com>
-To: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-Cc: Patches and discussions about the oe-core layer
+	<CAMKF1spaqXM5Yr8u4j2ppQXAUdLS2QvOqasy+tdju3VceAvVhQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spaqXM5Yr8u4j2ppQXAUdLS2QvOqasy+tdju3VceAvVhQ@mail.gmail.com>
+Accept-Language: en-US, ru-RU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.121.8.87]
+MIME-Version: 1.0
+Cc: "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] linux-libc-headers: Don't do useless configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,59 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 16:30:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 12 Sep 2018 16:35:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <82CFF914193502408C3072867AC61192@internal.synopsys.com>
+Content-Transfer-Encoding: base64
 
-On Wed, Sep 12, 2018 at 9:03 AM Alexey Brodkin
-<Alexey.Brodkin@synopsys.com> wrote:
->
-> There's no point in configuring Linux kernel before
-> headers installation.
->
-
-At one point the headers install did not work with out a .config file,
-has that changed ?
-if so then this is fine to remove it but this change needs to be done
-a bit differently if thats what it did in this task
-
-remove do_configure and then add
-
-do_configure[noexec] = "1"
-
-
-> Moreover in come cases it might lead to problems on kernels
-> starting from 4.17 with architecture or platfrom sets
-> CROSS_COMPILE variable automatically, see [1].
->
-> Also note Buildroot doesn't do that kind of confiuration as
-> well, see [2].
->
-> [1] https://lkml.org/lkml/2018/9/12/486
-> [2] https://git.buildroot.org/buildroot/tree/package/linux-headers/linux-headers.mk#n106
->
-> Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-> ---
->  meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-> index 05c82558e653..1a365ddeb6a9 100644
-> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-> @@ -54,7 +54,6 @@ S = "${WORKDIR}/linux-${PV}"
->  EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCPP="${BUILD_CPP}""
->
->  do_configure() {
-> -       oe_runmake allnoconfig
->  }
->
->  do_compile () {
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+SGkgS2hlbSwNCg0KT24gV2VkLCAyMDE4LTA5LTEyIGF0IDA5OjI5IC0wNzAwLCBLaGVtIFJhaiB3
+cm90ZToNCj4gT24gV2VkLCBTZXAgMTIsIDIwMTggYXQgOTowMyBBTSBBbGV4ZXkgQnJvZGtpbg0K
+PiA8QWxleGV5LkJyb2RraW5Ac3lub3BzeXMuY29tPiB3cm90ZToNCj4gPiANCj4gPiBUaGVyZSdz
+IG5vIHBvaW50IGluIGNvbmZpZ3VyaW5nIExpbnV4IGtlcm5lbCBiZWZvcmUNCj4gPiBoZWFkZXJz
+IGluc3RhbGxhdGlvbi4NCj4gPiANCj4gDQo+IEF0IG9uZSBwb2ludCB0aGUgaGVhZGVycyBpbnN0
+YWxsIGRpZCBub3Qgd29yayB3aXRoIG91dCBhIC5jb25maWcgZmlsZSwNCj4gaGFzIHRoYXQgY2hh
+bmdlZCA/DQoNCldlbGwgdGhhdCdzIGhhcmQgdG8gdGVsbCBhcyBJIGhhdmUgbm8gaWRlYSB3aGVu
+IGFuZCB3aGF0IGtpbmQgb2YgYnJlYWthZ2UNCndhcyBzZWVuIDopDQoNCkknZCBzYXkgd2l0aCB1
+cC10by1kYXRlIGtlcm5lbHMgaXQgc2hvdWxkbid0IGhhcHBlbiBhbmQgdGhhdCdzIHRoZQ0KcG9p
+bnQgTWFzYWhpcm8tc2FuIG1hZGUgaGVyZTogaHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMTgvOS8x
+Mi82NzgNCg0KDQo+IGlmIHNvIHRoZW4gdGhpcyBpcyBmaW5lIHRvIHJlbW92ZSBpdCBidXQgdGhp
+cyBjaGFuZ2UgbmVlZHMgdG8gYmUgZG9uZQ0KPiBhIGJpdCBkaWZmZXJlbnRseSBpZiB0aGF0cyB3
+aGF0IGl0IGRpZCBpbiB0aGlzIHRhc2sNCj4gDQo+IHJlbW92ZSBkb19jb25maWd1cmUgYW5kIHRo
+ZW4gYWRkDQo+IA0KPiBkb19jb25maWd1cmVbbm9leGVjXSA9ICIxIg0KDQpPayB3aWxsIGRvIHRo
+YXQuIEJ1dCB3aHkgZG8gd2UgaGF2ZSAyIGxpbmVzIGJlbG93Og0KLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tPjgtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KZG9fY29tcGlsZSAoKQ0K
+eyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQp9DQotLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0+OC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNCi1BbGV4ZXkNCg==
 
