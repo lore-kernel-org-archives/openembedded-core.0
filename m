@@ -1,47 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 88BA0796E9
+Return-Path: <Alexey.Brodkin@synopsys.com>
+X-Greylist: delayed 481 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 12 Sep 2018 16:03:22 UTC
+Received: from smtprelay.synopsys.com (smtprelay.synopsys.com [198.182.60.111])
+	by mail.openembedded.org (Postfix) with ESMTP id E03DF7982B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 15:54:22 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id y139-v6so2944990wmc.2
+	Wed, 12 Sep 2018 16:03:22 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id EF22510C1B41
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 08:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=H9ufMJP5Z7mHvqT5sVy+vr5RHwOgwrrYznJr8QY/JWQ=;
-	b=BdEutHwjkPcgqdSPV2jb5d6yFpF+u6GrnaLZvIK4nlo7Hb5dElMDCc8XlwnPpWs6nP
-	IKt2SdTLWiUnzoEHjxAifXcfG9XXhYIVqm67fE6rWXtl4CipCqzWqqXhAGWeBfuT8nhW
-	vSLehZBtyHOhNNj05nPdIKcdzIbAblIsu0Ab/RAiJk7Zp8Lxb4PVIqk1zk/vADIShfnR
-	lDPhEB2Wdh4mB7Vqwr0hh4iefaPKKEeQsmXDlYijVHbzioo7BxxRnZCTCAs5lEg+LySP
-	x6MyGkU1X0QzUP9SqvIOYlTPNorhFYia77tF1gcejSgUduKCeJ74Ls1s66ucfMqmgUJr
-	fwUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=H9ufMJP5Z7mHvqT5sVy+vr5RHwOgwrrYznJr8QY/JWQ=;
-	b=Z80fjLRnznSG4H43DBpDozbxaQqGOvB/rVdWECy+RKbVINbPeRkQAHcuM5rmc8y45A
-	BrxgBmtNzUjjy8QIwAil+tcKoBTs3Jo8WTEIvDltn5V3UMo4cbX4c7kQGL+mIqgkn1Q+
-	qkc6TqRO9bddVmqMC8Td0o4f03bWaEf2kL59ko7acc6PU3M07pqQSIl/wE42poqjfYAI
-	+zlPkmG9YnDsjb0yTkk9sDeSkE2Rdz7zRtavWHCUu3iz/PbKGTUPTD6fjVEtkvWdXq+/
-	6RTzhmbkCSW018Zd2ACGfcXVB/eFn/Q+IxN8zjYNHZysX/zgDqyiIO8a70AaeLo52u+p
-	B76g==
-X-Gm-Message-State: APzg51DdNOfRcXGNWvOOoBnajcoOkTMsObuke9btvy5mMdHXzuGNSrLw
-	Y0VbjRBwBsBsGaFcfyIY5ydKE3SFUU0ni55k6MA=
-X-Google-Smtp-Source: ANB0VdZiAtZAFwIGXmr6FtZPjQDEDSTu5wf/G2aSh9EKduMZaBEgP1/Mj0lyTmzIKeypEHEa1a5SqDKVxYw8CVfNz6c=
-X-Received: by 2002:a1c:1eca:: with SMTP id
-	e193-v6mr1927690wme.99.1536767663001; 
-	Wed, 12 Sep 2018 08:54:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180912120215.2371-1-sno@netbsd.org>
-In-Reply-To: <20180912120215.2371-1-sno@netbsd.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 12 Sep 2018 17:54:11 +0200
-Message-ID: <CA+chaQeiPiEKH7adkDTbDL3hP3Vo=2edSHM=eOM4mvh3O0udZA@mail.gmail.com>
-To: sno@netbsd.org
-Cc: igork@miltenyibiotec.de, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] coreutils: add alternative target for nice
+	Wed, 12 Sep 2018 08:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1536767722; bh=Wfc/Gl6SzqirhuByjkjBz4FQtsyOR1b5dxPlpueUssA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LbwnYklVMBoGwa40ye2lh5bQfxfisdTNeY0DDAZwMZ414E2ixZzmb0mk0H59lugsM
+	QBTq73EAw5Ix6/AD2TvlNszXuctsQ0ZSRoNn+mKbYRjD40Uw3DcWXWONkaWQIICRI3
+	nlLjjnQiEPuJ0hcUhwY4Y8O+bxje//kfMQD3+Z9j1jhJep+fgnCj29gTMBsh8VDRZF
+	QczkYvisa6rwQFfhAQXh1KIYBAtte1AKVZcF5q1jgypz7LznjAwT0RsXtKe9BnV9W8
+	IeUF/7jINoMPK4C4t7ktZxlZY1oYXhA/xpGB6n3HgfmnJHtakRHxEjf5erq4BV0I/Y
+	8l0l+Wk1sHjOw==
+Received: from abrodkin-7480l.internal.synopsys.com (unknown [10.121.8.87])
+	by mailhost.synopsys.com (Postfix) with ESMTP id 1E4A93120;
+	Wed, 12 Sep 2018 08:55:21 -0700 (PDT)
+From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Sep 2018 18:55:19 +0300
+Message-Id: <20180912155519.7513-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+Subject: [PATCH] linux-libc-headers: Don't do useless configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,130 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 15:54:22 -0000
-Content-Type: multipart/alternative; boundary="000000000000a7d40d0575ae9afc"
+X-List-Received-Date: Wed, 12 Sep 2018 16:03:23 -0000
 
---000000000000a7d40d0575ae9afc
-Content-Type: text/plain; charset="UTF-8"
+There's no point in configuring Linux kernel before
+headers installation.
 
-Still worn't work IMHO because you forgot to add nice.1
-to ALTERNATIVE_${PN}-doc.
+Moreover in come cases it might lead to problems on kernels
+starting from 4.17 with architecture or platfrom sets
+CROSS_COMPILE variable automatically, see [1].
 
-Also the comment above bindir_progs:
-# [ df mktemp base64 gets a special treatment and is not included in this
-should probably be updated to include nice and remove nice from bindir_progs
+Also note Buildroot doesn't do that kind of confiuration as
+well, see [2].
 
-On Wed, Sep 12, 2018 at 2:02 PM Jens Rehsack <sno@netbsd.org> wrote:
+[1] https://lkml.org/lkml/2018/9/12/486
+[2] https://git.buildroot.org/buildroot/tree/package/linux-headers/linux-headers.mk#n106
 
-> Avoid coreutils conflicts with nice from other recipes, like
-> busybox - even if that's not enabled by default.
-> In situations, where coreutils is a dependency for -dev images
-> and small busybox nice is available always, it avoids extra
-> effort for coreutils for those users.
->
-> Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> ---
->  meta/recipes-core/coreutils/coreutils_8.30.bb | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.30.bb
-> b/meta/recipes-core/coreutils/coreutils_8.30.bb
-> index 053891f6ea..5ebd36026e 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.30.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.30.bb
-> @@ -77,7 +77,7 @@ do_install_class-native() {
->  }
->
->  do_install_append() {
-> -       for i in df mktemp base64; do mv ${D}${bindir}/$i
-> ${D}${bindir}/$i.${BPN}; done
-> +       for i in df mktemp nice base64; do mv ${D}${bindir}/$i
-> ${D}${bindir}/$i.${BPN}; done
->
->         install -d ${D}${base_bindir}
->         [ "${base_bindir}" != "${bindir}" ] && for i in
-> ${base_bindir_progs}; do mv ${D}${bindir}/$i ${D}${base_bindir}/$i.${BPN};
-> done
-> @@ -113,6 +113,10 @@ ALTERNATIVE_LINK_NAME[df] = "${base_bindir}/df"
->  ALTERNATIVE_TARGET[df] = "${bindir}/df.${BPN}"
->  ALTERNATIVE_LINK_NAME[df.1] = "${mandir}/man1/df.1"
->
-> +ALTERNATIVE_LINK_NAME[nice] = "${base_bindir}/nice"
-> +ALTERNATIVE_TARGET[nice] = "${bindir}/nice.${BPN}"
-> +ALTERNATIVE_LINK_NAME[nice.1] = "${mandir}/man1/nice.1"
-> +
->  ALTERNATIVE_LINK_NAME[lbracket] = "${bindir}/["
->  ALTERNATIVE_TARGET[lbracket] = "${bindir}/lbracket.${BPN}"
->
-> --
-> 2.17.1
->
->
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+---
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
---000000000000a7d40d0575ae9afc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index 05c82558e653..1a365ddeb6a9 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -54,7 +54,6 @@ S = "${WORKDIR}/linux-${PV}"
+ EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCPP="${BUILD_CPP}""
+ 
+ do_configure() {
+-	oe_runmake allnoconfig
+ }
+ 
+ do_compile () {
+-- 
+2.17.1
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Still worn&#39;t work IM=
-HO because you forgot to add nice.1 to=C2=A0ALTERNATIVE_${PN}-doc.</div><di=
-v dir=3D"ltr"><br></div><div>Also the comment above bindir_progs:</div><div=
-># [ df mktemp base64 gets a special treatment and is not included in this<=
-br></div><div>should probably be updated to include nice and remove nice fr=
-om bindir_progs</div></div></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr">On Wed, Sep 12, 2018 at 2:02 PM Jens Rehsack &lt;<a href=3D"mailto:sn=
-o@netbsd.org">sno@netbsd.org</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">Avoid coreutils conflicts with nice from other recipes, like<br>
-busybox - even if that&#39;s not enabled by default.<br>
-In situations, where coreutils is a dependency for -dev images<br>
-and small busybox nice is available always, it avoids extra<br>
-effort for coreutils for those users.<br>
-<br>
-Signed-off-by: Jens Rehsack &lt;<a href=3D"mailto:sno@netbsd.org" target=3D=
-"_blank">sno@netbsd.org</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.30.bb" rel=
-=3D"noreferrer" target=3D"_blank">coreutils_8.30.bb</a> | 6 +++++-<br>
-=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.30.b=
-b" rel=3D"noreferrer" target=3D"_blank">coreutils_8.30.bb</a> b/meta/recipe=
-s-core/coreutils/<a href=3D"http://coreutils_8.30.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">coreutils_8.30.bb</a><br>
-index 053891f6ea..5ebd36026e 100644<br>
---- a/meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.30.bb" rel=
-=3D"noreferrer" target=3D"_blank">coreutils_8.30.bb</a><br>
-+++ b/meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.30.bb" rel=
-=3D"noreferrer" target=3D"_blank">coreutils_8.30.bb</a><br>
-@@ -77,7 +77,7 @@ do_install_class-native() {<br>
-=C2=A0}<br>
-<br>
-=C2=A0do_install_append() {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0for i in df mktemp base64; do mv ${D}${bindir}/=
-$i ${D}${bindir}/$i.${BPN}; done<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0for i in df mktemp nice base64; do mv ${D}${bin=
-dir}/$i ${D}${bindir}/$i.${BPN}; done<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${base_bindir}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ &quot;${base_bindir}&quot; !=3D &quot;${bindi=
-r}&quot; ] &amp;&amp; for i in ${base_bindir_progs}; do mv ${D}${bindir}/$i=
- ${D}${base_bindir}/$i.${BPN}; done<br>
-@@ -113,6 +113,10 @@ ALTERNATIVE_LINK_NAME[df] =3D &quot;${base_bindir}/df&=
-quot;<br>
-=C2=A0ALTERNATIVE_TARGET[df] =3D &quot;${bindir}/df.${BPN}&quot;<br>
-=C2=A0ALTERNATIVE_LINK_NAME[df.1] =3D &quot;${mandir}/man1/df.1&quot;<br>
-<br>
-+ALTERNATIVE_LINK_NAME[nice] =3D &quot;${base_bindir}/nice&quot;<br>
-+ALTERNATIVE_TARGET[nice] =3D &quot;${bindir}/nice.${BPN}&quot;<br>
-+ALTERNATIVE_LINK_NAME[nice.1] =3D &quot;${mandir}/man1/nice.1&quot;<br>
-+<br>
-=C2=A0ALTERNATIVE_LINK_NAME[lbracket] =3D &quot;${bindir}/[&quot;<br>
-=C2=A0ALTERNATIVE_TARGET[lbracket] =3D &quot;${bindir}/lbracket.${BPN}&quot=
-;<br>
-<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote></div>
 
---000000000000a7d40d0575ae9afc--
