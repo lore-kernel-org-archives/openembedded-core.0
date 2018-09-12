@@ -1,36 +1,24 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 6863E745B4
+Return-Path: <Kexin.Hao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B828479541
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2018 22:58:00 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id EE3995C1877;
-	Wed, 12 Sep 2018 00:58:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1536706681;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=n4YxPJl0Fftpgc+Qjq7UpmkuErluG2T7FxPdasly4Ls=;
-	b=AgzTmXmoT8GSHUx7JoljCgLliBIK1fq90tETCV/fNPhdMnZcKk6n41/LS4pWjloxn82OHG
-	nmgqBrS9Cbn7sRzqwo+vj2qkhqY8KMCEb+7mc5NWCQUoDvxieUS36pjg75tl6gTeUFT4GB
-	sylIqNbE4lWZDaxKXcmV4iSzOuScOdg=
+	Wed, 12 Sep 2018 00:51:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8C0osHA010258
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Sep 2018 17:51:15 -0700
+Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 11 Sep 2018 17:51:04 -0700
+From: Kevin Hao <kexin.hao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Sep 2018 08:44:46 +0800
+Message-ID: <20180912004446.11661-1-kexin.hao@windriver.com>
+X-Mailer: git-send-email 2.14.4
 MIME-Version: 1.0
-Date: Tue, 11 Sep 2018 15:58:00 -0700
-From: Stefan Agner <stefan@agner.ch>
-To: Mohamed Dawod <mhm.dawod@gmail.com>
-In-Reply-To: <CAGCTLNQAv_ktGjwbqKLL_81yHb_uVN2b+CkwXR1eOZc_fBbU6A@mail.gmail.com>
-References: <CAGCTLNSbsH7Hto3CwpC+p0YFWQqnYRHYm2TwcbH6w5TzbtBP5A@mail.gmail.com>
-	<bdc7edec-3e0b-0d97-05d7-8e7847326b96@konsulko.com>
-	<CAGCTLNQF14iHMTvog5iTenWQiCvRkyGfJkN=fskfCDo=AE=7eg@mail.gmail.com>
-	<CAGCTLNQAv_ktGjwbqKLL_81yHb_uVN2b+CkwXR1eOZc_fBbU6A@mail.gmail.com>
-Message-ID: <c486c6389cda0587116ed752f1c6575e@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.4
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Fwd: [openembedded][wayland][weston]: How to configure screen resolution
+Subject: [PATCH v3] wic: Introduce the --use-label partition parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,132 +31,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2018 22:58:00 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Sep 2018 00:51:25 -0000
+Content-Type: text/plain
 
-I think weston is using KMS connector names.
+We can use this parameter to make the wic use the label to name a
+partition in /etc/fstab.
 
-Try HDMI-A-1.
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+Reviewed-by: Tom Rini <trini@konsulko.com>
+---
+v3: No change since v2, just rebase on the master branch.
 
-Otherwise, running weston with --log=weston.log will produce a helpful
-logfile.
+ scripts/lib/wic/help.py                  | 18 +++++++++++++-----
+ scripts/lib/wic/ksparser.py              | 14 ++++++++++++--
+ scripts/lib/wic/partition.py             |  1 +
+ scripts/lib/wic/plugins/imager/direct.py |  2 ++
+ 4 files changed, 28 insertions(+), 7 deletions(-)
 
---
-Stefan
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index 842b868a575a..64f08052c7a7 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -866,11 +866,11 @@ DESCRIPTION
+        Partitions with a <mountpoint> specified will be automatically mounted.
+        This is achieved by wic adding entries to the fstab during image
+        generation. In order for a valid fstab to be generated one of the
+-       --ondrive, --ondisk or --use-uuid partition options must be used for
+-       each partition that specifies a mountpoint.  Note that with --use-uuid
+-       and non-root <mountpoint>, including swap, the mount program must
+-       understand the PARTUUID syntax.  This currently excludes the busybox
+-       versions of these applications.
++       --ondrive, --ondisk, --use-uuid or --use-label partition options must
++       be used for each partition that specifies a mountpoint.  Note that with
++       --use-{uuid,label} and non-root <mountpoint>, including swap, the mount
++       program must understand the PARTUUID or LABEL syntax.  This currently
++       excludes the busybox versions of these applications.
+ 
+ 
+        The following are supported 'part' options:
+@@ -945,6 +945,14 @@ DESCRIPTION
+                         label is already in use by another filesystem,
+                         a new label is created for the partition.
+ 
++         --use-label: This option is specific to wic. It makes wic to use the
++                      label in /etc/fstab to specify a partition. If the
++                      --use-label and --use-uuid are used at the same time,
++                      we prefer the uuid because it is less likely to cause
++                      name confliction. We don't support using this parameter
++                      on the root partition since it requires an initramfs to
++                      parse this value and we do not currently support that.
++
+          --active: Marks the partition as active.
+ 
+          --align (in KBytes): This option is specific to wic and says
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index a5d29189b9b5..7e5a9c5092b0 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -141,6 +141,7 @@ class KickStart():
+                                    'squashfs', 'vfat', 'msdos', 'swap'))
+         part.add_argument('--mkfs-extraopts', default='')
+         part.add_argument('--label')
++        part.add_argument('--use-label', action='store_true')
+         part.add_argument('--no-table', action='store_true')
+         part.add_argument('--ondisk', '--ondrive', dest='disk', default='sda')
+         part.add_argument("--overhead-factor", type=overheadtype)
+@@ -197,8 +198,17 @@ class KickStart():
+                                              (confpath, lineno, err))
+                     if line.startswith('part'):
+                         # SquashFS does not support filesystem UUID
+-                        if parsed.fstype == 'squashfs' and parsed.fsuuid:
+-                            err = "%s:%d: SquashFS does not support UUID" \
++                        if parsed.fstype == 'squashfs':
++                            if parsed.fsuuid:
++                                err = "%s:%d: SquashFS does not support UUID" \
++                                       % (confpath, lineno)
++                                raise KickStartError(err)
++                            if parsed.label:
++                                err = "%s:%d: SquashFS does not support LABEL" \
++                                       % (confpath, lineno)
++                                raise KickStartError(err)
++                        if parsed.use_label and not parsed.label:
++                            err = "%s:%d: Must set the label with --label" \
+                                   % (confpath, lineno)
+                             raise KickStartError(err)
+                         # using ArgumentParser one cannot easily tell if option
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 5054779b1b6b..3da7e23e617e 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -47,6 +47,7 @@ class Partition():
+         self.fsopts = args.fsopts
+         self.fstype = args.fstype
+         self.label = args.label
++        self.use_label = args.use_label
+         self.mkfs_extraopts = args.mkfs_extraopts
+         self.mountpoint = args.mountpoint
+         self.no_table = args.no_table
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 81583e97b9f7..bb14a334b2ce 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -155,6 +155,8 @@ class DirectPlugin(ImagerPlugin):
+                         device_name = "UUID=%s" % part.fsuuid
+                 else:
+                     device_name = "PARTUUID=%s" % part.uuid
++            elif part.use_label:
++                device_name = "LABEL=%s" % part.label
+             else:
+                 # mmc device partitions are named mmcblk0p1, mmcblk0p2..
+                 prefix = 'p' if  part.disk.startswith('mmcblk') else ''
+-- 
+2.14.4
 
-On 11.09.2018 02:02, Mohamed Dawod wrote:
-> ---------- Forwarded message ---------
-> From: Mohamed Dawod <mhm.dawod@gmail.com>
-> Date: Mon, Sep 10, 2018 at 1:15 PM
-> Subject: Re: [oe] [openembedded][wayland][weston]: How to configure screen
-> resolution
-> To: <leon.anavi@konsulko.com>
-> 
-> 
-> 
-> I typed the following weston.ini and weston-init.bbappend file but no thing
-> change !!!!
-> 
-> --------------------------------------------------------------------------------------------------------------------------------
-> This is my weston.ini file :
-> ===================
-> [core]
-> idle-time=0
-> 
-> [shell]
-> locking=false
-> 
-> [screensaver]
-> path=""
-> 
-> [output]
-> name=HDMI1
-> transform=0
-> mode=1920x1080
-> --------------------------------------------------------------------------------------------------------------------------------
-> and this is my weston-init.bbappend file :
-> ===============================
-> DESCRIPTION = "Installation of weston.ini config file"
-> LICENSE = "CLOSED"
-> 
-> FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-> SRC_URI_append = " file://weston.ini"
-> 
-> do_install_append() {
->     WESTON_INI_CONFIG=${sysconfdir}/xdg/weston
-> #    WESTON_INI_CONFIG=/root/.conf
-> #    WESTON_INI_CONFIG=/.config
-> #    WESTON_INI_CONFIG=/run/user/root/weston
->     install -d ${D}${WESTON_INI_CONFIG}
->     install -m 0644 ${WORKDIR}/weston.ini ${D}${WESTON_INI_CONFIG}
-> }
-> 
-> PACKAGES += "${PN}-ini"
-> FILES_${PN}-ini = "${sysconfdir}/xdg"
-> -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-> 
-> Thank you for your help,
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> On Mon, Sep 10, 2018 at 10:30 AM Leon Anavi <leon.anavi@konsulko.com> wrote:
-> 
->> Hi Mohamed,
->>
->>
->> On 9.09.2018 14:10, Mohamed Dawod wrote:
->> > Hello,
->> >
->> > I want to know how to change the screen resolution using weston.ini file
->> ?
->>
->> You can set the resolution size width and height in pixels with property
->> mode in the output section of weston.ini. For example:
->>
->> [output]
->> mode=1680x1050
->>
->> Please have a look at weston documentation for details.
->>
->>
->> > How to generate this file and use it for my image?
->>
->> You can update or provide your version of weston.ini through a bbappend
->> file.
->>
->> Best regards,
->> Leon
->>
->> >
->> > Thanks,
->> >
->>
->> --
->> Leon Anavi
->> Software Engineer
->> konsulko.com
->>
->>
->>
-> 
-> -- 
-> 
-> Mohamed Dawod
-> Computer Engineering Department
-> Faculty of Engineering
-> Cairo University
-> 
-> 
-> -- 
-> 
-> Mohamed Dawod
-> Computer Engineering Department
-> Faculty of Engineering
-> Cairo University
 
