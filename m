@@ -1,54 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B09B07965C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 88BA0796E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 14:22:36 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id g44-v6so1979087qtb.12
+	Wed, 12 Sep 2018 15:54:22 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id y139-v6so2944990wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 07:22:38 -0700 (PDT)
+	Wed, 12 Sep 2018 08:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zAXl5fugBf6ISdBnkSjB0nmd/XCPbQQh980p/8chKsk=;
-	b=u6unu/gNAedrZkBJmta1TMDcVemBWH4QO612MUHKr157sRonrl/WvQJfsC3/22cjyO
-	3Jt4Z7UKdvcUcEBHffLypFBwPMM0B7dXInKZx0GGFN60gCpuzRUmg3am7fd/YOh9TKFo
-	K3jalMJQsdph51iplgfx/NXtXg1spr4nM+Yr+JcP1OTzIdwLg9QE2DC0pTYM+qF5YdUp
-	KKvsSurYXawXtGxzjozpBUlbFwSK8gkKlEjGYBf9NbIpq6YD175/7nDyIVe4hD8M7aS3
-	h0OLat5PYKLJtxbS75uyy9cVuYdI1Sz/Axc3Dpuf358Yz25vgTzN+/dxKMvtru2P3BO6
-	BPlw==
+	:cc; bh=H9ufMJP5Z7mHvqT5sVy+vr5RHwOgwrrYznJr8QY/JWQ=;
+	b=BdEutHwjkPcgqdSPV2jb5d6yFpF+u6GrnaLZvIK4nlo7Hb5dElMDCc8XlwnPpWs6nP
+	IKt2SdTLWiUnzoEHjxAifXcfG9XXhYIVqm67fE6rWXtl4CipCqzWqqXhAGWeBfuT8nhW
+	vSLehZBtyHOhNNj05nPdIKcdzIbAblIsu0Ab/RAiJk7Zp8Lxb4PVIqk1zk/vADIShfnR
+	lDPhEB2Wdh4mB7Vqwr0hh4iefaPKKEeQsmXDlYijVHbzioo7BxxRnZCTCAs5lEg+LySP
+	x6MyGkU1X0QzUP9SqvIOYlTPNorhFYia77tF1gcejSgUduKCeJ74Ls1s66ucfMqmgUJr
+	fwUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=zAXl5fugBf6ISdBnkSjB0nmd/XCPbQQh980p/8chKsk=;
-	b=kvOhKK8AlA9VkQfEzj605YBxvArRD5O7ZYFY+unVwZTlh7ATbfOwuBqU6De1DGJEhB
-	S5eD120zT0RDkFnAKPmkRoZ9yYJufsA3m0mMdo6zsZ/g8QFbYidoDpfUYg6uY6iQQplX
-	zE/h11V+mmvEWqen/HlbcTamVCMvIDBhyHRFjAh1zwhlvy5QFXDLYeIQX/QdL11LK3/C
-	GSSjWbVq1JiLNJoH0bl63esqE+Gfyom+9yMWh9OojG2g5ujY+B9n+8f4/yypa2yYh7NU
-	MjrMEbxcLQgdZwKgqDNUnPtxLKA8ha6WC3JIgzmCQV+DV9OIvZEBOkoFunUUzlOZMIlK
-	DlVg==
-X-Gm-Message-State: APzg51Dq+3hv2UHJo9hx/NwzaYcnQhhXBDMhhPHYBQgzVLiAqc6lMrpV
-	ctQ5PYGAjStKuFikkJ2KiDZ9Q/0k0SnddrJUYFg=
-X-Google-Smtp-Source: ANB0VdaIEHuJRsLNBdgep31aKD7+z2UPsjt/VXqT3xfiKmEq9RJQ+AttowyepxwlUFOjupksTc7bMZQVOICbobVrAHk=
-X-Received: by 2002:a0c:87f8:: with SMTP id
-	53-v6mr1646100qvk.228.1536762157438; 
-	Wed, 12 Sep 2018 07:22:37 -0700 (PDT)
+	bh=H9ufMJP5Z7mHvqT5sVy+vr5RHwOgwrrYznJr8QY/JWQ=;
+	b=Z80fjLRnznSG4H43DBpDozbxaQqGOvB/rVdWECy+RKbVINbPeRkQAHcuM5rmc8y45A
+	BrxgBmtNzUjjy8QIwAil+tcKoBTs3Jo8WTEIvDltn5V3UMo4cbX4c7kQGL+mIqgkn1Q+
+	qkc6TqRO9bddVmqMC8Td0o4f03bWaEf2kL59ko7acc6PU3M07pqQSIl/wE42poqjfYAI
+	+zlPkmG9YnDsjb0yTkk9sDeSkE2Rdz7zRtavWHCUu3iz/PbKGTUPTD6fjVEtkvWdXq+/
+	6RTzhmbkCSW018Zd2ACGfcXVB/eFn/Q+IxN8zjYNHZysX/zgDqyiIO8a70AaeLo52u+p
+	B76g==
+X-Gm-Message-State: APzg51DdNOfRcXGNWvOOoBnajcoOkTMsObuke9btvy5mMdHXzuGNSrLw
+	Y0VbjRBwBsBsGaFcfyIY5ydKE3SFUU0ni55k6MA=
+X-Google-Smtp-Source: ANB0VdZiAtZAFwIGXmr6FtZPjQDEDSTu5wf/G2aSh9EKduMZaBEgP1/Mj0lyTmzIKeypEHEa1a5SqDKVxYw8CVfNz6c=
+X-Received: by 2002:a1c:1eca:: with SMTP id
+	e193-v6mr1927690wme.99.1536767663001; 
+	Wed, 12 Sep 2018 08:54:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <1536656353-30689-1-git-send-email-hongxu.jia@windriver.com>
-	<CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com>
-	<41457254-4083-3d7c-4e93-95b320fe7dbb@windriver.com>
-	<CANNYZj9EZF5u2R55LBnBooyPpAhi7O69kVtWsvZesXZ3H7qxOQ@mail.gmail.com>
-	<0a2370ce-a756-5cf8-256b-929b70367e3a@windriver.com>
-	<CANNYZj90HLS4HZwtZK+9azCa1iMOjTXtWGy1RCBqCwRGPk+mfA@mail.gmail.com>
-In-Reply-To: <CANNYZj90HLS4HZwtZK+9azCa1iMOjTXtWGy1RCBqCwRGPk+mfA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 12 Sep 2018 07:22:11 -0700
-Message-ID: <CAMKF1spV7wzPB7CtKsB9Kv=hmqCCWVh_h3kzHinS_FG4V769CA@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: +lpd-cdc-core-dev <lpd-cdc-core-dev@windriver.com>,
-	Patches and discussions about the oe-core layer
+References: <20180912120215.2371-1-sno@netbsd.org>
+In-Reply-To: <20180912120215.2371-1-sno@netbsd.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 12 Sep 2018 17:54:11 +0200
+Message-ID: <CA+chaQeiPiEKH7adkDTbDL3hP3Vo=2edSHM=eOM4mvh3O0udZA@mail.gmail.com>
+To: sno@netbsd.org
+Cc: igork@miltenyibiotec.de, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: build support openssl 1.1
+Subject: Re: [PATCH v2] coreutils: add alternative target for nice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,57 +54,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 14:22:36 -0000
+X-List-Received-Date: Wed, 12 Sep 2018 15:54:22 -0000
+Content-Type: multipart/alternative; boundary="000000000000a7d40d0575ae9afc"
+
+--000000000000a7d40d0575ae9afc
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 12, 2018 at 3:30 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
+Still worn't work IMHO because you forgot to add nice.1
+to ALTERNATIVE_${PN}-doc.
+
+Also the comment above bindir_progs:
+# [ df mktemp base64 gets a special treatment and is not included in this
+should probably be updated to include nice and remove nice from bindir_progs
+
+On Wed, Sep 12, 2018 at 2:02 PM Jens Rehsack <sno@netbsd.org> wrote:
+
+> Avoid coreutils conflicts with nice from other recipes, like
+> busybox - even if that's not enabled by default.
+> In situations, where coreutils is a dependency for -dev images
+> and small busybox nice is available always, it avoids extra
+> effort for coreutils for those users.
 >
-> 2018-09-12 11:59 GMT+02:00 Hongxu Jia <hongxu.jia@windriver.com>:
-> > It's a long term target, we should try to push upstream to accept
-> > openssl 1.1, such as split one patch to multiple sub patches step
-> > by step, make it more reviewable,  not only openssh, ideally any
-> > recipe depends on 1.0 should be turned to 1.1
+> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+> ---
+>  meta/recipes-core/coreutils/coreutils_8.30.bb | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
-> The pull request has been open for two years now:
-> https://github.com/openssh/openssh-portable/pull/48
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.30.bb
+> b/meta/recipes-core/coreutils/coreutils_8.30.bb
+> index 053891f6ea..5ebd36026e 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.30.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.30.bb
+> @@ -77,7 +77,7 @@ do_install_class-native() {
+>  }
+>
+>  do_install_append() {
+> -       for i in df mktemp base64; do mv ${D}${bindir}/$i
+> ${D}${bindir}/$i.${BPN}; done
+> +       for i in df mktemp nice base64; do mv ${D}${bindir}/$i
+> ${D}${bindir}/$i.${BPN}; done
+>
+>         install -d ${D}${base_bindir}
+>         [ "${base_bindir}" != "${bindir}" ] && for i in
+> ${base_bindir_progs}; do mv ${D}${bindir}/$i ${D}${base_bindir}/$i.${BPN};
+> done
+> @@ -113,6 +113,10 @@ ALTERNATIVE_LINK_NAME[df] = "${base_bindir}/df"
+>  ALTERNATIVE_TARGET[df] = "${bindir}/df.${BPN}"
+>  ALTERNATIVE_LINK_NAME[df.1] = "${mandir}/man1/df.1"
+>
+> +ALTERNATIVE_LINK_NAME[nice] = "${base_bindir}/nice"
+> +ALTERNATIVE_TARGET[nice] = "${bindir}/nice.${BPN}"
+> +ALTERNATIVE_LINK_NAME[nice.1] = "${mandir}/man1/nice.1"
+> +
+>  ALTERNATIVE_LINK_NAME[lbracket] = "${bindir}/["
+>  ALTERNATIVE_TARGET[lbracket] = "${bindir}/lbracket.${BPN}"
+>
+> --
+> 2.17.1
+>
 >
 
-I agree we should not take the patch if its large and has no momentum upstream.
+--000000000000a7d40d0575ae9afc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> I don't think you'll get far with the pushing the upstream. They are
-> happy using libressl on *BSD, and don't particularly care about Linux
-> or openssl.
->
-> > Currently, use openssl10 as the standalone recipe to provide openssl,
-> > everything works well in oe-core + oe.
->
-> openssl10 upstream support ends at the end of 2019. We can no longer
-> afford to do nothing about the situation.
->
-> > As I mention before, there is still a issue at run time image. Even though
-> > openssh depends on `openssl10',  but the `openssl' is installed at do_rootfs
-> >
-> > It breaks DEPEND/RDEPENDS principle
-> >
-> > [local.conf]
-> > IMAGE_INSTALL_append = " openssh"
-> > [local.conf]
-> >
-> > $ bitbake core-image-minimal
-> >
-> > [log.do_rootfs]
-> >   Installing       : openssl-1.1.1~pre9-r0.core2_64
-> > [log.do_rootfs]
-> >
-> > The recipe depends on openssl10, but openssl10 will not be installed.
->
-> There is a library package split, so you should be seeing libcrypto10
-> or libssl10 installed as well. Can you provide the full log please?
->
-> > BTW, Is pre9 1.1.1 openssl a stable release?
->
-> Final 1.1.1 has been released yesterday, so I'll send a patch in a moment.
->
-> Alex
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Still worn&#39;t work IM=
+HO because you forgot to add nice.1 to=C2=A0ALTERNATIVE_${PN}-doc.</div><di=
+v dir=3D"ltr"><br></div><div>Also the comment above bindir_progs:</div><div=
+># [ df mktemp base64 gets a special treatment and is not included in this<=
+br></div><div>should probably be updated to include nice and remove nice fr=
+om bindir_progs</div></div></div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr">On Wed, Sep 12, 2018 at 2:02 PM Jens Rehsack &lt;<a href=3D"mailto:sn=
+o@netbsd.org">sno@netbsd.org</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex">Avoid coreutils conflicts with nice from other recipes, like<br>
+busybox - even if that&#39;s not enabled by default.<br>
+In situations, where coreutils is a dependency for -dev images<br>
+and small busybox nice is available always, it avoids extra<br>
+effort for coreutils for those users.<br>
+<br>
+Signed-off-by: Jens Rehsack &lt;<a href=3D"mailto:sno@netbsd.org" target=3D=
+"_blank">sno@netbsd.org</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.30.bb" rel=
+=3D"noreferrer" target=3D"_blank">coreutils_8.30.bb</a> | 6 +++++-<br>
+=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.30.b=
+b" rel=3D"noreferrer" target=3D"_blank">coreutils_8.30.bb</a> b/meta/recipe=
+s-core/coreutils/<a href=3D"http://coreutils_8.30.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">coreutils_8.30.bb</a><br>
+index 053891f6ea..5ebd36026e 100644<br>
+--- a/meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.30.bb" rel=
+=3D"noreferrer" target=3D"_blank">coreutils_8.30.bb</a><br>
++++ b/meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.30.bb" rel=
+=3D"noreferrer" target=3D"_blank">coreutils_8.30.bb</a><br>
+@@ -77,7 +77,7 @@ do_install_class-native() {<br>
+=C2=A0}<br>
+<br>
+=C2=A0do_install_append() {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0for i in df mktemp base64; do mv ${D}${bindir}/=
+$i ${D}${bindir}/$i.${BPN}; done<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for i in df mktemp nice base64; do mv ${D}${bin=
+dir}/$i ${D}${bindir}/$i.${BPN}; done<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${base_bindir}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ &quot;${base_bindir}&quot; !=3D &quot;${bindi=
+r}&quot; ] &amp;&amp; for i in ${base_bindir_progs}; do mv ${D}${bindir}/$i=
+ ${D}${base_bindir}/$i.${BPN}; done<br>
+@@ -113,6 +113,10 @@ ALTERNATIVE_LINK_NAME[df] =3D &quot;${base_bindir}/df&=
+quot;<br>
+=C2=A0ALTERNATIVE_TARGET[df] =3D &quot;${bindir}/df.${BPN}&quot;<br>
+=C2=A0ALTERNATIVE_LINK_NAME[df.1] =3D &quot;${mandir}/man1/df.1&quot;<br>
+<br>
++ALTERNATIVE_LINK_NAME[nice] =3D &quot;${base_bindir}/nice&quot;<br>
++ALTERNATIVE_TARGET[nice] =3D &quot;${bindir}/nice.${BPN}&quot;<br>
++ALTERNATIVE_LINK_NAME[nice.1] =3D &quot;${mandir}/man1/nice.1&quot;<br>
++<br>
+=C2=A0ALTERNATIVE_LINK_NAME[lbracket] =3D &quot;${bindir}/[&quot;<br>
+=C2=A0ALTERNATIVE_TARGET[lbracket] =3D &quot;${bindir}/lbracket.${BPN}&quot=
+;<br>
+<br>
+-- <br>
+2.17.1<br>
+<br>
+</blockquote></div>
 
+--000000000000a7d40d0575ae9afc--
