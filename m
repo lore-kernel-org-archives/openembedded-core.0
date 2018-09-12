@@ -1,23 +1,24 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id B448F795D5
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CD85F796A6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 02:15:44 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id 2C909220054
+	Wed, 12 Sep 2018 08:12:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8C8C9td020306
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 14:15:44 +1200 (NZST)
-To: openembedded-core@lists.openembedded.org
-References: <20180912012707.30046-1-douglas.royds@taitradio.com>
-	<20180912020259.13844.22579@do.openembedded.org>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <6bf60656-78b8-7c83-4755-d0d6db9cb6b6@taitradio.com>
-Date: Wed, 12 Sep 2018 14:15:44 +1200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Wed, 12 Sep 2018 01:12:45 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 12 Sep 2018 01:12:29 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Sep 2018 16:12:28 +0800
+Message-ID: <1536739948-48319-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20180912020259.13844.22579@do.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFJlcHJvZHVjaWJsZTogRmluZCB0aGUgZ2l0IHJlcG8gaW4gV09SS0RJUi9naXQgb3IgUyBmaXJzdA==?=
+Subject: [PATCH] apr-util: fix ptest fail problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,150 +31,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 02:15:45 -0000
-Content-Type: multipart/alternative;
-	boundary="------------3EFC47972233E88BA2E50596"
-Content-Language: en-GB
+X-List-Received-Date: Wed, 12 Sep 2018 08:12:54 -0000
+Content-Type: text/plain
 
---------------3EFC47972233E88BA2E50596
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Changqing Li <changqing.li@windriver.com>
 
-The patch series already was applied on top of b7f3f7ecfd.
+test_dbm test suite failed since upgrade of gdbm,
+from gdbm 13.1, return value changed for some function.
 
-I observe at 
-http://lists.openembedded.org/pipermail/openembedded-core/2018-September/thread.html 
-that the patch set didn't hit the list threaded. Might this have been 
-the reason for the Patchwork rejection?
-
-git send-email appears (at my end) to have correctly set the headers, 
-eg. from path 6/6:
-
-    From: Douglas Royds <douglas.royds@taitradio.com>
-    To: openembedded-core@lists.openembedded.org
-    Cc: Douglas Royds <douglas.royds@taitradio.com>
-    Subject: [PATCH 6/6] Reproducible: Consistent debug logging
-    Date: Wed, 12 Sep 2018 13:27:07 +1200
-    Message-Id: <20180912012707.30046-7-douglas.royds@taitradio.com>
-    X-Mailer: git-send-email 2.17.1
-    In-Reply-To: <20180912012707.30046-1-douglas.royds@taitradio.com>
-    References: <20180912012707.30046-1-douglas.royds@taitradio.com>
-
-Suggestions?
-
-
-On 12/09/18 14:02, Patchwork wrote:
-
-> == Series Details ==
->
-> Series: Reproducible: Find the git repo in WORKDIR/git or S first
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/14024/
-> State : failure
->
-> == Summary ==
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
->    Suggested fix    Rebase your series on top of targeted branch
->    Targeted branch  master (currently at b7f3f7ecfd)
->
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
-
-
---------------3EFC47972233E88BA2E50596
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>The patch series already was applied on top of b7f3f7ecfd.</p>
-    <p>I observe at
-<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/pipermail/openembedded-core/2018-September/thread.html">http://lists.openembedded.org/pipermail/openembedded-core/2018-September/thread.html</a>
-      that the patch set didn't hit the list threaded. Might this have
-      been the reason for the Patchwork rejection?<br>
-    </p>
-    <p>git send-email appears (at my end) to have correctly set the
-      headers, eg. from path 6/6:</p>
-    <blockquote>
-      <pre>From: Douglas Royds <a class="moz-txt-link-rfc2396E" href="mailto:douglas.royds@taitradio.com">&lt;douglas.royds@taitradio.com&gt;</a>
-To: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
-Cc: Douglas Royds <a class="moz-txt-link-rfc2396E" href="mailto:douglas.royds@taitradio.com">&lt;douglas.royds@taitradio.com&gt;</a>
-Subject: [PATCH 6/6] Reproducible: Consistent debug logging
-Date: Wed, 12 Sep 2018 13:27:07 +1200
-Message-Id: <a class="moz-txt-link-rfc2396E" href="mailto:20180912012707.30046-7-douglas.royds@taitradio.com">&lt;20180912012707.30046-7-douglas.royds@taitradio.com&gt;</a>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <a class="moz-txt-link-rfc2396E" href="mailto:20180912012707.30046-1-douglas.royds@taitradio.com">&lt;20180912012707.30046-1-douglas.royds@taitradio.com&gt;</a>
-References: <a class="moz-txt-link-rfc2396E" href="mailto:20180912012707.30046-1-douglas.royds@taitradio.com">&lt;20180912012707.30046-1-douglas.royds@taitradio.com&gt;</a></pre>
-    </blockquote>
-    <p>Suggestions?<br>
-    </p>
-    <p><br>
-    </p>
-    <p>On 12/09/18 14:02, Patchwork wrote:
-      <blockquote type="cite">
-        <pre wrap="">== Series Details ==
-
-Series: Reproducible: Find the git repo in WORKDIR/git or S first
-Revision: 1
-URL   : <a class="moz-txt-link-freetext" href="https://patchwork.openembedded.org/series/14024/">https://patchwork.openembedded.org/series/14024/</a>
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at b7f3f7ecfd)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (<a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -&gt; [PATCH v2] -&gt;
-[PATCH v3] -&gt; ...).
-
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
-Guidelines:     <a class="moz-txt-link-freetext" href="https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines">https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines</a>
-Test framework: <a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit/cgit.cgi/patchtest">http://git.yoctoproject.org/cgit/cgit.cgi/patchtest</a>
-Test suite:     <a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe">http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe</a>
+ .../apr-util/0001-apr-util-fix-ptest-fail.patch    | 44 ++++++++++++++++++++++
+ meta/recipes-support/apr/apr-util_1.6.1.bb         |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr-util/0001-apr-util-fix-ptest-fail.patch
 
-</pre>
-      </blockquote>
-    </p>
-    <p><br>
-    </p>
-  </body>
-</html>
+diff --git a/meta/recipes-support/apr/apr-util/0001-apr-util-fix-ptest-fail.patch b/meta/recipes-support/apr/apr-util/0001-apr-util-fix-ptest-fail.patch
+new file mode 100644
+index 0000000..316d54c
+--- /dev/null
++++ b/meta/recipes-support/apr/apr-util/0001-apr-util-fix-ptest-fail.patch
+@@ -0,0 +1,44 @@
++From 665ac3c36247218da7b61b977b3aeede5d6ec9a2 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 12 Sep 2018 15:30:41 +0800
++Subject: [PATCH] apr-util: fix ptest fail
++
++Test suite test_dbm failed when gdbm is tested. From gdbm 13.1, have below
++change:
++
++  * gdbm_fetch, gdbm_firstkey, and gdbm_nextkey behavior
++
++  If the requested key was not found, these functions return datum with
++  dptr pointing to NULL and set gdbm_errno to GDBM_ITEM_NOT_FOUND (in 
++  prior releases, gdbm_errno was set to GDBM_NO_ERROR)
++
++in this place, we don't take GDBM_ITEM_NOT_FOUND as error, still should
++return success, so make this patch.
++
++Upstream-Status: Inappropriate
++- This patch is not appropriate for upstream, checked 1.6.x development
++  branch, this part have changed to take dbm_said directly. so after apr-util
++  is upgraded in the future, maybe this patch need to dropped.
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ dbm/apr_dbm_gdbm.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/dbm/apr_dbm_gdbm.c b/dbm/apr_dbm_gdbm.c
++index 749447a..94e3a86 100644
++--- a/dbm/apr_dbm_gdbm.c
+++++ b/dbm/apr_dbm_gdbm.c
++@@ -57,7 +57,8 @@ static apr_status_t set_error(apr_dbm_t *dbm, apr_status_t dbm_said)
++ 
++     /* ### ignore whatever the DBM said (dbm_said); ask it explicitly */
++ 
++-    if ((dbm->errcode = gdbm_errno) == GDBM_NO_ERROR) {
+++    dbm->errcode = gdbm_errno;
+++    if (dbm->errcode == GDBM_NO_ERROR || dbm->errcode == GDBM_ITEM_NOT_FOUND) {
++         dbm->errmsg = NULL;
++     }
++     else {
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb b/meta/recipes-support/apr/apr-util_1.6.1.bb
+index 88b4300..98f9db6 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.1.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.1.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+            file://configfix.patch \
+            file://configure_fixes.patch \
+            file://run-ptest \
++           file://0001-apr-util-fix-ptest-fail.patch \
+ "
+ 
+ SRC_URI[md5sum] = "bd502b9a8670a8012c4d90c31a84955f"
+-- 
+2.7.4
 
---------------3EFC47972233E88BA2E50596--
+
