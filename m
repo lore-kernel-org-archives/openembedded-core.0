@@ -1,51 +1,23 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 11E537964D
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 834BD796D2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 09:26:12 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id m11-v6so2377448oic.2
+	Wed, 12 Sep 2018 09:37:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8C9bPNO008144
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 02:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jGbpqF/WvQL0xdMbopNmOFMmtysLxYu/yokH4g0gaXQ=;
-	b=aBdRMMWgWhwcLvdrOi4LiX8QKWGhmAZBK0jz/AhlyhyLpXt30k27I0HZqelLeAKxBF
-	s/M0tplIrrM3dEfJOjBI3A5o5lirXO3IKFhfQkWqwmuie+y1uQ4s7HtTyeG5kww3kzTX
-	Baava+Y158LjwkNES4c71Z6SB9oVXyZ7g9FlDpx2xGPgR35dQDM/HT11CPln0LRIfDpD
-	P1o9Dg3BRo3IO+CXkO7eDYYSTkM0/wrIi651dv3IK0ixR2DGdokIN9JBTs9L7ksaQniy
-	q5tI3LcD2s4T5rQXpVV92SPBpd4HlgdhdefKw8G/q0LlNs7WN/jXR5kTNHSUl6Qsn9CD
-	9TQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=jGbpqF/WvQL0xdMbopNmOFMmtysLxYu/yokH4g0gaXQ=;
-	b=snSm58UfJNlh+Ov8QqwGbvXj6ep3xDD8RxTziwA0GJfsR/k2VvnSPi/PHOpkA+dsRc
-	Cag6MePD2eHO590nPxI8YmqRFNRde77SYHe1EF7c9s2R36LPtdjwVwCvI2BfVcGlp6h5
-	9R8Kxffqzg2JrWzHYCWsCSszJpXVoI4NEXja1eXwt5oqPuamJmtmgOOlknujR2fLehkG
-	7fMX3sjs0ekoHa6lvH971QCGFpEiO9JEvhpcQkP7ZvpvEOiPNDRDxOOZ+lZKMIlefl8a
-	/kWmYekntm4n0eBxxzr6bBL5qcPn76uDhV4+WsEygR/cEyszBgfnJItk1BAQCRK1KDwt
-	3eMQ==
-X-Gm-Message-State: APzg51Ac/S1eKN/VqEmmBkuDIkPOnzfZiRtkoyxEe/Upc0NPRN1krkBD
-	jl2sYze7g/C27SqLXN6IWV64JzUD3UJ6nMUxEnU=
-X-Google-Smtp-Source: ANB0VdZZXjjyEHME0CqOOzltSXqqsotUVZSZQErDfuF/okbH7BfmBzloAulcTJRoiSt8OAIsO3IZCDSVRro7uNm07FA=
-X-Received: by 2002:aca:ba83:: with SMTP id
-	k125-v6mr990585oif.226.1536744374103; 
-	Wed, 12 Sep 2018 02:26:14 -0700 (PDT)
+	Wed, 12 Sep 2018 02:37:25 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 12 Sep 2018 02:37:25 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Sep 2018 17:37:23 +0800
+Message-ID: <1536745043-80175-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:a4a:b48b:0:0:0:0:0 with HTTP; Wed, 12 Sep 2018 02:26:13
-	-0700 (PDT)
-In-Reply-To: <41457254-4083-3d7c-4e93-95b320fe7dbb@windriver.com>
-References: <1536656353-30689-1-git-send-email-hongxu.jia@windriver.com>
-	<CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com>
-	<41457254-4083-3d7c-4e93-95b320fe7dbb@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 12 Sep 2018 11:26:13 +0200
-Message-ID: <CANNYZj9EZF5u2R55LBnBooyPpAhi7O69kVtWsvZesXZ3H7qxOQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: build support openssl 1.1
+Subject: [PATCH] apr-util: fix ptest fail problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,50 +30,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 09:26:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 12 Sep 2018 09:37:24 -0000
+Content-Type: text/plain
 
-2018-09-11 17:18 GMT+02:00 Hongxu Jia <hongxu.jia@windriver.com>:
-> Here are my suggestions
->
-> 1: Replace dependence openssl10  -> openssl, such as this fix, and drop
-> recipe openssl10 finally;
->     1 (openssh) in oe-core, 3 (umip, ipsec-tools, mailx) in oe, 3
-> (openssl-tpm-engine,
->     tpm-tools, trousers) in meta-secure-core
->
-> Or 2: Unify openssl,openssl10 and libressl to provide one ssl,
->         we could add PROVIDER = 'virtual/ssl' to above recipe, any recipe
->         depends on `openssl' will be replced with `virtual/ssl', the recipe
->        depends on `openssl10' will not be changed.
->
->        Set PREFERRED_PROVIDER_virtual//ssl = "openssl | openssl10 |
-> libressl" in conf
->
-> Or 3: Revert previously patch, rename recipe openssl10 -> openssl 1.0, and
-> set
->       PREFERRED_VERSION
+From: Changqing Li <changqing.li@windriver.com>
 
-Option 1 creates a maintainability issue for openssh. You add the big
-patch that no one understands, then someone else has to rebase it
-later. Of course over time we need to move everything to 1.1 across
-all layers, but at the moment it is not feasible for openssh
-specifically.
+test_dbm test suite failed since upgrade of gdbm,
+from gdbm 13.1, return value changed for some function.
 
-Option 2 implies that openssl, openssl10 and libressl are all drop-in
-replacements for each other which is not true. openssl 1.1 API is
-significantly different, and choosing one or the other option will
-cause significant build breakage. Especially as upstream components
-begin to drop 1.0 support.
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../apr-util/0001-apr-util-fix-ptest-fail.patch    | 44 ++++++++++++++++++++++
+ meta/recipes-support/apr/apr-util_1.6.1.bb         |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr-util/0001-apr-util-fix-ptest-fail.patch
 
-Option 3 has the same issue.
+diff --git a/meta/recipes-support/apr/apr-util/0001-apr-util-fix-ptest-fail.patch b/meta/recipes-support/apr/apr-util/0001-apr-util-fix-ptest-fail.patch
+new file mode 100644
+index 0000000..316d54c
+--- /dev/null
++++ b/meta/recipes-support/apr/apr-util/0001-apr-util-fix-ptest-fail.patch
+@@ -0,0 +1,44 @@
++From 665ac3c36247218da7b61b977b3aeede5d6ec9a2 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 12 Sep 2018 15:30:41 +0800
++Subject: [PATCH] apr-util: fix ptest fail
++
++Test suite test_dbm failed when gdbm is tested. From gdbm 13.1, have below
++change:
++
++  * gdbm_fetch, gdbm_firstkey, and gdbm_nextkey behavior
++
++  If the requested key was not found, these functions return datum with
++  dptr pointing to NULL and set gdbm_errno to GDBM_ITEM_NOT_FOUND (in 
++  prior releases, gdbm_errno was set to GDBM_NO_ERROR)
++
++in this place, we don't take GDBM_ITEM_NOT_FOUND as error, still should
++return success, so make this patch.
++
++Upstream-Status: Inappropriate
++- This patch is not appropriate for upstream, checked 1.6.x development
++  branch, this part have changed to take dbm_said directly. so after apr-util
++  is upgraded in the future, maybe this patch need to dropped.
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ dbm/apr_dbm_gdbm.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/dbm/apr_dbm_gdbm.c b/dbm/apr_dbm_gdbm.c
++index 749447a..94e3a86 100644
++--- a/dbm/apr_dbm_gdbm.c
+++++ b/dbm/apr_dbm_gdbm.c
++@@ -57,7 +57,8 @@ static apr_status_t set_error(apr_dbm_t *dbm, apr_status_t dbm_said)
++ 
++     /* ### ignore whatever the DBM said (dbm_said); ask it explicitly */
++ 
++-    if ((dbm->errcode = gdbm_errno) == GDBM_NO_ERROR) {
+++    dbm->errcode = gdbm_errno;
+++    if (dbm->errcode == GDBM_NO_ERROR || dbm->errcode == GDBM_ITEM_NOT_FOUND) {
++         dbm->errmsg = NULL;
++     }
++     else {
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb b/meta/recipes-support/apr/apr-util_1.6.1.bb
+index 88b4300..98f9db6 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.1.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.1.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+            file://configfix.patch \
+            file://configure_fixes.patch \
+            file://run-ptest \
++           file://0001-apr-util-fix-ptest-fail.patch \
+ "
+ 
+ SRC_URI[md5sum] = "bd502b9a8670a8012c4d90c31a84955f"
+-- 
+2.7.4
 
-Can I suggest option 4? As openssh is already patched in meta-selinux,
-and the problem is specific to that layer, you can add the 1.1 support
-patch there, and replace the openssl10 dependency with openssl (1.1).
-If, over time, that patch can be rebased to new versions of openssh
-without too much trouble, and upstream still hasn't taken it, we can
-re-consider adding it to oe-core.
-
-Alex
 
