@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A7FB7969B;
-	Wed, 12 Sep 2018 10:05:28 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id C6FEC7969B;
+	Wed, 12 Sep 2018 10:05:29 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: changqing.li@windriver.com
-Date: Wed, 12 Sep 2018 10:05:30 -0000
-Message-ID: <20180912100530.13843.6489@do.openembedded.org>
-References: <1536745043-80175-1-git-send-email-changqing.li@windriver.com>
+Date: Wed, 12 Sep 2018 10:05:31 -0000
+Message-ID: <20180912100531.13844.22640@do.openembedded.org>
+References: <1536745247-187023-1-git-send-email-changqing.li@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1536745043-80175-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1536745247-187023-1-git-send-email-changqing.li@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXByLXV0aWw6IGZpeCBwdGVzdCBmYWlsIHByb2JsZW0gKHJldjIp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXByLXV0aWw6IGZpeCBwdGVzdCBmYWlsIHByb2JsZW0gKHJldjMp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 10:05:28 -0000
+X-List-Received-Date: Wed, 12 Sep 2018 10:05:29 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: apr-util: fix ptest fail problem (rev2)
-Revision: 2
+Series: apr-util: fix ptest fail problem (rev3)
+Revision: 3
 URL   : https://patchwork.openembedded.org/series/14028/
 State : failure
 
@@ -45,10 +45,10 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Upstream-Status is Inappropriate, but no reason was provided [test_upstream_status_presence_format] 
-  Suggested fix    Include a brief reason why 0001-apr-util-fix-ptest-fail.patch is inappropriate
-  Current          Upstream-Status: Inappropriate
-  Standard format  Upstream-Status: Inappropriate [reason]
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
 
 
