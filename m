@@ -1,37 +1,40 @@
-Return-Path: <3fFCZWwgJAGUDEUHVWLFZDbPR.FRP@flex--abrestic.bounces.google.com>
-Received: from mail-qt0-f202.google.com (mail-qt0-f202.google.com
-	[209.85.216.202])
-	by mail.openembedded.org (Postfix) with ESMTP id BE9FF7966B
+Return-Path: <3gVCZWwgJAGoIJZMabQKeIgUW.KWU@flex--abrestic.bounces.google.com>
+Received: from mail-io1-f73.google.com (mail-io1-f73.google.com
+	[209.85.166.73])
+	by mail.openembedded.org (Postfix) with ESMTP id E7FAB7966B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 17:44:27 +0000 (UTC)
-Received: by mail-qt0-f202.google.com with SMTP id u45-v6so2261296qte.12
+	Wed, 12 Sep 2018 17:44:32 +0000 (UTC)
+Received: by mail-io1-f73.google.com with SMTP id v20-v6so1215688iom.14
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 10:44:29 -0700 (PDT)
+	Wed, 12 Sep 2018 10:44:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-	bh=u9sGGq1ePyT5Kk9kYk8VZd+3GjsStrvEs0RsfkxWAm4=;
-	b=j4C1gDwcyT5KhBPvaDVBle4ETS7JCpgxHZxhfFtrOr6DMDuMHnCpHx1m/k5+ZdGQwP
-	rqr4fqpoxtNXZL2bWS8iUdqnEQqyOofDXg6jcNwzposWxQQiCoErudIPOqaHDpsi9j3z
-	Yjn4oIcSaXScc2Sfe704/ecUFLCbCNgrXJQtlVO++TebH3246a8Y5Oh3ZSVpfi4a9EOV
-	Cy9F4/n1a3xnsJzACxJ8eNIvCe+I2gcfo54HXdL1zeaoV0AgImVFJOOLz8Tbx8bxp+Wp
-	R4YJCW5xQz5pFQloU+tvwS7sUWUvtb58E/ckTcHon/v0QSxpUotAwql/gU1/gV2jPVp+
-	UbKQ==
-X-Gm-Message-State: APzg51DJ/aHWT072tUvYVcas5nIvwvSFGnAYseds5Df9fpDabjFpTsrZ
-	MiWBtP1Dfcid4cYpaPUEXVqgYWrcNL4NQ7v2E+uFam3nHWKOUfVhBaXNaO9oinsGsxAy4ipKgcU
-	HniMORhVv4Jzmx6adkJhE7xw5DqQlMUz7Cv8X3N7HM7L9g+iDduFDXoa5BD7PzmDnNJaPeU1MI4
-	z7fjd4hjBPwQ1B
-X-Google-Smtp-Source: ANB0Vdb4C0RYf6uLFJoUvl3pqvZrIycylOTxaeyb8dUw4DyYcW4xxj5GaWsZ/p6Yg4zM5j/Px0RcdgN3jla0Vw==
-X-Received: by 2002:ac8:1019:: with SMTP id
-	z25-v6mr1008141qti.14.1536774268594; 
-	Wed, 12 Sep 2018 10:44:28 -0700 (PDT)
-Date: Wed, 12 Sep 2018 10:44:14 -0700
-Message-Id: <20180912174415.71497-1-abrestic@waymo.com>
+	h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+	:references:subject:from:to:cc;
+	bh=zLy0viSU5Yt4VrqK/p63STsgwPdnU6L6VBlkzzLyr84=;
+	b=a6w+MjQN3+Ndj0m013yU4QJTTjtkFm7Js5S+ymuDfCfJpdgg8spTd07JCDSaemKbod
+	XNVtRcsdTKjbaZRB+IJ/W1FLNPmTatZDSyJu81X/fXTPiGdHrXiTo9IH7Wkcp5fQcflF
+	WVj9DCiOGsEHSQkGdpEhiw74fdUSSV0Cnd9CwqlpIDP0BAO/WkC8IK3taX7QzFnPO0dc
+	rP6KTA+R0dozpBht8n66Lz52/fEo2uRN+0UNeY7lfVZtZLP15yAqmdcehRFuFoflWyHu
+	1JvSf7gaa9wZT31sUFl84I8uHTCc1+Ghvzw0RJkiPKJzn9MG3XwYMUa+z9BPcMgadLl+
+	2GZA==
+X-Gm-Message-State: APzg51Aeyg9uvGKXHTCfVRkd9kOLoiVVo/ZPAnFrcEWQOLQnStDpzH+J
+	wophzavyRVglb/RlG7eTi1ChqlfEonaJy9K2m61x78+85esML0DWzsXPOGftQa5WU15BMMzne8m
+	tnpw9zPaZSsyOiU6UGR24hRosbQgPU3RidlK9Hu2pBKXeNJ0M2wKUShvNuwLyeClattr3waN/2/
+	Pgb1jzM+V3cbdb
+X-Google-Smtp-Source: ANB0VdZ3jgMahiRd3Bi90JJ8yHWUxo42QuBNR1TP/Y+wqUuhlOWqNZyrrwLbwElF9Ic8a3fZpTEYFIHWBC+r8A==
+X-Received: by 2002:a24:6ecd:: with SMTP id
+	w196-v6mr2777009itc.24.1536774273908; 
+	Wed, 12 Sep 2018 10:44:33 -0700 (PDT)
+Date: Wed, 12 Sep 2018 10:44:15 -0700
+In-Reply-To: <20180912174415.71497-1-abrestic@waymo.com>
+Message-Id: <20180912174415.71497-2-abrestic@waymo.com>
 Mime-Version: 1.0
+References: <20180912174415.71497-1-abrestic@waymo.com>
 X-Mailer: git-send-email 2.19.0.rc2.392.g5ba43deb5a-goog
 From: Andrew Bresticker <abrestic@waymo.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] kexec-tools: Install systemd service
+Subject: [PATCH 2/2] kexec-tools: Depend on sysinit.target rather than basic.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,31 +47,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2018 17:44:27 -0000
+X-List-Received-Date: Wed, 12 Sep 2018 17:44:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Set SYSTEMD_PACKAGES and SYSTEMD_SERVICE so that kdump.service actually
-gets installed.
+kdump.service only needs filesystems to be up, for which sysinit.target
+is sufficeint. basic.target pulls in networking and other services which
+are unnecessary for kdump. This is also useful for when kdump.service is
+used as the boot target (e.g. for the kdump kernel) and only a minimal
+system needs to be brought up.
 
 Signed-off-by: Andrew Bresticker <abrestic@waymo.com>
 ---
- meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-kernel/kexec/kexec-tools/kdump.service | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-index dd46901197..4b9b5accb6 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.17.bb
-@@ -78,6 +78,9 @@ INITSCRIPT_PACKAGES = "kdump"
- INITSCRIPT_NAME_kdump = "kdump"
- INITSCRIPT_PARAMS_kdump = "start 56 2 3 4 5 . stop 56 0 1 6 ."
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/kdump.service b/meta/recipes-kernel/kexec/kexec-tools/kdump.service
+index 013c5a62b3..b4a2c0611d 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/kdump.service
++++ b/meta/recipes-kernel/kexec/kexec-tools/kdump.service
+@@ -1,7 +1,8 @@
+ [Unit]
+ Description=Reboot and dump vmcore via kexec
+ DefaultDependencies=no
+-After=basic.target
++Requires=sysinit.target
++After=sysinit.target
  
-+SYSTEMD_PACKAGES = "kdump"
-+SYSTEMD_SERVICE_kdump = "kdump.service"
-+
- SECURITY_PIE_CFLAGS_remove = "-fPIE -pie"
- 
- COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|powerpc.*|mips.*)-(linux|freebsd.*)'
+ [Service]
+ Type=oneshot
 -- 
 2.19.0.rc2.392.g5ba43deb5a-goog
 
