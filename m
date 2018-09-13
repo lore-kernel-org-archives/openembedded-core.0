@@ -1,51 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C454879261
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 43DAD74C4D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 04:12:18 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id f6-v6so2003292plo.1
+	Thu, 13 Sep 2018 05:46:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8D5jbxj019503
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 21:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=K0SKnv9wAZmxxsKaLWRmTFJ7J4Q0/nYk4VqIJZefWAE=;
-	b=D4Pw4V7z9sj4Xnb1RvP4iun6Yy4mbSS0WHE84v0CJpksogkWeJfhu8dSzM6SL/YLTq
-	fMaRbqfQURhBrouasguJ9GRPVaaX/Rv/EOJdEF0v3KLUT/iGgelnWj7IrXie1lsUthii
-	oBQ9IW/JqTwyWvoHXDp7APxDP07EvacsZKc06IM7MVt52qLUKpnPl8t1O8ZkkP53EPCZ
-	jbRkj8jP5ZntGkrMnVREe1kuyYDiV6LpQ2cqirlACNN03RDkQieOPTjvUiVcQq6wn5qC
-	YDjloGkRZ3KSvUOvIOmFwk+9xnv2LVp3aJiuwVquLY5HMWo3543UpNryIOuoNATDcw1a
-	cMWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=K0SKnv9wAZmxxsKaLWRmTFJ7J4Q0/nYk4VqIJZefWAE=;
-	b=CZxH9bLXDQdHc8DVz/f8wSubiPNvdDWPnvp8jkXE71LOCr+cUsVmdK76PUuivFF2nQ
-	rVHmLXI06MHiKPennd08ssMBkF15Sbv/5O2gBF2EtFTxoLP2L5Z40stobMDYaazpUIlS
-	7rz5ObSKu9MdaIlwmSruMltO7tUM6nG57pznQJgJ5IZOFdBz+ERAG0+VO0729zgGW1bX
-	VOnZ2mQxgT6XQWrYIRfHIZ0eMvwKLGPCl9QUH1+Mey35Vvn3LEvtlkL6RjZUo0rEcw9Z
-	ZWy8FE01jdvLkbyr/K+IY8ZKz/JcWiB4XntvzOzuGfeGKMVxBQqd/GnpHwFeGQa8tFNs
-	0qqg==
-X-Gm-Message-State: APzg51A7ICrB9Q9me/V4FFDMb3W19mUb0sBsmyyw8/H+9pwL1JwWv19Z
-	nue0AxDqY4P6RH+7RcblisikNQX5
-X-Google-Smtp-Source: ANB0VdYwD804imJSwGfmiRa4WD/WH0BWMZsE4AP0Kzh81ZdOGQ9wcj0o4ayc5/SLchL0gwEM7bAaRg==
-X-Received: by 2002:a17:902:a507:: with SMTP id
-	s7-v6mr5168516plq.303.1536811939172; 
-	Wed, 12 Sep 2018 21:12:19 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::2887])
-	by smtp.gmail.com with ESMTPSA id
-	143-v6sm3742067pfy.156.2018.09.12.21.12.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Sep 2018 21:12:18 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Sep 2018 21:12:09 -0700
-Message-Id: <20180913041209.33108-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.19.0
+	Wed, 12 Sep 2018 22:46:28 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 12 Sep 2018 22:45:47 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 13 Sep 2018 13:45:46 +0800
+Message-ID: <1536817546-390401-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] insane: Recognise BPF as a valid EM_MACHINE type
+Subject: [PATCH V3] apr-util: fix ptest fail problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,69 +31,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 04:12:19 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 13 Sep 2018 05:46:37 -0000
+Content-Type: text/plain
 
-BPF Linux ELF objects are generated with kernel-selftests with
->= 4.18 kernel and when clang is enabled which packages BPF objects
-into packages, therefore recongnise this as a valid ELF target
+From: Changqing Li <changqing.li@windriver.com>
 
-Add a selftest for BPF
+Test suite test_dbm failed after gdbm upgrtade to 13.1,
+from 13.1, return value of some function are changed.
 
-Do not flag BPF objects in target, since they pretty much will be ok for
-most of kernels architectures we care do support BPF
+* gdbm_fetch, gdbm_firstkey, and gdbm_nextkey behavior
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+If the requested key was not found, these functions return datum with
+dptr pointing to NULL and set gdbm_errno to GDBM_ITEM_NOT_FOUND (in
+prior releases, gdbm_errno was set to GDBM_NO_ERROR),
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/classes/insane.bbclass               | 6 ++++--
- meta/lib/oe/qa.py                         | 3 ++-
- meta/lib/oeqa/selftest/cases/oelib/elf.py | 1 +
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ .../apr-util/0001-Fix-error-handling-in-gdbm.patch | 135 +++++++++++++++++++++
+ meta/recipes-support/apr/apr-util_1.6.1.bb         |   1 +
+ 2 files changed, 136 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 8c360c83e7..4644221bc6 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -301,8 +301,10 @@ def package_qa_check_arch(path,name,d, elf, messages):
+diff --git a/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch b/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
+new file mode 100644
+index 0000000..57e7453
+--- /dev/null
++++ b/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
+@@ -0,0 +1,135 @@
++From 6b638fa9afbeb54dfa19378e391465a5284ce1ad Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 12 Sep 2018 17:16:36 +0800
++Subject: [PATCH] Fix error handling in gdbm
++
++Only check for gdbm_errno if the return value of the called gdbm_*
++function says so. This fixes apr-util with gdbm 1.14, which does not
++seem to always reset gdbm_errno.
++
++Also make the gdbm driver return error codes starting with
++APR_OS_START_USEERR instead of always returning APR_EGENERAL. This is
++what the berkleydb driver already does.
++
++Also ensure that dsize is 0 if dptr == NULL.
++
++Upstream-Status: Backport[https://svn.apache.org/viewvc?
++view=revision&amp;revision=1825311]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ dbm/apr_dbm_gdbm.c | 47 +++++++++++++++++++++++++++++------------------
++ 1 file changed, 29 insertions(+), 18 deletions(-)
++
++diff --git a/dbm/apr_dbm_gdbm.c b/dbm/apr_dbm_gdbm.c
++index 749447a..1c86327 100644
++--- a/dbm/apr_dbm_gdbm.c
+++++ b/dbm/apr_dbm_gdbm.c
++@@ -36,13 +36,25 @@
++ static apr_status_t g2s(int gerr)
++ {
++     if (gerr == -1) {
++-        /* ### need to fix this */
++-        return APR_EGENERAL;
+++        if (gdbm_errno == GDBM_NO_ERROR)
+++           return APR_SUCCESS;
+++        return APR_OS_START_USEERR + gdbm_errno;
++     }
++ 
++     return APR_SUCCESS;
++ }
++ 
+++static apr_status_t gdat2s(datum d)
+++{
+++    if (d.dptr == NULL) {
+++        if (gdbm_errno == GDBM_NO_ERROR || gdbm_errno == GDBM_ITEM_NOT_FOUND)
+++           return APR_SUCCESS;
+++        return APR_OS_START_USEERR + gdbm_errno;
+++   }
+++
+++    return APR_SUCCESS;
+++}
+++
++ static apr_status_t datum_cleanup(void *dptr)
++ {
++     if (dptr)
++@@ -53,22 +65,15 @@ static apr_status_t datum_cleanup(void *dptr)
++ 
++ static apr_status_t set_error(apr_dbm_t *dbm, apr_status_t dbm_said)
++ {
++-    apr_status_t rv = APR_SUCCESS;
++ 
++-    /* ### ignore whatever the DBM said (dbm_said); ask it explicitly */
+++    dbm->errcode = dbm_said;  
++ 
++-    if ((dbm->errcode = gdbm_errno) == GDBM_NO_ERROR) {
+++    if (dbm_said == APR_SUCCESS)
++         dbm->errmsg = NULL;
++-    }
++-    else {
++-        dbm->errmsg = gdbm_strerror(gdbm_errno);
++-        rv = APR_EGENERAL;        /* ### need something better */
++-    }
++-
++-    /* captured it. clear it now. */
++-    gdbm_errno = GDBM_NO_ERROR;
+++    else
+++        dbm->errmsg = gdbm_strerror(dbm_said - APR_OS_START_USEERR);
++ 
++-    return rv;
+++    return dbm_said;
++ }
++ 
++ /* --------------------------------------------------------------------------
++@@ -107,7 +112,7 @@ static apr_status_t vt_gdbm_open(apr_dbm_t **pdb, const char *pathname,
++                      NULL);
++ 
++     if (file == NULL)
++-        return APR_EGENERAL;      /* ### need a better error */
+++        return APR_OS_START_USEERR + gdbm_errno;   /* ### need a better error */
++ 
++     /* we have an open database... return it */
++     *pdb = apr_pcalloc(pool, sizeof(**pdb));
++@@ -141,10 +146,12 @@ static apr_status_t vt_gdbm_fetch(apr_dbm_t *dbm, apr_datum_t key,
++     if (pvalue->dptr)
++         apr_pool_cleanup_register(dbm->pool, pvalue->dptr, datum_cleanup,
++                                   apr_pool_cleanup_null);
+++    else
+++       pvalue->dsize = 0;
++ 
++     /* store the error info into DBM, and return a status code. Also, note
++        that *pvalue should have been cleared on error. */
++-    return set_error(dbm, APR_SUCCESS);
+++    return set_error(dbm, gdat2s(rd));
++ }
++ 
++ static apr_status_t vt_gdbm_store(apr_dbm_t *dbm, apr_datum_t key,
++@@ -201,9 +208,11 @@ static apr_status_t vt_gdbm_firstkey(apr_dbm_t *dbm, apr_datum_t *pkey)
++     if (pkey->dptr)
++         apr_pool_cleanup_register(dbm->pool, pkey->dptr, datum_cleanup,
++                                   apr_pool_cleanup_null);
+++    else
+++        pkey->dsize = 0;
++ 
++     /* store any error info into DBM, and return a status code. */
++-    return set_error(dbm, APR_SUCCESS);
+++    return set_error(dbm, gdat2s(rd));
++ }
++ 
++ static apr_status_t vt_gdbm_nextkey(apr_dbm_t *dbm, apr_datum_t *pkey)
++@@ -221,9 +230,11 @@ static apr_status_t vt_gdbm_nextkey(apr_dbm_t *dbm, apr_datum_t *pkey)
++     if (pkey->dptr)
++         apr_pool_cleanup_register(dbm->pool, pkey->dptr, datum_cleanup,
++                                   apr_pool_cleanup_null);
+++    else
+++       pkey->dsize = 0;
++ 
++     /* store any error info into DBM, and return a status code. */
++-    return set_error(dbm, APR_SUCCESS);
+++    return set_error(dbm, gdat2s(rd));
++ }
++ 
++ static void vt_gdbm_freedatum(apr_dbm_t *dbm, apr_datum_t data)
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb b/meta/recipes-support/apr/apr-util_1.6.1.bb
+index 88b4300..12d71cb 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.1.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.1.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+            file://configfix.patch \
+            file://configure_fixes.patch \
+            file://run-ptest \
++           file://0001-Fix-error-handling-in-gdbm.patch \
+ "
  
-     # Check the architecture and endiannes of the binary
-     is_32 = (("virtual/kernel" in provides) or bb.data.inherits_class("module", d)) and \
--            (target_os == "linux-gnux32" or target_os == "linux-muslx32" or target_os == "linux-gnu_ilp32" or re.match('mips64.*32', d.getVar('DEFAULTTUNE')))
--    if not ((machine == elf.machine()) or is_32):
-+            (target_os == "linux-gnux32" or target_os == "linux-muslx32" or \
-+            target_os == "linux-gnu_ilp32" or re.match('mips64.*32', d.getVar('DEFAULTTUNE')))
-+    is_bpf = (oe.qa.elf_machine_to_string(elf.machine()) == "BPF")
-+    if not ((machine == elf.machine()) or is_32 or is_bpf):
-         package_qa_add_message(messages, "arch", "Architecture did not match (%s, expected %s) on %s" % \
-                  (oe.qa.elf_machine_to_string(elf.machine()), oe.qa.elf_machine_to_string(machine), package_qa_clean_path(path,d)))
-     elif not ((bits == elf.abiSize()) or is_32):
-diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
-index 3231e60cea..59c72ce580 100644
---- a/meta/lib/oe/qa.py
-+++ b/meta/lib/oe/qa.py
-@@ -158,7 +158,8 @@ def elf_machine_to_string(machine):
-             0x2A: "SuperH",
-             0x32: "IA-64",
-             0x3E: "x86-64",
--            0xB7: "AArch64"
-+            0xB7: "AArch64",
-+            0xF7: "BPF"
-         }[machine]
-     except:
-         return "Unknown (%s)" % repr(machine)
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/elf.py b/meta/lib/oeqa/selftest/cases/oelib/elf.py
-index 74ee6a11cc..15c03f4609 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/elf.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/elf.py
-@@ -15,6 +15,7 @@ class TestElf(TestCase):
-         self.assertEqual(oe.qa.elf_machine_to_string(0x32), "IA-64")
-         self.assertEqual(oe.qa.elf_machine_to_string(0x3E), "x86-64")
-         self.assertEqual(oe.qa.elf_machine_to_string(0xB7), "AArch64")
-+        self.assertEqual(oe.qa.elf_machine_to_string(0xF7), "BPF")
- 
-         self.assertEqual(oe.qa.elf_machine_to_string(0x00), "Unknown (0)")
-         self.assertEqual(oe.qa.elf_machine_to_string(0xDEADBEEF), "Unknown (3735928559)")
+ SRC_URI[md5sum] = "bd502b9a8670a8012c4d90c31a84955f"
 -- 
-2.19.0
+2.7.4
 
 
