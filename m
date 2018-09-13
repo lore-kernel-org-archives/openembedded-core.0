@@ -1,33 +1,53 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FCE571AC1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
+	[209.85.218.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 3362579491
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 23:46:39 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Sep 2018 16:46:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,371,1531810800"; d="scan'208";a="69839841"
-Received: from dmatanko-mobl1.gar.corp.intel.com (HELO [10.249.77.31])
-	([10.249.77.31])
-	by fmsmga007.fm.intel.com with ESMTP; 13 Sep 2018 16:46:38 -0700
-To: Andre McCurdy <armccurdy@gmail.com>, Martin Jansa <martin.jansa@gmail.com>
-References: <20180913072547.12321-1-anuj.mittal@intel.com>
-	<CAJ86T=V1LDa=b07pxFi3x-D0ijw0PZMFH_BwsHsoQodhjEOnNg@mail.gmail.com>
-	<CA+chaQePowpbWZi_k-iJKdUn+ocPZC_0T4VBArs82DSuO0iJkw@mail.gmail.com>
-	<CAJ86T=WukCufiTWU-p8L2cCA4DsnCxC-iPp+Ed-7nWviEAYjRQ@mail.gmail.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <e8dd9925-9790-5fc6-3754-ab56951ab7c3@intel.com>
-Date: Fri, 14 Sep 2018 07:46:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu, 13 Sep 2018 23:49:41 +0000 (UTC)
+Received: by mail-oi0-f48.google.com with SMTP id 13-v6so11211458ois.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Sep 2018 16:49:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=B8uRwqTRRVzsbLUrQgQ7PYjEn6s6I1VhZziJoWX2G1Q=;
+	b=n0X2n5jZe0wy+c4KOpo2R/29HSU9V/ImvwfqTPs5PmkL4l/V3ljz1FOx/PgYygrW3e
+	/3/nrSV1/rLDOdBLTMdjGzf7c8sU2N3Bx93CQRi8yKKzExPt6fpawMkDpsmsQygxuIbv
+	1tSPwe9ivqp5BZKOBGtBOWz/1ly0fVmTAiIIT6p6LulsBmrxFjtNAmIwyHegalZxOfht
+	EAtTsP/rzqVe7unSmy1O+FCCI1ERyyat5FfMA5gJbKz/B/JkpLipmyF6DySWX/jyPJ9Y
+	I4YzMB/iqO6zqtX7P3tZEg5Y1ZfM6CM37N5FLH64ie3jdaMdxmTv17S0jNPib5bXfrgV
+	QiuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=B8uRwqTRRVzsbLUrQgQ7PYjEn6s6I1VhZziJoWX2G1Q=;
+	b=QoB/4yv+oaGPaiAJ1QOUp/8dBylRRdeIIaQwg8r+nJaHuXXuFQ+0DyydODS7iONL4P
+	Bp0hVkgMzSugwUCfy0WUhPWiizr/BcaMF15rEADfm1o9YOA/OGz2qxAA/SQSPQ1YfPAb
+	smt2mK5R01j/ub+Xc4ro2haPO3gRGKrKJHmAAmf6Ih0OXTo+9pBu89I/eFytGk00shn1
+	0I8KqxesAgX2wVZKvdmJD2O42/h0MseKf4x8zD3CDZBGZ/E4a/IquKD7ldUsVH61uKqn
+	N8/grwiyW2XD3HdzwaTuSk/CthWTFBBD5RK7oS41A+d23BWtrEkbtb67MnHIP2vzXp09
+	IaWw==
+X-Gm-Message-State: APzg51B5sGbcbOgwkjpZvoRS8OrkXKdW3BxM21ayfogEh4qu2ZxFdyRo
+	bPteEpufeKWNEzecLm/IpZUugr1ApH5ZBS8DK1fgTg==
+X-Google-Smtp-Source: ANB0VdalIpvmugW45oXYk7s2IDIykBis59B54tQFbrWLX1xehaRZ7lrEhugUQ0Cr6R0lQ55mJ9onsVZ78MdXL6bl8TA=
+X-Received: by 2002:aca:6cd5:: with SMTP id
+	h204-v6mr7678985oic.140.1536882582149; 
+	Thu, 13 Sep 2018 16:49:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=WukCufiTWU-p8L2cCA4DsnCxC-iPp+Ed-7nWviEAYjRQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tune-core2: use n270 instead of core2duo
+Received: by 2002:ac9:5756:0:0:0:0:0 with HTTP; Thu, 13 Sep 2018 16:49:21
+	-0700 (PDT)
+In-Reply-To: <CAJTo0Lb8EDKyH16i5JcpyTQuLG1vPZaxes=B3hUM3=zn0_chsw@mail.gmail.com>
+References: <1536868179-5111-1-git-send-email-geissonator@gmail.com>
+	<CAJTo0Lb8EDKyH16i5JcpyTQuLG1vPZaxes=B3hUM3=zn0_chsw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Sep 2018 00:49:21 +0100
+Message-ID: <CAJTo0LZoPhfR4Ahd_CqXeouPfHoH8+zth_3qr6__rd2xCg2Y9A@mail.gmail.com>
+To: Andrew Geissler <geissonator@gmail.com>
+Cc: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] python/python3: Move test files to test package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,114 +60,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 23:46:39 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Sep 2018 23:49:41 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 09/14/2018 06:50 AM, Andre McCurdy wrote:
-> On Thu, Sep 13, 2018 at 3:16 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->> Is this different issue than what was discussed in:
->> https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg109516.html
->>
->> The message is slightly different (might be changed in newer qemu used now),
->> but the issue I had before was that features of selected -cpu and host cpu
->> didn't match and qemu failed with:
->> qemu-system-x86_64: warning: host doesn't support requested feature:
->> CPUID.01H:EDX.ss [bit 27]
->> when some features were missing and kvm was used.
->>
+On 14 September 2018 at 00:30, Burton, Ross <ross.burton@intel.com> wrote:
+> I suspect simply adding python3.5/*/test/ will catch the bulk of this
+> now and in the future.
 
-The message is different in this case because that one was for KVM, this
-one is when using user space emulation so it's checking what can be
-emulated and what is being asked by way of -cpu parameter [1].
+Gave this a go and annoyingly the manifest generation must sort the
+list because the glob works for everything apart from packages after
+tests alphabetically, so the tkinter and unittest tests don't get
+moved.
 
->> If it's the same root cause, then it's not a bug in qemu.
-> 
-> Thanks. Looks like it could be the same issue - if qemu is running
-> with KVM on a host which isn't natively compatible with the full
-> core2duo feature set.
+I guess we could change the manifest to put the tests package at the
+top of the list, and be sure to respect the order when generating the
+lists.
 
-Similar problem, but a different issue in my opinion. So these features
-(lm, syscall) that we see warnings about are only seen when building for
-32 bit while running qemu-i386 for executing postinsts.
-
-Looking at qemu commit logs, it doesn't look like these two features are
-supported with qemu-i386. So, I changed the qemu -cpu value that is used
-with qemu-i386 to a lower denominator which still supports the
-instruction set that we build for for 32 bit.
-
-[1] https://wiki.qemu.org/Documentation/TCG
-[2]
-https://github.com/qemu/qemu/commit/4586f157757acc5c8edcc954289c7aa51661235c
-
-> 
-> From the Yocto bug these warnings are coming from the nightly builds:
-> 
->   https://bugzilla.yoctoproject.org/show_bug.cgi?id=12916
-> 
-> Has something changed recently? Have the nightly builds moved onto an
-> AMD machine?
-> 
-> 
->> On Thu, Sep 13, 2018 at 11:33 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->>>
->>> On Thu, Sep 13, 2018 at 12:25 AM, Anuj Mittal <anuj.mittal@intel.com>
->>> wrote:
->>>> Fixes warnings in builds using core2-32 tune:
->>>>
->>>> warning: TCG doesn't support requested feature:
->>>> CPUID.80000001H:EDX.syscall [bit 11]
->>>> warning: TCG doesn't support requested feature: CPUID.80000001H:EDX.lm
->>>> [bit 29]
->>>>
->>>> when executing postinsts using qemu-i386.
->>>>
->>>> i386 target doesn't enable CPUID_EXT2_SYSCALL and CPUID_EXT2_LM [1]
->>>> while cpu choice of core2duo that we use for core2-32 TUNE does [2].
->>>> Use n270 cpu instead to use with qemu which supports SSSE3 and doesn't
->>>> have these bits enabled [3].
->>>>
->>>> [1] https://github.com/qemu/qemu/blob/master/target/i386/cpu.c#L739
->>>> [2] https://github.com/qemu/qemu/blob/master/target/i386/cpu.c#L1439
->>>> [3] https://github.com/qemu/qemu/blob/master/target/i386/cpu.c#L1603
->>>>
->>>> Fixes [YOCTO #12916]
->>>
->>> Is this working around a bug in qemu?
->>>
->>>> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>> ---
->>>>  meta/conf/machine/include/tune-core2.inc | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/conf/machine/include/tune-core2.inc
->>>> b/meta/conf/machine/include/tune-core2.inc
->>>> index c686bb4682..ddde719bde 100644
->>>> --- a/meta/conf/machine/include/tune-core2.inc
->>>> +++ b/meta/conf/machine/include/tune-core2.inc
->>>> @@ -21,7 +21,7 @@ TUNE_FEATURES_tune-core2-32 =
->>>> "${TUNE_FEATURES_tune-x86} core2"
->>>>  BASE_LIB_tune-core2-32 = "lib"
->>>>  TUNE_PKGARCH_tune-core2-32 = "core2-32"
->>>>  PACKAGE_EXTRA_ARCHS_tune-core2-32 = "${PACKAGE_EXTRA_ARCHS_tune-i686}
->>>> core2-32"
->>>> -QEMU_EXTRAOPTIONS_core2-32 = " -cpu core2duo"
->>>> +QEMU_EXTRAOPTIONS_core2-32 = " -cpu n270"
->>>>
->>>>  AVAILTUNES += "core2-64"
->>>>  TUNE_FEATURES_tune-core2-64 = "${TUNE_FEATURES_tune-x86-64} core2"
->>>> --
->>>> 2.17.1
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+Ross
 
