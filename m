@@ -1,53 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id DAACD78F5C
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 822CA7951E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 01:05:40 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id v66-v6so1897923pgb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2018 18:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=WWlMicR3bkzpNXoQglNO+rRtIzQQ/dSTFxp0D/0Kgpc=;
-	b=RtcynUDifa8hIzbTBwxCjPUxqn2c42FPAD5wBc2T48oeFhmhTrGBf6aG9Ta0MPUXck
-	aym2rZK5SuTWPlRFZFbmzI6bxGPpNveTxCp/j0rffwEoB2PLPpDcNRDsdRyNIz8lyhZN
-	0omkbhpKeqxLfTM/GeuaOMOvWg4STt0zwBBkT/cE6oxVGNMvcgpUsj+CO3dro2v3Rc0s
-	zvCfy1osqRIf/Y7Ld0MIWnT0hIXjmzJDCPSiiBTRWx60Yftd6PEMpxiULIOIP6ERJbS0
-	wjePUF6FIlG8AfaFKNJtw1B0JeevBVOEamZ3Bi1d95j7z59OMYCiL8LshsOkH3OaYwYM
-	iVbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=WWlMicR3bkzpNXoQglNO+rRtIzQQ/dSTFxp0D/0Kgpc=;
-	b=W0tnEZRBHHeuv1XRGNFym1j3IOnw1hCLQrMjkgPIsOOsyz3D8sh5bAzxNTRF+9J4EI
-	xeTnvgvqkgZ3fvNslqEzNva8oFH2VkIqgJrYeUHUmiIXcW2sL0da3D0lSAp9SDh0P6x9
-	xdqYgZVR5AlGyji79UNGOZkuMFjh4viJQ1mGRPgDwaejLkx8agzN4tNvztJDIOqaqaj9
-	7jZEcIMcqkT/UAWdYDUFTRaJyDChTUFuVWnt8LJJ2Fi/9BYA/DqBHlIUtCWW5PFVDQio
-	5f6Fl4v8fgmtl6SQWWv3QGzpPiil9d3F/D9vsMFnrD5kVFRi3SHk0qa1ALbamMT5bzae
-	wUVA==
-X-Gm-Message-State: APzg51BwJrvnvBn9EPE4e+xbsrTLKHkwNPCwrlqNiHAd6WAtwjfrVOvV
-	PKUEEFbcdzfLQ2z7pUgHIPcJU3XM
-X-Google-Smtp-Source: ANB0VdYFnNUdX/TQIDhHT9A8yt5dLSB5e1X+YjV8wgsVVou3SUpSdHPH2ZTa0mzxtWTEQCP1FMIZ1w==
-X-Received: by 2002:a62:8d16:: with SMTP id
-	z22-v6mr4958105pfd.181.1536800741456; 
-	Wed, 12 Sep 2018 18:05:41 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::2887])
-	by smtp.gmail.com with ESMTPSA id
-	f13-v6sm2664935pgs.92.2018.09.12.18.05.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Sep 2018 18:05:40 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Sep 2018 18:05:31 -0700
-Message-Id: <20180913010531.41241-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.19.0
-In-Reply-To: <20180913010531.41241-1-raj.khem@gmail.com>
-References: <20180913010531.41241-1-raj.khem@gmail.com>
+	Thu, 13 Sep 2018 01:07:49 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Sep 2018 18:07:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,367,1531810800"; d="scan'208";a="262134881"
+Received: from pgsmsx106.gar.corp.intel.com ([10.221.44.98])
+	by fmsmga005.fm.intel.com with ESMTP; 12 Sep 2018 18:07:50 -0700
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.29]) by
+	PGSMSX106.gar.corp.intel.com ([169.254.9.119]) with mapi id
+	14.03.0319.002; Thu, 13 Sep 2018 09:07:49 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] test-result-log: testcase management tool to
+	store test result
+Thread-Index: AQHUSeFmm41iiixcvUupj0GTg9X3LqTtaE0A
+Date: Thu, 13 Sep 2018 01:07:48 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335EA8A4E@PGSMSX109.gar.corp.intel.com>
+References: <1535526306-26126-1-git-send-email-ee.peng.yeoh@intel.com>
+	<87f876151d5929e1fd83be41d255d594dd3694f6.camel@linuxfoundation.org>
+In-Reply-To: <87f876151d5929e1fd83be41d255d594dd3694f6.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZGMxMDAyODQtYmUzMy00ZWY4LWEwMTgtZjlhM2Y2MzcwNWMyIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoidGlIb0Ixd1IxaUw2YmRtbzFIUDllOVJIenhsYU9CQ1JVUlwvVUFyR01DZzRNZ3dZdUR3aUdPNEpVRXZmQ0NqRHMifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-Subject: [PATCH 2/2] musl: Wire-up name_to_handle_at and name_to_handle_at syscalls
+Subject: Re: [PATCH] test-result-log: testcase management tool to store test result
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,111 +50,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 01:05:41 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 13 Sep 2018 01:07:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...e_to_handle_at-and-name_to_handle_at.patch | 76 +++++++++++++++++++
- meta/recipes-core/musl/musl_git.bb            |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-core/musl/musl/0001-wireup-linux-name_to_handle_at-and-name_to_handle_at.patch
-
-diff --git a/meta/recipes-core/musl/musl/0001-wireup-linux-name_to_handle_at-and-name_to_handle_at.patch b/meta/recipes-core/musl/musl/0001-wireup-linux-name_to_handle_at-and-name_to_handle_at.patch
-new file mode 100644
-index 0000000000..4738e1efd8
---- /dev/null
-+++ b/meta/recipes-core/musl/musl/0001-wireup-linux-name_to_handle_at-and-name_to_handle_at.patch
-@@ -0,0 +1,76 @@
-+From ef3ef607693a9513d5ab94a1de67dd2f1f97d8ad Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 12 Sep 2018 16:08:40 -0700
-+Subject: [PATCH] wireup linux/name_to_handle_at and name_to_handle_at syscalls
-+
-+Upstream-Status: Submitted [https://www.openwall.com/lists/musl/2018/09/13/4]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ include/fcntl.h               |  7 +++++++
-+ src/linux/name_to_handle_at.c | 11 +++++++++++
-+ src/linux/open_by_handle_at.c | 10 ++++++++++
-+ 3 files changed, 28 insertions(+)
-+ create mode 100644 src/linux/name_to_handle_at.c
-+ create mode 100644 src/linux/open_by_handle_at.c
-+
-+diff --git a/include/fcntl.h b/include/fcntl.h
-+index 6d8edcd1..5c3defcb 100644
-+--- a/include/fcntl.h
-++++ b/include/fcntl.h
-+@@ -155,6 +155,11 @@ int lockf(int, int, off_t);
-+ #define F_OWNER_PID 1
-+ #define F_OWNER_PGRP 2
-+ #define F_OWNER_GID 2
-++struct file_handle {
-++	unsigned int handle_bytes;
-++	int handle_type;
-++	unsigned char f_handle[];
-++};
-+ struct f_owner_ex {
-+ 	int type;
-+ 	pid_t pid;
-+@@ -170,6 +175,8 @@ struct f_owner_ex {
-+ #define SPLICE_F_GIFT 8
-+ int fallocate(int, int, off_t, off_t);
-+ #define fallocate64 fallocate
-++int name_to_handle_at(int, const char *, struct file_handle *, int *, int);
-++int open_by_handle_at(int, struct file_handle *, int);
-+ ssize_t readahead(int, off_t, size_t);
-+ int sync_file_range(int, off_t, off_t, unsigned);
-+ ssize_t vmsplice(int, const struct iovec *, size_t, unsigned);
-+diff --git a/src/linux/name_to_handle_at.c b/src/linux/name_to_handle_at.c
-+new file mode 100644
-+index 00000000..bb6f8007
-+--- /dev/null
-++++ b/src/linux/name_to_handle_at.c
-+@@ -0,0 +1,11 @@
-++#define _GNU_SOURCE
-++#include <fcntl.h>
-++#include "syscall.h"
-++
-++int name_to_handle_at(int dirfd, const char *pathname,
-++			struct file_handle *handle,
-++			int *mount_id, int flags)
-++{
-++	return syscall(SYS_name_to_handle_at, dirfd,
-++		pathname, handle, mount_id, flags);
-++}
-+diff --git a/src/linux/open_by_handle_at.c b/src/linux/open_by_handle_at.c
-+new file mode 100644
-+index 00000000..9bc93f14
-+--- /dev/null
-++++ b/src/linux/open_by_handle_at.c
-+@@ -0,0 +1,10 @@
-++#define _GNU_SOURCE
-++#include <fcntl.h>
-++#include "syscall.h"
-++
-++int open_by_handle_at(int mount_fd, struct file_handle *handle,
-++                             int flags)
-++{
-++	return syscall(SYS_open_by_handle_at, mount_fd,
-++		handle, flags);
-++}
-+-- 
-+2.19.0
-+
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index de1cfd0058..f6edf7de61 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -11,6 +11,7 @@ PV = "1.1.20+git${SRCPV}"
- 
- SRC_URI = "git://git.musl-libc.org/musl \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-+           file://0001-wireup-linux-name_to_handle_at-and-name_to_handle_at.patch \
-           "
- 
- S = "${WORKDIR}/git"
--- 
-2.19.0
-
+SGkgUmljaGFyZCwNCg0KR3JlYXQgdGhhbmtzIGZvciB5b3VyIGZlZWRiYWNrcyENCkkgd2lsbCB3
+b3JrIG9uIHRoZSBpbXByb3ZlbWVudCB0byBhZGRyZXNzIHlvdXIgY29uY2VybnMuIA0KDQpCZXN0
+IHJlZ2FyZHMsDQpFZSBQZW5nDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBy
+aWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnIFttYWlsdG86cmljaGFyZC5wdXJkaWVA
+bGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiBUdWVzZGF5LCBTZXB0ZW1iZXIgMTEsIDIwMTgg
+MTE6MDkgUE0NClRvOiBZZW9oLCBFZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPjsgb3Bl
+bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1j
+b3JlXSBbUEFUQ0hdIHRlc3QtcmVzdWx0LWxvZzogdGVzdGNhc2UgbWFuYWdlbWVudCB0b29sIHRv
+IHN0b3JlIHRlc3QgcmVzdWx0DQoNCkhpIEVlIFBlbmcsDQoNCkkndmUgYmVlbiBoYXZpbmcgYSBs
+b29rIGF0IHRoaXMgY29kZSBhbmQgd2hpbHN0IHNvbWUgb2YgaXQgaXMgZ29vZCwgSSBhbHNvIGhh
+dmUgc29tZSBjb25jZXJucy4gV2l0aCBpdCBjb21pbmcgaW4gc28gbGF0ZSBpbiB0aGUgY3ljbGUs
+IGl0cyBtYWRlIGl0IGhhcmQgdG8gaGF2ZSB0aW1lIHRvIHJldmlldyBpdCBhbmQgYWxsb3cgdGlt
+ZSB0byBnZXQgaXQgcmlnaHQuDQpXaXRoIHNvbWV0aGluZyBhcyBpbXBvcnRhbnQgYXMgdGhpcyB0
+byB0aGUgd2F5IHRoZSBmdXR1cmUgUUEgd29yayBpcyBkb25lLCB3ZSBkbyBuZWVkIHRvIGVuc3Vy
+ZSB3ZSB1c2UgdGhlIHJpZ2h0IGFwcHJvYWNoIGFuZCB0aGF0IGl0cyBtYWludGFpbmFibGUuDQoN
+ClRoZSBwYXRjaGVzIGFyZSBvayBhcyBhIGZpcnN0IGF0dGVtcHQgYXQgdGhpcy4gTXkgYmlnZ2Vz
+dCBjb25jZXJuIGlzIHRoYXQgaXRzIGN1cnJlbnRseSBwYXJzaW5nIGxvZyBmaWxlcyB3aGljaCB3
+ZSBjb250cm9sIGFuZCBnZW5lcmF0ZSB3aXRoaW4gb3V0IG93biBjb2RlYmFzZSBhbmQgdGhhdCBw
+YXJzaW5nIGlzIGxpa2VseSB0byBicmVhay4gSW4gcGFydGljdWxhciwgdGhlc2UgbGluZXMgd29y
+cnkgbWUgZnJvbSB0aGUgcWFsb2dwYXJzZXI6DQoNCnJlZ2V4ID0gIi4qUkVTVUxUUyAtICg/UDxj
+YXNlX25hbWU+LiopIC0gVGVzdGNhc2UgLio6ICg/UDxzdGF0dXM+UEFTU0VEfEZBSUxFRHxTS0lQ
+UEVEfEVSUk9SfFVOS05PV04pLiokIg0KcmVnZXggPSAiY29yZS1pbWFnZS4qKCkuKlJhbi4qdGVz
+dHMgaW4gLipzIg0KcmVnZXggPSAiREVCVUc6IGxhdW5jaGNtZD1ydW5xZW11Kg0KcWVtdV9saXN0
+ID0gWydxZW11YXJtJywgJ3FlbXVhcm02NCcsICdxZW11bWlwcycsICdxZW11bWlwczY0JywgJ3Fl
+bXVwcGMnLCAncWVtdXg4NicsICdxZW11eDg2LTY0J10NCg0Kc2luY2UgaGVyZSB3ZSdyZSBoYXJk
+Y29kaW5nIHRoZSBsaXN0IG9mIHFlbXUncyB3ZSBzdXBwb3J0LCB3ZSdyZSBhbHNvIG9ubHkgYWxs
+b3dpbmcgY29yZS1pbWFnZS0qIGFuZCB3ZSdyZSByZWx5aW5nIHVwb24gdGhlIHJlc3VsdHMgZm9y
+bWF0IG5vdCBjaGFuZ2luZy4gVGhhdCBtYWtlcyBpdCBoYXJkIGZvciBhbnlvbmUgdG8gZXh0ZW5k
+L3JldXNlIHRoaXMgb3IgdG8gdXNlIGl0IHdpdGggcmVhbCBoYXJkd2FyZT8NCg0KRm9yIGV4YW1w
+bGUgdGhlIHJlY2VudCBvZS1zZWxmdGVzdCBwYXJhbGxlbGlzYXRpb24gY29kZSBkaWQgY2hhbmdl
+IHRoZSBvdXRwdXQgb2YgdGhlIHRlc3RzIHNsaWdodGx5LiBJJ20gbm90IHN1cmUgaWYgdGhpcyBi
+cm9rZSB0aGUgcGFyc2luZyBvciBub3QgYnV0IGl0IGlzIGFuIGV4YW1wbGUgb2YgdGhlIGtpbmQg
+b2YgZnJhZ2lsaXR5IHRoaXMgY29kZSBoYXMuDQoNCldoYXQgd291bGQgcHJvYmFibHkgd29yayBi
+ZXR0ZXIgZm9yIHVzIGlzIGlmIHRoZSBvZXFhIGZyYW1ld29yayB3cm90ZSBvdXQgYSBqc29uIGZp
+bGUgZGlyZWN0bHkgY29udGFpbmluZyB0aGUgaW5mb3JtYXRpb24gd2UgbmVlZCBpbiBpdCwgdGhl
+biB0aGlzIGNvZGUgd291bGQganVzdCBuZWVkIHRvIGNvbGxlY3QgdXAgdGhlIGpzb24gZmlsZXMu
+DQoNCkknbSBhbHNvIGEgbGl0dGxlIGNvbmNlcm5lZCBhdCB0aGUgd2F5IHVuaXR0ZXN0IGRpc2Nv
+dmVyeSBpcyBiZWluZyBkb25lLCBncmVwcGluZyBmb3IgKi5weSBmaWxlcyBhcyBmYXIgYXMgSSB1
+bmRlcnN0YW5kIGl0LiBXZSBzaG91bGQgcHJvYmFibHkgdXNlIHRoZSBsaXN0IG9wdGlvbnMgdG8g
+dGhlIHZhcmlvdXMgY3VycmVudCB0ZXN0IHBpZWNlcz8gQWxzbywgdGhpcyBpcyBzb21ldGhpbmcg
+d2UgcHJvYmFibHkgb25seSBldmVyIG5lZWQgdG8gZG8gb25jZSB0byBzZWVkIHRoZSBRQSByZXN1
+bHRzIHN0b3JlPw0KDQpGaW5hbGx5LCBtdWNoIG9mIHRoZSBjb2RlIGlzIHVzaW5nICJpbnRlcm5h
+bCIgbWV0aG9kcyBwcmVmaXhlZCB3aXRoICJfIi4gSSBjYW4gdW5kZXJzdGFuZCB3aHkgYnV0IGl0
+IHNlZW1zIHRoZSBjb2RlIGRvZXNuJ3QgaGF2ZSBhIGdvb2Qgd2VsbCBzdHJ1Y3R1cmVkIHB1Ymxp
+YyBBUEkgYXMgYSByZXN1bHQuDQoNCkFzIHN1Y2ggdGhlcmUgbWF5IG1lIGEgbGl0dGxlIHRvbyBt
+dWNoIHdvcmsgbmVlZGVkIG9uIHRoaXMgdG8gZ2V0IGl0IGluIGZvciAyLjYgOigNCg0KQ2hlZXJz
+LA0KDQpSaWNoYXJkDQo=
 
