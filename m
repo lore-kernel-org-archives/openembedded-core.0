@@ -1,48 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 94094798D5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A57D6798C2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 11:13:39 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id u12-v6so5181016wrr.4
+	Thu, 13 Sep 2018 11:30:41 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id o18-v6so5874131wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 04:13:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=E6Z5FPP8jaDz8UiQRtz5bKx5LvAZUqjLRRMqk+xjS9s=;
-	b=mTuLeMMK6Nqg7bd0Rlgh85fJvNTMn4cE+GGOmhNK13Bj+PTnA+5MZfw/c1ams3PTuI
-	709lncoeSA+Ja75Cei5L5Qwe0fh0IKMnRm/28gs9Ue3kmRgQTgKM7cTvXBSVHGrTlOLc
-	52qjjHWEByMsItuSOisN/PxuyQqzhemMKDjGZ4WC2N07NpwtHdNIolZ9jxtKC2tf25WB
-	ECmNCrV2aLCEFX2dUgj1GLdh6YTSw3ZXp2ExCy2PTxx53oHqF7h7tohR1pcE/RnCbqCW
-	NG1ttCUlmzzVjJCarzUpAatNif8sCAulTC4qHHhFrusokmkQgO57oTDygNsQcXNI2eby
-	FlkQ==
+	Thu, 13 Sep 2018 04:30:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=y1/AMbgyQQ8+78P4DuLOsoz6FT9d8y86/siiaZKDWmE=;
+	b=AwzqNlecL7Qq4eU1fw37iq5M3U4IC/mieyhGV4FxTM3kNaufVQ9On+0Gz9MtMbE8PW
+	oxQKogg2qXUHQMYBlg8XmfgJ7+i3qDf57wH6rcNIUO501iNbgcBpc4EzgqDggxsHGQau
+	Q3j/szwO0jBJM9oBNt7k38x9jzqNCZOxT8YGvRe5BCGGKIse4Z62aLjmmRr57vzU0QJX
+	i//3SyDDLDcKr8Hm/HFAJV/jAGVP1Lgjk8gr0MDdmiqGrSRzHEn8zX8DVTXf4C88+8UH
+	89jR1vZdWQQlzuZXJgjBSO5LiYmO+3fFzD2f6oZ9VkHOuuJy5tDLBuGmOQD/Ip48Q0GY
+	0KFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=E6Z5FPP8jaDz8UiQRtz5bKx5LvAZUqjLRRMqk+xjS9s=;
-	b=UnjAM+30WJdlcbu94GZJe8HzAl/dncV90DDePb8YdImFeFxzpkSjOMp7OozwMN1zf5
-	MZRbUscn46SQLfs0a4CwtTO8npS4wBm2ekcJRZ9n0rVrhsFGWLh/DanePLnH36N36KUN
-	vX2AswhIiFVoML9lHVNBYxKaGNg+lfSjoovd19ZrEgRvOiKuqMoAvPZByLRPcbK5kppM
-	w3nbn6xuGFhkVD7hE6CKb9Z02Tyi55nh/jaLZEqt8CSamFT3nuwkJjltU6NywTBmp5/U
-	/3hgGoIlNXJENQ1eskfY6+fY3cuAdBL250Flvlc41zWt3IbDEDk2OfGsnK0oLHlfsp+F
-	J4wg==
-X-Gm-Message-State: APzg51Bgs8NP/8YJCT/88xrMTMCV4eB3camfnvZ8UWYhR+uc87j12PhN
-	1SgasfjBYjpXraqoWwQ80oJ3WaI8/0LthUslbIo=
-X-Google-Smtp-Source: ANB0VdbKmWU2rpr2XLwGqJ0TbyZ4XrOY+/rqn3Pcky0KLBw8u5w6ykK77b3pkTXaKvEUGQvaaIR0LSOL5MFbQTHkZBE=
-X-Received: by 2002:adf:f28c:: with SMTP id
-	k12-v6mr5312234wro.263.1536837220171; 
-	Thu, 13 Sep 2018 04:13:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180913104859.29275-1-ovidiu.panait@windriver.com>
-In-Reply-To: <20180913104859.29275-1-ovidiu.panait@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 13 Sep 2018 13:13:28 +0200
-Message-ID: <CA+chaQchuQ4naHj5FSohvGX4nV8ZVaGzJo20pCC4tst6QA3q5A@mail.gmail.com>
-To: ovidiu.panait@windriver.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH] qemux86-64: wic: Add MLPREFIX to syslinux
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=y1/AMbgyQQ8+78P4DuLOsoz6FT9d8y86/siiaZKDWmE=;
+	b=H1hsRRhV4KxxzYigAH1w355g22lHJIg6uL4RoAcT2O8OeXlueMnYrCo0B548xR3BqU
+	GN+hUgE4GibvtlZE4biZ0uOPwENUUsDnfA9nJ5ijOuCq1AdIg0IMyqbYE4jfJgILZ7JR
+	bht1prU2HHpRmh14lPl+QbU9cRsaiW+r4a711W5IEZ0oOSFIJaq6RJ4rfTmi/wKJj9he
+	sTRRff/UFPYsVX16IQ3jdjN4oz2LZA4fCu5bj0euW8PnobhAje8a2kguvfDksJ9k5uQA
+	4BiaifEuItcWMEAyHsbR0/wdceBG/824BWVD7ihsQsQ9Px1N765ul66KmBvCZyNzvRIS
+	obGQ==
+X-Gm-Message-State: APzg51Cy1winml9+oWqtTxejpkW7438mCHqg/ouO3N23PL2EDSFnBnkN
+	9PsHViEKPxQyMQvfMFfHVN3QdCwTIGk=
+X-Google-Smtp-Source: ANB0VdYNP88xe9ZQWWTpHHR9uz2l83IlMYJ+mgIAsCMqem9WE8NvHQ9NdtPWNYEzaqj8doKmG3vnzw==
+X-Received: by 2002:a1c:8ac4:: with SMTP id
+	m187-v6mr4930420wmd.80.1536838241866; 
+	Thu, 13 Sep 2018 04:30:41 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	124-v6sm6665871wmk.20.2018.09.13.04.30.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 13 Sep 2018 04:30:40 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Sep 2018 12:30:39 +0100
+Message-Id: <20180913113039.3957-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] oeqa/selftest/recipetool: fix non-determinism in cmake test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,129 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 11:13:40 -0000
-Content-Type: multipart/alternative; boundary="00000000000096048c0575beccd3"
+X-List-Received-Date: Thu, 13 Sep 2018 11:30:42 -0000
 
---00000000000096048c0575beccd3
-Content-Type: text/plain; charset="UTF-8"
+The Navit recipe can depend on fribidi which is now part of oe-core.  Since the
+pkgconfig lookup is based on pkgdata the results can change depending on what
+has been built, which leads to occasional failures.
 
-The same should IMHO be applied in qemux86.conf as well.
+Build gtk+ before the test to ensure that the pkgdata is populated with more of
+the dependencies, and add fribidi to the generated DEPENDS checklist.
 
-And I don't see this change in pyro, rocko, sumo, master branches, it
-should be applied there first (or explained in commit message why newer
-branches aren't affected by this).
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/selftest/cases/recipetool.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On Thu, Sep 13, 2018 at 1:01 PM Ovidiu Panait <ovidiu.panait@windriver.com>
-wrote:
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index 754ea949824..cd15df11a93 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -427,6 +427,8 @@ class RecipetoolTests(RecipetoolBase):
+ 
+     @OETestID(1418)
+     def test_recipetool_create_cmake(self):
++        bitbake('-c packagedata gtk+')
++
+         # Try adding a recipe
+         temprecipe = os.path.join(self.tempdir, 'recipe')
+         os.makedirs(temprecipe)
+@@ -439,7 +441,7 @@ class RecipetoolTests(RecipetoolBase):
+         checkvars['SRC_URI'] = 'http://downloads.sourceforge.net/project/navit/v${PV}/navit-${PV}.tar.gz'
+         checkvars['SRC_URI[md5sum]'] = '242f398e979a6b8c0f3c802b63435b68'
+         checkvars['SRC_URI[sha256sum]'] = '13353481d7fc01a4f64e385dda460b51496366bba0fd2cc85a89a0747910e94d'
+-        checkvars['DEPENDS'] = set(['freetype', 'zlib', 'openssl', 'glib-2.0', 'virtual/libgl', 'virtual/egl', 'gtk+', 'libpng', 'libsdl', 'freeglut', 'dbus-glib'])
++        checkvars['DEPENDS'] = set(['freetype', 'zlib', 'openssl', 'glib-2.0', 'virtual/libgl', 'virtual/egl', 'gtk+', 'libpng', 'libsdl', 'freeglut', 'dbus-glib', 'fribidi'])
+         inherits = ['cmake', 'python-dir', 'gettext', 'pkgconfig']
+         self._test_recipe_contents(recipefile, checkvars, inherits)
+ 
+-- 
+2.11.0
 
-> Fix the following do_image_wic failure for lib32-core-image-minimal:
-> | DEBUG: Executing python function set_image_size
-> | DEBUG: Python function set_image_size finished
-> | DEBUG: Executing shell function do_image_wic
-> | Error: Please build syslinux first
->
-> Test case:
-> MACHINE ?= "qemux86-64"
->
-> require conf/multilib.conf
-> MULTILIBS = "multilib:lib32"
-> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
->
-> IMAGE_FSTYPES_append = " wic wic.bmap"
->
-> $ bitbake lib32-core-image-minimal
->
-> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-> ---
->  meta/conf/machine/qemux86-64.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/machine/qemux86-64.conf
-> b/meta/conf/machine/qemux86-64.conf
-> index 4f30033e51..e093078d9d 100644
-> --- a/meta/conf/machine/qemux86-64.conf
-> +++ b/meta/conf/machine/qemux86-64.conf
-> @@ -33,4 +33,4 @@ MACHINE_FEATURES += "x86"
->  MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
->
->  WKS_FILE ?= "directdisk.wks"
-> -do_image_wic[depends] += "syslinux:do_build
-> syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot
-> dosfstools-native:do_populate_sysroot"
-> +do_image_wic[depends] += "${MLPREFIX}syslinux:do_build
-> syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot
-> dosfstools-native:do_populate_sysroot"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---00000000000096048c0575beccd3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">The same should IMHO be applied in qemux86.conf as well.<d=
-iv><br></div><div>And I don&#39;t see this change in pyro, rocko, sumo, mas=
-ter branches, it should be applied there first (or explained in commit mess=
-age why newer branches aren&#39;t affected by this).</div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr">On Thu, Sep 13, 2018 at 1:01 PM Ovidiu=
- Panait &lt;<a href=3D"mailto:ovidiu.panait@windriver.com">ovidiu.panait@wi=
-ndriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Fix the =
-following do_image_wic failure for lib32-core-image-minimal:<br>
-| DEBUG: Executing python function set_image_size<br>
-| DEBUG: Python function set_image_size finished<br>
-| DEBUG: Executing shell function do_image_wic<br>
-| Error: Please build syslinux first<br>
-<br>
-Test case:<br>
-MACHINE ?=3D &quot;qemux86-64&quot;<br>
-<br>
-require conf/multilib.conf<br>
-MULTILIBS =3D &quot;multilib:lib32&quot;<br>
-DEFAULTTUNE_virtclass-multilib-lib32 =3D &quot;x86&quot;<br>
-<br>
-IMAGE_FSTYPES_append =3D &quot; wic wic.bmap&quot;<br>
-<br>
-$ bitbake lib32-core-image-minimal <br>
-<br>
-Signed-off-by: Ovidiu Panait &lt;<a href=3D"mailto:ovidiu.panait@windriver.=
-com" target=3D"_blank">ovidiu.panait@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/machine/qemux86-64.conf | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-=
-64.conf<br>
-index 4f30033e51..e093078d9d 100644<br>
---- a/meta/conf/machine/qemux86-64.conf<br>
-+++ b/meta/conf/machine/qemux86-64.conf<br>
-@@ -33,4 +33,4 @@ MACHINE_FEATURES +=3D &quot;x86&quot;<br>
-=C2=A0MACHINE_ESSENTIAL_EXTRA_RDEPENDS +=3D &quot;v86d&quot;<br>
-<br>
-=C2=A0WKS_FILE ?=3D &quot;directdisk.wks&quot;<br>
--do_image_wic[depends] +=3D &quot;syslinux:do_build syslinux-native:do_popu=
-late_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populat=
-e_sysroot&quot;<br>
-+do_image_wic[depends] +=3D &quot;${MLPREFIX}syslinux:do_build syslinux-nat=
-ive:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native=
-:do_populate_sysroot&quot;<br>
--- <br>
-2.17.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---00000000000096048c0575beccd3--
