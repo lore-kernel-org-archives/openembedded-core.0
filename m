@@ -1,28 +1,23 @@
-Return-Path: <Kexin.Hao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F42476EBF
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id DA68479861
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 06:58:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8D6vxcQ021239
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 12 Sep 2018 23:58:09 -0700
-Received: from pek-khao-d2 (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Wed, 12 Sep 2018 23:57:48 -0700
-Date: Thu, 13 Sep 2018 14:57:00 +0800
-From: Kevin Hao <kexin.hao@windriver.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <20180913065700.GI2377@pek-khao-d2>
-References: <20180912004446.11661-1-kexin.hao@windriver.com>
-	<22102831-8c57-6584-88fa-937818a79349@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <22102831-8c57-6584-88fa-937818a79349@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Originating-IP: [147.11.105.121]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] wic: Introduce the --use-label partition parameter
+	Thu, 13 Sep 2018 07:25:49 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Sep 2018 00:25:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,368,1531810800"; d="scan'208";a="89618883"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.21.20])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Sep 2018 00:25:49 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Sep 2018 15:25:47 +0800
+Message-Id: <20180913072547.12321-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] tune-core2: use n270 instead of core2duo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,61 +30,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 06:58:33 -0000
-X-Groupsio-MsgNum: 116224
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="FUFe+yI/t+r3nyH4"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 13 Sep 2018 07:25:50 -0000
 
---FUFe+yI/t+r3nyH4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes warnings in builds using core2-32 tune:
 
-On Thu, Sep 13, 2018 at 10:38:09AM +0800, Anuj Mittal wrote:
-> On 09/12/2018 08:44 AM, Kevin Hao wrote:
-> > +         --use-label: This option is specific to wic. It makes wic to =
-use the
-> > +                      label in /etc/fstab to specify a partition. If t=
-he
-> > +                      --use-label and --use-uuid are used at the same =
-time,
-> > +                      we prefer the uuid because it is less likely to =
-cause
-> > +                      name confliction. We don't support using this pa=
-rameter
-> > +                      on the root partition since it requires an initr=
-amfs to
-> > +                      parse this value and we do not currently support=
- that.
-> > +
-> >           --active: Marks the partition as active.
->=20
-> Would this also need a corresponding patch for yocto-docs as well?
+warning: TCG doesn't support requested feature: CPUID.80000001H:EDX.syscall [bit 11]
+warning: TCG doesn't support requested feature: CPUID.80000001H:EDX.lm [bit 29]
 
-Sure. Thanks for reminding me. I will compose a patch to update the docs.
+when executing postinsts using qemu-i386.
 
-Thanks,
-Kevin
+i386 target doesn't enable CPUID_EXT2_SYSCALL and CPUID_EXT2_LM [1]
+while cpu choice of core2duo that we use for core2-32 TUNE does [2].
+Use n270 cpu instead to use with qemu which supports SSSE3 and doesn't
+have these bits enabled [3].
 
->=20
-> Thanks,
->=20
-> Anuj
+[1] https://github.com/qemu/qemu/blob/master/target/i386/cpu.c#L739
+[2] https://github.com/qemu/qemu/blob/master/target/i386/cpu.c#L1439
+[3] https://github.com/qemu/qemu/blob/master/target/i386/cpu.c#L1603
 
---FUFe+yI/t+r3nyH4
-Content-Type: application/pgp-signature; name="signature.asc"
+Fixes [YOCTO #12916]
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/conf/machine/include/tune-core2.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-iQEzBAEBCAAdFiEEHc6qFoLCZqgJD98Zk1jtMN6usXEFAluaCjwACgkQk1jtMN6u
-sXHjIQf/QS0N1VJsC292L5Ko7QH52IiPo4EKMLRAgXve07e0STivL0VnFcrbQ03z
-Epc2dqU3aqPb4xh/iBOvJrcTUXXfMJTgBouJkwHGTvYXyqz7r7VI5QoCHjgJkKnD
-L3CrAm+p0Q2t99yeCh78li0otu7JyUXiyPLN248639OC6/noKtZOqQgWAG4ZXFbc
-3Hg0jaevTpCKm0Y5zfoieEDMLOEYxkebiI1IYhAEQF9Heqdw5Xc9RGLYKUC8bxHQ
-nVCSWZeXlg1uVEowfoCpI49nV72dWHPW0PAMPhN1fWTXBWqCQAfmHvVyJLyNtfqr
-TwzDpYsGIi08Y59dGddjug2j8X0bpA==
-=Em8a
------END PGP SIGNATURE-----
+diff --git a/meta/conf/machine/include/tune-core2.inc b/meta/conf/machine/include/tune-core2.inc
+index c686bb4682..ddde719bde 100644
+--- a/meta/conf/machine/include/tune-core2.inc
++++ b/meta/conf/machine/include/tune-core2.inc
+@@ -21,7 +21,7 @@ TUNE_FEATURES_tune-core2-32 = "${TUNE_FEATURES_tune-x86} core2"
+ BASE_LIB_tune-core2-32 = "lib"
+ TUNE_PKGARCH_tune-core2-32 = "core2-32"
+ PACKAGE_EXTRA_ARCHS_tune-core2-32 = "${PACKAGE_EXTRA_ARCHS_tune-i686} core2-32"
+-QEMU_EXTRAOPTIONS_core2-32 = " -cpu core2duo"
++QEMU_EXTRAOPTIONS_core2-32 = " -cpu n270"
+ 
+ AVAILTUNES += "core2-64"
+ TUNE_FEATURES_tune-core2-64 = "${TUNE_FEATURES_tune-x86-64} core2"
+-- 
+2.17.1
 
---FUFe+yI/t+r3nyH4--
+
