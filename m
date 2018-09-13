@@ -1,29 +1,26 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A2C779868
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DC6BF79860
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 02:38:10 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Sep 2018 19:38:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,367,1531810800"; d="scan'208";a="89562802"
-Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.21.20])
-	([10.221.21.20])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Sep 2018 19:38:10 -0700
-To: Kevin Hao <kexin.hao@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <20180912004446.11661-1-kexin.hao@windriver.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <22102831-8c57-6584-88fa-937818a79349@intel.com>
-Date: Thu, 13 Sep 2018 10:38:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu, 13 Sep 2018 03:47:22 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8D3klxB017032
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 12 Sep 2018 20:46:58 -0700
+Received: from server.local (128.224.20.171) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 12 Sep 2018 20:46:36 -0700
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <20180913010531.41241-1-raj.khem@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <45b763b2-4d9b-80e0-35b3-122d844c2b21@windriver.com>
+Date: Wed, 12 Sep 2018 23:46:36 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180912004446.11661-1-kexin.hao@windriver.com>
-Subject: Re: [PATCH v3] wic: Introduce the --use-label partition parameter
+In-Reply-To: <20180913010531.41241-1-raj.khem@gmail.com>
+Subject: Re: [PATCH 1/2] linux-libc-headers: Include linux/stddef.h in linux/swab.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,25 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 02:38:10 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 13 Sep 2018 03:47:23 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 09/12/2018 08:44 AM, Kevin Hao wrote:
-> +         --use-label: This option is specific to wic. It makes wic to use the
-> +                      label in /etc/fstab to specify a partition. If the
-> +                      --use-label and --use-uuid are used at the same time,
-> +                      we prefer the uuid because it is less likely to cause
-> +                      name confliction. We don't support using this parameter
-> +                      on the root partition since it requires an initramfs to
-> +                      parse this value and we do not currently support that.
+On 2018-09-12 9:05 PM, Khem Raj wrote:
+> This helps compiling bpf tests using non-glibc C libraries e.g. musl
+
+Looks good to me. Thanks for the cc', most appreciated.
+
+Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>   ...linux-stddef.h-in-swab.h-uapi-header.patch | 44 +++++++++++++++++++
+>   .../linux-libc-headers_4.18.bb                |  1 +
+>   2 files changed, 45 insertions(+)
+>   create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-include-linux-stddef.h-in-swab.h-uapi-header.patch
+> 
+> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-include-linux-stddef.h-in-swab.h-uapi-header.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-include-linux-stddef.h-in-swab.h-uapi-header.patch
+> new file mode 100644
+> index 0000000000..9d17daa70f
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-include-linux-stddef.h-in-swab.h-uapi-header.patch
+> @@ -0,0 +1,44 @@
+> +From 9708dc74d9f49488d669e070982f6224a888d61a Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Wed, 12 Sep 2018 17:08:58 -0700
+> +Subject: [PATCH] include linux/stddef.h in swab.h uapi header
 > +
->           --active: Marks the partition as active.
+> +swab.h uses __always_inline without including the header where it is
+> +defined, this is exposed by musl based distributions where this macro is
+> +not defined by system C library headers unlike glibc where it is defined
+> +in sys/cdefs.h and that header gets pulled in indirectly via
+> +
+> +features.h -> sys/cdefs.h
+> +
+> +and features.h gets pulled in a lot of headers. Therefore it may work in
+> +cases where features.h is includes but not otherwise.
+> +
+> +Adding linux/stddef.h here ensures that __always_inline is always
+> +defined independent of which C library is used in userspace
+> +
+> +Upstream-Status: Submitted [https://lkml.org/lkml/2018/9/13/78]
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Cc: Philippe Ombredanne <pombredanne@nexb.com>
+> +Cc: Kate Stewart <kstewart@linuxfoundation.org>
+> +Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> +Cc: Thomas Gleixner <tglx@linutronix.de>
+> +---
+> + include/uapi/linux/swab.h | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/include/uapi/linux/swab.h b/include/uapi/linux/swab.h
+> +index 23cd84868cc3..acddbe50a20d 100644
+> +--- a/include/uapi/linux/swab.h
+> ++++ b/include/uapi/linux/swab.h
+> +@@ -3,6 +3,7 @@
+> + #define _UAPI_LINUX_SWAB_H
+> +
+> + #include <linux/types.h>
+> ++#include <linux/stddef.h>
+> + #include <linux/compiler.h>
+> + #include <asm/swab.h>
+> +
+> +--
+> +2.19.0
+> +
+> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
+> index e38872bb91..eb7bee72b0 100644
+> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
+> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
+> @@ -6,6 +6,7 @@ SRC_URI_append_libc-musl = "\
+>       file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch \
+>       file://0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch \
+>       file://0001-if_ether-move-muslc-ethhdr-protection-to-uapi-file.patch \
+> +    file://0001-include-linux-stddef.h-in-swab.h-uapi-header.patch \
+>      "
+>   
+>   SRC_URI[md5sum] = "bee5fe53ee1c3142b8f0c12c0d3348f9"
+> 
 
-Would this also need a corresponding patch for yocto-docs as well?
-
-Thanks,
-
-Anuj
 
