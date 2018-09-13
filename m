@@ -1,49 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A57D6798C2
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+	[209.85.210.54])
+	by mail.openembedded.org (Postfix) with ESMTP id B6CFB792BC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 11:30:41 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id o18-v6so5874131wmc.0
+	Thu, 13 Sep 2018 12:27:44 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id v44-v6so1032452ote.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 04:30:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=y1/AMbgyQQ8+78P4DuLOsoz6FT9d8y86/siiaZKDWmE=;
-	b=AwzqNlecL7Qq4eU1fw37iq5M3U4IC/mieyhGV4FxTM3kNaufVQ9On+0Gz9MtMbE8PW
-	oxQKogg2qXUHQMYBlg8XmfgJ7+i3qDf57wH6rcNIUO501iNbgcBpc4EzgqDggxsHGQau
-	Q3j/szwO0jBJM9oBNt7k38x9jzqNCZOxT8YGvRe5BCGGKIse4Z62aLjmmRr57vzU0QJX
-	i//3SyDDLDcKr8Hm/HFAJV/jAGVP1Lgjk8gr0MDdmiqGrSRzHEn8zX8DVTXf4C88+8UH
-	89jR1vZdWQQlzuZXJgjBSO5LiYmO+3fFzD2f6oZ9VkHOuuJy5tDLBuGmOQD/Ip48Q0GY
-	0KFw==
+	Thu, 13 Sep 2018 05:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+zTfZPVFaEIm8X5g42//ecfFdLyuUSeL/KJkW3SEfGQ=;
+	b=LhG+jOsoq0NQnTOMxjoHNLxvUVtJw3JKwa1hwjFETrFAXdglSl8WAKd084QmoawnsD
+	6pdQ6QUyRwqqtyGu4+2Xii9Na/UoUoWUx1kq34sFBvVKju9trOZAEeZQPeJsP75a9Hjo
+	EZXVkI6yTa+lD/sXKmaB6oWD9NgHXWRS3P7IVyMqEdQrSB+jaArR4oW2efjat5ryLALn
+	aGgCBmRwDfS4QyAe/e6cnSAPV9I2U7I1IM6sj9xRYPUosAYJvXrXk/btQrTeWTu6Xu4/
+	C5Yy69kiIjXOOd3umAbrP2XhzpVs3G6zNppu7XMSuraPokQL6PSEQJK5tpRZksrOCcTh
+	NQnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=y1/AMbgyQQ8+78P4DuLOsoz6FT9d8y86/siiaZKDWmE=;
-	b=H1hsRRhV4KxxzYigAH1w355g22lHJIg6uL4RoAcT2O8OeXlueMnYrCo0B548xR3BqU
-	GN+hUgE4GibvtlZE4biZ0uOPwENUUsDnfA9nJ5ijOuCq1AdIg0IMyqbYE4jfJgILZ7JR
-	bht1prU2HHpRmh14lPl+QbU9cRsaiW+r4a711W5IEZ0oOSFIJaq6RJ4rfTmi/wKJj9he
-	sTRRff/UFPYsVX16IQ3jdjN4oz2LZA4fCu5bj0euW8PnobhAje8a2kguvfDksJ9k5uQA
-	4BiaifEuItcWMEAyHsbR0/wdceBG/824BWVD7ihsQsQ9Px1N765ul66KmBvCZyNzvRIS
-	obGQ==
-X-Gm-Message-State: APzg51Cy1winml9+oWqtTxejpkW7438mCHqg/ouO3N23PL2EDSFnBnkN
-	9PsHViEKPxQyMQvfMFfHVN3QdCwTIGk=
-X-Google-Smtp-Source: ANB0VdYNP88xe9ZQWWTpHHR9uz2l83IlMYJ+mgIAsCMqem9WE8NvHQ9NdtPWNYEzaqj8doKmG3vnzw==
-X-Received: by 2002:a1c:8ac4:: with SMTP id
-	m187-v6mr4930420wmd.80.1536838241866; 
-	Thu, 13 Sep 2018 04:30:41 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	124-v6sm6665871wmk.20.2018.09.13.04.30.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 13 Sep 2018 04:30:40 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Sep 2018 12:30:39 +0100
-Message-Id: <20180913113039.3957-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] oeqa/selftest/recipetool: fix non-determinism in cmake test
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+zTfZPVFaEIm8X5g42//ecfFdLyuUSeL/KJkW3SEfGQ=;
+	b=Hiy7kwW3xr5Ihbxuv6HRMkQhEIMK1SpLU9qWKA0EVDMCAkG4ceEyV3zdMhiKGXdn6t
+	EIb3SFcs02syD54YfLF/LZFyLZPuyrnhOjGY+MB5InNc8TYQwJPVQd2UjSfzwvkb0TiY
+	Or8jeDjyyJvs0Cx95N5Hr6l/eeGCz0pMFgnWlguf4bLZlyVJvf2hLeeV3nR/iQzqGD24
+	jKGYRZZJMbaUAcNWcPP3H/UHOnXBhUxez9bYeCx44Xw4ZyIMHHCqQmgMwVTuWbb23tiy
+	nma/Owu9VQnGxb+QRzg8QgMoEpjPgR/BaJ/1g5msFf7S7uE0DEKB4IUp3mfoNCODDR2i
+	Q7Ew==
+X-Gm-Message-State: APzg51BsBykMvIRWAxQJewzA1BD6zv1CyfcHMQsuE29Wqxn1q8QkH22o
+	+qgEPH6hu80BU7Cn0piYPBvjPH0k535IDvNxMWg=
+X-Google-Smtp-Source: ANB0VdbNTczpahZxbqz24a+d4MdHFq6oJnxBjiMCVcJP6aO1dMb1Bv8oOKCRcQhbgx6kd7u1x+6HmufgVyGyxKc7IbA=
+X-Received: by 2002:a9d:2811:: with SMTP id
+	m17-v6mr988360otb.254.1536841665674; 
+	Thu, 13 Sep 2018 05:27:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:b48b:0:0:0:0:0 with HTTP; Thu, 13 Sep 2018 05:27:45
+	-0700 (PDT)
+In-Reply-To: <CAJ86T=U96L46iLVd3mA7nsK8v=G9XcOj9tJivTGVcmVO1WaXZA@mail.gmail.com>
+References: <1536656353-30689-1-git-send-email-hongxu.jia@windriver.com>
+	<CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com>
+	<41457254-4083-3d7c-4e93-95b320fe7dbb@windriver.com>
+	<CANNYZj9EZF5u2R55LBnBooyPpAhi7O69kVtWsvZesXZ3H7qxOQ@mail.gmail.com>
+	<0a2370ce-a756-5cf8-256b-929b70367e3a@windriver.com>
+	<CANNYZj90HLS4HZwtZK+9azCa1iMOjTXtWGy1RCBqCwRGPk+mfA@mail.gmail.com>
+	<CAJ86T=U96L46iLVd3mA7nsK8v=G9XcOj9tJivTGVcmVO1WaXZA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 13 Sep 2018 14:27:45 +0200
+Message-ID: <CANNYZj_++nm8Ag+5FhkjeFOcLx+qVgGSfmf0cNpCcurad3AsgQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: build support openssl 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +62,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 11:30:42 -0000
+X-List-Received-Date: Thu, 13 Sep 2018 12:27:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The Navit recipe can depend on fribidi which is now part of oe-core.  Since the
-pkgconfig lookup is based on pkgdata the results can change depending on what
-has been built, which leads to occasional failures.
+2018-09-13 3:13 GMT+02:00 Andre McCurdy <armccurdy@gmail.com>:
+> It's deliberate that including openssl10 in an image will at least
+> cause openssl 1.1 to built as the openssl10 libcrypto depends on
+> openssl10-conf and that's now provided by the openssl-conf package
+> from openssl 1.1
+>
+> So the expected outcome of adding openssh to a minimal image would be
+> for the image to include libcrypto10 and libssl10 from openssl10 and
+> openssl-conf from openssl 1.1. Is that what you see?
+>
+> (As a potential cleanup, we should perhaps remove openssl10-conf and
+> have libcrypto10 RDEPEND directly on openssl-conf, to make it a little
+> clearer that we expect to use the openssl 1.1 config for all versions
+> of the openssl libs).
 
-Build gtk+ before the test to ensure that the pkgdata is populated with more of
-the dependencies, and add fribidi to the generated DEPENDS checklist.
+Good news everyone! Upstream openssh has finally gave into user
+pressure, and added 1.1 support in the master branch. So the issue is
+moot; we just need to wait for them to tag a release (no backports
+please).
+https://github.com/openssh/openssh-portable/commits/master
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/cases/recipetool.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+This will make oe-core entirely free of openssl10 dependencies.
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index 754ea949824..cd15df11a93 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -427,6 +427,8 @@ class RecipetoolTests(RecipetoolBase):
- 
-     @OETestID(1418)
-     def test_recipetool_create_cmake(self):
-+        bitbake('-c packagedata gtk+')
-+
-         # Try adding a recipe
-         temprecipe = os.path.join(self.tempdir, 'recipe')
-         os.makedirs(temprecipe)
-@@ -439,7 +441,7 @@ class RecipetoolTests(RecipetoolBase):
-         checkvars['SRC_URI'] = 'http://downloads.sourceforge.net/project/navit/v${PV}/navit-${PV}.tar.gz'
-         checkvars['SRC_URI[md5sum]'] = '242f398e979a6b8c0f3c802b63435b68'
-         checkvars['SRC_URI[sha256sum]'] = '13353481d7fc01a4f64e385dda460b51496366bba0fd2cc85a89a0747910e94d'
--        checkvars['DEPENDS'] = set(['freetype', 'zlib', 'openssl', 'glib-2.0', 'virtual/libgl', 'virtual/egl', 'gtk+', 'libpng', 'libsdl', 'freeglut', 'dbus-glib'])
-+        checkvars['DEPENDS'] = set(['freetype', 'zlib', 'openssl', 'glib-2.0', 'virtual/libgl', 'virtual/egl', 'gtk+', 'libpng', 'libsdl', 'freeglut', 'dbus-glib', 'fribidi'])
-         inherits = ['cmake', 'python-dir', 'gettext', 'pkgconfig']
-         self._test_recipe_contents(recipefile, checkvars, inherits)
- 
--- 
-2.11.0
-
+Alex
 
