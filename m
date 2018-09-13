@@ -1,47 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 34B1C71B99
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
+	[209.85.210.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A45B79920
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 16:39:41 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id g53-v6so5956505qtg.10
+	Thu, 13 Sep 2018 16:47:35 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id i10-v6so1879192oth.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 09:39:42 -0700 (PDT)
+	Thu, 13 Sep 2018 09:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zubs+QwBWrgR474HaIAQR9HcOveybj9L2enRPM6HNLU=;
-	b=JbbOE8kdxGW0VlmgabAI3eyLxyAcWWDZyZmsa4haedYrwwvgVK8cqkvCXrMg594Vjr
-	8WUT/DbMd0Ri0RHNG/P+3JHK+/G9Uc5CnWfEJsw2NPp0irrwyfwDKSf4/3oOUHJd//jm
-	WiqEsck+ABnl7mVEacGhswWK+vnLjF2qYG7Yo1K7IrDGqSpwZ5uZhZOIrcDzg+2YoBCx
-	l/hjCTm1IlSOniybz6V/VOF5wU0lO4TzYM4HqkjxENdVugT1HO986seRwvEU+mLcOeqV
-	yrkG7sJvpXTbHGre6beqi8rXkBiWjrx8zzEFIpL86lLCofgbKc7DyyR1nrKyarz8FwQ4
-	hqqg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PoCm4lD6DOvPLTOp4bWsYlkaBtKD0GOFs4auM6k7yGs=;
+	b=KEM+sw6+nE3eLyH8VXhgb6mrWzCH28i2oDYoQFYuB8Sj4kzhpdSekvAWL0PTWUsBZQ
+	kJ0Ugj1StDRST2p/HukutRgFDo9WUNAjLyomTxvmDwrmc+pQSCrXCrkFTkGxw/QHA7Sb
+	aEBOP4SNzO8jFjIAn3pCVJxDvLk+6Lx/NOHsZI0cHIAzg/+yUt+LuFyqRRvL8bISIm/r
+	7oPvtYaUVqx/uUFBO/i4sBMX0ueJchZVLPFWdS1G29656lQXKTE6vmo2CFkv4KXNFPan
+	p8Sz6R542dPcvtFW3I+5TQwiYcJwT3L6nnpmLXZM8WeDoVPaDVM2mvDdYK13vV09r8cx
+	sdew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=zubs+QwBWrgR474HaIAQR9HcOveybj9L2enRPM6HNLU=;
-	b=DncRLEZ1oKuhiKyXN2cWtlSbHT57psxoOmJAc+3nZRlT1cMsVDDkmYbBmMR+n7sUyN
-	MjV9NepW9G12LAdREcDcvjY5SMoHUHXer7BY+OjeqBhMEO0bfDXM4dRn7UsxYtGnzGCd
-	95p0xDUumGCV5JmoK/hYOYtqVE3vT+3we/YHdqmxR8oi+JJuXdTIbVv3zcOpgmYFTtbE
-	SJ876gD8o2AHn7tAc4Oyn6vh1JBQiwDN2jaOvDMLLvgyeCysm5cY7QlGBHcUaP+lt42G
-	+D8h3my14GyAS+YHM/ttcd6ztKfCuGU4QjUzCiVZ+35PoEpc94PxUsm14ap5xVrOtoiF
-	qyOw==
-X-Gm-Message-State: APzg51BIM+oT4YfDEXag5wgM6YiaaRmNLyduZGCxMCk7q7NbfnID96Ie
-	vDK6gCKUHJvd68XXI7HVe5xaVdp7zkWadmvi7ks=
-X-Google-Smtp-Source: ANB0VdaAmPk7/cHmeFqIH2yvc8PCRpaPBI894QgSfgHWXPhKGgyID5ZYF4V0Ji8X+4MmppRTb5wrVX9QrceEC0nzqFw=
-X-Received: by 2002:ac8:6c8:: with SMTP id j8-v6mr5734648qth.314.1536856781794;
-	Thu, 13 Sep 2018 09:39:41 -0700 (PDT)
+	bh=PoCm4lD6DOvPLTOp4bWsYlkaBtKD0GOFs4auM6k7yGs=;
+	b=qi9TW35mSjg6cwI/JgI6u+R3PS70/etRvpMjY2LDc6Y0UaaR2oLidM+BM4mdfH/tWZ
+	PJS4OeHfGie69wl0CApfDRfyaKlPlx7gi+LNOJsIMgeKYbhKQIoqPnnF+s3Tr+Q5bnm4
+	a0pKBrWdUBIPRjwarH0fcFenryi4iyr8bu8WvOk1uXOVScPX1Oxoqi0L0KGvGwFnYKx0
+	sxWDUxHJDCj4R+2M7uNjcTylffccn0TIJ/EvLSCcz17Z+P/NfRcTzVFWh9wAki8u+8gF
+	WLgsgY+YynaJPNPeHoC3jegIcrFwdO3LaJu6LX7TKeGDVPjkutpivKdaJQAD0j2ysl09
+	MQxw==
+X-Gm-Message-State: APzg51AwmVF8cAhX8P24vCih71a8615sMWE9/Z5GFKMxvAN3IsH7E55C
+	lItjg2IcWsoOAcXmVurrR3qpUbeuFqdN5bErIAJpYQ==
+X-Google-Smtp-Source: ANB0VdbTxh4Tbo66IYULIyJb/6pMilwrOuUHpMrqP909hGrJ8JtG+Hthyld/qZQ8JJwQahwDI55D1AjLmqHg9XXv32g=
+X-Received: by 2002:a9d:2816:: with SMTP id
+	m22-v6mr1687540otb.22.1536857256231; 
+	Thu, 13 Sep 2018 09:47:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180911093750.5460-1-ross.burton@intel.com>
-In-Reply-To: <20180911093750.5460-1-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 13 Sep 2018 09:39:15 -0700
-Message-ID: <CAMKF1spTqL8tug6OAcAeo6EPNysTiadQj+xhKrs==G-szv4f4g@mail.gmail.com>
+Received: by 2002:a4a:b48b:0:0:0:0:0 with HTTP; Thu, 13 Sep 2018 09:47:35
+	-0700 (PDT)
+In-Reply-To: <CAJTo0LYgS39aSN5djToJ+xqh=tyGxWnr7DZg-sS_b6RntXAn2w@mail.gmail.com>
+References: <alw21y00P0lLAyC01lw2NN@charter.net>
+	<CAJTo0LYgS39aSN5djToJ+xqh=tyGxWnr7DZg-sS_b6RntXAn2w@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 13 Sep 2018 18:47:35 +0200
+Message-ID: <CANNYZj8sMDdpDR_B389sABajPa6VEFbR4gcRr7O0QNRNva0y5A@mail.gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] yasm: remove
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, joseph-reynolds@charter.net
+Subject: Re: [PATCH v2] dropbear: disable medium-strength ssh ciphers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +58,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 16:39:41 -0000
+X-List-Received-Date: Thu, 13 Sep 2018 16:47:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-There are packages in other layers e.g. firefox which still depend on
-yasm. Can we move it to meta-oe instead of completely dropping it.
-On Tue, Sep 11, 2018 at 2:38 AM Ross Burton <ross.burton@intel.com> wrote:
+Actually, I'd rather have an 'upstream first' policy in this specific
+case. If the change is good and desirable, please work with the
+upstream to merge it there.
+
+Alex
+
+2018-09-13 18:00 GMT+02:00 Burton, Ross <ross.burton@intel.com>:
+> This still can't be actually used, because dropbear won't be looking
+> in the recipe folder and nothing puts that file into the source tree.
+> Put a #error in it if you don't believe me. :)
 >
-> Nothing in oe-core is using yasm now that gstreamer-libav and ffmpeg are using
-> nasm, so remove it from oe-core.
+> Ross
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/conf/distro/include/maintainers.inc |  1 -
->  meta/recipes-devtools/yasm/yasm_1.3.0.bb | 16 ----------------
->  2 files changed, 17 deletions(-)
->  delete mode 100644 meta/recipes-devtools/yasm/yasm_1.3.0.bb
->
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 2ecc3d61e38..0c65e8f816c 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -732,6 +732,5 @@ RECIPE_MAINTAINER_pn-xvideo-tests = "Maxin B. John <maxin.john@intel.com>"
->  RECIPE_MAINTAINER_pn-xvinfo = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-xwininfo = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-xz = "Denys Dmytriyenko <denys@ti.com>"
-> -RECIPE_MAINTAINER_pn-yasm = "Yi Zhao <yi.zhao@windriver.com>"
->  RECIPE_MAINTAINER_pn-zip = "Denys Dmytriyenko <denys@ti.com>"
->  RECIPE_MAINTAINER_pn-zlib = "Denys Dmytriyenko <denys@ti.com>"
-> diff --git a/meta/recipes-devtools/yasm/yasm_1.3.0.bb b/meta/recipes-devtools/yasm/yasm_1.3.0.bb
-> deleted file mode 100644
-> index 31af1e287e9..00000000000
-> --- a/meta/recipes-devtools/yasm/yasm_1.3.0.bb
-> +++ /dev/null
-> @@ -1,16 +0,0 @@
-> -SUMMARY = "x86 (SSE) assembler supporting NASM and GAS-syntaxes"
-> -LICENSE = "BSD"
-> -HOMEPAGE = "http://www.tortall.net/projects/yasm/"
-> -
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=a12d8903508fb6bfd49d8d82c6170dd9"
-> -
-> -SRC_URI = "http://www.tortall.net/projects/yasm/releases/${BP}.tar.gz"
-> -
-> -SRC_URI[md5sum] = "fc9e586751ff789b34b1f21d572d96af"
-> -SRC_URI[sha256sum] = "3dce6601b495f5b3d45b59f7d2492a340ee7e84b5beca17e48f862502bd5603f"
-> -
-> -export CCLD_FOR_BUILD = "${CC_FOR_BUILD}"
-> -
-> -inherit autotools gettext
-> -
-> -BBCLASSEXTEND = "native"
-> --
-> 2.11.0
->
+> On 12 September 2018 at 22:56,  <joseph-reynolds@charter.net> wrote:
+>> This changes the Dropbear SSH server configuration so it will not
+>> accept medium-strength encryption ciphers including: CBC mode, MD5,
+>> 96-bit MAC, and triple DES.  This is consistent with the default
+>> supported OpenSSH ciphers.
+>>
+>> Upstream-Status: Pending
+>>
+>> Signed-off-by: Joseph Reynolds <joseph-reynolds@charter.net>
+>> ---
+>>  meta/recipes-core/dropbear/dropbear/localoptions.h | 8 ++++++++
+>>  1 file changed, 8 insertions(+)
+>>  create mode 100644 meta/recipes-core/dropbear/dropbear/localoptions.h
+>>
+>> diff --git a/meta/recipes-core/dropbear/dropbear/localoptions.h
+>> b/meta/recipes-core/dropbear/dropbear/localoptions.h
+>> new file mode 100644
+>> index 0000000..ec48c26
+>> --- /dev/null
+>> +++ b/meta/recipes-core/dropbear/dropbear/localoptions.h
+>> @@ -0,0 +1,8 @@
+>> +/* Customize dropbear per default_options.h in the dropbear project */
+>> +
+>> +/* Disable insecure ciphers */
+>> +#define DROPBEAR_TWOFISH256 0
+>> +#define DROPBEAR_TWOFISH128 0
+>> +#define DROPBEAR_ENABLE_CBC_MODE 0
+>> +#define DROPBEAR_SHA1_HMAC 0
+>> +#define DROPBEAR_SHA1_96_HMAC 0
+>> --
+>> 1.8.3.1
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
