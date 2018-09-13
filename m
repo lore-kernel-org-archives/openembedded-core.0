@@ -1,50 +1,18 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AAD5F7487E
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 14:13:05 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id o15-v6so5459022qtk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 07:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=W8J9wOlNu7FCKo+bgT6Wb4Fbeu4Fe9+aPEd6OwrpLSo=;
-	b=WzF2JMGqM7XbfrffT58ITf+PMDP9nrgp/wD1NSYHg5FQdlcgfp0TcwyobDMAHq7cB7
-	GOj62endykJ+x4FlPhL8AMpSF08SvWYKiI2mmKEHjvcjVDu++db0tf9u+WtcIYpil58d
-	e6mdvgew5kEMZ6KC7rnMnuPoCt/6WfCoOsGjujJd3NwUg43ESSXehDipGR6UOLQL2vnM
-	IGIHAubuiP7n0jGnx/r0JW5JAUXGy5g3vwxqKJ1Kt6ITlVywBW5ndxRNX2yMz3tYmBjb
-	KShR0aj7N3znyGlhMXv1KkZL+giWse5UzrUnC1eKPnaWWLkbJLypxQ731nHpjm5wwkMe
-	8+Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=W8J9wOlNu7FCKo+bgT6Wb4Fbeu4Fe9+aPEd6OwrpLSo=;
-	b=SEgKka5//eh8LuMKCbtdX599kLcpfxzDdpXzzf3pE1pJUyBCO1CVNcyHBFQfPDp/TB
-	+CKvmz+lrKPXg7I6/sC0xVJRvMA0vwXhj+25mJZUC5c1p73aY+Y9FHNTXmzT/1JT2W+J
-	tw/ZktGOeIBu3efuoOrdn395hwUJ3+TjcwU1pvu8jVErERK2KvBN01GqDNTFJLFGe3YT
-	LuxJCBi08madK+D3am8ADPdfXjf1iXYELDMrbX0NBM+qFtTDCNZOlQ/Q9/H1XkdIaQB4
-	mInAhF3XiqdnYdoCsw7NFBPSNaPFZHU2vVyxB7dK40evvUoV7JRdnKSDZfSfVQkZRdBj
-	Ezsw==
-X-Gm-Message-State: APzg51DwhHs/x8Cuqus1FzipgLLfIKB1u0yzckAp/ETpzjiJm0WZ189x
-	BHIfais8XgrbXvFNj96rFBlykIsMrm5z4gKzCS5hhA==
-X-Google-Smtp-Source: ANB0VdbKr2FUUerUBc16BEmeJtqP9bJ0c0M9UD1N6Ft87oeXiwbgCpgz8Q5MokiWY2nMzQTvc7AWyHjLIpRpBmr7slQ=
-X-Received: by 2002:a0c:f94e:: with SMTP id
-	i14-v6mr5455040qvo.50.1536847986096; 
-	Thu, 13 Sep 2018 07:13:06 -0700 (PDT)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A5DF7798EA;
+	Thu, 13 Sep 2018 14:32:56 +0000 (UTC)
 MIME-Version: 1.0
-References: <20180913010531.41241-1-raj.khem@gmail.com>
-	<20180913010531.41241-2-raj.khem@gmail.com>
-	<a222d88ce20cfd75df914085dee0111f7316f36b.camel@linuxfoundation.org>
-In-Reply-To: <a222d88ce20cfd75df914085dee0111f7316f36b.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 13 Sep 2018 07:12:33 -0700
-Message-ID: <CAMKF1spz_3r0MFVrSrpzs3pLk1LjoWnjvy7cmy1mEJbMjMpqJg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] musl: Wire-up name_to_handle_at and name_to_handle_at syscalls
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 13 Sep 2018 14:32:58 -0000
+Message-ID: <20180913143258.13843.51247@do.openembedded.org>
+References: <20180913140426.13202-1-raj.khem@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180913140426.13202-1-raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbXVzbDogQWRkIE1BWF9IQU5ETEVfU1o=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,24 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 14:13:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 13 Sep 2018 14:32:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 13, 2018 at 6:14 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2018-09-12 at 18:05 -0700, Khem Raj wrote:
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->
-> Somewhat ironically, this breaks musl builds in strace:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/11/builds/55/steps/7/logs/step1b
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/27/builds/55/steps/7/logs/step1b
->
+== Series Details ==
 
-yeah, sent another fix on top.
+Series: musl: Add MAX_HANDLE_SZ
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14067/
+State : failure
 
-> Cheers,
->
-> Richard
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 325af0f4a8)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
