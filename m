@@ -1,23 +1,42 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id DA68479861
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 07:25:49 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Sep 2018 00:25:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.53,368,1531810800"; d="scan'208";a="89618883"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.21.20])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Sep 2018 00:25:49 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Sep 2018 15:25:47 +0800
-Message-Id: <20180913072547.12321-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] tune-core2: use n270 instead of core2duo
+Return-Path: <mhm.dawod@gmail.com>
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+	[209.85.222.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EC7279493;
+	Thu, 13 Sep 2018 08:33:02 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id 93-v6so2755502qks.3;
+	Thu, 13 Sep 2018 01:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=Pz0UJvJADy81iw9lrvdPv9iSAG2KCN+T7JPqUwcdvls=;
+	b=bGSoXAZh0vC5uqjOzoDWTz7+jlje01xcQfiz7+G5YioaNr5bSk8h8RRpUfKeY+xaSo
+	WEzp9X+Q1T6TnI1Y7NN9h7+7fLzAX973+CNQAbgvlNDsorMVvGcA8hC4a1ab0kPHdeas
+	yRrqGtHLjCMyi5gb9sCnUMPLgiJQ1Pp7GM9r1Yns9X2Y/vvqfBfY1Pt6VrBgTie6YhsK
+	r5upsbSof6tmWajO57hWNDwwmdck30iWbVK8R91GLH6zEAdim1i0DcTjE+e0cqUuz+j9
+	r7T4yA6g+yhJMyg5CgOl2+RvZxL0WqbaPFv7F2gZyslcFaiYtm1VhUMbimqnjV5WDnNz
+	9eKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=Pz0UJvJADy81iw9lrvdPv9iSAG2KCN+T7JPqUwcdvls=;
+	b=F2EnbqPiKnjeRXxKSG0nqhYyMCk/frikPHWv3DFHlmo+YvVOfyNZBPRNpHKcBKi5Gw
+	zdFwmT7oaEY3zK8era3VilzodfACfUIP+nLlTRlNa4mOrJAQSIVl+sIioAw/2dw8zY1B
+	mmGCP4vjjM5jhQqMKOcSypC7lVekUowDDyEBQ0QalxXBMrAWBcgEBP5P3TMdc0Afgh36
+	L0lxdTeHPPH1i4oWG6U6P63hte6tV1LtlEIw87zRWB1JHuS3Ycs8RaCIlCzsYDtNOPih
+	ybRyuHaAvD/BXJfw4+obv5QbzoRAxXsx6vLod1dxs08pcTjjEV0rOfgmPCYiIhyL18O3
+	QM6w==
+X-Gm-Message-State: APzg51BVEIePgmMSzLY6BfQjf4P1EZk6W1zdcZg6Kh+3EVar9KixmUog
+	2Zah1poyX6Bc8chXsghcxDZCmoWDtwgKHo5LinHXpA==
+X-Google-Smtp-Source: ANB0VdZu9aOnt2njgQqJ5nmezeTgZYAquKAWDS64bS8tpHP72uG4OB3w4bcTpEuhILDygt9lZn92RJhPRQLl50TsNrs=
+X-Received: by 2002:a37:64d8:: with SMTP id
+	y207-v6mr4353867qkb.312.1536827583040; 
+	Thu, 13 Sep 2018 01:33:03 -0700 (PDT)
+MIME-Version: 1.0
+From: Mohamed Dawod <mhm.dawod@gmail.com>
+Date: Thu, 13 Sep 2018 10:32:51 +0200
+Message-ID: <CAGCTLNQLVKqxn0zO176Y8+ShPALPra93BRp=7=a-etoGD0A_Mg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org
+Subject: [openembedded][linux][wayland]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,45 +49,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 07:25:50 -0000
+X-List-Received-Date: Thu, 13 Sep 2018 08:33:02 -0000
+Content-Type: multipart/alternative; boundary="0000000000002b12b50575bc8e97"
 
-Fixes warnings in builds using core2-32 tune:
+--0000000000002b12b50575bc8e97
+Content-Type: text/plain; charset="UTF-8"
 
-warning: TCG doesn't support requested feature: CPUID.80000001H:EDX.syscall [bit 11]
-warning: TCG doesn't support requested feature: CPUID.80000001H:EDX.lm [bit 29]
+Hello everyone,
 
-when executing postinsts using qemu-i386.
+I built custom image for intel-corei7 processor supporting wayland weston
+instead of x11.
 
-i386 target doesn't enable CPUID_EXT2_SYSCALL and CPUID_EXT2_LM [1]
-while cpu choice of core2duo that we use for core2-32 TUNE does [2].
-Use n270 cpu instead to use with qemu which supports SSSE3 and doesn't
-have these bits enabled [3].
+I need to hide the mouse pointer from the desktop .
+I want to make it as mobiles, so I can use touch screen to click any where
+but there is no mouse pointer,
 
-[1] https://github.com/qemu/qemu/blob/master/target/i386/cpu.c#L739
-[2] https://github.com/qemu/qemu/blob/master/target/i386/cpu.c#L1439
-[3] https://github.com/qemu/qemu/blob/master/target/i386/cpu.c#L1603
+Can any one help ?
+Any suggestions?
 
-Fixes [YOCTO #12916]
+Thank you in advance,
+Regards,
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/conf/machine/include/tune-core2.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/tune-core2.inc b/meta/conf/machine/include/tune-core2.inc
-index c686bb4682..ddde719bde 100644
---- a/meta/conf/machine/include/tune-core2.inc
-+++ b/meta/conf/machine/include/tune-core2.inc
-@@ -21,7 +21,7 @@ TUNE_FEATURES_tune-core2-32 = "${TUNE_FEATURES_tune-x86} core2"
- BASE_LIB_tune-core2-32 = "lib"
- TUNE_PKGARCH_tune-core2-32 = "core2-32"
- PACKAGE_EXTRA_ARCHS_tune-core2-32 = "${PACKAGE_EXTRA_ARCHS_tune-i686} core2-32"
--QEMU_EXTRAOPTIONS_core2-32 = " -cpu core2duo"
-+QEMU_EXTRAOPTIONS_core2-32 = " -cpu n270"
- 
- AVAILTUNES += "core2-64"
- TUNE_FEATURES_tune-core2-64 = "${TUNE_FEATURES_tune-x86-64} core2"
 -- 
-2.17.1
 
+Mohamed Dawod
+Computer Engineering Department
+Faculty of Engineering
+Cairo University
 
+--0000000000002b12b50575bc8e97
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello everyone,</div><div><br></div><div>I built cust=
+om image for intel-corei7 processor supporting wayland weston instead of x1=
+1.</div><div><br></div><div>I need to hide the mouse pointer from the deskt=
+op .</div><div>I want to make it as mobiles, so I can use touch screen to c=
+lick any where but there is no mouse pointer,</div><div><br></div><div>Can =
+any one help ?</div><div>Any suggestions?</div><div><br></div><div>Thank yo=
+u in advance,</div><div>Regards,<br></div><div><br></div><div><br>-- <br><d=
+iv dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"=
+><div dir=3D"ltr"><div>=C2=A0<br>Mohamed Dawod<br></div><div>
+Computer Engineering Department=C2=A0<br>
+Faculty of Engineering=C2=A0<br>
+Cairo University</div></div></div></div></div>
+
+--0000000000002b12b50575bc8e97--
