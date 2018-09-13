@@ -1,47 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 28C56798EA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+	[209.85.214.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 066FE796FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 13:15:45 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id 20-v6so5538854wrb.12
+	Thu, 13 Sep 2018 14:04:34 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id b12-v6so2650831plr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2018 06:15:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=lA7IYZ3vDZRziUXP6svuO71tS3dir1HRHHupuiBmPY8=;
-	b=BZpqOYShuVKV65dSks1YMocmUW8ISIySs5sw2cU4vXxwUv8U6qlnqDKVB7A6utSK/R
-	vGQbXPZKOe4mrWlUNdpJ3OSKIZhOkD9nGAQkMiRniHDhbApsco3R27dtMXSKgB2bPacJ
-	vwM+5TM+FkYrQV8gy2DYPEe4KtFT7WIIZjrMk=
+	Thu, 13 Sep 2018 07:04:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=PaQ1bsshQwE3EGlZ6a5VZ6I2doqPmVlBAt+U6hJ37XM=;
+	b=uy8jD26+7+/10SE+txUQOYr2oSJU7qUCobOGrreN67mXVi/vqOeXGRaYIwFuCBEgZD
+	y38TeoD9JEDDZ8AgAB091LAZvaWaIrsYRQrQL6rCbpuCvab62tprUJIzYvfzUlEaIKfD
+	Y5kb74rneCAr34WLv3ZY4a44OzoYz8EnMTjWzXeykWPupBDSwzbLPkM/yQ7WGMFTXJFV
+	Of3WbwqqoIf1DhFt/MT+AVAc8S6tJPsqaRhX0dbhjsn6QZ63r+rJ8l66GPuhP0OfpUFF
+	gg9GW0coiDHkfO6ZDZwuaLT1c5elgtfLgcNZkgG3Kec52LFACYeeeF7UzBbvRXhw9uQG
+	PJ7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=lA7IYZ3vDZRziUXP6svuO71tS3dir1HRHHupuiBmPY8=;
-	b=Yj6X+4Ygu3qh7VmQH2fGLSMh8oPHk71srM/zKIpgKC1FEWiPHXC2i+OCPgO/IQQJ58
-	z0MwLEXLCVS0bcpn5atFwgsTy/wTZZ/nqnIYn8Jt+ZL7hRgP6DUwHLDVxaiyKwnTcEpE
-	ojHxiXPmfliE979F+kAykZ0ktxVb26gTD87LfssKCyUORjw9PO4RvS4eqc7+Qkou1mR2
-	iv/td4f2rKJQYrSqRQFAaSTBn7f3TjNYzn4MN+NpQ8loZEgTgZJBo/c2QvHAz++1aj/P
-	uz//IJ7sx/txOrropoE7b+jyo/bqyuRWkMjVqFFUDeyxImBdfmuOo5gxOb7oBRQlJvIu
-	iJ6w==
-X-Gm-Message-State: APzg51DhWE+oxUGiQdRE5CxaFH3OT0xsLIFr0TigNuYhHXCgVFquERa5
-	QAy0Rc5YIxTGThpM7cYLgEenmDB2X7I=
-X-Google-Smtp-Source: ANB0VdYR1IL584udWnC13pPWNfErlmKYv7yrwJXtdl/3+N0jA/juZSUDvVqrOB/gHTPxG4J3xkCuzg==
-X-Received: by 2002:a05:6000:1291:: with SMTP id
-	f17mr5580501wrx.215.1536844546417; 
-	Thu, 13 Sep 2018 06:15:46 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=PaQ1bsshQwE3EGlZ6a5VZ6I2doqPmVlBAt+U6hJ37XM=;
+	b=LqWgmgpDnveWjbvHHr4KtMbeex7Yy3wSbe2RWo1Eqw2xtZsic968v26tjNDTeLoUat
+	DnuqQuo+AY3kq/M40Q6HSbPf/30OOEjRBXBLhwe0B97E7q002vhHF5qSR6Pq4uRD5H70
+	UrrUmf+83lyN7zzNr4PswVqw+ZXYj/QQaeR74/hdX9GW+nk7BIr8YNAF4ZA9FiHcwzha
+	DMjrUp7h3ImGVYBtqqt6PATJlsN4YQTh+Ow5cyGyggsoqFl81M5XjSFLaGsu5qtJiyrS
+	muRgikNvNjd6BYRHXn3h8UfLYQHZuzd/0BkIlpeRXl5W/GezctEDqJSoWmp9ppR5cA9Z
+	sKmQ==
+X-Gm-Message-State: APzg51Bm/ltvW051yR3bqpolPdo3e/EibPgqTS1UuKLDhBOduteBLVxb
+	Khmw7qT7DniTUf7wG0p/jOxR4AI8
+X-Google-Smtp-Source: ANB0VdaTsuaAk38g03AwIbeuej5eh5pW/0qy2yfa1QOQt0JE/H/JRPuoPzDq29cVR3Tuz61voOtlNA==
+X-Received: by 2002:a17:902:7845:: with SMTP id
+	e5-v6mr7458681pln.197.1536847475620; 
+	Thu, 13 Sep 2018 07:04:35 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::2887])
 	by smtp.gmail.com with ESMTPSA id
-	t9-v6sm5061wmf.1.2018.09.13.06.15.45
-	for <openembedded-core@lists.openembedded.org>
+	l84-v6sm7820764pfg.3.2018.09.13.07.04.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 13 Sep 2018 06:15:45 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 13 Sep 2018 07:04:35 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Sep 2018 14:15:44 +0100
-Message-Id: <20180913131544.20812-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] oeqa/selftest/runtime_test: Ensure we build/use gnupg-native
+Date: Thu, 13 Sep 2018 07:04:26 -0700
+Message-Id: <20180913140426.13202-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.0
+MIME-Version: 1.0
+Subject: [PATCH] musl: Add MAX_HANDLE_SZ
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +58,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 13:15:46 -0000
+X-List-Received-Date: Thu, 13 Sep 2018 14:04:35 -0000
+Content-Transfer-Encoding: 8bit
 
-Without this, we see errors if gpg is missing from the host system
-for "oe-selftest -r runtime_test.TestImage.test_testimage_dnf".
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../musl/musl/0001-Define-MAX_HANDLE_SZ.patch | 29 +++++++++++++++++++
+ meta/recipes-core/musl/musl_git.bb            |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-core/musl/musl/0001-Define-MAX_HANDLE_SZ.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index abd0723146f..906e460d4f8 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -149,10 +149,12 @@ class TestImage(OESelftestTestCase):
-         features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
-         features += 'PACKAGE_CLASSES = "package_rpm"\n'
- 
-+        bitbake('gnupg-native -c addto_recipe_sysroot')
+diff --git a/meta/recipes-core/musl/musl/0001-Define-MAX_HANDLE_SZ.patch b/meta/recipes-core/musl/musl/0001-Define-MAX_HANDLE_SZ.patch
+new file mode 100644
+index 0000000000..b1217723a3
+--- /dev/null
++++ b/meta/recipes-core/musl/musl/0001-Define-MAX_HANDLE_SZ.patch
+@@ -0,0 +1,29 @@
++From e2e723cfe96ce6ed6558ed7e8fbb44b2283297da Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 13 Sep 2018 06:57:28 -0700
++Subject: [PATCH] Define MAX_HANDLE_SZ
 +
-         # Enable package feed signing
-         self.gpg_home = tempfile.mkdtemp(prefix="oeqa-feed-sign-")
-         signing_key_dir = os.path.join(self.testlayer_path, 'files', 'signing')
--        runCmd('gpg --batch --homedir %s --import %s' % (self.gpg_home, os.path.join(signing_key_dir, 'key.secret')))
-+        runCmd('gpg --batch --homedir %s --import %s' % (self.gpg_home, os.path.join(signing_key_dir, 'key.secret')), native_sysroot=get_bb_var("RECIPE_SYSROOT_NATIVE", "gnupg-native"))
-         features += 'INHERIT += "sign_package_feed"\n'
-         features += 'PACKAGE_FEED_GPG_NAME = "testuser"\n'
-         features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
++MAX_HANDLE_SZ is described in name_to_handle_at() to contain maximum
++expected size for a file handle
++
++Upstream-Status: Submitted [https://www.openwall.com/lists/musl/2018/09/13/16]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ include/fcntl.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/include/fcntl.h b/include/fcntl.h
++index 5c3defcb..6a8b6d49 100644
++--- a/include/fcntl.h
+++++ b/include/fcntl.h
++@@ -166,6 +166,7 @@ struct f_owner_ex {
++ };
++ #define FALLOC_FL_KEEP_SIZE 1
++ #define FALLOC_FL_PUNCH_HOLE 2
+++#define MAX_HANDLE_SZ 128
++ #define SYNC_FILE_RANGE_WAIT_BEFORE 1
++ #define SYNC_FILE_RANGE_WRITE 2
++ #define SYNC_FILE_RANGE_WAIT_AFTER 4
++-- 
++2.19.0
++
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index f6edf7de61..be31718e3a 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -12,6 +12,7 @@ PV = "1.1.20+git${SRCPV}"
+ SRC_URI = "git://git.musl-libc.org/musl \
+            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
+            file://0001-wireup-linux-name_to_handle_at-and-name_to_handle_at.patch \
++           file://0001-Define-MAX_HANDLE_SZ.patch \
+           "
+ 
+ S = "${WORKDIR}/git"
 -- 
-2.17.1
+2.19.0
 
 
