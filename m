@@ -1,53 +1,53 @@
 Return-Path: <geissonator@gmail.com>
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
-	[209.85.166.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C870799F3
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id E967A799F0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 21:33:27 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id w11-v6so7204110iob.2
+	Fri, 14 Sep 2018 21:33:31 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id h20-v6so4363933itf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 14:33:29 -0700 (PDT)
+	Fri, 14 Sep 2018 14:33:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=AmHR2eMfrHBTMMv7vIxjfOAOxwOpXh6yXd8/l9u8UXQ=;
-	b=lb6WPlFDcj81DFa4vQFug2L/D+7n1/vFr41xmstUfU7j4yyshqLpH0jCXjLTtemt+k
-	9LsTKQQSOfR0bZRew4EkdD7SCR7Gq0LcwtWykNJQx7oFfFEWOvuEdsApkp9x0vq70Yww
-	vHK/ARoJ/2uHSY7LMuV2xJsFxGmWlPCMT7e3Ty5Hd8ZrRV5m7EvQ87iZ1mbSm0EbLiel
-	Mfss+wsaMljUJ5D9deeR8QONwmInaWFHsuRUnoY6ftc2J/Xszi/MEa7ZuKKe1VwtqhYj
-	YXqraSjqOTu+szmzJpTUlKiaEyLI6BOmq7/SUkECaFalg8Qyl+rH9avlKZI7BekSATND
-	NnPg==
+	bh=S+07hzY79yTwNt47R2XadxAJnkGKNWe/GCq2fDVH0io=;
+	b=E2C3R8V6Hz5C5YG97k2V+hlcq13pGuFQv7De5UznmpbIB0s3IrU/r0a5iViKC1UUJr
+	px77PSbaDbH3Me0dPrZNBY2rCPdF7Ll5zLCTYDoQAlwok6WL6hQTB7N6TnlonSglRs9q
+	eFVUR1Co72SVTY95xRHd8HYnLjeZVsaX9y+3Rk7NTdQZ+R1dMuugcDE4kVJsTr0H6TvG
+	srW/ufXOEUi0h1l8RqPwSREr0P2z6Efs/zHQKRLPpbJ8XWRKJwf+pDg68lNsj5xRj8qt
+	p8E0TZGtSorWAfY6tIsk+JBF9f8Py+/WE5pNtLh6lbLmnJXTUMdSPJIZDOoa9WHK8Jcz
+	mJEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=AmHR2eMfrHBTMMv7vIxjfOAOxwOpXh6yXd8/l9u8UXQ=;
-	b=Oae1VQlX3C/YjskIwAyqa4CCTAt/bh6lDIdM2z02kQWR7ejTG3UCO6Wak0raIyyNvI
-	jMPwAwuArXk3yzHy0U9QpMmpKIVIXlYW9eFHhSA28AO/CcflvyChN9biZ0m7kJ7AtKyu
-	01dnN1/F7M8Bod7rWRtvEm/bpjyAqmfdJWkx4E+ocH9uKyuZRZAiWvsTUsGU4zcHxeI2
-	ZH4jfipUE546YXt0wlFrTLXuIHsFLEToxQhyldEQnqUnxSoNyOjn5PIiT4p1tL4quiL0
-	6rw2WtcyhEx+YtIAs9ymulp3UHCa0YHrArEcnGdqiPRNcBiB4Seyi1B7wiarDjyqIGxN
-	u3dw==
-X-Gm-Message-State: APzg51Bpkt3y+F3CRnsuCJdoGa/bsleHOG/zE52nN6+iOSLQ/N2ssIjS
-	8M8Aoflc+rSTrG3kc7nlPPBdClgt
-X-Google-Smtp-Source: ANB0VdZL+g/oHfY5zhmF8dszn9p2tdzJo7puWpApLd6f7KMYzln0WVpHpBSVnaHit2mwQTemV/4sGA==
-X-Received: by 2002:a6b:d00b:: with SMTP id
-	x11-v6mr11511242ioa.181.1536960808893; 
-	Fri, 14 Sep 2018 14:33:28 -0700 (PDT)
+	bh=S+07hzY79yTwNt47R2XadxAJnkGKNWe/GCq2fDVH0io=;
+	b=i0FPhEYCdODX52cwPe7Z0saGx/zDBN0caOf8rxAXWiB9vWPSnkRLMZWzjVcTgcX019
+	sCpu1+LLurMYOqZJOhAqPmA7pf0t8l115Yvx2Mp1n+oOXDSQPUp+ugKwyWpf0CPXwPoX
+	9jCWYLJ2Hb3QiMM8tg/OTJVh7dB2gznQp0F5a+Dlq3b1Pjg7qppTxFSLjYFXEnci1xxT
+	7AD9zS0iS0te+uLfFqlR4EzG69pHaQe6kHzJLwCieu0Q8JN67+TD4ivOPmk4w2v/K72o
+	cu1u419GuLzGVblZ8L4YQxYEiZGHAuMC8VzLlbyH01jmThs/Teml1vsFNtJAimMFKTqT
+	dAgQ==
+X-Gm-Message-State: APzg51ChEWkxhnEZxz4H/IEZgBopoQ32RIluoEY7I2QoGHKOezqQr91h
+	vUF/pvWh89+zje0fsknRf4//OWMS
+X-Google-Smtp-Source: ANB0VdbMBLGpUHTSodI7tWQSG4qosguLVVDz41jipAxZaZ6eQTrrfqFhTmmFR6zlxJ2mvo432DWizw==
+X-Received: by 2002:a24:3948:: with SMTP id
+	l69-v6mr3848878ita.153.1536960812932; 
+	Fri, 14 Sep 2018 14:33:32 -0700 (PDT)
 Received: from andrewg-VirtualBox.ibm.com ([32.97.110.56])
 	by smtp.gmail.com with ESMTPSA id
-	y21-v6sm2584215ioa.54.2018.09.14.14.33.27
+	y21-v6sm2584215ioa.54.2018.09.14.14.33.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 14 Sep 2018 14:33:28 -0700 (PDT)
+	Fri, 14 Sep 2018 14:33:32 -0700 (PDT)
 From: Andrew Geissler <geissonator@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Sep 2018 14:33:07 -0700
-Message-Id: <1536960788-26056-2-git-send-email-geissonator@gmail.com>
+Date: Fri, 14 Sep 2018 14:33:08 -0700
+Message-Id: <1536960788-26056-3-git-send-email-geissonator@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1536960788-26056-1-git-send-email-geissonator@gmail.com>
 References: <1536960788-26056-1-git-send-email-geissonator@gmail.com>
 Cc: Andrew Geissler <geissonator@gmail.com>,
 	alejandro.enedino.hernandez-samaniego@xilinx.com
-Subject: [PATCH 2/3] python: respect package order in manifest
+Subject: [PATCH 3/3] python: consolidate tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,49 +60,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2018 21:33:28 -0000
+X-List-Received-Date: Fri, 14 Sep 2018 21:33:32 -0000
 
-Don't sort the manifest when using it to generate packaging rules, so
-ordering can be used to have complex packaging rules.
+Currently the bulk of the tests in python-tests, some more in
+python-sqlite3-tests, and others in their parent module (such as
+python-ctypes).  This is pointless space usage if we're not planning on
+running the tests, so consolidate all the tests into python-tests.
 
 This is a backport of the same changes done by Ross Burton for python3
 
 Signed-off-by: Andrew Geissler <geissonator@gmail.com>
 ---
- meta/recipes-devtools/python/python_2.7.15.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ .../python/python/python2-manifest.json            | 35 ++++++++++------------
+ 1 file changed, 15 insertions(+), 20 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python_2.7.15.bb b/meta/recipes-devtools/python/python_2.7.15.bb
-index 43d9ff5..472c1da 100644
---- a/meta/recipes-devtools/python/python_2.7.15.bb
-+++ b/meta/recipes-devtools/python/python_2.7.15.bb
-@@ -207,7 +207,7 @@ RPROVIDES_${PN} += "${PN}-modules"
- INCLUDE_PYCS ?= "1"
- 
- python(){
--    import json
-+    import collections, json
- 
-     filename = os.path.join(d.getVar('THISDIR'), 'python', 'python2-manifest.json')
-     # This python changes the datastore based on the contents of a file, so mark
-@@ -215,7 +215,7 @@ python(){
-     bb.parse.mark_dependency(d, filename)
- 
-     with open(filename) as manifest_file:
--        python_manifest=json.load(manifest_file)
-+        python_manifest=json.load(manifest_file, object_pairs_hook=collections.OrderedDict)
- 
-     include_pycs = d.getVar('INCLUDE_PYCS')
- 
-@@ -248,8 +248,6 @@ python(){
-             d.appendVar('RDEPENDS_' + pypackage, ' ' + pn + '-' + value)
-         d.setVar('SUMMARY_' + pypackage, python_manifest[key]['summary'])
- 
--    # We need to ensure staticdev packages match for files first so we sort in reverse
--    newpackages.sort(reverse=True)
-     # Prepending so to avoid python-misc getting everything
-     packages = newpackages + packages
-     d.setVar('PACKAGES', ' '.join(packages))
+diff --git a/meta/recipes-devtools/python/python/python2-manifest.json b/meta/recipes-devtools/python/python/python2-manifest.json
+index cacba5b..45fa371 100644
+--- a/meta/recipes-devtools/python/python/python2-manifest.json
++++ b/meta/recipes-devtools/python/python/python2-manifest.json
+@@ -1,4 +1,18 @@
+ {
++    "tests": {
++        "summary": "Python test suite",
++        "rdepends": [
++            "core",
++            "modules"
++        ],
++        "files": [
++            "${libdir}/python2.7/*/test",
++            "${libdir}/python2.7/*/tests",
++            "${libdir}/python2.7/idlelib/idle_test/",
++            "${libdir}/python2.7/test"
++        ],
++        "cached": []
++    },
+     "2to3": {
+         "summary": "Python automated Python 2 to 3 code translator", 
+         "rdepends": [
+@@ -873,16 +887,6 @@
+             "${libdir}/python2.7/lib-dynload/_sqlite3.so"
+         ]
+     }, 
+-    "sqlite3-tests": {
+-        "summary": "Python Sqlite3 database support tests", 
+-        "rdepends": [
+-            "core", 
+-            "tests"
+-        ], 
+-        "files": [
+-            "${libdir}/python2.7/sqlite3/test"
+-        ]
+-    }, 
+     "stringold": {
+         "summary": "Python string APIs [deprecated]", 
+         "rdepends": [
+@@ -925,15 +929,6 @@
+             "${libdir}/python2.7/tty.py"
+         ]
+     }, 
+-    "tests": {
+-        "summary": "Python tests", 
+-        "rdepends": [
+-            "core"
+-        ], 
+-        "files": [
+-            "${libdir}/python2.7/test"
+-        ]
+-    }, 
+     "textutils": {
+         "summary": "Python option parsin", 
+         "rdepends": [
+@@ -1046,4 +1041,4 @@
+             "${libdir}/python2.7/lib-dynload/zlib.so"
+         ]
+     }
+-}
+\ No newline at end of file
++}
 -- 
 2.7.4
 
