@@ -1,53 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ED5279933
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CF7879550
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 13:06:52 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id p84-v6so12751397oic.4
+	Fri, 14 Sep 2018 13:14:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8EDEaV2009477
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 06:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hIKpjW29ik0x3JFx7bJSgn760C7jpzWbukFkW5W0miI=;
-	b=JDDnecxUX7hAQnm9hSLoT7iAf0poD0pbBlfkCKUZ/IGrICfa6uefXh67077GQiJmCY
-	wmFXReUKGcgVxBZklB+x0towWyV+qlE7rYKosTUWd9ve7yeYrvvqfqraasGFxUr5fvhQ
-	psvFkEqw/ixeAbey6RyqZMYLs/O603H0gseiaCKXLABa0VxYwLe8AGM0ZxTJAyd/HUIQ
-	8ea/tnL1Fnq9csHPTRjOYGLxzTBwFTJZ7llYxetQwJ/n/DHcDXpLOtXA54ysdRxMGJZt
-	yq9JbNEUs/x9N3Smm53vepy0H1lkcB9sY2EvVSpBUai0E7brAR97ZjZCEWh4Wba2id3c
-	ybsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hIKpjW29ik0x3JFx7bJSgn760C7jpzWbukFkW5W0miI=;
-	b=Z6pRNrOR30t7Telm6aSCieJ0roeG+qg5p/BZpcvfJ9XSJF6DT/GRJ1R+uQk5R85bKP
-	JpB0XdghpK1YDAxOj8ekQHCi+cMIrmlZlrY+XYTvagNXay5MzVhRzRDtfHm4PXywBQ+X
-	IpdM9Bt4o1MrdPStI4204N1uchurxMI2uQNsUFaYfNuUEYUfX4BTghBJeW9PZ/9Gc+4r
-	ZmeY6CxWVteQBFBNEQ6hXC4RdVnZoo0p2Ds47TVGlz/yLudQbVmlxIVdsB8RKxCHQ/Cc
-	N53yHS8w538wdr3ivR0/jlSsuOV9WNuCp+ETYeYnmFfKl07h9f6ozR7yj20e/lTgypMG
-	GaRA==
-X-Gm-Message-State: APzg51Bm1HO/bjEXvpq1umj4GElwHRw4ONAspmIxuoJwuS24WZEPQxni
-	k/ICRNekuLV0KIQDVdZjCHwCsd7YDDVYkLjvXx5hwg==
-X-Google-Smtp-Source: ANB0VdYpNCC9YRuKsTt7lpC9ikRaHisU5VXN4H8twSxLrua0OsUpjt7ZRbBVa9c5Ass4xLVSI4KjXQultiGQOdEv5ro=
-X-Received: by 2002:aca:a04:: with SMTP id 4-v6mr9806977oik.203.1536930413122; 
-	Fri, 14 Sep 2018 06:06:53 -0700 (PDT)
+	Fri, 14 Sep 2018 06:14:36 -0700 (PDT)
+Received: from l1.corp.ad.wrs.com (128.224.124.169) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 14 Sep 2018 06:14:35 -0700
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Sep 2018 16:03:10 +0300
+Message-ID: <20180914130310.395-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Received: by 2002:ac9:7ac:0:0:0:0:0 with HTTP;
-	Fri, 14 Sep 2018 06:06:32 -0700 (PDT)
-In-Reply-To: <CAJTo0LZoPhfR4Ahd_CqXeouPfHoH8+zth_3qr6__rd2xCg2Y9A@mail.gmail.com>
-References: <1536868179-5111-1-git-send-email-geissonator@gmail.com>
-	<CAJTo0Lb8EDKyH16i5JcpyTQuLG1vPZaxes=B3hUM3=zn0_chsw@mail.gmail.com>
-	<CAJTo0LZoPhfR4Ahd_CqXeouPfHoH8+zth_3qr6__rd2xCg2Y9A@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Sep 2018 14:06:32 +0100
-Message-ID: <CAJTo0LYBrnBuL-jTw6cDXf6qztp8H5YpphBgsrrUyUuaQ-KoyA@mail.gmail.com>
-To: Andrew Geissler <geissonator@gmail.com>
-Cc: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] python/python3: Move test files to test package
+Subject: [morty][PATCH v2] qemux86: wic: Add MLPREFIX to syslinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,30 +30,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2018 13:06:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 14 Sep 2018 13:14:35 -0000
+Content-Type: text/plain
 
-On 14 September 2018 at 00:49, Burton, Ross <ross.burton@intel.com> wrote:
-> On 14 September 2018 at 00:30, Burton, Ross <ross.burton@intel.com> wrote:
->> I suspect simply adding python3.5/*/test/ will catch the bulk of this
->> now and in the future.
->
-> Gave this a go and annoyingly the manifest generation must sort the
-> list because the glob works for everything apart from packages after
-> tests alphabetically, so the tkinter and unittest tests don't get
-> moved.
->
-> I guess we could change the manifest to put the tests package at the
-> top of the list, and be sure to respect the order when generating the
-> lists.
+Fix the following do_image_wic failure for lib32-core-image-minimal:
+| DEBUG: Executing python function set_image_size
+| DEBUG: Python function set_image_size finished
+| DEBUG: Executing shell function do_image_wic
+| Error: Please build syslinux first
 
-So I went and did this.
+Test case:
+MACHINE ?= "qemux86-64"
 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ross/manifest
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 
-Does anyone have a problem with this?  Basically all the test code is
-merged into python3-test, including the previously separate
-sqlite3-test.
+IMAGE_FSTYPES_append = " wic wic.bmap"
 
-Ross
+$ bitbake lib32-core-image-minimal
+
+Currently, syslinux gets built instead of lib32-syslinux, so do_image_wic
+doesn't find the right files into tmp/sysroots/lib32-qemux86-64 sysroot.
+
+Pyro and later releases are not affected by this issue because they are
+based on Recipe Specific Sysroot, so syslinux binaries end up in the
+right place.
+
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+---
+ meta/conf/machine/qemux86-64.conf | 2 +-
+ meta/conf/machine/qemux86.conf    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index 4f30033e51..e093078d9d 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -33,4 +33,4 @@ MACHINE_FEATURES += "x86"
+ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+ 
+ WKS_FILE ?= "directdisk.wks"
+-do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
++do_image_wic[depends] += "${MLPREFIX}syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index e232947aee..29897aaaaf 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -32,4 +32,4 @@ MACHINE_FEATURES += "x86"
+ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+ 
+ WKS_FILE = "directdisk.wks"
+-do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
++do_image_wic[depends] += "${MLPREFIX}syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
+-- 
+2.17.1
+
 
