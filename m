@@ -1,24 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C2337799AC
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A968C799B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 08:39:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8E8dsNi005302
+	Fri, 14 Sep 2018 08:40:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8E8e7Kp027154
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 14 Sep 2018 01:39:54 -0700 (PDT)
+	Fri, 14 Sep 2018 01:40:17 -0700
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 14 Sep 2018 01:39:54 -0700
+	14.3.408.0; Fri, 14 Sep 2018 01:39:56 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Sep 2018 16:49:40 +0800
-Message-ID: <2338c0944b1fb35ffd6a6f04fde1616f5753f0bb.1536913629.git.hongxu.jia@windriver.com>
+Date: Fri, 14 Sep 2018 16:49:41 +0800
+Message-ID: <9ebbb0a3ad3ce5d6c6d0cb7cad4be3d7b231bc93.1536913629.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1536913629.git.hongxu.jia@windriver.com>
 References: <cover.1536913629.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] package.bbclass: improve auto debug package splitting order
+Subject: [PATCH 2/2] selftest/package: improve case to test debug package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +32,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2018 08:39:55 -0000
+X-List-Received-Date: Fri, 14 Sep 2018 08:40:58 -0000
 Content-Type: text/plain
 
-Since `da5ec06 package: Add auto package splitting
-of .debug files' applied in oe-core, the first dbg
-package will have all debug files automatically.
+Tweak recipe selftest-hardlink
+- Add ${PN}-bin, ${PN}-bin-dbg
 
-If there are several sub dbg packages, except the
-first one, the others are empty.
+Tweak case test_gdb_hardlink_debug
+- Test gdb debug package separately, verify the debug
+  package splitting works correctly.
 
-Even though var-NOAUTOPACKAGEDEBUG is provided for manual
-control, but many recipes (such as in oe) requires to
-pick up a few debug files into sub dbg packages, and then
-split the rest to ${PN}-dbg. If set NOAUTOPACKAGEDEBUG = "1",
-they have to do the extra splitting manually.
-
-So improve splitting order, if ${PN}-dbg exists, split
-the unsplit debug file to ${PN}-dbg, if ${PN}-dbg does not
-exist, still split them to first dbg package.
+[Test without commit `package.bbclass: improve auto debug package splitting order']
+2018-09-14 15:58:06,233 - oe-selftest - INFO - ======================================================================
+2018-09-14 15:58:06,233 - oe-selftest - INFO - FAIL: test_gdb_hardlink_debug (package.PackageTests)
+2018-09-14 15:58:06,233 - oe-selftest - INFO - ----------------------------------------------------------------------
+2018-09-14 15:58:06,233 - oe-selftest - INFO - Traceback (most recent call last):
+  File "oe-core/meta/lib/oeqa/selftest/cases/package.py", line 123, in test_gdb_hardlink_debug
+    self._test_gdb_debug(packages, binaries)
+  File "oe-core/meta/lib/oeqa/selftest/cases/package.py", line 162, in _test_gdb_debug
+    self.fail('GDB %s failed' % binary)
+AssertionError: GDB /usr/libexec/hello3 failed
+[Test without commit `package.bbclass: improve auto debug package splitting order']
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/package.bbclass | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ .../selftest-hardlink/selftest-hardlink.bb         |  4 +++-
+ meta/lib/oeqa/selftest/cases/package.py            | 27 ++++++++++++++++------
+ 2 files changed, 23 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index d1e9138..cada46b 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1175,6 +1175,14 @@ python populate_packages () {
-             if "/.debug/" in path or path.endswith("/.debug"):
-                 debug.append(path)
+diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
+index 842a977..7d544b4 100644
+--- a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
++++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
+@@ -26,5 +26,7 @@ do_install () {
+ }
  
-+    pn_dbg = pn + "-dbg"
-+    # If ${PN}-dbg does not exist, use first *-dbg to replace
-+    if pn_dbg not in package_list:
-+        for pkg in package_list:
-+            if pkg.endswith("-dbg"):
-+                pn_dbg = pkg
-+                break
+ RDEPENDS_${PN}-gdb += "gdb"
+-PACKAGES =+ "${PN}-gdb"
++PACKAGES =+ "${PN}-gdb ${PN}-bin ${PN}-bin-dbg"
+ FILES_${PN}-gdb = "${bindir}/gdb.sh"
++FILES_${PN}-bin-dbg = "${bindir}/.debug/*"
 +
-     for pkg in package_list:
-         root = os.path.join(pkgdest, pkg)
-         bb.utils.mkdirhier(root)
-@@ -1188,7 +1196,7 @@ python populate_packages () {
-         origfiles = filesvar.split()
-         files, symlink_paths = files_from_filevars(origfiles)
+diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
+index 0a88dc2..d00cd49 100644
+--- a/meta/lib/oeqa/selftest/cases/package.py
++++ b/meta/lib/oeqa/selftest/cases/package.py
+@@ -115,9 +115,25 @@ class PackageTests(OESelftestTestCase):
  
--        if autodebug and pkg.endswith("-dbg"):
-+        if autodebug and pn_dbg == pkg:
-             files.extend(debug)
+     # Verify gdb to read symbols from separated debug hardlink file correctly
+     def test_gdb_hardlink_debug(self):
+-        features = 'IMAGE_INSTALL_append = " selftest-hardlink"\n'
+-        features += 'IMAGE_INSTALL_append = " selftest-hardlink-dbg"\n'
+-        features += 'IMAGE_INSTALL_append = " selftest-hardlink-gdb"\n'
++        packages = ['selftest-hardlink',
++                    'selftest-hardlink-dbg',
++                    'selftest-hardlink-gdb']
++        binaries = ['/usr/libexec/hello3',
++                    '/usr/libexec/hello4']
++        self._test_gdb_debug(packages, binaries)
++
++        packages = ['selftest-hardlink-bin',
++                    'selftest-hardlink-bin-dbg',
++                    'selftest-hardlink-gdb']
++        binaries = ['/usr/bin/hello1',
++                    '/usr/bin/hello2']
++        self._test_gdb_debug(packages, binaries)
++
++    def _test_gdb_debug(self, packages, binaries):
++        features = ""
++        for pkg in packages:
++            features += 'IMAGE_INSTALL_append = " %s"\n' % pkg
++
+         self.write_config(features)
+         bitbake("core-image-minimal")
  
-         for file in files:
+@@ -141,9 +157,6 @@ class PackageTests(OESelftestTestCase):
+             return False
+ 
+         with runqemu('core-image-minimal') as qemu:
+-            for binary in ['/usr/bin/hello1',
+-                           '/usr/bin/hello2',
+-                           '/usr/libexec/hello3',
+-                           '/usr/libexec/hello4']:
++            for binary in binaries:
+                 if not gdbtest(qemu, binary):
+                     self.fail('GDB %s failed' % binary)
 -- 
 2.7.4
 
