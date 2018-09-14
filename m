@@ -1,20 +1,25 @@
 Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id 5BDBC7997E
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id 908B979978
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 02:58:39 +0000 (UTC)
-Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id 9E2F8220413;
-	Fri, 14 Sep 2018 14:58:37 +1200 (NZST)
-From: Douglas Royds <douglas.royds@taitradio.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Sep 2018 14:58:17 +1200
-Message-Id: <20180914025817.7315-7-douglas.royds@taitradio.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180914025817.7315-1-douglas.royds@taitradio.com>
+	Fri, 14 Sep 2018 03:02:06 +0000 (UTC)
+Received: from [172.16.169.141] (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id C602B1C0010;
+	Fri, 14 Sep 2018 15:02:06 +1200 (NZST)
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <20180912012707.30046-1-douglas.royds@taitradio.com>
-	<20180914025817.7315-1-douglas.royds@taitradio.com>
-Subject: [PATCH v2 6/6] Reproducible: Consistent debug logging
+	<20180912020259.13844.22579@do.openembedded.org>
+	<6bf60656-78b8-7c83-4755-d0d6db9cb6b6@taitradio.com>
+	<CAJTo0LaYWE56CxaakJ14gCEzVsJAszwUmP1WRnLMae8i5s-aTA@mail.gmail.com>
+From: Douglas Royds <douglas.royds@taitradio.com>
+Message-ID: <8a88d875-7ac3-6fd4-0b8f-e111b75831d7@taitradio.com>
+Date: Fri, 14 Sep 2018 15:02:06 +1200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaYWE56CxaakJ14gCEzVsJAszwUmP1WRnLMae8i5s-aTA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFJlcHJvZHVjaWJsZTogRmluZCB0aGUgZ2l0IHJlcG8gaW4gV09SS0RJUi9naXQgb3IgUyBmaXJzdA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,91 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2018 02:58:39 -0000
+X-List-Received-Date: Fri, 14 Sep 2018 03:02:07 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 
-Log both the source of the source_date_epoch and the resulting
-source_date_epoch in all cases.
+On 14/09/18 04:11, Burton, Ross wrote:
 
-Also, now that we are determining the source_date_epoch successfully for both
-yocto and non-yocto kernels, remove the inherits_class('kernel') exception.
-We will log a failure to find a source_date_epoch for kernels as well.
+> On 12 September 2018 at 03:15, Douglas Royds
+> <douglas.royds@taitradio.com> wrote:
+>> The patch series already was applied on top of b7f3f7ecfd.
+> Fails for me too:
+>
+> Applying: Reproducible: Tidy class description
+> Using index info to reconstruct a base tree...
+> error: patch failed: meta/classes/reproducible_build.bbclass:1
+> error: meta/classes/reproducible_build.bbclass: patch does not apply
+> error: Did you hand edit your patch?
+> It does not apply to blobs recorded in its index.
 
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
----
- meta/classes/reproducible_build.bbclass | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
-index a81f249790..4f3680a376 100644
---- a/meta/classes/reproducible_build.bbclass
-+++ b/meta/classes/reproducible_build.bbclass
-@@ -51,6 +51,7 @@ addtask do_deploy_source_date_epoch before do_configure after do_patch
- 
- def get_source_date_epoch_from_known_files(d, sourcedir):
-     source_date_epoch = None
-+    newest_file = None
-     known_files = set(["NEWS", "ChangeLog", "Changelog", "CHANGES"])
-     for file in known_files:
-         filepath = os.path.join(sourcedir, file)
-@@ -59,6 +60,9 @@ def get_source_date_epoch_from_known_files(d, sourcedir):
-             # There may be more than one "known_file" present, if so, use the youngest one
-             if not source_date_epoch or mtime > source_date_epoch:
-                 source_date_epoch = mtime
-+                newest_file = filepath
-+    if newest_file:
-+        bb.debug(1, "SOURCE_DATE_EPOCH taken from: %s" % newest_file)
-     return source_date_epoch
- 
- def find_git_folder(d, sourcedir):
-@@ -93,7 +97,7 @@ def get_source_date_epoch_from_git(d, sourcedir):
-         if gitpath:
-             import subprocess
-             source_date_epoch = int(subprocess.check_output(['git','log','-1','--pretty=%ct'], cwd=gitpath))
--            bb.debug(1, "git repo path: %s sde: %d" % (gitpath, source_date_epoch))
-+            bb.debug(1, "git repository: %s" % gitpath)
-     return source_date_epoch
- 
- def get_source_date_epoch_from_youngest_file(d, sourcedir):
-@@ -117,14 +121,14 @@ def get_source_date_epoch_from_youngest_file(d, sourcedir):
-                 source_date_epoch = mtime
-                 newest_file = filename
- 
--    if newest_file != None:
--        bb.debug(1," SOURCE_DATE_EPOCH %d derived from: %s" % (source_date_epoch, newest_file))
-+    if newest_file:
-+        bb.debug(1, "Newest file found: %s" % newest_file)
-     return source_date_epoch
- 
- python do_create_source_date_epoch_stamp() {
-     epochfile = d.getVar('SDE_FILE')
-     if os.path.isfile(epochfile):
--        bb.debug(1, " path: %s reusing __source_date_epoch.txt" % epochfile)
-+        bb.debug(1, "Reusing SOURCE_DATE_EPOCH from: %s" % epochfile)
-         return
- 
-     sourcedir = d.getVar('S')
-@@ -136,10 +140,9 @@ python do_create_source_date_epoch_stamp() {
-     )
-     if source_date_epoch == 0:
-         # empty folder, not a single file ...
--        # kernel source do_unpack is special cased
--        if not bb.data.inherits_class('kernel', d):
--            bb.debug(1, "Unable to determine source_date_epoch! path:%s" % sourcedir)
-+        bb.debug(1, "No files found to determine SOURCE_DATE_EPOCH")
- 
-+    bb.debug(1, "SOURCE_DATE_EPOCH: %d" % source_date_epoch)
-     bb.utils.mkdirhier(d.getVar('SDE_DIR'))
-     with open(epochfile, 'w') as f:
-         f.write(str(source_date_epoch))
-@@ -155,6 +158,6 @@ python () {
-         if os.path.isfile(epochfile):
-             with open(epochfile, 'r') as f:
-                 source_date_epoch = f.read()
--            bb.debug(1, "source_date_epoch stamp found ---> stamp %s" % source_date_epoch)
-+            bb.debug(1, "SOURCE_DATE_EPOCH: %s" % source_date_epoch)
-         d.setVar('SOURCE_DATE_EPOCH', source_date_epoch)
- }
--- 
-2.17.1
+Lesson of the day: Don't use the -w (ignore whitespace) option to git 
+format-patch
 
 
