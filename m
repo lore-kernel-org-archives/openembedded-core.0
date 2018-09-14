@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
-	[209.85.214.180])
-	by mail.openembedded.org (Postfix) with ESMTP id CEF7E799D0
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+	[209.85.210.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D996799D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 16:04:07 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id p5-v6so4412135plk.3
+	Fri, 14 Sep 2018 16:04:09 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id l9-v6so4501279pff.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 09:04:09 -0700 (PDT)
+	Fri, 14 Sep 2018 09:04:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=vNsQ346SfbecWJlFUYUg+mtCvTxkIn3zf5Yf0gLEu3E=;
-	b=Q5O1upwCacaerla1IggKIDC/EnE9hIoJtixDNRIuhW04zzBZuBJqkXtgNnxW13ChBK
-	zNa1S9vqlK246DhCvmGDzbdv0Q9/qoF9HUxy+5po7pYNr5qYsbSweEUxIgj5EO5Xh9+v
-	uGu4t4gaw8q6ab5UX+PBgeCJWT0UbqGQMbkM0qDFuFbZGOQ1Yg3R4U098AVvH830iqpt
-	gdnBHQYqsMurnGAf+JXkUOoq71Ipy/O7KPB97fSEpby+jyvdV49VOBmTp1204/7/hzc/
-	S/gSWcB4QlHRwiwhMzLBZhHsg+TiXoktJIVrpIJd/vCXO7AUizNrzlkKOo+bU0p3S4g3
-	XsNg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=dI74CcvVkYu/4jgZojnGzjL9ypdatpym+hz72E8SF9I=;
+	b=MmdZXKLPCpJekzwuwCSg70LANk5iGJi88Bjn+k+d0U7zLDkfix1DH5/H2RFAQxJ1r8
+	kLgi03SK1uLFuLh8YP6sxpfOIWtQ09ZrcGElNgomO/sQctH3aISIc0BnFQJ/DiOecuL+
+	hzHMzv9492U+BFnOWtIZWisOYYcTxrdECDCDwJ2+PGTo6gLBipVekOXUrdi8uoXCcED5
+	mtwi/Dou2wVaREhQK7UAGPZb9iY9KZbEeg9swTfxkSnuanQBH+E/P1DTkOZJ1lg60H+c
+	xh6M+BuKm7UyUbKzS3T9slJICDBHMRDhh11g+ykT6nLZEaHyS0PDaSD2QOfg/6+ipqf2
+	tFJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=vNsQ346SfbecWJlFUYUg+mtCvTxkIn3zf5Yf0gLEu3E=;
-	b=reqtYxEx4Aa+/TeL9MGl3Y1sbVtehbzlNK7Y1OsJz62507Iyf9R6NPP0dAHlx4GBsf
-	AOZYrnPrZpnboLylhCws2djrlnByF7g4M1j15z2c5CGFr/HrXfjTEu1ibxRxBDolslr1
-	qX2Q49P2ZpUTBGPSnaAalTPC5iZl1i+zeZ4LdpWPW6etQ0Q1sWb4tq4rJAMB5xnb88Zp
-	jpahCvEGoM7d2+h0q0q+Ezt9r1ZrNmVGtPcVYNZsETZlkMMMeMam7licJCLekYgfMag4
-	ljro/eYdArLdZg0T9fjTCPOZIzBiOcefE1s8fJUUJ1G5kuYORnt/6M0WYzFjdQENx3d6
-	2C1w==
-X-Gm-Message-State: APzg51BCpfTq84GYBudgkWAhRirgoTVSCIdMTy2bRqL7/owfplTSQ8Ob
-	BGfe63zaaJd5TJWM+fOMzz8=
-X-Google-Smtp-Source: ANB0VdahPyo9Qh4K/yZAUh5acbJDAwiWLG6KXWmPEqJ70JBx2cz27//DfQhSvUcgvRj9gb2O0LcSOw==
-X-Received: by 2002:a17:902:e004:: with SMTP id
-	ca4-v6mr12607879plb.252.1536941048976; 
-	Fri, 14 Sep 2018 09:04:08 -0700 (PDT)
+	bh=dI74CcvVkYu/4jgZojnGzjL9ypdatpym+hz72E8SF9I=;
+	b=MHycJrlE2i4coza5pz/cO7ofgCatSdlFnrAbr8Y4/2Q7Bp7pQ21EOnKUZWLVj0kDLN
+	RjS1vGHse9kZasy3hyMKQV3uwWkteVkNCTnWUFmXrUrkpzDWoykPlKy8xlUg3Lroft9y
+	sHCZzZrH60QdZWoHnPfSQ2SdZ41dku0D2hs3ZkIsiLEP0rMuHfSQVtbpp9/buJWgv6Rn
+	oMlBQe1SnWkElU0AygeODcM1WeYxdrhhzDwXTCTQTq4jGHdYI6kP8eTXMQh2VwkzN+zM
+	q512aYNhPra3q7kUA3xm1v6WjO+GGuDXmBH7tZ2V35u9s34cmQk9Nu79semE/aVips0T
+	TGhg==
+X-Gm-Message-State: APzg51Ci7jIpgeea9LAGyf08JOy/5mq/X70Na95bBof0OEInT4/fx+0F
+	1t8FokYuxXZkBfsKwfzgNKM=
+X-Google-Smtp-Source: ANB0VdbpAm0jp3ikrkF8RlCTpBdr5xpeW00u9pJpx5IeDdKbVY9CpPw0bsuGeFcluA8jGZ6QKYub9A==
+X-Received: by 2002:a62:6104:: with SMTP id
+	v4-v6mr13453263pfb.122.1536941050415; 
+	Fri, 14 Sep 2018 09:04:10 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:6807:cebe:ef5d:c52e])
 	by smtp.gmail.com with ESMTPSA id
-	70-v6sm10519620pfz.27.2018.09.14.09.04.07
+	70-v6sm10519620pfz.27.2018.09.14.09.04.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 14 Sep 2018 09:04:07 -0700 (PDT)
+	Fri, 14 Sep 2018 09:04:09 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster808@gmail.com,
 	openembedded-core@lists.openembedded.org
-Date: Fri, 14 Sep 2018 09:04:04 -0700
-Message-Id: <1536941045-3581-2-git-send-email-akuster808@gmail.com>
+Date: Fri, 14 Sep 2018 09:04:05 -0700
+Message-Id: <1536941045-3581-3-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1536941045-3581-1-git-send-email-akuster808@gmail.com>
 References: <1536941045-3581-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/3] xf86-video-fbdev: update to 0.5.0
+Subject: [PATCH 3/3] xorg-xserver 1.20 qemumips fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,46 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2018 16:04:08 -0000
+X-List-Received-Date: Fri, 14 Sep 2018 16:04:09 -0000
 
+When updating to xorg-xserve 1.20+, mips64 would not work correctly and
+cause the xorg test to fail.
+
+Changing the DefaultDepth fixed that.
+
+[Yocto # 12845]
+
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.4.4.bb | 9 ---------
- meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.5.0.bb | 9 +++++++++
- 2 files changed, 9 insertions(+), 9 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.4.4.bb
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.5.0.bb
+ .../xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf                | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.4.4.bb b/meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.4.4.bb
-deleted file mode 100644
-index 52e9bd1..0000000
---- a/meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.4.4.bb
-+++ /dev/null
-@@ -1,9 +0,0 @@
--require xorg-driver-video.inc
--
--SUMMARY = "X.Org X server -- fbdev display driver"
--DESCRIPTION = "fbdev is an Xorg driver for framebuffer devices. This is a non-accelerated driver."
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=d8cbd99fff773f92e844948f74ef0df8"
--
--SRC_URI[md5sum] = "3931c0e19d441cc576dc088f9eb9fd73"
--SRC_URI[sha256sum] = "9dd4b326498223abbfdf786089a46ea3db4fa6bbd341308eb48a9e00bc3fd51b"
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.5.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.5.0.bb
-new file mode 100644
-index 0000000..7b4ac88
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.5.0.bb
-@@ -0,0 +1,9 @@
-+require xorg-driver-video.inc
-+
-+SUMMARY = "X.Org X server -- fbdev display driver"
-+DESCRIPTION = "fbdev is an Xorg driver for framebuffer devices. This is a non-accelerated driver."
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d8cbd99fff773f92e844948f74ef0df8"
-+
-+SRC_URI[md5sum] = "f07475655376be5a124d8187aacd87b6"
-+SRC_URI[sha256sum] = "dcc3d85f378022180e437a9ec00a59b6cb7680ff79c40394d695060af2374699"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
+index f4cd139..03b94dc 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
+@@ -26,6 +26,7 @@ Section "Screen"
+     Identifier    "Default Screen"
+     Device        "Graphics Controller"
+     Monitor        "Generic Monitor"
++    DefaultDepth    16
+     SubSection "Display"
+         Modes     "640x480"
+     EndSubSection
 -- 
 2.7.4
 
