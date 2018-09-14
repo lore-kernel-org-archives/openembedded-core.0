@@ -1,31 +1,19 @@
-Return-Path: <Lu.Jiang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C6379974
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp0.taitradio.net (unknown [202.37.96.22])
+	by mail.openembedded.org (Postfix) with SMTP id 3055979979
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 02:26:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8E2PBpi018822
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 13 Sep 2018 19:25:57 -0700
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 13 Sep 2018 19:25:17 -0700
-Reply-To: <lu.jiang@windriver.com>
-To: Tom Rini <trini@konsulko.com>
-References: <1536291131-24332-1-git-send-email-lu.jiang@windriver.com>
-	<1536291131-24332-2-git-send-email-lu.jiang@windriver.com>
-	<20180907115632.GH26633@bill-the-cat>
-From: "Lu.Jiang" <lu.jiang@windriver.com>
-Message-ID: <5429001a-09e9-8310-1332-0808118ee1f2@windriver.com>
-Date: Fri, 14 Sep 2018 10:23:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180907115632.GH26633@bill-the-cat>
-X-Originating-IP: [128.224.162.214]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic:mkefidisk:add use-uuid for all partitions
+	Fri, 14 Sep 2018 02:58:37 +0000 (UTC)
+Received: from acheron.taitradio.net (unknown [172.16.169.141])
+	by smtp0.taitradio.net (Postfix) with ESMTP id 530C9220339;
+	Fri, 14 Sep 2018 14:58:37 +1200 (NZST)
+From: Douglas Royds <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Sep 2018 14:58:11 +1200
+Message-Id: <20180914025817.7315-1-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180912012707.30046-1-douglas.royds@taitradio.com>
+References: <20180912012707.30046-1-douglas.royds@taitradio.com>
+Subject: [PATCH v2 0/6] Reproducible: Find the git repo in WORKDIR/git or S first
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,25 +26,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2018 02:26:42 -0000
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 14 Sep 2018 02:58:38 -0000
 
-Hi all,
+Change the search regime for find_git_folder():
 
-Since the patch is reviewed, do I need send a pull-request for this?
+1. WORKDIR/git: This is the default git fetcher unpack path
+2. ${S}
+3. Go looking for .git/ under the WORKDIR as a last resort.
 
-Thanks
-Jiang Lu
+linux-yocto:
+We had an existing (silent) defect. The linux-yocto recipes all specify
+two git SRC_URIs, one for the kernel source itself, the other for the
+kmeta data (config fragments and friends). find_git_folder() was finding
+the git checkout for the kmeta data, but due to a typo in the git log -1
+--pretty=%ct line, we were (silently) reading the source_date_epoch from
+the ${S} directory = STAGING_KERNEL_DIR, which is empty. If your
+build/ happened to be inside a git checkout, git would walk up the
+directory tree, and silently read the commit timestamp from this other
+git checkout. The correct path to read the git commit timestamp from is
+the "gitpath", being that found by find_git_folder(), though this
+function was incorrectly finding the kmeta data checkout, not the kernel
+source tree.
 
-在 2018年09月07日 19:56, Tom Rini 写道:
-> On Fri, Sep 07, 2018 at 11:32:11AM +0800, Jiang Lu wrote:
->
->> Add use-uuid for all partitions on mkefidisk.wks.
->>
->> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
-> Reviewed-by: Tom Rini <trini@konsulko.com>
->
+Non-kernel git recipes:
+The default git fetcher clones and checks out the sources at
+WORKDIR/git/ regardless of the setting of S (unless subpath or
+destsuffix is set). find_git_folder() now looks for the
+WORKDIR/git/.git/ directory first.
+
+Non-yocto linux kernels:
+Kernel recipes that don't inherit kernel-yocto should always set
+S = ${WORKDIR}/git, so that when base_do_unpack_append() in
+kernel.bbclass moves the checkout down to the STAGING_KERNEL_DIR and
+symlinks it as WORKDIR/git, the build can still work by following the
+symlink. We were previously failing to follow the symlink in the
+os.walk(), but we now look first for WORKDIR/git/.git/, and find it due
+to the symlink.
+
+If none of the above mechanisms work for finding the git checkout,
+perhaps there was a subpath or destsuffix specified in the SRC_URI.
+We go looking for the git checkout under the WORKDIR as a last resort.
+
+Douglas Royds (6):
+  Reproducible: Tidy class description
+  Reproducible: Refactor: get_source_date_epoch_from_youngest_file()
+  Reproducible: Rename ambiguous "path" var to sourcedir or workdir as appropriate
+  Reproducible: Find the git repo in WORKDIR/git or S first
+  Reproducible: Don't enforce existence of ${S} dir
+  Reproducible: Consistent debug logging
+
+ meta/classes/reproducible_build.bbclass | 175 +++++++++++++-----------
+ 1 file changed, 94 insertions(+), 81 deletions(-)
+
+-- 
+2.17.1
 
 
