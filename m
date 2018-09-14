@@ -1,56 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
-	[209.85.218.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FB37799CA
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6519B799D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 16:05:36 +0000 (UTC)
-Received: by mail-oi0-f41.google.com with SMTP id k12-v6so13288122oiw.8
+	Fri, 14 Sep 2018 16:18:05 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id s12-v6so2525782wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 09:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rDjEdnbROQLX3my01xPM2VwfEN9aBBPBfK9oiFuib6A=;
-	b=rDdNyBrIH47vNFeN+uZW3GaP7ZKLkyUxoDEsOqQD0lAOlzS9QfutFeNYVkyiIWqFDw
-	DdLlE97uXspMTquMMx1fAUZ3L1jCOVXkbtC9OquzVf3PYAX/M8gR1Qnv8L+djKiQ2m1o
-	Z9hmOLbb8afL8H4wWyranyv4GHT7fm3WYc+1aGSpJAhxcKyXa8CUhSnRiEutydjhXsUF
-	NwuPy7NSrgR+Tm45IUTz+5KqZ4+iFuu0QKP2AbFKHiNhRneA3Ngqsq92gvJx2WyErvjP
-	XZrowJr93KKUPOenXiaGlSVDm7aFdNuHoMEhPpsA6PD9VvTvzkHBKekwOcHGTnPBC5AU
-	2j3Q==
+	Fri, 14 Sep 2018 09:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=9Mmk6ypEOhGpRCF5eTJ5627YjiG4sDpkobofsSXwvXs=;
+	b=pvtQiapkXSMYjCQVCAR0PL55H3g6Sr1ZLi1HiXcDyujhIMdufuYbFJzxbJ1PY9oZNL
+	52XB/0fpstvtPmesMlD8FoVvgYVjQoXV9s6Ysk0VPuhdbZiMihu3w/LAdJKommAwyff+
+	qbEe/0zleG92FwC/Lg2aooq3ifXTHyH+KteNyevCsciEIZcD0mhrRVNNG0wCLnG0018n
+	M4l+vSjfwksO8l0uwnNnq3dRwdZ1I/fOk8mwnPFjsx+xp0eSuf3d+ERakfH6RpvwdpTM
+	YtewKf1+rPOBlAuCFGt/tjAoRHCcePV11IoafaY6brY6XU0wrYSJCMBcNp90iuoNildB
+	+MAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=rDjEdnbROQLX3my01xPM2VwfEN9aBBPBfK9oiFuib6A=;
-	b=SltPMfosyBtSi5csqinUUpeBTW3NMNxtfhGqcHndtqqF8WAkMyrGzwcQgv5Ei9tshM
-	y2nhcZlD9dHbgbfnG0mcL69tqD7OHUGANk+I1Ur94LDH5FITSr2VLFBCB6gbarzHi/bR
-	yCmHZUmZuDR5y1Q3T+D3okj5eTfM2IeuOsWAkBvzUbjNrLUGzPHtG8tj27gJYq4NA1s3
-	Yx+Y9jFAgiVzA14N3l/xDQlxeKgfZhND97Cm6II4HTEp/jLG3xmJZ4j3E28/HwrIdKKX
-	o8V8SbGGPHeqSpAc3Gdrf1uFRKeJHMr5HA6BIHP4v5kqV9vffB1VPrGqbwMhmhbbxUJD
-	I/7Q==
-X-Gm-Message-State: APzg51D0Hz1+SFgXPIUsqQnBMd+rQS0+dub1fBcW3mHhRw3JyLeFy6VP
-	B5bMbozmPJQzMcHfKdPm8l1+eEA8cGnnQvOcEGizSQ==
-X-Google-Smtp-Source: ANB0VdbK9jkkAU9pX22SdjD1kVQF7lYQ1cNRLkJxqkhMPFY49qGGdFzL4BWzXDTin1xBk1rnqJW5W2Gwq0iary9xIbc=
-X-Received: by 2002:aca:6cd5:: with SMTP id
-	h204-v6mr9637084oic.140.1536941137491; 
-	Fri, 14 Sep 2018 09:05:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:7ac:0:0:0:0:0 with HTTP;
-	Fri, 14 Sep 2018 09:05:16 -0700 (PDT)
-In-Reply-To: <CALLMt=pHOQHswPeLF-rWpA2QXmtkL8Hc9RKav_j6tF1MuozVoA@mail.gmail.com>
-References: <1536868179-5111-1-git-send-email-geissonator@gmail.com>
-	<CAJTo0Lb8EDKyH16i5JcpyTQuLG1vPZaxes=B3hUM3=zn0_chsw@mail.gmail.com>
-	<CAJTo0LZoPhfR4Ahd_CqXeouPfHoH8+zth_3qr6__rd2xCg2Y9A@mail.gmail.com>
-	<CAJTo0LYBrnBuL-jTw6cDXf6qztp8H5YpphBgsrrUyUuaQ-KoyA@mail.gmail.com>
-	<CALLMt=pHOQHswPeLF-rWpA2QXmtkL8Hc9RKav_j6tF1MuozVoA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Sep 2018 17:05:16 +0100
-Message-ID: <CAJTo0LZqrgAeRbsJtW=G1f58CNSRYS8r_9Nm-4K2G1KstvA4Kg@mail.gmail.com>
-To: Andrew Geissler <geissonator@gmail.com>
-Cc: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] python/python3: Move test files to test package
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=9Mmk6ypEOhGpRCF5eTJ5627YjiG4sDpkobofsSXwvXs=;
+	b=P6hlG2A2DSSqhucCRseVuYJNiWbROQedQ0Lna/2Iie9RVmLg4QYMfAsI07HFKW77M+
+	7y9TInh+jjmglAohgYkjOAUXyeNnCz9isLE5VA61g78OmjZopYLzOSbYWp5OWXaBofQn
+	3ed9ZmK5OTxBVJO/UfazLC170Zbe/PaT6adehUSaIS+W189g40jJjn8oMZF7940EbjgQ
+	Wl36M5sZSDn0oye4MSYKmyivdMywYkwUpeIKn4Wp+ncYQFeTKL64hHDgdbaqZVuXlvSv
+	RrKhSDs/mRYP6E/WXfOlI/mvMjs+xKd9yuCulE8zOekKnyMxN6J912XI3ygwIE7vhc1A
+	b+DA==
+X-Gm-Message-State: APzg51BK7SIlyztcXLN0rBcU3h1AFsN62Zu9AiNKtcZjYzzOnc2T8D4x
+	QIh7Me91s3y0RmTr8F1+SjVm7p1aKzI=
+X-Google-Smtp-Source: ANB0VdbKGdK6DiXouSqVGxj/vSQuNuR6xnhSgoZD0/tjYYzZ/Fiolhl9QZ9LcDSttpeaAe1h1HskgQ==
+X-Received: by 2002:a1c:1ec5:: with SMTP id
+	e188-v6mr3001942wme.1.1536941885703; 
+	Fri, 14 Sep 2018 09:18:05 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	j2-v6sm3163025wmj.5.2018.09.14.09.18.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Sep 2018 09:18:05 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Sep 2018 18:18:00 +0200
+Message-Id: <20180914161800.33095-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] openssl: update to 1.1.1 final
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,16 +55,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2018 16:05:36 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 14 Sep 2018 16:18:05 -0000
 
-On 14 September 2018 at 16:13, Andrew Geissler <geissonator@gmail.com> wrote:
-> Nice, thanks Ross!  Looks good to me. Will you be back-porting to
-> python2 as well?
+This is the new LTS release with support for TLS 1.3.
 
-Struggling to be motivated for Py2 to be honest.  Do you fancy
-duplicating the changes for Py2?  Alternatively I'll get around to
-doing it next week.
+Release announcement:
+https://www.openssl.org/blog/blog/2018/09/11/release111/
 
-Ross
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ .../{openssl_1.1.1-pre9.bb => openssl_1.1.1.bb}        | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1-pre9.bb => openssl_1.1.1.bb} (94%)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+similarity index 94%
+rename from meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+index c13731feac8..09b2c010249 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1-pre9.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+@@ -10,11 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d57d511030c9d66ef5f5966bee5a7eff"
+ 
+ DEPENDS = "hostperl-runtime-native"
+ 
+-# This short sort lower than 1.1.1 final, to avoid package version going downwards issue
+-PV = "1.1.1~pre9"
+-S = "${WORKDIR}/openssl-1.1.1-pre9"
+-
+-SRC_URI = "http://www.openssl.org/source/openssl-1.1.1-pre9.tar.gz \
++SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://run-ptest \
+            file://openssl-c_rehash.sh \
+            "
+@@ -23,8 +19,8 @@ SRC_URI_append_class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[md5sum] = "6aa32e976e2c9a4aee858ced135d2573"
+-SRC_URI[sha256sum] = "95ebdfbb05e8451fb01a186ccaa4a7da0eff9a48999ede9fe1a7d90db75ccb4c"
++SRC_URI[md5sum] = "7079eb017429e0ffb9efb42bf80ccb21"
++SRC_URI[sha256sum] = "2836875a0f89c03d0fdf483941512613a50cfb421d6fd94b9f41d7279d586a3d"
+ 
+ inherit lib_package multilib_header ptest
+ 
+-- 
+2.17.1
+
 
