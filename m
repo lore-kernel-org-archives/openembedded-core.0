@@ -1,20 +1,20 @@
 Return-Path: <douglas.royds@taitradio.com>
 Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id 3233C7997C
+	by mail.openembedded.org (Postfix) with SMTP id 3324A7997E
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 14 Sep 2018 02:58:37 +0000 (UTC)
 Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id 5F64222033B;
+	by smtp0.taitradio.net (Postfix) with ESMTP id 6FA44220348;
 	Fri, 14 Sep 2018 14:58:37 +1200 (NZST)
 From: Douglas Royds <douglas.royds@taitradio.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Sep 2018 14:58:12 +1200
-Message-Id: <20180914025817.7315-2-douglas.royds@taitradio.com>
+Date: Fri, 14 Sep 2018 14:58:13 +1200
+Message-Id: <20180914025817.7315-3-douglas.royds@taitradio.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180914025817.7315-1-douglas.royds@taitradio.com>
 References: <20180912012707.30046-1-douglas.royds@taitradio.com>
 	<20180914025817.7315-1-douglas.royds@taitradio.com>
-Subject: [PATCH v2 1/6] Reproducible: Tidy class description
+Subject: [PATCH v2 2/6] Reproducible: Refactor: get_source_date_epoch_from_youngest_file()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,108 +29,123 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 14 Sep 2018 02:58:39 -0000
 
-Tidy whitespace, delete commented-out lines
-
 Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 ---
- meta/classes/reproducible_build.bbclass | 49 +++++++++++--------------
- 1 file changed, 22 insertions(+), 27 deletions(-)
+ meta/classes/reproducible_build.bbclass | 73 ++++++++++++++-----------
+ 1 file changed, 40 insertions(+), 33 deletions(-)
 
 diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
-index 268b5fb8f1..4e8850fb83 100644
+index 4e8850fb83..e118cfde01 100644
 --- a/meta/classes/reproducible_build.bbclass
 +++ b/meta/classes/reproducible_build.bbclass
-@@ -1,33 +1,32 @@
--#
- # reproducible_build.bbclass
- #
--# This bbclass is mainly responsible to determine SOURCE_DATE_EPOCH on a per recipe base.
--# We need to set a recipe specific SOURCE_DATE_EPOCH in each recipe environment for various tasks.
--# One way would be to modify all recipes one-by-one to specify SOURCE_DATE_EPOCH explicitly, 
--# but that is not realistic as there are hundreds (probably thousands) of recipes in various meta-layers.
--# Therefore we do it this class. 
--# After sources are unpacked but before they are patched, we try to determine the value for SOURCE_DATE_EPOCH.
-+# Sets SOURCE_DATE_EPOCH in each component's build environment.
-+# Upstream components (generally) respect this environment variable,
-+# using it in place of the "current" date and time.
-+# See https://reproducible-builds.org/specs/source-date-epoch/
-+#
-+# After sources are unpacked but before they are patched, we set a reproducible value for SOURCE_DATE_EPOCH.
-+# This value should be reproducible for anyone who builds the same revision from the same sources.
- #
--# There are 4 ways to determine SOURCE_DATE_EPOCH:
-+# There are 4 ways we determine SOURCE_DATE_EPOCH:
- #
--# 1. Use value from __source_date_epoch.txt file if this file exists. 
--#    This file was most likely created in the previous build by one of the following methods 2,3,4. 
--#    In principle, it could actually provided by a recipe via SRC_URI
-+# 1. Use the value from __source_date_epoch.txt file if this file exists.
-+#    This file was most likely created in the previous build by one of the following methods 2,3,4.
-+#    Alternatively, it can be provided by a recipe via SRC_URI.
- #
--# If the file does not exist, first try to determine the value for SOURCE_DATE_EPOCH:
-+# If the file does not exist:
- #
--# 2. If we detected a folder .git, use .git last commit date timestamp, as git does not allow checking out
--#    files and preserving their timestamps.
-+# 2. If there is a git checkout, use the last git commit timestamp.
-+#    Git does not preserve file timestamps on checkout.
- #
- # 3. Use the mtime of "known" files such as NEWS, CHANGLELOG, ...
--#    This will work fine for any well kept repository distributed via tarballs.
-+#    This works for well-kept repositories distributed via tarball.
- #
--# 4. If the above steps fail, we need to check all package source files and use the youngest file of the source tree.
-+# 4. If the above steps fail, use the modification time of the youngest file in the source tree.
- #
--# Once the value of SOURCE_DATE_EPOCH is determined, it is stored in the recipe ${WORKDIR}/source_date_epoch folder
--# in a text file "__source_date_epoch.txt'. If this file is found by other recipe task, the value is exported in
--# the SOURCE_DATE_EPOCH variable in the task environment. This is done in an anonymous python function, 
--# so SOURCE_DATE_EPOCH is guaranteed to exist for all tasks the may use it (do_configure, do_compile, do_package, ...)
-+# Once the value of SOURCE_DATE_EPOCH is determined, it is stored in the recipe's ${SDE_FILE}.
-+# If this file is found by other tasks, the value is exported in the SOURCE_DATE_EPOCH variable.
-+# SOURCE_DATE_EPOCH is set for all tasks that might use it (do_configure, do_compile, do_package, ...)
+@@ -49,15 +49,15 @@ do_deploy_source_date_epoch[sstate-plaindirs] = "${SDE_DIR}"
+ addtask do_deploy_source_date_epoch_setscene
+ addtask do_deploy_source_date_epoch before do_configure after do_patch
  
- BUILD_REPRODUCIBLE_BINARIES ??= '1'
- inherit ${@oe.utils.ifelse(d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1', 'reproducible_build_simple', '')}
-@@ -67,9 +66,8 @@ def find_git_folder(path):
-     for root, dirs, files in os.walk(path, topdown=True):
-         dirs[:] = [d for d in dirs if d not in exclude]
+-def get_source_date_epoch_known_files(d, path):
+-    source_date_epoch = 0
++def get_source_date_epoch_from_known_files(d, path):
++    source_date_epoch = None
+     known_files = set(["NEWS", "ChangeLog", "Changelog", "CHANGES"])
+     for file in known_files:
+         filepath = os.path.join(path,file)
+         if os.path.isfile(filepath):
+             mtime = int(os.lstat(filepath).st_mtime)
+             # There may be more than one "known_file" present, if so, use the youngest one
+-            if mtime > source_date_epoch:
++            if not source_date_epoch or mtime > source_date_epoch:
+                 source_date_epoch = mtime
+     return source_date_epoch
+ 
+@@ -68,8 +68,8 @@ def find_git_folder(path):
          if '.git' in dirs:
--            #bb.warn("found root:%s" % (str(root)))
              return root
--     
-+
- def get_source_date_epoch_git(d, path):
-     source_date_epoch = 0
+ 
+-def get_source_date_epoch_git(d, path):
+-    source_date_epoch = 0
++def get_source_date_epoch_from_git(d, path):
++    source_date_epoch = None
      if "git://" in d.getVar('SRC_URI'):
-@@ -79,15 +77,13 @@ def get_source_date_epoch_git(d, path):
-             if os.path.isdir(os.path.join(gitpath,".git")):
-                 try:
-                     source_date_epoch = int(subprocess.check_output(['git','log','-1','--pretty=%ct'], cwd=path))
--                    #bb.warn("JB *** gitpath:%s sde: %d" % (gitpath,source_date_epoch))
-                     bb.debug(1, "git repo path:%s sde: %d" % (gitpath,source_date_epoch))
-                 except subprocess.CalledProcessError as grepexc:
--                    #bb.warn( "Expected git repository not found, (path: %s) error:%d" % (gitpath, grepexc.returncode))
-                     bb.debug(1, "Expected git repository not found, (path: %s) error:%d" % (gitpath, grepexc.returncode))
-         else:
+         gitpath = find_git_folder(d.getVar('WORKDIR'))
+         if gitpath != None:
+@@ -84,6 +84,31 @@ def get_source_date_epoch_git(d, path):
              bb.warn("Failed to find a git repository for path:%s" % (path))
      return source_date_epoch
--            
+ 
++def get_source_date_epoch_from_youngest_file(d, path):
++    # Do it the hard way: check all files and find the youngest one...
++    source_date_epoch = None
++    newest_file = None
++    # Just in case S = WORKDIR
++    exclude = set(["build", "image", "license-destdir", "patches", "pseudo",
++                   "recipe-sysroot", "recipe-sysroot-native", "sysroot-destdir", "temp"])
++    for root, dirs, files in os.walk(path, topdown=True):
++        files = [f for f in files if not f[0] == '.']
++        dirs[:] = [d for d in dirs if d not in exclude]
++
++        for fname in files:
++            filename = os.path.join(root, fname)
++            try:
++                mtime = int(os.lstat(filename).st_mtime)
++            except ValueError:
++                mtime = 0
++            if not source_date_epoch or mtime > source_date_epoch:
++                source_date_epoch = mtime
++                newest_file = filename
++
++    if newest_file != None:
++        bb.debug(1," SOURCE_DATE_EPOCH %d derived from: %s" % (source_date_epoch, newest_file))
++    return source_date_epoch
 +
  python do_create_source_date_epoch_stamp() {
      path = d.getVar('S')
      if not os.path.isdir(path):
-@@ -98,8 +94,7 @@ python do_create_source_date_epoch_stamp() {
-     if os.path.isfile(epochfile):
+@@ -95,35 +120,17 @@ python do_create_source_date_epoch_stamp() {
          bb.debug(1, " path: %s reusing __source_date_epoch.txt" % epochfile)
          return
-- 
--    # Try to detect/find a git repository
-+
-     source_date_epoch = get_source_date_epoch_git(d, path)
+ 
+-    source_date_epoch = get_source_date_epoch_git(d, path)
++    source_date_epoch = (
++        get_source_date_epoch_from_git(d, path) or
++        get_source_date_epoch_from_known_files(d, path) or
++        get_source_date_epoch_from_youngest_file(d, path) or
++        0       # Last resort
++    )
      if source_date_epoch == 0:
-         source_date_epoch = get_source_date_epoch_known_files(d, path)
+-        source_date_epoch = get_source_date_epoch_known_files(d, path)
+-    if source_date_epoch == 0:
+-        # Do it the hard way: check all files and find the youngest one...
+-        filename_dbg = None
+-        exclude = set(["temp", "license-destdir", "patches", "recipe-sysroot-native", "recipe-sysroot", "pseudo", "build", "image", "sysroot-destdir"])
+-        for root, dirs, files in os.walk(path, topdown=True):
+-            files = [f for f in files if not f[0] == '.']
+-            dirs[:] = [d for d in dirs if d not in exclude]
+-
+-            for fname in files:
+-                filename = os.path.join(root, fname)
+-                try:
+-                    mtime = int(os.lstat(filename).st_mtime)
+-                except ValueError:
+-                    mtime = 0
+-                if mtime > source_date_epoch:
+-                    source_date_epoch = mtime
+-                    filename_dbg = filename
+-
+-        if filename_dbg != None:
+-            bb.debug(1," SOURCE_DATE_EPOCH %d derived from: %s" % (source_date_epoch, filename_dbg))
+-
+-        if source_date_epoch == 0:
+-            # empty folder, not a single file ...
+-            # kernel source do_unpack is special cased
+-            if not bb.data.inherits_class('kernel', d):
+-                bb.debug(1, "Unable to determine source_date_epoch! path:%s" % path)
++        # empty folder, not a single file ...
++        # kernel source do_unpack is special cased
++        if not bb.data.inherits_class('kernel', d):
++            bb.debug(1, "Unable to determine source_date_epoch! path:%s" % path)
+ 
+     bb.utils.mkdirhier(d.getVar('SDE_DIR'))
+     with open(epochfile, 'w') as f:
 -- 
 2.17.1
 
