@@ -1,26 +1,53 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A569799BA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ED5279933
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 11:57:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8EBtIUr000314
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 14 Sep 2018 04:57:11 -0700
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 14 Sep 2018 04:57:09 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Fri, 14 Sep 2018 20:06:59 +0800
-Message-ID: <1536926819-19860-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <9ebbb0a3ad3ce5d6c6d0cb7cad4be3d7b231bc93.1536913629.git.hongxu.jia@windriver.com>
-References: <9ebbb0a3ad3ce5d6c6d0cb7cad4be3d7b231bc93.1536913629.git.hongxu.jia@windriver.com>
+	Fri, 14 Sep 2018 13:06:52 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id p84-v6so12751397oic.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Sep 2018 06:06:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hIKpjW29ik0x3JFx7bJSgn760C7jpzWbukFkW5W0miI=;
+	b=JDDnecxUX7hAQnm9hSLoT7iAf0poD0pbBlfkCKUZ/IGrICfa6uefXh67077GQiJmCY
+	wmFXReUKGcgVxBZklB+x0towWyV+qlE7rYKosTUWd9ve7yeYrvvqfqraasGFxUr5fvhQ
+	psvFkEqw/ixeAbey6RyqZMYLs/O603H0gseiaCKXLABa0VxYwLe8AGM0ZxTJAyd/HUIQ
+	8ea/tnL1Fnq9csHPTRjOYGLxzTBwFTJZ7llYxetQwJ/n/DHcDXpLOtXA54ysdRxMGJZt
+	yq9JbNEUs/x9N3Smm53vepy0H1lkcB9sY2EvVSpBUai0E7brAR97ZjZCEWh4Wba2id3c
+	ybsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hIKpjW29ik0x3JFx7bJSgn760C7jpzWbukFkW5W0miI=;
+	b=Z6pRNrOR30t7Telm6aSCieJ0roeG+qg5p/BZpcvfJ9XSJF6DT/GRJ1R+uQk5R85bKP
+	JpB0XdghpK1YDAxOj8ekQHCi+cMIrmlZlrY+XYTvagNXay5MzVhRzRDtfHm4PXywBQ+X
+	IpdM9Bt4o1MrdPStI4204N1uchurxMI2uQNsUFaYfNuUEYUfX4BTghBJeW9PZ/9Gc+4r
+	ZmeY6CxWVteQBFBNEQ6hXC4RdVnZoo0p2Ds47TVGlz/yLudQbVmlxIVdsB8RKxCHQ/Cc
+	N53yHS8w538wdr3ivR0/jlSsuOV9WNuCp+ETYeYnmFfKl07h9f6ozR7yj20e/lTgypMG
+	GaRA==
+X-Gm-Message-State: APzg51Bm1HO/bjEXvpq1umj4GElwHRw4ONAspmIxuoJwuS24WZEPQxni
+	k/ICRNekuLV0KIQDVdZjCHwCsd7YDDVYkLjvXx5hwg==
+X-Google-Smtp-Source: ANB0VdYpNCC9YRuKsTt7lpC9ikRaHisU5VXN4H8twSxLrua0OsUpjt7ZRbBVa9c5Ass4xLVSI4KjXQultiGQOdEv5ro=
+X-Received: by 2002:aca:a04:: with SMTP id 4-v6mr9806977oik.203.1536930413122; 
+	Fri, 14 Sep 2018 06:06:53 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH V2 2/2] selftest/package: improve case to test debug package splitting
+Received: by 2002:ac9:7ac:0:0:0:0:0 with HTTP;
+	Fri, 14 Sep 2018 06:06:32 -0700 (PDT)
+In-Reply-To: <CAJTo0LZoPhfR4Ahd_CqXeouPfHoH8+zth_3qr6__rd2xCg2Y9A@mail.gmail.com>
+References: <1536868179-5111-1-git-send-email-geissonator@gmail.com>
+	<CAJTo0Lb8EDKyH16i5JcpyTQuLG1vPZaxes=B3hUM3=zn0_chsw@mail.gmail.com>
+	<CAJTo0LZoPhfR4Ahd_CqXeouPfHoH8+zth_3qr6__rd2xCg2Y9A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Sep 2018 14:06:32 +0100
+Message-ID: <CAJTo0LYBrnBuL-jTw6cDXf6qztp8H5YpphBgsrrUyUuaQ-KoyA@mail.gmail.com>
+To: Andrew Geissler <geissonator@gmail.com>
+Cc: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] python/python3: Move test files to test package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,108 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2018 11:57:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Sep 2018 13:06:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Tweak recipe selftest-hardlink
-- Add ${PN}-bin, ${PN}-bin-dbg
+On 14 September 2018 at 00:49, Burton, Ross <ross.burton@intel.com> wrote:
+> On 14 September 2018 at 00:30, Burton, Ross <ross.burton@intel.com> wrote:
+>> I suspect simply adding python3.5/*/test/ will catch the bulk of this
+>> now and in the future.
+>
+> Gave this a go and annoyingly the manifest generation must sort the
+> list because the glob works for everything apart from packages after
+> tests alphabetically, so the tkinter and unittest tests don't get
+> moved.
+>
+> I guess we could change the manifest to put the tests package at the
+> top of the list, and be sure to respect the order when generating the
+> lists.
 
-Tweak test_preserve_sparse_hardlinks
-- s/selftest-hardlink/selftest-hardlink-bin/
+So I went and did this.
 
-Tweak case test_gdb_hardlink_debug
-- Test gdb debug package separately, verify the debug
-  package splitting works correctly.
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ross/manifest
 
-[Test without commit `package.bbclass: improve auto debug package splitting order']
-2018-09-14 15:58:06,233 - oe-selftest - INFO - ======================================================================
-2018-09-14 15:58:06,233 - oe-selftest - INFO - FAIL: test_gdb_hardlink_debug (package.PackageTests)
-2018-09-14 15:58:06,233 - oe-selftest - INFO - ----------------------------------------------------------------------
-2018-09-14 15:58:06,233 - oe-selftest - INFO - Traceback (most recent call last):
-  File "oe-core/meta/lib/oeqa/selftest/cases/package.py", line 123, in test_gdb_hardlink_debug
-    self._test_gdb_debug(packages, binaries)
-  File "oe-core/meta/lib/oeqa/selftest/cases/package.py", line 162, in _test_gdb_debug
-    self.fail('GDB %s failed' % binary)
-AssertionError: GDB /usr/libexec/hello3 failed
-[Test without commit `package.bbclass: improve auto debug package splitting order']
+Does anyone have a problem with this?  Basically all the test code is
+merged into python3-test, including the previously separate
+sqlite3-test.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../selftest-hardlink/selftest-hardlink.bb         |  4 ++-
- meta/lib/oeqa/selftest/cases/package.py            | 31 +++++++++++++++-------
- 2 files changed, 25 insertions(+), 10 deletions(-)
-
-diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-index 842a977..7d544b4 100644
---- a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-+++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-@@ -26,5 +26,7 @@ do_install () {
- }
- 
- RDEPENDS_${PN}-gdb += "gdb"
--PACKAGES =+ "${PN}-gdb"
-+PACKAGES =+ "${PN}-gdb ${PN}-bin ${PN}-bin-dbg"
- FILES_${PN}-gdb = "${bindir}/gdb.sh"
-+FILES_${PN}-bin-dbg = "${bindir}/.debug/*"
-+
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index 0a88dc2..d90297a 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -98,10 +98,10 @@ class PackageTests(OESelftestTestCase):
-         def checkfiles():
-             # Recipe creates 4 hardlinked files, there is a copy in package/ and a copy in packages-split/
-             # so expect 8 in total.
--            self.assertEqual(os.stat(dest + "/selftest-hardlink" + bindir + "/hello1").st_nlink, 8)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-bin" + bindir + "/hello1").st_nlink, 8)
- 
-             # Test a sparse file remains sparse
--            sparsestat = os.stat(dest + "/selftest-hardlink" + bindir + "/sparsetest")
-+            sparsestat = os.stat(dest + "/selftest-hardlink-bin" + bindir + "/sparsetest")
-             self.assertEqual(sparsestat.st_blocks, 0)
-             self.assertEqual(sparsestat.st_size, 1048576)
- 
-@@ -115,9 +115,25 @@ class PackageTests(OESelftestTestCase):
- 
-     # Verify gdb to read symbols from separated debug hardlink file correctly
-     def test_gdb_hardlink_debug(self):
--        features = 'IMAGE_INSTALL_append = " selftest-hardlink"\n'
--        features += 'IMAGE_INSTALL_append = " selftest-hardlink-dbg"\n'
--        features += 'IMAGE_INSTALL_append = " selftest-hardlink-gdb"\n'
-+        packages = ['selftest-hardlink',
-+                    'selftest-hardlink-dbg',
-+                    'selftest-hardlink-gdb']
-+        binaries = ['/usr/libexec/hello3',
-+                    '/usr/libexec/hello4']
-+        self._test_gdb_debug(packages, binaries)
-+
-+        packages = ['selftest-hardlink-bin',
-+                    'selftest-hardlink-bin-dbg',
-+                    'selftest-hardlink-gdb']
-+        binaries = ['/usr/bin/hello1',
-+                    '/usr/bin/hello2']
-+        self._test_gdb_debug(packages, binaries)
-+
-+    def _test_gdb_debug(self, packages, binaries):
-+        features = ""
-+        for pkg in packages:
-+            features += 'IMAGE_INSTALL_append = " %s"\n' % pkg
-+
-         self.write_config(features)
-         bitbake("core-image-minimal")
- 
-@@ -141,9 +157,6 @@ class PackageTests(OESelftestTestCase):
-             return False
- 
-         with runqemu('core-image-minimal') as qemu:
--            for binary in ['/usr/bin/hello1',
--                           '/usr/bin/hello2',
--                           '/usr/libexec/hello3',
--                           '/usr/libexec/hello4']:
-+            for binary in binaries:
-                 if not gdbtest(qemu, binary):
-                     self.fail('GDB %s failed' % binary)
--- 
-2.7.4
-
+Ross
 
