@@ -1,25 +1,22 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 908B979978
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BEDFD799AA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 03:02:06 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id C602B1C0010;
-	Fri, 14 Sep 2018 15:02:06 +1200 (NZST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20180912012707.30046-1-douglas.royds@taitradio.com>
-	<20180912020259.13844.22579@do.openembedded.org>
-	<6bf60656-78b8-7c83-4755-d0d6db9cb6b6@taitradio.com>
-	<CAJTo0LaYWE56CxaakJ14gCEzVsJAszwUmP1WRnLMae8i5s-aTA@mail.gmail.com>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <8a88d875-7ac3-6fd4-0b8f-e111b75831d7@taitradio.com>
-Date: Fri, 14 Sep 2018 15:02:06 +1200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Fri, 14 Sep 2018 08:39:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8E8drHk029433
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 14 Sep 2018 01:39:53 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Fri, 14 Sep 2018 01:39:52 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Sep 2018 16:49:39 +0800
+Message-ID: <cover.1536913629.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaYWE56CxaakJ14gCEzVsJAszwUmP1WRnLMae8i5s-aTA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFJlcHJvZHVjaWJsZTogRmluZCB0aGUgZ2l0IHJlcG8gaW4gV09SS0RJUi9naXQgb3IgUyBmaXJzdA==?=
+Subject: [PATCH 0/2] package.bbclass: improve auto debug package splitting order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,27 +29,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2018 03:02:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+X-List-Received-Date: Fri, 14 Sep 2018 08:39:54 -0000
+Content-Type: text/plain
 
-On 14/09/18 04:11, Burton, Ross wrote:
+Hi RP,
 
-> On 12 September 2018 at 03:15, Douglas Royds
-> <douglas.royds@taitradio.com> wrote:
->> The patch series already was applied on top of b7f3f7ecfd.
-> Fails for me too:
->
-> Applying: Reproducible: Tidy class description
-> Using index info to reconstruct a base tree...
-> error: patch failed: meta/classes/reproducible_build.bbclass:1
-> error: meta/classes/reproducible_build.bbclass: patch does not apply
-> error: Did you hand edit your patch?
-> It does not apply to blobs recorded in its index.
+Is it necessary to split multiple sub dbg packages or only
+one dbg is allowed? If the former, this fix makes sense.
 
+I know in oe-core, almost one dbg package per recipe, but
+in oe, 21 recipes have extra sub dbg package and 18 of them
+did not set NOAUTOPACKAGEDEBUG = "1".
 
-Lesson of the day: Don't use the -w (ignore whitespace) option to git 
-format-patch
+So rather than modify them one by one tediously, how about to
+improve auto debug package splitting order? If ${PN}-dbg exists,
+split the unsplit debug file to ${PN}-dbg, if ${PN}-dbg does not 
+exist, still split them to first dbg package.
+
+//Hongxu
+
+The following changes since commit d180dc758710c7259d45eeb9304e7284a8fd8825:
+
+  oeqa/selftest/recipetool: fix non-determinism in cmake test (2018-09-13 16:28:26 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib hongxu/dbg-split
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=hongxu/dbg-split
+
+Hongxu Jia (2):
+  package.bbclass: improve auto debug package splitting order
+  selftest/package: improve case to test debug package splitting
+
+ .../selftest-hardlink/selftest-hardlink.bb         |  4 +++-
+ meta/classes/package.bbclass                       | 10 +++++++-
+ meta/lib/oeqa/selftest/cases/package.py            | 27 ++++++++++++++++------
+ 3 files changed, 32 insertions(+), 9 deletions(-)
+
+-- 
+2.7.4
 
 
