@@ -1,50 +1,45 @@
-Return-Path: <trevor@toganlabs.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E5DB579908
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Sep 2018 15:46:37 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id u13-v6so6165958iti.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Sep 2018 08:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=WpzgH+Qe7AVFVeOCU15ptdbBm7ydbMW/6vIA6LLk60A=;
-	b=G2adw6mmEibLksdnKDJgZ2SmJfBZonHEEB4lqXpn9m8NUuXmH0eJniXnKR3LmrLTeG
-	rSwoeDznotFqArlTnGMLKhwVSELw+WlbrE9azw6/6yV9D4d8ljzfQCecszrAqSOEthXY
-	6KF/AkX76v36S+MQwB0VvlB4CjjI5hbacFs96yuAPGHUPWRRMwkEOdTUejjTOghrwduA
-	rYaJFAomvPcEjZdeEEB5IijP4FRLcZ1h40/4na2L4Od90/7aa93375ppnaMyLMswhGbU
-	JCKTEMrnqQ8OUvjnaKCx8txV1ew0tkp8QyCJw9GX7/0qdPifCLMUW4s4lTTpuaEJzQlD
-	yQFA==
+Return-Path: <mhm.dawod@gmail.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id B971E79306;
+	Sat, 15 Sep 2018 16:30:58 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id x7-v6so11605171qtk.5;
+	Sat, 15 Sep 2018 09:31:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=wsMEIuuLzX9/25UdSqn+mndkhWJXBpst4rqosZ0P2pA=;
+	b=FV51uaazyM/24HcLhIRlZCsUQQzyrmyrqz6nTjpanofUkgzy/Ynliln0Ph9S32+jMV
+	ALQcGrOzABcacSNqPFt6cBdgvKuseC4dCF2pioVXrBl9yBXcF+9mBNzhbh+rDIB4iZR/
+	9HpAFZ6yMqZ0VQpV4n1bBmGKcwOyeCyNxbHkhE8JW6OjFggYShEn+PheVOA2ET4wLSqb
+	C8ye7IZLoV/ukC8t0Q0cTVXLC2ehFtsTpPrfC4CrDdVHXe08OXFXs0zhcpfXVGQ6a0MV
+	+MZtT3yh1iObcsk8Llew8WIgSpJGa0OqcXt0wCrz44J/FV5VuZE/2yvG0+IZw4rZt7Bm
+	B17w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=WpzgH+Qe7AVFVeOCU15ptdbBm7ydbMW/6vIA6LLk60A=;
-	b=s6JhdpxXdVLKcD73TOhkeHUeDNgb3pDLlY65tYSkvhBLJYBJRstmJTgfSfsBxJSEzt
-	jI14rtDmnuhLFNqJi0KYFgLVH5N4wuxN66vzrC+g2cgtsbF1ygQWU4ypod0N0Wx55q13
-	LSgQp46mr9yCfZf9oEsARby8SK/2eVomRDiVOU4KlYFlsFz/hZ0Az77zTO6XILE88HLl
-	4lqRjt6abudph2C4Oh6Aum0QrHgmw/qpmzj8voLxdtCX1sSt+bbyKa9JlhYHpaWek2iu
-	5fWJYSjYcZtWeu7rKrSPL4kC8k+jPm0LsZCHXOe6q2RUmPurEK1SYNpp9AKFOOu+t2bY
-	lN1A==
-X-Gm-Message-State: APzg51CVxrQGyJmg3NYYaTo62MrlGoY/wBt4zH1fLUDza/p6ZMdlSWrS
-	ajyJXqIfgmHwRyCyBJiLPCiB+sv83GM=
-X-Google-Smtp-Source: ANB0VdY8/zG9PmzoZZNQoUqpCcqt+N0KlCtj4uTqogoSK5Ol54BjnJKS3uaL6TI+aaS0JCKvVuqmiQ==
-X-Received: by 2002:a24:8085:: with SMTP id
-	g127-v6mr5304211itd.120.1537026398745; 
-	Sat, 15 Sep 2018 08:46:38 -0700 (PDT)
-Received: from linux-uys3.suse ([206.248.190.95])
-	by smtp.gmail.com with ESMTPSA id
-	t24-v6sm970451ite.12.2018.09.15.08.46.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 15 Sep 2018 08:46:38 -0700 (PDT)
-From: Trevor Woerner <trevor@toganlabs.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Sep 2018 11:46:34 -0400
-Message-Id: <20180915154634.6468-1-trevor@toganlabs.com>
-X-Mailer: git-send-email 2.17.0.582.gccdcbd54c
-Subject: [PATCH] image_types.bbclass: set parallelism for compression
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=wsMEIuuLzX9/25UdSqn+mndkhWJXBpst4rqosZ0P2pA=;
+	b=GYYuKZa/bXupYcm3AZ9BB7Waq3MdmZx/REi4PUWsLoGpdzHqOja7/j6SH/9u8AW1Jj
+	fTJGu852VjJGQDtbKCdUh7hqlGaroOB8ZpUSDS/cyIEowFsXReBGYrqjloo2zHiSGLLo
+	6NbMQPgDUn6V7t1Cknx4bE91IS4zq8MTzmAPamr+vniCj03kMq6BKcGFTy/Fy8UCw7Sl
+	zHT1zpiKwAZc4Z96NBv2OJG1FyxUmstO2XwX76wynPv2ZECZgHndqo/FXnrj9RvfbYpB
+	gloyfOIbEZCrdUbgq04mhzyEKN+9oIPt7g6sNtQtq33zO1YCxtk2R899PfsNm0Xm8J/l
+	MH6A==
+X-Gm-Message-State: APzg51DVs3p7bQGIatn8dULs85yYnT+87BbarhemrGfA+KM+DdDs3s1l
+	i4HxtQfeaQpup7wIJOMw2Y3A8A8AguUeM0ub6M0jJw==
+X-Google-Smtp-Source: ANB0VdZ9HNoEuPE97bEs50k+CjxI8Qj51/EqxN0nJdaWNWFC+FqtgnH159juXfFnc5/gwgPMLf/AXbpo3dSnKCdZst0=
+X-Received: by 2002:a0c:e847:: with SMTP id
+	l7-v6mr12519186qvo.196.1537029059592; 
+	Sat, 15 Sep 2018 09:30:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAGCTLNRJaBrHJmR3McmfUdMaaqStfbwwBGtnzRbtWVff_yuCqQ@mail.gmail.com>
+In-Reply-To: <CAGCTLNRJaBrHJmR3McmfUdMaaqStfbwwBGtnzRbtWVff_yuCqQ@mail.gmail.com>
+From: Mohamed Dawod <mhm.dawod@gmail.com>
+Date: Sat, 15 Sep 2018 18:30:47 +0200
+Message-ID: <CAGCTLNStam9H=B5JiGpdoCGAxVcyzBtTstD04AZVE2sQWtNZEw@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org
+Subject: [openembedded][Qt5]: typing problem.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +52,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Sep 2018 15:46:38 -0000
+X-List-Received-Date: Sat, 15 Sep 2018 16:30:59 -0000
+Content-Type: multipart/alternative; boundary="0000000000001b45fe0575eb77e7"
 
-Make use of BB_NUMBER_THREADS when setting the parallelism for compression.
+--0000000000001b45fe0575eb77e7
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Trevor Woerner <trevor@toganlabs.com>
----
- meta/classes/image_types.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+---------- Forwarded message ---------
+From: Mohamed Dawod <mhm.dawod@gmail.com>
+Date: Sat, Sep 15, 2018 at 10:51 AM
+Subject: [openembedded][Qt5]: typing problem.
+To: <openembedded-core@lists.openembedded.org>, <
+openembedded-devel@lists.openembedded.org>
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 00a00d318f..35ba775cca 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -281,8 +281,8 @@ COMPRESSIONTYPES ?= ""
- 
- CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 ${COMPRESSIONTYPES}"
- CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
--CONVERSION_CMD_gz = "pigz -f -9 -n -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
--CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-+CONVERSION_CMD_gz = "pigz -f -9 -n -c -p${BB_NUMBER_THREADS} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
-+CONVERSION_CMD_bz2 = "pbzip2 -f -k -p${BB_NUMBER_THREADS} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
- CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
- CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+
+HI everyone,
+I am trying to build custom image supporting wayland weston instead of x11
+and support qt5 apps.
+I successfully built it but when I try to type any thing in the text box in
+the qt5 app.
+no thing happen !!
+also the initial text in text boxes appears very small!!
+I added "fontconfig" and "frretype" to the PACAGECONFIG variabl in
+qtbase_git.bb recipe..
+
+How to solve this problem ?
+
+Thank you in advance,
+Regards,
+
 -- 
-2.17.0.582.gccdcbd54c
+
+Mohamed Dawod
+Computer Engineering Department
+Faculty of Engineering
+Cairo University
 
 
+-- 
+
+Mohamed Dawod
+Computer Engineering Department
+Faculty of Engineering
+Cairo University
+
+--0000000000001b45fe0575eb77e7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">------=
+---- Forwarded message ---------<br>From: <b class=3D"gmail_sendername" dir=
+=3D"auto">Mohamed Dawod</b> <span dir=3D"ltr">&lt;<a href=3D"mailto:mhm.daw=
+od@gmail.com">mhm.dawod@gmail.com</a>&gt;</span><br>Date: Sat, Sep 15, 2018=
+ at 10:51 AM<br>Subject: [openembedded][Qt5]: typing problem.<br>To:  &lt;<=
+a href=3D"mailto:openembedded-core@lists.openembedded.org">openembedded-cor=
+e@lists.openembedded.org</a>&gt;,  &lt;<a href=3D"mailto:openembedded-devel=
+@lists.openembedded.org">openembedded-devel@lists.openembedded.org</a>&gt;<=
+br></div><br><br><div dir=3D"ltr"><div>HI everyone,</div><div>I am trying t=
+o build custom image supporting wayland weston instead of x11 and support q=
+t5 apps.</div><div>I successfully built it but when I try to type any thing=
+ in the text box in the qt5 app.</div><div>no thing happen !!</div><div>als=
+o the initial text in text boxes appears very small!!<br></div><div>I added=
+ &quot;fontconfig&quot; and &quot;frretype&quot; to the PACAGECONFIG variab=
+l in <a href=3D"http://qtbase_git.bb" target=3D"_blank">qtbase_git.bb</a> r=
+ecipe..</div><div><br></div><div>How to solve this problem ?<br></div><div>=
+<br></div><div>Thank you in advance,</div><div>Regards,</div><div><br></div=
+><div>-- <br><div dir=3D"ltr" class=3D"m_3137231960340189469gmail_signature=
+" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>=C2=A0<br>Mohame=
+d Dawod<br></div><div>
+Computer Engineering Department=C2=A0<br>
+Faculty of Engineering=C2=A0<br>
+Cairo University</div></div></div></div></div>
+</div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"gmail_signatur=
+e" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>=C2=A0<br>Moham=
+ed Dawod<br></div><div>
+Computer Engineering Department=C2=A0<br>
+Faculty of Engineering=C2=A0<br>
+Cairo University</div></div></div></div>
+
+--0000000000001b45fe0575eb77e7--
