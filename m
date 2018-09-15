@@ -1,53 +1,51 @@
-Return-Path: <geissonator@gmail.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id E967A799F0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 81BE2794F5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 21:33:31 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id h20-v6so4363933itf.2
+	Sat, 15 Sep 2018 08:12:03 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id s17-v6so5196915plp.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2018 14:33:33 -0700 (PDT)
+	Sat, 15 Sep 2018 01:12:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=S+07hzY79yTwNt47R2XadxAJnkGKNWe/GCq2fDVH0io=;
-	b=E2C3R8V6Hz5C5YG97k2V+hlcq13pGuFQv7De5UznmpbIB0s3IrU/r0a5iViKC1UUJr
-	px77PSbaDbH3Me0dPrZNBY2rCPdF7Ll5zLCTYDoQAlwok6WL6hQTB7N6TnlonSglRs9q
-	eFVUR1Co72SVTY95xRHd8HYnLjeZVsaX9y+3Rk7NTdQZ+R1dMuugcDE4kVJsTr0H6TvG
-	srW/ufXOEUi0h1l8RqPwSREr0P2z6Efs/zHQKRLPpbJ8XWRKJwf+pDg68lNsj5xRj8qt
-	p8E0TZGtSorWAfY6tIsk+JBF9f8Py+/WE5pNtLh6lbLmnJXTUMdSPJIZDOoa9WHK8Jcz
-	mJEw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lE7zo6QGoCcYuC63T7S7LHCh5Rg2ff/CPjPCbZA1ztM=;
+	b=G5R+jv7YiUKQoVvE8MBrOSNmAJQjw8e9R418vLeg1HgmzyKmSYNGNiUoaD5vWo/qRD
+	CGyue5rJpCIu4fTkkFgl9cz/tUcIwhEJqTZCfryctuDXN5aGLOASs+bQ68R/Kvt8BdKJ
+	JgIm5yrafwePUEXjsHd+Bp7XJ57KJOj4PrBv1ZGv2iElYW/AY5d0DRNlUsZetdGFmXFb
+	Wq/44KIedKABPWOad4/mJBNfVAfKf7dBVYa+8xHdTY109VcmyHE9cIq9anylZ6rchYrG
+	o4yBj5Xv5C1UGpy79hzZG0MByQrXgKUS0ys1YkUwVtecTZ2mAcxG8ZhP/DiLT8obY3kE
+	J6FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=S+07hzY79yTwNt47R2XadxAJnkGKNWe/GCq2fDVH0io=;
-	b=i0FPhEYCdODX52cwPe7Z0saGx/zDBN0caOf8rxAXWiB9vWPSnkRLMZWzjVcTgcX019
-	sCpu1+LLurMYOqZJOhAqPmA7pf0t8l115Yvx2Mp1n+oOXDSQPUp+ugKwyWpf0CPXwPoX
-	9jCWYLJ2Hb3QiMM8tg/OTJVh7dB2gznQp0F5a+Dlq3b1Pjg7qppTxFSLjYFXEnci1xxT
-	7AD9zS0iS0te+uLfFqlR4EzG69pHaQe6kHzJLwCieu0Q8JN67+TD4ivOPmk4w2v/K72o
-	cu1u419GuLzGVblZ8L4YQxYEiZGHAuMC8VzLlbyH01jmThs/Teml1vsFNtJAimMFKTqT
-	dAgQ==
-X-Gm-Message-State: APzg51ChEWkxhnEZxz4H/IEZgBopoQ32RIluoEY7I2QoGHKOezqQr91h
-	vUF/pvWh89+zje0fsknRf4//OWMS
-X-Google-Smtp-Source: ANB0VdbMBLGpUHTSodI7tWQSG4qosguLVVDz41jipAxZaZ6eQTrrfqFhTmmFR6zlxJ2mvo432DWizw==
-X-Received: by 2002:a24:3948:: with SMTP id
-	l69-v6mr3848878ita.153.1536960812932; 
-	Fri, 14 Sep 2018 14:33:32 -0700 (PDT)
-Received: from andrewg-VirtualBox.ibm.com ([32.97.110.56])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lE7zo6QGoCcYuC63T7S7LHCh5Rg2ff/CPjPCbZA1ztM=;
+	b=bJX5aR7NFJijYY6xcEd7nRBX09bG1sRRK57mNykB5lN39c/QTaYHgtittASsd5UDy5
+	Dzoh0soR8OAFFCECYZYW8eoFzCt0G1/8ZpmmLAsFXiwNW6t9WJ3KCyPmoV2m33ux03PW
+	HyyGaJy2BLbg+s6KLfb2ZFjGaB3esZlRgZHcrsNLQeS7iquhB/tbZ3WXok9Y93suQpIZ
+	InpZV5zwuJKet6q0qYRVeuyVERa2VYXn/Yqu4bg3wJ5lYpytV+jYHepDOxCq1W3rsBcv
+	KW+jdtPOL5wH9tNdaHUlfU0taHJTWjGXIQ2h3QKtPRxRU9k36n4z6mtqrfPcPs7ZTU9k
+	lugA==
+X-Gm-Message-State: APzg51DHhNMoFOGRBgDnP+WCs+GrfcKRWkSp3yJ7INY/tmhMngio6gY0
+	zG7QIum5Py6bxAuFtInJeQ4n8lF3
+X-Google-Smtp-Source: ANB0Vdau2VnOmaL5FDLK4vC2Poxf+1LjLISaxteEkp6I+Se/hSIhL/873QkkhPk5oyylZ9h+iRP67w==
+X-Received: by 2002:a17:902:b60b:: with SMTP id
+	b11-v6mr15166690pls.301.1536999124018; 
+	Sat, 15 Sep 2018 01:12:04 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::b1b1])
 	by smtp.gmail.com with ESMTPSA id
-	y21-v6sm2584215ioa.54.2018.09.14.14.33.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 14 Sep 2018 14:33:32 -0700 (PDT)
-From: Andrew Geissler <geissonator@gmail.com>
+	p4-v6sm12198424pfb.180.2018.09.15.01.12.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 15 Sep 2018 01:12:03 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Sep 2018 14:33:08 -0700
-Message-Id: <1536960788-26056-3-git-send-email-geissonator@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1536960788-26056-1-git-send-email-geissonator@gmail.com>
-References: <1536960788-26056-1-git-send-email-geissonator@gmail.com>
-Cc: Andrew Geissler <geissonator@gmail.com>,
-	alejandro.enedino.hernandez-samaniego@xilinx.com
-Subject: [PATCH 3/3] python: consolidate tests
+Date: Sat, 15 Sep 2018 01:11:54 -0700
+Message-Id: <20180915081154.28018-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.0
+MIME-Version: 1.0
+Subject: [PATCH] mtools: Fix build with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,84 +58,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2018 21:33:32 -0000
+X-List-Received-Date: Sat, 15 Sep 2018 08:12:03 -0000
+Content-Transfer-Encoding: 8bit
 
-Currently the bulk of the tests in python-tests, some more in
-python-sqlite3-tests, and others in their parent module (such as
-python-ctypes).  This is pointless space usage if we're not planning on
-running the tests, so consolidate all the tests into python-tests.
+Identify with __clang__ to undefine UNUSED
 
-This is a backport of the same changes done by Ross Burton for python3
-
-Signed-off-by: Andrew Geissler <geissonator@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../python/python/python2-manifest.json            | 35 ++++++++++------------
- 1 file changed, 15 insertions(+), 20 deletions(-)
+ .../mtools/mtools/clang_UNUSED.patch            | 17 +++++++++++++++++
+ meta/recipes-devtools/mtools/mtools_4.0.18.bb   |  1 +
+ 2 files changed, 18 insertions(+)
+ create mode 100644 meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
 
-diff --git a/meta/recipes-devtools/python/python/python2-manifest.json b/meta/recipes-devtools/python/python/python2-manifest.json
-index cacba5b..45fa371 100644
---- a/meta/recipes-devtools/python/python/python2-manifest.json
-+++ b/meta/recipes-devtools/python/python/python2-manifest.json
-@@ -1,4 +1,18 @@
- {
-+    "tests": {
-+        "summary": "Python test suite",
-+        "rdepends": [
-+            "core",
-+            "modules"
-+        ],
-+        "files": [
-+            "${libdir}/python2.7/*/test",
-+            "${libdir}/python2.7/*/tests",
-+            "${libdir}/python2.7/idlelib/idle_test/",
-+            "${libdir}/python2.7/test"
-+        ],
-+        "cached": []
-+    },
-     "2to3": {
-         "summary": "Python automated Python 2 to 3 code translator", 
-         "rdepends": [
-@@ -873,16 +887,6 @@
-             "${libdir}/python2.7/lib-dynload/_sqlite3.so"
-         ]
-     }, 
--    "sqlite3-tests": {
--        "summary": "Python Sqlite3 database support tests", 
--        "rdepends": [
--            "core", 
--            "tests"
--        ], 
--        "files": [
--            "${libdir}/python2.7/sqlite3/test"
--        ]
--    }, 
-     "stringold": {
-         "summary": "Python string APIs [deprecated]", 
-         "rdepends": [
-@@ -925,15 +929,6 @@
-             "${libdir}/python2.7/tty.py"
-         ]
-     }, 
--    "tests": {
--        "summary": "Python tests", 
--        "rdepends": [
--            "core"
--        ], 
--        "files": [
--            "${libdir}/python2.7/test"
--        ]
--    }, 
-     "textutils": {
-         "summary": "Python option parsin", 
-         "rdepends": [
-@@ -1046,4 +1041,4 @@
-             "${libdir}/python2.7/lib-dynload/zlib.so"
-         ]
-     }
--}
-\ No newline at end of file
-+}
+diff --git a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
+new file mode 100644
+index 0000000000..6bb9d6a3da
+--- /dev/null
++++ b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
+@@ -0,0 +1,17 @@
++Undefine UNUSED macros with clang
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Index: mtools-4.0.18/sysincludes.h
++===================================================================
++--- mtools-4.0.18.orig/sysincludes.h
+++++ mtools-4.0.18/sysincludes.h
++@@ -101,7 +101,7 @@ typedef void *caddr_t;
++ #if defined __GNUC__ && defined __STDC__
++ /* gcc -traditional doesn't have PACKED, UNUSED and NORETURN */
++ # define PACKED __attribute__ ((packed))
++-# if __GNUC__ == 2 && __GNUC_MINOR__ > 6 || __GNUC__ >= 3
+++# if (__GNUC__ == 2 && __GNUC_MINOR__ > 6 || __GNUC__ >= 3) && !defined(__clang__)
++ /* gcc 2.6.3 doesn't have "unused" */		/* mool */
++ #  define UNUSED(x) x __attribute__ ((unused));x
++ #  define UNUSEDP __attribute__ ((unused))
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.18.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+index 91f7b7c610..3c31aca3ad 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.18.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+@@ -32,6 +32,7 @@ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://no-x11.gplv3.patch \
+            file://0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch \
+            file://0001-remove-LOCK_NB-to-use-blocking-request.patch \
++           file://clang_UNUSED.patch \
+            "
+ 
+ SRC_URI_append_class-native = " file://disable-hardcoded-configs.patch"
 -- 
-2.7.4
+2.19.0
 
 
