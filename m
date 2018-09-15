@@ -1,51 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 81BE2794F5
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Sep 2018 08:12:03 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id s17-v6so5196915plp.7
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Sep 2018 01:12:04 -0700 (PDT)
+Return-Path: <mhm.dawod@gmail.com>
+Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 27E747963D;
+	Sat, 15 Sep 2018 08:51:57 +0000 (UTC)
+Received: by mail-qt0-f172.google.com with SMTP id x7-v6so10951961qtk.5;
+	Sat, 15 Sep 2018 01:51:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lE7zo6QGoCcYuC63T7S7LHCh5Rg2ff/CPjPCbZA1ztM=;
-	b=G5R+jv7YiUKQoVvE8MBrOSNmAJQjw8e9R418vLeg1HgmzyKmSYNGNiUoaD5vWo/qRD
-	CGyue5rJpCIu4fTkkFgl9cz/tUcIwhEJqTZCfryctuDXN5aGLOASs+bQ68R/Kvt8BdKJ
-	JgIm5yrafwePUEXjsHd+Bp7XJ57KJOj4PrBv1ZGv2iElYW/AY5d0DRNlUsZetdGFmXFb
-	Wq/44KIedKABPWOad4/mJBNfVAfKf7dBVYa+8xHdTY109VcmyHE9cIq9anylZ6rchYrG
-	o4yBj5Xv5C1UGpy79hzZG0MByQrXgKUS0ys1YkUwVtecTZ2mAcxG8ZhP/DiLT8obY3kE
-	J6FA==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=2wIGOHBHpdJardW9hO8MLkCogGfCFmGn/H3JOmGfLjU=;
+	b=GAAMRhnASE5u32QqRQliEA9MWCaaT4BESDSsQgYJzvHfO04Mta+T9zy9joGicoj+fV
+	zb/kstpKiHOEEujQVNjVR543YnrNSLeudaiwJwJIutdKyy8rgfDoMrRyC74VAwUm/qYw
+	IMsPUJP61+6OLfem3BbKzqzH0pJ+noGR+K3rz2JcYhqZkrneb6fzA1xyEyHPUowEBQW9
+	2EBr4XP+7oR/lIO68s7Fe5CTxk30GkBhH4zPukGhlLmNsKSsFGONSeKwklFlRzMgJfLS
+	XLNTBHaEtqmpgmVpcBzhRjvLTTsEeUr8CiHYcK67S5Na2oqzkiQ0SPTOsP6pekp3WhZ7
+	c21g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lE7zo6QGoCcYuC63T7S7LHCh5Rg2ff/CPjPCbZA1ztM=;
-	b=bJX5aR7NFJijYY6xcEd7nRBX09bG1sRRK57mNykB5lN39c/QTaYHgtittASsd5UDy5
-	Dzoh0soR8OAFFCECYZYW8eoFzCt0G1/8ZpmmLAsFXiwNW6t9WJ3KCyPmoV2m33ux03PW
-	HyyGaJy2BLbg+s6KLfb2ZFjGaB3esZlRgZHcrsNLQeS7iquhB/tbZ3WXok9Y93suQpIZ
-	InpZV5zwuJKet6q0qYRVeuyVERa2VYXn/Yqu4bg3wJ5lYpytV+jYHepDOxCq1W3rsBcv
-	KW+jdtPOL5wH9tNdaHUlfU0taHJTWjGXIQ2h3QKtPRxRU9k36n4z6mtqrfPcPs7ZTU9k
-	lugA==
-X-Gm-Message-State: APzg51DHhNMoFOGRBgDnP+WCs+GrfcKRWkSp3yJ7INY/tmhMngio6gY0
-	zG7QIum5Py6bxAuFtInJeQ4n8lF3
-X-Google-Smtp-Source: ANB0Vdau2VnOmaL5FDLK4vC2Poxf+1LjLISaxteEkp6I+Se/hSIhL/873QkkhPk5oyylZ9h+iRP67w==
-X-Received: by 2002:a17:902:b60b:: with SMTP id
-	b11-v6mr15166690pls.301.1536999124018; 
-	Sat, 15 Sep 2018 01:12:04 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::b1b1])
-	by smtp.gmail.com with ESMTPSA id
-	p4-v6sm12198424pfb.180.2018.09.15.01.12.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 15 Sep 2018 01:12:03 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Sep 2018 01:11:54 -0700
-Message-Id: <20180915081154.28018-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.19.0
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=2wIGOHBHpdJardW9hO8MLkCogGfCFmGn/H3JOmGfLjU=;
+	b=KN+0EW879JYaNESSW8eDIoNoH5ULXtf/rmKGTq6aDFGez6MfRJddR7Py6BB1bjC/LL
+	oNx+0PhqrYJzdCDdDS6Giaii47OMdz+c+GzP+zcj/s7SuQsfCjst9sXLN/MQFUw6Df4V
+	E3aAi4NcrhPOWn583jbQ/CWttWscn9OtkGRZVSmtG8xqxsseazrAQkSaOv+00I9+exZY
+	/Tw9GakuZ7rZxksSm1VTqZERs7ax+E05iQB/pCT3T78DBFsDf+HZzH98aXP0KhR5zhEO
+	hS3FdlQXbbMa6wjXEPaRUuYJyvL8CRseb8hSF6PsFOYXclxjZ0mJ51wBc3mLNRdcgYvl
+	cuEA==
+X-Gm-Message-State: APzg51B74AEWujfFv88lIqCtJAEEFaIsIOtIidDmWy+YK/zxwfQI7kCe
+	AqDiqlGbRJd8PARsXFLrFz55YTL5sfwqRKWZEyAxqg==
+X-Google-Smtp-Source: ANB0VdaX1H+d+hH1KPPDdmF5elAFbyuMKI8gHCtfbjcRAn4XvrM3WyoEFYni85411sWA+ykss3oIm8S246Yom3xhkTQ=
+X-Received: by 2002:a0c:e847:: with SMTP id
+	l7-v6mr11457347qvo.196.1537001518781; 
+	Sat, 15 Sep 2018 01:51:58 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] mtools: Fix build with clang
+From: Mohamed Dawod <mhm.dawod@gmail.com>
+Date: Sat, 15 Sep 2018 10:51:47 +0200
+Message-ID: <CAGCTLNRJaBrHJmR3McmfUdMaaqStfbwwBGtnzRbtWVff_yuCqQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org
+Subject: [openembedded][Qt5]: typing problem.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,54 +49,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Sep 2018 08:12:03 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 15 Sep 2018 08:51:58 -0000
+Content-Type: multipart/alternative; boundary="0000000000008bd8f30575e50d5e"
 
-Identify with __clang__ to undefine UNUSED
+--0000000000008bd8f30575e50d5e
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../mtools/mtools/clang_UNUSED.patch            | 17 +++++++++++++++++
- meta/recipes-devtools/mtools/mtools_4.0.18.bb   |  1 +
- 2 files changed, 18 insertions(+)
- create mode 100644 meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
+HI everyone,
+I am trying to build custom image supporting wayland weston instead of x11
+and support qt5 apps.
+I successfully built it but when I try to type any thing in the text box in
+the qt5 app.
+no thing happen !!
+also the initial text in text boxes appears very small!!
+I added "fontconfig" and "frretype" to the PACAGECONFIG variabl in
+qtbase_git.bb recipe..
 
-diff --git a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-new file mode 100644
-index 0000000000..6bb9d6a3da
---- /dev/null
-+++ b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-@@ -0,0 +1,17 @@
-+Undefine UNUSED macros with clang
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Index: mtools-4.0.18/sysincludes.h
-+===================================================================
-+--- mtools-4.0.18.orig/sysincludes.h
-++++ mtools-4.0.18/sysincludes.h
-+@@ -101,7 +101,7 @@ typedef void *caddr_t;
-+ #if defined __GNUC__ && defined __STDC__
-+ /* gcc -traditional doesn't have PACKED, UNUSED and NORETURN */
-+ # define PACKED __attribute__ ((packed))
-+-# if __GNUC__ == 2 && __GNUC_MINOR__ > 6 || __GNUC__ >= 3
-++# if (__GNUC__ == 2 && __GNUC_MINOR__ > 6 || __GNUC__ >= 3) && !defined(__clang__)
-+ /* gcc 2.6.3 doesn't have "unused" */		/* mool */
-+ #  define UNUSED(x) x __attribute__ ((unused));x
-+ #  define UNUSEDP __attribute__ ((unused))
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.18.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-index 91f7b7c610..3c31aca3ad 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-@@ -32,6 +32,7 @@ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://no-x11.gplv3.patch \
-            file://0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch \
-            file://0001-remove-LOCK_NB-to-use-blocking-request.patch \
-+           file://clang_UNUSED.patch \
-            "
- 
- SRC_URI_append_class-native = " file://disable-hardcoded-configs.patch"
+How to solve this problem ?
+
+Thank you in advance,
+Regards,
+
 -- 
-2.19.0
 
+Mohamed Dawod
+Computer Engineering Department
+Faculty of Engineering
+Cairo University
 
+--0000000000008bd8f30575e50d5e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>HI everyone,</div><div>I am trying to build custom im=
+age supporting wayland weston instead of x11 and support qt5 apps.</div><di=
+v>I successfully built it but when I try to type any thing in the text box =
+in the qt5 app.</div><div>no thing happen !!</div><div>also the initial tex=
+t in text boxes appears very small!!<br></div><div>I added &quot;fontconfig=
+&quot; and &quot;frretype&quot; to the PACAGECONFIG variabl in <a href=3D"h=
+ttp://qtbase_git.bb">qtbase_git.bb</a> recipe..</div><div><br></div><div>Ho=
+w to solve this problem ?<br></div><div><br></div><div>Thank you in advance=
+,</div><div>Regards,</div><div><br></div><div>-- <br><div dir=3D"ltr" class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><d=
+iv>=C2=A0<br>Mohamed Dawod<br></div><div>
+Computer Engineering Department=C2=A0<br>
+Faculty of Engineering=C2=A0<br>
+Cairo University</div></div></div></div></div>
+
+--0000000000008bd8f30575e50d5e--
