@@ -1,45 +1,47 @@
-Return-Path: <mhm.dawod@gmail.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B971E79306;
-	Sat, 15 Sep 2018 16:30:58 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id x7-v6so11605171qtk.5;
-	Sat, 15 Sep 2018 09:31:00 -0700 (PDT)
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B9EA274AF1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 15 Sep 2018 17:45:58 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id d1-v6so1542172vsm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 15 Sep 2018 10:46:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=wsMEIuuLzX9/25UdSqn+mndkhWJXBpst4rqosZ0P2pA=;
-	b=FV51uaazyM/24HcLhIRlZCsUQQzyrmyrqz6nTjpanofUkgzy/Ynliln0Ph9S32+jMV
-	ALQcGrOzABcacSNqPFt6cBdgvKuseC4dCF2pioVXrBl9yBXcF+9mBNzhbh+rDIB4iZR/
-	9HpAFZ6yMqZ0VQpV4n1bBmGKcwOyeCyNxbHkhE8JW6OjFggYShEn+PheVOA2ET4wLSqb
-	C8ye7IZLoV/ukC8t0Q0cTVXLC2ehFtsTpPrfC4CrDdVHXe08OXFXs0zhcpfXVGQ6a0MV
-	+MZtT3yh1iObcsk8Llew8WIgSpJGa0OqcXt0wCrz44J/FV5VuZE/2yvG0+IZw4rZt7Bm
-	B17w==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=TjCGkRt0+HInEZPL8qk7YVdx24k0hJZAgw6YsbNgJyo=;
+	b=RBFDewl0yvByPIK8gllBhYr9mMLepf9g8MsvQ+YhThZwBIilnBoBaX16lJ2MU/7fj0
+	YaqWHWSNjOCrjSgiQtpwA1IoRD0GN0GhQ3wQZewmHp6s/VSbQS55jc1HccUtC0LUEQZB
+	ZtP7tfKIpYtDrFAX9b9gzZvdIKZhNEQqYO6ePXXoxb55C0YVlqLpmvto36GyRkmcmjzD
+	IGVa0N5weS8AjJpPpF+4ZeN2MLtvvo1DSxo8sEXpAtVyD34fCDaVFc1QkT6kuE8PkkTY
+	YZbCaK/Q41PJhE+P3YPqDGoKafdNkRN6OTtbJemu/NDbWzTeSINmm8inSyKo919yvSS3
+	lNAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=wsMEIuuLzX9/25UdSqn+mndkhWJXBpst4rqosZ0P2pA=;
-	b=GYYuKZa/bXupYcm3AZ9BB7Waq3MdmZx/REi4PUWsLoGpdzHqOja7/j6SH/9u8AW1Jj
-	fTJGu852VjJGQDtbKCdUh7hqlGaroOB8ZpUSDS/cyIEowFsXReBGYrqjloo2zHiSGLLo
-	6NbMQPgDUn6V7t1Cknx4bE91IS4zq8MTzmAPamr+vniCj03kMq6BKcGFTy/Fy8UCw7Sl
-	zHT1zpiKwAZc4Z96NBv2OJG1FyxUmstO2XwX76wynPv2ZECZgHndqo/FXnrj9RvfbYpB
-	gloyfOIbEZCrdUbgq04mhzyEKN+9oIPt7g6sNtQtq33zO1YCxtk2R899PfsNm0Xm8J/l
-	MH6A==
-X-Gm-Message-State: APzg51DVs3p7bQGIatn8dULs85yYnT+87BbarhemrGfA+KM+DdDs3s1l
-	i4HxtQfeaQpup7wIJOMw2Y3A8A8AguUeM0ub6M0jJw==
-X-Google-Smtp-Source: ANB0VdZ9HNoEuPE97bEs50k+CjxI8Qj51/EqxN0nJdaWNWFC+FqtgnH159juXfFnc5/gwgPMLf/AXbpo3dSnKCdZst0=
-X-Received: by 2002:a0c:e847:: with SMTP id
-	l7-v6mr12519186qvo.196.1537029059592; 
-	Sat, 15 Sep 2018 09:30:59 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=TjCGkRt0+HInEZPL8qk7YVdx24k0hJZAgw6YsbNgJyo=;
+	b=cYE0JCx/6FsZ6A7bq1Ll27l+8IGgnl+qFkSHnPOmOV+XBg0H+lNbC/2kP+7L0/HHNT
+	b7b3jNJSm17MMYavRM7eewo/QxwUHw2M/fekqU9BPonwI3lvTRuND/X2RlnDcY0TNKT1
+	u7pLCS1Kna0wHkql7jOl6LREuO8kVsDEPZ5qdgL5fzUlL8YdSwjnEl+JFa86o93A9IfZ
+	5n9cgQMFTkZQ9c11V3mIO46LMC4Z50jP82/lZmXI0ERjXrkLvobE5HdddvtuByktRIM6
+	76EABZgKkmcFbtZfs86q/swlQSx0lIYH+xA8Pjm8tG/z9gHHH2rXjcVShGkWp+uRhFZZ
+	LKow==
+X-Gm-Message-State: APzg51CDd50YtB2wSKP37Y221tw4XFp0Ft6dnr+eUqer4dy0rV40gy1e
+	emS/3QWv9sNcld68AHt7ystPiT4+GdoIiEhqZ4OyqUEl
+X-Google-Smtp-Source: ANB0VdbEQdz5B3z8fk2bjSnfLcXcmPZ1BGZcJ7dQ9EhdlHUQKiorLe1smGviO20N06Vjor3T65CHS3STqYk8oh6OxBU=
+X-Received: by 2002:a67:80d2:: with SMTP id
+	b201-v6mr5434466vsd.5.1537033559429; 
+	Sat, 15 Sep 2018 10:45:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAGCTLNRJaBrHJmR3McmfUdMaaqStfbwwBGtnzRbtWVff_yuCqQ@mail.gmail.com>
-In-Reply-To: <CAGCTLNRJaBrHJmR3McmfUdMaaqStfbwwBGtnzRbtWVff_yuCqQ@mail.gmail.com>
-From: Mohamed Dawod <mhm.dawod@gmail.com>
-Date: Sat, 15 Sep 2018 18:30:47 +0200
-Message-ID: <CAGCTLNStam9H=B5JiGpdoCGAxVcyzBtTstD04AZVE2sQWtNZEw@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org, 
-	openembedded-devel@lists.openembedded.org
-Subject: [openembedded][Qt5]: typing problem.
+References: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
+In-Reply-To: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Sat, 15 Sep 2018 18:45:48 +0100
+Message-ID: <CAO5Uq5S43E3cXUSEVJP8-dKtuqR-XaqrN+6fhHfy6QESLRh7_w@mail.gmail.com>
+To: leon@sidebranch.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,82 +54,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Sep 2018 16:30:59 -0000
-Content-Type: multipart/alternative; boundary="0000000000001b45fe0575eb77e7"
-
---0000000000001b45fe0575eb77e7
+X-List-Received-Date: Sat, 15 Sep 2018 17:45:59 -0000
 Content-Type: text/plain; charset="UTF-8"
 
----------- Forwarded message ---------
-From: Mohamed Dawod <mhm.dawod@gmail.com>
-Date: Sat, Sep 15, 2018 at 10:51 AM
-Subject: [openembedded][Qt5]: typing problem.
-To: <openembedded-core@lists.openembedded.org>, <
-openembedded-devel@lists.openembedded.org>
+On Mon, Sep 10, 2018 at 10:57 PM Leon Woestenberg <leon@sidebranch.com> wrote:
+>
+> kernel-fitimage.bbclass replaces an occurance of "fitImage" in
+> KERNEL_IMAGETYPE_FOR_MAKE by an image type that is buildable for the
+> architecture (such as zImage). The kernel-fitimage.bbclass packs that
+> image as sub-image in a flattened image tree image (fitImage) and
+> deploys this fitImage along with the image tree source file (.its).
+>
+> kernel-fitimage.bbclass does not alter KERNEL_IMAGETYPES, which thus
+> also contains "fitImage", which kernel.bbclass will also deploy
+> redundantly with different naming.
+>
+> The result is a dual deployment with slightly different naming,
+> each with a set of symlinks.
+>
+> The solution chosen is to have fitImage deployment be handled by
+> kernel-fitimage.bbclass, and have kernel.bbclass ignore fitImage
+> types during deployment.
+>
+> Signed-off-by: Leon Woestenberg <leon@sidebranch.com>
+
+This looks completely plausible, but the two "FIT" images that are
+installed aren't identical... after this I end up with no FIT image
+and only a bare image in the deploy dir.
+
+Digging into it, the logic between the two classes is a bit odd... in
+the case of a non initramfs build, the fitImage is actually installed
+here. The one that's installed in kernel-fitimage is the bare
+linux.bin, but named fitImage-...
+
+I'll send a patch reverting this and removing the other one as I'd
+agree that it appears to have no purpose (and if you did want it, I
+guess you could list it in KERNEL_IMAGETYPES).
+
+> ---
+>  meta/classes/kernel.bbclass | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index b57832c..1f69091 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -669,8 +669,11 @@ kernel_do_deploy() {
+>         fi
+>
+>         for imageType in ${KERNEL_IMAGETYPES} ; do
+> -               base_name=${imageType}-${KERNEL_IMAGE_NAME}
+> -               install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} $deployDir/${base_name}.bin
+> +               # kernel-fitimage class deploys fitImages, skip here
+> +               if [ "$imageType" != "fitImage" ]; then
+> +                       base_name=${imageType}-${KERNEL_IMAGE_NAME}
+> +                       install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} $deployDir/${base_name}.bin
+> +               fi
+>         done
+>         if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+>                 mkdir -p ${D}/lib
+> @@ -687,10 +690,13 @@ kernel_do_deploy() {
+>
+>         if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
+>                 for imageType in ${KERNEL_IMAGETYPES} ; do
+> -                       initramfs_base_name=${imageType}-${INITRAMFS_NAME}
+> -                       initramfs_symlink_name=${imageType}-${INITRAMFS_LINK_NAME}
+> -                       install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}.initramfs $deployDir/${initramfs_base_name}.bin
+> -                       ln -sf ${initramfs_base_name}.bin $deployDir/${initramfs_symlink_name}.bin
+> +                       # kernel-fitimage class deploys fitImages, skip here
+> +                       if [ "$imageType" != "fitImage" ]; then
+> +                               initramfs_base_name=${imageType}-${INITRAMFS_NAME}
+> +                               initramfs_symlink_name=${imageType}-${INITRAMFS_LINK_NAME}
+> +                               install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}.initramfs $deployDir/${initramfs_base_name}.bin
+> +                               ln -sf ${initramfs_base_name}.bin $deployDir/${initramfs_symlink_name}.bin
+> +                       fi
+>                 done
+>         fi
+>  }
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
-HI everyone,
-I am trying to build custom image supporting wayland weston instead of x11
-and support qt5 apps.
-I successfully built it but when I try to type any thing in the text box in
-the qt5 app.
-no thing happen !!
-also the initial text in text boxes appears very small!!
-I added "fontconfig" and "frretype" to the PACAGECONFIG variabl in
-qtbase_git.bb recipe..
 
-How to solve this problem ?
+--
+Alex Kiernan
 
-Thank you in advance,
-Regards,
-
--- 
-
-Mohamed Dawod
-Computer Engineering Department
-Faculty of Engineering
-Cairo University
-
-
--- 
-
-Mohamed Dawod
-Computer Engineering Department
-Faculty of Engineering
-Cairo University
-
---0000000000001b45fe0575eb77e7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">------=
----- Forwarded message ---------<br>From: <b class=3D"gmail_sendername" dir=
-=3D"auto">Mohamed Dawod</b> <span dir=3D"ltr">&lt;<a href=3D"mailto:mhm.daw=
-od@gmail.com">mhm.dawod@gmail.com</a>&gt;</span><br>Date: Sat, Sep 15, 2018=
- at 10:51 AM<br>Subject: [openembedded][Qt5]: typing problem.<br>To:  &lt;<=
-a href=3D"mailto:openembedded-core@lists.openembedded.org">openembedded-cor=
-e@lists.openembedded.org</a>&gt;,  &lt;<a href=3D"mailto:openembedded-devel=
-@lists.openembedded.org">openembedded-devel@lists.openembedded.org</a>&gt;<=
-br></div><br><br><div dir=3D"ltr"><div>HI everyone,</div><div>I am trying t=
-o build custom image supporting wayland weston instead of x11 and support q=
-t5 apps.</div><div>I successfully built it but when I try to type any thing=
- in the text box in the qt5 app.</div><div>no thing happen !!</div><div>als=
-o the initial text in text boxes appears very small!!<br></div><div>I added=
- &quot;fontconfig&quot; and &quot;frretype&quot; to the PACAGECONFIG variab=
-l in <a href=3D"http://qtbase_git.bb" target=3D"_blank">qtbase_git.bb</a> r=
-ecipe..</div><div><br></div><div>How to solve this problem ?<br></div><div>=
-<br></div><div>Thank you in advance,</div><div>Regards,</div><div><br></div=
-><div>-- <br><div dir=3D"ltr" class=3D"m_3137231960340189469gmail_signature=
-" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>=C2=A0<br>Mohame=
-d Dawod<br></div><div>
-Computer Engineering Department=C2=A0<br>
-Faculty of Engineering=C2=A0<br>
-Cairo University</div></div></div></div></div>
-</div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"gmail_signatur=
-e" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>=C2=A0<br>Moham=
-ed Dawod<br></div><div>
-Computer Engineering Department=C2=A0<br>
-Faculty of Engineering=C2=A0<br>
-Cairo University</div></div></div></div>
-
---0000000000001b45fe0575eb77e7--
