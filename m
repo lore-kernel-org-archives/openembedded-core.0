@@ -1,33 +1,51 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 64BAF745CB
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 552F87487E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Sep 2018 13:56:37 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B515AE008A4; Sun, 16 Sep 2018 06:56:38 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C4A85E00CDC
+	Sun, 16 Sep 2018 14:22:55 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id m26-v6so9257168uap.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Sep 2018 06:56:29 -0700 (PDT)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id BD4D0440003
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Sep 2018 06:56:29 -0700 (PDT)
+	Sun, 16 Sep 2018 07:22:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=OxUbT1+CKOOeXUw/Zn1zWrhbKVsWJEKW+T12MxGwHbE=;
+	b=GTTvBmxLQGVGztjHjKi1piVGdfI7EXwBKUmxLrJ43TOZzPPK9zlk+Bx5hgUzPLiDWY
+	qnxUTIbT69M4Nxra9u5DZSn1eiNjvYE5LZO+u4RtSdu0rHNhmC3t0z06yQqPNgNrIqnm
+	kVMquudBPVaSC4SjQFEMocc75Uq+sRHMS4lP8IDVCU9mwnyQC+4cGiWo9D0I3pawMDf5
+	i67OPzB/Yk7jivifrw7xzCDJE71mDJZv/BBrWUA68cVJLcbqVUDhx6bGWWf7xGFmQVsE
+	+uIHvSpJKVBz7f+5kVulrNTypXvOnWCM0ctRchmSgVLfMu9CKAO3jszEUeN645kv/qBs
+	928A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=OxUbT1+CKOOeXUw/Zn1zWrhbKVsWJEKW+T12MxGwHbE=;
+	b=ofOrWgw+XVK5cixPzM/1YsrgtD5hipyzi5JmjF4t2PAhkdKQXrUSt4HDge9kCNWOs4
+	MdcIDNYBYqG11IwfQtu2WkI1afG/6tZf7PWXAYBF/eG1yma7owwgX+vcLRIoEx06W2+j
+	zBSZE5TxWkc7UwNzUAKW3IDnUpAzhNfql0eHBzoLta3t2vEhvMvsOFaX6zaGKzNt3qJy
+	3r5UWjIxuJlqFVazNy2SZG8A0efuKLAW/Gl5884uOQyRErGlj74MBJPagryV8Gkw4vZs
+	0Wzdvr8zhlQ2Q+BHD21/y4lGE7rHCqy6pgkzryYOeaO/c5HGBlxoPL9DnlUmxEr8PzB4
+	Tqrw==
+X-Gm-Message-State: APzg51Am06AHHSZN+EK3b3KVxVISumaMHdsj4aBW9a6lMO6Ugxov7mc0
+	ea3gAcOxbkSWv1SpI4ZSPhkiH3eNpaNVaSvdm8Hk4ZxB
+X-Google-Smtp-Source: ANB0VdbUDX76cn4TbdtlnnE477rXkaNccojgPnGBSmcS6z7PAi7PqT/nwCwShLL2fkjWNryUC2RGa+6BAfzW2R2S9d0=
+X-Received: by 2002:ab0:59c2:: with SMTP id
+	k2-v6mr6489386uad.124.1537107775946; 
+	Sun, 16 Sep 2018 07:22:55 -0700 (PDT)
 MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Message-Id: <20180916135629.BD4D0440003@auh.yoctoproject.org>
-Date: Sun, 16 Sep 2018 06:56:29 -0700 (PDT)
-Subject: [AUH] Upgrade status: 2018-09-16
+References: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
+	<CAO5Uq5S43E3cXUSEVJP8-dKtuqR-XaqrN+6fhHfy6QESLRh7_w@mail.gmail.com>
+	<AB33E724-81C2-43BC-8169-6100CABAA375@sidebranch.com>
+	<CAO5Uq5ToXbUR2Pv9PwQOPp-F+5CbwvuPwy84Kfz7HWUzx2ohFA@mail.gmail.com>
+In-Reply-To: <CAO5Uq5ToXbUR2Pv9PwQOPp-F+5CbwvuPwy84Kfz7HWUzx2ohFA@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Sun, 16 Sep 2018 15:22:44 +0100
+Message-ID: <CAO5Uq5Rws0YP5_y-CSXhKKSrHe1BZiSQsYFQHH9AABFgjKWv=g@mail.gmail.com>
+To: leon@sidebranch.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,150 +58,248 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Sep 2018 13:56:37 -0000
-Content-Type: multipart/mixed; boundary="===============3100036461099545199=="
+X-List-Received-Date: Sun, 16 Sep 2018 14:22:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---===============3100036461099545199==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+On Sun, Sep 16, 2018 at 11:41 AM Alex Kiernan <alex.kiernan@gmail.com> wrot=
+e:
+>
+> Hi Leon
+>
+> On Sun, Sep 16, 2018 at 10:18 AM Leon Woestenberg <leon@sidebranch.com> w=
+rote:
+> >
+> > Hi Alex,
+> >
+> > > On 15 Sep 2018, at 19:45, Alex Kiernan <alex.kiernan@gmail.com> wrote=
+:
+> > >
+> > >> On Mon, Sep 10, 2018 at 10:57 PM Leon Woestenberg <leon@sidebranch.c=
+om> wrote:
+> > >>
+> > >> kernel-fitimage.bbclass replaces an occurance of "fitImage" in
+> > >> KERNEL_IMAGETYPE_FOR_MAKE by an image type that is buildable for the
+> > >> architecture (such as zImage). The kernel-fitimage.bbclass packs tha=
+t
+> > >> image as sub-image in a flattened image tree image (fitImage) and
+> > >> deploys this fitImage along with the image tree source file (.its).
+> > >>
+> > >> kernel-fitimage.bbclass does not alter KERNEL_IMAGETYPES, which thus
+> > >> also contains "fitImage", which kernel.bbclass will also deploy
+> > >> redundantly with different naming.
+> > >>
+> > >> The result is a dual deployment with slightly different naming,
+> > >> each with a set of symlinks.
+> > >>
+> > >> The solution chosen is to have fitImage deployment be handled by
+> > >> kernel-fitimage.bbclass, and have kernel.bbclass ignore fitImage
+> > >> types during deployment.
+> > >>
+> > >> Signed-off-by: Leon Woestenberg <leon@sidebranch.com>
+> > >
+> > > This looks completely plausible, but the two "FIT" images that are
+> > > installed aren't identical... after this I end up with no FIT image
+> > > and only a bare image in the deploy dir.
+> >
+> > What was in your KERNEL_IMAGETYPES? Did it at least contain =E2=80=9Cfi=
+tImage=E2=80=9D??
+> >
+>
+> Yes, in fact only fitImage (and no initramfs).
+>
+> > > Digging into it, the logic between the two classes is a bit odd... in
+> > > the case of a non initramfs build, the fitImage is actually installed
+> > > here.
+> >
+> > If =E2=80=98here=E2=80=99 means kernel-fitimage, then I=E2=80=99ld say =
+ALL versions of a FIT image containing AT LEAST a Linux kernel are installe=
+d by kernel-fitimage.
+> >
+> > > The one that's installed in kernel-fitimage is the bare
+> > > linux.bin, but named fitImage-...
+> >
+> > which is totally broken. If you want the bare kernel binary (which nami=
+ng depends on architecture, so it should NOT be hard-coded to linux.bin any=
+way), you would need to specify that type *also* in KERNEL_IMAGETYPES, next=
+ to =E2=80=9CfitImage=E2=80=9D.
+>
+> Totally agree...
+>
+> > >
+> > > I'll send a patch reverting this and removing the other one as I'd
+> > > agree that it appears to have no purpose (and if you did want it, I
+> > > guess you could list it in KERNEL_IMAGETYPES).
+> >
+> > I=E2=80=99m sorry I cannot follow what this and the other one is, and i=
+t. Let=E2=80=99s first understand all cases correctly.
+> >
+>
+> Sorry I've not described it well... the code in
+> kernel-fitimage.bbclass that inserts the kernel into the its happens
+> here http://git.openembedded.org/openembedded-core/tree/meta/classes/kern=
+el-fitimage.bbclass#n371
+>
+> fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_com=
+p}"
+>
+> inside fitimage_emit_section_kernel we create a kernel section which
+> has `data =3D /incbin/("${3}");` so linux.bin is our bare image.
+>
+> Then we have the installation of fitImage-linux-bin that happens here
+> http://git.openembedded.org/openembedded-core/tree/meta/classes/kernel-fi=
+timage.bbclass#n495
+>
+> echo "Copying linux.bin file..."
+> install -m 0644 ${B}/linux.bin
+> ${DEPLOYDIR}/fitImage-linux.bin-${KERNEL_FIT_NAME}.bin
+> ln -snf fitImage-linux.bin-${KERNEL_FIT_NAME}.bin
+> ${DEPLOYDIR}/fitImage-linux.bin-${KERNEL_FIT_LINK_NAME}
+>
+> i.e. the bare linux.bin file which we used to pack into the FIT image,
+> not a fitImage.
+>
+> The output FIT image from kernel-fitimage.bbclass is created here
+> http://git.openembedded.org/openembedded-core/tree/meta/classes/kernel-fi=
+timage.bbclass#n450
+>
+> uboot-mkimage \
+> ${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') els=
+e ''} \
+>   -f ${1} \
+>   arch/${ARCH}/boot/${2}
+>
+> i.e. in arch/${ARCH}/boot/${2}
+>
+> It's that image which is then picked up by kernel.bbclass to install
+> into deploydir (because KERNEL_OUTPUT_DIR ?=3D "arch/${ARCH}/boot"):
+>
+> for imageType in ${KERNEL_IMAGETYPES} ; do
+>   # kernel-fitimage class deploys fitImages, skip here
+>   if [ "$imageType" !=3D "fitImage" ]; then
+>     base_name=3D${imageType}-${KERNEL_IMAGE_NAME}
+>     install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}
+> $deployDir/${base_name}.bin
+>   fi
+> done
+>
+> Only it's doesn't because of the filter against fitImage.
+>
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZChkb19jb21waWxlKTogMTIK
-ICAgICAgICB1LWJvb3QtbWtpbWFnZSwgMjAxOC4wOSwgTWFyZWsgVmFzdXQgPG1hcmVrLnZhc3V0
-QGdtYWlsLmNvbT4KICAgICAgICBpcHRhYmxlcywgMS44LjAsIENoYW5naHllb2sgQmFlIDxjaGFu
-Z2h5ZW9rLmJhZUBsZ2UuY29tPgogICAgICAgIG5mcy11dGlscywgMi4zLjMsIFJvYmVydCBZYW5n
-IDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGdsaWItbmV0d29ya2luZywgMi41
-OC4wLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICBkcGtnLCAx
-LjE5LjAuNSwgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+CiAgICAgICAg
-ZG1pZGVjb2RlLCAzLjIsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
-PgogICAgICAgIHB5dGhvbjMtcHljYWlybywgMS4xNy4xLCBEZXJlayBTdHJha2EgPGRlcmVrQGFz
-dGVyaXVzLmlvPgogICAgICAgIGNtYWtlLCAzLjEyLjIsIE90YXZpbyBTYWx2YWRvciA8b3Rhdmlv
-LnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgYWNwaWNhLCAyMDE4MDgxMCwgRmF0
-aGkgQm91ZHJhIDxmYXRoaS5ib3VkcmFAbGluYXJvLm9yZz4KICAgICAgICB1LWJvb3QtZnctdXRp
-bHMsIDIwMTguMDksIE1hcmVrIFZhc3V0IDxtYXJlay52YXN1dEBnbWFpbC5jb20+CiAgICAgICAg
-Z2l0LCAyLjE5LjAsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAg
-ICAgIGUyZnNwcm9ncywgMS40NC40LCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVy
-LmNvbT4KICAgICogU3VjY2VlZGVkOiAyOAogICAgICAgIGdudS1jb25maWcsIDIwMTgwNzEzLW5l
-dy1jb21taXRzLWF2YWlsYWJsZSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5j
-b20+CiAgICAgICAgcHl0aG9uLW51bXB5LCAxLjE1LjEsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0
-ZXJpdXMuaW8+CiAgICAgICAgbHR0bmctdXN0LCAyLjEwLjIsIFJpY2hhcmQgUHVyZGllIDxyaWNo
-YXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgogICAgICAgIGhhcmZidXp6LCAxLjkuMCwg
-TWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgZ251cGcsIDIuMi4x
-MCwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgICAgIGV0aHRvb2ws
-IDQuMTgsIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZUBsZ2UuY29tPgogICAgICAgIGN1
-cmwsIDcuNjEuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBz
-dWRvLCAxLjguMjVwMSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIG5j
-dXJzZXMsIDYuMSsyMDE4MDcxNCwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29t
-PgogICAgICAgIG5zcywgMy4zOSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4K
-ICAgICAgICBidXN5Ym94LCAxLjI5LjMsIEFuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1l
-bnMuY29tPgogICAgICAgIHBpZ2xpdCwgMS4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgTWF4aW4g
-Qi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgeGY4Ni12aWRlby1mYmRldiwg
-MC41LjAsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgcHl0aG9u
-My1udW1weSwgMS4xNS4xLCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAg
-IGxpYmlucHV0LCAxLjEyLjAsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgog
-ICAgICAgIHdheWxhbmQtcHJvdG9jb2xzLCAxLjE2LCBEZW55cyBEbXl0cml5ZW5rbyA8ZGVueXNA
-dGkuY29tPgogICAgICAgIHN1YnZlcnNpb24sIDEuMTAuMiwgUmljaGFyZCBQdXJkaWUgPHJpY2hh
-cmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAgbHo0LCAxLjguMywgRGVueXMg
-RG15dHJpeWVua28gPGRlbnlzQHRpLmNvbT4KICAgICAgICBweXRob24tc2V0dXB0b29scywgNDAu
-Mi4wLCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAgIGFwciwgMS42LjUs
-IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBweXRob24zLXNl
-dHVwdG9vbHMsIDQwLjIuMCwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAg
-ICBsaWJwY3JlMiwgMTAuMzIsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAg
-ICAgICAgYWR3YWl0YS1pY29uLXRoZW1lLCAzLjMwLjAsIE1heGluIEIuIEpvaG4gPG1heGluLmpv
-aG5AaW50ZWwuY29tPgogICAgICAgIHNxbGl0ZTMsIDMuMjUuMCwgTWF4aW4gQi4gSm9obiA8bWF4
-aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgc3lzc3RhdCwgMTIuMC4xLCBDaGVuIFFpIDxRaS5D
-aGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgY2NhY2hlLCAzLjQuMywgUm9iZXJ0IFlhbmcgPGxp
-ZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgeHNlcnZlci14b3JnLCAxLjIwLjEsIEFy
-bWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgbGludXgtZmlybXdhcmUs
-IDAuMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZh
-ZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6IDMwCiAg
-ICAgICAgbGliaWNhbCwgMy4wLjQsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29t
-PgogICAgICAgIGJpbmQsIDkuMTMuMiwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNv
-bT4KICAgICAgICBsc2Jpbml0c2NyaXB0cywgMTAuMDEsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRv
-bkBpbnRlbC5jb20+CiAgICAgICAgbWFuLWRiLCAyLjguNCwgSG9uZ3h1IEppYSA8aG9uZ3h1Lmpp
-YUB3aW5kcml2ZXIuY29tPgogICAgICAgIGx6b3AsIDEuMDQsIERlbnlzIERteXRyaXllbmtvIDxk
-ZW55c0B0aS5jb20+CiAgICAgICAgbGliYXJjaGl2ZSwgMy4zLjMsIE90YXZpbyBTYWx2YWRvciA8
-b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgYXQsIDMuMS4yMywgQ2hl
-biBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGFjbCwgMi4yLjUzLCBDaGVuIFFp
-IDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgbWVzYSwgMTguMi4wLCBPdGF2aW8gU2Fs
-dmFkb3IgPG90YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIGF0dHIsIDIu
-NC40OCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHZ1bGthbi1kZW1v
-cywgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBp
-bnRlbC5jb20+CiAgICAgICAgcnBjYmluZCwgMS4yLjUsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFA
-d2luZHJpdmVyLmNvbT4KICAgICAgICBmb250Y29uZmlnLCAyLjEzLjEsIE1heGluIEIuIEpvaG4g
-PG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIGxpYnBjYXAsIDEuOS4wLCBNYXhpbiBCLiBK
-b2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICBnbywgMS4xMSwgS2hlbSBSYWogPHJh
-ai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBiaXNvbiwgMy4xLCBDaGVuIFFpIDxRaS5DaGVuQHdp
-bmRyaXZlci5jb20+CiAgICAgICAgbHR0bmctdG9vbHMsIDIuMTAuNSwgUmljaGFyZCBQdXJkaWUg
-PHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAgc2VkLCA0LjUsIENo
-ZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBlbGZ1dGlscywgMC4xNzQsIEhv
-bmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBweXRob24zLCAzLjcu
-MCwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICBmbGV4LCAyLjYuNCwg
-Q2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGRiLCA1LjMuMjgrZGZzZzEs
-IE1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT4KICAgICAgICBhcHQsIDEuNi40
-LCBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsQGdtYWlsLmNvbT4KICAgICAgICBuc3ByLCA0
-LjIwLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIGJ1aWxkLWNv
-bXBhcmUsIDIwMTUuMDIuMTAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBQYXVsIEVnZ2xldG9uIDxw
-YXVsLmVnZ2xldG9uQGxpbnV4LmludGVsLmNvbT4KICAgICAgICBsaWJyZXBvLCAxLjkuMSwgQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgaWZ1cGRvd24s
-IDAuOC4zMywgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgc3F1
-YXNoZnMtdG9vbHMsIDQuMy1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6
-aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHBlcmwsIDUuMjguMCwgTWF4aW4gQi4gSm9o
-biA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgc3lzdmluaXQsIDIuOTAsIFJvc3MgQnVy
-dG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAqIEZhaWxlZChvdGhlciBlcnJvcnMpOiAy
-MAogICAgICAgIHZ0ZSwgMC41NC4wLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNv
-bT4KICAgICAgICBidWlsZC1hcHBsaWFuY2UtaW1hZ2UsIDE5LjAuMSwgUmljaGFyZCBQdXJkaWUg
-PHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAgdS1ib290LCAyMDE4
-LjA5LCBNYXJlayBWYXN1dCA8bWFyZWsudmFzdXRAZ21haWwuY29tPgogICAgICAgIGd0ayszLCAz
-LjI0LjAsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIGdkay1w
-aXhidWYsIDIuMzguMCwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAg
-ICAgZG5mLCAzLjUuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+
-CiAgICAgICAgbGliZG5mLCAwLjE5LjEsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5A
-Z21haWwuY29tPgogICAgICAgIGJpbnV0aWxzLCAyLjMxLjEsIEtoZW0gUmFqIDxyYWoua2hlbUBn
-bWFpbC5jb20+CiAgICAgICAgYXQtc3BpMi1hdGssIDIuMzAuMCwgTWF4aW4gQi4gSm9obiA8bWF4
-aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgZXBpcGhhbnksIDMuMzAuMCwgQWxleGFuZGVyIEth
-bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgYXRrLCAyLjMwLjAsIE1heGlu
-IEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIHdlYmtpdGd0aywgMi4yMi4w
-LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBwdXp6
-bGVzLCAwLjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2hu
-QGludGVsLmNvbT4KICAgICAgICBjb25ubWFuLCAxLjM2LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdo
-eWVvay5iYWVAbGdlLmNvbT4KICAgICAgICBnaG9zdHNjcmlwdCwgOS4yNSwgSG9uZ3h1IEppYSA8
-aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYnNvdXAtMi40LCAyLjY0LjAsIE1h
-eGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIGdzZXR0aW5ncy1kZXNr
-dG9wLXNjaGVtYXMsIDMuMjguMSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+
-CiAgICAgICAgYXQtc3BpMi1jb3JlLCAyLjMwLjAsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5A
-aW50ZWwuY29tPgogICAgICAgIHB5dGhvbjMtcHlnb2JqZWN0LCAzLjMwLjEsIERlcmVrIFN0cmFr
-YSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgZ3N0LWV4YW1wbGVzLCAwLjAuMS1uZXctY29t
-bWl0cy1hdmFpbGFibGUsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CgogICAg
-VE9UQUw6IGF0dGVtcHRlZD05MCBzdWNjZWVkZWQ9MjgoMzEuMTElKSBmYWlsZWQ9NjIoNjguODkl
-KQoKUmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljcyBwZXIgTWFpbnRhaW5lcjoKCiAgICBGYXRoaSBC
-b3VkcmEgPGZhdGhpLmJvdWRyYTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxl
-ZD0xKDEwMC4wMCUpCiAgICBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huOiBhdHRlbXB0ZWQ9MjEg
-c3VjY2VlZGVkPTUoMjMuODElKSBmYWlsZWQ9MTYoNzYuMTklKQogICAgQXJtaW4gS3VzdGVyIDxh
-a3VzdGVyODA4OiBhdHRlbXB0ZWQ9NyBzdWNjZWVkZWQ9NSg3MS40MyUpIGZhaWxlZD0yKDI4LjU3
-JSkKICAgIERlbnlzIERteXRyaXllbmtvIDxkZW55czogYXR0ZW1wdGVkPTMgc3VjY2VlZGVkPTIo
-NjYuNjclKSBmYWlsZWQ9MSgzMy4zMyUpCiAgICBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2
-YWRvcjogYXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTEoMjUuMDAlKSBmYWlsZWQ9Myg3NS4wMCUpCiAg
-ICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsOiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgw
-LjAwJSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
-aW46IGF0dGVtcHRlZD02IHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9NigxMDAuMDAlKQogICAg
-Q2hlbiBRaSA8UWkuQ2hlbjogYXR0ZW1wdGVkPTggc3VjY2VlZGVkPTIoMjUuMDAlKSBmYWlsZWQ9
-Nig3NS4wMCUpCiAgICBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xldG9uOiBhdHRlbXB0ZWQ9MSBz
-dWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFJvc3MgQnVydG9uIDxyb3Nz
-LmJ1cnRvbjogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUp
-CiAgICBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmc6IGF0dGVtcHRlZD02IHN1Y2NlZWRlZD0yKDMz
-LjMzJSkgZmFpbGVkPTQoNjYuNjclKQogICAgTWFyayBIYXRsZSA8bWFyay5oYXRsZTogYXR0ZW1w
-dGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBIb25neHUgSmlh
-IDxob25neHUuamlhOiBhdHRlbXB0ZWQ9NyBzdWNjZWVkZWQ9Myg0Mi44NiUpIGZhaWxlZD00KDU3
-LjE0JSkKICAgIEtoZW0gUmFqIDxyYWoua2hlbTogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4w
-MCUpIGZhaWxlZD0yKDEwMC4wMCUpCiAgICBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWw6IGF0dGVt
-cHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgUmljaGFyZCBQ
-dXJkaWUgPHJpY2hhcmQucHVyZGllOiBhdHRlbXB0ZWQ9NCBzdWNjZWVkZWQ9Mig1MC4wMCUpIGZh
-aWxlZD0yKDUwLjAwJSkKICAgIERlcmVrIFN0cmFrYSA8ZGVyZWs6IGF0dGVtcHRlZD03IHN1Y2Nl
-ZWRlZD00KDU3LjE0JSkgZmFpbGVkPTMoNDIuODYlKQogICAgQW5kcmVqIFZhbGVrIDxhbmRyZWou
-dmFsZWs6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQog
-ICAgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlOiBhdHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9
-MSgzMy4zMyUpIGZhaWxlZD0yKDY2LjY3JSkKICAgIE1hcmVrIFZhc3V0IDxtYXJlay52YXN1dDog
-YXR0ZW1wdGVkPTMgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0zKDEwMC4wMCUpCg==
+To check I'm not seeing some strange artefact of our BSP or
+linux-ti-staging (or any other layer we're using):
 
---===============3100036461099545199==--
+$ git clone git://git.yoctoproject.org/poky
+$ cd poky
+$ . oe-init-build-env
+$ cat << EOF >> conf/local.conf
+MACHINE =3D "beaglebone-yocto"
+KERNEL_CLASSES +=3D " kernel-fitimage"
+KERNEL_IMAGETYPES =3D "fitImage"
+EOF
+$ bitbake linux-yocto
+
+The FIT images we then have:
+
+$ find tmp/deploy/images/beaglebone-yocto -name 'fit*.bin' -type f
+tmp/deploy/images/beaglebone-yocto/fitImage-linux.bin--4.18.3+git0+73417203=
+91_eba03655e8-r0-beaglebone-yocto-20180916134100.bin
+
+And what is:
+
+$ bitbake u-boot-mkimage-native -caddto_recipe_sysroot
+$ oe-run-native u-boot-mkimage-native mkimage -l
+tmp/deploy/images/beaglebone-yocto/fitImage-linux.bin--4.18.3+git0+73417203=
+91_eba03655e8-r0-beaglebone-yocto-20180916134100.bin
+Running bitbake -e u-boot-mkimage-native
+GP Header: Size a0e1 LoadAddr a0e1
+
+Revert c2d00e2f83cdf3d2923660448756ed29296a06a6 and try again:
+
+$ git revert c2d00e2f83cdf3d2923660448756ed29296a06a6
+$ bitbake linux-yocto
+
+This time there's two images:
+
+$ find tmp/deploy/images/beaglebone-yocto -name 'fit*.bin' -type f
+tmp/deploy/images/beaglebone-yocto/fitImage--4.18.3+git0+7341720391_eba0365=
+5e8-r0-beaglebone-yocto-20180916141923.bin
+tmp/deploy/images/beaglebone-yocto/fitImage-linux.bin--4.18.3+git0+73417203=
+91_eba03655e8-r0-beaglebone-yocto-20180916141923.bin
+
+And what they are:
+
+$ oe-run-native u-boot-mkimage-native mkimage -l
+tmp/deploy/images/beaglebone-yocto/fitImage--4.18.3+git0+7341720391_eba0365=
+5e8-r0-beaglebone-yocto-20180916141923.bin
+Running bitbake -e u-boot-mkimage-native
+FIT description: U-Boot fitImage for Poky (Yocto Project Reference
+Distro)/4.18.3+gitAUTOINC+7341720391_eba03655e8/beaglebone-yocto
+Created:         Sun Sep 16 14:14:47 2018
+ Image 0 (kernel@1)
+  Description:  Linux kernel
+  Created:      Sun Sep 16 14:14:47 2018
+  Type:         Kernel Image
+  Compression:  uncompressed
+  Data Size:    6381368 Bytes =3D 6231.80 KiB =3D 6.09 MiB
+  Architecture: ARM
+  OS:           Linux
+  Load Address: 0x80008000
+  Entry Point:  0x80008000
+  Hash algo:    sha1
+  Hash value:   909137524ffd28b5b0ac51ea39c648b09902dc18
+ Image 1 (fdt@am335x-bone.dtb)
+  Description:  Flattened Device Tree blob
+  Created:      Sun Sep 16 14:14:47 2018
+  Type:         Flat Device Tree
+  Compression:  uncompressed
+  Data Size:    33030 Bytes =3D 32.26 KiB =3D 0.03 MiB
+  Architecture: ARM
+  Hash algo:    sha1
+  Hash value:   0fece12f15fc5ac6c452d9308cd374c2c0cfea47
+ Image 2 (fdt@am335x-boneblack.dtb)
+  Description:  Flattened Device Tree blob
+  Created:      Sun Sep 16 14:14:47 2018
+  Type:         Flat Device Tree
+  Compression:  uncompressed
+  Data Size:    34782 Bytes =3D 33.97 KiB =3D 0.03 MiB
+  Architecture: ARM
+  Hash algo:    sha1
+  Hash value:   337f6843020cb8fbaf119b43fd748222d32e72df
+ Image 3 (fdt@am335x-bonegreen.dtb)
+  Description:  Flattened Device Tree blob
+  Created:      Sun Sep 16 14:14:47 2018
+  Type:         Flat Device Tree
+  Compression:  uncompressed
+  Data Size:    33286 Bytes =3D 32.51 KiB =3D 0.03 MiB
+  Architecture: ARM
+  Hash algo:    sha1
+  Hash value:   4974e8b1656cd7f52829ac3c01f6747bece87cbc
+ Default Configuration: 'conf@am335x-bone.dtb'
+ Configuration 0 (conf@am335x-bone.dtb)
+  Description:  1 Linux kernel, FDT blob
+  Kernel:       kernel@1
+  FDT:          fdt@am335x-bone.dtb
+  Hash algo:    sha1
+  Hash value:   unavailable
+ Configuration 1 (conf@am335x-boneblack.dtb)
+  Description:  0 Linux kernel, FDT blob
+  Kernel:       kernel@1
+  FDT:          fdt@am335x-boneblack.dtb
+  Hash algo:    sha1
+  Hash value:   unavailable
+ Configuration 2 (conf@am335x-bonegreen.dtb)
+  Description:  0 Linux kernel, FDT blob
+  Kernel:       kernel@1
+  FDT:          fdt@am335x-bonegreen.dtb
+  Hash algo:    sha1
+  Hash value:   unavailable
+$ oe-run-native u-boot-mkimage-native mkimage -l
+tmp/deploy/images/beaglebone-yocto/fitImage-linux.bin--4.18.3+git0+73417203=
+91_eba03655e8-r0-beaglebone-yocto-20180916141923.bin
+Running bitbake -e u-boot-mkimage-native
+GP Header: Size a0e1 LoadAddr a0e1
+
+--=20
+Alex Kiernan
+
