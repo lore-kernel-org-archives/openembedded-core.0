@@ -1,28 +1,25 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 41207793DD
+Return-Path: <andrej.valek@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id F261C793DD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 12:19:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8HCIPTB001082
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Sep 2018 05:18:36 -0700
-Received: from [128.224.162.202] (128.224.162.202) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 17 Sep 2018 05:18:15 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1536913629.git.hongxu.jia@windriver.com>
-	<cfff7e9bbbc6e53d83b860c2244c3ac616add0cf.camel@linuxfoundation.org>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <7e8174df-da47-0e73-b15b-6afad8337086@windriver.com>
-Date: Mon, 17 Sep 2018 20:18:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <cfff7e9bbbc6e53d83b860c2244c3ac616add0cf.camel@linuxfoundation.org>
-Subject: Re: [PATCH 0/2] package.bbclass: improve auto debug package splitting order
+	Mon, 17 Sep 2018 13:41:50 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w8HDfoQo007754
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Sep 2018 15:41:50 +0200
+Received: from dev.vm6.ccp.siemens.com ([163.242.50.201])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w8HDfojW007788;
+	Mon, 17 Sep 2018 15:41:50 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 5BB53A42C50;
+	Mon, 17 Sep 2018 15:41:50 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Sep 2018 15:41:40 +0200
+Message-Id: <20180917134140.4558-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] unzip: add nativesdk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,47 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2018 12:19:18 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 17 Sep 2018 13:41:51 -0000
 
-On 2018年09月17日 20:06, richard.purdie@linuxfoundation.org wrote:
-> On Fri, 2018-09-14 at 16:49 +0800, Hongxu Jia wrote:
->> Hi RP,
->>
->> Is it necessary to split multiple sub dbg packages or only
->> one dbg is allowed? If the former, this fix makes sense.
-> Only one is recommended and the code only works properly in some cases
-> for one. I'd like to be in a position where we could have that as the
-> only thing we supported but its simply not practical in some cases.
->
-> The debug package dependency handling probably needs a rethink but that
-> would be 2.7 development cycle, its too late for 2.6 now.
->
->> I know in oe-core, almost one dbg package per recipe, but
->> in oe, 21 recipes have extra sub dbg package and 18 of them
->> did not set NOAUTOPACKAGEDEBUG = "1".
->>
->> So rather than modify them one by one tediously, how about to
->> improve auto debug package splitting order? If ${PN}-dbg exists,
->> split the unsplit debug file to ${PN}-dbg, if ${PN}-dbg does not
->> exist, still split them to first dbg package.
-> I don't really want to encourage multiple -dbg packages per recipe and
-> I am a little concerned about making changes to the core packaging code
-> with the release coming up. Fixing the recipes, although tedious may be
-> safer/better rather than encouraging people to do things which aren't
-> well supported.
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ meta/recipes-extended/unzip/unzip_6.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Got it, I will fix affected recipes
-
-Thanks for replying
-
-//Hongxu
-
-> Cheers,
->
-> Richard
-
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index a47491ea4a..4a5f8e960e 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -4,7 +4,7 @@ SECTION = "console/utils"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
+ PE = "1"
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/unzip60.tar.gz \
+ 	file://avoid-strip.patch \
+@@ -60,4 +60,4 @@ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE_${PN} = "unzip"
+ ALTERNATIVE_LINK_NAME[unzip] = "${bindir}/unzip"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.11.0
 
 
