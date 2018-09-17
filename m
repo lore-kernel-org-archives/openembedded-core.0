@@ -1,48 +1,56 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 925E1745AF
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 829A162133
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 10:27:30 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id y207-v6so18349489oie.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 03:27:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=W6EnWmaoos5JsjMoBoVQ0bh1+4ak6rcuT23+/Fpt5oM=;
-	b=ZR7wFwRknfBnIMAjlW6EX+FjPm4BUjpIBUPhvqrzD+Wvd97h6oyqUz1KeVf8fC0JR6
-	xeLCRJTd9NWxJ01dTwFu/QY75YtTB2/YPFpzHjJmTH6Op7vW5qS92yQf4WHtHk550Cpl
-	KUA6AEoLm1eplYmLFcQGs0MaGGXv1w+WUUHewETEAsNevj0+YRk6L7n9Ubv6K/CMSSbe
-	grO3KJsfAD4p1002j94lWzTNsWnzsjDzRLxLifiUW4+pLzan5AVruUc52+WEqaLIOIod
-	UqpTIVLaqkcjDHHzRqANAwYi2NFyBeZwg0ANKsG7KXCed305h+SxelrxzUaJ5Ilq7kn/
-	Ij6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=W6EnWmaoos5JsjMoBoVQ0bh1+4ak6rcuT23+/Fpt5oM=;
-	b=Yhmyls1B8ZP06EYP6wLglQfSLJLffXiujtercAMRKzsGXLRLMGmyvKFY7w6E7ixH1F
-	e7J/yWz+W75ACgOSQcsmpbWgykflVCrE8yafuZPKv/b7kO1H3H5gmuhHEMG4E8MQUirh
-	r/1JEV7kzHs7kjEUXtFeyTcd6OiRX+cuOV45LMAYvxewRDch2F2/WaKQGHFzEbAktHXA
-	mRXmo3BPp0wc/0ONFWMxE5fr1nnT5yBo5Ri5C8JZAvuSRu/2REiHgf3ytTkgmaEa7xBx
-	0J1TfpAQq5Mtrk9UwhGIkPf+5Gdd2tPo31AFl/1/gQ5Kam+t0tlPj+0h6/dlBgJ+Bx/Z
-	VSbw==
-X-Gm-Message-State: APzg51DHfhAHbSf2GuLROtLGElBWSlEO/xAcpPmUZSP4vib2VoTAPDYZ
-	T+TjKoNryc2q2l7RKM0/+HszzzPhgFTgJx8HIX6efw==
-X-Google-Smtp-Source: ANB0VdZGxyVglLeASLoOGKqRDL7mBpG2wT5d8corWRJYML4XyP6W3qUwcgZprfy3uksw2uXW7Ump544M9vKgtCMt7nY=
-X-Received: by 2002:aca:4455:: with SMTP id
-	r82-v6mr17495343oia.260.1537180051238; 
-	Mon, 17 Sep 2018 03:27:31 -0700 (PDT)
+	Mon, 17 Sep 2018 10:54:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id C695318347;
+	Mon, 17 Sep 2018 12:54:09 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id Q6zCMJTAzqgb; Mon, 17 Sep 2018 12:54:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id B88A218338;
+	Mon, 17 Sep 2018 12:54:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6DAF61E07B;
+	Mon, 17 Sep 2018 12:54:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6247F1E077;
+	Mon, 17 Sep 2018 12:54:08 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Mon, 17 Sep 2018 12:54:08 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by thoth.se.axis.com (Postfix) with ESMTP id 564721918;
+	Mon, 17 Sep 2018 12:54:08 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Mon, 17 Sep 2018 12:54:08 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Mon, 17 Sep 2018 12:54:08 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Trevor Woerner <trevor@toganlabs.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] image_types.bbclass: set parallelism for
+	compression
+Thread-Index: AQHUTQtYE7GiSMIX70e22NrfYwiAOaT0TjbQ
+Date: Mon, 17 Sep 2018 10:54:08 +0000
+Message-ID: <6a043e3fd1a547439fbccdd23570665e@XBOX02.axis.com>
+References: <20180915154634.6468-1-trevor@toganlabs.com>
+In-Reply-To: <20180915154634.6468-1-trevor@toganlabs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Received: by 2002:a4a:b48b:0:0:0:0:0 with HTTP; Mon, 17 Sep 2018 03:27:30
-	-0700 (PDT)
-In-Reply-To: <20180916135629.BD4D0440003@auh.yoctoproject.org>
-References: <20180916135629.BD4D0440003@auh.yoctoproject.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 17 Sep 2018 12:27:30 +0200
-Message-ID: <CANNYZj_x-zz83xHc787KCuehG5a11_MqMiqz2OEihXTDtEAGXw@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [AUH] Upgrade status: 2018-09-16
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] image_types.bbclass: set parallelism for	compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +63,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2018 10:27:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 17 Sep 2018 10:54:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-2018-09-16 15:56 GMT+02:00  <auh@auh.yoctoproject.org>:
->     * Failed(other errors): 20
->         vte, 0.54.0, Maxin B. John <maxin.john@intel.com>
->         build-appliance-image, 19.0.1, Richard Purdie <richard.purdie@linuxfoundation.org>
->         u-boot, 2018.09, Marek Vasut <marek.vasut@gmail.com>
->         gtk+3, 3.24.0, Maxin B. John <maxin.john@intel.com>
->         gdk-pixbuf, 2.38.0, Maxin B. John <maxin.john@intel.com>
->         dnf, 3.5.1, Alexander Kanavin <alex.kanavin@gmail.com>
->         libdnf, 0.19.1, Alexander Kanavin <alex.kanavin@gmail.com>
->         binutils, 2.31.1, Khem Raj <raj.khem@gmail.com>
->         at-spi2-atk, 2.30.0, Maxin B. John <maxin.john@intel.com>
->         epiphany, 3.30.0, Alexander Kanavin <alex.kanavin@gmail.com>
->         atk, 2.30.0, Maxin B. John <maxin.john@intel.com>
->         webkitgtk, 2.22.0, Alexander Kanavin <alex.kanavin@gmail.com>
->         puzzles, 0.0-new-commits-available, Maxin B. John <maxin.john@intel.com>
->         connman, 1.36, Changhyeok Bae <changhyeok.bae@lge.com>
->         ghostscript, 9.25, Hongxu Jia <hongxu.jia@windriver.com>
->         libsoup-2.4, 2.64.0, Maxin B. John <maxin.john@intel.com>
->         gsettings-desktop-schemas, 3.28.1, Maxin B. John <maxin.john@intel.com>
->         at-spi2-core, 2.30.0, Maxin B. John <maxin.john@intel.com>
->         python3-pygobject, 3.30.1, Derek Straka <derek@asterius.io>
->         gst-examples, 0.0.1-new-commits-available, Anuj Mittal <anuj.mittal@intel.com>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Trevor Woerner
+> Sent: den 15 september 2018 17:47
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] image_types.bbclass: set parallelism for
+> compression
+>=20
+> Make use of BB_NUMBER_THREADS when setting the parallelism for
+> compression.
 
-These all failed due to stale binutils recipe in devtool workspace.
-I've now removed that, so next time (mid-october) there should be a
-better outcome.
+Shouldn't this rather use the number from PARALLEL_MAKE? If I have a=20
+build that creates multiple images, bitbake may already have=20
+BB_NUMBER_THREADS images building in parallel. I would then rather=20
+expect the parallelism for ach bitbake thread to match PARALLEL_MAKE.
 
-Alex
+> Signed-off-by: Trevor Woerner <trevor@toganlabs.com>
+> ---
+>  meta/classes/image_types.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/classes/image_types.bbclass
+> b/meta/classes/image_types.bbclass
+> index 00a00d318f..35ba775cca 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -281,8 +281,8 @@ COMPRESSIONTYPES ?=3D ""
+>=20
+>  CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha22=
+4sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 ${COMPRESSION=
+TYPES}"
+>  CONVERSION_CMD_lzma =3D "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}=
+.${type}"
+> -CONVERSION_CMD_gz =3D "pigz -f -9 -n -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX=
+}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+> -CONVERSION_CMD_bz2 =3D "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$=
+{type}"
+> +CONVERSION_CMD_gz =3D "pigz -f -9 -n -c -p${BB_NUMBER_THREADS} ${IMAGE_N=
+AME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type=
+}.gz"
+> +CONVERSION_CMD_bz2 =3D "pbzip2 -f -k -p${BB_NUMBER_THREADS} ${IMAGE_NAME=
+}${IMAGE_NAME_SUFFIX}.${type}"
+>  CONVERSION_CMD_xz =3D "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS}=
+ --check=3D${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} =
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
+>  CONVERSION_CMD_lz4 =3D "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$=
+{type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+>  CONVERSION_CMD_lzo =3D "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type=
+}"
+> --
+> 2.17.0.582.gccdcbd54c
+
+//Peter
+
 
