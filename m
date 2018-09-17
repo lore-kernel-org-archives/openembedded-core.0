@@ -1,57 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B655979496
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BED82793F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 05:50:55 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id s12-v6so7986279wmc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Sep 2018 22:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=iGw+DfDQq1s8OSxwACW6luxZGGiMaD7hkDcy/gDm4uI=;
-	b=gy1YAbq3qw2FUMv9B0FUzDEQI4jsgy6+I5AAKbYki2Gi4ZtO3uh4jhBQsAGjV5fgHD
-	ytNdzd+tpt/dcAt+w2I0gjltTFPDBUdZO7NFQ0PW1fdmiSDbw6BryseGNwf9djVJtNJQ
-	+zdCJAgq234rcXhU9ll4qT21iAu0n43G6AUZc2gIRrdQtyXCv26pLDmzjj6OIMJl+nHd
-	Z3hIdnBpAmtCmJ6YB3wG+a6AN9Um8IjgVe4wtajtOaEBnOyiP1GCJkOisDNiRz5DaDeC
-	lBt93hJWi5b3vAC42fS+uwVwVeJcXwslJWXzNhgOIaETF9KwH1Vh4yr3UvUWdnoPdtkA
-	sPOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=iGw+DfDQq1s8OSxwACW6luxZGGiMaD7hkDcy/gDm4uI=;
-	b=RYQHM42EFsgHOck0Cr5Fk28wMwJTw26oRs/V7O1VkL/hgeePTf4qYeI15HE65Eq9NE
-	Twp5hee/Q4+4Q8R2/okIKZhEsYQSbPFSFOOpeWImbYLWB9p5Mv0nuExq1m0MoqINzEAF
-	UIBiXwEjnWvKtm/3ssKbwH6Qwm033N12VkBiO+2au2btoKsko8t26oLR7qXYD/J0ZUq6
-	QAeky3LLxL1lzzKIAf2lbGepjTEbhuBYGbilmRxA5Yu9NL5Az/G8F70I0cuPr32Wo5KQ
-	Z2+7HxRVeZNumyl+uzF+4jPipLTWDd92x2votJAblENLCnFhnaD0lTdSAJmBZO28RvqF
-	8zWg==
-X-Gm-Message-State: APzg51DDRTCqLARlMx+oEANdGfpGCk6VN0j52AOczJ739s0q4hfh/SrC
-	KQFmdw4DpUUe9iUXuzoLO6/cY5jo
-X-Google-Smtp-Source: ANB0VdYVKYH8kjj6hfO0WnNoC+C8XmbJKAyTwn1GT/HfxAeroVyDoQq4TuQMJ4jmNoNr+rbT8bl17Q==
-X-Received: by 2002:a1c:c7c3:: with SMTP id
-	x186-v6mr9809560wmf.109.1537163456468; 
-	Sun, 16 Sep 2018 22:50:56 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	h7-v6sm12257325wrs.3.2018.09.16.22.50.55
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 16 Sep 2018 22:50:55 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 17 Sep 2018 07:50:55 +0200
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20180917055055.GB3408@jama>
-References: <cover.1536130313.git.liezhi.yang@windriver.com>
-	<44bc8e8162a345bc10eb206b7858fd9f2bd91881.1536130313.git.liezhi.yang@windriver.com>
-	<CA+chaQccRwckqnoA601TNz-qr5QHLw+2uCigHKTS4D2b4DP_Yg@mail.gmail.com>
+	Mon, 17 Sep 2018 07:46:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8H7k4n5009776
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Sep 2018 00:46:04 -0700 (PDT)
+Received: from [128.224.124.169] (128.224.124.169) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 17 Sep 2018 00:46:03 -0700
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20180914130310.395-1-ovidiu.panait@windriver.com>
+	<20180914133207.GC1369@jama>
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+Message-ID: <4b92701f-c2b0-8f10-4a39-8dbbc07a8659@windriver.com>
+Date: Mon, 17 Sep 2018 10:34:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQccRwckqnoA601TNz-qr5QHLw+2uCigHKTS4D2b4DP_Yg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2 V2] bitbake.conf: Make BUILD_OPTIMIZATION respect to DEBUG_BUILD
+In-Reply-To: <20180914133207.GC1369@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [morty][PATCH v2] qemux86: wic: Add MLPREFIX to syslinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,133 +34,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2018 05:50:56 -0000
-X-Groupsio-MsgNum: 116333
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wzJLGUyc3ArbnUjN"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 17 Sep 2018 07:46:04 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---wzJLGUyc3ArbnUjN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 14.09.2018 16:32, Martin Jansa wrote:
 
-On Fri, Sep 14, 2018 at 03:25:58PM +0200, Martin Jansa wrote:
-> This seems to cause nativesdk-glibc failures when DEBUG_BUILD is used, it
-> fails like this:
->=20
-> ../sysdeps/ieee754/ldbl-96/e_jnl.c: In function '__ieee754_jnl':
-> ../sysdeps/ieee754/ldbl-96/e_jnl.c:146:20: error: 'temp' may be used
-> uninitialized in this function [-Werror=3Dmaybe-uninitialized]
->       b =3D invsqrtpi * temp / sqrtl (x);
->           ~~~~~~~~~~^~~~~~
->=20
-> the target build suffers from the same, that's why I was using this for a
-> while:
-> # glibc-2.21 fails to build with:
-> # iso-2022-cn-ext.c:501:4: error: 'tmpbuf' may be used uninitialized in
-> this function [-Werror=3Dmaybe-uninitialized]
-> # connections.c:1916:1: error: inlining failed in call to 'clear_db_cache=
-':
-> call is unlikely and code size would grow [-Werror=3Dinline]
-> # add few -Wno-error like meta/recipes-core/glibc/glibc.inc is trying to
-> doin get_optimization function,
-> # but fails because we append -Os at the end and -O2 is found first
-> SELECTED_OPTIMIZATION_append_pn-glibc =3D
-> "${@bb.utils.contains('TUNE_FEATURES', 'webos-minsize', '
-> -Wno-error=3Dmaybe-uninitialized -Wno-error=3Dinline', '', d)}"
->=20
->=20
-> There is some logic in meta/recipes-core/glibc/glibc.inc to
-> append -Wno-error to SELECTED_OPTIMIZATION when "-O", "-O1", "-Os" is use=
-d,
-> but the same would be needed for BUILD_OPTIMIZATION now.
->=20
-> Or maybe it would be worth marking those uninitialized/unused variables
-> with #pragma instead of injecting -Wno-error?
->=20
-> Then we can get rid of:
-> python () {
->     opt_effective =3D "-O"
->     for opt in d.getVar('SELECTED_OPTIMIZATION').split():
->         if opt in ("-O0", "-O", "-O1", "-O2", "-O3", "-Os"):
->             opt_effective =3D opt
->     if opt_effective =3D=3D "-O0":
->         bb.fatal("%s can't be built with %s, try -O1 instead" %
-> (d.getVar('PN'), opt_effective))
->     if opt_effective in ("-O", "-O1", "-Os"):
->         bb.note("%s doesn't build cleanly with %s, adding -Wno-error to
-> SELECTED_OPTIMIZATION" % (d.getVar('PN'), opt_effective))
->         d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
-> }
-> from meta/recipes-core/glibc/glibc.inc (not use about -O0 case) and remove
-> following notes:
-> NOTE: glibc doesn't build cleanly with -O, adding -Wno-error to
-> SELECTED_OPTIMIZATION
-> NOTE: nativesdk-glibc doesn't build cleanly with -O, adding -Wno-error to
-> SELECTED_OPTIMIZATION
-> from every build with DEBUG_BUILD enabled.
->=20
-> What would be the preferred fix?
+> On Fri, Sep 14, 2018 at 04:03:10PM +0300, Ovidiu Panait wrote:
+>> Fix the following do_image_wic failure for lib32-core-image-minimal:
+>> | DEBUG: Executing python function set_image_size
+>> | DEBUG: Python function set_image_size finished
+>> | DEBUG: Executing shell function do_image_wic
+>> | Error: Please build syslinux first
+>>
+>> Test case:
+>> MACHINE ?= "qemux86-64"
+>>
+>> require conf/multilib.conf
+>> MULTILIBS = "multilib:lib32"
+>> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+>>
+>> IMAGE_FSTYPES_append = " wic wic.bmap"
+>>
+>> $ bitbake lib32-core-image-minimal
+>>
+>> Currently, syslinux gets built instead of lib32-syslinux, so do_image_wic
+>> doesn't find the right files into tmp/sysroots/lib32-qemux86-64 sysroot.
+>>
+>> Pyro and later releases are not affected by this issue because they are
+>> based on Recipe Specific Sysroot, so syslinux binaries end up in the
+>> right place.
+> How does RSS help with this issue? It still builds the wrong version of
+> syslinux, doesn't it?
+Hi,
 
-I've sent possible fix here:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-September/15=
-5744.html
+It seems that do_image_wic needs some files that are independent of the 
+architecture syslinux is built for.
 
->=20
-> On Wed, Sep 5, 2018 at 9:05 AM Robert Yang <liezhi.yang@windriver.com>
-> wrote:
->=20
-> > We may also need debug native tools, so make BUILD_OPTIMIZATION respect=
- to
-> > DEBUG_BUILD, otherwise, we need set CFLAGS in the recipe which isn't
-> > convenient.
-> >
-> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > ---
-> >  meta/conf/bitbake.conf | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index dbadeb3..93aee1a 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -612,7 +612,7 @@ FULL_OPTIMIZATION =3D "-O2 -pipe ${DEBUG_FLAGS}"
-> >  DEBUG_OPTIMIZATION =3D "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pip=
-e"
-> >  SELECTED_OPTIMIZATION =3D "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD',
-> > 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
-> >  SELECTED_OPTIMIZATION[vardeps] +=3D "FULL_OPTIMIZATION DEBUG_OPTIMIZAT=
-ION"
-> > -BUILD_OPTIMIZATION =3D "-O2 -pipe"
-> > +BUILD_OPTIMIZATION =3D "${@oe.utils.vartrue('DEBUG_BUILD', '-O -g
-> > -feliminate-unused-debug-types -fno-omit-frame-pointer', '-O2', d)} -pi=
-pe"
-> >
-> >  ##################################################################
-> >  # Settings used by bitbake-layers.
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
+$ cat scripts/lib/wic/plugins/source/bootimg-pcbios.py
+...
+         cmds = ("install -m 0644 %s/bzImage %s/vmlinuz" %
+                 (staging_kernel_dir, hdddir),
+                 "install -m 444 %s/syslinux/ldlinux.sys %s/ldlinux.sys" %
+                 (bootimg_dir, hdddir),
+                 "install -m 0644 %s/syslinux/vesamenu.c32 
+%s/vesamenu.c32" %
+                 (bootimg_dir, hdddir),
+                 "install -m 444 %s/syslinux/libcom32.c32 %s/libcom32.c32" %
+                 (bootimg_dir, hdddir),
+                 "install -m 444 %s/syslinux/libutil.c32 %s/libutil.c32" %
+                 (bootimg_dir, hdddir))
+...
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+These files are provided by both syslinux and lib32-syslinux, but before 
+RSS, they will be present in the 64bit sysroot, not the lib32 one, so 
+wic won't find them when building lib32-core-image-minimal.
 
---wzJLGUyc3ArbnUjN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+With RSS, all binaries are in the same sysroot directory:
 
------BEGIN PGP SIGNATURE-----
+$ ls -1 
+tmp/work/qemux86_64-pokymllib32-linux/lib32-core-image-minimal/1.0-r0/lib32-recipe-sysroot/usr/share/syslinux
+...
+ldlinux.sys
+libcom32.c32
+libutil.c32
+vesamenu.c32
+...
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCW59AvwAKCRA3VSO3ZXaA
-HHSZAJ9/QRh/cWQSff12b5pt9MuxZyc3gACeO6LEyD4I9/9M/7+dcKI+CFFVxr0=
-=vwaS
------END PGP SIGNATURE-----
+Thanks,
+Ovidiu
+>> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+>> ---
+>>   meta/conf/machine/qemux86-64.conf | 2 +-
+>>   meta/conf/machine/qemux86.conf    | 2 +-
+>>   2 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+>> index 4f30033e51..e093078d9d 100644
+>> --- a/meta/conf/machine/qemux86-64.conf
+>> +++ b/meta/conf/machine/qemux86-64.conf
+>> @@ -33,4 +33,4 @@ MACHINE_FEATURES += "x86"
+>>   MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+>>   
+>>   WKS_FILE ?= "directdisk.wks"
+>> -do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
+>> +do_image_wic[depends] += "${MLPREFIX}syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
+>> diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+>> index e232947aee..29897aaaaf 100644
+>> --- a/meta/conf/machine/qemux86.conf
+>> +++ b/meta/conf/machine/qemux86.conf
+>> @@ -32,4 +32,4 @@ MACHINE_FEATURES += "x86"
+>>   MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+>>   
+>>   WKS_FILE = "directdisk.wks"
+>> -do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
+>> +do_image_wic[depends] += "${MLPREFIX}syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
+>> -- 
+>> 2.17.1
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---wzJLGUyc3ArbnUjN--
+
