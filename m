@@ -1,26 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BE1B662133;
-	Mon, 17 Sep 2018 10:54:14 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w8HAs6B6032339
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 17 Sep 2018 11:54:08 +0100
-Message-ID: <317b23b90efd4f643f7e2833a6b33e4c9d02219a.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>,
-	openembedded-core-bounces@lists.openembedded.org
-Date: Mon, 17 Sep 2018 11:54:07 +0100
-In-Reply-To: <CAJTo0LYV8kB5SL1h+mkHSUzkV+tkBzLPgsmTg8gjpt4omB42nA@mail.gmail.com>
-References: <20180913131544.20812-1-richard.purdie@linuxfoundation.org>
-	<CAJTo0LYV8kB5SL1h+mkHSUzkV+tkBzLPgsmTg8gjpt4omB42nA@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/selftest/runtime_test: Ensure we build/use gnupg-native
+Return-Path: <marex@denx.de>
+X-Greylist: delayed 503 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 17 Sep 2018 11:43:00 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id D4A0F745A6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Sep 2018 11:43:00 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 42DPDG45Gfz1qvnq;
+	Mon, 17 Sep 2018 13:34:38 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 42DPDG3Kvpz1r45J;
+	Mon, 17 Sep 2018 13:34:38 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id atIjaLUOtego; Mon, 17 Sep 2018 13:34:37 +0200 (CEST)
+X-Auth-Info: UGFF/raSEuhRmmQNDKIDDqSQeAWnN4FlbpqTLckFnwI=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon, 17 Sep 2018 13:34:37 +0200 (CEST)
+To: akuster808 <akuster808@gmail.com>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Otavio Salvador <otavio@ossystems.com.br>
+References: <20180916211625.18597-1-otavio@ossystems.com.br>
+	<20180916211625.18597-4-otavio@ossystems.com.br>
+	<CAP9ODKoKv05L0=NVUnY7LamEbjsZwTgsAqnNokQr8KS64SThBQ@mail.gmail.com>
+	<690c79c0-b182-a2ff-997e-a978ed2d9be4@gmail.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <bd66a65d-9a04-06ca-49ab-352697d7f30f@denx.de>
+Date: Mon, 17 Sep 2018 13:34:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <690c79c0-b182-a2ff-997e-a978ed2d9be4@gmail.com>
+Cc: U-Boot Mailing List <u-boot@lists.denx.de>, Tom Rini <trini@konsulko.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] u-boot: Upgrade 2018.07 -> 2018.09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2018 10:54:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Sep 2018 11:43:01 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2018-09-16 at 10:20 +0100, Burton, Ross wrote:
-> Doesn't quite work:
+On 09/17/2018 03:57 AM, akuster808 wrote:
 > 
-> 2018-09-14 23:53:16,527 - oe-selftest - INFO - 7: 13/14 281/332
-> (10.67s) (runtime_test.TestImage.test_testimage_dnf)
-> 2018-09-14 23:53:16,527 - oe-selftest - INFO -
-> testtools.testresult.real._StringException: Traceback (most recent
-> call last):
-> File "/home/pokybuild/yocto-worker/nightly-oe-
-> selftest/build/meta/lib/oeqa/core/decorator/__init__.py",
-> line 32, in wrapped_f
-> return func(*args, **kwargs)
-> File "/home/pokybuild/yocto-worker/nightly-oe-
-> selftest/build/meta/lib/oeqa/selftest/cases/runtime_test.py",
-> line 157, in test_testimage_dnf
-> runCmd('gpg --batch --homedir %s --import %s' % (self.gpg_home,
-> os.path.join(signing_key_dir, 'key.secret')),
-> native_sysroot=get_bb_var("RECIPE_SYSROOT_NATIVE", "gnupg-native"))
-> File "/home/pokybuild/yocto-worker/nightly-oe-
-> selftest/build/meta/lib/oeqa/utils/commands.py",
-> line 191, in runCmd
-> raise AssertionError("Command '%s' returned non-zero exit status
-> %d:\n%s" % (command, result.status, exc_output))
-> AssertionError: Command 'gpg --batch --homedir
-> /tmp/oeqa-feed-sign-gqt86zv_ --import
-> /home/pokybuild/yocto-worker/nightly-oe-selftest/build/build-st-
-> 50002/meta-selftest/files/signing/key.secret'
-> returned non-zero exit status 2:
-> gpg: keybox '/tmp/oeqa-feed-sign-gqt86zv_/pubring.kbx' created
-> gpg: /tmp/oeqa-feed-sign-gqt86zv_/trustdb.gpg: trustdb created
-> gpg: key 7B31316B5D64AD52: public key "testuser (nocomment)
-> <testuser@testemail.com>" imported
-> gpg: failed to start agent
-> '/home/pokybuild/yocto-worker/nightly-oe-selftest/build/build-st-
-> 104600/tmp/work/x86_64-linux/gnupg-native/2.2.9-r0/recipe-sysroot-
-> native/usr/bin/gpg-agent':
-> No such file or directory
-> gpg: can't connect to the agent: No such file or directory
-> gpg: error getting the KEK: No agent running
-> gpg: Total number processed: 1
-> gpg: imported: 1
-> gpg: secret keys read: 1
+> 
+> On 09/16/2018 06:14 PM, Otavio Salvador wrote:
+>> On Sun, Sep 16, 2018 at 6:16 PM Otavio Salvador <otavio@ossystems.com.br> wrote:
+>>> This upgrades U-Boot to 2018.09 release and drop the backported
+>>> security fixes which are now included upstream.
+>>>
+>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> When I mentioned, on IRC, about this bump to Marek, he mentioned that
+>> there is a regression on x86 being worked on upstream so this patch
+>> should wait for this to be sorted out before we update it.
+> 
+> What is the difference in regression when there is a kernel issue
+> identified after they release or any other package update?
+> 
+> Granted this most likely wont make 2.6 so is a moot point in 6 months. 
+> Is there a benefit to the many over the few with this?
 
-A quick poke at this on a plane confirmed its an sstate relocation
-issue. gnupg-native does not relocate safely. common/homedir.c has
-gnupg_bindir() which isn't configurable and hardcodes the binary
-locations. There are other functions in there which probably have the
-same issue. Options:
+Nah, 2018.07 is fine.
 
-a) Revert my selftest fix and require gpg on the machine running the
-selftests (opens us up to gpg version issues). Clearly not all YP
-autobuilder workers have it.
-b) Patch gnupg to relocate properly
-
-Cheers,
-
-Richard
+-- 
+Best regards,
+Marek Vasut
 
