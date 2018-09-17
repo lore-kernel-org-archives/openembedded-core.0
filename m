@@ -1,35 +1,35 @@
 Return-Path: <Alexey.Brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (smtprelay.synopsys.com [198.182.47.9])
-	by mail.openembedded.org (Postfix) with ESMTP id E59A279651
+Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
+	[198.182.47.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F4937458B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 21:35:20 +0000 (UTC)
+	Mon, 17 Sep 2018 21:40:19 +0000 (UTC)
 Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id ABF7B24E0647;
-	Mon, 17 Sep 2018 14:30:02 -0700 (PDT)
+	by smtprelay.synopsys.com (Postfix) with ESMTP id 812D924E0625;
+	Mon, 17 Sep 2018 14:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1537219802; bh=xFwgePbdHuQnzBHkqAjGYY4TimmzkFLo/x5tCY7wTOM=;
+	t=1537219810; bh=0Wa0K+UrAQRGr2WzlSnC8jeHXFX7PkBQXSm9cAgPllY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GSBfdZ5I/eI2x9SBWjVsynsz7A/W3YF159NSIPIPrpU6uert9yo1R7gxOA4NgnZ3s
-	NrwJ+VrWwTFAQfpuCHUN7Ra8W2HcnhFT/qbZsVUZDGBO3gdylFoFwyBv7dOkoXUvvf
-	qmQFfUJPDMai7N7IbQkeBSRsxzdvZKNdUd60RZAy7ou+bf6Ah+Mxsxg/N0A/5mbH9x
-	arTxKUZf2HQRVY/eo9/NiBGM4VRvRlcaCUuoIXtofB1lrjsI8o8PPbUEsJGV0Fcngc
-	o2uVWeWztpQIx4pEiNWypAWQlUaZyQfZZuE79B+rvM5aGl+SdoTJVfEaXHPBVY/3gC
-	1f0SjF7zOrKpA==
+	b=YDF2/gHNBnPc69/LydYQaYiFb/SomY8jS0BMWP2gnaUXLwUzgD6eES3du95nF4EVo
+	guIuH2vc4t58YYWAFqjEeHNPL1fPBsekSyQRPBap156ZKA7tR1KUIyvefuWCbDpnPN
+	QUmfgLSLmtun67xWI1q2Xc3NHCXqmAn7RbbMblyfYDZP3yItMJYJBLO4TjqKY9ARWr
+	BzXB6ga7QrtIezPYDuPb74TZjxuwEkdGvcxrKYaf3nEyDd51EmNZN73X9rSWdJq6Qe
+	Uf8looxMm/S3BvlP2B7YywD2rn8FwZwwFupdmmMJ0rhdUxw2F3Vng6D4hlEq7WvN/R
+	mHPH/DAHLVNaw==
 Received: from ru20arcgnu1.internal.synopsys.com
 	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 039265538;
-	Mon, 17 Sep 2018 14:30:00 -0700 (PDT)
+	by mailhost.synopsys.com (Postfix) with ESMTP id 49D57560B;
+	Mon, 17 Sep 2018 14:30:09 -0700 (PDT)
 From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Sep 2018 00:29:38 +0300
-Message-Id: <20180917212943.27237-6-abrodkin@synopsys.com>
+Date: Tue, 18 Sep 2018 00:29:43 +0300
+Message-Id: <20180917212943.27237-11-abrodkin@synopsys.com>
 X-Mailer: git-send-email 2.16.2
 In-Reply-To: <20180917212943.27237-1-abrodkin@synopsys.com>
 References: <20180917212943.27237-1-abrodkin@synopsys.com>
-Cc: Antoine Tenart <antoine.tenart@bootlin.com>,
-	linux-snps-arc@lists.infradead.org,
+Cc: linux-snps-arc@lists.infradead.org,
 	Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-Subject: [PATCH 05/10] nspr: Add ARC support
+Subject: [PATCH 10/10] gcc: Fix specs generation for ARC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,124 +42,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2018 21:35:21 -0000
+X-List-Received-Date: Mon, 17 Sep 2018 21:40:19 -0000
 
-From: Antoine Tenart <antoine.tenart@bootlin.com>
+GCC's built-in spec for LD is missing a space after
+"--eh-frame-hdr" thus with the next option merged together they
+are not understood by LD and so LD fails.
 
-[Alexey: Rebased on top of other patches like RiscV, NIOS2 etc]
+Back-port from upstream GCC, see:
+https://github.com/gcc-mirror/gcc/commit/892142379c6b99fe8c3ebdfe0b79e2a435228c1d
 
-Signed-off-by: Antoine Tenart <antoine.tenart@bootlin.com>
 Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
 ---
- .../nspr/nspr/0004-Add-ARC-support.patch           | 86 ++++++++++++++++++++++
- meta/recipes-support/nspr/nspr_4.19.bb             |  1 +
- 2 files changed, 87 insertions(+)
- create mode 100644 meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
+ meta/recipes-devtools/gcc/gcc-8.2.inc              |  1 +
+ .../gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch        | 40 ++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch
 
-diff --git a/meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch b/meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
-new file mode 100644
-index 0000000..dda1928
---- /dev/null
-+++ b/meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
-@@ -0,0 +1,86 @@
-+From 6cb5b0be8837222a1e01745f2cf57cd0e593186d Mon Sep 17 00:00:00 2001
-+From: Antoine Tenart <antoine.tenart@free-electrons.com>
-+Date: Mon, 23 Oct 2017 10:28:20 +0200
-+Subject: [PATCH] Add ARC support
-+
-+[Alexey: Rebased on top of other patches like RiscV, NIOS2 etc].
-+
-+Signed-off-by: Antoine Tenart <antoine.tenart@bootlin.com>
-+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-+---
-+ pr/include/md/_linux.cfg | 45 ++++++++++++++++++++++++++++++++++++++++
-+ pr/include/md/_linux.h   |  2 ++
-+ 2 files changed, 47 insertions(+)
-+
-+diff --git a/pr/include/md/_linux.cfg b/pr/include/md/_linux.cfg
-+index fec8525378dc..5f4fa0eac783 100644
-+--- a/pr/include/md/_linux.cfg
-++++ b/pr/include/md/_linux.cfg
-+@@ -1157,6 +1157,51 @@
-+ #define PR_BYTES_PER_WORD_LOG2  3
-+ #define PR_BYTES_PER_DWORD_LOG2 3
-+ 
-++#elif defined(__arc__)
-++
-++#define IS_LITTLE_ENDIAN 1
-++#undef  IS_BIG_ENDIAN
-++
-++#define PR_BYTES_PER_BYTE   1
-++#define PR_BYTES_PER_SHORT  2
-++#define PR_BYTES_PER_INT    4
-++#define PR_BYTES_PER_INT64  8
-++#define PR_BYTES_PER_LONG   4
-++#define PR_BYTES_PER_FLOAT  4
-++#define PR_BYTES_PER_DOUBLE 8
-++#define PR_BYTES_PER_WORD   4
-++#define PR_BYTES_PER_DWORD  8
-++
-++#define PR_BITS_PER_BYTE    8
-++#define PR_BITS_PER_SHORT   16
-++#define PR_BITS_PER_INT     32
-++#define PR_BITS_PER_INT64   64
-++#define PR_BITS_PER_LONG    32
-++#define PR_BITS_PER_FLOAT   32
-++#define PR_BITS_PER_DOUBLE  64
-++#define PR_BITS_PER_WORD    32
-++
-++#define PR_BITS_PER_BYTE_LOG2   3
-++#define PR_BITS_PER_SHORT_LOG2  4
-++#define PR_BITS_PER_INT_LOG2    5
-++#define PR_BITS_PER_INT64_LOG2  6
-++#define PR_BITS_PER_LONG_LOG2   5
-++#define PR_BITS_PER_FLOAT_LOG2  5
-++#define PR_BITS_PER_DOUBLE_LOG2 6
-++#define PR_BITS_PER_WORD_LOG2   5
-++
-++#define PR_ALIGN_OF_SHORT   2
-++#define PR_ALIGN_OF_INT     4
-++#define PR_ALIGN_OF_LONG    4
-++#define PR_ALIGN_OF_INT64   4
-++#define PR_ALIGN_OF_FLOAT   4
-++#define PR_ALIGN_OF_DOUBLE  4
-++#define PR_ALIGN_OF_POINTER 4
-++#define PR_ALIGN_OF_WORD    4
-++
-++#define PR_BYTES_PER_WORD_LOG2   2
-++#define PR_BYTES_PER_DWORD_LOG2  3
-++
-+ #else
-+ 
-+ #error "Unknown CPU architecture"
-+diff --git a/pr/include/md/_linux.h b/pr/include/md/_linux.h
-+index 8e04fad479a1..628b1217e9c8 100644
-+--- a/pr/include/md/_linux.h
-++++ b/pr/include/md/_linux.h
-+@@ -63,6 +63,8 @@
-+ #define _PR_SI_ARCHITECTURE "riscv32"
-+ #elif defined(__riscv) && (__riscv_xlen == 64)
-+ #define _PR_SI_ARCHITECTURE "riscv64"
-++#elif defined(__arc__)
-++#define _PR_SI_ARCHITECTURE "arc"
-+ #else
-+ #error "Unknown CPU architecture"
-+ #endif
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/nspr/nspr_4.19.bb b/meta/recipes-support/nspr/nspr_4.19.bb
-index b5264be..0212be7 100644
---- a/meta/recipes-support/nspr/nspr_4.19.bb
-+++ b/meta/recipes-support/nspr/nspr_4.19.bb
-@@ -12,6 +12,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
-            file://0002-Add-nios2-support.patch \
-            file://0001-md-Fix-build-with-musl.patch \
-            file://0003-Add-type-definitions-for-the-RISC-V-architecture.patch \
-+           file://0004-Add-ARC-support.patch \
-            file://nspr.pc.in \
+diff --git a/meta/recipes-devtools/gcc/gcc-8.2.inc b/meta/recipes-devtools/gcc/gcc-8.2.inc
+index 889187e..866a775 100644
+--- a/meta/recipes-devtools/gcc/gcc-8.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-8.2.inc
+@@ -69,6 +69,7 @@ SRC_URI = "\
+            file://0038-fix-segmentation-fault-in-precompiled-header-generat.patch \
+            file://0039-Fix-for-testsuite-failure.patch \
+            file://0040-Re-introduce-spe-commandline-options.patch \
++           file://0041-ARC-fix-spec-gen.patch \
+            ${BACKPORTS} \
  "
- 
+ BACKPORTS = "\
+diff --git a/meta/recipes-devtools/gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch b/meta/recipes-devtools/gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch
+new file mode 100644
+index 0000000..d746d79
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch
+@@ -0,0 +1,40 @@
++From 892142379c6b99fe8c3ebdfe0b79e2a435228c1d Mon Sep 17 00:00:00 2001
++From: claziss <claziss@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Mon, 17 Sep 2018 08:52:10 +0000
++Subject: [PATCH] [ARC] Update LINK_EH_SPEC linker spec.
++
++With no trailing space in LINK_EH_SPEC linker spec gets generated as:
++------------------------>8---------------------
++%{!r:--build-id} --eh-frame-hdr%{h*} ...
++------------------------>8---------------------
++
++or even worse if hash style is added:
++------------------------>8---------------------
++%{!r:--build-id} --eh-frame-hdr--hash-style=sysv %{h*} ...
++------------------------>8---------------------
++
++Now if that spec is really used by LD then it fails inevitably
++saying that it doesn't know option "--eh-frame-hdr--hash-style=sysv".
++
++2018-09-17  Alexey Brodkin  <abrodkin@synopsys.com>
++
++	* config/arc/linux.h (LINK_EH_SPEC): Add missing space.
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@264361 138bc75d-0d04-0410-961f-82ee72b054a4
++---
++ gcc/config/arc/linux.h | 2 +-
++ 1 files changed, 1 insertions(+), 1 deletion(-)
++
++diff --git a/gcc/config/arc/linux.h b/gcc/config/arc/linux.h
++index 96d548eae341..62ebe4de0fc7 100644
++--- a/gcc/config/arc/linux.h
+++++ b/gcc/config/arc/linux.h
++@@ -98,7 +98,7 @@ along with GCC; see the file COPYING3.  If not see
++    Signalize that because we have fde-glibc, we don't need all C shared libs
++    linked against -lgcc_s.  */
++ #undef LINK_EH_SPEC
++-#define LINK_EH_SPEC "--eh-frame-hdr"
+++#define LINK_EH_SPEC "--eh-frame-hdr "
++ #endif
++ 
++ #undef SUBTARGET_CPP_SPEC
 -- 
 1.8.3.1
 
