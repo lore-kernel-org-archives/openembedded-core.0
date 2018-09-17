@@ -1,27 +1,48 @@
-Return-Path: <Ovidiu.Panait@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BED82793F3
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3081779491
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 07:46:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8H7k4n5009776
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Sep 2018 00:46:04 -0700 (PDT)
-Received: from [128.224.124.169] (128.224.124.169) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 17 Sep 2018 00:46:03 -0700
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20180914130310.395-1-ovidiu.panait@windriver.com>
-	<20180914133207.GC1369@jama>
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
-Message-ID: <4b92701f-c2b0-8f10-4a39-8dbbc07a8659@windriver.com>
-Date: Mon, 17 Sep 2018 10:34:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Mon, 17 Sep 2018 08:18:12 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id c22-v6so10763358iob.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Sep 2018 01:18:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=B3FnVIzEdC5vHC4X23KO7oDhUbyaZJqgZXuYs0Vsq5s=;
+	b=I+LqvSkTir8ji7qwWAmjngJA7RJihTQW9L4kYJ5+I6h4T/Lvp97DnHdCE1mAwI0hmf
+	qksSUlC/VOXyrCnB9IUOwU6vnrj45ZXBJ00wstjJPHJJy40FWZxDoBzMr7cw8hkRr3AJ
+	+q+lrRC6rgRbL5aKQq+IDlVW+if92EF7M06GuQ5PbAeBta3qk/47UFYbedlbFPNGYAq2
+	mvEk4iDCOWzQwbT/+sQ5R0Yske5IfP0hyseyYHnRlX7vp7IrNXeje3uCso4702x5bhbn
+	E26KskBg2fVuK1Zw6R1KOzdbERHKg2NekJ8oBNVyKzjlubv5cHwFlxP7D3CwSavjFvIy
+	tWpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=B3FnVIzEdC5vHC4X23KO7oDhUbyaZJqgZXuYs0Vsq5s=;
+	b=O0qRbqs2+JeR/x08fEc/gWc377pMPab17a5u6990cEZQxuOalbPXV5PDYPDmZ/WNg4
+	uTumBmCfqmbHoflprHaATYNg+x9eC2MzT7PEnoQo8dsmCMXMGB7iw+cSG3JyHFtMY/f3
+	0FWPj22yP6uIGQDTFtGHTLSKir51+MQM0bv9QliBk4MO0Pz6a/Eh3f2ePINyw+PPghD2
+	kb6BdWsOdqX+fjHl0Ojp3J27icrFXNKg1WBjIF6Oiky3cVH6Amh0SLzGnItEbLAaGJdl
+	8w9682prhWY+oellnhJsivkOqoatd8SPdMfUM3Qbk4T19eWxv2K/N1Q2+Th9DnF2Cn7M
+	fmmw==
+X-Gm-Message-State: APzg51ASveWQygpWNnuHBXl7HwnpZpriJAZ0pSvB7FrXF65ahHW/DFPL
+	BaM5vfEYlZod7mSMjIreFkEL8ysJT17zIf2PSP3iZQ==
+X-Google-Smtp-Source: ANB0VdY6XFJ3XTEgerWeJiO6cwGT6I5YknTnwLWbH1xqu3KAgmj7WkT06nipRN/R24ShyZWt7PVxhM0Mrt5AHOrd7JQ=
+X-Received: by 2002:a6b:9f46:: with SMTP id
+	i67-v6mr18994686ioe.182.1537172293203; 
+	Mon, 17 Sep 2018 01:18:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180914133207.GC1369@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [morty][PATCH v2] qemux86: wic: Add MLPREFIX to syslinux
+References: <20180713124348.5067-1-martin@geanix.com>
+In-Reply-To: <20180713124348.5067-1-martin@geanix.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Date: Mon, 17 Sep 2018 10:18:01 +0200
+Message-ID: <CAPbeDCkvgvLnu8bEfvUsWJG5zFhN5=Dv539ysbsm1pAN_XbFKA@mail.gmail.com>
+To: martin@geanix.com
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] initscripts: remove warnings on read-only-rootfs (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,109 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2018 07:46:04 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 17 Sep 2018 08:18:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 14.09.2018 16:32, Martin Jansa wrote:
+On Fri, Jul 13, 2018 at 2:44 PM Martin Hundeb=C3=B8ll <martin@geanix.com> w=
+rote:
+>
+> When the populate-volatile.sh initscript tests if a configured symlink
+> is already in place, it uses readlink with the '-f' (follow) option:
+>
+> > [ "$(readlink -f $source)" =3D "$dest" ]
+>
+> If the test fails, it proceeds to delete the exisiting folder/file, and
+> create the configured symlink.
+>
+> However, the '-f' option to readlink makes it follow symlinks pointing
+> at symlinks. If the $dest argument is a symlink, the above test fails,
+> and warnings are printed due to changing a read-only rootfs.
+>
+> This is the case for /tmp, and /etc/resolv.conf:
+> > /tmp -> /var/tmp -> /var/volatile/tmp
+> > /etc/resolv.conf -> /var/run/resolv.conf -> /run/resolv.conf
+>
+> Fix the warnings by removing the '-f' option, so that the test matches
+> the configuration.
+>
+> Signed-off-by: Martin Hundeb=C3=B8ll <martin@geanix.com>
+> ---
+>  .../initscripts/initscripts-1.0/populate-volatile.sh            | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volat=
+ile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> index 35316ec2ba..e1fce02906 100755
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> @@ -80,7 +80,7 @@ mk_dir() {
+>  link_file() {
+>         EXEC=3D"
+>         if [ -L \"$2\" ]; then
+> -               [ \"\$(readlink -f \"$2\")\" !=3D \"$1\" ] && { rm -f \"$=
+2\"; ln -sf \"$1\" \"$2\"; };
+> +               [ \"\$(readlink \"$2\")\" !=3D \"$1\" ] && { rm -f \"$2\"=
+; ln -sf \"$1\" \"$2\"; };
+>         elif [ -d \"$2\" ]; then
+>                 if awk '\$2 =3D=3D \"$2\" {exit 1}' /proc/mounts; then
+>                         cp -a $2/* $1 2>/dev/null;
+> --
+> 2.18.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-> On Fri, Sep 14, 2018 at 04:03:10PM +0300, Ovidiu Panait wrote:
->> Fix the following do_image_wic failure for lib32-core-image-minimal:
->> | DEBUG: Executing python function set_image_size
->> | DEBUG: Python function set_image_size finished
->> | DEBUG: Executing shell function do_image_wic
->> | Error: Please build syslinux first
->>
->> Test case:
->> MACHINE ?= "qemux86-64"
->>
->> require conf/multilib.conf
->> MULTILIBS = "multilib:lib32"
->> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
->>
->> IMAGE_FSTYPES_append = " wic wic.bmap"
->>
->> $ bitbake lib32-core-image-minimal
->>
->> Currently, syslinux gets built instead of lib32-syslinux, so do_image_wic
->> doesn't find the right files into tmp/sysroots/lib32-qemux86-64 sysroot.
->>
->> Pyro and later releases are not affected by this issue because they are
->> based on Recipe Specific Sysroot, so syslinux binaries end up in the
->> right place.
-> How does RSS help with this issue? It still builds the wrong version of
-> syslinux, doesn't it?
-Hi,
+ping ?
+This patch prevents some warnings related to /tmp and /etc/resolv.conf
+from being printed, when using read-only-rootfs. Would be nice to have
+the same fix backported to sumo too.
 
-It seems that do_image_wic needs some files that are independent of the 
-architecture syslinux is built for.
-
-$ cat scripts/lib/wic/plugins/source/bootimg-pcbios.py
-...
-         cmds = ("install -m 0644 %s/bzImage %s/vmlinuz" %
-                 (staging_kernel_dir, hdddir),
-                 "install -m 444 %s/syslinux/ldlinux.sys %s/ldlinux.sys" %
-                 (bootimg_dir, hdddir),
-                 "install -m 0644 %s/syslinux/vesamenu.c32 
-%s/vesamenu.c32" %
-                 (bootimg_dir, hdddir),
-                 "install -m 444 %s/syslinux/libcom32.c32 %s/libcom32.c32" %
-                 (bootimg_dir, hdddir),
-                 "install -m 444 %s/syslinux/libutil.c32 %s/libutil.c32" %
-                 (bootimg_dir, hdddir))
-...
-
-These files are provided by both syslinux and lib32-syslinux, but before 
-RSS, they will be present in the 64bit sysroot, not the lib32 one, so 
-wic won't find them when building lib32-core-image-minimal.
-
-With RSS, all binaries are in the same sysroot directory:
-
-$ ls -1 
-tmp/work/qemux86_64-pokymllib32-linux/lib32-core-image-minimal/1.0-r0/lib32-recipe-sysroot/usr/share/syslinux
-...
-ldlinux.sys
-libcom32.c32
-libutil.c32
-vesamenu.c32
-...
-
-Thanks,
-Ovidiu
->> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
->> ---
->>   meta/conf/machine/qemux86-64.conf | 2 +-
->>   meta/conf/machine/qemux86.conf    | 2 +-
->>   2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
->> index 4f30033e51..e093078d9d 100644
->> --- a/meta/conf/machine/qemux86-64.conf
->> +++ b/meta/conf/machine/qemux86-64.conf
->> @@ -33,4 +33,4 @@ MACHINE_FEATURES += "x86"
->>   MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
->>   
->>   WKS_FILE ?= "directdisk.wks"
->> -do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
->> +do_image_wic[depends] += "${MLPREFIX}syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
->> diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
->> index e232947aee..29897aaaaf 100644
->> --- a/meta/conf/machine/qemux86.conf
->> +++ b/meta/conf/machine/qemux86.conf
->> @@ -32,4 +32,4 @@ MACHINE_FEATURES += "x86"
->>   MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
->>   
->>   WKS_FILE = "directdisk.wks"
->> -do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
->> +do_image_wic[depends] += "${MLPREFIX}syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
->> -- 
->> 2.17.1
->>
->> -- 
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+/Jacob
 
