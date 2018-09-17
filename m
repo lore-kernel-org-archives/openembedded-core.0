@@ -1,50 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 54D51793EB
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 41207793DD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 12:07:03 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id h33-v6so12670601edb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 05:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=WZot62ws/Puscl/6qoyHsDGV6ghEC8vnSkwRMRyXCTY=;
-	b=XZ4ouq8Rx5cqrtSwBJdKoIDBlZjYJ02ycO2qKUqmqgSs7T5HwGS4FEuxaeNoydfU26
-	3AlW5alAbgJEJC5dZ94hEyzWqKvFy8mxYxDI8XAgwr7dhHyxXzNs+btULl0WHeDL9woI
-	J5sdEW5awOVbAbFCxUhEVFXJWWACV1YupClfc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=WZot62ws/Puscl/6qoyHsDGV6ghEC8vnSkwRMRyXCTY=;
-	b=Ks5T4hCclFajQXRd7lWoQR2Om9R6g2jFCA6ksmTh0OmMr1U7n5cBv+INybsd3NdSM5
-	FzvSkZEv8CbKd18Y2tECVKtXMhVmYhDdOcuBE5cMTQA/hOjE6PJh6MAeNChxv/Hr94Nw
-	1zcxMlr3+KxXauBsZOGceUNKch8fLRu2qUa6f6IlQbd57Fp2+XOx2RDe8JpKvKoYeOV2
-	CZxJ7GlQAYY4d5f3xH03kdl8QwmOdS+psr0kLJiK8KM6si6NI5c3oBUPGDLBCjPIEKgD
-	X3zd+hBWhUiA+1lbIZIy77KA0Qbisimd2yIEMIoEhEmoQGe2ddhPupTd4AlfBZaXHt8K
-	FR3Q==
-X-Gm-Message-State: APzg51DbHnSm8etZdVEXA+T0YqWrmuqCCd+QMcfSiL7ddEj1N6LifQr1
-	kJTqgWGlZyLNz5qK+zKSflBciQ==
-X-Google-Smtp-Source: ANB0VdYGmm7flQmCl1MAL0FA8vuXlpSlglK/GtEj+f8rHOopc3WgCubt/nfj9Wa9TBBmtXRlHtswYA==
-X-Received: by 2002:a50:a267:: with SMTP id
-	94-v6mr44306383edl.189.1537186023989; 
-	Mon, 17 Sep 2018 05:07:03 -0700 (PDT)
-Received: from hex ([89.248.140.16]) by smtp.gmail.com with ESMTPSA id
-	w22-v6sm8372323eda.34.2018.09.17.05.07.01
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 17 Sep 2018 05:07:03 -0700 (PDT)
-Message-ID: <cfff7e9bbbc6e53d83b860c2244c3ac616add0cf.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Hongxu Jia <hongxu.jia@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2018 13:06:50 +0100
-In-Reply-To: <cover.1536913629.git.hongxu.jia@windriver.com>
+	Mon, 17 Sep 2018 12:19:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8HCIPTB001082
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Sep 2018 05:18:36 -0700
+Received: from [128.224.162.202] (128.224.162.202) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 17 Sep 2018 05:18:15 -0700
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
 References: <cover.1536913629.git.hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
+	<cfff7e9bbbc6e53d83b860c2244c3ac616add0cf.camel@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <7e8174df-da47-0e73-b15b-6afad8337086@windriver.com>
+Date: Mon, 17 Sep 2018 20:18:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <cfff7e9bbbc6e53d83b860c2244c3ac616add0cf.camel@linuxfoundation.org>
 Subject: Re: [PATCH 0/2] package.bbclass: improve auto debug package splitting order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,39 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2018 12:07:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Sep 2018 12:19:18 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Fri, 2018-09-14 at 16:49 +0800, Hongxu Jia wrote:
-> Hi RP,
-> 
-> Is it necessary to split multiple sub dbg packages or only
-> one dbg is allowed? If the former, this fix makes sense.
+On 2018年09月17日 20:06, richard.purdie@linuxfoundation.org wrote:
+> On Fri, 2018-09-14 at 16:49 +0800, Hongxu Jia wrote:
+>> Hi RP,
+>>
+>> Is it necessary to split multiple sub dbg packages or only
+>> one dbg is allowed? If the former, this fix makes sense.
+> Only one is recommended and the code only works properly in some cases
+> for one. I'd like to be in a position where we could have that as the
+> only thing we supported but its simply not practical in some cases.
+>
+> The debug package dependency handling probably needs a rethink but that
+> would be 2.7 development cycle, its too late for 2.6 now.
+>
+>> I know in oe-core, almost one dbg package per recipe, but
+>> in oe, 21 recipes have extra sub dbg package and 18 of them
+>> did not set NOAUTOPACKAGEDEBUG = "1".
+>>
+>> So rather than modify them one by one tediously, how about to
+>> improve auto debug package splitting order? If ${PN}-dbg exists,
+>> split the unsplit debug file to ${PN}-dbg, if ${PN}-dbg does not
+>> exist, still split them to first dbg package.
+> I don't really want to encourage multiple -dbg packages per recipe and
+> I am a little concerned about making changes to the core packaging code
+> with the release coming up. Fixing the recipes, although tedious may be
+> safer/better rather than encouraging people to do things which aren't
+> well supported.
 
-Only one is recommended and the code only works properly in some cases
-for one. I'd like to be in a position where we could have that as the
-only thing we supported but its simply not practical in some cases.
+Got it, I will fix affected recipes
 
-The debug package dependency handling probably needs a rethink but that
-would be 2.7 development cycle, its too late for 2.6 now.
+Thanks for replying
 
-> I know in oe-core, almost one dbg package per recipe, but
-> in oe, 21 recipes have extra sub dbg package and 18 of them
-> did not set NOAUTOPACKAGEDEBUG = "1".
-> 
-> So rather than modify them one by one tediously, how about to
-> improve auto debug package splitting order? If ${PN}-dbg exists,
-> split the unsplit debug file to ${PN}-dbg, if ${PN}-dbg does not 
-> exist, still split them to first dbg package.
+//Hongxu
 
-I don't really want to encourage multiple -dbg packages per recipe and
-I am a little concerned about making changes to the core packaging code
-with the release coming up. Fixing the recipes, although tedious may be
-safer/better rather than encouraging people to do things which aren't
-well supported.
+> Cheers,
+>
+> Richard
 
-Cheers,
 
-Richard
 
