@@ -1,75 +1,43 @@
-Return-Path: <Vignesh.Rajendran@in.bosch.com>
-Received: from de-out1.bosch-org.com (de-out1.bosch-org.com [139.15.230.186])
-	by mail.openembedded.org (Postfix) with ESMTP id 05394744F2
+Return-Path: <nick83ola@gmail.com>
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+	[209.85.210.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C8C665C8F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 09:36:22 +0000 (UTC)
-Received: from si0vm1947.rbesz01.com (unknown [139.15.230.188])
-	by si0vms0217.rbdmz01.com (Postfix) with ESMTPS id 42DLbn5RYsz4f3klP
+	Mon, 17 Sep 2018 09:49:39 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id i10-v6so10625544oth.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 11:36:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=in.bosch.com;
-	s=2015-01-21; t=1537176981;
-	bh=xhLwTM6DBk7enajaKJxpogJR8dahU0R64smaA4er4b4=; l=10;
-	h=From:From:Reply-To:Sender;
-	b=VuBfpF5RazUHCgIcse4frJijqhHQlBOt1idZlsxZH7ey02fayLPva6FOasnQuJ6aB
-	5PDosPCOjNQDQpF8qDWblWqH1c9HYXQ2/iiiqHiKGTISKRWasiAkUVBCOf/E59TtOM
-	bDbXzMvRDYCN6bJ7fueuk0WJa6Pe2YyuQpjqoG4Q=
-Received: from si0vm4642.rbesz01.com (unknown [10.58.172.176])
-	by si0vm1947.rbesz01.com (Postfix) with ESMTPS id 42DLbn5FXGz6CjRq5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 11:36:21 +0200 (CEST)
-X-AuditID: 0a3aad12-92fff70000000ca7-25-5b9f7563395e
-Received: from fe0vm1651.rbesz01.com ( [10.58.173.29])
-	(using TLS with cipher AES128-SHA (128/128 bits))
-	(Client did not present a certificate)
-	by si0vm4642.rbesz01.com (SMG Outbound) with SMTP id
-	08.3D.03239.3657F9B5; Mon, 17 Sep 2018 11:35:31 +0200 (CEST)
-Received: from FE-MBX2032.de.bosch.com (fe-mbx2032.de.bosch.com [10.3.231.42])
-	by fe0vm1651.rbesz01.com (Postfix) with ESMTPS id 42DLbn3qgPzp6Cl
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 11:36:21 +0200 (CEST)
-Received: from SGPMBX2018.APAC.bosch.com (10.187.83.36) by
-	FE-MBX2032.de.bosch.com (10.3.231.42) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.1.1466.3; Mon, 17 Sep 2018 11:36:20 +0200
-Received: from SGPMBX2020.APAC.bosch.com (10.187.83.43) by
-	SGPMBX2018.APAC.bosch.com (10.187.83.36) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.1.1466.3; Mon, 17 Sep 2018 17:36:19 +0800
-Received: from SGPMBX2020.APAC.bosch.com ([fe80::b526:b737:7eb9:3a96]) by
-	SGPMBX2020.APAC.bosch.com ([fe80::b526:b737:7eb9:3a96%6]) with mapi id
-	15.01.1466.009; Mon, 17 Sep 2018 17:36:19 +0800
-From: "Vignesh Rajendran (RBEI/ECF3)" <Vignesh.Rajendran@in.bosch.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: sdk_extraconf: usage
-Thread-Index: AdROaTHLUpQhPdtwSGGrF0fqEAKcKQ==
-Date: Mon, 17 Sep 2018 09:36:19 +0000
-Message-ID: <8d2c15064d484397809e3b741fa405eb@in.bosch.com>
-Accept-Language: en-US, en-SG
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.187.56.214]
+	Mon, 17 Sep 2018 02:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=1dRWAyp8CVOFcWOBhZWFTU0boSkDV4TukUFIfs3GsiI=;
+	b=HA+aaAXXXNDwD7lBfTZBck/qFQnXn4qyQsiMIsOKixobwWoi2zWtzZ5p720Oijc2/s
+	Ux6XGjv5Rd14xKavyjeuT4MD4ZaZqy/q9G53r92oyjioV/rF9BGRymEB/dmY2hDhUuad
+	ZuyUzHhmoY57zm5qwEDtGh4UHQvgWn0r3LP8tsJ8pRunW65+OfIZxcOXVjzGgq7dxQnF
+	XYL3FHT89JCNKADtaIP2Ti3KE5OiBue/z04f2lZkQxl3DaEIDF6XTdwY1dvpaYJhNuJH
+	2Cye1JsEFHA+XugWzy33hyhtW+NAItb8ew/xeLf7vhbVNQV1Qu6AbCyIsV69BTEyLI/H
+	d9zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=1dRWAyp8CVOFcWOBhZWFTU0boSkDV4TukUFIfs3GsiI=;
+	b=TRTEIxld4ObJJWoi1zCANfdt0lUGL8qtf+mvXoaNudWqBwPEjxcD3YxI+XDTDpqBjh
+	E/m2dzzSEo2VNbjXhZ0Z3B0oIv7C0Y45olLKAiloLDbzw0h+wIDZzjhlgDEtMqqZdii0
+	VNc7z+IO+5YInO/Br39jHoBontd0RtWsNw8FHNWTk1d9vyBIGiuCz4ccGUxeklrETmnq
+	oYTt7+jtsVJrICWCNjXjf4fOavEKL2+lOyWI0xi+ZtcYElhZvkkrZ+uMbjoueO+f3f43
+	WVpfUzVTndEbC8E7Y3xrfxVDQYDDMUGT5cwdK9R7lJZK74jLPKIF/JmsdzxbI4cCnWRV
+	+Eww==
+X-Gm-Message-State: APzg51C6w5E+3c9e+YThF9x9La/emeT9HkodG02CiY++KhKvD1hww1D8
+	i4tCX04W2kjTHWQ7xiUrhkfPRPGPaVF5WCqAmVVVKegt
+X-Google-Smtp-Source: ANB0VdZ0NZa8LWg22nk1xPiu5Cr/dI/Q0KUJsgM3eUoid6mcl1EMbgpmkUKVnv2iyI/UUE+1chu+5xAdv+Wm1oCaHno=
+X-Received: by 2002:a9d:2811:: with SMTP id
+	m17-v6mr11359180otb.254.1537177780663; 
+	Mon, 17 Sep 2018 02:49:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA21Tf0wbZRjm613LrePIcaXwUoVkt6iIg3WjLG7gj6mZizHOODHbGnBXOGgD
-	bcldwYH+sbHIHKuKrAyo24pl7hdjCmhGnC5rVxbLHJtYBwMlxtWtA4PEDc3iBK89WPuH/3x5
-	vud5n+d9v/dyBEZ3EhrCZLFxvIWtZBRKXLmuOz27pNql1566p33yp3vT8c+ijUM9x9GraJuy
-	oJSrNNVw/MqntyuNh33mqlPMjuCeY/KdqCujES0hgNLBadck1oiUBE3tkcG/nr0oLNDUFILO
-	jkxJmEFQHzgvly53EAxM9yDp4hMvl/vxsEVBbYAuR70sjJOp7TD8fmOEV1Hp0NrgxiSegaZf
-	nAs4B+7O9EXqceoR+PJWS4QnqXzobuiIYCR63debIzkYlQpjQZdMmpuCI19fwSSshts35uQS
-	XgZHXSfjpXoDfBaYkkmZSeBvD+JNKNkZE+WMKXPGlEl8Doy2OBQSfgKOfjKFSTgb2ua8eCzf
-	geJPIrVg0taYdWt0q3N4AyfUaVfllFjNvUj6RnQ/6rlW5kUUgZgE0sq59LScrRFqzV6UR8gY
-	NVlkEqlEg7W01sgKxjf56kpOYDQkiouLo1UPaKHaYDYJgslq8SIgMCaZxBJFH1nK1tZxvFWy
-	edFDBM6kknf3m/U0Vc7auAqOq+L4RTWfIBggv7KJxiSeK+d2lJkqbYsyky71TIlVYtvKiCVe
-	lEskiL1TwhGkUMWaBVP5gj1NstOLbNQ6iAqJsd32ZozwTTjE82rkvP9HSzNG4xarhdOkkq+F
-	E6mw11hteTCT5mHS8/lBPa2OEaK5k+g6EreqInPD5gTx54hOA2S/6uBWOmmBjJpWfyp6qCAG
-	A+fmcDjdMCwH99+tBHzodyghcON8Mox17MuAob7RDPhi16Xl8O7siRUQGnXpYOLmuTzomx7I
-	g9DV2bXw3geX18Pc/c7nYfZs4AUYH/rtJdh74M9N0BXcvxk+OjC1Bezd3+vB7xgoguMnbhdB
-	r/9jAxzZd6sEDocaOZjf5S6H0D+HzDAx+K0F7vx1hoegf5yH+d3ddZPiqmXiqo3h95OCjbX9
-	z6oX2OjrNDtRJh5YSq+92GZfsW5pU27Br/jLm7QX3/G9qPo9bfl3noqt9fYeVJz9Fn7Fc0l3
-	Ux5a+eho4et9rta0ZW8XPJWo+GHbc4cuHMOznCPF875v7A3D7Y8PgqKM0l2gCttmPCMVG4fV
-	BT8Gt9RteGzNz+3cmeL145kTKe6sVzZfO/vGM00j+b0MLhjZVVkYL7D/AaSSVnO2BAAA
-Subject: sdk_extraconf: usage
+From: nick83ola <nick83ola@gmail.com>
+Date: Mon, 17 Sep 2018 10:49:29 +0100
+Message-ID: <CABPh3UMsMQZ+39c2GL1H88YjzZh4q-Bbe-4T4_HUzQZPxvc8kA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [poky][meta][os-release] Error building after commit c539765288bf3bc2c8578e037ce8fc9c2323b745
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -82,136 +50,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2018 09:36:23 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_8d2c15064d484397809e3b741fa405ebinboschcom_"
+X-List-Received-Date: Mon, 17 Sep 2018 09:49:40 -0000
+Content-Type: multipart/alternative; boundary="00000000000092ba5905760e17bd"
 
---_000_8d2c15064d484397809e3b741fa405ebinboschcom_
-Content-Type: text/plain; charset="iso-8859-1"
+--00000000000092ba5905760e17bd
+Content-Type: text/plain; charset="UTF-8"
+
+Hi,
+after this patch I get this build error.
+If I revert this all disappear.
+
+
+system: docker image from crops (ubuntu 16.04)
+
+Regards
+Nicola Lunghi
+
+=============================================
+
+ERROR: os-release-1.0-r0 do_install: Function failed: do_install (log file
+is located at
+/workspace/vegas-demo/build-imx7/tmp/work/all-poky-linux/os-release/1.0-r0/temp/log.do_install.169)
+
+ERROR: Logfile of failure stored in:
+/workspace/vegas-demo/build-imx7/tmp/work/all-poky-linux/os-release/1.0-r0/temp/log.do_install.169
+
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are
+['virtual:native:/workspace/vegas-demo/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot',
+'/workspace/vegas-demo/poky/meta/recipes-devtools/quilt/quilt-native_0.65.bb:
+do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['pseudo-native',
+'quilt-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_install
+| mv:
+'/workspace/vegas-demo/build-imx7/tmp/work/all-poky-linux/os-release/1.0-r0/image/etc/os-release'
+and
+'/workspace/vegas-demo/build-imx7/tmp/work/all-poky-linux/os-release/1.0-r0/image/usr/lib/os-release'
+are the same file
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_install (log file is located at
+/workspace/vegas-demo/build-imx7/tmp/work/all-poky-linux/os-release/1.0-r0/temp/log.do_install.169)
+
+ERROR: Task
+(/workspace/vegas-demo/poky/meta/recipes-core/os-release/os-release.bb:do_install)
+failed with exit code
+'1'
+
+NOTE: Tasks Summary: Attempted 3835 tasks of which 3834 didn't need to be
+rerun and 1 failed.
+NOTE: Writing buildhistory
+
+======================================================
+
+
+commit c539765288bf3bc2c8578e037ce8fc9c2323b745
+Author: Joshua Lock <joshua.g.lock@intel.com>
+Date:   Tue Sep 4 16:50:00 2018 +0100
+
+    os-release: fix to install in the expected location
+
+    os-release (5) recommends that the os-release file be installed in
+    /usr/lib/os-release and that /etc/os-release be a relative symlink to
+it.
+
+    (From OE-Core rev: 4feb8614ee25a3d3ceb7f5187120a1256a993155)
+
+    Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-core/os-release/os-release.bb
+b/meta/recipes-core/os-release/os-release.bb
+index f988704756..bf4f815a10 100644
+--- a/meta/recipes-core/os-release/os-release.bb
++++ b/meta/recipes-core/os-release/os-release.bb
+@@ -1,7 +1,7 @@
+ inherit allarch
+
+ SUMMARY = "Operating system identification"
+-DESCRIPTION = "The /etc/os-release file contains operating system
+identification data."
++DESCRIPTION = "The /usr/lib/os-release file contains operating system
+identification data."
+ LICENSE = "MIT"
+ INHIBIT_DEFAULT_DEPS = "1"
+
+@@ -42,6 +42,9 @@ python do_compile () {
+ do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
+
+ do_install () {
+-    install -d ${D}${sysconfdir}
+-    install -m 0644 os-release ${D}${sysconfdir}/
++    install -d ${D}${libdir} ${D}${sysconfdir}
++    install -m 0644 os-release ${D}${libdir}/
++    lnr ${D}${libdir}/os-release ${D}${sysconfdir}/os-release
+ }
++
++FILES_${PN} += "${libdir}/os-release"
+
+--00000000000092ba5905760e17bd
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello OE,
-
-Can anyone please explain the usage of sdk_extraconf?
-https://git.yoctoproject.org/cgit.cgi/poky/tree/meta/classes/populate_sdk_e=
-xt.bbclass#n367
-
-I am little bit confused that sdk_extraconf is really a function or variabl=
-e?
-
-And why it is intended to handle one extra conf file?
-In my case, I want to have other configuration files based on something and=
- want to include by sdk_extraconf.
-
-Is my approach/view is fine with the intention of sdk_extraconf?
-
-Simply sdk_extraconf =3D> sdk_extraconf's
-
-Thanks in Advance.
-
-Mit freundlichen Gr=FC=DFen / Best regards
-
-Rajendran Vignesh
-RBEI/ECF33
-
-Tel. +91 422 67-65103
-
-
---_000_8d2c15064d484397809e3b741fa405ebinboschcom_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hello OE,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Can anyone please explain the usage of sdk_extraconf=
-?<o:p></o:p></p>
-<p class=3D"MsoNormal"><a href=3D"https://git.yoctoproject.org/cgit.cgi/pok=
-y/tree/meta/classes/populate_sdk_ext.bbclass#n367">https://git.yoctoproject=
-.org/cgit.cgi/poky/tree/meta/classes/populate_sdk_ext.bbclass#n367</a><o:p>=
-</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I am little bit confused that sdk_extraconf is reall=
-y a function or variable?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">And why it is intended to handle one extra conf file=
-? <o:p></o:p></p>
-<p class=3D"MsoNormal">In my case, I want to have other configuration files=
- based on something and want to include by sdk_extraconf.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Is my approach/view is fine with the intention of sd=
-k_extraconf?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Simply sdk_extraconf =3D&gt; sdk_extraconf&#8217;s<o=
-:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks in Advance.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif;color:black">Mit freundlichen Gr=FC=DFen / Best regard=
-s
+<div dir=3D"ltr"><div>Hi, <br></div><div>after this patch I get this build =
+error.</div><div>If I revert this all disappear.<br></div><div></div><div><=
+br></div><div><br></div><div>system: docker image from crops (ubuntu 16.04)=
+<br></div><div><br></div><div>Regards</div><div>Nicola Lunghi<br></div><div=
+><br></div><div>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D<br></div><div><br></div><div>ERROR: os-release-1.0-r0 do_install: Funct=
+ion failed: do_install (log=20
+file is located at=20
+/workspace/vegas-demo/build-imx7/tmp/work/all-poky-linux/os-release/1.0-r0/=
+temp/log.do_install.169)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+ =C2=A0</div>
+<div>ERROR: Logfile of failure stored in:=20
+/workspace/vegas-demo/build-imx7/tmp/work/all-poky-linux/os-release/1.0-r0/=
+temp/log.do_install.169=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0
+ =C2=A0<br>
+Log data follows:<br>
+| DEBUG: Executing python function extend_recipe_sysroot<br>
+| NOTE: Direct dependencies are=20
+[&#39;virtual:native:/workspace/vegas-demo/poky/meta/recipes-devtools/pseud=
+o/pseudo_git.bb:do_populate_sysroot&#39;,
+=20
+&#39;/workspace/vegas-demo/poky/meta/recipes-devtools/quilt/quilt-native_0.=
+65.bb:do_populate_sysroot&#39;]<br>
+| NOTE: Installed into sysroot: []<br>
+| NOTE: Skipping as already exists in sysroot: [&#39;pseudo-native&#39;, &#=
+39;quilt-native&#39;]<br>
+| DEBUG: Python function extend_recipe_sysroot finished<br>
+| DEBUG: Executing shell function do_install<br>
+| <span style=3D"color:rgb(255,0,0)">mv:=20
+&#39;/workspace/vegas-demo/build-imx7/tmp/work/all-poky-linux/os-release/1.=
+0-r0/image/etc/os-release&#39;
+ and=20
+&#39;/workspace/vegas-demo/build-imx7/tmp/work/all-poky-linux/os-release/1.=
+0-r0/image/usr/lib/os-release&#39;
+ are the same file</span><br>
+| WARNING: exit code 1 from a shell command.<br>
+| ERROR: Function failed: do_install (log file is located at=20
+/workspace/vegas-demo/build-imx7/tmp/work/all-poky-linux/os-release/1.0-r0/=
+temp/log.do_install.169)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0
+ =C2=A0<br>
+ERROR: Task=20
+(/workspace/vegas-demo/poky/meta/recipes-core/os-release/os-release.bb:do_i=
+nstall)
+ failed with exit code=20
+&#39;1&#39;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0
+ =C2=A0<br>
+NOTE: Tasks Summary: Attempted 3835 tasks of which 3834 didn&#39;t need to =
+be rerun and 1 failed.<br>
+NOTE: Writing buildhistory<br>
 <br>
-<br>
-<b>Rajendran Vignesh<br>
-RBEI/ECF33<br>
-</b><br>
-Tel. &#43;91 422 67-65103 </span><span style=3D"font-size:8.0pt;font-family=
-:&quot;Arial&quot;,sans-serif;color:black"><br>
-<br>
-</span><o:p></o:p></p>
 </div>
-</body>
-</html>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D<br>
+<p style=3D"margin-top:0px;margin-bottom:0px"><br>
+</p>
 
---_000_8d2c15064d484397809e3b741fa405ebinboschcom_--
+<div>commit c539765288bf3bc2c8578e037ce8fc9c2323b745<br>
+Author: Joshua Lock &lt;<a href=3D"mailto:joshua.g.lock@intel.com">joshua.g=
+.lock@intel.com</a>&gt;<br>
+Date:=C2=A0=C2=A0 Tue Sep 4 16:50:00 2018 +0100<br>
+<br>
+=C2=A0=C2=A0=C2=A0 os-release: fix to install in the expected location<br>
+=C2=A0=C2=A0 =C2=A0<br>
+=C2=A0=C2=A0=C2=A0 os-release (5) recommends that the os-release file be in=
+stalled in<br>
+=C2=A0=C2=A0=C2=A0 /usr/lib/os-release and that /etc/os-release be a relati=
+ve symlink to it.<br>
+=C2=A0=C2=A0 =C2=A0<br>
+=C2=A0=C2=A0=C2=A0 (From OE-Core rev: 4feb8614ee25a3d3ceb7f5187120a1256a993=
+155)<br>
+=C2=A0=C2=A0 =C2=A0<br>
+=C2=A0=C2=A0=C2=A0 Signed-off-by: Joshua Lock &lt;<a href=3D"mailto:joshua.=
+g.lock@intel.com">joshua.g.lock@intel.com</a>&gt;<br>
+=C2=A0=C2=A0=C2=A0 Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.bu=
+rton@intel.com">ross.burton@intel.com</a>&gt;<br>
+=C2=A0=C2=A0=C2=A0 Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:rich=
+ard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt;<=
+br>
+<br>
+diff --git a/meta/recipes-core/os-release/<a href=3D"http://os-release.bb">=
+os-release.bb</a> b/meta/recipes-core/os-release/<a href=3D"http://os-relea=
+se.bb">os-release.bb</a><br>
+index f988704756..bf4f815a10 100644<br>
+--- a/meta/recipes-core/os-release/<a href=3D"http://os-release.bb">os-rele=
+ase.bb</a><br>
++++ b/meta/recipes-core/os-release/<a href=3D"http://os-release.bb">os-rele=
+ase.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+=C2=A0inherit allarch<br>
+=C2=A0<br>
+=C2=A0SUMMARY =3D &quot;Operating system identification&quot;<br>
+-DESCRIPTION =3D &quot;The /etc/os-release file contains operating system i=
+dentification data.&quot;<br>
++DESCRIPTION =3D &quot;The /usr/lib/os-release file contains operating syst=
+em identification data.&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+=C2=A0INHIBIT_DEFAULT_DEPS =3D &quot;1&quot;<br>
+=C2=A0<br>
+@@ -42,6 +42,9 @@ python do_compile () {<br>
+=C2=A0do_compile[vardeps] +=3D &quot;${OS_RELEASE_FIELDS}&quot;<br>
+=C2=A0<br>
+=C2=A0do_install () {<br>
+-=C2=A0=C2=A0=C2=A0 install -d ${D}${sysconfdir}<br>
+-=C2=A0=C2=A0=C2=A0 install -m 0644 os-release ${D}${sysconfdir}/<br>
++=C2=A0=C2=A0=C2=A0 install -d ${D}${libdir} ${D}${sysconfdir}<br>
++=C2=A0=C2=A0=C2=A0 install -m 0644 os-release ${D}${libdir}/<br>
++=C2=A0=C2=A0=C2=A0 lnr ${D}${libdir}/os-release ${D}${sysconfdir}/os-relea=
+se<br>
+=C2=A0}<br>
++<br>
++FILES_${PN} +=3D &quot;${libdir}/os-release&quot;</div></div>
+
+--00000000000092ba5905760e17bd--
