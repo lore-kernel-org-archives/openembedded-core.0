@@ -1,108 +1,29 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E909860229
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B89C71A8D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 01:57:36 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id d19-v6so6887938pgv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Sep 2018 18:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=zQq8/CjvS+yzZci3hF4MmJL7APfpLP3d0P+HcPzBgCs=;
-	b=ldyrEG9+Iiup6cAgKxuzZ8o2lTF1ffCopNjq4Axb/F5tWwfvp42NqXSxhh+K0Q2nrS
-	Yob5Z1s5bZAMVj57WnPI9Yb1/Br3AhPwgnVcW9hA23Eo/FS0++Dt5Iv3BJ+m731R3rvG
-	OPw/zAX6ifStWRuV08henKCWPN59dTP/qL9omYYzY9QDBHR5ApWWjaZdFT589NtKWzsM
-	6cJf1lzJcNWHng//yBukt7Y+lY5pfF07v4/XKjoJr1H2h4Nyunw4fQvXYFl9M+KssEfn
-	ENKujULxnpP1qAU22X6HPI5gS4A0nM/ibQ2zfjOkl+oMtiP6eMfLgpkfO1sUlsEy8bvM
-	n+rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=zQq8/CjvS+yzZci3hF4MmJL7APfpLP3d0P+HcPzBgCs=;
-	b=OLoycl8n94H9s6/yDBStZS7k9x+5MRQxvJVtUTe5/g7eSVkI0fWlWhFufBjhsRidig
-	OF/xFFpLkPhGbA6quAFFTzs7ddMu4C0K/8f/nL9Ssop7Xn298hhanqotb2fMpJQUYKPx
-	PmsxiVisxEnJwn3yvH7MS2p6q0mT3QEebTz/S3mHs0vz3OeUru8ts7Bh0hPIzwOqrTEV
-	xX8aAwhQ1yNdafPnja5Jm8XEPjlFZ8E8UJKWViLvztjFd6dfc4oekT7/EPVOSQpdxBJi
-	gu+M2+zBqabhc65vT64zqQmZH70RYOafGMdh+RlKvlBFK8aj1vBs6qo0xF7SMbQHMHAz
-	13SQ==
-X-Gm-Message-State: APzg51A47PStxqRg+q3Yz2CtV9At4kVZKBXB0CHfYYaZx3j6ODVHRTTi
-	aXS7ZmvJEp3ptV/n/w5scR4=
-X-Google-Smtp-Source: ANB0VdZ0Q+Vy1ChSiwHqms8iq+pc+ymL7fNnH2gPFRWl4rFcAIO9t/mKu0yfbYXPM7djQ4gN/9bgXA==
-X-Received: by 2002:a63:f501:: with SMTP id
-	w1-v6mr21485728pgh.446.1537149458037; 
-	Sun, 16 Sep 2018 18:57:38 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:5894:ddfc:ffa2:b108?
-	([2601:202:4180:c33:5894:ddfc:ffa2:b108])
-	by smtp.gmail.com with ESMTPSA id
-	g7-v6sm17120065pfi.175.2018.09.16.18.57.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 16 Sep 2018 18:57:37 -0700 (PDT)
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Otavio Salvador <otavio@ossystems.com.br>
-References: <20180916211625.18597-1-otavio@ossystems.com.br>
-	<20180916211625.18597-4-otavio@ossystems.com.br>
-	<CAP9ODKoKv05L0=NVUnY7LamEbjsZwTgsAqnNokQr8KS64SThBQ@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <690c79c0-b182-a2ff-997e-a978ed2d9be4@gmail.com>
-Date: Sun, 16 Sep 2018 18:57:35 -0700
+	Mon, 17 Sep 2018 02:27:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8H2RPkq015807
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 16 Sep 2018 19:27:25 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Sun, 16 Sep 2018 19:27:24 -0700
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1536248856.git.kai.kang@windriver.com>
+	<2824ade62c3ec58c96074aba632740a8118c15f2.1536248856.git.kai.kang@windriver.com>
+	<20180913182007.GA1437@jama> <20180913201046.GB1437@jama>
+	<20180914112512.GA1369@jama> <20180914141236.GD1369@jama>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <dabc02da-9972-8e06-6624-a567f8aefe48@windriver.com>
+Date: Mon, 17 Sep 2018 10:25:38 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKoKv05L0=NVUnY7LamEbjsZwTgsAqnNokQr8KS64SThBQ@mail.gmail.com>
-Cc: Marek Vasut <marex@denx.de>, Tom Rini <trini@konsulko.com>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] u-boot: Upgrade 2018.07 -> 2018.09
+In-Reply-To: <20180914141236.GD1369@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/7] allarch: only enable allarch when multilib is not used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -115,33 +36,328 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2018 01:57:37 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 17 Sep 2018 02:27:27 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
+On 2018年09月14日 22:12, Martin Jansa wrote:
+> On Fri, Sep 14, 2018 at 01:25:12PM +0200, Martin Jansa wrote:
+>> On Thu, Sep 13, 2018 at 10:10:46PM +0200, Martin Jansa wrote:
+>>> On Thu, Sep 13, 2018 at 08:20:07PM +0200, Martin Jansa wrote:
+>>>> On Thu, Sep 06, 2018 at 11:52:24PM +0800, kai.kang@windriver.com wrote:
+>>>>> From: Kai Kang <kai.kang@windriver.com>
+>>>>>
+>>>>> Some allarch packages rdepends non-allarch packages. when multilib is
+>>>>> used, it doesn't expand the dependency chain correctly, e.g.
+>>>>>
+>>>>> core-image-sato -> ca-certificates(allarch) -> openssl
+>>>>>
+>>>>> we expect dependency chain for lib32-core-image-sato:
+>>>>>
+>>>>> lib32-core-image-sato -> ca-certificates(allarch) -> lib32-openssl
+>>>>>
+>>>>> it should install lib32-openssl for ca-certificates but openssl is still
+>>>>> wrongly required.
+>>>>>
+>>>>> Only enable allarch when multilib is not used to fix the issue.
+>>>>>
+>>>>> signed-off-by: kai kang <kai.kang@windriver.com>
+>>>>> ---
+>>>>>   meta/classes/allarch.bbclass         | 12 +++++++++++-
+>>>>>   meta/classes/icecc.bbclass           |  2 +-
+>>>>>   meta/classes/multilib.bbclass        |  3 ++-
+>>>>>   meta/classes/multilib_global.bbclass |  4 +---
+>>>>>   meta/classes/package.bbclass         |  9 ++++++---
+>>>>>   5 files changed, 21 insertions(+), 9 deletions(-)
+>>>>>
+>>>>> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+>>>>> index 1eebe0bf2e..45f62a5939 100644
+>>>>> --- a/meta/classes/allarch.bbclass
+>>>>> +++ b/meta/classes/allarch.bbclass
+>>>>> @@ -2,7 +2,17 @@
+>>>>>   # This class is used for architecture independent recipes/data files (usually scripts)
+>>>>>   #
+>>>>>   
+>>>>> -PACKAGE_ARCH = "all"
+>>>>> +python allarch_package_arch_handler () {
+>>>>> +    if bb.data.inherits_class("nativesdk", d) or bb.data.inherits_class("crosssdk", d):
+>>>>> +        return
+>>>>> +
+>>>>> +    variants = d.getVar("MULTILIB_VARIANTS")
+>>>>> +    if not variants:
+>>>>> +        d.setVar("PACKAGE_ARCH", "all" )
+>>>>> +}
+>>>>> +
+>>>>> +addhandler allarch_package_arch_handler
+>>>>> +allarch_package_arch_handler[eventmask] = "bb.event.RecipePreFinalise"
+>>>> Maybe I'm overlooking something, but doesn't this overwrite whatever
+>>>> PACKAGE_ARCH as set before this?
+>>>>
+>>>> I have some recipes where the PACKAGE_ARCH is set to MACHINE_ARCH through
+>>>> another bbclass, but then overwritten with "all" by allarch_package_arch_handler:
+>>>>
+>>>> # $PACKAGE_ARCH [5 operations]
+>>>> #   set oe-core/meta/conf/bitbake.conf:150
+>>>> #     [_defaultval] "${TUNE_PKGARCH}"
+>>>> #   set meta-lg-webos/meta-webos/conf/distro/include/webos.inc:241
+>>>> #     "${MACHINE_ARCH}"
+>>>> #   set oe-core/meta/conf/documentation.conf:304
+>>>> #     [doc] "The architecture of the resulting package or packages."
+>>>> #   set meta-lg-webos/meta-webos/classes/webos_machine_impl_dep.bbclass:11
+>>>> #     "${MACHINE_ARCH}"
+>>>> #   set allarch.bbclass:12 [allarch_package_arch_handler]
+>>>> #     "all"
+>>>> # pre-expansion value:
+>>>> #   "all"
+>>>> PACKAGE_ARCH="all"
+>>>>
+>>>> But surprisingly if I do the same with e.g. packagegroup-core-boot in oe-core I get:
+>>>>
+>>>> # $PACKAGE_ARCH [4 operations]
+>>>> #   set /OE/build/oe-core/openembedded-core/meta/conf/bitbake.conf:150
+>>>> #     [_defaultval] "${TUNE_PKGARCH}"
+>>>> #   set /OE/build/oe-core/openembedded-core/meta/conf/documentation.conf:304
+>>>> #     [doc] "The architecture of the resulting package or packages."
+>>>> #   set /OE/build/oe-core/openembedded-core/meta/recipes-core/packagegroups/packagegroup-core-boot.bb:9
+>>>> #     "${MACHINE_ARCH}"
+>>>> #   set? /OE/build/oe-core/openembedded-core/meta/classes/packagegroup.bbclass:12
+>>>> #     "all"
+>>>> # pre-expansion value:
+>>>> #   "${MACHINE_ARCH}"
+>>>> PACKAGE_ARCH="qemux86_64"
+>>>>
+>>>> Why isn't allarch_package_arch_handler executed in the 2nd case?
+>>> Now I see the difference, I was still living in the days when
+>>> "disabling" allarch was possible just by setting PACKAGE_ARCH before
+>>> inheritting allarch, but now I see that packagegroups do conditional
+>>> inherit as well since:
+>>> http://git.openembedded.org/openembedded-core/commit/?id=9c826962ec8fa45c2b035427442b90a41517144e
+>>> http://git.openembedded.org/openembedded-core/commit/?id=2c9b1d304daade7b0907320aeb9c522e7ab9dcab
+>>> so I'll modify currently failing recipes to do the same and stop
+>>> inheritting allarch when PACKAGE_ARCH is set to something else.
+>>  From public layers I've found with test-signatures script only
+>> fbset-nodes recipe in meta-oe which was setting PACKAGE_ARCH after
+>> allarch inherit, allarch removal sent here:
+>> http://lists.openembedded.org/pipermail/openembedded-devel/2018-September/120560.html
+> target-sdk-provides-dummy seems to be affected as well:
+>   === Comparing signatures for task do_populate_sysroot.sigdata between qemux86 and qemux86copy ===
+> ERROR: lib32-target-sdk-provides-dummy different signature for task do_populate_sysroot.sigdata between qemux86 and qemux86copy
+> basehash changed from b0a44b2c7003b6b4aa3a023d9cb9fe82 to 3a59fa25ddb6a95aff079d477ebf3457
+> Variable SSTATE_MANMACH value changed from 'qemux86' to 'qemux86copy'
+>
+> ERROR: target-sdk-provides-dummy different signature for task do_populate_sysroot.sigdata between qemux86 and qemux86copy
+> basehash changed from 9e44f1deb3d15886ee96db1a3332764c to 6b417d08a5113c9b06d13b3681f5ab4f
+> Variable SSTATE_MANMACH value changed from 'qemux86' to 'qemux86copy'
+>
+>
+> It's using:
+> inherit allarch
+>
+> python() {
+>      # Put the package somewhere separate to ensure it's never used except
+>      # when we want it
+>      # (note that we have to do this in anonymous python here to avoid
+>      # allarch.bbclass disabling itself)
+>      d.setVar('PACKAGE_ARCH', '${DUMMYARCH}')
+> }
+>
+> and DUMMYARCH = "sdk-provides-dummy-target"
+>
+> The difference as shown with bitbake -e before and after reverting this commit:
+>
+> before revert:
+> # $SSTATE_MANMACH [2 operations]
+> #   set? oe-core/meta/classes/sstate.bbclass:61
+> #     "${SSTATE_PKGARCH}"
+> #   set sstate.bbclass:100 [__anon_111_oe_core_meta_classes_sstate_bbclass]
+> #     "machineName"
+> # pre-expansion value:
+> #   "machineName"
+> SSTATE_MANMACH="machineName"
+>
+> # $SSTATE_PKGARCH
+> #   set oe-core/meta/classes/sstate.bbclass:11
+> #     "${PACKAGE_ARCH}"
+> SSTATE_PKGARCH="sdk-provides-dummy-target"
+>
+> # $PACKAGE_ARCH [3 operations]
+> #   set oe-core/meta/conf/bitbake.conf:150
+> #     [_defaultval] "${TUNE_PKGARCH}"
+> #   set oe-core/meta/conf/documentation.conf:304
+> #     [doc] "The architecture of the resulting package or packages."
+> #   set dummy-sdk-package.inc:12 [__anon_12_oe_core_meta_recipes_core_meta_dummy_sdk_package_inc]
+> #     "${DUMMYARCH}"
+> # pre-expansion value:
+> #   "${DUMMYARCH}"
+> PACKAGE_ARCH="sdk-provides-dummy-target"
+>
+> after revert:
+> # $SSTATE_MANMACH
+> #   set? oe-core/meta/classes/sstate.bbclass:61
+> #     "${SSTATE_PKGARCH}"
+> SSTATE_MANMACH="allarch"
+>
+> # $SSTATE_PKGARCH [2 operations]
+> #   set oe-core/meta/classes/sstate.bbclass:11
+> #     "${PACKAGE_ARCH}"
+> #   set sstate.bbclass:98 [__anon_111__oe_core_meta_classes_sstate_bbclass]
+> #     "allarch"
+> # pre-expansion value:
+> #   "allarch"
+> SSTATE_PKGARCH="allarch"
+>
+> # $PACKAGE_ARCH [4 operations]
+> #   set oe-core/meta/conf/bitbake.conf:150
+> #     [_defaultval] "${TUNE_PKGARCH}"
+> #   set oe-core/meta/conf/documentation.conf:304
+> #     [doc] "The architecture of the resulting package or packages."
+> #   set oe-core/meta/classes/allarch.bbclass:5
+> #     "all"
+> #   set dummy-sdk-package.inc:12 [__anon_12_oe_core_meta_recipes_core_meta_dummy_sdk_package_inc]
+> #     "${DUMMYARCH}"
+> # pre-expansion value:
+> #   "${DUMMYARCH}"
+> PACKAGE_ARCH="sdk-provides-dummy-target"
+>
+>
+> the relevant part of the anonymous python in sstate.bbclass:
+>
+>      elif bb.data.inherits_class('allarch', d) and d.getVar("PACKAGE_ARCH") == "all":
+>          d.setVar('SSTATE_PKGARCH', "allarch")
+>      else:
+>          d.setVar('SSTATE_MANMACH', d.expand("${PACKAGE_ARCH}"))
+>
+> So with your change, the PACKAGE_ARCH isn't set to "all" because multilib is enabled,
+> but that causes sstate.bbclass to set SSTATE_MANMACH to MACHINE instead of SSTATE_PKGARCH
+> allarch, where it got MACHINE is still a bit of mystery to me.
 
+The original story is that multilib packages such as lib32-curl depends 
+on non-multilib package openssl that allarch package ca-certificates
+is in the dependency chain:
 
-On 09/16/2018 06:14 PM, Otavio Salvador wrote:
-> On Sun, Sep 16, 2018 at 6:16 PM Otavio Salvador <otavio@ossystems.com.b=
-r> wrote:
->> This upgrades U-Boot to 2018.09 release and drop the backported
->> security fixes which are now included upstream.
+lib32-curl -> ca-certificates -> openssl
+
+I sent some versions of commits to Richard but he thought these 
+solutions affect current non-multilib build too much. And Richard proposed
+this solution which not affect current non-multilib build. When multilib 
+is enabled/used, allarch packages are eliminated and treated as common
+packages. The vars SSTATE_*  are set as the same as normal packages such 
+as zlib.
+
+Package target-sdk-provides-dummy is a little special that it sets its 
+PACKAGE_ARCH in its own recipe. And affects vars which depends on 
+PACKAGE_ARCH.
+
+Regards,
+Kai
+
+>
+> Cheers,
+>
+>>> Cheers,
+>>>
+>>>>>   python () {
+>>>>>       # Allow this class to be included but overridden - only set
+>>>>> diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+>>>>> index 0ca8de86c2..b5a8457747 100644
+>>>>> --- a/meta/classes/icecc.bbclass
+>>>>> +++ b/meta/classes/icecc.bbclass
+>>>>> @@ -171,7 +171,7 @@ def use_icecc(bb,d):
+>>>>>       return "yes"
+>>>>>   
+>>>>>   def icecc_is_allarch(bb, d):
+>>>>> -    return d.getVar("PACKAGE_ARCH") == "all" or bb.data.inherits_class('allarch', d)
+>>>>> +    return d.getVar("PACKAGE_ARCH") == "all"
+>>>>>   
+>>>>>   def icecc_is_kernel(bb, d):
+>>>>>       return \
+>>>>> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+>>>>> index f2ac8bdfef..7b4d6472b0 100644
+>>>>> --- a/meta/classes/multilib.bbclass
+>>>>> +++ b/meta/classes/multilib.bbclass
+>>>>> @@ -50,7 +50,8 @@ python multilib_virtclass_handler () {
+>>>>>       if bb.data.inherits_class('nativesdk', e.data) or bb.data.inherits_class('crosssdk', e.data):
+>>>>>           raise bb.parse.SkipRecipe("We can't extend nativesdk recipes")
+>>>>>   
+>>>>> -    if bb.data.inherits_class('allarch', e.data) and not bb.data.inherits_class('packagegroup', e.data):
+>>>>> +    if bb.data.inherits_class('allarch', e.data) and not d.getVar('MULTILIB_VARIANTS') \
+>>>>> +        and not bb.data.inherits_class('packagegroup', e.data):
+>>>>>           raise bb.parse.SkipRecipe("Don't extend allarch recipes which are not packagegroups")
+>>>>>   
+>>>>>       # Expand this since this won't work correctly once we set a multilib into place
+>>>>> diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
+>>>>> index d2ec1adfea..1bb62427b0 100644
+>>>>> --- a/meta/classes/multilib_global.bbclass
+>>>>> +++ b/meta/classes/multilib_global.bbclass
+>>>>> @@ -165,9 +165,7 @@ python multilib_virtclass_handler_global () {
+>>>>>           return
+>>>>>   
+>>>>>       if bb.data.inherits_class('kernel', e.data) or \
+>>>>> -            bb.data.inherits_class('module-base', e.data) or \
+>>>>> -            (bb.data.inherits_class('allarch', e.data) and\
+>>>>> -             not bb.data.inherits_class('packagegroup', e.data)):
+>>>>> +            bb.data.inherits_class('module-base', e.data):
+>>>>>               variants = (e.data.getVar("MULTILIB_VARIANTS") or "").split()
+>>>>>   
+>>>>>               import oe.classextend
+>>>>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+>>>>> index 0b6f65a855..d1e9138c66 100644
+>>>>> --- a/meta/classes/package.bbclass
+>>>>> +++ b/meta/classes/package.bbclass
+>>>>> @@ -494,7 +494,8 @@ def get_package_mapping (pkg, basepkg, d):
+>>>>>   
+>>>>>       if key in data:
+>>>>>           # Have to avoid undoing the write_extra_pkgs(global_variants...)
+>>>>> -        if bb.data.inherits_class('allarch', d) and data[key] == basepkg:
+>>>>> +        if bb.data.inherits_class('allarch', d) and not d.getVar('MULTILIB_VARIANTS') \
+>>>>> +            and data[key] == basepkg:
+>>>>>               return pkg
+>>>>>           return data[key]
+>>>>>   
+>>>>> @@ -1413,7 +1414,8 @@ fi
+>>>>>       if bb.data.inherits_class('kernel', d) or bb.data.inherits_class('module-base', d):
+>>>>>           write_extra_pkgs(variants, pn, packages, pkgdatadir)
+>>>>>   
+>>>>> -    if (bb.data.inherits_class('allarch', d) and not bb.data.inherits_class('packagegroup', d)):
+>>>>> +    if bb.data.inherits_class('allarch', d) and not variants \
+>>>>> +        and not bb.data.inherits_class('packagegroup', d):
+>>>>>           write_extra_pkgs(global_variants, pn, packages, pkgdatadir)
+>>>>>   
+>>>>>       workdir = d.getVar('WORKDIR')
+>>>>> @@ -1502,7 +1504,8 @@ fi
+>>>>>       if bb.data.inherits_class('kernel', d) or bb.data.inherits_class('module-base', d):
+>>>>>           write_extra_runtime_pkgs(variants, packages, pkgdatadir)
+>>>>>   
+>>>>> -    if bb.data.inherits_class('allarch', d) and not bb.data.inherits_class('packagegroup', d):
+>>>>> +    if bb.data.inherits_class('allarch', d) and not variants \
+>>>>> +        and not bb.data.inherits_class('packagegroup', d):
+>>>>>           write_extra_runtime_pkgs(global_variants, packages, pkgdatadir)
+>>>>>   
+>>>>>   }
+>>>>> -- 
+>>>>> 2.18.0
+>>>>>
+>>>>> -- 
+>>>>> _______________________________________________
+>>>>> Openembedded-core mailing list
+>>>>> Openembedded-core@lists.openembedded.org
+>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>> -- 
+>>>> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>>>
+>>>
+>>> -- 
+>>> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 >>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> When I mentioned, on IRC, about this bump to Marek, he mentioned that
-> there is a regression on x86 being worked on upstream so this patch
-> should wait for this to be sorted out before we update it.
-
-What is the difference in regression when there is a kernel issue
-identified after they release or any other package update?
-
-Granted this most likely wont make 2.6 so is a moot point in 6 months.=C2=
-=A0
-Is there a benefit to the many over the few with this?
-
-- armin
+>>
+>> -- 
+>> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
 >
 
+-- 
+Regards,
+Neil | Kai Kang
 
 
