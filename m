@@ -1,51 +1,58 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
-	[209.85.221.51])
-	by mail.openembedded.org (Postfix) with ESMTP id B8CB5745BD
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 79D06745FB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2018 05:48:52 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id v90-v6so15891404wrc.0
+	Mon, 17 Sep 2018 05:50:35 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id j192-v6so8013347wmj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Sep 2018 22:48:54 -0700 (PDT)
+	Sun, 16 Sep 2018 22:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=os9r5weRkXnNMIM26BQciwb6hjHca9SMxWqR2U3/Mj8=;
-	b=Z8ltzN+f2uufVfy6pIBIm/36OJxZ8ifmrPJjjsax9jU0WPKXKudKVfLfkR2eW+eJ4R
-	sVqBRDfuQ8+UNaDnMRlBNeWIUzlok0N8QgKEBbNYxokt2WoWQupt1dItdAGymDw1/f9b
-	QD5E0qKOEFZW0p0BxOhEn7cnCHzHlcA4xsUxpKqoHuDXiV+jTS1UC7IhZRFiUQLldrzc
-	OorwE5fYiRQ34mKbUHhAjohVMWN1SjsI5FPcJWGJ4/PsdeD/D4lS+jE24RYJ/ypCZy/M
-	oO9Y1KZQtXkfxydbhKU/qHwL4HISy7dXlmmNFIywQs2kHWVYTuRk2MuhJS4vxiG28Q0v
-	IBPA==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=OG9Na33CZ8cMB2zD6+mHn62DTxshoPGzesSdMznmEb8=;
+	b=mhvARZOKjtXVgh3IrWQe7PKz6NWa9WyLxUO5ym5SmicYUdYAvl+vQuDQqmMZqupk+p
+	cWne45UGDxSo5LUW6y0tBixhH4mCjQPyy87FFfhndPy+svdVkVNUJYSKte86j1f6rEUj
+	vPxUvv8pKN1zkM+HRMqq7fbF3pTv7qhg//g4gOAUgVahHgtDKH3mnpG5D8JrHEF5rcOe
+	dcMglERjwPOCcu4tQ+NocoIZxz0QxQpZO2DSBqBqXsNfNDveRREtmXXfDNS4rjegMJGB
+	r3t+Aznm6SMQnqkPRXX3sxvqugScdrisVQFrvFs+/bdyY/4x0C0+5hszHXw/e1UbsU52
+	NTrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=os9r5weRkXnNMIM26BQciwb6hjHca9SMxWqR2U3/Mj8=;
-	b=IX2MjyUdMd/LU1S+vTumJQSrMPgJJXGBdrBZY2RDGK2wzeWhAiOaqre4HUY9mOYH5D
-	onH+nShG8spRi3HOm09Z475u6qtMxJsqrCEX7XeWYcmX4/5CrUr3siGRDF9d8daUSOju
-	8b0q6Y09Snudngm4/1Mmeqp5YFv3D88RpJPe+g2r7JaLyQx9NUrXsBgv9uQt86O8ibz2
-	sy+kQF1TfEsA+SxGin3gi24HzxVsKtOU3hAg572CJpOlYwEgi9G2TyT28W0aBGB6wKAa
-	ZvOKMEdxmOzsrB8G1qofYcYERbVdF7VKWOinScQYqRBVElyjMD51gewqqH1CO3HqsgIP
-	l4dw==
-X-Gm-Message-State: APzg51B3Rgp9ncbCo0VcYog6r72r8mfqr9xvHnEjzWIg0zSu/zZ236bZ
-	WF1ZrI2iVRg7eLeil7esQMuYSGgX
-X-Google-Smtp-Source: ANB0VdZGRshiFGOcAMAqI1y1iGxbAm9K7zIt0yt5+FmmCHQFCeHPUBgp9aRREdT4ZYQHwnKMWaqIYw==
-X-Received: by 2002:a5d:438d:: with SMTP id
-	i13-v6mr17563339wrq.156.1537163333166; 
-	Sun, 16 Sep 2018 22:48:53 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=OG9Na33CZ8cMB2zD6+mHn62DTxshoPGzesSdMznmEb8=;
+	b=mqEqetb/IKhqE9QksX87mupolgsMzUc/HV+bBifAA4kqGbvNKZyhVcFSNasRHPWqzu
+	XUgMNqELruo1KthPgt/2itpgAOy2RutvIp4FHPL7SIWuCdHS5pkBmdPvH2iDfTOXni6t
+	3rgLqWpDSOxrEOb2NAYxbcr6yQfmiiQwMX5nbgJ/TaAXtUwya7EnZlZ9tcNC7+OnbNNj
+	N1nRzlyzwnXI2w9tdOTrfoku/4G8wXz+ixsS8RSxJbQNCixP9xXNwq3MnQVZq5UHLElc
+	jFspOHtnCcwvRcOy302Wy6nBKGsCyW+QaD+jSlU2bnW2ZdyqPWbisB7nfyvTynezejrg
+	VkJw==
+X-Gm-Message-State: APzg51DlAZvlMwcQX5GFxYJ29UGrw7ZCUnfAixq7OCCLE+SxvC3DECRa
+	qurCogb/YQoFQTc+GTgJubaJsbFR
+X-Google-Smtp-Source: ANB0VdaibVQaLlT7lr+y3YvrJNt2a08BQcxPok0DpRLcf4LF7vJHQOVOJT8bhLMMMil8/AIg3xHdoQ==
+X-Received: by 2002:a1c:8c0b:: with SMTP id
+	o11-v6mr10273625wmd.11.1537163436070; 
+	Sun, 16 Sep 2018 22:50:36 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	x65-v6sm6641027wmg.39.2018.09.16.22.48.52
+	y184-v6sm5211385wmg.17.2018.09.16.22.50.35
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 16 Sep 2018 22:48:52 -0700 (PDT)
+	Sun, 16 Sep 2018 22:50:35 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2018 05:48:44 +0000
-Message-Id: <20180917054844.12934-3-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180917054844.12934-1-Martin.Jansa@gmail.com>
-References: <20180917054844.12934-1-Martin.Jansa@gmail.com>
-Subject: [PATCH 3/3] glibc: fix build with -O
+Date: Mon, 17 Sep 2018 07:50:35 +0200
+To: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <20180917055034.GA3408@jama>
+References: <cover.1536248856.git.kai.kang@windriver.com>
+	<2824ade62c3ec58c96074aba632740a8118c15f2.1536248856.git.kai.kang@windriver.com>
+	<20180913182007.GA1437@jama> <20180913201046.GB1437@jama>
+	<20180914112512.GA1369@jama> <20180914141236.GD1369@jama>
+	<dabc02da-9972-8e06-6624-a567f8aefe48@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <dabc02da-9972-8e06-6624-a567f8aefe48@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/7] allarch: only enable allarch when multilib is not used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,237 +65,410 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2018 05:48:53 -0000
+X-List-Received-Date: Mon, 17 Sep 2018 05:50:35 -0000
+X-Groupsio-MsgNum: 116332
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
+Content-Disposition: inline
 
-* tested for qemuarm, qemux86 with -O, -O0, -Os, with gcc
-* to build with -O0 I had to remove restriction from systemtap first
+--6TrnltStXW4iwmi0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/glibc/glibc.inc             | 12 ---
- ...4-prevent-maybe-uninitialized-errors.patch | 95 +++++++++++++++++++
- ...2-soft-fp-ignore-maybe-uninitialized.patch | 72 ++++++++++++++
- meta/recipes-core/glibc/glibc_2.28.bb         |  2 +
- 4 files changed, 169 insertions(+), 12 deletions(-)
- create mode 100644 meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch
+On Mon, Sep 17, 2018 at 10:25:38AM +0800, Kang Kai wrote:
+> On 2018=E5=B9=B409=E6=9C=8814=E6=97=A5 22:12, Martin Jansa wrote:
+> > On Fri, Sep 14, 2018 at 01:25:12PM +0200, Martin Jansa wrote:
+> >> On Thu, Sep 13, 2018 at 10:10:46PM +0200, Martin Jansa wrote:
+> >>> On Thu, Sep 13, 2018 at 08:20:07PM +0200, Martin Jansa wrote:
+> >>>> On Thu, Sep 06, 2018 at 11:52:24PM +0800, kai.kang@windriver.com wro=
+te:
+> >>>>> From: Kai Kang <kai.kang@windriver.com>
+> >>>>>
+> >>>>> Some allarch packages rdepends non-allarch packages. when multilib =
+is
+> >>>>> used, it doesn't expand the dependency chain correctly, e.g.
+> >>>>>
+> >>>>> core-image-sato -> ca-certificates(allarch) -> openssl
+> >>>>>
+> >>>>> we expect dependency chain for lib32-core-image-sato:
+> >>>>>
+> >>>>> lib32-core-image-sato -> ca-certificates(allarch) -> lib32-openssl
+> >>>>>
+> >>>>> it should install lib32-openssl for ca-certificates but openssl is =
+still
+> >>>>> wrongly required.
+> >>>>>
+> >>>>> Only enable allarch when multilib is not used to fix the issue.
+> >>>>>
+> >>>>> signed-off-by: kai kang <kai.kang@windriver.com>
+> >>>>> ---
+> >>>>>   meta/classes/allarch.bbclass         | 12 +++++++++++-
+> >>>>>   meta/classes/icecc.bbclass           |  2 +-
+> >>>>>   meta/classes/multilib.bbclass        |  3 ++-
+> >>>>>   meta/classes/multilib_global.bbclass |  4 +---
+> >>>>>   meta/classes/package.bbclass         |  9 ++++++---
+> >>>>>   5 files changed, 21 insertions(+), 9 deletions(-)
+> >>>>>
+> >>>>> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bb=
+class
+> >>>>> index 1eebe0bf2e..45f62a5939 100644
+> >>>>> --- a/meta/classes/allarch.bbclass
+> >>>>> +++ b/meta/classes/allarch.bbclass
+> >>>>> @@ -2,7 +2,17 @@
+> >>>>>   # This class is used for architecture independent recipes/data fi=
+les (usually scripts)
+> >>>>>   #
+> >>>>>  =20
+> >>>>> -PACKAGE_ARCH =3D "all"
+> >>>>> +python allarch_package_arch_handler () {
+> >>>>> +    if bb.data.inherits_class("nativesdk", d) or bb.data.inherits_=
+class("crosssdk", d):
+> >>>>> +        return
+> >>>>> +
+> >>>>> +    variants =3D d.getVar("MULTILIB_VARIANTS")
+> >>>>> +    if not variants:
+> >>>>> +        d.setVar("PACKAGE_ARCH", "all" )
+> >>>>> +}
+> >>>>> +
+> >>>>> +addhandler allarch_package_arch_handler
+> >>>>> +allarch_package_arch_handler[eventmask] =3D "bb.event.RecipePreFin=
+alise"
+> >>>> Maybe I'm overlooking something, but doesn't this overwrite whatever
+> >>>> PACKAGE_ARCH as set before this?
+> >>>>
+> >>>> I have some recipes where the PACKAGE_ARCH is set to MACHINE_ARCH th=
+rough
+> >>>> another bbclass, but then overwritten with "all" by allarch_package_=
+arch_handler:
+> >>>>
+> >>>> # $PACKAGE_ARCH [5 operations]
+> >>>> #   set oe-core/meta/conf/bitbake.conf:150
+> >>>> #     [_defaultval] "${TUNE_PKGARCH}"
+> >>>> #   set meta-lg-webos/meta-webos/conf/distro/include/webos.inc:241
+> >>>> #     "${MACHINE_ARCH}"
+> >>>> #   set oe-core/meta/conf/documentation.conf:304
+> >>>> #     [doc] "The architecture of the resulting package or packages."
+> >>>> #   set meta-lg-webos/meta-webos/classes/webos_machine_impl_dep.bbcl=
+ass:11
+> >>>> #     "${MACHINE_ARCH}"
+> >>>> #   set allarch.bbclass:12 [allarch_package_arch_handler]
+> >>>> #     "all"
+> >>>> # pre-expansion value:
+> >>>> #   "all"
+> >>>> PACKAGE_ARCH=3D"all"
+> >>>>
+> >>>> But surprisingly if I do the same with e.g. packagegroup-core-boot i=
+n oe-core I get:
+> >>>>
+> >>>> # $PACKAGE_ARCH [4 operations]
+> >>>> #   set /OE/build/oe-core/openembedded-core/meta/conf/bitbake.conf:1=
+50
+> >>>> #     [_defaultval] "${TUNE_PKGARCH}"
+> >>>> #   set /OE/build/oe-core/openembedded-core/meta/conf/documentation.=
+conf:304
+> >>>> #     [doc] "The architecture of the resulting package or packages."
+> >>>> #   set /OE/build/oe-core/openembedded-core/meta/recipes-core/packag=
+egroups/packagegroup-core-boot.bb:9
+> >>>> #     "${MACHINE_ARCH}"
+> >>>> #   set? /OE/build/oe-core/openembedded-core/meta/classes/packagegro=
+up.bbclass:12
+> >>>> #     "all"
+> >>>> # pre-expansion value:
+> >>>> #   "${MACHINE_ARCH}"
+> >>>> PACKAGE_ARCH=3D"qemux86_64"
+> >>>>
+> >>>> Why isn't allarch_package_arch_handler executed in the 2nd case?
+> >>> Now I see the difference, I was still living in the days when
+> >>> "disabling" allarch was possible just by setting PACKAGE_ARCH before
+> >>> inheritting allarch, but now I see that packagegroups do conditional
+> >>> inherit as well since:
+> >>> http://git.openembedded.org/openembedded-core/commit/?id=3D9c826962ec=
+8fa45c2b035427442b90a41517144e
+> >>> http://git.openembedded.org/openembedded-core/commit/?id=3D2c9b1d304d=
+aade7b0907320aeb9c522e7ab9dcab
+> >>> so I'll modify currently failing recipes to do the same and stop
+> >>> inheritting allarch when PACKAGE_ARCH is set to something else.
+> >>  From public layers I've found with test-signatures script only
+> >> fbset-nodes recipe in meta-oe which was setting PACKAGE_ARCH after
+> >> allarch inherit, allarch removal sent here:
+> >> http://lists.openembedded.org/pipermail/openembedded-devel/2018-Septem=
+ber/120560.html
+> > target-sdk-provides-dummy seems to be affected as well:
+> >   =3D=3D=3D Comparing signatures for task do_populate_sysroot.sigdata b=
+etween qemux86 and qemux86copy =3D=3D=3D
+> > ERROR: lib32-target-sdk-provides-dummy different signature for task do_=
+populate_sysroot.sigdata between qemux86 and qemux86copy
+> > basehash changed from b0a44b2c7003b6b4aa3a023d9cb9fe82 to 3a59fa25ddb6a=
+95aff079d477ebf3457
+> > Variable SSTATE_MANMACH value changed from 'qemux86' to 'qemux86copy'
+> >
+> > ERROR: target-sdk-provides-dummy different signature for task do_popula=
+te_sysroot.sigdata between qemux86 and qemux86copy
+> > basehash changed from 9e44f1deb3d15886ee96db1a3332764c to 6b417d08a5113=
+c9b06d13b3681f5ab4f
+> > Variable SSTATE_MANMACH value changed from 'qemux86' to 'qemux86copy'
+> >
+> >
+> > It's using:
+> > inherit allarch
+> >
+> > python() {
+> >      # Put the package somewhere separate to ensure it's never used exc=
+ept
+> >      # when we want it
+> >      # (note that we have to do this in anonymous python here to avoid
+> >      # allarch.bbclass disabling itself)
+> >      d.setVar('PACKAGE_ARCH', '${DUMMYARCH}')
+> > }
+> >
+> > and DUMMYARCH =3D "sdk-provides-dummy-target"
+> >
+> > The difference as shown with bitbake -e before and after reverting this=
+ commit:
+> >
+> > before revert:
+> > # $SSTATE_MANMACH [2 operations]
+> > #   set? oe-core/meta/classes/sstate.bbclass:61
+> > #     "${SSTATE_PKGARCH}"
+> > #   set sstate.bbclass:100 [__anon_111_oe_core_meta_classes_sstate_bbcl=
+ass]
+> > #     "machineName"
+> > # pre-expansion value:
+> > #   "machineName"
+> > SSTATE_MANMACH=3D"machineName"
+> >
+> > # $SSTATE_PKGARCH
+> > #   set oe-core/meta/classes/sstate.bbclass:11
+> > #     "${PACKAGE_ARCH}"
+> > SSTATE_PKGARCH=3D"sdk-provides-dummy-target"
+> >
+> > # $PACKAGE_ARCH [3 operations]
+> > #   set oe-core/meta/conf/bitbake.conf:150
+> > #     [_defaultval] "${TUNE_PKGARCH}"
+> > #   set oe-core/meta/conf/documentation.conf:304
+> > #     [doc] "The architecture of the resulting package or packages."
+> > #   set dummy-sdk-package.inc:12 [__anon_12_oe_core_meta_recipes_core_m=
+eta_dummy_sdk_package_inc]
+> > #     "${DUMMYARCH}"
+> > # pre-expansion value:
+> > #   "${DUMMYARCH}"
+> > PACKAGE_ARCH=3D"sdk-provides-dummy-target"
+> >
+> > after revert:
+> > # $SSTATE_MANMACH
+> > #   set? oe-core/meta/classes/sstate.bbclass:61
+> > #     "${SSTATE_PKGARCH}"
+> > SSTATE_MANMACH=3D"allarch"
+> >
+> > # $SSTATE_PKGARCH [2 operations]
+> > #   set oe-core/meta/classes/sstate.bbclass:11
+> > #     "${PACKAGE_ARCH}"
+> > #   set sstate.bbclass:98 [__anon_111__oe_core_meta_classes_sstate_bbcl=
+ass]
+> > #     "allarch"
+> > # pre-expansion value:
+> > #   "allarch"
+> > SSTATE_PKGARCH=3D"allarch"
+> >
+> > # $PACKAGE_ARCH [4 operations]
+> > #   set oe-core/meta/conf/bitbake.conf:150
+> > #     [_defaultval] "${TUNE_PKGARCH}"
+> > #   set oe-core/meta/conf/documentation.conf:304
+> > #     [doc] "The architecture of the resulting package or packages."
+> > #   set oe-core/meta/classes/allarch.bbclass:5
+> > #     "all"
+> > #   set dummy-sdk-package.inc:12 [__anon_12_oe_core_meta_recipes_core_m=
+eta_dummy_sdk_package_inc]
+> > #     "${DUMMYARCH}"
+> > # pre-expansion value:
+> > #   "${DUMMYARCH}"
+> > PACKAGE_ARCH=3D"sdk-provides-dummy-target"
+> >
+> >
+> > the relevant part of the anonymous python in sstate.bbclass:
+> >
+> >      elif bb.data.inherits_class('allarch', d) and d.getVar("PACKAGE_AR=
+CH") =3D=3D "all":
+> >          d.setVar('SSTATE_PKGARCH', "allarch")
+> >      else:
+> >          d.setVar('SSTATE_MANMACH', d.expand("${PACKAGE_ARCH}"))
+> >
+> > So with your change, the PACKAGE_ARCH isn't set to "all" because multil=
+ib is enabled,
+> > but that causes sstate.bbclass to set SSTATE_MANMACH to MACHINE instead=
+ of SSTATE_PKGARCH
+> > allarch, where it got MACHINE is still a bit of mystery to me.
+>=20
+> The original story is that multilib packages such as lib32-curl depends=
+=20
+> on non-multilib package openssl that allarch package ca-certificates
+> is in the dependency chain:
+>=20
+> lib32-curl -> ca-certificates -> openssl
+>=20
+> I sent some versions of commits to Richard but he thought these=20
+> solutions affect current non-multilib build too much. And Richard proposed
+> this solution which not affect current non-multilib build. When multilib=
+=20
+> is enabled/used, allarch packages are eliminated and treated as common
+> packages. The vars SSTATE_*=C2=A0 are set as the same as normal packages =
+such=20
+> as zlib.
+>=20
+> Package target-sdk-provides-dummy is a little special that it sets its=20
+> PACKAGE_ARCH in its own recipe. And affects vars which depends on=20
+> PACKAGE_ARCH.
 
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index 91491a35f0..e673707369 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -6,18 +6,6 @@ STAGINGCC = "gcc-cross-initial-${TARGET_ARCH}"
- STAGINGCC_class-nativesdk = "gcc-crosssdk-initial-${SDK_SYS}"
- PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
- 
--python () {
--    opt_effective = "-O"
--    for opt in d.getVar('SELECTED_OPTIMIZATION').split():
--        if opt in ("-O0", "-O", "-O1", "-O2", "-O3", "-Os"):
--            opt_effective = opt
--    if opt_effective == "-O0":
--        bb.fatal("%s can't be built with %s, try -O1 instead" % (d.getVar('PN'), opt_effective))
--    if opt_effective in ("-O", "-O1", "-Os"):
--        bb.note("%s doesn't build cleanly with %s, adding -Wno-error to SELECTED_OPTIMIZATION" % (d.getVar('PN'), opt_effective))
--        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
--}
--
- # siteconfig.bbclass runs configure which needs a working compiler
- # For the compiler to work we need a working libc yet libc isn't
- # in the sysroots directory at this point. This means the libc.so
-diff --git a/meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch b/meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch
-new file mode 100644
-index 0000000000..d9d36b8244
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch
-@@ -0,0 +1,95 @@
-+From c6cc5a6ef46837e341fe271b5ffa6def23810082 Mon Sep 17 00:00:00 2001
-+From: Martin Jansa <Martin.Jansa@gmail.com>
-+Date: Fri, 14 Sep 2018 23:23:03 +0000
-+Subject: [PATCH] sysdeps/ieee754: prevent maybe-uninitialized errors
-+
-+* with -O included in BUILD_OPTIMIZATION when DEBUG_BUILD
-+  is used, nativesdk-glibc fails with:
-+../sysdeps/ieee754/ldbl-96/e_jnl.c: In function '__ieee754_jnl':
-+../sysdeps/ieee754/ldbl-96/e_jnl.c:146:20: error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+      b = invsqrtpi * temp / sqrtl (x);
-+          ~~~~~~~~~~^~~~~~
-+../sysdeps/ieee754/ldbl-96/e_jnl.c: In function '__ieee754_ynl':
-+../sysdeps/ieee754/ldbl-96/e_jnl.c:375:16: error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+  b = invsqrtpi * temp / sqrtl (x);
-+      ~~~~~~~~~~^~~~~~
-+
-+* work around the issue instead of removing -O like we do with
-+  SELECTED_OPTIMIZATION
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ sysdeps/ieee754/dbl-64/e_jn.c    | 2 ++
-+ sysdeps/ieee754/ldbl-128/e_jnl.c | 4 ++++
-+ sysdeps/ieee754/ldbl-96/e_jnl.c  | 4 ++++
-+ 3 files changed, 10 insertions(+)
-+
-+diff --git a/sysdeps/ieee754/dbl-64/e_jn.c b/sysdeps/ieee754/dbl-64/e_jn.c
-+index 9181b22bb8..74a6b5f149 100644
-+--- a/sysdeps/ieee754/dbl-64/e_jn.c
-++++ b/sysdeps/ieee754/dbl-64/e_jn.c
-+@@ -108,6 +108,7 @@ __ieee754_jn (int n, double x)
-+ 	      case 1: temp = -c + s; break;
-+ 	      case 2: temp = -c - s; break;
-+ 	      case 3: temp = c - s; break;
-++	      default: temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+ 	      }
-+ 	    b = invsqrtpi * temp / sqrt (x);
-+ 	  }
-+@@ -315,6 +316,7 @@ __ieee754_yn (int n, double x)
-+ 	  case 1: temp = -s - c; break;
-+ 	  case 2: temp = -s + c; break;
-+ 	  case 3: temp = s + c; break;
-++	  default: temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+ 	  }
-+ 	b = invsqrtpi * temp / sqrt (x);
-+       }
-+diff --git a/sysdeps/ieee754/ldbl-128/e_jnl.c b/sysdeps/ieee754/ldbl-128/e_jnl.c
-+index 7739eec291..b6a1275464 100644
-+--- a/sysdeps/ieee754/ldbl-128/e_jnl.c
-++++ b/sysdeps/ieee754/ldbl-128/e_jnl.c
-+@@ -149,6 +149,8 @@ __ieee754_jnl (int n, _Float128 x)
-+ 	      case 3:
-+ 		temp = c - s;
-+ 		break;
-++	      default:
-++	        temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+ 	      }
-+ 	    b = invsqrtpi * temp / sqrtl (x);
-+ 	  }
-+@@ -385,6 +387,8 @@ __ieee754_ynl (int n, _Float128 x)
-+ 	  case 3:
-+ 	    temp = s + c;
-+ 	    break;
-++	  default:
-++	    temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+ 	  }
-+ 	b = invsqrtpi * temp / sqrtl (x);
-+       }
-+diff --git a/sysdeps/ieee754/ldbl-96/e_jnl.c b/sysdeps/ieee754/ldbl-96/e_jnl.c
-+index 394921f564..2263b02203 100644
-+--- a/sysdeps/ieee754/ldbl-96/e_jnl.c
-++++ b/sysdeps/ieee754/ldbl-96/e_jnl.c
-+@@ -142,6 +142,8 @@ __ieee754_jnl (int n, long double x)
-+ 	      case 3:
-+ 		temp = c - s;
-+ 		break;
-++	      default:
-++	        temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+ 	      }
-+ 	    b = invsqrtpi * temp / sqrtl (x);
-+ 	  }
-+@@ -371,6 +373,8 @@ __ieee754_ynl (int n, long double x)
-+ 	  case 3:
-+ 	    temp = s + c;
-+ 	    break;
-++	  default:
-++	    temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+ 	  }
-+ 	b = invsqrtpi * temp / sqrtl (x);
-+       }
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch b/meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch
-new file mode 100644
-index 0000000000..d3c9902fbc
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch
-@@ -0,0 +1,72 @@
-+From 0efa7fd1c800277d5323d05cb245c0536fe9ce22 Mon Sep 17 00:00:00 2001
-+From: Martin Jansa <Martin.Jansa@gmail.com>
-+Date: Sun, 16 Sep 2018 12:39:22 +0000
-+Subject: [PATCH] soft-fp: ignore maybe-uninitialized
-+
-+* with -O it fails with:
-+
-+In file included from ../soft-fp/soft-fp.h:318,
-+                 from ../sysdeps/ieee754/soft-fp/s_fdiv.c:28:
-+../sysdeps/ieee754/soft-fp/s_fdiv.c: In function '__fdiv':
-+../soft-fp/op-2.h:98:25: error: 'R_f1' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+        X##_f0 = (X##_f1 << (_FP_W_TYPE_SIZE - (N)) | X##_f0 >> (N) \
-+                         ^~
-+../sysdeps/ieee754/soft-fp/s_fdiv.c:38:14: note: 'R_f1' was declared here
-+   FP_DECL_D (R);
-+              ^
-+../soft-fp/op-2.h:37:36: note: in definition of macro '_FP_FRAC_DECL_2'
-+   _FP_W_TYPE X##_f0 _FP_ZERO_INIT, X##_f1 _FP_ZERO_INIT
-+                                    ^
-+../soft-fp/double.h:95:24: note: in expansion of macro '_FP_DECL'
-+ # define FP_DECL_D(X)  _FP_DECL (2, X)
-+                        ^~~~~~~~
-+../sysdeps/ieee754/soft-fp/s_fdiv.c:38:3: note: in expansion of macro 'FP_DECL_D'
-+   FP_DECL_D (R);
-+   ^~~~~~~~~
-+../soft-fp/op-2.h:101:17: error: 'R_f0' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+       : (X##_f0 << (_FP_W_TYPE_SIZE - (N))) != 0)); \
-+                 ^~
-+../sysdeps/ieee754/soft-fp/s_fdiv.c:38:14: note: 'R_f0' was declared here
-+   FP_DECL_D (R);
-+              ^
-+../soft-fp/op-2.h:37:14: note: in definition of macro '_FP_FRAC_DECL_2'
-+   _FP_W_TYPE X##_f0 _FP_ZERO_INIT, X##_f1 _FP_ZERO_INIT
-+              ^
-+../soft-fp/double.h:95:24: note: in expansion of macro '_FP_DECL'
-+ # define FP_DECL_D(X)  _FP_DECL (2, X)
-+                        ^~~~~~~~
-+../sysdeps/ieee754/soft-fp/s_fdiv.c:38:3: note: in expansion of macro 'FP_DECL_D'
-+   FP_DECL_D (R);
-+   ^~~~~~~~~
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ soft-fp/op-2.h | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/soft-fp/op-2.h b/soft-fp/op-2.h
-+index 6020d663d4..6672337949 100644
-+--- a/soft-fp/op-2.h
-++++ b/soft-fp/op-2.h
-+@@ -92,6 +92,8 @@
-+ 	      X##_f1 = 0;						\
-+ 	    }))
-+ 
-++#pragma GCC diagnostic push
-++#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-+ #define _FP_FRAC_SRS_2(X, N, sz)					\
-+   (void) (((N) < _FP_W_TYPE_SIZE)					\
-+ 	  ? ({								\
-+@@ -109,6 +111,7 @@
-+ 			    | X##_f0) != 0));				\
-+ 	      X##_f1 = 0;						\
-+ 	    }))
-++#pragma GCC diagnostic pop
-+ 
-+ #define _FP_FRAC_ADDI_2(X, I)	\
-+   __FP_FRAC_ADDI_2 (X##_f1, X##_f0, I)
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
-index 0ebbaf9610..df60ba8445 100644
---- a/meta/recipes-core/glibc/glibc_2.28.bb
-+++ b/meta/recipes-core/glibc/glibc_2.28.bb
-@@ -45,6 +45,8 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0028-bits-siginfo-consts.h-enum-definition-for-TRAP_HWBKP.patch \
-            file://0029-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
-            file://0030-intl-Emit-no-lines-in-bison-generated-files.patch \
-+           file://0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch \
-+           file://0032-soft-fp-ignore-maybe-uninitialized.patch \
- "
- 
- NATIVESDKFIXES ?= ""
--- 
-2.17.1
+I've sent possible work around:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-September/15=
+5743.html
 
+>=20
+> Regards,
+> Kai
+>=20
+> >
+> > Cheers,
+> >
+> >>> Cheers,
+> >>>
+> >>>>>   python () {
+> >>>>>       # Allow this class to be included but overridden - only set
+> >>>>> diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+> >>>>> index 0ca8de86c2..b5a8457747 100644
+> >>>>> --- a/meta/classes/icecc.bbclass
+> >>>>> +++ b/meta/classes/icecc.bbclass
+> >>>>> @@ -171,7 +171,7 @@ def use_icecc(bb,d):
+> >>>>>       return "yes"
+> >>>>>  =20
+> >>>>>   def icecc_is_allarch(bb, d):
+> >>>>> -    return d.getVar("PACKAGE_ARCH") =3D=3D "all" or bb.data.inheri=
+ts_class('allarch', d)
+> >>>>> +    return d.getVar("PACKAGE_ARCH") =3D=3D "all"
+> >>>>>  =20
+> >>>>>   def icecc_is_kernel(bb, d):
+> >>>>>       return \
+> >>>>> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.=
+bbclass
+> >>>>> index f2ac8bdfef..7b4d6472b0 100644
+> >>>>> --- a/meta/classes/multilib.bbclass
+> >>>>> +++ b/meta/classes/multilib.bbclass
+> >>>>> @@ -50,7 +50,8 @@ python multilib_virtclass_handler () {
+> >>>>>       if bb.data.inherits_class('nativesdk', e.data) or bb.data.inh=
+erits_class('crosssdk', e.data):
+> >>>>>           raise bb.parse.SkipRecipe("We can't extend nativesdk reci=
+pes")
+> >>>>>  =20
+> >>>>> -    if bb.data.inherits_class('allarch', e.data) and not bb.data.i=
+nherits_class('packagegroup', e.data):
+> >>>>> +    if bb.data.inherits_class('allarch', e.data) and not d.getVar(=
+'MULTILIB_VARIANTS') \
+> >>>>> +        and not bb.data.inherits_class('packagegroup', e.data):
+> >>>>>           raise bb.parse.SkipRecipe("Don't extend allarch recipes w=
+hich are not packagegroups")
+> >>>>>  =20
+> >>>>>       # Expand this since this won't work correctly once we set a m=
+ultilib into place
+> >>>>> diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/mu=
+ltilib_global.bbclass
+> >>>>> index d2ec1adfea..1bb62427b0 100644
+> >>>>> --- a/meta/classes/multilib_global.bbclass
+> >>>>> +++ b/meta/classes/multilib_global.bbclass
+> >>>>> @@ -165,9 +165,7 @@ python multilib_virtclass_handler_global () {
+> >>>>>           return
+> >>>>>  =20
+> >>>>>       if bb.data.inherits_class('kernel', e.data) or \
+> >>>>> -            bb.data.inherits_class('module-base', e.data) or \
+> >>>>> -            (bb.data.inherits_class('allarch', e.data) and\
+> >>>>> -             not bb.data.inherits_class('packagegroup', e.data)):
+> >>>>> +            bb.data.inherits_class('module-base', e.data):
+> >>>>>               variants =3D (e.data.getVar("MULTILIB_VARIANTS") or "=
+").split()
+> >>>>>  =20
+> >>>>>               import oe.classextend
+> >>>>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bb=
+class
+> >>>>> index 0b6f65a855..d1e9138c66 100644
+> >>>>> --- a/meta/classes/package.bbclass
+> >>>>> +++ b/meta/classes/package.bbclass
+> >>>>> @@ -494,7 +494,8 @@ def get_package_mapping (pkg, basepkg, d):
+> >>>>>  =20
+> >>>>>       if key in data:
+> >>>>>           # Have to avoid undoing the write_extra_pkgs(global_varia=
+nts...)
+> >>>>> -        if bb.data.inherits_class('allarch', d) and data[key] =3D=
+=3D basepkg:
+> >>>>> +        if bb.data.inherits_class('allarch', d) and not d.getVar('=
+MULTILIB_VARIANTS') \
+> >>>>> +            and data[key] =3D=3D basepkg:
+> >>>>>               return pkg
+> >>>>>           return data[key]
+> >>>>>  =20
+> >>>>> @@ -1413,7 +1414,8 @@ fi
+> >>>>>       if bb.data.inherits_class('kernel', d) or bb.data.inherits_cl=
+ass('module-base', d):
+> >>>>>           write_extra_pkgs(variants, pn, packages, pkgdatadir)
+> >>>>>  =20
+> >>>>> -    if (bb.data.inherits_class('allarch', d) and not bb.data.inher=
+its_class('packagegroup', d)):
+> >>>>> +    if bb.data.inherits_class('allarch', d) and not variants \
+> >>>>> +        and not bb.data.inherits_class('packagegroup', d):
+> >>>>>           write_extra_pkgs(global_variants, pn, packages, pkgdatadi=
+r)
+> >>>>>  =20
+> >>>>>       workdir =3D d.getVar('WORKDIR')
+> >>>>> @@ -1502,7 +1504,8 @@ fi
+> >>>>>       if bb.data.inherits_class('kernel', d) or bb.data.inherits_cl=
+ass('module-base', d):
+> >>>>>           write_extra_runtime_pkgs(variants, packages, pkgdatadir)
+> >>>>>  =20
+> >>>>> -    if bb.data.inherits_class('allarch', d) and not bb.data.inheri=
+ts_class('packagegroup', d):
+> >>>>> +    if bb.data.inherits_class('allarch', d) and not variants \
+> >>>>> +        and not bb.data.inherits_class('packagegroup', d):
+> >>>>>           write_extra_runtime_pkgs(global_variants, packages, pkgda=
+tadir)
+> >>>>>  =20
+> >>>>>   }
+> >>>>> --=20
+> >>>>> 2.18.0
+> >>>>>
+> >>>>> --=20
+> >>>>> _______________________________________________
+> >>>>> Openembedded-core mailing list
+> >>>>> Openembedded-core@lists.openembedded.org
+> >>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>>> --=20
+> >>>> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> >>>
+> >>>
+> >>> --=20
+> >>> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> >>
+> >>
+> >> --=20
+> >> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> >
+> >
+>=20
+> --=20
+> Regards,
+> Neil | Kai Kang
+>=20
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--6TrnltStXW4iwmi0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCW59AogAKCRA3VSO3ZXaA
+HARCAJ4mmA6wspZmX+kyPX5ACQVDsn/QMQCfZ9MIxZKVlTMKqKb7YF5ottGbmHk=
+=jnzr
+-----END PGP SIGNATURE-----
+
+--6TrnltStXW4iwmi0--
