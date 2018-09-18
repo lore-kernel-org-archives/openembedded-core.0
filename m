@@ -1,55 +1,62 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EB8A7548B
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id F1FB879641
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 14:45:36 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id j81-v6so3584670ite.0
+	Tue, 18 Sep 2018 14:55:21 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id h23-v6so700387vsk.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 07:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=DPyS809Q83dzYSrNFN6gRPF8PJDDo86TqRvqffTASbc=;
-	b=HoS+6BxTz92GYb6NvR9OWkUyK/WyUGIN9nR7JHOwiV4ytHW5xQAmw/lL2wEXHSgs/w
-	yCBHl6bxSb59hJEjwzxqiCvTo2dB0z4AI/Ta/h/y/mhTNjxhmYCMrpldMZR92cQpSddl
-	6pQbgnJhw0IWV8DkEgMtAq2Qri7czvNT4UPag=
+	Tue, 18 Sep 2018 07:55:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=I7DyGoRcJJPVr6bVsyZN/zpVt7TMZu2D6UPNVPgD1RI=;
+	b=GJXOfSfTVAWiiigfLqozrP2jtU+NaQwh5UywjurFsEWGKzCk3J2YmIpvOdqmiQg9YV
+	Trp3mqzHTdsZqUeFEYKwVFN50ClpzZCvXgVc3iQrGYiCtQlBE64SrAgoO9IM7uN6Y5fj
+	8p5wtY3UzOCJAz5T9BXdfVlqx6Q8A90bM1GZU1IS9TMkeAKoofvDFQELiWUGLT6/WswP
+	QtqHQL5dWc9rHxAwYrWUIkHrIbym8Bcn43Pgu1wIdKqPFgqC6T3spUGd+ZGKdDa/dtEZ
+	JBMKR0fHxPGKef8VCIszQNQy3DTDlot8K+fD1ikyxxCQ+o/39S1wjuUIbauc/cMZzubN
+	lRiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=DPyS809Q83dzYSrNFN6gRPF8PJDDo86TqRvqffTASbc=;
-	b=nG0MuLw47KulNTNoRXVE8S/Q9xZi64uz4FOOKup/A5COqwhX/UJ3remx5QE3go8drj
-	vwKOlOxHIKukwBrk2tdTMn3PS4SRvuVcrK4lgC29hz7vcMPOV4SkF8llVhpENFejz7DW
-	glBP4l4NkicJDx6k8eJVNiwD2X6eGU5bIxx82TbE4c5AqKuCvMAmTJhjCkx0da/LLe6A
-	AXK+46HKhVDeD+i3KU0Swrf3u1sFBlLYTYfV6go+oT0PnXqO6hxruqABA4N2R6hsYA0U
-	Rv4+bQtvB5lmQ/1yD3OXVm0RuOiv+bbyc6ZYVy0AGF2Xn+jF2HYwTFCR17vBUGPFbhuB
-	ewuA==
-X-Gm-Message-State: APzg51AbQgZq4PpkbIxqEjN+3+PR0yFDf2SvvWn0u/j2f71S2VuFxNCR
-	LNChDLIWW2ldQfLEVPNVzhLHr7/qhHLUIw==
-X-Google-Smtp-Source: ANB0VdaZstLQPayVagVN7JCupYIUS6MpkCvvi0GMh14YRaS9ly0xhlgLQtyDRL5sMS39JFmoDSbQCQ==
-X-Received: by 2002:a24:d104:: with SMTP id
-	w4-v6mr17355657itg.29.1537281937349; 
-	Tue, 18 Sep 2018 07:45:37 -0700 (PDT)
-Received: from hex ([209.82.80.116]) by smtp.gmail.com with ESMTPSA id
-	j14-v6sm6260077ioa.37.2018.09.18.07.45.35
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 18 Sep 2018 07:45:36 -0700 (PDT)
-Message-ID: <80eb57ddd34797f2b91404c65bbe4c4a37ef302e.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Jens Rehsack <sno@netbsd.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Sep 2018 07:45:34 -0700
-In-Reply-To: <857A2B10-9583-4449-A252-29F4D3C29DA2@netbsd.org>
-References: <20180917184949.22961-1-sno@netbsd.org>
-	<20180917190314.13844.30776@do.openembedded.org>
-	<857A2B10-9583-4449-A252-29F4D3C29DA2@netbsd.org>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHB5dGhvbjN7LC1uYXRpdmV9OiB1cGRhdGUgdG8gMy43LjAgKHJldjMp?=
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=I7DyGoRcJJPVr6bVsyZN/zpVt7TMZu2D6UPNVPgD1RI=;
+	b=XAAwk+rLl0sYCbfcHRUlB+OrsvnFGcs3pUsW9+Az/tY5wdGxfTJTfzeTzJrDxWFux0
+	9x8e2JFMIXYirlCHuA5Ph1AiNu2iF8AuAPJosAHAPMzNh0eWbdreXEnxjFegUfuM3YIx
+	rmko/OStFrcdq8QHJE2Jfu2elNaxL8hfSX+LT2LUNL+9qIvpBk0V32+4AdNIy4bfGhVE
+	AOZXJFFyFRfHXTBVp00ib2f8IRu/Iv4WXEGEyEYBjyEAo4MfhkwY80o5S+La+Lt2jm/B
+	m15IMmwaxnMXho7e3r1rwiTYDNuYglMAF0CGmbuKDwwSvQs90OEThkj3Z9D3rtYlvPBg
+	4kMA==
+X-Gm-Message-State: APzg51CYvNJ7mnrOj+Gu9jnXWIN2sfcawIWJx6iCmGc2wwGmvjTrgbN0
+	snYrZu3gWUFiqLQ+aJjMrJhS0hMXChLSeExdHR8=
+X-Google-Smtp-Source: ANB0VdYqie7k667ZXIJtETti8AoAv6skiNJ3feqDoleFbooR6diAe97P7E+hxsvtY1Fr+tpDeEvMPomJTLw0TSpCwus=
+X-Received: by 2002:a67:8658:: with SMTP id
+	i85-v6mr8575622vsd.98.1537282522825; 
+	Tue, 18 Sep 2018 07:55:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
+	<CAO5Uq5S43E3cXUSEVJP8-dKtuqR-XaqrN+6fhHfy6QESLRh7_w@mail.gmail.com>
+	<AB33E724-81C2-43BC-8169-6100CABAA375@sidebranch.com>
+	<CAO5Uq5ToXbUR2Pv9PwQOPp-F+5CbwvuPwy84Kfz7HWUzx2ohFA@mail.gmail.com>
+	<CAO5Uq5Rws0YP5_y-CSXhKKSrHe1BZiSQsYFQHH9AABFgjKWv=g@mail.gmail.com>
+	<4F5C8364-78D3-41EF-B239-B641651A2F64@sidebranch.com>
+	<CAO5Uq5TMF-dTZA=dS4QqioRGvycNWeZHC_QWh6FViohLrAy76w@mail.gmail.com>
+	<CAMjhiJi9awJ-WVs+Y4V=cqy8JT+qbb=5txQzFVM741inkmzFuQ@mail.gmail.com>
+	<d36ea830-9aa0-5e3e-140d-d0e2788175aa@denx.de>
+	<CAMjhiJgR1xe_uikpD+07pKDjeBw7er6efV04P3ygMAPfnTUu6w@mail.gmail.com>
+	<c2748bb0-22b3-0f25-72e7-519c940e2430@denx.de>
+	<CAMjhiJgRa6_z3AGZWKpA7sgtLaa4mYK_-b05-t0aimsDKyo7dg@mail.gmail.com>
+	<da056905-c114-097d-8dbc-f4a398872933@denx.de>
+	<CAMjhiJjimOmzdcYa7kgh9Ff0WdTh=TXD0tROTF08o1pDRC_QVw@mail.gmail.com>
+	<37465946-772d-7f4e-d5e0-a98e69d15f1a@denx.de>
+	<CAMjhiJg4TDe93fytjKGVbYCL+eaOH2NeFtkSfv2sK5FfZV7U4Q@mail.gmail.com>
+In-Reply-To: <CAMjhiJg4TDe93fytjKGVbYCL+eaOH2NeFtkSfv2sK5FfZV7U4Q@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 18 Sep 2018 15:55:11 +0100
+Message-ID: <CAO5Uq5TK1vpLQt57Z4ZDZzGOV1x_8VXaNWHKhT-XgpfBvGowZg@mail.gmail.com>
+To: Leon Woestenberg <leon@sidebranch.com>
+Cc: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,84 +69,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 14:45:36 -0000
+X-List-Received-Date: Tue, 18 Sep 2018 14:55:22 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-09-18 at 16:22 +0200, Jens Rehsack wrote:
-> 	Error verifying signature: Failed to execute gpg.
-> 
-> 
-> > Am 17.09.2018 um 21:03 schrieb Patchwork <patchwork@patchwork.opene
-> > mbedded.org>:
-> > 
-> > == Series Details ==
-> > 
-> > Series: python3{,-native}: update to 3.7.0 (rev3)
-> > Revision: 3
-> > URL   : https://patchwork.openembedded.org/series/13851/
-> > State : failure
-> > 
-> > == Summary ==
-> > 
-> > 
-> > Thank you for submitting this patch series to OpenEmbedded Core.
-> > This is
-> > an automated response. Several tests have been executed on the
-> > proposed
-> > series by patchtest resulting in the following failures:
-> > 
-> > 
-> > 
-> > * Issue             Added patch file is missing Upstream-Status in
-> > the header [test_upstream_status_presence_format] 
-> >  Suggested fix    Add Upstream-Status: <Valid status> to the header
-> > of meta/recipes-
-> > devtools/python/python3/uuid_when_cross_compiling.patch
-> >  Standard format  Upstream-Status: <Valid status>
-> >  Valid status     Pending, Accepted, Backport, Denied,
-> > Inappropriate [reason], Submitted [where]
-> > 
-> > 
-> > 
-> > If you believe any of these test results are incorrect, please
-> > reply to the
-> > mailing list (openembedded-core@lists.openembedded.org) raising
-> > your concerns.
-> > Otherwise we would appreciate you correcting the issues and
-> > submitting a new
-> > version of the patchset if applicable. Please ensure you
-> > add/increment the
-> > version number when sending the new version (i.e. [PATCH] -> [PATCH
-> > v2] ->
-> > [PATCH v3] -> ...).
-> > 
-> > ---
-> > Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Mess
-> > age_Guidelines
-> > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> > -oe
-> 
-> I understand this policy. I have an issue wrt. this particular one.
-> Why? Well - the patch seems to be reasonable submitted to upstream,
-> since it's a
-> quirk and likely an error. OTOH - supporting Yocto and OpenEmbedded
-> in getting
-> software up-to-date is one thing - having my name in the Python
-> contributors is
-> something complete different.
-> 
-> Please find someone else doing that.
+On Tue, Sep 18, 2018 at 12:23 PM Leon Woestenberg <leon@sidebranch.com> wrote:
+>
+> Hi Marek, Alex,
+>
+> On Tue, Sep 18, 2018 at 1:19 PM Marek Vasut <marex@denx.de> wrote:
+> > On 09/18/2018 12:59 PM, Leon Woestenberg wrote:
+> > > On Tue, Sep 18, 2018 at 12:38 PM Marek Vasut <marex@denx.de> wrote:
+> > >> On 09/18/2018 12:22 PM, Leon Woestenberg wrote:
+> > >>>
+> > >>> There is no exception for INITRAMFS_IMAGE_BUNDLE in
+> > >>> kernel-fitimage.bbclass. The initramfs will be packed inside the FIT,
+> > >>> in addition of also being packed inside the kernel.
+> > >>
+> > >> So why would you use initramfs_image_bundle with fitImage when you can
+> > >> pack the initrd into the fitImage instead ?
+> > >>
+> > > To be honest, I do not know that use-case anymore but it's a valid
+> > > configuration that shouldn't give an unexpected outcome.
+> >
+> > True
+> >
+> > > We also found a use-case for non-compressed kernels in the FIT image;
+> > > that was for very small delta-upgrades even when kernels are FIT
+> > > packed. Currently kernel-fitimage.bbclass hard-selects a compressed
+> > > kernel (such as zImage).
+> >
+> > Patches are welcome
+> >
+> Thanks for explaining the rationale behind the deploy stage, it
+> confirms Alex's suspicion I was solving the problem at the wrong
+> place.
+>
+> Alex, if you are still reading this: the answer is yes, please revert.
+>
 
-Nobody is saying it has to be submitted upstream, although we obviously
-do appreciate anyone doing that a lot. We do ask any patches which get
-added have a status though so we have some idea what is happening to
-them.
+I am :)
 
-So in this case the status would be "Pending".
+Thanks for the discussion... I'll send the series I've got - whilst I
+was about it I cleaned up a bunch of other small things in the same
+area.
 
-Cheers,
-
-Richard
+-- 
+Alex Kiernan
 
