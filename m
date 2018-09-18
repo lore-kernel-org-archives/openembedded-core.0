@@ -1,51 +1,51 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
-	[209.85.128.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 535CE795E0
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D63E7982B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 15:16:17 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id j192-v6so3296450wmj.1
+	Tue, 18 Sep 2018 15:16:18 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id k5-v6so2514268wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 08:16:18 -0700 (PDT)
+	Tue, 18 Sep 2018 08:16:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=glFLIQ3XkfrX6hD8CSV0djks2TxNJB8MbTxyCARAjcQ=;
-	b=g2EODpDtOThGjQZxorQ46nfPpyRpGxG2tGefUSLqHjFXeHm6yDBsUm9MhGMOmf2iTA
-	RfRSuEVoYOVMZIQRC6GcmCTBpB/pVPZyhd56Y0Km+sAjRhcOPEkZ5BHk/bjhyOEPZN/1
-	hqpxUuQwUUgM6SKKE7aYdYL+YWQMhXMhmBaJZ3/B42BTIs3bj7o0dOoEcpw/XWOmfN6r
-	t5Vx17OguNI8TnwRHmqF9MvI57tmptoVXSg8dS1lfKFuedYU0DYfc4QrcqGO4FPVrCPQ
-	tCFrFvO67UZKuuXxXCgIPqo7sCAgKmnhpPnNC40zDGPfBhr9jNu7isG3n/DpNNAxSBqF
-	j/qA==
+	bh=0LLem7avRFu2QrxBhJuaLBsNRVCjH52MkFiZtibufDI=;
+	b=RW2HLCQMnaPR/NApc9dvJoNwUz/pdJ8DUcGJwcZfIvm3T24vUdtX7BrmRnEkqNv9js
+	sUG+GUt3jv5IeeaY1n2DSdMSIGLulejKxytI61mKr8WalJ+M68rqjTMwgCnro5CwZ4fr
+	nBzW7KC1owAs8G1+PMEdxH8/D9TN6WueETiQl/p/I6nxyPrcLjODxrWmcjaSjmWxXI8W
+	VO0abkNn45Zp8zyYkgHj0z+xnbVBbl04/JIqgcV0UsILhGOq8SnjyCWLTeUfgzMmpjDJ
+	F/O3iqLkOPWYXluT//xzZCH78ykA2uMoMkWoE5nCsLTb7uiqyS3yrV+203NtD9ATenE6
+	UKpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=glFLIQ3XkfrX6hD8CSV0djks2TxNJB8MbTxyCARAjcQ=;
-	b=qoQiF6F+j6cpz2Y/CUyL9O1Q0Ukc/mTAYKjljtHU487bFckHw1SP+X5tke9VqtoCtZ
-	XKrp1EbZjEHKIlhCXUUCUHXrgR0+raSlaH2RfyG4jztf9UKV+lhkFBAf+Od6wVq8ZnKB
-	plxj9aTLvzno8vqidrSxhQO27uXVpZ0BClTzRc4rIw+MzW1JwO8/UNKZ595DH3sl1/uR
-	Xti3y466rwPSgMN5tjEbwSki1IDWM6hiLr8Ar+ZZlTuGZFpgTiuD0Y15TDevTOlYUCin
-	ei50gvs4DEnRbhOFWLq1bG8EvU+MxcAvyeLsLdxmULZw9hEPM2twp8vFmkdPIT2mRJ80
-	iVcA==
-X-Gm-Message-State: APzg51AaRuvHvBDM76wZyiMPruTOcYBP53rgbqyIdfHiAFFHGPomD5xI
-	9W5y5neo5vdipo2vii1yUp6TQ3Yk
-X-Google-Smtp-Source: ANB0Vda5hz+YXAbfMpROn5OVhJ0uBJmE4XrTZ14nQEMc1K3STDoVkRNdo6iwh06q/M4Qxt+0fS8FIw==
-X-Received: by 2002:a1c:8406:: with SMTP id
-	g6-v6mr15327763wmd.18.1537283777746; 
-	Tue, 18 Sep 2018 08:16:17 -0700 (PDT)
+	bh=0LLem7avRFu2QrxBhJuaLBsNRVCjH52MkFiZtibufDI=;
+	b=gGh58BRSqWMHxKhXQH84sXEtnxv7bCrYYL336lisVUINIqxqWPqitlDbVSfpuOpE7m
+	T5hBU+ZASlQNUCZZboyy5443XLsjIro/y58lyrcqOh7hDAXQYpP/dCkz5oFc/LI6EQsi
+	sWD6kEfGxAQPkhavU+tuE7vUd49L5XqVAsofOVJaBIyGye6yahDEKC6JcsyMrzh4S9bo
+	pzWOiT9A1OelXszZkmbTJjkpm9xYvEsgVAfu6haRHf/nbuU4VtP+f5ESXTb1wreleG1F
+	8wdbplAM6II5E4QZdozJKDgNAE0V2kq9y+Z0B5pJrtuHZina2ytgijEaMfAKbuDd0NOR
+	2qTQ==
+X-Gm-Message-State: APzg51BYCH4rLLXgNWAz52jUToMfVPkoVVkcwAZdwLbhwubZqmc5PIOy
+	imY7f9/th3xkak1CcbkybURFfBup
+X-Google-Smtp-Source: ANB0VdZFITWDxRabLEO+zmtGXYHjCyTZ5gtCpt9Uuy8ZweCf9K2x17Na1mIR+n4x9uKXnNUU05O2Ig==
+X-Received: by 2002:adf:c5c5:: with SMTP id
+	v5-v6mr23538038wrg.30.1537283778862; 
+	Tue, 18 Sep 2018 08:16:18 -0700 (PDT)
 Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
 	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
-	142-v6sm1904838wme.35.2018.09.18.08.16.17
+	142-v6sm1904838wme.35.2018.09.18.08.16.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Sep 2018 08:16:17 -0700 (PDT)
+	Tue, 18 Sep 2018 08:16:18 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Sep 2018 15:15:20 +0000
-Message-Id: <1537283723-27429-2-git-send-email-alex.kiernan@gmail.com>
+Date: Tue, 18 Sep 2018 15:15:21 +0000
+Message-Id: <1537283723-27429-3-git-send-email-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1537283723-27429-1-git-send-email-alex.kiernan@gmail.com>
 References: <1537283723-27429-1-git-send-email-alex.kiernan@gmail.com>
-Subject: [PATCH 2/4] kernel-fitimage: Fix dangling symlink to image tree source
+Subject: [PATCH 3/4] kernel: Fix modules tarball generation with usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 15:16:17 -0000
+X-List-Received-Date: Tue, 18 Sep 2018 15:16:18 -0000
 
-When deploying the its file, the target of the symlink is missing the its
-extension, add it here.
+When usrmerge is enabled the kernel modules aren't under /lib, but /usr/lib;
+ensure we fetch the modules from the correct location so we don't have a
+tarball which consists of a single symlink.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- meta/classes/kernel-fitimage.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/kernel.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index a4d7acae40ba..4c4fd99ff4ac 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -490,7 +490,7 @@ kernel_do_deploy_append() {
- 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
- 		echo "Copying fit-image.its source file..."
- 		install -m 0644 ${B}/fit-image.its ${DEPLOYDIR}/fitImage-its-${KERNEL_FIT_NAME}.its
--		ln -snf fitImage-its-${KERNEL_FIT_NAME} ${DEPLOYDIR}/fitImage-its-${KERNEL_FIT_LINK_NAME}
-+		ln -snf fitImage-its-${KERNEL_FIT_NAME}.its ${DEPLOYDIR}/fitImage-its-${KERNEL_FIT_LINK_NAME}
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 6b734be2b675..396627e7efa1 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -671,8 +671,8 @@ kernel_do_deploy() {
+ 		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} $deployDir/${base_name}.bin
+ 	done
+ 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+-		mkdir -p ${D}/lib
+-		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D} lib
++		mkdir -p ${D}${root_prefix}/lib
++		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
+ 		ln -sf modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
+ 	fi
  
- 		echo "Copying linux.bin file..."
- 		install -m 0644 ${B}/linux.bin ${DEPLOYDIR}/fitImage-linux.bin-${KERNEL_FIT_NAME}.bin
 -- 
 2.7.4
 
