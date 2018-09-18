@@ -1,45 +1,35 @@
-Return-Path: <prvs=8799cb1e88=adrian.ratiu@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 27C7B79799
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 13C7971957
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 16:16:21 +0000 (UTC)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
-	w8IGG2kY023031 for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 11:16:22 -0500
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2mgx43b2xy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 11:16:22 -0500
-Received: from us-aus-exch1.ni.corp.natinst.com
-	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
-	by us-aus-skprod3.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
-	w8IGGLG6015107
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 11:16:21 -0500
-Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
-	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Tue, 18 Sep 2018 11:16:21 -0500
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Tue, 18 Sep 2018 11:16:20 -0500
-Received: from ionel-work.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1395.4 via Frontend Transport; Tue, 18 Sep 2018 11:16:20 -0500
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Sep 2018 19:17:52 +0300
-Message-ID: <20180918161752.5660-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.19.0
+	Tue, 18 Sep 2018 20:17:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8IKH9OA001095
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Sep 2018 13:17:09 -0700 (PDT)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 18 Sep 2018 13:17:08 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Andre McCurdy
+	<armccurdy@gmail.com>
+References: <1536656353-30689-1-git-send-email-hongxu.jia@windriver.com>
+	<CANNYZj8SRYoj3QXZ7_bCLe6qrJq1TBq-WOsHMOLVLpveh151bA@mail.gmail.com>
+	<41457254-4083-3d7c-4e93-95b320fe7dbb@windriver.com>
+	<CANNYZj9EZF5u2R55LBnBooyPpAhi7O69kVtWsvZesXZ3H7qxOQ@mail.gmail.com>
+	<0a2370ce-a756-5cf8-256b-929b70367e3a@windriver.com>
+	<CANNYZj90HLS4HZwtZK+9azCa1iMOjTXtWGy1RCBqCwRGPk+mfA@mail.gmail.com>
+	<CAJ86T=U96L46iLVd3mA7nsK8v=G9XcOj9tJivTGVcmVO1WaXZA@mail.gmail.com>
+	<CANNYZj_++nm8Ag+5FhkjeFOcLx+qVgGSfmf0cNpCcurad3AsgQ@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <104ba9fc-0ce1-f5c6-a845-20bb5c02c3f2@windriver.com>
+Date: Tue, 18 Sep 2018 16:17:07 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2018-09-18_07:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
-Subject: [PATCH v2] isoimage-isohybrid: don't include cpio in cpio image
+In-Reply-To: <CANNYZj_++nm8Ag+5FhkjeFOcLx+qVgGSfmf0cNpCcurad3AsgQ@mail.gmail.com>
+X-Originating-IP: [172.25.44.4]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: build support openssl 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,46 +42,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 16:16:21 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Sep 2018 20:17:09 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Because the find | cpio processes execute in parallel connected via
-the pipe, and the cpio outputs in the same dir find searches for
-source files, the cpio will be included in itself partially, depending
-on how fast the build machine creates the cpio file before cpio
-gobbles it up.
+On 09/13/2018 08:27 AM, Alexander Kanavin wrote:
+...
+> 
+> Good news everyone! Upstream openssh has finally gave into user
+> pressure, and added 1.1 support in the master branch. So the issue is
+> moot; we just need to wait for them to tag a release (no backports
+> please).
+> https://github.com/openssh/openssh-portable/commits/master
+> 
+> This will make oe-core entirely free of openssl10 dependencies.
 
-This bloats the ISO image, though compression reduces the .iso file size,
-once the kernel decompresses the cpio image and boots it live, it uses
-up to double the RAM memory.
+Excellent.
 
-Fix this by creating the initrd.cpio file directly inside cr_workdir.
+Is there a planned release of openssh in the next day or
+does someone need to switch to git or backport some/all of
+the 36 post 7.8p1 commits for M3?
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+../Randy
 
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index 25a695da17..170077c22c 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -191,10 +191,9 @@ class IsoImagePlugin(SourcePlugin):
-             else:
-                 raise WicError("Couldn't find or build initrd, exiting.")
- 
--            exec_cmd("cd %s && find . | cpio -o -H newc -R root:root >./initrd.cpio " \
--                    % initrd_dir, as_shell=True)
--            exec_cmd("gzip -f -9 -c %s/initrd.cpio > %s" \
--                    % (initrd_dir, initrd), as_shell=True)
-+            exec_cmd("cd %s && find . | cpio -o -H newc -R root:root >%s/initrd.cpio " \
-+                     % (initrd_dir, cr_workdir), as_shell=True)
-+            exec_cmd("gzip -f -9 %s/initrd.cpio" % cr_workdir, as_shell=True)
-             shutil.rmtree(initrd_dir)
- 
-         return initrd
+
+$ git log --oneline V_7_8_P1...
+cce8cbe0 Fix openssl-1.1 fallout for --without-openssl.
+149519b9 add futex(2) syscall to seccomp sandbox
+4488ae1a really add source for authopt_fuzz this time
+9201784b remove accidentally checked-in authopt_fuzz binary
+beb9e522 upstream:
+            second try, deals properly with missing and private-only
+6bc5a24a fuzzer harness for authorized_keys option parsing
+6c8b82fc upstream: revert following; deals badly with agent keys
+6da046f9 upstream: garbage-collect moribund ssh_new_private() API.
+1f24ac5f upstream: Use consistent format in debug log for keys readied,
+488c9325 upstream: Fix warnings caused by
+             user_from_uid() and group_from_gid()
+0aa1f230 allow SIGUSR1 as synonym for SIGINFO
+d64e7852 add compat header
+a3fd8074 upstream: missed a bit of openssl-1.0.x API in this unittest
+86e0a9f3 upstream: use only openssl-1.1.x API here too
+48f54b9d adapt -portable to OpenSSL 1.1x API
+86112951 forgot to stage these test files in commit d70d061
+482d23bc upstream: hold our collective noses and
+             use the openssl-1.1.x API in
+d70d0618 upstream: Include certs with multiple RSA signature variants in
+f803b268 upstream: test revocation by explicit hash and by fingerprint
+2de78bc7 upstream: s/sshkey_demote/sshkey_from_private/g
+41c115a5 delete the correct thing; kexfuzz binary
+f0fcd7e6 upstream: fix edit mistake; spotted by jmc@
+4cc259ba upstream: add SSH_ALLOWED_CA_SIGALGS - the default list of
+ba9e7883 upstream: add sshkey_check_cert_sigtype() that checks a
+a70fd4ad upstream: add cert->signature_type field and
+             keep it in sync with
+357128ac upstream: Add "ssh -Q sig" to allow listing supported signature
+9405c621 upstream: allow key revocation by SHA256 hash and
+             allow ssh-keygen
+50e2687e upstream: log certificate fingerprint in authentication
+de37ca90 upstream: Add FALLTHROUGH comments where appropriate.
+                       Patch from
+247766cd upstream: ssh -MM requires confirmation for all operations that
+db8bb80e upstream: fix misplaced parenthesis inside if-clause.
+                       it's harmless
+086cc614 upstream: fix build with DEBUG_PK enabled
+26788330 Handle ngroups>_SC_NGROUPS_MAX.
+039bf2a8 Initial len for the fmt=NULL case.
+ea9c06e1 Include stdlib.h.
+9617816d document some more regress control env variables
+
+../Randy
+
+> 
+> Alex
+> 
+
+
 -- 
-2.19.0
-
+# Randy MacLeod
+# Wind River Linux
 
