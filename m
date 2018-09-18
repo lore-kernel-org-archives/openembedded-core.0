@@ -1,62 +1,25 @@
-Return-Path: <leon@sidebranch.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DE08745BF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5261A79640
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 11:23:50 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id y20-v6so1605079edq.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 04:23:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Dm2dcyd76Ri9lamOMd4B+MnQ0onfAe/HO/cmh0VzRWI=;
-	b=q7mrd9ZziSL+hUT608sdVhcNpTl/RXHx7fJZcws3ZUUCiIp80KBsOxzQ4s0oL8yHkB
-	jmoovayHI9oVv1KuIp1WcrrkXsHSRir6SvaXYZw0YhoYpclhkVNtiB/d4OX41QeRzbHB
-	suXxQUDpSkJ9460gCmFLiZl9ZvnE9pP4KIChH69sjbxA9ft32vyROa3GvXo6ytPP63yx
-	Q470blw2pqhAwJKjGDnePV0ybtPGUKIg3x1KdOXm/VKZcr9b8MSmapJ8kBrRd8J6SN/1
-	d/usIb/0UUbC1nD64xp5vPfe6wOMR2oidwP0ZlDjOO2LD/PSOJoIulScV4BsmCi+M+yD
-	GupA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Dm2dcyd76Ri9lamOMd4B+MnQ0onfAe/HO/cmh0VzRWI=;
-	b=gVYFv9dv8WPaO/7V2Cm9bCCeWEsvz9nG7m78im2Bp5dBowRiz9sAO0WVSWTswBYxAw
-	3BBHS4u+Q8rsbgWu3qq2qrRldU4/Dxw0qKs6xBf5xYjMDu0AHhHgVhC0P2LhsY3MNFIK
-	V+fPfDiXHkNcyVgj/D7ZPU5ek6THQuYP+MjUd+rELZisWjeB73NhsyH09e48lQksSdjs
-	mPYrANc4tnbqLFAW/53n1c3u3TcZxnWA1Xs2LefoW8niXhX+TPWjkWw4UlGTs2mUnO+r
-	qs7hdqgQ3hg73NfPdUZs3i0CvzD/Ak+tiM0bssFsD9OmaYglVPTkIGKwZ2sSUuMk0U3r
-	qdcA==
-X-Gm-Message-State: APzg51CnVL+vfGHUD/ZLlX71xD0OiVafWCEftFK1DhO0mDKQQdjI10Oh
-	1egXdqUzVsFyceJ3O5m6xQXwWGmT2kfO1QNB5so8tw==
-X-Google-Smtp-Source: ANB0VdYzEvVBsgTDEJxJUC0Broa05yqJzlXCEBOW3M40q0p3G/MWpRkizQyv3uLlcevmclCnLK3q6CH92lRWGWyHAz8=
-X-Received: by 2002:aa7:d78c:: with SMTP id
-	s12-v6mr48450879edq.69.1537269831236; 
-	Tue, 18 Sep 2018 04:23:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
-	<CAO5Uq5S43E3cXUSEVJP8-dKtuqR-XaqrN+6fhHfy6QESLRh7_w@mail.gmail.com>
-	<AB33E724-81C2-43BC-8169-6100CABAA375@sidebranch.com>
-	<CAO5Uq5ToXbUR2Pv9PwQOPp-F+5CbwvuPwy84Kfz7HWUzx2ohFA@mail.gmail.com>
-	<CAO5Uq5Rws0YP5_y-CSXhKKSrHe1BZiSQsYFQHH9AABFgjKWv=g@mail.gmail.com>
-	<4F5C8364-78D3-41EF-B239-B641651A2F64@sidebranch.com>
-	<CAO5Uq5TMF-dTZA=dS4QqioRGvycNWeZHC_QWh6FViohLrAy76w@mail.gmail.com>
-	<CAMjhiJi9awJ-WVs+Y4V=cqy8JT+qbb=5txQzFVM741inkmzFuQ@mail.gmail.com>
-	<d36ea830-9aa0-5e3e-140d-d0e2788175aa@denx.de>
-	<CAMjhiJgR1xe_uikpD+07pKDjeBw7er6efV04P3ygMAPfnTUu6w@mail.gmail.com>
-	<c2748bb0-22b3-0f25-72e7-519c940e2430@denx.de>
-	<CAMjhiJgRa6_z3AGZWKpA7sgtLaa4mYK_-b05-t0aimsDKyo7dg@mail.gmail.com>
-	<da056905-c114-097d-8dbc-f4a398872933@denx.de>
-	<CAMjhiJjimOmzdcYa7kgh9Ff0WdTh=TXD0tROTF08o1pDRC_QVw@mail.gmail.com>
-	<37465946-772d-7f4e-d5e0-a98e69d15f1a@denx.de>
-In-Reply-To: <37465946-772d-7f4e-d5e0-a98e69d15f1a@denx.de>
-From: Leon Woestenberg <leon@sidebranch.com>
-Date: Tue, 18 Sep 2018 13:23:41 +0200
-Message-ID: <CAMjhiJg4TDe93fytjKGVbYCL+eaOH2NeFtkSfv2sK5FfZV7U4Q@mail.gmail.com>
-To: Marek Vasut <marex@denx.de>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
+	Tue, 18 Sep 2018 12:03:57 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w8IC3pni003308
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 18 Sep 2018 13:03:56 +0100
+Message-ID: <9c4d3cc718703e04e6b9890862c288f046915c61.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 18 Sep 2018 05:03:51 -0700
+In-Reply-To: <20180917134158.4614-1-andrej.valek@siemens.com>
+References: <20180917134158.4614-1-andrej.valek@siemens.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] staging: remove hard-coded values from _FIXMEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,42 +32,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 11:23:50 -0000
+X-List-Received-Date: Tue, 18 Sep 2018 12:03:58 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Marek, Alex,
+On Mon, 2018-09-17 at 15:41 +0200, Andrej Valek wrote:
+> Let users to override these values in their layers and could match
+> them
+> with values in EXTRA_STAGING_FIXMES.
+> 
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> ---
+>  meta/classes/staging.bbclass | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/staging.bbclass
+> b/meta/classes/staging.bbclass
+> index 84e13bab59..6db501dac1 100644
+> --- a/meta/classes/staging.bbclass
+> +++ b/meta/classes/staging.bbclass
+> @@ -127,6 +127,8 @@ python do_populate_sysroot_setscene () {
+>  }
+>  addtask do_populate_sysroot_setscene
+>  
+> +SYSROOT_STAGING_FIXMES ?= "COMPONENTS_DIR HOSTTOOLS_DIR PKGDATA_DIR
+> PSEUDO_LOCALSTATEDIR LOGFIFO"
+> +
+>  def staging_copyfile(c, target, dest, postinsts, seendirs):
+>      import errno
+>  
+> @@ -167,7 +169,7 @@ def staging_processfixme(fixme, target,
+> recipesysroot, recipesysrootnative, d):
+>      if not fixme:
+>          return
+>      cmd = "sed -e 's:^[^/]*/:%s/:g' %s | xargs sed -i -e
+> 's:FIXMESTAGINGDIRTARGET:%s:g; s:FIXMESTAGINGDIRHOST:%s:g'" %
+> (target, " ".join(fixme), recipesysroot, recipesysrootnative)
+> -    for fixmevar in ['COMPONENTS_DIR', 'HOSTTOOLS_DIR',
+> 'PKGDATA_DIR', 'PSEUDO_LOCALSTATEDIR', 'LOGFIFO']:
+> +    for fixmevar in d.getVar("SYSROOT_STAGING_FIXMES").split():
+>          fixme_path = d.getVar(fixmevar)
+>          cmd += " -e 's:FIXME_%s:%s:g'" % (fixmevar, fixme_path)
+>      bb.debug(2, cmd)
 
-On Tue, Sep 18, 2018 at 1:19 PM Marek Vasut <marex@denx.de> wrote:
-> On 09/18/2018 12:59 PM, Leon Woestenberg wrote:
-> > On Tue, Sep 18, 2018 at 12:38 PM Marek Vasut <marex@denx.de> wrote:
-> >> On 09/18/2018 12:22 PM, Leon Woestenberg wrote:
-> >>>
-> >>> There is no exception for INITRAMFS_IMAGE_BUNDLE in
-> >>> kernel-fitimage.bbclass. The initramfs will be packed inside the FIT,
-> >>> in addition of also being packed inside the kernel.
-> >>
-> >> So why would you use initramfs_image_bundle with fitImage when you can
-> >> pack the initrd into the fitImage instead ?
-> >>
-> > To be honest, I do not know that use-case anymore but it's a valid
-> > configuration that shouldn't give an unexpected outcome.
->
-> True
->
-> > We also found a use-case for non-compressed kernels in the FIT image;
-> > that was for very small delta-upgrades even when kernels are FIT
-> > packed. Currently kernel-fitimage.bbclass hard-selects a compressed
-> > kernel (such as zImage).
->
-> Patches are welcome
->
-Thanks for explaining the rationale behind the deploy stage, it
-confirms Alex's suspicion I was solving the problem at the wrong
-place.
+I think this was deliberately left this way rather than letting users
+override it as the scope issues around this are not obvious and making
+it a variable gives users expectations which may not be met.
 
-Alex, if you are still reading this: the answer is yes, please revert.
+I'm going from memory with jetlag but I think that this variable would
+not work from recipe context, you'd have to do it in global scope and
+changing this in global scope for everything is a pretty serious
+change.
 
-Regards,
+The reason is that it can get called when building any recipe sysroot
+so the datastore isn't to context of the original creator.
 
-Leon.
+Cheers,
+
+Richard
 
