@@ -1,47 +1,37 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id EF613796B7
+Return-Path: <Awais_Belal@mentor.com>
+X-Greylist: delayed 983 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 18 Sep 2018 10:52:35 UTC
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 4000F796B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 10:38:28 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 42Dzx1613Vz1qwCZ;
-	Tue, 18 Sep 2018 12:38:29 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 42Dzx15mcDz1qr2X;
-	Tue, 18 Sep 2018 12:38:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id tkNQrlo0MCUX; Tue, 18 Sep 2018 12:38:29 +0200 (CEST)
-X-Auth-Info: 189mea7JHYXz94eK5Rl2q7KX81Gu8RZr43zYxxpvKPM=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Tue, 18 Sep 2018 12:38:28 +0200 (CEST)
-To: Leon Woestenberg <leon@sidebranch.com>
-References: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
-	<CAO5Uq5S43E3cXUSEVJP8-dKtuqR-XaqrN+6fhHfy6QESLRh7_w@mail.gmail.com>
-	<AB33E724-81C2-43BC-8169-6100CABAA375@sidebranch.com>
-	<CAO5Uq5ToXbUR2Pv9PwQOPp-F+5CbwvuPwy84Kfz7HWUzx2ohFA@mail.gmail.com>
-	<CAO5Uq5Rws0YP5_y-CSXhKKSrHe1BZiSQsYFQHH9AABFgjKWv=g@mail.gmail.com>
-	<4F5C8364-78D3-41EF-B239-B641651A2F64@sidebranch.com>
-	<CAO5Uq5TMF-dTZA=dS4QqioRGvycNWeZHC_QWh6FViohLrAy76w@mail.gmail.com>
-	<CAMjhiJi9awJ-WVs+Y4V=cqy8JT+qbb=5txQzFVM741inkmzFuQ@mail.gmail.com>
-	<d36ea830-9aa0-5e3e-140d-d0e2788175aa@denx.de>
-	<CAMjhiJgR1xe_uikpD+07pKDjeBw7er6efV04P3ygMAPfnTUu6w@mail.gmail.com>
-	<c2748bb0-22b3-0f25-72e7-519c940e2430@denx.de>
-	<CAMjhiJgRa6_z3AGZWKpA7sgtLaa4mYK_-b05-t0aimsDKyo7dg@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <da056905-c114-097d-8dbc-f4a398872933@denx.de>
-Date: Tue, 18 Sep 2018 12:35:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Tue, 18 Sep 2018 10:52:35 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-MBX-04.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+	id 1g2DMb-0002Z1-21 from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 18 Sep 2018 03:36:13 -0700
+Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
+	SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) with Microsoft SMTP
+	Server (TLS) id 15.0.1320.4; Tue, 18 Sep 2018 11:36:09 +0100
+Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
+	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
+	mapi id 15.00.1320.000; Tue, 18 Sep 2018 11:36:09 +0100
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] glibc-package.inc: correct intention for deleting
+	/usr/lib as needed
+Thread-Index: AQHUTzrReK7EozvamEuUEKOJij+4eQ==
+Date: Tue, 18 Sep 2018 10:36:09 +0000
+Message-ID: <1537266969204.31967@mentor.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.90]
 MIME-Version: 1.0
-In-Reply-To: <CAMjhiJgRa6_z3AGZWKpA7sgtLaa4mYK_-b05-t0aimsDKyo7dg@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
+Subject: [PATCH] glibc-package.inc: correct intention for deleting /usr/lib as needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,98 +44,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 10:38:29 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Tue, 18 Sep 2018 10:52:35 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/alternative;
+	boundary="_000_153726696920431967mentorcom_"
 
-On 09/18/2018 12:22 PM, Leon Woestenberg wrote:
-> Hi Marek,
+--_000_153726696920431967mentorcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+In case the baselib is lib64 we would want to delete /usr/lib
+after removing the /usr/lib/locale dir and the implementation
+wanted to do that earlier as well but the fault was checking
+an already removed dir (/usr/lib/locale) before trying to
+remove /usr/lib as that check would always fail.
+Now we simply try to delete /usr/lib after deleting
+/usr/lib/locale to make sure it deletes cleanly and is empty
+at the time of deletion.
 
-> On Tue, Sep 18, 2018 at 12:12 PM Marek Vasut <marex@denx.de> wrote:
->>
->> On 09/18/2018 12:01 PM, Leon Woestenberg wrote:
->>> Hi Marek,
->> Could you _please_ stop top-posting ?
-> 
->  Yes.
-> 
->>
->>> one of the issues I saw was that both kernel.bbclass and
->>> kernel-fitImage.bbclass deployed the FIT image into the deploy/images/
->>> subfolder.
->>>
->>> My fix was to make the kernel.bbclass ignore "fitImage" during
->>> deployment. This is also the fix I saw from Xilinx.
->>
->> If I recall correctly, meta-xilinx had their own horribly hacked
->> fitImage bbclass, are you sure it's not interfering here ?
->>
-> Yes I am sure it's not.
-> 
->>
->>> (Another fix I have pending is that bundled initramfs images (i.e that
->>> go inside the kernel binary) where also seperately packed inside the FIT
->>> image.)
->>
->> Separate initrd is already supported.
-> 
-> 
-> There is no exception for INITRAMFS_IMAGE_BUNDLE in
-> kernel-fitimage.bbclass. The initramfs will be packed inside the FIT,
-> in addition of also being packed inside the kernel.
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-So why would you use initramfs_image_bundle with fitImage when you can
-pack the initrd into the fitImage instead ?
-
-> My local fix has this:
-> 
-> diff --git a/meta/classes/kernel-fitimage.bbclass
-> b/meta/classes/kernel-fitimage.bbclass
-> index a4d7aca..17addab 100644
-> --- a/meta/classes/kernel-fitimage.bbclass
-> +++ b/meta/classes/kernel-fitimage.bbclass
-> @@ -475,7 +475,9 @@ addtask assemble_fitimage before do_install after do_compile
-> 
->  do_assemble_fitimage_initramfs() {
->         if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
-> -               test -n "${INITRAMFS_IMAGE}" ; then
-> +               test -n "${INITRAMFS_IMAGE}" && \
-> +               test ! -n "${INITRAMFS_IMAGE_BUNDLE}"; then
-> +
->                 cd ${B}
->                 fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its
-> fitImage-${INITRAMFS_IMAGE} 1
->         fi
-> @@ -483,6 +485,18 @@ do_assemble_fitimage_initramfs() {
-> 
->  addtask assemble_fitimage_initramfs before do_deploy after do_install
-> 
-> +do_assemble_fitimage_bundled_initramfs() {
-> +       if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
-> +               test -n "${INITRAMFS_IMAGE}" && \
-> +               test -n "${INITRAMFS_IMAGE_BUNDLE}"; then
-> +
-> +               cd ${B}
-> +               fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its
-> fitImage-${INITRAMFS_IMAGE}
-> +       fi
-> +}
-> +
-> +addtask assemble_fitimage_bundled_initramfs before do_deploy after
-> do_bundle_initramfs
-> +
-> 
-> 
-> Regards,
-> 
-> Leon.
-> 
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
+glibc/glibc-package.inc
+index 9ea41b7..22a59d2 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -207,11 +207,10 @@ do_poststash_install_cleanup () {
+     rm -rf ${D}/${localedir}
+     rm -rf ${D}${datadir}/locale
+     if [ "${libdir}" !=3D "${exec_prefix}/lib" ]; then
+-        if [ -d ${D}${exec_prefix}/lib/locale ] ; then
+-            rm -rf ${D}${exec_prefix}/lib/locale
+-            # error out if directory isn't empty
+-            rm -f ${D}${exec_prefix}/lib
+-        fi
++        # error out if directory isn't empty
++        # this dir should only contain locale dir
++        # which has been deleted in the previous step
++        rmdir ${D}${exec_prefix}/lib
+     fi
+ }
+ addtask do_poststash_install_cleanup after do_stash_locale do_install befo=
+re do_populate_sysroot do_package
+--
+2.7.4
 
 
--- 
-Best regards,
-Marek Vasut
+--_000_153726696920431967mentorcom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none"><!--P{margin-top:0;margin-b=
+ottom:0;} P{margin-top:0;margin-bottom:0;}--></style>
+</head>
+<body dir=3D"ltr" style=3D"font-size:10pt;color:#000000;background-color:#F=
+FFFFF;font-family:Tahoma,Geneva,sans-serif;">
+<p>In case the baselib is lib64 we would want to delete /usr/lib<br>
+after removing the /usr/lib/locale dir and the implementation<br>
+wanted to do that earlier as well but the fault was checking<br>
+an already removed dir (/usr/lib/locale) before trying to<br>
+remove /usr/lib as that check would always fail.<br>
+Now we simply try to delete /usr/lib after deleting<br>
+/usr/lib/locale to make sure it deletes cleanly and is empty<br>
+at the time of deletion.<br>
+<br>
+Signed-off-by: Awais Belal &lt;awais_belal@mentor.com&gt;<br>
+---<br>
+&nbsp;meta/recipes-core/glibc/glibc-package.inc | 9 &#43;&#43;&#43;&#43;---=
+--<br>
+&nbsp;1 file changed, 4 insertions(&#43;), 5 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
+glibc/glibc-package.inc<br>
+index 9ea41b7..22a59d2 100644<br>
+--- a/meta/recipes-core/glibc/glibc-package.inc<br>
+&#43;&#43;&#43; b/meta/recipes-core/glibc/glibc-package.inc<br>
+@@ -207,11 &#43;207,10 @@ do_poststash_install_cleanup () {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;rm -rf ${D}/${localedir}<br>
+&nbsp;&nbsp;&nbsp; &nbsp;rm -rf ${D}${datadir}/locale<br>
+&nbsp;&nbsp;&nbsp; &nbsp;if [ &quot;${libdir}&quot; !=3D &quot;${exec_prefi=
+x}/lib&quot; ]; then<br>
+-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if [ -d ${D}${exec_prefix}/lib/local=
+e ] ; then<br>
+-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;rm -rf ${D}${exec=
+_prefix}/lib/locale<br>
+-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# error out if di=
+rectory isn't empty<br>
+-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;rm -f ${D}${exec_=
+prefix}/lib<br>
+-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;fi<br>
+&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# error out if directory isn't e=
+mpty<br>
+&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# this dir should only contain l=
+ocale dir<br>
+&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# which has been deleted in the =
+previous step<br>
+&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;rmdir ${D}${exec_prefix}/lib<br>
+&nbsp;&nbsp;&nbsp; &nbsp;fi<br>
+&nbsp;}<br>
+&nbsp;addtask do_poststash_install_cleanup after do_stash_locale do_install=
+ before do_populate_sysroot do_package<br>
+-- <br>
+2.7.4<font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US"></p>
+<div style=3D"margin:0"><i><br>
+</i></div>
+</span></font>
+<p></p>
+<div id=3D"Signature">
+<div style=3D"font-family:Tahoma; font-size:13px">
+<div style=3D"font-size:13px">
+<div><font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US"></span></font></=
+div>
+</div>
+<font face=3D"Tahoma"></font></div>
+</div>
+</body>
+</html>
+
+--_000_153726696920431967mentorcom_--
