@@ -1,37 +1,60 @@
-Return-Path: <Awais_Belal@mentor.com>
-X-Greylist: delayed 983 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 18 Sep 2018 10:52:35 UTC
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 4000F796B7
+Return-Path: <leon@sidebranch.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BCA877964D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 10:52:35 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-MBX-04.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-	id 1g2DMb-0002Z1-21 from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2018 03:36:13 -0700
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) with Microsoft SMTP
-	Server (TLS) id 15.0.1320.4; Tue, 18 Sep 2018 11:36:09 +0100
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1320.000; Tue, 18 Sep 2018 11:36:09 +0100
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] glibc-package.inc: correct intention for deleting
-	/usr/lib as needed
-Thread-Index: AQHUTzrReK7EozvamEuUEKOJij+4eQ==
-Date: Tue, 18 Sep 2018 10:36:09 +0000
-Message-ID: <1537266969204.31967@mentor.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.90]
+	Tue, 18 Sep 2018 10:59:55 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id l5so1512656edw.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Sep 2018 03:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=BsOa82XV2RxKP+Bw8IEdXkROGjBiw9uXAyvSlmsP0qM=;
+	b=UVES+TZtkMxJbAjbpE4bVTkQLZ+l5Z35kfDTY5RNYE7T6ZH/f/RIFAqi4y58aw34lO
+	+ILJ5MwZSM1vJrJuxpncc6hESrzRR/xb9tWoNT7pfc3swzZKwKDki9xdwnSsiDC3pUx8
+	Yc6ormAhwbW1cXRKavcFI5Su1cKFsrrCQFVaeU8h//FAP4u24okBO1lmy4OU6fgXDu0y
+	OvHF36FTARFmjYuIqcbBCCSj9sQNMWmbyb3J10Xp8O8xyRIRDS05u4+p+6WC/phbwNKn
+	83FAGL+uJn0ZC7K5mCcUKMP+HO+Y4iFQ8MbYLFTgr2/BnKGj64mg5b8ivka2C13qlBZU
+	Vzgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=BsOa82XV2RxKP+Bw8IEdXkROGjBiw9uXAyvSlmsP0qM=;
+	b=RMDycgs4JK1Ti7XMdxVHOScgL/0mEL8cWtuTyyJb8apOxXE+2QAYMknBe73zDvDQb0
+	MzprEHtJicvrq8KjZGhLRjTDHzyaMLc1PvZGUkbbzI7qTueSEcBqeAgPfeO9NoQNL64R
+	ddNWWeQVGJjPEjH31BmZTzgOzN541cOj24yCmWzBaqgzEJkk7ZRaMQGXmRi0qPavb1m5
+	qjWZ73oYuENZJTHQuj/vFcMfUttskex3nZ2LIIL4BDLvguFPd01bogetXY89RxSLxAbP
+	7P+oR8TJq8Vi13F1sAOMGqR+h/DY7Y8Oh1au0t84ZR4oOo9YaNzsEJNf0C3oC4b+WzSX
+	OGqg==
+X-Gm-Message-State: APzg51DzPlL3sdC7CHUWCyK5uduVexNPFsNwNdC7IoNoZa1Jku5Mttgz
+	bayuqJ9CwYrykPhsNeYs44O79Ks6oX0dVTUs0JRhUA==
+X-Google-Smtp-Source: ANB0VdYfqe6/OYeCBZrp9Hn5H/bicAjexYDLxyv6CUL4PQCsAD/juXbsCcFALHG505uLy1TDRStBJHtZESZGFUELwLU=
+X-Received: by 2002:a50:c101:: with SMTP id
+	l1-v6mr48069012edf.126.1537268396287; 
+	Tue, 18 Sep 2018 03:59:56 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] glibc-package.inc: correct intention for deleting /usr/lib as needed
+References: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
+	<CAO5Uq5S43E3cXUSEVJP8-dKtuqR-XaqrN+6fhHfy6QESLRh7_w@mail.gmail.com>
+	<AB33E724-81C2-43BC-8169-6100CABAA375@sidebranch.com>
+	<CAO5Uq5ToXbUR2Pv9PwQOPp-F+5CbwvuPwy84Kfz7HWUzx2ohFA@mail.gmail.com>
+	<CAO5Uq5Rws0YP5_y-CSXhKKSrHe1BZiSQsYFQHH9AABFgjKWv=g@mail.gmail.com>
+	<4F5C8364-78D3-41EF-B239-B641651A2F64@sidebranch.com>
+	<CAO5Uq5TMF-dTZA=dS4QqioRGvycNWeZHC_QWh6FViohLrAy76w@mail.gmail.com>
+	<CAMjhiJi9awJ-WVs+Y4V=cqy8JT+qbb=5txQzFVM741inkmzFuQ@mail.gmail.com>
+	<d36ea830-9aa0-5e3e-140d-d0e2788175aa@denx.de>
+	<CAMjhiJgR1xe_uikpD+07pKDjeBw7er6efV04P3ygMAPfnTUu6w@mail.gmail.com>
+	<c2748bb0-22b3-0f25-72e7-519c940e2430@denx.de>
+	<CAMjhiJgRa6_z3AGZWKpA7sgtLaa4mYK_-b05-t0aimsDKyo7dg@mail.gmail.com>
+	<da056905-c114-097d-8dbc-f4a398872933@denx.de>
+In-Reply-To: <da056905-c114-097d-8dbc-f4a398872933@denx.de>
+From: Leon Woestenberg <leon@sidebranch.com>
+Date: Tue, 18 Sep 2018 12:59:47 +0200
+Message-ID: <CAMjhiJjimOmzdcYa7kgh9Ff0WdTh=TXD0tROTF08o1pDRC_QVw@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,128 +67,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 10:52:35 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_153726696920431967mentorcom_"
+X-List-Received-Date: Tue, 18 Sep 2018 10:59:56 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---_000_153726696920431967mentorcom_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Hi Marek,
 
-In case the baselib is lib64 we would want to delete /usr/lib
-after removing the /usr/lib/locale dir and the implementation
-wanted to do that earlier as well but the fault was checking
-an already removed dir (/usr/lib/locale) before trying to
-remove /usr/lib as that check would always fail.
-Now we simply try to delete /usr/lib after deleting
-/usr/lib/locale to make sure it deletes cleanly and is empty
-at the time of deletion.
+On Tue, Sep 18, 2018 at 12:38 PM Marek Vasut <marex@denx.de> wrote:
+> On 09/18/2018 12:22 PM, Leon Woestenberg wrote:
+> >
+> > There is no exception for INITRAMFS_IMAGE_BUNDLE in
+> > kernel-fitimage.bbclass. The initramfs will be packed inside the FIT,
+> > in addition of also being packed inside the kernel.
+>
+> So why would you use initramfs_image_bundle with fitImage when you can
+> pack the initrd into the fitImage instead ?
+>
+To be honest, I do not know that use-case anymore but it's a valid
+configuration that shouldn't give an unexpected outcome.
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- meta/recipes-core/glibc/glibc-package.inc | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+We also found a use-case for non-compressed kernels in the FIT image;
+that was for very small delta-upgrades even when kernels are FIT
+packed. Currently kernel-fitimage.bbclass hard-selects a compressed
+kernel (such as zImage).
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
-glibc/glibc-package.inc
-index 9ea41b7..22a59d2 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -207,11 +207,10 @@ do_poststash_install_cleanup () {
-     rm -rf ${D}/${localedir}
-     rm -rf ${D}${datadir}/locale
-     if [ "${libdir}" !=3D "${exec_prefix}/lib" ]; then
--        if [ -d ${D}${exec_prefix}/lib/locale ] ; then
--            rm -rf ${D}${exec_prefix}/lib/locale
--            # error out if directory isn't empty
--            rm -f ${D}${exec_prefix}/lib
--        fi
-+        # error out if directory isn't empty
-+        # this dir should only contain locale dir
-+        # which has been deleted in the previous step
-+        rmdir ${D}${exec_prefix}/lib
-     fi
- }
- addtask do_poststash_install_cleanup after do_stash_locale do_install befo=
-re do_populate_sysroot do_package
---
-2.7.4
+Regards,
 
+Leon/
 
---_000_153726696920431967mentorcom_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none"><!--P{margin-top:0;margin-b=
-ottom:0;} P{margin-top:0;margin-bottom:0;}--></style>
-</head>
-<body dir=3D"ltr" style=3D"font-size:10pt;color:#000000;background-color:#F=
-FFFFF;font-family:Tahoma,Geneva,sans-serif;">
-<p>In case the baselib is lib64 we would want to delete /usr/lib<br>
-after removing the /usr/lib/locale dir and the implementation<br>
-wanted to do that earlier as well but the fault was checking<br>
-an already removed dir (/usr/lib/locale) before trying to<br>
-remove /usr/lib as that check would always fail.<br>
-Now we simply try to delete /usr/lib after deleting<br>
-/usr/lib/locale to make sure it deletes cleanly and is empty<br>
-at the time of deletion.<br>
-<br>
-Signed-off-by: Awais Belal &lt;awais_belal@mentor.com&gt;<br>
----<br>
-&nbsp;meta/recipes-core/glibc/glibc-package.inc | 9 &#43;&#43;&#43;&#43;---=
---<br>
-&nbsp;1 file changed, 4 insertions(&#43;), 5 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
-glibc/glibc-package.inc<br>
-index 9ea41b7..22a59d2 100644<br>
---- a/meta/recipes-core/glibc/glibc-package.inc<br>
-&#43;&#43;&#43; b/meta/recipes-core/glibc/glibc-package.inc<br>
-@@ -207,11 &#43;207,10 @@ do_poststash_install_cleanup () {<br>
-&nbsp;&nbsp;&nbsp; &nbsp;rm -rf ${D}/${localedir}<br>
-&nbsp;&nbsp;&nbsp; &nbsp;rm -rf ${D}${datadir}/locale<br>
-&nbsp;&nbsp;&nbsp; &nbsp;if [ &quot;${libdir}&quot; !=3D &quot;${exec_prefi=
-x}/lib&quot; ]; then<br>
--&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if [ -d ${D}${exec_prefix}/lib/local=
-e ] ; then<br>
--&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;rm -rf ${D}${exec=
-_prefix}/lib/locale<br>
--&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# error out if di=
-rectory isn't empty<br>
--&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;rm -f ${D}${exec_=
-prefix}/lib<br>
--&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;fi<br>
-&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# error out if directory isn't e=
-mpty<br>
-&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# this dir should only contain l=
-ocale dir<br>
-&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# which has been deleted in the =
-previous step<br>
-&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;rmdir ${D}${exec_prefix}/lib<br>
-&nbsp;&nbsp;&nbsp; &nbsp;fi<br>
-&nbsp;}<br>
-&nbsp;addtask do_poststash_install_cleanup after do_stash_locale do_install=
- before do_populate_sysroot do_package<br>
--- <br>
-2.7.4<font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US"></p>
-<div style=3D"margin:0"><i><br>
-</i></div>
-</span></font>
-<p></p>
-<div id=3D"Signature">
-<div style=3D"font-family:Tahoma; font-size:13px">
-<div style=3D"font-size:13px">
-<div><font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US"></span></font></=
-div>
-</div>
-<font face=3D"Tahoma"></font></div>
-</div>
-</body>
-</html>
-
---_000_153726696920431967mentorcom_--
