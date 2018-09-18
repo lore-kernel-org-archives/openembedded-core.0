@@ -1,44 +1,26 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B6DF79493
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CA690796C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 09:44:34 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 42Dykp6gW5z1qx9G;
-	Tue, 18 Sep 2018 11:44:34 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 42Dykp6HKLz1qr2Y;
-	Tue, 18 Sep 2018 11:44:34 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id TP7ktWYHXCMS; Tue, 18 Sep 2018 11:44:31 +0200 (CEST)
-X-Auth-Info: b1u9SiVOTTuqfRDUmLxJOnPTPdt5brknD5bE9Lp7S2I=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Tue, 18 Sep 2018 11:44:31 +0200 (CEST)
-To: Leon Woestenberg <leon@sidebranch.com>,
-	Alex Kiernan <alex.kiernan@gmail.com>
-References: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
-	<CAO5Uq5S43E3cXUSEVJP8-dKtuqR-XaqrN+6fhHfy6QESLRh7_w@mail.gmail.com>
-	<AB33E724-81C2-43BC-8169-6100CABAA375@sidebranch.com>
-	<CAO5Uq5ToXbUR2Pv9PwQOPp-F+5CbwvuPwy84Kfz7HWUzx2ohFA@mail.gmail.com>
-	<CAO5Uq5Rws0YP5_y-CSXhKKSrHe1BZiSQsYFQHH9AABFgjKWv=g@mail.gmail.com>
-	<4F5C8364-78D3-41EF-B239-B641651A2F64@sidebranch.com>
-	<CAO5Uq5TMF-dTZA=dS4QqioRGvycNWeZHC_QWh6FViohLrAy76w@mail.gmail.com>
-	<CAMjhiJi9awJ-WVs+Y4V=cqy8JT+qbb=5txQzFVM741inkmzFuQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <d36ea830-9aa0-5e3e-140d-d0e2788175aa@denx.de>
-Date: Tue, 18 Sep 2018 11:44:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Tue, 18 Sep 2018 09:48:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8I9m1fl032393
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Sep 2018 02:48:12 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 18 Sep 2018 02:47:51 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Tue, 18 Sep 2018 17:47:49 +0800
+Message-ID: <20180918094749.102156-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.13.3
+In-Reply-To: <”20180918094042.100881-1-mingli.yu@windriver.com”>
+References: <”20180918094042.100881-1-mingli.yu@windriver.com”>
 MIME-Version: 1.0
-In-Reply-To: <CAMjhiJi9awJ-WVs+Y4V=cqy8JT+qbb=5txQzFVM741inkmzFuQ@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
+Subject: [PATCH v2] glibc: fix Segmentation fault in gethostid.c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,422 +33,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 09:44:35 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 18 Sep 2018 09:48:37 -0000
+Content-Type: text/plain
 
-On 09/18/2018 11:40 AM, Leon Woestenberg wrote:
-> Hi Alex,
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Hi,
+When run test program hostid, it encounters
+Segmentation fault as hp is NULL.
 
-> Adding Marek Vasut, original author of kernel-fitimage.bbclass.
-> 
->> I guess the reason that the deployment happens in kernel.bbclass is so
->> you only have all the symlinking logic in one place
-> 
-> The deployment happens in both kernel.bbclass and
-> kernel-fitimage.bbclass. That was exactly one of the bugs I wanted to
-> solve. I am not sure what the intention was, though.
-> 
-> Marek: can you comment of the exact purpose of the deploy task in
-> kernel-fitimage.bbclass?
-> Which class should deploy the FIT images themselves?
+ # cat /mybuild/hostid.c
+ #include <stdio.h>
+ #include <unistd.h>
 
-It seems to have to do with deploying of the ITS files and the symlinks
-for then .
+ int
+ main(int argc, char *argv[])
+ {
+    long hostid;
+    hostid = gethostid();
+    printf("the hostid is %ld\n", hostid);
 
-It's hard to make any sense from the discussion below due to the
-constant top-posting and mixing of email history, so I'll just not do
-that, sorry.
+ }
 
-What bug is it that you're seeing ?
+ # gcc -o /mybuild/hostid /mybuild/hostid.c
+ # /mybuild/hostid
+ Segmentation fault
+ # gdb /mybuild/hostid
+ GNU gdb (GDB) 8.2
+ Copyright (C) 2018 Free Software Foundation, Inc.
+ License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+ This is free software: you are free to change and redistribute it.
+ There is NO WARRANTY, to the extent permitted by law.
+ Type "show copying" and "show warranty" for details.
+ This GDB was configured as "x86_64-wrs-linux".
+ Type "show configuration" for configuration details.
+ For bug reporting instructions, please see:
+ <http://www.gnu.org/software/gdb/bugs/>.
+ Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
 
-> Whilst cleaning things up, my understanding was that
-> kernel_do_deploy_append() in kernel-fitimage.bbclass deploys the
-> fitImages, along with the .its file etc.
-> Maybe I was mistaken.
+ For help, type "help".
+ Type "apropos word" to search for commands related to "word"...
+ Reading symbols from /mybuild/hostid...done.
+ (gdb) r
+ Starting program: /mybuild/hostid
 
-That's the case, yes.
+ Program received signal SIGSEGV, Segmentation fault.
+ 0x00007ffff7f0330e in gethostid () at ../sysdeps/unix/sysv/linux/gethostid.c:125
+ 125	  memcpy (&in, hp->h_addr,
+ (gdb) bt
+ #0  0x00007ffff7f0330e in gethostid () at ../sysdeps/unix/sysv/linux/gethostid.c:125
+ #1  0x0000555555555159 in main ()
 
-> I have several other fixed piled up; for example initramfs's supposed to
-> get bundled inside the kernel get also packed into the FIT; this takes
-> double the amount of space in the FIT image...
-> 
-> Regards,
-> 
-> Leon.
-> 
-> 
-> 
-> 
-> On Tue, Sep 18, 2018 at 8:10 AM Alex Kiernan <alex.kiernan@gmail.com
-> <mailto:alex.kiernan@gmail.com>> wrote:
-> 
->     Thanks Leon
-> 
->     I guess the reason that the deployment happens in kernel.bbclass is so
->     you only have all the symlinking logic in one place.
-> 
->     Are in agreement that this change should be reverted and the
->     "fitImage" deployed here:
-> 
->     http://git.openembedded.org/openembedded-core/tree/meta/classes/kernel-fitimage.bbclass#n495
-> 
->     is the one which we should remove?
->     On Mon, Sep 17, 2018 at 7:05 PM Leon Woestenberg
->     <leon@sidebranch.com <mailto:leon@sidebranch.com>> wrote:
->     >
->     > Hi Alex,
->     >
->     > I expected it to be kernel-fitimage.bbclass’s responsibility to
->     deploy the fitImage.
->     >
->     > Regards, Leon
->     >
->     >
->     >
->     >
->     > On 16 Sep 2018, at 16:22, Alex Kiernan <alex.kiernan@gmail.com
->     <mailto:alex.kiernan@gmail.com>> wrote:
->     >
->     > On Sun, Sep 16, 2018 at 11:41 AM Alex Kiernan
->     <alex.kiernan@gmail.com <mailto:alex.kiernan@gmail.com>> wrote:
->     >
->     >
->     > Hi Leon
->     >
->     >
->     > On Sun, Sep 16, 2018 at 10:18 AM Leon Woestenberg
->     <leon@sidebranch.com <mailto:leon@sidebranch.com>> wrote:
->     >
->     >
->     > Hi Alex,
->     >
->     >
->     > On 15 Sep 2018, at 19:45, Alex Kiernan <alex.kiernan@gmail.com
->     <mailto:alex.kiernan@gmail.com>> wrote:
->     >
->     >
->     > On Mon, Sep 10, 2018 at 10:57 PM Leon Woestenberg
->     <leon@sidebranch.com <mailto:leon@sidebranch.com>> wrote:
->     >
->     >
->     > kernel-fitimage.bbclass replaces an occurance of "fitImage" in
->     >
->     > KERNEL_IMAGETYPE_FOR_MAKE by an image type that is buildable for the
->     >
->     > architecture (such as zImage). The kernel-fitimage.bbclass packs that
->     >
->     > image as sub-image in a flattened image tree image (fitImage) and
->     >
->     > deploys this fitImage along with the image tree source file (.its).
->     >
->     >
->     > kernel-fitimage.bbclass does not alter KERNEL_IMAGETYPES, which thus
->     >
->     > also contains "fitImage", which kernel.bbclass will also deploy
->     >
->     > redundantly with different naming.
->     >
->     >
->     > The result is a dual deployment with slightly different naming,
->     >
->     > each with a set of symlinks.
->     >
->     >
->     > The solution chosen is to have fitImage deployment be handled by
->     >
->     > kernel-fitimage.bbclass, and have kernel.bbclass ignore fitImage
->     >
->     > types during deployment.
->     >
->     >
->     > Signed-off-by: Leon Woestenberg <leon@sidebranch.com
->     <mailto:leon@sidebranch.com>>
->     >
->     >
->     > This looks completely plausible, but the two "FIT" images that are
->     >
->     > installed aren't identical... after this I end up with no FIT image
->     >
->     > and only a bare image in the deploy dir.
->     >
->     >
->     > What was in your KERNEL_IMAGETYPES? Did it at least contain
->     “fitImage”??
->     >
->     >
->     >
->     > Yes, in fact only fitImage (and no initramfs).
->     >
->     >
->     > Digging into it, the logic between the two classes is a bit odd... in
->     >
->     > the case of a non initramfs build, the fitImage is actually installed
->     >
->     > here.
->     >
->     >
->     > If ‘here’ means kernel-fitimage, then I’ld say ALL versions of a
->     FIT image containing AT LEAST a Linux kernel are installed by
->     kernel-fitimage.
->     >
->     >
->     > The one that's installed in kernel-fitimage is the bare
->     >
->     > linux.bin, but named fitImage-...
->     >
->     >
->     > which is totally broken. If you want the bare kernel binary (which
->     naming depends on architecture, so it should NOT be hard-coded to
->     linux.bin anyway), you would need to specify that type *also* in
->     KERNEL_IMAGETYPES, next to “fitImage”.
->     >
->     >
->     > Totally agree...
->     >
->     >
->     >
->     > I'll send a patch reverting this and removing the other one as I'd
->     >
->     > agree that it appears to have no purpose (and if you did want it, I
->     >
->     > guess you could list it in KERNEL_IMAGETYPES).
->     >
->     >
->     > I’m sorry I cannot follow what this and the other one is, and it.
->     Let’s first understand all cases correctly.
->     >
->     >
->     >
->     > Sorry I've not described it well... the code in
->     >
->     > kernel-fitimage.bbclass that inserts the kernel into the its happens
->     >
->     > here
->     http://git.openembedded.org/openembedded-core/tree/meta/classes/kernel-fitimage.bbclass#n371
->     >
->     >
->     > fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin
->     "${linux_comp}"
->     >
->     >
->     > inside fitimage_emit_section_kernel we create a kernel section which
->     >
->     > has `data = /incbin/("${3}");` so linux.bin is our bare image.
->     >
->     >
->     > Then we have the installation of fitImage-linux-bin that happens here
->     >
->     >
->     http://git.openembedded.org/openembedded-core/tree/meta/classes/kernel-fitimage.bbclass#n495
->     >
->     >
->     > echo "Copying linux.bin file..."
->     >
->     > install -m 0644 ${B}/linux.bin
->     >
->     > ${DEPLOYDIR}/fitImage-linux.bin-${KERNEL_FIT_NAME}.bin
->     >
->     > ln -snf fitImage-linux.bin-${KERNEL_FIT_NAME}.bin
->     >
->     > ${DEPLOYDIR}/fitImage-linux.bin-${KERNEL_FIT_LINK_NAME}
->     >
->     >
->     > i.e. the bare linux.bin file which we used to pack into the FIT image,
->     >
->     > not a fitImage.
->     >
->     >
->     > The output FIT image from kernel-fitimage.bbclass is created here
->     >
->     >
->     http://git.openembedded.org/openembedded-core/tree/meta/classes/kernel-fitimage.bbclass#n450
->     >
->     >
->     > uboot-mkimage \
->     >
->     > ${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if
->     len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
->     >
->     >  -f ${1} \
->     >
->     >  arch/${ARCH}/boot/${2}
->     >
->     >
->     > i.e. in arch/${ARCH}/boot/${2}
->     >
->     >
->     > It's that image which is then picked up by kernel.bbclass to install
->     >
->     > into deploydir (because KERNEL_OUTPUT_DIR ?= "arch/${ARCH}/boot"):
->     >
->     >
->     > for imageType in ${KERNEL_IMAGETYPES} ; do
->     >
->     >  # kernel-fitimage class deploys fitImages, skip here
->     >
->     >  if [ "$imageType" != "fitImage" ]; then
->     >
->     >    base_name=${imageType}-${KERNEL_IMAGE_NAME}
->     >
->     >    install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}
->     >
->     > $deployDir/${base_name}.bin
->     >
->     >  fi
->     >
->     > done
->     >
->     >
->     > Only it's doesn't because of the filter against fitImage.
->     >
->     >
->     >
->     > To check I'm not seeing some strange artefact of our BSP or
->     > linux-ti-staging (or any other layer we're using):
->     >
->     > $ git clone git://git.yoctoproject.org/poky
->     <http://git.yoctoproject.org/poky>
->     > $ cd poky
->     > $ . oe-init-build-env
->     > $ cat << EOF >> conf/local.conf
->     > MACHINE = "beaglebone-yocto"
->     > KERNEL_CLASSES += " kernel-fitimage"
->     > KERNEL_IMAGETYPES = "fitImage"
->     > EOF
->     > $ bitbake linux-yocto
->     >
->     > The FIT images we then have:
->     >
->     > $ find tmp/deploy/images/beaglebone-yocto -name 'fit*.bin' -type f
->     >
->     tmp/deploy/images/beaglebone-yocto/fitImage-linux.bin--4.18.3+git0+7341720391_eba03655e8-r0-beaglebone-yocto-20180916134100.bin
->     >
->     > And what is:
->     >
->     > $ bitbake u-boot-mkimage-native -caddto_recipe_sysroot
->     > $ oe-run-native u-boot-mkimage-native mkimage -l
->     >
->     tmp/deploy/images/beaglebone-yocto/fitImage-linux.bin--4.18.3+git0+7341720391_eba03655e8-r0-beaglebone-yocto-20180916134100.bin
->     > Running bitbake -e u-boot-mkimage-native
->     > GP Header: Size a0e1 LoadAddr a0e1
->     >
->     > Revert c2d00e2f83cdf3d2923660448756ed29296a06a6 and try again:
->     >
->     > $ git revert c2d00e2f83cdf3d2923660448756ed29296a06a6
->     > $ bitbake linux-yocto
->     >
->     > This time there's two images:
->     >
->     > $ find tmp/deploy/images/beaglebone-yocto -name 'fit*.bin' -type f
->     >
->     tmp/deploy/images/beaglebone-yocto/fitImage--4.18.3+git0+7341720391_eba03655e8-r0-beaglebone-yocto-20180916141923.bin
->     >
->     tmp/deploy/images/beaglebone-yocto/fitImage-linux.bin--4.18.3+git0+7341720391_eba03655e8-r0-beaglebone-yocto-20180916141923.bin
->     >
->     > And what they are:
->     >
->     > $ oe-run-native u-boot-mkimage-native mkimage -l
->     >
->     tmp/deploy/images/beaglebone-yocto/fitImage--4.18.3+git0+7341720391_eba03655e8-r0-beaglebone-yocto-20180916141923.bin
->     > Running bitbake -e u-boot-mkimage-native
->     > FIT description: U-Boot fitImage for Poky (Yocto Project Reference
->     > Distro)/4.18.3+gitAUTOINC+7341720391_eba03655e8/beaglebone-yocto
->     > Created:         Sun Sep 16 14:14:47 2018
->     > Image 0 (kernel@1)
->     >  Description:  Linux kernel
->     >  Created:      Sun Sep 16 14:14:47 2018
->     >  Type:         Kernel Image
->     >  Compression:  uncompressed
->     >  Data Size:    6381368 Bytes = 6231.80 KiB = 6.09 MiB
->     >  Architecture: ARM
->     >  OS:           Linux
->     >  Load Address: 0x80008000
->     >  Entry Point:  0x80008000
->     >  Hash algo:    sha1
->     >  Hash value:   909137524ffd28b5b0ac51ea39c648b09902dc18
->     > Image 1 (fdt@am335x-bone.dtb)
->     >  Description:  Flattened Device Tree blob
->     >  Created:      Sun Sep 16 14:14:47 2018
->     >  Type:         Flat Device Tree
->     >  Compression:  uncompressed
->     >  Data Size:    33030 Bytes = 32.26 KiB = 0.03 MiB
->     >  Architecture: ARM
->     >  Hash algo:    sha1
->     >  Hash value:   0fece12f15fc5ac6c452d9308cd374c2c0cfea47
->     > Image 2 (fdt@am335x-boneblack.dtb)
->     >  Description:  Flattened Device Tree blob
->     >  Created:      Sun Sep 16 14:14:47 2018
->     >  Type:         Flat Device Tree
->     >  Compression:  uncompressed
->     >  Data Size:    34782 Bytes = 33.97 KiB = 0.03 MiB
->     >  Architecture: ARM
->     >  Hash algo:    sha1
->     >  Hash value:   337f6843020cb8fbaf119b43fd748222d32e72df
->     > Image 3 (fdt@am335x-bonegreen.dtb)
->     >  Description:  Flattened Device Tree blob
->     >  Created:      Sun Sep 16 14:14:47 2018
->     >  Type:         Flat Device Tree
->     >  Compression:  uncompressed
->     >  Data Size:    33286 Bytes = 32.51 KiB = 0.03 MiB
->     >  Architecture: ARM
->     >  Hash algo:    sha1
->     >  Hash value:   4974e8b1656cd7f52829ac3c01f6747bece87cbc
->     > Default Configuration: 'conf@am335x-bone.dtb'
->     > Configuration 0 (conf@am335x-bone.dtb)
->     >  Description:  1 Linux kernel, FDT blob
->     >  Kernel:       kernel@1
->     >  FDT:          fdt@am335x-bone.dtb
->     >  Hash algo:    sha1
->     >  Hash value:   unavailable
->     > Configuration 1 (conf@am335x-boneblack.dtb)
->     >  Description:  0 Linux kernel, FDT blob
->     >  Kernel:       kernel@1
->     >  FDT:          fdt@am335x-boneblack.dtb
->     >  Hash algo:    sha1
->     >  Hash value:   unavailable
->     > Configuration 2 (conf@am335x-bonegreen.dtb)
->     >  Description:  0 Linux kernel, FDT blob
->     >  Kernel:       kernel@1
->     >  FDT:          fdt@am335x-bonegreen.dtb
->     >  Hash algo:    sha1
->     >  Hash value:   unavailable
->     > $ oe-run-native u-boot-mkimage-native mkimage -l
->     >
->     tmp/deploy/images/beaglebone-yocto/fitImage-linux.bin--4.18.3+git0+7341720391_eba03655e8-r0-beaglebone-yocto-20180916141923.bin
->     > Running bitbake -e u-boot-mkimage-native
->     > GP Header: Size a0e1 LoadAddr a0e1
->     >
->     > --
->     > Alex Kiernan
-> 
-> 
-> 
->     -- 
->     Alex Kiernan
-> 
-> 
-> 
-> -- 
-> Leon Woestenberg
-> leon@sidebranch.com <mailto:leon@sidebranch.com>
-> T: +31 40 711 42 76
-> M: +31 6 472 30 372
-> 
-> Sidebranch
-> Embedded Systems
-> Eindhoven, The Netherlands
-> http://www.sidebranch.com <http://www.sidebranch.com/>
-> 
-> 
-> 
-> 
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ .../0001-gethostid.c-check-the-value-of-hp.patch   | 75 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.28.bb              |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-gethostid.c-check-the-value-of-hp.patch
 
-
+diff --git a/meta/recipes-core/glibc/glibc/0001-gethostid.c-check-the-value-of-hp.patch b/meta/recipes-core/glibc/glibc/0001-gethostid.c-check-the-value-of-hp.patch
+new file mode 100644
+index 0000000000..04d1662361
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0001-gethostid.c-check-the-value-of-hp.patch
+@@ -0,0 +1,75 @@
++From 84cc79a003cf1a29e0a45ee76b67a3800d9e412e Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Tue, 18 Sep 2018 07:29:27 +0000
++Subject: [PATCH] gethostid.c: check the value of hp
++
++Fix Segmentation fault in gethostid.c
++
++When run test program hostid, it encounters
++Segmentation fault as hp is NULL.
++
++  # cat /mybuild/hostid.c
++  #include <stdio.h>
++  #include <unistd.h>
++
++  int
++  main(int argc, char *argv[])
++  {
++    long hostid;
++    hostid = gethostid();
++    printf("the hostid is %ld\n", hostid);
++  }
++ 
++  # gcc -o /mybuild/hostid /mybuild/hostid.c
++  # /mybuild/hostid
++  Segmentation fault
++  # gdb /mybuild/hostid
++  GNU gdb (GDB) 8.2
++  Copyright (C) 2018 Free Software Foundation, Inc.
++  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
++  This is free software: you are free to change and redistribute it.
++  There is NO WARRANTY, to the extent permitted by law.
++  Type "show copying" and "show warranty" for details.
++  This GDB was configured as "x86_64-wrs-linux".
++  Type "show configuration" for configuration details.
++  For bug reporting instructions, please see:
++  <http://www.gnu.org/software/gdb/bugs/>.
++  Find the GDB manual and other documentation resources online at:
++      <http://www.gnu.org/software/gdb/documentation/>.
++ 
++   For help, type "help".
++   Type "apropos word" to search for commands related to "word"...
++   Reading symbols from /mybuild/hostid...done.
++   (gdb) r
++   Starting program: /mybuild/hostid
++ 
++   Program received signal SIGSEGV, Segmentation fault.
++   0x00007ffff7f0330e in gethostid () at ../sysdeps/unix/sysv/linux/gethostid.c:125
++   125      memcpy (&in, hp->h_addr,
++   (gdb) bt
++    #0  0x00007ffff7f0330e in gethostid () at ../sysdeps/unix/sysv/linux/gethostid.c:125
++    #1  0x0000555555555159 in main ()
++
++Upstream-Status: Submitted[https://sourceware.org/bugzilla/show_bug.cgi?id=23679]
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ sysdeps/unix/sysv/linux/gethostid.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sysdeps/unix/sysv/linux/gethostid.c b/sysdeps/unix/sysv/linux/gethostid.c
++index 2e20f034dc..5904b61c40 100644
++--- a/sysdeps/unix/sysv/linux/gethostid.c
+++++ b/sysdeps/unix/sysv/linux/gethostid.c
++@@ -102,7 +102,7 @@ gethostid (void)
++     {
++       int ret = __gethostbyname_r (hostname, &hostbuf,
++ 				   tmpbuf.data, tmpbuf.length, &hp, &herr);
++-      if (ret == 0)
+++      if (ret == 0 && hp != NULL)
++ 	break;
++       else
++ 	{
++-- 
++2.13.3
++
+diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+index 0ebbaf9610..0a8fa0c25f 100644
+--- a/meta/recipes-core/glibc/glibc_2.28.bb
++++ b/meta/recipes-core/glibc/glibc_2.28.bb
+@@ -45,6 +45,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-bits-siginfo-consts.h-enum-definition-for-TRAP_HWBKP.patch \
+            file://0029-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
+            file://0030-intl-Emit-no-lines-in-bison-generated-files.patch \
++           file://0001-gethostid.c-check-the-value-of-hp.patch \
+ "
+ 
+ NATIVESDKFIXES ?= ""
 -- 
-Best regards,
-Marek Vasut
+2.13.3
+
 
