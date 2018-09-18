@@ -1,19 +1,49 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 53B847965C
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BCDF793D9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 11:02:58 +0000 (UTC)
+	Tue, 18 Sep 2018 11:19:00 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 42F0qn0yg2z1qw01;
+	Tue, 18 Sep 2018 13:19:01 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 42F0qn0cXlz1qr2W;
+	Tue, 18 Sep 2018 13:19:01 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id nCMuCGiltsEO; Tue, 18 Sep 2018 13:19:00 +0200 (CEST)
+X-Auth-Info: KszqjvcwDuPTEoQ4T7qf8o0x/6Ts5rqA6XvOqV+7l4k=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Tue, 18 Sep 2018 13:19:00 +0200 (CEST)
+To: Leon Woestenberg <leon@sidebranch.com>
+References: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
+	<CAO5Uq5S43E3cXUSEVJP8-dKtuqR-XaqrN+6fhHfy6QESLRh7_w@mail.gmail.com>
+	<AB33E724-81C2-43BC-8169-6100CABAA375@sidebranch.com>
+	<CAO5Uq5ToXbUR2Pv9PwQOPp-F+5CbwvuPwy84Kfz7HWUzx2ohFA@mail.gmail.com>
+	<CAO5Uq5Rws0YP5_y-CSXhKKSrHe1BZiSQsYFQHH9AABFgjKWv=g@mail.gmail.com>
+	<4F5C8364-78D3-41EF-B239-B641651A2F64@sidebranch.com>
+	<CAO5Uq5TMF-dTZA=dS4QqioRGvycNWeZHC_QWh6FViohLrAy76w@mail.gmail.com>
+	<CAMjhiJi9awJ-WVs+Y4V=cqy8JT+qbb=5txQzFVM741inkmzFuQ@mail.gmail.com>
+	<d36ea830-9aa0-5e3e-140d-d0e2788175aa@denx.de>
+	<CAMjhiJgR1xe_uikpD+07pKDjeBw7er6efV04P3ygMAPfnTUu6w@mail.gmail.com>
+	<c2748bb0-22b3-0f25-72e7-519c940e2430@denx.de>
+	<CAMjhiJgRa6_z3AGZWKpA7sgtLaa4mYK_-b05-t0aimsDKyo7dg@mail.gmail.com>
+	<da056905-c114-097d-8dbc-f4a398872933@denx.de>
+	<CAMjhiJjimOmzdcYa7kgh9Ff0WdTh=TXD0tROTF08o1pDRC_QVw@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <37465946-772d-7f4e-d5e0-a98e69d15f1a@denx.de>
+Date: Tue, 18 Sep 2018 13:12:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Belal, Awais <Awais_Belal@mentor.com>
-Date: Tue, 18 Sep 2018 11:02:59 -0000
-Message-ID: <20180918110259.13842.82458@do.openembedded.org>
-References: <1537266969204.31967@mentor.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1537266969204.31967@mentor.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmMtcGFja2FnZS5pbmM6IGNvcnJlY3QgaW50ZW50aW9uIGZvciBkZWxldGluZyAvdXNyL2xpYiBhcyBuZWVkZWQ=?=
+In-Reply-To: <CAMjhiJjimOmzdcYa7kgh9Ff0WdTh=TXD0tROTF08o1pDRC_QVw@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,42 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 11:02:58 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 18 Sep 2018 11:19:00 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 09/18/2018 12:59 PM, Leon Woestenberg wrote:
+> Hi Marek,
 
-Series: glibc-package.inc: correct intention for deleting /usr/lib as needed
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14118/
-State : failure
+Hi,
 
-== Summary ==
+> On Tue, Sep 18, 2018 at 12:38 PM Marek Vasut <marex@denx.de> wrote:
+>> On 09/18/2018 12:22 PM, Leon Woestenberg wrote:
+>>>
+>>> There is no exception for INITRAMFS_IMAGE_BUNDLE in
+>>> kernel-fitimage.bbclass. The initramfs will be packed inside the FIT,
+>>> in addition of also being packed inside the kernel.
+>>
+>> So why would you use initramfs_image_bundle with fitImage when you can
+>> pack the initrd into the fitImage instead ?
+>>
+> To be honest, I do not know that use-case anymore but it's a valid
+> configuration that shouldn't give an unexpected outcome.
 
+True
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+> We also found a use-case for non-compressed kernels in the FIT image;
+> that was for very small delta-upgrades even when kernels are FIT
+> packed. Currently kernel-fitimage.bbclass hard-selects a compressed
+> kernel (such as zImage).
 
+Patches are welcome
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 6a1e550838)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+-- 
+Best regards,
+Marek Vasut
 
