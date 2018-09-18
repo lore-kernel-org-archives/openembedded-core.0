@@ -1,23 +1,51 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 11E1B6079E
+Return-Path: <erik.boto@gmail.com>
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+	[209.85.128.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E2F5F75544
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 09:00:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8I90U32022593
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 18 Sep 2018 09:20:32 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id o18-v6so1840500wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 02:00:30 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 18 Sep 2018 02:00:09 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Sep 2018 02:00:09 -0700
-Message-ID: <20180918090009.69835-1-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Tue, 18 Sep 2018 02:20:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7HP5tZUOTf2BALr9GJWb3HZ4wtrVsA1HCE8wjU+FltI=;
+	b=lsk2MbtlIi3crV1u0DiKhQyeez6epjM1JoPDwKC1htS88JxgF1EToDSIQrkSltnuoK
+	isz9hjkcSZJv7zZEffbKK3vrmUwHjycQnY7mjdHm/uw/aqxdqwECx+VuGJm+yHN1fI5H
+	j99DD+PrVIv/2NRQD5AD0z6GSL6eCeJ7g1h1DXDXk0U/YAeiHfUJKd1wyi6kS0IrYUq3
+	8c+dtYfWfC5+wjjeWG8j2cHL3OO9uJI1SQI37n6KkLP91U1+W+7a09oHN12gWQ9IjTAA
+	gvoXv6xExh6uqnHqwsopegW7rMQmV/ErSVgbPD3txRlvgfdwt/YjMv0rxd3oMwRqAll7
+	U3wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7HP5tZUOTf2BALr9GJWb3HZ4wtrVsA1HCE8wjU+FltI=;
+	b=lx8CDoY5pMidsQrk/otZgfiOoFFvXSgNc/3mhqmLuvIGrBje600HH0fEJKCeUxo192
+	5M52SxJmTn/DhrzDQLPXhVJwSeQjf84ZO3Lc1d7AxStGGRD+IFnw9Wtr0u2buoaQARVJ
+	r3SGitij6yeoMdGryQVaOPGJO+1D/lwp9Yd/bZg2E/rONVFOSzktgRrLexn/dFCFYHL/
+	vin5DHspkw9rnTzouu0sX9LM7wW6pYV9XNtCBQWVRlkS2IfxyJh6GgKbp3Mk6IArVi65
+	HWPwertyOwU2TXvubp87rg05yDtLaDWcuboLPId07719T/1Gb2sqBKMkf72pjtLpztVk
+	e4pg==
+X-Gm-Message-State: APzg51BnA8fiBaUvxijzuSOmksbZrKCFpk3PxqkFlVwYNv/+3WnnzjN0
+	A2QZn5GpnfTmU1iPeSlRMchaAbab
+X-Google-Smtp-Source: ANB0Vdb2nJMyS3SQNrHz3ZaVH0Zo9B6c/f0YTkbE8pMQ9BRjW2s6PFtlcsHcQWtZBawTNJlPlNGNDQ==
+X-Received: by 2002:a1c:b49:: with SMTP id
+	70-v6mr13816199wml.149.1537262433140; 
+	Tue, 18 Sep 2018 02:20:33 -0700 (PDT)
+Received: from debbie.luxoft.com ([83.218.80.243])
+	by smtp.gmail.com with ESMTPSA id
+	132-v6sm1432727wmd.13.2018.09.18.02.20.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Sep 2018 02:20:32 -0700 (PDT)
+From: =?UTF-8?q?Erik=20Bot=C3=B6?= <erik.boto@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Sep 2018 11:20:19 +0200
+Message-Id: <20180918092019.14722-1-erik.boto@gmail.com>
+X-Mailer: git-send-email 2.19.0.rc1
 MIME-Version: 1.0
-Subject: [PATCH] gdb: gdbserver: update ctrl-c handling
+Subject: [PATCH] testexport: Add support for testcase utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,74 +58,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 09:00:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Sep 2018 09:20:33 -0000
+Content-Transfer-Encoding: 8bit
 
-A) gdbserver sends SIGINT not to the process, but to the process
-group (-signal_pid). But the attached process is not always a
-process group leader. If not, "kill (-signal_pid, SIGINT)" returns
-error and fails to interrupt the attached process. We cannot interrupt
-the process attached with gdbserver who is not a process group leader.
+Add the possibility to ship a lib/oeqa/runtime/cases/utils directory
+that will be included in the generated testexport tarball.
 
-This problem was created by the gdb upstream commit 78708b7c8c
-The commit fixed the following case B) bug.
-B) We cannot interrupt the process attached with gdbserver whose
-main thread exits (pthread_exit()).
-
-Now this patch can solve both A) and B).
-
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+This makes it easier to split common functionality from test suites
+into modules that can be imported from multiple test suites.
 ---
- meta/recipes-devtools/gdb/gdb-8.2.inc         |  1 +
- .../gdb/gdb/gdbserver-ctrl-c-handling.patch   | 26 +++++++++++++++++++
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/gdbserver-ctrl-c-handling.patch
+ meta/classes/testexport.bbclass | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/meta/recipes-devtools/gdb/gdb-8.2.inc b/meta/recipes-devtools/gdb/gdb-8.2.inc
-index 999fdde031..dfb0059123 100644
---- a/meta/recipes-devtools/gdb/gdb-8.2.inc
-+++ b/meta/recipes-devtools/gdb/gdb-8.2.inc
-@@ -16,6 +16,7 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
-            file://0009-Change-order-of-CFLAGS.patch \
-            file://0010-resolve-restrict-keyword-conflict.patch \
-            file://0011-Fix-invalid-sigprocmask-call.patch \
-+           file://gdbserver-ctrl-c-handling.patch \
- "
- SRC_URI[md5sum] = "b5a49dbff00d9a87fbe114d14b3101c0"
- SRC_URI[sha256sum] = "c3a441a29c7c89720b734e5a9c6289c0a06be7e0c76ef538f7bbcef389347c39"
-diff --git a/meta/recipes-devtools/gdb/gdb/gdbserver-ctrl-c-handling.patch b/meta/recipes-devtools/gdb/gdb/gdbserver-ctrl-c-handling.patch
-new file mode 100644
-index 0000000000..d1ff5a5d75
---- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/gdbserver-ctrl-c-handling.patch
-@@ -0,0 +1,26 @@
-++This problem was created by the upstream commit 78708b7c8c
-++After applying the commit, it will send SIGINT to the process group(-signal_pid).
-++But if we use gdbserver send SIGINT, and the attached process is not a process
-++group leader, then the "kill (-signal_pid, SIGINT)" returns error and fails  to
-++interrupt the attached process.
-++
-++Upstream-Status: Pending
-++
-++Author: Josh Gao
-++cherry-picked patch from https://sourceware.org/bugzilla/show_bug.cgi?id=18945
-++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+Index: gdb-8.2/gdb/gdbserver/linux-low.c
-+===================================================================
-+--- gdb-8.2.orig/gdb/gdbserver/linux-low.c
-++++ gdb-8.2/gdb/gdbserver/linux-low.c
-+@@ -5940,9 +5940,7 @@ linux_look_up_symbols (void)
-+ static void
-+ linux_request_interrupt (void)
-+ {
-+-  /* Send a SIGINT to the process group.  This acts just like the user
-+-     typed a ^C on the controlling terminal.  */
-+-  kill (-signal_pid, SIGINT);
-++  kill (signal_pid, SIGINT);
-+ }
-+ 
-+ /* Copy LEN bytes from inferior's auxiliary vector starting at OFFSET
+diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bbclass
+index d070f07afa..e67e5842d6 100644
+--- a/meta/classes/testexport.bbclass
++++ b/meta/classes/testexport.bbclass
+@@ -74,6 +74,21 @@ def testexport_main(d):
+ 
+     copy_needed_files(d, tc)
+ 
++def get_runtime_cases_utils_paths(d):
++    """
++    Returns a list of paths where testcase utils must reside. Utils can be e.g.
++    common functionality used by multiple test cases.
++
++    Testcase utils are expected in <LAYER_DIR>/lib/oeqa/runtime/cases/utils/
++    """
++    paths = []
++
++    for layer in d.getVar('BBLAYERS').split():
++        path = os.path.join(layer, 'lib/oeqa/runtime/cases/utils')
++        if os.path.isdir(path):
++            paths.append(path)
++    return paths
++
+ def copy_needed_files(d, tc):
+     import shutil
+     import oe.path
+@@ -108,6 +123,8 @@ def copy_needed_files(d, tc):
+         else:
+             shutil.copy2(src, dst)
+ 
++
++
+     # Remove cases and just copy the ones specified
+     cases_path = os.path.join(export_path, 'lib', 'oeqa', 'runtime', 'cases')
+     oe.path.remove(cases_path)
+@@ -121,6 +138,15 @@ def copy_needed_files(d, tc):
+         if json_file:
+             shutil.copy2(json_file, cases_path)
+ 
++
++    # Copy cases/utils provided by layers
++    utils_dest_path = os.path.join(export_path, 'lib', 'oeqa', 'runtime', 'cases', 'utils')
++    utils_source_paths = get_runtime_cases_utils_paths(d)
++
++    for f in utils_source_paths:
++        if os.path.isdir(f):
++            oe.path.copytree(f, utils_dest_path)
++
+     # Copy test data
+     image_name = ("%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'),
+                             d.getVar('IMAGE_LINK_NAME')))
 -- 
-2.17.1
+2.19.0.rc1
 
 
