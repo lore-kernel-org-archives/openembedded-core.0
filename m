@@ -1,26 +1,40 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BCDF793D9
+Return-Path: <leon@sidebranch.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DE08745BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 11:19:00 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 42F0qn0yg2z1qw01;
-	Tue, 18 Sep 2018 13:19:01 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 42F0qn0cXlz1qr2W;
-	Tue, 18 Sep 2018 13:19:01 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id nCMuCGiltsEO; Tue, 18 Sep 2018 13:19:00 +0200 (CEST)
-X-Auth-Info: KszqjvcwDuPTEoQ4T7qf8o0x/6Ts5rqA6XvOqV+7l4k=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Tue, 18 Sep 2018 13:19:00 +0200 (CEST)
-To: Leon Woestenberg <leon@sidebranch.com>
+	Tue, 18 Sep 2018 11:23:50 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id y20-v6so1605079edq.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Sep 2018 04:23:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Dm2dcyd76Ri9lamOMd4B+MnQ0onfAe/HO/cmh0VzRWI=;
+	b=q7mrd9ZziSL+hUT608sdVhcNpTl/RXHx7fJZcws3ZUUCiIp80KBsOxzQ4s0oL8yHkB
+	jmoovayHI9oVv1KuIp1WcrrkXsHSRir6SvaXYZw0YhoYpclhkVNtiB/d4OX41QeRzbHB
+	suXxQUDpSkJ9460gCmFLiZl9ZvnE9pP4KIChH69sjbxA9ft32vyROa3GvXo6ytPP63yx
+	Q470blw2pqhAwJKjGDnePV0ybtPGUKIg3x1KdOXm/VKZcr9b8MSmapJ8kBrRd8J6SN/1
+	d/usIb/0UUbC1nD64xp5vPfe6wOMR2oidwP0ZlDjOO2LD/PSOJoIulScV4BsmCi+M+yD
+	GupA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Dm2dcyd76Ri9lamOMd4B+MnQ0onfAe/HO/cmh0VzRWI=;
+	b=gVYFv9dv8WPaO/7V2Cm9bCCeWEsvz9nG7m78im2Bp5dBowRiz9sAO0WVSWTswBYxAw
+	3BBHS4u+Q8rsbgWu3qq2qrRldU4/Dxw0qKs6xBf5xYjMDu0AHhHgVhC0P2LhsY3MNFIK
+	V+fPfDiXHkNcyVgj/D7ZPU5ek6THQuYP+MjUd+rELZisWjeB73NhsyH09e48lQksSdjs
+	mPYrANc4tnbqLFAW/53n1c3u3TcZxnWA1Xs2LefoW8niXhX+TPWjkWw4UlGTs2mUnO+r
+	qs7hdqgQ3hg73NfPdUZs3i0CvzD/Ak+tiM0bssFsD9OmaYglVPTkIGKwZ2sSUuMk0U3r
+	qdcA==
+X-Gm-Message-State: APzg51CnVL+vfGHUD/ZLlX71xD0OiVafWCEftFK1DhO0mDKQQdjI10Oh
+	1egXdqUzVsFyceJ3O5m6xQXwWGmT2kfO1QNB5so8tw==
+X-Google-Smtp-Source: ANB0VdYzEvVBsgTDEJxJUC0Broa05yqJzlXCEBOW3M40q0p3G/MWpRkizQyv3uLlcevmclCnLK3q6CH92lRWGWyHAz8=
+X-Received: by 2002:aa7:d78c:: with SMTP id
+	s12-v6mr48450879edq.69.1537269831236; 
+	Tue, 18 Sep 2018 04:23:51 -0700 (PDT)
+MIME-Version: 1.0
 References: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
 	<CAO5Uq5S43E3cXUSEVJP8-dKtuqR-XaqrN+6fhHfy6QESLRh7_w@mail.gmail.com>
 	<AB33E724-81C2-43BC-8169-6100CABAA375@sidebranch.com>
@@ -35,13 +49,12 @@ References: <1536616603-9502-1-git-send-email-leon@sidebranch.com>
 	<CAMjhiJgRa6_z3AGZWKpA7sgtLaa4mYK_-b05-t0aimsDKyo7dg@mail.gmail.com>
 	<da056905-c114-097d-8dbc-f4a398872933@denx.de>
 	<CAMjhiJjimOmzdcYa7kgh9Ff0WdTh=TXD0tROTF08o1pDRC_QVw@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <37465946-772d-7f4e-d5e0-a98e69d15f1a@denx.de>
-Date: Tue, 18 Sep 2018 13:12:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAMjhiJjimOmzdcYa7kgh9Ff0WdTh=TXD0tROTF08o1pDRC_QVw@mail.gmail.com>
+	<37465946-772d-7f4e-d5e0-a98e69d15f1a@denx.de>
+In-Reply-To: <37465946-772d-7f4e-d5e0-a98e69d15f1a@denx.de>
+From: Leon Woestenberg <leon@sidebranch.com>
+Date: Tue, 18 Sep 2018 13:23:41 +0200
+Message-ID: <CAMjhiJg4TDe93fytjKGVbYCL+eaOH2NeFtkSfv2sK5FfZV7U4Q@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v3] kernel.bbclass: do not deploy fitImage; kernel-fitimage.bbclass does that.
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,39 +69,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 11:19:00 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Sep 2018 11:23:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 09/18/2018 12:59 PM, Leon Woestenberg wrote:
-> Hi Marek,
+Hi Marek, Alex,
 
-Hi,
+On Tue, Sep 18, 2018 at 1:19 PM Marek Vasut <marex@denx.de> wrote:
+> On 09/18/2018 12:59 PM, Leon Woestenberg wrote:
+> > On Tue, Sep 18, 2018 at 12:38 PM Marek Vasut <marex@denx.de> wrote:
+> >> On 09/18/2018 12:22 PM, Leon Woestenberg wrote:
+> >>>
+> >>> There is no exception for INITRAMFS_IMAGE_BUNDLE in
+> >>> kernel-fitimage.bbclass. The initramfs will be packed inside the FIT,
+> >>> in addition of also being packed inside the kernel.
+> >>
+> >> So why would you use initramfs_image_bundle with fitImage when you can
+> >> pack the initrd into the fitImage instead ?
+> >>
+> > To be honest, I do not know that use-case anymore but it's a valid
+> > configuration that shouldn't give an unexpected outcome.
+>
+> True
+>
+> > We also found a use-case for non-compressed kernels in the FIT image;
+> > that was for very small delta-upgrades even when kernels are FIT
+> > packed. Currently kernel-fitimage.bbclass hard-selects a compressed
+> > kernel (such as zImage).
+>
+> Patches are welcome
+>
+Thanks for explaining the rationale behind the deploy stage, it
+confirms Alex's suspicion I was solving the problem at the wrong
+place.
 
-> On Tue, Sep 18, 2018 at 12:38 PM Marek Vasut <marex@denx.de> wrote:
->> On 09/18/2018 12:22 PM, Leon Woestenberg wrote:
->>>
->>> There is no exception for INITRAMFS_IMAGE_BUNDLE in
->>> kernel-fitimage.bbclass. The initramfs will be packed inside the FIT,
->>> in addition of also being packed inside the kernel.
->>
->> So why would you use initramfs_image_bundle with fitImage when you can
->> pack the initrd into the fitImage instead ?
->>
-> To be honest, I do not know that use-case anymore but it's a valid
-> configuration that shouldn't give an unexpected outcome.
+Alex, if you are still reading this: the answer is yes, please revert.
 
-True
+Regards,
 
-> We also found a use-case for non-compressed kernels in the FIT image;
-> that was for very small delta-upgrades even when kernels are FIT
-> packed. Currently kernel-fitimage.bbclass hard-selects a compressed
-> kernel (such as zImage).
-
-Patches are welcome
-
--- 
-Best regards,
-Marek Vasut
+Leon.
 
