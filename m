@@ -1,51 +1,51 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D63E7982B
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FA8E79832
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 15:16:18 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id k5-v6so2514268wre.10
+	Tue, 18 Sep 2018 15:16:19 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id n11-v6so3260000wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 08:16:19 -0700 (PDT)
+	Tue, 18 Sep 2018 08:16:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0LLem7avRFu2QrxBhJuaLBsNRVCjH52MkFiZtibufDI=;
-	b=RW2HLCQMnaPR/NApc9dvJoNwUz/pdJ8DUcGJwcZfIvm3T24vUdtX7BrmRnEkqNv9js
-	sUG+GUt3jv5IeeaY1n2DSdMSIGLulejKxytI61mKr8WalJ+M68rqjTMwgCnro5CwZ4fr
-	nBzW7KC1owAs8G1+PMEdxH8/D9TN6WueETiQl/p/I6nxyPrcLjODxrWmcjaSjmWxXI8W
-	VO0abkNn45Zp8zyYkgHj0z+xnbVBbl04/JIqgcV0UsILhGOq8SnjyCWLTeUfgzMmpjDJ
-	F/O3iqLkOPWYXluT//xzZCH78ykA2uMoMkWoE5nCsLTb7uiqyS3yrV+203NtD9ATenE6
-	UKpw==
+	bh=W5Bko0kDl6JitkqLcTo5Go9ToAZ5CV35Q1K1UoREIIU=;
+	b=XAie6yd05qhtSchmd6vaXJ6qP/0zvSwEf3+XD/B9hmp9i1eOjvjO9lDYS39HQcxcdz
+	drWAakjGYH4D6qjGdDwZ2KvFjXA/ADWI6urAyvrLupDUcunR6f9/NJpxd25Vqedxx023
+	4GvGugMk+ilbbNgA1LfDMb6Gm36HQwqSg1cX6CNa4PpPXNyfhLtcdJny0JuY3BSryKR5
+	+KXA6N+3qEu6Ngl4dJQdiWgipm+wjWR9tnk6ePwvhkCB6Zmg9bUmQAGpHxdm3hVw74vr
+	R9MiTsvLODOafY09O+6Gpwf+04nskqwGJNIqH7l/PIxSvqg64uHfukM17EjSxpfnvIA5
+	DAPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=0LLem7avRFu2QrxBhJuaLBsNRVCjH52MkFiZtibufDI=;
-	b=gGh58BRSqWMHxKhXQH84sXEtnxv7bCrYYL336lisVUINIqxqWPqitlDbVSfpuOpE7m
-	T5hBU+ZASlQNUCZZboyy5443XLsjIro/y58lyrcqOh7hDAXQYpP/dCkz5oFc/LI6EQsi
-	sWD6kEfGxAQPkhavU+tuE7vUd49L5XqVAsofOVJaBIyGye6yahDEKC6JcsyMrzh4S9bo
-	pzWOiT9A1OelXszZkmbTJjkpm9xYvEsgVAfu6haRHf/nbuU4VtP+f5ESXTb1wreleG1F
-	8wdbplAM6II5E4QZdozJKDgNAE0V2kq9y+Z0B5pJrtuHZina2ytgijEaMfAKbuDd0NOR
-	2qTQ==
-X-Gm-Message-State: APzg51BYCH4rLLXgNWAz52jUToMfVPkoVVkcwAZdwLbhwubZqmc5PIOy
-	imY7f9/th3xkak1CcbkybURFfBup
-X-Google-Smtp-Source: ANB0VdZFITWDxRabLEO+zmtGXYHjCyTZ5gtCpt9Uuy8ZweCf9K2x17Na1mIR+n4x9uKXnNUU05O2Ig==
-X-Received: by 2002:adf:c5c5:: with SMTP id
-	v5-v6mr23538038wrg.30.1537283778862; 
-	Tue, 18 Sep 2018 08:16:18 -0700 (PDT)
+	bh=W5Bko0kDl6JitkqLcTo5Go9ToAZ5CV35Q1K1UoREIIU=;
+	b=FIXcw48bAQiHp6zsCq2OVlD9BxmtiIRMViE/QZFUey2YgjcBf8Nm/RSSgrfmkXOxCW
+	pce7RtzDyTIl4aBEuIHYIHT7RgBWXuLuhtttOtnB/HEahPEQMxDdn8DlWbLE617tTUFL
+	0NlMWRtkfo/CQOxJLDhLayZcwE+ms7FKSfLx4F1+/cA0u+CMkxjW/6BESIyXsc+0Et3w
+	CQ6XukQ7E59X8XLxzQtpxoj06MRXfaZEdFsyIW5p4v1f/8ckq4uv8wjRrPtdSyT4DEJZ
+	t1/6suFadENAG75Nb0Ir2wcjP+aZ9U8J/wNKXdP/Ajpdt39w4lJl0Rg1YtDholwlrwJy
+	joQg==
+X-Gm-Message-State: APzg51DnZenQMUE+to04Ih0SU68tOVL7T/caSrlzPPXOX97HX+mS/+1P
+	H/Cn4ckWLOg0grqlhNkvNBMHOs3d
+X-Google-Smtp-Source: ANB0VdYTuY78Dqhwg6aDtyAEgZjCaxWZ/VfSqOz0Et2heieKIPrHtfTx9lzwOSR/AnkETDvrgz/Kzg==
+X-Received: by 2002:a1c:5e48:: with SMTP id
+	s69-v6mr15392136wmb.19.1537283780006; 
+	Tue, 18 Sep 2018 08:16:20 -0700 (PDT)
 Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
 	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
-	142-v6sm1904838wme.35.2018.09.18.08.16.18
+	142-v6sm1904838wme.35.2018.09.18.08.16.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Sep 2018 08:16:18 -0700 (PDT)
+	Tue, 18 Sep 2018 08:16:19 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Sep 2018 15:15:21 +0000
-Message-Id: <1537283723-27429-3-git-send-email-alex.kiernan@gmail.com>
+Date: Tue, 18 Sep 2018 15:15:22 +0000
+Message-Id: <1537283723-27429-4-git-send-email-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1537283723-27429-1-git-send-email-alex.kiernan@gmail.com>
 References: <1537283723-27429-1-git-send-email-alex.kiernan@gmail.com>
-Subject: [PATCH 3/4] kernel: Fix modules tarball generation with usrmerge
+Subject: [PATCH 4/4] kernel.bbclass: Avoid iterating over KERNEL_IMAGETYPES twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +58,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 15:16:18 -0000
+X-List-Received-Date: Tue, 18 Sep 2018 15:16:19 -0000
 
-When usrmerge is enabled the kernel modules aren't under /lib, but /usr/lib;
-ensure we fetch the modules from the correct location so we don't have a
-tarball which consists of a single symlink.
+During deploy we iterate over KERNEL_IMAGETYPES twice, with no consumer
+of our changes in the interim. Collapse these two loops into one.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- meta/classes/kernel.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/kernel.bbclass | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 6b734be2b675..396627e7efa1 100644
+index 396627e7efa1..d0fbbd19899b 100644
 --- a/meta/classes/kernel.bbclass
 +++ b/meta/classes/kernel.bbclass
-@@ -671,8 +671,8 @@ kernel_do_deploy() {
+@@ -669,20 +669,17 @@ kernel_do_deploy() {
+ 	for imageType in ${KERNEL_IMAGETYPES} ; do
+ 		base_name=${imageType}-${KERNEL_IMAGE_NAME}
  		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} $deployDir/${base_name}.bin
++		symlink_name=${imageType}-${KERNEL_IMAGE_LINK_NAME}
++		ln -sf ${base_name}.bin $deployDir/${symlink_name}.bin
++		ln -sf ${base_name}.bin $deployDir/${imageType}
  	done
++
  	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
--		mkdir -p ${D}/lib
--		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D} lib
-+		mkdir -p ${D}${root_prefix}/lib
-+		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
+ 		mkdir -p ${D}${root_prefix}/lib
+ 		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
  		ln -sf modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
  	fi
  
+-	for imageType in ${KERNEL_IMAGETYPES} ; do
+-		base_name=${imageType}-${KERNEL_IMAGE_NAME}
+-		symlink_name=${imageType}-${KERNEL_IMAGE_LINK_NAME}
+-		ln -sf ${base_name}.bin $deployDir/${symlink_name}.bin
+-		ln -sf ${base_name}.bin $deployDir/${imageType}
+-	done
+-
+ 	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
+ 		for imageType in ${KERNEL_IMAGETYPES} ; do
+ 			initramfs_base_name=${imageType}-${INITRAMFS_NAME}
 -- 
 2.7.4
 
