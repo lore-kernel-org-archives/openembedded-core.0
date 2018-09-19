@@ -1,51 +1,51 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DA9978DFE
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id EFD407971C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 11:25:17 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id n11-v6so6472484wmc.2
+	Wed, 19 Sep 2018 11:26:31 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id j15-v6so1323965wrt.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 04:25:19 -0700 (PDT)
+	Wed, 19 Sep 2018 04:26:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=2h8zhEBctrHd/J7Gxgm/ua6rjfRzcc9stbSSNDxkqTI=;
-	b=SqvN6mhVnPlGRBrfG8XrLyPT29+Iy3LDu0vg7VXu9pgI784qyyDBRmrY30jlgXiyjl
-	+XbJBsXvUUcRxmKkSZsw7k4CGOkDFJXr/lGk6rbIlog6sn0vAKV+MjsaOrO9gMCbWBln
-	emMv79UBadRCWLyOpAwAZbXM85BfY+cS1E2ufx2hQcpfEAcOzSVuvR9TjPeVaw6uU81Y
-	+ge7zXanNb3ikgMET09GippKfdVs17sRBKroqoh7pK8tuUmLRbOxE1u2/9mv5dkEy6nE
-	VxU8mCuYper0AYl7JvrZOyuze1Cv7QYE7l9M5jOCh2DQLApd4otUJMfH/4zpLX89XszH
-	xInA==
+	bh=pjjrYJvBZc6ggpWwCwFI6xcXsGhmH5Pf1Ri0rAa3RMg=;
+	b=XPJWakgvU8Z7x4bR69UHG/r2gZCfhXbAXr72OLtgkBy/EDSdyJB2fohOfKY+ZtBAvp
+	5Zvjbn+PuaUEmgY8QM2ALTfOpePcaWVwh3YwjugRhVk35wwd5OdGh3DJi0kwpZdBiZBM
+	KpQVEfT212LVFeKWv/axn8kc+kam0irgEP1YTc+EaVlFcuL+O8na4S7NzcTRAY1peGQt
+	W1/DeKwjGHLVmEXNcbM5wvEGJPrTuK81bF22UW8Sie4xDI/bn7l0+H32MWRh03HPJfdV
+	56N8HIKexeU2lb6Q0IysFGMNSoxQ6Hg0jpS7UsCOo8PmAoNUGGgGrm25DfHKaiGhLXvs
+	oqdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=2h8zhEBctrHd/J7Gxgm/ua6rjfRzcc9stbSSNDxkqTI=;
-	b=Viy55J+hl8xAMPcT/+upY7FvSmoapN3RCP9QEd/MAcbXK9mfoGjmgtn7s+RjA/Cxk0
-	71NEJV481ogo97u6zkxUVXFUAG2BK1DXnA/777QNcZf+dvdTaDDjxmyL8HcTY8tWldGC
-	IpQw9x+Y/T+Ml1Y0xLBjNin4Ejd1D2UzudnWrLa+AqbZTUzRsBM9jIHQ+KAZOqKt9cnJ
-	oYUwfiSpUMOkjRVtQeo83BUXEiKFdhXoOGWkxWBpl76HtB6Crx0z02abOwCw7WWAFhqj
-	6lp4wsXVz2XRj216Kj2/Nsi8UMGAcZTRpmcvXdC2uFrel6y4jeN6o59tw4B2C6g13w0r
-	AGkA==
-X-Gm-Message-State: APzg51CBs7oOApZncT/Pjfcz1NO9yiwvnS9ITFNEvc9sX8/7uq55KgT7
-	D/SBrgePlDgnK/XqcOg5lAqizgke
-X-Google-Smtp-Source: ANB0VdbxqATlERAeg5FCbuFHOhePtmnFS7jd+PDlEySH3qfV2Om0AePqrwZhmvcFp7urAaV1hOBzZQ==
-X-Received: by 2002:a1c:aa0c:: with SMTP id
-	t12-v6mr20371214wme.109.1537356318327; 
-	Wed, 19 Sep 2018 04:25:18 -0700 (PDT)
+	bh=pjjrYJvBZc6ggpWwCwFI6xcXsGhmH5Pf1Ri0rAa3RMg=;
+	b=DEGdzJPX+nocGybFl10/yvZt6eEyy9NHr2wEMN55XUzjJW1UHBjCxqhRZYZ49QvW4k
+	VrB91lQ79/0CAp7mbnsepnFe9lBNAyNf2K+DDksISuDRThET01SJrrDz493u6igDa5E0
+	WsJe7B3Gk89dM83X6mECfiOVHmGm9uyorDZoqHJ5spXGCw5OLL7EsyZoGSAOlSjJOT+6
+	mqRV5KPx+qmyMja9ytYPJqk3Xtzh33YKMM7QLo5NoSwPN00w/x/XqpLrfXjgxyRrAN/A
+	47v6niVXlLjZ/KgmaEQzSSjFPDHk5wQeDGedNRqb6awXF5XU9rfSGly+IWSm2Ec2N8Pu
+	2Tmw==
+X-Gm-Message-State: APzg51AdY5Ia3TB7xJxfKZhpG08zb7Cgu04RUI34AXoSLHU1Qgm8tx16
+	TdPYUsYCWW/I9JUboQk97by4st41
+X-Google-Smtp-Source: ANB0VdaQsRX3N7SophLhSOz7bdeut0NNoxUjYZEbA1SOI9NmF+Tl3KUVXBrmpjdrRM2ekS+XLcZufA==
+X-Received: by 2002:adf:ef89:: with SMTP id
+	d9-v6mr28384748wro.195.1537356392268; 
+	Wed, 19 Sep 2018 04:26:32 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	d18-v6sm3067458wmb.33.2018.09.19.04.25.17
+	k5-v6sm3577284wrc.14.2018.09.19.04.26.31
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 19 Sep 2018 04:25:17 -0700 (PDT)
+	Wed, 19 Sep 2018 04:26:31 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Sep 2018 11:25:16 +0000
-Message-Id: <20180919112516.21730-1-Martin.Jansa@gmail.com>
+Date: Wed, 19 Sep 2018 11:26:30 +0000
+Message-Id: <20180919112630.21953-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <CA+chaQdF1WoUTRuNeLuj8Bna8Jj8TmTEg4makNcOeL0i3=NLCg@mail.gmail.com>
 References: <CA+chaQdF1WoUTRuNeLuj8Bna8Jj8TmTEg4makNcOeL0i3=NLCg@mail.gmail.com>
-Subject: [PATCHv3] glibc: fix build with -O
+Subject: [PATCHv4] glibc: fix build with -O
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,7 +58,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 11:25:18 -0000
+X-List-Received-Date: Wed, 19 Sep 2018 11:26:32 -0000
 
 * tested for qemuarm, qemux86 with -O, -O0, -Os, with gcc
 * to build with -O0 I had to remove restriction from systemtap first
@@ -98,7 +98,7 @@ index 91491a35f0..e673707369 100644
  # in the sysroots directory at this point. This means the libc.so
 diff --git a/meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch b/meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch
 new file mode 100644
-index 0000000000..f1c5727b6f
+index 0000000000..b02c4ec94f
 --- /dev/null
 +++ b/meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch
 @@ -0,0 +1,95 @@
@@ -121,7 +121,7 @@ index 0000000000..f1c5727b6f
 +* work around the issue instead of removing -O like we do with
 +  SELECTED_OPTIMIZATION
 +
-+Upstream-Status: Submitted https://www.sourceware.org/ml/libc-alpha/2018-09/msg00299.html
++Upstream-Status: Submitted [https://www.sourceware.org/ml/libc-alpha/2018-09/msg00299.html]
 +
 +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 +---
@@ -199,7 +199,7 @@ index 0000000000..f1c5727b6f
 +
 diff --git a/meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch b/meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch
 new file mode 100644
-index 0000000000..4b40fe3f97
+index 0000000000..4d56e55296
 --- /dev/null
 +++ b/meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch
 @@ -0,0 +1,72 @@
@@ -244,7 +244,7 @@ index 0000000000..4b40fe3f97
 +   FP_DECL_D (R);
 +   ^~~~~~~~~
 +
-+Upstream-Status: Submitted https://www.sourceware.org/ml/libc-alpha/2018-09/msg00300.html
++Upstream-Status: Submitted [https://www.sourceware.org/ml/libc-alpha/2018-09/msg00300.html]
 +
 +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 +---
