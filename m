@@ -1,48 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 929AA78DFE
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+	[209.85.222.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 200347869E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 03:46:33 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id b19-v6so2282835qkc.6
+	Wed, 19 Sep 2018 04:13:21 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id p84-v6so2076483qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 20:46:35 -0700 (PDT)
+	Tue, 18 Sep 2018 21:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=i7LoMvi/ROTDOFqFt/WBn7cXO8r0e4MME7WmBcchjtg=;
-	b=kKy8NiGzzAbvkpwKtYPtQhTKsOsqnNZsAROcDFbzT5YFD28kxpYXhz5HgavztKrFi9
-	vY1wEm5UEYfRpBSuK0oCQHp4fzg3HMtBXTDuxwlcgxLN9h4AkVtrwKp+Ci3BZnP2u9QY
-	KoKdVBRzUPOqENqQJiamgG/Y41Uvr3PI2lThc2XPStjB5Gis6YbU2zLQG+RgU8dwhl/o
-	qQYmyz5+J08/1uBnoIpmEsXXJoOQKJmy8NgK/cbEUoGhKeiVfUhtXC8LKRONHY84t7cG
-	umeHAtvwtEeoFwjzF19Bp1utZQ3pVj+hbsO4oh/AETeGXbS6KBwMcbb9XBS2LTAxNRwe
-	PqvQ==
+	:cc; bh=gIVx2EwGCs72kC4amFhKTLMpVNrY+gpxAGNGTlecH74=;
+	b=d5splxDfpVni29yk/7ec72sFrWHjZkX2BsRqPU5r5f7W5y+rhCaWe5fKnnFCEH6k+u
+	41yb1HWU7pOI/h026EfH6GwMWeA9hXtDu3EBzU3yIUhh5q7C6BltEP3gPrjNU/WOAR4S
+	zw3C5RMjCNcH/mPHrMkju1bZV1TNehGHYVt84RW6P5LlOMwOom1NmQhYn1p7NWT5KWJm
+	M071KV4RpUAIyErSqIfYaaV1+sgB7Czj8LP0bO4a5IJWGhC0rLyTt/2R/QjsXRY/VklP
+	QYUwYJ60G+//93rcOClZsoNsImoNVt+Ieq/WjqMlczvzzWNfaYPcVbVmksn6bx9IOjvv
+	QMfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=i7LoMvi/ROTDOFqFt/WBn7cXO8r0e4MME7WmBcchjtg=;
-	b=WSpjUYYLX4RfWlpWfhMRTB1OEKy5jC+rQPWo66FIzcAIgoPHKqMnVtKIPe+L8MCVki
-	V7Z7KS2eAO1uY80Qbg97n58UxccJ4EpB38HYoJ0xzccD4LnIGSE39TZYYMzmu8C/2h6z
-	nndH6+4WnoDaWnfnoSbp49JAdMV91V6Ol1FyjGQuATA5Cve2ZXTuL/WJVoWTJNIobv2z
-	UpQ7pPkrFgNO/EnFiIFe754Vmv8xpqsBEwaDLyXkRP5Kd/w321edsuJnyrB7bq3B9Wmr
-	CMfhjiRZT91NI8LrtVoQlS1IdP7IzrjrvFaJoZ+PvgeCloFXgL4oY5mIiXLG34lU9ce5
-	XCYA==
-X-Gm-Message-State: APzg51D6Gf4N9Xqdzgc1+fQTgzjCi86SuYUi+XsVbkevw+SWJhtjfI8+
-	2doUKDkQH9FK8ff2tSXI3XdJcuYyhwMB8iz3jgkwAHAK
-X-Google-Smtp-Source: ANB0VdaF3Z6JE97pYzMT95CbEjNAiKcU0jAfNYIVhXCPCZGFoVZG+39actpkLxy1vMAoBbAnytbPGVw1EpyLeh9YNPg=
-X-Received: by 2002:a37:c04f:: with SMTP id
-	o76-v6mr22646177qki.315.1537328794321; 
-	Tue, 18 Sep 2018 20:46:34 -0700 (PDT)
+	bh=gIVx2EwGCs72kC4amFhKTLMpVNrY+gpxAGNGTlecH74=;
+	b=B9vsx5Bme8d0pH+EXNOrU5DgZZt+S2AGRzjVa27trg0SFdp8KoglHre5YG8jhp8PlR
+	5Kd9ypGBxf7uMADcBe+t3WdXkOcrXUA9dGwKiZC7I8+kwl3+TiFlDCKMyt6t+YiLpy0p
+	NMDGL+FIVvLl58e7eXW/XaY550WUrxjWCdgwbR5C0xvz/UB4YHhALQ4dsqpnsvsLl+DW
+	nITWGe2OlfdwnKLRqt2zRVzMncbldlePcFjD5ONxlSPOgiSePTab3QwVbwyXIDVRGLAl
+	MfBU9s4imsfhHkjfnHoYjLvIuyR46tGRgrUuvu1ynilWfNKulGKXRTJUwyrm5Ozji/mx
+	kW8A==
+X-Gm-Message-State: APzg51BXc9qK3MzcwdLzLH9hoUPknyYc8Os0+4A3nHvNnmOcdbTcBklW
+	3QzwpDKQwWNPuBNIHnUu8qK9eUhhZZcvys+8ncg=
+X-Google-Smtp-Source: ANB0VdauHDkw0vy8w2bsOWlr9bsZSkcsWcOA2hmN2W0KAgcGq2moFqXgerGn7BGvOkHjONYNsVOZT9dOItHzrHhIg9U=
+X-Received: by 2002:a37:9904:: with SMTP id
+	b4-v6mr23060357qke.102.1537330402612; 
+	Tue, 18 Sep 2018 21:13:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <1537327350-27510-1-git-send-email-hongxu.jia@windriver.com>
-In-Reply-To: <1537327350-27510-1-git-send-email-hongxu.jia@windriver.com>
+References: <20180917054844.12934-1-Martin.Jansa@gmail.com>
+	<20180917054844.12934-3-Martin.Jansa@gmail.com>
+In-Reply-To: <20180917054844.12934-3-Martin.Jansa@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Sep 2018 20:46:08 -0700
-Message-ID: <CAMKF1spULQDLXWp7bkq-TAgEkKpuUDVY2HZCiqcu_UuXpUuMZw@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Tue, 18 Sep 2018 21:12:56 -0700
+Message-ID: <CAMKF1sqDFe3-Ye28Tg3nL8=1iij70Jfx85-SCdYWX4e_7WbtKQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: upgrade 7.8p1 -> 7.8p2 to support openssl 1.1.x
+Subject: Re: [PATCH 3/3] glibc: fix build with -O
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,62 +56,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 03:46:33 -0000
+X-List-Received-Date: Wed, 19 Sep 2018 04:13:22 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 18, 2018 at 8:12 PM Hongxu Jia <hongxu.jia@windriver.com> wrote:
+please submit upstream as well
+On Sun, Sep 16, 2018 at 10:49 PM Martin Jansa <martin.jansa@gmail.com> wrote:
 >
-> - Convert from tarball to git repository which support
->   openssl 1.1.x
+> * tested for qemuarm, qemux86 with -O, -O0, -Os, with gcc
+> * to build with -O0 I had to remove restriction from systemtap first
 >
-> - There is no specific minor version that contains the
->   openssl fix (it was merged to master a few days agao),
->   but their next minor version will be p2.
->
-
-I think we should test this patch and it would be good to get this in release
-
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  .../openssh/{openssh_7.8p1.bb => openssh_7.8p2.bb}             | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->  rename meta/recipes-connectivity/openssh/{openssh_7.8p1.bb => openssh_7.8p2.bb} (94%)
+>  meta/recipes-core/glibc/glibc.inc             | 12 ---
+>  ...4-prevent-maybe-uninitialized-errors.patch | 95 +++++++++++++++++++
+>  ...2-soft-fp-ignore-maybe-uninitialized.patch | 72 ++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.28.bb         |  2 +
+>  4 files changed, 169 insertions(+), 12 deletions(-)
+>  create mode 100644 meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch
+>  create mode 100644 meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch
 >
-> diff --git a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb b/meta/recipes-connectivity/openssh/openssh_7.8p2.bb
-> similarity index 94%
-> rename from meta/recipes-connectivity/openssh/openssh_7.8p1.bb
-> rename to meta/recipes-connectivity/openssh/openssh_7.8p2.bb
-> index f4b295f..b74461e 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_7.8p2.bb
-> @@ -8,11 +8,10 @@ SECTION = "console/network"
->  LICENSE = "BSD"
->  LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
+> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+> index 91491a35f0..e673707369 100644
+> --- a/meta/recipes-core/glibc/glibc.inc
+> +++ b/meta/recipes-core/glibc/glibc.inc
+> @@ -6,18 +6,6 @@ STAGINGCC = "gcc-cross-initial-${TARGET_ARCH}"
+>  STAGINGCC_class-nativesdk = "gcc-crosssdk-initial-${SDK_SYS}"
+>  PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
 >
-> -# openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
-> -DEPENDS = "zlib openssl10"
-> +DEPENDS = "zlib openssl"
->  DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
->
-> -SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
-> +SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
->             file://sshd_config \
->             file://ssh_config \
->             file://init \
-> @@ -29,8 +28,9 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
->
->  PAM_SRC_URI = "file://sshd"
->
-> -SRC_URI[md5sum] = "ce1d090fa6239fd38eb989d5e983b074"
-> -SRC_URI[sha256sum] = "1a484bb15152c183bb2514e112aa30dd34138c3cfb032eee5490a66c507144ca"
-> +SRCREV = "cce8cbe0ed7d1ba3a575310e0b63c193326ae616"
+> -python () {
+> -    opt_effective = "-O"
+> -    for opt in d.getVar('SELECTED_OPTIMIZATION').split():
+> -        if opt in ("-O0", "-O", "-O1", "-O2", "-O3", "-Os"):
+> -            opt_effective = opt
+> -    if opt_effective == "-O0":
+> -        bb.fatal("%s can't be built with %s, try -O1 instead" % (d.getVar('PN'), opt_effective))
+> -    if opt_effective in ("-O", "-O1", "-Os"):
+> -        bb.note("%s doesn't build cleanly with %s, adding -Wno-error to SELECTED_OPTIMIZATION" % (d.getVar('PN'), opt_effective))
+> -        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
+> -}
+> -
+>  # siteconfig.bbclass runs configure which needs a working compiler
+>  # For the compiler to work we need a working libc yet libc isn't
+>  # in the sysroots directory at this point. This means the libc.so
+> diff --git a/meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch b/meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch
+> new file mode 100644
+> index 0000000000..d9d36b8244
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch
+> @@ -0,0 +1,95 @@
+> +From c6cc5a6ef46837e341fe271b5ffa6def23810082 Mon Sep 17 00:00:00 2001
+> +From: Martin Jansa <Martin.Jansa@gmail.com>
+> +Date: Fri, 14 Sep 2018 23:23:03 +0000
+> +Subject: [PATCH] sysdeps/ieee754: prevent maybe-uninitialized errors
 > +
-> +S = "${WORKDIR}/git"
+> +* with -O included in BUILD_OPTIMIZATION when DEBUG_BUILD
+> +  is used, nativesdk-glibc fails with:
+> +../sysdeps/ieee754/ldbl-96/e_jnl.c: In function '__ieee754_jnl':
+> +../sysdeps/ieee754/ldbl-96/e_jnl.c:146:20: error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +      b = invsqrtpi * temp / sqrtl (x);
+> +          ~~~~~~~~~~^~~~~~
+> +../sysdeps/ieee754/ldbl-96/e_jnl.c: In function '__ieee754_ynl':
+> +../sysdeps/ieee754/ldbl-96/e_jnl.c:375:16: error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +  b = invsqrtpi * temp / sqrtl (x);
+> +      ~~~~~~~~~~^~~~~~
+> +
+> +* work around the issue instead of removing -O like we do with
+> +  SELECTED_OPTIMIZATION
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> +---
+> + sysdeps/ieee754/dbl-64/e_jn.c    | 2 ++
+> + sysdeps/ieee754/ldbl-128/e_jnl.c | 4 ++++
+> + sysdeps/ieee754/ldbl-96/e_jnl.c  | 4 ++++
+> + 3 files changed, 10 insertions(+)
+> +
+> +diff --git a/sysdeps/ieee754/dbl-64/e_jn.c b/sysdeps/ieee754/dbl-64/e_jn.c
+> +index 9181b22bb8..74a6b5f149 100644
+> +--- a/sysdeps/ieee754/dbl-64/e_jn.c
+> ++++ b/sysdeps/ieee754/dbl-64/e_jn.c
+> +@@ -108,6 +108,7 @@ __ieee754_jn (int n, double x)
+> +             case 1: temp = -c + s; break;
+> +             case 2: temp = -c - s; break;
+> +             case 3: temp = c - s; break;
+> ++            default: temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +             }
+> +           b = invsqrtpi * temp / sqrt (x);
+> +         }
+> +@@ -315,6 +316,7 @@ __ieee754_yn (int n, double x)
+> +         case 1: temp = -s - c; break;
+> +         case 2: temp = -s + c; break;
+> +         case 3: temp = s + c; break;
+> ++        default: temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +         }
+> +       b = invsqrtpi * temp / sqrt (x);
+> +       }
+> +diff --git a/sysdeps/ieee754/ldbl-128/e_jnl.c b/sysdeps/ieee754/ldbl-128/e_jnl.c
+> +index 7739eec291..b6a1275464 100644
+> +--- a/sysdeps/ieee754/ldbl-128/e_jnl.c
+> ++++ b/sysdeps/ieee754/ldbl-128/e_jnl.c
+> +@@ -149,6 +149,8 @@ __ieee754_jnl (int n, _Float128 x)
+> +             case 3:
+> +               temp = c - s;
+> +               break;
+> ++            default:
+> ++              temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +             }
+> +           b = invsqrtpi * temp / sqrtl (x);
+> +         }
+> +@@ -385,6 +387,8 @@ __ieee754_ynl (int n, _Float128 x)
+> +         case 3:
+> +           temp = s + c;
+> +           break;
+> ++        default:
+> ++          temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +         }
+> +       b = invsqrtpi * temp / sqrtl (x);
+> +       }
+> +diff --git a/sysdeps/ieee754/ldbl-96/e_jnl.c b/sysdeps/ieee754/ldbl-96/e_jnl.c
+> +index 394921f564..2263b02203 100644
+> +--- a/sysdeps/ieee754/ldbl-96/e_jnl.c
+> ++++ b/sysdeps/ieee754/ldbl-96/e_jnl.c
+> +@@ -142,6 +142,8 @@ __ieee754_jnl (int n, long double x)
+> +             case 3:
+> +               temp = c - s;
+> +               break;
+> ++            default:
+> ++              temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +             }
+> +           b = invsqrtpi * temp / sqrtl (x);
+> +         }
+> +@@ -371,6 +373,8 @@ __ieee754_ynl (int n, long double x)
+> +         case 3:
+> +           temp = s + c;
+> +           break;
+> ++        default:
+> ++          temp = 0; // just to prevent error: 'temp' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +         }
+> +       b = invsqrtpi * temp / sqrtl (x);
+> +       }
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch b/meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch
+> new file mode 100644
+> index 0000000000..d3c9902fbc
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/0032-soft-fp-ignore-maybe-uninitialized.patch
+> @@ -0,0 +1,72 @@
+> +From 0efa7fd1c800277d5323d05cb245c0536fe9ce22 Mon Sep 17 00:00:00 2001
+> +From: Martin Jansa <Martin.Jansa@gmail.com>
+> +Date: Sun, 16 Sep 2018 12:39:22 +0000
+> +Subject: [PATCH] soft-fp: ignore maybe-uninitialized
+> +
+> +* with -O it fails with:
+> +
+> +In file included from ../soft-fp/soft-fp.h:318,
+> +                 from ../sysdeps/ieee754/soft-fp/s_fdiv.c:28:
+> +../sysdeps/ieee754/soft-fp/s_fdiv.c: In function '__fdiv':
+> +../soft-fp/op-2.h:98:25: error: 'R_f1' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +        X##_f0 = (X##_f1 << (_FP_W_TYPE_SIZE - (N)) | X##_f0 >> (N) \
+> +                         ^~
+> +../sysdeps/ieee754/soft-fp/s_fdiv.c:38:14: note: 'R_f1' was declared here
+> +   FP_DECL_D (R);
+> +              ^
+> +../soft-fp/op-2.h:37:36: note: in definition of macro '_FP_FRAC_DECL_2'
+> +   _FP_W_TYPE X##_f0 _FP_ZERO_INIT, X##_f1 _FP_ZERO_INIT
+> +                                    ^
+> +../soft-fp/double.h:95:24: note: in expansion of macro '_FP_DECL'
+> + # define FP_DECL_D(X)  _FP_DECL (2, X)
+> +                        ^~~~~~~~
+> +../sysdeps/ieee754/soft-fp/s_fdiv.c:38:3: note: in expansion of macro 'FP_DECL_D'
+> +   FP_DECL_D (R);
+> +   ^~~~~~~~~
+> +../soft-fp/op-2.h:101:17: error: 'R_f0' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +       : (X##_f0 << (_FP_W_TYPE_SIZE - (N))) != 0)); \
+> +                 ^~
+> +../sysdeps/ieee754/soft-fp/s_fdiv.c:38:14: note: 'R_f0' was declared here
+> +   FP_DECL_D (R);
+> +              ^
+> +../soft-fp/op-2.h:37:14: note: in definition of macro '_FP_FRAC_DECL_2'
+> +   _FP_W_TYPE X##_f0 _FP_ZERO_INIT, X##_f1 _FP_ZERO_INIT
+> +              ^
+> +../soft-fp/double.h:95:24: note: in expansion of macro '_FP_DECL'
+> + # define FP_DECL_D(X)  _FP_DECL (2, X)
+> +                        ^~~~~~~~
+> +../sysdeps/ieee754/soft-fp/s_fdiv.c:38:3: note: in expansion of macro 'FP_DECL_D'
+> +   FP_DECL_D (R);
+> +   ^~~~~~~~~
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> +---
+> + soft-fp/op-2.h | 3 +++
+> + 1 file changed, 3 insertions(+)
+> +
+> +diff --git a/soft-fp/op-2.h b/soft-fp/op-2.h
+> +index 6020d663d4..6672337949 100644
+> +--- a/soft-fp/op-2.h
+> ++++ b/soft-fp/op-2.h
+> +@@ -92,6 +92,8 @@
+> +             X##_f1 = 0;                                               \
+> +           }))
+> +
+> ++#pragma GCC diagnostic push
+> ++#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+> + #define _FP_FRAC_SRS_2(X, N, sz)                                      \
+> +   (void) (((N) < _FP_W_TYPE_SIZE)                                     \
+> +         ? ({                                                          \
+> +@@ -109,6 +111,7 @@
+> +                           | X##_f0) != 0));                           \
+> +             X##_f1 = 0;                                               \
+> +           }))
+> ++#pragma GCC diagnostic pop
+> +
+> + #define _FP_FRAC_ADDI_2(X, I) \
+> +   __FP_FRAC_ADDI_2 (X##_f1, X##_f0, I)
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+> index 0ebbaf9610..df60ba8445 100644
+> --- a/meta/recipes-core/glibc/glibc_2.28.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.28.bb
+> @@ -45,6 +45,8 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>             file://0028-bits-siginfo-consts.h-enum-definition-for-TRAP_HWBKP.patch \
+>             file://0029-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
+>             file://0030-intl-Emit-no-lines-in-bison-generated-files.patch \
+> +           file://0031-sysdeps-ieee754-prevent-maybe-uninitialized-errors.patch \
+> +           file://0032-soft-fp-ignore-maybe-uninitialized.patch \
+>  "
 >
->  inherit useradd update-rc.d update-alternatives systemd
->
+>  NATIVESDKFIXES ?= ""
 > --
-> 2.7.4
+> 2.17.1
 >
 > --
 > _______________________________________________
