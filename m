@@ -1,24 +1,23 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F25B679481
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F39E793DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 02:53:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8J2qjMY025625
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 19:52:56 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 18 Sep 2018 19:52:34 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Sep 2018 19:52:34 -0700
-Message-ID: <20180919025234.129629-1-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Wed, 19 Sep 2018 03:12:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8J3Cb9I003575
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Sep 2018 20:12:37 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 18 Sep 2018 20:12:36 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Wed, 19 Sep 2018 11:22:30 +0800
+Message-ID: <1537327350-27510-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH V3] gdb: gdbserver: update ctrl-c handling
+Subject: [PATCH] openssh: upgrade 7.8p1 -> 7.8p2 to support openssl 1.1.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +30,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 02:53:06 -0000
+X-List-Received-Date: Wed, 19 Sep 2018 03:12:38 -0000
 Content-Type: text/plain
 
-A) gdbserver sends SIGINT not to the process, but to the process
-group (-signal_pid). But the attached process is not always a
-process group leader. If not, "kill (-signal_pid, SIGINT)" returns
-error and fails to interrupt the attached process. We cannot interrupt
-the process attached with gdbserver who is not a process group leader.
+- Convert from tarball to git repository which support
+  openssl 1.1.x
 
-This problem was created by the gdb upstream commit 78708b7c8c
-The commit fixed the following case B) bug.
-B) We cannot interrupt the process attached with gdbserver whose
-main thread exits (pthread_exit()).
+- There is no specific minor version that contains the
+  openssl fix (it was merged to master a few days agao),
+  but their next minor version will be p2.
 
-Now this patch can solve both A) and B).
-
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/gdb/gdb-8.2.inc         |  1 +
- .../gdb/gdb/gdbserver-ctrl-c-handling.patch   | 26 +++++++++++++++++++
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/gdbserver-ctrl-c-handling.patch
+ .../openssh/{openssh_7.8p1.bb => openssh_7.8p2.bb}             | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh_7.8p1.bb => openssh_7.8p2.bb} (94%)
 
-diff --git a/meta/recipes-devtools/gdb/gdb-8.2.inc b/meta/recipes-devtools/gdb/gdb-8.2.inc
-index 999fdde031..dfb0059123 100644
---- a/meta/recipes-devtools/gdb/gdb-8.2.inc
-+++ b/meta/recipes-devtools/gdb/gdb-8.2.inc
-@@ -16,6 +16,7 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
-            file://0009-Change-order-of-CFLAGS.patch \
-            file://0010-resolve-restrict-keyword-conflict.patch \
-            file://0011-Fix-invalid-sigprocmask-call.patch \
-+           file://gdbserver-ctrl-c-handling.patch \
- "
- SRC_URI[md5sum] = "b5a49dbff00d9a87fbe114d14b3101c0"
- SRC_URI[sha256sum] = "c3a441a29c7c89720b734e5a9c6289c0a06be7e0c76ef538f7bbcef389347c39"
-diff --git a/meta/recipes-devtools/gdb/gdb/gdbserver-ctrl-c-handling.patch b/meta/recipes-devtools/gdb/gdb/gdbserver-ctrl-c-handling.patch
-new file mode 100644
-index 0000000000..d1ff5a5d75
---- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/gdbserver-ctrl-c-handling.patch
-@@ -0,0 +1,25 @@
-++This problem was created by the upstream commit 78708b7c8c
-++After applying the commit, it will send SIGINT to the process group(-signal_pid).
-++But if we use gdbserver send SIGINT, and the attached process is not a process
-++group leader, then the "kill (-signal_pid, SIGINT)" returns error and fails  to
-++interrupt the attached process.
-++
-++Upstream-Status: Submitted [https://sourceware.org/bugzilla/show_bug.cgi?id=18945]
-++
-++Author: Josh Gao
-++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+Index: gdb-8.2/gdb/gdbserver/linux-low.c
-+===================================================================
-+--- gdb-8.2.orig/gdb/gdbserver/linux-low.c
-++++ gdb-8.2/gdb/gdbserver/linux-low.c
-+@@ -5940,9 +5940,7 @@ linux_look_up_symbols (void)
-+ static void
-+ linux_request_interrupt (void)
-+ {
-+-  /* Send a SIGINT to the process group.  This acts just like the user
-+-     typed a ^C on the controlling terminal.  */
-+-  kill (-signal_pid, SIGINT);
-++  kill (signal_pid, SIGINT);
-+ }
-+ 
-+ /* Copy LEN bytes from inferior's auxiliary vector starting at OFFSET
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb b/meta/recipes-connectivity/openssh/openssh_7.8p2.bb
+similarity index 94%
+rename from meta/recipes-connectivity/openssh/openssh_7.8p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_7.8p2.bb
+index f4b295f..b74461e 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.8p2.bb
+@@ -8,11 +8,10 @@ SECTION = "console/network"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
+ 
+-# openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
+-DEPENDS = "zlib openssl10"
++DEPENDS = "zlib openssl"
+ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+-SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
++SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
+            file://sshd_config \
+            file://ssh_config \
+            file://init \
+@@ -29,8 +28,9 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+-SRC_URI[md5sum] = "ce1d090fa6239fd38eb989d5e983b074"
+-SRC_URI[sha256sum] = "1a484bb15152c183bb2514e112aa30dd34138c3cfb032eee5490a66c507144ca"
++SRCREV = "cce8cbe0ed7d1ba3a575310e0b63c193326ae616"
++
++S = "${WORKDIR}/git"
+ 
+ inherit useradd update-rc.d update-alternatives systemd
+ 
 -- 
-2.17.1
+2.7.4
 
 
