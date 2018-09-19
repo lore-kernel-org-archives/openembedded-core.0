@@ -1,18 +1,49 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id B2CFB750FC;
-	Wed, 19 Sep 2018 21:33:01 +0000 (UTC)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CEC75792B0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Sep 2018 21:38:27 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id j9-v6so7333313otl.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Sep 2018 14:38:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PpcGau9Xz3pE00/p0wl+emZht+v8m11dHYLmUkE7vXg=;
+	b=l0iwRavYkDf2dO9dyGJYROaurPUTLhsNlcAXWq6cegMhgfuzaxxBH8xa3sGE+Gffxb
+	Sn6yikXHddoo8CgvbH3c7YDqLjcerqyg/Ai6o2IXYd8BYZ/NAtIciTYd/UjpElz4N4Rc
+	JyQv0yjiBhOqG03BSXqaqIAJzieqnC6KzCvtNd3DH4app8lGFiul2IyyLuBGGeKcM4t7
+	9mGIJkFGHCo1YSvwbEC4RZk44xVFp2I3H2wJ3PVKQSQ7AbnaDiqXPKlVrHwemqvLAOFK
+	Ipd//UC67KvN6JpSwuOC97O1JzQEFgDv1hUixOAaIa2oEvHXpqeSxI1IxVVrf39YkMAj
+	FaLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PpcGau9Xz3pE00/p0wl+emZht+v8m11dHYLmUkE7vXg=;
+	b=IhQHjKiSvoT7Z4S66mqJ4TpDulW2VFqC5DUNV7iJ2Ee6Md17/QB/VGV8CrH+O0eKrN
+	3z+ZCPLFIrNuLdCgl12A0H0oVb1ESWX+O6FHEoc/3tktjdKx+3zfrajoKUPvZ/xeO4Vr
+	JRtB2KVGVkZeRIuYaoC27Nn9/ISxLlKq/ThD1BimHmsvYdUWWz4VN5ltNXmMHzdIACm5
+	/mtqjW3Co52lRnwLVoBkKo0vGRrwLGHq9hrd4vF945MhXHje2/zETXj51tUitcM/kExp
+	IjzCFZfqcrt1Mzlce3ceYQSZuuqupWsnyGocuxsi43+cxqk9U/RmTL0MLwAxeQMhMKEg
+	xQtA==
+X-Gm-Message-State: APzg51B4JmM9TjgK4rchycT/32m9GI7w6UXZCGWlg9A1Fyt9rdTB6WsL
+	xhsOLSn99wvurNK1/gbkLBj/b7SEh1Tv0KojJWw7FT5w
+X-Google-Smtp-Source: ANB0VdZvS24fZedq9A5ev9eWy5JmouO54OvPekaMjqyYNF5Kwxc97Nhs+6irDgecSYQZiLS8b+6jceEWrn5DfLdxqJA=
+X-Received: by 2002:a9d:2816:: with SMTP id
+	m22-v6mr19178456otb.22.1537393108703; 
+	Wed, 19 Sep 2018 14:38:28 -0700 (PDT)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Peter Bergin <peter@berginkonsult.se>
-Date: Wed, 19 Sep 2018 21:33:03 -0000
-Message-ID: <20180919213303.13840.16719@do.openembedded.org>
-References: <1537391156-12937-1-git-send-email-peter@berginkonsult.se>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
+Received: by 2002:a4a:b48b:0:0:0:0:0 with HTTP; Wed, 19 Sep 2018 14:38:28
+	-0700 (PDT)
 In-Reply-To: <1537391156-12937-1-git-send-email-peter@berginkonsult.se>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcnBtOiBoYW5kbGUgdmlydHVhbCBtZW1vcnkgdXNhZ2Ugd2hlbiBsaW1pdCBpcyBzZXQ=?=
+References: <1537391156-12937-1-git-send-email-peter@berginkonsult.se>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 19 Sep 2018 23:38:28 +0200
+Message-ID: <CANNYZj8fpsCpk4Vkims2rU4mXXH06jdOErOQGLgr0h4Up7kf0A@mail.gmail.com>
+To: Peter Bergin <peter@berginkonsult.se>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: handle virtual memory usage when limit is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +56,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 21:33:02 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Sep 2018 21:38:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+2018-09-19 23:05 GMT+02:00 Peter Bergin <peter@berginkonsult.se>:
+> Fix the situation where the task do_package_write_rpm ends up in
+> "liblzma: memory allocation failed". This happens if the host
+> environment has set a limit on virtual_memory for the user with
+> 'ulimit -v' for packages with a lot of binary packages, e.g. glibc-locale.
+>
+> Upstream-Status: Inappropriate [error introduced by oe-core patch on rpm]
 
-Series: rpm: handle virtual memory usage when limit is set
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14150/
-State : failure
+The multi-threading patches have been submitted upstream, so the
+correct status here would be "Pending [merge of multithreading patches
+to upstream]".
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-devtools/rpm/files/0001-rpm-restrict-virtual-memory-usage-if-limit-set.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/rpm/files/0001-rpm-restrict-virtual-memory-usage-if-limit-set.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Alex
 
