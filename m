@@ -1,26 +1,51 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 039BD7952E
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A6ECD793A9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 11:58:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8JBwerb003691
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Sep 2018 04:58:40 -0700 (PDT)
-Received: from [128.224.162.202] (128.224.162.202) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 19 Sep 2018 04:58:39 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
-Message-ID: <b4e6e29c-4fac-072e-9f6c-285fe4641a30@windriver.com>
-Date: Wed, 19 Sep 2018 19:58:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
-Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
+	Wed, 19 Sep 2018 13:02:18 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id y17-v6so4958025ljy.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Sep 2018 06:02:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=U/kIX7no5+p/YP2ZR9wWaW4dbUGE08W7LsBGHHGg74s=;
+	b=G6GaVdfqFN5b1PIKPa/3U5DXMPCGJZvQ+fbg/+mTzntRzfRd2EljmYgBP2ktfYLVC6
+	j88J9en9FZEAiPW3uNsEfqeqRgm9yZOvenhDdYlozHUQw/gcdmikCQInnpIpjF2a/A8p
+	1fNNG9Hbg/Rc/13ReIS/AaETX9Ot4l0AMBY0B/KwjW8hmcey+lLewSha3KIt5rg8EtX5
+	BbZ1kr7vt4Jrdyw+fdni1SMAko8Ee7HB76MyqbXehtEXtYJYxYAVKEECdLBsux/F/HdL
+	CGHkw2ccaUHj7nteAt+2MFs4Rkp0Hv2BJ14qqvdrGXkTvQ5XOva5GRS50hSiE5V7T2gF
+	ysvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=U/kIX7no5+p/YP2ZR9wWaW4dbUGE08W7LsBGHHGg74s=;
+	b=X0Lkk6qtButcMXIHKQ08/LwiU1STYfdYVoq8Z3/rcw3LCR14CtJTFk6DQItSr0RlUf
+	IFRzaXsS6MHJnYeKhuqtN65IwCyBDYZ2hpgEqhmVlajtusIeu0je1BMrlHi3aAUCRKA+
+	MoxOYslVZokGMvzkesA/yGZoyyKrLOsxiWIxj82UA3bJOCX3BU9eJKZVLEmU01lVfF1J
+	w+6w7AIDT0dezZv7STCJf4C9DnqdRGJW8B3B+YXSm/qi/YWFNr4MWhMUBDM/Df0aEaJH
+	+C2GGxSdGCgZw6QAekGE56P1lLWhBxeO/vS269g/DCgM7iPsSOx+ADyG4c3XAw9mVeZQ
+	ExKg==
+X-Gm-Message-State: APzg51DTFND740/QYdH5E8AsEROD8FltBb41WNnE3iqoMwAZwqJQ7CWV
+	v66AZP9nI3ksu19oENhJ0OC0sU0AMek=
+X-Google-Smtp-Source: ANB0Vdagg1v1rzxbLtqgRnGI+n8fSXj+4eSO5GyPX3fPTF0mLPb8OZdKnuxT8K/TqwKWFm9nMPkp/w==
+X-Received: by 2002:a2e:7014:: with SMTP id
+	l20-v6mr23327085ljc.141.1537362138237; 
+	Wed, 19 Sep 2018 06:02:18 -0700 (PDT)
+Received: from scout.office.pelagicore.net ([83.218.80.243])
+	by smtp.gmail.com with ESMTPSA id
+	y2-v6sm3843950ljc.52.2018.09.19.06.02.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 19 Sep 2018 06:02:17 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+X-Google-Original-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Sep 2018 15:02:15 +0200
+Message-Id: <20180919130215.87891-1-oleksandr.kravchuk@pelagicore.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+Subject: [PATCH] wayland-protocols: update to 1.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,113 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 11:58:40 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 19 Sep 2018 13:02:19 -0000
 
-The ptest steps:
+Updated package to v1.16 to match the currently used Wayland version.
 
-[local.conf]
-MACHINE = "qemux86-64"
-IMAGE_INSTALL_append = " openssh"
-DISTRO_FEATURES_append = " ptest"
-EXTRA_IMAGE_FEATURES += "ptest-pkgs"
-[local.conf]
+Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+---
+ .../{wayland-protocols_1.15.bb => wayland-protocols_1.16.bb}  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{wayland-protocols_1.15.bb => wayland-protocols_1.16.bb} (86%)
 
-$ bitbake core-image-minimal
-
-$ runqemu qemux86-64 core-image-minimal nographic slirp
-
-Here is the ptest result:
-root@qemux86-64:~#: cd /usr/lib/openssh/ptest
-root@qemux86-64:/usr/lib/openssh/ptest# ./run-ptest 2>&1 | tee log
-root@qemux86-64:/usr/lib/openssh/ptest# grep PASS log | wc -l
-66
-root@qemux86-64:/usr/lib/openssh/ptest# grep FAIL log | wc -l
-0
-root@qemux86-64:/usr/lib/openssh/ptest# grep SKIP log | wc -l
-7
-root@qemux86-64:/usr/lib/openssh/ptest# grep SKIP log
-SKIP:  (not supported on this platform)
-SKIP:  for no openpty(3)
-SKIP:  for no openpty(3)
-SKIP:  for no openpty(3)
-SKIP:  for no openpty(3)
-SKIP:  (no suitable ProxyCommand found)
-SKIP: agent-ptrace
-
-//Hongxu
-
-On 2018年09月19日 19:59, Hongxu Jia wrote:
-> - Convert from tarball to git repository which support
->    openssl 1.1.x
->
-> - There is no specific minor version that contains the
->    openssl fix (it was merged to master a few days agao),
->    rename recipe version to `7.8p1+git'
->
-> - Fix regression test binaries missing
->    In commit `1f7aaf7 openssh: build regression test binaries', it build
->    regression test binaries, since upstream add two binaries in commits
->    `c59aca8 Create control sockets in clean temp directories' and
->    `1acc058 Disable tests where fs perms are incorrect', we should update
->    do_compile_ptest.
->
->    [ptest log]
->    |/usr/lib/openssh/ptest/regress/test-exec.sh: line 330: /usr/lib/openssh/
->    ptest/regress/mkdtemp: No such file or directory
->    [ptest log]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   .../openssh/{openssh_7.8p1.bb => openssh_7.8p1+git.bb}      | 13 +++++++------
->   1 file changed, 7 insertions(+), 6 deletions(-)
->   rename meta/recipes-connectivity/openssh/{openssh_7.8p1.bb => openssh_7.8p1+git.bb} (94%)
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb b/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
-> similarity index 94%
-> rename from meta/recipes-connectivity/openssh/openssh_7.8p1.bb
-> rename to meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
-> index f4b295f..f54dfb5 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
-> @@ -8,11 +8,10 @@ SECTION = "console/network"
->   LICENSE = "BSD"
->   LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
->   
-> -# openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
-> -DEPENDS = "zlib openssl10"
-> +DEPENDS = "zlib openssl"
->   DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
->   
-> -SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
-> +SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
->              file://sshd_config \
->              file://ssh_config \
->              file://init \
-> @@ -29,8 +28,9 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
->   
->   PAM_SRC_URI = "file://sshd"
->   
-> -SRC_URI[md5sum] = "ce1d090fa6239fd38eb989d5e983b074"
-> -SRC_URI[sha256sum] = "1a484bb15152c183bb2514e112aa30dd34138c3cfb032eee5490a66c507144ca"
-> +SRCREV = "cce8cbe0ed7d1ba3a575310e0b63c193326ae616"
-> +
-> +S = "${WORKDIR}/git"
->   
->   inherit useradd update-rc.d update-alternatives systemd
->   
-> @@ -80,7 +80,8 @@ do_configure_prepend () {
->   do_compile_ptest() {
->           # skip regress/unittests/ binaries: this will silently skip
->           # unittests in run-ptests which is good because they are so slow.
-> -        oe_runmake regress/modpipe regress/setuid-allowed regress/netcat
-> +        oe_runmake regress/modpipe regress/setuid-allowed regress/netcat \
-> +                   regress/check-perm regress/mkdtemp
->   }
->   
->   do_install_append () {
-
+diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.15.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.16.bb
+similarity index 86%
+rename from meta/recipes-graphics/wayland/wayland-protocols_1.15.bb
+rename to meta/recipes-graphics/wayland/wayland-protocols_1.16.bb
+index 85e35f59c2..fc4b711172 100644
+--- a/meta/recipes-graphics/wayland/wayland-protocols_1.15.bb
++++ b/meta/recipes-graphics/wayland/wayland-protocols_1.16.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
+ 
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            "
+-SRC_URI[md5sum] = "d75ec11e8443946b4795e4be1cf22db8"
+-SRC_URI[sha256sum] = "dabb727a4b64e87bfa8c025c1d63919ce12100b49fdeded31857644a59729ee2"
++SRC_URI[md5sum] = "e0b523ff162e30bab46be1d65d527683"
++SRC_URI[sha256sum] = "6b1485951fdcd36a960c870c46f28b03a3e5121fb46246916333ed07f78c98c5"
+ 
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ 
+-- 
+2.17.1
 
 
