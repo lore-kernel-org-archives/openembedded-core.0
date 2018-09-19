@@ -1,49 +1,74 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ECC879321
+Return-Path: <Vignesh.Rajendran@in.bosch.com>
+Received: from de-out1.bosch-org.com (de-out1.bosch-org.com [139.15.230.186])
+	by mail.openembedded.org (Postfix) with ESMTP id B161C601F2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 04:15:24 +0000 (UTC)
-Received: by mail-qt0-f175.google.com with SMTP id t39-v6so3901373qtc.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 21:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9uj8WwYnGEJZljh/vVVZbwWI3D/916Y7wHRPUdRBsdE=;
-	b=C7AgxN2iFU4LpfXoBScfBI4Gxgp1bwB4ESIRX2V5NryIvOufgPqjDridlNmdfem4vL
-	enPxN41qqg9aSkOWH8801ooFExtdu9n974ExzGRFh0+Cl1+LntnX9UsG5mEDx44RRfUX
-	w9EYQ1/NwyKtf0tQ3eTKE/dcLGbQ7i0ZgxrTMqPBZUjrm/1Pz5r40RgumUnEULg53FgH
-	KC8j+Fb0R+wgFDDMwYwOO/DDEjtVWrVw3eK19l4ZXwYiG4+VQFhFYVtnjVrQMVos1xzI
-	G18hcS2jp0fUYhjDvtyEG4ER1eIOP8yFb1YMM4tWMwBaPec+j3Xgmu6dw07ATGUhws3e
-	Bqtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9uj8WwYnGEJZljh/vVVZbwWI3D/916Y7wHRPUdRBsdE=;
-	b=Drv0T1NZrVbdvVYS6ZHeZWNWpXiBfE1anMkEHjv6UyiBxrq6n6wsa1ILvxEibCZ3Nq
-	Ra7/V2zcJhjg7Vq3Gxz2GTQ5c835PBXFuh5egoj7gHX3Ei2FbcfBX2NvvEqv9KfQZEL3
-	qjgtd6tB8kWki0Ds1yHbW7LWfM4NdRYd4FvNYIIlOuZ3oId7z8JHC7VhRh9k/oYeYoSy
-	XY0jNd/pt4NsWLnmi4nX0HI9omJ8W9FSQJaeWl4gwBFmPK+ocDEiB0WoFCzhte4iqSTN
-	m3V9DrGm+lk4fekVSZDbPgsG4RPmONCmFYzKHUms2CqY5A/b79NjVfQNwZfyWKySAq3y
-	Lnnw==
-X-Gm-Message-State: APzg51Br0YaVCpwBZHW+MfWbLCeg+zMxFNuD41zGnE7n5VlMSDBX7cwI
-	mPTeukjRaNakaSqBB+9kR2q7fqTZ5Qc7Gyrsmco=
-X-Google-Smtp-Source: ANB0VdabXO56/kSJbc3L0wL8yyO3XclGPqCmpy2UBwyvw+pUMWVd2FvbVIzpvEbzNv1fA7hn7zPCWx+yC1Guk9uzvpY=
-X-Received: by 2002:ac8:758d:: with SMTP id
-	s13-v6mr23899827qtq.161.1537330524981; 
-	Tue, 18 Sep 2018 21:15:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <1536941045-3581-1-git-send-email-akuster808@gmail.com>
-	<C0207330DF60C5409302EC78C3FE68F302037BC6@PGSMSX105.gar.corp.intel.com>
-In-Reply-To: <C0207330DF60C5409302EC78C3FE68F302037BC6@PGSMSX105.gar.corp.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Sep 2018 21:14:58 -0700
-Message-ID: <CAMKF1srQG=9DGxoWxYHkTo9ViDm41gQeurajDZOpFB_qDWZBqg@mail.gmail.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Wed, 19 Sep 2018 04:38:30 +0000 (UTC)
+Received: from fe0vm1649.rbesz01.com (unknown [139.15.230.188])
+	by si0vms0217.rbdmz01.com (Postfix) with ESMTPS id 42FRvC2QDbz4f3lwZ;
+	Wed, 19 Sep 2018 06:38:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=in.bosch.com;
+	s=2015-01-21; t=1537331911;
+	bh=oRA8Ex7hwwJA0ygpxI2AXvG7MfsImW5CrOPD0sgG07s=; l=10;
+	h=From:From:Reply-To:Sender;
+	b=Wksv8NegYKoiJWTm1Fs3eAuBK8iVypOEJbyxtBoJU0FlOhEoRaDp0MMsjC5CBcAUc
+	+a/Gg1gjaq5aQhG9ZRYoS+fcEL1kFOk6HCuVRRGMBSg03hrmuJh9eJJdk95CE13V1x
+	p0ID+5bl/I5QjLw6iYysdRKr679pzJLYEr1oTdzo=
+Received: from si0vm4642.rbesz01.com (unknown [10.58.172.176])
+	by fe0vm1649.rbesz01.com (Postfix) with ESMTPS id 42FRvC20n3z24J;
+	Wed, 19 Sep 2018 06:38:31 +0200 (CEST)
+X-AuditID: 0a3aad12-917ff70000000ca7-20-5ba1d29239ea
+Received: from si0vm1949.rbesz01.com ( [10.58.173.29])
+	(using TLS with cipher AES128-SHA (128/128 bits))
+	(Client did not present a certificate)
+	by si0vm4642.rbesz01.com (SMG Outbound) with SMTP id
+	DE.71.03239.292D1AB5; Wed, 19 Sep 2018 06:37:38 +0200 (CEST)
+Received: from FE-MBX2055.de.bosch.com (fe-mbx2055.de.bosch.com [10.3.231.149])
+	by si0vm1949.rbesz01.com (Postfix) with ESMTPS id 42FRvC0JJmz6D7FYc;
+	Wed, 19 Sep 2018 06:38:31 +0200 (CEST)
+Received: from SGPMBX2020.APAC.bosch.com (10.187.83.43) by
+	FE-MBX2055.de.bosch.com (10.3.231.149) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.1.1466.3; Wed, 19 Sep 2018 06:38:30 +0200
+Received: from SGPMBX2020.APAC.bosch.com (10.187.83.43) by
+	SGPMBX2020.APAC.bosch.com (10.187.83.43) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.1.1466.3; Wed, 19 Sep 2018 12:38:28 +0800
+Received: from SGPMBX2020.APAC.bosch.com ([fe80::b526:b737:7eb9:3a96]) by
+	SGPMBX2020.APAC.bosch.com ([fe80::b526:b737:7eb9:3a96%6]) with mapi id
+	15.01.1466.009; Wed, 19 Sep 2018 12:38:28 +0800
+From: "Vignesh Rajendran (RBEI/ECF3)" <Vignesh.Rajendran@in.bosch.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] xserver-xorg: upgrade 1.19.6 -> 1.20.1
+Thread-Topic: patch submission feedback
+Thread-Index: AdRP0b75YQWZvui0ReOy9wAYqXvbrQ==
+Date: Wed, 19 Sep 2018 04:38:28 +0000
+Message-ID: <1b7867b1caee42cd88a5a94088106daf@in.bosch.com>
+Accept-Language: en-US, en-SG
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.187.56.214]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA21TbUxbZRTm7S30tnCXy2XAsYCJV43ROWSzQxQ1OuNCzIIsYohrFmnl0jb2
+	A3sLAjqDLGyOylagqFS2AhNk4yOjCrJoUlNmBJcM1oBjwPjohikjgSwDK8MVe7ll7Q//vHnO
+	c87znPecNy+OUb/jUlyjNzFGvUJLR0mEkpe6U3bXuVvkabU30jOm15dFGeO2xIzj123oNSzr
+	ku2mKOvs8KGsq70dKAc7LHm5gNFqShjjc6/mS9SDAz5BUVNS6dTMnLACVUI1EuNAymBo0RtZ
+	jSQ4RZ4QQHfXLcQHTgQe82AwuIvg26Ffg8E9BF3X7geDywj6LzYJObMo8gB0WisFHN5J5oO7
+	plrIFWHkVwi6e68gLhFH0jD10zTGFz0FjYtOxONUWHRbRRwWkk+C/dTdLSOCzASLczOKw4hM
+	gdYbdVvNMDIRJm/bBfwUJHz3ywjG43hYvOWP5PFj0G6/IOLrldDz10gU7xkLw423hRYUbwuz
+	soWV2cLKeD4VJhqsUTzeBe0tSxiPd8M3fpcwnG9GogsontWklehk6bK9qUYlw5an7Un9wKBz
+	IP4RqQHU+2ehC5E4omMI32iLnIpUlLBlOhfahwvoeEJgC1A7lIaCMrWCVb9vLNYyLC0lUERE
+	BBX3kGaLlToNy2oMehcCHKN3EmJts5wiChRl5YzRwMtcKAkX0onEar1OTpEqhYn5kGGKGON2
+	NhPHaSDargUaxhoZFVNaqNGattN0Ct8zITwT3laAi13oeTwm0PtjzoJgixQ6VqMKyh/h5dQ2
+	G5L+gd7FJ499WYfhl2esgXN06/x3paEOo4R6g56RJhKHOUeS06qL9Q/vJE0mctoDY8aHJUK+
+	d9A0Cmw1jtBx4pjA7wndBoiBuKb3qNggGRLt7QhoyGUBuFfNGJy8fw6DnuPuSPDOjIihd24h
+	AYbHWpNhdGw+GSabzY/C2uqpXVC1dv5Z8E7YZfCFv0MGPyz/tg/OWs69AlNXF96C+mPfZ0N9
+	58VscGxY34YmjyMXxjpG82C20Z0HDeen5NB6xayE9VpHIWx+3qoC78YZHaz02Iuga73bCP4h
+	z1FwOydOI/COrZzmPlqNBd0JbFsQ2Pa9Nu6lWZPC9D/bDrKhAaUV6DNneX7C6/4XTspnl+ej
+	P/3RPfvOfKZ6auKMN26pZnPc94Tnxf0bB5c+6u4bqTqYlE33n8juLa78e2CwqG2H703qZl6S
+	we87dOno0w+Ub/Skk3aVxWEqdeeWmL/O7Y++Ln78Z8FcRcRCVuc/ihzPfvXm+MonR/oe5K0d
+	6auKJaja6FRayKoVe57BjKziP4YYXQ7aBAAA
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: patch submission feedback
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,159 +81,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 04:15:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 19 Sep 2018 04:38:31 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1b7867b1caee42cd88a5a94088106dafinboschcom_"
 
-On Mon, Sep 17, 2018 at 7:51 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
->
->
->
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-
-> > core-bounces@lists.openembedded.org] On Behalf Of Armin Kuster
-> > Sent: Saturday, September 15, 2018 12:04 AM
-> > To: akuster808@gmail.com; openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH 1/3] xserver-xorg: upgrade 1.19.6 -> 1.20.1
-> >
-> > removed included patch
-> >
-> > Refresh 0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC
-> > Remove 0001-config-fix-NULL-value-detection-for-ID_INPUT-being-u.patch
-> >
-> > Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> > ---
-> >  ...NULL-value-detection-for-ID_INPUT-being-u.patch | 40 -------------------
-> > ...onfigure.ac-Fix-check-for-CLOCK_MONOTONIC.patch | 19 +++++----  ...003-
-> > modesetting-Fix-16-bit-depth-bpp-mode.patch | 46 ----------------------
-> >  .../xorg-xserver/xserver-xorg_1.19.6.bb            | 33 ----------------
-> >  .../xorg-xserver/xserver-xorg_1.20.1.bb            | 31 +++++++++++++++
-> >  5 files changed, 40 insertions(+), 129 deletions(-)  delete mode 100644 meta/recipes-
-> > graphics/xorg-xserver/xserver-xorg/0001-config-fix-NULL-value-detection-for-
-> > ID_INPUT-being-u.patch
-> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-
-> > modesetting-Fix-16-bit-depth-bpp-mode.patch
-> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
-> >  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.1.bb
-> >
-> > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-config-fix-NULL-
-> > value-detection-for-ID_INPUT-being-u.patch b/meta/recipes-graphics/xorg-
-> > xserver/xserver-xorg/0001-config-fix-NULL-value-detection-for-ID_INPUT-being-
-> > u.patch
-> > deleted file mode 100644
-> > index 964d5dd..0000000
-> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-config-fix-NULL-value-
-> > detection-for-ID_INPUT-being-u.patch
-> > +++ /dev/null
-> > @@ -1,40 +0,0 @@
-> > -From a309323328d9d6e0bf5d9ea1d75920e53b9beef3 Mon Sep 17 00:00:00 2001
-> > -From: Peter Hutterer <peter.hutterer@who-t.net>
-> > -Date: Fri, 5 Jan 2018 11:58:42 +1000
-> > -Subject: [PATCH] config: fix NULL value detection for ID_INPUT being unset
-> > -
-> > -Erroneous condition caused us to keep going with all devices that didn't have -
-> > ID_INPUT set.
-> > -
-> > -Fixes: 5aad81445c8c3d6
-> > -Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=104382
-> > -Reviewed-by: Adam Jackson <ajax@redhat.com>
-> > -Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-> > -
-> > -Upstream-status: Backport
-> > -https://patchwork.freedesktop.org/patch/196090/
-> > -Affects: < 1.20.0
-> > -[Yocto # 12899]
-> > -
-> > -Signed-off-by: Armin Kuster <akuser808@gmail.com>
-> > -
-> > ----
-> > - config/udev.c | 2 +-
-> > - 1 file changed, 1 insertion(+), 1 deletion(-)
-> > -
-> > -diff --git a/config/udev.c b/config/udev.c -index e198e8609..3a73189e2 100644
-> > ---- a/config/udev.c
-> > -+++ b/config/udev.c
-> > -@@ -135,7 +135,7 @@ device_added(struct udev_device *udev_device)
-> > - #endif
-> > -
-> > -     value = udev_device_get_property_value(udev_device, "ID_INPUT");
-> > --    if (value && !strcmp(value, "0")) {
-> > -+    if (!value || !strcmp(value, "0")) {
-> > -         LogMessageVerb(X_INFO, 10,
-> > -                        "config/udev: ignoring device %s without "
-> > -                        "property ID_INPUT set\n", path);
-> > ---
-> > -2.17.1
-> > -
-> > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-
-> > check-for-CLOCK_MONOTONIC.patch b/meta/recipes-graphics/xorg-
-> > xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
-> > index 16ec3ed..020a1cf 100644
-> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-
-> > for-CLOCK_MONOTONIC.patch
-> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-
-> > +++ Fix-check-for-CLOCK_MONOTONIC.patch
-> > @@ -1,12 +1,13 @@
-> > -Discover monotonic clock using compile-time check
-> > +From 8a91316c4a38f20e7866289f3d779a037d27a129 Mon Sep 17 00:00:00 2001
-> > +From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> > +Date: Mon, 12 Dec 2016 12:11:39 +0200
-> > +Subject: [PATCH] Discover monotonic clock using compile-time check
-> >
-> >  monotonic clock check does not work when cross-compiling.
-> >
-> >  Upstream-Status: Denied [Does not work on OpenBSD]
-> >  Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> >
-> > -
-> > -
-> >  Original patch follows:
-> >
-> >  When xorg-xserver is being cross-compiled, there is currently no way @@ -21,15
-> > +22,16 @@ monotonic clock is available. This check can run just fine when we are
-> > cross-compiling.
-> >
-> >  Signed-off-by: David James <davidjames at google.com>
-> > +
-> >  ---
-> >   configure.ac | 17 +++++++----------
-> >   1 file changed, 7 insertions(+), 10 deletions(-)
-> >
-> >  diff --git a/configure.ac b/configure.ac -index f7ab48c..26e85cd 100644
-> > +index 2b21667..786e002 100644
-> >  --- a/configure.ac
-> >  +++ b/configure.ac
-> > -@@ -1048,19 +1048,16 @@ if ! test "x$have_clock_gettime" = xno; then
-> > +@@ -984,19 +984,16 @@ if ! test "x$have_clock_gettime" = xno; then
-> >           CPPFLAGS="$CPPFLAGS -D_POSIX_C_SOURCE=200112L"
-> >       fi
-> >
-> > @@ -54,8 +56,5 @@ index f7ab48c..26e85cd 100644
-> >  -       [MONOTONIC_CLOCK="cross compiling"])
-> >  +]])],[MONOTONIC_CLOCK=yes], [MONOTONIC_CLOCK=no])
-> >
-> > -     LIBS="$LIBS_SAVE"
-> > -     CPPFLAGS="$CPPFLAGS_SAVE"
-> > ---
-> > -2.1.4
-> > -
-> > +     if test "$MONOTONIC_CLOCK" = "cross compiling"; then
-> > +
-> > AC_CHECK_DECL([CLOCK_MONOTONIC],[MONOTONIC_CLOCK="guessing
-> > + yes"],[MONOTONIC_CLOCK=no],[#include <time.h>])
->
->
-> Do we still need this patch after this change in 1.20:
->
+--_000_1b7867b1caee42cd88a5a94088106dafinboschcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-no we dont
+Hello OE members,
 
-> https://cgit.freedesktop.org/xorg/xserver/commit/configure.ac?h=server-1.20-branch&id=c601c8faf54ff9e3bcbc653421828d71042deef7
->
-> Thanks,
-> Anuj
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I have submitted a patch some months before and waiting for feedback after =
+some discussion.
+https://patchwork.openembedded.org/patch/150819/
 
+But after some long wait, there was no response from anyone.
+I personally feel there should be some support and motivation to contributo=
+rs.
+
+Please do the needful.
+
+Mit freundlichen Gr=FC=DFen / Best regards
+
+Rajendran Vignesh
+
+
+
+--_000_1b7867b1caee42cd88a5a94088106dafinboschcom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hello OE members,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I have submitted a patch some months before and wait=
+ing for feedback after some discussion.<o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"https://patchwork.openembedded.org/patch/=
+150819/">https://patchwork.openembedded.org/patch/150819/</a>
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">But after some long wait, there was no response from=
+ anyone.<o:p></o:p></p>
+<p class=3D"MsoNormal">I personally feel there should be some support and m=
+otivation to contributors.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Please do the needful.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif;color:black">Mit freundlichen Gr=FC=DFen / Best regard=
+s
+<br>
+<br>
+<b>Rajendran Vignesh<br>
+<br>
+<br>
+</b></span><o:p></o:p></p>
+</div>
+</body>
+</html>
+
+--_000_1b7867b1caee42cd88a5a94088106dafinboschcom_--
