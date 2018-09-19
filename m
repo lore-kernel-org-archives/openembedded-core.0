@@ -1,50 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A03A793B8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 929AA78DFE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 03:26:47 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id f6-v6so1954921plo.1
+	Wed, 19 Sep 2018 03:46:33 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id b19-v6so2282835qkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2018 20:26:48 -0700 (PDT)
+	Tue, 18 Sep 2018 20:46:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=JjVnQpT++j4G8/l/Z9P+5qqwlA9YOllAnRrYfYyCKA4=;
-	b=mVEC7u2j87xWOp+jLvD8N9m4puTvsyYKNmSjl0A2A+paL0aGXrDVDQ0QxRQn5h6E13
-	N2sdCmUOw9GgFz8qLdmbZ8HRBzotl03kZ+YJxCwCfXcOqfx9ZuqQe+8ligCKz6CXzpGr
-	gO6cDCiXAxKqdLGRjkWMkq5UJvtx101heKnN7MbwQoG30FOt0itrgWaHSD+P5TWeSM1i
-	icFidHkk1XbsCwbyDTwyd9vFUCxFUT4K6JxOpVP+8VZhgxQyIVdLy7nT0qmUfsSjJI3p
-	ED86V65aDtJHkUXhpMKvRZNLeJLYyrbj/wfvKaPRgUKPpDLVwWjMfzfaMrHo40FAyxew
-	O8sw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=i7LoMvi/ROTDOFqFt/WBn7cXO8r0e4MME7WmBcchjtg=;
+	b=kKy8NiGzzAbvkpwKtYPtQhTKsOsqnNZsAROcDFbzT5YFD28kxpYXhz5HgavztKrFi9
+	vY1wEm5UEYfRpBSuK0oCQHp4fzg3HMtBXTDuxwlcgxLN9h4AkVtrwKp+Ci3BZnP2u9QY
+	KoKdVBRzUPOqENqQJiamgG/Y41Uvr3PI2lThc2XPStjB5Gis6YbU2zLQG+RgU8dwhl/o
+	qQYmyz5+J08/1uBnoIpmEsXXJoOQKJmy8NgK/cbEUoGhKeiVfUhtXC8LKRONHY84t7cG
+	umeHAtvwtEeoFwjzF19Bp1utZQ3pVj+hbsO4oh/AETeGXbS6KBwMcbb9XBS2LTAxNRwe
+	PqvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=JjVnQpT++j4G8/l/Z9P+5qqwlA9YOllAnRrYfYyCKA4=;
-	b=haJ63wqVCpCc6SoEbo31uKFxTZWIYIo8JpDVd+2fYcYcOOCU6oC8VaYkBqHMVjXcMs
-	twLBfQuperjDpjIOPC/NVTdm84lRQuhZUZ2SpUVsQmkLpdULcst0Kwyog5gN2BDCAVy/
-	LwM5UJSOVAhciYrAgQx9wBvOWamMXxG1lB0vFqVyNtKZ/REy+gXX1EXX/Qs5ESiW2J7U
-	7598bFCDKhOm4J6sRPmT08CTMwxATt6xa1DHnI+Wo8s38bOKvI0ltgl4s8xDsdf0MHZf
-	5CDEgr5vVPReQtpxS9Ns4madx9MsbwoyE3q7kSD7Comm3r2a1z/b2t1ltKBDHglajNp7
-	DOgw==
-X-Gm-Message-State: APzg51CbIBlqkKsSoW7ZxxiWPa/ZMytSaEJu1t88v+bXvzZCVx15XWAt
-	8XBZmy0c5SzdHtpSm6mSHFGeXzjZ
-X-Google-Smtp-Source: ANB0VdZVi00aZDdnb/1Lruqpysrmx+Z4f7JVWuAk22WyePUAPk0pY1+iswR+7WrXB2IgvRyuFQtcNg==
-X-Received: by 2002:a17:902:7614:: with SMTP id
-	k20-v6mr32117893pll.170.1537327608404; 
-	Tue, 18 Sep 2018 20:26:48 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	(3c.86.38a9.ip4.static.sl-reverse.com. [169.56.134.60])
-	by smtp.gmail.com with ESMTPSA id
-	u17-v6sm39163235pfa.176.2018.09.18.20.26.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Sep 2018 20:26:47 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Sep 2018 05:26:41 +0200
-Message-Id: <1537327601-24881-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] mesa: enable virgl driver for qemux86/qemux86-64
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=i7LoMvi/ROTDOFqFt/WBn7cXO8r0e4MME7WmBcchjtg=;
+	b=WSpjUYYLX4RfWlpWfhMRTB1OEKy5jC+rQPWo66FIzcAIgoPHKqMnVtKIPe+L8MCVki
+	V7Z7KS2eAO1uY80Qbg97n58UxccJ4EpB38HYoJ0xzccD4LnIGSE39TZYYMzmu8C/2h6z
+	nndH6+4WnoDaWnfnoSbp49JAdMV91V6Ol1FyjGQuATA5Cve2ZXTuL/WJVoWTJNIobv2z
+	UpQ7pPkrFgNO/EnFiIFe754Vmv8xpqsBEwaDLyXkRP5Kd/w321edsuJnyrB7bq3B9Wmr
+	CMfhjiRZT91NI8LrtVoQlS1IdP7IzrjrvFaJoZ+PvgeCloFXgL4oY5mIiXLG34lU9ce5
+	XCYA==
+X-Gm-Message-State: APzg51D6Gf4N9Xqdzgc1+fQTgzjCi86SuYUi+XsVbkevw+SWJhtjfI8+
+	2doUKDkQH9FK8ff2tSXI3XdJcuYyhwMB8iz3jgkwAHAK
+X-Google-Smtp-Source: ANB0VdaF3Z6JE97pYzMT95CbEjNAiKcU0jAfNYIVhXCPCZGFoVZG+39actpkLxy1vMAoBbAnytbPGVw1EpyLeh9YNPg=
+X-Received: by 2002:a37:c04f:: with SMTP id
+	o76-v6mr22646177qki.315.1537328794321; 
+	Tue, 18 Sep 2018 20:46:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <1537327350-27510-1-git-send-email-hongxu.jia@windriver.com>
+In-Reply-To: <1537327350-27510-1-git-send-email-hongxu.jia@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 18 Sep 2018 20:46:08 -0700
+Message-ID: <CAMKF1spULQDLXWp7bkq-TAgEkKpuUDVY2HZCiqcu_UuXpUuMZw@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: upgrade 7.8p1 -> 7.8p2 to support openssl 1.1.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 03:26:47 -0000
+X-List-Received-Date: Wed, 19 Sep 2018 03:46:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ming Liu <liu.ming50@gmail.com>
+On Tue, Sep 18, 2018 at 8:12 PM Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>
+> - Convert from tarball to git repository which support
+>   openssl 1.1.x
+>
+> - There is no specific minor version that contains the
+>   openssl fix (it was merged to master a few days agao),
+>   but their next minor version will be p2.
+>
 
-virgl driver should be enabled for qemux86/qemux86-64 machines, or else
-it will cause runtime issue due to virtio_gpu driver missing.
+I think we should test this patch and it would be good to get this in release
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 5afd0db..8d0e2cb 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -91,6 +91,8 @@ GALLIUMDRIVERS_LLVM33_ENABLED = "${@oe.utils.version_less_or_equal('MESA_LLVM_RE
- GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
- GALLIUMDRIVERS_append_x86 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
- GALLIUMDRIVERS_append_x86-64 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
-+GALLIUMDRIVERS_append_qemux86 = ",virgl"
-+GALLIUMDRIVERS_append_qemux86-64 = ",virgl"
- # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
- PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
- MESA_LLVM_RELEASE ?= "6.0"
--- 
-2.7.4
-
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  .../openssh/{openssh_7.8p1.bb => openssh_7.8p2.bb}             | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>  rename meta/recipes-connectivity/openssh/{openssh_7.8p1.bb => openssh_7.8p2.bb} (94%)
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb b/meta/recipes-connectivity/openssh/openssh_7.8p2.bb
+> similarity index 94%
+> rename from meta/recipes-connectivity/openssh/openssh_7.8p1.bb
+> rename to meta/recipes-connectivity/openssh/openssh_7.8p2.bb
+> index f4b295f..b74461e 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_7.8p2.bb
+> @@ -8,11 +8,10 @@ SECTION = "console/network"
+>  LICENSE = "BSD"
+>  LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
+>
+> -# openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
+> -DEPENDS = "zlib openssl10"
+> +DEPENDS = "zlib openssl"
+>  DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+>
+> -SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
+> +SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
+>             file://sshd_config \
+>             file://ssh_config \
+>             file://init \
+> @@ -29,8 +28,9 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+>
+>  PAM_SRC_URI = "file://sshd"
+>
+> -SRC_URI[md5sum] = "ce1d090fa6239fd38eb989d5e983b074"
+> -SRC_URI[sha256sum] = "1a484bb15152c183bb2514e112aa30dd34138c3cfb032eee5490a66c507144ca"
+> +SRCREV = "cce8cbe0ed7d1ba3a575310e0b63c193326ae616"
+> +
+> +S = "${WORKDIR}/git"
+>
+>  inherit useradd update-rc.d update-alternatives systemd
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
