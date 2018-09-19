@@ -1,49 +1,24 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
-	[209.85.210.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 132D279306
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 98E60793DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 08:01:16 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id h26-v6so4825329otl.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 01:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UpV9jvhKUMuiCVR1pcXQDrgDW1qgiegTVyxaqs37VSM=;
-	b=BtcHU56WWoCwW36iFh8m+qEImEi4xI15bpm4NK9ik2kV1e4eyIt2R8yrAt2ogLCjka
-	9CnTOIa+jhDKlbuBp/70B0ceZvky84CRQMTMwFay1+FudPH01LRBGtSHrdEwq1u0RzUD
-	lLyaCuopyyYiOLo65kMXLS4V0VKQWgS0ZHnQv9OyH46sZyBNhp3oFU4NwLGhJXSLkqUk
-	erqKhWkb20NaIW9Xmmjjg/m1mVvR5SnQPXrWgQd2sEZuY+0aQpBGTQZmEpqMHJiq8KwG
-	/WyLvcseNbY8qWXPwfWxv10x/Q7UVhUxGoTgQs5AXqSWtG2jAcHxiosnWLjFsC8DRPXh
-	RIWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UpV9jvhKUMuiCVR1pcXQDrgDW1qgiegTVyxaqs37VSM=;
-	b=SGKtjsvE5+FCeKndWnprUd57P5MlCFzLgvIdrr3ew2E0zR1z2HECMSn9bnXA6+/51N
-	6FQbXofPnWwXW0qeP9/tMe1Y8pqZ9WqUf02sBvTtnMwIOVFre6TbTyJ9UG5cPJadKveh
-	2T9fALYNC94Fd+XaEDiZQm5f17OYMdXKjkqM3Gnu2UVMcDggcnsSEnjOMWJ65cL8UfRE
-	aRGVG7wMw/8WB6+Y3/W3vyHmIz72UmWiJyAieciWsqL0Kk4i/R0iHMFob0WRgVn7Mw80
-	oZ18n4LycqwoiQSA/C/Jv2zaHdAxt8Wtt7CMnT86XUJ54wGQwn/m96udPXIGcvLWj+ku
-	sRHQ==
-X-Gm-Message-State: APzg51DPL8oarr7bDkvS6v13ixdYrCEgEBW2SUMF3rQogIRNa/9Ze1Q6
-	MaNZ9jPYyfAxE8s13GczaLrY4uf3AuC7j2t4OhI=
-X-Google-Smtp-Source: ANB0VdY6ryHp6hJteMbxAyLNcEgTAvbcIitr5k7+HnCNmFYbP8YIiwpqiUkLFVWpBisZ9PHIg/qu2eGmru2bgb0tXjc=
-X-Received: by 2002:a9d:2816:: with SMTP id
-	m22-v6mr17223501otb.22.1537344077981; 
-	Wed, 19 Sep 2018 01:01:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:b48b:0:0:0:0:0 with HTTP; Wed, 19 Sep 2018 01:01:17
-	-0700 (PDT)
-In-Reply-To: <1537327350-27510-1-git-send-email-hongxu.jia@windriver.com>
-References: <1537327350-27510-1-git-send-email-hongxu.jia@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 19 Sep 2018 10:01:17 +0200
-Message-ID: <CANNYZj_hOv++eoQA1dfv8TntJw6LrG0xOTB964esa3sHKwjQKQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: upgrade 7.8p1 -> 7.8p2 to support openssl 1.1.x
+	Wed, 19 Sep 2018 08:08:48 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Sep 2018 01:08:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.53,393,1531810800"; d="scan'208";a="264821248"
+Received: from anmitta2-mobl1.png.intel.com (HELO
+	anmitta2-MOBL1.gar.corp.intel.com) ([10.221.21.255])
+	by fmsmga006.fm.intel.com with ESMTP; 19 Sep 2018 01:08:48 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Sep 2018 16:08:46 +0800
+Message-Id: <20180919080846.14972-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] initramfs-framework/udev: call settle before kill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,22 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 08:01:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 19 Sep 2018 08:08:48 -0000
 
-2018-09-19 5:22 GMT+02:00 Hongxu Jia <hongxu.jia@windriver.com>:
-> - Convert from tarball to git repository which support
->   openssl 1.1.x
->
-> - There is no specific minor version that contains the
->   openssl fix (it was merged to master a few days agao),
->   but their next minor version will be p2.
+When mount command is executed in rootfs module of initrd, eudev creates
+a loop0 device node, applies rules and adds a inotify watch to it. Right
+after this step, we execute finish which first tries to kill any running
+udevd daemon before doing a switch_root.
 
-That version does not yet exist. We should not be giving the incorrect
-impression that we are taking stable, upstream-tested code. 7.8p1+git
-or something like that is better.
+In some cases, it is possible that switch_root is executed before
+inotify_add_watch was actually processed which would lead to errors like:
 
-libressl recipe should be removed at the same time.
+| inotify_add_watch(6, /dev/loop0, 10) failed: No such file or directory
 
-Alex
+Make sure that we process all the events in queue before actually trying
+to kill udevd to prevent this race.
+
+Fixes [YOCTO #12861]
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/recipes-core/initrdscripts/initramfs-framework/udev | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+index 79c8867823..87551ff4a9 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+@@ -6,6 +6,7 @@ udev_shutdown_hook_handler() {
+ 	status=$1
+ 	module=$2
+ 	if [ "$status" = "pre" ] && [ "$module" = "finish" ]; then
++		udevadm settle
+ 		killall `basename $_UDEV_DAEMON` 2>/dev/null
+ 	fi
+ }
+-- 
+2.17.1
+
 
