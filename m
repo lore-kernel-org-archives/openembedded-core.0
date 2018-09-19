@@ -1,29 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Changqing.Li@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B4B4C744AA
+	by mail.openembedded.org (Postfix) with ESMTP id 1038E750FE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 08:21:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8J8KwDj001057
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Sep 2018 01:21:08 -0700
-Received: from [128.224.162.202] (128.224.162.202) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 19 Sep 2018 01:20:47 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <1537327350-27510-1-git-send-email-hongxu.jia@windriver.com>
-	<CAMKF1spULQDLXWp7bkq-TAgEkKpuUDVY2HZCiqcu_UuXpUuMZw@mail.gmail.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <e1613497-e469-46c3-ea77-3fef212a07b5@windriver.com>
-Date: Wed, 19 Sep 2018 16:20:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Wed, 19 Sep 2018 08:26:34 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8J8QAdr001175
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Sep 2018 01:26:26 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 19 Sep 2018 01:26:08 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Sep 2018 16:26:07 +0800
+Message-ID: <1537345567-112142-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spULQDLXWp7bkq-TAgEkKpuUDVY2HZCiqcu_UuXpUuMZw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: upgrade 7.8p1 -> 7.8p2 to support openssl 1.1.x
+Subject: [PATCH] dbus-test: fix ptest failed problem when multilib is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,74 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 08:21:49 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 19 Sep 2018 08:26:35 -0000
+Content-Type: text/plain
 
-On 2018年09月19日 11:46, Khem Raj wrote:
-> On Tue, Sep 18, 2018 at 8:12 PM Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> - Convert from tarball to git repository which support
->>    openssl 1.1.x
->>
->> - There is no specific minor version that contains the
->>    openssl fix (it was merged to master a few days agao),
->>    but their next minor version will be p2.
->>
-> I think we should test this patch and it would be good to get this in release
->
+From: Changqing Li <changqing.li@windriver.com>
 
-Got it,  I am doing the ptest on qemu
+Fix some failed info like:
+| ./test/test-bus: relocation error: ./test/test-bus: symbol
+| _dbus_threads_init_debug, version LIBDBUS_PRIVATE_1.10.10 not defined
+| in file libdbus-1.so.3 with link time reference
+| FAIL: test/test-bus
 
-//Hongxu
+In run-ptest, LD_LIBRARY_PATH is set to /usr/lib, but when multilib
+is enabled, /usr/lib64 will be used. fix by replace with correct path.
 
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   .../openssh/{openssh_7.8p1.bb => openssh_7.8p2.bb}             | 10 +++++-----
->>   1 file changed, 5 insertions(+), 5 deletions(-)
->>   rename meta/recipes-connectivity/openssh/{openssh_7.8p1.bb => openssh_7.8p2.bb} (94%)
->>
->> diff --git a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb b/meta/recipes-connectivity/openssh/openssh_7.8p2.bb
->> similarity index 94%
->> rename from meta/recipes-connectivity/openssh/openssh_7.8p1.bb
->> rename to meta/recipes-connectivity/openssh/openssh_7.8p2.bb
->> index f4b295f..b74461e 100644
->> --- a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb
->> +++ b/meta/recipes-connectivity/openssh/openssh_7.8p2.bb
->> @@ -8,11 +8,10 @@ SECTION = "console/network"
->>   LICENSE = "BSD"
->>   LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
->>
->> -# openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
->> -DEPENDS = "zlib openssl10"
->> +DEPENDS = "zlib openssl"
->>   DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
->>
->> -SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
->> +SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
->>              file://sshd_config \
->>              file://ssh_config \
->>              file://init \
->> @@ -29,8 +28,9 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
->>
->>   PAM_SRC_URI = "file://sshd"
->>
->> -SRC_URI[md5sum] = "ce1d090fa6239fd38eb989d5e983b074"
->> -SRC_URI[sha256sum] = "1a484bb15152c183bb2514e112aa30dd34138c3cfb032eee5490a66c507144ca"
->> +SRCREV = "cce8cbe0ed7d1ba3a575310e0b63c193326ae616"
->> +
->> +S = "${WORKDIR}/git"
->>
->>   inherit useradd update-rc.d update-alternatives systemd
->>
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-core/dbus/dbus-test_1.12.10.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-core/dbus/dbus-test_1.12.10.bb b/meta/recipes-core/dbus/dbus-test_1.12.10.bb
+index e3ee608..a438627 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.12.10.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.12.10.bb
+@@ -75,6 +75,8 @@ do_install_ptest() {
+ 		sed -i \
+ 		 -e 's:${B}:${PTEST_PATH}:g' \
+ 		 {} +
++        #correct LD_LIBRARY_PATH for run-ptest according current baselib
++        sed -i -e 's;/lib/;/${baselib}/;g'  ${D}${PTEST_PATH}/run-ptest
+ }
+ 
+ RDEPENDS_${PN}-ptest += "bash"
+-- 
+2.7.4
 
 
