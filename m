@@ -1,37 +1,50 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id B85D679202
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
+	[209.85.210.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E8A4A74C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 14:04:32 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-MBX-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-	id 1g2zZJ-0006AY-Fx from Awais_Belal@mentor.com ;
-	Thu, 20 Sep 2018 07:04:33 -0700
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
-	Server (TLS) id 15.0.1320.4; Thu, 20 Sep 2018 15:04:11 +0100
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1320.000; Thu, 20 Sep 2018 15:04:11 +0100
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] glibc-package.inc: correct intention for
-	deleting /usr/lib as needed
-Thread-Index: AQHUTzrReK7EozvamEuUEKOJij+4eaT49cQAgABA2pg=
-Date: Thu, 20 Sep 2018 14:04:11 +0000
-Message-ID: <9a58ea4be84c4f0eb2c34680a9345186@SVR-IES-MBX-03.mgc.mentorg.com>
-References: <1537266969204.31967@mentor.com>,
-	<CAJTo0LbCJwoD8Rc4uLffTx5P0enQxppY4-5YmGYPDbhahU8j8A@mail.gmail.com>
-In-Reply-To: <CAJTo0LbCJwoD8Rc4uLffTx5P0enQxppY4-5YmGYPDbhahU8j8A@mail.gmail.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.94.31.225]
+	Thu, 20 Sep 2018 14:11:50 +0000 (UTC)
+Received: by mail-ot1-f50.google.com with SMTP id j9-v6so9568927otl.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Sep 2018 07:11:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=h2ybdVnv7sCmb2Tqy2rNxM8xQV9ZX7Ae29ePQAqhkUw=;
+	b=QIzY5SZBBE/XBb8AYqYXj3p9VCFudPLT+5EoXw81ypTrJyex4aFtGpwya4/GiCmw4C
+	rF5ABgAJuk8qoMKd53Q3bgjhRN+MPK3P+z+AMFTPSfcexl/HZc1LDgFyGnNOjBLwPIUg
+	AFzlzR8uEGAPI1CcgY8SwdqryMljofYaULPwm/Hno3lAG9sGquqYNS4+0tYWEE/LnS6K
+	U9fnieqb52wqhJsIuhL3KzIvIM22ozhHw2d+J11gwidBmjvCncQqRUjwFVRnKJhWkUfc
+	kbJzmuIxf4grLF/VEBs+Bfp4+DfqZ/D0vSwW9hhfqkXHjoViOoNtHjuuWfoJ5NBj/KMc
+	NjPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=h2ybdVnv7sCmb2Tqy2rNxM8xQV9ZX7Ae29ePQAqhkUw=;
+	b=EZmO+8xBTA6cy0ruBE8kKMaSeJQHPs3SFFaxzmHNv53Y3ig58FKUN7cfJE92kYdqXL
+	u/n5/W/98bHovQ4t4ht8Zj4uCKaU0XTsEJRxeivX749wOhvs0hndlANWSa4bOTMIqssk
+	1ceIfZS4qG8VVUpCrBbSmqA+y9UW9E/EEltDzNnIxMgI+wOWU216X7zcsHYdLceCCuaF
+	SiC4nw1Am3m+9cNAcVa2Ij6hzP3f2qa+ZypWVhtk9FFfGizkR22Q6VcmmFVrLHXykS1w
+	x1U4ewOFzR+GzrS5ns3aa1qyK1l0nrdIaIXXUzWl4Bg1aiJscAinr8I1oNe0f82ORzCt
+	c26g==
+X-Gm-Message-State: APzg51DSA4OK729nFt/EV4Xp8OfGCptRptO8zdy1ZSw3qvJDVy4XrmPp
+	hCh8oiHOLI2no97FtrZHDK7AFmlZkLHKMXRtd2gf1Q==
+X-Google-Smtp-Source: ANB0Vda/nVBzZqpLhIgZK9pKuQ62aneH1fPXZVR2HrOlRRc7SJHBlOx+4hEE9HUtDe7jEJL6TxdZZc8YLBpID5Q33jw=
+X-Received: by 2002:a9d:2816:: with SMTP id
+	m22-v6mr21054802otb.22.1537452711557; 
+	Thu, 20 Sep 2018 07:11:51 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc-package.inc: correct intention for deleting /usr/lib as needed
+Received: by 2002:a4a:b48b:0:0:0:0:0 with HTTP; Thu, 20 Sep 2018 07:11:50
+	-0700 (PDT)
+In-Reply-To: <20180920131623.22048-1-max+openembedded@blarg.de>
+References: <20180920131623.22048-1-max+openembedded@blarg.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 20 Sep 2018 16:11:50 +0200
+Message-ID: <CANNYZj85wzWZ4oRTzfV7wqDuXQtGO+LFVJJheXSvinn7aAkX5Q@mail.gmail.com>
+To: Max Kellermann <max+openembedded@blarg.de>
+Cc: Max Kellermann <max.kellermann@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] openssh: make OpenSSL optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,76 +57,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2018 14:04:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Sep 2018 14:11:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Ross,
+2018-09-20 15:16 GMT+02:00 Max Kellermann <max+openembedded@blarg.de>:
+> Without OpenSSL, OpenSSH can still do ed25519, which is enough for
+> many users; and it saves a rather heavy dependency.
 
->> Can you resend using git-send-email, as this patch is encoded in HTML.
-My SMTP server is acting up these days, should I simply resend the patch he=
-re as an attachment?
+I don't object to the patch (except it would need to be rebased on top
+of the openssl 1.1 patch), but I would like to know a bit more.
 
-BR,
-Awais
+What is ed25519? Can a client that supports only that connect to most
+or all servers? Can a server that supports only that accept
+connections from most or all clients? Are any features lost?
 
-________________________________________
-From: Burton, Ross [ross.burton@intel.com]
-Sent: Thursday, September 20, 2018 4:10 PM
-To: Belal, Awais
-Cc: OE-core
-Subject: Re: [OE-core] [PATCH] glibc-package.inc: correct intention for del=
-eting /usr/lib as needed
-
-Can you resend using git-send-email, as this patch is encoded in HTML.
-
-Ross
-On Tue, 18 Sep 2018 at 11:53, Belal, Awais <Awais_Belal@mentor.com> wrote:
->
-> In case the baselib is lib64 we would want to delete /usr/lib
-> after removing the /usr/lib/locale dir and the implementation
-> wanted to do that earlier as well but the fault was checking
-> an already removed dir (/usr/lib/locale) before trying to
-> remove /usr/lib as that check would always fail.
-> Now we simply try to delete /usr/lib after deleting
-> /usr/lib/locale to make sure it deletes cleanly and is empty
-> at the time of deletion.
->
-> Signed-off-by: Awais Belal <awais_belal@mentor.com>
-> ---
->  meta/recipes-core/glibc/glibc-package.inc | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-cor=
-e/glibc/glibc-package.inc
-> index 9ea41b7..22a59d2 100644
-> --- a/meta/recipes-core/glibc/glibc-package.inc
-> +++ b/meta/recipes-core/glibc/glibc-package.inc
-> @@ -207,11 +207,10 @@ do_poststash_install_cleanup () {
->      rm -rf ${D}/${localedir}
->      rm -rf ${D}${datadir}/locale
->      if [ "${libdir}" !=3D "${exec_prefix}/lib" ]; then
-> -        if [ -d ${D}${exec_prefix}/lib/locale ] ; then
-> -            rm -rf ${D}${exec_prefix}/lib/locale
-> -            # error out if directory isn't empty
-> -            rm -f ${D}${exec_prefix}/lib
-> -        fi
-> +        # error out if directory isn't empty
-> +        # this dir should only contain locale dir
-> +        # which has been deleted in the previous step
-> +        rmdir ${D}${exec_prefix}/lib
->      fi
->  }
->  addtask do_poststash_install_cleanup after do_stash_locale do_install be=
-fore do_populate_sysroot do_package
-> --
-> 2.7.4
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Alex
 
