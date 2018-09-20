@@ -1,57 +1,19 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E3B379612
+Return-Path: <max+openembedded@blarg.de>
+Received: from swift.blarg.de (swift.blarg.de [78.47.110.205])
+	by mail.openembedded.org (Postfix) with ESMTP id C25E179343
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 17:54:30 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id f6-v6so4702850plo.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 10:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=52SGTIHl+zs3ehfdl7OA5CDlKF2m8zFJLfs4XG5sV04=;
-	b=VP02Y1RfzecEJb0EdCK/ef7VDeWxtaFeQb4aFf4k+DBp1JqzJuim2Xj4xUIkkDqFcD
-	/jKmcgIkor9o5gniXTmNNDTNBMQMl/S79Xo4Exd95ylp266PCFDn5trG5GHSXKp2nJep
-	mTP3nOSHpRSzmy1wy71lTY5aS/K9cVsVlVbYI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=52SGTIHl+zs3ehfdl7OA5CDlKF2m8zFJLfs4XG5sV04=;
-	b=DyH57YAWtrZPbk73ZQxZZ50sAO/ayx7Zwc9/0PZslSaKL3QFmJBWWGqInupUwH+ykX
-	gjbz6zDFpKpzTG7+i7d8D+08yGStJyEsU0yIUFXhBUm7TfNzvUc9e8O8AOHgaCQKg97e
-	Zt5dQqF6jCCOtDR+1uMoB/U8UD8tJW71fzckzLFLX5N2glFfcIfyD9zXy2Vlkg26aFlu
-	jR66Sh2iALWLy0cNAf4JOtpTckRVuolU9MIFcwtVZisFwxnC629Agz5IPLeE0WUSHaD5
-	0eVTPEeOIeT4ixp34NCoiiJkbxm1gom/BvyrbFDX0vYoS0Q2WrG/n5g9HMErDNh/oa+l
-	FG/g==
-X-Gm-Message-State: APzg51AnINbg0OUuI/lI7dJ7bGU9aRc9jKSE+EuGA62L+x1D4bdWtfBf
-	zYh8oNyQMau100w47ycw4njwwQ==
-X-Google-Smtp-Source: ANB0Vdax4kSwPjSpou+Y/BoHdwXIxNBff/sQXMpPOSt2eekjBiFcE1tqhr0YeSGC62QT+2ZOpQVpMA==
-X-Received: by 2002:a17:902:b491:: with SMTP id
-	y17-v6mr40788754plr.160.1537466071587; 
-	Thu, 20 Sep 2018 10:54:31 -0700 (PDT)
-Received: from hex ([209.121.128.187]) by smtp.gmail.com with ESMTPSA id
-	d9-v6sm50958850pfb.86.2018.09.20.10.54.29
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 20 Sep 2018 10:54:30 -0700 (PDT)
-Message-ID: <983d28517b9e9015b590405bbb7f91ffc0d6aa48.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Hongxu Jia <hongxu.jia@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 20 Sep 2018 10:54:29 -0700
-In-Reply-To: <f0425061-1d49-84f7-33f3-a3f2b3504c43@windriver.com>
-References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
-	<78fad439cd03f6e9be71a0a917667bcf94ebea51.camel@linuxfoundation.org>
-	<526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
-	<3310e627615370184fd7a1a58997b516ce36f2a7.camel@linuxfoundation.org>
-	<f0425061-1d49-84f7-33f3-a3f2b3504c43@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Koen Kooi <koen.kooi@linaro.org>
-Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
+	Thu, 20 Sep 2018 18:22:41 +0000 (UTC)
+Received: from heron.blarg.de (p3EE2FF12.dip0.t-ipconnect.de [62.226.255.18])
+	(Authenticated sender: max)
+	by swift.blarg.de (Postfix) with ESMTPSA id 57E8C22050E;
+	Thu, 20 Sep 2018 20:22:42 +0200 (CEST)
+From: Max Kellermann <max+openembedded@blarg.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Sep 2018 20:22:39 +0200
+Message-Id: <20180920182239.29801-1-max+openembedded@blarg.de>
+X-Mailer: git-send-email 2.18.0
+Cc: Max Kellermann <max.kellermann@gmail.com>
+Subject: [PATCH] openssh: make OpenSSL optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,86 +26,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2018 17:54:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 20 Sep 2018 18:22:42 -0000
 
-On Fri, 2018-09-21 at 00:25 +0800, Hongxu Jia wrote:
-> On 2018年09月20日 12:54, richard.purdie@linuxfoundation.org wrote:
-> > On Thu, 2018-09-20 at 09:45 +0800, Hongxu Jia wrote:
-> > > I will fix it as my top priority today.
-> > > 
-> > > Reproduce steps:
-> > > 
-> > > - Build core-image-sato-sdk on qemuarm64
-> > > - Run qemu
-> > > - Log over ssh (openssh) failed
-> > > 
-> > 
-> > I did have a little bit of a look at this. It seems to hang during
-> > key
-> > generation before starting the server during boot.
-> > 
-> > I had a suspicion that the problem could be a lack of entropy.
-> > We're
-> > supposed to have the virtio entropy generation being passed through
-> > from the host to avoid problems with entropy starvation but I'm not
-> > sure its running for arm64.
-> > 
-> > I noticed the .config shows CONFIG_CRYPTO_DEV_VIRTIO=m but setting
-> > that
-> > to =y didn't help. The virtio rng connects via pci bus iirc and
-> > CONFIG_PCI isn't set so I'm now looking into that...
-> > 
-> > To update, adding this config to the kernel:
-> > 
-> > CONFIG_CRYPTO_DEV_VIRTIO=y
-> > CONFIG_PCI=y
-> > CONFIG_PCI_HOST_GENERIC=y
-> 
-> Hi RP,
-> 
-> Without modify config, just revert two commits on kernel source
-> could 
-> fix the issue
-> (sshd start successfully)
-> 
-> 
-> 1. Revert "random: fix crng_ready() test"
-> 
-> This reverts commit 43838a23a05fbd13e47d750d3dfd77001536dd33
-> 
-> 
-> 2. Revert "random: use a different mixing algorithm for 
-> add_device_randomness()"
-> 
-> This reverts commit dc12baacb95f205948f64dc936a47d89ee110117
-> 
-> But I am not sure the affect of the modification to other arch, and
-> the root
-> cause the above two commits introduced
-> 
-> Still requiring more digging
+From: Max Kellermann <max.kellermann@gmail.com>
 
-We do not want to revert those commits. I think the right solution is
-to enabled:
+Without OpenSSL, OpenSSH can still do ed25519, which is enough for
+many users; and it saves a rather heavy dependency.
 
-CONFIG_CRYPTO_DEV_VIRTIO=y
-CONFIG_PCI=y
-CONFIG_PCI_HOST_GENERIC=y
+This requires a patch because lots of `#ifdef WITH_OPENSSL` are
+missing.
 
-in the qemuarm64 machine's kernel defconfig and this will then allow
-the host entropy to pass through to the guest. This is how all the
-other qemu machines are working, its just not working on qemuarm64 due
-to the PCI bus being disabled currently (the device is a PCI virtio
-driver).
+Signed-off-by: Max Kellermann <max.kellermann@gmail.com>
+---
+ .../openssh/openssh/fix_without-openssl.patch | 165 ++++++++++++++++++
+ .../openssh/openssh_7.8p1+git.bb              |   6 +-
+ 2 files changed, 170 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch
 
-We therefore need to give Bruce the right changes to the kernel config
-fragments to enable the above options. I think the options you
-mentioned are automatically enabled if the PCI bus and host generic
-options are enabled.
+diff --git a/meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch b/meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch
+new file mode 100644
+index 0000000000..6840b79a73
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch
+@@ -0,0 +1,165 @@
++commit 14f336a04748d50e058e24b0be991b3e99f1dbfc
++Author: Max Kellermann <max.kellermann@gmail.com>
++Date:   Thu Sep 20 20:04:14 2018 +0200
++
++    auth, ...: add missing `#ifdef WITH_OPENSSL`
++    
++    Even though OpenSSH doesn't use OpenSSL when built with
++    `--without-openssl`, it still needs to include its headers to compile
++    code which is unused in this configuration.
++
++diff --git a/auth.h b/auth.h
++index 977562f0..f68731ef 100644
++--- a/auth.h
+++++ b/auth.h
++@@ -30,7 +30,9 @@
++ 
++ #include <signal.h>
++ 
+++#ifdef WITH_OPENSSL
++ #include <openssl/rsa.h>
+++#endif
++ 
++ #ifdef HAVE_LOGIN_CAP
++ #include <login_cap.h>
++diff --git a/cipher.c b/cipher.c
++index 12c59888..43c2e4df 100644
++--- a/cipher.c
+++++ b/cipher.c
++@@ -55,7 +55,9 @@
++ struct sshcipher_ctx {
++ 	int	plaintext;
++ 	int	encrypt;
+++#ifdef WITH_OPENSSL
++ 	EVP_CIPHER_CTX *evp;
+++#endif
++ 	struct chachapoly_ctx cp_ctx; /* XXX union with evp? */
++ 	struct aesctr_ctx ac_ctx; /* XXX union with evp? */
++ 	const struct sshcipher *cipher;
++diff --git a/cipher.h b/cipher.h
++index dc1571d2..954c356a 100644
++--- a/cipher.h
+++++ b/cipher.h
++@@ -38,7 +38,9 @@
++ #define CIPHER_H
++ 
++ #include <sys/types.h>
+++#ifdef WITH_OPENSSL
++ #include <openssl/evp.h>
+++#endif
++ #include "cipher-chachapoly.h"
++ #include "cipher-aesctr.h"
++ 
++diff --git a/kexc25519.c b/kexc25519.c
++index 0897b8c5..6a54cf9b 100644
++--- a/kexc25519.c
+++++ b/kexc25519.c
++@@ -32,8 +32,10 @@
++ #include <signal.h>
++ #include <string.h>
++ 
+++#ifdef WITH_OPENSSL
++ #include <openssl/bn.h>
++ #include <openssl/evp.h>
+++#endif
++ 
++ #include "sshbuf.h"
++ #include "ssh2.h"
++diff --git a/loginrec.c b/loginrec.c
++index 9a427dec..49abe918 100644
++--- a/loginrec.c
+++++ b/loginrec.c
++@@ -166,6 +166,7 @@
++ #include <string.h>
++ #include <time.h>
++ #include <unistd.h>
+++#include <stdlib.h>
++ 
++ #include "xmalloc.h"
++ #include "sshkey.h"
++diff --git a/monitor_wrap.h b/monitor_wrap.h
++index 644da081..56079d97 100644
++--- a/monitor_wrap.h
+++++ b/monitor_wrap.h
++@@ -40,7 +40,9 @@ struct sshauthopt;
++ 
++ void mm_log_handler(LogLevel, const char *, void *);
++ int mm_is_monitor(void);
+++#ifdef WITH_OPENSSL
++ DH *mm_choose_dh(int, int, int);
+++#endif
++ int mm_sshkey_sign(struct sshkey *, u_char **, size_t *, const u_char *, size_t,
++     const char *, u_int compat);
++ void mm_inform_authserv(char *, char *);
++diff --git a/myproposal.h b/myproposal.h
++index 27b4a15a..ad62ef80 100644
++--- a/myproposal.h
+++++ b/myproposal.h
++@@ -24,7 +24,9 @@
++  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++  */
++ 
+++#ifdef WITH_OPENSSL
++ #include <openssl/opensslv.h>
+++#endif
++ 
++ /* conditional algorithm support */
++ 
++diff --git a/ssh-add.c b/ssh-add.c
++index adcc4599..526eb39c 100644
++--- a/ssh-add.c
+++++ b/ssh-add.c
++@@ -40,7 +40,9 @@
++ #include <sys/types.h>
++ #include <sys/stat.h>
++ 
+++#ifdef WITH_OPENSSL
++ #include <openssl/evp.h>
+++#endif
++ #include "openbsd-compat/openssl-compat.h"
++ 
++ #include <errno.h>
++diff --git a/ssh-keyscan.c b/ssh-keyscan.c
++index 38b1c548..47da5f67 100644
++--- a/ssh-keyscan.c
+++++ b/ssh-keyscan.c
++@@ -19,7 +19,9 @@
++ #include <netinet/in.h>
++ #include <arpa/inet.h>
++ 
+++#ifdef WITH_OPENSSL
++ #include <openssl/bn.h>
+++#endif
++ 
++ #include <netdb.h>
++ #include <errno.h>
++diff --git a/sshbuf-getput-crypto.c b/sshbuf-getput-crypto.c
++index d0d791b5..96c8e629 100644
++--- a/sshbuf-getput-crypto.c
+++++ b/sshbuf-getput-crypto.c
++@@ -18,6 +18,8 @@
++ #define SSHBUF_INTERNAL
++ #include "includes.h"
++ 
+++#ifdef WITH_OPENSSL
+++
++ #include <sys/types.h>
++ #include <stdlib.h>
++ #include <stdio.h>
++@@ -222,3 +224,4 @@ sshbuf_put_eckey(struct sshbuf *buf, const EC_KEY *v)
++ }
++ #endif /* OPENSSL_HAS_ECC */
++ 
+++#endif /* WITH_OPENSSL */
++diff --git a/sshkey.c b/sshkey.c
++index 63c01ea6..c82f0fbe 100644
++--- a/sshkey.c
+++++ b/sshkey.c
++@@ -27,6 +27,7 @@
++ 
++ #include "includes.h"
++ 
+++#include <time.h>
++ #include <sys/types.h>
++ #include <netinet/in.h>
++ 
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb b/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
+index f54dfb5de4..802e9c023b 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
+@@ -8,7 +8,7 @@ SECTION = "console/network"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
+ 
+-DEPENDS = "zlib openssl"
++DEPENDS = "zlib"
+ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+ SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
+@@ -24,6 +24,7 @@ SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
++           file://fix_without-openssl.patch \
+            "
+ 
+ PAM_SRC_URI = "file://sshd"
+@@ -71,6 +72,9 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PATH_PASSWD_PROG=${bindir}/passwd"
+ # We don't want to depend on libblockfile
+ CACHED_CONFIGUREVARS += "ac_cv_header_maillock_h=no"
+ 
++PACKAGECONFIG ??= "openssl"
++PACKAGECONFIG[openssl] = ",--without-openssl,openssl"
++
+ do_configure_prepend () {
+ 	export LD="${CC}"
+ 	install -m 0644 ${WORKDIR}/sshd_config ${B}/
+-- 
+2.18.0
 
-Cheers,
-
-Richard
 
