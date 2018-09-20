@@ -1,50 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
-	[209.85.218.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 30C94605BE
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id C9E5278C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 14:46:24 +0000 (UTC)
-Received: by mail-oi0-f48.google.com with SMTP id l82-v6so8568290oih.11
+	Thu, 20 Sep 2018 15:06:12 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id s14-v6so9754139wrw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 07:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=k4saMNZtZrA/cgyz4bvIz6uiI87gZLW7aleiGWgfIHo=;
-	b=KTIBk3IF7s7uQTIdM9kx1qXlRuM5krqe6SMKzLtvIqJ6aaQCmK8Ggql2H51QkI/+xp
-	Vcq/Ik/mHsgZmT8yCX/u3EQe6rVv4JhF+FJECZQb2tn3nSQSWO/19Az615Ic12Jo7Chz
-	b8iVL7OvIGANqaIlQxFquPbxTW4UyOBkyyorsuL3Bb4k4RGmh84nfbxOxIJUfUppTsYN
-	WM4H0fFqF3jqwHmm+Ceq/57zQrK2ws6d31Re4kT0d0ylSxv3i0OtfQc8Y9lKj0XQL6mC
-	Dw207Ujlrd87vT5Rdxo8b3toTt19KTSWMlgZ8db3D8VMpTo2vwBBH9oyCgxPf/Kv4SV2
-	9iDg==
+	Thu, 20 Sep 2018 08:06:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=q2ympGpcsbAVKuKPLECka4lSl3UtIUSPUD/dN0ELUPo=;
+	b=p5MDDrH/fMYc7HWeBXWReUTOhJ6eU8EwEbH5CTxzNDLK7ea5BXDpp4i/t1Jw5V3rUD
+	BGxSysSPVGPqwbxIEIZeShj95RjlYPSLFU9g+ME0cj026t9szF8hPa4zhLrmfzp25pgt
+	wni3O5pfJy0FDRpvaMs4B7kEMHa9PxBBmht8VX8QPwy5/lPmw5WC148F7NkYXor1PwbP
+	F41q5WqP06VXlPdtYCmkVctW1GEXeWm900gZqhvSbb+8jkf9+K4y5ViCAWgjxKijw8KW
+	vzo6cnuXm1cFb+eNifj2jeUV+Y/thdllXHUkECNAh37//15qutzKdpqc2tPaBLIr7f6x
+	IWgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=k4saMNZtZrA/cgyz4bvIz6uiI87gZLW7aleiGWgfIHo=;
-	b=fnG55bhiDkA2DxwLUnFLuHU2ievFMgecVZtUE6koN/LxaRFrgGglJC81Ma2o1tMKeF
-	0mBjssBb/oQ/XvXTNDYAMRu9qJTYf/RYk4ZV/PMlWMvX+Uu7Gr2EkMLMlsXbm9xjF3n6
-	ao8T58N0vXcNtvCRL/6EUdhQPXPL8AP0Tuc9XAeI9TwzNlwu/KBaWn51x3CaHUbRQ2ac
-	XmZcYjNzFkCLWjYgVw422U6wonwuCAyHJ86o5kWM5aHvSXJhl1yt8eyGakVi3JmM1WCQ
-	8/+t58BgkrYvCezFjCxvQ6nuuoSitUFtAUu+3Y9t32YLQaYf0WpSxzSli7zcruigQrwK
-	yf7w==
-X-Gm-Message-State: APzg51CVL2j+DCcZh0Zt6DdIJXNW7dvLBzbhkOkBPoj4BkPIZy++y/d4
-	/2+24Hck/L0n+HeXtQPFDjnE8Vu8kyVi1B4Qxj5tfA==
-X-Google-Smtp-Source: ANB0VdZzOjSPU0CkFyzJqswYwhAZw5LFnqVv/ddMdt44Nqm0PcWR68eVviMO1XaRyvaD5ZsJHlT1kyq47uSzMWxsGqE=
-X-Received: by 2002:aca:d7c2:: with SMTP id
-	o185-v6mr1852437oig.55.1537454785874; 
-	Thu, 20 Sep 2018 07:46:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <1537266969204.31967@mentor.com>
-	<CAJTo0LbCJwoD8Rc4uLffTx5P0enQxppY4-5YmGYPDbhahU8j8A@mail.gmail.com>
-	<9a58ea4be84c4f0eb2c34680a9345186@SVR-IES-MBX-03.mgc.mentorg.com>
-In-Reply-To: <9a58ea4be84c4f0eb2c34680a9345186@SVR-IES-MBX-03.mgc.mentorg.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Sep 2018 15:46:14 +0100
-Message-ID: <CAJTo0LYtN8Rn=Kw1opw9=-a9j2zFFaUqikvwU4LXqoqHiEot5Q@mail.gmail.com>
-To: "Belal, Awais" <Awais_Belal@mentor.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc-package.inc: correct intention for deleting /usr/lib as needed
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=q2ympGpcsbAVKuKPLECka4lSl3UtIUSPUD/dN0ELUPo=;
+	b=T1HqRN/u9O7qIiIsG0YdcVL5rBmSf/WmJrOOUGfMX/DvemgxGwInhXgkG7OsabOBXF
+	64D2qVZSgi8rCx9NkBwX0Q0IAyhZ12U2445EgBoqkKv90med94BTTtmw8ChqxmKu08me
+	vfYVSf/yJKtpkA76fKHsBJmK7qPqFJa0yQOAy0+UhJPD9tostnjjQDjktM9O0QiibIAP
+	SZDVklIyxvp3h22cABr4CH6m6P4CHPffXoDlZ3TNPwYxy7CLfdDCjCfXcsdu+Lohqv/l
+	HMkwcOnK98dbE3ILxnt+Vh2r2q5+EthGWfVfcecvtrXqt8rA5Y3gSGcwMjx5M9ECBIbD
+	KQvg==
+X-Gm-Message-State: APzg51BpfyFSifkCyaG20VzUpZltAx69NuBJOW/nEBe/kbwhwD/nyZqJ
+	vzHij4/IPz7dJF6VNgB+QtXk7kl2
+X-Google-Smtp-Source: ANB0VdYZJsv2BNG81drlkp1OXF8UZJUsl/Z+qRxg/deqBmPFJx8qlhV/fvWUwZlgs6EgMnyYube6BQ==
+X-Received: by 2002:adf:9bc7:: with SMTP id
+	e7-v6mr7504986wrc.240.1537455972850; 
+	Thu, 20 Sep 2018 08:06:12 -0700 (PDT)
+Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
+	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
+	72-v6sm23955280wrb.48.2018.09.20.08.06.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 20 Sep 2018 08:06:12 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Sep 2018 15:06:05 +0000
+Message-Id: <1537455966-8694-1-git-send-email-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2] p11-kit: Upgrade from 0.22.1 -> 0.23.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,73 +55,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2018 14:46:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 20 Sep 2018 15:06:13 -0000
 
-That's better than HTML!
-On Thu, 20 Sep 2018 at 15:04, Belal, Awais <Awais_Belal@mentor.com> wrote:
->
-> Hi Ross,
->
-> >> Can you resend using git-send-email, as this patch is encoded in HTML.
-> My SMTP server is acting up these days, should I simply resend the patch here as an attachment?
->
-> BR,
-> Awais
->
-> ________________________________________
-> From: Burton, Ross [ross.burton@intel.com]
-> Sent: Thursday, September 20, 2018 4:10 PM
-> To: Belal, Awais
-> Cc: OE-core
-> Subject: Re: [OE-core] [PATCH] glibc-package.inc: correct intention for deleting /usr/lib as needed
->
-> Can you resend using git-send-email, as this patch is encoded in HTML.
->
-> Ross
-> On Tue, 18 Sep 2018 at 11:53, Belal, Awais <Awais_Belal@mentor.com> wrote:
-> >
-> > In case the baselib is lib64 we would want to delete /usr/lib
-> > after removing the /usr/lib/locale dir and the implementation
-> > wanted to do that earlier as well but the fault was checking
-> > an already removed dir (/usr/lib/locale) before trying to
-> > remove /usr/lib as that check would always fail.
-> > Now we simply try to delete /usr/lib after deleting
-> > /usr/lib/locale to make sure it deletes cleanly and is empty
-> > at the time of deletion.
-> >
-> > Signed-off-by: Awais Belal <awais_belal@mentor.com>
-> > ---
-> >  meta/recipes-core/glibc/glibc-package.inc | 9 ++++-----
-> >  1 file changed, 4 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-> > index 9ea41b7..22a59d2 100644
-> > --- a/meta/recipes-core/glibc/glibc-package.inc
-> > +++ b/meta/recipes-core/glibc/glibc-package.inc
-> > @@ -207,11 +207,10 @@ do_poststash_install_cleanup () {
-> >      rm -rf ${D}/${localedir}
-> >      rm -rf ${D}${datadir}/locale
-> >      if [ "${libdir}" != "${exec_prefix}/lib" ]; then
-> > -        if [ -d ${D}${exec_prefix}/lib/locale ] ; then
-> > -            rm -rf ${D}${exec_prefix}/lib/locale
-> > -            # error out if directory isn't empty
-> > -            rm -f ${D}${exec_prefix}/lib
-> > -        fi
-> > +        # error out if directory isn't empty
-> > +        # this dir should only contain locale dir
-> > +        # which has been deleted in the previous step
-> > +        rmdir ${D}${exec_prefix}/lib
-> >      fi
-> >  }
-> >  addtask do_poststash_install_cleanup after do_stash_locale do_install before do_populate_sysroot do_package
-> > --
-> > 2.7.4
-> >
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+p11-kit is no longer doing odd/even for development/stable releases, so
+drop the custom UPSTREAM_CHECK_GITTAGREGEX.
+
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+
+ ...NGUAS-drop-the-languages-for-which-upstream-does-n.patch | 13 +++++--------
+ .../p11-kit/{p11-kit_0.22.1.bb => p11-kit_0.23.14.bb}       |  4 +---
+ 2 files changed, 6 insertions(+), 11 deletions(-)
+ rename meta/recipes-support/p11-kit/{p11-kit_0.22.1.bb => p11-kit_0.23.14.bb} (90%)
+
+diff --git a/meta/recipes-support/p11-kit/p11-kit/0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch b/meta/recipes-support/p11-kit/p11-kit/0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch
+index 2fda9dfbb896..e902b0b522ff 100644
+--- a/meta/recipes-support/p11-kit/p11-kit/0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch
++++ b/meta/recipes-support/p11-kit/p11-kit/0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch
+@@ -1,4 +1,4 @@
+-From c3aa4aae5e9f4adafd9e10d9466f1bc481e0aae6 Mon Sep 17 00:00:00 2001
++From c6bb4b99af39daa3221c3bdc0686987ae0f31693 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 31 Jan 2018 16:47:44 +0200
+ Subject: [PATCH] LINGUAS: drop the languages for which upstream does not
+@@ -9,24 +9,21 @@ Upstream has been notified: https://github.com/p11-glue/p11-kit/issues/127
+ 
+ Upstream-Status: Inappropriate [missing upstream distribution files]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  po/LINGUAS | 2 --
+  1 file changed, 2 deletions(-)
+ 
+ diff --git a/po/LINGUAS b/po/LINGUAS
+-index 1fc4d53..e9cc5a7 100644
++index 767a806c2e20..6ab48001c409 100644
+ --- a/po/LINGUAS
+ +++ b/po/LINGUAS
+-@@ -11,9 +11,7 @@ cy
++@@ -12,8 +12,6 @@ cy
+  da
+  de
+  el
+ -en@boldquot
+- en_GB
+ -en@quot
++ en_GB
+  eo
+  es
+- es_CL
+--- 
+-2.15.1
+-
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb b/meta/recipes-support/p11-kit/p11-kit_0.23.14.bb
+similarity index 90%
+rename from meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
+rename to meta/recipes-support/p11-kit/p11-kit_0.23.14.bb
+index 57798f402010..2a8709143b19 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.23.14.bb
+@@ -9,10 +9,8 @@ DEPENDS = "libtasn1 libffi"
+ SRC_URI = "git://github.com/p11-glue/p11-kit \
+            file://0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch \
+            "
+-SRCREV = "bfb3bd47aa48983f5349479bca598403097ff81c"
++SRCREV = "3770793f026e46a000d2d8816d56122598289d5c"
+ S = "${WORKDIR}/git"
+-# exclude odd minor versions, which are development releases
+-UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
+ 
+ AUTOTOOLS_AUXDIR = "${S}/build/litter"
+ EXTRA_OECONF = "--without-trust-paths"
+-- 
+2.7.4
+
 
