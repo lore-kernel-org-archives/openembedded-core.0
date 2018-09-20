@@ -1,55 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 43F307971C
+Return-Path: <peter@berginkonsult.se>
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+	(mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DF8D75481
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 04:54:28 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id l14-v6so6355054iob.7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 21:54:29 -0700 (PDT)
+	Thu, 20 Sep 2018 06:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=Iy2g5Mp08PD2p0ZFfzpMZfgHkQ0wjJRrARMxTaYvU1U=;
-	b=hQbIKDtKmV5ofYdQQ25pGnS+ag+yfh3VtxNI5t+6EGNv89i7jDm/ik1qirDol60NNa
-	5B/KKNR98oU4L28XBVaBmg6Zd5GWsZ0DZ6l94WDrMXRgFuDWWOh0/7Bis6t/0HQsQFEr
-	HPA+z7XNhkZuNoLTXGs8SBUTDaKgcZQp6sujE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Iy2g5Mp08PD2p0ZFfzpMZfgHkQ0wjJRrARMxTaYvU1U=;
-	b=oy8GjyLT8F+wWKu8VqsAtb0+0Gj91uGdsxaefMzQQS46i3LIFXWHRLoDSAGryHVxoE
-	n19ye7UlqbswuocOrV/EBZ4kW2V5VrH9/B5c+5lK2twcdlU2mKuXyCWy5weyQZvey67D
-	aGPEQp0ybI6AmAcKneyasAU6JVxxM9ORZ0tXRIsrxmOlrKddP+9uAsyPdqf51yo2WjBZ
-	KKlAvNmZ5/+io8Ez3o0av7Gt1/4REQJOJQ7YIPHBv+7QPS4UBjwANLWxiiXHVvPGbwAy
-	ZGf/EZQskUfHZ+9qfZpr2PaZZKi0LfPneqGy2/g4ePalO7HqFGyLr9WiCP4RFxM5v/hO
-	l+bw==
-X-Gm-Message-State: APzg51AQ3v9vgrxyxZX9HQmfX6fM11howU19Xc3t7cwM88ykm9kMFkpC
-	pi+euTHdmG8vBFDil7ae0kEWlA==
-X-Google-Smtp-Source: ANB0VdbM09VZWRFRqCh6+3tNC5cYR1/eckGbHdOAo7w0bOg4QjBKxvwRsF8IRhjeC1hHW8kLxizl0g==
-X-Received: by 2002:a6b:5f03:: with SMTP id
-	t3-v6mr34377584iob.242.1537419269228; 
-	Wed, 19 Sep 2018 21:54:29 -0700 (PDT)
-Received: from hex ([209.82.80.116]) by smtp.gmail.com with ESMTPSA id
-	i129-v6sm452313ita.12.2018.09.19.21.54.27
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 19 Sep 2018 21:54:28 -0700 (PDT)
-Message-ID: <3310e627615370184fd7a1a58997b516ce36f2a7.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Hongxu Jia <hongxu.jia@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 19 Sep 2018 21:54:25 -0700
-In-Reply-To: <526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
-References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
-	<78fad439cd03f6e9be71a0a917667bcf94ebea51.camel@linuxfoundation.org>
-	<526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Koen Kooi <koen.kooi@linaro.org>
-Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
+	d=berginkonsult.se; s=20140924;
+	h=message-id:date:subject:cc:to:from:from;
+	bh=nwnjjSYOBKd7R4eotLcQucUwEYSDOtNBMH/Yxw885N0=;
+	b=XHH+sSIWn2y59znnkKx1YDC75i+hwtwAiYMAwFHlugXyp1atWM7VgKakxtXqbw8yWJDvftjaUqLSN
+	yLoDLvH87S1Edres0rqoYfqPnmv23R0irjzD0Y821oditROcU/MzvfPcJ+wCvrAG+lwfUJEz/QMpro
+	QyBxgWScw+yY+h8o=
+X-HalOne-Cookie: 65fb916f7b51522584f7926443bc41355346b39e
+X-HalOne-ID: 5c0dacf4-bc9f-11e8-af47-d0431ea8bb03
+Received: from pbergin-7470.corp.ad.wrs.com (unknown [37.199.77.136])
+	by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 5c0dacf4-bc9f-11e8-af47-d0431ea8bb03;
+	Thu, 20 Sep 2018 06:35:30 +0000 (UTC)
+From: Peter Bergin <peter@berginkonsult.se>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Sep 2018 08:35:18 +0200
+Message-Id: <1537425318-1569-1-git-send-email-peter@berginkonsult.se>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] rpm: handle virtual memory usage when limit is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,49 +35,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2018 04:54:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Sep 2018 06:35:31 -0000
 
-On Thu, 2018-09-20 at 09:45 +0800, Hongxu Jia wrote:
-> I will fix it as my top priority today.
-> 
-> Reproduce steps:
-> 
-> - Build core-image-sato-sdk on qemuarm64
-> - Run qemu
-> - Log over ssh (openssh) failed
-> 
+Fix the situation where the task do_package_write_rpm ends up in
+"liblzma: memory allocation failed". This happens if the host
+environment has set a limit on virtual_memory for the user with
+'ulimit -v' for packages with a lot of binary packages, e.g. glibc-locale.
 
-I did have a little bit of a look at this. It seems to hang during key
-generation before starting the server during boot.
+Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+---
+ ...-restrict-virtual-memory-usage-if-limit-s.patch | 56 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_4.14.2.bb            |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
 
-I had a suspicion that the problem could be a lack of entropy. We're
-supposed to have the virtio entropy generation being passed through
-from the host to avoid problems with entropy starvation but I'm not
-sure its running for arm64.
-
-I noticed the .config shows CONFIG_CRYPTO_DEV_VIRTIO=m but setting that
-to =y didn't help. The virtio rng connects via pci bus iirc and
-CONFIG_PCI isn't set so I'm now looking into that...
-
-To update, adding this config to the kernel:
-
-CONFIG_CRYPTO_DEV_VIRTIO=y
-CONFIG_PCI=y
-CONFIG_PCI_HOST_GENERIC=y
-
-appears to solve the problem and lets my simple tests work. I'll have
-to run some better tests but I think this is the problem, lack pci
-support in the kernel meaning the rng virtio passthrough doesn't work.
-
-Cheers,
-
-Richard
-
-
-
-
-
+diff --git a/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch b/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
+new file mode 100644
+index 0000000..b901de2
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
+@@ -0,0 +1,56 @@
++From b5bc64262c02bca96f58c517b8cd11a9bedc4e0e Mon Sep 17 00:00:00 2001
++From: Peter Bergin <peter@berginkonsult.se>
++Date: Wed, 19 Sep 2018 15:12:31 +0200
++Subject: [PATCH] rpm/rpmio.c: restrict virtual memory usage if limit set
++
++A solution to avoid OOM situation when the virtual memory is restricted
++for a user (ulimit -v). As the lzopen_internal funtion is run in parallel
++one instance per CPU thread the available virtual memory is limited per
++CPU thread.
++
++Upstream-Status: Inappropriate [introduced by oe-core patch on rpm]
++
++Signed-off-by: Peter Bergin <peter@berginkonsult.se>
++---
++ rpmio/rpmio.c | 25 +++++++++++++++++++++++++
++ 1 file changed, 25 insertions(+)
++
++diff --git a/rpmio/rpmio.c b/rpmio/rpmio.c
++index e051c98..49752b3 100644
++--- a/rpmio/rpmio.c
+++++ b/rpmio/rpmio.c
++@@ -845,6 +845,31 @@ static LZFILE *lzopen_internal(const char *mode, int fd, int xz)
++ 		}
++ #endif
++ 
+++		struct rlimit virtual_memory;
+++		getrlimit(RLIMIT_AS, &virtual_memory);
+++		if (virtual_memory.rlim_cur != RLIM_INFINITY) {
+++			const uint64_t virtual_memlimit = virtual_memory.rlim_cur;
+++			const uint64_t virtual_memlimit_per_cpu_thread =
+++				virtual_memlimit / lzma_cputhreads();
+++			uint64_t memory_usage_virt;
+++			rpmlog(RPMLOG_NOTICE, "XZ: virtual memory restricted to %lu and "
+++			       "per CPU thread %lu\n", virtual_memlimit, virtual_memlimit_per_cpu_thread);
+++			/* keep reducing the number of compression threads untill memory 
+++			   usage gets below limit per CPU thread*/
+++			while ((memory_usage_virt = lzma_stream_encoder_mt_memusage(&mt_options)) >
+++			       virtual_memlimit_per_cpu_thread) {
+++				/* number of threads shouldn't be able to hit zero with compression
+++				 * settings aailable to set through rpm... */
+++				assert(--mt_options.threads != 0);
+++			}
+++			if (threads != (int)mt_options.threads)
+++				rpmlog(RPMLOG_NOTICE,
+++				       "XZ: Adjusted the number of threads from %d to %d to not "
+++				       "exceed the memory usage limit of %lu bytes\n",
+++				       threads, mt_options.threads, virtual_memlimit);
+++
+++		}
+++
++ 		ret = lzma_stream_encoder_mt(&lzfile->strm, &mt_options);
++ 	    }
++ #endif
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.bb b/meta/recipes-devtools/rpm/rpm_4.14.2.bb
+index 46f8837..200fe4d 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.2.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.2.bb
+@@ -39,6 +39,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
+            file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
+            file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
+            file://0001-perl-disable-auto-reqs.patch \
++           file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
+            "
+ 
+ PE = "1"
+-- 
+2.7.4
 
 
