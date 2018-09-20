@@ -1,30 +1,37 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AE1BD7307F
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 76FB4794DE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 07:22:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8K7MPtJ017410
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Sep 2018 00:22:25 -0700 (PDT)
-Received: from [0.0.0.0] (128.224.56.115) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 20 Sep 2018 00:22:24 -0700
-To: <richard.purdie@linuxfoundation.org>, Hongxu Jia
-	<hongxu.jia@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
-	<78fad439cd03f6e9be71a0a917667bcf94ebea51.camel@linuxfoundation.org>
-	<526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
-	<3310e627615370184fd7a1a58997b516ce36f2a7.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <417d48ba-fb59-266c-1293-e41919e6efb5@windriver.com>
-Date: Thu, 20 Sep 2018 03:22:17 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu, 20 Sep 2018 08:00:23 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-MBX-03.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+	id 1g2tsu-0005TZ-QF from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 20 Sep 2018 01:00:24 -0700
+Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
+	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
+	Server (TLS) id 15.0.1320.4; Thu, 20 Sep 2018 09:00:20 +0100
+Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
+	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
+	mapi id 15.00.1320.000; Thu, 20 Sep 2018 09:00:20 +0100
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] glibc-package.inc: correct intention for
+	deleting /usr/lib as needed
+Thread-Index: AQHUTzrReK7EozvamEuUEKOJij+4eaT40Wdy
+Date: Thu, 20 Sep 2018 08:00:20 +0000
+Message-ID: <1537430416414.88965@mentor.com>
+References: <1537266969204.31967@mentor.com>
+In-Reply-To: <1537266969204.31967@mentor.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.94.31.225]
 MIME-Version: 1.0
-In-Reply-To: <3310e627615370184fd7a1a58997b516ce36f2a7.camel@linuxfoundation.org>
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
+Subject: Re: [PATCH] glibc-package.inc: correct intention for deleting /usr/lib as needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,89 +44,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2018 07:22:27 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Thu, 20 Sep 2018 08:00:23 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/alternative;
+	boundary="_000_153743041641488965mentorcom_"
 
-On 09/20/2018 12:54 AM, richard.purdie@linuxfoundation.org wrote:
-> On Thu, 2018-09-20 at 09:45 +0800, Hongxu Jia wrote:
->> I will fix it as my top priority today.
->>
->> Reproduce steps:
->>
->> - Build core-image-sato-sdk on qemuarm64
->> - Run qemu
->> - Log over ssh (openssh) failed
->>
-> 
-> I did have a little bit of a look at this. It seems to hang during key
-> generation before starting the server during boot.
-> 
-> I had a suspicion that the problem could be a lack of entropy. We're
-> supposed to have the virtio entropy generation being passed through
-> from the host to avoid problems with entropy starvation but I'm not
-> sure its running for arm64.
+--_000_153743041641488965mentorcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-We ran into this with OVS in meta-virt as well. The new ssl + the
-4.16+ kernel jams initializing crypto. The solution there was to
-turn off ssl by default.
-
-Author: Jason Wessel <jason.wessel@windriver.com>
-Date:   Wed Sep 5 15:44:45 2018 -0700
-
-     openvswitch: Turn off ssl integration by default
-
-     The openssl library is an optional component for the openvswitch.  The
-     problem with it enabled by default is that it will consume system
-     entropy to try to initialize the openssl library even though we are not
-     using it by default.  With the 4.16 kernel and up there is not always
-     enough entropy available at the early boot time which can cause a
-     lengthy stall, while waiting to initialize the openvswitch.
-
-     If ssl is needed, it can of course be turned on with the package
-     config option "ssl".
-
-     Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+ping!
 
 
-> 
-> I noticed the .config shows CONFIG_CRYPTO_DEV_VIRTIO=m but setting that
-> to =y didn't help. The virtio rng connects via pci bus iirc and
-> CONFIG_PCI isn't set so I'm now looking into that...
-
-This was the 2nd solution, but it did work in our cases without hang.
-
-Which is to add: -device virtio-rng-pci to the qemu command line.
-But yes, you need PCI for that to work.
-
-
-> 
-> To update, adding this config to the kernel:
-> 
-> CONFIG_CRYPTO_DEV_VIRTIO=y
-> CONFIG_PCI=y
-> CONFIG_PCI_HOST_GENERIC=y
-> 
-> appears to solve the problem and lets my simple tests work. I'll have
-> to run some better tests but I think this is the problem, lack pci
-> support in the kernel meaning the rng virtio passthrough doesn't work.
-> 
-
-Yes. That should be it. If someone sends me a config fragment tweak,
-I'll get it into my queue that should come out in the next day or so.
-
-Bruce
-
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> 
-> 
-> 
+BR,
+Awais
+________________________________
+From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
+ounces@lists.openembedded.org> on behalf of Belal, Awais
+Sent: Tuesday, September 18, 2018 3:36 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] glibc-package.inc: correct intention for deletin=
+g /usr/lib as needed
 
 
+In case the baselib is lib64 we would want to delete /usr/lib
+after removing the /usr/lib/locale dir and the implementation
+wanted to do that earlier as well but the fault was checking
+an already removed dir (/usr/lib/locale) before trying to
+remove /usr/lib as that check would always fail.
+Now we simply try to delete /usr/lib after deleting
+/usr/lib/locale to make sure it deletes cleanly and is empty
+at the time of deletion.
+
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
+glibc/glibc-package.inc
+index 9ea41b7..22a59d2 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -207,11 +207,10 @@ do_poststash_install_cleanup () {
+     rm -rf ${D}/${localedir}
+     rm -rf ${D}${datadir}/locale
+     if [ "${libdir}" !=3D "${exec_prefix}/lib" ]; then
+-        if [ -d ${D}${exec_prefix}/lib/locale ] ; then
+-            rm -rf ${D}${exec_prefix}/lib/locale
+-            # error out if directory isn't empty
+-            rm -f ${D}${exec_prefix}/lib
+-        fi
++        # error out if directory isn't empty
++        # this dir should only contain locale dir
++        # which has been deleted in the previous step
++        rmdir ${D}${exec_prefix}/lib
+     fi
+ }
+ addtask do_poststash_install_cleanup after do_stash_locale do_install befo=
+re do_populate_sysroot do_package
+--
+2.7.4
+
+
+--_000_153743041641488965mentorcom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none"><!--P{margin-top:0;margin-b=
+ottom:0;} p=0A=
+	{margin-top:0;=0A=
+	margin-bottom:0}--></style>
+</head>
+<body dir=3D"ltr" style=3D"font-size:10pt;color:#000000;background-color:#F=
+FFFFF;font-family:Tahoma,Geneva,sans-serif;">
+<p>ping!<br>
+</p>
+<p><br>
+</p>
+<div id=3D"Signature">
+<div style=3D"font-family:Tahoma; font-size:13px"><font face=3D"Tahoma"></f=
+ont>
+<div style=3D"font-size:13px">
+<div><font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US">
+<div style=3D"margin:0">BR,</div>
+<div style=3D"margin:0"><i>Awais</i></div>
+</span></font></div>
+</div>
+<font face=3D"Tahoma"></font></div>
+</div>
+<div dir=3D"ltr" style=3D"font-size:10pt; color:#000000; background-color:#=
+FFFFFF; font-family:Tahoma,Geneva,sans-serif">
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font style=3D"font-size:11pt" face=
+=3D"Calibri, sans-serif" color=3D"#000000"><b>From:</b> openembedded-core-b=
+ounces@lists.openembedded.org &lt;openembedded-core-bounces@lists.openembed=
+ded.org&gt; on behalf of Belal, Awais<br>
+<b>Sent:</b> Tuesday, September 18, 2018 3:36 PM<br>
+<b>To:</b> openembedded-core@lists.openembedded.org<br>
+<b>Subject:</b> [OE-core] [PATCH] glibc-package.inc: correct intention for =
+deleting /usr/lib as needed</font>
+<div>&nbsp;</div>
+</div>
+<div>
+<p>In case the baselib is lib64 we would want to delete /usr/lib<br>
+after removing the /usr/lib/locale dir and the implementation<br>
+wanted to do that earlier as well but the fault was checking<br>
+an already removed dir (/usr/lib/locale) before trying to<br>
+remove /usr/lib as that check would always fail.<br>
+Now we simply try to delete /usr/lib after deleting<br>
+/usr/lib/locale to make sure it deletes cleanly and is empty<br>
+at the time of deletion.<br>
+<br>
+Signed-off-by: Awais Belal &lt;awais_belal@mentor.com&gt;<br>
+---<br>
+&nbsp;meta/recipes-core/glibc/glibc-package.inc | 9 &#43;&#43;&#43;&#43;---=
+--<br>
+&nbsp;1 file changed, 4 insertions(&#43;), 5 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
+glibc/glibc-package.inc<br>
+index 9ea41b7..22a59d2 100644<br>
+--- a/meta/recipes-core/glibc/glibc-package.inc<br>
+&#43;&#43;&#43; b/meta/recipes-core/glibc/glibc-package.inc<br>
+@@ -207,11 &#43;207,10 @@ do_poststash_install_cleanup () {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;rm -rf ${D}/${localedir}<br>
+&nbsp;&nbsp;&nbsp; &nbsp;rm -rf ${D}${datadir}/locale<br>
+&nbsp;&nbsp;&nbsp; &nbsp;if [ &quot;${libdir}&quot; !=3D &quot;${exec_prefi=
+x}/lib&quot; ]; then<br>
+-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if [ -d ${D}${exec_prefix}/lib/local=
+e ] ; then<br>
+-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;rm -rf ${D}${exec=
+_prefix}/lib/locale<br>
+-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# error out if di=
+rectory isn't empty<br>
+-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;rm -f ${D}${exec_=
+prefix}/lib<br>
+-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;fi<br>
+&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# error out if directory isn't e=
+mpty<br>
+&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# this dir should only contain l=
+ocale dir<br>
+&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;# which has been deleted in the =
+previous step<br>
+&#43;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;rmdir ${D}${exec_prefix}/lib<br>
+&nbsp;&nbsp;&nbsp; &nbsp;fi<br>
+&nbsp;}<br>
+&nbsp;addtask do_poststash_install_cleanup after do_stash_locale do_install=
+ before do_populate_sysroot do_package<br>
+-- <br>
+2.7.4<font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US"></span></font></=
+p>
+<font size=3D"2" face=3D"Tahoma">
+<div style=3D"margin:0"><i><br>
+</i></div>
+</font>
+<p></p>
+<div id=3D"Signature">
+<div style=3D"font-family:Tahoma; font-size:13px">
+<div style=3D"font-size:13px">
+<div><font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US"></span></font></=
+div>
+</div>
+<font face=3D"Tahoma"></font></div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_153743041641488965mentorcom_--
