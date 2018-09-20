@@ -1,19 +1,18 @@
-Return-Path: <max+openembedded@blarg.de>
-Received: from swift.blarg.de (swift.blarg.de [78.47.110.205])
-	by mail.openembedded.org (Postfix) with ESMTP id C25E179343
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 18:22:41 +0000 (UTC)
-Received: from heron.blarg.de (p3EE2FF12.dip0.t-ipconnect.de [62.226.255.18])
-	(Authenticated sender: max)
-	by swift.blarg.de (Postfix) with ESMTPSA id 57E8C22050E;
-	Thu, 20 Sep 2018 20:22:42 +0200 (CEST)
-From: Max Kellermann <max+openembedded@blarg.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Sep 2018 20:22:39 +0200
-Message-Id: <20180920182239.29801-1-max+openembedded@blarg.de>
-X-Mailer: git-send-email 2.18.0
-Cc: Max Kellermann <max.kellermann@gmail.com>
-Subject: [PATCH] openssh: make OpenSSL optional
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B80F79343;
+	Thu, 20 Sep 2018 18:32:58 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Max Kellermann <max+openembedded@blarg.de>
+Date: Thu, 20 Sep 2018 18:32:59 -0000
+Message-ID: <20180920183259.29310.24354@do.openembedded.org>
+References: <20180920182239.29801-1-max+openembedded@blarg.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180920182239.29801-1-max+openembedded@blarg.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BlbnNzaDogbWFrZSBPcGVuU1NMIG9wdGlvbmFs?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,226 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2018 18:22:42 -0000
+X-List-Received-Date: Thu, 20 Sep 2018 18:32:58 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Max Kellermann <max.kellermann@gmail.com>
+== Series Details ==
 
-Without OpenSSL, OpenSSH can still do ed25519, which is enough for
-many users; and it saves a rather heavy dependency.
+Series: openssh: make OpenSSL optional
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14158/
+State : failure
 
-This requires a patch because lots of `#ifdef WITH_OPENSSL` are
-missing.
+== Summary ==
 
-Signed-off-by: Max Kellermann <max.kellermann@gmail.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../openssh/openssh/fix_without-openssl.patch | 165 ++++++++++++++++++
- .../openssh/openssh_7.8p1+git.bb              |   6 +-
- 2 files changed, 170 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch
-
-diff --git a/meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch b/meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch
-new file mode 100644
-index 0000000000..6840b79a73
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch
-@@ -0,0 +1,165 @@
-+commit 14f336a04748d50e058e24b0be991b3e99f1dbfc
-+Author: Max Kellermann <max.kellermann@gmail.com>
-+Date:   Thu Sep 20 20:04:14 2018 +0200
-+
-+    auth, ...: add missing `#ifdef WITH_OPENSSL`
-+    
-+    Even though OpenSSH doesn't use OpenSSL when built with
-+    `--without-openssl`, it still needs to include its headers to compile
-+    code which is unused in this configuration.
-+
-+diff --git a/auth.h b/auth.h
-+index 977562f0..f68731ef 100644
-+--- a/auth.h
-++++ b/auth.h
-+@@ -30,7 +30,9 @@
-+ 
-+ #include <signal.h>
-+ 
-++#ifdef WITH_OPENSSL
-+ #include <openssl/rsa.h>
-++#endif
-+ 
-+ #ifdef HAVE_LOGIN_CAP
-+ #include <login_cap.h>
-+diff --git a/cipher.c b/cipher.c
-+index 12c59888..43c2e4df 100644
-+--- a/cipher.c
-++++ b/cipher.c
-+@@ -55,7 +55,9 @@
-+ struct sshcipher_ctx {
-+ 	int	plaintext;
-+ 	int	encrypt;
-++#ifdef WITH_OPENSSL
-+ 	EVP_CIPHER_CTX *evp;
-++#endif
-+ 	struct chachapoly_ctx cp_ctx; /* XXX union with evp? */
-+ 	struct aesctr_ctx ac_ctx; /* XXX union with evp? */
-+ 	const struct sshcipher *cipher;
-+diff --git a/cipher.h b/cipher.h
-+index dc1571d2..954c356a 100644
-+--- a/cipher.h
-++++ b/cipher.h
-+@@ -38,7 +38,9 @@
-+ #define CIPHER_H
-+ 
-+ #include <sys/types.h>
-++#ifdef WITH_OPENSSL
-+ #include <openssl/evp.h>
-++#endif
-+ #include "cipher-chachapoly.h"
-+ #include "cipher-aesctr.h"
-+ 
-+diff --git a/kexc25519.c b/kexc25519.c
-+index 0897b8c5..6a54cf9b 100644
-+--- a/kexc25519.c
-++++ b/kexc25519.c
-+@@ -32,8 +32,10 @@
-+ #include <signal.h>
-+ #include <string.h>
-+ 
-++#ifdef WITH_OPENSSL
-+ #include <openssl/bn.h>
-+ #include <openssl/evp.h>
-++#endif
-+ 
-+ #include "sshbuf.h"
-+ #include "ssh2.h"
-+diff --git a/loginrec.c b/loginrec.c
-+index 9a427dec..49abe918 100644
-+--- a/loginrec.c
-++++ b/loginrec.c
-+@@ -166,6 +166,7 @@
-+ #include <string.h>
-+ #include <time.h>
-+ #include <unistd.h>
-++#include <stdlib.h>
-+ 
-+ #include "xmalloc.h"
-+ #include "sshkey.h"
-+diff --git a/monitor_wrap.h b/monitor_wrap.h
-+index 644da081..56079d97 100644
-+--- a/monitor_wrap.h
-++++ b/monitor_wrap.h
-+@@ -40,7 +40,9 @@ struct sshauthopt;
-+ 
-+ void mm_log_handler(LogLevel, const char *, void *);
-+ int mm_is_monitor(void);
-++#ifdef WITH_OPENSSL
-+ DH *mm_choose_dh(int, int, int);
-++#endif
-+ int mm_sshkey_sign(struct sshkey *, u_char **, size_t *, const u_char *, size_t,
-+     const char *, u_int compat);
-+ void mm_inform_authserv(char *, char *);
-+diff --git a/myproposal.h b/myproposal.h
-+index 27b4a15a..ad62ef80 100644
-+--- a/myproposal.h
-++++ b/myproposal.h
-+@@ -24,7 +24,9 @@
-+  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+  */
-+ 
-++#ifdef WITH_OPENSSL
-+ #include <openssl/opensslv.h>
-++#endif
-+ 
-+ /* conditional algorithm support */
-+ 
-+diff --git a/ssh-add.c b/ssh-add.c
-+index adcc4599..526eb39c 100644
-+--- a/ssh-add.c
-++++ b/ssh-add.c
-+@@ -40,7 +40,9 @@
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
-+ 
-++#ifdef WITH_OPENSSL
-+ #include <openssl/evp.h>
-++#endif
-+ #include "openbsd-compat/openssl-compat.h"
-+ 
-+ #include <errno.h>
-+diff --git a/ssh-keyscan.c b/ssh-keyscan.c
-+index 38b1c548..47da5f67 100644
-+--- a/ssh-keyscan.c
-++++ b/ssh-keyscan.c
-+@@ -19,7 +19,9 @@
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ 
-++#ifdef WITH_OPENSSL
-+ #include <openssl/bn.h>
-++#endif
-+ 
-+ #include <netdb.h>
-+ #include <errno.h>
-+diff --git a/sshbuf-getput-crypto.c b/sshbuf-getput-crypto.c
-+index d0d791b5..96c8e629 100644
-+--- a/sshbuf-getput-crypto.c
-++++ b/sshbuf-getput-crypto.c
-+@@ -18,6 +18,8 @@
-+ #define SSHBUF_INTERNAL
-+ #include "includes.h"
-+ 
-++#ifdef WITH_OPENSSL
-++
-+ #include <sys/types.h>
-+ #include <stdlib.h>
-+ #include <stdio.h>
-+@@ -222,3 +224,4 @@ sshbuf_put_eckey(struct sshbuf *buf, const EC_KEY *v)
-+ }
-+ #endif /* OPENSSL_HAS_ECC */
-+ 
-++#endif /* WITH_OPENSSL */
-+diff --git a/sshkey.c b/sshkey.c
-+index 63c01ea6..c82f0fbe 100644
-+--- a/sshkey.c
-++++ b/sshkey.c
-+@@ -27,6 +27,7 @@
-+ 
-+ #include "includes.h"
-+ 
-++#include <time.h>
-+ #include <sys/types.h>
-+ #include <netinet/in.h>
-+ 
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb b/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
-index f54dfb5de4..802e9c023b 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
-@@ -8,7 +8,7 @@ SECTION = "console/network"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
- 
--DEPENDS = "zlib openssl"
-+DEPENDS = "zlib"
- DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
-@@ -24,6 +24,7 @@ SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-            file://sshd_check_keys \
-            file://add-test-support-for-busybox.patch \
-+           file://fix_without-openssl.patch \
-            "
- 
- PAM_SRC_URI = "file://sshd"
-@@ -71,6 +72,9 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PATH_PASSWD_PROG=${bindir}/passwd"
- # We don't want to depend on libblockfile
- CACHED_CONFIGUREVARS += "ac_cv_header_maillock_h=no"
- 
-+PACKAGECONFIG ??= "openssl"
-+PACKAGECONFIG[openssl] = ",--without-openssl,openssl"
-+
- do_configure_prepend () {
- 	export LD="${CC}"
- 	install -m 0644 ${WORKDIR}/sshd_config ${B}/
--- 
-2.18.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
