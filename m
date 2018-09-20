@@ -1,52 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id BC82B744AE
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 43F307971C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 03:54:53 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id u12-v6so1259283ioc.11
+	Thu, 20 Sep 2018 04:54:28 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id l14-v6so6355054iob.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 20:54:55 -0700 (PDT)
+	Wed, 19 Sep 2018 21:54:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=9he2C5v3J7ll1zD5ebj6YBjBymYh1PgMIRhUFwuocS0=;
-	b=hOLjn6W4heuZd3FBSL8SfsULj9JCDgPaVVawuQbvH23NTfsOiZWBgLmD/vI7yVV94m
-	x0LQF4D29NSHaFD54VzoxxATrgmj5jh7mrbrc7tq2b7zru0rXOZS8ZKPDg95CfwY6yzG
-	bTFU7xS0OK39GKgu7yZKsQ1gMO98RhitpfqhI=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=Iy2g5Mp08PD2p0ZFfzpMZfgHkQ0wjJRrARMxTaYvU1U=;
+	b=hQbIKDtKmV5ofYdQQ25pGnS+ag+yfh3VtxNI5t+6EGNv89i7jDm/ik1qirDol60NNa
+	5B/KKNR98oU4L28XBVaBmg6Zd5GWsZ0DZ6l94WDrMXRgFuDWWOh0/7Bis6t/0HQsQFEr
+	HPA+z7XNhkZuNoLTXGs8SBUTDaKgcZQp6sujE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=9he2C5v3J7ll1zD5ebj6YBjBymYh1PgMIRhUFwuocS0=;
-	b=TtkHhx1yHSv5wtfLrJdTjQUv5y+WgyV4nK54Pf8FnxssyycMrq9SVCI0KG2KktuaeE
-	NcJZ7oGdOer1grH9AncaVzLvhDHMYbJ3qkp6Gd6R5Vtq+iMDfHosvwxX5UBZtfy3RnW1
-	A27nRsM2guSbmz8IqcLG0BK5p6lOobEfr3X40C7dNXKwe2pm/CY7OsX09uDPZhyYEVBO
-	cWTRgIAXVFzgD/aYT9RFRKzf5uRtpOnTVQwClmpXaovPn++vHixyK6z3ivcC377H8sLQ
-	ngb22yhnhYnF0lYSrUSHKxKDEwB+zAPlB2iPd84AsCWjs+ogTx7kCedxb9P3qjlrurf2
-	Bf3w==
-X-Gm-Message-State: APzg51DyW104/OWg5szES4Wo/J5wBemk/vKBe4B402erS+zh8wgC/r5t
-	iOeAn0JGfQc4ON3/r9zYZegLUQ==
-X-Google-Smtp-Source: ANB0VdYqMYu8H3uX16EkXXqVln0Jfnno2yQ0c8b2bgkIbnidSH+OGNo/RjeIcEqXrUi0Tvw4xvYSGg==
-X-Received: by 2002:a6b:9444:: with SMTP id
-	w65-v6mr30328682iod.275.1537415694675; 
-	Wed, 19 Sep 2018 20:54:54 -0700 (PDT)
-Received: from hex ([209.82.80.116])
-	by smtp.gmail.com with ESMTPSA id w9-v6sm40277iog.7.2018.09.19.20.54.53
+	bh=Iy2g5Mp08PD2p0ZFfzpMZfgHkQ0wjJRrARMxTaYvU1U=;
+	b=oy8GjyLT8F+wWKu8VqsAtb0+0Gj91uGdsxaefMzQQS46i3LIFXWHRLoDSAGryHVxoE
+	n19ye7UlqbswuocOrV/EBZ4kW2V5VrH9/B5c+5lK2twcdlU2mKuXyCWy5weyQZvey67D
+	aGPEQp0ybI6AmAcKneyasAU6JVxxM9ORZ0tXRIsrxmOlrKddP+9uAsyPdqf51yo2WjBZ
+	KKlAvNmZ5/+io8Ez3o0av7Gt1/4REQJOJQ7YIPHBv+7QPS4UBjwANLWxiiXHVvPGbwAy
+	ZGf/EZQskUfHZ+9qfZpr2PaZZKi0LfPneqGy2/g4ePalO7HqFGyLr9WiCP4RFxM5v/hO
+	l+bw==
+X-Gm-Message-State: APzg51AQ3v9vgrxyxZX9HQmfX6fM11howU19Xc3t7cwM88ykm9kMFkpC
+	pi+euTHdmG8vBFDil7ae0kEWlA==
+X-Google-Smtp-Source: ANB0VdbM09VZWRFRqCh6+3tNC5cYR1/eckGbHdOAo7w0bOg4QjBKxvwRsF8IRhjeC1hHW8kLxizl0g==
+X-Received: by 2002:a6b:5f03:: with SMTP id
+	t3-v6mr34377584iob.242.1537419269228; 
+	Wed, 19 Sep 2018 21:54:29 -0700 (PDT)
+Received: from hex ([209.82.80.116]) by smtp.gmail.com with ESMTPSA id
+	i129-v6sm452313ita.12.2018.09.19.21.54.27
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 19 Sep 2018 20:54:53 -0700 (PDT)
-Message-ID: <5968e6b9dc84b230e75b70c34302f395e19c4f25.camel@linuxfoundation.org>
+	Wed, 19 Sep 2018 21:54:28 -0700 (PDT)
+Message-ID: <3310e627615370184fd7a1a58997b516ce36f2a7.camel@linuxfoundation.org>
 From: richard.purdie@linuxfoundation.org
 To: Hongxu Jia <hongxu.jia@windriver.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Wed, 19 Sep 2018 20:54:51 -0700
+Date: Wed, 19 Sep 2018 21:54:25 -0700
 In-Reply-To: <526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
 References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
 	<78fad439cd03f6e9be71a0a917667bcf94ebea51.camel@linuxfoundation.org>
 	<526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Koen Kooi <koen.kooi@linaro.org>
 Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,22 +62,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2018 03:54:53 -0000
+X-List-Received-Date: Thu, 20 Sep 2018 04:54:28 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 On Thu, 2018-09-20 at 09:45 +0800, Hongxu Jia wrote:
-> On 2018年09月20日 09:07, richard.purdie@linuxfoundation.org wrote:
-> > On Wed, 2018-09-19 at 19:59 +0800, Hongxu Jia wrote:
-> > Thanks for this. Unfortunately I think we still have some kind of a
-> > problem on qemuarm64 since with this patch, we cannot log into
-> > core-
-> > image-sato-sdk over ssh. Other images like core-image-sato work but
-> > they use dropbear which suggests this is an openssh or openssl
-> > problem.
-> 
-> Hi RP,
-> 
 > I will fix it as my top priority today.
 > 
 > Reproduce steps:
@@ -83,20 +74,37 @@ On Thu, 2018-09-20 at 09:45 +0800, Hongxu Jia wrote:
 > - Build core-image-sato-sdk on qemuarm64
 > - Run qemu
 > - Log over ssh (openssh) failed
+> 
 
-Thanks, yes, this is correct.
+I did have a little bit of a look at this. It seems to hang during key
+generation before starting the server during boot.
 
-You can also reproduce with core-image-sato after setting:
+I had a suspicion that the problem could be a lack of entropy. We're
+supposed to have the virtio entropy generation being passed through
+from the host to avoid problems with entropy starvation but I'm not
+sure its running for arm64.
 
-IMAGE_FEATURES += "ssh-server-openssh"
+I noticed the .config shows CONFIG_CRYPTO_DEV_VIRTIO=m but setting that
+to =y didn't help. The virtio rng connects via pci bus iirc and
+CONFIG_PCI isn't set so I'm now looking into that...
 
-The symptoms we're seeing is that "bitbake core-image-sato-sdk -c
-testimage" fails and that seems to be because the ssh server never
-starts or responds, its hard to say what is happening at this point...
+To update, adding this config to the kernel:
+
+CONFIG_CRYPTO_DEV_VIRTIO=y
+CONFIG_PCI=y
+CONFIG_PCI_HOST_GENERIC=y
+
+appears to solve the problem and lets my simple tests work. I'll have
+to run some better tests but I think this is the problem, lack pci
+support in the kernel meaning the rng virtio passthrough doesn't work.
 
 Cheers,
 
 Richard
+
+
+
+
 
 
 
