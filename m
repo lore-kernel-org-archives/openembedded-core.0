@@ -1,53 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id C78EC60800
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BC82B744AE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 03:52:54 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id y18-v6so440209pge.0
+	Thu, 20 Sep 2018 03:54:53 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id u12-v6so1259283ioc.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 20:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=EngV8foCPmDSwy7ll9lbypUUMDS3hOjGd37gh62is8A=;
-	b=HH9F3IYBv0iV/yzGmDBSGEKouf7j/BlFJLbSxt7+joRdWf+SQa+2bcYrKQY2uuqOEq
-	utVT99kotyW6WjpLsIHWUF0M/yXeAPzK5xtBlyN6gaTZncQghSB8hDOwnQO7trqFdmPV
-	HkB97BBaefdn9Rv+GiaHFloCD8TJd5mXMKshApkoM7p2TM6tdv/hK4slp9d7kLHmuKhO
-	s6ru+jKxxC95mMKo6Nece3NMIL7FWucYMMAQD+wPRuiZ+bZa/a8H1OwGImVUicmPD/e6
-	QU4ogdv9K/JEShROw7mL7vmm5IzuYsncvek9UCzywV/nKQT5k51L0h4THf6g8qns+4I6
-	OsEw==
+	Wed, 19 Sep 2018 20:54:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=9he2C5v3J7ll1zD5ebj6YBjBymYh1PgMIRhUFwuocS0=;
+	b=hOLjn6W4heuZd3FBSL8SfsULj9JCDgPaVVawuQbvH23NTfsOiZWBgLmD/vI7yVV94m
+	x0LQF4D29NSHaFD54VzoxxATrgmj5jh7mrbrc7tq2b7zru0rXOZS8ZKPDg95CfwY6yzG
+	bTFU7xS0OK39GKgu7yZKsQ1gMO98RhitpfqhI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=EngV8foCPmDSwy7ll9lbypUUMDS3hOjGd37gh62is8A=;
-	b=eF3Mg3BRvcf1WlJHzJotHjjcwEGxtrp/7OiVrUP1cbjQP3C46TTds4K6A0KVEtdrNO
-	GdC21zr0LizMLoo0WDpg/NYGhkqoclMO4c9MpjxwBxE4rrT4+rSbH5agl54094anTg8Y
-	GCo84Md/2Suj/0/yQrb4/ouucPmmTYFEJo7leAFCWJr5pZ4k/yTgHxBBBwVBauqj6faw
-	l3hTfzebCwLrPew4uomq+VAUx/S+zqi5hSQ5TLzLZMTivt1jX8aTWFUSNGP8TDXOpNug
-	J86bC8kt892NnTphRwfjRzoD2Mjn1UJNqw9jWI1GhfUxECmTOZaFr6dXiDeSm8C1yCak
-	YGZg==
-X-Gm-Message-State: APzg51CEUoHff1A2i7y/Ob3I78ZO4slnwg5QfY1Vajs9RiDH8mx7qn2+
-	RxgokqQXZVqeItWavnDPIPnof9nYrjI=
-X-Google-Smtp-Source: ANB0VdYLBd0WIOGzR6wHZw2z6pMUwxY22xapcLkrxMhdP/WA5B9WSn0Tq/OUB8MnQKPacCaNp/aE+A==
-X-Received: by 2002:aa7:831b:: with SMTP id
-	t27-v6mr39063782pfm.81.1537415575221; 
-	Wed, 19 Sep 2018 20:52:55 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::b1b1])
-	by smtp.gmail.com with ESMTPSA id
-	a20-v6sm52640309pfc.14.2018.09.19.20.52.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Sep 2018 20:52:54 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Sep 2018 20:52:42 -0700
-Message-Id: <20180920035242.983-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.19.0
-In-Reply-To: <20180920035242.983-1-raj.khem@gmail.com>
-References: <20180920035242.983-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH V3 2/2] musl: Add aliases for glibc provided libraries
+	bh=9he2C5v3J7ll1zD5ebj6YBjBymYh1PgMIRhUFwuocS0=;
+	b=TtkHhx1yHSv5wtfLrJdTjQUv5y+WgyV4nK54Pf8FnxssyycMrq9SVCI0KG2KktuaeE
+	NcJZ7oGdOer1grH9AncaVzLvhDHMYbJ3qkp6Gd6R5Vtq+iMDfHosvwxX5UBZtfy3RnW1
+	A27nRsM2guSbmz8IqcLG0BK5p6lOobEfr3X40C7dNXKwe2pm/CY7OsX09uDPZhyYEVBO
+	cWTRgIAXVFzgD/aYT9RFRKzf5uRtpOnTVQwClmpXaovPn++vHixyK6z3ivcC377H8sLQ
+	ngb22yhnhYnF0lYSrUSHKxKDEwB+zAPlB2iPd84AsCWjs+ogTx7kCedxb9P3qjlrurf2
+	Bf3w==
+X-Gm-Message-State: APzg51DyW104/OWg5szES4Wo/J5wBemk/vKBe4B402erS+zh8wgC/r5t
+	iOeAn0JGfQc4ON3/r9zYZegLUQ==
+X-Google-Smtp-Source: ANB0VdYqMYu8H3uX16EkXXqVln0Jfnno2yQ0c8b2bgkIbnidSH+OGNo/RjeIcEqXrUi0Tvw4xvYSGg==
+X-Received: by 2002:a6b:9444:: with SMTP id
+	w65-v6mr30328682iod.275.1537415694675; 
+	Wed, 19 Sep 2018 20:54:54 -0700 (PDT)
+Received: from hex ([209.82.80.116])
+	by smtp.gmail.com with ESMTPSA id w9-v6sm40277iog.7.2018.09.19.20.54.53
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 19 Sep 2018 20:54:53 -0700 (PDT)
+Message-ID: <5968e6b9dc84b230e75b70c34302f395e19c4f25.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Hongxu Jia <hongxu.jia@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 19 Sep 2018 20:54:51 -0700
+In-Reply-To: <526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
+References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
+	<78fad439cd03f6e9be71a0a917667bcf94ebea51.camel@linuxfoundation.org>
+	<526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,70 +60,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2018 03:52:54 -0000
+X-List-Received-Date: Thu, 20 Sep 2018 03:54:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-This is a step towards running pebuilt applications for glibc  on musl
-There are many realworld applications which are not always built from
-source, especially provided by third party
+On Thu, 2018-09-20 at 09:45 +0800, Hongxu Jia wrote:
+> On 2018年09月20日 09:07, richard.purdie@linuxfoundation.org wrote:
+> > On Wed, 2018-09-19 at 19:59 +0800, Hongxu Jia wrote:
+> > Thanks for this. Unfortunately I think we still have some kind of a
+> > problem on qemuarm64 since with this patch, we cannot log into
+> > core-
+> > image-sato-sdk over ssh. Other images like core-image-sato work but
+> > they use dropbear which suggests this is an openssh or openssl
+> > problem.
+> 
+> Hi RP,
+> 
+> I will fix it as my top priority today.
+> 
+> Reproduce steps:
+> 
+> - Build core-image-sato-sdk on qemuarm64
+> - Run qemu
+> - Log over ssh (openssh) failed
 
-Package the glibc symlinks into new package musl-glibc-compat
+Thanks, yes, this is correct.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-V3: Inherit linuxloader for glibc ldso
+You can also reproduce with core-image-sato after setting:
 
- meta/recipes-core/musl/musl_git.bb | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+IMAGE_FEATURES += "ssh-server-openssh"
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index be31718e3a..f0556533b5 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -2,6 +2,7 @@
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
- require musl.inc
-+inherit linuxloader
- 
- SRCREV = "0fa1e638e87cf257e9f96b4019b2076afd674a19"
- 
-@@ -26,6 +27,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
-            bsd-headers \
-            libssp-nonshared \
-           "
-+GLIBC_LDSO = "${@get_glibc_loader(d)}"
- 
- export CROSS_COMPILE="${TARGET_PREFIX}"
- 
-@@ -62,12 +64,26 @@ do_install() {
- 	install -d ${D}${bindir}
- 	rm -f ${D}${bindir}/ldd
- 	lnr ${D}${libdir}/libc.so ${D}${bindir}/ldd
-+	lnr ${D}${libdir}/libc.so ${D}${GLIBC_LDSO}
- 	for l in crypt dl m pthread resolv rt util xnet
- 	do
- 		ln -sf libc.so ${D}${libdir}/lib$l.so
- 	done
-+	for i in libc.so.6 libcrypt.so.1 libdl.so.2 libm.so.6 libpthread.so.0 libresolv.so.2 librt.so.1 libutil.so.1; do
-+		ln -sf libc.so ${D}${libdir}/$i
-+	done
- }
- 
-+PACKAGES =+ "${PN}-glibc-compat"
-+
-+FILES_${PN}-glibc-compat += "\
-+                ${libdir}/libc.so.6 ${libdir}/libcrypt.so.1 \
-+                ${libdir}/libdl.so.2 ${libdir}/libm.so.6 \
-+                ${libdir}/libpthread.so.0 ${libdir}/libresolv.so.2 \
-+                ${libdir}/librt.so.1 ${libdir}/libutil.so.1 \
-+                ${GLIBC_LDSO} \
-+                "
-+
- RDEPENDS_${PN}-dev += "linux-libc-headers-dev bsd-headers-dev libssp-nonshared-staticdev"
- RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
- RPROVIDES_${PN} += "ldd libsegfault rtld(GNU_HASH)"
--- 
-2.19.0
+The symptoms we're seeing is that "bitbake core-image-sato-sdk -c
+testimage" fails and that seems to be because the ssh server never
+starts or responds, its hard to say what is happening at this point...
+
+Cheers,
+
+Richard
+
 
 
