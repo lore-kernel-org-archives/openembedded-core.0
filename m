@@ -1,21 +1,32 @@
-Return-Path: <max+openembedded@blarg.de>
-Received: from swift.blarg.de (swift.blarg.de [78.47.110.205])
-	by mail.openembedded.org (Postfix) with ESMTP id 851C8750FF
+Return-Path: <Alexey.Brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (smtprelay4.synopsys.com [198.182.47.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AC407947E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 19:34:04 +0000 (UTC)
-Received: from heron.blarg.de (p3EE2FF12.dip0.t-ipconnect.de [62.226.255.18])
-	(Authenticated sender: max)
-	by swift.blarg.de (Postfix) with ESMTPSA id 070F822050E;
-	Thu, 20 Sep 2018 21:34:04 +0200 (CEST)
-From: Max Kellermann <max+openembedded@blarg.de>
+	Thu, 20 Sep 2018 20:42:43 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id AEA4B24E0F51;
+	Thu, 20 Sep 2018 13:42:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1537476164; bh=qWPRiXkFQzf7SvPg9CZFuRvJlsNAh/2JvZoELm3izPM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eVSrxUP304oEBKxw8LRuql6lWb0FLJj43DLxoRdSOdIknvEMBVSBZyMvkNPqjGGRD
+	wElXBYhp/BapVRSMKXUg/NExaTVhNUthwWH5Izw2iHphiD0qJwoY4UJL1xEsETucLP
+	tAmSZWfY+dZfbf7jp5RFZk3Cl1Md6AC+dc4eDlx9UVoQDkwojvab4shlKYvrVZBKkt
+	Kb+oLjjUV3IC9iRWpvhexuwq5spBAg1Jzdz7aZSIBOQ+7k2BURs/E+lyksTt99MP0x
+	yvGD8eBo4LINKnSdFqutxCdZNCPnce2nKEJzyzkcAKqUTQBFIjhqcA+M32EKUCTNkv
+	I4SHlR5D0NdcA==
+Received: from ru20arcgnu1.internal.synopsys.com
+	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
+	by mailhost.synopsys.com (Postfix) with ESMTP id 802E03A25;
+	Thu, 20 Sep 2018 13:42:43 -0700 (PDT)
+From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Sep 2018 21:34:01 +0200
-Message-Id: <20180920193401.12595-1-max+openembedded@blarg.de>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180920183259.29310.24354@do.openembedded.org>
-References: <20180920183259.29310.24354@do.openembedded.org>
-Cc: Max Kellermann <max.kellermann@gmail.com>
-Subject: [PATCH v4] openssh: make OpenSSL optional
+Date: Thu, 20 Sep 2018 23:42:23 +0300
+Message-Id: <20180920204232.10583-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.16.2
+Cc: linux-snps-arc@lists.infradead.org,
+	Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+Subject: [PATCH v2 0/9] Introduce ARC port of OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,245 +39,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2018 19:34:04 -0000
+X-List-Received-Date: Thu, 20 Sep 2018 20:42:43 -0000
 
-From: Max Kellermann <max.kellermann@gmail.com>
+DesignWare ARC Processors are a family of 32-bit CPUs from Synopsys.
+This series introduces basic support for ARC architecture in
+OpenEmbedded.
 
-Without OpenSSL, OpenSSH can still do ed25519, which is enough for
-many users; and it saves a rather heavy dependency.
+As of today latest upstream GCC and Binutils are perfectly usable
+for building packages for ARC so we just need a couple of fixes.
 
-This requires a patch because lots of `#ifdef WITH_OPENSSL` are
-missing.
+Glibc for ARC is under review and we're working hard to get it
+accepted in the next upstream release. For now we'll use latest
+code-base back-ported on top of 2.28 release via meta-synopsys.
 
-Signed-off-by: Max Kellermann <max.kellermann@gmail.com>
----
- .../openssh/openssh/fix_without-openssl.patch | 184 ++++++++++++++++++
- .../openssh/openssh_7.8p1+git.bb              |   6 +-
- 2 files changed, 189 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch
+More platform and architecture specific bits could be found in
+meta-synopsys layer here (please refer to the "master" branch):
+https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch b/meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch
-new file mode 100644
-index 0000000000..04c4153409
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/fix_without-openssl.patch
-@@ -0,0 +1,184 @@
-+From b9c78fd9915cfd10e0ad70eba34b15e0036d2911 Mon Sep 17 00:00:00 2001
-+From: Max Kellermann <max.kellermann@gmail.com>
-+Date: Thu, 20 Sep 2018 20:04:14 +0200
-+Subject: [PATCH] auth, ...: add missing `#ifdef WITH_OPENSSL`
-+
-+Even though OpenSSH doesn't use OpenSSL when built with
-+`--without-openssl`, it still needs to include its headers to compile
-+code which is unused in this configuration.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Max Kellermann <max.kellermann@gmail.com>
-+---
-+ auth.h                 | 2 ++
-+ cipher.c               | 2 ++
-+ cipher.h               | 2 ++
-+ kexc25519.c            | 2 ++
-+ loginrec.c             | 1 +
-+ monitor_wrap.h         | 2 ++
-+ myproposal.h           | 2 ++
-+ ssh-add.c              | 2 ++
-+ ssh-keyscan.c          | 2 ++
-+ sshbuf-getput-crypto.c | 3 +++
-+ sshkey.c               | 1 +
-+ 11 files changed, 21 insertions(+)
-+
-+diff --git a/auth.h b/auth.h
-+index 977562f0..f68731ef 100644
-+--- a/auth.h
-++++ b/auth.h
-+@@ -30,7 +30,9 @@
-+ 
-+ #include <signal.h>
-+ 
-++#ifdef WITH_OPENSSL
-+ #include <openssl/rsa.h>
-++#endif
-+ 
-+ #ifdef HAVE_LOGIN_CAP
-+ #include <login_cap.h>
-+diff --git a/cipher.c b/cipher.c
-+index 12c59888..43c2e4df 100644
-+--- a/cipher.c
-++++ b/cipher.c
-+@@ -55,7 +55,9 @@
-+ struct sshcipher_ctx {
-+ 	int	plaintext;
-+ 	int	encrypt;
-++#ifdef WITH_OPENSSL
-+ 	EVP_CIPHER_CTX *evp;
-++#endif
-+ 	struct chachapoly_ctx cp_ctx; /* XXX union with evp? */
-+ 	struct aesctr_ctx ac_ctx; /* XXX union with evp? */
-+ 	const struct sshcipher *cipher;
-+diff --git a/cipher.h b/cipher.h
-+index dc1571d2..954c356a 100644
-+--- a/cipher.h
-++++ b/cipher.h
-+@@ -38,7 +38,9 @@
-+ #define CIPHER_H
-+ 
-+ #include <sys/types.h>
-++#ifdef WITH_OPENSSL
-+ #include <openssl/evp.h>
-++#endif
-+ #include "cipher-chachapoly.h"
-+ #include "cipher-aesctr.h"
-+ 
-+diff --git a/kexc25519.c b/kexc25519.c
-+index 0897b8c5..6a54cf9b 100644
-+--- a/kexc25519.c
-++++ b/kexc25519.c
-+@@ -32,8 +32,10 @@
-+ #include <signal.h>
-+ #include <string.h>
-+ 
-++#ifdef WITH_OPENSSL
-+ #include <openssl/bn.h>
-+ #include <openssl/evp.h>
-++#endif
-+ 
-+ #include "sshbuf.h"
-+ #include "ssh2.h"
-+diff --git a/loginrec.c b/loginrec.c
-+index 9a427dec..49abe918 100644
-+--- a/loginrec.c
-++++ b/loginrec.c
-+@@ -166,6 +166,7 @@
-+ #include <string.h>
-+ #include <time.h>
-+ #include <unistd.h>
-++#include <stdlib.h>
-+ 
-+ #include "xmalloc.h"
-+ #include "sshkey.h"
-+diff --git a/monitor_wrap.h b/monitor_wrap.h
-+index 644da081..56079d97 100644
-+--- a/monitor_wrap.h
-++++ b/monitor_wrap.h
-+@@ -40,7 +40,9 @@ struct sshauthopt;
-+ 
-+ void mm_log_handler(LogLevel, const char *, void *);
-+ int mm_is_monitor(void);
-++#ifdef WITH_OPENSSL
-+ DH *mm_choose_dh(int, int, int);
-++#endif
-+ int mm_sshkey_sign(struct sshkey *, u_char **, size_t *, const u_char *, size_t,
-+     const char *, u_int compat);
-+ void mm_inform_authserv(char *, char *);
-+diff --git a/myproposal.h b/myproposal.h
-+index 27b4a15a..ad62ef80 100644
-+--- a/myproposal.h
-++++ b/myproposal.h
-+@@ -24,7 +24,9 @@
-+  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+  */
-+ 
-++#ifdef WITH_OPENSSL
-+ #include <openssl/opensslv.h>
-++#endif
-+ 
-+ /* conditional algorithm support */
-+ 
-+diff --git a/ssh-add.c b/ssh-add.c
-+index adcc4599..526eb39c 100644
-+--- a/ssh-add.c
-++++ b/ssh-add.c
-+@@ -40,7 +40,9 @@
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
-+ 
-++#ifdef WITH_OPENSSL
-+ #include <openssl/evp.h>
-++#endif
-+ #include "openbsd-compat/openssl-compat.h"
-+ 
-+ #include <errno.h>
-+diff --git a/ssh-keyscan.c b/ssh-keyscan.c
-+index 38b1c548..47da5f67 100644
-+--- a/ssh-keyscan.c
-++++ b/ssh-keyscan.c
-+@@ -19,7 +19,9 @@
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ 
-++#ifdef WITH_OPENSSL
-+ #include <openssl/bn.h>
-++#endif
-+ 
-+ #include <netdb.h>
-+ #include <errno.h>
-+diff --git a/sshbuf-getput-crypto.c b/sshbuf-getput-crypto.c
-+index d0d791b5..96c8e629 100644
-+--- a/sshbuf-getput-crypto.c
-++++ b/sshbuf-getput-crypto.c
-+@@ -18,6 +18,8 @@
-+ #define SSHBUF_INTERNAL
-+ #include "includes.h"
-+ 
-++#ifdef WITH_OPENSSL
-++
-+ #include <sys/types.h>
-+ #include <stdlib.h>
-+ #include <stdio.h>
-+@@ -222,3 +224,4 @@ sshbuf_put_eckey(struct sshbuf *buf, const EC_KEY *v)
-+ }
-+ #endif /* OPENSSL_HAS_ECC */
-+ 
-++#endif /* WITH_OPENSSL */
-+diff --git a/sshkey.c b/sshkey.c
-+index 63c01ea6..c82f0fbe 100644
-+--- a/sshkey.c
-++++ b/sshkey.c
-+@@ -27,6 +27,7 @@
-+ 
-+ #include "includes.h"
-+ 
-++#include <time.h>
-+ #include <sys/types.h>
-+ #include <netinet/in.h>
-+ 
-+-- 
-+2.18.0
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb b/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
-index f54dfb5de4..802e9c023b 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
-@@ -8,7 +8,7 @@ SECTION = "console/network"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
- 
--DEPENDS = "zlib openssl"
-+DEPENDS = "zlib"
- DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
-@@ -24,6 +24,7 @@ SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-            file://sshd_check_keys \
-            file://add-test-support-for-busybox.patch \
-+           file://fix_without-openssl.patch \
-            "
- 
- PAM_SRC_URI = "file://sshd"
-@@ -71,6 +72,9 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PATH_PASSWD_PROG=${bindir}/passwd"
- # We don't want to depend on libblockfile
- CACHED_CONFIGUREVARS += "ac_cv_header_maillock_h=no"
- 
-+PACKAGECONFIG ??= "openssl"
-+PACKAGECONFIG[openssl] = ",--without-openssl,openssl"
-+
- do_configure_prepend () {
- 	export LD="${CC}"
- 	install -m 0644 ${WORKDIR}/sshd_config ${B}/
+Changes v1 -> v2:
+ * Added upstream status for all patches
+ * Rebased on today's master
+
+Alexey Brodkin (8):
+  siteinfo: Define data for ARC
+  kernel-arch.bbclass: Add ARC to kernel arch map
+  openssl: Add support for ARC
+  libgpg-error: Add ARC support
+  icu: Add ARC support
+  gcc: Disable libitm for ARC
+  binutils: Fix Glibc building for ARC
+  gcc: Fix specs generation for ARC
+
+Antoine Tenart (1):
+  nspr: Add ARC support
+
+ meta/classes/kernel-arch.bbclass                   |   1 +
+ meta/classes/siteinfo.bbclass                      |   2 +
+ .../openssl/openssl10_1.0.2p.bb                    |   2 +-
+ meta/recipes-connectivity/openssl/openssl_1.1.1.bb |   2 +-
+ meta/recipes-devtools/binutils/binutils-2.31.inc   |   4 +
+ ...location-where-GOT-information-is-collect.patch | 201 ++++++++++++++
+ ...bustness.-Return-FALSE-in-case-of-NULL-po.patch |  38 +++
+ ...lobal-symbol-is-not-an-indirect-or-warnin.patch |  46 ++++
+ ...tion-was-still-being-generated-when-symbo.patch |  40 +++
+ meta/recipes-devtools/gcc/gcc-8.2.inc              |   1 +
+ .../gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch        |  44 +++
+ meta/recipes-devtools/gcc/gcc-runtime.inc          |   1 +
+ .../icu/icu/0002-Add-ARC-support.patch             |  27 ++
+ meta/recipes-support/icu/icu_62.1.bb               |   1 +
+ ...port-ARC-CPUs-and-simplify-aliasing-table.patch | 298 +++++++++++++++++++++
+ .../libgpg-error/libgpg-error_1.32.bb              |   2 +
+ .../nspr/nspr/0004-Add-ARC-support.patch           |  88 ++++++
+ meta/recipes-support/nspr/nspr_4.19.bb             |   1 +
+ meta/site/arc-common                               |  11 +
+ 19 files changed, 808 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-Refactored-location-where-GOT-information-is-collect.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0019-Improved-robustness.-Return-FALSE-in-case-of-NULL-po.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0020-Make-sure-global-symbol-is-not-an-indirect-or-warnin.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0021-PLT-information-was-still-being-generated-when-symbo.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch
+ create mode 100644 meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
+ create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Support-ARC-CPUs-and-simplify-aliasing-table.patch
+ create mode 100644 meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
+ create mode 100644 meta/site/arc-common
+
 -- 
-2.18.0
+2.16.2
 
 
