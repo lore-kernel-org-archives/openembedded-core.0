@@ -1,51 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 11E9860800
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id C78EC60800
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 03:52:53 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id l63-v6so3739411pga.7
+	Thu, 20 Sep 2018 03:52:54 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id y18-v6so440209pge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2018 20:52:55 -0700 (PDT)
+	Wed, 19 Sep 2018 20:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=SX+erauX2QpARFBv0JaBuWO0/AtYTq+8oI7Da2gX74Q=;
-	b=inu3VRc5GF7ysM6yfNivewRdq4FEo7PVLRmwd4HWkpUsXhVPPrpVElR/+t2g+chgTn
-	0VAwklbpO9/fuLTw6rIpjw9DFPIekrqsWSo4I8CXDi/dJlviLIQgzVTv3B51DomJeNtP
-	LG5Dfdw29MauffGmEOG84lXQ59KXE/yr7H9zX8xprNFHjgxsw4RO6y0U6mo03wznc2LG
-	LaKXZ4c+7WgPzxdBn/QB18ZxGTIUCQDDyn0J9uOQ/joXlCFCv5njA32g7WUcObSX23vT
-	3NhjmhXGoIYDA+E9OD+s5TusTTckz7Ec4EfD0e0csj+qUaQ4mqyjHmqIJZSt2o1VLeG6
-	lTuQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=EngV8foCPmDSwy7ll9lbypUUMDS3hOjGd37gh62is8A=;
+	b=HH9F3IYBv0iV/yzGmDBSGEKouf7j/BlFJLbSxt7+joRdWf+SQa+2bcYrKQY2uuqOEq
+	utVT99kotyW6WjpLsIHWUF0M/yXeAPzK5xtBlyN6gaTZncQghSB8hDOwnQO7trqFdmPV
+	HkB97BBaefdn9Rv+GiaHFloCD8TJd5mXMKshApkoM7p2TM6tdv/hK4slp9d7kLHmuKhO
+	s6ru+jKxxC95mMKo6Nece3NMIL7FWucYMMAQD+wPRuiZ+bZa/a8H1OwGImVUicmPD/e6
+	QU4ogdv9K/JEShROw7mL7vmm5IzuYsncvek9UCzywV/nKQT5k51L0h4THf6g8qns+4I6
+	OsEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=SX+erauX2QpARFBv0JaBuWO0/AtYTq+8oI7Da2gX74Q=;
-	b=BHnrC/DhyNLHixp5yTR0P+EX0jcCDKHjYfXDh/cFVqdsJZHIzwBi28RcqqZwyoygEs
-	5UOa6HPUEIkRHdfi8QTRoNFe9zO/gu7B32sYch+MJfX2M/83QCLe5BxLKqie4XaUset7
-	ZtmD2uVGT3rJN+c+8gAD5vd2F3h8vPFIz5nqjii1WIZm2f4LkykCmNJTFytJ6R/GYXQs
-	7jdUCLjHGuOCezM/5HcLv4vEQXsGKMn3oDnJ62UoaxVa4cHCsWbtgzsfa7gAo+TfLd2a
-	by2D7er6nqtyULGhx/QLjobF2pcpAJMUPtmTXeeF9OGZB12yLVg8Kmdni4sLnvVNcFhH
-	d57A==
-X-Gm-Message-State: APzg51DEs0CJn4cBBA2ntLYz+mFrDzr1ihNkUgYpKEZ9iTRcWRzQzktt
-	n9lvF7Px1fWHCOvPdhYTQChNCl4T2k8=
-X-Google-Smtp-Source: ANB0Vda0eQ4wklHOgZWVYS8zr/uw2WiE6g99R6z8aPXuMSoK4qJgANfcuKOdCciktm+viAPQLY3tLg==
-X-Received: by 2002:a62:6781:: with SMTP id
-	t1-v6mr39045928pfj.200.1537415574316; 
-	Wed, 19 Sep 2018 20:52:54 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=EngV8foCPmDSwy7ll9lbypUUMDS3hOjGd37gh62is8A=;
+	b=eF3Mg3BRvcf1WlJHzJotHjjcwEGxtrp/7OiVrUP1cbjQP3C46TTds4K6A0KVEtdrNO
+	GdC21zr0LizMLoo0WDpg/NYGhkqoclMO4c9MpjxwBxE4rrT4+rSbH5agl54094anTg8Y
+	GCo84Md/2Suj/0/yQrb4/ouucPmmTYFEJo7leAFCWJr5pZ4k/yTgHxBBBwVBauqj6faw
+	l3hTfzebCwLrPew4uomq+VAUx/S+zqi5hSQ5TLzLZMTivt1jX8aTWFUSNGP8TDXOpNug
+	J86bC8kt892NnTphRwfjRzoD2Mjn1UJNqw9jWI1GhfUxECmTOZaFr6dXiDeSm8C1yCak
+	YGZg==
+X-Gm-Message-State: APzg51CEUoHff1A2i7y/Ob3I78ZO4slnwg5QfY1Vajs9RiDH8mx7qn2+
+	RxgokqQXZVqeItWavnDPIPnof9nYrjI=
+X-Google-Smtp-Source: ANB0VdYLBd0WIOGzR6wHZw2z6pMUwxY22xapcLkrxMhdP/WA5B9WSn0Tq/OUB8MnQKPacCaNp/aE+A==
+X-Received: by 2002:aa7:831b:: with SMTP id
+	t27-v6mr39063782pfm.81.1537415575221; 
+	Wed, 19 Sep 2018 20:52:55 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::b1b1])
 	by smtp.gmail.com with ESMTPSA id
-	a20-v6sm52640309pfc.14.2018.09.19.20.52.53
+	a20-v6sm52640309pfc.14.2018.09.19.20.52.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Sep 2018 20:52:53 -0700 (PDT)
+	Wed, 19 Sep 2018 20:52:54 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Sep 2018 20:52:41 -0700
-Message-Id: <20180920035242.983-1-raj.khem@gmail.com>
+Date: Wed, 19 Sep 2018 20:52:42 -0700
+Message-Id: <20180920035242.983-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.19.0
+In-Reply-To: <20180920035242.983-1-raj.khem@gmail.com>
+References: <20180920035242.983-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] linuxloader.bbclass: Refactor to have seprate functions for musl/glibc loader
+Subject: [PATCH V3 2/2] musl: Add aliases for glibc provided libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,118 +63,66 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 20 Sep 2018 03:52:54 -0000
 Content-Transfer-Encoding: 8bit
 
-this makes it possible to use this for musl where we are trying to
-create a glibc compat package
+This is a step towards running pebuilt applications for glibc  on musl
+There are many realworld applications which are not always built from
+source, especially provided by third party
 
-Add missing aarch64 loader definition for glibc function
+Package the glibc symlinks into new package musl-glibc-compat
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/linuxloader.bbclass | 85 ++++++++++++++++++--------------
- 1 file changed, 49 insertions(+), 36 deletions(-)
+V3: Inherit linuxloader for glibc ldso
 
-diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxloader.bbclass
-index e1364a4e55..b4c413494a 100644
---- a/meta/classes/linuxloader.bbclass
-+++ b/meta/classes/linuxloader.bbclass
-@@ -1,48 +1,61 @@
--def get_linuxloader(d):
-+def get_musl_loader(d):
-+    import re
-+    dynamic_loader = None
+ meta/recipes-core/musl/musl_git.bb | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index be31718e3a..f0556533b5 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -2,6 +2,7 @@
+ # Released under the MIT license (see COPYING.MIT for the terms)
+ 
+ require musl.inc
++inherit linuxloader
+ 
+ SRCREV = "0fa1e638e87cf257e9f96b4019b2076afd674a19"
+ 
+@@ -26,6 +27,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
+            bsd-headers \
+            libssp-nonshared \
+           "
++GLIBC_LDSO = "${@get_glibc_loader(d)}"
+ 
+ export CROSS_COMPILE="${TARGET_PREFIX}"
+ 
+@@ -62,12 +64,26 @@ do_install() {
+ 	install -d ${D}${bindir}
+ 	rm -f ${D}${bindir}/ldd
+ 	lnr ${D}${libdir}/libc.so ${D}${bindir}/ldd
++	lnr ${D}${libdir}/libc.so ${D}${GLIBC_LDSO}
+ 	for l in crypt dl m pthread resolv rt util xnet
+ 	do
+ 		ln -sf libc.so ${D}${libdir}/lib$l.so
+ 	done
++	for i in libc.so.6 libcrypt.so.1 libdl.so.2 libm.so.6 libpthread.so.0 libresolv.so.2 librt.so.1 libutil.so.1; do
++		ln -sf libc.so ${D}${libdir}/$i
++	done
+ }
+ 
++PACKAGES =+ "${PN}-glibc-compat"
 +
-+    targetarch = d.getVar("TARGET_ARCH")
-+    if targetarch.startswith("microblaze"):
-+        dynamic_loader = "${base_libdir}/ld-musl-microblaze${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '', 'el' ,d)}.so.1"
-+    elif targetarch.startswith("mips"):
-+        dynamic_loader = "${base_libdir}/ld-musl-mips${ABIEXTENSION}${MIPSPKGSFX_BYTE}${MIPSPKGSFX_R6}${MIPSPKGSFX_ENDIAN}${@['', '-sf'][d.getVar('TARGET_FPU') == 'soft']}.so.1"
-+    elif targetarch == "powerpc":
-+        dynamic_loader = "${base_libdir}/ld-musl-powerpc${@['', '-sf'][d.getVar('TARGET_FPU') == 'soft']}.so.1"
-+    elif targetarch == "powerpc64":
-+        dynamic_loader = "${base_libdir}/ld-musl-powerpc64.so.1"
-+    elif targetarch == "x86_64":
-+        dynamic_loader = "${base_libdir}/ld-musl-x86_64.so.1"
-+    elif re.search("i.86", targetarch):
-+        dynamic_loader = "${base_libdir}/ld-musl-i386.so.1"
-+    elif targetarch.startswith("arm"):
-+        dynamic_loader = "${base_libdir}/ld-musl-arm${ARMPKGSFX_ENDIAN}${ARMPKGSFX_EABI}.so.1"
-+    elif targetarch.startswith("aarch64"):
-+        dynamic_loader = "${base_libdir}/ld-musl-aarch64${ARMPKGSFX_ENDIAN_64}.so.1"
-+    return dynamic_loader
++FILES_${PN}-glibc-compat += "\
++                ${libdir}/libc.so.6 ${libdir}/libcrypt.so.1 \
++                ${libdir}/libdl.so.2 ${libdir}/libm.so.6 \
++                ${libdir}/libpthread.so.0 ${libdir}/libresolv.so.2 \
++                ${libdir}/librt.so.1 ${libdir}/libutil.so.1 \
++                ${GLIBC_LDSO} \
++                "
 +
-+def get_glibc_loader(d):
-     import re
- 
-+    dynamic_loader = None
-     targetarch = d.getVar("TARGET_ARCH")
-+    if targetarch in ["powerpc", "microblaze"]:
-+        dynamic_loader = "${base_libdir}/ld.so.1"
-+    elif targetarch in ["mipsisa32r6el", "mipsisa32r6", "mipsisa64r6el", "mipsisa64r6"]:
-+        dynamic_loader = "${base_libdir}/ld-linux-mipsn8.so.1"
-+    elif targetarch.startswith("mips"):
-+        dynamic_loader = "${base_libdir}/ld.so.1"
-+    elif targetarch == "powerpc64":
-+        dynamic_loader = "${base_libdir}/ld64.so.1"
-+    elif targetarch == "x86_64":
-+        dynamic_loader = "${base_libdir}/ld-linux-x86-64.so.2"
-+    elif re.search("i.86", targetarch):
-+        dynamic_loader = "${base_libdir}/ld-linux.so.2"
-+    elif targetarch == "arm":
-+        dynamic_loader = "${base_libdir}/ld-linux.so.3"
-+    elif targetarch.startswith("aarch64"):
-+        dynamic_loader = "${base_libdir}/ld-linux-aarch64${ARMPKGSFX_ENDIAN_64}.so.1"
-+    return dynamic_loader
-+
-+def get_linuxloader(d):
-     overrides = d.getVar("OVERRIDES").split(":")
- 
--    # No loader for baremetal
-     if "libc-baremetal" in overrides:
-         return None
- 
--    dynamic_loader = None
-     if "libc-musl" in overrides:
--        if targetarch.startswith("microblaze"):
--            dynamic_loader = "${base_libdir}/ld-musl-microblaze${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '', 'el' ,d)}.so.1"
--        elif targetarch.startswith("mips"):
--            dynamic_loader = "${base_libdir}/ld-musl-mips${ABIEXTENSION}${MIPSPKGSFX_BYTE}${MIPSPKGSFX_R6}${MIPSPKGSFX_ENDIAN}${@['', '-sf'][d.getVar('TARGET_FPU') == 'soft']}.so.1"
--        elif targetarch == "powerpc":
--            dynamic_loader = "${base_libdir}/ld-musl-powerpc${@['', '-sf'][d.getVar('TARGET_FPU') == 'soft']}.so.1"
--        elif targetarch == "powerpc64":
--            dynamic_loader = "${base_libdir}/ld-musl-powerpc64.so.1"
--        elif targetarch == "x86_64":
--            dynamic_loader = "${base_libdir}/ld-musl-x86_64.so.1"
--        elif re.search("i.86", targetarch):
--            dynamic_loader = "${base_libdir}/ld-musl-i386.so.1"
--        elif targetarch.startswith("arm"):
--            dynamic_loader = "${base_libdir}/ld-musl-arm${ARMPKGSFX_ENDIAN}${ARMPKGSFX_EABI}.so.1"
--        elif targetarch.startswith("aarch64"):
--            dynamic_loader = "${base_libdir}/ld-musl-aarch64${ARMPKGSFX_ENDIAN_64}.so.1"
-+        dynamic_loader = get_musl_loader(d)
-     else:
--        # glibc
--        if targetarch in ["powerpc", "microblaze"]:
--            dynamic_loader = "${base_libdir}/ld.so.1"
--        elif targetarch in ["mipsisa32r6el", "mipsisa32r6", "mipsisa64r6el", "mipsisa64r6"]:
--            dynamic_loader = "${base_libdir}/ld-linux-mipsn8.so.1"
--        elif targetarch.startswith("mips"):
--            dynamic_loader = "${base_libdir}/ld.so.1"
--        elif targetarch == "powerpc64":
--            dynamic_loader = "${base_libdir}/ld64.so.1"
--        elif targetarch == "x86_64":
--            dynamic_loader = "${base_libdir}/ld-linux-x86-64.so.2"
--        elif re.search("i.86", targetarch):
--            dynamic_loader = "${base_libdir}/ld-linux.so.2"
--        elif targetarch == "arm":
--            dynamic_loader = "${base_libdir}/ld-linux.so.3"
--
-+        dynamic_loader = get_glibc_loader(d)
-     return dynamic_loader
--get_linuxloader[vardepvalue] = "${@get_linuxloader(d)}"
- 
-+get_linuxloader[vardepvalue] = "${@get_linuxloader(d)}"
-+get_musl_loader[vardepvalue] = "${@get_musl_loader(d)}"
-+get_glibc_loader[vardepvalue] = "${@get_glibc_loader(d)}"
+ RDEPENDS_${PN}-dev += "linux-libc-headers-dev bsd-headers-dev libssp-nonshared-staticdev"
+ RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
+ RPROVIDES_${PN} += "ldd libsegfault rtld(GNU_HASH)"
 -- 
 2.19.0
 
