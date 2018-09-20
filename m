@@ -1,19 +1,23 @@
 Return-Path: <max+openembedded@blarg.de>
+X-Greylist: delayed 576 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 20 Sep 2018 13:26:02 UTC
 Received: from swift.blarg.de (swift.blarg.de [78.47.110.205])
-	by mail.openembedded.org (Postfix) with ESMTP id F2C677980B
+	by mail.openembedded.org (Postfix) with ESMTP id F3AC17982A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 20 Sep 2018 13:26:02 +0000 (UTC)
 Received: from heron.blarg.de (p3EE2FF12.dip0.t-ipconnect.de [62.226.255.18])
 	(Authenticated sender: max)
-	by swift.blarg.de (Postfix) with ESMTPSA id 322B722050E;
+	by swift.blarg.de (Postfix) with ESMTPSA id 06446220511;
 	Thu, 20 Sep 2018 15:16:27 +0200 (CEST)
 From: Max Kellermann <max+openembedded@blarg.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Sep 2018 15:16:22 +0200
-Message-Id: <20180920131623.22048-1-max+openembedded@blarg.de>
+Date: Thu, 20 Sep 2018 15:16:23 +0200
+Message-Id: <20180920131623.22048-2-max+openembedded@blarg.de>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20180920131623.22048-1-max+openembedded@blarg.de>
+References: <20180920131623.22048-1-max+openembedded@blarg.de>
 Cc: Max Kellermann <max.kellermann@gmail.com>
-Subject: [PATCH 1/2] openssh: make OpenSSL optional
+Subject: [PATCH 2/2] libsolv: make rpm optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,39 +34,36 @@ X-List-Received-Date: Thu, 20 Sep 2018 13:26:03 -0000
 
 From: Max Kellermann <max.kellermann@gmail.com>
 
-Without OpenSSL, OpenSSH can still do ed25519, which is enough for
-many users; and it saves a rather heavy dependency.
-
 Signed-off-by: Max Kellermann <max.kellermann@gmail.com>
 ---
- meta/recipes-connectivity/openssh/openssh_7.8p1.bb | 7 +++++--
+ meta/recipes-extended/libsolv/libsolv_0.6.35.bb | 7 +++++--
  1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb b/meta/recipes-connectivity/openssh/openssh_7.8p1.bb
-index f4b295f2df..6dfa2cfd2c 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.8p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.8p1.bb
-@@ -8,8 +8,7 @@ SECTION = "console/network"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.35.bb b/meta/recipes-extended/libsolv/libsolv_0.6.35.bb
+index 0956453022..12dfc5d3a2 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.6.35.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.6.35.bb
+@@ -5,7 +5,7 @@ SECTION = "devel"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
  
--# openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
--DEPENDS = "zlib openssl10"
-+DEPENDS = "zlib"
- DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+-DEPENDS = "expat zlib rpm"
++DEPENDS = "expat zlib"
  
- SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
-@@ -71,6 +70,10 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PATH_PASSWD_PROG=${bindir}/passwd"
- # We don't want to depend on libblockfile
- CACHED_CONFIGUREVARS += "ac_cv_header_maillock_h=no"
+ SRC_URI = "git://github.com/openSUSE/libsolv.git"
+ SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation.patch \
+@@ -19,7 +19,10 @@ S = "${WORKDIR}/git"
  
-+PACKAGECONFIG ??= "openssl"
-+# openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
-+PACKAGECONFIG[openssl] = ",--without-openssl,openssl10"
+ inherit cmake
+ 
+-EXTRA_OECMAKE = "-DLIB=${baselib} -DMULTI_SEMANTICS=ON -DENABLE_RPMMD=ON -DENABLE_RPMDB=ON -DENABLE_COMPLEX_DEPS=ON"
++PACKAGECONFIG ??= "rpm"
++PACKAGECONFIG[rpm] = "-DENABLE_RPMMD=ON -DENABLE_RPMDB=ON,,rpm"
 +
- do_configure_prepend () {
- 	export LD="${CC}"
- 	install -m 0644 ${WORKDIR}/sshd_config ${B}/
++EXTRA_OECMAKE = "-DLIB=${baselib} -DMULTI_SEMANTICS=ON -DENABLE_COMPLEX_DEPS=ON"
+ 
+ PACKAGES =+ "${PN}-tools ${PN}ext"
+ 
 -- 
 2.18.0
 
