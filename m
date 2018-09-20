@@ -1,23 +1,50 @@
-Return-Path: <max@blarg.de>
-Received: from swift.blarg.de (swift.blarg.de [78.47.110.205])
-	by mail.openembedded.org (Postfix) with ESMTP id 2963977AAE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
+	[209.85.218.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 30C94605BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 14:22:14 +0000 (UTC)
-Received: by swift.blarg.de (Postfix, from userid 500)
-	id BEE4822050E; Thu, 20 Sep 2018 16:22:15 +0200 (CEST)
-Date: Thu, 20 Sep 2018 16:22:15 +0200
-From: Max Kellermann <max+openembedded@blarg.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20180920142215.ttn5crsztorrrgt6@swift.blarg.de>
-Mail-Followup-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-References: <20180920131623.22048-1-max+openembedded@blarg.de>
-	<CANNYZj85wzWZ4oRTzfV7wqDuXQtGO+LFVJJheXSvinn7aAkX5Q@mail.gmail.com>
+	Thu, 20 Sep 2018 14:46:24 +0000 (UTC)
+Received: by mail-oi0-f48.google.com with SMTP id l82-v6so8568290oih.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Sep 2018 07:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=k4saMNZtZrA/cgyz4bvIz6uiI87gZLW7aleiGWgfIHo=;
+	b=KTIBk3IF7s7uQTIdM9kx1qXlRuM5krqe6SMKzLtvIqJ6aaQCmK8Ggql2H51QkI/+xp
+	Vcq/Ik/mHsgZmT8yCX/u3EQe6rVv4JhF+FJECZQb2tn3nSQSWO/19Az615Ic12Jo7Chz
+	b8iVL7OvIGANqaIlQxFquPbxTW4UyOBkyyorsuL3Bb4k4RGmh84nfbxOxIJUfUppTsYN
+	WM4H0fFqF3jqwHmm+Ceq/57zQrK2ws6d31Re4kT0d0ylSxv3i0OtfQc8Y9lKj0XQL6mC
+	Dw207Ujlrd87vT5Rdxo8b3toTt19KTSWMlgZ8db3D8VMpTo2vwBBH9oyCgxPf/Kv4SV2
+	9iDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=k4saMNZtZrA/cgyz4bvIz6uiI87gZLW7aleiGWgfIHo=;
+	b=fnG55bhiDkA2DxwLUnFLuHU2ievFMgecVZtUE6koN/LxaRFrgGglJC81Ma2o1tMKeF
+	0mBjssBb/oQ/XvXTNDYAMRu9qJTYf/RYk4ZV/PMlWMvX+Uu7Gr2EkMLMlsXbm9xjF3n6
+	ao8T58N0vXcNtvCRL/6EUdhQPXPL8AP0Tuc9XAeI9TwzNlwu/KBaWn51x3CaHUbRQ2ac
+	XmZcYjNzFkCLWjYgVw422U6wonwuCAyHJ86o5kWM5aHvSXJhl1yt8eyGakVi3JmM1WCQ
+	8/+t58BgkrYvCezFjCxvQ6nuuoSitUFtAUu+3Y9t32YLQaYf0WpSxzSli7zcruigQrwK
+	yf7w==
+X-Gm-Message-State: APzg51CVL2j+DCcZh0Zt6DdIJXNW7dvLBzbhkOkBPoj4BkPIZy++y/d4
+	/2+24Hck/L0n+HeXtQPFDjnE8Vu8kyVi1B4Qxj5tfA==
+X-Google-Smtp-Source: ANB0VdZzOjSPU0CkFyzJqswYwhAZw5LFnqVv/ddMdt44Nqm0PcWR68eVviMO1XaRyvaD5ZsJHlT1kyq47uSzMWxsGqE=
+X-Received: by 2002:aca:d7c2:: with SMTP id
+	o185-v6mr1852437oig.55.1537454785874; 
+	Thu, 20 Sep 2018 07:46:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj85wzWZ4oRTzfV7wqDuXQtGO+LFVJJheXSvinn7aAkX5Q@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <1537266969204.31967@mentor.com>
+	<CAJTo0LbCJwoD8Rc4uLffTx5P0enQxppY4-5YmGYPDbhahU8j8A@mail.gmail.com>
+	<9a58ea4be84c4f0eb2c34680a9345186@SVR-IES-MBX-03.mgc.mentorg.com>
+In-Reply-To: <9a58ea4be84c4f0eb2c34680a9345186@SVR-IES-MBX-03.mgc.mentorg.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Sep 2018 15:46:14 +0100
+Message-ID: <CAJTo0LYtN8Rn=Kw1opw9=-a9j2zFFaUqikvwU4LXqoqHiEot5Q@mail.gmail.com>
+To: "Belal, Awais" <Awais_Belal@mentor.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] openssh: make OpenSSL optional
+Subject: Re: [PATCH] glibc-package.inc: correct intention for deleting /usr/lib as needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,35 +57,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2018 14:22:15 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 20 Sep 2018 14:46:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2018/09/20 16:11, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> I don't object to the patch (except it would need to be rebased on top
-> of the openssl 1.1 patch), but I would like to know a bit more.
-
-Ok, I'll do that once that one is merged.
-
-> What is ed25519? Can a client that supports only that connect to most
-> or all servers? Can a server that supports only that accept
-> connections from most or all clients? Are any features lost?
-
-It is a newer public key type, supported since OpenSSH 6.5
-(https://www.openssh.com/txt/release-6.5).  The crypto math behind it
-was designed by Daniel Bernstein (https://ed25519.cr.yp.to/).
-
-Usually, OpenSSH uses OpenSSL for some of its crypto, but it can use
-ed25519 natively without OpenSSL.  This means you can eliminate
-OpenSSL completely in some images, without having to omit OpenSSH as
-well.
-
-The downside is that a binary compiled without OpenSSL understands
-only ed25519 keys, and nothing else.  That means the server will only
-be able to accept ed25519 public keys, but no RSA/DSA.  That's ok for
-some people who will only use ed25519 anyway (like me).  For others,
-it might be a good reason to switch to ed25519 (which is allegedly
-more secure than RSA).
-
-Max
+That's better than HTML!
+On Thu, 20 Sep 2018 at 15:04, Belal, Awais <Awais_Belal@mentor.com> wrote:
+>
+> Hi Ross,
+>
+> >> Can you resend using git-send-email, as this patch is encoded in HTML.
+> My SMTP server is acting up these days, should I simply resend the patch here as an attachment?
+>
+> BR,
+> Awais
+>
+> ________________________________________
+> From: Burton, Ross [ross.burton@intel.com]
+> Sent: Thursday, September 20, 2018 4:10 PM
+> To: Belal, Awais
+> Cc: OE-core
+> Subject: Re: [OE-core] [PATCH] glibc-package.inc: correct intention for deleting /usr/lib as needed
+>
+> Can you resend using git-send-email, as this patch is encoded in HTML.
+>
+> Ross
+> On Tue, 18 Sep 2018 at 11:53, Belal, Awais <Awais_Belal@mentor.com> wrote:
+> >
+> > In case the baselib is lib64 we would want to delete /usr/lib
+> > after removing the /usr/lib/locale dir and the implementation
+> > wanted to do that earlier as well but the fault was checking
+> > an already removed dir (/usr/lib/locale) before trying to
+> > remove /usr/lib as that check would always fail.
+> > Now we simply try to delete /usr/lib after deleting
+> > /usr/lib/locale to make sure it deletes cleanly and is empty
+> > at the time of deletion.
+> >
+> > Signed-off-by: Awais Belal <awais_belal@mentor.com>
+> > ---
+> >  meta/recipes-core/glibc/glibc-package.inc | 9 ++++-----
+> >  1 file changed, 4 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+> > index 9ea41b7..22a59d2 100644
+> > --- a/meta/recipes-core/glibc/glibc-package.inc
+> > +++ b/meta/recipes-core/glibc/glibc-package.inc
+> > @@ -207,11 +207,10 @@ do_poststash_install_cleanup () {
+> >      rm -rf ${D}/${localedir}
+> >      rm -rf ${D}${datadir}/locale
+> >      if [ "${libdir}" != "${exec_prefix}/lib" ]; then
+> > -        if [ -d ${D}${exec_prefix}/lib/locale ] ; then
+> > -            rm -rf ${D}${exec_prefix}/lib/locale
+> > -            # error out if directory isn't empty
+> > -            rm -f ${D}${exec_prefix}/lib
+> > -        fi
+> > +        # error out if directory isn't empty
+> > +        # this dir should only contain locale dir
+> > +        # which has been deleted in the previous step
+> > +        rmdir ${D}${exec_prefix}/lib
+> >      fi
+> >  }
+> >  addtask do_poststash_install_cleanup after do_stash_locale do_install before do_populate_sysroot do_package
+> > --
+> > 2.7.4
+> >
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
