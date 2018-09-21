@@ -1,33 +1,34 @@
 Return-Path: <Alexey.Brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (smtprelay2.synopsys.com
-	[198.182.60.111])
-	by mail.openembedded.org (Postfix) with ESMTP id F0C147605E
+Received: from smtprelay.synopsys.com (smtprelay.synopsys.com [198.182.60.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 76651798D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 14:26:11 +0000 (UTC)
+	Fri, 21 Sep 2018 14:26:13 +0000 (UTC)
 Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 0760E10C1B4E;
-	Fri, 21 Sep 2018 07:26:13 -0700 (PDT)
+	by smtprelay.synopsys.com (Postfix) with ESMTP id BB4A910C1BA9;
+	Fri, 21 Sep 2018 07:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1537539973; bh=HcXAXypqFtGAIhC51BsrHwPmgSsSWFn7oTvxnV1eCsg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=F+MOyz0+MXw6Up/goiyxL4x+/jihSGClhIcu/Q17x876niqMSEWIS1Kyla1E1veS3
-	RKZ5m+wkSekKHnO417aHmcVM+gzqPnw13Sg61PBMojzu3+Txrp/Df6hIbV8gL0GVMU
-	Fxo+9b70z/nxa67iCfCRWX8Rq8gd5FY+haW8Rq52lG6+5hTEDJ2E9LDAlhMrCyRd6U
-	8SqKHXrFCrctjJzqMTn/Rh76tGYobikw/lDwMsZFosLhCqHFty8nNgk2/NYUbk+UHp
-	yiioD1lahli/twZKGp/+flD1faXgDg6/IeVZeDqB9Q/sdWg3Xfn3TpZkFgdthfyUUy
-	6VutRMHrYOATg==
+	t=1537539974; bh=P0BH2l34PLxhZWi9PCOby8SeFf3e9TtJwfXt3UT5ewY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=EmJ3PL3pwaXf3KPsGn1H0XSCIKJkQSnrOMzwbacwaAITq+B90WwrqCH4I1BpEWn9V
+	CyFskRu+nHwXt3DUZhxWacBU6YJ/06HxRWZPFbsVM53JWhYLOvK+tkaUG9ENL2D+4H
+	qC8ISdyBLemo4P/6kec38zHw3DI3uOPIGKiDgkZ+OCwNAQIDiiTPnYpGkth8m+f9Us
+	4bkdp4mal93q8qPCGsSjYlbFGHehS9ZtCKnnVm/Td2G61te0xd5+0gXOBRCPEr+2zb
+	rtP5JxuS0Vtq75FpnSV529ivjwC5qT33x+78O7ixnA2V63tecWg+SFPTWal26gq83S
+	zMg2Pn79qu4gw==
 Received: from ru20arcgnu1.internal.synopsys.com
 	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 9E9E55CAD;
-	Fri, 21 Sep 2018 07:26:11 -0700 (PDT)
+	by mailhost.synopsys.com (Postfix) with ESMTP id 5E5B35CCE;
+	Fri, 21 Sep 2018 07:26:13 -0700 (PDT)
 From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Sep 2018 17:25:59 +0300
-Message-Id: <20180921142608.36203-1-abrodkin@synopsys.com>
+Date: Fri, 21 Sep 2018 17:26:00 +0300
+Message-Id: <20180921142608.36203-2-abrodkin@synopsys.com>
 X-Mailer: git-send-email 2.16.2
+In-Reply-To: <20180921142608.36203-1-abrodkin@synopsys.com>
+References: <20180921142608.36203-1-abrodkin@synopsys.com>
 Cc: linux-snps-arc@lists.infradead.org,
 	Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-Subject: [PATCH v3 0/9] Introduce ARC port of OpenEmbedded
+Subject: [PATCH v3 1/9] siteinfo: Define data for ARC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,76 +41,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 14:26:12 -0000
+X-List-Received-Date: Fri, 21 Sep 2018 14:26:13 -0000
 
-DesignWare ARC Processors are a family of 32-bit CPUs from Synopsys.
-This series introduces basic support for ARC architecture in
-OpenEmbedded.
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+---
 
-As of today latest upstream GCC and Binutils are perfectly usable
-for building packages for ARC so we just need a couple of fixes.
-
-Glibc for ARC is under review and we're working hard to get it
-accepted in the next upstream release. For now we'll use latest
-code-base back-ported on top of 2.28 release via meta-synopsys.
-
-More platform and architecture specific bits could be found in
-meta-synopsys layer here (please refer to the "master" branch):
-https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys
-
-Changes v2 -> v3:
- * libgpg-error: Use proper upstream fix for ARC Glibc tools
- * libgpg-error: Fix header name for x86_64
+No changes in v3.
 
 Changes v1 -> v2:
- * Added upstream status for all patches
- * Rebased on today's master
+ * Merged changes in meta/classes/siteinfo.bbclass &
+   meta/site/arc-common
 
-Alexey Brodkin (8):
-  siteinfo: Define data for ARC
-  kernel-arch.bbclass: Add ARC to kernel arch map
-  openssl: Add support for ARC
-  libgpg-error: Add ARC support
-  icu: Add ARC support
-  gcc: Disable libitm for ARC
-  binutils: Fix Glibc building for ARC
-  gcc: Fix specs generation for ARC
-
-Antoine Tenart (1):
-  nspr: Add ARC support
-
- meta/classes/kernel-arch.bbclass                   |   1 +
- meta/classes/siteinfo.bbclass                      |   2 +
- .../openssl/openssl10_1.0.2p.bb                    |   2 +-
- meta/recipes-connectivity/openssl/openssl_1.1.1.bb |   2 +-
- meta/recipes-devtools/binutils/binutils-2.31.inc   |   4 +
- ...location-where-GOT-information-is-collect.patch | 201 ++++++++++++++
- ...bustness.-Return-FALSE-in-case-of-NULL-po.patch |  38 +++
- ...lobal-symbol-is-not-an-indirect-or-warnin.patch |  46 ++++
- ...tion-was-still-being-generated-when-symbo.patch |  40 +++
- meta/recipes-devtools/gcc/gcc-8.2.inc              |   1 +
- .../gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch        |  44 +++
- meta/recipes-devtools/gcc/gcc-runtime.inc          |   1 +
- .../icu/icu/0002-Add-ARC-support.patch             |  27 ++
- meta/recipes-support/icu/icu_62.1.bb               |   1 +
- ...port-ARC-CPUs-and-simplify-aliasing-table.patch | 298 +++++++++++++++++++++
- ...cfg-Add-support-for-arc-unknown-linux-gnu.patch |  35 +++
- .../libgpg-error/libgpg-error_1.32.bb              |   7 +-
- .../nspr/nspr/0004-Add-ARC-support.patch           |  88 ++++++
- meta/recipes-support/nspr/nspr_4.19.bb             |   1 +
- meta/site/arc-common                               |  11 +
- 20 files changed, 847 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-Refactored-location-where-GOT-information-is-collect.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0019-Improved-robustness.-Return-FALSE-in-case-of-NULL-po.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0020-Make-sure-global-symbol-is-not-an-indirect-or-warnin.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0021-PLT-information-was-still-being-generated-when-symbo.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch
- create mode 100644 meta/recipes-support/icu/icu/0002-Add-ARC-support.patch
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-syscfg-Support-ARC-CPUs-and-simplify-aliasing-table.patch
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0002-syscfg-Add-support-for-arc-unknown-linux-gnu.patch
- create mode 100644 meta/recipes-support/nspr/nspr/0004-Add-ARC-support.patch
+ meta/classes/siteinfo.bbclass |  2 ++
+ meta/site/arc-common          | 11 +++++++++++
+ 2 files changed, 13 insertions(+)
  create mode 100644 meta/site/arc-common
 
+diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
+index 86bb853be2..dccf122b12 100644
+--- a/meta/classes/siteinfo.bbclass
++++ b/meta/classes/siteinfo.bbclass
+@@ -20,6 +20,8 @@ def siteinfo_data(d):
+         "allarch": "endian-little bit-32", # bogus, but better than special-casing the checks below for allarch
+         "aarch64": "endian-little bit-64 arm-common arm-64",
+         "aarch64_be": "endian-big bit-64 arm-common arm-64",
++        "arc": "endian-little bit-32 arc-common",
++        "arceb": "endian-big bit-32 arc-common",
+         "arm": "endian-little bit-32 arm-common arm-32",
+         "armeb": "endian-big bit-32 arm-common arm-32",
+         "avr32": "endian-big bit-32 avr32-common",
+diff --git a/meta/site/arc-common b/meta/site/arc-common
+new file mode 100644
+index 0000000000..d3c721a8bb
+--- /dev/null
++++ b/meta/site/arc-common
+@@ -0,0 +1,11 @@
++# general
++ac_cv_alignof_guint32=4
++ac_cv_alignof_guint64=4
++ac_cv_alignof_unsigned_long=4
++
++# glib-2.0
++glib_cv_stack_grows=${glib_cv_stack_grows=no}
++glib_cv_uscore=${glib_cv_uscore=no}
++
++# startup-notification
++lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
 -- 
 2.16.2
 
