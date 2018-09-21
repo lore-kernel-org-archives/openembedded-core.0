@@ -1,53 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 94370798CB
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A0F1798DC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 11:49:08 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id n11-v6so1345583wro.0
+	Fri, 21 Sep 2018 11:49:09 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id 20-v6so12553440wrb.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 04:49:09 -0700 (PDT)
+	Fri, 21 Sep 2018 04:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=1Hhs/afmy4w01XvKNmVAvHdm6CpMwLSD3nnEouPsqJ0=;
-	b=y99UY3LITCCaB45fGfzR7i8M0LesgEcSh6E2tRRGCePPUBDfX3u/LSsL8tCqoe3qTP
-	iUnu5fpwv3G3h4KHfW6rznTQ9NNyNViOr8CIZmnUl1T9Cj2k/yrqJxoTwsAS5sjqN6VE
-	ar6sirgG/12vBioYrzLUEXT04yhzPl0RAHmNpOxLO4EP9524vSgVJt9Rc3jS/uJI12X2
-	NuwZYtKdXUU1QBgTpnbnsk+PG/s2eu/nNg0NGJFUR8jMz8/D4RPydsqJzN8s5Ci/FM8A
-	owgy56LWZdJT6cd0Bx1UYMGMRIzLquPrjQMjXxTEICN9HK3+REmyaODJ2y804MXfbx1X
-	1kBg==
+	bh=xLZo7aGYXsIflUsbJOOVfbVZKOIIV+uSAGP6rGBy5aU=;
+	b=i1um8kyFfFwjUw3kslLXG6pTDXm2uU3Dm2+nsxLY65pWzafREkcRAVIeRZ6RQGnOy4
+	ICJt9Sd73idrKv7CZ/8J2sy/3Bt73v7HgtQiUS1kQHvtdT+sOe5B5GSrrj55p7y/rdnk
+	6ttGG6LL91qOk3G9bqNU7maUu8VUjAwH4yMNqGGaAkJtsnQj4wto/0lQg70RAD808+dl
+	ASZmoFdGjIkM8484g97BJj3giKvvfURIa+F2Hucpx1bkgKOc6OHwgRokKP1s4ch58yzn
+	YhItMyrWZ8/8FCdYiWauToKzBnV0kf0WmGie0d5ZN7HceEyMGxZyoJEslvfmnDT1ydmz
+	1uKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=1Hhs/afmy4w01XvKNmVAvHdm6CpMwLSD3nnEouPsqJ0=;
-	b=IijQHdLw5ZuX4SLYS58pfpTuxS+ik73tRei8wakYDbWB5fZ2pQtrSgLcHZk9Zt+UZA
-	VIA853rE3MFk8QEU6F4c5j7nOqcWKxb3qcEinDFUjwC8wIC10Gme73IwDVnhN+swmE9p
-	Lm7FYPYevra5Hf2i27BV9MEDPoGJiwp0y+L9lVglpKkaFljHy0ZMy3bGXebLnxUD28/e
-	NZ02l25kaMku9lqSQdj7oomDKozmalHyFrinU0rDpEi2QQiPMq+Pba4R7RUX4jigS5Ih
-	8i1AGt0YVZ8hNWBWFEIjYwnVJVxlwXR60xIV3udR8u4DGMuFJSW84muT8v9uiWb700LM
-	jzfQ==
-X-Gm-Message-State: APzg51C9Y6BjShtJ6vHpDKVtRoyU0AdYL7Us/qBG3peYph741rHyEWBp
-	NWOvrUMNGv/GfmIdi+Q1l6FlSf3Ke38=
-X-Google-Smtp-Source: ANB0VdbT37H+4Pa6CncTffdy61i7ZF9ipkquRz9K8OTPm3Ke/Lkxo5gmXGIvx2yIyVyST9SckhYIIg==
-X-Received: by 2002:a05:6000:c:: with SMTP id
-	h12mr38544087wrx.103.1537530548948; 
-	Fri, 21 Sep 2018 04:49:08 -0700 (PDT)
+	bh=xLZo7aGYXsIflUsbJOOVfbVZKOIIV+uSAGP6rGBy5aU=;
+	b=DDFsEHcE8LhRgdYhMrW93Pla9s/+5SKEtZuVWwU0YP1W7WBuNOCLfqMnQFzyrFHfPG
+	UIiL+sgeB433JNOKNjNpgSDw5GyKel0uklBDsSx99EREMLP1IK1v4IkJlLoGe/H0CLv6
+	ajkYA8CRZrVnINORL3ovGpgr0eflxtvOEoE1B65fp743bC05C6n409ajCil1A6d7n/YD
+	ySGZKU/QbOh1xdGeJWH0rA2I/iMAxRW4UPttbrmue18iSC07TRiIvmCUeAwO1lSxTP6U
+	8v5KFGIScDjTndoLShaNtUEiOhlOZGoTyuEz8zQGKs85mfKfyb2oVIoZyxzzW2XT0wbd
+	2EpA==
+X-Gm-Message-State: APzg51D76dexsEk6yTTLjpzCKyGLNXDWNKdvyIcpmkF4CzJmJQsmyVf6
+	PgeHbsz7D5Dm9IAUf1MbmPwGGfkEgaw=
+X-Google-Smtp-Source: ANB0Vdb1q+1OXPITKN/9/o6/vZhSIaXHBKR11dbTY6D0DIEb3MVTYnXJ0NlnwZueJSG5gLMUMRzdwQ==
+X-Received: by 2002:adf:a599:: with SMTP id
+	g25-v6mr37467446wrc.88.1537530550001; 
+	Fri, 21 Sep 2018 04:49:10 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	n8-v6sm3479850wrw.31.2018.09.21.04.49.07
+	n8-v6sm3479850wrw.31.2018.09.21.04.49.08
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Sep 2018 04:49:08 -0700 (PDT)
+	Fri, 21 Sep 2018 04:49:09 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Sep 2018 12:48:59 +0100
-Message-Id: <20180921114900.26338-3-ross.burton@intel.com>
+Date: Fri, 21 Sep 2018 12:49:00 +0100
+Message-Id: <20180921114900.26338-4-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180921114900.26338-1-ross.burton@intel.com>
 References: <20180921114900.26338-1-ross.burton@intel.com>
-Subject: [PATCH 3/4] python3: consolidate tests
+Subject: [PATCH 4/4] python3: remove specal handling of sqite3-tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,77 +60,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 11:49:08 -0000
+X-List-Received-Date: Fri, 21 Sep 2018 11:49:09 -0000
 
-Currently the bulk of the tests in python3-tests, some more in
-python3-sqlite3-tests, and others in their parent module (such as
-python3-ctypes).  This is pointless space usage if we're not planning on running
-the tests, so consolidate all the tests into python3-tests.
+This package doesn't exist anymore so the manifest tool doesn't need to handle
+it specially.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../python/python3/python3-manifest.json           | 36 +++++++++-------------
- 1 file changed, 14 insertions(+), 22 deletions(-)
+ meta/recipes-devtools/python/python3/create_manifest3.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index 95ae3fb0215..539b7967b59 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -1,4 +1,18 @@
- {
-+    "tests": {
-+        "summary": "Python test suite",
-+        "rdepends": [
-+            "core",
-+            "modules"
-+        ],
-+        "files": [
-+            "${libdir}/python${PYTHON_MAJMIN}/*/test",
-+            "${libdir}/python${PYTHON_MAJMIN}/*/tests",
-+            "${libdir}/python${PYTHON_MAJMIN}/idlelib/idle_test/",
-+            "${libdir}/python${PYTHON_MAJMIN}/test"
-+        ],
-+        "cached": []
-+    },
-     "2to3": {
-         "summary": "Python automated Python 2 to 3 code translator",
-         "rdepends": [
-@@ -989,17 +1003,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/sqlite3/__pycache__/dump.*.pyc"
-         ]
-     },
--    "sqlite3-tests": {
--        "cached": [],
--        "files": [
--            "${libdir}/python${PYTHON_MAJMIN}/sqlite3/test"
--        ],
--        "rdepends": [
--            "core",
--            "tests"
--        ],
--        "summary": "Python Sqlite3 database support tests"
--    },
-     "stringold": {
-         "summary": "Python string APIs [deprecated]",
-         "rdepends": [
-@@ -1037,17 +1040,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/tty.*.pyc"
-         ]
-     },
--    "tests": {
--        "cached": [],
--        "files": [
--            "${libdir}/python${PYTHON_MAJMIN}/test"
--        ],
--        "rdepends": [
--            "core",
--            "modules"
--        ],
--        "summary": "Python tests"
--    },
-     "threading": {
-         "summary": "Python threading & synchronization support",
-         "rdepends": [
+diff --git a/meta/recipes-devtools/python/python3/create_manifest3.py b/meta/recipes-devtools/python/python3/create_manifest3.py
+index efef62af943..fddb23cdc42 100644
+--- a/meta/recipes-devtools/python/python3/create_manifest3.py
++++ b/meta/recipes-devtools/python/python3/create_manifest3.py
+@@ -214,7 +214,7 @@ for pypkg in old_manifest:
+ 
+     # Handle special cases, we assume that when they were manually added 
+     # to the manifest we knew what we were doing.
+-    special_packages = ['misc', 'modules', 'dev', 'tests', 'sqlite3-tests']
++    special_packages = ['misc', 'modules', 'dev', 'tests']
+     if pypkg in special_packages or 'staticdev' in pypkg:
+         print('Passing %s package directly' % pypkg)
+         new_manifest[pypkg] = old_manifest[pypkg]
 -- 
 2.11.0
 
