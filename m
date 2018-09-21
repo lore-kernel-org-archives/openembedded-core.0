@@ -1,30 +1,25 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D6DE79492
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B2ED75541
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 02:26:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8L2QOsA031881
+	Fri, 21 Sep 2018 02:30:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8L2U1NB015372
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 19:26:34 -0700
-Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Thu, 20 Sep 2018 19:26:13 -0700
-To: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20180909104450.11900-1-hongzhi.song@windriver.com>
-	<bdb5a4f9-4982-8472-e063-e005a846c748@windriver.com>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <19f3527f-5dda-6f8e-cea5-beed6a76cf1f@windriver.com>
-Date: Fri, 21 Sep 2018 10:26:10 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Thu, 20 Sep 2018 19:30:01 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 20 Sep 2018 19:30:00 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 21 Sep 2018 10:34:56 +0800
+Message-ID: <ea5c83494de6b425efc4e2307adcd2896064bf91.1537497265.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1537497265.git.Qi.Chen@windriver.com>
+References: <cover.1537497265.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <bdb5a4f9-4982-8472-e063-e005a846c748@windriver.com>
-X-Originating-IP: [128.224.162.153]
-Subject: Re: [PATCH] linux-yocto-rt: Add paravirt_kvm support for qemux86-64
+Subject: [PATCH 1/1] runqemu: fix handling of SIGTERM and the problem of line wrapping
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,67 +32,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 02:26:43 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 21 Sep 2018 02:30:01 -0000
+Content-Type: text/plain
 
-Hi Bruce,
+The current handling of SIGTERM is incorrect as the process pid returned
+by Popen call with shell setting to True is actualy the shell instead of
+the qemu binary. So fix to send SIGTERM to the process group of runqemu.
+This ensures that all processes in the same process group, including the
+shell and the qemu process, will receive SIGTERM.
 
-I just want to confirm that you doesn't forget this patch.
+Also, as we install a SIGTERM handler, we need handle the situation of
+qemu terminated by SIGTERM, otherwise we will get ERROR message in such
+case.
 
-This is not an emergency.
+Besides, we have a problem that after running qemu, the terminal's behavior
+is incorrect regarding long lines or long commands. Long commands or long
+outputs should appear in multiple lines, but they appear in the same line,
+overriding previous output. Use `tput smam' to fix this problem.
 
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ scripts/runqemu | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-Thanks,
-
-Hongzhi
-
-
-On 09/11/2018 11:15 AM, Bruce Ashfield wrote:
-> On 2018-09-09 6:44 AM, Hongzhi.Song wrote:
->> This feature includes paravirtualized KVM guest support, including
->> KVMCLOCK for enhancing clock accuracy of guest OS.
->>
->
-> This is fine with me. I'll pull it into my queue. I expect my next pull
-> request to be on Wednesday.
->
-> Bruce
->
->> Signed-off-by: He Zhe <zhe.he@windriver.com>
->> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
->> ---
->>   meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb | 2 +-
->>   meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb | 2 +-
->>   2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb 
->> b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
->> index d9953c32be..ab088f4d18 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
->> @@ -38,4 +38,4 @@ KERNEL_EXTRA_FEATURES ?= 
->> "features/netfilter/netfilter.scc features/taskstats/ta
->>   KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
->>   KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
->>   KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
->> -KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
->> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb 
->> b/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
->> index 5b102069f1..de3b538b5d 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
->> @@ -40,4 +40,4 @@ KERNEL_EXTRA_FEATURES ?= 
->> "features/netfilter/netfilter.scc features/taskstats/ta
->>   KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
->>   KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
->>   KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
->> -KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
->> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
->>
->
->
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 409d17c..bc2aba5 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1213,9 +1213,12 @@ class BaseConfig(object):
+         cmd = "%s %s" % (self.qemu_opt, kernel_opts)
+         logger.info('Running %s\n' % cmd)
+         process = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)
+-        self.qemupid = process.pid
+-        if process.wait():
+-            logger.error("Failed to run qemu: %s", process.stderr.read().decode())
++        retcode = process.wait()
++        if retcode:
++            if retcode == -signal.SIGTERM:
++                logger.info("Qemu terminated by SIGTERM")
++            else:
++                logger.error("Failed to run qemu: %s", process.stderr.read().decode())
+ 
+     def cleanup(self):
+         if self.cleaned:
+@@ -1308,8 +1311,10 @@ def main():
+ 
+         def sigterm_handler(signum, frame):
+             logger.info("SIGTERM received")
+-            os.kill(config.qemupid, signal.SIGTERM)
++            signal.signal(signal.SIGTERM, signal.SIG_IGN)
++            os.kill(0, signal.SIGTERM)
+             config.cleanup()
++            subprocess.run(["tput", "smam"])
+         signal.signal(signal.SIGTERM, sigterm_handler)
+ 
+         config.check_args()
+@@ -1331,6 +1336,7 @@ def main():
+         return 1
+     finally:
+         config.cleanup()
++        subprocess.run(["tput", "smam"])
+ 
+ if __name__ == "__main__":
+     sys.exit(main())
+-- 
+1.9.1
 
 
