@@ -1,38 +1,44 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 34C4F79558
+Return-Path: <mcfrisk@kapsi.fi>
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 60F4679558
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 15:57:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8LFvuJd005994
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 21 Sep 2018 08:57:56 -0700 (PDT)
-Received: from server.local (128.224.20.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Fri, 21 Sep 2018 08:57:55 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@gmail.com>, Anuj Mittal
-	<anuj.mittal@intel.com>, Otavio Salvador <otavio.salvador@ossystems.com.br>
-References: <CALbNGRTAbsa9CzzXqtq7mpiknFzUB_=9eHcFHnD5W--HEM8bPw@mail.gmail.com>
-	<20180402215705.GA25121@linux-uys3>
-	<CALbNGRThT8S5bfJH=zXMkQzCMMasQ=yUoEXTjsfPXtncig3yFA@mail.gmail.com>
-	<ada194d6-5653-fde7-a70a-64646b08b281@intel.com>
-	<CALbNGRTthOp+_T-6c_Vc3qmgMHTt-2ztyDiGbNEHY4+6UuW2ig@mail.gmail.com>
-	<CALbNGRQT94ptEPAygj+Rm9vBm27yo=inbz+O6nR2gL_etkGd7g@mail.gmail.com>
-	<CALbNGRQxauR4PkJ+FMXKmnJapcWO9pVSvW1cLVyrDU9-T+o65A@mail.gmail.com>
-	<0717be0e-0c72-e3f5-dc11-8e4065585749@intel.com>
-	<CALbNGRQtXBw+yAeUK5X5WDZtrv6WeuSH1ZQ97neVrkJm4v8wVQ@mail.gmail.com>
-	<CALbNGRRVkb19JTLwAPJhUeKSf1guBKU9O_x2VemBr8-uKSw_AQ@mail.gmail.com>
-	<4e5235ad-b3a6-4985-43b4-ef71d6bf16a6@windriver.com>
-Message-ID: <b8ccd853-2b25-4364-7770-7ef8df4db646@windriver.com>
-Date: Fri, 21 Sep 2018 11:57:54 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <4e5235ad-b3a6-4985-43b4-ef71d6bf16a6@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: kernel menuconfig broken?
+	Fri, 21 Sep 2018 16:02:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Subject:Message-Id:Date:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=5iMWE8awKUf/ZhRNYRH6RmbFklactledUWO3e5LEW3A=;
+	b=r6XM1J4LejOmAKkBh4GrcJ5l/P
+	PTQPVN4QoeFe73k4+lzY7T73rkQypIgjyJueHjx84FIzcpEx+EIJTqvkTFix3RmyQKtUFv4BYTBwQ
+	6mX2Kp8MSaei4vlRq4t7btvs0ho97FbJUj6yhiF3YMoNXknYSbT3HdNTyvZ5CwqE0xJhv460XaxjO
+	zy5NAPPtrI9aBEthrC4B/znDHKnyDpEugrqFXzjPQP30o2aFb2kFr/IMwHQGt7gSTK2AIO+zjirSE
+	YzPU6RVUA/GVVR6GKMcAcUR7Bi8dYGwi59zLSCtBy80c9h5PYzziWZptKdjmgcBvrM0+bdMQUYRkb
+	w6ey2EZQ==;
+Received: from [91.232.154.11] (helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1g3Nsx-0001jh-Kv; Fri, 21 Sep 2018 19:02:27 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1g3Nsd-0007VB-IE; Fri, 21 Sep 2018 19:02:07 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Sep 2018 19:01:57 +0300
+Message-Id: <1537545717-26570-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-SA-Exim-Connect-IP: 91.232.154.11
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on mail
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,RDNS_NONE,SPF_NEUTRAL autolearn=no
+	autolearn_force=no version=3.4.1
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
+Cc: Michael Ho <michael.ho@bmw.de>, Thomas Witt <thomas.witt@bmw.de>
+Subject: [PATCH] openssl10: remove extra slash from libdir path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,51 +51,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 15:57:56 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 21 Sep 2018 16:02:30 -0000
 
-On 2018-09-21 11:34 AM, Bruce Ashfield wrote:
-> On 2018-09-21 11:33 AM, Andreas Müller wrote:
->> On Fri, Sep 21, 2018 at 4:39 PM, Andreas Müller 
->> <schnitzeltony@gmail.com> wrote:
->>> On Fri, Sep 21, 2018 at 1:46 PM, Anuj Mittal <anuj.mittal@intel.com> 
->>> wrote:
->>>>> Hi,
->>>>>
->>>>> seems upstream has introduced changes 4.17 -> 4.18 - the patch does
->>>>> not apply anymore. Is this patch available for 4.18 somewhere?
->>>>>
->>>>
->>>> Are you looking for this:
->>>>
->>>> https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit?h=v4.18/standard/base&id=bd6314212686ef8156a108b6f1eec67d34402878 
->>>>
->>>>
->>>> https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit/?h=v4.18/standard/base&id=0aa800372a846d6ed2c0fc3e0fdc22656d268968 
->>>>
->>> Exactly thanks
->>>
->> Otavio pointed to it when I sent them to linux-fslc: Why the code 
->> duplication?
->>
-> 
-> What do you mean by code duplication ? There was a bug in the initial
-> port that needed a 2nd commit to fix it, but there's no duplicated
-> code.
+The configure script ended up creating Makefile with
 
-Ah. I see what you mean now. That was a mistake. I've already fixed
-it in future versions, but since nothing breaks with it, the extra
-block has stayed in 4.18.
+LIBDIR=/lib
 
-Bruce
+which got leaked into various places including all
+pkg-config .pc files where lines like (note the
+double slash //):
 
-> 
-> Bruce
-> 
->> Andreas
->>
-> 
+libdir=${exec_prefix}//lib
+...
+Libs: -L${libdir} -lcrypto
+
+which causes pkg-config --libs to include the full absolute path
+to the recipe specific sysroot. This isn't a big problem
+until something like CMake projects start generating
+their own .cmake modules using this absolute path and exposing
+them to sysroots of other bitbake recipes thus escaping
+their recipe specific sysroots.
+
+Then the fun begins when these users of the .cmake module start
+to randomly fail builds with error messages like:
+
+/home/builder/src/base/build/tmp/work/corei7-64-linux/package/1.0-r0/recipe-sysroot-native/usr/bin/x86_64-linux/../../libexec/x86_64-linux/gcc/x86_64-linux/7.3.0/ld: cannot find /lib/libpthread.so.0
+/home/builder/src/base/build/tmp/work/corei7-64-linux/package/1.0-r0/recipe-sysroot-native/usr/bin/x86_64-linux/../../libexec/x86_64-linux/gcc/x86_64-linux/7.3.0/ld: cannot find /usr/lib/libpthread_nonshared.a
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+WARNING: exit code 1 from a shell command.
+
+As luck has it, this problem goes away by recompiling the recipes
+alone but repeats with multiple recipes here and there when full
+images are build.
+
+A careful inspection of multi page linker command lines shows
+that some linker paramaters point to libraries in a different
+recipes sysroot than what bitbake was building when the task
+failed.
+
+So, fix is to remove this one extra slash from openssl
+library path configuration option. This changes openssl
+Makefile to have:
+
+LIBDIR=lib
+
+and all users of LIBDIR variable in the Makefile are already
+adding slashes as path separators if that is needed.
+
+With this the generated .pc files have:
+
+libdir=${exec_prefix}/lib
+
+and pkg-config --libs knows to strip the already default
+sysroot path away.
+
+This then fixes the generated .cmake files to not include
+these absolute paths and fixes the random build failures
+when building images.
+
+Thanks to Thomas, Michael and Ross for debugging support!
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+Cc: Thomas Witt <thomas.witt@bmw.de>
+Cc: Michael Ho <michael.ho@bmw.de>
+Cc: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+index b7297fc..f09782c 100644
+--- a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
++++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+@@ -191,7 +191,7 @@ do_configure () {
+ 	if [ "x$useprefix" = "x" ]; then
+ 		useprefix=/
+ 	fi
+-	libdirleaf="$(echo ${libdir} | sed s:$useprefix::)"
++	libdirleaf="$( basename "${libdir}" )"
+ 	perl ./Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} shared --prefix=$useprefix --openssldir=${libdir}/ssl --libdir=$libdirleaf $target
+ }
+ 
+-- 
+1.9.1
 
 
