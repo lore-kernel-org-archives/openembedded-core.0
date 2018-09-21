@@ -1,43 +1,59 @@
-Return-Path: <mcfrisk@kapsi.fi>
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AED67458F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E23171B27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 11:49:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Subject:Message-Id:Date:Cc:To:From:Sender:Reply-To:
-	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=l/ERiHGm6SXQuEFEUFS6OTBEwn8Qh5qGnU/yi2gMoDM=;
-	b=LJDOPkcwas6+TbSGXmxceaTM3V
-	SWziwjFGKyNFLtfOuEDrsV9FV/vzKLNP5UJhGmBwQ+sCzN3wWXFl57PZGTlUQuF5ozpMWRckYg3OA
-	NPTD+r4vOZeV0NoWeL1p9FzrGG/Yy+SSXV2UX1nDMFIPzqW/dFcpj0qNPjV10atac+iBH9NSk0vsy
-	4ZJdcup1AVLwqB5TYydtTyPdtRqiEviTt9FZ052vSqKYzKrXjdh9ZxMMv5ElpDeAll1dXE8ontt3e
-	bfCwpaRHvkIJ5VaR85CR2HtsM1FBp4e0l/0APWZANVSAwbNB0hA22opcU1woNNsH8IZ5B1EFXLiUG
-	kBhenIfw==;
-Received: from [91.232.154.11] (helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1g3JwW-0006s0-BE; Fri, 21 Sep 2018 14:49:52 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1g3JwC-0002M6-7W; Fri, 21 Sep 2018 14:49:32 +0300
-From: Mikko Rapeli <mikko.rapeli@bmw.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Sep 2018 14:49:27 +0300
-Message-Id: <1537530567-8604-1-git-send-email-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.1.4
-X-SA-Exim-Connect-IP: 91.232.154.11
-X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
-X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on mail
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,RDNS_NONE,SPF_NEUTRAL autolearn=no
-	autolearn_force=no version=3.4.1
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
-Subject: [PATCH] kernel.bbclass: allow exporting files from kernel recipes to sysroot
+	Fri, 21 Sep 2018 12:29:59 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id n18-v6so11993124ioa.9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Sep 2018 05:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=07UmLdBETAkmYVGny+g4SuPvBi5JiHXxLQL9GN/TcNg=;
+	b=UqH/UcUmH0ZasamHgTLady41LTMt8vxsQqLMrS9qCBnV8WyuARP6kPISaxLrMWp7ap
+	C2XB5Sr0EWfF9zwmC6KEA+04ek26eJl4/SqHuMDvEvYmS/21wbQSLy9a3M+q+MUCoONh
+	oZQCbX8D1AV6TbTFfVrlOrZtDsL1u5GI3VjXo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=07UmLdBETAkmYVGny+g4SuPvBi5JiHXxLQL9GN/TcNg=;
+	b=V+aZljNkcWDeUiRxPqaTmroo73n2bFjDOh8QpiYBD/GHLbyBkHog9URTKZbbuqlPid
+	mPSTE+XuSV5OwI5f9HDgDWuNlChorA3ZmmvqRh3CV3Xkk+PmlCcdcK8LCmzx+MpMvwCF
+	WnB8T31iuFkxU+kVkC3vvYPtqbRLx4F7DQZlSJ3Edk4m1cQBKSiDZwOkmcR0N9fgsn3f
+	rLNtemx4E3FeBjbXCSIxzxE4FMQeJ5iUhojOv5cKHHgDheV6YLIJPrWc364WHQ3vMfx1
+	q5WOShxB8Bzwzi4zuPLMgaFgWU06JFIvTwY+5lIvhZ/Pet8YNTQ2RianLnZXUsiVbbih
+	vIeQ==
+X-Gm-Message-State: APzg51BOwNyQ4POz1W17dQegBRSuy54TFAzz+0CKfGs79yM+y1rfoYr1
+	92O4cZV9ljQEO2goCPNEttgaAA==
+X-Google-Smtp-Source: ANB0VdZCG3Gd7ks7IeWq91Q0snaACtVm6UXSsOJ6SA/O6rCc63DDKPXZ7OEKMpI4u8D5FNfUx9K8qw==
+X-Received: by 2002:a6b:3451:: with SMTP id
+	b78-v6mr36516114ioa.214.1537533000730; 
+	Fri, 21 Sep 2018 05:30:00 -0700 (PDT)
+Received: from hex ([209.82.80.116]) by smtp.gmail.com with ESMTPSA id
+	l21-v6sm9135982iom.8.2018.09.21.05.29.50
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 21 Sep 2018 05:29:59 -0700 (PDT)
+Message-ID: <eac231a57e5011819b62976589e2be9d6632570c.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Hongxu Jia <hongxu.jia@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 21 Sep 2018 05:29:36 -0700
+In-Reply-To: <e3c77c41-1e8d-5d49-4747-fc1c6fb9e3f6@windriver.com>
+References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
+	<78fad439cd03f6e9be71a0a917667bcf94ebea51.camel@linuxfoundation.org>
+	<526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
+	<3310e627615370184fd7a1a58997b516ce36f2a7.camel@linuxfoundation.org>
+	<f0425061-1d49-84f7-33f3-a3f2b3504c43@windriver.com>
+	<983d28517b9e9015b590405bbb7f91ffc0d6aa48.camel@linuxfoundation.org>
+	<e3c77c41-1e8d-5d49-4747-fc1c6fb9e3f6@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Koen Kooi <koen.kooi@linaro.org>
+Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,60 +66,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 11:49:53 -0000
+X-List-Received-Date: Fri, 21 Sep 2018 12:30:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-This change enables kernel recipes to share files with other
-recipes. Firmware, modules and kernel-depmod are still not shared
-since according to git history they cause problems with multiarch,
-but all others are allowed. Examples of shared files are
-kernel version and recipe specific headers and scripts which
-are not needed by common linux-libc-headers to bootstrap glibc.
+On Fri, 2018-09-21 at 17:08 +0800, Hongxu Jia wrote:
+> On 2018年09月21日 01:54, richard.purdie@linuxfoundation.org wrote:
+> > We do not want to revert those commits. I think the right solution
+> > is
+> > to enabled:
+> > 
+> > CONFIG_CRYPTO_DEV_VIRTIO=y
+> > CONFIG_PCI=y
+> > CONFIG_PCI_HOST_GENERIC=y
+> 
+> It should add
+> 
+> CONFIG_VIRTIO_PCI=y
+> 
+> Then sshd will hung a short time (50s)
+> 
+> After crng init done, everything is ok
+> 
+> [boot log]
+> 
+> [   65.969600] random: crng init done
+> 
+> done.
+> Starting syslogd/klogd: done
+> 
+> OpenEmbedded nodistro.0 qemuarm64 /dev/ttyAMA0
+> 
+> qemuarm64 login:
+> 
+> [boot log]
 
-For example, if a kernel recipe wants to share headers, it can do:
+Right, this is what we need to see. As long it only pauses whilst the
+device randomisation comes up and doesn't hang indefinitely then we can
+consider this issue resolved. The other platforms also pause.
 
-PACKAGES =+ "${PN}-headers"
+Cheers,
 
-do_install_append() {
-    install -d "${D}${includedir}/${PN}"
-    oe_runmake INSTALL_HDR_PATH="${D}${includedir}/${PN}" headers_install
-}
+Richard
 
-FILES_${PN}-headers = "\
-                      ${includedir}/${PN}/* \
-                      "
-
-Users can find the headers from ${includedir}/${PN} and they don't conflict
-with the generic linux-libc-headers which are used to boostrap userspace.
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
----
- meta/classes/kernel.bbclass | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index bfb4243..acf9c2c 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -487,10 +487,14 @@ do_shared_workdir () {
- 	fi
- }
- 
--# We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
--sysroot_stage_all () {
--	:
--}
-+# We don't need to stage modules/firmware since those would clash with linux-firmware, but
-+# kernel recipes can still expose kernel version specific headers or scripts to userspace
-+# sysroot.
-+SYSROOT_DIRS_BLACKLIST_append += "\
-+    ${datadir}/kernel-depmod \
-+    ${base_libdir}/modules \
-+    ${base_libdir}/firmware \
-+"
- 
- KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} oldnoconfig"
- 
--- 
-1.9.1
 
 
