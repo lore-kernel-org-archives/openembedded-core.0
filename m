@@ -1,33 +1,18 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2525D798A8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 03:52:30 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8L3ovDV001063
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Sep 2018 20:51:07 -0700
-Received: from server.local (128.224.20.226) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 20 Sep 2018 20:50:46 -0700
-To: <richard.purdie@linuxfoundation.org>, Hongxu Jia
-	<hongxu.jia@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
-	<78fad439cd03f6e9be71a0a917667bcf94ebea51.camel@linuxfoundation.org>
-	<526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
-	<3310e627615370184fd7a1a58997b516ce36f2a7.camel@linuxfoundation.org>
-	<f0425061-1d49-84f7-33f3-a3f2b3504c43@windriver.com>
-	<983d28517b9e9015b590405bbb7f91ffc0d6aa48.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <f60ba678-7b5f-4dfa-450e-c5ecbd5f2386@windriver.com>
-Date: Thu, 20 Sep 2018 23:50:45 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id AD7D074579;
+	Fri, 21 Sep 2018 04:02:58 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <983d28517b9e9015b590405bbb7f91ffc0d6aa48.camel@linuxfoundation.org>
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: mingli.yu@windriver.com
+Date: Fri, 21 Sep 2018 04:03:00 -0000
+Message-ID: <20180921040300.13840.98493@do.openembedded.org>
+References: <20180918094749.102156-1-mingli.yu@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180918094749.102156-1-mingli.yu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmM6IGZpeCBTZWdtZW50YXRpb24gZmF1bHQgaW4gZ2V0aG9zdGlkLmMgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,95 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 03:52:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 21 Sep 2018 04:02:59 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On 2018-09-20 1:54 PM, richard.purdie@linuxfoundation.org wrote:
-> On Fri, 2018-09-21 at 00:25 +0800, Hongxu Jia wrote:
->> On 2018年09月20日 12:54, richard.purdie@linuxfoundation.org wrote:
->>> On Thu, 2018-09-20 at 09:45 +0800, Hongxu Jia wrote:
->>>> I will fix it as my top priority today.
->>>>
->>>> Reproduce steps:
->>>>
->>>> - Build core-image-sato-sdk on qemuarm64
->>>> - Run qemu
->>>> - Log over ssh (openssh) failed
->>>>
->>>
->>> I did have a little bit of a look at this. It seems to hang during
->>> key
->>> generation before starting the server during boot.
->>>
->>> I had a suspicion that the problem could be a lack of entropy.
->>> We're
->>> supposed to have the virtio entropy generation being passed through
->>> from the host to avoid problems with entropy starvation but I'm not
->>> sure its running for arm64.
->>>
->>> I noticed the .config shows CONFIG_CRYPTO_DEV_VIRTIO=m but setting
->>> that
->>> to =y didn't help. The virtio rng connects via pci bus iirc and
->>> CONFIG_PCI isn't set so I'm now looking into that...
->>>
->>> To update, adding this config to the kernel:
->>>
->>> CONFIG_CRYPTO_DEV_VIRTIO=y
->>> CONFIG_PCI=y
->>> CONFIG_PCI_HOST_GENERIC=y
->>
->> Hi RP,
->>
->> Without modify config, just revert two commits on kernel source
->> could
->> fix the issue
->> (sshd start successfully)
->>
->>
->> 1. Revert "random: fix crng_ready() test"
->>
->> This reverts commit 43838a23a05fbd13e47d750d3dfd77001536dd33
->>
->>
->> 2. Revert "random: use a different mixing algorithm for
->> add_device_randomness()"
->>
->> This reverts commit dc12baacb95f205948f64dc936a47d89ee110117
->>
->> But I am not sure the affect of the modification to other arch, and
->> the root
->> cause the above two commits introduced
->>
->> Still requiring more digging
-> 
-> We do not want to revert those commits. I think the right solution is
-> to enabled:
+== Series Details ==
 
-Agreed. Reverting the commits is not an option.
+Series: glibc: fix Segmentation fault in gethostid.c (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/14116/
+State : failure
 
-Bruce
+== Summary ==
 
-> 
-> CONFIG_CRYPTO_DEV_VIRTIO=y
-> CONFIG_PCI=y
-> CONFIG_PCI_HOST_GENERIC=y
-> 
-> in the qemuarm64 machine's kernel defconfig and this will then allow
-> the host entropy to pass through to the guest. This is how all the
-> other qemu machines are working, its just not working on qemuarm64 due
-> to the PCI bus being disabled currently (the device is a PCI virtio
-> driver).
-> 
-> We therefore need to give Bruce the right changes to the kernel config
-> fragments to enable the above options. I think the options you
-> mentioned are automatically enabled if the PCI bus and host generic
-> options are enabled.
-> 
-> Cheers,
-> 
-> Richard
-> 
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 957a2f95b8)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
