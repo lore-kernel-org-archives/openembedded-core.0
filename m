@@ -1,38 +1,50 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 38D0474561
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D1CB7458F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 11:46:10 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Sep 2018 04:46:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,284,1534834800"; d="scan'208";a="71813796"
-Received: from fjumaah-mobl1.gar.corp.intel.com (HELO [10.249.66.211])
-	([10.249.66.211])
-	by fmsmga007.fm.intel.com with ESMTP; 21 Sep 2018 04:46:10 -0700
-To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@gmail.com>,
-	Cal Sullivan <california.l.sullivan@intel.com>
-References: <CALbNGRTAbsa9CzzXqtq7mpiknFzUB_=9eHcFHnD5W--HEM8bPw@mail.gmail.com>
-	<20180402215705.GA25121@linux-uys3>
-	<CALbNGRThT8S5bfJH=zXMkQzCMMasQ=yUoEXTjsfPXtncig3yFA@mail.gmail.com>
-	<ada194d6-5653-fde7-a70a-64646b08b281@intel.com>
-	<CALbNGRTthOp+_T-6c_Vc3qmgMHTt-2ztyDiGbNEHY4+6UuW2ig@mail.gmail.com>
-	<CALbNGRQT94ptEPAygj+Rm9vBm27yo=inbz+O6nR2gL_etkGd7g@mail.gmail.com>
-	<CALbNGRQxauR4PkJ+FMXKmnJapcWO9pVSvW1cLVyrDU9-T+o65A@mail.gmail.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <0717be0e-0c72-e3f5-dc11-8e4065585749@intel.com>
-Date: Fri, 21 Sep 2018 19:46:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <CALbNGRQxauR4PkJ+FMXKmnJapcWO9pVSvW1cLVyrDU9-T+o65A@mail.gmail.com>
-Cc: bruce.ashfield@windriver.com,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: kernel menuconfig broken?
+	Fri, 21 Sep 2018 11:48:42 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id y2-v6so2770298wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Sep 2018 04:48:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=gZwKIrY3j2weMc69TDxZqrealVFCh0p03IfMh5YgEA0=;
+	b=FMPgvitv+Zt5ekOC5gV8SVdwpMXq0MDMqaP7lZ8Y9coRLNgbkdqKwXh1j4uNkmaiAP
+	lPTg8eTXzQS4iLTfUmOqbCLWMS98bEjXs2OK10mgkj0mLuqRJA1m+d12LWrYpUYWvtW9
+	UrbSmCgOUkSt+lcJyxZKOPYguxq95KgQdUa2xoAAhAg/nvdQbL1w09WuKKIFMfIDCGFA
+	HXyk/b+2Pm/1yzcOo34EL5ALbM19KpDFYIEfSPvJo1yRq6WCdnZJMuzQQdnpeWGEZ7uU
+	7BpEYMYYIHbXgnFN3vMXPwPhMjLBFTCHO2CfAkRtaAD3Z4WCLKoC7dqDp+CzE2iTx+1z
+	lJcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=gZwKIrY3j2weMc69TDxZqrealVFCh0p03IfMh5YgEA0=;
+	b=gQWjt78A8Hvr6wmD6iD6Nb+oeha7qp1RUJbXw+i+4KiY/Tlse/Q/xyvvCtSe/FKW5j
+	Iv3nt0qekFqh+k8T0AO/IAvcpix8IyVwhd72w90c1M6AZcBCg6G6a3uSaa5LVcUSIWH7
+	cpOROUj0eoHcw8LEW3iNRwWW6MmBRQCjE5GOu5SFb43ATwxWcQua66UBv4f2ClsglrPM
+	A2GgLhVxakCAMAKFqWAV3XQ6UYx+gO3RC5qUA4DXRBB0LQqtpVDspsUoGCSqe3nX6LeU
+	qjavDEpuAkZQMeJ43qOZZUdr5sTEUlX179hZRtXTPAlqV0fqsT4uz4efkSlqIttzlvvH
+	Unzg==
+X-Gm-Message-State: ABuFfojfisox1vekiXV5PFJV605rRcXFaPpheXIKMoJOQNTLsTYI79z0
+	zIIGY6QWiF52ZWgzkFbyfjzGvytKtsA=
+X-Google-Smtp-Source: ACcGV61UeGZObIzzRu+oAfpzNaddi5ttOqVNRyO/sDm4de67MailaqC2Kucp3FGF401Ke5Kelqx4CA==
+X-Received: by 2002:a1c:8313:: with SMTP id
+	f19-v6mr2499443wmd.144.1537530522402; 
+	Fri, 21 Sep 2018 04:48:42 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	i125-v6sm6633180wmd.23.2018.09.21.04.48.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 21 Sep 2018 04:48:41 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Sep 2018 12:48:39 +0100
+Message-Id: <20180921114839.14837-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] pseudo: update to latest HEAD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,46 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 11:46:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 21 Sep 2018 11:48:42 -0000
 
-On 09/21/2018 06:04 PM, Andreas Müller wrote:
-> On Fri, Apr 13, 2018 at 12:12 AM, Andreas Müller
-> <schnitzeltony@gmail.com> wrote:
->> On Thu, Apr 12, 2018 at 11:46 PM, Andreas Müller
->> <schnitzeltony@gmail.com> wrote:
->>> On Thu, Apr 12, 2018 at 11:38 PM, Cal Sullivan
->>> <california.l.sullivan@intel.com> wrote:
->>>> If you're using a non-linux-yocto kernel you likely need to apply this patch
->>>> to your kernel as well:
->>>>
->>>> https://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/tree/recipes-kernel/linux/linux-intel/0001-menuconfig-check-lxdiaglog.sh-Allow-specification-of.patch
->>> Correct: RaspberryPi kernel
->>>>
->>>> (This is in all linux-yocto kernels, I'm only linking to meta-intel because
->>>> I knew where it was off the top of my head)
->>>>
->>>> This was sent upstream but last I looked it didn't gain any traction. I
->>>> think Bruce resent it recently but I can't be sure.
->>>>
->>>> Thanks,
->>>> Cal
->>>>
->>> That looks very promising - will try and let you know - thanks in advance :)
->>>
->> Perfect! - Thanks Cal for quick help!
->>
-> Hi,
-> 
-> seems upstream has introduced changes 4.17 -> 4.18 - the patch does
-> not apply anymore. Is this patch available for 4.18 somewhere?
-> 
+This incorporates two fixes for large inodes, which hopefully solves some of the
+rare mysterious behaviour.
 
-Are you looking for this:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit?h=v4.18/standard/base&id=bd6314212686ef8156a108b6f1eec67d34402878
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 9103d491128..79e0b6bd21a 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
+            file://toomanyfiles.patch \
+            "
+ 
+-SRCREV = "fddbe854c9db058d5a05830d3bcdd4233d95ee2e"
++SRCREV = "6294b344e5140f5467e6860f45a174440015304e"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git${SRCPV}"
+ 
+-- 
+2.11.0
 
-https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit/?h=v4.18/standard/base&id=0aa800372a846d6ed2c0fc3e0fdc22656d268968
 
