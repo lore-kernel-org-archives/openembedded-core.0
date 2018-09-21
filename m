@@ -1,34 +1,21 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B7D2A79319
+Return-Path: <max@blarg.de>
+Received: from swift.blarg.de (swift.blarg.de [78.47.110.205])
+	by mail.openembedded.org (Postfix) with ESMTP id AF41E79319
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 09:10:21 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8L99CFP009545
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 21 Sep 2018 02:09:22 -0700
-Received: from [128.224.162.202] (128.224.162.202) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Fri, 21 Sep 2018 02:09:01 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
-	<78fad439cd03f6e9be71a0a917667bcf94ebea51.camel@linuxfoundation.org>
-	<526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
-	<3310e627615370184fd7a1a58997b516ce36f2a7.camel@linuxfoundation.org>
-	<f0425061-1d49-84f7-33f3-a3f2b3504c43@windriver.com>
-	<983d28517b9e9015b590405bbb7f91ffc0d6aa48.camel@linuxfoundation.org>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <e3c77c41-1e8d-5d49-4747-fc1c6fb9e3f6@windriver.com>
-Date: Fri, 21 Sep 2018 17:08:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Fri, 21 Sep 2018 09:27:36 +0000 (UTC)
+Received: by swift.blarg.de (Postfix, from userid 500)
+	id 6B2032201A1; Fri, 21 Sep 2018 11:27:37 +0200 (CEST)
+Date: Fri, 21 Sep 2018 11:27:37 +0200
+From: Max Kellermann <max+openembedded@blarg.de>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20180921092737.rvp3kngr4x23dg5e@swift.blarg.de>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <CAMKF1spB414U2iQh0k9DYTK0WV2ay___ahp932cfCU8Stzc20Q@mail.gmail.com>
+	<20180921084658.13631-1-max+openembedded@blarg.de>
 MIME-Version: 1.0
-In-Reply-To: <983d28517b9e9015b590405bbb7f91ffc0d6aa48.camel@linuxfoundation.org>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Koen Kooi <koen.kooi@linaro.org>
-Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
+In-Reply-To: <20180921084658.13631-1-max+openembedded@blarg.de>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Subject: Re: [PATCH v2] libmpdclient: new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,40 +28,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 09:10:27 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 21 Sep 2018 09:27:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2018年09月21日 01:54, richard.purdie@linuxfoundation.org wrote:
-> We do not want to revert those commits. I think the right solution is
-> to enabled:
->
-> CONFIG_CRYPTO_DEV_VIRTIO=y
-> CONFIG_PCI=y
-> CONFIG_PCI_HOST_GENERIC=y
+Sorry, those 3 resubmissions were on the wrong list.  I'll resend to
+oe-devel.
 
-It should add
-
-CONFIG_VIRTIO_PCI=y
-
-Then sshd will hung a short time (50s)
-
-After crng init done, everything is ok
-
-[boot log]
-
-[   65.969600] random: crng init done
-
-done.
-Starting syslogd/klogd: done
-
-OpenEmbedded nodistro.0 qemuarm64 /dev/ttyAMA0
-
-qemuarm64 login:
-
-[boot log]
-
-//Hongxu
-
+How I wish it were easier to submit code to OE.  I feel that this
+archaic way of juggling with patch emails wastes everyone's time.
 
