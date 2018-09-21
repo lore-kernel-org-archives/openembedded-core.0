@@ -1,52 +1,25 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id BA1447453F
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 71D497453F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 03:41:13 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id c29-v6so10267438lfj.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2018 20:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=go0ZNxwrapKVV2aANm8fkA+3Crs/WyMia5DoB/BkIpE=;
-	b=Subjh9Y4B28DtofnabVIF16ofLN2aKZuMZ/OibtzHlJ5WBcAMnOvwGDmYNnfzI0wX6
-	FFb+6CxYZ97mPXy6hGY5rRydIX2M/wlLV+mEQ/mQNHER7sqlAHDOmCeI1MxixFopcFaq
-	ynxT5M4OxTj4UZf4DmDO2mN0nZaQcFw6XLO36I2/Q1A3gVmuUThl2iQjb+axnB/XDSRg
-	PiWdtGL8zPgcF8OQT5a34uH3r8MIbjbEr25vp0Igr3FTIiNy9nfbhaqUj1cMrfMfBw/t
-	kGRv6L7/2X8L1xEZd0ek3vGxADMaet5yKyg87n1TTToDnWm1yw5Yz05x+OsYQzLfsxBe
-	//ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=go0ZNxwrapKVV2aANm8fkA+3Crs/WyMia5DoB/BkIpE=;
-	b=q1s2a+eRgWBj1A5TaGqQ9wkN82FS/VQKGgpv+b0cGoF4sfO8gSkoLtPoPEk07Vbeu9
-	Se6H2E7QmlTAMiPjBtup5bTYsc0m8iU+4Zxm6R5Kr8NaAq+9NpqTdxKESIgZyPDF3ObB
-	F2Zvt29y08xLmC/GhCeJ0rWaJZIYfF3TgjZaQ8yy9UM8fNG/U3DRT5/bMnxnBEZnYIay
-	gpEgt4HI0ohidfirz+9i/jOLtNPxJw/FEW1FhsVZPn2LbaIRKOgaTjcCezcrUCOEQTeB
-	qWdNzxuhqvN2OrZjY1R2QxzVCW/QSs424vZMDuXlsQM/Q4Qf2oNdYQZvWCBROgqNkAgd
-	WYCg==
-X-Gm-Message-State: APzg51AwxYA8jqvTlFhDO3xUF4L3o1iPpBRWjdie4QG66CGe8wSG1vu3
-	HXgr9uY9pxocR6td0K7aRGs2fQ/uLO8keFTsGy176w==
-X-Google-Smtp-Source: ANB0VdYduJ0BCIwQZiDa9J+wb2husiPN/OnvWrmP+DD7CMCc9S89qK2HIhVxIE4AccORPMK+V4JYSzwNd/47fX3J1Oc=
-X-Received: by 2002:a19:f817:: with SMTP id
-	a23-v6mr3820187lff.67.1537501273983; 
-	Thu, 20 Sep 2018 20:41:13 -0700 (PDT)
+	Fri, 21 Sep 2018 03:43:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8L3hCbp027488
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 20 Sep 2018 20:43:14 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 20 Sep 2018 20:43:12 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Fri, 21 Sep 2018 11:43:10 +0800
+Message-ID: <20180921034310.81584-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.13.3
+In-Reply-To: <20180918094749.102156-1-mingli.yu@windriver.com>
+References: <20180918094749.102156-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Received: by 2002:a2e:86c9:0:0:0:0:0 with HTTP; Thu, 20 Sep 2018 20:41:13
-	-0700 (PDT)
-In-Reply-To: <19f3527f-5dda-6f8e-cea5-beed6a76cf1f@windriver.com>
-References: <20180909104450.11900-1-hongzhi.song@windriver.com>
-	<bdb5a4f9-4982-8472-e063-e005a846c748@windriver.com>
-	<19f3527f-5dda-6f8e-cea5-beed6a76cf1f@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 20 Sep 2018 23:41:13 -0400
-Message-ID: <CADkTA4NNgAVJ3hEOjHTv+YL45pfktwQyR22XXaSbEuv7sGyLWQ@mail.gmail.com>
-To: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto-rt: Add paravirt_kvm support for qemux86-64
+Subject: [PATCH v3] glibc: fix Segmentation fault in gethostid.c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,85 +32,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 03:41:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 21 Sep 2018 03:43:15 -0000
+Content-Type: text/plain
 
-Confirmed.  It was already in my queue. It will go out shortly.
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Bruce
+Linux gethostid: Check for NULL value from gethostbyname_r [BZ #23679]
 
-On Thu, Sep 20, 2018 at 10:26 PM, Hongzhi, Song
-<hongzhi.song@windriver.com> wrote:
-> Hi Bruce,
->
-> I just want to confirm that you doesn't forget this patch.
->
-> This is not an emergency.
->
->
-> Thanks,
->
-> Hongzhi
->
->
->
-> On 09/11/2018 11:15 AM, Bruce Ashfield wrote:
->>
->> On 2018-09-09 6:44 AM, Hongzhi.Song wrote:
->>>
->>> This feature includes paravirtualized KVM guest support, including
->>> KVMCLOCK for enhancing clock accuracy of guest OS.
->>>
->>
->> This is fine with me. I'll pull it into my queue. I expect my next pull
->> request to be on Wednesday.
->>
->> Bruce
->>
->>> Signed-off-by: He Zhe <zhe.he@windriver.com>
->>> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
->>> ---
->>>   meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb | 2 +-
->>>   meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb | 2 +-
->>>   2 files changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
->>> b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
->>> index d9953c32be..ab088f4d18 100644
->>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
->>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
->>> @@ -38,4 +38,4 @@ KERNEL_EXTRA_FEATURES ?=
->>> "features/netfilter/netfilter.scc features/taskstats/ta
->>>   KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
->>>   KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
->>>   KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
->>> -KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
->>> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
->>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
->>> b/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
->>> index 5b102069f1..de3b538b5d 100644
->>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
->>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
->>> @@ -40,4 +40,4 @@ KERNEL_EXTRA_FEATURES ?=
->>> "features/netfilter/netfilter.scc features/taskstats/ta
->>>   KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
->>>   KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
->>>   KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
->>> -KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
->>> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
->>>
->>
->>
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+A NULL value can happen with certain gethostbyname_r failures.
 
+Before this patch, there is a Segmentation fault
+as below:
+ # /mybuild/hostid
+ Segmentation fault
+ # gdb /mybuild/hostid
+ GNU gdb (GDB) 8.2
+ Copyright (C) 2018 Free Software Foundation, Inc.
+ License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+ This is free software: you are free to change and redistribute it.
+ There is NO WARRANTY, to the extent permitted by law.
+ Type "show copying" and "show warranty" for details.
+ This GDB was configured as "x86_64-wrs-linux".
+ Type "show configuration" for configuration details.
+ For bug reporting instructions, please see:
+ <http://www.gnu.org/software/gdb/bugs/>.
+ Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
 
+ For help, type "help".
+ Type "apropos word" to search for commands related to "word"...
+ Reading symbols from /mybuild/hostid...done.
+ (gdb) r
+ Starting program: /mybuild/hostid
 
+ Program received signal SIGSEGV, Segmentation fault.
+ 0x00007ffff7f0330e in gethostid () at ../sysdeps/unix/sysv/linux/gethostid.c:125
+ 125	  memcpy (&in, hp->h_addr,
+ (gdb) bt
+ #0  0x00007ffff7f0330e in gethostid () at ../sysdeps/unix/sysv/linux/gethostid.c:125
+ #1  0x0000555555555159 in main ()
+
+ # cat /mybuild/hostid.c
+ #include <stdio.h>
+ #include <unistd.h>
+
+ int
+ main(int argc, char *argv[])
+ {
+    long hostid;
+    hostid = gethostid();
+    printf("the hostid is %ld\n", hostid);
+
+ }
+
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ ...stid-Check-for-NULL-value-from-gethostbyn.patch | 38 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.28.bb              |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-Linux-gethostid-Check-for-NULL-value-from-gethostbyn.patch
+
+diff --git a/meta/recipes-core/glibc/glibc/0001-Linux-gethostid-Check-for-NULL-value-from-gethostbyn.patch b/meta/recipes-core/glibc/glibc/0001-Linux-gethostid-Check-for-NULL-value-from-gethostbyn.patch
+new file mode 100644
+index 0000000000..e924779ab5
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0001-Linux-gethostid-Check-for-NULL-value-from-gethostbyn.patch
+@@ -0,0 +1,38 @@
++From e7d22db29cfdd2f1fb97a70a76fa53d151569945 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Thu, 20 Sep 2018 12:41:13 +0200
++Subject: [PATCH] Linux gethostid: Check for NULL value from gethostbyname_r [BZ #23679]
++
++A NULL value can happen with certain gethostbyname_r failures.
++
++(cherry picked from commit 1214ba06e6771acb953a190091b0f6055c64fd25)
++
++Upstream-Status: Backport[https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=1214ba06e6771acb953a190091b0f6055c64fd25]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ sysdeps/unix/sysv/linux/gethostid.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/sysdeps/unix/sysv/linux/gethostid.c b/sysdeps/unix/sysv/linux/gethostid.c
++index 2e20f034dc..ee0190e7f9 100644
++--- a/sysdeps/unix/sysv/linux/gethostid.c
+++++ b/sysdeps/unix/sysv/linux/gethostid.c
++@@ -102,12 +102,12 @@ gethostid (void)
++     {
++       int ret = __gethostbyname_r (hostname, &hostbuf,
++ 				   tmpbuf.data, tmpbuf.length, &hp, &herr);
++-      if (ret == 0)
+++      if (ret == 0 && hp != NULL)
++ 	break;
++       else
++ 	{
++ 	  /* Enlarge the buffer on ERANGE.  */
++-	  if (herr == NETDB_INTERNAL && errno == ERANGE)
+++	  if (ret != 0 && herr == NETDB_INTERNAL && errno == ERANGE)
++ 	    {
++ 	      if (!scratch_buffer_grow (&tmpbuf))
++ 		return 0;
++-- 
++2.17.1
++
+diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+index 0ebbaf9610..1597968318 100644
+--- a/meta/recipes-core/glibc/glibc_2.28.bb
++++ b/meta/recipes-core/glibc/glibc_2.28.bb
+@@ -45,6 +45,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-bits-siginfo-consts.h-enum-definition-for-TRAP_HWBKP.patch \
+            file://0029-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
+            file://0030-intl-Emit-no-lines-in-bison-generated-files.patch \
++           file://0001-Linux-gethostid-Check-for-NULL-value-from-gethostbyn.patch \
+ "
+ 
+ NATIVESDKFIXES ?= ""
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.13.3
+
 
