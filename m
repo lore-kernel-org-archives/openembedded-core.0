@@ -1,52 +1,54 @@
-Return-Path: <Alexey.Brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (smtprelay.synopsys.com [198.182.47.9])
-	by mail.openembedded.org (Postfix) with ESMTP id C7E96798C2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EDF8798C2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 13:07:59 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id CEF1424E2631;
-	Fri, 21 Sep 2018 06:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1537535281; bh=flBbK1TIHy2GfDyAXnXWtr+F/crdF/7mfMz6LhuO9lE=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=SoU/irUQA6ViKaD11rFcZmu/f2f7SCnlwrLCWfXiIVrOw/nwtFVcBEg+zc6TnPkb3
-	FRpg8PixVjpMMxlcmwJEAAOHiy019vepu3KHBWwd1hgmZj723hXWNGeEYzG+IjarQA
-	CsOm9tbj5BudC3AxEGR94QQVxfLJcamoDyK4+1IDR0cRO6dSBzc9y50nHhgLqMt4jQ
-	sEmSJzrjih0REuqZzIXZmKO6L1aYKU6Fo5teZPFrwjE0cjkgR02CymuTMxOJI8E/07
-	mc7FdlHB4HHnt8U3Z0BeIpNCFypVdT+diedXLAFn/tZWStJf+votYqBUXUjtPvaXFA
-	m3WIqx/XbMZyw==
-Received: from US01WXQAHTC1.internal.synopsys.com
-	(us01wxqahtc1.internal.synopsys.com [10.12.238.230])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 98D5E38F9;
-	Fri, 21 Sep 2018 06:08:00 -0700 (PDT)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
-	US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Fri, 21 Sep 2018 06:07:59 -0700
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCA.internal.synopsys.com ([::1]) with mapi id
-	14.03.0361.001; Fri, 21 Sep 2018 15:07:58 +0200
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: "ross.burton@intel.com" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2 5/9] libgpg-error: Add ARC support
-Thread-Index: AQHUUSKCBPi6VmWY6ESlUYO7ohwMQKT6bAiAgAANdYCAABZnAIAAAKIAgAAD5oA=
-Date: Fri, 21 Sep 2018 13:07:57 +0000
-Message-ID: <27a89d5d978dbe51cd05d7c68c067d46dcdde71e.camel@synopsys.com>
+	Fri, 21 Sep 2018 13:20:36 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id r69-v6so11368897oie.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Sep 2018 06:20:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=957iwyj8/dq6dmf9Mk7GHYiV4fvKOjs4Xs1H1v5OQik=;
+	b=M93JcX5squa/iB4ttZu0e0rVvzC0M7cWVLgWi/ZrExCkZCPFy0obksjEi9gnmYPHPW
+	ZZ57SzyVXIhE1y3RitTXG4hh6tTk7eW1DVpgVFnH6vlF9cL5ixZIJOidw78J2ihs76xJ
+	d8oRiSazEIeyTfcX9rrHRwcHtrD20lrVib//yAgtDvPiPGG5LIGTcOvnXFVx0WzaA62N
+	2n90H8swkFHolpa7e7isLeH+oEfEprZ+biWQ65fiETCIwAFopsFrLmx2OjNMuIlrZuY9
+	PDk9CuyqajxjSla6o6UGshH/xQQCqqarG9t+mmMLd/idmBecuzdEqotXzL4wqoeeRJH3
+	n+Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=957iwyj8/dq6dmf9Mk7GHYiV4fvKOjs4Xs1H1v5OQik=;
+	b=MI6/tYOZaUc0x4vEqnT/iJbCwjWhNxHGrZeLOFllR8mrUbMpKKBIRE1DPMvaRzqw1M
+	w0d34st/WGvSZ3SYLvDaONIqxmdXFjToB3pcal7cBvi7XJRUWIdDHz3EuhaVGSwHZPWh
+	baQn5HZ5JDK3o4swvaTyhPy/pQg+oL3vddX2aboVA6suoRasLOYTGdCrQ+oIWd2SBr2T
+	ckcJWXCIUzeloJnU/stdEyCCwjqNPIzMn4zNcSqQ+jW8MXtHWG7m/+3MofPMT2zLmnMh
+	707W209Gt2lo8Lbnf/K66CG52aybCsVOg4HFpyaVsrCAr3QjzZB26GDkMbI/if8dsA1I
+	LFDg==
+X-Gm-Message-State: APzg51Cx8lmcQrj5QsWuj5l6PRnLYyFem6eNuDVaez22VWUUQgCxDz2A
+	WYJksAEHQM0zezzDM4puHJCgjFF1+bi/Q+ZGJRoTBw==
+X-Google-Smtp-Source: ANB0VdZq/jcWGQWdonmctTyP2XOoPIc5DmifQLtFDwn8ZNx0Zipujnrf1PbjyxIP3WXgwhC9LgcY75dpF9rbf4pS9Wg=
+X-Received: by 2002:aca:6849:: with SMTP id
+	d70-v6mr1520872oic.103.1537536037330; 
+	Fri, 21 Sep 2018 06:20:37 -0700 (PDT)
+MIME-Version: 1.0
 References: <20180920204232.10583-1-abrodkin@synopsys.com>
 	<20180920204232.10583-6-abrodkin@synopsys.com>
 	<CAJTo0LbYHuG6E4LgQpZCDQ+XaM+rt0N683cP3nuPu-DojFEmSg@mail.gmail.com>
 	<9bb4d4d54024982cb3a0b02222a45e12845cba85.camel@synopsys.com>
 	<bb6c7d725f34a4bb5b08164268db7a2863aa1cf3.camel@synopsys.com>
 	<CAJTo0La_MuDqcdy4brMRkiprQzAnAwo1omdGzz_=kDjgc1Hsvg@mail.gmail.com>
-In-Reply-To: <CAJTo0La_MuDqcdy4brMRkiprQzAnAwo1omdGzz_=kDjgc1Hsvg@mail.gmail.com>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.225.15.87]
-MIME-Version: 1.0
-Cc: "wk@gnupg.org" <wk@gnupg.org>,
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+	<27a89d5d978dbe51cd05d7c68c067d46dcdde71e.camel@synopsys.com>
+In-Reply-To: <27a89d5d978dbe51cd05d7c68c067d46dcdde71e.camel@synopsys.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 21 Sep 2018 14:20:25 +0100
+Message-ID: <CAJTo0Lak_--ZguDpPhdD_jMcwaoOVejfTqkNqYAjB+FwG_O1JA@mail.gmail.com>
+To: Alexey.Brodkin@synopsys.com
+Cc: wk@gnupg.org, linux-snps-arc@lists.infradead.org,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2 5/9] libgpg-error: Add ARC support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,49 +62,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 13:07:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CFFDF939DB29354D9C4C1DA746A83E11@internal.synopsys.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 21 Sep 2018 13:20:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgUm9zcywNCg0KT24gRnJpLCAyMDE4LTA5LTIxIGF0IDEzOjUzICswMTAwLCBCdXJ0b24sIFJv
-c3Mgd3JvdGU6DQo+IENhbiB5b3UgY2hlY2sgdGhhdCB2MyB3b3JrcyB3aXRoIHg4Ni02NCB0YXJn
-ZXRzPw0KPiANCj4gRVJST1I6IGxpYmdwZy1lcnJvci0xLjMyLXIwIGRvX2NvbXBpbGU6IEZ1bmN0
-aW9uIGZhaWxlZDogZG9fY29tcGlsZQ0KPiAobG9nIGZpbGUgaXMgbG9jYXRlZCBhdA0KPiAvZGF0
-YS9wb2t5LXRtcC9tYXN0ZXIvd29yay9jb3JlaTctNjQtcG9reS1saW51eC9saWJncGctZXJyb3Iv
-MS4zMi1yMC90ZW1wL2xvZy5kb19jb21waWxlLjEzMzQ1KQ0KPiBFUlJPUjogTG9nZmlsZSBvZiBm
-YWlsdXJlIHN0b3JlZCBpbjoNCj4gL2RhdGEvcG9reS10bXAvbWFzdGVyL3dvcmsvY29yZWk3LTY0
-LXBva3ktbGludXgvbGliZ3BnLWVycm9yLzEuMzItcjAvdGVtcC9sb2cuZG9fY29tcGlsZS4xMzM0
-NQ0KPiBMb2cgZGF0YSBmb2xsb3dzOg0KPiA+IERFQlVHOiBTSVRFIGZpbGVzIFsnZW5kaWFuLWxp
-dHRsZScsICdjb21tb24tbGludXgnLCAnY29tbW9uLWdsaWJjJywNCj4gDQo+ICdiaXQtNjQnLCAn
-eDg2XzY0LWxpbnV4JywgJ2NvbW1vbiddDQo+ID4gREVCVUc6IEV4ZWN1dGluZyBzaGVsbCBmdW5j
-dGlvbiBkb19jb21waWxlDQo+ID4gY3A6IGNhbm5vdCBzdGF0DQo+IA0KPiAnL2RhdGEvcG9reS10
-bXAvbWFzdGVyL3dvcmsvY29yZWk3LTY0LXBva3ktbGludXgvbGliZ3BnLWVycm9yLzEuMzItcjAv
-bGliZ3BnLWVycm9yLTEuMzIvc3JjL3N5c2NmZy9sb2NrLW9iai1wdWIueDg2XzY0LXBjLWxpbnV4
-LWdudS5oJzoNCj4gTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQ0KPiA+IFdBUk5JTkc6IGV4aXQg
-Y29kZSAxIGZyb20gYSBzaGVsbCBjb21tYW5kLg0KPiA+IEVSUk9SOiBGdW5jdGlvbiBmYWlsZWQ6
-IGRvX2NvbXBpbGUgKGxvZyBmaWxlIGlzIGxvY2F0ZWQgYXQNCj4gDQo+IC9kYXRhL3Bva3ktdG1w
-L21hc3Rlci93b3JrL2NvcmVpNy02NC1wb2t5LWxpbnV4L2xpYmdwZy1lcnJvci8xLjMyLXIwL3Rl
-bXAvbG9nLmRvX2NvbXBpbGUuMTMzNDUpDQoNClllYWggdGhhdCdzIHByZXR0eSB1bmZvcnR1bmF0
-ZSB0aGF0ICJzaW1wbGUgYWRkaXRpb24gb2YgQVJDIg0KYnJva2UgYW50aGVyIGFyY2ggOigNCg0K
-V2hhdCBoYXBwZW5lZCBpcyBpbiB0aGUgc2FtZSBvbmUgY29tbWl0IHRoYXQgYWRkcyBBUkMgcXVp
-dGUgYSBmZXcNCmhlYWRlcnMgZm9yIG90aGVyIGFyY2hlcyBnZXQgcmVuYW1lZCwgc2VlOg0KaHR0
-cDovL2dpdC5nbnVwZy5vcmcvY2dpLWJpbi9naXR3ZWIuY2dpP3A9bGliZ3BnLWVycm9yLmdpdDth
-PWNvbW1pdDtoPTQ4YzhmOGRkZmM4MDU1MWRiNzYxNWUxZWIzNTU1YzFkYzNmNmE2NTcNCg0KQW5k
-ICJsb2NrLW9iai1wdWIueDg2XzY0LXBjLWxpbnV4LWdudS5oIiBpcyBvbmUgb2YgdGhlbS4NClNv
-IEknbGwgdXBkYXRlIGxpYmdwZy1lcnJvcl8xLjMyLmJiIHdpdGg6DQotLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLT44LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCi0tLSBhL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2xpYmdwZy1lcnJvci9saWJncGctZXJyb3JfMS4zMi5iYg0KKysrIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvbGliZ3BnLWVycm9yL2xpYmdwZy1lcnJvcl8xLjMyLmJiDQpAQCAtNDQsNyAr
-NDQsNyBAQCBkb19jb21waWxlX3ByZXBlbmQoKSB7DQogICAgICAgICAgbWlwczY0KikgICAgVFVQ
-TEU9bWlwczY0ZWwtdW5rbm93bi1saW51eC1nbnVhYmk2NCA7Ow0KICAgICAgICAgIG1pcHMqZWwp
-ICAgIFRVUExFPW1pcHNlbC11bmtub3duLWxpbnV4LWdudSA7Ow0KICAgICAgICAgIG1pcHMqKSAg
-ICAgIFRVUExFPW1pcHMtdW5rbm93bi1saW51eC1nbnUgOzsNCi0gICAgICAgICB4ODZfNjQpICAg
-ICBUVVBMRT14ODZfNjQtcGMtbGludXgtZ251IDs7DQorICAgICAgICAgeDg2XzY0KSAgICAgVFVQ
-TEU9eDg2XzY0LXVua25vd24tbGludXgtZ251IDs7DQogICAgICAgICAgKikgICAgICAgICAgVFVQ
-TEU9JHtUQVJHRVRfQVJDSH0tdW5rbm93bi1saW51eC1nbnUgOzsNCiAgICAgICAgZXNhYw0KLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0+OC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNCkNhcmUg
-dG8gdHJ5IHRoYXQgY2hhbmdlIGluIHlvdXIgc2V0dXAgb25jZSB5b3UgaGF2ZSBldmV5dGhpbmcg
-ZWxzZSBidWlsdCBmb3IgeDg2XzY0Pw0KDQotQWxleGV5DQo=
+Yes, that fixes it.
+
+Ross
+On Fri, 21 Sep 2018 at 14:08, Alexey Brodkin
+<Alexey.Brodkin@synopsys.com> wrote:
+>
+> Hi Ross,
+>
+> On Fri, 2018-09-21 at 13:53 +0100, Burton, Ross wrote:
+> > Can you check that v3 works with x86-64 targets?
+> >
+> > ERROR: libgpg-error-1.32-r0 do_compile: Function failed: do_compile
+> > (log file is located at
+> > /data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/temp/log.do_compile.13345)
+> > ERROR: Logfile of failure stored in:
+> > /data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/temp/log.do_compile.13345
+> > Log data follows:
+> > > DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
+> >
+> > 'bit-64', 'x86_64-linux', 'common']
+> > > DEBUG: Executing shell function do_compile
+> > > cp: cannot stat
+> >
+> > '/data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/libgpg-error-1.32/src/syscfg/lock-obj-pub.x86_64-pc-linux-gnu.h':
+> > No such file or directory
+> > > WARNING: exit code 1 from a shell command.
+> > > ERROR: Function failed: do_compile (log file is located at
+> >
+> > /data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/temp/log.do_compile.13345)
+>
+> Yeah that's pretty unfortunate that "simple addition of ARC"
+> broke anther arch :(
+>
+> What happened is in the same one commit that adds ARC quite a few
+> headers for other arches get renamed, see:
+> http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=commit;h=48c8f8ddfc80551db7615e1eb3555c1dc3f6a657
+>
+> And "lock-obj-pub.x86_64-pc-linux-gnu.h" is one of them.
+> So I'll update libgpg-error_1.32.bb with:
+> -------------------------->8-----------------------
+> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
+> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
+> @@ -44,7 +44,7 @@ do_compile_prepend() {
+>           mips64*)    TUPLE=mips64el-unknown-linux-gnuabi64 ;;
+>           mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
+>           mips*)      TUPLE=mips-unknown-linux-gnu ;;
+> -         x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
+> +         x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
+>           *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
+>         esac
+> -------------------------->8-----------------------
+>
+> Care to try that change in your setup once you have eveything else built for x86_64?
+>
+> -Alexey
 
