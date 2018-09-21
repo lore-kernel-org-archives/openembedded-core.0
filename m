@@ -1,50 +1,49 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D2611798BF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+	[209.85.210.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 12B73798BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 12:38:02 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id 203-v6so11460253ljj.13
+	Fri, 21 Sep 2018 12:40:17 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id v44-v6so12790419ote.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 05:38:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=m99wSPmqmwM73pM+CRxuyrZuAm5bQYKiJxqgI0Riows=;
-	b=nyALU9T0Rb/nDp7tRGG870N4yWLefZ2N4zJ8tK3e+0tkIZFMmVi/rQs+6LHFoJmM7n
-	qtbij5/ifr/VchmHgZGDITBSgPiIZXXed6UJEbUqRqNqNBEEEjTIMMQoZBrPReC4FZ5l
-	J8xp67ztQLFLcDf5mEb98kd8JNYFK2devHEqAQYuCWyJU47E+lcM8SvwnYdLTyJnaTTU
-	nBYnebxICfb/wpEMUQOGmxjEWjO9fwcmXdZd4viR26vgzwmeqngUa2/oOU4iP++XpO7V
-	/82JgPBwYZ2Y5ya47yhe6EBxbKWvLMOz4wCxe0X0hUTb1jykfMlxb/zKwYAxjn/0DyPe
-	RBTg==
+	Fri, 21 Sep 2018 05:40:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=k5H5JxI5zRcXUZ+DqAkH+r3xWuabygAQB4BZBK+ziDI=;
+	b=s9PgYpVgILL0SMVD+/QFnJd0Re8P9FnML1dNSLPOIcaYN1mXR4yAP8VJSsv/xIitN+
+	AAd7HaWOQXp6JkfUD1XPS24Q+qxTMGUkHgVH2Phruauj8GkIaR7iLTkq1xEY9xP2Zja3
+	ZU4dYaGnrJoxA1cdPjDjVJ9iiazC8KaD9viZdTpjCx697ZNLBXDO5zL14WBFsSyLDLB2
+	iQ7Qux8ChUA6VX8WC1kGXsbZcOkfEozVBboILlfXDR2mrNHxK8C1KgKtPSmZfJJ/YVZB
+	bPETT03Cnj9nOY4TGZ4KxIz02qJrWXZPQqbc/5s5ok0Fan8Rox4XOzWMb8K3J8YMwipA
+	4Hzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=m99wSPmqmwM73pM+CRxuyrZuAm5bQYKiJxqgI0Riows=;
-	b=VkYq6STJ7m7N8TX1AVAusixEKfjKSSCjYzhMTmLOdh6jRgsk6ufjrl/FabH2mgLTOB
-	4AiQjO9dfYPCtxKwPUHn2tWhTRnFxD0VZrh7GLYtx2slkHTEDay7HZADLxLJRtc9DuMv
-	GbL7+XIxTaWLT6XD30nONOx36+Smdf3u2u4n4xqbfah9XHWB5PXxb+IykKtIEv16tnBo
-	bnOQqPjaMvz8QkvOFHc+wEHKUfPqcCQ0nusoJ/qsKTViPqOcFRocT+HmRgnb6Hupecs2
-	qIj8kj2rtF/634Nev0t/1kdvajCUYXrdAD4NMyfHJF4SgdwhlAiTqkFrCXdbI8Zoixbr
-	zDqg==
-X-Gm-Message-State: APzg51CSuFJVTiGe2QtiD8FMVy9OZTTyu2pvt+jSMZs994PsiEc2JUjk
-	gIHjOp+E7oqOB+uLNsyQ/FAZaFMAi2Vq1P8mlxg=
-X-Google-Smtp-Source: ACcGV62YDOjTAwg4PkHT+Mo9JOBHQCHNnHUDK/6qxcoc3NGsq2y5mdDc+uHxkFO8bXS9KztNx1w9VHamxyo3LyBqxuc=
-X-Received: by 2002:a2e:800e:: with SMTP id
-	j14-v6mr1669784ljg.114.1537533483144; 
-	Fri, 21 Sep 2018 05:38:03 -0700 (PDT)
+	bh=k5H5JxI5zRcXUZ+DqAkH+r3xWuabygAQB4BZBK+ziDI=;
+	b=aBxcyD+mE1Quz6mqfA+eNSwQ757xWLND1PZFWoEzhiEtUBmRGmoaGXbjunLOtqRDmn
+	q3fEv6vV2HsgzwWpFFESLo8ZckTxXUFY/HI9aRfjwAWqQvOm4OcNEVYlgnjjTO7juCG7
+	fG/WdUCfN616VmVVDzR6wfurjBFoF+gfVV6b4/o4WnNzi9dm1n6Z6qUuxqsPctUCMltk
+	1htM0f+eakj3Bn973sNOp9udQliUclmVA1VplxsG++kGhWQ37oNSk9OyhOxdt5Zd6sfv
+	0QGl4NbmM9MpKJaKU9g0j/JiKhhku0Z425gORRplZc/6uccSebTbt0u3KW80LYZXxf7W
+	FqZA==
+X-Gm-Message-State: APzg51BVe5lX/nTdVPDzk+fq9cri1O+d0hBIoTX4co6FqeH/w3dr7Zmy
+	Oo57j5GWzfwsD0PzJrpkvLUjoAH+8PpC09EXrFs+wg==
+X-Google-Smtp-Source: ANB0VdZq3YEsoSK6j04YkL0lJtO5T1gzz9EwEmmAbF5x2e5dC1carv7AdsM8UbOSmu1wcazR5QSGXqo86Cok97adlFM=
+X-Received: by 2002:a9d:4ea:: with SMTP id 97-v6mr23383352otm.99.1537533618835;
+	Fri, 21 Sep 2018 05:40:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:86c9:0:0:0:0:0 with HTTP; Fri, 21 Sep 2018 05:38:02
-	-0700 (PDT)
-In-Reply-To: <1537530567-8604-1-git-send-email-mikko.rapeli@bmw.de>
-References: <1537530567-8604-1-git-send-email-mikko.rapeli@bmw.de>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 21 Sep 2018 08:38:02 -0400
-Message-ID: <CADkTA4MowSWh3CnWU4YuRDYW-kDeqGXPnAVcYKtEAAKuZMWjMw@mail.gmail.com>
-To: Mikko Rapeli <mikko.rapeli@bmw.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: allow exporting files from kernel recipes to sysroot
+References: <CAJTo0La8KFRbVQvhcYyN-JMjRiBzjeUE9-dwadBvmCCbX95A=g@mail.gmail.com>
+	<45324447-7512-2987-1e2b-44c59c7aaddb@windriver.com>
+In-Reply-To: <45324447-7512-2987-1e2b-44c59c7aaddb@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 21 Sep 2018 13:40:06 +0100
+Message-ID: <CAJTo0Lbzv-5s20HycHXTxbWPr+JvkbMBj6RXj-qq5Be+VHNYKA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>, 
+	"Purdie, Richard" <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Kernel warnings with master/poky-lsb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,94 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 12:38:03 -0000
+X-List-Received-Date: Fri, 21 Sep 2018 12:40:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 21, 2018 at 7:49 AM, Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
-> This change enables kernel recipes to share files with other
-> recipes. Firmware, modules and kernel-depmod are still not shared
-> since according to git history they cause problems with multiarch,
-> but all others are allowed. Examples of shared files are
-> kernel version and recipe specific headers and scripts which
-> are not needed by common linux-libc-headers to bootstrap glibc.
+On Fri, 21 Sep 2018 at 13:33, Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
+> > FYI, the poky-lsb builds for meta-yocto-bsp BSPs are all emitting this warning:
+> >
+> > WARNING: linux-yocto-4.14.48+gitAUTOINC+9beb3a2873_04043b48eb-r0
+> > do_kernel_configcheck: [kernel config]: This BSP sets config options
+> > that are not offered anywhere within this kernel:
+> > CONFIG_USB_OCTEON2_COMMON
+> >
+> > Is this something that is fixed in 4.14.67? Did I miss an upgrade or
+> > are there upgrade patches outstanding?  Note that we were hoping to
+> > roll M3 this week.
 >
-> For example, if a kernel recipe wants to share headers, it can do:
+> There are oustanding patches for the remaining warnings. I was
+> traveling and didn't get a chance to complete the last few
+> platforms with remaining warns.
 >
-> PACKAGES =+ "${PN}-headers"
->
-> do_install_append() {
->     install -d "${D}${includedir}/${PN}"
->     oe_runmake INSTALL_HDR_PATH="${D}${includedir}/${PN}" headers_install
-> }
+> I may have something out by end of day, but since today is my
+> first back in my timezone .. I may fall asleep before that
+> happens :D
 
-This is what I've always done in the past (and in fact, there's an
-open Yocto bug
-to track this), but I haven't actually needed to do what you are
-modifying in the
-bbclass itself.
+Okay, thanks Bruce!
 
-If you call the sysroot stage routines directly in that
-install_append, are you really
-not seeing the files appear in the recipe's sysroot ?
+CCing Richard so he know's we might end up rolling a M3RC1 before
+these updates arrive.
 
-Have you confirmed that we get a warning/error from bitbake about
-conflicting files
-from multiple recipes if someone doesn't know to use a custom path for their
-headers ? That has always been the main concern about allowing something like
-this.
-
-Cheers,
-
-Bruce
-
->
-> FILES_${PN}-headers = "\
->                       ${includedir}/${PN}/* \
->                       "
->
-> Users can find the headers from ${includedir}/${PN} and they don't conflict
-> with the generic linux-libc-headers which are used to boostrap userspace.
->
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> ---
->  meta/classes/kernel.bbclass | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index bfb4243..acf9c2c 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -487,10 +487,14 @@ do_shared_workdir () {
->         fi
->  }
->
-> -# We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
-> -sysroot_stage_all () {
-> -       :
-> -}
-> +# We don't need to stage modules/firmware since those would clash with linux-firmware, but
-> +# kernel recipes can still expose kernel version specific headers or scripts to userspace
-> +# sysroot.
-> +SYSROOT_DIRS_BLACKLIST_append += "\
-> +    ${datadir}/kernel-depmod \
-> +    ${base_libdir}/modules \
-> +    ${base_libdir}/firmware \
-> +"
->
->  KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} oldnoconfig"
->
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Ross
 
