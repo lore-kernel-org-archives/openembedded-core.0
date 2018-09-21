@@ -1,50 +1,51 @@
-Return-Path: <Alexey.Brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
-	[198.182.60.111])
-	by mail.openembedded.org (Postfix) with ESMTP id 92FB574561
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 53C9474561
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 11:41:19 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id E21EB10C1B2A;
-	Fri, 21 Sep 2018 04:41:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1537530080; bh=SM1kpHphFp9+UFGhJ1RYcoRgRnJvsHTYMgT71DE29fU=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=cTGHv4UAnQLDNXSmWkWFgPK4wCGgyCkpkimEyn5t5QtaNuTOKuQbcpEwY5OuQEEkC
-	Oi4O68enrRumjKaRLHyYbAMZEVVEOykxDYXN+HiDywOFGPsleSlcRpOloJTHrRc9nS
-	opWKS8A07k1sJPJECPKNYm/fOJ+2z3jV80jsaLESmKFORvndTUw5U8b6JNH66YXu3c
-	YY5+lyeacB95tYPEEG5l31bokYQQL3+hV5qJzuS0vhDWwSQ634a/ZLeT+63gxREH79
-	+a5Z0NnByJ1lWvV6s1Ss3z95zYFs5i1+MrDkqF6UdpqGMWjek0Rn0HsQUihx1YWqc6
-	F9vocgl5spYPw==
-Received: from US01WEHTC3.internal.synopsys.com
-	(us01wehtc3.internal.synopsys.com [10.15.84.232])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 881AD3BD9;
-	Fri, 21 Sep 2018 04:41:20 -0700 (PDT)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
-	US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Fri, 21 Sep 2018 04:41:20 -0700
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id
-	14.03.0361.001; Fri, 21 Sep 2018 13:41:18 +0200
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: "ross.burton@intel.com" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2 8/9] binutils: Fix Glibc building for ARC
-Thread-Index: AQHUUSKFknM9iUerwEeGjw/2XZ3IVqT6b4QAgAAMsgA=
-Date: Fri, 21 Sep 2018 11:41:17 +0000
-Message-ID: <a370dc1964172f81c3c8fec7a3165d0657ad6042.camel@synopsys.com>
+	Fri, 21 Sep 2018 11:43:27 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id j9-v6so12717562otl.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Sep 2018 04:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=pYZ4xGUcd2BQxc/qNOKPB08a9g3Q4ksQeQmJKgpF+Nc=;
+	b=X6zPWU1zgDrCPW8wjTjfjTWmNJlbdyR5/2Kr9KDD7tHWs23x1/fSV2oizxvYsfXyec
+	GgA2zeNBqULuyVJrzzfrPkWSKMijrZjHOT7Pj8TmlOA6ZT4ylmA9WlyfpC8iCuiLvrek
+	o7fU9dSlXjQE7ICOYyvApaSG5A7qFnJDgrzE9Yj5NKOLyjhLkzPYBrPJUgR6ZslAdNPE
+	dN7TgPX7oCh1u1XwT3Sk3/hg57jS1NBV5k7bleC6aBH2/0XwXN2qhe16CVXK7MC/9HAp
+	3ge0RPulGRMkvflMCI8IxDRLzrm8wUgdUyN4js8R+Gp9HFLJEtppfStiYPpONxCDbJ/K
+	MAdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=pYZ4xGUcd2BQxc/qNOKPB08a9g3Q4ksQeQmJKgpF+Nc=;
+	b=MdXEENHF+QAFYkc44pxh2U6X60eCSqAEtsFGzRxHg9bsfvsK1H68wZwKgfkZl4fpcb
+	euta5yq0u/+h9frSkkD4e9I/t9stJUEyNgDCQcCYo6yq88iHdqsNgFagcc+gwEHwsTbo
+	ZlXp4gCOksFpezIXdlp9ya6YxtaGx9V1NaAir59KkXrn4JNX9nDPtgKU4zriT+lfwn0S
+	8gGWxzc2VckuiPD7YAMKcxrp9WF+TygIfTuhWmZeAnHZ7vSChPBSIqFoxV/Ub8ItPA8t
+	L4qog2ADn5X3wI0EIjzK5zYJA8irMFm2Ly5rhbLxrmDB4c4he8795DfG16INyJcZL3kB
+	HpRw==
+X-Gm-Message-State: ABuFfojaxarfnn3NMwMS2azv3b6S4Rj0/poVCxq4OH4XLHiGRkcdQF4E
+	fJuXCZ56+tzujyGJNQNcLReSKbdL2UYpbo9JX+z/4w==
+X-Google-Smtp-Source: ACcGV63RG1/nk4iFQ0rWjgzHMH6vQHlbtzLgxvVOgsfJJpEj37EDLECb/yLWcRRECygtIA5K/u4oxU2kRApLwBx5nGA=
+X-Received: by 2002:a9d:48dc:: with SMTP id a28-v6mr9654otj.343.1537530208311; 
+	Fri, 21 Sep 2018 04:43:28 -0700 (PDT)
+MIME-Version: 1.0
 References: <20180920204232.10583-1-abrodkin@synopsys.com>
 	<20180920204232.10583-9-abrodkin@synopsys.com>
 	<CAJTo0Lb9HFXbXVNDHoMyx8eF06kd0710B0+KXuiCAocvGLevfw@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb9HFXbXVNDHoMyx8eF06kd0710B0+KXuiCAocvGLevfw@mail.gmail.com>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.225.15.87]
-MIME-Version: 1.0
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>
+	<a370dc1964172f81c3c8fec7a3165d0657ad6042.camel@synopsys.com>
+In-Reply-To: <a370dc1964172f81c3c8fec7a3165d0657ad6042.camel@synopsys.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 21 Sep 2018 12:43:16 +0100
+Message-ID: <CAJTo0LbYoWHzOko6QhqzGdKJN=Gavav8ooVSTWLQxb9zq6ctgQ@mail.gmail.com>
+To: Alexey.Brodkin@synopsys.com
+Cc: linux-snps-arc@lists.infradead.org,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Claudiu.Zissulescu@synopsys.com
 Subject: Re: [PATCH v2 8/9] binutils: Fix Glibc building for ARC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,24 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 11:41:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <66A691477BA86D44A3F3B7A1A38A1BE8@internal.synopsys.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 21 Sep 2018 11:43:27 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgUm9zcywNCg0KT24gRnJpLCAyMDE4LTA5LTIxIGF0IDExOjU1ICswMTAwLCBCdXJ0b24sIFJv
-c3Mgd3JvdGU6DQo+IEkgZG9uJ3QgbGlrZSBhY2N1bXVsYXRpbmcgcGVuZGluZyBwYXRjaGVzIGZv
-ciBzb21ldGhpbmcgYXMga2V5IGFzDQo+IGJpbnV0aWxzLCBhcmUgdGhlc2UgYWN0dWFsbHkgd29y
-a2luZyB0aGVpciB3YXkgdXBzdHJlYW0gbm93Pw0KDQpTdXJlIHRoZXkgYXJlIQ0KDQpPdXIgdGVh
-bSBkZXZlbG9wbWVudCBpcyB2ZXJ5IHVwc3RyZWFtIHRhcmdldGVkLCBpLmUuIHdlIHRyeSB0bw0K
-c3VibWl0IGFsbCBvdXIgY2hhbmdlcyB1cHN0cmVhbS4gQnV0IHdpdGggQmludXRpbHMgd2UncmUg
-bGFnZ2luZw0KYmVoaW5kIHVwc3RyZWFtIGEgYml0IGJlY2F1c2UgcmVjZW50bHkgd2UgbWFkZSBz
-b21lIHNpZ25pZmljYW50IHJld29ya3MNCmFuZCBub3cgY2F0Y2hpbmcgdXAgd2l0aCB1cHN0cmVh
-bS4NCg0KV2hhdCdzIG1vcmUgbXkgY29sbGVhZ3VlIENsYXVkaXUgWmlzc3VsZXNjdSByZWNlbnRs
-eSBiZWNhbWUNCm9mZmljaWFsIEJpbnV0aWxzIG1haW50YWluZXIgZm9yIEFSQywgc2VlDQpodHRw
-czovL3NvdXJjZXdhcmUub3JnL2dpdC9naXR3ZWIuY2dpP3A9YmludXRpbHMtZ2RiLmdpdDthPWNv
-bW1pdDtoPTAyZDdhNzllMWI5MzI0MDcyOWE1MjI0NjQzMmQ5YTg0NTgzYmNmODINCnNvIEkgZXhw
-ZWN0IGxlc3MgYW5kIGxlc3MgcGF0Y2hlcyBmb3IgQVJDIHdpbGwgYmUgInBlbmRpbmciLg0KDQpO
-b3Qgc3VyZSB0aG91Z2ggaWYgdGhhdCBtYWtlcyBtdWNoIHNlbnNlLg0KDQotQWxleGV5DQo=
+That's good to know, thanks.
+
+Ross
+On Fri, 21 Sep 2018 at 12:41, Alexey Brodkin
+<Alexey.Brodkin@synopsys.com> wrote:
+>
+> Hi Ross,
+>
+> On Fri, 2018-09-21 at 11:55 +0100, Burton, Ross wrote:
+> > I don't like accumulating pending patches for something as key as
+> > binutils, are these actually working their way upstream now?
+>
+> Sure they are!
+>
+> Our team development is very upstream targeted, i.e. we try to
+> submit all our changes upstream. But with Binutils we're lagging
+> behind upstream a bit because recently we made some significant reworks
+> and now catching up with upstream.
+>
+> What's more my colleague Claudiu Zissulescu recently became
+> official Binutils maintainer for ARC, see
+> https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=02d7a79e1b93240729a52246432d9a84583bcf82
+> so I expect less and less patches for ARC will be "pending".
+>
+> Not sure though if that makes much sense.
+>
+> -Alexey
 
