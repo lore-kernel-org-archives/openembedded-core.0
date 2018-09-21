@@ -1,18 +1,34 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C54A79319;
-	Fri, 21 Sep 2018 09:07:57 +0000 (UTC)
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B7D2A79319
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Sep 2018 09:10:21 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8L99CFP009545
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 21 Sep 2018 02:09:22 -0700
+Received: from [128.224.162.202] (128.224.162.202) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 21 Sep 2018 02:09:01 -0700
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
+	<78fad439cd03f6e9be71a0a917667bcf94ebea51.camel@linuxfoundation.org>
+	<526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
+	<3310e627615370184fd7a1a58997b516ce36f2a7.camel@linuxfoundation.org>
+	<f0425061-1d49-84f7-33f3-a3f2b3504c43@windriver.com>
+	<983d28517b9e9015b590405bbb7f91ffc0d6aa48.camel@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <e3c77c41-1e8d-5d49-4747-fc1c6fb9e3f6@windriver.com>
+Date: Fri, 21 Sep 2018 17:08:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Max Kellermann <max+openembedded@blarg.de>
-Date: Fri, 21 Sep 2018 09:07:59 -0000
-Message-ID: <20180921090759.13840.84576@do.openembedded.org>
-References: <20180918082608.1088-1-max+openembedded@blarg.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180918082608.1088-1-max+openembedded@blarg.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbXBkOiBtYWtlIGxvdHMgb2YgcGx1Z2lucyBvcHRpb25hbA==?=
+In-Reply-To: <983d28517b9e9015b590405bbb7f91ffc0d6aa48.camel@linuxfoundation.org>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Koen Kooi <koen.kooi@linaro.org>
+Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +41,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 09:07:57 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Sep 2018 09:10:27 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-== Series Details ==
+On 2018年09月21日 01:54, richard.purdie@linuxfoundation.org wrote:
+> We do not want to revert those commits. I think the right solution is
+> to enabled:
+>
+> CONFIG_CRYPTO_DEV_VIRTIO=y
+> CONFIG_PCI=y
+> CONFIG_PCI_HOST_GENERIC=y
 
-Series: mpd: make lots of plugins optional
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14174/
-State : failure
+It should add
 
-== Summary ==
+CONFIG_VIRTIO_PCI=y
 
+Then sshd will hung a short time (50s)
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+After crng init done, everything is ok
 
+[boot log]
 
+[   65.969600] random: crng init done
 
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     openembedded-devel@lists.openembedded.org [http://git.openembedded.org/meta-openembedded/]
-  Patch's path:    meta-multimedia/recipes-multimedia/musicpd/mpd_0.20.21.bb
+done.
+Starting syslogd/klogd: done
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 957a2f95b8)
+OpenEmbedded nodistro.0 qemuarm64 /dev/ttyAMA0
 
+qemuarm64 login:
 
+[boot log]
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+//Hongxu
 
 
