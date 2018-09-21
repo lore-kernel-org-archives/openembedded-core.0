@@ -1,55 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EDF8798C2
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AF3874D73
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 13:20:36 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id r69-v6so11368897oie.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 06:20:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=957iwyj8/dq6dmf9Mk7GHYiV4fvKOjs4Xs1H1v5OQik=;
-	b=M93JcX5squa/iB4ttZu0e0rVvzC0M7cWVLgWi/ZrExCkZCPFy0obksjEi9gnmYPHPW
-	ZZ57SzyVXIhE1y3RitTXG4hh6tTk7eW1DVpgVFnH6vlF9cL5ixZIJOidw78J2ihs76xJ
-	d8oRiSazEIeyTfcX9rrHRwcHtrD20lrVib//yAgtDvPiPGG5LIGTcOvnXFVx0WzaA62N
-	2n90H8swkFHolpa7e7isLeH+oEfEprZ+biWQ65fiETCIwAFopsFrLmx2OjNMuIlrZuY9
-	PDk9CuyqajxjSla6o6UGshH/xQQCqqarG9t+mmMLd/idmBecuzdEqotXzL4wqoeeRJH3
-	n+Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=957iwyj8/dq6dmf9Mk7GHYiV4fvKOjs4Xs1H1v5OQik=;
-	b=MI6/tYOZaUc0x4vEqnT/iJbCwjWhNxHGrZeLOFllR8mrUbMpKKBIRE1DPMvaRzqw1M
-	w0d34st/WGvSZ3SYLvDaONIqxmdXFjToB3pcal7cBvi7XJRUWIdDHz3EuhaVGSwHZPWh
-	baQn5HZ5JDK3o4swvaTyhPy/pQg+oL3vddX2aboVA6suoRasLOYTGdCrQ+oIWd2SBr2T
-	ckcJWXCIUzeloJnU/stdEyCCwjqNPIzMn4zNcSqQ+jW8MXtHWG7m/+3MofPMT2zLmnMh
-	707W209Gt2lo8Lbnf/K66CG52aybCsVOg4HFpyaVsrCAr3QjzZB26GDkMbI/if8dsA1I
-	LFDg==
-X-Gm-Message-State: APzg51Cx8lmcQrj5QsWuj5l6PRnLYyFem6eNuDVaez22VWUUQgCxDz2A
-	WYJksAEHQM0zezzDM4puHJCgjFF1+bi/Q+ZGJRoTBw==
-X-Google-Smtp-Source: ANB0VdZq/jcWGQWdonmctTyP2XOoPIc5DmifQLtFDwn8ZNx0Zipujnrf1PbjyxIP3WXgwhC9LgcY75dpF9rbf4pS9Wg=
-X-Received: by 2002:aca:6849:: with SMTP id
-	d70-v6mr1520872oic.103.1537536037330; 
-	Fri, 21 Sep 2018 06:20:37 -0700 (PDT)
+	Fri, 21 Sep 2018 13:31:53 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=svr-ies-mbx-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+	id 1g3LXF-0002lL-Nm from Awais_Belal@mentor.com ;
+	Fri, 21 Sep 2018 06:31:53 -0700
+Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
+	svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) with Microsoft SMTP
+	Server (TLS) id 15.0.1320.4; Fri, 21 Sep 2018 14:31:49 +0100
+Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
+	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
+	mapi id 15.00.1320.000; Fri, 21 Sep 2018 14:31:49 +0100
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] glibc-package.inc: correct intention for
+	deleting /usr/lib as needed
+Thread-Index: AQHUTzrReK7EozvamEuUEKOJij+4eaT49cQAgABA2pj///uEAIABjh1l
+Date: Fri, 21 Sep 2018 13:31:49 +0000
+Message-ID: <1537536706360.96813@mentor.com>
+References: <1537266969204.31967@mentor.com>
+	<CAJTo0LbCJwoD8Rc4uLffTx5P0enQxppY4-5YmGYPDbhahU8j8A@mail.gmail.com>
+	<9a58ea4be84c4f0eb2c34680a9345186@SVR-IES-MBX-03.mgc.mentorg.com>,
+	<CAJTo0LYtN8Rn=Kw1opw9=-a9j2zFFaUqikvwU4LXqoqHiEot5Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LYtN8Rn=Kw1opw9=-a9j2zFFaUqikvwU4LXqoqHiEot5Q@mail.gmail.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.94.31.225]
 MIME-Version: 1.0
-References: <20180920204232.10583-1-abrodkin@synopsys.com>
-	<20180920204232.10583-6-abrodkin@synopsys.com>
-	<CAJTo0LbYHuG6E4LgQpZCDQ+XaM+rt0N683cP3nuPu-DojFEmSg@mail.gmail.com>
-	<9bb4d4d54024982cb3a0b02222a45e12845cba85.camel@synopsys.com>
-	<bb6c7d725f34a4bb5b08164268db7a2863aa1cf3.camel@synopsys.com>
-	<CAJTo0La_MuDqcdy4brMRkiprQzAnAwo1omdGzz_=kDjgc1Hsvg@mail.gmail.com>
-	<27a89d5d978dbe51cd05d7c68c067d46dcdde71e.camel@synopsys.com>
-In-Reply-To: <27a89d5d978dbe51cd05d7c68c067d46dcdde71e.camel@synopsys.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 21 Sep 2018 14:20:25 +0100
-Message-ID: <CAJTo0Lak_--ZguDpPhdD_jMcwaoOVejfTqkNqYAjB+FwG_O1JA@mail.gmail.com>
-To: Alexey.Brodkin@synopsys.com
-Cc: wk@gnupg.org, linux-snps-arc@lists.infradead.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 5/9] libgpg-error: Add ARC support
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc-package.inc: correct intention for deleting /usr/lib as needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,62 +46,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 13:20:36 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 21 Sep 2018 13:31:53 -0000
+X-Groupsio-MsgNum: 116589
+Content-Language: en-US
+Content-Type: multipart/mixed; boundary="_002_153753670636096813mentorcom_"
 
-Yes, that fixes it.
+--_002_153753670636096813mentorcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Ross
-On Fri, 21 Sep 2018 at 14:08, Alexey Brodkin
-<Alexey.Brodkin@synopsys.com> wrote:
->
-> Hi Ross,
->
-> On Fri, 2018-09-21 at 13:53 +0100, Burton, Ross wrote:
-> > Can you check that v3 works with x86-64 targets?
-> >
-> > ERROR: libgpg-error-1.32-r0 do_compile: Function failed: do_compile
-> > (log file is located at
-> > /data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/temp/log.do_compile.13345)
-> > ERROR: Logfile of failure stored in:
-> > /data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/temp/log.do_compile.13345
-> > Log data follows:
-> > > DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
-> >
-> > 'bit-64', 'x86_64-linux', 'common']
-> > > DEBUG: Executing shell function do_compile
-> > > cp: cannot stat
-> >
-> > '/data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/libgpg-error-1.32/src/syscfg/lock-obj-pub.x86_64-pc-linux-gnu.h':
-> > No such file or directory
-> > > WARNING: exit code 1 from a shell command.
-> > > ERROR: Function failed: do_compile (log file is located at
-> >
-> > /data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/temp/log.do_compile.13345)
->
-> Yeah that's pretty unfortunate that "simple addition of ARC"
-> broke anther arch :(
->
-> What happened is in the same one commit that adds ARC quite a few
-> headers for other arches get renamed, see:
-> http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=commit;h=48c8f8ddfc80551db7615e1eb3555c1dc3f6a657
->
-> And "lock-obj-pub.x86_64-pc-linux-gnu.h" is one of them.
-> So I'll update libgpg-error_1.32.bb with:
-> -------------------------->8-----------------------
-> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-> @@ -44,7 +44,7 @@ do_compile_prepend() {
->           mips64*)    TUPLE=mips64el-unknown-linux-gnuabi64 ;;
->           mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
->           mips*)      TUPLE=mips-unknown-linux-gnu ;;
-> -         x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
-> +         x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
->           *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
->         esac
-> -------------------------->8-----------------------
->
-> Care to try that change in your setup once you have eveything else built for x86_64?
->
-> -Alexey
+>> That's better than HTML!=0A=
+Attached.=0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
+From: Burton, Ross <ross.burton@intel.com>=0A=
+Sent: Thursday, September 20, 2018 7:46 PM=0A=
+To: Belal, Awais=0A=
+Cc: OE-core=0A=
+Subject: Re: [OE-core] [PATCH] glibc-package.inc: correct intention for del=
+eting /usr/lib as needed=0A=
+=0A=
+That's better than HTML!=0A=
+On Thu, 20 Sep 2018 at 15:04, Belal, Awais <Awais_Belal@mentor.com> wrote:=
+=0A=
+>=0A=
+> Hi Ross,=0A=
+>=0A=
+> >> Can you resend using git-send-email, as this patch is encoded in HTML.=
+=0A=
+> My SMTP server is acting up these days, should I simply resend the patch =
+here as an attachment?=0A=
+>=0A=
+> BR,=0A=
+> Awais=0A=
+>=0A=
+> ________________________________________=0A=
+> From: Burton, Ross [ross.burton@intel.com]=0A=
+> Sent: Thursday, September 20, 2018 4:10 PM=0A=
+> To: Belal, Awais=0A=
+> Cc: OE-core=0A=
+> Subject: Re: [OE-core] [PATCH] glibc-package.inc: correct intention for d=
+eleting /usr/lib as needed=0A=
+>=0A=
+> Can you resend using git-send-email, as this patch is encoded in HTML.=0A=
+>=0A=
+> Ross=0A=
+> On Tue, 18 Sep 2018 at 11:53, Belal, Awais <Awais_Belal@mentor.com> wrote=
+:=0A=
+> >=0A=
+> > In case the baselib is lib64 we would want to delete /usr/lib=0A=
+> > after removing the /usr/lib/locale dir and the implementation=0A=
+> > wanted to do that earlier as well but the fault was checking=0A=
+> > an already removed dir (/usr/lib/locale) before trying to=0A=
+> > remove /usr/lib as that check would always fail.=0A=
+> > Now we simply try to delete /usr/lib after deleting=0A=
+> > /usr/lib/locale to make sure it deletes cleanly and is empty=0A=
+> > at the time of deletion.=0A=
+> >=0A=
+> > Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
+> > ---=0A=
+> >  meta/recipes-core/glibc/glibc-package.inc | 9 ++++-----=0A=
+> >  1 file changed, 4 insertions(+), 5 deletions(-)=0A=
+> >=0A=
+> > diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-c=
+ore/glibc/glibc-package.inc=0A=
+> > index 9ea41b7..22a59d2 100644=0A=
+> > --- a/meta/recipes-core/glibc/glibc-package.inc=0A=
+> > +++ b/meta/recipes-core/glibc/glibc-package.inc=0A=
+> > @@ -207,11 +207,10 @@ do_poststash_install_cleanup () {=0A=
+> >      rm -rf ${D}/${localedir}=0A=
+> >      rm -rf ${D}${datadir}/locale=0A=
+> >      if [ "${libdir}" !=3D "${exec_prefix}/lib" ]; then=0A=
+> > -        if [ -d ${D}${exec_prefix}/lib/locale ] ; then=0A=
+> > -            rm -rf ${D}${exec_prefix}/lib/locale=0A=
+> > -            # error out if directory isn't empty=0A=
+> > -            rm -f ${D}${exec_prefix}/lib=0A=
+> > -        fi=0A=
+> > +        # error out if directory isn't empty=0A=
+> > +        # this dir should only contain locale dir=0A=
+> > +        # which has been deleted in the previous step=0A=
+> > +        rmdir ${D}${exec_prefix}/lib=0A=
+> >      fi=0A=
+> >  }=0A=
+> >  addtask do_poststash_install_cleanup after do_stash_locale do_install =
+before do_populate_sysroot do_package=0A=
+> > --=0A=
+> > 2.7.4=0A=
+> >=0A=
+> >=0A=
+> > --=0A=
+> > _______________________________________________=0A=
+> > Openembedded-core mailing list=0A=
+> > Openembedded-core@lists.openembedded.org=0A=
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
 
+--_002_153753670636096813mentorcom_
+Content-Type: text/x-patch;
+	name="0001-glibc-package.inc-correct-intention-for-deleting-usr.patch"
+Content-Description: 0001-glibc-package.inc-correct-intention-for-deleting-usr.patch
+Content-Disposition: attachment;
+	filename="0001-glibc-package.inc-correct-intention-for-deleting-usr.patch";
+	size=1689; creation-date="Fri, 21 Sep 2018 13:31:38 GMT";
+	modification-date="Fri, 21 Sep 2018 13:31:38 GMT"
+Content-Transfer-Encoding: base64
+
+RnJvbSA1YmM0ZjdmMDc5MDNiYWY4YjliZDE1MGNjZDY2MTA3OTQxNzQ3MzEyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBd2FpcyBCZWxhbCA8YXdhaXNfYmVsYWxAbWVudG9yLmNvbT4K
+RGF0ZTogVHVlLCAxOCBTZXAgMjAxOCAxMzo1MDo1OSArMDUwMApTdWJqZWN0OiBbUEFUQ0hdIGds
+aWJjLXBhY2thZ2UuaW5jOiBjb3JyZWN0IGludGVudGlvbiBmb3IgZGVsZXRpbmcgL3Vzci9saWIg
+YXMKIG5lZWRlZAoKSW4gY2FzZSB0aGUgYmFzZWxpYiBpcyBsaWI2NCB3ZSB3b3VsZCB3YW50IHRv
+IGRlbGV0ZSAvdXNyL2xpYgphZnRlciByZW1vdmluZyB0aGUgL3Vzci9saWIvbG9jYWxlIGRpciBh
+bmQgdGhlIGltcGxlbWVudGF0aW9uCndhbnRlZCB0byBkbyB0aGF0IGVhcmxpZXIgYXMgd2VsbCBi
+dXQgdGhlIGZhdWx0IHdhcyBjaGVja2luZwphbiBhbHJlYWR5IHJlbW92ZWQgZGlyICgvdXNyL2xp
+Yi9sb2NhbGUpIGJlZm9yZSB0cnlpbmcgdG8KcmVtb3ZlIC91c3IvbGliIGFzIHRoYXQgY2hlY2sg
+d291bGQgYWx3YXlzIGZhaWwuCk5vdyB3ZSBzaW1wbHkgdHJ5IHRvIGRlbGV0ZSAvdXNyL2xpYiBh
+ZnRlciBkZWxldGluZwovdXNyL2xpYi9sb2NhbGUgdG8gbWFrZSBzdXJlIGl0IGRlbGV0ZXMgY2xl
+YW5seSBhbmQgaXMgZW1wdHkKYXQgdGhlIHRpbWUgb2YgZGVsZXRpb24uCgpTaWduZWQtb2ZmLWJ5
+OiBBd2FpcyBCZWxhbCA8YXdhaXNfYmVsYWxAbWVudG9yLmNvbT4KLS0tCiBtZXRhL3JlY2lwZXMt
+Y29yZS9nbGliYy9nbGliYy1wYWNrYWdlLmluYyB8IDkgKysrKy0tLS0tCiAxIGZpbGUgY2hhbmdl
+ZCwgNCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1jb3JlL2dsaWJjL2dsaWJjLXBhY2thZ2UuaW5jIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xp
+YmMvZ2xpYmMtcGFja2FnZS5pbmMKaW5kZXggOWVhNDFiNy4uMjJhNTlkMiAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtcGFja2FnZS5pbmMKKysrIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvZ2xpYmMvZ2xpYmMtcGFja2FnZS5pbmMKQEAgLTIwNywxMSArMjA3LDEwIEBAIGRv
+X3Bvc3RzdGFzaF9pbnN0YWxsX2NsZWFudXAgKCkgewogCXJtIC1yZiAke0R9LyR7bG9jYWxlZGly
+fQogCXJtIC1yZiAke0R9JHtkYXRhZGlyfS9sb2NhbGUKIAlpZiBbICIke2xpYmRpcn0iICE9ICIk
+e2V4ZWNfcHJlZml4fS9saWIiIF07IHRoZW4KLQkJaWYgWyAtZCAke0R9JHtleGVjX3ByZWZpeH0v
+bGliL2xvY2FsZSBdIDsgdGhlbgotCQkJcm0gLXJmICR7RH0ke2V4ZWNfcHJlZml4fS9saWIvbG9j
+YWxlCi0JCQkjIGVycm9yIG91dCBpZiBkaXJlY3RvcnkgaXNuJ3QgZW1wdHkKLQkJCXJtIC1mICR7
+RH0ke2V4ZWNfcHJlZml4fS9saWIKLQkJZmkKKwkJIyBlcnJvciBvdXQgaWYgZGlyZWN0b3J5IGlz
+bid0IGVtcHR5CisJCSMgdGhpcyBkaXIgc2hvdWxkIG9ubHkgY29udGFpbiBsb2NhbGUgZGlyCisJ
+CSMgd2hpY2ggaGFzIGJlZW4gZGVsZXRlZCBpbiB0aGUgcHJldmlvdXMgc3RlcAorCQlybWRpciAk
+e0R9JHtleGVjX3ByZWZpeH0vbGliCiAJZmkKIH0KIGFkZHRhc2sgZG9fcG9zdHN0YXNoX2luc3Rh
+bGxfY2xlYW51cCBhZnRlciBkb19zdGFzaF9sb2NhbGUgZG9faW5zdGFsbCBiZWZvcmUgZG9fcG9w
+dWxhdGVfc3lzcm9vdCBkb19wYWNrYWdlCi0tIAoyLjcuNAoK
+
+--_002_153753670636096813mentorcom_--
