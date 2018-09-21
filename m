@@ -1,49 +1,52 @@
-Return-Path: <Alexey.Brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (smtprelay4.synopsys.com [198.182.47.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 24D0379480
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FE18798B4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 12:51:45 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 46E4B24E0B36;
-	Fri, 21 Sep 2018 05:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1537534307; bh=MMkwkjmifnIqbmH0Aaamaxu1oUYtbd9XSYQsNP3w2ok=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=KBdVzz0q8eO5Upr62+I3EthAZImcAQluIGrA8adJfZJefo93qrEk1YvA1jOGvEf8p
-	MLeoXV5OOI8UJh6oq2mcHW4uhHMJbzU3pk2I4rQ6ljTDsM9czLyyRJPMbgBMBfwf+3
-	UHigwjNJctEQokYjuMNU8xo4dbh2Iwodwc546FpM/dRS40DnkEZv/Sel1RbByHDX20
-	KkHkrOWk+FX/SdTdIM/SrzFMPzL8NiCplpvSzezsd6ift2oAmAfPkPoSyTDawXPpzg
-	pSxN4f+O6H7MiUiptGdzhsdNF30X/GrzHX3CIgjlioXZZJB4h0T4SNJwuW1QN/K2dr
-	VFqWOAyZHXcNA==
-Received: from US01WEHTC2.internal.synopsys.com
-	(us01wehtc2.internal.synopsys.com [10.12.239.237])
-	by mailhost.synopsys.com (Postfix) with ESMTP id DD32433DF;
-	Fri, 21 Sep 2018 05:51:46 -0700 (PDT)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
-	US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Fri, 21 Sep 2018 05:51:46 -0700
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id
-	14.03.0361.001; Fri, 21 Sep 2018 14:51:44 +0200
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: "ross.burton@intel.com" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2 5/9] libgpg-error: Add ARC support
-Thread-Index: AQHUUSKCBPi6VmWY6ESlUYO7ohwMQKT6bAiAgAANdYCAABZnAA==
-Date: Fri, 21 Sep 2018 12:51:43 +0000
-Message-ID: <bb6c7d725f34a4bb5b08164268db7a2863aa1cf3.camel@synopsys.com>
+	Fri, 21 Sep 2018 12:54:09 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id c190-v6so11283079oig.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Sep 2018 05:54:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=GrA0nZHYvTUT+XF+qItV5H/t54N+JiXSLfb7bit39K0=;
+	b=gyN8xaGWqpd4c8aDKFHbjX2Cr6EMUVzAPpzWt1ALFdNfwF2uUbBtsdNuikmjC0MXVu
+	uQQ7EzQnuxol0yf5iNZxHW/xSGpWqM3P7ZX1R1a5EE0rHyZIHiJ0qdPsy8dffHPAxtfp
+	Xsi6uZxYhNhXPpxcE/RE+WjEFXG3VGOoH5bmMLwkRaKKiqkd/IG/uv5G/mLq6KSrEDd8
+	HcZwvaR0Im49YPcj3lnsT6VTAoKwNVmhGCgaQPYCJ9wL0p9gmySJ/wbDgI5yv9crViSi
+	CoPGL2M9bNAc0s4qZZXOkLXSGAQ8KrDUxL+4oiDgaNG4cr85n3Vug9LqeAtDTV/I43+m
+	1uZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=GrA0nZHYvTUT+XF+qItV5H/t54N+JiXSLfb7bit39K0=;
+	b=EKo5Sdu763HXiFx+5vviLTMqOmbin9c7lH7oNatS6QSCENctaY8kwthB85wDPwPfi8
+	nMG/xAAhcWgsaV8n0kfDUff2LTm91ITQOol2dhJjTiQXGw92Tmd5Flg23ZqeHCu3hyPN
+	m4PeOatXqkuR+Vx3QwDS6Is7tcVKzI3Z0zG/WwiPsM/tz3xcS0PIgbvofVkCCUu+FIlz
+	QO8190NjukCEKlCH/wLrn66UQRB7Pkqxms/WMbevPlUO7k24avmkG3h9blymoSB8nRUG
+	ljcGHCgZZZOvLp8PfpyUp4mWAVJrnM2m3oJjVvNJs6+hTxHvwMwidjD6LW5Ti1Pz7USa
+	X14Q==
+X-Gm-Message-State: APzg51DRZCihBpZ2fVYBNFEQ8+5BIAmGKqciVHvLVz+xUHnpbb3DXQNQ
+	b/lm1Cw/i3g9Ms4sljfJ//zvVQWXypXVzBVBgVXe/Q==
+X-Google-Smtp-Source: ANB0VdaYV7wyx3U7pueuX8Ox46BSD10l11HBxGYpCxILRDDxWcA3rby7iNsoZGLS7YaWLNW7MFiHxkNyhiyGwW+qUOM=
+X-Received: by 2002:aca:ecd0:: with SMTP id
+	k199-v6mr1439124oih.227.1537534450483; 
+	Fri, 21 Sep 2018 05:54:10 -0700 (PDT)
+MIME-Version: 1.0
 References: <20180920204232.10583-1-abrodkin@synopsys.com>
 	<20180920204232.10583-6-abrodkin@synopsys.com>
 	<CAJTo0LbYHuG6E4LgQpZCDQ+XaM+rt0N683cP3nuPu-DojFEmSg@mail.gmail.com>
 	<9bb4d4d54024982cb3a0b02222a45e12845cba85.camel@synopsys.com>
-In-Reply-To: <9bb4d4d54024982cb3a0b02222a45e12845cba85.camel@synopsys.com>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.225.15.87]
-MIME-Version: 1.0
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+	<bb6c7d725f34a4bb5b08164268db7a2863aa1cf3.camel@synopsys.com>
+In-Reply-To: <bb6c7d725f34a4bb5b08164268db7a2863aa1cf3.camel@synopsys.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 21 Sep 2018 13:53:58 +0100
+Message-ID: <CAJTo0La_MuDqcdy4brMRkiprQzAnAwo1omdGzz_=kDjgc1Hsvg@mail.gmail.com>
+To: Alexey.Brodkin@synopsys.com
+Cc: linux-snps-arc@lists.infradead.org,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2 5/9] libgpg-error: Add ARC support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,38 +60,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 12:51:46 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7F99F8234708214CB354FB7DFCDF4E91@internal.synopsys.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 21 Sep 2018 12:54:09 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgUm9zcywNCg0KT24gRnJpLCAyMDE4LTA5LTIxIGF0IDE0OjMxICswMzAwLCBBbGV4ZXkgQnJv
-ZGtpbiB3cm90ZToNCj4gSGkgUm9zcywNCj4gDQo+IE9uIEZyaSwgMjAxOC0wOS0yMSBhdCAxMTo0
-MyArMDEwMCwgQnVydG9uLCBSb3NzIHdyb3RlOg0KPiA+IE9uIFRodSwgMjAgU2VwIDIwMTggYXQg
-MjE6NDQsIEFsZXhleSBCcm9ka2luDQo+ID4gPEFsZXhleS5Ccm9ka2luQHN5bm9wc3lzLmNvbT4g
-d3JvdGU6DQo+ID4gDQo+ID4gPiAgICAgICAgIGNhc2UgJHtUQVJHRVRfQVJDSH0gaW4NCj4gPiA+
-ICAgICAgICAgICBhYXJjaDY0X2JlKSBUVVBMRT1hYXJjaDY0LXVua25vd24tbGludXgtZ251IDs7
-DQo+ID4gPiArICAgICAgICAgYXJjKSAgICAgICAgVFVQTEU9aTY4Ni11bmtub3duLWxpbnV4LWdu
-dSA7Ow0KPiA+ID4gICAgICAgICAgIGFybSkgICAgICAgIFRVUExFPWFybS11bmtub3duLWxpbnV4
-LWdudWVhYmkgOzsNCj4gPiA+ICAgICAgICAgICBhcm1lYikgICAgICBUVVBMRT1hcm0tdW5rbm93
-bi1saW51eC1nbnVlYWJpIDs7DQo+ID4gPiAgICAgICAgICAgaTU4NnxpNjg2KSAgVFVQTEU9aTY4
-Ni1wYy1saW51eC1nbnUgOzsNCj4gPiANCj4gPiBJcyB0aGF0IHJpZ2h0PyAgSnVzdCBzYXlpbmcs
-IGl0IGxvb2tzIHdyb25nLi4uDQo+IA0KPiBUaGF0J3MgaW5kZWVkIGEgaGFjayA6KQ0KPiANCj4g
-bGliZ3BnLWVycm9yIFt1cHN0cmVhbV0gcGF0Y2ggbWVudGlvbmVkIGluIHRoaXMgY29tbWl0DQo+
-IGFkZHMgc3VwcG9ydCBvZiBBUkMgYXJjaGl0ZWN0dXJlIGFzIGFuIGFsaWFzIHRvICJpNjg2LXVu
-a25vd24tbGludXgtZ251Ig0KPiAodGhhdCdzIGJlY2F1c2UgaGVhZGVycyBhcmUgdGhlIHNhbWUp
-Lg0KPiANCj4gQnV0IHNpbmNlIEkgcHJvdmlkZWQgZ2VuZXJhdGUgaGVhZGVycyBvbmx5IGZvciBh
-cmMteHh4LWxpbnV4LXVjbGliYw0KPiAoYW5kIHRoZXJlJ3Mgbm8gZ3VhcmFudGVlIGdsaWJjIGhl
-YWRlciBtYXRjaGVzIHVjbGliYykgV2VybmVyIG9ubHkNCj4gYWRkZWQgc3VwcG9ydCBmb3IgdUNs
-aWJjLg0KPiANCj4gVGhhdCBzYWlkIGlmIHdlIHdlcmUgYnVpbGRpbmcgdUNsaWJjIHRvb2xjaGFp
-biBpbiBPRSB0aGVuIG5vIG1hcHBpbmcNCj4gd291bGQgYmUgcmVxdWlyZWQgYXQgYWxsIGJ1dCBm
-b3IgR2xpYmMgdG9vbGNoYWluIHdlIHN0aWxsIG5lZWQgdG8NCj4gdXNlIGV4cGxpY2l0IGhlYWRl
-ciBmb3IgQVJDIGFuZCB0aGUgb25lIHRoYXQgbWF0Y2hlcyBvdXIgbmVlZHMgaXMNCj4gZXNzZW50
-aWFsbHkgIm9jay1vYmotcHViLmk2ODYtdW5rbm93bi1saW51eC1nbnUuaCIsIHNlZQ0KPiBodHRw
-czovL2xpc3RzLmd0Lm5ldC9nbnVwZy9kZXZlbC84NDYzNiM4NDYzNg0KDQpTbyB0aGlzIGlzIGZp
-eGVkIG5vdyBpbiBsaWJncGctZXJyb3IgdXBzdHJlbWEsIHNlZQ0KaHR0cDovL2dpdC5nbnVwZy5v
-cmcvY2dpLWJpbi9naXR3ZWIuY2dpP3A9bGliZ3BnLWVycm9yLmdpdDthPWNvbW1pdDtoPWY0ZjBk
-YTc0ZjUyNmQ3ZTM1Y2VkYmMyZTkzNDU0ZGY2NDQwZGJmYTUNCg0KSSdsbCBzZW5kIHYzIHNvb25p
-c2ggd2l0aCB0aGF0IHBhdGNoIGJhY2stcG9ydGVkLg0KDQotQWxleGV5DQo=
+Can you check that v3 works with x86-64 targets?
+
+ERROR: libgpg-error-1.32-r0 do_compile: Function failed: do_compile
+(log file is located at
+/data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/temp/log.do_compile.13345)
+ERROR: Logfile of failure stored in:
+/data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/temp/log.do_compile.13345
+Log data follows:
+| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
+'bit-64', 'x86_64-linux', 'common']
+| DEBUG: Executing shell function do_compile
+| cp: cannot stat
+'/data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/libgpg-error-1.32/src/syscfg/lock-obj-pub.x86_64-pc-linux-gnu.h':
+No such file or directory
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_compile (log file is located at
+/data/poky-tmp/master/work/corei7-64-poky-linux/libgpg-error/1.32-r0/temp/log.do_compile.13345)
+
+Ross
+On Fri, 21 Sep 2018 at 13:51, Alexey Brodkin
+<Alexey.Brodkin@synopsys.com> wrote:
+>
+> Hi Ross,
+>
+> On Fri, 2018-09-21 at 14:31 +0300, Alexey Brodkin wrote:
+> > Hi Ross,
+> >
+> > On Fri, 2018-09-21 at 11:43 +0100, Burton, Ross wrote:
+> > > On Thu, 20 Sep 2018 at 21:44, Alexey Brodkin
+> > > <Alexey.Brodkin@synopsys.com> wrote:
+> > >
+> > > >         case ${TARGET_ARCH} in
+> > > >           aarch64_be) TUPLE=aarch64-unknown-linux-gnu ;;
+> > > > +         arc)        TUPLE=i686-unknown-linux-gnu ;;
+> > > >           arm)        TUPLE=arm-unknown-linux-gnueabi ;;
+> > > >           armeb)      TUPLE=arm-unknown-linux-gnueabi ;;
+> > > >           i586|i686)  TUPLE=i686-pc-linux-gnu ;;
+> > >
+> > > Is that right?  Just saying, it looks wrong...
+> >
+> > That's indeed a hack :)
+> >
+> > libgpg-error [upstream] patch mentioned in this commit
+> > adds support of ARC architecture as an alias to "i686-unknown-linux-gnu"
+> > (that's because headers are the same).
+> >
+> > But since I provided generate headers only for arc-xxx-linux-uclibc
+> > (and there's no guarantee glibc header matches uclibc) Werner only
+> > added support for uClibc.
+> >
+> > That said if we were building uClibc toolchain in OE then no mapping
+> > would be required at all but for Glibc toolchain we still need to
+> > use explicit header for ARC and the one that matches our needs is
+> > essentially "ock-obj-pub.i686-unknown-linux-gnu.h", see
+> > https://lists.gt.net/gnupg/devel/84636#84636
+>
+> So this is fixed now in libgpg-error upstrema, see
+> http://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=commit;h=f4f0da74f526d7e35cedbc2e93454df6440dbfa5
+>
+> I'll send v3 soonish with that patch back-ported.
+>
+> -Alexey
 
