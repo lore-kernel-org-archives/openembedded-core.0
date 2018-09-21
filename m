@@ -1,61 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C19CC798BF
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6755871B27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 12:31:02 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id h3-v6so1770226ita.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 05:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=92dVKNENppFUuTTKiMry2jdWX4BKLinaMOLOxT6rs2E=;
-	b=Saz1HeSyUllyiGA+ljOcn4mJCfM9IKBwGKyw4oA/kNbAO5Lg6uLW9t62KuPhaofRjm
-	FAM6ab73F0xT8AHIrncqwfBMI4IS8poka8lLGkN12u5IM4C7EGLyS479z9nR4Skm078V
-	hMikZ0IRE4V9CcCp9xdxxjuhnUMDMX5q038Uk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=92dVKNENppFUuTTKiMry2jdWX4BKLinaMOLOxT6rs2E=;
-	b=Qy66Ng/pa8d/Rm1z5Ev7F6GlpHe7u6dgaXEbKhBbi60Yz2YWwuvhT7YCV3UZH/hKYW
-	TpqvWOypmiH6KmlGBDG2i86xW5dXqSfazYNV9nEztO9xy3/9en+zz4kiAoDDnE93Wbv7
-	XUejDj3Bxl/nHopcapWS7MiPc+sqw0iq35FJSg+LKRee8pzuDZEZOfUFnLSyhZwkvv2F
-	zXgcI2C74YUViJkFHVqbPqWPegreMefw06862/4IvDSb7e2+KRdzuzabTwL18f/BH0Vc
-	DfhQJ62nHKNtYfkfXSQ5OlxB/HvKj5Z1m6qm/i7QKCIIfEHe1Xyb4vUaQf1m9HIQQZfq
-	T0lQ==
-X-Gm-Message-State: APzg51C57GcEwHJ+qMmsgONYDl19f0ZX+OcfYlVq+/TFrG52UWoiVGuJ
-	dJW8nywD/QnmhRy7mIgdcmjVoA==
-X-Google-Smtp-Source: ANB0VdZws5BqXh0FfxI8/aqWypQ8mOrl0MQ4kCxf/krqs0eDNPinadghm19SJHg7VP46XpbUT3Ie8g==
-X-Received: by 2002:a24:9e87:: with SMTP id
-	p129-v6mr5570306itd.112.1537533063753; 
-	Fri, 21 Sep 2018 05:31:03 -0700 (PDT)
-Received: from hex ([209.82.80.116]) by smtp.gmail.com with ESMTPSA id
-	y18-v6sm2305640ita.29.2018.09.21.05.30.55
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 21 Sep 2018 05:31:02 -0700 (PDT)
-Message-ID: <8fc9546b42e3a3613fe801184f0bcef7e60a26b4.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Hongxu Jia <hongxu.jia@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 21 Sep 2018 05:30:46 -0700
-In-Reply-To: <5ec9dd0c-82e5-782f-26ca-bf274944f98d@windriver.com>
-References: <1537358370-3557-1-git-send-email-hongxu.jia@windriver.com>
-	<78fad439cd03f6e9be71a0a917667bcf94ebea51.camel@linuxfoundation.org>
-	<526c8d02-733b-0345-f68a-52004c62817e@windriver.com>
-	<3310e627615370184fd7a1a58997b516ce36f2a7.camel@linuxfoundation.org>
-	<f0425061-1d49-84f7-33f3-a3f2b3504c43@windriver.com>
-	<983d28517b9e9015b590405bbb7f91ffc0d6aa48.camel@linuxfoundation.org>
-	<009c3d50-37ee-f2e7-30f4-f9a083233ded@windriver.com>
-	<a67901f5659bea6428a41bb3277b2d8e3d4e4110.camel@linuxfoundation.org>
-	<5ec9dd0c-82e5-782f-26ca-bf274944f98d@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Koen Kooi <koen.kooi@linaro.org>
-Subject: Re: [PATCH V2 1/2] openssh: upgrade 7.8p1 -> 7.8p1+git to support openssl 1.1.x
+	Fri, 21 Sep 2018 12:32:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8LCV1hk014693
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 21 Sep 2018 05:31:27 -0700
+Received: from server.local (128.224.20.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 21 Sep 2018 05:31:20 -0700
+To: Anuj Mittal <anuj.mittal@intel.com>, =?UTF-8?Q?Andreas_M=c3=bcller?=
+	<schnitzeltony@gmail.com>, Cal Sullivan <california.l.sullivan@intel.com>
+References: <CALbNGRTAbsa9CzzXqtq7mpiknFzUB_=9eHcFHnD5W--HEM8bPw@mail.gmail.com>
+	<20180402215705.GA25121@linux-uys3>
+	<CALbNGRThT8S5bfJH=zXMkQzCMMasQ=yUoEXTjsfPXtncig3yFA@mail.gmail.com>
+	<ada194d6-5653-fde7-a70a-64646b08b281@intel.com>
+	<CALbNGRTthOp+_T-6c_Vc3qmgMHTt-2ztyDiGbNEHY4+6UuW2ig@mail.gmail.com>
+	<CALbNGRQT94ptEPAygj+Rm9vBm27yo=inbz+O6nR2gL_etkGd7g@mail.gmail.com>
+	<CALbNGRQxauR4PkJ+FMXKmnJapcWO9pVSvW1cLVyrDU9-T+o65A@mail.gmail.com>
+	<0717be0e-0c72-e3f5-dc11-8e4065585749@intel.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <15dc8d66-e675-a938-8ce2-a624d8890636@windriver.com>
+Date: Fri, 21 Sep 2018 08:31:19 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <0717be0e-0c72-e3f5-dc11-8e4065585749@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: kernel menuconfig broken?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,27 +43,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 12:31:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 21 Sep 2018 12:32:29 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2018-09-21 at 16:09 +0800, Hongxu Jia wrote:
-> On 2018年09月21日 11:47, richard.purdie@linuxfoundation.org wrote:
-> > The problem I really want to fix is the hang as openssh-server
-> > starts.
-> > Without the defconfig options above, openssh server hangs at key
-> > generation. With the changes I've mentioned applied, key generation
-> > proceeds, the server starts and we can ssh into the machine.
+On 2018-09-21 7:46 AM, Anuj Mittal wrote:
+> On 09/21/2018 06:04 PM, Andreas Müller wrote:
+>> On Fri, Apr 13, 2018 at 12:12 AM, Andreas Müller
+>> <schnitzeltony@gmail.com> wrote:
+>>> On Thu, Apr 12, 2018 at 11:46 PM, Andreas Müller
+>>> <schnitzeltony@gmail.com> wrote:
+>>>> On Thu, Apr 12, 2018 at 11:38 PM, Cal Sullivan
+>>>> <california.l.sullivan@intel.com> wrote:
+>>>>> If you're using a non-linux-yocto kernel you likely need to apply this patch
+>>>>> to your kernel as well:
+>>>>>
+>>>>> https://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/tree/recipes-kernel/linux/linux-intel/0001-menuconfig-check-lxdiaglog.sh-Allow-specification-of.patch
+>>>> Correct: RaspberryPi kernel
+>>>>>
+>>>>> (This is in all linux-yocto kernels, I'm only linking to meta-intel because
+>>>>> I knew where it was off the top of my head)
+>>>>>
+>>>>> This was sent upstream but last I looked it didn't gain any traction. I
+>>>>> think Bruce resent it recently but I can't be sure.
+>>>>>
+>>>>> Thanks,
+>>>>> Cal
+>>>>>
+>>>> That looks very promising - will try and let you know - thanks in advance :)
+>>>>
+>>> Perfect! - Thanks Cal for quick help!
+>>>
+>> Hi,
+>>
+>> seems upstream has introduced changes 4.17 -> 4.18 - the patch does
+>> not apply anymore. Is this patch available for 4.18 somewhere?
+>>
 > 
-> OK, I will workaround the issue by depending openssl10 on qemuarm64.
+> Are you looking for this:
+
+Thanks Anuj!
+
+That is indeed the ported patch.
+
+I've also resent the patch, so I'm hoping after 4.19, I won't
+have to carry it anymore.
+
+Bruce
+
 > 
-> But the root cause is the hung of getrandom in kernel
+> https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit?h=v4.18/standard/base&id=bd6314212686ef8156a108b6f1eec67d34402878
+> 
+> https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit/?h=v4.18/standard/base&id=0aa800372a846d6ed2c0fc3e0fdc22656d268968
+> 
 
-We therefore need to fix the kernel config so it only pauses, it
-doesn't hang indefinitely. We do not want to make openssh depend on
-openssl10 only for qemuarm64, that does not make sense.
-
-Cheers,
-
-Richard
 
