@@ -1,52 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
-	[209.85.210.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 53C9474561
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 38D0474561
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 11:43:27 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id j9-v6so12717562otl.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 04:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pYZ4xGUcd2BQxc/qNOKPB08a9g3Q4ksQeQmJKgpF+Nc=;
-	b=X6zPWU1zgDrCPW8wjTjfjTWmNJlbdyR5/2Kr9KDD7tHWs23x1/fSV2oizxvYsfXyec
-	GgA2zeNBqULuyVJrzzfrPkWSKMijrZjHOT7Pj8TmlOA6ZT4ylmA9WlyfpC8iCuiLvrek
-	o7fU9dSlXjQE7ICOYyvApaSG5A7qFnJDgrzE9Yj5NKOLyjhLkzPYBrPJUgR6ZslAdNPE
-	dN7TgPX7oCh1u1XwT3Sk3/hg57jS1NBV5k7bleC6aBH2/0XwXN2qhe16CVXK7MC/9HAp
-	3ge0RPulGRMkvflMCI8IxDRLzrm8wUgdUyN4js8R+Gp9HFLJEtppfStiYPpONxCDbJ/K
-	MAdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pYZ4xGUcd2BQxc/qNOKPB08a9g3Q4ksQeQmJKgpF+Nc=;
-	b=MdXEENHF+QAFYkc44pxh2U6X60eCSqAEtsFGzRxHg9bsfvsK1H68wZwKgfkZl4fpcb
-	euta5yq0u/+h9frSkkD4e9I/t9stJUEyNgDCQcCYo6yq88iHdqsNgFagcc+gwEHwsTbo
-	ZlXp4gCOksFpezIXdlp9ya6YxtaGx9V1NaAir59KkXrn4JNX9nDPtgKU4zriT+lfwn0S
-	8gGWxzc2VckuiPD7YAMKcxrp9WF+TygIfTuhWmZeAnHZ7vSChPBSIqFoxV/Ub8ItPA8t
-	L4qog2ADn5X3wI0EIjzK5zYJA8irMFm2Ly5rhbLxrmDB4c4he8795DfG16INyJcZL3kB
-	HpRw==
-X-Gm-Message-State: ABuFfojaxarfnn3NMwMS2azv3b6S4Rj0/poVCxq4OH4XLHiGRkcdQF4E
-	fJuXCZ56+tzujyGJNQNcLReSKbdL2UYpbo9JX+z/4w==
-X-Google-Smtp-Source: ACcGV63RG1/nk4iFQ0rWjgzHMH6vQHlbtzLgxvVOgsfJJpEj37EDLECb/yLWcRRECygtIA5K/u4oxU2kRApLwBx5nGA=
-X-Received: by 2002:a9d:48dc:: with SMTP id a28-v6mr9654otj.343.1537530208311; 
-	Fri, 21 Sep 2018 04:43:28 -0700 (PDT)
+	Fri, 21 Sep 2018 11:46:10 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Sep 2018 04:46:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,284,1534834800"; d="scan'208";a="71813796"
+Received: from fjumaah-mobl1.gar.corp.intel.com (HELO [10.249.66.211])
+	([10.249.66.211])
+	by fmsmga007.fm.intel.com with ESMTP; 21 Sep 2018 04:46:10 -0700
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@gmail.com>,
+	Cal Sullivan <california.l.sullivan@intel.com>
+References: <CALbNGRTAbsa9CzzXqtq7mpiknFzUB_=9eHcFHnD5W--HEM8bPw@mail.gmail.com>
+	<20180402215705.GA25121@linux-uys3>
+	<CALbNGRThT8S5bfJH=zXMkQzCMMasQ=yUoEXTjsfPXtncig3yFA@mail.gmail.com>
+	<ada194d6-5653-fde7-a70a-64646b08b281@intel.com>
+	<CALbNGRTthOp+_T-6c_Vc3qmgMHTt-2ztyDiGbNEHY4+6UuW2ig@mail.gmail.com>
+	<CALbNGRQT94ptEPAygj+Rm9vBm27yo=inbz+O6nR2gL_etkGd7g@mail.gmail.com>
+	<CALbNGRQxauR4PkJ+FMXKmnJapcWO9pVSvW1cLVyrDU9-T+o65A@mail.gmail.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <0717be0e-0c72-e3f5-dc11-8e4065585749@intel.com>
+Date: Fri, 21 Sep 2018 19:46:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20180920204232.10583-1-abrodkin@synopsys.com>
-	<20180920204232.10583-9-abrodkin@synopsys.com>
-	<CAJTo0Lb9HFXbXVNDHoMyx8eF06kd0710B0+KXuiCAocvGLevfw@mail.gmail.com>
-	<a370dc1964172f81c3c8fec7a3165d0657ad6042.camel@synopsys.com>
-In-Reply-To: <a370dc1964172f81c3c8fec7a3165d0657ad6042.camel@synopsys.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 21 Sep 2018 12:43:16 +0100
-Message-ID: <CAJTo0LbYoWHzOko6QhqzGdKJN=Gavav8ooVSTWLQxb9zq6ctgQ@mail.gmail.com>
-To: Alexey.Brodkin@synopsys.com
-Cc: linux-snps-arc@lists.infradead.org,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Claudiu.Zissulescu@synopsys.com
-Subject: Re: [PATCH v2 8/9] binutils: Fix Glibc building for ARC
+In-Reply-To: <CALbNGRQxauR4PkJ+FMXKmnJapcWO9pVSvW1cLVyrDU9-T+o65A@mail.gmail.com>
+Cc: bruce.ashfield@windriver.com,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: kernel menuconfig broken?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2018 11:43:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 21 Sep 2018 11:46:11 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-That's good to know, thanks.
+On 09/21/2018 06:04 PM, Andreas Müller wrote:
+> On Fri, Apr 13, 2018 at 12:12 AM, Andreas Müller
+> <schnitzeltony@gmail.com> wrote:
+>> On Thu, Apr 12, 2018 at 11:46 PM, Andreas Müller
+>> <schnitzeltony@gmail.com> wrote:
+>>> On Thu, Apr 12, 2018 at 11:38 PM, Cal Sullivan
+>>> <california.l.sullivan@intel.com> wrote:
+>>>> If you're using a non-linux-yocto kernel you likely need to apply this patch
+>>>> to your kernel as well:
+>>>>
+>>>> https://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/tree/recipes-kernel/linux/linux-intel/0001-menuconfig-check-lxdiaglog.sh-Allow-specification-of.patch
+>>> Correct: RaspberryPi kernel
+>>>>
+>>>> (This is in all linux-yocto kernels, I'm only linking to meta-intel because
+>>>> I knew where it was off the top of my head)
+>>>>
+>>>> This was sent upstream but last I looked it didn't gain any traction. I
+>>>> think Bruce resent it recently but I can't be sure.
+>>>>
+>>>> Thanks,
+>>>> Cal
+>>>>
+>>> That looks very promising - will try and let you know - thanks in advance :)
+>>>
+>> Perfect! - Thanks Cal for quick help!
+>>
+> Hi,
+> 
+> seems upstream has introduced changes 4.17 -> 4.18 - the patch does
+> not apply anymore. Is this patch available for 4.18 somewhere?
+> 
 
-Ross
-On Fri, 21 Sep 2018 at 12:41, Alexey Brodkin
-<Alexey.Brodkin@synopsys.com> wrote:
->
-> Hi Ross,
->
-> On Fri, 2018-09-21 at 11:55 +0100, Burton, Ross wrote:
-> > I don't like accumulating pending patches for something as key as
-> > binutils, are these actually working their way upstream now?
->
-> Sure they are!
->
-> Our team development is very upstream targeted, i.e. we try to
-> submit all our changes upstream. But with Binutils we're lagging
-> behind upstream a bit because recently we made some significant reworks
-> and now catching up with upstream.
->
-> What's more my colleague Claudiu Zissulescu recently became
-> official Binutils maintainer for ARC, see
-> https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=02d7a79e1b93240729a52246432d9a84583bcf82
-> so I expect less and less patches for ARC will be "pending".
->
-> Not sure though if that makes much sense.
->
-> -Alexey
+Are you looking for this:
+
+https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit?h=v4.18/standard/base&id=bd6314212686ef8156a108b6f1eec67d34402878
+
+https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit/?h=v4.18/standard/base&id=0aa800372a846d6ed2c0fc3e0fdc22656d268968
 
