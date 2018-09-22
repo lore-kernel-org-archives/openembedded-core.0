@@ -1,52 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id EAEA2797C7
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 18BF16E660
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Sep 2018 17:13:35 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id n186-v6so9599691qke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Sep 2018 10:13:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=0AxCo113AnIah7PkWJtZMjLpomfrFkOrmxDeWRTd7zc=;
-	b=sGEDWDkhWw5Q8CVCR/Fxt1/H4gl6LGnYa9hO08FcuLBFpPwDjZFFU8MvWOvv+qFUye
-	PP8is9iqnWhcNyZYVwuFg6D2uf6IPxOW3E+fL+WcUvRXKmkrli0Bnv7ppuS1SlJYX+w6
-	D3thcwoPu6ae3lgHyyFmefgnRcr0n+7FXbp3PHgMHE3SD9yfG5L8NYhkyhDmuGb1jnBC
-	9sAZD6ZYjDk5V0baj0aOpLThF52LdzwPJctwUU8fue6etmwAIPquoHqwvsUSt98+l12Z
-	/ylwtMTxH/jhXdq43O6l4KGSuEs0it5NEjyPy6P3SfdnwLF+1kRgm+dGqUQXqHe47P4O
-	GC/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=0AxCo113AnIah7PkWJtZMjLpomfrFkOrmxDeWRTd7zc=;
-	b=a+rQ0Ezk5o2loVCbTd1SkuzLsvxkjV9CTgOaxOuJDXPGliaoLkJC6nokl89UFbHYog
-	HZzKB66FanqYJjh0PZqPgZp3eNPsh2dOYKWPjoZzB/u6mBkoZbiVzf1OtJo8CAgL/wj/
-	Bdqql8ulrzHUuHcpG3S7xwj7cymYLxZjKObOocSv1mtvUJumtat/dpJiOtcAHAbtzoEL
-	gHR7VLiMA68ExrHZT+qesIz6IAzmL1P2QtdK6hMqRdJAHTRqy2k1nRepP/9uO5Iqz/C7
-	tyzlTi6Qn1NGErptq6ZG38117rZ1kGdjytjTPFusSshGZEGOX9jjlK8/u3g6XJ44qLPw
-	xJ3A==
-X-Gm-Message-State: ABuFfojDHel0X5UIrFBcRrloc943BQ6plhwDH0VFKM8iutLE8HGdwpK9
-	vHItjXinbnI61v66Jl+wkaWT7OBXVCRmAimN/eM=
-X-Google-Smtp-Source: ACcGV63ycrRmgcv62FBXL9XO7lGh0WkqOZJlHOfA+IvBn+0KxJ67EWDynjETOULEDql7m2ZZUYVEdaibNmUEf4/vfYE=
-X-Received: by 2002:a37:3086:: with SMTP id
-	w128-v6mr1835874qkw.315.1537636416442; 
-	Sat, 22 Sep 2018 10:13:36 -0700 (PDT)
+	Sat, 22 Sep 2018 17:19:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8MHJR0a021470
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 22 Sep 2018 10:19:27 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Sat, 22 Sep 2018 10:19:26 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Sat, 22 Sep 2018 13:18:48 -0400
+Message-ID: <a9a51ca2124c6b34f28b9b2b3a519882c12a77cd.1537636541.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1537636541.git.bruce.ashfield@windriver.com>
+References: <cover.1537636541.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-References: <20180921142608.36203-1-abrodkin@synopsys.com>
-	<20180921142608.36203-6-abrodkin@synopsys.com>
-	<cf9d1a3f0b8e3b7d69c61212daa029f290975fc1.camel@linuxfoundation.org>
-In-Reply-To: <cf9d1a3f0b8e3b7d69c61212daa029f290975fc1.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 22 Sep 2018 10:13:10 -0700
-Message-ID: <CAMKF1srdkv7OApx7uY9sQoDWs-AyjizonObUFDHVm0BKdptavA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: wk@gnupg.org, Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
-	linux-snps-arc@lists.infradead.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 5/9] libgpg-error: Add ARC support
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/8] linux-yocto: configuration warning fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,47 +32,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Sep 2018 17:13:36 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 22 Sep 2018 17:19:28 -0000
+Content-Type: text/plain
 
-On Sat, Sep 22, 2018 at 8:59 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2018-09-21 at 17:26 +0300, Alexey Brodkin wrote:
-> > Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-> > Cc: Ross Burton <ross.burton@intel.com>
-> > Cc: Werner Koch <wk@gnupg.org>
-> > ---
-> >
-> > Changes v2 -> v3:
-> >  * Use proper [recently upstreamed] fix for ARC Glibc toolchain
-> >  * Fix compilation for x86_64 due to renamed header
-> >
-> > Changes v1 -> v2:
-> >
-> >  * Added upstream status
->
-> Its still breaking on the autobuilder:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/21/builds/72/st
-> eps/7/logs/step1b
->
-> I think its for i586 which needs fixing similarly to x86_64.
->
-> I did pull the simpler less risky pieces in for 2.6 but this experience
-> is making me nervous about the remaining patches which should perhaps
-> wait until 2.7.
+Integrating the following commits to address kernel configuration
+audit warnings:
 
-I think this should be fine. Lets take the ones we have going for now
+  856794172e8f features/intel-pinctrl: Fix conflict with configs
+  397b67321037 bsp/intel-x86: Rename CONFIG_R8723BE to CONFIG_RTL8723BE
+  fca2a16483f2 features/thermal: Add dependency for kernel option
+  b6110e2e8e55 features/tpm: fix conflict with configs and add dependency
+  ee22bc1f8fcd features/mmc: modify dependency
+  e50eb6bd929b features: drop the obsolete kernel option
+  f5327047994f features/hostapd: drop obsolete configs
+  48b54e625876 bsp/intel-x86: Drop configs that has been removed by kernel
 
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.18.bb      | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
->
-> Cheers,
->
-> Richard
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
+index 350d907a4ef6..86ce03ca4cca 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
+@@ -12,7 +12,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "af1b926c9160b0dbf2bbe41b166a8a7b07191fd2"
+-SRCREV_meta ?= "9beb3a28736e7b00199641864a46ee4b8e2e6428"
++SRCREV_meta ?= "634d8f2230d1fb0b9ad4af974509d25d36e5179c"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
+index 5333e156cd77..3e0e3dc40ed1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.18.bb
+@@ -12,7 +12,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "6b38725fe97a59cefef01b5213a1d234dd38a542"
+-SRCREV_meta ?= "73417203913023f9438ea196377a363233857172"
++SRCREV_meta ?= "856794172e8f046e7d6542e09d431c5a412a8a45"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.18;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+index 393295846ea3..4c2c7f75dc96 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+@@ -13,7 +13,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "74ecbeb03ebfc2b9a73a6554924b043b903295f5"
+-SRCREV_meta ?= "9beb3a28736e7b00199641864a46ee4b8e2e6428"
++SRCREV_meta ?= "634d8f2230d1fb0b9ad4af974509d25d36e5179c"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
+index 704035f8992a..60ceef6db293 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
+@@ -14,7 +14,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "71799edb8a38622626cf3b5582dff152b512ccf0"
+-SRCREV_meta ?= "73417203913023f9438ea196377a363233857172"
++SRCREV_meta ?= "856794172e8f046e7d6542e09d431c5a412a8a45"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
+index ff1497918633..a289356c5284 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "084af9624d268ddf4fd65b2f9e8e50ca2f22e62b"
+ SRCREV_machine_qemux86-64 ?= "084af9624d268ddf4fd65b2f9e8e50ca2f22e62b"
+ SRCREV_machine_qemumips64 ?= "44e1719a8f4fe10e88c13b9ec6c1fa1d041efaed"
+ SRCREV_machine ?= "084af9624d268ddf4fd65b2f9e8e50ca2f22e62b"
+-SRCREV_meta ?= "9beb3a28736e7b00199641864a46ee4b8e2e6428"
++SRCREV_meta ?= "634d8f2230d1fb0b9ad4af974509d25d36e5179c"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.18.bb b/meta/recipes-kernel/linux/linux-yocto_4.18.bb
+index d6e3768d9245..80c36d72e36f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.18.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "71799edb8a38622626cf3b5582dff152b512ccf0"
+ SRCREV_machine_qemux86-64 ?= "71799edb8a38622626cf3b5582dff152b512ccf0"
+ SRCREV_machine_qemumips64 ?= "f3add308bccafeeed79fde2a3720236bf4fd6457"
+ SRCREV_machine ?= "71799edb8a38622626cf3b5582dff152b512ccf0"
+-SRCREV_meta ?= "73417203913023f9438ea196377a363233857172"
++SRCREV_meta ?= "856794172e8f046e7d6542e09d431c5a412a8a45"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.18;destsuffix=${KMETA}"
+-- 
+2.5.0
+
 
