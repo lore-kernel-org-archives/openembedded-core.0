@@ -1,101 +1,51 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E9A674596
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B1027470D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Sep 2018 05:48:34 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id u11-v6so6848465plq.5
+	Sat, 22 Sep 2018 14:58:48 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id r191-v6so872155lff.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2018 22:48:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=UE0pchkOuc/En0yC8FvbramYxWSvpF+dOU8m1Poqh5g=;
-	b=iYsU2+odEz0fsIltuYgJ5MhzQm4SNWV4mwfoAB29Cobl0tiUbU5OxzoeNwRcQBm4Ij
-	bEX/e3qmwRJGPkRGht5po3SijLHlVLavLYECXhUcUaLOgVgBxZRXN10jfb3Yf47Oq4jO
-	oU+SFG76Y73jd6dcdLKtolSz//xCt79usM3ejtYifZGVmf5Ei3lsDm4SiXC54+lmLiH6
-	eKe7Mw3dZJ6uk4bG0xjjfWh08u5p175k5eQB81C0+XE9/edQYpSrH/4Jvbz/knlWvAyF
-	1abfY0IBC7G6LdLdz77WkXBDi0w9CmP/4GuIi/hO6fKj8L1wBXhX1iIUzVwbWvEIByxf
-	wZjw==
+	Sat, 22 Sep 2018 07:58:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=RsFOEaRGcrtrbDTdj+Rkgtd3WBx1lM/8UABGEqrmCmo=;
+	b=dQKC09EH2mSMnksO5p3tN7vqFOBWwMYZmh90vstedZIFPndru33o45VhaHesUTQUMK
+	F7rrkqxjDtLOjwrfcw+zxVqnyP79O/Jsf/4erIvjoNPd66ar20XP3FQApD7KbQvypVjZ
+	lwmHIe9X1wYjIYUgyRnmCKU/0zRHJSAhZZcXouagK1ORe1plso+rEVBtf+1gTlB57/my
+	17CTpQxZsJpBTP3vfbisMpSx5DRIVAzpjnS1NEG+Q914IZG2ZIucGhmWZ+8e/1rB62FW
+	TJNuEOL9Z6c15v7N17NBnRjROOgCDWUSp5SecwEhJyM/Y3xXsY78AIqp+pITW3a7KITX
+	Rg3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=UE0pchkOuc/En0yC8FvbramYxWSvpF+dOU8m1Poqh5g=;
-	b=WR3SoMyrjFeZd5hR08FTTMdv5ALA95yKOZwPyfSwj4FNMxfO5SfohkD7ZIgFMPrAp4
-	swVrzONFqWlI+QTgHjJffc6rQjFEqa3LZ4KWZzr7nE22iWIQGvo8/zpwAyQtZ5qVaZgD
-	N+qBPECQWe+johCn5CDGcEZHOdnR+NDvcQP71pEmhdUvLKXN1dN9IAgSPR1h2NCxNu2t
-	OxotD7o2aIn+BLrLOq5nA019iu32Pvb9h5tl7Tlw5VStcoUVvtwZfdWwwiMu5jUarRWj
-	CxIgTeEl4HscsoU6YsC2pVbh6WcoYoBODpHP9tYkyemuDcCTkcuksAoKyFIX1dRyGKrv
-	ijsg==
-X-Gm-Message-State: ABuFfohAi3JHpgUPrE4uCfWS4FTw+PWT9hQqhl8IYtofWVdcyI8VqbNW
-	CDnkOms1bwgWR0CjpUVcvaEJrcdE
-X-Google-Smtp-Source: ACcGV60rzrqwndLzcPnMr73XNrnLuhtE4NtjR8s6MNuyCbw09lVxTLgbPcEwFKvfAG0TCVvL0yHr9w==
-X-Received: by 2002:a17:902:2e83:: with SMTP id
-	r3-v6mr1036575plb.80.1537595315933; 
-	Fri, 21 Sep 2018 22:48:35 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:c80d:9d99:c57:cbfe?
-	([2601:202:4180:c33:c80d:9d99:c57:cbfe])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=RsFOEaRGcrtrbDTdj+Rkgtd3WBx1lM/8UABGEqrmCmo=;
+	b=SNOwftAxpB/lkEE7VOH8SWeXUh/CMRYWXdFqlwUQKfCWBbQ6dqyKVP6U7qTeRCXxqY
+	VN+9dAM7vg722ryEJjiSAoGscci2DoqdqgLTbIuS3t2zAvsWzqfCasx7mmhd88lX/Auw
+	csJ18Y3hhPZ+Ulk2N2JIHKuEvxcRLhN+EAdC1jtM2sE0x09CLfS1iIxb0u3WAsqA0PuR
+	r7sa5FaY6jJOiZyT9cVdF4NO6mqV46eVm657foRxv9VZ+tYI/JnCjw8Vp1stv7QS9cY2
+	MT1M2cLNB2FU1hvnwuTWFknMheNGgrP7m6QF5MHHqaIBI6xvOpEzpnlksekQXks4e8Fa
+	HmcQ==
+X-Gm-Message-State: APzg51AMwvpdKvSZLar4z/6RAyA5UQWAG+F9rQaf07gG6eE86cjlrAwz
+	cd0BAcE3td54U1IOEqOuX9BEy3Mu1qc=
+X-Google-Smtp-Source: ANB0VdbYE37lCPsvMxguqxATjc4vukNKL9GSjM7/bn6HCMirCi7D/W2ZFoerrxLhrXJtnzBJMOSoDg==
+X-Received: by 2002:a19:1346:: with SMTP id
+	j67-v6mr1624408lfi.93.1537628328625; 
+	Sat, 22 Sep 2018 07:58:48 -0700 (PDT)
+Received: from scout.office.pelagicore.net ([83.218.80.243])
 	by smtp.gmail.com with ESMTPSA id
-	d24-v6sm31312756pgv.23.2018.09.21.22.48.34
+	n62-v6sm629116ljb.59.2018.09.22.07.58.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Sep 2018 22:48:35 -0700 (PDT)
-To: Sinan Kaya <okaya@kernel.org>, openembedded-core@lists.openembedded.org
-References: <20180922021650.2040-1-okaya@kernel.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <dbde70e2-a822-cda0-8e1b-4e2b52cc459b@gmail.com>
-Date: Fri, 21 Sep 2018 22:48:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180922021650.2040-1-okaya@kernel.org>
-Subject: Re: [sumo] [PATCH v3 1/3] busybox: CVE-2017-15874
+	Sat, 22 Sep 2018 07:58:47 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 22 Sep 2018 16:58:40 +0200
+Message-Id: <20180922145840.112880-1-dev@sashko.rv.ua>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>
+Subject: [PATCH] curl: update to 7.61.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,82 +58,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Sep 2018 05:48:35 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sat, 22 Sep 2018 14:58:49 -0000
 
-Sanan,
+Contains fix for CVE-2018-14618, therefore the patch is removed.
 
+Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
+---
+ .../curl/curl/CVE-2018-14618.patch            | 37 -------------------
+ .../curl/{curl_7.61.0.bb => curl_7.61.1.bb}   |  5 +--
+ 2 files changed, 2 insertions(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-support/curl/curl/CVE-2018-14618.patch
+ rename meta/recipes-support/curl/{curl_7.61.0.bb => curl_7.61.1.bb} (94%)
 
-On 09/21/2018 07:16 PM, Sinan Kaya wrote:
-> * CVE-2017-15874
-> busybox: Integer underflow in archival/libarchive/decompress_unlzma.c
->
-> (cherry picked from 9ac42c500586fa5f10a1f6d22c3f797df11b1f6b)
->
-> Affects busybox <= 1.27.2
-
-this series in sumo-nmut
-
-thanks,
-Armin
-> CVE: CVE-2017-15874
-> Ref: https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2017-15874
-> Signed-off-by: Sinan Kaya <okaya@kernel.org>
-> ---
->  .../busybox/busybox/CVE-2017-15874.patch      | 30 +++++++++++++++++++
->  meta/recipes-core/busybox/busybox_1.27.2.bb   |  1 +
->  2 files changed, 31 insertions(+)
->  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2017-15874.patch
->
-> diff --git a/meta/recipes-core/busybox/busybox/CVE-2017-15874.patch b/meta/recipes-core/busybox/busybox/CVE-2017-15874.patch
-> new file mode 100644
-> index 0000000000..67b4ed7e11
-> --- /dev/null
-> +++ b/meta/recipes-core/busybox/busybox/CVE-2017-15874.patch
-> @@ -0,0 +1,30 @@
-> +From e75c01bb3249df16201b482b79bb24bec3b58188 Mon Sep 17 00:00:00 2001
-> +From: Denys Vlasenko <vda.linux@googlemail.com>
-> +Date: Fri, 27 Oct 2017 15:37:03 +0200
-> +Subject: [PATCH] unlzma: fix SEGV, closes 10436
-> +
-> +Upstream-Status: Backport [ https://git.busybox.net/busybox/commit/?id=9ac42c500586fa5f10a1f6d22c3f797df11b1f6b]
-> +Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-> +Signed-off-by: Sinan Kaya <okaya@kernel.org>
-> +---
-> + archival/libarchive/decompress_unlzma.c | 4 ++++
-> + 1 file changed, 4 insertions(+)
-> +
-> +diff --git a/archival/libarchive/decompress_unlzma.c b/archival/libarchive/decompress_unlzma.c
-> +index 29eee2a..41e492f 100644
-> +--- a/archival/libarchive/decompress_unlzma.c
-> ++++ b/archival/libarchive/decompress_unlzma.c
-> +@@ -353,6 +353,10 @@ unpack_lzma_stream(transformer_state_t *xstate)
-> + 						pos = buffer_pos - rep0;
-> + 						if ((int32_t)pos < 0) {
-> + 							pos += header.dict_size;
-> ++							/* bug 10436 has an example file where this triggers: */
-> ++							if ((int32_t)pos < 0)
-> ++								goto bad;
-> ++
-> + 							/* see unzip_bad_lzma_2.zip: */
-> + 							if (pos >= buffer_size)
-> + 								goto bad;
-> +-- 
-> +2.19.0
-> +
-> diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-core/busybox/busybox_1.27.2.bb
-> index 1ce4823d47..bab29728ee 100644
-> --- a/meta/recipes-core/busybox/busybox_1.27.2.bb
-> +++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
-> @@ -47,6 +47,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
->             file://busybox-CVE-2017-16544.patch \
->             file://busybox-fix-lzma-segfaults.patch \
->             file://umount-ignore-c.patch \
-> +           file://CVE-2017-15874.patch \
->  "
->  SRC_URI_append_libc-musl = " file://musl.cfg "
->  
+diff --git a/meta/recipes-support/curl/curl/CVE-2018-14618.patch b/meta/recipes-support/curl/curl/CVE-2018-14618.patch
+deleted file mode 100644
+index db07b436d3..0000000000
+--- a/meta/recipes-support/curl/curl/CVE-2018-14618.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 57d299a499155d4b327e341c6024e293b0418243 Mon Sep 17 00:00:00 2001
+-From: Daniel Stenberg <daniel@haxx.se>
+-Date: Mon, 13 Aug 2018 10:35:52 +0200
+-Subject: [PATCH] Curl_ntlm_core_mk_nt_hash: return error on too long password
+-
+-... since it would cause an integer overflow if longer than (max size_t
+-/ 2).
+-
+-This is CVE-2018-14618
+-
+-Bug: https://curl.haxx.se/docs/CVE-2018-14618.html
+-Closes #2756
+-Reported-by: Zhaoyang Wu
+-
+-CVE: CVE-2018-14618
+-Upstream-Status: Backport
+-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+----
+- lib/curl_ntlm_core.c | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/lib/curl_ntlm_core.c b/lib/curl_ntlm_core.c
+-index e27cab353c..922e85a926 100644
+---- a/lib/curl_ntlm_core.c
+-+++ b/lib/curl_ntlm_core.c
+-@@ -557,8 +557,11 @@ CURLcode Curl_ntlm_core_mk_nt_hash(struct Curl_easy *data,
+-                                    unsigned char *ntbuffer /* 21 bytes */)
+- {
+-   size_t len = strlen(password);
+--  unsigned char *pw = len ? malloc(len * 2) : strdup("");
+-+  unsigned char *pw;
+-   CURLcode result;
+-+  if(len > SIZE_T_MAX/2) /* avoid integer overflow */
+-+    return CURLE_OUT_OF_MEMORY;
+-+  pw = len ? malloc(len * 2) : strdup("");
+-   if(!pw)
+-     return CURLE_OUT_OF_MEMORY;
+diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.1.bb
+similarity index 94%
+rename from meta/recipes-support/curl/curl_7.61.0.bb
+rename to meta/recipes-support/curl/curl_7.61.1.bb
+index 4f408d2aaa..c224b3ec1c 100644
+--- a/meta/recipes-support/curl/curl_7.61.0.bb
++++ b/meta/recipes-support/curl/curl_7.61.1.bb
+@@ -7,11 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e66
+ 
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+-           file://CVE-2018-14618.patch \
+ "
+ 
+-SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
+-SRC_URI[sha256sum] = "5f6f336921cf5b84de56afbd08dfb70adeef2303751ffb3e570c936c6d656c9c"
++SRC_URI[md5sum] = "593432e5ff863474d8d880f74b705d6d"
++SRC_URI[sha256sum] = "a308377dbc9a16b2e994abd55455e5f9edca4e31666f8f8fcfe7a1a4aea419b9"
+ 
+ CVE_PRODUCT = "libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
+-- 
+2.17.1
 
 
