@@ -1,42 +1,57 @@
-Return-Path: <prvs=88059e1ad1=adrian.ratiu@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 931D160125
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CC85F74598
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2018 13:23:08 +0000 (UTC)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
-	w8ODLUfn031947 for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2018 08:23:09 -0500
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2mnk6hwb82-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2018 08:23:09 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com
-	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
-	by us-aus-skprod3.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
-	w8ODN8eY025506
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	Mon, 24 Sep 2018 13:38:38 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id o18-v6so10113403wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2018 08:23:08 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Mon, 24 Sep 2018 08:23:08 -0500
-Received: from ionel-work.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1395.4 via Frontend Transport; Mon, 24 Sep 2018 08:23:07 -0500
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Sep 2018 16:25:00 +0300
-Message-ID: <20180924132500.30363-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.19.0
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2018-09-24_08:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
-Subject: [PATCH] rootfs: always update the opkg index
+	Mon, 24 Sep 2018 06:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=1+30uVTfcZ9jqx14V6pL002KmktZBebl7Gjocshs178=;
+	b=iKsucs+2+z22TA61gTWCS5deGzeCk5Y28Qdy99rgDLVLM1Gh1p7NUkklNL8LJqy78j
+	/3yHM9gi+zaAR+/fdu3+eV57NXzg4QpCA47iwITNksy/U1pM/rrjo6piQvPiIzDSpMGq
+	+hV3Sv18kbCH48Y54Bs5K6eAfl+bAOXYCBezM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=1+30uVTfcZ9jqx14V6pL002KmktZBebl7Gjocshs178=;
+	b=NH0HW20nwpNTSswR8J3FY0Zo5CXmdhMIWwQvZn9O29wSkLiyFzCLgwcpW05A0+ef85
+	zzsKOKF8IA8xnEvVeXU6KEiPte4MulM3UXxa9rPSl5B/PtKiOGBxka/l2fQpiPNugo5r
+	5NSoc/40Nj8DO4RJWDgLTSc4lttOepaOZrBQ8D4+L32w/25XA9oL9FC5NLoGpfS36f8s
+	G5RGPFICvukMRtUabfqIRkHJSJE2i4j06XLIcqj5oKJiqgOYnvKEZQijP+fqwCFQ/JFB
+	KzzQV9u1PiHFOwBhrn71I8T1Nssfzv8lJ1nHOzthelKlIUU1Uk4ANQtNwDN96Eb/P+Jw
+	ABKA==
+X-Gm-Message-State: ABuFfoiM6/xwYe+fzH/8p90YMcv0d5AuMuUkywNb99d0NiMoRkkelxHw
+	6giLUaobZYcTG1WPfwRPm7bWOQ==
+X-Google-Smtp-Source: ANB0Vdaw42K1TPIzsHOCia9YRNMj3txwu6YTcfZf0o+1B8V+vpE5/e4rYQj+GA6okh39h0yARae3XQ==
+X-Received: by 2002:a1c:99c2:: with SMTP id
+	b185-v6mr7706977wme.15.1537796319148; 
+	Mon, 24 Sep 2018 06:38:39 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	e16-v6sm8024920wrw.17.2018.09.24.06.38.37
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 24 Sep 2018 06:38:38 -0700 (PDT)
+Message-ID: <36b0c47b199a55e4c385f437aad964980c20dd61.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Mikko.Rapeli@bmw.de
+Date: Mon, 24 Sep 2018 14:38:36 +0100
+In-Reply-To: <20180924132013.GJ9430@hiutale>
+References: <1537530567-8604-1-git-send-email-mikko.rapeli@bmw.de>
+	<20180924072539.GE9430@hiutale>
+	<CADkTA4MBwLt_7AHDqVfh79KNB_sG58+gGWLz=4KqMg1Qpk1Ngg@mail.gmail.com>
+	<20180924121927.GI9430@hiutale>
+	<045ad825c6999fe4876a7aa90cb427ca2d0d8c87.camel@linuxfoundation.org>
+	<20180924132013.GJ9430@hiutale>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel.bbclass: allow exporting files from kernel recipes to sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,50 +64,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2018 13:23:08 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Mon, 24 Sep 2018 13:38:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The previous logic assumed that if $BUILD_IMAGES_FROM_FEEDS=1 then a
-complete set of ipk feeds from which to build the image is already
-present under $IPK_FEED_URIS at do_rootfs runtime.
+On Mon, 2018-09-24 at 13:20 +0000, Mikko.Rapeli@bmw.de wrote:
+> On Mon, Sep 24, 2018 at 02:11:13PM +0100, Richard Purdie wrote:
+> > On Mon, 2018-09-24 at 12:19 +0000, Mikko.Rapeli@bmw.de wrote:
+> > > > That was one old way, but not the only. And not for exposing
+> > > > non
+> > > > uapi
+> > > > headers.
+> > > 
+> > > What other ways exist?
+> > > 
+> > > I don't care how, but I must export custom kernel specific
+> > > headers
+> > > and
+> > > other files to other recipes in a build in ways which are
+> > > compatible
+> > > with
+> > > yocto upstream.
+> > > 
+> > > I have not seen any documented ways for this.
+> > 
+> > It may not be documented, perhaps because its actually very simple.
+> > 
+> > Any recipe can expose headers into the recipe sysroot, they simply
+> > install them where needed in do_install as normal.
+> > 
+> > So all you need is a recipe which installs the right headers and
+> > then
+> > you DEPEND on that recipe. Where that recipe gets the headers isn't
+> > relevant.
+> 
+> No, this does not work on sumo. My patch is needed for this to work.
+> 
+> Without my patch, users of kernel.bbclass have zero files in
+> tmp/sysroot-components even if they install extra files and extra
+> header only binary packages.
+> 
+> A generated image or SDK will have the files if the binary package is
+> installed but sysroot not.
 
-$IPK_FEED_URIS usually contains "file://${DEPLOY_DIR_IPK}" which
-renders the above assumption bad because some recipes in the current
-build can contain code like do_install[nostamp] = "1" which will cause
-rebuilds bumping $PR and invalidating the index.
+I was replying from the perspective of how this should work in general.
+I agree that for this to work with a kernel recipe we do need the
+change that started this thread and that is probably a reasonable thing
+to do.
 
-Even when the index is manually re-created before an image build
-("bitbake package-index"), the nostamp will cause failures because the
-dependency gets rebuilt before do_rootfs in the "bitbake <image>" call.
+Cheers,
 
-So make the opkg rootfs index logic the same as for rpm/deb, to always
-update the index in $DEPLOY_DIR_IPK to fix the above nostamp failure.
+Richard
 
-Feeds outside $DEPLOY_DIR_IPK continue to work as usual.
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- meta/lib/oe/rootfs.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index cdb86f7715..67ae281e47 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -853,9 +853,8 @@ class OpkgRootfs(DpkgOpkgRootfs):
-         opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS')
-         opkg_post_process_cmds = self.d.getVar('OPKG_POSTPROCESS_COMMANDS')
- 
--        # update PM index files, unless users provide their own feeds
--        if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS') or "") != "1":
--            self.pm.write_index()
-+        # update PM index files
-+        self.pm.write_index()
- 
-         execute_pre_post_process(self.d, opkg_pre_process_cmds)
- 
--- 
-2.19.0
 
 
