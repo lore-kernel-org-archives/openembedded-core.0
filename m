@@ -1,47 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id DECB6791DF
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2018 11:30:11 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id q8-v6so9647814wmq.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2018 04:30:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=Q+GrxEDEpdh0R7VTtFaChiIMyHfdiOMkZbK6ULIOPMU=;
-	b=NRQQv9uG1Zl/suu6sd+B94RnPoonQZp97LIKSUuK+BRBGMqSYfpCV+L474mkscYjDe
-	OJb597OxM0gJM5RaNzyAvpVAWdhEcUw6Gv5NDzifiXg/bqI6ec37xyny6r9WeHzya/wd
-	qZ7wL/uV5biZ7/Ak/NgvlfFsBXVNCJwCTcXjY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Q+GrxEDEpdh0R7VTtFaChiIMyHfdiOMkZbK6ULIOPMU=;
-	b=KBINSy5bU6gTqmkrB/C+1M8bgDghM9qaRUQ4mnDkOnPnpwn5hDjvyOtV2UOhMvOQTx
-	a2R3sxMZ08fu2x6HXDtR5eN2pWAJwWSlw+qiLGRfr0DdGVmcmLDg5W5sOuUrIdtibIWp
-	Jeq5VzGZxHm0CR9gb2apqX4Q1pJl1lsqAAaOSQ/vqvY5Nac76qwF46pBalBkWr3iZXET
-	bdJJzIkX6bLrqNvua55xI4nQMkOUL8y6pbhxrZ6ZktABvYRwvPVnRDrkjW0n9Dh+rErl
-	SIhzqNgQ6jk1+Kg0KMDaZzXdm7njXaYfOjQa0HeYP8nMPfAu6PRbVsSa9fyNL2qRVDpZ
-	AQiw==
-X-Gm-Message-State: APzg51B16LqAJUQjAuIJ6w1Sc2KGl0T0kz3dlO+7hMPeDwKKVwRn2ug1
-	g8wEdfRJoVGfKOD1/gjaGKV1sdK6gUd1tw==
-X-Google-Smtp-Source: ACcGV62eQN9NMAYVZMtC9uIxW0JNy1tKfPjAhmPkEOjjz+KHuzrr8hw0LXTPtn2KJqtTke13XVUD8g==
-X-Received: by 2002:a1c:f210:: with SMTP id
-	s16-v6mr5390299wmc.36.1537788612052; 
-	Mon, 24 Sep 2018 04:30:12 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	v192-v6sm15385966wmf.40.2018.09.24.04.30.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 24 Sep 2018 04:30:11 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Sep 2018 12:30:03 +0100
-Message-Id: <20180924113003.32625-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] layer.conf: Add thud to LAYERSERIES_CORENAMES
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id C6103745B7;
+	Mon, 24 Sep 2018 12:02:58 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Mon, 24 Sep 2018 12:03:00 -0000
+Message-ID: <20180924120300.13843.54626@do.openembedded.org>
+References: <20180924113003.32625-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180924113003.32625-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGF5ZXIuY29uZjogQWRkIHRodWQgdG8gTEFZRVJTRVJJRVNfQ09SRU5BTUVT?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2018 11:30:12 -0000
+X-List-Received-Date: Mon, 24 Sep 2018 12:02:59 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-With the release approaching, add thud to LAYERSERIES_CORENAMES and update
-oe-core to use this release series. "sumo" will be removed during M4 in
-the next couple of weeks so people need to start updating their master
-layers in preperation for release.
+== Series Details ==
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Series: layer.conf: Add thud to LAYERSERIES_CORENAMES
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14195/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at e3f5ceec69)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/conf/layer.conf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 2cbe952801f..0728c51e5fd 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -7,12 +7,12 @@ BBFILE_COLLECTIONS += "core"
- BBFILE_PATTERN_core = "^${LAYERDIR}/"
- BBFILE_PRIORITY_core = "5"
- 
--LAYERSERIES_CORENAMES = "sumo"
-+LAYERSERIES_CORENAMES = "sumo thud"
- 
- # This should only be incremented on significant changes that will
- # cause compatibility issues with other layers
- LAYERVERSION_core = "11"
--LAYERSERIES_COMPAT_core = "sumo"
-+LAYERSERIES_COMPAT_core = "thud"
- 
- BBLAYERS_LAYERINDEX_NAME_core = "openembedded-core"
- 
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
