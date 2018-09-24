@@ -1,29 +1,53 @@
-Return-Path: <okaya@kernel.org>
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail.openembedded.org (Postfix) with ESMTP id 49B9974585
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2018 18:35:33 +0000 (UTC)
-Received: from
-	sinanubuntu1604.mkjiurmyylmellclgttazegk5f.bx.internal.cloudapp.net
-	(unknown [40.117.60.217])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 2E7F92086B;
-	Mon, 24 Sep 2018 18:35:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1537814134;
-	bh=HIQlKs1i4/G1wfvdqptp932f4SnI9HH/d2/Xqk6nOyU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=dRA6/u9jSRF7R9gx7cruM7d509VN+IYiPcUjeEUMxe9vijg4KU1b9PGLO4a/TfgLN
-	kS5V8yOLTSMJPFtAUCCMeWsaRvnOj78AkJRCP+HJz94nMcMEcykyG5tDqvzLF5UdD+
-	W3Va+z6IS+iqMgf6cW6BRYbo5K2rWVN+nScLVdAk=
-From: Sinan Kaya <okaya@kernel.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Sep 2018 18:35:31 +0000
-Message-Id: <20180924183531.21528-1-okaya@kernel.org>
-X-Mailer: git-send-email 2.19.0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+	[209.85.160.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C8D57456D;
+	Mon, 24 Sep 2018 18:57:46 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id l2-v6so10645453qtr.12;
+	Mon, 24 Sep 2018 11:57:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=krqhXTc6twuYzmDw4m3JeOsfDk9AYimt4UMwR1SHL68=;
+	b=XgMX92ORUw7iIfh0vdeT8zbEpcQbiLM/bQVBLMVAIvIAydGir+RBfy+XGovwXTRtCG
+	qu+dEZZ5nnH0ZuhasAaADspNNluQDuShKEp0Hm9R9td3WcRAvdoZOruWGcpVjWHmyiOX
+	9v9Yo4GcjEehrLEpJmBOxqu+fguUssSa+fk/ZGT5MNP3sw5SW4pdERsI85MzEtVr9aOk
+	OKLmxZtxQ1ybgAPyhPzpSRRai0WerUQ7lKvxSKXcfiN+z8AzhLUL6O1i0PHw4PAIBxXn
+	ljaRYZ0dWcjyfeCUCn2BIGp21yAXe4gbNN4Fk5/POYouYIb9LC03564fLiYd8cPb+PzY
+	TpzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=krqhXTc6twuYzmDw4m3JeOsfDk9AYimt4UMwR1SHL68=;
+	b=kFuNQqfl33+fy1A/T/nPmG1WFDOMRbmX2l5zcHpaXO8Q81epxXiFQeDvVO7KjvM+Ei
+	/dy0uY/RkcrO80nyJo7eONErlUU/jVs6SVgxT1wnqBUzf2Am9BIMB8FAgzPaLyPajGO5
+	8rFM3TtmGMH/VEIsju3FHUs6jiw6EvtZ7C4Lkc2V0SQfdtQu6D5UXFqHga80sszxWGPT
+	H8xYEvfW9xsIYm8H+YVeQ7zQ0qQOaeKfROT+HnurmX2b7chBYbsMWD5pnbMPcQbgDIjS
+	hyeLKW38jDjWFEmfwwoHuD133YeBD7EpL1TyP4Ad+fc9+Q59cOgtYKvu2rnTZdNnhDSf
+	7r8w==
+X-Gm-Message-State: ABuFfogfpVpc3rNgrAedCc5nG+R1HwzKr+S8Ohm+1SR2yWOiP5UQexln
+	TsAm6kca9DS6NeswOIcJ7Nlz+6QWhE5NLVn+o5o=
+X-Google-Smtp-Source: ACcGV62YQH/nuARdr08nkDtJj2njoHsmKYKt0xsgZJDcuYb29GsF22VmTk8E0GEbKYRZpDJ0S29QXz/5N/ardBf5nv0=
+X-Received: by 2002:ac8:758d:: with SMTP id
+	s13-v6mr142450qtq.161.1537815466824; 
+	Mon, 24 Sep 2018 11:57:46 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [sumo] [meta-networking] [PATCH v1] dnsmasq: CVE-2017-15107
+References: <153754348673.9161.13447934313277658780@git.openembedded.org>
+	<20180921152447.28A71234DE8@git.openembedded.org>
+	<CA+chaQcHh7nAJy+k9ZmxB6ERm0r5woFVnUku_5RB0PiakE95CA@mail.gmail.com>
+	<CAMKF1sqK1EvH455QgBGcAuT5MpgWVaMFBu3i0db18mm_MZzjug@mail.gmail.com>
+	<CAJTo0LZ_7rkjRisBhGUgawPxomapvQe=15FVeqDdQ0SSXSsLsA@mail.gmail.com>
+	<CAJTo0LZ0ASe42H8TQBQTaPWtd+mB76kAN_4mxYY9j6L4z=qwVw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ0ASe42H8TQBQTaPWtd+mB76kAN_4mxYY9j6L4z=qwVw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 24 Sep 2018 11:57:20 -0700
+Message-ID: <CAMKF1srJMrumXJxoe5Sw0NXy1KpeSu=Nu80kz10AGcUEtdVOpw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-commits@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] [openembedded-core] 02/45: fribidi: use Meson instead of autotools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,306 +60,230 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2018 18:35:33 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 24 Sep 2018 18:57:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* CVE-2017-15107
-A vulnerability was found in Dnsmasq's implementation of DNSSEC.
-Wildcard synthesized NSEC records could be improperly interpreted
-to prove the non-existence of hostnames that actually exist.
+On Mon, Sep 24, 2018 at 4:10 AM Burton, Ross <ross.burton@intel.com> wrote:
+>
+> I can't seem to replicate this on our centos7 box:
+>
+> [ross@centos7 build]$ gcc --version
+> gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-28)
+> [ross@centos7 build]$ gcc -ffdjsj
+> gcc: error: unrecognized command line option =E2=80=98-ffdjsj=E2=80=99
+> gcc: fatal error: no input files
+> compilation terminated.
+> [ross@centos7 build]$ gcc -fstack-protector-strong
+> gcc: fatal error: no input files
+> compilation terminated.
+>
+> Presumably we've upgraded gcc at some point...
+>
+> However I did replicate the same sort of problem outside of OE.  Can
+> one of you test
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dross/m=
+ut&id=3D1e32317ad77457d2a026eaa67ea7c6eebe58b127
+> for me please?
+>
 
-Affects dnsmasq <= 2.78
+this solves the issue, thanks for prompt turnaround for fixing it
 
-CVE: CVE-2017-15107
-Ref: https://access.redhat.com/security/cve/cve-2017-15107
-Signed-off-by: Sinan Kaya <okaya@kernel.org>
----
- .../recipes-support/dnsmasq/dnsmasq_2.78.bb   |   1 +
- .../dnsmasq/files/CVE-2017-15107.patch        | 262 ++++++++++++++++++
- 2 files changed, 263 insertions(+)
- create mode 100644 meta-networking/recipes-support/dnsmasq/files/CVE-2017-15107.patch
-
-diff --git a/meta-networking/recipes-support/dnsmasq/dnsmasq_2.78.bb b/meta-networking/recipes-support/dnsmasq/dnsmasq_2.78.bb
-index 4d1dc6e69..d2465f82d 100644
---- a/meta-networking/recipes-support/dnsmasq/dnsmasq_2.78.bb
-+++ b/meta-networking/recipes-support/dnsmasq/dnsmasq_2.78.bb
-@@ -2,6 +2,7 @@ require dnsmasq.inc
- 
- SRC_URI += "\
-     file://lua.patch \
-+    file://CVE-2017-15107.patch \
- "
- 
- SRC_URI[dnsmasq-2.78.md5sum] = "3bb97f264c73853f802bf70610150788"
-diff --git a/meta-networking/recipes-support/dnsmasq/files/CVE-2017-15107.patch b/meta-networking/recipes-support/dnsmasq/files/CVE-2017-15107.patch
-new file mode 100644
-index 000000000..da2af56cf
---- /dev/null
-+++ b/meta-networking/recipes-support/dnsmasq/files/CVE-2017-15107.patch
-@@ -0,0 +1,262 @@
-+From 5a56e1b78a753d3295564daddc9ce389cc69fd68 Mon Sep 17 00:00:00 2001
-+From: Simon Kelley <simon@thekelleys.org.uk>
-+Date: Fri, 19 Jan 2018 12:26:08 +0000
-+Subject: [PATCH] DNSSEC fix for wildcard NSEC records. CVE-2017-15107 applies.
-+
-+It's OK for NSEC records to be expanded from wildcards,
-+but in that case, the proof of non-existence is only valid
-+starting at the wildcard name, *.<domain> NOT the name expanded
-+from the wildcard. Without this check it's possible for an
-+attacker to craft an NSEC which wrongly proves non-existence
-+in a domain which includes a wildcard for NSEC.
-+
-+Upstream-Status: Backport [http://thekelleys.org.uk/gitweb/?p=dnsmasq.git;a=commit;h=4fe6744a220eddd3f1749b40cac3dfc510787de6]
-+Signed-off-by: Sinan Kaya <okaya@kernel.org>
-+---
-+ CHANGELOG    |  44 +++++++++++++++++++
-+ src/dnssec.c | 117 +++++++++++++++++++++++++++++++++++++++++++++------
-+ 2 files changed, 147 insertions(+), 14 deletions(-)
-+
-+diff --git a/CHANGELOG b/CHANGELOG
-+index 075fe1a6..5226dce8 100644
-+--- a/CHANGELOG
-++++ b/CHANGELOG
-+@@ -1,3 +1,47 @@
-++version 2.79
-++	Fix parsing of CNAME arguments, which are confused by extra spaces.
-++	Thanks to Diego Aguirre for spotting the bug.
-++
-++	Where available, use IP_UNICAST_IF or IPV6_UNICAST_IF to bind
-++	upstream servers to an interface, rather than SO_BINDTODEVICE.
-++	Thanks to Beniamino Galvani for the patch.
-++
-++	Always return a SERVFAIL answer to DNS queries without the
-++	recursion desired bit set, UNLESS acting as an authoritative
-++	DNS server. This avoids a potential route to cache snooping.
-++
-++	Add support for Ed25519 signatures in DNSSEC validation.
-++
-++	No longer support RSA/MD5 signatures in DNSSEC validation,
-++	since these are not secure. This behaviour is mandated in
-++	RFC-6944.
-++
-++	Fix incorrect error exit code from dhcp_release6 utility.
-++	Thanks Gaudenz Steinlin for the bug report.
-++
-++	Use SIGINT (instead of overloading SIGHUP) to turn on DNSSEC
-++	time validation when --dnssec-no-timecheck is in use.
-++	Note that this is an incompatible change from earlier releases.
-++
-++	Allow more than one --bridge-interface option to refer to an
-++	interface, so that we can use
-++	--bridge-interface=int1,alias1
-++	--bridge-interface=int1,alias2
-++	as an alternative to
-++	--bridge-interface=int1,alias1,alias2
-++	Thanks to Neil Jerram for work on this.
-++
-++	Fix for DNSSEC with wildcard-derived NSEC records.
-++	It's OK for NSEC records to be expanded from wildcards,
-++	but in that case, the proof of non-existence is only valid
-++	starting at the wildcard name, *.<domain> NOT the name expanded
-++	from the wildcard. Without this check it's possible for an
-++	attacker to craft an NSEC which wrongly proves non-existence.
-++	Thanks to Ralph Dolmans for finding this, and co-ordinating 
-++	the vulnerability tracking and fix release.
-++	CVE-2017-15107 applies.
-++
-++
-+ version 2.78
-+         Fix logic of appending ".<layer>" to PXE basename. Thanks to Chris
-+ 	Novakovic for the patch.
-+diff --git a/src/dnssec.c b/src/dnssec.c
-+index a74d01ab..1417be56 100644
-+--- a/src/dnssec.c
-++++ b/src/dnssec.c
-+@@ -424,15 +424,17 @@ static void from_wire(char *name)
-+ static int count_labels(char *name)
-+ {
-+   int i;
-+-
-++  char *p;
-++  
-+   if (*name == 0)
-+     return 0;
-+ 
-+-  for (i = 0; *name; name++)
-+-    if (*name == '.')
-++  for (p = name, i = 0; *p; p++)
-++    if (*p == '.')
-+       i++;
-+ 
-+-  return i+1;
-++  /* Don't count empty first label. */
-++  return *name == '.' ? i : i+1;
-+ }
-+ 
-+ /* Implement RFC1982 wrapped compare for 32-bit numbers */
-+@@ -1405,8 +1407,8 @@ static int hostname_cmp(const char *a, const char *b)
-+     }
-+ }
-+ 
-+-static int prove_non_existence_nsec(struct dns_header *header, size_t plen, unsigned char **nsecs, int nsec_count,
-+-				    char *workspace1, char *workspace2, char *name, int type, int *nons)
-++static int prove_non_existence_nsec(struct dns_header *header, size_t plen, unsigned char **nsecs, unsigned char **labels, int nsec_count,
-++				    char *workspace1_in, char *workspace2, char *name, int type, int *nons)
-+ {
-+   int i, rc, rdlen;
-+   unsigned char *p, *psave;
-+@@ -1419,6 +1421,9 @@ static int prove_non_existence_nsec(struct dns_header *header, size_t plen, unsi
-+   /* Find NSEC record that proves name doesn't exist */
-+   for (i = 0; i < nsec_count; i++)
-+     {
-++      char *workspace1 = workspace1_in;
-++      int sig_labels, name_labels;
-++
-+       p = nsecs[i];
-+       if (!extract_name(header, plen, &p, workspace1, 1, 10))
-+ 	return 0;
-+@@ -1427,7 +1432,27 @@ static int prove_non_existence_nsec(struct dns_header *header, size_t plen, unsi
-+       psave = p;
-+       if (!extract_name(header, plen, &p, workspace2, 1, 10))
-+ 	return 0;
-+-      
-++
-++      /* If NSEC comes from wildcard expansion, use original wildcard
-++	 as name for computation. */
-++      sig_labels = *labels[i];
-++      name_labels = count_labels(workspace1);
-++
-++      if (sig_labels < name_labels)
-++	{
-++	  int k;
-++	  for (k = name_labels - sig_labels; k != 0; k--)
-++	    {
-++	      while (*workspace1 != '.' && *workspace1 != 0)
-++		workspace1++;
-++	      if (k != 1 && *workspace1 == '.')
-++		workspace1++;
-++	    }
-++	  
-++	  workspace1--;
-++	  *workspace1 = '*';
-++	}
-++	  
-+       rc = hostname_cmp(workspace1, name);
-+       
-+       if (rc == 0)
-+@@ -1825,24 +1850,26 @@ static int prove_non_existence_nsec3(struct dns_header *header, size_t plen, uns
-+ 
-+ static int prove_non_existence(struct dns_header *header, size_t plen, char *keyname, char *name, int qtype, int qclass, char *wildname, int *nons)
-+ {
-+-  static unsigned char **nsecset = NULL;
-+-  static int nsecset_sz = 0;
-++  static unsigned char **nsecset = NULL, **rrsig_labels = NULL;
-++  static int nsecset_sz = 0, rrsig_labels_sz = 0;
-+   
-+   int type_found = 0;
-+-  unsigned char *p = skip_questions(header, plen);
-++  unsigned char *auth_start, *p = skip_questions(header, plen);
-+   int type, class, rdlen, i, nsecs_found;
-+   
-+   /* Move to NS section */
-+   if (!p || !(p = skip_section(p, ntohs(header->ancount), header, plen)))
-+     return 0;
-++
-++  auth_start = p;
-+   
-+   for (nsecs_found = 0, i = ntohs(header->nscount); i != 0; i--)
-+     {
-+       unsigned char *pstart = p;
-+       
-+-      if (!(p = skip_name(p, header, plen, 10)))
-++      if (!extract_name(header, plen, &p, daemon->workspacename, 1, 10))
-+ 	return 0;
-+-      
-++	  
-+       GETSHORT(type, p); 
-+       GETSHORT(class, p);
-+       p += 4; /* TTL */
-+@@ -1859,7 +1886,69 @@ static int prove_non_existence(struct dns_header *header, size_t plen, char *key
-+ 	  if (!expand_workspace(&nsecset, &nsecset_sz, nsecs_found))
-+ 	    return 0; 
-+ 	  
-+-	  nsecset[nsecs_found++] = pstart;
-++	  if (type == T_NSEC)
-++	    {
-++	      /* If we're looking for NSECs, find the corresponding SIGs, to 
-++		 extract the labels value, which we need in case the NSECs
-++		 are the result of wildcard expansion.
-++		 Note that the NSEC may not have been validated yet
-++		 so if there are multiple SIGs, make sure the label value
-++		 is the same in all, to avoid be duped by a rogue one.
-++		 If there are no SIGs, that's an error */
-++	      unsigned char *p1 = auth_start;
-++	      int res, j, rdlen1, type1, class1;
-++	      
-++	      if (!expand_workspace(&rrsig_labels, &rrsig_labels_sz, nsecs_found))
-++		return 0;
-++	      
-++	      rrsig_labels[nsecs_found] = NULL;
-++	      
-++	      for (j = ntohs(header->nscount); j != 0; j--)
-++		{
-++		  if (!(res = extract_name(header, plen, &p1, daemon->workspacename, 0, 10)))
-++		    return 0;
-++
-++		   GETSHORT(type1, p1); 
-++		   GETSHORT(class1, p1);
-++		   p1 += 4; /* TTL */
-++		   GETSHORT(rdlen1, p1);
-++
-++		   if (!CHECK_LEN(header, p1, plen, rdlen1))
-++		     return 0;
-++		   
-++		   if (res == 1 && class1 == qclass && type1 == T_RRSIG)
-++		     {
-++		       int type_covered;
-++		       unsigned char *psav = p1;
-++		       
-++		       if (rdlen < 18)
-++			 return 0; /* bad packet */
-++
-++		       GETSHORT(type_covered, p1);
-++
-++		       if (type_covered == T_NSEC)
-++			 {
-++			   p1++; /* algo */
-++			   
-++			   /* labels field must be the same in every SIG we find. */
-++			   if (!rrsig_labels[nsecs_found])
-++			     rrsig_labels[nsecs_found] = p1;
-++			   else if (*rrsig_labels[nsecs_found] != *p1) /* algo */
-++			     return 0;
-++			   }
-++		       p1 = psav;
-++		     }
-++		   
-++		   if (!ADD_RDLEN(header, p1, plen, rdlen1))
-++		     return 0;
-++		}
-++
-++	      /* Must have found at least one sig. */
-++	      if (!rrsig_labels[nsecs_found])
-++		return 0;
-++	    }
-++
-++	  nsecset[nsecs_found++] = pstart;   
-+ 	}
-+       
-+       if (!ADD_RDLEN(header, p, plen, rdlen))
-+@@ -1867,7 +1956,7 @@ static int prove_non_existence(struct dns_header *header, size_t plen, char *key
-+     }
-+   
-+   if (type_found == T_NSEC)
-+-    return prove_non_existence_nsec(header, plen, nsecset, nsecs_found, daemon->workspacename, keyname, name, qtype, nons);
-++    return prove_non_existence_nsec(header, plen, nsecset, rrsig_labels, nsecs_found, daemon->workspacename, keyname, name, qtype, nons);
-+   else if (type_found == T_NSEC3)
-+     return prove_non_existence_nsec3(header, plen, nsecset, nsecs_found, daemon->workspacename, keyname, name, qtype, wildname, nons);
-+   else
-+-- 
-+2.19.0
-+
--- 
-2.19.0
-
+> Cheers,
+> Ross
+> On Mon, 24 Sep 2018 at 11:08, Burton, Ross <ross.burton@intel.com> wrote:
+> >
+> > Looks like Meson is using the target link flags for linking even when
+> > it knows its doing a native build.  Talking to Meson upstream now and
+> > have a workaround.
+> >
+> > Ross
+> > On Sun, 23 Sep 2018 at 15:51, Khem Raj <raj.khem@gmail.com> wrote:
+> > >
+> > > On Sun, Sep 23, 2018 at 2:20 AM Martin Jansa <martin.jansa@gmail.com>=
+ wrote:
+> > > >
+> > > > Was this one ever sent to ML? I haven't found it in the archives.
+> > > >
+> > > > With security flags enabled it fails on older hosts (e.g. Ubuntu 14=
+.04 with gcc-4.8) now with:
+> > >
+> > > I am seeing same failure on ubuntu 14.04 and centos7 boxes
+> > > this definitely is regression, its being not to right about using
+> > > TARGET_CFLAGS where it should not be using them
+> > >
+> > > >
+> > > > DEBUG: Executing shell function do_compile
+> > > > [1/63] gcc -Igen.tab/gen.tab@@gen-unicode-version@exe -Igen.tab -I.=
+./fribidi-1.0.5/gen.tab -I. -I../fribidi-1.0.5/ -Ilib -I../fribidi-1.0.5/li=
+b -pipe -D_FILE_OFFSET_BITS=3D64 -ansi -fvisibility=3Dhidden -O2 -g -felimi=
+nate-unused-debug-types -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi3=
+-webos-linux-gnueabi/fribidi/1.0.5-r0=3D/usr/src/debug/fribidi/1.0.5-r0 -fd=
+ebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi3-webos-linux-gnueabi/fribid=
+i/1.0.5-r0/recipe-sysroot=3D -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspber=
+rypi3-webos-linux-gnueabi/fribidi/1.0.5-r0/recipe-sysroot-native=3D -UHAVE_=
+CONFIG_H -DHAVE_STRINGIZE -DDONT_HAVE_FRIBIDI_CONFIG_H -DHAVE_STDLIB_H -DHA=
+VE_STRING_H -DHAVE_STRINGS_H -DSTDC_HEADERS=3D1  -MD -MQ 'gen.tab/gen.tab@@=
+gen-unicode-version@exe/gen-unicode-version.c.o' -MF 'gen.tab/gen.tab@@gen-=
+unicode-version@exe/gen-unicode-version.c.o.d' -o 'gen.tab/gen.tab@@gen-uni=
+code-version@exe/gen-unicode-version.c.o' -c ../fribidi-1.0.5/gen.tab/gen-u=
+nicode-version.c
+> > > > [2/63] gcc   -o gen.tab/gen-unicode-version 'gen.tab/gen.tab@@gen-u=
+nicode-version@exe/gen-unicode-version.c.o' -Wl,--no-undefined -Wl,--as-nee=
+ded -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=3DTOPDIR=
+/BUILD/work/raspberrypi3-webos-linux-gnueabi/fribidi/1.0.5-r0=3D/usr/src/de=
+bug/fribidi/1.0.5-r0 -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi3-we=
+bos-linux-gnueabi/fribidi/1.0.5-r0/recipe-sysroot=3D -fdebug-prefix-map=3DT=
+OPDIR/BUILD/work/raspberrypi3-webos-linux-gnueabi/fribidi/1.0.5-r0/recipe-s=
+ysroot-native=3D -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -fstack-pro=
+tector-strong -Wl,-z,relro,-z,now
+> > > > FAILED: gen.tab/gen-unicode-version
+> > > > gcc   -o gen.tab/gen-unicode-version 'gen.tab/gen.tab@@gen-unicode-=
+version@exe/gen-unicode-version.c.o' -Wl,--no-undefined -Wl,--as-needed -O2=
+ -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=3DTOPDIR/BUILD/=
+work/raspberrypi3-webos-linux-gnueabi/fribidi/1.0.5-r0=3D/usr/src/debug/fri=
+bidi/1.0.5-r0 -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi3-webos-lin=
+ux-gnueabi/fribidi/1.0.5-r0/recipe-sysroot=3D -fdebug-prefix-map=3DTOPDIR/B=
+UILD/work/raspberrypi3-webos-linux-gnueabi/fribidi/1.0.5-r0/recipe-sysroot-=
+native=3D -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -fstack-protector-=
+strong -Wl,-z,relro,-z,now
+> > > > gcc: error: unrecognized command line option =E2=80=98-fstack-prote=
+ctor-strong=E2=80=99
+> > > > ninja: build stopped: subcommand failed.
+> > > > WARNING: exit code 1 from a shell command.
+> > > >
+> > > > Is meson too active in adding SECURITY_FLAGS even to native part of=
+ the build or should we just just remove -fstack-protector-strong completel=
+y for fribidi?
+> > > >
+> > > >
+> > > >
+> > > > On Fri, Sep 21, 2018 at 5:24 PM <git@git.openembedded.org> wrote:
+> > > >>
+> > > >> This is an automated email from the git hooks/post-receive script.
+> > > >>
+> > > >> rpurdie pushed a commit to branch master-next
+> > > >> in repository openembedded-core.
+> > > >>
+> > > >> commit d297f7ebf3f62528d055e1938a9693d6f3a61935
+> > > >> Author: Ross Burton <ross.burton@intel.com>
+> > > >> AuthorDate: Fri Sep 14 00:28:39 2018 +0100
+> > > >>
+> > > >>     fribidi: use Meson instead of autotools
+> > > >>
+> > > >>     Upstream is moving to Meson, so backport a patch to use that i=
+nstead of
+> > > >>     autotools.
+> > > >>
+> > > >>     Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > > >> ---
+> > > >>  meta/recipes-support/fribidi/fribidi/meson.patch | 44 +++++++++++=
++++++++++++++
+> > > >>  meta/recipes-support/fribidi/fribidi_1.0.5.bb    |  8 ++---
+> > > >>  2 files changed, 47 insertions(+), 5 deletions(-)
+> > > >>
+> > > >> diff --git a/meta/recipes-support/fribidi/fribidi/meson.patch b/me=
+ta/recipes-support/fribidi/fribidi/meson.patch
+> > > >> new file mode 100644
+> > > >> index 0000000..8b3c4a9
+> > > >> --- /dev/null
+> > > >> +++ b/meta/recipes-support/fribidi/fribidi/meson.patch
+> > > >> @@ -0,0 +1,44 @@
+> > > >> +Upstream-Status: Backport
+> > > >> +Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > > >> +
+> > > >> +From f5feb6c599adb52f24656f8589868039b0d14272 Mon Sep 17 00:00:00=
+ 2001
+> > > >> +From: Heiko Becker <heirecka@exherbo.org>
+> > > >> +Date: Fri, 7 Sep 2018 20:57:11 +0200
+> > > >> +Subject: [PATCH] Build generator executables natively
+> > > >> +
+> > > >> +They are run during the build and not installed in the end. Witho=
+ut
+> > > >> +this one gets the following error from meson: "ERROR: Can not use
+> > > >> +target gen-unicode-version as a generator because it is cross-bui=
+lt
+> > > >> +and no exe wrapper is defined. You might want to set it to native
+> > > >> +instead."
+> > > >> +
+> > > >> +Closes #87.
+> > > >> +
+> > > >> +---
+> > > >> + gen.tab/meson.build | 6 ++++--
+> > > >> + 1 file changed, 4 insertions(+), 2 deletions(-)
+> > > >> +
+> > > >> +diff --git a/gen.tab/meson.build b/gen.tab/meson.build
+> > > >> +index 6006d98..8c21e98 100644
+> > > >> +--- a/gen.tab/meson.build
+> > > >> ++++ b/gen.tab/meson.build
+> > > >> +@@ -33,7 +33,8 @@ gen_unicode_version =3D executable('gen-unicode=
+-version',
+> > > >> +   'gen-unicode-version.c',
+> > > >> +   include_directories: incs,
+> > > >> +   c_args: native_args,
+> > > >> +-  install: false)
+> > > >> ++  install: false,
+> > > >> ++  native: true)
+> > > >> +
+> > > >> + fribidi_unicode_version_h =3D custom_target('fribidi-unicode-ver=
+sion.h',
+> > > >> +   input: files('unidata/ReadMe.txt', 'unidata/BidiMirroring.txt'=
+),
+> > > >> +@@ -67,7 +68,8 @@ foreach tab : tabs
+> > > >> +     gen_prog_src, 'packtab.c',
+> > > >> +     include_directories: incs,
+> > > >> +     c_args: native_args,
+> > > >> +-    install: false)
+> > > >> ++    install: false,
+> > > >> ++    native: true)
+> > > >> +
+> > > >> +   tab_inc_file =3D custom_target(gen_prog_name,
+> > > >> +     input: gen_prog_inputs,
+> > > >> diff --git a/meta/recipes-support/fribidi/fribidi_1.0.5.bb b/meta/=
+recipes-support/fribidi/fribidi_1.0.5.bb
+> > > >> index 303ccb7..63b2da6 100644
+> > > >> --- a/meta/recipes-support/fribidi/fribidi_1.0.5.bb
+> > > >> +++ b/meta/recipes-support/fribidi/fribidi_1.0.5.bb
+> > > >> @@ -3,16 +3,14 @@ SECTION =3D "libs"
+> > > >>  LICENSE =3D "LGPLv2.1+"
+> > > >>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da916467b91076e631dd8ed=
+b7424769c7"
+> > > >>
+> > > >> -SRC_URI =3D "https://github.com/${BPN}/${BPN}/releases/download/v=
+${PV}/${BP}.tar.bz2"
+> > > >> +SRC_URI =3D "https://github.com/${BPN}/${BPN}/releases/download/v=
+${PV}/${BP}.tar.bz2 \
+> > > >> +           file://meson.patch"
+> > > >>  SRC_URI[md5sum] =3D "0f97f65038545340316ec0f4bd53df0b"
+> > > >>  SRC_URI[sha256sum] =3D "6a64f2a687f5c4f203a46fa659f43dd43d1f8b845=
+df8d723107e8a7e6158e4ce"
+> > > >>
+> > > >>  UPSTREAM_CHECK_URI =3D "https://github.com/${BPN}/${BPN}/releases=
+"
+> > > >>
+> > > >> -inherit autotools lib_package pkgconfig
+> > > >> -
+> > > >> -# TODO use Meson instead of autotools when
+> > > >> -# https://github.com/fribidi/fribidi/issues/87 is solved
+> > > >> +inherit meson lib_package pkgconfig
+> > > >>
+> > > >>  CVE_PRODUCT =3D "gnu_fribidi"
+> > > >>
+> > > >>
+> > > >> --
+> > > >> To stop receiving notification emails like this one, please contac=
+t
+> > > >> the administrator of this repository.
+> > > >> --
+> > > >> _______________________________________________
+> > > >> Openembedded-commits mailing list
+> > > >> Openembedded-commits@lists.openembedded.org
+> > > >> http://lists.openembedded.org/mailman/listinfo/openembedded-commit=
+s
+> > > >
+> > > > --
+> > > > _______________________________________________
+> > > > Openembedded-core mailing list
+> > > > Openembedded-core@lists.openembedded.org
+> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
