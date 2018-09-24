@@ -1,54 +1,42 @@
-Return-Path: <prvs=7981aab84=Mikko.Rapeli@bmw.de>
-Received: from esa2.bmw.c3s2.iphmx.com (esa2.bmw.c3s2.iphmx.com
-	[68.232.133.169])
-	by mail.openembedded.org (Postfix) with ESMTP id A368E745A5
+Return-Path: <prvs=88059e1ad1=adrian.ratiu@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 931D160125
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2018 13:20:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1537795249; x=1569331249;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=+WwyFgtVTHQAxkKcSiSt4RG5B900YfpZ7fNFTc9nXSU=;
-	b=LnI903BkkBbHr4XLviUiL2d1rAAxwU6YbehK9x+v5hWnuhaYx0j7kUCa
-	6GuqRCKYc6Us61MvHGG+eQDRmAa2AqAgBRcRaAAMtlys7y6m2PAYyqveQ
-	PALYmH4MF/BZ6KxeAj2RMSozua7zSpl9qy3bW+Eku/zvqNM5mY9H3H6sR Q=;
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
-	esa2.bmw.c3s2.iphmx.com with ESMTP/TLS; 24 Sep 2018 15:20:48 +0200
-Received: from esabb4.muc ([160.50.100.33])  by esagw6.muc with ESMTP/TLS;
-	24 Sep 2018 15:20:20 +0200
-Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
-	([160.48.96.47])
-	by esabb4.muc with ESMTP/TLS; 24 Sep 2018 15:20:13 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10k.europe.bmw.corp
-	(160.48.96.47) with Microsoft SMTP Server (TLS;
-	Mon, 24 Sep 2018 15:20:13 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1367.000;
-	Mon, 24 Sep 2018 15:20:13 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] kernel.bbclass: allow exporting files from
-	kernel recipes to sysroot
-Thread-Index: AQHUUaE9h/4Az64dPkO/QKSNq++KT6T+6syAgABQQYCAAAHVgIAADneAgAAChIA=
-Date: Mon, 24 Sep 2018 13:20:13 +0000
-Message-ID: <20180924132013.GJ9430@hiutale>
-References: <1537530567-8604-1-git-send-email-mikko.rapeli@bmw.de>
-	<20180924072539.GE9430@hiutale>
-	<CADkTA4MBwLt_7AHDqVfh79KNB_sG58+gGWLz=4KqMg1Qpk1Ngg@mail.gmail.com>
-	<20180924121927.GI9430@hiutale>
-	<045ad825c6999fe4876a7aa90cb427ca2d0d8c87.camel@linuxfoundation.org>
-In-Reply-To: <045ad825c6999fe4876a7aa90cb427ca2d0d8c87.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.36]
+	Mon, 24 Sep 2018 13:23:08 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
+	w8ODLUfn031947 for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2018 08:23:09 -0500
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2mnk6hwb82-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2018 08:23:09 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod3.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
+	w8ODN8eY025506
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2018 08:23:08 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Mon, 24 Sep 2018 08:23:08 -0500
+Received: from ionel-work.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1395.4 via Frontend Transport; Mon, 24 Sep 2018 08:23:07 -0500
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Sep 2018 16:25:00 +0300
+Message-ID: <20180924132500.30363-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.19.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass: allow exporting files from kernel recipes to sysroot
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2018-09-24_08:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+Subject: [PATCH] rootfs: always update the opkg index
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,46 +49,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2018 13:20:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <126678578D70BA4C916E34C3CA36D4FD@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 24 Sep 2018 13:23:08 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Mon, Sep 24, 2018 at 02:11:13PM +0100, Richard Purdie wrote:
-> On Mon, 2018-09-24 at 12:19 +0000, Mikko.Rapeli@bmw.de wrote:
-> > > That was one old way, but not the only. And not for exposing non
-> > > uapi
-> > > headers.
-> >=20
-> > What other ways exist?
-> >=20
-> > I don't care how, but I must export custom kernel specific headers
-> > and
-> > other files to other recipes in a build in ways which are compatible
-> > with
-> > yocto upstream.
-> >=20
-> > I have not seen any documented ways for this.
->=20
-> It may not be documented, perhaps because its actually very simple.
->=20
-> Any recipe can expose headers into the recipe sysroot, they simply
-> install them where needed in do_install as normal.
->=20
-> So all you need is a recipe which installs the right headers and then
-> you DEPEND on that recipe. Where that recipe gets the headers isn't
-> relevant.
+The previous logic assumed that if $BUILD_IMAGES_FROM_FEEDS=1 then a
+complete set of ipk feeds from which to build the image is already
+present under $IPK_FEED_URIS at do_rootfs runtime.
 
-No, this does not work on sumo. My patch is needed for this to work.
+$IPK_FEED_URIS usually contains "file://${DEPLOY_DIR_IPK}" which
+renders the above assumption bad because some recipes in the current
+build can contain code like do_install[nostamp] = "1" which will cause
+rebuilds bumping $PR and invalidating the index.
 
-Without my patch, users of kernel.bbclass have zero files in
-tmp/sysroot-components even if they install extra files and extra header
-only binary packages.
+Even when the index is manually re-created before an image build
+("bitbake package-index"), the nostamp will cause failures because the
+dependency gets rebuilt before do_rootfs in the "bitbake <image>" call.
 
-A generated image or SDK will have the files if the binary package is insta=
-lled
-but sysroot not.
+So make the opkg rootfs index logic the same as for rpm/deb, to always
+update the index in $DEPLOY_DIR_IPK to fix the above nostamp failure.
 
--Mikko=
+Feeds outside $DEPLOY_DIR_IPK continue to work as usual.
+
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/lib/oe/rootfs.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index cdb86f7715..67ae281e47 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -853,9 +853,8 @@ class OpkgRootfs(DpkgOpkgRootfs):
+         opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS')
+         opkg_post_process_cmds = self.d.getVar('OPKG_POSTPROCESS_COMMANDS')
+ 
+-        # update PM index files, unless users provide their own feeds
+-        if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS') or "") != "1":
+-            self.pm.write_index()
++        # update PM index files
++        self.pm.write_index()
+ 
+         execute_pre_post_process(self.d, opkg_pre_process_cmds)
+ 
+-- 
+2.19.0
+
 
