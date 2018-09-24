@@ -1,47 +1,51 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A58560401
+Return-Path: <prvs=7981aab84=Mikko.Rapeli@bmw.de>
+Received: from esa10.bmw.c3s2.iphmx.com (esa10.bmw.c3s2.iphmx.com
+	[68.232.139.98])
+	by mail.openembedded.org (Postfix) with ESMTP id EFC0F747A2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Sep 2018 17:21:04 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id k5-v6so17380560wre.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Sep 2018 10:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=yqqmPI+ZrkT8bipOt0Y6cM5sfnnePybN4ZP2I5KW6rI=;
-	b=N3m96hXhpIUcXIBUvatrOdMb5mDaswOSTdFbpe+byKDoBhtK23ywDrdWz10rQWhj/5
-	/nk/jh6+gCRxoXwtKuBdyVdhxxiYFGfWGnKpfcqxfF1YuurYrKqk286FFcKXDth1/Zx5
-	yZzfkAgvaXEcNms/7SaPLrOnQ6iHIkqXJClezhSZQSQNzr4pLQv/25UNJCEYwrsRSJEy
-	NXHL3U5XZnHtVytzn1G8Pw34Wa6rXEhBTR5eKLsaMJswYEKaApk2Kz2YwSMyH7K5KpOH
-	yZlT8n7hDAdt0tswfbbWfy6jl248qHYlz67jUPX9opS4rOSuumn4Hh+CX6108UdliKAe
-	C/sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yqqmPI+ZrkT8bipOt0Y6cM5sfnnePybN4ZP2I5KW6rI=;
-	b=Wl8C1p6TjZVIeJJ7YAX4WO7fO0Gu2vt4I9T1toKk4Mqyzo+ie6rhMaZJMfOUVP1V4U
-	jlOi6bg+0TvZkQ8Fs65AmuV6Hu0C9kfk+oIUzWI41FDl+0L1eJXz+PKV5BCr++W7wl49
-	kIqNsP8IGwgrCufnqSxalVwHZIP0TGxEIBnqt7ei7zPRJW/3BGcApY7U/wILgx1pVjbX
-	WiYAH84AN6LlNiM/zzkRx/XunYbt4QHa1zqzk6ec4gT9FM7KQ63hZrqEkstHabgSYNmf
-	vGF/8idhhhjN+WuJk7/OPRHUqtdOIbAhdKEiZMNpTfA1ETY5mm+D7Owzq1ulDrEyWDs2
-	oudw==
-X-Gm-Message-State: ABuFfogLBrAmHqtrA1ipo8k6SnZj8/3iojfspsus353b976bq3FNfa2f
-	cyaq3O3uVQSacY8vO42zRsgebfa1pkY=
-X-Google-Smtp-Source: ACcGV62Z2llIpnENU9OTe00BwUb+PIRuJhW6lO7pPZ/El/YS3CNScQRSRNplU37VvySUuwTq/dXb0w==
-X-Received: by 2002:a5d:61c1:: with SMTP id q1-v6mr5966367wrv.33.1537723264672;
-	Sun, 23 Sep 2018 10:21:04 -0700 (PDT)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	q200-v6sm17586178wmd.2.2018.09.23.10.21.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 23 Sep 2018 10:21:03 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Sep 2018 17:21:00 +0000
-Message-Id: <1537723260-31975-1-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] glib-2.0: Drop allow /run/media for root patch
+	Mon, 24 Sep 2018 07:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1537772622; x=1569308622;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=yuzAyqlMhvkR78r5WHAU/rRRRW4wMOHfCSJTG1zSLo0=;
+	b=BdpyZPfDtFkxK1d69UqsZNCCVp0em/jFVYj3WCGZ1BUlBWGPn08bI7LB
+	XMrsrQR9rQ55xvAegXTCOOdpZyY2HbLQ1LzC2jeH7mo5UZi8DLVV4CFBa
+	AMsdBrg0hTDHBpFbDRbsR9sinPeKCeMhzYziH1TdHH+8zrXuu7bZAGvdO o=;
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+	esa10.bmw.c3s2.iphmx.com with ESMTP/TLS; 24 Sep 2018 09:03:40 +0200
+Received: from esabb4.muc ([160.50.100.33])  by esagw4.muc with ESMTP/TLS;
+	24 Sep 2018 09:03:39 +0200
+Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
+	([160.48.96.47])
+	by esabb4.muc with ESMTP/TLS; 24 Sep 2018 09:03:39 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10k.europe.bmw.corp
+	(160.48.96.47) with Microsoft SMTP Server (TLS;
+	Mon, 24 Sep 2018 09:03:38 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1367.000;
+	Mon, 24 Sep 2018 09:03:38 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <peter.kjellerstedt@axis.com>
+Thread-Topic: [OE-core] [PATCH] openssl10: remove extra slash from libdir path
+Thread-Index: AQHUUcSFjraUbKE8DEKhYM1zuHiswKT6zuwAgAQVcwA=
+Date: Mon, 24 Sep 2018 07:03:38 +0000
+Message-ID: <20180924070338.GB9430@hiutale>
+References: <1537545717-26570-1-git-send-email-mikko.rapeli@bmw.de>
+	<cff1f5c8f79f46dfa369c102d57d13b4@XBOX02.axis.com>
+In-Reply-To: <cff1f5c8f79f46dfa369c102d57d13b4@XBOX02.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.36]
+MIME-Version: 1.0
+Cc: Michael.Ho@bmw.de, Thomas.Witt@bmw.de,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssl10: remove extra slash from libdir path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,80 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Sep 2018 17:21:04 -0000
+X-List-Received-Date: Mon, 24 Sep 2018 07:03:40 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <6718170A0498614FA48EB7ACE12508BD@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-Upstream implemented an equivalent fix in:
+On Fri, Sep 21, 2018 at 04:41:50PM +0000, Peter Kjellerstedt wrote:
+> > diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+> > b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+> > index b7297fc..f09782c 100644
+> > --- a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+> > +++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+> > @@ -191,7 +191,7 @@ do_configure () {
+> >  	if [ "x$useprefix" =3D "x" ]; then
+> >  		useprefix=3D/
+> >  	fi
+> > -	libdirleaf=3D"$(echo ${libdir} | sed s:$useprefix::)"
+> > +	libdirleaf=3D"$( basename "${libdir}" )"
+>=20
+> You are making assumptions about the value of ${libdir} here.
+> May I suggest the following instead (just in case someone has=20
+> defined libdir as ${prefix}/foo/lib):
+>=20
+> 	libdirleaf=3D"$(echo ${libdir} | sed s:^$useprefix/*::)"
 
-c672fcc0a8d6 ("gunixmounts: Allow root to display mounts under /run/media/$username")
+Ok, sending v2 with this.
 
-As a result, this change is completely broken when running as root, as
-user_name is unitialised when testing strcmp(user_name, "root") so just
-segfaults.
-
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
-
- ...un-media-sdX-drive-mount-if-username-root.patch | 37 ----------------------
- meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb      |  1 -
- 2 files changed, 38 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
-
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch b/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
-deleted file mode 100644
-index 304047942245..000000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 66e5fd5e870a2de04ec0f0c5dbfa23db496bad43 Mon Sep 17 00:00:00 2001
--From: Marius Avram <marius.avram@intel.com>
--Date: Wed, 27 Aug 2014 12:10:41 +0300
--Subject: [PATCH] Allow /run/media/sdX drive mount if username root
--
--In case that the username logged in the system is root
--the drives are directly mounted in /run/media/sdX and
--not /run/media/<username>/sdX as the function
--g_unix_mount_guess_should_display() expects.
--
--Without this change USB stick mounts are not accesible from
--graphical applications such as the File Manager (pcmanfm).
--
--Upstream-Status: Inappropriate
--
--Signed-off-by: Marius Avram <marius.avram@intel.com>
--
-----
-- gio/gunixmounts.c | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/gio/gunixmounts.c b/gio/gunixmounts.c
--index 355329c..6467fc5 100644
----- a/gio/gunixmounts.c
--+++ b/gio/gunixmounts.c
--@@ -2745,6 +2745,11 @@ g_unix_mount_guess_should_display (GUnixMountEntry *mount_entry)
--             is_in_runtime_dir = TRUE;
--         }
-- 
--+      /* Allow no username in path in /run/media if current user is root */
--+      if (strcmp(user_name, "root") == 0 &&
--+          strncmp (mount_path, "/run/media/", sizeof("run/media")) == 0)
--+        is_in_runtime_dir = TRUE;
--+
--       if (is_in_runtime_dir || g_str_has_prefix (mount_path, "/media/"))
--         {
--           char *path;
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
-index 92c7997a2724..6ebf1d259944 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
-@@ -8,7 +8,6 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://configure-libtool.patch \
-            file://run-ptest \
-            file://uclibc_musl_translation.patch \
--           file://allow-run-media-sdX-drive-mount-if-username-root.patch \
-            file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
-            file://Enable-more-tests-while-cross-compiling.patch \
-            file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch \
--- 
-2.7.4
-
+-Mikko=
 
