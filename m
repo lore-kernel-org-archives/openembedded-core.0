@@ -1,29 +1,23 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C9F56FFD8
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 32AD7605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 03:25:30 +0000 (UTC)
+	Tue, 25 Sep 2018 07:02:59 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8P3PUQA014453
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 24 Sep 2018 20:25:30 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Mon, 24 Sep 2018 20:25:29 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1537497265.git.Qi.Chen@windriver.com>
-	<ea5c83494de6b425efc4e2307adcd2896064bf91.1537497265.git.Qi.Chen@windriver.com>
-	<CAJTo0LZFmDATTU-a9PDV40kfRrReWG1q928fmSFQvk4PRMNk8w@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <24888120-686b-caca-e019-e4441c4354d8@windriver.com>
-Date: Tue, 25 Sep 2018 11:30:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8P731GI013572
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Sep 2018 00:03:01 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 25 Sep 2018 00:03:00 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Sep 2018 15:08:24 +0800
+Message-ID: <cover.1537859224.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZFmDATTU-a9PDV40kfRrReWG1q928fmSFQvk4PRMNk8w@mail.gmail.com>
-X-Originating-IP: [128.224.162.218]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] runqemu: fix handling of SIGTERM and the problem of line wrapping
+Subject: [PATCH V2 0/1] runqemu: fix handling of SIGTERM and the problem of line wrapping
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,91 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 03:25:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Sep 2018 07:03:00 -0000
+Content-Type: text/plain
 
-On 09/21/2018 11:05 PM, Burton, Ross wrote:
-> Is there a good reason why shell=True is used in the first place?
-> Just change the cmd to a list, stop passing shell=True, and you don't
-> need to dance around process groups.
+Changes in V2:
+* Change to get rid of shell=True
 
-Thanks for your suggestion. I'll send out V2 if all things go well with 
-my local testings.
+The following changes since commit c6edf2f8bc5778b267e3a7f4e8875d22f359fb8d:
 
-Best Regards,
-Chen Qi
+  build-appliance-image: Update to master head revision (2018-09-24 12:31:33 +0100)
 
-> Ross
-> On Fri, 21 Sep 2018 at 03:30, Chen Qi <Qi.Chen@windriver.com> wrote:
->> The current handling of SIGTERM is incorrect as the process pid returned
->> by Popen call with shell setting to True is actualy the shell instead of
->> the qemu binary. So fix to send SIGTERM to the process group of runqemu.
->> This ensures that all processes in the same process group, including the
->> shell and the qemu process, will receive SIGTERM.
->>
->> Also, as we install a SIGTERM handler, we need handle the situation of
->> qemu terminated by SIGTERM, otherwise we will get ERROR message in such
->> case.
->>
->> Besides, we have a problem that after running qemu, the terminal's behavior
->> is incorrect regarding long lines or long commands. Long commands or long
->> outputs should appear in multiple lines, but they appear in the same line,
->> overriding previous output. Use `tput smam' to fix this problem.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   scripts/runqemu | 14 ++++++++++----
->>   1 file changed, 10 insertions(+), 4 deletions(-)
->>
->> diff --git a/scripts/runqemu b/scripts/runqemu
->> index 409d17c..bc2aba5 100755
->> --- a/scripts/runqemu
->> +++ b/scripts/runqemu
->> @@ -1213,9 +1213,12 @@ class BaseConfig(object):
->>           cmd = "%s %s" % (self.qemu_opt, kernel_opts)
->>           logger.info('Running %s\n' % cmd)
->>           process = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)
->> -        self.qemupid = process.pid
->> -        if process.wait():
->> -            logger.error("Failed to run qemu: %s", process.stderr.read().decode())
->> +        retcode = process.wait()
->> +        if retcode:
->> +            if retcode == -signal.SIGTERM:
->> +                logger.info("Qemu terminated by SIGTERM")
->> +            else:
->> +                logger.error("Failed to run qemu: %s", process.stderr.read().decode())
->>
->>       def cleanup(self):
->>           if self.cleaned:
->> @@ -1308,8 +1311,10 @@ def main():
->>
->>           def sigterm_handler(signum, frame):
->>               logger.info("SIGTERM received")
->> -            os.kill(config.qemupid, signal.SIGTERM)
->> +            signal.signal(signal.SIGTERM, signal.SIG_IGN)
->> +            os.kill(0, signal.SIGTERM)
->>               config.cleanup()
->> +            subprocess.run(["tput", "smam"])
->>           signal.signal(signal.SIGTERM, sigterm_handler)
->>
->>           config.check_args()
->> @@ -1331,6 +1336,7 @@ def main():
->>           return 1
->>       finally:
->>           config.cleanup()
->> +        subprocess.run(["tput", "smam"])
->>
->>   if __name__ == "__main__":
->>       sys.exit(main())
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+are available in the git repository at:
 
+  git://git.pokylinux.org/poky-contrib ChenQi/runqemu-fix
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/runqemu-fix
+
+Chen Qi (1):
+  runqemu: fix handling of SIGTERM and the problem of line wrapping
+
+ scripts/runqemu | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+-- 
+1.9.1
 
 
