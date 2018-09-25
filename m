@@ -1,45 +1,42 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
-	[198.182.47.9])
-	by mail.openembedded.org (Postfix) with ESMTP id CD361607E1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 11:57:26 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id E96B324E1FB5;
-	Tue, 25 Sep 2018 04:57:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1537876648; bh=y9TkemLHe5OjLl/gna6H90X0HvwOrl6Ofc1NMqXhlvc=;
-	h=From:To:CC:Subject:Date:From;
-	b=gYAn/P9bB6qga+wAvS2JRiE6NU0n4i87F1YrehKyLMQJTq5FBuDbNvo5cUKwHA5Ut
-	in3Sgi7Esrz7UVcKnz4Z184elHUNitkFwZQDBp9RGxQvYAdHQ61ppExbIc/qOQAKp7
-	dgb0h8sjouTRQOJhR3wykIrMoQu/UanBsu/Du1Ddy2ahiJZgx29uHys3Z16Pnd1vZg
-	s3Ij725OvjEJq1HHbHoo43VcbxfS7xzshD33BZqN00NzALYihcJulkV7YBGVuxLBAm
-	NwrgCRY70JaAxrQgW9J+p15dx+6RT+kb9nEfftpcroky37svDK0IQ0fKoZ1fghRIJX
-	3bHtp0zbcPwlQ==
-Received: from US01WXQAHTC1.internal.synopsys.com
-	(us01wxqahtc1.internal.synopsys.com [10.12.238.230])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 1CDD5392F;
-	Tue, 25 Sep 2018 04:57:27 -0700 (PDT)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
-	US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Tue, 25 Sep 2018 04:57:26 -0700
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id
-	14.03.0361.001; Tue, 25 Sep 2018 13:57:24 +0200
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: "openembedded-core@lists.openembedded.org"
+Return-Path: <prvs=8806058be4=adrian.ratiu@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 48DDF7307F;
+	Tue, 25 Sep 2018 12:32:30 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
+	w8PCVFWA008939; Tue, 25 Sep 2018 07:32:30 -0500
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2mnmeggwqx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 25 Sep 2018 07:32:30 -0500
+Received: from us-aus-exch2.ni.corp.natinst.com
+	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
+	by us-aus-skprod3.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
+	w8PCWSne007659
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Tue, 25 Sep 2018 07:32:28 -0500
+Received: from us-aus-exch4.ni.corp.natinst.com (130.164.68.14) by
+	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Tue, 25 Sep 2018 07:32:28 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exch4.ni.corp.natinst.com (130.164.68.14) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Tue, 25 Sep 2018 07:32:28 -0500
+Received: from ionel-work.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1395.4 via Frontend Transport; Tue, 25 Sep 2018 07:32:27 -0500
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: <bitbake-devel@lists.openembedded.org>,
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: machine dictionary - ARCompact vs ARCv2
-Thread-Index: AQHUVMbr5uCi6aZNV0Wy3m1nLb5RXw==
-Date: Tue, 25 Sep 2018 11:57:23 +0000
-Message-ID: <e00126b08d5895fa7e4cc2fb0b8eaa9effb75cc4.camel@synopsys.com>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.121.3.61]
+Date: Tue, 25 Sep 2018 15:34:19 +0300
+Message-ID: <20180925123419.8176-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.19.0
 MIME-Version: 1.0
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
-Subject: ARC: machine dictionary - ARCompact vs ARCv2
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2018-09-25_07:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+Subject: [bitbake-devel][PATCH] utils: lockfile: Fix infinite loop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +49,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 11:57:26 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FFFAB44F8B12B24084C91C6F669CC1E6@internal.synopsys.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 25 Sep 2018 12:32:30 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-SGVsbG8sDQoNCldoaWxlIHVwc3RyZWFtaW5nIEFSQyBiaXRzIGluIE9FIGNvcmUgSSBmYWNlZCBv
-bmUgaW50ZXJlc3RpbmcgY2hhbGxlbmdlLg0KDQpBcyBvZiB0b2RheSB3ZSBoYXZlIDIgYmluYXJ5
-LWluY29tcGF0aWJsZSAzMi1iaXQgSVNBcyAoSW5zdHJ1Y3Rpb24gU2V0IEFyY2gpOg0KIDEuIEFS
-Q29tcGFjdCAoQUtBIEFSQ3YxKSBhbmQNCiAyLiBBUkN2Mg0KDQpJbiBCaW51dGlscyB0aGV5IGhh
-dmUgMiBzZXBhcmF0ZSBtYWNoaW5lIG51bWJlcnM6IEVNX0FSQ19DT01QQUNUPTkzIGZvciBBUkNv
-bXBhY3QsDQpzZWUgWzFdIGFuZCBFTV9BUkNfQ09NUEFDVDI9MTk1IGZvciBBUkN2Miwgc2VlIFsy
-XS4NCg0KU3RpbGwgd2UgY2FsbCB0aGVtIGJvdGggImFyYyIgYW5kIHNvIEknbSBub3Qgc3VyZSB3
-aGF0IHdvdWxkIGJlIHRoZSByaWdodCB3YXkNCm9mIGhhbmRsaW5nIHRoYXQgbWVzcyBpbiBPRSdz
-IG1hY2hpbmUgZGljdGlvbmFyeS4NCg0KRm9yIG5vdyBJIGp1c3QgaGF2ZSBzZXBhcmF0ZSBpbnN0
-YW5jZXMgb2YgImFyY19tYWNoaW5lX2RpY3QiIGZvciBBUkNvbXBhY3QgWzNdDQphbmQgQVJDdjIg
-WzRdIGFuZCBkZXBlbmRpbmcgb24gd2hhdCBhIGdpdmVuIE9FICJtYWNoaW5lIiBpbmNsdWRlcyBh
-cyAidHVuZS1hcmNYLmluYyINCmJ1aWxkIHN5c3RlbSB1c2VzIG9uZSBvciBhbm90aGVyIGRpY3Rp
-b25hcnkgZW50cnkuDQoNCkV2ZW4gdGhvdWdoIGl0IHdvcmtzIGZpbmUgaXQgZG9lc24ndCBmaXQg
-aW50byBjb21tb24gZGljdGlvbmFyeSBpbiBtZXRhL2xpYi9vZS9lbGYucHkuDQoNCkFueSBzdWdn
-ZXN0aW9ucyBvbiBob3cgQVJDIG1hY2hpbmUgZGljdGlvbmFyeSBtaWdodCBiZSB1cHN0cmVhbWVk
-Pw0KDQotQWxleGV5DQoNClsxXSBodHRwczovL3NvdXJjZXdhcmUub3JnL2dpdC9naXR3ZWIuY2dp
-P3A9YmludXRpbHMtZ2RiLmdpdDthPWJsb2I7Zj1pbmNsdWRlL2VsZi9jb21tb24uaDtoPWUxOTQy
-NzQzMDU2NjNmNTY1YzZiZWVlNWVjMjFkYmVkNzBjZGFjNDY7aGI9SEVBRCNsMjAyDQpbMl0gaHR0
-cHM6Ly9zb3VyY2V3YXJlLm9yZy9naXQvZ2l0d2ViLmNnaT9wPWJpbnV0aWxzLWdkYi5naXQ7YT1i
-bG9iO2Y9aW5jbHVkZS9lbGYvY29tbW9uLmg7aD1lMTk0Mjc0MzA1NjYzZjU2NWM2YmVlZTVlYzIx
-ZGJlZDcwY2RhYzQ2O2hiPUhFQUQjbDMwOQ0KWzNdIA0KaHR0cHM6Ly9naXRodWIuY29tL2Zvc3Mt
-Zm9yLXN5bm9wc3lzLWR3Yy1hcmMtcHJvY2Vzc29ycy9tZXRhLXN5bm9wc3lzL2Jsb2IvMDgzOTU4
-ZGVkYmQ2MGMwMjI0MzJhMTdlOTUyNjM4YTQxZTM3YzNkYy9jb25mL21hY2hpbmUvaW5jbHVkZS90
-dW5lLWFyY29tcGFjdC5pbmMjTDI1DQpbNF0gDQpodHRwczovL2dpdGh1Yi5jb20vZm9zcy1mb3It
-c3lub3BzeXMtZHdjLWFyYy1wcm9jZXNzb3JzL21ldGEtc3lub3BzeXMvYmxvYi8wODM5NThkZWRi
-ZDYwYzAyMjQzMmExN2U5NTI2MzhhNDFlMzdjM2RjL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUt
-YXJjdjIuaW5jI0wzOA0K
+A nasty corner case leads to a hang when utils.lockfile is called from
+oe-core's package-manager:deploy_dir_lock (in turn called from
+rootfs:_create further up the call stack) with "name" owned by root
+and the user running bitbake has no write access.
+
+Because this code runs under pseudo, the UID and EUID of the bitbake
+worker process are 0, so the os.access(dirname, os.W_OK) returns True
+i.e. it thinks the path is writable when in fact it's not writable.
+
+Only later when trying to open the file an Exception it thrown because
+the OS prohibits writing, but the Exception is ignored and the open is
+retried leading to an infinite loop.
+
+So this fix is to not ignore the "Permission Denied" exception.
+
+An alternative fix would be to replace the os.access() call with an
+try: open() except() at the beginning of the function.
+
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ lib/bb/utils.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/lib/bb/utils.py b/lib/bb/utils.py
+index 56894f13..73b6cb42 100644
+--- a/lib/bb/utils.py
++++ b/lib/bb/utils.py
+@@ -497,7 +497,11 @@ def lockfile(name, shared=False, retry=True, block=False):
+                 if statinfo.st_ino == statinfo2.st_ino:
+                     return lf
+             lf.close()
+-        except Exception:
++        except OSError as e:
++            if e.errno == errno.EACCES:
++                logger.error("Unable to acquire lock '%s', %s",
++                             e.strerror, name)
++                sys.exit(1)
+             try:
+                 lf.close()
+             except Exception:
+-- 
+2.19.0
+
 
