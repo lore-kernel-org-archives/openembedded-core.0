@@ -1,56 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C786279480
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D7F3793B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 13:54:45 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id j15-v6so19383294wrt.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 06:54:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=fFUqo3tHlznIL85E46oJSTuaYV+MxuEfzC42BQ6dzYg=;
-	b=iC/YJATB3CypTFR9tVpqI2loLNSfTN/LJpqTnRsF/USdWlOdOZMuekGPOeIca+uFuy
-	1TEkpMpOpMerFEpJXcIbE5pdXd4Nbnb+AhMYrC+Bh8yITrXmUbw7G98stdvZLj1bLNdd
-	IiALYGLAGsVNycA0TNiGLsWuis8zcumdeyUo0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=fFUqo3tHlznIL85E46oJSTuaYV+MxuEfzC42BQ6dzYg=;
-	b=Wx5HpFWIw7BI6rx40daQDgKqO2WBvtwFrsR/Wa/aIinp5JDVG9Ijirz5vGcoerc1th
-	hpHQ2UZlTkdVDmlka/g1hB/EfVlNuJQmoeQYc87nYxnsZov5gftOW+KhNgkze9OfBZDf
-	CfpW46cVjD6WRvan9D+i6l8aYbvXhNYd+RYPCI9YAGv/whiU/PcBuHd0abcnOVc/Q4m2
-	bMfSGXnQ8zq2Ec9//DfWG0evnqQ6EeYTKf78X9+WmVdWiQPUFQCvBBb4c3Wm8tMm9p/y
-	4RmvsecAyYadL9nwcvkHkxo/TTPkLECmIYmUOiG09hZFpaYiPTsY7iO+nbA7L19QwBDR
-	OqfQ==
-X-Gm-Message-State: ABuFfojlZKhp1ixpYfA86JYDsqKrWOLf5x2vjY+LoPho9EhSQ8m9X4ow
-	Ywv+66RxbgPTIMAi53nFu4I2sQ==
-X-Google-Smtp-Source: ACcGV62k2lwHEtfjsUXMBr58BwZl1sgXswk1w8lnhg62OW6A3b41UTFiQt3XT9syng0bJ5b08OE0tA==
-X-Received: by 2002:adf:e50b:: with SMTP id
-	j11-v6mr1080562wrm.111.1537883686446; 
-	Tue, 25 Sep 2018 06:54:46 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h8-v6sm2851192wre.15.2018.09.25.06.54.44
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 25 Sep 2018 06:54:45 -0700 (PDT)
-Message-ID: <8ea9a7fb6034ecee04260ec19fc66af6c348f32e.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Urs =?ISO-8859-1?Q?F=E4ssler?= <urs.fassler@bbv.ch>, Andreas Oberritter
-	<obi@opendreambox.org>, openembedded-core@lists.openembedded.org
-Date: Tue, 25 Sep 2018 14:54:44 +0100
-In-Reply-To: <aad5fbd908a38999b681052115038764caf45c5f.camel@bbv.ch>
-References: <20180919064135.30249-1-urs.fassler@bbv.ch>
-	<20180919171113.21fecc56@t460p>
-	<ed51b3579be101e9d2f711ef9f94d16029981f92.camel@linuxfoundation.org>
-	<1537795580.13947.1.camel@bbv.ch>
-	<aad5fbd908a38999b681052115038764caf45c5f.camel@bbv.ch>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Subject: Re: [PATCH] openssh: resolve install conflict with openssh-sftp-server-dev
+	Tue, 25 Sep 2018 13:59:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8PDxTWc021533
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 25 Sep 2018 06:59:29 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 25 Sep 2018 06:59:28 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 25 Sep 2018 09:59:28 -0400
+Message-ID: <1537883968-21391-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/4.14: fix beaglebone configuration warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,62 +30,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 13:54:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 25 Sep 2018 13:59:29 -0000
+Content-Type: text/plain
 
-On Tue, 2018-09-25 at 15:05 +0200, Urs Fässler wrote:
-> On Mon, 2018-09-24 at 15:26 +0200, Urs Fässler wrote:
-> > On Wed, 2018-09-19 at 09:01 -0700, Richard Purdie wrote:
-> > > On Wed, 2018-09-19 at 17:11 +0200, Andreas Oberritter wrote:
-> > > > On Wed, 19 Sep 2018 08:41:35 +0200
-> > > > Urs Fässler <urs.fassler@bbv.ch> wrote:
-> > > > 
-> > > > > Image generation fails with the configuration:
-> > > > >   EXTRA_IMAGE_FEATURES = "ssh-server-dropbear eclipse-debug
-> > > > > dev-
-> > > > > pkgs"
-> > > > > This is due the dependency eclipse-debug -> openssh-sftp-
-> > > > > server 
-> > > > > ->
-> > > > > openssh-dev -> openssh. openssh can not be installed since it
-> > > > > conflicts
-> > > > > with dropbear.
-> > > > 
-> > > > That's odd. Why does openssh-sftp-server depend on openssh-dev?
-> > > > Does
-> > > > openssh-dev contain a file which it shouldn't, e.g. a
-> > > > dynamically
-> > > > loaded module/plug-in?
-> > > 
-> > > It doesn't, its the fact that "dev-pkgs" are requested in
-> > > IMAGE_FEATURES. "openssh-dev" would be the default for openssh
-> > > packages
-> > > and dropbear-dev would be the default for dropbear packages. 
-> > > 
-> > > The patch here doesn't sound correct. I'm wondering if the
-> 
-> correct
-> > > fix
-> > > is for ${PN}-dev should not depend on ${PN} and whether that
-> > > would fix
-> > > the problem?
-> > 
-> > The dependency from ${PN}-dev to ${PN} seems to be the default
-> > behavior
-> > in Yocto. I don't know the consequences when we change this for
-> > openssh. But it helps in my case.
-> > (I added RDEPENDS_${PN}-dev = "", didn't found a better way)
-> 
-> If somebody know the implication of removing the dependency from
-> ${PN}-dev to ${PN} for openssh and give the ok for it, I am fine with
-> this solution.
+Backporting the following fixes from 4.18 to 4.14 to remove beaglebone
+configuration warnings:
 
-I have an idea of the potential problems but I think we should consider
-it. It would need wide testing and is a 2.7 change at this point.
+  1fb0b0379fb5 beaglebone: Clean up the cfg file
+  4176e7ded8e1 beaglebone: Drop the needless unsetting of the kernel options
+  65c209da574d beaglebone: Drop the obsolete kernel options
 
-Cheers,
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Richard
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
+index 24a2c593281e..e6f42f29e610 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
+@@ -12,7 +12,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "c37a14708f5b618602f84f83f902346e055824c3"
+-SRCREV_meta ?= "46a547fa5195c2990e513ae3050376b7670e8287"
++SRCREV_meta ?= "1fb0b0379fb5883ce5af7485374e3f78ee4272d3"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+index de220313013e..f599c90db256 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+@@ -13,7 +13,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "3218be18094b7dfb4471b083c469452c8c7709ce"
+-SRCREV_meta ?= "46a547fa5195c2990e513ae3050376b7670e8287"
++SRCREV_meta ?= "1fb0b0379fb5883ce5af7485374e3f78ee4272d3"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
+index 7c97d53da164..40ee1e9fc400 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "78a16a4d8cfd58f91be412797aac248e811d083b"
+ SRCREV_machine_qemux86-64 ?= "78a16a4d8cfd58f91be412797aac248e811d083b"
+ SRCREV_machine_qemumips64 ?= "f074d718736e95e8ed5460bf8e85c7e77ff7df87"
+ SRCREV_machine ?= "78a16a4d8cfd58f91be412797aac248e811d083b"
+-SRCREV_meta ?= "46a547fa5195c2990e513ae3050376b7670e8287"
++SRCREV_meta ?= "1fb0b0379fb5883ce5af7485374e3f78ee4272d3"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
+-- 
+2.5.0
 
 
