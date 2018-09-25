@@ -1,52 +1,45 @@
-Return-Path: <prvs=79962867b=Mikko.Rapeli@bmw.de>
-Received: from esa9.bmw.c3s2.iphmx.com (esa9.bmw.c3s2.iphmx.com
-	[68.232.133.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B8E77458C
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
+	[198.182.47.9])
+	by mail.openembedded.org (Postfix) with ESMTP id CD361607E1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 11:21:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1537874512; x=1569410512;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=xKQKjAMvuPOsMAvWpkVcGxzDSMZNeQyRRO76FMdMbNY=;
-	b=oRIywNa3s98HRpOFLTKyNQ9KP+X6xYIjrx4tlf7FGxEjzD4BYC8zxYt+
-	OwJ+LglFsBsPQtcxu9SR16NL706042J4ep5wiebhoqEYP0Lau2SazhyqZ
-	UdmyRfGkByv2LKeqvXqXAVMoR5lFekB83G+hju4zpwMcJs62UQnFlVVAy Y=;
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
-	esa9.bmw.c3s2.iphmx.com with ESMTP/TLS; 25 Sep 2018 13:21:50 +0200
-Received: from esabb3.muc ([160.50.100.30])  by esagw6.muc with ESMTP/TLS;
-	25 Sep 2018 13:21:24 +0200
-Received: from smucm10m.bmwgroup.net (HELO smucm10m.europe.bmw.corp)
-	([160.48.96.49])
-	by esabb3.muc with ESMTP/TLS; 25 Sep 2018 13:21:23 +0200
-Received: from smucm10m.europe.bmw.corp (160.48.96.49) by
-	smucm10m.europe.bmw.corp
-	(160.48.96.49) with Microsoft SMTP Server (TLS;
-	Tue, 25 Sep 2018 13:21:23 +0200
-Received: from smucm10m.europe.bmw.corp ([160.48.96.49]) by
-	smucm10m.europe.bmw.corp ([160.48.96.49]) with mapi id 15.00.1367.000;
-	Tue, 25 Sep 2018 13:21:23 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH RFC] insane.bbclass: add buildpaths_cmake and
-	buildpaths_pkgconfig checks
-Thread-Index: AQHUVLqNn1xrO/EhU0K7WQoKbZd7dKUAro2AgAAGngCAAAOZgA==
-Date: Tue, 25 Sep 2018 11:21:23 +0000
-Message-ID: <20180925112117.GQ9430@hiutale>
-References: <1537871293-32494-1-git-send-email-mikko.rapeli@bmw.de>
-	<20180925104443.GP9430@hiutale>
-	<576c5e5174123059cfa49e8cf647716497a35610.camel@linuxfoundation.org>
-In-Reply-To: <576c5e5174123059cfa49e8cf647716497a35610.camel@linuxfoundation.org>
-Accept-Language: en-US
+	Tue, 25 Sep 2018 11:57:26 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id E96B324E1FB5;
+	Tue, 25 Sep 2018 04:57:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1537876648; bh=y9TkemLHe5OjLl/gna6H90X0HvwOrl6Ofc1NMqXhlvc=;
+	h=From:To:CC:Subject:Date:From;
+	b=gYAn/P9bB6qga+wAvS2JRiE6NU0n4i87F1YrehKyLMQJTq5FBuDbNvo5cUKwHA5Ut
+	in3Sgi7Esrz7UVcKnz4Z184elHUNitkFwZQDBp9RGxQvYAdHQ61ppExbIc/qOQAKp7
+	dgb0h8sjouTRQOJhR3wykIrMoQu/UanBsu/Du1Ddy2ahiJZgx29uHys3Z16Pnd1vZg
+	s3Ij725OvjEJq1HHbHoo43VcbxfS7xzshD33BZqN00NzALYihcJulkV7YBGVuxLBAm
+	NwrgCRY70JaAxrQgW9J+p15dx+6RT+kb9nEfftpcroky37svDK0IQ0fKoZ1fghRIJX
+	3bHtp0zbcPwlQ==
+Received: from US01WXQAHTC1.internal.synopsys.com
+	(us01wxqahtc1.internal.synopsys.com [10.12.238.230])
+	by mailhost.synopsys.com (Postfix) with ESMTP id 1CDD5392F;
+	Tue, 25 Sep 2018 04:57:27 -0700 (PDT)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+	US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Tue, 25 Sep 2018 04:57:26 -0700
+Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
+	by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id
+	14.03.0361.001; Tue, 25 Sep 2018 13:57:24 +0200
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: machine dictionary - ARCompact vs ARCv2
+Thread-Index: AQHUVMbr5uCi6aZNV0Wy3m1nLb5RXw==
+Date: Tue, 25 Sep 2018 11:57:23 +0000
+Message-ID: <e00126b08d5895fa7e4cc2fb0b8eaa9effb75cc4.camel@synopsys.com>
+Accept-Language: en-US, ru-RU
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.42]
+x-originating-ip: [10.121.3.61]
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH RFC] insane.bbclass: add buildpaths_cmake and buildpaths_pkgconfig checks
+Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Subject: ARC: machine dictionary - ARCompact vs ARCv2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,103 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 11:21:49 -0000
+X-List-Received-Date: Tue, 25 Sep 2018 11:57:26 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <5099CC978ABC3C40954A14285C999362@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FFFAB44F8B12B24084C91C6F669CC1E6@internal.synopsys.com>
+Content-Transfer-Encoding: base64
 
-On Tue, Sep 25, 2018 at 12:08:24PM +0100, Richard Purdie wrote:
-> On Tue, 2018-09-25 at 10:44 +0000, Mikko.Rapeli@bmw.de wrote:
-> > On Tue, Sep 25, 2018 at 01:28:13PM +0300, Mikko Rapeli wrote:
-> > > And enable them by default as ERROR_QA. Reason is that
-> > > absolute build directory paths in CMake .cmake modules
-> > > and in pkg-config .pc files cause recipe builds to escape
-> > > their recipe specific sysroots and triggers hard to debug
-> > > and timing sensitive build failures. It's better to fail
-> > > early.
-> > >=20
-> > > A failure from sumo version of libical looks like:
-> > >=20
-> > > ERROR: libical-2.0.0-r0 do_package_qa: QA Issue: CMake module
-> > > /work/i586-poky-linux/libical/2.0.0-r0/packages-split/libical-
-> > > dev/usr/lib/cmake/LibIcal/LibIcalTargets-noconfig.cmake contains
-> > > reference to tmpdir which causes build raceconditions between
-> > > recipes [buildpaths_cmake]
-> > > ERROR: libical-2.0.0-r0 do_package_qa: QA run found fatal errors.
-> > > Please consider fixing them.
-> > > ERROR: libical-2.0.0-r0 do_package_qa: Function failed:
-> > > do_package_qa
-> > > ERROR: Logfile of failure stored in:
-> > > /home/builder/src/yocto/poky/build/tmp/work/i586-poky-
-> > > linux/libical/2.0.0-r0/temp/log.do_package_qa.4934
-> > > NOTE: recipe libical-2.0.0-r0: task do_package_qa: Failed
-> > > ERROR: Task (/home/builder/src/yocto/poky/meta/recipes-
-> > > support/libical/libical_2.0.0.bb:do_package_qa) failed with exit
-> > > code '1'
-> > >=20
-> > > For some reason libical from poky master branch is not affected.
-> >=20
-> > The reason why master branch is not affected is:
-> >=20
-> > commit 26cccb93059b8963651b7d17cea2ee95f52633b7
-> > Author: Juro Bystricky <juro.bystricky@intel.com>
-> > Date:   Tue Mar 20 15:36:36 2018 -0700
-> >=20
-> >     libical-dev_2.0: improve reproducibility
-> >    =20
-> >     Remove build host references from distributed files.
-> >    =20
-> >     (From OE-Core rev: 20f2670e755bcbf90b2b6c08192c022fe7e7eaad)
-> >    =20
-> >     Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> >     Signed-off-by: Ross Burton <ross.burton@intel.com>
-> >     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
-> > >
-> >=20
-> > diff --git a/meta/recipes-support/libical/libical_2.0.0.bb
-> > b/meta/recipes-support/libical/libical_2.0.0.
-> > index dcc21cc..daa47ab 100644
-> > --- a/meta/recipes-support/libical/libical_2.0.0.bb
-> > +++ b/meta/recipes-support/libical/libical_2.0.0.bb
-> > @@ -17,3 +17,10 @@ SRC_URI[sha256sum] =3D
-> > "654c11f759c19237be39f6ad401d917e5a05f36f1736385ed958e60cf2
-> >  UPSTREAM_CHECK_URI =3D "https://github.com/libical/libical/releases"
-> > =20
-> >  inherit cmake pkgconfig
-> > +
-> > +do_install_append_class-target () {
-> > +    # Remove build host references
-> > +    sed -i \
-> > +       -e 's,${STAGING_LIBDIR},${libdir},g' \
-> > +       ${D}${libdir}/cmake/LibIcal/LibIcalTargets-noconfig.cmake
-> > +}
-> >=20
-> > Now I'm struggling horribly with the same problem in various custom
-> > CMake modules, so how about doing that same STAGING_LIBDIR to libdir
-> > switch for all CMake modules automatically in cmake.bbclass?
-> >=20
-> > I tried to correctly fix the libical CMake files too with help from
-> > #cmake, but eventually had to give up. libical has an embedded
-> > FindICU.cmake module but it seems like the upstream FindICU.cmake
-> > ends
-> > up producing the same absolute paths while it does fix some other
-> > bugs, and of course introduces new ones like no longer providing
-> > ICU_I18N_FOUND variable when i18n ICU module is found.
->=20
-> I suspect we need to talk to cmake upstream about fixing this properly
-> but adding something in the class may be an option until a better
-> upstream solution can be found.
->=20
-> I am puzzled by the need to add a .pc file path check since I thought
-> there was already a test for that in insane.bbclass?
->=20
-> package_qa_check_staged maybe? "Check staged la and pc files for common
-> problems like references to the work directory."
-
-That check is not enabled by default. At least bash is producing a broken
-bash.pc (and several other files like Makefile.in and bashbug) in sumo
-with embedded absolute paths to build sysroot.
-
--Mikko=
+SGVsbG8sDQoNCldoaWxlIHVwc3RyZWFtaW5nIEFSQyBiaXRzIGluIE9FIGNvcmUgSSBmYWNlZCBv
+bmUgaW50ZXJlc3RpbmcgY2hhbGxlbmdlLg0KDQpBcyBvZiB0b2RheSB3ZSBoYXZlIDIgYmluYXJ5
+LWluY29tcGF0aWJsZSAzMi1iaXQgSVNBcyAoSW5zdHJ1Y3Rpb24gU2V0IEFyY2gpOg0KIDEuIEFS
+Q29tcGFjdCAoQUtBIEFSQ3YxKSBhbmQNCiAyLiBBUkN2Mg0KDQpJbiBCaW51dGlscyB0aGV5IGhh
+dmUgMiBzZXBhcmF0ZSBtYWNoaW5lIG51bWJlcnM6IEVNX0FSQ19DT01QQUNUPTkzIGZvciBBUkNv
+bXBhY3QsDQpzZWUgWzFdIGFuZCBFTV9BUkNfQ09NUEFDVDI9MTk1IGZvciBBUkN2Miwgc2VlIFsy
+XS4NCg0KU3RpbGwgd2UgY2FsbCB0aGVtIGJvdGggImFyYyIgYW5kIHNvIEknbSBub3Qgc3VyZSB3
+aGF0IHdvdWxkIGJlIHRoZSByaWdodCB3YXkNCm9mIGhhbmRsaW5nIHRoYXQgbWVzcyBpbiBPRSdz
+IG1hY2hpbmUgZGljdGlvbmFyeS4NCg0KRm9yIG5vdyBJIGp1c3QgaGF2ZSBzZXBhcmF0ZSBpbnN0
+YW5jZXMgb2YgImFyY19tYWNoaW5lX2RpY3QiIGZvciBBUkNvbXBhY3QgWzNdDQphbmQgQVJDdjIg
+WzRdIGFuZCBkZXBlbmRpbmcgb24gd2hhdCBhIGdpdmVuIE9FICJtYWNoaW5lIiBpbmNsdWRlcyBh
+cyAidHVuZS1hcmNYLmluYyINCmJ1aWxkIHN5c3RlbSB1c2VzIG9uZSBvciBhbm90aGVyIGRpY3Rp
+b25hcnkgZW50cnkuDQoNCkV2ZW4gdGhvdWdoIGl0IHdvcmtzIGZpbmUgaXQgZG9lc24ndCBmaXQg
+aW50byBjb21tb24gZGljdGlvbmFyeSBpbiBtZXRhL2xpYi9vZS9lbGYucHkuDQoNCkFueSBzdWdn
+ZXN0aW9ucyBvbiBob3cgQVJDIG1hY2hpbmUgZGljdGlvbmFyeSBtaWdodCBiZSB1cHN0cmVhbWVk
+Pw0KDQotQWxleGV5DQoNClsxXSBodHRwczovL3NvdXJjZXdhcmUub3JnL2dpdC9naXR3ZWIuY2dp
+P3A9YmludXRpbHMtZ2RiLmdpdDthPWJsb2I7Zj1pbmNsdWRlL2VsZi9jb21tb24uaDtoPWUxOTQy
+NzQzMDU2NjNmNTY1YzZiZWVlNWVjMjFkYmVkNzBjZGFjNDY7aGI9SEVBRCNsMjAyDQpbMl0gaHR0
+cHM6Ly9zb3VyY2V3YXJlLm9yZy9naXQvZ2l0d2ViLmNnaT9wPWJpbnV0aWxzLWdkYi5naXQ7YT1i
+bG9iO2Y9aW5jbHVkZS9lbGYvY29tbW9uLmg7aD1lMTk0Mjc0MzA1NjYzZjU2NWM2YmVlZTVlYzIx
+ZGJlZDcwY2RhYzQ2O2hiPUhFQUQjbDMwOQ0KWzNdIA0KaHR0cHM6Ly9naXRodWIuY29tL2Zvc3Mt
+Zm9yLXN5bm9wc3lzLWR3Yy1hcmMtcHJvY2Vzc29ycy9tZXRhLXN5bm9wc3lzL2Jsb2IvMDgzOTU4
+ZGVkYmQ2MGMwMjI0MzJhMTdlOTUyNjM4YTQxZTM3YzNkYy9jb25mL21hY2hpbmUvaW5jbHVkZS90
+dW5lLWFyY29tcGFjdC5pbmMjTDI1DQpbNF0gDQpodHRwczovL2dpdGh1Yi5jb20vZm9zcy1mb3It
+c3lub3BzeXMtZHdjLWFyYy1wcm9jZXNzb3JzL21ldGEtc3lub3BzeXMvYmxvYi8wODM5NThkZWRi
+ZDYwYzAyMjQzMmExN2U5NTI2MzhhNDFlMzdjM2RjL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUt
+YXJjdjIuaW5jI0wzOA0K
 
