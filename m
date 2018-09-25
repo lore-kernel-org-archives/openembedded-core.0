@@ -1,31 +1,29 @@
-Return-Path: <Lu.Jiang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E27C9745A1
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C9F56FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 02:34:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8P2YAW9004343
+	Tue, 25 Sep 2018 03:25:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8P3PUQA014453
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 24 Sep 2018 19:34:21 -0700
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 24 Sep 2018 19:34:00 -0700
-Reply-To: <lu.jiang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-References: <1536291131-24332-1-git-send-email-lu.jiang@windriver.com>
-	<1536291131-24332-2-git-send-email-lu.jiang@windriver.com>
-	<20180907115632.GH26633@bill-the-cat>
-From: "Lu.Jiang" <lu.jiang@windriver.com>
-Message-ID: <11034c14-9f51-800d-cbb8-4cd770b54771@windriver.com>
-Date: Tue, 25 Sep 2018 10:31:53 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Mon, 24 Sep 2018 20:25:30 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Mon, 24 Sep 2018 20:25:29 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1537497265.git.Qi.Chen@windriver.com>
+	<ea5c83494de6b425efc4e2307adcd2896064bf91.1537497265.git.Qi.Chen@windriver.com>
+	<CAJTo0LZFmDATTU-a9PDV40kfRrReWG1q928fmSFQvk4PRMNk8w@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <24888120-686b-caca-e019-e4441c4354d8@windriver.com>
+Date: Tue, 25 Sep 2018 11:30:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <20180907115632.GH26633@bill-the-cat>
-X-Originating-IP: [128.224.162.214]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic:mkefidisk:add use-uuid for all partitions
+In-Reply-To: <CAJTo0LZFmDATTU-a9PDV40kfRrReWG1q928fmSFQvk4PRMNk8w@mail.gmail.com>
+X-Originating-IP: [128.224.162.218]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] runqemu: fix handling of SIGTERM and the problem of line wrapping
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,24 +36,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 02:34:48 -0000
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 25 Sep 2018 03:25:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Richard,
-The patch is revied by Tom, can you help merge this patch?
+On 09/21/2018 11:05 PM, Burton, Ross wrote:
+> Is there a good reason why shell=True is used in the first place?
+> Just change the cmd to a list, stop passing shell=True, and you don't
+> need to dance around process groups.
 
-Thanks
-Jiang Lu
+Thanks for your suggestion. I'll send out V2 if all things go well with 
+my local testings.
 
-在 2018年09月07日 19:56, Tom Rini 写道:
-> On Fri, Sep 07, 2018 at 11:32:11AM +0800, Jiang Lu wrote:
->
->> Add use-uuid for all partitions on mkefidisk.wks.
+Best Regards,
+Chen Qi
+
+> Ross
+> On Fri, 21 Sep 2018 at 03:30, Chen Qi <Qi.Chen@windriver.com> wrote:
+>> The current handling of SIGTERM is incorrect as the process pid returned
+>> by Popen call with shell setting to True is actualy the shell instead of
+>> the qemu binary. So fix to send SIGTERM to the process group of runqemu.
+>> This ensures that all processes in the same process group, including the
+>> shell and the qemu process, will receive SIGTERM.
 >>
->> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
-> Reviewed-by: Tom Rini <trini@konsulko.com>
->
+>> Also, as we install a SIGTERM handler, we need handle the situation of
+>> qemu terminated by SIGTERM, otherwise we will get ERROR message in such
+>> case.
+>>
+>> Besides, we have a problem that after running qemu, the terminal's behavior
+>> is incorrect regarding long lines or long commands. Long commands or long
+>> outputs should appear in multiple lines, but they appear in the same line,
+>> overriding previous output. Use `tput smam' to fix this problem.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   scripts/runqemu | 14 ++++++++++----
+>>   1 file changed, 10 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/scripts/runqemu b/scripts/runqemu
+>> index 409d17c..bc2aba5 100755
+>> --- a/scripts/runqemu
+>> +++ b/scripts/runqemu
+>> @@ -1213,9 +1213,12 @@ class BaseConfig(object):
+>>           cmd = "%s %s" % (self.qemu_opt, kernel_opts)
+>>           logger.info('Running %s\n' % cmd)
+>>           process = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)
+>> -        self.qemupid = process.pid
+>> -        if process.wait():
+>> -            logger.error("Failed to run qemu: %s", process.stderr.read().decode())
+>> +        retcode = process.wait()
+>> +        if retcode:
+>> +            if retcode == -signal.SIGTERM:
+>> +                logger.info("Qemu terminated by SIGTERM")
+>> +            else:
+>> +                logger.error("Failed to run qemu: %s", process.stderr.read().decode())
+>>
+>>       def cleanup(self):
+>>           if self.cleaned:
+>> @@ -1308,8 +1311,10 @@ def main():
+>>
+>>           def sigterm_handler(signum, frame):
+>>               logger.info("SIGTERM received")
+>> -            os.kill(config.qemupid, signal.SIGTERM)
+>> +            signal.signal(signal.SIGTERM, signal.SIG_IGN)
+>> +            os.kill(0, signal.SIGTERM)
+>>               config.cleanup()
+>> +            subprocess.run(["tput", "smam"])
+>>           signal.signal(signal.SIGTERM, sigterm_handler)
+>>
+>>           config.check_args()
+>> @@ -1331,6 +1336,7 @@ def main():
+>>           return 1
+>>       finally:
+>>           config.cleanup()
+>> +        subprocess.run(["tput", "smam"])
+>>
+>>   if __name__ == "__main__":
+>>       sys.exit(main())
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
 
