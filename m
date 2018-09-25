@@ -1,31 +1,57 @@
-Return-Path: <okaya@kernel.org>
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F51F601D4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 739D3796DD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 17:18:32 +0000 (UTC)
-Received: from
-	sinanubuntu1604.mkjiurmyylmellclgttazegk5f.bx.internal.cloudapp.net
-	(unknown [40.76.73.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 6DED920880;
-	Tue, 25 Sep 2018 17:18:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1537895913;
-	bh=ZZuab9ngdgwSfg/Vw9bJG0lijmUTXFdWFmSjaK43Q9I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=yRdH+rmgtxRUy9WxQQh6sHVLGCyp57SXWSozzms/sAsa+wC6MIwMETO4WXP4Tflm0
-	KzRhflD74FbV+ZpVgcc5aBNF29pf41A8M2c9i61uPuw8vTJGT4K+IsEH4bNSrPFlT3
-	NsdkEZVypOUiEQ+EY0JGtblhxn45g/s1suaxh+6o=
-From: Sinan Kaya <okaya@kernel.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Sep 2018 17:18:28 +0000
-Message-Id: <20180925171828.8655-2-okaya@kernel.org>
-X-Mailer: git-send-email 2.19.0
-In-Reply-To: <20180925171828.8655-1-okaya@kernel.org>
-References: <20180925171828.8655-1-okaya@kernel.org>
-MIME-Version: 1.0
-Subject: [sumo] [PATCH v1 2/2] libcroco: CVE-2017-7961
+	Tue, 25 Sep 2018 18:29:24 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id z14-v6so6877097wrs.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Sep 2018 11:29:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=7Wz0D4UJ8QeAvD88fnYLbtVsAqUTy9+A/Rk2Ooy5RTo=;
+	b=S0udYZkGhjWqgd3n1HvuO7fB8Uyfp/7k5fyOJ03/pVm7mL6jkNccqJnevi/6QF6RKD
+	F0/CeH34BLb5Ry3VphqyUbtucfjvU6l2OdvYFMeLsy8+LyytT0Ev1F5tcFcb5FChj5Ze
+	liuA06EkTiBQ71zH3ysfIGWajkCejhBXSWOeI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=7Wz0D4UJ8QeAvD88fnYLbtVsAqUTy9+A/Rk2Ooy5RTo=;
+	b=ZWU24e1GUh2NEpjhaY32zST0BBP5hoZoN9h6xi1wuzmCrdWl/56uv+Bvzw/arQrDuQ
+	yMZhwryIu1ltzQ6NB2x9obPrhilo/D+JrFGIGB3edAKxxE5dlfXUpRZMbimUajCfIJAk
+	VqVSWBTJ+dPXZQyRQt+sIZDuauGTePIa/T3FIiBe9cd80jT2E97Y6qGVYiBm/ow/oeTV
+	dAlgE7moAi6UlDxKIs+jLEnklokDOkMeSt3jBOczEk0Fv3dXJf1Kk6baLlkx7s3jJfwl
+	sykyikHtkl+8DQ9V5GVWbh0CqfbyWr6+ACpFw4nTNvtjXCylMAE22h8Mzp14sUNjd8Hr
+	iOmQ==
+X-Gm-Message-State: ABuFfojq/sMjastqjqAdEv7S1ZfvKLBMOri216r6N8Kyjt/AWY2Xlr+5
+	NtogS/Xf1eGSDVtQJvjtgAFgGA==
+X-Google-Smtp-Source: ACcGV63/9aNRdwH2AkZS6KWLhDtQD7nRNbRsgjowep1PCEM+PBoAulltPj7i/Xr+eBEMNYM8j1rm7Q==
+X-Received: by 2002:adf:c3cd:: with SMTP id
+	d13-v6mr2292774wrg.68.1537900164902; 
+	Tue, 25 Sep 2018 11:29:24 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	z4-v6sm2294983wrt.89.2018.09.25.11.29.23
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 25 Sep 2018 11:29:23 -0700 (PDT)
+Message-ID: <1eaae84530b4f3f3c7c5eb2a3ad961aef7f8fbd6.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Mikko.Rapeli@bmw.de
+Date: Tue, 25 Sep 2018 19:29:22 +0100
+In-Reply-To: <20180925171119.GV9430@hiutale>
+References: <1537871293-32494-1-git-send-email-mikko.rapeli@bmw.de>
+	<20180925104443.GP9430@hiutale>
+	<576c5e5174123059cfa49e8cf647716497a35610.camel@linuxfoundation.org>
+	<20180925112117.GQ9430@hiutale>
+	<4d8f4e7d3c76db6acca576b8b31c5fbe9832b285.camel@linuxfoundation.org>
+	<20180925171119.GV9430@hiutale>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH RFC] insane.bbclass: add buildpaths_cmake and buildpaths_pkgconfig checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,89 +64,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 17:18:32 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 25 Sep 2018 18:29:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* CVE-2017-7961
-The cr_tknzr_parse_rgb function in cr-tknzr.c in libcroco has an
-"outside the range of representable values of type long" undefined
-behavior issue, which might allow remote attackers to cause a denial
-of service (application crash) or possibly have unspecified other
-impact via a crafted CSS file.
+On Tue, 2018-09-25 at 17:11 +0000, Mikko.Rapeli@bmw.de wrote:
+> On Tue, Sep 25, 2018 at 04:19:39PM +0100, richard.purdie@linuxfoundat
+> ion.org wrote:
+> > On Tue, 2018-09-25 at 11:21 +0000, Mikko.Rapeli@bmw.de wrote:
+> > > On Tue, Sep 25, 2018 at 12:08:24PM +0100, Richard Purdie wrote:
+> > > > I suspect we need to talk to cmake upstream about fixing this
+> > > > properly
+> > > > but adding something in the class may be an option until a
+> > > > better
+> > > > upstream solution can be found.
+> > > > 
+> > > > I am puzzled by the need to add a .pc file path check since I
+> > > > thought
+> > > > there was already a test for that in insane.bbclass?
+> > > > 
+> > > > package_qa_check_staged maybe? "Check staged la and pc files
+> > > > for
+> > > > common
+> > > > problems like references to the work directory."
+> > > 
+> > > That check is not enabled by default. At least bash is producing
+> > > a
+> > > broken
+> > > bash.pc (and several other files like Makefile.in and bashbug) in
+> > > sumo
+> > > with embedded absolute paths to build sysroot.
+> > 
+> > I still felt I was missing something:
+> > 
+> > ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig
+> > la 
+> > 
+> > which sets "pkgconfig" and "la". package_qa_check_staged calls
+> > package_qa_handle_error("la",...) and
+> > package_qa_handle_error("pkgconfig"...).
+> > 
+> > do_qa_staging calls package_qa_check_staged() and is triggered by:
+> > 
+> > do_populate_sysroot[postfuncs] += "do_qa_staging "
+> > 
+> > which is set for everything and should be running on master?
+> > 
+> > I had a look at bash.pc in a random local build and there is no
+> > hardcoded path in it for master. I then found a sumo build and
+> > looked
+> > at bash.pc there and also no hardcoded paths.
+> > 
+> > The issues would have appeared to have been fixed by:
+> > 
+> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=dabbfe23de0615
+> > a958fac31b83684ade024cf17d 
+> > which should be in sumo.
+> 
+> Cool, but this ignores nativesdk, which is where I saw the problems
+> with this test. Somehow missed that nativesdk part in my reply,
+> possibly because of plain recipe name in the error message.
 
-CVE: CVE-2017-7961
-Ref: https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-7961
-Signed-off-by: Sinan Kaya <okaya@kernel.org>
----
- .../libcroco/libcroco/CVE-2017-7961.patch     | 45 +++++++++++++++++++
- .../libcroco/libcroco_0.6.12.bb               |  2 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch
+With the addition of nativesdk, this starts to make more sense...
 
-diff --git a/meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch b/meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch
-new file mode 100644
-index 0000000000..d407eca6d8
---- /dev/null
-+++ b/meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch
-@@ -0,0 +1,45 @@
-+From 5fa3165613b77b516e2b0dc128f73b673bd3ec8b Mon Sep 17 00:00:00 2001
-+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
-+Date: Sun, 16 Apr 2017 13:56:09 +0200
-+Subject: [PATCH] tknzr: support only max long rgb values
-+
-+This fixes a possible out of bound when reading rgbs which
-+are longer than the support MAXLONG
-+
-+Upstream-Status: Backport [https://git.gnome.org/browse/libcroco/patch/?id=9ad72875e9f08e4c519ef63d44cdbd94aa9504f7]
-+Signed-off-by: Sinan Kaya <okaya@kernel.org>
-+---
-+ src/cr-tknzr.c | 10 ++++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff --git a/src/cr-tknzr.c b/src/cr-tknzr.c
-+index e3af0ee..76886ec 100644
-+--- a/src/cr-tknzr.c
-++++ b/src/cr-tknzr.c
-+@@ -1280,6 +1280,11 @@ cr_tknzr_parse_rgb (CRTknzr * a_this, CRRgb ** a_rgb)
-+         status = cr_tknzr_parse_num (a_this, &num);
-+         ENSURE_PARSING_COND ((status == CR_OK) && (num != NULL));
-+ 
-++        if (num->val > G_MAXLONG) {
-++                status = CR_PARSING_ERROR;
-++                goto error;
-++        }
-++
-+         red = num->val;
-+         cr_num_destroy (num);
-+         num = NULL;
-+@@ -1299,6 +1304,11 @@ cr_tknzr_parse_rgb (CRTknzr * a_this, CRRgb ** a_rgb)
-+                 status = cr_tknzr_parse_num (a_this, &num);
-+                 ENSURE_PARSING_COND ((status == CR_OK) && (num != NULL));
-+ 
-++                if (num->val > G_MAXLONG) {
-++                        status = CR_PARSING_ERROR;
-++                        goto error;
-++                }
-++
-+                 PEEK_BYTE (a_this, 1, &next_bytes[0]);
-+                 if (next_bytes[0] == '%') {
-+                         SKIP_CHARS (a_this, 1);
-+-- 
-+2.19.0
-+
-diff --git a/meta/recipes-support/libcroco/libcroco_0.6.12.bb b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-index d86ddd6464..dd7dad424c 100644
---- a/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-+++ b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-@@ -16,5 +16,7 @@ BINCONFIG = "${bindir}/croco-0.6-config"
- 
- inherit gnomebase gtk-doc binconfig-disabled
- 
-+SRC_URI += "file://CVE-2017-7961.patch"
-+
- SRC_URI[archive.md5sum] = "bc0984fce078ba2ce29f9500c6b9ddce"
- SRC_URI[archive.sha256sum] = "ddc4b5546c9fb4280a5017e2707fbd4839034ed1aba5b7d4372212f34f84f860"
--- 
-2.19.0
+> > What may be the real issue is that sanity checker is quite specific
+> > about what its looking for and does do:
+> > 
+> > file_content = file_content.replace(recipesysroot, "")
+> > 
+> > which may make sense for .la files but perhaps not .pc files, I'd
+> > guess
+> > its to stop compiler flags triggering errors. 
+> > 
+> > So the real fix here may be to remove that line from the .pc check,
+> > at
+> > least in the target case (native case it would make sense)?
+> 
+> And .cmake files?
 
+We should add something to cover those. I was just worried about why
+tests I thought were there weren't working. I do think we should
+fix/improve the existing pkgconfig test rather than add another similar
+one.
+
+> I've fixed issues found by this test in my tree by following the
+> pattern from these "improve reproducibility" fixes. Some recipes were
+> installing generated .cmake files from build tree (bad, bad) and
+> several recipes were somehow generating .cmake files with absolute
+> paths for libraries. It's completely unclear to me when and why CMake
+> decides to fill in absolute paths, like with libical.
+
+I'm afraid you probably know more about cmake than I do at this
+point...
+
+Cheers,
+
+Richard
 
