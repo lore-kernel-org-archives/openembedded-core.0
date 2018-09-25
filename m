@@ -1,23 +1,49 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D7F3793B8
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+	[209.85.166.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D29DC7950F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 13:59:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8PDxTWc021533
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 25 Sep 2018 06:59:29 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 25 Sep 2018 06:59:28 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 25 Sep 2018 09:59:28 -0400
-Message-ID: <1537883968-21391-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/4.14: fix beaglebone configuration warnings
+	Tue, 25 Sep 2018 14:43:34 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id e12-v6so20616606iok.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Sep 2018 07:43:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=AUFOJsthUS4e3T4O/ImVjSb4buiNM9sCqEEGGeolYVU=;
+	b=bttpuF4wwYMPc6FMW4cHFVLDQtE9UeQ4KzUHKUVB770srLeO6rf1WbGBO56kKydlL9
+	Ccle6C6pepGEAu4E6TkkhrRU0euS9Hnm6jn6raGcm7WJMXBVk0c1Cy35yYBXrySP1Tio
+	SiC0oZWNcCoWOLcYwF1MkIDXiOeN1TKdhSOg5COZzEVrXzhBCQhhc5cqeNzNhCZYvfGl
+	muOlcKAHsYZAXMHCGuX7ydxXeGdfrh5eFI2DYTsQubCq6+FpPWL9FEBbs3VyU6nivdnA
+	YpLk1E3lxV8j6dHjv8jIyrBZF9jrf42LNJesBtTW8VmHBln2h9cKR0nWwMGwXq7JwLSd
+	GEcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AUFOJsthUS4e3T4O/ImVjSb4buiNM9sCqEEGGeolYVU=;
+	b=V1K9aZ/7EHFNg6vF/zDikk8vWDe2pUBIrjKXyltuwD7zuMKDImHnPcUTgw4UWFqMQE
+	OmP37fhPBO/I3Uj+iSTEuVUl1zzU/ewxgvhuAd+K7H22BYMj20MaXt+2Aic+CAY6lq56
+	TQYo9tBDVXKUq94JRWgDDSpo6FWLSx4UwTDnqur0snV/Penx3Sc33oSa2zaobYgmLOHr
+	hJ6r6RV1NlZbzf2aQ6KR0iFWSFIYVbyx8tBTuQP+jiWlD4MQsxq/Ny/n37+sNyldfzRE
+	AG2ZZm0ONynA3Lg7MgMMYXNwu1EYmu/esSrvYgueykQSbWE3/mx1f33zT4X7lenOiR6s
+	fG6w==
+X-Gm-Message-State: ABuFfojkNRSnCjhs4JJ7lJve+jcKz9TK7vrUbSBiWcwy0WWvbQI6eIw/
+	TnCLQHMbirqHeHedGbxPaMqKfBXl
+X-Google-Smtp-Source: ACcGV62QTdClSvMV3wRq7uuyArUNMgjmgbtXi+uRqsJaDrHmu+yB/VyeuILgAetH6np6DKrVarprnA==
+X-Received: by 2002:a6b:a188:: with SMTP id
+	k130-v6mr1208690ioe.128.1537886615019; 
+	Tue, 25 Sep 2018 07:43:35 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	m123-v6sm1019365itg.29.2018.09.25.07.43.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 25 Sep 2018 07:43:34 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Sep 2018 09:43:20 -0500
+Message-Id: <20180925144320.29517-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [master][sumo][PATCH] rootfs.py: Install -src packages when PACKAGE_DEBUG_SPLIT_STYLE is "debug-with-srcpkg"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,64 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 13:59:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 25 Sep 2018 14:43:35 -0000
 
-Backporting the following fixes from 4.18 to 4.14 to remove beaglebone
-configuration warnings:
+When the source packages are created, they need to be included in the
+debug image created when IMAGE_GEN_DEBUGFS = "1" for it to be usable for
+debugging.
 
-  1fb0b0379fb5 beaglebone: Clean up the cfg file
-  4176e7ded8e1 beaglebone: Drop the needless unsetting of the kernel options
-  65c209da574d beaglebone: Drop the obsolete kernel options
+[YOCTO #12930]
 
-Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oe/rootfs.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-index 24a2c593281e..e6f42f29e610 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index cdb86f7715a..48588a46ae7 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -144,6 +144,10 @@ class Rootfs(object, metaclass=ABCMeta):
+         bb.note("  Install complementary '*-dbg' packages...")
+         self.pm.install_complementary('*-dbg')
  
- SRCREV_machine ?= "c37a14708f5b618602f84f83f902346e055824c3"
--SRCREV_meta ?= "46a547fa5195c2990e513ae3050376b7670e8287"
-+SRCREV_meta ?= "1fb0b0379fb5883ce5af7485374e3f78ee4272d3"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-index de220313013e..f599c90db256 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-@@ -13,7 +13,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "3218be18094b7dfb4471b083c469452c8c7709ce"
--SRCREV_meta ?= "46a547fa5195c2990e513ae3050376b7670e8287"
-+SRCREV_meta ?= "1fb0b0379fb5883ce5af7485374e3f78ee4272d3"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-index 7c97d53da164..40ee1e9fc400 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "78a16a4d8cfd58f91be412797aac248e811d083b"
- SRCREV_machine_qemux86-64 ?= "78a16a4d8cfd58f91be412797aac248e811d083b"
- SRCREV_machine_qemumips64 ?= "f074d718736e95e8ed5460bf8e85c7e77ff7df87"
- SRCREV_machine ?= "78a16a4d8cfd58f91be412797aac248e811d083b"
--SRCREV_meta ?= "46a547fa5195c2990e513ae3050376b7670e8287"
-+SRCREV_meta ?= "1fb0b0379fb5883ce5af7485374e3f78ee4272d3"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
++        if self.d.getVar('PACKAGE_DEBUG_SPLIT_STYLE') == 'debug-with-srcpkg':
++            bb.note("  Install complementary '*-src' packages...")
++            self.pm.install_complementary('*-src')
++
+         bb.note("  Rename debug rootfs...")
+         try:
+             shutil.rmtree(self.image_rootfs + '-dbg')
 -- 
-2.5.0
+2.17.1
 
 
