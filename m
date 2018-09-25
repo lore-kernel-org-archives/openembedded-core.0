@@ -1,54 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 17D0860079
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D9096003C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 15:19:41 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 206-v6so5977650wmb.5
+	Tue, 25 Sep 2018 15:22:56 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id s12-v6so13906777wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 08:19:42 -0700 (PDT)
+	Tue, 25 Sep 2018 08:22:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=r6Jxico72GiWLf36V2x2MiczNoXeFFjwsk5QzSO0j1E=;
-	b=UGxxHaH8reE0JBOgxkVvUrnaFawe+X8DAx1OR59sSE7G3BdjjScBdYjjDgG1Xn0X6M
-	6mc3ORxDXOkMUtvUZSXtoK/eYM2T54Or+EWdKLy1WzIB+dieQdz6PbSHI8vAcJjOw30L
-	FwSrGXTt+RtQ6/aTpSggdkV0sm/LKvtyNAX0c=
+	bh=OETUr9bbqAuZHY0w8ZYlmnWsUMo/SWZ8JumVew17DZo=;
+	b=OamWdhKjQ9K4kAgqre0M9L9N5/tHRA4feCOfYoXWSnE2AMOleCSCLOGlG0gkITYf21
+	zZ2JTfxCIYW4JJep69s3E36T6RH0LfCggOwqhWTTKselNPXia9XxrbUKXM6TBtEW42L/
+	IEizMOGltOetIRqG14wy4A9NVq0F+d/M+HrXc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=r6Jxico72GiWLf36V2x2MiczNoXeFFjwsk5QzSO0j1E=;
-	b=ELfqvN6h6IF1k2M8No2sqzHhYmqAqPl5pk4FX4aKkz8gX206nj8FFnHB4EwYzybWjR
-	e6Pnux9Y3/G7eElvEvQdXhEa0HmHdxA7cbrRjalHerNjgxDPnrJAHeScuqVQGdVhXC0t
-	G+ow+M1OHKLuwvnLB7GBAkSVZq9BLS4RNoQhdFifTrw4xFRJICPAqVl9VMNCkPCDsx2N
-	Cm805EXh9oytTidhG1RpCGrbgzfP4LpQ4jHnqRrB3KjkFGZDYi2EofI9YNaExo4W2uZx
-	hOAtXCRWDpjpOtz6QWBuaaWvgZd31y42ehfqPv2Dh/kgIU+DSTqS1bqT28yws4PcLY0e
-	+fgw==
-X-Gm-Message-State: ABuFfoiZ98bHjQAiZNx50p+hbN/Sk4ULNBzrqb8mTY9DwtNqjF4no4Y8
-	3MagGE5YOv6LhhWl9eIw+L37ew==
-X-Google-Smtp-Source: ACcGV62+0/gotb5om6qu5c6RA/m0sIRq5ClwjH+5IopeCXfo2yjP/ApulcYochjmn6IzUQA0aJOHTw==
-X-Received: by 2002:a1c:4857:: with SMTP id v84-v6mr1166238wma.8.1537888781732;
-	Tue, 25 Sep 2018 08:19:41 -0700 (PDT)
+	bh=OETUr9bbqAuZHY0w8ZYlmnWsUMo/SWZ8JumVew17DZo=;
+	b=ZrK1cLmyv1DA/i25OKJRKDJId59wSr2uej2cMemZfn+upVedOV++hINJ/PvkRm1Ecu
+	ehbQ24V6FhoVldjPPcj0r6cQcY6iaMHW5nkU+TzLgrSaAnKtqLXYJVOAryGl2uiIutDP
+	utc+8SOIUFrn1ui1J2d6GygHxBxfRehp/8lmvzW717sCGO2pEdLNeCwLqf/bT2xf59pl
+	2p91dfB+Mtrd7ArcjyhPesXnqggNM/CLacmS/xkZ4G+liRlyONhftOx9afqu9qcYfcHS
+	V4jzPAAribuGH11uAvt8DSz2sr1K2X6rXLAxgioKUOThIi70IcjvLIrrBNHNoQP84H4g
+	y8Qw==
+X-Gm-Message-State: ABuFfojRthvb3nVKfA9p3b/YdcAl6P9So40/0znqEIcB/L2n+FjH5DiM
+	JWILRCBsdJy/ZICrfY/QNB/ssQ==
+X-Google-Smtp-Source: ACcGV602fgskqV3jLxjtyHgqIxWiZzhGtvrvqJBKVpdfj+xcISWaQ5qyTFx80XbMdkJC7STX/Tz7uA==
+X-Received: by 2002:a1c:1203:: with SMTP id 3-v6mr1269916wms.46.1537888976883; 
+	Tue, 25 Sep 2018 08:22:56 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	y1-v6sm1387222wmi.46.2018.09.25.08.19.40
+	w192-v6sm9428wmf.33.2018.09.25.08.22.55
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 25 Sep 2018 08:19:40 -0700 (PDT)
-Message-ID: <4d8f4e7d3c76db6acca576b8b31c5fbe9832b285.camel@linuxfoundation.org>
+	Tue, 25 Sep 2018 08:22:55 -0700 (PDT)
+Message-ID: <b747d8c76cefee96ac29304de59799b4f5da0050.camel@linuxfoundation.org>
 From: richard.purdie@linuxfoundation.org
-To: Mikko.Rapeli@bmw.de
-Date: Tue, 25 Sep 2018 16:19:39 +0100
-In-Reply-To: <20180925112117.GQ9430@hiutale>
-References: <1537871293-32494-1-git-send-email-mikko.rapeli@bmw.de>
-	<20180925104443.GP9430@hiutale>
-	<576c5e5174123059cfa49e8cf647716497a35610.camel@linuxfoundation.org>
-	<20180925112117.GQ9430@hiutale>
+To: Andrej Valek <andrej.valek@siemens.com>, Khem Raj <raj.khem@gmail.com>
+Date: Tue, 25 Sep 2018 16:22:54 +0100
+In-Reply-To: <711648b8-d33e-3f5d-1ce2-c130ce066166@siemens.com>
+References: <711648b8-d33e-3f5d-1ce2-c130ce066166@siemens.com>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH RFC] insane.bbclass: add buildpaths_cmake and buildpaths_pkgconfig checks
+Cc: bluehills7@comcast.net, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: SDK and out of tree modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,67 +59,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 15:19:41 -0000
+X-List-Received-Date: Tue, 25 Sep 2018 15:22:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-09-25 at 11:21 +0000, Mikko.Rapeli@bmw.de wrote:
-> On Tue, Sep 25, 2018 at 12:08:24PM +0100, Richard Purdie wrote:
-> > I suspect we need to talk to cmake upstream about fixing this
-> > properly
-> > but adding something in the class may be an option until a better
-> > upstream solution can be found.
-> > 
-> > I am puzzled by the need to add a .pc file path check since I
-> > thought
-> > there was already a test for that in insane.bbclass?
-> > 
-> > package_qa_check_staged maybe? "Check staged la and pc files for
-> > common
-> > problems like references to the work directory."
+On Tue, 2018-09-25 at 16:51 +0200, Andrej Valek wrote:
+> I have seen, that You have been supporting someone with the similar
+> problem.
+> So, I would like to ask you as question about current status of
+> failing task for kernel-devsrc recipe. I have found similar thread
+> about the same issue, but without final solution
+> (https://lists.yoctoproject.org/pipermail/yocto/2018-July/042007.html
+> ).
 > 
-> That check is not enabled by default. At least bash is producing a
-> broken
-> bash.pc (and several other files like Makefile.in and bashbug) in
-> sumo
-> with embedded absolute paths to build sysroot.
+> I wanted to run populate_sdk_ext on my image (tested on qemuarm and
+> another arch) with included kernel-devsrc package. It showed me
+> warning
+> message:
+> WARNING: image-sdk-1.0-r0 do_populate_sdk_ext: Manifest
+> build/tmp/sstate-control/manifest-allarch-kernel-
+> devsrc.populate_sysroot
+> not found?
+> 
+> Mentioned directory has these files:
+> build/tmp/sstate-control/manifest-qemuarm-kernel-devsrc.package_qa
+> build/tmp/sstate-control/manifest-qemuarm-kernel-
+> devsrc.package_write_ipk
+> build/tmp/sstate-control/manifest-qemuarm-kernel-devsrc.packagedata
+> build/tmp/sstate-control/manifest-qemuarm-kernel-devsrc.populate_lic
+> 
+> But the file "manifest-allarch-kernel-devsrc.populate_sysroot" is
+> missing. I guess, due to do_populate_sysroot[noexec] = "1" in
+> kernel-devsrc recipe.
+> 
+> Isn't possible to have this package included in image for populate
+> task?
+> Is it somehow fixed?
 
-I still felt I was missing something:
+Is this with master? I did resolve a number of sdk manifest warnings
+recently so before I start looking more closely I'd like to check this
+was seen with latest master.
 
-ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la 
-
-which sets "pkgconfig" and "la". package_qa_check_staged calls
-package_qa_handle_error("la",...) and
-package_qa_handle_error("pkgconfig"...).
-
-do_qa_staging calls package_qa_check_staged() and is triggered by:
-
-do_populate_sysroot[postfuncs] += "do_qa_staging "
-
-which is set for everything and should be running on master?
-
-I had a look at bash.pc in a random local build and there is no
-hardcoded path in it for master. I then found a sumo build and looked
-at bash.pc there and also no hardcoded paths.
-
-The issues would have appeared to have been fixed by:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=dabbfe23de0615a958fac31b83684ade024cf17d 
-which should be in sumo.
-
-What may be the real issue is that sanity checker is quite specific
-about what its looking for and does do:
-
-file_content = file_content.replace(recipesysroot, "")
-
-which may make sense for .la files but perhaps not .pc files, I'd guess
-its to stop compiler flags triggering errors. 
-
-So the real fix here may be to remove that line from the .pc check, at
-least in the target case (native case it would make sense)?
+You're right that the noexec would likely cause this issue.
 
 Cheers,
 
 Richard
-
 
