@@ -1,39 +1,18 @@
-Return-Path: <prvs=8806058be4=adrian.ratiu@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D31F793B7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 12:36:28 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
-	w8PCVFX0008939; Tue, 25 Sep 2018 07:36:28 -0500
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mx0a-00010702.pphosted.com with ESMTP id 2mnmeggx5j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 25 Sep 2018 07:36:28 -0500
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod2.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
-	w8PCaRhE012875
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Tue, 25 Sep 2018 07:36:27 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Tue, 25 Sep 2018 07:36:27 -0500
-Received: from ionel-work.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1395.4 via Frontend Transport; Tue, 25 Sep 2018 07:36:26 -0500
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Sep 2018 15:38:19 +0300
-Message-ID: <20180925123819.29374-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.19.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 54D5960602;
+	Tue, 25 Sep 2018 13:05:29 +0000 (UTC)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2018-09-25_07:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
-Subject: [PATCH v2] rootfs: always update the opkg index
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Date: Tue, 25 Sep 2018 13:05:30 -0000
+Message-ID: <20180925130530.13843.83617@do.openembedded.org>
+References: <20180925123419.8176-1-adrian.ratiu@ni.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180925123419.8176-1-adrian.ratiu@ni.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdXRpbHM6IGxvY2tmaWxlOiBGaXggaW5maW5pdGUgbG9vcA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,51 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 12:36:28 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 25 Sep 2018 13:05:29 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The previous logic assumed that if $BUILD_IMAGES_FROM_FEEDS=1 then a
-complete set of ipk feeds from which to build the image is already
-present under $IPK_FEED_URIS at do_rootfs runtime.
+== Series Details ==
 
-$IPK_FEED_URIS usually contains "file://${DEPLOY_DIR_IPK}" which
-renders the above assumption bad because some recipes in the current
-build can contain code like do_install[nostamp] = "1" which will cause
-rebuilds bumping $PR and invalidating the index.
+Series: utils: lockfile: Fix infinite loop
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14218/
+State : failure
 
-Even when the index is manually re-created before an image build
-("bitbake package-index"), the nostamp will cause failures because the
-dependency gets rebuilt before do_rootfs in the "bitbake <image>" call.
+== Summary ==
 
-So make the opkg rootfs index logic the same as for rpm/deb, to always
-update the index in $DEPLOY_DIR_IPK to fix the above nostamp failure.
 
-Feeds outside $DEPLOY_DIR_IPK added to $IPK_FEED_URIS continue to work
-as usual, for eg. by using a http:// URI.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at e3f5ceec69)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oe/rootfs.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index cdb86f7715..67ae281e47 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -853,9 +853,8 @@ class OpkgRootfs(DpkgOpkgRootfs):
-         opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS')
-         opkg_post_process_cmds = self.d.getVar('OPKG_POSTPROCESS_COMMANDS')
- 
--        # update PM index files, unless users provide their own feeds
--        if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS') or "") != "1":
--            self.pm.write_index()
-+        # update PM index files
-+        self.pm.write_index()
- 
-         execute_pre_post_process(self.d, opkg_pre_process_cmds)
- 
--- 
-2.19.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
