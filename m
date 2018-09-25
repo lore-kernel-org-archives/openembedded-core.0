@@ -1,49 +1,50 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
-	[209.85.166.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D29DC7950F
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 1718278D34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 14:43:34 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id e12-v6so20616606iok.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 07:43:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=AUFOJsthUS4e3T4O/ImVjSb4buiNM9sCqEEGGeolYVU=;
-	b=bttpuF4wwYMPc6FMW4cHFVLDQtE9UeQ4KzUHKUVB770srLeO6rf1WbGBO56kKydlL9
-	Ccle6C6pepGEAu4E6TkkhrRU0euS9Hnm6jn6raGcm7WJMXBVk0c1Cy35yYBXrySP1Tio
-	SiC0oZWNcCoWOLcYwF1MkIDXiOeN1TKdhSOg5COZzEVrXzhBCQhhc5cqeNzNhCZYvfGl
-	muOlcKAHsYZAXMHCGuX7ydxXeGdfrh5eFI2DYTsQubCq6+FpPWL9FEBbs3VyU6nivdnA
-	YpLk1E3lxV8j6dHjv8jIyrBZF9jrf42LNJesBtTW8VmHBln2h9cKR0nWwMGwXq7JwLSd
-	GEcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=AUFOJsthUS4e3T4O/ImVjSb4buiNM9sCqEEGGeolYVU=;
-	b=V1K9aZ/7EHFNg6vF/zDikk8vWDe2pUBIrjKXyltuwD7zuMKDImHnPcUTgw4UWFqMQE
-	OmP37fhPBO/I3Uj+iSTEuVUl1zzU/ewxgvhuAd+K7H22BYMj20MaXt+2Aic+CAY6lq56
-	TQYo9tBDVXKUq94JRWgDDSpo6FWLSx4UwTDnqur0snV/Penx3Sc33oSa2zaobYgmLOHr
-	hJ6r6RV1NlZbzf2aQ6KR0iFWSFIYVbyx8tBTuQP+jiWlD4MQsxq/Ny/n37+sNyldfzRE
-	AG2ZZm0ONynA3Lg7MgMMYXNwu1EYmu/esSrvYgueykQSbWE3/mx1f33zT4X7lenOiR6s
-	fG6w==
-X-Gm-Message-State: ABuFfojkNRSnCjhs4JJ7lJve+jcKz9TK7vrUbSBiWcwy0WWvbQI6eIw/
-	TnCLQHMbirqHeHedGbxPaMqKfBXl
-X-Google-Smtp-Source: ACcGV62QTdClSvMV3wRq7uuyArUNMgjmgbtXi+uRqsJaDrHmu+yB/VyeuILgAetH6np6DKrVarprnA==
-X-Received: by 2002:a6b:a188:: with SMTP id
-	k130-v6mr1208690ioe.128.1537886615019; 
-	Tue, 25 Sep 2018 07:43:35 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	m123-v6sm1019365itg.29.2018.09.25.07.43.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 25 Sep 2018 07:43:34 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Sep 2018 09:43:20 -0500
-Message-Id: <20180925144320.29517-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [master][sumo][PATCH] rootfs.py: Install -src packages when PACKAGE_DEBUG_SPLIT_STYLE is "debug-with-srcpkg"
+	Tue, 25 Sep 2018 14:51:12 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w8PEp9Kg005115
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Tue, 25 Sep 2018 16:51:09 +0200
+Received: from [192.168.253.100] ([163.242.50.201])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id w8PEp8r3026697;
+	Tue, 25 Sep 2018 16:51:08 +0200
+To: Khem Raj <raj.khem@gmail.com>, richard.purdie@linuxfoundation.org
+From: Andrej Valek <andrej.valek@siemens.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
+	xsBNBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
+	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
+	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
+	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
+	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
+	AAHNJ0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPsLAfgQTAQIAKAUC
+	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
+	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
+	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
+	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
+	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
+	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO587ATQRZEs03AQgA0oCu
+	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
+	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
+	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
+	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
+	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABwsBlBBgBAgAPBQJZ
+	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
+	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
+	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
+	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
+	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
+	emYHzsJ3+vLapH+kAEI=
+Message-ID: <711648b8-d33e-3f5d-1ce2-c130ce066166@siemens.com>
+Date: Tue, 25 Sep 2018 16:51:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.0
+MIME-Version: 1.0
+Cc: bluehills7@comcast.net, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: SDK and out of tree modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +57,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 14:43:35 -0000
+X-List-Received-Date: Tue, 25 Sep 2018 14:51:13 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-When the source packages are created, they need to be included in the
-debug image created when IMAGE_GEN_DEBUGFS = "1" for it to be usable for
-debugging.
+Hi all,
 
-[YOCTO #12930]
+I have seen, that You have been supporting someone with the similar problem.
+So, I would like to ask you as question about current status of failing
+task for kernel-devsrc recipe. I have found similar thread about the
+same issue, but without final solution
+(https://lists.yoctoproject.org/pipermail/yocto/2018-July/042007.html).
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/lib/oe/rootfs.py | 4 ++++
- 1 file changed, 4 insertions(+)
+I wanted to run populate_sdk_ext on my image (tested on qemuarm and
+another arch) with included kernel-devsrc package. It showed me warning
+message:
+WARNING: image-sdk-1.0-r0 do_populate_sdk_ext: Manifest
+build/tmp/sstate-control/manifest-allarch-kernel-devsrc.populate_sysroot
+not found?
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index cdb86f7715a..48588a46ae7 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -144,6 +144,10 @@ class Rootfs(object, metaclass=ABCMeta):
-         bb.note("  Install complementary '*-dbg' packages...")
-         self.pm.install_complementary('*-dbg')
- 
-+        if self.d.getVar('PACKAGE_DEBUG_SPLIT_STYLE') == 'debug-with-srcpkg':
-+            bb.note("  Install complementary '*-src' packages...")
-+            self.pm.install_complementary('*-src')
-+
-         bb.note("  Rename debug rootfs...")
-         try:
-             shutil.rmtree(self.image_rootfs + '-dbg')
--- 
-2.17.1
+Mentioned directory has these files:
+build/tmp/sstate-control/manifest-qemuarm-kernel-devsrc.package_qa
+build/tmp/sstate-control/manifest-qemuarm-kernel-devsrc.package_write_ipk
+build/tmp/sstate-control/manifest-qemuarm-kernel-devsrc.packagedata
+build/tmp/sstate-control/manifest-qemuarm-kernel-devsrc.populate_lic
 
+But the file "manifest-allarch-kernel-devsrc.populate_sysroot" is
+missing. I guess, due to do_populate_sysroot[noexec] = "1" in
+kernel-devsrc recipe.
+
+Isn't possible to have this package included in image for populate task?
+Is it somehow fixed?
+
+Many thanks for support,
+Andrej
+
+* sorry if you have received this message multiple times, ...network issues
 
