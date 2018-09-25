@@ -1,49 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id CA44C79368
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C786279480
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 13:46:20 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id t15so15534083wrx.1
+	Tue, 25 Sep 2018 13:54:45 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id j15-v6so19383294wrt.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2018 06:46:22 -0700 (PDT)
+	Tue, 25 Sep 2018 06:54:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=QwpJz3kZkE9n22K6N4Q7ftHpvk6u5h6TxiDnKWfZCxo=;
-	b=g6nYfwpTZNLIjm5x6g6azK5b1nOvhgNRqfBd5C5BjlSE974PIRO2A6M8TytiBIDHm7
-	362D4ZETmx3FhKUJPy5dh5ojmBuMUIxydqKlXt3XuDP9kXmcOSckwlMz+GZn6kRzlDqh
-	Bt9N6hJ1kDxeJb4NPPwhM6HhfORTZVCF8ryUIB8sgpUZDOJNgTtrmApTbSCWuV5DatPS
-	ribSXi0w4RVrn7O0Ut5oPhABfIZj6TlE20PXHO5BYtOGLOnD7VL1iKYcToHRnTr0aG1s
-	Nn4dAR3xf+xOVFYwMNNs5dhCgUV/nRATQaa1I51MN36QIiStXTgxx2wC6YxeSBAP2sT4
-	oJWw==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=fFUqo3tHlznIL85E46oJSTuaYV+MxuEfzC42BQ6dzYg=;
+	b=iC/YJATB3CypTFR9tVpqI2loLNSfTN/LJpqTnRsF/USdWlOdOZMuekGPOeIca+uFuy
+	1TEkpMpOpMerFEpJXcIbE5pdXd4Nbnb+AhMYrC+Bh8yITrXmUbw7G98stdvZLj1bLNdd
+	IiALYGLAGsVNycA0TNiGLsWuis8zcumdeyUo0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=QwpJz3kZkE9n22K6N4Q7ftHpvk6u5h6TxiDnKWfZCxo=;
-	b=JxDTsyjFDkHc+oTBrPLh9UBVA9BEQknKK+kEY2CPLEin/rEp8fW39fGBIr04EYkOt9
-	t1nBFb0WCdtzjq0ME2l5bVk1aB5Ufi7G4KLj+F53USC5set8g7EppzRwgs+wrNj5tQAW
-	1LEbLi0nIbzxXJHQjpcY+A4zG+rnFqqPMckHOqztmLyeZiCikOSMOuWF2MjzFbrvMrPW
-	kveuRl6ec6glPXJy1t4ZvsvZrFpZg1ln2fTbUeuJVkuCAVDjzZvfyDn4ycJ8r+yUaA1P
-	SvmX7DkMFKRhSfMMTX38EMkZ4X+iYzbI4ozKYFHnMPhBj2f/mZ0urwNASZ9033yGtf0u
-	x6Xw==
-X-Gm-Message-State: ABuFfoieLRls865vECRRyGU/UsN24DAM1XmC6GtNhgcem69O6A0g57Df
-	N47aa0uz1s0T2UViNPTFeP/tkd5e6t0=
-X-Google-Smtp-Source: ACcGV61QqwFmYhaXtZeyJ50A8RSdxO3NE7qnAh4IdVzLC8hYkm8HHcIdcweqCbimf3FQn6ODkKs/gA==
-X-Received: by 2002:adf:ff08:: with SMTP id k8-v6mr1175852wrr.15.1537883181310;
-	Tue, 25 Sep 2018 06:46:21 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	j27-v6sm2664020wmc.17.2018.09.25.06.46.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 25 Sep 2018 06:46:20 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Sep 2018 14:46:16 +0100
-Message-Id: <20180925134616.9366-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH V2] siteinfo: generalise siteinfo
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=fFUqo3tHlznIL85E46oJSTuaYV+MxuEfzC42BQ6dzYg=;
+	b=Wx5HpFWIw7BI6rx40daQDgKqO2WBvtwFrsR/Wa/aIinp5JDVG9Ijirz5vGcoerc1th
+	hpHQ2UZlTkdVDmlka/g1hB/EfVlNuJQmoeQYc87nYxnsZov5gftOW+KhNgkze9OfBZDf
+	CfpW46cVjD6WRvan9D+i6l8aYbvXhNYd+RYPCI9YAGv/whiU/PcBuHd0abcnOVc/Q4m2
+	bMfSGXnQ8zq2Ec9//DfWG0evnqQ6EeYTKf78X9+WmVdWiQPUFQCvBBb4c3Wm8tMm9p/y
+	4RmvsecAyYadL9nwcvkHkxo/TTPkLECmIYmUOiG09hZFpaYiPTsY7iO+nbA7L19QwBDR
+	OqfQ==
+X-Gm-Message-State: ABuFfojlZKhp1ixpYfA86JYDsqKrWOLf5x2vjY+LoPho9EhSQ8m9X4ow
+	Ywv+66RxbgPTIMAi53nFu4I2sQ==
+X-Google-Smtp-Source: ACcGV62k2lwHEtfjsUXMBr58BwZl1sgXswk1w8lnhg62OW6A3b41UTFiQt3XT9syng0bJ5b08OE0tA==
+X-Received: by 2002:adf:e50b:: with SMTP id
+	j11-v6mr1080562wrm.111.1537883686446; 
+	Tue, 25 Sep 2018 06:54:46 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	h8-v6sm2851192wre.15.2018.09.25.06.54.44
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 25 Sep 2018 06:54:45 -0700 (PDT)
+Message-ID: <8ea9a7fb6034ecee04260ec19fc66af6c348f32e.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Urs =?ISO-8859-1?Q?F=E4ssler?= <urs.fassler@bbv.ch>, Andreas Oberritter
+	<obi@opendreambox.org>, openembedded-core@lists.openembedded.org
+Date: Tue, 25 Sep 2018 14:54:44 +0100
+In-Reply-To: <aad5fbd908a38999b681052115038764caf45c5f.camel@bbv.ch>
+References: <20180919064135.30249-1-urs.fassler@bbv.ch>
+	<20180919171113.21fecc56@t460p>
+	<ed51b3579be101e9d2f711ef9f94d16029981f92.camel@linuxfoundation.org>
+	<1537795580.13947.1.camel@bbv.ch>
+	<aad5fbd908a38999b681052115038764caf45c5f.camel@bbv.ch>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Subject: Re: [PATCH] openssh: resolve install conflict with openssh-sftp-server-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,61 +63,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 13:46:21 -0000
+X-List-Received-Date: Tue, 25 Sep 2018 13:54:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Add a function siteinfo_data_for_machine to look up the data for any arch/os
-pair, not just HOST_ARCH-HOST_OS.
+On Tue, 2018-09-25 at 15:05 +0200, Urs Fässler wrote:
+> On Mon, 2018-09-24 at 15:26 +0200, Urs Fässler wrote:
+> > On Wed, 2018-09-19 at 09:01 -0700, Richard Purdie wrote:
+> > > On Wed, 2018-09-19 at 17:11 +0200, Andreas Oberritter wrote:
+> > > > On Wed, 19 Sep 2018 08:41:35 +0200
+> > > > Urs Fässler <urs.fassler@bbv.ch> wrote:
+> > > > 
+> > > > > Image generation fails with the configuration:
+> > > > >   EXTRA_IMAGE_FEATURES = "ssh-server-dropbear eclipse-debug
+> > > > > dev-
+> > > > > pkgs"
+> > > > > This is due the dependency eclipse-debug -> openssh-sftp-
+> > > > > server 
+> > > > > ->
+> > > > > openssh-dev -> openssh. openssh can not be installed since it
+> > > > > conflicts
+> > > > > with dropbear.
+> > > > 
+> > > > That's odd. Why does openssh-sftp-server depend on openssh-dev?
+> > > > Does
+> > > > openssh-dev contain a file which it shouldn't, e.g. a
+> > > > dynamically
+> > > > loaded module/plug-in?
+> > > 
+> > > It doesn't, its the fact that "dev-pkgs" are requested in
+> > > IMAGE_FEATURES. "openssh-dev" would be the default for openssh
+> > > packages
+> > > and dropbear-dev would be the default for dropbear packages. 
+> > > 
+> > > The patch here doesn't sound correct. I'm wondering if the
+> 
+> correct
+> > > fix
+> > > is for ${PN}-dev should not depend on ${PN} and whether that
+> > > would fix
+> > > the problem?
+> > 
+> > The dependency from ${PN}-dev to ${PN} seems to be the default
+> > behavior
+> > in Yocto. I don't know the consequences when we change this for
+> > openssh. But it helps in my case.
+> > (I added RDEPENDS_${PN}-dev = "", didn't found a better way)
+> 
+> If somebody know the implication of removing the dependency from
+> ${PN}-dev to ${PN} for openssh and give the ok for it, I am fine with
+> this solution.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/siteinfo.bbclass | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+I have an idea of the potential problems but I think we should consider
+it. It would need wide testing and is a 2.7 change at this point.
 
-diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
-index 4698e6e474d..24585d58427 100644
---- a/meta/classes/siteinfo.bbclass
-+++ b/meta/classes/siteinfo.bbclass
-@@ -15,7 +15,7 @@
- # It is an error for the target not to exist.
- # If 'what' doesn't exist then an empty value is returned
- #
--def siteinfo_data(d):
-+def siteinfo_data_for_machine(arch, os, d):
-     archinfo = {
-         "allarch": "endian-little bit-32", # bogus, but better than special-casing the checks below for allarch
-         "aarch64": "endian-little bit-64 arm-common arm-64",
-@@ -131,15 +131,13 @@ def siteinfo_data(d):
-         locs = { "archinfo" : archinfo, "osinfo" : osinfo, "targetinfo" : targetinfo, "d" : d}
-         archinfo, osinfo, targetinfo = bb.utils.better_eval(call, locs)
- 
--    hostarch = d.getVar("HOST_ARCH")
--    hostos = d.getVar("HOST_OS")
--    target = "%s-%s" % (hostarch, hostos)
-+    target = "%s-%s" % (arch, os)
- 
-     sitedata = []
--    if hostarch in archinfo:
--        sitedata.extend(archinfo[hostarch].split())
--    if hostos in osinfo:
--        sitedata.extend(osinfo[hostos].split())
-+    if arch in archinfo:
-+        sitedata.extend(archinfo[arch].split())
-+    if os in osinfo:
-+        sitedata.extend(osinfo[os].split())
-     if target in targetinfo:
-         sitedata.extend(targetinfo[target].split())
-     sitedata.append(target)
-@@ -148,6 +146,9 @@ def siteinfo_data(d):
-     bb.debug(1, "SITE files %s" % sitedata);
-     return sitedata
- 
-+def siteinfo_data(d):
-+    return siteinfo_data_for_machine(d.getVar("HOST_ARCH"), d.getVar("HOST_OS"), d)
-+
- python () {
-     sitedata = set(siteinfo_data(d))
-     if "endian-little" in sitedata:
--- 
-2.11.0
+Cheers,
+
+Richard
 
 
