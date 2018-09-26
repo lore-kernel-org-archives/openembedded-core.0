@@ -1,45 +1,48 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C745779547
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+	[209.85.167.180])
+	by mail.openembedded.org (Postfix) with ESMTP id D7706795FD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 13:08:58 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id m15-v6so10955875qtp.8
+	Wed, 26 Sep 2018 13:26:04 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id p125-v6so4360146oic.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 06:09:00 -0700 (PDT)
+	Wed, 26 Sep 2018 06:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=kbyhekN5HzX9673VZDIxY3B8Nt8/JIziIVwOETIx3Dc=;
+	b=gLIwDS4PCmiJhH7YJsQJPA6FjaLWNo7vTsSnjhshRaSW70s/V1zeY4TCukpLLwBot1
+	1QEEM1vbe+ZZoaxZvbp1FeQ/ImcRkCB3GQhdOHpYli0gMcts9y2V4cISq8Qs7Qqt94SY
+	yFd4/LrTwl8I7ci9rC0+Gtdj7op8h7ldWeXVcKz1HeTzlJ+LfG93vrpkc5/ElrM+dR/s
+	mdJuUi+W5Q/1fIPKg3o9vCnZ5GrnxWueIuwwn1TvHEgzYf/2oGtmO1aGOqQj29OJ6SGM
+	Yp6HNjgOH3yDeC2JXCJvlCAfllI4zESOypomLnXdM9IyqB95AA/vRPmKQJokygWXSDz/
+	IJCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=PHN9hRxIvBNn6VtyrzK8RwAr2pfUeZlrNCPf2qcQGW0=;
-	b=T8rPXFX/DWoalo1E6Qh69BepjtYVMgn6W776pTDc8rC/znKAIdQU+flbiBHrfUkBeH
-	4mbGYYzSNSQFxKwfxhBQ2BfsY+94puq34f9n7BjyS954+dO32mf36GTgKeQSCVuiGhsr
-	WUqOJ+GRVSRZy1h0JrLRys3qu1zVnnlMykO52RHBzbgJfPiU5z4WEloku4XASqlrMqW8
-	nHefoLv4Qm+mIaTjFzELdoXgOToUmE/p3k8XnhnM/A191ToRTrVQ/NmJAQH0pclchCIa
-	CFO2SJUOsQ0qtQ2CGhsnvdcdpW3nxWTdlmia/NiPsFitah7SWrfOwqRXU1tHFBu0uDfn
-	5YKw==
-X-Gm-Message-State: ABuFfogRZsAYMG4lAAE6j0i0Phai+I4TwhrFvTeZGIZ/7ws5roaSUjha
-	ZUphv48M/K+N+mrSov5BDt3Nxcld71M=
-X-Google-Smtp-Source: ACcGV63VTRu3s5cYTdWphX80e22WJ+19Gt5N6eLKvUn52QsklRf8WLhTuKnx2zyVl6cqegzcW2gMHg==
-X-Received: by 2002:a05:6214:1108:: with SMTP id
-	e8mr4238794qvs.194.1537967339240; 
-	Wed, 26 Sep 2018 06:08:59 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.65.41])
-	by smtp.gmail.com with ESMTPSA id
-	a13-v6sm2714889qkg.94.2018.09.26.06.08.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 26 Sep 2018 06:08:58 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Wed, 26 Sep 2018 10:08:53 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Sep 2018 10:08:52 -0300
-Message-Id: <20180926130852.16208-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.19.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=kbyhekN5HzX9673VZDIxY3B8Nt8/JIziIVwOETIx3Dc=;
+	b=jVm5v13ZKxAaxsKw4An1QlGTM5qjseVyP+h5+eWCRdVQDyyUDu5fNzxNFCqxmsFnnv
+	3SdcR5WQ5izbSRXYcUcEcS+l9kZf7NsjqQE/jGABX9aKxvS5eHRz/tYf4Gb9NmRX8Iar
+	NFMzTUhxLfW70bq8m0gdnoF/wkP7+FWIjRMr5OoknMlf51pYJ84/SEP6HP0poZ5M0iin
+	GZxKKnMYl4nZqkAyEBbI4bGqQ4rS2B96T1s23JIzBjnVp3DYQOBgWXV+bAm27hBr4hpg
+	01jSl77R860xeHD9gIR7g6hAaP2kr8AI9u6BS9G/kB99GZ7FVmgWZUTOtZyHuypO1YTB
+	6GdA==
+X-Gm-Message-State: ABuFfojneZpVCLjNQKCQ/CRkivo91dzwUjs+cExD1Xa8N91Q0dkgR0BE
+	HslynjKaF5MkhpBqasqYReS5w2LjEh/x4ZTjLovCnA==
+X-Google-Smtp-Source: ACcGV62HxxPCSRWEAAscaibOYL7oFYZEgwmiiBGHBRub9Zv1gSo1yUH39nQFhZ4vh46uz/5FKeceNDTFcG0RS2WhwEY=
+X-Received: by 2002:aca:4e96:: with SMTP id
+	c144-v6mr567923oib.55.1537968365545; 
+	Wed, 26 Sep 2018 06:26:05 -0700 (PDT)
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] util-linux: Fix packaging of util-linux-unshare
+References: <20180926004400.28526-1-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20180926004400.28526-1-hongl.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 26 Sep 2018 14:25:54 +0100
+Message-ID: <CAJTo0LYK5iDRvBb-CCEbowD2LiE3hRRik0sP-Ba9o2OczQBZWA@mail.gmail.com>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [PATCH] adwaita-icon-theme:upgrade to 3.30.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,47 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2018 13:08:59 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Sep 2018 13:26:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Below commit has added the unshare to alternatives but did not fix the
-packaging of the changed file.
+Please verify the patches apply cleanly:
 
-,----[ Offending commit ]
-| commit 147da8fe7458a38598845958cb358bb094eba57b
-| Author: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-| Date:   Thu Jul 5 11:57:19 2018 +0300
-|
-|     util-linux.inc: add fallocate & unshare to alternatives
-|
-|     These binaries can be provided by busybox triggering a conflict in
-|     do_rootfs so update-alternatives needs to know about them to properly
-|     create the symlinks.
-|
-|     Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-|     Signed-off-by: Ross Burton <ross.burton@intel.com>
-`----
+WARNING: adwaita-icon-theme-3.30.0-r0 do_patch:
+Some of the context lines in patches were ignored. This can lead to
+incorrectly applied patches.
+The context lines in the patches can be updated with devtool:
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+    devtool modify <recipe>
+    devtool finish --force-patch-refresh <recipe> <layer_path>
 
- meta/recipes-core/util-linux/util-linux.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Then the updated patches and the source tree (in devtool's workspace)
+should be reviewed to make sure the patches apply in the correct place
+and don't introduce duplicate lines (which can, and does happen
+when some of the context is ignored). Further information:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+Details:
+Applying patch 0001-Don-t-use-AC_CANONICAL_HOST.patch
+patching file configure.ac
+Hunk #1 succeeded at 3 with fuzz 2.
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 9d52ed935f..c2e02e847a 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -113,7 +113,7 @@ FILES_util-linux-sulogin = "${base_sbindir}/sulogin*"
- FILES_util-linux-mountpoint = "${base_bindir}/mountpoint.${BPN}"
- 
- FILES_util-linux-switch-root = "${base_sbindir}/switch_root.${BPN}"
--FILES_util-linux-unshare = "${bindir}/unshare"
-+FILES_util-linux-unshare = "${bindir}/unshare.${BPN}"
- 
- # Util-linux' blkid replaces the e2fsprogs one
- FILES_util-linux-blkid = "${base_sbindir}/blkid*"
--- 
-2.19.0
-
+On Wed, 26 Sep 2018 at 01:50, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+>
+> Upgrade adwaita-icon-theme from 3.28.0 to 3.30.0
+>
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> ---
+>  .../{adwaita-icon-theme_3.28.0.bb => adwaita-icon-theme_3.30.0.bb}    | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.28.0.bb => adwaita-icon-theme_3.30.0.bb} (93%)
+>
+> diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.30.0.bb
+> similarity index 93%
+> rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb
+> rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.30.0.bb
+> index 40dd35b..464182d 100644
+> --- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb
+> +++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.30.0.bb
+> @@ -15,8 +15,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+>             file://0001-Run-installation-commands-as-shell-jobs.patch \
+>             "
+>
+> -SRC_URI[md5sum] = "b25b2d82cbebf2cc9cd469457b604f2c"
+> -SRC_URI[sha256sum] = "7aae8c1dffd6772fd1a21a3d365a0ea28b7c3988bdbbeafbf8742cda68242150"
+> +SRC_URI[md5sum] = "5ad28b28fecde7f997f56e76a903567e"
+> +SRC_URI[sha256sum] = "9106729174a3e6cc183d14f74454987f5378b46f213e698a6ab2702f70e4e64b"
+>
+>  do_install_append() {
+>         # Build uses gtk-encode-symbolic-svg to create png versions:
+> --
+> 2.7.4
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
