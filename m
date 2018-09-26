@@ -1,30 +1,29 @@
-Return-Path: <hongl.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F3A66E630
+Return-Path: <okaya@kernel.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FC5C79707
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 00:43:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="45348084"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 Sep 2018 08:43:47 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 31E0E4B6AE18
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 08:43:49 +0800 (CST)
-Received: from localhost.local (10.167.225.78) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Wed, 26 Sep 2018 08:43:51 +0800
-From: Hong Liu <hongl.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Sep 2018 08:44:00 +0800
-Message-ID: <20180926004400.28526-1-hongl.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.14.3
+	Wed, 26 Sep 2018 01:10:31 +0000 (UTC)
+Received: from
+	sinanubuntu1604.mkjiurmyylmellclgttazegk5f.bx.internal.cloudapp.net
+	(unknown [40.76.73.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 3A481208E4;
+	Wed, 26 Sep 2018 01:10:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1537924232;
+	bh=rFkENT3HIbieGznkUG7POv+VUTArZr7CaNCr6AeKHnY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=w3PC3W9yq755UIkltEEJVvvchDE+kvCJ6qpZjl1QvEEzfRTkGQ1DLyLAv1TK9144f
+	HBCiDnXzbA3VETrJuWJ1vovD+cGBd8Rp0Duxzp/T2chQNpNW2q9Q4MnalS3Gbf4mPN
+	BAFcicynQBtYAqs8ppIfKmVBaqv6AAww0r+8386c=
+From: Sinan Kaya <okaya@kernel.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Sep 2018 01:10:26 +0000
+Message-Id: <20180926011027.21818-1-okaya@kernel.org>
+X-Mailer: git-send-email 2.19.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.78]
-X-yoursite-MailScanner-ID: 31E0E4B6AE18.AFB6D
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] [PATCH] adwaita-icon-theme:upgrade to 3.30.0
+Subject: [sumo] [PATCH v2 1/2] libice: CVE-2017-2626
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +36,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2018 00:43:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Sep 2018 01:10:31 -0000
+Content-Transfer-Encoding: 8bit
 
-Upgrade adwaita-icon-theme from 3.28.0 to 3.30.0
+* CVE-2017-2626
+It was discovered that libICE before 1.0.9-8 used a weak entropy to
+generate keys. A local attacker could potentially use this flaw for
+session hijacking using the information available from the process list.
 
-Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+Affects libice < 1.0.9-8
+
+CVE: CVE-2017-2626
+Ref: https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-2626
+Signed-off-by: Sinan Kaya <okaya@kernel.org>
 ---
- .../{adwaita-icon-theme_3.28.0.bb => adwaita-icon-theme_3.30.0.bb}    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.28.0.bb => adwaita-icon-theme_3.30.0.bb} (93%)
+ .../xorg-lib/libice/CVE-2017-2626.patch       | 145 ++++++++++++++++++
+ .../recipes-graphics/xorg-lib/libice_1.0.9.bb |   4 +
+ 2 files changed, 149 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.30.0.bb
-similarity index 93%
-rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb
-rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.30.0.bb
-index 40dd35b..464182d 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.30.0.bb
-@@ -15,8 +15,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0001-Run-installation-commands-as-shell-jobs.patch \
-            "
+diff --git a/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch b/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
+new file mode 100644
+index 0000000000..88c3f6ddfe
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
+@@ -0,0 +1,145 @@
++From da5dc9e3a7a7e96284512f976f864f7ef13755b7 Mon Sep 17 00:00:00 2001
++From: Benjamin Tissoires <benjamin.tissoires@gmail.com>
++Date: Tue, 4 Apr 2017 19:12:53 +0200
++Subject: [PATCH] Use getentropy() if arc4random_buf() is not available
++
++This allows to fix CVE-2017-2626 on Linux platforms without pulling in
++libbsd.
++The libc getentropy() is available since glibc 2.25 but also on OpenBSD.
++For Linux, we need at least a v3.17 kernel. If the recommended
++arc4random_buf() function is not available, emulate it by first trying
++to use getentropy() on a supported glibc and kernel. If the call fails,
++fall back to the current (partly vulnerable) code.
++
++Signed-off-by: Benjamin Tissoires <benjamin.tissoires@gmail.com>
++Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
++Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
++Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
++Upstream-Status: Backport [https://cgit.freedesktop.org/xorg/lib/libICE/commit/?id=ff5e59f32255913bb1cdf51441b98c9107ae165b]
++CVE: CVE-2017-2626
++Signed-off-by: Sinan Kaya <okaya@kernel.org>
++---
++ configure.ac  |  2 +-
++ src/iceauth.c | 65 ++++++++++++++++++++++++++++++++++++---------------
++ 2 files changed, 47 insertions(+), 20 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 458882a..c971ab6 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -38,7 +38,7 @@ AC_DEFINE(ICE_t, 1, [Xtrans transport type])
++ 
++ # Checks for library functions.
++ AC_CHECK_LIB([bsd], [arc4random_buf])
++-AC_CHECK_FUNCS([asprintf arc4random_buf])
+++AC_CHECK_FUNCS([asprintf arc4random_buf getentropy])
++ 
++ # Allow checking code with lint, sparse, etc.
++ XORG_WITH_LINT
++diff --git a/src/iceauth.c b/src/iceauth.c
++index ef66626..9b77eac 100644
++--- a/src/iceauth.c
+++++ b/src/iceauth.c
++@@ -42,31 +42,19 @@ Author: Ralph Mor, X Consortium
++ 
++ static int was_called_state;
++ 
++-/*
++- * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
++- * the SI.  It is not part of standard ICElib.
++- */
+++#ifndef HAVE_ARC4RANDOM_BUF
++ 
++-
++-char *
++-IceGenerateMagicCookie (
+++static void
+++emulate_getrandom_buf (
+++	char *auth,
++ 	int len
++ )
++ {
++-    char    *auth;
++-#ifndef HAVE_ARC4RANDOM_BUF
++     long    ldata[2];
++     int	    seed;
++     int	    value;
++     int	    i;
++-#endif
++ 
++-    if ((auth = malloc (len + 1)) == NULL)
++-	return (NULL);
++-
++-#ifdef HAVE_ARC4RANDOM_BUF
++-    arc4random_buf(auth, len);
++-#else
++ #ifdef ITIMER_REAL
++     {
++ 	struct timeval  now;
++@@ -74,13 +62,13 @@ IceGenerateMagicCookie (
++ 	ldata[0] = now.tv_sec;
++ 	ldata[1] = now.tv_usec;
++     }
++-#else
+++#else /* ITIMER_REAL */
++     {
++ 	long    time ();
++ 	ldata[0] = time ((long *) 0);
++ 	ldata[1] = getpid ();
++     }
++-#endif
+++#endif /* ITIMER_REAL */
++     seed = (ldata[0]) + (ldata[1] << 16);
++     srand (seed);
++     for (i = 0; i < len; i++)
++@@ -88,7 +76,46 @@ IceGenerateMagicCookie (
++ 	value = rand ();
++ 	auth[i] = value & 0xff;
++     }
++-#endif
+++}
+++
+++static void
+++arc4random_buf (
+++	char *auth,
+++	int len
+++)
+++{
+++    int	    ret;
+++
+++#if HAVE_GETENTROPY
+++    /* weak emulation of arc4random through the entropy libc */
+++    ret = getentropy (auth, len);
+++    if (ret == 0)
+++	return;
+++#endif /* HAVE_GETENTROPY */
+++
+++    emulate_getrandom_buf (auth, len);
+++}
+++
+++#endif /* !defined(HAVE_ARC4RANDOM_BUF) */
+++
+++/*
+++ * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
+++ * the SI.  It is not part of standard ICElib.
+++ */
+++
+++
+++char *
+++IceGenerateMagicCookie (
+++	int len
+++)
+++{
+++    char    *auth;
+++
+++    if ((auth = malloc (len + 1)) == NULL)
+++	return (NULL);
+++
+++    arc4random_buf (auth, len);
+++
++     auth[len] = '\0';
++     return (auth);
++ }
++-- 
++2.19.0
++
+diff --git a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+index f069749ce0..4962815ae3 100644
+--- a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+@@ -8,6 +8,10 @@ negotiating versions, and for reporting errors. "
  
--SRC_URI[md5sum] = "b25b2d82cbebf2cc9cd469457b604f2c"
--SRC_URI[sha256sum] = "7aae8c1dffd6772fd1a21a3d365a0ea28b7c3988bdbbeafbf8742cda68242150"
-+SRC_URI[md5sum] = "5ad28b28fecde7f997f56e76a903567e"
-+SRC_URI[sha256sum] = "9106729174a3e6cc183d14f74454987f5378b46f213e698a6ab2702f70e4e64b"
+ require xorg-lib-common.inc
  
- do_install_append() {
- 	# Build uses gtk-encode-symbolic-svg to create png versions:
++SRC_URI += "\
++            file://CVE-2017-2626.patch \
++"
++
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d162b1b3c6fa812da9d804dcf8584a93"
+ 
 -- 
-2.7.4
-
-
+2.19.0
 
 
