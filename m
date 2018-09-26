@@ -1,20 +1,22 @@
 Return-Path: <dv@pseudoterminal.org>
+X-Greylist: delayed 528 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 26 Sep 2018 17:51:41 UTC
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 63E3679373
+	by mail.openembedded.org (Postfix) with ESMTP id 62E2879368
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 26 Sep 2018 17:51:41 +0000 (UTC)
 Received: from localhost.localdomain (62-178-50-190.cable.dynamic.surfer.at
-	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id 064156E94
+	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id AD09B6E88
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 19:42:55 +0200 (CEST)
+	Wed, 26 Sep 2018 19:42:53 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Sep 2018 19:42:42 +0200
-Message-Id: <20180926174244.20989-10-dv@pseudoterminal.org>
+Date: Wed, 26 Sep 2018 19:42:34 +0200
+Message-Id: <20180926174244.20989-2-dv@pseudoterminal.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180926174244.20989-1-dv@pseudoterminal.org>
 References: <20180926174244.20989-1-dv@pseudoterminal.org>
-Subject: [PATCH 10/12] gstreamer1.0-python: upgrade to version 1.14.3
+Subject: [PATCH 02/12] gstreamer1.0-plugin-base: upgrade to version 1.14.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,32 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2018 17:51:41 -0000
+X-List-Received-Date: Wed, 26 Sep 2018 17:51:42 -0000
 
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- ...amer1.0-python_1.14.2.bb => gstreamer1.0-python_1.14.3.bb} | 4 ++--
+ ...ins-base_1.14.2.bb => gstreamer1.0-plugins-base_1.14.3.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.14.2.bb => gstreamer1.0-python_1.14.3.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.14.2.bb => gstreamer1.0-plugins-base_1.14.3.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.3.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.3.bb
-index 78c0046328..d42c9196e7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.3.bb
-@@ -6,8 +6,8 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.3.bb
+similarity index 96%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.3.bb
+index dcea789192..a6a7c8d473 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.3.bb
+@@ -21,8 +21,8 @@ SRC_URI = " \
+             file://0011-gl-Add-switches-for-explicitely-enabling-disabling-P.patch \
+             file://link-with-libvchostif.patch \
+             "
+-SRC_URI[md5sum] = "8bc790d623350cd8eac68d3a13d79f7d"
+-SRC_URI[sha256sum] = "a4b7e80ba869f599307449b17c9e00b5d1e94d3ba1d8a1a386b8770b2ef01c7c"
++SRC_URI[md5sum] = "2ba8eaef8a249c0fddb37f21e2912e16"
++SRC_URI[sha256sum] = "f0b319c36be0ffc2a00380c77ba269cdf04e2b39bbc49d30b641fc35aa0b7952"
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[md5sum] = "5b0af1bd490d79a7d435b2be47568f8e"
--SRC_URI[sha256sum] = "dc40be5ab4f1a433ff3f0af2b3d2d79a363009020c41ec10f9747ba64200cb22"
-+SRC_URI[md5sum] = "af6907b1b6c41a52b27939417e8c5ba9"
-+SRC_URI[sha256sum] = "4fc3e76c965384e54fb6be819d606ab304988eb677cf0c5dcc0dd555e3ad8307"
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
  
- DEPENDS = "gstreamer1.0 python3-pygobject"
- RDEPENDS_${PN} += "gstreamer1.0 python3-pygobject"
 -- 
 2.17.1
 
