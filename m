@@ -1,52 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
-	[209.85.210.47])
-	by mail.openembedded.org (Postfix) with ESMTP id E1D8A79653
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id CECB260801
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 11:55:07 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id c13-v6so10086571otf.12
+	Wed, 26 Sep 2018 12:02:47 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id o18-v6so2039498wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 04:55:09 -0700 (PDT)
+	Wed, 26 Sep 2018 05:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rnoBO00Oxqe5w42o60Jqv1euW8pzJ1hmAGK6XyLO9Z4=;
-	b=i7Xk1mV4l/seVjJot34xYQdciLtGvs/QY66tb9GTWX+gBeGymEWLURuXcvIeIFktQk
-	fXr3QfUx9RqanWxBIPqZ2BXGZc+HiIL59Y4ifuX8HMSNx3SoB5kjBXAOGKCBLh2aYcy2
-	ddPMSAQYKBdXlhbwqJp2wnSMV+m76LeTNwG77RTJS9m/5/fndl8RG+96Qb4ARlVV7wkn
-	OegAolu5ldOE0081/yCrwSkcdsXF3VchMaDOorDFLSe1IAQhAK5xS0L3c8cv4TZh3BWU
-	AAAbmUblX6YP8xMlWgE59D1+yWkfy2dz7Mc6UMg9JEmvfbkx/KLGvv+mkNeMJWDJKoSj
-	V+Wg==
+	h=from:to:subject:date:message-id;
+	bh=qz5LAN4BsN2Jwim5g8lDH30icplaMenjxmMotIb4YKc=;
+	b=TfSpEDond5UEJqxal97qwHUjn57cldZbYNcy28+9d0DYGsVhUNR/Xw6uPI3guMK8/d
+	sxsBg3Zi4I8T5BSwabBCsVLJQBlYs7qsb9EWWHrde/5eKbbebPy8dgaOGV0T6cdBcQM5
+	jIop6HsHSVkVUEx513wFKIGM02AFuAQvOHpu48iiZsy8VcChQiC0JRDBM9tlOVusv4ro
+	5UXJz8WEBN3suky0o4z5+PDiVfAbYsn/xDx8cYzysGW5tbu/+Y0X5ykEnR9ReHiQ3rES
+	CHfHO2mvUn5YpviyXsn7VIqkyezxc4KksZkmE4uL2FZx4iT1dpCcQ7vLgqP2v7T30A/i
+	aG8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rnoBO00Oxqe5w42o60Jqv1euW8pzJ1hmAGK6XyLO9Z4=;
-	b=ZGz99T1h/rGKqiEPg31JAlFjPwGD2k+CGNc/5gO7+Ng5lIM2ghLZ1EM4ASxcUdwwTD
-	Pzqij+htL6RfaDGWemGs7RxKQd04UOIoX6edHebt8l0ma80TmvN7jTPI1F5qsOQuu4Tb
-	ytG6fq0KV0h2t9Yg1sU8IcQArW/Tam1GeU+Tezcdip6nXRXxSEMxJ4/a8RB/ZYXulq+J
-	GZ1+YUcqS0SgnBN+CzdqOVpxRMFvQRjLinJA3AoQdhGxHPf7n1cZRQd8xnxshcNmFFW0
-	JfHZgCaU2bO6UHg/jcSghAkS2YKJeWv1f3QuFXwRUJiivPNfH3N3zjz0yP6JeRx1WDhL
-	ymow==
-X-Gm-Message-State: ABuFfoixabkOuKeUZdBUCjD9Pf85zcA9KKKKQkkuJx5IXOl7JyTEHnT1
-	S4rMkhoau2jEeOinG+qTSdMQ88+pk9z2t02AmZDbhw==
-X-Google-Smtp-Source: ACcGV60i0IQqkCedWiWQMA7MkXWCYWoQR7gQ7x2CqMC4wGx8YmXnaAaNb0KQYD1l+K76G16g1NIm1NUouYmmUiu15ls=
-X-Received: by 2002:a9d:48f9:: with SMTP id
-	a54-v6mr3929630otj.343.1537962908929; 
-	Wed, 26 Sep 2018 04:55:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <1b958e43-01e8-c958-7c5e-1f5f3aca227e@victronenergy.com>
-	<b34c562c-b738-4817-8241-f2b02d00827c@xilinx.com>
-	<0311dc58-8a9f-4773-abf3-bfa90a3cfc0f@victronenergy.com>
-In-Reply-To: <0311dc58-8a9f-4773-abf3-bfa90a3cfc0f@victronenergy.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Sep 2018 12:54:57 +0100
-Message-ID: <CAJTo0LbtyKnZNrwX7j0n_uVk158EVT_8EU_TPDKg6iXLFtQZvg@mail.gmail.com>
-To: jhofstee@victronenergy.com
-Cc: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: python-sqlite3 packaging
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=qz5LAN4BsN2Jwim5g8lDH30icplaMenjxmMotIb4YKc=;
+	b=SfzngfoZqNefvGCtMtfHov1DDeIns6JVJpIDb3/2B3NQ3tb5o3bXRDeCM6777W3mS/
+	elgmqQeJNQt+OzXVJVwjkyzpfm4+17VV6VgA15ZMAzhPsWXqJrn0/Ex1r8IPPQItUDTe
+	UuwaWqNwUjiJqy9sFFLjDbs1wpy+glGvf6ZAcZhpcMCr5SprLlHa253dmotMa39ZOdRO
+	VGX+BTjthv3wzSdQRgvK2SSZGnLMROmxUjjMGYjeMRh7/Gi/5iOTbQXMwEx5mHfn+Spq
+	Dt6T6QtpobR/xXnnbU9HC5UwXRcrzyUkD8Ua5tcKnIMi6xjws/iEuVVeBORhEwT4z/jM
+	Q6fA==
+X-Gm-Message-State: ABuFfohkwPAr31XXh9+7h91pvKm9bEocA1MybZ7zfbMX2Mht1EypWSlb
+	wOZ3+XY/KvCM1gHhvTQI4FP1FYnbxao=
+X-Google-Smtp-Source: ACcGV60O17+fwr2Kjf49yyRpKjPwSNNRoevKq/Ktp5Mqj7OczsnKQXf654pwYrZ9MmPFcRNj2tIG1g==
+X-Received: by 2002:a1c:aa0c:: with SMTP id
+	t12-v6mr4155683wme.109.1537963368164; 
+	Wed, 26 Sep 2018 05:02:48 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	v6-v6sm3385899wmc.43.2018.09.26.05.02.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 26 Sep 2018 05:02:47 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Sep 2018 13:02:46 +0100
+Message-Id: <20180926120246.1024-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] python3: move sqlite files into python-sqlite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,51 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2018 11:55:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 26 Sep 2018 12:02:48 -0000
 
-Patch on the list now
+sqlite3/__init__.py was accidentally included in python3-misc.
 
-Ross
-On Wed, 26 Sep 2018 at 10:23, Jeroen Hofstee <jhofstee@victronenergy.com> wrote:
->
-> Hello Alejandro,
->
->
-> On 09/25/2018 05:08 PM, Alejandro Hernandez wrote:
-> > Hey Jeroen,
-> >
-> > On 9/24/2018 12:22 PM, Jeroen Hofstee wrote:
-> >> Hello,
-> >>
-> >> Not sure where to report this, so trying here. It seems the
-> >> /usr/lib/python2.7/sqlite3 ends up in the python-misc and not
-> >> in python-sqlite3.
-> >>
-> >> This causes statements like:
-> >>
-> >> import sqlite3
-> >>
-> >> To error with ImportError: No module named sqlite3, when
-> >> python-misc is not installed.
-> >>
-> >> It looks like the python2-manifest should at least include the
-> >> __init__.py, but the logs suggest the manifest is generated.
-> >>
-> >> Perhaps it is easier if someone who knows more about this
-> >> looks into it..
-> >
-> > Yes, this sure looks like a bug, can you please file it on
-> > https://bugzilla.yoctoproject.org/enter_bug.cgi?product=OE-Core so we
-> > can keep track of it?
->
-> Thanks, done https://bugzilla.yoctoproject.org/show_bug.cgi?id=12933
->
-> Regards,
-> Jeroen
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/python/python3/python3-manifest.json | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 539b7967b59..fe8bb992928 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -994,13 +994,11 @@
+         ],
+         "files": [
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_sqlite3.*.so",
+-            "${libdir}/python${PYTHON_MAJMIN}/sqlite3/dbapi2.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/sqlite3/dump.py"
++            "${libdir}/python${PYTHON_MAJMIN}/sqlite3/*.py"
+         ],
+         "cached": [
+             "${libdir}/python${PYTHON_MAJMIN}/sqlite3/__pycache__",
+-            "${libdir}/python${PYTHON_MAJMIN}/sqlite3/__pycache__/dbapi2.*.pyc",
+-            "${libdir}/python${PYTHON_MAJMIN}/sqlite3/__pycache__/dump.*.pyc"
++            "${libdir}/python${PYTHON_MAJMIN}/sqlite3/__pycache__/*.pyc"
+         ]
+     },
+     "stringold": {
+-- 
+2.11.0
+
 
