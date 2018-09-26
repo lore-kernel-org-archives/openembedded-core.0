@@ -1,26 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C99C7745ED
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BD6DE74596
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 22:30:31 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w8QMUUFh009348
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Wed, 26 Sep 2018 23:30:31 +0100
-Message-ID: <5ec7d09ee0d304331280e1ad45a95f136beccbf8.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrej Valek <andrej.valek@siemens.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 26 Sep 2018 23:30:30 +0100
-In-Reply-To: <20180926132848.6632-2-andrej.valek@siemens.com>
-References: <20180926132848.6632-1-andrej.valek@siemens.com>
-	<20180926132848.6632-2-andrej.valek@siemens.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/1] kernel-devsrc: fix searching for non-existing manifest files
+	Wed, 26 Sep 2018 22:51:55 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8QMpUnV002430
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Sep 2018 15:51:46 -0700
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 26 Sep 2018 15:51:25 -0700
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Sep 2018 15:51:25 -0700
+Message-ID: <20180926225125.189007-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.13.0
+MIME-Version: 1.0
+Subject: [PATCH 1/1] libtiff: fix CVE-2017-17095
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +31,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2018 22:30:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Sep 2018 22:51:55 -0000
+Content-Type: text/plain
 
-On Wed, 2018-09-26 at 15:28 +0200, Andrej Valek wrote:
-> Even if the do_populate_sysroot have had set-up noexec flag,
-> populate_sdk's
-> tasks were trying to find .populate_sysroot manifest file. Change
-> noexec
-> flag settings to delete appreciated tasks.
-> 
-> WARNING: core-image-minimal-1.0-r0 do_sdk_depends: Manifest
-> build/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-kernel-
-> devsrc.populate_sysroot
-> not found in qemuarm armv5te armv5e armv5t armv5 armv4t armv4 arm
-> allarch x86_64_x86_64-nativesdk (variant '')?
-> 
-> WARNING: core-image-minimal-1.0-r0 do_populate_sdk_ext: Manifest
-> build/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-kernel-
-> devsrc.populate_sysroot
-> not found in qemuarm armv5te armv5e armv5t armv5 armv4t armv4 arm
-> allarch x86_64_x86_64-nativesdk (variant '')?
-> 
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index 463305e89a..716e908af8 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -20,12 +20,12 @@ do_install[depends] +=
-> "virtual/kernel:do_shared_workdir"
->  do_install[depends] += "virtual/kernel:do_install"
->  
->  # There's nothing to do here, except install the source where we can
-> package it
-> -do_fetch[noexec] = "1"
-> -do_unpack[noexec] = "1"
-> -do_patch[noexec] = "1"
-> -do_configure[noexec] = "1"
-> -do_compile[noexec] = "1"
-> -do_populate_sysroot[noexec] = "1"
-> +deltask do_fetch
-> +deltask do_unpack
-> +deltask do_patch
-> +deltask do_configure
-> +deltask do_compile
-> +deltask do_populate_sysroot
->  
+Backport fix from gitlab.com/libtiff/libtiff.
+nvd.nist.gov does not yet reference this patch.
 
-This triggered some failures in the autobuilder tests:
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ .../libtiff/files/CVE-2017-17095.patch             | 46 ++++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.9.bb      |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-17095.patch
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/8/builds/78/steps/7/logs/step1b
-https://autobuilder.yoctoproject.org/typhoon/#/builders/19/builds/70/steps/7/logs/step1c
-https://autobuilder.yoctoproject.org/typhoon/#/builders/27/builds/77/steps/7/logs/step1c
-
-(https://wiki.yoctoproject.org/wiki/BuildLog#2578 if that is clearer,
-the stdio log shows which following log(s) have the errors)
-
-why, I'm not sure...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2017-17095.patch b/meta/recipes-multimedia/libtiff/files/CVE-2017-17095.patch
+new file mode 100644
+index 0000000..9b9962e
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2017-17095.patch
+@@ -0,0 +1,46 @@
++From 9171da596c88e6a2dadcab4a3a89dddd6e1b4655 Mon Sep 17 00:00:00 2001
++From: Nathan Baker <elitebadger@gmail.com>
++Date: Thu, 25 Jan 2018 21:28:15 +0000
++Subject: [PATCH] Add workaround to pal2rgb buffer overflow.
++
++CVE: CVE-2017-17095
++
++Upstream-Status: Backport (unchanged) [gitlab.com/libtiff/libtiff/commit/9171da5...]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com.
++
++---
++ tools/pal2rgb.c |   17 +++++++++++++++--
++ 1 file changed, 15 insertions(+), 2 deletions(-)
++
++diff --git a/tools/pal2rgb.c b/tools/pal2rgb.c
++index 0423598..01fcf94 100644
++--- a/tools/pal2rgb.c
+++++ b/tools/pal2rgb.c
++@@ -182,8 +182,21 @@ main(int argc, char* argv[])
++ 	{ unsigned char *ibuf, *obuf;
++ 	  register unsigned char* pp;
++ 	  register uint32 x;
++-	  ibuf = (unsigned char*)_TIFFmalloc(TIFFScanlineSize(in));
++-	  obuf = (unsigned char*)_TIFFmalloc(TIFFScanlineSize(out));
+++	  tmsize_t tss_in = TIFFScanlineSize(in);
+++	  tmsize_t tss_out = TIFFScanlineSize(out);
+++	  if (tss_out / tss_in < 3) {
+++		/*
+++		 * BUG 2750: The following code does not know about chroma
+++		 * subsampling of JPEG data. It assumes that the output buffer is 3x
+++		 * the length of the input buffer due to exploding the palette into
+++		 * RGB tuples. If this assumption is incorrect, it could lead to a
+++		 * buffer overflow. Go ahead and fail now to prevent that.
+++		 */
+++		fprintf(stderr, "Could not determine correct image size for output. Exiting.\n");
+++		return -1;
+++      }
+++	  ibuf = (unsigned char*)_TIFFmalloc(tss_in);
+++	  obuf = (unsigned char*)_TIFFmalloc(tss_out);
++ 	  switch (config) {
++ 	  case PLANARCONFIG_CONTIG:
++ 		for (row = 0; row < imagelength; row++) {
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
+index fa64d11..93beddb 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2018-10963.patch \
+            file://CVE-2018-8905.patch \
+            file://CVE-2018-7456.patch \
++           file://CVE-2017-17095.patch \
+           "
+ 
+ SRC_URI[md5sum] = "54bad211279cc93eb4fca31ba9bfdc79"
+-- 
+2.7.4
 
 
