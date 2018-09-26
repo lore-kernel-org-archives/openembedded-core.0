@@ -1,56 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D7FEE7961F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id C745779547
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 12:27:52 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id y13-v6so2122392wmi.1
+	Wed, 26 Sep 2018 13:08:58 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id m15-v6so10955875qtp.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 05:27:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=qKTnoVOs+xQB14jZWeY86TyiO+pUHmed6QFpYiiOqY0=;
-	b=S4WAGmc4p5NFvXZQHHeTkBScjdpvFgemEgxya8fyYBB5c7I9Q/d0l9i2WEKrkN2Zew
-	upvnhOhKbpBw/MTXO+xJ1ay7/J25hJXt5zkXZ0rZCz2ikhuU8epBltCriPStNpmtCHEl
-	okY1GfmZOk0GBcpk5DxcJiM3ilx+J1cvSBTn8=
+	Wed, 26 Sep 2018 06:09:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=qKTnoVOs+xQB14jZWeY86TyiO+pUHmed6QFpYiiOqY0=;
-	b=SH+zWbfUhW/juAv9roiTWgCiuMujCX939db3+sAuGwwOaaHJYFh1Q9bXJ1vcL0HtDC
-	7tg1/ibI5SlHpC82O4oSBT2OTLlbzHGdQqYZBsGR6MLqtfQ+OkyGx24sb8/sCJ95kGq6
-	9y/E09uVpxvZ5FNBEHS2jry3hRr6EB3pvRmkrPhcvi9xBfDJQMXw5GXb8/OY+fOVtHJX
-	khZ0AaZcB1xPkzxFSSLLi2lH3QI9RwxG1u8Qj42Lvjll+rh12+yrJnElX8mO3MpkQB74
-	v3yOpAZqt0pbmWrZxRmdfF+n/bLKXubr2qy4HLtsoVIQfY2lXcpWIvHGjYfCK13b6H2d
-	6IEQ==
-X-Gm-Message-State: ABuFfohfqzDZvYedPs4ghM1jMGwLCa2ym8xZz5LQXFu/Ur0IKKNaO3Jz
-	e1PHDrpHMKiDwSYf5JKHYZFNxA==
-X-Google-Smtp-Source: ACcGV624LJDJcOdx3RUS+wK8/xb05d1c0irJg6lCS9H7xt+isZ9IwSvMdP1G4baytMITEE1zTbgp9g==
-X-Received: by 2002:a1c:889:: with SMTP id
-	131-v6mr4055876wmi.142.1537964873539; 
-	Wed, 26 Sep 2018 05:27:53 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=PHN9hRxIvBNn6VtyrzK8RwAr2pfUeZlrNCPf2qcQGW0=;
+	b=T8rPXFX/DWoalo1E6Qh69BepjtYVMgn6W776pTDc8rC/znKAIdQU+flbiBHrfUkBeH
+	4mbGYYzSNSQFxKwfxhBQ2BfsY+94puq34f9n7BjyS954+dO32mf36GTgKeQSCVuiGhsr
+	WUqOJ+GRVSRZy1h0JrLRys3qu1zVnnlMykO52RHBzbgJfPiU5z4WEloku4XASqlrMqW8
+	nHefoLv4Qm+mIaTjFzELdoXgOToUmE/p3k8XnhnM/A191ToRTrVQ/NmJAQH0pclchCIa
+	CFO2SJUOsQ0qtQ2CGhsnvdcdpW3nxWTdlmia/NiPsFitah7SWrfOwqRXU1tHFBu0uDfn
+	5YKw==
+X-Gm-Message-State: ABuFfogRZsAYMG4lAAE6j0i0Phai+I4TwhrFvTeZGIZ/7ws5roaSUjha
+	ZUphv48M/K+N+mrSov5BDt3Nxcld71M=
+X-Google-Smtp-Source: ACcGV63VTRu3s5cYTdWphX80e22WJ+19Gt5N6eLKvUn52QsklRf8WLhTuKnx2zyVl6cqegzcW2gMHg==
+X-Received: by 2002:a05:6214:1108:: with SMTP id
+	e8mr4238794qvs.194.1537967339240; 
+	Wed, 26 Sep 2018 06:08:59 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.65.41])
 	by smtp.gmail.com with ESMTPSA id
-	s2-v6sm10405726wrn.83.2018.09.26.05.27.51
+	a13-v6sm2714889qkg.94.2018.09.26.06.08.56
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 26 Sep 2018 05:27:52 -0700 (PDT)
-Message-ID: <2a024a84749d6b6a838c92efad8a2ddf7f262dbe.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Andrej Valek <andrej.valek@siemens.com>, Khem Raj <raj.khem@gmail.com>
-Date: Wed, 26 Sep 2018 13:27:51 +0100
-In-Reply-To: <7f369514-092a-6a76-0262-ac9a84309b10@siemens.com>
-References: <711648b8-d33e-3f5d-1ce2-c130ce066166@siemens.com>
-	<b747d8c76cefee96ac29304de59799b4f5da0050.camel@linuxfoundation.org>
-	<7f369514-092a-6a76-0262-ac9a84309b10@siemens.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: "bluehills7@comcast.net" <bluehills7@comcast.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: SDK and out of tree modules
+	Wed, 26 Sep 2018 06:08:58 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Wed, 26 Sep 2018 10:08:53 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Sep 2018 10:08:52 -0300
+Message-Id: <20180926130852.16208-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.19.0
+MIME-Version: 1.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] util-linux: Fix packaging of util-linux-unshare
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,67 +52,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2018 12:27:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Sep 2018 13:08:59 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2018-09-26 at 14:22 +0200, Andrej Valek wrote:
-> Hello Richard,
-> 
-> I am working on derivate of pyro branch.
-> So I have setup new machine based on master (without my
-> modifications),
-> but the problem is still there.
-> 
-> What I have made:
-> IMAGE_INSTALL += "kernel-devsrc"
-> 
-> core-image-minimal -c populate_sdk_ext
-> 
-> Now the manifests in directory have different names:
-> $ find . -name "*kernel*"
-> ./manifest-qemuarm-kernel-devsrc.populate_lic
-> ./manifest-qemuarm-kernel-devsrc.package
-> ./manifest-qemuarm-kernel-devsrc.packagedata
-> ./manifest-qemuarm-kernel-devsrc.package_write_rpm
-> ./manifest-qemuarm-kernel-devsrc.package_qa
-> 
-> So now allarch has been replaced by qemuarm. Seems to be, that
-> something
-> has been changed in PKG_ARCH.
-> 
-> But warnings are still the same:
-> WARNING: core-image-minimal-1.0-r0 do_sdk_depends: Manifest
-> build/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-kernel-
-> devsrc.populate_sysroot
-> not found in qemuarm armv5te armv5e armv5t armv5 armv4t armv4 arm
-> allarch x86_64_x86_64-nativesdk (variant '')?
-> WARNING: core-image-minimal-1.0-r0 do_populate_sdk_ext: Manifest
-> build/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-kernel-
-> devsrc.populate_sysroot
-> not found in qemuarm armv5te armv5e armv5t armv5 armv4t armv4 arm
-> allarch x86_64_x86_64-nativesdk (variant '')?
->
-> But why is trying to find nativesdk manifests instead of qemuarm? 
+Below commit has added the unshare to alternatives but did not fix the
+packaging of the changed file.
 
-It will search all the PACKAGE_ARCHS variants in order.
+,----[ Offending commit ]
+| commit 147da8fe7458a38598845958cb358bb094eba57b
+| Author: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+| Date:   Thu Jul 5 11:57:19 2018 +0300
+|
+|     util-linux.inc: add fallocate & unshare to alternatives
+|
+|     These binaries can be provided by busybox triggering a conflict in
+|     do_rootfs so update-alternatives needs to know about them to properly
+|     create the symlinks.
+|
+|     Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+|     Signed-off-by: Ross Burton <ross.burton@intel.com>
+`----
 
-> Isn't it caused by IMAGE_INSTALL in populate task?
-> Anyway, the problem is the same. Still couldn't find the
-> .populate_sysroot manifest file due to mentioned [noxec].
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-I've given this a fair bit of thought. Could you try replacing the
-[noexec] with:
+ meta/recipes-core/util-linux/util-linux.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-deltask do_populate_sysroot
-deltask do_populate_sysroot_setscene
-
-I think thay may be the right fix. Whether it causes other issues,
-we'll see...
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 9d52ed935f..c2e02e847a 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -113,7 +113,7 @@ FILES_util-linux-sulogin = "${base_sbindir}/sulogin*"
+ FILES_util-linux-mountpoint = "${base_bindir}/mountpoint.${BPN}"
+ 
+ FILES_util-linux-switch-root = "${base_sbindir}/switch_root.${BPN}"
+-FILES_util-linux-unshare = "${bindir}/unshare"
++FILES_util-linux-unshare = "${bindir}/unshare.${BPN}"
+ 
+ # Util-linux' blkid replaces the e2fsprogs one
+ FILES_util-linux-blkid = "${base_sbindir}/blkid*"
+-- 
+2.19.0
 
 
