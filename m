@@ -1,6 +1,6 @@
 Return-Path: <okaya@kernel.org>
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FC5C79707
+	by mail.openembedded.org (Postfix) with ESMTP id 829CD79707
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 26 Sep 2018 01:10:31 +0000 (UTC)
 Received: from
@@ -8,22 +8,24 @@ Received: from
 	(unknown [40.76.73.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 3A481208E4;
+	by mail.kernel.org (Postfix) with ESMTPSA id B36A1214AB;
 	Wed, 26 Sep 2018 01:10:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1537924232;
-	bh=rFkENT3HIbieGznkUG7POv+VUTArZr7CaNCr6AeKHnY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=w3PC3W9yq755UIkltEEJVvvchDE+kvCJ6qpZjl1QvEEzfRTkGQ1DLyLAv1TK9144f
-	HBCiDnXzbA3VETrJuWJ1vovD+cGBd8Rp0Duxzp/T2chQNpNW2q9Q4MnalS3Gbf4mPN
-	BAFcicynQBtYAqs8ppIfKmVBaqv6AAww0r+8386c=
+	s=default; t=1537924233;
+	bh=UQ3/Al99wg42GndwmEloFGHG1WfKyiUOEHHWgsUfDdg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qj9XObXkEAOh8EE8YDZOPxLm8LSkjSqCcCoYxEU1rS3V8D5wbP8b0e/EymN03ULCs
+	NT3Vj/GnxH5+XzqRDvUGR+ZFF6EKdKNiEsjsFF63RQeX2VxJjiYCo/j7vGJAwvnwDa
+	zoioPqVIw2q9zsVdHt/PhIPDcQ/qkxpJX7r5qYVM=
 From: Sinan Kaya <okaya@kernel.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Sep 2018 01:10:26 +0000
-Message-Id: <20180926011027.21818-1-okaya@kernel.org>
+Date: Wed, 26 Sep 2018 01:10:27 +0000
+Message-Id: <20180926011027.21818-2-okaya@kernel.org>
 X-Mailer: git-send-email 2.19.0
+In-Reply-To: <20180926011027.21818-1-okaya@kernel.org>
+References: <20180926011027.21818-1-okaya@kernel.org>
 MIME-Version: 1.0
-Subject: [sumo] [PATCH v2 1/2] libice: CVE-2017-2626
+Subject: [sumo] [PATCH v2 2/2] libcroco: CVE-2017-7961
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,188 +41,86 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 26 Sep 2018 01:10:31 -0000
 Content-Transfer-Encoding: 8bit
 
-* CVE-2017-2626
-It was discovered that libICE before 1.0.9-8 used a weak entropy to
-generate keys. A local attacker could potentially use this flaw for
-session hijacking using the information available from the process list.
+* CVE-2017-7961
+The cr_tknzr_parse_rgb function in cr-tknzr.c in libcroco has an
+"outside the range of representable values of type long" undefined
+behavior issue, which might allow remote attackers to cause a denial
+of service (application crash) or possibly have unspecified other
+impact via a crafted CSS file.
 
-Affects libice < 1.0.9-8
-
-CVE: CVE-2017-2626
-Ref: https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-2626
+CVE: CVE-2017-7961
+Ref: https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-7961
 Signed-off-by: Sinan Kaya <okaya@kernel.org>
 ---
- .../xorg-lib/libice/CVE-2017-2626.patch       | 145 ++++++++++++++++++
- .../recipes-graphics/xorg-lib/libice_1.0.9.bb |   4 +
- 2 files changed, 149 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
+ .../libcroco/libcroco/CVE-2017-7961.patch     | 46 +++++++++++++++++++
+ .../libcroco/libcroco_0.6.12.bb               |  2 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch
 
-diff --git a/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch b/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
+diff --git a/meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch b/meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch
 new file mode 100644
-index 0000000000..88c3f6ddfe
+index 0000000000..8ac11ec498
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
-@@ -0,0 +1,145 @@
-+From da5dc9e3a7a7e96284512f976f864f7ef13755b7 Mon Sep 17 00:00:00 2001
-+From: Benjamin Tissoires <benjamin.tissoires@gmail.com>
-+Date: Tue, 4 Apr 2017 19:12:53 +0200
-+Subject: [PATCH] Use getentropy() if arc4random_buf() is not available
++++ b/meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch
+@@ -0,0 +1,46 @@
++From 5fa3165613b77b516e2b0dc128f73b673bd3ec8b Mon Sep 17 00:00:00 2001
++From: Ignacio Casal Quinteiro <qignacio@amazon.com>
++Date: Sun, 16 Apr 2017 13:56:09 +0200
++Subject: [PATCH] tknzr: support only max long rgb values
 +
-+This allows to fix CVE-2017-2626 on Linux platforms without pulling in
-+libbsd.
-+The libc getentropy() is available since glibc 2.25 but also on OpenBSD.
-+For Linux, we need at least a v3.17 kernel. If the recommended
-+arc4random_buf() function is not available, emulate it by first trying
-+to use getentropy() on a supported glibc and kernel. If the call fails,
-+fall back to the current (partly vulnerable) code.
++This fixes a possible out of bound when reading rgbs which
++are longer than the support MAXLONG
 +
-+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@gmail.com>
-+Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
-+Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Upstream-Status: Backport [https://cgit.freedesktop.org/xorg/lib/libICE/commit/?id=ff5e59f32255913bb1cdf51441b98c9107ae165b]
-+CVE: CVE-2017-2626
++Upstream-Status: Backport [https://git.gnome.org/browse/libcroco/patch/?id=9ad72875e9f08e4c519ef63d44cdbd94aa9504f7]
++CVE: CVE-2017-7961
 +Signed-off-by: Sinan Kaya <okaya@kernel.org>
 +---
-+ configure.ac  |  2 +-
-+ src/iceauth.c | 65 ++++++++++++++++++++++++++++++++++++---------------
-+ 2 files changed, 47 insertions(+), 20 deletions(-)
++ src/cr-tknzr.c | 10 ++++++++++
++ 1 file changed, 10 insertions(+)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 458882a..c971ab6 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -38,7 +38,7 @@ AC_DEFINE(ICE_t, 1, [Xtrans transport type])
++diff --git a/src/cr-tknzr.c b/src/cr-tknzr.c
++index e3af0ee..76886ec 100644
++--- a/src/cr-tknzr.c
+++++ b/src/cr-tknzr.c
++@@ -1280,6 +1280,11 @@ cr_tknzr_parse_rgb (CRTknzr * a_this, CRRgb ** a_rgb)
++         status = cr_tknzr_parse_num (a_this, &num);
++         ENSURE_PARSING_COND ((status == CR_OK) && (num != NULL));
 + 
-+ # Checks for library functions.
-+ AC_CHECK_LIB([bsd], [arc4random_buf])
-+-AC_CHECK_FUNCS([asprintf arc4random_buf])
-++AC_CHECK_FUNCS([asprintf arc4random_buf getentropy])
+++        if (num->val > G_MAXLONG) {
+++                status = CR_PARSING_ERROR;
+++                goto error;
+++        }
+++
++         red = num->val;
++         cr_num_destroy (num);
++         num = NULL;
++@@ -1299,6 +1304,11 @@ cr_tknzr_parse_rgb (CRTknzr * a_this, CRRgb ** a_rgb)
++                 status = cr_tknzr_parse_num (a_this, &num);
++                 ENSURE_PARSING_COND ((status == CR_OK) && (num != NULL));
 + 
-+ # Allow checking code with lint, sparse, etc.
-+ XORG_WITH_LINT
-+diff --git a/src/iceauth.c b/src/iceauth.c
-+index ef66626..9b77eac 100644
-+--- a/src/iceauth.c
-++++ b/src/iceauth.c
-+@@ -42,31 +42,19 @@ Author: Ralph Mor, X Consortium
-+ 
-+ static int was_called_state;
-+ 
-+-/*
-+- * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
-+- * the SI.  It is not part of standard ICElib.
-+- */
-++#ifndef HAVE_ARC4RANDOM_BUF
-+ 
-+-
-+-char *
-+-IceGenerateMagicCookie (
-++static void
-++emulate_getrandom_buf (
-++	char *auth,
-+ 	int len
-+ )
-+ {
-+-    char    *auth;
-+-#ifndef HAVE_ARC4RANDOM_BUF
-+     long    ldata[2];
-+     int	    seed;
-+     int	    value;
-+     int	    i;
-+-#endif
-+ 
-+-    if ((auth = malloc (len + 1)) == NULL)
-+-	return (NULL);
-+-
-+-#ifdef HAVE_ARC4RANDOM_BUF
-+-    arc4random_buf(auth, len);
-+-#else
-+ #ifdef ITIMER_REAL
-+     {
-+ 	struct timeval  now;
-+@@ -74,13 +62,13 @@ IceGenerateMagicCookie (
-+ 	ldata[0] = now.tv_sec;
-+ 	ldata[1] = now.tv_usec;
-+     }
-+-#else
-++#else /* ITIMER_REAL */
-+     {
-+ 	long    time ();
-+ 	ldata[0] = time ((long *) 0);
-+ 	ldata[1] = getpid ();
-+     }
-+-#endif
-++#endif /* ITIMER_REAL */
-+     seed = (ldata[0]) + (ldata[1] << 16);
-+     srand (seed);
-+     for (i = 0; i < len; i++)
-+@@ -88,7 +76,46 @@ IceGenerateMagicCookie (
-+ 	value = rand ();
-+ 	auth[i] = value & 0xff;
-+     }
-+-#endif
-++}
+++                if (num->val > G_MAXLONG) {
+++                        status = CR_PARSING_ERROR;
+++                        goto error;
+++                }
 ++
-++static void
-++arc4random_buf (
-++	char *auth,
-++	int len
-++)
-++{
-++    int	    ret;
-++
-++#if HAVE_GETENTROPY
-++    /* weak emulation of arc4random through the entropy libc */
-++    ret = getentropy (auth, len);
-++    if (ret == 0)
-++	return;
-++#endif /* HAVE_GETENTROPY */
-++
-++    emulate_getrandom_buf (auth, len);
-++}
-++
-++#endif /* !defined(HAVE_ARC4RANDOM_BUF) */
-++
-++/*
-++ * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
-++ * the SI.  It is not part of standard ICElib.
-++ */
-++
-++
-++char *
-++IceGenerateMagicCookie (
-++	int len
-++)
-++{
-++    char    *auth;
-++
-++    if ((auth = malloc (len + 1)) == NULL)
-++	return (NULL);
-++
-++    arc4random_buf (auth, len);
-++
-+     auth[len] = '\0';
-+     return (auth);
-+ }
++                 PEEK_BYTE (a_this, 1, &next_bytes[0]);
++                 if (next_bytes[0] == '%') {
++                         SKIP_CHARS (a_this, 1);
 +-- 
 +2.19.0
 +
-diff --git a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-index f069749ce0..4962815ae3 100644
---- a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-@@ -8,6 +8,10 @@ negotiating versions, and for reporting errors. "
+diff --git a/meta/recipes-support/libcroco/libcroco_0.6.12.bb b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
+index d86ddd6464..dd7dad424c 100644
+--- a/meta/recipes-support/libcroco/libcroco_0.6.12.bb
++++ b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
+@@ -16,5 +16,7 @@ BINCONFIG = "${bindir}/croco-0.6-config"
  
- require xorg-lib-common.inc
+ inherit gnomebase gtk-doc binconfig-disabled
  
-+SRC_URI += "\
-+            file://CVE-2017-2626.patch \
-+"
++SRC_URI += "file://CVE-2017-7961.patch"
 +
- LICENSE = "MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d162b1b3c6fa812da9d804dcf8584a93"
- 
+ SRC_URI[archive.md5sum] = "bc0984fce078ba2ce29f9500c6b9ddce"
+ SRC_URI[archive.sha256sum] = "ddc4b5546c9fb4280a5017e2707fbd4839034ed1aba5b7d4372212f34f84f860"
 -- 
 2.19.0
 
