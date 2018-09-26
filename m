@@ -1,20 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BFC6793DC
+	by mail.openembedded.org (Postfix) with ESMTP id 68F64793E6
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 26 Sep 2018 17:51:42 +0000 (UTC)
 Received: from localhost.localdomain (62-178-50-190.cable.dynamic.surfer.at
-	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id 5BF656E96
+	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id 6802B6E8D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 19:42:55 +0200 (CEST)
+	Wed, 26 Sep 2018 19:42:54 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Sep 2018 19:42:44 +0200
-Message-Id: <20180926174244.20989-12-dv@pseudoterminal.org>
+Date: Wed, 26 Sep 2018 19:42:38 +0200
+Message-Id: <20180926174244.20989-6-dv@pseudoterminal.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180926174244.20989-1-dv@pseudoterminal.org>
 References: <20180926174244.20989-1-dv@pseudoterminal.org>
-Subject: [PATCH 12/12] gstreamer1.0-plugins-bad: add openmpt packageconfig
+Subject: [PATCH 06/12] gstreamer1.0-libav: upgrade to version 1.14.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +31,28 @@ X-List-Received-Date: Wed, 26 Sep 2018 17:51:43 -0000
 
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- .../gstreamer/gstreamer1.0-plugins-bad_1.14.3.bb              | 4 ++--
+ ...reamer1.0-libav_1.14.2.bb => gstreamer1.0-libav_1.14.3.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.14.2.bb => gstreamer1.0-libav_1.14.3.bb} (95%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.3.bb
-index c01e7cb993..1c913bc644 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.3.bb
-@@ -60,6 +60,7 @@ PACKAGECONFIG[openal]          = "--enable-openal,--disable-openal,openal-soft"
- PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
- PACKAGECONFIG[openh264]        = "--enable-openh264,--disable-openh264,openh264"
- PACKAGECONFIG[openjpeg]        = "--enable-openjpeg,--disable-openjpeg,openjpeg"
-+PACKAGECONFIG[openmpt]         = "--enable-openmpt,--disable-openmpt,libopenmpt"
- # the opus encoder/decoder elements are now in the -base package,
- # but the opus parser remains in -bad
- PACKAGECONFIG[opusparse]       = "--enable-opus,--disable-opus,libopus"
-@@ -84,7 +85,7 @@ PACKAGECONFIG[webrtcdsp]       = "--enable-webrtcdsp,--disable-webrtcdsp,webrtc-
- # these plugins have no corresponding library in OE-core or meta-openembedded:
- #   openni2 winks direct3d directsound winscreencap acm apple_media iqa
- #   android_media avc bs2b chromaprint daala dts fdkaac gme gsm kate ladspa
--#   lv2 mpeg2enc mplex msdk musepack nvenc ofa openmpt opensles soundtouch
-+#   lv2 mpeg2enc mplex msdk musepack nvenc ofa opensles soundtouch
- #   spandsp spc teletextdec vdpau wasapi x265 zbar
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.3.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.3.bb
+index 718db17d0d..aaa217e7d4 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.3.bb
+@@ -19,8 +19,8 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz
+            file://0001-configure-check-for-armv7ve-variant.patch \
+            file://0001-fix-host-contamination.patch \
+            "
+-SRC_URI[md5sum] = "da3d4655268bc6766a261065ca737590"
+-SRC_URI[sha256sum] = "8a351c39c5cfc2bbd31ca434ec4a290a730a26efbdea962fdd8306dce5c576de"
++SRC_URI[md5sum] = "e4a2ad307f101b53c7d417d4d0b36955"
++SRC_URI[sha256sum] = "9b03529bb45785ad1b6b1f4856c52a832ad5fc472285ce49174439e8015ab677"
  
- EXTRA_OECONF += " \
-@@ -120,7 +121,6 @@ EXTRA_OECONF += " \
-     --disable-nvenc \
-     --disable-ofa \
-     --disable-openexr \
--    --disable-openmpt \
-     --disable-openni2 \
-     --disable-opensles \
-     --disable-soundtouch \
+ S = "${WORKDIR}/gst-libav-${PV}"
+ 
 -- 
 2.17.1
 
