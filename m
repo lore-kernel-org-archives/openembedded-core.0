@@ -1,54 +1,53 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E9658751AE
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+	[209.85.167.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 32BB574623
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 19:06:57 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id j15-v6so3788198wrt.8
+	Thu, 27 Sep 2018 19:34:57 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id p125-v6so3242430oic.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 12:06:59 -0700 (PDT)
+	Thu, 27 Sep 2018 12:34:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ZqWjsyRbnF2vLhiJAeIudIEM9FhpYCbWIdauXiaF/QI=;
-	b=N5Deqo/TsjmbmFRhC8SKFv2euE0uupvpDwsrre+p2YyS8yurCRYb/BEfPRrxwHlEM7
-	LLwy9XJHggfm1ZqAICB3tzu9qWxhVbFXuQDz4qNbC26dfiwffImb7AqyL5MfjJRbuxEK
-	JjHRO9n+U7ytWoVc2rpnzjhYo/xRwhD//qTnyb23L4spiOYFTDuqf5OBsDYfNXBrq/2T
-	aOQpF/AEWuwfNlfkCLZ8aGqMg/iGo3VcvK87rI8NA+znRItJxi+KS8yZ3vuJzszVXALm
-	T6mDqjfNOiNzQFKrmdIosrE7NsP42D6140cTZSZz8LHhxgKa9kU/kFvv4FynBNuQdqbP
-	TTmA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=fCCgGa7Y7AW9xjX1rcBGW8aDjgRXgmF6MMhkmyX61AU=;
+	b=Q2jkQzd2rl605jOvxZQ2CUpKqlXUm0s+yn94IM/4F6zib+FTFlb/aauwASmztMu7w6
+	ciVH78v92q/pv5XOA6xMqvLUBFo6LU7s1VXJEmF+S7KKGue0s9dC41ER0ngGQVwghErq
+	uan64Ja0cxG1JFrQI2eoC78LkpqA2wg7dAlexp5duV2VMaeM8lyPTyuEN8vosDEvgP2/
+	2W/BS0oA+W+36yklMTiUdl05Pet1P2rOHSjeDr5+DSmD9h7G7LrYudFENQppVu7Vb+8j
+	RFTBs0vDpsTyVrDwt06b3DFPaS9wnopsODZrn7SfHOxPbavGjyO2iZ0RdE62L45fYImH
+	PR+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ZqWjsyRbnF2vLhiJAeIudIEM9FhpYCbWIdauXiaF/QI=;
-	b=RgiJKjrq2Ga5ea9HnG310r+y6lzyRbneTydcXQVmCaMcHwL7H8hKob7dTySdmsfEZq
-	2A8UhEmIk41F5b6LOUC9yxlbYbDIM9KLKXQY5qhOC4qvKkMKho9YcOKhEiANQ4uJLEls
-	tVrtO+FOdBfqkm3c/7PAvSFxPBIFHp1j5KlYf4GWrDECp7XXBIvtqmYHsWu+ltpbMbva
-	/mjdArGzOeKUXXWSGpg5s8knBpStD4d70gtOtsv23ZZ3xfeI7q+3GzV64CEnFuATGzo3
-	xPYCVdiUGTIfZM9UFKJpicjdVTi2rCrqSgWuWRmxHnIjvPahrtHy483+eI7t4Pr8u5Ev
-	2sDA==
-X-Gm-Message-State: ABuFfohMpxYOc7uOPKB/6iemguad8NnfME9LL4vH9+WA3slBT1PzILQJ
-	+6237EhRKYr3zMY7ul0XGpiwF0H6
-X-Google-Smtp-Source: ACcGV603qroh8EayWel/EGtD86PDlSKmal4lJR2aQjsXekJGtXI72GMQiXQ2ilygbkYBcq3vNsO3ug==
-X-Received: by 2002:adf:f90b:: with SMTP id
-	b11-v6mr1704765wrr.307.1538075217985; 
-	Thu, 27 Sep 2018 12:06:57 -0700 (PDT)
-Received: from localhost.localdomain
-	(p200300F07BC51E191E6F65FFFE3E7F61.dip0.t-ipconnect.de.
-	[2003:f0:7bc5:1e19:1e6f:65ff:fe3e:7f61])
-	by smtp.gmail.com with ESMTPSA id
-	p18-v6sm2879192wrj.8.2018.09.27.12.06.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 27 Sep 2018 12:06:57 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Sep 2018 21:06:48 +0200
-Message-Id: <20180927190648.27553-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.14.4
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=fCCgGa7Y7AW9xjX1rcBGW8aDjgRXgmF6MMhkmyX61AU=;
+	b=nwdR+VhfKe8hL6sEtnsFRGRkVDDby2UdpKbc03Jrjp21oD+T86AjwSk+vJm/cyp0Zn
+	nqK94S33P6Fj8ZskoAA4ztgZ20zSFC5U+k5BnyQXESz+nMvGaCcs0Ai4ha2N6DaMACdL
+	3qiE+vfy/2DqKpzJ4Tta5LJmFMBAysMttE+BUc2mpOgRudXE2ipg+jE6tY5+43aL3np3
+	LwQ3V0cG0to8SDg7yr4T0EshSabL1skbyfx9+yoSNy1i2TiHzowpNnXiyfKBIcWDnEzd
+	SliCZU8r6SLtY6Q4uWX1nVPaXFTfyxkOD42NM/r7+yB1fvRyR9C3MsBZDykSvaeJlVbO
+	cpVw==
+X-Gm-Message-State: ABuFfogh9BgS85jBEq6zvUxQfoJySWkyda/k1zlDPMpDginQcAiBfqDk
+	BnioL9q1k2Cuwpl94CYX83Qe2Z2ddvJ03Ekqkua7Z1+i
+X-Google-Smtp-Source: ACcGV60BCS9Dj5NvQp84vCWf77R2LH88PEmEOjdkmt6vCZRnD2wsUmMNAoW0Kvan9Xfa7MEgyuRcEOPH2+fCOVfGZsY=
+X-Received: by 2002:aca:42c4:: with SMTP id
+	p187-v6mr3941222oia.306.1538073732776; 
+	Thu, 27 Sep 2018 11:42:12 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [sumo][PATCH] libsdl2: Fix left rotated display for RaspPi/VC4/GLES2
+Received: by 2002:ac9:490c:0:0:0:0:0 with HTTP; Thu, 27 Sep 2018 11:42:12
+	-0700 (PDT)
+In-Reply-To: <CACS+7ZQngcTuxFbyq9Ydb=unRp0raKomB4UbutKNWTHtC2V-cw@mail.gmail.com>
+References: <CALbNGRSPiWuTyLqaWbiH3UDF-maBQusnrbPCH_eWCxzm7n5rPA@mail.gmail.com>
+	<CAMKF1sqGCuANwBQH6ZKuNUs1L+7N=WQSxAu1RmWjUooVs5bvxg@mail.gmail.com>
+	<CACS+7ZQngcTuxFbyq9Ydb=unRp0raKomB4UbutKNWTHtC2V-cw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 27 Sep 2018 20:42:12 +0200
+Message-ID: <CALbNGRTWz-_FPAuCZZRr2baakz99h+3UJpJAF--H0d_jx1od3A@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Run experience with security flags enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,182 +60,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2018 19:06:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Sep 2018 19:34:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The patch should increase performance for libsdl2 on GLES2 too.
+On Thu, Sep 27, 2018 at 2:57 PM, Dan McGregor <danismostlikely@gmail.com> w=
+rote:
+> On Wed, Sep 26, 2018, 15:47 Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>
+>>
+>> On Wed, Sep 26, 2018 at 2:25 PM Andreas M=C3=BCller <schnitzeltony@gmail=
+.com>
+>> wrote:
+>>>
+>>> Hi,
+>>>
+>>> from oe-core perspective my images are build on sumo (glibc 2.27). To
+>>> see what to expect, I enabled security flags (and yes some recipes in
+>>> my layers needed rework).
+>>>
+>>> Now that I have an image, I thought: let's give it a run. Apart of
+>>> other issues (maybe later) I get on every startup an error message for
+>>> ldconfig.
+>>> systemctl ldconfig says:
+>>>
+>>> =E2=97=8F ldconfig.service - Rebuild Dynamic Linker Cache
+>>>    Loaded: loaded (/lib/systemd/system/ldconfig.service; static;
+>>> vendor preset: enabled)
+>>>    Active: failed (Result: core-dump) since Mon 2018-09-24 19:05:04
+>>> UTC; 2 days ago
+>>>      Docs: man:ldconfig(8)
+>>>   Process: 136 ExecStart=3D/sbin/ldconfig -X (code=3Ddumped, signal=3DS=
+EGV)
+>>>  Main PID: 136 (code=3Ddumped, signal=3DSEGV)
+>>>
+>>> Sep 24 19:05:04 raspberrypi3 systemd[1]: Starting Rebuild Dynamic
+>>> Linker Cache...
+>>> Sep 24 19:05:04 raspberrypi3 systemd[1]: ldconfig.service: Main
+>>> process exited, code=3Ddumped, status=3D11/SEGV
+>>> Sep 24 19:05:04 raspberrypi3 systemd[1]: ldconfig.service: Failed with
+>>> result 'core-dump'.
+>>> Sep 24 19:05:04 raspberrypi3 systemd[1]: Failed to start Rebuild
+>>> Dynamic Linker Cache.
+>>>
+>>> Again somebody else seeing similar / remembers a fix?
+>>
+>>
+>> I see similar issue in sumo as well
+>> I do use security flags too and was not sure if that was the reason I
+>> think its a good data point
+>> Sadly I don=E2=80=99t yet have looked into the issue in detail
+>
+>
+> GCC 7 and glibc don't play well together with static PIE. The real soluti=
+on
+> is to use GCC 8, but Ross made a workaround for this issue:
+>
+> http://git.openembedded.org/openembedded-core/commit/?id=3D5f64946b8740a5=
+d944f48ec430470265703bfe5e
+It seems I can confirm this: Debugging shows that the crash happens in
+dl-relocate_static-pie.c _dl_relocate_static_pie line 41.
 
-(From OE-Core rev: 52f9659f2bb44affec2f67935df01f13b6ff3e02)
+Will send this to sumo as soon as tested.
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...01-GLES2-Get-sin-cos-out-of-vertex-shader.patch | 141 +++++++++++++++++++++
- meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb     |   1 +
- 2 files changed, 142 insertions(+)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
-
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
-new file mode 100644
-index 0000000000..9b32b3788d
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
-@@ -0,0 +1,141 @@
-+From c215ba1d52a3d4ef03af3ab1a5baa1863f812aed Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-+Date: Fri, 24 Aug 2018 23:10:25 +0200
-+Subject: [PATCH] GLES2: Get sin/cos out of vertex shader
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The only place angle is activated and causes effect is RenderCopyEx. All other
-+methods which use vertex shader, leave angle disabled and cause useless sin/cos
-+calculation in shader.
-+
-+To get around shader's interface is changed to a vector that contains results
-+of sin and cos. To behave properly when disabled, cos value is set with offset
-+-1.0 making 0.0 default when deactivated.
-+
-+As nice side effect it simplifies GLES2_UpdateVertexBuffer: All attributes are
-+vectors now.
-+
-+Additional background:
-+
-+* On RaspberryPi it gives a performace win for operations. Tested with
-+  [1] numbers go down for 5-10% (not easy to estimate due to huge variation).
-+* SDL_RenderCopyEx was tested with [2]
-+* It works around left rotated display caused by low accuracy sin implemetation
-+  in RaspberryPi/VC4 [3]
-+
-+Upstream-Status: Accepted [4]
-+
-+[1] https://github.com/schnitzeltony/sdl2box
-+[2] https://github.com/schnitzeltony/sdl2rendercopyex
-+[3] https://github.com/anholt/mesa/issues/110
-+[4] https://hg.libsdl.org/SDL/rev/e5a666405750
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-+---
-+ src/render/opengles2/SDL_render_gles2.c  | 17 ++++++++++++-----
-+ src/render/opengles2/SDL_shaders_gles2.c | 14 +++++++++-----
-+ 2 files changed, 21 insertions(+), 10 deletions(-)
-+
-+diff --git a/src/render/opengles2/SDL_render_gles2.c b/src/render/opengles2/SDL_render_gles2.c
-+index 14671f7c8..7c54a7333 100644
-+--- a/src/render/opengles2/SDL_render_gles2.c
-++++ b/src/render/opengles2/SDL_render_gles2.c
-+@@ -1530,7 +1530,7 @@ GLES2_UpdateVertexBuffer(SDL_Renderer *renderer, GLES2_Attribute attr,
-+     GLES2_DriverContext *data = (GLES2_DriverContext *)renderer->driverdata;
-+ 
-+ #if !SDL_GLES2_USE_VBOS
-+-    data->glVertexAttribPointer(attr, attr == GLES2_ATTRIBUTE_ANGLE ? 1 : 2, GL_FLOAT, GL_FALSE, 0, vertexData);
-++    data->glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, vertexData);
-+ #else
-+     if (!data->vertex_buffers[attr]) {
-+         data->glGenBuffers(1, &data->vertex_buffers[attr]);
-+@@ -1545,7 +1545,7 @@ GLES2_UpdateVertexBuffer(SDL_Renderer *renderer, GLES2_Attribute attr,
-+         data->glBufferSubData(GL_ARRAY_BUFFER, 0, dataSizeInBytes, vertexData);
-+     }
-+ 
-+-    data->glVertexAttribPointer(attr, attr == GLES2_ATTRIBUTE_ANGLE ? 1 : 2, GL_FLOAT, GL_FALSE, 0, 0);
-++    data->glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, 0);
-+ #endif
-+ 
-+     return 0;
-+@@ -1853,6 +1853,8 @@ GLES2_RenderCopy(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect *s
-+     return GL_CheckError("", renderer);
-+ }
-+ 
-++#define PI 3.14159265f
-++
-+ static int
-+ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect *srcrect,
-+                  const SDL_FRect *dstrect, const double angle, const SDL_FPoint *center, const SDL_RendererFlip flip)
-+@@ -1861,8 +1863,9 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
-+     GLfloat vertices[8];
-+     GLfloat texCoords[8];
-+     GLfloat translate[8];
-+-    GLfloat fAngle[4];
-++    GLfloat fAngle[8];
-+     GLfloat tmp;
-++    float radian_angle;
-+ 
-+     GLES2_ActivateRenderer(renderer);
-+ 
-+@@ -1872,7 +1875,11 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
-+ 
-+     data->glEnableVertexAttribArray(GLES2_ATTRIBUTE_CENTER);
-+     data->glEnableVertexAttribArray(GLES2_ATTRIBUTE_ANGLE);
-+-    fAngle[0] = fAngle[1] = fAngle[2] = fAngle[3] = (GLfloat)(360.0f - angle);
-++
-++    radian_angle = PI * (360.0f - angle) / 180.f;
-++    fAngle[0] = fAngle[2] = fAngle[4] = fAngle[6] = (GLfloat)sin(radian_angle);
-++    /* render expects cos value - 1 (see GLES2_VertexSrc_Default_) */
-++    fAngle[1] = fAngle[3] = fAngle[5] = fAngle[7] = (GLfloat)cos(radian_angle) - 1.0f;
-+     /* Calculate the center of rotation */
-+     translate[0] = translate[2] = translate[4] = translate[6] = (center->x + dstrect->x);
-+     translate[1] = translate[3] = translate[5] = translate[7] = (center->y + dstrect->y);
-+@@ -1901,7 +1908,7 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
-+     data->glVertexAttribPointer(GLES2_ATTRIBUTE_CENTER, 2, GL_FLOAT, GL_FALSE, 0, translate);
-+     data->glVertexAttribPointer(GLES2_ATTRIBUTE_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);*/
-+ 
-+-    GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_ANGLE, fAngle, 4 * sizeof(GLfloat));
-++    GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_ANGLE, fAngle, 8 * sizeof(GLfloat));
-+     GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_CENTER, translate, 8 * sizeof(GLfloat));
-+     GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_POSITION, vertices, 8 * sizeof(GLfloat));
-+ 
-+diff --git a/src/render/opengles2/SDL_shaders_gles2.c b/src/render/opengles2/SDL_shaders_gles2.c
-+index b0bcdff25..f428a4945 100644
-+--- a/src/render/opengles2/SDL_shaders_gles2.c
-++++ b/src/render/opengles2/SDL_shaders_gles2.c
-+@@ -30,20 +30,24 @@
-+ /*************************************************************************************************
-+  * Vertex/fragment shader source                                                                 *
-+  *************************************************************************************************/
-+-
-++/* Notes on a_angle:
-++   * It is a vector containing sin and cos for rotation matrix
-++   * To get correct rotation for most cases when a_angle is disabled cos
-++     value is decremented by 1.0 to get proper output with 0.0 which is
-++     default value
-++*/
-+ static const Uint8 GLES2_VertexSrc_Default_[] = " \
-+     uniform mat4 u_projection; \
-+     attribute vec2 a_position; \
-+     attribute vec2 a_texCoord; \
-+-    attribute float a_angle; \
-++    attribute vec2 a_angle; \
-+     attribute vec2 a_center; \
-+     varying vec2 v_texCoord; \
-+     \
-+     void main() \
-+     { \
-+-        float angle = radians(a_angle); \
-+-        float c = cos(angle); \
-+-        float s = sin(angle); \
-++        float s = a_angle[0]; \
-++        float c = a_angle[1] + 1.0; \
-+         mat2 rotationMatrix = mat2(c, -s, s, c); \
-+         vec2 position = rotationMatrix * (a_position - a_center) + a_center; \
-+         v_texCoord = a_texCoord; \
-+-- 
-+2.14.4
-+
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-index c0cf70d7fd..8092fad11e 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-@@ -16,6 +16,7 @@ DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtu
- 
- SRC_URI = " \
-     http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-+    file://0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch \
- "
- 
- S = "${WORKDIR}/SDL2-${PV}"
--- 
-2.14.4
-
+Andreas
 
