@@ -1,48 +1,52 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 576D37988B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 10B4774A25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 12:57:42 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id 203-v6so2254667ljj.13
+	Thu, 27 Sep 2018 13:54:03 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id n31-v6so2022654pgm.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 05:57:43 -0700 (PDT)
+	Thu, 27 Sep 2018 06:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JV6mggQvai3Y156OualalQi/NDnqc1AtyDDba3zzKUg=;
-	b=usZnTbaiC77ynz6h1H82bJv+rpyhUuImfYRy2yfyoeI+KUlVlftOneeJVdWkFsWgFW
-	4Zq08xa9QbKGXJPGrv08mF9r5W7YUo3KRJ7j6WeISBGXgym9ckWrxJyCOMdD5N6TQD90
-	9MX/SvD4+XRpiV4YdVbwDbWSjzrKG19m3WKp8oGCt0wF9L8uZcnvZ+5hAPj4TrKdowYX
-	hF85+PK/iKxZJLzcGcEsXiQBZYp2HfWl/be7u80Dpe7ET3mBWzxE+1RB6olW+PFz3cZV
-	ko8d1m35ak+ssh9gm45XesaaR3W0jsB3jbwjrm/OqQyYVuRO7ztoYoPTPryqd8loqPgg
-	bNSA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=eO11gfj0CrPC7IT5+IT6XtGQesJlrJ0esoVUVYh1TNI=;
+	b=l5yvzJRLcOeuWCANGSiE54mE6i0EEU3ZfxzRv5X2GilF/m2iEuDTXKIu4xfMK29WEB
+	ksjCE2mzcm8l+mWn6NHCt8iOe7RrUm/+20QjJY3fCTiOp2ydNpVsratnWBPLtWDG0skd
+	an8/9NSC8+bd/T6j+KeuKuDlvYi7U9FxtNujPydBrlMIwUgWks5UKLdm8hqSKRXuuVJr
+	+QAPuMkQVDp8yv1L9QwmZnTyiKJSzXXI5Imyq97X/XTd6Og3g67/8/UPYHhYa/beIl3L
+	e2XV0IJCfGwHV3DJtfjZmivV+zm15TPe+dJ8zs63fKn+xPd9b/k81utAJw/ARbC9ZQg5
+	2U5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JV6mggQvai3Y156OualalQi/NDnqc1AtyDDba3zzKUg=;
-	b=AN4HIfPoTKMt3yb6kY9G1++QfGjW8MfVHVIS6BTSzLJ4s+iekIbLwJiYl0M2O6wHvL
-	po2pbIZqSp63qiCGaWR2ATJ2ca7ECnVsxUQFBTeYlz8aviXKkHPHwgqun7YbcDGbNDbF
-	p94i2QQejB3gRs1mZ5evn6FsQlVxFFtx7IyGUCKdpYj/d6Y056mtFwR5E32y6612FHrV
-	mEyKLZxoUXAB62T1DKrsvIlOQWnAmNWU0HhIKi0zcXjgbU4L4lMcHp8LRpLuj/l8GwRS
-	xjw2IB2JZvnrMO2LKSrWdfWwOpw9cS3NcAyMuhUBtEAd9lweHUT1+rcl7xRnpQNeh3SA
-	hKmw==
-X-Gm-Message-State: ABuFfogl2sRwFapSExoQyMa5In/cNAo4Z/68CZXEDIOF7/IqL/Rlrr7I
-	6UTkWaMt/jrfioFHkzHWbDpNeiMe86bcDq8IZys=
-X-Google-Smtp-Source: ACcGV62Tt1KUsJGfJ0eLaDk5vV9eOhilEtrfAYUEgxYyuLhtVCX+2eJM2UwllyyqQJFC8/+1zhruzzkj2wbq3sumybM=
-X-Received: by 2002:a2e:2d0a:: with SMTP id t10-v6mr7616916ljt.8.1538053062817;
-	Thu, 27 Sep 2018 05:57:42 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=eO11gfj0CrPC7IT5+IT6XtGQesJlrJ0esoVUVYh1TNI=;
+	b=ovceKtF6JRjQ3TSadmPIDzEINYdS2R36mu4gMZYbmve+oGesyllYvbiJ1x1jawcnXI
+	QBQ0waBqT7mlRbD+p8PV0zlYelXLcTftYakyYjCbi7qA9fbPjqt1sNhCtreZOjCNbooT
+	R4wYK1dGq8vBIFLN37lGTvba3siiq+++COoZ2fhxULqedT1N4BbkJkz9QaU5DeOLhoEj
+	87fnN6gKP5d9IL2Y8FJ/J1qqfK3On7Wz14NeylESgFDiDhW+6fyWJFrXZAM4Jpghe71D
+	5XFVNI6bnlVG2RE1Ncap37YNWVK9AHFAnwyvNFTc+7V5blX6U5OuhOaU4Y5WrdDSMG3Z
+	P8xA==
+X-Gm-Message-State: ABuFfoj1gxVE+6mn6IPtPOXKlk/mgyKyVrIdlYjOEmnspLY1DYTKotUl
+	Qqi+rqyhTW2kgBkMTzn20/6nvm9d
+X-Google-Smtp-Source: ACcGV62qgsr7HgXJluC4TA+SZDimI1m7j7zcqv1vXGA/x8Z+zmNGu1sHPrOYCl/4gYSMpDHqDCWc2w==
+X-Received: by 2002:a63:c84c:: with SMTP id
+	l12-v6mr10148013pgi.77.1538056444597; 
+	Thu, 27 Sep 2018 06:54:04 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::b1b1])
+	by smtp.gmail.com with ESMTPSA id
+	h4-v6sm3357861pfe.49.2018.09.27.06.54.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 27 Sep 2018 06:54:04 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	akuster808@gmail.com
+Date: Thu, 27 Sep 2018 06:53:55 -0700
+Message-Id: <20180927135355.28172-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.0
 MIME-Version: 1.0
-References: <CALbNGRSPiWuTyLqaWbiH3UDF-maBQusnrbPCH_eWCxzm7n5rPA@mail.gmail.com>
-	<CAMKF1sqGCuANwBQH6ZKuNUs1L+7N=WQSxAu1RmWjUooVs5bvxg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqGCuANwBQH6ZKuNUs1L+7N=WQSxAu1RmWjUooVs5bvxg@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-Date: Thu, 27 Sep 2018 06:57:30 -0600
-Message-ID: <CACS+7ZQngcTuxFbyq9Ydb=unRp0raKomB4UbutKNWTHtC2V-cw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Run experience with security flags enabled
+Subject: [sumo][PATCH] security_flags: disable static PIE in glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,166 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2018 12:57:42 -0000
-Content-Type: multipart/alternative; boundary="000000000000747d420576d9e2bd"
+X-List-Received-Date: Thu, 27 Sep 2018 13:54:04 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000747d420576d9e2bd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ross Burton <ross.burton@intel.com>
 
-On Wed, Sep 26, 2018, 15:47 Khem Raj <raj.khem@gmail.com> wrote:
+Static PIE doesn't work entirely right in GCC 7, for example ldconfig on ARM
+with the flags enabled will something segfault during initialisation.
 
->
->
-> On Wed, Sep 26, 2018 at 2:25 PM Andreas M=C3=BCller <schnitzeltony@gmail.=
-com>
-> wrote:
->
->> Hi,
->>
->> from oe-core perspective my images are build on sumo (glibc 2.27). To
->> see what to expect, I enabled security flags (and yes some recipes in
->> my layers needed rework).
->>
->> Now that I have an image, I thought: let's give it a run. Apart of
->> other issues (maybe later) I get on every startup an error message for
->> ldconfig.
->> systemctl ldconfig says:
->>
->> =E2=97=8F ldconfig.service - Rebuild Dynamic Linker Cache
->>    Loaded: loaded (/lib/systemd/system/ldconfig.service; static;
->> vendor preset: enabled)
->>    Active: failed (Result: core-dump) since Mon 2018-09-24 19:05:04
->> UTC; 2 days ago
->>      Docs: man:ldconfig(8)
->>   Process: 136 ExecStart=3D/sbin/ldconfig -X (code=3Ddumped, signal=3DSE=
-GV)
->>  Main PID: 136 (code=3Ddumped, signal=3DSEGV)
->>
->> Sep 24 19:05:04 raspberrypi3 systemd[1]: Starting Rebuild Dynamic
->> Linker Cache...
->> Sep 24 19:05:04 raspberrypi3 systemd[1]: ldconfig.service: Main
->> process exited, code=3Ddumped, status=3D11/SEGV
->> Sep 24 19:05:04 raspberrypi3 systemd[1]: ldconfig.service: Failed with
->> result 'core-dump'.
->> Sep 24 19:05:04 raspberrypi3 systemd[1]: Failed to start Rebuild
->> Dynamic Linker Cache.
->>
->> Again somebody else seeing similar / remembers a fix?
->>
->
-> I see similar issue in sumo as well
-> I do use security flags too and was not sure if that was the reason I
-> think its a good data point
-> Sadly I don=E2=80=99t yet have looked into the issue in detail
->
+To mitigate this until we have GCC 8 integrated, don't enable static PIE.
 
-GCC 7 and glibc don't play well together with static PIE. The real solution
-is to use GCC 8, but Ross made a workaround for this issue:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/distro/include/security_flags.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-http://git.openembedded.org/openembedded-core/commit/?id=3D5f64946b8740a5d9=
-44f48ec430470265703bfe5e
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index d66dd57649..aaeca6991b 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -6,7 +6,7 @@
+ # in the DISTRO="poky-lsb" configuration.
+ 
+ GCCPIE ?= "--enable-default-pie"
+-GLIBCPIE ?= "--enable-static-pie"
++# If static PIE is known to work well, GLIBCPIE="--enable-static-pie" can be set
+ 
+ # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds as they use
+ # -O0 which then results in a compiler warning.
+-- 
+2.19.0
 
 
->
->>
->> Help appreciated
->>
->> Andreas
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000747d420576d9e2bd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed, =
-Sep 26, 2018, 15:47 Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.=
-khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>=
-<br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed, Sep =
-26, 2018 at 2:25 PM Andreas M=C3=BCller &lt;<a href=3D"mailto:schnitzeltony=
-@gmail.com" target=3D"_blank" rel=3D"noreferrer">schnitzeltony@gmail.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi,<br>
-<br>
-from oe-core perspective my images are build on sumo (glibc 2.27). To<br>
-see what to expect, I enabled security flags (and yes some recipes in<br>
-my layers needed rework).<br>
-<br>
-Now that I have an image, I thought: let&#39;s give it a run. Apart of<br>
-other issues (maybe later) I get on every startup an error message for<br>
-ldconfig.<br>
-systemctl ldconfig says:<br>
-<br>
-=E2=97=8F ldconfig.service - Rebuild Dynamic Linker Cache<br>
-=C2=A0 =C2=A0Loaded: loaded (/lib/systemd/system/ldconfig.service; static;<=
-br>
-vendor preset: enabled)<br>
-=C2=A0 =C2=A0Active: failed (Result: core-dump) since Mon 2018-09-24 19:05:=
-04<br>
-UTC; 2 days ago<br>
-=C2=A0 =C2=A0 =C2=A0Docs: man:ldconfig(8)<br>
-=C2=A0 Process: 136 ExecStart=3D/sbin/ldconfig -X (code=3Ddumped, signal=3D=
-SEGV)<br>
-=C2=A0Main PID: 136 (code=3Ddumped, signal=3DSEGV)<br>
-<br>
-Sep 24 19:05:04 raspberrypi3 systemd[1]: Starting Rebuild Dynamic<br>
-Linker Cache...<br>
-Sep 24 19:05:04 raspberrypi3 systemd[1]: ldconfig.service: Main<br>
-process exited, code=3Ddumped, status=3D11/SEGV<br>
-Sep 24 19:05:04 raspberrypi3 systemd[1]: ldconfig.service: Failed with<br>
-result &#39;core-dump&#39;.<br>
-Sep 24 19:05:04 raspberrypi3 systemd[1]: Failed to start Rebuild<br>
-Dynamic Linker Cache.<br>
-<br>
-Again somebody else seeing similar / remembers a fix?<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I see similar is=
-sue in sumo as well=C2=A0</div><div dir=3D"auto">I do use security flags to=
-o and was not sure if that was the reason I think its a good data point=C2=
-=A0</div><div dir=3D"auto">Sadly I don=E2=80=99t yet have looked into the i=
-ssue in detail</div></div></div></blockquote></div></div><div dir=3D"auto">=
-<br></div><div dir=3D"auto">GCC 7 and glibc don&#39;t play well together wi=
-th static PIE. The real solution is to use GCC 8, but Ross made a workaroun=
-d for this issue:</div><div dir=3D"auto"><br></div><div dir=3D"auto"><a hre=
-f=3D"http://git.openembedded.org/openembedded-core/commit/?id=3D5f64946b874=
-0a5d944f48ec430470265703bfe5e">http://git.openembedded.org/openembedded-cor=
-e/commit/?id=3D5f64946b8740a5d944f48ec430470265703bfe5e</a><br></div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex"><div><div class=3D"gmail_quote"><div dir=3D"auto">=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><br>
-Help appreciated<br>
-<br>
-Andreas<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
-.org/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
-.org/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div></div></div>
-
---000000000000747d420576d9e2bd--
