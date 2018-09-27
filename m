@@ -1,23 +1,48 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 52AC47477A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 18:17:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8RIHxTq022726
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 11:18:00 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 27 Sep 2018 11:17:46 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Sep 2018 14:17:46 -0400
-Message-ID: <20180927181746.145973-1-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.16.0.rc2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+	[209.85.222.180])
+	by mail.openembedded.org (Postfix) with ESMTP id D072B78C9C;
+	Thu, 27 Sep 2018 18:25:27 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id v18-v6so2203922qka.10;
+	Thu, 27 Sep 2018 11:25:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=y2+Qt8rvI0QP9653Qn3dxWzb8XnZ+r9nSXoWbDtoHgQ=;
+	b=phME8sVoXtluWXNE+OAauDQeEFJDBbaCxtJlxuylLlWFORW1a0UlT4Q8CvCS5WC25H
+	1Hej8YLAEVCPZTGT//SnEEx70GLOAwnLgbjwnqnF64D8PTPgxIabHc2AFIUF98qrGzNi
+	yB7sdmA8qJa+dJmaM3h7fdhM+mIgpksOZVqBfGo0or6FuYLUIBwOi6xM9nMQy0T2SYfl
+	pZ+A2cEEh9UDRWoH+NuI1sxYbympe43Ru5ayOxcVbQkXh/ZHBq+jo5bQRtClTjgDqQS0
+	NbClNJZvbn8kERKd5LFgpe9rA1c+lpyeZ/XguLzms1fsqPecLFsbaLNK0/5SQfDD9cZb
+	1VeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=y2+Qt8rvI0QP9653Qn3dxWzb8XnZ+r9nSXoWbDtoHgQ=;
+	b=oMCVhu7FnRWXgGIes2Do9NTKhFSdgD/KcWX010mXPNL04t7r3sViJ5qGjDA1bDLRYU
+	DaxUsfhUMrmMh7Uuhza1hrnseOfJ9tGWUvqi/lDfV1TQZuFLGU50pdU6cEZdGeYi50SW
+	CGhscTPgZl6wsZ35VDO5Avf2fYgLPhD8gFkG4QynkaZ7y61I2Lh2lf1RmHrYpO6D5lXc
+	SGh9UNeexs3iIYoATETVRH8s+iRSsuuOqbtthBrITYA7QmVdIkAgtYD9g9DRV+0XupHZ
+	TS0tpOhWXEa4hZkVX+ALDRenWODaMdTdDvhq5kDU4T67xPzunP/6NwVJX7v1aNlPQNj9
+	Y1+A==
+X-Gm-Message-State: ABuFfogFDX0zi7Vg4xoL51j0bCBYHdLkZIJK3+/bO+7E4nySaLRzYHVm
+	3LNoEkn6grT6iGrAd0RM4oRiXhWDyysPULbGHW5wLw==
+X-Google-Smtp-Source: ACcGV63lDmqwxlz2uXTAPiU5hXqDtglr+VLJ0ffjBNX3nvEbgI6EVgvgwSnMy+JepMHALkwieC3F0OoYyhu7hnKUOyk=
+X-Received: by 2002:a37:9d55:: with SMTP id
+	g82-v6mr6568091qke.315.1538072728311; 
+	Thu, 27 Sep 2018 11:25:28 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2] sysklogd: Re-enable alternatives for syslogd.8 man page
+References: <20180702040215.GT19965@denix.org>
+	<20180927151523.GB7186@denix.org>
+In-Reply-To: <20180927151523.GB7186@denix.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 27 Sep 2018 11:25:01 -0700
+Message-ID: <CAMKF1soH00_M2fgjVbJeSCLoy=oYN3QLXt09ZQ=urjWnFx287w@mail.gmail.com>
+To: openembedded-members@lists.openembedded.org
+Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded branded T-shirts and Polo shirts!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,66 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2018 18:17:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 27 Sep 2018 18:25:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Other recipes, such as meta-networking inetutils may also provide a man page
-for syslogd.8.  Use the alternatives mechanism to select the man page to
-display.
-
-This is a partial revert of commit: 988aad01b20c18a8850db0ad6dc547525d94116c
-
-The syslogd tool itself is provided by both recipes in their respective runtime
-packages.  In the inet case, it is inetutils-syslogd, which has an appropriate
-RCONFLICTS with the syslogd version.  Only one or the other will be installed.
-This is the conflict resolution the original commit of
-"988aad01b20c18a8850db0ad6dc547525d94116c" was referring to.
-
-HOWEVER, both syslogd and inetutils each only have a singular 'doc' package.
-(As do most packages it seems.)  Since this is the case, if both syslogd and
-inetutils (not syslogd part) is requested for a configuration -- AND ---
-doc-pkgs are configured in, you get an error of conflicting files.
-
-Now does the documentation match whichever package was installed, maybe not...
-but this isn't a big deal as it turns out, since most syslogd share a common set
-of arguments and those are the things a run-time user would query from the man
-pages.
-
-The only alternative is to start spliting up the docs into their relevant
-subpackages, as we have the runtime items.  But this then complicates the
-doc-pkgs processing and related...
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-extended/sysklogd/sysklogd.inc | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
-index fc4e67c..f151dd8 100644
---- a/meta/recipes-extended/sysklogd/sysklogd.inc
-+++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-                     file://klogd.c;beginline=2;endline=19;md5=7e87ed0ae6142de079bce738c10c899d \
-                    "
- 
--inherit update-rc.d systemd
-+inherit update-rc.d update-alternatives systemd
- 
- SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz \
-            file://no-strip-install.patch \
-@@ -58,6 +58,11 @@ do_install () {
- 
- FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES','systemd','${exec_prefix}/lib/tmpfiles.d/sysklogd.conf', '', d)}"
- 
-+ALTERNATIVE_PRIORITY = "100"
-+
-+ALTERNATIVE_${PN}-doc = "syslogd.8"
-+ALTERNATIVE_LINK_NAME[syslogd.8] = "${mandir}/man8/syslogd.8"
-+
- pkg_prerm_${PN} () {
- 	if test "x$D" = "x"; then
- 	if test "$1" = "upgrade" -o "$1" = "remove"; then
--- 
-1.8.3.1
-
+Thanks for sending this out, these look great
+On Thu, Sep 27, 2018 at 8:15 AM Denys Dmytriyenko <denis@denix.org> wrote:
+>
+> Besides black and white OpenEmbedded T-shirts and Polos, the shop has also
+> added blue ones!
+> https://www.hellotux.com/openembedded
+>
+> Plus, Yocto Project shirts are now available as well:
+> https://www.hellotux.com/yocto
+>
+> --
+> Denys
+>
+>
+> On Mon, Jul 02, 2018 at 12:02:16AM -0400, Denys Dmytriyenko wrote:
+> > OpenEmbedded branded T-shirts and Polo shirts!
+> > Show your support!
+> > https://www.hellotux.com/openembedded
+> > --
+> > _______________________________________________
+> > Openembedded-members mailing list
+> > Openembedded-members@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-members
+> --
+> _______________________________________________
+> Openembedded-members mailing list
+> Openembedded-members@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-members
 
