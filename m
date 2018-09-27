@@ -1,23 +1,23 @@
-Return-Path: <Zhe.He@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B4B9479449
+	by mail.openembedded.org (Postfix) with ESMTP id CD41C71C07
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 08:38:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8R8cTil010698
+	Thu, 27 Sep 2018 08:43:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8R8hcgK010710
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 01:38:29 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 27 Sep 2018 01:38:28 -0700
-From: <zhe.he@windriver.com>
+	Thu, 27 Sep 2018 01:43:38 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 27 Sep 2018 01:43:26 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Sep 2018 16:38:27 +0800
-Message-ID: <1538037507-104826-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Date: Thu, 27 Sep 2018 16:48:52 +0800
+Message-ID: <cover.1538038062.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] nativesdk-bison: Add to nativesdk-packagegroup-sdk-host and set BISON_PKGDATADIR
+Subject: [PATCH V2 0/1] nativesdk.bbclass: set consistent staging dirs regardless of multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,46 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2018 08:38:28 -0000
+X-List-Received-Date: Thu, 27 Sep 2018 08:43:37 -0000
 Content-Type: text/plain
 
-From: He Zhe <zhe.he@windriver.com>
+Changes in V2:
+* use 'recipe-sysroot' instead of 'nativesdk-recipe-sysroot'
 
-bison is needed when building kernel. Add it to nativesdk-packagegroup-sdk-host
-and set BISON_PKGDATADIR for bison to use its components.
+The following changes since commit 5cd00e3e53819f3c10d1733480077ce9f3cc2ca8:
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 1 +
- meta/recipes-devtools/bison/bison_3.0.4.bb                         | 4 ++++
- 2 files changed, 5 insertions(+)
+  bitbake: fetch2/gitsm.py: Rework the git submodule fetcher (2018-09-26 15:14:33 +0100)
 
-diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index e2f6169..448c2f6 100644
---- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-+++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -25,6 +25,7 @@ RDEPENDS_${PN} = "\
-     nativesdk-cmake \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
-     nativesdk-sdk-provides-dummy \
-+    nativesdk-bison \
-     "
- 
- RDEPENDS_${PN}_darwin = "\
-diff --git a/meta/recipes-devtools/bison/bison_3.0.4.bb b/meta/recipes-devtools/bison/bison_3.0.4.bb
-index cc155f0..07677a7 100644
---- a/meta/recipes-devtools/bison/bison_3.0.4.bb
-+++ b/meta/recipes-devtools/bison/bison_3.0.4.bb
-@@ -36,4 +36,8 @@ do_install_append_class-native() {
- 	create_wrapper ${D}/${bindir}/bison \
- 		BISON_PKGDATADIR=${STAGING_DATADIR_NATIVE}/bison
- }
-+do_install_append_class-nativesdk() {
-+	create_wrapper ${D}/${bindir}/bison \
-+		BISON_PKGDATADIR=${OECORE_NATIVE_SYSROOT}${prefix_nativesdk}/share/bison
-+}
- BBCLASSEXTEND = "native nativesdk"
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/nativesdk-recipe-sysroot
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/nativesdk-recipe-sysroot
+
+Chen Qi (1):
+  nativesdk.bbclass: set consistent staging dirs regardless of multilib
+
+ meta/classes/nativesdk.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
+
 -- 
-2.7.4
+1.9.1
 
 
