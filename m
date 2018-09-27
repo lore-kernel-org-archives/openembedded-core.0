@@ -1,26 +1,47 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id DCE9B745AA
+Return-Path: <erik.boto@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 02DE2745F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 06:09:46 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w8R69jjF007639
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Thu, 27 Sep 2018 08:09:45 +0200
-Received: from dev.vm6.ccp.siemens.com ([163.242.50.201])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w8R69jtj014806;
-	Thu, 27 Sep 2018 08:09:45 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 23F3C2EA2C1;
-	Thu, 27 Sep 2018 08:09:44 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Thu, 27 Sep 2018 06:59:17 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id b129-v6so1176478pga.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Sep 2018 23:59:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=HuInMlLmNyzoaCBKUZljDBTgEzPWiS6pm6CFD5kyFf4=;
+	b=bBBU22MwEkSBExhlpDbrZGgfOxem7mH9vsj+h+m1OFauyquNKLVAMhvA28EqXLeOII
+	om63TAk9Oy+RZ1RFZFuluVaw4c4qx5yufA88wPmUlfyWsMM0PGhuZdwhHYjmkYqQDm00
+	XLd+gbxsXA9Rbv4YFKy1iojkzABw3ILdLhamn6Ey1GkJYZHd3p8JN+zVqOhkHBVnsxdq
+	yFokfMIBRT0u1p0Qii/IfCb4gGVh8g4R8D5RPavPmW6mue+7Nh1VmyqF1E5csiLjwDhH
+	nzqlA3MHTmLNALGZgqNwLXzFxllkHTltCNhgezKmmlmoW0Wm8tsWs8HddiEZFng5pzkA
+	JdmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:content-transfer-encoding;
+	bh=HuInMlLmNyzoaCBKUZljDBTgEzPWiS6pm6CFD5kyFf4=;
+	b=LfVFvO/wEZnMdZ5pSE7u5lDJtqn6MC4ush+Rf0V+6Q+vyWXW0XBZ9dByHFP0/o/VH5
+	/5wudWZMf1eVhCEwxsCTqWrrHHdnz0idyWcBTrJfC0xc0TIMKDr4caZQ1XAm3FFRKkKy
+	erI8Tp4QRnClxzwsPhjPGHnRNCKvEOC8iuYRbyhUch4FGGw6/3qRG+2XN1LKktE+RXtv
+	11rcLFZ2H3wCI//6ntobGZhaPYseQ1a2PgyJNMKeQjxtfNTxSL6MuHPpzHQ5dWVmrpvv
+	bXUyC4vgJqO+Evu6OPae6J3yDJ/v5+DvSlStevZpkJwce77Qj/hLiQyqX0w4cr2PUnFN
+	qv8Q==
+X-Gm-Message-State: ABuFfogGhtrJ9/tVWoZKXPcx/uPW9/TcGXRfn5X0GrbnU7TKub29WM3Z
+	OKqMN7j88OMd+PWyXIhj+B4bQiLK3g5d8V4jsuSScg==
+X-Google-Smtp-Source: ACcGV63OhCOcQ/3N7FZw9YIC/XiJO79w4ib0taYTrG/sqU5t9Tvtr4Vp0VNQknA+3s5wF0abjlDUc7GXcgXvxXV7byY=
+X-Received: by 2002:a17:902:722:: with SMTP id
+	31-v6mr9363186pli.207.1538031558639; 
+	Wed, 26 Sep 2018 23:59:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180918093630.16280-1-erik.boto@gmail.com>
+In-Reply-To: <20180918093630.16280-1-erik.boto@gmail.com>
+From: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@gmail.com>
+Date: Thu, 27 Sep 2018 08:59:07 +0200
+Message-ID: <CALNvYWOMXFkGCjMisJqdDgb=7Lrgc1mVi-A5MT93Lc0KaZ0Cyw@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Sep 2018 08:09:33 +0200
-Message-Id: <20180927060933.2121-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <7f369514-092a-6a76-0262-ac9a84309b10>
-References: <7f369514-092a-6a76-0262-ac9a84309b10>
-Subject: [PATCH v2] kernel-devsrc: fix searching for non-existing manifest files
+Subject: Re: [PATCHv2] testexport: Add support for testcase utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +54,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2018 06:09:47 -0000
+X-List-Received-Date: Thu, 27 Sep 2018 06:59:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Even if the do_populate_sysroot have had set-up noexec flag, populate_sdk's
-tasks were trying to find .populate_sysroot manifest file. Change noexec
-flag settings to delete appreciated task.
+Bumping this thread in hope to get some feedback.
 
-WARNING: core-image-minimal-1.0-r0 do_sdk_depends: Manifest
-build/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-kernel-devsrc.populate_sysroot
-not found in qemuarm armv5te armv5e armv5t armv5 armv4t armv4 arm allarch x86_64_x86_64-nativesdk (variant '')?
+Cheers,
+Erik
 
-WARNING: core-image-minimal-1.0-r0 do_populate_sdk_ext: Manifest
-build/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-kernel-devsrc.populate_sysroot
-not found in qemuarm armv5te armv5e armv5t armv5 armv4t armv4 arm allarch x86_64_x86_64-nativesdk (variant '')?
-
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 463305e89a..5758572221 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -25,7 +25,7 @@ do_unpack[noexec] = "1"
- do_patch[noexec] = "1"
- do_configure[noexec] = "1"
- do_compile[noexec] = "1"
--do_populate_sysroot[noexec] = "1"
-+deltask do_populate_sysroot
- 
- S = "${STAGING_KERNEL_DIR}"
- B = "${STAGING_KERNEL_BUILDDIR}"
--- 
-2.11.0
-
+On Tue, Sep 18, 2018 at 11:36 AM Erik Bot=C3=B6 <erik.boto@gmail.com> wrote=
+:
+>
+> Add the possibility to ship a lib/oeqa/runtime/cases/utils directory
+> that will be included in the generated testexport tarball.
+>
+> This makes it easier to split common functionality from test suites
+> into modules that can be imported from multiple test suites.
+>
+> Signed-off-by: Erik Bot=C3=B6 <erik.boto@gmail.com>
+> ---
+>  meta/classes/testexport.bbclass | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>
+> diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bb=
+class
+> index d070f07afa..790ca3aff0 100644
+> --- a/meta/classes/testexport.bbclass
+> +++ b/meta/classes/testexport.bbclass
+> @@ -74,6 +74,21 @@ def testexport_main(d):
+>
+>      copy_needed_files(d, tc)
+>
+> +def get_runtime_cases_utils_paths(d):
+> +    """
+> +    Returns a list of paths where testcase utils must reside. Utils can =
+be e.g.
+> +    common functionality used by multiple test cases.
+> +
+> +    Testcase utils are expected in <LAYER_DIR>/lib/oeqa/runtime/cases/ut=
+ils/
+> +    """
+> +    paths =3D []
+> +
+> +    for layer in d.getVar('BBLAYERS').split():
+> +        path =3D os.path.join(layer, 'lib/oeqa/runtime/cases/utils')
+> +        if os.path.isdir(path):
+> +            paths.append(path)
+> +    return paths
+> +
+>  def copy_needed_files(d, tc):
+>      import shutil
+>      import oe.path
+> @@ -121,6 +136,14 @@ def copy_needed_files(d, tc):
+>          if json_file:
+>              shutil.copy2(json_file, cases_path)
+>
+> +    # Copy cases/utils provided by layers
+> +    utils_dest_path =3D os.path.join(export_path, 'lib', 'oeqa', 'runtim=
+e', 'cases', 'utils')
+> +    utils_source_paths =3D get_runtime_cases_utils_paths(d)
+> +
+> +    for f in utils_source_paths:
+> +        if os.path.isdir(f):
+> +            oe.path.copytree(f, utils_dest_path)
+> +
+>      # Copy test data
+>      image_name =3D ("%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'),
+>                              d.getVar('IMAGE_LINK_NAME')))
+> --
+> 2.19.0.rc1
+>
 
