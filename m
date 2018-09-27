@@ -1,25 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E31F71C07
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B4B9479449
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 08:37:14 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w8R8bCwk025421
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Thu, 27 Sep 2018 09:37:14 +0100
-Message-ID: <faadf31ff400b7828fe69ac85138a3401a42488f.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Douglas Royds <douglas.royds@taitradio.com>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Sep 2018 09:37:12 +0100
-In-Reply-To: <2f47bda4-deb2-9603-a151-8330f0d52e08@taitradio.com>
-References: <2f47bda4-deb2-9603-a151-8330f0d52e08@taitradio.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: glibc binary reproducibility
+	Thu, 27 Sep 2018 08:38:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8R8cTil010698
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Sep 2018 01:38:29 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 27 Sep 2018 01:38:28 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Sep 2018 16:38:27 +0800
+Message-ID: <1538037507-104826-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] nativesdk-bison: Add to nativesdk-packagegroup-sdk-host and set BISON_PKGDATADIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,50 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2018 08:37:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Sep 2018 08:38:28 -0000
+Content-Type: text/plain
 
-On Thu, 2018-09-27 at 12:18 +1200, Douglas Royds wrote:
-> > $ arm-tait-linux-gnueabi-gcc  -march=armv5te -marm -mcpu=arm926ej-s 
-> > --sysroot=/home/douglas/workspace/upstream1/build/tmp/work/armv5e-
-> > tait-linux-gnueabi/glibc/2.28-r0/recipe-sysroot -nostdlib
-> > -nostartfiles -r -o
-> > /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-
-> > gnueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/crt1.o
-> > /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-
-> > gnueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/start.o
-> > /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-
-> > gnueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/abi-note.o
-> > /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-
-> > gnueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/init.o
-> > /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-
-> > gnueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/static-
-> > reloc.o
-> 
-> Note the -r = --relocatable, an ld option, which, "Generate[s]
-> relocatable output---i.e., generate[s] an output file that can in
-> turn serve as input to ld.  This is often called partial linking",
-> ie. the glibc build is just putting these .o files together for later
-> convenience.
-> Regrettably, this command both ignores -fdebug-prefix-map (which ld
-> doesn't accept) and puts the fully-qualified path to some of the
-> input .o files in the resulting crt1.o. At package splitdebuginfo()
-> time, although the fully-qualified path info is split off into the
-> .debug files, a (relative) path to the .debug files plus a checksum
-> is tacked onto libc.so by objcopy --add-gnu-debuglink ... and the
-> checksum depends on the path to the build.
-> There is a work-around: turn off the debug packaging:
-> > INHIBIT_PACKAGE_DEBUG_SPLIT_pn-glibc = "1"
-> 
-> I don't have a solution for this. Suggestions?
+From: He Zhe <zhe.he@windriver.com>
 
-Good work in tracking it down so far.
+bison is needed when building kernel. Add it to nativesdk-packagegroup-sdk-host
+and set BISON_PKGDATADIR for bison to use its components.
 
-Going off a bit of a random memory fragment, would it help to use
-relative paths in the compile/link command?
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 1 +
+ meta/recipes-devtools/bison/bison_3.0.4.bb                         | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-Cheers,
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index e2f6169..448c2f6 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -25,6 +25,7 @@ RDEPENDS_${PN} = "\
+     nativesdk-cmake \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
+     nativesdk-sdk-provides-dummy \
++    nativesdk-bison \
+     "
+ 
+ RDEPENDS_${PN}_darwin = "\
+diff --git a/meta/recipes-devtools/bison/bison_3.0.4.bb b/meta/recipes-devtools/bison/bison_3.0.4.bb
+index cc155f0..07677a7 100644
+--- a/meta/recipes-devtools/bison/bison_3.0.4.bb
++++ b/meta/recipes-devtools/bison/bison_3.0.4.bb
+@@ -36,4 +36,8 @@ do_install_append_class-native() {
+ 	create_wrapper ${D}/${bindir}/bison \
+ 		BISON_PKGDATADIR=${STAGING_DATADIR_NATIVE}/bison
+ }
++do_install_append_class-nativesdk() {
++	create_wrapper ${D}/${bindir}/bison \
++		BISON_PKGDATADIR=${OECORE_NATIVE_SYSROOT}${prefix_nativesdk}/share/bison
++}
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.7.4
 
-Richard
 
