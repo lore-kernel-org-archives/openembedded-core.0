@@ -1,51 +1,20 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A879E6FFCD
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp0.taitradio.net (unknown [202.37.96.22])
+	by mail.openembedded.org (Postfix) with SMTP id 9EDE3745C3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 23:52:51 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id l2-v6so832697qtr.12
+	Thu, 27 Sep 2018 00:18:24 +0000 (UTC)
+Received: from [172.16.169.141] (unknown [172.16.169.141])
+	by smtp0.taitradio.net (Postfix) with ESMTP id 87C2E220100
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2018 16:52:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=fIsb9rG06C7LectNuFtJ+AUeoOxK4/Wt7kepVdjpQYs=;
-	b=F/bs50bmsQ9hhLPOYCvRvTYh/stVBbHU6LJaIvKzRyLhTYYusYAbNEPve6iKkcx1rb
-	Uc12fjdumfzWNvd5sXKLRxgi67wMU2GfI6F+9gX/sZ9xh/unj1VmE+8rmAt0/CqkggK3
-	kxxET1pUgwXkF77bODlJwBY+tFEv3oo6EvV8XIf/ab63LUe332kDvOe6k51MUdii1V7s
-	mhiOuyV1P31G/UX3XGrjl3LW5Bm8rIfPMBispPrjJ85t9A5z4q/0T+kFr7bE+YD3sjLV
-	i+PWbkiaudfYoTAuA9nEgkIk8dQ1l/+vFHbjWpjlcRM0l+Z+Xcx1XolyR6cLS+iefGr6
-	ooAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=fIsb9rG06C7LectNuFtJ+AUeoOxK4/Wt7kepVdjpQYs=;
-	b=Qgt+tPClGAepBXPkiTf7nPRcS+gxKlD0Ge1IEUDmsKuHBiJemV6r9Of5Fkfe3m9aTO
-	HUn7nG+szhFixuAvWVWHyCe7NsRZMpNNy1A7hIDpzOkpHrsor/p0O/pxFFAzE5Nl1xMb
-	HqOmHESFKwx/00sSZ95NNqeLr6k5Cdjt2xMc8jzGDu1+cqvV2x7uGUVgJf/y5Oix18X9
-	K0ocyknTpfd/Ev2ykv8s0j+/1iVPgvxF9Nz8BuXrnruj0uTqGp5G0XnZr7OSQ5IRmzcS
-	O/BsEhoqHky87HEsSO+djcYvWZ//i0B4wklIPT0ER+n/UaDQWPlehzPmElTTB00u2yp8
-	caLw==
-X-Gm-Message-State: ABuFfohhJ9KMZS0M7WynzLENrEj/et9ik0+8iL4YBOLLPuXjeV+3VuND
-	xYC5txSHhLSjUrDlV8XxaVvQq4D9UDCn6OVtjzQ=
-X-Google-Smtp-Source: ACcGV63uPq7PCL87mnDnORLVWvd5H4Ne2rPSvL79C1zTDFRsmCsZS+74YsChD8CM2CX9dZK5YyLUmnfyOzDnl2yVuhs=
-X-Received: by 2002:a0c:f94e:: with SMTP id
-	i14-v6mr6317789qvo.50.1538005972129; 
-	Wed, 26 Sep 2018 16:52:52 -0700 (PDT)
+	Thu, 27 Sep 2018 12:18:22 +1200 (NZST)
+From: Douglas Royds <douglas.royds@taitradio.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <2f47bda4-deb2-9603-a151-8330f0d52e08@taitradio.com>
+Date: Thu, 27 Sep 2018 12:18:22 +1200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20180926132848.6632-1-andrej.valek@siemens.com>
-	<20180926132848.6632-2-andrej.valek@siemens.com>
-	<5ec7d09ee0d304331280e1ad45a95f136beccbf8.camel@linuxfoundation.org>
-	<b711f13dce071f35402e284d31bbe393679753c5.camel@linuxfoundation.org>
-In-Reply-To: <b711f13dce071f35402e284d31bbe393679753c5.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 26 Sep 2018 16:52:25 -0700
-Message-ID: <CAMKF1sr0bW=fZ-sLQuveZi5XL=eSSUzxfZojkWhgfOFTzCwUcQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] kernel-devsrc: fix searching for non-existing manifest files
+Subject: glibc binary reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,93 +27,199 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2018 23:52:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 27 Sep 2018 00:18:25 -0000
+Content-Type: multipart/alternative;
+	boundary="------------F7CAAA6E23E60DB4322A1DA6"
+Content-Language: en-GB
 
-On Wed, Sep 26, 2018 at 4:12 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2018-09-26 at 23:30 +0100, Richard Purdie wrote:
-> > On Wed, 2018-09-26 at 15:28 +0200, Andrej Valek wrote:
-> > > Even if the do_populate_sysroot have had set-up noexec flag,
-> > > populate_sdk's
-> > > tasks were trying to find .populate_sysroot manifest file. Change
-> > > noexec
-> > > flag settings to delete appreciated tasks.
-> > >
-> > > WARNING: core-image-minimal-1.0-r0 do_sdk_depends: Manifest
-> > > build/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-kernel-
-> > > devsrc.populate_sysroot
-> > > not found in qemuarm armv5te armv5e armv5t armv5 armv4t armv4 arm
-> > > allarch x86_64_x86_64-nativesdk (variant '')?
-> > >
-> > > WARNING: core-image-minimal-1.0-r0 do_populate_sdk_ext: Manifest
-> > > build/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-kernel-
-> > > devsrc.populate_sysroot
-> > > not found in qemuarm armv5te armv5e armv5t armv5 armv4t armv4 arm
-> > > allarch x86_64_x86_64-nativesdk (variant '')?
-> > >
-> > > Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> > > ---
-> > >  meta/recipes-kernel/linux/kernel-devsrc.bb | 12 ++++++------
-> > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> > > b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> > > index 463305e89a..716e908af8 100644
-> > > --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> > > +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> > > @@ -20,12 +20,12 @@ do_install[depends] +=
-> > > "virtual/kernel:do_shared_workdir"
-> > >  do_install[depends] += "virtual/kernel:do_install"
-> > >
-> > >  # There's nothing to do here, except install the source where we
-> > > can
-> > > package it
-> > > -do_fetch[noexec] = "1"
-> > > -do_unpack[noexec] = "1"
-> > > -do_patch[noexec] = "1"
-> > > -do_configure[noexec] = "1"
-> > > -do_compile[noexec] = "1"
-> > > -do_populate_sysroot[noexec] = "1"
-> > > +deltask do_fetch
-> > > +deltask do_unpack
-> > > +deltask do_patch
-> > > +deltask do_configure
-> > > +deltask do_compile
-> > > +deltask do_populate_sysroot
-> > >
-> >
-> > This triggered some failures in the autobuilder tests:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/8/builds/78/s
-> > teps/7/logs/step1b
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/19/builds/70/
-> > steps/7/logs/step1c
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/27/builds/77/
-> > steps/7/logs/step1c
-> >
-> > (https://wiki.yoctoproject.org/wiki/BuildLog#2578 if that is clearer,
-> > the stdio log shows which following log(s) have the errors)
-> >
-> > why, I'm not sure...
->
-> I think its because:
->
-> module-base.bbclass:do_configure[depends] += "make-mod-scripts:do_compile"
->
-> and the dependency goes missing when you delete the configure task.
+--------------F7CAAA6E23E60DB4322A1DA6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-this dependency seems redundant for devsrc
+When I build glibc in two different places, I get non-reproducible=20
+results - a 4-byte difference:
 
->
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+    $ cmp -l
+    ~/workspace/upstream[12]/build/tmp/work/armv5e-tait-linux-gnueabi/gli=
+bc/2.28-r0/package/lib/libc-2.28.so
+    1259181=C2=A0 71 172
+    1259182=C2=A0 27 304
+    1259183 152=C2=A0 77
+    1259184 363 243
 
+These 4 bytes are the checksum that objcopy --add-gnu-debuglink adds to=20
+the binary when the .debug info is split out at do_package time, see=20
+package.bbclass +416
+
+So why is the debug info different? We add -fdebug-prefix-map to our=20
+CFLAGS, which ensures that all our intra-component debug paths are=20
+prefixed with /usr/src/debug/glibc/, for instance, but this isn't=20
+working in this case. The difference is happening in csu/crt1.o, which=20
+is being linked into libc.so (and others):
+
+    $
+    ../recipe-sysroot-native/usr/bin/arm-tait-linux-gnueabi/arm-tait-linu=
+x-gnueabi-objdump
+    -t csu/crt1.o
+    ...
+    00000000 l=C2=A0=C2=A0=C2=A0 df *ABS*=C2=A0=C2=A0=C2=A0 00000000
+    /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gn=
+ueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/abi-note.o
+    00000000 l=C2=A0=C2=A0=C2=A0 df *ABS*=C2=A0=C2=A0=C2=A0 00000000
+    /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gn=
+ueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/start.o
+
+This abi-note.o symbol is finding its way into libc.so:
+
+    $
+    ../recipe-sysroot-native/usr/bin/arm-tait-linux-gnueabi/arm-tait-linu=
+x-gnueabi-objdump
+    -t libc.so
+    ...
+    00000000 l=C2=A0=C2=A0=C2=A0 df *ABS*=C2=A0=C2=A0=C2=A0 00000000
+    /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gn=
+ueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/abi-note.o
+
+So where does csu/crt1.o come from?
+
+    $ arm-tait-linux-gnueabi-gcc=C2=A0 -march=3Darmv5te -marm -mcpu=3Darm=
+926ej-s
+    --sysroot=3D/home/douglas/workspace/upstream1/build/tmp/work/armv5e-t=
+ait-linux-gnueabi/glibc/2.28-r0/recipe-sysroot
+    -nostdlib -nostartfiles *-r -o
+    /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gn=
+ueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/crt1.o*/home/douglas=
+/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gnueabi/glibc/2.28-=
+r0/build-arm-tait-linux-gnueabi/csu/start.o
+    /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gn=
+ueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/abi-note.o
+    /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gn=
+ueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/init.o
+    /home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gn=
+ueabi/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/static-reloc.o
+
+Note the -r =3D --relocatable, an ld option, which, "Generate[s]=20
+relocatable output---i.e., generate[s] an output file that can in turn=20
+serve as input to ld.=C2=A0 This is often called partial linking", ie. th=
+e=20
+glibc build is just putting these .o files together for later convenience=
+.
+
+Regrettably, this command both ignores -fdebug-prefix-map (which ld=20
+doesn't accept) and puts the fully-qualified path to some of the input=20
+.o files in the resulting crt1.o. At package splitdebuginfo() time,=20
+although the fully-qualified path info is split off into the .debug=20
+files, a (relative) path to the .debug files plus a checksum is tacked=20
+onto libc.so by objcopy --add-gnu-debuglink ... and the checksum depends=20
+on the path to the build.
+
+There is a work-around: turn off the debug packaging:
+
+    INHIBIT_PACKAGE_DEBUG_SPLIT_pn-glibc =3D "1"
+
+I don't have a solution for this. Suggestions?
+
+
+--------------F7CAAA6E23E60DB4322A1DA6
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+
+    <meta http-equiv=3D"content-type" content=3D"text/html; charset=3Dutf=
+-8">
+  </head>
+  <body text=3D"#000000" bgcolor=3D"#FFFFFF">
+    <p>When I build glibc in two different places, I get
+      non-reproducible results - a 4-byte difference:</p>
+    <blockquote>
+      <p><tt>$ cmp -l
+~/workspace/upstream[12]/build/tmp/work/armv5e-tait-linux-gnueabi/glibc/2=
+.28-r0/package/lib/libc-2.28.so</tt><tt><br>
+        </tt><tt>1259181=C2=A0 71 172</tt><tt><br>
+        </tt><tt>1259182=C2=A0 27 304</tt><tt><br>
+        </tt><tt>1259183 152=C2=A0 77</tt><tt><br>
+        </tt><tt>1259184 363 243</tt></p>
+    </blockquote>
+    <p>These 4 bytes are the checksum that objcopy --add-gnu-debuglink
+      adds to the binary when the .debug info is split out at do_package
+      time, see package.bbclass +416</p>
+    <p>So why is the debug info different? We add -fdebug-prefix-map to
+      our CFLAGS, which ensures that all our intra-component debug paths
+      are prefixed with /usr/src/debug/glibc/, for instance, but this
+      isn't working in this case. The difference is happening in
+      csu/crt1.o, which is being linked into libc.so (and others):</p>
+    <blockquote>
+      <p><tt>$
+../recipe-sysroot-native/usr/bin/arm-tait-linux-gnueabi/arm-tait-linux-gn=
+ueabi-objdump
+          -t csu/crt1.o</tt><tt><br>
+        </tt><tt>...</tt><tt><br>
+        </tt><tt>00000000 l=C2=A0=C2=A0=C2=A0 df *ABS*=C2=A0=C2=A0=C2=A0 =
+00000000
+/home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gnueab=
+i/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/abi-note.o</tt><tt><br>
+        </tt><tt>00000000 l=C2=A0=C2=A0=C2=A0 df *ABS*=C2=A0=C2=A0=C2=A0 =
+00000000
+/home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gnueab=
+i/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/start.o</tt><br>
+      </p>
+    </blockquote>
+    This abi-note.o symbol is finding its way into libc.so:
+    <blockquote>
+      <p><tt>$
+../recipe-sysroot-native/usr/bin/arm-tait-linux-gnueabi/arm-tait-linux-gn=
+ueabi-objdump
+          -t libc.so<br>
+          ...</tt><tt><br>
+        </tt><tt>00000000 l=C2=A0=C2=A0=C2=A0 df *ABS*=C2=A0=C2=A0=C2=A0 =
+00000000=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0
+/home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gnueab=
+i/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/abi-note.o</tt></p>
+    </blockquote>
+    So where does csu/crt1.o come from?<br>
+    <blockquote>
+      <blockquote> </blockquote>
+      <p><tt>$ arm-tait-linux-gnueabi-gcc=C2=A0 -march=3Darmv5te -marm
+          -mcpu=3Darm926ej-s
+--sysroot=3D/home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-=
+linux-gnueabi/glibc/2.28-r0/recipe-sysroot
+          -nostdlib -nostartfiles </tt><tt><b>-r -o
+/home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gnueab=
+i/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/crt1.o</b></tt><tt>
+/home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gnueab=
+i/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/start.o
+/home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gnueab=
+i/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/abi-note.o
+/home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gnueab=
+i/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/init.o
+/home/douglas/workspace/upstream1/build/tmp/work/armv5e-tait-linux-gnueab=
+i/glibc/2.28-r0/build-arm-tait-linux-gnueabi/csu/static-reloc.o</tt></p>
+      <blockquote> </blockquote>
+    </blockquote>
+    <p>Note the -r =3D --relocatable, an ld option, which, "Generate[s]
+      relocatable output---i.e., generate[s] an output file that can in
+      turn serve as input to ld.=C2=A0 This is often called partial linki=
+ng",
+      ie. the glibc build is just putting these .o files together for
+      later convenience.</p>
+    <p>Regrettably, this command both ignores -fdebug-prefix-map (which
+      ld doesn't accept) and puts the fully-qualified path to some of
+      the input .o files in the resulting crt1.o. At package
+      splitdebuginfo() time, although the fully-qualified path info is
+      split off into the .debug files, a (relative) path to the .debug
+      files plus a checksum is tacked onto libc.so by objcopy
+      --add-gnu-debuglink ... and the checksum depends on the path to
+      the build.</p>
+    <p>There is a work-around: turn off the debug packaging:</p>
+    <blockquote>
+      <p><tt>INHIBIT_PACKAGE_DEBUG_SPLIT_pn-glibc =3D "1"</tt><br>
+      </p>
+    </blockquote>
+    <p>I don't have a solution for this. Suggestions?</p>
+  </body>
+</html>
+
+--------------F7CAAA6E23E60DB4322A1DA6--
