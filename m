@@ -1,51 +1,48 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
-	[209.85.167.173])
-	by mail.openembedded.org (Postfix) with ESMTP id BC56A79707;
-	Thu, 27 Sep 2018 20:59:14 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id k64-v6so3411619oia.13;
-	Thu, 27 Sep 2018 13:59:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+	[209.85.208.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D7DC60800
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Sep 2018 21:29:06 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id 5-v6so3850590lju.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Sep 2018 14:29:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=75/KIYZ+wT5oTVv53FOAWfBJbJF2lxxVXk94XASuxYo=;
-	b=AYrif/MNPFo8DdwD6GtSJOQGeXUEJo9jkkz2NCaoC7MBcH6QT7kn1RXO3wTtI9OE+t
-	1MOB4e3RsEaKo75PvW9g4WwrXcJpw9Rf6aa7i3EFo8iJ6z+UgcGeQUyf8OYn6ppVetzI
-	MkIlQp9QTEaPdM7W3fZC/d0rptmdLBmiYbL+QF90Bx9PjpYXztYaSn5XYlyb4Mb13so1
-	hREwS9Tq5NvfOSTBLOSTeEXyn/lGlsNeeJOnH1YCz8UgVjPz20ojzuy/fWuwXZE5eNL0
-	QoG87rqMYBHkIEQFG6YV/sMcJcFMRDe3Db82qmbNlNJoaGP1Ae8Dimfe1dm3QpR61LQ7
-	9qiA==
+	bh=x7EVLwUjAnHLm5AfM0gQVVnsxuwozNa4OtykZil/PHs=;
+	b=LxgWlFvnnRBhgYeKnZor3Pv2GkMsey0B5/FBEBH+JsFmmK6Qf08efnq9Pp9h+dDR3s
+	f0GK9rHUfdFsaN5jG1kj/x/jP7o3ytRDug0xs5vr92tzVAuk+pRGwBuoLuYG1xoW1rBw
+	0bI6wfbGrYNtEPFAvivlJoSCG7xJ7ZWZMVKXw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=75/KIYZ+wT5oTVv53FOAWfBJbJF2lxxVXk94XASuxYo=;
-	b=TJEqkrLn+mkVaVAT1Hy0Q9cjRbVsgdRSOF4iENJUuT53jXwa1N/xEy/+m9ixcEeBuh
-	5gaiIHq08Rf1XAEvqTZlQmPcvoGXCrPGUvM00ENC08qk6YXONqCVyyD/F/Ob4SdnqOCt
-	Rj23ddoZk0P1UQ1nwLfGTId2Y99gK4+D9uKkCdM+G5FVUbfztUudpEcNEe/X9DdZLUtL
-	tJekLDKzn8UbpR+JlMheSTvWIZ52jVSubo/MTfymezYBWtbRjhIv2bcrk+eNhEFJWkx3
-	GHcQB9tav4HkptVS0nmD+H/kEykYfOxYXgyIbqZ7ASL9klU5xJoSSIZY4e7y8i4TIg4y
-	sa0Q==
-X-Gm-Message-State: ABuFfojIZHT0s73qryQ4es96Suam25O/NJQtXgTUP/nCNq2TKls4Ramv
-	QbfKGof9iiMz8UkuzxHSHRjYIVf5ty5IdMBVP7Q=
-X-Google-Smtp-Source: ACcGV60mjsjpkrM33xP5oEt9VHi531DvHK4ecE1AiTE2oV8YFE+0wF4noDqlBw6viWQNsci2bxYOVQDADXklK/c6EYs=
-X-Received: by 2002:aca:ed57:: with SMTP id
-	l84-v6mr4297268oih.188.1538081955707; 
-	Thu, 27 Sep 2018 13:59:15 -0700 (PDT)
+	bh=x7EVLwUjAnHLm5AfM0gQVVnsxuwozNa4OtykZil/PHs=;
+	b=bZUaCKbnR254lG0W/6axKCMXC+43gyo5s/l8BmugM1yNAJEo+FyKFEwfoRtB5k+/6z
+	/a5CRChiDwj1Hiw6Cb2yiCCysq10l1IY1k6Y/l+OpScF/4JL5VHdHuBsleSJFuJX7tI5
+	YFrsNZ8sjG8p4/EoqoPtB90W9Qr+MpNtNZArkjsE7E4UW+aPOCQM4Z2yQHVHbWeEOlF0
+	Xz0+MToLNKWgcTYqQT115rFHBBWwzXtCd5yFH8mzfq4hZ/vKKVzWi4tQsVAB+lSfMTjP
+	igOc65A4jlmUWJ/uq4YyyoIkMhQlKRbvANT6qeeDf8lSwFh4SdikfrAvTcWXVLWNajhA
+	/MXg==
+X-Gm-Message-State: ABuFfoibIh6ImRqRBjXlEl6m+7aLE9jy8wuVn7nsMgSKl8zgu4R0rAgT
+	x8rFkKBJbQzLiXwABD5Uc0E7V1H5wFQ9u5gygMyGcg==
+X-Google-Smtp-Source: ACcGV60tDUaI12GBbL6iq4bUDi1d5/9U/EfJJhtLjaueWVKF5+FFXZWyLDpHOKG+b3AmU06mkTOX/ZOGLaaQaO3rMUo=
+X-Received: by 2002:a2e:6598:: with SMTP id
+	e24-v6mr6230970ljf.99.1538083746662; 
+	Thu, 27 Sep 2018 14:29:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:490c:0:0:0:0:0 with HTTP; Thu, 27 Sep 2018 13:59:15
-	-0700 (PDT)
-In-Reply-To: <1721109.tuLG3TFsTU@localhost.localdomain>
 References: <1721109.tuLG3TFsTU@localhost.localdomain>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 27 Sep 2018 22:59:15 +0200
-Message-ID: <CALbNGRRhGOx7rcZq=kFypcPC=BWoPtimH-oFqpJXfmoT4eHgww@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@intel.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
+In-Reply-To: <1721109.tuLG3TFsTU@localhost.localdomain>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 27 Sep 2018 23:28:55 +0200
+Message-ID: <CAP71WjzUkYnazb3VHzEHgEDHoRqKdOT89Waw_hAy6pRyh8=BNA@mail.gmail.com>
+To: "Eggleton, Paul" <paul.eggleton@intel.com>
+Cc: Yocto list discussion <yocto@yoctoproject.org>,
+	openembedded-devel <openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: layers.openembedded.org upgraded
+Subject: Re: [yocto] layers.openembedded.org upgraded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,12 +55,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2018 20:59:15 -0000
+X-List-Received-Date: Thu, 27 Sep 2018 21:29:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 27, 2018 at 10:42 PM, Paul Eggleton <paul.eggleton@intel.com> w=
-rote:
+On Thu, Sep 27, 2018 at 10:43 PM Paul Eggleton <paul.eggleton@intel.com> wr=
+ote:
+>
 > Hi all,
 >
 > I'm very happy to announce that we've finally been able to upgrade the la=
@@ -134,6 +132,13 @@ ion
 > Halstead, Yi Zhao, Konrad Scherer, Robert Yang and An=C3=ADbal Lim=C3=B3n=
  for making
 > this upgrade possible.
+
+Paul, and everyone above, many thanks for your contributions to the
+Layer Index which is definitely a great tool for our community! It
+encourages and simplifies reuse and sharing of all recipes! The update
+looks really good, and as Andreas says, the top #3 features will make
+a big difference.
+
 >
 >
 > Also integrated were the Recipe Reporting System (RRS) which powers
@@ -152,8 +157,11 @@ king
 > Cheers,
 > Paul
 >
-As daily user of layerindex I think particularly the first three
-features are very helpful. Thanks a lot!
-
-Andreas
+> --
+> Paul Eggleton
+> Intel Open Source Technology Centre--
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
 
