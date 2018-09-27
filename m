@@ -1,40 +1,48 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id C07C779204
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A81579313
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2018 09:04:02 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=svr-ies-mbx-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-	id 1g5SDL-0003Kp-1H from Awais_Belal@mentor.com ;
-	Thu, 27 Sep 2018 02:04:03 -0700
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) with Microsoft SMTP
-	Server (TLS) id 15.0.1320.4; Thu, 27 Sep 2018 10:03:59 +0100
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1320.000; Thu, 27 Sep 2018 10:03:59 +0100
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] glibc-package.inc: correct intention for
-	deleting /usr/lib as needed
-Thread-Index: AQHUTzrReK7EozvamEuUEKOJij+4eaT49cQAgABA2pj///uEAIABjh1lgAkjRIw=
-Date: Thu, 27 Sep 2018 09:03:59 +0000
-Message-ID: <1538039039046.3259@mentor.com>
-References: <1537266969204.31967@mentor.com>
-	<CAJTo0LbCJwoD8Rc4uLffTx5P0enQxppY4-5YmGYPDbhahU8j8A@mail.gmail.com>
-	<9a58ea4be84c4f0eb2c34680a9345186@SVR-IES-MBX-03.mgc.mentorg.com>,
-	<CAJTo0LYtN8Rn=Kw1opw9=-a9j2zFFaUqikvwU4LXqoqHiEot5Q@mail.gmail.com>,
-	<1537536706360.96813@mentor.com>
-In-Reply-To: <1537536706360.96813@mentor.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.90]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc-package.inc: correct intention for deleting /usr/lib as needed
+	Thu, 27 Sep 2018 09:11:48 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id j8-v6so1732656wrw.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Sep 2018 02:11:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=rcWVhrinRR1L7Jk94xnbURUDv30xq6PI/ny/8EktSA0=;
+	b=lZISYgSzFKiRU0so8v3N0iHNC2BrEphyWFw1hXvHL3Zxaw4tfqIJ5Vpcg/oABUjWLX
+	I2aNvFr+X4P4ADErKSFJuGRoDxMjvXd7cmbJQZ6GCDQrz5Snvs6s3B9zm/DMGRtZiwPi
+	BVe33mnRx7g0O3z0BiHcIl4JPOS2fNeBEuz3aFeS85g/2qttiAkBrV2tM4vYlERu/w4D
+	hTF6hsXip/MIaZJ5RLf0i/vGG7YznkrHI0ifRNgQLUFhMj49hMDMUZRYj5LxWJ3YysaF
+	/2qRqo87bZfWdsGL4LnO1HHrJd9mu8o3Pe8OjFOmNejP9dzlI05SUUshvpDPyu3mS6x6
+	/q5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rcWVhrinRR1L7Jk94xnbURUDv30xq6PI/ny/8EktSA0=;
+	b=S+o7I+78EQFNoHoPhcN1IY4Yp0nJtWhfJT+TKHmxWzt38IE5nupSjetz7qpl3LVyHY
+	BTyEOscxpYRoAqEHBy4MVY0hSyHrb8h5yFvSLBu9HL6/rzFfKnFGtVGqqUbjXvoGCnUI
+	eyG//AUOmdsDD/vOR6Zbezpg+nkQa/9DK7GBMuaG9ibK37ddVQH63PHIomZ1gFsiST8J
+	oNgTgDIGv9cS0pAXqUaT6EO7hN2EjGWugUD+VvlbBJzkBUKBetDPw4er2N2ozAJmL/mf
+	OtN2tmQ5vPCbdgDldhfx0V3repqGWigvSy3KFhSwi5jlC1X3l218ulzBV0KvDeTWUt12
+	TLpg==
+X-Gm-Message-State: ABuFfohFA5HFYl0P1ehx+RRc3yAWe++vb+J0/Lm9mARwG96T8nhvyuzA
+	rieyCAMCbUqhoy/Ukw11TJXG7j30
+X-Google-Smtp-Source: ACcGV63GwLjVspxTq84u/6Sa0oS8ApiDFRDhtwpIJlzNpH8Pfm8IRVa6BOXRoRDMyLRusYTA8oalKQ==
+X-Received: by 2002:adf:fdca:: with SMTP id
+	i10-v6mr8414087wrs.276.1538039508549; 
+	Thu, 27 Sep 2018 02:11:48 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	z89-v6sm3644425wrb.3.2018.09.27.02.11.47
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 27 Sep 2018 02:11:47 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Sep 2018 09:11:47 +0000
+Message-Id: <20180927091147.12414-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [RFC][PATCH] bitbake.conf, kernel*.bbclass: include IMAGE_VERSION_SUFFIX only in the _LINK_NAME variables and change it to hard link
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,112 +55,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2018 09:04:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 27 Sep 2018 09:11:48 -0000
 
-Hi Ross,=0A=
-=0A=
-When do you think this would go in?=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Friday, September 21, 2018 6:31 PM=0A=
-To: Burton, Ross=0A=
-Cc: OE-core=0A=
-Subject: Re: [OE-core] [PATCH] glibc-package.inc: correct intention for del=
-eting /usr/lib as needed=0A=
-=0A=
->> That's better than HTML!=0A=
-Attached.=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: Burton, Ross <ross.burton@intel.com>=0A=
-Sent: Thursday, September 20, 2018 7:46 PM=0A=
-To: Belal, Awais=0A=
-Cc: OE-core=0A=
-Subject: Re: [OE-core] [PATCH] glibc-package.inc: correct intention for del=
-eting /usr/lib as needed=0A=
-=0A=
-That's better than HTML!=0A=
-On Thu, 20 Sep 2018 at 15:04, Belal, Awais <Awais_Belal@mentor.com> wrote:=
-=0A=
->=0A=
-> Hi Ross,=0A=
->=0A=
-> >> Can you resend using git-send-email, as this patch is encoded in HTML.=
-=0A=
-> My SMTP server is acting up these days, should I simply resend the patch =
-here as an attachment?=0A=
->=0A=
-> BR,=0A=
-> Awais=0A=
->=0A=
-> ________________________________________=0A=
-> From: Burton, Ross [ross.burton@intel.com]=0A=
-> Sent: Thursday, September 20, 2018 4:10 PM=0A=
-> To: Belal, Awais=0A=
-> Cc: OE-core=0A=
-> Subject: Re: [OE-core] [PATCH] glibc-package.inc: correct intention for d=
-eleting /usr/lib as needed=0A=
->=0A=
-> Can you resend using git-send-email, as this patch is encoded in HTML.=0A=
->=0A=
-> Ross=0A=
-> On Tue, 18 Sep 2018 at 11:53, Belal, Awais <Awais_Belal@mentor.com> wrote=
-:=0A=
-> >=0A=
-> > In case the baselib is lib64 we would want to delete /usr/lib=0A=
-> > after removing the /usr/lib/locale dir and the implementation=0A=
-> > wanted to do that earlier as well but the fault was checking=0A=
-> > an already removed dir (/usr/lib/locale) before trying to=0A=
-> > remove /usr/lib as that check would always fail.=0A=
-> > Now we simply try to delete /usr/lib after deleting=0A=
-> > /usr/lib/locale to make sure it deletes cleanly and is empty=0A=
-> > at the time of deletion.=0A=
-> >=0A=
-> > Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
-> > ---=0A=
-> >  meta/recipes-core/glibc/glibc-package.inc | 9 ++++-----=0A=
-> >  1 file changed, 4 insertions(+), 5 deletions(-)=0A=
-> >=0A=
-> > diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-c=
-ore/glibc/glibc-package.inc=0A=
-> > index 9ea41b7..22a59d2 100644=0A=
-> > --- a/meta/recipes-core/glibc/glibc-package.inc=0A=
-> > +++ b/meta/recipes-core/glibc/glibc-package.inc=0A=
-> > @@ -207,11 +207,10 @@ do_poststash_install_cleanup () {=0A=
-> >      rm -rf ${D}/${localedir}=0A=
-> >      rm -rf ${D}${datadir}/locale=0A=
-> >      if [ "${libdir}" !=3D "${exec_prefix}/lib" ]; then=0A=
-> > -        if [ -d ${D}${exec_prefix}/lib/locale ] ; then=0A=
-> > -            rm -rf ${D}${exec_prefix}/lib/locale=0A=
-> > -            # error out if directory isn't empty=0A=
-> > -            rm -f ${D}${exec_prefix}/lib=0A=
-> > -        fi=0A=
-> > +        # error out if directory isn't empty=0A=
-> > +        # this dir should only contain locale dir=0A=
-> > +        # which has been deleted in the previous step=0A=
-> > +        rmdir ${D}${exec_prefix}/lib=0A=
-> >      fi=0A=
-> >  }=0A=
-> >  addtask do_poststash_install_cleanup after do_stash_locale do_install =
-before do_populate_sysroot do_package=0A=
-> > --=0A=
-> > 2.7.4=0A=
-> >=0A=
-> >=0A=
-> > --=0A=
-> > _______________________________________________=0A=
-> > Openembedded-core mailing list=0A=
-> > Openembedded-core@lists.openembedded.org=0A=
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+* just RFC, the part for images isn't finished yet and there is
+  still some issue with DATETIME when kernel artifacts are used
+  from sstate, this is just to validate the idea behind
+  [YOCTO #12937] before finishing the implementation (it's already
+  finished and used by various LGE builds, but having simpler
+  way of doing it directly in oe-core mighe be useful for others).
+
+* move IMAGE_VERSION_SUFFIX from _NAME variables to _LINK_NAME
+  that way e.g. kernel.do_deploy can be reused from sstate to
+  provide "version-less" artifacts and then very fast
+  do_deploy_links task just adds links with consistent suffixes
+* create hard links instead of symlinks, so that whatever version
+  the filename says is really there
+* some IMAGE_FSTYPES might need the "version-less" IMAGE_NAME file
+  to be removed first or they might either append or update the
+  content of the image instead of creating new image file from
+  scratch - I have seen this only with one proprietary format we
+  generate with our own tool, so hopefully this isn't very common
+* this is basically the mechanism are using in webOS with
+  WEBOS_IMAGE_NAME_SUFFIX which is for official builds set from
+  jenkins job and then all artifacts (images as well as corresponding
+  kernel files) have the same version string, the implementation
+  "from outside" is a bit tricky as shown in webOS OSE, the variable
+  modifications:
+  https://github.com/webosose/meta-webosose/blob/a35e81622aae1066591e44a132d01297ff478248/meta-webos/conf/distro/include/webos.inc#L65
+  and then various bbclasses to hook do_webos_deploy_fixup task creating
+  the hardlinks for possible artifacts:
+  https://github.com/webosose/meta-webosose/blob/a35e81622aae1066591e44a132d01297ff478248/meta-webos/classes/webos_deploy.bbclass
+  https://github.com/webosose/meta-webosose/blob/a35e81622aae1066591e44a132d01297ff478248/meta-webos/classes/kernel.bbclass
+  https://github.com/webosose/meta-webosose/blob/a35e81622aae1066591e44a132d01297ff478248/meta-webos/classes/image.bbclass
+  so hopefully with all these changes in oe-core other project can
+  achieve the same just by setting one variable IMAGE_VERSION_SUFFIX
+
+[YOCTO #12937]
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/kernel-artifact-names.bbclass |  4 +--
+ meta/classes/kernel.bbclass                | 40 ++++++++++++++++------
+ meta/conf/bitbake.conf                     |  4 +--
+ 3 files changed, 33 insertions(+), 15 deletions(-)
+
+diff --git a/meta/classes/kernel-artifact-names.bbclass b/meta/classes/kernel-artifact-names.bbclass
+index bbeecba7bd..84ec193b5a 100644
+--- a/meta/classes/kernel-artifact-names.bbclass
++++ b/meta/classes/kernel-artifact-names.bbclass
+@@ -1,5 +1,5 @@
+-KERNEL_ARTIFACT_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+-KERNEL_ARTIFACT_LINK_NAME ?= "${MACHINE}"
++KERNEL_ARTIFACT_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}"
++KERNEL_ARTIFACT_LINK_NAME ?= "${KERNEL_ARTIFACT_NAME}${IMAGE_VERSION_SUFFIX}"
+ 
+ KERNEL_IMAGE_NAME ?= "${KERNEL_ARTIFACT_NAME}"
+ KERNEL_IMAGE_LINK_NAME ?= "${KERNEL_ARTIFACT_LINK_NAME}"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index d0fbbd1989..7aaebb56b4 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -667,25 +667,18 @@ kernel_do_deploy() {
+ 	fi
+ 
+ 	for imageType in ${KERNEL_IMAGETYPES} ; do
+-		base_name=${imageType}-${KERNEL_IMAGE_NAME}
+-		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} $deployDir/${base_name}.bin
+-		symlink_name=${imageType}-${KERNEL_IMAGE_LINK_NAME}
+-		ln -sf ${base_name}.bin $deployDir/${symlink_name}.bin
+-		ln -sf ${base_name}.bin $deployDir/${imageType}
++		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} $deployDir/${imageType}-${KERNEL_IMAGE_NAME}.bin
++		ln -sf ${imageType}-${KERNEL_IMAGE_NAME}.bin $deployDir/${imageType}
+ 	done
+ 
+ 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		mkdir -p ${D}${root_prefix}/lib
+ 		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
+-		ln -sf modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
+ 	fi
+ 
+ 	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
+ 		for imageType in ${KERNEL_IMAGETYPES} ; do
+-			initramfs_base_name=${imageType}-${INITRAMFS_NAME}
+-			initramfs_symlink_name=${imageType}-${INITRAMFS_LINK_NAME}
+-			install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}.initramfs $deployDir/${initramfs_base_name}.bin
+-			ln -sf ${initramfs_base_name}.bin $deployDir/${initramfs_symlink_name}.bin
++			install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}.initramfs $deployDir/${imageType}-${INITRAMFS_NAME}.bin
+ 		done
+ 	fi
+ }
+@@ -695,7 +688,32 @@ do_deploy[prefuncs] += "package_get_auto_pr"
+ 
+ addtask deploy after do_populate_sysroot do_packagedata
+ 
+-EXPORT_FUNCTIONS do_deploy
++kernel_do_deploy_links() {
++	deployDir="${DEPLOY_DIR_IMAGE}"
++	if [ -n "${KERNEL_DEPLOYSUBDIR}" ]; then
++		deployDir="${DEPLOY_DIR_IMAGE}/${KERNEL_DEPLOYSUBDIR}"
++		mkdir "$deployDir"
++	fi
++
++	for imageType in ${KERNEL_IMAGETYPES} ; do
++		ln -vf $deployDir/${imageType}-${KERNEL_IMAGE_NAME}.bin $deployDir/${imageType}-${KERNEL_IMAGE_LINK_NAME}.bin
++	done
++
++	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
++		ln -vf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
++	fi
++
++	if [ ! -z "${INITRAMFS_IMAGE}" -a "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
++		for imageType in ${KERNEL_IMAGETYPES} ; do
++			ln -vf ${imageType}-${INITRAMFS_NAME}.bin ${imageType}-${INITRAMFS_LINK_NAME}.bin
++		done
++	fi
++}
++do_deploy_links[prefuncs] += "package_get_auto_pr"
++
++addtask deploy_links after do_deploy before do_build
++
++EXPORT_FUNCTIONS do_deploy do_deploy_links
+ 
+ # Add using Device Tree support
+ inherit kernel-devicetree
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 93aee1ae46..017cb163ba 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -447,8 +447,8 @@ IMAGE_ROOTFS = "${WORKDIR}/rootfs"
+ IMAGE_BASENAME = "${PN}"
+ IMAGE_VERSION_SUFFIX = "-${DATETIME}"
+ IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME"
+-IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+-IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
++IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}"
++IMAGE_LINK_NAME = "${IMAGE_NAME}${IMAGE_VERSION_SUFFIX}"
+ 
+ # This option allows for a percentage overage of the actual image size rather than a
+ # fixed extra space, this is space needed for initial startup and basic operations.
+-- 
+2.17.1
+
 
