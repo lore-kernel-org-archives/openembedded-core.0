@@ -1,52 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 488A0799E7
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id B5830799EE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Sep 2018 16:06:20 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id o2-v6so2730535wmh.5
+	Fri, 28 Sep 2018 16:06:21 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id s12-v6so2772997wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Sep 2018 09:06:21 -0700 (PDT)
+	Fri, 28 Sep 2018 09:06:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=IGFY2FJy9VdH2Wjc/ZTS1MTZARxG9Wlm9VgxoSD90q8=;
-	b=bVyNOQHJUC2FOp4ogg6RJVQLK3EhloTUFwijFBkD0oW7BZXK2r3VnYrdQ1+dwWMJOJ
-	mxVPAPE2n7Q4lf+aRwq51Af7PYcgH3Q1P4pwYvMbHTlS7SFgw4bRKiQIuckfQKx8YJ3S
-	GudrSbhejtbcKHpBwuXDWKzplJWH9SgQIYmHS5MF6VNVqtjQMEdURSpjNNmwMdTD6a7d
-	0pidcAUhRe30cz8TBqmadwCk1KbQWfKFgZoxm3+GgQPjt1Ac2YmEriKG3zK0r1neNKOF
-	loX5dMKry/mnoLQrLsNWr9J0+/TOSYUxFJbf9SD40jDBmjnVpy9E+6uhV+7rhLjhcCkw
-	APfw==
+	bh=Gsfy1xYMoyM1KE8nqzZSifvM9ejnY2F0Gb3a1GOYqyw=;
+	b=gOY0/f+wP2Hj3YKumRqk1d/nZGKVCx6ccXmjqHhs9/6zA5nb5UROMTc7cNhnyvzgd+
+	gBz3khFQ4xtlxfHR+87fi0cCGkQeWI84pN2mH8c9nq8Kc2rnOfQ/NFPkxIIzqtZht+uQ
+	EwlWY9wbtlBbChlIgvxmrEdaaphz8PqROD8a/zoIj5qGRfIN3BepZ234+4/LUmyBN5a0
+	OqrSGLuDE692DP9DNOSf2uEyjlEMp4dWA62+oRIOrhopcGjHmEhdq1qjZIV4S4g4ei+S
+	Lt3pwsAdO8yULMBX0igOHplZLu8fD0nefUCM8r/H24kXQIC2RotjhhJGOuUwbJ+2ll5G
+	pusg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=IGFY2FJy9VdH2Wjc/ZTS1MTZARxG9Wlm9VgxoSD90q8=;
-	b=ttKIyXNHRXWN/Zduxl5UKStGS+DTlI+Kzhetfm/c+igUYHsfG5Qnbzb8gK3v5XG24g
-	VlhCxfjRRavIWhDUb43oKHkGOCDvpiMlkkAKJAeB/tSsiv38uBeYZhToDF/bZ4MP1W8k
-	cxOMGC3RCp1qtIycQtTs/a0aMIA9YsD+VzpPr/0PioA7qIKOMJM1SX8XFsnHJNU0Ty5O
-	M1rhwir/SPlWRVufGOrLN8wHFCHvO6g68uoGk86AZu86tlGNy8D62ukJXNeNLNKS2i7k
-	pyxL6brfzBcNMso0ncFRiv0wNtVyVd7AJYE5vA/HD9fut541rxGDgvF0TA99dQQ11bpt
-	paOQ==
-X-Gm-Message-State: ABuFfogLQXZ68LDBhmfNgO7zIeUQEuPgWGcnBiUFTeGYk1GhVh32mmo2
-	Fk0Lviv5jEeHxTVPwSPDj2tzejvokv8=
-X-Google-Smtp-Source: ACcGV61gIoj6o76Am7qX+OW9gp/Kuuva3aXx3TMBXRrMSrbKhHnTlagoy2c6/YcK6xDrs3aEVKe2yQ==
-X-Received: by 2002:a1c:a90:: with SMTP id 138-v6mr2346955wmk.49.1538150780628;
-	Fri, 28 Sep 2018 09:06:20 -0700 (PDT)
+	bh=Gsfy1xYMoyM1KE8nqzZSifvM9ejnY2F0Gb3a1GOYqyw=;
+	b=XGHV9k7hg0GIOy8quR1VX2GKUamj3uc3sot1DEBxwdjMe5Oig5QXweclGGImDK+UY0
+	QtO0XD9bE3mmcd6GACmSOGYgtz/Y8wgu8W+ae29UQa1efngpfbUe+f+3Ajvb4bIwo7cu
+	X87Jcx1yOvVQ/PiXaz/qn9QMSm4J7rLA1KbnpVjsGc2yFtBaQXNSamDgiJgaBqCpg5eA
+	oDXZtkq+g3tI6WgXISkxbwXuRBWSFoEttrDIoO69+jsXLZRHl2QK7D4MiowAXMK4gJtD
+	5RVt5sd3E3zBMNsD/vx6hCcz4WMyz/uk/0aXgNiTLdpwVJp/Bnb4JiTQBWMpcwOWK34O
+	Tvzw==
+X-Gm-Message-State: ABuFfog+P/S9zaacAWLIfqP4KQOR4IwdM8wUedjNgDrrsmTaGmBJd5QH
+	a0LTG2GUTROE4qEIGNgAk4N0CiwvIdQ=
+X-Google-Smtp-Source: ACcGV63U9eVqRk+D7j4z3sXgC75TiNkYDYvUlasKoX3e1lFHbtpfPqsdyE85Cn/+rvktCctPpqMI9Q==
+X-Received: by 2002:a1c:d712:: with SMTP id
+	o18-v6mr2416122wmg.54.1538150781968; 
+	Fri, 28 Sep 2018 09:06:21 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	11-v6sm7562289wrb.95.2018.09.28.09.06.19
+	11-v6sm7562289wrb.95.2018.09.28.09.06.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 28 Sep 2018 09:06:19 -0700 (PDT)
+	Fri, 28 Sep 2018 09:06:20 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Sep 2018 17:06:15 +0100
-Message-Id: <20180928160616.6672-2-ross.burton@intel.com>
+Date: Fri, 28 Sep 2018 17:06:16 +0100
+Message-Id: <20180928160616.6672-3-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180928160616.6672-1-ross.burton@intel.com>
 References: <20180928160616.6672-1-ross.burton@intel.com>
-Subject: [PATCH 2/3] python: mark the tests modules as special when updating the manifest
+Subject: [PATCH 3/3] python: move sqlite module into python-sqlite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,29 +60,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2018 16:06:20 -0000
+X-List-Received-Date: Fri, 28 Sep 2018 16:06:22 -0000
 
-We manually maintain the tests package's content and dependencies, so mark is as
-special (matching create_manifest3.py).
+The module was accidentally included in python-misc.
+
+Also re-run create_manifest to update the dependencies of python-sqlite3,
+causing some whitespace changes.
+
+[ YOCTO #12933 ]
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/python/python/create_manifest2.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../python/python/python2-manifest.json            | 24 ++++++++++++----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python/create_manifest2.py b/meta/recipes-devtools/python/python/create_manifest2.py
-index 1af1443f476..87999991d73 100644
---- a/meta/recipes-devtools/python/python/create_manifest2.py
-+++ b/meta/recipes-devtools/python/python/create_manifest2.py
-@@ -137,7 +137,7 @@ for key in old_manifest:
-     # Handle special cases, we assume that when they were manually added 
-     # to the manifest we knew what we were doing.
-     print ('Handling package %s' % key)
--    special_packages=['misc', 'modules', 'dev']
-+    special_packages=['misc', 'modules', 'tests', 'dev']
-     if key in special_packages or 'staticdev' in key:
-         print('Passing %s package directly' % key)
-         new_manifest[key]=old_manifest[key]
+diff --git a/meta/recipes-devtools/python/python/python2-manifest.json b/meta/recipes-devtools/python/python/python2-manifest.json
+index 1e7004e05ea..260fa6f80d2 100644
+--- a/meta/recipes-devtools/python/python/python2-manifest.json
++++ b/meta/recipes-devtools/python/python/python2-manifest.json
+@@ -1,18 +1,18 @@
+ {
+     "tests": {
+-        "summary": "Python test suite",
++        "summary": "Python test suite", 
+         "rdepends": [
+-            "core",
++            "core", 
+             "modules"
+-        ],
++        ], 
+         "files": [
+-            "${libdir}/python2.7/*/test",
+-            "${libdir}/python2.7/*/tests",
+-            "${libdir}/python2.7/idlelib/idle_test/",
++            "${libdir}/python2.7/*/test", 
++            "${libdir}/python2.7/*/tests", 
++            "${libdir}/python2.7/idlelib/idle_test/", 
+             "${libdir}/python2.7/test"
+-        ],
++        ], 
+         "cached": []
+-    },
++    }, 
+     "2to3": {
+         "summary": "Python automated Python 2 to 3 code translator", 
+         "rdepends": [
+@@ -881,10 +881,12 @@
+     "sqlite3": {
+         "summary": "Python Sqlite3 database support", 
+         "rdepends": [
+-            "core"
++            "core", 
++            "datetime"
+         ], 
+         "files": [
+-            "${libdir}/python2.7/lib-dynload/_sqlite3.so"
++            "${libdir}/python2.7/lib-dynload/_sqlite3.so", 
++            "${libdir}/python2.7/sqlite3"
+         ]
+     }, 
+     "stringold": {
+@@ -1041,4 +1043,4 @@
+             "${libdir}/python2.7/lib-dynload/zlib.so"
+         ]
+     }
+-}
++}
+\ No newline at end of file
 -- 
 2.11.0
 
