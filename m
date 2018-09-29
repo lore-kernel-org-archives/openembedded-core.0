@@ -1,25 +1,24 @@
 Return-Path: <Kexin.Hao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DF913799A7
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DB9F37999F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 07:09:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T79daR003661
+	Sat, 29 Sep 2018 07:09:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8T79QOm016702
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 00:09:40 -0700 (PDT)
+	Sat, 29 Sep 2018 00:09:36 -0700
 Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Sat, 29 Sep 2018 00:09:39 -0700
+	Sat, 29 Sep 2018 00:09:15 -0700
 From: Kevin Hao <kexin.hao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Sep 2018 15:01:45 +0800
-Message-ID: <20180929070147.88203-3-kexin.hao@windriver.com>
+Date: Sat, 29 Sep 2018 15:01:43 +0800
+Message-ID: <20180929070147.88203-1-kexin.hao@windriver.com>
 X-Mailer: git-send-email 2.14.4
-In-Reply-To: <20180929070147.88203-1-kexin.hao@windriver.com>
-References: <20180929070147.88203-1-kexin.hao@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] wic: isoimage-isohybrid: Drop the unnecessary reference of STAGING_DATADIR
+Subject: [PATCH 0/4] Fix the build failure when creating a multilib wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,57 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2018 07:09:39 -0000
+X-List-Received-Date: Sat, 29 Sep 2018 07:09:46 -0000
 Content-Type: text/plain
 
-Actually the bootimg_dir is the value of the STAGING_DATADIR, so we
-can use it directly.
+We have observed the following build failure when building lib32-core-image-minimal
+for a qemux86-64 machine.
+    DEBUG: | ERROR: Couldn't find correct bootimg_dir, exiting
+    | ERROR: Couldn't find correct bootimg_dir, exiting
+    DEBUG: | 
 
-Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
----
+This patch series tries to fix this issue. You can use the following
+steps to reproduce this issue:
+ 1. source .../git/poky/oe-init-build-env and set the MACHINE to
+"qemux86-64"
+
+ 2. Add the following to conf/local.conf:
+    IMAGE_FSTYPES = "wic"
+    
+    MULTILIBS = "multilib:lib32"
+    require conf/multilib.conf
+    DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+
+ 3. bitbake lib32-core-image-minimal
+
+Kevin Hao (4):
+  wic: bootimg-pcbios: Drop the unnecessary reference of STAGING_DATADIR
+  wic: isoimage-isohybrid: Drop the unnecessary reference of
+    STAGING_DATADIR
+  bitbake.conf: Introduce variables used to access the other recipe
+    specific sysroot directory in multilib case
+  wic: Set the right bootimg_dir when building a multilib image
+
+ meta/classes/image_types_wic.bbclass                 |  2 +-
+ meta/conf/bitbake.conf                               |  4 ++++
+ meta/conf/multilib.conf                              |  1 +
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py     |  7 +++----
  scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ scripts/wic                                          |  2 +-
+ 6 files changed, 14 insertions(+), 15 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index 170077c22c21..d9c7b55f03c5 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -360,11 +360,6 @@ class IsoImagePlugin(SourcePlugin):
-             chmod_cmd = "chmod 644 %s" % bootimg
-             exec_cmd(chmod_cmd)
- 
--        # Prepare files for legacy boot
--        syslinux_dir = get_bitbake_var("STAGING_DATADIR")
--        if not syslinux_dir:
--            raise WicError("Couldn't find STAGING_DATADIR, exiting.")
--
-         if os.path.exists("%s/isolinux" % isodir):
-             shutil.rmtree("%s/isolinux" % isodir)
- 
-@@ -373,19 +368,19 @@ class IsoImagePlugin(SourcePlugin):
- 
-         cls.do_configure_syslinux(creator, cr_workdir)
- 
--        install_cmd = "install -m 444 %s/syslinux/ldlinux.sys " % syslinux_dir
-+        install_cmd = "install -m 444 %s/syslinux/ldlinux.sys " % bootimg_dir
-         install_cmd += "%s/isolinux/ldlinux.sys" % isodir
-         exec_cmd(install_cmd)
- 
--        install_cmd = "install -m 444 %s/syslinux/isohdpfx.bin " % syslinux_dir
-+        install_cmd = "install -m 444 %s/syslinux/isohdpfx.bin " % bootimg_dir
-         install_cmd += "%s/isolinux/isohdpfx.bin" % isodir
-         exec_cmd(install_cmd)
- 
--        install_cmd = "install -m 644 %s/syslinux/isolinux.bin " % syslinux_dir
-+        install_cmd = "install -m 644 %s/syslinux/isolinux.bin " % bootimg_dir
-         install_cmd += "%s/isolinux/isolinux.bin" % isodir
-         exec_cmd(install_cmd)
- 
--        install_cmd = "install -m 644 %s/syslinux/ldlinux.c32 " % syslinux_dir
-+        install_cmd = "install -m 644 %s/syslinux/ldlinux.c32 " % bootimg_dir
-         install_cmd += "%s/isolinux/ldlinux.c32" % isodir
-         exec_cmd(install_cmd)
- 
 -- 
 2.14.4
 
