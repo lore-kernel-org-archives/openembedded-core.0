@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D86F579988
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D4DEB79987
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 06:08:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8T68NZB015160
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Sep 2018 23:08:34 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	Sat, 29 Sep 2018 06:24:36 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T6OacI027317
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 28 Sep 2018 23:24:37 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 28 Sep 2018 23:08:12 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	14.3.408.0; Fri, 28 Sep 2018 23:24:24 -0700
+From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Sep 2018 14:13:29 +0800
-Message-ID: <b5f85a088736c6811fe579de3c7fd9c7c1957880.1538201555.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1538201555.git.Qi.Chen@windriver.com>
-References: <cover.1538201555.git.Qi.Chen@windriver.com>
+Date: Sat, 29 Sep 2018 13:43:47 +0800
+Message-ID: <4b3ddabcb4559a6e748f54604291e93d5fb07466.1538199671.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <cover.1538199671.git.kai.kang@windriver.com>
+References: <cover.1538199671.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] nativesdk-packagegroup-sdk-host.bb: remove nativesdk-dnf
+Subject: [PATCH 01/10] cups: fix multilib install file conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2018 06:08:43 -0000
+X-List-Received-Date: Sat, 29 Sep 2018 06:24:37 -0000
 Content-Type: text/plain
 
-Currently the dnf command inside SDK does not work. We will
-get error message like below:
+From: Kai Kang <kai.kang@windriver.com>
 
-  ImportError: No module named 'dnf'
+There are comments which contains path of ${libdir} in configure files.
+It causes install file conflicts when intall cups and lib32-cups at same
+time.
 
-So remove it from nativesdk-packagegroup-sdk-host, otherwise,
-users will get unpleasant experience if they are working inside
-SDK environment on some distros like Fedora.
+Replace ${libdir} with {nonarch_libdir} of the comment lines in config
+files to fix the issue.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-extended/cups/cups.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index e2f6169..019ac49 100644
---- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-+++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -21,7 +21,6 @@ RDEPENDS_${PN} = "\
-     nativesdk-automake \
-     nativesdk-shadow \
-     nativesdk-makedevs \
--    nativesdk-dnf \
-     nativesdk-cmake \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
-     nativesdk-sdk-provides-dummy \
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 717eef03a7..b8ad1e09e5 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -78,6 +78,9 @@ do_install () {
+ 	    rm -rf ${D}${sysconfdir}/init.d/
+ 	    rm -rf ${D}${sysconfdir}/rc*
+ 	fi
++
++	# workaround for multilib install file conflicts
++	sed -i "s:\(^#.*\)${libdir}:\1${nonarch_libdir}:" ${D}${sysconfdir}/cups/cups-files.conf*
+ }
+ 
+ PACKAGES =+ "${PN}-lib ${PN}-libimage"
 -- 
-1.9.1
+2.18.0
 
 
