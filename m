@@ -1,24 +1,24 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3291679987
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 612EE7999F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 06:25:06 +0000 (UTC)
+	Sat, 29 Sep 2018 06:25:07 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T6P6DA027371
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T6P8OK003459
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Sep 2018 23:25:06 -0700 (PDT)
+	Fri, 28 Sep 2018 23:25:08 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 28 Sep 2018 23:25:06 -0700
+	14.3.408.0; Fri, 28 Sep 2018 23:25:07 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Sep 2018 13:43:50 +0800
-Message-ID: <eed6348760b285b0cab10e1f759c79e92eba8ae6.1538199671.git.kai.kang@windriver.com>
+Date: Sat, 29 Sep 2018 13:43:51 +0800
+Message-ID: <5266d8bc086fe75047d2cc84d25a4a83b28811b5.1538199671.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1538199671.git.kai.kang@windriver.com>
 References: <cover.1538199671.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/10] groff: fix multilib install file conflicts
+Subject: [PATCH 05/10] nss: move create blank certificates to pkg_postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +31,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2018 06:25:06 -0000
+X-List-Received-Date: Sat, 29 Sep 2018 06:25:07 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Perl scripts ${bindir}/{gpinyin, groffer, grog} are ${libdir} related
-and cause multilib install file conflicts:
+There is a multilib install file conflict of nss:
+| file /etc/pki/nssdb/key4.db conflicts between attempted installs of
+| lib32-nss-3.38-r0.corei7_32 and nss-3.38-r0.corei7_64
 
-| Error: Transaction check error:
-|  file /usr/bin/gpinyin conflicts between attempted installs of groff-1.22.3-r0.core2_64 and lib32-groff-1.22.3-r0.x86
-|  file /usr/bin/groffer conflicts between attempted installs of groff-1.22.3-r0.core2_64 and lib32-groff-1.22.3-r0.x86
-|  file /usr/bin/grog conflicts between attempted installs of groff-1.22.3-r0.core2_64 and lib32-groff-1.22.3-r0.x86
-
-Inherit multilib_script.bbclass to fix the errors.
+Move the creation of blank certificates to pkg_postinst. And check if
+certificates exist already, don't re-create them.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-extended/groff/groff_1.22.3.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-support/nss/nss_3.38.bb | 32 +++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-extended/groff/groff_1.22.3.bb b/meta/recipes-extended/groff/groff_1.22.3.bb
-index 7472f59825..ce7ce3e791 100644
---- a/meta/recipes-extended/groff/groff_1.22.3.bb
-+++ b/meta/recipes-extended/groff/groff_1.22.3.bb
-@@ -20,7 +20,9 @@ DEPENDS = "groff-native"
- DEPENDS_class-native = ""
- RDEPENDS_${PN} += "perl sed"
+diff --git a/meta/recipes-support/nss/nss_3.38.bb b/meta/recipes-support/nss/nss_3.38.bb
+index 904b621a07..74145360b5 100644
+--- a/meta/recipes-support/nss/nss_3.38.bb
++++ b/meta/recipes-support/nss/nss_3.38.bb
+@@ -211,20 +211,20 @@ do_install_append() {
+     sed -i s:OEINCDIR:${includedir}/nss3:g ${D}${libdir}/pkgconfig/nss.pc
+ }
  
--inherit autotools texinfo
-+inherit autotools texinfo multilib_script
+-do_install_append_class-target() {
+-    # Create a blank certificate
+-    mkdir -p ${D}${sysconfdir}/pki/nssdb/
+-    touch ./empty_password
+-    certutil -N -d sql:${D}${sysconfdir}/pki/nssdb/ -f ./empty_password
+-    chmod 644 ${D}${sysconfdir}/pki/nssdb/*.db
+-    rm ./empty_password
+-    # Remove build path prefix
+-    sed -i "s:${D}::g"  ${D}${sysconfdir}/pki/nssdb/pkcs11.txt
+-}
+-
+ PACKAGE_WRITE_DEPS += "nss-native"
+ pkg_postinst_${PN} () {
+     if [ -n "$D" ]; then
++        if [ ! -d $D${sysconfdir}/pki/nssdb/ ]; then
++            # Create a blank certificate
++            mkdir -p $D${sysconfdir}/pki/nssdb/
++            touch $D/empty_password
++            certutil -N -d sql:$D${sysconfdir}/pki/nssdb/ -f $D/empty_password
++            chmod 644 $D${sysconfdir}/pki/nssdb/*.db
++            rm $D/empty_password
++            # Remove build path prefix
++            sed -i "s:$D::g"  $D${sysconfdir}/pki/nssdb/pkcs11.txt
++        fi
 +
-+MULTILIB_SCRIPTS = "${PN}:${bindir}/gpinyin ${PN}:${bindir}/groffer ${PN}:${bindir}/grog"
- 
- EXTRA_OECONF = "--without-x"
- PARALLEL_MAKE = ""
+         for I in $D${libdir}/lib*.chk; do
+             DN=`dirname $I`
+             BN=`basename $I .chk`
+@@ -235,6 +235,15 @@ pkg_postinst_${PN} () {
+             fi
+         done
+     else
++        if [ ! -d ${sysconfdir}/pki/nssdb ]; then
++            # Create a blank certificate
++            mkdir -p ${sysconfdir}/pki/nssdb
++            empty_password=`mktemp`
++            certutil -N -d sql:$D${sysconfdir}/pki/nssdb/ -f $empty_password
++            chmod 644 $D${sysconfdir}/pki/nssdb/*.db
++            rm $empty_password
++        fi
++
+         signlibs.sh
+     fi
+ }
+@@ -244,7 +253,6 @@ FILES_${PN}-smime = "\
+     ${bindir}/smime \
+ "
+ FILES_${PN} = "\
+-    ${sysconfdir} \
+     ${bindir} \
+     ${libdir}/lib*.chk \
+     ${libdir}/lib*.so \
 -- 
 2.18.0
 
