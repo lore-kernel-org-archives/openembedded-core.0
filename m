@@ -1,24 +1,24 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D4DEB79987
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C86657998E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 06:24:36 +0000 (UTC)
+	Sat, 29 Sep 2018 06:24:37 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T6OacI027317
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T6OcO0003453
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Sep 2018 23:24:37 -0700 (PDT)
+	Fri, 28 Sep 2018 23:24:38 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 28 Sep 2018 23:24:24 -0700
+	14.3.408.0; Fri, 28 Sep 2018 23:24:37 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Sep 2018 13:43:47 +0800
-Message-ID: <4b3ddabcb4559a6e748f54604291e93d5fb07466.1538199671.git.kai.kang@windriver.com>
+Date: Sat, 29 Sep 2018 13:43:48 +0800
+Message-ID: <844d405cf27c639fcbc179eb4da8aeb26850c7ca.1538199671.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1538199671.git.kai.kang@windriver.com>
 References: <cover.1538199671.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/10] cups: fix multilib install file conflicts
+Subject: [PATCH 02/10] bind: fix multilib install file conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +36,32 @@ Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-There are comments which contains path of ${libdir} in configure files.
-It causes install file conflicts when intall cups and lib32-cups at same
-time.
+It adds ${libdir} to linker options in scripts bind9-config and
+isc-config.sh. And then causes install file conflicts when install bind
+andl ib32-bind both.
 
-Replace ${libdir} with {nonarch_libdir} of the comment lines in config
-files to fix the issue.
+Inherit multilib_script.bbclass to fix this issue.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-extended/cups/cups.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-connectivity/bind/bind_9.11.4.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 717eef03a7..b8ad1e09e5 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -78,6 +78,9 @@ do_install () {
- 	    rm -rf ${D}${sysconfdir}/init.d/
- 	    rm -rf ${D}${sysconfdir}/rc*
- 	fi
-+
-+	# workaround for multilib install file conflicts
-+	sed -i "s:\(^#.*\)${libdir}:\1${nonarch_libdir}:" ${D}${sysconfdir}/cups/cups-files.conf*
- }
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.11.4.bb
+index 23c3aadf9c..63d8b0baa8 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.4.bb
+@@ -28,7 +28,9 @@ SRC_URI[sha256sum] = "595070b031f869f8939656b5a5d11b121211967f15f6afeafa895df745
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
  
- PACKAGES =+ "${PN}-lib ${PN}-libimage"
+-inherit autotools update-rc.d systemd useradd pkgconfig
++inherit autotools update-rc.d systemd useradd pkgconfig multilib_script
++
++MULTILIB_SCRIPTS = "${PN}:${bindir}/bind9-config ${PN}:${bindir}/isc-config.sh"
+ 
+ # PACKAGECONFIGs readline and libedit should NOT be set at same time
+ PACKAGECONFIG ?= "readline"
 -- 
 2.18.0
 
