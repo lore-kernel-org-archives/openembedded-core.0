@@ -1,24 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ECCB979987
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1963679974
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 05:42:07 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T5g8Ib003370
+	Sat, 29 Sep 2018 05:42:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8T5fo8G014710
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Sep 2018 22:42:08 -0700 (PDT)
+	Fri, 28 Sep 2018 22:42:00 -0700
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 28 Sep 2018 22:42:07 -0700
+	14.3.408.0; Fri, 28 Sep 2018 22:41:39 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Sep 2018 13:01:18 +0800
-Message-ID: <eed6348760b285b0cab10e1f759c79e92eba8ae6.1538197206.git.kai.kang@windriver.com>
+Date: Sat, 29 Sep 2018 13:01:16 +0800
+Message-ID: <844d405cf27c639fcbc179eb4da8aeb26850c7ca.1538197206.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1538197206.git.kai.kang@windriver.com>
 References: <cover.1538197206.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/10] groff: fix multilib install file conflicts
+Subject: [PATCH 02/10] bind: fix multilib install file conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2018 05:42:08 -0000
+X-List-Received-Date: Sat, 29 Sep 2018 05:42:25 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Perl scripts ${bindir}/{gpinyin, groffer, grog} are ${libdir} related
-and cause multilib install file conflicts:
+It adds ${libdir} to linker options in scripts bind9-config and
+isc-config.sh. And then causes install file conflicts when install bind
+andl ib32-bind both.
 
-| Error: Transaction check error:
-|  file /usr/bin/gpinyin conflicts between attempted installs of groff-1.22.3-r0.core2_64 and lib32-groff-1.22.3-r0.x86
-|  file /usr/bin/groffer conflicts between attempted installs of groff-1.22.3-r0.core2_64 and lib32-groff-1.22.3-r0.x86
-|  file /usr/bin/grog conflicts between attempted installs of groff-1.22.3-r0.core2_64 and lib32-groff-1.22.3-r0.x86
-
-Inherit multilib_script.bbclass to fix the errors.
+Inherit multilib_script.bbclass to fix this issue.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-extended/groff/groff_1.22.3.bb | 4 +++-
+ meta/recipes-connectivity/bind/bind_9.11.4.bb | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/groff/groff_1.22.3.bb b/meta/recipes-extended/groff/groff_1.22.3.bb
-index 7472f59825..ce7ce3e791 100644
---- a/meta/recipes-extended/groff/groff_1.22.3.bb
-+++ b/meta/recipes-extended/groff/groff_1.22.3.bb
-@@ -20,7 +20,9 @@ DEPENDS = "groff-native"
- DEPENDS_class-native = ""
- RDEPENDS_${PN} += "perl sed"
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.11.4.bb
+index 23c3aadf9c..63d8b0baa8 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.4.bb
+@@ -28,7 +28,9 @@ SRC_URI[sha256sum] = "595070b031f869f8939656b5a5d11b121211967f15f6afeafa895df745
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
  
--inherit autotools texinfo
-+inherit autotools texinfo multilib_script
+-inherit autotools update-rc.d systemd useradd pkgconfig
++inherit autotools update-rc.d systemd useradd pkgconfig multilib_script
 +
-+MULTILIB_SCRIPTS = "${PN}:${bindir}/gpinyin ${PN}:${bindir}/groffer ${PN}:${bindir}/grog"
++MULTILIB_SCRIPTS = "${PN}:${bindir}/bind9-config ${PN}:${bindir}/isc-config.sh"
  
- EXTRA_OECONF = "--without-x"
- PARALLEL_MAKE = ""
+ # PACKAGECONFIGs readline and libedit should NOT be set at same time
+ PACKAGECONFIG ?= "readline"
 -- 
 2.18.0
 
