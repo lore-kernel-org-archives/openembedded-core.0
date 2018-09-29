@@ -1,22 +1,29 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 89DFF605BE
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 275E374C97
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 02:56:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T2uLL3002468
+	Sat, 29 Sep 2018 03:28:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8T3RnCJ011740
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Sep 2018 19:56:21 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 28 Sep 2018 19:56:20 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Sat, 29 Sep 2018 11:06:23 +0800
-Message-ID: <1538190383-31405-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Fri, 28 Sep 2018 20:27:59 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 28 Sep 2018 20:27:38 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <cover.1537175252.git.kai.kang@windriver.com>
+	<2a01e366-0e9d-0cc6-419b-6856173bff6f@windriver.com>
+	<CANNYZj8D+iTsULmigJmWW1re_JHHHpziUEGmOwSHc8+eVs76sg@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <51e07d2e-1862-9d12-1098-c9cf131a9712@windriver.com>
+Date: Sat, 29 Sep 2018 11:25:12 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Subject: [PATCH] libidn2: improve reproducibility
+In-Reply-To: <CANNYZj8D+iTsULmigJmWW1re_JHHHpziUEGmOwSHc8+eVs76sg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Fix install file conflicts of gobject-introspection when multilib is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,31 +36,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2018 02:56:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 29 Sep 2018 03:28:25 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Remoe prefix ${RECIPE_SYSROOT} in libidn2.pc
+On 2018年09月28日 16:27, Alexander Kanavin wrote:
+> The original patches never made it to the list, can you resend please?
+> (just confirmed with oe-core archive page)
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-extended/libidn/libidn2_2.0.5.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+It seems something wrong with git send-email on my new build server. 
+Many thanks for the reminder.
 
-diff --git a/meta/recipes-extended/libidn/libidn2_2.0.5.bb b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-index 0daf7a6..7a06ed3 100644
---- a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-+++ b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-@@ -27,3 +27,9 @@ LICENSE_${PN} = "(GPLv2+ | LGPLv3)"
- LICENSE_${PN}-bin = "GPLv3+"
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+PACKAGE_PREPROCESS_FUNCS += "libidn2_package_preprocess"
-+libidn2_package_preprocess () {
-+    sed -e 's@${RECIPE_SYSROOT}@@g' \
-+       -i ${PKGD}${libdir}/pkgconfig/libidn2.pc
-+}
+--Kai
+
+>
+> Alex
+>
+>
+> On Thu, 27 Sep 2018 at 10:28, Kang Kai <Kai.Kang@windriver.com> wrote:
+>> On 2018年09月17日 17:43, Kai Kang wrote:
+>>> Some of .gir files are target related, so install .gir files to ${libdir}
+>>> rather than ${datadir} to fix install file conflicts when mutlilib is enabled.
+>>>
+>>> The following changes since commit b78597a4e038ed64b379f11257002e5a5f24886f:
+>>>
+>>>     xf86-video-fbdev: update to 0.5.0 (2018-09-17 08:41:45 +0100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>     git://git.pokylinux.org/poky-contrib kangkai/gir
+>>>     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/gir
+>>>
+>>> Kai Kang (2):
+>>>     gobject-introspection: fix multilib install file conflicts
+>>>     vala: update vapigen-wrapper
+>> Ping...
+>>
+>>>    meta/recipes-devtools/vala/vala.inc           |  4 +-
+>>>    ...nfigure.ac-make-GIR_DIR-configurable.patch | 65 +++++++++++++++++++
+>>>    .../gobject-introspection_1.58.0.bb           | 10 ++-
+>>>    3 files changed, 75 insertions(+), 4 deletions(-)
+>>>    create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-configure.ac-make-GIR_DIR-configurable.patch
+>>>
+>> --
+>> Regards,
+>> Neil | Kai Kang
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 -- 
-2.7.4
+Regards,
+Neil | Kai Kang
 
 
