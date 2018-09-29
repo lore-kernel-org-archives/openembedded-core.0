@@ -1,25 +1,25 @@
 Return-Path: <Kexin.Hao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6695A7999C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DF913799A7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 07:09:37 +0000 (UTC)
+	Sat, 29 Sep 2018 07:09:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T79cNp003366
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T79daR003661
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 00:09:38 -0700 (PDT)
+	Sat, 29 Sep 2018 00:09:40 -0700 (PDT)
 Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Sat, 29 Sep 2018 00:09:37 -0700
+	Sat, 29 Sep 2018 00:09:39 -0700
 From: Kevin Hao <kexin.hao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Sep 2018 15:01:44 +0800
-Message-ID: <20180929070147.88203-2-kexin.hao@windriver.com>
+Date: Sat, 29 Sep 2018 15:01:45 +0800
+Message-ID: <20180929070147.88203-3-kexin.hao@windriver.com>
 X-Mailer: git-send-email 2.14.4
 In-Reply-To: <20180929070147.88203-1-kexin.hao@windriver.com>
 References: <20180929070147.88203-1-kexin.hao@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] wic: bootimg-pcbios: Drop the unnecessary reference of STAGING_DATADIR
+Subject: [PATCH 2/4] wic: isoimage-isohybrid: Drop the unnecessary reference of STAGING_DATADIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2018 07:09:37 -0000
+X-List-Received-Date: Sat, 29 Sep 2018 07:09:39 -0000
 Content-Type: text/plain
 
-Actually the bootimg_dir is the value of STAGING_DATADIR, so we don't
-need to check this directory twice times.
+Actually the bootimg_dir is the value of the STAGING_DATADIR, so we
+can use it directly.
 
 Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-pcbios.py | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index d599112dd759..dc7b76cf22a7 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -45,11 +45,10 @@ class BootimgPcbiosPlugin(SourcePlugin):
-     @classmethod
-     def _get_bootimg_dir(cls, bootimg_dir, dirname):
-         """
--        Check if dirname exists in default bootimg_dir or in STAGING_DIR.
-+        Check if dirname exists in default bootimg_dir
-         """
--        for result in (bootimg_dir, get_bitbake_var("STAGING_DATADIR")):
--            if os.path.exists("%s/%s" % (result, dirname)):
--                return result
-+        if os.path.exists("%s/%s" % (bootimg_dir, dirname)):
-+            return bootimg_dir
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+index 170077c22c21..d9c7b55f03c5 100644
+--- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -360,11 +360,6 @@ class IsoImagePlugin(SourcePlugin):
+             chmod_cmd = "chmod 644 %s" % bootimg
+             exec_cmd(chmod_cmd)
  
-         raise WicError("Couldn't find correct bootimg_dir, exiting")
+-        # Prepare files for legacy boot
+-        syslinux_dir = get_bitbake_var("STAGING_DATADIR")
+-        if not syslinux_dir:
+-            raise WicError("Couldn't find STAGING_DATADIR, exiting.")
+-
+         if os.path.exists("%s/isolinux" % isodir):
+             shutil.rmtree("%s/isolinux" % isodir)
+ 
+@@ -373,19 +368,19 @@ class IsoImagePlugin(SourcePlugin):
+ 
+         cls.do_configure_syslinux(creator, cr_workdir)
+ 
+-        install_cmd = "install -m 444 %s/syslinux/ldlinux.sys " % syslinux_dir
++        install_cmd = "install -m 444 %s/syslinux/ldlinux.sys " % bootimg_dir
+         install_cmd += "%s/isolinux/ldlinux.sys" % isodir
+         exec_cmd(install_cmd)
+ 
+-        install_cmd = "install -m 444 %s/syslinux/isohdpfx.bin " % syslinux_dir
++        install_cmd = "install -m 444 %s/syslinux/isohdpfx.bin " % bootimg_dir
+         install_cmd += "%s/isolinux/isohdpfx.bin" % isodir
+         exec_cmd(install_cmd)
+ 
+-        install_cmd = "install -m 644 %s/syslinux/isolinux.bin " % syslinux_dir
++        install_cmd = "install -m 644 %s/syslinux/isolinux.bin " % bootimg_dir
+         install_cmd += "%s/isolinux/isolinux.bin" % isodir
+         exec_cmd(install_cmd)
+ 
+-        install_cmd = "install -m 644 %s/syslinux/ldlinux.c32 " % syslinux_dir
++        install_cmd = "install -m 644 %s/syslinux/ldlinux.c32 " % bootimg_dir
+         install_cmd += "%s/isolinux/ldlinux.c32" % isodir
+         exec_cmd(install_cmd)
  
 -- 
 2.14.4
