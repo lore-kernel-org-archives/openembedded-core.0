@@ -1,24 +1,23 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C86657998E
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C73A379987
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 06:24:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T6OcO0003453
+	Sat, 29 Sep 2018 06:24:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8T6O8g4015409
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Sep 2018 23:24:38 -0700 (PDT)
+	Fri, 28 Sep 2018 23:24:18 -0700
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 28 Sep 2018 23:24:37 -0700
+	14.3.408.0; Fri, 28 Sep 2018 23:23:57 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Sep 2018 13:43:48 +0800
-Message-ID: <844d405cf27c639fcbc179eb4da8aeb26850c7ca.1538199671.git.kai.kang@windriver.com>
+Date: Sat, 29 Sep 2018 13:43:46 +0800
+Message-ID: <cover.1538199671.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1538199671.git.kai.kang@windriver.com>
-References: <cover.1538199671.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/10] bind: fix multilib install file conflicts
+Subject: [PATCH v2 00/10] Fix multilib install conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +30,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2018 06:24:37 -0000
+X-List-Received-Date: Sat, 29 Sep 2018 06:24:43 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-It adds ${libdir} to linker options in scripts bind9-config and
-isc-config.sh. And then causes install file conflicts when install bind
-andl ib32-bind both.
+V2:
+* add Upstream-Status for
+  meta/recipes-devtools/opkg-utils/opkg-utils/update-alternatives-not-warn-same-priorities-for-multilib.patch
 
-Inherit multilib_script.bbclass to fix this issue.
+The following changes since commit 3bbbe25ae74e120f7d3452685f0cae2245d7b14d:
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-connectivity/bind/bind_9.11.4.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+  glibc-package.inc: correct intention for deleting /usr/lib as needed (2018-09-27 23:41:41 +0100)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.11.4.bb
-index 23c3aadf9c..63d8b0baa8 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.4.bb
-@@ -28,7 +28,9 @@ SRC_URI[sha256sum] = "595070b031f869f8939656b5a5d11b121211967f15f6afeafa895df745
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
- 
--inherit autotools update-rc.d systemd useradd pkgconfig
-+inherit autotools update-rc.d systemd useradd pkgconfig multilib_script
-+
-+MULTILIB_SCRIPTS = "${PN}:${bindir}/bind9-config ${PN}:${bindir}/isc-config.sh"
- 
- # PACKAGECONFIGs readline and libedit should NOT be set at same time
- PACKAGECONFIG ?= "readline"
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/ML-sep29
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/ML-sep29
+
+Kai Kang (10):
+  cups: fix multilib install file conflicts
+  bind: fix multilib install file conflicts
+  man-db: fix multilib install file conflict
+  groff: fix multilib install file conflicts
+  nss: move create blank certificates to pkg_postinst
+  libcheck: avoid multilib install file conflict
+  opkg-utils/update-alternatives: not warn same priorities for multilib
+  os-release: fix install file conflict for multilib
+  gobject-introspection: fix multilib install file conflicts
+  vala: update vapigen-wrapper
+
+ meta/recipes-connectivity/bind/bind_9.11.4.bb |  4 +-
+ meta/recipes-core/os-release/os-release.bb    |  6 +-
+ ...ot-warn-same-priorities-for-multilib.patch | 36 ++++++++++
+ .../opkg-utils/opkg-utils_0.3.6.bb            |  1 +
+ meta/recipes-devtools/vala/vala.inc           |  4 +-
+ meta/recipes-extended/cups/cups.inc           |  3 +
+ meta/recipes-extended/groff/groff_1.22.3.bb   |  4 +-
+ meta/recipes-extended/man-db/man-db_2.8.3.bb  |  3 +
+ ...nfigure.ac-make-GIR_DIR-configurable.patch | 65 +++++++++++++++++++
+ .../gobject-introspection_1.58.0.bb           | 10 ++-
+ .../libcheck/libcheck_0.12.0.bb               |  5 ++
+ meta/recipes-support/nss/nss_3.38.bb          | 32 +++++----
+ 12 files changed, 153 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/update-alternatives-not-warn-same-priorities-for-multilib.patch
+ create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-configure.ac-make-GIR_DIR-configurable.patch
+
 -- 
 2.18.0
 
