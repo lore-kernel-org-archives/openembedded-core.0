@@ -1,25 +1,26 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B6FB879982
+	by mail.openembedded.org (Postfix) with ESMTP id AC43D79952
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 12:30:17 +0000 (UTC)
+	Sat, 29 Sep 2018 12:33:41 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w8TCUCrj026212
+	w8TCXbgw026291
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 29 Sep 2018 13:30:13 +0100
-Message-ID: <f7670593f1d04dfe9e212a4b86d766fa3cdb60cb.camel@linuxfoundation.org>
+	verify=NOT); Sat, 29 Sep 2018 13:33:39 +0100
+Message-ID: <16cf316e0447025d4df7b76653b408350f236ced.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>,
-	openembedded-core@lists.openembedded.org, ross.burton@intel.com
-Date: Sat, 29 Sep 2018 13:30:12 +0100
-In-Reply-To: <1538190383-31405-1-git-send-email-hongxu.jia@windriver.com>
-References: <1538190383-31405-1-git-send-email-hongxu.jia@windriver.com>
+To: kai.kang@windriver.com, openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alexander.kanavin@intel.com>
+Date: Sat, 29 Sep 2018 13:33:37 +0100
+In-Reply-To: <0b27127115cad5c47512fe6384898234a9bf53db.1538199671.git.kai.kang@windriver.com>
+References: <cover.1538199671.git.kai.kang@windriver.com>
+	<0b27127115cad5c47512fe6384898234a9bf53db.1538199671.git.kai.kang@windriver.com>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.100.1 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH] libidn2: improve reproducibility
+Subject: Re: [PATCH 10/10] vala: update vapigen-wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,47 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2018 12:30:18 -0000
+X-List-Received-Date: Sat, 29 Sep 2018 12:33:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2018-09-29 at 11:06 +0800, Hongxu Jia wrote:
-> Remoe prefix ${RECIPE_SYSROOT} in libidn2.pc
+On Sat, 2018-09-29 at 13:43 +0800, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
 > 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/recipes-extended/libidn/libidn2_2.0.5.bb | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-> b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-> index 0daf7a6..7a06ed3 100644
-> --- a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-> +++ b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-> @@ -27,3 +27,9 @@ LICENSE_${PN} = "(GPLv2+ | LGPLv3)"
->  LICENSE_${PN}-bin = "GPLv3+"
->  
->  BBCLASSEXTEND = "native nativesdk"
-> +
-> +PACKAGE_PREPROCESS_FUNCS += "libidn2_package_preprocess"
-> +libidn2_package_preprocess () {
-> +    sed -e 's@${RECIPE_SYSROOT}@@g' \
-> +       -i ${PKGD}${libdir}/pkgconfig/libidn2.pc
-> +}
+> gobject-introspection has changed installation paths of .gir files.
 
-Why is RECIPE_SYSROOT in here in the first place? Can you include the
-exact issue in the commit message?
+gobject-introspection has not changed. *We* have changed it.
 
-I suspect there is probably a better fix than this.
+This is basically why I really don't want to start messing with
+upstream code like this as I'm guessing this will be the first of many
+such problems.
 
-On reason I hate sed expressions like this is that the sed expression
-will sit there forever as its very hard to tell if it still applies
-anymore. So more detail needed and it really probably should be a patch
- of some sort.
+Has anyone discussed the gobject-introspection gir path issue with
+upstream? If data is arch specific, it shouldn't be going into datadir
+but into libexec iirc. I'd like to understand the upstream response
+before we start hacking around this in OE in a way which will generate
+a ton of patches and incompatibility.
 
 Cheers,
 
 Richard
-
 
 
