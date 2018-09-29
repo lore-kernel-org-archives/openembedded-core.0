@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 41846799A6;
-	Sat, 29 Sep 2018 07:37:00 +0000 (UTC)
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EC3C79974
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 29 Sep 2018 09:28:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8T9Rxk5004536
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 29 Sep 2018 02:27:59 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Sat, 29 Sep 2018 02:27:52 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 29 Sep 2018 17:27:50 +0800
+Message-ID: <1538213271-19076-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Kevin Hao <kexin.hao@windriver.com>
-Date: Sat, 29 Sep 2018 07:37:01 -0000
-Message-ID: <20180929073701.13844.95981@do.openembedded.org>
-References: <20180929070147.88203-1-kexin.hao@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180929070147.88203-1-kexin.hao@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IHRoZSBidWlsZCBmYWlsdXJlIHdoZW4gY3JlYXRpbmcgYSBtdWx0aWxpYiB3aWM=?=
+Subject: [PATCH] mime.bbclass: fix do_package_qa_multilib error of lib32-fltk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2018 07:37:00 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 29 Sep 2018 09:28:02 -0000
+Content-Type: text/plain
 
-== Series Details ==
+From: Changqing Li <changqing.li@windriver.com>
 
-Series: Fix the build failure when creating a multilib wic
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14288/
-State : failure
+fltk.bb inherit mime.bbclass, mime.bbclass add RDEPEND during
+populate_package, so need add mlprefix manually.
 
-== Summary ==
+ERROR: QA Issue: lib32-fltk package lib32-fltk-dev - suspicious
+values 'shared-mime-info-data-dev' in RRECOMMENDS [multilib]
+ERROR: QA Issue: lib32-fltk package lib32-fltk-bin - suspicious
+values 'shared-mime-info-data' in RDEPENDS [multilib]
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [3/4] bitbake.conf: Introduce variables used to access the other recipe specific sysroot directory in multilib case
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 109 characters)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/mime.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/mime.bbclass b/meta/classes/mime.bbclass
+index 0df1583..6c7b868 100644
+--- a/meta/classes/mime.bbclass
++++ b/meta/classes/mime.bbclass
+@@ -53,5 +53,5 @@ python populate_packages_append () {
+             postrm += d.getVar('mime_postrm')
+             d.setVar('pkg_postrm_%s' % pkg, postrm)
+             bb.note("adding shared-mime-info-data dependency to %s" % pkg)
+-            d.appendVar('RDEPENDS_' + pkg, " shared-mime-info-data")
++            d.appendVar('RDEPENDS_' + pkg, " " + d.getVar('MLPREFIX')+"shared-mime-info-data")
+ }
+-- 
+2.7.4
 
 
