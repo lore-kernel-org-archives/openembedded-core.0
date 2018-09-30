@@ -1,23 +1,22 @@
-Return-Path: <Changqing.Li@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E3C93746A8
+	by mail.openembedded.org (Postfix) with ESMTP id 0BA0471984
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Sep 2018 01:59:33 +0000 (UTC)
+	Sun, 30 Sep 2018 06:29:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8U1xYcX011592
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2018 18:59:35 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8U6TVfv012632
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 29 Sep 2018 23:29:32 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Sat, 29 Sep 2018 18:59:34 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 30 Sep 2018 09:59:33 +0800
-Message-ID: <1538272773-298871-1-git-send-email-changqing.li@windriver.com>
+	14.3.408.0; Sat, 29 Sep 2018 23:29:31 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Sun, 30 Sep 2018 14:39:34 +0800
+Message-ID: <1538289574-19536-1-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] pango: fix ptest failed problem
+Subject: [PATCH] openssl: fix ptest case `test_symbol_presence' failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,45 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Sep 2018 01:59:34 -0000
+X-List-Received-Date: Sun, 30 Sep 2018 06:29:33 -0000
 Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+The case in ptest use `nm -Pg libcrypto.so.1.1' to check symbol presence,
+hence we need to inhibit package split and package debug split.
 
-disable-debug will cause compiling with G_DISABLE_ASSERT, but ptest need
-it, so don't disable-debug when ptest is enabled.
+The binutils provides `nm', hence add it to ptest runtime depends.
+(Without `nm', the test_symbol_presence will be skipped, that's the
+reason why ptest passed on a small image, and failed on a full image)
 
-ptest fail error:
-
-Tests were compiled with G_DISABLE_ASSERT and are likely no-ops. Aborting.
-FAIL: pango/test-font.test (Child process exited with code 1)
-Running test: pango/testboundaries_ucd.test
-Tests were compiled with G_DISABLE_ASSERT and are likely no-ops. Aborting.
-FAIL: pango/testboundaries_ucd.test (Child process exited with code 1)
-Running test: pango/testboundaries.test
-Tests were compiled with G_DISABLE_ASSERT and are likely no-ops. Aborting.
-FAIL: pango/testboundaries.test (Child process exited with code 1)
-Running test: pango/testattributes.test
-Tests were compiled with G_DISABLE_ASSERT and are likely no-ops. Aborting.
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-graphics/pango/pango_1.42.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/openssl/openssl_1.1.1.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.42.4.bb b/meta/recipes-graphics/pango/pango_1.42.4.bb
-index e73fd28..c680720 100644
---- a/meta/recipes-graphics/pango/pango_1.42.4.bb
-+++ b/meta/recipes-graphics/pango/pango_1.42.4.bb
-@@ -24,7 +24,7 @@ DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo h
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
- PACKAGECONFIG[x11] = "--with-xft,--without-xft,virtual/libx11 libxft"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+index 73bcb27..673b0f9 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+@@ -151,6 +151,12 @@ do_install_ptest () {
+ 	cp -r * ${D}${PTEST_PATH}
+ }
  
--EXTRA_OECONF = "--disable-debug"
-+EXTRA_OECONF = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest',"","--disable-debug",d)}"
++# The ptest case uses `nm -Pg libcrypto.so.1.1' to check symbol presence
++INHIBIT_PACKAGE_STRIP = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '1', '0', d)}"
++INHIBIT_PACKAGE_DEBUG_SPLIT = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '1', '0', d)}"
++# The binutils provides `nm'
++RDEPENDS_${PN}-ptest += "binutils"
++
+ PRIVATE_LIBS_${PN}-ptest = "libcrypto.so.1.1 libssl.so.1.1"
  
- LEAD_SONAME = "libpango-1.0*"
- LIBV = "1.8.0"
+ # Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
 -- 
 2.7.4
 
