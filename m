@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A401C7A478
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id D1BA57A4B8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Oct 2018 11:12:08 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id m11-v6so10816344oic.2
+	Mon,  1 Oct 2018 11:12:32 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id u12-v6so13430280wrr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Oct 2018 04:12:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=0jFsEgKE43gug6vz7RWkNUwBDJ0w5e4HkmIT2M3HbJw=;
-	b=AOXYY33uYu1vQNHpeY2nkuetmjxNLMiXCU32R3aV5mz3jaCs4ri+URWrBcFz/773c+
-	3bB7DQg10N2xlH6ZfBV0pgyYsmB/YCjFFIzclxDVK7l7WXCHnpnaTp7e23w7KkmXFDB6
-	PNqjfrdyxbVqzyufpd9VPBl5srwz5JuMlTQ8pJASDHz0q66hBGvvzYMACRQSezfko4wO
-	iVg/5aYRxqz29ZRFIDs+TUhKdxG88Yp42DMZfsIyMP0iwIC9vvbGmjOsiZkZqdgVD1Gw
-	bkhwmxbMBlnkeEXuMc5vVCPeCiKrATzDgWLRlqKzW0NWS6HB0feLtrTmoUUnvEfKzB2R
-	O/nQ==
+	Mon, 01 Oct 2018 04:12:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=foF07gXJ/ueVlxtibfu+om/wk8R8MNEAwNSo993PtJQ=;
+	b=EHsN8MpMAn9VCOvqcJ6dijqsPa/xfPK1C8S+Wpvx4hjpWXfG+YgT6BD6wrT2LDYQ8s
+	x08HhIZ5w/2ALqeLJXLJun9S/dm/BY8UsPJemne8ge5We74X9Td7fBMuKRaVchq17+he
+	obCGZD2eIl7w26xKEw+HNGSblHzVC4eFYszTi2QNvA2HJ2bZH9x9BkkatBBW6ZbZ3lyL
+	+ZIIQPNqQZoT/qscDKVnZ9ocUbLIlmRTZi6Cymg8/VLh++eeXopWsDd8ODGjpz4JlYTY
+	E46p66eQoSN00NuMID9KuGGfHRnstKX7qAq6srk8rz+d4stDfOo9I20aAm81sO2br22+
+	ylug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=0jFsEgKE43gug6vz7RWkNUwBDJ0w5e4HkmIT2M3HbJw=;
-	b=dU7KaORM0uu8KOGXj+PDN8conT6pecjDYuyzBprVfFt8X5ACnHY0bYmxuQmYayYmjw
-	aPnZ6qT4xZZZ6ocitQdBDiLzPKsVFtyOnU4nUQZLjo1KTfMd5727Lem3c8T5Ff/kqg/S
-	3IJp2CYl1RTyXGLlMPFtiDqVoalQ1/ZyecWv3wuUV9lJ6cwWTFhme5pImYh3hJMIP9Kq
-	U7NsAmiCiI5puoK9wcnoAOy8oSKLcLhENI43s8w+II04MeI2BQA390UYcNrIiCK9fcxu
-	xA8AGZji2AEduM2kni/LrJFRfZnvPZWghGRpjZcKHRcY1olK+HVdvzGSauOnMvRGz9Bf
-	bECA==
-X-Gm-Message-State: ABuFfohBg1k0XkNwFQ/qOEc3F2IgdLCsQZiYcI59G1n0yISQT3VmZuQz
-	yTdaTfgkqDcg/PBOieGVxq+16HSuhviHwxwIIN18hGMshJc=
-X-Google-Smtp-Source: ACcGV62xuB1yoBNcPBNM1lYNYUQLnNvcDg0m3WvcB3bHaQ2OJy3pcvZT95UagNP2LRzB3iMBSE9In3wa/slpEMcmAJg=
-X-Received: by 2002:aca:68ce:: with SMTP id
-	o75-v6mr3747808oik.44.1538392329574; 
-	Mon, 01 Oct 2018 04:12:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1538212391.git.Qi.Chen@windriver.com>
-	<f12369511c63689b4fb363d6c49907c8593d4608.1538212391.git.Qi.Chen@windriver.com>
-In-Reply-To: <f12369511c63689b4fb363d6c49907c8593d4608.1538212391.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Oct 2018 12:11:58 +0100
-Message-ID: <CAJTo0LYXgzCoL87B=gv6z5FmHNTfV2AOXkSTUnte0ai2wCri9Q@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] webkitgtk: fix to build without opengl
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=foF07gXJ/ueVlxtibfu+om/wk8R8MNEAwNSo993PtJQ=;
+	b=tsY1fSCbNs8bKqeH3g1a8EFOLvWNuGqc3xAylMR/F3Msn1SvdYGfyQdViEB+tCcasC
+	YLxnaNkOXt4IYYXwna+CvfWRSco5Zyjo4tnN8dUJkDw+QQSL+eYujaq6K9ZzcZy/E1B1
+	AwB8FzZsK1/au1UpcyMhLUqqZ4G19NsgaF8k+E7EciuUrvCyCjHIjtT5f//7r1/WTwTg
+	UmMksinNxVSTIAYQBR8DYerBqqNg6uxz51bzylyPZc+TwCsVsCoHqfSqL22Ne2dSuOPu
+	fbq2+TW23RVjZLDp3ZGbgKZv1jOmO0bqEzqh4J+s0sbRCmr26kH0MuDKN8yfxtoTl9Kl
+	D1lQ==
+X-Gm-Message-State: ABuFfogAJO3RWYp2EMuuRWGB1nX+H1dXGKlBYDwEycmU0jk2zEhZ8G7Y
+	GW6wUm9AOGPW54KjgbuqSJTwY75W
+X-Google-Smtp-Source: ACcGV62bY5OHsT2WMVX9WfCH4AYLRD6/5IMb2Kd+yZJhbJYdvxylntJtQSwmZ5BJtaFjeXHU/ov9DA==
+X-Received: by 2002:adf:9e8f:: with SMTP id
+	a15-v6mr6370003wrf.70.1538392353329; 
+	Mon, 01 Oct 2018 04:12:33 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	u127-v6sm8101220wmf.48.2018.10.01.04.12.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 01 Oct 2018 04:12:32 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Oct 2018 11:12:33 +0000
+Message-Id: <20181001111233.29181-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] bitbake.conf: move IMAGE_NAME_SUFFIX variable from image_types.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,115 +55,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2018 11:12:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 01 Oct 2018 11:12:33 -0000
 
-From the libepoxy web site:
+* currently it's used only by image.bbclass, image_types.bbclass and
+  meta/recipes-core/images/build-appliance-image_15.0.0.bb
+  but if it's needed by some recipe which isn't itself an image, then
+  it's useful in bitbake.conf, e.g. we have a recipe for creating
+  VirtualBox appliances which combines .wic.vmdk with .ovf file to
+  create .zip with appliance, but for that we need the filename of
+  .wic.vmdk which now contains IMAGE_NAME_SUFFIX
+  https://github.com/webOS-ports/meta-webos-ports/blob/4980ce52a43ac6897657602810313af359f0b839/meta-luneos/recipes-core/images/luneos-emulator-appliance.inc#L24
 
-"Epoxy is a library for handling OpenGL function pointer management for you"
+* we were hardcoding .rootfs suffix where needed, but for quite long
+  time it's configurable with IMAGE_NAME_SUFFIX and might not match:
 
-libepoxy is essentially a glorified wrapper around dlopen()/dlsym().
-Are you simply moving the failure from build time to run time?
-libepoxy should be pulling in a GL implementation because that's what
-it does.
+  commit 380ee36811939d947024bf78de907e3c071b834f
+  Author: Patrick Ohly <patrick.ohly@intel.com>
+  Date:   Mon Mar 7 18:07:52 2016 +0100
 
-Ross
-On Sat, 29 Sep 2018 at 10:34, Chen Qi <Qi.Chen@windriver.com> wrote:
->
-> Currently, webkitgtk cannot be built if 'opengl' is not in distro
-> feature. The error message is like below:
->
->   OpenGLShims.h:23:10: fatal error: GL/gl.h: No such file or directory
->
-> The required distro feature for webkitgtk is only 'x11'.
->
-> From its source codes, libepoxy is an alternative option to build webkitgtk.
-> So fix to use it. In this way, we can successfully build out
-> webkitgtk if 'opengl' is not in distro features.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  .../0001-fix-to-build-with-libepoxy.patch          | 35 ++++++++++++++++++++++
->  meta/recipes-sato/webkit/webkitgtk_2.20.5.bb       |  4 ++-
->  2 files changed, 38 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-fix-to-build-with-libepoxy.patch
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-fix-to-build-with-libepoxy.patch b/meta/recipes-sato/webkit/webkitgtk/0001-fix-to-build-with-libepoxy.patch
-> new file mode 100644
-> index 0000000..72ccef4
-> --- /dev/null
-> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-fix-to-build-with-libepoxy.patch
-> @@ -0,0 +1,35 @@
-> +From 59c04daa31f8083bf4eff8304b13f34dd79d00a3 Mon Sep 17 00:00:00 2001
-> +From: Chen Qi <Qi.Chen@windriver.com>
-> +Date: Sat, 29 Sep 2018 16:32:57 +0800
-> +Subject: [PATCH] fix to build with libepoxy
-> +
-> +In source codes, there are places checking USE(LIBEPOXY), but
-> +in cmake files, there's nowhere to handle it.
-> +
-> +Fix to define USE_LIBEPOXY to 1 if ENABLE_LIBEPOXY is turned on.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> +---
-> + Source/cmake/OptionsGTK.cmake | 4 ++++
-> + 1 file changed, 4 insertions(+)
-> +
-> +diff --git a/Source/cmake/OptionsGTK.cmake b/Source/cmake/OptionsGTK.cmake
-> +index 386fa1d..6e86257 100644
-> +--- a/Source/cmake/OptionsGTK.cmake
-> ++++ b/Source/cmake/OptionsGTK.cmake
-> +@@ -240,6 +240,10 @@ endif ()
-> +
-> + SET_AND_EXPOSE_TO_BUILD(USE_TEXTURE_MAPPER TRUE)
-> +
-> ++if (ENABLE_LIBEPOXY)
-> ++    SET_AND_EXPOSE_TO_BUILD(USE_LIBEPOXY TRUE)
-> ++endif ()
-> ++
-> + if (ENABLE_OPENGL)
-> +     # ENABLE_OPENGL is true if either USE_OPENGL or ENABLE_GLES2 is true.
-> +     # But USE_OPENGL is the opposite of ENABLE_GLES2.
-> +--
-> +2.7.4
-> +
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb
-> index c8d4f94..24d10a2 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb
-> @@ -23,6 +23,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
->             file://0012-soup-Forward-declare-URL-class.patch \
->             file://0001-Fix-PaintingData-has-no-member-named-lightVector-on-.patch \
->             file://0001-webkitgtk-fix-CVE-2017-17821.patch \
-> +           file://0001-fix-to-build-with-libepoxy.patch \
->             "
->
->  SRC_URI[md5sum] = "72a05f6a4dc1c78b079590a8fd280401"
-> @@ -42,7 +43,7 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
->            "
->
->  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
-> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', 'libepoxy' ,d)} \
->                     enchant \
->                     libsecret \
->                    "
-> @@ -52,6 +53,7 @@ PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/lib
->  PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
->  PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant"
->  PACKAGECONFIG[gtk2] = "-DENABLE_PLUGIN_PROCESS_GTK2=ON,-DENABLE_PLUGIN_PROCESS_GTK2=OFF,gtk+"
-> +PACKAGECONFIG[libepoxy] = "-DENABLE_LIBEPOXY=ON,-DENABLE_LIBEPOXY=OFF,libepoxy"
->  PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
->  PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/libgl"
->  PACKAGECONFIG[opengl] = "-DENABLE_OPENGL=ON,-DENABLE_OPENGL=OFF,virtual/libgl"
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+    image creation: allow overriding .rootfs suffix
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/image_types.bbclass | 6 ------
+ meta/conf/bitbake.conf           | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 00a00d318f..6e301cbeb9 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -1,9 +1,3 @@
+-# IMAGE_NAME is the base name for everything produced when building images.
+-# The actual image that contains the rootfs has an additional suffix (.rootfs
+-# by default) followed by additional suffices which describe the format (.ext4,
+-# .ext4.xz, etc.).
+-IMAGE_NAME_SUFFIX ??= ".rootfs"
+-
+ # The default aligment of the size of the rootfs is set to 1KiB. In case
+ # you're using the SD card emulation of a QEMU system simulator you may
+ # set this value to 2048 (2MiB alignment).
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 017cb163ba..62362eac48 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -450,6 +450,12 @@ IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME"
+ IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}"
+ IMAGE_LINK_NAME = "${IMAGE_NAME}${IMAGE_VERSION_SUFFIX}"
+ 
++# IMAGE_NAME is the base name for everything produced when building images.
++# The actual image that contains the rootfs has an additional suffix (.rootfs
++# by default) followed by additional suffices which describe the format (.ext4,
++# .ext4.xz, etc.).
++IMAGE_NAME_SUFFIX ??= ".rootfs"
++
+ # This option allows for a percentage overage of the actual image size rather than a
+ # fixed extra space, this is space needed for initial startup and basic operations.
+ IMAGE_OVERHEAD_FACTOR ?= "1.3"
+-- 
+2.17.1
+
 
