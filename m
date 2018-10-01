@@ -1,26 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 14FA37A0E2
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 738DC6E660
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Oct 2018 14:30:34 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w91EUXMg029224
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 1 Oct 2018 15:30:35 +0100
-Message-ID: <fe91943fdc053f9804ca1a2a628e39d64de44d3c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kevin Hao <kexin.hao@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 01 Oct 2018 15:30:33 +0100
-In-Reply-To: <20180929070147.88203-4-kexin.hao@windriver.com>
-References: <20180929070147.88203-1-kexin.hao@windriver.com>
-	<20180929070147.88203-4-kexin.hao@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 3/4] bitbake.conf: Introduce variables used to access the other recipe specific sysroot directory in multilib case
+	Mon,  1 Oct 2018 15:37:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w91Fb8Xl028734
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 1 Oct 2018 08:37:08 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 1 Oct 2018 08:37:01 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Mon, 1 Oct 2018 23:47:05 +0800
+Message-ID: <1538408825-13100-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <829f16e68431d6fbeda54d3a16709ab47552589a.camel@linuxfoundation.org>
+References: <829f16e68431d6fbeda54d3a16709ab47552589a.camel@linuxfoundation.org>
+MIME-Version: 1.0
+Subject: [PATCH] openssl: fix ptest case `test_symbol_presence' failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +32,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2018 14:30:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Oct 2018 15:37:08 -0000
+Content-Type: text/plain
 
-On Sat, 2018-09-29 at 15:01 +0800, Kevin Hao wrote:
-> When multilib is enabled, there would be two different recipe
-> specific
-> sysroot directories:
->   libxx-recipe-sysroot
->   recipe-sysroot
-> 
-> We do need to access the files under the "recipe-sysroot" directory
-> in some cases. So introduces these variables for this purpose.
-> 
-> Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-> ---
->  meta/conf/bitbake.conf  | 4 ++++
->  meta/conf/multilib.conf | 1 +
->  2 files changed, 5 insertions(+)
+The case in ptest use `nm -Pg libcrypto.so' to check symbol presence,
+if library is stripped or debug split, the case will fail.
 
-This doesn't look like a good idea to me. With multilib its very easy
-just to add in special case options and make it do the right thing
-until something else needs 'fixing'. What is harder but works out
-better in the long run is to figure out the real underlying problem and
-the solution. This patch adds datadir but paves the way to add all the
-other *dir variants.
+The dbg library keeps symbol table, so tweak to check on it.
 
-Also, the name "RECIPE_ALT_SYSROOT" is horrible, its near impossible to
-know what "ALT" means. Alternative to what?
+Use wildcard `libcrypto.so*' rather than `libcrypto.so.1.1' to compat
+the subsequent version upgrade.
 
-So whilst I understand what this is trying to do, we need to come up
-with a better way, sorry. I've tried thinking how to do it differently
-but don't have a proposal right now, sorry.
+The binutils provides `nm', hence add it to ptest runtime depends.
+(Without `nm', the test_symbol_presence will be skipped, that's the
+reason why ptest passed on a small image, and failed on a full image)
 
-Cheers,
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ ...test_symbol_presence-check-on-dbg-library.patch | 36 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssl/openssl_1.1.1.bb |  6 ++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-test_symbol_presence-check-on-dbg-library.patch
 
-Richard
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-test_symbol_presence-check-on-dbg-library.patch b/meta/recipes-connectivity/openssl/openssl/0001-test_symbol_presence-check-on-dbg-library.patch
+new file mode 100644
+index 0000000..3999aa0
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-test_symbol_presence-check-on-dbg-library.patch
+@@ -0,0 +1,36 @@
++From 2766dc8af70ced2854a6817e67cbac234c99f91f Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 1 Oct 2018 22:16:53 +0800
++Subject: [PATCH] test_symbol_presence: check on dbg library
++
++The case uses `nm -Pg libcrypto.so' to check symbol presence,
++if library is stripped or debug splited, the case will fail.
++
++The dbg library has the symbol table, so tweak to check on it.
++
++Use wildcard `libcrypto.so*' rather than `libcrypto.so.1.1' to compat
++the subsequent version upgrade.
++
++Upstream-Status: Inappropriate [OE Specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ test/recipes/01-test_symbol_presence.t | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/test/recipes/01-test_symbol_presence.t b/test/recipes/01-test_symbol_presence.t
++index 7f2a2d7..1668cde 100644
++--- a/test/recipes/01-test_symbol_presence.t
+++++ b/test/recipes/01-test_symbol_presence.t
++@@ -32,7 +32,7 @@ note
++ foreach my $libname (@libnames) {
++  SKIP:
++     {
++-        my $shlibpath = bldtop_file("lib" . $libname . ".so");
+++        my $shlibpath = bldtop_file(".debug/" . "lib" . $libname . ".so*");
++         *OSTDERR = *STDERR;
++         *OSTDOUT = *STDOUT;
++         open STDERR, ">", devnull();
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+index 73bcb27..74b3417 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+@@ -13,6 +13,7 @@ DEPENDS = "hostperl-runtime-native"
+ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://run-ptest \
+            file://openssl-c_rehash.sh \
++           file://0001-test_symbol_presence-check-on-dbg-library.patch \
+            "
+ 
+ SRC_URI_append_class-nativesdk = " \
+@@ -174,6 +175,11 @@ RRECOMMENDS_libcrypto += "openssl-conf"
+ RDEPENDS_${PN}-bin = "perl"
+ RDEPENDS_${PN}-misc = "perl"
+ RDEPENDS_${PN}-ptest += "perl-module-file-spec-functions bash python"
++# The ptest case uses `nm -Pg .debug/libcrypto.so*' to check symbol presence
++RDEPENDS_${PN}-ptest += "${PN}-dbg"
++INSANE_SKIP_${PN}-ptest ?= "debug-deps"
++# The binutils provides `nm'
++RDEPENDS_${PN}-ptest += "binutils"
+ 
+ RPROVIDES_openssl-conf = "openssl10-conf"
+ RREPLACES_openssl-conf = "openssl10-conf"
+-- 
+2.7.4
+
 
