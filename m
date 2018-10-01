@@ -1,25 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 24E437A33D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+	[209.85.128.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E3F187A2ED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Oct 2018 12:07:29 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w91C7QmA017855
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 1 Oct 2018 13:07:27 +0100
-Message-ID: <829f16e68431d6fbeda54d3a16709ab47552589a.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>,
-	openembedded-core@lists.openembedded.org, ross.burton@intel.com
-Date: Mon, 01 Oct 2018 13:07:26 +0100
-In-Reply-To: <1538289574-19536-1-git-send-email-hongxu.jia@windriver.com>
-References: <1538289574-19536-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] openssl: fix ptest case `test_symbol_presence' failed
+	Mon,  1 Oct 2018 12:07:53 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id z25-v6so2936804wmf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Oct 2018 05:07:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ylBdD19C+0vuuqvp4Zla5bnApJ8PWBGC2MvOmk1LCic=;
+	b=C/m/IzEcqMOYm7Ga2ZeAE2QvkDo/0t3X2JeOGlhvd8TdPkI/zn0Js7hfxyoZh6ExP/
+	waf4o15XHFGeyJu0mZ4nTiYgP3BZbd8RMVBcucGvTXo4VtIGInIqNTB8/BwZdV1XRkEA
+	27OB9RZoDpwfe5BPZS5OUsRnRD8MVI2ITNntGIdDMfoOsh1ogT7MtUAC92JMePkGYvZw
+	JovVhercdL9w7/FCdncWmYddZ+8PuwGP+PcepvC8+n6ZJdLalJh3nRK1gIv1TEPQI5z2
+	mcQDilbCtO9MFtfnDREt+MhrYS9EqHOre9KcaPY2mR+bOW/aaqWPow7XNJbhAEYYPphY
+	A0bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ylBdD19C+0vuuqvp4Zla5bnApJ8PWBGC2MvOmk1LCic=;
+	b=cC0SdC9nvRzBFk8egrTodBx7jLMSp0xTbmYeUd8w1bR0Enbhr4DUD/eeCGNaAkQ8yR
+	8m/VfUgU+UuXqUmhTOF22lAd2WureneS6wSmV3XOer1/JSZEhfn3f8p1qoNeebJBPGbB
+	Clxo+KjHVhxcIUgg6mIxxgF5MXP61T8HGVwah/J25S83l0jfCZI63k4ObnQ21Ogn6ozt
+	iEgwbGcvRZJBhDDLLWx/g80rmoYubdlOLwloJSPaJ+6/+ztJcObEF3o/X0CXR9QaJVH4
+	fB6cqpd/tmgxS5jyjPrjKACZ6loMNhfDlWSuN8UQGr3JFnzitL10viaHNHBCotiTNh7n
+	XByw==
+X-Gm-Message-State: ABuFfoh6wQBmr3aGW1ZLkr+1ANStXIM3uJic9zkyilWF3o1ZW8Npgtv0
+	HFy4wARj2QaHwOdO/pxcL8N6PS0NeXxC8QDu/Bg=
+X-Google-Smtp-Source: ACcGV60MjTy4iohad61TfNxkOC75irEpltYcCSgD2jCOhOhcfvX2D9AdtJERUabRPxLFxVIDDs/NSQ9nG+VT2ak1Tvk=
+X-Received: by 2002:a1c:ce02:: with SMTP id e2-v6mr157860wmg.85.1538395673718; 
+	Mon, 01 Oct 2018 05:07:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20181001111233.29181-1-Martin.Jansa@gmail.com>
+	<ef30e9f17c0bef54dab54d024f2fb2bf0a36be27.camel@linuxfoundation.org>
+In-Reply-To: <ef30e9f17c0bef54dab54d024f2fb2bf0a36be27.camel@linuxfoundation.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 1 Oct 2018 14:07:42 +0200
+Message-ID: <CA+chaQfqgDQJyXDMe0SiNEhnzwA27stC6ZeGpv0-ROMsiw0kkQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf: move IMAGE_NAME_SUFFIX variable from image_types.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +55,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2018 12:07:31 -0000
+X-List-Received-Date: Mon, 01 Oct 2018 12:07:54 -0000
+Content-Type: multipart/alternative; boundary="000000000000a7f560057729a7ab"
+
+--000000000000a7f560057729a7ab
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sun, 2018-09-30 at 14:39 +0800, Hongxu Jia wrote:
-> The case in ptest use `nm -Pg libcrypto.so.1.1' to check symbol
-> presence,
-> hence we need to inhibit package split and package debug split.
-> 
-> The binutils provides `nm', hence add it to ptest runtime depends.
-> (Without `nm', the test_symbol_presence will be skipped, that's the
-> reason why ptest passed on a small image, and failed on a full image)
-> 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/recipes-connectivity/openssl/openssl_1.1.1.bb | 6 ++++++
->  1 file changed, 6 insertions(+)
+Sure, sounds good.
 
-Breaking packaging when enabling ptest is not a nice or desirable
-behaviour. I'd actually much rather just disable this test, or tweak it
-to work on the -dbg package. Does the test pass if the dbg package is
-installed?
+On Mon, Oct 1, 2018 at 2:03 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Cheers,
+> On Mon, 2018-10-01 at 11:12 +0000, Martin Jansa wrote:
+> > * currently it's used only by image.bbclass, image_types.bbclass and
+> >   meta/recipes-core/images/build-appliance-image_15.0.0.bb
+> >   but if it's needed by some recipe which isn't itself an image, then
+> >   it's useful in bitbake.conf, e.g. we have a recipe for creating
+> >   VirtualBox appliances which combines .wic.vmdk with .ovf file to
+> >   create .zip with appliance, but for that we need the filename of
+> >   .wic.vmdk which now contains IMAGE_NAME_SUFFIX
+> >   https://github.com/webOS-ports/meta-webos-ports/blob/4980ce52a43ac6
+> > 897657602810313af359f0b839/meta-luneos/recipes-core/images/luneos-
+> > emulator-appliance.inc#L24
+> >
+> > * we were hardcoding .rootfs suffix where needed, but for quite long
+> >   time it's configurable with IMAGE_NAME_SUFFIX and might not match:
+> >
+> >   commit 380ee36811939d947024bf78de907e3c071b834f
+> >   Author: Patrick Ohly <patrick.ohly@intel.com>
+> >   Date:   Mon Mar 7 18:07:52 2016 +0100
+> >
+> >     image creation: allow overriding .rootfs suffix
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/classes/image_types.bbclass | 6 ------
+> >  meta/conf/bitbake.conf           | 6 ++++++
+> >  2 files changed, 6 insertions(+), 6 deletions(-)
+>
+> You could make this argument for many of the class variables, with
+> other code needing some small piece and we end up importing a ton of
+> stuff into bitbake.conf and global scope. My worry is this isn't
+> scalable and leads to code which is hard to disentangle.
+>
+> How about we create imagevars.conf which the class could include, or
+> other users could include without pulling in the main class?
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
-Richard
+--000000000000a7f560057729a7ab
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Sure, sounds good.=C2=A0<br></div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr">On Mon, Oct 1, 2018 at 2:03 PM Richard Purdie &lt;<=
+a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfo=
+undation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Mon,=
+ 2018-10-01 at 11:12 +0000, Martin Jansa wrote:<br>
+&gt; * currently it&#39;s used only by image.bbclass, image_types.bbclass a=
+nd<br>
+&gt;=C2=A0 =C2=A0meta/recipes-core/images/<a href=3D"http://build-appliance=
+-image_15.0.0.bb" rel=3D"noreferrer" target=3D"_blank">build-appliance-imag=
+e_15.0.0.bb</a><br>
+&gt;=C2=A0 =C2=A0but if it&#39;s needed by some recipe which isn&#39;t itse=
+lf an image, then<br>
+&gt;=C2=A0 =C2=A0it&#39;s useful in bitbake.conf, e.g. we have a recipe for=
+ creating<br>
+&gt;=C2=A0 =C2=A0VirtualBox appliances which combines .wic.vmdk with .ovf f=
+ile to<br>
+&gt;=C2=A0 =C2=A0create .zip with appliance, but for that we need the filen=
+ame of<br>
+&gt;=C2=A0 =C2=A0.wic.vmdk which now contains IMAGE_NAME_SUFFIX<br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://github.com/webOS-ports/meta-webos-ports=
+/blob/4980ce52a43ac6" rel=3D"noreferrer" target=3D"_blank">https://github.c=
+om/webOS-ports/meta-webos-ports/blob/4980ce52a43ac6</a><br>
+&gt; 897657602810313af359f0b839/meta-luneos/recipes-core/images/luneos-<br>
+&gt; emulator-appliance.inc#L24<br>
+&gt; <br>
+&gt; * we were hardcoding .rootfs suffix where needed, but for quite long<b=
+r>
+&gt;=C2=A0 =C2=A0time it&#39;s configurable with IMAGE_NAME_SUFFIX and migh=
+t not match:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0commit 380ee36811939d947024bf78de907e3c071b834f<br>
+&gt;=C2=A0 =C2=A0Author: Patrick Ohly &lt;<a href=3D"mailto:patrick.ohly@in=
+tel.com" target=3D"_blank">patrick.ohly@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0Date:=C2=A0 =C2=A0Mon Mar 7 18:07:52 2016 +0100<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0image creation: allow overriding .rootfs suffix<br>
+&gt; <br>
+&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.c=
+om" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/image_types.bbclass | 6 ------<br>
+&gt;=C2=A0 meta/conf/bitbake.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+ 6 ++++++<br>
+&gt;=C2=A0 2 files changed, 6 insertions(+), 6 deletions(-)<br>
+<br>
+You could make this argument for many of the class variables, with<br>
+other code needing some small piece and we end up importing a ton of<br>
+stuff into bitbake.conf and global scope. My worry is this isn&#39;t<br>
+scalable and leads to code which is hard to disentangle.<br>
+<br>
+How about we create imagevars.conf which the class could include, or<br>
+other users could include without pulling in the main class?<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div>
 
+--000000000000a7f560057729a7ab--
