@@ -1,32 +1,26 @@
-Return-Path: <paul.eggleton@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E5E07A299;
-	Mon,  1 Oct 2018 04:15:05 +0000 (UTC)
+Return-Path: <chin.huat.ang@intel.com>
+X-Greylist: delayed 570 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 01 Oct 2018 05:19:29 UTC
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E4AD7A395
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Oct 2018 05:19:29 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Sep 2018 21:15:06 -0700
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Sep 2018 22:10:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,326,1534834800"; d="scan'208";a="90996326"
-Received: from lgprasad-mobl.gar.corp.intel.com (HELO localhost.localdomain)
-	([10.255.175.84])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Sep 2018 21:15:02 -0700
-From: Paul Eggleton <paul.eggleton@intel.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Date: Mon, 01 Oct 2018 17:14:59 +1300
-Message-ID: <3113534.rOdZyxEQgT@localhost.localdomain>
-Organization: Intel Corporation
-In-Reply-To: <300c15ce-48f1-dde7-c231-b604b38d0922@windriver.com>
-References: <1721109.tuLG3TFsTU@localhost.localdomain>
-	<d8427b2a-b63f-e19c-1fc7-6cb365dc63ff@windriver.com>
-	<300c15ce-48f1-dde7-c231-b604b38d0922@windriver.com>
-MIME-Version: 1.0
-Cc: yocto@yoctoproject.org,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] layers.openembedded.org upgraded
+X-IronPort-AV: E=Sophos;i="5.54,326,1534834800"; d="scan'208";a="77692308"
+Received: from chinhuat-mac01.png.intel.com (HELO ubuntu.localdomain)
+	([172.30.199.118])
+	by orsmga008.jf.intel.com with ESMTP; 30 Sep 2018 22:09:59 -0700
+From: Chin Huat Ang <chin.huat.ang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Oct 2018 13:09:45 +0800
+Message-Id: <1538370585-31649-1-git-send-email-chin.huat.ang@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] meta-ide-support: add cmake-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,46 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2018 04:15:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 01 Oct 2018 05:19:30 -0000
 
-On Sunday, 30 September 2018 6:40:30 AM NZDT Randy MacLeod wrote:
-> It works for me now but it's not clear why. It seems that
-> it was a problem with my firefox profile.
-> 
-> Work log below in case it might help someone else.
-> 
-> ../Randy
-> 
-> 
-> I rebooted:
->    - still no menu.
-> I logged out and then into another account on the same laptop:
->    - it worked.
-> I created another firefox profile in my usual account:
->    - it worked.
-> I deleted that profile and used my default profile:
->    - still no menu.
-> While visiting layers.openembedded.org, I opened the firefox
-> console using Shift+Control+K
->    - I re-loaded the site.
->    - it worked!
-> I closed the console:
->    - it worked!
-> I restarted firefox:
->    - it still works!
+Include cmake as part of build tree toolchain so that it is populated
+into meta-ide-support's recipe-sysroot-native which is prepended to
+$PATH, this ensures cmake-native is picked up first before host cmake.
 
-Thanks - I'm also still puzzled by this, but I guess it's good that it 
-apparently fixed itself. If the issue returns or anyone else sees anything 
-strange like this happening then please let me know.
+Signed-off-by: Chin Huat Ang <chin.huat.ang@intel.com>
+---
+ meta/recipes-core/meta/meta-ide-support.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers
-Paul
-
+diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
+index 0692ec8..768f6f4 100644
+--- a/meta/recipes-core/meta/meta-ide-support.bb
++++ b/meta/recipes-core/meta/meta-ide-support.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Integrated Development Environment support"
+ DESCRIPTION = "Meta package for ensuring the build directory contains all appropriate toolchain packages for using an IDE"
+ LICENSE = "MIT"
+ 
+-DEPENDS = "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu-helper-native unfs3-native"
++DEPENDS = "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu-helper-native unfs3-native cmake-native"
+ PR = "r3"
+ RM_WORK_EXCLUDE += "${PN}"
+ 
 -- 
-Paul Eggleton
-Intel Open Source Technology Centre
-
+2.7.4
 
 
