@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id DEA2C60107;
-	Mon,  1 Oct 2018 11:32:59 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 01 Oct 2018 11:33:01 -0000
-Message-ID: <20181001113301.29310.38599@do.openembedded.org>
-References: <20181001111233.29181-1-Martin.Jansa@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id EA5B77A2EC
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Oct 2018 12:03:01 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w91C30C6017584
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 1 Oct 2018 13:03:01 +0100
+Message-ID: <ef30e9f17c0bef54dab54d024f2fb2bf0a36be27.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 01 Oct 2018 13:03:00 +0100
 In-Reply-To: <20181001111233.29181-1-Martin.Jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYml0YmFrZS5jb25mOiBtb3ZlIElNQUdFX05BTUVfU1VGRklYIHZhcmlhYmxlIGZyb20gaW1hZ2VfdHlwZXMuYmJjbGFzcw==?=
+References: <20181001111233.29181-1-Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] bitbake.conf: move IMAGE_NAME_SUFFIX variable from image_types.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2018 11:33:00 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 01 Oct 2018 12:03:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On Mon, 2018-10-01 at 11:12 +0000, Martin Jansa wrote:
+> * currently it's used only by image.bbclass, image_types.bbclass and
+>   meta/recipes-core/images/build-appliance-image_15.0.0.bb
+>   but if it's needed by some recipe which isn't itself an image, then
+>   it's useful in bitbake.conf, e.g. we have a recipe for creating
+>   VirtualBox appliances which combines .wic.vmdk with .ovf file to
+>   create .zip with appliance, but for that we need the filename of
+>   .wic.vmdk which now contains IMAGE_NAME_SUFFIX
+>   https://github.com/webOS-ports/meta-webos-ports/blob/4980ce52a43ac6
+> 897657602810313af359f0b839/meta-luneos/recipes-core/images/luneos-
+> emulator-appliance.inc#L24
+> 
+> * we were hardcoding .rootfs suffix where needed, but for quite long
+>   time it's configurable with IMAGE_NAME_SUFFIX and might not match:
+> 
+>   commit 380ee36811939d947024bf78de907e3c071b834f
+>   Author: Patrick Ohly <patrick.ohly@intel.com>
+>   Date:   Mon Mar 7 18:07:52 2016 +0100
+> 
+>     image creation: allow overriding .rootfs suffix
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/image_types.bbclass | 6 ------
+>  meta/conf/bitbake.conf           | 6 ++++++
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 
-Series: bitbake.conf: move IMAGE_NAME_SUFFIX variable from image_types.bbclass
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14313/
-State : failure
+You could make this argument for many of the class variables, with
+other code needing some small piece and we end up importing a ton of
+stuff into bitbake.conf and global scope. My worry is this isn't
+scalable and leads to code which is hard to disentangle.
 
-== Summary ==
+How about we create imagevars.conf which the class could include, or
+other users could include without pulling in the main class?
 
+Cheers,
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Richard
 
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 4dad1568f8)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
