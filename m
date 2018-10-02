@@ -1,29 +1,31 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D58F8745C3
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B2F87943C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2018 16:00:18 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w92G0I38003550
+	Tue,  2 Oct 2018 16:36:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w92GZveZ028549
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Oct 2018 09:00:18 -0700 (PDT)
-Received: from [128.224.162.232] (128.224.162.232) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 2 Oct 2018 09:00:17 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <829f16e68431d6fbeda54d3a16709ab47552589a.camel@linuxfoundation.org>
-	<1538408825-13100-1-git-send-email-hongxu.jia@windriver.com>
-	<578a322d-f85c-298d-b381-b5d79579ba09@windriver.com>
-	<CAJTo0Lb5-pnQtBDkNEao2AhGnxiLpKYGxdrbGuv1cNpGs+4opg@mail.gmail.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <48a843fa-dd36-9036-f787-c2d7f1741d88@windriver.com>
-Date: Wed, 3 Oct 2018 00:00:16 +0800
+	Tue, 2 Oct 2018 09:36:07 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 2 Oct 2018 09:35:46 -0700
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1538199671.git.kai.kang@windriver.com>
+	<5266d8bc086fe75047d2cc84d25a4a83b28811b5.1538199671.git.kai.kang@windriver.com>
+	<d53eac33f13004eec2b52746d09ca77a3019ccaa.camel@linuxfoundation.org>
+	<ee33ddce-5bba-6102-79da-7466e5f2d667@windriver.com>
+	<fbc98892f7466c1855f79d66b78144d5e8105707.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <6264de7e-af2d-6933-698b-53a0ecdef665@windriver.com>
+Date: Wed, 3 Oct 2018 00:33:08 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb5-pnQtBDkNEao2AhGnxiLpKYGxdrbGuv1cNpGs+4opg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] openssl: fix ptest case `test_symbol_presence' failed
+In-Reply-To: <fbc98892f7466c1855f79d66b78144d5e8105707.camel@linuxfoundation.org>
+Subject: Re: [PATCH 05/10] nss: move create blank certificates to pkg_postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,135 +38,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 16:00:19 -0000
+X-List-Received-Date: Tue, 02 Oct 2018 16:36:33 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
-On 2018年10月02日 03:46, Burton, Ross wrote:
-> If the test case needs debug symbols then I'd suggest we just disable
-> that test.  Especially as the test starts with this comment:
+On 2018年10月02日 23:53, richard.purdie@linuxfoundation.org wrote:
+> On Tue, 2018-10-02 at 23:29 +0800, Kang Kai wrote:
+>> On 2018年09月29日 20:44, Richard Purdie wrote:
+>>> On Sat, 2018-09-29 at 13:43 +0800, kai.kang@windriver.com wrote:
+>>>> From: Kai Kang <kai.kang@windriver.com>
+>>>>
+>>>> There is a multilib install file conflict of nss:
+>>>>> file /etc/pki/nssdb/key4.db conflicts between attempted
+>>>>> installs of
+>>>>> lib32-nss-3.38-r0.corei7_32 and nss-3.38-r0.corei7_64
+>>>> Move the creation of blank certificates to pkg_postinst. And
+>>>> check if
+>>>> certificates exist already, don't re-create them.
+>>>>
+>>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>>>> ---
+>>>>   meta/recipes-support/nss/nss_3.38.bb | 32 +++++++++++++++++-----
+>>>> ----
+>>>> --
+>>>>   1 file changed, 20 insertions(+), 12 deletions(-)
+>>> This does raise a question - why aren't the generated files the
+>>> same?
+>>> Is there a determinism problem here? This sounds like the image
+>>> would
+>>> change with each build and couldn't be reproduced so we have a
+>>> bigger
+>>> problem?
+>>   
+>> It calls certutil to create blank certificates:
+>>
+>> certutil -N -d sql:${D}${sysconfdir}/pki/nssdb/ -f ./empty_password
+>>
+>> It should be current time related that create blank certificates in
+>> current directory, the key4.db files are different:
+>>
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ touch empty
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ ./tmp/sysroots-components/x86_64/nss-native/usr/bin/certutil -N -d
+>> sql:./ -f ./empty
+>> password file contains no data
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ md5sum *.db
+>> 1de1260b3f38349a8633d33acd4e4de7  cert9.db
+>> *7fea1d4dbc99db3ba1b72e30428eb5dc  key4.db*
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ rm *.db
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ ./tmp/sysroots-components/x86_64/nss-native/usr/bin/certutil -N -d
+>> sql:./ -f ./empty
+>> password file contains no data
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ md5sum *.db
+>> 1de1260b3f38349a8633d33acd4e4de7  cert9.db
+>> *9fbbae3e2d65d29f51e357a2dc4650a2  key4.db*
+> Can we generate them with a known standard time then? Is there some way
+> to specify that or can we add one?
+
+The md5sum of cert9.db are same but key4.db are different, so I have 
+been checking the source code of nss but no conclusion yet.
+
+Regards,
+Kai
+
 >
-> "NOTE: developer test! It's possible that it won't run on your\n",
-> "platform, and that's perfectly fine. This is mainly for developers\n",
-The whole comment is to emphasize the test works on Unix
-(which includes Linux I think)
-[snip]
-note
-     "NOTE: developer test!  It's possible that it won't run on your\n",
-     "platform, and that's perfectly fine.  This is mainly for 
-developers\n",
-     "on Unix to check that our shared libraries are consistent with the\n",
-     "ordinals (util/*.num in the source tree), something that should be\n",
-     "good enough a check for the other platforms as well.\n";
-[snip]
+> Cheers,
+>
+> Richard
+>
 
-But, the ptest runtime depends dbg package for a single case breaks sanity
-check, and the case of test symbol presence is not critical, so disable 
-it is
-an acceptable option, V3 incoming
-
-//Hongxu
-
-
-> Ross
-> On Mon, 1 Oct 2018 at 16:49, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> Sorry for missing V2 in subject
->>
->> //Hongxu
->>
->> On 2018年10月01日 23:47, Hongxu Jia wrote:
->>> The case in ptest use `nm -Pg libcrypto.so' to check symbol presence,
->>> if library is stripped or debug split, the case will fail.
->>>
->>> The dbg library keeps symbol table, so tweak to check on it.
->>>
->>> Use wildcard `libcrypto.so*' rather than `libcrypto.so.1.1' to compat
->>> the subsequent version upgrade.
->>>
->>> The binutils provides `nm', hence add it to ptest runtime depends.
->>> (Without `nm', the test_symbol_presence will be skipped, that's the
->>> reason why ptest passed on a small image, and failed on a full image)
->>>
->>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->>> ---
->>>    ...test_symbol_presence-check-on-dbg-library.patch | 36 ++++++++++++++++++++++
->>>    meta/recipes-connectivity/openssl/openssl_1.1.1.bb |  6 ++++
->>>    2 files changed, 42 insertions(+)
->>>    create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-test_symbol_presence-check-on-dbg-library.patch
->>>
->>> diff --git a/meta/recipes-connectivity/openssl/openssl/0001-test_symbol_presence-check-on-dbg-library.patch b/meta/recipes-connectivity/openssl/openssl/0001-test_symbol_presence-check-on-dbg-library.patch
->>> new file mode 100644
->>> index 0000000..3999aa0
->>> --- /dev/null
->>> +++ b/meta/recipes-connectivity/openssl/openssl/0001-test_symbol_presence-check-on-dbg-library.patch
->>> @@ -0,0 +1,36 @@
->>> +From 2766dc8af70ced2854a6817e67cbac234c99f91f Mon Sep 17 00:00:00 2001
->>> +From: Hongxu Jia <hongxu.jia@windriver.com>
->>> +Date: Mon, 1 Oct 2018 22:16:53 +0800
->>> +Subject: [PATCH] test_symbol_presence: check on dbg library
->>> +
->>> +The case uses `nm -Pg libcrypto.so' to check symbol presence,
->>> +if library is stripped or debug splited, the case will fail.
->>> +
->>> +The dbg library has the symbol table, so tweak to check on it.
->>> +
->>> +Use wildcard `libcrypto.so*' rather than `libcrypto.so.1.1' to compat
->>> +the subsequent version upgrade.
->>> +
->>> +Upstream-Status: Inappropriate [OE Specific]
->>> +
->>> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->>> +---
->>> + test/recipes/01-test_symbol_presence.t | 2 +-
->>> + 1 file changed, 1 insertion(+), 1 deletion(-)
->>> +
->>> +diff --git a/test/recipes/01-test_symbol_presence.t b/test/recipes/01-test_symbol_presence.t
->>> +index 7f2a2d7..1668cde 100644
->>> +--- a/test/recipes/01-test_symbol_presence.t
->>> ++++ b/test/recipes/01-test_symbol_presence.t
->>> +@@ -32,7 +32,7 @@ note
->>> + foreach my $libname (@libnames) {
->>> +  SKIP:
->>> +     {
->>> +-        my $shlibpath = bldtop_file("lib" . $libname . ".so");
->>> ++        my $shlibpath = bldtop_file(".debug/" . "lib" . $libname . ".so*");
->>> +         *OSTDERR = *STDERR;
->>> +         *OSTDOUT = *STDOUT;
->>> +         open STDERR, ">", devnull();
->>> +--
->>> +2.7.4
->>> +
->>> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
->>> index 73bcb27..74b3417 100644
->>> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
->>> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
->>> @@ -13,6 +13,7 @@ DEPENDS = "hostperl-runtime-native"
->>>    SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
->>>               file://run-ptest \
->>>               file://openssl-c_rehash.sh \
->>> +           file://0001-test_symbol_presence-check-on-dbg-library.patch \
->>>               "
->>>
->>>    SRC_URI_append_class-nativesdk = " \
->>> @@ -174,6 +175,11 @@ RRECOMMENDS_libcrypto += "openssl-conf"
->>>    RDEPENDS_${PN}-bin = "perl"
->>>    RDEPENDS_${PN}-misc = "perl"
->>>    RDEPENDS_${PN}-ptest += "perl-module-file-spec-functions bash python"
->>> +# The ptest case uses `nm -Pg .debug/libcrypto.so*' to check symbol presence
->>> +RDEPENDS_${PN}-ptest += "${PN}-dbg"
->>> +INSANE_SKIP_${PN}-ptest ?= "debug-deps"
->>> +# The binutils provides `nm'
->>> +RDEPENDS_${PN}-ptest += "binutils"
->>>
->>>    RPROVIDES_openssl-conf = "openssl10-conf"
->>>    RREPLACES_openssl-conf = "openssl10-conf"
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+-- 
+Regards,
+Neil | Kai Kang
 
 
