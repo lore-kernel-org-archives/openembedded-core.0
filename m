@@ -1,35 +1,25 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DFCE79559
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9ED6A7950E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2018 08:46:02 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id AB2085C005C;
-	Tue,  2 Oct 2018 10:46:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1538469962;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=HjZt7RFj8/ntOAL6g420SOMlMJYWpyHkjo2l7SE0mAc=;
-	b=PZiBJgQWKSFJbqilV9+sNvIU356Wp9tjL1aYWPx5qyaop9ME5AUnzAHpKlzx1JuIW429++
-	1KQUAfSrzLw23MsAGQVt8mUM52ix8Gyv8EEWAoOW0nA2oiF0hxu8V/4toO7SRp0r4SA69X
-	Lw1HQz5CDxEjqibs8xoJ7+Lqt0gz+yc=
-MIME-Version: 1.0
-Date: Tue, 02 Oct 2018 10:46:02 +0200
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, Max Krummenacher <max.oss.09@gmail.com>
-In-Reply-To: <abbffc6e7fa60468423b2cf1ec39f311@agner.ch>
-References: <ae881b799c12d2514345825d8fa5297f@agner.ch>
-	<abbffc6e7fa60468423b2cf1ec39f311@agner.ch>
-Message-ID: <ad574663589f7559ca0f32f159de471c@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.4
-Cc: Brandon Shibley <brandon.shibley@toradex.com>, samuel.bissig@toradex.com,
-	ricardo@foundries.io
-Subject: Re: Build failure with parallel build and opkg
+	Tue,  2 Oct 2018 09:37:36 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Oct 2018 02:37:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,331,1534834800"; d="scan'208";a="85037203"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Oct 2018 02:37:25 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Oct 2018 17:22:05 +0800
+Message-Id: <1538472127-27142-2-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1538472127-27142-1-git-send-email-ee.peng.yeoh@intel.com>
+References: <1538472127-27142-1-git-send-email-ee.peng.yeoh@intel.com>
+Subject: [PATCH 2/4] selftest/context: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,189 +32,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 08:46:02 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Oct 2018 09:37:36 -0000
 
-On 26.09.2018 11:34, Stefan Agner wrote:
-> Hi,
-> 
-> On 12.09.2018 00:49, Stefan Agner wrote:
-<snip>
-> We discussed the issue at Linaro Connect a bit.
-> 
-> To recap, we do build in two steps:
-> 
-> 1. bitbake full-container-image
-> 2. bitbake -c populate_sdk full-container-image
-> 
-> The issue always happens in the second step.
-> 
-> We also see that in the second step, the do_package_write_ipk_setscene
-> task for every recipe is executed.
-> 
-> The current assumption is
-> 
-> I tried to reproduce by building a recipe using openembedded-core master
-> only in two build directories with shared sstate manually:
-> 
-> 1. build1 $ bitbake eudev
-> 2. build2 $ bitbake -c cleansstate eudev
-> 3. build2 $ bitbake eudev
-> 4. build1 $ bitbake core-image-minimal
-> 
-> This sequence seems not to have triggered a
-> do_package_write_ipk_setscene for eudev.
-> 
-> I then tried
-> 5. build1 $ bitbake -c populate_sdk core-image-minimal
-> 
-> Which did trigger a do_package_write_ipk_setscene. However, the issue
-> did not appear...
-> 
-> I even tried to rebuild and replace the file manually, and run bitbake
-> -c populate_sdk -f core-image-minimal, but it just seems not to appear.
-> 
-> Last time I have seen it was with oe-core
-> f6634581fa0a81c4d68dc9179a755ad7b9d99357, I will revert to this version
-> again to see whether that helps reproducing the issue.
+As part of the solution to replace Testopia to store testresult,
+OEQA selftest need to output testresult into json files, where
+these json testresult files will be stored into git repository
+by the future test-case-management tools.
 
-Using the older OE version did not make a difference.
+By default, oe-selftest will write json testresult into files.
+To disable this, provide '-s' argument to oe-selftest execution.
 
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+---
+ meta/lib/oeqa/selftest/context.py | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-So Max and I discussed a bit further. We realized that when OE rebuilds,
-the opkg package index is refreshed for a package only if the mtime (in
-seconds) is different between the previous file and the file on disk
-currently (see opkg-make-index). Can it be that two simultaneously
-started builds create two ipk with same mtime?
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index c78947e..61b4afb 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -73,6 +73,9 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+ 
+         parser.add_argument('--machine', required=False, choices=['random', 'all'],
+                             help='Run tests on different machines (random/all).')
++
++        parser.add_argument('-s', '--skip-export-json', action='store_true',
++                            help='Skip the output test result in json format to files.')
+         
+         parser.set_defaults(func=self.run)
+ 
+@@ -99,8 +102,8 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+         return cases_paths
+ 
+     def _process_args(self, logger, args):
+-        args.output_log = '%s-results-%s.log' % (self.name,
+-                time.strftime("%Y%m%d%H%M%S"))
++        args.test_start_time = time.strftime("%Y%m%d%H%M%S")
++        args.output_log = '%s-results-%s.log' % (self.name, args.test_start_time)
+         args.test_data_file = None
+         args.CASES_PATHS = None
+ 
+@@ -222,6 +225,11 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+             rc = self.tc.runTests(**self.tc_kwargs['run'])
+             rc.logDetails()
+             rc.logSummary(self.name)
++            if not args.skip_export_json:
++                json_result_dir = os.path.join(os.path.dirname(os.path.abspath(args.output_log)),
++                                               'json_testresults-%s' % args.test_start_time,
++                                               'oe-selftest')
++                rc.logDetailsInJson(json_result_dir)
+ 
+         return rc
+ 
+-- 
+2.7.4
 
-So I built two core-image-minimal builds (on the same machine) at the
-*very* same time. First try did not cause a collision, but already on
-the second try I managed to reproduce multiple collision. This output
-shows all the packages with the same unix mtime stamp according to the
-Packages.stamps file (generated by opkg-make-index):
-
-$ comm -1 -2 <(sort build1/tmp-glibc/deploy/ipk/i586/Packages.stamps) <(sort build2/tmp-glibc/deploy/ipk/i586/Packages.stamps)
-kages.stamps)                                                                                                                               
-1538424250 glibc-binary-localedata-de-it_2.27-r0_i586.ipk                                                                                   
-1538425082 libreadline-staticdev_7.0-r0_i586.ipk                                                                                            
-1538425162 bash-bashbug_4.4.18-r0_i586.ipk                                                                                                  
-1538425162 bash-completion_2.8-r0_i586.ipk                                                                                                  
-1538425162 bash-completion-dbg_2.8-r0_i586.ipk                                                                                              
-1538425162 bash-completion-dev_2.8-r0_i586.ipk                                                                                              
-1538425162 bash-loadable_4.4.18-r0_i586.ipk                                                                                                 
-1538425163 bash_4.4.18-r0_i586.ipk                                                                                                          
-1538425163 bash-completion-extra_2.8-r0_i586.ipk
-1538425164 bash-doc_4.4.18-r0_i586.ipk
-1538425167 bash-dbg_4.4.18-r0_i586.ipk
-1538425233 util-linux-locale-hr_2.32-r0_i586.ipk
-1538425233 util-linux-locale-id_2.32-r0_i586.ipk
-1538425233 util-linux-locale-it_2.32-r0_i586.ipk
-1538425233 util-linux-locale-sl_2.32-r0_i586.ipk
-1538425233 util-linux-locale-zh-tw_2.32-r0_i586.ipk
-1538425234 util-linux-dev_2.32-r0_i586.ipk
-1538425234 util-linux-findfs_2.32-r0_i586.ipk
-1538425234 util-linux-ionice_2.32-r0_i586.ipk
-1538425234 util-linux-locale-ca_2.32-r0_i586.ipk
-1538425234 util-linux-locale-pl_2.32-r0_i586.ipk
-1538425234 util-linux-locale-pt-br_2.32-r0_i586.ipk
-1538425234 util-linux-locale-ru_2.32-r0_i586.ipk
-1538425234 util-linux-locale-sv_2.32-r0_i586.ipk
-1538425234 util-linux-locale-tr_2.32-r0_i586.ipk
-1538425234 util-linux-locale-vi_2.32-r0_i586.ipk
-1538425234 util-linux-locale-zh-cn_2.32-r0_i586.ipk
-1538425234 util-linux-mountpoint_2.32-r0_i586.ipk
-1538425235 util-linux-locale-fr_2.32-r0_i586.ipk
-1538425236 util-linux-blkid_2.32-r0_i586.ipk
-1538425236 util-linux-fsck_2.32-r0_i586.ipk
-1538425236 util-linux-fsck.cramfs_2.32-r0_i586.ipk
-1538425236 util-linux-fstrim_2.32-r0_i586.ipk
-1538425236 util-linux-lscpu_2.32-r0_i586.ipk
-1538425236 util-linux-mkfs_2.32-r0_i586.ipk
-1538425236 util-linux-mount_2.32-r0_i586.ipk
-1538425236 util-linux-partx_2.32-r0_i586.ipk
-1538425236 util-linux-readprofile_2.32-r0_i586.ipk
-1538425236 util-linux-umount_2.32-r0_i586.ipk
-1538425237 libblkid1_2.32-r0_i586.ipk
-1538425237 libfdisk1_2.32-r0_i586.ipk
-1538425237 libmount1_2.32-r0_i586.ipk
-1538425238 util-linux_2.32-r0_i586.ipk
-1538425240 util-linux-staticdev_2.32-r0_i586.ipk
-
-Indeed, the two ipk files have the same mtime (at least, on second level):
-
-$ stat ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-  File: ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-  Size: 136612          Blocks: 272        IO Block: 4096   regular file
-Device: fd00h/64768d    Inode: 2627769381  Links: 2
-Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)
-Context: unconfined_u:object_r:home_root_t:s0
-Access: 2018-10-01 22:28:37.464716076 +0200
-Modify: 2018-10-01 22:20:37.930653796 +0200
-Change: 2018-10-01 22:20:50.998205339 +0200
- Birth: -
-  File: ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-  Size: 136692          Blocks: 272        IO Block: 4096   regular file
-Device: fd00h/64768d    Inode: 2608876057  Links: 2
-Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)
-Context: unconfined_u:object_r:home_root_t:s0
-Access: 2018-10-01 22:28:47.145119532 +0200
-Modify: 2018-10-01 22:20:37.358629653 +0200
-Change: 2018-10-01 22:20:50.727193901 +0200
- Birth: -
-
-But different md5sums!
-
-$ md5sum ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-bb8ffd4443e84fede943ccc3292dc657  ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-91608ae2b109e3f4af0379c634fad9c0  ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-
-In that case, libblkid1_2.32-r0_i586.ipk of build1 managed to make it into the sstate.
-
-On our production system, the SDK builds called later always fetch the packages
-from sstate again (do_package_write_ipk_setscene). For some reason that did not
-happen in my synthetic test. However, I simulated the fetch from sstate by
-removing libblkid1_2.32-r0_i586.ipk (part of util-linux) from build2:
-
-  build2 $ bitbake -c clean util-linux
-
-And rebuild the image:
-
-  build2 $ bitbake -f -c populate_sdk core-image-minimal
-
-Which indeed showed the issues we are seeing in production:
-...
-Downloading file:/home/ags/oe-core/build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk.
-Removing corrupt package file /home/ags/oe-core/build2/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/sdk/image/usr/local/oecore-x86_64/sysroots/i586-oe-linux//var/cache/opkg/volatile/edad620216e689cf8778354f4ac2ff7e_libblkid1_2.32-r0_i586.ipk.
-...
-Collected errors:                                                                                                                           
- * opkg_install_pkg: Failed to download libblkid1. Perhaps you need to run 'opkg update'?
-...
-ERROR: core-image-minimal-1.0-r0 do_populate_sdk: Function failed: do_populate_sdk                                                         
-ERROR: Logfile of failure stored in: /home/ags/oe-core/build2/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/temp/log.do_populate_sdk.49541
-ERROR: Task (/home/ags/oe-core/meta/recipes-core/images/core-image-minimal.bb:do_populate_sdk) failed with exit code '1'
-
-
-It really seems that using mtime only in opkg-make-index is not safe enough
-in our setup. We probably should use the inode (or using the inode in addition
-to the time stamp).
-
-Is it guaranteed that the inode changes when ipk are fetched from sstate?
-
---
-Stefan
-
-
-> 
->>
->> I guess there is some race/asynchronous operation going on around
->> building index/getting package from sstate/pushing package to sstate.
->>
->> It seems an issue others have seen in the past too:
->> https://www.yoctoproject.org/irc/%23yocto.2018-07-05.log.html#t2018-07-05T10:07:25
->>
->> Any idea?
->>
->> --
->> Stefan
 
