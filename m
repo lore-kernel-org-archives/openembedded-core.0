@@ -1,57 +1,36 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E414E745F1
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id AB4FE6E5E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2018 10:25:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 9479E18431;
-	Tue,  2 Oct 2018 12:25:43 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id yRBLYuPbvn64; Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 4B61A1839A;
-	Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3770B1E0AF;
-	Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2C0D31E0AE;
-	Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by thoth.se.axis.com (Postfix) with ESMTP id 20301249C;
-	Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 2 Oct 2018 12:25:38 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Tue, 2 Oct 2018 12:25:38 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/3] acl: Make it compatible with externalsrc
-Thread-Index: AQHUVDlL2fqHNLeM0kiHgltnZAF9BaUAhT8AgAAxiWCACxUtoA==
-Date: Tue, 2 Oct 2018 10:25:38 +0000
-Message-ID: <56e1792adf9e4c97ad12230ec9df8fde@XBOX02.axis.com>
-References: <20180924190313.32027-1-pkj@axis.com>
-	<7083c560991d491f0e8b8b70eee611c1187b58d0.camel@linuxfoundation.org>
-	<a042a2e4c0464b4d81e4ada72f76fe77@XBOX02.axis.com>
-In-Reply-To: <a042a2e4c0464b4d81e4ada72f76fe77@XBOX02.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Tue,  2 Oct 2018 13:12:55 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 840BB5C005C;
+	Tue,  2 Oct 2018 15:12:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1538485975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=spfgM0v8Rc90eONuUH8Wiz0NvWM/CFEE6ve+S3KJx9s=;
+	b=nofLOkCuB8t6y0y1m21GXbTPYaiErh7fEx3zthX12+oFB3gQymuGOUE7D+UE5ika1R5+WN
+	MMwt0aUoenTsMrdyCy8wKLUVaoMUMRGM9ySf/Huciiz55rDClRyuZz1Nxgk7yPzBahG2Hj
+	a1xAE69nC5E4FhzYV4j3qSC1VAGtcHs=
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 1/3] acl: Make it compatible with externalsrc
+Date: Tue, 02 Oct 2018 15:12:55 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, Max Krummenacher <max.oss.09@gmail.com>
+In-Reply-To: <ad574663589f7559ca0f32f159de471c@agner.ch>
+References: <ae881b799c12d2514345825d8fa5297f@agner.ch>
+	<abbffc6e7fa60468423b2cf1ec39f311@agner.ch>
+	<ad574663589f7559ca0f32f159de471c@agner.ch>
+Message-ID: <c30e9108c19e440e6a1e99faffe585b7@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.4
+Cc: Brandon Shibley <brandon.shibley@toradex.com>, samuel.bissig@toradex.com,
+	ricardo@foundries.io
+Subject: Re: Build failure with parallel build and opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,91 +43,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 10:25:45 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Oct 2018 13:12:56 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-*ping*
+On 02.10.2018 10:46, Stefan Agner wrote:
+> On 26.09.2018 11:34, Stefan Agner wrote:
+>> Hi,
+>>
+>> On 12.09.2018 00:49, Stefan Agner wrote:
+> <snip>
+>> We discussed the issue at Linaro Connect a bit.
+>>
+>> To recap, we do build in two steps:
+>>
+>> 1. bitbake full-container-image
+>> 2. bitbake -c populate_sdk full-container-image
+>>
+>> The issue always happens in the second step.
+>>
+>> We also see that in the second step, the do_package_write_ipk_setscene
+>> task for every recipe is executed.
+>>
+>> The current assumption is
+>>
+>> I tried to reproduce by building a recipe using openembedded-core master
+>> only in two build directories with shared sstate manually:
+>>
+>> 1. build1 $ bitbake eudev
+>> 2. build2 $ bitbake -c cleansstate eudev
+>> 3. build2 $ bitbake eudev
+>> 4. build1 $ bitbake core-image-minimal
+>>
+>> This sequence seems not to have triggered a
+>> do_package_write_ipk_setscene for eudev.
+>>
+>> I then tried
+>> 5. build1 $ bitbake -c populate_sdk core-image-minimal
+>>
+>> Which did trigger a do_package_write_ipk_setscene. However, the issue
+>> did not appear...
+>>
+>> I even tried to rebuild and replace the file manually, and run bitbake
+>> -c populate_sdk -f core-image-minimal, but it just seems not to appear.
+>>
+>> Last time I have seen it was with oe-core
+>> f6634581fa0a81c4d68dc9179a755ad7b9d99357, I will revert to this version
+>> again to see whether that helps reproducing the issue.
+> 
+> Using the older OE version did not make a difference.
+> 
+> 
+> So Max and I discussed a bit further. We realized that when OE rebuilds,
+> the opkg package index is refreshed for a package only if the mtime (in
+> seconds) is different between the previous file and the file on disk
+> currently (see opkg-make-index). Can it be that two simultaneously
+> started builds create two ipk with same mtime?
+> 
+> So I built two core-image-minimal builds (on the same machine) at the
+> *very* same time. First try did not cause a collision, but already on
+> the second try I managed to reproduce multiple collision. This output
+> shows all the packages with the same unix mtime stamp according to the
+> Packages.stamps file (generated by opkg-make-index):
+> 
+> $ comm -1 -2 <(sort build1/tmp-glibc/deploy/ipk/i586/Packages.stamps) <(sort build2/tmp-glibc/deploy/ipk/i586/Packages.stamps)
+> kages.stamps)                                                                                                                               
+> 1538424250 glibc-binary-localedata-de-it_2.27-r0_i586.ipk                                                                                   
+> 1538425082 libreadline-staticdev_7.0-r0_i586.ipk                                                                                            
+> 1538425162 bash-bashbug_4.4.18-r0_i586.ipk                                                                                                  
+> 1538425162 bash-completion_2.8-r0_i586.ipk                                                                                                  
+> 1538425162 bash-completion-dbg_2.8-r0_i586.ipk                                                                                              
+> 1538425162 bash-completion-dev_2.8-r0_i586.ipk                                                                                              
+> 1538425162 bash-loadable_4.4.18-r0_i586.ipk                                                                                                 
+> 1538425163 bash_4.4.18-r0_i586.ipk                                                                                                          
+> 1538425163 bash-completion-extra_2.8-r0_i586.ipk
+> 1538425164 bash-doc_4.4.18-r0_i586.ipk
+> 1538425167 bash-dbg_4.4.18-r0_i586.ipk
+> 1538425233 util-linux-locale-hr_2.32-r0_i586.ipk
+> 1538425233 util-linux-locale-id_2.32-r0_i586.ipk
+> 1538425233 util-linux-locale-it_2.32-r0_i586.ipk
+> 1538425233 util-linux-locale-sl_2.32-r0_i586.ipk
+> 1538425233 util-linux-locale-zh-tw_2.32-r0_i586.ipk
+> 1538425234 util-linux-dev_2.32-r0_i586.ipk
+> 1538425234 util-linux-findfs_2.32-r0_i586.ipk
+> 1538425234 util-linux-ionice_2.32-r0_i586.ipk
+> 1538425234 util-linux-locale-ca_2.32-r0_i586.ipk
+> 1538425234 util-linux-locale-pl_2.32-r0_i586.ipk
+> 1538425234 util-linux-locale-pt-br_2.32-r0_i586.ipk
+> 1538425234 util-linux-locale-ru_2.32-r0_i586.ipk
+> 1538425234 util-linux-locale-sv_2.32-r0_i586.ipk
+> 1538425234 util-linux-locale-tr_2.32-r0_i586.ipk
+> 1538425234 util-linux-locale-vi_2.32-r0_i586.ipk
+> 1538425234 util-linux-locale-zh-cn_2.32-r0_i586.ipk
+> 1538425234 util-linux-mountpoint_2.32-r0_i586.ipk
+> 1538425235 util-linux-locale-fr_2.32-r0_i586.ipk
+> 1538425236 util-linux-blkid_2.32-r0_i586.ipk
+> 1538425236 util-linux-fsck_2.32-r0_i586.ipk
+> 1538425236 util-linux-fsck.cramfs_2.32-r0_i586.ipk
+> 1538425236 util-linux-fstrim_2.32-r0_i586.ipk
+> 1538425236 util-linux-lscpu_2.32-r0_i586.ipk
+> 1538425236 util-linux-mkfs_2.32-r0_i586.ipk
+> 1538425236 util-linux-mount_2.32-r0_i586.ipk
+> 1538425236 util-linux-partx_2.32-r0_i586.ipk
+> 1538425236 util-linux-readprofile_2.32-r0_i586.ipk
+> 1538425236 util-linux-umount_2.32-r0_i586.ipk
+> 1538425237 libblkid1_2.32-r0_i586.ipk
+> 1538425237 libfdisk1_2.32-r0_i586.ipk
+> 1538425237 libmount1_2.32-r0_i586.ipk
+> 1538425238 util-linux_2.32-r0_i586.ipk
+> 1538425240 util-linux-staticdev_2.32-r0_i586.ipk
+> 
+> Indeed, the two ipk files have the same mtime (at least, on second level):
+> 
+> $ stat ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>   File: ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>   Size: 136612          Blocks: 272        IO Block: 4096   regular file
+> Device: fd00h/64768d    Inode: 2627769381  Links: 2
+> Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)
+> Context: unconfined_u:object_r:home_root_t:s0
+> Access: 2018-10-01 22:28:37.464716076 +0200
+> Modify: 2018-10-01 22:20:37.930653796 +0200
+> Change: 2018-10-01 22:20:50.998205339 +0200
+>  Birth: -
+>   File: ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>   Size: 136692          Blocks: 272        IO Block: 4096   regular file
+> Device: fd00h/64768d    Inode: 2608876057  Links: 2
+> Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)
+> Context: unconfined_u:object_r:home_root_t:s0
+> Access: 2018-10-01 22:28:47.145119532 +0200
+> Modify: 2018-10-01 22:20:37.358629653 +0200
+> Change: 2018-10-01 22:20:50.727193901 +0200
+>  Birth: -
+> 
+> But different md5sums!
+> 
+> $ md5sum ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+> bb8ffd4443e84fede943ccc3292dc657  ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+> 91608ae2b109e3f4af0379c634fad9c0  ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+> 
+> In that case, libblkid1_2.32-r0_i586.ipk of build1 managed to make it into the sstate.
+> 
+> On our production system, the SDK builds called later always fetch the packages
+> from sstate again (do_package_write_ipk_setscene). For some reason that did not
+> happen in my synthetic test. However, I simulated the fetch from sstate by
+> removing libblkid1_2.32-r0_i586.ipk (part of util-linux) from build2:
+> 
+>   build2 $ bitbake -c clean util-linux
+> 
+> And rebuild the image:
+> 
+>   build2 $ bitbake -f -c populate_sdk core-image-minimal
+> 
 
-//Peter
+Note that after this command, the packages in the feed looks like this:
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 25 september 2018 11:17
-> To: Richard Purdie <richard.purdie@linuxfoundation.org>; openembedded-
-> core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 1/3] acl: Make it compatible with
-> externalsrc
->=20
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> > core-bounces@lists.openembedded.org> On Behalf Of Richard Purdie
-> > Sent: den 25 september 2018 10:13
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
-> > core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH 1/3] acl: Make it compatible with
-> > externalsrc
-> >
-> > On Mon, 2018-09-24 at 21:03 +0200, Peter Kjellerstedt wrote:
-> > > Make the subdir fetch path for configure.ac relative. This avoids
-> the
-> > > following error after having done `devtool modify acl`:
-> > >
-> > > ERROR: acl-2.2.52-r0 do_unpack: Unpack failure for URL:
-> > > 'file://configure.ac;subdir=3D.../builds/qemux86-
-> > > 64/workspace/sources/acl'.
-> > > subdir argument isn't a subdirectory of unpack root
-> > > .../builds/qemux86-64/tmp/work/core2-64-poky-linux/acl/2.2.52-r0
-> > >
-> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > ---
-> > >  meta/recipes-support/attr/acl_2.2.52.bb | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/meta/recipes-support/attr/acl_2.2.52.bb
-> b/meta/recipes-
-> > > support/attr/acl_2.2.52.bb
-> > > index 8f3dc45cf7..8b89de9b42 100644
-> > > --- a/meta/recipes-support/attr/acl_2.2.52.bb
-> > > +++ b/meta/recipes-support/attr/acl_2.2.52.bb
-> > > @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D
-> "file://doc/COPYING;md5=3Dc781d70e
-> > > d2b4d48995b790403217a249 \
-> > >  DEPENDS =3D "attr"
-> > >
-> > >  SRC_URI =3D "${SAVANNAH_GNU_MIRROR}/acl/${BP}.src.tar.gz \
-> > > -           file://configure.ac;subdir=3D${S} \
-> > > +           file://configure.ac;subdir=3D${BP} \
-> > >             file://run-ptest \
-> > >             file://acl-fix-the-order-of-expected-output-of-
-> getfacl.patch \
-> > >             file://test-fix-insufficient-quoting-of.patch \
-> >
-> > This isn't making sense to me. Doesn't externalsrc set ${S} to the
-> > external source location?
->=20
-> Yes, it does, but it does not change ${WORKDIR}. So when it tries
-> to unpack to the absolute path ${S}, which is outside ${WORKDIR}
-> when externalsrc is in use, then the above error occurs. Using a
-> relative path avoids the problem.
->=20
-> > Also, doesn't it remove the do_unpack task?
->=20
-> No, it keeps the task but removes everything except file:// URLs
-> and URLs with type=3Dkmeta from the SRC_URI. This is also why I had
-> to check for externalsrc in the do_unpack task of lsof.
->=20
-> > Cheers,
-> >
-> > Richard
->=20
-> //Peter
->=20
+$ stat ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+  File: ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+  Size: 136612          Blocks: 272        IO Block: 4096   regular file                                                                   
+Device: fd00h/64768d    Inode: 2627769381  Links: 2
+Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)                                                                   
+Context: unconfined_u:object_r:home_root_t:s0
+Access: 2018-10-01 22:28:37.464716076 +0200
+Modify: 2018-10-01 22:20:37.930653796 +0200
+Change: 2018-10-01 22:20:50.998205339 +0200
+ Birth: -
+  File: ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+  Size: 136612          Blocks: 272        IO Block: 4096   regular file                                                                   
+Device: fd00h/64768d    Inode: 2315301423  Links: 2
+Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)                                                                   
+Context: unconfined_u:object_r:home_root_t:s0
+Access: 2018-10-02 09:27:07.750888458 +0200
+Modify: 2018-10-01 22:20:37.000000000 +0200
+Change: 2018-10-02 09:26:47.308004397 +0200
+ Birth: -
+
+Note that the package in build2 the mtime has no nanosecond accuracy. Presumably
+the tarball from sstate does not preserve sub second timestamps.
+
+$ md5sum ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+bb8ffd4443e84fede943ccc3292dc657  ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+bb8ffd4443e84fede943ccc3292dc657  ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+
+Will send out a patch which uses inodes instead of mtime in opkg-make-index.
+
+--
+Stefan
+
+
+> Which indeed showed the issues we are seeing in production:
+> ...
+> Downloading file:/home/ags/oe-core/build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk.
+> Removing corrupt package file /home/ags/oe-core/build2/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/sdk/image/usr/local/oecore-x86_64/sysroots/i586-oe-linux//var/cache/opkg/volatile/edad620216e689cf8778354f4ac2ff7e_libblkid1_2.32-r0_i586.ipk.
+> ...
+> Collected errors:                                                                                                                           
+>  * opkg_install_pkg: Failed to download libblkid1. Perhaps you need to run 'opkg update'?
+> ...
+> ERROR: core-image-minimal-1.0-r0 do_populate_sdk: Function failed: do_populate_sdk                                                         
+> ERROR: Logfile of failure stored in: /home/ags/oe-core/build2/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/temp/log.do_populate_sdk.49541
+> ERROR: Task (/home/ags/oe-core/meta/recipes-core/images/core-image-minimal.bb:do_populate_sdk) failed with exit code '1'
+> 
+> 
+> It really seems that using mtime only in opkg-make-index is not safe enough
+> in our setup. We probably should use the inode (or using the inode in addition
+> to the time stamp).
+> 
+> Is it guaranteed that the inode changes when ipk are fetched from sstate?
+> 
 > --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Stefan
+> 
+> 
+>>
+>>>
+>>> I guess there is some race/asynchronous operation going on around
+>>> building index/getting package from sstate/pushing package to sstate.
+>>>
+>>> It seems an issue others have seen in the past too:
+>>> https://www.yoctoproject.org/irc/%23yocto.2018-07-05.log.html#t2018-07-05T10:07:25
+>>>
+>>> Any idea?
+>>>
+>>> --
+>>> Stefan
 
