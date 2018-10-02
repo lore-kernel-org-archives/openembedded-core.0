@@ -1,26 +1,36 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 370F5745B4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2018 17:08:49 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w92H89Fn029630
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Oct 2018 10:08:29 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 2 Oct 2018 10:08:24 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 3 Oct 2018 00:27:14 +0800
-Message-ID: <19887370e800e38dc0518e6ce52c6fdc9b52e7d4.1538492159.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1538492159.git.kai.kang@windriver.com>
-References: <cover.1538492159.git.kai.kang@windriver.com>
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DD59745FC;
+	Tue,  2 Oct 2018 17:28:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 09B98208CE;
+	Tue,  2 Oct 2018 17:28:38 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id YbWABQ5W5hiY; Tue,  2 Oct 2018 17:28:37 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
+	[100.15.91.218])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id CEE4020871;
+	Tue,  2 Oct 2018 17:28:35 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 8746A164028; Tue,  2 Oct 2018 13:28:34 -0400 (EDT)
+Date: Tue, 2 Oct 2018 13:28:34 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-members@lists.openembedded.org
+Message-ID: <20181002172832.GD7186@denix.org>
+References: <20180702040215.GT19965@denix.org>
+	<20180927151523.GB7186@denix.org>
+	<CAMKF1soH00_M2fgjVbJeSCLoy=oYN3QLXt09ZQ=urjWnFx287w@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] os-release: avoid multilib expand
+In-Reply-To: <CAMKF1soH00_M2fgjVbJeSCLoy=oYN3QLXt09ZQ=urjWnFx287w@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded branded T-shirts and Polo shirts!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 17:08:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Oct 2018 17:28:37 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Kai Kang <kai.kang@windriver.com>
+And there's now OpenEmbedded branded Sweatshirt available (limited stock):
+https://www.hellotux.com/openembedded_sweatshirt
 
-Add os-release to NON_MULTILIB_RECIPES in multilib.conf that do not do
-multilib expand for os-release.
+BTW, percentage of the sales gets donated to the project. So, besides showing 
+your support by wearing clothing with OpenEmbedded logo, you also support the 
+project financially! Thank you.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/conf/multilib.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index 65a28ddbd2..ccca29b854 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -29,4 +29,4 @@ PKG_CONFIG_PATH[vardepvalueexclude] = ":${WORKDIR}/recipe-sysroot/${datadir}/pkg
- 
- # These recipes don't need multilib variants, the ${BPN} PROVDES/RPROVDES
- # ${MLPREFIX}${BPN}
--NON_MULTILIB_RECIPES = "grub grub-efi make-mod-scripts"
-+NON_MULTILIB_RECIPES = "grub grub-efi make-mod-scripts os-release"
 -- 
-2.18.0
+Denys
 
+
+On Thu, Sep 27, 2018 at 11:25:01AM -0700, Khem Raj wrote:
+> Thanks for sending this out, these look great
+> 
+> On Thu, Sep 27, 2018 at 8:15 AM Denys Dmytriyenko <denis@denix.org> wrote:
+> > Besides black and white OpenEmbedded T-shirts and Polos, the shop has also
+> > added blue ones!
+> > https://www.hellotux.com/openembedded
+> >
+> > Plus, Yocto Project shirts are now available as well:
+> > https://www.hellotux.com/yocto
+> >
+> > On Mon, Jul 02, 2018 at 12:02:16AM -0400, Denys Dmytriyenko wrote:
+> > > OpenEmbedded branded T-shirts and Polo shirts!
+> > > Show your support!
+> > > https://www.hellotux.com/openembedded
 
