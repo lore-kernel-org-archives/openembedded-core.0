@@ -1,31 +1,25 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B2F87943C
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EC14793DD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2018 16:36:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w92GZveZ028549
+	Tue,  2 Oct 2018 16:48:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w92GmNHn011449
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Oct 2018 09:36:07 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 2 Oct 2018 09:35:46 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1538199671.git.kai.kang@windriver.com>
-	<5266d8bc086fe75047d2cc84d25a4a83b28811b5.1538199671.git.kai.kang@windriver.com>
-	<d53eac33f13004eec2b52746d09ca77a3019ccaa.camel@linuxfoundation.org>
-	<ee33ddce-5bba-6102-79da-7466e5f2d667@windriver.com>
-	<fbc98892f7466c1855f79d66b78144d5e8105707.camel@linuxfoundation.org>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <6264de7e-af2d-6933-698b-53a0ecdef665@windriver.com>
-Date: Wed, 3 Oct 2018 00:33:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Tue, 2 Oct 2018 09:48:23 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 2 Oct 2018 09:48:22 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
+Date: Wed, 3 Oct 2018 00:58:28 +0800
+Message-ID: <1538499508-26876-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAJTo0Lb5-pnQtBDkNEao2AhGnxiLpKYGxdrbGuv1cNpGs+4opg@mail.gmail.com>
+References: <CAJTo0Lb5-pnQtBDkNEao2AhGnxiLpKYGxdrbGuv1cNpGs+4opg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <fbc98892f7466c1855f79d66b78144d5e8105707.camel@linuxfoundation.org>
-Subject: Re: [PATCH 05/10] nss: move create blank certificates to pkg_postinst
+Subject: [PATCH V3] openssl: skip ptest case `test_symbol_presence'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,83 +32,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 16:36:33 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 02 Oct 2018 16:48:29 -0000
+Content-Type: text/plain
 
-On 2018年10月02日 23:53, richard.purdie@linuxfoundation.org wrote:
-> On Tue, 2018-10-02 at 23:29 +0800, Kang Kai wrote:
->> On 2018年09月29日 20:44, Richard Purdie wrote:
->>> On Sat, 2018-09-29 at 13:43 +0800, kai.kang@windriver.com wrote:
->>>> From: Kai Kang <kai.kang@windriver.com>
->>>>
->>>> There is a multilib install file conflict of nss:
->>>>> file /etc/pki/nssdb/key4.db conflicts between attempted
->>>>> installs of
->>>>> lib32-nss-3.38-r0.corei7_32 and nss-3.38-r0.corei7_64
->>>> Move the creation of blank certificates to pkg_postinst. And
->>>> check if
->>>> certificates exist already, don't re-create them.
->>>>
->>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>>> ---
->>>>   meta/recipes-support/nss/nss_3.38.bb | 32 +++++++++++++++++-----
->>>> ----
->>>> --
->>>>   1 file changed, 20 insertions(+), 12 deletions(-)
->>> This does raise a question - why aren't the generated files the
->>> same?
->>> Is there a determinism problem here? This sounds like the image
->>> would
->>> change with each build and couldn't be reproduced so we have a
->>> bigger
->>> problem?
->>   
->> It calls certutil to create blank certificates:
->>
->> certutil -N -d sql:${D}${sysconfdir}/pki/nssdb/ -f ./empty_password
->>
->> It should be current time related that create blank certificates in
->> current directory, the key4.db files are different:
->>
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ touch empty
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ ./tmp/sysroots-components/x86_64/nss-native/usr/bin/certutil -N -d
->> sql:./ -f ./empty
->> password file contains no data
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ md5sum *.db
->> 1de1260b3f38349a8633d33acd4e4de7  cert9.db
->> *7fea1d4dbc99db3ba1b72e30428eb5dc  key4.db*
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ rm *.db
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ ./tmp/sysroots-components/x86_64/nss-native/usr/bin/certutil -N -d
->> sql:./ -f ./empty
->> password file contains no data
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ md5sum *.db
->> 1de1260b3f38349a8633d33acd4e4de7  cert9.db
->> *9fbbae3e2d65d29f51e357a2dc4650a2  key4.db*
-> Can we generate them with a known standard time then? Is there some way
-> to specify that or can we add one?
+The case in ptest use `nm -Pg libcrypto.so' to check symbol presence,
+if library is stripped or debug split, the case will fail.
 
-The md5sum of cert9.db are same but key4.db are different, so I have 
-been checking the source code of nss but no conclusion yet.
+The test case needs debug symbols then we just disable that test.
 
-Regards,
-Kai
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../openssl/0001-skip-test_symbol_presence.patch   | 46 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssl/openssl_1.1.1.bb |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-skip-test_symbol_presence.patch
 
->
-> Cheers,
->
-> Richard
->
-
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-skip-test_symbol_presence.patch b/meta/recipes-connectivity/openssl/openssl/0001-skip-test_symbol_presence.patch
+new file mode 100644
+index 0000000..d8d9651
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-skip-test_symbol_presence.patch
+@@ -0,0 +1,46 @@
++From a9401b2289656c5a36dd1b0ecebf0d23e291ce70 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Tue, 2 Oct 2018 23:58:24 +0800
++Subject: [PATCH] skip test_symbol_presence
++
++We cannot skip `01-test_symbol_presence.t' by configuring option `no-shared'
++as INSTALL told us the shared libraries will not be built.
++
++[INSTALL snip]
++ Notes on shared libraries
++ -------------------------
++
++ For most systems the OpenSSL Configure script knows what is needed to
++ build shared libraries for libcrypto and libssl. On these systems
++ the shared libraries will be created by default. This can be suppressed and
++ only static libraries created by using the "no-shared" option. On systems
++ where OpenSSL does not know how to build shared libraries the "no-shared"
++ option will be forced and only static libraries will be created.
++[INSTALL snip]
++
++Hence directly modification the case to skip it.
++
++Upstream-Status: Inappropriate [OE Specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ test/recipes/01-test_symbol_presence.t | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/test/recipes/01-test_symbol_presence.t b/test/recipes/01-test_symbol_presence.t
++index 7f2a2d7..0b93745 100644
++--- a/test/recipes/01-test_symbol_presence.t
+++++ b/test/recipes/01-test_symbol_presence.t
++@@ -14,8 +14,7 @@ use OpenSSL::Test::Utils;
++ 
++ setup("test_symbol_presence");
++ 
++-plan skip_all => "Only useful when building shared libraries"
++-    if disabled("shared");
+++plan skip_all => "The case needs debug symbols then we just disable it";
++ 
++ my @libnames = ("crypto", "ssl");
++ my $testcount = scalar @libnames;
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+index 73bcb27..5a43a15 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+@@ -13,6 +13,7 @@ DEPENDS = "hostperl-runtime-native"
+ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://run-ptest \
+            file://openssl-c_rehash.sh \
++           file://0001-skip-test_symbol_presence.patch \
+            "
+ 
+ SRC_URI_append_class-nativesdk = " \
 -- 
-Regards,
-Neil | Kai Kang
+2.7.4
 
 
