@@ -1,51 +1,49 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id 6829B74603
+Return-Path: <ptsneves@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B911F71E5A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2018 07:41:47 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id w927fmqN009024
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Tue,  2 Oct 2018 08:23:05 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id q8-v6so1242695wmq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Oct 2018 09:41:48 +0200
-Received: from [192.168.253.100] ([163.242.50.201])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id w927fiED032052
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Oct 2018 09:41:44 +0200
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-From: Andrej Valek <andrej.valek@siemens.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
-	xsBNBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
-	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
-	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
-	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
-	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
-	AAHNJ0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPsLAfgQTAQIAKAUC
-	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
-	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
-	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
-	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
-	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
-	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO587ATQRZEs03AQgA0oCu
-	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
-	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
-	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
-	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
-	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABwsBlBBgBAgAPBQJZ
-	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
-	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
-	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
-	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
-	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
-	emYHzsJ3+vLapH+kAEI=
-Message-ID: <e622175d-9765-1913-95f3-3ac35351897e@siemens.com>
-Date: Tue, 2 Oct 2018 09:41:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.0
+	Tue, 02 Oct 2018 01:23:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=NI+t7M6psp3YDCUqYqFL4bQEH5DiEGvHREzp7z++M+w=;
+	b=U0TKTKK8V9uTe2wudNrBnOk2mAnDl0pvlSpngT6bx/0lLOG7XfdRotFPQ9X0vwq11D
+	/6Ma0EhtxL+1GPJj1EOUscfWficDyDBXX7fhRl5B0QI9ndzpDU3GT0GCP4naDOFGkik4
+	X8aW73nyWjd8lEOpmcx/wlygD3Y2f2aaxgMlR7riSglEJKkQK7sNJZgxVxqGccpdrJeL
+	Ff6RI3CxtbTYnWyAf45c+cCq8lzlU4tI7xcpLr/RaahbbChBiVSUIk0iG+gPnYj1H3IC
+	uufQNz5aHDf6fz5JaIXN1vwQvyQej5mUbxYdbMpYF4AFYzFiGiHKAX82phLoU0qReeA2
+	a9NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=NI+t7M6psp3YDCUqYqFL4bQEH5DiEGvHREzp7z++M+w=;
+	b=iUhLF3sZIJ1mXnmEOeP9CvRUTg8iLGPAH7+9GOW+PpIU3yy7O+bKXrFV4/1CzoyKj4
+	6E3QA/HvqIW9QT0MpAD4o6Ys5BvJAtRaWSVWPXDW7xgblKSOUr9EilkXN1wG4wWFG+pE
+	WmswsTADGNHnJmXconHDx23ExM42C77Eh1uFxBCif/netnIq5vqvBFC0CAXPMAw7z2zu
+	5/VmI12BCmE/g3rT6+xAqRcHRjct05yX1zrZVvOc8oeoXssd0eZmDtpPPZdw6IYmWAh0
+	PTuK56hvrjsLLHckL0nT8A4CUbt5RXWvVOLHFQy6obiZLDJLpGEdyOJcYtV+qYunnGuF
+	N3Zg==
+X-Gm-Message-State: ABuFfoihyzlniK/KZy8RS64+cqm0/uoUHjhrS73/1bGBmgLZhwPjuUvL
+	bKjR7t95pvkXfK3DchShWH5RDv05S40uXzBUUA==
+X-Google-Smtp-Source: ACcGV62L2go8ZNu5CR30m1+esR+0yKiTQP4uc5REZ19ygTKDQn0+RN/q6GPbeSBGjooMgh0tyEgZ1+TBUAWApzrtG/A=
+X-Received: by 2002:a1c:41c5:: with SMTP id
+	o188-v6mr1166277wma.34.1538468586363; 
+	Tue, 02 Oct 2018 01:23:06 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Debug package of static library
+References: <1535651376-25467-1-git-send-email-ptsneves@gmail.com>
+	<1535651376-25467-4-git-send-email-ptsneves@gmail.com>
+	<a4268dca5b5db6759cce2f089f5065708112082d.camel@linuxfoundation.org>
+In-Reply-To: <a4268dca5b5db6759cce2f089f5065708112082d.camel@linuxfoundation.org>
+From: Paulo Neves <ptsneves@gmail.com>
+Date: Tue, 2 Oct 2018 10:19:53 +0200
+Message-ID: <CAJO0J4gkXiv++K+aTHJF2O_Hq8MFDKPCpy+vWz6Ym1ZrLY00Bw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH v2 4/4] testimage: Moved write_image_test_data to testimage bbclass.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,25 +56,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 07:41:48 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 02 Oct 2018 08:23:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi all,
+Hello Richard,
 
-I would like to ask you a question about including debug packages in
-rootfs-debug. Is there any official way how to install debug package of
-static library instead of explicitly adding it into IMAGE_INSTALL?
+Would assure you if it generated the test data on image creation *and*
+on test task?
+If not please describe more or less how I could collect which
+variables write_image_test_data depends upon. Just a high level
+description would do.
 
-One way is what I have found is:
-FILES_${PN} = ""
-ALLOW_EMPTY_${PN} = "1"
+I have really been in a good spirit to get this topic merged but I do
+not see a clear guidance for me to fix what was clearly broken.
+Actually the current code put there by intel should should be reverted
+in my opinion, as it broke all the controllers besides simpleremote
+and qemu.
 
-After adding package it into IMAGE_INSTALL, it will install empty
-standard package and debug one. But I don't want to have an empty
-standard package on the target (static lib).
-
-Thank you,
-Andrej
+Paulo Neves
+On Tue, Sep 4, 2018 at 12:30 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2018-08-30 at 19:49 +0200, Paulo Neves wrote:
+> > Previously the write_image_test_data was a rootfs post
+> > process command. This function ran only when the rootfs
+> > task was ran. Due to this if a variable was changed
+> > or added to the datastore that would not trigger the do_rootfs
+> > task, the variable would never be written into the json
+> > file. Consequently the do_testimage task was potentially
+> > unreproduceable and could fail if for some reason this
+> > variable was then used.
+> >
+> > In this commit we move the recording of the datastore to the
+> > start of the do_testimage task. The do_testimage
+> > task then reads this freshly generated json and passes it into
+> > the normal test machinery. This approach allows for the test
+> > machinery to still be loosely coupled to bitbake, and thus
+> > still allows for the tests to be exported and used independently
+> > from bitbake. The caveat is, if there are datastore changes
+> > then the bitbake testimage task should be run before the tests
+> > can be ran independently again.
+>
+> I'm not sure I agree with this. The test data really should be written
+> at either rootfs or image generation, not just before the tests are
+> run.
+>
+> If you wanted to run the tests independently, after this change you
+> have no way to generate the data to do that without first running the
+> tests at least once. That doesn't make sense.
+>
+> The correct thing to do here is to ensure the write_image_test_data()
+> function indicates which variables it depends upon and hence reruns
+> correctly.
+>
+> Cheers,
+>
+> Richard
 
