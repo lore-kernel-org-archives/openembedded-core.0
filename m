@@ -1,49 +1,42 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 09B9279585
+Return-Path: <anibal.limon@linaro.org>
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
+	[209.85.222.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F4A47016E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2018 21:54:52 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id z25-v6so6283789wmf.1
+	Tue,  2 Oct 2018 23:43:41 +0000 (UTC)
+Received: by mail-ua1-f65.google.com with SMTP id 19so1405889uas.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Oct 2018 14:54:54 -0700 (PDT)
+	Tue, 02 Oct 2018 16:43:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=8+Sr8D+ImZHbm310BW7WwCLLvg5gP41qmfAdfQ8vQOM=;
-	b=hKKWJ+UwxGwsnZceX7RVVmss1vYN3NMJ01rgsUXqM3QlqadjF+MUw4Xg78rthEjSzn
-	zycP+DEz6EaYWdgP0FCFOcrC0MB+/AMsPA4D0V5zoUziguU8ETnuXmuO/kbjP9Bc7mMv
-	fxm4b4r0yhFO2/8XECjeWb44IP8QHXUGsDDRs=
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=7QemSgpSdzLyXctkujVskpgf3/+0L5nzxAuBO52jziY=;
+	b=PkKCN3wZbeRcbKznUGcpbi9kD2lv7hWd5ogk4/ELI0BdlpXrIltnTHn7840dJg91Wz
+	fXXzc+Y9hlaoCtbfxy+w+vKE7Fu+gEP5hffjhsSpLOpvXXdPXSs/8qtSXRz6C+wvxnvO
+	pHTMskmejOsjWq8HxgQ89t8FeixEmTA+C1bUE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=8+Sr8D+ImZHbm310BW7WwCLLvg5gP41qmfAdfQ8vQOM=;
-	b=KQDyVY79Ac16s8s8gPe8iZgmVr318VOJLUhYwqxc/Lrh7vcnO0vgjT/kUEzfGgEVUl
-	X0qzWOIbfHsy16he/4dRyJehEYT7Du6yJsnTXf1R4uTsciIPcDL1ePDk1uDqOwVU9Muk
-	Py0Dh7XF4ri17bKztOPE/0PDNahf7Ba1Gecc9dZC+d8SiIpVNU9HsW5KayWxBFljTKKf
-	ap4Vkp7NtRc80/kfqg6Rzc7B6Jn6rTVC3JMe1ZRvTHJ21iySavh/MhCke/pKV+p9/Z/a
-	e2SbCpYg24MPMfiSSjA+En0cfpQMzpxMts79h3R+jCrn0RPcM8dI5b8mhQLrCfXt9jsK
-	ITDg==
-X-Gm-Message-State: ABuFfojKB4ogIc6NbLrOFOA2IWM7ik+4jx6sfKpdFnS7fBwIqN6h1R+M
-	XERCA+UAt1IMzP295oGYdndyrA==
-X-Google-Smtp-Source: ACcGV60O3vrMoKzkXiflYNPPPbXDMcloDWTZKzgG8spsTYA10tMStRPsvQHDePVnU6rUKVSy6hXtFw==
-X-Received: by 2002:a1c:9a4a:: with SMTP id c71-v6mr585388wme.71.1538517293465;
-	Tue, 02 Oct 2018 14:54:53 -0700 (PDT)
-Received: from localhost.localdomain (rqp06-2-78-234-158-225.fbx.proxad.net.
-	[78.234.158.225]) by smtp.gmail.com with ESMTPSA id
-	v21-v6sm31155442wrd.4.2018.10.02.14.54.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 02 Oct 2018 14:54:51 -0700 (PDT)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: akuster808@gmail.com,
-	openembedded-core@lists.openembedded.org
-Date: Tue,  2 Oct 2018 23:54:45 +0200
-Message-Id: <20181002215445.2498-1-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.19.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=7QemSgpSdzLyXctkujVskpgf3/+0L5nzxAuBO52jziY=;
+	b=ErFyfHiuK9Rtt1IL+pX9n5ogB3xJhGOwOL92JwkbF0ibwZTRr+1dV/U1qZvApzs0nO
+	8kZMpXsAePpRG/E1cOWm5oMW9qxFFGV5RXXO9N7dMtPeFoimYwUe1/uy6Dx5lffcQwsG
+	cuQLn7GYkz3QjNj0cWkwEjJJnxd85cC8Ip+jP7yamBRYtl3agyJOfYxfh3kaLqxmDKjp
+	4l/mpPsIFp6EepVTQqE0jTAAjwgvyGHYKeIDN/9gepqZApDokxRdxgBG/IskQ6MoTChC
+	+xMimY2zCqYN8iG+IklgKtFWTbtdkQTSzJG/pzsDrzRp8+0abbOlB22eUQr8kaaaYJ2a
+	ZmqA==
+X-Gm-Message-State: ABuFfogQHeRhWkodPYpUo2J59pRGH1LBEEUYDExCjA/VaVR7f39SacKl
+	M444Ztsm4FpJG6Cv/dJ4j1pXcxfwKltxRBIBgiVXp2eG
+X-Google-Smtp-Source: ACcGV63Fy8j0qvZofHhTFglgq5EWP4xxS9emT7oCxT9VfmvJsvE2PEKfyn1CqL2AZs0jTDX8HA/iRUCagXPor7YhsiQ=
+X-Received: by 2002:ab0:7055:: with SMTP id v21-v6mr486685ual.44.1538523822260;
+	Tue, 02 Oct 2018 16:43:42 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [sumo][PATCH] checklayer: avoid recursive loop in add_layer_dependencies
+References: <20181002214323.14564-1-anibal.limon@linaro.org>
+In-Reply-To: <20181002214323.14564-1-anibal.limon@linaro.org>
+From: Anibal Limon <anibal.limon@linaro.org>
+Date: Tue, 2 Oct 2018 18:43:31 -0500
+Message-ID: <CA+_AqiuUV-z5YSJ4LFS4jhyCSCgVuiamdHRQeryT2E4QdgU2YA@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] scripts/yocto-check-layer: Don't abort when layer fails to get signatures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,83 +49,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 21:54:53 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 02 Oct 2018 23:43:41 -0000
+Content-Type: multipart/alternative; boundary="000000000000e799cb0577477dd8"
 
-When Layer A and Layer B depend on each other, then we will end up in a
-recursive loop in function recurse_dependencies(). To avoid such situation
-before making the recursive function call we check whether or not we have
-already processed this layer.
+--000000000000e799cb0577477dd8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-e.g. without this patch, running this script on layers with dependency loops, we are seeing:
+Targeting sumo too.
 
-$ yocto-check-layer -d  /srv/work/oe/meta-openembedded/
-INFO: Detected layers:
-INFO: meta-python: LayerType.SOFTWARE, /srv/work/oe/meta-openembedded/meta-python
-INFO: meta-filesystems: LayerType.SOFTWARE, /srv/work/oe/meta-openembedded/meta-filesystems
-INFO: meta-gnome: LayerType.SOFTWARE, /srv/work/oe/meta-openembedded/meta-gnome
-INFO: meta-xfce: LayerType.SOFTWARE, /srv/work/oe/meta-openembedded/meta-xfce
-INFO: meta-networking: LayerType.SOFTWARE, /srv/work/oe/meta-openembedded/meta-networking
-INFO: meta-initramfs: LayerType.SOFTWARE, /srv/work/oe/meta-openembedded/meta-initramfs
-INFO: meta-oe: LayerType.SOFTWARE, /srv/work/oe/meta-openembedded/meta-oe
-INFO: meta-multimedia: LayerType.SOFTWARE, /srv/work/oe/meta-openembedded/meta-multimedia
-INFO: meta-perl: LayerType.SOFTWARE, /srv/work/oe/meta-openembedded/meta-perl
-INFO: meta-webserver: LayerType.SOFTWARE, /srv/work/oe/meta-openembedded/meta-webserver
-INFO:
-INFO: Setting up for meta-python(LayerType.SOFTWARE), /srv/work/oe/meta-openembedded/meta-python
-DEBUG: Processing dependencies core openembedded-layer for layer meta-python.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-DEBUG: Processing dependencies core networking-layer for layer meta-oe.
-DEBUG: Processing dependencies core openembedded-layer meta-python for layer meta-networking.
-...
-...
-...
-[keep repeating]
+Anibal
 
-This patch fixes this situation.
+On Tue, 2 Oct 2018 at 16:43, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.or=
+g> wrote:
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 171900b4bcb06416685ce90b63114a10fefe0b94)
----
- scripts/lib/checklayer/__init__.py | 4 ++++
- 1 file changed, 4 insertions(+)
+> When execute in multiple layers like meta-openembedded the execution is
+> aborted when some sublayer fails to get world signatures, so mark it as
+> an error and continue the execution in the remaining sublayers.
+>
+> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
+> ---
+>  scripts/yocto-check-layer | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+> index 5a4fd752ca..9b7e53679b 100755
+> --- a/scripts/yocto-check-layer
+> +++ b/scripts/yocto-check-layer
+> @@ -169,7 +169,14 @@ def main():
+>          td['bbvars'] =3D get_bb_vars()
+>          logger.info('Getting initial signatures ...')
+>          td['builddir'] =3D builddir
+> -        td['sigs'], td['tunetasks'] =3D get_signatures(td['builddir'])
+> +        try:
+> +            td['sigs'], td['tunetasks'] =3D get_signatures(td['builddir'=
+])
+> +        except RuntimeError as e:
+> +            logger.info(str(e))
+> +            results[layer['name']] =3D None
+> +            results_status[layer['name']] =3D 'FAIL (Generating world
+> signatures)'
+> +            layers_tested =3D layers_tested + 1
+> +            continue
+>          td['machines'] =3D args.machines
+>
+>          if not add_layer(bblayersconf, layer, dep_layers, logger):
+> --
+> 2.19.0
+>
+>
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index 2618416fab..7788041843 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -167,6 +167,10 @@ def add_layer_dependencies(bblayersconf, layer, layers, logger):
-             # multiple errors at once
-             if ret is not None and layer_depend not in ret:
-                 ret.append(layer_depend)
-+            else:
-+                # we might have processed this dependency already, in which case
-+                # we should not do it again (avoid recursive loop)
-+                continue
- 
-             # Recursively process...
-             if 'collections' not in layer_depend:
--- 
-2.19.0
+--000000000000e799cb0577477dd8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Targeting sumo too.<div><br></div><div>Anibal</div></div><=
+br><div class=3D"gmail_quote"><div dir=3D"ltr">On Tue, 2 Oct 2018 at 16:43,=
+ An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@linaro.org">anib=
+al.limon@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+When execute in multiple layers like meta-openembedded the execution is<br>
+aborted when some sublayer fails to get world signatures, so mark it as<br>
+an error and continue the execution in the remaining sublayers.<br>
+<br>
+Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
+naro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0scripts/yocto-check-layer | 9 ++++++++-<br>
+=C2=A01 file changed, 8 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer<br>
+index 5a4fd752ca..9b7e53679b 100755<br>
+--- a/scripts/yocto-check-layer<br>
++++ b/scripts/yocto-check-layer<br>
+@@ -169,7 +169,14 @@ def main():<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0td[&#39;bbvars&#39;] =3D get_bb_vars()<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://logger.info" rel=3D"nor=
+eferrer" target=3D"_blank">logger.info</a>(&#39;Getting initial signatures =
+...&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0td[&#39;builddir&#39;] =3D builddir<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 td[&#39;sigs&#39;], td[&#39;tunetasks&#39;] =
+=3D get_signatures(td[&#39;builddir&#39;])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 td[&#39;sigs&#39;], td[&#39;tune=
+tasks&#39;] =3D get_signatures(td[&#39;builddir&#39;])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except RuntimeError as e:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(str(e))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 results[layer[&#39;name&#39;]] =
+=3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 results_status[layer[&#39;name&#=
+39;]] =3D &#39;FAIL (Generating world signatures)&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 layers_tested =3D layers_tested =
++ 1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0td[&#39;machines&#39;] =3D args.machines<=
+br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not add_layer(bblayersconf, layer, dep=
+_layers, logger):<br>
+-- <br>
+2.19.0<br>
+<br>
+</blockquote></div>
 
+--000000000000e799cb0577477dd8--
