@@ -1,49 +1,35 @@
-Return-Path: <ptsneves@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B911F71E5A
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DFCE79559
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2018 08:23:05 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id q8-v6so1242695wmq.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Oct 2018 01:23:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=NI+t7M6psp3YDCUqYqFL4bQEH5DiEGvHREzp7z++M+w=;
-	b=U0TKTKK8V9uTe2wudNrBnOk2mAnDl0pvlSpngT6bx/0lLOG7XfdRotFPQ9X0vwq11D
-	/6Ma0EhtxL+1GPJj1EOUscfWficDyDBXX7fhRl5B0QI9ndzpDU3GT0GCP4naDOFGkik4
-	X8aW73nyWjd8lEOpmcx/wlygD3Y2f2aaxgMlR7riSglEJKkQK7sNJZgxVxqGccpdrJeL
-	Ff6RI3CxtbTYnWyAf45c+cCq8lzlU4tI7xcpLr/RaahbbChBiVSUIk0iG+gPnYj1H3IC
-	uufQNz5aHDf6fz5JaIXN1vwQvyQej5mUbxYdbMpYF4AFYzFiGiHKAX82phLoU0qReeA2
-	a9NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=NI+t7M6psp3YDCUqYqFL4bQEH5DiEGvHREzp7z++M+w=;
-	b=iUhLF3sZIJ1mXnmEOeP9CvRUTg8iLGPAH7+9GOW+PpIU3yy7O+bKXrFV4/1CzoyKj4
-	6E3QA/HvqIW9QT0MpAD4o6Ys5BvJAtRaWSVWPXDW7xgblKSOUr9EilkXN1wG4wWFG+pE
-	WmswsTADGNHnJmXconHDx23ExM42C77Eh1uFxBCif/netnIq5vqvBFC0CAXPMAw7z2zu
-	5/VmI12BCmE/g3rT6+xAqRcHRjct05yX1zrZVvOc8oeoXssd0eZmDtpPPZdw6IYmWAh0
-	PTuK56hvrjsLLHckL0nT8A4CUbt5RXWvVOLHFQy6obiZLDJLpGEdyOJcYtV+qYunnGuF
-	N3Zg==
-X-Gm-Message-State: ABuFfoihyzlniK/KZy8RS64+cqm0/uoUHjhrS73/1bGBmgLZhwPjuUvL
-	bKjR7t95pvkXfK3DchShWH5RDv05S40uXzBUUA==
-X-Google-Smtp-Source: ACcGV62L2go8ZNu5CR30m1+esR+0yKiTQP4uc5REZ19ygTKDQn0+RN/q6GPbeSBGjooMgh0tyEgZ1+TBUAWApzrtG/A=
-X-Received: by 2002:a1c:41c5:: with SMTP id
-	o188-v6mr1166277wma.34.1538468586363; 
-	Tue, 02 Oct 2018 01:23:06 -0700 (PDT)
+	Tue,  2 Oct 2018 08:46:02 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id AB2085C005C;
+	Tue,  2 Oct 2018 10:46:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1538469962;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=HjZt7RFj8/ntOAL6g420SOMlMJYWpyHkjo2l7SE0mAc=;
+	b=PZiBJgQWKSFJbqilV9+sNvIU356Wp9tjL1aYWPx5qyaop9ME5AUnzAHpKlzx1JuIW429++
+	1KQUAfSrzLw23MsAGQVt8mUM52ix8Gyv8EEWAoOW0nA2oiF0hxu8V/4toO7SRp0r4SA69X
+	Lw1HQz5CDxEjqibs8xoJ7+Lqt0gz+yc=
 MIME-Version: 1.0
-References: <1535651376-25467-1-git-send-email-ptsneves@gmail.com>
-	<1535651376-25467-4-git-send-email-ptsneves@gmail.com>
-	<a4268dca5b5db6759cce2f089f5065708112082d.camel@linuxfoundation.org>
-In-Reply-To: <a4268dca5b5db6759cce2f089f5065708112082d.camel@linuxfoundation.org>
-From: Paulo Neves <ptsneves@gmail.com>
-Date: Tue, 2 Oct 2018 10:19:53 +0200
-Message-ID: <CAJO0J4gkXiv++K+aTHJF2O_Hq8MFDKPCpy+vWz6Ym1ZrLY00Bw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH v2 4/4] testimage: Moved write_image_test_data to testimage bbclass.
+Date: Tue, 02 Oct 2018 10:46:02 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, Max Krummenacher <max.oss.09@gmail.com>
+In-Reply-To: <abbffc6e7fa60468423b2cf1ec39f311@agner.ch>
+References: <ae881b799c12d2514345825d8fa5297f@agner.ch>
+	<abbffc6e7fa60468423b2cf1ec39f311@agner.ch>
+Message-ID: <ad574663589f7559ca0f32f159de471c@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.4
+Cc: Brandon Shibley <brandon.shibley@toradex.com>, samuel.bissig@toradex.com,
+	ricardo@foundries.io
+Subject: Re: Build failure with parallel build and opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,60 +42,189 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 08:23:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 02 Oct 2018 08:46:02 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello Richard,
+On 26.09.2018 11:34, Stefan Agner wrote:
+> Hi,
+> 
+> On 12.09.2018 00:49, Stefan Agner wrote:
+<snip>
+> We discussed the issue at Linaro Connect a bit.
+> 
+> To recap, we do build in two steps:
+> 
+> 1. bitbake full-container-image
+> 2. bitbake -c populate_sdk full-container-image
+> 
+> The issue always happens in the second step.
+> 
+> We also see that in the second step, the do_package_write_ipk_setscene
+> task for every recipe is executed.
+> 
+> The current assumption is
+> 
+> I tried to reproduce by building a recipe using openembedded-core master
+> only in two build directories with shared sstate manually:
+> 
+> 1. build1 $ bitbake eudev
+> 2. build2 $ bitbake -c cleansstate eudev
+> 3. build2 $ bitbake eudev
+> 4. build1 $ bitbake core-image-minimal
+> 
+> This sequence seems not to have triggered a
+> do_package_write_ipk_setscene for eudev.
+> 
+> I then tried
+> 5. build1 $ bitbake -c populate_sdk core-image-minimal
+> 
+> Which did trigger a do_package_write_ipk_setscene. However, the issue
+> did not appear...
+> 
+> I even tried to rebuild and replace the file manually, and run bitbake
+> -c populate_sdk -f core-image-minimal, but it just seems not to appear.
+> 
+> Last time I have seen it was with oe-core
+> f6634581fa0a81c4d68dc9179a755ad7b9d99357, I will revert to this version
+> again to see whether that helps reproducing the issue.
 
-Would assure you if it generated the test data on image creation *and*
-on test task?
-If not please describe more or less how I could collect which
-variables write_image_test_data depends upon. Just a high level
-description would do.
+Using the older OE version did not make a difference.
 
-I have really been in a good spirit to get this topic merged but I do
-not see a clear guidance for me to fix what was clearly broken.
-Actually the current code put there by intel should should be reverted
-in my opinion, as it broke all the controllers besides simpleremote
-and qemu.
 
-Paulo Neves
-On Tue, Sep 4, 2018 at 12:30 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2018-08-30 at 19:49 +0200, Paulo Neves wrote:
-> > Previously the write_image_test_data was a rootfs post
-> > process command. This function ran only when the rootfs
-> > task was ran. Due to this if a variable was changed
-> > or added to the datastore that would not trigger the do_rootfs
-> > task, the variable would never be written into the json
-> > file. Consequently the do_testimage task was potentially
-> > unreproduceable and could fail if for some reason this
-> > variable was then used.
-> >
-> > In this commit we move the recording of the datastore to the
-> > start of the do_testimage task. The do_testimage
-> > task then reads this freshly generated json and passes it into
-> > the normal test machinery. This approach allows for the test
-> > machinery to still be loosely coupled to bitbake, and thus
-> > still allows for the tests to be exported and used independently
-> > from bitbake. The caveat is, if there are datastore changes
-> > then the bitbake testimage task should be run before the tests
-> > can be ran independently again.
->
-> I'm not sure I agree with this. The test data really should be written
-> at either rootfs or image generation, not just before the tests are
-> run.
->
-> If you wanted to run the tests independently, after this change you
-> have no way to generate the data to do that without first running the
-> tests at least once. That doesn't make sense.
->
-> The correct thing to do here is to ensure the write_image_test_data()
-> function indicates which variables it depends upon and hence reruns
-> correctly.
->
-> Cheers,
->
-> Richard
+So Max and I discussed a bit further. We realized that when OE rebuilds,
+the opkg package index is refreshed for a package only if the mtime (in
+seconds) is different between the previous file and the file on disk
+currently (see opkg-make-index). Can it be that two simultaneously
+started builds create two ipk with same mtime?
+
+So I built two core-image-minimal builds (on the same machine) at the
+*very* same time. First try did not cause a collision, but already on
+the second try I managed to reproduce multiple collision. This output
+shows all the packages with the same unix mtime stamp according to the
+Packages.stamps file (generated by opkg-make-index):
+
+$ comm -1 -2 <(sort build1/tmp-glibc/deploy/ipk/i586/Packages.stamps) <(sort build2/tmp-glibc/deploy/ipk/i586/Packages.stamps)
+kages.stamps)                                                                                                                               
+1538424250 glibc-binary-localedata-de-it_2.27-r0_i586.ipk                                                                                   
+1538425082 libreadline-staticdev_7.0-r0_i586.ipk                                                                                            
+1538425162 bash-bashbug_4.4.18-r0_i586.ipk                                                                                                  
+1538425162 bash-completion_2.8-r0_i586.ipk                                                                                                  
+1538425162 bash-completion-dbg_2.8-r0_i586.ipk                                                                                              
+1538425162 bash-completion-dev_2.8-r0_i586.ipk                                                                                              
+1538425162 bash-loadable_4.4.18-r0_i586.ipk                                                                                                 
+1538425163 bash_4.4.18-r0_i586.ipk                                                                                                          
+1538425163 bash-completion-extra_2.8-r0_i586.ipk
+1538425164 bash-doc_4.4.18-r0_i586.ipk
+1538425167 bash-dbg_4.4.18-r0_i586.ipk
+1538425233 util-linux-locale-hr_2.32-r0_i586.ipk
+1538425233 util-linux-locale-id_2.32-r0_i586.ipk
+1538425233 util-linux-locale-it_2.32-r0_i586.ipk
+1538425233 util-linux-locale-sl_2.32-r0_i586.ipk
+1538425233 util-linux-locale-zh-tw_2.32-r0_i586.ipk
+1538425234 util-linux-dev_2.32-r0_i586.ipk
+1538425234 util-linux-findfs_2.32-r0_i586.ipk
+1538425234 util-linux-ionice_2.32-r0_i586.ipk
+1538425234 util-linux-locale-ca_2.32-r0_i586.ipk
+1538425234 util-linux-locale-pl_2.32-r0_i586.ipk
+1538425234 util-linux-locale-pt-br_2.32-r0_i586.ipk
+1538425234 util-linux-locale-ru_2.32-r0_i586.ipk
+1538425234 util-linux-locale-sv_2.32-r0_i586.ipk
+1538425234 util-linux-locale-tr_2.32-r0_i586.ipk
+1538425234 util-linux-locale-vi_2.32-r0_i586.ipk
+1538425234 util-linux-locale-zh-cn_2.32-r0_i586.ipk
+1538425234 util-linux-mountpoint_2.32-r0_i586.ipk
+1538425235 util-linux-locale-fr_2.32-r0_i586.ipk
+1538425236 util-linux-blkid_2.32-r0_i586.ipk
+1538425236 util-linux-fsck_2.32-r0_i586.ipk
+1538425236 util-linux-fsck.cramfs_2.32-r0_i586.ipk
+1538425236 util-linux-fstrim_2.32-r0_i586.ipk
+1538425236 util-linux-lscpu_2.32-r0_i586.ipk
+1538425236 util-linux-mkfs_2.32-r0_i586.ipk
+1538425236 util-linux-mount_2.32-r0_i586.ipk
+1538425236 util-linux-partx_2.32-r0_i586.ipk
+1538425236 util-linux-readprofile_2.32-r0_i586.ipk
+1538425236 util-linux-umount_2.32-r0_i586.ipk
+1538425237 libblkid1_2.32-r0_i586.ipk
+1538425237 libfdisk1_2.32-r0_i586.ipk
+1538425237 libmount1_2.32-r0_i586.ipk
+1538425238 util-linux_2.32-r0_i586.ipk
+1538425240 util-linux-staticdev_2.32-r0_i586.ipk
+
+Indeed, the two ipk files have the same mtime (at least, on second level):
+
+$ stat ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+  File: ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+  Size: 136612          Blocks: 272        IO Block: 4096   regular file
+Device: fd00h/64768d    Inode: 2627769381  Links: 2
+Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)
+Context: unconfined_u:object_r:home_root_t:s0
+Access: 2018-10-01 22:28:37.464716076 +0200
+Modify: 2018-10-01 22:20:37.930653796 +0200
+Change: 2018-10-01 22:20:50.998205339 +0200
+ Birth: -
+  File: ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+  Size: 136692          Blocks: 272        IO Block: 4096   regular file
+Device: fd00h/64768d    Inode: 2608876057  Links: 2
+Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)
+Context: unconfined_u:object_r:home_root_t:s0
+Access: 2018-10-01 22:28:47.145119532 +0200
+Modify: 2018-10-01 22:20:37.358629653 +0200
+Change: 2018-10-01 22:20:50.727193901 +0200
+ Birth: -
+
+But different md5sums!
+
+$ md5sum ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+bb8ffd4443e84fede943ccc3292dc657  ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+91608ae2b109e3f4af0379c634fad9c0  ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+
+In that case, libblkid1_2.32-r0_i586.ipk of build1 managed to make it into the sstate.
+
+On our production system, the SDK builds called later always fetch the packages
+from sstate again (do_package_write_ipk_setscene). For some reason that did not
+happen in my synthetic test. However, I simulated the fetch from sstate by
+removing libblkid1_2.32-r0_i586.ipk (part of util-linux) from build2:
+
+  build2 $ bitbake -c clean util-linux
+
+And rebuild the image:
+
+  build2 $ bitbake -f -c populate_sdk core-image-minimal
+
+Which indeed showed the issues we are seeing in production:
+...
+Downloading file:/home/ags/oe-core/build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk.
+Removing corrupt package file /home/ags/oe-core/build2/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/sdk/image/usr/local/oecore-x86_64/sysroots/i586-oe-linux//var/cache/opkg/volatile/edad620216e689cf8778354f4ac2ff7e_libblkid1_2.32-r0_i586.ipk.
+...
+Collected errors:                                                                                                                           
+ * opkg_install_pkg: Failed to download libblkid1. Perhaps you need to run 'opkg update'?
+...
+ERROR: core-image-minimal-1.0-r0 do_populate_sdk: Function failed: do_populate_sdk                                                         
+ERROR: Logfile of failure stored in: /home/ags/oe-core/build2/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/temp/log.do_populate_sdk.49541
+ERROR: Task (/home/ags/oe-core/meta/recipes-core/images/core-image-minimal.bb:do_populate_sdk) failed with exit code '1'
+
+
+It really seems that using mtime only in opkg-make-index is not safe enough
+in our setup. We probably should use the inode (or using the inode in addition
+to the time stamp).
+
+Is it guaranteed that the inode changes when ipk are fetched from sstate?
+
+--
+Stefan
+
+
+> 
+>>
+>> I guess there is some race/asynchronous operation going on around
+>> building index/getting package from sstate/pushing package to sstate.
+>>
+>> It seems an issue others have seen in the past too:
+>> https://www.yoctoproject.org/irc/%23yocto.2018-07-05.log.html#t2018-07-05T10:07:25
+>>
+>> Any idea?
+>>
+>> --
+>> Stefan
 
