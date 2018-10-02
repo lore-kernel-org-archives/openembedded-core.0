@@ -1,23 +1,57 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id CB69079653
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E414E745F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2018 09:37:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Oct 2018 02:37:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,331,1534834800"; d="scan'208";a="85037198"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Oct 2018 02:37:23 -0700
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Oct 2018 17:22:04 +0800
-Message-Id: <1538472127-27142-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/4] oeqa/runner: write testresult to json files
+	Tue,  2 Oct 2018 10:25:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 9479E18431;
+	Tue,  2 Oct 2018 12:25:43 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id yRBLYuPbvn64; Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 4B61A1839A;
+	Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3770B1E0AF;
+	Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2C0D31E0AE;
+	Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by thoth.se.axis.com (Postfix) with ESMTP id 20301249C;
+	Tue,  2 Oct 2018 12:25:39 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Tue, 2 Oct 2018 12:25:38 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Tue, 2 Oct 2018 12:25:38 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/3] acl: Make it compatible with externalsrc
+Thread-Index: AQHUVDlL2fqHNLeM0kiHgltnZAF9BaUAhT8AgAAxiWCACxUtoA==
+Date: Tue, 2 Oct 2018 10:25:38 +0000
+Message-ID: <56e1792adf9e4c97ad12230ec9df8fde@XBOX02.axis.com>
+References: <20180924190313.32027-1-pkj@axis.com>
+	<7083c560991d491f0e8b8b70eee611c1187b58d0.camel@linuxfoundation.org>
+	<a042a2e4c0464b4d81e4ada72f76fe77@XBOX02.axis.com>
+In-Reply-To: <a042a2e4c0464b4d81e4ada72f76fe77@XBOX02.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH 1/3] acl: Make it compatible with externalsrc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,213 +64,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 09:37:37 -0000
+X-List-Received-Date: Tue, 02 Oct 2018 10:25:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-As part of the solution to replace Testopia to store testresult,
-OEQA need to output testresult into json files, where these json
-testresult files will be stored in git repository by the future
-test-case-management tools.
+*ping*
 
-Both the testresult (eg. PASSED, FAILED, ERROR) and  the test log
-(eg. message from unit test assertion) will be created for storing.
+//Peter
 
-Also the library class inside this patch will be reused by the future
-test-case-management tools to write json testresult for manual test
-case executed.
-
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
----
- meta/lib/oeqa/core/runner.py | 137 +++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 126 insertions(+), 11 deletions(-)
-
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index eeb625b..54efdd0 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -6,6 +6,8 @@ import time
- import unittest
- import logging
- import re
-+import json
-+import pathlib
- 
- from unittest import TextTestResult as _TestResult
- from unittest import TextTestRunner as _TestRunner
-@@ -44,6 +46,9 @@ class OETestResult(_TestResult):
- 
-         self.tc = tc
- 
-+        self.result_types = ['failures', 'errors', 'skipped', 'expectedFailures', 'successes']
-+        self.result_desc = ['FAILED', 'ERROR', 'SKIPPED', 'EXPECTEDFAIL', 'PASSED']
-+
-     def startTest(self, test):
-         # May have been set by concurrencytest
-         if test.id() not in self.starttime:
-@@ -80,7 +85,7 @@ class OETestResult(_TestResult):
-             msg += " (skipped=%d)" % skipped
-         self.tc.logger.info(msg)
- 
--    def _getDetailsNotPassed(self, case, type, desc):
-+    def _isTestResultContainTestCaseWithResultTypeProvided(self, case, type):
-         found = False
- 
-         for (scase, msg) in getattr(self, type):
-@@ -121,16 +126,12 @@ class OETestResult(_TestResult):
-         for case_name in self.tc._registry['cases']:
-             case = self.tc._registry['cases'][case_name]
- 
--            result_types = ['failures', 'errors', 'skipped', 'expectedFailures', 'successes']
--            result_desc = ['FAILED', 'ERROR', 'SKIPPED', 'EXPECTEDFAIL', 'PASSED']
--
--            fail = False
-+            found = False
-             desc = None
--            for idx, name in enumerate(result_types):
--                (fail, msg) = self._getDetailsNotPassed(case, result_types[idx],
--                        result_desc[idx])
--                if fail:
--                    desc = result_desc[idx]
-+            for idx, name in enumerate(self.result_types):
-+                (found, msg) = self._isTestResultContainTestCaseWithResultTypeProvided(case, self.result_types[idx])
-+                if found:
-+                    desc = self.result_desc[idx]
-                     break
- 
-             oeid = -1
-@@ -143,13 +144,43 @@ class OETestResult(_TestResult):
-             if case.id() in self.starttime and case.id() in self.endtime:
-                 t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
- 
--            if fail:
-+            if found:
-                 self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(),
-                     oeid, desc, t))
-             else:
-                 self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(),
-                     oeid, 'UNKNOWN', t))
- 
-+    def _get_testcase_result_and_testmessage_dict(self):
-+        testcase_result_dict = {}
-+        testcase_testmessage_dict = {}
-+        for case_name in self.tc._registry['cases']:
-+            case = self.tc._registry['cases'][case_name]
-+
-+            found = False
-+            desc = None
-+            test_msg = ''
-+            for idx, name in enumerate(self.result_types):
-+                (found, msg) = self._isTestResultContainTestCaseWithResultTypeProvided(case, self.result_types[idx])
-+                if found:
-+                    desc = self.result_desc[idx]
-+                    test_msg = msg
-+                    break
-+
-+            if found:
-+                testcase_result_dict[case.id()] = desc
-+                testcase_testmessage_dict[case.id()] = test_msg
-+            else:
-+                testcase_result_dict[case.id()] = "UNKNOWN"
-+        return testcase_result_dict, testcase_testmessage_dict
-+
-+    def logDetailsInJson(self, file_dir):
-+        (testcase_result_dict, testcase_testmessage_dict) = self._get_testcase_result_and_testmessage_dict()
-+        if len(testcase_result_dict) > 0 and len(testcase_testmessage_dict) > 0:
-+            jsontresulthelper = OEJSONTestResultHelper(testcase_result_dict, testcase_testmessage_dict)
-+            jsontresulthelper.write_json_testresult_files(file_dir)
-+            jsontresulthelper.write_testcase_log_files(os.path.join(file_dir, 'logs'))
-+
- class OEListTestsResult(object):
-     def wasSuccessful(self):
-         return True
-@@ -261,3 +292,87 @@ class OETestRunner(_TestRunner):
-             self._list_tests_module(suite)
- 
-         return OEListTestsResult()
-+
-+class OEJSONTestResultHelper(object):
-+    def __init__(self, testcase_result_dict, testcase_log_dict):
-+        self.testcase_result_dict = testcase_result_dict
-+        self.testcase_log_dict = testcase_log_dict
-+
-+    def get_testcase_list(self):
-+        return self.testcase_result_dict.keys()
-+
-+    def get_testsuite_from_testcase(self, testcase):
-+        testsuite = testcase[0:testcase.rfind(".")]
-+        return testsuite
-+
-+    def get_testmodule_from_testsuite(self, testsuite):
-+        testmodule = testsuite[0:testsuite.find(".")]
-+        return testmodule
-+
-+    def get_testsuite_testcase_dictionary(self):
-+        testsuite_testcase_dict = {}
-+        for testcase in self.get_testcase_list():
-+            testsuite = self.get_testsuite_from_testcase(testcase)
-+            if testsuite in testsuite_testcase_dict:
-+                testsuite_testcase_dict[testsuite].append(testcase)
-+            else:
-+                testsuite_testcase_dict[testsuite] = [testcase]
-+        return testsuite_testcase_dict
-+
-+    def get_testmodule_testsuite_dictionary(self, testsuite_testcase_dict):
-+        testsuite_list = testsuite_testcase_dict.keys()
-+        testmodule_testsuite_dict = {}
-+        for testsuite in testsuite_list:
-+            testmodule = self.get_testmodule_from_testsuite(testsuite)
-+            if testmodule in testmodule_testsuite_dict:
-+                testmodule_testsuite_dict[testmodule].append(testsuite)
-+            else:
-+                testmodule_testsuite_dict[testmodule] = [testsuite]
-+        return testmodule_testsuite_dict
-+
-+    def _get_testcase_result(self, testcase, testcase_status_dict):
-+        if testcase in testcase_status_dict:
-+            return testcase_status_dict[testcase]
-+        return ""
-+
-+    def _create_testcase_testresult_object(self, testcase_list, testcase_result_dict):
-+        testcase_dict = {}
-+        for testcase in sorted(testcase_list):
-+            result = self._get_testcase_result(testcase, testcase_result_dict)
-+            testcase_dict[testcase] = {"testresult": result}
-+        return testcase_dict
-+
-+    def _create_json_testsuite_string(self, testsuite_list, testsuite_testcase_dict, testcase_result_dict):
-+        testsuite_object = {'testsuite': {}}
-+        testsuite_dict = testsuite_object['testsuite']
-+        for testsuite in sorted(testsuite_list):
-+            testsuite_dict[testsuite] = {'testcase': {}}
-+            testsuite_dict[testsuite]['testcase'] = self._create_testcase_testresult_object(
-+                testsuite_testcase_dict[testsuite],
-+                testcase_result_dict)
-+        return json.dumps(testsuite_object, sort_keys=True, indent=4)
-+
-+    def write_json_testresult_files(self, write_dir):
-+        if not os.path.exists(write_dir):
-+            pathlib.Path(write_dir).mkdir(parents=True, exist_ok=True)
-+        testsuite_testcase_dict = self.get_testsuite_testcase_dictionary()
-+        testmodule_testsuite_dict = self.get_testmodule_testsuite_dictionary(testsuite_testcase_dict)
-+        for testmodule in testmodule_testsuite_dict.keys():
-+            testsuite_list = testmodule_testsuite_dict[testmodule]
-+            json_testsuite = self._create_json_testsuite_string(testsuite_list, testsuite_testcase_dict,
-+                                                                self.testcase_result_dict)
-+            file_name = '%s.json' % testmodule
-+            file_path = os.path.join(write_dir, file_name)
-+            with open(file_path, 'w') as the_file:
-+                the_file.write(json_testsuite)
-+
-+    def write_testcase_log_files(self, write_dir):
-+        if not os.path.exists(write_dir):
-+            pathlib.Path(write_dir).mkdir(parents=True, exist_ok=True)
-+        for testcase in self.testcase_log_dict.keys():
-+            test_log = self.testcase_log_dict[testcase]
-+            if test_log is not None:
-+                file_name = '%s.log' % testcase
-+                file_path = os.path.join(write_dir, file_name)
-+                with open(file_path, 'w') as the_file:
-+                    the_file.write(test_log)
--- 
-2.7.4
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 25 september 2018 11:17
+> To: Richard Purdie <richard.purdie@linuxfoundation.org>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/3] acl: Make it compatible with
+> externalsrc
+>=20
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> > core-bounces@lists.openembedded.org> On Behalf Of Richard Purdie
+> > Sent: den 25 september 2018 10:13
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+> > core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 1/3] acl: Make it compatible with
+> > externalsrc
+> >
+> > On Mon, 2018-09-24 at 21:03 +0200, Peter Kjellerstedt wrote:
+> > > Make the subdir fetch path for configure.ac relative. This avoids
+> the
+> > > following error after having done `devtool modify acl`:
+> > >
+> > > ERROR: acl-2.2.52-r0 do_unpack: Unpack failure for URL:
+> > > 'file://configure.ac;subdir=3D.../builds/qemux86-
+> > > 64/workspace/sources/acl'.
+> > > subdir argument isn't a subdirectory of unpack root
+> > > .../builds/qemux86-64/tmp/work/core2-64-poky-linux/acl/2.2.52-r0
+> > >
+> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > ---
+> > >  meta/recipes-support/attr/acl_2.2.52.bb | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/recipes-support/attr/acl_2.2.52.bb
+> b/meta/recipes-
+> > > support/attr/acl_2.2.52.bb
+> > > index 8f3dc45cf7..8b89de9b42 100644
+> > > --- a/meta/recipes-support/attr/acl_2.2.52.bb
+> > > +++ b/meta/recipes-support/attr/acl_2.2.52.bb
+> > > @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D
+> "file://doc/COPYING;md5=3Dc781d70e
+> > > d2b4d48995b790403217a249 \
+> > >  DEPENDS =3D "attr"
+> > >
+> > >  SRC_URI =3D "${SAVANNAH_GNU_MIRROR}/acl/${BP}.src.tar.gz \
+> > > -           file://configure.ac;subdir=3D${S} \
+> > > +           file://configure.ac;subdir=3D${BP} \
+> > >             file://run-ptest \
+> > >             file://acl-fix-the-order-of-expected-output-of-
+> getfacl.patch \
+> > >             file://test-fix-insufficient-quoting-of.patch \
+> >
+> > This isn't making sense to me. Doesn't externalsrc set ${S} to the
+> > external source location?
+>=20
+> Yes, it does, but it does not change ${WORKDIR}. So when it tries
+> to unpack to the absolute path ${S}, which is outside ${WORKDIR}
+> when externalsrc is in use, then the above error occurs. Using a
+> relative path avoids the problem.
+>=20
+> > Also, doesn't it remove the do_unpack task?
+>=20
+> No, it keeps the task but removes everything except file:// URLs
+> and URLs with type=3Dkmeta from the SRC_URI. This is also why I had
+> to check for externalsrc in the do_unpack task of lsof.
+>=20
+> > Cheers,
+> >
+> > Richard
+>=20
+> //Peter
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
