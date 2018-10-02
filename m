@@ -1,54 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
-	[209.85.222.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 75ECA79496
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B617E79367
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2018 19:03:56 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id p6-v6so1887030qkg.1
+	Tue,  2 Oct 2018 19:11:44 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id a5-v6so374012pgv.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Oct 2018 12:03:57 -0700 (PDT)
+	Tue, 02 Oct 2018 12:11:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=Fg+FM9be8XCYvh4zH3FDSq4gtNNMfvwtCzCAKGPmI7A=;
-	b=ZG7x+8ArUFx4qKZzZ5iV6jZk6BZxfuTilSc8hodNnwg6/qMzyx0OknzUsKCOLTF7Ne
-	FCaxgZfVsVIkVtqftZm7eewqZxX6L2nkFkiQS2hlIcHX1jQ18aV6CBr/M6p6pMJ2f8QR
-	C+y4xUAkWTbMzr8b99tHhs62/hI/hD9L3JWyF/+tOPJNiOG3ZatdeOOp44GzJvOe7s3v
-	+ZG0gWr2ld82VjVPJs68uH6tjUhM/XqqdcacQwMDA7dB2JRqWTMDl3QDmyvi0lB1UqnU
-	K0rm1SnFAcj+kDj8JDhMTSiIaH/WcMC8x0bdyW78KJHua6bxfSF27gl0E6DP9OANlMc5
-	CJdQ==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yFEvFdJuFY0s56J2M0SlANGBPb+8JeL2FbMKiB+y1kE=;
+	b=lKb/dj2pXaLkcIbGg+jgYcmyNoWbNN8XTmxxRu2TMTEapH6fjXFcs38T+f8I+nd4m+
+	kHE2X0dg7cCCF9x7cPs6IpuwTjsqf2YD6avEBsrTx4P/08jNOHg44+OT2F0zSm32WlLD
+	VVfJzYGQFJPf6pKZm9bSpgmgZjnrznPs3cCiDd12r3MDZqGWT4ckAvuiarPQhNKYiYAn
+	s/JQJLPmy1+UGB3zpIJlZ0xlWW4Ztw411D1RTFUgaN90G0M+hbmuQ5xr8Io8OfD0z9JC
+	CBWb574siCt/h3Ko1LatvjpG+lPzs5GXAmfR8drAoFtCXYgWXkHh8qrh33GGImXWB83/
+	0UMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=Fg+FM9be8XCYvh4zH3FDSq4gtNNMfvwtCzCAKGPmI7A=;
-	b=gOv8bmfS5swTEgjU0inVc2n6tjX+g6szrOturEVYOdNxGxuCGk50tCMG511VNk9d8y
-	eFan90Qb3PgesI0k0RntZLWBGDcuEEQxR3oHG9S97ijYGFKGakyhhb3R5oF+Fy5wVMAa
-	dAHR46pdeZwrSYRMM1WRdst5lA3Mm7Qvq+c6tr6/XnHyMaYBNKsKQK+8EXAIWPFC18uK
-	klAOw/8qkF1nJ8iBJ3dz/xfH03Jx2BpEshAeRJSuRP30CsyVtRYgc+EIvYX3djJxKRIC
-	FxOmXdjQeBfQsiFDRYCxutwhTr5I+8keIKQ+xCXh1XPvEGHp6njfwpwQrp0drWj44aUh
-	b3ew==
-X-Gm-Message-State: ABuFfohJgcj1W+G2XsPXtF7knWHyY6oh2rosHQVgzeqnt4YYpOrWKLY8
-	ocoqRiXh9A5ldq6xsjQUn/1aXvh3unCQjbQkgF0=
-X-Google-Smtp-Source: ACcGV61L29tysp8COtKFTLL79YhzQlsp97dGIt7FYsjekkC28FRjGPcQGaXI+jDZ25+FDEI1MU/BHA2fKX/sFJgYHow=
-X-Received: by 2002:a37:9904:: with SMTP id
-	b4-v6mr13328388qke.102.1538507036975; 
-	Tue, 02 Oct 2018 12:03:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <ae881b799c12d2514345825d8fa5297f@agner.ch>
-	<abbffc6e7fa60468423b2cf1ec39f311@agner.ch>
-	<ad574663589f7559ca0f32f159de471c@agner.ch>
-	<c30e9108c19e440e6a1e99faffe585b7@agner.ch>
-In-Reply-To: <c30e9108c19e440e6a1e99faffe585b7@agner.ch>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yFEvFdJuFY0s56J2M0SlANGBPb+8JeL2FbMKiB+y1kE=;
+	b=VP56mSD0J+9sIkbVDmIG8iUye9JA/wYllF/WqUMzLCseJu38R7mR70EqRWMdEBB+iJ
+	SU6yuYoQ/9Wt0Vptcy3+LidP6zblrUT/yeBo78h8cr9wwHVBDZAvQYILo6zSnrrcuYXB
+	9qKlQ25gcFfBbrJ8n1dPVw0kyy7jqlpF+KUBX2Mkry01DewK161HP9J2j38o7QHG8gQM
+	oI6Vd2l14mTnaCaMGRfFu/o9s85zFAwOMPJ0s115kWv6MHTcjKkFpfbeleyESaa++/oE
+	gjuje9VgwXCcINLjLcAr4xH+GdluFJxXDvjIjSS9vO3NKYBCMVm2CsgV4FGOEbGXAh7R
+	9Mgw==
+X-Gm-Message-State: ABuFfoiOEdEwsdewDELx13WsbOiq9gh60B/9cMkZU2HcFuNZ+Eky9/KF
+	d43m9z5XUjMvPCX0LJx6FTlTe/qB
+X-Google-Smtp-Source: ACcGV61aixyGdFSSTC+uyuuIZ5ZpTtLkwM7kMtRra1rd5DwZP2ELe/TQ1r9PGojrUZOsaEDkGXDARA==
+X-Received: by 2002:a62:798e:: with SMTP id
+	u136-v6mr17416994pfc.95.1538507505218; 
+	Tue, 02 Oct 2018 12:11:45 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::fd07])
+	by smtp.gmail.com with ESMTPSA id
+	z3-v6sm22863400pfm.150.2018.10.02.12.11.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 02 Oct 2018 12:11:44 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 2 Oct 2018 12:03:30 -0700
-Message-ID: <CAMKF1sq8ZCxSxXfmXem9NgbP0_BsyP7JJBwWYTACKLJicQKSzA@mail.gmail.com>
-To: Stefan Agner <stefan@agner.ch>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Brandon Shibley <brandon.shibley@toradex.com>,
-	samuel.bissig@toradex.com, ricardo@foundries.io
-Subject: Re: Build failure with parallel build and opkg
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Oct 2018 12:11:36 -0700
+Message-Id: <20181002191136.8792-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.0
+MIME-Version: 1.0
+Subject: [PATCH] mesa: Disable asm on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,269 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 19:03:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Oct 2018 19:11:45 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 2, 2018 at 6:13 AM Stefan Agner <stefan@agner.ch> wrote:
->
-> On 02.10.2018 10:46, Stefan Agner wrote:
-> > On 26.09.2018 11:34, Stefan Agner wrote:
-> >> Hi,
-> >>
-> >> On 12.09.2018 00:49, Stefan Agner wrote:
-> > <snip>
-> >> We discussed the issue at Linaro Connect a bit.
-> >>
-> >> To recap, we do build in two steps:
-> >>
-> >> 1. bitbake full-container-image
-> >> 2. bitbake -c populate_sdk full-container-image
-> >>
-> >> The issue always happens in the second step.
-> >>
-> >> We also see that in the second step, the do_package_write_ipk_setscene
-> >> task for every recipe is executed.
-> >>
-> >> The current assumption is
-> >>
-> >> I tried to reproduce by building a recipe using openembedded-core mast=
-er
-> >> only in two build directories with shared sstate manually:
-> >>
-> >> 1. build1 $ bitbake eudev
-> >> 2. build2 $ bitbake -c cleansstate eudev
-> >> 3. build2 $ bitbake eudev
-> >> 4. build1 $ bitbake core-image-minimal
-> >>
-> >> This sequence seems not to have triggered a
-> >> do_package_write_ipk_setscene for eudev.
-> >>
-> >> I then tried
-> >> 5. build1 $ bitbake -c populate_sdk core-image-minimal
-> >>
-> >> Which did trigger a do_package_write_ipk_setscene. However, the issue
-> >> did not appear...
-> >>
-> >> I even tried to rebuild and replace the file manually, and run bitbake
-> >> -c populate_sdk -f core-image-minimal, but it just seems not to appear=
-.
-> >>
-> >> Last time I have seen it was with oe-core
-> >> f6634581fa0a81c4d68dc9179a755ad7b9d99357, I will revert to this versio=
-n
-> >> again to see whether that helps reproducing the issue.
-> >
-> > Using the older OE version did not make a difference.
-> >
-> >
-> > So Max and I discussed a bit further. We realized that when OE rebuilds=
-,
-> > the opkg package index is refreshed for a package only if the mtime (in
-> > seconds) is different between the previous file and the file on disk
-> > currently (see opkg-make-index). Can it be that two simultaneously
-> > started builds create two ipk with same mtime?
-> >
-> > So I built two core-image-minimal builds (on the same machine) at the
-> > *very* same time. First try did not cause a collision, but already on
-> > the second try I managed to reproduce multiple collision. This output
-> > shows all the packages with the same unix mtime stamp according to the
-> > Packages.stamps file (generated by opkg-make-index):
-> >
-> > $ comm -1 -2 <(sort build1/tmp-glibc/deploy/ipk/i586/Packages.stamps) <=
-(sort build2/tmp-glibc/deploy/ipk/i586/Packages.stamps)
-> > kages.stamps)
-> > 1538424250 glibc-binary-localedata-de-it_2.27-r0_i586.ipk
-> > 1538425082 libreadline-staticdev_7.0-r0_i586.ipk
-> > 1538425162 bash-bashbug_4.4.18-r0_i586.ipk
-> > 1538425162 bash-completion_2.8-r0_i586.ipk
-> > 1538425162 bash-completion-dbg_2.8-r0_i586.ipk
-> > 1538425162 bash-completion-dev_2.8-r0_i586.ipk
-> > 1538425162 bash-loadable_4.4.18-r0_i586.ipk
-> > 1538425163 bash_4.4.18-r0_i586.ipk
-> > 1538425163 bash-completion-extra_2.8-r0_i586.ipk
-> > 1538425164 bash-doc_4.4.18-r0_i586.ipk
-> > 1538425167 bash-dbg_4.4.18-r0_i586.ipk
-> > 1538425233 util-linux-locale-hr_2.32-r0_i586.ipk
-> > 1538425233 util-linux-locale-id_2.32-r0_i586.ipk
-> > 1538425233 util-linux-locale-it_2.32-r0_i586.ipk
-> > 1538425233 util-linux-locale-sl_2.32-r0_i586.ipk
-> > 1538425233 util-linux-locale-zh-tw_2.32-r0_i586.ipk
-> > 1538425234 util-linux-dev_2.32-r0_i586.ipk
-> > 1538425234 util-linux-findfs_2.32-r0_i586.ipk
-> > 1538425234 util-linux-ionice_2.32-r0_i586.ipk
-> > 1538425234 util-linux-locale-ca_2.32-r0_i586.ipk
-> > 1538425234 util-linux-locale-pl_2.32-r0_i586.ipk
-> > 1538425234 util-linux-locale-pt-br_2.32-r0_i586.ipk
-> > 1538425234 util-linux-locale-ru_2.32-r0_i586.ipk
-> > 1538425234 util-linux-locale-sv_2.32-r0_i586.ipk
-> > 1538425234 util-linux-locale-tr_2.32-r0_i586.ipk
-> > 1538425234 util-linux-locale-vi_2.32-r0_i586.ipk
-> > 1538425234 util-linux-locale-zh-cn_2.32-r0_i586.ipk
-> > 1538425234 util-linux-mountpoint_2.32-r0_i586.ipk
-> > 1538425235 util-linux-locale-fr_2.32-r0_i586.ipk
-> > 1538425236 util-linux-blkid_2.32-r0_i586.ipk
-> > 1538425236 util-linux-fsck_2.32-r0_i586.ipk
-> > 1538425236 util-linux-fsck.cramfs_2.32-r0_i586.ipk
-> > 1538425236 util-linux-fstrim_2.32-r0_i586.ipk
-> > 1538425236 util-linux-lscpu_2.32-r0_i586.ipk
-> > 1538425236 util-linux-mkfs_2.32-r0_i586.ipk
-> > 1538425236 util-linux-mount_2.32-r0_i586.ipk
-> > 1538425236 util-linux-partx_2.32-r0_i586.ipk
-> > 1538425236 util-linux-readprofile_2.32-r0_i586.ipk
-> > 1538425236 util-linux-umount_2.32-r0_i586.ipk
-> > 1538425237 libblkid1_2.32-r0_i586.ipk
-> > 1538425237 libfdisk1_2.32-r0_i586.ipk
-> > 1538425237 libmount1_2.32-r0_i586.ipk
-> > 1538425238 util-linux_2.32-r0_i586.ipk
-> > 1538425240 util-linux-staticdev_2.32-r0_i586.ipk
-> >
-> > Indeed, the two ipk files have the same mtime (at least, on second leve=
-l):
-> >
-> > $ stat ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-> >   File: ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-> >   Size: 136612          Blocks: 272        IO Block: 4096   regular fil=
-e
-> > Device: fd00h/64768d    Inode: 2627769381  Links: 2
-> > Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags=
-)
-> > Context: unconfined_u:object_r:home_root_t:s0
-> > Access: 2018-10-01 22:28:37.464716076 +0200
-> > Modify: 2018-10-01 22:20:37.930653796 +0200
-> > Change: 2018-10-01 22:20:50.998205339 +0200
-> >  Birth: -
-> >   File: ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-> >   Size: 136692          Blocks: 272        IO Block: 4096   regular fil=
-e
-> > Device: fd00h/64768d    Inode: 2608876057  Links: 2
-> > Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags=
-)
-> > Context: unconfined_u:object_r:home_root_t:s0
-> > Access: 2018-10-01 22:28:47.145119532 +0200
-> > Modify: 2018-10-01 22:20:37.358629653 +0200
-> > Change: 2018-10-01 22:20:50.727193901 +0200
-> >  Birth: -
-> >
-> > But different md5sums!
-> >
-> > $ md5sum ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-> > bb8ffd4443e84fede943ccc3292dc657  ./build1/tmp-glibc/deploy/ipk/i586/li=
-bblkid1_2.32-r0_i586.ipk
-> > 91608ae2b109e3f4af0379c634fad9c0  ./build2/tmp-glibc/deploy/ipk/i586/li=
-bblkid1_2.32-r0_i586.ipk
-> >
-> > In that case, libblkid1_2.32-r0_i586.ipk of build1 managed to make it i=
-nto the sstate.
-> >
-> > On our production system, the SDK builds called later always fetch the =
-packages
-> > from sstate again (do_package_write_ipk_setscene). For some reason that=
- did not
-> > happen in my synthetic test. However, I simulated the fetch from sstate=
- by
-> > removing libblkid1_2.32-r0_i586.ipk (part of util-linux) from build2:
-> >
-> >   build2 $ bitbake -c clean util-linux
-> >
-> > And rebuild the image:
-> >
-> >   build2 $ bitbake -f -c populate_sdk core-image-minimal
-> >
->
-> Note that after this command, the packages in the feed looks like this:
->
-> $ stat ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
->   File: ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
->   Size: 136612          Blocks: 272        IO Block: 4096   regular file
-> Device: fd00h/64768d    Inode: 2627769381  Links: 2
-> Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)
-> Context: unconfined_u:object_r:home_root_t:s0
-> Access: 2018-10-01 22:28:37.464716076 +0200
-> Modify: 2018-10-01 22:20:37.930653796 +0200
-> Change: 2018-10-01 22:20:50.998205339 +0200
->  Birth: -
->   File: ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
->   Size: 136612          Blocks: 272        IO Block: 4096   regular file
-> Device: fd00h/64768d    Inode: 2315301423  Links: 2
-> Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)
-> Context: unconfined_u:object_r:home_root_t:s0
-> Access: 2018-10-02 09:27:07.750888458 +0200
-> Modify: 2018-10-01 22:20:37.000000000 +0200
-> Change: 2018-10-02 09:26:47.308004397 +0200
->  Birth: -
->
-> Note that the package in build2 the mtime has no nanosecond accuracy. Pre=
-sumably
-> the tarball from sstate does not preserve sub second timestamps.
->
-> $ md5sum ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
-> bb8ffd4443e84fede943ccc3292dc657  ./build1/tmp-glibc/deploy/ipk/i586/libb=
-lkid1_2.32-r0_i586.ipk
-> bb8ffd4443e84fede943ccc3292dc657  ./build2/tmp-glibc/deploy/ipk/i586/libb=
-lkid1_2.32-r0_i586.ipk
->
-> Will send out a patch which uses inodes instead of mtime in opkg-make-ind=
-ex.
->
+some unknown part of mesa's x86 assembly
+code is broken by readonly text segments
 
-Thats a good find Stefan, How about using ctime instead of mtime.
+[ YOCTO #12918 ]
 
-> --
-> Stefan
->
->
-> > Which indeed showed the issues we are seeing in production:
-> > ...
-> > Downloading file:/home/ags/oe-core/build2/tmp-glibc/deploy/ipk/i586/lib=
-blkid1_2.32-r0_i586.ipk.
-> > Removing corrupt package file /home/ags/oe-core/build2/tmp-glibc/work/q=
-emux86-oe-linux/core-image-minimal/1.0-r0/sdk/image/usr/local/oecore-x86_64=
-/sysroots/i586-oe-linux//var/cache/opkg/volatile/edad620216e689cf8778354f4a=
-c2ff7e_libblkid1_2.32-r0_i586.ipk.
-> > ...
-> > Collected errors:
-> >  * opkg_install_pkg: Failed to download libblkid1. Perhaps you need to =
-run 'opkg update'?
-> > ...
-> > ERROR: core-image-minimal-1.0-r0 do_populate_sdk: Function failed: do_p=
-opulate_sdk
-> > ERROR: Logfile of failure stored in: /home/ags/oe-core/build2/tmp-glibc=
-/work/qemux86-oe-linux/core-image-minimal/1.0-r0/temp/log.do_populate_sdk.4=
-9541
-> > ERROR: Task (/home/ags/oe-core/meta/recipes-core/images/core-image-mini=
-mal.bb:do_populate_sdk) failed with exit code '1'
-> >
-> >
-> > It really seems that using mtime only in opkg-make-index is not safe en=
-ough
-> > in our setup. We probably should use the inode (or using the inode in a=
-ddition
-> > to the time stamp).
-> >
-> > Is it guaranteed that the inode changes when ipk are fetched from sstat=
-e?
-> >
-> > --
-> > Stefan
-> >
-> >
-> >>
-> >>>
-> >>> I guess there is some race/asynchronous operation going on around
-> >>> building index/getting package from sstate/pushing package to sstate.
-> >>>
-> >>> It seems an issue others have seen in the past too:
-> >>> https://www.yoctoproject.org/irc/%23yocto.2018-07-05.log.html#t2018-0=
-7-05T10:07:25
-> >>>
-> >>> Any idea?
-> >>>
-> >>> --
-> >>> Stefan
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 8d0e2cb67c..e6f3712706 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -107,7 +107,7 @@ PACKAGECONFIG[osmesa] = "--enable-${OSMESA},--disable-${OSMESA}"
+ PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+ 
+ EXTRA_OECONF_remove_libc-musl = "--enable-glx-tls"
+-EXTRA_OECONF_append_libc-musl = " --disable-glx-tls"
++EXTRA_OECONF_append_libc-musl = " --disable-asm --disable-glx-tls"
+ # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
+ FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
+ 
+-- 
+2.19.0
+
 
