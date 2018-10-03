@@ -1,50 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 8434478FA0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DB08571CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Oct 2018 12:34:18 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id q5-v6so5913741wrw.12
+	Wed,  3 Oct 2018 13:32:02 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id n6-v6so5874668qtl.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Oct 2018 05:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=F5Jhi5rcwZ8cKxLK3X2VUR0tWO1rd8IoB0qEoKIHWhM=;
-	b=v/CRHSgPeDn69bOovNGXUQeY79Q9KS7aDeNPHsoAOA/VMBmOwxvG+eAI2SAZoFgb0l
-	3kForhulpXPKgop6TvpdGfij7xXfGSA65zjZ51I3ox/IIKTkrcfogpHFlcSAQ8SL9mVz
-	9mxqRJXlyG0XcAjNXPJZQ/1JYFgDpnCrFhLDepnEvvMv9innWrIE6GjsazayG1TSRojj
-	kC6Ff+cL3sgaPX9gl/7LS/xfwhisJkM/weq4Hy5CqEMTbNLW0difSxc8bsMQOuKqt5pu
-	ebhI9aoDwKjQPLBQ3M+lk7L80FVdiua3g4c34COj8Rbv65H7pTmIUbMEg3D0xcWZJMDX
-	omkQ==
+	Wed, 03 Oct 2018 06:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=/TrF/upK9NWlol/+MNH8nen0hfr76UzUen2wINgFgR8=;
+	b=QRVPAfCb2Y7RRLlNMm/jFVRyO0ZrWl1zx/6XDXKox+u4uWg/nb3srh6SdQmQqYMSFy
+	nXwy3E+I1k69ZFTgJDJHxtM0dpfOlqx3bM+V7JyHtcOHrrC+wdMyw1f3yMdvghHa8ewP
+	D7ohwxw60iNUJsWbYOvO7TMu3CSIjYe+Z+E7z7mBXsCW3Fr+oBmJ2lleAdP0FPx4va9H
+	N4AAFln8plfjUuA3cnVUTc1Xy7jPl1b3f3LXXL9s1rJECK9PGZxFaIVm/6ni/ropucnn
+	j2yLd+Vc4WfHVz5TAejNxknbYkWL+VRxRgyvPqKQ81pq4/gbx6n9aGR5f8nS5vln2yMy
+	E0dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=F5Jhi5rcwZ8cKxLK3X2VUR0tWO1rd8IoB0qEoKIHWhM=;
-	b=B2XHs2itn1oDC5NlIZ5G0ZSx9LwYLUFsZ5atS6rRDy/2QyOZGTph6zQ1S7LRGGkzHc
-	j9o7OKWWwKEcgN70WK5PPHsOzQqfJJ8sTIWqpqVilyk8c7QR1VUDsPRNDhI9WuPrvCKE
-	mPfodj2dmxnnh3zeGpPoxOkokr3wDKgSic2RhKd+BU00vCLm7Nih1IagaspBmZBsTw6b
-	B3hBz6Tz5BF389pZho4UdfZmzH/N3Md+GngkEb4zxgK86F1moJZwKHbI3jkqAyX0LTBn
-	oIO1YPYZT/YBXNg7+kgPY58XEwbQOtbfMthPoiBW8Xk9o/rVO7j5NOCNHsuWMbDZWjiu
-	/K3g==
-X-Gm-Message-State: ABuFfojKcaw3/GzIqRpUME2Fw42cNkfpTXYkKrhjW0vM97nLAx/1usYp
-	J6X4EwKrUvF3GvbrPIoyDf1Os/9ng3s=
-X-Google-Smtp-Source: ACcGV639yn8h3L2oChUcGb+kTXs47fLdrec2Op+vTJfJua0bdYAJ40uELPcBjAa/MZbY1TDs8IF1Jg==
-X-Received: by 2002:a5d:698b:: with SMTP id
-	g11-v6mr594153wru.159.1538570058916; 
-	Wed, 03 Oct 2018 05:34:18 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	z69-v6sm1527081wmz.18.2018.10.03.05.34.17
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Oct 2018 05:34:18 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Oct 2018 13:34:16 +0100
-Message-Id: <20181003123416.16501-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] pango: respect PTEST_ENABLED
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=/TrF/upK9NWlol/+MNH8nen0hfr76UzUen2wINgFgR8=;
+	b=ckFC5sKCHJ8kyA/W4VGjf43MvDHlHW7OF4jI3cXzfZHPMBrP7FCxQ8XVy8vRrcCrJ1
+	umHZLk0sUhfd/PllHzMWM9A37DUB5o9XQPMChA7LzGmMKnV7rngnDnREJvSA9JmHdlsr
+	2ftzN5a9kXM217uhqLMfqLusHH1nJuJGsMPTuNk4S/vvQ8zxbjA0cnbxI69pSF5Mx1nA
+	vu19JOM8X6hxwwfkg6c4Yx/MdkCFiE9ledhxUOTIKgnP/g9yAFJZ3aMJOl0tjiJ+ZdiQ
+	g41Lvypld51uttU7s6ONPMJh7EoasC1yMmC1PQnc27D8DIR+zL0NE4wXy5g2DJ6L90g+
+	Ya5A==
+X-Gm-Message-State: ABuFfohaFzdlVgbvy9TIMUHTyUoUJgY2/ZkCsVmkbg+zm2rAyxfw2V7b
+	pY2jVxuUSDKnjs1M43ycFOI2zANtAzXAtBexPKg=
+X-Google-Smtp-Source: ACcGV604513ded3lHzR7pYyW8RVuDYMLmXdoEKQhbqsvfS+9SWhBmU2tKSaPKDTaBArANLpIdUwqXLWnK8HvPSC54do=
+X-Received: by 2002:ac8:4912:: with SMTP id
+	e18-v6mr1252737qtq.34.1538573523394; 
+	Wed, 03 Oct 2018 06:32:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <2f47bda4-deb2-9603-a151-8330f0d52e08@taitradio.com>
+	<c5a520ffbff2e4b1f12355b7605b5f5988228101.camel@linuxfoundation.org>
+	<4f206827-9c6e-608a-409f-a66edcfcec2d@taitradio.com>
+	<8738d389-5361-272b-f329-63c6538bb9ed@taitradio.com>
+	<5a57b59fc05db0260d1257692161ebcd5443aa2f.camel@linuxfoundation.org>
+In-Reply-To: <5a57b59fc05db0260d1257692161ebcd5443aa2f.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 3 Oct 2018 06:31:37 -0700
+Message-ID: <CAMKF1sqrb496Wh=BGaw2tRjLtrQcPrEXL0vCBSdbtKQ4rtdRdw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: glibc binary reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +59,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2018 12:34:18 -0000
+X-List-Received-Date: Wed, 03 Oct 2018 13:32:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Don't use the 'ptest' DISTRO_FEATURE because whilst that can be on,
-PTEST_ENABLED could have been overwritten.
+On Wed, Oct 3, 2018 at 4:25 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> I don't think your patch will fix all the cases sadly. I did find
+> another technique that works:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=21bc0c2fe6e9d2ae1d08d3de5f2a6d75d4ba108b
+>
+> basically by injecting a STT_FILE entry into the underlying assembler
+> files, the linker then doesn't need to add its own.
+>
+> The patch above fixes aarch64 but will need additions for the other
+> arches which break...
+>
+> Khem: Any thoughts on this?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/pango/pango_1.42.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+this is right fix
 
-diff --git a/meta/recipes-graphics/pango/pango_1.42.4.bb b/meta/recipes-graphics/pango/pango_1.42.4.bb
-index fc610a9a5f9..22fe3af15d7 100644
---- a/meta/recipes-graphics/pango/pango_1.42.4.bb
-+++ b/meta/recipes-graphics/pango/pango_1.42.4.bb
-@@ -29,7 +29,7 @@ LIBV = "1.8.0"
- 
- # This binary needs to be compiled for the host architecture.  This isn't pretty!
- do_compile_prepend_class-target () {
--	if ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'true', 'false', d)}; then
-+	if ${@bb.utils.contains('PTEST_ENABLED', '1', 'true', 'false', d)}; then
- 		make CC="${BUILD_CC}" CFLAGS="" LDFLAGS="${BUILD_LDFLAGS}" AM_CPPFLAGS="$(pkg-config-native --cflags glib-2.0)" gen_all_unicode_LDADD="$(pkg-config-native --libs glib-2.0)" -C ${B}/tests gen-all-unicode
- 	fi
- }
--- 
-2.11.0
-
+>
+> Cheers,
+>
+> Richard
 
