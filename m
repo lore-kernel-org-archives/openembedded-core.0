@@ -1,48 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C059C71C42
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7778971C42
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Oct 2018 11:48:56 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id e18-v6so5211146oti.8
+	Wed,  3 Oct 2018 11:52:29 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id 143-v6so5400427wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Oct 2018 04:48:58 -0700 (PDT)
+	Wed, 03 Oct 2018 04:52:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=RPMsXG51WhgRLFMCahhHEA9xsgg8iuLg7AbFt+BXvXc=;
-	b=AoZR4llx3dc3QAoYeM/FKZjcQLfz+Y2HQh8FwYfYrADG8LoBA4JB7e/yougYjoTMjz
-	UYciBW94BgPhovPp8FtTZApc2rJyUsb6WsWgoMWjSi9/PxIOsuPCgT9KYyCy9lspfIHf
-	ErHAwXGUBSl4+yQnyklFMs420MJc5N/PtaF7DYUnig/AaQSXjBVQcW62t6h0WBoPK1dF
-	mh7MZPDouFZDyP9hS4J+kEdAyGr6rlkrcK3VuUUGI1R/QZR/XEXAgQl3Iq50ow32x1au
-	N4/wCqfbRO/a8HwM/TdeFs7th2hpbuBq/G801MzK6ZczoBUqi+94KwvR9tbRLlOpgery
-	n1TQ==
+	h=from:to:subject:date:message-id;
+	bh=yW7iEH2wxFJtyNQew3VXpeufMzMKIh8+C5H6ZAQrLSE=;
+	b=ycNRd0kOrO3Y2q2ER1gL5otfD4y9CtfadpuOFp5rB4tVkwwSusrFG4lGpGuVcdqixO
+	pdYi3SBM/J0F274yOnkWcMpYpsZfgM9RNgHSrBPApO+JV9C0Km+m2ujSFejtDNBF9VxG
+	2i2SsSFCHMmm41/dA0oSA3A3rXU6V4SDxzLTnyI71mV1Iho6n9hddq0tEov0+4/wgxBV
+	DswuZ2cRhiUKNbPHPMdlD8L3Xn0DK9j34Rgwf42kmFaFB6J4VeDH7cw66W3LjdtklOfy
+	OXH1r+83rfpqRx1hmf9yYCUTK7f+ef8O9SilVwbYxGwhgpowUhBxh/8GO3panteSJqEE
+	fKFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=RPMsXG51WhgRLFMCahhHEA9xsgg8iuLg7AbFt+BXvXc=;
-	b=pnW2vHBzL97lWSmOJJ6YtJusyN04yREK1t5gUjr8sgt6nlv5jl686hbZ6CoiQ1Vvtm
-	iHkqb0EsePjqiZKpkv3ffM/d5cPyE/5VV4q831w8yXMonL6nQ8l0vwX68q5nOt8zd8AI
-	OMIAthuWxfI0ZM48FdzxDs52Xxr2wsPqctYacWY9uA9SRQxsfYvEf7qTbUvhE1h9LvyU
-	Zu2c8HLGklX5IoP6dOWi3fDIRj+A7xd37Y8ifE8jL6uq/EzpN9sAKtI2uJ6/PvI/1RP7
-	p6S4+jHSei0Z9K8fFSzvpiap20fpQCPnm4jH5n9Ba+Vp6ohNTwH3ByH6J71Wt1XlZp7M
-	z8Cw==
-X-Gm-Message-State: ABuFfoiUZ7YUrlGXv91EXAk2J3UndF6wTMNQucw+pCmp4/zYzfjrEOxS
-	/c/MDOqLA9m04sqEU1RjZv8nE6Lhezx/llP5T4Li6Q==
-X-Google-Smtp-Source: ACcGV63h8FfBUJ23SwLWn3i4kQ53a4mPF+P2kA54bUTlNrIbc3dlhGOIb165IkOp2Mv8mtbskdnFfe3lYjFoQzSCpio=
-X-Received: by 2002:a9d:41f6:: with SMTP id v51-v6mr556549oti.8.1538567337695; 
-	Wed, 03 Oct 2018 04:48:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <1538272773-298871-1-git-send-email-changqing.li@windriver.com>
-	<59e55b7b641c4a19a258fedf95712464@XBOX02.axis.com>
-In-Reply-To: <59e55b7b641c4a19a258fedf95712464@XBOX02.axis.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Oct 2018 12:48:46 +0100
-Message-ID: <CAJTo0LbUR5vkvik6z9jeFvO-AQsfNwFEW+2sAa7N9E-NfrXqbQ@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pango: fix ptest failed problem
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=yW7iEH2wxFJtyNQew3VXpeufMzMKIh8+C5H6ZAQrLSE=;
+	b=sP57vpNa4a6usWrFydYZ4/JbIRZaRjBM1Qqju0SwAjYiMRxR2Xj8GhnqIjYmydT1BR
+	iCrspCEkEDfaDetgljV9DZIunusT9GFxggOdtdjs59Ppb6/NXfxw65DZW3hOKT9KOZyY
+	bhHUnhpX44atlr4rbYeES4KxA8xS3iUSke1nUGZdGi2aEcpRZonF94jyG1jzyuNKwv1H
+	kN2jS8EPAddQ9b5yZQ1nCfrWt9xvgABA46MoHKhUTW9jxv7DzdSMIFbQ5yqdeAfZEc10
+	54TK52B3dLuWKSQuKtGovVdYRg/0HkROR6IiVaAkh4bK2Xh2TwYa088SGSBdbBaJhvGV
+	78zw==
+X-Gm-Message-State: ABuFfojCe6az/hHxFCylYrll4j2x21tqstoeaGh1+0EMDTM+Db5pvfXn
+	i6f7OeOV8XTmJ+tdn60Tfnx6vs38sOo=
+X-Google-Smtp-Source: ACcGV60perBgPctjV8inUk+gaq9diivmQtTQU1D+UsD/axFWpdYk6dSfVWoazsrN6NFv8/pLluuL1g==
+X-Received: by 2002:a1c:6504:: with SMTP id
+	z4-v6mr1177451wmb.130.1538567549734; 
+	Wed, 03 Oct 2018 04:52:29 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	z10-v6sm1199022wrv.22.2018.10.03.04.52.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 03 Oct 2018 04:52:29 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Oct 2018 12:52:26 +0100
+Message-Id: <20181003115226.20823-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] connman: neaten patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,85 +57,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2018 11:48:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 03 Oct 2018 11:52:29 -0000
 
-An even simpler fix is to just remove --disable-debug.  We don't need
-a build with ptest enabled to have *all* the debuggig enabled, and
-it's always nice to have cast checks enabled (which --disable-debug
-turns off).
+The upstreamable include-tweaking patches contained fragments that should be in
+the not-upstreamable musl-specific res_ninit replacement, so move them to the
+right patch.
 
-Ross
-On Mon, 1 Oct 2018 at 11:34, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> > core-bounces@lists.openembedded.org> On Behalf Of
-> > changqing.li@windriver.com
-> > Sent: den 30 september 2018 04:00
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH] pango: fix ptest failed problem
-> >
-> > From: Changqing Li <changqing.li@windriver.com>
-> >
-> > disable-debug will cause compiling with G_DISABLE_ASSERT, but ptest
-> > need
-> > it, so don't disable-debug when ptest is enabled.
-> >
-> > ptest fail error:
-> >
-> > Tests were compiled with G_DISABLE_ASSERT and are likely no-ops.
-> > Aborting.
-> > FAIL: pango/test-font.test (Child process exited with code 1)
-> > Running test: pango/testboundaries_ucd.test
-> > Tests were compiled with G_DISABLE_ASSERT and are likely no-ops.
-> > Aborting.
-> > FAIL: pango/testboundaries_ucd.test (Child process exited with code 1)
-> > Running test: pango/testboundaries.test
-> > Tests were compiled with G_DISABLE_ASSERT and are likely no-ops.
-> > Aborting.
-> > FAIL: pango/testboundaries.test (Child process exited with code 1)
-> > Running test: pango/testattributes.test
-> > Tests were compiled with G_DISABLE_ASSERT and are likely no-ops.
-> > Aborting.
-> >
-> > Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> > ---
-> >  meta/recipes-graphics/pango/pango_1.42.4.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-graphics/pango/pango_1.42.4.bb
-> > b/meta/recipes-graphics/pango/pango_1.42.4.bb
-> > index e73fd28..c680720 100644
-> > --- a/meta/recipes-graphics/pango/pango_1.42.4.bb
-> > +++ b/meta/recipes-graphics/pango/pango_1.42.4.bb
-> > @@ -24,7 +24,7 @@ DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo h
-> >  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
-> >  PACKAGECONFIG[x11] = "--with-xft,--without-xft,virtual/libx11 libxft"
-> >
-> > -EXTRA_OECONF = "--disable-debug"
-> > +EXTRA_OECONF = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest',"","--disable-debug",d)}"
->
-> The above can be written cleaner as:
->
-> PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ptest x11', d)}"
-> PACKAGECONFIG[ptest] = "--enable-debug,--disable-debug"
-> PACKAGECONFIG[x11] = "--with-xft,--without-xft,virtual/libx11 libxft"
->
-> (I added the --enable-debug to the ptest PACKAGECONFIG for symmetry,
-> even though I assume it is the default.)
->
-> >  LEAD_SONAME = "libpango-1.0*"
-> >  LIBV = "1.8.0"
-> > --
-> > 2.7.4
->
-> //Peter
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../0002-resolve-musl-does-not-implement-res_ninit.patch     |  8 ++++++++
+ meta/recipes-connectivity/connman/connman/includes.patch     | 12 +++---------
+ 2 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch b/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
+index 05934277105..639ccfa2a20 100644
+--- a/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
++++ b/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
+@@ -17,6 +17,14 @@ diff --git a/gweb/gresolv.c b/gweb/gresolv.c
+ index 5cf7a9a..3ad8e70 100644
+ --- a/gweb/gresolv.c
+ +++ b/gweb/gresolv.c
++@@ -36,6 +36,7 @@
++ #include <arpa/inet.h>
++ #include <arpa/nameser.h>
++ #include <net/if.h>
+++#include <ctype.h>
++ 
++ #include "gresolv.h"
++ 
+ @@ -875,8 +875,6 @@ GResolv *g_resolv_new(int index)
+  	resolv->index = index;
+  	resolv->nameserver_list = NULL;
+diff --git a/meta/recipes-connectivity/connman/connman/includes.patch b/meta/recipes-connectivity/connman/connman/includes.patch
+index 55cb187931b..dcce5bea122 100644
+--- a/meta/recipes-connectivity/connman/connman/includes.patch
++++ b/meta/recipes-connectivity/connman/connman/includes.patch
+@@ -300,20 +300,14 @@ diff --git a/gweb/gresolv.c b/gweb/gresolv.c
+ index 8a51a9f..d55027c 100644
+ --- a/gweb/gresolv.c
+ +++ b/gweb/gresolv.c
+-@@ -23,11 +23,13 @@
+- #include <config.h>
+- #endif
+- 
+-+#include <ctype.h>
+- #include <errno.h>
+- #include <unistd.h>
+- #include <stdarg.h>
++@@ -29,6 +29,7 @@
+  #include <string.h>
+  #include <stdlib.h>
+-+#include <stdio.h>
+  #include <resolv.h>
+++#include <stdio.h>
+  #include <sys/types.h>
+  #include <sys/socket.h>
++ #include <netdb.h>
+ diff --git a/plugins/wifi.c b/plugins/wifi.c
+ index 9d56671..148131d 100644
+ --- a/plugins/wifi.c
+-- 
+2.11.0
+
 
