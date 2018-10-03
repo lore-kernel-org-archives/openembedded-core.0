@@ -1,18 +1,26 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D4211744AE;
-	Wed,  3 Oct 2018 14:03:03 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 03 Oct 2018 14:03:05 -0000
-Message-ID: <20181003140305.13842.3907@do.openembedded.org>
-References: <20181003134720.20328-1-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181003134720.20328-1-richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmM6IEZpeCBnbGliYyByZXByb2R1Y2liaWxpdHkgaXNzdWVz?=
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 46BC074BFD
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Oct 2018 14:23:51 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w93ENiwS013031
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 3 Oct 2018 15:23:46 +0100
+Message-ID: <6cb0ab6264c5d5b65759d18594c116ae01a8d801.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: grygorii tertychnyi <gtertych@cisco.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 03 Oct 2018 15:23:44 +0100
+In-Reply-To: <20181001154723.32161-1-gtertych@cisco.com>
+References: <20181001154723.32161-1-gtertych@cisco.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Cc: xe-linux-external@cisco.com
+Subject: Re: [PATCH] lib/oe/utils: add eol to format_pkg_list()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,45 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2018 14:03:04 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Wed, 03 Oct 2018 14:23:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On Mon, 2018-10-01 at 18:47 +0300, grygorii tertychnyi via
+Openembedded-core wrote:
+> Append '\n' to the formatted string before return. If you write it
+> to the (manifest) file, it will ensure file ends with a newline.
+> 
+> Many GNU utilities have problems processing the last line of a file
+> if it is not '\n' terminated. E.g. if the last line is not terminated
+> by a newline character, then "read" will read it but return false,
+> leaving the broken partial line in the read variable(s).
+> It can also break or adversely affect some text processing tools,
+> that operate on the file.
+> 
+> Signed-off-by: grygorii tertychnyi <gtertych@cisco.com>
+> ---
+>  meta/lib/oe/utils.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Series: glibc: Fix glibc reproducibility issues
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14349/
-State : failure
+If you enable buildhistory (INHERIT += 'buildhistory' in local.conf)
+and then "bitbake buildtools-tarball", you'll see:
 
-== Summary ==
+| DEBUG: Python function buildhistory_list_installed_sdk_target finished
+| NOTE: Executing buildhistory_get_sdk_installed_target ...
+| DEBUG: Executing shell function buildhistory_get_sdk_installed_target
+| basename: missing operand
+| Try 'basename --help' for more information.
+| WARNING: /home/pokybuild/yocto-worker/nightly-arm/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-tarball/1.0-r0/temp/run.buildhistory_get_sdk_installed_target.13414:1 exit 123 from 'xargs -n1 basename > $1/installed-packages.txt'
+| DEBUG: Python function do_populate_sdk finished
+| ERROR: Function failed: buildhistory_get_sdk_installed_target (log file is located at /home/pokybuild/yocto-worker/nightly-arm/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-tarball/1.0-r0/temp/log.do_populate_sdk.13414)
 
+which is buildhistory choking on the blank line.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Cheers,
 
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 8dcd4e6e79)
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-core/glibc/glibc/0034-inject-file-assembly-directives.patch)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Richard
 
