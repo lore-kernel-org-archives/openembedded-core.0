@@ -1,23 +1,28 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id A87C07198F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DB5671C54
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Oct 2018 10:28:23 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Oct 2018 03:28:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,335,1534834800"; d="scan'208";a="262476828"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.21.255])
-	by orsmga005.jf.intel.com with ESMTP; 03 Oct 2018 03:27:52 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Oct 2018 18:27:50 +0800
-Message-Id: <20181003102750.10769-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] qemux86-directdisk: remove mem= parameter
+	Wed,  3 Oct 2018 11:25:15 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w93BPD93000942
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 3 Oct 2018 12:25:14 +0100
+Message-ID: <5a57b59fc05db0260d1257692161ebcd5443aa2f.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Douglas Royds <douglas.royds@taitradio.com>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 03 Oct 2018 12:25:13 +0100
+In-Reply-To: <8738d389-5361-272b-f329-63c6538bb9ed@taitradio.com>
+References: <2f47bda4-deb2-9603-a151-8330f0d52e08@taitradio.com>
+	<c5a520ffbff2e4b1f12355b7605b5f5988228101.camel@linuxfoundation.org>
+	<4f206827-9c6e-608a-409f-a66edcfcec2d@taitradio.com>
+	<8738d389-5361-272b-f329-63c6538bb9ed@taitradio.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: glibc binary reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +35,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2018 10:28:23 -0000
+X-List-Received-Date: Wed, 03 Oct 2018 11:25:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Remove usage of a specific amount of memory and let it be controlled by
-users. This was the default behaviour before it was changed by commit
-3b79d9a78 that switched the wks file to be used for qemux86.
+I don't think your patch will fix all the cases sadly. I did find
+another technique that works:
 
-Also fixes the bitbake parsing issues seen because of memory starvation
-using build appliance images.
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=21bc0c2fe6e9d2ae1d08d3de5f2a6d75d4ba108b
 
-Fixes [YOCTO #12894]
+basically by injecting a STT_FILE entry into the underlying assembler
+files, the linker then doesn't need to add its own.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- scripts/lib/wic/canned-wks/qemux86-directdisk.wks | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The patch above fixes aarch64 but will need additions for the other
+arches which break...
 
-diff --git a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
-index be51c4eb56..c8d9f121b5 100644
---- a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
-+++ b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
-@@ -4,5 +4,5 @@
- 
- include common.wks.inc
- 
--bootloader  --timeout=0  --append="vga=0 rw mem=256M oprofile.timer=1 rootfstype=ext4 "
-+bootloader  --timeout=0  --append="vga=0 rw oprofile.timer=1 rootfstype=ext4 "
- 
--- 
-2.17.1
+Khem: Any thoughts on this?
 
+Cheers,
+
+Richard
 
