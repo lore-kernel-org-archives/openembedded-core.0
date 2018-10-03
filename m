@@ -1,55 +1,62 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C0E587944A
+Return-Path: <gtertych@cisco.com>
+X-Greylist: delayed 575 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 03 Oct 2018 17:32:22 UTC
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+	by mail.openembedded.org (Postfix) with ESMTP id C220979357
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Oct 2018 16:13:44 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id 206-v6so6297743wmb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Oct 2018 09:13:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=ahLDUmA1cqo3w5ghyJWal7fC/1hNDWoFsEL++CybrdQ=;
-	b=ZbSgzX69JuV+CF1D0QdVdyiWOiApTGV+/tsO8BsT+tfvVj2mB13c4kTOr0L6rKy0Cs
-	4vDPLRAhb7R0k1OVLJJzTDNNXP4dGjxZBe9soY62ADI/TD6hdGR3sOTGY9OiEdtISxSC
-	msBuEG9ZfIhXx8Vl88+jPrPXQJSQj6k5v7Whw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=ahLDUmA1cqo3w5ghyJWal7fC/1hNDWoFsEL++CybrdQ=;
-	b=TCNaGxyJtO+zx1JJjF5wvgSHM8BFl5YG/Pzip6M+928Vr3pxTG0kxpI/eS+7mfTD81
-	diGUKwFt/Fk/y0Ox3zFPXpDKVFtMKa6Ra7oEIA2uDKoFbG0YeYpCwEifXoAPyEDLTmZ3
-	arKxJE093urYM11fH/59FMYdeGjmPxhDuK9lMSphlAK+QOfnEpXEfK4RqX2TEHwXhRG8
-	pcGBe8B3wE3ZkVFrbJIW2MrnMV3duTPQ/yjabeceTv+fkUYTfaKcJqtoKu3QK19RNC5s
-	ZLABSeYN4Y03YCpGqlTnYssUl8Lmrqi7DWvf5zNih+u4diferHH4vGCs9geKABhHW6mJ
-	brMg==
-X-Gm-Message-State: ABuFfogB5nvJb/p6ORihY+41i7Va8w3o6Drb1JREDlsjvTKF0rd/lZY0
-	ZjjZrVrEtJ25bpQqT55Ws+HW7A==
-X-Google-Smtp-Source: ACcGV62cFiNcnSkfWeyQ5ytSxbV7BULnxAbVozjU2QQL3FjKSWhQDYoOQEfjk1uXDYtKBBvpSEeGiQ==
-X-Received: by 2002:a1c:7c16:: with SMTP id
-	x22-v6mr1934706wmc.16.1538583225299; 
-	Wed, 03 Oct 2018 09:13:45 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	a105-v6sm3688301wrc.23.2018.10.03.09.13.43
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 03 Oct 2018 09:13:44 -0700 (PDT)
-Message-ID: <d30408c2c0f343fd1bbaaef8006820bfb6b7c686.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Paulo Neves <ptsneves@gmail.com>
-Date: Wed, 03 Oct 2018 17:13:42 +0100
-In-Reply-To: <CAJO0J4gkXiv++K+aTHJF2O_Hq8MFDKPCpy+vWz6Ym1ZrLY00Bw@mail.gmail.com>
-References: <1535651376-25467-1-git-send-email-ptsneves@gmail.com>
-	<1535651376-25467-4-git-send-email-ptsneves@gmail.com>
-	<a4268dca5b5db6759cce2f089f5065708112082d.camel@linuxfoundation.org>
-	<CAJO0J4gkXiv++K+aTHJF2O_Hq8MFDKPCpy+vWz6Ym1ZrLY00Bw@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH v2 4/4] testimage: Moved write_image_test_data to testimage bbclass.
+	Wed,  3 Oct 2018 17:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=2131; q=dns/txt; s=iport;
+	t=1538587944; x=1539797544;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-transfer-encoding:mime-version;
+	bh=pDeOh+9h66gEQFJKReeXGPEmI7uXXtoMgTTGF3NC3B8=;
+	b=Iynd5MyNpg8V9XWZ9OP+sVyi0EBcaJJfnOfGwhucTRqCgfD/X/FtAlCR
+	RzBZowaLmFkqtHvITgwbpfBmnR1uYz5R0ztNJwDBj+szC32Dwo+6ybiUp
+	hYPodS7oRaxG3ni7CDC3pvYHdK592K9Nv6SBMSZLyJ2Zf6zIPX1S8MDfU Y=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AGAAAL+rRb/5RdJa1cGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAQGBUYIOZn8oCot/jiiER5IVgXoLG4RRAoQgITQYAQMBAQI?=
+	=?us-ascii?q?BAQJtHAyFOAEBAQEDeRACAQgVAQslDyMlAgQBDQWDIoIBpn+KERSLDReBQT+?=
+	=?us-ascii?q?BEoMSgUEBgwU3hVgCiDEahg16jXsJAoZHiXUXgUpLhyKGKyyUfgIRFIElHTi?=
+	=?us-ascii?q?BVXAVgycJgiiJNoRtb4tIgS6BHwEB?=
+X-IronPort-AV: E=Sophos;i="5.54,336,1534809600"; d="scan'208";a="461080859"
+Received: from rcdn-core-12.cisco.com ([173.37.93.148])
+	by rcdn-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Oct 2018 17:22:47 +0000
+Received: from XCH-RCD-010.cisco.com (xch-rcd-010.cisco.com [173.37.102.20])
+	by rcdn-core-12.cisco.com (8.15.2/8.15.2) with ESMTPS id w93HMl8D029963
+	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
+	Wed, 3 Oct 2018 17:22:47 GMT
+Received: from xch-aln-009.cisco.com (173.36.7.19) by XCH-RCD-010.cisco.com
+	(173.37.102.20) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Wed, 3 Oct 2018 12:22:46 -0500
+Received: from xch-aln-009.cisco.com ([173.36.7.19]) by XCH-ALN-009.cisco.com
+	([173.36.7.19]) with mapi id 15.00.1395.000;
+	Wed, 3 Oct 2018 12:22:46 -0500
+From: "Grygorii Tertychnyi (gtertych)" <gtertych@cisco.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] lib/oe/utils: add eol to format_pkg_list()
+Thread-Index: AQHUWZ4MYR40pcr0H0uXLrRP+ZZXYaUN6fYA///c6Q4=
+Date: Wed, 3 Oct 2018 17:22:46 +0000
+Message-ID: <1538587366618.96980@cisco.com>
+References: <20181001154723.32161-1-gtertych@cisco.com>,
+	<6cb0ab6264c5d5b65759d18594c116ae01a8d801.camel@linuxfoundation.org>
+In-Reply-To: <6cb0ab6264c5d5b65759d18594c116ae01a8d801.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.61.167.90]
+MIME-Version: 1.0
+X-Outbound-SMTP-Client: 173.37.102.20, xch-rcd-010.cisco.com
+X-Outbound-Node: rcdn-core-12.cisco.com
+Cc: "xe-linux-external\(mailer list\)" <xe-linux-external@cisco.com>
+Subject: Re: [PATCH] lib/oe/utils: add eol to format_pkg_list()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,60 +69,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2018 16:13:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Oct 2018 17:32:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2018-10-02 at 10:19 +0200, Paulo Neves wrote:
-> Would assure you if it generated the test data on image creation
-> *and* on test task?
-
-No, it wouldn't.
-
-> If not please describe more or less how I could collect which
-> variables write_image_test_data depends upon. Just a high level
-> description would do.
-
-I thought testdata contained a filtered list of variable keys but it
-doesn't, its a complete dump of the data store with some variables
-"broken" by the removal of TOPDIR. My proposal was based on my thought
-that it was filtered so that won't work.
-
-> I have really been in a good spirit to get this topic merged but I do
-> not see a clear guidance for me to fix what was clearly broken.
-
-It is not clearly broken. Its broken in the way you're trying to use it
-and expect it to work.
-
-The usage of testdata is alongside the image that is built, they're a
-paired item. The image and the testdata go together. Either both are
-rebuilt together or they're not.
-
-Personally, I think testdata should get filtered to the list of
-variables the testing code really needs, not just a dump of every
-value.
-
-I thought the tests had markup to indicate which variables they needed
-for that reason, so a list of variables could be constructed. If we did
-that, this would allow us to rewrite the file (and rebuild the rootfs)
-when the values changed.
-
-> Actually the current code put there by intel should should be
-> reverted in my opinion, as it broke all the controllers besides
-> simpleremote and qemu.
-
-I would very much like to fix that and your other patches in this area
-are good. Unfortunately you change a lot in the patches in one go
-though and it was too difficult to review like that.
-
-If you were able to split those into smaller pieces that make one
-logical change/fix in each, that would help in getting those ones in at
-least.
-
-Improving the test coverage so that things don't get broken again would
-also be very helpful.
-
-Cheers,
-
-Richard
+From: Richard Purdie <richard.purdie@linuxfoundation.org>=0A=
+Sent: Wednesday, October 3, 2018 5:23 PM=0A=
+=0A=
+gt> Append '\n' to the formatted string before return. If you write it=0A=
+gt> to the (manifest) file, it will ensure file ends with a newline.=0A=
+gt>=0A=
+gt> Many GNU utilities have problems processing the last line of a file=0A=
+gt> if it is not '\n' terminated. E.g. if the last line is not terminated=
+=0A=
+gt> by a newline character, then "read" will read it but return false,=0A=
+gt> leaving the broken partial line in the read variable(s).=0A=
+gt> It can also break or adversely affect some text processing tools,=0A=
+gt> that operate on the file.=0A=
+gt>=0A=
+gt> Signed-off-by: grygorii tertychnyi <gtertych@cisco.com>=0A=
+gt> ---=0A=
+gt>  meta/lib/oe/utils.py | 2 +-=0A=
+gt>  1 file changed, 1 insertion(+), 1 deletion(-)=0A=
+=0A=
+RP> If you enable buildhistory (INHERIT +=3D 'buildhistory' in local.conf)=
+=0A=
+RP> and then "bitbake buildtools-tarball", you'll see:=0A=
+=0A=
+RP> | DEBUG: Python function buildhistory_list_installed_sdk_target finishe=
+d=0A=
+RP> | NOTE: Executing buildhistory_get_sdk_installed_target ...=0A=
+RP> | DEBUG: Executing shell function buildhistory_get_sdk_installed_target=
+=0A=
+RP> | basename: missing operand=0A=
+RP> | Try 'basename --help' for more information.=0A=
+RP> | WARNING: /home/pokybuild/yocto-worker/nightly-arm/build/build/tmp/wor=
+k/x86_64-nativesdk-pokysdk-linux/buildtools-tarball/1.0-r0/temp/run.buildhi=
+story_get_sdk_installed_target.13414:1 exit 123 from 'xargs -n1 basename > =
+$1/installed-packages.txt'=0A=
+RP> | DEBUG: Python function do_populate_sdk finished=0A=
+RP> | ERROR: Function failed: buildhistory_get_sdk_installed_target (log fi=
+le is located at /home/pokybuild/yocto-worker/nightly-arm/build/build/tmp/w=
+ork/x86_64-nativesdk-pokysdk-linux/buildtools-tarball/1.0-r0/temp/log.do_po=
+pulate_sdk.13414)=0A=
+=0A=
+RP> which is buildhistory choking on the blank line.=0A=
+=0A=
+chances are that we need to revert 98230d2d049c742c349f35b256b13afbc3d26235=
+=0A=
+to avoid empty lines=0A=
+let me check=0A=
 
