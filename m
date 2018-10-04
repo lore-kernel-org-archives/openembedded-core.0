@@ -1,25 +1,47 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id BA22574740
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 417E676060
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Oct 2018 10:42:16 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w94AgGHr008466
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Thu,  4 Oct 2018 10:43:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id D154F184D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Oct 2018 12:42:17 +0200
-Received: from dev.vm6.ccp.siemens.com ([163.242.50.201])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w94AgGBk023944;
-	Thu, 4 Oct 2018 12:42:16 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 7FF00997B1D;
-	Thu,  4 Oct 2018 12:42:16 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Thu,  4 Oct 2018 12:43:28 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id xaAXDhK0RWdu
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Oct 2018 12:43:28 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 3E4881831E
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Oct 2018 12:43:28 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2C3BC1A07D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Oct 2018 12:43:28 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2103B1A07C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Oct 2018 12:43:28 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Oct 2018 12:43:28 +0200 (CEST)
+Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
+	by thoth.se.axis.com (Postfix) with ESMTP id 150E52924
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Oct 2018 12:43:28 +0200 (CEST)
+Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
+	id 10AF2409D8; Thu,  4 Oct 2018 12:43:28 +0200 (CEST)
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Oct 2018 12:41:47 +0200
-Message-Id: <20181004104147.14644-1-andrej.valek@siemens.com>
+Date: Thu,  4 Oct 2018 12:43:28 +0200
+Message-Id: <20181004104328.24651-1-olani@axis.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] busybox: fix conflict with runlevel applet
+X-TM-AS-GCONF: 00
+Subject: [PATCH] externalsrc.bbclass: Set BB_DONT_CACHE for non-target recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,75 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2018 10:42:17 -0000
+X-List-Received-Date: Thu, 04 Oct 2018 10:43:28 -0000
 
-When CONFIG_RUNLEVEL is enabled, it conflicts with installed OE's script.
-Make grep quite for prevent to write information into logs.
+BB_DONT_CACHE was not set for non-virtual recipes where PN != BPN, such
+as quilt-native.  Recipes that do not set BBCLASSEXTEND should always
+have BB_DONT_CACHE set by externalsrc.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Ola x Nilsson <olani@axis.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ meta/classes/externalsrc.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index e1fba4243a..9c546927ab 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -279,32 +279,32 @@ do_install () {
- 		install -m 644 ${WORKDIR}/syslog-startup.conf ${D}${sysconfdir}/syslog-startup.conf
- 		install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf
- 	fi
--	if grep "CONFIG_CROND=y" ${B}/.config; then
-+	if grep -q "CONFIG_CROND=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/busybox-cron ${D}${sysconfdir}/init.d/
- 	fi
--	if grep "CONFIG_HTTPD=y" ${B}/.config; then
-+	if grep -q "CONFIG_HTTPD=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/busybox-httpd ${D}${sysconfdir}/init.d/
- 		install -d ${D}/srv/www
- 	fi
--	if grep "CONFIG_UDHCPD=y" ${B}/.config; then
-+	if grep -q "CONFIG_UDHCPD=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/busybox-udhcpd ${D}${sysconfdir}/init.d/
- 	fi
--	if grep "CONFIG_HWCLOCK=y" ${B}/.config; then
-+	if grep -q "CONFIG_HWCLOCK=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
- 	fi
--	if grep "CONFIG_UDHCPC=y" ${B}/.config; then
-+	if grep -q "CONFIG_UDHCPC=y" ${B}/.config; then
- 		install -d ${D}${sysconfdir}/udhcpc.d
- 		install -d ${D}${datadir}/udhcpc
- 		install -m 0755 ${WORKDIR}/simple.script ${D}${sysconfdir}/udhcpc.d/50default
- 		sed -i "s:/SBIN_DIR/:${base_sbindir}/:" ${D}${sysconfdir}/udhcpc.d/50default
- 		install -m 0755 ${WORKDIR}/default.script ${D}${datadir}/udhcpc/default.script
- 	fi
--	if grep "CONFIG_INETD=y" ${B}/.config; then
-+	if grep -q "CONFIG_INETD=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/inetd ${D}${sysconfdir}/init.d/inetd.${BPN}
- 		sed -i "s:/usr/sbin/:${sbindir}/:" ${D}${sysconfdir}/init.d/inetd.${BPN}
- 		install -m 0644 ${WORKDIR}/inetd.conf ${D}${sysconfdir}/
- 	fi
--        if grep "CONFIG_MDEV=y" ${B}/.config; then
-+        if grep -q "CONFIG_MDEV=y" ${B}/.config; then
-                install -m 0755 ${WORKDIR}/mdev ${D}${sysconfdir}/init.d/mdev
-                if grep "CONFIG_FEATURE_MDEV_CONF=y" ${B}/.config; then
-                        install -m 644 ${WORKDIR}/mdev.conf ${D}${sysconfdir}/mdev.conf
-@@ -313,10 +313,12 @@ do_install () {
-                        install -m 0755 ${WORKDIR}/mdev-mount.sh ${D}${sysconfdir}/mdev
-                fi
- 	fi
--        if grep "CONFIG_INIT=y" ${B}/.config; then
-+        if grep -q "CONFIG_INIT=y" ${B}/.config; then
-                 install -D -m 0777 ${WORKDIR}/rcS ${D}${sysconfdir}/init.d/rcS
-                 install -D -m 0777 ${WORKDIR}/rcK ${D}${sysconfdir}/init.d/rcK
--                install -D -m 0755 ${WORKDIR}/runlevel ${D}${base_sbindir}/runlevel
-+                if ! grep -q "CONFIG_RUNLEVEL=y" ${B}/.config; then
-+                        install -D -m 0755 ${WORKDIR}/runlevel ${D}${base_sbindir}/runlevel
-+                fi
-         fi
- 
-     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index ad87d85f78..3618b99a86 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -41,8 +41,8 @@ python () {
+     # re-parsed so that the file-checksums function for do_compile is run every
+     # time.
+     bpn = d.getVar('BPN')
+-    if bpn == d.getVar('PN'):
+-        classextend = (d.getVar('BBCLASSEXTEND') or '').split()
++    classextend = (d.getVar('BBCLASSEXTEND') or '').split()
++    if bpn == d.getVar('PN') or not classextend:
+         if (externalsrc or
+                 ('native' in classextend and
+                  d.getVar('EXTERNALSRC_pn-%s-native' % bpn)) or
 -- 
 2.11.0
 
