@@ -1,49 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 550FA79A3B
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C5A76751D2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Oct 2018 22:57:25 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id 84-v6so6850120qkf.0
+	Thu,  4 Oct 2018 23:03:43 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id u34-v6so11919351qth.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Oct 2018 15:57:26 -0700 (PDT)
+	Thu, 04 Oct 2018 16:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=fqNWTq5xpAnkOKoxEb2mmmgnLBulreY9k3Q+A7P9I+s=;
-	b=WWr9HTU5rYzgTRHX5362Q3P2Aq4M9SU5RwgjIGGc+b9uBrzYkLNQWacGFqMCvPUc75
-	Kjhk1qRS4if9XTTl/K1TkgK3XoBkZiiDOGxcYCWmDEN3FcMpSx4bIJLocN9jGCUA8pIT
-	v9eCfK9mytGOt52OoqdOGq4ZBrYGFoyrBxzru5mypDXfPmErj9YFBPunHSyqxFFpW7MK
-	gmAO1vLxIN8j6SOLPgmkafyzny4GWclKIXxr7iYk1H2CpgJxUGH69b7kVIfHfmkltz3i
-	k2tnpynmfwDY3o7hZKvweOFm6rjcN9EkuNgB3Dm0ujPrk7nHrpOd6TTzpMFtJ97OzLEd
-	A4EA==
+	:cc; bh=ODoDE8qNcllk5HHzeLVq/XJ79IaTsR/rsI0X4b23tg0=;
+	b=DQzhIKb9B7e9Zf4Y0+BNkGJ9XJD8sA3/tdgMGZqT9V84F5H2Xazm7tQV/GL5Geuk0P
+	PRQRDI50a9iemhVmawcU6g0NATbU7ctO8ZkMrANWJBU60X65Va7dnyF2ZoLONMl2SwCy
+	O2itVWxd109bhH+drxPof5fibFvH9H660vasdgs6y5oT6tHmaeGgt3pTnUSOnWcw682D
+	fGw7QaqZ4E1i0sqdVkJkseyudX76zNAl1Zb2dfKuXSTtujz6UtlNfTAJVONRJojaUrs4
+	YrTYVWRlcG6OnqH7lahSKfTKz6XCYre4MStsiQpffoEIuIFMitytlZBFD+ahqzdy8wkm
+	48lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=fqNWTq5xpAnkOKoxEb2mmmgnLBulreY9k3Q+A7P9I+s=;
-	b=Rr800di8BwaKKYoh9MLx47RVPS0x3+WlV5t3EwdZeuOIa/dgpZRJVE31KnV+1OeRYl
-	Oi8Dmby4+Eo6BWMBO4ZZFZugyd7xEIdSYoIPR5TDzIOqQZLLB6rLIrHdxZKgqqZl2jUA
-	2IprzHaaSZpKzSMq0u2JPEkGGdoLAUkXxWu4o/jf/5B1QlMU7koerUhBrOQnp7FgWES8
-	c0GTGFvnzZRFMKFh2XQBOTfeDcvtLz6jRDd0k4EOzfi1oDeKCb86b6LjX6fQkwjeHCRn
-	oFYHXy/mBiHutT/HSB2AU6bNTufJMqMR+ZbSE+8qzVucl+9MNe3IT9TKgUMk6ATxyHFe
-	0XVg==
-X-Gm-Message-State: ABuFfohs8jplJoCT3E0JJkVz3ZT9gGlaHjVhyDn+Gl4aM3tuTHvaLo8W
-	S8lm58WE8BVG0bqjw45BVsyFkSB3GKrcDra38Xw=
-X-Google-Smtp-Source: ACcGV60MR8AcvSSyIkrWPrUbljFy8JGF9P0W9sEQS/ubknXlAfZWZUlMcz9bTo5TCsJgjhwyetIjt+slEiAkJOFdvBc=
-X-Received: by 2002:a37:655:: with SMTP id 82-v6mr6911014qkg.223.1538693845948;
-	Thu, 04 Oct 2018 15:57:25 -0700 (PDT)
+	bh=ODoDE8qNcllk5HHzeLVq/XJ79IaTsR/rsI0X4b23tg0=;
+	b=V/guFFCDL7DuYiPqohOKznfF4sTVB03C1PbZINZQd86kgBZsl1es5zBK+z/eWhyU8W
+	AeHXAFVb4YYKvzEL297XVY/oMqCYfLUEDAw34U2j232ycLG1qXRV6abV3g9u0CLUNofD
+	ZdzsNsNGRpxFYzZP7cbGk58qwDj6PL76bHQ/u9sfAIlv1KUg+tQ7mXQUCu4zRxLNVD4d
+	C6j1MbCQ1t/Tk5eMnfR6e56leEeXMpREQTIXhXDUUozaBWlHv0collKV74HocX2sxfMc
+	hNA6aigKyxynBfENU8lMgXPkxjQ/ljT/xMf1EccwMhnhqVNxyQpNXWw2ewV+/VVAb3gA
+	EOnw==
+X-Gm-Message-State: ABuFfoispI011+4OdW9DkJTKn3J0g+KgxHblVp27HUSkM9hWI5gb3BaK
+	ILtxUVh+TigeqCUKTJk4Nr7S4ZVjJHazonGtZR4=
+X-Google-Smtp-Source: ACcGV61mFFkFczSYHJ5RJWRdNK2dXdfHvcSjMWEj7zlYcDw+atfw9ay71tuOXkjOpd+WLhc6OzaZSvFFLJptUyXV5yg=
+X-Received: by 2002:a0c:9c42:: with SMTP id
+	w2-v6mr7257121qve.194.1538694224550; 
+	Thu, 04 Oct 2018 16:03:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181004132953.3568-1-angelo@sysam.it>
-	<20181004132953.3568-4-angelo@sysam.it>
-	<1ff9c0ececb825b383c89508e5033cf0f94e3f1b.camel@linuxfoundation.org>
-In-Reply-To: <1ff9c0ececb825b383c89508e5033cf0f94e3f1b.camel@linuxfoundation.org>
+References: <20181004152419.27370-1-pascal.bach@siemens.com>
+In-Reply-To: <20181004152419.27370-1-pascal.bach@siemens.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 4 Oct 2018 15:56:59 -0700
-Message-ID: <CAMKF1souwoj9qvR1Pbad0r1u6G5UrUpSy20rWQiBixOzyNT-+Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 4 Oct 2018 16:03:17 -0700
+Message-ID: <CAMKF1soAsTH6VFg9rE0rPRLoFQ16KdVxyU4xTGapArJgO-WxAQ@mail.gmail.com>
+To: Pascal Bach <pascal.bach@siemens.com>
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, angelo@sysam.it
-Subject: Re: [PATCH 3/4] conf/machine/include: add m68k architecture definitions
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] piglit: correctly find wayland include dirs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +55,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2018 22:57:25 -0000
+X-List-Received-Date: Thu, 04 Oct 2018 23:03:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Oct 4, 2018 at 3:03 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Thu, Oct 4, 2018 at 8:24 AM Pascal Bach <pascal.bach@siemens.com> wrote:
 >
-> On Thu, 2018-10-04 at 15:29 +0200, Angelo Dureghello wrote:
-> > Signed-off-by: Angelo Dureghello <angelo@sysam.it>
-> > ---
-> >  meta/conf/machine/include/m68k/README        | 9 +++++++++
-> >  meta/conf/machine/include/m68k/arch-m68k.inc | 8 ++++++++
-> >  2 files changed, 17 insertions(+)
-> >  create mode 100644 meta/conf/machine/include/m68k/README
-> >  create mode 100644 meta/conf/machine/include/m68k/arch-m68k.inc
+> Builds include host /usr/include as the wrong wayland variable was used.
+> The issue only surfaces if CMAKE_SYSROOT is properly set.
 >
-> I'm going to queue these even though its late in the cycle. I removed
-> the README from the patch though since I didn't think it was adding
-> much value.
 
-this series should be harmless so including it is ok I believe.
 
+this seems fine
+
+> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+> ---
+>  ...-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch | 32 ++++++++++++++++++++++
+>  meta/recipes-graphics/piglit/piglit_git.bb         |  1 +
+>  2 files changed, 33 insertions(+)
+>  create mode 100644 meta/recipes-graphics/piglit/piglit/0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
 >
-> Cheers,
+> diff --git a/meta/recipes-graphics/piglit/piglit/0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch b/meta/recipes-graphics/piglit/piglit/0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+> new file mode 100644
+> index 0000000000..5d6ec368ba
+> --- /dev/null
+> +++ b/meta/recipes-graphics/piglit/piglit/0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+> @@ -0,0 +1,32 @@
+> +From 3bf1beee1ddd19bc536ff2856e04ac269d43daa2 Mon Sep 17 00:00:00 2001
+> +From: Pascal Bach <pascal.bach@siemens.com>
+> +Date: Thu, 4 Oct 2018 14:43:17 +0200
+> +Subject: [PATCH] cmake: use proper WAYLAND_INCLUDE_DIRS variable
+> +
+> +WAYLAND_wayland-client_INCLUDEDIR is an internal variable and is not correctly
+> +set when cross compiling. WAYLAND_INCLUDE_DIRS includes the correct path even
+> +when cross compiling.
+> +
+> +Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+> +
+> +Upstream-Status: Submitted [piglit@lists.freedesktop.org]
+> +---
+> + tests/util/CMakeLists.txt | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/tests/util/CMakeLists.txt b/tests/util/CMakeLists.txt
+> +index a5f080156..a303a9f58 100644
+> +--- a/tests/util/CMakeLists.txt
+> ++++ b/tests/util/CMakeLists.txt
+> +@@ -97,7 +97,7 @@ if(PIGLIT_USE_WAFFLE)
+> +                       piglit-framework-gl/piglit_wl_framework.c
+> +               )
+> +               list(APPEND UTIL_GL_INCLUDES
+> +-                      ${WAYLAND_wayland-client_INCLUDEDIR}
+> ++                      ${WAYLAND_INCLUDE_DIRS}
+> +               )
+> +       endif()
+> +       if(PIGLIT_HAS_X11)
+> +--
+> +2.11.0
+> +
+> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+> index df810a33b4..3292d4cad0 100644
+> --- a/meta/recipes-graphics/piglit/piglit_git.bb
+> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
+> @@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+>  SRC_URI = "git://anongit.freedesktop.org/piglit \
+>             file://0001-cmake-install-bash-completions-in-the-right-place.patch \
+>             file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
+> +           file://0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
+>             "
+>  UPSTREAM_CHECK_COMMITS = "1"
 >
-> Richard
+> --
+> 2.11.0
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
