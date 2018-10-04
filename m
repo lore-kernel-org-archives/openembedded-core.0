@@ -1,25 +1,23 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 276C07503E
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0886278A99
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Oct 2018 06:40:31 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w946eWl1023069
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Oct 2018 08:40:32 +0200
-Received: from dev.vm6.ccp.siemens.com ([163.242.50.201])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w946eWbw011083;
-	Thu, 4 Oct 2018 08:40:32 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id DF254997B1D;
-	Thu,  4 Oct 2018 08:40:30 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Thu,  4 Oct 2018 06:56:30 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Oct 2018 23:56:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,338,1534834800"; d="scan'208";a="262748593"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.21.255])
+	by orsmga005.jf.intel.com with ESMTP; 03 Oct 2018 23:56:30 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Oct 2018 08:40:04 +0200
-Message-Id: <20181004064004.4633-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] populate_sdk_base: move template files location to variables
+Date: Thu,  4 Oct 2018 14:56:28 +0800
+Message-Id: <20181004065628.14388-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] e2fsprogs: add bzip2 to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +30,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2018 06:40:32 -0000
+X-List-Received-Date: Thu, 04 Oct 2018 06:56:31 -0000
 
-Let users to use custom toolchain template files instead of overloading
-the whole function.
+A lot of tests in e2fsprogs-ptest package expect bzip2 to be present.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/populate_sdk_base.bbclass | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index e07ad0cc6b..d9a391c613 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -228,14 +228,17 @@ fakeroot tar_sdk() {
- 	tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
- }
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
+index d7391ee6df..823d18bc3f 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
+@@ -112,7 +112,7 @@ ALTERNATIVE_LINK_NAME[mkfs.ext2] = "${base_sbindir}/mkfs.ext2"
+ ALTERNATIVE_${PN}-tune2fs = "tune2fs"
+ ALTERNATIVE_LINK_NAME[tune2fs] = "${base_sbindir}/tune2fs"
  
-+TOOLCHAIN_SHAR_EXT_TMPL ?= "${COREBASE}/meta/files/toolchain-shar-extract.sh"
-+TOOLCHAIN_SHAR_REL_TMPL ?= "${COREBASE}/meta/files/toolchain-shar-relocate.sh"
-+
- fakeroot create_shar() {
- 	# copy in the template shar extractor script
--	cp ${COREBASE}/meta/files/toolchain-shar-extract.sh ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
-+	cp ${TOOLCHAIN_SHAR_EXT_TMPL} ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
+-RDEPENDS_${PN}-ptest += "${PN} ${PN}-tune2fs coreutils procps bash"
++RDEPENDS_${PN}-ptest += "${PN} ${PN}-tune2fs coreutils procps bash bzip2"
  
- 	rm -f ${T}/pre_install_command ${T}/post_install_command
- 
- 	if [ ${SDK_RELOCATE_AFTER_INSTALL} -eq 1 ] ; then
--		cp ${COREBASE}/meta/files/toolchain-shar-relocate.sh ${T}/post_install_command
-+		cp ${TOOLCHAIN_SHAR_REL_TMPL} ${T}/post_install_command
- 	fi
- 	cat << "EOF" >> ${T}/pre_install_command
- ${SDK_PRE_INSTALL_COMMAND}
-@@ -299,8 +302,8 @@ def sdk_variables(d):
- 
- do_populate_sdk[vardeps] += "${@sdk_variables(d)}"
- 
--do_populate_sdk[file-checksums] += "${COREBASE}/meta/files/toolchain-shar-relocate.sh:True \
--                                    ${COREBASE}/meta/files/toolchain-shar-extract.sh:True"
-+do_populate_sdk[file-checksums] += "${TOOLCHAIN_SHAR_REL_TMPL}:True \
-+                                    ${TOOLCHAIN_SHAR_EXT_TMPL}:True"
- 
- do_populate_sdk[dirs] = "${PKGDATA_DIR} ${TOPDIR}"
- do_populate_sdk[depends] += "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_DEPENDS').split()])}  ${@d.getVarFlag('do_rootfs', 'depends', False)}"
+ do_compile_ptest() {
+ 	oe_runmake -C ${B}/tests
 -- 
-2.11.0
+2.17.1
 
 
