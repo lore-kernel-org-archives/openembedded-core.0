@@ -1,48 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
-	[209.85.167.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AB8174AEB
+Return-Path: <maksym.kokhan@globallogic.com>
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+	[209.85.208.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BF79793ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Oct 2018 13:55:48 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id l197-v6so7522255oib.8
+	Thu,  4 Oct 2018 13:59:08 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id v6-v6so8452513ljc.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Oct 2018 06:55:49 -0700 (PDT)
+	Thu, 04 Oct 2018 06:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9KM8lNKIJ9/kA+hyAqpott0RgdsiRePofHPEM3C6RLg=;
-	b=RCakuLoSxERdBCwxg7Lv5JDkvcywFVEqhSJeqTbRx9zZgPjaxjsZeVwoSmQZHAU79H
-	hnpmUwipCvwpj3eIYBCUJx4uqNav3s6KPglAxsRvmshIvaKv8kHIiSgYRIwELN6eg0iH
-	EMz7mHVEMo53ABI+w4M2XVrNm66PCBiWI1mlal5nGC4fZQ63lALf6HwjsZaliPZ4Kjtx
-	6DGR82bFidgX+/nt2TV0shVqfEHS6Y9Zba8ZlUzhPvyO4DMh0812cUs/uZ+crAk7N3xO
-	Q+7nuDy3/aB2cQKoAFNdm7DfDWRTj+8D1OOSdTL4tmrcbz5eC9XiYQ+rbw/qJF9FpTI8
-	N6HQ==
+	d=globallogic.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=KzRyajSPWGmNBl7d8XHZ7JZesMotQsGpGz43WCGYKGI=;
+	b=I3XJ0q+Zx4Dm3UpULEF41XkAuHQ8ZmXdAO4ZVyLICOfKbYhfi9qBJeXlyeutMFkTLo
+	4xMcX6ZeYcWoF1KwevPhBBejjudkGPQDvcWiZMgbghybZyRhULHZ2Nls6Md87kyeknUb
+	nvBm2bRozQgNMIqJoj4tlcogCjJxwbRlqGZOc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9KM8lNKIJ9/kA+hyAqpott0RgdsiRePofHPEM3C6RLg=;
-	b=tyzjpTKfieNVkt3DQ+4gfrjbrPxUTTRZNxU5VX91IaDUEXDuIomzRjMc8vSLw7oZp3
-	sEHtpG1mx3+gerT1QYSxPz+kT/9B+D238dQWkMph9ySkryjpUIYTXZa2oFnJ/VZXztuS
-	9cIQqdSdATrXHn6LKIQKasjvy6p/DSL4n2H3qo8hOTXRT7Nfnh/OMVtZoK7EbOO2mdzj
-	MYEd6mj6zNxOaV6I5vjq/yEZh4JkrpBpYX6TZ34ongQt+HIJAACNUB8XSmXke7o0CUrV
-	KbA5uHwml9enapbvUp2WiWT5sYCxrMjA9kiSbYuumQOerMNVgnTClw/U5d5mFuhcbVr2
-	QiWg==
-X-Gm-Message-State: ABuFfoiZNI2uf8ibC1W1cBJsFti/dBuYmiCeI4fzHQ2UtuVQMqV0YLBp
-	Go960SVdE2VUrxI3UHEkCOwoTg+xgtILXNpE6AW/IdOT
-X-Google-Smtp-Source: ACcGV62ZOpxTMUgMVQOAOgqge88FgttHvcwm84gm2GP+KuEv5l3WEi2u0kHVlw4642V0BArfBBEpUrccdDNPjyT7dwI=
-X-Received: by 2002:aca:685b:: with SMTP id
-	d88-v6mr2976388oic.103.1538661349313; 
-	Thu, 04 Oct 2018 06:55:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181004132953.3568-1-angelo@sysam.it>
-In-Reply-To: <20181004132953.3568-1-angelo@sysam.it>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Oct 2018 14:55:37 +0100
-Message-ID: <CAJTo0LakckQ+=uGaP9Nf-Mg4i53=7w4FsuhGY7bC1Tv3t7HNSQ@mail.gmail.com>
-To: angelo@sysam.it
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: (No subject)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=KzRyajSPWGmNBl7d8XHZ7JZesMotQsGpGz43WCGYKGI=;
+	b=Xa3+smKTm0QJ3KNeCEEIzwDe0WOg8QeOL6dW2ujWMyeXpEPurp10eu1RBjWqvAAKge
+	dc1/DKiG8S1fOhiyhfR7BT7D9JX6kJAXjQ57A8krucfaj2kUgR+gJJnpCk1AWx6VgzFK
+	+GM0Je0lgpXas2aMpv0bT30mLOurguEW6BxkOOhFW3ApkENqinBNTfWHFVyIoUw6S1Mu
+	GEd2OWfusd3GDcG89H84MEL2EajALdZPCfBL+P/MbX2wjTyX7ggn/le01gxhtUDJFEP5
+	7cAazSEDMBoyFNFaJ+GE35YVBuDbpvbPyxtZnyPvcgOB42Khxtrp3XSBIjJc59MdR/yI
+	g3WA==
+X-Gm-Message-State: ABuFfohpG++ITYUYZWUtYqct0KVXeBDZ0tE7LQhmu1PEG2UApudnPk1A
+	W5KWDTCZezwUePjcwNpvGAxv1sdYrb4=
+X-Google-Smtp-Source: ACcGV63nlQQoBZIDa94hVY3MVopXlb4e4DxfJ5Gy21+9TnxVGSeJj4SXK/VFksr1+xFHst07hO3USg==
+X-Received: by 2002:a2e:7a19:: with SMTP id
+	v25-v6mr4632127ljc.147.1538661548806; 
+	Thu, 04 Oct 2018 06:59:08 -0700 (PDT)
+Received: from kbp1-lhp-f55466.synapse.com ([195.238.92.77])
+	by smtp.gmail.com with ESMTPSA id
+	q85-v6sm1047686lfg.20.2018.10.04.06.59.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 04 Oct 2018 06:59:08 -0700 (PDT)
+From: Maksym Kokhan <maksym.kokhan@globallogic.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Oct 2018 16:59:01 +0300
+Message-Id: <1538661541-20882-1-git-send-email-maksym.kokhan@globallogic.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ruslan Bilovol <ruslan.bilovol@globallogic.com>,
+	Andrii Bordunov <andrii.bordunov@globallogic.com>,
+	Maksym Kokhan <maksym.kokhan@globallogic.com>
+Subject: [PATCH] libusb: ptest: don't skip debug output and fix failures processing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,23 +56,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2018 13:55:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 04 Oct 2018 13:59:08 -0000
 
-I'm curious: the data sheet for the processor you mention in 4/4 says
-that it ha 64K of RAM.  Are there other processors in the range, or
-have you done incredible things?
+Current run-ptest script prints nothing, when stress tests fail.
+Fix it in new implementation, discarding external dependency on sed.
+Also leave in place all stress output, just add standard ptest result.
 
-Ross
-On Thu, 4 Oct 2018 at 14:30, Angelo Dureghello <angelo@sysam.it> wrote:
->
->
-> This patch serie adds initial support for m68k architecture.
-> A Linux kernel build has been tested successfully using a local
-> meta layer, or kernel-yocto.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Fixes: 3f0106bf2e41 ("libusb: Add ptest")
+Signed-off-by: Maksym Kokhan <maksym.kokhan@globallogic.com>
+Reviewed-by: Andrii Bordunov <andrii.bordunov@globallogic.com>
+---
+ meta/recipes-support/libusb/libusb1/run-ptest | 32 +++++++++++++++++++--------
+ 1 file changed, 23 insertions(+), 9 deletions(-)
+
+diff --git a/meta/recipes-support/libusb/libusb1/run-ptest b/meta/recipes-support/libusb/libusb1/run-ptest
+index 646a966..eaa47a2 100755
+--- a/meta/recipes-support/libusb/libusb1/run-ptest
++++ b/meta/recipes-support/libusb/libusb1/run-ptest
+@@ -4,12 +4,26 @@ echo
+ echo "---------------------------- libusb1 tests ---------------------------"
+ echo
+ 
+-./stress | tr '\n' ' '  | \
+-sed 's/Starting test run: \([a-zA-Z_]*\)\.\.\. \([a-zA-Z_]*\) (.) /\2 \1\n/g' | \
+-sed '$d' | \
+-sed '{
+-	s/^Success/PASS:/g
+-	s/^Failure/FAIL:/g
+-	s/^Error/FAIL:/g
+-	s/^Skip/SKIP:/g
+-}' 
++./stress | { \
++while read -r str
++do
++	echo "$str"
++	if [ "${str#*Starting test run:}" != "$str" ]
++	then
++		name="${str#Starting test run: }"
++		name="${name%...}"
++	else
++		case "$str" in
++			"Success (0)")
++				echo "PASS: $name"
++			;;
++			"Failure (1)" | "Error (2)")
++				echo "FAIL: $name"
++			;;
++			"Skip (3)")
++				echo "SKIP: $name"
++			;;
++		esac
++	fi
++done
++}
+-- 
+2.7.4
+
 
