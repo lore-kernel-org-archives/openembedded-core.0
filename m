@@ -1,50 +1,53 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id EC4A77944A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+	[209.85.221.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E336D74A13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Oct 2018 10:59:38 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w94Axcsj032523
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Thu, 4 Oct 2018 12:59:38 +0200
-Received: from [192.168.253.100] ([163.242.50.201])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id w94Axcxm024799;
-	Thu, 4 Oct 2018 12:59:38 +0200
-To: Martin Jansa <martin.jansa@gmail.com>
+	Thu,  4 Oct 2018 11:27:54 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id y16so9516979wrw.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Oct 2018 04:27:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=aq+sqeRISz0gmPJbeZDm34IY43vbgLbvMTy9zIAIc+U=;
+	b=PRsJrDMTayXAEuZnin5iu7P/Dp1VL36yvJunZx08ETy9T4RJMvpWDoaNfkWwKoEdpc
+	7Hhh4IhgfW3ub5bCH6RYyoFQ67FAXrFolXp0O9i4y4kLCbSs3B/QgIPcB0bQS0G1JVrh
+	bvHvv6Zl2s9Q7SroHcmhNyHsUOTrkUhKvsmKRkp4756hlFW1fxYwABAO9XXi93zzuZyv
+	6fO3gWXbWa7wNgMaDEaJlHHCrY/VxRp0WQu7KUmu+iyH0g1gyeyiJjSLTSeaDLFvyJbt
+	OCotVO2z+r3EDzQxIYrQLpcbaG/aPvadCztWMEZZF9w4Es3iQZfW/XHOUtIcRuts8iQb
+	wQLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=aq+sqeRISz0gmPJbeZDm34IY43vbgLbvMTy9zIAIc+U=;
+	b=DgpgoWaFtssf17L+aChmUCCXFGhG63/+jspxEf7tBKiRu6DDCGXUs/ZmMM7C0s/ilZ
+	rXXJIKHngjxQvky8qbXeeT4Q39N4l4EV7mx3HZn0jNN2WQWQq4HW/v1gmMtpQ7eYyvI6
+	LKKQvzjJFiIBZFAipbaKaemHyY8k1ijCwXEZuiAVzhv7EF6U8JnHaLK1qT4RqnsvJvkt
+	RlswT3gwYiXhAyu4ulcc0jLCvDQibLApsIojjgHSgfHzktdXIEkpGaJn3ZoOexEZmXjO
+	j2V+ttozuqYtAhumkEdyahp0Wg19lurINu7vP+0dy7mPtCd4VA7qpmHBroTXbYxcSt7m
+	4PJA==
+X-Gm-Message-State: ABuFfoi9RZPG3kPHkwa123Xkamgsv71yHt1WZh/knNU2qccSu2XW6aKg
+	jfO7qCFOqS9r8YRmR0eEWo0z/mMV
+X-Google-Smtp-Source: ACcGV638YP/IHVhh2mRUgXf8NFxSgE4Woj+bzSyTJUH/5T/Umca5XLaLqUcTfUKWZ6Ph/fX3X7z5CA==
+X-Received: by 2002:adf:80c7:: with SMTP id 65-v6mr4434803wrl.57.1538652475441;
+	Thu, 04 Oct 2018 04:27:55 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	w4-v6sm7628669wra.83.2018.10.04.04.27.53
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 04 Oct 2018 04:27:54 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 4 Oct 2018 13:27:55 +0200
+To: Andrej Valek <andrej.valek@siemens.com>
+Message-ID: <20181004112755.GA1356@jama>
 References: <20181004104147.14644-1-andrej.valek@siemens.com>
 	<CA+chaQfiSfhTgs2aJhgy3wNF5nMjiy2AsnGjYMepgk5vaaHjEA@mail.gmail.com>
-From: Andrej Valek <andrej.valek@siemens.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
-	xsBNBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
-	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
-	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
-	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
-	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
-	AAHNJ0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPsLAfgQTAQIAKAUC
-	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
-	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
-	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
-	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
-	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
-	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO587ATQRZEs03AQgA0oCu
-	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
-	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
-	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
-	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
-	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABwsBlBBgBAgAPBQJZ
-	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
-	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
-	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
-	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
-	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
-	emYHzsJ3+vLapH+kAEI=
-Message-ID: <976efb5d-cd95-31ae-bad0-b3f5073eab55@siemens.com>
-Date: Thu, 4 Oct 2018 12:59:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.0
+	<976efb5d-cd95-31ae-bad0-b3f5073eab55@siemens.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQfiSfhTgs2aJhgy3wNF5nMjiy2AsnGjYMepgk5vaaHjEA@mail.gmail.com>
+In-Reply-To: <976efb5d-cd95-31ae-bad0-b3f5073eab55@siemens.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] busybox: fix conflict with runlevel applet
@@ -60,121 +63,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2018 10:59:39 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Oct 2018 11:27:55 -0000
+X-Groupsio-MsgNum: 117000
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
+Content-Disposition: inline
 
-This init feature was introduced via
-http://lists.openembedded.org/pipermail/openembedded-core/2016-January/116109.html
-which is from 2016. Busybox has this runlevel applet available from 2005.
+--rwEMma7ioTxnRzrJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think, Raj was trying to make this system really tiny. So, I am not
-sure, what would be the impact, if we dropped this runlevel script.
+On Thu, Oct 04, 2018 at 12:59:37PM +0200, Andrej Valek wrote:
+> This init feature was introduced via
+> http://lists.openembedded.org/pipermail/openembedded-core/2016-January/11=
+6109.html
+> which is from 2016. Busybox has this runlevel applet available from 2005.
+>=20
+> I think, Raj was trying to make this system really tiny. So, I am not
+> sure, what would be the impact, if we dropped this runlevel script.
 
-Regards,
-Andrej
+OK, fair enough. I don't use busybox init anyway.
 
-On 10/4/18 12:48 PM, Martin Jansa wrote:
-> I'm not against this change, but would it make sense to enable runlevel applet in:
-> meta/recipes-core/busybox/busybox/init.cfg
-> and drop the runlevel shell script completely?
-> 
-> On Thu, Oct 4, 2018 at 12:42 PM Andrej Valek <andrej.valek@siemens.com 
-> <mailto:andrej.valek@siemens.com>> wrote:
-> 
->     When CONFIG_RUNLEVEL is enabled, it conflicts with installed OE's script.
->     Make grep quite for prevent to write information into logs.
-> 
->     Signed-off-by: Andrej Valek <andrej.valek@siemens.com
->     <mailto:andrej.valek@siemens.com>>
->     ---
->       meta/recipes-core/busybox/busybox.inc | 20 +++++++++++---------
->       1 file changed, 11 insertions(+), 9 deletions(-)
-> 
->     diff --git a/meta/recipes-core/busybox/busybox.inc
->     b/meta/recipes-core/busybox/busybox.inc
->     index e1fba4243a..9c546927ab 100644
->     --- a/meta/recipes-core/busybox/busybox.inc
->     +++ b/meta/recipes-core/busybox/busybox.inc
->     @@ -279,32 +279,32 @@ do_install () {
->                      install -m 644 ${WORKDIR}/syslog-startup.conf
->     ${D}${sysconfdir}/syslog-startup.conf
->                      install -m 644 ${WORKDIR}/syslog.conf
->     ${D}${sysconfdir}/syslog.conf
->              fi
->     -       if grep "CONFIG_CROND=y" ${B}/.config; then
->     +       if grep -q "CONFIG_CROND=y" ${B}/.config; then
->                      install -m 0755 ${WORKDIR}/busybox-cron
->     ${D}${sysconfdir}/init.d/
->              fi
->     -       if grep "CONFIG_HTTPD=y" ${B}/.config; then
->     +       if grep -q "CONFIG_HTTPD=y" ${B}/.config; then
->                      install -m 0755 ${WORKDIR}/busybox-httpd
->     ${D}${sysconfdir}/init.d/
->                      install -d ${D}/srv/www
->              fi
->     -       if grep "CONFIG_UDHCPD=y" ${B}/.config; then
->     +       if grep -q "CONFIG_UDHCPD=y" ${B}/.config; then
->                      install -m 0755 ${WORKDIR}/busybox-udhcpd
->     ${D}${sysconfdir}/init.d/
->              fi
->     -       if grep "CONFIG_HWCLOCK=y" ${B}/.config; then
->     +       if grep -q "CONFIG_HWCLOCK=y" ${B}/.config; then
->                      install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
->              fi
->     -       if grep "CONFIG_UDHCPC=y" ${B}/.config; then
->     +       if grep -q "CONFIG_UDHCPC=y" ${B}/.config; then
->                      install -d ${D}${sysconfdir}/udhcpc.d
->                      install -d ${D}${datadir}/udhcpc
->                      install -m 0755 ${WORKDIR}/simple.script
->     ${D}${sysconfdir}/udhcpc.d/50default
->                      sed -i "s:/SBIN_DIR/:${base_sbindir}/:"
->     ${D}${sysconfdir}/udhcpc.d/50default
->                      install -m 0755 ${WORKDIR}/default.script
->     ${D}${datadir}/udhcpc/default.script
->              fi
->     -       if grep "CONFIG_INETD=y" ${B}/.config; then
->     +       if grep -q "CONFIG_INETD=y" ${B}/.config; then
->                      install -m 0755 ${WORKDIR}/inetd
->     ${D}${sysconfdir}/init.d/inetd.${BPN}
->                      sed -i "s:/usr/sbin/:${sbindir}/:"
->     ${D}${sysconfdir}/init.d/inetd.${BPN}
->                      install -m 0644 ${WORKDIR}/inetd.conf ${D}${sysconfdir}/
->              fi
->     -        if grep "CONFIG_MDEV=y" ${B}/.config; then
->     +        if grep -q "CONFIG_MDEV=y" ${B}/.config; then
->                      install -m 0755 ${WORKDIR}/mdev ${D}${sysconfdir}/init.d/mdev
->                      if grep "CONFIG_FEATURE_MDEV_CONF=y" ${B}/.config; then
->                              install -m 644 ${WORKDIR}/mdev.conf
->     ${D}${sysconfdir}/mdev.conf
->     @@ -313,10 +313,12 @@ do_install () {
->                              install -m 0755 ${WORKDIR}/mdev-mount.sh
->     ${D}${sysconfdir}/mdev
->                      fi
->              fi
->     -        if grep "CONFIG_INIT=y" ${B}/.config; then
->     +        if grep -q "CONFIG_INIT=y" ${B}/.config; then
->                       install -D -m 0777 ${WORKDIR}/rcS ${D}${sysconfdir}/init.d/rcS
->                       install -D -m 0777 ${WORKDIR}/rcK ${D}${sysconfdir}/init.d/rcK
->     -                install -D -m 0755 ${WORKDIR}/runlevel
->     ${D}${base_sbindir}/runlevel
->     +                if ! grep -q "CONFIG_RUNLEVEL=y" ${B}/.config; then
->     +                        install -D -m 0755 ${WORKDIR}/runlevel
->     ${D}${base_sbindir}/runlevel
->     +                fi
->               fi
-> 
->           if
->     ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
->     -- 
->     2.11.0
-> 
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+I was just curious, because there is also runlevel from upstart which we we=
+re
+using (and I have u-a for runlevel in busybox.bbappend because of that).
+So I was surprised that there is actually 3rd implementation as OE
+specific shell script.
 
+> On 10/4/18 12:48 PM, Martin Jansa wrote:
+> > I'm not against this change, but would it make sense to enable runlevel=
+ applet in:
+> > meta/recipes-core/busybox/busybox/init.cfg
+> > and drop the runlevel shell script completely?
+> >=20
+> > On Thu, Oct 4, 2018 at 12:42 PM Andrej Valek <andrej.valek@siemens.com=
+=20
+> > <mailto:andrej.valek@siemens.com>> wrote:
+> >=20
+> >     When CONFIG_RUNLEVEL is enabled, it conflicts with installed OE's s=
+cript.
+> >     Make grep quite for prevent to write information into logs.
+> >=20
+> >     Signed-off-by: Andrej Valek <andrej.valek@siemens.com
+> >     <mailto:andrej.valek@siemens.com>>
+> >     ---
+> >       meta/recipes-core/busybox/busybox.inc | 20 +++++++++++---------
+> >       1 file changed, 11 insertions(+), 9 deletions(-)
+> >=20
+> >     diff --git a/meta/recipes-core/busybox/busybox.inc
+> >     b/meta/recipes-core/busybox/busybox.inc
+> >     index e1fba4243a..9c546927ab 100644
+> >     --- a/meta/recipes-core/busybox/busybox.inc
+> >     +++ b/meta/recipes-core/busybox/busybox.inc
+> >     @@ -279,32 +279,32 @@ do_install () {
+> >                      install -m 644 ${WORKDIR}/syslog-startup.conf
+> >     ${D}${sysconfdir}/syslog-startup.conf
+> >                      install -m 644 ${WORKDIR}/syslog.conf
+> >     ${D}${sysconfdir}/syslog.conf
+> >              fi
+> >     -       if grep "CONFIG_CROND=3Dy" ${B}/.config; then
+> >     +       if grep -q "CONFIG_CROND=3Dy" ${B}/.config; then
+> >                      install -m 0755 ${WORKDIR}/busybox-cron
+> >     ${D}${sysconfdir}/init.d/
+> >              fi
+> >     -       if grep "CONFIG_HTTPD=3Dy" ${B}/.config; then
+> >     +       if grep -q "CONFIG_HTTPD=3Dy" ${B}/.config; then
+> >                      install -m 0755 ${WORKDIR}/busybox-httpd
+> >     ${D}${sysconfdir}/init.d/
+> >                      install -d ${D}/srv/www
+> >              fi
+> >     -       if grep "CONFIG_UDHCPD=3Dy" ${B}/.config; then
+> >     +       if grep -q "CONFIG_UDHCPD=3Dy" ${B}/.config; then
+> >                      install -m 0755 ${WORKDIR}/busybox-udhcpd
+> >     ${D}${sysconfdir}/init.d/
+> >              fi
+> >     -       if grep "CONFIG_HWCLOCK=3Dy" ${B}/.config; then
+> >     +       if grep -q "CONFIG_HWCLOCK=3Dy" ${B}/.config; then
+> >                      install -m 0755 ${WORKDIR}/hwclock.sh ${D}${syscon=
+fdir}/init.d/
+> >              fi
+> >     -       if grep "CONFIG_UDHCPC=3Dy" ${B}/.config; then
+> >     +       if grep -q "CONFIG_UDHCPC=3Dy" ${B}/.config; then
+> >                      install -d ${D}${sysconfdir}/udhcpc.d
+> >                      install -d ${D}${datadir}/udhcpc
+> >                      install -m 0755 ${WORKDIR}/simple.script
+> >     ${D}${sysconfdir}/udhcpc.d/50default
+> >                      sed -i "s:/SBIN_DIR/:${base_sbindir}/:"
+> >     ${D}${sysconfdir}/udhcpc.d/50default
+> >                      install -m 0755 ${WORKDIR}/default.script
+> >     ${D}${datadir}/udhcpc/default.script
+> >              fi
+> >     -       if grep "CONFIG_INETD=3Dy" ${B}/.config; then
+> >     +       if grep -q "CONFIG_INETD=3Dy" ${B}/.config; then
+> >                      install -m 0755 ${WORKDIR}/inetd
+> >     ${D}${sysconfdir}/init.d/inetd.${BPN}
+> >                      sed -i "s:/usr/sbin/:${sbindir}/:"
+> >     ${D}${sysconfdir}/init.d/inetd.${BPN}
+> >                      install -m 0644 ${WORKDIR}/inetd.conf ${D}${syscon=
+fdir}/
+> >              fi
+> >     -        if grep "CONFIG_MDEV=3Dy" ${B}/.config; then
+> >     +        if grep -q "CONFIG_MDEV=3Dy" ${B}/.config; then
+> >                      install -m 0755 ${WORKDIR}/mdev ${D}${sysconfdir}/=
+init.d/mdev
+> >                      if grep "CONFIG_FEATURE_MDEV_CONF=3Dy" ${B}/.confi=
+g; then
+> >                              install -m 644 ${WORKDIR}/mdev.conf
+> >     ${D}${sysconfdir}/mdev.conf
+> >     @@ -313,10 +313,12 @@ do_install () {
+> >                              install -m 0755 ${WORKDIR}/mdev-mount.sh
+> >     ${D}${sysconfdir}/mdev
+> >                      fi
+> >              fi
+> >     -        if grep "CONFIG_INIT=3Dy" ${B}/.config; then
+> >     +        if grep -q "CONFIG_INIT=3Dy" ${B}/.config; then
+> >                       install -D -m 0777 ${WORKDIR}/rcS ${D}${sysconfdi=
+r}/init.d/rcS
+> >                       install -D -m 0777 ${WORKDIR}/rcK ${D}${sysconfdi=
+r}/init.d/rcK
+> >     -                install -D -m 0755 ${WORKDIR}/runlevel
+> >     ${D}${base_sbindir}/runlevel
+> >     +                if ! grep -q "CONFIG_RUNLEVEL=3Dy" ${B}/.config; t=
+hen
+> >     +                        install -D -m 0755 ${WORKDIR}/runlevel
+> >     ${D}${base_sbindir}/runlevel
+> >     +                fi
+> >               fi
+> >=20
+> >           if
+> >     ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}=
+; then
+> >     --=20
+> >     2.11.0
+> >=20
+> >     --=20
+> >     _______________________________________________
+> >     Openembedded-core mailing list
+> >     Openembedded-core@lists.openembedded.org
+> >     <mailto:Openembedded-core@lists.openembedded.org>
+> >     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >=20
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--rwEMma7ioTxnRzrJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCW7X5OgAKCRA3VSO3ZXaA
+HAJ6AKChRRxUivHjaf1kwZ/j2KBiDKHjSgCgkk4r4fPjmO0auRlVFB9/ObSaNFM=
+=p0Qx
+-----END PGP SIGNATURE-----
+
+--rwEMma7ioTxnRzrJ--
