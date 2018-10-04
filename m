@@ -1,28 +1,26 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 826E8799F0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 16D6878A99
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Oct 2018 15:24:27 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w94FORFH010259
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Oct 2018 17:24:28 +0200
-Received: from dev.vm6.ccp.siemens.com (MD1FZU9C.ad001.siemens.net
-	[139.16.77.245])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w94FOR17023963;
-	Thu, 4 Oct 2018 17:24:27 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 88E111019FD3;
-	Thu,  4 Oct 2018 17:24:28 +0200 (CEST)
-From: Pascal Bach <pascal.bach@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Oct 2018 17:24:19 +0200
-Message-Id: <20181004152419.27370-2-pascal.bach@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20181004152419.27370-1-pascal.bach@siemens.com>
-References: <20181004152419.27370-1-pascal.bach@siemens.com>
-Subject: [PATCH 2/2] piglit: inherit pkgconfig
+	Thu,  4 Oct 2018 17:04:00 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w94H3uCC017377
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 4 Oct 2018 18:03:57 +0100
+Message-ID: <53961341e042e2493580d379271b9af43c2b0620.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: grygorii tertychnyi <gtertych@cisco.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 04 Oct 2018 18:03:56 +0100
+In-Reply-To: <20181004052931.21389-1-gtertych@cisco.com>
+References: <20181004052931.21389-1-gtertych@cisco.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Cc: xe-linux-external@cisco.com
+Subject: Re: [PATCH v2] lib/oe/utils: add eol to format_pkg_list()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2018 15:24:28 -0000
+X-List-Received-Date: Thu, 04 Oct 2018 17:04:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The CMakeLists.txt of piglit uses pkgconfig internally.
-This makes sure pkgconfig-native is available in any case.
+On Thu, 2018-10-04 at 08:29 +0300, grygorii tertychnyi via
+Openembedded-core wrote:
+> Append '\n' to the non-empty formatted string before return. If you
+> write it to the (manifest) file, it will ensure file ends with a
+> newline.
+> 
+> Many GNU utilities have problems processing the last line of a file
+> if it is not '\n' terminated. E.g. if the last line is not terminated
+> by a newline character, then "read" will read it but return false,
+> leaving the broken partial line in the read variable(s).
+> It can also break or adversely affect some text processing tools,
+> that operate on the file.
+> 
+> Signed-off-by: grygorii tertychnyi <gtertych@cisco.com>
+> ---
+> 
+> Changes in v2:
+>  o make sure we don't append '\n' to the empty string
 
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
----
- meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This still breaks things which doesn't give me much confidence in this
+change for 2.6 :(.
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 3292d4cad0..9e45751648 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -18,7 +18,7 @@ S = "${WORKDIR}/git"
- 
- DEPENDS = "libpng virtual/libx11 libxkbcommon libxrender waffle virtual/libgl libglu python3-mako-native python3-numpy-native python3-six-native virtual/egl"
- 
--inherit cmake python3native distro_features_check bash-completion
-+inherit cmake pkgconfig python3native distro_features_check bash-completion
- # depends on virtual/libx11
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--- 
-2.11.0
+https://autobuilder.yoctoproject.org/typhoon/#/builders/28/builds/90/st
+eps/7/logs/step2d
+https://autobuilder.yoctoproject.org/typhoon/#/builders/24/builds/87/st
+eps/7/logs/step4b
 
+and more...
+
+Cheers,
+
+Richard
 
