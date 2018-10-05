@@ -1,36 +1,30 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E561745A3;
-	Fri,  5 Oct 2018 15:23:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id A456020BD7;
-	Fri,  5 Oct 2018 15:23:02 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id Zl5FmXklu1iU; Fri,  5 Oct 2018 15:23:02 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
-	[100.15.91.218])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 33C1720187;
-	Fri,  5 Oct 2018 15:22:57 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id AA28E1641E4; Fri,  5 Oct 2018 11:22:56 -0400 (EDT)
-Date: Fri, 5 Oct 2018 11:22:56 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: m.cavallini@koansoftware.com, openembedded-members@lists.openembedded.org
-Message-ID: <20181005152256.GI7186@denix.org>
-References: <9db03bdc-26c5-1b8b-17d3-2192dfe785b2@balister.org>
-	<75ed6afa-3a4a-e6ea-83d2-b65928a575da@koansoftware.com>
-MIME-Version: 1.0
-In-Reply-To: <75ed6afa-3a4a-e6ea-83d2-b65928a575da@koansoftware.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OEDEM in Edinburgh in 2 weeks
+Return-Path: <mac@mcrowe.com>
+Received: from avasout03.plus.net (avasout03.plus.net [84.93.230.244])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A7C1745FC
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Oct 2018 15:27:34 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id 8S0sgfEhMO2g28S0tgThjp; Fri, 05 Oct 2018 16:27:35 +0100
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=DKChHRFb c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=smKx5t2vBNcA:10 a=-An2I_7KAAAA:8 a=4RBUngkUAAAA:8 a=iGHA9ds3AAAA:8
+	a=Q4-j1AaZAAAA:8 a=1XWaLZrsAAAA:8 a=3aspW2O8d_ctZ45NvIcA:9
+	a=Zf9qvvsLL8MA:10
+	a=Sq34B_EcNBM9_nrAYB9S:22 a=_sbA2Q-Kp09kWB8D3iXc:22
+	a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+Received: from mac by deneb with local (Exim 4.89)
+	(envelope-from <mac@mcrowe.com>)
+	id 1g8S0n-0006DJ-CB; Fri, 05 Oct 2018 16:27:29 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Oct 2018 16:27:25 +0100
+Message-Id: <20181005152725.5122-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.11.0
+X-CMAE-Envelope: MS4wfPhBGt554QpBNP2ZcMfZp6hiOOsTNgIIuZySbcNqktD/rcOPmGX46W7B0cA20gzkeD75mva9VF6W4lASwMIOgqq+693lujZNJDRmPbiOhJFE1uElQT8I
+	nXsacdlFo5PONstlxLVpdCoQzOZUcWdeQevk9hAzQMvOnoIlBDkIeijp
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH v3] opkg-utils: Add support for pigz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +37,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2018 15:23:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 05 Oct 2018 15:27:35 -0000
 
-On Thu, Oct 04, 2018 at 02:42:41PM +0200, Marco Cavallini wrote:
-> Il 04/10/2018 14:20, Philip Balister ha scritto:
-> >OEDEM is basically full at this time.
-> >
-> >https://www.openembedded.org/wiki/OEDEM_2018
-> >
-> >We have had the room rearranged to seat 45 people and I am not sure how
-> >we would handle anyone over this. If you know you can't make it, could
-> >you please remove your name from the attendee list. We'd like to get a
-> >better idea of how many people on the waiting list we can accommodate.
-> >There are some long time contributors on the wait list we'd like to get in.
-> >
-> >Philip
-> >
-> 
-> 
-> Hi Philip,
-> if I can participate remaining standing, will be a pleasure to leave
-> my seat to one of the long time contributors on the wait list ;-)
+Support explicit use of pigz when compressing the package contents by
+setting:
 
-Marco,
+ OPKGBUILDCMD = "opkg-build -Z pigz"
 
-Unfortunately, I don't believe those are seating vs. standing spaces, but 
-rather the maximum number of people allowed in the root at the same time, 
-limited by a fire marshal for safety...
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ .../opkg-utils/opkg-utils/pigz.patch               | 51 ++++++++++++++++++++++
+ .../opkg-utils/opkg-utils_0.3.6.bb                 |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/pigz.patch
 
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/pigz.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/pigz.patch
+new file mode 100644
+index 0000000000..dd433e8eb9
+--- /dev/null
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/pigz.patch
+@@ -0,0 +1,51 @@
++From ab1436927b47badcd219a5f075dfc848020e061d Mon Sep 17 00:00:00 2001
++From: Mike Crowe <mac@mcrowe.com>
++Date: Thu, 4 Oct 2018 17:54:19 +0100
++Subject: [opkg-utils PATCH] opkg-build: Add support for explicit use of pigz
++To: opkg-devel@googlegroups.com,
++    yocto@yoctoproject.org
++
++oe-core has stopped[1] installing pigz as gzip. This means that in
++order to persuade opkg-build to use pigz it must be specified
++explicitly. Let's teach opkg-build to deal with being passed pigz as a
++compressor.
++
++We can't combine the check for whether -T is required with the one for
++gzip because opkg-build needs to call $compressor and gzip separately
++to construct the package.
++
++[1] http://lists.openembedded.org/pipermail/openembedded-commits/2018-February/218767.html
++
++Upstream-Status: Submitted [opkg-devel@googlegroups.com https://groups.google.com/forum/#!topic/opkg-devel/E0WVOhjK61w]
++Signed-off-by: Mike Crowe <mac@mcrowe.com>
++---
++ opkg-build | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/opkg-build b/opkg-build
++index 93a7956..f8403ea 100755
++--- a/opkg-build
+++++ b/opkg-build
++@@ -170,7 +170,7 @@ fi
++ 
++ compressor_ext() {
++     case $1 in
++-	gzip)
+++	gzip|pigz)
++ 	    echo gz
++ 	    ;;
++ 	bzip2)
++@@ -232,6 +232,10 @@ if [ $compressor = "gzip" ] ; then
++ 	compressorargs=$zipargs
++ elif [ $compressor = "xz" ] ; then
++ 	compressorargs="--threads 0"
+++elif [ $compressor = "pigz" ] ; then
+++	if $compressor --help 2>&1 | grep -- "-T" > /dev/null; then
+++		compressorargs="-9nT"
+++	fi
++ fi
++ 
++ tsortargs=
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
+index 0487c5f305..cb3775d9c9 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV
+            file://0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch \
+            file://0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch \
+            file://threaded-xz.patch \
++           file://pigz.patch \
+ "
+ SRC_URI_append_class-native = " file://tar_ignore_error.patch"
+ UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
 -- 
-Denys
+2.11.0
+
 
