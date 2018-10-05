@@ -1,48 +1,56 @@
-Return-Path: <achille.fouilleul@gadz.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 20731799F6
+Return-Path: <ferlandm@amotus.ca>
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
+	[209.85.221.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A327A79A55
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Oct 2018 14:38:17 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id q5-v6so13790647wrw.12
+	Fri,  5 Oct 2018 14:49:03 +0000 (UTC)
+Received: by mail-vk1-f176.google.com with SMTP id b2-v6so3040377vkd.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Oct 2018 07:38:19 -0700 (PDT)
+	Fri, 05 Oct 2018 07:49:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gadz-org.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=wQDwqjkTO/JGvAeNDE5ccTiEn1WU4le8N2q9MRtlUNM=;
-	b=kwPTz6lmpOmtDyPXE9Hswg+QIpiB322P4Lek1l6TVVL0aC7uRlSCLS52lKSKXyT0+z
-	om6gUfnWtqGf5YPo5U7RxeCcfXY3+OlIM43fF6IUDI9ZlyUKJ3Dw+DF43IGD/2xpXimZ
-	dULPG5Q5WQgRofrywU8x4zUDTDPR8BtEXxT9YkclkFg2iX2FZcyL9QIKfTzswWCn8QWY
-	oQ2vU2q4SzPr6JMcYRjLJFfHXBlv/QzBO2NSR5ly/A64kd/dKej11cu/ZEM0ONee4DV3
-	zIYiJV64/9WyO1BrjltWkQ/TJKvlJj7g4QLNUaIrd4ri2aRUeBYwCLsZhe0vzS6uuH+R
-	OuCw==
+	d=amotus-ca.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=Ub1yMr/0kLZLYhny+UGgmLHuGtbCvxHTIpsC24/lZIo=;
+	b=i7GZHy+ynW18e8tRv+7QpeSeGfEfANg/+GBsXVc/qqQAXwheGiW18z3cHrLAbosA9f
+	a2GE2zBUGY62UNUpzlTIkfQNjzooWc6LazoaVp7hnIEsQKdLyXU4OVXqiVmJEZgQ3CcX
+	Xs7PXdTPYCOCyeaptdRduOfDvRkz0qXxAUYPZhgf4POXcxQEL/8JVofgK7Ehyzm1POUY
+	r4BjriG0SC0PeNlmTHBz8H1qF3zXmbOmcMMwHzWubk1h/6gUkgfey3YeOl9oCT+jR+21
+	m3x7Td2ObQ05ZzZyaJSmg3t0kJiNK8fQpm6GGwt46VPujRIXdEHAmBSnqzxwzEIk8s0A
+	CquQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wQDwqjkTO/JGvAeNDE5ccTiEn1WU4le8N2q9MRtlUNM=;
-	b=afxTJyoztZhvLCP46rtKw699G8d4hyV8Htm/FE4oVdmtjAiZi7Ae7QVTnycKA4G79G
-	3/iuGUjC5O14u1scHaWGLZN20G0Nv+M+hyJXZU1sDmIMTvXYvwpgWWbdryDAqNM6uGWt
-	Yh3+aBS61R5FYu70bIsHt9XLgQaYlBoDIr3gzYr+DKHwGe7qwx3ViM4aL2UhZtCf93XI
-	NwK+NYPvrlExhKJt43bb512kGjixa5DBN5HXVBxwX87skG6kzjvX0irKgLSV40QCXTTG
-	k5gspq0kwpoywYzNMWfqOm3BVYbjo8ErkcbxKMvD53IjG2pLOPk6EHOy8jbLXMnugb6F
-	Z7fw==
-X-Gm-Message-State: ABuFfoiTomGNYt104UhfQx5oeKNufKaivDHmPRXgOxe98JXq6Y6O+9AK
-	YG/eNTE9i5JmVcKMDufrYg151EheX814Hw==
-X-Google-Smtp-Source: ACcGV60qSrPsiscUj+E4WWhAZRbjg19xRTlIEH0SQJlPT4p1JKnpkBbeOn6n3bpX0Ygg6iuoVrlYZA==
-X-Received: by 2002:adf:e387:: with SMTP id e7-v6mr8636257wrm.94.1538750298029;
-	Fri, 05 Oct 2018 07:38:18 -0700 (PDT)
-Received: from localhost.localdomain ([37.170.246.93])
-	by smtp.gmail.com with ESMTPSA id
-	t82-v6sm3868188wme.30.2018.10.05.07.38.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Oct 2018 07:38:17 -0700 (PDT)
-From: Achille Fouilleul <achille.fouilleul@gadz.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Oct 2018 16:38:08 +0200
-Message-Id: <20181005143808.13457-1-achille.fouilleul@gadz.org>
-X-Mailer: git-send-email 2.18.0
-Subject: [PATCH] binutils: fix symlinks
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=Ub1yMr/0kLZLYhny+UGgmLHuGtbCvxHTIpsC24/lZIo=;
+	b=YRu5rIl6bjkQdmeJfqW1pPpMYXX9C/gokOjimX8g3AhN+K9Ye9nnif9d5fc3FL9D9N
+	3ZHGmz9mC08BGHP9l4QNS5Yp2C5BH8U9olH5SijTb8x29xM4C6nZwuHgvXxmapBmE11I
+	Y3/j/9pnBhXKsWiLUBab3o9klnrV+urfzf34QTIF5StV0mjLe62cr2P8SfT43+GAQVlm
+	9KKVOZGPaCXIw8xQ+TCu2GaoHRIbLPjYnGMcbOWT2flXcrdV5/Crf6XWn46hWW+b5Jta
+	tPSHVLPQDr+vuSwNdwz0DSWgM+5u/ETlQOoURiXiEceWp9wDY3/sD4E4JUGlLSSP2I3R
+	7A8g==
+X-Gm-Message-State: ABuFfohsn7OOO6pcUqz1TtEGdoVPg1GZy0gmYfGBCdUdj+BkRHs+MbhU
+	ZLT5SCvdiv6FrB9OUAWK4K+gqSgSQd0=
+X-Google-Smtp-Source: ACcGV62+R0XgM+Fd9cnFOUdUMOCtgKvRIQRf1bloJQiK3nc77ntDKoLTVmwOTdpIlSpA0/DLTorBpw==
+X-Received: by 2002:a1f:8907:: with SMTP id l7-v6mr4462884vkd.60.1538750944327;
+	Fri, 05 Oct 2018 07:49:04 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com.
+	[209.85.217.48]) by smtp.gmail.com with ESMTPSA id
+	v85-v6sm1079359vkd.18.2018.10.05.07.49.03
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Oct 2018 07:49:03 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id e206so7638019vsd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Oct 2018 07:49:03 -0700 (PDT)
+X-Received: by 2002:a67:384:: with SMTP id
+	126-v6mr3995303vsd.132.1538750943656; 
+	Fri, 05 Oct 2018 07:49:03 -0700 (PDT)
+MIME-Version: 1.0
+From: Marc Ferland <ferlandm@amotus.ca>
+Date: Fri, 5 Oct 2018 10:48:52 -0400
+X-Gmail-Original-Message-ID: <CAMRMzCDLn8_0sh+PqoC=FnpspLm4o3gx=UULsRZiExOL7_YhMQ@mail.gmail.com>
+Message-ID: <CAMRMzCDLn8_0sh+PqoC=FnpspLm4o3gx=UULsRZiExOL7_YhMQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Python3 and HTTPS issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +63,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2018 14:38:19 -0000
+X-List-Received-Date: Fri, 05 Oct 2018 14:49:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-For nativesdk, symlinks created by do_install contain ${SDKPATHNATIVE}.
+Hi everyone,
 
-This is a problem with SDKs that include nativesdk-binutils and nativesdk-gcc.
-When extracting such an SDK dangling symlinks are created, because
-relocate_sdk.py does not adjust symlinks. As a result gcc ends up calling the
-host binutils.
+I'm currently having a strange issue with python3 and https (using
+sumo branch, commit 161eaa28ed16f93d57f3d1c4be84f894e99ab72e). Whenever
+I try to connect to an https server I get:
 
-Use the os.path.relpath function to obtain shorter relative paths, which do not
-contain ${SDKPATHNATIVE}.
+ssl.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify
+failed (_ssl.c:719)
 
-Signed-off-by: Achille Fouilleul <achille.fouilleul@gadz.org>
----
- meta/recipes-devtools/binutils/binutils.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The following python script reproduces the issue:
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 37813dd864..8af48e735b 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -128,12 +128,12 @@ do_install () {
- 	# We don't really need these, so we'll remove them...
- 	rm -rf ${D}${libdir}/ldscripts
- 
-+	bindir_rel=${@os.path.relpath('${bindir}', '${prefix}/${TARGET_SYS}/bin')}
-+
- 	# Fix the /usr/${TARGET_SYS}/bin/* links
- 	for l in ${D}${prefix}/${TARGET_SYS}/bin/*; do
- 		rm -f $l
--		ln -sf `echo ${prefix}/${TARGET_SYS}/bin \
--			| tr -s / \
--			| sed -e 's,^/,,' -e 's,[^/]*,..,g'`${bindir}/${TARGET_PREFIX}`basename $l` $l
-+		ln -sf $bindir_rel/${TARGET_PREFIX}`basename $l` $l
- 	done
- 
- 	# Install the libiberty header
--- 
-2.18.0
+>>> import http.client
+>>> conn = http.client.HTTPSConnection('www.python.org')
+>>> conn.request('GET', '/')
 
+Any idea? python3-certifi is correctly installed.
+
+Marc
 
