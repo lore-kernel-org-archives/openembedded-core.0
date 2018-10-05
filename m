@@ -1,56 +1,36 @@
-Return-Path: <ferlandm@amotus.ca>
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
-	[209.85.221.176])
-	by mail.openembedded.org (Postfix) with ESMTP id A327A79A55
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Oct 2018 14:49:03 +0000 (UTC)
-Received: by mail-vk1-f176.google.com with SMTP id b2-v6so3040377vkd.11
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Oct 2018 07:49:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=amotus-ca.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=Ub1yMr/0kLZLYhny+UGgmLHuGtbCvxHTIpsC24/lZIo=;
-	b=i7GZHy+ynW18e8tRv+7QpeSeGfEfANg/+GBsXVc/qqQAXwheGiW18z3cHrLAbosA9f
-	a2GE2zBUGY62UNUpzlTIkfQNjzooWc6LazoaVp7hnIEsQKdLyXU4OVXqiVmJEZgQ3CcX
-	Xs7PXdTPYCOCyeaptdRduOfDvRkz0qXxAUYPZhgf4POXcxQEL/8JVofgK7Ehyzm1POUY
-	r4BjriG0SC0PeNlmTHBz8H1qF3zXmbOmcMMwHzWubk1h/6gUkgfey3YeOl9oCT+jR+21
-	m3x7Td2ObQ05ZzZyaJSmg3t0kJiNK8fQpm6GGwt46VPujRIXdEHAmBSnqzxwzEIk8s0A
-	CquQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=Ub1yMr/0kLZLYhny+UGgmLHuGtbCvxHTIpsC24/lZIo=;
-	b=YRu5rIl6bjkQdmeJfqW1pPpMYXX9C/gokOjimX8g3AhN+K9Ye9nnif9d5fc3FL9D9N
-	3ZHGmz9mC08BGHP9l4QNS5Yp2C5BH8U9olH5SijTb8x29xM4C6nZwuHgvXxmapBmE11I
-	Y3/j/9pnBhXKsWiLUBab3o9klnrV+urfzf34QTIF5StV0mjLe62cr2P8SfT43+GAQVlm
-	9KKVOZGPaCXIw8xQ+TCu2GaoHRIbLPjYnGMcbOWT2flXcrdV5/Crf6XWn46hWW+b5Jta
-	tPSHVLPQDr+vuSwNdwz0DSWgM+5u/ETlQOoURiXiEceWp9wDY3/sD4E4JUGlLSSP2I3R
-	7A8g==
-X-Gm-Message-State: ABuFfohsn7OOO6pcUqz1TtEGdoVPg1GZy0gmYfGBCdUdj+BkRHs+MbhU
-	ZLT5SCvdiv6FrB9OUAWK4K+gqSgSQd0=
-X-Google-Smtp-Source: ACcGV62+R0XgM+Fd9cnFOUdUMOCtgKvRIQRf1bloJQiK3nc77ntDKoLTVmwOTdpIlSpA0/DLTorBpw==
-X-Received: by 2002:a1f:8907:: with SMTP id l7-v6mr4462884vkd.60.1538750944327;
-	Fri, 05 Oct 2018 07:49:04 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com.
-	[209.85.217.48]) by smtp.gmail.com with ESMTPSA id
-	v85-v6sm1079359vkd.18.2018.10.05.07.49.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Oct 2018 07:49:03 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id e206so7638019vsd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Oct 2018 07:49:03 -0700 (PDT)
-X-Received: by 2002:a67:384:: with SMTP id
-	126-v6mr3995303vsd.132.1538750943656; 
-	Fri, 05 Oct 2018 07:49:03 -0700 (PDT)
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E561745A3;
+	Fri,  5 Oct 2018 15:23:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id A456020BD7;
+	Fri,  5 Oct 2018 15:23:02 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Zl5FmXklu1iU; Fri,  5 Oct 2018 15:23:02 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
+	[100.15.91.218])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 33C1720187;
+	Fri,  5 Oct 2018 15:22:57 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id AA28E1641E4; Fri,  5 Oct 2018 11:22:56 -0400 (EDT)
+Date: Fri, 5 Oct 2018 11:22:56 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: m.cavallini@koansoftware.com, openembedded-members@lists.openembedded.org
+Message-ID: <20181005152256.GI7186@denix.org>
+References: <9db03bdc-26c5-1b8b-17d3-2192dfe785b2@balister.org>
+	<75ed6afa-3a4a-e6ea-83d2-b65928a575da@koansoftware.com>
 MIME-Version: 1.0
-From: Marc Ferland <ferlandm@amotus.ca>
-Date: Fri, 5 Oct 2018 10:48:52 -0400
-X-Gmail-Original-Message-ID: <CAMRMzCDLn8_0sh+PqoC=FnpspLm4o3gx=UULsRZiExOL7_YhMQ@mail.gmail.com>
-Message-ID: <CAMRMzCDLn8_0sh+PqoC=FnpspLm4o3gx=UULsRZiExOL7_YhMQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Python3 and HTTPS issue
+In-Reply-To: <75ed6afa-3a4a-e6ea-83d2-b65928a575da@koansoftware.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OEDEM in Edinburgh in 2 weeks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,25 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2018 14:49:03 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 05 Oct 2018 15:23:02 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi everyone,
+On Thu, Oct 04, 2018 at 02:42:41PM +0200, Marco Cavallini wrote:
+> Il 04/10/2018 14:20, Philip Balister ha scritto:
+> >OEDEM is basically full at this time.
+> >
+> >https://www.openembedded.org/wiki/OEDEM_2018
+> >
+> >We have had the room rearranged to seat 45 people and I am not sure how
+> >we would handle anyone over this. If you know you can't make it, could
+> >you please remove your name from the attendee list. We'd like to get a
+> >better idea of how many people on the waiting list we can accommodate.
+> >There are some long time contributors on the wait list we'd like to get in.
+> >
+> >Philip
+> >
+> 
+> 
+> Hi Philip,
+> if I can participate remaining standing, will be a pleasure to leave
+> my seat to one of the long time contributors on the wait list ;-)
 
-I'm currently having a strange issue with python3 and https (using
-sumo branch, commit 161eaa28ed16f93d57f3d1c4be84f894e99ab72e). Whenever
-I try to connect to an https server I get:
+Marco,
 
-ssl.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify
-failed (_ssl.c:719)
+Unfortunately, I don't believe those are seating vs. standing spaces, but 
+rather the maximum number of people allowed in the root at the same time, 
+limited by a fire marshal for safety...
 
-The following python script reproduces the issue:
-
->>> import http.client
->>> conn = http.client.HTTPSConnection('www.python.org')
->>> conn.request('GET', '/')
-
-Any idea? python3-certifi is correctly installed.
-
-Marc
+-- 
+Denys
 
