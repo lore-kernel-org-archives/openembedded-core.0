@@ -1,40 +1,53 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
-	[209.85.222.176])
-	by mail.openembedded.org (Postfix) with ESMTP id F03687459B
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 18061745F2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Oct 2018 19:30:50 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id p6-v6so8679777qkg.1
+	Fri,  5 Oct 2018 20:45:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 80C6C18540
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Oct 2018 12:30:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=RKEpiWPkMa6lCGEaKdya/Ap90atQfvuKgLj1FLMNQv8=;
-	b=h28U9F0WaSqgPIvDG1ggtfOXzUA/O8WG4OQwRBpOeI5caTiR9IV306JUJKY1NyTjG8
-	d2SIokw0LCqoAJqnpm+J2oLv7cXB4bnScuCDeeyQOkzBl6DHlIKNUJLEebZzCyIJMnoZ
-	vNOFeN1mjMOzzzME5n6oZ2Dz4zYFsC83Rlwe7chfQxEhyXTUbgqI76Xyp/7gWZqXxwMt
-	Yv2Xvpxfnr2JaIaTRuc6jAFSClr7HOfYcocytQfbz/OYjkrJySLc6OBDsYlIp+zcSBr7
-	jCVSuWiI9LVjvJyCKheplxXIBAuesm1qS9tXBPXp7rriFdC2LvjpJyJILurQ80VngGTB
-	c6WA==
-X-Gm-Message-State: ABuFfogZlkSySqz4+HRiQ4jwF257ok9TfdPRkjAGHLSezJkRPFKLWdZY
-	ceySG/xcFPmatNwowmUdQBqMNFo=
-X-Google-Smtp-Source: ACcGV63kYajRKmFeI1mVp+9yxsJKHp9JpDOoKZvtX33GPDGgmxfUvQM6LC+8XqeuCX6/E1AcSkQGbQ==
-X-Received: by 2002:a37:8245:: with SMTP id
-	e66-v6mr10487359qkd.335.1538767851467; 
-	Fri, 05 Oct 2018 12:30:51 -0700 (PDT)
-Received: from bill-the-cat.ec.rr.com (cpe-65-184-133-47.ec.res.rr.com.
-	[65.184.133.47]) by smtp.gmail.com with ESMTPSA id
-	t38-v6sm4842342qte.97.2018.10.05.12.30.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Oct 2018 12:30:50 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
+	Fri,  5 Oct 2018 22:45:57 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 9vwIYHuNxghy
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Oct 2018 22:45:56 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id D3CC2183C3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Oct 2018 22:45:56 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BD3E31A094
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Oct 2018 22:45:56 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B20691A093
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Oct 2018 22:45:56 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Oct 2018 22:45:56 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id A638B202F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Oct 2018 22:45:56 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w95Kjviv003729
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 5 Oct 2018 22:45:57 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w95KjvCa003728
+	for openembedded-core@lists.openembedded.org;
+	Fri, 5 Oct 2018 22:45:57 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Oct 2018 15:30:41 -0400
-Message-Id: <1538767841-6449-1-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] rootfs_*: Also depend on do_package_qa
+Date: Fri,  5 Oct 2018 22:45:53 +0200
+Message-Id: <20181005204556.3678-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH 1/4] curl: Include the complete license information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,58 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2018 19:30:51 -0000
+X-List-Received-Date: Fri, 05 Oct 2018 20:45:57 -0000
 
-Make sure that we don't create images that have QA problems with their
-package files by adding do_package_qa to do_rootfs[recrdeptask].
+For some reason, the copyright part was left out of the license
+information included in LIC_FILES_CHKSUM, preventing it from being
+used in, e.g., documentation to satisfy the requirements of the
+license.
 
-Signed-off-by: Tom Rini <trini@konsulko.com>
+License-Update: Include the complete license information
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/rootfs_deb.bbclass | 2 +-
- meta/classes/rootfs_ipk.bbclass | 2 +-
- meta/classes/rootfs_rpm.bbclass | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-support/curl/curl_7.61.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index 9ee1dfc8668b..2b93796a7643 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -6,7 +6,7 @@ ROOTFS_PKGMANAGE = "dpkg apt"
+diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
+index 4f408d2aaa..9b6406bbd0 100644
+--- a/meta/recipes-support/curl/curl_7.61.0.bb
++++ b/meta/recipes-support/curl/curl_7.61.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://curl.haxx.se/"
+ BUGTRACKER = "http://curl.haxx.se/mail/list.cgi?list=curl-tracker"
+ SECTION = "console/network"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e664ac"
++LIC_FILES_CHKSUM = "file://COPYING;md5=ef889a37a5a874490ac7ce116396f29a"
  
- do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
- do_populate_sdk[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot bzip2-native:do_populate_sysroot"
--do_rootfs[recrdeptask] += "do_package_write_deb"
-+do_rootfs[recrdeptask] += "do_package_write_deb do_package_qa"
- do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
- 
- do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 52b468d85bcb..aabc370cfce9 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -10,7 +10,7 @@ ROOTFS_PKGMANAGE = "opkg ${EXTRAOPKGCONFIG}"
- 
- do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
- do_populate_sdk[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
--do_rootfs[recrdeptask] += "do_package_write_ipk"
-+do_rootfs[recrdeptask] += "do_package_write_ipk do_package_qa"
- do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
- 
- do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 7f305f51ca2a..51f89ea99023 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -23,7 +23,7 @@ RPMROOTFSDEPENDS = "rpm-native:do_populate_sysroot \
- do_rootfs[depends] += "${RPMROOTFSDEPENDS}"
- do_populate_sdk[depends] += "${RPMROOTFSDEPENDS}"
- 
--do_rootfs[recrdeptask] += "do_package_write_rpm"
-+do_rootfs[recrdeptask] += "do_package_write_rpm do_package_qa"
- do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
- 
- python () {
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
 -- 
-2.7.4
+2.12.0
 
 
