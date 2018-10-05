@@ -1,18 +1,48 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 464B579101;
-	Fri,  5 Oct 2018 14:33:00 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Mike Crowe <mac@mcrowe.com>
-Date: Fri, 05 Oct 2018 14:33:01 -0000
-Message-ID: <20181005143301.13842.63617@do.openembedded.org>
-References: <20181005142451.9972-1-mac@mcrowe.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181005142451.9972-1-mac@mcrowe.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BrZy11dGlsczogQWRkIHN1cHBvcnQgZm9yIHBpZ3ogKHJldjMp?=
+Return-Path: <achille.fouilleul@gadz.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 20731799F6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Oct 2018 14:38:17 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id q5-v6so13790647wrw.12
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Oct 2018 07:38:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=gadz-org.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=wQDwqjkTO/JGvAeNDE5ccTiEn1WU4le8N2q9MRtlUNM=;
+	b=kwPTz6lmpOmtDyPXE9Hswg+QIpiB322P4Lek1l6TVVL0aC7uRlSCLS52lKSKXyT0+z
+	om6gUfnWtqGf5YPo5U7RxeCcfXY3+OlIM43fF6IUDI9ZlyUKJ3Dw+DF43IGD/2xpXimZ
+	dULPG5Q5WQgRofrywU8x4zUDTDPR8BtEXxT9YkclkFg2iX2FZcyL9QIKfTzswWCn8QWY
+	oQ2vU2q4SzPr6JMcYRjLJFfHXBlv/QzBO2NSR5ly/A64kd/dKej11cu/ZEM0ONee4DV3
+	zIYiJV64/9WyO1BrjltWkQ/TJKvlJj7g4QLNUaIrd4ri2aRUeBYwCLsZhe0vzS6uuH+R
+	OuCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=wQDwqjkTO/JGvAeNDE5ccTiEn1WU4le8N2q9MRtlUNM=;
+	b=afxTJyoztZhvLCP46rtKw699G8d4hyV8Htm/FE4oVdmtjAiZi7Ae7QVTnycKA4G79G
+	3/iuGUjC5O14u1scHaWGLZN20G0Nv+M+hyJXZU1sDmIMTvXYvwpgWWbdryDAqNM6uGWt
+	Yh3+aBS61R5FYu70bIsHt9XLgQaYlBoDIr3gzYr+DKHwGe7qwx3ViM4aL2UhZtCf93XI
+	NwK+NYPvrlExhKJt43bb512kGjixa5DBN5HXVBxwX87skG6kzjvX0irKgLSV40QCXTTG
+	k5gspq0kwpoywYzNMWfqOm3BVYbjo8ErkcbxKMvD53IjG2pLOPk6EHOy8jbLXMnugb6F
+	Z7fw==
+X-Gm-Message-State: ABuFfoiTomGNYt104UhfQx5oeKNufKaivDHmPRXgOxe98JXq6Y6O+9AK
+	YG/eNTE9i5JmVcKMDufrYg151EheX814Hw==
+X-Google-Smtp-Source: ACcGV60qSrPsiscUj+E4WWhAZRbjg19xRTlIEH0SQJlPT4p1JKnpkBbeOn6n3bpX0Ygg6iuoVrlYZA==
+X-Received: by 2002:adf:e387:: with SMTP id e7-v6mr8636257wrm.94.1538750298029;
+	Fri, 05 Oct 2018 07:38:18 -0700 (PDT)
+Received: from localhost.localdomain ([37.170.246.93])
+	by smtp.gmail.com with ESMTPSA id
+	t82-v6sm3868188wme.30.2018.10.05.07.38.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 05 Oct 2018 07:38:17 -0700 (PDT)
+From: Achille Fouilleul <achille.fouilleul@gadz.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Oct 2018 16:38:08 +0200
+Message-Id: <20181005143808.13457-1-achille.fouilleul@gadz.org>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH] binutils: fix symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2018 14:33:00 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Oct 2018 14:38:19 -0000
 
-== Series Details ==
+For nativesdk, symlinks created by do_install contain ${SDKPATHNATIVE}.
 
-Series: opkg-utils: Add support for pigz (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/14385/
-State : failure
+This is a problem with SDKs that include nativesdk-binutils and nativesdk-gcc.
+When extracting such an SDK dangling symlinks are created, because
+relocate_sdk.py does not adjust symlinks. As a result gcc ends up calling the
+host binutils.
 
-== Summary ==
+Use the os.path.relpath function to obtain shorter relative paths, which do not
+contain ${SDKPATHNATIVE}.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
-  Suggested fix    Include where pigz.patch was submitted
-  Current          Upstream-status: Submitted [opkg-devel@googlegroups.com https://groups.google.com/forum/#!topic/opkg-devel/E0WVOhjK61w]
-  Standard format  Upstream-Status: Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Achille Fouilleul <achille.fouilleul@gadz.org>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/binutils/binutils.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 37813dd864..8af48e735b 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -128,12 +128,12 @@ do_install () {
+ 	# We don't really need these, so we'll remove them...
+ 	rm -rf ${D}${libdir}/ldscripts
+ 
++	bindir_rel=${@os.path.relpath('${bindir}', '${prefix}/${TARGET_SYS}/bin')}
++
+ 	# Fix the /usr/${TARGET_SYS}/bin/* links
+ 	for l in ${D}${prefix}/${TARGET_SYS}/bin/*; do
+ 		rm -f $l
+-		ln -sf `echo ${prefix}/${TARGET_SYS}/bin \
+-			| tr -s / \
+-			| sed -e 's,^/,,' -e 's,[^/]*,..,g'`${bindir}/${TARGET_PREFIX}`basename $l` $l
++		ln -sf $bindir_rel/${TARGET_PREFIX}`basename $l` $l
+ 	done
+ 
+ 	# Install the libiberty header
+-- 
+2.18.0
 
 
