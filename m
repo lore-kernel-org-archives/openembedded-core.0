@@ -1,27 +1,30 @@
 Return-Path: <anuj.mittal@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 461FE74CB4
+X-Greylist: delayed 563 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 05 Oct 2018 02:13:16 UTC
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8468174AF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Oct 2018 02:03:03 +0000 (UTC)
+	Fri,  5 Oct 2018 02:13:16 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Oct 2018 19:03:04 -0700
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Oct 2018 19:03:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,342,1534834800"; d="scan'208";a="97568726"
+X-IronPort-AV: E=Sophos;i="5.54,342,1534834800"; d="scan'208";a="97568799"
 Received: from nadiahmx-mobl.gar.corp.intel.com (HELO [10.255.170.29])
 	([10.255.170.29])
-	by orsmga002.jf.intel.com with ESMTP; 04 Oct 2018 18:59:21 -0700
+	by orsmga002.jf.intel.com with ESMTP; 04 Oct 2018 18:59:59 -0700
 To: Alejandro Enedino Hernandez Samaniego
 	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	openembedded-core@lists.openembedded.org
+	openembedded-core@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 References: <20181004050917.16006-1-anuj.mittal@intel.com>
 	<20181004050917.16006-2-anuj.mittal@intel.com>
 	<ce9fd909-e46b-202c-cde8-5628ca87df9f@xilinx.com>
 From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <82a20bf4-6fd9-7a87-b5e0-540daa8ce912@intel.com>
-Date: Fri, 5 Oct 2018 09:59:20 +0800
+Message-ID: <a500f469-da1d-3ace-e967-4b2e5655fdd1@intel.com>
+Date: Fri, 5 Oct 2018 09:59:57 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.9.1
 MIME-Version: 1.0
@@ -39,7 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2018 02:03:03 -0000
+X-List-Received-Date: Fri, 05 Oct 2018 02:13:16 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
