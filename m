@@ -1,30 +1,40 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout03.plus.net (avasout03.plus.net [84.93.230.244])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A7C1745FC
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+	[209.85.222.176])
+	by mail.openembedded.org (Postfix) with ESMTP id F03687459B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Oct 2018 15:27:34 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id 8S0sgfEhMO2g28S0tgThjp; Fri, 05 Oct 2018 16:27:35 +0100
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=DKChHRFb c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=smKx5t2vBNcA:10 a=-An2I_7KAAAA:8 a=4RBUngkUAAAA:8 a=iGHA9ds3AAAA:8
-	a=Q4-j1AaZAAAA:8 a=1XWaLZrsAAAA:8 a=3aspW2O8d_ctZ45NvIcA:9
-	a=Zf9qvvsLL8MA:10
-	a=Sq34B_EcNBM9_nrAYB9S:22 a=_sbA2Q-Kp09kWB8D3iXc:22
-	a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1g8S0n-0006DJ-CB; Fri, 05 Oct 2018 16:27:29 +0100
-From: Mike Crowe <mac@mcrowe.com>
+	Fri,  5 Oct 2018 19:30:50 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id p6-v6so8679777qkg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Oct 2018 12:30:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=RKEpiWPkMa6lCGEaKdya/Ap90atQfvuKgLj1FLMNQv8=;
+	b=h28U9F0WaSqgPIvDG1ggtfOXzUA/O8WG4OQwRBpOeI5caTiR9IV306JUJKY1NyTjG8
+	d2SIokw0LCqoAJqnpm+J2oLv7cXB4bnScuCDeeyQOkzBl6DHlIKNUJLEebZzCyIJMnoZ
+	vNOFeN1mjMOzzzME5n6oZ2Dz4zYFsC83Rlwe7chfQxEhyXTUbgqI76Xyp/7gWZqXxwMt
+	Yv2Xvpxfnr2JaIaTRuc6jAFSClr7HOfYcocytQfbz/OYjkrJySLc6OBDsYlIp+zcSBr7
+	jCVSuWiI9LVjvJyCKheplxXIBAuesm1qS9tXBPXp7rriFdC2LvjpJyJILurQ80VngGTB
+	c6WA==
+X-Gm-Message-State: ABuFfogZlkSySqz4+HRiQ4jwF257ok9TfdPRkjAGHLSezJkRPFKLWdZY
+	ceySG/xcFPmatNwowmUdQBqMNFo=
+X-Google-Smtp-Source: ACcGV63kYajRKmFeI1mVp+9yxsJKHp9JpDOoKZvtX33GPDGgmxfUvQM6LC+8XqeuCX6/E1AcSkQGbQ==
+X-Received: by 2002:a37:8245:: with SMTP id
+	e66-v6mr10487359qkd.335.1538767851467; 
+	Fri, 05 Oct 2018 12:30:51 -0700 (PDT)
+Received: from bill-the-cat.ec.rr.com (cpe-65-184-133-47.ec.res.rr.com.
+	[65.184.133.47]) by smtp.gmail.com with ESMTPSA id
+	t38-v6sm4842342qte.97.2018.10.05.12.30.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 05 Oct 2018 12:30:50 -0700 (PDT)
+From: Tom Rini <trini@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Oct 2018 16:27:25 +0100
-Message-Id: <20181005152725.5122-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.11.0
-X-CMAE-Envelope: MS4wfPhBGt554QpBNP2ZcMfZp6hiOOsTNgIIuZySbcNqktD/rcOPmGX46W7B0cA20gzkeD75mva9VF6W4lASwMIOgqq+693lujZNJDRmPbiOhJFE1uElQT8I
-	nXsacdlFo5PONstlxLVpdCoQzOZUcWdeQevk9hAzQMvOnoIlBDkIeijp
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH v3] opkg-utils: Add support for pigz
+Date: Fri,  5 Oct 2018 15:30:41 -0400
+Message-Id: <1538767841-6449-1-git-send-email-trini@konsulko.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] rootfs_*: Also depend on do_package_qa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,90 +47,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2018 15:27:35 -0000
+X-List-Received-Date: Fri, 05 Oct 2018 19:30:51 -0000
 
-Support explicit use of pigz when compressing the package contents by
-setting:
+Make sure that we don't create images that have QA problems with their
+package files by adding do_package_qa to do_rootfs[recrdeptask].
 
- OPKGBUILDCMD = "opkg-build -Z pigz"
-
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Signed-off-by: Tom Rini <trini@konsulko.com>
 ---
- .../opkg-utils/opkg-utils/pigz.patch               | 51 ++++++++++++++++++++++
- .../opkg-utils/opkg-utils_0.3.6.bb                 |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/pigz.patch
+ meta/classes/rootfs_deb.bbclass | 2 +-
+ meta/classes/rootfs_ipk.bbclass | 2 +-
+ meta/classes/rootfs_rpm.bbclass | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/pigz.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/pigz.patch
-new file mode 100644
-index 0000000000..dd433e8eb9
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/pigz.patch
-@@ -0,0 +1,51 @@
-+From ab1436927b47badcd219a5f075dfc848020e061d Mon Sep 17 00:00:00 2001
-+From: Mike Crowe <mac@mcrowe.com>
-+Date: Thu, 4 Oct 2018 17:54:19 +0100
-+Subject: [opkg-utils PATCH] opkg-build: Add support for explicit use of pigz
-+To: opkg-devel@googlegroups.com,
-+    yocto@yoctoproject.org
-+
-+oe-core has stopped[1] installing pigz as gzip. This means that in
-+order to persuade opkg-build to use pigz it must be specified
-+explicitly. Let's teach opkg-build to deal with being passed pigz as a
-+compressor.
-+
-+We can't combine the check for whether -T is required with the one for
-+gzip because opkg-build needs to call $compressor and gzip separately
-+to construct the package.
-+
-+[1] http://lists.openembedded.org/pipermail/openembedded-commits/2018-February/218767.html
-+
-+Upstream-Status: Submitted [opkg-devel@googlegroups.com https://groups.google.com/forum/#!topic/opkg-devel/E0WVOhjK61w]
-+Signed-off-by: Mike Crowe <mac@mcrowe.com>
-+---
-+ opkg-build | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/opkg-build b/opkg-build
-+index 93a7956..f8403ea 100755
-+--- a/opkg-build
-++++ b/opkg-build
-+@@ -170,7 +170,7 @@ fi
-+ 
-+ compressor_ext() {
-+     case $1 in
-+-	gzip)
-++	gzip|pigz)
-+ 	    echo gz
-+ 	    ;;
-+ 	bzip2)
-+@@ -232,6 +232,10 @@ if [ $compressor = "gzip" ] ; then
-+ 	compressorargs=$zipargs
-+ elif [ $compressor = "xz" ] ; then
-+ 	compressorargs="--threads 0"
-++elif [ $compressor = "pigz" ] ; then
-++	if $compressor --help 2>&1 | grep -- "-T" > /dev/null; then
-++		compressorargs="-9nT"
-++	fi
-+ fi
-+ 
-+ tsortargs=
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-index 0487c5f305..cb3775d9c9 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-@@ -12,6 +12,7 @@ SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV
-            file://0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch \
-            file://0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch \
-            file://threaded-xz.patch \
-+           file://pigz.patch \
- "
- SRC_URI_append_class-native = " file://tar_ignore_error.patch"
- UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
+diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
+index 9ee1dfc8668b..2b93796a7643 100644
+--- a/meta/classes/rootfs_deb.bbclass
++++ b/meta/classes/rootfs_deb.bbclass
+@@ -6,7 +6,7 @@ ROOTFS_PKGMANAGE = "dpkg apt"
+ 
+ do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
+ do_populate_sdk[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot bzip2-native:do_populate_sysroot"
+-do_rootfs[recrdeptask] += "do_package_write_deb"
++do_rootfs[recrdeptask] += "do_package_write_deb do_package_qa"
+ do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+ 
+ do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index 52b468d85bcb..aabc370cfce9 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -10,7 +10,7 @@ ROOTFS_PKGMANAGE = "opkg ${EXTRAOPKGCONFIG}"
+ 
+ do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
+ do_populate_sdk[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
+-do_rootfs[recrdeptask] += "do_package_write_ipk"
++do_rootfs[recrdeptask] += "do_package_write_ipk do_package_qa"
+ do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+ 
+ do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 7f305f51ca2a..51f89ea99023 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -23,7 +23,7 @@ RPMROOTFSDEPENDS = "rpm-native:do_populate_sysroot \
+ do_rootfs[depends] += "${RPMROOTFSDEPENDS}"
+ do_populate_sdk[depends] += "${RPMROOTFSDEPENDS}"
+ 
+-do_rootfs[recrdeptask] += "do_package_write_rpm"
++do_rootfs[recrdeptask] += "do_package_write_rpm do_package_qa"
+ do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+ 
+ python () {
 -- 
-2.11.0
+2.7.4
 
 
