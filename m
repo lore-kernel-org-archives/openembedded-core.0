@@ -1,48 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
-	[209.85.167.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 76C8674F09
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B82F753DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Oct 2018 21:22:38 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id s69-v6so11514674oie.10
+	Sat,  6 Oct 2018 01:06:04 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id l41-v6so3186009qtl.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Oct 2018 14:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 05 Oct 2018 18:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=uyE9B1ufHa4fgeZ/rm8zfVWXZyW6oNyh2TpsEK+FYZg=;
-	b=t7P2BOQrLy0+Xkw3YtQdZ7ZCeS0E9yQLSIiKi3pUdkU1t8hRaE0Ae9NA8gTpjggIrh
-	47ZAmildYwchU5V2Z9hVvZJXnnWP//sjQCfI4j2qbIps9IqDEzMgXRmSvqYnioLWW54S
-	yQh3KwtD0qqCSqFY70lGlqhLa1nBFnhgxCoJaZ2bU+MxHvlb5WmharVv+2gJNFxm4cz5
-	19gdwdoLhaDffvA6e3VZOPinkHG/wqrpyQ74E8AN2Nao21NIFWWZAYviREnewS7SCMY3
-	/fPlpWJtdG+b+xUlemHOa2Y6Xwj36jDmssmblEtAbAU0blT6inRLqjI2atdc39IYJr+q
-	SwBA==
+	:cc; bh=TsfGBoc6DtMjbIRXirGqr9MA3wJPnq+nhUyzkcA3G4Y=;
+	b=uNiiPZ5HYq1cSkPIn3TnONKjxdhTMTh8M6eiEKw1tGazNYHOoUSgd5onZPP996UrdS
+	67Pu9JFE6+4oBjA5LkobtxqchAkck790Xdl+cSeI68/OJrQ9AyUb7hY6T6HdAz0qKXn+
+	w2qc4SDCWArhpd2pJaZVf7ZJoHNGPFMfxfQHtPDBo7zSM97VoS420LE0F3bUwtly+SNU
+	DsZcGSWsVUBq9CZY3ICXrzNNEoGn9by1pd6LZH39NpTyywmMQjkg3hArNf84ACNiC5f7
+	kuixLomxjdLa+KZ/iBN8sLdbx8U0Oc4NqCBVmND0R/lnI25h5f3tDGkIt1qPkaUzohND
+	fxmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=uyE9B1ufHa4fgeZ/rm8zfVWXZyW6oNyh2TpsEK+FYZg=;
-	b=Eg3dbZZknFtZMg/OIirxIcqq63EberGONhf1Vs7mHxMCvbTkRpn0cQHH0/KDICpvqX
-	hpLw9s3DTnh7E0Zkf0gzaLjkNlxwBE6U700MrKY26rRoH1XG7G50Vq14ftyoRJoI7E+0
-	+ePUfJvdabNpDze0cNOTC8GqTZvsP2RkciayC5Cr5pgADaBzD+VNMuSuQ65WgWii/2kk
-	M4/V6UZ7ohhhaC8jtbWmXU4oO022ltfQzwm6jMV5YMStAgPKhHsAX17lDEzj/TrAgO/q
-	DA5fmpznsWYRU6FgOzA6FYmGP1pMvzTqnBlX+tRH0qnbtrdynft9SceOx/gEfE4KL+aI
-	rkfA==
-X-Gm-Message-State: ABuFfojTQ6PasiYwgD9q2tdzzSxEmBpvhudEuLncu0PduVl4qXoOjIWf
-	MugKJc9ALAE/SuQdSn14I/sOpVyJt4kEXIG3xrTD5Qyg
-X-Google-Smtp-Source: ACcGV63drlN6RfTbTxYxAVCu8bHx6sAkcS/ebryPe9T33mvxzyh0xXKj6DyP2h7gjkhXPrSkAogUE5Or9xITBQ4fBM8=
-X-Received: by 2002:aca:ce4c:: with SMTP id
-	e73-v6mr338604oig.225.1538774559387; 
-	Fri, 05 Oct 2018 14:22:39 -0700 (PDT)
+	bh=TsfGBoc6DtMjbIRXirGqr9MA3wJPnq+nhUyzkcA3G4Y=;
+	b=bX7t6IiieDOja6btFWb0ls5FLD/rIPdP8yy41AZi3Sy5xvc9zvXQPR3TF3BGJKDwPO
+	0lXYVd+OvaVvLm7TqpjEoPWkA66/e5dZ0eOuTtLbpFr7RpFnmmgLjha0zSQQsLjpyAHe
+	WVTJsdB51mFIcLKTpadRypQWDPkAyNdm2vDpBcUg/VCAclyS1cYLjr7YMbTT3t6MNLOq
+	022wqagVESGge7UbpKzyWmYgQb2479u8p5n+cqq3nR6V17NTcJ1WlSXG/gIpIEsugbkh
+	MShwJXS/CRmLIXGKlz8PDB698cndMSKagHcfFZUukJ0/3K8TsUwZItRuY8r7KFg4mvJg
+	M2hg==
+X-Gm-Message-State: ABuFfoiYCtWSM2/xSG6H8n9UpbaW/NnWzpIZP/a0KWUWtnxV/sEpkDKf
+	08FC9DerzJN1xzZopsXp0RuYcIv9fKjeiml3WCQ=
+X-Google-Smtp-Source: ACcGV620QHnAC8mpsAWQWrQUWRJBqfjyMR4ofhELSGD3+BGeWBPvWELo4JtXbBf1qF5PyfmPDeOyxdQSVvVz+4y2LV8=
+X-Received: by 2002:a0c:d585:: with SMTP id
+	g5-v6mr11611739qvi.50.1538787965039; 
+	Fri, 05 Oct 2018 18:06:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAMRMzCDLn8_0sh+PqoC=FnpspLm4o3gx=UULsRZiExOL7_YhMQ@mail.gmail.com>
-In-Reply-To: <CAMRMzCDLn8_0sh+PqoC=FnpspLm4o3gx=UULsRZiExOL7_YhMQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Oct 2018 22:22:27 +0100
-Message-ID: <CAJTo0LaopKzbbnUDR5fixoiE4pt=9S8T-f3JMCa6NL9U1kf5uQ@mail.gmail.com>
-To: Marc Ferland <ferlandm@amotus.ca>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Python3 and HTTPS issue
+References: <20181005143808.13457-1-achille.fouilleul@gadz.org>
+In-Reply-To: <20181005143808.13457-1-achille.fouilleul@gadz.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 5 Oct 2018 18:05:38 -0700
+Message-ID: <CAMKF1sou=YKSAnXKVe16YhVA7aD1U1rYy8CrbNQ26VTojT-TvQ@mail.gmail.com>
+To: achille.fouilleul@gadz.org
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] binutils: fix symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,32 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2018 21:22:38 -0000
+X-List-Received-Date: Sat, 06 Oct 2018 01:06:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Did you install ca-certificates?
+On Fri, Oct 5, 2018 at 7:38 AM Achille Fouilleul
+<achille.fouilleul@gadz.org> wrote:
+>
+> For nativesdk, symlinks created by do_install contain ${SDKPATHNATIVE}.
+>
+> This is a problem with SDKs that include nativesdk-binutils and nativesdk-gcc.
+> When extracting such an SDK dangling symlinks are created, because
+> relocate_sdk.py does not adjust symlinks. As a result gcc ends up calling the
+> host binutils.
+>
+> Use the os.path.relpath function to obtain shorter relative paths, which do not
+> contain ${SDKPATHNATIVE}.
+>
 
-Ross
-On Fri, 5 Oct 2018 at 15:49, Marc Ferland <ferlandm@amotus.ca> wrote:
+this seems to make sense, LGTM we need to test it out for other
+classtypes though
+
+> Signed-off-by: Achille Fouilleul <achille.fouilleul@gadz.org>
+> ---
+>  meta/recipes-devtools/binutils/binutils.inc | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> Hi everyone,
+> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+> index 37813dd864..8af48e735b 100644
+> --- a/meta/recipes-devtools/binutils/binutils.inc
+> +++ b/meta/recipes-devtools/binutils/binutils.inc
+> @@ -128,12 +128,12 @@ do_install () {
+>         # We don't really need these, so we'll remove them...
+>         rm -rf ${D}${libdir}/ldscripts
 >
-> I'm currently having a strange issue with python3 and https (using
-> sumo branch, commit 161eaa28ed16f93d57f3d1c4be84f894e99ab72e). Whenever
-> I try to connect to an https server I get:
+> +       bindir_rel=${@os.path.relpath('${bindir}', '${prefix}/${TARGET_SYS}/bin')}
+> +
+>         # Fix the /usr/${TARGET_SYS}/bin/* links
+>         for l in ${D}${prefix}/${TARGET_SYS}/bin/*; do
+>                 rm -f $l
+> -               ln -sf `echo ${prefix}/${TARGET_SYS}/bin \
+> -                       | tr -s / \
+> -                       | sed -e 's,^/,,' -e 's,[^/]*,..,g'`${bindir}/${TARGET_PREFIX}`basename $l` $l
+> +               ln -sf $bindir_rel/${TARGET_PREFIX}`basename $l` $l
+>         done
 >
-> ssl.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify
-> failed (_ssl.c:719)
+>         # Install the libiberty header
+> --
+> 2.18.0
 >
-> The following python script reproduces the issue:
->
-> >>> import http.client
-> >>> conn = http.client.HTTPSConnection('www.python.org')
-> >>> conn.request('GET', '/')
->
-> Any idea? python3-certifi is correctly installed.
->
-> Marc
 > --
 > _______________________________________________
 > Openembedded-core mailing list
