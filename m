@@ -1,62 +1,29 @@
-Return-Path: <ferlandm@amotus.ca>
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
-	[209.85.221.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D6D174758
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EB1ED74616
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Oct 2018 01:53:54 +0000 (UTC)
-Received: by mail-vk1-f177.google.com with SMTP id v136-v6so3429610vke.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Oct 2018 18:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=amotus-ca.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=gPuxYeOlno0/TXP1C/IBVVG2bIIIXGdIzCDzQuPhNuI=;
-	b=RNo85KL+RI4l6kk4clordXjRkR780xzW49EL10Crjwh+jIfyNT8wF1ji+P1fgzeM7D
-	rAIbktTx0GlxaBWKngC7jSTg2CkGOQoo7vheKWxemojoQq/lXLP9zqJjJZiZldezLHSF
-	+u6IzqUw6sscrRO18Xak1ZTPNhqeKoTrgfrK8Cr8Qwxng2nbwa7gvlRDXjyfs/MX2V55
-	VzHJHL5XWkviV/qsP/hFIlx8mrsH0lNPZMCE5my20kGc5RpFSfKHUBOIG3Adu6DkKl+c
-	wALsqt1+6+g0Y9TQnvTtk2qYZzOlp/ymBoMpDGF6LFckDmOgwBfRbrpIwXpmdGDxbn0R
-	Gr4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=gPuxYeOlno0/TXP1C/IBVVG2bIIIXGdIzCDzQuPhNuI=;
-	b=j8V2CL7qaDK71PQwlC5BLpkGAOP8TPM6DhVX7hg8pyTPKb6Qpj7SWzgkiGjh1Qaa9n
-	IT3vQZpHOx6kK4swNh94BYmEg/GZVlRo7d1NTsq0vstYP1b3kYy1MYPB1mdrINbldTnk
-	hWUx9mXNNQh+l763FQT/93pjwN9ckY1TmShaW/BscRi2c6s3tnxnmWrTVM1APqQ8xDfJ
-	1lbWjKWUfKsyjrjzVRTV0V1jdgdi6U7Tafr1qp2BuQWPAWsFnpm54Wshb5vNFn8n/afh
-	FZerAA49ofLUAwsTXxE/IMAMwFVkPtn/uUnCHwamb28qiDYrWWbmBbJKe+b7qmlqodSS
-	IvQQ==
-X-Gm-Message-State: ABuFfogoVrc7Qk2/lDx2AtFdTN+Ehv3S7mnRf+VDpOBVD6jtidUoqNUQ
-	pMWTH6JpD+xj356cbCZjy2MYwlxo+QU=
-X-Google-Smtp-Source: ACcGV605FE+1PqCZMrkAm3oBcSy0C0qnlRWd2E00jaFmbVpnv3uHYJijK+fIQ0GAOBGk/NPwY3da+A==
-X-Received: by 2002:a1f:c2d4:: with SMTP id
-	s203-v6mr5133367vkf.36.1538790835483; 
-	Fri, 05 Oct 2018 18:53:55 -0700 (PDT)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com.
-	[209.85.221.170]) by smtp.gmail.com with ESMTPSA id
-	w187-v6sm2462512vkf.23.2018.10.05.18.53.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Oct 2018 18:53:54 -0700 (PDT)
-Received: by mail-vk1-f170.google.com with SMTP id s197-v6so3410493vkf.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Oct 2018 18:53:54 -0700 (PDT)
-X-Received: by 2002:a1f:b7d3:: with SMTP id
-	h202-v6mr5435705vkf.26.1538790834440; 
-	Fri, 05 Oct 2018 18:53:54 -0700 (PDT)
+	Sat,  6 Oct 2018 02:37:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w962b8MY015465
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 5 Oct 2018 19:37:18 -0700
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 5 Oct 2018 19:36:57 -0700
+To: Peter Bergin <peter@berginkonsult.se>,
+	<openembedded-core@lists.openembedded.org>,
+	Kang Kai <kai.kang@windriver.com>
+References: <1537425318-1569-1-git-send-email-peter@berginkonsult.se>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <f6ceb980-5383-7c22-1b4b-56a25a92fe47@windriver.com>
+Date: Fri, 5 Oct 2018 22:36:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <CAMRMzCDLn8_0sh+PqoC=FnpspLm4o3gx=UULsRZiExOL7_YhMQ@mail.gmail.com>
-	<CAJTo0LaopKzbbnUDR5fixoiE4pt=9S8T-f3JMCa6NL9U1kf5uQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LaopKzbbnUDR5fixoiE4pt=9S8T-f3JMCa6NL9U1kf5uQ@mail.gmail.com>
-From: Marc Ferland <ferlandm@amotus.ca>
-Date: Fri, 5 Oct 2018 21:53:42 -0400
-X-Gmail-Original-Message-ID: <CAMRMzCDi=7129TPUGmMtqgr9GdnANS7r4N2QDEc4Fz_iyRCtCA@mail.gmail.com>
-Message-ID: <CAMRMzCDi=7129TPUGmMtqgr9GdnANS7r4N2QDEc4Fz_iyRCtCA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Python3 and HTTPS issue
+In-Reply-To: <1537425318-1569-1-git-send-email-peter@berginkonsult.se>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH v2] rpm: handle virtual memory usage when limit is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,18 +36,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Oct 2018 01:53:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 06 Oct 2018 02:37:48 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 5, 2018 at 5:22 PM Burton, Ross <ross.burton@intel.com> wrote:
->
-> Did you install ca-certificates?
->
+Hi Peter,
 
-Looks like it did the trick, thanks.
+Thanks for the v2, I think there are some small things to fix
+up, some optional work and then this will be in good shape.
 
-Just wondering: why isn't ca-certificates not RRECOMMENDed by openssl
-or maybe python3?
+Btw, it's good practice to write a wrapper email and explain
+what's changed since the previous version.
 
-Marc
+
+The impact of this patch for most people is just a call
+to getrlimit(RLIMIT_AS, ...) so unless someone finds
+a problem, I think it should be merged after v3.
+
+
+
+On 09/20/2018 02:35 AM, Peter Bergin wrote:
+> Fix the situation where the task do_package_write_rpm ends up in
+> "liblzma: memory allocation failed". This happens if the host
+> environment has set a limit on virtual_memory for the user with
+> 'ulimit -v' for packages with a lot of binary packages, e.g. glibc-locale.
+> 
+> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+> ---
+>   ...-restrict-virtual-memory-usage-if-limit-s.patch | 56 ++++++++++++++++++++++
+>   meta/recipes-devtools/rpm/rpm_4.14.2.bb            |  1 +
+>   2 files changed, 57 insertions(+)
+>   create mode 100644 meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
+> 
+> diff --git a/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch b/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
+> new file mode 100644
+> index 0000000..b901de2
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
+> @@ -0,0 +1,56 @@
+> +From b5bc64262c02bca96f58c517b8cd11a9bedc4e0e Mon Sep 17 00:00:00 2001
+> +From: Peter Bergin <peter@berginkonsult.se>
+> +Date: Wed, 19 Sep 2018 15:12:31 +0200
+> +Subject: [PATCH] rpm/rpmio.c: restrict virtual memory usage if limit set
+> +
+> +A solution to avoid OOM situation when the virtual memory is restricted
+> +for a user (ulimit -v). As the lzopen_internal funtion is run in parallel
+*function
+
+> +one instance per CPU thread the available virtual memory is limited per
+> +CPU thread.
+> +
+> +Upstream-Status: Inappropriate [introduced by oe-core patch on rpm]
+
+Please explain this Upstream-Status in greater detail in your email
+or your commit log. Which commit id is it? Hopefully the commit log
+explains why it's not acceptable to upstream.
+
+Ideally we'd get this patch and the one that you referred to upstream
+since carrying custom patches isn't in our interest and this does
+seem like a use case that upstream could encounter. If you aren't
+able to take the time to do that I expect that Kai (CCed) can.
+
+
+> +
+> +Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+> +---
+> + rpmio/rpmio.c | 25 +++++++++++++++++++++++++
+> + 1 file changed, 25 insertions(+)
+> +
+> +diff --git a/rpmio/rpmio.c b/rpmio/rpmio.c
+> +index e051c98..49752b3 100644
+> +--- a/rpmio/rpmio.c
+> ++++ b/rpmio/rpmio.c
+> +@@ -845,6 +845,31 @@ static LZFILE *lzopen_internal(const char *mode, int fd, int xz)
+> + 		}
+> + #endif
+> +
+> ++		struct rlimit virtual_memory;
+> ++		getrlimit(RLIMIT_AS, &virtual_memory);
+> ++		if (virtual_memory.rlim_cur != RLIM_INFINITY) {
+> ++			const uint64_t virtual_memlimit = virtual_memory.rlim_cur;
+> ++			const uint64_t virtual_memlimit_per_cpu_thread =
+> ++				virtual_memlimit / lzma_cputhreads();
+> ++			uint64_t memory_usage_virt;
+> ++			rpmlog(RPMLOG_NOTICE, "XZ: virtual memory restricted to %lu and "
+> ++			       "per CPU thread %lu\n", virtual_memlimit, virtual_memlimit_per_cpu_thread);
+> ++			/* keep reducing the number of compression threads untill memory
+s/untill/until
+> ++			   usage gets below limit per CPU thread*/
+s/gets below limit/falls below the limit/  --
+> ++			while ((memory_usage_virt = lzma_stream_encoder_mt_memusage(&mt_options)) >
+> ++			       virtual_memlimit_per_cpu_thread) {
+> ++				/* number of threads shouldn't be able to hit zero with compression
+> ++				 * settings aailable to set through rpm... */
+s/aailable/available/
+> ++				assert(--mt_options.threads != 0);
+
+I don't see how this can work when building optimized code.
+I see that you are just copying code that was already accepted
+upstream. Is NDEBUG always defined when the code is compiled and used?
+If it were not, then we'd end up with an infinite loop so it seems best
+to make change split into two statements. No need for a check in the
+while loop since lzma_stream_encoder_mt_memusage() will return an
+error if threads==0.
+
+
+
+
+> ++			}
+> ++			if (threads != (int)mt_options.threads)
+> ++				rpmlog(RPMLOG_NOTICE,
+> ++				       "XZ: Adjusted the number of threads from %d to %d to not "
+> ++				       "exceed the memory usage limit of %lu bytes\n",
+> ++				       threads, mt_options.threads, virtual_memlimit);
+> ++
+> ++		}
+> ++
+> + 		ret = lzma_stream_encoder_mt(&lzfile->strm, &mt_options);
+> + 	    }
+> + #endif
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.bb b/meta/recipes-devtools/rpm/rpm_4.14.2.bb
+> index 46f8837..200fe4d 100644
+> --- a/meta/recipes-devtools/rpm/rpm_4.14.2.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_4.14.2.bb
+> @@ -39,6 +39,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
+>              file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
+>              file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
+>              file://0001-perl-disable-auto-reqs.patch \
+> +           file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
+>              "
+>   
+>   PE = "1"
+> 
+
+Optional, I suppose:
+
+Most bitbake users build on 64 bit systems but there are
+quite a few 32 bit targets. The code looks like it would behave fine
+on 32bit systems and it seems unlikely that there would be additional
+memory constraints provisioned on a 32 bit target but it would be
+nice to confirm that things work properly.
+
+
+Thanks,
+
+-- 
+# Randy MacLeod
+# Wind River Linux
 
