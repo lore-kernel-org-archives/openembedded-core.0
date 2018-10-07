@@ -1,35 +1,51 @@
-Return-Path: <peter@berginkonsult.se>
-Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
-	(mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
-	by mail.openembedded.org (Postfix) with ESMTP id 4381F7307F
+Return-Path: <petr.vorel@gmail.com>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D02C7892B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Oct 2018 19:22:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=berginkonsult.se; s=20140924;
-	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
-	message-id:from:references:to:subject:from;
-	bh=tBe+QSYbNqolQcW4+MZLVwPmS/DDanTTPvogCuZWKKc=;
-	b=30SnXkfEBm8Xv/Nuu9ZDg0E7YhSIzlrZ2F21Q86QXFGzI8XBmiNodAdfiqTp7fUyM/zZWMHKCxY/G
-	nuLGnwCzm5aM+ncYXyTtlkWrcy1txu8nDu/9DSEmDHqNZx2bBlQG7LzWyJZJRdzpAtBFWxlyff6wg+
-	1qxeIwfbETEuShPA=
-X-HalOne-Cookie: cca449548e658ff716e401385eb2b82b99c1d387
-X-HalOne-ID: 50eaf3f3-ca66-11e8-86b7-d0431ea8bb10
-Received: from [192.168.100.126] (unknown [82.196.108.162])
-	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id 50eaf3f3-ca66-11e8-86b7-d0431ea8bb10;
-	Sun, 07 Oct 2018 19:22:23 +0000 (UTC)
-To: Randy MacLeod <randy.macleod@windriver.com>,
-	openembedded-core@lists.openembedded.org, Kang Kai <kai.kang@windriver.com>
-References: <1537425318-1569-1-git-send-email-peter@berginkonsult.se>
-	<f6ceb980-5383-7c22-1b4b-56a25a92fe47@windriver.com>
-From: Peter Bergin <peter@berginkonsult.se>
-Message-ID: <785a25e6-7ff7-971d-d5a5-8d900528e78f@berginkonsult.se>
-Date: Sun, 7 Oct 2018 21:22:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Sun,  7 Oct 2018 19:42:51 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id z204-v6so6315042wmc.5
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 07 Oct 2018 12:42:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JK1CDKRRIhmoVrUeA/jgj93H6IahKCZ7Bie6wUC0u/8=;
+	b=JRvbwPtwIAl1eugqlcHEnMBrchVtCfQws7L7xZwJXZot3MK1HPlL8ZHk7+OlPH/kNF
+	VMuIOHnAz/rEpP3of5MAxXURl7z8cODsvKfHYQkEqWZLIojm9nmxKQA/l8cTt9421L1X
+	mvomnmC9hnUPJcrNKzN6brzXQe5zXLlCJ7g49zMTEJdVvRTO6Mg8qbgcRZ2IyKuOXUGq
+	qJaPwa3hUZAn2ZfM/c4PoGFmYpw6/HufMk/EnLF724/ZuOIpBNb2pA59ZU1Wa/DTUaed
+	FF0hAB3m7Un4AuA7m8fjstMMnWLYkle8ET0zHk9+n/TN5/1U5SNJFMTw34Aeo6QivlS1
+	e2Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JK1CDKRRIhmoVrUeA/jgj93H6IahKCZ7Bie6wUC0u/8=;
+	b=JcYsBlxU1MKDhosDLR7V0upKhwN7Ct6rARxTqpDKIkllJ7JZewzQ204IcWYAMA5v1F
+	/z4Vsy3lOGT7uOh4ylNPqKPpN/0nt3laJcYugioPR+mal6iJy28EyqICENbQtHYMP6ZH
+	w+TFMoXPgBaOMcxYfjczA9Jh2xQO/rSHUKExEuDZ7krk415U/snzBbyopjXn1fHfu/do
+	GIxUIKLWT8+O8cMxQXIL5WtjDBqiMZu/gBUsMcepdKfSjKHN8juy+Dpi7+Fe7+yYX0oE
+	7m0j+aAhwbB8R+VHGUcVVOFlRf5JNvS6TQ4wCgh8H+o8YJsNpenuRZp5yGWr8+2ErbJu
+	fW0g==
+X-Gm-Message-State: ABuFfog3bjnMKR9KMo7qpJmqHlFkJFZgIIXSUo6ODF6LF7PtRw7e7MvM
+	OIZBaCm4ZaZSK0+bQ/sB3uBvrDbU
+X-Google-Smtp-Source: ACcGV60yYkhoGAG/DoQ6nvFskJ5jQHi2kYIRltVfp4DbR5auJVLqeUg1pFYvkalMcSHX6L2oUOw3tw==
+X-Received: by 2002:a1c:2dc7:: with SMTP id
+	t190-v6mr13031955wmt.31.1538941371223; 
+	Sun, 07 Oct 2018 12:42:51 -0700 (PDT)
+Received: from localhost.localdomain ([85.119.94.113])
+	by smtp.gmail.com with ESMTPSA id
+	l38-v6sm13241669wre.38.2018.10.07.12.42.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 07 Oct 2018 12:42:50 -0700 (PDT)
+From: Petr Vorel <petr.vorel@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  7 Oct 2018 21:42:43 +0200
+Message-Id: <20181007194243.2264-1-petr.vorel@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <f6ceb980-5383-7c22-1b4b-56a25a92fe47@windriver.com>
-Subject: Re: [PATCH v2] rpm: handle virtual memory usage when limit is set
+Subject: [PATCH v2 1/1] ltp: Update to 20180926
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,151 +58,589 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Oct 2018 19:22:23 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Sun, 07 Oct 2018 19:42:52 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-Hi Randy,
+License-Update: Removed	pounder21 in 20180926
 
-thanks for feedback. I will prepare a v3 and send.
+New patches
+* 0001-statx-fix-compile-errors.patch
 
-On 2018-10-06 04:36, Randy MacLeod wrote:
-> Hi Peter,
->
-> Thanks for the v2, I think there are some small things to fix
-> up, some optional work and then this will be in good shape.
->
-> Btw, it's good practice to write a wrapper email and explain
-> what's changed since the previous version.
->
-Thanks for advice! I'm quite new into this and it's good to learn way of 
-working. If you or someone else could update 
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Community_review 
-with instructions about wrapper email when sending v2 it would be nice.
+Rebased patches
+* 0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch
 
->
-> The impact of this patch for most people is just a call
-> to getrlimit(RLIMIT_AS, ...) so unless someone finds
-> a problem, I think it should be merged after v3.
->
->
->
-> On 09/20/2018 02:35 AM, Peter Bergin wrote:
->> Fix the situation where the task do_package_write_rpm ends up in
->> "liblzma: memory allocation failed". This happens if the host
->> environment has set a limit on virtual_memory for the user with
->> 'ulimit -v' for packages with a lot of binary packages, e.g. 
->> glibc-locale.
->>
->> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
->> ---
->>   ...-restrict-virtual-memory-usage-if-limit-s.patch | 56 
->> ++++++++++++++++++++++
->>   meta/recipes-devtools/rpm/rpm_4.14.2.bb            |  1 +
->>   2 files changed, 57 insertions(+)
->>   create mode 100644 
->> meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
->>
->> diff --git 
->> a/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch 
->> b/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch 
->>
->> new file mode 100644
->> index 0000000..b901de2
->> --- /dev/null
->> +++ 
->> b/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
->> @@ -0,0 +1,56 @@
->> +From b5bc64262c02bca96f58c517b8cd11a9bedc4e0e Mon Sep 17 00:00:00 2001
->> +From: Peter Bergin <peter@berginkonsult.se>
->> +Date: Wed, 19 Sep 2018 15:12:31 +0200
->> +Subject: [PATCH] rpm/rpmio.c: restrict virtual memory usage if limit 
->> set
->> +
->> +A solution to avoid OOM situation when the virtual memory is restricted
->> +for a user (ulimit -v). As the lzopen_internal funtion is run in 
->> parallel
-> *function
->
-Will fix!
->> +one instance per CPU thread the available virtual memory is limited per
->> +CPU thread.
->> +
->> +Upstream-Status: Inappropriate [introduced by oe-core patch on rpm]
->
-> Please explain this Upstream-Status in greater detail in your email
-> or your commit log. Which commit id is it? Hopefully the commit log
-> explains why it's not acceptable to upstream.
->
-> Ideally we'd get this patch and the one that you referred to upstream
-> since carrying custom patches isn't in our interest and this does
-> seem like a use case that upstream could encounter. If you aren't
-> able to take the time to do that I expect that Kai (CCed) can.
->
->
-I've got feedback from Alexander Kanavin on my v1 about upstream status. 
-The multi-threading patches on rpm has been submitted upstream and a 
-pull request is open at 
-https://github.com/rpm-software-management/rpm/pull/226. Will change 
-upstream status to "Pending [mege of multithreading patches to 
-upstream]" as of Alexanders suggestion. Agree that ideally this should 
-also be submitted upstream. If Kai can help out with this it's appreciated.
->> +
->> +Signed-off-by: Peter Bergin <peter@berginkonsult.se>
->> +---
->> + rpmio/rpmio.c | 25 +++++++++++++++++++++++++
->> + 1 file changed, 25 insertions(+)
->> +
->> +diff --git a/rpmio/rpmio.c b/rpmio/rpmio.c
->> +index e051c98..49752b3 100644
->> +--- a/rpmio/rpmio.c
->> ++++ b/rpmio/rpmio.c
->> +@@ -845,6 +845,31 @@ static LZFILE *lzopen_internal(const char 
->> *mode, int fd, int xz)
->> +         }
->> + #endif
->> +
->> ++        struct rlimit virtual_memory;
->> ++        getrlimit(RLIMIT_AS, &virtual_memory);
->> ++        if (virtual_memory.rlim_cur != RLIM_INFINITY) {
->> ++            const uint64_t virtual_memlimit = virtual_memory.rlim_cur;
->> ++            const uint64_t virtual_memlimit_per_cpu_thread =
->> ++                virtual_memlimit / lzma_cputhreads();
->> ++            uint64_t memory_usage_virt;
->> ++            rpmlog(RPMLOG_NOTICE, "XZ: virtual memory restricted to 
->> %lu and "
->> ++                   "per CPU thread %lu\n", virtual_memlimit, 
->> virtual_memlimit_per_cpu_thread);
->> ++            /* keep reducing the number of compression threads 
->> untill memory
-> s/untill/until
-Will fix!
->> ++               usage gets below limit per CPU thread*/
-> s/gets below limit/falls below the limit/  --
-Will fix!
->> ++            while ((memory_usage_virt = 
->> lzma_stream_encoder_mt_memusage(&mt_options)) >
->> ++                   virtual_memlimit_per_cpu_thread) {
->> ++                /* number of threads shouldn't be able to hit zero 
->> with compression
->> ++                 * settings aailable to set through rpm... */
-> s/aailable/available/
-Will fix!
->> ++ assert(--mt_options.threads != 0);
->
-> I don't see how this can work when building optimized code.
-> I see that you are just copying code that was already accepted
-> upstream. Is NDEBUG always defined when the code is compiled and used?
-> If it were not, then we'd end up with an infinite loop so it seems best
-> to make change split into two statements. No need for a check in the
-> while loop since lzma_stream_encoder_mt_memusage() will return an
-> error if threads==0.
->
->
-I will try to rework this without the assert statement. I can not see 
-that NDEBUG is set when building rpm within oe-core.
+Removed removed (accepted in upstream)
+* 0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+* 0042-fs-ftest-ftest06.c-Fix-too-small-name-string-and-rel.patch
+* 0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch
 
-Best regards,
-/Peter
+Removed patches (different fix accepted in upstream)
+* 0001-mmap15-mips64-return-EINVAL.patch
+
+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+---
+Changes v1->v2:
+* Fixed LIC_FILES_CHKSUM error (add "License-Update: Removed pounder21
+  in 20180926" to commit message)
+* Add missing Upstream-Status for 0001-statx-fix-compile-errors.patch
+
+
+Kind regards,
+Petr
+---
+ .../0001-mmap15-mips64-return-EINVAL.patch    | 41 --------
+ .../ltp/0001-statx-fix-compile-errors.patch   | 38 ++++++++
+ ...1-Fix-for-test-in-deterministic-mode.patch | 42 ++++----
+ ...mat-for-0-or-PAGESIZE-with-RND-flag-.patch | 97 -------------------
+ ....c-Fix-too-small-name-string-and-rel.patch | 34 -------
+ ...S_ISGID-check-on-files-created-by-no.patch | 81 ----------------
+ .../ltp/{ltp_20180515.bb => ltp_20180926.bb}  |  8 +-
+ 7 files changed, 62 insertions(+), 279 deletions(-)
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-mmap15-mips64-return-EINVAL.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-statx-fix-compile-errors.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0042-fs-ftest-ftest06.c-Fix-too-small-name-string-and-rel.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch
+ rename meta/recipes-extended/ltp/{ltp_20180515.bb => ltp_20180926.bb} (93%)
+
+diff --git a/meta/recipes-extended/ltp/ltp/0001-mmap15-mips64-return-EINVAL.patch b/meta/recipes-extended/ltp/ltp/0001-mmap15-mips64-return-EINVAL.patch
+deleted file mode 100644
+index 18eba27c2d..0000000000
+--- a/meta/recipes-extended/ltp/ltp/0001-mmap15-mips64-return-EINVAL.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From b909805b4fc1b72e0ce299afb4abc02720ee81da Mon Sep 17 00:00:00 2001
+-From: Dengke Du <dengke.du@windriver.com>
+-Date: Wed, 12 Sep 2018 14:24:35 +0800
+-Subject: [PATCH] mmap15: mips64 return EINVAL
+-
+-In mips64 kernel, system check the addr that passed to mmap:
+-
+-    if (TASK_SIZE - len < addr)
+-        return -EINVAL;
+-
+-Link: https://github.com/torvalds/linux/blob/master/arch/mips/mm/mmap.c#L71
+-
+-Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/394]
+-
+-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+----
+- testcases/kernel/syscalls/mmap/mmap15.c | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/testcases/kernel/syscalls/mmap/mmap15.c b/testcases/kernel/syscalls/mmap/mmap15.c
+-index eff27d6..a10b5c7 100644
+---- a/testcases/kernel/syscalls/mmap/mmap15.c
+-+++ b/testcases/kernel/syscalls/mmap/mmap15.c
+-@@ -81,9 +81,14 @@ int main(int ac, char **av)
+- 		}
+- 
+- 		if (errno != ENOMEM) {
+-+#ifdef __mips__
+-+			tst_resm(TPASS | TERRNO, "mmap into high region "
+-+                                 "failed as expected");                        
+-+#else
+- 			tst_resm(TFAIL | TERRNO, "mmap into high region "
+- 				 "failed unexpectedly - expect "
+- 				 "errno=ENOMEM, got");
+-+#endif
+- 		} else {
+- 			tst_resm(TPASS | TERRNO, "mmap into high region "
+- 				 "failed as expected");
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0001-statx-fix-compile-errors.patch b/meta/recipes-extended/ltp/ltp/0001-statx-fix-compile-errors.patch
+new file mode 100644
+index 0000000000..021b70012a
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-statx-fix-compile-errors.patch
+@@ -0,0 +1,38 @@
++From a945304b6a2286d0665c70250cc5475eb07fd21e Mon Sep 17 00:00:00 2001
++From: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>
++Date: Wed, 26 Sep 2018 11:15:45 -0300
++Subject: [PATCH] statx: fix compile errors
++
++struct statx is only defined in sys/stat.h when _GNU_SOURCE is defined.
++The testcases do define _GNU_SOURCE, but not the m4 struct check.
++
++Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>
++Acked-by: Cyril Hrubis <chrubis@suse.cz>
++
++Upstream-Status: Backport
++[a945304b6 statx: fix compile errors]
++---
++ m4/ltp-statx.m4 | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/m4/ltp-statx.m4 b/m4/ltp-statx.m4
++index 44303d30c..5f79a94cd 100644
++--- a/m4/ltp-statx.m4
+++++ b/m4/ltp-statx.m4
++@@ -23,6 +23,11 @@ dnl
++ AC_DEFUN([LTP_CHECK_STATX],[
++ AC_CHECK_FUNCS(statx,,,[[#include <sys/stat.h>]])
++ AC_CHECK_HEADER(linux/fs.h,,,)
++-AC_CHECK_TYPES([struct statx],,,[[#include <sys/stat.h>]])
++-AC_CHECK_TYPES([struct statx_timestamp],,,[[#include <sys/stat.h>]])
+++AC_CHECK_TYPES([struct statx],,,[[
+++	#define _GNU_SOURCE
+++	#include <sys/stat.h>
+++]])
+++AC_CHECK_TYPES([struct statx_timestamp],,,[[
+++	#define _GNU_SOURCE
+++	#include <sys/stat.h>]])
++ ])
++-- 
++2.19.1
++
+diff --git a/meta/recipes-extended/ltp/ltp/0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch b/meta/recipes-extended/ltp/ltp/0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch
+index e7c927e116..ec5e2ef95a 100644
+--- a/meta/recipes-extended/ltp/ltp/0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch
++++ b/meta/recipes-extended/ltp/ltp/0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch
+@@ -21,16 +21,18 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+  1 file changed, 52 insertions(+), 40 deletions(-)
+ 
+ diff --git a/testcases/commands/ar/ar01 b/testcases/commands/ar/ar01
+-index ddab2e0..d688f76 100644
++index be105f6da..813a51d9c 100644
+ --- a/testcases/commands/ar/ar01
+ +++ b/testcases/commands/ar/ar01
+-@@ -23,14 +23,26 @@
+- # This is a basic ar command test.
++@@ -24,16 +24,28 @@
+  #
++ AR="${AR:=ar}"
+  TST_CNT=17
+ +TST_SETUP=setup
+  TST_TESTFUNC=test
+  TST_NEEDS_TMPDIR=1
++ TST_NEEDS_CMDS="$AR"
++ 
+  . tst_test.sh
+  
+ +setup()
+@@ -53,7 +55,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -t lib.a \> ar.out
+  
+  	printf "file1.in\nfile2.in\nfile3.in\n" > ar.exp
+-@@ -47,9 +59,9 @@ test1()
++@@ -50,9 +62,9 @@ test1()
+  
+  test2()
+  {
+@@ -66,7 +68,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -t lib.a \> ar.out
+  
+  	printf "file1.in\nfile4.in\nfile2.in\nfile3.in\n" > ar.exp
+-@@ -66,8 +78,8 @@ test2()
++@@ -69,8 +81,8 @@ test2()
+  
+  test3()
+  {
+@@ -77,7 +79,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -t lib.a \> ar.out
+  
+  	printf "file1.in\nfile2.in\nfile3.in\n" > ar.exp
+-@@ -84,9 +96,9 @@ test3()
++@@ -87,9 +99,9 @@ test3()
+  
+  test4()
+  {
+@@ -90,7 +92,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -t lib.a \> ar.out
+  
+  	printf "file1.in\nfile2.in\nfile3.in\n" > ar.exp
+-@@ -103,7 +115,7 @@ test4()
++@@ -106,7 +118,7 @@ test4()
+  
+  test5()
+  {
+@@ -99,7 +101,7 @@ index ddab2e0..d688f76 100644
+  
+  	if [ -s ar.out ]; then
+  		tst_res TFAIL "ar produced output unexpectedly (-c)"
+-@@ -117,7 +129,7 @@ test5()
++@@ -120,7 +132,7 @@ test5()
+  
+  test6()
+  {
+@@ -108,7 +110,7 @@ index ddab2e0..d688f76 100644
+  
+  	if [ -s ar.out ]; then
+  		tst_res TFAIL "ar produced output unexpectedly (-qc)"
+-@@ -131,9 +143,9 @@ test6()
++@@ -134,9 +146,9 @@ test6()
+  
+  test7()
+  {
+@@ -121,7 +123,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -t lib.a \> ar.out
+  
+  	printf "file3.in\n" > ar.exp
+-@@ -150,9 +162,9 @@ test7()
++@@ -153,9 +165,9 @@ test7()
+  
+  test8()
+  {
+@@ -134,7 +136,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -t lib.a \> ar.out
+  
+  	printf "file1.in\nfile2.in\nfile3.in\n" > ar.exp
+-@@ -169,8 +181,8 @@ test8()
++@@ -172,8 +184,8 @@ test8()
+  
+  test9()
+  {
+@@ -145,7 +147,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -t lib.a \> ar.out
+  
+  	printf "file1.in\nfile2.in\nfile3.in\n" > ar.exp
+-@@ -187,9 +199,9 @@ test9()
++@@ -190,9 +202,9 @@ test9()
+  
+  test10()
+  {
+@@ -158,7 +160,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -t lib.a \> ar.out
+  
+  	printf "file1.in\nfile2.in\nfile3.in\n" > ar.exp
+-@@ -206,9 +218,9 @@ test10()
++@@ -209,9 +221,9 @@ test10()
+  
+  test11()
+  {
+@@ -171,7 +173,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -t lib.a \> ar.out
+  
+  	printf "file1.in\nfile2.in\nfile3.in\n" > ar.exp
+-@@ -225,9 +237,9 @@ test11()
++@@ -228,9 +240,9 @@ test11()
+  
+  test12()
+  {
+@@ -184,7 +186,7 @@ index ddab2e0..d688f76 100644
+  
+  	printf "This is file one\nThis is file two\nThis is file three\n" > ar.exp
+  
+-@@ -244,9 +256,9 @@ test12()
++@@ -247,9 +259,9 @@ test12()
+  test13()
+  {
+  
+@@ -197,7 +199,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -t lib.a \> ar.out
+  
+  	printf "file1.in\nfile2.in\nfile3.in\nfile4.in\n" > ar.exp
+-@@ -264,14 +276,14 @@ test13()
++@@ -267,14 +279,14 @@ test13()
+  test14()
+  {
+  	ROD touch file0.in
+@@ -214,7 +216,7 @@ index ddab2e0..d688f76 100644
+  
+  	file0_mtime2=$(ar -tv lib.a | grep file0.in)
+  	file1_mtime2=$(ar -tv lib.a | grep file1.in)
+-@@ -293,7 +305,7 @@ test14()
++@@ -296,7 +308,7 @@ test14()
+  
+  test15()
+  {
+@@ -223,7 +225,7 @@ index ddab2e0..d688f76 100644
+  	ROD ar -tv lib.a \> ar.out
+  
+  	if grep -q '[rwx-]\{9\} [0-9].*/[0-9].*\s*[0-9].*.*file1.in' ar.out; then
+-@@ -308,9 +320,9 @@ test15()
++@@ -311,9 +323,9 @@ test15()
+  
+  test16()
+  {
+@@ -236,7 +238,7 @@ index ddab2e0..d688f76 100644
+  
+  	printf "x - file1.in\nx - file2.in\nx - file3.in\n" > ar.exp
+  
+-@@ -332,8 +344,8 @@ test16()
++@@ -335,8 +347,8 @@ test16()
+  
+  test17()
+  {
+@@ -248,5 +250,5 @@ index ddab2e0..d688f76 100644
+  	printf "x - file2.in\n" > ar.exp
+  
+ -- 
+-2.7.4
++2.19.0.rc2
+ 
+diff --git a/meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch b/meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+deleted file mode 100644
+index 0d2d2cbce4..0000000000
+--- a/meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
++++ /dev/null
+@@ -1,97 +0,0 @@
+-From b767b73ef027ba8d35f297c7d3659265ac80425b Mon Sep 17 00:00:00 2001
+-From: Rafael David Tinoco <rafael.tinoco@canonical.com>
+-Date: Wed, 30 May 2018 09:14:34 -0300
+-Subject: [PATCH] cve-2017-5669: shmat() for 0 (or <PAGESIZE with RND flag) has
+- to fail with REMAPs
+-
+-Fixes: https://github.com/linux-test-project/ltp/issues/319
+-
+-According to upstream thread (https://lkml.org/lkml/2018/5/28/2056),
+-cve-2017-5669 needs to address the "new" way of handling nil addresses
+-for shmat() when used with MAP_FIXED or SHM_REMAP flags.
+-
+-- mapping nil-page is OK on lower addresses with MAP_FIXED (or else X11 is broken)
+-- mapping nil-page is NOT OK with SHM_REMAP on lower addresses
+-
+-Addresses Davidlohr Bueso's comments/changes:
+-
+-commit 8f89c007b6de
+-Author: Davidlohr Bueso <dave@stgolabs.net>
+-Date:   Fri May 25 14:47:30 2018 -0700
+-
+-    ipc/shm: fix shmat() nil address after round-down when remapping
+-
+-commit a73ab244f0da
+-Author: Davidlohr Bueso <dave@stgolabs.net>
+-Date:   Fri May 25 14:47:27 2018 -0700
+-
+-    Revert "ipc/shm: Fix shmat mmap nil-page protection"
+-
+-For previously test, and now broken, made based on:
+-
+-commit 95e91b831f87
+-Author: Davidlohr Bueso <dave@stgolabs.net>
+-Date:   Mon Feb 27 14:28:24 2017 -0800
+-
+-    ipc/shm: Fix shmat mmap nil-page protection
+-
+-Signed-off-by: Rafael David Tinoco <rafael.tinoco@linaro.org>
+-Tested-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+-Reviewed-by: Jan Stancek <jstancek@redhat.com>
+-
+-Upstream-Status: Accepted [https://github.com/linux-test-project/ltp/pull/324]
+-CVE: CVE-2017-5669
+-Signed-off-by: Rafael David Tinoco <rafael.tinoco@linaro.org>
+----
+- testcases/cve/cve-2017-5669.c | 20 +++++++++++++++++++-
+- 1 file changed, 19 insertions(+), 1 deletion(-)
+-
+-diff --git a/testcases/cve/cve-2017-5669.c b/testcases/cve/cve-2017-5669.c
+-index 1ca5983..0834626 100644
+---- a/testcases/cve/cve-2017-5669.c
+-+++ b/testcases/cve/cve-2017-5669.c
+-@@ -28,7 +28,20 @@
+-  * is just to see if we get an access error or some other unexpected behaviour.
+-  *
+-  * See commit 95e91b831f (ipc/shm: Fix shmat mmap nil-page protection)
+-+ *
+-+ * The commit above disallowed SHM_RND maps to zero (and rounded) entirely and
+-+ * that broke userland for cases like Xorg. New behavior disallows REMAPs to
+-+ * lower addresses (0<=PAGESIZE).
+-+ *
+-+ * See commit a73ab244f0da (Revert "ipc/shm: Fix shmat mmap nil-page protect...)
+-+ * See commit 8f89c007b6de (ipc/shm: fix shmat() nil address after round-dow...)
+-+ * See https://github.com/linux-test-project/ltp/issues/319
+-+ *
+-+ * This test needs root permissions or else security_mmap_addr(), from
+-+ * get_unmapped_area(), will cause permission errors when trying to mmap lower
+-+ * addresses.
+-  */
+-+
+- #include <sys/types.h>
+- #include <sys/ipc.h>
+- #include <sys/shm.h>
+-@@ -60,7 +73,11 @@ static void cleanup(void)
+- static void run(void)
+- {
+- 	tst_res(TINFO, "Attempting to attach shared memory to null page");
+--	shm_addr = shmat(shm_id, ((void *)1), SHM_RND);
+-+	/*
+-+	 * shmat() for 0 (or < PAGESIZE with RND flag) has to fail with REMAPs
+-+	 * https://github.com/linux-test-project/ltp/issues/319
+-+	 */
+-+	shm_addr = shmat(shm_id, ((void *)1), SHM_RND | SHM_REMAP);
+- 	if (shm_addr == (void *)-1) {
+- 		shm_addr = NULL;
+- 		if (errno == EINVAL) {
+-@@ -89,6 +106,7 @@ static void run(void)
+- }
+- 
+- static struct tst_test test = {
+-+	.needs_root = 1,
+- 	.setup = setup,
+- 	.cleanup = cleanup,
+- 	.test_all = run,
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0042-fs-ftest-ftest06.c-Fix-too-small-name-string-and-rel.patch b/meta/recipes-extended/ltp/ltp/0042-fs-ftest-ftest06.c-Fix-too-small-name-string-and-rel.patch
+deleted file mode 100644
+index 407d98eff0..0000000000
+--- a/meta/recipes-extended/ltp/ltp/0042-fs-ftest-ftest06.c-Fix-too-small-name-string-and-rel.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From baeef026f80e19a634a4096e97286419aca1cf68 Mon Sep 17 00:00:00 2001
+-From: He Zhe <zhe.he@windriver.com>
+-Date: Thu, 23 Aug 2018 00:22:04 +0800
+-Subject: [PATCH] fs/ftest/ftest06.c: Fix too small name string and related
+- failure
+-
+-The name string is too small to contain normal full path names and causes
+-the following failure.
+-
+-"ftest06     2  TFAIL  :  ftest06.c:223: Can't chdir(): errno=ENOENT(2): No such file or directory"
+-
+-Upstream-Status: Submitted [ltp-list@lists.sourceforge.net]
+-
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+----
+- testcases/kernel/fs/ftest/ftest06.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/testcases/kernel/fs/ftest/ftest06.c b/testcases/kernel/fs/ftest/ftest06.c
+-index 2ca7c88..b434067 100644
+---- a/testcases/kernel/fs/ftest/ftest06.c
+-+++ b/testcases/kernel/fs/ftest/ftest06.c
+-@@ -100,7 +100,7 @@ static char *fstyp;
+- int main(int ac, char *av[])
+- {
+- 	int pid, child, status, count, k, j;
+--	char name[3];
+-+	char name[MAXPATHLEN];
+- 
+- 	int lc;
+- 
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch b/meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch
+deleted file mode 100644
+index dc61fcc039..0000000000
+--- a/meta/recipes-extended/ltp/ltp/0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch
++++ /dev/null
+@@ -1,81 +0,0 @@
+-From 3c87ef2961dedb10d1f674c6a530e00dbab8ec1b Mon Sep 17 00:00:00 2001
+-From: Jan Stancek <jstancek@redhat.com>
+-Date: Tue, 17 Jul 2018 10:26:39 +0200
+-Subject: [PATCH] open|creat: skip S_ISGID check on files created by non-group
+- members
+-
+-0fa3ecd87848 ("Fix up non-directory creation in SGID directories")
+-fixes problem described in CVE-2018-13405. This commit is getting
+-backported to older streams as well.
+-
+-This patch removes S_ISGID check for files created by non-group members
+-in LTP tests creat08 and open10.
+-
+-Once 0fa3ecd87848 will be in non-rc kernel, we could add a new test
+-for this CVE that would be limited to 4.18+ kernels.
+-
+-Signed-off-by: Jan Stancek <jstancek@redhat.com>
+-Acked-by: Cyril Hrubis <chrubis@suse.cz>
+-Reviewed-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+-
+-Upstream-Status: Backport
+-[ git://github.com/linux-test-project/ltp.git
+-  3c87ef2961dedb10d1f674c6a530e00dbab8ec1b
+-  "open|creat: skip S_ISGID check on files created by non-group members" ]
+-
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+----
+- testcases/kernel/syscalls/creat/creat08.c | 13 ++++++-------
+- testcases/kernel/syscalls/open/open10.c   | 12 +++++-------
+- 2 files changed, 11 insertions(+), 14 deletions(-)
+-
+-diff --git a/testcases/kernel/syscalls/creat/creat08.c b/testcases/kernel/syscalls/creat/creat08.c
+-index 50f2b3993..d22558ac3 100644
+---- a/testcases/kernel/syscalls/creat/creat08.c
+-+++ b/testcases/kernel/syscalls/creat/creat08.c
+-@@ -361,13 +361,12 @@ int main(int ac, char **av)
+- 			local_flag = FAILED;
+- 		}
+- 
+--		/* Verify modes */
+--		if (!(buf.st_mode & S_ISGID)) {
+--			tst_resm(TFAIL,
+--				 "%s: Incorrect modes, setgid bit should be set",
+--				 setgid_B);
+--			local_flag = FAILED;
+--		}
+-+		/*
+-+		 * Skip S_ISGID check
+-+		 * 0fa3ecd87848 ("Fix up non-directory creation in SGID directories")
+-+		 * clears S_ISGID for files created by non-group members
+-+		 */
+-+
+- 		close(fd);
+- 
+- 		if (local_flag == PASSED) {
+-diff --git a/testcases/kernel/syscalls/open/open10.c b/testcases/kernel/syscalls/open/open10.c
+-index 613f2288f..14feec9e1 100644
+---- a/testcases/kernel/syscalls/open/open10.c
+-+++ b/testcases/kernel/syscalls/open/open10.c
+-@@ -345,13 +345,11 @@ int main(int ac, char *av[])
+- 			local_flag = FAILED;
+- 		}
+- 
+--		/* Verify modes */
+--		if (!(buf.st_mode & S_ISGID)) {
+--			tst_resm(TFAIL,
+--				 "%s: Incorrect modes, setgid bit not set",
+--				 setgid_B);
+--			local_flag = FAILED;
+--		}
+-+		/*
+-+		 * Skip S_ISGID check
+-+		 * 0fa3ecd87848 ("Fix up non-directory creation in SGID directories")
+-+		 * clears S_ISGID for files created by non-group members
+-+		 */
+- 
+- 		if (local_flag == PASSED) {
+- 			tst_resm(TPASS, "Test passed in block2.");
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180926.bb
+similarity index 93%
+rename from meta/recipes-extended/ltp/ltp_20180515.bb
+rename to meta/recipes-extended/ltp/ltp_20180926.bb
+index ce86f7f14b..46d0cc4c17 100644
+--- a/meta/recipes-extended/ltp/ltp_20180515.bb
++++ b/meta/recipes-extended/ltp/ltp_20180926.bb
+@@ -11,7 +11,6 @@ LIC_FILES_CHKSUM = "\
+     file://testcases/kernel/hotplug/cpu_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41 \
+     file://testcases/open_posix_testsuite/COPYING;md5=48b1c5ec633e3e30ec2cf884ae699947 \
+     file://testcases/realtime/COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+-    file://tools/pounder21/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+     file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+     file://utils/ffsb-6.0-rc2/COPYING;md5=c46082167a314d785d012a244748d803 \
+ "
+@@ -28,10 +27,9 @@ CFLAGS_append_x86-64 = " -fomit-frame-pointer"
+ 
+ CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+ CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+-SRCREV = "96cbf48313afa65ef4d693d3441cbfd60a8d9b27"
++SRCREV = "f424769b1ad9fca477118763f88a6cec98ea2c0a"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+-           file://0001-mmap15-mips64-return-EINVAL.patch \
+            file://0004-build-Add-option-to-select-libc-implementation.patch \
+            file://0005-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch \
+            file://0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch \
+@@ -49,10 +47,8 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+            file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
+            file://0040-read_all-Define-FNM_EXTMATCH-if-not-already-like-und.patch \
+-           file://0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch \
+-           file://0042-fs-ftest-ftest06.c-Fix-too-small-name-string-and-rel.patch \
+-           file://0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch \
+            file://0001-syscalls-fcntl-make-OFD-command-use-fcntl64-syscall-.patch \
++           file://0001-statx-fix-compile-errors.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.19.1
+
 
