@@ -1,43 +1,52 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 235E3799EA
+Return-Path: <michael.davis@essvote.com>
+Received: from m2.essvote.com (m2.essvote.com [66.37.226.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D92C78890
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Oct 2018 16:22:46 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Oct 2018 09:22:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,357,1534834800"; 
-	d="scan'208,217";a="270538276"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
-	by fmsmga006.fm.intel.com with ESMTP; 08 Oct 2018 09:21:50 -0700
-Received: from fmsmsx158.amr.corp.intel.com (10.18.116.75) by
-	fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 8 Oct 2018 09:21:50 -0700
-Received: from fmsmsx123.amr.corp.intel.com ([169.254.7.84]) by
-	fmsmsx158.amr.corp.intel.com ([169.254.15.101]) with mapi id
-	14.03.0319.002; Mon, 8 Oct 2018 09:21:49 -0700
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
+	Mon,  8 Oct 2018 19:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; d=essvote.com; s=omaha.092018;
+	c=relaxed/relaxed; 
+	q=dns/txt; i=@essvote.com; t=1539028523; x=1541620523;
+	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Sz4IR3idTczLWUJrmTQ3WRf0xA3JVlQXJRv3+7dHf6k=;
+	b=ajwLMhjUA9R2S9eC5yuUIbtrK+wtAOkGjCO0tDhf6VuQxtpc16esev0nNS+hMVHp
+	Rgx8nHfWPF1EQRv38CZXxhkFbQJMXkooqksr7xPARyZkYNMxr3jSGYLkk9K0e33r
+	Jvd/LWScgT6R6bWDf5mUYevjB2D0q3ZZpsPVX9sF+uT5wH8soLopbdTJV0H8T8w7
+	Zs4FXPF3PvuG02iHHdi+/pURExWpYxI5gPy5VgcobkvzNm9AEnvYcDK2Sx8VsQBI
+	WKdTbvMAsKGR+ra3/4AugLJgu0DZaSh31EkmubigWT3ePvB67otvLGvhxxogbsgr
+	JZGSfRGej/Pbfh92+G8Q8g==;
+X-AuditID: 0a00029b-c4fff70000000f48-4f-5bbbb62a52c3
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by m2.essvote.com (Symantec Messaging Gateway) with SMTP id
+	6D.C1.03912.B26BBBB5; Mon,  8 Oct 2018 14:55:23 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([fe80::b1d4:5b04:bc85:956e]) by
+	ESS-EX01.essvote.corp.local ([fe80::b1d4:5b04:bc85:956e%16]) with mapi
+	id 14.03.0301.000; Mon, 8 Oct 2018 14:55:22 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: YP 2.7 Planning
-Thread-Index: AdRfIsZ9XZFLvLVyS1+NO4aPeSQvxg==
-Date: Mon, 8 Oct 2018 16:21:48 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECEE42309@fmsmsx123.amr.corp.intel.com>
+Thread-Topic: [OE-CORE][PATCH] wic: Support for changing the imager.
+Thread-Index: AQHUX0DZXNhNdQ89hkCZd4OMrpyRCw==
+Date: Mon, 8 Oct 2018 19:55:22 +0000
+Message-ID: <20181008195459.16061-1-michael.davis@essvote.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNTk1NTczZjMtYmVjMi00NWNlLThiY2EtNWY4YjEzYjM5YTk0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTDNwYWZheTRydFo4YzVUdytiWHd0cXE4ZGU3VWE3OGthNERsVnNGQjExUzVcL20reXNNRTBwXC9NTDM1QkxPbmhSIn0=
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.106]
+x-originating-ip: [10.1.20.69]
 MIME-Version: 1.0
-Subject: YP 2.7 Planning
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrHLMWRmVeSWpSXmKPExsWyRiBPQ1d72+5og1OfJCzu/HzH7sDocW7j
+	CsYAxigum5TUnMyy1CJ9uwSujJZN15gKZnJV/Gk9ytbA+Iu9i5GTQ0LAROLh9tssXYxcHEIC
+	Rxkljr7YwgThnGCU+LivlQmkik3ASOLc9U2MILaIQLTE0hkzwbqZBQwk3m3eyApiCwvYS+zf
+	8Y0dosZFom31X2YIW0/i1JHpYL0sAioSG5fuAqvhFbCTmLjiChuIzSggJvH91BomiJniEree
+	zGeCuE5AYsme88wQtqjEy8f/WCFsOYm3c35B3aAncWPqFDYIW1ti2cLXzBDzBSVOznzCMoFR
+	eBaSsbOQtMxC0jILScsCRpZVjHy5RnqpxcVl+SWpesn5uZsYgWHNxcA0ewdjT1PsIUYBDkYl
+	Ht6w+bujhVgTy4orcw8xSnOwKInz7ujaHC0kkJ5YkpqdmlqQWhRfVJqTWnyIkYmDE0RwSTUw
+	2v97oHfpYU9hb1vNn3Pdf7vqZ7swVmWfT/J7HNVm8fPQ8Z4goUzlD/vr7hT9rHxS2MiUNOtv
+	0cx0MWHLdQU/ZvBkpa60Ft17Wa8pL+rF/TsTl+sWiz40SWF5u+zBuUtb+gT3L5x1Ofdk+n/5
+	NUldW3XnVHE4y8wWsbb6U2lbFRPlfagi5Fy/EktxRqKhFnNRcSIAbMxzjFECAAA=
+Subject: [PATCH] wic: Support for changing the imager.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,170 +59,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Oct 2018 16:22:47 -0000
+X-List-Received-Date: Mon, 08 Oct 2018 19:55:23 -0000
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE42309fmsmsx123amrcor_"
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE42309fmsmsx123amrcor_
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-All,
+Signed-off-by: Michael Davis <michael.davis@essvote.com>
+---
+ scripts/lib/wic/engine.py | 2 +-
+ scripts/wic               | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-We have begun planning for YP 2.7.   In prior versions, items that we didn'=
-t have the bandwidth to do were assigned the target milestone of 2.99.  Sin=
-ce YP 2.7 planning has just begun, I would like each of you to review the b=
-ugs and enhancements in YP 2.99 and determine if you will have the bandwidt=
-h to own any of them in YP 2.7.
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 850cec30e55..e6c830ce789 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -191,7 +191,7 @@ def wic_create(wks_file, rootfs_dir, bootimg_dir, kerne=
+l_dir,
+     if not os.path.exists(options.outdir):
+         os.makedirs(options.outdir)
+=20
+-    pname =3D 'direct'
++    pname =3D options.imager
+     plugin_class =3D PluginMgr.get_plugins('imager').get(pname)
+     if not plugin_class:
+         raise WicError('Unknown plugin: %s' % pname)
+diff --git a/scripts/wic b/scripts/wic
+index 7392bc4e7f4..37dfe2dc589 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -362,6 +362,8 @@ def wic_init_parser_create(subparser):
+                            "bitbake variables")
+     subparser.add_argument("-D", "--debug", dest=3D"debug", action=3D"stor=
+e_true",
+                       default=3DFalse, help=3D"output debug information")
++    subparser.add_argument("-i", "--imager", dest=3D"imager",
++                      default=3D"direct", help=3D"the wic imager plugin")
+     return
+=20
+=20
+--=20
+2.17.1
 
-In addition to reviewing the bugs under your name, also review any under th=
-e unassigned name to see if you have both an interest and the time to own a=
-ny of those in YP 2.7.
-
-Link for bugs in YP 2.99 by owner: https://wiki.yoctoproject.org/wiki/Bug_T=
-riage#2.99_Bugs_by_Owner
-Link for enhancements in YP 2.99 by owner: https://wiki.yoctoproject.org/wi=
-ki/Bug_Triage#2.99_Enhancements_by_Owner
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*    Cell:                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE42309fmsmsx123amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:2 11 5 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">All,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">We have begun planning for YP 2.7.&nbsp;&nbsp; In pr=
-ior versions, items that we didn&#8217;t have the bandwidth to do were assi=
-gned the target milestone of 2.99.&nbsp;&nbsp;Since YP 2.7 planning has jus=
-t begun, I would like each of you to review the bugs and enhancements
- in YP 2.99 and determine if you will have the bandwidth to own any of them=
- in YP 2.7.
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">In addition to reviewing the bugs under your name, a=
-lso review any under the unassigned name to see if you have both an interes=
-t and the time to own any of those in YP 2.7.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Link for bugs in YP 2.99 by owner: <a href=3D"https:=
-//wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Bugs_by_Owner">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Bugs_by_Owner</a><o:p></=
-o:p></p>
-<p class=3D"MsoNormal">Link for enhancements in YP 2.99 by owner: <a href=
-=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Enhancements_by_Owne=
-r">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Enhancements_by_Owner</a=
-><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
-=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE42309fmsmsx123amrcor_--
