@@ -1,50 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
-	[209.85.210.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B49F77503E
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 76F20799AD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Oct 2018 11:53:04 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id w67so19284713ota.7
+	Mon,  8 Oct 2018 13:28:38 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id 185-v6so8349317wmt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Oct 2018 04:53:06 -0700 (PDT)
+	Mon, 08 Oct 2018 06:28:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9JpMMvIJj8zNanLLcMqQtZaQkgXYpqvOkxaYeCA9hD0=;
-	b=aOm/qmEdrPrVkhwVvolkQzaHegmKDZjzZXW9gwcD8jgjZUse72e2KrQYVLZQtjIuS+
-	UZAwMrZ6oRwvrxY/IZWyyaKQLz06KLYB6I80Z6iJmJmAzc1F1HC6I0Jpbq3MHCY9BjRr
-	4HH6EbWkZL0fgbI3gdptD/u4UzA6GOEIlcvzZz1TZscHrB9ggiljG1/T0p43fyqZ0vTe
-	A/AT32cU05hyZC5kDy0N3PXQaFg4IIn+cnrs2Lr4sybkktmbqvBf3T0jDJZMrxIC9ojS
-	z3gGjcUjwWHF+LsG1nXY5F2DnEVzPogD1GUOp3Zip3XvMzSUy4Bz4+Bu7HxfGSx1nkyP
-	eWMQ==
+	h=from:to:subject:date:message-id;
+	bh=JqonQ47tIPoBnwHJEfPc4Ju1jUZrgQUaq8tvoj5/Mso=;
+	b=x7cpjcKnIWRO+8GRorPWBheA5gooJFJtQpK6KiAnWETy1A7ycahZ8HK7ZDY0Kc3RKW
+	iBnKfdsaThXQy+N10/TJrQ3PTqQhUXE5l+AXJnwyzlVQRJs7vIqH50VW0uWylx8yoYEV
+	Y2riQPHO8/OCP080GgcHLMEZ4aujTma/BW364Luy2vZMnI+y+NGUnwHPAm0tJRPgC9h4
+	2e1jgBoW/O1B4Fb0eFwaDCK2puwZdibUtZl3z+4JP5iKl23uhbiTbqOD1a9IlVTCjbR7
+	e8C+73GEXQZ/C4zX5brR7LNU/pOPEVU1l9JyyrC3loDYHB+KuoFVUJTyNuxwDSJwDJE/
+	WxbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9JpMMvIJj8zNanLLcMqQtZaQkgXYpqvOkxaYeCA9hD0=;
-	b=SR1NEAAtnYXF112X8plDFujXiqYu6JcQcd8xNTLaBqiDPE4UeDmPNeZd835/GBLFv/
-	rqXBPL+vYXF+b2QQFIgsR5/XIL+S5oENuIEcPL1jL+EePjlsJTK2NUyn8uUTanSQBT5z
-	wACzXl90BWedWvnd38IxawN/2u3O2jOEY7GaVub9yy/OkcDbju705fe8W1ypnz2eh2vt
-	bm3PhyI1Lr7DDH+yH1C9IMxOLUyHv0tMgqwkqf8efXaAtt0mV8LdzyCxca1M1awjGiM/
-	88jftVcBm4wKvP0l/jPuzcy+yGmK+fyL8njOnDBAZV11ZuAW41beIcegyMMCuvL3USMB
-	rUiA==
-X-Gm-Message-State: ABuFfohuB9lfyDVIuBRBV9CDcIKoW8Ckyf48/iOa7rW5qzt6yc+3zTnE
-	zdV/IwbiY/JBRdBsPOIalJkjft408iiEVHlw3Ny4dtUd
-X-Google-Smtp-Source: ACcGV61C067wykHuBXlNzwcFDAV7TcZLlrvPDX0fn9oUNH3toIn9wSAwACOJF2JOgFDmeZghLut6YNcpDUVCWIFaLmE=
-X-Received: by 2002:a9d:7613:: with SMTP id
-	k19-v6mr13931234otl.297.1538999585648; 
-	Mon, 08 Oct 2018 04:53:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAMRMzCDLn8_0sh+PqoC=FnpspLm4o3gx=UULsRZiExOL7_YhMQ@mail.gmail.com>
-	<CAJTo0LaopKzbbnUDR5fixoiE4pt=9S8T-f3JMCa6NL9U1kf5uQ@mail.gmail.com>
-	<CAMRMzCDi=7129TPUGmMtqgr9GdnANS7r4N2QDEc4Fz_iyRCtCA@mail.gmail.com>
-In-Reply-To: <CAMRMzCDi=7129TPUGmMtqgr9GdnANS7r4N2QDEc4Fz_iyRCtCA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Oct 2018 12:52:54 +0100
-Message-ID: <CAJTo0LZGfjV_-QiDNAZ6HAtfjZou8izu1Oc0+FVx4e4+b5TTug@mail.gmail.com>
-To: Marc Ferland <ferlandm@amotus.ca>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Python3 and HTTPS issue
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=JqonQ47tIPoBnwHJEfPc4Ju1jUZrgQUaq8tvoj5/Mso=;
+	b=loOMtjtAo03Px/KmH7SROdHaaJMvw3reUEP5mKp+/tcz+0b82MFd5KjwqR/nDsWOch
+	ZC6EDe9WtO0Abiy/oajCnDFH2w0GdSylvUytkB1DAspUZ22P2Zr7AMeEsAyGzosjIZhf
+	bCmn2qIu0ABO0mxjQfPMzXeonYR2DqCPFhKtm/FJbJHe4pdg89WR2pMviLiM3xdgvMa+
+	9/ho5+tqKBH7lrq9dsYQvBxBJHsNHLqDbUobLMKirk0tiXq6/T4HHeKawcPQEIBejb5x
+	xNwPfxnOnojGFM1r3yQNzOTQix3SSUuXgQ7ESlrP78EJDyhThEN48x9Qs6Pf/vr4f9CE
+	MF/g==
+X-Gm-Message-State: ABuFfoid+wtDJ/uYzZnfx11k8ydZ3V0IRo4+BRGTJ1/HSPyvHPVPpcMz
+	XM2tZ6sOTYmfz+6G2fGIhLdTxfrX16k=
+X-Google-Smtp-Source: ACcGV60HwXsSqEvXS+xS2vkkp+EYdJ5xK8C0kZvKVOJRc32mrS6mH0X5Rg9Cm2s/KOPLmgP1XAJxxQ==
+X-Received: by 2002:a1c:b20d:: with SMTP id
+	b13-v6mr15072298wmf.141.1539005318537; 
+	Mon, 08 Oct 2018 06:28:38 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	134-v6sm3140118wmb.13.2018.10.08.06.28.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Oct 2018 06:28:37 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Oct 2018 14:28:30 +0100
+Message-Id: <20181008132830.8087-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] python3: add ca-certificates to python3-crypt RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,54 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Oct 2018 11:53:05 -0000
-Content-Type: multipart/alternative; boundary="0000000000009cc9f20577b64369"
+X-List-Received-Date: Mon, 08 Oct 2018 13:28:38 -0000
 
---0000000000009cc9f20577b64369
-Content-Type: text/plain; charset="UTF-8"
+It's likely that the certificate root chain is needed if python3-crypt is
+installed, so recommend it.
 
-Python3 would be overkill, but the SSL libraries probably should yes.
+Also remove the redundant nativesdk-python3-crypt assignment, as the general
+form is sufficient when class-extended.
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/python/python3_3.5.6.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-On Sat, 6 Oct 2018 at 02:54, Marc Ferland <ferlandm@amotus.ca> wrote:
+diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
+index 6085e36b7db..e1796581342 100644
+--- a/meta/recipes-devtools/python/python3_3.5.6.bb
++++ b/meta/recipes-devtools/python/python3_3.5.6.bb
+@@ -217,8 +217,7 @@ py_package_preprocess () {
+ # manual dependency additions
+ RPROVIDES_${PN}-modules = "${PN}"
+ RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
+-RRECOMMENDS_${PN}-crypt = "openssl"
+-RRECOMMENDS_${PN}-crypt_class-nativesdk = "nativesdk-openssl"
++RRECOMMENDS_${PN}-crypt = "openssl ca-certificates"
+ 
+ FILES_${PN}-2to3 += "${bindir}/2to3-${PYTHON_MAJMIN}"
+ FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
+-- 
+2.11.0
 
-> On Fri, Oct 5, 2018 at 5:22 PM Burton, Ross <ross.burton@intel.com> wrote:
-> >
-> > Did you install ca-certificates?
-> >
->
-> Looks like it did the trick, thanks.
->
-> Just wondering: why isn't ca-certificates not RRECOMMENDed by openssl
-> or maybe python3?
->
-> Marc
->
 
---0000000000009cc9f20577b64369
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Python3 would be overkill, but the SSL libraries probably =
-should yes.<div><br></div><div>Ross</div></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr">On Sat, 6 Oct 2018 at 02:54, Marc Ferland &lt;<a href=
-=3D"mailto:ferlandm@amotus.ca">ferlandm@amotus.ca</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">On Fri, Oct 5, 2018 at 5:22 PM Burton, Ross &=
-lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@i=
-ntel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Did you install ca-certificates?<br>
-&gt;<br>
-<br>
-Looks like it did the trick, thanks.<br>
-<br>
-Just wondering: why isn&#39;t ca-certificates not RRECOMMENDed by openssl<b=
-r>
-or maybe python3?<br>
-<br>
-Marc<br>
-</blockquote></div>
-
---0000000000009cc9f20577b64369--
