@@ -1,81 +1,50 @@
-Return-Path: <urs.fassler@bbv.ch>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0065.outbound.protection.outlook.com [104.47.2.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D2A2474FD0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D7B4578F79
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Oct 2018 09:17:48 +0000 (UTC)
+	Mon,  8 Oct 2018 10:58:34 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id 61-v6so19561810wrb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Oct 2018 03:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bbvSoftwareServices.onmicrosoft.com; s=selector1-bbv-ch;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=eabeWG8zeqW+o+84NoLNq4d2l8bWqC5Z1IqxEw6hIkQ=;
-	b=Pl6o9iMfE/ZDpHmuhmyKfZY+uB9u5hputdEiKQmGEzByiQK5yd5qhEpJ9yKCAXpQCVnYjwrYuKtVx9A+r7awvH40MLhJY2hQKFOAFJubRav3c2ZFzcJrQtaynZ/DFAUdRbUVSUCC7SyS6lTqRBzdatTIxuFBA62H48wNq2w/lYg=
-Received: from AM6PR03MB3832.eurprd03.prod.outlook.com (20.176.243.26) by
-	AM6PR03MB4262.eurprd03.prod.outlook.com (20.177.32.143) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1207.27; Mon, 8 Oct 2018 09:17:47 +0000
-Received: from AM6PR03MB3832.eurprd03.prod.outlook.com
-	([fe80::4117:4dd2:d53a:645b]) by
-	AM6PR03MB3832.eurprd03.prod.outlook.com
-	([fe80::4117:4dd2:d53a:645b%4]) with mapi id 15.20.1207.024;
-	Mon, 8 Oct 2018 09:17:47 +0000
-From: =?utf-8?B?VXJzIEbDpHNzbGVy?= <urs.fassler@bbv.ch>
-To: "bruce.ashfield@windriver.com" <bruce.ashfield@windriver.com>
-Thread-Topic: [yocto] [yocto-docs][PATCH] kernel-dev: document the change
-	detection of kernel feature files
-Thread-Index: AQHUXuCWrszszs4bjEu0XDoHNyCYNaUVEcqA
-Date: Mon, 8 Oct 2018 09:17:47 +0000
-Message-ID: <2585c52cf6e9a30822d3417299c3df681e5ec7a4.camel@bbv.ch>
-References: <20181001124209.12503-1-urs.fassler@bbv.ch>
-	<93a276f8-7465-ffd9-9279-44aacd1c2337@windriver.com>
-In-Reply-To: <93a276f8-7465-ffd9-9279-44aacd1c2337@windriver.com>
-Accept-Language: de-CH, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: VI1PR07CA0145.eurprd07.prod.outlook.com
-	(2603:10a6:802:16::32) To AM6PR03MB3832.eurprd03.prod.outlook.com
-	(2603:10a6:20b:24::26)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=urs.fassler@bbv.ch; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [178.194.183.98]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; AM6PR03MB4262;
-	6:sppp7T5NFC8qgpeRprzJoLf+LDaTi68sviDF8bNKB4CAT7iq8WXqBhTnqmVn7pEL+rM6gxacQp8y//sdWbpseiRV66Y9CDZx72cL8XHl8p2hhJTFlqMto6cvFdmraadjmk+Yj2OE3Cef3LaVgPetvKW8O0B4CAwX4wskGdrBRBslbrwbTFpvj1195lNSBqQggnZMt/r9Eu390f7P8OHtsaPNqMgBpfXRhoPINmYQuelOLJTxnGZ/6vCTMQfqb+9s8Ds09risv8W9SyzUwHV48HD8OIxe3J3bFiFKeRa7fKNnLmxTTMYYyRPZTQwAxMK2hAE6WHyzO82IDqOmbgZsNC8UuuxVMXFwvv23EtVlLNTTBa1vZdgJQmwgnpk9y8cDbHdJdCOtw9+Cw4pZS9ypeTyxhy1UoFWhhg/wR0uenSOdlVHwNG0WEW0w+DLypP7b/UvJS1jR+eXJbn/hTRSfBg==;
-	5:rNInz8OcLruRHPSekk/3KvcMRVtN8BoWtk4b1jBvCql7F+8lY7UJSlIoF/90Fh16fzIHDeaccRvZYxs2MOMk3bf7BYGh9vRTC4HGUnQsaPgxtW+iEPpp6OiUHEs4TnrN30vEXxpL4yuhccJ+KGugUQbx2UDK+HjmtZT7AwDUuzI=;
-	7:Qm7M4zgQxc3WjgzCbay4YeJpMyMCMjVVU+YjOMFn4ksgquRmWSIsjfrUKl94awPp1shWT/Y2+4eWFgklG2ybVoo+qnX33G2IelCqSAZotz9PieHXtrMKgyhmgB7kmjO/QYjFYez/0mv/F3XeU6pbNULzcdIH61xZCUBLUXI5UBjuerg7OQnlvyQ+MbtUl04avTqNU0XV3rCWc+gqESBEmUd5d896ae/bfB/I10xPO2W1d6gVvE8erNKt/mz6TicL
-x-ms-office365-filtering-correlation-id: babfd631-1df0-409c-304c-08d62cfee945
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);
-	SRVR:AM6PR03MB4262; 
-x-ms-traffictypediagnostic: AM6PR03MB4262:
-x-microsoft-antispam-prvs: <AM6PR03MB4262D8029E59ECC1D486F0008FE60@AM6PR03MB4262.eurprd03.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(158342451672863)(181554191321653)(126837547833334)(33711482430040);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3002001)(93006095)(93001095)(3231355)(944501410)(52105095)(10201501046)(149066)(150057)(6041310)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123558120)(201708071742011)(7699051);
-	SRVR:AM6PR03MB4262; BCL:0; PCL:0; RULEID:; SRVR:AM6PR03MB4262; 
-x-forefront-prvs: 081904387B
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39840400004)(396003)(136003)(376002)(366004)(346002)(199004)(189003)(99286004)(76176011)(102836004)(52116002)(478600001)(14454004)(2906002)(8676002)(54906003)(68736007)(81166006)(2351001)(66066001)(105586002)(81156014)(6916009)(2900100001)(966005)(97736004)(106356001)(345774005)(85202003)(118296001)(5660300001)(8936002)(2501003)(71190400001)(53936002)(25786009)(5640700003)(6116002)(6306002)(6512007)(3846002)(6246003)(305945005)(71200400001)(7736002)(74482002)(36756003)(4326008)(6486002)(6436002)(186003)(53546011)(229853002)(26005)(6506007)(486006)(316002)(256004)(86362001)(11346002)(85182001)(386003)(446003)(2616005)(14444005)(5250100002)(476003)(33896004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR03MB4262;
-	H:AM6PR03MB3832.eurprd03.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: bbv.ch does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: L0BhLF2trgZmiYQccs8POzoRB7vdCQMtXkriUhnQ6s0RKt4OBl8BoSznPpDfsGTufn93FvX+gCHNB4SpX9HZgGMDnAMcacVpM6tVfdiXrgle5td404MUZw/F5eCafp40RG5nqWK4hdZxbqdgyKmqUJJZHxOLUKixXDv7dHtGeoU4DpynxV220ZsFYVKMqXtWPccj6PQ7XuQyCiFej20HCgjbEC9Isiwf/hfRzdAPjN9J5SiARfiUYi1aphtVJqKo04/0QUXT2DMAPHXkPUziVwKqg5y1u381H+JgV/0ENkYN7600eDhbZSmNLv3Oa0ndyWMtaFHqHKOYBC5uQ8djEZdg8p2aVLYhf8V86cGqjV8=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-MIME-Version: 1.0
-X-OriginatorOrg: bbv.ch
-X-MS-Exchange-CrossTenant-Network-Message-Id: babfd631-1df0-409c-304c-08d62cfee945
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2018 09:17:47.0297 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 279985bd-2077-4d9d-9797-42238cfc06e2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB4262
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [yocto-docs][PATCH] kernel-dev: document the change detection of kernel feature files
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=aN6CvEIXv0l3wcElppOO1Uill0OQUDtkKlRUglBk40k=;
+	b=g+sfz2QVuzzZFJbh+EaFcGV/VbsvPK8HcaSQoefPkq7ILMGvTMWuwj4dpABuLg0jYD
+	xhapHNWVaxLNO6wh6IyfoEP9U6wEIp4Zaem0re3up4WJetSDW/PuE9ZT8zYMZyo4eem8
+	IhktniOZfRiJhBDCSw/niZAbmRq+GZSzw7MzxoD1qslPK8hRN/6f7gkSA13ih4IBSiku
+	cVLUr3QCVthygn1tMTbkDjLFblEPLmu82fmm/YLUDvT1fdDTRr/HqDFG3BLQ9hq1O4UY
+	8SSu8/ru3A0BciHH5xils6wyu3+3aSHKoBe84bhv7osAa7S1DWBiJc86tVKsERaB7b1L
+	igPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=aN6CvEIXv0l3wcElppOO1Uill0OQUDtkKlRUglBk40k=;
+	b=ra1sSK5aQDvRZ/aixYcOfnYwclwf9IPi+MBsnjt5S3K5sWuh0ufMn2W1G2/8bw5q5n
+	a75eKWTQXA5qIqWCRxq9dSjWvZByx90UXptAjos0EtCMW8qlU7o5FuBVvnTiJx4vCuRY
+	b+2a9uo9qnBwAMBR7dwLWRr2qIzpbRoPuRrHVJ4Q0Ke/QmBNxfhU1MHa+XK3qgrxupTz
+	qJpB0Cqx0wUVq7K5XfHjV5INg9b8AzoAfvyXakDVaj6nbSu974JnkWjbcEXSFZ2IFm17
+	61jjsH1fhzpvSjyj7T97/cqEx8BQlERA+Q5llfV3JQKIXNs/1fQkb1O2rsUybMpcSfwo
+	5tgQ==
+X-Gm-Message-State: ABuFfoi3iF1vwcizw/DCsDUJnujxK4gokB1nszd8u2CmNxmwb2mmVepw
+	wVmUT0x+dH9qHor3YAJyitFhzdAWF1Y=
+X-Google-Smtp-Source: ACcGV61xymkrrRM7LmcYNBTQCDx4poVyKLTCL1FDEka0GYMJkSQlPqmPEOHsqofyji8EQ01Enqcalg==
+X-Received: by 2002:a5d:450d:: with SMTP id
+	s13-v6mr15805132wrq.82.1538996315049; 
+	Mon, 08 Oct 2018 03:58:35 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	m143-v6sm6147049wmd.29.2018.10.08.03.58.33
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Oct 2018 03:58:34 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Oct 2018 11:58:32 +0100
+Message-Id: <20181008105832.30378-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libsoup: upgrade to 2.62.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -88,78 +57,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Oct 2018 09:17:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D1A352B563E23643BDBBEEF649BD6D36@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 08 Oct 2018 10:58:35 -0000
 
-T24gVHVlLCAyMDE4LTEwLTAyIGF0IDEwOjQ0IC0wNDAwLCBicnVjZS5hc2hmaWVsZGEgd3JvdGU6
-DQo+IE9uIDIwMTgtMTAtMDEgODo0MiBBTSwgVXJzIEY/c3NsZXIgd3JvdGU6DQo+ID4gUmVjb21t
-ZW5kIHRvIGFkZCByZWNpcGUtc3BhY2UgZmVhdHVyZXMgdG8gU1JDX1VSSSBzbyB0aGF0IGNoYW5n
-ZXMNCj4gPiB0byB0aGVtDQo+ID4gYXJlIGRldGVjdGVkIGF1dG9tYXRpY2FsbHkuDQo+ID4gDQo+
-ID4gU2lnbmVkLW9mZi1ieTogVXJzIEY/c3NsZXIgPHVycy5mYXNzbGVyIGF0IGJidi5jaD4NCj4g
-PiBTaWduZWQtb2ZmLWJ5OiBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2ggYXQgc2llbWVucy5jb20+
-DQo+ID4gLS0tDQo+ID4gICBkb2N1bWVudGF0aW9uL2tlcm5lbC1kZXYva2VybmVsLWRldi1jb21t
-b24ueG1sIHwgNyArKysrKy0tDQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCsp
-LCAyIGRlbGV0aW9ucygtKQ0KPiA+IA0KPiA+IGRpZmYgLS1naXQgYS9kb2N1bWVudGF0aW9uL2tl
-cm5lbC1kZXYva2VybmVsLWRldi1jb21tb24ueG1sDQo+ID4gYi9kb2N1bWVudGF0aW9uL2tlcm5l
-bC1kZXYva2VybmVsLWRldi1jb21tb24ueG1sDQo+ID4gaW5kZXggODNiMDJiMWMxLi42Mjg5Y2U4
-ZDQgMTAwNjQ0DQo+ID4gLS0tIGEvZG9jdW1lbnRhdGlvbi9rZXJuZWwtZGV2L2tlcm5lbC1kZXYt
-Y29tbW9uLnhtbA0KPiA+ICsrKyBiL2RvY3VtZW50YXRpb24va2VybmVsLWRldi9rZXJuZWwtZGV2
-LWNvbW1vbi54bWwNCj4gPiBAQCAtMjYyMyw2ICsyNjIzLDkgQEANCj4gPiAgICAgICAgICAgICAg
-IDxmaWxlbmFtZT4uc2NjPC9maWxlbmFtZT4gZmlsZSBpbiB0aGUNCj4gPiAgICAgICAgICAgICAg
-IDxmaWxlbmFtZT5TUkNfVVJJPC9maWxlbmFtZT4gc3RhdGVtZW50IHRvIHJlZmVyZW5jZQ0KPiA+
-IG11bHRpcGxlIGtlcm5lbA0KPiA+ICAgICAgICAgICAgICAgZmVhdHVyZXMuDQo+ID4gKyAgICAg
-ICAgICAgIFNpbmNlIEJpdEJha2Ugb25seSBkZXRlY3RzIGNoYW5nZXMgb24gZmlsZXMgbGlzdGVk
-IGluDQo+ID4gKyAgICAgICAgICAgIDxmaWxlbmFtZT5TUkNfVVJJPC9maWxlbmFtZT4sIGl0IGlz
-IGJlc3QgdG8gYWRkIGFsbA0KPiANCj4gVGhpcyBpcyBub3QgbmVjZXNzYXJpbHkgdHJ1ZS4gSXQg
-d291bGQgYmUgYmV0dGVyIHN0YXRlZCB0aGF0IGlmIHlvdQ0KPiBhcmUgbW9kaWZ5aW5nIHRoZSAu
-Y2ZnIGZpbGVzIGluIHRoZSBsYXllciBkaXJlY3RseSwgeW91IHNob3VsZCBsaXN0DQo+IHRoZW0g
-b24gdGhlIFNSQ19VUkkgdG8gaGF2ZSB0aGUgY2hhbmdlcyBwaWNrZWQgdXAgYnkgYml0YmFrZS4N
-Cj4gDQo+IEl0IGlzIG5vdCBhIG1hdHRlciBvZiAiYmVzdCIsIHNvIGl0IHNob3VsZCBiZSBzdGF0
-ZWQgdGhhdCB3YXkuDQoNClRoYW5rIHlvdSBmb3IgdGhlIGZlZWRiYWNrLiBJIGFtIG5vdCBzdXJl
-IGlmIEkgZG9uJ3QgdW5kZXJzdGFuZCB0aGUNCnByb2JsZW0gb3IgeW91ciBhbnN3ZXIgY29ycmVj
-dGx5Lg0KDQpXZSBmYWNlZCB0aGUgcHJvYmxlbSwgdGhhdCBvdXIgQ0kgc2VydmVyIGRpZCBub3Qg
-cGlja2VkIHVwIHRoZSBjaGFuZ2VzDQptYWRlIGluIHRoZSAuY2ZnIGZpbGVzLiBJIGludmVzdGln
-YXRlZCB0aGUgcHJvYmxlbSBhbmQgZm91bmQgdGhhdA0KQml0QmFrZSBvbmx5IGRldGVjdHMgY2hh
-bmdlcyBvbiBmaWxlcyBsaXN0ZWQgaW4gU1JDX1VSSS4gVGhpcyBpcw0Kc3VwcG9ydGVkIGluIHRo
-ZSBjaGFwdGVyICJXb3JraW5nIHdpdGggQWR2YW5jZWQgTWV0YWRhdGEiIHRoYXQgc3RhdGVzOg0K
-DQoiQml0QmFrZSBwYXJzZXMgW3RoZSAuc2NjIGZpbGVzXSBhbmQgZmV0Y2hlcyBhbnkgZmlsZXMg
-cmVmZXJlbmNlZCBpbg0KdGhlIC5zY2MgZmlsZXMgYnkgdGhlIGluY2x1ZGUsIHBhdGNoLCBvciBr
-Y29uZiBjb21tYW5kcy4gQmVjYXVzZSBvZg0KdGhpcywgaXQgaXMgbmVjZXNzYXJ5IHRvIGJ1bXAg
-dGhlIHJlY2lwZSBQUiB2YWx1ZSB3aGVuIGNoYW5naW5nIHRoZQ0KY29udGVudCBvZiBmaWxlcyBu
-b3QgZXhwbGljaXRseSBsaXN0ZWQgaW4gdGhlIFNSQ19VUkkuIg0KaHR0cHM6Ly93d3cueW9jdG9w
-cm9qZWN0Lm9yZy9kb2NzL2xhdGVzdC9tZWdhLW1hbnVhbC9tZWdhLW1hbnVhbC5odG1sI3JlY2lw
-ZS1zcGFjZS1tZXRhZGF0YQ0KDQpUaGUgYmVoYXZpb3IgaXMgaW1obyBub3Qgd2hhdCB5b3UgZXhw
-ZWN0LiBCdXQgZml4aW5nIHRoaXMgaXMgcXVpdGUgYQ0KYmlnIGNoYW5nZSBzaW5jZSBpdCBpbnZv
-bHZlcyBjaGFuZ2VzIGluIHRoZSBpbnRlcmFjdGlvbiBvZiBCaXRCYWtlDQooY2hhbmdlIGRldGVj
-dGlvbiBvbiBmaWxlcykgd2l0aCBZb2N0byBjbGFzc2VzIChyZWN1cnNpdmUgcGFyc2luZyBvZg0K
-c2NjIGZpbGVzKS4gVGhlcmVmb3JlIEkgdHJ5IHRvIHNvbHZlIGl0IHdpdGggYSBiZXR0ZXIgZGVz
-Y3JpcHRpb24uDQoNCllvdSBzdGF0ZWQgdGhhdCBpdCBpcyBvbmx5IG5lY2Vzc2FyeSB0byBhZGQg
-dGhlIC5jZmcgZmlsZXMgd2hlbiB5b3UNCmNoYW5nZSB0aGUgLmNmZyBmaWxlcyBpbiB0aGUgbGF5
-ZXIgZGlyZWN0bHkuIEkgZG9uJ3Qgc2VlIGhvdyB5b3Ugd291bGQNCmNoYW5nZSB0aGUgLmNmZyBm
-aWxlcyBvdGhlcndpc2Ugb3Igd2hhdCB1c2UgY2FzZSB5b3UgaGF2ZSBpbiBtaW5kLg0KDQo+ID4g
-QCsgICAgICAgICAgICA8ZmlsZW5hbWU+LmNmZzwvZmlsZW5hbWU+IHRvDQo+ID4gPGZpbGVuYW1l
-PlNSQ19VUkk8L2ZpbGVuYW1lPi4NCj4gPiAgICAgICAgICAgPC9wYXJhPg0KPiA+ICAgDQo+ID4g
-ICAgICAgICAgIDxwYXJhPg0KPiA+IEBAIC0yNjc0LDEwICsyNjc3LDEwIEBADQo+ID4gICAgICAg
-ICAgICAgICAgICAgICAgIDwvcGFyYT48L2xpc3RpdGVtPg0KPiA+ICAgICAgICAgICAgICAgICAg
-IDxsaXN0aXRlbT48cGFyYT4NCj4gPiAgICAgICAgICAgICAgICAgICAgICAgPGVtcGhhc2lzPkFk
-ZCB0aGUgRmVhdHVyZSBGaWxlIHRvDQo+ID4gPGZpbGVuYW1lPlNSQ19VUkk8L2ZpbGVuYW1lPjo8
-L2VtcGhhc2lzPg0KPiA+IC0gICAgICAgICAgICAgICAgICAgIEFkZCB0aGUgPGZpbGVuYW1lPi5z
-Y2M8L2ZpbGVuYW1lPiBmaWxlIHRvIHRoZQ0KPiA+ICsgICAgICAgICAgICAgICAgICAgIEFkZCB0
-aGUgPGZpbGVuYW1lPi5jZmc8L2ZpbGVuYW1lPiBhbmQNCj4gPiA8ZmlsZW5hbWU+LnNjYzwvZmls
-ZW5hbWU+IGZpbGUgdG8gdGhlDQo+ID4gICAgICAgICAgICAgICAgICAgICAgIHJlY2lwZSdzIDxm
-aWxlbmFtZT5TUkNfVVJJPC9maWxlbmFtZT4NCj4gPiBzdGF0ZW1lbnQ6DQo+ID4gICAgICAgICAg
-ICAgICAgICAgICAgIDxsaXRlcmFsbGF5b3V0IGNsYXNzPSdtb25vc3BhY2VkJz4NCj4gPiAtICAg
-ICBTUkNfVVJJX2FwcGVuZCA9ICIgZmlsZTovL3Rlc3Quc2NjIg0KPiA+ICsgICAgIFNSQ19VUklf
-YXBwZW5kID0gIiBmaWxlOi8vdGVzdC5jZmcgZmlsZTovL3Rlc3Quc2NjIg0KPiANCj4gVGhpcyBp
-cyB3cm9uZy4gWW91IHNob3VsZCBub3QgaGF2ZSBib3RoIG9uIHRoZSBTUkNfVVJJDQoNCkkgY29u
-Y2x1ZGVkIHRoaXMgYWxzbyBmcm9tIHRoZSBkZXNjcmlwdGlvbiBpbiB0aGUgIldvcmtpbmcgd2l0
-aA0KQWR2YW5jZWQgTWV0YWRhdGEiIGNoYXB0ZXIgKHNlZSBhYm92ZSkuIEJ1dCBJIHdvdWxkIGJl
-IGhhcHB5IHRvIGtub3cNCmFib3V0IGFub3RoZXIgc29sdXRpb24gZm9yIG91ciBwcm9ibGVtLg0K
-DQpVcnMNCg0KPiA+ICAgICAgICAgICAgICAgICAgICAgICA8L2xpdGVyYWxsYXlvdXQ+DQo+ID4g
-ICAgICAgICAgICAgICAgICAgICAgIFRoZSBsZWFkaW5nIHNwYWNlIGJlZm9yZSB0aGUgcGF0aCBp
-cw0KPiA+IGltcG9ydGFudCBhcyB0aGUNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgcGF0aCBp
-cyBhcHBlbmRlZCB0byB0aGUgZXhpc3RpbmcgcGF0aC4NCg0KDQoNCg==
+Freeze-breaking upgrade for a security bug fix involving cookie URLs, and a
+number of static analysis fixes.
+
+Drop CVE-2018-12910.patch as this is merged in 2.62.3.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../libsoup/libsoup-2.4/CVE-2018-12910.patch       | 32 ----------------------
+ ...libsoup-2.4_2.62.2.bb => libsoup-2.4_2.62.3.bb} |  7 ++---
+ 2 files changed, 3 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2018-12910.patch
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.62.2.bb => libsoup-2.4_2.62.3.bb} (87%)
+
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2018-12910.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2018-12910.patch
+deleted file mode 100644
+index 158bf930934..00000000000
+--- a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2018-12910.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-CVE: CVE-2018-12910
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From db2b0d5809d5f8226d47312b40992cadbcde439f Mon Sep 17 00:00:00 2001
+-From: Michael Catanzaro <mcatanzaro@igalia.com>
+-Date: Sun, 24 Jun 2018 19:46:19 -0500
+-Subject: [PATCH] cookie-jar: bail if hostname is an empty string
+-
+-There are several other ways to fix the problem with this function, but
+-skipping over all of the code is probably the simplest.
+-
+-Fixes #3
+----
+- libsoup/soup-cookie-jar.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/libsoup/soup-cookie-jar.c b/libsoup/soup-cookie-jar.c
+-index 2369c8a7..b2b78909 100644
+---- a/libsoup/soup-cookie-jar.c
+-+++ b/libsoup/soup-cookie-jar.c
+-@@ -307,7 +307,7 @@ get_cookies (SoupCookieJar *jar, SoupURI *uri, gboolean for_http, gboolean copy_
+- 
+- 	priv = soup_cookie_jar_get_instance_private (jar);
+- 
+--	if (!uri->host)
+-+	if (!uri->host || !uri->host[0])
+- 		return NULL;
+- 
+- 	/* The logic here is a little weird, but the plan is that if
+--- 
+-2.17.1
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.62.3.bb
+similarity index 87%
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.62.3.bb
+index ba3e86a03ca..aaa3cc51036 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.62.3.bb
+@@ -9,10 +9,9 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 intltool-native"
+ 
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ 
+-SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+-           file://CVE-2018-12910.patch"
+-SRC_URI[md5sum] = "eaf99b04ac8968ed2b26f2509ba75584"
+-SRC_URI[sha256sum] = "9e536fe3da60b25d2c63addb84a9d5072d00b0d8b8cbeabc629a6bcd63f879b6"
++SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
++SRC_URI[md5sum] = "dfbf30af5fb6190bfafc5aa6abcc9dce"
++SRC_URI[sha256sum] = "d312ade547495c2093ff8bda61f9b9727a98cfdae339f3263277dd39c0451172"
+ 
+ S = "${WORKDIR}/libsoup-${PV}"
+ 
+-- 
+2.11.0
+
 
