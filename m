@@ -1,55 +1,25 @@
-Return-Path: <petr.vorel@gmail.com>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B35E79164
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 986A874FD0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Oct 2018 19:44:39 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id i8-v6so71060wmg.0
+	Mon,  8 Oct 2018 03:32:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w983WDw7026615
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Oct 2018 12:44:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:subject:message-id:reply-to:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=awz43kbc+QN++M8NYkyXA0UyMwThlsBmJxlp/luW1SM=;
-	b=o3i9wGyZ6fH/tDadDgVU7QQDSMcjroGaWUI2Vv6CgDW8ydo/v5MZlJCdAKCbZ75DaI
-	jiEKL9ST46p8ru+zGs+NvqLO4Dm8/6Xe9w4hIloc3frp+mAjfaAQleeckQsC1qwJfYPo
-	1xLshtS+fbrmatCz5qBg/0ga1rrEGKWXQQRsUoy+WuY2YPWdxW4bbyC64aw2jBdhtDUJ
-	JOBpc+FTO4kFy9T8+JNJTWngctGvrkDzzyGG0vRgN604DeKrYIcpPhMf5egnzqNJkvwn
-	vC4TcPBuzSBpA3Hpz8YgS048JrG1/Y0JoxGDlCcEuykq0Af1ccdPvO2BCSV445SxLo7H
-	8p4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:reply-to
-	:references:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=awz43kbc+QN++M8NYkyXA0UyMwThlsBmJxlp/luW1SM=;
-	b=fYrp8Ns1UBqutmh5mBnAvNQeMgx3axFD2ICQL71LE4l8yGBv3FaYge2D0cbCuoK0CH
-	GPV4SArFsE9zgj56dgSWjCkwoByWo3M3+zBTuTkP3VnPb53+EbC7oJwVLzg7Gzc2oh7u
-	Fs2RO2gtL92RguvmQOshU4/D9B9Ufz4aliEbLCLJtvkMvz4Hi0azVnaGyuPouz8vvWgW
-	aioMNVaghT0AutN29x0Bj5uLhLHKaxlK8uIVyoWmnYd+oMLuZpQjINsds5IvHuAgSTv3
-	gM0cDWtEsfvCFPwEfNbJhS/qV/hW+JXOOuzFczAGNfskSeo8hdUfzdR8PQRl5xlIpc/7
-	sTPw==
-X-Gm-Message-State: ABuFfojXKee6QkcfY5o6c4+4RJcZhtg9+YzhpCsgLnxVVdg+moBd+SjJ
-	4fwX9JAZhYrmXtBts8ZW+nziwHQt
-X-Google-Smtp-Source: ACcGV63RJlZ31i61yrPPtcJlRGiAsbyQIZzaZgGFaxqpXgVk1dNExVhEOuim5IP11Mmr1RbvEM1x8Q==
-X-Received: by 2002:a1c:c2c3:: with SMTP id
-	s186-v6mr13403454wmf.16.1538941479838; 
-	Sun, 07 Oct 2018 12:44:39 -0700 (PDT)
-Received: from x230 ([85.119.94.113]) by smtp.gmail.com with ESMTPSA id
-	b8-v6sm4027376wme.1.2018.10.07.12.44.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 07 Oct 2018 12:44:39 -0700 (PDT)
-Date: Sun, 7 Oct 2018 21:44:37 +0200
-From: Petr Vorel <petr.vorel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20181007194436.GA2143@x230>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <20181007183115.20717-1-petr.vorel@gmail.com>
-	<20181007190305.29310.78689@do.openembedded.org>
+	Sun, 7 Oct 2018 20:32:13 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Sun, 7 Oct 2018 20:32:12 -0700
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 7 Oct 2018 20:31:51 -0700
+Message-ID: <20181008033151.26867-2-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20181008033151.26867-1-hongzhi.song@windriver.com>
+References: <20181008033151.26867-1-hongzhi.song@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20181007190305.29310.78689@do.openembedded.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGx0cDogVXBkYXRlIHRvIDIwMTgwOTI2?=
+Subject: [PATCH 1/1] ltp: recent glibc calls syscall directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,22 +32,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Oct 2018 19:44:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 08 Oct 2018 03:32:12 -0000
+Content-Type: text/plain
 
-Hi,
+The case of sigwaitinfo related to sigwaitinfo API failed.
 
-> == Series Details ==
+glibc commit
+  8b0e795aaa44 ("Simplify Linux sig{timed}wait{info} implementations")
+  changed sigwaitinfo to call sigtimedwait, which calls rt_sigtimedwait
+  syscall directly.
 
-> Series: ltp: Update to 20180926
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/14398/
-> State : failure
+So, an invalid pointer no longer crashes child process and test
+reports failure. Fix it by accepting either crash or EFAULT.
 
-Replaced by v2, where addressed the issues.
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+---
+ ...nfo01-recent-glibc-calls-syscall-directly.patch | 75 ++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20180515.bb          |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch
 
+diff --git a/meta/recipes-extended/ltp/ltp/0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch b/meta/recipes-extended/ltp/ltp/0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch
+new file mode 100644
+index 0000000000..c412c89e99
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch
+@@ -0,0 +1,75 @@
++From bb977ca0716ae98f10102c7122fe15bc0ddb5356 Mon Sep 17 00:00:00 2001
++From: "Hongzhi.Song" <hongzhi.song@windriver.com>
++Date: Thu, 20 Sep 2018 21:49:02 -0400
++Subject: [PATCH] sigwaitinfo01: recent glibc calls syscall directly
++
++glibc commit
++  8b0e795aaa44 ("Simplify Linux sig{timed}wait{info} implementations")
++changed sigwaitinfo to call sigtimedwait, which calls rt_sigtimedwait
++syscall directly.
++
++So, an invalid pointer no longer crashes child process and test
++reports failure. Fix it by accepting either crash or EFAULT.
++
++Signed-off-by: Jan Stancek <jstancek@redhat.com>
++
++Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2018-September/009338.html]
++
++Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
++---
++ .../kernel/syscalls/sigwaitinfo/sigwaitinfo01.c    | 30 +++++++++++++++++++---
++ 1 file changed, 26 insertions(+), 4 deletions(-)
++
++diff --git a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
++index 95a9436a4..8fa8ac34b 100644
++--- a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
+++++ b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
++@@ -371,19 +371,41 @@ void test_bad_address2(swi_func sigwaitinfo, int signo)
++ 		tst_brkm(TBROK | TERRNO, NULL, "fork() failed");
++ 	case 0:
++ 		signal(SIGSEGV, SIG_DFL);
+++
+++       /*
+++        * depending on glibc implementation we should
+++        * either crash or get EFAULT
+++        */
++ 		TEST(sigwaitinfo((void *)1, NULL, NULL));
++ 
++-		_exit(0);
+++       if (TEST_RETURN == -1 && TEST_ERRNO == EFAULT)
+++           _exit(0);
+++
+++       tst_resm(TINFO, "swi_func returned: %ld, errno: %d",
+++           TEST_RETURN, TEST_ERRNO);
+++       _exit(1);
+++
++ 		break;
++ 	default:
++ 		break;
++ 	}
++ 
++ 	SUCCEED_OR_DIE(waitpid, "waitpid failed", pid, &status, 0);
++-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGSEGV)
+++
+++   if ((WIFSIGNALED(status) && WTERMSIG(status) == SIGSEGV)
+++       || (WIFEXITED(status) && WEXITSTATUS(status) == 0)) {
++ 		tst_resm(TPASS, "Test passed");
++-	else
++-		tst_resm(TFAIL, "Unrecognised child exit code");
+++       return;
+++   }
+++
+++   if (WIFEXITED(status)) {
+++       tst_resm(TFAIL, "Unrecognised child exit code: %d",
+++           WEXITSTATUS(status));
+++   }
+++   if (WIFSIGNALED(status)) {
+++       tst_resm(TFAIL, "Unrecognised child termsig: %d",
+++           WTERMSIG(status));
+++   }
++ }
++ 
++ void test_bad_address3(swi_func sigwaitinfo, int signo)
++-- 
++2.11.0
++
+diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180515.bb
+index ce86f7f14b..ba0e6a60b4 100644
+--- a/meta/recipes-extended/ltp/ltp_20180515.bb
++++ b/meta/recipes-extended/ltp/ltp_20180515.bb
+@@ -53,6 +53,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0042-fs-ftest-ftest06.c-Fix-too-small-name-string-and-rel.patch \
+            file://0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch \
+            file://0001-syscalls-fcntl-make-OFD-command-use-fcntl64-syscall-.patch \
++           file://0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.11.0
 
-Kind regards,
-Petr
 
