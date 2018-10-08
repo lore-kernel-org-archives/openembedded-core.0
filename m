@@ -1,51 +1,50 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 42314744B1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C08C478D42
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Oct 2018 14:33:28 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id o14-v6so18120782ljj.2
+	Mon,  8 Oct 2018 14:36:33 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id y11-v6so10368940wrd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Oct 2018 07:33:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=1e6peyzteEuM5pZUCVS+CngE2f2/QQwadLolcMG0TT8=;
-	b=ayKJFf/meUEXqOSnJhDxHXQRRNzaKo9enWDJxI7iX///5UiGTRyFuh4qE2lYlg+LPL
-	3RwwFNHmyeyPNTTycrUDrBsexMWHD5lO//Pz1hkpe3STu+bbrvMzQ/ENdU9Vx4mxCmMq
-	1z1xq9jwxRh0z27cpVfyTy2mTNw8fbPKeciDdlMmv0RJVgDMri9509XZsb+KkABzmAqd
-	GDjkmTX4kxy9QWf0WgYFFRGwea8GcVNbczZmj1C8HFcdsVVbLELGnf8+XfPh3CQgtX4x
-	/DRqPwfOapUVwsWlo6TkydIehKb+Vdx4FPb6vP8x38cBMYqnhE3QEuljH/OnLZtQ6KJD
-	rtmw==
+	Mon, 08 Oct 2018 07:36:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=F3/48b69lSd810txWF76jLGue27Iz+u9ypaO5BHMZ6I=;
+	b=B11H6J71gLvMOHSWNMeAzJv3MwBlFeDjQ8yl98kFcJx0UD0y05l6nc6pDVvSC+ABfJ
+	mp7ppyCVNq2RDHOpOltbdP8RCywClX0h3zr+g/+15iQdVoSaJDar5SXUgusCnkEx8n46
+	qmkGBoEZ+QQASvdelOxi7ghfM/rTM5uTaS0c7pG7elq+dDPtztCFflC6HOf14I7JkXnd
+	9kmqbjkRL+BEau087WWUpBHPLrE6187NR82TRdEdLWDjgfWEqCEFZ1ntPRIUKP+pNmiI
+	veiGAyzlUNs4BPjqXBlP4EFA+lKSiQrGZjEawbV1XU5atDxViG/8NU67npy97+0fMl8e
+	LvCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=1e6peyzteEuM5pZUCVS+CngE2f2/QQwadLolcMG0TT8=;
-	b=cblCWT/uyR3EjfbaACox8dHXvIj5a2iq3+A7v7vLD6br0+HHh1nZMq7QNENeNStTXG
-	whgSSJsQMeLO5UTJSLsXeulK6eklrEn7IVNxqQ7Up3zTjHDRgUC6ZFo5FgYDR7GaObhC
-	82RZ88bpB7ul+pkV/FaXyvAWI+ub9NIjQjlBsBmufny/4myscJz2suYtVgOrwh6Tp3hg
-	Bl3+FfUnqVFuBY3vkt40PCjQWx3e2E6ASnNKIuVlVLwn6b9qRgsj5Q7VDFC5dIRdALW4
-	ZOv9bPsbZkyZ68GHb6cgXKCDJS71jXA7naas/OtqnyJr2KFRMN/ckdr20vEEX4oCuivc
-	DU/g==
-X-Gm-Message-State: ABuFfogVXdBJW4tlNIaZcn6DO2siOtYZEMuCW9s4S+LA5gy68xpPt3Q0
-	gu+5j8jMteMMlGL04vvwm5ywlPjZShS5kI2APX3T2w==
-X-Google-Smtp-Source: ACcGV62Sv/mzpsLFL6rnYVsR5PUEwUMOo5W8yIiE+o1NEkozacj9TUWgnYMBBdL/jsNPTRwUAjbN49Nk0J2L2LKwPK0=
-X-Received: by 2002:a2e:8589:: with SMTP id
-	b9-v6mr11940959lji.122.1539009208429; 
-	Mon, 08 Oct 2018 07:33:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181001124209.12503-1-urs.fassler@bbv.ch>
-	<93a276f8-7465-ffd9-9279-44aacd1c2337@windriver.com>
-	<2585c52cf6e9a30822d3417299c3df681e5ec7a4.camel@bbv.ch>
-In-Reply-To: <2585c52cf6e9a30822d3417299c3df681e5ec7a4.camel@bbv.ch>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 8 Oct 2018 10:33:16 -0400
-Message-ID: <CADkTA4PS+VBNpLn490QBXeoR964UmohE-uSE0UtDCkUjZ9FVzA@mail.gmail.com>
-To: urs.fassler@bbv.ch
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [yocto-docs][PATCH] kernel-dev: document the change detection of kernel feature files
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=F3/48b69lSd810txWF76jLGue27Iz+u9ypaO5BHMZ6I=;
+	b=jPfSDL7VZsts+itlq3oHPH3VLyAa94qUCo/5Zkqw4vqxUi4FT9QaIJBGSuPprsfIdU
+	mdodHxh8yUR0SotSc9TlzMp6ptDWvMuKrN10lV545WP9pz5Z/r8P528fWWWLOQQH4h+k
+	+Pj+xBUc79t5kGkVMjHk12O4LH7a2MjxZLcQ3V1f8pShgNY/g9HiJI3rmYzoh6q0BsDh
+	naLYmDP9DUmeL9saapCweCAlyueKzJ1yh1nevlmm2jHXPx/qq3uZMSIPNLGUV6d5bgoI
+	nsAE8LN2HAyMFV9tOqwcy5TKK1HHzx3qBzQBQbxao6E6/YLlw+ZIs5jSL/pdpxQ4wVsF
+	33Xw==
+X-Gm-Message-State: ABuFfoj6oapWF9iQUKgILfzHCUPieWUh7KdGNCT9tOETMqE/v0sycpeK
+	Af/M2aXy3/0QWiYMFJovHHwzGsPVGsQ=
+X-Google-Smtp-Source: ACcGV62B/FvmxicjUyYalpChsJP5zuagtYTAR0ITtHT/vuMPTkaBv5GptqNbSePvxUe+Uol+fw9heg==
+X-Received: by 2002:adf:ac4a:: with SMTP id
+	v68-v6mr17664614wrc.165.1539009394115; 
+	Mon, 08 Oct 2018 07:36:34 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	g75-v6sm20114631wrd.1.2018.10.08.07.36.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Oct 2018 07:36:33 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Oct 2018 15:36:29 +0100
+Message-Id: <20181008143629.9333-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] lib11: fix patch headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,140 +57,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Oct 2018 14:33:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Oct 2018 14:36:34 -0000
 
-On Mon, Oct 8, 2018 at 5:18 AM Urs F=C3=A4ssler <urs.fassler@bbv.ch> wrote:
->
-> On Tue, 2018-10-02 at 10:44 -0400, bruce.ashfielda wrote:
-> > On 2018-10-01 8:42 AM, Urs F?ssler wrote:
-> > > Recommend to add recipe-space features to SRC_URI so that changes
-> > > to them
-> > > are detected automatically.
-> > >
-> > > Signed-off-by: Urs F?ssler <urs.fassler at bbv.ch>
-> > > Signed-off-by: Pascal Bach <pascal.bach at siemens.com>
-> > > ---
-> > >   documentation/kernel-dev/kernel-dev-common.xml | 7 +++++--
-> > >   1 file changed, 5 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/documentation/kernel-dev/kernel-dev-common.xml
-> > > b/documentation/kernel-dev/kernel-dev-common.xml
-> > > index 83b02b1c1..6289ce8d4 100644
-> > > --- a/documentation/kernel-dev/kernel-dev-common.xml
-> > > +++ b/documentation/kernel-dev/kernel-dev-common.xml
-> > > @@ -2623,6 +2623,9 @@
-> > >               <filename>.scc</filename> file in the
-> > >               <filename>SRC_URI</filename> statement to reference
-> > > multiple kernel
-> > >               features.
-> > > +            Since BitBake only detects changes on files listed in
-> > > +            <filename>SRC_URI</filename>, it is best to add all
-> >
-> > This is not necessarily true. It would be better stated that if you
-> > are modifying the .cfg files in the layer directly, you should list
-> > them on the SRC_URI to have the changes picked up by bitbake.
-> >
-> > It is not a matter of "best", so it should be stated that way.
->
-> Thank you for the feedback. I am not sure if I don't understand the
-> problem or your answer correctly.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.patch          | 3 ++-
+ meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.patch   | 3 ++-
+ meta/recipes-graphics/xorg-lib/libx11/fix-utf8-wrong-define.patch | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-I meant to say "not stated that way".
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.patch b/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.patch
+index 4ca2f42d4c7..c1172147a6e 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.patch
++++ b/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.patch
+@@ -1,10 +1,11 @@
+ From 62005ad019d6afb81da100b3113292a16472d241 Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Mon, 10 Sep 2018 09:08:27 +0800
+-Subject: [PATCH] Upstream-Status: Inappropriate [configuration]
++Subject: [PATCH] Stub out x18n
+ 
+ Update patch to version 1.6.6
+ Signed-off-by: Changqing Li <changqing.li@windriver.com>
++Upstream-Status: Inappropriate [configuration]
+ ---
+  src/Makefile.am    |   5 +-
+  src/X18NCMSstubs.c | 426 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.patch b/meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.patch
+index 3677fb1c5ca..09cf74fff4c 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.patch
++++ b/meta/recipes-graphics/xorg-lib/libx11/fix-disable-xlocale.patch
+@@ -1,12 +1,13 @@
+ From 5c1693028ef12ab767d7cdbc349c27efa1ada87a Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Mon, 10 Sep 2018 09:13:38 +0800
+-Subject: [PATCH] Upstream-Status: Pending
++Subject: [PATCH] Fix build when xlocale disabled
+ 
+ Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+ 
+ Update patch to version 1.6.6
+ Signed-off-by: Changqing Li <changqing.li@windriver.com>
++Upstream-Status: Pending
+ ---
+  src/Font.c | 4 ++++
+  1 file changed, 4 insertions(+)
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/fix-utf8-wrong-define.patch b/meta/recipes-graphics/xorg-lib/libx11/fix-utf8-wrong-define.patch
+index 1a3069a9ad6..0b57e0b068c 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11/fix-utf8-wrong-define.patch
++++ b/meta/recipes-graphics/xorg-lib/libx11/fix-utf8-wrong-define.patch
+@@ -1,13 +1,14 @@
+ From 046703373055c7029c19d171e415ff3caaa87372 Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Mon, 10 Sep 2018 09:16:33 +0800
+-Subject: [PATCH] Upstream-Status: Pending
++Subject: [PATCH] Disable unicode
+ 
+ Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+ 
+ Update patch to version 1.6.6
+ 
+ Signed-off-by: Changqing Li <changqing.li@windriver.com>
++Upstream-Status: Pending
+ ---
+  include/X11/Xlib.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+-- 
+2.11.0
 
->
-> We faced the problem, that our CI server did not picked up the changes
-> made in the .cfg files. I investigated the problem and found that
-> BitBake only detects changes on files listed in SRC_URI. This is
-> supported in the chapter "Working with Advanced Metadata" that states:
-
-I'm aware of how the items are currently written, having provided much
-of the information for those sections.
-
->
-> "BitBake parses [the .scc files] and fetches any files referenced in
-> the .scc files by the include, patch, or kconf commands. Because of
-> this, it is necessary to bump the recipe PR value when changing the
-> content of files not explicitly listed in the SRC_URI."
-> https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#rec=
-ipe-space-metadata
->
-> The behavior is imho not what you expect. But fixing this is quite a
-> big change since it involves changes in the interaction of BitBake
-> (change detection on files) with Yocto classes (recursive parsing of
-> scc files). Therefore I try to solve it with a better description.
-
-Yep. I've had a bug/feature to do just that for some time, but it hasn't
-made it to the top of the list yet.
-
-My point is that the description should not say "best", it isn't a matter
-of best or worst. It is a matter of stating the behaviour, knowing how
-you plan to interact with the elements and then using them appropriately.
-
->
-> You stated that it is only necessary to add the .cfg files when you
-> change the .cfg files in the layer directly. I don't see how you would
-> change the .cfg files otherwise or what use case you have in mind.
-
-By using a kernel-cache repository. Just like all the main linux-yocto
-builds. Alternatively, you could make sure the gather meta-data task
-is always run, but then that typically triggers more compiles/builds
-than you want.
-
->
-> > > @+            <filename>.cfg</filename> to
-> > > <filename>SRC_URI</filename>.
-> > >           </para>
-> > >
-> > >           <para>
-> > > @@ -2674,10 +2677,10 @@
-> > >                       </para></listitem>
-> > >                   <listitem><para>
-> > >                       <emphasis>Add the Feature File to
-> > > <filename>SRC_URI</filename>:</emphasis>
-> > > -                    Add the <filename>.scc</filename> file to the
-> > > +                    Add the <filename>.cfg</filename> and
-> > > <filename>.scc</filename> file to the
-> > >                       recipe's <filename>SRC_URI</filename>
-> > > statement:
-> > >                       <literallayout class=3D'monospaced'>
-> > > -     SRC_URI_append =3D " file://test.scc"
-> > > +     SRC_URI_append =3D " file://test.cfg file://test.scc"
-> >
-> > This is wrong. You should not have both on the SRC_URI
->
-> I concluded this also from the description in the "Working with
-> Advanced Metadata" chapter (see above). But I would be happy to know
-> about another solution for our problem.
-
-If all that test.scc does is include test.cfg, you don't put both on
-the SRC_URI.
-All you've done is include it twice. If you are worried about modifying the
-.cfg's and having sstate be invalided so the tasks re-run, then you'd just
-put the .cfg on the SRC_URI.
-
-Bruce
-
->
-> Urs
->
-> > >                       </literallayout>
-> > >                       The leading space before the path is
-> > > important as the
-> > >                       path is appended to the existing path.
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
