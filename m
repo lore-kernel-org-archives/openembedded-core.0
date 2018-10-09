@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C17866069C;
-	Tue,  9 Oct 2018 14:40:16 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id EB95A71C42;
+	Tue,  9 Oct 2018 14:40:17 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Pascal Bach <pascal.bach@siemens.com>
-Date: Tue, 09 Oct 2018 14:40:18 -0000
-Message-ID: <20181009144018.13843.88051@do.openembedded.org>
-References: <20181009140014.4618-1-pascal.bach@siemens.com>
+Date: Tue, 09 Oct 2018 14:40:19 -0000
+Message-ID: <20181009144019.29310.70687@do.openembedded.org>
+References: <20181009140315.4933-1-pascal.bach@siemens.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20181009140014.4618-1-pascal.bach@siemens.com>
+In-Reply-To: <20181009140315.4933-1-pascal.bach@siemens.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY21ha2UuYmJjbGFzczogbW92ZSBDTUFLRV9OT19TWVNURU1fRlJPTV9JTVBPUlRFRCB0byB0b29sY2hhaW4uY21ha2U=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY21ha2UuYmJjbGFzczogc2VhcmNoIGJvdGggc3lzcm9vdC1uYXRpdmUgYW5kIGhvc3QgZm9yIG5hdGl2ZSBwYWNrYWdlcw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Oct 2018 14:40:16 -0000
+X-List-Received-Date: Tue, 09 Oct 2018 14:40:18 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: cmake.bbclass: move CMAKE_NO_SYSTEM_FROM_IMPORTED to toolchain.cmake
+Series: cmake.bbclass: search both sysroot-native and host for native packages
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/14430/
+URL   : https://patchwork.openembedded.org/series/14431/
 State : failure
 
 == Summary ==
