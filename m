@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 13302744B1;
-	Tue,  9 Oct 2018 11:07:55 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 303CD79870;
+	Tue,  9 Oct 2018 11:07:57 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Andrej Valek <andrej.valek@siemens.com>
-Date: Tue, 09 Oct 2018 11:07:57 -0000
-Message-ID: <20181009110757.13840.91094@do.openembedded.org>
+Date: Tue, 09 Oct 2018 11:07:58 -0000
+Message-ID: <20181009110758.13843.68257@do.openembedded.org>
 References: <20181004104147.14644-1-andrej.valek@siemens.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <20181004104147.14644-1-andrej.valek@siemens.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnVzeWJveDogZml4IGNvbmZsaWN0IHdpdGggcnVubGV2ZWwgYXBwbGV0IChyZXY0KQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnVzeWJveDogZml4IGNvbmZsaWN0IHdpdGggcnVubGV2ZWwgYXBwbGV0IChyZXY1KQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Oct 2018 11:07:56 -0000
+X-List-Received-Date: Tue, 09 Oct 2018 11:07:57 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: busybox: fix conflict with runlevel applet (rev4)
-Revision: 4
+Series: busybox: fix conflict with runlevel applet (rev5)
+Revision: 5
 URL   : https://patchwork.openembedded.org/series/14363/
 State : failure
 
