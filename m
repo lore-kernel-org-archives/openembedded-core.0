@@ -1,29 +1,53 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 893FE798BF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 240AF71C07
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Oct 2018 10:59:39 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w99AxeNl027942
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Tue,  9 Oct 2018 11:00:17 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id x12-v6so1306843wru.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Oct 2018 12:59:40 +0200
-Received: from dev.vm6.ccp.siemens.com ([163.242.50.93])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w99Axdme012354;
-	Tue, 9 Oct 2018 12:59:39 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id BBC719550DC;
-	Tue,  9 Oct 2018 12:59:39 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Tue, 09 Oct 2018 04:00:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xD3H3Rvv7YIFTYQa5wHJUyzwLZq1rqEqQdkM8BU9teA=;
+	b=M40yXrLQT/o50GhxNiXL6lXMPKo1skZr+Tn1Jzwezz9lQY/XTgh6Ui7CcnXfFkAdjH
+	OmQV+aInZA2QOL+h55QZy7sCjh8HVfIfdivg+FXfYFc66wI8WiUunOLc7LdBui4dY5BA
+	sZ2CA9v1y1mtAvPr2oQiWx0EgtfDT+OrznC1dGoyUYVRFCT5seNwJ93i6cRwKMsPiOzz
+	Q1s5uSqecTyJI/d/vO7s++Iv1RQ5U9JOc6X0QbbFxwDJtIMTeL3oEo5KHww/GPw6KDAN
+	BpLP17p/PkI1tWcPkK3d7VzydPzdmT97P4G2yBD90Lh17FiIizHnv2mKmJNYHaHrhOIO
+	jwGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xD3H3Rvv7YIFTYQa5wHJUyzwLZq1rqEqQdkM8BU9teA=;
+	b=lysVi/JCzQ0Wx3/42/tg0S4/7yBkx2pOGfMXv6pdCqi1pGrhgu0PS+6HjbRSQqORat
+	jmW7hONSVWXfYzbekNQxWWzBVPPW++WBxNtU5HeVcvisHY4hHarxv5+sYSGyr+V/E7mI
+	voYbnsI1zlj8aJiB/t+1wTPHXT7jOqHhHOPd9CvAM3Dupd8sxuXIdkxW7zkP9Bh+rYza
+	BqVKnkbQXotw68LYubojt2r3jlnyljjGZTSVJl/CfvV4O5A56FKt4eqFMGriEJfjozeJ
+	XolNEhBceuFait4GQROBFWkr3oYRA6rDeIYEV2prUTMFNwkJOuxsKV+C5z8XzmzM4x85
+	xaIw==
+X-Gm-Message-State: ABuFfog7a8+wety6ll1PGo43GxeyaP3M+LAxRbSNpsHy58DIGU+6Pzto
+	uzKBKW/3EPAJxnsvrm8Yhd+3Q6JWj6Y=
+X-Google-Smtp-Source: ACcGV63fD0k1wjf0qAhktmANU5vPzy0DKSbx8X2s2RVhRa9kvcUsfGLDnAKKbOExy10sKGAuT0wOVw==
+X-Received: by 2002:a5d:60c3:: with SMTP id
+	x3-v6mr20329914wrt.193.1539082817265; 
+	Tue, 09 Oct 2018 04:00:17 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	h64-v6sm11525542wmh.27.2018.10.09.04.00.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 09 Oct 2018 04:00:16 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Oct 2018 12:59:14 +0200
-Message-Id: <20181009105914.11047-3-andrej.valek@siemens.com>
+Date: Tue,  9 Oct 2018 12:00:13 +0100
+Message-Id: <20181009110013.31510-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20181009105914.11047-1-andrej.valek@siemens.com>
-References: <20181009105914.11047-1-andrej.valek@siemens.com>
-In-Reply-To: <CAJTo0LafoJckLNPwDDnDzDhPg+B72N3fm65BR4WAuENbkKHD6w@mail.gmail.com>
-References: <CAJTo0LafoJckLNPwDDnDzDhPg+B72N3fm65BR4WAuENbkKHD6w@mail.gmail.com>
-Subject: [PATCH v3 3/3] busybox: unify recipe style
+MIME-Version: 1.0
+Subject: [PATCH] glib: fix Lithuanian strings in GDate test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,142 +60,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Oct 2018 10:59:40 -0000
+X-List-Received-Date: Tue, 09 Oct 2018 11:00:17 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-- change spaces to tabs and unify indent level
+This test suite has hard-coded strings which don't match the new translations in
+glibc 2.28, so update the test suite.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 98 +++++++++++++++++------------------
- 1 file changed, 49 insertions(+), 49 deletions(-)
+ meta/recipes-core/glib-2.0/glib-2.0/date-lt.patch | 20 ++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb     |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/date-lt.patch
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 97b73c1dc0..10582a7534 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -117,13 +117,13 @@ do_prepare_config () {
- 		${S}/.config
- 	sed -i -e '${configmangle}' ${S}/.config
- 	if test ${DO_IPv4} -eq 0 && test ${DO_IPv6} -eq 0; then
--	  # disable networking applets
--	  mv ${S}/.config ${S}/.config.oe-tmp
--	  awk 'BEGIN{net=0}
--	  /^# Networking Utilities/{net=1}
--	  /^#$/{if(net){net=net+1}}
--	  {if(net==2&&$0 !~ /^#/&&$1){print("# "$1" is not set")}else{print}}' \
--		  ${S}/.config.oe-tmp > ${S}/.config
-+		# disable networking applets
-+		mv ${S}/.config ${S}/.config.oe-tmp
-+		awk 'BEGIN{net=0}
-+		/^# Networking Utilities/{net=1}
-+		/^#$/{if(net){net=net+1}}
-+		{if(net==2&&$0 !~ /^#/&&$1){print("# "$1" is not set")}else{print}}' \
-+		${S}/.config.oe-tmp > ${S}/.config
- 	fi
- 	sed -i 's/CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS="-R -n"/CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS="-R -b"/' ${S}/.config
- 	sed -i 's|${DEBUG_PREFIX_MAP}||g' ${S}/.config
-@@ -151,7 +151,7 @@ do_compile() {
- 		export KCONFIG_NOTIMESTAMP=1
- 	fi
- 	if [ "${BUSYBOX_SPLIT_SUID}" = "1" -a x`grep "CONFIG_FEATURE_INDIVIDUAL=y" .config` = x ]; then
--	# split the .config into two parts, and make two busybox binaries
-+		# split the .config into two parts, and make two busybox binaries
- 		if [ -e .config.orig ]; then
- 			# Need to guard again an interrupted do_compile - restore any backup
- 			cp .config.orig .config
-@@ -303,51 +303,51 @@ do_install () {
- 		sed -i "s:/usr/sbin/:${sbindir}/:" ${D}${sysconfdir}/init.d/inetd.${BPN}
- 		install -m 0644 ${WORKDIR}/inetd.conf ${D}${sysconfdir}/
- 	fi
--        if grep -q "CONFIG_MDEV=y" ${B}/.config; then
--               install -m 0755 ${WORKDIR}/mdev ${D}${sysconfdir}/init.d/mdev
--               if grep "CONFIG_FEATURE_MDEV_CONF=y" ${B}/.config; then
--                       install -m 644 ${WORKDIR}/mdev.conf ${D}${sysconfdir}/mdev.conf
--                       install -d ${D}${sysconfdir}/mdev
--                       install -m 0755 ${WORKDIR}/find-touchscreen.sh ${D}${sysconfdir}/mdev
--                       install -m 0755 ${WORKDIR}/mdev-mount.sh ${D}${sysconfdir}/mdev
--               fi
-+	if grep -q "CONFIG_MDEV=y" ${B}/.config; then
-+		install -m 0755 ${WORKDIR}/mdev ${D}${sysconfdir}/init.d/mdev
-+		if grep "CONFIG_FEATURE_MDEV_CONF=y" ${B}/.config; then
-+			install -m 644 ${WORKDIR}/mdev.conf ${D}${sysconfdir}/mdev.conf
-+			install -d ${D}${sysconfdir}/mdev
-+			install -m 0755 ${WORKDIR}/find-touchscreen.sh ${D}${sysconfdir}/mdev
-+			install -m 0755 ${WORKDIR}/mdev-mount.sh ${D}${sysconfdir}/mdev
-+		fi
-+	fi
-+	if grep -q "CONFIG_INIT=y" ${B}/.config; then
-+		install -D -m 0777 ${WORKDIR}/rcS ${D}${sysconfdir}/init.d/rcS
-+		install -D -m 0777 ${WORKDIR}/rcK ${D}${sysconfdir}/init.d/rcK
-+	fi
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/date-lt.patch b/meta/recipes-core/glib-2.0/glib-2.0/date-lt.patch
+new file mode 100644
+index 00000000000..dd0aff72813
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/date-lt.patch
+@@ -0,0 +1,20 @@
++Update Lithuanian month names in the test suite as glibc changed the translations.
 +
-+	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+		if grep -q "CONFIG_KLOGD=y" ${B}/.config; then
-+			install -d ${D}${systemd_unitdir}/system
-+			sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-klogd.service.in \
-+			> ${D}${systemd_unitdir}/system/busybox-klogd.service
-+		fi
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/merge_requests/373]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+		if grep -q "CONFIG_SYSLOGD=y" ${B}/.config; then
-+			install -d ${D}${systemd_unitdir}/system
-+			sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-syslog.service.in \
-+			> ${D}${systemd_unitdir}/system/busybox-syslog.service
-+			if  [ ! -e ${D}${systemd_unitdir}/system/busybox-klogd.service ] ; then
-+				sed -i '/klog/d' ${D}${systemd_unitdir}/system/busybox-syslog.service
-+			fi
-+			if [ -f ${WORKDIR}/busybox-syslog.default ] ; then
-+				install -d ${D}${sysconfdir}/default
-+				install -m 0644 ${WORKDIR}/busybox-syslog.default ${D}${sysconfdir}/default/busybox-syslog
-+			fi
-+		fi
-+	fi
-+
-+	# Remove the sysvinit specific configuration file for systemd systems to avoid confusion
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'false', 'true', d)}; then
-+		rm -f ${D}${sysconfdir}/syslog-startup.conf
- 	fi
--        if grep -q "CONFIG_INIT=y" ${B}/.config; then
--                install -D -m 0777 ${WORKDIR}/rcS ${D}${sysconfdir}/init.d/rcS
--                install -D -m 0777 ${WORKDIR}/rcK ${D}${sysconfdir}/init.d/rcK
--        fi
--
--    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
--        if grep -q "CONFIG_KLOGD=y" ${B}/.config; then
--            install -d ${D}${systemd_unitdir}/system
--            sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-klogd.service.in \
--            > ${D}${systemd_unitdir}/system/busybox-klogd.service
--        fi
--
--        if grep -q "CONFIG_SYSLOGD=y" ${B}/.config; then
--            install -d ${D}${systemd_unitdir}/system
--            sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-syslog.service.in \
--		> ${D}${systemd_unitdir}/system/busybox-syslog.service
--            if  [ ! -e ${D}${systemd_unitdir}/system/busybox-klogd.service ] ; then
--                sed -i '/klog/d' ${D}${systemd_unitdir}/system/busybox-syslog.service
--            fi
--            if [ -f ${WORKDIR}/busybox-syslog.default ] ; then
--		install -d ${D}${sysconfdir}/default
--		install -m 0644 ${WORKDIR}/busybox-syslog.default ${D}${sysconfdir}/default/busybox-syslog
--            fi
--        fi
--    fi
--
--    # Remove the sysvinit specific configuration file for systemd systems to avoid confusion
--    if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'false', 'true', d)}; then
--	rm -f ${D}${sysconfdir}/syslog-startup.conf
--    fi
- }
++diff --git a/glib/tests/date.c b/glib/tests/date.c
++index b801ca704..6646c227c 100644
++--- a/glib/tests/date.c
+++++ b/glib/tests/date.c
++@@ -365,8 +365,8 @@ test_month_names (void)
++       TEST_DATE ( 1,  4, 2018,      "%Y m. %OB",      "2018 m. balandis");
++       TEST_DATE ( 1,  5, 2018,      "%Y m. %OB",        "2018 m. gegužė");
++       TEST_DATE ( 1,  6, 2018,      "%Y m. %OB",      "2018 m. birželis");
++-      TEST_DATE (17,  7, 2018, "%Y m. %b %e d.",     "2018 m. Lie 17 d.");
++-      TEST_DATE ( 1,  8, 2018,      "%Y m. %Ob",           "2018 m. Rgp");
+++      TEST_DATE (17,  7, 2018, "%Y m. %b %e d.",   "2018 m. Liep. 17 d.");
+++      TEST_DATE ( 1,  8, 2018,      "%Y m. %Ob",         "2018 m. rugp.");
++     }
++   else
++     g_test_skip ("locale lt_LT not available, skipping Lithuanian month names test");
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
+index 6ebf1d25994..1271a7c269b 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch \
+            file://0001-Do-not-ignore-return-value-of-write.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
++           file://date-lt.patch \
+            "
  
- do_install_ptest () {
--        cp -r ${B}/testsuite ${D}${PTEST_PATH}/
--        cp ${B}/.config      ${D}${PTEST_PATH}/
--        ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
-+	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
-+	cp ${B}/.config      ${D}${PTEST_PATH}/
-+	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
- }
- 
- inherit update-alternatives
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
 -- 
 2.11.0
 
