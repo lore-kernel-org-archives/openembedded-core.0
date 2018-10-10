@@ -1,27 +1,25 @@
-Return-Path: <pascal.bach@siemens.com>
+Return-Path: <andrej.valek@siemens.com>
 Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 80BC579A6E
+	by mail.openembedded.org (Postfix) with ESMTP id DB60C7970D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 13:32:01 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w9ADW1aj023449
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 10 Oct 2018 15:32:01 +0200
-Received: from [167.87.5.162] ([167.87.5.162])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w9ADW0ai029408;
-	Wed, 10 Oct 2018 15:32:00 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20181010081035.10735-1-pascal.bach@siemens.com>
-	<222d0fe27ce0839f25a69d8f13d1f99462e15d99.camel@linuxfoundation.org>
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <bfc30ca8-8348-2e16-453b-a8b33cd48e8c@siemens.com>
-Date: Wed, 10 Oct 2018 15:32:00 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <222d0fe27ce0839f25a69d8f13d1f99462e15d99.camel@linuxfoundation.org>
-Subject: Re: [PATCHv3 1/4] cmake.bbclass: use CMAKE_SYSTEM_LIBRARY_PATH instead of CMAKE_LIBRARY_PATH
+	Wed, 10 Oct 2018 13:42:42 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w9ADghhT014386
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 15:42:43 +0200
+Received: from dev.vm6.ccp.siemens.com ([163.242.50.93])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w9ADghxl030112;
+	Wed, 10 Oct 2018 15:42:43 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id EC8EF9550DC;
+	Wed, 10 Oct 2018 15:42:41 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Oct 2018 15:40:14 +0200
+Message-Id: <20181010134014.21506-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libarchive: fix bug1066
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +32,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 13:32:01 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 10 Oct 2018 13:42:43 -0000
 
+Fix out of bounds read on empty string filename for guntar, pax and v7tar
 
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ .../libarchive/libarchive/bug1066.patch            | 54 ++++++++++++++++++++++
+ .../libarchive/libarchive_3.3.3.bb                 |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/bug1066.patch
 
-On 10.10.2018 14:36, Richard Purdie wrote:
-> On Wed, 2018-10-10 at 10:10 +0200, Pascal Bach wrote:
->> CMAKE_LIBRARY_PATH is intended to be set by projects.
->> CMAKE_SYSTEM_LIBRARY_PATH is better suited to be used in a toolchain
->> file.
->>
->> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
->> ---
->>  meta/classes/cmake.bbclass | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
-> I have a feeling something in this series may have caused:
->
-> https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/42753/raw
->
-> but haven't bisected to confirm it is the cmake changes yet (it is from
-> something in master-next).
-You are right the recipe is using cmake. I will investigate the issue.
+diff --git a/meta/recipes-extended/libarchive/libarchive/bug1066.patch b/meta/recipes-extended/libarchive/libarchive/bug1066.patch
+new file mode 100644
+index 0000000000..0a662b57b4
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/bug1066.patch
+@@ -0,0 +1,54 @@
++libarchive-3.3.3: Fix bug1066
++
++[No upstream tracking] -- https://github.com/libarchive/libarchive/pull/1066
++
++archive_write_set_format_*.c: fix out of bounds read on empty string () filename
++for guntar, pax and v7tar
++
++There is an out of bounds read flaw in the archive_write_gnutar_header,
++archive_write_pax_header and archive_write_v7tar_header functions which
++could leds to cause a denial of service.
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/c246ec5d058a3f70a2d3fb765f92fe9db77b25df]
++Bug: 1066
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++
++diff --git a/libarchive/archive_write_set_format_gnutar.c b/libarchive/archive_write_set_format_gnutar.c
++index 2d858c9..1966c53 100644
++--- a/libarchive/archive_write_set_format_gnutar.c
+++++ b/libarchive/archive_write_set_format_gnutar.c
++@@ -339,7 +339,7 @@ archive_write_gnutar_header(struct archive_write *a,
++ 		 * case getting WCS failed. On POSIX, this is a
++ 		 * normal operation.
++ 		 */
++-		if (p != NULL && p[strlen(p) - 1] != '/') {
+++		if (p != NULL && p[0] != '\0' && p[strlen(p) - 1] != '/') {
++ 			struct archive_string as;
++ 
++ 			archive_string_init(&as);
++diff --git a/libarchive/archive_write_set_format_pax.c b/libarchive/archive_write_set_format_pax.c
++index 6a301ac..4cfa8ff 100644
++--- a/libarchive/archive_write_set_format_pax.c
+++++ b/libarchive/archive_write_set_format_pax.c
++@@ -660,7 +660,7 @@ archive_write_pax_header(struct archive_write *a,
++ 			 * case getting WCS failed. On POSIX, this is a
++ 			 * normal operation.
++ 			 */
++-			if (p != NULL && p[strlen(p) - 1] != '/') {
+++			if (p != NULL && p[0] != '\0' && p[strlen(p) - 1] != '/') {
++ 				struct archive_string as;
++ 
++ 				archive_string_init(&as);
++diff --git a/libarchive/archive_write_set_format_v7tar.c b/libarchive/archive_write_set_format_v7tar.c
++index 62b1522..53c0db0 100644
++--- a/libarchive/archive_write_set_format_v7tar.c
+++++ b/libarchive/archive_write_set_format_v7tar.c
++@@ -284,7 +284,7 @@ archive_write_v7tar_header(struct archive_write *a, struct archive_entry *entry)
++ 		 * case getting WCS failed. On POSIX, this is a
++ 		 * normal operation.
++ 		 */
++-		if (p != NULL && p[strlen(p) - 1] != '/') {
+++		if (p != NULL && p[0] != '\0' && p[strlen(p) - 1] != '/') {
++ 			struct archive_string as;
++ 
++ 			archive_string_init(&as);
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.3.3.bb b/meta/recipes-extended/libarchive/libarchive_3.3.3.bb
+index eabab16770..46a3d43762 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.3.3.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.3.3.bb
+@@ -33,6 +33,7 @@ EXTRA_OECONF += "--enable-largefile"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://non-recursive-extract-and-list.patch \
++           file://bug1066.patch \
+ "
+ 
+ SRC_URI[md5sum] = "4038e366ca5b659dae3efcc744e72120"
+-- 
+2.11.0
 
 
