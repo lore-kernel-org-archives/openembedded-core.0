@@ -1,50 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3473279AA2
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DB1EB607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 15:07:50 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id n1-v6so6144611wrt.10
+	Wed, 10 Oct 2018 15:35:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 420EC18416
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 08:07:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=JRAqizIrrgEA1ouqhPwUlfptywtUoGMw4sSPNUGErIc=;
-	b=Rigmrv+M7GVGox5a2AmHV1Na/bqjezE226+8N9YJoBnrwdFGjwfhxhXi4rBE9tZ1e2
-	ujyc26u+jDIv6AHgEEq7dUUh4EzEnX02qrK3OBfxSVmGw3nlSHMSA0J6WcNehjVU0J4n
-	DRX/JiLceV4Fg/Za5pHYClWKbWvOCwsE/ChFePVUdAvC8InuSHu3YVSFqFJFc9cmX8HA
-	KuIWXzSGoEbTTjtGju1no9LJD8yfAvo+SRHf+6GMExJaZiyaEDmR9MXoJV7KaQwwoKIR
-	mK5yPS9iPn2heL4SDXf2fiuN00CYdE+tfVhhiREY8KfuHoIdtH9tjwbkm6ECL/Urr/kb
-	+/jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=JRAqizIrrgEA1ouqhPwUlfptywtUoGMw4sSPNUGErIc=;
-	b=ZRQodR9uCjd5qi5Q1JWgcqIGb6cb0w9SVwj7KF5PKXbC3t1FJIB7Rx1lGns/3k4oBm
-	vzAFTP885FeTqIuWhbyhXe6gO0JBwWInPEJ5wwBeFmPG90TFzcJhpdCXrPJw62uHDfpa
-	lK8XMzbeVB9GtU6StV6R7bEdVYwLP8am10aGAlbBws/bnwFN2oujIPE3lvHmNQkH7q8r
-	wS5AaAZ5JDtpD7LA4hCOHm4Ju4gS3pXvKFWDkaFoubYmwWrhipXT0y+/uxJj0xQMH7aQ
-	DJ/zP0wZC8dV5ZjODBQAO+urRIISee35zHjidaZdvXBCdepB/Laab1Gr2AfJKEkSFNWb
-	yYjA==
-X-Gm-Message-State: ABuFfoj+CIEggxRXk7UzdFyJss+8huAKK7bXR4gcXSyLAe117bY3y5+c
-	0SgayQ3tS4HQHMdqHaCVBPs8ZCxcxpE=
-X-Google-Smtp-Source: ACcGV61C+PcJSAXoS6LbQNz91dhKSAsIhEYhqWQTTL9gM8+XSxdIJy54roDuNi4BQskDyUS8+q0TzQ==
-X-Received: by 2002:adf:fccc:: with SMTP id
-	f12-v6mr26646493wrs.166.1539184071325; 
-	Wed, 10 Oct 2018 08:07:51 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	b14-v6sm5080372wrp.42.2018.10.10.08.07.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 10 Oct 2018 08:07:50 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 10 Oct 2018 17:35:30 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id XNm7vG6NJpF2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 17:35:29 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 76D1018488
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 17:35:29 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5574E1A07F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 17:35:29 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 485751A07E
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 17:35:29 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 17:35:29 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id 3C6D22E98
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 17:35:29 +0200 (CEST)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id 338829C118; Wed, 10 Oct 2018 17:35:28 +0200 (CEST)
+From: Olof Johansson <olof.johansson@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Oct 2018 16:07:48 +0100
-Message-Id: <20181010150748.31336-1-ross.burton@intel.com>
+Date: Wed, 10 Oct 2018 17:35:28 +0200
+Message-Id: <20181010153528.9110-1-olofjn@axis.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libproxy: correctly disable the KDE module
+X-TM-AS-GCONF: 00
+Subject: [PATCH] devtool-source.bbclass: Only create each patch branch once
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +54,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 15:07:51 -0000
+X-List-Received-Date: Wed, 10 Oct 2018 15:35:30 -0000
 
-The configuration option is WITH_KDE now, as it supports both KDE4 and KDE5.
+For conditonally applied patches based on SRC_URI overrides, the
+devtool-source class would try to create a new branch for each override
+assignment as a postfunc to do_patch, but if the same override was used
+multiple times, it would try to create the same branch multiple times,
+causing errors like
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Exception: bb.process.ExecutionError: Execution of
+\   'git checkout f0f0f0f0f0ff0f0f0f0f0f0f0f0f0f0f0ff0f0f0 -b devtool-override-foo'
+\   failed with exit code 128:
+> fatal: A branch named 'devtool-override-foo' already exists.
+
+This change makes sure that the devtool-source bbclass will only create
+one branch per override.
+
+Change-Id: I8adca0b54179793ca92478ad5b3b1b6e0448e26b
+Signed-off-by: Olof Johansson <olofjn@axis.com>
 ---
- meta/recipes-support/libproxy/libproxy_0.4.15.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/devtool-source.bbclass | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.15.bb b/meta/recipes-support/libproxy/libproxy_0.4.15.bb
-index 4633ca57816..dd7ad922d3b 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.15.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.15.bb
-@@ -22,7 +22,7 @@ PACKAGECONFIG[gnome] = "-DWITH_GNOME=yes,-DWITH_GNOME=no,gconf"
- PACKAGECONFIG[gnome3] = "-DWITH_GNOME3=yes,-DWITH_GNOME3=no"
+diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-source.bbclass
+index 56882a4..fa4e999 100644
+--- a/meta/classes/devtool-source.bbclass
++++ b/meta/classes/devtool-source.bbclass
+@@ -169,16 +169,15 @@ python devtool_post_patch() {
+         except bb.process.ExecutionError:
+             pass
  
- EXTRA_OECMAKE += " \
--    -DWITH_KDE4=no \
-+    -DWITH_KDE=no \
-     -DWITH_MOZJS=no \
-     -DWITH_NM=no \
-     -DWITH_PERL=no \
+-    extra_overrides = d.getVar('DEVTOOL_EXTRA_OVERRIDES')
+-    if extra_overrides:
+-        extra_override_list = extra_overrides.split(':')
++    devtool_overrides = set(d.getVar('DEVTOOL_EXTRA_OVERRIDES').split(':') or [])
++    if devtool_overrides:
+         devbranch = d.getVar('DEVTOOL_DEVBRANCH')
+         default_overrides = d.getVar('OVERRIDES').split(':')
+         no_overrides = []
+         # First, we may have some overrides that are referred to in the recipe set in
+         # our configuration, so we need to make a branch that excludes those
+         for override in default_overrides:
+-            if override not in extra_override_list:
++            if override not in devtool_overrides:
+                 no_overrides.append(override)
+         if default_overrides != no_overrides:
+             # Some overrides are active in the current configuration, so
+@@ -196,7 +195,7 @@ python devtool_post_patch() {
+         else:
+             bb.process.run('git checkout %s -b devtool-no-overrides' % devbranch, cwd=srcsubdir)
+ 
+-        for override in extra_override_list:
++        for override in devtool_overrides:
+             localdata = bb.data.createCopy(d)
+             if override in default_overrides:
+                 bb.process.run('git branch devtool-override-%s %s' % (override, devbranch), cwd=srcsubdir)
 -- 
 2.11.0
 
