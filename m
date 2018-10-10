@@ -1,58 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 93D086067C
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0682B60237
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 08:21:08 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 18C24184B3;
-	Wed, 10 Oct 2018 10:21:09 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id BNJEL22R5qMB; Wed, 10 Oct 2018 10:21:04 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id BB9931807C;
-	Wed, 10 Oct 2018 10:21:04 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A5D681A084;
-	Wed, 10 Oct 2018 10:21:04 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9AAE51A081;
-	Wed, 10 Oct 2018 10:21:04 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed, 10 Oct 2018 10:21:04 +0200 (CEST)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by thoth.se.axis.com (Postfix) with ESMTP id 8E8642E7F;
-	Wed, 10 Oct 2018 10:21:04 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Wed, 10 Oct 2018 10:21:04 +0200
-Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
-	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1365.000;
-	Wed, 10 Oct 2018 10:21:04 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 1/3] acl: Make it compatible with externalsrc
-Thread-Index: AQHUVDlL2fqHNLeM0kiHgltnZAF9BaUAhT8AgAAxiWCACxUtoIAMbqhw
-Date: Wed, 10 Oct 2018 08:21:04 +0000
-Message-ID: <dfd5259dbf2a4479b431151ded2ed1f7@XBOX02.axis.com>
-References: <20180924190313.32027-1-pkj@axis.com>
-	<7083c560991d491f0e8b8b70eee611c1187b58d0.camel@linuxfoundation.org>
-	<a042a2e4c0464b4d81e4ada72f76fe77@XBOX02.axis.com>
-	<56e1792adf9e4c97ad12230ec9df8fde@XBOX02.axis.com>
-In-Reply-To: <56e1792adf9e4c97ad12230ec9df8fde@XBOX02.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed, 10 Oct 2018 08:57:58 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id e17-v6so3455436oig.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 01:58:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=LDHpa12D9mvGk774JIE1mMvcFzz3TCzHI4dFeGDWY3w=;
+	b=LULGeWnIvZ0nhYZ71H3k3jRHMsMnlSWZOMKLyzFkin2iH6zJNU/KWlDOLY5NMIiU0x
+	owpR74MqZaWD5jg4aEpCRwnUfzOKLafF9Q/DFNDD5sQhB9sBkTSL7rQToJzkSOJrGGTD
+	mDEAQsuKJwsQw4wnzu1GbMO1oQADzo/oVLLrT+lFkztcYtFXDsIrF6ITUco8A7psiL/V
+	1Qqdb/1Lzv0pl4j1OoRZhUrBocZa95fT+f0Ih9a1uR8oA1cn8+xHuM7IEQYeqp9emFHW
+	DmV6QtnRpzoJccOwGmKR8Nyfg688lwFJVk3TUZNXwRKMrx66VKIFBg0ZyacqDjxEewwh
+	3QOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:content-transfer-encoding;
+	bh=LDHpa12D9mvGk774JIE1mMvcFzz3TCzHI4dFeGDWY3w=;
+	b=qZINENYKrqODbSlhI7E3tIHKfkALf6c2GfWoKrwyQjrZnt9XfMBwxASlKzVPfp+QVN
+	QyLn+lzR8yJLL+rnReE0pGQnipelzvpbf35CTWVPPRRB1Zsjq19USo3N7641Vdl3N6H3
+	uTksOakXCyC/bNF/VhCVPg1CKtrmZHK47orTOJ2QhikwYYfwWUuyT6HbAMSS97KsDb6/
+	UoyM96YUP/Gnh8kfa3AAKIuy1mS8zVXGdSv9EaFR1z+bJO0uc31vYAC2EwCGYU7Il8oV
+	ewQSdtl9JrnZpvTX0hJefJe/iqPFdh6MVDWoCAZSKbXEL2I9FJFM+LEZDzrQMGDmh/Jx
+	TjdQ==
+X-Gm-Message-State: ABuFfoiUQF4q5nsBzoLrQX3Z6xBgdsRLKc7IYBdSKlS9m9xudix7uUkJ
+	wWIgYqSK8OLzC8zuvWef4dM3cfG3h5DcOUmUv8SHDA==
+X-Google-Smtp-Source: ACcGV60zrD8aC63wqTjM0B85uF/teKBg0mIo2GlPS27F2fnWF8KzUF76i9jTPS4S/bB5S6aAv3YXMYjL9YXzQqMTkq0=
+X-Received: by 2002:aca:c54f:: with SMTP id
+	v76-v6mr1161991oif.276.1539161879565; 
+	Wed, 10 Oct 2018 01:57:59 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
+References: <20180927190648.27553-1-schnitzeltony@gmail.com>
+In-Reply-To: <20180927190648.27553-1-schnitzeltony@gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Wed, 10 Oct 2018 10:57:47 +0200
+Message-ID: <CALbNGRQ8qkKnUz+BsPD9ReuEzYzLX4ni7cr70bFQpL3Uv0UNxg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] acl: Make it compatible with externalsrc
+Subject: Re: [sumo][PATCH] libsdl2: Fix left rotated display for RaspPi/VC4/GLES2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,98 +55,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 08:21:09 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 10 Oct 2018 08:57:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Except for the questions asked and answered below, is there=20
-anything else preventing these three patches from being merged?
-
-//Peter
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 2 oktober 2018 12:26
-> To: Richard Purdie <richard.purdie@linuxfoundation.org>; openembedded-
-> core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 1/3] acl: Make it compatible with
-> externalsrc
->=20
-> *ping*
->=20
-> //Peter
->=20
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> > core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > Sent: den 25 september 2018 11:17
-> > To: Richard Purdie <richard.purdie@linuxfoundation.org>; openembedded-c=
-ore@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH 1/3] acl: Make it compatible with externa=
-lsrc
-> >
-> > > -----Original Message-----
-> > > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> > > core-bounces@lists.openembedded.org> On Behalf Of Richard Purdie
-> > > Sent: den 25 september 2018 10:13
-> > > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
-> > > core@lists.openembedded.org
-> > > Subject: Re: [OE-core] [PATCH 1/3] acl: Make it compatible with
-> > > externalsrc
-> > >
-> > > On Mon, 2018-09-24 at 21:03 +0200, Peter Kjellerstedt wrote:
-> > > > Make the subdir fetch path for configure.ac relative. This avoids t=
-he
-> > > > following error after having done `devtool modify acl`:
-> > > >
-> > > > ERROR: acl-2.2.52-r0 do_unpack: Unpack failure for URL:
-> > > > 'file://configure.ac;subdir=3D.../builds/qemux86-64/workspace/sourc=
-es/acl'.
-> > > > subdir argument isn't a subdirectory of unpack root
-> > > > .../builds/qemux86-64/tmp/work/core2-64-poky-linux/acl/2.2.52-r0
-> > > >
-> > > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > > ---
-> > > >  meta/recipes-support/attr/acl_2.2.52.bb | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/meta/recipes-support/attr/acl_2.2.52.bb b/meta/recipes=
--support/attr/acl_2.2.52.bb
-> > > > index 8f3dc45cf7..8b89de9b42 100644
-> > > > --- a/meta/recipes-support/attr/acl_2.2.52.bb
-> > > > +++ b/meta/recipes-support/attr/acl_2.2.52.bb
-> > > > @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "file://doc/COPYING;md5=3Dc7=
-81d70ed2b4d48995b790403217a249 \
-> > > >  DEPENDS =3D "attr"
-> > > >
-> > > >  SRC_URI =3D "${SAVANNAH_GNU_MIRROR}/acl/${BP}.src.tar.gz \
-> > > > -           file://configure.ac;subdir=3D${S} \
-> > > > +           file://configure.ac;subdir=3D${BP} \
-> > > >             file://run-ptest \
-> > > >             file://acl-fix-the-order-of-expected-output-of-getfacl.=
-patch \
-> > > >             file://test-fix-insufficient-quoting-of.patch \
-> > >
-> > > This isn't making sense to me. Doesn't externalsrc set ${S} to the
-> > > external source location?
-> >
-> > Yes, it does, but it does not change ${WORKDIR}. So when it tries
-> > to unpack to the absolute path ${S}, which is outside ${WORKDIR}
-> > when externalsrc is in use, then the above error occurs. Using a
-> > relative path avoids the problem.
-> >
-> > > Also, doesn't it remove the do_unpack task?
-> >
-> > No, it keeps the task but removes everything except file:// URLs
-> > and URLs with type=3Dkmeta from the SRC_URI. This is also why I had
-> > to check for externalsrc in the do_unpack task of lsof.
-> >
-> > > Cheers,
-> > >
-> > > Richard
-> >
-> > //Peter
-
+On Thu, Sep 27, 2018 at 9:06 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
+m> wrote:
+>
+> The patch should increase performance for libsdl2 on GLES2 too.
+>
+> (From OE-Core rev: 52f9659f2bb44affec2f67935df01f13b6ff3e02)
+>
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ping
 
