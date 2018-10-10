@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9334C605C2
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 22C7A605C2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 22:27:53 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id e4-v6so7462807wrs.0
+	Wed, 10 Oct 2018 22:27:54 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id l6-v6so7019704wrt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 15:27:55 -0700 (PDT)
+	Wed, 10 Oct 2018 15:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=dKrvv/B6sa3jVWF0jLW6BV1iBOBNkbM+a/seOb3LsME=;
-	b=ShgF/x36nyK8o5pu5sLT0RQYGXd/qfnGJuOTjljSGmuEvDt3HUu36M1x2LjDLWfqCo
-	nsRAW+QFHMjW+u6MCfqAmMaOl3UGWIUe/vbQXZuNlyiq8TPLaioUjvUrL44MAhPM7kL2
-	HkObbXgBNkDf5gbTTsStjLIfeCZU1Lk8kJ6Uo=
+	bh=avIbErgUV43vYv4PdschtA6ASXirrkwTgNgsQbnNEuQ=;
+	b=cqUk5SUAHpyoyWOsNad7IIQ530RZsjbmxqHdcs8/tPFbCCCPGoyToMyTKc5Di0XMe+
+	aMqhUAS+G6cK4M8nLg/glDUvY4Bx3aYjrZAvaGhnfY8PlvxAjKTe6rGWfmF9anVaB7JC
+	q4kvT9VNmKDyHYovnT6N2SWTSYsxSei4FtdoA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=dKrvv/B6sa3jVWF0jLW6BV1iBOBNkbM+a/seOb3LsME=;
-	b=E1fCqhaWh2ROaqPSHcy49Se99BGMLqk2YCRB5NkWnFsnx6Qv5W9DkpjN/qbZgKpCMk
-	4KERrCxNKtlXuVtnCC8td0f0rl6cyj50b7HDqoS9dvtLpRk6hAlRJM0w+fVcq59qPf7W
-	3U+gnyLtE8+E71ofe5ENPrcjFqiIWLPnT4Itz10F5Zwz4NrSygdT/HwoAlAi1k7WrwhA
-	fSCK84nwD+NlrAHYRlQvOtrOE91cVtYiuCZKnD+VBwAowgMzsRjeqpbSxe4g9agVtG5C
-	oPc7t6SC4KQiSBYvlrfopGdAxlJzgKrd5jvuWxImmak/FvdHvdzhF3JdEf27cSswcmzu
-	RR0w==
-X-Gm-Message-State: ABuFfogUIKUH3s7+QWBRgG8qsKgi1BhYy9hJZiS5Gee4kpVj2ndcPtmT
-	WgnZYE+SCcFwLUrWcLatg8j0Egj0ULg=
-X-Google-Smtp-Source: ACcGV601nkXM9+3AwlW8ZRnW5KMa3Vv4nEqxNuHbUQm5V2gokKt/TV3P8KlEpivDz5fKBrPHsixvTQ==
-X-Received: by 2002:adf:a29d:: with SMTP id
-	s29-v6mr25599798wra.100.1539210474060; 
-	Wed, 10 Oct 2018 15:27:54 -0700 (PDT)
+	bh=avIbErgUV43vYv4PdschtA6ASXirrkwTgNgsQbnNEuQ=;
+	b=QPjXum6RTnz8O7yrhfmK9eT0X1mpRYzuY44oTrovo1sKvAbiOpqOY2afgqSnaqLQKd
+	aYGknmdcJkwyGJz1hXH19OuVzP/CFyocSziA0Cvvvrr0YgzZMOEC8xZVqQtC/xYr086J
+	7Y66XvpDdP6/T/whg9PlkezUk428LuEUz7tMCMC7ytkP8TomUOL/TxKYrCHl3EWaMDf+
+	Bk79XNPNKAr1WO9v3lPu33ma0h611srtbXQsRSewJ9yIZwmCP4aWgqqUG2NLowJR706q
+	q/iNgCvTT1tTwwn91T8l4ZlbMFL0BSd00zhXeqTDgeydfeixc+Y+3KpgSizxzfjdHje+
+	ULQw==
+X-Gm-Message-State: ABuFfohyq0AW4myUQzazzwElXRhg+Qfakdk6kU7VRQF+pUgpE+niWaSR
+	WviaTmHDo8zGMY9HcRSzeI3h56Tl3M0=
+X-Google-Smtp-Source: ACcGV6381s4H8RO5keT20D4hAgvkHjExecXnCQE+nrfUPkOoUd84hcsv3IoMjL6s8Vh9s4poY+HIlA==
+X-Received: by 2002:a5d:6707:: with SMTP id
+	o7-v6mr25758864wru.326.1539210475460; 
+	Wed, 10 Oct 2018 15:27:55 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	y76-v6sm9441673wmd.37.2018.10.10.15.27.52
+	y76-v6sm9441673wmd.37.2018.10.10.15.27.54
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 10 Oct 2018 15:27:53 -0700 (PDT)
+	Wed, 10 Oct 2018 15:27:54 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Oct 2018 23:27:49 +0100
-Message-Id: <20181010222750.378-2-richard.purdie@linuxfoundation.org>
+Date: Wed, 10 Oct 2018 23:27:50 +0100
+Message-Id: <20181010222750.378-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181010222750.378-1-richard.purdie@linuxfoundation.org>
 References: <20181010222750.378-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/3] testimage: Ensure TESTIMAGEDEPENDS is appended to for qemuall override
+Subject: [PATCH 3/3] testimage: Ensure package-index is triggered for opkg/apt tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +59,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 10 Oct 2018 22:27:55 -0000
 
-The current qemuall override overwrites other dependencies unintentionally.
-Tweak the code to avoid this by appending to the variable.
+If the opkg/apt tests are run without a package-index they will fail.
+Trigger this here for now as a dependency until the code can be improved.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/testimage.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/testimage.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index e289b9343cd..859b5f485ab 100644
+index 859b5f485ab..aaf5f44f061 100644
 --- a/meta/classes/testimage.bbclass
 +++ b/meta/classes/testimage.bbclass
-@@ -82,10 +82,10 @@ TEST_QEMUBOOT_TIMEOUT ?= "1000"
- TEST_TARGET ?= "qemu"
- 
- TESTIMAGEDEPENDS = ""
--TESTIMAGEDEPENDS_qemuall = "qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot qemu-helper-native:do_addto_recipe_sysroot"
-+TESTIMAGEDEPENDS_append_qemuall = " qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot qemu-helper-native:do_addto_recipe_sysroot"
- TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'cpio-native:do_populate_sysroot', '', d)}"
--TESTIMAGEDEPENDS_qemuall += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'cpio-native:do_populate_sysroot', '', d)}"
--TESTIMAGEDEPENDS_qemuall += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'createrepo-c-native:do_populate_sysroot', '', d)}"
-+TESTIMAGEDEPENDS_append_qemuall = " ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'cpio-native:do_populate_sysroot', '', d)}"
-+TESTIMAGEDEPENDS_append_qemuall =  "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'createrepo-c-native:do_populate_sysroot', '', d)}"
+@@ -87,8 +87,8 @@ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'cpio-native:d
+ TESTIMAGEDEPENDS_append_qemuall = " ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'cpio-native:do_populate_sysroot', '', d)}"
+ TESTIMAGEDEPENDS_append_qemuall =  "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'createrepo-c-native:do_populate_sysroot', '', d)}"
  TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'dnf-native:do_populate_sysroot', '', d)}"
- TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'ipk', 'opkg-utils-native:do_populate_sysroot', '', d)}"
- TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'deb', 'apt-native:do_populate_sysroot', '', d)}"
+-TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'ipk', 'opkg-utils-native:do_populate_sysroot', '', d)}"
+-TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'deb', 'apt-native:do_populate_sysroot', '', d)}"
++TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'ipk', 'opkg-utils-native:do_populate_sysroot package-index:do_package_index', '', d)}"
++TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'deb', 'apt-native:do_populate_sysroot  package-index:do_package_index', '', d)}"
+ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'createrepo-c-native:do_populate_sysroot', '', d)}"
+ 
+ TESTIMAGELOCK = "${TMPDIR}/testimage.lock"
 -- 
 2.17.1
 
