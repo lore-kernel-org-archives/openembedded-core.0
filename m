@@ -1,27 +1,27 @@
 Return-Path: <pascal.bach@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id E0A6179A4C
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id C6EEF60234
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 08:12:18 +0000 (UTC)
+	Wed, 10 Oct 2018 08:16:20 +0000 (UTC)
 Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w9A8CJQV002357
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 10:12:19 +0200
-Received: from dev.vm6.ccp.siemens.com ([167.87.5.162])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w9A8CJJC028555;
-	Wed, 10 Oct 2018 10:12:19 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id E965B10037C0;
-	Wed, 10 Oct 2018 10:12:18 +0200 (CEST)
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w9A8GI8R004628
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 10 Oct 2018 10:16:18 +0200
+Received: from [167.87.5.162] ([167.87.5.162])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w9A8GIvi024497;
+	Wed, 10 Oct 2018 10:16:18 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20181009140315.4933-1-pascal.bach@siemens.com>
+	<CAJTo0LZtZnKVSu7cB6TnEad_KmER5xDcMaWyi6pfN52vveF3-w@mail.gmail.com>
 From: Pascal Bach <pascal.bach@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Oct 2018 10:10:35 +0200
-Message-Id: <20181010081035.10735-4-pascal.bach@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20181010081035.10735-1-pascal.bach@siemens.com>
-References: <20181010081035.10735-1-pascal.bach@siemens.com>
-Subject: [PATCHv3 4/4] cmake.bbclass: allow cmake to find hosttools
+Message-ID: <f4f7df66-94ef-2fd7-4969-c361cd594939@siemens.com>
+Date: Wed, 10 Oct 2018 10:16:18 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZtZnKVSu7cB6TnEad_KmER5xDcMaWyi6pfN52vveF3-w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake.bbclass: search both sysroot-native and host for native packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +34,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 08:12:19 -0000
+X-List-Received-Date: Wed, 10 Oct 2018 08:16:21 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Currently the generated toolchain file is unable to find hosttools as they
-do not appear in the search paths.
+I re submitted all 4 patches a series.
 
-Just adding HOSTTOOLS_DIR is not enough as binaries are located directly under
-${HOSTTOOLS_DIR}. Like ${HOSTTOOLS_DIR}/git for example.
-CMake however only searches in [s]bin sub directories of the paths specified in
-CMAKE_FIND_ROOT_PATH. Explicitly adding / to CMAKE_SYSTEM_PROGRAM_PATH makes
-CMake look in the right location.
+Sorry for the inconvenience, I miss-judged the conflicts between the patches.
 
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
----
- meta/classes/cmake.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Passcal
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 0ef63795eb..c8a079c417 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -89,7 +89,7 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
- 
- # only search in the paths provided so cmake doesnt pick
- # up libraries and tools from the native build machine
--set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
-+set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN} ${HOSTTOOLS_DIR})
- set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ${OECMAKE_FIND_ROOT_PATH_MODE} )
- set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE} )
- set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ${OECMAKE_FIND_ROOT_PATH_MODE} )
-@@ -108,6 +108,10 @@ list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake/Modules/")
- # add for non /usr/lib libdir, e.g. /usr/lib64
- set( CMAKE_SYSTEM_LIBRARY_PATH ${libdir} ${base_libdir})
- 
-+# by default CMake only looks in [s]bin subdirectories of CMAKE_FIND_ROOT_PATH
-+# adding / makes CMake look for binaries in hosttools too.
-+set( CMAKE_SYSTEM_PROGRAM_PATH /)
-+
- # avoid treating imports as system includes
- set( CMAKE_NO_SYSTEM_FROM_IMPORTED ON)
- 
--- 
-2.11.0
+
+On 09.10.2018 17:07, Burton, Ross wrote:
+> All but this one apply now... weird.
+>
+> If you can rebase on top of poky-contrib:ross/thud then that would be great.
+>
+> Ross
+>
+> On Tue, 9 Oct 2018 at 15:07, Pascal Bach <pascal.bach@siemens.com <mailto:pascal.bach@siemens.com>> wrote:
+>
+>     Certain headers and libraries like `math.h` an `-m` are only available on the
+>     host as they are provided by the host toolchain.
+>
+>     This leads to issues that a find_library in CMake doesn't find the `m` library
+>     of a find_path doesn't find `math.h`. This issue occurred in the wireshark recipe
+>     for example.
+>
+>     This change enables CMake to also look on the host for libraries and includes when
+>     building a native package.
+>
+>     Signed-off-by: Pascal Bach <pascal.bach@siemens.com <mailto:pascal.bach@siemens.com>>
+>     ---
+>      meta/classes/cmake.bbclass | 12 ++++++------
+>      1 file changed, 6 insertions(+), 6 deletions(-)
+>
+>     diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+>     index 6e2c34e4c6..89a2a77a50 100644
+>     --- a/meta/classes/cmake.bbclass
+>     +++ b/meta/classes/cmake.bbclass
+>     @@ -43,8 +43,8 @@ OECMAKE_RPATH ?= ""
+>      OECMAKE_PERLNATIVE_DIR ??= ""
+>      OECMAKE_EXTRA_ROOT_PATH ?= ""
+>
+>     -OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
+>     -OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
+>     +OECMAKE_FIND_ROOT_PATH_MODE = "ONLY"
+>     +OECMAKE_FIND_ROOT_PATH_MODE_class-native = "BOTH"
+>
+>      EXTRA_OECMAKE_append = " ${PACKAGECONFIG_CONFARGS}"
+>
+>     @@ -93,10 +93,10 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+>      # only search in the paths provided so cmake doesnt pick
+>      # up libraries and tools from the native build machine
+>      set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
+>     -set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
+>     -set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
+>     -set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+>     -set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
+>     +set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ${OECMAKE_FIND_ROOT_PATH_MODE} )
+>     +set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE} )
+>     +set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ${OECMAKE_FIND_ROOT_PATH_MODE} )
+>     +set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ${OECMAKE_FIND_ROOT_PATH_MODE} )
+>
+>      $cmake_sysroot
+>
+>     -- 
+>     2.11.0
+>
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
