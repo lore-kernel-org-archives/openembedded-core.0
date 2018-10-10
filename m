@@ -1,50 +1,47 @@
-Return-Path: <nirbheek.chauhan@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E1537970D
+Return-Path: <gtertych@cisco.com>
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+	by mail.openembedded.org (Postfix) with ESMTP id EFD0A6011A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 20:33:05 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id l41-v6so7310113qtl.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 13:33:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=29wyUBroXBwZhIfD8MmRwZJfwbmAMoMMBUTW3hyaTEY=;
-	b=D0FKBncdf4+wxv7Cbvnky14XJgUQ0njUyooRsSGfxN/E7n5VteoWx5cgKoNnm5Yem+
-	MWaGCJ7lLbjjm8dF0KJetN9tq2z66955WQ8PrXzaplTci8E3+7w2/u+aGgaJ/PAWQCUC
-	szZ/TVaSiAyhVN9M8sxcPaTEUxMfH2Z1gctd7SB16+mLVNpxtL0vRE5YFHU/wIrjUOrh
-	0L5fNRYNbrISwnXCs4SiS4P46j8mI/tvH89j0yAOVPSobPgbTTTmdNwHlLxa5TcWMx7a
-	y1/IwBmerEo/QEKJZkvEt9kpWdQWF9FdB4RFlzrbGsbMB1Ai8Czq9V2+Zwxj1aIqXOes
-	5Hzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=29wyUBroXBwZhIfD8MmRwZJfwbmAMoMMBUTW3hyaTEY=;
-	b=K/STi77m1IeNz5HynL2pTy/NiEbjghGBEhR7L/C4eGMGSzU9Pz7sDNmJ95St5C4Rcj
-	CmwOcF9ncUMB/xHPPQxEKRNR/vGK3r+otFCE8mqWjbe2SJFpxXrYQRhC3psFjeo5jRBi
-	OmIFMV4S/d4fX4pkiY5SjRVLt/1vDypULY2WLWgp3b11eM6Z9mFzLuiXeClngG/LivMA
-	0gtAA2Z0xuonXMWL2DTGDBQaHLpO1rspmYKV9WmMtFWFw8d/7vlnVOKSdRBL/RenJRAV
-	viXTnyBJf0MbpFsxOulEo808M5semZmsi+hWS3z/hkI3s0NGqlLG51rHadCfuUMJWFf1
-	TJfg==
-X-Gm-Message-State: ABuFfojw1MMTrU5NtW8tY+Xil8PgolZQKX0h01pM797CS2k3NLQm7Hgc
-	m97eyMQxhj6q6qfO5JUJIzNTZjrm7vWSqvgCXbs=
-X-Google-Smtp-Source: ACcGV60jdSAWUENJ+l3LaKUiNA4mnfsaGqoAskkULQj/53er6xauWDUzwSs/LjI4Cv8Nek4rBhqk+yxhEiore5nxvB8=
-X-Received: by 2002:ac8:6045:: with SMTP id
-	k5-v6mr5786989qtm.364.1539203586225; 
-	Wed, 10 Oct 2018 13:33:06 -0700 (PDT)
+	Wed, 10 Oct 2018 22:16:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=2608; q=dns/txt; s=iport;
+	t=1539209783; x=1540419383;
+	h=references:from:to:cc:subject:in-reply-to:date:
+	message-id:mime-version;
+	bh=XudvHe3A6iAY2YxkoDBQEohNWrtw86PovsT1Ii8S97w=;
+	b=SR3FH5QzURWvTHfssJ+NkDmrMjDgU8rccpdR9H9yQuiDmz8N/LCrQ42a
+	MKtEZZioO3iLEdaopCSLUJNg6eBt7Ny4bWEHI+fZBeWcXrDkItoHxtyut
+	MPqaiK0+K1Fsb2w5j73y8fLCqusUljCe3PRrZyLguOcTVqyiDIG+KLe3S 0=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0ASAAAmeb5b/xbLJq1jGwEBAQEDAQE?=
+	=?us-ascii?q?BBwMBAQGBUgUBAQELAYJpfyiMao1jiQCNf4F6CwEBG4RRAoRxNQwNAQMBAQI?=
+	=?us-ascii?q?BAQJtHAyFOQEBAQECAXkFCwsYCSUPASwbBhODIoF0BQinXIR3hGkUDoswgUE?=
+	=?us-ascii?q?/hCSBQQGJFAKPII5mCYZRigAXgU9Lhy6GQyyVOQIEBgUCFIFEATWBVXAVgyc?=
+	=?us-ascii?q?JgimJNoRwPDCNZQEB?=
+X-IronPort-AV: E=Sophos;i="5.54,366,1534809600"; 
+   d="scan'208";a="7087492"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
+	([173.38.203.22])
+	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Oct 2018 22:16:21 +0000
+Received: from think ([10.61.166.15])
+	by aer-core-2.cisco.com (8.15.2/8.15.2) with ESMTPS id w9AMGLhH026700
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); 
+	Wed, 10 Oct 2018 22:16:21 GMT
+References: <20181010162624.7377-1-gtertych@cisco.com>
+	<6238cb7b-8148-a707-89c6-151e1148bb76@gmail.com>
+User-agent: mu4e 1.0; emacs 25.2.2
+From: Grygorii Tertychnyi <gtertych@cisco.com>
+To: akuster808 <akuster808@gmail.com>
+In-reply-to: <6238cb7b-8148-a707-89c6-151e1148bb76@gmail.com>
+Date: Thu, 11 Oct 2018 01:16:23 +0300
+Message-ID: <87k1mpo3bc.fsf@cisco.com>
 MIME-Version: 1.0
-References: <1539200144-19028-1-git-send-email-mark.asselstine@windriver.com>
-	<CAMKF1soH-xPSv2mrkALN94z=6xow28YZ5JqYELmS+N9k6Et9Rg@mail.gmail.com>
-	<4478883.5euKKaLx1P@yow-masselst-lx1>
-In-Reply-To: <4478883.5euKKaLx1P@yow-masselst-lx1>
-From: Nirbheek Chauhan <nirbheek.chauhan@gmail.com>
-Date: Thu, 11 Oct 2018 02:02:56 +0530
-Message-ID: <CADqQcK4Mn1zSSh_du4=_aOcaiL2oy37m3mcWZTwZVK45UcTjWw@mail.gmail.com>
-To: mark.asselstine@windriver.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meson.bbclass: Fix build issues with /tmp mounted with noexec
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 10.61.166.15, [10.61.166.15]
+X-Outbound-Node: aer-core-2.cisco.com
+Cc: xe-linux-external@cisco.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] lib/oe/utils: add eol to format_pkg_list()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,26 +54,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 20:33:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 10 Oct 2018 22:16:22 -0000
+Content-Type: text/plain
 
-On Thu, Oct 11, 2018 at 1:50 AM Mark Asselstine
-<mark.asselstine@windriver.com> wrote:
-> Definitely a bug in that it doesn't propogate as an error.
 
-Note that compiler checks currently never raise an exception, and -1
-is the all-inclusive "error condition" for when the size of a variable
-could not be determined. Perhaps we should add a kwarg to sizeof()
-that forces it to error out if the size could not be determined, or if
-an unexpected error occurs.
+akuster808 writes:
 
-> On the need to
-> always use meson-private, I am 50/50 on that. Since meson respects TMPDIR/TMP/
-> TEMP does it really need to handle this directly?
+> Grygorii,
 >
+>
+> On 10/10/2018 09:26 AM, grygorii tertychnyi via Openembedded-core wrote:
+>> Append '\n' to the non-empty formatted string before return. If you
+>> write it to the (manifest) file, it will ensure file ends with a newline.
+>>
+>> Many GNU utilities have problems processing the last line of a file
+>> if it is not '\n' terminated. E.g. if the last line is not terminated
+>> by a newline character, then "read" will read it but return false,
+>> leaving the broken partial line in the read variable(s).
+>> It can also break or adversely affect some text processing tools,
+>> that operate on the file.
+>
+> is this needed for the cve patches?
 
-The main advantage of using tmpfs for temporary files is obvious,
-which is why we try to avoid writing that to meson-private inside the
-builddir. As I just commented on the issue, `XDG_RUNTIME_DIR` might be
-a good candidate for an exec tmpfs location.
+No
+
+>
+> - armin
+>> Signed-off-by: grygorii tertychnyi <gtertych@cisco.com>
+>> ---
+>>
+>> Changes in v3:
+>>  o write_image_manifest(): remove extra '\n'
+>>
+>> PASS bitbake buildtools-tarball
+>> PASS bitbake core-image-minimal                                                                                              
+>> PASS bitbake core-image-sato -c do_populate_sdk_ext
+>> PASS oe-selftest --run-tests manifest.VerifyManifest.test_image_manifest_entries
+>>
+>>  meta/classes/rootfs-postcommands.bbclass | 1 -
+>>  meta/lib/oe/utils.py                     | 8 +++++++-
+>>  2 files changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+>> index e816824f28..bde58ad6cd 100644
+>> --- a/meta/classes/rootfs-postcommands.bbclass
+>> +++ b/meta/classes/rootfs-postcommands.bbclass
+>> @@ -253,7 +253,6 @@ python write_image_manifest () {
+>>      pkgs = image_list_installed_packages(d)
+>>      with open(manifest_name, 'w+') as image_manifest:
+>>          image_manifest.write(format_pkg_list(pkgs, "ver"))
+>> -        image_manifest.write("\n")
+>>  
+>>      if os.path.exists(manifest_name):
+>>          manifest_link = deploy_dir + "/" + link_name + ".manifest"
+>> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+>> index 93b0763b0a..d05f517a70 100644
+>> --- a/meta/lib/oe/utils.py
+>> +++ b/meta/lib/oe/utils.py
+>> @@ -347,7 +347,13 @@ def format_pkg_list(pkg_dict, ret_format=None):
+>>          for pkg in sorted(pkg_dict):
+>>              output.append(pkg)
+>>  
+>> -    return '\n'.join(output)
+>> +    output_str = '\n'.join(output)
+>> +
+>> +    if output_str:
+>> +        # make sure last line is newline terminated
+>> +        output_str += '\n'
+>> +
+>> +    return output_str
+>>  
+>>  def host_gcc_version(d, taskcontextonly=False):
+>>      import re, subprocess
+
 
