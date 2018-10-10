@@ -1,49 +1,18 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com
-	[209.85.217.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DF0C79356
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 03:21:17 +0000 (UTC)
-Received: by mail-vs1-f47.google.com with SMTP id e206so3698836vsd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Oct 2018 20:21:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=k3If9zjgOCxLysikLT/2z3guJd3fzFIZrZY9Ny6rx3E=;
-	b=f2KOAeDq92Ty+1Sv4mUws55elioCTpd5HIlLjagNwALfxRoPSe1a/7MtqYlEKpi1hD
-	RPe3m/DEHZ9DqjzKiAjBkrgCDWbStfMlIuNQCrVmsu+yXj+zxEK/TCnI3Cuo3hodqlpS
-	zCP4jks6ke3lG1gEX8215vjHloHUaahA2rm3JW/ZwVx5j1Ec9laWV1wuV9CiEojGxsHN
-	uJ0ipKBGthQA7TxXmY2VbBrFnCGI0Dz0uvEZ1sXtxLZzmL4K4p4vMqhHZsxxPmNchzXe
-	FLsHTzfqAKzIjVqCXFpAEInHNonKzUNNzX22qlW9VpjnrTfU9lUUxEX8vCUUmNqIRDPs
-	qM4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=k3If9zjgOCxLysikLT/2z3guJd3fzFIZrZY9Ny6rx3E=;
-	b=iiV8XfCvfwsBPwhxn08PEf0PPB7FymlwUUk6k6Ko6WNcAjisKhxkIylq6ox6f01rAh
-	9AkxQXp9/vKlAKpChL8qXso3pnWwZ/oG+4u1h+OIBRRcGAqlgpGQkViwUZ2nmlAuii80
-	cBqgApyJS5Tn3S2GNUoZPMQUdgljvNHmbLMyRLDW9xNXh7v6if8+cdwPaXXhY3kEWMWJ
-	z9guJ64IlV1EKvhECngkIa+5MkzuKXuqyJ2mPxaoVnjpskpM/ghKBLv3aQftWKt3XofI
-	deEFUUTZQNBQxGpu2VPNNyOa0bYvzYdBCjYRXJMh2ciRIuw++wU7AhiemFbenvKcBLPe
-	McEQ==
-X-Gm-Message-State: ABuFfoixRPN5TfLhsxeZkTIhI7zT86Wo5f4P0J3IhjPZPbOYnOpR3F/5
-	g/NVXKoGDRd8rhv0mBQEbgLyHODt1uU/q2hq3EU=
-X-Google-Smtp-Source: ACcGV61FiD6A3qi0nMQKYBbZbP4DF9gTWR5zxFiuuUAlJNcucnztKww9PBapgOJfwwpPCxt6mNjYzYThg/PDyyg41VM=
-X-Received: by 2002:a67:1f4d:: with SMTP id f74mr11465946vsf.222.1539141678222;
-	Tue, 09 Oct 2018 20:21:18 -0700 (PDT)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id C29CF7547F;
+	Wed, 10 Oct 2018 03:33:00 +0000 (UTC)
 MIME-Version: 1.0
-Received: by 2002:ab0:2748:0:0:0:0:0 with HTTP;
-	Tue, 9 Oct 2018 20:21:17 -0700 (PDT)
-In-Reply-To: <20181010030904.20641-1-hongxu.jia@windriver.com>
-References: <CAMKF1spfZM_hxKfRYtVPeT-8FZa3RUUOxSkd-Rmb9cajMrS0iQ@mail.gmail.com>
-	<20181010030904.20641-1-hongxu.jia@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 9 Oct 2018 20:21:17 -0700
-Message-ID: <CAJ86T=UPuyuJrfapif+maJB9kS8-W=K3CQNG-QNRqrUwOT0=JA@mail.gmail.com>
+From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] webkitgtk: add opengl to REQUIRED_DISTRO_FEATURES
+Date: Wed, 10 Oct 2018 03:33:02 -0000
+Message-ID: <20181010033302.29310.45494@do.openembedded.org>
+References: <1535967326-32322-1-git-send-email-hongxu.jia@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1535967326-32322-1-git-send-email-hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIndlYmtpdGd0azogYWRkIG9wZW5nbCB0byBSRVFVSS4uLiIgYW5kIDEgbW9yZSAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,45 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 03:21:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 10 Oct 2018 03:33:01 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 9, 2018 at 8:09 PM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> They can't be built without opengl in DISTRO_FEATURES.
-> [snip]
-> |webkitgtk-2.20.3/Source/WebCore/platform/graphics/OpenGLShims.h:23:10:
-> fatal error: GL/gl.h: No such file or directory
-> [snip]
->
-> Some sort of GL is needed yes. We indicate that with opengl losely in OE
+== Series Details ==
 
-It's loosely, not losely.
+Series: "webkitgtk: add opengl to REQUI..." and 1 more (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/13867/
+State : failure
 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/recipes-sato/webkit/webkitgtk_2.20.5.bb | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb
-> index c8d4f94..7f1ffce 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb
-> @@ -30,8 +30,7 @@ SRC_URI[sha256sum] = "15c0f8d26e9605afe0948d161ba5fd82efee8eda2debd409fd40a440ac
->
->  inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
->
-> -# depends on libxt
-> -REQUIRED_DISTRO_FEATURES = "x11"
-> +REQUIRED_DISTRO_FEATURES = "x11 opengl"
->
->  DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
->             gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
-> --
-> 2.10.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 417245923c)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
