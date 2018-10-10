@@ -1,54 +1,27 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id A05FB79A4C
+Return-Path: <pascal.bach@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 057D260103
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 13:56:46 +0000 (UTC)
-Received: (qmail 15531 invoked by uid 1003); 10 Oct 2018 13:56:51 -0000
-Received: from unknown (HELO ?192.168.11.100?)
-	(philip@opensdr.com@73.152.143.112)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	10 Oct 2018 13:56:51 -0000
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>
-References: <9db03bdc-26c5-1b8b-17d3-2192dfe785b2@balister.org>
-From: Philip Balister <philip@balister.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-Message-ID: <94aee98b-8427-93cf-3062-6f322226dd14@balister.org>
-Date: Wed, 10 Oct 2018 09:56:46 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
+	Wed, 10 Oct 2018 14:10:11 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w9AEABXF017262
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 10 Oct 2018 16:10:11 +0200
+Received: from [167.87.5.162] ([167.87.5.162])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w9AEAA8n013769;
+	Wed, 10 Oct 2018 16:10:11 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20181010081035.10735-1-pascal.bach@siemens.com>
+	<222d0fe27ce0839f25a69d8f13d1f99462e15d99.camel@linuxfoundation.org>
+From: Pascal Bach <pascal.bach@siemens.com>
+Message-ID: <2722effc-4b30-fff0-3a00-1a694ba16fcd@siemens.com>
+Date: Wed, 10 Oct 2018 16:10:10 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <9db03bdc-26c5-1b8b-17d3-2192dfe785b2@balister.org>
-Subject: Re: [yocto] OEDEM in Edinburgh in 2 weeks
+In-Reply-To: <222d0fe27ce0839f25a69d8f13d1f99462e15d99.camel@linuxfoundation.org>
+Subject: Re: [PATCHv3 1/4] cmake.bbclass: use CMAKE_SYSTEM_LIBRARY_PATH instead of CMAKE_LIBRARY_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,30 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 13:56:47 -0000
+X-List-Received-Date: Wed, 10 Oct 2018 14:10:12 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On 10/04/2018 08:20 AM, Philip Balister wrote:
-> OEDEM is basically full at this time.
-> 
-> https://www.openembedded.org/wiki/OEDEM_2018
-> 
-> We have had the room rearranged to seat 45 people and I am not sure how
-> we would handle anyone over this. If you know you can't make it, could
-> you please remove your name from the attendee list. We'd like to get a
-> better idea of how many people on the waiting list we can accommodate.
-> There are some long time contributors on the wait list we'd like to get in.
 
-OK, I've had the room arranged for 50 people. Everyone who is signed up
-has a chair. Thanks for your interest in OpenEmbedded.
+On 10.10.2018 14:36, Richard Purdie wrote:
+> On Wed, 2018-10-10 at 10:10 +0200, Pascal Bach wrote:
+>> CMAKE_LIBRARY_PATH is intended to be set by projects.
+>> CMAKE_SYSTEM_LIBRARY_PATH is better suited to be used in a toolchain
+>> file.
+>>
+>> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+>> ---
+>>  meta/classes/cmake.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> I have a feeling something in this series may have caused:
+>
+> https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/42753/raw
+>
+> but haven't bisected to confirm it is the cmake changes yet (it is from
+> something in master-next).
+>
+The problem is "cmake.bbclass: allow cmake to find hosttools" it has the side effect of making all hosttools available to all recipes.
+In the case of libproxy this leads to it finding python, which is included in hosttools, and thus building it's bindings.
 
-See you all soon!
+This kind of defeats the purpose of having recipe specific sysroots.
+Is there a way to make only selected hosttools available to a recipe. Like for example git? Maybe use git-native?
 
-Philip
+I think the patch "cmake.bbclass: allow cmake to find hosttools" in this form does more harm then good. The rest of the series should be fine.
+Should I resubmit the series without this specific patch?
 
-> 
-> Philip
-> 
+One more thing for libproxy. It currently disables python explicitly via `-WITH_PYTHON=no`. But this option doesn't exist anymore as it got replaces
+by `-WITH_PYTHON2=no` `-WITH_PYTHON3=no`. This is why the auto detection kicks in. I will submit a patch to clean this recipe up too.
+
+Pascal
 
