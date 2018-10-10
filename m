@@ -1,55 +1,43 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 115B474743
+Return-Path: <geoffhp@gmail.com>
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0278D79A6E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 18:25:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id A68A2184F3
+	Wed, 10 Oct 2018 18:31:51 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id q39-v6so4728336lfi.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 20:25:23 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id FEZD8S_huxP7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 20:25:23 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 22D131846A
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 20:25:23 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BD9671E09B
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 20:25:22 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B213B1E09A
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 20:25:22 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 20:25:22 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by seth.se.axis.com (Postfix) with ESMTP id A596A313;
-	Wed, 10 Oct 2018 20:25:22 +0200 (CEST)
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id 98EE19C118; Wed, 10 Oct 2018 20:25:22 +0200 (CEST)
-Date: Wed, 10 Oct 2018 20:25:22 +0200
-From: Olof Johansson <olof.johansson@axis.com>
-To: Peter Kjellerstedt <pkj@axis.com>
-Message-ID: <20181010182522.s5lncc5z4s2tqksj@axis.com>
-Mail-Followup-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20181010153528.9110-1-olofjn@axis.com>
-	<fcb530f7332f441fb868ad51cd0bc50c@XBOX02.axis.com>
+	Wed, 10 Oct 2018 11:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=260VsI/FIJxyEzHTjdM75oDrLu9U749ojwKnqeCkbpY=;
+	b=WvNo8lsA+e/nbNVPuGdn4RrlQ/PXDvQrdN/RAqNwu8wmWMKdNkk9OztZ/XjPvCaSG+
+	Gp3ZFQsGJaCS2cgtcmo/jAhNAHttoDAEYPhIDZnqYJ55u81HzNfbVq8i5MfkoM5EhxDZ
+	F/YMqGtoda6j7yjlM1bTwde9W101IiKhtTNLGgnBEPwuJVX5K8YsiZ1Dvn4z+wj/YBnn
+	ij6WSsJxn2Lrr9uMd6OgB8aLdn5qCQXZFlRNHWl8DcRhtlTYD+jWaQ0xe9MMHto/ipoO
+	e3FhFQIfpHZymYZcWOMS2r42VL6aGLE8+4GPwvYjAAcKXMCoLucpURwM+so78BK9CTl8
+	fgUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=260VsI/FIJxyEzHTjdM75oDrLu9U749ojwKnqeCkbpY=;
+	b=RnAwyH+bNGqm+OQb815kVagEchemMYn348KrncWd9njtsHVrqehYCzHlCVuW//WrpX
+	87wJt/jXnmCJm5CALJkPM/ZTXbO11dl1DcakXeBXqVcbG+Kx7djjQrUr8to+LEJArIdV
+	Avhjwj8brgwQqdfyhFvymb5wXtSJ8BpX6gjnm0aG1c/5lfR4VAHSiA4PjyFjtQQy+aCy
+	ZgFO+DpHV/cicmexoVxZPVkVxVfkDvQHyea76a3WVHPifVR6eeRrQmxIGzK4eSolrCjq
+	gcd2D+VB1K1mDb4Wkd3eADRF2weLNWq/X/umHpSprrezZUPJLIjs2NwNioK2kPnLfyS3
+	jtmw==
+X-Gm-Message-State: ABuFfogd3oKS0J87Sx6L3PnkGpo25o/5ncxEvJG9519q1wP7MdaGn3nf
+	ALzwlER3VSLHoF2a7Tp7Jh+K/GwlULVnAqrD44I/PrTi
+X-Google-Smtp-Source: ACcGV60Ygoole1RV19p1RfmptQ6ddi4U/2HOLKj6t5D9qvefdHPLRAxHAGtZh/sTDmEADLl3EyLELtbpHPcFp3rf2LE=
+X-Received: by 2002:ac2:434d:: with SMTP id
+	o13-v6mr1895124lfl.129.1539196311836; 
+	Wed, 10 Oct 2018 11:31:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <fcb530f7332f441fb868ad51cd0bc50c@XBOX02.axis.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] devtool-source.bbclass: Only create each patch branch once
+From: Geoff Parker <geoffhp@gmail.com>
+Date: Wed, 10 Oct 2018 11:31:40 -0700
+Message-ID: <CAHNuFG+9Z8SHuhE51pWPZvqBG8+5N5GxAX3RBXKv+Lb+N9ukZA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] wic: make engine.py:get_partitions() resilient to parted/dmidecode stderr output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,19 +50,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 18:25:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 10 Oct 2018 18:31:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 18-10-10 17:48 +0200, Peter Kjellerstedt wrote:
-> > Change-Id: I8adca0b54179793ca92478ad5b3b1b6e0448e26b
-> 
-> You probably want to remove the Change-Id before applying this...
+Running wic commands on Debian 10 systems fail in
+scripts/lib/wic/engine.py:get_partitions() due to new stderr output captured
+when trying to parse the output from /sbin/parted as a non-root user.
 
-Sorry! :( I'll probably forget to remove that again in the
-future, I should try making git format-patch automatically strip
-that. Thanks Peter!
+The parted command calls the dmidecode utility, which produces this error
+as a non-root user:
+  /sys/firmware/dmi/tables/smbios_entry_point: Permission denied
+  /dev/mem: Permission denied
 
+scripts/lib/wic/engine.py:get_partitions()
+calls misc.py:exec_cmd(), a subprocess wrapper which returns a
+combined stderr and sdtdout.
+These messages to stderr confuse the partition table parser in get_partitions().
+
+This patch has the partition table parser ignore lines before the
+expected "BYT;"
+header string.
+
+Running wic in Debian 9 does not have this issue.
+---
+ scripts/lib/wic/engine.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index f0c5ff0aaf..52c9592b33 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -266,10 +266,15 @@ class Disk:
+             out = exec_cmd("%s -sm %s unit B print" % (self.parted,
+self.imagepath))
+             parttype = namedtuple("Part", "pnum start end size fstype")
+             splitted = out.splitlines()
+-            lsector_size, psector_size, self._ptable_format =
+splitted[1].split(":")[3:6]
++            # skip over possible errors in exec_cmd output
++            try:
++                idx =splitted.index("BYT;")
++            except ValueError:
++                raise WicError("Error getting partition information
+from %s" % (self.parted))
++            lsector_size, psector_size, self._ptable_format =
+splitted[idx + 1].split(":")[3:6]
+             self._lsector_size = int(lsector_size)
+             self._psector_size = int(psector_size)
+-            for line in splitted[2:]:
++            for line in splitted[idx + 2:]:
+                 pnum, start, end, size, fstype = line.split(':')[:5]
+                 partition = parttype(int(pnum), int(start[:-1]), int(end[:-1]),
+                                      int(size[:-1]), fstype)
 -- 
-olofjn
+2.19.1
 
