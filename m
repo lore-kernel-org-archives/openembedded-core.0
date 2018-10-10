@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C29CF7547F;
-	Wed, 10 Oct 2018 03:33:00 +0000 (UTC)
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D2A677995D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 05:56:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9A5u7Sq006462
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 9 Oct 2018 22:56:07 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 9 Oct 2018 22:56:06 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
+	<raj.khem@gmail.com>, <alex.kanavin@gmail.com>, <armccurdy@gmail.com>
+Date: Tue, 9 Oct 2018 22:56:06 -0700
+Message-ID: <20181010055606.12668-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <CAJ86T=UPuyuJrfapif+maJB9kS8-W=K3CQNG-QNRqrUwOT0=JA@mail.gmail.com>
+References: <CAJ86T=UPuyuJrfapif+maJB9kS8-W=K3CQNG-QNRqrUwOT0=JA@mail.gmail.com>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Wed, 10 Oct 2018 03:33:02 -0000
-Message-ID: <20181010033302.29310.45494@do.openembedded.org>
-References: <1535967326-32322-1-git-send-email-hongxu.jia@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1535967326-32322-1-git-send-email-hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIndlYmtpdGd0azogYWRkIG9wZW5nbCB0byBSRVFVSS4uLiIgYW5kIDEgbW9yZSAocmV2Mik=?=
+Subject: [PATCH V3] webkitgtk: add opengl to REQUIRED_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 03:33:01 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Oct 2018 05:56:09 -0000
+Content-Type: text/plain
 
-== Series Details ==
+They can't be built without opengl in DISTRO_FEATURES.
+[snip]
+|webkitgtk-2.20.3/Source/WebCore/platform/graphics/OpenGLShims.h:23:10:
+fatal error: GL/gl.h: No such file or directory
+[snip]
 
-Series: "webkitgtk: add opengl to REQUI..." and 1 more (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/13867/
-State : failure
+Some sort of GL is needed yes. We indicate that with opengl loosely in OE
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 417245923c)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-sato/webkit/webkitgtk_2.20.5.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb
+index c8d4f94..7f1ffce 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.20.5.bb
+@@ -30,8 +30,7 @@ SRC_URI[sha256sum] = "15c0f8d26e9605afe0948d161ba5fd82efee8eda2debd409fd40a440ac
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+ 
+-# depends on libxt
+-REQUIRED_DISTRO_FEATURES = "x11"
++REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ 
+ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
+            gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
+-- 
+2.10.2
 
 
