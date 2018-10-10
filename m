@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 25C29745DE;
-	Wed, 10 Oct 2018 19:03:01 +0000 (UTC)
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BB3D79AD2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 19:36:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9AJa31D004546
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2018 12:36:14 -0700
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 10 Oct 2018 12:35:53 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 Oct 2018 15:35:44 -0400
+Message-ID: <1539200144-19028-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Geoff Parker <geoffhp@gmail.com>
-Date: Wed, 10 Oct 2018 19:03:02 -0000
-Message-ID: <20181010190302.13842.32959@do.openembedded.org>
-References: <CAHNuFG+9Z8SHuhE51pWPZvqBG8+5N5GxAX3RBXKv+Lb+N9ukZA@mail.gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <CAHNuFG+9Z8SHuhE51pWPZvqBG8+5N5GxAX3RBXKv+Lb+N9ukZA@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2ljOiBtYWtlIGVuZ2luZS5weTpnZXRfcGFydGl0aW9ucygpIHJlc2lsaWVudCB0byBwYXJ0ZWQvZG1pZGVjb2RlIHN0ZGVyciBvdXRwdXQ=?=
+Subject: [PATCH] meson.bbclass: Fix build issues with /tmp mounted with noexec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,51 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 19:03:01 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Oct 2018 19:36:24 -0000
+Content-Type: text/plain
 
-== Series Details ==
+Since commit d297f7ebf3f6 [fribidi: use Meson instead of autotools]
+build failures have been observed with this package. The immediate
+issue was related to improperly named #defines per
+https://github.com/fribidi/fribidi/commit/46f52d588ab5, however, the
+root cause was FRIBIDI_SIZEOF_INT getting a value of "-1".
 
-Series: wic: make engine.py:get_partitions() resilient to parted/dmidecode stderr output
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14461/
-State : failure
+After searching the meson logs the following was found:
 
-== Summary ==
+  Could not run: /tmp/tmp2fxe6ha1/output.exe (error: [Errno 13] Permission denied)
+  Checking for size of "int": -1
 
+Which pointed to the real root cause being /tmp mounted with noexec, a
+common configuration on Redhat and other distros. This issues has been
+raised in the meson community:
+https://github.com/mesonbuild/meson/issues/2972 but is yet to be
+addressed.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Using the discussion from issue#2972 and the fact that the underlying
+code makes use of python 'tempfile' we can simply create a 'tmp'
+directory and make use of TMPDIR to avoid this issue.
 
-
-
-* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
-  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line        self.imagepath))
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at d0d55add6c)
-
-* Patch            wic: make engine.py:get_partitions() resilient to parted/dmidecode stderr output
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/meson.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index ed08a40..7e63e12 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -109,6 +109,9 @@ EOF
+ CONFIGURE_FILES = "meson.build"
+ 
+ meson_do_configure() {
++    # Work around "Meson fails if /tmp is mounted with noexec #2972"
++    mkdir -p "${B}/meson-private/tmp"
++    export TMPDIR="${B}/meson-private/tmp"
+     bbnote Executing meson ${EXTRA_OEMESON}...
+     if ! meson ${MESONOPTS} "${MESON_SOURCEPATH}" "${B}" ${MESON_CROSS_FILE} ${EXTRA_OEMESON}; then
+         bbfatal_log meson failed
+-- 
+2.7.4
 
 
