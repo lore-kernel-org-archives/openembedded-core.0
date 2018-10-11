@@ -1,24 +1,49 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 860C779AB3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+	[209.85.210.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 259E1605C2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 10:16:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9BAGUSG024917
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 11 Oct 2018 11:45:05 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id c32so8575582otb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 03:16:40 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 11 Oct 2018 03:16:19 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Oct 2018 18:16:17 +0800
-Message-ID: <1539252978-415942-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 11 Oct 2018 04:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=J2H3DssuMCti0XCA1cz7hz7b70GT7sOV0uwKZ0FM6aU=;
+	b=2Cyu41DKTG8GDND/RZt+w+f0L/s5TKUhHaIRdPP1Him0Yq4KhyQDhFHQQKoyFaBWm2
+	CW+ypXGGzSpbW/7teAjAX9p1aOTNKgG+kG9p7TqehrNlkv6YiIKmd4d5IU4FuDIWVrCF
+	8zUHNR2wqPmvgcF61Vem4eNZ3bHEmAgpa6qcsoiYHctz/3B2zMOhaAHl8KBdyKxkKQcn
+	DOgoVR1f2DUmMIecTCco/9T/eMjYRdkuJhoVeNkVMtxtKIY3c5vAIYsL2c7NWqLfO+mP
+	80nbL7l98JbYXLoQQ4cvMnXZNEcr0mm1z8cMBJxDbPnkUH7YA22JwTuZZGGYO0wfltTU
+	oj1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=J2H3DssuMCti0XCA1cz7hz7b70GT7sOV0uwKZ0FM6aU=;
+	b=ZLalfu/QN3wrmcV7QQaFF9As04D9P7Vo7W/Bfm/ASXTUuXty9wcecMlL9/iCW7o8H7
+	9EAOPPZqhzjDnB3Q9vh5iwobk/OZs5dBf2rW2bz60ULL0rpm0Ie2voLXjnRcWZnubKJ8
+	k7RWzRLJmhido4Um31PhlPSTMmCgjEMCDJXEPbQpTL1U/tNVUprpqDJM0Q/bFjKcF2jn
+	UO9DBXqfOxRxLVJi1JRCqGCaRW+STyszqDuF3tPToa5PuNJPyu94PDDYw5UNcmMgpMig
+	dCaapojNJtgH5Y3SPg2qk1iu05UOFJQei2G45I8pHCtDGSe5Th7HGboLl1vC3rCbF2OP
+	jgzQ==
+X-Gm-Message-State: ABuFfohhIZUuAfEp1lcdtaWgVX4P1tHUUVrkCpOvTCJ87eyW/InULQ/x
+	yHFOPEVcu3S8OE20F/KBFlKp5q7gYBpq7UJ87+ryLw==
+X-Google-Smtp-Source: ACcGV63a4Pp0mRHisgwPkO/QyF4epFn8nAtSs1SkH6iIdOgJ7X+KrZYB5/nY+AmTjytjukgY16jL/9MOMPtK7cHKA1Y=
+X-Received: by 2002:a9d:44ca:: with SMTP id p10mr712556otg.291.1539258306131; 
+	Thu, 11 Oct 2018 04:45:06 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH V2] e2fsprogs: fix test f_detect_junk print error msg
+References: <153917392546.324.13433409263803938064@git.openembedded.org>
+	<20181010121845.987A72351DE@git.openembedded.org>
+	<CA+chaQcmGLJaOi7xPZR90gekFSyrKRb89ZfRbf6-U43xOmh6qQ@mail.gmail.com>
+In-Reply-To: <CA+chaQcmGLJaOi7xPZR90gekFSyrKRb89ZfRbf6-U43xOmh6qQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Oct 2018 12:44:54 +0100
+Message-ID: <CAJTo0LbRn6aPQg=dY2186S7vqJFrzK24y9V7hte7kZRGgXbhcg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] [openembedded-core] 02/09: glib-2.0: add missing locale dependencies to PN-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,97 +56,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 10:16:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Oct 2018 11:45:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Changqing Li <changqing.li@windriver.com>
+On Thu, 11 Oct 2018 at 07:38, Martin Jansa <martin.jansa@gmail.com> wrote:
+> This is causing a lot of QA errors like:
+>
+> lib32-glib-2.0-2.58.0: lib32-glib-2.0-ptest rdepends on lib32-locale-base-ru-ru, but it isn't a build dependency? [build-deps]
+> lib32-glib-2.0-2.58.0: lib32-glib-2.0-ptest rdepends on lib32-locale-base-tr-tr, but it isn't a build dependency? [build-deps]
 
-1. This test need to check config.h, so install it
+Can you test that adding this to the recipe solves the problem:
 
-2. Test script have problem when the file want to grep
-don't exist, change the check command to fix this problem
+DEPENDS_append_libc-glibc = " virtual/libc-locale"
 
-even we install the config.h,  but the script use relative path,
-and will find the config.h decide by in which folder you run
-the test scirpt. like below 2 cases, if without the fix of
-check command, it will also met error msg in case (b). But, with
-the fix, the problem can be fixed
-
-a) root@qemux86-64:/usr/lib/e2fsprogs/ptest/test# ./test_one ./f_detect_junk
-f_detect_junk: detect non-fs file data: ok
-
-b) root@qemux86-64:/usr/lib/e2fsprogs/ptest# ./test/test_one ./test/f_detect_junk
-grep: ../lib/config.h: No such file or directory
-./test/f_detect_junk/script: line 3: [: : integer expression expected
-f_detect_junk: detect non-fs file data: ok
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../0001-e2fsprogs-fix-ptest-error-msg.patch       | 33 ++++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb |  4 +++
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-fix-ptest-error-msg.patch
-
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-fix-ptest-error-msg.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-fix-ptest-error-msg.patch
-new file mode 100644
-index 0000000..4187e6b
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-fix-ptest-error-msg.patch
-@@ -0,0 +1,33 @@
-+From e193316891510ec3852699d57a860c65615196ef Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Thu, 11 Oct 2018 15:13:24 +0800
-+Subject: [PATCH] e2fsprogs: fix ptest error msg
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+
-+original command want to get count of match lines, but if
-+config.h is not existed, like our case, the result of
-+$(grep -c 'define HAVE_MAGIC_H' ../lib/config.h) will not be
-+number, and cannot compare with 0, so fix it by check
-+command executed result.
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ tests/f_detect_junk/script | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tests/f_detect_junk/script b/tests/f_detect_junk/script
-+index 2577842..d56ec1a 100644
-+--- a/tests/f_detect_junk/script
-++++ b/tests/f_detect_junk/script
-+@@ -1,6 +1,6 @@
-+ #!/bin/bash
-+ 
-+-if [ "$(grep -c 'define HAVE_MAGIC_H' ../lib/config.h)" -eq 0 ]; then
-++if ! grep -q -c 'define HAVE_MAGIC_H' ../lib/config.h 2>/dev/null; then
-+ 	echo "$test_name: skipped (no magic)"
-+ 	exit 0
-+ fi
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
-index 823d18b..fa4d837 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
-             file://Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch \
-             file://mkdir_p.patch \
-             file://0001-misc-create_inode.c-set-dir-s-mode-correctly.patch \
-+            file://0001-e2fsprogs-fix-ptest-error-msg.patch \
-             "
- 
- SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
-@@ -129,4 +130,7 @@ do_install_ptest() {
- 	find "${D}${PTEST_PATH}" -type f \
- 	    \( -name 'Makefile' -o -name 'Makefile.in' -o -name '*.o' -o -name '*.c' -o -name '*.h' \)\
- 	    -exec  rm -f {} +
-+
-+        install -d ${D}${PTEST_PATH}/lib
-+        install -m 0644 ${B}/lib/config.h  ${D}${PTEST_PATH}/lib/
- }
--- 
-2.7.4
-
+Ross
 
