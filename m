@@ -1,52 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 81DE46025F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 805BD79B12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 12:00:50 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 143-v6so8663284wmf.1
+	Thu, 11 Oct 2018 13:44:18 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id q41-v6so9822958qtq.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 05:00:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=YdAmdlxkKkWaKLasSizR1GJo0Nc7VvuwXZ/eMr+8LMM=;
-	b=LHITu9nP/j1NXkDz1586yBeaAJ2K7yRpIhiyBn6Z0BvsHF6G5+EJekrKNpWRen9gli
-	5xMExPKhZlhvj252eglEpWrOCcTFVzCSHDsd0BsZEo4/n+FSrY3YJWcEGWu8iTInxQ9T
-	JmYG7qwiMgjiuuLsWcW4Epzdw+4VQSl0EQ6VE=
+	Thu, 11 Oct 2018 06:44:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=YdAmdlxkKkWaKLasSizR1GJo0Nc7VvuwXZ/eMr+8LMM=;
-	b=F4W5361TkPRndIZSRpyJp45H6edQOVUtshWCS1XvXwTQamPoKQgyX491FEqptuSlCJ
-	Crf/ypE/3RipSIHrzU2RJKNyx2fft5As81NU4Yu7ZJJDc7vWU+dab1+LuB9Wmj2h11vd
-	ZY/iToGeJXpb/DkpCjiK5IjTAN0xf5WPZtcfbT3Botcoi2xDP1+fjuP1tJHABn8E/GwG
-	Fr7KKSrPsNOdXckx1Fewl3SWrgLtald8qgoYNXaaHEovXNybEJy082PaUHhUKDv2sjt/
-	5OsLmwp4mDaCVAws5Lq9XbNeCeAeES8OQqIJ0Jhgg4MuYhCDK8H1j6f4w1rNXMmbkKzL
-	ruBg==
-X-Gm-Message-State: ABuFfoic0q1CfKmUm6U75B36D7Fs+295/pX8LPGTTvL/kofCiJJeR268
-	CvSySBFvEywmThVMt8AO+lkZjw==
-X-Google-Smtp-Source: ACcGV61eH9Jm92PV55vz6eOw3DWfUDBMVNd9vNc5Rlwwf+Fmu93g19rO9P1E8Ecf1yFniidtn1aKNA==
-X-Received: by 2002:a1c:87ca:: with SMTP id
-	j193-v6mr1304561wmd.99.1539259251025; 
-	Thu, 11 Oct 2018 05:00:51 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=LOTmJ+/fuCxWiXYwCqwvEsSZLrFb8T1q5IiTvu49rjw=;
+	b=ChXZCNjsy8HaL9qhQdWLLLZDer8zwWF4gZ9K8bxcqNw1fjjREY2uAbA9VOBpSpZqG6
+	2bIqGRJmNrkcF4EMk5HAXVCLqqe1JrGowQLFscFIS6kmp41KZYRGhWCTkb+aONBkPDuw
+	iuEO3FXinVdJzcmyXkiiW9yljcrX5DCpvDTxSchvtFM4cgnHpfEPvNnQB5yh6WbZSRA+
+	tklWuH4AoGezRw46JoIwUgvFSUM6FSLy30w420eQJVqfFasqSe8LLtgksiKkSf8ZxVxA
+	mjg9pz1E5uZWhruZUHVRjnJT9z9m307XWXRrthHOr3EHFwGQ7ztNHmaUvii8eEC65dU5
+	p40A==
+X-Gm-Message-State: ABuFfojn/vGjgpN3FkYrCVjp2Iw47WD30BvJn4l70qrH0oMKm49ayC5E
+	aidhDtXgSpwRroD7/APV9zRfdRCa
+X-Google-Smtp-Source: ACcGV63vHC7tReJ+1sWciPkXIh9CEk2+VqI6KLLJ5CbTwEYh+RB2BxVq0bHShFmKg11E7T6mSlib/g==
+X-Received: by 2002:ac8:31a2:: with SMTP id
+	h31-v6mr1632933qte.14.1539265458948; 
+	Thu, 11 Oct 2018 06:44:18 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.65.91])
 	by smtp.gmail.com with ESMTPSA id
-	e67-v6sm20929264wmd.41.2018.10.11.05.00.49
+	x12-v6sm16074312qtk.6.2018.10.11.06.44.16
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 11 Oct 2018 05:00:50 -0700 (PDT)
-Message-ID: <e8b42506cdaf9437f715100f0ff6541d5ed3c894.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Hongxu Jia <hongxu.jia@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 11 Oct 2018 13:00:48 +0100
-In-Reply-To: <20181011095511.5509-1-hongxu.jia@windriver.com>
-References: <20181011095511.5509-1-hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] openssl: use nativeperl to build
+	Thu, 11 Oct 2018 06:44:18 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Thu, 11 Oct 2018 10:44:13 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 11 Oct 2018 10:44:11 -0300
+Message-Id: <20181011134411.11760-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] util-linux: Fix unshare alternative package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,27 +52,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 12:00:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Oct 2018 13:44:18 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2018-10-11 at 02:55 -0700, Hongxu Jia wrote:
-> If host perl is old version (such as perl v5.16.3 on CentOS-7.5),
-> the openssl-native failed at do_install, the reason is its Makefile
-> is not correct which is generated at do_configure by perl script.
-> 
-> Use nativeperl to assure latest perl on host for openssl build.
-> 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/recipes-connectivity/openssl/openssl_1.1.1.bb | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+The link was not being generated for the
+sub-package (util-linux-unshare).
 
-I think this will have a noticeable effect on built times unfortunately
-since it means openssl-native would then depend upon perl-native...
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Cheers,
+ meta/recipes-core/util-linux/util-linux.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 45e2203a64..c694bf013f 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -220,7 +220,6 @@ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
+ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+ ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+-ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+ ALTERNATIVE_LINK_NAME[fallocate] = "${bindir}/fallocate"
+ ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
+ ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
+@@ -292,6 +291,9 @@ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+ ALTERNATIVE_util-linux-mountpoint = "mountpoint"
+ ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
+ 
++ALTERNATIVE_util-linux-unshare = "unshare"
++ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ python do_package_prepend () {
+-- 
+2.19.1
 
 
