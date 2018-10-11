@@ -1,49 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
-	[209.85.210.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 259E1605C2
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CCC1D79B13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 11:45:05 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id c32so8575582otb.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 04:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=J2H3DssuMCti0XCA1cz7hz7b70GT7sOV0uwKZ0FM6aU=;
-	b=2Cyu41DKTG8GDND/RZt+w+f0L/s5TKUhHaIRdPP1Him0Yq4KhyQDhFHQQKoyFaBWm2
-	CW+ypXGGzSpbW/7teAjAX9p1aOTNKgG+kG9p7TqehrNlkv6YiIKmd4d5IU4FuDIWVrCF
-	8zUHNR2wqPmvgcF61Vem4eNZ3bHEmAgpa6qcsoiYHctz/3B2zMOhaAHl8KBdyKxkKQcn
-	DOgoVR1f2DUmMIecTCco/9T/eMjYRdkuJhoVeNkVMtxtKIY3c5vAIYsL2c7NWqLfO+mP
-	80nbL7l98JbYXLoQQ4cvMnXZNEcr0mm1z8cMBJxDbPnkUH7YA22JwTuZZGGYO0wfltTU
-	oj1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=J2H3DssuMCti0XCA1cz7hz7b70GT7sOV0uwKZ0FM6aU=;
-	b=ZLalfu/QN3wrmcV7QQaFF9As04D9P7Vo7W/Bfm/ASXTUuXty9wcecMlL9/iCW7o8H7
-	9EAOPPZqhzjDnB3Q9vh5iwobk/OZs5dBf2rW2bz60ULL0rpm0Ie2voLXjnRcWZnubKJ8
-	k7RWzRLJmhido4Um31PhlPSTMmCgjEMCDJXEPbQpTL1U/tNVUprpqDJM0Q/bFjKcF2jn
-	UO9DBXqfOxRxLVJi1JRCqGCaRW+STyszqDuF3tPToa5PuNJPyu94PDDYw5UNcmMgpMig
-	dCaapojNJtgH5Y3SPg2qk1iu05UOFJQei2G45I8pHCtDGSe5Th7HGboLl1vC3rCbF2OP
-	jgzQ==
-X-Gm-Message-State: ABuFfohhIZUuAfEp1lcdtaWgVX4P1tHUUVrkCpOvTCJ87eyW/InULQ/x
-	yHFOPEVcu3S8OE20F/KBFlKp5q7gYBpq7UJ87+ryLw==
-X-Google-Smtp-Source: ACcGV63a4Pp0mRHisgwPkO/QyF4epFn8nAtSs1SkH6iIdOgJ7X+KrZYB5/nY+AmTjytjukgY16jL/9MOMPtK7cHKA1Y=
-X-Received: by 2002:a9d:44ca:: with SMTP id p10mr712556otg.291.1539258306131; 
-	Thu, 11 Oct 2018 04:45:06 -0700 (PDT)
+	Thu, 11 Oct 2018 11:51:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 428B918435;
+	Thu, 11 Oct 2018 13:51:58 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id kakSyQPWTCGV; Thu, 11 Oct 2018 13:51:57 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 83CB41852F;
+	Thu, 11 Oct 2018 13:51:57 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3B1881A10F;
+	Thu, 11 Oct 2018 13:51:57 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2FEA61A08F;
+	Thu, 11 Oct 2018 13:51:57 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Thu, 11 Oct 2018 13:51:57 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id 24029DD7;
+	Thu, 11 Oct 2018 13:51:57 +0200 (CEST)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id 0ED8D9C118; Thu, 11 Oct 2018 13:51:57 +0200 (CEST)
+Date: Thu, 11 Oct 2018 13:51:56 +0200
+From: Olof Johansson <olof.johansson@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20181011115156.bibtvbacs2haf4u4@axis.com>
+Mail-Followup-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20181010153528.9110-1-olofjn@axis.com>
+	<ad0c4f9df33f9dfbece0d5e178779388c1b6d61c.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <153917392546.324.13433409263803938064@git.openembedded.org>
-	<20181010121845.987A72351DE@git.openembedded.org>
-	<CA+chaQcmGLJaOi7xPZR90gekFSyrKRb89ZfRbf6-U43xOmh6qQ@mail.gmail.com>
-In-Reply-To: <CA+chaQcmGLJaOi7xPZR90gekFSyrKRb89ZfRbf6-U43xOmh6qQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Oct 2018 12:44:54 +0100
-Message-ID: <CAJTo0LbRn6aPQg=dY2186S7vqJFrzK24y9V7hte7kZRGgXbhcg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 02/09: glib-2.0: add missing locale dependencies to PN-ptest
+In-Reply-To: <ad0c4f9df33f9dfbece0d5e178779388c1b6d61c.camel@linuxfoundation.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] devtool-source.bbclass: Only create each patch branch once
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,18 +54,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 11:45:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 11 Oct 2018 11:51:58 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 11 Oct 2018 at 07:38, Martin Jansa <martin.jansa@gmail.com> wrote:
-> This is causing a lot of QA errors like:
->
-> lib32-glib-2.0-2.58.0: lib32-glib-2.0-ptest rdepends on lib32-locale-base-ru-ru, but it isn't a build dependency? [build-deps]
-> lib32-glib-2.0-2.58.0: lib32-glib-2.0-ptest rdepends on lib32-locale-base-tr-tr, but it isn't a build dependency? [build-deps]
+On 18-10-11 10:34 +0100, Richard Purdie wrote:
+> This breaks the oe-selftest devtool tests:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/46751/raw
+> 
+> oe-selftest -r devtool
+> 
+> should reproduce.
 
-Can you test that adding this to the recipe solves the problem:
+Thanks! Was under the impression that the DEVTOOL_EXTRA_OVERRIDES
+was initialized to "", but that's not the case. Should it be? A
+simple fix could be to just add DEVTOOL_EXTRA_OVERRIDES ??= "" to
+the top of the bbclass. Is that the most appropriate fix? Or should
+I make sure to handle None values coming back from getVar?
 
-DEPENDS_append_libc-glibc = " virtual/libc-locale"
 
-Ross
+-- 
+olofjn
 
