@@ -1,53 +1,47 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CA4360801
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id DC9AE7935C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 18:55:34 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id 61-v6so10846380wrb.6
+	Thu, 11 Oct 2018 19:14:22 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id z204-v6so10619944wmc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 11:55:36 -0700 (PDT)
+	Thu, 11 Oct 2018 12:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=wxZ+Fr/Wnc02sNaiT758G8mOlyd7OhTgnGEJ4e7bPJc=;
-	b=DDvM5WeOFhxmi2c+Df0Scv5BrfK14vStPX/SsnoLwf75CHNSkqpoHBh6ABkbfVPI4O
-	z40hpLpaV7dEaFZOkH9VJENd6BkCPp3OPRiufZo58GcS26i8I26OPvKwI3z9NzGq/6uE
-	Y2G6z7o5menyFby86nfC+0h7uSujNMdJWX9AI=
+	h=from:to:subject:date:message-id;
+	bh=UOcWQPRrkn9kuKUGWp3u/fY989LddiiEUtzIVSnodnM=;
+	b=bWE3Lj0DzTkPA0YQjFKJoKBu4PdkECF8VNfzcxOjGHZxTFYTYiIlc0s70MC+y1LKVW
+	q2+82oShvVyqmJa+XRt7bZhiakeS+tzlYw+Bnaxa8Y2rVMNBxykJZmXhSfv7071fvB9m
+	4P/J/PUJCQRJ6zyNBNlqQiOEeAPEc4l/dHk5c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=wxZ+Fr/Wnc02sNaiT758G8mOlyd7OhTgnGEJ4e7bPJc=;
-	b=jhjU/Vo4CcMMgs7oKB/ejctm91T+30ceQwREWNqZUiukhiiaZYgAMnZCXzZkteekUm
-	y4LAeow9RiHB7UEqkQE05eM+IFoHAkT4WQ6TcWfrUKSuS3MjKDLJpc5uCt01DRm4+3oi
-	bPjKlzkEqiXUfpRNHHDaVWBrUHiI2v+wq12Zhmd1mYe8ZfCz5j7dQ0K7cqpUhx46lzXe
-	sD5T/uy0LytOX9bRm8YhkK2nGORLkPHz9lqieGKPW5cdqF8lXmxNZyifxfG4f3UxjXEn
-	HJO8/CA1zLXzwWv2hj6qkswvFOoT59gtYpGN1ByRRx5NNLntPqRH+QOXI4oUrriEhp5a
-	Bp+w==
-X-Gm-Message-State: ABuFfog/T54YdvKxoza1EQaVWTLuHZfDsJwL35z8k7pF+JAsnQZW7xwS
-	nd8HQJzHKZZBkV41r9eGTUeWwA==
-X-Google-Smtp-Source: ACcGV61bMrFvuel+Or0uIv0qIH3qnidiWvLum0VwetvksyMtFS9gPB24fM9t/wjFmu+7o3LxHcNFTg==
-X-Received: by 2002:adf:a144:: with SMTP id
-	r4-v6mr2610963wrr.169.1539284135634; 
-	Thu, 11 Oct 2018 11:55:35 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=UOcWQPRrkn9kuKUGWp3u/fY989LddiiEUtzIVSnodnM=;
+	b=sfX+kc6KDmhjzIfMi81nL3WnJJXai1qq6RqhCsizxH8fphAcQ5Hcee42W9AnM2UkPu
+	VKALCtY1o5lJ9kOVZVzinLSoYAA9McYm1NKjoDwU8RtKrvxs9J68FNSXYNkIybiNMsIm
+	3Mp7L3ppa4P0EC/KFzEZjvr8AUlS8LPm7ijoF5lqwyX0sGjb/NYdLn4HuN1SQrszE7+a
+	Rvk33UK814qt9gt2GsOZwo9Mb8fqiUvZoGB+rhQliZrMc5avWNikweLipUD9g5PRMmeB
+	a5IdSznzdyRgswIs2fG487HAIbLjZnbWjQq5dZ//nTCetHyMwH4W2fsKIyB6K7pzCLfO
+	RZXw==
+X-Gm-Message-State: ABuFfoiF87CZdsL4LnXkm00QY0xxkmX9cDS5HTqsuCzOzUrGmcZtnMmu
+	Q4hlxi3XIbc5gDrsQKwJtU4gF1uACt0=
+X-Google-Smtp-Source: ACcGV63wnBYRg6pKruiY6NUUQWphUuFze0JAGLDArQH3GRsJWw0ZV+6SlIHsuXHYCiXLkSaahh1f9w==
+X-Received: by 2002:a1c:8942:: with SMTP id
+	l63-v6mr2904961wmd.66.1539285263108; 
+	Thu, 11 Oct 2018 12:14:23 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	i7-v6sm23357041wmd.41.2018.10.11.11.55.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 11 Oct 2018 11:55:34 -0700 (PDT)
-Message-ID: <ae1bccd3a002637aef132d5cee1316bfe717e018.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: kai.kang@windriver.com
-Date: Thu, 11 Oct 2018 19:55:33 +0100
-In-Reply-To: <eedd956a3e7af4d2c64033d1b06944036c5d6536.1539267480.git.kai.kang@windriver.com>
-References: <cover.1539267480.git.kai.kang@windriver.com>
-	<eedd956a3e7af4d2c64033d1b06944036c5d6536.1539267480.git.kai.kang@windriver.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] nss: fix non-determinism when create blank certificate
+	u76-v6sm37882728wmd.10.2018.10.11.12.14.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 11 Oct 2018 12:14:22 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Oct 2018 20:14:21 +0100
+Message-Id: <20181011191421.29483-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] oeqa/runtime/opkg: Ensure the test works on multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,39 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 18:55:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Oct 2018 19:14:23 -0000
 
-On Thu, 2018-10-11 at 22:24 +0800, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> It uses tool certutil from nss to create a blank certificate. But the
-> checksum of output file key4.db changes every time:
-> 
-> $ certutil -N -d sql:. --empty-password
-> $ md5sum *
-> f9dac2cfcb07cc8ca6db442a9a570906  cert9.db
-> b892c5ff7c1977d4728240b0cf628377  key4.db
-> 7b9136cb03f07ae62eb213a5239fda71  pkcs11.txt
-> $ rm *
-> 
-> $ certutil -N -d sql:. --empty-password
-> $ md5sum *
-> f9dac2cfcb07cc8ca6db442a9a570906  cert9.db
-> 405d55178e866a115c1aa975fccfa764  key4.db
-> 7b9136cb03f07ae62eb213a5239fda71  pkcs11.txt
-> 
-> Provide pre-created blank database files to fix non-determinism
-> issue.
-> And these files are from nss qemux86-64 build.
+After allarch was disabled in multilib, this test broke. Fix the test to account
+for that change.
 
-I agree with this however can we leave a comment in the recipe about
-why we're including these and instructions on how to rebuild them
-please?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/runtime/cases/opkg.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/runtime/cases/opkg.py b/meta/lib/oeqa/runtime/cases/opkg.py
+index 671ee06c73e..50de8001c36 100644
+--- a/meta/lib/oeqa/runtime/cases/opkg.py
++++ b/meta/lib/oeqa/runtime/cases/opkg.py
+@@ -17,7 +17,10 @@ class OpkgRepoTest(OpkgTest):
+ 
+     @classmethod
+     def setUpClass(cls):
+-        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_IPK'], 'all')
++        allarchfeed = 'all'
++        if cls.tc.td["MULTILIB_VARIANTS"]:
++            allarchfeed = cls.tc.td["TUNE_PKGARCH"]
++        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_IPK'], allarchfeed)
+         cls.repo_server = HTTPService(service_repo, cls.tc.target.server_ip)
+         cls.repo_server.start()
+ 
+-- 
+2.17.1
 
 
