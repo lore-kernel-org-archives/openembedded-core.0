@@ -1,31 +1,23 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F5CC62134
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C3FAE745D4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 08:00:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9B7wxf3021915
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Oct 2018 00:59:21 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 11 Oct 2018 00:59:01 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1538199671.git.kai.kang@windriver.com>
-	<5266d8bc086fe75047d2cc84d25a4a83b28811b5.1538199671.git.kai.kang@windriver.com>
-	<d53eac33f13004eec2b52746d09ca77a3019ccaa.camel@linuxfoundation.org>
-	<ee33ddce-5bba-6102-79da-7466e5f2d667@windriver.com>
-	<fbc98892f7466c1855f79d66b78144d5e8105707.camel@linuxfoundation.org>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <26b651c2-bba9-c57c-d424-1dd487b44ee6@windriver.com>
-Date: Thu, 11 Oct 2018 15:55:53 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <fbc98892f7466c1855f79d66b78144d5e8105707.camel@linuxfoundation.org>
-Subject: Re: [PATCH 05/10] nss: move create blank certificates to pkg_postinst
+	Thu, 11 Oct 2018 08:41:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Oct 2018 01:41:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,367,1534834800"; d="scan'208";a="271454747"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.20.232])
+	by fmsmga006.fm.intel.com with ESMTP; 11 Oct 2018 01:41:14 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Oct 2018 16:41:09 +0800
+Message-Id: <20181011084111.11619-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/3] init-install-efi.sh: improve info message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,87 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 08:00:07 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 11 Oct 2018 08:41:17 -0000
 
-On 2018年10月02日 23:53, richard.purdie@linuxfoundation.org wrote:
-> On Tue, 2018-10-02 at 23:29 +0800, Kang Kai wrote:
->> On 2018年09月29日 20:44, Richard Purdie wrote:
->>> On Sat, 2018-09-29 at 13:43 +0800, kai.kang@windriver.com wrote:
->>>> From: Kai Kang <kai.kang@windriver.com>
->>>>
->>>> There is a multilib install file conflict of nss:
->>>>> file /etc/pki/nssdb/key4.db conflicts between attempted
->>>>> installs of
->>>>> lib32-nss-3.38-r0.corei7_32 and nss-3.38-r0.corei7_64
->>>> Move the creation of blank certificates to pkg_postinst. And
->>>> check if
->>>> certificates exist already, don't re-create them.
->>>>
->>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>>> ---
->>>>   meta/recipes-support/nss/nss_3.38.bb | 32 +++++++++++++++++-----
->>>> ----
->>>> --
->>>>   1 file changed, 20 insertions(+), 12 deletions(-)
->>> This does raise a question - why aren't the generated files the
->>> same?
->>> Is there a determinism problem here? This sounds like the image
->>> would
->>> change with each build and couldn't be reproduced so we have a
->>> bigger
->>> problem?
->>   
->> It calls certutil to create blank certificates:
->>
->> certutil -N -d sql:${D}${sysconfdir}/pki/nssdb/ -f ./empty_password
->>
->> It should be current time related that create blank certificates in
->> current directory, the key4.db files are different:
->>
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ touch empty
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ ./tmp/sysroots-components/x86_64/nss-native/usr/bin/certutil -N -d
->> sql:./ -f ./empty
->> password file contains no data
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ md5sum *.db
->> 1de1260b3f38349a8633d33acd4e4de7  cert9.db
->> *7fea1d4dbc99db3ba1b72e30428eb5dc  key4.db*
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ rm *.db
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ ./tmp/sysroots-components/x86_64/nss-native/usr/bin/certutil -N -d
->> sql:./ -f ./empty
->> password file contains no data
->> kkang@msp-lpggp1:~/buildarea/bar-build
->> $ md5sum *.db
->> 1de1260b3f38349a8633d33acd4e4de7  cert9.db
->> *9fbbae3e2d65d29f51e357a2dc4650a2  key4.db*
-> Can we generate them with a known standard time then? Is there some way
-> to specify that or can we add one?
+Let users know that the installation was successful and that pressing
+Enter would lead to a reboot.
 
-Unfortunately there is no such option for certutil when create new 
-databases.
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For Fedora, it provides pre-created blank database files. If provide 
-blank db files is ok, I'll verify it for all archs.
-
-Regards,
-Kai
-
-
->
-> Cheers,
->
-> Richard
->
-
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index 82b0aa819e..b6855b5aac 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -291,7 +291,7 @@ umount /boot
+ 
+ sync
+ 
+-echo "Remove your installation media, and press ENTER"
++echo "Installation successful. Remove your installation media and press ENTER to reboot."
+ 
+ read enter
+ 
 -- 
-Regards,
-Neil | Kai Kang
+2.17.1
 
 
