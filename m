@@ -1,45 +1,50 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 805BD79B12
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 712D6745FB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 13:44:18 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id q41-v6so9822958qtq.10
+	Thu, 11 Oct 2018 14:16:02 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id r8-v6so8381606ljc.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 06:44:19 -0700 (PDT)
+	Thu, 11 Oct 2018 07:16:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Vps5tz7qlJAX6Z1dNayU9338xjPor4Vr6dYdgJwBH10=;
+	b=EliMJ+pH6CtjKmOZKlNHTPV6j2OLFeeOQI4IvJg5NbC/nb5Zw66ZQzkP9/+tQzYWyg
+	YUaGzSGPq7bGxzVkyz4+54qWb1hnv/4lX1ryQQoZRLRumI36V3V0k3aE/CUo+bHgNRLx
+	OZJW+IS9yPjLwVVKIR7ewowaKmp7EBgLPSN82BWXoTnE8GbP9No1ov519tOxDPUlpYd5
+	MNkvEISw5QPz8UsNv0ynXmkBAtA/9LYAC4Ffy0KWF6cTCFd6qFl7KGqebtGs8sm9Devw
+	HBYEvf/uuehwkbmuE6nH4+zYLpEl/rTeZWGBQB2UEa3/2lStmF8VvHIctWfLCh/g+t5e
+	J9eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=LOTmJ+/fuCxWiXYwCqwvEsSZLrFb8T1q5IiTvu49rjw=;
-	b=ChXZCNjsy8HaL9qhQdWLLLZDer8zwWF4gZ9K8bxcqNw1fjjREY2uAbA9VOBpSpZqG6
-	2bIqGRJmNrkcF4EMk5HAXVCLqqe1JrGowQLFscFIS6kmp41KZYRGhWCTkb+aONBkPDuw
-	iuEO3FXinVdJzcmyXkiiW9yljcrX5DCpvDTxSchvtFM4cgnHpfEPvNnQB5yh6WbZSRA+
-	tklWuH4AoGezRw46JoIwUgvFSUM6FSLy30w420eQJVqfFasqSe8LLtgksiKkSf8ZxVxA
-	mjg9pz1E5uZWhruZUHVRjnJT9z9m307XWXRrthHOr3EHFwGQ7ztNHmaUvii8eEC65dU5
-	p40A==
-X-Gm-Message-State: ABuFfojn/vGjgpN3FkYrCVjp2Iw47WD30BvJn4l70qrH0oMKm49ayC5E
-	aidhDtXgSpwRroD7/APV9zRfdRCa
-X-Google-Smtp-Source: ACcGV63vHC7tReJ+1sWciPkXIh9CEk2+VqI6KLLJ5CbTwEYh+RB2BxVq0bHShFmKg11E7T6mSlib/g==
-X-Received: by 2002:ac8:31a2:: with SMTP id
-	h31-v6mr1632933qte.14.1539265458948; 
-	Thu, 11 Oct 2018 06:44:18 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.65.91])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Vps5tz7qlJAX6Z1dNayU9338xjPor4Vr6dYdgJwBH10=;
+	b=NbuTTZrbSu+tqjUYwVKkKwS0Pv3wnP77pKn0pr8qR9hdmD0uleu9+flSca//Nk27iR
+	8NmQCdSkpkvTHceB7dcCZ+AooGoCpgZs16bURutE5aPxOXYOnnRivB77O78YFpZBnBXX
+	GFC0VmMwe15BQU9I1eOFT/MRGKo3Pc/g3H83XWAfFXdwCAS8lR2Vj6d4QT9t7nPUiLuw
+	hmQ3JmvKlEFq7d3Z/pwS6kvu0sFBeg8sa8xq7xZQKUzRu3T9WC0k/x+5Y9qeu7RgIktt
+	NgZaRVE5pPx6BTiTUszOSdpHarsmDChNANMeZ/B2qZbUJ3ukB7VmCgwyxESszJCRgKfS
+	UVDg==
+X-Gm-Message-State: ABuFfoitwiOAg2/YsfZleGjbWOL4ajxQPxjXnm5dpmvRAczl1PZndEjz
+	jpr/kLd7fzbhT3nXxee+kRqrcCuJUe4=
+X-Google-Smtp-Source: ACcGV60m4xhmw8hFwIz/g+TfB3SuX3gV/qDMLlE40KuZfBqXOX6Y3OFH7txF2RdChtB0jnv8TkXTuw==
+X-Received: by 2002:a2e:8050:: with SMTP id
+	p16-v6mr1471563ljg.178.1539267362673; 
+	Thu, 11 Oct 2018 07:16:02 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	(m77-218-246-212.cust.tele2.se. [77.218.246.212])
 	by smtp.gmail.com with ESMTPSA id
-	x12-v6sm16074312qtk.6.2018.10.11.06.44.16
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 11 Oct 2018 06:44:18 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Thu, 11 Oct 2018 10:44:13 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Oct 2018 10:44:11 -0300
-Message-Id: <20181011134411.11760-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] util-linux: Fix unshare alternative package
+	y14-v6sm5564628lfh.10.2018.10.11.07.15.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 11 Oct 2018 07:16:00 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Oct 2018 16:15:54 +0200
+Message-Id: <1539267354-26753-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Cheuk Wing Leung <cwleung@kth.se>, Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] python3: set PYTHONHOME for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,41 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 13:44:18 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 11 Oct 2018 14:16:02 -0000
 
-The link was not being generated for the
-sub-package (util-linux-unshare).
+From: Cheuk Wing Leung <cwleung@kth.se>
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+commit c5629268b0f8ae0a425c98337d13e8dc83107e13:
+[
+    python: set PYTHONHOME for nativesdk
+
+    This ensures that the nativesdk python functions correctly without needing to
+    set PYTHONHOME in the sdk environment setup script.
+]
+
+it's also needed for python3.
+
+Signed-off-by: Cheuk Wing Leung <cwleung@kth.se>
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
+ meta/recipes-devtools/python/python3_3.5.6.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/recipes-core/util-linux/util-linux.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 45e2203a64..c694bf013f 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -220,7 +220,6 @@ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
- ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
- ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
- ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
--ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
- ALTERNATIVE_LINK_NAME[fallocate] = "${bindir}/fallocate"
- ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
- ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
-@@ -292,6 +291,9 @@ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
- ALTERNATIVE_util-linux-mountpoint = "mountpoint"
- ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
+diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
+index e179658..c481aad 100644
+--- a/meta/recipes-devtools/python/python3_3.5.6.bb
++++ b/meta/recipes-devtools/python/python3_3.5.6.bb
+@@ -179,7 +179,7 @@ do_install() {
+ }
  
-+ALTERNATIVE_util-linux-unshare = "unshare"
-+ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
-+
- BBCLASSEXTEND = "native nativesdk"
+ do_install_append_class-nativesdk () {
+-	create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
++	create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} PYTHONHOME='${prefix}' TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
+ }
  
- python do_package_prepend () {
+ SSTATE_SCAN_FILES += "Makefile"
 -- 
-2.19.1
+2.7.4
 
 
