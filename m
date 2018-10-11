@@ -1,23 +1,31 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 70BEF7920B
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F5CC62134
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 07:13:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9B7D12Z018821
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 00:13:01 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 11 Oct 2018 00:13:00 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Oct 2018 00:13:00 -0700
-Message-ID: <20181011071300.42273-1-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.11.0
+	Thu, 11 Oct 2018 08:00:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9B7wxf3021915
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 11 Oct 2018 00:59:21 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 11 Oct 2018 00:59:01 -0700
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1538199671.git.kai.kang@windriver.com>
+	<5266d8bc086fe75047d2cc84d25a4a83b28811b5.1538199671.git.kai.kang@windriver.com>
+	<d53eac33f13004eec2b52746d09ca77a3019ccaa.camel@linuxfoundation.org>
+	<ee33ddce-5bba-6102-79da-7466e5f2d667@windriver.com>
+	<fbc98892f7466c1855f79d66b78144d5e8105707.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <26b651c2-bba9-c57c-d424-1dd487b44ee6@windriver.com>
+Date: Thu, 11 Oct 2018 15:55:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Subject: [PATCH] ltp: modify mmap_24-2 testcase
+In-Reply-To: <fbc98892f7466c1855f79d66b78144d5e8105707.camel@linuxfoundation.org>
+Subject: Re: [PATCH 05/10] nss: move create blank certificates to pkg_postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,115 +38,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 07:13:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Oct 2018 08:00:07 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Mips will return EINVAL instead of ENOMEM as expected
-if the range [addr + len) exceeds TASK_SIZE.
+On 2018年10月02日 23:53, richard.purdie@linuxfoundation.org wrote:
+> On Tue, 2018-10-02 at 23:29 +0800, Kang Kai wrote:
+>> On 2018年09月29日 20:44, Richard Purdie wrote:
+>>> On Sat, 2018-09-29 at 13:43 +0800, kai.kang@windriver.com wrote:
+>>>> From: Kai Kang <kai.kang@windriver.com>
+>>>>
+>>>> There is a multilib install file conflict of nss:
+>>>>> file /etc/pki/nssdb/key4.db conflicts between attempted
+>>>>> installs of
+>>>>> lib32-nss-3.38-r0.corei7_32 and nss-3.38-r0.corei7_64
+>>>> Move the creation of blank certificates to pkg_postinst. And
+>>>> check if
+>>>> certificates exist already, don't re-create them.
+>>>>
+>>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>>>> ---
+>>>>   meta/recipes-support/nss/nss_3.38.bb | 32 +++++++++++++++++-----
+>>>> ----
+>>>> --
+>>>>   1 file changed, 20 insertions(+), 12 deletions(-)
+>>> This does raise a question - why aren't the generated files the
+>>> same?
+>>> Is there a determinism problem here? This sounds like the image
+>>> would
+>>> change with each build and couldn't be reproduced so we have a
+>>> bigger
+>>> problem?
+>>   
+>> It calls certutil to create blank certificates:
+>>
+>> certutil -N -d sql:${D}${sysconfdir}/pki/nssdb/ -f ./empty_password
+>>
+>> It should be current time related that create blank certificates in
+>> current directory, the key4.db files are different:
+>>
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ touch empty
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ ./tmp/sysroots-components/x86_64/nss-native/usr/bin/certutil -N -d
+>> sql:./ -f ./empty
+>> password file contains no data
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ md5sum *.db
+>> 1de1260b3f38349a8633d33acd4e4de7  cert9.db
+>> *7fea1d4dbc99db3ba1b72e30428eb5dc  key4.db*
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ rm *.db
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ ./tmp/sysroots-components/x86_64/nss-native/usr/bin/certutil -N -d
+>> sql:./ -f ./empty
+>> password file contains no data
+>> kkang@msp-lpggp1:~/buildarea/bar-build
+>> $ md5sum *.db
+>> 1de1260b3f38349a8633d33acd4e4de7  cert9.db
+>> *9fbbae3e2d65d29f51e357a2dc4650a2  key4.db*
+> Can we generate them with a known standard time then? Is there some way
+> to specify that or can we add one?
 
-Linux kernel code: arch/mips/mm/mmap.c
-if (flags & MAP_FIXED) {
-    /* Even MAP_FIXED mappings must reside within TASK_SIZE */
-    if (TASK_SIZE - len < addr)
-       return -EINVAL;
+Unfortunately there is no such option for certutil when create new 
+databases.
 
-Relax the condition and accept both ENOMEM and EINVAL
-as expected outcome.
+For Fedora, it provides pre-created blank database files. If provide 
+blank db files is ok, I'll verify it for all archs.
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
----
- ..._testsuite-mmap24-2-Relax-condition-a-bit.patch | 68 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20180515.bb          |  1 +
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
+Regards,
+Kai
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch b/meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-new file mode 100644
-index 0000000000..4d771c0b9c
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-@@ -0,0 +1,68 @@
-+From 85c972f730e8efe891a06ea3a2dfb5cbbdfbfbf4 Mon Sep 17 00:00:00 2001
-+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-+Date: Wed, 10 Oct 2018 22:07:05 -0400
-+Subject: [PATCH] open_posix_testsuite/mmap24-2: Relax condition a bit
-+
-+Mips will return EINVAL instead of ENOMEM as expected
-+if the range [addr + len) exceeds TASK_SIZE.
-+
-+Linux kernel code: arch/mips/mm/mmap.c
-+if (flags & MAP_FIXED) {
-+    /* Even MAP_FIXED mappings must reside within TASK_SIZE */
-+    if (TASK_SIZE - len < addr)
-+        return -EINVAL;
-+
-+Relax the condition and accept both ENOMEM and EINVAL
-+as expected outcome.
-+
-+Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2018-October/009624.html]
-+
-+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-+---
-+ .../open_posix_testsuite/conformance/interfaces/mmap/24-2.c    | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
-+index de51d43..810e5c8 100644
-+--- a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
-++++ b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
-+@@ -7,7 +7,7 @@
-+  * source tree.
-+  *
-+  * The mmap() function shall fail if:
-+- * [ENOMEM] MAP_FIXED was specified,
-++ * [ENOMEM or EINVAL] MAP_FIXED was specified,
-+  * and the range [addr,addr+len) exceeds that allowed
-+  * for the address space of a process; or, if MAP_FIXED was not specified and
-+  * there is insufficient room in the address space to effect the mapping.
-+@@ -15,7 +15,7 @@
-+  * Test Step:
-+  * 1. Map a shared memory object, with size exceeding the value get from
-+  *    rlim_cur of resource RLIMIT_AS, setting MAP_FIXED;
-+- * 3. Should get ENOMEM.
-++ * 3. Should get ENOMEM or EINVAL.
-+  */
-+ 
-+ #define _XOPEN_SOURCE 600
-+@@ -93,8 +93,8 @@ int main(void)
-+ 	       (unsigned long)len);
-+ 	pa = mmap(addr, len, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED, fd,
-+ 		  0);
-+-	if (pa == MAP_FAILED && errno == ENOMEM) {
-+-		printf("Got ENOMEM: %s\nTest PASSED\n", strerror(errno));
-++	if (pa == MAP_FAILED && (errno == ENOMEM || errno == EINVAL)) {
-++		printf("Got ENOMEM or EINVAL: %s\nTest PASSED\n", strerror(errno));
-+ 		exit(PTS_PASS);
-+ 	}
-+ 
-+@@ -103,6 +103,6 @@ int main(void)
-+ 	else
-+ 		munmap(pa, len);
-+ 	close(fd);
-+-	printf("Test Fail: Did not get ENOMEM as expected\n");
-++	printf("Test Failed: Did not get ENOMEM or EINVAL as expected\n");
-+ 	return PTS_FAIL;
-+ }
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180515.bb
-index ba0e6a60b4..1bd36c0495 100644
---- a/meta/recipes-extended/ltp/ltp_20180515.bb
-+++ b/meta/recipes-extended/ltp/ltp_20180515.bb
-@@ -54,6 +54,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0043-open-creat-skip-S_ISGID-check-on-files-created-by-no.patch \
-            file://0001-syscalls-fcntl-make-OFD-command-use-fcntl64-syscall-.patch \
-            file://0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch \
-+           file://0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
-            "
- 
- S = "${WORKDIR}/git"
+
+>
+> Cheers,
+>
+> Richard
+>
+
 -- 
-2.11.0
+Regards,
+Neil | Kai Kang
 
 
