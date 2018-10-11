@@ -1,25 +1,50 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A10860237
+Return-Path: <geoffhp@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id DA04F60237
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 03:55:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9B3tXxk017557
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 11 Oct 2018 05:16:34 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id f26-v6so3764618pfn.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2018 20:55:33 -0700 (PDT)
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 10 Oct 2018 20:55:32 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Oct 2018 12:06:53 +0800
-Message-ID: <cd5b331cec3562d6adcf4f8d4b5d42679894d5ce.1539230757.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1539230757.git.liezhi.yang@windriver.com>
-References: <cover.1539230757.git.liezhi.yang@windriver.com>
+	Wed, 10 Oct 2018 22:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=8Jptjf/7SIC6Lnlw+YvhhoGiXkNuT2EaWQDy6BvOIyI=;
+	b=hDjvjCv+Phq6LkuUTihxZbXliewfWIs4n27RUSOgF1ifqXPc58be3XJhdtc8yPPPSj
+	YXPf2zIg637VUoF5v/EfFN+queK2+1QAjjtsDu8wDX3GFyLQlBZxkk7JXoOhis2epGjS
+	+tb/K+m158aKW5ko3dDZJsD8+f5orJ0RCkcJdXNlw9ohaAFXJ0f86HZ/tE/L40uMrpNg
+	comfbsFzqLYylW+e+uo9Gu52UVb2KfBiBApJpt3qfaxoc2Nm3jfBh5G6jdHpwda+QRkG
+	btWqw235gOvICeSqonOjlJY52/KAA4YZXM9KuaQamhW4GzhKOncj66UCXbnHh/lq96TR
+	5yBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=8Jptjf/7SIC6Lnlw+YvhhoGiXkNuT2EaWQDy6BvOIyI=;
+	b=FB/TPguiL0ZKcNnyfqmqCj6nTUCoMez5OWdQYd0HDoSXRyY/nODJHlqct9TWeTYLk8
+	40v+RK9yF/7gfCFlyi2HYfK93+f58FaBg0PefFLtnmCqesZgRIDaSIyXAu0AXANQxB4J
+	JHqdJTfx/CtHtTpFAB5R/aHeXHIxY9RKVCUjEivnB/Ll3J1Lbc81X1/aZWNaTNgRsfZb
+	lKP6JGf/bAY6QIzS5MJMaXevSnef06xQU8VVBZSUgMBPNWtHM46tTcYrv9eAgINnG+9F
+	dooxtKi+g5JEi4ytL54vjT0CcI6gA/Jrx3VepMnn3P2d+jbtK9Y95MncrIkWY+41IbVo
+	o6VA==
+X-Gm-Message-State: ABuFfoh0IhQDkn6VZBba2iBmsErMs85L0848sy6xZCeCcwRcdnovRxYn
+	XmEHwvcI/CSn6YrCYe8WLpx8hGcs
+X-Google-Smtp-Source: ACcGV62Gywyw4UuFijMRnRxKbxHAwqHXtckY8TTCUrrqBlIZvqyxrkk1muPsRm71tB5SqMutqUtN6A==
+X-Received: by 2002:a63:cb51:: with SMTP id m17-v6mr73623pgi.105.1539234995259;
+	Wed, 10 Oct 2018 22:16:35 -0700 (PDT)
+Received: from mosfet.lan ([2605:e000:1417:4457::493])
+	by smtp.gmail.com with ESMTPSA id
+	x23-v6sm27077006pfm.113.2018.10.10.22.16.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 10 Oct 2018 22:16:34 -0700 (PDT)
+From: geoffhp@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Oct 2018 22:16:29 -0700
+Message-Id: <20181011051629.7750-1-geoffhp@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] prelink: Fix Segmentation fault error when prelink qemu
+Subject: [PATCH v2] wic: make engine.py:get_partitions() resilient to parted/dmidecode stderr output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,108 +57,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 03:55:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Oct 2018 05:16:35 -0000
+Content-Transfer-Encoding: 8bit
 
-The info->resolvetls might be NULL according to src/prelink.c:
-[snip]
- /* Dynamic linker does not depend on any other library,
-    all symbols resolve to themselves with the exception
-    of SHN_UNDEF symbols which resolve to 0.  */
-if (info->symtab[r_sym].st_shndx == SHN_UNDEF)
-  {
-    info->resolveent = NULL;
-    info->resolvetls = NULL;
-[snip]
+From: Geoff Parker <geoffhp@gmail.com>
 
-So we must check it before use its members, otherwise, there might be
-Segmentation fault error.
+Running wic commands on Debian 10 systems fail in
+scripts/lib/wic/engine.py:get_partitions() due to new stderr output captured
+when trying to parse the output from /sbin/parted as a non-root user.
 
-Fixed:
-MACHINE = "qemumips"
-IMAGE_INSTALL_append = " qemu"
-$ bitbake core-image-minimal
-[snip]
-| /path/to/qemumips-poky-linux/core-image-minimal/1.0-r0/temp/run.prelink_image.1000: line 111:  1010 Segmentation fault      (core dumped)
-[snip]
+The parted command calls the dmidecode utility, which produces this error
+as a non-root user:
+    /sys/firmware/dmi/tables/smbios_entry_point: Permission denied
+    /dev/mem: Permission denied
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+scripts/lib/wic/engine.py:get_partitions() calls misc.py:exec_cmd(),
+a subprocess wrapper which returns a combined stderr and sdtdout.
+These messages to stderr confuse the partition table parser in
+get_partitions().
+
+This patch has the partition table parser ignore lines before the expected
+"BYT;" header string.
+
+Running wic in Debian 9 does not have this issue.
+
+Signed-off-by: Geoff Parker <geoffhp@gmail.com>
 ---
- ...ps.c-check-info-resolvetls-before-use-its.patch | 51 ++++++++++++++++++++++
- meta/recipes-devtools/prelink/prelink_git.bb       |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/prelink/prelink/0001-src-arch-mips.c-check-info-resolvetls-before-use-its.patch
+ scripts/lib/wic/engine.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/prelink/prelink/0001-src-arch-mips.c-check-info-resolvetls-before-use-its.patch b/meta/recipes-devtools/prelink/prelink/0001-src-arch-mips.c-check-info-resolvetls-before-use-its.patch
-new file mode 100644
-index 0000000..b168824
---- /dev/null
-+++ b/meta/recipes-devtools/prelink/prelink/0001-src-arch-mips.c-check-info-resolvetls-before-use-its.patch
-@@ -0,0 +1,51 @@
-+From 2136969e3e196b9cf7f4788340efa4b1d9b39565 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Thu, 11 Oct 2018 10:05:52 +0800
-+Subject: [PATCH] src/arch-mips.c: check info->resolvetls before use its member
-+
-+The info->resolvetls might be NULL according to src/prelink.c:
-+[snip]
-+ /* Dynamic linker does not depend on any other library,
-+    all symbols resolve to themselves with the exception
-+    of SHN_UNDEF symbols which resolve to 0.  */
-+if (info->symtab[r_sym].st_shndx == SHN_UNDEF)
-+  {
-+    info->resolveent = NULL;
-+    info->resolvetls = NULL;
-+[snip]
-+
-+So we must check it before use its members, otherwise, there might be
-+Segmentation fault error.
-+
-+Fixed:
-+MACHINE = "qemumips"
-+IMAGE_INSTALL_append = " qemu"
-+$ bitbake core-image-minimal
-+[snip]
-+| /path/to/qemumips-poky-linux/core-image-minimal/1.0-r0/temp/run.prelink_image.1000: line 111:  1010 Segmentation fault      (core dumped)
-+[snip]
-+
-+Upstream-Status: Submitted [https://lists.yoctoproject.org/pipermail/yocto/2018-October/042812.html]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ src/arch-mips.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/arch-mips.c b/src/arch-mips.c
-+index ccb1834..02c608f 100644
-+--- a/src/arch-mips.c
-++++ b/src/arch-mips.c
-+@@ -567,7 +567,8 @@ mips_prelink_reloc (struct prelink_info *info, GElf_Addr r_offset,
-+       if (dso->ehdr.e_type == ET_EXEC)
-+ 	{
-+ 	  value = info->resolve (info, r_sym, r_type);
-+-	  value += info->resolvetls->offset - TLS_TP_OFFSET;
-++	  if (info->resolvetls != NULL)
-++	    value += info->resolvetls->offset - TLS_TP_OFFSET;
-+ 	  if (r_type == R_MIPS_TLS_TPREL32)
-+ 	    mips_prelink_32bit_reloc (dso, rela, value);
-+ 	  else
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index 3f2a2e2..b1261d5 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -32,6 +32,7 @@ SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink_sta
-            file://prelink.cron.daily \
-            file://prelink.default \
-            file://macros.prelink \
-+           file://0001-src-arch-mips.c-check-info-resolvetls-before-use-its.patch \
- "
- UPSTREAM_CHECK_COMMITS = "1"
- 
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index e6c830ce78..4662c665c0 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -266,10 +266,15 @@ class Disk:
+             out = exec_cmd("%s -sm %s unit B print" % (self.parted, self.imagepath))
+             parttype = namedtuple("Part", "pnum start end size fstype")
+             splitted = out.splitlines()
+-            lsector_size, psector_size, self._ptable_format = splitted[1].split(":")[3:6]
++            # skip over possible errors in exec_cmd output
++            try:
++                idx =splitted.index("BYT;")
++            except ValueError:
++                raise WicError("Error getting partition information from %s" % (self.parted))
++            lsector_size, psector_size, self._ptable_format = splitted[idx + 1].split(":")[3:6]
+             self._lsector_size = int(lsector_size)
+             self._psector_size = int(psector_size)
+-            for line in splitted[2:]:
++            for line in splitted[idx + 2:]:
+                 pnum, start, end, size, fstype = line.split(':')[:5]
+                 partition = parttype(int(pnum), int(start[:-1]), int(end[:-1]),
+                                      int(size[:-1]), fstype)
 -- 
-2.7.4
+2.19.1
 
 
