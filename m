@@ -1,46 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DE5578E49
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id EA4F778E49
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 19:21:18 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id e187-v6so10656525wmf.0
+	Thu, 11 Oct 2018 19:21:19 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id y144-v6so10552093wmd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 12:21:20 -0700 (PDT)
+	Thu, 11 Oct 2018 12:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=5I6PYVN7aLs3WQqq0TLSfVtOlkSgdyBj44WlyYkfNaY=;
-	b=NHAN3Y97OCL93TNE8ghDO5aK3K2HkWZ9fVwnAPQFXoM4isq/dQkHB9tjY2Yjveqhpw
-	E+ng6WygLFNbJgJoBwqXAT1yGXJFY3iIr5nk7HZc2hqqYJAPQ2B+3aQcBIrYryVAgKqu
-	rAKjjqfU/SCNGRSl27MI2U6XZzrWrUPbdh7SU=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=TaTD8iHb+rlyi8utIPREkCw3kLcrqjTZymc51sMFImE=;
+	b=aVmeRh+VKy1CQkiT7utNbYJbE1pIzrwxlkX1jRBZ97KgWuLriL6RVqN/3l3bC0czRe
+	d80D04WgQYMJX2fnu2qPw/PAi5zYzJn1tm/EwjutLIDX7XLe5v10G68Obuj9E5gHn+EC
+	/cenB5X80TGVcZ9hPMmfLRvQ5L2jbYLgeQZB8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=5I6PYVN7aLs3WQqq0TLSfVtOlkSgdyBj44WlyYkfNaY=;
-	b=oExptEih8aS9RJ7RKw12cjtUH2DMgwM/hudF1FHmPs5dRbcT2IdWcXW3EJOR94R+YM
-	lhbzXBPI1/AIXQVe/4Qpg6M1x2LJsXjQbD/cbywW6OlNAGUA9bxvVJBA/DhXf2myukMH
-	Hvi2XxMdQZE1UfjF49XrDD6YcncXDD6qCPVuP50fFqAyLxmLJar951Wx3PRF8Jeg4ZQ2
-	ve762wcDURwIUxnnDjuvtw+ZKAlAv2Qq8ViIFIbupPUfwg3m+xGEeIRNCDd+OvXv0vdC
-	e3Rc1BBBeDw82A4yjCLLLKRkd4GJy6eyJVAfZM2OMZalcUJoCWWOlQxzmC57Rr+SV2fd
-	O+tg==
-X-Gm-Message-State: ABuFfog3KwvghyHvXz0iApFr7BhoDkUolVyTYSbzmwvtwLtdgKnpeytP
-	eRFN+171M2O02y3CbeodTQy3+cGzu64=
-X-Google-Smtp-Source: ACcGV614ywwNO05jtsM/ryDBHuLeuXh2LjomG1ptoZ/NOwJHA9G/H6nOfngIEZFX1eNAd/PDJiMGgw==
-X-Received: by 2002:a1c:f53:: with SMTP id 80-v6mr2675671wmp.58.1539285679037; 
-	Thu, 11 Oct 2018 12:21:19 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=TaTD8iHb+rlyi8utIPREkCw3kLcrqjTZymc51sMFImE=;
+	b=RWA17jXwqtSyZ92ELOk0R49xZtZs9pWyRe2canlxXp0bm9Z8lh/E5SH6DDKma40VpF
+	mXvrVvVjyT+tUfg8hoekw+3iLQ3OKRDfHR1IeCDde8Ajq4tfrmHzri+2uH8ULi0drhnt
+	ScHyZlegZnDy5cuA8gQAnat8OEwym2UkRGH4tDThq95ogEoiNT13AtHOiZZZWwT3Ii+1
+	Yk1DI4EFvk+mByzMYpkRTcL8T3Oc+pQJWdl9AkwpqOEYtXNGVdV1jU5SgaqQui8W6tAy
+	aiDcB50X1trVPx1O61GkUvGAbtJgPh/OBuH8CAHcDjV4vwNHQfoHKbxCRcrV9NJghGE0
+	qOKQ==
+X-Gm-Message-State: ABuFfoheHmvUNCLLNTWTqLYuCSPulStn9PPfJfdJequ90eyV1NgTVaUN
+	9StV169EM4cE7O7wTZdyB3g2fChMY10=
+X-Google-Smtp-Source: ACcGV63Nm58nBLIMFcfTvQ3dePrDVhXEieUH4W1F19P/VLPgXsqPmiV4fbCxNjNH9etYrBdqu8u20w==
+X-Received: by 2002:a1c:1fc2:: with SMTP id
+	f185-v6mr2672207wmf.18.1539285680210; 
+	Thu, 11 Oct 2018 12:21:20 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	203-v6sm11408363wmn.34.2018.10.11.12.21.17
+	203-v6sm11408363wmn.34.2018.10.11.12.21.19
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 11 Oct 2018 12:21:17 -0700 (PDT)
+	Thu, 11 Oct 2018 12:21:19 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Oct 2018 20:21:15 +0100
-Message-Id: <20181011192116.30034-1-richard.purdie@linuxfoundation.org>
+Date: Thu, 11 Oct 2018 20:21:16 +0100
+Message-Id: <20181011192116.30034-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] oeqa/manual: Remove bitbake-selftest execution
+In-Reply-To: <20181011192116.30034-1-richard.purdie@linuxfoundation.org>
+References: <20181011192116.30034-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] oeqa/manual/oe-core: Drop image build during taskexp test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,57 +57,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 19:21:19 -0000
+X-List-Received-Date: Thu, 11 Oct 2018 19:21:20 -0000
 
-The autobuilder runs bitbake-selftest already so we don't need
-to execute this manually.
+Building an image takes time and isn't necessary to test taskexp,
+we can drop this step.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/manual/oe-core.json | 30 ------------------------------
- 1 file changed, 30 deletions(-)
+ meta/lib/oeqa/manual/oe-core.json | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/meta/lib/oeqa/manual/oe-core.json b/meta/lib/oeqa/manual/oe-core.json
-index 3e2f321240d..0e8f01a9123 100644
+index 0e8f01a9123..d893d849fb3 100644
 --- a/meta/lib/oeqa/manual/oe-core.json
 +++ b/meta/lib/oeqa/manual/oe-core.json
-@@ -260,35 +260,5 @@
-       },
-       "summary": "test_bitbake_sane_error_for_invalid_layer"
-     }
--  },
--  {
--    "test": {
--      "@alias": "oe-core.bitbake.Test_bitbake-selftest",
--      "author": [
--        {
--          "email": "jair.de.jesus.gonzalez.plascencia@intel.com",
--          "name": "jair.de.jesus.gonzalez.plascencia@intel.com"
--        }
--      ],
--      "execution": {
--        "1": {
--          "action": "clone poky ",
--          "expected_results": ""
+@@ -216,10 +216,6 @@
+           "expected_results": ""
+         },
+         "4": {
+-          "action": "bitbake core-image-full-cmdline   \n",
+-          "expected_results": "Image should be successfully built   \n"
 -        },
--        "2": {
--          "action": "cd poky ",
--          "expected_results": ""
--        },
--        "3": {
--          "action": "source oe-init-build-env ",
--          "expected_results": ""
--        },
--        "4": {
--          "action": "bitbake-selftest -v\n",
--          "expected_results": "All test cases are executed and no errors are reported.\n"
--        }
--      },
--      "summary": "Test_bitbake-selftest"
--    }
-   }
- ]
-\ No newline at end of file
+-        "5": {
+           "action": "bitbake -u taskexp -g core-image-full-cmdline    \n\nNOTE: To execute the last command of this test, it's necessary that the machine is executing an X11 server, or if that's not the case (for example, if running the test on a headless server), it is required to enable ssh X11 forwarding on both, the server and the client, and have the X11 server running on the client.    \n\nThe instructions to enable X11 forwarding vary between distributions. But for example, these are the steps to enable it between a server running openSUSE Leap 42.1 and a client with Fedora 24:  \nA. On the server, make sure /home//.ssh/config contains the line:  \n     ForwardX11 yes  \nB. On the server, make sure xauth is installed by running:  \n      which xauth  \nC. On the client, connect to the server, enabling X11 forwarding, for example by using:  \n      ssh -X user@server    \nNOTE 2: depexp was renamed to taskexp on 2.3 M4",
+           "expected_results": "Verify that a \"dependency explorer\" is opened and file \n   dependencies are listed  "
+         }
 -- 
 2.17.1
 
