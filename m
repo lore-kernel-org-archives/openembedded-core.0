@@ -1,28 +1,27 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C0BC160116
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D22060596
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 14:37:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9BEblZm024235
+	Thu, 11 Oct 2018 14:58:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9BEw3FS017859
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Oct 2018 07:37:47 -0700 (PDT)
-Received: from yow-masselst-lx1.localnet (128.224.21.131) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 11 Oct 2018 07:37:46 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Nirbheek Chauhan <nirbheek.chauhan@gmail.com>
-Date: Thu, 11 Oct 2018 10:37:46 -0400
-Message-ID: <18329083.QvFe2krHl5@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <CADqQcK4Mn1zSSh_du4=_aOcaiL2oy37m3mcWZTwZVK45UcTjWw@mail.gmail.com>
-References: <1539200144-19028-1-git-send-email-mark.asselstine@windriver.com>
-	<4478883.5euKKaLx1P@yow-masselst-lx1>
-	<CADqQcK4Mn1zSSh_du4=_aOcaiL2oy37m3mcWZTwZVK45UcTjWw@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	Thu, 11 Oct 2018 07:58:03 -0700 (PDT)
+Received: from [128.224.162.232] (128.224.162.232) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 11 Oct 2018 07:58:02 -0700
+To: <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meson.bbclass: Fix build issues with /tmp mounted with noexec
+References: <20181011095511.5509-1-hongxu.jia@windriver.com>
+	<e8b42506cdaf9437f715100f0ff6541d5ed3c894.camel@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <8fe4eb7c-a838-e1da-a1a2-7acd201d9977@windriver.com>
+Date: Thu, 11 Oct 2018 22:58:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <e8b42506cdaf9437f715100f0ff6541d5ed3c894.camel@linuxfoundation.org>
+Subject: Re: [PATCH] openssl: use nativeperl to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 14:37:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 11 Oct 2018 14:58:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Wednesday, October 10, 2018 4:32:56 PM EDT Nirbheek Chauhan wrote:
-> On Thu, Oct 11, 2018 at 1:50 AM Mark Asselstine
-> 
-> <mark.asselstine@windriver.com> wrote:
-> > Definitely a bug in that it doesn't propogate as an error.
-> 
-> Note that compiler checks currently never raise an exception, and -1
-> is the all-inclusive "error condition" for when the size of a variable
-> could not be determined. Perhaps we should add a kwarg to sizeof()
-> that forces it to error out if the size could not be determined, or if
-> an unexpected error occurs.
+On 2018年10月11日 20:00, richard.purdie@linuxfoundation.org wrote:
+> On Thu, 2018-10-11 at 02:55 -0700, Hongxu Jia wrote:
+>> If host perl is old version (such as perl v5.16.3 on CentOS-7.5),
+>> the openssl-native failed at do_install, the reason is its Makefile
+>> is not correct which is generated at do_configure by perl script.
+>>
+>> Use nativeperl to assure latest perl on host for openssl build.
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/recipes-connectivity/openssl/openssl_1.1.1.bb | 6 ++++--
+>>   1 file changed, 4 insertions(+), 2 deletions(-)
+> I think this will have a noticeable effect on built times unfortunately
+> since it means openssl-native would then depend upon perl-native...
+Hi RP,
 
-I can only speak from my perspective as a user here, and that is a "silent" 
-fail such as this is evil.
+Yes, I do the test to build openssl-native from scratch, it requires 
+extra 4 minutes
 
-Firstly because this took some time to dig up. Understandably in this instance 
-the build failure was only taking place in automated build infra which made it 
-difficult to inspect logs and such to narrow in on the issue. Even if I had 
-easier access to a failed build this would have taken time to uncover, btw.
+1. Use host perl
+18 task
+real    1m33.978s
+user    0m0.728s
+sys     0m0.080s
 
-Secondly and more importantly had it not been for a coding issue causing a 
-build failure this would have gone unnoticed and the code built on systems 
-with noexec-tmp vs not would have be completely different.
+2. Use nativeperl
+114 tasks
+real    5m49.911s
+user    0m1.372s
+sys     0m0.140s
 
-Regardless of the "-1" potentially aligning with some known default the fact 
-that meson had an obvious failure attempting to run code and didn't return a 
-failure return code is wrong. This is host contamination.
+But for a image build, the cost is not much
+(To exclude network affect, we assure all tarball/git exist in downloads)
+But build a image from scratch:
 
-> 
-> > On the need to
-> > always use meson-private, I am 50/50 on that. Since meson respects
-> > TMPDIR/TMP/ TEMP does it really need to handle this directly?
-> 
-> The main advantage of using tmpfs for temporary files is obvious,
+time bitbake core-image-minimal
 
-Sorry, are you concerned about dirs/files being improperly cleaned up? Disk 
-IO? Whenever I see "obvious" in an email I get a bit worried as I don't trust 
-that what I am thinking is the same as what others might be.
+1. Use host perl
+NOTE: Tasks Summary: Attempted 1655 tasks of which 5 didn't need to be 
+rerun and all succeeded.
 
-> which is why we try to avoid writing that to meson-private inside the
-> builddir. As I just commented on the issue, `XDG_RUNTIME_DIR` might be
-> a good candidate for an exec tmpfs location.
+real    28m29.625s
+user    0m7.296s
+sys     0m0.988s
 
-I am not familiar with XDG_RUNTIME_DIR. On paper it does read like it could be 
-used but it does seem to have a varying levels of support especially on 
-systems which use sysvinit where pam is not always present.
+2. Use native perl
+NOTE: Tasks Summary: Attempted 1655 tasks of which 5 didn't need to be 
+rerun and all succeeded.
 
-Mark
-
+real    28m42.619s
+user    0m7.496s
+sys     0m0.952s
 
 
+As upstream said, it indeed require specific PERL version
+
+`If you are building OpenSSL 1.1.0 and above, then you will also need 
+PERL 5.10 or high'
+
+https://wiki.openssl.org/index.php/Compilation_and_Installation
+
+And I found at least PERL 5.16.3 not work for OpenSSL 1.1.1
+
+Or add a perl version detecting in insane check? We should report a lowest
+workable perl version number when detect failed. But we may update the 
+version
+number in insane check when openssl is upgraded.
+
+//Hongxu
+
+> Cheers,
+>
+> Richard
+>
 
 
