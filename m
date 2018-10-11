@@ -1,25 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3706978C9A
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id C2CD879A6E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 08:58:32 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9B8wX5X019436
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 01:58:33 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 11 Oct 2018 01:58:32 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Oct 2018 17:04:08 +0800
-Message-ID: <2cdd7e6a71905b3d61d8996e8683728f90d89b0d.1539248594.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1539248594.git.Qi.Chen@windriver.com>
-References: <cover.1539248594.git.Qi.Chen@windriver.com>
+	Thu, 11 Oct 2018 09:32:20 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id F11E55C021A;
+	Thu, 11 Oct 2018 11:32:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1539250338;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=/nuHtHug/LH0RWXooISPmXRFj6QHMDLd7zhdlmfn+Jg=;
+	b=GfAnSUN5HP38wos+q0e2qVw/0pVxuEsc1qXozlHQkbsSpPQrFFoHrRB31NkurV5h/mgFbe
+	6GTB/XTw0jNsd6nSdNR3byhog+VVnhnCkl2R6TtWKavFX7vxsaBv0XEcdLb/5g5/c6GVKz
+	T5DBYmsf5VHDq9VYCeXg670CvGeBUsY=
 MIME-Version: 1.0
-Subject: [PATCH 1/1] util-linux: fix alternatives setting for unshare
+Date: Thu, 11 Oct 2018 11:32:18 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, Max Krummenacher <max.oss.09@gmail.com>
+In-Reply-To: <c30e9108c19e440e6a1e99faffe585b7@agner.ch>
+References: <ae881b799c12d2514345825d8fa5297f@agner.ch>
+	<abbffc6e7fa60468423b2cf1ec39f311@agner.ch>
+	<ad574663589f7559ca0f32f159de471c@agner.ch>
+	<c30e9108c19e440e6a1e99faffe585b7@agner.ch>
+Message-ID: <3be7c365bb1e17ebff719915256db377@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.7
+Cc: Brandon Shibley <brandon.shibley@toradex.com>, samuel.bissig@toradex.com,
+	ricardo@foundries.io
+Subject: Re: Build failure with parallel build and opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,50 +44,316 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 08:58:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Oct 2018 09:32:21 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The alternative setting for unshare belongs to the util-linux-unshare
-package instead of the util-linux package. Fix this problem to avoid
-a dead symlink /usr/bin/unshare -> /usr/bin/unshare.util-linux on target.
+On 02.10.2018 15:12, Stefan Agner wrote:
+> On 02.10.2018 10:46, Stefan Agner wrote:
+>> On 26.09.2018 11:34, Stefan Agner wrote:
+>>> Hi,
+>>>
+>>> On 12.09.2018 00:49, Stefan Agner wrote:
+>> <snip>
+>>> We discussed the issue at Linaro Connect a bit.
+>>>
+>>> To recap, we do build in two steps:
+>>>
+>>> 1. bitbake full-container-image
+>>> 2. bitbake -c populate_sdk full-container-image
+>>>
+>>> The issue always happens in the second step.
+>>>
+>>> We also see that in the second step, the do_package_write_ipk_setscene
+>>> task for every recipe is executed.
+>>>
+>>> The current assumption is
+>>>
+>>> I tried to reproduce by building a recipe using openembedded-core master
+>>> only in two build directories with shared sstate manually:
+>>>
+>>> 1. build1 $ bitbake eudev
+>>> 2. build2 $ bitbake -c cleansstate eudev
+>>> 3. build2 $ bitbake eudev
+>>> 4. build1 $ bitbake core-image-minimal
+>>>
+>>> This sequence seems not to have triggered a
+>>> do_package_write_ipk_setscene for eudev.
+>>>
+>>> I then tried
+>>> 5. build1 $ bitbake -c populate_sdk core-image-minimal
+>>>
+>>> Which did trigger a do_package_write_ipk_setscene. However, the issue
+>>> did not appear...
+>>>
+>>> I even tried to rebuild and replace the file manually, and run bitbake
+>>> -c populate_sdk -f core-image-minimal, but it just seems not to appear.
+>>>
+>>> Last time I have seen it was with oe-core
+>>> f6634581fa0a81c4d68dc9179a755ad7b9d99357, I will revert to this version
+>>> again to see whether that helps reproducing the issue.
+>>
+>> Using the older OE version did not make a difference.
+>>
+>>
+>> So Max and I discussed a bit further. We realized that when OE rebuilds,
+>> the opkg package index is refreshed for a package only if the mtime (in
+>> seconds) is different between the previous file and the file on disk
+>> currently (see opkg-make-index). Can it be that two simultaneously
+>> started builds create two ipk with same mtime?
+>>
+>> So I built two core-image-minimal builds (on the same machine) at the
+>> *very* same time. First try did not cause a collision, but already on
+>> the second try I managed to reproduce multiple collision. This output
+>> shows all the packages with the same unix mtime stamp according to the
+>> Packages.stamps file (generated by opkg-make-index):
+>>
+>> $ comm -1 -2 <(sort build1/tmp-glibc/deploy/ipk/i586/Packages.stamps) <(sort build2/tmp-glibc/deploy/ipk/i586/Packages.stamps)
+>> kages.stamps)
+>> 1538424250 glibc-binary-localedata-de-it_2.27-r0_i586.ipk
+>> 1538425082 libreadline-staticdev_7.0-r0_i586.ipk
+>> 1538425162 bash-bashbug_4.4.18-r0_i586.ipk
+>> 1538425162 bash-completion_2.8-r0_i586.ipk
+>> 1538425162 bash-completion-dbg_2.8-r0_i586.ipk
+>> 1538425162 bash-completion-dev_2.8-r0_i586.ipk
+>> 1538425162 bash-loadable_4.4.18-r0_i586.ipk
+>> 1538425163 bash_4.4.18-r0_i586.ipk
+>> 1538425163 bash-completion-extra_2.8-r0_i586.ipk
+>> 1538425164 bash-doc_4.4.18-r0_i586.ipk
+>> 1538425167 bash-dbg_4.4.18-r0_i586.ipk
+>> 1538425233 util-linux-locale-hr_2.32-r0_i586.ipk
+>> 1538425233 util-linux-locale-id_2.32-r0_i586.ipk
+>> 1538425233 util-linux-locale-it_2.32-r0_i586.ipk
+>> 1538425233 util-linux-locale-sl_2.32-r0_i586.ipk
+>> 1538425233 util-linux-locale-zh-tw_2.32-r0_i586.ipk
+>> 1538425234 util-linux-dev_2.32-r0_i586.ipk
+>> 1538425234 util-linux-findfs_2.32-r0_i586.ipk
+>> 1538425234 util-linux-ionice_2.32-r0_i586.ipk
+>> 1538425234 util-linux-locale-ca_2.32-r0_i586.ipk
+>> 1538425234 util-linux-locale-pl_2.32-r0_i586.ipk
+>> 1538425234 util-linux-locale-pt-br_2.32-r0_i586.ipk
+>> 1538425234 util-linux-locale-ru_2.32-r0_i586.ipk
+>> 1538425234 util-linux-locale-sv_2.32-r0_i586.ipk
+>> 1538425234 util-linux-locale-tr_2.32-r0_i586.ipk
+>> 1538425234 util-linux-locale-vi_2.32-r0_i586.ipk
+>> 1538425234 util-linux-locale-zh-cn_2.32-r0_i586.ipk
+>> 1538425234 util-linux-mountpoint_2.32-r0_i586.ipk
+>> 1538425235 util-linux-locale-fr_2.32-r0_i586.ipk
+>> 1538425236 util-linux-blkid_2.32-r0_i586.ipk
+>> 1538425236 util-linux-fsck_2.32-r0_i586.ipk
+>> 1538425236 util-linux-fsck.cramfs_2.32-r0_i586.ipk
+>> 1538425236 util-linux-fstrim_2.32-r0_i586.ipk
+>> 1538425236 util-linux-lscpu_2.32-r0_i586.ipk
+>> 1538425236 util-linux-mkfs_2.32-r0_i586.ipk
+>> 1538425236 util-linux-mount_2.32-r0_i586.ipk
+>> 1538425236 util-linux-partx_2.32-r0_i586.ipk
+>> 1538425236 util-linux-readprofile_2.32-r0_i586.ipk
+>> 1538425236 util-linux-umount_2.32-r0_i586.ipk
+>> 1538425237 libblkid1_2.32-r0_i586.ipk
+>> 1538425237 libfdisk1_2.32-r0_i586.ipk
+>> 1538425237 libmount1_2.32-r0_i586.ipk
+>> 1538425238 util-linux_2.32-r0_i586.ipk
+>> 1538425240 util-linux-staticdev_2.32-r0_i586.ipk
+>>
+>> Indeed, the two ipk files have the same mtime (at least, on second level):
+>>
+>> $ stat ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>>   File: ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>>   Size: 136612          Blocks: 272        IO Block: 4096   regular file
+>> Device: fd00h/64768d    Inode: 2627769381  Links: 2
+>> Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)
+>> Context: unconfined_u:object_r:home_root_t:s0
+>> Access: 2018-10-01 22:28:37.464716076 +0200
+>> Modify: 2018-10-01 22:20:37.930653796 +0200
+>> Change: 2018-10-01 22:20:50.998205339 +0200
+>>  Birth: -
+>>   File: ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>>   Size: 136692          Blocks: 272        IO Block: 4096   regular file
+>> Device: fd00h/64768d    Inode: 2608876057  Links: 2
+>> Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/     ags)
+>> Context: unconfined_u:object_r:home_root_t:s0
+>> Access: 2018-10-01 22:28:47.145119532 +0200
+>> Modify: 2018-10-01 22:20:37.358629653 +0200
+>> Change: 2018-10-01 22:20:50.727193901 +0200
+>>  Birth: -
+>>
+>> But different md5sums!
+>>
+>> $ md5sum ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>> bb8ffd4443e84fede943ccc3292dc657  ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>> 91608ae2b109e3f4af0379c634fad9c0  ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>>
+>> In that case, libblkid1_2.32-r0_i586.ipk of build1 managed to make it into the sstate.
+>>
+>> On our production system, the SDK builds called later always fetch the packages
+>> from sstate again (do_package_write_ipk_setscene). For some reason that did not
+>> happen in my synthetic test. However, I simulated the fetch from sstate by
+>> removing libblkid1_2.32-r0_i586.ipk (part of util-linux) from build2:
+>>
+>>   build2 $ bitbake -c clean util-linux
+>>
+>> And rebuild the image:
+>>
+>>   build2 $ bitbake -f -c populate_sdk core-image-minimal
+>>
+> 
+> Note that after this command, the packages in the feed looks like this:
+> 
+> $ stat ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>   File: ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>   Size: 136612          Blocks: 272        IO Block: 4096   regular
+> file
+> Device: fd00h/64768d    Inode: 2627769381  Links: 2
+> Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/    
+> ags)
+> Context: unconfined_u:object_r:home_root_t:s0
+> Access: 2018-10-01 22:28:37.464716076 +0200
+> Modify: 2018-10-01 22:20:37.930653796 +0200
+> Change: 2018-10-01 22:20:50.998205339 +0200
+>  Birth: -
+>   File: ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+>   Size: 136612          Blocks: 272        IO Block: 4096   regular
+> file
+> Device: fd00h/64768d    Inode: 2315301423  Links: 2
+> Access: (0644/-rw-r--r--)  Uid: ( 1002/     ags)   Gid: ( 1002/    
+> ags)
+> Context: unconfined_u:object_r:home_root_t:s0
+> Access: 2018-10-02 09:27:07.750888458 +0200
+> Modify: 2018-10-01 22:20:37.000000000 +0200
+> Change: 2018-10-02 09:26:47.308004397 +0200
+>  Birth: -
+> 
+> Note that the package in build2 the mtime has no nanosecond accuracy. Presumably
+> the tarball from sstate does not preserve sub second timestamps.
+> 
+> $ md5sum ./build*/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+> bb8ffd4443e84fede943ccc3292dc657 
+> ./build1/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+> bb8ffd4443e84fede943ccc3292dc657 
+> ./build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk
+> 
+> Will send out a patch which uses inodes instead of mtime in opkg-make-index.
+> 
+> --
+> Stefan
+> 
+> 
+>> Which indeed showed the issues we are seeing in production:
+>> ...
+>> Downloading file:/home/ags/oe-core/build2/tmp-glibc/deploy/ipk/i586/libblkid1_2.32-r0_i586.ipk.
+>> Removing corrupt package file /home/ags/oe-core/build2/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/sdk/image/usr/local/oecore-x86_64/sysroots/i586-oe-linux//var/cache/opkg/volatile/edad620216e689cf8778354f4ac2ff7e_libblkid1_2.32-r0_i586.ipk.
+>> ...
+>> Collected errors:
+>>  * opkg_install_pkg: Failed to download libblkid1. Perhaps you need to run 'opkg update'?
+>> ...
+>> ERROR: core-image-minimal-1.0-r0 do_populate_sdk: Function failed: do_populate_sdk
+>> ERROR: Logfile of failure stored in: /home/ags/oe-core/build2/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/temp/log.do_populate_sdk.49541
+>> ERROR: Task (/home/ags/oe-core/meta/recipes-core/images/core-image-minimal.bb:do_populate_sdk) failed with exit code '1'
+>>
+>>
+>> It really seems that using mtime only in opkg-make-index is not safe enough
+>> in our setup. We probably should use the inode (or using the inode in addition
+>> to the time stamp).
+>>
+>> Is it guaranteed that the inode changes when ipk are fetched from sstate?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Unfortunately, testing with inodes instead of mtime as Packages.stamps
+turned out to be equally unreliable. It seems that when the package is
+fetched from sstate, inode is preserved:
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 45e2203..60ac9c2 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -207,7 +207,7 @@ ALTERNATIVE_PRIORITY = "80"
- 
- ALTERNATIVE_${PN}  = " \
-     dmesg kill more mkswap blockdev pivot_root switch_root \
--    hexdump last lastb logger mesg renice wall unshare \
-+    hexdump last lastb logger mesg renice wall \
-     setsid chrt flock utmpdump eject nologin taskset fallocate \
-     fsfreeze nsenter \
- "
-@@ -220,7 +220,6 @@ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
- ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
- ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
- ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
--ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
- ALTERNATIVE_LINK_NAME[fallocate] = "${bindir}/fallocate"
- ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
- ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
-@@ -292,6 +291,9 @@ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
- ALTERNATIVE_util-linux-mountpoint = "mountpoint"
- ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
- 
-+ALTERNATIVE_util-linux-unshare = "unshare"
-+ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
-+
- BBCLASSEXTEND = "native nativesdk"
- 
- python do_package_prepend () {
--- 
-1.9.1
+In a particular case:
+$ stat
+/workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/libbz2-1_1.0.6-r5_armv7at2hf-neon.ipk
+               
+  File:
+/workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/libbz2-1_1.0.6-r5_armv7at2hf-neon.ipk
+                                                  
+  Size: 26144           Blocks: 56         IO Block: 4096   regular file
+                                                                  
+Device: 801h/2049d      Inode: 151929072   Links: 2
+Access: (0644/-rw-r--r--)  Uid: ( 1003/   yocto)   Gid: ( 1003/   yocto)
+                                                                  
+Access: 2018-10-10 10:14:37.022012933 +0000
+Modify: 2018-10-10 08:43:51.000000000 +0000
+Change: 2018-10-10 10:12:54.026508198 +0000
+ Birth: -
 
+(modification time ns is 0 -> file has been fetched from sstate).
+
+I recorded Inode on every opkg-make-index invocation, and it seems that
+inode was always 151929072.
+
+The log.do_package_write_ipk_setscene from that package shows:
+
+DEBUG: Executing python function do_package_write_ipk_setscene
+DEBUG: Removing manifest:
+/workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/bzip2_1.0.6-r5_armv7at2hf-neon.ipk
+                                   
+DEBUG: Removing manifest:
+/workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/bzip2-doc_1.0.6-r5_armv7at2hf-neon.ipk
+                               
+DEBUG: Removing manifest:
+/workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/bzip2-staticdev_1.0.6-r5_armv7at2hf-neon.ipk
+                         
+DEBUG: Removing manifest:
+/workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/bzip2-dbg_1.0.6-r5_armv7at2hf-neon.ipk
+                               
+DEBUG: Removing manifest:
+/workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/bzip2-dev_1.0.6-r5_armv7at2hf-neon.ipk
+                               
+DEBUG: Removing manifest:
+/workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/libbz2-1_1.0.6-r5_armv7at2hf-neon.ipk
+                                
+DEBUG: Removing manifest: /workdir/oe/tmp/deploy/ipk/armv7at2hf-neon/
+DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common', 'arm-32',
+'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
+'common']
+DEBUG: Executing shell function sstate_unpack_package
+deploy-ipks/
+deploy-ipks/armv7at2hf-neon/
+deploy-ipks/armv7at2hf-neon/bzip2_1.0.6-r5_armv7at2hf-neon.ipk
+deploy-ipks/armv7at2hf-neon/bzip2-doc_1.0.6-r5_armv7at2hf-neon.ipk
+deploy-ipks/armv7at2hf-neon/bzip2-staticdev_1.0.6-r5_armv7at2hf-neon.ipk
+                                                                  
+deploy-ipks/armv7at2hf-neon/bzip2-dbg_1.0.6-r5_armv7at2hf-neon.ipk
+deploy-ipks/armv7at2hf-neon/bzip2-dev_1.0.6-r5_armv7at2hf-neon.ipk
+deploy-ipks/armv7at2hf-neon/libbz2-1_1.0.6-r5_armv7at2hf-neon.ipk
+DEBUG: Shell function sstate_unpack_package finished
+DEBUG: Executing python function sstate_hardcode_path_unpack
+DEBUG: Python function sstate_hardcode_path_unpack finished
+DEBUG: Executing python function buildhistory_emit_outputsigs
+DEBUG: Python function buildhistory_emit_outputsigs finished
+DEBUG: Staging files from
+/workdir/oe/tmp/work/armv7at2hf-neon-lmp-linux-gnueabi/bzip2/1.0.6-r5/deploy-ipks
+to /workdir/oe/tmp/deploy/ipk  
+DEBUG: Executing python function buildhistory_emit_pkghistory
+DEBUG: Python function buildhistory_emit_pkghistory finished
+DEBUG: Python function do_package_write_ipk_setscene finished
+
+So I guess the "Staging files" step preserves the target files inode
+number...
+
+It seems that ctime is modified though, so our best chance is probably
+ctime. I will run some tests suing ctime.
+
+--
+Stefan
+
+>>
+>> --
+>> Stefan
+>>
+>>
+>>>
+>>>>
+>>>> I guess there is some race/asynchronous operation going on around
+>>>> building index/getting package from sstate/pushing package to sstate.
+>>>>
+>>>> It seems an issue others have seen in the past too:
+>>>> https://www.yoctoproject.org/irc/%23yocto.2018-07-05.log.html#t2018-07-05T10:07:25
+>>>>
+>>>> Any idea?
+>>>>
+>>>> --
+>>>> Stefan
 
