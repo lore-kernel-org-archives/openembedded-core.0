@@ -1,27 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D22060596
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B3EE26FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 14:58:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9BEw3FS017859
+	Thu, 11 Oct 2018 15:06:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9BF59De031899
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Oct 2018 07:58:03 -0700 (PDT)
-Received: from [128.224.162.232] (128.224.162.232) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 11 Oct 2018 07:58:02 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <20181011095511.5509-1-hongxu.jia@windriver.com>
-	<e8b42506cdaf9437f715100f0ff6541d5ed3c894.camel@linuxfoundation.org>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <8fe4eb7c-a838-e1da-a1a2-7acd201d9977@windriver.com>
-Date: Thu, 11 Oct 2018 22:58:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu, 11 Oct 2018 08:06:08 -0700
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 11 Oct 2018 08:05:14 -0700
+From: <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 11 Oct 2018 22:24:16 +0800
+Message-ID: <cover.1539267480.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <e8b42506cdaf9437f715100f0ff6541d5ed3c894.camel@linuxfoundation.org>
-Subject: Re: [PATCH] openssl: use nativeperl to build
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] nss: fix non-determinism when create blank certificate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,84 +31,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 14:58:03 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 11 Oct 2018 15:06:33 -0000
+Content-Type: text/plain
 
-On 2018年10月11日 20:00, richard.purdie@linuxfoundation.org wrote:
-> On Thu, 2018-10-11 at 02:55 -0700, Hongxu Jia wrote:
->> If host perl is old version (such as perl v5.16.3 on CentOS-7.5),
->> the openssl-native failed at do_install, the reason is its Makefile
->> is not correct which is generated at do_configure by perl script.
->>
->> Use nativeperl to assure latest perl on host for openssl build.
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-connectivity/openssl/openssl_1.1.1.bb | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
-> I think this will have a noticeable effect on built times unfortunately
-> since it means openssl-native would then depend upon perl-native...
-Hi RP,
+From: Kai Kang <kai.kang@windriver.com>
 
-Yes, I do the test to build openssl-native from scratch, it requires 
-extra 4 minutes
+Test on qemux86-64 qemuarm qemumips64 and qemuppc
+1 bitbake core-image-sato
+2 boot image
+3 run some certutil commands to list create delete certificate and works well
 
-1. Use host perl
-18 task
-real    1m33.978s
-user    0m0.728s
-sys     0m0.080s
+root@qemuppc:~# certutil -L -d /etc/pki/nssdb/
 
-2. Use nativeperl
-114 tasks
-real    5m49.911s
-user    0m1.372s
-sys     0m0.140s
+Certificate Nickname                                         Trust Attributes
+                                                             SSL,S/MIME,JAR/XPI
 
-But for a image build, the cost is not much
-(To exclude network affect, we assure all tarball/git exist in downloads)
-But build a image from scratch:
+root@qemuppc:~# certutil -U -d sql:/etc/pki/nssdb/
 
-time bitbake core-image-minimal
+    slot: NSS User Private Key and Certificate Services
+   token: NSS Certificate DB
+     uri: pkcs11:token=NSS%20Certificate%20DB;manufacturer=Mozilla%20Foundation;serial=0000000000000000;model=NSS%203
 
-1. Use host perl
-NOTE: Tasks Summary: Attempted 1655 tasks of which 5 didn't need to be 
-rerun and all succeeded.
+    slot: NSS Internal Cryptographic Services
+   token: NSS Generic Crypto Services
+     uri: pkcs11:token=NSS%20Generic%20Crypto%20Services;manufacturer=Mozilla%20Foundation;serial=0000000000000000;model=NSS%203
+root@qemuppc:~# certutil -K -d sql:/etc/pki/nssdb/
+certutil: Checking token "NSS Certificate DB" in slot "NSS User Private Key and Certificate Services"
+certutil: no keys found
 
-real    28m29.625s
-user    0m7.296s
-sys     0m0.988s
+root@qemuppc:~# certutil -S -d sql:/etc/pki/nssdb/ -s "CN=Example CA" -n my-ca-cert -x -t "C,C,C" -1 -2 -5 -m 3650
+...
 
-2. Use native perl
-NOTE: Tasks Summary: Attempted 1655 tasks of which 5 didn't need to be 
-rerun and all succeeded.
+root@qemuppc:~# certutil -L -d /etc/pki/nssdb/
 
-real    28m42.619s
-user    0m7.496s
-sys     0m0.952s
+Certificate Nickname                                         Trust Attributes
+                                                             SSL,S/MIME,JAR/XPI
+
+my-ca-cert                                                   Cu,Cu,Cu
+root@qemuppc:~# certutil -K -d /etc/pki/nssdb/
+certutil: Checking token "NSS Certificate DB" in slot "NSS User Private Key and Certificate Services"
+< 0> rsa      df1dfdd0f643f7821daea44ea4f3a2125db4e2b3   NSS Certificate DB:my-ca-cert
+root@qemuppc:~# certutil -D -d sql:/etc/pki/nssdb/ -n "my-ca-cert"
+root@qemuppc:~# certutil -L -d /etc/pki/nssdb/
+
+Certificate Nickname                                         Trust Attributes
+                                                             SSL,S/MIME,JAR/XPI
+
+root@qemuppc:~# certutil -K -d /etc/pki/nssdb/
+certutil: Checking token "NSS Certificate DB" in slot "NSS User Private Key and Certificate Services"
+< 0> rsa      df1dfdd0f643f7821daea44ea4f3a2125db4e2b3   (orphan)
+root@qemuppc:~#
 
 
-As upstream said, it indeed require specific PERL version
+The following changes since commit 8a2e53b525ebc4f50c7384af056cbe67a3913282:
 
-`If you are building OpenSSL 1.1.0 and above, then you will also need 
-PERL 5.10 or high'
+  libxml2: Make it compatible with externalsrc (2018-10-10 17:59:09 +0100)
 
-https://wiki.openssl.org/index.php/Compilation_and_Installation
+are available in the Git repository at:
 
-And I found at least PERL 5.16.3 not work for OpenSSL 1.1.1
+  git://git.pokylinux.org/poky-contrib kangkai/nss
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/nss
 
-Or add a perl version detecting in insane check? We should report a lowest
-workable perl version number when detect failed. But we may update the 
-version
-number in insane check when openssl is upgraded.
+Kai Kang (1):
+  nss: fix non-determinism when create blank certificate
 
-//Hongxu
+ meta/recipes-support/nss/nss/blank-cert9.db    | Bin 0 -> 28672 bytes
+ meta/recipes-support/nss/nss/blank-key4.db     | Bin 0 -> 36864 bytes
+ meta/recipes-support/nss/nss/system-pkcs11.txt |   5 +++++
+ meta/recipes-support/nss/nss_3.38.bb           |  16 ++++++++--------
+ 4 files changed, 13 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-support/nss/nss/blank-cert9.db
+ create mode 100644 meta/recipes-support/nss/nss/blank-key4.db
+ create mode 100644 meta/recipes-support/nss/nss/system-pkcs11.txt
 
-> Cheers,
->
-> Richard
->
+--
+2.18.0
 
 
