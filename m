@@ -1,25 +1,25 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D86779B55
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D04779B53
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 06:48:29 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Oct 2018 23:48:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,371,1534834800"; d="scan'208";a="91360852"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga003.jf.intel.com with ESMTP; 11 Oct 2018 23:48:30 -0700
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Oct 2018 14:33:10 +0800
-Message-Id: <1539325990-89780-4-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1539325990-89780-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1539325990-89780-1-git-send-email-ee.peng.yeoh@intel.com>
-Subject: [PATCH 4/4] testsdk.bbclass: write testresult to json files
+	Fri, 12 Oct 2018 07:33:45 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w9C7Xha4015791
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Fri, 12 Oct 2018 08:33:45 +0100
+Message-ID: <7fe513b6dcb00e887b7fce35e25ff74cff263070.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 12 Oct 2018 08:33:43 +0100
+In-Reply-To: <20181011180843.13983-1-JPEWhacker@gmail.com>
+References: <20181011180843.13983-1-JPEWhacker@gmail.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] initscripts: populate-volatiles: Speed up processing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 06:48:29 -0000
+X-List-Received-Date: Fri, 12 Oct 2018 07:33:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-As part of the solution to replace Testopia to store testresult,
-OEQA sdk and sdkext need to output testresult into json files, where
-these json testresult files will be stored into git repository
-by the future test-case-management tools.
+On Thu, 2018-10-11 at 13:08 -0500, Joshua Watt wrote:
+> Checking the requirements for each volatiles file in the
+> populate-volatiles script can be very slow when there are a large
+> number
+> of volatiles files, easily consuming over 80% of the processing time.
+> These checks don't usually uncover any problems so concatenate all
+> the
+> volatiles files together and process them as one large file for a
+> "fast
+> path" option. This ensures that the penalty for checking the
+> requirements is only incurred once. In the event that checking the
+> requirements for the unified file fails, fall back to the slow
+> process
+> of checking each one individually so that the offending one can be
+> skipped.
+> 
+> [YOCTO #12949]
+> 
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 
-By default, sdk and sdkext will write json testresult, to disable
-this, specify OEQA_SKIP_OUTPUT_JSON="1" as configuration.
+As yet I little evidence for it but I think this caused: 
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
----
- meta/classes/testsdk.bbclass | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
 
-diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index d3f475d..6f81fe0 100644
---- a/meta/classes/testsdk.bbclass
-+++ b/meta/classes/testsdk.bbclass
-@@ -83,6 +83,17 @@ def testsdk_main(d):
- 
-         result.logDetails()
-         result.logSummary(component, context_msg)
-+        if (d.getVar('OEQA_SKIP_OUTPUT_JSON')) == '1':
-+            bb.debug(2, 'Skip the OEQA output json testresult as OEQA_SKIP_OUTPUT_JSON=1')
-+        else:
-+            workdir = d.getVar("WORKDIR")
-+            image_basename = d.getVar("IMAGE_BASENAME")
-+            json_result_dir = os.path.join(workdir,
-+                                           'temp',
-+                                           'json_testresults-%s' % os.getpid(),
-+                                           'sdk',
-+                                           image_basename)
-+            result.logDetailsInJson(json_result_dir)
- 
-         if not result.wasSuccessful():
-             fail = True
-@@ -187,6 +198,17 @@ def testsdkext_main(d):
- 
-         result.logDetails()
-         result.logSummary(component, context_msg)
-+        if (d.getVar('OEQA_SKIP_OUTPUT_JSON')) == '1':
-+            bb.debug(2, 'Skip the OEQA output json testresult as OEQA_SKIP_OUTPUT_JSON=1')
-+        else:
-+            workdir = d.getVar("WORKDIR")
-+            image_basename = d.getVar("IMAGE_BASENAME")
-+            json_result_dir = os.path.join(workdir,
-+                                           'temp',
-+                                           'json_testresults-%s' % os.getpid(),
-+                                           'sdkext',
-+                                           image_basename)
-+            result.logDetailsInJson(json_result_dir)
- 
-         if not result.wasSuccessful():
-             fail = True
--- 
-2.7.4
+https://autobuilder.yoctoproject.org/typhoon/#/builders/35/builds/69/steps/7/logs/step6c
+
+You can see the config in:
+
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/35/builds/69/steps/7/logs/stdio
+
+the key bits for 6c are:
+
+DISTRO_FEATURES_append = ' systemd'
+VIRTUAL-RUNTIME_init_manager = 'sysvinit'
+
+Cheers,
+
+Richard
 
 
