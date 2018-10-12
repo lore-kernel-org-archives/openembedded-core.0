@@ -1,52 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AEB679BC8
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+	[209.85.217.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 440F979BE3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 17:02:13 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id y11-v6so12953725wma.3
+	Fri, 12 Oct 2018 19:08:59 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id w1so12838421vsj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 10:02:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=ievW9T8ewbQZSKT98/N5XvmMJc3Q7ShhvXg5dZ1JGmU=;
-	b=UckxRXXwW8uW7yJqoXph6fnrSb3P7DLCMGWbBbycnAQ+898n04ojfkbp443bOzRRjr
-	vq3Xu7ZCieUxuYHL1/F9jhCyDHQRr+SGEjLYCRs9Deh6dpKYgXM0SalZhbb4EF3yzfX0
-	97iZCu5rH5IRaeF195HtC2zAu/3CQIj3S5VK0=
+	Fri, 12 Oct 2018 12:09:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=uwBMwUERWF9eYv43YvQzEghOjdWwbami76IKD2QfCt0=;
+	b=TRIsG+fbjlKrOcWPtCaC1STLju64KoIC1akBX7EO7dymyLEg1yic+PAWxFDodW1bkJ
+	AjTh+obe3eGRGjcdtd0LIm4cUAa9MZ9IheDt6l+dhFJFRSReGccKnAupjvl3Pe0u5nU0
+	haGrFyCyr2+m2UjInJN9bjMm5B+lDfZ6SqwNGdG2e8cJ/HicQOMD5tingBdjr5l29RLN
+	nEj9bAXvwk0Z/2eSnJh7vHu6Ha9AORjFzv4gdK1kQ3r94/GLAEEpSma8Tc2e3XhT52iR
+	aGA050WUhNzC48HmPFKG6svI4BiHk12F55bd7FkVjsBiylL79F9y+fDS3iwO3rOEjam6
+	zUsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=ievW9T8ewbQZSKT98/N5XvmMJc3Q7ShhvXg5dZ1JGmU=;
-	b=bwR+CvG6Gv6QxTyokYbWeX1M1CqFaRDbrjYnGxJSL5MNpTaRc6UvV14AjrYIYTJUN6
-	s33c5eFZa+0QSUcvi7sYX9gVviezvqchs3Yo5x+kEM5BIJiorF/qTHpsl0ONihwHOXP4
-	m3KqQephYHs0ftHGBOjQcWXv2/NUFgGMrSp7SV1YG4JVU7hxhiNuPFMHtRKn66rfqH2t
-	jslVpllLckokMrrt1HR+MLVUCN+fzIRCQ7eYeMBDe97a0juEt2tCg03JAPmeZeC5RqpG
-	5+ipBENMZwqYlG7tH6a9a78UqGbhAFKaO/9kjbe1twHhR3rt/DGLkvrEdS0hw9GLhHEM
-	VGtg==
-X-Gm-Message-State: ABuFfohUxcKNVX2PRwoF/GmW7QULz2tZZFBb/VK9QmsKh9guONqDzouk
-	Cq0KNjzW2sRGhbEXy7J6Q5/JwA==
-X-Google-Smtp-Source: ACcGV62OPwYmPNEqlaEcWjDVhCgm1L6khgoBWZabu7+M0JeL2u/9heTKKFOzq3J1NDDqiYSI41AcOA==
-X-Received: by 2002:a1c:4c16:: with SMTP id
-	z22-v6mr5513001wmf.89.1539363734540; 
-	Fri, 12 Oct 2018 10:02:14 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t3-v6sm1766956wru.47.2018.10.12.10.02.13
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 12 Oct 2018 10:02:13 -0700 (PDT)
-Message-ID: <aebad17deb4dcb278b86e61fd107a2e26e50c918.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Hongxu Jia <hongxu.jia@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 12 Oct 2018 18:02:12 +0100
-In-Reply-To: <20181012162848.21502-1-hongxu.jia@windriver.com>
-References: <20181012162848.21502-1-hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] openssl: use deterministic perl Text::Template module bundled by openssl source
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=uwBMwUERWF9eYv43YvQzEghOjdWwbami76IKD2QfCt0=;
+	b=mJPjyRTlBTaQ2e3TL2LSeS3MmmQxD+ee1QvBD8y5kzVDn1SuEyjGPMbFRNFZxi9E3G
+	PAUenmgwrttsf9LNKftwKLjXBTGVz+d3O97QkdLlouhbNoDWfJGIupqLOUO6DqvSFEGT
+	c61VhkOdRVMrliFdpWPTTR2UL9YUIGX+haUE0AylT2sCY2UHDi9I9k6JXbU0dJBMFlKw
+	1YINtagLvF8Vhz/blRbW+muYRS5s84e7JJjzqSmGQJw8W+qfShZokU2r9aHd4GOMTLOD
+	idb6BBPOL2R/ata6LdYzvchSqd54UAa+1VI/FHkNv9Ce2FhBGBCSOnJMQTCZaa6+z1Hb
+	MVAw==
+X-Gm-Message-State: ABuFfogVg/5CyZ1YNkVU3+QWJle7m82Jx0T+AKCil53ndygtorCFveVX
+	zi4KbMVakltm21ryuoluYpwrxfbI1J1gy3B7vI0=
+X-Google-Smtp-Source: ACcGV63ucYJXLY74DOs5UwDqvW6jbnO3LLvIw0ACFt4G3x2tnyJJjMYtMPE3I3uSKAUwmWGg3cp9k9YuvoNc+gwNZDc=
+X-Received: by 2002:a67:7344:: with SMTP id o65mr2932373vsc.223.1539371340042; 
+	Fri, 12 Oct 2018 12:09:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2748:0:0:0:0:0 with HTTP; Fri, 12 Oct 2018 12:08:59
+	-0700 (PDT)
+In-Reply-To: <aef25553a12c8d7c896b4a99272e5d8064cae260.1539310768.git.Qi.Chen@windriver.com>
+References: <cover.1539310768.git.Qi.Chen@windriver.com>
+	<aef25553a12c8d7c896b4a99272e5d8064cae260.1539310768.git.Qi.Chen@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 12 Oct 2018 12:08:59 -0700
+Message-ID: <CAJ86T=UftZhx1qDSw6p7V=vw2NL5LV0Lu5dwx+EafYr_mP6J5w@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] packagegroup-core-lsb/-full-cmdline: add bzip2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +56,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 17:02:14 -0000
+X-List-Received-Date: Fri, 12 Oct 2018 19:08:59 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-10-12 at 09:28 -0700, Hongxu Jia wrote:
-> 1. The building openssl requires to install perl Text::Template
-> module(>=1.46),
-> but Text::Template is a non core Perl module, openssl chooses to
-> bundle
-> Text::Template 1.46 into the source, for convenience.
-> 
-https://github.com/openssl/openssl/commit/8ff2af548303d311ce3591406111f77862875a60
-> 
-> 2. While Text::Template < 1.46, the produced build files are gravely
-> faulty.
-> https://github.com/openssl/openssl/pull/6682
-> 
-> 3. If host has installed Text::Template < 1.46 (such as CentOS-7.5
-> has Text::
-> Template 1.45). The mismatched old module was used although the right
-> one in
-> openssl source.
-> 
-> So set PERL5LIB to use deterministic perl Text::Template module
-> bundled by openssl source and ignore the one of host
+On Thu, Oct 11, 2018 at 7:24 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
+> We are having the following error when using 'tar' from tar
+> recipe to decompress .tar.bz2 files.
+>
+>   tar (child): bzip2: Cannot exec: No such file or directory
+>   tar (child): Error is not recoverable: exiting now
+>   tar: Child returned status 2
+>   tar: Error is not recoverable: exiting now
+>
+> The tar package is introduced by these two packagegroups into image.
 
-This sounds like a *much* better solution, thanks!
+Maybe better to enable bzip2 by default in busybox (we already seem to
+have bunzip2 enabled).
 
-Cheers,
-
-Richard
-
-
+> From the README file from tar's source codes:>
+>   """
+>   ** gzip and bzip2.
+>
+>   GNU tar uses the gzip and bzip2 programs to read and write compressed
+>   archives.  If you don't have these programs already, you need to
+>   install them.
+>   """
+>
+> So we'd better cluster gzip and bzip2 with tar. These two packagegroups
+> already get 'gzip', so we also add 'bzip2'.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb | 1 +
+>  meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb          | 1 +
+>  2 files changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
+> index e86168802..ffa8388 100644
+> --- a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
+> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
+> @@ -125,6 +125,7 @@ RDEPENDS_packagegroup-core-full-cmdline-initscripts = "\
+>      "
+>
+>  RDEPENDS_packagegroup-core-full-cmdline-multiuser = "\
+> +    bzip2 \
+>      cracklib \
+>      gzip \
+>      shadow \
+> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> index 933864a..6631547 100644
+> --- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> @@ -136,6 +136,7 @@ RDEPENDS_packagegroup-core-lsb-core = "\
+>      bc \
+>      binutils \
+>      binutils-symlinks \
+> +    bzip2 \
+>      coreutils \
+>      cpio \
+>      cronie \
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
