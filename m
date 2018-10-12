@@ -1,53 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0494A79BA1
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A73979BA1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 11:55:07 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id 61-v6so13136462wrb.6
+	Fri, 12 Oct 2018 11:55:08 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id g15-v6so13128365wru.9
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 12 Oct 2018 04:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=/WjYoRHtVSpRthKEQTijoVpdPMv0DhmLJ5rb0vrLozA=;
-	b=j3WznbmWFgFQi+9dDWHB5qQGFQAc8ho0pKyYOpAafhyZQIz2+QU/CjyQBEnK73sJpF
-	pS2ouC/vGpAAyEyzYSh4FyHVrFfOxG+5cjV8dY2A9YmSGHOZBrJA0JuSO0K3dgOjpsJr
-	QZ7V55BeLoQMUFsNw3O5W8sji2J13t4JoiBx4pUgr5jmJVdngLNGPglCZt0VJO3qorV6
-	EiTM6MXcstI0l7bfCxTsyJZNZVlQXpReGakLR3bPMN6pb4pqqXl1ccqgbZzZRgaE/8b4
-	uGfLKMaA7dBiRwYmB6xOgs1t2qYGQ6GSF8QgCV3tq/isZNwOmBFDGwSXrozIEX4wL7sg
-	Ncnw==
+	bh=rq9S/CDmy3FD+xhlMZOEhHAFLbNvW2kF8oBIq6Q2VGo=;
+	b=ODUNqipGtunJAKlfXjOIQHTt7gpOhGbTiq1wIbLlAcS6vLUHChq1CgxCG4TumCl4Ao
+	h1TnWYm1pxLAlNGg+v7ojlOwy0qy787XIFUfAg8g+1MvwmaAtQsKGnuGMfIN6MnDZaoe
+	WPbtibrefMi4ErreOtCeEZ52K+bveK8aQNAFdJAA7E0/9L/DBoDlqCNmoRCRXxYMSNl7
+	foF0ZuNY/cnOoNyvELlJRSR+Eaf48JegJxe4Lw8eJ25fETepBcB649HmwVgWv1DWHj93
+	RrGdqb47H25seR6wzuUkKpIr7umFoGo1O58HpdJoYtBGjXWuyhM/gnYXXkv1Gz/LaLcF
+	7gvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=/WjYoRHtVSpRthKEQTijoVpdPMv0DhmLJ5rb0vrLozA=;
-	b=kK0yY8pdNn0W40Q7ZPkSEtflnLzS811jw0NWaTRkb/Whs8h5lUfvTTMtyG3/15aWf9
-	fSXNUWS0bcSk7WAc7vPUBSfrgMAXquvB9/H5IP/EdAFK0RE5R1OkAkXKClSoHzk+im7i
-	6FUSkY0LH+wwXHheDidC4gNN42vYQaAVn1UV5JN9/4bNzq4uX12G8lU4pKLhmBU3/uqm
-	eMkG+JyL0XrZ98VzYpWFxjPWGEjEV0gjijGOQWMrIOBFx8FgHJOaOv/abTk9KwqTmJ5r
-	ZO0+yQTUN9phlTXeiQHvhJIIJW0ZXKuc9VwNaHXeYQySHZUEVwBunEwP91On49mR88TZ
-	wusQ==
-X-Gm-Message-State: ABuFfojmP5VBo51GMQO2zSkOuJCD052T/Y5WAgZVJV/SybOmQhuDzRaZ
-	WfWjVohJdh+WYCXE9O7Vi3altSz7mPI=
-X-Google-Smtp-Source: ACcGV60pBFZe4g057CLNAxvlARV9klhf3bTN8tmPR/vdezLu4KBGPRdoej7rkKuw/2kGIGbzkZkTpA==
-X-Received: by 2002:a5d:6b92:: with SMTP id
-	n18-v6mr4633249wrx.295.1539345307437; 
-	Fri, 12 Oct 2018 04:55:07 -0700 (PDT)
+	bh=rq9S/CDmy3FD+xhlMZOEhHAFLbNvW2kF8oBIq6Q2VGo=;
+	b=k6qFe/QOwzNGrB6wvl6cMFy8nil+GWZj2jbwh6t1KWdTxTB6x2zTPhN/tdwqVxloC5
+	t5mhvqJsudMWhmCM06gjUBO1cdSxihS6cDxLefaLjcxha6o7S9P53nuuStDWgcTMPYBD
+	retDLCXp4uaBxpO0arqesj+fQvCRJXP2Y8nXrkv5SY5I/KVS7n7HfXWO2owq8AeGJjRm
+	0/AnQ2fzbjG/ru+evTKhpoxc1ULKFBeicXrlQo7w+Wby+TX+ceIAHuluprzGVtgQP5q/
+	lmvrq0IvSh4fmmsSRVQoVof/eQ0dkYVv/1TkoSCnaGtcacCRZqfHy/p6dBu1yanR2v1W
+	8Bwg==
+X-Gm-Message-State: ABuFfogtFwCfusgwfo5nbjFpT2D/goFoF69+xPwFblXa7dk9Qpk4Uxe5
+	jd6yXaRk98ISef+mHOWIGn+HbzKBxpQ=
+X-Google-Smtp-Source: ACcGV637cdP6p45GXAqAX/JNNNrtWOcOKthPvD6/Fx337v/z3wfhCgBlVnFMGt1jUhzznw9ksUIADA==
+X-Received: by 2002:adf:8bc5:: with SMTP id
+	w5-v6mr5284229wra.110.1539345308664; 
+	Fri, 12 Oct 2018 04:55:08 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a205-v6sm1223160wmh.19.2018.10.12.04.55.06
+	a205-v6sm1223160wmh.19.2018.10.12.04.55.07
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 12 Oct 2018 04:55:06 -0700 (PDT)
+	Fri, 12 Oct 2018 04:55:07 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Oct 2018 12:55:01 +0100
-Message-Id: <20181012115502.14205-2-ross.burton@intel.com>
+Date: Fri, 12 Oct 2018 12:55:02 +0100
+Message-Id: <20181012115502.14205-3-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20181012115502.14205-1-ross.burton@intel.com>
 References: <20181012115502.14205-1-ross.burton@intel.com>
-Subject: [PATCH 2/3] python: remove the PN package entirely
+Subject: [PATCH 3/3] python: clean up ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,58 +62,122 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 12 Oct 2018 11:55:08 -0000
 
-Nothing should be in this package, so remove it entirely to be sure nothing does
-end up in there.
+As the manifest handling is done differently now, just inherit ptest with the
+other inherits.
+
+test_shutil needs unzip so add to RDEPENDS.
+
+Instead of using a patched Makefile, call test.regrtest directly.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/python/python3_3.5.6.bb | 4 ++--
- meta/recipes-devtools/python/python_2.7.15.bb | 3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ .../python/python/fix-makefile-for-ptest.patch     | 34 ----------------------
+ meta/recipes-devtools/python/python/run-ptest      |  4 +--
+ meta/recipes-devtools/python/python_2.7.15.bb      | 25 ++--------------
+ 3 files changed, 3 insertions(+), 60 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
-index 489baa294fd..95915447ab4 100644
---- a/meta/recipes-devtools/python/python3_3.5.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.6.bb
-@@ -214,6 +214,8 @@ py_package_preprocess () {
- 	mv ${PKGD}/${bindir}/python${PYTHON_BINABI}-config ${PKGD}/${bindir}/python${PYTHON_BINABI}-config-${MULTILIB_SUFFIX}
- }
- 
-+PACKAGES_remove = "${PN}"
-+
- # manual dependency additions
- RPROVIDES_${PN}-modules = "${PN}"
- RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
-@@ -244,8 +246,6 @@ FILES_${PN}-man = "${datadir}/man"
- 
- BBCLASSEXTEND = "nativesdk"
- 
--RPROVIDES_${PN} += "${PN}-modules"
+diff --git a/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch b/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
+deleted file mode 100644
+index 60d782cd26b..00000000000
+--- a/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Add 'build-test' and 'runtest-TESTS' targets to Makefile, to build and run tests
+-cross-compiled.
 -
- # We want bytecode precompiled .py files (.pyc's) by default
- # but the user may set it on their own conf
- INCLUDE_PYCS ?= "1"
+-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+-Upstream-Status: Pending
+----
+-Index: Python-2.7.14/Makefile.pre.in
+-===================================================================
+---- Python-2.7.14.orig/Makefile.pre.in
+-+++ Python-2.7.14/Makefile.pre.in
+-@@ -846,14 +846,19 @@ $(LIBRARY_OBJS) $(MODOBJS) Modules/pytho
+- 
+- .PHONY: test testall testuniversal buildbottest pythoninfo
+- 
+--TESTOPTS=	-l $(EXTRATESTOPTS)
+-+TESTOPTS=	-l -v $(EXTRATESTOPTS)
+- TESTPROG=	$(srcdir)/Lib/test/regrtest.py
+--TESTPYTHON=	$(RUNSHARED) ./$(BUILDPYTHON) -Wd -3 -E -tt $(TESTPYTHONOPTS)
+--test:		@DEF_MAKE_RULE@ platform
+--		-find $(srcdir)/Lib -name '*.py[co]' -print | xargs rm -f
+-+TESTPYTHON=	$(RUNSHARED) $(BUILDPYTHON) -Wd -3 -E -tt $(TESTPYTHONOPTS)
+-+test:		build-test
+-+		$(MAKE) runtest-TESTS
+-+
+-+runtest-TESTS:
+-+		-find $(srcdir) -name '*.py[co]' -print | xargs rm -f
+- 		-$(TESTPYTHON) $(TESTPROG) $(TESTOPTS)
+- 		$(TESTPYTHON) $(TESTPROG) $(TESTOPTS)
+- 
+-+build-test:	@DEF_MAKE_RULE@ platform
+-+
+- testall:	@DEF_MAKE_RULE@ platform
+- 		-find $(srcdir)/Lib -name '*.py[co]' -print | xargs rm -f
+- 		$(TESTPYTHON) $(srcdir)/Lib/compileall.py
+diff --git a/meta/recipes-devtools/python/python/run-ptest b/meta/recipes-devtools/python/python/run-ptest
+index a2f9eed4441..832551a1244 100644
+--- a/meta/recipes-devtools/python/python/run-ptest
++++ b/meta/recipes-devtools/python/python/run-ptest
+@@ -1,5 +1,3 @@
+ #!/bin/sh
+-#
+-#This script is used to run python test suites
+ 
+-make -f LIBDIR/python/ptest/Makefile -k runtest-TESTS srcdir=LIBDIR/python2.7 TESTPROG=LIBDIR/python2.7/test/regrtest.py | sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
++python -m test.regrtest -v | sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
 diff --git a/meta/recipes-devtools/python/python_2.7.15.bb b/meta/recipes-devtools/python/python_2.7.15.bb
-index f30d3f4d25c..9bf6959a0c5 100644
+index 9bf6959a0c5..7662b165372 100644
 --- a/meta/recipes-devtools/python/python_2.7.15.bb
 +++ b/meta/recipes-devtools/python/python_2.7.15.bb
-@@ -152,6 +152,7 @@ py_package_preprocess () {
- 	(cd ${PKGD}; python -m py_compile ./${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py)
- }
+@@ -24,7 +24,6 @@ SRC_URI += "\
+   file://avoid_warning_about_tkinter.patch \
+   file://avoid_warning_for_sunos_specific_module.patch \
+   file://python-2.7.3-remove-bsdb-rpath.patch \
+-  file://fix-makefile-for-ptest.patch \
+   file://run-ptest \
+   file://parallel-makeinst-create-bindir.patch \
+   file://use_sysroot_ncurses_instead_of_host.patch \
+@@ -35,7 +34,7 @@ SRC_URI += "\
  
-+PACKAGES_remove = "${PN}"
+ S = "${WORKDIR}/Python-${PV}"
  
- # manual dependency additions
- RPROVIDES_${PN}-core = "${PN}"
-@@ -199,8 +200,6 @@ RDEPENDS_${PN}-modules_remove = "${@bb.utils.contains('PACKAGECONFIG', 'bdb', ''
+-inherit autotools multilib_header python-dir pythonnative
++inherit autotools multilib_header python-dir pythonnative ptest
  
- BBCLASSEXTEND = "nativesdk"
+ CONFIGUREOPTS += " --with-system-ffi "
  
--RPROVIDES_${PN} += "${PN}-modules"
+@@ -169,27 +168,7 @@ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN}"
+ RDEPENDS_${PN}-modules += "${PN}-misc"
+ 
+ # ptest
+-RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests"
+-#inherit ptest after "require python-${PYTHON_MAJMIN}-manifest.inc" so PACKAGES doesn't get overwritten
+-inherit ptest
 -
- # We want bytecode precompiled .py files (.pyc's) by default
- # but the user may set it on their own conf
+-# This must come after inherit ptest for the override to take effect
+-do_install_ptest() {
+-	cp ${B}/Makefile ${D}${PTEST_PATH}
+-	sed -e s:LIBDIR/python/ptest:${PTEST_PATH}:g \
+-	 -e s:LIBDIR:${libdir}:g \
+-	 -i ${D}${PTEST_PATH}/run-ptest
+-
+-	#Remove build host references
+-	sed -i \
+-		-e 's:--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
+-	    -e 's:--sysroot=${STAGING_DIR_TARGET}::g' \
+-	    -e 's|${DEBUG_PREFIX_MAP}||g' \
+-	    -e 's:${HOSTTOOLS_DIR}/::g' \
+-	    -e 's:${RECIPE_SYSROOT}::g' \
+-	    -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
+-	${D}/${PTEST_PATH}/Makefile
+-}
++RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip"
  
+ # catch manpage
+ PACKAGES += "${PN}-man"
 -- 
 2.11.0
 
