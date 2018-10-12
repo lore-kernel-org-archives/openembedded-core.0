@@ -1,18 +1,26 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B81679B9B;
-	Fri, 12 Oct 2018 11:32:59 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Fri, 12 Oct 2018 11:33:00 -0000
-Message-ID: <20181012113300.13842.1369@do.openembedded.org>
-References: <20181012111502.2354-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181012111502.2354-1-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZTJmc3Byb2dzOiBhZGQgcGVybCBkZXBlbmRlbmN5IHRvIGUyZnNwcm9ncy1wdGVzdA==?=
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 702A875545
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Oct 2018 11:35:53 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w9CBZnUk003777
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Fri, 12 Oct 2018 12:35:50 +0100
+Message-ID: <245af0f16d3498094cd8fd085385809abdd9d67d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>, rui.wang@windriver.com
+Date: Fri, 12 Oct 2018 12:35:48 +0100
+In-Reply-To: <CAJTo0LYw+QsCYT1FjAVtFEYZ3f1qS50vbowudmQs5whS2qn7hA@mail.gmail.com>
+References: <1539312696-151975-1-git-send-email-rui.wang@windriver.com>
+	<CAJTo0LYw+QsCYT1FjAVtFEYZ3f1qS50vbowudmQs5whS2qn7hA@mail.gmail.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] attr: fix utime for symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +33,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 11:32:59 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Fri, 12 Oct 2018 11:35:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On Fri, 2018-10-12 at 12:12 +0100, Burton, Ross wrote:
+> Please change the shortlog to say that the patch is to unfs3 and not
+> attr.
 
-Series: e2fsprogs: add perl dependency to e2fsprogs-ptest
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14502/
-State : failure
+I tweaked it in master-next to say that and added a commit message
+description.
 
-== Summary ==
+Cheers,
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 298eb27037)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Richard
 
 
