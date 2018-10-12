@@ -1,25 +1,23 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E17679B41
+Return-Path: <Rui.Wang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 40D6279B52
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 02:50:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C2oFUC015175
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Oct 2018 19:50:16 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 11 Oct 2018 19:50:15 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 12 Oct 2018 10:08:44 +0800
-Message-ID: <d816fd7c21666717e21bfcf131807fa5933c7081.1539309942.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1539309942.git.kai.kang@windriver.com>
-References: <cover.1539309942.git.kai.kang@windriver.com>
+	Fri, 12 Oct 2018 03:06:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C36kCS002506
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Oct 2018 20:06:46 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 11 Oct 2018 20:06:45 -0700
+From: Rui Wang <rui.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Oct 2018 10:51:36 +0800
+Message-ID: <1539312696-151975-1-git-send-email-rui.wang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] nss: fix non-determinism when create a blank certificate
+Subject: [PATCH] attr: fix utime for symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,150 +30,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 02:50:15 -0000
+X-List-Received-Date: Fri, 12 Oct 2018 03:06:45 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Rui Wang <rui.wang@windriver.com>
 
-It uses certutil from nss to create a blank certificate. But the
-checksum of database file key4.db changes every time:
+cherry-pick of fa191666b with context for SRC_URI addition
+modified to apply to current recipe.
 
-$ certutil -N -d sql:. --empty-password
-$ md5sum *
-f9dac2cfcb07cc8ca6db442a9a570906  cert9.db
-b892c5ff7c1977d4728240b0cf628377  key4.db
-7b9136cb03f07ae62eb213a5239fda71  pkcs11.txt
-$ rm *
-
-$ certutil -N -d sql:. --empty-password
-$ md5sum *
-f9dac2cfcb07cc8ca6db442a9a570906  cert9.db
-405d55178e866a115c1aa975fccfa764  key4.db
-7b9136cb03f07ae62eb213a5239fda71  pkcs11.txt
-
-Provide pre-created databases with a blank certificate to fix
-non-determinism issue. And these database files are from nss qemux86-64
-build.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- meta/recipes-support/nss/nss/blank-cert9.db   | Bin 0 -> 28672 bytes
- meta/recipes-support/nss/nss/blank-key4.db    | Bin 0 -> 36864 bytes
- .../recipes-support/nss/nss/system-pkcs11.txt |   5 +++++
- meta/recipes-support/nss/nss_3.38.bb          |  21 +++++++++++-------
- 4 files changed, 18 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-support/nss/nss/blank-cert9.db
- create mode 100644 meta/recipes-support/nss/nss/blank-key4.db
- create mode 100644 meta/recipes-support/nss/nss/system-pkcs11.txt
+ .../unfs3/0001-attr-fix-utime-for-symlink.patch    | 85 ++++++++++++++++++++++
+ meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb   |  3 +-
+ 2 files changed, 87 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch
 
-diff --git a/meta/recipes-support/nss/nss/blank-cert9.db b/meta/recipes-support/nss/nss/blank-cert9.db
+diff --git a/meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch b/meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch
 new file mode 100644
-index 0000000000000000000000000000000000000000..7d4bcf2582d510f7b51d4306706746178c41fbbc
-GIT binary patch
-literal 28672
-zcmeH~OK;Oa6ou_RTxhB2E<!9aOCljO58HJ%sA+4Yh?2G;mFNOhcH&Bb(26FJSh8cs
-zo*x9ii4|h*_1I~<VaFmmmVA3=?%XpopQn-L?dj2YR*1{%n@`zH7;ne(eQ!?)&+~ly
-zZrHba)~#5p8ul;c|MmFZ3-M$7@oz8K{Np`(`1t46udT0Jd$xfG1V8`;KmY_l00ck)
-z1pYgLy&z~bn*RCtYE*m~e$2+BtLgM)o=?WZje~yL8Kk1yJ51jR&WYomsPp1krlfAY
-zTxW+fc9>*&F{wuccN{o(-@&vF*Mi2=rvIMnr}O+nF`U&7>vtSn_P&Rbs?}Ky8c(Wy
-zjHlCiaZ{VD-7zVX_dOET`quV08qKEvy)(=5Nl};AV#WCkI{QcIZ4Tp+IO%uabo%Gw
-zb$Tw&dfn5rlx8?M?!7wd9t=ch|F}PRE;4CfWnXPyLz+9NM^RTo&4ii>H)%)`Qiv$T
-z6m}^j6xtLr3b_q!wvuIJM@b$^mh+H{l4PSK`6x+7N|KY3WThl|DM@BZ4k^0jmFr_?
-zU21mL?5x>Yv$JMr&CZ&g4ObbiGF)Z2%5YW8*_g92XJgLBWtKf-_T1%>%ttXG%{$eS
-zYBldv^J+tBAFZg{N%A#3+VE(@qivFhlmlr@$fQC^bB9bSWKto|8uF|mf0u}BBX*0}
-zE#lf?5t-0LWa%XNI!POIl4fv{w&*17(@6s8BvC9SLveCZ#&}%sqAae;;>B{Ttd?VC
-zwHzy}<ycwyT3Ic}%F5TuTfTH=Xkyz-2ggY|Jx<aQa&okg#X?@zk`F>THeW0!r{#>I
-zOpbCUp3t|IjGe}YCgyXi+by*cG}5N;l|Le%C-z2vk<Dk<+`g#)gD+GqSM5*j1Nyn$
-zrm#Z+4+ww&2!H?xfB*=900@8p2!H?xfWWd6*rbi&{=clB7yAMM5C8!X009sH0T2KI
-z5C8!X00Aa|`#%l>2!H?xfB*=900@8p2!H?xfB*<AKLOnTm;W1Mhadm~AOHd&00JNY
-z0w4eaAOHd&fcrnr00@8p2!H?xfB*=900@8p2!H?xEI$F<|Cj$8V}~FB0w4eaAOHd&
-O00JNY0w4eaAn+IM<WtiC
-
-literal 0
-HcmV?d00001
-
-diff --git a/meta/recipes-support/nss/nss/blank-key4.db b/meta/recipes-support/nss/nss/blank-key4.db
-new file mode 100644
-index 0000000000000000000000000000000000000000..d47f08d04fe82197bc6a39ef9bf216b61c3dc77a
-GIT binary patch
-literal 36864
-zcmeI)Pj3@P7zXfN$JsbGQBr~AB4lZNXcZIG&g?%N!~w@RZQ3*mZcvLjSnGHJQ-_q;
-zfnEyAB}g2&RFzt!s;9Q+svn?82vt4w)Lub+1tcV(r_THCZkH&E#0_CRt9bl+XXe@2
-z-!3E@BtAW}*d2u8!p7!$Fc6M0WtgUMN(jR+GWs>HU&&_aBAa~B@8(POer3jZPkcWy
-z`P|6mo5q3c<o&|$h3f?`|0Lhc-`j5z_Co*y5P$##AOHafyh#GRv9V&QWNyz4f_5)l
-z4+p{NU=Sqlxq7ovTWyHd+T3D8Bzwhlw<A`X3!l`Q=fua2bK>mM!kM!TvAiVe%S-c%
-z3-wjeY^*HS>WyPU|Gc`cqBpzpe$Fb^OQzAi(h0xnU+wA6R<JeL;Loijzon9De9p3p
-z#j<&x2dsS&bURo2{gut`wO|mA#fw{5I^FnOa3?Jx9U!IyCGE<oQO@{`GkQTg?4?7j
-zT^ZcDC&Q`CXRYFqve}B3z16-Pt_{+R(Ont+sC!R}lB!Z4v5JS2v+4HxTj6FJlid{)
-z_3lZjs>-dC=2)>@Ht*E=lBEG@m5HOG%a-ncl?zv!TW+o%6M@t(ecb|EzZ|N02klX`
-zt4bfM^s&kxX-L(j#-qlk<~TJ~YG$bksA=nFmZN0Ua-yURC8Og|ijowgB;_bcK}u4R
-zk`$#RWhqHvO0H2GFE3gjC)-iY$u=k3oNRNl&B-<=+nnt1EQe<~Jj>x(4$tzr*XLfJ
-zdwuTpqh8MRIrBJ=WFN&qHlL|2X|By@YV&GcsW)5E?zp5}heta++Tqc<lZQkDX^hKK
-zuB2nTEakG4%SUzjs4ia@kLP-v=5d<GbJs%8aUG8$<C1dYl1?lx=?HO2rx=%Xo^eTl
-zaY>3%$tZD|PGg>UZ#vCSrupe|beSwim&tN;nJh<_Nv<xF<>)fW)#XdMbkER%^<KJh
-z;*##3xTISsE<0%%rsakIOTH1JvF&s@ZCXyp3uLFw;#In~lG$mj>-c=%+OriWV--Ir
-z@Ap?=`e(JJ(t1RHN6FE5l?iI5sKEvS2tWV=5P$##AOHafKmY;|fWWW{<mtrl{6DOh
-z7v}{52tWV=5P$##AOHafKmY;|U;#Y;<3@l01Rwwb2tWV=5P$##AOHaf48H)L|A+q?
-z;|w7H0SG_<0uX=z1Rwwb2tWV=c>c#d009U<00Izz00bZa0SG_<0uUH}0X+W?|24)L
-zLI45~fB*y_009U<00Izz00ij&|2HRpH1roX2tWV=5P$##AOHafKmY;|fB*zuk3h>D
-zExFsdFN1#n`o?DG@A=!mz4-R0mFHhS{`aGMCw_gf{mystq@1=2M|VElc{X7l7&S-a
-z;q0N#(b>ECcfWb-&&$6&y8G8Z_h0;R>*tJVW~XMJ>|DC|(5t=u;D?(BCuVNYzyF()
-mPYwNr4FV8=00bZa0SG_<0uX=z1Rwx`ArdHzl*W_aDEtSkqPYeD
-
-literal 0
-HcmV?d00001
-
-diff --git a/meta/recipes-support/nss/nss/system-pkcs11.txt b/meta/recipes-support/nss/nss/system-pkcs11.txt
-new file mode 100644
-index 0000000000..1a264e9cc4
+index 0000000..6957d10
 --- /dev/null
-+++ b/meta/recipes-support/nss/nss/system-pkcs11.txt
-@@ -0,0 +1,5 @@
-+library=
-+name=NSS Internal PKCS #11 Module
-+parameters=configdir='sql:/etc/pki/nssdb' certPrefix='' keyPrefix='' secmod='secmod.db' flags= updatedir='' updateCertPrefix='' updateKeyPrefix='' updateid='' updateTokenDescription='' 
-+NSS=Flags=internal,critical trustOrder=75 cipherOrder=100 slotParams=(1={slotFlags=[ECC,RSA,DSA,DH,RC2,RC4,DES,RANDOM,SHA1,MD5,MD2,SSL,TLS,AES,Camellia,SEED,SHA256,SHA512] askpw=any timeout=30})
++++ b/meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch
+@@ -0,0 +1,85 @@
++From 3f4fcb62661059bad77a2e957b4621137797bc2f Mon Sep 17 00:00:00 2001
++From: Rui Wang <rui.wang@windriver.com>
++Date: Fri, 15 Jun 2018 14:19:10 +0800
++Subject: [PATCH] attr: fix utime for symlink
 +
-diff --git a/meta/recipes-support/nss/nss_3.38.bb b/meta/recipes-support/nss/nss_3.38.bb
-index 904b621a07..e0ee209106 100644
---- a/meta/recipes-support/nss/nss_3.38.bb
-+++ b/meta/recipes-support/nss/nss_3.38.bb
-@@ -25,6 +25,9 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
-            file://nss-fix-nsinstall-build.patch \
-            file://disable-Wvarargs-with-clang.patch \
-            file://pqg.c-ULL_addend.patch \
-+           file://blank-cert9.db \
-+           file://blank-key4.db \
-+           file://system-pkcs11.txt \
-            "
++unfs3 has an old defect that it can not change the timestamps of a
++symlink file because it only uses utime(), which will follow the
++symlink. This will not cause an error if the symlink points to an
++existent file. But under some special situation, such as installing
++a rpm package, rpm tool will create the symlink first and try to
++modify the timestamps of it, when the target file is non-existent.
++This will cause an ESTALE error. Making rpm tool ignore this error
++is a solution, but not the best one. An acceptable approach is
++Making unfs3 support lutimes(), which can modify the symlink file
++itself. Considering not every system support this function, so a
++function checking is necessary.
++
++Upstream-Status: Submitted [https://sourceforge.net/p/unfs3/bugs/12/]
++
++Signed-off-by: Rui Wang <rui.wang@windriver.com>
++---
++ attr.c         | 15 +++++++++++----
++ backend_unix.h |  2 ++
++ configure.ac   |  1 +
++ 3 files changed, 14 insertions(+), 4 deletions(-)
++
++diff --git a/attr.c b/attr.c
++index 73e5c75..427d0e2 100644
++--- a/attr.c
+++++ b/attr.c
++@@ -280,7 +280,7 @@ post_op_attr get_post_cached(struct svc_req * req)
++ static nfsstat3 set_time(const char *path, backend_statstruct buf, sattr3 new)
++ {
++     time_t new_atime, new_mtime;
++-    struct utimbuf utim;
+++    struct timeval stamps[2];
++     int res;
++
++     /* set atime and mtime */
++@@ -302,10 +302,17 @@ static nfsstat3 set_time(const char *path, backend_statstruct buf, sattr3 new)
++	else			       /* DONT_CHANGE */
++	    new_mtime = buf.st_mtime;
++
++-	utim.actime = new_atime;
++-	utim.modtime = new_mtime;
+++	stamps[0].tv_sec = new_atime;
+++	stamps[0].tv_usec = 0;
+++	stamps[1].tv_sec = new_mtime;
+++	stamps[1].tv_usec = 0;
+++
+++#if HAVE_LUTIMES
+++	res = backend_lutimes(path, stamps);
+++#else
+++	res = backend_utimes(path, stamps);
+++#endif
++
++-	res = backend_utime(path, &utim);
++	if (res == -1)
++	    return setattr_err();
++     }
++diff --git a/backend_unix.h b/backend_unix.h
++index fbc2af3..813ffd3 100644
++--- a/backend_unix.h
+++++ b/backend_unix.h
++@@ -61,6 +61,8 @@
++ #define backend_symlink symlink
++ #define backend_truncate truncate
++ #define backend_utime utime
+++#define backend_utimes utimes
+++#define backend_lutimes lutimes
++ #define backend_statstruct struct stat
++ #define backend_dirstream DIR
++ #define backend_statvfsstruct struct statvfs
++diff --git a/configure.ac b/configure.ac
++index aeec598..ea7f167 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -37,6 +37,7 @@ AC_CHECK_FUNCS(setresuid setresgid)
++ AC_CHECK_FUNCS(vsyslog)
++ AC_CHECK_FUNCS(lchown)
++ AC_CHECK_FUNCS(setgroups)
+++AC_CHECK_FUNCS(lutimes)
++ UNFS3_SOLARIS_RPC
++ UNFS3_PORTMAP_DEFINE
++ UNFS3_COMPILE_WARNINGS
+diff --git a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
+index 8127e4a..5a81a8f 100644
+--- a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
++++ b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
+@@ -29,7 +29,8 @@ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/unfs3-0.9.22.r497.ta
+            file://relative_max_socket_path_len.patch \
+            file://tcp_no_delay.patch \
+            file://0001-daemon.c-Libtirpc-porting-fixes.patch \
+-           "
++           file://0001-attr-fix-utime-for-symlink.patch \
++          "
+ SRC_URI[md5sum] = "2e43e471c77ade0331901c40b8f8e9a3"
+ SRC_URI[sha256sum] = "21009468a9ba07b72ea93780d025a63ab4e55bf8fc3127803c296f0900fe1bac"
  
- SRC_URI[md5sum] = "ac9065460a7634ba8eb0f942f404e773"
-@@ -212,14 +215,16 @@ do_install_append() {
- }
- 
- do_install_append_class-target() {
--    # Create a blank certificate
--    mkdir -p ${D}${sysconfdir}/pki/nssdb/
--    touch ./empty_password
--    certutil -N -d sql:${D}${sysconfdir}/pki/nssdb/ -f ./empty_password
--    chmod 644 ${D}${sysconfdir}/pki/nssdb/*.db
--    rm ./empty_password
--    # Remove build path prefix
--    sed -i "s:${D}::g"  ${D}${sysconfdir}/pki/nssdb/pkcs11.txt
-+    # It used to call certutil to create a blank certificate with empty password at
-+    # build time, but the checksum of key4.db changes every time when certutil is called.
-+    # It causes non-determinism issue, so provide databases with a blank certificate
-+    # which are originally from output of nss in qemux86-64 build. You can get these
-+    # databases by:
-+    # certutil -N -d sql:/database/path/ --empty-password
-+    install -d ${D}${sysconfdir}/pki/nssdb/
-+    install -m 0644 ${WORKDIR}/blank-cert9.db ${D}${sysconfdir}/pki/nssdb/cert9.db
-+    install -m 0644 ${WORKDIR}/blank-key4.db ${D}${sysconfdir}/pki/nssdb/key4.db
-+    install -m 0644 ${WORKDIR}/system-pkcs11.txt ${D}${sysconfdir}/pki/nssdb/pkcs11.txt
- }
- 
- PACKAGE_WRITE_DEPS += "nss-native"
 -- 
-2.18.0
+1.9.1
 
 
