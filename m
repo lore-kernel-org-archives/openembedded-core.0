@@ -1,25 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B0969746E1
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 02BBF79B4E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 06:28:33 +0000 (UTC)
+	Fri, 12 Oct 2018 06:29:01 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C6SXd3016280
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C6T2OW018656
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Oct 2018 23:28:33 -0700 (PDT)
+	Thu, 11 Oct 2018 23:29:02 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 11 Oct 2018 23:28:32 -0700
+	14.3.408.0; Thu, 11 Oct 2018 23:29:01 -0700
 From: <kai.kang@windriver.com>
 To: <ross.burton@intel.com>
-Date: Fri, 12 Oct 2018 13:47:31 +0800
-Message-ID: <fa52d71f77e4bd4ced2f60aa49caa7b897ab5d74.1539322988.git.kai.kang@windriver.com>
+Date: Fri, 12 Oct 2018 13:47:33 +0800
+Message-ID: <06837e204a0252f7a678908863f629a6f90acb9c.1539322988.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1539322988.git.kai.kang@windriver.com>
 References: <cover.1539322988.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] gobject-introspection: add required python modules to rdepends
+Subject: [PATCH 3/3] vala: update vapigen-wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 06:28:33 -0000
+X-List-Received-Date: Fri, 12 Oct 2018 06:29:02 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-It fails to run g-ir-scanner from package gobject-introspection that
-missing python modules 'xml' and 'pickle'. Add them to rdepends.
+The .gir files from gobject-introspection are configured to install to
+${libdir}/gir-1.0 when multilib is enabled. Update vapigen-wrapper accordingly.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../gobject-introspection/gobject-introspection_1.58.0.bb       | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/vala/vala.inc | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.0.bb
-index de898a788b..2c8cfa6bd9 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.0.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.0.bb
-@@ -194,4 +194,6 @@ FILES_${PN}-dev_append = " ${datadir}/gobject-introspection-1.0/tests/*.c \
- FILES_${PN}-dbg += "${libdir}/gobject-introspection/giscanner/.debug/"
- FILES_${PN}-staticdev += "${libdir}/gobject-introspection/giscanner/*.a"
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+index b22faad780..f680640ca6 100644
+--- a/meta/recipes-devtools/vala/vala.inc
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -24,12 +24,15 @@ inherit autotools pkgconfig upstream-version-is-even
+ FILES_${PN} += "${datadir}/${BPN}-${SHRT_VER}/vapi ${libdir}/${BPN}-${SHRT_VER}/"
+ FILES_${PN}-doc += "${datadir}/devhelp"
  
-+RDEPENDS_${PN} = "python3-pickle python3-xml"
++# .gir files from gobject-introspection are installed to ${libdir} when multilib is enabled
++GIRDIR_OPT = "${@'--girdir=${STAGING_LIBDIR}/gir-1.0' if d.getVar('MULTILIBS') else ''}"
 +
- BBCLASSEXTEND = "native"
+ do_configure_prepend_class-target() {
+         # Write out a vapigen wrapper that will be provided by pkg-config file installed in target sysroot
+         # The wrapper will call a native vapigen
+         cat > ${B}/vapigen-wrapper << EOF
+ #!/bin/sh
+-vapigen-${SHRT_VER} "\$@"
++vapigen-${SHRT_VER} ${GIRDIR_OPT} "\$@"
+ EOF
+         chmod +x ${B}/vapigen-wrapper
+ }
+@@ -55,3 +58,5 @@ vapigen_sysroot_preprocess() {
+            -e "s|vapigen=.*|vapigen=${bindir}/vapigen-wrapper|" \
+            ${SYSROOT_DESTDIR}${libdir}/pkgconfig/vapigen-${SHRT_VER}.pc
+ }
++
++SSTATE_SCAN_FILES += "vapigen-wrapper"
 -- 
 2.18.0
 
