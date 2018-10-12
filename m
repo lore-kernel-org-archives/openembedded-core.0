@@ -1,26 +1,23 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6552979B53
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D7C7746E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 06:29:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9C6Sjxp020928
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Oct 2018 23:28:55 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 11 Oct 2018 23:28:34 -0700
-From: <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Fri, 12 Oct 2018 13:47:32 +0800
-Message-ID: <52ec02b75d060b795183fd04da46cdda9049a54f.1539322988.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1539322988.git.kai.kang@windriver.com>
-References: <cover.1539322988.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] gobject-introspection: fix multilib install file conflicts
+	Fri, 12 Oct 2018 06:48:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Oct 2018 23:48:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,371,1534834800"; d="scan'208";a="91360835"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga003.jf.intel.com with ESMTP; 11 Oct 2018 23:48:23 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Oct 2018 14:33:07 +0800
+Message-Id: <1539325990-89780-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/4] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,233 +30,208 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 06:29:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 12 Oct 2018 06:48:24 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+As part of the solution to replace Testopia to store testresult,
+OEQA need to output testresult into json files, where these json
+testresult files will be stored in git repository by the future
+test-case-management tools.
 
-Fix multilib isntall file conflicts for gobject-introspection.
-* use multilib_script.bbclass to handle ${bindir}/g-ir-annotation-tool
-  and ${bindir}/g-ir-scanner
-* add configure option to install .gir files to an alternative path and
-  only set it when multilib is enabled
+Both the testresult (eg. PASSED, FAILED, ERROR) and  the test log
+(eg. message from unit test assertion) will be created for storing.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Also the library class inside this patch will be reused by the future
+test-case-management tools to write json testresult for manual test
+case executed.
+
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- ...nfigure.ac-make-GIR_DIR-configurable.patch | 68 +++++++++++++++++
- ...02-g-ir-tools-respect-gir_dir_prefix.patch | 76 +++++++++++++++++++
- .../gobject-introspection_1.58.0.bb           | 11 ++-
- 3 files changed, 152 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-configure.ac-make-GIR_DIR-configurable.patch
- create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0002-g-ir-tools-respect-gir_dir_prefix.patch
+ meta/lib/oeqa/core/runner.py | 132 +++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 121 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-configure.ac-make-GIR_DIR-configurable.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-configure.ac-make-GIR_DIR-configurable.patch
-new file mode 100644
-index 0000000000..e0402f8f49
---- /dev/null
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-configure.ac-make-GIR_DIR-configurable.patch
-@@ -0,0 +1,68 @@
-+configure.ac: make GIR_DIR configurable
-+
-+Some .gir files such as GLib-2.0.gir are arch related which contain such
-+as lengths of pointers that they are different for 64 and 32 bit target.
-+It causes install file conflicts for multilib when intall
-+gobject-introspection and lib32-gobject-introspection both.
-+
-+Add configure option 'with-gir-dir-prefix' for autotools to make .gir
-+could be installed to a configured path such as ${libdir}. And update
-+girdir in .pc files as well.
-+
-+Upstream-Status: Accepted [https://gitlab.gnome.org/GNOME/gobject-introspection/commit/3301c7e]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ configure.ac                              | 7 +++++--
-+ gobject-introspection-1.0.pc.in           | 2 +-
-+ gobject-introspection-no-export-1.0.pc.in | 2 +-
-+ 3 files changed, 7 insertions(+), 4 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index b4294c57..60506947 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -114,9 +114,12 @@ GIR_SUFFIX="gir-1.0"
-+ AC_SUBST(GIR_SUFFIX)
-+ AC_DEFINE_UNQUOTED(GIR_SUFFIX, "$GIR_SUFFIX", [Name of the gir directory])
-+ 
-+-GIR_DIR="$EXPANDED_DATADIR/$GIR_SUFFIX"
-++AC_ARG_WITH([gir-dir-prefix],
-++		[AS_HELP_STRING([--with-gir-dir-prefix], [Directory prefix for gir installation])],
-++		[GIR_DIR_PREFIX="$withval"], [GIR_DIR_PREFIX="$EXPANDED_DATADIR"])
-++GIR_DIR="$GIR_DIR_PREFIX/$GIR_SUFFIX"
-+ AC_SUBST(GIR_DIR)
-+-AC_DEFINE_UNQUOTED(GIR_DIR, "$GIR_DIR", [Director prefix for gir installation])
-++AC_DEFINE_UNQUOTED(GIR_DIR, "$GIR_DIR", [Directory prefix for gir installation])
-+ 
-+ PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.58.0])
-+ 
-+diff --git a/gobject-introspection-1.0.pc.in b/gobject-introspection-1.0.pc.in
-+index a08b5d27..3409856c 100644
-+--- a/gobject-introspection-1.0.pc.in
-++++ b/gobject-introspection-1.0.pc.in
-+@@ -10,7 +10,7 @@ g_ir_scanner=${bindir}/g-ir-scanner
-+ g_ir_compiler=${bindir}/g-ir-compiler@EXEEXT@
-+ g_ir_generate=${bindir}/g-ir-generate@EXEEXT@
-+ gidatadir=${datadir}/gobject-introspection-1.0
-+-girdir=${datadir}/gir-1.0
-++girdir=@GIR_DIR@
-+ typelibdir=${libdir}/girepository-1.0
-+ 
-+ Cflags: -I${includedir}/gobject-introspection-1.0 @FFI_PC_CFLAGS@
-+diff --git a/gobject-introspection-no-export-1.0.pc.in b/gobject-introspection-no-export-1.0.pc.in
-+index d214d22d..745aaade 100644
-+--- a/gobject-introspection-no-export-1.0.pc.in
-++++ b/gobject-introspection-no-export-1.0.pc.in
-+@@ -9,7 +9,7 @@ includedir=@includedir@
-+ g_ir_scanner=${bindir}/g-ir-scanner
-+ g_ir_compiler=${bindir}/g-ir-compiler@EXEEXT@
-+ g_ir_generate=${bindir}/g-ir-generate@EXEEXT@
-+-girdir=${datadir}/gir-1.0
-++girdir=@GIR_DIR@
-+ typelibdir=${libdir}/girepository-1.0
-+ 
-+ Cflags: -I${includedir}/gobject-introspection-1.0 @FFI_PC_CFLAGS@
-+-- 
-+2.17.0
-+
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0002-g-ir-tools-respect-gir_dir_prefix.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0002-g-ir-tools-respect-gir_dir_prefix.patch
-new file mode 100644
-index 0000000000..5e4176725c
---- /dev/null
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0002-g-ir-tools-respect-gir_dir_prefix.patch
-@@ -0,0 +1,76 @@
-+g-ir-tools: respect gir_dir_prefix
-+
-+Configure option gir_dir_prefix is used to configure install dir for
-+.gir files, so add its value to include file search paths.
-+
-+Upstream-Status: Accepted [https://gitlab.gnome.org/GNOME/gobject-introspection/commit/3fe995a]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ Makefile-tools.am           |  2 +-
-+ giscanner/transformer.py    |  1 +
-+ tests/warn/warningtester.py |  1 +
-+ tools/g-ir-tool-template.in | 10 ++++++++++
-+ 6 files changed, 15 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile-tools.am b/Makefile-tools.am
-+index c70d9850..fcaf1e01 100644
-+--- a/Makefile-tools.am
-++++ b/Makefile-tools.am
-+@@ -9,7 +9,7 @@ EXTRA_DIST += 				\
-+ 	tools/g-ir-tool-template.in \
-+ 	tools/meson.build
-+ 
-+-TOOL_SUBSTITUTIONS = -e s,@libdir\@,$(libdir), -e s,@datarootdir\@,$(datarootdir), -e s,@PYTHON_CMD\@,\/usr\/bin\/env\ $(PYTHON),
-++TOOL_SUBSTITUTIONS = -e s,@libdir\@,$(libdir), -e s,@datarootdir\@,$(datarootdir), -e s,@PYTHON_CMD\@,\/usr\/bin\/env\ $(PYTHON), -e s,@GIR_DIR\@,$(GIR_DIR),g
-+ 
-+ g-ir-scanner: tools/g-ir-tool-template.in _giscanner.la Makefile
-+ 	$(AM_V_GEN) sed $(TOOL_SUBSTITUTIONS) -e s,@TOOL_MODULE\@,scannermain, -e s,@TOOL_FUNCTION\@,scanner_main, $< > $@.tmp && mv $@.tmp $@
-+diff --git a/giscanner/transformer.py b/giscanner/transformer.py
-+index 335e229f..2c412339 100644
-+--- a/giscanner/transformer.py
-++++ b/giscanner/transformer.py
-+@@ -184,6 +184,7 @@ None."""
-+     def _get_gi_data_dirs(self):
-+         data_dirs = utils.get_system_data_dirs()
-+         data_dirs.append(DATADIR)
-++        data_dirs.append(GIRDIR)
-+         if os.name != 'nt':
-+             # For backwards compatibility, was always unconditionally added to the list.
-+             data_dirs.append('/usr/share')
-+diff --git a/tests/warn/warningtester.py b/tests/warn/warningtester.py
-+index f17c8889..be5aec13 100644
-+--- a/tests/warn/warningtester.py
-++++ b/tests/warn/warningtester.py
-+@@ -18,6 +18,7 @@ sys.path.insert(0, path)
-+ 
-+ # Not correct, but enough to get the tests going uninstalled
-+ builtins.__dict__['DATADIR'] = path
-++builtins.__dict__['GIRDIR'] = ''
-+ 
-+ from giscanner.annotationparser import GtkDocCommentBlockParser
-+ from giscanner.ast import Include, Namespace
-+diff --git a/tools/g-ir-tool-template.in b/tools/g-ir-tool-template.in
-+index ed33d16b..b9cf0911 100755
-+--- a/tools/g-ir-tool-template.in
-++++ b/tools/g-ir-tool-template.in
-+@@ -60,6 +60,16 @@ if not os.path.isdir(os.path.join(datadir, 'gir-1.0')):
-+ 
-+ builtins.__dict__['DATADIR'] = datadir
-+ 
-++# Respect gir_dir_prefix for meson and autotools
-++girdir = ''
-++# for meson
-++if '@gir_dir_prefix@' and not '@gir_dir_prefix@'.startswith('@'):
-++    girdir = os.path.abspath(os.path.join(filedir, '..', '@gir_dir_prefix@'))
-++# for autotools
-++elif '@GIR_DIR@' and not '@GIR_DIR@'.startswith('@'):
-++    girdir = os.path.dirname(os.path.abspath('@GIR_DIR@'))
-++builtins.__dict__['GIRDIR'] = girdir
-++
-+ # Again, relative paths first so that the installation prefix is relocatable
-+ pylibdir = os.path.abspath(os.path.join(filedir, '..', 'lib', 'gobject-introspection'))
-+ 
-+-- 
-+2.17.0
-+
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.0.bb
-index 2c8cfa6bd9..55ca87ddaa 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.0.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.0.bb
-@@ -17,6 +17,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-$
-            file://0005-Prefix-pkg-config-paths-with-PKG_CONFIG_SYSROOT_DIR-.patch \
-            file://0001-giscanner-add-a-lib-dirs-envvar-option.patch \
-            file://0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch \
-+           file://0001-configure.ac-make-GIR_DIR-configurable.patch \
-+           file://0002-g-ir-tools-respect-gir_dir_prefix.patch \
-            "
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index eeb625b..cc33d9c 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -6,6 +6,8 @@ import time
+ import unittest
+ import logging
+ import re
++import json
++import pathlib
  
- SRC_URI[md5sum] = "94fec875276262037bfcd51226db12fe"
-@@ -24,7 +26,9 @@ SRC_URI[sha256sum] = "27c1590a32749de0a5481ce897772547043e94bccba4bc0a7edb3d8513
+ from unittest import TextTestResult as _TestResult
+ from unittest import TextTestRunner as _TestRunner
+@@ -44,6 +46,9 @@ class OETestResult(_TestResult):
  
- SRC_URI_append_class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
+         self.tc = tc
  
--inherit autotools pkgconfig gtk-doc python3native qemu gobject-introspection-data upstream-version-is-even
-+inherit autotools pkgconfig gtk-doc python3native qemu gobject-introspection-data upstream-version-is-even multilib_script
++        self.result_types = ['failures', 'errors', 'skipped', 'expectedFailures', 'successes']
++        self.result_desc = ['FAILED', 'ERROR', 'SKIPPED', 'EXPECTEDFAIL', 'PASSED']
 +
-+MULTILIB_SCRIPTS = "${PN}:${bindir}/g-ir-annotation-tool ${PN}:${bindir}/g-ir-scanner"
+     def startTest(self, test):
+         # May have been set by concurrencytest
+         if test.id() not in self.starttime:
+@@ -80,7 +85,7 @@ class OETestResult(_TestResult):
+             msg += " (skipped=%d)" % skipped
+         self.tc.logger.info(msg)
  
- DEPENDS_append = " libffi zlib glib-2.0 python3 flex-native bison-native autoconf-archive"
+-    def _getDetailsNotPassed(self, case, type, desc):
++    def _isTestResultContainTestCaseWithResultTypeProvided(self, case, type):
+         found = False
  
-@@ -50,6 +54,7 @@ EXTRA_OECONF_class-target = " \
-     --enable-gi-cross-wrapper=${B}/g-ir-scanner-qemuwrapper \
-     --enable-gi-ldd-wrapper=${B}/g-ir-scanner-lddwrapper \
-     ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection-data', '--disable-introspection-data', d)} \
-+    ${@'--with-gir-dir-prefix=${libdir}' if d.getVar('MULTILIBS') else ''} \
- "
+         for (scase, msg) in getattr(self, type):
+@@ -121,16 +126,12 @@ class OETestResult(_TestResult):
+         for case_name in self.tc._registry['cases']:
+             case = self.tc._registry['cases'][case_name]
  
- # Need to ensure ld.so.conf exists so prelink-native works
-@@ -94,7 +99,7 @@ EOF
- # This prevents g-ir-scanner from writing cache data to $HOME
- export GI_SCANNER_DISABLE_CACHE=1
+-            result_types = ['failures', 'errors', 'skipped', 'expectedFailures', 'successes']
+-            result_desc = ['FAILED', 'ERROR', 'SKIPPED', 'EXPECTEDFAIL', 'PASSED']
+-
+-            fail = False
++            found = False
+             desc = None
+-            for idx, name in enumerate(result_types):
+-                (fail, msg) = self._getDetailsNotPassed(case, result_types[idx],
+-                        result_desc[idx])
+-                if fail:
+-                    desc = result_desc[idx]
++            for idx, name in enumerate(self.result_types):
++                (found, msg) = self._isTestResultContainTestCaseWithResultTypeProvided(case, self.result_types[idx])
++                if found:
++                    desc = self.result_desc[idx]
+                     break
  
--g-ir-scanner --lib-dirs-envvar=GIR_EXTRA_LIBS_PATH --use-binary-wrapper=${STAGING_BINDIR}/g-ir-scanner-qemuwrapper --use-ldd-wrapper=${STAGING_BINDIR}/g-ir-scanner-lddwrapper --add-include-path=${STAGING_DATADIR}/gir-1.0 "\$@"
-+g-ir-scanner --lib-dirs-envvar=GIR_EXTRA_LIBS_PATH --use-binary-wrapper=${STAGING_BINDIR}/g-ir-scanner-qemuwrapper --use-ldd-wrapper=${STAGING_BINDIR}/g-ir-scanner-lddwrapper --add-include-path=${STAGING_DATADIR}/gir-1.0 --add-include-path=${STAGING_LIBDIR}/gir-1.0 "\$@"
- EOF
-         chmod +x ${B}/g-ir-scanner-wrapper
+             oeid = -1
+@@ -143,13 +144,43 @@ class OETestResult(_TestResult):
+             if case.id() in self.starttime and case.id() in self.endtime:
+                 t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
  
-@@ -178,7 +183,7 @@ FILES_${PN}_append = " ${libdir}/girepository-*/*.typelib"
+-            if fail:
++            if found:
+                 self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(),
+                     oeid, desc, t))
+             else:
+                 self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(),
+                     oeid, 'UNKNOWN', t))
  
- # .gir files go to dev package, as they're needed for developing (but not for running)
- # things that depends on introspection.
--FILES_${PN}-dev_append = " ${datadir}/gir-*/*.gir"
-+FILES_${PN}-dev_append = " ${datadir}/gir-*/*.gir ${libdir}/gir-*/*.gir"
- FILES_${PN}-dev_append = " ${datadir}/gir-*/*.rnc"
++    def _get_testcase_result_and_log_dict(self):
++        testcase_result_dict = {}
++        testcase_log_dict = {}
++        for case_name in self.tc._registry['cases']:
++            case = self.tc._registry['cases'][case_name]
++
++            found = False
++            desc = None
++            test_log = ''
++            for idx, name in enumerate(self.result_types):
++                (found, msg) = self._isTestResultContainTestCaseWithResultTypeProvided(case, self.result_types[idx])
++                if found:
++                    desc = self.result_desc[idx]
++                    test_log = msg
++                    break
++
++            if found:
++                testcase_result_dict[case.id()] = desc
++                testcase_log_dict[case.id()] = test_log
++            else:
++                testcase_result_dict[case.id()] = "UNKNOWN"
++        return testcase_result_dict, testcase_log_dict
++
++    def logDetailsInJson(self, file_dir):
++        (testcase_result_dict, testcase_log_dict) = self._get_testcase_result_and_log_dict()
++        if len(testcase_result_dict) > 0 and len(testcase_log_dict) > 0:
++            tresultjsonhelper = OETestResultJSONHelper()
++            tresultjsonhelper.dump_testresult_files(testcase_result_dict, file_dir)
++            tresultjsonhelper.dump_log_files(testcase_log_dict, os.path.join(file_dir, 'logs'))
++
+ class OEListTestsResult(object):
+     def wasSuccessful(self):
+         return True
+@@ -261,3 +292,82 @@ class OETestRunner(_TestRunner):
+             self._list_tests_module(suite)
  
- # These are used by gobject-based packages
+         return OEListTestsResult()
++
++class OETestResultJSONHelper(object):
++
++    def get_testsuite_from_testcase(self, testcase):
++        testsuite = testcase[0:testcase.rfind(".")]
++        return testsuite
++
++    def get_testmodule_from_testsuite(self, testsuite):
++        testmodule = testsuite[0:testsuite.find(".")]
++        return testmodule
++
++    def get_testsuite_testcase_dictionary(self, testcase_result_dict):
++        testcase_list = testcase_result_dict.keys()
++        testsuite_testcase_dict = {}
++        for testcase in testcase_list:
++            testsuite = self.get_testsuite_from_testcase(testcase)
++            if testsuite in testsuite_testcase_dict:
++                testsuite_testcase_dict[testsuite].append(testcase)
++            else:
++                testsuite_testcase_dict[testsuite] = [testcase]
++        return testsuite_testcase_dict
++
++    def get_testmodule_testsuite_dictionary(self, testsuite_testcase_dict):
++        testsuite_list = testsuite_testcase_dict.keys()
++        testmodule_testsuite_dict = {}
++        for testsuite in testsuite_list:
++            testmodule = self.get_testmodule_from_testsuite(testsuite)
++            if testmodule in testmodule_testsuite_dict:
++                testmodule_testsuite_dict[testmodule].append(testsuite)
++            else:
++                testmodule_testsuite_dict[testmodule] = [testsuite]
++        return testmodule_testsuite_dict
++
++    def _get_testcase_result(self, testcase, testcase_status_dict):
++        if testcase in testcase_status_dict:
++            return testcase_status_dict[testcase]
++        return ""
++
++    def _create_testcase_testresult_object(self, testcase_list, testcase_result_dict):
++        testcase_dict = {}
++        for testcase in sorted(testcase_list):
++            result = self._get_testcase_result(testcase, testcase_result_dict)
++            testcase_dict[testcase] = {"testresult": result}
++        return testcase_dict
++
++    def _create_json_testsuite_string(self, testsuite_list, testsuite_testcase_dict, testcase_result_dict):
++        testsuite_object = {'testsuite': {}}
++        testsuite_dict = testsuite_object['testsuite']
++        for testsuite in sorted(testsuite_list):
++            testsuite_dict[testsuite] = {'testcase': {}}
++            testsuite_dict[testsuite]['testcase'] = self._create_testcase_testresult_object(
++                testsuite_testcase_dict[testsuite],
++                testcase_result_dict)
++        return json.dumps(testsuite_object, sort_keys=True, indent=4)
++
++    def dump_testresult_files(self, testcase_result_dict, write_dir):
++        if not os.path.exists(write_dir):
++            pathlib.Path(write_dir).mkdir(parents=True, exist_ok=True)
++        testsuite_testcase_dict = self.get_testsuite_testcase_dictionary(testcase_result_dict)
++        testmodule_testsuite_dict = self.get_testmodule_testsuite_dictionary(testsuite_testcase_dict)
++        for testmodule in testmodule_testsuite_dict.keys():
++            testsuite_list = testmodule_testsuite_dict[testmodule]
++            json_testsuite = self._create_json_testsuite_string(testsuite_list, testsuite_testcase_dict,
++                                                                testcase_result_dict)
++            file_name = '%s.json' % testmodule
++            file_path = os.path.join(write_dir, file_name)
++            with open(file_path, 'w') as the_file:
++                the_file.write(json_testsuite)
++
++    def dump_log_files(self, testcase_log_dict, write_dir):
++        if not os.path.exists(write_dir):
++            pathlib.Path(write_dir).mkdir(parents=True, exist_ok=True)
++        for testcase in testcase_log_dict.keys():
++            test_log = testcase_log_dict[testcase]
++            if test_log is not None:
++                file_name = '%s.log' % testcase
++                file_path = os.path.join(write_dir, file_name)
++                with open(file_path, 'w') as the_file:
++                    the_file.write(test_log)
 -- 
-2.18.0
+2.7.4
 
 
