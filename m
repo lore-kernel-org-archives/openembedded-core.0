@@ -1,49 +1,51 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 440F979BE3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 95C9079BF2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 19:08:59 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id w1so12838421vsj.8
+	Fri, 12 Oct 2018 20:28:32 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id w14-v6so6426059plp.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 12:09:00 -0700 (PDT)
+	Fri, 12 Oct 2018 13:28:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uwBMwUERWF9eYv43YvQzEghOjdWwbami76IKD2QfCt0=;
-	b=TRIsG+fbjlKrOcWPtCaC1STLju64KoIC1akBX7EO7dymyLEg1yic+PAWxFDodW1bkJ
-	AjTh+obe3eGRGjcdtd0LIm4cUAa9MZ9IheDt6l+dhFJFRSReGccKnAupjvl3Pe0u5nU0
-	haGrFyCyr2+m2UjInJN9bjMm5B+lDfZ6SqwNGdG2e8cJ/HicQOMD5tingBdjr5l29RLN
-	nEj9bAXvwk0Z/2eSnJh7vHu6Ha9AORjFzv4gdK1kQ3r94/GLAEEpSma8Tc2e3XhT52iR
-	aGA050WUhNzC48HmPFKG6svI4BiHk12F55bd7FkVjsBiylL79F9y+fDS3iwO3rOEjam6
-	zUsw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=2CL64MnU4h5cNZ48DXW2oBIP0jxGlo2D32Zm+NXRueg=;
+	b=Z16Jt9QKDmavmS9GYDVmRc0VyM1G8Wz8YR+6Us4JQc1z1NbBXb7jOqiJCtc1H+3Xf7
+	fmXmg7a0WfCCI4+TWJzfs55eIOrtIl9TrN+EQUNgZgqxehB+cZCV0ztr9R3EbM+lqcww
+	ZiQIecHD0VqIXKDhh7lTvXq0cKtKp4wih5eD0rGhgjKG0aTRQfw+wugJn5xiDum4uxp6
+	47xE953Mf3AzifjUgqiL0b3vlkr6lEbIe/SHXj5pIVjhME+++ZqnbdWbk7z8OCqzD8wx
+	ClWvEk+FW8V6CEWLlMCUP3o659cj1FUalpkoVRge0e2yI+htRrw0vApvXh2lpm/ZkGYA
+	hDsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=uwBMwUERWF9eYv43YvQzEghOjdWwbami76IKD2QfCt0=;
-	b=mJPjyRTlBTaQ2e3TL2LSeS3MmmQxD+ee1QvBD8y5kzVDn1SuEyjGPMbFRNFZxi9E3G
-	PAUenmgwrttsf9LNKftwKLjXBTGVz+d3O97QkdLlouhbNoDWfJGIupqLOUO6DqvSFEGT
-	c61VhkOdRVMrliFdpWPTTR2UL9YUIGX+haUE0AylT2sCY2UHDi9I9k6JXbU0dJBMFlKw
-	1YINtagLvF8Vhz/blRbW+muYRS5s84e7JJjzqSmGQJw8W+qfShZokU2r9aHd4GOMTLOD
-	idb6BBPOL2R/ata6LdYzvchSqd54UAa+1VI/FHkNv9Ce2FhBGBCSOnJMQTCZaa6+z1Hb
-	MVAw==
-X-Gm-Message-State: ABuFfogVg/5CyZ1YNkVU3+QWJle7m82Jx0T+AKCil53ndygtorCFveVX
-	zi4KbMVakltm21ryuoluYpwrxfbI1J1gy3B7vI0=
-X-Google-Smtp-Source: ACcGV63ucYJXLY74DOs5UwDqvW6jbnO3LLvIw0ACFt4G3x2tnyJJjMYtMPE3I3uSKAUwmWGg3cp9k9YuvoNc+gwNZDc=
-X-Received: by 2002:a67:7344:: with SMTP id o65mr2932373vsc.223.1539371340042; 
-	Fri, 12 Oct 2018 12:09:00 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=2CL64MnU4h5cNZ48DXW2oBIP0jxGlo2D32Zm+NXRueg=;
+	b=UkukaqHHtkDWAyoI4KPtzJGq7trFQ/s+2Wi5sqMlZjP/mOdFvfFwnHSIGYTPS+Zj5x
+	Zr028b57UeuLmI1u/EoFUwupgZcZLn6T3aSeT33KoDfshAWuFYEtMT4ibvGbx4Qp8o8B
+	Uus1iFKk0brVHPT38StHVKjPbCpJcOupwaZQ1mKFblMpfF0dJEUAoql56fiyDIdksly8
+	D9USVHUyCVL7t59uo9WEl/Ga2i7rwTnjr86/z1sG6+px5+g2aX5Qy87DXoc/ycl1heVh
+	KXx2iEDcjvLG8s/8163u99fcUorkrtfA+Uh+LdzgCWmUWcCD+13KLzXdckk+JTVfJ8gw
+	mxSg==
+X-Gm-Message-State: ABuFfojJ4mpI/RZv88ogUuksVVlnD64lrRP63227nF+a9TJH6V/o6zdP
+	n8PZ5N16vQLp+Qg83R7ySnDD8E1M
+X-Google-Smtp-Source: ACcGV61Za80b0HNk/FzoOuf8SuA905CvGQ58C7J/FLFm3ZSpzMXDwO8PSDKGBnu/PsY4N2wPRy88pQ==
+X-Received: by 2002:a17:902:7d98:: with SMTP id
+	a24-v6mr7231597plm.271.1539376113091; 
+	Fri, 12 Oct 2018 13:28:33 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::939f])
+	by smtp.gmail.com with ESMTPSA id
+	g5-v6sm5013078pfb.130.2018.10.12.13.28.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 12 Oct 2018 13:28:32 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Oct 2018 13:28:23 -0700
+Message-Id: <20181012202823.4003-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Received: by 2002:ab0:2748:0:0:0:0:0 with HTTP; Fri, 12 Oct 2018 12:08:59
-	-0700 (PDT)
-In-Reply-To: <aef25553a12c8d7c896b4a99272e5d8064cae260.1539310768.git.Qi.Chen@windriver.com>
-References: <cover.1539310768.git.Qi.Chen@windriver.com>
-	<aef25553a12c8d7c896b4a99272e5d8064cae260.1539310768.git.Qi.Chen@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 12 Oct 2018 12:08:59 -0700
-Message-ID: <CAJ86T=UftZhx1qDSw6p7V=vw2NL5LV0Lu5dwx+EafYr_mP6J5w@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] packagegroup-core-lsb/-full-cmdline: add bzip2
+Subject: [PATCH] glibc: Do not use thumb1 ISA on armv6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,71 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 19:08:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 12 Oct 2018 20:28:32 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 11, 2018 at 7:24 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
-> We are having the following error when using 'tar' from tar
-> recipe to decompress .tar.bz2 files.
->
->   tar (child): bzip2: Cannot exec: No such file or directory
->   tar (child): Error is not recoverable: exiting now
->   tar: Child returned status 2
->   tar: Error is not recoverable: exiting now
->
-> The tar package is introduced by these two packagegroups into image.
+This does not work and is unsupported so lets compile glibc in ARM mode
+always on armv6 SOCs
 
-Maybe better to enable bzip2 by default in busybox (we already seem to
-have bunzip2 enabled).
+Fixes [YOCTO #12929]
 
-> From the README file from tar's source codes:>
->   """
->   ** gzip and bzip2.
->
->   GNU tar uses the gzip and bzip2 programs to read and write compressed
->   archives.  If you don't have these programs already, you need to
->   install them.
->   """
->
-> So we'd better cluster gzip and bzip2 with tar. These two packagegroups
-> already get 'gzip', so we also add 'bzip2'.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb | 1 +
->  meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb          | 1 +
->  2 files changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-> index e86168802..ffa8388 100644
-> --- a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-> @@ -125,6 +125,7 @@ RDEPENDS_packagegroup-core-full-cmdline-initscripts = "\
->      "
->
->  RDEPENDS_packagegroup-core-full-cmdline-multiuser = "\
-> +    bzip2 \
->      cracklib \
->      gzip \
->      shadow \
-> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-> index 933864a..6631547 100644
-> --- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-> @@ -136,6 +136,7 @@ RDEPENDS_packagegroup-core-lsb-core = "\
->      bc \
->      binutils \
->      binutils-symlinks \
-> +    bzip2 \
->      coreutils \
->      cpio \
->      cronie \
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/glibc/glibc.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index ddf0c6b80e..99c92ce46e 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -56,6 +56,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ # http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
++ARM_INSTRUCTION_SET_armv6 = "arm"
+ 
+ # glibc uses PARALLELMFLAGS variable to pass parallel build info so transfer
+ # PARALLEL_MAKE into PARALLELMFLAGS and empty out PARALLEL_MAKE
+-- 
+2.19.1
+
 
