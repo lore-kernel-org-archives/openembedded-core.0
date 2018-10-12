@@ -1,23 +1,23 @@
-Return-Path: <Rui.Wang@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 40D6279B52
+	by mail.openembedded.org (Postfix) with ESMTP id 116C0746E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 03:06:45 +0000 (UTC)
+	Fri, 12 Oct 2018 06:28:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C36kCS002506
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 20:06:46 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 11 Oct 2018 20:06:45 -0700
-From: Rui Wang <rui.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Oct 2018 10:51:36 +0800
-Message-ID: <1539312696-151975-1-git-send-email-rui.wang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C6SWA1018608
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 11 Oct 2018 23:28:32 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 11 Oct 2018 23:28:31 -0700
+From: <kai.kang@windriver.com>
+To: <ross.burton@intel.com>
+Date: Fri, 12 Oct 2018 13:47:30 +0800
+Message-ID: <cover.1539322988.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Subject: [PATCH] attr: fix utime for symlink
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v3 0/3] Fix multilib install file conflict of gobject-introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,127 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 03:06:45 -0000
+X-List-Received-Date: Fri, 12 Oct 2018 06:28:32 -0000
 Content-Type: text/plain
 
-Signed-off-by: Rui Wang <rui.wang@windriver.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-cherry-pick of fa191666b with context for SRC_URI addition
-modified to apply to current recipe.
+V3:
+* according to Ross's comment, remove override 'class-target' for RDEPENDS
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- .../unfs3/0001-attr-fix-utime-for-symlink.patch    | 85 ++++++++++++++++++++++
- meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb   |  3 +-
- 2 files changed, 87 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch
+The following changes since commit 793a82c2da639088884c93595e6a3f28e5e3d747:
 
-diff --git a/meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch b/meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch
-new file mode 100644
-index 0000000..6957d10
---- /dev/null
-+++ b/meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch
-@@ -0,0 +1,85 @@
-+From 3f4fcb62661059bad77a2e957b4621137797bc2f Mon Sep 17 00:00:00 2001
-+From: Rui Wang <rui.wang@windriver.com>
-+Date: Fri, 15 Jun 2018 14:19:10 +0800
-+Subject: [PATCH] attr: fix utime for symlink
-+
-+unfs3 has an old defect that it can not change the timestamps of a
-+symlink file because it only uses utime(), which will follow the
-+symlink. This will not cause an error if the symlink points to an
-+existent file. But under some special situation, such as installing
-+a rpm package, rpm tool will create the symlink first and try to
-+modify the timestamps of it, when the target file is non-existent.
-+This will cause an ESTALE error. Making rpm tool ignore this error
-+is a solution, but not the best one. An acceptable approach is
-+Making unfs3 support lutimes(), which can modify the symlink file
-+itself. Considering not every system support this function, so a
-+function checking is necessary.
-+
-+Upstream-Status: Submitted [https://sourceforge.net/p/unfs3/bugs/12/]
-+
-+Signed-off-by: Rui Wang <rui.wang@windriver.com>
-+---
-+ attr.c         | 15 +++++++++++----
-+ backend_unix.h |  2 ++
-+ configure.ac   |  1 +
-+ 3 files changed, 14 insertions(+), 4 deletions(-)
-+
-+diff --git a/attr.c b/attr.c
-+index 73e5c75..427d0e2 100644
-+--- a/attr.c
-++++ b/attr.c
-+@@ -280,7 +280,7 @@ post_op_attr get_post_cached(struct svc_req * req)
-+ static nfsstat3 set_time(const char *path, backend_statstruct buf, sattr3 new)
-+ {
-+     time_t new_atime, new_mtime;
-+-    struct utimbuf utim;
-++    struct timeval stamps[2];
-+     int res;
-+
-+     /* set atime and mtime */
-+@@ -302,10 +302,17 @@ static nfsstat3 set_time(const char *path, backend_statstruct buf, sattr3 new)
-+	else			       /* DONT_CHANGE */
-+	    new_mtime = buf.st_mtime;
-+
-+-	utim.actime = new_atime;
-+-	utim.modtime = new_mtime;
-++	stamps[0].tv_sec = new_atime;
-++	stamps[0].tv_usec = 0;
-++	stamps[1].tv_sec = new_mtime;
-++	stamps[1].tv_usec = 0;
-++
-++#if HAVE_LUTIMES
-++	res = backend_lutimes(path, stamps);
-++#else
-++	res = backend_utimes(path, stamps);
-++#endif
-+
-+-	res = backend_utime(path, &utim);
-+	if (res == -1)
-+	    return setattr_err();
-+     }
-+diff --git a/backend_unix.h b/backend_unix.h
-+index fbc2af3..813ffd3 100644
-+--- a/backend_unix.h
-++++ b/backend_unix.h
-+@@ -61,6 +61,8 @@
-+ #define backend_symlink symlink
-+ #define backend_truncate truncate
-+ #define backend_utime utime
-++#define backend_utimes utimes
-++#define backend_lutimes lutimes
-+ #define backend_statstruct struct stat
-+ #define backend_dirstream DIR
-+ #define backend_statvfsstruct struct statvfs
-+diff --git a/configure.ac b/configure.ac
-+index aeec598..ea7f167 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -37,6 +37,7 @@ AC_CHECK_FUNCS(setresuid setresgid)
-+ AC_CHECK_FUNCS(vsyslog)
-+ AC_CHECK_FUNCS(lchown)
-+ AC_CHECK_FUNCS(setgroups)
-++AC_CHECK_FUNCS(lutimes)
-+ UNFS3_SOLARIS_RPC
-+ UNFS3_PORTMAP_DEFINE
-+ UNFS3_COMPILE_WARNINGS
-diff --git a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-index 8127e4a..5a81a8f 100644
---- a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-+++ b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-@@ -29,7 +29,8 @@ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/unfs3-0.9.22.r497.ta
-            file://relative_max_socket_path_len.patch \
-            file://tcp_no_delay.patch \
-            file://0001-daemon.c-Libtirpc-porting-fixes.patch \
--           "
-+           file://0001-attr-fix-utime-for-symlink.patch \
-+          "
- SRC_URI[md5sum] = "2e43e471c77ade0331901c40b8f8e9a3"
- SRC_URI[sha256sum] = "21009468a9ba07b72ea93780d025a63ab4e55bf8fc3127803c296f0900fe1bac"
- 
+  oeqa/manual/oe-core: Drop image build during taskexp test (2018-10-11 23:06:35 +0100)
+
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/gir-ml
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/gir-ml
+
+Kai Kang (3):
+  gobject-introspection: add required python modules to rdepends
+  gobject-introspection: fix multilib install file conflicts
+  vala: update vapigen-wrapper
+
+ meta/recipes-devtools/vala/vala.inc           |  7 +-
+ ...nfigure.ac-make-GIR_DIR-configurable.patch | 68 +++++++++++++++++
+ ...02-g-ir-tools-respect-gir_dir_prefix.patch | 76 +++++++++++++++++++
+ .../gobject-introspection_1.58.0.bb           | 13 +++-
+ 4 files changed, 160 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-configure.ac-make-GIR_DIR-configurable.patch
+ create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0002-g-ir-tools-respect-gir_dir_prefix.patch
+
 -- 
-1.9.1
+2.18.0
 
 
