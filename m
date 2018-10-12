@@ -1,27 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Rui.Wang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 22B3979B47
+	by mail.openembedded.org (Postfix) with ESMTP id 6D50260684
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 01:38:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C1cBnF022360
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Oct 2018 18:38:11 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Thu, 11 Oct 2018 18:38:10 -0700
-To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-References: <20181011134411.11760-1-otavio@ossystems.com.br>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <69d7b416-9f9d-a2bb-bb76-94fe7fb6914f@windriver.com>
-Date: Fri, 12 Oct 2018 09:43:58 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Fri, 12 Oct 2018 02:11:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C2BmfD025782
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Oct 2018 19:11:48 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 11 Oct 2018 19:11:34 -0700
+From: Rui Wang <rui.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Oct 2018 09:56:14 +0800
+Message-ID: <1539309374-213567-1-git-send-email-rui.wang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <20181011134411.11760-1-otavio@ossystems.com.br>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH] util-linux: Fix unshare alternative package
+Subject: [PATCH] attr: fix utime for symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,49 +30,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 01:38:10 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Oct 2018 02:11:47 -0000
+Content-Type: text/plain
 
-I sent a similar patch which, in addition to changes in this patch, also 
-removes 'unshare' from ALTERNATIVE_${PN}.
-The title is "util-linux: fix alternatives setting for unshare".
+Signed-off-by: Rui Wang <rui.wang@windriver.com>
 
-Best Regards,
-Chen Qi
+cherry-pick of fa191666b with context for SRC_URI addition
+modified to apply to current recipe.
 
-On 10/11/2018 09:44 PM, Otavio Salvador wrote:
-> The link was not being generated for the
-> sub-package (util-linux-unshare).
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->
->   meta/recipes-core/util-linux/util-linux.inc | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> index 45e2203a64..c694bf013f 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -220,7 +220,6 @@ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
->   ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
->   ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
->   ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
-> -ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
->   ALTERNATIVE_LINK_NAME[fallocate] = "${bindir}/fallocate"
->   ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
->   ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
-> @@ -292,6 +291,9 @@ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
->   ALTERNATIVE_util-linux-mountpoint = "mountpoint"
->   ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
->   
-> +ALTERNATIVE_util-linux-unshare = "unshare"
-> +ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
-> +
->   BBCLASSEXTEND = "native nativesdk"
->   
->   python do_package_prepend () {
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ .../unfs3/0001-attr-fix-utime-for-symlink.patch    | 85 ++++++++++++++++++++++
+ meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb   |  3 +-
+ 2 files changed, 87 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch
 
+diff --git a/meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch b/meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch
+new file mode 100644
+index 0000000..c32a484
+--- /dev/null
++++ b/meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch
+@@ -0,0 +1,85 @@
++From 3f4fcb62661059bad77a2e957b4621137797bc2f Mon Sep 17 00:00:00 2001
++From: Rui Wang <rui.wang@windriver.com>
++Date: Fri, 15 Jun 2018 14:19:10 +0800
++Subject: [PATCH] attr: fix utime for symlink
++
++unfs3 has an old defect that it can not change the timestamps of a
++symlink file because it only uses utime(), which will follow the
++symlink. This will not cause an error if the symlink points to an
++existent file. But under some special situation, such as installing
++a rpm package, rpm tool will create the symlink first and try to
++modify the timestamps of it, when the target file is non-existent.
++This will cause an ESTALE error. Making rpm tool ignore this error
++is a solution, but not the best one. An acceptable approach is
++Making unfs3 support lutimes(), which can modify the symlink file
++itself. Considering not every system support this function, so a
++function checking is necessary.
++
++Signed-off-by: Rui Wang <rui.wang@windriver.com>
++---
++ attr.c         | 15 +++++++++++----
++ backend_unix.h |  2 ++
++ configure.ac   |  1 +
++ 3 files changed, 14 insertions(+), 4 deletions(-)
++
++diff --git a/attr.c b/attr.c
++index 73e5c75..427d0e2 100644
++--- a/attr.c
+++++ b/attr.c
++@@ -280,7 +280,7 @@ post_op_attr get_post_cached(struct svc_req * req)
++ static nfsstat3 set_time(const char *path, backend_statstruct buf, sattr3 new)
++ {
++     time_t new_atime, new_mtime;
++-    struct utimbuf utim;
+++    struct timeval stamps[2];
++     int res;
++
++     /* set atime and mtime */
++@@ -302,10 +302,17 @@ static nfsstat3 set_time(const char *path, backend_statstruct buf, sattr3 new)
++	else			       /* DONT_CHANGE */
++	    new_mtime = buf.st_mtime;
++
++-	utim.actime = new_atime;
++-	utim.modtime = new_mtime;
+++	stamps[0].tv_sec = new_atime;
+++	stamps[0].tv_usec = 0;
+++	stamps[1].tv_sec = new_mtime;
+++	stamps[1].tv_usec = 0;
+++
+++#if HAVE_LUTIMES
+++	res = backend_lutimes(path, stamps);
+++#else
+++	res = backend_utimes(path, stamps);
+++#endif
++
++-	res = backend_utime(path, &utim);
++	if (res == -1)
++	    return setattr_err();
++     }
++diff --git a/backend_unix.h b/backend_unix.h
++index fbc2af3..813ffd3 100644
++--- a/backend_unix.h
+++++ b/backend_unix.h
++@@ -61,6 +61,8 @@
++ #define backend_symlink symlink
++ #define backend_truncate truncate
++ #define backend_utime utime
+++#define backend_utimes utimes
+++#define backend_lutimes lutimes
++ #define backend_statstruct struct stat
++ #define backend_dirstream DIR
++ #define backend_statvfsstruct struct statvfs
++diff --git a/configure.ac b/configure.ac
++index aeec598..ea7f167 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -37,6 +37,7 @@ AC_CHECK_FUNCS(setresuid setresgid)
++ AC_CHECK_FUNCS(vsyslog)
++ AC_CHECK_FUNCS(lchown)
++ AC_CHECK_FUNCS(setgroups)
+++AC_CHECK_FUNCS(lutimes)
++ UNFS3_SOLARIS_RPC
++ UNFS3_PORTMAP_DEFINE
++ UNFS3_COMPILE_WARNINGS
++--
++1.9.1
+diff --git a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
+index 8127e4a..5a81a8f 100644
+--- a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
++++ b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
+@@ -29,7 +29,8 @@ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/unfs3-0.9.22.r497.ta
+            file://relative_max_socket_path_len.patch \
+            file://tcp_no_delay.patch \
+            file://0001-daemon.c-Libtirpc-porting-fixes.patch \
+-           "
++           file://0001-attr-fix-utime-for-symlink.patch \
++          "
+ SRC_URI[md5sum] = "2e43e471c77ade0331901c40b8f8e9a3"
+ SRC_URI[sha256sum] = "21009468a9ba07b72ea93780d025a63ab4e55bf8fc3127803c296f0900fe1bac"
+ 
+-- 
+1.9.1
 
 
