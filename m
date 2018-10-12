@@ -1,54 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6025879B9F
+Return-Path: <rbilovol@cisco.com>
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DE5B79B9F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 14:00:13 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id a13-v6so13571780wrt.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 07:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=Gc9U2TV4TQPijCNvKzm5JE4L/yFMtIlCkDCaO1UNF90=;
-	b=aO+yLZ82Nz81HNK/R67HJEVm6uQ0gNHBGZGv3dGFq20geP3Ee9ptSqGsl8qb5sVOvG
-	8dDrYppr0ZxaNhSiP5s9G0B9aVSRK0xRIpr6UMAyHsc8p3iXmlMgnRVSWHug8cokRwtB
-	BylCQ3mDJory/HnC98sZRcGYkgHPAlFTZ3NSs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Gc9U2TV4TQPijCNvKzm5JE4L/yFMtIlCkDCaO1UNF90=;
-	b=SH28ci0CVLGKVskIqH4gsqG4leqozT0X8y9vpoTntXaoQHKOdYXj0V4WwmG7iDByJL
-	MWlXCpXVcgzoSkavLzbqlueTqPvZhE1Z8S1zm5cqv7zlVGru72l216CwtwyEC6CDdfo4
-	ECwmnOs8LAL2/2b+aDCgIx11xB1hn07haElJTq/9Tk4fOMlLnZCeW8Gtx4l7mKOCn4hM
-	TfQXQ3mXu8+WaVX7UyoqM8VPteCsexgndM0+9f8WmXSuBZJf2C0tFg76cjQlEfjKAqwJ
-	kQcVOKqOLvk8FDBkplQC5TXRImTzy8uAAiDlUc2k9msrRIpRZmjbkC8LQfykRzuL1XRU
-	k2cQ==
-X-Gm-Message-State: ABuFfogS1SgE2x5gbXtW8Pu0oNOoPd6J4daIXYrPbUQN6+iiyJZgj/Cb
-	XRElUevVUDSNnDkz0KHPBBVHyw==
-X-Google-Smtp-Source: ACcGV610xMP+9NRrM08+3Zmuqhwp1eNPiOf9fG+iNOOp793m+265KrcorCCDiJajCfhLf285XGXs0w==
-X-Received: by 2002:a05:6000:1ce:: with SMTP id
-	t14mr5714997wrx.146.1539352813815; 
-	Fri, 12 Oct 2018 07:00:13 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o17-v6sm1610618wro.2.2018.10.12.07.00.12
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 12 Oct 2018 07:00:12 -0700 (PDT)
-Message-ID: <a5b826c08416843fd31d1668524a1269ed3d6682.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Ming Liu <liu.ming50@gmail.com>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Oct 2018 15:00:11 +0100
-In-Reply-To: <CALatG=4wF+yKGxkV5EmxBHdPvMr4FMQJpip01f1F6YH=5f6hbA@mail.gmail.com>
-References: <1539267354-26753-1-git-send-email-liu.ming50@gmail.com>
-	<CALatG=4wF+yKGxkV5EmxBHdPvMr4FMQJpip01f1F6YH=5f6hbA@mail.gmail.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Cc: Cheuk Wing Leung <cwleung@kth.se>
-Subject: Re: [PATCH] python3: set PYTHONHOME for nativesdk
+	Fri, 12 Oct 2018 14:03:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=2104; q=dns/txt; s=iport;
+	t=1539352984; x=1540562584;
+	h=subject:to:cc:references:from:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=shZflLpVYvLvhSj/h2w70MM3rny8g0+6594E/ajK3DY=;
+	b=GRqCxRjCOUIapzZo15b6jAqXaXWuexmHWpyE/cQ/Z6F2+cWkXUE2PEtu
+	88TsinhhD5/CMo4bCd4d/jWw7qMtTg5xGmr29MuAjV4JLI28r0wdrLcFG
+	N8Emy/SaBcBH5NrHaFaHOehLBL85XOIVfW16jZ+hXoEfmXvzWY2O432X6 g=;
+X-IronPort-AV: E=Sophos;i="5.54,372,1534809600"; 
+   d="scan'208";a="7192424"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
+	([173.38.203.22])
+	by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Oct 2018 14:03:02 +0000
+Received: from [10.63.15.135] ([10.63.15.135]) (authenticated bits=0)
+	by aer-core-2.cisco.com (8.15.2/8.15.2) with ESMTPSA id w9CE31b5010109
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 12 Oct 2018 14:03:02 GMT
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <27c741f4-1ac3-c837-df65-60a46712888a@cisco.com>
+	<CAJTo0LYQCmNA9PppMauoPzn5HBVgzLfHAxfPyVZOTcTtdzgMRw@mail.gmail.com>
+From: Ruslan Bilovol <rbilovol@cisco.com>
+Message-ID: <f347f66c-0a6d-9f49-98f2-a66f735a653e@cisco.com>
+Date: Fri, 12 Oct 2018 17:03:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYQCmNA9PppMauoPzn5HBVgzLfHAxfPyVZOTcTtdzgMRw@mail.gmail.com>
+X-Authenticated-User: rbilovol
+X-Outbound-SMTP-Client: 10.63.15.135, [10.63.15.135]
+X-Outbound-Node: aer-core-2.cisco.com
+Cc: Andrii Bordunov <aborduno@cisco.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Why openembedded-core mailing list is now author of some patches?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,34 +50,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 14:00:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 12 Oct 2018 14:03:03 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-10-12 at 13:37 +0200, Ming Liu wrote:
-> Hi, Richard:
+[CCing more affected people]
+
+On 10/12/2018 04:13 PM, Burton, Ross wrote:
+> Ironically, this mail is From: Ruslan Bilovol via Openembedded-core.
+
+:D
+
 > 
-> > I think its this which is causing breakage:
-> >
-> > 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/106/steps/7/logs/step3b
-> >
-> > 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/106/steps/7/logs/step2b
-> >
-> > 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/106/steps/7/logs/step1b
+> This is basically due to SPF, and people sending email from
+> non-authoritive hosts.  Concrete example: Richard Purdie's mail comes
+> from a machine which the linuxfoundation.org SPF records doesn't
+> recognise as an authorised sender.
+
+Hmm.. I've just sent an email from rbilovol@cisco.com to another Gmail
+address, and Gmail says SPF checks passed:
+  SPF:	PASS with IP 173.38.203.51
+  DKIM:	'PASS' with domain cisco.com
+  DMARC:	'PASS'
+
+Does it mean oe-core mailing list's software is incorrectly configured,
+or there is something else missing on @cisco.com side?
+
+>   If mailing list software wasn't
+> such a pain we could stop it doing that, but apparently it is.
+> Another option would be to patch git to recognise a "via" From and use
+> the Reply-to field.
 > 
-> Are you sure about this? This patch creates a nativesdk python3
-> wrapper which supposes to run on SDK machine, it should not impact
-> native sysroot binaries, and I could not reproduce the error with the
-> patch applied on my local machine. (Ubuntu-16.04)
+> We should have a pre-commit hook to be sure that any instances of this
+> are caught and fixed before being pushed though.
 
-Sorry for the false alarm, its actually the cmake patches sine after
-dropping those, -next built cleanly. Cc'ing Pascal Bach...
+Yes, that would be great.
 
-Cheers,
+Thanks,
+Ruslan
 
-Richard
-
+> 
+> Ross
+> On Fri, 12 Oct 2018 at 14:08, Ruslan Bilovol via Openembedded-core
+> <openembedded-core@lists.openembedded.org> wrote:
+>>
+>> Hi all,
+>>
+>> Looking at OE-core history, I see that in some cases
+>> patch' author is incorrect, and actually is
+>> set to openembedded-core@lists.openembedded.org:
+>> http://git.openembedded.org/openembedded-core/log/?qt=author&q=openembedded-core%40lists.openembedded.org
+>>
+>> Moreover, in patchwork many of these patches are mapped
+>> incorrectly to Andrii Bordunov who isn't actually
+>> related to most of them:
+>> https://patchwork.openembedded.org/project/oe-core/patches/?submitter=12919&state=*&q=&archive=both&delegate=
+>>
+>> So is something broken in OE mailing list/patchwork?
+>>
+>> Thanks,
+>> Ruslan
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
