@@ -1,23 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D858D60596
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AA8879B47
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 02:19:01 +0000 (UTC)
+	Fri, 12 Oct 2018 02:19:03 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C2J3Qt026863
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C2J43T015109
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2018 19:19:03 -0700 (PDT)
+	Thu, 11 Oct 2018 19:19:04 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 11 Oct 2018 19:19:02 -0700
+	14.3.408.0; Thu, 11 Oct 2018 19:19:03 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Oct 2018 10:24:49 +0800
-Message-ID: <cover.1539310768.git.Qi.Chen@windriver.com>
+Date: Fri, 12 Oct 2018 10:24:50 +0800
+Message-ID: <3a97e606d9325c4135218071e3a2acce7ec4d49e.1539310768.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1539310768.git.Qi.Chen@windriver.com>
+References: <cover.1539310768.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] Three fixes regarding SDK and testimage
+Subject: [PATCH 1/3] ksample.py: fix error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,29 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 02:19:02 -0000
+X-List-Received-Date: Fri, 12 Oct 2018 02:19:03 -0000
 Content-Type: text/plain
 
-The following changes since commit 793a82c2da639088884c93595e6a3f28e5e3d747:
+The current error message is like:
 
-  oeqa/manual/oe-core: Drop image build during taskexp test (2018-10-11 23:06:35 +0100)
+  kobject-example.kodoesn't exist
 
-are available in the git repository at:
+Add a space so that it looks like:
 
-  git://git.pokylinux.org/poky-contrib ChenQi/misc-fix
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/misc-fix
+  kobject-example.ko doesn't exist
 
-Chen Qi (3):
-  ksample.py: fix error message
-  packagegroup-core-lsb/-full-cmdline: add bzip2
-  nativesdk-packagegroup-sdk-host: add nativesdk-flex
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/lib/oeqa/runtime/cases/ksample.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/lib/oeqa/runtime/cases/ksample.py                                | 2 +-
- meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb    | 1 +
- meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb | 1 +
- meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb          | 1 +
- 4 files changed, 4 insertions(+), 1 deletion(-)
-
+diff --git a/meta/lib/oeqa/runtime/cases/ksample.py b/meta/lib/oeqa/runtime/cases/ksample.py
+index eb87133..354cc97 100644
+--- a/meta/lib/oeqa/runtime/cases/ksample.py
++++ b/meta/lib/oeqa/runtime/cases/ksample.py
+@@ -34,7 +34,7 @@ class KSample(OERuntimeTestCase):
+         cmd = "ls " + "/lib/modules/" + output + "/kernel/samples/" + path + module_name
+         status, output = self.target.run(cmd)
+         if status != 0:
+-            error_info = module_name + "doesn't exist"
++            error_info = module_name + " doesn't exist"
+             self.skipTest(error_info)
+ 
+     def kfifo_func(self, name=''):
 -- 
 1.9.1
 
