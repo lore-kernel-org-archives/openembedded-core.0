@@ -1,28 +1,27 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 04BBD60851
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 22B3979B47
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 01:28:40 +0000 (UTC)
+	Fri, 12 Oct 2018 01:38:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C1SeHZ014663
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9C1cBnF022360
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Oct 2018 18:28:40 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 11 Oct 2018 18:28:39 -0700
-To: <richard.purdie@linuxfoundation.org>
-References: <cover.1539267480.git.kai.kang@windriver.com>
-	<eedd956a3e7af4d2c64033d1b06944036c5d6536.1539267480.git.kai.kang@windriver.com>
-	<ae1bccd3a002637aef132d5cee1316bfe717e018.camel@linuxfoundation.org>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <35f60046-1548-2e70-cb7b-020f6dce50a5@windriver.com>
-Date: Fri, 12 Oct 2018 09:25:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu, 11 Oct 2018 18:38:11 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Thu, 11 Oct 2018 18:38:10 -0700
+To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
+	<openembedded-core@lists.openembedded.org>
+References: <20181011134411.11760-1-otavio@ossystems.com.br>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <69d7b416-9f9d-a2bb-bb76-94fe7fb6914f@windriver.com>
+Date: Fri, 12 Oct 2018 09:43:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <ae1bccd3a002637aef132d5cee1316bfe717e018.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] nss: fix non-determinism when create blank certificate
+In-Reply-To: <20181011134411.11760-1-otavio@ossystems.com.br>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [PATCH] util-linux: Fix unshare alternative package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,52 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 01:28:41 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 12 Oct 2018 01:38:10 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2018年10月12日 02:55, richard.purdie@linuxfoundation.org wrote:
-> On Thu, 2018-10-11 at 22:24 +0800, kai.kang@windriver.com wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> It uses tool certutil from nss to create a blank certificate. But the
->> checksum of output file key4.db changes every time:
->>
->> $ certutil -N -d sql:. --empty-password
->> $ md5sum *
->> f9dac2cfcb07cc8ca6db442a9a570906  cert9.db
->> b892c5ff7c1977d4728240b0cf628377  key4.db
->> 7b9136cb03f07ae62eb213a5239fda71  pkcs11.txt
->> $ rm *
->>
->> $ certutil -N -d sql:. --empty-password
->> $ md5sum *
->> f9dac2cfcb07cc8ca6db442a9a570906  cert9.db
->> 405d55178e866a115c1aa975fccfa764  key4.db
->> 7b9136cb03f07ae62eb213a5239fda71  pkcs11.txt
->>
->> Provide pre-created blank database files to fix non-determinism
->> issue.
->> And these files are from nss qemux86-64 build.
-> I agree with this however can we leave a comment in the recipe about
-> why we're including these and instructions on how to rebuild them
-> please?
+I sent a similar patch which, in addition to changes in this patch, also 
+removes 'unshare' from ALTERNATIVE_${PN}.
+The title is "util-linux: fix alternatives setting for unshare".
 
-OK. V2 will be sent.
+Best Regards,
+Chen Qi
 
-Regards,
-Kai
-
+On 10/11/2018 09:44 PM, Otavio Salvador wrote:
+> The link was not being generated for the
+> sub-package (util-linux-unshare).
 >
-> Cheers,
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
 >
-> Richard
+>   meta/recipes-core/util-linux/util-linux.inc | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 >
->
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+> index 45e2203a64..c694bf013f 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -220,7 +220,6 @@ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
+>   ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+>   ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
+>   ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+> -ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+>   ALTERNATIVE_LINK_NAME[fallocate] = "${bindir}/fallocate"
+>   ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
+>   ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
+> @@ -292,6 +291,9 @@ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+>   ALTERNATIVE_util-linux-mountpoint = "mountpoint"
+>   ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
+>   
+> +ALTERNATIVE_util-linux-unshare = "unshare"
+> +ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+> +
+>   BBCLASSEXTEND = "native nativesdk"
+>   
+>   python do_package_prepend () {
 
--- 
-Regards,
-Neil | Kai Kang
 
 
