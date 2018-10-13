@@ -1,28 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A5406025E
+	by mail.openembedded.org (Postfix) with ESMTP id C1F2779BAE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Oct 2018 10:23:10 +0000 (UTC)
+	Sat, 13 Oct 2018 10:29:49 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w9DAN3Yg011946
+	w9DATjj8012245
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 13 Oct 2018 11:23:04 +0100
-Message-ID: <801e73cf52b3eee76def61f23b7ab309bc2f117a.camel@linuxfoundation.org>
+	verify=NOT); Sat, 13 Oct 2018 11:29:46 +0100
+Message-ID: <f50185f96f49dd8e3e094549bcccdb9c100adbd0.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 13 Oct 2018 11:23:02 +0100
-In-Reply-To: <CAMKF1spu=DkMXsn9AxkuRP0iQ6cPCyANMZXX6tkKgmkH5K87Kg@mail.gmail.com>
-References: <20181012115502.14205-1-ross.burton@intel.com>
-	<20181012115502.14205-2-ross.burton@intel.com>
-	<CAMKF1spu=DkMXsn9AxkuRP0iQ6cPCyANMZXX6tkKgmkH5K87Kg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Sat, 13 Oct 2018 11:29:45 +0100
+In-Reply-To: <CA+chaQfMOrF8NWwHww6zJDjL2KaJvn2uPa0Xbz2ipHLSG9ooTQ@mail.gmail.com>
+References: <153917392546.324.13433409263803938064@git.openembedded.org>
+	<20181010121845.987A72351DE@git.openembedded.org>
+	<CA+chaQcmGLJaOi7xPZR90gekFSyrKRb89ZfRbf6-U43xOmh6qQ@mail.gmail.com>
+	<CAJTo0LbRn6aPQg=dY2186S7vqJFrzK24y9V7hte7kZRGgXbhcg@mail.gmail.com>
+	<CA+chaQfMOrF8NWwHww6zJDjL2KaJvn2uPa0Xbz2ipHLSG9ooTQ@mail.gmail.com>
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.100.1 at dan
 X-Virus-Status: Clean
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] python: remove the PN package entirely
+Subject: Re: [oe-commits] [openembedded-core] 02/09: glib-2.0: add missing locale dependencies to PN-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,27 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Oct 2018 10:23:11 -0000
+X-List-Received-Date: Sat, 13 Oct 2018 10:29:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2018-10-13 at 00:10 -0700, Khem Raj wrote:
-> I am seeing core-image-sato-sdk-ptest fail to build with errors like
+On Sat, 2018-10-13 at 02:15 +0200, Martin Jansa wrote:
+> Hi,
 > 
-> http://errors.yoctoproject.org/Errors/Build/69750/
-> http://errors.yoctoproject.org/Errors/Build/69747/
+> sorry for delay, I was first testing a bit more specific fix:
+> DEPENDS_append_libc-glibc = "${@bb.utils.contains('PTEST_ENABLED',
+> '1', '', ' virtual/libc-locale', d)}"
 > 
-> So taking a wild guess, this series might be one causing it.
+> but unfortunately this nor your shorter version work.
+> 
+> and it's reproducible without the multilib enabled as well:
+> 
+> ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-de-de, but it isn't a build dependency? [build-deps]
+> ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-el-gr, but it isn't a build dependency? [build-deps]
+> ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-en-gb, but it isn't a build dependency? [build-deps]
 
-This patch also triggered failures on the autobuilder, basically when
-the ipk/deb backends are enabled.
+What is also puzzling me is that we're not seeing this in OE-Core on
+the autobuilders. We recently merged much better warning summary code
+so we should see this quite clearly in its output and we're not...
 
-https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/48723/raw
-https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/48841/raw
-https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/48914/raw
+I'm not sure what that means but it suggests there is something going
+on here we're not quite seeing...
 
 Cheers,
 
 Richard
+
 
 
