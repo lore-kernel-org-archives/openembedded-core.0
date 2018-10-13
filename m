@@ -1,31 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C1F2779BAE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 41650745FC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Oct 2018 10:29:49 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w9DATjj8012245
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 13 Oct 2018 11:29:46 +0100
-Message-ID: <f50185f96f49dd8e3e094549bcccdb9c100adbd0.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Sat, 13 Oct 2018 11:29:45 +0100
-In-Reply-To: <CA+chaQfMOrF8NWwHww6zJDjL2KaJvn2uPa0Xbz2ipHLSG9ooTQ@mail.gmail.com>
-References: <153917392546.324.13433409263803938064@git.openembedded.org>
-	<20181010121845.987A72351DE@git.openembedded.org>
-	<CA+chaQcmGLJaOi7xPZR90gekFSyrKRb89ZfRbf6-U43xOmh6qQ@mail.gmail.com>
-	<CAJTo0LbRn6aPQg=dY2186S7vqJFrzK24y9V7hte7kZRGgXbhcg@mail.gmail.com>
-	<CA+chaQfMOrF8NWwHww6zJDjL2KaJvn2uPa0Xbz2ipHLSG9ooTQ@mail.gmail.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 02/09: glib-2.0: add missing locale dependencies to PN-ptest
+	Sat, 13 Oct 2018 16:43:26 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id c8-v6so7321126plo.9
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 13 Oct 2018 09:43:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mcUFX9Bj4S7aix2PZO+jRZI1hEXzr7hbgsV/s3R/dfw=;
+	b=JhmuGLJhXDTSfQL+1ppFUngWAImW+bvHAUCnq40nRY87ypFKOvrAmM62C0ue8XYwwI
+	f6RmCKE4CtxzcjvfMmyUuHpEe3rI/fdeCtnhQJ+oYKU1VggvziS8gwcnOeLW5hG6vZVo
+	dkjE2EYX8hgWJ0YRRe2jyXMDSmgMP6CKgehnZNeXZAlIamCqFZ5jmV7/Tvs/NDbsvCpl
+	eeMr9RVm1S2o2oVT/XCtEYwE5qFGCZGett9T+gTh9q0kSrjG1i8M8Ol164QgmMtJKAHL
+	y9iGDmfyz6wIyEpr8lee254MSsVEcatTAljKS/XX1XX9McMmf6PHvyBbGu2AIHuae8Nr
+	Yuaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mcUFX9Bj4S7aix2PZO+jRZI1hEXzr7hbgsV/s3R/dfw=;
+	b=uZ8QgVjmRmWK4wtT4aGabIhimyPbm235GjiKvR4QtCuKFF45sAMTKy0++PTCAX5rH9
+	xweOIgbdfhGEThXrPo5JrY0zvuLkgCM0SX27V+ew1bFj+ZBF74PSxoZAlMqifcES0wYl
+	qYxjuj8SDoPYPMPl7g5BSrvJwqUndj/eVIPEWVVwgWbBuCYYZ2vgf0ECHR1Id4rsfL9m
+	gHEUZWwKwQ/lH1TW+829qysJ5sW/0QwEVFMsqb7ayyVzaP8UFMHJMqleDMtptcOMbw56
+	8u+q3hALVGhPfETf02sYBVzYM2BUVhqCEujYIRBZs+Uso08toXVJIJQ6Wnv2kxha/ghb
+	/olQ==
+X-Gm-Message-State: ABuFfohEROGpxgliTuo14Dqmw7jGfaT0+tiCtBHt64P6uboiAmQm4ods
+	6Idz4uBVAqs7eSheRTvUbf0IG+tZ
+X-Google-Smtp-Source: ACcGV60er1Vp++Z/NfKW6uR+xI0wC/wXNcZGWtI0sDHqlNiF8i8Crj1n+Df2TW7ICFVCNzaZ2JeOwQ==
+X-Received: by 2002:a17:902:4222:: with SMTP id
+	g31-v6mr10632578pld.281.1539449006928; 
+	Sat, 13 Oct 2018 09:43:26 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::939f])
+	by smtp.gmail.com with ESMTPSA id
+	a5-v6sm6247346pfo.53.2018.10.13.09.43.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 13 Oct 2018 09:43:26 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 13 Oct 2018 09:43:18 -0700
+Message-Id: <20181013164318.5559-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Subject: [PATCH V2] glibc: Do not use thumb1 ISA on armv6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,35 +58,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Oct 2018 10:29:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 13 Oct 2018 16:43:26 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2018-10-13 at 02:15 +0200, Martin Jansa wrote:
-> Hi,
-> 
-> sorry for delay, I was first testing a bit more specific fix:
-> DEPENDS_append_libc-glibc = "${@bb.utils.contains('PTEST_ENABLED',
-> '1', '', ' virtual/libc-locale', d)}"
-> 
-> but unfortunately this nor your shorter version work.
-> 
-> and it's reproducible without the multilib enabled as well:
-> 
-> ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-de-de, but it isn't a build dependency? [build-deps]
-> ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-el-gr, but it isn't a build dependency? [build-deps]
-> ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-en-gb, but it isn't a build dependency? [build-deps]
+This does not work and is unsupported so lets compile glibc in ARM mode
+always on armv6 SOCs
 
-What is also puzzling me is that we're not seeing this in OE-Core on
-the autobuilders. We recently merged much better warning summary code
-so we should see this quite clearly in its output and we're not...
+Fixes [YOCTO #12929]
 
-I'm not sure what that means but it suggests there is something going
-on here we're not quite seeing...
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+V2: mark glibc extra recipes with same ISA settings as glibc
 
-Cheers,
+ meta/recipes-core/glibc/glibc-collateral.inc | 1 +
+ meta/recipes-core/glibc/glibc.inc            | 1 +
+ 2 files changed, 2 insertions(+)
 
-Richard
-
+diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
+index aa871ac83d..536edfb040 100644
+--- a/meta/recipes-core/glibc/glibc-collateral.inc
++++ b/meta/recipes-core/glibc/glibc-collateral.inc
+@@ -9,6 +9,7 @@ HOMEPAGE = "http://www.gnu.org/software/libc/index.html"
+ # http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
++ARM_INSTRUCTION_SET_armv6 = "arm"
+ 
+ deltask do_fetch
+ deltask do_unpack
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index ddf0c6b80e..99c92ce46e 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -56,6 +56,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ # http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
++ARM_INSTRUCTION_SET_armv6 = "arm"
+ 
+ # glibc uses PARALLELMFLAGS variable to pass parallel build info so transfer
+ # PARALLEL_MAKE into PARALLELMFLAGS and empty out PARALLEL_MAKE
+-- 
+2.19.1
 
 
