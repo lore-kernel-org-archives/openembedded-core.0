@@ -1,54 +1,51 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
-	[209.85.221.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B88479BE4
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BA39746D3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 22:10:45 +0000 (UTC)
-Received: by mail-vk1-f193.google.com with SMTP id h186so1870774vkh.13
+	Sat, 13 Oct 2018 00:15:41 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id a13-v6so15097885wrt.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Oct 2018 15:10:46 -0700 (PDT)
+	Fri, 12 Oct 2018 17:15:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UvGrwJ750x2igLdIY/4XasGR5jb5IqCqDgYmvm7cv1U=;
-	b=PBNojWyq5I7YidCq2P6ZgxTKcRVmM5y2bd+euM/OBaRlpmxyjSCZpzhExSUtE/SadZ
-	PPGSVmN6j0LAsoOSdFUHEvdmlqQrrKgpsC/eAhlOe2Dl9Fff58Y5IbsJ4QEZ0po0D+4v
-	sTH2m/r4svZzoUcAITIJovE+Rd1juN+1tFFNeOGZQ/fRl1NVCBjWiQwGRijxO4VJ6b/U
-	9vGV7SMVhoQqoaqik4qxeZSM8UFgcdEcy4rOumcXGZ41BlkfDxHWSmTRQwqqfk22AADX
-	x5++FAscwrnEJTvBUCO8qchnHN5DSzZ3uXiaqhX5ObDAJCjMxQZkLLhSi4tIcbtyXHlK
-	SwqA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=y6WQ1MNB5AhjP5fT3gHz6wZM73I5VhecMgxbWQ4RrLM=;
+	b=p/JuQFuN+05fz1ejtZxFrW18z71gMlL1As5HqJhiI8ll+dwpcf+9LknmRUw6PYZtGh
+	RUyFkVDZHk0xiKOncgYgNerb9XYB3Lp8y+YHUUaYH0fnEzmvOhFFjzGkraz3IJzy6OaM
+	64YOuTI0GySQKlYVuwxpf8YrhusEvzkELpGlvzlzwcU1eBYUiBlrbEQ4u+QRiVGZR4NB
+	N5nOj6rNZInd21pWIJ0T23Z/TqdWWtJAHGs2G/IQ1f3450K+ZuH4gO6VT9kmDTPSmyCy
+	I73l0RjeWSzSDvAiwzGTExYoQpUohQAVl1wYjIQVGVPDggPAVdt7qjYopF8pSIuV4YNl
+	Y7Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=UvGrwJ750x2igLdIY/4XasGR5jb5IqCqDgYmvm7cv1U=;
-	b=Vf1YdY8hRzIGAVZ0AVevcAUcqnkb5HAVZmfxPD9MTohdivQX/pah96XaH6RisdgliT
-	bYNzA0thJmZHx1CtfpQ4xkpKAYZAGIsGdIgbkZaEXBGaIwTDGRVmVMQdRKVx5ZYnz/pB
-	NFOfj/sAJ2edWnLEG3KKxdd/58jp2APGe1/3FAtAQREjb+8dw6MwMos9AD5dNRf3lqmz
-	i4IbwlFxSty7AVXXBDsG7ZaPy92iian6tBlxXhiUZdWr363V5v4tZP9IhMRaPKCSzxo/
-	m+MNVtCUnw7p2Bxa4BOM+7Aski4ufFKS9AB7mYxKfUyzcMvzcfOh30RmBwwV0aqeydli
-	LOoA==
-X-Gm-Message-State: ABuFfoggfrLTPFly2556G9Q3zWo1rugD1zpi3yWigrw03z7i+uWQ+bCw
-	VkKhHUPo8HNQ6rNJN0NBuNbKlpXhUfSHOfs3hDY=
-X-Google-Smtp-Source: ACcGV62e+cGBEz3kRkAOUQVC0Nwquh/uhFDOuJyBj0ve9dUAJdvZ5ljNqpXiqVEN2mBPBRBK2poS8vXh0A/Uyqm+rmU=
-X-Received: by 2002:a1f:a193:: with SMTP id
-	k141-v6mr3250207vke.45.1539382246443; 
-	Fri, 12 Oct 2018 15:10:46 -0700 (PDT)
+	bh=y6WQ1MNB5AhjP5fT3gHz6wZM73I5VhecMgxbWQ4RrLM=;
+	b=fDX17skGa2+uDesUXfQeSVJNaz6YjoqE44QPzeCJ0ejU2Lhrgw+UVDEKuklWEHRZVp
+	5LkkSxq/VbLTKgK91iUyV4JVLqdnlul1Z4lA9LQ0nIW6WsLqdNurDXadzzjRaa/aoioq
+	mtmxbuWwMPIfg0cYLnuXMTZMIARuUUV8SyiWOMujVmjv5Lqd6HFX4brwmMm0hcnr4WlK
+	nfbdxCyQQvJAbicycYFOCmBiodLDiYSkOVL/oMPDxQtGZyHXYfwgrUF8Ug43xnCo6GJ/
+	T4rdQuxX45k2ajioMKlzN/30+rLr5CCrsmL8H+EFHCZyNJAVDI4Yoav51sUQyPotfiBd
+	PoNQ==
+X-Gm-Message-State: ABuFfogljseVDd5ZN+HRJ/pSSyK8iF8zdNtj5KYH8HWISDTI9xs4U4cy
+	Lb5aKQt+sZ/eZors4N7mEqcsU5ZKSp09/Kw7Swc=
+X-Google-Smtp-Source: ACcGV61ZgntphozMwyb0QtP2ChYTVPbWyYGIYERRm3jxHhNR68roXUo6Z6dUhpatWMKbTeA18TIdpxo3QJpVfClazJs=
+X-Received: by 2002:adf:e842:: with SMTP id
+	d2-v6mr6425098wrn.175.1539389741921; 
+	Fri, 12 Oct 2018 17:15:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:2748:0:0:0:0:0 with HTTP; Fri, 12 Oct 2018 15:10:45
-	-0700 (PDT)
-In-Reply-To: <CAMKF1srGfJ8C38hRe=GcpCMRspUkTCwK3j4WgrPZ=eBcS_tiBQ@mail.gmail.com>
-References: <20181012202823.4003-1-raj.khem@gmail.com>
-	<CAJ86T=WjWNPB+upTuQN8EndUGFC_jBqSRO59Xy=7RZANoaSPdA@mail.gmail.com>
-	<CAMKF1sqEBLiSmzJALVmvRep0jzAGpgqtuZZVaoWu69D-X3dktg@mail.gmail.com>
-	<d33798973eaad929a0ff674b3651c985ee684f36.camel@linuxfoundation.org>
-	<CAMKF1srGfJ8C38hRe=GcpCMRspUkTCwK3j4WgrPZ=eBcS_tiBQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 12 Oct 2018 15:10:45 -0700
-Message-ID: <CAJ86T=UF4q2Nq=N68C4Hi3aRZdF1Q5OyiiKk3UjU0xB8cgK0EQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+References: <153917392546.324.13433409263803938064@git.openembedded.org>
+	<20181010121845.987A72351DE@git.openembedded.org>
+	<CA+chaQcmGLJaOi7xPZR90gekFSyrKRb89ZfRbf6-U43xOmh6qQ@mail.gmail.com>
+	<CAJTo0LbRn6aPQg=dY2186S7vqJFrzK24y9V7hte7kZRGgXbhcg@mail.gmail.com>
+In-Reply-To: <CAJTo0LbRn6aPQg=dY2186S7vqJFrzK24y9V7hte7kZRGgXbhcg@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Sat, 13 Oct 2018 02:15:30 +0200
+Message-ID: <CA+chaQfMOrF8NWwHww6zJDjL2KaJvn2uPa0Xbz2ipHLSG9ooTQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: Do not use thumb1 ISA on armv6
+Subject: Re: [oe-commits] [openembedded-core] 02/09: glib-2.0: add missing locale dependencies to PN-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,45 +58,174 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 22:10:45 -0000
+X-List-Received-Date: Sat, 13 Oct 2018 00:15:41 -0000
+Content-Type: multipart/alternative; boundary="000000000000bcf8f40578111a21"
+
+--000000000000bcf8f40578111a21
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Oct 12, 2018 at 2:47 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Fri, Oct 12, 2018 at 2:42 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->>
->> On Fri, 2018-10-12 at 14:13 -0700, Khem Raj wrote:
->> > On Fri, Oct 12, 2018 at 1:56 PM Andre McCurdy <armccurdy@gmail.com>
->> > wrote:
->> > >
->> > > On Fri, Oct 12, 2018 at 1:28 PM, Khem Raj <raj.khem@gmail.com>
->> > > wrote:
->> > > > This does not work and is unsupported so lets compile glibc in
->> > > > ARM mode
->> > > > always on armv6 SOCs
->> > >
->> > > Note the comments in glibc-collateral.inc:
->> > >
->> > >   # This needs to match with glibc.inc, otherwise glibc-scripts and
->> > > glibc-locale
->> > >   # will fail to find main glibc, for details see
->> > >   #
->> > > http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
->> > >   ARM_INSTRUCTION_SET_armv4 = "arm"
->> > >   ARM_INSTRUCTION_SET_armv5 = "arm"
->> > >
->> > > Either the two recipes need to be kept in sync or the comment no
->> > > longer applies?
->> >
->> > I think we can delete comment in a followup
->>
->> Looking at the link I'd have said that issue still applies?
->>
+Hi,
+
+sorry for delay, I was first testing a bit more specific fix:
+DEPENDS_append_libc-glibc = "${@bb.utils.contains('PTEST_ENABLED', '1', '',
+' virtual/libc-locale', d)}"
+
+but unfortunately this nor your shorter version work.
+
+and it's reproducible without the multilib enabled as well:
+
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-de-de, but it isn't a build dependency? [build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-el-gr, but it isn't a build dependency? [build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-en-gb, but it isn't a build dependency? [build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-es-es, but it isn't a build dependency? [build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-fa-ir, but it isn't a build dependency? [build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-fr-fr, but it isn't a build dependency? [build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-hr-hr, but it isn't a build dependency? [build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-ja-jp.euc-jp, but it isn't a build dependency?
+[build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-lt-lt, but it isn't a build dependency? [build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-ru-ru, but it isn't a build dependency? [build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest
+rdepends on locale-base-tr-tr, but it isn't a build dependency? [build-deps]
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA run found fatal errors.
+Please consider fixing them.
+ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: Function failed: do_package_qa
+
+strange, because we had the same issue with bash long time ago and:
+commit 2820a2c530018f59895fb57770caa8511d31afd4
+Author: Ross Burton <ross.burton@intel.com>
+Date:   Fri Oct 13 14:52:16 2017 +0100
+
+    bash: add missing build dependencies for ptest
+
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+diff --git a/meta/recipes-extended/bash/bash.inc
+b/meta/recipes-extended/bash/bash.inc
+index f8a92b59d0..f4e1f7a11f 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -24,7 +24,9 @@ ALTERNATIVE_PRIORITY = "100"
+ RDEPENDS_${PN} += "base-files"
+ RDEPENDS_${PN}_class-nativesdk = ""
+ RDEPENDS_${PN}-ptest += "make"
+-RDEPENDS_${PN}-ptest_append_libc-glibc += " locale-base-fr-fr
+locale-base-de-de"
++
++DEPENDS_append_libc-glibc = " glibc-locale"
++RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-fr-fr
+locale-base-de-de"
+
+ USERADD_PACKAGES = "${PN}-ptest"
+ USERADD_PARAM_${PN}-ptest = "--create-home --user-group test"
+
+
+worked for bash
+
+On Thu, Oct 11, 2018 at 1:45 PM Burton, Ross <ross.burton@intel.com> wrote:
+
+> On Thu, 11 Oct 2018 at 07:38, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > This is causing a lot of QA errors like:
+> >
+> > lib32-glib-2.0-2.58.0: lib32-glib-2.0-ptest rdepends on
+> lib32-locale-base-ru-ru, but it isn't a build dependency? [build-deps]
+> > lib32-glib-2.0-2.58.0: lib32-glib-2.0-ptest rdepends on
+> lib32-locale-base-tr-tr, but it isn't a build dependency? [build-deps]
 >
-> I am not 100% sure, thats why I wanted
-> to check and come back with followup
-> if update was needed.
+> Can you test that adding this to the recipe solves the problem:
+>
+> DEPENDS_append_libc-glibc = " virtual/libc-locale"
+>
+> Ross
+>
 
-If you're not sure then it's better to respect the comment and keep
-the two recipes in sync.
+--000000000000bcf8f40578111a21
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Hi,<div=
+><br></div><div>sorry for delay, I was first testing a bit more specific fi=
+x:</div><div>DEPENDS_append_libc-glibc =3D &quot;${@bb.utils.contains(&#39;=
+PTEST_ENABLED&#39;, &#39;1&#39;, &#39;&#39;, &#39; virtual/libc-locale&#39;=
+, d)}&quot;<br></div><div><br></div><div>but unfortunately this nor your sh=
+orter version work.</div><div><br></div><div>and it&#39;s reproducible with=
+out the multilib enabled as well:</div><div><br></div><div><div>ERROR: glib=
+-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale=
+-base-de-de, but it isn&#39;t a build dependency? [build-deps]</div><div>ER=
+ROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends =
+on locale-base-el-gr, but it isn&#39;t a build dependency? [build-deps]</di=
+v><div>ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest =
+rdepends on locale-base-en-gb, but it isn&#39;t a build dependency? [build-=
+deps]</div><div>ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2=
+.0-ptest rdepends on locale-base-es-es, but it isn&#39;t a build dependency=
+? [build-deps]</div><div>ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issu=
+e: glib-2.0-ptest rdepends on locale-base-fa-ir, but it isn&#39;t a build d=
+ependency? [build-deps]</div><div>ERROR: glib-2.0-1_2.58.0-r0 do_package_qa=
+: QA Issue: glib-2.0-ptest rdepends on locale-base-fr-fr, but it isn&#39;t =
+a build dependency? [build-deps]</div><div>ERROR: glib-2.0-1_2.58.0-r0 do_p=
+ackage_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-hr-hr, but it i=
+sn&#39;t a build dependency? [build-deps]</div><div>ERROR: glib-2.0-1_2.58.=
+0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-ja-jp.=
+euc-jp, but it isn&#39;t a build dependency? [build-deps]</div><div>ERROR: =
+glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on lo=
+cale-base-lt-lt, but it isn&#39;t a build dependency? [build-deps]</div><di=
+v>ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepe=
+nds on locale-base-ru-ru, but it isn&#39;t a build dependency? [build-deps]=
+</div><div>ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-pt=
+est rdepends on locale-base-tr-tr, but it isn&#39;t a build dependency? [bu=
+ild-deps]</div><div>ERROR: glib-2.0-1_2.58.0-r0 do_package_qa: QA run found=
+ fatal errors. Please consider fixing them.</div><div>ERROR: glib-2.0-1_2.5=
+8.0-r0 do_package_qa: Function failed: do_package_qa</div></div><div><br></=
+div><div>strange, because we had the same issue with bash long time ago and=
+:</div><div><div>commit 2820a2c530018f59895fb57770caa8511d31afd4</div><div>=
+Author: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burto=
+n@intel.com</a>&gt;</div><div>Date:=C2=A0 =C2=A0Fri Oct 13 14:52:16 2017 +0=
+100</div><div><br></div><div>=C2=A0 =C2=A0 bash: add missing build dependen=
+cies for ptest</div><div>=C2=A0 =C2=A0=C2=A0</div><div>=C2=A0 =C2=A0 Signed=
+-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burt=
+on@intel.com</a>&gt;</div><div><br></div><div>diff --git a/meta/recipes-ext=
+ended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc</div><div>index f=
+8a92b59d0..f4e1f7a11f 100644</div><div>--- a/meta/recipes-extended/bash/bas=
+h.inc</div><div>+++ b/meta/recipes-extended/bash/bash.inc</div><div>@@ -24,=
+7 +24,9 @@ ALTERNATIVE_PRIORITY =3D &quot;100&quot;</div><div>=C2=A0RDEPEND=
+S_${PN} +=3D &quot;base-files&quot;</div><div>=C2=A0RDEPENDS_${PN}_class-na=
+tivesdk =3D &quot;&quot;</div><div>=C2=A0RDEPENDS_${PN}-ptest +=3D &quot;ma=
+ke&quot;</div><div>-RDEPENDS_${PN}-ptest_append_libc-glibc +=3D &quot; loca=
+le-base-fr-fr locale-base-de-de&quot;</div><div>+</div><div>+DEPENDS_append=
+_libc-glibc =3D &quot; glibc-locale&quot;</div><div>+RDEPENDS_${PN}-ptest_a=
+ppend_libc-glibc =3D &quot; locale-base-fr-fr locale-base-de-de&quot;</div>=
+<div>=C2=A0</div><div>=C2=A0USERADD_PACKAGES =3D &quot;${PN}-ptest&quot;</d=
+iv><div>=C2=A0USERADD_PARAM_${PN}-ptest =3D &quot;--create-home --user-grou=
+p test&quot;</div></div><div><br></div><div><br></div><div>worked for bash<=
+/div></div></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
+">On Thu, Oct 11, 2018 at 1:45 PM Burton, Ross &lt;<a href=3D"mailto:ross.b=
+urton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">On Thu, 11 Oct 2018 at 07:38, Martin Jansa &lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a>&gt; wrote:<br>
+&gt; This is causing a lot of QA errors like:<br>
+&gt;<br>
+&gt; lib32-glib-2.0-2.58.0: lib32-glib-2.0-ptest rdepends on lib32-locale-b=
+ase-ru-ru, but it isn&#39;t a build dependency? [build-deps]<br>
+&gt; lib32-glib-2.0-2.58.0: lib32-glib-2.0-ptest rdepends on lib32-locale-b=
+ase-tr-tr, but it isn&#39;t a build dependency? [build-deps]<br>
+<br>
+Can you test that adding this to the recipe solves the problem:<br>
+<br>
+DEPENDS_append_libc-glibc =3D &quot; virtual/libc-locale&quot;<br>
+<br>
+Ross<br>
+</blockquote></div>
+
+--000000000000bcf8f40578111a21--
