@@ -1,51 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D81879B7E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AD502745EF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Oct 2018 21:17:07 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id n1-v6so16962330wrt.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Oct 2018 14:17:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Qr0El1GJdWJcSJaQUh2dbU2aNN+mQE2V02POvrbARR8=;
-	b=HJDvJ5rsTnMBqL1uCRrwzG4dj81ManlDj/9jvA+m0TLDKtJgtDy7FpRXNMWfh0o9H+
-	Ip73poIttdxUL4+Qy4gMwKLqZn7d8q7Tx/2//ajuQ+O94x4FAXiHx0bB3NRyx8izP9yF
-	P82RvWjs+TevAQwQJR5pXZskm9MX9ZC+Rg3zpPdsiA1Af2bArY8Kx3ZfsnjZubpcH0d9
-	jNSUnOl9xuzlF4I2LVX0tIXr6/AptFcFQIg6FOizN5BewknWSvY4LdYxbf/gbUj+H216
-	n9y7a+dVwYM95gtnVdhmPOxeWYS2WHre6H5f7FXCMlBkuVpweW6Q8wM+OTijmwAE/RPd
-	klng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Qr0El1GJdWJcSJaQUh2dbU2aNN+mQE2V02POvrbARR8=;
-	b=ua8sRbmPV8gueucD7yBUE4mJTssM1J2L2DW/Q5ie0PDnHi7spzlqWbRUGWTNEEC1Uo
-	RDZgPIKrhfjQXZTllTvG42pbzIaCgdJ33YjuRHHrxSbcJWxQlYEF1nrzIl9DQpTuEgql
-	sz+In9L7gM/mRAXr38D72Ae+8y9oP5KP80/zUHn7Ss2JkyLOjpMIU/hUSWxjYru40ilw
-	nUFIiiJ3gdeAjwNxQJz6RriuhsZlo6+j537+CJjNkukIBJZPNtMxAyzsAt/46vFaBoyJ
-	y2y++EDIfZOWe6xt+mDyowEFmLRzp47sxquKftlwFQtFNaDGsbxywUmyYC+UGiB90HPR
-	r12Q==
-X-Gm-Message-State: ABuFfoioSPi2nDQdRFjuM3NbC+DPrHtoucN417+n7bGnHlAFjKvzeKGv
-	CCV45qtjWLHhut+RUisLEWQTNWYM
-X-Google-Smtp-Source: ACcGV63e39Hap2BViZCoOE1HSpr5BCklVLpsXjOxtZ+ogyCPdt2aPsgn2wDUGJgFhJLvmMECvQr+Aw==
-X-Received: by 2002:a5d:52ce:: with SMTP id
-	r14-v6mr9128522wrv.123.1539465427691; 
-	Sat, 13 Oct 2018 14:17:07 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	m16-v6sm4632167wmd.35.2018.10.13.14.17.06
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Oct 2018 14:17:06 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Oct 2018 21:17:03 +0000
-Message-Id: <20181013211703.1224-2-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20181013211703.1224-1-Martin.Jansa@gmail.com>
-References: <20181013211703.1224-1-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] glib.inc: drop duplicate locale-base-fr-fr runtime dependency
+	Sun, 14 Oct 2018 08:49:38 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w9E8nXtb028389
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Sun, 14 Oct 2018 09:49:35 +0100
+Message-ID: <deb7ad54c2b95773e123d2185639c6e5ae89b9ba.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 14 Oct 2018 09:49:33 +0100
+In-Reply-To: <20181012115502.14205-1-ross.burton@intel.com>
+References: <20181012115502.14205-1-ross.burton@intel.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/3] python: don't wipe RDEPENDS when parsing manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,26 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Oct 2018 21:17:07 -0000
+X-List-Received-Date: Sun, 14 Oct 2018 08:49:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/glib-2.0/glib.inc | 1 -
- 1 file changed, 1 deletion(-)
+On Fri, 2018-10-12 at 12:55 +0100, Ross Burton wrote:
+> We want to allow the main recipe to extend RDEPENDS directly, so
+> don't wipe
+> RDEPENDS when reading the manifest.
+> 
+> This fixes the missing python-misc dependency from python-modules.
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-devtools/python/python3_3.5.6.bb | 1 -
+>  meta/recipes-devtools/python/python_2.7.15.bb | 1 -
+>  2 files changed, 2 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb
+> b/meta/recipes-devtools/python/python3_3.5.6.bb
+> index e1796581342..489baa294fd 100644
+> --- a/meta/recipes-devtools/python/python3_3.5.6.bb
+> +++ b/meta/recipes-devtools/python/python3_3.5.6.bb
+> @@ -285,7 +285,6 @@ python(){
+>              for value in python_manifest[key]['cached']:
+>                      d.appendVar('FILES_' + pypackage, ' ' + value)
+>  
+> -        d.setVar('RDEPENDS_' + pypackage, '')
+>          for value in python_manifest[key]['rdepends']:
+>              # Make it work with or without $PN
+>              if '${PN}' in value:
+> diff --git a/meta/recipes-devtools/python/python_2.7.15.bb
+> b/meta/recipes-devtools/python/python_2.7.15.bb
+> index 472c1da4bf7..f30d3f4d25c 100644
+> --- a/meta/recipes-devtools/python/python_2.7.15.bb
+> +++ b/meta/recipes-devtools/python/python_2.7.15.bb
+> @@ -240,7 +240,6 @@ python(){
+>                  if value.endswith('.py'):
+>                      d.appendVar('FILES_' + pypackage, ' ' + value +
+> 'c')
+>  
+> -        d.setVar('RDEPENDS_' + pypackage, '')
+>          for value in python_manifest[key]['rdepends']:
+>              # Make it work with or without $PN
+>              if '${PN}' in value:
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 92dcf997c0..e8215da583 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -163,7 +163,6 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-             locale-base-hr-hr \
-             locale-base-el-gr \
-             locale-base-fr-fr \
--            locale-base-fr-fr \
-             locale-base-es-es \
-             locale-base-en-gb \
-            "
--- 
-2.17.1
+FWIW its actually this patch which is causing the build failures...
+
+I did remember that rpm may detect python scripts and add a python
+dependency which may be confusing things...
+
+Cheers,
+
+Richard
 
 
