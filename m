@@ -1,25 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AD502745EF
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DDEB74596
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Oct 2018 08:49:38 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w9E8nXtb028389
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sun, 14 Oct 2018 09:49:35 +0100
-Message-ID: <deb7ad54c2b95773e123d2185639c6e5ae89b9ba.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sun, 14 Oct 2018 09:49:33 +0100
-In-Reply-To: <20181012115502.14205-1-ross.burton@intel.com>
-References: <20181012115502.14205-1-ross.burton@intel.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/3] python: don't wipe RDEPENDS when parsing manifest
+	Sun, 14 Oct 2018 09:46:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9E9k0e6016059
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 14 Oct 2018 02:46:00 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Sun, 14 Oct 2018 02:45:59 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Sun, 14 Oct 2018 02:45:59 -0700
+Message-ID: <20181014094559.27640-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.10.2
+MIME-Version: 1.0
+Subject: [PATCH V2] nasm: fix CVE-2018-10016
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,58 +30,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Oct 2018 08:49:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 14 Oct 2018 09:46:02 -0000
+Content-Type: text/plain
 
-On Fri, 2018-10-12 at 12:55 +0100, Ross Burton wrote:
-> We want to allow the main recipe to extend RDEPENDS directly, so
-> don't wipe
-> RDEPENDS when reading the manifest.
-> 
-> This fixes the missing python-misc dependency from python-modules.
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-devtools/python/python3_3.5.6.bb | 1 -
->  meta/recipes-devtools/python/python_2.7.15.bb | 1 -
->  2 files changed, 2 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb
-> b/meta/recipes-devtools/python/python3_3.5.6.bb
-> index e1796581342..489baa294fd 100644
-> --- a/meta/recipes-devtools/python/python3_3.5.6.bb
-> +++ b/meta/recipes-devtools/python/python3_3.5.6.bb
-> @@ -285,7 +285,6 @@ python(){
->              for value in python_manifest[key]['cached']:
->                      d.appendVar('FILES_' + pypackage, ' ' + value)
->  
-> -        d.setVar('RDEPENDS_' + pypackage, '')
->          for value in python_manifest[key]['rdepends']:
->              # Make it work with or without $PN
->              if '${PN}' in value:
-> diff --git a/meta/recipes-devtools/python/python_2.7.15.bb
-> b/meta/recipes-devtools/python/python_2.7.15.bb
-> index 472c1da4bf7..f30d3f4d25c 100644
-> --- a/meta/recipes-devtools/python/python_2.7.15.bb
-> +++ b/meta/recipes-devtools/python/python_2.7.15.bb
-> @@ -240,7 +240,6 @@ python(){
->                  if value.endswith('.py'):
->                      d.appendVar('FILES_' + pypackage, ' ' + value +
-> 'c')
->  
-> -        d.setVar('RDEPENDS_' + pypackage, '')
->          for value in python_manifest[key]['rdepends']:
->              # Make it work with or without $PN
->              if '${PN}' in value:
+Previously fix of CVE-2018-10016 caused ovmf build failure,
+I reported the failure to upstream and it replied with
+this V2 fix.
 
-FWIW its actually this patch which is causing the build failures...
+Details at:
+https://bugzilla.nasm.us/show_bug.cgi?id=3392473
 
-I did remember that rpm may detect python scripts and add a python
-dependency which may be confusing things...
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../0001-eval-Eliminate-division-by-zero.patch     | 40 ++++++++++++++++++++++
+ meta/recipes-devtools/nasm/nasm_2.13.03.bb         |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/nasm/nasm/0001-eval-Eliminate-division-by-zero.patch
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/nasm/nasm/0001-eval-Eliminate-division-by-zero.patch b/meta/recipes-devtools/nasm/nasm/0001-eval-Eliminate-division-by-zero.patch
+new file mode 100644
+index 0000000..6c33249
+--- /dev/null
++++ b/meta/recipes-devtools/nasm/nasm/0001-eval-Eliminate-division-by-zero.patch
+@@ -0,0 +1,40 @@
++From ceec0d818798aeaa75ed4907e6135b0247ed46b2 Mon Sep 17 00:00:00 2001
++From: Cyrill Gorcunov <gorcunov@gmail.com>
++Date: Sun, 14 Oct 2018 01:26:19 +0300
++Subject: [PATCH] eval: Eliminate division by zero
++
++When doing division we should detect if the value we're
++divided by is not zero. Instead of is_unknown() helper
++we should use is_just_unknown().
++
++https://bugzilla.nasm.us/show_bug.cgi?id=3392515
++https://bugzilla.nasm.us/show_bug.cgi?id=3392473
++
++Reported-by: Jun <jxx13@psu.edu>
++Reported-by: stuartly <situlingyun@gmail.com>
++Signed-off-by: Cyrill Gorcunov <gorcunov@gmail.com>
++
++Upstream-Status: Backport [https://github.com/netwide-assembler/nasm/commit/ceec0d818798aeaa75ed4907e6135b0247ed46b2.patch]
++CVE: CVE-2018-10016
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
++---
++ asm/eval.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/asm/eval.c b/asm/eval.c
++index 1a6680f..7e727a4 100644
++--- a/asm/eval.c
+++++ b/asm/eval.c
++@@ -580,7 +580,7 @@ static expr *expr5(int critical)
++                   " scalar values");
++             return NULL;
++         }
++-        if (j != '*' && !is_unknown(f) && reloc_value(f) == 0) {
+++        if (j != '*' && !is_just_unknown(f) && reloc_value(f) == 0) {
++             nasm_error(ERR_NONFATAL, "division by zero");
++             return NULL;
++         }
++-- 
++2.10.2
++
+diff --git a/meta/recipes-devtools/nasm/nasm_2.13.03.bb b/meta/recipes-devtools/nasm/nasm_2.13.03.bb
+index 6a02df4..730db1d 100644
+--- a/meta/recipes-devtools/nasm/nasm_2.13.03.bb
++++ b/meta/recipes-devtools/nasm/nasm_2.13.03.bb
+@@ -8,6 +8,7 @@ SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
+            file://0001-assemble-Check-global-line-limit.patch \
+            file://0001-fix-CVE-2018-8882.patch \
+            file://0001-Verify-that-we-are-not-reading-past-end-of-a-buffer.patch \
++           file://0001-eval-Eliminate-division-by-zero.patch \
+            "
+ 
+ SRC_URI[md5sum] = "0c581d482f39d5111879ca9601938f74"
+-- 
+2.10.2
 
 
