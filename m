@@ -1,27 +1,23 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B95E479A6A
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 81DA279A9B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 07:32:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9F7VLQX018545
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 00:32:30 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 15 Oct 2018 00:32:21 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1539579939.git.kai.kang@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <40a1e55a-4ba6-5d03-264f-86df8bee85a2@windriver.com>
-Date: Mon, 15 Oct 2018 15:29:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <cover.1539579939.git.kai.kang@windriver.com>
-Subject: Re: [PATCH v2 0/1] image.bbclass: set consistent staging dirs
+	Mon, 15 Oct 2018 07:40:07 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Oct 2018 00:40:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,383,1534834800"; d="scan'208";a="100295765"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga002.jf.intel.com with ESMTP; 15 Oct 2018 00:40:07 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Oct 2018 15:24:50 +0800
+Message-Id: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/5] oeqa/core/runner: refactor for OEQA to write json testresult
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +30,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2018 07:32:39 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 15 Oct 2018 07:40:07 -0000
 
-On 2018年10月15日 14:31, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
->
-> V2:
-> * set consistent staging dirs for all images
+Refactor the original _getDetailsNotPassed method to return
+testresult details (test status and log), which will be reused
+by future OEQA code to write json testresult.
 
-Missing Richard's comment, please ignore this patch.
+Take the opportunity to consolidate and simplify the logic used
+to gather test status and log within the TestResult instance.
 
---Kai
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+---
+ meta/lib/oeqa/core/runner.py | 70 ++++++++++++++++++--------------------------
+ 1 file changed, 29 insertions(+), 41 deletions(-)
 
->
->
-> The following changes since commit b02f3bfe2fee291a9db85094e5f31b1933acf871:
->
->    local.conf.sample.extended: add another warning to comment about GLIBC_GENERATE_LOCALES (2018-10-14 23:45:40 +0100)
->
-> are available in the Git repository at:
->
->    git://git.pokylinux.org/poky-contrib kangkai/image
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/image
->
-> Kai Kang (1):
->    image.bbclass: set consistent staging dirs
->
->   meta/classes/image.bbclass | 5 +++++
->   1 file changed, 5 insertions(+)
->
-
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index eeb625b..56666ee 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -76,40 +76,43 @@ class OETestResult(_TestResult):
+         else:
+             msg = "%s - FAIL - Required tests failed" % component
+         skipped = len(self.skipped)
+-        if skipped: 
++        if skipped:
+             msg += " (skipped=%d)" % skipped
+         self.tc.logger.info(msg)
+ 
+-    def _getDetailsNotPassed(self, case, type, desc):
+-        found = False
++    def _getTestResultDetails(self, case):
++        result_types = ['failures', 'errors', 'skipped', 'expectedFailures', 'successes']
++        result_desc = ['FAILED', 'ERROR', 'SKIPPED', 'EXPECTEDFAIL', 'PASSED']
+ 
+-        for (scase, msg) in getattr(self, type):
+-            if case.id() == scase.id():
+-                found = True
+-                break
+-            scase_str = str(scase.id())
+-
+-            # When fails at module or class level the class name is passed as string
+-            # so figure out to see if match
+-            m = re.search("^setUpModule \((?P<module_name>.*)\)$", scase_str)
+-            if m:
+-                if case.__class__.__module__ == m.group('module_name'):
++        for idx, name in enumerate(result_types):
++            found = False
++            for (scase, msg) in getattr(self, result_types[idx]):
++                if case.id() == scase.id():
+                     found = True
+                     break
++                scase_str = str(scase.id())
+ 
+-            m = re.search("^setUpClass \((?P<class_name>.*)\)$", scase_str)
+-            if m:
+-                class_name = "%s.%s" % (case.__class__.__module__,
+-                        case.__class__.__name__)
++                # When fails at module or class level the class name is passed as string
++                # so figure out to see if match
++                m = re.search("^setUpModule \((?P<module_name>.*)\)$", scase_str)
++                if m:
++                    if case.__class__.__module__ == m.group('module_name'):
++                        found = True
++                        break
+ 
+-                if class_name == m.group('class_name'):
+-                    found = True
+-                    break
++                m = re.search("^setUpClass \((?P<class_name>.*)\)$", scase_str)
++                if m:
++                    class_name = "%s.%s" % (case.__class__.__module__,
++                            case.__class__.__name__)
++
++                    if class_name == m.group('class_name'):
++                        found = True
++                        break
+ 
+-        if found:
+-            return (found, msg)
++            if found:
++                return result_desc[idx], msg
+ 
+-        return (found, None)
++        return 'UNKNOWN', None
+ 
+     def addSuccess(self, test):
+         #Added so we can keep track of successes too
+@@ -121,17 +124,7 @@ class OETestResult(_TestResult):
+         for case_name in self.tc._registry['cases']:
+             case = self.tc._registry['cases'][case_name]
+ 
+-            result_types = ['failures', 'errors', 'skipped', 'expectedFailures', 'successes']
+-            result_desc = ['FAILED', 'ERROR', 'SKIPPED', 'EXPECTEDFAIL', 'PASSED']
+-
+-            fail = False
+-            desc = None
+-            for idx, name in enumerate(result_types):
+-                (fail, msg) = self._getDetailsNotPassed(case, result_types[idx],
+-                        result_desc[idx])
+-                if fail:
+-                    desc = result_desc[idx]
+-                    break
++            (status, log) = self._getTestResultDetails(case)
+ 
+             oeid = -1
+             if hasattr(case, 'decorators'):
+@@ -143,12 +136,7 @@ class OETestResult(_TestResult):
+             if case.id() in self.starttime and case.id() in self.endtime:
+                 t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
+ 
+-            if fail:
+-                self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(),
+-                    oeid, desc, t))
+-            else:
+-                self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(),
+-                    oeid, 'UNKNOWN', t))
++            self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(), oeid, status, t))
+ 
+ class OEListTestsResult(object):
+     def wasSuccessful(self):
 -- 
-Regards,
-Neil | Kai Kang
+2.7.4
 
 
