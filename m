@@ -1,23 +1,55 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3701679AAD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B62F79AB9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 08:59:46 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9F8xlkc004534
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 15 Oct 2018 09:00:01 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id 61-v6so20319069wrb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 01:59:47 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 15 Oct 2018 01:59:46 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Oct 2018 16:59:44 +0800
-Message-ID: <1539593984-444082-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] qemu: fix CVE-2018-17958/17962/17963
+	Mon, 15 Oct 2018 02:00:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=dh8i1PXePpwOvnwvA2UCDpvZ2M5DOoW3Ct22HnmRIpU=;
+	b=eg7pm+GTTZJ6G129c7AWBoiW6HDZNS2scBo6WeCmIH6/AnkOAN1F9NQVo/jRJax2lW
+	sH9ru/xwFDs82gUp5uj9eAY+a6Yp8UhIF5R7qPtYxghdRvkENQTGEOgGLEsxPp2tS/J0
+	uu1N3SOmlO/F0P4oXruXmqqu5YnC3d3J6YO3U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=dh8i1PXePpwOvnwvA2UCDpvZ2M5DOoW3Ct22HnmRIpU=;
+	b=sLoGMYZr/TvG6Aae6ostk4xQrmWmM3EyvQ1OjXyV44ypnqanxbrJLv38kFTvHHL+t0
+	aZe1PYloBSc1DbzLNSTCxrorXkIE1w1eVqXLwayZ3gQg2bTsmyq9jgNwU4SBAq+bvH+c
+	ivKrMQNmtM+6TKj9s3U33/9JQVimBknArqftwhbNm5UqtiYmIt5qxmWXRASg23kM4QP7
+	uE1bJP0Vi92bizbBWAnD1/EoCtJM5XBpZ/GjOCtv5GRXWjsjJplMaFIfPnxBc+ErycLh
+	OKUh1zHbU4BIC2+OIDCo/JxrUFyI7AJ8FzwWlZ4DUCPB1SXjObXMmtBzmkEXIyvWcwYO
+	SAzA==
+X-Gm-Message-State: ABuFfohFmE4Mr7A//GbHg4nUvmkBjwLRk/Yh+fShxc3ACT0MiLAUWC+e
+	BME8oeDraGD+oVmNm2/R9HkzpA==
+X-Google-Smtp-Source: ACcGV612yhDackw3Ex4DXLeg7Bmk2lJLgwhstusCfzBgcmKVE5g6JTWN76wsPr93LFh2W6TJa1k2Gg==
+X-Received: by 2002:adf:f681:: with SMTP id
+	v1-v6mr14547776wrp.201.1539594001957; 
+	Mon, 15 Oct 2018 02:00:01 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	s7-v6sm16910140wmd.0.2018.10.15.02.00.00
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 15 Oct 2018 02:00:01 -0700 (PDT)
+Message-ID: <b3886f4b8368d523f999a2706e18cd36b257d084.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Oct 2018 09:59:59 +0100
+In-Reply-To: <9DDD2658D1FE414E99172D2DB1E4D04335ECB1EB@KMSMSX155.gar.corp.intel.com>
+References: <1539325990-89780-1-git-send-email-ee.peng.yeoh@intel.com>
+	<42cf8bddb48f276864dab5f7f71f2a3ae7eb670f.camel@linuxfoundation.org>
+	<9DDD2658D1FE414E99172D2DB1E4D04335ECB1EB@KMSMSX155.gar.corp.intel.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/4] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,228 +62,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2018 08:59:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Oct 2018 09:00:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+Hi Ee Peng,
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../qemu/qemu/CVE-2018-17958.patch                 | 52 ++++++++++++++++
- .../qemu/qemu/CVE-2018-17962.patch                 | 70 ++++++++++++++++++++++
- .../qemu/qemu/CVE-2018-17963.patch                 | 51 ++++++++++++++++
- meta/recipes-devtools/qemu/qemu_3.0.0.bb           |  3 +
- 4 files changed, 176 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-17958.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-17962.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-17963.patch
+On Mon, 2018-10-15 at 08:42 +0000, Yeoh, Ee Peng wrote:
+> Thank you very much for your inputs!
+> I had completed making most of the enhancements following your
+> inputs, except the 1 input to put test result logs alongside the test
+> result data in the json file. 
+> The concerns I have over putting test result logs into test result
+> json file:
+> 1. Test result logs will be arbitrary long depending on the type of
+> failure/error and tetecase. With test result logs adding to the test
+> result json file, it will potentially making it hard to read the json
+> file, where the test logs will potentially span over multiple lines. 
+> 2. By having test logs per each test case in separate file, it will
+> allow quick and easy regression of test logs per specific test
+> case.  By putting all the test logs into the one testresult json
+> file, I am worry that it will make regression on test logs per
+> specific test case harder. 
+> 
+> I hope the concerns above justify keeping test logs separate from
+> testresult json file. Please let me know your thoughts and inputs. 
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-17958.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-17958.patch
-new file mode 100644
-index 0000000..af40ff2
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-17958.patch
-@@ -0,0 +1,52 @@
-+From 06e88ca78d056ea4de885e3a1496805179dc47bc Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Mon, 15 Oct 2018 16:33:04 +0800
-+Subject: [PATCH] ne2000: fix possible out of bound access in ne2000_receive
-+
-+In ne2000_receive(), we try to assign size_ to size which converts
-+from size_t to integer. This will cause troubles when size_ is greater
-+INT_MAX, this will lead a negative value in size and it can then pass
-+the check of size < MIN_BUF_SIZE which may lead out of bound access of
-+for both buf and buf1.
-+
-+Fixing by converting the type of size to size_t.
-+
-+CC: address@hidden
-+Reported-by: Daniel Shapira <address@hidden>
-+Reviewed-by: Michael S. Tsirkin <address@hidden>
-+Signed-off-by: Jason Wang <address@hidden>
-+
-+Upstream-Status: Backport [https://lists.gnu.org/archive/html/qemu-devel/2018-09/msg03273.html]
-+
-+CVE: CVE-2018-17958
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ hw/net/ne2000.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/hw/net/ne2000.c b/hw/net/ne2000.c
-+index 07d79e3..869518e 100644
-+--- a/hw/net/ne2000.c
-++++ b/hw/net/ne2000.c
-+@@ -174,7 +174,7 @@ static int ne2000_buffer_full(NE2000State *s)
-+ ssize_t ne2000_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
-+ {
-+     NE2000State *s = qemu_get_nic_opaque(nc);
-+-    int size = size_;
-++    size_t size = size_;
-+     uint8_t *p;
-+     unsigned int total_len, next, avail, len, index, mcast_idx;
-+     uint8_t buf1[60];
-+@@ -182,7 +182,7 @@ ssize_t ne2000_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
-+         { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
-+ 
-+ #if defined(DEBUG_NE2000)
-+-    printf("NE2000: received len=%d\n", size);
-++    printf("NE2000: received len=%zu\n", size);
-+ #endif
-+ 
-+     if (s->cmd & E8390_STOP || ne2000_buffer_full(s))
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-17962.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-17962.patch
-new file mode 100644
-index 0000000..88bfd81
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-17962.patch
-@@ -0,0 +1,70 @@
-+From 20abe443ad9464b18ac494f71f7d53f19ee3748f Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Mon, 15 Oct 2018 16:38:08 +0800
-+Subject: [PATCH] rtl8139: fix possible out of bound access
-+
-+In rtl8139_do_receive(), we try to assign size_ to size which converts
-+from size_t to integer. This will cause troubles when size_ is greater
-+INT_MAX, this will lead a negative value in size and it can then pass
-+the check of size < MIN_BUF_SIZE which may lead out of bound access of
-+for both buf and buf1.
-+
-+Fixing by converting the type of size to size_t.
-+
-+CC: address@hidden
-+Reported-by: Daniel Shapira <address@hidden>
-+Reviewed-by: Michael S. Tsirkin <address@hidden>
-+Signed-off-by: Jason Wang <address@hidden>
-+
-+Upstream-Status: Backport [https://lists.gnu.org/archive/html/qemu-devel/2018-09/msg03269.html]
-+
-+CVE: CVE-2018-17962
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ hw/net/rtl8139.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-+index 46daa16..2342a09 100644
-+--- a/hw/net/rtl8139.c
-++++ b/hw/net/rtl8139.c
-+@@ -817,7 +817,7 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
-+     RTL8139State *s = qemu_get_nic_opaque(nc);
-+     PCIDevice *d = PCI_DEVICE(s);
-+     /* size is the length of the buffer passed to the driver */
-+-    int size = size_;
-++    size_t size = size_;
-+     const uint8_t *dot1q_buf = NULL;
-+ 
-+     uint32_t packet_header = 0;
-+@@ -826,7 +826,7 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
-+     static const uint8_t broadcast_macaddr[6] =
-+         { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
-+ 
-+-    DPRINTF(">>> received len=%d\n", size);
-++    DPRINTF(">>> received len=%zu\n", size);
-+ 
-+     /* test if board clock is stopped */
-+     if (!s->clock_enabled)
-+@@ -1035,7 +1035,7 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
-+ 
-+         if (size+4 > rx_space)
-+         {
-+-            DPRINTF("C+ Rx mode : descriptor %d size %d received %d + 4\n",
-++            DPRINTF("C+ Rx mode : descriptor %d size %d received %zu + 4\n",
-+                 descriptor, rx_space, size);
-+ 
-+             s->IntrStatus |= RxOverflow;
-+@@ -1148,7 +1148,7 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
-+         if (avail != 0 && RX_ALIGN(size + 8) >= avail)
-+         {
-+             DPRINTF("rx overflow: rx buffer length %d head 0x%04x "
-+-                "read 0x%04x === available 0x%04x need 0x%04x\n",
-++                "read 0x%04x === available 0x%04x need 0x%04zx\n",
-+                 s->RxBufferSize, s->RxBufAddr, s->RxBufPtr, avail, size + 8);
-+ 
-+             s->IntrStatus |= RxOverflow;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-17963.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-17963.patch
-new file mode 100644
-index 0000000..054cdc8
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-17963.patch
-@@ -0,0 +1,51 @@
-+From e5ff72a8005dd1d9c0f63f8a9cc4298df5bb7551 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Mon, 15 Oct 2018 16:39:46 +0800
-+Subject: [PATCH] pcnet: fix possible buffer overflow
-+
-+In pcnet_receive(), we try to assign size_ to size which converts from
-+size_t to integer. This will cause troubles when size_ is greater
-+INT_MAX, this will lead a negative value in size and it can then pass
-+the check of size < MIN_BUF_SIZE which may lead out of bound access
-+for both buf and buf1.
-+
-+Fixing by converting the type of size to size_t.
-+
-+CC: address@hidden
-+Reported-by: Daniel Shapira <address@hidden>
-+Reviewed-by: Michael S. Tsirkin <address@hidden>
-+Signed-off-by: Jason Wang <address@hidden>
-+
-+Upstream-Status: Backport [https://lists.gnu.org/archive/html/qemu-devel/2018-09/msg03268.html]
-+
-+CVE: CVE-2018-17963
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ hw/net/pcnet.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/hw/net/pcnet.c b/hw/net/pcnet.c
-+index 0c44554..d9ba04b 100644
-+--- a/hw/net/pcnet.c
-++++ b/hw/net/pcnet.c
-+@@ -988,14 +988,14 @@ ssize_t pcnet_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
-+     uint8_t buf1[60];
-+     int remaining;
-+     int crc_err = 0;
-+-    int size = size_;
-++    size_t size = size_;
-+ 
-+     if (CSR_DRX(s) || CSR_STOP(s) || CSR_SPND(s) || !size ||
-+         (CSR_LOOP(s) && !s->looptest)) {
-+         return -1;
-+     }
-+ #ifdef PCNET_DEBUG
-+-    printf("pcnet_receive size=%d\n", size);
-++    printf("pcnet_receive size=%zu\n", size);
-+ #endif
-+ 
-+     /* if too small buffer, then expand it */
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_3.0.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-index 4569cae..776548b 100644
---- a/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-@@ -22,6 +22,9 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
-            file://0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch \
-            file://CVE-2018-15746.patch \
-+           file://CVE-2018-17958.patch \
-+           file://CVE-2018-17962.patch \
-+           file://CVE-2018-17963.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
--- 
-2.7.4
+The log data and the test results are connected and belong together.
+The intent here is to make files which capture the results information
+and direct user readability is a secondary issue, these files are not
+intended to be directly read by humans.
+
+If we need a clean readable output, I'm imagining we'd have a simple
+processing tool which could for example just filter out the test
+results.
+
+Having a single results file also makes it easier for the automated
+systems to collect up the results files from different autobuilders and
+also makes it easier to potentially merge results together.
+
+One piece I suspect may also be missing is that we may need to record
+some extra information into these files too, such as the MACHINE,
+DISTRO, hostname of the builder that ran them and the revision of the
+codebase (layers) used to run the test. There is probably other
+information we need to record in order to make these results useful in
+the wider context of the project but I do believe it can and should be
+recorded in a single file.
+
+Does that help explain why I'm asking for this?
+
+Cheers,
+
+Richard
+
+
 
 
