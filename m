@@ -1,26 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 18CEC79A8E
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3701679AAD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 08:53:54 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w9F8rpEI032108
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 15 Oct 2018 09:53:52 +0100
-Message-ID: <ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 15 Oct 2018 09:53:51 +0100
-In-Reply-To: <1539588294-5532-2-git-send-email-ee.peng.yeoh@intel.com>
-References: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1539588294-5532-2-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 2/5] oeqa/core/runner: write testresult to json files
+	Mon, 15 Oct 2018 08:59:46 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9F8xlkc004534
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Oct 2018 01:59:47 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 15 Oct 2018 01:59:46 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Oct 2018 16:59:44 +0800
+Message-ID: <1539593984-444082-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] qemu: fix CVE-2018-17958/17962/17963
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,163 +30,228 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2018 08:53:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Oct 2018 08:59:47 -0000
+Content-Type: text/plain
 
-On Mon, 2018-10-15 at 15:24 +0800, Yeoh Ee Peng wrote:
-> As part of the solution to replace Testopia to store testresult,
-> OEQA need to output testresult into json file, where these json
-> testresult file will be stored in git repository by the future
-> test-case-management tools.
-> 
-> Both the testresult (eg. PASSED, FAILED, ERROR) and  the test log
-> (eg. message from unit test assertion) will be created for storing.
-> 
-> Also the library class inside this patch will be reused by the future
-> test-case-management tools to write json testresult for manual test
-> case executed.
-> 
-> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-> ---
->  meta/lib/oeqa/core/runner.py | 64 +++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 63 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-> index 56666ee..56e8526 100644
-> --- a/meta/lib/oeqa/core/runner.py
-> +++ b/meta/lib/oeqa/core/runner.py
-> @@ -6,6 +6,8 @@ import time
->  import unittest
->  import logging
->  import re
-> +import json
-> +import pathlib
->  
->  from unittest import TextTestResult as _TestResult
->  from unittest import TextTestRunner as _TestRunner
-> @@ -119,8 +121,9 @@ class OETestResult(_TestResult):
->          self.successes.append((test, None))
->          super(OETestResult, self).addSuccess(test)
->  
-> -    def logDetails(self):
-> +    def logDetails(self, json_file_dir=''):
+From: Changqing Li <changqing.li@windriver.com>
 
-json_file_dir=None
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../qemu/qemu/CVE-2018-17958.patch                 | 52 ++++++++++++++++
+ .../qemu/qemu/CVE-2018-17962.patch                 | 70 ++++++++++++++++++++++
+ .../qemu/qemu/CVE-2018-17963.patch                 | 51 ++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_3.0.0.bb           |  3 +
+ 4 files changed, 176 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-17958.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-17962.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-17963.patch
 
->          self.tc.logger.info("RESULTS:")
-> +        results = {}
->          for case_name in self.tc._registry['cases']:
->              case = self.tc._registry['cases'][case_name]
->  
-> @@ -137,6 +140,12 @@ class OETestResult(_TestResult):
->                  t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
->  
->              self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(), oeid, status, t))
-> +            results[case.id()] = (status, log)
-> +
-> +        if len(json_file_dir) > 0:
-
-if json_file_dir:
-
-> +            tresultjsonhelper = OETestResultJSONHelper()
-> +            tresultjsonhelper.dump_testresult_file(results, json_file_dir)
-> +            tresultjsonhelper.dump_log_files(results, os.path.join(json_file_dir, 'logs'))
->  
->  class OEListTestsResult(object):
->      def wasSuccessful(self):
-> @@ -249,3 +258,56 @@ class OETestRunner(_TestRunner):
->              self._list_tests_module(suite)
->  
->          return OEListTestsResult()
-> +
-> +class OETestResultJSONHelper(object):
-> +
-> +    def get_testsuite_from_testcase(self, testcase):
-> +        testsuite = testcase[0:testcase.rfind(".")]
-> +        return testsuite
-> +
-> +    def get_testsuite_testcase_dictionary(self, testresults):
-> +        testsuite_testcase_dict = {}
-> +        for testcase in testresults.keys():
-> +            testsuite = self.get_testsuite_from_testcase(testcase)
-> +            if testsuite in testsuite_testcase_dict:
-> +                testsuite_testcase_dict[testsuite].append(testcase)
-> +            else:
-> +                testsuite_testcase_dict[testsuite] = [testcase]
-> +        return testsuite_testcase_dict
-> +
-> +    def _create_testcase_testresult_object(self, testcase_list, testresults):
-> +        testcase_dict = {}
-> +        for testcase in sorted(testcase_list):
-> +            testcase_dict[testcase] = {"testresult": testresults[testcase][0]}
-> +        return testcase_dict
-> +
-> +    def _create_json_testsuite_string(self, testresults):
-> +        testsuite_testcase = self.get_testsuite_testcase_dictionary(testresults)
-> +        testsuite_object = {'testsuite': {}}
-> +        testsuite_dict = testsuite_object['testsuite']
-> +        for testsuite in sorted(testsuite_testcase.keys()):
-> +            testsuite_dict[testsuite] = {'testcase': {}}
-> +            testsuite_dict[testsuite]['testcase'] = self._create_testcase_testresult_object(
-> +                                                        testsuite_testcase[testsuite],
-> +                                                        testresults)
-> +        return json.dumps(testsuite_object, sort_keys=True, indent=4)
-
-This patch itself is better but I want to make sure we're using the
-right data format for this results file. Can you describe the format
-you're planning to use for the results?
-
-I think what we may need to do is:
-
-a) Combine the results and log data into a single file
-
-b) Stop trying to split things into testsuites here and do that during
-the results processing. Here, we should just be writing the test case
-names as they are in the system.
-
-c) Don't rely on the filename to pass information. For example,
-logDetails() needs to take a parameter which says whether these are
-"runtime", "selftest", "manual" or whatever and that information also
-needs to be stored in the json file.
-
-I think if you describe the results format and/or provide a sample
-results entry in json format, this will become clearer.
-
-
-
-> +    def _write_file(self, write_dir, file_name, file_content):
-> +        file_path = os.path.join(write_dir, file_name)
-> +        with open(file_path, 'w') as the_file:
-> +            the_file.write(file_content)
-> +
-> +    def dump_testresult_file(self, testresults, write_dir):
-> +        if not os.path.exists(write_dir):
-> +            pathlib.Path(write_dir).mkdir(parents=True, exist_ok=True)
-
-The above can be moved into _write_file() rather than being duplicated.
-Also, can't we use bb.utils.mkdirhier() like the rest of the code? That
-can be called unconditionally as it tests internally if it needs to
-create the directory.
-
-> +        json_testsuite = self._create_json_testsuite_string(testresults)
-> +        self._write_file(write_dir, 'testresults.json', json_testsuite)
-> +
-> +    def dump_log_files(self, testresults, write_dir):
-> +        if not os.path.exists(write_dir):
-> +            pathlib.Path(write_dir).mkdir(parents=True, exist_ok=True)
-> +        for testcase in testresults.keys():
-> +            test_log = testresults[testcase][1]
-> +            if test_log is not None:
-
-Just "if test_log:" should be fine.
-
-> +                file_name = '%s.log' % testcase
-> +                self._write_file(write_dir, file_name, test_log)
-
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-17958.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-17958.patch
+new file mode 100644
+index 0000000..af40ff2
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-17958.patch
+@@ -0,0 +1,52 @@
++From 06e88ca78d056ea4de885e3a1496805179dc47bc Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Mon, 15 Oct 2018 16:33:04 +0800
++Subject: [PATCH] ne2000: fix possible out of bound access in ne2000_receive
++
++In ne2000_receive(), we try to assign size_ to size which converts
++from size_t to integer. This will cause troubles when size_ is greater
++INT_MAX, this will lead a negative value in size and it can then pass
++the check of size < MIN_BUF_SIZE which may lead out of bound access of
++for both buf and buf1.
++
++Fixing by converting the type of size to size_t.
++
++CC: address@hidden
++Reported-by: Daniel Shapira <address@hidden>
++Reviewed-by: Michael S. Tsirkin <address@hidden>
++Signed-off-by: Jason Wang <address@hidden>
++
++Upstream-Status: Backport [https://lists.gnu.org/archive/html/qemu-devel/2018-09/msg03273.html]
++
++CVE: CVE-2018-17958
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ hw/net/ne2000.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/hw/net/ne2000.c b/hw/net/ne2000.c
++index 07d79e3..869518e 100644
++--- a/hw/net/ne2000.c
+++++ b/hw/net/ne2000.c
++@@ -174,7 +174,7 @@ static int ne2000_buffer_full(NE2000State *s)
++ ssize_t ne2000_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
++ {
++     NE2000State *s = qemu_get_nic_opaque(nc);
++-    int size = size_;
+++    size_t size = size_;
++     uint8_t *p;
++     unsigned int total_len, next, avail, len, index, mcast_idx;
++     uint8_t buf1[60];
++@@ -182,7 +182,7 @@ ssize_t ne2000_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
++         { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
++ 
++ #if defined(DEBUG_NE2000)
++-    printf("NE2000: received len=%d\n", size);
+++    printf("NE2000: received len=%zu\n", size);
++ #endif
++ 
++     if (s->cmd & E8390_STOP || ne2000_buffer_full(s))
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-17962.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-17962.patch
+new file mode 100644
+index 0000000..88bfd81
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-17962.patch
+@@ -0,0 +1,70 @@
++From 20abe443ad9464b18ac494f71f7d53f19ee3748f Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Mon, 15 Oct 2018 16:38:08 +0800
++Subject: [PATCH] rtl8139: fix possible out of bound access
++
++In rtl8139_do_receive(), we try to assign size_ to size which converts
++from size_t to integer. This will cause troubles when size_ is greater
++INT_MAX, this will lead a negative value in size and it can then pass
++the check of size < MIN_BUF_SIZE which may lead out of bound access of
++for both buf and buf1.
++
++Fixing by converting the type of size to size_t.
++
++CC: address@hidden
++Reported-by: Daniel Shapira <address@hidden>
++Reviewed-by: Michael S. Tsirkin <address@hidden>
++Signed-off-by: Jason Wang <address@hidden>
++
++Upstream-Status: Backport [https://lists.gnu.org/archive/html/qemu-devel/2018-09/msg03269.html]
++
++CVE: CVE-2018-17962
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ hw/net/rtl8139.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
++index 46daa16..2342a09 100644
++--- a/hw/net/rtl8139.c
+++++ b/hw/net/rtl8139.c
++@@ -817,7 +817,7 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
++     RTL8139State *s = qemu_get_nic_opaque(nc);
++     PCIDevice *d = PCI_DEVICE(s);
++     /* size is the length of the buffer passed to the driver */
++-    int size = size_;
+++    size_t size = size_;
++     const uint8_t *dot1q_buf = NULL;
++ 
++     uint32_t packet_header = 0;
++@@ -826,7 +826,7 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
++     static const uint8_t broadcast_macaddr[6] =
++         { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
++ 
++-    DPRINTF(">>> received len=%d\n", size);
+++    DPRINTF(">>> received len=%zu\n", size);
++ 
++     /* test if board clock is stopped */
++     if (!s->clock_enabled)
++@@ -1035,7 +1035,7 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
++ 
++         if (size+4 > rx_space)
++         {
++-            DPRINTF("C+ Rx mode : descriptor %d size %d received %d + 4\n",
+++            DPRINTF("C+ Rx mode : descriptor %d size %d received %zu + 4\n",
++                 descriptor, rx_space, size);
++ 
++             s->IntrStatus |= RxOverflow;
++@@ -1148,7 +1148,7 @@ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, size_t
++         if (avail != 0 && RX_ALIGN(size + 8) >= avail)
++         {
++             DPRINTF("rx overflow: rx buffer length %d head 0x%04x "
++-                "read 0x%04x === available 0x%04x need 0x%04x\n",
+++                "read 0x%04x === available 0x%04x need 0x%04zx\n",
++                 s->RxBufferSize, s->RxBufAddr, s->RxBufPtr, avail, size + 8);
++ 
++             s->IntrStatus |= RxOverflow;
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-17963.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-17963.patch
+new file mode 100644
+index 0000000..054cdc8
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-17963.patch
+@@ -0,0 +1,51 @@
++From e5ff72a8005dd1d9c0f63f8a9cc4298df5bb7551 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Mon, 15 Oct 2018 16:39:46 +0800
++Subject: [PATCH] pcnet: fix possible buffer overflow
++
++In pcnet_receive(), we try to assign size_ to size which converts from
++size_t to integer. This will cause troubles when size_ is greater
++INT_MAX, this will lead a negative value in size and it can then pass
++the check of size < MIN_BUF_SIZE which may lead out of bound access
++for both buf and buf1.
++
++Fixing by converting the type of size to size_t.
++
++CC: address@hidden
++Reported-by: Daniel Shapira <address@hidden>
++Reviewed-by: Michael S. Tsirkin <address@hidden>
++Signed-off-by: Jason Wang <address@hidden>
++
++Upstream-Status: Backport [https://lists.gnu.org/archive/html/qemu-devel/2018-09/msg03268.html]
++
++CVE: CVE-2018-17963
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ hw/net/pcnet.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/hw/net/pcnet.c b/hw/net/pcnet.c
++index 0c44554..d9ba04b 100644
++--- a/hw/net/pcnet.c
+++++ b/hw/net/pcnet.c
++@@ -988,14 +988,14 @@ ssize_t pcnet_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
++     uint8_t buf1[60];
++     int remaining;
++     int crc_err = 0;
++-    int size = size_;
+++    size_t size = size_;
++ 
++     if (CSR_DRX(s) || CSR_STOP(s) || CSR_SPND(s) || !size ||
++         (CSR_LOOP(s) && !s->looptest)) {
++         return -1;
++     }
++ #ifdef PCNET_DEBUG
++-    printf("pcnet_receive size=%d\n", size);
+++    printf("pcnet_receive size=%zu\n", size);
++ #endif
++ 
++     /* if too small buffer, then expand it */
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu_3.0.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+index 4569cae..776548b 100644
+--- a/meta/recipes-devtools/qemu/qemu_3.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+@@ -22,6 +22,9 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
+            file://0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch \
+            file://CVE-2018-15746.patch \
++           file://CVE-2018-17958.patch \
++           file://CVE-2018-17962.patch \
++           file://CVE-2018-17963.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+-- 
+2.7.4
 
 
