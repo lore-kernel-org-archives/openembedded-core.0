@@ -1,55 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5526E78E88
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EAB479A69
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 07:10:56 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 143-v6so17604871wmf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 00:10:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=CuDhD80Z9iVEv3tzXM1OrUFf1uud+csPOvfsYWWA+9A=;
-	b=AahpHUUGk1q299SJW79C/eP9f2Tx42Q3bq23VaR+2+KAPX0AHMISi5/UmXbGaswCDu
-	oaG8fR/BKfrM77VwGWeEO8QU9JeBKQQHcgAoPtjRknU1Knq7HtdrAa/CzN7ZXm8HOU5T
-	JkrY8vNooC6/g7IdFLO6IwlmYo5EkA/mTRaD0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=CuDhD80Z9iVEv3tzXM1OrUFf1uud+csPOvfsYWWA+9A=;
-	b=CUbyMJBHgk3L+zWOSs/GvHFeisy2RKUoTZJXz5ZkyA8rnHylI8PtarhM6H1x5qcbqi
-	Nez0U4pBitjtMfVVY4WtDV98MrgJzCGZ7wQznp8xHFL8UjIKmVyjNKdyu48V7x/YFqxU
-	PfF1Zu0uYoPeP3/1CCfEKgG7nXzhnZ1OYf4CbbfhZseX7PZ4fao4UxSFjDRq+HraY91v
-	pAbA0W0GANo2fsU+CGfRolgKOapESbJ27E/xwt7rre/oX8as6jzWZJFpY0abVd0Tp4sm
-	LotO0jQWsFgU9MsKHjivJ34SN0JyqOpesR7e/H8J8pneFIrNJriHIZ2H9pbApzvKLFof
-	4aSw==
-X-Gm-Message-State: ABuFfoj0EUb5bjufDDui0k2vBc4GXwirCSlGBvOE/6UKpBrCqsYEYsvM
-	9NFno6oRobBeKo1KYZOaODPcHw==
-X-Google-Smtp-Source: ACcGV60C5h+3tyiPeJuQgWHF0wkMbhpu3Q1txIbjEUrGbUqbpJC1tvAmIL8OV71QeV0IrqJRO3TwdA==
-X-Received: by 2002:a1c:2384:: with SMTP id
-	j126-v6mr11943906wmj.124.1539587456421; 
-	Mon, 15 Oct 2018 00:10:56 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y4-v6sm14983856wrd.25.2018.10.15.00.10.55
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 15 Oct 2018 00:10:55 -0700 (PDT)
-Message-ID: <aa73bd86641971a244b900e3736900d538732499.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Kang Kai <Kai.Kang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 15 Oct 2018 08:10:54 +0100
-In-Reply-To: <9da9fad9-38c1-a465-8154-ab1581b15e73@windriver.com>
-References: <cover.1539334497.git.kai.kang@windriver.com>
-	<0c4bf43c1f51e38b1845b1b86b4513e95828d729.1539334497.git.kai.kang@windriver.com>
-	<0c0def66080f069806c2197263eed086a36c008b.camel@linuxfoundation.org>
-	<9da9fad9-38c1-a465-8154-ab1581b15e73@windriver.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] image_types_wic: set consistent staging dirs
+	Mon, 15 Oct 2018 07:13:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9F7D3PF015325
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 15 Oct 2018 00:13:04 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 15 Oct 2018 00:13:03 -0700
+From: <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 15 Oct 2018 14:31:40 +0800
+Message-ID: <84f2e5966b74b916e144bf09f41bc8721bcd3c5a.1539579939.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <cover.1539579939.git.kai.kang@windriver.com>
+References: <cover.1539579939.git.kai.kang@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/1] image.bbclass: set consistent staging dirs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,80 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2018 07:10:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 15 Oct 2018 07:13:04 -0000
+Content-Type: text/plain
 
-On Mon, 2018-10-15 at 08:54 +0800, Kang Kai wrote:
-> On 2018年10月12日 18:43, Richard Purdie wrote:
-> > On Fri, 2018-10-12 at 16:57 +0800, kai.kang@windriver.com wrote:
-> > > From: Kai Kang <kai.kang@windriver.com>
-> > > 
-> > > When build wic image with multilib enabled by following config:
-> > > 
-> > >    MACHINE = "qemux86-64"
-> > >    require conf/multilib.conf
-> > >    MULTILIBS = "multilib:lib32"
-> > >    DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-> > > 
-> > >    IMAGE_FSTYPES = "wic"
-> > > 
-> > > it fails to build lib32 image such as lib32-core-image-minimal:
-> > > 
-> > > > DEBUG: Executing shell function do_image_wic
-> > > > INFO: Creating image(s)...
-> > > > 
-> > > > ERROR: Couldn't find correct bootimg_dir, exiting
-> > > 
-> > > Dependency syslinux is not expand to lib32-syslinux when multilib
-> > > is
-> > > enabled. It is populated to ${WORKDIR}/recipe-sysroot, but script
-> > > wic
-> > > searches syslinux in ${WORKDIR}/lib32-recipe-sysroot and causes
-> > > error.
-> > > 
-> > > Set consistent staging dirs for wic to fix the issue.
-> > > 
-> > > Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> > > ---
-> > >   meta/classes/image_types_wic.bbclass | 5 +++++
-> > >   1 file changed, 5 insertions(+)
-> > > 
-> > > diff --git a/meta/classes/image_types_wic.bbclass
-> > > b/meta/classes/image_types_wic.bbclass
-> > > index 5b40a9e919..402920805d 100644
-> > > --- a/meta/classes/image_types_wic.bbclass
-> > > +++ b/meta/classes/image_types_wic.bbclass
-> > > @@ -54,6 +54,11 @@ WKS_FILE_DEPENDS ??=
-> > > "${WKS_FILE_DEPENDS_DEFAULT}
-> > > ${WKS_FILE_DEPENDS_BOOTLOADERS
-> > >   
-> > >   DEPENDS += "${@ '${WKS_FILE_DEPENDS}' if d.getVar('USING_WIC')
-> > > else
-> > > '' }"
-> > >   
-> > > +# Dependency syslinux is not expanded when multilib is enabled,
-> > > consistent staging dirs are needed
-> > > +RECIPE_SYSROOT = "${WORKDIR}/recipe-sysroot"
-> > > +STAGING_DIR_HOST = "${WORKDIR}/recipe-sysroot"
-> > > +STAGING_DIR_TARGET = "${WORKDIR}/recipe-sysroot"
-> > > +
-> > 
-> > Doesn't that change this for *all* image types? Not sure that is a
-> > good
-> > idea...
-> 
-> OK. I'll build and test all image types.
+From: Kai Kang <kai.kang@windriver.com>
 
-That isn't my point, the autobuilder could test that.
+When enable multilib, staging dirs are expanded with ${MLPREFIX} in
+multilib.conf. For multilib image such as lib32-core-image-minimal, it
+requires 64 bit packages at some situation. For example, it requires
+syslinux, grub-efi etc when build 'wic' rootfs. But these 64 bit
+packages are populated to 'recipe-sysroot' rather than
+'lib32-recipe-sysroot'. And then causes do image fails.
 
-I don't like changes which are so wide reaching where we can't easily
-evaluate the impact or potential problems in other code.
+Set consistent staging dirs for image to fix such issues.
 
-I think we need to look for a better way to fix this.
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/classes/image.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 34fdbb0850..8e958ba919 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -603,6 +603,11 @@ MULTILIBRE_ALLOW_REP =. "${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${l
+ MULTILIB_CHECK_FILE = "${WORKDIR}/multilib_check.py"
+ MULTILIB_TEMP_ROOTFS = "${WORKDIR}/multilib"
+ 
++# set consistent staging dirs
++RECIPE_SYSROOT = "${WORKDIR}/recipe-sysroot"
++STAGING_DIR_HOST = "${WORKDIR}/recipe-sysroot"
++STAGING_DIR_TARGET = "${WORKDIR}/recipe-sysroot"
++
+ do_fetch[noexec] = "1"
+ do_unpack[noexec] = "1"
+ do_patch[noexec] = "1"
+-- 
+2.18.0
 
 
