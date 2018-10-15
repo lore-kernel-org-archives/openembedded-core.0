@@ -1,43 +1,41 @@
 Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 84EC2745AC
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2014065D48
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 15:01:29 +0000 (UTC)
+	Mon, 15 Oct 2018 15:05:15 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Oct 2018 08:01:30 -0700
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Oct 2018 08:05:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,384,1534834800"; d="scan'208,217";a="88489669"
-Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Oct 2018 08:01:30 -0700
-Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
-	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 15 Oct 2018 08:01:30 -0700
+X-IronPort-AV: E=Sophos;i="5.54,384,1534834800"; 
+	d="scan'208,217";a="271472789"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+	by fmsmga005.fm.intel.com with ESMTP; 15 Oct 2018 08:05:16 -0700
 Received: from fmsmsx123.amr.corp.intel.com ([169.254.7.84]) by
-	FMSMSX113.amr.corp.intel.com ([169.254.13.112]) with mapi id
-	14.03.0319.002; Mon, 15 Oct 2018 08:01:28 -0700
+	FMSMSX103.amr.corp.intel.com ([169.254.2.16]) with mapi id
+	14.03.0319.002; Mon, 15 Oct 2018 08:05:15 -0700
 From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
 To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
-Thread-Index: AdRUG3den5c8kH6JR5OKxqhg9AfC3w==
-Date: Mon, 15 Oct 2018 15:01:28 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECEE442C2@fmsmsx123.amr.corp.intel.com>
+Thread-Topic: YP 2.7 Planning
+Thread-Index: AdRfIsZ9XZFLvLVyS1+NO4aPeSQvxg==
+Date: Mon, 15 Oct 2018 15:05:14 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECEE442FB@fmsmsx123.amr.corp.intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.1.200.108]
 x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNmNlNDYxYTEtMTdmZC00OGVhLTk3MDgtNTk1OTY4OGJkM2M0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTDVVbFNtUVFKNGJheHBqZGk0T0ViMUpRdm5wSkxGRmNZXC9GYWtSc1FcL1dKUlM4QkM4WGlyZWk0ZlJINmhcL1RRWCJ9
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNTk1NTczZjMtYmVjMi00NWNlLThiY2EtNWY4YjEzYjM5YTk0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTDNwYWZheTRydFo4YzVUdytiWHd0cXE4ZGU3VWE3OGthNERsVnNGQjExUzVcL20reXNNRTBwXC9NTDM1QkxPbmhSIn0=
 dlp-product: dlpe-windows
 dlp-version: 11.0.400.15
 dlp-reaction: no-action
 MIME-Version: 1.0
-Subject: Yocto Project Unassigned Bugs - Help Needed
+Subject: YP 2.7 Planning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,56 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2018 15:01:29 -0000
+X-List-Received-Date: Mon, 15 Oct 2018 15:05:15 -0000
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE442C2fmsmsx123amrcor_"
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE442FBfmsmsx123amrcor_"
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE442C2fmsmsx123amrcor_
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE442FBfmsmsx123amrcor_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 All,
 
+We have begun planning for YP 2.7.   In prior versions, items that we didn'=
+t have the bandwidth to do were assigned the target milestone of 2.99.  Sin=
+ce YP 2.7 planning has just begun, I would like each of you to review the b=
+ugs and enhancements in YP 2.99 and determine if you will have the bandwidt=
+h to own any of them in YP 2.7.
 
+In addition to reviewing the bugs under your name, also review any under th=
+e unassigned name to see if you have both an interest and the time to own a=
+ny of those in YP 2.7.
 
-The triage team meets weekly and does its best to handle the bugs reported =
-into the bugzilla. The number of people attending that meeting has fallen, =
-as have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage team) a=
-re therefore going to start reporting out the currently 303 unassigned bugs=
-.
-
-
-
-We're hoping people may be able to spare some time now and again to help ou=
-t with these.
-
-
-
-Bugs are split into two types, "true bugs" where things don't work as they =
-should and "enhancements" which are features we'd want to add to the system=
-.
-
-
-
-There are also roughly five different "priority" classes right now, "2.6", =
-"2.7", "2.8", "2.99" and "Future", the more pressing/urgent issues being in=
- "2.6" and then "2.7".
-
-
-
-Please review this link and if a bug is something you would be able to help=
- with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
-com<mailto:Stephen.k.jolley@intel.com>) an e-mail with the bug number you w=
-ould like and I will assign it to you (please make sure you have a bugzilla=
- account).
-
-
-
-The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
-gs
-
+Link for bugs in YP 2.99 by owner: https://wiki.yoctoproject.org/wiki/Bug_T=
+riage#2.99_Bugs_by_Owner
+Link for enhancements in YP 2.99 by owner: https://wiki.yoctoproject.org/wi=
+ki/Bug_Triage#2.99_Enhancements_by_Owner
 
 Thanks,
 
@@ -110,7 +83,7 @@ INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
 * Email:                             stephen.k.jolley@intel.com
 
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE442C2fmsmsx123amrcor_
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE442FBfmsmsx123amrcor_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -156,19 +129,7 @@ a:visited, span.MsoHyperlinkFollowed
 	{mso-style-priority:99;
 	color:#954F72;
 	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle19
+span.EmailStyle17
 	{mso-style-type:personal-compose;
 	font-family:"Calibri",sans-serif;
 	color:windowtext;}
@@ -189,40 +150,30 @@ div.WordSection1
 </head>
 <body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
 <div class=3D"WordSection1">
-<p class=3D"MsoPlainText">All,<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
- handle the bugs reported into the bugzilla. The number of people attending=
- that meeting has fallen, as have the number of people available to help fi=
-x bugs. One of the things we hear
- users report is they don't know how to help. We (the triage team) are ther=
-efore going to start reporting out the currently 303 unassigned bugs.<o:p><=
-/o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
-e now and again to help out with these.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
-ot; where things don't work as they should and &quot;enhancements&quot; whi=
-ch are features we'd want to add to the system.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">There are also roughly five different &quot;prior=
-ity&quot; classes right now, &quot;2.6&quot;, &#8220;2.7&#8221;, &#8220;2.8=
-&#8221;, &quot;2.99&quot; and &quot;Future&quot;, the more pressing/urgent =
-issues being in &quot;2.6&quot; and then &#8220;2.7&#8221;.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Please review this link and if a bug is something=
- you would be able to help with either take ownership of the bug, or send m=
-e (<a href=3D"mailto:Stephen.k.jolley@intel.com">Stephen.k.jolley@intel.com=
-</a>) an e-mail with the bug number
- you would like and I will assign it to you (please make sure you have a bu=
-gzilla account).<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
-ect.org/wiki/Bug_Triage#Unassigned_Bugs">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
-></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">All,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">We have begun planning for YP 2.7.&nbsp;&nbsp; In pr=
+ior versions, items that we didn&#8217;t have the bandwidth to do were assi=
+gned the target milestone of 2.99.&nbsp;&nbsp;Since YP 2.7 planning has jus=
+t begun, I would like each of you to review the bugs and enhancements
+ in YP 2.99 and determine if you will have the bandwidth to own any of them=
+ in YP 2.7.
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">In addition to reviewing the bugs under your name, a=
+lso review any under the unassigned name to see if you have both an interes=
+t and the time to own any of those in YP 2.7.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Link for bugs in YP 2.99 by owner: <a href=3D"https:=
+//wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Bugs_by_Owner">
+https://wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Bugs_by_Owner</a><o:p></=
+o:p></p>
+<p class=3D"MsoNormal">Link for enhancements in YP 2.99 by owner: <a href=
+=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Enhancements_by_Owne=
+r">
+https://wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Enhancements_by_Owner</a=
+><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
 <p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
 <p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
 <p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
@@ -264,4 +215,4 @@ ns-serif"><o:p></o:p></span></p>
 </body>
 </html>
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE442C2fmsmsx123amrcor_--
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE442FBfmsmsx123amrcor_--
