@@ -1,53 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 060B460402
+Return-Path: <kamensky@cisco.com>
+X-Greylist: delayed 574 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 15 Oct 2018 18:31:28 UTC
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+	by mail.openembedded.org (Postfix) with ESMTP id AB352796EE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 18:13:06 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id x12-v6so22429517wru.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 11:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=07reqXxoOvfGD6p1n8KH3saTzajlkN5PIF7OcGdYrZ8=;
-	b=JlZMnsGi5Ws9kqGfD6FJ8l+XkgKw4jDj8BIZKngo6MoaymmV3+JuF5Z9rvRh6t6VCg
-	QWX0seGovcdUZhSnNMpglVLDSDbd4xfdzVNSDJnfAeEqxLkeBt1Bl0jmgo+NU0uA67R4
-	Lp1OTANftppLAvTuBOgvelsX18yhp1YtU50Vy3n46FxFFQ9Qj2aV3vfg6FekZrV/sbRW
-	Gokdx4FS63YaJkF0LDEpAvIlWKRlZtY9h5MvSa+At6AvESh0wqDNDATWtBS8CJBB/LOK
-	EBRpoAEWdT8FoGRs1Fl6EoBuATMu097ZoYKNMlTQaloFMwevYNhDB/SpnZJBqRJj9d6l
-	5DZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=07reqXxoOvfGD6p1n8KH3saTzajlkN5PIF7OcGdYrZ8=;
-	b=jFi4/yaEnjLRhkknN915EN6t+E/HYo6kxTcrV5iQ82kxocNW1XmRTPfJ6wx4BT1ySp
-	GBPUI0z+lbNzMoafOkANC0H/Hz1ucI7sKvyZj7U05u9PhboXiaW1YsQNiXpRVRaxOYHF
-	xTshPm9N7BeN63xp9xNYm8jnfox8EkcYVQ1uovUGcUDEbccULeeVrkoSb9wKffYyMvLf
-	NFGMNpt/DFwQowQqb9W+Q8i5GSw37LUB38/RmGhPnTBc5qdm10/CIubAApqJoSk+AXq6
-	kwg8gLyMSsNFfgB+0hHVpV3MrJ1xoegzLTfNmze+OqiXZk5uE8N5ieQRmqfLgGi9yE2g
-	42HQ==
-X-Gm-Message-State: ABuFfog8MnduQ7Q1SoAJEXYoEzDl1AbxvwQxIszbjwvkjIz95m5SLSEc
-	bd/OxxN1dlfNlLxeT0KIBhkAFspDf3Y=
-X-Google-Smtp-Source: ACcGV61F72t91fzAzOAzltbX3zO5r1jMx1KY+Vs7DrGCXO0qyxf5qmiZl4v8V2QjJ3pWQ7MvuHXcmw==
-X-Received: by 2002:adf:a201:: with SMTP id
-	p1-v6mr15381797wra.89.1539627187297; 
-	Mon, 15 Oct 2018 11:13:07 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	t3-v6sm9551698wru.47.2018.10.15.11.13.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 15 Oct 2018 11:13:06 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 15 Oct 2018 18:31:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=4590; q=dns/txt; s=iport;
+	t=1539628290; x=1540837890;
+	h=from:to:cc:subject:date:message-id;
+	bh=KVqIjnyRO+btpHDBSdeWdecPuiFQjPN7/7yp2HNP8sY=;
+	b=mC2GncAKD9HmQFSSrIL0FiwQA9rsRdEEYtpTMpKv3NbfNdbjw2OIw2ta
+	mOrR/V165SZqlAdE9PZgC6K4U5HnZE+LVAhaFJXjCCauFKS3dUJgXEDFr
+	rldkdaO6tCxdvuHN1CbVMVFmxIRzxsscS6jY8J5SUNayuCwDOctPK1TSz A=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AEAABW2cRb/5ldJa1jGgEBAQEBAgE?=
+	=?us-ascii?q?BAQEHAgEBAQGBUQUBAQEBCwGCA2Z/KIwLX4tMgSVojhOIdBSBZgsBASOESYR?=
+	=?us-ascii?q?fITQNDQEDAQECAQECbRwMhTkBAQQoUgUnAwECfiGDIAGBeQgPp3wzhHeEXoc?=
+	=?us-ascii?q?qhCIXggCBEoYtBBiBEB+FcgKIRBkLLYYajnsJhlWJewsXghuOAgGMQ4lDAgQ?=
+	=?us-ascii?q?GBQIUgUM4gVVNIxWDJwmCHQEWg0eFFIVeHzABiRqCTQEB?=
+X-IronPort-AV: E=Sophos;i="5.54,385,1534809600"; d="scan'208";a="185669615"
+Received: from rcdn-core-2.cisco.com ([173.37.93.153])
+	by alln-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Oct 2018 18:21:54 +0000
+Received: from kamensky-w541.cisco.com (rtp-vpn1-298.cisco.com [10.82.225.42])
+	(authenticated bits=0)
+	by rcdn-core-2.cisco.com (8.15.2/8.15.2) with ESMTPSA id w9FILfZV021526
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); 
+	Mon, 15 Oct 2018 18:21:53 GMT
+From: Victor Kamensky <kamensky@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Oct 2018 19:13:02 +0100
-Message-Id: <20181015181302.9865-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20181015181302.9865-1-ross.burton@intel.com>
-References: <20181015181302.9865-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] python: remove the PN package entirely
+Date: Mon, 15 Oct 2018 11:21:28 -0700
+Message-Id: <20181015182128.13115-1-kamensky@cisco.com>
+X-Mailer: git-send-email 2.17.2
+X-Authenticated-User: kamensky@cisco.com
+X-Outbound-SMTP-Client: 10.82.225.42, rtp-vpn1-298.cisco.com
+X-Outbound-Node: rcdn-core-2.cisco.com
+Subject: [PATCH] systemtap: 3.3 -> 4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,61 +49,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2018 18:13:07 -0000
+X-List-Received-Date: Mon, 15 Oct 2018 18:31:28 -0000
 
-Nothing should be in this package, so remove it entirely to be sure nothing does
-end up in there.
+Upgrade systemtap from 3.3 to 4.0: Removed backported patch.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Very short summary of major changes from SystemTap 4.0
+announcement by Frank Ch. Eigler <fche@redhat.com>:
+
+> prometheus exporter network service; ebpf support extensions including
+> strings and implementation of traditional log(), sprintf() functions;
+> rebuilt rich tapset coverage for 4.17+ syscalls and for
+> tracepoint-based syscalls; script language tweaks for supporting
+> machine-generated scripts
+
+Fixes [YOCTO #12950]
+
+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
 ---
- meta/recipes-devtools/python/python3_3.5.6.bb | 4 ++--
- meta/recipes-devtools/python/python_2.7.15.bb | 3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
+Hi Guys,
 
-diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
-index 72478f8663d..2a4547694ae 100644
---- a/meta/recipes-devtools/python/python3_3.5.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.6.bb
-@@ -215,6 +215,8 @@ py_package_preprocess () {
- 	mv ${PKGD}/${bindir}/python${PYTHON_BINABI}-config ${PKGD}/${bindir}/python${PYTHON_BINABI}-config-${MULTILIB_SUFFIX}
- }
- 
-+PACKAGES_remove = "${PN}"
-+
- # manual dependency additions
- RPROVIDES_${PN}-modules = "${PN}"
- RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
-@@ -249,8 +251,6 @@ RDEPENDS_${PN}-dev = ""
- 
- BBCLASSEXTEND = "nativesdk"
- 
--RPROVIDES_${PN} += "${PN}-modules"
+I'll let you to decide whether you want to accept
+it for 2.6 at this point or push it for the next release.
+On one hand after move to 4.18 kernel SystemTap 3.3
+fails to trace any system call on x86_64 - it is major
+functionality breakage. Look at:
+
+https://bugzilla.redhat.com/show_bug.cgi?id=1596456
+
+On other hand it is quite late to do major version
+updates.
+
+I did go through limitted set of tests on all
+supported QEMU targets. As far as these tests
+concerned proposed 4.0 matches 3.3 results.
+
+Thanks,
+Victor
+
+ ...entrypc-avoid-usage-of-uninitialized.patch | 46 -------------------
+ .../systemtap/systemtap_git.inc               |  5 +-
+ 2 files changed, 2 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-dwflpp-function_entrypc-avoid-usage-of-uninitialized.patch
+
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-dwflpp-function_entrypc-avoid-usage-of-uninitialized.patch b/meta/recipes-kernel/systemtap/systemtap/0001-dwflpp-function_entrypc-avoid-usage-of-uninitialized.patch
+deleted file mode 100644
+index d0082a1094..0000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-dwflpp-function_entrypc-avoid-usage-of-uninitialized.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 8466fca2a074323a235ef38d425f994a2ff7e64f Mon Sep 17 00:00:00 2001
+-From: Victor Kamensky <kamensky@cisco.com>
+-Date: Mon, 9 Jul 2018 09:31:19 -0700
+-Subject: [PATCH] dwflpp::function_entrypc avoid usage of uninitialized memory
 -
- # We want bytecode precompiled .py files (.pyc's) by default
- # but the user may set it on their own conf
- INCLUDE_PYCS ?= "1"
-diff --git a/meta/recipes-devtools/python/python_2.7.15.bb b/meta/recipes-devtools/python/python_2.7.15.bb
-index d78400b6e61..b402ad6f1e7 100644
---- a/meta/recipes-devtools/python/python_2.7.15.bb
-+++ b/meta/recipes-devtools/python/python_2.7.15.bb
-@@ -152,6 +152,7 @@ py_package_preprocess () {
- 	(cd ${PKGD}; python -m py_compile ./${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py)
- }
- 
-+PACKAGES_remove = "${PN}"
- 
- # manual dependency additions
- RPROVIDES_${PN}-core = "${PN}"
-@@ -181,8 +182,6 @@ RDEPENDS_${PN}-dev = ""
- 
- BBCLASSEXTEND = "nativesdk"
- 
--RPROVIDES_${PN} += "${PN}-modules"
+-Failure on 3.3 release was observed. Failure was elusive and
+-disappeared after seemingly random configure option change, or when
+-code was compiled with -O1 or -O0 (vs default -O2). Running failing
+-test case under valgrind memcheck pointed to couple places where
+-'Conditional jump or move depends on uninitialised value(s)' occured.
 -
- # We want bytecode precompiled .py files (.pyc's) by default
- # but the user may set it on their own conf
+-After addressing these in two places in dwflpp::function_entrypc,
+-valgrind memcheck run is clean and original issue got fixed.
+-
+-Upstream-Status: Backport
+-Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+----
+- dwflpp.cxx | 6 +++++-
+- 1 file changed, 5 insertions(+), 1 deletion(-)
+-
+-diff --git a/dwflpp.cxx b/dwflpp.cxx
+-index bfbb6b096..2172e705a 100644
+---- a/dwflpp.cxx
+-+++ b/dwflpp.cxx
+-@@ -2465,13 +2465,17 @@ bool
+- dwflpp::function_entrypc (Dwarf_Addr * addr)
+- {
+-   assert (function);
+-+
+-+  // assign default value
+-+  *addr = 0;
+-+
+-   // PR10574: reject 0, which tends to be eliminated COMDAT
+-   if (dwarf_entrypc (function, addr) == 0 && *addr != 0)
+-     return true;
+- 
+-   /* Assume the entry pc is the base address, or (if zero)
+-      the first address of the ranges covering this DIE.  */
+--  Dwarf_Addr start, end;
+-+  Dwarf_Addr start = 0, end;
+-   if (dwarf_ranges (function, 0, addr, &start, &end) >= 0)
+-     {
+-       if (*addr == 0)
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 06924fc240..274fcde5c1 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,7 +1,7 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "48867d1cface9445d58e3c6e14497770b7eb77e1"
+-PV = "3.3"
++SRCREV = "428f84e9e656bce71018e8902e4edb8aacafcc0e"
++PV = "4.0"
  
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://configure-allow-to-disable-libvirt.patch \
+@@ -11,7 +11,6 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
+            file://0001-Install-python-modules-to-correct-library-dir.patch \
+            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
+-           file://0001-dwflpp-function_entrypc-avoid-usage-of-uninitialized.patch \
+            "
+ 
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
 -- 
-2.11.0
+2.17.1
 
 
