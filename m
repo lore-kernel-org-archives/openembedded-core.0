@@ -1,26 +1,45 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 97F8779AAF
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E646745A7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 09:21:10 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9F9IjIV021840
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 02:21:01 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 15 Oct 2018 02:20:04 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Oct 2018 17:25:27 +0800
-Message-ID: <882acfddf8f632ed2bdfbd5883fc8eb681bfa52e.1539595482.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1539595482.git.Qi.Chen@windriver.com>
-References: <cover.1539595482.git.Qi.Chen@windriver.com>
+	Mon, 15 Oct 2018 10:03:32 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Oct 2018 03:03:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,384,1534834800"; d="scan'208";a="88433967"
+Received: from pgsmsx103.gar.corp.intel.com ([10.221.44.82])
+	by FMSMGA003.fm.intel.com with ESMTP; 15 Oct 2018 03:03:32 -0700
+Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.235]) by
+	PGSMSX103.gar.corp.intel.com ([169.254.2.13]) with mapi id
+	14.03.0319.002; Mon, 15 Oct 2018 18:00:52 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/4] oeqa/core/runner: write testresult to
+	json files
+Thread-Index: AQHUYjxZBwGwhI3kIEOWzulo5aqFhqUf8DwA//+QFYCAAItKMA==
+Date: Mon, 15 Oct 2018 10:00:51 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335ECB2D0@KMSMSX155.gar.corp.intel.com>
+References: <1539325990-89780-1-git-send-email-ee.peng.yeoh@intel.com>
+	<42cf8bddb48f276864dab5f7f71f2a3ae7eb670f.camel@linuxfoundation.org>
+	<9DDD2658D1FE414E99172D2DB1E4D04335ECB1EB@KMSMSX155.gar.corp.intel.com>
+	<b3886f4b8368d523f999a2706e18cd36b257d084.camel@linuxfoundation.org>
+In-Reply-To: <b3886f4b8368d523f999a2706e18cd36b257d084.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNjcxNGEwODAtYTFiMS00MDNhLThjNGEtN2VjM2MxYzk4MWQ4IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoibmwyWWs2UEkrVVZyTG1cL21LQTRlTSt6ZjgraUY1dUtQYkhyREZVNmtkSnJ4M0ZieUg0SDBNK2UwSzlHak8rbWEifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] bind: fix startup failure in sysvinit
+Subject: Re: [PATCH 1/4] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,67 +52,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2018 09:21:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Oct 2018 10:03:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The generated key file should try to have bind group so that if
-the named daemon is started via '-u bind' option, which is the
-default in OE core, we will not get startup failure because of
-'permission denied' error.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../0001-avoid-start-failure-with-bind-user.patch  | 27 ++++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.11.4.bb      |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-
-diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-new file mode 100644
-index 0000000..8db96ec
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-@@ -0,0 +1,27 @@
-+From 31dde3562f287429eea94b77250d184818b49063 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Mon, 15 Oct 2018 16:55:09 +0800
-+Subject: [PATCH] avoid start failure with bind user
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ init.d | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/init.d b/init.d
-+index b2eec60..6e03936 100644
-+--- a/init.d
-++++ b/init.d
-+@@ -57,6 +57,7 @@ case "$1" in
-+ 	modprobe capability >/dev/null 2>&1 || true
-+ 	if [ ! -f /etc/bind/rndc.key ]; then
-+ 	    /usr/sbin/rndc-confgen -a -b 512 -r /dev/urandom
-++	    chown root:bind /etc/bind/rndc.key >/dev/null 2>&1 || true
-+ 	    chmod 0640 /etc/bind/rndc.key
-+ 	fi
-+ 	if [ -f /var/run/named/named.pid ]; then
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.11.4.bb
-index 63d8b0b..cb4a21a 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.4.bb
-@@ -19,6 +19,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
-            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
-            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
-+           file://0001-avoid-start-failure-with-bind-user.patch \
-            file://CVE-2018-5740.patch \
- "
- 
--- 
-1.9.1
-
+SGkgUmljaGFyZCwNCg0KVGhhbmtzIGZvciBleHBsYWluaW5nIHRoaXMgaW4gZ3JlYXQgZGVwdGgs
+IEkgZnVsbHkgdW5kZXJzdG9vZCB0aGVtIG5vdy4gDQpDdXJyZW50bHksIHRoZSBlbnZpcm9ubWVu
+dHMgaW5mb3JtYXRpb24gKGVnLiBNQUNISU5FLCBESVNUUk8pIGRpc2NvdmVyZWQgaW5zaWRlIE9F
+UUEgd2VyZSB1c2VkIHRvIGNyZWF0ZSB0aGUgZmlsZXN5c3RlbSBkaXJlY3RvcmllcyBmb3IgZWFj
+aCB0ZXN0cmVzdWx0IGpzb24gZmlsZS4gDQpFeGFtcGxlOiBNQUNISU5FOnFlbXV4ODYsIElNQUdF
+OiBjb3JlLWltYWdlLXNhdG8tc2RrDQrilJTilIDilIAgcnVudGltZQ0KICAgIOKUlOKUgOKUgCBx
+ZW11eDg2DQogICAgICAgIOKUlOKUgOKUgCBjb3JlLWltYWdlLXNhdG8tc2RrDQogICAgICAgICAg
+ICDilJzilIDilIAgbG9ncw0KICAgICAgICAgICAg4pSc4pSA4pSAIHBpbmcuanNvbg0KICAgICAg
+ICAgICAg4pSU4pSA4pSAIHNzaC5qc29uDQoNClRoZXNlIGZpbGVzeXN0ZW0gZGlyZWN0b3JpZXMg
+dGhhdCByZXByZXNlbnRpbmcgdGhlIHRlc3QgZW52aXJvbm1lbnRzIGhhdmUgMiB1c2UgY2FzZXM6
+DQoNClVzZSBjYXNlIzE6IA0KRHVyaW5nIHRlc3RyZXN1bHQganNvbiBzdG9yaW5nIHBoYXNlLCBv
+bmUgY2FuIGlucHV0IGFkZGl0aW9uYWwgZW52aXJvbm1lbnRzIGluZm9ybWF0aW9uIGFuZCB0aGUg
+ZXh0cmEgZmlsZXN5c3RlbSBkaXJlY3RvcmllcyB3aWxsIGJlIGNyZWF0ZWQgYW5kIGFwcGVuZGVk
+IG9uIGV4aXN0aW5nIGRpcmVjdG9yaWVzLCB0aGVuIHRoZSBvdmVyYWxsIGZpbGVzeXN0ZW0gZGly
+ZWN0b3JpZXMgdGhhdCByZXByZXNlbnQgdGhlIGVudGlyZSBlbnZpcm9ubWVudHMgd2lsbCBiZSBz
+dG9yZSBpbiBnaXQgcmVwb3NpdG9yeS4gIFdpdGggdGhlc2UgZW52aXJvbm1lbnRzIHN0b3JlZCBp
+biBmaWxlc3lzdGVtLCBvbmUgd2lsbCBiZSBhYmxlIHRvIHZpZXcgdGhlIG92ZXJhbGwgdGVzdCBl
+bnZpcm9ubWVudHMgZm9yIGFsbCB0ZXN0IGNvbXBvbmVudHMgKGVnLiBydW50aW1lLCBzZWxmdGVz
+dCwgc2RrLCBtYW51YWwgdGVzdHMsIGV0YykgYnkgd2FsayB0aHJvdWdoIHRoZSBmaWxlc3lzdGVt
+IGRpcmVjdG9yaWVzLiANCg0KVXNlIGNhc2UjMjoNClRoZXNlIGZpbGVzeXN0ZW0gZGlyZWN0b3Jp
+ZXMgdGhhdCByZXByZXNlbnQgdGhlIHRlc3QgZW52aXJvbm1lbnQgd2VyZSB1c2VkIGR1cmluZyBy
+ZXN1bHQgc3RvcmluZyBpbiBnaXQgcmVwb3NpdG9yeS4gIFRoZSBzdG9yZSBwcm9ncmFtIHdpbGwg
+Y2hlY2sgaWYgdGhlIGdpdCByZXBvc2l0b3J5IGFscmVhZHkgaGF2ZSB0aGUgZW52aXJvbm1lbnRz
+IHVzZWQgYnkgdGhlIHRlc3RyZXN1bHQganNvbiBmaWxlLCBpZiBnaXQgcmVwb3NpdG9yeSBhbHJl
+YWR5IGhhdmUgdGhlIGVudmlyb25tZW50cyAoZmlsZXN5c3RlbSBkaXJlY3RvcmllcyBleGlzdHMp
+LCBpdCB3aWxsIGFzayB1c2VyIHRvIHByb3ZpZGUgb3ZlcndyaXRlIGFyZ3VtZW50IGluIG9yZGVy
+IHRvIG92ZXJ3cml0ZSB0aGUgdGVzdHJlc3VsdCB0aGF0IHdhcyBzdG9yZWQgcHJldmlvdXNseS4N
+Cg0KSSBhZ3JlZWQgdGhhdCB0aGVzZSBlbnZpcm9ubWVudHMgbmVlZCB0byBiZSBzdG9yZSBpbiB0
+aGUgdGVzdHJlc3VsdCBqc29uIGZpbGUgYXMgd2VsbC4gTGV0IG1lIHdvcmsgb24gdGhlIGFkZGlu
+ZyB0aGVzZSBlbnZpcm9ubWVudHMgaW5mb3JtYXRpb24gaW50byB0aGUgdGVzdHJlc3VsdCBqc29u
+IGZpbGUuIA0KDQpUaGFua3MsDQpZZW9oIEVlIFBlbmcgDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2Fn
+ZS0tLS0tDQpGcm9tOiByaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnIFttYWlsdG86
+cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiBNb25kYXksIE9jdG9i
+ZXIgMTUsIDIwMTggNTowMCBQTQ0KVG86IFllb2gsIEVlIFBlbmcgPGVlLnBlbmcueWVvaEBpbnRl
+bC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzRdIG9lcWEvY29yZS9ydW5uZXI6IHdyaXRlIHRlc3Ry
+ZXN1bHQgdG8ganNvbiBmaWxlcw0KDQpIaSBFZSBQZW5nLA0KDQpPbiBNb24sIDIwMTgtMTAtMTUg
+YXQgMDg6NDIgKzAwMDAsIFllb2gsIEVlIFBlbmcgd3JvdGU6DQo+IFRoYW5rIHlvdSB2ZXJ5IG11
+Y2ggZm9yIHlvdXIgaW5wdXRzIQ0KPiBJIGhhZCBjb21wbGV0ZWQgbWFraW5nIG1vc3Qgb2YgdGhl
+IGVuaGFuY2VtZW50cyBmb2xsb3dpbmcgeW91ciBpbnB1dHMsIA0KPiBleGNlcHQgdGhlIDEgaW5w
+dXQgdG8gcHV0IHRlc3QgcmVzdWx0IGxvZ3MgYWxvbmdzaWRlIHRoZSB0ZXN0IHJlc3VsdCANCj4g
+ZGF0YSBpbiB0aGUganNvbiBmaWxlLg0KPiBUaGUgY29uY2VybnMgSSBoYXZlIG92ZXIgcHV0dGlu
+ZyB0ZXN0IHJlc3VsdCBsb2dzIGludG8gdGVzdCByZXN1bHQgDQo+IGpzb24gZmlsZToNCj4gMS4g
+VGVzdCByZXN1bHQgbG9ncyB3aWxsIGJlIGFyYml0cmFyeSBsb25nIGRlcGVuZGluZyBvbiB0aGUg
+dHlwZSBvZiANCj4gZmFpbHVyZS9lcnJvciBhbmQgdGV0ZWNhc2UuIFdpdGggdGVzdCByZXN1bHQg
+bG9ncyBhZGRpbmcgdG8gdGhlIHRlc3QgDQo+IHJlc3VsdCBqc29uIGZpbGUsIGl0IHdpbGwgcG90
+ZW50aWFsbHkgbWFraW5nIGl0IGhhcmQgdG8gcmVhZCB0aGUganNvbiANCj4gZmlsZSwgd2hlcmUg
+dGhlIHRlc3QgbG9ncyB3aWxsIHBvdGVudGlhbGx5IHNwYW4gb3ZlciBtdWx0aXBsZSBsaW5lcy4N
+Cj4gMi4gQnkgaGF2aW5nIHRlc3QgbG9ncyBwZXIgZWFjaCB0ZXN0IGNhc2UgaW4gc2VwYXJhdGUg
+ZmlsZSwgaXQgd2lsbCANCj4gYWxsb3cgcXVpY2sgYW5kIGVhc3kgcmVncmVzc2lvbiBvZiB0ZXN0
+IGxvZ3MgcGVyIHNwZWNpZmljIHRlc3QgY2FzZS4gIA0KPiBCeSBwdXR0aW5nIGFsbCB0aGUgdGVz
+dCBsb2dzIGludG8gdGhlIG9uZSB0ZXN0cmVzdWx0IGpzb24gZmlsZSwgSSBhbSANCj4gd29ycnkg
+dGhhdCBpdCB3aWxsIG1ha2UgcmVncmVzc2lvbiBvbiB0ZXN0IGxvZ3MgcGVyIHNwZWNpZmljIHRl
+c3QgY2FzZSANCj4gaGFyZGVyLg0KPiANCj4gSSBob3BlIHRoZSBjb25jZXJucyBhYm92ZSBqdXN0
+aWZ5IGtlZXBpbmcgdGVzdCBsb2dzIHNlcGFyYXRlIGZyb20gDQo+IHRlc3RyZXN1bHQganNvbiBm
+aWxlLiBQbGVhc2UgbGV0IG1lIGtub3cgeW91ciB0aG91Z2h0cyBhbmQgaW5wdXRzLg0KDQpUaGUg
+bG9nIGRhdGEgYW5kIHRoZSB0ZXN0IHJlc3VsdHMgYXJlIGNvbm5lY3RlZCBhbmQgYmVsb25nIHRv
+Z2V0aGVyLg0KVGhlIGludGVudCBoZXJlIGlzIHRvIG1ha2UgZmlsZXMgd2hpY2ggY2FwdHVyZSB0
+aGUgcmVzdWx0cyBpbmZvcm1hdGlvbiBhbmQgZGlyZWN0IHVzZXIgcmVhZGFiaWxpdHkgaXMgYSBz
+ZWNvbmRhcnkgaXNzdWUsIHRoZXNlIGZpbGVzIGFyZSBub3QgaW50ZW5kZWQgdG8gYmUgZGlyZWN0
+bHkgcmVhZCBieSBodW1hbnMuDQoNCklmIHdlIG5lZWQgYSBjbGVhbiByZWFkYWJsZSBvdXRwdXQs
+IEknbSBpbWFnaW5pbmcgd2UnZCBoYXZlIGEgc2ltcGxlIHByb2Nlc3NpbmcgdG9vbCB3aGljaCBj
+b3VsZCBmb3IgZXhhbXBsZSBqdXN0IGZpbHRlciBvdXQgdGhlIHRlc3QgcmVzdWx0cy4NCg0KSGF2
+aW5nIGEgc2luZ2xlIHJlc3VsdHMgZmlsZSBhbHNvIG1ha2VzIGl0IGVhc2llciBmb3IgdGhlIGF1
+dG9tYXRlZCBzeXN0ZW1zIHRvIGNvbGxlY3QgdXAgdGhlIHJlc3VsdHMgZmlsZXMgZnJvbSBkaWZm
+ZXJlbnQgYXV0b2J1aWxkZXJzIGFuZCBhbHNvIG1ha2VzIGl0IGVhc2llciB0byBwb3RlbnRpYWxs
+eSBtZXJnZSByZXN1bHRzIHRvZ2V0aGVyLg0KDQpPbmUgcGllY2UgSSBzdXNwZWN0IG1heSBhbHNv
+IGJlIG1pc3NpbmcgaXMgdGhhdCB3ZSBtYXkgbmVlZCB0byByZWNvcmQgc29tZSBleHRyYSBpbmZv
+cm1hdGlvbiBpbnRvIHRoZXNlIGZpbGVzIHRvbywgc3VjaCBhcyB0aGUgTUFDSElORSwgRElTVFJP
+LCBob3N0bmFtZSBvZiB0aGUgYnVpbGRlciB0aGF0IHJhbiB0aGVtIGFuZCB0aGUgcmV2aXNpb24g
+b2YgdGhlIGNvZGViYXNlIChsYXllcnMpIHVzZWQgdG8gcnVuIHRoZSB0ZXN0LiBUaGVyZSBpcyBw
+cm9iYWJseSBvdGhlciBpbmZvcm1hdGlvbiB3ZSBuZWVkIHRvIHJlY29yZCBpbiBvcmRlciB0byBt
+YWtlIHRoZXNlIHJlc3VsdHMgdXNlZnVsIGluIHRoZSB3aWRlciBjb250ZXh0IG9mIHRoZSBwcm9q
+ZWN0IGJ1dCBJIGRvIGJlbGlldmUgaXQgY2FuIGFuZCBzaG91bGQgYmUgcmVjb3JkZWQgaW4gYSBz
+aW5nbGUgZmlsZS4NCg0KRG9lcyB0aGF0IGhlbHAgZXhwbGFpbiB3aHkgSSdtIGFza2luZyBmb3Ig
+dGhpcz8NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCg0KDQo=
 
