@@ -1,25 +1,25 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E838479AD4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4528774AEB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 07:40:15 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Oct 2018 00:40:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,383,1534834800"; d="scan'208";a="100295805"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga002.jf.intel.com with ESMTP; 15 Oct 2018 00:40:16 -0700
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Oct 2018 15:24:54 +0800
-Message-Id: <1539588294-5532-5-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 15 Oct 2018 08:25:23 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w9F8PJkR029882
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 15 Oct 2018 09:25:20 +0100
+Message-ID: <9d6783fcc08d063e63a44f8dc5b9048ce2a698f2.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 15 Oct 2018 09:25:19 +0100
 In-Reply-To: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
 References: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
-Subject: [PATCH 5/5] testsdk.bbclass: write testresult to json files
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/5] oeqa/core/runner: refactor for OEQA to write json testresult
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,51 +32,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2018 07:40:16 -0000
+X-List-Received-Date: Mon, 15 Oct 2018 08:25:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-As part of the solution to replace Testopia to store testresult,
-OEQA sdk and sdkext need to output testresult into json files, where
-these json testresult files will be stored into git repository
-by the future test-case-management tools.
+On Mon, 2018-10-15 at 15:24 +0800, Yeoh Ee Peng wrote:
+> Refactor the original _getDetailsNotPassed method to return
+> testresult details (test status and log), which will be reused
+> by future OEQA code to write json testresult.
+> 
+> Take the opportunity to consolidate and simplify the logic used
+> to gather test status and log within the TestResult instance.
+> 
+> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+> ---
+>  meta/lib/oeqa/core/runner.py | 70 ++++++++++++++++++--------------------------
+>  1 file changed, 29 insertions(+), 41 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+> index eeb625b..56666ee 100644
+> --- a/meta/lib/oeqa/core/runner.py
+> +++ b/meta/lib/oeqa/core/runner.py
+> @@ -76,40 +76,43 @@ class OETestResult(_TestResult):
+>          else:
+>              msg = "%s - FAIL - Required tests failed" % component
+>          skipped = len(self.skipped)
+> -        if skipped: 
+> +        if skipped:
+>              msg += " (skipped=%d)" % skipped
+>          self.tc.logger.info(msg)
+>  
+> -    def _getDetailsNotPassed(self, case, type, desc):
+> -        found = False
+> +    def _getTestResultDetails(self, case):
+> +        result_types = ['failures', 'errors', 'skipped', 'expectedFailures', 'successes']
+> +        result_desc = ['FAILED', 'ERROR', 'SKIPPED', 'EXPECTEDFAIL', 'PASSED']
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
----
- meta/classes/testsdk.bbclass | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+This patch is much better thanks! 
 
-diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index d3f475d..c0f268e 100644
---- a/meta/classes/testsdk.bbclass
-+++ b/meta/classes/testsdk.bbclass
-@@ -81,7 +81,12 @@ def testsdk_main(d):
-         component = "%s %s" % (pn, OESDKTestContextExecutor.name)
-         context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
- 
--        result.logDetails()
-+        json_result_dir = os.path.join(d.getVar("WORKDIR"),
-+                                       'temp',
-+                                       'json_testresults-%s' % os.getpid(),
-+                                       'sdk',
-+                                       d.getVar("IMAGE_BASENAME"))
-+        result.logDetails(json_result_dir)
-         result.logSummary(component, context_msg)
- 
-         if not result.wasSuccessful():
-@@ -185,7 +190,12 @@ def testsdkext_main(d):
-         component = "%s %s" % (pn, OESDKExtTestContextExecutor.name)
-         context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
- 
--        result.logDetails()
-+        json_result_dir = os.path.join(d.getVar("WORKDIR"),
-+                                       'temp',
-+                                       'json_testresults-%s' % os.getpid(),
-+                                       'sdkext',
-+                                       d.getVar("IMAGE_BASENAME"))
-+        result.logDetails(json_result_dir)
-         result.logSummary(component, context_msg)
- 
-         if not result.wasSuccessful():
--- 
-2.7.4
+It could still do with one more minor tweak. You can use a dict above
+to simplfy this code and avoid using indexes which is not very
+pythonic, for example
+
+
+result_types = {'failures' : 'FAILED', 'errors' : 'ERROR'}
+
+then
+
+for rtype in result_types:
+    [...]
+    return result_types[rtype], msg
+
+
+The rest of the patch looks like a nice simplification now though!
+
+Cheers,
+
+Richard
 
 
