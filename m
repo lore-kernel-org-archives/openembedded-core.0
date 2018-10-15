@@ -1,46 +1,47 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 25BC560064
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 086BD60401
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 10:20:46 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Oct 2018 03:20:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,384,1534834800"; 
-	d="json'?scan'208";a="100327801"
-Received: from pgsmsx106.gar.corp.intel.com ([10.221.44.98])
-	by orsmga002.jf.intel.com with ESMTP; 15 Oct 2018 03:20:46 -0700
-Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.235]) by
-	PGSMSX106.gar.corp.intel.com ([169.254.9.78]) with mapi id
-	14.03.0319.002; Mon, 15 Oct 2018 18:20:45 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/5] oeqa/core/runner: write testresult to
-	json files
-Thread-Index: AQHUZFpfOT/nHdPUQkGGNeWjbyAeb6Ufel6AgACcDiA=
-Date: Mon, 15 Oct 2018 10:20:45 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335ECB302@KMSMSX155.gar.corp.intel.com>
-References: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1539588294-5532-2-git-send-email-ee.peng.yeoh@intel.com>
-	<ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
-In-Reply-To: <ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNGNkZGJkNmUtOTFjNS00ODA5LTk2MWYtZDM5YTQ0MGQzNTdhIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiY1JMbGg5b0duS0tTUkZuK1ZON1NRbzBwT2o1R0ppME9BYitZXC9KcEt0MXUwYWFhS1hLaEVmOVZuY3k5aHl0VzgifQ==
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.206]
+	Mon, 15 Oct 2018 12:58:42 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id u22so18732346ota.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Oct 2018 05:58:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Z9UlGifnhuoDxr2nTVS2zfxNFvVO4mAT22Dd5u2igWQ=;
+	b=pto28MlGA6f2eHuh5Y03MOcQyDZx312oP97yTi04hvj2aqcVST/EzjqsVUhUf5cGb4
+	oGN2wmaRfA1xnAUOWOBzEQN1t5jon84sT7tn8Cf0Dfa4EdhZc4ZWYZOhpj/O1CviJDB8
+	fMEPSS8OxSiNJTVbEvmr6CKPCHLLOyZe7k93Njr3IaNRL3AdBKFLDA3XYlH+m+erTr4j
+	NcfCOxkzL/o9L3EdR1gkYFA/7vYC8qo0IaFXsuq63bn4ji26iwVbIk7LeGYTyauHCp5/
+	O9LBq7uZijUoVrkbj2k84W6xy2bnNofWcBCqZv41fPlMFz/Hkebfal2KJ8oeEPj4Ok6B
+	qDjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Z9UlGifnhuoDxr2nTVS2zfxNFvVO4mAT22Dd5u2igWQ=;
+	b=anTIapNiQHSFqi6qbKAhx4fsZigGWRyaZ7VAoYB68YukWLkrHr7khfwrdGHs8lyw0U
+	Ttuj22wmgjFGIlixZJIwD19SvMXP/nPEHzmDLDv4pK2Ti7JaXmDkbEciX9s+WtyTj8Po
+	0LLZ0GBf6vSL9Hnw9ZtDIvTOkBYq495rE4/0sf9/75o4raWcLczI2XTpiLBQ+2ThN2+g
+	PczZWpWLOWbKdpgdaJoLHpLcoFCVlt/m6QpXE89F4mYvDED4OSFPmMTNjIkmMP47wtlq
+	3DsZRp72JOyiMyTf8ILKJqM1nZIZ9w0bOcY6XxDScAIxhuJgNau+BoD6FhHFjnz51B1c
+	jTNw==
+X-Gm-Message-State: ABuFfojdi1JtLryC7J8gkdDw6hryKE8Edb/gH+I6UiYpx2p5NRngROIb
+	+pf92E1+Ss8zpEJAr1vRclXH2uSz9TSN/zUDoTkaJg==
+X-Google-Smtp-Source: ACcGV61HDfxzEvvkxYSo42oE21kR8tfHTvaggVbfKND8LDw/vA1sy2hdNYyUZd7KXb6a8KavN6NTqdurBwhRcVUh28I=
+X-Received: by 2002:a9d:3ee4:: with SMTP id b91mr11322501otc.330.1539608323895;
+	Mon, 15 Oct 2018 05:58:43 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/5] oeqa/core/runner: write testresult to json files
+References: <1539581457-120937-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1539581457-120937-1-git-send-email-changqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 15 Oct 2018 13:58:32 +0100
+Message-ID: <CAJTo0LZ+U1t=rnLcrZMDD+AoS-SbJ23Hc1fd9twa4qRFh=N1sQ@mail.gmail.com>
+To: changqing.li@windriver.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] freetype: remove compile of windows resource files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,179 +54,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2018 10:20:47 -0000
-X-Groupsio-MsgNum: 117311
-Content-Language: en-US
-Content-Type: multipart/mixed;
-	boundary="_002_9DDD2658D1FE414E99172D2DB1E4D04335ECB302KMSMSX155garcor_"
+X-List-Received-Date: Mon, 15 Oct 2018 12:58:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---_002_9DDD2658D1FE414E99172D2DB1E4D04335ECB302KMSMSX155garcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Is this breaking the build of Freetype for mingw32?  Seems like it
+would be easier change meta-mingw to just export RC in the SDK
+environment using overrides.
 
-SGkgUmljaGFyZCwNCg0KUHJldmlvdXMgdGVzdCByZXN1bHQgZGF0YSBmb3JtYXQgY29udGFpbiB0
-aGUgaGllcmFyY2h5IGZvcm1hdCAoZWcuIHRlc3RzdWl0ZSBhbmQgdGVzdGNhc2UpIGZvciBiZXR0
-ZXIgaHVtYW4gcmVhZGluZywgYXMgZGlzY3Vzc2VkIGFuZCBhZ3JlZWQgdGhhdCB0aGUgaHVtYW4g
-cmVhZGFiaWxpdHkgd2FzIG5vdCBuZWVkZWQsIHRodXMgSSB3aWxsIHJlbW92ZWQgdGhlIGhpZXJh
-cmNoeSBmb3JtYXQgd2l0aCB0ZXN0c3VpdGUgYW5kIHRlc3RjYXNlLiANCg0KTmV3IGRhdGEgZm9y
-bWF0IHRoYXQgSSBhbSB0aGlua2luZyBub3cuIA0KQXR0YWNoZWQgc2FtcGxlIGRhdGEgZm9ybWF0
-DQpUd28gc2VjdGlvbiA6DQoxLiBUZXN0IGVudmlyb25tZW50czogc3RvcmluZyBhbGwga2V5LXZh
-bHVlIHBhaXIgaW5mb3JtYXRpb24gcmVsYXRlZCB0byB0ZXN0IGVudmlyb25tZW50cw0KMi4gVGVz
-dCBjYXNlczogc3RvcmluZyB0ZXN0IHJlc3VsdCBhbmQgbG9nDQpQbGVhc2UgbGV0IG1lIGtub3cg
-eW91ciBpbnB1dHMgYW5kIHRob3VnaHRzLiANCg0KVGhhbmtzLA0KWWVvaCBFZSBQZW5nIA0KDQot
-LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogcmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
-ZGF0aW9uLm9yZyBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddIA0K
-U2VudDogTW9uZGF5LCBPY3RvYmVyIDE1LCAyMDE4IDQ6NTQgUE0NClRvOiBZZW9oLCBFZSBQZW5n
-IDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi81XSBvZXFhL2NvcmUv
-cnVubmVyOiB3cml0ZSB0ZXN0cmVzdWx0IHRvIGpzb24gZmlsZXMNCg0KT24gTW9uLCAyMDE4LTEw
-LTE1IGF0IDE1OjI0ICswODAwLCBZZW9oIEVlIFBlbmcgd3JvdGU6DQo+IEFzIHBhcnQgb2YgdGhl
-IHNvbHV0aW9uIHRvIHJlcGxhY2UgVGVzdG9waWEgdG8gc3RvcmUgdGVzdHJlc3VsdCwgT0VRQSAN
-Cj4gbmVlZCB0byBvdXRwdXQgdGVzdHJlc3VsdCBpbnRvIGpzb24gZmlsZSwgd2hlcmUgdGhlc2Ug
-anNvbiB0ZXN0cmVzdWx0IA0KPiBmaWxlIHdpbGwgYmUgc3RvcmVkIGluIGdpdCByZXBvc2l0b3J5
-IGJ5IHRoZSBmdXR1cmUgDQo+IHRlc3QtY2FzZS1tYW5hZ2VtZW50IHRvb2xzLg0KPiANCj4gQm90
-aCB0aGUgdGVzdHJlc3VsdCAoZWcuIFBBU1NFRCwgRkFJTEVELCBFUlJPUikgYW5kICB0aGUgdGVz
-dCBsb2cgKGVnLiANCj4gbWVzc2FnZSBmcm9tIHVuaXQgdGVzdCBhc3NlcnRpb24pIHdpbGwgYmUg
-Y3JlYXRlZCBmb3Igc3RvcmluZy4NCj4gDQo+IEFsc28gdGhlIGxpYnJhcnkgY2xhc3MgaW5zaWRl
-IHRoaXMgcGF0Y2ggd2lsbCBiZSByZXVzZWQgYnkgdGhlIGZ1dHVyZSANCj4gdGVzdC1jYXNlLW1h
-bmFnZW1lbnQgdG9vbHMgdG8gd3JpdGUganNvbiB0ZXN0cmVzdWx0IGZvciBtYW51YWwgdGVzdCAN
-Cj4gY2FzZSBleGVjdXRlZC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFllb2ggRWUgUGVuZyA8ZWUu
-cGVuZy55ZW9oQGludGVsLmNvbT4NCj4gLS0tDQo+ICBtZXRhL2xpYi9vZXFhL2NvcmUvcnVubmVy
-LnB5IHwgNjQgDQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKyst
-DQo+ICAxIGZpbGUgY2hhbmdlZCwgNjMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiAN
-Cj4gZGlmZiAtLWdpdCBhL21ldGEvbGliL29lcWEvY29yZS9ydW5uZXIucHkgDQo+IGIvbWV0YS9s
-aWIvb2VxYS9jb3JlL3J1bm5lci5weSBpbmRleCA1NjY2NmVlLi41NmU4NTI2IDEwMDY0NA0KPiAt
-LS0gYS9tZXRhL2xpYi9vZXFhL2NvcmUvcnVubmVyLnB5DQo+ICsrKyBiL21ldGEvbGliL29lcWEv
-Y29yZS9ydW5uZXIucHkNCj4gQEAgLTYsNiArNiw4IEBAIGltcG9ydCB0aW1lDQo+ICBpbXBvcnQg
-dW5pdHRlc3QNCj4gIGltcG9ydCBsb2dnaW5nDQo+ICBpbXBvcnQgcmUNCj4gK2ltcG9ydCBqc29u
-DQo+ICtpbXBvcnQgcGF0aGxpYg0KPiAgDQo+ICBmcm9tIHVuaXR0ZXN0IGltcG9ydCBUZXh0VGVz
-dFJlc3VsdCBhcyBfVGVzdFJlc3VsdCAgZnJvbSB1bml0dGVzdCANCj4gaW1wb3J0IFRleHRUZXN0
-UnVubmVyIGFzIF9UZXN0UnVubmVyIEBAIC0xMTksOCArMTIxLDkgQEAgY2xhc3MgDQo+IE9FVGVz
-dFJlc3VsdChfVGVzdFJlc3VsdCk6DQo+ICAgICAgICAgIHNlbGYuc3VjY2Vzc2VzLmFwcGVuZCgo
-dGVzdCwgTm9uZSkpDQo+ICAgICAgICAgIHN1cGVyKE9FVGVzdFJlc3VsdCwgc2VsZikuYWRkU3Vj
-Y2Vzcyh0ZXN0KQ0KPiAgDQo+IC0gICAgZGVmIGxvZ0RldGFpbHMoc2VsZik6DQo+ICsgICAgZGVm
-IGxvZ0RldGFpbHMoc2VsZiwganNvbl9maWxlX2Rpcj0nJyk6DQoNCmpzb25fZmlsZV9kaXI9Tm9u
-ZQ0KDQo+ICAgICAgICAgIHNlbGYudGMubG9nZ2VyLmluZm8oIlJFU1VMVFM6IikNCj4gKyAgICAg
-ICAgcmVzdWx0cyA9IHt9DQo+ICAgICAgICAgIGZvciBjYXNlX25hbWUgaW4gc2VsZi50Yy5fcmVn
-aXN0cnlbJ2Nhc2VzJ106DQo+ICAgICAgICAgICAgICBjYXNlID0gc2VsZi50Yy5fcmVnaXN0cnlb
-J2Nhc2VzJ11bY2FzZV9uYW1lXQ0KPiAgDQo+IEBAIC0xMzcsNiArMTQwLDEyIEBAIGNsYXNzIE9F
-VGVzdFJlc3VsdChfVGVzdFJlc3VsdCk6DQo+ICAgICAgICAgICAgICAgICAgdCA9ICIgKCIgKyAi
-ezA6LjJmfSIuZm9ybWF0KHNlbGYuZW5kdGltZVtjYXNlLmlkKCldIC0gc2VsZi5zdGFydHRpbWVb
-Y2FzZS5pZCgpXSkgKyAicykiDQo+ICANCj4gICAgICAgICAgICAgIHNlbGYudGMubG9nZ2VyLmlu
-Zm8oIlJFU1VMVFMgLSAlcyAtIFRlc3RjYXNlICVzOiAlcyVzIiAlIA0KPiAoY2FzZS5pZCgpLCBv
-ZWlkLCBzdGF0dXMsIHQpKQ0KPiArICAgICAgICAgICAgcmVzdWx0c1tjYXNlLmlkKCldID0gKHN0
-YXR1cywgbG9nKQ0KPiArDQo+ICsgICAgICAgIGlmIGxlbihqc29uX2ZpbGVfZGlyKSA+IDA6DQoN
-CmlmIGpzb25fZmlsZV9kaXI6DQoNCj4gKyAgICAgICAgICAgIHRyZXN1bHRqc29uaGVscGVyID0g
-T0VUZXN0UmVzdWx0SlNPTkhlbHBlcigpDQo+ICsgICAgICAgICAgICB0cmVzdWx0anNvbmhlbHBl
-ci5kdW1wX3Rlc3RyZXN1bHRfZmlsZShyZXN1bHRzLCBqc29uX2ZpbGVfZGlyKQ0KPiArICAgICAg
-ICAgICAgdHJlc3VsdGpzb25oZWxwZXIuZHVtcF9sb2dfZmlsZXMocmVzdWx0cywgDQo+ICsgb3Mu
-cGF0aC5qb2luKGpzb25fZmlsZV9kaXIsICdsb2dzJykpDQo+ICANCj4gIGNsYXNzIE9FTGlzdFRl
-c3RzUmVzdWx0KG9iamVjdCk6DQo+ICAgICAgZGVmIHdhc1N1Y2Nlc3NmdWwoc2VsZik6DQo+IEBA
-IC0yNDksMyArMjU4LDU2IEBAIGNsYXNzIE9FVGVzdFJ1bm5lcihfVGVzdFJ1bm5lcik6DQo+ICAg
-ICAgICAgICAgICBzZWxmLl9saXN0X3Rlc3RzX21vZHVsZShzdWl0ZSkNCj4gIA0KPiAgICAgICAg
-ICByZXR1cm4gT0VMaXN0VGVzdHNSZXN1bHQoKQ0KPiArDQo+ICtjbGFzcyBPRVRlc3RSZXN1bHRK
-U09OSGVscGVyKG9iamVjdCk6DQo+ICsNCj4gKyAgICBkZWYgZ2V0X3Rlc3RzdWl0ZV9mcm9tX3Rl
-c3RjYXNlKHNlbGYsIHRlc3RjYXNlKToNCj4gKyAgICAgICAgdGVzdHN1aXRlID0gdGVzdGNhc2Vb
-MDp0ZXN0Y2FzZS5yZmluZCgiLiIpXQ0KPiArICAgICAgICByZXR1cm4gdGVzdHN1aXRlDQo+ICsN
-Cj4gKyAgICBkZWYgZ2V0X3Rlc3RzdWl0ZV90ZXN0Y2FzZV9kaWN0aW9uYXJ5KHNlbGYsIHRlc3Ry
-ZXN1bHRzKToNCj4gKyAgICAgICAgdGVzdHN1aXRlX3Rlc3RjYXNlX2RpY3QgPSB7fQ0KPiArICAg
-ICAgICBmb3IgdGVzdGNhc2UgaW4gdGVzdHJlc3VsdHMua2V5cygpOg0KPiArICAgICAgICAgICAg
-dGVzdHN1aXRlID0gc2VsZi5nZXRfdGVzdHN1aXRlX2Zyb21fdGVzdGNhc2UodGVzdGNhc2UpDQo+
-ICsgICAgICAgICAgICBpZiB0ZXN0c3VpdGUgaW4gdGVzdHN1aXRlX3Rlc3RjYXNlX2RpY3Q6DQo+
-ICsgICAgICAgICAgICAgICAgdGVzdHN1aXRlX3Rlc3RjYXNlX2RpY3RbdGVzdHN1aXRlXS5hcHBl
-bmQodGVzdGNhc2UpDQo+ICsgICAgICAgICAgICBlbHNlOg0KPiArICAgICAgICAgICAgICAgIHRl
-c3RzdWl0ZV90ZXN0Y2FzZV9kaWN0W3Rlc3RzdWl0ZV0gPSBbdGVzdGNhc2VdDQo+ICsgICAgICAg
-IHJldHVybiB0ZXN0c3VpdGVfdGVzdGNhc2VfZGljdA0KPiArDQo+ICsgICAgZGVmIF9jcmVhdGVf
-dGVzdGNhc2VfdGVzdHJlc3VsdF9vYmplY3Qoc2VsZiwgdGVzdGNhc2VfbGlzdCwgdGVzdHJlc3Vs
-dHMpOg0KPiArICAgICAgICB0ZXN0Y2FzZV9kaWN0ID0ge30NCj4gKyAgICAgICAgZm9yIHRlc3Rj
-YXNlIGluIHNvcnRlZCh0ZXN0Y2FzZV9saXN0KToNCj4gKyAgICAgICAgICAgIHRlc3RjYXNlX2Rp
-Y3RbdGVzdGNhc2VdID0geyJ0ZXN0cmVzdWx0IjogdGVzdHJlc3VsdHNbdGVzdGNhc2VdWzBdfQ0K
-PiArICAgICAgICByZXR1cm4gdGVzdGNhc2VfZGljdA0KPiArDQo+ICsgICAgZGVmIF9jcmVhdGVf
-anNvbl90ZXN0c3VpdGVfc3RyaW5nKHNlbGYsIHRlc3RyZXN1bHRzKToNCj4gKyAgICAgICAgdGVz
-dHN1aXRlX3Rlc3RjYXNlID0gc2VsZi5nZXRfdGVzdHN1aXRlX3Rlc3RjYXNlX2RpY3Rpb25hcnko
-dGVzdHJlc3VsdHMpDQo+ICsgICAgICAgIHRlc3RzdWl0ZV9vYmplY3QgPSB7J3Rlc3RzdWl0ZSc6
-IHt9fQ0KPiArICAgICAgICB0ZXN0c3VpdGVfZGljdCA9IHRlc3RzdWl0ZV9vYmplY3RbJ3Rlc3Rz
-dWl0ZSddDQo+ICsgICAgICAgIGZvciB0ZXN0c3VpdGUgaW4gc29ydGVkKHRlc3RzdWl0ZV90ZXN0
-Y2FzZS5rZXlzKCkpOg0KPiArICAgICAgICAgICAgdGVzdHN1aXRlX2RpY3RbdGVzdHN1aXRlXSA9
-IHsndGVzdGNhc2UnOiB7fX0NCj4gKyAgICAgICAgICAgIHRlc3RzdWl0ZV9kaWN0W3Rlc3RzdWl0
-ZV1bJ3Rlc3RjYXNlJ10gPSBzZWxmLl9jcmVhdGVfdGVzdGNhc2VfdGVzdHJlc3VsdF9vYmplY3Qo
-DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHRlc3RzdWl0ZV90ZXN0Y2FzZVt0ZXN0c3VpdGVdLA0KPiArICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0ZXN0cmVzdWx0cykNCj4gKyAg
-ICAgICAgcmV0dXJuIGpzb24uZHVtcHModGVzdHN1aXRlX29iamVjdCwgc29ydF9rZXlzPVRydWUs
-IGluZGVudD00KQ0KDQpUaGlzIHBhdGNoIGl0c2VsZiBpcyBiZXR0ZXIgYnV0IEkgd2FudCB0byBt
-YWtlIHN1cmUgd2UncmUgdXNpbmcgdGhlIHJpZ2h0IGRhdGEgZm9ybWF0IGZvciB0aGlzIHJlc3Vs
-dHMgZmlsZS4gQ2FuIHlvdSBkZXNjcmliZSB0aGUgZm9ybWF0IHlvdSdyZSBwbGFubmluZyB0byB1
-c2UgZm9yIHRoZSByZXN1bHRzPw0KDQpJIHRoaW5rIHdoYXQgd2UgbWF5IG5lZWQgdG8gZG8gaXM6
-DQoNCmEpIENvbWJpbmUgdGhlIHJlc3VsdHMgYW5kIGxvZyBkYXRhIGludG8gYSBzaW5nbGUgZmls
-ZQ0KDQpiKSBTdG9wIHRyeWluZyB0byBzcGxpdCB0aGluZ3MgaW50byB0ZXN0c3VpdGVzIGhlcmUg
-YW5kIGRvIHRoYXQgZHVyaW5nIHRoZSByZXN1bHRzIHByb2Nlc3NpbmcuIEhlcmUsIHdlIHNob3Vs
-ZCBqdXN0IGJlIHdyaXRpbmcgdGhlIHRlc3QgY2FzZSBuYW1lcyBhcyB0aGV5IGFyZSBpbiB0aGUg
-c3lzdGVtLg0KDQpjKSBEb24ndCByZWx5IG9uIHRoZSBmaWxlbmFtZSB0byBwYXNzIGluZm9ybWF0
-aW9uLiBGb3IgZXhhbXBsZSwNCmxvZ0RldGFpbHMoKSBuZWVkcyB0byB0YWtlIGEgcGFyYW1ldGVy
-IHdoaWNoIHNheXMgd2hldGhlciB0aGVzZSBhcmUgInJ1bnRpbWUiLCAic2VsZnRlc3QiLCAibWFu
-dWFsIiBvciB3aGF0ZXZlciBhbmQgdGhhdCBpbmZvcm1hdGlvbiBhbHNvIG5lZWRzIHRvIGJlIHN0
-b3JlZCBpbiB0aGUganNvbiBmaWxlLg0KDQpJIHRoaW5rIGlmIHlvdSBkZXNjcmliZSB0aGUgcmVz
-dWx0cyBmb3JtYXQgYW5kL29yIHByb3ZpZGUgYSBzYW1wbGUgcmVzdWx0cyBlbnRyeSBpbiBqc29u
-IGZvcm1hdCwgdGhpcyB3aWxsIGJlY29tZSBjbGVhcmVyLg0KDQoNCg0KPiArICAgIGRlZiBfd3Jp
-dGVfZmlsZShzZWxmLCB3cml0ZV9kaXIsIGZpbGVfbmFtZSwgZmlsZV9jb250ZW50KToNCj4gKyAg
-ICAgICAgZmlsZV9wYXRoID0gb3MucGF0aC5qb2luKHdyaXRlX2RpciwgZmlsZV9uYW1lKQ0KPiAr
-ICAgICAgICB3aXRoIG9wZW4oZmlsZV9wYXRoLCAndycpIGFzIHRoZV9maWxlOg0KPiArICAgICAg
-ICAgICAgdGhlX2ZpbGUud3JpdGUoZmlsZV9jb250ZW50KQ0KPiArDQo+ICsgICAgZGVmIGR1bXBf
-dGVzdHJlc3VsdF9maWxlKHNlbGYsIHRlc3RyZXN1bHRzLCB3cml0ZV9kaXIpOg0KPiArICAgICAg
-ICBpZiBub3Qgb3MucGF0aC5leGlzdHMod3JpdGVfZGlyKToNCj4gKyAgICAgICAgICAgIHBhdGhs
-aWIuUGF0aCh3cml0ZV9kaXIpLm1rZGlyKHBhcmVudHM9VHJ1ZSwgDQo+ICsgZXhpc3Rfb2s9VHJ1
-ZSkNCg0KVGhlIGFib3ZlIGNhbiBiZSBtb3ZlZCBpbnRvIF93cml0ZV9maWxlKCkgcmF0aGVyIHRo
-YW4gYmVpbmcgZHVwbGljYXRlZC4NCkFsc28sIGNhbid0IHdlIHVzZSBiYi51dGlscy5ta2Rpcmhp
-ZXIoKSBsaWtlIHRoZSByZXN0IG9mIHRoZSBjb2RlPyBUaGF0IGNhbiBiZSBjYWxsZWQgdW5jb25k
-aXRpb25hbGx5IGFzIGl0IHRlc3RzIGludGVybmFsbHkgaWYgaXQgbmVlZHMgdG8gY3JlYXRlIHRo
-ZSBkaXJlY3RvcnkuDQoNCj4gKyAgICAgICAganNvbl90ZXN0c3VpdGUgPSBzZWxmLl9jcmVhdGVf
-anNvbl90ZXN0c3VpdGVfc3RyaW5nKHRlc3RyZXN1bHRzKQ0KPiArICAgICAgICBzZWxmLl93cml0
-ZV9maWxlKHdyaXRlX2RpciwgJ3Rlc3RyZXN1bHRzLmpzb24nLCANCj4gKyBqc29uX3Rlc3RzdWl0
-ZSkNCj4gKw0KPiArICAgIGRlZiBkdW1wX2xvZ19maWxlcyhzZWxmLCB0ZXN0cmVzdWx0cywgd3Jp
-dGVfZGlyKToNCj4gKyAgICAgICAgaWYgbm90IG9zLnBhdGguZXhpc3RzKHdyaXRlX2Rpcik6DQo+
-ICsgICAgICAgICAgICBwYXRobGliLlBhdGgod3JpdGVfZGlyKS5ta2RpcihwYXJlbnRzPVRydWUs
-IGV4aXN0X29rPVRydWUpDQo+ICsgICAgICAgIGZvciB0ZXN0Y2FzZSBpbiB0ZXN0cmVzdWx0cy5r
-ZXlzKCk6DQo+ICsgICAgICAgICAgICB0ZXN0X2xvZyA9IHRlc3RyZXN1bHRzW3Rlc3RjYXNlXVsx
-XQ0KPiArICAgICAgICAgICAgaWYgdGVzdF9sb2cgaXMgbm90IE5vbmU6DQoNCkp1c3QgImlmIHRl
-c3RfbG9nOiIgc2hvdWxkIGJlIGZpbmUuDQoNCj4gKyAgICAgICAgICAgICAgICBmaWxlX25hbWUg
-PSAnJXMubG9nJyAlIHRlc3RjYXNlDQo+ICsgICAgICAgICAgICAgICAgc2VsZi5fd3JpdGVfZmls
-ZSh3cml0ZV9kaXIsIGZpbGVfbmFtZSwgdGVzdF9sb2cpDQoNCg0KQ2hlZXJzLA0KDQpSaWNoYXJk
-DQoNCg==
+Ross
+On Mon, 15 Oct 2018 at 06:32, <changqing.li@windriver.com> wrote:
+>
+> From: Changqing Li <changqing.li@windriver.com>
+>
+> remove compile of windows resource file to fix compile
+> fail problem of freetype when build windows sdk.
+>
+> when build windows sdk, include meta-mingw layer, and
+> SDKMACHINE set to i686-mingw32, meta-mingw have
+> export variable RC, and from freetype 3.29, it add better
+> support to  build FreeType  as  a DLL  on Windows  using
+> Visual C, but we don't need this. so remove it.
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  ...-remove-compile-of-windows-resource-files.patch | 71 ++++++++++++++++++++++
+>  meta/recipes-graphics/freetype/freetype_2.9.1.bb   |  1 +
+>  2 files changed, 72 insertions(+)
+>  create mode 100644 meta/recipes-graphics/freetype/freetype/0001-freetype-remove-compile-of-windows-resource-files.patch
+>
+> diff --git a/meta/recipes-graphics/freetype/freetype/0001-freetype-remove-compile-of-windows-resource-files.patch b/meta/recipes-graphics/freetype/freetype/0001-freetype-remove-compile-of-windows-resource-files.patch
+> new file mode 100644
+> index 0000000..2daba28
+> --- /dev/null
+> +++ b/meta/recipes-graphics/freetype/freetype/0001-freetype-remove-compile-of-windows-resource-files.patch
+> @@ -0,0 +1,71 @@
+> +From b6c1c1c96006452873132db1b15e2d0b9576a7fb Mon Sep 17 00:00:00 2001
+> +From: Changqing Li <changqing.li@windriver.com>
+> +Date: Mon, 15 Oct 2018 11:25:23 +0800
+> +Subject: [PATCH] freetype: remove compile of windows resource files
+> +
+> +remove compile of windows resource file to fix compile
+> +fail problem of freetype when build windows sdk.
+> +
+> +when build windows sdk, include meta-mingw, and
+> +SDKMACHINE set to i686-mingw32, meta-mingw have
+> +export variable RC, and from freetype 3.29, it add better
+> +support to  build FreeType  as  a DLL  on Windows  using
+> +Visual C, but we don't need this. so remove it.
+> +
+> +Upstream-Status: Inappropriate [oe-specific]
+> +
+> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> +---
+> + builds/freetype.mk     | 17 -----------------
+> + builds/unix/unix-cc.in |  7 -------
+> + 2 files changed, 24 deletions(-)
+> +
+> +diff --git a/builds/freetype.mk b/builds/freetype.mk
+> +index 6f68a0f..4287869 100644
+> +--- a/builds/freetype.mk
+> ++++ b/builds/freetype.mk
+> +@@ -247,23 +247,6 @@ OBJECTS_LIST += $(FTINIT_OBJ)
+> + $(FTINIT_OBJ): $(FTINIT_SRC) $(FREETYPE_H)
+> +       $(FT_COMPILE) $T$(subst /,$(COMPILER_SEP),$@ $<)
+> +
+> +-
+> +-# ftver component
+> +-#
+> +-#  The VERSIONINFO resource `ftver.rc' contains version and copyright
+> +-#  to be compiled by windres and tagged into DLL usually.
+> +-#
+> +-ifneq ($(RC),)
+> +-  FTVER_SRC := $(BASE_DIR)/ftver.rc
+> +-  FTVER_OBJ := $(OBJ_DIR)/ftver.$O
+> +-
+> +-  OBJECTS_LIST += $(FTVER_OBJ)
+> +-
+> +-  $(FTVER_OBJ): $(FTVER_SRC)
+> +-      $(RC) -o $@ $<
+> +-endif
+> +-
+> +-
+> + # All FreeType library objects.
+> + #
+> + OBJ_M := $(BASE_OBJ_M) $(BASE_EXT_OBJ) $(DRV_OBJS_M)
+> +diff --git a/builds/unix/unix-cc.in b/builds/unix/unix-cc.in
+> +index b24c408..603897c 100644
+> +--- a/builds/unix/unix-cc.in
+> ++++ b/builds/unix/unix-cc.in
+> +@@ -90,13 +90,6 @@ ANSIFLAGS := @XX_ANSIFLAGS@
+> + CCraw := $(CC)
+> + CC    := $(LIBTOOL) --mode=compile $(CCraw)
+> +
+> +-# Resource compiler to use on Cygwin/MinGW, usually windres.
+> +-#
+> +-RCraw := @RC@
+> +-ifneq ($(RCraw),)
+> +-  RC := $(LIBTOOL) --tag=RC --mode=compile $(RCraw)
+> +-endif
+> +-
+> + # Linker flags.
+> + #
+> + LDFLAGS           := @LDFLAGS@
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-graphics/freetype/freetype_2.9.1.bb b/meta/recipes-graphics/freetype/freetype_2.9.1.bb
+> index 1e6f66e..b7d090d 100644
+> --- a/meta/recipes-graphics/freetype/freetype_2.9.1.bb
+> +++ b/meta/recipes-graphics/freetype/freetype_2.9.1.bb
+> @@ -14,6 +14,7 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=4af6221506f202774ef74f64932878a1
+>
+>  SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
+>             file://use-right-libtool.patch \
+> +           file://0001-freetype-remove-compile-of-windows-resource-files.patch \
+>            "
+>
+>  UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/freetype/files/freetype2/"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---_002_9DDD2658D1FE414E99172D2DB1E4D04335ECB302KMSMSX155garcor_
-Content-Type: application/octet-stream; name="testresults.json"
-Content-Description: testresults.json
-Content-Disposition: attachment; filename="testresults.json"; size=1446;
-	creation-date="Mon, 15 Oct 2018 10:08:37 GMT";
-	modification-date="Mon, 15 Oct 2018 10:18:51 GMT"
-Content-Transfer-Encoding: base64
-
-ewoJInRlc3RfZW52aXJvbm1lbnRzIjogewoJCSJURVNUX1RZUEUiIDogImF1dG9fcnVudGltZSIs
-CgkJIk1BQ0hJTkUiIDogInFlbXV4ODYiLAoJCSJJTUFHRV9CQVNFTkFNRSIgOiAiY29yZS1pbWFn
-ZS1zYXRvLXNkayIsCgl9CgkidGVzdGNhc2UiOiB7CgkJImJibGF5ZXJzLkJpdGJha2VMYXllcnMu
-dGVzdF9iaXRiYWtlbGF5ZXJzX2FkZF9yZW1vdmUiOiB7CgkJCSJ0ZXN0cmVzdWx0IjogIlBBU1NF
-RCIsCgkJCSJsb2dzOiAiIgoJCX0sCgkJImJibGF5ZXJzLkJpdGJha2VMYXllcnMudGVzdF9iaXRi
-YWtlbGF5ZXJzX2NyZWF0ZWxheWVyIjogewoJCQkidGVzdHJlc3VsdCI6ICJQQVNTRUQiLAoJCQki
-bG9nczogIiIKCQl9LAoJCSJiYmxheWVycy5CaXRiYWtlTGF5ZXJzLnRlc3RfYml0YmFrZWxheWVy
-c19mbGF0dGVuIjogewoJCQkidGVzdHJlc3VsdCI6ICJQQVNTRUQiLAoJCQkibG9nczogIiIKCQl9
-LAoJCSJiYmxheWVycy5CaXRiYWtlTGF5ZXJzLnRlc3RfYml0YmFrZWxheWVyc19zaG93YXBwZW5k
-cyI6IHsKCQkJInRlc3RyZXN1bHQiOiAiUEFTU0VEIiwKCQkJImxvZ3M6ICIiCgkJfSwKCQkiYmJs
-YXllcnMuQml0YmFrZUxheWVycy50ZXN0X2JpdGJha2VsYXllcnNfc2hvd2Nyb3NzZGVwZW5kcyI6
-IHsKCQkJInRlc3RyZXN1bHQiOiAiUEFTU0VEIiwKCQkJImxvZ3M6ICIiCgkJfSwKCQkiYmJsYXll
-cnMuQml0YmFrZUxheWVycy50ZXN0X2JpdGJha2VsYXllcnNfc2hvd2xheWVycyI6IHsKCQkJInRl
-c3RyZXN1bHQiOiAiUEFTU0VEIiwKCQkJImxvZ3M6ICIiCgkJfSwKCQkiYmJsYXllcnMuQml0YmFr
-ZUxheWVycy50ZXN0X2JpdGJha2VsYXllcnNfc2hvd292ZXJsYXllZCI6IHsKCQkJInRlc3RyZXN1
-bHQiOiAiUEFTU0VEIiwgCgkJCSJsb2dzOiAiIgoJCX0sCgkJImJibGF5ZXJzLkJpdGJha2VMYXll
-cnMudGVzdF9iaXRiYWtlbGF5ZXJzX3Nob3dyZWNpcGVzIjogewoJCQkidGVzdHJlc3VsdCI6ICJG
-QUlMRUQiLAoJCQkibG9nczogIkZpbGUgIi9kYXRhL2V5ZW9oNy90bXAvcG9reV9xYS9tZXRhL2xp
-Yi9vZXFhL2NvcmUvZGVjb3JhdG9yL19faW5pdF9fLnB5IiwgbGluZSAzMiwgaW4gd3JhcHBlZF9m
-CiAgICByZXR1cm4gZnVuYygqYXJncywgKiprd2FyZ3MpCiAgRmlsZSAiL2RhdGEvZXllb2g3L3Rt
-cC9wb2t5X3FhL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvYmJsYXllcnMucHkiLCBsaW5l
-IDQ1LCBpbiB0ZXN0X2JpdGJha2VsYXllcnNfZmxhdHRlbgogICAgc2VsZi5hc3NlcnRUcnVlKG9z
-LnBhdGguaXNmaWxlKGJiX2ZpbGUrMSksIG1zZyA9ICJDYW5ub3QgZmluZCB4Y3Vyc29yLXRyYW5z
-cGFyZW50LXRoZW1lXzAuMS4xLmJiIGluIHRoZSB0ZXN0X2JpdGJha2VsYXllcnNfZmxhdHRlbiBs
-b2NhbCBkaXIuIikKVHlwZUVycm9yOiBDYW4ndCBjb252ZXJ0ICdpbnQnIG9iamVjdCB0byBzdHIg
-aW1wbGljaXRseSIKCQl9Cgl9Cgp9
-
---_002_9DDD2658D1FE414E99172D2DB1E4D04335ECB302KMSMSX155garcor_--
