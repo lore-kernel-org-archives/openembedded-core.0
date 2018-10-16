@@ -1,27 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id ECAEB745F1
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E7F5745F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 09:55:06 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w9G9ssEk004478
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 16 Oct 2018 10:54:55 +0100
-Message-ID: <9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>, Victor Kamensky
-	<kamensky@cisco.com>
-Date: Tue, 16 Oct 2018 10:54:54 +0100
-In-Reply-To: <CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
-References: <20181015182128.13115-1-kamensky@cisco.com>
-	<CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
+	Tue, 16 Oct 2018 10:00:55 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id 193-v6so22530980wme.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Oct 2018 03:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=As6bzPx616oLmUF2kjypFnaixb2QUyPkAl57OQX/jNQ=;
+	b=BnFmIR4plGxoZIfOTV11E6IhNMQPUZ4DEV4Upr2db/di6+u6K9u55dqpprd9Tn1GwO
+	HtcgwrwfgRXzD3HJ/YzhxfpXyyWfLmCZhBFKlewUwXb/RYEDB06K7mT6RhT0Q6tkbWhd
+	CQ8aCBTZ4fEGcOIjjoHYA/5xGOsHpSYKsERDk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=As6bzPx616oLmUF2kjypFnaixb2QUyPkAl57OQX/jNQ=;
+	b=JX8CSJ2gwLKpfkAjzLK8/G31tvCujLDmS8NdXN2hWnz3hluoJ5EyxGnz8BxkvOGWOZ
+	kzO744FcGvuvlDwQXcDfsJ2V/ZRa8PRFNIUX5pSEbm5Ya0yA7TdedKasWAMrfiq9JHIW
+	RGhZLLtTbDzCyTzBZCsSSit+OzCQJDJVYKWeJl7KZUuvcWBXDo5/TTA0SUdBdHF85P1V
+	XDUeamMG819z9ec5pN391J7rDUP2X/LM6h094XlztNMFgZ9K3ALmf3MH4zsRgAUla8zi
+	I0/zs3FhYJufnKjz5MEiK1Xn4ekHFcDk8BGnBVztk/CvuxCoTpLzXv2sQcoyx0mHs4/A
+	jRxw==
+X-Gm-Message-State: ABuFfoiMJ1iADizZ+A7vmkJMBlMqbNDN1JZkQ3QbR2ZJRTlDIKeHbEhe
+	vHCVNtMRg2qbBgSqpbu3+J/SMQ==
+X-Google-Smtp-Source: ACcGV61xTrxkVak7m+PQjhURF/oD7tZjezckbHzvmmdhk32elntiGSKxP09VSW3aWRKgb6J4K2bVtA==
+X-Received: by 2002:a1c:a851:: with SMTP id
+	r78-v6mr15986201wme.97.1539684056504; 
+	Tue, 16 Oct 2018 03:00:56 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	u76-v6sm21253492wmd.10.2018.10.16.03.00.54
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 16 Oct 2018 03:00:55 -0700 (PDT)
+Message-ID: <fb67373823b7952f1acf022bed6bd40611c74754.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org, 
+	ross.burton@intel.com, randy.macleod@windriver.com
+Date: Tue, 16 Oct 2018 11:00:54 +0100
+In-Reply-To: <20181016090054.122374-1-mingli.yu@windriver.com>
+References: <20181016090054.122374-1-mingli.yu@windriver.com>
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
+Subject: Re: [PATCH] boost.inc: make libboost_python3.so available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +59,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 09:55:07 -0000
+X-List-Received-Date: Tue, 16 Oct 2018 10:00:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-10-16 at 10:27 +0100, Burton, Ross wrote:
-> On Mon, 15 Oct 2018 at 19:22, Victor Kamensky <kamensky@cisco.com>
-> wrote:
-> > Upgrade systemtap from 3.3 to 4.0: Removed backported patch.
+On Tue, 2018-10-16 at 02:00 -0700, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
 > 
-> WARNING: systemtap-4.0-r0 do_package_qa: QA Issue: systemtap:
-> /systemtap/etc/stap-exporter/EXAMPLE is owned by uid 1000, which is
-> the same as the user running bitbake. This may be due to host
-> contamination
-> systemtap: /systemtap/etc/stap-exporter/EXAMPLE_NOERROR is owned by
-> uid 1000, which is the same as the user running bitbake. This may be
-> due to host contamination
-> systemtap: /systemtap/etc/stap-exporter/errno.stp is owned by uid
-> 1000, which is the same as the user running bitbake. This may be due
-> to host contamination
-> systemtap: /systemtap/etc/stap-exporter/syscalllatency.stp is owned
-> by
-> uid 1000, which is the same as the user running bitbake. This may be
-> due to host contamination
-> systemtap: /systemtap/etc/stap-exporter/timeout.stp is owned by uid
-> 1000, which is the same as the user running bitbake. This may be due
-> to host contamination
-> systemtap: /systemtap/etc/stap-exporter/topsys.stp is owned by uid
-> 1000, which is the same as the user running bitbake. This may be due
-> to host contamination [host-user-contaminated]
+> Currently boost provides ${libdir}/libboost_python35.so,
+> but there is some logic as below in CMakeLists.txt
+> of package cv-bridge under meta-ros layer.
+> [snip]
+> if(PYTHONLIBS_VERSION_STRING VERSION_LESS 3)
+>     find_package(Boost REQUIRED python)
+> else()
+>     find_package(Boost REQUIRED python3)
+> endif()
+> [snip]
+> 
+> And comes below do_configure error for cv-bridge:
+> meta-ros/recipes-ros/vision-opencv/cv-bridge_1.11.16.bb:do_configure
+> > CMake Error at $Prj/cv-bridge/1.11.16-r0/recipe-sysroot-
+> > native/usr/share/cmake-3.12/Modules/FindBoost.cmake:2048 (message):
+> >   Unable to find the requested Boost libraries.
+> > 
+> >   Boost version: 1.68.0
+> > 
+> >   Boost include path:
+> >   $Prj/cv-bridge/1.11.16-r0/recipe-sysroot/usr/include
+> > 
+> > 
+> >   Could not find the following Boost libraries:
+> > 
+> >           boost_python3
+> > 
+> >   No Boost libraries were found.  You may need to set
+> > BOOST_LIBRARYDIR to the
+> >   directory containing Boost libraries or BOOST_ROOT to the
+> > location of
+> >   Boost.
+> > Call Stack (most recent call first):
+> >   CMakeLists.txt:11 (find_package)
+> 
+> Can update CMakeLists.txt of cv-bridge as below
+> to remove the configure error:
+>  - find_package(Boost REQUIRED python3)
+>  + find_package(Boost REQUIRED python35)
+> 
+> But once the python version changes such as
+> python37, it fails again. So make boost provides
+> libboost_python3.so to make the fix flexibly.
+> 
+> [YOCTO #12833]
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/recipes-support/boost/boost.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-There are also other issues from the addition of systemd unit files in
-4.0. I've a patch in -next which tweaks both issues which I'll put in
-for testing.
+I'm a little worried about why we're having to create these links when
+other software seems able to expect these things by default. Is this
+some standard packaging most distros do? I'm a little worried we're
+creating an ABI here which doesn't exist...
+
+Put another way, why doesn't upstream create this link if its expected
+to work?
 
 Cheers,
 
