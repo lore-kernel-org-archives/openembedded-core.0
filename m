@@ -1,24 +1,48 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 64D0879974
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+	[209.85.167.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 53877745A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 09:11:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9G9AgM0024242
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Oct 2018 02:10:52 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 16 Oct 2018 02:10:31 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 16 Oct 2018 16:29:13 +0800
-Message-ID: <cover.1539678147.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
+	Tue, 16 Oct 2018 09:28:10 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id w81-v6so17461501oiw.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Oct 2018 02:28:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=VqMWZ36mwpeyr0c77QEtzz6iJr7AjazFro3YqpOqkWA=;
+	b=AFpAT2g9O4Qppra3hhhJGxQy+0+J4m3vF/t4RlQx39hE26f+s0HICVUoHf80eYS9+z
+	8Z5wwtx1/AIWNUtu2DWBl79R1yH2VvptDTpJcZWExZ2UQ7wJL7cShrgg8ak5rXR0ItGU
+	Gbf/SH/lfEhsI/hFGkfBQAB8V5uKczw25lOCIzBFmWi1KhHp7A0++vun5GW5V66gOldi
+	UW2UUX1XpWCwJWymlA5r8fusYiTKqvabUmCn3QKDjYVOANpPkQZgRDEr+UrDb8hAi1HC
+	Dw9TQNyK1oSTNYJYybluxpIuD1oVVU8qnzWpV9tH0kDQfNu/KEKwhgwadZJVGWOQvGH4
+	fhxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=VqMWZ36mwpeyr0c77QEtzz6iJr7AjazFro3YqpOqkWA=;
+	b=aFeTBDFD2QrUxPbnZj8SeG78G5Ei3uUAOlLHmx7iM7ztOPowqR1V4lQlAq9BT87QnS
+	pDxRU98bLYKvhCPhRXGszfApGJ/rNsa/W5vfUbU/Y4pJqQreZbhP3+ZqOAGx60CKsphN
+	HBpNTMRA20nA4hePVf9SVm2VEvojlzurimAYzy6l7NdWXyWc4U2IOedFxCpaLY12HNWV
+	pzz2e5StagH/IwnA+3J67cG8f4U2xtMkMsCZKurrhksHNwVdCAChYi/PpjI32H8OnP9R
+	PGqFPhjhtJoPke6SVG58KLcL4TNUnWj0CHy+8cT+cQEZfS+fGX/EkYk/tn1K8MAvqcjO
+	5yUA==
+X-Gm-Message-State: ABuFfojneMQccGmx2eWi03iVbqvkXNwiSrYD/l48q/B7gwUDASXSkniG
+	9jLQT/osxbort250loGUpsLwOX5zhKZFiQN8Ixw//w==
+X-Google-Smtp-Source: ACcGV62WJx7PJ69Ed+r9O6ikeRFlxIo9YpZnWOeIJAjcdox3D40CMIyw76JaXbyj12d+WoENayIz/yKFVqJDlVXgOwU=
+X-Received: by 2002:aca:ed57:: with SMTP id
+	l84-v6mr10721819oih.188.1539682091222; 
+	Tue, 16 Oct 2018 02:28:11 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] wic: search nonarch STAGING_DATADIR for multilib
+References: <20181015182128.13115-1-kamensky@cisco.com>
+In-Reply-To: <20181015182128.13115-1-kamensky@cisco.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 Oct 2018 10:27:59 +0100
+Message-ID: <CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
+To: Victor Kamensky <kamensky@cisco.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 09:11:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 16 Oct 2018 09:28:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Kai Kang <kai.kang@windriver.com>
+On Mon, 15 Oct 2018 at 19:22, Victor Kamensky <kamensky@cisco.com> wrote:
+> Upgrade systemtap from 3.3 to 4.0: Removed backported patch.
 
-Build lib32-core-image-minimal with wic successfully by following config:
-
-  MACHINE = "qemux86-64"
-  require conf/multilib.conf
-  MULTILIBS = "multilib:lib32"
-  DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-
-  IMAGE_FSTYPES = "wic"
-
-
-The following changes since commit b02f3bfe2fee291a9db85094e5f31b1933acf871:
-
-  local.conf.sample.extended: add another warning to comment about GLIBC_GENERATE_LOCALES (2018-10-14 23:45:40 +0100)
-
-are available in the Git repository at:
-
-  git://git.pokylinux.org/poky-contrib kangkai/wic
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/wic
-
-Kai Kang (1):
-  wic: search nonarch STAGING_DATADIR for multilib
-
- scripts/lib/wic/plugins/source/bootimg-pcbios.py | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
---
-2.18.0
-
+WARNING: systemtap-4.0-r0 do_package_qa: QA Issue: systemtap:
+/systemtap/etc/stap-exporter/EXAMPLE is owned by uid 1000, which is
+the same as the user running bitbake. This may be due to host
+contamination
+systemtap: /systemtap/etc/stap-exporter/EXAMPLE_NOERROR is owned by
+uid 1000, which is the same as the user running bitbake. This may be
+due to host contamination
+systemtap: /systemtap/etc/stap-exporter/errno.stp is owned by uid
+1000, which is the same as the user running bitbake. This may be due
+to host contamination
+systemtap: /systemtap/etc/stap-exporter/syscalllatency.stp is owned by
+uid 1000, which is the same as the user running bitbake. This may be
+due to host contamination
+systemtap: /systemtap/etc/stap-exporter/timeout.stp is owned by uid
+1000, which is the same as the user running bitbake. This may be due
+to host contamination
+systemtap: /systemtap/etc/stap-exporter/topsys.stp is owned by uid
+1000, which is the same as the user running bitbake. This may be due
+to host contamination [host-user-contaminated]
 
