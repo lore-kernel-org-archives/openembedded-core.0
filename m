@@ -1,51 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E7F5745F1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A4BAC60103
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 10:00:55 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 193-v6so22530980wme.3
+	Tue, 16 Oct 2018 10:38:12 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id s69-v6so17582509oie.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 03:00:57 -0700 (PDT)
+	Tue, 16 Oct 2018 03:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=As6bzPx616oLmUF2kjypFnaixb2QUyPkAl57OQX/jNQ=;
-	b=BnFmIR4plGxoZIfOTV11E6IhNMQPUZ4DEV4Upr2db/di6+u6K9u55dqpprd9Tn1GwO
-	HtcgwrwfgRXzD3HJ/YzhxfpXyyWfLmCZhBFKlewUwXb/RYEDB06K7mT6RhT0Q6tkbWhd
-	CQ8aCBTZ4fEGcOIjjoHYA/5xGOsHpSYKsERDk=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=BekSBKN9tqW/SUP9nkN5nBCz5FaIXzi+7HJ5VydBPPU=;
+	b=eFwmi6nvY/yYnp/zPhY3GZAQ2KuStEjhizMHmwv7bTDP7N8sMw4tUhKR+A+UYa3Kwa
+	dY+/kuGLKacCedEwKZMtb+SXPpmFMRcNcoGDgATkJMu0MHAtrKFtvINlcNLHPVteUSla
+	IRyWQoewZ2hWBzT642v+cVPldxcTz/qSQWCnhMIdo8utPiW+LQT4VZzhLHxOG1u92j3D
+	+aWBf/FsHOzSaJZ0WyVk7IIOmfttXOnO/5pFHa9U8XJuA/lWwFYNDv5mVIuC1lBOOE6Y
+	YFdYcPyNABKk2ElD+VwgBbF0oBRxJ+bIQQc37W0baxdKVILSXs5Cnu68gbzUNnrpK4oK
+	H1ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=As6bzPx616oLmUF2kjypFnaixb2QUyPkAl57OQX/jNQ=;
-	b=JX8CSJ2gwLKpfkAjzLK8/G31tvCujLDmS8NdXN2hWnz3hluoJ5EyxGnz8BxkvOGWOZ
-	kzO744FcGvuvlDwQXcDfsJ2V/ZRa8PRFNIUX5pSEbm5Ya0yA7TdedKasWAMrfiq9JHIW
-	RGhZLLtTbDzCyTzBZCsSSit+OzCQJDJVYKWeJl7KZUuvcWBXDo5/TTA0SUdBdHF85P1V
-	XDUeamMG819z9ec5pN391J7rDUP2X/LM6h094XlztNMFgZ9K3ALmf3MH4zsRgAUla8zi
-	I0/zs3FhYJufnKjz5MEiK1Xn4ekHFcDk8BGnBVztk/CvuxCoTpLzXv2sQcoyx0mHs4/A
-	jRxw==
-X-Gm-Message-State: ABuFfoiMJ1iADizZ+A7vmkJMBlMqbNDN1JZkQ3QbR2ZJRTlDIKeHbEhe
-	vHCVNtMRg2qbBgSqpbu3+J/SMQ==
-X-Google-Smtp-Source: ACcGV61xTrxkVak7m+PQjhURF/oD7tZjezckbHzvmmdhk32elntiGSKxP09VSW3aWRKgb6J4K2bVtA==
-X-Received: by 2002:a1c:a851:: with SMTP id
-	r78-v6mr15986201wme.97.1539684056504; 
-	Tue, 16 Oct 2018 03:00:56 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u76-v6sm21253492wmd.10.2018.10.16.03.00.54
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 16 Oct 2018 03:00:55 -0700 (PDT)
-Message-ID: <fb67373823b7952f1acf022bed6bd40611c74754.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org, 
-	ross.burton@intel.com, randy.macleod@windriver.com
-Date: Tue, 16 Oct 2018 11:00:54 +0100
-In-Reply-To: <20181016090054.122374-1-mingli.yu@windriver.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=BekSBKN9tqW/SUP9nkN5nBCz5FaIXzi+7HJ5VydBPPU=;
+	b=LLmVipZxhz1E/aD47ScarStrrSdmuII7LOuyD4znC8oNCwfJMitIBW/2F7/gTF7BQy
+	Z+He/Yi87Y0HxXUtjG555VGUl9RvGb5RPXZ55WUHOErKyxicGahTVy5deXBSyI6QhePN
+	b51t8nmgz6nfmA/hhAV/ZqHBq1iLkvF9qP51UyKHalAaGNLVYhhV689RBkuydjwVlPgZ
+	KJRYN333ekAq79PRTD/WowubOyk8hfHg0dL3GKrdr/BN4jN6DcStahs/6RIgO2ngPwMf
+	rdwTmhE4A5zGM6uj0r/vtowcAtt8j1XCPHAy+F87zrkaVGgi4FrsPILvsZe+OyKOjpth
+	NsLg==
+X-Gm-Message-State: ABuFfoiPkSfyUQSjThuhsVGtPXMSsOCrbP31aZyyYVR2+Xc1WA7BmFU6
+	DB3IP7V1ql8Hc4vL206QBL8YnjBkULm5aekow80aYg==
+X-Google-Smtp-Source: ACcGV63GOqKYcw0wJ1WJETBu/eo3y+4BDkA4IzzMLD/ArYOqzHCQx8iVauxACrcmszlhEq7aWu71jzxFAjTXXzX0zyw=
+X-Received: by 2002:aca:f0d6:: with SMTP id
+	o205-v6mr10561936oih.138.1539686293457; 
+	Tue, 16 Oct 2018 03:38:13 -0700 (PDT)
+MIME-Version: 1.0
 References: <20181016090054.122374-1-mingli.yu@windriver.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
+	<fb67373823b7952f1acf022bed6bd40611c74754.camel@linuxfoundation.org>
+In-Reply-To: <fb67373823b7952f1acf022bed6bd40611c74754.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 Oct 2018 11:38:01 +0100
+Message-ID: <CAJTo0LbbgiiPQSanVFuibf2PpYmVr9t1vebxZD6OT7DF+BdhDw@mail.gmail.com>
+To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] boost.inc: make libboost_python3.so available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,74 +56,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 10:00:56 -0000
+X-List-Received-Date: Tue, 16 Oct 2018 10:38:12 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-10-16 at 02:00 -0700, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
-> 
-> Currently boost provides ${libdir}/libboost_python35.so,
-> but there is some logic as below in CMakeLists.txt
-> of package cv-bridge under meta-ros layer.
-> [snip]
-> if(PYTHONLIBS_VERSION_STRING VERSION_LESS 3)
->     find_package(Boost REQUIRED python)
-> else()
->     find_package(Boost REQUIRED python3)
-> endif()
-> [snip]
-> 
-> And comes below do_configure error for cv-bridge:
-> meta-ros/recipes-ros/vision-opencv/cv-bridge_1.11.16.bb:do_configure
-> > CMake Error at $Prj/cv-bridge/1.11.16-r0/recipe-sysroot-
-> > native/usr/share/cmake-3.12/Modules/FindBoost.cmake:2048 (message):
-> >   Unable to find the requested Boost libraries.
-> > 
-> >   Boost version: 1.68.0
-> > 
-> >   Boost include path:
-> >   $Prj/cv-bridge/1.11.16-r0/recipe-sysroot/usr/include
-> > 
-> > 
-> >   Could not find the following Boost libraries:
-> > 
-> >           boost_python3
-> > 
-> >   No Boost libraries were found.  You may need to set
-> > BOOST_LIBRARYDIR to the
-> >   directory containing Boost libraries or BOOST_ROOT to the
-> > location of
-> >   Boost.
-> > Call Stack (most recent call first):
-> >   CMakeLists.txt:11 (find_package)
-> 
-> Can update CMakeLists.txt of cv-bridge as below
-> to remove the configure error:
->  - find_package(Boost REQUIRED python3)
->  + find_package(Boost REQUIRED python35)
-> 
-> But once the python version changes such as
-> python37, it fails again. So make boost provides
-> libboost_python3.so to make the fix flexibly.
-> 
-> [YOCTO #12833]
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  meta/recipes-support/boost/boost.inc | 4 ++++
->  1 file changed, 4 insertions(+)
+On Tue, 16 Oct 2018 at 11:01, <richard.purdie@linuxfoundation.org> wrote:
+> I'm a little worried about why we're having to create these links when
+> other software seems able to expect these things by default. Is this
+> some standard packaging most distros do? I'm a little worried we're
+> creating an ABI here which doesn't exist...
 
-I'm a little worried about why we're having to create these links when
-other software seems able to expect these things by default. Is this
-some standard packaging most distros do? I'm a little worried we're
-creating an ABI here which doesn't exist...
+https://koji.fedoraproject.org/koji/rpminfo?rpmID=14904908 says that
+Fedora's boost-python3 package contains just
+/usr/lib64/libboost_python3.so.1.66.0.  Their spec file at
+https://src.fedoraproject.org/rpms/boost/blob/master/f/boost.spec is
+hairy (as one expects for Boost) but doesn't appear to rename the
+file.
 
-Put another way, why doesn't upstream create this link if its expected
-to work?
+So the question is why does our build produce libboost_python35.so?
 
-Cheers,
-
-Richard
-
+Ross
 
