@@ -1,24 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D3B086011B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D891579946
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 03:00:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9G30edq015310
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 20:00:50 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 15 Oct 2018 20:00:29 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Oct 2018 10:19:16 +0800
-Message-ID: <20181016021916.11521-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
-MIME-Version: 1.0
-Subject: [PATCH] sstatetests.py: reset TCLIBCAPPEND
+	Tue, 16 Oct 2018 03:22:15 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Oct 2018 20:22:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,387,1534834800"; d="scan'208";a="95542493"
+Received: from wlee9-mobl1.gar.corp.intel.com (HELO localhost.localdomain)
+	([10.255.174.201])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Oct 2018 20:22:14 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Oct 2018 16:22:03 +1300
+Message-Id: <20181016032203.6767-1-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
+Subject: [PATCH] openssl: correct license comment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,120 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 03:01:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 16 Oct 2018 03:22:16 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+The comment here stated that openssl is dual-licensed, but that would
+mean that either of the two licenses could be used which is *not* the
+case [1]. However LICENSE = "openssl" *is* correct because in OE that
+maps to a generic license file which includes both licenses, which
+makes sense because there isn't really any such thing as OpenSSL that
+would be covered by the "OpenSSL license" and not the "SSLeay license".
+Correct the comment to avoid any confusion.
 
-It appends TCLIBCAPPEND to TMPDIR in meta/conf/distro/defaultsetup.conf:
+[1] https://www.openssl.org/source/license.html
 
-  TMPDIR .= "${TCLIBCAPPEND}"
-
-It affects some oe selftest cases in sstatetests.py. Reset TCLIBCAPPEND
-for these cases.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/cases/sstatetests.py | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/recipes-connectivity/openssl/openssl_1.1.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 7194225c0a..077d6e5374 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -262,6 +262,7 @@ class SStateTests(SStateBase):
-         self.write_config("""
- MACHINE = "qemux86"
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
-+TCLIBCAPPEND = ""
- BUILD_ARCH = "x86_64"
- BUILD_OS = "linux"
- SDKMACHINE = "x86_64"
-@@ -272,6 +273,7 @@ PACKAGE_CLASSES = "package_rpm package_ipk package_deb"
-         self.write_config("""
- MACHINE = "qemux86"
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
-+TCLIBCAPPEND = ""
- BUILD_ARCH = "i686"
- BUILD_OS = "linux"
- SDKMACHINE = "i686"
-@@ -307,12 +309,14 @@ PACKAGE_CLASSES = "package_rpm package_ipk package_deb"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+index 03518586877..0d80aba64d7 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+@@ -4,7 +4,8 @@ HOMEPAGE = "http://www.openssl.org/"
+ BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
+ SECTION = "libs/network"
  
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
-+TCLIBCAPPEND = \"\"
- NATIVELSBSTRING = \"DistroA\"
- """)
-         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
-         bitbake("core-image-sato -S none")
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
-+TCLIBCAPPEND = \"\"
- NATIVELSBSTRING = \"DistroB\"
- """)
-         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
-@@ -340,10 +344,12 @@ NATIVELSBSTRING = \"DistroB\"
+-# "openssl | SSLeay" dual license
++# "openssl" here actually means both OpenSSL and SSLeay licenses apply
++# (see meta/files/common-licenses/OpenSSL to which "openssl" is SPDXLICENSEMAPped)
+ LICENSE = "openssl"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=d57d511030c9d66ef5f5966bee5a7eff"
  
-         configA = """
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
-+TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86-64\"
- """
-         configB = """
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
-+TCLIBCAPPEND = \"\"
- MACHINE = \"qemuarm\"
- """
-         self.sstate_allarch_samesigs(configA, configB)
-@@ -356,6 +362,7 @@ MACHINE = \"qemuarm\"
- 
-         configA = """
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
-+TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86-64\"
- require conf/multilib.conf
- MULTILIBS = \"multilib:lib32\"
-@@ -363,6 +370,7 @@ DEFAULTTUNE_virtclass-multilib-lib32 = \"x86\"
- """
-         configB = """
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
-+TCLIBCAPPEND = \"\"
- MACHINE = \"qemuarm\"
- require conf/multilib.conf
- MULTILIBS = \"\"
-@@ -407,6 +415,7 @@ MULTILIBS = \"\"
- 
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
-+TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86\"
- require conf/multilib.conf
- MULTILIBS = "multilib:lib32"
-@@ -416,6 +425,7 @@ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-         bitbake("world meta-toolchain -S none")
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
-+TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86copy\"
- require conf/multilib.conf
- MULTILIBS = "multilib:lib32"
-@@ -451,6 +461,7 @@ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
- 
-         self.write_config("""
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
-+TCLIBCAPPEND = ""
- BB_NUMBER_THREADS = "${@oe.utils.cpu_count()}"
- PARALLEL_MAKE = "-j 1"
- DL_DIR = "${TOPDIR}/download1"
-@@ -464,6 +475,7 @@ http_proxy = ""
-         bitbake("world meta-toolchain -S none")
-         self.write_config("""
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
-+TCLIBCAPPEND = ""
- BB_NUMBER_THREADS = "${@oe.utils.cpu_count()+1}"
- PARALLEL_MAKE = "-j 2"
- DL_DIR = "${TOPDIR}/download2"
 -- 
-2.19.0.rc2
+2.17.2
 
 
