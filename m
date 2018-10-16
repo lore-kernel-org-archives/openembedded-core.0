@@ -1,26 +1,24 @@
-Return-Path: <Hongzhi.Song@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D9B379943
+	by mail.openembedded.org (Postfix) with ESMTP id D3B086011B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 02:56:18 +0000 (UTC)
+	Tue, 16 Oct 2018 03:00:59 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9G2tcTo015183
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9G30edq015310
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2018 19:56:09 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 15 Oct 2018 19:55:49 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+	Mon, 15 Oct 2018 20:00:50 -0700
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 15 Oct 2018 20:00:29 -0700
+From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Oct 2018 22:54:19 -0400
-Message-ID: <1539658459-165947-2-git-send-email-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1539658459-165947-1-git-send-email-hongzhi.song@windriver.com>
-References: <1539658459-165947-1-git-send-email-hongzhi.song@windriver.com>
+Date: Tue, 16 Oct 2018 10:19:16 +0800
+Message-ID: <20181016021916.11521-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Subject: [PATCH] ltp: modify mmap_24-2 testcase
+Subject: [PATCH] sstatetests.py: reset TCLIBCAPPEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,115 +31,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 02:56:18 -0000
+X-List-Received-Date: Tue, 16 Oct 2018 03:01:00 -0000
 Content-Type: text/plain
 
-Mips will return EINVAL instead of ENOMEM as expected
-if the range [addr + len) exceeds TASK_SIZE.
+From: Kai Kang <kai.kang@windriver.com>
 
-Linux kernel code: arch/mips/mm/mmap.c
-if (flags & MAP_FIXED) {
-    /* Even MAP_FIXED mappings must reside within TASK_SIZE */
-    if (TASK_SIZE - len < addr)
-       return -EINVAL;
+It appends TCLIBCAPPEND to TMPDIR in meta/conf/distro/defaultsetup.conf:
 
-Relax the condition and accept both ENOMEM and EINVAL
-as expected outcome.
+  TMPDIR .= "${TCLIBCAPPEND}"
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+It affects some oe selftest cases in sstatetests.py. Reset TCLIBCAPPEND
+for these cases.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- ..._testsuite-mmap24-2-Relax-condition-a-bit.patch | 68 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20180515.bb          |  1 +
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch b/meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-new file mode 100644
-index 0000000..4d771c0
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-@@ -0,0 +1,68 @@
-+From 85c972f730e8efe891a06ea3a2dfb5cbbdfbfbf4 Mon Sep 17 00:00:00 2001
-+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-+Date: Wed, 10 Oct 2018 22:07:05 -0400
-+Subject: [PATCH] open_posix_testsuite/mmap24-2: Relax condition a bit
-+
-+Mips will return EINVAL instead of ENOMEM as expected
-+if the range [addr + len) exceeds TASK_SIZE.
-+
-+Linux kernel code: arch/mips/mm/mmap.c
-+if (flags & MAP_FIXED) {
-+    /* Even MAP_FIXED mappings must reside within TASK_SIZE */
-+    if (TASK_SIZE - len < addr)
-+        return -EINVAL;
-+
-+Relax the condition and accept both ENOMEM and EINVAL
-+as expected outcome.
-+
-+Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2018-October/009624.html]
-+
-+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-+---
-+ .../open_posix_testsuite/conformance/interfaces/mmap/24-2.c    | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
-+index de51d43..810e5c8 100644
-+--- a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
-++++ b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
-+@@ -7,7 +7,7 @@
-+  * source tree.
-+  *
-+  * The mmap() function shall fail if:
-+- * [ENOMEM] MAP_FIXED was specified,
-++ * [ENOMEM or EINVAL] MAP_FIXED was specified,
-+  * and the range [addr,addr+len) exceeds that allowed
-+  * for the address space of a process; or, if MAP_FIXED was not specified and
-+  * there is insufficient room in the address space to effect the mapping.
-+@@ -15,7 +15,7 @@
-+  * Test Step:
-+  * 1. Map a shared memory object, with size exceeding the value get from
-+  *    rlim_cur of resource RLIMIT_AS, setting MAP_FIXED;
-+- * 3. Should get ENOMEM.
-++ * 3. Should get ENOMEM or EINVAL.
-+  */
-+ 
-+ #define _XOPEN_SOURCE 600
-+@@ -93,8 +93,8 @@ int main(void)
-+ 	       (unsigned long)len);
-+ 	pa = mmap(addr, len, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED, fd,
-+ 		  0);
-+-	if (pa == MAP_FAILED && errno == ENOMEM) {
-+-		printf("Got ENOMEM: %s\nTest PASSED\n", strerror(errno));
-++	if (pa == MAP_FAILED && (errno == ENOMEM || errno == EINVAL)) {
-++		printf("Got ENOMEM or EINVAL: %s\nTest PASSED\n", strerror(errno));
-+ 		exit(PTS_PASS);
-+ 	}
-+ 
-+@@ -103,6 +103,6 @@ int main(void)
-+ 	else
-+ 		munmap(pa, len);
-+ 	close(fd);
-+-	printf("Test Fail: Did not get ENOMEM as expected\n");
-++	printf("Test Failed: Did not get ENOMEM or EINVAL as expected\n");
-+ 	return PTS_FAIL;
-+ }
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180515.bb
-index 643239f..ff85be7 100644
---- a/meta/recipes-extended/ltp/ltp_20180515.bb
-+++ b/meta/recipes-extended/ltp/ltp_20180515.bb
-@@ -55,6 +55,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-syscalls-fcntl-make-OFD-command-use-fcntl64-syscall-.patch \
-            file://0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch \
-            file://0001-netns_helper.sh-use-ping-6-when-ping6-is-not-avaliab.patch \
-+           file://0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
-            "
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 7194225c0a..077d6e5374 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -262,6 +262,7 @@ class SStateTests(SStateBase):
+         self.write_config("""
+ MACHINE = "qemux86"
+ TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
++TCLIBCAPPEND = ""
+ BUILD_ARCH = "x86_64"
+ BUILD_OS = "linux"
+ SDKMACHINE = "x86_64"
+@@ -272,6 +273,7 @@ PACKAGE_CLASSES = "package_rpm package_ipk package_deb"
+         self.write_config("""
+ MACHINE = "qemux86"
+ TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
++TCLIBCAPPEND = ""
+ BUILD_ARCH = "i686"
+ BUILD_OS = "linux"
+ SDKMACHINE = "i686"
+@@ -307,12 +309,14 @@ PACKAGE_CLASSES = "package_rpm package_ipk package_deb"
  
- S = "${WORKDIR}/git"
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
++TCLIBCAPPEND = \"\"
+ NATIVELSBSTRING = \"DistroA\"
+ """)
+         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
+         bitbake("core-image-sato -S none")
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
++TCLIBCAPPEND = \"\"
+ NATIVELSBSTRING = \"DistroB\"
+ """)
+         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
+@@ -340,10 +344,12 @@ NATIVELSBSTRING = \"DistroB\"
+ 
+         configA = """
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
++TCLIBCAPPEND = \"\"
+ MACHINE = \"qemux86-64\"
+ """
+         configB = """
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
++TCLIBCAPPEND = \"\"
+ MACHINE = \"qemuarm\"
+ """
+         self.sstate_allarch_samesigs(configA, configB)
+@@ -356,6 +362,7 @@ MACHINE = \"qemuarm\"
+ 
+         configA = """
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
++TCLIBCAPPEND = \"\"
+ MACHINE = \"qemux86-64\"
+ require conf/multilib.conf
+ MULTILIBS = \"multilib:lib32\"
+@@ -363,6 +370,7 @@ DEFAULTTUNE_virtclass-multilib-lib32 = \"x86\"
+ """
+         configB = """
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
++TCLIBCAPPEND = \"\"
+ MACHINE = \"qemuarm\"
+ require conf/multilib.conf
+ MULTILIBS = \"\"
+@@ -407,6 +415,7 @@ MULTILIBS = \"\"
+ 
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
++TCLIBCAPPEND = \"\"
+ MACHINE = \"qemux86\"
+ require conf/multilib.conf
+ MULTILIBS = "multilib:lib32"
+@@ -416,6 +425,7 @@ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+         bitbake("world meta-toolchain -S none")
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
++TCLIBCAPPEND = \"\"
+ MACHINE = \"qemux86copy\"
+ require conf/multilib.conf
+ MULTILIBS = "multilib:lib32"
+@@ -451,6 +461,7 @@ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+ 
+         self.write_config("""
+ TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
++TCLIBCAPPEND = ""
+ BB_NUMBER_THREADS = "${@oe.utils.cpu_count()}"
+ PARALLEL_MAKE = "-j 1"
+ DL_DIR = "${TOPDIR}/download1"
+@@ -464,6 +475,7 @@ http_proxy = ""
+         bitbake("world meta-toolchain -S none")
+         self.write_config("""
+ TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
++TCLIBCAPPEND = ""
+ BB_NUMBER_THREADS = "${@oe.utils.cpu_count()+1}"
+ PARALLEL_MAKE = "-j 2"
+ DL_DIR = "${TOPDIR}/download2"
 -- 
-2.8.1
+2.19.0.rc2
 
 
