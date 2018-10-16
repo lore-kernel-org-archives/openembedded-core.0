@@ -1,49 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
-	[209.85.210.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 725D774CB4
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
+	[209.85.167.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 467EF7920A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 12:02:29 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id l1so22212793otj.5
+	Tue, 16 Oct 2018 12:05:45 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id l197-v6so17780333oib.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 05:02:30 -0700 (PDT)
+	Tue, 16 Oct 2018 05:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hoiOcavxAlXN2r6iGon74VFFoXHrBjxL9PhGyDx0sDk=;
-	b=c7Mjbz0tZVerEqDcoa1i60vd+GWkm2SZAt+BkXZ+E2W8Ndq6SowaVWMHHOf6uGfrKD
-	okzTA//uHL0/sOBVNAeHNiwue1zh8HD1RZU5siTTZgQIGILc3ZXeYslRJ6+fbFpgVSY8
-	qWhWJgsCDE/dLZnlVzkSnyOgtEYmKWXPXwj6AZmXqUYqV28zNdBy1w4h6pK/LT85ObaZ
-	PnFzwidEe+zEWYW08gkg4BEzqrL8qkEd67rfwXQw7bD7ay6aWeWuQrJ0/qEDlJdG8QKO
-	ppI62T+G2FIfETYQr9QyFTyp1lLc4/15hqUXnm48KrEpp/WJLx35KuabesnYITKJ7+57
-	+MvA==
+	:cc; bh=oB6Y5PSJqtsq7vzXPwca91KX0wCn+a4Tc9zkj/BlKOk=;
+	b=iG18AOa9kXVzlzILOzqlHrD3OtWizoWmD9hUgZr2nQBoXOASenCQbrrrLbiEgdx0EZ
+	GqFhyH8Qkka/ZUPrTyHlFjaOwr5X/vt5KYZfKtzXZJxbCA5CUz1zSMy4/pRm65z73/7h
+	JiVEURCnAvYa6GaDVHogFrsfcx0xrBYrAaay3hSOMNAZ7i6Mc72S3Qzk5w3XFDvSCnA9
+	nT+Xu9CqdbGAfe2j5iHrBkYgmeP5hjIGVk+lxfu7VH1Q7uH3oIz2mH/kWhwu2Tbpd8MC
+	pUX4hi9XZ9xYoxIQbWm9kQE6j43Toh6f5OmfRFW1HucKqhajcyr9pg646ID3yONWp6Bu
+	5Ufg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=hoiOcavxAlXN2r6iGon74VFFoXHrBjxL9PhGyDx0sDk=;
-	b=AIfW+8Gv0NMaav0cc3ciw6VIyX7ZBmtFByRSC7EfvnEMGdm0nE1fEUWrXWZYJVnqMO
-	gD+rKgTKakMAlg5wwdyByFugOT3nr7IwUuNsxXtDgiwYOGr0yeI03cXh30GgYc0PAJdy
-	VqCYFGapH1XqLTNZazkSJSF/a/5rS7hECkMM/Lv1vleJj5nPrQNvmVYCjzngef5Fkvlk
-	a6jHQX+Q8u7trZ8IfxfVL/ntKvjRMLTjxc0B0uVWIDGPELYwamVF+5Cs3m/9THZUZKCs
-	iZwzRy3Dv4stmJZFdLtoCfaHwT8Tt04JhxH7kIgOVl6tlqgkltVYAsbqBDpm6Xos16nv
-	yXxQ==
-X-Gm-Message-State: ABuFfohc/xEtpcE/M46WEs2b4/w7LPtKgpVdBp/WtrlPv12BfMg+JnJ2
-	RcOIULLBFUt7KoXdWfV+aMcrWWAmS8JybwOWXDsT0w==
-X-Google-Smtp-Source: ACcGV62KGyiFwCwhrHtJlaUqfBLC9S4M0O2FzZ2rmzzD0mUeHSO1vMrjg7prbmYEsL6DmEoTzq286fd+by1ZtgEExuc=
-X-Received: by 2002:a9d:30ae:: with SMTP id s46mr14755586otc.132.1539691350341;
-	Tue, 16 Oct 2018 05:02:30 -0700 (PDT)
+	bh=oB6Y5PSJqtsq7vzXPwca91KX0wCn+a4Tc9zkj/BlKOk=;
+	b=Hu12ZEz7mzXIzu0Pr9Frodsdjkv3z0ofAgOdyCdlNyoFKnHhrP3KIpoSPBlyoYKr+s
+	lq73+3ZCMUt1ONV6FWWyiVh4WMATFBXkg8D1j2QfuF4Yh5Eq4sHu1eIwYkKUnYeuvXPP
+	T/+CYklcQrANDoPsREGJyMOwBbdFp+IJ5QCMXLrpYU5d5z5iPsBYDnG98PSIZ26IhZWl
+	EjGOb4VGtvGso/vwvVw0aE0h6IlNq0+O7vi8oJtR2zX9YFQlIFZ6gs7TpsDCoybc3uyu
+	NgZD02YRp8pBQPIcuR+RCFECPAoeatwHQGqBhSSCv6aNdXtiqhkCuMXRAs9NVG9T/4sp
+	tA2w==
+X-Gm-Message-State: ABuFfoj91Cc/EMg2pXCSYiGGD6e/5seCi9qgSCwGhmvUlRqyPDc0D4pz
+	Ar4EFX7CNo+Hj1nO53TfHUNfzfSBI0Z9jqhU53FmrA==
+X-Google-Smtp-Source: ACcGV60oTBMzssYFrjbRlmpUVD7pHqfZhacZ62+Zl+QaERf+X5iIAeoIpLbwf5mrdqBOE1PLTSrhotNT9fyFzVkxdZs=
+X-Received: by 2002:aca:b186:: with SMTP id
+	a128-v6mr11905717oif.182.1539691546193; 
+	Tue, 16 Oct 2018 05:05:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <1539581457-120937-1-git-send-email-changqing.li@windriver.com>
-	<CAJTo0LZ+U1t=rnLcrZMDD+AoS-SbJ23Hc1fd9twa4qRFh=N1sQ@mail.gmail.com>
-	<4b65d79c-906c-63dd-53c8-bb9c297f72e3@windriver.com>
-In-Reply-To: <4b65d79c-906c-63dd-53c8-bb9c297f72e3@windriver.com>
+References: <20181016090054.122374-1-mingli.yu@windriver.com>
+	<fb67373823b7952f1acf022bed6bd40611c74754.camel@linuxfoundation.org>
+	<CAJTo0LbbgiiPQSanVFuibf2PpYmVr9t1vebxZD6OT7DF+BdhDw@mail.gmail.com>
+	<CAJTo0LZT1ytnsBoKkfdwv8GThzsOCjoQtLdbe9dtFPMaPupMxw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZT1ytnsBoKkfdwv8GThzsOCjoQtLdbe9dtFPMaPupMxw@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Oct 2018 13:02:18 +0100
-Message-ID: <CAJTo0Lbxw5uv=8oQKWG1aN3i13Y4RfcgKyEeqjF_eUr+mZ8boQ@mail.gmail.com>
-To: changqing.li@windriver.com
+Date: Tue, 16 Oct 2018 13:05:34 +0100
+Message-ID: <CAJTo0LY79q4La-mTQwG552XAkwJ8UTLp9yztVCd4g7m-pogpKw@mail.gmail.com>
+To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] freetype: remove compile of windows resource files
+Subject: Re: [PATCH] boost.inc: make libboost_python3.so available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +58,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 12:02:29 -0000
+X-List-Received-Date: Tue, 16 Oct 2018 12:05:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 16 Oct 2018 at 04:36, Changqing Li <changqing.li@windriver.com> wrote:
-> do_compile failed with below error:
-> x86_64-wrs-linux-libtool: compile:  x86_64-wrs-linux-windres
-> --include-dir=work/corei7-64-wrs-linux/freetype/2.9.1-r0/recipe-sysroot/usr/include
-> /work/corei7-64-wrs-linux/freetype/2.9.1-r0/freetype-2.9.1/src/base/ftver.rc
-> -o work/corei7-64-wrs-linux/freetype/2.9.1-r0/build/.libs/ftver.o
-> work/corei7-64-wrs-linux/freetype/2.9.1-r0/build//x86_64-wrs-linux-libtool:
-> line 1752: x86_64-wrs-linux-windres: command not found
-> work/corei7-64-wrs-linux/freetype/2.9.1-r0/freetype-2.9.1/builds/freetype.mk:263:
-> recipe for target
-> 'work/corei7-64-wrs-linux/freetype/2.9.1-r0/build/ftver.lo' failed
-> make: *** [work/corei7-64-wrs-linux/freetype/2.9.1-r0/build/ftver.lo]
-> Error 1
-> ERROR: oe_runmake failed
+On Tue, 16 Oct 2018 at 12:18, Burton, Ross <ross.burton@intel.com> wrote:
+> OpenCV has a patch to "fix" (bodge) the Py2 build:
+>
+> https://github.com/ros-perception/vision_opencv/pull/239
+>
+> But this doesn't work for Py3.
 
-Right, so I'd say a better fix would be in meta-mingw to stop RC being
-exported in target builds.
+This was just pushed:
+https://github.com/ros-perception/vision_opencv/commit/b57fd5b
 
 Ross
 
