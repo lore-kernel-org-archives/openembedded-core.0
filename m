@@ -1,24 +1,25 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 979A1794BE
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 21F45794BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 09:02:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9G90b4j024036
+	Tue, 16 Oct 2018 09:11:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9G9B0Gq015064
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Oct 2018 02:01:36 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 16 Oct 2018 02:00:54 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<randy.macleod@windriver.com>, <richard.purdie@linuxfoundation.org>
-Date: Tue, 16 Oct 2018 02:00:54 -0700
-Message-ID: <20181016090054.122374-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Tue, 16 Oct 2018 02:11:00 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 16 Oct 2018 02:10:59 -0700
+From: <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 16 Oct 2018 16:29:14 +0800
+Message-ID: <b6ed088639e5da76ad6669fda9c45bd7169d2448.1539678147.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <cover.1539678147.git.kai.kang@windriver.com>
+References: <cover.1539678147.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] boost.inc: make libboost_python3.so available
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/1] wic: search nonarch STAGING_DATADIR for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,75 +32,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 09:02:28 -0000
+X-List-Received-Date: Tue, 16 Oct 2018 09:11:01 -0000
 Content-Type: text/plain
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-Currently boost provides ${libdir}/libboost_python35.so,
-but there is some logic as below in CMakeLists.txt
-of package cv-bridge under meta-ros layer.
-[snip]
-if(PYTHONLIBS_VERSION_STRING VERSION_LESS 3)
-    find_package(Boost REQUIRED python)
-else()
-    find_package(Boost REQUIRED python3)
-endif()
-[snip]
+It fails to build multilib image such as lib32-core-image-minimal with
+wic by set 'IMAGE_FSTYPES = "wic"':
 
-And comes below do_configure error for cv-bridge:
-meta-ros/recipes-ros/vision-opencv/cv-bridge_1.11.16.bb:do_configure
-| CMake Error at $Prj/cv-bridge/1.11.16-r0/recipe-sysroot-native/usr/share/cmake-3.12/Modules/FindBoost.cmake:2048 (message):
-|   Unable to find the requested Boost libraries.
-|
-|   Boost version: 1.68.0
-|
-|   Boost include path:
-|   $Prj/cv-bridge/1.11.16-r0/recipe-sysroot/usr/include
-|
-|
-|   Could not find the following Boost libraries:
-|
-|           boost_python3
-|
-|   No Boost libraries were found.  You may need to set BOOST_LIBRARYDIR to the
-|   directory containing Boost libraries or BOOST_ROOT to the location of
-|   Boost.
-| Call Stack (most recent call first):
-|   CMakeLists.txt:11 (find_package)
+| ERROR: Couldn't find correct bootimg_dir, exiting
 
-Can update CMakeLists.txt of cv-bridge as below
-to remove the configure error:
- - find_package(Boost REQUIRED python3)
- + find_package(Boost REQUIRED python35)
+When multilib is enabled, STAGING_DATADIR is expanded with MLPREFIX. But
+dependencies of images such as syslinux is still populated to nonarch
+STAGING_DATADIR.
 
-But once the python version changes such as
-python37, it fails again. So make boost provides
-libboost_python3.so to make the fix flexibly.
+Search nonarch STAGING_DATADIR to fix the error.
 
-[YOCTO #12833]
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-support/boost/boost.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index c4faea211f0..98f0b71d73a 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -198,6 +198,10 @@ do_install() {
- 			ln -s libboost_${lib}.so ${D}${libdir}/libboost_${lib}-mt.so
- 		fi
- 	done
-+	if [ -e ${D}${libdir}/libboost_python3[0-9].so ] && [ ! -e ${D}${libdir}/libboost_python3.so ]; then
-+		lib_python3_so=$(basename `ls ${D}${libdir}/libboost_python3[0-9].so`)
-+		ln -s ${lib_python3_so} ${D}${libdir}/libboost_python3.so
-+	fi
+diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+index d599112dd7..9347aa7fcb 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+@@ -26,6 +26,7 @@
  
- }
+ import logging
+ import os
++import re
  
+ from wic import WicError
+ from wic.engine import get_custom_config
+@@ -47,10 +48,17 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         """
+         Check if dirname exists in default bootimg_dir or in STAGING_DIR.
+         """
+-        for result in (bootimg_dir, get_bitbake_var("STAGING_DATADIR")):
++        staging_datadir = get_bitbake_var("STAGING_DATADIR")
++        for result in (bootimg_dir, staging_datadir):
+             if os.path.exists("%s/%s" % (result, dirname)):
+                 return result
+ 
++        # STAGING_DATADIR is expanded with MLPREFIX if multilib is enabled
++        # but dependency syslinux is still populated to original STAGING_DATADIR
++        nonarch_datadir = re.sub('/[^/]*recipe-sysroot', '/recipe-sysroot', staging_datadir)
++        if os.path.exists(os.path.join(nonarch_datadir, dirname)):
++            return nonarch_datadir
++
+         raise WicError("Couldn't find correct bootimg_dir, exiting")
+ 
+     @classmethod
 -- 
-2.17.1
+2.18.0
 
 
