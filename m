@@ -1,45 +1,23 @@
-Return-Path: <kamensky@cisco.com>
-Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8539874758
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 35EC571A0C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 03:54:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=7064; q=dns/txt; s=iport;
-	t=1539662084; x=1540871684;
-	h=date:from:to:cc:subject:in-reply-to:message-id:
-	references:mime-version;
-	bh=4Hs/TTpwCaUCU9iNuoc2Xn0WdMRS0pRjGH9g1zEf57g=;
-	b=M8FKuC6uGiFlYyYagSq4vr42Y6T177FsrWuEwv2IUVpeAXJuGR3mp4eg
-	Qi7pGDw+e6jmiUDOkKtZ/Yci0ig04rouiVM/ScdCxRGWGpOfTc6WRRYZe
-	5NkRSm9M7BflK9AjDKR0EjjGHVRaYWn8AEW2D9JDAyVeVPgsfB7ByFWeh I=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AHAAB3YMVb/4ENJK1kGgEBAQEBAgE?=
-	=?us-ascii?q?BAQEHAgEBAQGBUgQBAQEBCwGCA2Z/KIxrjHFDJYdPhkSIdBSBZgsBASOESQK?=
-	=?us-ascii?q?EXSE1DA0BAwEBAgEBAm0cDIU5AQEBAgEBJxECNAsFCwsRAwECAS5PCAYTgyG?=
-	=?us-ascii?q?BeQgPqBsziiGLTBeCAIESM4FhfoMQCwMBGIEQBAELBwEHhXICiEQZCy2GGoN?=
-	=?us-ascii?q?qixEJhlWKHYFPTIQkgxSGS4xDiUMCBAsCFIFFAzNkcU0jFTuCbAmCHQEWg0e?=
-	=?us-ascii?q?FFIVeHzABiRgPFwSCIwEB?=
-X-IronPort-AV: E=Sophos;i="5.54,387,1534809600"; d="scan'208";a="186550974"
-Received: from alln-core-9.cisco.com ([173.36.13.129])
-	by alln-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Oct 2018 03:54:42 +0000
-Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
-	by alln-core-9.cisco.com (8.15.2/8.15.2) with ESMTPS id w9G3sgYe005140
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 16 Oct 2018 03:54:42 GMT
-Date: Mon, 15 Oct 2018 20:54:42 -0700 (PDT)
-From: Victor Kamensky <kamensky@cisco.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <04a92673-1751-7868-5424-1cd00819dd28@windriver.com>
-Message-ID: <alpine.LRH.2.00.1810152031510.4416@sjc-ads-6991.cisco.com>
-References: <20181015182128.13115-1-kamensky@cisco.com>
-	<04a92673-1751-7868-5424-1cd00819dd28@windriver.com>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
+	Tue, 16 Oct 2018 07:14:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9G7EC0g021747
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Oct 2018 00:14:12 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 16 Oct 2018 00:14:11 -0700
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 Oct 2018 00:14:11 -0700
+Message-ID: <20181016071411.113528-1-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Outbound-SMTP-Client: 10.30.218.111, sjc-ads-6991.cisco.com
-X-Outbound-Node: alln-core-9.cisco.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
+Subject: [PATCH] binutils: fix three CVE issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,213 +30,264 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 03:54:42 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
+X-List-Received-Date: Tue, 16 Oct 2018 07:14:12 -0000
+Content-Type: text/plain
 
-Hi Randy,
+Backport the CVE patches from the upstream:
+https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;
+h=30838132997e6a3cfe3ec11c58b32b22f6f6b102
+h=cf93e9c2cf8f8b2566f8fc86e961592b51b5980d
 
-On Mon, 15 Oct 2018, Randy MacLeod wrote:
+[BZ 23686] https://sourceware.org/bugzilla/show_bug.cgi?id=23686
+[BZ 23685] https://sourceware.org/bugzilla/show_bug.cgi?id=23685
 
-> On 10/15/2018 02:21 PM, Victor Kamensky wrote:
->> Upgrade systemtap from 3.3 to 4.0: Removed backported patch.
->> 
->> Very short summary of major changes from SystemTap 4.0
->> announcement by Frank Ch. Eigler <fche@redhat.com>:
->> 
->>> prometheus exporter network service; ebpf support extensions including
->>> strings and implementation of traditional log(), sprintf() functions;
->>> rebuilt rich tapset coverage for 4.17+ syscalls and for
->>> tracepoint-based syscalls; script language tweaks for supporting
->>> machine-generated scripts
->> 
->> Fixes [YOCTO #12950]
->> 
->> Signed-off-by: Victor Kamensky <kamensky@cisco.com>
->> ---
->> Hi Guys,
->> 
->> I'll let you to decide whether you want to accept
->> it for 2.6 at this point or push it for the next release.
->> On one hand after move to 4.18 kernel SystemTap 3.3
->> fails to trace any system call on x86_64 - it is major
->> functionality breakage. Look at:
->> 
->> https://bugzilla.redhat.com/show_bug.cgi?id=1596456
->
-> Ouch!
->
->> 
->> On other hand it is quite late to do major version
->> updates.
->
-> It is but nothing depends on systemtap so I think we
-> don't have much choice and we should do it unless there
-> are autobuilder tests that regress.
+The one is for CVE-2018-17358 and CVE-2018-17359, and the another
+is for CVE-2018-17360.
 
-Personally, I agree. I had similar thoughts, since it
-is leaf project risk is quite contained.
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+---
+ .../binutils/binutils-2.31.inc                |   2 +
+ .../binutils/binutils/CVE-2018-17358.patch    | 144 ++++++++++++++++++
+ .../binutils/binutils/CVE-2018-17360.patch    |  65 ++++++++
+ 3 files changed, 211 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-17358.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-17360.patch
 
->
-> A quick read through the YP mega-manual suggests that
-> we don't have to change any of the text.
-> Victor,
-> Could you take a look and confirm that please?
->
-> I noticed that the link in section:
->   20.3.3. Documentation
-> for:
->   http://sourceware.org/systemtap/langref/
-> is dead. There is a pdf:
->   http://sourceware.org/systemtap/langref.pdf
-> Perhaps this is temporary due to the recent release.
+diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc b/meta/recipes-devtools/binutils/binutils-2.31.inc
+index bc951d73e4..7d9dc56ab7 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.31.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
+@@ -37,6 +37,8 @@ SRC_URI = "\
+      file://0015-sync-with-OE-libtool-changes.patch \
+      file://0016-add-i386pep-emulation-for-x86_64.patch \
+      file://0017-improve-check-for-input-file-matching-output-file.patch \
++     file://CVE-2018-17358.patch \
++     file://CVE-2018-17360.patch \
+ "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-17358.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-17358.patch
+new file mode 100644
+index 0000000000..813509160f
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-17358.patch
+@@ -0,0 +1,144 @@
++From 30838132997e6a3cfe3ec11c58b32b22f6f6b102 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Thu, 20 Sep 2018 15:29:17 +0930
++Subject: [PATCH] Bug 23686, two segment faults in nm
++
++Fixes the bugs exposed by the testcases in the PR, plus two more bugs
++I noticed when looking at _bfd_stab_section_find_nearest_line.
++
++	PR 23686
++	* dwarf2.c (read_section): Error when attempting to malloc
++	"(bfd_size_type) -1".
++	* syms.c (_bfd_stab_section_find_nearest_line): Bounds check
++	function_name.  Bounds check reloc address.  Formatting.  Ensure
++	.stabstr zero terminated.
++CVE: CVE-2018-17358 and CVE-2018-17359
++Upstream-Status: Backport
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ bfd/ChangeLog |  9 +++++++++
++ bfd/dwarf2.c  |  9 ++++++++-
++ bfd/syms.c    | 22 ++++++++++++++++------
++ 3 files changed, 33 insertions(+), 7 deletions(-)
++
++diff --git a/bfd/ChangeLog b/bfd/ChangeLog
++index 04c0c2a..fef5479 100644
++--- a/bfd/ChangeLog
+++++ b/bfd/ChangeLog
++@@ -1,3 +1,12 @@
+++2018-09-20  Alan Modra  <amodra@gmail.com>
+++
+++	PR 23686
+++	* dwarf2.c (read_section): Error when attempting to malloc
+++	"(bfd_size_type) -1".
+++	* syms.c (_bfd_stab_section_find_nearest_line): Bounds check
+++	function_name.  Bounds check reloc address.  Formatting.  Ensure
+++	.stabstr zero terminated.
+++
++ 2018-08-12  H.J. Lu  <hongjiu.lu@intel.com>
++ 
++ 	PR ld/23428
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index 3b28855..77a7368 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -527,6 +527,7 @@ read_section (bfd *	      abfd,
++   asection *msec;
++   const char *section_name = sec->uncompressed_name;
++   bfd_byte *contents = *section_buffer;
+++  bfd_size_type amt;
++ 
++   /* The section may have already been read.  */
++   if (contents == NULL)
++@@ -549,7 +550,13 @@ read_section (bfd *	      abfd,
++       *section_size = msec->rawsize ? msec->rawsize : msec->size;
++       /* Paranoia - alloc one extra so that we can make sure a string
++ 	 section is NUL terminated.  */
++-      contents = (bfd_byte *) bfd_malloc (*section_size + 1);
+++      amt = *section_size + 1;
+++      if (amt == 0)
+++	{
+++	  bfd_set_error (bfd_error_no_memory);
+++	  return FALSE;
+++	}
+++      contents = (bfd_byte *) bfd_malloc (amt);
++       if (contents == NULL)
++ 	return FALSE;
++       if (syms
++diff --git a/bfd/syms.c b/bfd/syms.c
++index 187071f..e09640a 100644
++--- a/bfd/syms.c
+++++ b/bfd/syms.c
++@@ -1035,6 +1035,10 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
++ 					 0, strsize))
++ 	return FALSE;
++ 
+++      /* Stab strings ought to be nul terminated.  Ensure the last one
+++	 is, to prevent running off the end of the buffer.  */
+++      info->strs[strsize - 1] = 0;
+++
++       /* If this is a relocatable object file, we have to relocate
++ 	 the entries in .stab.  This should always be simple 32 bit
++ 	 relocations against symbols defined in this object file, so
++@@ -1073,7 +1077,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
++ 		  || r->howto->bitsize != 32
++ 		  || r->howto->pc_relative
++ 		  || r->howto->bitpos != 0
++-		  || r->howto->dst_mask != 0xffffffff)
+++		  || r->howto->dst_mask != 0xffffffff
+++		  || r->address * bfd_octets_per_byte (abfd) + 4 > stabsize)
++ 		{
++ 		  _bfd_error_handler
++ 		    (_("unsupported .stab relocation"));
++@@ -1195,7 +1200,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
++ 		{
++ 		  nul_fun = stab;
++ 		  nul_str = str;
++-		  if (file_name >= (char *) info->strs + strsize || file_name < (char *) str)
+++		  if (file_name >= (char *) info->strs + strsize
+++		      || file_name < (char *) str)
++ 		    file_name = NULL;
++ 		  if (stab + STABSIZE + TYPEOFF < info->stabs + stabsize
++ 		      && *(stab + STABSIZE + TYPEOFF) == (bfd_byte) N_SO)
++@@ -1206,7 +1212,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
++ 		      directory_name = file_name;
++ 		      file_name = ((char *) str
++ 				   + bfd_get_32 (abfd, stab + STRDXOFF));
++-		      if (file_name >= (char *) info->strs + strsize || file_name < (char *) str)
+++		      if (file_name >= (char *) info->strs + strsize
+++			  || file_name < (char *) str)
++ 			file_name = NULL;
++ 		    }
++ 		}
++@@ -1217,7 +1224,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
++ 	      file_name = (char *) str + bfd_get_32 (abfd, stab + STRDXOFF);
++ 	      /* PR 17512: file: 0c680a1f.  */
++ 	      /* PR 17512: file: 5da8aec4.  */
++-	      if (file_name >= (char *) info->strs + strsize || file_name < (char *) str)
+++	      if (file_name >= (char *) info->strs + strsize
+++		  || file_name < (char *) str)
++ 		file_name = NULL;
++ 	      break;
++ 
++@@ -1226,7 +1234,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
++ 	      function_name = (char *) str + bfd_get_32 (abfd, stab + STRDXOFF);
++ 	      if (function_name == (char *) str)
++ 		continue;
++-	      if (function_name >= (char *) info->strs + strsize)
+++	      if (function_name >= (char *) info->strs + strsize
+++		  || function_name < (char *) str)
++ 		function_name = NULL;
++ 
++ 	      nul_fun = NULL;
++@@ -1335,7 +1344,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
++ 	  if (val <= offset)
++ 	    {
++ 	      file_name = (char *) str + bfd_get_32 (abfd, stab + STRDXOFF);
++-	      if (file_name >= (char *) info->strs + strsize || file_name < (char *) str)
+++	      if (file_name >= (char *) info->strs + strsize
+++		  || file_name < (char *) str)
++ 		file_name = NULL;
++ 	      *pline = 0;
++ 	    }
++-- 
++2.9.3
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-17360.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-17360.patch
+new file mode 100644
+index 0000000000..cef10a7546
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-17360.patch
+@@ -0,0 +1,65 @@
++From cf93e9c2cf8f8b2566f8fc86e961592b51b5980d Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Thu, 20 Sep 2018 18:23:17 +0930
++Subject: [PATCH] PR23685, buffer overflow
++
++	PR 23685
++	* peXXigen.c (pe_print_edata): Correct export address table
++	overflow checks.  Check dataoff against section size too.
++
++CVE: CVE-2018-17360
++Upstream-Status: Backport
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ bfd/ChangeLog  |  6 ++++++
++ bfd/peXXigen.c | 11 ++++++-----
++ 2 files changed, 12 insertions(+), 5 deletions(-)
++
++diff --git a/bfd/ChangeLog b/bfd/ChangeLog
++index fef5479..81b9e56 100644
++--- a/bfd/ChangeLog
+++++ b/bfd/ChangeLog
++@@ -1,5 +1,11 @@
++ 2018-09-20  Alan Modra  <amodra@gmail.com>
++ 
+++	PR 23685
+++	* peXXigen.c (pe_print_edata): Correct export address table
+++	overflow checks.  Check dataoff against section size too.
+++
+++2018-09-20  Alan Modra  <amodra@gmail.com>
+++
++ 	PR 23686
++ 	* dwarf2.c (read_section): Error when attempting to malloc
++ 	"(bfd_size_type) -1".
++diff --git a/bfd/peXXigen.c b/bfd/peXXigen.c
++index 598f2ca..1645ef4 100644
++--- a/bfd/peXXigen.c
+++++ b/bfd/peXXigen.c
++@@ -1661,7 +1661,8 @@ pe_print_edata (bfd * abfd, void * vfile)
++ 
++       dataoff = addr - section->vma;
++       datasize = extra->DataDirectory[PE_EXPORT_TABLE].Size;
++-      if (datasize > section->size - dataoff)
+++      if (dataoff > section->size
+++	  || datasize > section->size - dataoff)
++ 	{
++ 	  fprintf (file,
++ 		   _("\nThere is an export table in %s, but it does not fit into that section\n"),
++@@ -1778,11 +1779,11 @@ pe_print_edata (bfd * abfd, void * vfile)
++ 	  edt.base);
++ 
++   /* PR 17512: Handle corrupt PE binaries.  */
++-  if (edt.eat_addr + (edt.num_functions * 4) - adj >= datasize
+++  /* PR 17512 file: 140-165018-0.004.  */
+++  if (edt.eat_addr - adj >= datasize
++       /* PR 17512: file: 092b1829 */
++-      || (edt.num_functions * 4) < edt.num_functions
++-      /* PR 17512 file: 140-165018-0.004.  */
++-      || data + edt.eat_addr - adj < data)
+++      || (edt.num_functions + 1) * 4 < edt.num_functions
+++      || edt.eat_addr - adj + (edt.num_functions + 1) * 4 > datasize)
++     fprintf (file, _("\tInvalid Export Address Table rva (0x%lx) or entry count (0x%lx)\n"),
++ 	     (long) edt.eat_addr,
++ 	     (long) edt.num_functions);
++-- 
++2.9.3
+-- 
+2.17.1
 
-Yes, I agree. It is better to change link to langref.pdf
-as you suggested. But I don't know how to do that. Is there
-somewhere git that holds YP mega-manual sources?
-
->> 
->> I did go through limited set of tests on all
->> supported QEMU targets. As far as these tests
->> concerned proposed 4.0 matches 3.3 results.
->> 
->> Thanks,
->> Victor
->
-> Thanks Victor.
->
-> Talk about hot off the presses, 4.0 was released at:
->   13-Oct-2018 18:54
-
-Yes :), I was looking how to fix [YOCTO #12950] and was
-about to write email to SystemTap guys asking when the
-next release is planned and got email from Frank on
-SystemTap mailing list announcing 4.0 release. It was
-very good timing.
-
-My understanding is that FC28 and FC27 will get SystemTap
-4.0 very soon since they moved to 4.18 kernel too.
-
-Thanks,
-Victor
-
-> $ git log --oneline release-3.3..release-4.0 | wc -l
-> 252
->
-> $ git diff release-3.3..release-4.0 | diffstat | tail -1
-> 1574 files changed, 50756 insertions(+), 23604 deletions(-)
->
-> Lots of changes to docs, testsuite but also quite a bit to core code
-> and tapsets:
->
-> $ git diff release-3.3..release-4.0 | diffstat  | cut -d"/" -f-2 | uniq -c 
-> |grep -v "   [1-5] "
->    770  b/doc
->     16  b/httpd
->      8  b/man
->      9  b/po
->     18  b/runtime
->     15  b/stap-exporter
->      6  b/staprun
->    440  b/tapset
->    223  b/testsuite
->
->
-> ../Randy
->
->>
->>   ...entrypc-avoid-usage-of-uninitialized.patch | 46 -------------------
->>   .../systemtap/systemtap_git.inc               |  5 +-
->>   2 files changed, 2 insertions(+), 49 deletions(-)
->>   delete mode 100644 
->> meta/recipes-kernel/systemtap/systemtap/0001-dwflpp-function_entrypc-avoid-usage-of-uninitialized.patch
->> 
->> diff --git 
->> a/meta/recipes-kernel/systemtap/systemtap/0001-dwflpp-function_entrypc-avoid-usage-of-uninitialized.patch 
->> b/meta/recipes-kernel/systemtap/systemtap/0001-dwflpp-function_entrypc-avoid-usage-of-uninitialized.patch
->> deleted file mode 100644
->> index d0082a1094..0000000000
->> --- 
->> a/meta/recipes-kernel/systemtap/systemtap/0001-dwflpp-function_entrypc-avoid-usage-of-uninitialized.patch
->> +++ /dev/null
->> @@ -1,46 +0,0 @@
->> -From 8466fca2a074323a235ef38d425f994a2ff7e64f Mon Sep 17 00:00:00 2001
->> -From: Victor Kamensky <kamensky@cisco.com>
->> -Date: Mon, 9 Jul 2018 09:31:19 -0700
->> -Subject: [PATCH] dwflpp::function_entrypc avoid usage of uninitialized 
->> memory
->> -
->> -Failure on 3.3 release was observed. Failure was elusive and
->> -disappeared after seemingly random configure option change, or when
->> -code was compiled with -O1 or -O0 (vs default -O2). Running failing
->> -test case under valgrind memcheck pointed to couple places where
->> -'Conditional jump or move depends on uninitialised value(s)' occured.
->> -
->> -After addressing these in two places in dwflpp::function_entrypc,
->> -valgrind memcheck run is clean and original issue got fixed.
->> -
->> -Upstream-Status: Backport
->> -Signed-off-by: Victor Kamensky <kamensky@cisco.com>
->> ----
->> - dwflpp.cxx | 6 +++++-
->> - 1 file changed, 5 insertions(+), 1 deletion(-)
->> -
->> -diff --git a/dwflpp.cxx b/dwflpp.cxx
->> -index bfbb6b096..2172e705a 100644
->> ---- a/dwflpp.cxx
->> -+++ b/dwflpp.cxx
->> -@@ -2465,13 +2465,17 @@ bool
->> - dwflpp::function_entrypc (Dwarf_Addr * addr)
->> - {
->> -   assert (function);
->> -+
->> -+  // assign default value
->> -+  *addr = 0;
->> -+
->> -   // PR10574: reject 0, which tends to be eliminated COMDAT
->> -   if (dwarf_entrypc (function, addr) == 0 && *addr != 0)
->> -     return true;
->> -
->> -   /* Assume the entry pc is the base address, or (if zero)
->> -      the first address of the ranges covering this DIE.  */
->> --  Dwarf_Addr start, end;
->> -+  Dwarf_Addr start = 0, end;
->> -   if (dwarf_ranges (function, 0, addr, &start, &end) >= 0)
->> -     {
->> -       if (*addr == 0)
->> ---
->> -2.17.1
->> -
->> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc 
->> b/meta/recipes-kernel/systemtap/systemtap_git.inc
->> index 06924fc240..274fcde5c1 100644
->> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
->> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
->> @@ -1,7 +1,7 @@
->>   LICENSE = "GPLv2"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->> -SRCREV = "48867d1cface9445d58e3c6e14497770b7eb77e1"
->> -PV = "3.3"
->> +SRCREV = "428f84e9e656bce71018e8902e4edb8aacafcc0e"
->> +PV = "4.0"
->>     SRC_URI = "git://sourceware.org/git/systemtap.git \
->>              file://configure-allow-to-disable-libvirt.patch \
->> @@ -11,7 +11,6 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
->>              file://0001-Do-not-let-configure-write-a-python-location-into-th.patch 
->> \
->>              file://0001-Install-python-modules-to-correct-library-dir.patch 
->> \
->>              file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch 
->> \
->> - 
->> file://0001-dwflpp-function_entrypc-avoid-usage-of-uninitialized.patch \
->>              "
->>     COMPATIBLE_HOST = 
->> '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
->> 
->
->
-> -- 
-> # Randy MacLeod
-> # Wind River Linux
->
 
