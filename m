@@ -1,23 +1,18 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 35EC571A0C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 07:14:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9G7EC0g021747
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 00:14:12 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 16 Oct 2018 00:14:11 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Oct 2018 00:14:11 -0700
-Message-ID: <20181016071411.113528-1-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.17.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 89F036FF56;
+	Tue, 16 Oct 2018 07:32:57 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] binutils: fix three CVE issues
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Zhixiong Chi <zhixiong.chi@windriver.com>
+Date: Tue, 16 Oct 2018 07:32:59 -0000
+Message-ID: <20181016073259.13840.43536@do.openembedded.org>
+References: <20181016071411.113528-1-zhixiong.chi@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181016071411.113528-1-zhixiong.chi@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmludXRpbHM6IGZpeCB0aHJlZSBDVkUgaXNzdWVz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,264 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 07:14:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 16 Oct 2018 07:32:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Backport the CVE patches from the upstream:
-https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;
-h=30838132997e6a3cfe3ec11c58b32b22f6f6b102
-h=cf93e9c2cf8f8b2566f8fc86e961592b51b5980d
+== Series Details ==
 
-[BZ 23686] https://sourceware.org/bugzilla/show_bug.cgi?id=23686
-[BZ 23685] https://sourceware.org/bugzilla/show_bug.cgi?id=23685
+Series: binutils: fix three CVE issues
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14548/
+State : failure
 
-The one is for CVE-2018-17358 and CVE-2018-17359, and the another
-is for CVE-2018-17360.
+== Summary ==
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at e2fa6bc137)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../binutils/binutils-2.31.inc                |   2 +
- .../binutils/binutils/CVE-2018-17358.patch    | 144 ++++++++++++++++++
- .../binutils/binutils/CVE-2018-17360.patch    |  65 ++++++++
- 3 files changed, 211 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-17358.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-17360.patch
-
-diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc b/meta/recipes-devtools/binutils/binutils-2.31.inc
-index bc951d73e4..7d9dc56ab7 100644
---- a/meta/recipes-devtools/binutils/binutils-2.31.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
-@@ -37,6 +37,8 @@ SRC_URI = "\
-      file://0015-sync-with-OE-libtool-changes.patch \
-      file://0016-add-i386pep-emulation-for-x86_64.patch \
-      file://0017-improve-check-for-input-file-matching-output-file.patch \
-+     file://CVE-2018-17358.patch \
-+     file://CVE-2018-17360.patch \
- "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-17358.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-17358.patch
-new file mode 100644
-index 0000000000..813509160f
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-17358.patch
-@@ -0,0 +1,144 @@
-+From 30838132997e6a3cfe3ec11c58b32b22f6f6b102 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Thu, 20 Sep 2018 15:29:17 +0930
-+Subject: [PATCH] Bug 23686, two segment faults in nm
-+
-+Fixes the bugs exposed by the testcases in the PR, plus two more bugs
-+I noticed when looking at _bfd_stab_section_find_nearest_line.
-+
-+	PR 23686
-+	* dwarf2.c (read_section): Error when attempting to malloc
-+	"(bfd_size_type) -1".
-+	* syms.c (_bfd_stab_section_find_nearest_line): Bounds check
-+	function_name.  Bounds check reloc address.  Formatting.  Ensure
-+	.stabstr zero terminated.
-+CVE: CVE-2018-17358 and CVE-2018-17359
-+Upstream-Status: Backport
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+---
-+ bfd/ChangeLog |  9 +++++++++
-+ bfd/dwarf2.c  |  9 ++++++++-
-+ bfd/syms.c    | 22 ++++++++++++++++------
-+ 3 files changed, 33 insertions(+), 7 deletions(-)
-+
-+diff --git a/bfd/ChangeLog b/bfd/ChangeLog
-+index 04c0c2a..fef5479 100644
-+--- a/bfd/ChangeLog
-++++ b/bfd/ChangeLog
-+@@ -1,3 +1,12 @@
-++2018-09-20  Alan Modra  <amodra@gmail.com>
-++
-++	PR 23686
-++	* dwarf2.c (read_section): Error when attempting to malloc
-++	"(bfd_size_type) -1".
-++	* syms.c (_bfd_stab_section_find_nearest_line): Bounds check
-++	function_name.  Bounds check reloc address.  Formatting.  Ensure
-++	.stabstr zero terminated.
-++
-+ 2018-08-12  H.J. Lu  <hongjiu.lu@intel.com>
-+ 
-+ 	PR ld/23428
-+diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
-+index 3b28855..77a7368 100644
-+--- a/bfd/dwarf2.c
-++++ b/bfd/dwarf2.c
-+@@ -527,6 +527,7 @@ read_section (bfd *	      abfd,
-+   asection *msec;
-+   const char *section_name = sec->uncompressed_name;
-+   bfd_byte *contents = *section_buffer;
-++  bfd_size_type amt;
-+ 
-+   /* The section may have already been read.  */
-+   if (contents == NULL)
-+@@ -549,7 +550,13 @@ read_section (bfd *	      abfd,
-+       *section_size = msec->rawsize ? msec->rawsize : msec->size;
-+       /* Paranoia - alloc one extra so that we can make sure a string
-+ 	 section is NUL terminated.  */
-+-      contents = (bfd_byte *) bfd_malloc (*section_size + 1);
-++      amt = *section_size + 1;
-++      if (amt == 0)
-++	{
-++	  bfd_set_error (bfd_error_no_memory);
-++	  return FALSE;
-++	}
-++      contents = (bfd_byte *) bfd_malloc (amt);
-+       if (contents == NULL)
-+ 	return FALSE;
-+       if (syms
-+diff --git a/bfd/syms.c b/bfd/syms.c
-+index 187071f..e09640a 100644
-+--- a/bfd/syms.c
-++++ b/bfd/syms.c
-+@@ -1035,6 +1035,10 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
-+ 					 0, strsize))
-+ 	return FALSE;
-+ 
-++      /* Stab strings ought to be nul terminated.  Ensure the last one
-++	 is, to prevent running off the end of the buffer.  */
-++      info->strs[strsize - 1] = 0;
-++
-+       /* If this is a relocatable object file, we have to relocate
-+ 	 the entries in .stab.  This should always be simple 32 bit
-+ 	 relocations against symbols defined in this object file, so
-+@@ -1073,7 +1077,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
-+ 		  || r->howto->bitsize != 32
-+ 		  || r->howto->pc_relative
-+ 		  || r->howto->bitpos != 0
-+-		  || r->howto->dst_mask != 0xffffffff)
-++		  || r->howto->dst_mask != 0xffffffff
-++		  || r->address * bfd_octets_per_byte (abfd) + 4 > stabsize)
-+ 		{
-+ 		  _bfd_error_handler
-+ 		    (_("unsupported .stab relocation"));
-+@@ -1195,7 +1200,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
-+ 		{
-+ 		  nul_fun = stab;
-+ 		  nul_str = str;
-+-		  if (file_name >= (char *) info->strs + strsize || file_name < (char *) str)
-++		  if (file_name >= (char *) info->strs + strsize
-++		      || file_name < (char *) str)
-+ 		    file_name = NULL;
-+ 		  if (stab + STABSIZE + TYPEOFF < info->stabs + stabsize
-+ 		      && *(stab + STABSIZE + TYPEOFF) == (bfd_byte) N_SO)
-+@@ -1206,7 +1212,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
-+ 		      directory_name = file_name;
-+ 		      file_name = ((char *) str
-+ 				   + bfd_get_32 (abfd, stab + STRDXOFF));
-+-		      if (file_name >= (char *) info->strs + strsize || file_name < (char *) str)
-++		      if (file_name >= (char *) info->strs + strsize
-++			  || file_name < (char *) str)
-+ 			file_name = NULL;
-+ 		    }
-+ 		}
-+@@ -1217,7 +1224,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
-+ 	      file_name = (char *) str + bfd_get_32 (abfd, stab + STRDXOFF);
-+ 	      /* PR 17512: file: 0c680a1f.  */
-+ 	      /* PR 17512: file: 5da8aec4.  */
-+-	      if (file_name >= (char *) info->strs + strsize || file_name < (char *) str)
-++	      if (file_name >= (char *) info->strs + strsize
-++		  || file_name < (char *) str)
-+ 		file_name = NULL;
-+ 	      break;
-+ 
-+@@ -1226,7 +1234,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
-+ 	      function_name = (char *) str + bfd_get_32 (abfd, stab + STRDXOFF);
-+ 	      if (function_name == (char *) str)
-+ 		continue;
-+-	      if (function_name >= (char *) info->strs + strsize)
-++	      if (function_name >= (char *) info->strs + strsize
-++		  || function_name < (char *) str)
-+ 		function_name = NULL;
-+ 
-+ 	      nul_fun = NULL;
-+@@ -1335,7 +1344,8 @@ _bfd_stab_section_find_nearest_line (bfd *abfd,
-+ 	  if (val <= offset)
-+ 	    {
-+ 	      file_name = (char *) str + bfd_get_32 (abfd, stab + STRDXOFF);
-+-	      if (file_name >= (char *) info->strs + strsize || file_name < (char *) str)
-++	      if (file_name >= (char *) info->strs + strsize
-++		  || file_name < (char *) str)
-+ 		file_name = NULL;
-+ 	      *pline = 0;
-+ 	    }
-+-- 
-+2.9.3
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-17360.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-17360.patch
-new file mode 100644
-index 0000000000..cef10a7546
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-17360.patch
-@@ -0,0 +1,65 @@
-+From cf93e9c2cf8f8b2566f8fc86e961592b51b5980d Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Thu, 20 Sep 2018 18:23:17 +0930
-+Subject: [PATCH] PR23685, buffer overflow
-+
-+	PR 23685
-+	* peXXigen.c (pe_print_edata): Correct export address table
-+	overflow checks.  Check dataoff against section size too.
-+
-+CVE: CVE-2018-17360
-+Upstream-Status: Backport
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+---
-+ bfd/ChangeLog  |  6 ++++++
-+ bfd/peXXigen.c | 11 ++++++-----
-+ 2 files changed, 12 insertions(+), 5 deletions(-)
-+
-+diff --git a/bfd/ChangeLog b/bfd/ChangeLog
-+index fef5479..81b9e56 100644
-+--- a/bfd/ChangeLog
-++++ b/bfd/ChangeLog
-+@@ -1,5 +1,11 @@
-+ 2018-09-20  Alan Modra  <amodra@gmail.com>
-+ 
-++	PR 23685
-++	* peXXigen.c (pe_print_edata): Correct export address table
-++	overflow checks.  Check dataoff against section size too.
-++
-++2018-09-20  Alan Modra  <amodra@gmail.com>
-++
-+ 	PR 23686
-+ 	* dwarf2.c (read_section): Error when attempting to malloc
-+ 	"(bfd_size_type) -1".
-+diff --git a/bfd/peXXigen.c b/bfd/peXXigen.c
-+index 598f2ca..1645ef4 100644
-+--- a/bfd/peXXigen.c
-++++ b/bfd/peXXigen.c
-+@@ -1661,7 +1661,8 @@ pe_print_edata (bfd * abfd, void * vfile)
-+ 
-+       dataoff = addr - section->vma;
-+       datasize = extra->DataDirectory[PE_EXPORT_TABLE].Size;
-+-      if (datasize > section->size - dataoff)
-++      if (dataoff > section->size
-++	  || datasize > section->size - dataoff)
-+ 	{
-+ 	  fprintf (file,
-+ 		   _("\nThere is an export table in %s, but it does not fit into that section\n"),
-+@@ -1778,11 +1779,11 @@ pe_print_edata (bfd * abfd, void * vfile)
-+ 	  edt.base);
-+ 
-+   /* PR 17512: Handle corrupt PE binaries.  */
-+-  if (edt.eat_addr + (edt.num_functions * 4) - adj >= datasize
-++  /* PR 17512 file: 140-165018-0.004.  */
-++  if (edt.eat_addr - adj >= datasize
-+       /* PR 17512: file: 092b1829 */
-+-      || (edt.num_functions * 4) < edt.num_functions
-+-      /* PR 17512 file: 140-165018-0.004.  */
-+-      || data + edt.eat_addr - adj < data)
-++      || (edt.num_functions + 1) * 4 < edt.num_functions
-++      || edt.eat_addr - adj + (edt.num_functions + 1) * 4 > datasize)
-+     fprintf (file, _("\tInvalid Export Address Table rva (0x%lx) or entry count (0x%lx)\n"),
-+ 	     (long) edt.eat_addr,
-+ 	     (long) edt.num_functions);
-+-- 
-+2.9.3
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
