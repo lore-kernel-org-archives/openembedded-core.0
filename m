@@ -1,27 +1,27 @@
 Return-Path: <pascal.bach@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BEDD78F5C
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D0AA78F72
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 10:43:22 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w9HAhN2X001721
+	Wed, 17 Oct 2018 10:43:23 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w9HAhNmX028601
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 17 Oct 2018 12:43:23 +0200
 Received: from dev.vm6.ccp.siemens.com ([167.87.21.7])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w9HAhNpd009348;
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w9HAhNwI032582;
 	Wed, 17 Oct 2018 12:43:23 +0200
 Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id E854E10D56C8;
-	Wed, 17 Oct 2018 12:43:22 +0200 (CEST)
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 046FF10D56DC;
+	Wed, 17 Oct 2018 12:43:23 +0200 (CEST)
 From: Pascal Bach <pascal.bach@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2018 12:42:40 +0200
-Message-Id: <20181017104243.801-2-pascal.bach@siemens.com>
+Date: Wed, 17 Oct 2018 12:42:41 +0200
+Message-Id: <20181017104243.801-3-pascal.bach@siemens.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20181017104243.801-1-pascal.bach@siemens.com>
 References: <20181017104243.801-1-pascal.bach@siemens.com>
-Subject: [PATCH v4 1/4] cmake.bbclass: use CMAKE_SYSTEM_LIBRARY_PATH instead of CMAKE_LIBRARY_PATH
+Subject: [PATCH v4 2/4] cmake.bbclass: search both sysroot-native and host for native packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 10:43:23 -0000
+X-List-Received-Date: Wed, 17 Oct 2018 10:43:24 -0000
 
-CMAKE_LIBRARY_PATH is intended to be set by projects.
-CMAKE_SYSTEM_LIBRARY_PATH is better suited to be used in a toolchain
-file.
+Certain headers and libraries like `math.h` an `-m` are only available on the
+host as they are provided by the host toolchain.
+
+This leads to issues that a find_library in CMake doesn't find the `m` library
+of a find_path doesn't find `math.h`. This issue occurred in the wireshark recipe
+for example.
+
+This change enables CMake to also look on the host for libraries and includes when
+building a native package.
 
 Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
- meta/classes/cmake.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/cmake.bbclass | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index fd40a9863e..86b1d0e9aa 100644
+index 86b1d0e9aa..ce3c0278ff 100644
 --- a/meta/classes/cmake.bbclass
 +++ b/meta/classes/cmake.bbclass
-@@ -106,7 +106,7 @@ set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
- list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake/Modules/")
+@@ -43,8 +43,8 @@ OECMAKE_RPATH ?= ""
+ OECMAKE_PERLNATIVE_DIR ??= ""
+ OECMAKE_EXTRA_ROOT_PATH ?= ""
  
- # add for non /usr/lib libdir, e.g. /usr/lib64
--set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
-+set( CMAKE_SYSTEM_LIBRARY_PATH ${libdir} ${base_libdir})
+-OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
+-OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
++OECMAKE_FIND_ROOT_PATH_MODE = "ONLY"
++OECMAKE_FIND_ROOT_PATH_MODE_class-native = "BOTH"
  
- EOF
- }
+ EXTRA_OECMAKE_append = " ${PACKAGECONFIG_CONFARGS}"
+ 
+@@ -90,10 +90,10 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+ # only search in the paths provided so cmake doesnt pick
+ # up libraries and tools from the native build machine
+ set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
+-set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
+-set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
+-set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+-set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
++set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ${OECMAKE_FIND_ROOT_PATH_MODE} )
++set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE} )
++set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ${OECMAKE_FIND_ROOT_PATH_MODE} )
++set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ${OECMAKE_FIND_ROOT_PATH_MODE} )
+ 
+ # Use qt.conf settings
+ set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
 -- 
 2.11.0
 
