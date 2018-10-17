@@ -1,50 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E88579B2D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 89AF779AEE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 16:50:10 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id y16so30501112wrw.3
+	Wed, 17 Oct 2018 18:50:46 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id y8-v6so17163448qka.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 09:50:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=6ZSd9W7qojyJN+ep/SudWkEwrH3eWef7ZvLeYh40Zrs=;
-	b=fhNSrqZtsgICzC6170tQoHiYMMQaCobSJwQy1PzyepSC0pvoGuZVski6tA7b3cIEVW
-	FSAyVshxm6NUOJNlwWJTCK6EDnasFfeAwPKVa9owaUQ2jKGgYPVBKpBqEHQbhPhXKyLD
-	bBvd4cDjNPKeTVUDbCDAUJX564IegPHqt7GytKWiSxKsbbLUrnzbEX2G/DQFQgMF2gKb
-	NsxtzdUU+coSkK4RhIqUA5iUPDjx/x7o12XWfOapv1mPB5yrizdFihKSh+8t88hObM2z
-	07ng9LLNf6vg4b4l0rc6FZVzJ56Ud9q1uRyL9Km6ltBCSuqa/ct0le04aZ6AhqydKmMJ
-	nhGA==
+	Wed, 17 Oct 2018 11:50:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=B2Fd1U47vlePb3wg8sZRsjnQzhuQn57tEJ1DQ0YhPcY=;
+	b=MqsXEifjhVXrDFpu9dRbwlk9PAsXiEcEJfIVpqWcHOk+iiAWZ/1tccEMjB5gBipTi6
+	ysucNtnT6NiQPaNbxKN6VRNPo32DdJvDGh4BFx/xI39cxeRztl92oVau/hdre36ZZM5+
+	/IN3qN1ulp8ei8ve5wYixhEXUQuyzSyoClI11gjMCTeh1zc6r4tPp1NfkL0MiCRvYgbY
+	kGo1pxf+Lk+31hIjIdW3xutyhIR827EHsr+ax/MknQRCCBpy1w/gO5bR2w7tki45Pa1V
+	bVycvnZGuXfP1Ozk/+PxXFUZuI+3HkMGCCz1axlPjQKaEWDqHevN22H3aYfoh3lToWJg
+	5SVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=6ZSd9W7qojyJN+ep/SudWkEwrH3eWef7ZvLeYh40Zrs=;
-	b=FQBgXEZSTLBx2baXIJQENTTjbY+R1BgQOO1TvrJcJnd9OqOOjC4Lp1GzxLdnNY3PrM
-	l0a/awNBHWHEtJDFlprT1XXTaPVO94sZVg2TPujbVTsL+oIWTX0/auj/gFte+HlQmvVw
-	l48P8GdGfg+C+igstMwUyT7G8II3ZhYrvOHx9+JVrbyDCv0gJdD2GPU7ew08WmSPH3zZ
-	EF/6NjBZVwJ5H2Grhfr0pco/pkyG4yGr/BOBLBdUMpzH5UzHGTfsxujByzNPQxf6FtDN
-	/rG7+txJY+z8kLKuSM6Nw9BTK65aXfEebV6qyQsjiX6WxshUwj0p8Fr8HlS9lM5zVlRB
-	JPag==
-X-Gm-Message-State: ABuFfojCyLQ3rFV6ZtbCWn63bA7J+xdd+9yZXt6TxPY7bQXy8ooK1qOo
-	muZoQ7dhyXFVb+Yq/9pW9dggf5DajM0=
-X-Google-Smtp-Source: ACcGV63+/m4h+WBpEQl89TXbS2w2P8T8guVFWOQj/jEunjy7lOeQsbYEku2LXQIpv//J3dM/5wFmEw==
-X-Received: by 2002:adf:d249:: with SMTP id
-	o9-v6mr22721382wri.66.1539795011311; 
-	Wed, 17 Oct 2018 09:50:11 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h63-v6sm1413480wmf.31.2018.10.17.09.50.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Oct 2018 09:50:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2018 17:50:08 +0100
-Message-Id: <20181017165008.5385-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] package_manager: implement PACKAGE_EXCLUDE for opkg
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=B2Fd1U47vlePb3wg8sZRsjnQzhuQn57tEJ1DQ0YhPcY=;
+	b=K6PzlNx4686/yX2Lf9r1OImlZQ5GnJ+GeVAQhIy5AnDbtePDlJrGuuN3/8v9iCnzwP
+	04cZW7PFM81z1wZ4tkG2Ey+Xj2P7L4libkwLZYWrHvJoubkWtQL8KMzxNSoDJsemWZsA
+	nTlX0N/FPO7GRe2s43p4keAUoG5/7VP5BO7N7DlhdHz+EZ+vGOyuOMgsb9Hr2Srsab5v
+	O1/akdK0uAXnOp6rYYtiY8ePdTG1K+FycQW81HUR2mYp+NlWvlGD6KvlZRGi8UNyTHTY
+	NLYLJiLwy6FigynV0b+zcG8PgXAABHV6LPh55a6tjL5Ao16rvkrGFsdCVrkT781vgAIe
+	9fbQ==
+X-Gm-Message-State: ABuFfog9iuTaws/SDRilAMWce8v5/11f+uXqbS4CNYs8fsPMcZVk6+XX
+	tW4xZfZ1KURmfRz3Rcgb6Dkrj8EncD4YRUUaTYE=
+X-Google-Smtp-Source: ACcGV626X+2tAiH9oXBYhKtH/yilvY2rUIoCBj8eFDv8oqgQu8NNj+yQjfaTQaDR75/j6f0L7IcmmwmY+0jyhSsfwu0=
+X-Received: by 2002:a37:9d55:: with SMTP id
+	g82-v6mr25709875qke.315.1539802247090; 
+	Wed, 17 Oct 2018 11:50:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20181017104243.801-1-pascal.bach@siemens.com>
+In-Reply-To: <20181017104243.801-1-pascal.bach@siemens.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 17 Oct 2018 11:50:21 -0700
+Message-ID: <CAMKF1spO151yKD1O9Dx_sKEu1shSN976+kykQ9FoXKd6fstQVw@mail.gmail.com>
+To: Pascal Bach <pascal.bach@siemens.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 0/4] cmake.bbclass improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 16:50:11 -0000
+X-List-Received-Date: Wed, 17 Oct 2018 18:50:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-opkg has supported the --add-exclude option to install since 0.3.0, so use it to
-implement support for PACKAGE_EXCLUDE.
+On Wed, Oct 17, 2018 at 3:43 AM Pascal Bach <pascal.bach@siemens.com> wrote:
+>
+> This patchset is unmodified from v3. It is just rebased on top of master which
+> already includes a fixed version of libproxy and piglit.
+>
+> I built all cmake based recipes in oe-core (qemuarm64) and did not find any more issues.
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oe/package_manager.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Can you run world builds on meta-openembedded repositories with
+this series applied and also compile some other large projects which
+use cmake like meta-browser
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 1ab3761c24a..b32d6464b21 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1334,7 +1334,11 @@ class OpkgPM(OpkgDpkgPM):
-         if not pkgs:
-             return
- 
--        cmd = "%s %s install %s" % (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
-+        cmd = "%s %s" % (self.opkg_cmd, self.opkg_args)
-+        for exclude in (self.d.getVar("PACKAGE_EXCLUDE") or "").split():
-+            cmd += " --add-exclude %s" % exclude
-+        cmd += " install "
-+        cmd += " ".join(pkgs)
- 
-         os.environ['D'] = self.target_rootfs
-         os.environ['OFFLINE_ROOT'] = self.target_rootfs
--- 
-2.11.0
-
+> Pascal Bach (4):
+>   cmake.bbclass: use CMAKE_SYSTEM_LIBRARY_PATH instead of
+>     CMAKE_LIBRARY_PATH
+>   cmake.bbclass: search both sysroot-native and host for native packages
+>   cmake.bbclass: move CMAKE_NO_SYSTEM_FROM_IMPORTED to toolchain.cmake
+>   cmake.bbclass: allow cmake to find hosttools
+>
+>  meta/classes/cmake.bbclass | 24 +++++++++++++++---------
+>  1 file changed, 15 insertions(+), 9 deletions(-)
+>
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
