@@ -1,54 +1,47 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id F0B4C79B7F
+Return-Path: <anibal.limon@linaro.org>
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id F146D79B29
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 21:22:43 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id u34-v6so31885855qth.3
+	Wed, 17 Oct 2018 23:00:47 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id u6-v6so10657764plz.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 14:22:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	Wed, 17 Oct 2018 16:00:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=MZmQie4jL1DljGI+8xB/fbR9XfgBE/+N9s36iqV21Xg=;
-	b=FvdcAS+QMefqwWT6jGGSdYFQnEw0SL1zLe4kDakqQK1YpKP19EH9N/Fq21dx9bTEdo
-	acBzeFwPkHKq6ZpQzmv8xKKBbUt+TOdEZVLD60nGnQFZTMiX2LRJXcUVShDj+DtMwNDF
-	pxfVI0LYoN5Wu0qf99hyFEkKeHyd/ktwcCWUR6/Cqaz/PgRfr9RTwo2udYyW4FsPUn6a
-	PUiAVW8bOB7AWABCfHbgTkZyS6FnVhj1meMMVMJEtzvUHpTN6f7HSGyTNAzJhl5jmCaK
-	glYqbMXrvNJkT3jqBpRnZPWlQsrB8yztn6jF1EKTg0geKDSQkR/6WER40wjoCFUWKdVn
-	rRPw==
+	bh=dor5KBE0yFJCC2LlS6kG6gIwWlmsRORXfdirHAVO/m4=;
+	b=DYUlyvv3TxT2x5ZrTWNEMdOXYCtzjw5W0WU3ZatYKAJuBfrvQ9yt5JGobTQrnkl20J
+	Uwt67pVwueMINs7XNqhdcU2DATw/ZMWUtrnodw3cmwbrcRs45dAeHpT1g4vGXFEKWkNH
+	XpuQpkY7cLOKe0DADy0Vt4+Vfuu0Ke5wqglQU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=MZmQie4jL1DljGI+8xB/fbR9XfgBE/+N9s36iqV21Xg=;
-	b=BJWDAIeIKsb7QQX7o+oeaC0Lt+8kSCMRU2cMSeAShCa4ZCacjZ4VpY3D8Sek17L2SE
-	CDJnZRlP90epON5EDLeCvDnofjb0SyQUg7urps2EP4n/RzfjtKhJUKfWwaUZq9MHVECo
-	WQZahIgYvqinWOtqLDlG+2xrB0DpqwAjwFlwR98VdsabjBMzgE3uTuclrEibLdn7cFA1
-	RKqyPRmwo6VXHKMpyyUU3xj4oOlHfqIsiRcmtzqGuATkMdyk6wIdSIsbbDaNULMyfpIt
-	pb60XPt/gslW+NsjF4PziA6E2mXgZWRxnC8zQl1p5SQ0Ph8oprMcw7i9Gb+PUxuizuzJ
-	5NfQ==
-X-Gm-Message-State: ABuFfogrg+psZJ0T9wSVqGkoKeu9G3F478lBAzC/QVqYu5wu+B1L0C7y
-	g2M4eloGmh0PopRK3QflTy2ASVp7
-X-Google-Smtp-Source: ACcGV609edmO4C06HBtkbItu9qnOVMudoztJy3TXnQ0x5qr5KFB+UAo6lqL/ZcvDgPTUCAHnuvpSgg==
-X-Received: by 2002:ac8:18e9:: with SMTP id
-	o38-v6mr27040627qtk.256.1539811364642; 
-	Wed, 17 Oct 2018 14:22:44 -0700 (PDT)
-Received: from mediabox.local (204-83-204-143.prna.hsdb.sasknet.sk.ca.
-	[204.83.204.143]) by smtp.gmail.com with ESMTPSA id
-	h4-v6sm9799796qkg.95.2018.10.17.14.22.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 17 Oct 2018 14:22:43 -0700 (PDT)
-From: Dan McGregor <danismostlikely@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=dor5KBE0yFJCC2LlS6kG6gIwWlmsRORXfdirHAVO/m4=;
+	b=KOOl6l1vMbYMBSnZfDVzh0VniMCL8UqW85tbbgTWVlImI9Vxasic8sKzpVXEQVZ5NM
+	LZGErk0UkvXx0L+e0Chr6vE9kJLPqjklcjPS9OLbvb/PGfY+wnoTTnfU3zMaAMj5Q8WI
+	NGdRkSAK1RizjDt8HhAupJTUTFUStoQViJX+NhEB8Y8WZwdpAHCEYSKsSe1MEoZc7OsT
+	Lfq9DmTwQiwuCGuohFzuNkF3JRq88PsrM4y+ZJ+jSZLYsmD4yRi7Bi00wc+QZg7lpZOY
+	Aak9LufrmcBI8w6dlTnFHRGRyZAmuZFNmlg3+6JxtalfWSIaVh6MM423XGbP9foCxM12
+	RjOg==
+X-Gm-Message-State: ABuFfoipAEstephVDhfiIYR8akBBwBumZ5bvC9VmSvB/wqXnd0Owywqf
+	6nZ/ERj+Z/FMJC4jwe2+vQestNxN7oM=
+X-Google-Smtp-Source: ACcGV63XmwVEm0lIaakAqUiKdlGTVCHcIfEpJmoA84h81JPhMOOoU4cGzXvQSEpMhiJb15vIeg9iBg==
+X-Received: by 2002:a17:902:7b84:: with SMTP id
+	w4-v6mr26809847pll.32.1539817248651; 
+	Wed, 17 Oct 2018 16:00:48 -0700 (PDT)
+Received: from blackbox.Home ([200.68.141.5]) by smtp.gmail.com with ESMTPSA id
+	i71-v6sm26467929pgc.87.2018.10.17.16.00.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 Oct 2018 16:00:48 -0700 (PDT)
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2018 15:22:35 -0600
-Message-Id: <20181017212235.8453-4-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.19.0-dev
-In-Reply-To: <20181017212235.8453-1-danismostlikely@gmail.com>
-References: <20181017212235.8453-1-danismostlikely@gmail.com>
+Date: Wed, 17 Oct 2018 18:00:43 -0500
+Message-Id: <20181017230044.24098-1-anibal.limon@linaro.org>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Subject: [PATCH 4/4] base-files: change permissions on /sys and /proc
+Subject: [PATCH 1/2] meta/classes/testexport: Use manfiest filenames for package and testdata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,58 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 21:22:44 -0000
+X-List-Received-Date: Wed, 17 Oct 2018 23:00:48 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+Is clear to know for what image and machine the testexport package
+manifest and testdata was build.
 
-The kernel mounts /proc and /sys with the mode 555. Fedora explicitly
-sets this value in its filesystem setup package. Debian doesn't seem
-to set it explictly.  Having them be 755 causes permission issues on
-upgrades inside a container where the guest does not have the
-permission to change the modes of the mount points.
-
-So, just bite the bullet and force them to be 555.
-
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- meta/recipes-core/base-files/base-files_3.0.14.bb | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ meta/classes/testexport.bbclass  | 4 ++--
+ meta/lib/oeqa/runtime/context.py | 9 +++++++--
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 05c05626614..6e75652f152 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -32,15 +32,16 @@ INHIBIT_DEFAULT_DEPS = "1"
- docdir_append = "/${P}"
- dirs1777 = "/tmp ${localstatedir}/volatile/tmp"
- dirs2775 = ""
-+dirs555 = "/sys /proc"
- dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
-            ${sysconfdir} ${sysconfdir}/default \
--           ${sysconfdir}/skel ${nonarch_base_libdir} /mnt /proc ${ROOT_HOME} /run \
-+           ${sysconfdir}/skel ${nonarch_base_libdir} /mnt ${ROOT_HOME} /run \
-            ${prefix} ${bindir} ${docdir} /usr/games ${includedir} \
-            ${libdir} ${sbindir} ${datadir} \
-            ${datadir}/common-licenses ${datadir}/dict ${infodir} \
-            ${mandir} ${datadir}/misc ${localstatedir} \
-            ${localstatedir}/backups ${localstatedir}/lib \
--           /sys ${localstatedir}/lib/misc ${localstatedir}/spool \
-+           ${localstatedir}/lib/misc ${localstatedir}/spool \
-            ${localstatedir}/volatile \
-            ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
-            /home ${prefix}/src ${localstatedir}/local \
-@@ -93,6 +94,9 @@ pkg_preinst_${PN} () {
- }
+diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bbclass
+index d070f07afa..8b01504d3a 100644
+--- a/meta/classes/testexport.bbclass
++++ b/meta/classes/testexport.bbclass
+@@ -128,8 +128,8 @@ def copy_needed_files(d, tc):
+     tdname = "%s.testdata.json" % image_name
+     test_data_path = os.path.join(export_path, 'data')
+     bb.utils.mkdirhier(test_data_path)
+-    shutil.copy2(image_manifest, os.path.join(test_data_path, 'manifest'))
+-    shutil.copy2(tdname, os.path.join(test_data_path, 'testdata.json'))
++    shutil.copy2(image_manifest, os.path.join(test_data_path, os.path.basename(image_manifest)))
++    shutil.copy2(tdname, os.path.join(test_data_path, os.path.basename(tdname)))
  
- do_install () {
-+	for d in ${dirs555}; do
-+		install -m 0555 -d ${D}$d
-+	done
- 	for d in ${dirs755}; do
- 		install -m 0755 -d ${D}$d
- 	done
+     # Create tar file for common parts of testexport
+     create_tarball(d, "testexport.tar.gz", d.getVar("TEST_EXPORT_DIR"))
+diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
+index a7f3823996..31dba75784 100644
+--- a/meta/lib/oeqa/runtime/context.py
++++ b/meta/lib/oeqa/runtime/context.py
+@@ -2,6 +2,7 @@
+ # Released under the MIT license (see COPYING.MIT)
+ 
+ import os
++import glob
+ 
+ from oeqa.core.context import OETestContext, OETestContextExecutor
+ from oeqa.core.target.ssh import OESSHTarget
+@@ -42,11 +43,15 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+     default_cases = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+             'cases')
+     default_data = None
+-    default_test_data = 'data/testdata.json'
++    m = glob.glob('data/*.testdata.json')
++    if m:
++        default_test_data = m[0]
+     default_tests = ''
+ 
+     default_target_type = 'simpleremote'
+-    default_manifest = 'data/manifest'
++    m = glob.glob('data/*.manifest')
++    if m:
++        default_manifest = m[0]
+     default_server_ip = '192.168.7.1'
+     default_target_ip = '192.168.7.2'
+     default_host_dumper_dir = '/tmp/oe-saved-tests'
 -- 
-2.19.0-dev
+2.11.0
 
 
