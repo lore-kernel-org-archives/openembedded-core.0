@@ -1,25 +1,33 @@
-Return-Path: <Yi.Zhao@windriver.com>
+Return-Path: <Mingli.Yu@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C3A360053
+	by mail.openembedded.org (Postfix) with ESMTP id 0CB2371BEE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 02:43:28 +0000 (UTC)
+	Wed, 17 Oct 2018 05:48:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9H2h8pa017101
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 19:43:18 -0700
-Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9H5lBxw021746
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 16 Oct 2018 22:47:22 -0700
+Received: from [128.224.162.215] (128.224.162.215) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Tue, 16 Oct 2018 19:42:57 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Oct 2018 10:42:55 +0800
-Message-ID: <1539744175-17058-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 16 Oct 2018 22:47:00 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, "Purdie, Richard"
+	<richard.purdie@linuxfoundation.org>
+References: <20181016090054.122374-1-mingli.yu@windriver.com>
+	<fb67373823b7952f1acf022bed6bd40611c74754.camel@linuxfoundation.org>
+	<CAJTo0LbbgiiPQSanVFuibf2PpYmVr9t1vebxZD6OT7DF+BdhDw@mail.gmail.com>
+	<CAJTo0LZT1ytnsBoKkfdwv8GThzsOCjoQtLdbe9dtFPMaPupMxw@mail.gmail.com>
+	<CAJTo0LY79q4La-mTQwG552XAkwJ8UTLp9yztVCd4g7m-pogpKw@mail.gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5BC6CCD3.4050003@windriver.com>
+Date: Wed, 17 Oct 2018 13:46:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.137]
-Subject: [PATCH] ifupdown: fix issue for configuring loopback interface
+In-Reply-To: <CAJTo0LY79q4La-mTQwG552XAkwJ8UTLp9yztVCd4g7m-pogpKw@mail.gmail.com>
+X-Originating-IP: [128.224.162.215]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] boost.inc: make libboost_python3.so available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,144 +40,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 02:43:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Oct 2018 05:48:05 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The patch inet-6-.defn-fix-inverted-checks-for-loopback.patch introduced
-an issue that ifup/ifdown can not configure loopback interface:
 
-$ cat /etc/network/interfaces
-auto lo
-iface lo inet loopback
 
-$ ifconfig -s
-Iface   MTU Met   RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
-eth0       1500 0         1      0      0 0            74      0      0 0 BMRU
-lo        65536 0         2      0      0 0             2      0      0 0 LRU
-$ ifdown lo
-$ ifconfig -s
-Iface   MTU Met   RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
-eth0       1500 0         1      0      0 0            74      0      0 0 BMRU
-lo        65536 0         2      0      0 0             2      0      0 0 LRU
+On 2018年10月16日 20:05, Burton, Ross wrote:
+> On Tue, 16 Oct 2018 at 12:18, Burton, Ross <ross.burton@intel.com> wrote:
+>> OpenCV has a patch to "fix" (bodge) the Py2 build:
+>>
+>> https://github.com/ros-perception/vision_opencv/pull/239
+>>
+>> But this doesn't work for Py3.
+>
+> This was just pushed:
+> https://github.com/ros-perception/vision_opencv/commit/b57fd5b
 
-The original patch is for 0.7.x and the change is not needed for 0.8.x.
-Update the patch to make the ifup/ifdown can configure lo interface:
-$ ifconfig -s
-Iface   MTU Met   RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
-eth0       1500 0         0      0      0 0            77      0      0 0 BMRU
-lo        65536 0         2      0      0 0             2      0      0 0 LRU
-$ ifdown lo
-$ ifconfig -s
-Iface   MTU Met   RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
-eth0       1500 0         0      0      0 0            80      0      0 0 BMRU
-$ ifup lo
-$ ifconfig -s
-Iface   MTU Met   RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
-eth0       1500 0         0      0      0 0            81      0      0 0 BMRU
-lo        65536 0         2      0      0 0             2      0      0 0 LRU
+Thanks Ross!
+I'm fine not add the the hack fix from boost side, but as I know there 
+is another package camera-calibration-parsers which has the same problem 
+as below apart from cv-bridge. BTW, there may some other package also 
+has this kind of problem. This to say we need to fix the issue for the 
+this kind of packages one by one.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- ...-6-.defn-fix-inverted-checks-for-loopback.patch | 38 +++++++---------------
- 1 file changed, 11 insertions(+), 27 deletions(-)
+meta-ros/recipes-ros/image-common/camera-calibration-parsers_1.11.13.bb:do_configure 
+failed
+| CMake Error at 
+/$Prj/camera-calibration-parsers/1.11.13-r0/recipe-sysroot-native/usr/share/cmake-3.12/Modules/FindBoost.cmake:2048 
+(message):
+|   Unable to find the requested Boost libraries.
+|
+|   Boost version: 1.68.0
+|
+|   Boost include path:
+|   /$Prj/camera-calibration-parsers/1.11.13-r0/recipe-sysroot/usr/include
+|
+|
+|   Could not find the following Boost libraries:
+|
+|           boost_python3
+|
+|   Some (but not all) of the required Boost libraries were found.  You may
+|   need to install these additional Boost libraries.  Alternatively, set
+|   BOOST_LIBRARYDIR to the directory containing Boost libraries or 
+BOOST_ROOT
+|   to the location of Boost.
+| Call Stack (most recent call first):
+|   CMakeLists.txt:10 (find_package)
 
-diff --git a/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch b/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch
-index 2013933..37a61c9 100644
---- a/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch
-+++ b/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch
-@@ -1,4 +1,4 @@
--From d88af5aa0312ea18aac791d66661da79b7bcd032 Mon Sep 17 00:00:00 2001
-+From 7efe4676747e4e4a056b9bfb4e9424c8354e9996 Mon Sep 17 00:00:00 2001
- From: "Maxin B. John" <maxin.john@intel.com>
- Date: Wed, 21 Dec 2016 15:32:07 +0200
- Subject: [PATCH] inet[6].defn: fix inverted checks for loopback
-@@ -35,12 +35,13 @@ Upstream-Status: Inappropriate [OE specific]
- 
- Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
- Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
- ---
-- inet.defn | 148 +++++++++++++++++++++++++++++++-------------------------------
-- 1 file changed, 74 insertions(+), 74 deletions(-)
-+ inet.defn | 140 +++++++++++++++++++++++++++++++-------------------------------
-+ 1 file changed, 70 insertions(+), 70 deletions(-)
- 
- diff --git a/inet.defn b/inet.defn
--index 75e6744..b5f5da2 100644
-+index 75e6744..23c7756 100644
- --- a/inet.defn
- +++ b/inet.defn
- @@ -6,10 +6,10 @@ method loopback
-@@ -48,11 +49,11 @@ index 75e6744..b5f5da2 100644
-  
-    up
- -    /bin/ip link set dev %iface% up if (!iface_is_lo())
--+    ip link set dev %iface% up if (iface_is_lo())
-++    ip link set dev %iface% up if (!iface_is_lo())
-  
-    down
- -    /bin/ip link set dev %iface% down if (!iface_is_lo())
--+    ip link set dev %iface% down if (iface_is_lo())
-++    ip link set dev %iface% down if (!iface_is_lo())
-  
-  method static
-    description
-@@ -211,23 +212,20 @@ index 75e6744..b5f5da2 100644
-  
-  architecture kfreebsd
-  
--@@ -211,12 +211,12 @@ method loopback
-+@@ -211,11 +211,11 @@ method loopback
-      This method may be used to define the IPv4 loopback interface.
-  
-    up
- -    /sbin/ifconfig %iface% 127.0.0.1 up \
---	if (!iface_is_lo())
- +    ifconfig %iface% 127.0.0.1 up \
--+	if (iface_is_lo())
-+ 	if (!iface_is_lo())
-  
-    down
- -    /sbin/ifconfig %iface% down \
---	if (!iface_is_lo())
- +    ifconfig %iface% down \
--+	if (iface_is_lo())
-+ 	if (!iface_is_lo())
-  
-  method static
--   description
- @@ -238,15 +238,15 @@ method static
-      hwaddress cleanup_hwaddress
-  
-@@ -339,20 +337,6 @@ index 75e6744..b5f5da2 100644
-  architecture hurd
-  
-  method loopback
--@@ -367,11 +367,11 @@ method loopback
-- 
--   up
--     inetutils-ifconfig --interface %iface% --address 127.0.0.1 --up \
---	if (!iface_is_lo())
--+	if (iface_is_lo())
-- 
--   down
--     inetutils-ifconfig --interface %iface% --down \
---	if (!iface_is_lo())
--+	if (iface_is_lo())
-- 
-- method static
--   description
- @@ -432,23 +432,23 @@ method dhcp
-  
-    up
-@@ -418,5 +402,5 @@ index 75e6744..b5f5da2 100644
- -    /usr/sbin/avahi-autoipd --kill %iface%
- +    avahi-autoipd --kill %iface%
- -- 
--2.4.0
-+2.7.4
- 
--- 
-2.7.4
+Thanks,
 
+>
+> Ross
+>
 
