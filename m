@@ -1,55 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2527B79B11
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D615379AC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 11:59:47 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id q7-v6so1512904wrr.8
+	Wed, 17 Oct 2018 12:40:04 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id z25-v6so1385089wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 04:59:48 -0700 (PDT)
+	Wed, 17 Oct 2018 05:40:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=2eF1K39uSTdJDxsMp0EbN94bDP/jmIjhuaqpJu2fJuI=;
-	b=FAnDCBg8asTSYKbE4+aMWpGpvUHQ38NZF9PaFsjv5EzgCX/zHe3DvoscSFr2Ypft5c
-	B4sYfNhLG3dGI7TiscVWd4+HkP31/wynvf8pFENs9uHT8Fuz/IeErSNccAyMysyV5fXT
-	LM78z8OvWQ135r5MeXC1g3KzKokWHSyNK/hMc=
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=eU4/RNhK5hCIGmV9qiTrMmYpiK7btpd5cyDlL3fz6sE=;
+	b=cwHWUh3SdjKMepO81xECCKxyU6J9KnBpPCZgxy4Nl/cGowxg3RYEfcHtG0a73tB2dB
+	goMrl6oSxO3Rjj0KGMFnTvvc8Hf4nSW7HLhz1pKlmqSGeLnjup4LB0LyU9URjXOcImDj
+	+WLDoKqnPM9H5FMeAJOWi7rhtJGOadxIEoiZk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=2eF1K39uSTdJDxsMp0EbN94bDP/jmIjhuaqpJu2fJuI=;
-	b=qOMLxMbFx7ROR/EXYuCa3B/6j+TXNbbaNO5944cNbBtdC4Bl2YWh3waIPBhpIgU7+E
-	MyO+Dow5IK7Bbl3AYQa3dAVFtozt42Ow4t3JQKq7pFrNdoLkczQ1dXHwCHg/VV+bkO+2
-	j38OAVXIDou3UHtiD6TvzBzThaWAwlgcLxlN1DDpSybCj0sKWn9NuKA91XpUGRk3y8xv
-	6JRJWO7h3HG/KfawaizanOQDQwnUrIUsKUvtu+ElxUI4gCHg3v546DspD0lf1hwZScO4
-	eV4hji9Wr8TZ9tdnCKW64H89Y8NE1L7sQrNjAkPkBZogi2+TBWKylCS/t4MLXklILaem
-	c9ow==
-X-Gm-Message-State: ABuFfoiepdv8LIOW7okgq3PgAM6K1tNaA9rOTwbmmazbluYsjsA9JgaL
-	EbrB3jpaZ5Onaba/u4LAFr9m5FOVM7Q=
-X-Google-Smtp-Source: ACcGV61pkyEJQUgZ9/eN2/60zvuI35zfGSBOQDtoml3OH09l+wCJ2+ARUUwegDaYKEXiED9deFPWnQ==
-X-Received: by 2002:adf:9792:: with SMTP id
-	s18-v6mr24570092wrb.283.1539777587518; 
-	Wed, 17 Oct 2018 04:59:47 -0700 (PDT)
+	bh=eU4/RNhK5hCIGmV9qiTrMmYpiK7btpd5cyDlL3fz6sE=;
+	b=BbhllNZFftOKJpamqQy1caiNa9+OsHFtAi578Ezl11hHmsK09CiOHCKlrgZzpj+H3z
+	IDGe246SoLEXF1+Dsu6HlMiCEM2cd8SI/mq919zmQqTcTnLchv/7YTmxNtkQIVrxJJCk
+	rhmpZytGedTAujsSZXtMobIgKujmOrX3HtcmMRcJ+Sik6fb4Zt1g3J2K7EVpI0cayIzc
+	qfBPjp1D20bnc8mL5papvMyRenbST/wSKAaFthBpBfMvJ8Jy6qNtxqpY9HCxpo2/IXAK
+	V/cgXszeNd1J33D/5/4kcaL0q7jmkqmml/5OojO2AZfobXckN0eDXpre26c3pzqayg2H
+	svXA==
+X-Gm-Message-State: ABuFfogO+XTFbsyIN2auCAKDaJrqjN6qnxS6HQKSO4LG5NQPVKCEmf2m
+	NnBS+sjPsZSO2au+SMxdRnP8XA==
+X-Google-Smtp-Source: ACcGV61EhoK+W3kjEAfFSu6uGiXiwyKH8Kckk+agk8n4JOkF9omNXqu+XUvq8P//k4jcvy57COm0hw==
+X-Received: by 2002:a1c:603:: with SMTP id 3-v6mr2627798wmg.64.1539780005071; 
+	Wed, 17 Oct 2018 05:40:05 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	z12-v6sm15467378wrv.46.2018.10.17.04.59.45
+	n11-v6sm12516909wrx.17.2018.10.17.05.40.03
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 17 Oct 2018 04:59:46 -0700 (PDT)
-Message-ID: <118f12f46497b3b4fda287b64c5e432afde9b6d9.camel@linuxfoundation.org>
+	Wed, 17 Oct 2018 05:40:04 -0700 (PDT)
+Message-ID: <df1d6cd1dc275e9717cb297767a255ee70ae98aa.camel@linuxfoundation.org>
 From: richard.purdie@linuxfoundation.org
-To: Victor Kamensky <kamensky@cisco.com>
-Date: Wed, 17 Oct 2018 12:59:45 +0100
-In-Reply-To: <alpine.LRH.2.00.1810162250430.53155@sjc-ads-6991.cisco.com>
-References: <20181015182128.13115-1-kamensky@cisco.com>
-	<CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
-	<9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
-	<alpine.LRH.2.00.1810162250430.53155@sjc-ads-6991.cisco.com>
+To: Martin =?ISO-8859-1?Q?Hundeb=F8ll?= <martin@geanix.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 17 Oct 2018 13:40:02 +0100
+In-Reply-To: <bb016a11-6387-b7cd-4b64-7c8f925874fe@geanix.com>
+References: <20181016192546.15672-1-richard.purdie@linuxfoundation.org>
+	<bb016a11-6387-b7cd-4b64-7c8f925874fe@geanix.com>
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
+Subject: Re: [PATCH] systemtap: Fix issues from 4.0 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,26 +59,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 11:59:47 -0000
+X-List-Received-Date: Wed, 17 Oct 2018 12:40:05 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2018-10-16 at 22:56 -0700, Victor Kamensky wrote:
-> In the long term it would be beneficial that those issues be
-> fixed in SystemTap itself, correct? If so, I can look at creating
-> proper patches and pushing them into SystemTap.
+On Wed, 2018-10-17 at 10:29 +0200, Martin Hundebøll wrote:
+> On 16/10/2018 21.25, Richard Purdie wrote:
+> > +
+> > +   # Fix makefile hardcoded path assumptions for systemd (assumes
+> > $prefix)
+> > +   install -d `dirname ${D}${systemd_unitdir}`
+> > +   mv ${D}${prefix}/lib/systemd `dirname ${D}${systemd_unitdir}`
+> > +   rmdir ${D}${prefix}/lib --ignore-fail-on-non-empty
+> > +
+> > +   # Ensure correct ownership for files copied in
+> > +   chown root.root ${D}${sysconfdir}/stap-exporter/* -R
+> 
+> root:root ?
 
-Yes, fixing those upstream would be very helpful, probably through
-adding the ability to configure the systemd unit path and fixing the
-file installation method.
-
-> Also on my todo list is to attempt to push few existing
-> OE systemtap patches into SystemTap upstream source. I believe
-> they look like quite legit issues and I hope they could be
-> upstreamed.
-
-That kind of work is very much appreciated and makes everyone's life
-easier in the future!
+Well spotted, thanks!
 
 Cheers,
 
