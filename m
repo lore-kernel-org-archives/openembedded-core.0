@@ -1,49 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
-	[209.85.167.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C67179A9C
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 16F6179B89
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 16:24:21 +0000 (UTC)
-Received: by mail-oi1-f174.google.com with SMTP id l197-v6so21553329oib.8
+	Wed, 17 Oct 2018 16:43:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9HGhxpw009389
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 09:24:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lGD2tpwG0Cqpdpmy/xyEMnWzmWm/B8F6gxeaYOtzKX0=;
-	b=rXfK+ti0DI8Eqg1iEDsgHfIxhLshohKGZqiBz94ifAtFy4E8ohEgb+OpcX8gN5iczt
-	q6tZZ1vpdA0ZKRAKbr2yOTHWil7h2IJ6AonsMeLQXPRYauj9oAzMQ9rsP7wNhZRY7Z34
-	r06ArjmTtskyOphbqfEwcoiYm3+SlOSgCH7b3ot/Bzm+gFVNr3LZanfI3Xcl5u1BIm5z
-	rCxDlrwRxt/whGHvoDcJ6zgZ1YR28lmoxoUVEQWJkiCLQew0Jml0/zv139tusKtaf2MO
-	zYWQ2XDQ/pJBvwkiN+uWhvEIZ0Nf9E1axue1d/kVzpmXGfexKLuqCbzRWyqrJS3ZZh+D
-	Xb0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=lGD2tpwG0Cqpdpmy/xyEMnWzmWm/B8F6gxeaYOtzKX0=;
-	b=HWlfd9peDNoH7mcNN+wlZzkpvbsksEXs3FnrvXv4l45RmL+A/fQAmWCI4XRLQVZbON
-	FPjnx+Qh7cw5FTGC+5QxMUNyxQXxZbNpCxVQytm+eo8Kfzsu3yPfjFphIAEzIRw36OiG
-	K5yUUMMH+0NF6oGH8WqsqrfkVTu2LgXsI+ePlWatv5Q9atXkk93rrdanMospGl8Na3CY
-	cj3xRG78mUm3MjwXxAZnMQNVMP3JS1J7yri/a6HrykI+2aEQMCoiCaa0Yo+8n+Vid2Bx
-	4ybujvTolpB4kQBblaI6ngY1HckhVEmNJVqlh2dRkYpVGNArMnZxD3UZ3n/3tBnxkmYE
-	q8Yw==
-X-Gm-Message-State: ABuFfogEcSNsNgLxK1z61l40ao9U0rZYOynzThYtJTtcD+YD2FIz+sFQ
-	s5ONKsanZ6yBp2M2i4l5joND9n1WPyaJgEK5ElTG6w==
-X-Google-Smtp-Source: ACcGV63NvAovwge3mvuMOs/A0XbpcKgZnXsC4u1oMThrecugj69ot8QL6RVZO1Cc85CojR2WEni8ATAYRmq7Sfle1eo=
-X-Received: by 2002:aca:5485:: with SMTP id
-	i127-v6mr10347982oib.293.1539793459168; 
-	Wed, 17 Oct 2018 09:24:19 -0700 (PDT)
+	Wed, 17 Oct 2018 09:43:59 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 17 Oct 2018 09:43:58 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Oct 2018 12:43:24 -0400
+Message-ID: <20181017164326.67111-3-mark.hatle@windriver.com>
+X-Mailer: git-send-email 2.16.0.rc2
+In-Reply-To: <20181017164326.67111-1-mark.hatle@windriver.com>
+References: <20181017164326.67111-1-mark.hatle@windriver.com>
 MIME-Version: 1.0
-References: <20181017104243.801-1-pascal.bach@siemens.com>
-	<20181017104243.801-3-pascal.bach@siemens.com>
-In-Reply-To: <20181017104243.801-3-pascal.bach@siemens.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 17 Oct 2018 17:24:08 +0100
-Message-ID: <CAJTo0LaPjCyHwkoBo8+_9KdfZ+U+WVO+ZHkKnNgtyy7Qy4PErg@mail.gmail.com>
-To: Pascal Bach <pascal.bach@siemens.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 2/4] cmake.bbclass: search both sysroot-native and host for native packages
+Subject: [PATCH 2/4] mesa: Remove machine specific append
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 16:24:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 17 Oct 2018 16:43:59 -0000
+Content-Type: text/plain
 
-I think I figured out why we're seeing odd failures on the
-autobuilder, such as
-https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/125.
+If you try to build a system with multiple BSPs, one of which is qemux86
+or qemux86-64, the overall system configuration will change and all of the
+graphics packages will end up being rebuilt each time.
 
-The important bit of the log is:
+For a package based system, the PR values will also be incremented each
+time.  The end result will be an ever growing set of PR values as well as
+being unable to tell which configured version of the graphics components
+are really being deployed.
 
-File "/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/qemux86-poky-linux-musl/core-image-minimal/1.0-r0/recipe-sysroot-native/usr/lib/python3.5/site-packages/libcomps/__init__.py",
-line 1, in <module>
-from ._libpycomps import *
-ImportError: libpython3.6m.so.1.0: cannot open shared object file: No
-such file or directory
+The solution was to always include the virgl gallium driver when an x86
+based target is used.  This may end up wasting some space, but solves the
+hash issue.
 
-The smoking gun is that oe-core doesn't have Python 3.6, but 3.5.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-My suspicion is that for systems where the host has python3-devel
-installed, libcomp-native's cmake is using the host python instead of
-the native python in the sysroot.  I'm not sure yet if BOTH means it
-searches the host before the sysroots, or if it is finding the python
-binary in HOSTTOOLS and then asking that what the paths are.  Either
-way, it ends up linking to the host libpython3.5.so and going into
-sstate.  Another machine in the pool reuses this sstate but it doesn't
-have Python 3.6 installed, so the library link is broken.
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 0dfdfbd5b4..0cc0a82de4 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -91,8 +91,8 @@ GALLIUMDRIVERS_LLVM33_ENABLED = "${@oe.utils.version_less_or_equal('MESA_LLVM_RE
+ GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ GALLIUMDRIVERS_append_x86 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+ GALLIUMDRIVERS_append_x86-64 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+-GALLIUMDRIVERS_append_qemux86 = ",virgl"
+-GALLIUMDRIVERS_append_qemux86-64 = ",virgl"
++GALLIUMDRIVERS_append_x86 = ",virgl"
++GALLIUMDRIVERS_append_x86-64 = ",virgl"
+ # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
+ PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
+ MESA_LLVM_RELEASE ?= "6.0"
+-- 
+2.18.0
 
-Ross
 
