@@ -1,58 +1,54 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E1B9F79AEE
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id F293079B21
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 18:52:16 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id r63-v6so3035151wma.4
+	Wed, 17 Oct 2018 19:01:38 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id a8-v6so3284748wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 11:52:18 -0700 (PDT)
+	Wed, 17 Oct 2018 12:01:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=U9CGhjgpebqFoxpGaJqrkRfh2LZ87Ovg6ThVjcimG54=;
-	b=dcWcslVuEg7zJdKMGoNKHtK6CBY3PRb0QvCUi+gYruLdy5sFkVlaRnozW4Yb08tBAc
-	zQC9ClkreTlPpE9QzzMENjjDVF6sqLpmMGmJ6rYJO+UFDfnn02uzeh9dPttBLeAaZMBN
-	mIXzuKdgCTMpffQsOxjAZ77enca1iP0BuutilKjX22aGMSpm8yMSgb5X9uG9AJLHuUB/
-	SaFOzqxzW2IpQlz9BlQT6ajSdGBQssX6qcqju7vGsRyu89Uyg0WCYhKfPP6RRNvImyjZ
-	GjhJmAK12ZFILGMXYFLOpgEavsIdOFL0sWxM+Xh1Fdais1HnYya7VAc0FaCKdb9YI941
-	vLYg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=CHmIWOvPGPtA6mza86zi61txBzYZN1wB56DJEUGrtII=;
+	b=HOkI9Nkun3kxi71cw0KTwrlHQ3FeZqome1ha+XsnvOnnLEDrnNddUmiqK3/+d5m9ns
+	0ufkmKdGZu03lj6oqRoKplNGgNitl30RNQqytq/EsP32TB9sC5b0N1GHHzSQMOHShIgu
+	T156oGTDN/ffs/vOw+FgEBVWG1GY5FCcYSKWOC6UGzIP+lEf1920KiPOGodWh27ff47n
+	pSpOQ1REzwfpS3akcc0dF9ysbQjM29xupC7wW046b5YKEGDLW5hz9QhIuuafiB4Z7h65
+	hYqnibDlzOi21eLQLFEMzgqlebFdnTRsIvNeZYj9C1sDy9ec5o6IqeWAoGbOz1k4rqJA
+	fY+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=U9CGhjgpebqFoxpGaJqrkRfh2LZ87Ovg6ThVjcimG54=;
-	b=D/5aajN75vmxkaeyayKdW8yjmVPi8lDuSAJMJxM36AKqwcyGiQx7fAt5XdVR2TYmHf
-	3NVeAXMZOeZPPSVysXe/g7Z1zzIWaLXwX0BJ/ZVYMVNyrpS4U6UHcMJIkswhQ9chdssj
-	XI8KGha0Do5aCShyXlLQgj1k5Un4duDizOlDyEyu5RBF1vHCgfvH4H9k8FzY+kTu3XaA
-	QRlyn882gUoBnW2f3jL71ZM+CQgjIPq3Q3d6EWG1j7IQ2bHm6hVZmrSD+nHfpup1Zp+u
-	4qJjALZQcAgBj0+KUYGhKPJe38cYql3QjOWH05s3MJVyAMANnfmDmU1j4My2/dG8Q1Nk
-	nDrg==
-X-Gm-Message-State: ABuFfogZp+0/JOlKBMs8Qd16pKkUIimOVpEP9JHgYRkxxBbRChFtq0py
-	VCptCWgY2LvEsDwNNVO2/EI=
-X-Google-Smtp-Source: ACcGV632UPpfNyUk/zXqQ9CKEpVJjI98h4OFYA4Fp3ovEojUnIsbQlAARut8w+Wh3CAr6W+RFN+Vng==
-X-Received: by 2002:a1c:38c5:: with SMTP id
-	f188-v6mr3955700wma.19.1539802337528; 
-	Wed, 17 Oct 2018 11:52:17 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	199-v6sm1553595wme.39.2018.10.17.11.52.16
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 17 Oct 2018 11:52:16 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 17 Oct 2018 20:52:16 +0200
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20181017185216.GA1375@jama>
-References: <20181017150757.14591-1-yann@blade-group.com>
-	<CA+chaQekOHi4H=YYwvRvHv6AxV1UT909AOdmcTj+J_LJ4uRz-A@mail.gmail.com>
-	<CA+4=imbf=QA9B_pUA3dcqnjB4vM0XjiTvk2VozNMtne64r+n7Q@mail.gmail.com>
-	<CA+chaQe=QSL=H+vdu3JFgTbzh53ogwx+fY-59-Dms_8Snhtk9g@mail.gmail.com>
-	<333ac1ec-594d-ebc8-4855-af533f1b016c@windriver.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=CHmIWOvPGPtA6mza86zi61txBzYZN1wB56DJEUGrtII=;
+	b=I3MH0xYDeDmcFjiwMVfRIYLTy29ixLsWBb46br0aZBJY1MiIdk51t4G98t6L36pOns
+	XRLZSQ14Q+S1l4HKF3imjZYTcM6NkWWIAwxPOEyCmMt1cJ2wBKVSCDhVP7B3BGXnZpC0
+	3DH3hDCCTQu/v/RVptJLTRPYF337DOL2Sm3+ucaVXbBV8joOGnPhezXxdK8k+lzz1+/l
+	UQVsoUYCfhnebavyHcNnj7fKp1F2qmGpMezVfA87eV7pv4MvR4pqJt15h01AgCrAvFAT
+	zS2/rYFm/1xvSpKguIwoVmt2yexcnVCzcrTNdKJYfkwo1he1RleGxChco9ghkIpB+PiK
+	cRtg==
+X-Gm-Message-State: ABuFfoj2IoWfpTKWJu+e2Zstwm1c/vh7ojV/HhQYVy/eHzpvllNEvJUF
+	ZUJdmMlTMmeL+tmlseldaYmEDH0V9ckgkL/4lH8=
+X-Google-Smtp-Source: ACcGV636r2NFBylGfToMnjv2PfzSowBWepVbYxi0BkWlMDcgbIVkOe6p4+Blxw6EDJEb06yvoaZXO145mniAJTo8YaY=
+X-Received: by 2002:a7b:c259:: with SMTP id
+	b25-v6mr4002553wmj.138.1539802899442; 
+	Wed, 17 Oct 2018 12:01:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <333ac1ec-594d-ebc8-4855-af533f1b016c@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] packagegroup-tools-bluetooth: work as advertized on distro without bluez* support
+References: <20181015182128.13115-1-kamensky@cisco.com>
+	<CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
+	<9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
+	<alpine.LRH.2.00.1810162250430.53155@sjc-ads-6991.cisco.com>
+	<118f12f46497b3b4fda287b64c5e432afde9b6d9.camel@linuxfoundation.org>
+	<CA+chaQcjv6-2v8oC25=7fapKKg5XapC21+6K1oN28Kk9MJF2zw@mail.gmail.com>
+	<40a5b6dd1386ea77070814f7ef7ad340cc2e9e62.camel@linuxfoundation.org>
+In-Reply-To: <40a5b6dd1386ea77070814f7ef7ad340cc2e9e62.camel@linuxfoundation.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 17 Oct 2018 21:01:28 +0200
+Message-ID: <CA+chaQekaVbr5MMkW7TFWXeFq5Ye-Cyfn5WBn-0ZiM=QVTW-GA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,160 +61,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 18:52:17 -0000
-X-Groupsio-MsgNum: 117405
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="envbJBWh7q8WU6mo"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 17 Oct 2018 19:01:39 -0000
+Content-Type: multipart/alternative; boundary="000000000000d86f1c0578714c7d"
 
---envbJBWh7q8WU6mo
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--000000000000d86f1c0578714c7d
+Content-Type: text/plain; charset="UTF-8"
+
+systemd.bbclass won't include that .service file in FILES_<pkg> without
+setting SYSTEMD_SERVICE_<pkg>.
+
+I'll send fix for that in few minutes.
+
+On Wed, Oct 17, 2018 at 5:07 PM <richard.purdie@linuxfoundation.org> wrote:
+
+> On Wed, 2018-10-17 at 16:50 +0200, Martin Jansa wrote:
+> > There seems to be one more issue in current master (for which I
+> > haven't seen a fix in master-next or ML):
+> >
+> > ERROR: systemtap-4.0-r0 do_package: QA Issue: systemtap:
+> > Files/directories were installed but not shipped in any package:
+> >   /lib
+> >   /lib/systemd
+> >   /lib/systemd/system
+> >   /lib/systemd/system/stap-exporter.service
+> > Please set FILES such that these items are packaged. Alternatively if
+> > they are unneeded, avoid installing them or delete them within
+> > do_install.
+> > systemtap: 4 installed and not shipped files. [installed-vs-shipped]
+>
+>
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3b77e7b7852549dcfbc426d4ce258e6e857c0acd
+> was supposed to fix that :(
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+--000000000000d86f1c0578714c7d
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 17, 2018 at 10:58:49AM -0500, Mark Hatle wrote:
-> On 10/17/18 10:46 AM, Martin Jansa wrote:
-> > well, I realized that this won't work with the BLUEZ intentionally set =
-to empty
-> > value and setting BLUEZ to no-bluetooth globally also probably won't wo=
-rk for
-> > cases where it might be used in e.g. RDEPENDS_${PN} :/. Maybe inline py=
-thon
-> > appending only either bluez4 or bluez5 alternative here?
->=20
-> I'm slightly confused.  In the suggestion you made below, ??=3D within the
-> specific package, why would 'no-bluetooth' cause a problem.  For all other
-> recipes it will remain blank as expected.
+<div dir=3D"ltr">systemd.bbclass won&#39;t include that .service file in FI=
+LES_&lt;pkg&gt; without setting SYSTEMD_SERVICE_&lt;pkg&gt;.<div><br></div>=
+<div>I&#39;ll send fix for that in few minutes.</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr">On Wed, Oct 17, 2018 at 5:07 PM &lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfounda=
+tion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 201=
+8-10-17 at 16:50 +0200, Martin Jansa wrote:<br>
+&gt; There seems to be one more issue in current master (for which I<br>
+&gt; haven&#39;t seen a fix in master-next or ML):<br>
+&gt; <br>
+&gt; ERROR: systemtap-4.0-r0 do_package: QA Issue: systemtap:<br>
+&gt; Files/directories were installed but not shipped in any package:<br>
+&gt;=C2=A0 =C2=A0/lib<br>
+&gt;=C2=A0 =C2=A0/lib/systemd<br>
+&gt;=C2=A0 =C2=A0/lib/systemd/system<br>
+&gt;=C2=A0 =C2=A0/lib/systemd/system/stap-exporter.service<br>
+&gt; Please set FILES such that these items are packaged. Alternatively if<=
+br>
+&gt; they are unneeded, avoid installing them or delete them within<br>
+&gt; do_install.<br>
+&gt; systemtap: 4 installed and not shipped files. [installed-vs-shipped]<b=
+r>
+<br>
+<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D3b77e7b78=
+52549dcfbc426d4ce258e6e857c0acd" rel=3D"noreferrer" target=3D"_blank">http:=
+//git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D3b77e7b7852549dcfbc426d4c=
+e258e6e857c0acd</a> <br>
+was supposed to fix that :(<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div>
 
-Because if you set it to empty, then ??=3D won't be used and we'll be back
-to RDEPENDS_.
-
-And if you set BLUEZ to no-bluetooth e.g. in your DISTRO config than it
-will break other recipes, e.g.:
-
-meta/recipes-connectivity/ofono/ofono.inc:PACKAGECONFIG[bluez] =3D "--enabl=
-e-bluetooth, --disable-bluetooth, ${BLUEZ}"
-meta/recipes-core/packagegroups/packagegroup-base.bb:    ${BLUEZ} \
-meta/recipes-devtools/python/python3.inc:PACKAGECONFIG[bluetooth] =3D ",ac_=
-cv_header_bluetooth_bluetooth_h=3Dno ac_cv_header_bluetooth_h=3Dno,${BLUEZ}"
-meta/recipes-devtools/qemu/qemu.inc:PACKAGECONFIG[bluez] =3D "--enable-blue=
-z,--disable-bluez,${BLUEZ}"
-meta/recipes-devtools/strace/strace_4.24.bb:PACKAGECONFIG[bluez] =3D "ac_cv=
-_header_bluetooth_bluetooth_h=3Dyes,ac_cv_header_bluetooth_bluetooth_h=3Dno=
-,${BLUEZ}"
-meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.2.bb:PACKAG=
-ECONFIG[bluez]           =3D "--enable-bluez,--disable-bluez,${BLUEZ}"
-
-> --Mark
->=20
-> > On Wed, Oct 17, 2018 at 5:43 PM Yann Dirson <yann.dirson@blade-group.com
-> > <mailto:yann.dirson@blade-group.com>> wrote:
-> >=20
-> >     Yeah, that looks like a better idea.
-> >=20
-> >     Le=A0mer. 17 oct. 2018 =E0=A017:27, Martin Jansa <martin.jansa@gmai=
-l.com
-> >     <mailto:martin.jansa@gmail.com>> a =E9crit=A0:
-> >=20
-> >         What about using some less confusing default BLUEZ value? RDEPE=
-NDS_
-> >         looks wrong.
-> >=20
-> >         BLUEZ ??=3D "no-bluetooth"
-> >         RDEPENDS_no-bluetooth =3D ""
-> >=20
-> >         Might be a bit more clear.
-> >=20
-> >         On Wed, Oct 17, 2018 at 5:08 PM <yann.dirson@blade-group.com
-> >         <mailto:yann.dirson@blade-group.com>> wrote:
-> >=20
-> >             From: Yann Dirson <yann@blade-group.com <mailto:yann@blade-=
-group.com>>
-> >=20
-> >             Otherwise the build fails with:
-> >=20
-> >             =A0 NOTE: Runtime target '${RDEPENDS_}' is unbuildable, rem=
-oving...
-> >             =A0 Missing or unbuildable dependency chain was: ['${RDEPEN=
-DS_}']
-> >=20
-> >             This restores some truth in the "Otherwise install nothing"=
- comment
-> >             in the recipe.
-> >=20
-> >             Signed-off-by: Yann Dirson <yann@blade-group.com
-> >             <mailto:yann@blade-group.com>>
-> >             ---
-> >             =A0.../packagegroups/packagegroup-tools-bluetooth.bb
-> >             <http://packagegroup-tools-bluetooth.bb>=A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0| 2 ++
-> >             =A01 file changed, 2 insertions(+)
-> >=20
-> >             diff --git
-> >             a/meta-oe/recipes-connectivity/packagegroups/packagegroup-t=
-ools-bluetooth.bb
-> >             <http://packagegroup-tools-bluetooth.bb>
-> >             b/meta-oe/recipes-connectivity/packagegroups/packagegroup-t=
-ools-bluetooth.bb
-> >             <http://packagegroup-tools-bluetooth.bb>
-> >             index 0ede5e57b..e81516fef 100644
-> >             ---
-> >             a/meta-oe/recipes-connectivity/packagegroups/packagegroup-t=
-ools-bluetooth.bb
-> >             <http://packagegroup-tools-bluetooth.bb>
-> >             +++
-> >             b/meta-oe/recipes-connectivity/packagegroups/packagegroup-t=
-ools-bluetooth.bb
-> >             <http://packagegroup-tools-bluetooth.bb>
-> >             @@ -32,6 +32,8 @@ RDEPENDS_bluez5 =3D " \
-> >             =A0 =A0 =A0 =A0 =A0'', d)} \
-> >             =A0"
-> >=20
-> >             +RDEPENDS_ =3D ""
-> >             +
-> >             =A0# Install bluez4 tools or bluez5 tools depending on what=
- is
-> >             specified in the distro.
-> >             =A0# Otherwise install nothing.
-> >             =A0RDEPENDS_${PN} =3D "${RDEPENDS_${BLUEZ}}"
-> >             --=20
-> >             2.19.1
-> >=20
-> >             --=20
-> >             _______________________________________________
-> >             Openembedded-core mailing list
-> >             Openembedded-core@lists.openembedded.org
-> >             <mailto:Openembedded-core@lists.openembedded.org>
-> >             http://lists.openembedded.org/mailman/listinfo/openembedded=
--core
-> >=20
-> >=20
-> >=20
-> >     --=20
-> >     Yann Dirson <yann@blade-group.com <mailto:yann@blade-group.com>>
-> >     Blade -- 38 rue du Sentier, 75002 Paris
-> >=20
-> >=20
-> >=20
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---envbJBWh7q8WU6mo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCW8eE3wAKCRA3VSO3ZXaA
-HP5nAJ482Kmi/tlPidvEP/lJuxlkxPkuGQCfbMC6DuZticZPsKp8TYVRnntDWlc=
-=uVgd
------END PGP SIGNATURE-----
-
---envbJBWh7q8WU6mo--
+--000000000000d86f1c0578714c7d--
