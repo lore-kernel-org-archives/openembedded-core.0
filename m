@@ -1,53 +1,52 @@
-Return-Path: <kamensky@cisco.com>
-X-Greylist: delayed 571 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 17 Oct 2018 20:30:38 UTC
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
-	by mail.openembedded.org (Postfix) with ESMTP id A4AB579B34
+Return-Path: <yann.dirson@blade-group.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 68A8A78EFF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 20:30:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2008; q=dns/txt; s=iport;
-	t=1539808240; x=1541017840;
-	h=date:from:to:cc:subject:in-reply-to:message-id:
-	references:mime-version;
-	bh=LFGhjs9gjdpxZC4Eh1B1EyOaRCC7/cG2vBSt0x4rdO8=;
-	b=a9hr0GwEuNwTXAT/tU7+ega+E6aTXyLyz9OEK8dmabLHw7vPNq+8+AKh
-	8bhNZJA3hmbK0x7It4qzr79ea1uL/E9N81M4+z2kDlvz8f0nJZ9BCSUwy
-	b8TEf5log8EXyKFSreCMEIybX+E1kRkuxUoSmtAH78kOKD2YTkZYJXcS6 w=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BIAABhmcdb/4sNJK1jGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAQGBZYIFZn8og3WIdos7gWglmQYLAQElhEcChHwhOBYBAwE?=
-	=?us-ascii?q?BAgEBAm0cDIU5AQEBAQIBIwRSBQsLGCoCAlcGE4MhgXkID6ZDezOKGItMF4I?=
-	=?us-ascii?q?AZ16CX4MQCwQYhEqCVwKIRBmGVI8ACYZYiiKBT4RxiWKMSIlMAgQLAhSBWiG?=
-	=?us-ascii?q?BVU0jFYMnCYsPhV4fMAEJjAABAQ?=
-X-IronPort-AV: E=Sophos;i="5.54,393,1534809600"; d="scan'208";a="467866459"
-Received: from alln-core-6.cisco.com ([173.36.13.139])
-	by rcdn-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Oct 2018 20:21:08 +0000
-Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
-	by alln-core-6.cisco.com (8.15.2/8.15.2) with ESMTPS id w9HKL7ZD018881
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 17 Oct 2018 20:21:08 GMT
-Date: Wed, 17 Oct 2018 13:21:07 -0700 (PDT)
-From: Victor Kamensky <kamensky@cisco.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-In-Reply-To: <CA+chaQekaVbr5MMkW7TFWXeFq5Ye-Cyfn5WBn-0ZiM=QVTW-GA@mail.gmail.com>
-Message-ID: <alpine.LRH.2.00.1810171314560.37492@sjc-ads-6991.cisco.com>
-References: <20181015182128.13115-1-kamensky@cisco.com>
-	<CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
-	<9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
-	<alpine.LRH.2.00.1810162250430.53155@sjc-ads-6991.cisco.com>
-	<118f12f46497b3b4fda287b64c5e432afde9b6d9.camel@linuxfoundation.org>
-	<CA+chaQcjv6-2v8oC25=7fapKKg5XapC21+6K1oN28Kk9MJF2zw@mail.gmail.com>
-	<40a5b6dd1386ea77070814f7ef7ad340cc2e9e62.camel@linuxfoundation.org>
-	<CA+chaQekaVbr5MMkW7TFWXeFq5Ye-Cyfn5WBn-0ZiM=QVTW-GA@mail.gmail.com>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
+	Wed, 17 Oct 2018 21:14:21 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id c23so25898120otl.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Oct 2018 14:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=blade-group.com; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=s8R+Vp2oPMCZcynpM+xU9guDlSKXVTmrMJXJTShG6oM=;
+	b=gFynPDE+HM8GQtICHutSLksv100eMsPUfOxHT6rnxWKLfJxNQJXN2wiSFT5Pdunrn/
+	/T0Ov1ZhAzCSR+/OsgMw+v3M6HEy7soJrx6YUaSUj6zZskpmcR3g8zrUyALkhquZ6MC9
+	x9h7up42WijKHFyN0glvZ9jsBW0H1yMbErmdMexgCpAmYQ06bZngNSmlKEGLZFMtuFqU
+	6N8BHGZhutYfG5+5z8j+QDTbQEQRgecKE3/2Y/MgR1TbSxIjaMQqsHlnLHXzYzSsXE7u
+	/ynBUyaLDz+FZE+Rle+zW2xshCFFky0N3Re7gTAabGRlEnQxVOLSHI0Q+t+FvDA485yk
+	yfxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=s8R+Vp2oPMCZcynpM+xU9guDlSKXVTmrMJXJTShG6oM=;
+	b=GU59D/ZrpYd0Dj9SHD0LJKlRzD9jiJSerE3DHJTviKqmnVg9Cwi+Bs209k8Hyzhc6j
+	b+Caht34ncOoSO+Uk63ZBG0sxEus4RhhkragsmRuQpRaj4YTR3m7zhwPWVxnQqJlkuNK
+	1oPKcajRy5GID0gLhuFf/ItTlIaRtTz19V1pJGK2eevx9cj/uVX0LyB/vKEyiUFpdSgM
+	qraPZFazgrJoPAYvTq3Ak7JYDYLhpwvWCs2NZn3Y+lntS3u2O2vyweViOLSJGlvOVF1c
+	F4PdCCoBCMQq2jkDDHUEY4KwQUePe2hHbo/+p8kxlrUNOiW4nj/NYShkNk380JKaeF2r
+	02Og==
+X-Gm-Message-State: ABuFfogycgRemxnKz4KXdaTX1JfJ7kPoIbUoJlDYm1ZdRiXS5nWf75G/
+	k38Am9rGnZc5/pUOSaZmMcLSfG8j+qdYTfu0n3KJVA==
+X-Google-Smtp-Source: ACcGV61dpiFma6mPvGvWan6O5Xn+ZKT8CyWkIhK+kyS/0WWGvMUh8zRE2wWaQ3cXcFH903UA1IbiudXCjP0tZbbxf2I=
+X-Received: by 2002:a9d:6509:: with SMTP id i9mr1670233otl.338.1539810862280; 
+	Wed, 17 Oct 2018 14:14:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Outbound-SMTP-Client: 10.30.218.111, sjc-ads-6991.cisco.com
-X-Outbound-Node: alln-core-6.cisco.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
+References: <20181017150757.14591-1-yann@blade-group.com>
+	<CA+chaQekOHi4H=YYwvRvHv6AxV1UT909AOdmcTj+J_LJ4uRz-A@mail.gmail.com>
+	<CA+4=imbf=QA9B_pUA3dcqnjB4vM0XjiTvk2VozNMtne64r+n7Q@mail.gmail.com>
+	<CA+chaQe=QSL=H+vdu3JFgTbzh53ogwx+fY-59-Dms_8Snhtk9g@mail.gmail.com>
+	<333ac1ec-594d-ebc8-4855-af533f1b016c@windriver.com>
+	<20181017185216.GA1375@jama>
+In-Reply-To: <20181017185216.GA1375@jama>
+From: Yann Dirson <yann.dirson@blade-group.com>
+Date: Wed, 17 Oct 2018 23:14:10 +0200
+Message-ID: <CA+4=imZR4VUGgWyrYr7szeSvQRgF-3vocqcGQ__3C5TpqLbt9w@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] packagegroup-tools-bluetooth: work as advertized on distro without bluez* support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,62 +59,395 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 20:30:38 -0000
-Content-Type: MULTIPART/MIXED;
-	BOUNDARY="504000474-1082472408-1539807668=:37492"
+X-List-Received-Date: Wed, 17 Oct 2018 21:14:21 -0000
+Content-Type: multipart/alternative; boundary="00000000000077cc5e0578732760"
 
---504000474-1082472408-1539807668=:37492
-Content-Type: TEXT/PLAIN; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+--00000000000077cc5e0578732760
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Sent v3 to -devel - that does not supercede the original series on patwork,
+though.
 
+Le mer. 17 oct. 2018 =C3=A0 20:52, Martin Jansa <martin.jansa@gmail.com> a
+=C3=A9crit :
 
-On Wed, 17 Oct 2018, Martin Jansa wrote:
-
-> systemd.bbclass won't include that .service file in FILES_<pkg> without setting SYSTEMD_SERVICE_<pkg>.
-> I'll send fix for that in few minutes.
-
-Martin, Richard, thank you for the help. I've reproduced
-the issue reported by Martin in systemd enabled image, and
-verified that his fix solves the issue.
-
-The lesson I learnt:
-
-o Look for WARNINGs
-
-o Test systemd enabled image, along with default sysvinit
-
-stap-exporter service is a new feature in SystemTap 4.0, I've never used
-it before. I'll dig in and will try to make sure that it is functional
-in resulting OE image.
-
-Thanks,
-Victor
-
-> On Wed, Oct 17, 2018 at 5:07 PM <richard.purdie@linuxfoundation.org> wrote:
->       On Wed, 2018-10-17 at 16:50 +0200, Martin Jansa wrote:
->       > There seems to be one more issue in current master (for which I
->       > haven't seen a fix in master-next or ML):
->       >
->       > ERROR: systemtap-4.0-r0 do_package: QA Issue: systemtap:
->       > Files/directories were installed but not shipped in any package:
->       >   /lib
->       >   /lib/systemd
->       >   /lib/systemd/system
->       >   /lib/systemd/system/stap-exporter.service
->       > Please set FILES such that these items are packaged. Alternatively if
->       > they are unneeded, avoid installing them or delete them within
->       > do_install.
->       > systemtap: 4 installed and not shipped files. [installed-vs-shipped]
+> On Wed, Oct 17, 2018 at 10:58:49AM -0500, Mark Hatle wrote:
+> > On 10/17/18 10:46 AM, Martin Jansa wrote:
+> > > well, I realized that this won't work with the BLUEZ intentionally se=
+t
+> to empty
+> > > value and setting BLUEZ to no-bluetooth globally also probably won't
+> work for
+> > > cases where it might be used in e.g. RDEPENDS_${PN} :/. Maybe inline
+> python
+> > > appending only either bluez4 or bluez5 alternative here?
+> >
+> > I'm slightly confused.  In the suggestion you made below, ??=3D within =
+the
+> > specific package, why would 'no-bluetooth' cause a problem.  For all
+> other
+> > recipes it will remain blank as expected.
 >
->       http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3b77e7b7852549dcfbc426d4ce258e6e857c0acd
->       was supposed to fix that :(
+> Because if you set it to empty, then ??=3D won't be used and we'll be bac=
+k
+> to RDEPENDS_.
 >
->       Cheers,
+> And if you set BLUEZ to no-bluetooth e.g. in your DISTRO config than it
+> will break other recipes, e.g.:
 >
->       Richard
-> 
-> 
+> meta/recipes-connectivity/ofono/ofono.inc:PACKAGECONFIG[bluez] =3D
+> "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}"
+> meta/recipes-core/packagegroups/packagegroup-base.bb:    ${BLUEZ} \
+> meta/recipes-devtools/python/python3.inc:PACKAGECONFIG[bluetooth] =3D
+> ",ac_cv_header_bluetooth_bluetooth_h=3Dno
+> ac_cv_header_bluetooth_h=3Dno,${BLUEZ}"
+> meta/recipes-devtools/qemu/qemu.inc:PACKAGECONFIG[bluez] =3D
+> "--enable-bluez,--disable-bluez,${BLUEZ}"
+> meta/recipes-devtools/strace/strace_4.24.bb:PACKAGECONFIG[bluez] =3D
+> "ac_cv_header_bluetooth_bluetooth_h=3Dyes,ac_cv_header_bluetooth_bluetoot=
+h_h=3Dno,${BLUEZ}"
+> meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.2.bb:PACK=
+AGECONFIG[bluez]
+>          =3D "--enable-bluez,--disable-bluez,${BLUEZ}"
+>
+> > --Mark
+> >
+> > > On Wed, Oct 17, 2018 at 5:43 PM Yann Dirson <
+> yann.dirson@blade-group.com
+> > > <mailto:yann.dirson@blade-group.com>> wrote:
+> > >
+> > >     Yeah, that looks like a better idea.
+> > >
+> > >     Le mer. 17 oct. 2018 =C3=A0 17:27, Martin Jansa <martin.jansa@gma=
+il.com
+> > >     <mailto:martin.jansa@gmail.com>> a =C3=A9crit :
+> > >
+> > >         What about using some less confusing default BLUEZ value?
+> RDEPENDS_
+> > >         looks wrong.
+> > >
+> > >         BLUEZ ??=3D "no-bluetooth"
+> > >         RDEPENDS_no-bluetooth =3D ""
+> > >
+> > >         Might be a bit more clear.
+> > >
+> > >         On Wed, Oct 17, 2018 at 5:08 PM <yann.dirson@blade-group.com
+> > >         <mailto:yann.dirson@blade-group.com>> wrote:
+> > >
+> > >             From: Yann Dirson <yann@blade-group.com <mailto:
+> yann@blade-group.com>>
+> > >
+> > >             Otherwise the build fails with:
+> > >
+> > >               NOTE: Runtime target '${RDEPENDS_}' is unbuildable,
+> removing...
+> > >               Missing or unbuildable dependency chain was:
+> ['${RDEPENDS_}']
+> > >
+> > >             This restores some truth in the "Otherwise install
+> nothing" comment
+> > >             in the recipe.
+> > >
+> > >             Signed-off-by: Yann Dirson <yann@blade-group.com
+> > >             <mailto:yann@blade-group.com>>
+> > >             ---
+> > >              .../packagegroups/packagegroup-tools-bluetooth.bb
+> > >             <http://packagegroup-tools-bluetooth.bb>               |
+> 2 ++
+> > >              1 file changed, 2 insertions(+)
+> > >
+> > >             diff --git
+> > >             a/meta-oe/recipes-connectivity/packagegroups/
+> packagegroup-tools-bluetooth.bb
+> > >             <http://packagegroup-tools-bluetooth.bb>
+> > >             b/meta-oe/recipes-connectivity/packagegroups/
+> packagegroup-tools-bluetooth.bb
+> > >             <http://packagegroup-tools-bluetooth.bb>
+> > >             index 0ede5e57b..e81516fef 100644
+> > >             ---
+> > >             a/meta-oe/recipes-connectivity/packagegroups/
+> packagegroup-tools-bluetooth.bb
+> > >             <http://packagegroup-tools-bluetooth.bb>
+> > >             +++
+> > >             b/meta-oe/recipes-connectivity/packagegroups/
+> packagegroup-tools-bluetooth.bb
+> > >             <http://packagegroup-tools-bluetooth.bb>
+> > >             @@ -32,6 +32,8 @@ RDEPENDS_bluez5 =3D " \
+> > >                      '', d)} \
+> > >              "
+> > >
+> > >             +RDEPENDS_ =3D ""
+> > >             +
+> > >              # Install bluez4 tools or bluez5 tools depending on what
+> is
+> > >             specified in the distro.
+> > >              # Otherwise install nothing.
+> > >              RDEPENDS_${PN} =3D "${RDEPENDS_${BLUEZ}}"
+> > >             --
+> > >             2.19.1
+> > >
+> > >             --
+> > >             _______________________________________________
+> > >             Openembedded-core mailing list
+> > >             Openembedded-core@lists.openembedded.org
+> > >             <mailto:Openembedded-core@lists.openembedded.org>
+> > >
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > >
+> > >
+> > >
+> > >     --
+> > >     Yann Dirson <yann@blade-group.com <mailto:yann@blade-group.com>>
+> > >     Blade -- 38 rue du Sentier, 75002 Paris
+> > >
+> > >
+> > >
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---504000474-1082472408-1539807668=:37492--
+
+--=20
+Yann Dirson <yann@blade-group.com>
+Blade -- 38 rue du Sentier, 75002 Paris
+
+--00000000000077cc5e0578732760
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Sent v3 to -devel - that does not supercede the original s=
+eries on patwork, though.<br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr">Le=C2=A0mer. 17 oct. 2018 =C3=A0=C2=A020:52, Martin Jansa &lt;<a h=
+ref=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; a =C3=
+=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, Oct 17, 2018=
+ at 10:58:49AM -0500, Mark Hatle wrote:<br>
+&gt; On 10/17/18 10:46 AM, Martin Jansa wrote:<br>
+&gt; &gt; well, I realized that this won&#39;t work with the BLUEZ intentio=
+nally set to empty<br>
+&gt; &gt; value and setting BLUEZ to no-bluetooth globally also probably wo=
+n&#39;t work for<br>
+&gt; &gt; cases where it might be used in e.g. RDEPENDS_${PN} :/. Maybe inl=
+ine python<br>
+&gt; &gt; appending only either bluez4 or bluez5 alternative here?<br>
+&gt; <br>
+&gt; I&#39;m slightly confused.=C2=A0 In the suggestion you made below, ??=
+=3D within the<br>
+&gt; specific package, why would &#39;no-bluetooth&#39; cause a problem.=C2=
+=A0 For all other<br>
+&gt; recipes it will remain blank as expected.<br>
+<br>
+Because if you set it to empty, then ??=3D won&#39;t be used and we&#39;ll =
+be back<br>
+to RDEPENDS_.<br>
+<br>
+And if you set BLUEZ to no-bluetooth e.g. in your DISTRO config than it<br>
+will break other recipes, e.g.:<br>
+<br>
+meta/recipes-connectivity/ofono/ofono.inc:PACKAGECONFIG[bluez] =3D &quot;--=
+enable-bluetooth, --disable-bluetooth, ${BLUEZ}&quot;<br>
+meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-base.bb" rel=
+=3D"noreferrer" target=3D"_blank">packagegroup-base.bb</a>:=C2=A0 =C2=A0 ${=
+BLUEZ} \<br>
+meta/recipes-devtools/python/python3.inc:PACKAGECONFIG[bluetooth] =3D &quot=
+;,ac_cv_header_bluetooth_bluetooth_h=3Dno ac_cv_header_bluetooth_h=3Dno,${B=
+LUEZ}&quot;<br>
+meta/recipes-devtools/qemu/qemu.inc:PACKAGECONFIG[bluez] =3D &quot;--enable=
+-bluez,--disable-bluez,${BLUEZ}&quot;<br>
+meta/recipes-devtools/strace/strace_4.24.bb:PACKAGECONFIG[bluez] =3D &quot;=
+ac_cv_header_bluetooth_bluetooth_h=3Dyes,ac_cv_header_bluetooth_bluetooth_h=
+=3Dno,${BLUEZ}&quot;<br>
+meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.2.bb:PACKAG=
+ECONFIG[bluez]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;--enable-b=
+luez,--disable-bluez,${BLUEZ}&quot;<br>
+<br>
+&gt; --Mark<br>
+&gt; <br>
+&gt; &gt; On Wed, Oct 17, 2018 at 5:43 PM Yann Dirson &lt;<a href=3D"mailto=
+:yann.dirson@blade-group.com" target=3D"_blank">yann.dirson@blade-group.com=
+</a><br>
+&gt; &gt; &lt;mailto:<a href=3D"mailto:yann.dirson@blade-group.com" target=
+=3D"_blank">yann.dirson@blade-group.com</a>&gt;&gt; wrote:<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0Yeah, that looks like a better idea.<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0Le=C2=A0mer. 17 oct. 2018 =C3=A0=C2=A017:27, M=
+artin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank"=
+>martin.jansa@gmail.com</a><br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:martin.jansa@gmai=
+l.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;&gt; a =C3=A9crit=C2=
+=A0:<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0What about using some less confu=
+sing default BLUEZ value? RDEPENDS_<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0looks wrong.<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BLUEZ ??=3D &quot;no-bluetooth&q=
+uot;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0RDEPENDS_no-bluetooth =3D &quot;=
+&quot;<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Might be a bit more clear.<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0On Wed, Oct 17, 2018 at 5:08 PM =
+&lt;<a href=3D"mailto:yann.dirson@blade-group.com" target=3D"_blank">yann.d=
+irson@blade-group.com</a><br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:yan=
+n.dirson@blade-group.com" target=3D"_blank">yann.dirson@blade-group.com</a>=
+&gt;&gt; wrote:<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0From: Yann Dirson =
+&lt;<a href=3D"mailto:yann@blade-group.com" target=3D"_blank">yann@blade-gr=
+oup.com</a> &lt;mailto:<a href=3D"mailto:yann@blade-group.com" target=3D"_b=
+lank">yann@blade-group.com</a>&gt;&gt;<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Otherwise the buil=
+d fails with:<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 NOTE: Runti=
+me target &#39;${RDEPENDS_}&#39; is unbuildable, removing...<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 Missing or =
+unbuildable dependency chain was: [&#39;${RDEPENDS_}&#39;]<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0This restores some=
+ truth in the &quot;Otherwise install nothing&quot; comment<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0in the recipe.<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Signed-off-by: Yan=
+n Dirson &lt;<a href=3D"mailto:yann@blade-group.com" target=3D"_blank">yann=
+@blade-group.com</a><br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=
+=3D"mailto:yann@blade-group.com" target=3D"_blank">yann@blade-group.com</a>=
+&gt;&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0---<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0.../packageg=
+roups/<a href=3D"http://packagegroup-tools-bluetooth.bb" rel=3D"noreferrer"=
+ target=3D"_blank">packagegroup-tools-bluetooth.bb</a><br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"htt=
+p://packagegroup-tools-bluetooth.bb" rel=3D"noreferrer" target=3D"_blank">h=
+ttp://packagegroup-tools-bluetooth.bb</a>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 ++<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A01 file chang=
+ed, 2 insertions(+)<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0diff --git<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0a/meta-oe/recipes-=
+connectivity/packagegroups/<a href=3D"http://packagegroup-tools-bluetooth.b=
+b" rel=3D"noreferrer" target=3D"_blank">packagegroup-tools-bluetooth.bb</a>=
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"htt=
+p://packagegroup-tools-bluetooth.bb" rel=3D"noreferrer" target=3D"_blank">h=
+ttp://packagegroup-tools-bluetooth.bb</a>&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0b/meta-oe/recipes-=
+connectivity/packagegroups/<a href=3D"http://packagegroup-tools-bluetooth.b=
+b" rel=3D"noreferrer" target=3D"_blank">packagegroup-tools-bluetooth.bb</a>=
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"htt=
+p://packagegroup-tools-bluetooth.bb" rel=3D"noreferrer" target=3D"_blank">h=
+ttp://packagegroup-tools-bluetooth.bb</a>&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0index 0ede5e57b..e=
+81516fef 100644<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0---<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0a/meta-oe/recipes-=
+connectivity/packagegroups/<a href=3D"http://packagegroup-tools-bluetooth.b=
+b" rel=3D"noreferrer" target=3D"_blank">packagegroup-tools-bluetooth.bb</a>=
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"htt=
+p://packagegroup-tools-bluetooth.bb" rel=3D"noreferrer" target=3D"_blank">h=
+ttp://packagegroup-tools-bluetooth.bb</a>&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+++<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0b/meta-oe/recipes-=
+connectivity/packagegroups/<a href=3D"http://packagegroup-tools-bluetooth.b=
+b" rel=3D"noreferrer" target=3D"_blank">packagegroup-tools-bluetooth.bb</a>=
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"htt=
+p://packagegroup-tools-bluetooth.bb" rel=3D"noreferrer" target=3D"_blank">h=
+ttp://packagegroup-tools-bluetooth.bb</a>&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -32,6 +32,8 @@ =
+RDEPENDS_bluez5 =3D &quot; \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;&#39;, d)} \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0&quot;<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+RDEPENDS_ =3D &qu=
+ot;&quot;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0# Install bl=
+uez4 tools or bluez5 tools depending on what is<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0specified in the d=
+istro.<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0# Otherwise =
+install nothing.<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0RDEPENDS_${P=
+N} =3D &quot;${RDEPENDS_${BLUEZ}}&quot;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-- <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A02.19.1<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-- <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__________________=
+_____________________________<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Openembedded-core =
+mailing list<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"mailto:=
+Openembedded-core@lists.openembedded.org" target=3D"_blank">Openembedded-co=
+re@lists.openembedded.org</a><br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=
+=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blank">Open=
+embedded-core@lists.openembedded.org</a>&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://=
+lists.openembedded.org/mailman/listinfo/openembedded-core" rel=3D"noreferre=
+r" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openemb=
+edded-core</a><br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0-- <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0Yann Dirson &lt;<a href=3D"mailto:yann@blade-g=
+roup.com" target=3D"_blank">yann@blade-group.com</a> &lt;mailto:<a href=3D"=
+mailto:yann@blade-group.com" target=3D"_blank">yann@blade-group.com</a>&gt;=
+&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0Blade -- 38 rue du Sentier, 75002 Paris<br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; -- <br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+<br>
+-- <br>
+Martin &#39;JaMa&#39; Jansa=C2=A0 =C2=A0 =C2=A0jabber: <a href=3D"mailto:Ma=
+rtin.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gmail.com</a><br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>Ya=
+nn Dirson &lt;<a href=3D"mailto:yann@blade-group.com" target=3D"_blank">yan=
+n@blade-group.com</a>&gt;<br>Blade -- 38 rue du Sentier, 75002 Paris<br></d=
+iv></div></div>
+
+--00000000000077cc5e0578732760--
