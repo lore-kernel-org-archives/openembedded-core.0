@@ -1,27 +1,55 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D0AA78F72
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2527B79B11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 10:43:23 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w9HAhNmX028601
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Wed, 17 Oct 2018 11:59:47 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id q7-v6so1512904wrr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 12:43:23 +0200
-Received: from dev.vm6.ccp.siemens.com ([167.87.21.7])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w9HAhNwI032582;
-	Wed, 17 Oct 2018 12:43:23 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 046FF10D56DC;
-	Wed, 17 Oct 2018 12:43:23 +0200 (CEST)
-From: Pascal Bach <pascal.bach@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2018 12:42:41 +0200
-Message-Id: <20181017104243.801-3-pascal.bach@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20181017104243.801-1-pascal.bach@siemens.com>
-References: <20181017104243.801-1-pascal.bach@siemens.com>
-Subject: [PATCH v4 2/4] cmake.bbclass: search both sysroot-native and host for native packages
+	Wed, 17 Oct 2018 04:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=2eF1K39uSTdJDxsMp0EbN94bDP/jmIjhuaqpJu2fJuI=;
+	b=FAnDCBg8asTSYKbE4+aMWpGpvUHQ38NZF9PaFsjv5EzgCX/zHe3DvoscSFr2Ypft5c
+	B4sYfNhLG3dGI7TiscVWd4+HkP31/wynvf8pFENs9uHT8Fuz/IeErSNccAyMysyV5fXT
+	LM78z8OvWQ135r5MeXC1g3KzKokWHSyNK/hMc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=2eF1K39uSTdJDxsMp0EbN94bDP/jmIjhuaqpJu2fJuI=;
+	b=qOMLxMbFx7ROR/EXYuCa3B/6j+TXNbbaNO5944cNbBtdC4Bl2YWh3waIPBhpIgU7+E
+	MyO+Dow5IK7Bbl3AYQa3dAVFtozt42Ow4t3JQKq7pFrNdoLkczQ1dXHwCHg/VV+bkO+2
+	j38OAVXIDou3UHtiD6TvzBzThaWAwlgcLxlN1DDpSybCj0sKWn9NuKA91XpUGRk3y8xv
+	6JRJWO7h3HG/KfawaizanOQDQwnUrIUsKUvtu+ElxUI4gCHg3v546DspD0lf1hwZScO4
+	eV4hji9Wr8TZ9tdnCKW64H89Y8NE1L7sQrNjAkPkBZogi2+TBWKylCS/t4MLXklILaem
+	c9ow==
+X-Gm-Message-State: ABuFfoiepdv8LIOW7okgq3PgAM6K1tNaA9rOTwbmmazbluYsjsA9JgaL
+	EbrB3jpaZ5Onaba/u4LAFr9m5FOVM7Q=
+X-Google-Smtp-Source: ACcGV61pkyEJQUgZ9/eN2/60zvuI35zfGSBOQDtoml3OH09l+wCJ2+ARUUwegDaYKEXiED9deFPWnQ==
+X-Received: by 2002:adf:9792:: with SMTP id
+	s18-v6mr24570092wrb.283.1539777587518; 
+	Wed, 17 Oct 2018 04:59:47 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	z12-v6sm15467378wrv.46.2018.10.17.04.59.45
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 17 Oct 2018 04:59:46 -0700 (PDT)
+Message-ID: <118f12f46497b3b4fda287b64c5e432afde9b6d9.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Victor Kamensky <kamensky@cisco.com>
+Date: Wed, 17 Oct 2018 12:59:45 +0100
+In-Reply-To: <alpine.LRH.2.00.1810162250430.53155@sjc-ads-6991.cisco.com>
+References: <20181015182128.13115-1-kamensky@cisco.com>
+	<CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
+	<9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
+	<alpine.LRH.2.00.1810162250430.53155@sjc-ads-6991.cisco.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,54 +62,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 10:43:24 -0000
+X-List-Received-Date: Wed, 17 Oct 2018 11:59:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Certain headers and libraries like `math.h` an `-m` are only available on the
-host as they are provided by the host toolchain.
+On Tue, 2018-10-16 at 22:56 -0700, Victor Kamensky wrote:
+> In the long term it would be beneficial that those issues be
+> fixed in SystemTap itself, correct? If so, I can look at creating
+> proper patches and pushing them into SystemTap.
 
-This leads to issues that a find_library in CMake doesn't find the `m` library
-of a find_path doesn't find `math.h`. This issue occurred in the wireshark recipe
-for example.
+Yes, fixing those upstream would be very helpful, probably through
+adding the ability to configure the systemd unit path and fixing the
+file installation method.
 
-This change enables CMake to also look on the host for libraries and includes when
-building a native package.
+> Also on my todo list is to attempt to push few existing
+> OE systemtap patches into SystemTap upstream source. I believe
+> they look like quite legit issues and I hope they could be
+> upstreamed.
 
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
----
- meta/classes/cmake.bbclass | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+That kind of work is very much appreciated and makes everyone's life
+easier in the future!
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 86b1d0e9aa..ce3c0278ff 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -43,8 +43,8 @@ OECMAKE_RPATH ?= ""
- OECMAKE_PERLNATIVE_DIR ??= ""
- OECMAKE_EXTRA_ROOT_PATH ?= ""
- 
--OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
--OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
-+OECMAKE_FIND_ROOT_PATH_MODE = "ONLY"
-+OECMAKE_FIND_ROOT_PATH_MODE_class-native = "BOTH"
- 
- EXTRA_OECMAKE_append = " ${PACKAGECONFIG_CONFARGS}"
- 
-@@ -90,10 +90,10 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
- # only search in the paths provided so cmake doesnt pick
- # up libraries and tools from the native build machine
- set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
--set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
--set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
--set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
--set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
-+set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ${OECMAKE_FIND_ROOT_PATH_MODE} )
-+set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE} )
-+set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ${OECMAKE_FIND_ROOT_PATH_MODE} )
-+set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ${OECMAKE_FIND_ROOT_PATH_MODE} )
- 
- # Use qt.conf settings
- set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
--- 
-2.11.0
+Cheers,
+
+Richard
 
 
