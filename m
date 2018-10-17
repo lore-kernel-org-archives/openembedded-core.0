@@ -1,33 +1,44 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CB2371BEE
+Return-Path: <kamensky@cisco.com>
+Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
+	by mail.openembedded.org (Postfix) with ESMTP id F330E744AC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 05:48:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9H5lBxw021746
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Oct 2018 22:47:22 -0700
-Received: from [128.224.162.215] (128.224.162.215) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Tue, 16 Oct 2018 22:47:00 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, "Purdie, Richard"
-	<richard.purdie@linuxfoundation.org>
-References: <20181016090054.122374-1-mingli.yu@windriver.com>
-	<fb67373823b7952f1acf022bed6bd40611c74754.camel@linuxfoundation.org>
-	<CAJTo0LbbgiiPQSanVFuibf2PpYmVr9t1vebxZD6OT7DF+BdhDw@mail.gmail.com>
-	<CAJTo0LZT1ytnsBoKkfdwv8GThzsOCjoQtLdbe9dtFPMaPupMxw@mail.gmail.com>
-	<CAJTo0LY79q4La-mTQwG552XAkwJ8UTLp9yztVCd4g7m-pogpKw@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5BC6CCD3.4050003@windriver.com>
-Date: Wed, 17 Oct 2018 13:46:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Wed, 17 Oct 2018 05:56:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=2008; q=dns/txt; s=iport;
+	t=1539755775; x=1540965375;
+	h=date:from:to:cc:subject:in-reply-to:message-id:
+	references:mime-version;
+	bh=UpZKhL9Y5qv1yLmu1d7W2N6CiU7rJqK3A6lzrK+fOhs=;
+	b=fWDugbGNYU3zPZoPtsJE3tfPT6OlKeSft0WgIqOlFBgvpaO7Xb0EUZ5k
+	5PloI9c2b2R9njfy2GfQUHGWO5WjD5LREECzcswBhI2jZ0G86UH8ARHAv
+	G8U5qmRSSzx/Y/1SBbxul+db1bMj+rHkod2V9WzNhXkM23EtX4JHlNNpU E=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BbAABDzsZb/4ENJK1jGgEBAQEBAgE?=
+	=?us-ascii?q?BAQEHAgEBAQGBZYIEgWUojGuNNyWXIIFmCwEBhGwChG4hOBYBAwEBAgEBAm0?=
+	=?us-ascii?q?ohTkBAQEBAgEnEQI/BQsLGC5XBhOFGgilOzOKHYtMF4IAgUWCX4RmhXICiF0?=
+	=?us-ascii?q?4hhyOfgmQeZAglhMCBAsCFIFaIYFVTSMVO4JsgiYXjjkfMIwKAQE?=
+X-IronPort-AV: E=Sophos;i="5.54,391,1534809600"; d="scan'208";a="186705598"
+Received: from alln-core-9.cisco.com ([173.36.13.129])
+	by alln-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Oct 2018 05:56:14 +0000
+Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
+	by alln-core-9.cisco.com (8.15.2/8.15.2) with ESMTPS id w9H5uD6E002385
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 17 Oct 2018 05:56:14 GMT
+Date: Tue, 16 Oct 2018 22:56:13 -0700 (PDT)
+From: Victor Kamensky <kamensky@cisco.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
+Message-ID: <alpine.LRH.2.00.1810162250430.53155@sjc-ads-6991.cisco.com>
+References: <20181015182128.13115-1-kamensky@cisco.com>
+	<CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
+	<9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
+User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LY79q4La-mTQwG552XAkwJ8UTLp9yztVCd4g7m-pogpKw@mail.gmail.com>
-X-Originating-IP: [128.224.162.215]
+X-Outbound-SMTP-Client: 10.30.218.111, sjc-ads-6991.cisco.com
+X-Outbound-Node: alln-core-9.cisco.com
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost.inc: make libboost_python3.so available
+Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,58 +51,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 05:48:05 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Oct 2018 05:56:14 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
 
 
 
-On 2018年10月16日 20:05, Burton, Ross wrote:
-> On Tue, 16 Oct 2018 at 12:18, Burton, Ross <ross.burton@intel.com> wrote:
->> OpenCV has a patch to "fix" (bodge) the Py2 build:
+On Tue, 16 Oct 2018, Richard Purdie wrote:
+
+> On Tue, 2018-10-16 at 10:27 +0100, Burton, Ross wrote:
+>> On Mon, 15 Oct 2018 at 19:22, Victor Kamensky <kamensky@cisco.com>
+>> wrote:
+>>> Upgrade systemtap from 3.3 to 4.0: Removed backported patch.
 >>
->> https://github.com/ros-perception/vision_opencv/pull/239
->>
->> But this doesn't work for Py3.
+>> WARNING: systemtap-4.0-r0 do_package_qa: QA Issue: systemtap:
+>> /systemtap/etc/stap-exporter/EXAMPLE is owned by uid 1000, which is
+>> the same as the user running bitbake. This may be due to host
+>> contamination
+>> systemtap: /systemtap/etc/stap-exporter/EXAMPLE_NOERROR is owned by
+>> uid 1000, which is the same as the user running bitbake. This may be
+>> due to host contamination
+>> systemtap: /systemtap/etc/stap-exporter/errno.stp is owned by uid
+>> 1000, which is the same as the user running bitbake. This may be due
+>> to host contamination
+>> systemtap: /systemtap/etc/stap-exporter/syscalllatency.stp is owned
+>> by
+>> uid 1000, which is the same as the user running bitbake. This may be
+>> due to host contamination
+>> systemtap: /systemtap/etc/stap-exporter/timeout.stp is owned by uid
+>> 1000, which is the same as the user running bitbake. This may be due
+>> to host contamination
+>> systemtap: /systemtap/etc/stap-exporter/topsys.stp is owned by uid
+>> 1000, which is the same as the user running bitbake. This may be due
+>> to host contamination [host-user-contaminated]
 >
-> This was just pushed:
-> https://github.com/ros-perception/vision_opencv/commit/b57fd5b
+> There are also other issues from the addition of systemd unit files in
+> 4.0. I've a patch in -next which tweaks both issues which I'll put in
+> for testing.
 
-Thanks Ross!
-I'm fine not add the the hack fix from boost side, but as I know there 
-is another package camera-calibration-parsers which has the same problem 
-as below apart from cv-bridge. BTW, there may some other package also 
-has this kind of problem. This to say we need to fix the issue for the 
-this kind of packages one by one.
+Richard, thank you very prompt help.
 
-meta-ros/recipes-ros/image-common/camera-calibration-parsers_1.11.13.bb:do_configure 
-failed
-| CMake Error at 
-/$Prj/camera-calibration-parsers/1.11.13-r0/recipe-sysroot-native/usr/share/cmake-3.12/Modules/FindBoost.cmake:2048 
-(message):
-|   Unable to find the requested Boost libraries.
-|
-|   Boost version: 1.68.0
-|
-|   Boost include path:
-|   /$Prj/camera-calibration-parsers/1.11.13-r0/recipe-sysroot/usr/include
-|
-|
-|   Could not find the following Boost libraries:
-|
-|           boost_python3
-|
-|   Some (but not all) of the required Boost libraries were found.  You may
-|   need to install these additional Boost libraries.  Alternatively, set
-|   BOOST_LIBRARYDIR to the directory containing Boost libraries or 
-BOOST_ROOT
-|   to the location of Boost.
-| Call Stack (most recent call first):
-|   CMakeLists.txt:10 (find_package)
+In the long term it would be beneficial that those issues be
+fixed in SystemTap itself, correct? If so, I can look at creating
+proper patches and pushing them into SystemTap.
+
+Also on my todo list is to attempt to push few existing
+OE systemtap patches into SystemTap upstream source. I believe
+they look like quite legit issues and I hope they could be
+upstreamed.
 
 Thanks,
+Victor
 
+> Cheers,
 >
-> Ross
+> Richard
+>
 >
 
