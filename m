@@ -1,47 +1,49 @@
 Return-Path: <anibal.limon@linaro.org>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id F146D79B29
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AE9679B5B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 23:00:47 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id u6-v6so10657764plz.4
+	Wed, 17 Oct 2018 23:00:51 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id f8-v6so13224513pgq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 16:00:49 -0700 (PDT)
+	Wed, 17 Oct 2018 16:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=dor5KBE0yFJCC2LlS6kG6gIwWlmsRORXfdirHAVO/m4=;
-	b=DYUlyvv3TxT2x5ZrTWNEMdOXYCtzjw5W0WU3ZatYKAJuBfrvQ9yt5JGobTQrnkl20J
-	Uwt67pVwueMINs7XNqhdcU2DATw/ZMWUtrnodw3cmwbrcRs45dAeHpT1g4vGXFEKWkNH
-	XpuQpkY7cLOKe0DADy0Vt4+Vfuu0Ke5wqglQU=
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=K2aHj+2viIIJ0GTaBiIrcK4oAi2YyPQdlCV7xihuww8=;
+	b=gRSQBZGCd5esQqTVKWYYwZyxjxCQaMpZU9lXCd4jiB8YVqrzHApxq2fb5Uz3859byK
+	qR80r4Eu8JgRiRB/lDnAjZMhBK8IxoYAKFjy8jkH1bEH6cfWNBFEfxj2A81Z6elvs9Vm
+	/AeoYi6KApeKm/8WiNYXFxw0eRP4D3+QLebig=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=dor5KBE0yFJCC2LlS6kG6gIwWlmsRORXfdirHAVO/m4=;
-	b=KOOl6l1vMbYMBSnZfDVzh0VniMCL8UqW85tbbgTWVlImI9Vxasic8sKzpVXEQVZ5NM
-	LZGErk0UkvXx0L+e0Chr6vE9kJLPqjklcjPS9OLbvb/PGfY+wnoTTnfU3zMaAMj5Q8WI
-	NGdRkSAK1RizjDt8HhAupJTUTFUStoQViJX+NhEB8Y8WZwdpAHCEYSKsSe1MEoZc7OsT
-	Lfq9DmTwQiwuCGuohFzuNkF3JRq88PsrM4y+ZJ+jSZLYsmD4yRi7Bi00wc+QZg7lpZOY
-	Aak9LufrmcBI8w6dlTnFHRGRyZAmuZFNmlg3+6JxtalfWSIaVh6MM423XGbP9foCxM12
-	RjOg==
-X-Gm-Message-State: ABuFfoipAEstephVDhfiIYR8akBBwBumZ5bvC9VmSvB/wqXnd0Owywqf
-	6nZ/ERj+Z/FMJC4jwe2+vQestNxN7oM=
-X-Google-Smtp-Source: ACcGV63XmwVEm0lIaakAqUiKdlGTVCHcIfEpJmoA84h81JPhMOOoU4cGzXvQSEpMhiJb15vIeg9iBg==
-X-Received: by 2002:a17:902:7b84:: with SMTP id
-	w4-v6mr26809847pll.32.1539817248651; 
-	Wed, 17 Oct 2018 16:00:48 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=K2aHj+2viIIJ0GTaBiIrcK4oAi2YyPQdlCV7xihuww8=;
+	b=Bk/Ewi+jdWwKv/gLayZzrKMh4epyWyt3HOsnsZikR/1xHqIJjxeHtW3qH5tGEB6Pei
+	ybLk1rIv3d8Yzya/WOsPIcEkFRbHtQSTAIuSSqklRf0MfEKmztmZpQ0d2LzdGX6lpuV7
+	bY0nxAqaCd4hqAEhLFTthhwpq+3bInAO8WbJgOcMhnwhVfwgWxEH/da1volnEI/FAcDu
+	hAYL/WUQL0B6CZLlP8kvxeV1qJlj/JE6OiPLLuVgEqqfDAXFqn/fSqYx5w5rKUMcH/2t
+	fQMoj8Nn28QqCST/1pRfN2tmNuVLhKrgDxowH8DmBarrHBWi4k7YzinhtdtAhbk0lDYT
+	/Rjg==
+X-Gm-Message-State: ABuFfoj80YODeS3pQfcmvOBBW5AlC5qQ84PkwztpdtFKNovlMwFJvDyv
+	gdrKEM6/E8NEmjCpx7la1xQYB6v8UB0=
+X-Google-Smtp-Source: ACcGV61wKXzfHL2VaQAxEMMGXIF98M1KHtAoojmK90kHSR9u68YxV2GwZpzNORJ6pLnnREgn5ngHrw==
+X-Received: by 2002:a63:7c5e:: with SMTP id
+	l30-v6mr25828046pgn.45.1539817252340; 
+	Wed, 17 Oct 2018 16:00:52 -0700 (PDT)
 Received: from blackbox.Home ([200.68.141.5]) by smtp.gmail.com with ESMTPSA id
-	i71-v6sm26467929pgc.87.2018.10.17.16.00.47
+	i71-v6sm26467929pgc.87.2018.10.17.16.00.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Oct 2018 16:00:48 -0700 (PDT)
+	Wed, 17 Oct 2018 16:00:51 -0700 (PDT)
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2018 18:00:43 -0500
-Message-Id: <20181017230044.24098-1-anibal.limon@linaro.org>
+Date: Wed, 17 Oct 2018 18:00:44 -0500
+Message-Id: <20181017230044.24098-2-anibal.limon@linaro.org>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20181017230044.24098-1-anibal.limon@linaro.org>
+References: <20181017230044.24098-1-anibal.limon@linaro.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] meta/classes/testexport: Use manfiest filenames for package and testdata
+Subject: [PATCH 2/2] meta/classes/testexport: Remove __pycache__ from exported tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,64 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 23:00:48 -0000
+X-List-Received-Date: Wed, 17 Oct 2018 23:00:51 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Is clear to know for what image and machine the testexport package
-manifest and testdata was build.
+The __pycache__ is created based on python3 version in the build machine
+and isn't a garantee to be useful on the system that runs exported tests.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- meta/classes/testexport.bbclass  | 4 ++--
- meta/lib/oeqa/runtime/context.py | 9 +++++++--
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ meta/classes/testexport.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bbclass
-index d070f07afa..8b01504d3a 100644
+index 8b01504d3a..f38d093e81 100644
 --- a/meta/classes/testexport.bbclass
 +++ b/meta/classes/testexport.bbclass
-@@ -128,8 +128,8 @@ def copy_needed_files(d, tc):
-     tdname = "%s.testdata.json" % image_name
-     test_data_path = os.path.join(export_path, 'data')
-     bb.utils.mkdirhier(test_data_path)
--    shutil.copy2(image_manifest, os.path.join(test_data_path, 'manifest'))
--    shutil.copy2(tdname, os.path.join(test_data_path, 'testdata.json'))
-+    shutil.copy2(image_manifest, os.path.join(test_data_path, os.path.basename(image_manifest)))
-+    shutil.copy2(tdname, os.path.join(test_data_path, os.path.basename(tdname)))
+@@ -131,6 +131,11 @@ def copy_needed_files(d, tc):
+     shutil.copy2(image_manifest, os.path.join(test_data_path, os.path.basename(image_manifest)))
+     shutil.copy2(tdname, os.path.join(test_data_path, os.path.basename(tdname)))
  
++    for subdir, dirs, files in os.walk(export_path):
++        for dir in dirs:
++            if dir == '__pycache__':
++                shutil.rmtree(os.path.join(subdir, dir))
++
      # Create tar file for common parts of testexport
      create_tarball(d, "testexport.tar.gz", d.getVar("TEST_EXPORT_DIR"))
-diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
-index a7f3823996..31dba75784 100644
---- a/meta/lib/oeqa/runtime/context.py
-+++ b/meta/lib/oeqa/runtime/context.py
-@@ -2,6 +2,7 @@
- # Released under the MIT license (see COPYING.MIT)
  
- import os
-+import glob
- 
- from oeqa.core.context import OETestContext, OETestContextExecutor
- from oeqa.core.target.ssh import OESSHTarget
-@@ -42,11 +43,15 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
-     default_cases = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-             'cases')
-     default_data = None
--    default_test_data = 'data/testdata.json'
-+    m = glob.glob('data/*.testdata.json')
-+    if m:
-+        default_test_data = m[0]
-     default_tests = ''
- 
-     default_target_type = 'simpleremote'
--    default_manifest = 'data/manifest'
-+    m = glob.glob('data/*.manifest')
-+    if m:
-+        default_manifest = m[0]
-     default_server_ip = '192.168.7.1'
-     default_target_ip = '192.168.7.2'
-     default_host_dumper_dir = '/tmp/oe-saved-tests'
 -- 
 2.11.0
 
