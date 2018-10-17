@@ -1,44 +1,24 @@
-Return-Path: <kamensky@cisco.com>
-Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
-	by mail.openembedded.org (Postfix) with ESMTP id F330E744AC
+Return-Path: <martin@geanix.com>
+X-Greylist: delayed 367 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 17 Oct 2018 08:36:25 UTC
+Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
+	by mail.openembedded.org (Postfix) with ESMTP id 61C4565D00
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 05:56:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2008; q=dns/txt; s=iport;
-	t=1539755775; x=1540965375;
-	h=date:from:to:cc:subject:in-reply-to:message-id:
-	references:mime-version;
-	bh=UpZKhL9Y5qv1yLmu1d7W2N6CiU7rJqK3A6lzrK+fOhs=;
-	b=fWDugbGNYU3zPZoPtsJE3tfPT6OlKeSft0WgIqOlFBgvpaO7Xb0EUZ5k
-	5PloI9c2b2R9njfy2GfQUHGWO5WjD5LREECzcswBhI2jZ0G86UH8ARHAv
-	G8U5qmRSSzx/Y/1SBbxul+db1bMj+rHkod2V9WzNhXkM23EtX4JHlNNpU E=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BbAABDzsZb/4ENJK1jGgEBAQEBAgE?=
-	=?us-ascii?q?BAQEHAgEBAQGBZYIEgWUojGuNNyWXIIFmCwEBhGwChG4hOBYBAwEBAgEBAm0?=
-	=?us-ascii?q?ohTkBAQEBAgEnEQI/BQsLGC5XBhOFGgilOzOKHYtMF4IAgUWCX4RmhXICiF0?=
-	=?us-ascii?q?4hhyOfgmQeZAglhMCBAsCFIFaIYFVTSMVO4JsgiYXjjkfMIwKAQE?=
-X-IronPort-AV: E=Sophos;i="5.54,391,1534809600"; d="scan'208";a="186705598"
-Received: from alln-core-9.cisco.com ([173.36.13.129])
-	by alln-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Oct 2018 05:56:14 +0000
-Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
-	by alln-core-9.cisco.com (8.15.2/8.15.2) with ESMTPS id w9H5uD6E002385
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 17 Oct 2018 05:56:14 GMT
-Date: Tue, 16 Oct 2018 22:56:13 -0700 (PDT)
-From: Victor Kamensky <kamensky@cisco.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
-Message-ID: <alpine.LRH.2.00.1810162250430.53155@sjc-ads-6991.cisco.com>
-References: <20181015182128.13115-1-kamensky@cisco.com>
-	<CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
-	<9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
+	Wed, 17 Oct 2018 08:36:25 +0000 (UTC)
+Received: from [10.0.0.246] (unknown [85.184.147.232])
+	by mail.hundeboll.net (Postfix) with ESMTPSA id BF3611C1A30;
+	Wed, 17 Oct 2018 10:30:18 +0200 (CEST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20181016192546.15672-1-richard.purdie@linuxfoundation.org>
+From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
+Message-ID: <bb016a11-6387-b7cd-4b64-7c8f925874fe@geanix.com>
+Date: Wed, 17 Oct 2018 10:29:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.0
 MIME-Version: 1.0
-X-Outbound-SMTP-Client: 10.30.218.111, sjc-ads-6991.cisco.com
-X-Outbound-Node: alln-core-9.cisco.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
+In-Reply-To: <20181016192546.15672-1-richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH] systemtap: Fix issues from 4.0 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,60 +31,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 05:56:14 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
+X-List-Received-Date: Wed, 17 Oct 2018 08:36:25 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US-large
+Content-Transfer-Encoding: 8bit
 
+Hi Richard,
 
+On 16/10/2018 21.25, Richard Purdie wrote:
+> 4.0 adds systemd support but installs the unit files in the wrong location.
+> Fix this in do_install and inherit systemd to package them correctly.
+> 
+> Also fix ownership of files manually copied in to root:root to avoid QA warnings.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   meta/recipes-kernel/systemtap/systemtap_git.bb | 10 +++++++++-
+>   1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+> index 0b7833e901b..3c45bfa9374 100644
+> --- a/meta/recipes-kernel/systemtap/systemtap_git.bb
+> +++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+> @@ -25,7 +25,7 @@ PACKAGECONFIG[sqlite] = "--enable-sqlite,--disable-sqlite,sqlite3"
+>   PACKAGECONFIG[monitor] = "--enable-monitor,--disable-monitor,ncurses json-c"
+>   PACKAGECONFIG[python3-probes] = "--with-python3-probes,--without-python3-probes,python3-setuptools-native"
+>   
+> -inherit autotools gettext pkgconfig distutils3-base
+> +inherit autotools gettext pkgconfig distutils3-base systemd
+>   
+>   do_configure_prepend () {
+>       # Improve reproducibility for c++ object files
+> @@ -39,6 +39,14 @@ do_install_append () {
+>         rm -rf ${D}${datadir}/${PN}
+>         rm ${D}${libexecdir}/${PN}/stap-env
+>      fi
+> +
+> +   # Fix makefile hardcoded path assumptions for systemd (assumes $prefix)
+> +   install -d `dirname ${D}${systemd_unitdir}`
+> +   mv ${D}${prefix}/lib/systemd `dirname ${D}${systemd_unitdir}`
+> +   rmdir ${D}${prefix}/lib --ignore-fail-on-non-empty
+> +
+> +   # Ensure correct ownership for files copied in
+> +   chown root.root ${D}${sysconfdir}/stap-exporter/* -R
 
-On Tue, 16 Oct 2018, Richard Purdie wrote:
+root:root ?
 
-> On Tue, 2018-10-16 at 10:27 +0100, Burton, Ross wrote:
->> On Mon, 15 Oct 2018 at 19:22, Victor Kamensky <kamensky@cisco.com>
->> wrote:
->>> Upgrade systemtap from 3.3 to 4.0: Removed backported patch.
->>
->> WARNING: systemtap-4.0-r0 do_package_qa: QA Issue: systemtap:
->> /systemtap/etc/stap-exporter/EXAMPLE is owned by uid 1000, which is
->> the same as the user running bitbake. This may be due to host
->> contamination
->> systemtap: /systemtap/etc/stap-exporter/EXAMPLE_NOERROR is owned by
->> uid 1000, which is the same as the user running bitbake. This may be
->> due to host contamination
->> systemtap: /systemtap/etc/stap-exporter/errno.stp is owned by uid
->> 1000, which is the same as the user running bitbake. This may be due
->> to host contamination
->> systemtap: /systemtap/etc/stap-exporter/syscalllatency.stp is owned
->> by
->> uid 1000, which is the same as the user running bitbake. This may be
->> due to host contamination
->> systemtap: /systemtap/etc/stap-exporter/timeout.stp is owned by uid
->> 1000, which is the same as the user running bitbake. This may be due
->> to host contamination
->> systemtap: /systemtap/etc/stap-exporter/topsys.stp is owned by uid
->> 1000, which is the same as the user running bitbake. This may be due
->> to host contamination [host-user-contaminated]
->
-> There are also other issues from the addition of systemd unit files in
-> 4.0. I've a patch in -next which tweaks both issues which I'll put in
-> for testing.
+>   }
+>   
+>   BBCLASSEXTEND = "nativesdk"
+> 
 
-Richard, thank you very prompt help.
+-- 
+Kind regards,
+Martin Hundebøll
+Embedded Linux Consultant
 
-In the long term it would be beneficial that those issues be
-fixed in SystemTap itself, correct? If so, I can look at creating
-proper patches and pushing them into SystemTap.
++45 61 65 54 61
+martin@geanix.com
 
-Also on my todo list is to attempt to push few existing
-OE systemtap patches into SystemTap upstream source. I believe
-they look like quite legit issues and I hope they could be
-upstreamed.
-
-Thanks,
-Victor
-
-> Cheers,
->
-> Richard
->
->
+Geanix IVS
+https://geanix.com
+DK39600706
 
