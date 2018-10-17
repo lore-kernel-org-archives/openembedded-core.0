@@ -1,58 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id BFB3B60236
+Return-Path: <yann.dirson@blade-group.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B505D796E4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 15:07:27 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id n1-v6so30102366wrt.10
+	Wed, 17 Oct 2018 15:08:05 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id z204-v6so2577332wmc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 08:07:29 -0700 (PDT)
+	Wed, 17 Oct 2018 08:08:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=HaBN2kFU4/cCwxM16sezacKs7fv2StjSjnduGr8Xes0=;
-	b=Fcxydlzkj2co+DXiuxhEj/NPv9WbFEb7hXmvF+Mdp+61i04QJ4ZX/x5MGYz5lsyIR2
-	WGKk+351tOSPthAtmONbCbg3atJsm40CgmloFcTywnznp1htnY9asQCD0LIgR1Kk3Vn9
-	d8JlUKRMZdRx753nGjtnDbwRzRUopKcS5DaLw=
+	d=blade-group.com; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=DWuuvkYX6pbzoTsQzYd7s1FLknPsgr3FEWIwGx62pkc=;
+	b=e9ze7s5dmCAe6ujk2caLpDdFcBlK+64GLX8Hi+0iZiYX4McuXz/RQpL5+m9Wflcp2V
+	wWNFLmvS32hGi1GgG/pzeCst1iNj8rfoTwhakEbQDpGFBPRTpzYKEfTycuJIjoXgnvEg
+	sv+v/XuWcyklcuCTPZbjyy6FYkdWHHGVs0475TdLI28Jl3FmwUcGVVtrndCUaWWAzjVW
+	n+I5zeFxrD57nEFJxBA399czdArWz4X4Js5LYLeLxl7VbaO0D4V2YnJfS5BZcC+fatWx
+	xrfnwCBO3E0meGmGoqcpEN3mVVlRuJuBFseySZ+ynbcvkXKl0WOAiWXA5zPUhY1Sjqm/
+	hQHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=HaBN2kFU4/cCwxM16sezacKs7fv2StjSjnduGr8Xes0=;
-	b=oGDKKpZl5HrodncN05tKMpnWBf83Lz0p1BOvadu0c18Sux2mWjDhlKrTwzs+eswPA1
-	NIgwmNH9QNCt+GFEnanv9Fpoikz0W7CgrB39f5xW/rtYl8mu+CbgtOnr+yX3+qK5jWT6
-	ZABd9BsF9iT9wxjHu3CF0uUZXv4g8abcE7X3/PLSKigPYNCu9jgBA+Svz0P+x41eS7yW
-	mFGYK8XRBw58dOgGdrpxnRzoPnhVbsWHwPU8ChJ18tzoIYLlFUFh4BH8UT8cR8WiW5g1
-	cHmJM7lkYzGwAjzShXj2HPylm1/0+zalsqLE6ziwdltJrsNJ+9Jsvf9usxGvtW6j+LZ6
-	W2Ag==
-X-Gm-Message-State: ABuFfogUcogOjh79KytyvOjBu3aRsQoZ0dLJKNJYA9LRftdGl4u+wxdd
-	Qh0d1wrCNvYDfGOxVzgL3V/u0w==
-X-Google-Smtp-Source: ACcGV61X0rNmqx+JgHM1zWrDzUvMi5lXV8YAs8AeYEppwGYVu23taubgCKbKS4fCZ/oQHC3t8z+9Tw==
-X-Received: by 2002:a5d:4d09:: with SMTP id
-	z9-v6mr23620576wrt.298.1539788848141; 
-	Wed, 17 Oct 2018 08:07:28 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	4-v6sm2499088wmt.16.2018.10.17.08.07.26
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 17 Oct 2018 08:07:27 -0700 (PDT)
-Message-ID: <40a5b6dd1386ea77070814f7ef7ad340cc2e9e62.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 17 Oct 2018 16:07:25 +0100
-In-Reply-To: <CA+chaQcjv6-2v8oC25=7fapKKg5XapC21+6K1oN28Kk9MJF2zw@mail.gmail.com>
-References: <20181015182128.13115-1-kamensky@cisco.com>
-	<CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
-	<9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
-	<alpine.LRH.2.00.1810162250430.53155@sjc-ads-6991.cisco.com>
-	<118f12f46497b3b4fda287b64c5e432afde9b6d9.camel@linuxfoundation.org>
-	<CA+chaQcjv6-2v8oC25=7fapKKg5XapC21+6K1oN28Kk9MJF2zw@mail.gmail.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=DWuuvkYX6pbzoTsQzYd7s1FLknPsgr3FEWIwGx62pkc=;
+	b=TE5VQoaOZWSASn3rjWf781WFLATqoo2v3pL99ucugQLdicxM4p88wCDKVQvxAM8TB0
+	Kbu1J8BcPgfRbI3aEhbNrDTxy+//AaW6XEgb9UyX1PbKcYE4NPE6FfHjV31QMU2bSAv8
+	B3whVMHUKK7cfcyp8WfLAURWti3dy7W9UFUq5WRyYpF2cUQmlyPKnaYIzp4w8XsT74Mk
+	3xcQxE/Nq6lIQHwK2HL8oxddC14P1AIUHzREQa7ECLDcx1c8ae2nFVf6VJUgwCrBBZ9/
+	6zv3fFdusF2GOXPuru+oYXoeYF71Ar3i6T+q6lxmyNcJNKKYut7BZCz3IB66YAoeZDVO
+	b6pA==
+X-Gm-Message-State: ABuFfogp3/GoI+HKbhON19kFFyDgBgp55IiRE4gTq+4UItWSq/udS6fJ
+	RLLrERs7Bw/LBm6jsI+8qnrBipFUX7zhtA==
+X-Google-Smtp-Source: ACcGV6354caBd9BPv3V7OMzFCLw7LTl1lalFJUcIVYyqRpGtt+BziLZ+TGSnsGa+dwt8hu0aWsCSyw==
+X-Received: by 2002:a1c:1812:: with SMTP id 18-v6mr3360253wmy.34.1539788885824;
+	Wed, 17 Oct 2018 08:08:05 -0700 (PDT)
+Received: from yantop.local (lfbn-1-3228-112.w90-79.abo.wanadoo.fr.
+	[90.79.233.112]) by smtp.gmail.com with ESMTPSA id
+	j6-v6sm1454450wmd.29.2018.10.17.08.08.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 Oct 2018 08:08:05 -0700 (PDT)
+From: yann.dirson@blade-group.com
+X-Google-Original-From: yann@blade-group.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Oct 2018 17:07:57 +0200
+Message-Id: <20181017150757.14591-1-yann@blade-group.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Subject: [PATCH] packagegroup-tools-bluetooth: work as advertized on distro without bluez* support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,30 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 15:07:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Oct 2018 15:08:06 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2018-10-17 at 16:50 +0200, Martin Jansa wrote:
-> There seems to be one more issue in current master (for which I
-> haven't seen a fix in master-next or ML):
-> 
-> ERROR: systemtap-4.0-r0 do_package: QA Issue: systemtap:
-> Files/directories were installed but not shipped in any package:
->   /lib
->   /lib/systemd
->   /lib/systemd/system
->   /lib/systemd/system/stap-exporter.service
-> Please set FILES such that these items are packaged. Alternatively if
-> they are unneeded, avoid installing them or delete them within
-> do_install.
-> systemtap: 4 installed and not shipped files. [installed-vs-shipped]
+From: Yann Dirson <yann@blade-group.com>
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3b77e7b7852549dcfbc426d4ce258e6e857c0acd 
-was supposed to fix that :(
+Otherwise the build fails with:
 
-Cheers,
+  NOTE: Runtime target '${RDEPENDS_}' is unbuildable, removing...
+  Missing or unbuildable dependency chain was: ['${RDEPENDS_}']
 
-Richard
+This restores some truth in the "Otherwise install nothing" comment in the recipe.
+
+Signed-off-by: Yann Dirson <yann@blade-group.com>
+---
+ .../packagegroups/packagegroup-tools-bluetooth.bb               | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta-oe/recipes-connectivity/packagegroups/packagegroup-tools-bluetooth.bb b/meta-oe/recipes-connectivity/packagegroups/packagegroup-tools-bluetooth.bb
+index 0ede5e57b..e81516fef 100644
+--- a/meta-oe/recipes-connectivity/packagegroups/packagegroup-tools-bluetooth.bb
++++ b/meta-oe/recipes-connectivity/packagegroups/packagegroup-tools-bluetooth.bb
+@@ -32,6 +32,8 @@ RDEPENDS_bluez5 = " \
+         '', d)} \
+ "
+ 
++RDEPENDS_ = ""
++
+ # Install bluez4 tools or bluez5 tools depending on what is specified in the distro.
+ # Otherwise install nothing.
+ RDEPENDS_${PN} = "${RDEPENDS_${BLUEZ}}"
+-- 
+2.19.1
 
 
