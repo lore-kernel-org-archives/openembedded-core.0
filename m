@@ -1,52 +1,32 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A48779670
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 381DC7990B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 23:35:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9GNZ1C8022601
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Oct 2018 16:35:01 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 16 Oct 2018 16:35:00 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, Ming Liu <liu.ming50@gmail.com>
-References: <1537327601-24881-1-git-send-email-liu.ming50@gmail.com>
-	<CAJTo0LbJXyJj9aa=kMLrmvtJJhd5pCrygSWOqjfErWeNvtFfEw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <980a7308-26d7-5774-1e73-d56099b41bd9@windriver.com>
-Date: Tue, 16 Oct 2018 18:35:00 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.1
+	Wed, 17 Oct 2018 00:40:05 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="46232906"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 17 Oct 2018 08:40:05 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id CFFBC4B6ED74
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Oct 2018 08:40:03 +0800 (CST)
+Received: from localhost.local (10.167.225.78) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Wed, 17 Oct 2018 08:40:04 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Oct 2018 08:40:16 +0800
+Message-ID: <20181017004016.7897-3-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.14.3
+In-Reply-To: <20181017004016.7897-1-hongl.fnst@cn.fujitsu.com>
+References: <20181017004016.7897-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbJXyJj9aa=kMLrmvtJJhd5pCrygSWOqjfErWeNvtFfEw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: enable virgl driver for qemux86/qemux86-64
+X-Originating-IP: [10.167.225.78]
+X-yoursite-MailScanner-ID: CFFBC4B6ED74.A312B
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [PATCH] harfbuzz:1.8.8->1.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,82 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 23:35:02 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Oct 2018 00:40:07 -0000
+Content-Type: text/plain
 
-On 9/20/18 6:37 PM, Burton, Ross wrote:
-> I'm assuming you have a local config to turn on gallium, as that isn't
-> enabled by default.
+1.Upgrade harfbuzz from 1.8.8 to 1.9.0.
 
-This appears to be changing the basehash for mesa.
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+---
+ .../harfbuzz/{harfbuzz_1.8.8.bb => harfbuzz_1.9.0.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.8.8.bb => harfbuzz_1.9.0.bb} (90%)
 
-Fro bitbake-diffsigs:
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.8.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.9.0.bb
+similarity index 90%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.8.8.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.9.0.bb
+index b904d93..0b27634 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.8.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.9.0.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
+ DEPENDS = "glib-2.0 cairo fontconfig freetype"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "81dbce82d6471ec2b2a627ce02d03e5d"
+-SRC_URI[sha256sum] = "a8e5c86e4d99e1cc9865ec1b8e9b05b98e413c2a885cd11f8e9bb9502dd3e3a9"
++SRC_URI[md5sum] = "263a3f1cb014e3ad2e4123c238a9bfc5"
++SRC_URI[sha256sum] = "11eca62bf0ac549b8d6be55f4e130946399939cdfe7a562fdaee711190248b00"
+ 
+ inherit autotools pkgconfig lib_package gtk-doc
+ 
+-- 
+2.7.4
 
-Hash for dependent task mesa/mesa_18.1.9.bb.do_configure changed from
-cd484f650abebbd8126040df82218cb8 to cf71872a3ad0ccea0933b914d1eef467
 
-basehash changed from 8f512789ad94158da66c949e97a15ae8 to
-3a5c711c799c7ba6edd399ebf84fcc65
-
-Variable GALLIUMDRIVERS value changed:
-
-@@ -1,4 +1,4 @@
--swrast${@bb.utils.contains('PACKAGECONFIG', 'etnaviv', ',etnaviv', '',
-d)}${@bb.utils.contains('PACKAGECONFIG', 'imx', ',imx', '',
-d)}${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm',
-',${GALLIUMDRIVERS_LLVM}', '', d)}
-+swrast${@bb.utils.contains('PACKAGECONFIG', 'etnaviv', ',etnaviv', '',
-d)}${@bb.utils.contains('PACKAGECONFIG', 'imx', ',imx', '',
-d)}${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm',
-',${GALLIUMDRIVERS_LLVM}', '', d)},virgl
-PACKAGECONFIG{etnaviv} = Unset
-PACKAGECONFIG{gallium-llvm} = Unset
-PACKAGECONFIG{imx} = Unset
-
-I'm finding this when I try to do a genericx86-64 and qemux86-64 build in the
-same project.  The package, and everything depending on mesa keeps building due
-to this.
-
-I'm wondering if virgl should be enabled by default, and then disabled as a
-distro config if the user really doesn't want it?
-
---Mark
-
-> Ross
-> On Wed, 19 Sep 2018 at 04:28, <liu.ming50@gmail.com> wrote:
->>
->> From: Ming Liu <liu.ming50@gmail.com>
->>
->> virgl driver should be enabled for qemux86/qemux86-64 machines, or else
->> it will cause runtime issue due to virtio_gpu driver missing.
->>
->> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
->> ---
->>  meta/recipes-graphics/mesa/mesa.inc | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
->> index 5afd0db..8d0e2cb 100644
->> --- a/meta/recipes-graphics/mesa/mesa.inc
->> +++ b/meta/recipes-graphics/mesa/mesa.inc
->> @@ -91,6 +91,8 @@ GALLIUMDRIVERS_LLVM33_ENABLED = "${@oe.utils.version_less_or_equal('MESA_LLVM_RE
->>  GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
->>  GALLIUMDRIVERS_append_x86 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
->>  GALLIUMDRIVERS_append_x86-64 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
->> +GALLIUMDRIVERS_append_qemux86 = ",virgl"
->> +GALLIUMDRIVERS_append_qemux86-64 = ",virgl"
->>  # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
->>  PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
->>  MESA_LLVM_RELEASE ?= "6.0"
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
