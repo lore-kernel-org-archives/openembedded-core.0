@@ -1,48 +1,49 @@
-Return-Path: <yann.dirson@blade-group.com>
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7976D79AEA
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C15B6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 15:43:31 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id e17-v6so21431162oig.12
+	Wed, 17 Oct 2018 15:46:22 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id 63-v6so30219111wra.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 08:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=blade-group.com; s=google;
+	Wed, 17 Oct 2018 08:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YBVlQaWqU7d9XjK/RHDC8Az6+DRdeDPh+iGru+RiJGQ=;
-	b=MUNX3HycQbLC079exMJbNrpFU7XlxPzkLyWXSwFx1kjWWEvYzIVJeAKePk/5QS5kk2
-	FlYdVdcydbGR0DM4QjpbfwOmOtslmYzotStq6llyqtE2LAxApyheMkGikBACPAORLsG3
-	qD7DkJ5asC7rmADdoCRmeku9wxQjqwlzpkFOKzvQ6nDHzBQd9C4lqaznhNWHdwvpbWrI
-	I5DKq7JTeHbiZJk8Vih/P7lRfZXow4x8oQheDpjOmIXyGG0jaa+KP887cLCG0MhgczwU
-	LSmi0eo95OjPfIjNnotM2GtrJS+FMx560q6Dl4pO3JNNi2X3BQ831NvV2M06CzxOIfVA
-	VEQA==
+	:cc; bh=fk6i9r+eCn5psPKZIE0stBSZVO+CUn8+OJqqlS95z1M=;
+	b=Bug21KiKnPYFtMIGIuMtj3a3yxAKeoOjQGqY/5iJzc7dTawRfPr2NYSz8v/oL8juNb
+	iCcBviMMt5jEAynhU5IuWhCgaxLuRZYTX+4uVp7AsiKD9dmeMQUlGhxeGk30FOSr8RKe
+	wzaNpPrcDph4QUaW2j5jDS4fJvBNd7E3qqEok9Bup34v7OOWvxKda+yuI58SsH18Daw/
+	cUqSev+VebjWNnd9CbTYKoSD1vq25khImteXaHIY1WA2PhaamewVcvdWbtskHSnIviJ7
+	NPW1jvb9C0zpw/rOqIxOqQ/2U7QDk/eyLh/tXrnmmvyRzdaJgeDIG3SKzGY+Qzt25qH/
+	dQVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=YBVlQaWqU7d9XjK/RHDC8Az6+DRdeDPh+iGru+RiJGQ=;
-	b=I3M2N2qHIfxqlrVSot9QmMzrWqhvqr2LKGksvPSciflfW6c+NlOPlvMYDs2AcOXlbW
-	HcruSM/utN0C1Y8fLmgPLMEEBLlA1mdaYwYlqKe6UT46v5M76wQAHooBMp1XuvzHJOaF
-	ckTFUdhKPcQxOPJOyB5Ape1qZquIjJPpB6u9IEJcNktrEZjZDLX0z7IKBKwYFAAhuZSi
-	BjQ4y8V16Z1E2ry+MCnkqnYN4HLxuqa9Rl/ON/110V2BvZ7epVcrzsZ7ZodhoK99FB8A
-	SedyUju8IK8wBKl43LM7hXklAIgGSOmIqih4j7kYQI+AC1WfD9Vu6t4AFgACcJL4DBrA
-	p0yQ==
-X-Gm-Message-State: ABuFfoiWawaVU4djjt1ah2PMh1oguO1Jh3IH8LfKgA55Dk2wRAJY75Y+
-	Q3M961ih83YYGRk3q6PSKG3rHumDriNwDLk+vU/vOw==
-X-Google-Smtp-Source: ACcGV63IDRNt/VN8CW2FGjf2WfbcGQkTQIyOHLA5FD8Gt+CtTGe2Iw2eHJW5JOujSZ/VktDo/WSElGB5rR9M6e4wzKM=
-X-Received: by 2002:aca:a809:: with SMTP id
-	r9-v6mr13539959oie.64.1539791012439; 
-	Wed, 17 Oct 2018 08:43:32 -0700 (PDT)
+	bh=fk6i9r+eCn5psPKZIE0stBSZVO+CUn8+OJqqlS95z1M=;
+	b=QOfOWW+ZOc3aTPVtQwLmMb3hOYiGxPTbFxtai6l1q018O1wAobi1ir3xIzWWadyoov
+	Gyp5Ca8ZG/5RLLJiLyYdwgRVp9NDKNtjYN6FAH2nV7COiSFGeAH9aT2Zv7Jgu2sz8WnW
+	fbdRk1LM/8v7Ha7oiNQlIor4hgr6tfbTSTAwp3f8MEqarhd9lVtxJkDAi2hFQ6NUA4bE
+	vsrI/7e6tDGt1YzAxeGJCpOyRJ8AQMhFT3id44nXBYGAp1ybDlvfh7JLNvsee76tECLw
+	DGylyBYzU1t916YIfOtNbU457okKll9556njPzR5P7URxGTn6+j2S/ijYryhrVBEGfw3
+	TMYQ==
+X-Gm-Message-State: ABuFfog84IwJevZjFpjR27fBZiL4bNz3o9y+LftOTgpvyNq4V6GTT1vj
+	VH7mytY1E60tedrskifYAetZS30MNSryRAlZpzo=
+X-Google-Smtp-Source: ACcGV60kd7fpHz+TcvDvSwVvwDJ/ghlbh4p+DwwBNo7inDREPBDvyYm8RZamxXlPnsCYpfKjFpm9bCJhdTUJy7NpG8E=
+X-Received: by 2002:a5d:4cc3:: with SMTP id
+	c3-v6mr25255497wrt.75.1539791182987; 
+	Wed, 17 Oct 2018 08:46:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181017150757.14591-1-yann@blade-group.com>
 	<CA+chaQekOHi4H=YYwvRvHv6AxV1UT909AOdmcTj+J_LJ4uRz-A@mail.gmail.com>
-In-Reply-To: <CA+chaQekOHi4H=YYwvRvHv6AxV1UT909AOdmcTj+J_LJ4uRz-A@mail.gmail.com>
-From: Yann Dirson <yann.dirson@blade-group.com>
-Date: Wed, 17 Oct 2018 17:43:20 +0200
-Message-ID: <CA+4=imbf=QA9B_pUA3dcqnjB4vM0XjiTvk2VozNMtne64r+n7Q@mail.gmail.com>
-To: martin.jansa@gmail.com
-Cc: openembedded-core@lists.openembedded.org
+	<CA+4=imbf=QA9B_pUA3dcqnjB4vM0XjiTvk2VozNMtne64r+n7Q@mail.gmail.com>
+In-Reply-To: <CA+4=imbf=QA9B_pUA3dcqnjB4vM0XjiTvk2VozNMtne64r+n7Q@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 17 Oct 2018 17:46:11 +0200
+Message-ID: <CA+chaQe=QSL=H+vdu3JFgTbzh53ogwx+fY-59-Dms_8Snhtk9g@mail.gmail.com>
+To: yann.dirson@blade-group.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] packagegroup-tools-bluetooth: work as advertized on distro without bluez* support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -56,97 +57,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 15:43:31 -0000
-Content-Type: multipart/alternative; boundary="000000000000533f2705786e88aa"
+X-List-Received-Date: Wed, 17 Oct 2018 15:46:22 -0000
+Content-Type: multipart/alternative; boundary="0000000000007d885b05786e927d"
 
---000000000000533f2705786e88aa
+--0000000000007d885b05786e927d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Yeah, that looks like a better idea.
+well, I realized that this won't work with the BLUEZ intentionally set to
+empty value and setting BLUEZ to no-bluetooth globally also probably won't
+work for cases where it might be used in e.g. RDEPENDS_${PN} :/. Maybe
+inline python appending only either bluez4 or bluez5 alternative here?
 
-Le mer. 17 oct. 2018 =C3=A0 17:27, Martin Jansa <martin.jansa@gmail.com> a
-=C3=A9crit :
+On Wed, Oct 17, 2018 at 5:43 PM Yann Dirson <yann.dirson@blade-group.com>
+wrote:
 
-> What about using some less confusing default BLUEZ value? RDEPENDS_ looks
-> wrong.
+> Yeah, that looks like a better idea.
 >
-> BLUEZ ??=3D "no-bluetooth"
-> RDEPENDS_no-bluetooth =3D ""
+> Le mer. 17 oct. 2018 =C3=A0 17:27, Martin Jansa <martin.jansa@gmail.com> =
+a
+> =C3=A9crit :
 >
-> Might be a bit more clear.
+>> What about using some less confusing default BLUEZ value? RDEPENDS_ look=
+s
+>> wrong.
+>>
+>> BLUEZ ??=3D "no-bluetooth"
+>> RDEPENDS_no-bluetooth =3D ""
+>>
+>> Might be a bit more clear.
+>>
+>> On Wed, Oct 17, 2018 at 5:08 PM <yann.dirson@blade-group.com> wrote:
+>>
+>>> From: Yann Dirson <yann@blade-group.com>
+>>>
+>>> Otherwise the build fails with:
+>>>
+>>>   NOTE: Runtime target '${RDEPENDS_}' is unbuildable, removing...
+>>>   Missing or unbuildable dependency chain was: ['${RDEPENDS_}']
+>>>
+>>> This restores some truth in the "Otherwise install nothing" comment in
+>>> the recipe.
+>>>
+>>> Signed-off-by: Yann Dirson <yann@blade-group.com>
+>>> ---
+>>>  .../packagegroups/packagegroup-tools-bluetooth.bb               | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/meta-oe/recipes-connectivity/packagegroups/
+>>> packagegroup-tools-bluetooth.bb
+>>> b/meta-oe/recipes-connectivity/packagegroups/
+>>> packagegroup-tools-bluetooth.bb
+>>> index 0ede5e57b..e81516fef 100644
+>>> --- a/meta-oe/recipes-connectivity/packagegroups/
+>>> packagegroup-tools-bluetooth.bb
+>>> +++ b/meta-oe/recipes-connectivity/packagegroups/
+>>> packagegroup-tools-bluetooth.bb
+>>> @@ -32,6 +32,8 @@ RDEPENDS_bluez5 =3D " \
+>>>          '', d)} \
+>>>  "
+>>>
+>>> +RDEPENDS_ =3D ""
+>>> +
+>>>  # Install bluez4 tools or bluez5 tools depending on what is specified
+>>> in the distro.
+>>>  # Otherwise install nothing.
+>>>  RDEPENDS_${PN} =3D "${RDEPENDS_${BLUEZ}}"
+>>> --
+>>> 2.19.1
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>
 >
-> On Wed, Oct 17, 2018 at 5:08 PM <yann.dirson@blade-group.com> wrote:
->
->> From: Yann Dirson <yann@blade-group.com>
->>
->> Otherwise the build fails with:
->>
->>   NOTE: Runtime target '${RDEPENDS_}' is unbuildable, removing...
->>   Missing or unbuildable dependency chain was: ['${RDEPENDS_}']
->>
->> This restores some truth in the "Otherwise install nothing" comment in
->> the recipe.
->>
->> Signed-off-by: Yann Dirson <yann@blade-group.com>
->> ---
->>  .../packagegroups/packagegroup-tools-bluetooth.bb               | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/meta-oe/recipes-connectivity/packagegroups/
->> packagegroup-tools-bluetooth.bb
->> b/meta-oe/recipes-connectivity/packagegroups/
->> packagegroup-tools-bluetooth.bb
->> index 0ede5e57b..e81516fef 100644
->> --- a/meta-oe/recipes-connectivity/packagegroups/
->> packagegroup-tools-bluetooth.bb
->> +++ b/meta-oe/recipes-connectivity/packagegroups/
->> packagegroup-tools-bluetooth.bb
->> @@ -32,6 +32,8 @@ RDEPENDS_bluez5 =3D " \
->>          '', d)} \
->>  "
->>
->> +RDEPENDS_ =3D ""
->> +
->>  # Install bluez4 tools or bluez5 tools depending on what is specified i=
-n
->> the distro.
->>  # Otherwise install nothing.
->>  RDEPENDS_${PN} =3D "${RDEPENDS_${BLUEZ}}"
->> --
->> 2.19.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+> --
+> Yann Dirson <yann@blade-group.com>
+> Blade -- 38 rue du Sentier, 75002 Paris
 >
 
---=20
-Yann Dirson <yann@blade-group.com>
-Blade -- 38 rue du Sentier, 75002 Paris
-
---000000000000533f2705786e88aa
+--0000000000007d885b05786e927d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Yeah, that looks like a better idea. <br></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr">Le=C2=A0mer. 17 oct. 2018 =C3=A0=C2=A0=
-17:27, Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.ja=
-nsa@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
-t:1ex"><div dir=3D"ltr">What about using some less confusing default BLUEZ =
-value? RDEPENDS_ looks wrong.<div><br></div><div>BLUEZ ??=3D &quot;no-bluet=
-ooth&quot;</div><div>RDEPENDS_no-bluetooth =3D &quot;&quot;</div><div><br><=
-/div><div>Might be a bit more clear.</div></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr">On Wed, Oct 17, 2018 at 5:08 PM &lt;<a href=3D"mailto:=
-yann.dirson@blade-group.com" target=3D"_blank">yann.dirson@blade-group.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Yann Dirson &l=
-t;<a href=3D"mailto:yann@blade-group.com" target=3D"_blank">yann@blade-grou=
-p.com</a>&gt;<br>
+<div dir=3D"ltr">well, I realized that this won&#39;t work with the BLUEZ i=
+ntentionally set to empty value and setting BLUEZ to no-bluetooth globally =
+also probably won&#39;t work for cases where it might be used in e.g. RDEPE=
+NDS_${PN} :/. Maybe inline python appending only either bluez4 or bluez5 al=
+ternative here?</div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed=
+, Oct 17, 2018 at 5:43 PM Yann Dirson &lt;<a href=3D"mailto:yann.dirson@bla=
+de-group.com">yann.dirson@blade-group.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex"><div dir=3D"ltr">Yeah, that looks like a better idea.=
+ <br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">Le=C2=A0mer. 17 =
+oct. 2018 =C3=A0=C2=A017:27, Martin Jansa &lt;<a href=3D"mailto:martin.jans=
+a@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; a =C3=A9crit=
+=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">What about=
+ using some less confusing default BLUEZ value? RDEPENDS_ looks wrong.<div>=
+<br></div><div>BLUEZ ??=3D &quot;no-bluetooth&quot;</div><div>RDEPENDS_no-b=
+luetooth =3D &quot;&quot;</div><div><br></div><div>Might be a bit more clea=
+r.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed, Oct 1=
+7, 2018 at 5:08 PM &lt;<a href=3D"mailto:yann.dirson@blade-group.com" targe=
+t=3D"_blank">yann.dirson@blade-group.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">From: Yann Dirson &lt;<a href=3D"mailto:yann@blade-gro=
+up.com" target=3D"_blank">yann@blade-group.com</a>&gt;<br>
 <br>
 Otherwise the build fails with:<br>
 <br>
@@ -200,10 +219,11 @@ k">Openembedded-core@lists.openembedded.org</a><br>
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
 n/listinfo/openembedded-core</a><br>
 </blockquote></div>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>Ya=
-nn Dirson &lt;<a href=3D"mailto:yann@blade-group.com" target=3D"_blank">yan=
-n@blade-group.com</a>&gt;<br>Blade -- 38 rue du Sentier, 75002 Paris<br></d=
-iv></div></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"m=
+_-5484289321282644411gmail_signature" data-smartmail=3D"gmail_signature"><d=
+iv dir=3D"ltr"><div>Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com"=
+ target=3D"_blank">yann@blade-group.com</a>&gt;<br>Blade -- 38 rue du Senti=
+er, 75002 Paris<br></div></div></div>
+</blockquote></div>
 
---000000000000533f2705786e88aa--
+--0000000000007d885b05786e927d--
