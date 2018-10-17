@@ -1,24 +1,18 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C692A79AF4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 02:22:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9H2MYdd016727
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2018 19:22:45 -0700
-Received: from fidler.wrs.com (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 16 Oct 2018 19:22:23 -0700
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Oct 2018 22:22:19 -0400
-Message-ID: <20181017022220.20841-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.17.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id AEB4C79870;
+	Wed, 17 Oct 2018 02:33:02 +0000 (UTC)
 MIME-Version: 1.0
-Subject: valgrind upgrade
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Date: Wed, 17 Oct 2018 02:33:04 -0000
+Message-ID: <20181017023304.29310.26166@do.openembedded.org>
+References: <20181017022220.20841-1-Randy.MacLeod@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181017022220.20841-1-Randy.MacLeod@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdmFsZ3JpbmQ6IHVwZGF0ZSBmcm9tIDMuMTMuMCB0byAzLjE0LjA=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 02:22:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Oct 2018 02:33:02 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-I know it's late, 
-I know we're weary, 
-I know our plans don't include  [1]
-valgrind 3.14 which was released recently after 1.5 years of development. 
-I believe that some of the M3 valgrind QA results we'ren't very good
-so if we're going to try to fix those problems, perhaps
-we should be working on the 3.14 release.
+== Series Details ==
 
-I've reviewed and updated the patches but so far I've only built for qemux86. 
-The other qemus are building overnight. 
+Series: valgrind: update from 3.13.0 to 3.14.0
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14563/
+State : failure
 
-If someone wants to test basic runtime functions and 
-better still run the ptests, that would be great.
+== Summary ==
 
-The important bits of the release notes IMO:
 
-* More than 100 bugs fixed.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-* Valgrind is now buildable with link-time optimisation (LTO).  A new
-  configure option --enable-lto=yes allows building Valgrind with LTO.  If the
-  toolchain supports it, this produces a smaller/faster Valgrind (up to 10%).
-  Note that if you are doing Valgrind development, --enable-lto=yes massively
-  slows down the build process.
--- I haven't added support for that option yet. A 10% performance boost
-   is hard to turn down but we'd need to understand the build impact.
 
-* The new option --keep-debuginfo=no|yes (default no) can be used to retain
-  debug info for unloaded code.  This allows saved stack traces (e.g. for
-  memory leaks) to include file/line info for code that has been dlclose'd (or
-  similar).  See the user manual for more information and known limitations.
--- sounds like it should be a default but I haven't added it yet.
 
-Full release notes:
-http://valgrind.org/docs/manual/dist.news.html
+* Issue             Patches not removed from tree [test_src_uri_left_files] 
+  Suggested fix    Amend the patch containing the software patch file removal
+  Patch            0002-fix-broken-inline-asm-in-tests-on-mips32-linux.patch
 
-../Randy
 
-[1] With apologies for the first line to Kenny Rogers.
 
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
