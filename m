@@ -1,54 +1,54 @@
 Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
-	[209.85.160.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 1966579B34
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3631179B34
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 21:22:40 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id u34-v6so31885664qth.3
+	Wed, 17 Oct 2018 21:22:42 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id q5-v6so17496083qki.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 14:22:41 -0700 (PDT)
+	Wed, 17 Oct 2018 14:22:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=du6lqnak+EYu1Wi03ICm89M5vKIeGdfyjPMvP+qKuBM=;
-	b=NXoTRAcGkabNucXxzbFIeGrowlgwbx/IkZQvZd7Lmlgb5ltJJ0FPmOj+2m+Ao4PYZZ
-	kNySjDkUnP3GBEYFx2CAlKoPoOkhJ39JLL490V/4hBYfpLacgE7gD19bpqQGzlbLaKnw
-	886eXpF6IHqE4w08XM2J2N38INgtIGLUSR4nruYFvvoV5KpdUIFdGsKLgLt1FZgA07jT
-	X55+sgdNRFHIT/+VZSZ+ZbLGhm9IgT1VT1IDwC6edCdY+3fmgkgPxWDXxS1KRMPIgKni
-	EyrUPxBT3nI2BP41l21+Sh9WPX6fuvhaOzWOY2jEwozdblJWUxubxsiW/D7cJoAbakdJ
-	d1LQ==
+	bh=KjuCiwM/GRq509atc+2Re1gCmTAeC6cyDpRvdOJ6/q0=;
+	b=Goxi1TWvyjLxkQdRezcfxeTXFZaj+53QhK9ol1BsRS5l1BOe+1PeXgvuGLjbaT7WBs
+	W6CJv9YHZZUwxl1ih+cZK5C2zsMNn88P9OX+LQC8N9UCzJ6zzAWBV6ORkujbtybG+ZHy
+	ns/3GZKtpABp+FlX+YbZAdsvUD/z9ERtWmTBtP7Wq6nS5hCJ0M1lrxnb1Xee5Yoqlmri
+	onlQMK3KtZ6IafW1PSCDSz/my5OpamFjIb585r75U/J3puW6G8piBYZ3pVkn/ZFMSl0G
+	6+gLYgsVcpuSC8Pa5ylgovScPkdG1YOw2HYmKiW0+UM8HvwlKbpHaT8BHGMSt8RsJtW3
+	z+Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=du6lqnak+EYu1Wi03ICm89M5vKIeGdfyjPMvP+qKuBM=;
-	b=otzS/6zMY3BdgMb7ox9TfgGBeUAcesbWXf0mWR8NVX7OLn8RRSqNYpvqRp+R47XSX9
-	xSY/zOONyzt115SJGK2DruREx0f3XQsadMqcYUXxrdHh7lo65QQCQHLq92syXCtvbPdQ
-	wOYW1Uub3nDrkKLUm4J4Hti9gc/dx1RrOi6MLz81NDpwvw5Tg/VASGsJDEyFOxYm7UfY
-	GgrlTQtEuNz8xHiLgboqwaXKjb/atFSRJyB7OOjNo9kmu2LpNq7He0i/aITSoii+Gj4o
-	QBm8U7RqH5Ajv8LXCZ7HhwemqQLeOldjqV3SIXGl+lemCRaWcwGMtRJRhk+K4l/kZZBw
-	Vlcw==
-X-Gm-Message-State: ABuFfoiQutLxjCoPwN5u7m32XVeuShK/unspbcE/HQI4lfMiTEYXR56A
-	l1ff5q2pEKapzCWwxRkyX8djAdF8
-X-Google-Smtp-Source: ACcGV62wpVC8bnUnNuVDygqYXjJmhjavUTRv56A0JhctdyaqFomgc3sn7dAWGtSoNrq+TqbSeubr2g==
-X-Received: by 2002:ac8:ec3:: with SMTP id
-	w3-v6mr26502468qti.138.1539811360924; 
-	Wed, 17 Oct 2018 14:22:40 -0700 (PDT)
+	bh=KjuCiwM/GRq509atc+2Re1gCmTAeC6cyDpRvdOJ6/q0=;
+	b=Gv5ns1AoY87YqqJjgkSpReDTdM0evGquz9YHHdz5PWnt3+FdHzg6cIAVetBJ8K7KQQ
+	HaonogXtJh6LdwbPk9Fuq9ftwvMSjTHBY7StoEAANECHKZFzm73ur557x24lnp80Byrg
+	BZTCQt89zzliJn5g/TBY5CmowG2GeRI2H7L3pafkvn/0Y/ihcIbV3lGJ/yW5yqrLgoSe
+	yykH+eSYePSaHpy51HyqBxKjXSuLxCLHrLns02b1yxOeEjFoqOJVSJT+bfROUzMWN97O
+	HIf6ECBuXTdtUAgv8l3W7tVdGIsO+S1lU8I6p/9FYov69MnOLGDNm9OXeY5GkTbz5GxD
+	alzA==
+X-Gm-Message-State: ABuFfojz53ScqBl8TkfqC6YwfSj+wZzWJALz9bj/8CwxGY/l093liHEw
+	qt7CaOUikcSsC/PuDJpCmq/LToRm
+X-Google-Smtp-Source: ACcGV61UlH/1Fk30FxDLpK7gLa4N7nwDFvkCPwy6EGFdQYmlZ7xzvjgOeYmygucYCNdIPqDr7CWmEw==
+X-Received: by 2002:a37:26d2:: with SMTP id
+	m79-v6mr26749693qkm.167.1539811362719; 
+	Wed, 17 Oct 2018 14:22:42 -0700 (PDT)
 Received: from mediabox.local (204-83-204-143.prna.hsdb.sasknet.sk.ca.
 	[204.83.204.143]) by smtp.gmail.com with ESMTPSA id
-	h4-v6sm9799796qkg.95.2018.10.17.14.22.39
+	h4-v6sm9799796qkg.95.2018.10.17.14.22.40
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 17 Oct 2018 14:22:39 -0700 (PDT)
+	Wed, 17 Oct 2018 14:22:41 -0700 (PDT)
 From: Dan McGregor <danismostlikely@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2018 15:22:33 -0600
-Message-Id: <20181017212235.8453-2-danismostlikely@gmail.com>
+Date: Wed, 17 Oct 2018 15:22:34 -0600
+Message-Id: <20181017212235.8453-3-danismostlikely@gmail.com>
 X-Mailer: git-send-email 2.19.0-dev
 In-Reply-To: <20181017212235.8453-1-danismostlikely@gmail.com>
 References: <20181017212235.8453-1-danismostlikely@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] file: alternatify file
+Subject: [PATCH 3/4] kmod: bump alternative priority
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,34 +61,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 21:22:41 -0000
+X-List-Received-Date: Wed, 17 Oct 2018 21:22:42 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Dan McGregor <dan.mcgregor@usask.ca>
 
-file is also provided by toybox.
+toybox by default has a priority of 60, and busybox of 50. Bump kmod's
+priority so that it beats both toybox and busybox.
 
 Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 ---
- meta/recipes-devtools/file/file_5.34.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/kmod/kmod_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/file/file_5.34.bb b/meta/recipes-devtools/file/file_5.34.bb
-index 6612b71000e..5d92913cb03 100644
---- a/meta/recipes-devtools/file/file_5.34.bb
-+++ b/meta/recipes-devtools/file/file_5.34.bb
-@@ -21,7 +21,10 @@ SRC_URI = "git://github.com/file/file.git \
- SRCREV = "315cef2f699da3c31a54bd3c6c6070680fbaf1f5"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index b25679359ba..bd21d2ff731 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -39,7 +39,7 @@ do_compile_prepend() {
  
--inherit autotools
-+inherit autotools update-alternatives
-+
-+ALTERNATIVE_${PN} = "file"
-+ALTERNATIVE_LINK_NAME[file] = "${bindir}/file"
+ inherit update-alternatives bash-completion
  
- EXTRA_OEMAKE_append_class-target = "-e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
- EXTRA_OEMAKE_append_class-nativesdk = "-e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
+-ALTERNATIVE_PRIORITY = "60"
++ALTERNATIVE_PRIORITY = "70"
+ 
+ ALTERNATIVE_kmod = "insmod modprobe rmmod modinfo bin-lsmod lsmod depmod"
+ 
 -- 
 2.19.0-dev
 
