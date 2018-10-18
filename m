@@ -1,26 +1,50 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A2B2379CA0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C658479C7A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 16:10:44 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9IGAOm4005345
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 18 Oct 2018 17:51:30 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id x8-v6so19343267qka.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 09:10:35 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 18 Oct 2018 09:10:14 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Oct 2018 23:28:49 +0800
-Message-ID: <8de5585c10d806d15ba4550d05c3c8fbcab26990.1539876421.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1539876421.git.kai.kang@windriver.com>
-References: <cover.1539876421.git.kai.kang@windriver.com>
+	Thu, 18 Oct 2018 10:51:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=cmtIMf3asrCZGUbJeDpAq/AN97A+VxER5mx3IcWzb3Q=;
+	b=JUfWxL7ZvtKto224fdk/WdziZAv2aq6d4cFUa6z2Hl3Jbpos5sq2LeDhsoI/dVYFMH
+	tom8KKRzh+FalraBEeTU6aBs+v8FVxn7tGw+AcCkOFDsjCCkakRR3Or++buAtK21VGbG
+	e0PAXh9peq5au5mZ57Oh8hgF6uRo9gxVNjhrN39EydYGTnnqGJAcwH8s1z4yPJFto2RZ
+	Csk8x1sHu/hYIL8tN0ZQ0bDvqK8mSrwXP1pNR2dOKNqLnM6/f2cT1+ZhbFTiARa7ealH
+	iVHRtTlnZXP7L8wbd3PhyynStP32L4NxT5JoRJPdtarxCpEwAE++wUOuGXPZPaD4kDje
+	Ptig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=cmtIMf3asrCZGUbJeDpAq/AN97A+VxER5mx3IcWzb3Q=;
+	b=AMKGcfvmBfCxnPzDAYvDc+QkkgUXnWpEzouBKXSYHCDvSk0xVZye7Au1HLOFDFK/uW
+	VMC0A0i3jjyPCdoc8Esvtof0bYoLoGTu1hgzdqhxVO2/i7P0M6n4sTg4Ic1Jkt1AqW/M
+	HBx5v3TZNWMgCRZLHgbuudqzVMuuiNPZPQWZIQpAeMnAbTsg20z0i5Ht/p0e90PH/ypk
+	MGQpqNR5FYCE+d/GrEALVj07EEc1THGqpCmKfieVw/k+C0aMkeTh64yJNJ6PiunerHTw
+	qoCuoks1wcGOtMaqjyyK5oAZ7Xneb45SiwPLg0UTJtYlKVR1WyJbwRb9zO/hH5ekEZSs
+	J+kA==
+X-Gm-Message-State: ABuFfoibf8H1qwGUyZmqQU53NN1LOi5NeRZoL7bLKW8CfC8K4XhbPTH5
+	lyhQx128w1MItxQ4rH7zxIXM+TkfBzSzcYFmpZQ=
+X-Google-Smtp-Source: ACcGV62QmyR3EMS2x1srbEnzZKPqQq7p4+i0YVf4OdetHSRs5o7xdl9nHYCZbGwbmlMI4XNl/JGgK11L72c+rEGvl5M=
+X-Received: by 2002:a37:31cf:: with SMTP id
+	x198-v6mr29435841qkx.206.1539885091456; 
+	Thu, 18 Oct 2018 10:51:31 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] udev-hwdb: fix postinstall scripts failures when multilib enabled
+References: <20181017022220.20841-1-Randy.MacLeod@windriver.com>
+	<20181017022220.20841-2-Randy.MacLeod@windriver.com>
+	<a8a5a1b9c5b5f477c5d6a119564f86ae4a8df342.camel@linuxfoundation.org>
+In-Reply-To: <a8a5a1b9c5b5f477c5d6a119564f86ae4a8df342.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 18 Oct 2018 10:51:05 -0700
+Message-ID: <CAMKF1spqvkXcedaEWQ-5qy_kCX4FLg5m2o0WA+nQzkRwUCeoPA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] valgrind: update from 3.13.0 to 3.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,106 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2018 16:10:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Oct 2018 17:51:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Kai Kang <kai.kang@windriver.com>
+On Thu, Oct 18, 2018 at 5:02 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On #if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+Tue, 2018-10-16 at 22:22 -0400, Randy MacLeod wrote:
+> > Removed patches are all upstream.
+> > Adjusted two patches due to rebase.
+> >
+> > Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+>
+> I set the autobuilder at this and it fails in musl in
+> do_compile_ptest_base:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/27/builds/126/steps/7/logs/step1b
+>
 
-When multilib is enabled and both udev-hwdb and ${MLPREFIX}udev-hwdb are
-installed to image, it fails to run one of their postinstall scripts
-that they both call ${base_bindir}/udevadm with same user mode qemu.
+yeah using  __GLIBC_PREREQ needs to be wrapped in
 
-Duplicate udevadm and add postinst-intercept update_udev_hwdb to fix the
-failures.
+#if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-core/systemd/systemd_239.bb     | 13 ++++++-------
- meta/recipes-core/udev/eudev_3.2.5.bb        | 11 +++++------
- scripts/postinst-intercepts/update_udev_hwdb |  6 ++++++
- 3 files changed, 17 insertions(+), 13 deletions(-)
- create mode 100644 scripts/postinst-intercepts/update_udev_hwdb
+#endif
 
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index 7ed932141d..44e972ebce 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -284,6 +284,10 @@ do_install() {
- 			chown polkitd:root ${D}${datadir}/polkit-1/rules.d
- 		fi
- 	fi
-+
-+	# duplicate udevadm for postinst script
-+	install -d ${D}${libexecdir}
-+	ln ${D}${base_bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
- }
- 
- 
-@@ -542,6 +546,7 @@ FILES_udev += "${base_sbindir}/udevd \
-                ${systemd_unitdir}/system/*udev* \
-                ${systemd_unitdir}/system/*.wants/*udev* \
-                ${base_bindir}/udevadm \
-+               ${libexecdir}/${MLPREFIX}udevadm \
-                ${datadir}/bash-completion/completions/udevadm \
-               "
- 
-@@ -580,13 +585,7 @@ pkg_prerm_${PN} () {
- PACKAGE_WRITE_DEPS += "qemu-native"
- pkg_postinst_udev-hwdb () {
- 	if test -n "$D"; then
--		if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
--			${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
--				--root $D
--			chown root:root $D${sysconfdir}/udev/hwdb.bin
--		else
--			$INTERCEPT_DIR/postinst_intercept delay_to_first_boot ${PKG} mlprefix=${MLPREFIX}
--		fi
-+		$INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
- 	else
- 		udevadm hwdb --update
- 	fi
-diff --git a/meta/recipes-core/udev/eudev_3.2.5.bb b/meta/recipes-core/udev/eudev_3.2.5.bb
-index efd62c6495..592dd8f22a 100644
---- a/meta/recipes-core/udev/eudev_3.2.5.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.5.bb
-@@ -50,6 +50,10 @@ do_install_append() {
- 
- 	# hid2hci has moved to bluez4. removed in udev as of version 169
- 	rm -f ${D}${base_libdir}/udev/hid2hci
-+
-+	# duplicate udevadm for postinst script
-+	install -d ${D}${libexecdir}
-+	ln ${D}${bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
- }
- 
- do_install_prepend_class-target () {
-@@ -81,12 +85,7 @@ RPROVIDES_eudev-hwdb += "udev-hwdb"
- PACKAGE_WRITE_DEPS += "qemu-native"
- pkg_postinst_eudev-hwdb () {
-     if test -n "$D"; then
--        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
--            ${@qemu_run_binary(d, '$D', '${bindir}/udevadm')} hwdb --update --root $D
--            chown root:root $D${sysconfdir}/udev/hwdb.bin
--        else
--            $INTERCEPT_DIR/postinst_intercept delay_to_first_boot ${PKG} mlprefix=${MLPREFIX}
--        fi
-+        $INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
-     else
-         udevadm hwdb --update
-     fi
-diff --git a/scripts/postinst-intercepts/update_udev_hwdb b/scripts/postinst-intercepts/update_udev_hwdb
-new file mode 100644
-index 0000000000..b5cce0a09d
---- /dev/null
-+++ b/scripts/postinst-intercepts/update_udev_hwdb
-@@ -0,0 +1,6 @@
-+#!/bin/sh
-+
-+set -e
-+
-+PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}udevadm hwdb --update --root $D
-+chown root:root $D${sysconfdir}/udev/hwdb.bin
--- 
-2.18.0
-
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
