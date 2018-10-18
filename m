@@ -1,28 +1,51 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AAFE79C3E
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E78379C3E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 15:05:15 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w9IF5D4s023151
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Thu, 18 Oct 2018 17:05:13 +0200
-Received: from [139.16.79.58] (MD1FZU9C.ad001.siemens.net [139.16.79.58])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w9IF5Cjo014601;
-	Thu, 18 Oct 2018 17:05:12 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20181017104243.801-1-pascal.bach@siemens.com>
-	<20181017104243.801-3-pascal.bach@siemens.com>
-	<CAJTo0LaPjCyHwkoBo8+_9KdfZ+U+WVO+ZHkKnNgtyy7Qy4PErg@mail.gmail.com>
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <36afa372-0235-b484-e056-94c6d6d3ea1a@siemens.com>
-Date: Thu, 18 Oct 2018 17:05:12 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu, 18 Oct 2018 15:23:08 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id b4-v6so34644167qtc.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Oct 2018 08:23:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ytLECjqyxSilsCuTtr6SRVZ80Qi7S5rny/Iz24gCfAk=;
+	b=mOOBUNRFoMhNhsmYRZtjFOw3uC16zPWorsYnDRTel8Xrr47JXVTo/y1Soa2MADN54F
+	qpNTXStOKPvw8rXwAkGaCEp0efATW1NbgIggQYnvqqrsxb9XZlYKSXbCFADUd+Kqi800
+	upEeuhF6LgheA5+lkqq6GxAtmnvzsPMqyGExNGdM8xSiIpy6I3Z0xI11Ad9adIGsBKla
+	virhyfefk4tl/Csig8rD3ec0sO+Qfwrf/YZezB0tNCCj6xO2V//uD2QG3DMqsi1Wmim3
+	9wnWUo8Ta4IuP8voXLjwcoUuxHBpprAS1wC3rPOLduKEnE8CgJ0DU1pr9VtcFrKmqi2Q
+	G9cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ytLECjqyxSilsCuTtr6SRVZ80Qi7S5rny/Iz24gCfAk=;
+	b=CfItQg1I7XJsgrRy5ZKGfjKjPmpA30bj4wTes4PQuoDi/ewTtfAxuWa6e7hZLBrCY7
+	qK4FJZznY68a2sA7SXOrKmyCmI2ZQe6JNCQR0ejkhkd+CuoT9xNCEGYhv/l2Qs/UP4R9
+	CnS7SCf7agDKnsQ9BynbME8HTf7r6wgYcjw+JPQJtmmqb3pO0tuz9wCbsJ/mB5ccfQ0S
+	oWvehJa/IF51h4AlUp1FpeNAfipK+huDtxNg3phujMLCBVq/Ir39qWIM9svzVjnjObT1
+	V3dDIxU68HxQK8kQnbeourpB4h2jzxh08Ip/+Ojnqk8Am4jct3ZEh17yCm5Ho40M1AnR
+	yh1Q==
+X-Gm-Message-State: ABuFfogO7Q09EsW8FdkyyYqp2RUhGD5OFmZMha4SzTk80uMdLGmi601c
+	fEUii/mV+ysDKB81KliAkHh79fMx
+X-Google-Smtp-Source: ACcGV63XT/Que04Gaw03+/A0wFaerhBr3BKOFLkPhQXHMwGvyfqyj2I0k0OJ4ZWv4z0mES71QCHHbw==
+X-Received: by 2002:ad4:4312:: with SMTP id c18mr30493414qvs.59.1539876189558; 
+	Thu, 18 Oct 2018 08:23:09 -0700 (PDT)
+Received: from mediabox.local (204-83-204-143.prna.hsdb.sasknet.sk.ca.
+	[204.83.204.143]) by smtp.gmail.com with ESMTPSA id
+	p3-v6sm16572265qtp.55.2018.10.18.08.23.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 18 Oct 2018 08:23:08 -0700 (PDT)
+From: Dan McGregor <danismostlikely@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Oct 2018 09:22:15 -0600
+Message-Id: <20181018152215.23525-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.19.0-dev
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaPjCyHwkoBo8+_9KdfZ+U+WVO+ZHkKnNgtyy7Qy4PErg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 2/4] cmake.bbclass: search both sysroot-native and host for native packages
+Subject: [PATCH v2] util-linux: alternatify cal, rev, and ionice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,52 +58,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2018 15:05:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 18 Oct 2018 15:23:09 -0000
+Content-Transfer-Encoding: 8bit
 
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-On 17.10.2018 18:24, Burton, Ross wrote:
-> I think I figured out why we're seeing odd failures on the
-> autobuilder, such as
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/125.
->
-> The important bit of the log is:
->
-> File "/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/qemux86-poky-linux-musl/core-image-minimal/1.0-r0/recipe-sysroot-native/usr/lib/python3.5/site-packages/libcomps/__init__.py",
-> line 1, in <module>
-> from ._libpycomps import *
-> ImportError: libpython3.6m.so.1.0: cannot open shared object file: No
-> such file or directory
->
-> The smoking gun is that oe-core doesn't have Python 3.6, but 3.5.
->
-> My suspicion is that for systems where the host has python3-devel
-> installed, libcomp-native's cmake is using the host python instead of
-> the native python in the sysroot.  I'm not sure yet if BOTH means it
-> searches the host before the sysroots, or if it is finding the python
-> binary in HOSTTOOLS and then asking that what the paths are.  Either
-> way, it ends up linking to the host libpython3.5.so and going into
-> sstate.  Another machine in the pool reuses this sstate but it doesn't
-> have Python 3.6 installed, so the library link is broken.
-That is definitively not the intention here.
+These are also provided by toybox in its default configuration,
+and can be turned on in busybox.
 
-For target builds it is pretty clear that there should be no usage of host dependencies.
-For native it is not so clear to me. There seems to be some dependencies like the compiler and associated libs.
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Maybe there is a way to bring this in a different way that is more selective instead of a general fallback to host as it would be with this patch?
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 3d8b3ff592c..2f99e8409f5 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -93,7 +93,7 @@ FILES_util-linux-findfs = "${sbindir}/findfs"
+ FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
+ FILES_util-linux-runuser = "${sbindir}/runuser"
+ FILES_util-linux-prlimit = "${bindir}/prlimit"
+-FILES_util-linux-ionice = "${bindir}/ionice"
++FILES_util-linux-ionice = "${bindir}/ionice.${BPN}"
+ FILES_util-linux-su = "${bindir}/su.util-linux ${sysconfdir}/pam.d/su-l"
+ CONFFILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
+ 
+@@ -209,7 +209,7 @@ ALTERNATIVE_${PN}  = " \
+     dmesg kill more mkswap blockdev pivot_root \
+     hexdump last lastb logger mesg renice wall \
+     setsid chrt flock utmpdump eject nologin taskset fallocate \
+-    fsfreeze nsenter \
++    fsfreeze nsenter cal rev \
+ "
+ 
+ ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+@@ -218,8 +218,10 @@ ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
+ ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
+ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
+ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
++ALTERNATIVE_LINK_NAME[cal] = "${bindir}/cal"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+ ALTERNATIVE_LINK_NAME[fallocate] = "${bindir}/fallocate"
++ALTERNATIVE_LINK_NAME[rev] = "${bindir}/rev"
+ ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
+ ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
+ 
+@@ -293,8 +295,8 @@ ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
+ ALTERNATIVE_util-linux-unshare = "unshare"
+ ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+ 
+-ALTERNATIVE_util-linux-switch-root = "switch_root"
+-ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
++ALTERNATIVE_util-linux-ionice = "ionice"
++ALTERNATIVE_LINK_NAME[ionice] = "${bindir}/ionice"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.19.0-dev
 
-What I'm traying to solve here was to get rid of these two lines in the wireshark recipe [1]:
-
--DM_INCLUDE_DIR=${includedir} \
--DM_LIBRARY=${libdir} \
-
-As they effectively add /usr/include and /usr/lib to the search path of cmake.
-
-Any toughts?
-
-Pascal
-
-[1] http://cgit.openembedded.org/meta-openembedded/tree/meta-networking/recipes-support/wireshark/wireshark_2.6.2.bb?h=master#n62
 
