@@ -1,33 +1,54 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (smtprelay2.synopsys.com
-	[198.182.60.111])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E8C1745B7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BC4E79B85
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 09:12:06 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 0322910C10F2;
-	Thu, 18 Oct 2018 02:12:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1539853927; bh=n9X+Wzpf+dD8vGYrfqu0w2QnS0Aud+Zlb9NPEtj9B5U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=I33sAmsLEgXv+WJGcD6Qd56UaWORR8zUm4wgkWY5k2Byfz46smt+1zSkz3Y3yEU0b
-	23/fbuoL4DsC0/CgfLudFtyfHDC/rRYU79Ki6a3seG+OhkpshchxRNOioyBDBImb4b
-	Nqn4p+SqcoZi1FPWCDzc2a2cPq+MOu9a7ZzqS9Sj6iKmajgG1aZ7Z4Fr2n3HCL307l
-	icjVnAfeXXx2M/hzaGz3Qm3Hjnz1pfshwW2CfI/jvwfRpcotAJ9wGT2LKdE4Imw47B
-	7+4fVD92ULBpR0ODdAdcoGDCkQejhOy2+B9SEJg513DQnz1S4+XE/vAXI5MNt2i+lS
-	OkKHIK4kCmm7Q==
-Received: from ru20arcgnu1.internal.synopsys.com
-	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 47C205B46;
-	Thu, 18 Oct 2018 02:12:04 -0700 (PDT)
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Oct 2018 12:12:03 +0300
-Message-Id: <20181018091203.22480-1-abrodkin@synopsys.com>
-X-Mailer: git-send-email 2.16.2
-Cc: linux-snps-arc@lists.infradead.org,
-	Alexey Brodkin <alexey.brodkin@synopsys.com>
-Subject: [PATCH] mpfr: Fix compilation for ARC
+	Thu, 18 Oct 2018 09:22:36 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id c32so29082095otb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Oct 2018 02:22:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=bERD/011OCDcehgHLQg7VqOmXP797EicRwBlA15UQuM=;
+	b=sU6QiRfDSH4Y/UB/lBYb+Ga82en9gTcNKh7RI4V4lVEDRLAiZF9FuxMifudmOYFUeo
+	+JDgy/z/LyigzTZcP+BiY8WUYtIBMfa2R86bEPUPGnPZbMjOs8jTCv4r5JALvxAlwp8e
+	d4OiCTRFIFbxJmIaGVSW3Wzp00b4/P/IL/S3lqrcEinM31qNs6bsNsX16UWyDhWqVIdu
+	qIm5CRGDHdMKxj4Oa4TMgezUMUU66nDEdmjZpBhO9uSJFGZa7HtCSio07R/yMWCtNCUg
+	vuSvw+3Cc3ltEfBNJBgbxtGdpTocFkVac4oeYmXRGsbT7GChRhX5iU2CZs4GnECOpCVU
+	HUgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=bERD/011OCDcehgHLQg7VqOmXP797EicRwBlA15UQuM=;
+	b=L839ug2QOGvUmnb9/5PBDJYbOaD8lMKfcytNxR3RZR29Vv1JE5t5khric4+xppRwlN
+	PTfn+MM4ERcHxUDGoeg6TQ1Iqmf5v6Mo5t/yCsGiYJ3Nouv8EKph8Bkfj95/1RLtXU/d
+	o11/5S9ini5q/bSzsuv9fRAlUB3wNfz+VWjnzT+QfRuN4PvHBtSb1OtSgU3h4z/xK0jK
+	lz5x0O2o2b03/EYDuSoQsBnsqF+n5z+NRE6RvAsb9qXKx88K4VnOJL9Re6NJr89zUOrl
+	zSqmZeWbti6eZNqs/Z49LEWZNy2bvrG6P2jOkXbFK1ZVifsuUKrjqfNGvBwBgMdyQx4S
+	E9pQ==
+X-Gm-Message-State: ABuFfogGomFp0aeqesFCYsW1RkaWdBsMYciVliwchYHedFFMsguUCTOS
+	3dJfykFoHHmZXHpkBxEMtVvTjOK7nPRcRXm/3ILmiw==
+X-Google-Smtp-Source: ACcGV62trA7krQWw33XAxBfkh5irB2T9FhIqXEPH5vv3vtnnguCUNEZ9Vzwl36qvYdceWA8SfWD+mOXeNlEiLA70REY=
+X-Received: by 2002:a9d:3e50:: with SMTP id h16mr17159448otg.8.1539854557545; 
+	Thu, 18 Oct 2018 02:22:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20181016090054.122374-1-mingli.yu@windriver.com>
+	<fb67373823b7952f1acf022bed6bd40611c74754.camel@linuxfoundation.org>
+	<CAJTo0LbbgiiPQSanVFuibf2PpYmVr9t1vebxZD6OT7DF+BdhDw@mail.gmail.com>
+	<CAJTo0LZT1ytnsBoKkfdwv8GThzsOCjoQtLdbe9dtFPMaPupMxw@mail.gmail.com>
+	<CAJTo0LY79q4La-mTQwG552XAkwJ8UTLp9yztVCd4g7m-pogpKw@mail.gmail.com>
+	<5BC6CCD3.4050003@windriver.com>
+	<CAJTo0LaYemE+q9=n0LTET2DzsQgGQPWSH+bmaM0k4ifa9oRM+A@mail.gmail.com>
+	<5BC7EFBC.9070105@windriver.com>
+In-Reply-To: <5BC7EFBC.9070105@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 18 Oct 2018 10:22:26 +0100
+Message-ID: <CAJTo0LYBVLU90K5+693FiPgQUUSKRtX30WtsHntbhfsCPCxDgA@mail.gmail.com>
+To: Mingli Yu <mingli.yu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] boost.inc: make libboost_python3.so available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,93 +61,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2018 09:12:06 -0000
+X-List-Received-Date: Thu, 18 Oct 2018 09:22:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-MPFR has a couple of things implemented in assembly and in case of
-ARC those parts were written long ago when ARC GCC port was not yet
-upstreamed. On upstreaming of GCC some constraints were changed and
-so we can no longer build MPFR for ARC with up-to-date tools seeing
-something like that:
-| In file included from ../../mpfr-4.0.1/src/mpfr-impl.h:112,
-|                  from ../../mpfr-4.0.1/src/mul.c:24:
-| ../../mpfr-4.0.1/src/mul.c: In function 'mpfr_mul':
-| ../../mpfr-4.0.1/src/mpfr-longlong.h:415:3: error: impossible constraint in 'asm'
-|    __asm__ ("add.f\t%1, %4, %5\n\tadc\t%0, %2, %3"   \
-|    ^~~~~~~
+On Thu, 18 Oct 2018 at 03:29, Yu, Mingli <mingli.yu@windriver.com> wrote:
+> Many thanks for Ross's clarification!
+> If we need to fix the packages one by one, but not add the hack at boost
+> side, then https://bugzilla.yoctoproject.org/show_bug.cgi?id=12833
+> should be invalid.
 
-Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
----
- .../0001-Fix-obsolete-ARC-asm-constraints.patch    | 45 ++++++++++++++++++++++
- meta/recipes-support/mpfr/mpfr_4.0.1.bb            |  3 +-
- 2 files changed, 47 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch
+Agreed, done!
 
-diff --git a/meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch b/meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch
-new file mode 100644
-index 0000000000..59d1b0db67
---- /dev/null
-+++ b/meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch
-@@ -0,0 +1,45 @@
-+mpfr-longlong.h: Fix obsolete ARC asm constraints
-+
-+This patch replaces obsolete ARC "J" asm constraint with
-+up-to-date "Cal" constraint.
-+
-+"J" constraint only existed in pre-upstream GCC port for ARC.
-+In current upstream port "Cal" constraint is used which leads
-+to compile-time error.
-+
-+Proposed fix is known to work in Buildroot, Crosstool-NG etc.
-+
-+[1] https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=09cb6a17e71bd40d2fbfaf82a1502fc210e33c87
-+
-+Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
-+Signed-off-by: Vlad Zakharov <vzakhar@synopsys.com>
-+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-+
-+Upstream-Status: Backport [https://gforge.inria.fr/scm/viewvc.php/mpfr?view=revision&revision=13251]
-+---
-+Index: src/mpfr-longlong.h
-+===================================================================
-+--- a/src/mpfr-longlong.h	(revision 10963)
-++++ b/src/mpfr-longlong.h	(working copy)
-+@@ -416,17 +416,17 @@
-+ 	   : "=r" (sh),							\
-+ 	     "=&r" (sl)							\
-+ 	   : "r"  ((USItype) (ah)),					\
-+-	     "rIJ" ((USItype) (bh)),					\
-++	     "rICal" ((USItype) (bh)),					\
-+ 	     "%r" ((USItype) (al)),					\
-+-	     "rIJ" ((USItype) (bl)))
-++	     "rICal" ((USItype) (bl)))
-+ #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-+   __asm__ ("sub.f\t%1, %4, %5\n\tsbc\t%0, %2, %3"			\
-+ 	   : "=r" (sh),							\
-+ 	     "=&r" (sl)							\
-+ 	   : "r" ((USItype) (ah)),					\
-+-	     "rIJ" ((USItype) (bh)),					\
-++	     "rICal" ((USItype) (bh)),					\
-+ 	     "r" ((USItype) (al)),					\
-+-	     "rIJ" ((USItype) (bl)))
-++	     "rICal" ((USItype) (bl)))
-+ #endif
-+ 
-+ #if defined (__arm__) && (defined (__thumb2__) || !defined (__thumb__)) \
-diff --git a/meta/recipes-support/mpfr/mpfr_4.0.1.bb b/meta/recipes-support/mpfr/mpfr_4.0.1.bb
-index f85a846e33..2eee76a357 100644
---- a/meta/recipes-support/mpfr/mpfr_4.0.1.bb
-+++ b/meta/recipes-support/mpfr/mpfr_4.0.1.bb
-@@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- 		    file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6"
- DEPENDS = "gmp autoconf-archive"
- 
--SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz"
-+SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz \
-+           file://0001-Fix-obsolete-ARC-asm-constraints.patch"
- SRC_URI[md5sum] = "b8dd19bd9bb1ec8831a6a582a7308073"
- SRC_URI[sha256sum] = "67874a60826303ee2fb6affc6dc0ddd3e749e9bfcb4c8655e3953d0458a6e16e"
- 
--- 
-2.16.2
-
+Ross
 
