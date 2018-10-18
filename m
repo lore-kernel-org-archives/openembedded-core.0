@@ -1,48 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
-	[209.85.210.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E27279C0A
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (smtprelay.synopsys.com [198.182.47.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 066A460851
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 10:24:54 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id o21so29195543otb.13
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 03:24:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=bAsgG3ZUypoDjWD2O12lowVn4RdF4Ln7otNMf40L1RU=;
-	b=kq60wg4rTyMVu9IaJiph3VjJRZFdLYnk1+QSMOeecQTGAlOt7+VREWzJYRJJjhJRbV
-	FygOg7IG4nk3qOOfu4cas+LSL3rk3bVbBaFL1Hwr7E1vDVEPUqRkwQkabWxDzLIi2DTQ
-	VHmn8zsblvRRMXRCbkkHHPzyEK3hQMb4GnmhrJTI/UBdZkD1PeqlihKMLAHtiJ8ZRgWd
-	ybUB0rjSoLcKUlMrUnldXJUue0gG1yo8xZJqlxCsXRXt23BYtFn4iCyRdH62sdJ8KY1/
-	sG2J2frg3fytnfUr7SYOW43pOx9Cf5mt2gOw+3jH09Fx1XID+s+rIQFDHF7LY+NewSrF
-	CqOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=bAsgG3ZUypoDjWD2O12lowVn4RdF4Ln7otNMf40L1RU=;
-	b=lcDxBS7bFEqGzgrmJs5gW0h4Uxv3iVikREVtbq4e12jXK1EEMVzgaACpNqYfnL8ePR
-	Uk7tctFZzsRkjzzLvGh09YGo7eB7Ef7OSmkigcwZz1rjxRq+s95aPZ7DTRgY6UMK7Fqu
-	K8sxd/axpiGs0UoM61rG6ObEBTG4IVi0yWzhuZm5ry6NTjKsyYjSLgfj3Q1L3yhYMQfq
-	TBj2t9gMPou60sQtmS+sRXQ4qgt9OKesACrfc8XxPUTEAt+uYLvKh2HPSeljMYjmBbs2
-	xykfLg1GW6lsbCfy7U8GU+5LjsOkwI3VWzoBHGVdiXDf46PL+t1qW9V7f6oSqHk9WFBm
-	ILQg==
-X-Gm-Message-State: ABuFfojfzC8Ts6fqp5YkGNDfK7eWgPkUjPp3oe8w45Q1e2L+hYvgmg5o
-	4gmVqO6z7cZdcCA/SdkCOJMDB8BfyqtaZoIh/yCu28J1
-X-Google-Smtp-Source: ACcGV61REcMnT86etMHJSbFNPH1Bs+Dgl2DcMkSt1+wIEd/X+gh++tfNFXZfdj8ItkY4eZkCYeGsAzgKVV9g33mSlyQ=
-X-Received: by 2002:a9d:3d44:: with SMTP id a62mr16726089otc.133.1539858295257;
-	Thu, 18 Oct 2018 03:24:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181017164326.67111-1-mark.hatle@windriver.com>
-	<20181017164326.67111-4-mark.hatle@windriver.com>
-In-Reply-To: <20181017164326.67111-4-mark.hatle@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Oct 2018 11:24:44 +0100
-Message-ID: <CAJTo0LY3gqvFDMzg48s0q4kZZ=WPpdj8u+jb-7gXFGmA-MBbPw@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] weston: Remove machine specific append
+	Thu, 18 Oct 2018 10:26:12 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id D41A324E1171;
+	Thu, 18 Oct 2018 03:26:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1539858374; bh=Y/hg+Jjf7QHbKTyZDKLHp9N5392P9JNKlONJ7rWBZpc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WkLCogcLplPteZNIz4B/Wxaai1VN6o9QyuFVsiCqH9UBZdkkW3b4sr4mOpv87TIPO
+	7O/sr9KhdmTnLvnCc5EP+/88M6xmWfRbL3pQDDKscPPsWGQDJA8Rd3fTCY3bpuw3aW
+	/9LlRTqAQciekrysCwG75Z9k7wBsdpTdw8fI/W5TlY7ojhlWPFgPuGl9hnHwu9VKjm
+	mT6LKXA62WbUldm6eNMGgEFa53+Pr1BwyeVd5VMnplUWUqHCaZM3DRD0yFVTDDm2K+
+	sUjEFn2H+djepUbtOJypq17CU4DrEixJEqTCKKQNBQIHCYkbHzhP2lWwdW9rBSTrJn
+	T6a38Zf/WIUAw==
+Received: from ru20arcgnu1.internal.synopsys.com
+	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
+	by mailhost.synopsys.com (Postfix) with ESMTP id 5BB2954F9;
+	Thu, 18 Oct 2018 03:26:12 -0700 (PDT)
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Oct 2018 13:26:09 +0300
+Message-Id: <20181018102609.12234-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.16.2
+Cc: linux-snps-arc@lists.infradead.org,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>
+Subject: [PATCH] packagegroup-core-tools-profile: disable valgrind on arc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,22 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2018 10:24:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 18 Oct 2018 10:26:13 -0000
 
-On Wed, 17 Oct 2018 at 17:44, Mark Hatle <mark.hatle@windriver.com> wrote:
-> -EXTRA_OECONF_append_qemux86 = "\
-> +EXTRA_OECONF_append_x86 = "\
->                 WESTON_NATIVE_BACKEND=fbdev-backend.so \
->                 "
+As of today there's no port of Valgrind for ARC so disabling it.
 
-This forces all x86 Westons that are not running inside X11 to use
-fbdev instead of drm.
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Two questions:
-1) does qemu still need fbdev or does virtio/drm work now?  (iirc, we
-still have a crippled qemu here)
-2) Can this be overridden in a config file instead
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 520d907714..4ec1f9284f 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -55,6 +55,7 @@ VALGRIND = "valgrind"
+ VALGRIND_libc-musl = ""
+ VALGRIND_mipsarch = ""
+ VALGRIND_nios2 = ""
++VALGRIND_arc = ""
+ VALGRIND_armv4 = ""
+ VALGRIND_armv5 = ""
+ VALGRIND_armv6 = ""
+-- 
+2.16.2
 
-Ross
 
