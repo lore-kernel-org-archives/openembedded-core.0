@@ -1,32 +1,26 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (smtprelay.synopsys.com [198.182.47.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 066A460851
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9828279C64
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 10:26:12 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id D41A324E1171;
-	Thu, 18 Oct 2018 03:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1539858374; bh=Y/hg+Jjf7QHbKTyZDKLHp9N5392P9JNKlONJ7rWBZpc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WkLCogcLplPteZNIz4B/Wxaai1VN6o9QyuFVsiCqH9UBZdkkW3b4sr4mOpv87TIPO
-	7O/sr9KhdmTnLvnCc5EP+/88M6xmWfRbL3pQDDKscPPsWGQDJA8Rd3fTCY3bpuw3aW
-	/9LlRTqAQciekrysCwG75Z9k7wBsdpTdw8fI/W5TlY7ojhlWPFgPuGl9hnHwu9VKjm
-	mT6LKXA62WbUldm6eNMGgEFa53+Pr1BwyeVd5VMnplUWUqHCaZM3DRD0yFVTDDm2K+
-	sUjEFn2H+djepUbtOJypq17CU4DrEixJEqTCKKQNBQIHCYkbHzhP2lWwdW9rBSTrJn
-	T6a38Zf/WIUAw==
-Received: from ru20arcgnu1.internal.synopsys.com
-	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 5BB2954F9;
-	Thu, 18 Oct 2018 03:26:12 -0700 (PDT)
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Oct 2018 13:26:09 +0300
-Message-Id: <20181018102609.12234-1-abrodkin@synopsys.com>
-X-Mailer: git-send-email 2.16.2
-Cc: linux-snps-arc@lists.infradead.org,
-	Alexey Brodkin <alexey.brodkin@synopsys.com>
-Subject: [PATCH] packagegroup-core-tools-profile: disable valgrind on arc
+	Thu, 18 Oct 2018 10:28:16 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w9IASDx7022589
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 18 Oct 2018 11:28:14 +0100
+Message-ID: <3c135d27d6897c3802700438fd58eec85630d76d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 18 Oct 2018 11:28:13 +0100
+In-Reply-To: <20181017164326.67111-5-mark.hatle@windriver.com>
+References: <20181017164326.67111-1-mark.hatle@windriver.com>
+	<20181017164326.67111-5-mark.hatle@windriver.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 4/4] gstreamer: Remove machine specific append
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2018 10:26:13 -0000
+X-List-Received-Date: Thu, 18 Oct 2018 10:28:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-As of today there's no port of Valgrind for ARC so disabling it.
+On Wed, 2018-10-17 at 12:43 -0400, Mark Hatle wrote:
+> If you try to build a system with multiple BSPs, one of which is qemux86
+> or qemux86-64, the gstreamer package will change.  This will trigger
+> anything using gstream to also be rebuilt.
+> 
+> For a package based system, the PR values will also be incremented each
+> time.  The end result will be an ever growing set of PR values as well as
+> being unable to tell which configured version of the multimedia components
+> are really being deployed.
+> 
+> The solution here was to remove the rrecommend for consistency.
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.2.bb | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.2.bb
+> index 7f291f6630..3a6e53de04 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.2.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.2.bb
+> @@ -55,8 +55,6 @@ FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
+>  FILES_${PN}-dev += "${libdir}/gstreamer-1.0/*.la ${libdir}/gstreamer-1.0/*.a ${libdir}/gstreamer-1.0/include"
+>  FILES_${PN}-bash-completion += "${datadir}/bash-completion/completions/ ${datadir}/bash-completion/helpers/gst*"
+>  
+> -RRECOMMENDS_${PN}_qemux86 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
+> -RRECOMMENDS_${PN}_qemux86-64 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
+>  RDEPENDS_${PN}-ptest += "make"
 
-Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
----
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 520d907714..4ec1f9284f 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -55,6 +55,7 @@ VALGRIND = "valgrind"
- VALGRIND_libc-musl = ""
- VALGRIND_mipsarch = ""
- VALGRIND_nios2 = ""
-+VALGRIND_arc = ""
- VALGRIND_armv4 = ""
- VALGRIND_armv5 = ""
- VALGRIND_armv6 = ""
--- 
-2.16.2
+We can't just delete these, they need moving to the machine conf files
+instead. Since we need to build M4 soon and this is a problem, I've put
+a patch into master-next which does this for testing.
+
+Cheers,
+
+Richard
+
 
 
