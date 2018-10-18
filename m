@@ -1,44 +1,47 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 89AE479C18
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1902F79C3B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 09:49:15 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Oct 2018 02:49:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,396,1534834800"; d="scan'208";a="92997247"
-Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
-	by orsmga003.jf.intel.com with ESMTP; 18 Oct 2018 02:49:15 -0700
-Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.235]) by
-	KMSMSX151.gar.corp.intel.com ([169.254.10.74]) with mapi id
-	14.03.0319.002; Thu, 18 Oct 2018 17:47:30 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/5] oeqa/core/runner: write testresult to
-	json files
-Thread-Index: AQHUZFpfOT/nHdPUQkGGNeWjbyAeb6Ufel6AgAVLswA=
-Date: Thu, 18 Oct 2018 09:47:30 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335ECCCF0@KMSMSX155.gar.corp.intel.com>
-References: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1539588294-5532-2-git-send-email-ee.peng.yeoh@intel.com>
-	<ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
-In-Reply-To: <ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYjhkYmQzZTQtNDc2MC00MjE1LWJiODUtMzc0OTJiNjVjYmRjIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiNWN2VEk1QU5RakZaNmM0MCtEY3RVSGNoN2NJTG5RakgzVVZZdm5CRG1vUUR5VjZDODNqZ1ZWMmQ5K1FxcVVnOSJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
+	Thu, 18 Oct 2018 10:22:16 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id v2so22087381otk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Oct 2018 03:22:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=EsWbya3Gb5p39u7GtTm/N7dO94MdTQMiXTTPW3c6/U0=;
+	b=jNKGbJmq94PH6Y6/3bc7jr7V0pvYHcMi0aQ1eutvmzcDuVz0++Quw10ScGRSCz4UIi
+	kZXOMWUC4f+FsyfUtT+w9uRB5nt2m8ZUMJteK5CSdAesB6yRvs1CsV4rIjd4PL/YyTR2
+	51LMkXJq4rzicCyn2iNKoOQVZoJ07/DTnNHl7/X9SaBn9+PPRPYALXkmfhkghShR1Hht
+	K+OTW3Mm0BIJKBXdDkNsuspdBfz1OlxDErADp1dcuHTpJ2Gyx+jrDQOkE+SXchyGqXtW
+	5KnNq7+hSyfwBkxqagRhABbT5fAvd7IXsRo+18XSqwfCspgEwh2zmssW/9YeSLPG7KW2
+	ngMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=EsWbya3Gb5p39u7GtTm/N7dO94MdTQMiXTTPW3c6/U0=;
+	b=IwoUfMdqN6BYNyNsRqJtt+jEQEcORSdkqSQpfqXK1+1obR96fYSKEzGCXGNFmqKri3
+	42qpvvjkiAF8OlvjQjQIbE5In1j0tSv9nWhUKJ1hH/gU/wu25wHr8sBmMHWHPuk2t471
+	3yxh0O/EHG/1Z3TIkQ+ew8nyXEyK+6vy3gYg3plgCEzLDbGic+8O+kDjH40dpMWYs4OP
+	0uW3TIKyyD2SbuLAQlu40OxrtftUEwJ/2m2XlMN+4ny/iiYE1kW5CWJq1Q926HyFWMy6
+	w4AtCskWIGV5+rL8oWFhua93Egnao3mh9boVhaPZ72Zyv4u336OL2THMKrstIwuDQuW/
+	V9Qg==
+X-Gm-Message-State: ABuFfoiLut9LuXGc1F6NPa7c0azKP6EgNv0rI8NTVMsVXJMPulI4/G1j
+	5Esqjt6GszR1Ae+xPZd6cuGajVqLcnFsCqP63185+A==
+X-Google-Smtp-Source: ACcGV60vRNZVfp4v2BTIKnHmMbVBgyos27bM8i31pi2aI4s1/wzaxbQu38szdGy+R3/eg54WO5Cmv1CUhtIs9RfvMd4=
+X-Received: by 2002:a9d:44ca:: with SMTP id p10mr18081970otg.291.1539858138085;
+	Thu, 18 Oct 2018 03:22:18 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/5] oeqa/core/runner: write testresult to json files
+References: <20181017212235.8453-1-danismostlikely@gmail.com>
+In-Reply-To: <20181017212235.8453-1-danismostlikely@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 18 Oct 2018 11:22:06 +0100
+Message-ID: <CAJTo0LZ=OnvDjJjuDii-2JJTq9FV0YzKxDV3cVCSqJQWy1XcuQ@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] util-linux: alternatify cal, rev, and ionice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,139 +54,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2018 09:49:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 18 Oct 2018 10:22:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgUmljaGFyZCwNCg0KVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgeW91ciBncmVhdCBmZWVkYmFj
-a3MgYW5kIGlucHV0cyENCkkgaGFkIGNvbXBsZXRlZCB0aGUgcmVmYWN0b3IgYW5kIHJlc3VibWl0
-dGVkIHRoZSBwYXRjaGVzIGFzIGJlbG93LiANClBsZWFzZSBsZXQgbWUga25vdyBpZiBhbnkgbW9y
-ZSBmZWVkYmFja3MgYW5kIGlucHV0cyENCg0KVGhhbmtzLA0KWWVvaCBFZSBQZW5nIA0KDQpbMV0g
-aHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3Jl
-LzIwMTgtT2N0b2Jlci8xNTY4MzUuaHRtbA0KWzJdIGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
-b3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE4LU9jdG9iZXIvMTU2ODM2Lmh0bWwN
-ClszXSBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9waXBlcm1haWwvb3BlbmVtYmVkZGVk
-LWNvcmUvMjAxOC1PY3RvYmVyLzE1NjgzNy5odG1sDQpbNF0gaHR0cDovL2xpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3JlLzIwMTgtT2N0b2Jlci8xNTY4Mzgu
-aHRtbA0KWzVdIGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1i
-ZWRkZWQtY29yZS8yMDE4LU9jdG9iZXIvMTU2ODM5Lmh0bWwNCg0KLS0tLS1PcmlnaW5hbCBNZXNz
-YWdlLS0tLS0NCkZyb206IHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmcgW21haWx0
-bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXSANClNlbnQ6IE1vbmRheSwgT2N0
-b2JlciAxNSwgMjAxOCA0OjU0IFBNDQpUbzogWWVvaCwgRWUgUGVuZyA8ZWUucGVuZy55ZW9oQGlu
-dGVsLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1Ympl
-Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDIvNV0gb2VxYS9jb3JlL3J1bm5lcjogd3JpdGUgdGVz
-dHJlc3VsdCB0byBqc29uIGZpbGVzDQoNCk9uIE1vbiwgMjAxOC0xMC0xNSBhdCAxNToyNCArMDgw
-MCwgWWVvaCBFZSBQZW5nIHdyb3RlOg0KPiBBcyBwYXJ0IG9mIHRoZSBzb2x1dGlvbiB0byByZXBs
-YWNlIFRlc3RvcGlhIHRvIHN0b3JlIHRlc3RyZXN1bHQsIE9FUUEgDQo+IG5lZWQgdG8gb3V0cHV0
-IHRlc3RyZXN1bHQgaW50byBqc29uIGZpbGUsIHdoZXJlIHRoZXNlIGpzb24gdGVzdHJlc3VsdCAN
-Cj4gZmlsZSB3aWxsIGJlIHN0b3JlZCBpbiBnaXQgcmVwb3NpdG9yeSBieSB0aGUgZnV0dXJlIA0K
-PiB0ZXN0LWNhc2UtbWFuYWdlbWVudCB0b29scy4NCj4gDQo+IEJvdGggdGhlIHRlc3RyZXN1bHQg
-KGVnLiBQQVNTRUQsIEZBSUxFRCwgRVJST1IpIGFuZCAgdGhlIHRlc3QgbG9nIChlZy4gDQo+IG1l
-c3NhZ2UgZnJvbSB1bml0IHRlc3QgYXNzZXJ0aW9uKSB3aWxsIGJlIGNyZWF0ZWQgZm9yIHN0b3Jp
-bmcuDQo+IA0KPiBBbHNvIHRoZSBsaWJyYXJ5IGNsYXNzIGluc2lkZSB0aGlzIHBhdGNoIHdpbGwg
-YmUgcmV1c2VkIGJ5IHRoZSBmdXR1cmUgDQo+IHRlc3QtY2FzZS1tYW5hZ2VtZW50IHRvb2xzIHRv
-IHdyaXRlIGpzb24gdGVzdHJlc3VsdCBmb3IgbWFudWFsIHRlc3QgDQo+IGNhc2UgZXhlY3V0ZWQu
-DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBZZW9oIEVlIFBlbmcgPGVlLnBlbmcueWVvaEBpbnRlbC5j
-b20+DQo+IC0tLQ0KPiAgbWV0YS9saWIvb2VxYS9jb3JlL3J1bm5lci5weSB8IDY0IA0KPiArKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQ0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDYzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9t
-ZXRhL2xpYi9vZXFhL2NvcmUvcnVubmVyLnB5IA0KPiBiL21ldGEvbGliL29lcWEvY29yZS9ydW5u
-ZXIucHkgaW5kZXggNTY2NjZlZS4uNTZlODUyNiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9saWIvb2Vx
-YS9jb3JlL3J1bm5lci5weQ0KPiArKysgYi9tZXRhL2xpYi9vZXFhL2NvcmUvcnVubmVyLnB5DQo+
-IEBAIC02LDYgKzYsOCBAQCBpbXBvcnQgdGltZQ0KPiAgaW1wb3J0IHVuaXR0ZXN0DQo+ICBpbXBv
-cnQgbG9nZ2luZw0KPiAgaW1wb3J0IHJlDQo+ICtpbXBvcnQganNvbg0KPiAraW1wb3J0IHBhdGhs
-aWINCj4gIA0KPiAgZnJvbSB1bml0dGVzdCBpbXBvcnQgVGV4dFRlc3RSZXN1bHQgYXMgX1Rlc3RS
-ZXN1bHQgIGZyb20gdW5pdHRlc3QgDQo+IGltcG9ydCBUZXh0VGVzdFJ1bm5lciBhcyBfVGVzdFJ1
-bm5lciBAQCAtMTE5LDggKzEyMSw5IEBAIGNsYXNzIA0KPiBPRVRlc3RSZXN1bHQoX1Rlc3RSZXN1
-bHQpOg0KPiAgICAgICAgICBzZWxmLnN1Y2Nlc3Nlcy5hcHBlbmQoKHRlc3QsIE5vbmUpKQ0KPiAg
-ICAgICAgICBzdXBlcihPRVRlc3RSZXN1bHQsIHNlbGYpLmFkZFN1Y2Nlc3ModGVzdCkNCj4gIA0K
-PiAtICAgIGRlZiBsb2dEZXRhaWxzKHNlbGYpOg0KPiArICAgIGRlZiBsb2dEZXRhaWxzKHNlbGYs
-IGpzb25fZmlsZV9kaXI9JycpOg0KDQpqc29uX2ZpbGVfZGlyPU5vbmUNCg0KPiAgICAgICAgICBz
-ZWxmLnRjLmxvZ2dlci5pbmZvKCJSRVNVTFRTOiIpDQo+ICsgICAgICAgIHJlc3VsdHMgPSB7fQ0K
-PiAgICAgICAgICBmb3IgY2FzZV9uYW1lIGluIHNlbGYudGMuX3JlZ2lzdHJ5WydjYXNlcyddOg0K
-PiAgICAgICAgICAgICAgY2FzZSA9IHNlbGYudGMuX3JlZ2lzdHJ5WydjYXNlcyddW2Nhc2VfbmFt
-ZV0NCj4gIA0KPiBAQCAtMTM3LDYgKzE0MCwxMiBAQCBjbGFzcyBPRVRlc3RSZXN1bHQoX1Rlc3RS
-ZXN1bHQpOg0KPiAgICAgICAgICAgICAgICAgIHQgPSAiICgiICsgInswOi4yZn0iLmZvcm1hdChz
-ZWxmLmVuZHRpbWVbY2FzZS5pZCgpXSAtIHNlbGYuc3RhcnR0aW1lW2Nhc2UuaWQoKV0pICsgInMp
-Ig0KPiAgDQo+ICAgICAgICAgICAgICBzZWxmLnRjLmxvZ2dlci5pbmZvKCJSRVNVTFRTIC0gJXMg
-LSBUZXN0Y2FzZSAlczogJXMlcyIgJSANCj4gKGNhc2UuaWQoKSwgb2VpZCwgc3RhdHVzLCB0KSkN
-Cj4gKyAgICAgICAgICAgIHJlc3VsdHNbY2FzZS5pZCgpXSA9IChzdGF0dXMsIGxvZykNCj4gKw0K
-PiArICAgICAgICBpZiBsZW4oanNvbl9maWxlX2RpcikgPiAwOg0KDQppZiBqc29uX2ZpbGVfZGly
-Og0KDQo+ICsgICAgICAgICAgICB0cmVzdWx0anNvbmhlbHBlciA9IE9FVGVzdFJlc3VsdEpTT05I
-ZWxwZXIoKQ0KPiArICAgICAgICAgICAgdHJlc3VsdGpzb25oZWxwZXIuZHVtcF90ZXN0cmVzdWx0
-X2ZpbGUocmVzdWx0cywganNvbl9maWxlX2RpcikNCj4gKyAgICAgICAgICAgIHRyZXN1bHRqc29u
-aGVscGVyLmR1bXBfbG9nX2ZpbGVzKHJlc3VsdHMsIA0KPiArIG9zLnBhdGguam9pbihqc29uX2Zp
-bGVfZGlyLCAnbG9ncycpKQ0KPiAgDQo+ICBjbGFzcyBPRUxpc3RUZXN0c1Jlc3VsdChvYmplY3Qp
-Og0KPiAgICAgIGRlZiB3YXNTdWNjZXNzZnVsKHNlbGYpOg0KPiBAQCAtMjQ5LDMgKzI1OCw1NiBA
-QCBjbGFzcyBPRVRlc3RSdW5uZXIoX1Rlc3RSdW5uZXIpOg0KPiAgICAgICAgICAgICAgc2VsZi5f
-bGlzdF90ZXN0c19tb2R1bGUoc3VpdGUpDQo+ICANCj4gICAgICAgICAgcmV0dXJuIE9FTGlzdFRl
-c3RzUmVzdWx0KCkNCj4gKw0KPiArY2xhc3MgT0VUZXN0UmVzdWx0SlNPTkhlbHBlcihvYmplY3Qp
-Og0KPiArDQo+ICsgICAgZGVmIGdldF90ZXN0c3VpdGVfZnJvbV90ZXN0Y2FzZShzZWxmLCB0ZXN0
-Y2FzZSk6DQo+ICsgICAgICAgIHRlc3RzdWl0ZSA9IHRlc3RjYXNlWzA6dGVzdGNhc2UucmZpbmQo
-Ii4iKV0NCj4gKyAgICAgICAgcmV0dXJuIHRlc3RzdWl0ZQ0KPiArDQo+ICsgICAgZGVmIGdldF90
-ZXN0c3VpdGVfdGVzdGNhc2VfZGljdGlvbmFyeShzZWxmLCB0ZXN0cmVzdWx0cyk6DQo+ICsgICAg
-ICAgIHRlc3RzdWl0ZV90ZXN0Y2FzZV9kaWN0ID0ge30NCj4gKyAgICAgICAgZm9yIHRlc3RjYXNl
-IGluIHRlc3RyZXN1bHRzLmtleXMoKToNCj4gKyAgICAgICAgICAgIHRlc3RzdWl0ZSA9IHNlbGYu
-Z2V0X3Rlc3RzdWl0ZV9mcm9tX3Rlc3RjYXNlKHRlc3RjYXNlKQ0KPiArICAgICAgICAgICAgaWYg
-dGVzdHN1aXRlIGluIHRlc3RzdWl0ZV90ZXN0Y2FzZV9kaWN0Og0KPiArICAgICAgICAgICAgICAg
-IHRlc3RzdWl0ZV90ZXN0Y2FzZV9kaWN0W3Rlc3RzdWl0ZV0uYXBwZW5kKHRlc3RjYXNlKQ0KPiAr
-ICAgICAgICAgICAgZWxzZToNCj4gKyAgICAgICAgICAgICAgICB0ZXN0c3VpdGVfdGVzdGNhc2Vf
-ZGljdFt0ZXN0c3VpdGVdID0gW3Rlc3RjYXNlXQ0KPiArICAgICAgICByZXR1cm4gdGVzdHN1aXRl
-X3Rlc3RjYXNlX2RpY3QNCj4gKw0KPiArICAgIGRlZiBfY3JlYXRlX3Rlc3RjYXNlX3Rlc3RyZXN1
-bHRfb2JqZWN0KHNlbGYsIHRlc3RjYXNlX2xpc3QsIHRlc3RyZXN1bHRzKToNCj4gKyAgICAgICAg
-dGVzdGNhc2VfZGljdCA9IHt9DQo+ICsgICAgICAgIGZvciB0ZXN0Y2FzZSBpbiBzb3J0ZWQodGVz
-dGNhc2VfbGlzdCk6DQo+ICsgICAgICAgICAgICB0ZXN0Y2FzZV9kaWN0W3Rlc3RjYXNlXSA9IHsi
-dGVzdHJlc3VsdCI6IHRlc3RyZXN1bHRzW3Rlc3RjYXNlXVswXX0NCj4gKyAgICAgICAgcmV0dXJu
-IHRlc3RjYXNlX2RpY3QNCj4gKw0KPiArICAgIGRlZiBfY3JlYXRlX2pzb25fdGVzdHN1aXRlX3N0
-cmluZyhzZWxmLCB0ZXN0cmVzdWx0cyk6DQo+ICsgICAgICAgIHRlc3RzdWl0ZV90ZXN0Y2FzZSA9
-IHNlbGYuZ2V0X3Rlc3RzdWl0ZV90ZXN0Y2FzZV9kaWN0aW9uYXJ5KHRlc3RyZXN1bHRzKQ0KPiAr
-ICAgICAgICB0ZXN0c3VpdGVfb2JqZWN0ID0geyd0ZXN0c3VpdGUnOiB7fX0NCj4gKyAgICAgICAg
-dGVzdHN1aXRlX2RpY3QgPSB0ZXN0c3VpdGVfb2JqZWN0Wyd0ZXN0c3VpdGUnXQ0KPiArICAgICAg
-ICBmb3IgdGVzdHN1aXRlIGluIHNvcnRlZCh0ZXN0c3VpdGVfdGVzdGNhc2Uua2V5cygpKToNCj4g
-KyAgICAgICAgICAgIHRlc3RzdWl0ZV9kaWN0W3Rlc3RzdWl0ZV0gPSB7J3Rlc3RjYXNlJzoge319
-DQo+ICsgICAgICAgICAgICB0ZXN0c3VpdGVfZGljdFt0ZXN0c3VpdGVdWyd0ZXN0Y2FzZSddID0g
-c2VsZi5fY3JlYXRlX3Rlc3RjYXNlX3Rlc3RyZXN1bHRfb2JqZWN0KA0KPiArICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0ZXN0c3VpdGVfdGVz
-dGNhc2VbdGVzdHN1aXRlXSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgdGVzdHJlc3VsdHMpDQo+ICsgICAgICAgIHJldHVybiBqc29u
-LmR1bXBzKHRlc3RzdWl0ZV9vYmplY3QsIHNvcnRfa2V5cz1UcnVlLCBpbmRlbnQ9NCkNCg0KVGhp
-cyBwYXRjaCBpdHNlbGYgaXMgYmV0dGVyIGJ1dCBJIHdhbnQgdG8gbWFrZSBzdXJlIHdlJ3JlIHVz
-aW5nIHRoZSByaWdodCBkYXRhIGZvcm1hdCBmb3IgdGhpcyByZXN1bHRzIGZpbGUuIENhbiB5b3Ug
-ZGVzY3JpYmUgdGhlIGZvcm1hdCB5b3UncmUgcGxhbm5pbmcgdG8gdXNlIGZvciB0aGUgcmVzdWx0
-cz8NCg0KSSB0aGluayB3aGF0IHdlIG1heSBuZWVkIHRvIGRvIGlzOg0KDQphKSBDb21iaW5lIHRo
-ZSByZXN1bHRzIGFuZCBsb2cgZGF0YSBpbnRvIGEgc2luZ2xlIGZpbGUNCg0KYikgU3RvcCB0cnlp
-bmcgdG8gc3BsaXQgdGhpbmdzIGludG8gdGVzdHN1aXRlcyBoZXJlIGFuZCBkbyB0aGF0IGR1cmlu
-ZyB0aGUgcmVzdWx0cyBwcm9jZXNzaW5nLiBIZXJlLCB3ZSBzaG91bGQganVzdCBiZSB3cml0aW5n
-IHRoZSB0ZXN0IGNhc2UgbmFtZXMgYXMgdGhleSBhcmUgaW4gdGhlIHN5c3RlbS4NCg0KYykgRG9u
-J3QgcmVseSBvbiB0aGUgZmlsZW5hbWUgdG8gcGFzcyBpbmZvcm1hdGlvbi4gRm9yIGV4YW1wbGUs
-DQpsb2dEZXRhaWxzKCkgbmVlZHMgdG8gdGFrZSBhIHBhcmFtZXRlciB3aGljaCBzYXlzIHdoZXRo
-ZXIgdGhlc2UgYXJlICJydW50aW1lIiwgInNlbGZ0ZXN0IiwgIm1hbnVhbCIgb3Igd2hhdGV2ZXIg
-YW5kIHRoYXQgaW5mb3JtYXRpb24gYWxzbyBuZWVkcyB0byBiZSBzdG9yZWQgaW4gdGhlIGpzb24g
-ZmlsZS4NCg0KSSB0aGluayBpZiB5b3UgZGVzY3JpYmUgdGhlIHJlc3VsdHMgZm9ybWF0IGFuZC9v
-ciBwcm92aWRlIGEgc2FtcGxlIHJlc3VsdHMgZW50cnkgaW4ganNvbiBmb3JtYXQsIHRoaXMgd2ls
-bCBiZWNvbWUgY2xlYXJlci4NCg0KDQoNCj4gKyAgICBkZWYgX3dyaXRlX2ZpbGUoc2VsZiwgd3Jp
-dGVfZGlyLCBmaWxlX25hbWUsIGZpbGVfY29udGVudCk6DQo+ICsgICAgICAgIGZpbGVfcGF0aCA9
-IG9zLnBhdGguam9pbih3cml0ZV9kaXIsIGZpbGVfbmFtZSkNCj4gKyAgICAgICAgd2l0aCBvcGVu
-KGZpbGVfcGF0aCwgJ3cnKSBhcyB0aGVfZmlsZToNCj4gKyAgICAgICAgICAgIHRoZV9maWxlLndy
-aXRlKGZpbGVfY29udGVudCkNCj4gKw0KPiArICAgIGRlZiBkdW1wX3Rlc3RyZXN1bHRfZmlsZShz
-ZWxmLCB0ZXN0cmVzdWx0cywgd3JpdGVfZGlyKToNCj4gKyAgICAgICAgaWYgbm90IG9zLnBhdGgu
-ZXhpc3RzKHdyaXRlX2Rpcik6DQo+ICsgICAgICAgICAgICBwYXRobGliLlBhdGgod3JpdGVfZGly
-KS5ta2RpcihwYXJlbnRzPVRydWUsIA0KPiArIGV4aXN0X29rPVRydWUpDQoNClRoZSBhYm92ZSBj
-YW4gYmUgbW92ZWQgaW50byBfd3JpdGVfZmlsZSgpIHJhdGhlciB0aGFuIGJlaW5nIGR1cGxpY2F0
-ZWQuDQpBbHNvLCBjYW4ndCB3ZSB1c2UgYmIudXRpbHMubWtkaXJoaWVyKCkgbGlrZSB0aGUgcmVz
-dCBvZiB0aGUgY29kZT8gVGhhdCBjYW4gYmUgY2FsbGVkIHVuY29uZGl0aW9uYWxseSBhcyBpdCB0
-ZXN0cyBpbnRlcm5hbGx5IGlmIGl0IG5lZWRzIHRvIGNyZWF0ZSB0aGUgZGlyZWN0b3J5Lg0KDQo+
-ICsgICAgICAgIGpzb25fdGVzdHN1aXRlID0gc2VsZi5fY3JlYXRlX2pzb25fdGVzdHN1aXRlX3N0
-cmluZyh0ZXN0cmVzdWx0cykNCj4gKyAgICAgICAgc2VsZi5fd3JpdGVfZmlsZSh3cml0ZV9kaXIs
-ICd0ZXN0cmVzdWx0cy5qc29uJywgDQo+ICsganNvbl90ZXN0c3VpdGUpDQo+ICsNCj4gKyAgICBk
-ZWYgZHVtcF9sb2dfZmlsZXMoc2VsZiwgdGVzdHJlc3VsdHMsIHdyaXRlX2Rpcik6DQo+ICsgICAg
-ICAgIGlmIG5vdCBvcy5wYXRoLmV4aXN0cyh3cml0ZV9kaXIpOg0KPiArICAgICAgICAgICAgcGF0
-aGxpYi5QYXRoKHdyaXRlX2RpcikubWtkaXIocGFyZW50cz1UcnVlLCBleGlzdF9vaz1UcnVlKQ0K
-PiArICAgICAgICBmb3IgdGVzdGNhc2UgaW4gdGVzdHJlc3VsdHMua2V5cygpOg0KPiArICAgICAg
-ICAgICAgdGVzdF9sb2cgPSB0ZXN0cmVzdWx0c1t0ZXN0Y2FzZV1bMV0NCj4gKyAgICAgICAgICAg
-IGlmIHRlc3RfbG9nIGlzIG5vdCBOb25lOg0KDQpKdXN0ICJpZiB0ZXN0X2xvZzoiIHNob3VsZCBi
-ZSBmaW5lLg0KDQo+ICsgICAgICAgICAgICAgICAgZmlsZV9uYW1lID0gJyVzLmxvZycgJSB0ZXN0
-Y2FzZQ0KPiArICAgICAgICAgICAgICAgIHNlbGYuX3dyaXRlX2ZpbGUod3JpdGVfZGlyLCBmaWxl
-X25hbWUsIHRlc3RfbG9nKQ0KDQoNCkNoZWVycywNCg0KUmljaGFyZA0KDQo=
+Can you rebase this on master?  There's been a lot of changes here recently.
+
+Ross
+On Wed, 17 Oct 2018 at 22:22, Dan McGregor <danismostlikely@gmail.com> wrote:
+>
+> From: Dan McGregor <dan.mcgregor@usask.ca>
+>
+> These are also provided by toybox in its default configuration,
+> and can be turned on in busybox.
+>
+> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+> ---
+>  meta/recipes-core/util-linux/util-linux.inc | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+> index 60ac9c20064..35c67a8bd53 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -93,7 +93,7 @@ FILES_util-linux-findfs = "${sbindir}/findfs"
+>  FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
+>  FILES_util-linux-runuser = "${sbindir}/runuser"
+>  FILES_util-linux-prlimit = "${bindir}/prlimit"
+> -FILES_util-linux-ionice = "${bindir}/ionice"
+> +FILES_util-linux-ionice = "${bindir}/ionice.${BPN}"
+>  FILES_util-linux-su = "${bindir}/su.util-linux ${sysconfdir}/pam.d/su-l"
+>  CONFFILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
+>
+> @@ -209,7 +209,7 @@ ALTERNATIVE_${PN}  = " \
+>      dmesg kill more mkswap blockdev pivot_root switch_root \
+>      hexdump last lastb logger mesg renice wall \
+>      setsid chrt flock utmpdump eject nologin taskset fallocate \
+> -    fsfreeze nsenter \
+> +    fsfreeze nsenter cal rev \
+>  "
+>
+>  ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+> @@ -219,8 +219,10 @@ ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
+>  ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
+>  ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+>  ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
+> +ALTERNATIVE_LINK_NAME[cal] = "${bindir}/cal"
+>  ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+>  ALTERNATIVE_LINK_NAME[fallocate] = "${bindir}/fallocate"
+> +ALTERNATIVE_LINK_NAME[rev] = "${bindir}/rev"
+>  ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
+>  ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
+>
+> @@ -294,6 +296,9 @@ ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
+>  ALTERNATIVE_util-linux-unshare = "unshare"
+>  ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+>
+> +ALTERNATIVE_util-linux-ionice = "ionice"
+> +ALTERNATIVE_LINK_NAME[ionice] = "${bindir}/ionice"
+> +
+>  BBCLASSEXTEND = "native nativesdk"
+>
+>  python do_package_prepend () {
+> --
+> 2.19.0-dev
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
