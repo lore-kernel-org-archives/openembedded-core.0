@@ -1,54 +1,52 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D953C7980A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CD3B79C7A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 15:39:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9IFd3PA004612
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Oct 2018 08:39:13 -0700
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 18 Oct 2018 08:38:51 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20181017164326.67111-1-mark.hatle@windriver.com>
-	<20181017164326.67111-4-mark.hatle@windriver.com>
-	<CAJTo0LY3gqvFDMzg48s0q4kZZ=WPpdj8u+jb-7gXFGmA-MBbPw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <f9c00b0d-6006-1e02-3fa3-a1846a610840@windriver.com>
-Date: Thu, 18 Oct 2018 10:38:51 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LY3gqvFDMzg48s0q4kZZ=WPpdj8u+jb-7gXFGmA-MBbPw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] weston: Remove machine specific append
+	Thu, 18 Oct 2018 15:43:18 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id q7-v6so6384713wrr.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Oct 2018 08:43:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=HnB/+CtJKVqBti3i58UAwDXl3sxvDCXD2WakxV/aHI0=;
+	b=FYGSvoF4aHdxA7pkomBKUk1qfFJEktMwZRmNhjbB71qEm5APYXIuqZdsKq4QbjIiDA
+	nLiK76L6ngFXICngog5K10cQiaWj7krg2bwywKSgcvONX4tcj3jZtYSjnfi+019lIQPs
+	8XKlyo9F3h41+3XQkoBeJbUidASkNV0AJZgM4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=HnB/+CtJKVqBti3i58UAwDXl3sxvDCXD2WakxV/aHI0=;
+	b=rm5Oe2LCYUt5RifMD8K6dvY/eAF1YG/Rtk9suCkIcWT2QyEB1IhqR1CWq8tpVs9zKj
+	3ZKBTP0k/osYIFr6s/cWsg5nnu2nnyz/TVOX9IWXXkbhgNPZMulNDC2T7tniEKhoxugD
+	OByhFqnt/xQPOOD59Vrp1aBThOnG0JCJxIRPT9VttOSdjoUVRSMeWgjxVAOzY/k0E1Sd
+	apvrhGFCcBP/ZnI0lbIz0mFuTylQXs05i2tWpCQYJ4ooZ4IPFcEhrVYI6V3PfBgsBeYv
+	P+0c+/o3rcc96+V1h8iXHgXgCbXx2B4ht4q9ayBGYuhhyV09kQH+1Jm6YCKQGPNuU2DO
+	ZMkA==
+X-Gm-Message-State: ABuFfog4GMu3Dx6Tajq4YruFUMq5e9B3p6x1lHSFqhOIKf9L7M34yIKD
+	859Xu5CLLClG0y44kGah7mExZQ==
+X-Google-Smtp-Source: ACcGV63JecrjYRDnxkJ0ZlN19dlrieiCbCfOQp2IcYV/4JEn0hfo3E4sTpFiTuot4CRdW9reE4FLiw==
+X-Received: by 2002:a05:6000:11c1:: with SMTP id
+	i1mr29945238wrx.310.1539877399150; 
+	Thu, 18 Oct 2018 08:43:19 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b8-v6sm716282wme.1.2018.10.18.08.43.17
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 18 Oct 2018 08:43:18 -0700 (PDT)
+Message-ID: <a15a465d714ee34a86f62da18e17972d40b15f00.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linaro.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 18 Oct 2018 16:43:17 +0100
+In-Reply-To: <20181017230044.24098-1-anibal.limon@linaro.org>
+References: <20181017230044.24098-1-anibal.limon@linaro.org>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] meta/classes/testexport: Use manfiest filenames for package and testdata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,34 +59,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2018 15:39:39 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Oct 2018 15:43:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 10/18/18 5:24 AM, Burton, Ross wrote:
-> On Wed, 17 Oct 2018 at 17:44, Mark Hatle <mark.hatle@windriver.com> wrote:
->> -EXTRA_OECONF_append_qemux86 = "\
->> +EXTRA_OECONF_append_x86 = "\
->>                 WESTON_NATIVE_BACKEND=fbdev-backend.so \
->>                 "
+On Wed, 2018-10-17 at 18:00 -0500, Aníbal Limón wrote:
+> Is clear to know for what image and machine the testexport package
+> manifest and testdata was build.
 > 
-> This forces all x86 Westons that are not running inside X11 to use
-> fbdev instead of drm.
-> 
-> Two questions:
-> 1) does qemu still need fbdev or does virtio/drm work now?  (iirc, we
-> still have a crippled qemu here)
-> 2) Can this be overridden in a config file instead
+> Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+> ---
+>  meta/classes/testexport.bbclass  | 4 ++--
+>  meta/lib/oeqa/runtime/context.py | 9 +++++++--
+>  2 files changed, 9 insertions(+), 4 deletions(-)
 
-I did not understand how to do this.  The alternative I see then is to make this
-a machine_arch package.. since the configuration can change?
+I think this breaks oe-selftest:
 
-(I'm not very familiar with this part of the system.)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/28/builds/132/steps/7/logs/step2d
 
---Mark
+Cheers,
 
-> Ross
-> 
+Richard
 
 
