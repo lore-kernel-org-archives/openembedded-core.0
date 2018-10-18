@@ -1,54 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
-	[209.85.210.42])
-	by mail.openembedded.org (Postfix) with ESMTP id B0C637980A
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EB6696E630
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 15:34:10 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id l58so30192295otd.6
+	Thu, 18 Oct 2018 15:37:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9IFbBSZ010819
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 08:34:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=N9akh7PyZccm7O+9KEjVW7EdTmpa+uQv/HTIGwpVLH8=;
-	b=ByFFsQ0AQFgj+cfL6vkg4x7wZirXfU070xOTh+sfqmWG25BOPYRwB8+uNIdWbeTAUb
-	XN+iHxflzNuFPQKa1n0O/edh+5I4NqSjFtN4NDm8dY9xX3aMO6Gv69Jj/lKY7OA8IcgI
-	4lFL1/m5TFqQPAwDTUKtUEyhEKhz7O+dSimgK0MbSqVjTtlmlRaVHpYdt1Wy5UOh6hk9
-	F6WrpsNDHI62QP0thbNBJpqjr62b3Z6O2/4KP8h6+BeEJb0t+l4H8q2ACpZABP/c73Yu
-	KP8hSQQhPivvt20BO+ii1ED9HxNoXXQe9UvgRrTPnazSN/ac44zzaz48PhEpSsIiYUQu
-	Q6eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=N9akh7PyZccm7O+9KEjVW7EdTmpa+uQv/HTIGwpVLH8=;
-	b=tkYsiHrQLz+B10leMxLf/dqvcG0wmQ2+5gPqTpD8/cem6JyU/PoiZDXJPIv+R4be+I
-	vBu03nC9Wd9Kczh58GhElGyA5XWu7rzcKtbnsc8XDyQ5PkqUmW/D37LRMB+BClDIgJ/H
-	MeReQn/fz+yZLowVh7D/I3cEQno1stjBmj/A+jJYRmaVWmJ+brQxLSasglbZKsDU4qpa
-	knpTgc+tJ0VyH0icECt04xraaRvhjQVJelBK1UFCRNmEPx/nlzXybgV/45SGJGGGaaKI
-	rNdfA7ZXtPIlmqHB1QNTosvuYlpzF8rHFs1OTiPNqdhyLZErTiNfZZsQKn7bT3uKeZhC
-	ICpw==
-X-Gm-Message-State: ABuFfoiqsciEj5HR5/JWtWaD/9CAZpHvGrV3qgPQWlC96Y1l2axMd0xF
-	GbmidfYSjFQkDPDYyKKKl/u9sXMO6jpupBOpke9BWA==
-X-Google-Smtp-Source: ACcGV63QiougzlEIjY266+rbt9BFSryS0BxDGR9lTSi33CXEqnEF9oL5YcRowr6q252RktcJvQA+kCHg/m1ABrHt/v4=
-X-Received: by 2002:a9d:30ae:: with SMTP id s46mr21259663otc.132.1539876851512;
-	Thu, 18 Oct 2018 08:34:11 -0700 (PDT)
+	Thu, 18 Oct 2018 08:37:11 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 18 Oct 2018 08:37:10 -0700
+To: ChenQi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <20181017164326.67111-1-mark.hatle@windriver.com>
+	<20181017164326.67111-2-mark.hatle@windriver.com>
+	<0b510175-74b2-0806-aece-e95c138dccdd@windriver.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <f3b4c42e-d745-975a-7b01-a50ef02f3a52@windriver.com>
+Date: Thu, 18 Oct 2018 10:37:10 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:52.0)
+	Gecko/20100101 Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <VI1PR08MB3631013765027F3C7E24415098FF0@VI1PR08MB3631.eurprd08.prod.outlook.com>
-	<VI1PR08MB3631FF25AFA7A73D6814C71998F80@VI1PR08MB3631.eurprd08.prod.outlook.com>
-	<DB5PR08MB08880A125ED651AD16C50FE993F80@DB5PR08MB0888.eurprd08.prod.outlook.com>
-	<CAJTo0Laa3KT0EBf1EprPyPfZS+TYL+PoXdTpY3=iXiVraiZv1w@mail.gmail.com>
-	<DB5PR08MB08887D04D53A66B55244688493F80@DB5PR08MB0888.eurprd08.prod.outlook.com>
-In-Reply-To: <DB5PR08MB08887D04D53A66B55244688493F80@DB5PR08MB0888.eurprd08.prod.outlook.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Oct 2018 16:33:59 +0100
-Message-ID: <CAJTo0Lb5ZFfQVoO2oS4fV6Ts1ph3fs4sVg8Ee3-+X8x5Ff0Y1Q@mail.gmail.com>
-To: Jonathan.Haigh@arm.com
-Cc: Jeremy.Johnson@arm.com,
-	Alejandro Enedino Hernandez Samaniego <aehs29@gmail.com>,
-	Hugues.Kamba@arm.com, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Missing venv module in Python 3
+In-Reply-To: <0b510175-74b2-0806-aece-e95c138dccdd@windriver.com>
+Subject: Re: [PATCH 1/4] systemd: Remove items that made this machine (qemu) specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,38 +60,221 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2018 15:34:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 18 Oct 2018 15:37:11 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Thu, 18 Oct 2018 at 16:19, Jonathan Haigh <Jonathan.Haigh@arm.com> wrote=
-:
-> The venv package (https://docs.python.org/3/library/venv.html) itself is =
-missing although its source is available within Python 3.5 (https://www.pyt=
-hon.org/ftp/python/3.5.6/Python-3.5.6.tgz). As mentioned earlier, it seems =
-the issue is because there is no entry in the manifest from which the vario=
-us Python 3 modules are created (https://github.com/openembedded/openembedd=
-ed-core/blob/master/meta/recipes-devtools/python/python3/python3-manifest.j=
-son).
->
-> The manifest is generated from https://github.com/openembedded/openembedd=
-ed-core/blob/master/meta/recipes-devtools/python/python3/create_manifest3.p=
-y, and it does not seem obvious to me how to go about correctly adding a ne=
-w module to the manifest, using create_manifest3.py or otherwise.
+On 10/18/18 3:53 AM, ChenQi wrote:
+> On 10/18/2018 12:43 AM, Mark Hatle wrote:
+>> Create a new systemd-conf recipe to contain the specific system/machine
+>> configuration items.  This new package is now machine specific.
+>>
+>> Without doing this trying to create a single system with multiple BSPs,
+>> one of which was qemu based, would result in the systemd -and- everything that
+>> dependend upon systemd to have their hash changed.  The hash changing means
+>> lots of rebuilds, but worse if it's a package based system each different
+>> machine ends with a new PR value and a newly generated package.
+>>
+>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>> ---
+>>   meta/recipes-core/systemd/systemd-conf.bb     | 51 +++++++++++++++++++
+>>   ...ange-the-default-device-timeout-to-2.patch | 35 -------------
+>>   meta/recipes-core/systemd/systemd_239.bb      | 28 ++++------
+>>   3 files changed, 60 insertions(+), 54 deletions(-)
+>>   create mode 100644 meta/recipes-core/systemd/systemd-conf.bb
+>>   delete mode 100644 meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch
+>>
+>> diff --git a/meta/recipes-core/systemd/systemd-conf.bb b/meta/recipes-core/systemd/systemd-conf.bb
+>> new file mode 100644
+>> index 0000000000..d39742b3a8
+>> --- /dev/null
+>> +++ b/meta/recipes-core/systemd/systemd-conf.bb
+>> @@ -0,0 +1,51 @@
+>> +require systemd.inc
+>> +
+>> +SUMMARY = "Systemd system configuration"
+>> +DESCRIPTION = "Systemd may require slightly different configuration for \
+>> +different machines.  For example, qemu machines require a longer \
+>> +DefaultTimeoutStartSec setting."
+>> +
+>> +PACKAGE_ARCH = "${MACHINE_ARCH}"
+>> +
+>> +CONFFILES_${PN} = "${sysconfdir}/machine-id \
+>> +${sysconfdir}/systemd/coredump.conf \
+>> +${sysconfdir}/systemd/journald.conf \
+>> +${sysconfdir}/systemd/logind.conf \
+>> +${sysconfdir}/systemd/system.conf \
+>> +${sysconfdir}/systemd/user.conf"
+>> +
+>> +FILES_${PN} = "${sysconfdir}/machine-id ${sysconfdir}/systemd"
+>> +
+>> +do_compile[noexec] = '1'
+>> +
+>> +do_install() {
+>> +	install -d ${D}/${sysconfdir}/systemd
+>> +
+>> +	# Create machine-id
+>> +	# 20:12 < mezcalero> koen: you have three options: a) run systemd-machine-id-setup at install time, b) have / read-only and an empty file there (for stateless) and c) boot with / writable
+>> +	touch ${D}${sysconfdir}/machine-id
+>> +
+>> +	install -m 0644 ${S}/src/coredump/coredump.conf ${D}${sysconfdir}/systemd/coredump.conf
+>> +
+>> +	install -m 0644 ${S}/src/journal/journald.conf ${D}${sysconfdir}/systemd/journald.conf
+>> +	# Enable journal to forward message to syslog daemon
+>> +	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
+>> +	# Set the maximium size of runtime journal to 64M as default
+>> +	sed -i -e 's/.*RuntimeMaxUse.*/RuntimeMaxUse=64M/' ${D}${sysconfdir}/systemd/journald.conf
+>> +
+>> +	install -m 0644 ${S}/src/login/logind.conf.in ${D}${sysconfdir}/systemd/logind.conf
+>> +	# Set KILL_USER_PROCESSES to yes
+>> +	sed -i -e 's/@KILL_USER_PROCESSES@/yes/' ${D}${sysconfdir}/systemd/logind.conf
+>> +
+>> +	install -m 0644 ${S}/src/core/system.conf.in ${D}${sysconfdir}/systemd/system.conf
+>> +	# Set MEMORY_ACCOUNTING_DEFAULT to yes
+>> +	sed -i -e 's/@MEMORY_ACCOUNTING_DEFAULT@/yes/' ${D}${sysconfdir}/systemd/system.conf
+>> +
+>> +	install -m 0644 ${S}/src/core/user.conf ${D}${sysconfdir}/systemd/user.conf
+>> +}
+>> +
+>> +# Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
+>> +do_install_append_qemuall() {
+>> +	# Change DefaultTimeoutStartSec from 90s to 240s
+>> +        echo "DefaultTimeoutStartSec = 240s"
+>> +}
+> 
+> Seems to miss something like ">> ${D}${sysconfdir}/systemd/system.conf" ?
 
-Ah, right.
+I will update the commit.  Good catch.
 
-In that case:
+--Mark
 
-$ oe-pkgdata-util find-path */*venv*py
-python3-tests: /usr/lib/python3.5/test/test_venv.py
-python3-misc: /usr/lib/python3.5/venv/__main__.py
-python3-misc: /usr/lib/python3.5/venv/__init__.py
+> Best Regards,
+> Chen Qi
+> 
+>> diff --git a/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch b/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch
+>> deleted file mode 100644
+>> index fd7bf3fcf6..0000000000
+>> --- a/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch
+>> +++ /dev/null
+>> @@ -1,35 +0,0 @@
+>> -From 2925c0c3b6ce4056622b86c1c61ee14add430790 Mon Sep 17 00:00:00 2001
+>> -From: Chen Qi <Qi.Chen@windriver.com>
+>> -Date: Thu, 28 Jun 2018 10:56:29 +0800
+>> -Subject: [PATCH] core/device.c: Change the default device timeout to 240 sec.
+>> - MIME-Version: 1.0 Content-Type: text/plain; charset=UTF-8
+>> - Content-Transfer-Encoding: 8bit
+>> -MIME-Version: 1.0
+>> -Content-Type: text/plain; charset=UTF-8
+>> -Content-Transfer-Encoding: 8bit
+>> -
+>> -Upstream-Status: Inappropriate [Specific case QEMU/AB]
+>> -
+>> -Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> -Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ----
+>> - src/core/device.c | 2 +-
+>> - 1 file changed, 1 insertion(+), 1 deletion(-)
+>> -
+>> -diff --git a/src/core/device.c b/src/core/device.c
+>> -index a2d00a0fb..f26e55ebb 100644
+>> ---- a/src/core/device.c
+>> -+++ b/src/core/device.c
+>> -@@ -95,7 +95,7 @@ static void device_init(Unit *u) {
+>> -          * indefinitely for plugged in devices, something which cannot
+>> -          * happen for the other units since their operations time out
+>> -          * anyway. */
+>> --        u->job_running_timeout = u->manager->default_timeout_start_usec;
+>> -+        u->job_running_timeout = (240 * USEC_PER_SEC);
+>> -
+>> -         u->ignore_on_isolate = true;
+>> -
+>> ---
+>> -2.11.0
+>> -
+>> diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
+>> index 7ed932141d..bc16407e09 100644
+>> --- a/meta/recipes-core/systemd/systemd_239.bb
+>> +++ b/meta/recipes-core/systemd/systemd_239.bb
+>> @@ -31,7 +31,6 @@ SRC_URI += "file://touchscreen.rules \
+>>              file://0022-build-sys-Detect-whether-struct-statx-is-defined-in-.patch \
+>>              file://0023-resolvconf-fixes-for-the-compatibility-interface.patch \
+>>              "
+>> -SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+>>   
+>>   # patches made for musl are only applied on TCLIBC is musl
+>>   SRC_URI += "${SRC_URI_MUSL}"
+>> @@ -218,10 +217,6 @@ do_install() {
+>>   	[ ! -e ${D}/init ] && ln -s ${rootlibexecdir}/systemd/systemd ${D}/init
+>>   	[ ! -e ${D}/${base_sbindir}/udevd ] && ln -s ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
+>>   
+>> -	# Create machine-id
+>> -	# 20:12 < mezcalero> koen: you have three options: a) run systemd-machine-id-setup at install time, b) have / read-only and an empty file there (for stateless) and c) boot with / writable
+>> -	touch ${D}${sysconfdir}/machine-id
+>> -
+>>   	install -d ${D}${sysconfdir}/udev/rules.d/
+>>   	install -d ${D}${sysconfdir}/tmpfiles.d
+>>   	install -m 0644 ${WORKDIR}/*.rules ${D}${sysconfdir}/udev/rules.d/
+>> @@ -256,11 +251,6 @@ do_install() {
+>>   		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/rescue.target.wants/systemd-update-utmp-runlevel.service
+>>   	fi
+>>   
+>> -	# Enable journal to forward message to syslog daemon
+>> -	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
+>> -	# Set the maximium size of runtime journal to 64M as default
+>> -	sed -i -e 's/.*RuntimeMaxUse.*/RuntimeMaxUse=64M/' ${D}${sysconfdir}/systemd/journald.conf
+>> -
+>>   	# this file is needed to exist if networkd is disabled but timesyncd is still in use since timesyncd checks it
+>>   	# for existence else it fails
+>>   	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
+>> @@ -284,6 +274,14 @@ do_install() {
+>>   			chown polkitd:root ${D}${datadir}/polkit-1/rules.d
+>>   		fi
+>>   	fi
+>> +
+>> +	# conf files are handled by systemd-conf
+>> +	rm -f ${D}${sysconfdir}/machine-id
+>> +	rm -f ${D}${sysconfdir}/systemd/coredump.conf
+>> +	rm -f ${D}${sysconfdir}/systemd/journald.conf
+>> +	rm -f ${D}${sysconfdir}/systemd/logind.conf
+>> +	rm -f ${D}${sysconfdir}/systemd/system.conf
+>> +	rm -f ${D}${sysconfdir}/systemd/user.conf
+>>   }
+>>   
+>>   
+>> @@ -433,13 +431,6 @@ FILES_${PN}-extra-utils = "\
+>>                           ${rootlibexecdir}/systemd/systemd-cgroups-agent \
+>>   "
+>>   
+>> -CONFFILES_${PN} = "${sysconfdir}/machine-id \
+>> -                ${sysconfdir}/systemd/coredump.conf \
+>> -                ${sysconfdir}/systemd/journald.conf \
+>> -                ${sysconfdir}/systemd/logind.conf \
+>> -                ${sysconfdir}/systemd/system.conf \
+>> -                ${sysconfdir}/systemd/user.conf"
+>> -
+>>   FILES_${PN} = " ${base_bindir}/* \
+>>                   ${base_sbindir}/shutdown \
+>>                   ${base_sbindir}/halt \
+>> @@ -455,7 +446,6 @@ FILES_${PN} = " ${base_bindir}/* \
+>>                   ${datadir}/${BPN} \
+>>                   ${datadir}/factory \
+>>                   ${sysconfdir}/dbus-1/ \
+>> -                ${sysconfdir}/machine-id \
+>>                   ${sysconfdir}/modules-load.d/ \
+>>                   ${sysconfdir}/pam.d/ \
+>>                   ${sysconfdir}/sysctl.d/ \
+>> @@ -504,7 +494,7 @@ FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ $
+>>   
+>>   RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV}) util-linux-agetty util-linux-fsck"
+>>   RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
+>> -RDEPENDS_${PN} += "volatile-binds update-rc.d"
+>> +RDEPENDS_${PN} += "volatile-binds update-rc.d systemd-conf"
+>>   
+>>   RRECOMMENDS_${PN} += "systemd-extra-utils \
+>>                         systemd-compat-units udev-hwdb \
+> 
+> 
 
-The files are in the python3-misc package, which is the fallback for
-everything which isn't explicitly put into another package.  I'd say
-the best fix for this would be to edit the manifest so the venv module
-goes into the python3-pyvenv package too.
-
-Ross
 
