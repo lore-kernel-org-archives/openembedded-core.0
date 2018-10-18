@@ -1,29 +1,33 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C4FFD745BF
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (smtprelay2.synopsys.com
+	[198.182.60.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E8C1745B7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 08:47:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9I8lYYc005202
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 01:47:35 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Thu, 18 Oct 2018 01:47:34 -0700
-To: Mark Hatle <mark.hatle@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20181017164326.67111-1-mark.hatle@windriver.com>
-	<20181017164326.67111-2-mark.hatle@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <0b510175-74b2-0806-aece-e95c138dccdd@windriver.com>
-Date: Thu, 18 Oct 2018 16:53:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <20181017164326.67111-2-mark.hatle@windriver.com>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH 1/4] systemd: Remove items that made this machine (qemu) specific
+	Thu, 18 Oct 2018 09:12:06 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id 0322910C10F2;
+	Thu, 18 Oct 2018 02:12:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1539853927; bh=n9X+Wzpf+dD8vGYrfqu0w2QnS0Aud+Zlb9NPEtj9B5U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=I33sAmsLEgXv+WJGcD6Qd56UaWORR8zUm4wgkWY5k2Byfz46smt+1zSkz3Y3yEU0b
+	23/fbuoL4DsC0/CgfLudFtyfHDC/rRYU79Ki6a3seG+OhkpshchxRNOioyBDBImb4b
+	Nqn4p+SqcoZi1FPWCDzc2a2cPq+MOu9a7ZzqS9Sj6iKmajgG1aZ7Z4Fr2n3HCL307l
+	icjVnAfeXXx2M/hzaGz3Qm3Hjnz1pfshwW2CfI/jvwfRpcotAJ9wGT2LKdE4Imw47B
+	7+4fVD92ULBpR0ODdAdcoGDCkQejhOy2+B9SEJg513DQnz1S4+XE/vAXI5MNt2i+lS
+	OkKHIK4kCmm7Q==
+Received: from ru20arcgnu1.internal.synopsys.com
+	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
+	by mailhost.synopsys.com (Postfix) with ESMTP id 47C205B46;
+	Thu, 18 Oct 2018 02:12:04 -0700 (PDT)
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Oct 2018 12:12:03 +0300
+Message-Id: <20181018091203.22480-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.16.2
+Cc: linux-snps-arc@lists.infradead.org,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>
+Subject: [PATCH] mpfr: Fix compilation for ARC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,214 +40,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2018 08:47:35 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 18 Oct 2018 09:12:06 -0000
 
-On 10/18/2018 12:43 AM, Mark Hatle wrote:
-> Create a new systemd-conf recipe to contain the specific system/machine
-> configuration items.  This new package is now machine specific.
->
-> Without doing this trying to create a single system with multiple BSPs,
-> one of which was qemu based, would result in the systemd -and- everything that
-> dependend upon systemd to have their hash changed.  The hash changing means
-> lots of rebuilds, but worse if it's a package based system each different
-> machine ends with a new PR value and a newly generated package.
->
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->   meta/recipes-core/systemd/systemd-conf.bb     | 51 +++++++++++++++++++
->   ...ange-the-default-device-timeout-to-2.patch | 35 -------------
->   meta/recipes-core/systemd/systemd_239.bb      | 28 ++++------
->   3 files changed, 60 insertions(+), 54 deletions(-)
->   create mode 100644 meta/recipes-core/systemd/systemd-conf.bb
->   delete mode 100644 meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch
->
-> diff --git a/meta/recipes-core/systemd/systemd-conf.bb b/meta/recipes-core/systemd/systemd-conf.bb
-> new file mode 100644
-> index 0000000000..d39742b3a8
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd-conf.bb
-> @@ -0,0 +1,51 @@
-> +require systemd.inc
-> +
-> +SUMMARY = "Systemd system configuration"
-> +DESCRIPTION = "Systemd may require slightly different configuration for \
-> +different machines.  For example, qemu machines require a longer \
-> +DefaultTimeoutStartSec setting."
-> +
-> +PACKAGE_ARCH = "${MACHINE_ARCH}"
-> +
-> +CONFFILES_${PN} = "${sysconfdir}/machine-id \
-> +${sysconfdir}/systemd/coredump.conf \
-> +${sysconfdir}/systemd/journald.conf \
-> +${sysconfdir}/systemd/logind.conf \
-> +${sysconfdir}/systemd/system.conf \
-> +${sysconfdir}/systemd/user.conf"
-> +
-> +FILES_${PN} = "${sysconfdir}/machine-id ${sysconfdir}/systemd"
-> +
-> +do_compile[noexec] = '1'
-> +
-> +do_install() {
-> +	install -d ${D}/${sysconfdir}/systemd
-> +
-> +	# Create machine-id
-> +	# 20:12 < mezcalero> koen: you have three options: a) run systemd-machine-id-setup at install time, b) have / read-only and an empty file there (for stateless) and c) boot with / writable
-> +	touch ${D}${sysconfdir}/machine-id
-> +
-> +	install -m 0644 ${S}/src/coredump/coredump.conf ${D}${sysconfdir}/systemd/coredump.conf
-> +
-> +	install -m 0644 ${S}/src/journal/journald.conf ${D}${sysconfdir}/systemd/journald.conf
-> +	# Enable journal to forward message to syslog daemon
-> +	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
-> +	# Set the maximium size of runtime journal to 64M as default
-> +	sed -i -e 's/.*RuntimeMaxUse.*/RuntimeMaxUse=64M/' ${D}${sysconfdir}/systemd/journald.conf
-> +
-> +	install -m 0644 ${S}/src/login/logind.conf.in ${D}${sysconfdir}/systemd/logind.conf
-> +	# Set KILL_USER_PROCESSES to yes
-> +	sed -i -e 's/@KILL_USER_PROCESSES@/yes/' ${D}${sysconfdir}/systemd/logind.conf
-> +
-> +	install -m 0644 ${S}/src/core/system.conf.in ${D}${sysconfdir}/systemd/system.conf
-> +	# Set MEMORY_ACCOUNTING_DEFAULT to yes
-> +	sed -i -e 's/@MEMORY_ACCOUNTING_DEFAULT@/yes/' ${D}${sysconfdir}/systemd/system.conf
-> +
-> +	install -m 0644 ${S}/src/core/user.conf ${D}${sysconfdir}/systemd/user.conf
-> +}
-> +
-> +# Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
-> +do_install_append_qemuall() {
-> +	# Change DefaultTimeoutStartSec from 90s to 240s
-> +        echo "DefaultTimeoutStartSec = 240s"
-> +}
+MPFR has a couple of things implemented in assembly and in case of
+ARC those parts were written long ago when ARC GCC port was not yet
+upstreamed. On upstreaming of GCC some constraints were changed and
+so we can no longer build MPFR for ARC with up-to-date tools seeing
+something like that:
+| In file included from ../../mpfr-4.0.1/src/mpfr-impl.h:112,
+|                  from ../../mpfr-4.0.1/src/mul.c:24:
+| ../../mpfr-4.0.1/src/mul.c: In function 'mpfr_mul':
+| ../../mpfr-4.0.1/src/mpfr-longlong.h:415:3: error: impossible constraint in 'asm'
+|    __asm__ ("add.f\t%1, %4, %5\n\tadc\t%0, %2, %3"   \
+|    ^~~~~~~
 
-Seems to miss something like ">> ${D}${sysconfdir}/systemd/system.conf" ?
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+---
+ .../0001-Fix-obsolete-ARC-asm-constraints.patch    | 45 ++++++++++++++++++++++
+ meta/recipes-support/mpfr/mpfr_4.0.1.bb            |  3 +-
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch
 
-Best Regards,
-Chen Qi
-
-> diff --git a/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch b/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch
-> deleted file mode 100644
-> index fd7bf3fcf6..0000000000
-> --- a/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -From 2925c0c3b6ce4056622b86c1c61ee14add430790 Mon Sep 17 00:00:00 2001
-> -From: Chen Qi <Qi.Chen@windriver.com>
-> -Date: Thu, 28 Jun 2018 10:56:29 +0800
-> -Subject: [PATCH] core/device.c: Change the default device timeout to 240 sec.
-> - MIME-Version: 1.0 Content-Type: text/plain; charset=UTF-8
-> - Content-Transfer-Encoding: 8bit
-> -MIME-Version: 1.0
-> -Content-Type: text/plain; charset=UTF-8
-> -Content-Transfer-Encoding: 8bit
-> -
-> -Upstream-Status: Inappropriate [Specific case QEMU/AB]
-> -
-> -Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ----
-> - src/core/device.c | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/src/core/device.c b/src/core/device.c
-> -index a2d00a0fb..f26e55ebb 100644
-> ---- a/src/core/device.c
-> -+++ b/src/core/device.c
-> -@@ -95,7 +95,7 @@ static void device_init(Unit *u) {
-> -          * indefinitely for plugged in devices, something which cannot
-> -          * happen for the other units since their operations time out
-> -          * anyway. */
-> --        u->job_running_timeout = u->manager->default_timeout_start_usec;
-> -+        u->job_running_timeout = (240 * USEC_PER_SEC);
-> -
-> -         u->ignore_on_isolate = true;
-> -
-> ---
-> -2.11.0
-> -
-> diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-> index 7ed932141d..bc16407e09 100644
-> --- a/meta/recipes-core/systemd/systemd_239.bb
-> +++ b/meta/recipes-core/systemd/systemd_239.bb
-> @@ -31,7 +31,6 @@ SRC_URI += "file://touchscreen.rules \
->              file://0022-build-sys-Detect-whether-struct-statx-is-defined-in-.patch \
->              file://0023-resolvconf-fixes-for-the-compatibility-interface.patch \
->              "
-> -SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
->   
->   # patches made for musl are only applied on TCLIBC is musl
->   SRC_URI += "${SRC_URI_MUSL}"
-> @@ -218,10 +217,6 @@ do_install() {
->   	[ ! -e ${D}/init ] && ln -s ${rootlibexecdir}/systemd/systemd ${D}/init
->   	[ ! -e ${D}/${base_sbindir}/udevd ] && ln -s ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
->   
-> -	# Create machine-id
-> -	# 20:12 < mezcalero> koen: you have three options: a) run systemd-machine-id-setup at install time, b) have / read-only and an empty file there (for stateless) and c) boot with / writable
-> -	touch ${D}${sysconfdir}/machine-id
-> -
->   	install -d ${D}${sysconfdir}/udev/rules.d/
->   	install -d ${D}${sysconfdir}/tmpfiles.d
->   	install -m 0644 ${WORKDIR}/*.rules ${D}${sysconfdir}/udev/rules.d/
-> @@ -256,11 +251,6 @@ do_install() {
->   		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/rescue.target.wants/systemd-update-utmp-runlevel.service
->   	fi
->   
-> -	# Enable journal to forward message to syslog daemon
-> -	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
-> -	# Set the maximium size of runtime journal to 64M as default
-> -	sed -i -e 's/.*RuntimeMaxUse.*/RuntimeMaxUse=64M/' ${D}${sysconfdir}/systemd/journald.conf
-> -
->   	# this file is needed to exist if networkd is disabled but timesyncd is still in use since timesyncd checks it
->   	# for existence else it fails
->   	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
-> @@ -284,6 +274,14 @@ do_install() {
->   			chown polkitd:root ${D}${datadir}/polkit-1/rules.d
->   		fi
->   	fi
-> +
-> +	# conf files are handled by systemd-conf
-> +	rm -f ${D}${sysconfdir}/machine-id
-> +	rm -f ${D}${sysconfdir}/systemd/coredump.conf
-> +	rm -f ${D}${sysconfdir}/systemd/journald.conf
-> +	rm -f ${D}${sysconfdir}/systemd/logind.conf
-> +	rm -f ${D}${sysconfdir}/systemd/system.conf
-> +	rm -f ${D}${sysconfdir}/systemd/user.conf
->   }
->   
->   
-> @@ -433,13 +431,6 @@ FILES_${PN}-extra-utils = "\
->                           ${rootlibexecdir}/systemd/systemd-cgroups-agent \
->   "
->   
-> -CONFFILES_${PN} = "${sysconfdir}/machine-id \
-> -                ${sysconfdir}/systemd/coredump.conf \
-> -                ${sysconfdir}/systemd/journald.conf \
-> -                ${sysconfdir}/systemd/logind.conf \
-> -                ${sysconfdir}/systemd/system.conf \
-> -                ${sysconfdir}/systemd/user.conf"
-> -
->   FILES_${PN} = " ${base_bindir}/* \
->                   ${base_sbindir}/shutdown \
->                   ${base_sbindir}/halt \
-> @@ -455,7 +446,6 @@ FILES_${PN} = " ${base_bindir}/* \
->                   ${datadir}/${BPN} \
->                   ${datadir}/factory \
->                   ${sysconfdir}/dbus-1/ \
-> -                ${sysconfdir}/machine-id \
->                   ${sysconfdir}/modules-load.d/ \
->                   ${sysconfdir}/pam.d/ \
->                   ${sysconfdir}/sysctl.d/ \
-> @@ -504,7 +494,7 @@ FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ $
->   
->   RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV}) util-linux-agetty util-linux-fsck"
->   RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
-> -RDEPENDS_${PN} += "volatile-binds update-rc.d"
-> +RDEPENDS_${PN} += "volatile-binds update-rc.d systemd-conf"
->   
->   RRECOMMENDS_${PN} += "systemd-extra-utils \
->                         systemd-compat-units udev-hwdb \
-
+diff --git a/meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch b/meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch
+new file mode 100644
+index 0000000000..59d1b0db67
+--- /dev/null
++++ b/meta/recipes-support/mpfr/mpfr/0001-Fix-obsolete-ARC-asm-constraints.patch
+@@ -0,0 +1,45 @@
++mpfr-longlong.h: Fix obsolete ARC asm constraints
++
++This patch replaces obsolete ARC "J" asm constraint with
++up-to-date "Cal" constraint.
++
++"J" constraint only existed in pre-upstream GCC port for ARC.
++In current upstream port "Cal" constraint is used which leads
++to compile-time error.
++
++Proposed fix is known to work in Buildroot, Crosstool-NG etc.
++
++[1] https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=09cb6a17e71bd40d2fbfaf82a1502fc210e33c87
++
++Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
++Signed-off-by: Vlad Zakharov <vzakhar@synopsys.com>
++Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
++
++Upstream-Status: Backport [https://gforge.inria.fr/scm/viewvc.php/mpfr?view=revision&revision=13251]
++---
++Index: src/mpfr-longlong.h
++===================================================================
++--- a/src/mpfr-longlong.h	(revision 10963)
+++++ b/src/mpfr-longlong.h	(working copy)
++@@ -416,17 +416,17 @@
++ 	   : "=r" (sh),							\
++ 	     "=&r" (sl)							\
++ 	   : "r"  ((USItype) (ah)),					\
++-	     "rIJ" ((USItype) (bh)),					\
+++	     "rICal" ((USItype) (bh)),					\
++ 	     "%r" ((USItype) (al)),					\
++-	     "rIJ" ((USItype) (bl)))
+++	     "rICal" ((USItype) (bl)))
++ #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
++   __asm__ ("sub.f\t%1, %4, %5\n\tsbc\t%0, %2, %3"			\
++ 	   : "=r" (sh),							\
++ 	     "=&r" (sl)							\
++ 	   : "r" ((USItype) (ah)),					\
++-	     "rIJ" ((USItype) (bh)),					\
+++	     "rICal" ((USItype) (bh)),					\
++ 	     "r" ((USItype) (al)),					\
++-	     "rIJ" ((USItype) (bl)))
+++	     "rICal" ((USItype) (bl)))
++ #endif
++ 
++ #if defined (__arm__) && (defined (__thumb2__) || !defined (__thumb__)) \
+diff --git a/meta/recipes-support/mpfr/mpfr_4.0.1.bb b/meta/recipes-support/mpfr/mpfr_4.0.1.bb
+index f85a846e33..2eee76a357 100644
+--- a/meta/recipes-support/mpfr/mpfr_4.0.1.bb
++++ b/meta/recipes-support/mpfr/mpfr_4.0.1.bb
+@@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 		    file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6"
+ DEPENDS = "gmp autoconf-archive"
+ 
+-SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz"
++SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz \
++           file://0001-Fix-obsolete-ARC-asm-constraints.patch"
+ SRC_URI[md5sum] = "b8dd19bd9bb1ec8831a6a582a7308073"
+ SRC_URI[sha256sum] = "67874a60826303ee2fb6affc6dc0ddd3e749e9bfcb4c8655e3953d0458a6e16e"
+ 
+-- 
+2.16.2
 
 
