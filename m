@@ -1,49 +1,34 @@
-Return-Path: <anibal.limon@linaro.org>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AE9679B5B
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D415C79B0F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 23:00:51 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id f8-v6so13224513pgq.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2018 16:00:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=K2aHj+2viIIJ0GTaBiIrcK4oAi2YyPQdlCV7xihuww8=;
-	b=gRSQBZGCd5esQqTVKWYYwZyxjxCQaMpZU9lXCd4jiB8YVqrzHApxq2fb5Uz3859byK
-	qR80r4Eu8JgRiRB/lDnAjZMhBK8IxoYAKFjy8jkH1bEH6cfWNBFEfxj2A81Z6elvs9Vm
-	/AeoYi6KApeKm/8WiNYXFxw0eRP4D3+QLebig=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=K2aHj+2viIIJ0GTaBiIrcK4oAi2YyPQdlCV7xihuww8=;
-	b=Bk/Ewi+jdWwKv/gLayZzrKMh4epyWyt3HOsnsZikR/1xHqIJjxeHtW3qH5tGEB6Pei
-	ybLk1rIv3d8Yzya/WOsPIcEkFRbHtQSTAIuSSqklRf0MfEKmztmZpQ0d2LzdGX6lpuV7
-	bY0nxAqaCd4hqAEhLFTthhwpq+3bInAO8WbJgOcMhnwhVfwgWxEH/da1volnEI/FAcDu
-	hAYL/WUQL0B6CZLlP8kvxeV1qJlj/JE6OiPLLuVgEqqfDAXFqn/fSqYx5w5rKUMcH/2t
-	fQMoj8Nn28QqCST/1pRfN2tmNuVLhKrgDxowH8DmBarrHBWi4k7YzinhtdtAhbk0lDYT
-	/Rjg==
-X-Gm-Message-State: ABuFfoj80YODeS3pQfcmvOBBW5AlC5qQ84PkwztpdtFKNovlMwFJvDyv
-	gdrKEM6/E8NEmjCpx7la1xQYB6v8UB0=
-X-Google-Smtp-Source: ACcGV61wKXzfHL2VaQAxEMMGXIF98M1KHtAoojmK90kHSR9u68YxV2GwZpzNORJ6pLnnREgn5ngHrw==
-X-Received: by 2002:a63:7c5e:: with SMTP id
-	l30-v6mr25828046pgn.45.1539817252340; 
-	Wed, 17 Oct 2018 16:00:52 -0700 (PDT)
-Received: from blackbox.Home ([200.68.141.5]) by smtp.gmail.com with ESMTPSA id
-	i71-v6sm26467929pgc.87.2018.10.17.16.00.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Oct 2018 16:00:51 -0700 (PDT)
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2018 18:00:44 -0500
-Message-Id: <20181017230044.24098-2-anibal.limon@linaro.org>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20181017230044.24098-1-anibal.limon@linaro.org>
-References: <20181017230044.24098-1-anibal.limon@linaro.org>
+	Thu, 18 Oct 2018 02:29:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9I2SQRT018584
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 17 Oct 2018 19:28:42 -0700
+Received: from [128.224.162.215] (128.224.162.215) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Wed, 17 Oct 2018 19:28:16 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20181016090054.122374-1-mingli.yu@windriver.com>
+	<fb67373823b7952f1acf022bed6bd40611c74754.camel@linuxfoundation.org>
+	<CAJTo0LbbgiiPQSanVFuibf2PpYmVr9t1vebxZD6OT7DF+BdhDw@mail.gmail.com>
+	<CAJTo0LZT1ytnsBoKkfdwv8GThzsOCjoQtLdbe9dtFPMaPupMxw@mail.gmail.com>
+	<CAJTo0LY79q4La-mTQwG552XAkwJ8UTLp9yztVCd4g7m-pogpKw@mail.gmail.com>
+	<5BC6CCD3.4050003@windriver.com>
+	<CAJTo0LaYemE+q9=n0LTET2DzsQgGQPWSH+bmaM0k4ifa9oRM+A@mail.gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5BC7EFBC.9070105@windriver.com>
+Date: Thu, 18 Oct 2018 10:28:12 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] meta/classes/testexport: Remove __pycache__ from exported tests
+In-Reply-To: <CAJTo0LaYemE+q9=n0LTET2DzsQgGQPWSH+bmaM0k4ifa9oRM+A@mail.gmail.com>
+X-Originating-IP: [128.224.162.215]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] boost.inc: make libboost_python3.so available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +41,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 23:00:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 18 Oct 2018 02:29:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The __pycache__ is created based on python3 version in the build machine
-and isn't a garantee to be useful on the system that runs exported tests.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
----
- meta/classes/testexport.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bbclass
-index 8b01504d3a..f38d093e81 100644
---- a/meta/classes/testexport.bbclass
-+++ b/meta/classes/testexport.bbclass
-@@ -131,6 +131,11 @@ def copy_needed_files(d, tc):
-     shutil.copy2(image_manifest, os.path.join(test_data_path, os.path.basename(image_manifest)))
-     shutil.copy2(tdname, os.path.join(test_data_path, os.path.basename(tdname)))
- 
-+    for subdir, dirs, files in os.walk(export_path):
-+        for dir in dirs:
-+            if dir == '__pycache__':
-+                shutil.rmtree(os.path.join(subdir, dir))
-+
-     # Create tar file for common parts of testexport
-     create_tarball(d, "testexport.tar.gz", d.getVar("TEST_EXPORT_DIR"))
- 
--- 
-2.11.0
+On 2018年10月17日 17:39, Burton, Ross wrote:
+> On Wed, 17 Oct 2018 at 06:48, Yu, Mingli <mingli.yu@windriver.com> wrote:
+>> I'm fine not add the the hack fix from boost side, but as I know there
+>> is another package camera-calibration-parsers which has the same problem
+>> as below apart from cv-bridge. BTW, there may some other package also
+>> has this kind of problem. This to say we need to fix the issue for the
+>> this kind of packages one by one.
+>
+> Yes, it will need to be fixed one by one, but everyone will have to do
+> this because this is what Boost is now doing.  This isn't a change to
+> boost that we introduced, upstream changed the library names so
+> everyone who uses boost will be fixing their code.
 
+Many thanks for Ross's clarification!
+If we need to fix the packages one by one, but not add the hack at boost 
+side, then https://bugzilla.yoctoproject.org/show_bug.cgi?id=12833 
+should be invalid.
+
+Thanks,
+
+>
+> Ross
+>
 
