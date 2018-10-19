@@ -1,47 +1,49 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 74B2679CC0
+Return-Path: <matt.hoosier@gmail.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B0C4574588
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 16:00:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 9646618343
+	Fri, 19 Oct 2018 16:04:57 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id q18-v6so1262121iod.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:00:07 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id iqYRz1qpr5E4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:00:06 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id C3E3C1834B
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:00:06 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A9BF11E075
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:00:06 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9E8FD1E072
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:00:06 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:00:06 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by thoth.se.axis.com (Postfix) with ESMTP id 92D381863
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:00:06 +0200 (CEST)
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id 858B89C121; Fri, 19 Oct 2018 18:00:06 +0200 (CEST)
-From: Olof Johansson <olof.johansson@axis.com>
+	Fri, 19 Oct 2018 09:04:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=xf/uxsQ7kQf1nsMOk8ZTDmw0BHq5MALxeRZKskdLp+s=;
+	b=uvANijoHmPJhKEsUnrCoQDpYZoOGpYecbOvm7NRkpE7K2IBVIVYyhq9vzbNed/bo62
+	jwqHlPti6v9/wH3Ni2PWk7TXEJ7BpouDadIe480I9Md1pzNYlHGUGYdz2hjDAsaOLNRW
+	VJ6dGyBNjOjy+WUfnK9VsRjMw0ycYQB0ALenzyMhact6Q2K1J6C3z1uPu6ildpLyApyd
+	RrbZ8y+JvYMllUviCleoqRM4CjQROwGvHOTkpUD8NUYtB4pQQTdNvhfTYCC5QHOlIlXi
+	PfaZYfMmdGaFIJG2zmdVeehykPO+z8Akb8N7UNi3Q1ECITeFI2WcJrmRehcST0nreP80
+	v/hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=xf/uxsQ7kQf1nsMOk8ZTDmw0BHq5MALxeRZKskdLp+s=;
+	b=sLYDdP9dgEuxKYDbZzar94KVrdVT62/Q5VnMi2j5c66YyMtuNkP7TdUXtdTgzVkhOd
+	yzMRbaULvR8Iy1c6JIsZivSVGiVmUL7rphtRx2jKYmp0Pm5YAhsSEeez8KffwtG/IfgY
+	/SfRFWTLb3fWkdkchWWg+BvSiA+LPNs4BAwBPKjd8ANz0o9Kohj6yK0lTJrpJgU6IJ4x
+	uxhJhTrXUfcpgYLGabc5Bi+AtNguYdf3VHVsdI0VnRn3C5eaV2GXdObufj7to+0NN3RO
+	w9X9U6OirKVGi223xCZY7Eq8nWMz6nfjw2wqjZMzG9XQ4iKDDL4c+UY4CN19Po/Q3nNK
+	5Seg==
+X-Gm-Message-State: AGRZ1gIRaDj/mBo8IJvRSFVQPGz5xtW0ldnWbBpk+CZOaTTGtR7n/zsj
+	MtkyFJujTTN3/j+ykHjsZZ4Vl0qK
+X-Google-Smtp-Source: AJdET5cO/Lx4ZR13PtL10D+50/IoKojY0P5SUHk0Chhnt16HAkG8eXj5znsj4+r2+GPbeF+nMkHoBg==
+X-Received: by 2002:a6b:1bd5:: with SMTP id
+	b204-v6mr3209143iob.105.1539965098384; 
+	Fri, 19 Oct 2018 09:04:58 -0700 (PDT)
+Received: from localhost.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	4-v6sm7089413ioy.55.2018.10.19.09.04.57
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 19 Oct 2018 09:04:57 -0700 (PDT)
+From: Matt Hoosier <matt.hoosier@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Oct 2018 18:00:01 +0200
-Message-Id: <20181019160001.21686-1-olofjn@axis.com>
-X-Mailer: git-send-email 2.11.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] devtool-source.bbclass: Only create each patch branch once
+Date: Fri, 19 Oct 2018 11:04:55 -0500
+Message-Id: <20181019160455.4606-1-matt.hoosier@gmail.com>
+X-Mailer: git-send-email 2.17.2
+Cc: Matt Hoosier <matt.hoosier@garmin.com>
+Subject: [PATCH] volatile-binds: use overlayfs if available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,65 +56,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 16:00:07 -0000
+X-List-Received-Date: Fri, 19 Oct 2018 16:04:57 -0000
 
-For conditonally applied patches based on SRC_URI overrides, the
-devtool-source class would try to create a new branch for each override
-assignment as a postfunc to do_patch, but if the same override was used
-multiple times, it would try to create the same branch multiple times,
-causing errors like
+From: Matt Hoosier <matt.hoosier@garmin.com>
 
-> Exception: bb.process.ExecutionError: Execution of
-\   'git checkout f0f0f0f0f0ff0f0f0f0f0f0f0f0f0f0f0ff0f0f0 -b devtool-override-foo'
-\   failed with exit code 128:
-> fatal: A branch named 'devtool-override-foo' already exists.
+Copying files from the read-only root filesystem to the tmpfs
+providing the volatile directories can be slow and waste memory.
+If the kernel supports the overlay filesystem, use it to mount
+a writable tmpfs on top of the read-only directory from the
+rootfs and avoid copies.
 
-This change makes sure that the devtool-source bbclass will only create
-one branch per override.
+Analogous to the modification made to initscripts's
+read-only-rootfs-hook in 370fda1b2e8d5dc011522131bba4106de26bfb19.
 
-Signed-off-by: Olof Johansson <olofjn@axis.com>
+Signed-off-by: Matt Hoosier <matt.hoosier@gmail.com>
 ---
- meta/classes/devtool-source.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
----
-Peter Kjellerstedt pointed out some issues with v1; this updated change is
-simpler. In addition to what Richard said about it causing failures in
-oe-selftest. I had a issues running oe-selftest, mostly because of the large
-storage requirements of /tmp and issues with company internal git hooks.  I
-think I managed to run all the tests with passing results now, but please be
-vigilante of testcase failures; sorry in advance!
+ .../volatile-binds/files/mount-copybind       | 30 ++++++++++++++++---
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-source.bbclass
-index 67cd0bafb20..1372e32c9e5 100644
---- a/meta/classes/devtool-source.bbclass
-+++ b/meta/classes/devtool-source.bbclass
-@@ -183,14 +183,14 @@ python devtool_post_patch() {
+diff --git a/meta/recipes-core/volatile-binds/files/mount-copybind b/meta/recipes-core/volatile-binds/files/mount-copybind
+index 2aeaf84ddb..fddf520053 100755
+--- a/meta/recipes-core/volatile-binds/files/mount-copybind
++++ b/meta/recipes-core/volatile-binds/files/mount-copybind
+@@ -8,7 +8,10 @@ if [ $# -lt 2 ]; then
+     exit 1
+ fi
  
-     extra_overrides = d.getVar('DEVTOOL_EXTRA_OVERRIDES')
-     if extra_overrides:
--        extra_override_list = extra_overrides.split(':')
-+        extra_overrides = set(extra_overrides.split(':'))
-         devbranch = d.getVar('DEVTOOL_DEVBRANCH')
-         default_overrides = d.getVar('OVERRIDES').split(':')
-         no_overrides = []
-         # First, we may have some overrides that are referred to in the recipe set in
-         # our configuration, so we need to make a branch that excludes those
-         for override in default_overrides:
--            if override not in extra_override_list:
-+            if override not in extra_overrides:
-                 no_overrides.append(override)
-         if default_overrides != no_overrides:
-             # Some overrides are active in the current configuration, so
-@@ -208,7 +208,7 @@ python devtool_post_patch() {
-         else:
-             bb.process.run('git checkout %s -b devtool-no-overrides' % devbranch, cwd=srcsubdir)
++# e.g. /var/volatile/lib
+ spec=$1
++
++# e.g. /var/lib
+ mountpoint=$2
  
--        for override in extra_override_list:
-+        for override in extra_overrides:
-             localdata = bb.data.createCopy(d)
-             if override in default_overrides:
-                 bb.process.run('git branch devtool-override-%s %s' % (override, devbranch), cwd=srcsubdir)
+ if [ $# -gt 2 ]; then
+@@ -20,15 +23,34 @@ fi
+ [ -n "$options" ] && options=",$options"
+ 
+ mkdir -p "${spec%/*}"
++
+ if [ -d "$mountpoint" ]; then
+-    if [ ! -d "$spec" ]; then
++
++    if [ -d "$spec" ]; then
++        specdir_existed=yes
++    else
++        specdir_existed=no
+         mkdir "$spec"
+-        cp -pPR "$mountpoint"/. "$spec/"
++    fi
++
++    # Fast version of calculating `dirname ${spec}`/.`basename ${spec}`-work
++    overlay_workdir="${spec%/*}/.${spec##*/}-work"
++    mkdir "${overlay_workdir}"
++
++    # Try to mount using overlay, which is must faster than copying files.
++    # If that fails, fall back to slower copy.
++    if ! mount -t overlay overlay -olowerdir="$mountpoint",upperdir="$spec",workdir="$overlay_workdir" "$mountpoint" > /dev/null 2>&1; then
++
++        if [ "$specdir_existed" != "yes" ]; then
++            cp -pPR "$mountpoint"/. "$spec/"
++        fi
++
++        mount -o "bind$options" "$spec" "$mountpoint"
+     fi
+ elif [ -f "$mountpoint" ]; then
+     if [ ! -f "$spec" ]; then
+         cp -pP "$mountpoint" "$spec"
+     fi
+-fi
+ 
+-mount -o "bind$options" "$spec" "$mountpoint"
++    mount -o "bind$options" "$spec" "$mountpoint"
++fi
 -- 
-2.11.0
+2.17.2
 
 
