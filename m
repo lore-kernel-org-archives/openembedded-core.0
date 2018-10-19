@@ -1,45 +1,55 @@
-Return-Path: <anibal.limon@linaro.org>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B56E79CEF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A03E79CFE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 17:25:21 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id c205so25747036vsd.3
+	Fri, 19 Oct 2018 17:28:30 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 189-v6so4381917wmw.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 10:25:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7BBxtyI7yPkXEvkIl2irN63B6b/kQprYoPGnxd4kGDg=;
-	b=Q1LM9xjvdLQcC3f3aA77SLQm8wPjQastXD4ghwd2umT4Vx4Odh+smLXx8aEFVj5muZ
-	jRXkDMGlDh7NtOC8E31IyEb0JGdGS58O6wzHR9G4mO4dQf5CJc61GAHvUbKUUJY861Wj
-	/7PI5FJ3v1LXsT465844VQo3v8t684lxtyNbc=
+	Fri, 19 Oct 2018 10:28:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=TrstOiQU4IyGK6e5qtRqvnnve11S/U0HFsgV00UEotY=;
+	b=UAL6+SbvzDTx0fYAGDlv0oZzWFBcJY7Y+Of8WL7rI7lK4kE1JpV6GPweRRaUfdEwTi
+	R5t1GgMe026YMfkSytZA6qAKsEuVTT6us+xMrIbrc/9JpLQI+zlqWJno1oP68Ix0Rw1s
+	BHx0V0S4AAjMotLKp36eNggAAmU28Ziv9l/cM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7BBxtyI7yPkXEvkIl2irN63B6b/kQprYoPGnxd4kGDg=;
-	b=pnYGxGSsylIMBR9Kb2KllMVCjWXn+rHbuxq47zH5/aTKjvg4bn1F9gb293PRWIDVlu
-	ydF8RYxcBluEfzQaF1nfD686lufNyZp21BMok3kZ1eP3SWdRBFQw7GQnUy8ZCmq9N4HH
-	uLyhdTwEygNqr0Rao75CjX3VnIaRZDgCFHszbMjqyUy4/A0wErSZBQjbpO6xO7LmDRTT
-	FElVpllV1YweHOdIsuHk4L0Unc8X4afirHp+lbpIKtrmEg0ZMy7SJFLgTo8ah/AhNzkL
-	Q819Zoa6WCk/1c4pib4Ye/1X0UdrJrDY2dJ24p6w4v5HCck7OCgzTz+1ZO9+C+al89Qu
-	r+wQ==
-X-Gm-Message-State: ABuFfoj8FcgmmWk4D0rYSYXX19a60ciMzSfgM/ts2mTkC5UdsyeEIoL1
-	gahNXPEWecuUYhNv7moYGM8aSbdYSDKJhbxFqCyH6g==
-X-Google-Smtp-Source: ACcGV622W/A+sLhrIgQrQIH/qCRKEwreRCpdCBHtGTl5o4l2oHfNvl/rktJT2DwwQg7qn6yINItcIrmbImRV878Pbi8=
-X-Received: by 2002:a67:2cd0:: with SMTP id
-	s199mr14597978vss.117.1539969922097; 
-	Fri, 19 Oct 2018 10:25:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181017230044.24098-1-anibal.limon@linaro.org>
-	<a15a465d714ee34a86f62da18e17972d40b15f00.camel@linuxfoundation.org>
-In-Reply-To: <a15a465d714ee34a86f62da18e17972d40b15f00.camel@linuxfoundation.org>
-From: Anibal Limon <anibal.limon@linaro.org>
-Date: Fri, 19 Oct 2018 12:25:11 -0500
-Message-ID: <CA+_Aqivb7BOhA22GjFEREVGtD8p+o1+U1Zwwo2hgM482crZuZw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] meta/classes/testexport: Use manfiest filenames for package and testdata
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=TrstOiQU4IyGK6e5qtRqvnnve11S/U0HFsgV00UEotY=;
+	b=Itm+McD1WWSYx2M067XJj2HuWCBzd5mzO03icljJzNTRM4kRJN7wiqCDFpr16QuMIK
+	kQUgDjt6iVO+91LERU9zhQdQeHnq2hUME+gJ6rcjmsCU0ZGYpWTn1n+6ksBE9rKtjOn1
+	stNa5b1SiihsDn7L4MdYkjxNkGlBWRi1Z5S5NDAXYoC7DAk9FP9Jj3FaM+ylTnKfxERF
+	FLSyRwoQfNLH+TBIPrI5og/6iQikZbCsL+xaX14XfaurhDqnNkXHWXA/EuReIBsXN1q1
+	OQvjhQHO6Yfk7P3hFKuxdNlS3N3jfWg2KT59d3tdv3tBj2aN6qoTNQdiZ4bgOWcSWQzb
+	Zc+Q==
+X-Gm-Message-State: ABuFfog8Mk8AX998cJGFcLGrxGVzAjhuCd6s4UtlmkTBD3kccwUXRXgO
+	iD+XIV26S+em57hQ7eo+0fhSEg==
+X-Google-Smtp-Source: ACcGV6287XLTWPXNmzi+7T1Y7+I7hmEl5mcYe4C9XdbqaEX+QQd9uVS1J/xOAlF/BfjsWVrkg6BpNQ==
+X-Received: by 2002:a7b:c151:: with SMTP id
+	z17-v6mr6051882wmi.39.1539970110740; 
+	Fri, 19 Oct 2018 10:28:30 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	m12sm20859271wrx.75.2018.10.19.10.28.29
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 19 Oct 2018 10:28:29 -0700 (PDT)
+Message-ID: <f595aee61f3c533f9d08152a2b3c896a9a4e2f16.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Randy MacLeod <randy.macleod@windriver.com>, Dan McGregor
+	<danismostlikely@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 19 Oct 2018 18:28:28 +0100
+In-Reply-To: <ade6aec7-e193-bc8e-531f-811a17cb6bbf@windriver.com>
+References: <20181018152215.23525-1-danismostlikely@gmail.com>
+	<fa65fef901b5056d730703ce1c01a1594b2dc37c.camel@linuxfoundation.org>
+	<64558ddd-8865-a96b-cc19-5c0e6d270754@windriver.com>
+	<ade6aec7-e193-bc8e-531f-811a17cb6bbf@windriver.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2] util-linux: alternatify cal, rev, and ionice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,86 +62,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 17:25:21 -0000
-Content-Type: multipart/alternative; boundary="0000000000002c077805789830b2"
-
---0000000000002c077805789830b2
+X-List-Received-Date: Fri, 19 Oct 2018 17:28:30 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Hi Richard,
+On Fri, 2018-10-19 at 10:23 -0400, Randy MacLeod wrote:
+> On 10/19/18 10:18 AM, Randy MacLeod wrote:
+> > On 10/19/18 9:47 AM, Richard Purdie wrote:
+> > > 
+> > > The rebase went wrong here. I'll try and fix this up in -next and
+> > > retest so we can figure out if switch_root really is broken (cc
+> > > Randy)...
+> > 
+> > Ah, so it seems. Deleting switch-root alternatives, eh... WTF Dan!
+> > :)
+> > 
+> 
+> Oh, the oe-core commit log for master-next shows that Dan's
+> commit is fine so it's *Richard's" rebase. I rescind my humorous WTF.
 
-I need to update the selftest testcase, i will send v2.
+It was Dan's patch that was broken and I've now fixed it in -next ;-)
 
-I send other patch, can you take a look?
+Cheers,
 
-http://lists.openembedded.org/pipermail/openembedded-core/2018-October/1567=
-62.html
+Richard
 
-Regards,
-Anibal
 
-On Thu, 18 Oct 2018 at 10:43, <richard.purdie@linuxfoundation.org> wrote:
-
-> On Wed, 2018-10-17 at 18:00 -0500, An=C3=ADbal Lim=C3=B3n wrote:
-> > Is clear to know for what image and machine the testexport package
-> > manifest and testdata was build.
-> >
-> > Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
-> > ---
-> >  meta/classes/testexport.bbclass  | 4 ++--
-> >  meta/lib/oeqa/runtime/context.py | 9 +++++++--
-> >  2 files changed, 9 insertions(+), 4 deletions(-)
->
-> I think this breaks oe-selftest:
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/28/builds/132/ste=
-ps/7/logs/step2d
->
-> Cheers,
->
-> Richard
->
->
-
---0000000000002c077805789830b2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Richard,<div><br></div><div>I need to =
-update the selftest testcase, i will send v2.</div><div><br></div><div>I se=
-nd other patch, can you take a=C2=A0look?</div><div><br></div><div><a href=
-=3D"http://lists.openembedded.org/pipermail/openembedded-core/2018-October/=
-156762.html">http://lists.openembedded.org/pipermail/openembedded-core/2018=
--October/156762.html</a><br></div><div><br></div><div>Regards,</div><div>An=
-ibal</div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Th=
-u, 18 Oct 2018 at 10:43, &lt;<a href=3D"mailto:richard.purdie@linuxfoundati=
-on.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">On Wed, 2018-10-17 at 18:00 -0500, An=C3=ADbal Lim=
-=C3=B3n wrote:<br>
-&gt; Is clear to know for what image and machine the testexport package<br>
-&gt; manifest and testdata was build.<br>
-&gt; <br>
-&gt; Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.lim=
-on@linaro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/testexport.bbclass=C2=A0 | 4 ++--<br>
-&gt;=C2=A0 meta/lib/oeqa/runtime/context.py | 9 +++++++--<br>
-&gt;=C2=A0 2 files changed, 9 insertions(+), 4 deletions(-)<br>
-<br>
-I think this breaks oe-selftest:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/28/build=
-s/132/steps/7/logs/step2d" rel=3D"noreferrer" target=3D"_blank">https://aut=
-obuilder.yoctoproject.org/typhoon/#/builders/28/builds/132/steps/7/logs/ste=
-p2d</a><br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
-
---0000000000002c077805789830b2--
