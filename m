@@ -1,30 +1,27 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 65028745D8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FB5E745BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 11:58:55 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w9JBwsAv016109
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Fri, 19 Oct 2018 13:58:54 +0200
-Received: from [139.16.76.135] (MD1FZU9C.ad001.siemens.net [139.16.76.135])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w9JBwsqt031357;
-	Fri, 19 Oct 2018 13:58:54 +0200
-To: Khem Raj <raj.khem@gmail.com>
-References: <20181017104243.801-1-pascal.bach@siemens.com>
-	<CAMKF1spO151yKD1O9Dx_sKEu1shSN976+kykQ9FoXKd6fstQVw@mail.gmail.com>
-	<9e88a77b-a611-8c04-465b-41eca2a085c5@siemens.com>
-	<CAMKF1somO_+n1w=ek=vcv1p=RuX-3m1tiho+qi7P_z4xocgefQ@mail.gmail.com>
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <953e09ed-9f74-a048-e8e7-c26b19be3eb2@siemens.com>
-Date: Fri, 19 Oct 2018 13:58:54 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1somO_+n1w=ek=vcv1p=RuX-3m1tiho+qi7P_z4xocgefQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 0/4] cmake.bbclass improvements
+	Fri, 19 Oct 2018 13:37:32 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w9JDbVV0006906
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Fri, 19 Oct 2018 14:37:32 +0100
+Message-ID: <8e1d32fc8f616637638b48e2ab18131fd4a9fef6.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 19 Oct 2018 14:37:31 +0100
+In-Reply-To: <20181016232427.15363-2-Randy.MacLeod@windriver.com>
+References: <2d902e2e7fad998fdd1c22eea5c64ade52955e6a.camel@linuxfoundation.org>
+	<20181016232427.15363-1-Randy.MacLeod@windriver.com>
+	<20181016232427.15363-2-Randy.MacLeod@windriver.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH v2] util-linux: fix alternatives setting for switch-root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,57 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 11:58:56 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Fri, 19 Oct 2018 13:37:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 
+On Tue, 2018-10-16 at 19:24 -0400, Randy MacLeod wrote:
+> The alternative setting for switch_root belongs to the util-linux-
+> switch-root
+> package instead of the util-linux package. Fix this problem to avoid
+> a dangling symlink:
+>    /usr/bin/switch_root-> /usr/bin/switch_root.util-linux
+> on target and in the sdk.
+> 
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> ---
+>  meta/recipes-core/util-linux/util-linux.inc | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
-On 18.10.2018 17:28, Khem Raj wrote:
-> On Thu, Oct 18, 2018 at 7:58 AM Pascal Bach <pascal.bach@siemens.com> wrote:
->>
->> On 17.10.2018 20:50, Khem Raj wrote:
->>> On Wed, Oct 17, 2018 at 3:43 AM Pascal Bach <pascal.bach@siemens.com> wrote:
->>>> This patchset is unmodified from v3. It is just rebased on top of master which
->>>> already includes a fixed version of libproxy and piglit.
->>>>
->>>> I built all cmake based recipes in oe-core (qemuarm64) and did not find any more issues.
->>>>
->>> Can you run world builds on meta-openembedded repositories with
->>> this series applied and also compile some other large projects which
->>> use cmake like meta-browser
->> I can try but usually I get into trouble with the proxy because there are always some recipes that fetch from some location via some protocol that doesn't work.
-> Once the current cycle of builds is done on OE
-> builders I will try to schedule this in OE builds and
-> see where it ends up. hopefully by this weekend.
-I was able to do a world build with all layers of meta-oe and there are a few failures:
+As far as I can tell, this still breaks on the autobuilder:
 
-Two of wich I think are related to cmake:
-- libyui-ncurses => messing around with hardcoded path in their cmake setup
-- civetweb => still trying to figure out what exactly goes wrong
+https://autobuilder.yoctoproject.org/typhoon/#/builders/13/builds/125/steps/7/logs/step1b
+https://autobuilder.yoctoproject.org/typhoon/#/builders/13/builds/125/steps/7/logs/step2b
+https://autobuilder.yoctoproject.org/typhoon/#/builders/21/builds/132/steps/7/logs/step1b
 
-The following I was unable to build due to fetch problems:
-- oscam
+Cheers,
 
-I will try to send patches for these two recipes.
-
->>>> Pascal Bach (4):
->>>>   cmake.bbclass: use CMAKE_SYSTEM_LIBRARY_PATH instead of
->>>>     CMAKE_LIBRARY_PATH
->>>>   cmake.bbclass: search both sysroot-native and host for native packages
->>>>   cmake.bbclass: move CMAKE_NO_SYSTEM_FROM_IMPORTED to toolchain.cmake
->>>>   cmake.bbclass: allow cmake to find hosttools
->>>>
->>>>  meta/classes/cmake.bbclass | 24 +++++++++++++++---------
->>>>  1 file changed, 15 insertions(+), 9 deletions(-)
->>>>
->>>> --
->>>> 2.11.0
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Richard
 
 
