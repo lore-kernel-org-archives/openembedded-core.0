@@ -1,47 +1,50 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9921579CF9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E891D79CED
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 16:15:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 2B04C18399
+	Fri, 19 Oct 2018 16:28:27 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 189-v6so4216437wmw.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:15:24 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id UX9jgWuUbHwK
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 51B971827E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3A8F21A063
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2F6811A062
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by seth.se.axis.com (Postfix) with ESMTP id 234081037
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id 1187B9C121; Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
-From: Olof Johansson <olof.johansson@axis.com>
+	Fri, 19 Oct 2018 09:28:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=1DDklOhO5nlzP+BGag6dmBFCIb9j1ubPYn7pqdGw0W0=;
+	b=NqbPM+puQ52e3EEopfXbmglMrBvKuND6df0dZKbrUwC8YP74o56R1z4zKZ/NAkzUH4
+	3Ovhkr1ocN352Im943VRJNnZAr3c6le+pPkNlEq//6L2UwZ39U6ck71bpQ90jr256tgb
+	O0NvpCfX8I4177xTCqFy6+0GqSc1O13FygVU35Gfqc89Bb3cnDDVi1aoAchAUR3jHNwi
+	OMX8FPZRV5d342yJUMEPE2nsDmo7EghxgYPNHUf4ORghIi8/ikTpBuA9zjVsNpnZmsrl
+	pbXmraKuAPmPnWy9+BGsbEW80HL5qe6qH7dB495tU5GLK4ASK+F7BEJ31lRL6oChxGrL
+	0e6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=1DDklOhO5nlzP+BGag6dmBFCIb9j1ubPYn7pqdGw0W0=;
+	b=FPJXq7f/ahHDhXj1wWLCwswwiEfZAL6UnmRoxwC1ZG7yOfewygkR+hwNibobrzN9+Y
+	6z7d7n9Z9Me+a23R+FS+SEJnMP0PKozLcXq/g588fx0Y+/wxdZzK1dGaWnUCg14pHbDM
+	8l97nynFhHs3vY9da0nJcAx10DxeDwc/jc5FKjh9uS/S65gaiTp/4qc0hIR+glZ6FGEV
+	F54GQXoTYxFY73Clg1arlECoGU7zlv8rK7PNPrKJmBmW5usmq+94moenvbmpnIiG5Dsy
+	iglnYa+afwLohFEJCjNDAczGq+Cu3T+3WlW5RbM2jMWUSR0Bt5pAnUjW9L7AcRwKdlgF
+	EMtQ==
+X-Gm-Message-State: ABuFfoix13rBYjlgPrBRTRLGdERSO+wNMp2Y3DlR7we9orJ9dsxCQtGF
+	cQKcg6qaJZvUIbWfbxhXt7TNK+MwWx0=
+X-Google-Smtp-Source: ACcGV61ztEdAd58bRlu7Di1vAGSWPQjlzUEQcKZL7Kgtm4vmg4JWrXgsSOE6Je5h7ZciTP7Izu7l/A==
+X-Received: by 2002:a1c:448a:: with SMTP id
+	r132-v6mr5689844wma.132.1539966508160; 
+	Fri, 19 Oct 2018 09:28:28 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	r131-v6sm5717798wmb.32.2018.10.19.09.28.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 19 Oct 2018 09:28:27 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Oct 2018 18:15:23 +0200
-Message-Id: <20181019161523.24032-1-olofjn@axis.com>
+Date: Fri, 19 Oct 2018 17:28:24 +0100
+Message-Id: <20181019162824.3847-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-X-TM-AS-GCONF: 00
-Subject: [PATCHv3] devtool-source.bbclass: Only create each patch branch once
+Subject: [PATCH] openssl: fix ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,70 +57,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 16:15:24 -0000
+X-List-Received-Date: Fri, 19 Oct 2018 16:28:28 -0000
 
-For conditonally applied patches based on SRC_URI overrides, the
-devtool-source class would try to create a new branch for each override
-assignment as a postfunc to do_patch, but if the same override was used
-multiple times, it would try to create the same branch multiple times,
-causing errors like
+Previously the ptest installation was simply a copy of the entire build tree,
+which is terribly ugly.
 
-> Exception: bb.process.ExecutionError: Execution of
-\   'git checkout f0f0f0f0f0ff0f0f0f0f0f0f0f0f0f0f0ff0f0f0 -b devtool-override-foo'
-\   failed with exit code 128:
-> fatal: A branch named 'devtool-override-foo' already exists.
+Instead copy just the pieces we need, symlink to /usr as appropriate, and add
+missing dependencies.
 
-This change makes sure that the devtool-source bbclass will only create
-one branch per override.
+Also remember to do 'set -x' in run-ptest, so if the tests fail the runner
+knows!
 
-Signed-off-by: Olof Johansson <olofjn@axis.com>
-Reviewed-by: Peter Kjellerstedt <pkj@axis.com>
+[ YOCTO #12965 ]
+[ YOCTO #12967 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/devtool-source.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
----
-v1 -> v2: Peter Kjellerstedt pointed out some issues with v1; this updated
-change is simpler. In addition to what Richard said about it causing failures
-in oe-selftest. I had a issues running oe-selftest, mostly because of the large
-storage requirements of /tmp and issues with company internal git hooks.  I
-think I managed to run all the tests with passing results now, but please be
-vigilante of testcase failures; sorry in advance!
+ meta/recipes-connectivity/openssl/openssl/run-ptest | 14 ++++++++++----
+ meta/recipes-connectivity/openssl/openssl_1.1.1.bb  | 18 ++++++++++++++++--
+ 2 files changed, 26 insertions(+), 6 deletions(-)
 
-v2 -> v3: it seems i can manage to use git send-email/format-patch properly
-today due to serious pebkac issues, sorry for the spam. Remove change-id and
-re-add the patch "changelog".
-
-
-diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-source.bbclass
-index 67cd0bafb20..1372e32c9e5 100644
---- a/meta/classes/devtool-source.bbclass
-+++ b/meta/classes/devtool-source.bbclass
-@@ -183,14 +183,14 @@ python devtool_post_patch() {
+diff --git a/meta/recipes-connectivity/openssl/openssl/run-ptest b/meta/recipes-connectivity/openssl/openssl/run-ptest
+index 65c6cc7b862..c2d8885abde 100644
+--- a/meta/recipes-connectivity/openssl/openssl/run-ptest
++++ b/meta/recipes-connectivity/openssl/openssl/run-ptest
+@@ -1,4 +1,10 @@
+-#!/bin/sh
+-cd test
+-OPENSSL_ENGINES=../engines BLDTOP=.. SRCTOP=.. perl run_tests.pl
+-cd ..
++#!/bin/sh -x
++
++# Optional arguments are 'list' to lists all tests, or the test name (base name
++# ie test_evp, not 03_test_evp.t).
++
++export TOP=.
++# OPENSSL_ENGINES is relative from the test binaries
++export OPENSSL_ENGINES=../engines
++
++perl ./test/run_tests.pl $*
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+index 0d80aba64d7..001ab5fcf62 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+@@ -151,7 +151,21 @@ do_install_append_class-nativesdk () {
+ }
  
-     extra_overrides = d.getVar('DEVTOOL_EXTRA_OVERRIDES')
-     if extra_overrides:
--        extra_override_list = extra_overrides.split(':')
-+        extra_overrides = set(extra_overrides.split(':'))
-         devbranch = d.getVar('DEVTOOL_DEVBRANCH')
-         default_overrides = d.getVar('OVERRIDES').split(':')
-         no_overrides = []
-         # First, we may have some overrides that are referred to in the recipe set in
-         # our configuration, so we need to make a branch that excludes those
-         for override in default_overrides:
--            if override not in extra_override_list:
-+            if override not in extra_overrides:
-                 no_overrides.append(override)
-         if default_overrides != no_overrides:
-             # Some overrides are active in the current configuration, so
-@@ -208,7 +208,7 @@ python devtool_post_patch() {
-         else:
-             bb.process.run('git checkout %s -b devtool-no-overrides' % devbranch, cwd=srcsubdir)
+ do_install_ptest () {
+-	cp -r * ${D}${PTEST_PATH}
++	cp ${B}/Configure ${B}/configdata.pm ${D}${PTEST_PATH}
++	# TODO fuzz needs to be pruned of non-binaries
++	cp -r ${B}/external ${B}/test ${B}/fuzz ${B}/util ${D}${PTEST_PATH}
++
++	# For test_shlibload
++	ln -s ${libdir}/libcrypto.so.1.1 ${D}${PTEST_PATH}/libcrypto.so
++	ln -s ${libdir}/libssl.so.1.1 ${D}${PTEST_PATH}/libssl.so
++
++	install -d ${D}${PTEST_PATH}/apps
++	ln -s ${bindir}/openssl ${D}${PTEST_PATH}/apps
++	install -m644 ${B}/apps/*.pem ${B}/apps/*.srl ${B}/apps/openssl.cnf ${D}${PTEST_PATH}/apps
++	install -m755 ${B}/apps/CA.pl ${D}${PTEST_PATH}/apps
++
++	install -d ${D}${PTEST_PATH}/engines
++	install -m755 ${B}/engines/ossltest.so ${D}${PTEST_PATH}/engines
+ }
  
--        for override in extra_override_list:
-+        for override in extra_overrides:
-             localdata = bb.data.createCopy(d)
-             if override in default_overrides:
-                 bb.process.run('git branch devtool-override-%s %s' % (override, devbranch), cwd=srcsubdir)
+ PRIVATE_LIBS_${PN}-ptest = "libcrypto.so.1.1 libssl.so.1.1"
+@@ -176,7 +190,7 @@ CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+ RRECOMMENDS_libcrypto += "openssl-conf"
+ RDEPENDS_${PN}-bin = "perl"
+ RDEPENDS_${PN}-misc = "perl"
+-RDEPENDS_${PN}-ptest += "perl-module-file-spec-functions bash python"
++RDEPENDS_${PN}-ptest += "openssl-bin perl perl-modules bash python"
+ 
+ RPROVIDES_openssl-conf = "openssl10-conf"
+ RREPLACES_openssl-conf = "openssl10-conf"
 -- 
 2.11.0
 
