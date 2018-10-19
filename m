@@ -1,52 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id ACBC774C4D
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 48FC279D09
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 19:43:22 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id y144-v6so4696759wmd.4
+	Fri, 19 Oct 2018 22:05:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9JM5SSl026095
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 12:43:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=plVQuQc51GeWSqWrm1qrq4Vv6R1QHdakHjJSTPArf5M=;
-	b=oJu9mQlI6wKcnBndFgTdXygA8WSUraq3gZGQ4gcyhYMMS0ZQFzR3OwwPFiLzbLEjN3
-	UTG7KJH5A05mfejftas/mlHzk/nPiG1TmZjAiIANwsLHjmej1YGJMZsX/guxmgWdo2kc
-	XBLcG+owdEnumO7Uz2eKQCqJWBK6h7KjM8c2c2g4QVa+Dfa3hqPP4CBG+JUa2Z94axLj
-	bRkxViZHzryD8CVkR7g+bNPgbMFaSydkn1tb04VJxM5F3swJHE+9n1EcMYpWmyuF8wrr
-	4RubjC/g2EhknsDUrb5IBblDGF2zhwHm/CS1TuvQqfxADvnzpCWB4aRzmHSNuDJGRePG
-	gEVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=plVQuQc51GeWSqWrm1qrq4Vv6R1QHdakHjJSTPArf5M=;
-	b=MD/VyTW1/y6VHhNFowjcm7+pjcdkJUZbosf9x98OnXrIae0LmMzdhzmFn8VvgnZE82
-	50Yv9//ml54LX7zJRj4Gl/AzDV5NvhvNrCu22WhZUgoikzVa36mFWkFn+dxn3tsYYd13
-	o1OsIhk/YcLd/TqrIsZKLgBkuWdocALLO8btoHhs6eHOUSC0wN2GLZ0/iSdoFNfMXSSy
-	xQ40vyr/RbtXGxxv1iXdMOIYtqd0W6B6vuuNYOR0Wb8Q3cVD4fQmW/B2QYh0SVr1Wdmd
-	hKHe8Uuu37gD8pfwhQ5yutCLgrKJcN5KnEUhG3XUXVqVxc7srvd9hwdxLYvt7xo14zZh
-	qKZQ==
-X-Gm-Message-State: ABuFfogWFAE7jBmF3+Xj0DFiKn9Rxo7kx2Od2Xhv/2TEGidjjRjWfHdd
-	dFIN1++pPPo2w3NhWHR8ykjVmpkZHpg=
-X-Google-Smtp-Source: ACcGV60I9ZuvQvOz0X2UTiQSglfzIg/nn2cFOhV2VuMA8i7OoaGpWs+H5pKnODQ+XEreDnn8NofFoA==
-X-Received: by 2002:a1c:a90:: with SMTP id 138-v6mr6390274wmk.49.1539978203043;
-	Fri, 19 Oct 2018 12:43:23 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	134-v6sm2830398wmb.13.2018.10.19.12.43.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 19 Oct 2018 12:43:22 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Oct 2018 20:43:18 +0100
-Message-Id: <20181019194318.23511-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20181019194318.23511-1-ross.burton@intel.com>
-References: <20181019194318.23511-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] openssl: do an out-of-tree build
+	Fri, 19 Oct 2018 15:05:28 -0700 (PDT)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 19 Oct 2018 15:05:28 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <20181017022220.20841-1-Randy.MacLeod@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <5b788abc-abef-c5e4-b8d7-aa05bc3d4d9f@windriver.com>
+Date: Fri, 19 Oct 2018 18:05:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <20181017022220.20841-1-Randy.MacLeod@windriver.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: valgrind upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,64 +34,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 19:43:23 -0000
+X-List-Received-Date: Fri, 19 Oct 2018 22:05:28 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-OpenSSL supports out-of-tree builds so we should use them.  This makes builds
-more reliable, and makes it easier to reduce the size of the ptest package.
+On 10/16/18 10:22 PM, Randy MacLeod wrote:
+> * Valgrind is now buildable with link-time optimisation (LTO).  A new
+>    configure option --enable-lto=yes allows building Valgrind with LTO.  If the
+>    toolchain supports it, this produces a smaller/faster Valgrind (up to 10%).
+>    Note that if you are doing Valgrind development, --enable-lto=yes massively
+>    slows down the build process.
+> -- I haven't added support for that option yet. A 10% performance boost
+>     is hard to turn down but we'd need to understand the build impact.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/openssl/openssl_1.1.1.bb | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+Building the native valgrind 3.14ish
+    8b689c66d (origin/master, origin/HEAD)
+       Implement VG_(apply_ExeContext)().
+on my 4 core laptop with 16 GB RAM, SSD running ubuntu-18.04
+outside of bitbake just for a baseline.
+/usr/bin/time says:
+   CPU: ~3.8x more time and :
+   RAM: 348 MB vs 519 MB Max memory usage
+See below for logs.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-index 4516f610217..af9038abd5f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-@@ -26,6 +26,9 @@ SRC_URI[sha256sum] = "2836875a0f89c03d0fdf483941512613a50cfb421d6fd94b9f41d7279d
- 
- inherit lib_package multilib_header ptest
- 
-+B = "${WORKDIR}/build"
-+do_configure[cleandirs] = "${B}"
-+
- #| ./libcrypto.so: undefined reference to `getcontext'
- #| ./libcrypto.so: undefined reference to `setcontext'
- #| ./libcrypto.so: undefined reference to `makecontext'
-@@ -107,7 +110,7 @@ do_configure () {
- 	# WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
- 	# environment variables set by bitbake. Adjust the environment variables instead.
- 	PERL5LIB="${S}/external/perl/Text-Template-1.46/lib/" \
--	perl ./Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=${libdir} $target
-+	perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=${libdir} $target
- }
- 
- do_install () {
-@@ -151,9 +154,11 @@ do_install_append_class-nativesdk () {
- }
- 
- do_install_ptest () {
--	cp ${B}/Configure ${B}/configdata.pm ${D}${PTEST_PATH}
--	# TODO fuzz needs to be pruned of non-binaries
--	cp -r ${B}/external ${B}/test ${B}/fuzz ${B}/util ${D}${PTEST_PATH}
-+	# Prune the build tree
-+	rm -f ${B}/fuzz/*.* ${B}/test/*.*
-+
-+	cp ${S}/Configure ${B}/configdata.pm ${D}${PTEST_PATH}
-+	cp -r ${S}/external ${B}/test ${S}/test ${B}/fuzz ${S}/util ${B}/util ${D}${PTEST_PATH}
- 
- 	# For test_shlibload
- 	ln -s ${libdir}/libcrypto.so.1.1 ${D}${PTEST_PATH}/libcrypto.so
-@@ -161,7 +166,7 @@ do_install_ptest () {
- 
- 	install -d ${D}${PTEST_PATH}/apps
- 	ln -s ${bindir}/openssl ${D}${PTEST_PATH}/apps
--	install -m644 ${B}/apps/*.pem ${B}/apps/*.srl ${B}/apps/openssl.cnf ${D}${PTEST_PATH}/apps
-+	install -m644 ${S}/apps/*.pem ${S}/apps/*.srl ${S}/apps/openssl.cnf ${D}${PTEST_PATH}/apps
- 	install -m755 ${B}/apps/CA.pl ${D}${PTEST_PATH}/apps
- 
- 	install -d ${D}${PTEST_PATH}/engines
+I tried to use --enable-lto in the recipe
+but that configure option was ignored so for now
+I'm not going to worry about it. If we get it working,
+I'd want the faster build as the default with a PACKAGECONFIG for
+people who want to pay at compile time for a 0-10% improvement
+in runtime behaviour.
+
+../Randy
+
+
+
+> 
+> * The new option --keep-debuginfo=no|yes (default no) can be used to retain
+>    debug info for unloaded code.  This allows saved stack traces (e.g. for
+>    memory leaks) to include file/line info for code that has been dlclose'd (or
+>    similar).  See the user manual for more information and known limitations.
+> -- sounds like it should be a default but I haven't added it yet.
+
+This feature will have to wait until next week.
+
+I'll send what I have later tonight or perhaps tomorrow morning.
+
 -- 
-2.11.0
+# Randy MacLeod
+# Wind River Linux
 
+
+$ cat no-lto.log ;
+296.20user 13.31system 5:10.29elapsed 99%CPU
+   (0avgtext+0avgdata 347800maxresident)k
+224inputs+1783440outputs
+   (3major+5964298minor)pagefaults 0swaps
+
+$ cat with-lto.log
+1101.82user 23.79system 18:48.13elapsed 99%CPU
+   (0avgtext+0avgdata 519400maxresident)k
+39200inputs+4644952outputs
+   (177major+9033934minor)pagefaults 0swaps
+
+and FYI, on a 128 core server running
+bitbake -c configure valgrind &&
+    /usr/bin/time -o foo bitbake -c compile valgrind:
+
+$ cat compile-vg.log
+0.89user 0.14system 0:49.64elapsed 2%CPU
+   (0avgtext+0avgdata 28124maxresident)k
+0inputs+152outputs (0major+9873minor)pagefaults 0swaps
 
