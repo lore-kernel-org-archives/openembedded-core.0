@@ -1,47 +1,47 @@
 Return-Path: <olof.johansson@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DA81774588
+	by mail.openembedded.org (Postfix) with ESMTP id 9921579CF9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 16:07:31 +0000 (UTC)
+	Fri, 19 Oct 2018 16:15:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id B0A8218597
+	by bastet.se.axis.com (Postfix) with ESMTP id 2B04C18399
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:07:32 +0200 (CEST)
+	Fri, 19 Oct 2018 18:15:24 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id XRSrju9hLqIZ
+	port 10024) with LMTP id UX9jgWuUbHwK
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:07:30 +0200 (CEST)
+	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id A07A718343
+	by bastet.se.axis.com (Postfix) with ESMTPS id 51B971827E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:07:30 +0200 (CEST)
+	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8EC301A063
+	by IMSVA (Postfix) with ESMTP id 3A8F21A063
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:07:30 +0200 (CEST)
+	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8365E1A062
+	by IMSVA (Postfix) with ESMTP id 2F6811A062
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:07:30 +0200 (CEST)
+	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
 Received: from seth.se.axis.com (unknown [10.0.2.172])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:07:30 +0200 (CEST)
+	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
 Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by seth.se.axis.com (Postfix) with ESMTP id 779882BB3
+	by seth.se.axis.com (Postfix) with ESMTP id 234081037
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 18:07:30 +0200 (CEST)
+	Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
 Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id 6E73C9C121; Fri, 19 Oct 2018 18:07:30 +0200 (CEST)
+	id 1187B9C121; Fri, 19 Oct 2018 18:15:23 +0200 (CEST)
 From: Olof Johansson <olof.johansson@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Oct 2018 18:07:30 +0200
-Message-Id: <20181019160730.22775-1-olofjn@axis.com>
+Date: Fri, 19 Oct 2018 18:15:23 +0200
+Message-Id: <20181019161523.24032-1-olofjn@axis.com>
 X-Mailer: git-send-email 2.11.0
 X-TM-AS-GCONF: 00
-Subject: [PATCHv2] devtool-source.bbclass: Only create each patch branch once
+Subject: [PATCHv3] devtool-source.bbclass: Only create each patch branch once
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,7 +54,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 16:07:32 -0000
+X-List-Received-Date: Fri, 19 Oct 2018 16:15:24 -0000
 
 For conditonally applied patches based on SRC_URI overrides, the
 devtool-source class would try to create a new branch for each override
@@ -70,12 +70,23 @@ causing errors like
 This change makes sure that the devtool-source bbclass will only create
 one branch per override.
 
-Change-Id: I8adca0b54179793ca92478ad5b3b1b6e0448e26b
 Signed-off-by: Olof Johansson <olofjn@axis.com>
 Reviewed-by: Peter Kjellerstedt <pkj@axis.com>
 ---
  meta/classes/devtool-source.bbclass | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
+---
+v1 -> v2: Peter Kjellerstedt pointed out some issues with v1; this updated
+change is simpler. In addition to what Richard said about it causing failures
+in oe-selftest. I had a issues running oe-selftest, mostly because of the large
+storage requirements of /tmp and issues with company internal git hooks.  I
+think I managed to run all the tests with passing results now, but please be
+vigilante of testcase failures; sorry in advance!
+
+v2 -> v3: it seems i can manage to use git send-email/format-patch properly
+today due to serious pebkac issues, sorry for the spam. Remove change-id and
+re-add the patch "changelog".
+
 
 diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-source.bbclass
 index 67cd0bafb20..1372e32c9e5 100644
