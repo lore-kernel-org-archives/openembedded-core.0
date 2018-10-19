@@ -1,25 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B42C79CB8
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C1D579CB1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 02:37:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9J2bGcd014826
+	Fri, 19 Oct 2018 02:37:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9J2bRhL019969
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2018 19:37:16 -0700 (PDT)
+	Thu, 18 Oct 2018 19:37:37 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 18 Oct 2018 19:37:15 -0700
+	14.3.408.0; Thu, 18 Oct 2018 19:37:16 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Oct 2018 10:43:14 +0800
-Message-ID: <4fd2aa1ed5e52001ea32cdd2294302942e3b33f5.1539853014.git.Qi.Chen@windriver.com>
+Date: Fri, 19 Oct 2018 10:43:15 +0800
+Message-ID: <ac58ce31a9a0c4ea1b8a9696feffcc51f9d46955.1539853014.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1539853014.git.Qi.Chen@windriver.com>
 References: <cover.1539853014.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] python: backport patch to fix CVE-2018-1000802
+Subject: [PATCH 2/2] python: backport patch to fix CVE-2018-14647
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,104 +33,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 02:37:15 -0000
+X-List-Received-Date: Fri, 19 Oct 2018 02:37:47 -0000
 Content-Type: text/plain
 
-Backport a patch to fix the following CVE.
+Backport patch to fix the following CVE.
 
-CVE: CVE-2018-1000802
+CVE: CVE-2018-14647
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- ...34540-Convert-shutil._call_external_zip-t.patch | 69 ++++++++++++++++++++++
+ ...23-Use-XML_SetHashSalt-in-_elementtree-GH.patch | 98 ++++++++++++++++++++++
  meta/recipes-devtools/python/python_2.7.15.bb      |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch
+ 2 files changed, 99 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch
 
-diff --git a/meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch b/meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch
+diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch b/meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch
 new file mode 100644
-index 0000000..e6fe5f2
+index 0000000..42c64ca
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch
-@@ -0,0 +1,69 @@
-+From c7e692c61dc091d07dee573f5f424b6b427ff056 Mon Sep 17 00:00:00 2001
-+From: Benjamin Peterson <benjamin@python.org>
-+Date: Wed, 29 Aug 2018 21:59:21 -0700
-+Subject: [PATCH] closes bpo-34540: Convert shutil._call_external_zip to use
-+ subprocess rather than distutils.spawn. (GH-8985)
++++ b/meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch
+@@ -0,0 +1,98 @@
++From 3ffc80959f01f9fde548f1632694b9f950c2dd7c Mon Sep 17 00:00:00 2001
++From: Christian Heimes <christian@python.org>
++Date: Tue, 18 Sep 2018 15:13:09 +0200
++Subject: [PATCH] [2.7] bpo-34623: Use XML_SetHashSalt in _elementtree
++ (GH-9146) (GH-9394)
++
++The C accelerated _elementtree module now initializes hash randomization
++salt from _Py_HashSecret instead of libexpat's default CPRNG.
++
++Signed-off-by: Christian Heimes <christian@python.org>
++
++https://bugs.python.org/issue34623.
++(cherry picked from commit cb5778f00ce48631c7140f33ba242496aaf7102b)
++
++Co-authored-by: Christian Heimes <christian@python.org>
++
++
++
++https://bugs.python.org/issue34623
 +
 +Upstream-Status: Backport
 +
-+Fix CVE-2018-1000802
++Fix CVE-2018-14647
 +
 +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 +---
-+ Lib/shutil.py                                            | 16 ++++++++++------
-+ .../Security/2018-08-28-22-11-54.bpo-34540.gfQ0TM.rst    |  3 +++
-+ 2 files changed, 13 insertions(+), 6 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2018-08-28-22-11-54.bpo-34540.gfQ0TM.rst
++ Include/pyexpat.h                                                  | 4 +++-
++ Misc/NEWS.d/next/Security/2018-09-10-16-05-39.bpo-34623.Ua9jMv.rst | 2 ++
++ Modules/_elementtree.c                                             | 5 +++++
++ Modules/pyexpat.c                                                  | 5 +++++
++ 4 files changed, 15 insertions(+), 1 deletion(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2018-09-10-16-05-39.bpo-34623.Ua9jMv.rst
 +
-+diff --git a/Lib/shutil.py b/Lib/shutil.py
-+index 3462f7c..0ab1a06 100644
-+--- a/Lib/shutil.py
-++++ b/Lib/shutil.py
-+@@ -413,17 +413,21 @@ def _make_tarball(base_name, base_dir, compress="gzip", verbose=0, dry_run=0,
++diff --git a/Include/pyexpat.h b/Include/pyexpat.h
++index 5340ef5..3fc5fa5 100644
++--- a/Include/pyexpat.h
+++++ b/Include/pyexpat.h
++@@ -3,7 +3,7 @@
 + 
-+     return archive_name
++ /* note: you must import expat.h before importing this module! */
 + 
-+-def _call_external_zip(base_dir, zip_filename, verbose=False, dry_run=False):
-++def _call_external_zip(base_dir, zip_filename, verbose, dry_run, logger):
-+     # XXX see if we want to keep an external call here
-+     if verbose:
-+         zipoptions = "-r"
-+     else:
-+         zipoptions = "-rq"
-+-    from distutils.errors import DistutilsExecError
-+-    from distutils.spawn import spawn
-++    cmd = ["zip", zipoptions, zip_filename, base_dir]
-++    if logger is not None:
-++        logger.info(' '.join(cmd))
-++    if dry_run:
-++        return
-++    import subprocess
-+     try:
-+-        spawn(["zip", zipoptions, zip_filename, base_dir], dry_run=dry_run)
-+-    except DistutilsExecError:
-++        subprocess.check_call(cmd)
-++    except subprocess.CalledProcessError:
-+         # XXX really should distinguish between "couldn't find
-+         # external 'zip' command" and "zip failed".
-+         raise ExecError, \
-+@@ -458,7 +462,7 @@ def _make_zipfile(base_name, base_dir, verbose=0, dry_run=0, logger=None):
-+         zipfile = None
++-#define PyExpat_CAPI_MAGIC  "pyexpat.expat_CAPI 1.0"
+++#define PyExpat_CAPI_MAGIC  "pyexpat.expat_CAPI 1.1"
++ #define PyExpat_CAPSULE_NAME "pyexpat.expat_CAPI"
 + 
-+     if zipfile is None:
-+-        _call_external_zip(base_dir, zip_filename, verbose, dry_run)
-++        _call_external_zip(base_dir, zip_filename, verbose, dry_run, logger)
-+     else:
-+         if logger is not None:
-+             logger.info("creating '%s' and adding '%s' to it",
-+diff --git a/Misc/NEWS.d/next/Security/2018-08-28-22-11-54.bpo-34540.gfQ0TM.rst b/Misc/NEWS.d/next/Security/2018-08-28-22-11-54.bpo-34540.gfQ0TM.rst
++ struct PyExpat_CAPI 
++@@ -43,6 +43,8 @@ struct PyExpat_CAPI
++         XML_Parser parser, XML_UnknownEncodingHandler handler,
++         void *encodingHandlerData);
++     void (*SetUserData)(XML_Parser parser, void *userData);
+++    /* might be none for expat < 2.1.0 */
+++    int (*SetHashSalt)(XML_Parser parser, unsigned long hash_salt);
++     /* always add new stuff to the end! */
++ };
++ 
++diff --git a/Misc/NEWS.d/next/Security/2018-09-10-16-05-39.bpo-34623.Ua9jMv.rst b/Misc/NEWS.d/next/Security/2018-09-10-16-05-39.bpo-34623.Ua9jMv.rst
 +new file mode 100644
-+index 0000000..4f68696
++index 0000000..31ad92e
 +--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2018-08-28-22-11-54.bpo-34540.gfQ0TM.rst
-+@@ -0,0 +1,3 @@
-++When ``shutil.make_archive`` falls back to the external ``zip`` problem, it
-++uses :mod:`subprocess` to invoke it rather than :mod:`distutils.spawn`. This
-++closes a possible shell injection vector.
+++++ b/Misc/NEWS.d/next/Security/2018-09-10-16-05-39.bpo-34623.Ua9jMv.rst
++@@ -0,0 +1,2 @@
+++The C accelerated _elementtree module now initializes hash randomization
+++salt from _Py_HashSecret instead of libexpat's default CSPRNG.
++diff --git a/Modules/_elementtree.c b/Modules/_elementtree.c
++index 1d316a1..a19cbf7 100644
++--- a/Modules/_elementtree.c
+++++ b/Modules/_elementtree.c
++@@ -2574,6 +2574,11 @@ xmlparser(PyObject* self_, PyObject* args, PyObject* kw)
++         PyErr_NoMemory();
++         return NULL;
++     }
+++    /* expat < 2.1.0 has no XML_SetHashSalt() */
+++    if (EXPAT(SetHashSalt) != NULL) {
+++        EXPAT(SetHashSalt)(self->parser,
+++                           (unsigned long)_Py_HashSecret.prefix);
+++    }
++ 
++     ALLOC(sizeof(XMLParserObject), "create expatparser");
++ 
++diff --git a/Modules/pyexpat.c b/Modules/pyexpat.c
++index 2b4d312..1f8c0d7 100644
++--- a/Modules/pyexpat.c
+++++ b/Modules/pyexpat.c
++@@ -2042,6 +2042,11 @@ MODULE_INITFUNC(void)
++     capi.SetProcessingInstructionHandler = XML_SetProcessingInstructionHandler;
++     capi.SetUnknownEncodingHandler = XML_SetUnknownEncodingHandler;
++     capi.SetUserData = XML_SetUserData;
+++#if XML_COMBINED_VERSION >= 20100
+++    capi.SetHashSalt = XML_SetHashSalt;
+++#else
+++    capi.SetHashSalt = NULL;
+++#endif
++ 
++     /* export using capsule */
++     capi_object = PyCapsule_New(&capi, PyExpat_CAPSULE_NAME, NULL);
 +-- 
 +2.7.4
 +
 diff --git a/meta/recipes-devtools/python/python_2.7.15.bb b/meta/recipes-devtools/python/python_2.7.15.bb
-index b402ad6..e8c9475 100644
+index e8c9475..dd969d8 100644
 --- a/meta/recipes-devtools/python/python_2.7.15.bb
 +++ b/meta/recipes-devtools/python/python_2.7.15.bb
-@@ -31,6 +31,7 @@ SRC_URI += "\
-   file://pass-missing-libraries-to-Extension-for-mul.patch \
+@@ -32,6 +32,7 @@ SRC_URI += "\
    file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
    file://float-endian.patch \
-+  file://0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch \
+   file://0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch \
++  file://0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch \
  "
  
  S = "${WORKDIR}/Python-${PV}"
