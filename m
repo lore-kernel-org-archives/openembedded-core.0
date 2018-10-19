@@ -1,35 +1,28 @@
-Return-Path: <o.mandel@menlosystems.com>
-X-Greylist: delayed 386 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 19 Oct 2018 15:28:54 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 80E56746D3
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DE17744AE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 15:28:54 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 42c8mN6p1Bz1r2sP;
-	Fri, 19 Oct 2018 17:22:28 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 42c8mN6Yx2z1qvlQ;
-	Fri, 19 Oct 2018 17:22:28 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id oGlvq-6y3WHQ; Fri, 19 Oct 2018 17:22:27 +0200 (CEST)
-X-Auth-Info: /SPblj6IaxH0FwsVqx/12hsZGH0n5ZlNCKPqMX1qh6q3IYsS/30YjjuqTBaJ5kDj
-Received: from menlobldserver.menlosystems.local
-	(host-141-40-253-35.customer.izb-online.de [141.40.253.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 19 Oct 2018 17:22:27 +0200 (CEST)
-From: Olaf Mandel <o.mandel@menlosystems.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Oct 2018 15:22:14 +0000
-Message-Id: <20181019152214.1600-1-o.mandel@menlosystems.com>
-X-Mailer: git-send-email 2.11.0
-Cc: marex@denx.de, Olaf Mandel <o.mandel@menlosystems.com>
-Subject: [PATCH] npm: change install directory to upstream default
+	Fri, 19 Oct 2018 15:38:25 +0000 (UTC)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 9DC405C0AF7;
+	Fri, 19 Oct 2018 17:38:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1539963505;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	in-reply-to:references; bh=7UMqKNrLN9vupFxiLdL12Dp6LGnpCkQizRPfRHmuIJg=;
+	b=x21nZLnNb5cel3WAFEiWkz6LHo8OeE363ZXx9JIo3yH5dOuOVWMu9wda7qg/LuNUX/65pU
+	psNn5JwDkPGw9GKZ/ZwTvOJ910lVPTghumGc6daARjQ+KyiJk7kVqcBeOk7ms5l8qeNBgN
+	xjnvp9qrpWNqr6XMbE3KC1eZCf/8CME=
+From: Stefan Agner <stefan@agner.ch>
+To: opkg-devel@googlegroups.com, alejandro.delcastillo@ni.com,
+	yocto@yoctoproject.org
+Date: Fri, 19 Oct 2018 17:38:21 +0200
+Message-Id: <20181019153821.21177-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.13.6
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	openembedded-core@lists.openembedded.org, ricardo@foundries.io
+Subject: [opkg-utils PATCH] opkg-make-index: use ctime instead of mtime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,55 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 15:28:54 -0000
+X-List-Received-Date: Fri, 19 Oct 2018 15:38:25 -0000
 
-The node binary searches for packages in a number of locations, the last
-of which is $PREFIX/lib/node (here: /usr/lib/node) from the list of
-GLOBAL_FOLDERS [1]. Change the installation directory for all packages
-depending on npm.bbclass to that location. This removes the need to
-define the NODE_PATH variable to the non-standard /usr/lib/node_modules
-value.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-While the Tips for Package Managers [2] discusses installing packages to
-/usr/lib/node_modules/<name>/<version>, this has several drawbacks:
+When using sstate, two parallel builds can produce two packages
+with the same mtime but different checksums. When later one of
+those two builds fetches the others ipk, the package index does
+not get udpated properly (since mtime matches). This ends up with
+messages such as:
+  Downloading file:/../tmp/work/../image/...ipk.
+  Removing corrupt package file /../sysroot/../var/cache/opkg/volatile/...ipk
 
- * it does not work for the REPL as mentioned in the documentation
- * it also does not work for any code _not_ installed as a global
-   package under /usr/lib/node_modules (e.g. /usr/share/foo.js will not
-   find any packages below /usr/lib)
- * using the non-default location and then having to set NODE_PATH
-   barely saves any time: there are only two file-system lookups (to the
-   legacy $HOME/.node_modules and $HOME/.node_libraries) directories
-   before the library would be found
+However, in that case, ctime is different. Use ctime instead of
+mtime to prevent failures like this.
 
-And the suggestion was made in the context of deduping the node_modules
-tree by installing all packages in a flat hierarchy and using symlinks
-to the correct version of each dependency. This is not what OpenEmbedded
-does, so none of those benefits (deduping, cleaner packages) are being
-had by shifting the installation directory to /usr/lib/node_modules.
-
-[1]: https://nodejs.org/api/modules.html#modules_loading_from_the_global_folders
-[2]: https://nodejs.org/api/modules.html#modules_addenda_package_manager_tips
-
-Signed-off-by: Olaf Mandel <o.mandel@menlosystems.com>
+Suggested-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- meta/classes/npm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This addresses the issue discussed here:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-October/156348.html
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index c351ff0866..d5ff0c6d57 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -10,7 +10,7 @@ def node_pkgname(d):
+ opkg-make-index | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/opkg-make-index b/opkg-make-index
+index 3227fc0..db7bf64 100755
+--- a/opkg-make-index
++++ b/opkg-make-index
+@@ -115,12 +115,12 @@ for abspath in files:
+      pkg = None
+      fnameStat = os.stat(abspath)
+      if filename in old_pkg_hash:
+-          if filename in pkgsStamps and int(fnameStat.st_mtime) == pkgsStamps[filename]:
++          if filename in pkgsStamps and int(fnameStat.st_ctime) == pkgsStamps[filename]:
+             if (verbose):
+                sys.stderr.write("Found %s in Packages\n" % (filename,))
+             pkg = old_pkg_hash[filename]
+           else:
+-               sys.stderr.write("Found %s in Packages, but mtime differs - re-reading\n" % (filename,))
++               sys.stderr.write("Found %s in Packages, but ctime differs - re-reading\n" % (filename,))
  
- NPMPN ?= "${@node_pkgname(d)}"
- 
--NPM_INSTALLDIR = "${D}${libdir}/node_modules/${NPMPN}"
-+NPM_INSTALLDIR = "${D}${libdir}/node/${NPMPN}"
- 
- # function maps arch names to npm arch names
- def npm_oe_arch_map(target_arch, d):
+      if not pkg:
+           if (verbose):
+@@ -137,7 +137,7 @@ for abspath in files:
+      else:
+           old_filename = ""
+      s = packages.add_package(pkg, opt_a)
+-     pkgsStamps[filename] = fnameStat.st_mtime
++     pkgsStamps[filename] = fnameStat.st_ctime
+      if s == 0:
+           if old_filename:
+                # old package was displaced by newer
 -- 
-2.11.0
+2.13.6
 
 
