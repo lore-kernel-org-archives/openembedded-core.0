@@ -1,55 +1,46 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A03E79CFE
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 92E6279BFC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 17:28:30 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 189-v6so4381917wmw.2
+	Fri, 19 Oct 2018 17:34:47 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id i8-v6so4367696wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 10:28:31 -0700 (PDT)
+	Fri, 19 Oct 2018 10:34:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=TrstOiQU4IyGK6e5qtRqvnnve11S/U0HFsgV00UEotY=;
-	b=UAL6+SbvzDTx0fYAGDlv0oZzWFBcJY7Y+Of8WL7rI7lK4kE1JpV6GPweRRaUfdEwTi
-	R5t1GgMe026YMfkSytZA6qAKsEuVTT6us+xMrIbrc/9JpLQI+zlqWJno1oP68Ix0Rw1s
-	BHx0V0S4AAjMotLKp36eNggAAmU28Ziv9l/cM=
+	h=from:to:subject:date:message-id;
+	bh=VRdUr2wHi9eu/um3NZmcc+eBFsRQGYwkkxRQ6F4uESw=;
+	b=h8hOOSrMkGfbJn0fhUs+BlEICN9YcEp2VVQ/cEn4Y1CG/DJziQDPZWxboDWiKSGnSl
+	DlA8T5BWppmGGFafaUPwy6Uizh0bOUpv6Re/5jPwQsQ+w6quTOxgfCW/bQA+lXOnNev6
+	LdfzE42ilbssoT0zC8JdWnDzA93aQrldUqgqc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=TrstOiQU4IyGK6e5qtRqvnnve11S/U0HFsgV00UEotY=;
-	b=Itm+McD1WWSYx2M067XJj2HuWCBzd5mzO03icljJzNTRM4kRJN7wiqCDFpr16QuMIK
-	kQUgDjt6iVO+91LERU9zhQdQeHnq2hUME+gJ6rcjmsCU0ZGYpWTn1n+6ksBE9rKtjOn1
-	stNa5b1SiihsDn7L4MdYkjxNkGlBWRi1Z5S5NDAXYoC7DAk9FP9Jj3FaM+ylTnKfxERF
-	FLSyRwoQfNLH+TBIPrI5og/6iQikZbCsL+xaX14XfaurhDqnNkXHWXA/EuReIBsXN1q1
-	OQvjhQHO6Yfk7P3hFKuxdNlS3N3jfWg2KT59d3tdv3tBj2aN6qoTNQdiZ4bgOWcSWQzb
-	Zc+Q==
-X-Gm-Message-State: ABuFfog8Mk8AX998cJGFcLGrxGVzAjhuCd6s4UtlmkTBD3kccwUXRXgO
-	iD+XIV26S+em57hQ7eo+0fhSEg==
-X-Google-Smtp-Source: ACcGV6287XLTWPXNmzi+7T1Y7+I7hmEl5mcYe4C9XdbqaEX+QQd9uVS1J/xOAlF/BfjsWVrkg6BpNQ==
-X-Received: by 2002:a7b:c151:: with SMTP id
-	z17-v6mr6051882wmi.39.1539970110740; 
-	Fri, 19 Oct 2018 10:28:30 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=VRdUr2wHi9eu/um3NZmcc+eBFsRQGYwkkxRQ6F4uESw=;
+	b=geWp04txfGMFFZo8I3CKZBBKssnBZgISu39VfWsAE3dFIUYRPxLzeJxgqlCm/EYECU
+	ocqNShrOy1PtBCENVvlcJI9NI8Vis9ijgVGpv0mmRmB21Hz8EzwMXUPjCH4IpTp9txTe
+	mIwXg7rtm7PlTeI122DPi8xo1actLwdaf8wIYPr4MNQ2UuaQK7j0hx88P0dsjMlGGCh5
+	7XX1mF4NdjQo2LmmtfBQute/Pgc/GdOI++R+stA9CYG67jzSO23XByGln2JE+tnWvwYD
+	jc+ck9ePu3hlIMXFW+tGraBk3QiCFXDC16kX3cWKBhcrldpMIcp7FDSEdCJyl/BvqYqz
+	sKmw==
+X-Gm-Message-State: ABuFfohLGD9HdfGmPOEh2HD5TsUB0CJFxB09rTyOPqvhUtM42kMdRmYR
+	jjSczm5MMU1XAP+mVkUs0VHn4tosQn8=
+X-Google-Smtp-Source: ACcGV61AqD6c9hFCr9/JEfvTF95QTjuPdpUxxj1YHU233EeCyvYLKBDBZEjvCWWNJje0ofK6T6AMIQ==
+X-Received: by 2002:a1c:9ca:: with SMTP id 193-v6mr6031970wmj.86.1539970487666;
+	Fri, 19 Oct 2018 10:34:47 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	m12sm20859271wrx.75.2018.10.19.10.28.29
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 19 Oct 2018 10:28:29 -0700 (PDT)
-Message-ID: <f595aee61f3c533f9d08152a2b3c896a9a4e2f16.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Randy MacLeod <randy.macleod@windriver.com>, Dan McGregor
-	<danismostlikely@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 19 Oct 2018 18:28:28 +0100
-In-Reply-To: <ade6aec7-e193-bc8e-531f-811a17cb6bbf@windriver.com>
-References: <20181018152215.23525-1-danismostlikely@gmail.com>
-	<fa65fef901b5056d730703ce1c01a1594b2dc37c.camel@linuxfoundation.org>
-	<64558ddd-8865-a96b-cc19-5c0e6d270754@windriver.com>
-	<ade6aec7-e193-bc8e-531f-811a17cb6bbf@windriver.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2] util-linux: alternatify cal, rev, and ionice
+	m16-v6sm4732138wmd.35.2018.10.19.10.34.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 19 Oct 2018 10:34:46 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Oct 2018 18:34:44 +0100
+Message-Id: <20181019173444.21882-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] image_types: Fix a shell syntax error in do_image_ubi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,29 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 17:28:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Oct 2018 17:34:48 -0000
 
-On Fri, 2018-10-19 at 10:23 -0400, Randy MacLeod wrote:
-> On 10/19/18 10:18 AM, Randy MacLeod wrote:
-> > On 10/19/18 9:47 AM, Richard Purdie wrote:
-> > > 
-> > > The rebase went wrong here. I'll try and fix this up in -next and
-> > > retest so we can figure out if switch_root really is broken (cc
-> > > Randy)...
-> > 
-> > Ah, so it seems. Deleting switch-root alternatives, eh... WTF Dan!
-> > :)
-> > 
-> 
-> Oh, the oe-core commit log for master-next shows that Dan's
-> commit is fine so it's *Richard's" rebase. I rescind my humorous WTF.
+| DEBUG: Executing shell function do_image_ubi
+| /home/pokybuild/yocto-worker/nightly-oe-selftest/build/build-st-31289/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp/run.do_image_ubi.7928: 123: [: missing ]
 
-It was Dan's patch that was broken and I've now fixed it in -next ;-)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/image_types.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 00a00d318f4..05e5b0a2e0c 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -154,7 +154,7 @@ multiubi_mkfs() {
+ 	local ubinize_args="$2"
+     
+         # Added prompt error message for ubi and ubifs image creation.
+-        if [ -z "$mkubifs_args"] || [ -z "$ubinize_args" ]; then
++        if [ -z "$mkubifs_args" ] || [ -z "$ubinize_args" ]; then
+             bbfatal "MKUBIFS_ARGS and UBINIZE_ARGS have to be set, see http://www.linux-mtd.infradead.org/faq/ubifs.html for details"
+         fi
+     
+-- 
+2.17.1
 
 
