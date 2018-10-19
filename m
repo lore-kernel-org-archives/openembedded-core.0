@@ -1,52 +1,49 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 67DC779D01
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B338274C4D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 17:57:47 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id q39-v6so25862856lfi.8
+	Fri, 19 Oct 2018 19:43:21 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id y11-v6so4687217wma.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 10:57:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9QhfA9mDcn8LYkrAdjwfRIKJV+qEfgMWqOxnpf/bXa0=;
-	b=drJaN0i4ST35anCCKmZlHD1djDP8tmz/Th5DHGE6ROM3ngkz3f7AQ6nWZlAnpzQoM7
-	ICPEVKlHGTDgr0M3sJX5dY5jeuNfQ5CtB9UkUPnKbEfBVAtJuAtE5/3Wzhwttp8G8w5A
-	yCEsd5F/Nz+OH0N9LjckN+qf2DCtfoKeh0etSXXQu28gi/7G0DS4CYZxGUUR0uK0u/Bm
-	ecrWbDXzr77NJ9WO0BgsdKVGzHzZClgcvteV6d39FJ2UAJv5z/82gzj1ltk3As5Og6Bx
-	FSkixiGnKSnEDyefXKoz6Z1mmRmYaUQYhiiT9PABiiz/q/3uwmj3jJS1anIUhL6A0z2V
-	JfpA==
+	Fri, 19 Oct 2018 12:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=UzkvKBpLJnDqBsLM0gAHY0ud+qWrd8rCqJ6QaXEq66g=;
+	b=tuwnZVK+lyQn2vGJq9/UIOqWVvy8RdyRwgWNgHH9192OmY0G1dlQioWll4l4GbbFNl
+	b3oszYtuZ1x1gIPPKRnSvR4A8Pnn7SuUF+jKdsSaDfVgQI2WFJKyNEiVoOTuyzJ+BUhs
+	jkSWnwH3Dqh9d15oAIjn+N0HOW4rwuO38AoHkGLL0wuHQ7dE/MVP8elpWhnjVZe/M+z/
+	HQ86r2aGa2lQnihbfz8YB3CR0lduP4cETY2abmS0915Whin/8D9rk5ZUUUSMn8j60Gvo
+	6qzi+RW/KmOjV6+fYUMBWHUC7K1QMDjTxEDdbpByVTETCY3yYhqCTuDpMpDQldFEDpFJ
+	PCzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9QhfA9mDcn8LYkrAdjwfRIKJV+qEfgMWqOxnpf/bXa0=;
-	b=lm7GZb1T99c9e9O70+dKSyg+YyFUS0GUHlJfs7E/VFO5WI8zz1TYKoIMNcK5nBaI5m
-	DGbgszBi6n/8LheEHCCnWYREr38JbmTcUQPgRMuLCXQMxjDfzgNVlAuQUCYkJv5izK05
-	fg0eOdz9QEsO10D+y4+HhbAgNENd+NinSPWj87ULgWZuQJ/JB0xSWKH/HQgHIVSCBVeH
-	gesLcmLSTbCPsFTWw8ILcDktZYQJK9GKsi4TteP5OtEiBa9dbK9/kP8dxZ69fmUyMvEv
-	XIW976lTD3MwFocxNBfl7t3xbU1ni4LTMPVEbnzCQSUN1c+AD7TvD8wOLk47J6ch/82N
-	hTeg==
-X-Gm-Message-State: ABuFfohVRbPpX3+9FAfij4IEbfoeLnPc3JIxNK16W82X9xMt0dbWFirq
-	+4SVbpBtSCc7cWOAQk6cNiQfwp3viyscon6IpeM=
-X-Google-Smtp-Source: ACcGV6275yJNE96STu/69pGnl2f2QjvgwffM9QZhEJbDONNPzRjveRSB1/gZrYwwyCu1WITWGt/FwHqYeM5QPspmoTM=
-X-Received: by 2002:a19:290e:: with SMTP id
-	p14-v6mr3802859lfp.85.1539971867890; 
-	Fri, 19 Oct 2018 10:57:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181018152215.23525-1-danismostlikely@gmail.com>
-	<fa65fef901b5056d730703ce1c01a1594b2dc37c.camel@linuxfoundation.org>
-	<64558ddd-8865-a96b-cc19-5c0e6d270754@windriver.com>
-	<ade6aec7-e193-bc8e-531f-811a17cb6bbf@windriver.com>
-	<f595aee61f3c533f9d08152a2b3c896a9a4e2f16.camel@linuxfoundation.org>
-In-Reply-To: <f595aee61f3c533f9d08152a2b3c896a9a4e2f16.camel@linuxfoundation.org>
-From: Dan McGregor <danismostlikely@gmail.com>
-Date: Fri, 19 Oct 2018 11:57:35 -0600
-Message-ID: <CACS+7ZTer-N21JisU61eobS65NhcFZ_dBqSPX6+iT42Vp_N_Zw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] util-linux: alternatify cal, rev, and ionice
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=UzkvKBpLJnDqBsLM0gAHY0ud+qWrd8rCqJ6QaXEq66g=;
+	b=j46oCfwrv2FoGJI+cC800rxk1zS+CRqUAwhrn//THmUcq2ZnbWWPom6uHnWqEl8VgT
+	tj9Gw2GbinEc30dAZQS3RgicDPHSHsVtxRXj0YIFLlnQmjKZqPYrNrGYl+ynHAJwBP+L
+	Kc96vjsrTx5r5f1ILJu7fNP8Dk9/e1FmeczS+wRlOIFmC1la2wl46JiVGfbuucLliMO2
+	xKQYxUiHmTYClSosG3cPTHpeoBzmrHperCFHvdlHID9FWdmt8goIhmUP7Mi83o6qvHF/
+	JXAS4cw8uQg+vvZJU4BFdNuiZRys9PBCHlPZS5kfjUMBeBjQ4m3VT+ZX2IlQfYM3+u+F
+	nUwA==
+X-Gm-Message-State: ABuFfohqlhpSgYdLs5YAT4G1jBbRnSM1WNj73iQZut5rtNjs3rXZxUEn
+	GkFjwEIBF8KE5pknfwyBLsnpw8csKn4=
+X-Google-Smtp-Source: ACcGV63RfDEagsW1FsNoTBF7Y687hzpc1H858TClzsfupU9YFqk5/QF3xVykSUhiX2LG7luJhqly+Q==
+X-Received: by 2002:a1c:7c07:: with SMTP id x7-v6mr6136079wmc.32.1539978201852;
+	Fri, 19 Oct 2018 12:43:21 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	134-v6sm2830398wmb.13.2018.10.19.12.43.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 19 Oct 2018 12:43:21 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Oct 2018 20:43:17 +0100
+Message-Id: <20181019194318.23511-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] openssl: fix ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +56,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 17:57:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 19 Oct 2018 19:43:22 -0000
 
-On Fri, 19 Oct 2018 at 11:28, <richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2018-10-19 at 10:23 -0400, Randy MacLeod wrote:
-> > On 10/19/18 10:18 AM, Randy MacLeod wrote:
-> > > On 10/19/18 9:47 AM, Richard Purdie wrote:
-> > > >
-> > > > The rebase went wrong here. I'll try and fix this up in -next and
-> > > > retest so we can figure out if switch_root really is broken (cc
-> > > > Randy)...
-> > >
-> > > Ah, so it seems. Deleting switch-root alternatives, eh... WTF Dan!
-> > > :)
-> > >
-> >
-> > Oh, the oe-core commit log for master-next shows that Dan's
-> > commit is fine so it's *Richard's" rebase. I rescind my humorous WTF.
->
-> It was Dan's patch that was broken and I've now fixed it in -next ;-)
+Previously the ptest installation was simply a copy of the entire build tree,
+which is terribly ugly.
 
-Thanks for that. Turns out I need to watch the commit log more closely
-when I'm rebasing stuff.
+Instead copy just the pieces we need, symlink to /usr as appropriate, and add
+missing dependencies.  Remove PRIVATE_LIBS as we don't ship copies of the
+libraries now.
 
->
-> Cheers,
->
-> Richard
->
+Also remember to do 'set -x' in run-ptest, so if the tests fail the runner
+knows!
+
+[ YOCTO #12965 ]
+[ YOCTO #12967 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/openssl/openssl/run-ptest | 14 +++++++++++---
+ meta/recipes-connectivity/openssl/openssl_1.1.1.bb  | 20 ++++++++++++++++----
+ 2 files changed, 27 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/run-ptest b/meta/recipes-connectivity/openssl/openssl/run-ptest
+index 65c6cc7b862..0a620dea74a 100644
+--- a/meta/recipes-connectivity/openssl/openssl/run-ptest
++++ b/meta/recipes-connectivity/openssl/openssl/run-ptest
+@@ -1,4 +1,12 @@
+ #!/bin/sh
+-cd test
+-OPENSSL_ENGINES=../engines BLDTOP=.. SRCTOP=.. perl run_tests.pl
+-cd ..
++
++set -e
++
++# Optional arguments are 'list' to lists all tests, or the test name (base name
++# ie test_evp, not 03_test_evp.t).
++
++export TOP=.
++# OPENSSL_ENGINES is relative from the test binaries
++export OPENSSL_ENGINES=../engines
++
++perl ./test/run_tests.pl $*
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+index 0d80aba64d7..4516f610217 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
+@@ -151,10 +151,22 @@ do_install_append_class-nativesdk () {
+ }
+ 
+ do_install_ptest () {
+-	cp -r * ${D}${PTEST_PATH}
+-}
++	cp ${B}/Configure ${B}/configdata.pm ${D}${PTEST_PATH}
++	# TODO fuzz needs to be pruned of non-binaries
++	cp -r ${B}/external ${B}/test ${B}/fuzz ${B}/util ${D}${PTEST_PATH}
++
++	# For test_shlibload
++	ln -s ${libdir}/libcrypto.so.1.1 ${D}${PTEST_PATH}/libcrypto.so
++	ln -s ${libdir}/libssl.so.1.1 ${D}${PTEST_PATH}/libssl.so
+ 
+-PRIVATE_LIBS_${PN}-ptest = "libcrypto.so.1.1 libssl.so.1.1"
++	install -d ${D}${PTEST_PATH}/apps
++	ln -s ${bindir}/openssl ${D}${PTEST_PATH}/apps
++	install -m644 ${B}/apps/*.pem ${B}/apps/*.srl ${B}/apps/openssl.cnf ${D}${PTEST_PATH}/apps
++	install -m755 ${B}/apps/CA.pl ${D}${PTEST_PATH}/apps
++
++	install -d ${D}${PTEST_PATH}/engines
++	install -m755 ${B}/engines/ossltest.so ${D}${PTEST_PATH}/engines
++}
+ 
+ # Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
+ # package RRECOMMENDS on this package. This will enable the configuration
+@@ -176,7 +188,7 @@ CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+ RRECOMMENDS_libcrypto += "openssl-conf"
+ RDEPENDS_${PN}-bin = "perl"
+ RDEPENDS_${PN}-misc = "perl"
+-RDEPENDS_${PN}-ptest += "perl-module-file-spec-functions bash python"
++RDEPENDS_${PN}-ptest += "openssl-bin perl perl-modules bash python"
+ 
+ RPROVIDES_openssl-conf = "openssl10-conf"
+ RREPLACES_openssl-conf = "openssl10-conf"
+-- 
+2.11.0
+
 
