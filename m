@@ -1,25 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 193EB79CE4
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B024774585
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Oct 2018 21:37:15 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w9KLbDbV030328
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 20 Oct 2018 22:37:15 +0100
-Message-ID: <2980ba34e7eb66ad6ad22d5cd85b12a9bb7e30b2.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Sat, 20 Oct 2018 22:37:11 +0100
-In-Reply-To: <aa81e6d3c24822a91432cac5af20378a65301254.1539926193.git.Qi.Chen@windriver.com>
-References: <cover.1539926193.git.Qi.Chen@windriver.com>
-	<aa81e6d3c24822a91432cac5af20378a65301254.1539926193.git.Qi.Chen@windriver.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/1] systemd: add back alternatives for init utitilies
+	Sat, 20 Oct 2018 23:21:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id E5E8518326
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 21 Oct 2018 01:21:01 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id nucbkAzKA1s9
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 21 Oct 2018 01:21:01 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 6288E18107
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 21 Oct 2018 01:21:01 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4B3811A05D
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 21 Oct 2018 01:21:01 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3FCC51A05C
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 21 Oct 2018 01:21:01 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 21 Oct 2018 01:21:01 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 321051B39
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 21 Oct 2018 01:21:01 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w9KNL3W2000806
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 21 Oct 2018 01:21:03 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w9KNL3fq000805
+	for openembedded-core@lists.openembedded.org;
+	Sun, 21 Oct 2018 01:21:03 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 21 Oct 2018 01:20:59 +0200
+Message-Id: <20181020232059.750-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] oe-selftest: devtool: Support meta being a symbolic link
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +60,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Oct 2018 21:37:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 20 Oct 2018 23:21:02 -0000
 
-On Fri, 2018-10-19 at 13:19 +0800, Chen Qi wrote:
-> Add back alternatives for init utilities to avoid regression.
-> 
-> These alternatives were removed when upgradeing systemd to 239.
-> They were removed out of the logic that init utitilies should be
-> bound to init manager. However, it turned out that two use cases
-> were not covered.
-> 
-> 1) initramfs using commands like 'reboot' from busybox.
-> 2) Users use customized busybox defconfig which enables init
-> utilities.
-> 
-> The first use case caused a regression bug in yocto.
->   https://bugzilla.yoctoproject.org/show_bug.cgi?id=12914
-> Patches were sent to fix the reboot problem.
-> 
-> But this is not enough. As we may have the second use case. In such
-> situation, users will find themselves having regression error when
-> using 'busybox + systemd' (and busybox is installed after systemd,
-> overriding the systemd symlinks).
-> 
-> So in order to avoid regression, add back these alternatives.
-> 
-> Signed-off-by
+oe-selftest's devtool tests have been broken since commit 2457cd57
+(oe-selftest: devtool: avoid parallel races by using temporary copy of
+core) if meta is a symbolic link.
 
-There is something odd going on which this change since it triggers:
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/35/builds/95/steps/7/logs/step7c
+I have tested this change with OE-Core, Poky and our own setup (where
+meta is a symbolic link).
 
-I've isolated it to this change having initially thought it was Mark's
-systemd change...
+ meta/lib/oeqa/selftest/cases/devtool.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 3c1189003d..9eb9badf84 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -32,8 +32,9 @@ def setUpModule():
+             # This helps us match exactly when we're using this path later
+             canonical_layerpath += '/'
+         if not edited_layers and canonical_layerpath.endswith('/meta/'):
++            canonical_layerpath = os.path.realpath(canonical_layerpath) + '/'
+             edited_layers.append(layerpath)
+-            oldmetapath = layerpath
++            oldmetapath = os.path.realpath(layerpath)
+             result = runCmd('git rev-parse --show-toplevel', cwd=canonical_layerpath)
+             oldreporoot = result.output.rstrip()
+             newmetapath = os.path.join(corecopydir, os.path.relpath(oldmetapath, oldreporoot))
+-- 
+2.12.0
 
 
