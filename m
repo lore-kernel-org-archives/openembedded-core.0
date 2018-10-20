@@ -1,27 +1,47 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 48FC279D09
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ACC1799F9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 22:05:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9JM5SSl026095
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2018 15:05:28 -0700 (PDT)
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Fri, 19 Oct 2018 15:05:28 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <20181017022220.20841-1-Randy.MacLeod@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <5b788abc-abef-c5e4-b8d7-aa05bc3d4d9f@windriver.com>
-Date: Fri, 19 Oct 2018 18:05:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Sat, 20 Oct 2018 01:50:30 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Oct 2018 18:50:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,402,1534834800"; d="scan'208";a="100803289"
+Received: from pgsmsx103.gar.corp.intel.com ([10.221.44.82])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2018 18:50:29 -0700
+Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.235]) by
+	PGSMSX103.gar.corp.intel.com ([169.254.2.13]) with mapi id
+	14.03.0319.002; Sat, 20 Oct 2018 09:50:28 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 2/5] oeqa/core/runner: write testresult to
+	json files
+Thread-Index: AQHUZFpfOT/nHdPUQkGGNeWjbyAeb6Ufel6AgAVLswCAAEX2gIACWWgQ
+Date: Sat, 20 Oct 2018 01:50:28 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335ECD5F8@KMSMSX155.gar.corp.intel.com>
+References: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
+	<1539588294-5532-2-git-send-email-ee.peng.yeoh@intel.com>
+	<ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
+	<9DDD2658D1FE414E99172D2DB1E4D04335ECCCF0@KMSMSX155.gar.corp.intel.com>
+	<5b431318cc50402e32836dbf42398e59ae323bee.camel@linuxfoundation.org>
+In-Reply-To: <5b431318cc50402e32836dbf42398e59ae323bee.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNzRhZGU4YjktYjBiOC00YThhLTk1ZmQtYjY1YmQzNDA3YmYwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoibHhsZ1VLRnk4UFd1N0kwa3VVSVFNWTJ5WHk3WGJcL09iQVhCR0xiZlVHOXY1N0xDck42NGRaWEhXY0VuU2dJXC9aIn0=
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-In-Reply-To: <20181017022220.20841-1-Randy.MacLeod@windriver.com>
-X-Originating-IP: [172.25.44.4]
-Subject: Re: valgrind upgrade
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
+Subject: Re: [PATCH 2/5] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,75 +54,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 22:05:28 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 20 Oct 2018 01:50:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 10/16/18 10:22 PM, Randy MacLeod wrote:
-> * Valgrind is now buildable with link-time optimisation (LTO).  A new
->    configure option --enable-lto=yes allows building Valgrind with LTO.  If the
->    toolchain supports it, this produces a smaller/faster Valgrind (up to 10%).
->    Note that if you are doing Valgrind development, --enable-lto=yes massively
->    slows down the build process.
-> -- I haven't added support for that option yet. A 10% performance boost
->     is hard to turn down but we'd need to understand the build impact.
-
-Building the native valgrind 3.14ish
-    8b689c66d (origin/master, origin/HEAD)
-       Implement VG_(apply_ExeContext)().
-on my 4 core laptop with 16 GB RAM, SSD running ubuntu-18.04
-outside of bitbake just for a baseline.
-/usr/bin/time says:
-   CPU: ~3.8x more time and :
-   RAM: 348 MB vs 519 MB Max memory usage
-See below for logs.
-
-I tried to use --enable-lto in the recipe
-but that configure option was ignored so for now
-I'm not going to worry about it. If we get it working,
-I'd want the faster build as the default with a PACKAGECONFIG for
-people who want to pay at compile time for a 0-10% improvement
-in runtime behaviour.
-
-../Randy
-
-
-
-> 
-> * The new option --keep-debuginfo=no|yes (default no) can be used to retain
->    debug info for unloaded code.  This allows saved stack traces (e.g. for
->    memory leaks) to include file/line info for code that has been dlclose'd (or
->    similar).  See the user manual for more information and known limitations.
-> -- sounds like it should be a default but I haven't added it yet.
-
-This feature will have to wait until next week.
-
-I'll send what I have later tonight or perhaps tomorrow morning.
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
-
-$ cat no-lto.log ;
-296.20user 13.31system 5:10.29elapsed 99%CPU
-   (0avgtext+0avgdata 347800maxresident)k
-224inputs+1783440outputs
-   (3major+5964298minor)pagefaults 0swaps
-
-$ cat with-lto.log
-1101.82user 23.79system 18:48.13elapsed 99%CPU
-   (0avgtext+0avgdata 519400maxresident)k
-39200inputs+4644952outputs
-   (177major+9033934minor)pagefaults 0swaps
-
-and FYI, on a 128 core server running
-bitbake -c configure valgrind &&
-    /usr/bin/time -o foo bitbake -c compile valgrind:
-
-$ cat compile-vg.log
-0.89user 0.14system 0:49.64elapsed 2%CPU
-   (0avgtext+0avgdata 28124maxresident)k
-0inputs+152outputs (0major+9873minor)pagefaults 0swaps
+SGkgUmljaGFyZCwNCg0KVGhhbmsgeW91IGZvciB5b3VyIGlucHV0cyEgDQpJIGFtIG5vdyB3b3Jr
+aW5nIG9uIHRoZSBuZXcgZmVhdHVyZXMgdGhhdCB5b3UgcmVxdWVzdGVkLiANCg0KQmVzdCByZWdh
+cmRzLA0KWWVvaCBFZSBQZW5nIA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTog
+cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZyBbbWFpbHRvOnJpY2hhcmQucHVyZGll
+QGxpbnV4Zm91bmRhdGlvbi5vcmddIA0KU2VudDogRnJpZGF5LCBPY3RvYmVyIDE5LCAyMDE4IDU6
+NTYgQU0NClRvOiBZZW9oLCBFZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPjsgb3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3Jl
+XSBbUEFUQ0ggMi81XSBvZXFhL2NvcmUvcnVubmVyOiB3cml0ZSB0ZXN0cmVzdWx0IHRvIGpzb24g
+ZmlsZXMNCg0KT24gVGh1LCAyMDE4LTEwLTE4IGF0IDA5OjQ3ICswMDAwLCBZZW9oLCBFZSBQZW5n
+IHdyb3RlOg0KPiBUaGFuayB5b3UgdmVyeSBtdWNoIGZvciB5b3VyIGdyZWF0IGZlZWRiYWNrcyBh
+bmQgaW5wdXRzIQ0KPiBJIGhhZCBjb21wbGV0ZWQgdGhlIHJlZmFjdG9yIGFuZCByZXN1Ym1pdHRl
+ZCB0aGUgcGF0Y2hlcyBhcyBiZWxvdy4gDQo+IFBsZWFzZSBsZXQgbWUga25vdyBpZiBhbnkgbW9y
+ZSBmZWVkYmFja3MgYW5kIGlucHV0cyENCg0KVGhhbmtzIGZvciB0aGUgcmV2aXNlZCBzZXJpZXMs
+IGl0cyBsb29raW5nIHZlcnkgbXVjaCBpbXByb3ZlZCEgSSd2ZSBxdWV1ZWQgMS81IG9udG8gdGhl
+IGF1dG9idWlsZGVyIGFuZCBpdHMgdGVzdGVkIG9rIHNvIHRoYXQgd2lsbCBsaWtlbHkgbWVyZ2Uu
+DQoNCkkgc3RpbGwgaGF2ZSBhIGZldyBjb25jZXJucyBhYm91dCB0aGUgZGF0YSBmb3JtYXQgZm9y
+IDIvNS4NCg0KQEAgLTI0OSwzICsyNTYsMjQgQEAgY2xhc3MgT0VUZXN0UnVubmVyKF9UZXN0UnVu
+bmVyKToNCj4gICAgICAgICAgICAgIHNlbGYuX2xpc3RfdGVzdHNfbW9kdWxlKHN1aXRlKQ0KPiAg
+DQo+ICAgICAgICAgIHJldHVybiBPRUxpc3RUZXN0c1Jlc3VsdCgpDQo+ICsNCj4gK2NsYXNzIE9F
+VGVzdFJlc3VsdEpTT05IZWxwZXIob2JqZWN0KToNCj4gKw0KPiArICAgIGRlZiBfY3JlYXRlX2pz
+b25fdGVzdHJlc3VsdF9zdHJpbmcoc2VsZiwgdGVzdF9yZXN1bHRzLCB0ZXN0X2Vudmlyb25tZW50
+cyk6DQo+ICsgICAgICAgIHRlc3RjYXNlX2RpY3QgPSB7fQ0KPiArICAgICAgICBmb3IgdGVzdGNh
+c2UgaW4gc29ydGVkKHRlc3RfcmVzdWx0cyk6DQo+ICsgICAgICAgICAgICB0ZXN0Y2FzZV9kaWN0
+W3Rlc3RjYXNlXSA9IHsidGVzdHJlc3VsdCI6IHRlc3RfcmVzdWx0c1t0ZXN0Y2FzZV1bMF0sICJs
+b2ciOiB0ZXN0X3Jlc3VsdHNbdGVzdGNhc2VdWzFdfQ0KPiArICAgICAgICB0ZXN0cmVzdWx0X29i
+amVjdCA9IHsndGVzdGVudmlyb25tZW50JzogdGVzdF9lbnZpcm9ubWVudHMsDQo+ICsgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICd0ZXN0Y2FzZSc6IHRlc3RjYXNlX2RpY3R9DQoNCkknZCBs
+aWtlIHRvIGJlIGFibGUgdG8gc3RvcmUgbW9yZSB0aGFuIG9uZSBzZXQgb2YgcmVzdWx0cyBpbiBh
+IHNpbmdsZSBqc29uIGZpbGUuIEluIG9yZGVyIHRvIG1ha2UgdGhhdCB3b3JrLCB0aGUgYWJvdmUg
+Zm9ybWF0IHdpbGwgbmVlZCB0d2Vha2luZyBzbGlnaHRseS4gU29tZXRoaW5nIGxpa2U6DQoNCnRl
+c3RyZXN1bHRfb2JqZWN0ID0ge3Jlc3VsdGlkIDogeydjb25maWd1cmF0aW9uJzogdGVzdF9lbnZp
+cm9ubWVudHMsDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJ3Jlc3VsdHMnOiB0
+ZXN0Y2FzZV9kaWN0fX0NCg0Kd2hlcmUgcmVzdWx0aWQgd291bGQgYmUgc29tZXRoaW5nIGxpa2Ug
+ImltYWdldGVzdC1xZW11eDg2LWNvcmUtaW1hZ2Utc2F0by1ZWU1NRERISE1NU1MiIA0KYW5kIHBh
+c3NlZCBpbiB0byB0aGUgZnVuY3Rpb24gYnkgdGhlIGNhbGwgc2l0ZS4gSXQnZCBiZSBzaW1pbGFy
+IHRvIHRoZSBvdGhlciBsb2cgZmlsZSB0aGUgdGVzdHMgZ2VuZXJhdGUuIFdlIGNvdWxkIGFsc28g
+cGVyaGFwcyB1c2UgcGlkIGluc3RlYWQgb2YgYSB0aW1lc3RhbXAgaW4gdGhlcmUuIEEgdGltZXN0
+YW1wIHdvdWxkIGJlIGdvb2QgaW4gdGhlIGNvbmZpZ3VyYXRpb24gc2VjdGlvbi4NCg0KQWxzbywg
+d2UgbmVlZCB0byByZWNvcmQgd2hpY2ggcmV2aXNpb24gb2YgdGhlIGNvbmZpZ3VyZWQgbGF5ZXJz
+IHRoaXMgdGVzdCByZXN1bHQgd2FzIHdpdGguIFRoZSBnZXRfbGF5ZXJzX2JyYW5jaF9yZXYoKSBm
+dW5jdGlvbiBpbiBiYXNlLmJiY2xhc3Mgc2hvdWxkIGdpdmUgYW4gaWRlYSBvZiBob3cgdG8gZ2V0
+IHRoaXMgaW5mb3JtYXRpb24gdXNpbmcgZXhpc3RpbmcgZnVuY3Rpb25zLg0KDQo+ICsgICAgICAg
+IHJldHVybiBqc29uLmR1bXBzKHRlc3RyZXN1bHRfb2JqZWN0LCBzb3J0X2tleXM9VHJ1ZSwgDQo+
+ICsgaW5kZW50PTQpDQo+ICsNCj4gKyAgICBkZWYgX3dyaXRlX2ZpbGUoc2VsZiwgd3JpdGVfZGly
+LCBmaWxlX25hbWUsIGZpbGVfY29udGVudCk6DQo+ICsgICAgICAgIGZpbGVfcGF0aCA9IG9zLnBh
+dGguam9pbih3cml0ZV9kaXIsIGZpbGVfbmFtZSkNCj4gKyAgICAgICAgd2l0aCBvcGVuKGZpbGVf
+cGF0aCwgJ3cnKSBhcyB0aGVfZmlsZToNCj4gKyAgICAgICAgICAgIHRoZV9maWxlLndyaXRlKGZp
+bGVfY29udGVudCkNCj4gKw0KPiArICAgIGRlZiBkdW1wX3Rlc3RyZXN1bHRfZmlsZShzZWxmLCB0
+ZXN0X3Jlc3VsdHMsIHRlc3RfZW52aXJvbm1lbnRzLCB3cml0ZV9kaXIpOg0KPiArICAgICAgICBp
+ZiBub3Qgb3MucGF0aC5leGlzdHMod3JpdGVfZGlyKToNCg0KTm8gbmVlZCBmb3IgdGhpcyBpZiB0
+ZXN0IGhlcmUgc2luY2UgbWtkaXJoaWVyIGhhbmRsZXMgdGhhdC4NCg0KPiArICAgICAgICAgICAg
+YmIudXRpbHMubWtkaXJoaWVyKHdyaXRlX2RpcikNCj4gKyAgICAgICAganNvbl90ZXN0cmVzdWx0
+ID0gc2VsZi5fY3JlYXRlX2pzb25fdGVzdHJlc3VsdF9zdHJpbmcodGVzdF9yZXN1bHRzLCB0ZXN0
+X2Vudmlyb25tZW50cykNCj4gKyAgICAgICAgc2VsZi5fd3JpdGVfZmlsZSh3cml0ZV9kaXIsICd0
+ZXN0cmVzdWx0cy5qc29uJywgDQo+ICsganNvbl90ZXN0cmVzdWx0KQ0KDQpBcyBtZW50aW9uZWQg
+YWJvdmUsIEknZCByZWFsbHkgbGlrZSBpZiBpZiB3ZSBjb3VsZCBwdXQgYWxsIHRoZSB0ZXN0IHJl
+c3VsdHMgaW50byBvbmUganNvbiBmaWxlIGFzIHRoaXMgd291bGQgc2F2ZSB0aGUgYXV0b2J1aWxk
+ZXIgaGF2aW5nIHRvIGNvbWJpbmUgdGhlbSBhbGwuIFRoYXQgc2hvdWxkIGJlIHN0cmFpZ2h0IGZv
+cndhcmQgdG8gZG8gYnV0IHdlIG5lZWQgdG8gYmUgY2FyZWZ1bCBhYm91dCByYWNlcy4NCg0KVGhp
+cyBtZWFucyBsb2NraW5nIGEgbG9ja2ZpbGUgYWxvbmdzaWRlIHRoZSByZXN1bHRzIGZpbGUgd2hp
+Y2ggd2UgY2FuIGRvIHdpdGggYmIudXRpbHMubG9ja2ZpbGUoKSBjYWxsLCB0aGVuIHdyaXRpbmcg
+dGhlIHJlc3VsdHMsIHRoZW4gY2FsbGluZyB1bmxvY2tmaWxlKCkuDQoNCldpdGggcmVnYXJkIHRv
+IHRoZSBvdGhlciBwYXRjaGVzLCBmb3Igc2VsZnRlc3Qgd2UgZG8gbmVlZCB0byBsb2cgd2hpY2gg
+TUFDSElORS9ESVNUUk8gd2FzIHVzZWQuDQoNCkRJU1RSTyBhbmQgSU1BR0VfUEtHVFlQRSBhbHNv
+IG5lZWRzIGFkZGluZyB0byB0ZXN0aW1hZ2UgYW5kIFNES01BQ0hJTkUgYW5kIElNQUdFX1BLR1RZ
+UEUgdG8gdGVzdHNkay4NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCg==
 
