@@ -1,47 +1,24 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ACC1799F9
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D88E478EFF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Oct 2018 01:50:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Oct 2018 18:50:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,402,1534834800"; d="scan'208";a="100803289"
-Received: from pgsmsx103.gar.corp.intel.com ([10.221.44.82])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2018 18:50:29 -0700
-Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.235]) by
-	PGSMSX103.gar.corp.intel.com ([169.254.2.13]) with mapi id
-	14.03.0319.002; Sat, 20 Oct 2018 09:50:28 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/5] oeqa/core/runner: write testresult to
-	json files
-Thread-Index: AQHUZFpfOT/nHdPUQkGGNeWjbyAeb6Ufel6AgAVLswCAAEX2gIACWWgQ
-Date: Sat, 20 Oct 2018 01:50:28 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335ECD5F8@KMSMSX155.gar.corp.intel.com>
-References: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1539588294-5532-2-git-send-email-ee.peng.yeoh@intel.com>
-	<ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D04335ECCCF0@KMSMSX155.gar.corp.intel.com>
-	<5b431318cc50402e32836dbf42398e59ae323bee.camel@linuxfoundation.org>
-In-Reply-To: <5b431318cc50402e32836dbf42398e59ae323bee.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNzRhZGU4YjktYjBiOC00YThhLTk1ZmQtYjY1YmQzNDA3YmYwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoibHhsZ1VLRnk4UFd1N0kwa3VVSVFNWTJ5WHk3WGJcL09iQVhCR0xiZlVHOXY1N0xDck42NGRaWEhXY0VuU2dJXC9aIn0=
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.206]
+	Sat, 20 Oct 2018 05:41:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9K5eq3C024402
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Oct 2018 22:41:03 -0700
+Received: from fidler.wrs.com (172.25.44.4) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 19 Oct 2018 22:40:30 -0700
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 20 Oct 2018 01:40:25 -0400
+Message-ID: <20181020054026.9619-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.17.0
 MIME-Version: 1.0
-Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
-Subject: Re: [PATCH 2/5] oeqa/core/runner: write testresult to json files
+Subject: v2: valgrind upgrade to 3.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,75 +31,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Oct 2018 01:50:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sat, 20 Oct 2018 05:41:13 -0000
+Content-Type: text/plain
 
-SGkgUmljaGFyZCwNCg0KVGhhbmsgeW91IGZvciB5b3VyIGlucHV0cyEgDQpJIGFtIG5vdyB3b3Jr
-aW5nIG9uIHRoZSBuZXcgZmVhdHVyZXMgdGhhdCB5b3UgcmVxdWVzdGVkLiANCg0KQmVzdCByZWdh
-cmRzLA0KWWVvaCBFZSBQZW5nIA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTog
-cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZyBbbWFpbHRvOnJpY2hhcmQucHVyZGll
-QGxpbnV4Zm91bmRhdGlvbi5vcmddIA0KU2VudDogRnJpZGF5LCBPY3RvYmVyIDE5LCAyMDE4IDU6
-NTYgQU0NClRvOiBZZW9oLCBFZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPjsgb3BlbmVt
-YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3Jl
-XSBbUEFUQ0ggMi81XSBvZXFhL2NvcmUvcnVubmVyOiB3cml0ZSB0ZXN0cmVzdWx0IHRvIGpzb24g
-ZmlsZXMNCg0KT24gVGh1LCAyMDE4LTEwLTE4IGF0IDA5OjQ3ICswMDAwLCBZZW9oLCBFZSBQZW5n
-IHdyb3RlOg0KPiBUaGFuayB5b3UgdmVyeSBtdWNoIGZvciB5b3VyIGdyZWF0IGZlZWRiYWNrcyBh
-bmQgaW5wdXRzIQ0KPiBJIGhhZCBjb21wbGV0ZWQgdGhlIHJlZmFjdG9yIGFuZCByZXN1Ym1pdHRl
-ZCB0aGUgcGF0Y2hlcyBhcyBiZWxvdy4gDQo+IFBsZWFzZSBsZXQgbWUga25vdyBpZiBhbnkgbW9y
-ZSBmZWVkYmFja3MgYW5kIGlucHV0cyENCg0KVGhhbmtzIGZvciB0aGUgcmV2aXNlZCBzZXJpZXMs
-IGl0cyBsb29raW5nIHZlcnkgbXVjaCBpbXByb3ZlZCEgSSd2ZSBxdWV1ZWQgMS81IG9udG8gdGhl
-IGF1dG9idWlsZGVyIGFuZCBpdHMgdGVzdGVkIG9rIHNvIHRoYXQgd2lsbCBsaWtlbHkgbWVyZ2Uu
-DQoNCkkgc3RpbGwgaGF2ZSBhIGZldyBjb25jZXJucyBhYm91dCB0aGUgZGF0YSBmb3JtYXQgZm9y
-IDIvNS4NCg0KQEAgLTI0OSwzICsyNTYsMjQgQEAgY2xhc3MgT0VUZXN0UnVubmVyKF9UZXN0UnVu
-bmVyKToNCj4gICAgICAgICAgICAgIHNlbGYuX2xpc3RfdGVzdHNfbW9kdWxlKHN1aXRlKQ0KPiAg
-DQo+ICAgICAgICAgIHJldHVybiBPRUxpc3RUZXN0c1Jlc3VsdCgpDQo+ICsNCj4gK2NsYXNzIE9F
-VGVzdFJlc3VsdEpTT05IZWxwZXIob2JqZWN0KToNCj4gKw0KPiArICAgIGRlZiBfY3JlYXRlX2pz
-b25fdGVzdHJlc3VsdF9zdHJpbmcoc2VsZiwgdGVzdF9yZXN1bHRzLCB0ZXN0X2Vudmlyb25tZW50
-cyk6DQo+ICsgICAgICAgIHRlc3RjYXNlX2RpY3QgPSB7fQ0KPiArICAgICAgICBmb3IgdGVzdGNh
-c2UgaW4gc29ydGVkKHRlc3RfcmVzdWx0cyk6DQo+ICsgICAgICAgICAgICB0ZXN0Y2FzZV9kaWN0
-W3Rlc3RjYXNlXSA9IHsidGVzdHJlc3VsdCI6IHRlc3RfcmVzdWx0c1t0ZXN0Y2FzZV1bMF0sICJs
-b2ciOiB0ZXN0X3Jlc3VsdHNbdGVzdGNhc2VdWzFdfQ0KPiArICAgICAgICB0ZXN0cmVzdWx0X29i
-amVjdCA9IHsndGVzdGVudmlyb25tZW50JzogdGVzdF9lbnZpcm9ubWVudHMsDQo+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICd0ZXN0Y2FzZSc6IHRlc3RjYXNlX2RpY3R9DQoNCkknZCBs
-aWtlIHRvIGJlIGFibGUgdG8gc3RvcmUgbW9yZSB0aGFuIG9uZSBzZXQgb2YgcmVzdWx0cyBpbiBh
-IHNpbmdsZSBqc29uIGZpbGUuIEluIG9yZGVyIHRvIG1ha2UgdGhhdCB3b3JrLCB0aGUgYWJvdmUg
-Zm9ybWF0IHdpbGwgbmVlZCB0d2Vha2luZyBzbGlnaHRseS4gU29tZXRoaW5nIGxpa2U6DQoNCnRl
-c3RyZXN1bHRfb2JqZWN0ID0ge3Jlc3VsdGlkIDogeydjb25maWd1cmF0aW9uJzogdGVzdF9lbnZp
-cm9ubWVudHMsDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJ3Jlc3VsdHMnOiB0
-ZXN0Y2FzZV9kaWN0fX0NCg0Kd2hlcmUgcmVzdWx0aWQgd291bGQgYmUgc29tZXRoaW5nIGxpa2Ug
-ImltYWdldGVzdC1xZW11eDg2LWNvcmUtaW1hZ2Utc2F0by1ZWU1NRERISE1NU1MiIA0KYW5kIHBh
-c3NlZCBpbiB0byB0aGUgZnVuY3Rpb24gYnkgdGhlIGNhbGwgc2l0ZS4gSXQnZCBiZSBzaW1pbGFy
-IHRvIHRoZSBvdGhlciBsb2cgZmlsZSB0aGUgdGVzdHMgZ2VuZXJhdGUuIFdlIGNvdWxkIGFsc28g
-cGVyaGFwcyB1c2UgcGlkIGluc3RlYWQgb2YgYSB0aW1lc3RhbXAgaW4gdGhlcmUuIEEgdGltZXN0
-YW1wIHdvdWxkIGJlIGdvb2QgaW4gdGhlIGNvbmZpZ3VyYXRpb24gc2VjdGlvbi4NCg0KQWxzbywg
-d2UgbmVlZCB0byByZWNvcmQgd2hpY2ggcmV2aXNpb24gb2YgdGhlIGNvbmZpZ3VyZWQgbGF5ZXJz
-IHRoaXMgdGVzdCByZXN1bHQgd2FzIHdpdGguIFRoZSBnZXRfbGF5ZXJzX2JyYW5jaF9yZXYoKSBm
-dW5jdGlvbiBpbiBiYXNlLmJiY2xhc3Mgc2hvdWxkIGdpdmUgYW4gaWRlYSBvZiBob3cgdG8gZ2V0
-IHRoaXMgaW5mb3JtYXRpb24gdXNpbmcgZXhpc3RpbmcgZnVuY3Rpb25zLg0KDQo+ICsgICAgICAg
-IHJldHVybiBqc29uLmR1bXBzKHRlc3RyZXN1bHRfb2JqZWN0LCBzb3J0X2tleXM9VHJ1ZSwgDQo+
-ICsgaW5kZW50PTQpDQo+ICsNCj4gKyAgICBkZWYgX3dyaXRlX2ZpbGUoc2VsZiwgd3JpdGVfZGly
-LCBmaWxlX25hbWUsIGZpbGVfY29udGVudCk6DQo+ICsgICAgICAgIGZpbGVfcGF0aCA9IG9zLnBh
-dGguam9pbih3cml0ZV9kaXIsIGZpbGVfbmFtZSkNCj4gKyAgICAgICAgd2l0aCBvcGVuKGZpbGVf
-cGF0aCwgJ3cnKSBhcyB0aGVfZmlsZToNCj4gKyAgICAgICAgICAgIHRoZV9maWxlLndyaXRlKGZp
-bGVfY29udGVudCkNCj4gKw0KPiArICAgIGRlZiBkdW1wX3Rlc3RyZXN1bHRfZmlsZShzZWxmLCB0
-ZXN0X3Jlc3VsdHMsIHRlc3RfZW52aXJvbm1lbnRzLCB3cml0ZV9kaXIpOg0KPiArICAgICAgICBp
-ZiBub3Qgb3MucGF0aC5leGlzdHMod3JpdGVfZGlyKToNCg0KTm8gbmVlZCBmb3IgdGhpcyBpZiB0
-ZXN0IGhlcmUgc2luY2UgbWtkaXJoaWVyIGhhbmRsZXMgdGhhdC4NCg0KPiArICAgICAgICAgICAg
-YmIudXRpbHMubWtkaXJoaWVyKHdyaXRlX2RpcikNCj4gKyAgICAgICAganNvbl90ZXN0cmVzdWx0
-ID0gc2VsZi5fY3JlYXRlX2pzb25fdGVzdHJlc3VsdF9zdHJpbmcodGVzdF9yZXN1bHRzLCB0ZXN0
-X2Vudmlyb25tZW50cykNCj4gKyAgICAgICAgc2VsZi5fd3JpdGVfZmlsZSh3cml0ZV9kaXIsICd0
-ZXN0cmVzdWx0cy5qc29uJywgDQo+ICsganNvbl90ZXN0cmVzdWx0KQ0KDQpBcyBtZW50aW9uZWQg
-YWJvdmUsIEknZCByZWFsbHkgbGlrZSBpZiBpZiB3ZSBjb3VsZCBwdXQgYWxsIHRoZSB0ZXN0IHJl
-c3VsdHMgaW50byBvbmUganNvbiBmaWxlIGFzIHRoaXMgd291bGQgc2F2ZSB0aGUgYXV0b2J1aWxk
-ZXIgaGF2aW5nIHRvIGNvbWJpbmUgdGhlbSBhbGwuIFRoYXQgc2hvdWxkIGJlIHN0cmFpZ2h0IGZv
-cndhcmQgdG8gZG8gYnV0IHdlIG5lZWQgdG8gYmUgY2FyZWZ1bCBhYm91dCByYWNlcy4NCg0KVGhp
-cyBtZWFucyBsb2NraW5nIGEgbG9ja2ZpbGUgYWxvbmdzaWRlIHRoZSByZXN1bHRzIGZpbGUgd2hp
-Y2ggd2UgY2FuIGRvIHdpdGggYmIudXRpbHMubG9ja2ZpbGUoKSBjYWxsLCB0aGVuIHdyaXRpbmcg
-dGhlIHJlc3VsdHMsIHRoZW4gY2FsbGluZyB1bmxvY2tmaWxlKCkuDQoNCldpdGggcmVnYXJkIHRv
-IHRoZSBvdGhlciBwYXRjaGVzLCBmb3Igc2VsZnRlc3Qgd2UgZG8gbmVlZCB0byBsb2cgd2hpY2gg
-TUFDSElORS9ESVNUUk8gd2FzIHVzZWQuDQoNCkRJU1RSTyBhbmQgSU1BR0VfUEtHVFlQRSBhbHNv
-IG5lZWRzIGFkZGluZyB0byB0ZXN0aW1hZ2UgYW5kIFNES01BQ0hJTkUgYW5kIElNQUdFX1BLR1RZ
-UEUgdG8gdGVzdHNkay4NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCg==
+v2:
+
+Remove unused patch that was dropped from recipe.
+Guard against __GLIBC_PREREQ for musl libc
+
+I've tested the enable-lto optimization and it's costly
+at build time and doesn't work immediately so I think it
+should be implemented as a PACKAGECONFIG post-ga.
+It's also not the default configuration for valgrind-3.14
+leaving it off by default seems reasonable.
+
+As stated elsewhere the ptest results are ~52% so that's
+better than with 3.13 but still not where are aiming so
+we'll have to continue to work on it.
+
 
