@@ -1,43 +1,45 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 7091A789FF
+Return-Path: <prvs=9833e3a32f=adrian.ratiu@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FB996E630
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 15:36:29 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Oct 2018 08:36:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,412,1534834800"; d="scan'208,217";a="83482224"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
-	by orsmga008.jf.intel.com with ESMTP; 22 Oct 2018 08:36:13 -0700
-Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
-	FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 22 Oct 2018 08:36:13 -0700
-Received: from fmsmsx123.amr.corp.intel.com ([169.254.7.84]) by
-	FMSMSX113.amr.corp.intel.com ([169.254.13.112]) with mapi id
-	14.03.0319.002; Mon, 22 Oct 2018 08:36:12 -0700
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: YP 2.7 Planning
-Thread-Index: AdRfIsZ9XZFLvLVyS1+NO4aPeSQvxg==
-Date: Mon, 22 Oct 2018 15:36:12 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECEE46801@fmsmsx123.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.107]
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNTk1NTczZjMtYmVjMi00NWNlLThiY2EtNWY4YjEzYjM5YTk0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTDNwYWZheTRydFo4YzVUdytiWHd0cXE4ZGU3VWE3OGthNERsVnNGQjExUzVcL20reXNNRTBwXC9NTDM1QkxPbmhSIn0=
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
+	Mon, 22 Oct 2018 15:51:02 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
+	w9MFojv2006838 for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2018 10:51:03 -0500
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2n81vre36y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2018 10:51:03 -0500
+Received: from us-aus-exch1.ni.corp.natinst.com
+	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
+	by us-aus-skprod3.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
+	w9MFp2sS021648
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2018 10:51:02 -0500
+Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
+	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Mon, 22 Oct 2018 10:51:02 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Mon, 22 Oct 2018 10:51:01 -0500
+Received: from ionel-work.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1395.4 via Frontend Transport; Mon, 22 Oct 2018 10:51:01 -0500
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Oct 2018 18:53:04 +0300
+Message-ID: <20181022155304.30434-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Subject: YP 2.7 Planning
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2018-10-22_11:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+Subject: [PATCH] kernel.bbclass: allow custom KERNEL_IMAGEDEST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,170 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 15:36:29 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE46801fmsmsx123amrcor_"
+X-List-Received-Date: Mon, 22 Oct 2018 15:51:02 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE46801fmsmsx123amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Some distros want to install the kernel in a custom location other
+than /boot and have it properly packaged, so it's useful to use a
+weaker assignment.
 
-All,
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We have begun planning for YP 2.7.   In prior versions, items that we didn'=
-t have the bandwidth to do were assigned the target milestone of 2.99.  Sin=
-ce YP 2.7 planning has just begun, I would like each of you to review the b=
-ugs and enhancements in YP 2.99 and determine if you will have the bandwidt=
-h to own any of them in YP 2.7.
-
-In addition to reviewing the bugs under your name, also review any under th=
-e unassigned name to see if you have both an interest and the time to own a=
-ny of those in YP 2.7.
-
-Link for bugs in YP 2.99 by owner: https://wiki.yoctoproject.org/wiki/Bug_T=
-riage#2.99_Bugs_by_Owner
-Link for enhancements in YP 2.99 by owner: https://wiki.yoctoproject.org/wi=
-ki/Bug_Triage#2.99_Enhancements_by_Owner
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*    Cell:                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index d0fbbd1989..e04d2fe004 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -164,7 +164,7 @@ KERNEL_RELEASE ?= "${KERNEL_VERSION}"
+ 
+ # The directory where built kernel lies in the kernel tree
+ KERNEL_OUTPUT_DIR ?= "arch/${ARCH}/boot"
+-KERNEL_IMAGEDEST = "boot"
++KERNEL_IMAGEDEST ?= "boot"
+ 
+ #
+ # configuration
+-- 
+2.19.1
 
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE46801fmsmsx123amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:2 11 5 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">All,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">We have begun planning for YP 2.7.&nbsp;&nbsp; In pr=
-ior versions, items that we didn&#8217;t have the bandwidth to do were assi=
-gned the target milestone of 2.99.&nbsp;&nbsp;Since YP 2.7 planning has jus=
-t begun, I would like each of you to review the bugs and enhancements
- in YP 2.99 and determine if you will have the bandwidth to own any of them=
- in YP 2.7.
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">In addition to reviewing the bugs under your name, a=
-lso review any under the unassigned name to see if you have both an interes=
-t and the time to own any of those in YP 2.7.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Link for bugs in YP 2.99 by owner: <a href=3D"https:=
-//wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Bugs_by_Owner">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Bugs_by_Owner</a><o:p></=
-o:p></p>
-<p class=3D"MsoNormal">Link for enhancements in YP 2.99 by owner: <a href=
-=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Enhancements_by_Owne=
-r">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#2.99_Enhancements_by_Owner</a=
-><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
-=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE46801fmsmsx123amrcor_--
