@@ -1,26 +1,57 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A4A579C23
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CC4AD79BEF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 08:38:14 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w9M8c9MK012252
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 22 Oct 2018 09:38:11 +0100
-Message-ID: <7d241d4a795b1bfbfd15da327420a4d98f0d9223.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2018 09:38:09 +0100
-In-Reply-To: <1540191264-12332-3-git-send-email-ee.peng.yeoh@intel.com>
-References: <1540191264-12332-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1540191264-12332-3-git-send-email-ee.peng.yeoh@intel.com>
+	Mon, 22 Oct 2018 08:52:08 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id f17-v6so12219041wrs.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2018 01:52:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=I6sasBc1B+W9WSxUjDO6JhPgpkMTGvjkoct218q4JDM=;
+	b=RSbJ4mkTqFp9ueRuBMVd3OwIN5c2gZ6fBSRL0hB1/p4PQBWjbgLbc6kYHZ93IKVnNa
+	ZglW0naXz67gBEyD10JXz4UvtGI03uf1tiMZG5hBEYa/MykC5MZD+Jn37Qd1fkT3/Anv
+	f4FpmcMlIu7aUs776EJq0TibzICjOGIn63RQQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=I6sasBc1B+W9WSxUjDO6JhPgpkMTGvjkoct218q4JDM=;
+	b=ZazJrkmwyo+B9eTxSFot7rJy6bpFBKsTbme1IhrG7HUOigwBr7wToOFDZiNduRDf7S
+	gjvWTiDHkcolpcElTnHH7gKabQnzM5zF+SIsnjGGP4WxjcIsW14YHuiyAiLauRt/J3ZT
+	tK6rrFLV5dKe6qJnBXeREvv9q3fgdnTqzfRmALDGlPnvBbvvHnmxveLypiK7hRpvj0vi
+	9vUmTdqZXlpx5vQPpJkb/nquO7kxjS4g/bD9HiM0TPodbIv5Ulosa2e0z5ppkD/0fmNj
+	ot2ykD8oK2i+ZNqepRpUL5wPaW6k7rq2uZ4OUelKUb2Wr3c4q7pr0oe0ypE6Ul9hFwmP
+	8FGg==
+X-Gm-Message-State: AGRZ1gKfCxTUQNcBXUSy5dta2XX+Z9pkzwuoU243yCdCRnNZ2Rkf8a45
+	C7nPJJil79IaPeP5mKc3OKKJmg==
+X-Google-Smtp-Source: AJdET5fOHI14vUXiEjznMPfjoeU7/mfgjKOpGClLr9990wfWu3g+zcrqSiUHR+PVT7S7RLZvojjCCA==
+X-Received: by 2002:adf:b30b:: with SMTP id
+	j11-v6mr1710754wrd.207.1540198329471; 
+	Mon, 22 Oct 2018 01:52:09 -0700 (PDT)
+Received: from hex ([185.7.230.214]) by smtp.gmail.com with ESMTPSA id
+	i13-v6sm14231247wrn.62.2018.10.22.01.52.08
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 22 Oct 2018 01:52:08 -0700 (PDT)
+Message-ID: <bf5ae576c3e8de42eab98ccd3c4d3738798ec32f.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Oct 2018 09:52:07 +0100
+In-Reply-To: <9DDD2658D1FE414E99172D2DB1E4D04335ECDDB6@KMSMSX155.gar.corp.intel.com>
+References: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
+	<1539588294-5532-2-git-send-email-ee.peng.yeoh@intel.com>
+	<ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
+	<9DDD2658D1FE414E99172D2DB1E4D04335ECCCF0@KMSMSX155.gar.corp.intel.com>
+	<5b431318cc50402e32836dbf42398e59ae323bee.camel@linuxfoundation.org>
+	<9DDD2658D1FE414E99172D2DB1E4D04335ECDDB6@KMSMSX155.gar.corp.intel.com>
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 3/4] testimage.bbclass: write testresult to json files
+Subject: Re: [PATCH 2/5] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +64,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 08:38:15 -0000
+X-List-Received-Date: Mon, 22 Oct 2018 08:52:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2018-10-22 at 14:54 +0800, Yeoh Ee Peng wrote:
-> As part of the solution to replace Testopia to store testresult,
-> OEQA testimage need to output testresult into json files, where
-> these json testresult files will be stored into git repository
-> by the future test-case-management tools.
-> 
-> To configure multiple instances of bitbake to write json testresult
-> to a single testresult file, user will define the variable
-> "OEQA_JSON_RESULT_COMMON_DIR" with the common directory for writing
-> json testresult.
-> 
-> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-> ---
->  meta/classes/testimage.bbclass | 34 ++++++++++++++++++++++++++++++++--
->  1 file changed, 32 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-> index 2642a72..112ba71 100644
-> --- a/meta/classes/testimage.bbclass
-> +++ b/meta/classes/testimage.bbclass
-> @@ -2,7 +2,7 @@
->  #
->  # Released under the MIT license (see COPYING.MIT)
->  
-> -
-> +inherit metadata_scm
->  # testimage.bbclass enables testing of qemu images using python unittests.
->  # Most of the tests are commands run on target image over ssh.
->  # To use it add testimage to global inherit and call your target image with -c testimage
-> @@ -141,6 +141,33 @@ def testimage_sanity(d):
->          bb.fatal('When TEST_TARGET is set to "simpleremote" '
->                   'TEST_TARGET_IP and TEST_SERVER_IP are needed too.')
->  
-> +def _get_configuration(d, test_type, pid, machine):
-> +    import platform
-> +    bb_core_dir = d.getVar("BBFILE_PATTERN_core=")
-> +    return {'TEST_TYPE': test_type,
-> +            'BRANCH': base_get_metadata_git_branch(bb_core_dir, None).strip(),
-> +            'COMMIT': base_get_metadata_git_revision(bb_core_dir, None),
+On Mon, 2018-10-22 at 08:17 +0000, Yeoh, Ee Peng wrote:
+> Please ignore the two patches below for testimage.bbclass and
+> testsdk.bbclass, initially testing successfully when running these
+> patch separately but I am finding one issue with method namespace
+> collision after testing both patches together.  I am in progress of
+> resolving it. Sorry for the inconvenience.
 
-We need to record all the revisions/branches that are being used. Could
-we just inject the contents of metadata['layers'] directly into the
-json file here?
-
-> +            'PROCESS_ID': pid,
-> +            'MACHINE': machine,
-> +            'IMAGE_BASENAME': d.getVar("IMAGE_BASENAME"),
-> +            'IMAGE_PKGTYPE': d.getVar("IMAGE_PKGTYPE"),
-> +            'HOST_DISTRO': platform.linux_distribution()}
-> +
-> +def _get_json_result_dir(d, configuration):
-> +    json_result_dir = os.path.join(d.getVar("WORKDIR"),
-> +                                   'temp',
-> +                                   'json_testresults-%s' % configuration['PROCESS_ID'],
-> +                                   configuration['TEST_TYPE'],
-> +                                   configuration['MACHINE'],
-> +                                   configuration['IMAGE_BASENAME'])
-> +    oeqa_json_result_common_dir = d.getVar("OEQA_JSON_RESULT_COMMON_DIR")
-> +    if oeqa_json_result_common_dir:
-> +        json_result_dir = oeqa_json_result_common_dir
-
-Do we need both codepaths here or can we just place things in
-OEQA_JSON_RESULT_COMMON_DIR unconditionally here?
-
-(we could rename it to OEQA_JSON_RESULT_DIR?)
+I think if your code appends to the results file, things should work
+better and we can remove the split level directory structure. Merging
+the results file will help the autobuiler process the results.
 
 Cheers,
 
