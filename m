@@ -1,45 +1,25 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id B4B767456D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4630160248
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 08:17:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Oct 2018 01:18:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,411,1534834800"; d="scan'208";a="273340936"
-Received: from pgsmsx112.gar.corp.intel.com ([10.108.55.201])
-	by fmsmga005.fm.intel.com with ESMTP; 22 Oct 2018 01:17:59 -0700
-Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.235]) by
-	PGSMSX112.gar.corp.intel.com ([169.254.3.206]) with mapi id
-	14.03.0319.002; Mon, 22 Oct 2018 16:17:58 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/5] oeqa/core/runner: write testresult to
-	json files
-Thread-Index: AQHUZFpfOT/nHdPUQkGGNeWjbyAeb6Ufel6AgAVLswCAAEX2gIAF2tfAgAAPGSA=
-Date: Mon, 22 Oct 2018 08:17:58 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335ECDDB6@KMSMSX155.gar.corp.intel.com>
-References: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1539588294-5532-2-git-send-email-ee.peng.yeoh@intel.com>
-	<ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D04335ECCCF0@KMSMSX155.gar.corp.intel.com>
-	<5b431318cc50402e32836dbf42398e59ae323bee.camel@linuxfoundation.org> 
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMzhhMDE0ZTItNWQwYS00ZDM2LWFjYjEtNGUyNDVmMDQ1NDQ5IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiMzZhMkhQeXV2a21XN3FSNzkyK0lGVFZ5U3daQmdJZ0xZYkxyZVMyN0p3ZHAxYzI4ZFwvYldFendkaDYwNFpPRzQifQ==
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/5] oeqa/core/runner: write testresult to json files
+	Mon, 22 Oct 2018 08:32:07 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w9M8Vx25011859
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 22 Oct 2018 09:32:01 +0100
+Message-ID: <a12cf13bca36f6573be192ada5bbf60dbaa4b902.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 22 Oct 2018 09:31:59 +0100
+In-Reply-To: <1540191264-12332-1-git-send-email-ee.peng.yeoh@intel.com>
+References: <1540191264-12332-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/4] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,97 +32,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 08:17:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 22 Oct 2018 08:32:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-SGkgUmljaGFyZCwNCg0KUGxlYXNlIGlnbm9yZSB0aGUgdHdvIHBhdGNoZXMgYmVsb3cgZm9yIHRl
-c3RpbWFnZS5iYmNsYXNzIGFuZCB0ZXN0c2RrLmJiY2xhc3MsIGluaXRpYWxseSB0ZXN0aW5nIHN1
-Y2Nlc3NmdWxseSB3aGVuIHJ1bm5pbmcgdGhlc2UgcGF0Y2ggc2VwYXJhdGVseSBidXQgSSBhbSBm
-aW5kaW5nIG9uZSBpc3N1ZSB3aXRoIG1ldGhvZCBuYW1lc3BhY2UgY29sbGlzaW9uIGFmdGVyIHRl
-c3RpbmcgYm90aCBwYXRjaGVzIHRvZ2V0aGVyLiAgSSBhbSBpbiBwcm9ncmVzcyBvZiByZXNvbHZp
-bmcgaXQuIFNvcnJ5IGZvciB0aGUgaW5jb252ZW5pZW5jZS4NCg0KaHR0cDovL2xpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3JlLzIwMTgtT2N0b2Jlci8xNTY5
-MjguaHRtbA0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJl
-ZGRlZC1jb3JlLzIwMTgtT2N0b2Jlci8xNTY5MjkuaHRtbA0KDQpCZXN0IHJlZ2FyZHMsDQpZZW9o
-IEVlIFBlbmcgDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBZZW9oLCBFZSBQ
-ZW5nIA0KU2VudDogTW9uZGF5LCBPY3RvYmVyIDIyLCAyMDE4IDM6MjMgUE0NClRvOiAncmljaGFy
-ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZycgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRh
-dGlvbi5vcmc+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJq
-ZWN0OiBSRTogW09FLWNvcmVdIFtQQVRDSCAyLzVdIG9lcWEvY29yZS9ydW5uZXI6IHdyaXRlIHRl
-c3RyZXN1bHQgdG8ganNvbiBmaWxlcw0KDQpIaSBSaWNoYXJkLA0KDQpJIGhhZCBkb25lIG1ha2lu
-ZyB0aGUgY2hhbmdlcyB0byBtYXRjaCB5b3VyIGlucHV0cyBhbmQgc3VnZ2VzdGlvbnMuDQpCZWxv
-dyB3YXMgdGhlIHBhdGNoZXMgcmVzdWJtaXR0ZWQuIA0KDQpQbGVhc2UgbGV0IG1lIGtub3cgaWYg
-eW91IGhhdmUgYW55IG1vcmUgaW5wdXRzIG9yIHF1ZXN0aW9ucy4NCg0KQmVzdCByZWdhcmRzLA0K
-WWVvaCBFZSBQZW5nIA0KDQpodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9waXBlcm1haWwv
-b3BlbmVtYmVkZGVkLWNvcmUvMjAxOC1PY3RvYmVyLzE1NjkyNi5odG1sDQpodHRwOi8vbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZy9waXBlcm1haWwvb3BlbmVtYmVkZGVkLWNvcmUvMjAxOC1PY3RvYmVy
-LzE1NjkyNy5odG1sDQpodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9waXBlcm1haWwvb3Bl
-bmVtYmVkZGVkLWNvcmUvMjAxOC1PY3RvYmVyLzE1NjkyOC5odG1sDQpodHRwOi8vbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZy9waXBlcm1haWwvb3BlbmVtYmVkZGVkLWNvcmUvMjAxOC1PY3RvYmVyLzE1
-NjkyOS5odG1sDQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IHJpY2hhcmQu
-cHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmcgW21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZv
-dW5kYXRpb24ub3JnXSANClNlbnQ6IEZyaWRheSwgT2N0b2JlciAxOSwgMjAxOCA1OjU2IEFNDQpU
-bzogWWVvaCwgRWUgUGVuZyA8ZWUucGVuZy55ZW9oQGludGVsLmNvbT47IG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
-IDIvNV0gb2VxYS9jb3JlL3J1bm5lcjogd3JpdGUgdGVzdHJlc3VsdCB0byBqc29uIGZpbGVzDQoN
-Ck9uIFRodSwgMjAxOC0xMC0xOCBhdCAwOTo0NyArMDAwMCwgWWVvaCwgRWUgUGVuZyB3cm90ZToN
-Cj4gVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgeW91ciBncmVhdCBmZWVkYmFja3MgYW5kIGlucHV0
-cyENCj4gSSBoYWQgY29tcGxldGVkIHRoZSByZWZhY3RvciBhbmQgcmVzdWJtaXR0ZWQgdGhlIHBh
-dGNoZXMgYXMgYmVsb3cuIA0KPiBQbGVhc2UgbGV0IG1lIGtub3cgaWYgYW55IG1vcmUgZmVlZGJh
-Y2tzIGFuZCBpbnB1dHMhDQoNClRoYW5rcyBmb3IgdGhlIHJldmlzZWQgc2VyaWVzLCBpdHMgbG9v
-a2luZyB2ZXJ5IG11Y2ggaW1wcm92ZWQhIEkndmUgcXVldWVkIDEvNSBvbnRvIHRoZSBhdXRvYnVp
-bGRlciBhbmQgaXRzIHRlc3RlZCBvayBzbyB0aGF0IHdpbGwgbGlrZWx5IG1lcmdlLg0KDQpJIHN0
-aWxsIGhhdmUgYSBmZXcgY29uY2VybnMgYWJvdXQgdGhlIGRhdGEgZm9ybWF0IGZvciAyLzUuDQoN
-CkBAIC0yNDksMyArMjU2LDI0IEBAIGNsYXNzIE9FVGVzdFJ1bm5lcihfVGVzdFJ1bm5lcik6DQo+
-ICAgICAgICAgICAgICBzZWxmLl9saXN0X3Rlc3RzX21vZHVsZShzdWl0ZSkNCj4gIA0KPiAgICAg
-ICAgICByZXR1cm4gT0VMaXN0VGVzdHNSZXN1bHQoKQ0KPiArDQo+ICtjbGFzcyBPRVRlc3RSZXN1
-bHRKU09OSGVscGVyKG9iamVjdCk6DQo+ICsNCj4gKyAgICBkZWYgX2NyZWF0ZV9qc29uX3Rlc3Ry
-ZXN1bHRfc3RyaW5nKHNlbGYsIHRlc3RfcmVzdWx0cywgdGVzdF9lbnZpcm9ubWVudHMpOg0KPiAr
-ICAgICAgICB0ZXN0Y2FzZV9kaWN0ID0ge30NCj4gKyAgICAgICAgZm9yIHRlc3RjYXNlIGluIHNv
-cnRlZCh0ZXN0X3Jlc3VsdHMpOg0KPiArICAgICAgICAgICAgdGVzdGNhc2VfZGljdFt0ZXN0Y2Fz
-ZV0gPSB7InRlc3RyZXN1bHQiOiB0ZXN0X3Jlc3VsdHNbdGVzdGNhc2VdWzBdLCAibG9nIjogdGVz
-dF9yZXN1bHRzW3Rlc3RjYXNlXVsxXX0NCj4gKyAgICAgICAgdGVzdHJlc3VsdF9vYmplY3QgPSB7
-J3Rlc3RlbnZpcm9ubWVudCc6IHRlc3RfZW52aXJvbm1lbnRzLA0KPiArICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAndGVzdGNhc2UnOiB0ZXN0Y2FzZV9kaWN0fQ0KDQpJJ2QgbGlrZSB0byBi
-ZSBhYmxlIHRvIHN0b3JlIG1vcmUgdGhhbiBvbmUgc2V0IG9mIHJlc3VsdHMgaW4gYSBzaW5nbGUg
-anNvbiBmaWxlLiBJbiBvcmRlciB0byBtYWtlIHRoYXQgd29yaywgdGhlIGFib3ZlIGZvcm1hdCB3
-aWxsIG5lZWQgdHdlYWtpbmcgc2xpZ2h0bHkuIFNvbWV0aGluZyBsaWtlOg0KDQp0ZXN0cmVzdWx0
-X29iamVjdCA9IHtyZXN1bHRpZCA6IHsnY29uZmlndXJhdGlvbic6IHRlc3RfZW52aXJvbm1lbnRz
-LA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICdyZXN1bHRzJzogdGVzdGNhc2Vf
-ZGljdH19DQoNCndoZXJlIHJlc3VsdGlkIHdvdWxkIGJlIHNvbWV0aGluZyBsaWtlICJpbWFnZXRl
-c3QtcWVtdXg4Ni1jb3JlLWltYWdlLXNhdG8tWVlNTURESEhNTVNTIiANCmFuZCBwYXNzZWQgaW4g
-dG8gdGhlIGZ1bmN0aW9uIGJ5IHRoZSBjYWxsIHNpdGUuIEl0J2QgYmUgc2ltaWxhciB0byB0aGUg
-b3RoZXIgbG9nIGZpbGUgdGhlIHRlc3RzIGdlbmVyYXRlLiBXZSBjb3VsZCBhbHNvIHBlcmhhcHMg
-dXNlIHBpZCBpbnN0ZWFkIG9mIGEgdGltZXN0YW1wIGluIHRoZXJlLiBBIHRpbWVzdGFtcCB3b3Vs
-ZCBiZSBnb29kIGluIHRoZSBjb25maWd1cmF0aW9uIHNlY3Rpb24uDQoNCkFsc28sIHdlIG5lZWQg
-dG8gcmVjb3JkIHdoaWNoIHJldmlzaW9uIG9mIHRoZSBjb25maWd1cmVkIGxheWVycyB0aGlzIHRl
-c3QgcmVzdWx0IHdhcyB3aXRoLiBUaGUgZ2V0X2xheWVyc19icmFuY2hfcmV2KCkgZnVuY3Rpb24g
-aW4gYmFzZS5iYmNsYXNzIHNob3VsZCBnaXZlIGFuIGlkZWEgb2YgaG93IHRvIGdldCB0aGlzIGlu
-Zm9ybWF0aW9uIHVzaW5nIGV4aXN0aW5nIGZ1bmN0aW9ucy4NCg0KPiArICAgICAgICByZXR1cm4g
-anNvbi5kdW1wcyh0ZXN0cmVzdWx0X29iamVjdCwgc29ydF9rZXlzPVRydWUsIA0KPiArIGluZGVu
-dD00KQ0KPiArDQo+ICsgICAgZGVmIF93cml0ZV9maWxlKHNlbGYsIHdyaXRlX2RpciwgZmlsZV9u
-YW1lLCBmaWxlX2NvbnRlbnQpOg0KPiArICAgICAgICBmaWxlX3BhdGggPSBvcy5wYXRoLmpvaW4o
-d3JpdGVfZGlyLCBmaWxlX25hbWUpDQo+ICsgICAgICAgIHdpdGggb3BlbihmaWxlX3BhdGgsICd3
-JykgYXMgdGhlX2ZpbGU6DQo+ICsgICAgICAgICAgICB0aGVfZmlsZS53cml0ZShmaWxlX2NvbnRl
-bnQpDQo+ICsNCj4gKyAgICBkZWYgZHVtcF90ZXN0cmVzdWx0X2ZpbGUoc2VsZiwgdGVzdF9yZXN1
-bHRzLCB0ZXN0X2Vudmlyb25tZW50cywgd3JpdGVfZGlyKToNCj4gKyAgICAgICAgaWYgbm90IG9z
-LnBhdGguZXhpc3RzKHdyaXRlX2Rpcik6DQoNCk5vIG5lZWQgZm9yIHRoaXMgaWYgdGVzdCBoZXJl
-IHNpbmNlIG1rZGlyaGllciBoYW5kbGVzIHRoYXQuDQoNCj4gKyAgICAgICAgICAgIGJiLnV0aWxz
-Lm1rZGlyaGllcih3cml0ZV9kaXIpDQo+ICsgICAgICAgIGpzb25fdGVzdHJlc3VsdCA9IHNlbGYu
-X2NyZWF0ZV9qc29uX3Rlc3RyZXN1bHRfc3RyaW5nKHRlc3RfcmVzdWx0cywgdGVzdF9lbnZpcm9u
-bWVudHMpDQo+ICsgICAgICAgIHNlbGYuX3dyaXRlX2ZpbGUod3JpdGVfZGlyLCAndGVzdHJlc3Vs
-dHMuanNvbicsIA0KPiArIGpzb25fdGVzdHJlc3VsdCkNCg0KQXMgbWVudGlvbmVkIGFib3ZlLCBJ
-J2QgcmVhbGx5IGxpa2UgaWYgaWYgd2UgY291bGQgcHV0IGFsbCB0aGUgdGVzdCByZXN1bHRzIGlu
-dG8gb25lIGpzb24gZmlsZSBhcyB0aGlzIHdvdWxkIHNhdmUgdGhlIGF1dG9idWlsZGVyIGhhdmlu
-ZyB0byBjb21iaW5lIHRoZW0gYWxsLiBUaGF0IHNob3VsZCBiZSBzdHJhaWdodCBmb3J3YXJkIHRv
-IGRvIGJ1dCB3ZSBuZWVkIHRvIGJlIGNhcmVmdWwgYWJvdXQgcmFjZXMuDQoNClRoaXMgbWVhbnMg
-bG9ja2luZyBhIGxvY2tmaWxlIGFsb25nc2lkZSB0aGUgcmVzdWx0cyBmaWxlIHdoaWNoIHdlIGNh
-biBkbyB3aXRoIGJiLnV0aWxzLmxvY2tmaWxlKCkgY2FsbCwgdGhlbiB3cml0aW5nIHRoZSByZXN1
-bHRzLCB0aGVuIGNhbGxpbmcgdW5sb2NrZmlsZSgpLg0KDQpXaXRoIHJlZ2FyZCB0byB0aGUgb3Ro
-ZXIgcGF0Y2hlcywgZm9yIHNlbGZ0ZXN0IHdlIGRvIG5lZWQgdG8gbG9nIHdoaWNoIE1BQ0hJTkUv
-RElTVFJPIHdhcyB1c2VkLg0KDQpESVNUUk8gYW5kIElNQUdFX1BLR1RZUEUgYWxzbyBuZWVkcyBh
-ZGRpbmcgdG8gdGVzdGltYWdlIGFuZCBTREtNQUNISU5FIGFuZCBJTUFHRV9QS0dUWVBFIHRvIHRl
-c3RzZGsuDQoNCkNoZWVycywNCg0KUmljaGFyZA0KDQo=
+Hi Ee Peng,
+
+Thanks, this is looking good, there is still one small tweak needed
+below.
+
+On Mon, 2018-10-22 at 14:54 +0800, Yeoh Ee Peng wrote:
+> As part of the solution to replace Testopia to store testresult,
+> OEQA need to output testresult into single json file, where json
+> testresult file will be stored in git repository by the future
+> test-case-management tools.
+> 
+> The json testresult file will store more than one set of results,
+> where each set of results was uniquely identified by the result_id.
+> The result_id would be like "runtime-qemux86-core-image-sato", where
+> it was a runtime test with target machine equal to qemux86 and running
+> on core-image-sato image. The json testresult file will only store
+> the latest testresult for a given result_id. The json testresult
+> file contains the configuration (eg. COMMIT, BRANCH, MACHINE, IMAGE),
+> result (eg. PASSED, FAILED, ERROR), test log, and result_id.
+> 
+> Based on the destination json testresult file directory provided,
+> it could have multiple instances of bitbake trying to write json
+> testresult to a single testresult file, using locking a lockfile
+> alongside the results file directory to prevent races.
+> 
+> Also the library class inside this patch will be reused by the future
+> test-case-management tools to write json testresult for manual test
+> case executed.
+> 
+> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+> ---
+>  meta/lib/oeqa/core/runner.py | 40 +++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 39 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+> index f1dd080..82463cf 100644
+> --- a/meta/lib/oeqa/core/runner.py
+> +++ b/meta/lib/oeqa/core/runner.py
+> @@ -249,3 +256,34 @@ class OETestRunner(_TestRunner):
+>              self._list_tests_module(suite)
+>  
+>          return OEListTestsResult()
+> +
+> +class OETestResultJSONHelper(object):
+> +
+> +    testresult_filename = 'testresults.json'
+> +
+> +    def _get_testresults(self, write_dir):
+> +        testresults = {}
+> +        file = os.path.join(write_dir, self.testresult_filename)
+> +        if os.path.exists(file):
+> +            with open(file, "r") as f:
+> +                testresults = json.load(f)
+> +        return testresults
+> +
+> +    def _create_json_testresults_string(self, result_id, test_result, configuration, write_dir):
+> +        testresults = self._get_testresults(write_dir)
+> +        testresult = {'configuration': configuration,
+> +                      'result': test_result}
+> +        testresults[result_id] = testresult
+> +        return json.dumps(testresults, sort_keys=True, indent=4)
+> +
+> +    def _write_file(self, write_dir, file_name, file_content):
+> +        file_path = os.path.join(write_dir, file_name)
+> +        with open(file_path, 'w') as the_file:
+> +            the_file.write(file_content)
+> +
+> +    def dump_testresult_file(self, result_id, test_result, configuration, write_dir):
+> +        bb.utils.mkdirhier(write_dir)
+> +        lf = bb.utils.lockfile(os.path.join(write_dir, 'jsontestresult.lock'))
+> +        json_testresults = self._create_json_testresults_string(result_id, test_result, configuration, write_dir)
+> +        self._write_file(write_dir, self.testresult_filename, json_testresults)
+> +        bb.utils.unlockfile(lf)
+
+Before we write out the file we need to load in any existing data so we
+effectively append to the data. I think if we do that this patch should
+be ready to merge.
+
+I did also wonder if we need a common configuration function rather
+than duplicating the code into each of the test classes.
+
+Cheers,
+
+Richard
+
+
 
