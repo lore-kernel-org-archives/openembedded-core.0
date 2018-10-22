@@ -1,25 +1,25 @@
 Return-Path: <ee.peng.yeoh@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E82FE79C5E
+	by mail.openembedded.org (Postfix) with ESMTP id 053DD79C5F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 10:49:57 +0000 (UTC)
+	Mon, 22 Oct 2018 10:49:59 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Oct 2018 03:49:59 -0700
+	22 Oct 2018 03:50:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,412,1534834800"; d="scan'208";a="80614782"
+X-IronPort-AV: E=Sophos;i="5.54,412,1534834800"; d="scan'208";a="80614792"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga008.fm.intel.com with ESMTP; 22 Oct 2018 03:49:56 -0700
+	by fmsmga008.fm.intel.com with ESMTP; 22 Oct 2018 03:49:58 -0700
 From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2018 18:34:43 +0800
-Message-Id: <1540204485-22641-2-git-send-email-ee.peng.yeoh@intel.com>
+Date: Mon, 22 Oct 2018 18:34:44 +0800
+Message-Id: <1540204485-22641-3-git-send-email-ee.peng.yeoh@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1540204485-22641-1-git-send-email-ee.peng.yeoh@intel.com>
 References: <1540204485-22641-1-git-send-email-ee.peng.yeoh@intel.com>
-Subject: [PATCH 2/4] oeqa/selftest/context: write testresult to json files
+Subject: [PATCH 3/4] testimage.bbclass: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,10 +32,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 10:49:58 -0000
+X-List-Received-Date: Mon, 22 Oct 2018 10:50:00 -0000
 
 As part of the solution to replace Testopia to store testresult,
-OEQA selftest need to output testresult into json files, where
+OEQA testimage need to output testresult into json files, where
 these json testresult files will be stored into git repository
 by the future test-case-management tools.
 
@@ -46,70 +46,65 @@ json testresult.
 
 Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/lib/oeqa/selftest/context.py | 36 +++++++++++++++++++++++++++++++++---
- 1 file changed, 33 insertions(+), 3 deletions(-)
+ meta/classes/testimage.bbclass | 31 +++++++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index c78947e..59d4b59 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -99,8 +99,8 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         return cases_paths
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 2642a72..df91d90 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -2,7 +2,7 @@
+ #
+ # Released under the MIT license (see COPYING.MIT)
  
-     def _process_args(self, logger, args):
--        args.output_log = '%s-results-%s.log' % (self.name,
--                time.strftime("%Y%m%d%H%M%S"))
-+        args.test_start_time = time.strftime("%Y%m%d%H%M%S")
-+        args.output_log = '%s-results-%s.log' % (self.name, args.test_start_time)
-         args.test_data_file = None
-         args.CASES_PATHS = None
+-
++inherit metadata_scm
+ # testimage.bbclass enables testing of qemu images using python unittests.
+ # Most of the tests are commands run on target image over ssh.
+ # To use it add testimage to global inherit and call your target image with -c testimage
+@@ -141,6 +141,30 @@ def testimage_sanity(d):
+         bb.fatal('When TEST_TARGET is set to "simpleremote" '
+                  'TEST_TARGET_IP and TEST_SERVER_IP are needed too.')
  
-@@ -204,6 +204,33 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         self.tc.logger.info("Running bitbake -e to test the configuration is valid/parsable")
-         runCmd("bitbake -e")
- 
-+    def _get_json_result_dir(self, args):
-+        json_result_dir = os.path.join(os.path.dirname(os.path.abspath(args.output_log)), 'oeqa')
-+        if "OEQA_JSON_RESULT_DIR" in self.tc.td:
-+            json_result_dir = self.tc.td["OEQA_JSON_RESULT_DIR"]
++def _get_testimage_configuration(d, test_type, pid, machine):
++    import platform
++    configuration = {'TEST_TYPE': test_type,
++                    'PROCESS_ID': pid,
++                    'MACHINE': machine,
++                    'IMAGE_BASENAME': d.getVar("IMAGE_BASENAME"),
++                    'IMAGE_PKGTYPE': d.getVar("IMAGE_PKGTYPE"),
++                    'HOST_DISTRO': platform.linux_distribution()}
++    layers = (d.getVar("BBLAYERS") or "").split()
++    for l in layers:
++        configuration['%s_BRANCH_REV' % os.path.basename(l)] = '%s:%s' % (base_get_metadata_git_branch(l, None).strip(),
++                                                                          base_get_metadata_git_revision(l, None))
++    return configuration
 +
-+        return json_result_dir
++def _get_testimage_json_result_dir(d, configuration):
++    json_result_dir = os.path.join(d.getVar("WORKDIR"), 'oeqa')
++    oeqa_json_result_common_dir = d.getVar("OEQA_JSON_RESULT_DIR")
++    if oeqa_json_result_common_dir:
++        json_result_dir = oeqa_json_result_common_dir
++    return json_result_dir
 +
-+    def _get_configuration(self, args):
-+        import platform
-+        from oeqa.utils.metadata import metadata_from_bb
-+        metadata = metadata_from_bb()
-+        configuration = {'TEST_TYPE': 'oeselftest',
-+                        'START_TIME': args.test_start_time,
-+                        'MACHINE': self.tc.td["MACHINE"],
-+                        'HOST_DISTRO': platform.linux_distribution(),
-+                        'HOST_NAME': metadata['hostname']}
-+        layers = metadata['layers']
-+        for l in layers:
-+            configuration['%s_BRANCH_REV' % os.path.basename(l)] = '%s:%s' % (
-+                                                                    metadata['layers'][l]['branch'],
-+                                                                    metadata['layers'][l]['commit'])
-+        return configuration
++def _get_testimage_result_id(configuration):
++    return '%s-%s-%s' % (configuration['TEST_TYPE'], configuration['IMAGE_BASENAME'], configuration['MACHINE'])
 +
-+    def _get_result_id(self, configuration):
-+        distro = '_'.join(configuration['HOST_DISTRO'])
-+        return '%s-%s-%s' % (configuration['TEST_TYPE'], distro, configuration['MACHINE'])
-+
-     def _internal_run(self, logger, args):
-         self.module_paths = self._get_cases_paths(
-                 self.tc_kwargs['init']['td']['BBPATH'].split(':'))
-@@ -220,7 +247,10 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         else:
-             self._pre_run()
-             rc = self.tc.runTests(**self.tc_kwargs['run'])
--            rc.logDetails()
-+            configuration = self._get_configuration(args)
-+            rc.logDetails(self._get_json_result_dir(args),
-+                          configuration,
-+                          self._get_result_id(configuration))
-             rc.logSummary(self.name)
- 
-         return rc
+ def testimage_main(d):
+     import os
+     import json
+@@ -308,7 +332,10 @@ def testimage_main(d):
+     # Show results (if we have them)
+     if not results:
+         bb.fatal('%s - FAILED - tests were interrupted during execution' % pn, forcelog=True)
+-    results.logDetails()
++    configuration = _get_testimage_configuration(d, 'runtime', os.getpid(), machine)
++    results.logDetails(_get_testimage_json_result_dir(d, configuration),
++                       configuration,
++                       _get_testimage_result_id(configuration))
+     results.logSummary(pn)
+     if not results.wasSuccessful():
+         bb.fatal('%s - FAILED - check the task log and the ssh log' % pn, forcelog=True)
 -- 
 2.7.4
 
