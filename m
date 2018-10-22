@@ -1,30 +1,30 @@
-Return-Path: <okaya@kernel.org>
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail.openembedded.org (Postfix) with ESMTP id D5A2B79BE3
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B5B079BE1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 06:20:13 +0000 (UTC)
-Received: from
-	sinanubuntu1604.mkjiurmyylmellclgttazegk5f.bx.internal.cloudapp.net
-	(unknown [23.96.17.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 66E5220779;
-	Mon, 22 Oct 2018 06:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1540189214;
-	bh=bZDHixzyGY3uPR3SumMMLE6AcY7+ILZVXfzP7//R/jg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=VlPoQBfB4moDkx/MkbQnzMWyKEjzri21m2XsDdwyY+QTUgS1qrE1o1BwuswqXK0f5
-	FCybDrFRNKkEp4/ceQVXmOY7V7/fPLmksey5RpU0+D18FKvI8l2eUS+ESww33DK+4x
-	03hhqAywqJCPsKYlymBhkNYFMZltc4sPJMJV5LN4=
-From: Sinan Kaya <okaya@kernel.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2018 06:20:10 +0000
-Message-Id: <20181022062010.11727-1-okaya@kernel.org>
-X-Mailer: git-send-email 2.19.0
+	Mon, 22 Oct 2018 06:56:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9M6u11V021650
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 21 Oct 2018 23:56:11 -0700
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Sun, 21 Oct 2018 23:55:50 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1539926193.git.Qi.Chen@windriver.com>
+	<aa81e6d3c24822a91432cac5af20378a65301254.1539926193.git.Qi.Chen@windriver.com>
+	<2980ba34e7eb66ad6ad22d5cd85b12a9bb7e30b2.camel@linuxfoundation.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <1968d06f-a488-7e62-65e1-601bf0c24bba@windriver.com>
+Date: Mon, 22 Oct 2018 15:01:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
-Subject: [sumo] [PATCH v1] kernel: specify dependencies for compilation for config tasks
+In-Reply-To: <2980ba34e7eb66ad6ad22d5cd85b12a9bb7e30b2.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [PATCH 1/1] systemd: add back alternatives for init utitilies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,74 +37,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 06:20:14 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Oct 2018 06:56:38 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+On 10/21/2018 05:37 AM, Richard Purdie wrote:
+> On Fri, 2018-10-19 at 13:19 +0800, Chen Qi wrote:
+>> Add back alternatives for init utilities to avoid regression.
+>>
+>> These alternatives were removed when upgradeing systemd to 239.
+>> They were removed out of the logic that init utitilies should be
+>> bound to init manager. However, it turned out that two use cases
+>> were not covered.
+>>
+>> 1) initramfs using commands like 'reboot' from busybox.
+>> 2) Users use customized busybox defconfig which enables init
+>> utilities.
+>>
+>> The first use case caused a regression bug in yocto.
+>>    https://bugzilla.yoctoproject.org/show_bug.cgi?id=12914
+>> Patches were sent to fix the reboot problem.
+>>
+>> But this is not enough. As we may have the second use case. In such
+>> situation, users will find themselves having regression error when
+>> using 'busybox + systemd' (and busybox is installed after systemd,
+>> overriding the systemd symlinks).
+>>
+>> So in order to avoid regression, add back these alternatives.
+>>
+>> Signed-off-by
+> There is something odd going on which this change since it triggers:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/35/builds/95/steps/7/logs/step7c
+>
+> I've isolated it to this change having initially thought it was Mark's
+> systemd change...
+>
+> Cheers,
+>
+> Richard
+>
+>
+Hi Richard,
 
-With recent kernels (i.e. 4.17+) the configuration phase of the kernel
-will check for capabilities/options of the compiler for CVE and other
-mitigation support.
+I saw all those reverts and tests about master-next on oe mailing list 
+and I really feel sorry for causing autobuilder failures.
+Before I sent out the patch, I did do testimage test with 
+'core-image-minimal + systemd + ssh + package-management' and things 
+were working well.
 
-For a general kernel, we want to ensure that CC is fully defined when
-the config targets are invoked (so the proper compiler will be checked).
+Back to this failure, after some investigation, I finally found the root 
+cause. It's about udev-extraconf.
+Before my patch, udev-extraconf actually does not work as originally 
+designed. Check the following codes in mount.sh from udev-extraconf.
+BASE_INIT="`readlink "/sbin/init"`"
+INIT_SYSTEMD="/lib/systemd/systemd"
 
-For linux-yocto, we also need to specify the compiler/tools dependencies
-for the configme task since it executes before configure and hence the
-main kernel build DEPENDS will not always be in the sysroot before it
-executes. Without those dependencies the kernel will be incorrectly
-configured (i.e. bison is missing) or the configuration will fail the
-mitigation tests.
+if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
+     # systemd as init uses systemd-mount to mount block devices
+     MOUNT="/usr/bin/systemd-mount"
+     UMOUNT="/usr/bin/systemd-umount"
+[snip]
 
-[YOCTO #12757]
+In our system, what we have is:
+root@qemux86-64:~# ls -l /sbin/init
+lrwxrwxrwx    1 root     root            22 Oct 22 04:00 /sbin/init -> 
+../lib/systemd/systemd
 
-(From OE-Core rev: ff1bdd75d50f0ebac3d599e461685ace29559a82)
+As '../lib/systemd/systemd' does not equal to '/lib/systemd/systemd', 
+the mount.sh is not using systemd-mount.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Sinan Kaya <okaya@kernel.org>
----
- meta/classes/kernel-yocto.bbclass | 5 ++++-
- meta/classes/kernel.bbclass       | 2 +-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+When checking links, we should use `readlnk -f' instead of just 
+'readlink'. In other words, things happen to succeed for core-image-sato 
+because of some error in the mount.sh script from udev-extraconf.
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 4ac3a39e475..82d80741a95 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -275,6 +275,9 @@ addtask kernel_metadata after do_validate_branches do_unpack before do_patch
- do_kernel_metadata[depends] = "kern-tools-native:do_populate_sysroot"
- do_validate_branches[depends] = "kern-tools-native:do_populate_sysroot"
- 
-+do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
-+do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
-+do_kernel_configme[depends] += "bc-native:do_populate_sysroot bison-native:do_populate_sysroot"
- do_kernel_configme[dirs] += "${S} ${B}"
- do_kernel_configme() {
- 	set +e
-@@ -304,7 +307,7 @@ do_kernel_configme() {
- 		bbfatal_log "Could not find configuration queue (${meta_dir}/config.queue)"
- 	fi
- 
--	CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}"	ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
-+	CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}"	HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
- 	if [ $? -ne 0 ]; then
- 		bbfatal_log "Could not configure ${KMACHINE}-${LINUX_KERNEL_TYPE}"
- 	fi
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 78d6c30b07c..727851401cc 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -489,7 +489,7 @@ sysroot_stage_all () {
- 	:
- }
- 
--KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} O=${B} oldnoconfig"
-+KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} oldnoconfig"
- 
- python check_oldest_kernel() {
-     oldest_kernel = d.getVar('OLDEST_KERNEL')
--- 
-2.19.0
+My patch links /sbin/init to /lib/systemd/systemd and that makes the 
+mount.sh start to work, thus revealing the error.
+In fact, besides the dev-vda.mount problem, I also got 
+media-run-hdc.mount failure on core-image-sato. They are both caused by 
+the udev-extraconf.
 
+I'm going to remove the 'init' from alternatives and send out V2. But 
+udev-extraconf also needs to be fixed.
+(CC Hongzhi who did the change.)
+
+Richard, what do you think we should do about the automount udev rule 
+from udev-extraconf?
+I'd suggest that we do not install the automount udev rule in case of 
+systemd. I think the mount.sh script is likely to cause conflicts and 
+failures unless it's constructed very carefully in case of systemd. 
+Unfortunately, I don't think that script could be easily made reliable, 
+considering all the possible .mount and .automount units that users may 
+add as custom configuration.
+Hongzhi, what's your opinion?
+
+Best Regards,
+Chen Qi
 
