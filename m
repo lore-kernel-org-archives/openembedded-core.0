@@ -1,32 +1,46 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C7ECE74583
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B12F74583
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 07:21:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9M7Kt0r022248
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 22 Oct 2018 00:21:06 -0700
-Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Mon, 22 Oct 2018 00:20:44 -0700
-To: ChenQi <Qi.Chen@windriver.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
+	Mon, 22 Oct 2018 07:23:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Oct 2018 00:23:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,411,1534834800"; d="scan'208";a="79883497"
+Received: from pgsmsx102.gar.corp.intel.com ([10.221.44.80])
+	by fmsmga007.fm.intel.com with ESMTP; 22 Oct 2018 00:23:02 -0700
+Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.235]) by
+	PGSMSX102.gar.corp.intel.com ([169.254.6.129]) with mapi id
+	14.03.0319.002; Mon, 22 Oct 2018 15:23:01 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1539926193.git.Qi.Chen@windriver.com>
-	<aa81e6d3c24822a91432cac5af20378a65301254.1539926193.git.Qi.Chen@windriver.com>
-	<2980ba34e7eb66ad6ad22d5cd85b12a9bb7e30b2.camel@linuxfoundation.org>
-	<1968d06f-a488-7e62-65e1-601bf0c24bba@windriver.com>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <7f2b4e9e-7f2f-89e9-4348-7f693f6115a6@windriver.com>
-Date: Mon, 22 Oct 2018 15:20:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+Thread-Topic: [OE-core] [PATCH 2/5] oeqa/core/runner: write testresult to
+	json files
+Thread-Index: AQHUZFpfOT/nHdPUQkGGNeWjbyAeb6Ufel6AgAVLswCAAEX2gIAF2tfA
+Date: Mon, 22 Oct 2018 07:23:01 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335ECDCDC@KMSMSX155.gar.corp.intel.com>
+References: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
+	<1539588294-5532-2-git-send-email-ee.peng.yeoh@intel.com>
+	<ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
+	<9DDD2658D1FE414E99172D2DB1E4D04335ECCCF0@KMSMSX155.gar.corp.intel.com>
+	<5b431318cc50402e32836dbf42398e59ae323bee.camel@linuxfoundation.org>
+In-Reply-To: <5b431318cc50402e32836dbf42398e59ae323bee.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMzhhMDE0ZTItNWQwYS00ZDM2LWFjYjEtNGUyNDVmMDQ1NDQ5IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiMzZhMkhQeXV2a21XN3FSNzkyK0lGVFZ5U3daQmdJZ0xZYkxyZVMyN0p3ZHAxYzI4ZFwvYldFendkaDYwNFpPRzQifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-In-Reply-To: <1968d06f-a488-7e62-65e1-601bf0c24bba@windriver.com>
-X-Originating-IP: [128.224.162.153]
-Subject: Re: [PATCH 1/1] systemd: add back alternatives for init utitilies
+Subject: Re: [PATCH 2/5] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,118 +53,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 07:21:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Oct 2018 07:23:02 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-
-
-On 10/22/2018 03:01 PM, ChenQi wrote:
-> On 10/21/2018 05:37 AM, Richard Purdie wrote:
->> On Fri, 2018-10-19 at 13:19 +0800, Chen Qi wrote:
->>> Add back alternatives for init utilities to avoid regression.
->>>
->>> These alternatives were removed when upgradeing systemd to 239.
->>> They were removed out of the logic that init utitilies should be
->>> bound to init manager. However, it turned out that two use cases
->>> were not covered.
->>>
->>> 1) initramfs using commands like 'reboot' from busybox.
->>> 2) Users use customized busybox defconfig which enables init
->>> utilities.
->>>
->>> The first use case caused a regression bug in yocto.
->>>    https://bugzilla.yoctoproject.org/show_bug.cgi?id=12914
->>> Patches were sent to fix the reboot problem.
->>>
->>> But this is not enough. As we may have the second use case. In such
->>> situation, users will find themselves having regression error when
->>> using 'busybox + systemd' (and busybox is installed after systemd,
->>> overriding the systemd symlinks).
->>>
->>> So in order to avoid regression, add back these alternatives.
->>>
->>> Signed-off-by
->> There is something odd going on which this change since it triggers:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/35/builds/95/steps/7/logs/step7c 
->>
->>
->> I've isolated it to this change having initially thought it was Mark's
->> systemd change...
->>
->> Cheers,
->>
->> Richard
->>
->>
-> Hi Richard,
->
-> I saw all those reverts and tests about master-next on oe mailing list 
-> and I really feel sorry for causing autobuilder failures.
-> Before I sent out the patch, I did do testimage test with 
-> 'core-image-minimal + systemd + ssh + package-management' and things 
-> were working well.
->
-> Back to this failure, after some investigation, I finally found the 
-> root cause. It's about udev-extraconf.
-> Before my patch, udev-extraconf actually does not work as originally 
-> designed. Check the following codes in mount.sh from udev-extraconf.
-> BASE_INIT="`readlink "/sbin/init"`"
-> INIT_SYSTEMD="/lib/systemd/systemd"
->
-> if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
->     # systemd as init uses systemd-mount to mount block devices
->     MOUNT="/usr/bin/systemd-mount"
->     UMOUNT="/usr/bin/systemd-umount"
-> [snip]
->
-> In our system, what we have is:
-> root@qemux86-64:~# ls -l /sbin/init
-> lrwxrwxrwx    1 root     root            22 Oct 22 04:00 /sbin/init -> 
-> ../lib/systemd/systemd
->
-> As '../lib/systemd/systemd' does not equal to '/lib/systemd/systemd', 
-> the mount.sh is not using systemd-mount.
->
-> When checking links, we should use `readlnk -f' instead of just 
-> 'readlink'. In other words, things happen to succeed for 
-> core-image-sato because of some error in the mount.sh script from 
-> udev-extraconf.
->
-> My patch links /sbin/init to /lib/systemd/systemd and that makes the 
-> mount.sh start to work, thus revealing the error.
-> In fact, besides the dev-vda.mount problem, I also got 
-> media-run-hdc.mount failure on core-image-sato. They are both caused 
-> by the udev-extraconf.
->
-> I'm going to remove the 'init' from alternatives and send out V2. But 
-> udev-extraconf also needs to be fixed.
-> (CC Hongzhi who did the change.)
->
-> Richard, what do you think we should do about the automount udev rule 
-> from udev-extraconf?
-> I'd suggest that we do not install the automount udev rule in case of 
-> systemd. I think the mount.sh script is likely to cause conflicts and 
-> failures unless it's constructed very carefully in case of systemd. 
-> Unfortunately, I don't think that script could be easily made 
-> reliable, considering all the possible .mount and .automount units 
-> that users may add as custom configuration.
-> Hongzhi, what's your opinion?
-
-Hi all,
-
-I am so sorry for causing failures. I will send patch to fix the issue 
-as soon as possible.
-
-I agree with Chen Qi's suggestions. The "mount.sh" is out-of-date.
-
---Hongzhi
-
->
-> Best Regards,
-> Chen Qi
->
-
+SGkgUmljaGFyZCwNCg0KSSBoYWQgZG9uZSBtYWtpbmcgdGhlIGNoYW5nZXMgdG8gbWF0Y2ggeW91
+ciBpbnB1dHMgYW5kIHN1Z2dlc3Rpb25zLg0KQmVsb3cgd2FzIHRoZSBwYXRjaGVzIHJlc3VibWl0
+dGVkLiANCg0KUGxlYXNlIGxldCBtZSBrbm93IGlmIHlvdSBoYXZlIGFueSBtb3JlIGlucHV0cyBv
+ciBxdWVzdGlvbnMuDQoNCkJlc3QgcmVnYXJkcywNClllb2ggRWUgUGVuZyANCg0KaHR0cDovL2xp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3JlLzIwMTgtT2N0
+b2Jlci8xNTY5MjYuaHRtbA0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWls
+L29wZW5lbWJlZGRlZC1jb3JlLzIwMTgtT2N0b2Jlci8xNTY5MjcuaHRtbA0KaHR0cDovL2xpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3JlLzIwMTgtT2N0b2Jl
+ci8xNTY5MjguaHRtbA0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29w
+ZW5lbWJlZGRlZC1jb3JlLzIwMTgtT2N0b2Jlci8xNTY5MjkuaHRtbA0KDQoNCi0tLS0tT3JpZ2lu
+YWwgTWVzc2FnZS0tLS0tDQpGcm9tOiByaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3Jn
+IFttYWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiBGcmlk
+YXksIE9jdG9iZXIgMTksIDIwMTggNTo1NiBBTQ0KVG86IFllb2gsIEVlIFBlbmcgPGVlLnBlbmcu
+eWVvaEBpbnRlbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzVdIG9lcWEvY29yZS9ydW5uZXI6IHdy
+aXRlIHRlc3RyZXN1bHQgdG8ganNvbiBmaWxlcw0KDQpPbiBUaHUsIDIwMTgtMTAtMTggYXQgMDk6
+NDcgKzAwMDAsIFllb2gsIEVlIFBlbmcgd3JvdGU6DQo+IFRoYW5rIHlvdSB2ZXJ5IG11Y2ggZm9y
+IHlvdXIgZ3JlYXQgZmVlZGJhY2tzIGFuZCBpbnB1dHMhDQo+IEkgaGFkIGNvbXBsZXRlZCB0aGUg
+cmVmYWN0b3IgYW5kIHJlc3VibWl0dGVkIHRoZSBwYXRjaGVzIGFzIGJlbG93LiANCj4gUGxlYXNl
+IGxldCBtZSBrbm93IGlmIGFueSBtb3JlIGZlZWRiYWNrcyBhbmQgaW5wdXRzIQ0KDQpUaGFua3Mg
+Zm9yIHRoZSByZXZpc2VkIHNlcmllcywgaXRzIGxvb2tpbmcgdmVyeSBtdWNoIGltcHJvdmVkISBJ
+J3ZlIHF1ZXVlZCAxLzUgb250byB0aGUgYXV0b2J1aWxkZXIgYW5kIGl0cyB0ZXN0ZWQgb2sgc28g
+dGhhdCB3aWxsIGxpa2VseSBtZXJnZS4NCg0KSSBzdGlsbCBoYXZlIGEgZmV3IGNvbmNlcm5zIGFi
+b3V0IHRoZSBkYXRhIGZvcm1hdCBmb3IgMi81Lg0KDQpAQCAtMjQ5LDMgKzI1NiwyNCBAQCBjbGFz
+cyBPRVRlc3RSdW5uZXIoX1Rlc3RSdW5uZXIpOg0KPiAgICAgICAgICAgICAgc2VsZi5fbGlzdF90
+ZXN0c19tb2R1bGUoc3VpdGUpDQo+ICANCj4gICAgICAgICAgcmV0dXJuIE9FTGlzdFRlc3RzUmVz
+dWx0KCkNCj4gKw0KPiArY2xhc3MgT0VUZXN0UmVzdWx0SlNPTkhlbHBlcihvYmplY3QpOg0KPiAr
+DQo+ICsgICAgZGVmIF9jcmVhdGVfanNvbl90ZXN0cmVzdWx0X3N0cmluZyhzZWxmLCB0ZXN0X3Jl
+c3VsdHMsIHRlc3RfZW52aXJvbm1lbnRzKToNCj4gKyAgICAgICAgdGVzdGNhc2VfZGljdCA9IHt9
+DQo+ICsgICAgICAgIGZvciB0ZXN0Y2FzZSBpbiBzb3J0ZWQodGVzdF9yZXN1bHRzKToNCj4gKyAg
+ICAgICAgICAgIHRlc3RjYXNlX2RpY3RbdGVzdGNhc2VdID0geyJ0ZXN0cmVzdWx0IjogdGVzdF9y
+ZXN1bHRzW3Rlc3RjYXNlXVswXSwgImxvZyI6IHRlc3RfcmVzdWx0c1t0ZXN0Y2FzZV1bMV19DQo+
+ICsgICAgICAgIHRlc3RyZXN1bHRfb2JqZWN0ID0geyd0ZXN0ZW52aXJvbm1lbnQnOiB0ZXN0X2Vu
+dmlyb25tZW50cywNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJ3Rlc3RjYXNlJzog
+dGVzdGNhc2VfZGljdH0NCg0KSSdkIGxpa2UgdG8gYmUgYWJsZSB0byBzdG9yZSBtb3JlIHRoYW4g
+b25lIHNldCBvZiByZXN1bHRzIGluIGEgc2luZ2xlIGpzb24gZmlsZS4gSW4gb3JkZXIgdG8gbWFr
+ZSB0aGF0IHdvcmssIHRoZSBhYm92ZSBmb3JtYXQgd2lsbCBuZWVkIHR3ZWFraW5nIHNsaWdodGx5
+LiBTb21ldGhpbmcgbGlrZToNCg0KdGVzdHJlc3VsdF9vYmplY3QgPSB7cmVzdWx0aWQgOiB7J2Nv
+bmZpZ3VyYXRpb24nOiB0ZXN0X2Vudmlyb25tZW50cywNCiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAncmVzdWx0cyc6IHRlc3RjYXNlX2RpY3R9fQ0KDQp3aGVyZSByZXN1bHRpZCB3
+b3VsZCBiZSBzb21ldGhpbmcgbGlrZSAiaW1hZ2V0ZXN0LXFlbXV4ODYtY29yZS1pbWFnZS1zYXRv
+LVlZTU1EREhITU1TUyIgDQphbmQgcGFzc2VkIGluIHRvIHRoZSBmdW5jdGlvbiBieSB0aGUgY2Fs
+bCBzaXRlLiBJdCdkIGJlIHNpbWlsYXIgdG8gdGhlIG90aGVyIGxvZyBmaWxlIHRoZSB0ZXN0cyBn
+ZW5lcmF0ZS4gV2UgY291bGQgYWxzbyBwZXJoYXBzIHVzZSBwaWQgaW5zdGVhZCBvZiBhIHRpbWVz
+dGFtcCBpbiB0aGVyZS4gQSB0aW1lc3RhbXAgd291bGQgYmUgZ29vZCBpbiB0aGUgY29uZmlndXJh
+dGlvbiBzZWN0aW9uLg0KDQpBbHNvLCB3ZSBuZWVkIHRvIHJlY29yZCB3aGljaCByZXZpc2lvbiBv
+ZiB0aGUgY29uZmlndXJlZCBsYXllcnMgdGhpcyB0ZXN0IHJlc3VsdCB3YXMgd2l0aC4gVGhlIGdl
+dF9sYXllcnNfYnJhbmNoX3JldigpIGZ1bmN0aW9uIGluIGJhc2UuYmJjbGFzcyBzaG91bGQgZ2l2
+ZSBhbiBpZGVhIG9mIGhvdyB0byBnZXQgdGhpcyBpbmZvcm1hdGlvbiB1c2luZyBleGlzdGluZyBm
+dW5jdGlvbnMuDQoNCj4gKyAgICAgICAgcmV0dXJuIGpzb24uZHVtcHModGVzdHJlc3VsdF9vYmpl
+Y3QsIHNvcnRfa2V5cz1UcnVlLCANCj4gKyBpbmRlbnQ9NCkNCj4gKw0KPiArICAgIGRlZiBfd3Jp
+dGVfZmlsZShzZWxmLCB3cml0ZV9kaXIsIGZpbGVfbmFtZSwgZmlsZV9jb250ZW50KToNCj4gKyAg
+ICAgICAgZmlsZV9wYXRoID0gb3MucGF0aC5qb2luKHdyaXRlX2RpciwgZmlsZV9uYW1lKQ0KPiAr
+ICAgICAgICB3aXRoIG9wZW4oZmlsZV9wYXRoLCAndycpIGFzIHRoZV9maWxlOg0KPiArICAgICAg
+ICAgICAgdGhlX2ZpbGUud3JpdGUoZmlsZV9jb250ZW50KQ0KPiArDQo+ICsgICAgZGVmIGR1bXBf
+dGVzdHJlc3VsdF9maWxlKHNlbGYsIHRlc3RfcmVzdWx0cywgdGVzdF9lbnZpcm9ubWVudHMsIHdy
+aXRlX2Rpcik6DQo+ICsgICAgICAgIGlmIG5vdCBvcy5wYXRoLmV4aXN0cyh3cml0ZV9kaXIpOg0K
+DQpObyBuZWVkIGZvciB0aGlzIGlmIHRlc3QgaGVyZSBzaW5jZSBta2RpcmhpZXIgaGFuZGxlcyB0
+aGF0Lg0KDQo+ICsgICAgICAgICAgICBiYi51dGlscy5ta2RpcmhpZXIod3JpdGVfZGlyKQ0KPiAr
+ICAgICAgICBqc29uX3Rlc3RyZXN1bHQgPSBzZWxmLl9jcmVhdGVfanNvbl90ZXN0cmVzdWx0X3N0
+cmluZyh0ZXN0X3Jlc3VsdHMsIHRlc3RfZW52aXJvbm1lbnRzKQ0KPiArICAgICAgICBzZWxmLl93
+cml0ZV9maWxlKHdyaXRlX2RpciwgJ3Rlc3RyZXN1bHRzLmpzb24nLCANCj4gKyBqc29uX3Rlc3Ry
+ZXN1bHQpDQoNCkFzIG1lbnRpb25lZCBhYm92ZSwgSSdkIHJlYWxseSBsaWtlIGlmIGlmIHdlIGNv
+dWxkIHB1dCBhbGwgdGhlIHRlc3QgcmVzdWx0cyBpbnRvIG9uZSBqc29uIGZpbGUgYXMgdGhpcyB3
+b3VsZCBzYXZlIHRoZSBhdXRvYnVpbGRlciBoYXZpbmcgdG8gY29tYmluZSB0aGVtIGFsbC4gVGhh
+dCBzaG91bGQgYmUgc3RyYWlnaHQgZm9yd2FyZCB0byBkbyBidXQgd2UgbmVlZCB0byBiZSBjYXJl
+ZnVsIGFib3V0IHJhY2VzLg0KDQpUaGlzIG1lYW5zIGxvY2tpbmcgYSBsb2NrZmlsZSBhbG9uZ3Np
+ZGUgdGhlIHJlc3VsdHMgZmlsZSB3aGljaCB3ZSBjYW4gZG8gd2l0aCBiYi51dGlscy5sb2NrZmls
+ZSgpIGNhbGwsIHRoZW4gd3JpdGluZyB0aGUgcmVzdWx0cywgdGhlbiBjYWxsaW5nIHVubG9ja2Zp
+bGUoKS4NCg0KV2l0aCByZWdhcmQgdG8gdGhlIG90aGVyIHBhdGNoZXMsIGZvciBzZWxmdGVzdCB3
+ZSBkbyBuZWVkIHRvIGxvZyB3aGljaCBNQUNISU5FL0RJU1RSTyB3YXMgdXNlZC4NCg0KRElTVFJP
+IGFuZCBJTUFHRV9QS0dUWVBFIGFsc28gbmVlZHMgYWRkaW5nIHRvIHRlc3RpbWFnZSBhbmQgU0RL
+TUFDSElORSBhbmQgSU1BR0VfUEtHVFlQRSB0byB0ZXN0c2RrLg0KDQpDaGVlcnMsDQoNClJpY2hh
+cmQNCg0K
 
