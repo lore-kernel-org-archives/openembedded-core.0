@@ -1,47 +1,54 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EF9179C3B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A74BB7453F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 09:08:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Oct 2018 02:08:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,411,1534834800"; d="scan'208";a="79905484"
-Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
-	by fmsmga007.fm.intel.com with ESMTP; 22 Oct 2018 02:08:58 -0700
-Received: from pgsmsx109.gar.corp.intel.com (10.221.44.109) by
-	PGSMSX111.gar.corp.intel.com (10.108.55.200) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 22 Oct 2018 17:08:57 +0800
-Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.235]) by
-	PGSMSX109.gar.corp.intel.com ([169.254.14.29]) with mapi id
-	14.03.0319.002; Mon, 22 Oct 2018 17:08:57 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	Mon, 22 Oct 2018 09:34:29 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id 206-v6so9507938wmb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2018 02:34:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=IWdVGuLt2/z8+zlXCCsIzvaLD/eKZ6RcPJ8ZOqpC1xc=;
+	b=Whsj3tzgdA3H5lbAH4Urj4OCnpB5U1cFuK6syr3qqRQxQ6BdxGFdLFmHN7NllC3MmA
+	1i1xv2Pk53SxwBf6LC6fv1CREh+gM59JpQ6CM55Nkf1FFQoZfYIRXiK/80cUVFo63O3i
+	oJHrDyLHxWDfVD94zceZCnfIkBnk/6QSCp4uc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=IWdVGuLt2/z8+zlXCCsIzvaLD/eKZ6RcPJ8ZOqpC1xc=;
+	b=tuWZLKdWdYgZsMlDJX+DYiouMa08xIG4XvRW6nSg8RgpwTSzTEXcsMl3v37dFb53Mc
+	gbHJD5MSNv2J+g9QGH5IM/we8Pe2Obps1m5tcA46EkbQQhcpMNvybf+FJa1SpJbR19Ph
+	dNgQNG50W0lNUgB9cccPc+JqQ1b7mFg0mVPmj7B6YWsClE30l3l0N6BQM8ALtHqx53u+
+	DLeSn7yh/WrS0HqCPt9gdRtkbZ7gN2r+uMxFkJAZLjf9FH7xP9PvSlS4OzlPJUfXKH6w
+	CvyogBWWl+jYzEcJO6jQk8/hp/XixFZHU37Z4mPZnZlY8tVUAVRB0sJmZk1ZEUXx2knl
+	Wabg==
+X-Gm-Message-State: ABuFfogIltc0JmAmb0b7//25UQV4w27zTegGQN91o0esppEgU7RZ21Xm
+	uIMiphDDdetStqKKmqIMGu0GLxlBq6Q=
+X-Google-Smtp-Source: ACcGV60EN2GSUjZgqgtyd0XebSA/oxinYoRucCGjkrL0f2INLSD6iwMRExgi7iioI7czctDQaQppYw==
+X-Received: by 2002:a1c:790:: with SMTP id
+	138-v6mr15301961wmh.122.1540200869980; 
+	Mon, 22 Oct 2018 02:34:29 -0700 (PDT)
+Received: from hex ([185.7.230.214]) by smtp.gmail.com with ESMTPSA id
+	140-v6sm10569356wmx.34.2018.10.22.02.34.28
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 22 Oct 2018 02:34:28 -0700 (PDT)
+Message-ID: <ef9026ca2498e333392215eb630e153908c1cedb.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>, 
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 3/4] testimage.bbclass: write testresult to
-	json files
-Thread-Index: AQHUaeKmkXTGcobbhEGTc6dMvtdAfKUq951g
-Date: Mon, 22 Oct 2018 09:08:57 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335ECDE24@KMSMSX155.gar.corp.intel.com>
+Date: Mon, 22 Oct 2018 10:34:27 +0100
+In-Reply-To: <9DDD2658D1FE414E99172D2DB1E4D04335ECDDF9@KMSMSX155.gar.corp.intel.com>
 References: <1540191264-12332-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1540191264-12332-3-git-send-email-ee.peng.yeoh@intel.com>
-	<7d241d4a795b1bfbfd15da327420a4d98f0d9223.camel@linuxfoundation.org>
-In-Reply-To: <7d241d4a795b1bfbfd15da327420a4d98f0d9223.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYWU1MTY0ZmItY2Y4Mi00ZmUxLWJhZjYtY2U3MmI5MmMxZGY3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoieURnakkwRUdmRGZ1eExPa3ZuTjVVZk9UUjB5TVwvZEQ2Q1ZFUTcrT3pPdFwvQTR5MzJLRmx1WDlpczZtb2tvampQIn0=
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
-MIME-Version: 1.0
-Subject: Re: [PATCH 3/4] testimage.bbclass: write testresult to json files
+	<a12cf13bca36f6573be192ada5bbf60dbaa4b902.camel@linuxfoundation.org>
+	<9DDD2658D1FE414E99172D2DB1E4D04335ECDDF9@KMSMSX155.gar.corp.intel.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/4] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,91 +61,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 09:08:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 22 Oct 2018 09:34:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-UmljaGFyZCwNCg0KTm90ZWQsIGxldCdzIHVzIG1hZGUgdGhlIGNoYW5nZXMgdG8gcmVjb3JkIGFs
-bCB0aGUgcmV2aXNpb25zL2JyYW5jaGVzIHRoYXQgYXJlIGJlaW5nIHVzZWQuDQoNClRoZSByZWFz
-b24gdG8gcHJvdmlkZSB0aGUgZGVmYXVsdCByZXN1bHRfZGlyIGhlcmUgd2FzIHRvIHByZXZlbnQg
-dGhlIGNhc2Ugd2hlcmUgbm8ganNvbiB0ZXN0cmVzdWx0IGJlaW5nIHdyaXRlIG91dCB3aGVuIHVz
-ZXIgZG9lcyBub3QgcHJvdmlkZSB0aGUgc3BlY2lmaWMgT0VRQV9KU09OX1JFU1VMVF9ESVIsIG90
-aGVyd2lzZSB1c2VyIG1pZ2h0IG5lZWQgdG8gcmVydW4gdGVzdCB0byBnZXQgdGhlIGpzb24gdGVz
-dHJlc3VsdC4gIFByb2JhYmx5LCBpdCB3aWxsIGJlIGJldHRlciB0aGF0IGJpdGJha2Ugd2lsbCBw
-cm9tcHQgdXNlciB0byBwcm92aWRlIHJlc3VsdF9kaXIgdmFyaWFibGUgbmV4dCByb3VuZCBpZiBp
-dCB3YXMgbm90IGF2YWlhYmxlIHRvIHdyaXRlIHRlc3RyZXN1bHQgdG8gYSBzcGVjaWZ5IGxvY2F0
-aW9uIChlZy4gY29tbW9uIGxvY2F0aW9uIHRvIHdyaXRlIGFsbCB0ZXN0cmVzdWx0KS4gUGxlYXNl
-IGxldCBtZSBrbm93IHlvdXIgaW5wdXRzLg0KPiArZGVmIF9nZXRfanNvbl9yZXN1bHRfZGlyKGQs
-IGNvbmZpZ3VyYXRpb24pOg0KPiArICAgIGpzb25fcmVzdWx0X2RpciA9IG9zLnBhdGguam9pbihk
-LmdldFZhcigiV09SS0RJUiIpLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAndGVtcCcsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICdqc29uX3Rl
-c3RyZXN1bHRzLSVzJyAlIGNvbmZpZ3VyYXRpb25bJ1BST0NFU1NfSUQnXSwNCj4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uZmlndXJhdGlvblsnVEVTVF9UWVBFJ10sDQo+
-ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbmZpZ3VyYXRpb25bJ01BQ0hJ
-TkUnXSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uZmlndXJhdGlv
-blsnSU1BR0VfQkFTRU5BTUUnXSkNCj4gKyAgICBvZXFhX2pzb25fcmVzdWx0X2NvbW1vbl9kaXIg
-PSBkLmdldFZhcigiT0VRQV9KU09OX1JFU1VMVF9DT01NT05fRElSIikNCj4gKyAgICBpZiBvZXFh
-X2pzb25fcmVzdWx0X2NvbW1vbl9kaXI6DQo+ICsgICAgICAgIGpzb25fcmVzdWx0X2RpciA9IG9l
-cWFfanNvbl9yZXN1bHRfY29tbW9uX2Rpcg0KDQpCZXN0IHJlZ2FyZHMsDQpZZW9oIEVlIFBlbmcg
-DQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiByaWNoYXJkLnB1cmRpZUBsaW51
-eGZvdW5kYXRpb24ub3JnIFttYWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9y
-Z10gDQpTZW50OiBNb25kYXksIE9jdG9iZXIgMjIsIDIwMTggNDozOCBQTQ0KVG86IFllb2gsIEVl
-IFBlbmcgPGVlLnBlbmcueWVvaEBpbnRlbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAzLzRdIHRlc3Rp
-bWFnZS5iYmNsYXNzOiB3cml0ZSB0ZXN0cmVzdWx0IHRvIGpzb24gZmlsZXMNCg0KT24gTW9uLCAy
-MDE4LTEwLTIyIGF0IDE0OjU0ICswODAwLCBZZW9oIEVlIFBlbmcgd3JvdGU6DQo+IEFzIHBhcnQg
-b2YgdGhlIHNvbHV0aW9uIHRvIHJlcGxhY2UgVGVzdG9waWEgdG8gc3RvcmUgdGVzdHJlc3VsdCwg
-T0VRQSANCj4gdGVzdGltYWdlIG5lZWQgdG8gb3V0cHV0IHRlc3RyZXN1bHQgaW50byBqc29uIGZp
-bGVzLCB3aGVyZSB0aGVzZSBqc29uIA0KPiB0ZXN0cmVzdWx0IGZpbGVzIHdpbGwgYmUgc3RvcmVk
-IGludG8gZ2l0IHJlcG9zaXRvcnkgYnkgdGhlIGZ1dHVyZSANCj4gdGVzdC1jYXNlLW1hbmFnZW1l
-bnQgdG9vbHMuDQo+IA0KPiBUbyBjb25maWd1cmUgbXVsdGlwbGUgaW5zdGFuY2VzIG9mIGJpdGJh
-a2UgdG8gd3JpdGUganNvbiB0ZXN0cmVzdWx0IHRvIA0KPiBhIHNpbmdsZSB0ZXN0cmVzdWx0IGZp
-bGUsIHVzZXIgd2lsbCBkZWZpbmUgdGhlIHZhcmlhYmxlIA0KPiAiT0VRQV9KU09OX1JFU1VMVF9D
-T01NT05fRElSIiB3aXRoIHRoZSBjb21tb24gZGlyZWN0b3J5IGZvciB3cml0aW5nIA0KPiBqc29u
-IHRlc3RyZXN1bHQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBZZW9oIEVlIFBlbmcgPGVlLnBlbmcu
-eWVvaEBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgbWV0YS9jbGFzc2VzL3Rlc3RpbWFnZS5iYmNsYXNz
-IHwgMzQgDQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0NCj4gIDEgZmlsZSBj
-aGFuZ2VkLCAzMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdp
-dCBhL21ldGEvY2xhc3Nlcy90ZXN0aW1hZ2UuYmJjbGFzcyANCj4gYi9tZXRhL2NsYXNzZXMvdGVz
-dGltYWdlLmJiY2xhc3MgaW5kZXggMjY0MmE3Mi4uMTEyYmE3MSAxMDA2NDQNCj4gLS0tIGEvbWV0
-YS9jbGFzc2VzL3Rlc3RpbWFnZS5iYmNsYXNzDQo+ICsrKyBiL21ldGEvY2xhc3Nlcy90ZXN0aW1h
-Z2UuYmJjbGFzcw0KPiBAQCAtMiw3ICsyLDcgQEANCj4gICMNCj4gICMgUmVsZWFzZWQgdW5kZXIg
-dGhlIE1JVCBsaWNlbnNlIChzZWUgQ09QWUlORy5NSVQpDQo+ICANCj4gLQ0KPiAraW5oZXJpdCBt
-ZXRhZGF0YV9zY20NCj4gICMgdGVzdGltYWdlLmJiY2xhc3MgZW5hYmxlcyB0ZXN0aW5nIG9mIHFl
-bXUgaW1hZ2VzIHVzaW5nIHB5dGhvbiB1bml0dGVzdHMuDQo+ICAjIE1vc3Qgb2YgdGhlIHRlc3Rz
-IGFyZSBjb21tYW5kcyBydW4gb24gdGFyZ2V0IGltYWdlIG92ZXIgc3NoLg0KPiAgIyBUbyB1c2Ug
-aXQgYWRkIHRlc3RpbWFnZSB0byBnbG9iYWwgaW5oZXJpdCBhbmQgY2FsbCB5b3VyIHRhcmdldCAN
-Cj4gaW1hZ2Ugd2l0aCAtYyB0ZXN0aW1hZ2UgQEAgLTE0MSw2ICsxNDEsMzMgQEAgZGVmIHRlc3Rp
-bWFnZV9zYW5pdHkoZCk6DQo+ICAgICAgICAgIGJiLmZhdGFsKCdXaGVuIFRFU1RfVEFSR0VUIGlz
-IHNldCB0byAic2ltcGxlcmVtb3RlIiAnDQo+ICAgICAgICAgICAgICAgICAgICdURVNUX1RBUkdF
-VF9JUCBhbmQgVEVTVF9TRVJWRVJfSVAgYXJlIG5lZWRlZCB0b28uJykNCj4gIA0KPiArZGVmIF9n
-ZXRfY29uZmlndXJhdGlvbihkLCB0ZXN0X3R5cGUsIHBpZCwgbWFjaGluZSk6DQo+ICsgICAgaW1w
-b3J0IHBsYXRmb3JtDQo+ICsgICAgYmJfY29yZV9kaXIgPSBkLmdldFZhcigiQkJGSUxFX1BBVFRF
-Uk5fY29yZT0iKQ0KPiArICAgIHJldHVybiB7J1RFU1RfVFlQRSc6IHRlc3RfdHlwZSwNCj4gKyAg
-ICAgICAgICAgICdCUkFOQ0gnOiBiYXNlX2dldF9tZXRhZGF0YV9naXRfYnJhbmNoKGJiX2NvcmVf
-ZGlyLCBOb25lKS5zdHJpcCgpLA0KPiArICAgICAgICAgICAgJ0NPTU1JVCc6IGJhc2VfZ2V0X21l
-dGFkYXRhX2dpdF9yZXZpc2lvbihiYl9jb3JlX2RpciwgDQo+ICtOb25lKSwNCg0KV2UgbmVlZCB0
-byByZWNvcmQgYWxsIHRoZSByZXZpc2lvbnMvYnJhbmNoZXMgdGhhdCBhcmUgYmVpbmcgdXNlZC4g
-Q291bGQgd2UganVzdCBpbmplY3QgdGhlIGNvbnRlbnRzIG9mIG1ldGFkYXRhWydsYXllcnMnXSBk
-aXJlY3RseSBpbnRvIHRoZSBqc29uIGZpbGUgaGVyZT8NCg0KPiArICAgICAgICAgICAgJ1BST0NF
-U1NfSUQnOiBwaWQsDQo+ICsgICAgICAgICAgICAnTUFDSElORSc6IG1hY2hpbmUsDQo+ICsgICAg
-ICAgICAgICAnSU1BR0VfQkFTRU5BTUUnOiBkLmdldFZhcigiSU1BR0VfQkFTRU5BTUUiKSwNCj4g
-KyAgICAgICAgICAgICdJTUFHRV9QS0dUWVBFJzogZC5nZXRWYXIoIklNQUdFX1BLR1RZUEUiKSwN
-Cj4gKyAgICAgICAgICAgICdIT1NUX0RJU1RSTyc6IHBsYXRmb3JtLmxpbnV4X2Rpc3RyaWJ1dGlv
-bigpfQ0KPiArDQo+ICtkZWYgX2dldF9qc29uX3Jlc3VsdF9kaXIoZCwgY29uZmlndXJhdGlvbik6
-DQo+ICsgICAganNvbl9yZXN1bHRfZGlyID0gb3MucGF0aC5qb2luKGQuZ2V0VmFyKCJXT1JLRElS
-IiksDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICd0ZW1wJywNCj4gKyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJ2pzb25fdGVzdHJlc3VsdHMtJXMnICUg
-Y29uZmlndXJhdGlvblsnUFJPQ0VTU19JRCddLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBjb25maWd1cmF0aW9uWydURVNUX1RZUEUnXSwNCj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgY29uZmlndXJhdGlvblsnTUFDSElORSddLA0KPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25maWd1cmF0aW9uWydJTUFHRV9CQVNFTkFN
-RSddKQ0KPiArICAgIG9lcWFfanNvbl9yZXN1bHRfY29tbW9uX2RpciA9IGQuZ2V0VmFyKCJPRVFB
-X0pTT05fUkVTVUxUX0NPTU1PTl9ESVIiKQ0KPiArICAgIGlmIG9lcWFfanNvbl9yZXN1bHRfY29t
-bW9uX2RpcjoNCj4gKyAgICAgICAganNvbl9yZXN1bHRfZGlyID0gb2VxYV9qc29uX3Jlc3VsdF9j
-b21tb25fZGlyDQoNCkRvIHdlIG5lZWQgYm90aCBjb2RlcGF0aHMgaGVyZSBvciBjYW4gd2UganVz
-dCBwbGFjZSB0aGluZ3MgaW4gT0VRQV9KU09OX1JFU1VMVF9DT01NT05fRElSIHVuY29uZGl0aW9u
-YWxseSBoZXJlPw0KDQood2UgY291bGQgcmVuYW1lIGl0IHRvIE9FUUFfSlNPTl9SRVNVTFRfRElS
-PykNCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCg==
+On Mon, 2018-10-22 at 08:59 +0000, Yeoh, Ee Peng wrote:
+> Hi Richard
+> 
+> Current codes does load existing testresult json file if it exist,
+> then it will write the new testresult into it based on the result_id.
+> > +    def _get_testresults(self, write_dir):
+> > +        testresults = {}
+> > +        file = os.path.join(write_dir, self.testresult_filename)
+> > +        if os.path.exists(file):
+> > +            with open(file, "r") as f:
+> > +                testresults = json.load(f)
+> > +        return testresults
+
+I managed to miss that function and call, sorry. That should be fine. I
+think we may want to inline some of these functions to make things
+clearer.
+
+> I did have the same thinking on if we can have a common function to
+> manage configuration and result_id or let individual test classes to
+> manage it, in the end, the thinking was configuration/result_id were
+> really responsibility of each test classes, where the json helper
+> class inside runner shall not have the knowledge or know-how on
+> configuration/result_id. Thus the decision in the end was to make
+> json helper class responsibility as simple as to consume the
+> configuration, results, result_id information provided by the test
+> classes. Hope this explain the reason behind current design. 
+> 
+> Thank you very much for your attention & knowledge sharing! 
+
+You could just do what amounts to getVar("LOGDIR") + "/oeqa" and have
+that as the default test result location?
+
+Cheers,
+
+Richard
+
+
+
 
