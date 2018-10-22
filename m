@@ -1,48 +1,40 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
-	[209.85.210.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D53679C14
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id CC78B71C3D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 15:15:47 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id c32so40381874otb.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 08:15:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=OlBbVIU2+4Tzv28gV1tFxL2HziTauP5o75Nxu0TJmq0=;
-	b=Tyoxn68q3dU1tF127H99vEcUjGj+2H6apW8kNE59kD4taPpSzdIyWO6B8twAU/z0rg
-	LOcdAJRO/Xonet1QwVQXWzgo0J2ghx/uRZqlVOp09rttJABuqqFg90L6Z/s7Eq+qYp5U
-	0JueAtMJ1DDVqV2rGRkviyOGuoXWcKwXLoVRXADCCYwHswTNHcJyrYiAk9vUVcBsWQOX
-	DSt+cP6/yaKdaAzBr2ymaje/iYbbMz7x1CNjYhiuVcDuW2EiDIq9Hrc0MHUeWusGzo/l
-	r5//K1MT8u4js6vSgREVEDYR8pe9t5FtTSE8VeJn9ZuNQu21WVQHxL+qB4q9GRwchthH
-	Wnnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=OlBbVIU2+4Tzv28gV1tFxL2HziTauP5o75Nxu0TJmq0=;
-	b=RQ+egjqAzcYDt8TEEGs1ME/dC3V7BFJsxhrmPHgJUkepNAcGTRoKE7QOpW7/bpLZUt
-	/5Lj+32ZKVxZrsrMGtqD9PKT9zvePbuLGPv+jGaku+6Q43rZG+gmCSXvji83h50FlOkW
-	z/D/Q5LgTfXzr6JghwEx4t/GGA5LdzF6vQFZ5j3bK5RGO/qvi8Y1mwt6ux5eNZkgKJ3A
-	MiCG3wd6Kh/7TGM24L6GRdFfDUv8700D0+zC8WfeepnBlNbvxlYsLoNrY3w/Vj8p2Rvx
-	hg3ncK15cSdvjhWz2BxyivWcf92Cj2NOBhatIcDi+f6FF/e9MbPUYuPTRgQW1MMFGbfn
-	oJsA==
-X-Gm-Message-State: ABuFfoh1S2YsyErSUqt0Ccnic1A3cZzpxA/lYs30rhusox9P0wzxgZWz
-	jxLhRhfBOzAue+7o3tA5+IkCbSIZbJVEW7i0VXTrSg==
-X-Google-Smtp-Source: ACcGV61n7NkXJabTDfuhSczyQuRgNnIpcm/95p14lOaDTev9TDHgeckgJohFwxWXrzw5haIxrxdMnblU+3975nSyXyM=
-X-Received: by 2002:a9d:5a1a:: with SMTP id v26mr18275242oth.267.1540221348014;
-	Mon, 22 Oct 2018 08:15:48 -0700 (PDT)
+	Mon, 22 Oct 2018 15:34:04 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Oct 2018 08:34:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,412,1534834800"; d="scan'208,217";a="83481718"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+	by orsmga008.jf.intel.com with ESMTP; 22 Oct 2018 08:34:04 -0700
+Received: from fmsmsx123.amr.corp.intel.com ([169.254.7.84]) by
+	FMSMSX103.amr.corp.intel.com ([169.254.2.16]) with mapi id
+	14.03.0319.002; Mon, 22 Oct 2018 08:33:59 -0700
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
+Thread-Index: AdRUG3den5c8kH6JR5OKxqhg9AfC3w==
+Date: Mon, 22 Oct 2018 15:33:58 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECEE4678E@fmsmsx123.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.107]
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNmNlNDYxYTEtMTdmZC00OGVhLTk3MDgtNTk1OTY4OGJkM2M0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTDVVbFNtUVFKNGJheHBqZGk0T0ViMUpRdm5wSkxGRmNZXC9GYWtSc1FcL1dKUlM4QkM4WGlyZWk0ZlJINmhcL1RRWCJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
 MIME-Version: 1.0
-References: <20180711113856.7518-1-rasmus.villemoes@prevas.dk>
-	<b78abf64ec5be37dce3db8f290b312b9bda0ee1c.camel@gmail.com>
-In-Reply-To: <b78abf64ec5be37dce3db8f290b312b9bda0ee1c.camel@gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 22 Oct 2018 10:15:36 -0500
-Message-ID: <CAJdd5GYYM95HtFaVrQrsX6qz1AW4Z1TGgW3G1zv0hsSt2e-nSg@mail.gmail.com>
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Armin Kuster <akuster808@gmail.com>
-Subject: Re: [RFC PATCH] package.bbclass: improve -dbg and -src package ordering
+Subject: Yocto Project Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,120 +47,217 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 15:15:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 22 Oct 2018 15:34:05 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE4678Efmsmsx123amrcor_"
 
-On Mon, Sep 24, 2018 at 2:42 PM Joshua Watt <jpewhacker@gmail.com> wrote:
->
-> This bug also affect sumo.
->
-> Armin, would you be able to you backport it please?
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE4678Efmsmsx123amrcor_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Ping on the backport?
+All,
 
->
-> Thanks.
->
-> On Wed, 2018-07-11 at 13:38 +0200, Rasmus Villemoes wrote:
-> > nativesdk-gpgme fails package_qa when setting
-> > PACKAGE_DEBUG_SPLIT_STYLE
-> > = "debug-with-srcpkg".
-> >
-> > ERROR: nativesdk-gpgme-1.10.0-r0 do_package_qa: QA Issue: non debug
-> > package contains .debug directory: nativesdk-python3-gpg path
-> > /work/x86_64-nativesdk-oesdk-linux/nativesdk-gpgme/1.10.0-
-> > r0/packages-split/nativesdk-python3-gpg/usr/local/oecore-
-> > x86_64/sysroots/x86_64-oesdk-linux/usr/lib/python3.5/site-
-> > packages/gpg/.debug/_gpgme.cpython-35m-x86_64-linux-gnu.so [debug-
-> > files]
-> >
-> > This turns out to be because the automatic moving of the -dbg package
-> > to
-> > the beginning of the package list is disabled in that case, so the
-> > python3-gpg packages that the recipe prepends to PACKAGES ends up
-> > before
-> > the -dbg package.
-> >
-> > It's not clear why the "and not split_source_package" was added when
-> > debug-with-srcpkg was introduced. Presumably the intention was to
-> > prevent the -dbg package to end up before the -src package, which we
-> > of
-> > course need to. But at the same time, we still need -dbg packages to
-> > end
-> > up before all other packages.
-> >
-> > Using list.insert(0, ...) also means that if there happens to more
-> > than
-> > one -dbg package, their relative ordering gets inverted in the new
-> > list.
-> >
-> > This tries to fix these issues by sorting the packages by (priority,
-> > original position), where priority is 10 for -src, 30 for -dbg and 50
-> > for everything else. That guarantees that packages of the same "type"
-> > preserve their relative ordering, while also ensuring that -dbg
-> > always
-> > preceed other packages. This scheme is also quite extensible, and,
-> > should the need arise, one could even expose the priorities as a knob
-> > the recipe author could use to ensure specific orderings of packages
-> > instead of the somewhat fragile and coarse-grained method of "prepend
-> > or
-> > append, and ensure you do that in a proper order".
-> >
-> > Probably the autodebug condition needs to stay, but I think the
-> > split_source_package condition in the preceding elif should be
-> > removed,
-> > so that that logic applies to all packages called -src, not just the
-> > one
-> > we might have created a few lines above.
-> >
-> > Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-> > ---
-> >  meta/classes/package.bbclass | 15 ++++++++-------
-> >  1 file changed, 8 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/meta/classes/package.bbclass
-> > b/meta/classes/package.bbclass
-> > index 8276046369..72b9c66c3b 100644
-> > --- a/meta/classes/package.bbclass
-> > +++ b/meta/classes/package.bbclass
-> > @@ -1151,21 +1151,22 @@ python populate_packages () {
-> >
-> >      # Sanity check PACKAGES for duplicates
-> >      # Sanity should be moved to sanity.bbclass once we have the
-> > infrastructure
-> > -    package_list = []
-> > +    package_dict = {}
-> >
-> > -    for pkg in packages.split():
-> > -        if pkg in package_list:
-> > +    for i, pkg in enumerate(packages.split()):
-> > +        if pkg in package_dict:
-> >              msg = "%s is listed in PACKAGES multiple times, this
-> > leads to packaging errors." % pkg
-> >              package_qa_handle_error("packages-list", msg, d)
-> >          # If debug-with-srcpkg mode is enabled then the src package
-> > will have
-> >          # priority over dbg package when assigning the files.
-> >          # This allows src package to include source files and remove
-> > them from dbg.
-> >          elif split_source_package and pkg.endswith("-src"):
-> > -            package_list.insert(0, pkg)
-> > -        elif autodebug and pkg.endswith("-dbg") and not
-> > split_source_package:
-> > -            package_list.insert(0, pkg)
-> > +            package_dict[pkg] = (10, i)
-> > +        elif autodebug and pkg.endswith("-dbg"):
-> > +            package_dict[pkg] = (30, i)
-> >          else:
-> > -            package_list.append(pkg)
-> > +            package_dict[pkg] = (50, i)
-> > +    package_list = sorted(package_dict.keys(), key=package_dict.get)
-> >      d.setVar('PACKAGES', ' '.join(package_list))
-> >      pkgdest = d.getVar('PKGDEST')
-> >
-> > --
-> > 2.16.4
-> >
-> --
-> Joshua Watt <JPEWhacker@gmail.com>
 
+
+The triage team meets weekly and does its best to handle the bugs reported =
+into the bugzilla. The number of people attending that meeting has fallen, =
+as have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage team) a=
+re therefore going to start reporting out the currently 305 unassigned bugs=
+.
+
+
+
+We're hoping people may be able to spare some time now and again to help ou=
+t with these.
+
+
+
+Bugs are split into two types, "true bugs" where things don't work as they =
+should and "enhancements" which are features we'd want to add to the system=
+.
+
+
+
+There are also roughly five different "priority" classes right now, "2.6", =
+"2.7", "2.8", "2.99" and "Future", the more pressing/urgent issues being in=
+ "2.6" and then "2.7".
+
+
+
+Please review this link and if a bug is something you would be able to help=
+ with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
+com<mailto:Stephen.k.jolley@intel.com>) an e-mail with the bug number you w=
+ould like and I will assign it to you (please make sure you have a bugzilla=
+ account).
+
+
+
+The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
+gs
+
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+*    Cell:                (208) 244-4460
+* Email:                             stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE4678Efmsmsx123amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:2 11 5 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoPlainText">All,<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
+ handle the bugs reported into the bugzilla. The number of people attending=
+ that meeting has fallen, as have the number of people available to help fi=
+x bugs. One of the things we hear
+ users report is they don't know how to help. We (the triage team) are ther=
+efore going to start reporting out the currently 305 unassigned bugs.<o:p><=
+/o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
+e now and again to help out with these.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
+ot; where things don't work as they should and &quot;enhancements&quot; whi=
+ch are features we'd want to add to the system.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">There are also roughly five different &quot;prior=
+ity&quot; classes right now, &quot;2.6&quot;, &#8220;2.7&#8221;, &#8220;2.8=
+&#8221;, &quot;2.99&quot; and &quot;Future&quot;, the more pressing/urgent =
+issues being in &quot;2.6&quot; and then &#8220;2.7&#8221;.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Please review this link and if a bug is something=
+ you would be able to help with either take ownership of the bug, or send m=
+e (<a href=3D"mailto:Stephen.k.jolley@intel.com">Stephen.k.jolley@intel.com=
+</a>) an e-mail with the bug number
+ you would like and I will assign it to you (please make sure you have a bu=
+gzilla account).<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
+ect.org/wiki/Bug_Triage#Unassigned_Bugs">
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
+></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
+=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
+"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
+=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;
+<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
+span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
+ns-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECEE4678Efmsmsx123amrcor_--
