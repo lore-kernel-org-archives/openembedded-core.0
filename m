@@ -1,26 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 110AD79C08
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A095579BE1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 06:58:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9M6vnxi021668
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Oct 2018 23:57:59 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Sun, 21 Oct 2018 23:57:38 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Oct 2018 15:03:43 +0800
-Message-ID: <a2bd44ad10ae076b40b11a1a2c8d0007817b17af.1540191752.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1540191752.git.Qi.Chen@windriver.com>
-References: <cover.1540191752.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: add back alternatives for init utitilies
+	Mon, 22 Oct 2018 07:09:35 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Oct 2018 00:09:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,411,1534834800"; d="scan'208";a="243249369"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga004.jf.intel.com with ESMTP; 22 Oct 2018 00:09:35 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Oct 2018 14:54:21 +0800
+Message-Id: <1540191264-12332-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/4] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +30,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 06:58:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 22 Oct 2018 07:09:35 -0000
 
-Add back alternatives for init utilities to avoid regression.
+As part of the solution to replace Testopia to store testresult,
+OEQA need to output testresult into single json file, where json
+testresult file will be stored in git repository by the future
+test-case-management tools.
 
-These alternatives were removed when upgradeing systemd to 239.
-They were removed out of the logic that init utitilies should be
-bound to init manager. However, it turned out that two use cases
-were not covered.
+The json testresult file will store more than one set of results,
+where each set of results was uniquely identified by the result_id.
+The result_id would be like "runtime-qemux86-core-image-sato", where
+it was a runtime test with target machine equal to qemux86 and running
+on core-image-sato image. The json testresult file will only store
+the latest testresult for a given result_id. The json testresult
+file contains the configuration (eg. COMMIT, BRANCH, MACHINE, IMAGE),
+result (eg. PASSED, FAILED, ERROR), test log, and result_id.
 
-1) initramfs using commands like 'reboot' from busybox.
-2) Users use customized busybox defconfig which enables init utilities.
+Based on the destination json testresult file directory provided,
+it could have multiple instances of bitbake trying to write json
+testresult to a single testresult file, using locking a lockfile
+alongside the results file directory to prevent races.
 
-The first use case caused a regression bug in yocto.
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=12914
-Patches were sent to fix the reboot problem.
+Also the library class inside this patch will be reused by the future
+test-case-management tools to write json testresult for manual test
+case executed.
 
-But this is not enough. As we may have the second use case. In such
-situation, users will find themselves having regression error when
-using 'busybox + systemd' (and busybox is installed after systemd,
-overriding the systemd symlinks).
-
-So in order to avoid regression, add back these alternatives.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/recipes-core/systemd/systemd_239.bb | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/core/runner.py | 40 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index bc16407..61159ad 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -438,7 +438,7 @@ FILES_${PN} = " ${base_bindir}/* \
-                 ${base_sbindir}/runlevel \
-                 ${base_sbindir}/telinit \
-                 ${base_sbindir}/resolvconf \
--                ${base_sbindir}/reboot.systemd \
-+                ${base_sbindir}/reboot \
-                 ${base_sbindir}/init \
-                 ${datadir}/dbus-1/services \
-                 ${datadir}/dbus-1/system-services \
-@@ -546,14 +546,31 @@ python __anonymous() {
-         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
- }
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index f1dd080..82463cf 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -6,6 +6,7 @@ import time
+ import unittest
+ import logging
+ import re
++import json
  
--ALTERNATIVE_${PN} = "resolv-conf reboot"
-+ALTERNATIVE_${PN} = "halt reboot shutdown poweroff runlevel resolv-conf"
+ from unittest import TextTestResult as _TestResult
+ from unittest import TextTestRunner as _TestRunner
+@@ -119,8 +120,9 @@ class OETestResult(_TestResult):
+         self.successes.append((test, None))
+         super(OETestResult, self).addSuccess(test)
  
- ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-conf.systemd"
- ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
- ALTERNATIVE_PRIORITY[resolv-conf] ?= "50"
+-    def logDetails(self):
++    def logDetails(self, json_file_dir=None, configuration=None, result_id=None):
+         self.tc.logger.info("RESULTS:")
++        result = {}
+         for case_name in self.tc._registry['cases']:
+             case = self.tc._registry['cases'][case_name]
  
-+ALTERNATIVE_TARGET[halt] = "${base_bindir}/systemctl"
-+ALTERNATIVE_LINK_NAME[halt] = "${base_sbindir}/halt"
-+ALTERNATIVE_PRIORITY[halt] ?= "300"
-+
-+ALTERNATIVE_TARGET[reboot] = "${base_bindir}/systemctl"
- ALTERNATIVE_LINK_NAME[reboot] = "${base_sbindir}/reboot"
--ALTERNATIVE_PRIORITY[reboot] = "100"
-+ALTERNATIVE_PRIORITY[reboot] ?= "300"
-+
-+ALTERNATIVE_TARGET[shutdown] = "${base_bindir}/systemctl"
-+ALTERNATIVE_LINK_NAME[shutdown] = "${base_sbindir}/shutdown"
-+ALTERNATIVE_PRIORITY[shutdown] ?= "300"
-+
-+ALTERNATIVE_TARGET[poweroff] = "${base_bindir}/systemctl"
-+ALTERNATIVE_LINK_NAME[poweroff] = "${base_sbindir}/poweroff"
-+ALTERNATIVE_PRIORITY[poweroff] ?= "300"
-+
-+ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
-+ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
-+ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+@@ -137,6 +139,11 @@ class OETestResult(_TestResult):
+                 t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
  
- pkg_postinst_${PN} () {
- 	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+             self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(), oeid, status, t))
++            result[case.id()] = {'status': status, 'log': log}
++
++        if json_file_dir:
++            tresultjsonhelper = OETestResultJSONHelper()
++            tresultjsonhelper.dump_testresult_file(result_id, result, configuration, json_file_dir)
+ 
+ class OEListTestsResult(object):
+     def wasSuccessful(self):
+@@ -249,3 +256,34 @@ class OETestRunner(_TestRunner):
+             self._list_tests_module(suite)
+ 
+         return OEListTestsResult()
++
++class OETestResultJSONHelper(object):
++
++    testresult_filename = 'testresults.json'
++
++    def _get_testresults(self, write_dir):
++        testresults = {}
++        file = os.path.join(write_dir, self.testresult_filename)
++        if os.path.exists(file):
++            with open(file, "r") as f:
++                testresults = json.load(f)
++        return testresults
++
++    def _create_json_testresults_string(self, result_id, test_result, configuration, write_dir):
++        testresults = self._get_testresults(write_dir)
++        testresult = {'configuration': configuration,
++                      'result': test_result}
++        testresults[result_id] = testresult
++        return json.dumps(testresults, sort_keys=True, indent=4)
++
++    def _write_file(self, write_dir, file_name, file_content):
++        file_path = os.path.join(write_dir, file_name)
++        with open(file_path, 'w') as the_file:
++            the_file.write(file_content)
++
++    def dump_testresult_file(self, result_id, test_result, configuration, write_dir):
++        bb.utils.mkdirhier(write_dir)
++        lf = bb.utils.lockfile(os.path.join(write_dir, 'jsontestresult.lock'))
++        json_testresults = self._create_json_testresults_string(result_id, test_result, configuration, write_dir)
++        self._write_file(write_dir, self.testresult_filename, json_testresults)
++        bb.utils.unlockfile(lf)
 -- 
-1.9.1
+2.7.4
 
 
