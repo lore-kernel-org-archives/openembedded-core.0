@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 342747453F
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 04ABD7453F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 14:05:27 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id q7-v6so17272428wrr.8
+	Mon, 22 Oct 2018 14:05:28 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id d10-v6so5524132wrs.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 07:05:28 -0700 (PDT)
+	Mon, 22 Oct 2018 07:05:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=MZmh4lOQiIfEWT9KhJtD+j6t5oXxsby4+YjPYJsNWEE=;
-	b=NS5KoBD3UhweWsPQyqQJDdCDEvG0S+llF/OfRR+ZHqOxLj1OENY6bVoNz99viCB4Bq
-	pTMMPb9pqb/4lq+YIGMsplmyIqDo8+jSUsnURNVnbWa7trltutLXHqevrgM1zwqpvd8L
-	RhTr+EkJ3mLkGzUfdGhFKlGAAyWg/1TElOvCSAvlrvHCIuGFe8mjAGIhWnrTX+eB0adD
-	i9YIuIvJc/xKB4tudVfb2o+MsrhuvmVBK4fGoROR4IlGhLMjhmCl8KicusgKok23Ylwu
-	2A6SslWg+cAKzkEezpeW+dnHb8FAMT9J+lxSmblxQTaXVh8W6huhYSyuSaE+eUu+QAmm
-	LU3Q==
+	bh=3goRVqUfqbJq1GUkU5yYFKqb2hyxzc+Ecpfw1n72MdI=;
+	b=t3GkvWCiCoyo+uKnvus175b+gFv390O2mvz0gjWpwH3dERgUS4AlH6HJWOyrkFrnQx
+	6jdEEuE+VK41Z6HqGQDb4yEE1dAFOqxIOyZkLTWxr9NK7d572KTM85rdrXmgQndPdsUL
+	bkwYJsEejBjbJ9UYdkzNYbZQRIbuLLnIIiFtLIDJnOhqZXYSb9EHQDyHV2F8lIrirWmk
+	FEeJe2oOgmhzqkG7PIOJZuGo3aPK3OdTg2A8uMZpMNWyzHwQUGOGFBbZ87baEp/UgDvM
+	hGyVFmdY5bZJD6LGRXvMz0HDeXSZPJQCEPHPIrt66AVjh52wwomasdV1lt7ukTiwxIDf
+	s9fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=MZmh4lOQiIfEWT9KhJtD+j6t5oXxsby4+YjPYJsNWEE=;
-	b=X73jiGSmOALtYa4TZLkcw0GO8cEvPEWi9RlZFuFeV4qXSsThpOnGXI84YuqLSfUpxx
-	Kzz1k7VqVXbUDWd5FV1JUeOauVZYs52s80f1eSXfgIBaUfxPxtQmsVjVekrX3Y7LXcfq
-	kJ0I7yklUVq0AolZuIJhRT0097d0YDVqAaKw3J3biU47nAbLKg3odOjPKgIbvvYUJ7rA
-	Yv63ACEdACBkuxn9cc1QEAdS62yVB5ulVJS5jbxUy29TVz4sefYpBsWCaqV6cPhXMlHP
-	Q233dKXMtLLXLxXU7WNxFlp8nlw7IyrcQQ6FOyIj/sBHl/GwKdU2F9QG9+x7q+2yEqmG
-	uMig==
-X-Gm-Message-State: ABuFfoifXC2Il7rkRQcBhmY/P1qzbQde0GEs1uvGs05RxiL7O7r3suH1
-	QK3K0fwuDv7+ymVz/GPICHBYN91HedU=
-X-Google-Smtp-Source: ACcGV60m8YaWjUbD366FaDXuw+SqXtpz4cbpxcpTnmsqDwXnlz7yQ+suQQVoX7uOL6AiZRDP6vLnEA==
-X-Received: by 2002:adf:9102:: with SMTP id j2-v6mr46872874wrj.3.1540217127803;
-	Mon, 22 Oct 2018 07:05:27 -0700 (PDT)
+	bh=3goRVqUfqbJq1GUkU5yYFKqb2hyxzc+Ecpfw1n72MdI=;
+	b=j0Ky3X+cWhDHGzwQcTJ+0CidCE3Y0NzPpLTpj/uepUneb2++suFHiTzRoaZEisGmA8
+	uVxxhWL8K+0syZ0sn1uDiANBUqUVSUvYg0cAccrgT+RlvJY7QpA98EXq9P83hJRkmOTC
+	JeU2tfQeDWKRWY2bD1x7sbdEVN6+mQQTZ4QrxiyrgJWKQg2ugmk9q3rnOg0vICo31+SC
+	qVwSLBimFBh1IyBHbzD5t5RMQYEIJppcRLfs1u0GjXegWV3u5oEEcUoqVi/An+l/o4aW
+	9qUPttC9r4DansGV9q5jndrVkkRpYyTctNj7fdJmIny7VRoQguo2XCdUtmFYCUxqF7aW
+	BCKQ==
+X-Gm-Message-State: ABuFfoj+VZ1N2Dvy+1tKIlfmBTY/PoZs9c//RxuTUctmaQUdx2MtRPpL
+	uJtzvnn9vSHT+uM1kG7t5dfO/MQoV/o=
+X-Google-Smtp-Source: ACcGV61AwelWYkHS3+6qPNH34wjm/DDeDtt7hPpOmy68KgukARSfqKto4ZE1n7mDmqj1IQ0eT4CzYA==
+X-Received: by 2002:a5d:44ce:: with SMTP id
+	z14-v6mr48431953wrr.286.1540217129670; 
+	Mon, 22 Oct 2018 07:05:29 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.event.pylonone.net ([185.7.230.214])
 	by smtp.gmail.com with ESMTPSA id
-	o130-v6sm9209989wmd.11.2018.10.22.07.05.26
+	o130-v6sm9209989wmd.11.2018.10.22.07.05.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 22 Oct 2018 07:05:27 -0700 (PDT)
+	Mon, 22 Oct 2018 07:05:29 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster808@gmail.com,
 	openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2018 15:05:04 +0100
-Message-Id: <1540217112-24479-6-git-send-email-akuster808@gmail.com>
+Date: Mon, 22 Oct 2018 15:05:05 +0100
+Message-Id: <1540217112-24479-7-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1540217112-24479-1-git-send-email-akuster808@gmail.com>
 References: <1540217112-24479-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 05/13] curl: update to 7.61.1
+Subject: [PATCH 06/13] openssh: Update to 7.9 primarily bug fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,85 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 14:05:27 -0000
+X-List-Received-Date: Mon, 22 Oct 2018 14:05:29 -0000
 
-drop patch for CVE-2018-14618 now included
-Notable: INTERNALS: require GnuTLS >= 2.11.3
-
-See: https://curl.haxx.se/changes.html#7_61_0
+see: https://lwn.net/Articles/768991/
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../recipes-support/curl/curl/CVE-2018-14618.patch | 37 ----------------------
- .../curl/{curl_7.61.0.bb => curl_7.61.1.bb}        |  5 ++-
- 2 files changed, 2 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-support/curl/curl/CVE-2018-14618.patch
- rename meta/recipes-support/curl/{curl_7.61.0.bb => curl_7.61.1.bb} (94%)
+ .../openssh/{openssh_7.8p1+git.bb => openssh_7.9p1+git.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssh/{openssh_7.8p1+git.bb => openssh_7.9p1+git.bb} (99%)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2018-14618.patch b/meta/recipes-support/curl/curl/CVE-2018-14618.patch
-deleted file mode 100644
-index db07b43..0000000
---- a/meta/recipes-support/curl/curl/CVE-2018-14618.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 57d299a499155d4b327e341c6024e293b0418243 Mon Sep 17 00:00:00 2001
--From: Daniel Stenberg <daniel@haxx.se>
--Date: Mon, 13 Aug 2018 10:35:52 +0200
--Subject: [PATCH] Curl_ntlm_core_mk_nt_hash: return error on too long password
--
--... since it would cause an integer overflow if longer than (max size_t
--/ 2).
--
--This is CVE-2018-14618
--
--Bug: https://curl.haxx.se/docs/CVE-2018-14618.html
--Closes #2756
--Reported-by: Zhaoyang Wu
--
--CVE: CVE-2018-14618
--Upstream-Status: Backport
--Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-----
-- lib/curl_ntlm_core.c | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
--diff --git a/lib/curl_ntlm_core.c b/lib/curl_ntlm_core.c
--index e27cab353c..922e85a926 100644
----- a/lib/curl_ntlm_core.c
--+++ b/lib/curl_ntlm_core.c
--@@ -557,8 +557,11 @@ CURLcode Curl_ntlm_core_mk_nt_hash(struct Curl_easy *data,
--                                    unsigned char *ntbuffer /* 21 bytes */)
-- {
--   size_t len = strlen(password);
---  unsigned char *pw = len ? malloc(len * 2) : strdup("");
--+  unsigned char *pw;
--   CURLcode result;
--+  if(len > SIZE_T_MAX/2) /* avoid integer overflow */
--+    return CURLE_OUT_OF_MEMORY;
--+  pw = len ? malloc(len * 2) : strdup("");
--   if(!pw)
--     return CURLE_OUT_OF_MEMORY;
-diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.1.bb
-similarity index 94%
-rename from meta/recipes-support/curl/curl_7.61.0.bb
-rename to meta/recipes-support/curl/curl_7.61.1.bb
-index 9b6406b..7a51bfa 100644
---- a/meta/recipes-support/curl/curl_7.61.0.bb
-+++ b/meta/recipes-support/curl/curl_7.61.1.bb
-@@ -7,11 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ef889a37a5a874490ac7ce116396f29a"
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb b/meta/recipes-connectivity/openssh/openssh_7.9p1+git.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
+rename to meta/recipes-connectivity/openssh/openssh_7.9p1+git.bb
+index f54dfb5..d79ffe1 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.8p1+git.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.9p1+git.bb
+@@ -28,7 +28,7 @@ SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
  
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
--           file://CVE-2018-14618.patch \
- "
+ PAM_SRC_URI = "file://sshd"
  
--SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
--SRC_URI[sha256sum] = "5f6f336921cf5b84de56afbd08dfb70adeef2303751ffb3e570c936c6d656c9c"
-+SRC_URI[md5sum] = "593432e5ff863474d8d880f74b705d6d"
-+SRC_URI[sha256sum] = "a308377dbc9a16b2e994abd55455e5f9edca4e31666f8f8fcfe7a1a4aea419b9"
+-SRCREV = "cce8cbe0ed7d1ba3a575310e0b63c193326ae616"
++SRCREV = "aede1c34243a6f7feae2fb2cb686ade5f9be6f3d"
  
- CVE_PRODUCT = "libcurl"
- inherit autotools pkgconfig binconfig multilib_header
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.7.4
 
