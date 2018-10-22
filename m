@@ -1,27 +1,48 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DD1779C55
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D53679C14
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 15:12:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9MFCRi0002138
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 22 Oct 2018 08:12:27 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 22 Oct 2018 08:12:26 -0700
-To: <openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1539876421.git.kai.kang@windriver.com>
-	<8de5585c10d806d15ba4550d05c3c8fbcab26990.1539876421.git.kai.kang@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <e7a1a326-ce51-2b1b-eadb-c1c650f3fcbe@windriver.com>
-Date: Mon, 22 Oct 2018 23:11:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Mon, 22 Oct 2018 15:15:47 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id c32so40381874otb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2018 08:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=OlBbVIU2+4Tzv28gV1tFxL2HziTauP5o75Nxu0TJmq0=;
+	b=Tyoxn68q3dU1tF127H99vEcUjGj+2H6apW8kNE59kD4taPpSzdIyWO6B8twAU/z0rg
+	LOcdAJRO/Xonet1QwVQXWzgo0J2ghx/uRZqlVOp09rttJABuqqFg90L6Z/s7Eq+qYp5U
+	0JueAtMJ1DDVqV2rGRkviyOGuoXWcKwXLoVRXADCCYwHswTNHcJyrYiAk9vUVcBsWQOX
+	DSt+cP6/yaKdaAzBr2ymaje/iYbbMz7x1CNjYhiuVcDuW2EiDIq9Hrc0MHUeWusGzo/l
+	r5//K1MT8u4js6vSgREVEDYR8pe9t5FtTSE8VeJn9ZuNQu21WVQHxL+qB4q9GRwchthH
+	Wnnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=OlBbVIU2+4Tzv28gV1tFxL2HziTauP5o75Nxu0TJmq0=;
+	b=RQ+egjqAzcYDt8TEEGs1ME/dC3V7BFJsxhrmPHgJUkepNAcGTRoKE7QOpW7/bpLZUt
+	/5Lj+32ZKVxZrsrMGtqD9PKT9zvePbuLGPv+jGaku+6Q43rZG+gmCSXvji83h50FlOkW
+	z/D/Q5LgTfXzr6JghwEx4t/GGA5LdzF6vQFZ5j3bK5RGO/qvi8Y1mwt6ux5eNZkgKJ3A
+	MiCG3wd6Kh/7TGM24L6GRdFfDUv8700D0+zC8WfeepnBlNbvxlYsLoNrY3w/Vj8p2Rvx
+	hg3ncK15cSdvjhWz2BxyivWcf92Cj2NOBhatIcDi+f6FF/e9MbPUYuPTRgQW1MMFGbfn
+	oJsA==
+X-Gm-Message-State: ABuFfoh1S2YsyErSUqt0Ccnic1A3cZzpxA/lYs30rhusox9P0wzxgZWz
+	jxLhRhfBOzAue+7o3tA5+IkCbSIZbJVEW7i0VXTrSg==
+X-Google-Smtp-Source: ACcGV61n7NkXJabTDfuhSczyQuRgNnIpcm/95p14lOaDTev9TDHgeckgJohFwxWXrzw5haIxrxdMnblU+3975nSyXyM=
+X-Received: by 2002:a9d:5a1a:: with SMTP id v26mr18275242oth.267.1540221348014;
+	Mon, 22 Oct 2018 08:15:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8de5585c10d806d15ba4550d05c3c8fbcab26990.1539876421.git.kai.kang@windriver.com>
-Subject: Re: [PATCH 1/1] udev-hwdb: fix postinstall scripts failures when multilib enabled
+References: <20180711113856.7518-1-rasmus.villemoes@prevas.dk>
+	<b78abf64ec5be37dce3db8f290b312b9bda0ee1c.camel@gmail.com>
+In-Reply-To: <b78abf64ec5be37dce3db8f290b312b9bda0ee1c.camel@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 22 Oct 2018 10:15:36 -0500
+Message-ID: <CAJdd5GYYM95HtFaVrQrsX6qz1AW4Z1TGgW3G1zv0hsSt2e-nSg@mail.gmail.com>
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Armin Kuster <akuster808@gmail.com>
+Subject: Re: [RFC PATCH] package.bbclass: improve -dbg and -src package ordering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,124 +55,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 15:12:29 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 22 Oct 2018 15:15:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2018/10/18 下午11:28, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
+On Mon, Sep 24, 2018 at 2:42 PM Joshua Watt <jpewhacker@gmail.com> wrote:
 >
-> When multilib is enabled and both udev-hwdb and ${MLPREFIX}udev-hwdb are
-> installed to image, it fails to run one of their postinstall scripts
-> that they both call ${base_bindir}/udevadm with same user mode qemu.
+> This bug also affect sumo.
 >
-> Duplicate udevadm and add postinst-intercept update_udev_hwdb to fix the
-> failures.
+> Armin, would you be able to you backport it please?
+
+Ping on the backport?
+
 >
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->   meta/recipes-core/systemd/systemd_239.bb     | 13 ++++++-------
->   meta/recipes-core/udev/eudev_3.2.5.bb        | 11 +++++------
->   scripts/postinst-intercepts/update_udev_hwdb |  6 ++++++
->   3 files changed, 17 insertions(+), 13 deletions(-)
->   create mode 100644 scripts/postinst-intercepts/update_udev_hwdb
+> Thanks.
 >
-> diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-> index 7ed932141d..44e972ebce 100644
-> --- a/meta/recipes-core/systemd/systemd_239.bb
-> +++ b/meta/recipes-core/systemd/systemd_239.bb
-> @@ -284,6 +284,10 @@ do_install() {
->   			chown polkitd:root ${D}${datadir}/polkit-1/rules.d
->   		fi
->   	fi
-> +
-> +	# duplicate udevadm for postinst script
-> +	install -d ${D}${libexecdir}
-> +	ln ${D}${base_bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
->   }
->   
->   
-> @@ -542,6 +546,7 @@ FILES_udev += "${base_sbindir}/udevd \
->                  ${systemd_unitdir}/system/*udev* \
->                  ${systemd_unitdir}/system/*.wants/*udev* \
->                  ${base_bindir}/udevadm \
-> +               ${libexecdir}/${MLPREFIX}udevadm \
->                  ${datadir}/bash-completion/completions/udevadm \
->                 "
->   
-> @@ -580,13 +585,7 @@ pkg_prerm_${PN} () {
->   PACKAGE_WRITE_DEPS += "qemu-native"
->   pkg_postinst_udev-hwdb () {
->   	if test -n "$D"; then
-> -		if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
-> -			${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-> -				--root $D
-> -			chown root:root $D${sysconfdir}/udev/hwdb.bin
-> -		else
-> -			$INTERCEPT_DIR/postinst_intercept delay_to_first_boot ${PKG} mlprefix=${MLPREFIX}
-> -		fi
-> +		$INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
->   	else
->   		udevadm hwdb --update
->   	fi
-> diff --git a/meta/recipes-core/udev/eudev_3.2.5.bb b/meta/recipes-core/udev/eudev_3.2.5.bb
-> index efd62c6495..592dd8f22a 100644
-> --- a/meta/recipes-core/udev/eudev_3.2.5.bb
-> +++ b/meta/recipes-core/udev/eudev_3.2.5.bb
-> @@ -50,6 +50,10 @@ do_install_append() {
->   
->   	# hid2hci has moved to bluez4. removed in udev as of version 169
->   	rm -f ${D}${base_libdir}/udev/hid2hci
-> +
-> +	# duplicate udevadm for postinst script
-> +	install -d ${D}${libexecdir}
-> +	ln ${D}${bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
->   }
->   
->   do_install_prepend_class-target () {
-> @@ -81,12 +85,7 @@ RPROVIDES_eudev-hwdb += "udev-hwdb"
->   PACKAGE_WRITE_DEPS += "qemu-native"
->   pkg_postinst_eudev-hwdb () {
->       if test -n "$D"; then
-> -        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
-
-Hi Richard,
-
-It seems check for 'qemu-usermode' should not be removed. And it also 
-need to check for other intercept scripts.
-
-So please ignore this patch and I'll send V2.
-
-Regards,
-Kai
-
-
-> -            ${@qemu_run_binary(d, '$D', '${bindir}/udevadm')} hwdb --update --root $D
-> -            chown root:root $D${sysconfdir}/udev/hwdb.bin
-> -        else
-> -            $INTERCEPT_DIR/postinst_intercept delay_to_first_boot ${PKG} mlprefix=${MLPREFIX}
-> -        fi
-> +        $INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
->       else
->           udevadm hwdb --update
->       fi
-> diff --git a/scripts/postinst-intercepts/update_udev_hwdb b/scripts/postinst-intercepts/update_udev_hwdb
-> new file mode 100644
-> index 0000000000..b5cce0a09d
-> --- /dev/null
-> +++ b/scripts/postinst-intercepts/update_udev_hwdb
-> @@ -0,0 +1,6 @@
-> +#!/bin/sh
-> +
-> +set -e
-> +
-> +PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}udevadm hwdb --update --root $D
-> +chown root:root $D${sysconfdir}/udev/hwdb.bin
-
-
--- 
-Regards,
-Neil | Kai Kang
-
+> On Wed, 2018-07-11 at 13:38 +0200, Rasmus Villemoes wrote:
+> > nativesdk-gpgme fails package_qa when setting
+> > PACKAGE_DEBUG_SPLIT_STYLE
+> > = "debug-with-srcpkg".
+> >
+> > ERROR: nativesdk-gpgme-1.10.0-r0 do_package_qa: QA Issue: non debug
+> > package contains .debug directory: nativesdk-python3-gpg path
+> > /work/x86_64-nativesdk-oesdk-linux/nativesdk-gpgme/1.10.0-
+> > r0/packages-split/nativesdk-python3-gpg/usr/local/oecore-
+> > x86_64/sysroots/x86_64-oesdk-linux/usr/lib/python3.5/site-
+> > packages/gpg/.debug/_gpgme.cpython-35m-x86_64-linux-gnu.so [debug-
+> > files]
+> >
+> > This turns out to be because the automatic moving of the -dbg package
+> > to
+> > the beginning of the package list is disabled in that case, so the
+> > python3-gpg packages that the recipe prepends to PACKAGES ends up
+> > before
+> > the -dbg package.
+> >
+> > It's not clear why the "and not split_source_package" was added when
+> > debug-with-srcpkg was introduced. Presumably the intention was to
+> > prevent the -dbg package to end up before the -src package, which we
+> > of
+> > course need to. But at the same time, we still need -dbg packages to
+> > end
+> > up before all other packages.
+> >
+> > Using list.insert(0, ...) also means that if there happens to more
+> > than
+> > one -dbg package, their relative ordering gets inverted in the new
+> > list.
+> >
+> > This tries to fix these issues by sorting the packages by (priority,
+> > original position), where priority is 10 for -src, 30 for -dbg and 50
+> > for everything else. That guarantees that packages of the same "type"
+> > preserve their relative ordering, while also ensuring that -dbg
+> > always
+> > preceed other packages. This scheme is also quite extensible, and,
+> > should the need arise, one could even expose the priorities as a knob
+> > the recipe author could use to ensure specific orderings of packages
+> > instead of the somewhat fragile and coarse-grained method of "prepend
+> > or
+> > append, and ensure you do that in a proper order".
+> >
+> > Probably the autodebug condition needs to stay, but I think the
+> > split_source_package condition in the preceding elif should be
+> > removed,
+> > so that that logic applies to all packages called -src, not just the
+> > one
+> > we might have created a few lines above.
+> >
+> > Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+> > ---
+> >  meta/classes/package.bbclass | 15 ++++++++-------
+> >  1 file changed, 8 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/meta/classes/package.bbclass
+> > b/meta/classes/package.bbclass
+> > index 8276046369..72b9c66c3b 100644
+> > --- a/meta/classes/package.bbclass
+> > +++ b/meta/classes/package.bbclass
+> > @@ -1151,21 +1151,22 @@ python populate_packages () {
+> >
+> >      # Sanity check PACKAGES for duplicates
+> >      # Sanity should be moved to sanity.bbclass once we have the
+> > infrastructure
+> > -    package_list = []
+> > +    package_dict = {}
+> >
+> > -    for pkg in packages.split():
+> > -        if pkg in package_list:
+> > +    for i, pkg in enumerate(packages.split()):
+> > +        if pkg in package_dict:
+> >              msg = "%s is listed in PACKAGES multiple times, this
+> > leads to packaging errors." % pkg
+> >              package_qa_handle_error("packages-list", msg, d)
+> >          # If debug-with-srcpkg mode is enabled then the src package
+> > will have
+> >          # priority over dbg package when assigning the files.
+> >          # This allows src package to include source files and remove
+> > them from dbg.
+> >          elif split_source_package and pkg.endswith("-src"):
+> > -            package_list.insert(0, pkg)
+> > -        elif autodebug and pkg.endswith("-dbg") and not
+> > split_source_package:
+> > -            package_list.insert(0, pkg)
+> > +            package_dict[pkg] = (10, i)
+> > +        elif autodebug and pkg.endswith("-dbg"):
+> > +            package_dict[pkg] = (30, i)
+> >          else:
+> > -            package_list.append(pkg)
+> > +            package_dict[pkg] = (50, i)
+> > +    package_list = sorted(package_dict.keys(), key=package_dict.get)
+> >      d.setVar('PACKAGES', ' '.join(package_list))
+> >      pkgdest = d.getVar('PKGDEST')
+> >
+> > --
+> > 2.16.4
+> >
+> --
+> Joshua Watt <JPEWhacker@gmail.com>
 
