@@ -1,57 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CC4AD79BEF
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B553975129
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 08:52:08 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id f17-v6so12219041wrs.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 01:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=I6sasBc1B+W9WSxUjDO6JhPgpkMTGvjkoct218q4JDM=;
-	b=RSbJ4mkTqFp9ueRuBMVd3OwIN5c2gZ6fBSRL0hB1/p4PQBWjbgLbc6kYHZ93IKVnNa
-	ZglW0naXz67gBEyD10JXz4UvtGI03uf1tiMZG5hBEYa/MykC5MZD+Jn37Qd1fkT3/Anv
-	f4FpmcMlIu7aUs776EJq0TibzICjOGIn63RQQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=I6sasBc1B+W9WSxUjDO6JhPgpkMTGvjkoct218q4JDM=;
-	b=ZazJrkmwyo+B9eTxSFot7rJy6bpFBKsTbme1IhrG7HUOigwBr7wToOFDZiNduRDf7S
-	gjvWTiDHkcolpcElTnHH7gKabQnzM5zF+SIsnjGGP4WxjcIsW14YHuiyAiLauRt/J3ZT
-	tK6rrFLV5dKe6qJnBXeREvv9q3fgdnTqzfRmALDGlPnvBbvvHnmxveLypiK7hRpvj0vi
-	9vUmTdqZXlpx5vQPpJkb/nquO7kxjS4g/bD9HiM0TPodbIv5Ulosa2e0z5ppkD/0fmNj
-	ot2ykD8oK2i+ZNqepRpUL5wPaW6k7rq2uZ4OUelKUb2Wr3c4q7pr0oe0ypE6Ul9hFwmP
-	8FGg==
-X-Gm-Message-State: AGRZ1gKfCxTUQNcBXUSy5dta2XX+Z9pkzwuoU243yCdCRnNZ2Rkf8a45
-	C7nPJJil79IaPeP5mKc3OKKJmg==
-X-Google-Smtp-Source: AJdET5fOHI14vUXiEjznMPfjoeU7/mfgjKOpGClLr9990wfWu3g+zcrqSiUHR+PVT7S7RLZvojjCCA==
-X-Received: by 2002:adf:b30b:: with SMTP id
-	j11-v6mr1710754wrd.207.1540198329471; 
-	Mon, 22 Oct 2018 01:52:09 -0700 (PDT)
-Received: from hex ([185.7.230.214]) by smtp.gmail.com with ESMTPSA id
-	i13-v6sm14231247wrn.62.2018.10.22.01.52.08
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 22 Oct 2018 01:52:08 -0700 (PDT)
-Message-ID: <bf5ae576c3e8de42eab98ccd3c4d3738798ec32f.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>, 
+	Mon, 22 Oct 2018 08:59:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Oct 2018 01:59:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,411,1534834800"; d="scan'208";a="97391665"
+Received: from kmsmsx154.gar.corp.intel.com ([172.21.73.14])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Oct 2018 01:59:46 -0700
+Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.235]) by
+	KMSMSX154.gar.corp.intel.com ([169.254.12.34]) with mapi id
+	14.03.0319.002; Mon, 22 Oct 2018 16:59:45 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Oct 2018 09:52:07 +0100
-In-Reply-To: <9DDD2658D1FE414E99172D2DB1E4D04335ECDDB6@KMSMSX155.gar.corp.intel.com>
-References: <1539588294-5532-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1539588294-5532-2-git-send-email-ee.peng.yeoh@intel.com>
-	<ad34c69dbab91a7250874cb70d0c03a62adc3e2c.camel@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D04335ECCCF0@KMSMSX155.gar.corp.intel.com>
-	<5b431318cc50402e32836dbf42398e59ae323bee.camel@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D04335ECDDB6@KMSMSX155.gar.corp.intel.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/5] oeqa/core/runner: write testresult to json files
+Thread-Topic: [OE-core] [PATCH 1/4] oeqa/core/runner: write testresult to
+	json files
+Thread-Index: AQHUaeHJmLwwJgRPsUaEaFNgl2puDKUq9EtQ
+Date: Mon, 22 Oct 2018 08:59:44 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335ECDDF9@KMSMSX155.gar.corp.intel.com>
+References: <1540191264-12332-1-git-send-email-ee.peng.yeoh@intel.com>
+	<a12cf13bca36f6573be192ada5bbf60dbaa4b902.camel@linuxfoundation.org>
+In-Reply-To: <a12cf13bca36f6573be192ada5bbf60dbaa4b902.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMTYwOGJkZWEtYTgxMi00YWJiLWE1OWUtYTIzNjhhNTQ5NTI3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiSnFEK2RVazJhTTFtd3Y0dlR1ejF6bkdhU29PR1JwbnZZUkUxVUFNSDVIRmplSlNmbHJZN1g1Wm9yWGMza01UNiJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/4] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,23 +50,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 08:52:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Oct 2018 08:59:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, 2018-10-22 at 08:17 +0000, Yeoh, Ee Peng wrote:
-> Please ignore the two patches below for testimage.bbclass and
-> testsdk.bbclass, initially testing successfully when running these
-> patch separately but I am finding one issue with method namespace
-> collision after testing both patches together.  I am in progress of
-> resolving it. Sorry for the inconvenience.
-
-I think if your code appends to the results file, things should work
-better and we can remove the split level directory structure. Merging
-the results file will help the autobuiler process the results.
-
-Cheers,
-
-Richard
-
+SGkgUmljaGFyZA0KDQpDdXJyZW50IGNvZGVzIGRvZXMgbG9hZCBleGlzdGluZyB0ZXN0cmVzdWx0
+IGpzb24gZmlsZSBpZiBpdCBleGlzdCwgdGhlbiBpdCB3aWxsIHdyaXRlIHRoZSBuZXcgdGVzdHJl
+c3VsdCBpbnRvIGl0IGJhc2VkIG9uIHRoZSByZXN1bHRfaWQuDQo+ICsgICAgZGVmIF9nZXRfdGVz
+dHJlc3VsdHMoc2VsZiwgd3JpdGVfZGlyKToNCj4gKyAgICAgICAgdGVzdHJlc3VsdHMgPSB7fQ0K
+PiArICAgICAgICBmaWxlID0gb3MucGF0aC5qb2luKHdyaXRlX2Rpciwgc2VsZi50ZXN0cmVzdWx0
+X2ZpbGVuYW1lKQ0KPiArICAgICAgICBpZiBvcy5wYXRoLmV4aXN0cyhmaWxlKToNCj4gKyAgICAg
+ICAgICAgIHdpdGggb3BlbihmaWxlLCAiciIpIGFzIGY6DQo+ICsgICAgICAgICAgICAgICAgdGVz
+dHJlc3VsdHMgPSBqc29uLmxvYWQoZikNCj4gKyAgICAgICAgcmV0dXJuIHRlc3RyZXN1bHRzDQoN
+CkkgZGlkIGhhdmUgdGhlIHNhbWUgdGhpbmtpbmcgb24gaWYgd2UgY2FuIGhhdmUgYSBjb21tb24g
+ZnVuY3Rpb24gdG8gbWFuYWdlIGNvbmZpZ3VyYXRpb24gYW5kIHJlc3VsdF9pZCBvciBsZXQgaW5k
+aXZpZHVhbCB0ZXN0IGNsYXNzZXMgdG8gbWFuYWdlIGl0LCBpbiB0aGUgZW5kLCB0aGUgdGhpbmtp
+bmcgd2FzIGNvbmZpZ3VyYXRpb24vcmVzdWx0X2lkIHdlcmUgcmVhbGx5IHJlc3BvbnNpYmlsaXR5
+IG9mIGVhY2ggdGVzdCBjbGFzc2VzLCB3aGVyZSB0aGUganNvbiBoZWxwZXIgY2xhc3MgaW5zaWRl
+IHJ1bm5lciBzaGFsbCBub3QgaGF2ZSB0aGUga25vd2xlZGdlIG9yIGtub3ctaG93IG9uIGNvbmZp
+Z3VyYXRpb24vcmVzdWx0X2lkLiBUaHVzIHRoZSBkZWNpc2lvbiBpbiB0aGUgZW5kIHdhcyB0byBt
+YWtlIGpzb24gaGVscGVyIGNsYXNzIHJlc3BvbnNpYmlsaXR5IGFzIHNpbXBsZSBhcyB0byBjb25z
+dW1lIHRoZSBjb25maWd1cmF0aW9uLCByZXN1bHRzLCByZXN1bHRfaWQgaW5mb3JtYXRpb24gcHJv
+dmlkZWQgYnkgdGhlIHRlc3QgY2xhc3Nlcy4gSG9wZSB0aGlzIGV4cGxhaW4gdGhlIHJlYXNvbiBi
+ZWhpbmQgY3VycmVudCBkZXNpZ24uIA0KDQpUaGFuayB5b3UgdmVyeSBtdWNoIGZvciB5b3VyIGF0
+dGVudGlvbiAmIGtub3dsZWRnZSBzaGFyaW5nISANCg0KVGhhbmtzLA0KWWVvaCBFZSBQZW5nDQoN
+Ci0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiByaWNoYXJkLnB1cmRpZUBsaW51eGZv
+dW5kYXRpb24ub3JnIFttYWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10g
+DQpTZW50OiBNb25kYXksIE9jdG9iZXIgMjIsIDIwMTggNDozMiBQTQ0KVG86IFllb2gsIEVlIFBl
+bmcgPGVlLnBlbmcueWVvaEBpbnRlbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzRdIG9lcWEvY29y
+ZS9ydW5uZXI6IHdyaXRlIHRlc3RyZXN1bHQgdG8ganNvbiBmaWxlcw0KDQpIaSBFZSBQZW5nLA0K
+DQpUaGFua3MsIHRoaXMgaXMgbG9va2luZyBnb29kLCB0aGVyZSBpcyBzdGlsbCBvbmUgc21hbGwg
+dHdlYWsgbmVlZGVkIGJlbG93Lg0KDQpPbiBNb24sIDIwMTgtMTAtMjIgYXQgMTQ6NTQgKzA4MDAs
+IFllb2ggRWUgUGVuZyB3cm90ZToNCj4gQXMgcGFydCBvZiB0aGUgc29sdXRpb24gdG8gcmVwbGFj
+ZSBUZXN0b3BpYSB0byBzdG9yZSB0ZXN0cmVzdWx0LCBPRVFBIA0KPiBuZWVkIHRvIG91dHB1dCB0
+ZXN0cmVzdWx0IGludG8gc2luZ2xlIGpzb24gZmlsZSwgd2hlcmUganNvbiB0ZXN0cmVzdWx0IA0K
+PiBmaWxlIHdpbGwgYmUgc3RvcmVkIGluIGdpdCByZXBvc2l0b3J5IGJ5IHRoZSBmdXR1cmUgDQo+
+IHRlc3QtY2FzZS1tYW5hZ2VtZW50IHRvb2xzLg0KPiANCj4gVGhlIGpzb24gdGVzdHJlc3VsdCBm
+aWxlIHdpbGwgc3RvcmUgbW9yZSB0aGFuIG9uZSBzZXQgb2YgcmVzdWx0cywgDQo+IHdoZXJlIGVh
+Y2ggc2V0IG9mIHJlc3VsdHMgd2FzIHVuaXF1ZWx5IGlkZW50aWZpZWQgYnkgdGhlIHJlc3VsdF9p
+ZC4NCj4gVGhlIHJlc3VsdF9pZCB3b3VsZCBiZSBsaWtlICJydW50aW1lLXFlbXV4ODYtY29yZS1p
+bWFnZS1zYXRvIiwgd2hlcmUgDQo+IGl0IHdhcyBhIHJ1bnRpbWUgdGVzdCB3aXRoIHRhcmdldCBt
+YWNoaW5lIGVxdWFsIHRvIHFlbXV4ODYgYW5kIHJ1bm5pbmcgDQo+IG9uIGNvcmUtaW1hZ2Utc2F0
+byBpbWFnZS4gVGhlIGpzb24gdGVzdHJlc3VsdCBmaWxlIHdpbGwgb25seSBzdG9yZSB0aGUgDQo+
+IGxhdGVzdCB0ZXN0cmVzdWx0IGZvciBhIGdpdmVuIHJlc3VsdF9pZC4gVGhlIGpzb24gdGVzdHJl
+c3VsdCBmaWxlIA0KPiBjb250YWlucyB0aGUgY29uZmlndXJhdGlvbiAoZWcuIENPTU1JVCwgQlJB
+TkNILCBNQUNISU5FLCBJTUFHRSksIA0KPiByZXN1bHQgKGVnLiBQQVNTRUQsIEZBSUxFRCwgRVJS
+T1IpLCB0ZXN0IGxvZywgYW5kIHJlc3VsdF9pZC4NCj4gDQo+IEJhc2VkIG9uIHRoZSBkZXN0aW5h
+dGlvbiBqc29uIHRlc3RyZXN1bHQgZmlsZSBkaXJlY3RvcnkgcHJvdmlkZWQsIGl0IA0KPiBjb3Vs
+ZCBoYXZlIG11bHRpcGxlIGluc3RhbmNlcyBvZiBiaXRiYWtlIHRyeWluZyB0byB3cml0ZSBqc29u
+IA0KPiB0ZXN0cmVzdWx0IHRvIGEgc2luZ2xlIHRlc3RyZXN1bHQgZmlsZSwgdXNpbmcgbG9ja2lu
+ZyBhIGxvY2tmaWxlIA0KPiBhbG9uZ3NpZGUgdGhlIHJlc3VsdHMgZmlsZSBkaXJlY3RvcnkgdG8g
+cHJldmVudCByYWNlcy4NCj4gDQo+IEFsc28gdGhlIGxpYnJhcnkgY2xhc3MgaW5zaWRlIHRoaXMg
+cGF0Y2ggd2lsbCBiZSByZXVzZWQgYnkgdGhlIGZ1dHVyZSANCj4gdGVzdC1jYXNlLW1hbmFnZW1l
+bnQgdG9vbHMgdG8gd3JpdGUganNvbiB0ZXN0cmVzdWx0IGZvciBtYW51YWwgdGVzdCANCj4gY2Fz
+ZSBleGVjdXRlZC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFllb2ggRWUgUGVuZyA8ZWUucGVuZy55
+ZW9oQGludGVsLmNvbT4NCj4gLS0tDQo+ICBtZXRhL2xpYi9vZXFhL2NvcmUvcnVubmVyLnB5IHwg
+NDAgDQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0NCj4gIDEgZmls
+ZSBjaGFuZ2VkLCAzOSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0t
+Z2l0IGEvbWV0YS9saWIvb2VxYS9jb3JlL3J1bm5lci5weSANCj4gYi9tZXRhL2xpYi9vZXFhL2Nv
+cmUvcnVubmVyLnB5IGluZGV4IGYxZGQwODAuLjgyNDYzY2YgMTAwNjQ0DQo+IC0tLSBhL21ldGEv
+bGliL29lcWEvY29yZS9ydW5uZXIucHkNCj4gKysrIGIvbWV0YS9saWIvb2VxYS9jb3JlL3J1bm5l
+ci5weQ0KPiBAQCAtMjQ5LDMgKzI1NiwzNCBAQCBjbGFzcyBPRVRlc3RSdW5uZXIoX1Rlc3RSdW5u
+ZXIpOg0KPiAgICAgICAgICAgICAgc2VsZi5fbGlzdF90ZXN0c19tb2R1bGUoc3VpdGUpDQo+ICAN
+Cj4gICAgICAgICAgcmV0dXJuIE9FTGlzdFRlc3RzUmVzdWx0KCkNCj4gKw0KPiArY2xhc3MgT0VU
+ZXN0UmVzdWx0SlNPTkhlbHBlcihvYmplY3QpOg0KPiArDQo+ICsgICAgdGVzdHJlc3VsdF9maWxl
+bmFtZSA9ICd0ZXN0cmVzdWx0cy5qc29uJw0KPiArDQo+ICsgICAgZGVmIF9nZXRfdGVzdHJlc3Vs
+dHMoc2VsZiwgd3JpdGVfZGlyKToNCj4gKyAgICAgICAgdGVzdHJlc3VsdHMgPSB7fQ0KPiArICAg
+ICAgICBmaWxlID0gb3MucGF0aC5qb2luKHdyaXRlX2Rpciwgc2VsZi50ZXN0cmVzdWx0X2ZpbGVu
+YW1lKQ0KPiArICAgICAgICBpZiBvcy5wYXRoLmV4aXN0cyhmaWxlKToNCj4gKyAgICAgICAgICAg
+IHdpdGggb3BlbihmaWxlLCAiciIpIGFzIGY6DQo+ICsgICAgICAgICAgICAgICAgdGVzdHJlc3Vs
+dHMgPSBqc29uLmxvYWQoZikNCj4gKyAgICAgICAgcmV0dXJuIHRlc3RyZXN1bHRzDQo+ICsNCj4g
+KyAgICBkZWYgX2NyZWF0ZV9qc29uX3Rlc3RyZXN1bHRzX3N0cmluZyhzZWxmLCByZXN1bHRfaWQs
+IHRlc3RfcmVzdWx0LCBjb25maWd1cmF0aW9uLCB3cml0ZV9kaXIpOg0KPiArICAgICAgICB0ZXN0
+cmVzdWx0cyA9IHNlbGYuX2dldF90ZXN0cmVzdWx0cyh3cml0ZV9kaXIpDQo+ICsgICAgICAgIHRl
+c3RyZXN1bHQgPSB7J2NvbmZpZ3VyYXRpb24nOiBjb25maWd1cmF0aW9uLA0KPiArICAgICAgICAg
+ICAgICAgICAgICAgICdyZXN1bHQnOiB0ZXN0X3Jlc3VsdH0NCj4gKyAgICAgICAgdGVzdHJlc3Vs
+dHNbcmVzdWx0X2lkXSA9IHRlc3RyZXN1bHQNCj4gKyAgICAgICAgcmV0dXJuIGpzb24uZHVtcHMo
+dGVzdHJlc3VsdHMsIHNvcnRfa2V5cz1UcnVlLCBpbmRlbnQ9NCkNCj4gKw0KPiArICAgIGRlZiBf
+d3JpdGVfZmlsZShzZWxmLCB3cml0ZV9kaXIsIGZpbGVfbmFtZSwgZmlsZV9jb250ZW50KToNCj4g
+KyAgICAgICAgZmlsZV9wYXRoID0gb3MucGF0aC5qb2luKHdyaXRlX2RpciwgZmlsZV9uYW1lKQ0K
+PiArICAgICAgICB3aXRoIG9wZW4oZmlsZV9wYXRoLCAndycpIGFzIHRoZV9maWxlOg0KPiArICAg
+ICAgICAgICAgdGhlX2ZpbGUud3JpdGUoZmlsZV9jb250ZW50KQ0KPiArDQo+ICsgICAgZGVmIGR1
+bXBfdGVzdHJlc3VsdF9maWxlKHNlbGYsIHJlc3VsdF9pZCwgdGVzdF9yZXN1bHQsIGNvbmZpZ3Vy
+YXRpb24sIHdyaXRlX2Rpcik6DQo+ICsgICAgICAgIGJiLnV0aWxzLm1rZGlyaGllcih3cml0ZV9k
+aXIpDQo+ICsgICAgICAgIGxmID0gYmIudXRpbHMubG9ja2ZpbGUob3MucGF0aC5qb2luKHdyaXRl
+X2RpciwgJ2pzb250ZXN0cmVzdWx0LmxvY2snKSkNCj4gKyAgICAgICAganNvbl90ZXN0cmVzdWx0
+cyA9IHNlbGYuX2NyZWF0ZV9qc29uX3Rlc3RyZXN1bHRzX3N0cmluZyhyZXN1bHRfaWQsIHRlc3Rf
+cmVzdWx0LCBjb25maWd1cmF0aW9uLCB3cml0ZV9kaXIpDQo+ICsgICAgICAgIHNlbGYuX3dyaXRl
+X2ZpbGUod3JpdGVfZGlyLCBzZWxmLnRlc3RyZXN1bHRfZmlsZW5hbWUsIGpzb25fdGVzdHJlc3Vs
+dHMpDQo+ICsgICAgICAgIGJiLnV0aWxzLnVubG9ja2ZpbGUobGYpDQoNCkJlZm9yZSB3ZSB3cml0
+ZSBvdXQgdGhlIGZpbGUgd2UgbmVlZCB0byBsb2FkIGluIGFueSBleGlzdGluZyBkYXRhIHNvIHdl
+IGVmZmVjdGl2ZWx5IGFwcGVuZCB0byB0aGUgZGF0YS4gSSB0aGluayBpZiB3ZSBkbyB0aGF0IHRo
+aXMgcGF0Y2ggc2hvdWxkIGJlIHJlYWR5IHRvIG1lcmdlLg0KDQpJIGRpZCBhbHNvIHdvbmRlciBp
+ZiB3ZSBuZWVkIGEgY29tbW9uIGNvbmZpZ3VyYXRpb24gZnVuY3Rpb24gcmF0aGVyIHRoYW4gZHVw
+bGljYXRpbmcgdGhlIGNvZGUgaW50byBlYWNoIG9mIHRoZSB0ZXN0IGNsYXNzZXMuDQoNCkNoZWVy
+cywNCg0KUmljaGFyZA0KDQoNCg==
 
