@@ -1,66 +1,23 @@
-Return-Path: <o.mandel@menlosystems.com>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F846600EA
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 468A3600EA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 10:45:30 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 42dtTR5729z1qxQr
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 12:45:31 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 42dtTR51bCz1qql7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 12:45:31 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024) with ESMTP id 5o-zdxoq9UFV
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 12:45:31 +0200 (CEST)
-X-Auth-Info: uEvXsURO13Gc3MTkH9tA+TvsGh3MMYGCU+3vpBOPFJCUsu5oxYrm0OOT7U6scJ+Y
-Received: from [10.0.0.72] (host-141-40-253-35.customer.izb-online.de
-	[141.40.253.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 12:45:31 +0200 (CEST)
+	Mon, 22 Oct 2018 10:49:56 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Oct 2018 03:49:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,412,1534834800"; d="scan'208";a="80614776"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga008.fm.intel.com with ESMTP; 22 Oct 2018 03:49:54 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <20181019152214.1600-1-o.mandel@menlosystems.com>
-	<20181022103314.13840.4113@do.openembedded.org>
-From: Olaf Mandel <o.mandel@menlosystems.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=o.mandel@menlosystems.com; prefer-encrypt=mutual; keydata=
-	xsBNBE9PiqUBCADe0zPq1vIfZFtlkWvV6SYOFo5awT3UejHCmplCUZ55UNW4RV0xXUudDjZs
-	kDRYE8u0YaYCIdx2iwpeSSrmTNWgmGyLJHHfmHlsG0OZBLM1nY/NvVEa2R/sgLgzybSRuzNF
-	QFxAfOIoZ9+5ygQMQNoOjDdvzrMVqWXSA9O/6rZAv4OMiHY2EnCDnCyBZ+/gI86i/gasY/j6
-	J9yX8N08f3yHQ9iAUZbnroWu0DN1B1W7md0omf8Y5xEhsav4BBQGYUoHRg4KCFkRiqB4ypjm
-	CTs/2+JMpyQJi3dSBRlEXNWpdtg3r6+Dp3GIg7eoZ7klCRMblhy2k4VVoLiieVV+lx9RABEB
-	AAHNJ09sYWYgTWFuZGVsIDxvLm1hbmRlbEBtZW5sb3N5c3RlbXMuY29tPsLAeAQTAQIAIgUC
-	T0+KpQIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQVL2dtGJSHf8/rQf/Qs1mVz7F
-	r2RwMlbiEa6cEE+ciCt0UTlPXfsF1mHG0/XZoHCOMq14VBuQFcOW9N5c7L05cCuz2tFhbk2+
-	LELBnFi9kFZZpi/rpHHbCiTXIM0JXZUmRtNoRoWVZzP9WTKD2BtNc6694bDFEVizK58oivG1
-	c1yLmdQeKgJ291inC7x4g+dR/BgBzrgt01iTUjY4s5boXQyySaexg1ME0AyJN/2A+SMxx0SY
-	bvOwfOZUurpnX9iO9IXbeHp2cPLRdgfuWqoqdTeOo1K6DleZqgucYBPfEcAzwGbkrlvFFznh
-	MWQ1EUkFrolT7TfBKsASnGBRP30+OpMCE74tDOXbP7MwE87ATQRPT4qlAQgA7IoG9IFn8RGr
-	x7W5mUhIYVuk1C0ovxzTyKn6kFhSql/V5I92J0pTyN76caqGavNwommnv1S4CB7DXS9ukfg7
-	9be8lwT3NQQDRQGsHyPK8ysxQoFVZzo6eHS6oUUXY9Rb66tKmihj22rO96+x46EJ4XJRDTs6
-	8NaOEM9PPSe64LmILK/VvAFIBIrlAHhJ2Ldhf0hRU5bQz3doNNo34iUEohaXFj0vP9eZkPIM
-	UzS1AKsJ/+3iqzM+14iP0NZRUe+Yb6nW8187gwJBnqBpw8/uT7ioCyM+h1ukXMAbm2+vhHMT
-	YzPmYFMfrN4vy3xX2hcq94X6pRM/wRi6mxlJ7Tf4xQARAQABwsBfBBgBAgAJBQJPT4qlAhsM
-	AAoJEFS9nbRiUh3/CmwIAIG+eSJ6SU5H75B6Ud9bGenTx5VOqWUQaDPFaxOMUoUI/uSf9vRI
-	DQo3vXcn3vDxFuup00BN30L7cKjDU35kuWyhMFA6a/mM1ilHyPlFCv4u0RjZ2S9CWt0l/dy4
-	QmZTKZ0Yrxeo6HZOLIvQwvDy8ThZRYdEz0mL9rMM+JXAVraUjqovMGE+8FkmMxmwxcFSLLQK
-	0hEZiKLYhJ5DkAtHkkJBNAWpPSx0QJUfZX3fSCDmVOfkI2JitqARhpy9MO6D1Z3gr1hz6fCt
-	XspCPlrvsRGRVFzAMfvXGSQOnikwGTtElzrDplsIxo0SpijaPUF/Up0KN65BpBnBchlEnaxU
-	0Oc=
-Message-ID: <afda4768-3684-ffc6-b054-a58656694d51@menlosystems.com>
-Date: Mon, 22 Oct 2018 12:45:30 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20181022103314.13840.4113@do.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG5wbTogY2hhbmdlIGluc3RhbGwgZGlyZWN0b3J5IHRvIHVwc3RyZWFtIGRlZmF1bHQgKHJldjMp?=
+Date: Mon, 22 Oct 2018 18:34:42 +0800
+Message-Id: <1540204485-22641-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/4] oeqa/core/runner: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,45 +30,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 10:45:32 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Oct 2018 10:49:56 -0000
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA256
+As part of the solution to replace Testopia to store testresult,
+OEQA need to output testresult into single json file, where json
+testresult file will be stored in git repository by the future
+test-case-management tools.
 
-Hello,
+The json testresult file will store more than one set of results,
+where each set of results was uniquely identified by the result_id.
+The result_id would be like "runtime-qemux86-core-image-sato", where
+it was a runtime test with target machine equal to qemux86 and running
+on core-image-sato image. The json testresult file will only store
+the latest test content for a given result_id. The json testresult
+file contains the configuration (eg. COMMIT, BRANCH, MACHINE, IMAGE),
+result (eg. PASSED, FAILED, ERROR), test log, and result_id.
 
-Am 22.10.2018 um 12:33 schrieb Patchwork:
-> * Issue             Series does not apply on top of target branch
-> [test_series_merge_on_head] Suggested fix    Rebase your series on
-> top of targeted branch Targeted branch  master (currently at
-> daba6c5a99)
-> 
-The v2 of the patch does not apply because the master branch already
-contains v1 of the patch. I didn't notice this and resubmitted v2 as
-v3 after a rebase (to the sumo-branch, not the master branch). So v2
-and v3 are identical except for the parent commit hash.
+Based on the destination json testresult file directory provided,
+it could have multiple instances of bitbake trying to write json
+testresult to a single testresult file, using locking a lockfile
+alongside the results file directory to prevent races.
 
-The problem is: v1 does not actually work. What is the procedure to
-handle this? Should I make a patch that works on top of the v1 already
-in master?
+Also the library class inside this patch will be reused by the future
+test-case-management tools to write json testresult for manual test
+case executed.
 
-Thanks,
-Olaf
-- -- 
-Olaf Mandel
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+---
+ meta/lib/oeqa/core/runner.py | 39 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index f1dd080..2243a10 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -6,6 +6,7 @@ import time
+ import unittest
+ import logging
+ import re
++import json
+ 
+ from unittest import TextTestResult as _TestResult
+ from unittest import TextTestRunner as _TestRunner
+@@ -119,8 +120,9 @@ class OETestResult(_TestResult):
+         self.successes.append((test, None))
+         super(OETestResult, self).addSuccess(test)
+ 
+-    def logDetails(self):
++    def logDetails(self, json_file_dir=None, configuration=None, result_id=None):
+         self.tc.logger.info("RESULTS:")
++        result = {}
+         for case_name in self.tc._registry['cases']:
+             case = self.tc._registry['cases'][case_name]
+ 
+@@ -137,6 +139,11 @@ class OETestResult(_TestResult):
+                 t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
+ 
+             self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(), oeid, status, t))
++            result[case.id()] = {'status': status, 'log': log}
++
++        if json_file_dir:
++            tresultjsonhelper = OETestResultJSONHelper()
++            tresultjsonhelper.dump_testresult_file(result_id, result, configuration, json_file_dir)
+ 
+ class OEListTestsResult(object):
+     def wasSuccessful(self):
+@@ -249,3 +256,33 @@ class OETestRunner(_TestRunner):
+             self._list_tests_module(suite)
+ 
+         return OEListTestsResult()
++
++class OETestResultJSONHelper(object):
++
++    testresult_filename = 'testresults.json'
++
++    def _get_existing_testresults_if_available(self, write_dir):
++        testresults = {}
++        file = os.path.join(write_dir, self.testresult_filename)
++        if os.path.exists(file):
++            with open(file, "r") as f:
++                testresults = json.load(f)
++        return testresults
++
++    def _create_json_testresults_string(self, test_results, result_id, test_result, configuration):
++        test_results[result_id] = {'configuration': configuration, 'result': test_result}
++        return json.dumps(test_results, sort_keys=True, indent=4)
++
++    def _write_file(self, write_dir, file_name, file_content):
++        file_path = os.path.join(write_dir, file_name)
++        with open(file_path, 'w') as the_file:
++            the_file.write(file_content)
++
++    def dump_testresult_file(self, result_id, test_result, configuration, write_dir):
++        bb.utils.mkdirhier(write_dir)
++        lf = bb.utils.lockfile(os.path.join(write_dir, 'jsontestresult.lock'))
++        test_results = self._get_existing_testresults_if_available(write_dir)
++        test_results[result_id] = {'configuration': configuration, 'result': test_result}
++        json_testresults = json.dumps(test_results, sort_keys=True, indent=4)
++        self._write_file(write_dir, self.testresult_filename, json_testresults)
++        bb.utils.unlockfile(lf)
+-- 
+2.7.4
 
-iQEzBAEBCAAdFiEErGOsr28GGMKRE/TmVL2dtGJSHf8FAlvNqj8ACgkQVL2dtGJS
-Hf+zIgf9EFUbmTpQXt1J1rTdK5EQM0o4Jewb7UzGE4XmlSYvi74hem8kjGpYGlXu
-46Ec5DR7DgvBzPc2lAw5npVxgC+2PXovVOpne/xnZtwvPM6rKd+AzNNYCm6n52aZ
-eGz67KF10+ypSFz76yQ5sxFIc7qivwKmJuzLuB89rFtZRv5aPV0sxZz36f+Duyoi
-s0hgdgKCB9IUiXvzVgeCbC3kTFGDuYFGTsBL+X/4YAvgeBoABUJSxtmjScgArk+N
-h1Ph9frGqS/jK1v4nU2MW76w/vwhooiRHBxRm/fffVkJiJYXmIqedYWLbsL872q9
-QRCJM68mEf4e9dLOepNXbNsfhs2e+w==
-=VLfd
------END PGP SIGNATURE-----
 
