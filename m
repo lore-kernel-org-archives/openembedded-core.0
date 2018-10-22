@@ -1,23 +1,25 @@
 Return-Path: <ee.peng.yeoh@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 468A3600EA
+	by mail.openembedded.org (Postfix) with ESMTP id E82FE79C5E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 10:49:56 +0000 (UTC)
+	Mon, 22 Oct 2018 10:49:57 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Oct 2018 03:49:57 -0700
+	22 Oct 2018 03:49:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,412,1534834800"; d="scan'208";a="80614776"
+X-IronPort-AV: E=Sophos;i="5.54,412,1534834800"; d="scan'208";a="80614782"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga008.fm.intel.com with ESMTP; 22 Oct 2018 03:49:54 -0700
+	by fmsmga008.fm.intel.com with ESMTP; 22 Oct 2018 03:49:56 -0700
 From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2018 18:34:42 +0800
-Message-Id: <1540204485-22641-1-git-send-email-ee.peng.yeoh@intel.com>
+Date: Mon, 22 Oct 2018 18:34:43 +0800
+Message-Id: <1540204485-22641-2-git-send-email-ee.peng.yeoh@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/4] oeqa/core/runner: write testresult to json files
+In-Reply-To: <1540204485-22641-1-git-send-email-ee.peng.yeoh@intel.com>
+References: <1540204485-22641-1-git-send-email-ee.peng.yeoh@intel.com>
+Subject: [PATCH 2/4] oeqa/selftest/context: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,105 +32,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 10:49:56 -0000
+X-List-Received-Date: Mon, 22 Oct 2018 10:49:58 -0000
 
 As part of the solution to replace Testopia to store testresult,
-OEQA need to output testresult into single json file, where json
-testresult file will be stored in git repository by the future
-test-case-management tools.
+OEQA selftest need to output testresult into json files, where
+these json testresult files will be stored into git repository
+by the future test-case-management tools.
 
-The json testresult file will store more than one set of results,
-where each set of results was uniquely identified by the result_id.
-The result_id would be like "runtime-qemux86-core-image-sato", where
-it was a runtime test with target machine equal to qemux86 and running
-on core-image-sato image. The json testresult file will only store
-the latest test content for a given result_id. The json testresult
-file contains the configuration (eg. COMMIT, BRANCH, MACHINE, IMAGE),
-result (eg. PASSED, FAILED, ERROR), test log, and result_id.
-
-Based on the destination json testresult file directory provided,
-it could have multiple instances of bitbake trying to write json
-testresult to a single testresult file, using locking a lockfile
-alongside the results file directory to prevent races.
-
-Also the library class inside this patch will be reused by the future
-test-case-management tools to write json testresult for manual test
-case executed.
+To configure multiple instances of bitbake to write json testresult
+to a single testresult file at custom direcotry, user will define
+the variable "OEQA_JSON_RESULT_DIR" with the custom directory for writing
+json testresult.
 
 Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/lib/oeqa/core/runner.py | 39 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/context.py | 36 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 33 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index f1dd080..2243a10 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -6,6 +6,7 @@ import time
- import unittest
- import logging
- import re
-+import json
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index c78947e..59d4b59 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -99,8 +99,8 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+         return cases_paths
  
- from unittest import TextTestResult as _TestResult
- from unittest import TextTestRunner as _TestRunner
-@@ -119,8 +120,9 @@ class OETestResult(_TestResult):
-         self.successes.append((test, None))
-         super(OETestResult, self).addSuccess(test)
+     def _process_args(self, logger, args):
+-        args.output_log = '%s-results-%s.log' % (self.name,
+-                time.strftime("%Y%m%d%H%M%S"))
++        args.test_start_time = time.strftime("%Y%m%d%H%M%S")
++        args.output_log = '%s-results-%s.log' % (self.name, args.test_start_time)
+         args.test_data_file = None
+         args.CASES_PATHS = None
  
--    def logDetails(self):
-+    def logDetails(self, json_file_dir=None, configuration=None, result_id=None):
-         self.tc.logger.info("RESULTS:")
-+        result = {}
-         for case_name in self.tc._registry['cases']:
-             case = self.tc._registry['cases'][case_name]
+@@ -204,6 +204,33 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+         self.tc.logger.info("Running bitbake -e to test the configuration is valid/parsable")
+         runCmd("bitbake -e")
  
-@@ -137,6 +139,11 @@ class OETestResult(_TestResult):
-                 t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
++    def _get_json_result_dir(self, args):
++        json_result_dir = os.path.join(os.path.dirname(os.path.abspath(args.output_log)), 'oeqa')
++        if "OEQA_JSON_RESULT_DIR" in self.tc.td:
++            json_result_dir = self.tc.td["OEQA_JSON_RESULT_DIR"]
++
++        return json_result_dir
++
++    def _get_configuration(self, args):
++        import platform
++        from oeqa.utils.metadata import metadata_from_bb
++        metadata = metadata_from_bb()
++        configuration = {'TEST_TYPE': 'oeselftest',
++                        'START_TIME': args.test_start_time,
++                        'MACHINE': self.tc.td["MACHINE"],
++                        'HOST_DISTRO': platform.linux_distribution(),
++                        'HOST_NAME': metadata['hostname']}
++        layers = metadata['layers']
++        for l in layers:
++            configuration['%s_BRANCH_REV' % os.path.basename(l)] = '%s:%s' % (
++                                                                    metadata['layers'][l]['branch'],
++                                                                    metadata['layers'][l]['commit'])
++        return configuration
++
++    def _get_result_id(self, configuration):
++        distro = '_'.join(configuration['HOST_DISTRO'])
++        return '%s-%s-%s' % (configuration['TEST_TYPE'], distro, configuration['MACHINE'])
++
+     def _internal_run(self, logger, args):
+         self.module_paths = self._get_cases_paths(
+                 self.tc_kwargs['init']['td']['BBPATH'].split(':'))
+@@ -220,7 +247,10 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+         else:
+             self._pre_run()
+             rc = self.tc.runTests(**self.tc_kwargs['run'])
+-            rc.logDetails()
++            configuration = self._get_configuration(args)
++            rc.logDetails(self._get_json_result_dir(args),
++                          configuration,
++                          self._get_result_id(configuration))
+             rc.logSummary(self.name)
  
-             self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(), oeid, status, t))
-+            result[case.id()] = {'status': status, 'log': log}
-+
-+        if json_file_dir:
-+            tresultjsonhelper = OETestResultJSONHelper()
-+            tresultjsonhelper.dump_testresult_file(result_id, result, configuration, json_file_dir)
- 
- class OEListTestsResult(object):
-     def wasSuccessful(self):
-@@ -249,3 +256,33 @@ class OETestRunner(_TestRunner):
-             self._list_tests_module(suite)
- 
-         return OEListTestsResult()
-+
-+class OETestResultJSONHelper(object):
-+
-+    testresult_filename = 'testresults.json'
-+
-+    def _get_existing_testresults_if_available(self, write_dir):
-+        testresults = {}
-+        file = os.path.join(write_dir, self.testresult_filename)
-+        if os.path.exists(file):
-+            with open(file, "r") as f:
-+                testresults = json.load(f)
-+        return testresults
-+
-+    def _create_json_testresults_string(self, test_results, result_id, test_result, configuration):
-+        test_results[result_id] = {'configuration': configuration, 'result': test_result}
-+        return json.dumps(test_results, sort_keys=True, indent=4)
-+
-+    def _write_file(self, write_dir, file_name, file_content):
-+        file_path = os.path.join(write_dir, file_name)
-+        with open(file_path, 'w') as the_file:
-+            the_file.write(file_content)
-+
-+    def dump_testresult_file(self, result_id, test_result, configuration, write_dir):
-+        bb.utils.mkdirhier(write_dir)
-+        lf = bb.utils.lockfile(os.path.join(write_dir, 'jsontestresult.lock'))
-+        test_results = self._get_existing_testresults_if_available(write_dir)
-+        test_results[result_id] = {'configuration': configuration, 'result': test_result}
-+        json_testresults = json.dumps(test_results, sort_keys=True, indent=4)
-+        self._write_file(write_dir, self.testresult_filename, json_testresults)
-+        bb.utils.unlockfile(lf)
+         return rc
 -- 
 2.7.4
 
