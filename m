@@ -1,34 +1,25 @@
-Return-Path: <christian.meusel@posteo.de>
-X-Greylist: delayed 400 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 22 Oct 2018 11:57:48 UTC
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AA70744F2
+Return-Path: <Kexin.Hao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 61AA6746A6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 11:57:48 +0000 (UTC)
-Received: from submission (posteo.de [89.146.220.130]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id B96C321124
+	Mon, 22 Oct 2018 12:07:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9MC7P8R019774
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2018 13:51:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-	t=1540209068; bh=Gku2FYRlbwyXbEQTJEd1Skru9pcxmjdAua1qE/RsJP0=;
-	h=From:Subject:Date:Cc:To:From;
-	b=WprQKf7gh/IPwC7ftAIZpeYWjy0u11cFLliWNW8tWZx40PSHCXn9fyZfhZhfFg/f+
-	boYy8i7NBtjfnVZDPfvcyYyfpt4gD6p/QPo+qw+OMD8jLVJXqszXbEY8pJ+bWuDh1p
-	23/O2PVSfm5HdvwsVS0D3i/CbkJF39KFxvTdQp5PlxWPxaLMjnA5u1H9zAWs4/AWZs
-	JqXtuk4kQ1GlaSCIcylFXbf5Eb3x/5w8vlaABnVamzAn5Pqt1RtFnogIsYHY95BfDF
-	yKZd4NpGHoydo2KyPJVqYbMiuCFjltUfB89mH0lfPtgxIxbFebD27Aex9YjYiegyo8
-	r9J9a03s1VYUw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 42dvx765dSz6tmK;
-	Mon, 22 Oct 2018 13:51:07 +0200 (CEST)
-From: Christian Meusel <christian.meusel@posteo.de>
-Mime-Version: 1.0 (Mac OS X Mail 12.0 \(3445.100.39\))
-Message-Id: <F12D1065-F33F-463E-8965-E0680D51C3F0@posteo.de>
-Date: Mon, 22 Oct 2018 13:51:06 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.3445.100.39)
-Cc: openembedded-core@lists.openembedded.org
-Subject: ca-certificates-native: stage certificate files for rocko too
+	Mon, 22 Oct 2018 05:07:26 -0700 (PDT)
+Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 22 Oct 2018 05:07:25 -0700
+From: Kevin Hao <kexin.hao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Oct 2018 19:58:38 +0800
+Message-ID: <20181022115840.38029-2-kexin.hao@windriver.com>
+X-Mailer: git-send-email 2.14.4
+In-Reply-To: <20181022115840.38029-1-kexin.hao@windriver.com>
+References: <20181022115840.38029-1-kexin.hao@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/3] udev-extraconf: Use the canonical file name of systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,33 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2018 11:57:49 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 22 Oct 2018 12:07:25 -0000
+Content-Type: text/plain
 
-Hello Richard,
+The new version of systemd has changed the symbolic link between
+/sbin/init and /lib/systemd/systemd to relative. So the output of
+the command 'readlink /sbin/init' become:
+    ../lib/systemd/systemd
 
-the last days I worked on an issue with ca-certificates-native for =
-rocko: the certificate files do not get staged into sysroot's =
-/usr/share/ca-certificates. When building openjdk-8-native from =
-meta-java for rocko, it will end up with empty trust anchors and refuse =
-to establish for example TLS connections.
+Then it causes the following check of "/lib/systemd/systemd" to return
+false. Fix this issue by using the canonical file name of the systemd.
 
-For pyro and sumo this issue does not exist as the certificate files get =
-installed into sysroot's /usr/share/ca-certificates directory.
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+---
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index 067d4e2a16fb..34ef98a6a882 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -4,7 +4,7 @@
+ #
+ # Attempt to mount any added block devices and umount any removed devices
+ 
+-BASE_INIT="`readlink "@base_sbindir@/init"`"
++BASE_INIT="`readlink -f "@base_sbindir@/init"`"
+ INIT_SYSTEMD="@systemd_unitdir@/systemd"
+ 
+ if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
+-- 
+2.14.4
 
-Cherry-picking the following commits from master onto rocko solves the =
-issues there:
-
-    20e6d8762b ca-certificates: use relative symlinks from $ETCCERTSDIR
-    616075eca3 ca-certificates: avoid using +=3D with an over-ride
-
-Could you please add these commits to the rocko branch?
-
-
-Best regards,
-
-Christian=
 
