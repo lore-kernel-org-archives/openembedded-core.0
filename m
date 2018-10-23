@@ -1,49 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id EF44E78D48
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id AB91879C85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2018 07:54:49 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id x6-v6so265465pln.0
+	Tue, 23 Oct 2018 07:54:51 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id 22-v6so284116pfz.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2018 00:54:51 -0700 (PDT)
+	Tue, 23 Oct 2018 00:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=WOrCM+M0TTOTcQvHrfo0KHPf+8/xg4tMXLPyzQJfTS0=;
-	b=HcCoq+HO5ZyfZQa8AwlNLYRU6TpPnGFtlNTfHN+I1G/l6cxZpQrpeXFl6eWiEYZca+
-	00+K1BQcgkgcyoP7PChH9ygmeA5H1EQaLLS7qVGONQIPg1IfQvAcu6tJNsf02PwYX5cN
-	verNcigKmBl5veEntCjy3OLyA8vPerw24YWG0t/pAydY9N1IQ5m1HbNpxJ8UIno6jKaf
-	za2cOnIwgNBkd3iFggQg82IrqBuXr82vYtOQXI82eJJm6XThStsnEtV5OPUz3HE5PS6P
-	SuT3h1Pl/GxVYO46YMRKwdtnwtEUQchZAKF86euXbgYpIJkGKkZztkalavc2yBdxCnTC
-	9rww==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=cYlq4ypuotDe7TeZIAnIcCFyR6yOBQZyAtgxBv9XNbE=;
+	b=Ffut/Y55nByMkCnYMtwVjNCO4H0IcHFFBY4SKCztKuxnIVGAyEcSrBDAckAttxos+H
+	hoo4ex+bicplw+TGHzfoVkIX4Hmu2ms2Oj7kBNZRrqe6OPb1EcLWa7Nc9s6+gnsq5n69
+	5wdh5LrAKIpnFXIBscjd8lKSUlNBDhtnvfKA5eCod0hvUaVSzog44ciIRNblBNd3gnOT
+	X1JQL8UMRnT3DDTG2Y7sTQyEejzHxjZOOM/l1R08KtMbV66yNy3R0fWSlj4l3x/CGH9K
+	zfjJDEzzbDVbbbw462KmxO9tZEcjoch4PdDZDr1u7D4Igrw+h8ZPbqKXNBmP988UK89n
+	kLPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=WOrCM+M0TTOTcQvHrfo0KHPf+8/xg4tMXLPyzQJfTS0=;
-	b=Gdy8V+pRvzv6tYzgwlO1awV8X0HTrfTZM+sj9qBIrIqCcEmVi4P72Ds6ieUc5vVAen
-	/WBotPgt/FleJkeS7WZ9cvCg1faOo4SaIzYBxyFOar1yvEy0QIyzdA4IHbDQqU9CgamQ
-	JANRrAxF21ZrCmdycPLF+cgMZ67YHns1U1cUpecdh+qLAYx0i4Q7qYQ29eDPFKxxZVFc
-	KkOa4w+xHASNQffRicTjh9zPjL3rJVF49cUwwKW5JQeGpUgFzUOGZSZTVFBMhlJHgzKO
-	Hs8iSLZ99ZpEX1T9GUBSxWYya6qBLXP7NMwxQi70wkku5ttSbBl33+mURyynRGts8u4j
-	Af+A==
-X-Gm-Message-State: AGRZ1gLux2+7/6FzkI5Oan7jSJy5/3tDkCUnXEA5i+UskUqkDIACaQ50
-	6tSAqCOknGJ8ThLnn9WhsunA9x3w8NI=
-X-Google-Smtp-Source: AJdET5dkNhYtHD7u1zkPW/bFnOLayKOeuVt8HpuIafu5hcrlTx6OfFFd8JbYbeU4yM0TSdaiuT80/g==
-X-Received: by 2002:a17:902:d209:: with SMTP id
-	t9-v6mr914447ply.15.1540281290617; 
-	Tue, 23 Oct 2018 00:54:50 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=cYlq4ypuotDe7TeZIAnIcCFyR6yOBQZyAtgxBv9XNbE=;
+	b=dK4gsUafsYYCtTQju7GOK7tsAmcqwDSmoBcBWKIu9NDN3SxxSrHYgW/l9g8b2p92ec
+	ethgXfKo/vAq6Umb9dz7qZgM0DPH6+wpl/0KRiJghHJpRER8tZ3RhvkJlzdEVzwDJgrs
+	pK9xD+KhkfUuo+CRdM4fVSvCcmzUOJpATpDeY6RUeAzepMbl1ZTRWjtW19LKjIxL9fCM
+	0sGiFCspDd700Sdk0YgLyBR71UBusrz9gd8Oku7/O4YXjY4j1BgwyFRRQr6HdOGUrDgB
+	lDSobvu3J0LlGoBGGju9jmlBIOkEvYKKEehx/gbscli4vVcSYtyA6LSVJe39O432ttwv
+	SOzg==
+X-Gm-Message-State: ABuFfoiJYA8e6VfZ+ws+IBu5Hvvsmyafd995VourQRvMPUnpXwgFBdAd
+	P7EZsdr3tILvJ4y+ohdwu+MQ77KrRNk=
+X-Google-Smtp-Source: ACcGV614CU0k7Yy3TjIu68tf6kyKCxmAUn4ffFS8gmlc1cRbKB/QccopPCPtz4GWcautcOC6cjBfjA==
+X-Received: by 2002:a63:cc:: with SMTP id 195-v6mr44986744pga.44.1540281292352;
+	Tue, 23 Oct 2018 00:54:52 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com ([109.144.222.79])
 	by smtp.gmail.com with ESMTPSA id
-	e193-v6sm866368pfg.127.2018.10.23.00.54.49
+	e193-v6sm866368pfg.127.2018.10.23.00.54.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 23 Oct 2018 00:54:50 -0700 (PDT)
+	Tue, 23 Oct 2018 00:54:51 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Oct 2018 08:54:45 +0100
-Message-Id: <1540281286-26784-1-git-send-email-akuster808@gmail.com>
+Date: Tue, 23 Oct 2018 08:54:46 +0100
+Message-Id: <1540281286-26784-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [v2][PATCH 1/2] gnutls: update to 3.6.4
+In-Reply-To: <1540281286-26784-1-git-send-email-akuster808@gmail.com>
+References: <1540281286-26784-1-git-send-email-akuster808@gmail.com>
+Subject: [v2][PATCH 2/2] libpcre2: update to 10.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +58,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2018 07:54:50 -0000
+X-List-Received-Date: Tue, 23 Oct 2018 07:54:51 -0000
 
-Notable change:
+License-Update: changed do to typo fixes and tidies for 10.32
 
-libgnutls: Added the final (RFC8446) version numbering of the TLS1.3 protocol.
-see: https://lists.gnupg.org/pipermail/gnutls-help/2018-September/004457.html
+see: https://www.pcre.org/changelog.txt
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 
 --
 [v2]
-Fix typo in version in subject
+add missing License-Update
 ---
- meta/recipes-support/gnutls/{gnutls_3.6.3.bb => gnutls_3.6.4.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.6.3.bb => gnutls_3.6.4.bb} (93%)
+ .../libpcre/{libpcre2_10.31.bb => libpcre2_10.32.bb}                | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre2_10.31.bb => libpcre2_10.32.bb} (90%)
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.3.bb b/meta/recipes-support/gnutls/gnutls_3.6.4.bb
-similarity index 93%
-rename from meta/recipes-support/gnutls/gnutls_3.6.3.bb
-rename to meta/recipes-support/gnutls/gnutls_3.6.4.bb
-index 441bbec..6d2a11d 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.3.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.4.bb
-@@ -21,8 +21,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://arm_eabi.patch \
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.31.bb b/meta/recipes-support/libpcre/libpcre2_10.32.bb
+similarity index 90%
+rename from meta/recipes-support/libpcre/libpcre2_10.31.bb
+rename to meta/recipes-support/libpcre/libpcre2_10.32.bb
+index a10c312..3a0aa53 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.31.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.32.bb
+@@ -8,14 +8,14 @@ SUMMARY = "Perl Compatible Regular Expressions version 2"
+ HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=f5e4bde9fd0493d0967b4dba9899590f"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=cf66d307bf03bae65d413eb7a8e603a0"
+ 
+ SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2 \
+            file://pcre-cross.patch \
  "
  
--SRC_URI[md5sum] = "d3b1b05c2546b80832101a423a80faf8"
--SRC_URI[sha256sum] = "ed642b66a4ecf4851ab2d809cd1475c297b6201d8e8bd14b4d1c08b53ffca993"
-+SRC_URI[md5sum] = "63363d1c00601f4d11a5cadc8b5e0799"
-+SRC_URI[sha256sum] = "c663a792fbc84349c27c36059181f2ca86c9442e75ee8b0ad72f5f9b35deab3a"
+-SRC_URI[md5sum] = "e0b91c891a3c49050f7fd15de33d0ba4"
+-SRC_URI[sha256sum] = "e07d538704aa65e477b6a392b32ff9fc5edf75ab9a40ddfc876186c4ff4d68ac"
++SRC_URI[md5sum] = "8a096287153fb994970df3570e90fcb5"
++SRC_URI[sha256sum] = "f29e89cc5de813f45786580101aaee3984a65818631d4ddbda7b32f699b87c2e"
  
- inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
+ CVE_PRODUCT = "pcre2"
  
 -- 
 2.7.4
