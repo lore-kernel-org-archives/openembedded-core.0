@@ -1,54 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 83B8D79312
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 15B3879547
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2018 21:17:53 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id f17-v6so3218752wrs.12
+	Tue, 23 Oct 2018 21:18:07 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id c10so1844375vsk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2018 14:17:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=1drC7p7DhAWM9JcjMRc/r9CUsGjGB3JFUxWzrSVvm9U=;
-	b=Ssz2vFRYBNjpz3t8ZX2FbEb+o8JqnGBxdJgZD9ljRg88M5XLJL1UunpqS0skcRO5E5
-	T08RH2BoCjjKy3/FCpKNm9A8bf2bnJ4th7chHmG13KI0CBPKgzTJ7ejOKVOC/tmxf2EZ
-	DscE6iPPk2gaWAdPqGSzK5VgDpOrfWo6SNQTA=
+	Tue, 23 Oct 2018 14:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=e5Wmza/qSTTrdrcTBpkRR4oI8Dd0FgseZlc6OVMX30E=;
+	b=MOItoCcHMlHWc79UDlQuUpAD26tF6dRWhQ0zoAq0WVpSRUILkPP4l/Pztoa69Im5mF
+	39SDWAuYzb5Vnal8aGIIuR9QZJwOxukYNl6fCi+Z17QwKa5pzHLYj2mk8LHCszwwyhc0
+	Iw2T4XolRC3WArjsWQHDZ9QXxys1dklVd8uX15rG6zW/1EPZAH/QU6hrU/YGSaLwV1Yh
+	O8IIJI1IpQTI4LwB/EmQs3ET4qRcUYBnF1UnaG4qspDejGoECTEkXgUfvi48gg4GCo1o
+	dmtufaXNZoMGgZyXTIqGloYJaIvlsFlMklomdc4S/FGhdWIljsP25bupkMoxQgePuOPS
+	G7zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=1drC7p7DhAWM9JcjMRc/r9CUsGjGB3JFUxWzrSVvm9U=;
-	b=b0LB00fgTH5Vj2eYPwRf25NBgD9cRUE0II6CBEsp+15o4t1t+AtWHw08mY3Ju7AN5p
-	syKnmrNYYNq4WdDLhk4pt88eMykb2YttDzzK4YHOCwuV867TtdVSzeJNH6nlJC6zSPa9
-	ebCkv9n9vwRTqkFOJ/qmsFlRf6cNbR2v+A1ouCNfICWiL3DkS1me6TJG78jiBu/VKFBG
-	ltArQyrNE59S/+D/8nv4HhI+mawJ4tY4HU8Aw1jhywlKhkDLmZ2I6RkqAnpMp87i+U1e
-	7lUW6UWHSbSXriMBYVSnabAgOHrIC68jzAkZRnBTtomje6NrhD24MSIzjagk4dsyzzUN
-	2DXQ==
-X-Gm-Message-State: ABuFfoi3dE0HLEYj9PQ3NDOPPGzyS9i72Y0Kiwzor8vZT8qoBDVdN99L
-	ayLmbudwL2OFTK0JBpGtR5Xwbg==
-X-Google-Smtp-Source: ACcGV604KFy+rT8KlEMHxi4qXYWxvvEZvqiZU4hiLpFC0Dj42Bpsc+RgcOqGfRR1cdRrsMwgu9Pg1w==
-X-Received: by 2002:adf:c513:: with SMTP id
-	q19-v6mr51300189wrf.46.1540329473861; 
-	Tue, 23 Oct 2018 14:17:53 -0700 (PDT)
-Received: from hex ([167.98.65.38]) by smtp.gmail.com with ESMTPSA id
-	r134-v6sm1514013wmg.9.2018.10.23.14.17.52
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 23 Oct 2018 14:17:52 -0700 (PDT)
-Message-ID: <3325dc5675228ef92e512aa4c39d4c2480fb88b7.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Kang Kai <Kai.Kang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 23 Oct 2018 22:17:52 +0100
-In-Reply-To: <5ca5c33e-42e1-9a14-2b60-ff84d6f5774e@windriver.com>
-References: <cover.1539876421.git.kai.kang@windriver.com>
-	<8de5585c10d806d15ba4550d05c3c8fbcab26990.1539876421.git.kai.kang@windriver.com>
-	<e7a1a326-ce51-2b1b-eadb-c1c650f3fcbe@windriver.com>
-	<5ca5c33e-42e1-9a14-2b60-ff84d6f5774e@windriver.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] udev-hwdb: fix postinstall scripts failures when multilib enabled
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=e5Wmza/qSTTrdrcTBpkRR4oI8Dd0FgseZlc6OVMX30E=;
+	b=NNG7HCOKpdnyaEh/Y9f8Gl9FGk6mRYjkatsnoZ23Cx1xGBmPLQcGU3AxmqjS5UCZ9A
+	Ppf108OpSquXk5TSVOsZ15rGov7Ki7IX8uFWwd/9U8xQ6AJGm9BILeGFURUaG7y1ILcO
+	n55sv0+W5MfRX81dO7BRXlMeyHcBhzWZiPWSuyRK1a//8eeOFLM3J30TjuAZW8fpYSsV
+	U9Mt8jDEsS8X8tATXLSrwtHySl6sUdTzw1QOokB5jrqYrgj3r0Qrcy8KJgQ0YTUoJDTJ
+	JgXDnQtDueSUg5/GOjVtHdAvVnZ2i0Xprvy0L+2XrBimSSczMAhUsrKFeY3AJvYPkq9d
+	Byxg==
+X-Gm-Message-State: ABuFfoinsGJX9SGKFuoMGaAmsVPe63X2G3EPFyYrIodneXAqfqYul/vW
+	xXnzHvQijw9nYl50LiEAXS/lIvelGADvXotIh50=
+X-Google-Smtp-Source: ACcGV62+EIXYz46Wj0E5shqONLeVeEQdZHX4D1DnqprE8oJqUrIhkiOpNN/cJgN8PjS0LgUXg9OI4yHKk43G9xvS13w=
+X-Received: by 2002:a67:7344:: with SMTP id o65mr21639351vsc.223.1540329488819;
+	Tue, 23 Oct 2018 14:18:08 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2914:0:0:0:0:0 with HTTP; Tue, 23 Oct 2018 14:18:08
+	-0700 (PDT)
+In-Reply-To: <CAJ86T=XB+UgGZvW71x0QHb6QzwadMejBDOLEh+q0yjwO-q3yGg@mail.gmail.com>
+References: <1529088192-991-1-git-send-email-armccurdy@gmail.com>
+	<9be8087a3d586dd5d372954ddae61db388e39011.camel@linuxfoundation.org>
+	<CAJ86T=XB+UgGZvW71x0QHb6QzwadMejBDOLEh+q0yjwO-q3yGg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 23 Oct 2018 14:18:08 -0700
+Message-ID: <CAJ86T=Ww84U3V5Oghro9Pxz93KHcsOan_wmrTEu8=O9A83esjQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf: drop FETCHCMD, GITDIR, etc fetcher over-rides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,116 +57,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2018 21:17:54 -0000
+X-List-Received-Date: Tue, 23 Oct 2018 21:18:08 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Tue, 2018-10-23 at 14:43 +0800, Kang Kai wrote:
-> On 2018/10/22 下午11:11, Kang Kai wrote:
-> > On 2018/10/18 下午11:28, kai.kang@windriver.com wrote:
-> > > From: Kai Kang <kai.kang@windriver.com>
-> > > 
-> > > When multilib is enabled and both udev-hwdb and ${MLPREFIX}udev-
-> > > hwdb are
-> > > installed to image, it fails to run one of their postinstall
-> > > scripts
-> > > that they both call ${base_bindir}/udevadm with same user mode
-> > > qemu.
-> > > 
-> > > Duplicate udevadm and add postinst-intercept update_udev_hwdb to
-> > > fix the
-> > > failures.
-> > > 
-> > > Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> > > ---
-> > >   meta/recipes-core/systemd/systemd_239.bb     | 13 ++++++-------
-> > >   meta/recipes-core/udev/eudev_3.2.5.bb        | 11 +++++------
-> > >   scripts/postinst-intercepts/update_udev_hwdb |  6 ++++++
-> > >   3 files changed, 17 insertions(+), 13 deletions(-)
-> > >   create mode 100644 scripts/postinst-intercepts/update_udev_hwdb
-> > > 
-> > > diff --git a/meta/recipes-core/systemd/systemd_239.bb 
-> > > b/meta/recipes-core/systemd/systemd_239.bb
-> > > index 7ed932141d..44e972ebce 100644
-> > > --- a/meta/recipes-core/systemd/systemd_239.bb
-> > > +++ b/meta/recipes-core/systemd/systemd_239.bb
-> > > @@ -284,6 +284,10 @@ do_install() {
-> > >               chown polkitd:root ${D}${datadir}/polkit-1/rules.d
-> > >           fi
-> > >       fi
-> > > +
-> > > +    # duplicate udevadm for postinst script
-> > > +    install -d ${D}${libexecdir}
-> > > +    ln ${D}${base_bindir}/udevadm
-> > > ${D}${libexecdir}/${MLPREFIX}udevadm
-> > >   }
-> > >     @@ -542,6 +546,7 @@ FILES_udev += "${base_sbindir}/udevd \
-> > >                  ${systemd_unitdir}/system/*udev* \
-> > >                  ${systemd_unitdir}/system/*.wants/*udev* \
-> > >                  ${base_bindir}/udevadm \
-> > > +               ${libexecdir}/${MLPREFIX}udevadm \
-> > >                  ${datadir}/bash-completion/completions/udevadm \
-> > >                 "
-> > >   @@ -580,13 +585,7 @@ pkg_prerm_${PN} () {
-> > >   PACKAGE_WRITE_DEPS += "qemu-native"
-> > >   pkg_postinst_udev-hwdb () {
-> > >       if test -n "$D"; then
-> > > -        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-
-> > > usermode', 
-> > > 'true','false', d)}; then
-> > > -            ${@qemu_run_binary(d, '$D',
-> > > '${base_bindir}/udevadm')} 
-> > > hwdb --update \
-> > > -                --root $D
-> > > -            chown root:root $D${sysconfdir}/udev/hwdb.bin
-> > > -        else
-> > > -            $INTERCEPT_DIR/postinst_intercept
-> > > delay_to_first_boot 
-> > > ${PKG} mlprefix=${MLPREFIX}
-> > > -        fi
-> > > +        $INTERCEPT_DIR/postinst_intercept update_udev_hwdb
-> > > ${PKG} 
-> > > mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
-> > >       else
-> > >           udevadm hwdb --update
-> > >       fi
-> > > diff --git a/meta/recipes-core/udev/eudev_3.2.5.bb 
-> > > b/meta/recipes-core/udev/eudev_3.2.5.bb
-> > > index efd62c6495..592dd8f22a 100644
-> > > --- a/meta/recipes-core/udev/eudev_3.2.5.bb
-> > > +++ b/meta/recipes-core/udev/eudev_3.2.5.bb
-> > > @@ -50,6 +50,10 @@ do_install_append() {
-> > >         # hid2hci has moved to bluez4. removed in udev as of
-> > > version 169
-> > >       rm -f ${D}${base_libdir}/udev/hid2hci
-> > > +
-> > > +    # duplicate udevadm for postinst script
-> > > +    install -d ${D}${libexecdir}
-> > > +    ln ${D}${bindir}/udevadm
-> > > ${D}${libexecdir}/${MLPREFIX}udevadm
-> > >   }
-> > >     do_install_prepend_class-target () {
-> > > @@ -81,12 +85,7 @@ RPROVIDES_eudev-hwdb += "udev-hwdb"
-> > >   PACKAGE_WRITE_DEPS += "qemu-native"
-> > >   pkg_postinst_eudev-hwdb () {
-> > >       if test -n "$D"; then
-> > > -        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-
-> > > usermode', 
-> > > 'true','false', d)}; then
-> > 
-> > Hi Richard,
-> > 
-> > It seems check for 'qemu-usermode' should not be removed. And it
-> > also 
-> > need to check for other intercept scripts.
-> 
-> I just realize that intercept scripts have been handled well in 
-> lib/oe/package_manager.py. So please ignore my last reply.
+On Fri, Jun 15, 2018 at 3:12 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Fri, Jun 15, 2018 at 2:58 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Fri, 2018-06-15 at 11:43 -0700, Andre McCurdy wrote:
+>>> Following recent updates to the bitbake, the fetchers should now all
+>>> contain safe and correct defaults for the subdirectory within DL_DIR
+>>> to use and the base fetch command to run. It's no longer necessary
+>>> for bitbake.conf to specify these values.
+>>>
+>>> This is cleanup which was originally proposed in 2012:
+>>>
+>>>   http://lists.openembedded.org/pipermail/openembedded-core/2012-July
+>>> /064224.html
+>>>
+>>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>>> ---
+>>>  meta/conf/bitbake.conf | 12 ------------
+>>>  1 file changed, 12 deletions(-)
+>>>
+>>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>>> index 3b2ef9f..8588684 100644
+>>> --- a/meta/conf/bitbake.conf
+>>> +++ b/meta/conf/bitbake.conf
+>>> @@ -349,12 +349,6 @@ CACHE = "${TMPDIR}/cache${@['', '/' +
+>>> str(d.getVar('MACHINE'))][bool(d.getVar('M
+>>>  # The persistent cache should be shared by all builds
+>>>  PERSISTENT_DIR = "${TOPDIR}/cache"
+>>>  LOG_DIR = "${TMPDIR}/log"
+>>> -CO_DIR = "${DL_DIR}"
+>>> -CVSDIR = "${CO_DIR}/cvs"
+>>> -SVNDIR = "${CO_DIR}/svn"
+>>> -GITDIR = "${CO_DIR}/git2"
+>>> -BZRDIR = "${CO_DIR}/bzr"
+>>> -HGDIR = "${CO_DIR}/hg"
+>>>
+>>>  STAMPS_DIR ?= "${TMPDIR}/stamps"
+>>>  STAMP =
+>>> "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
+>>> @@ -661,12 +655,6 @@ SRC_URI[vardepsexclude] += "\
+>>>  #  export DEBIAN_MIRROR = "http://ftp.de.debian.org/debian/pool"
+>>>  #     into your local.conf
+>>>
+>>> -FETCHCMD_svn = "/usr/bin/env svn --non-interactive --trust-server-
+>>> cert"
+>>> -FETCHCMD_cvs = "/usr/bin/env cvs"
+>>> -FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 --passive-ftp --no-
+>>> check-certificate"
+>>> -FETCHCMD_bzr = "/usr/bin/env bzr"
+>>> -FETCHCMD_hg = "/usr/bin/env hg"
+>>> -
+>>>  SRCDATE = "${DATE}"
+>>>  SRCREV ??= "INVALID"
+>>>  AUTOREV = "${@bb.fetch2.get_autorev(d)}"
+>>
+>> To make this work, we need to force everyone to upgrade their bitbake
+>> beyond the point where these have been added to the fetcher.
+>>
+>> We could do that with the minimum bitbake version but I'm tempted to
+>> hold this for a but until we have another more pressing reason to bump
+>> the minimum bitbake version and then do this at the same time?
+>
+> OK. I was assuming that anyone using master oe-core would be using
+> master bitbake too. Delaying the change going into oe-core is
+> certainly safer though.
 
-I'm now confused, which version of this patch do we need?
-
-Cheers,
-
-Richard
-
+Would now be a good time to merge this?
 
