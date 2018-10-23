@@ -1,43 +1,29 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D0F5E79BE3
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7631479C23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2018 06:39:15 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Oct 2018 23:39:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,415,1534834800"; d="scan'208";a="243555747"
-Received: from pgsmsx112.gar.corp.intel.com ([10.108.55.201])
-	by orsmga004.jf.intel.com with ESMTP; 22 Oct 2018 23:39:15 -0700
-Received: from pgsmsx110.gar.corp.intel.com ([169.254.13.248]) by
-	PGSMSX112.gar.corp.intel.com ([169.254.3.206]) with mapi id
-	14.03.0319.002; Tue, 23 Oct 2018 14:39:14 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/4] oeqa/core/runner: write testresult to
-	json files
-Thread-Index: AQHUafT/lcbEAUsUA0iVmC9bNNrurqUrWkCAgAEEUCA=
-Date: Tue, 23 Oct 2018 06:39:13 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D043480FE86E@PGSMSX110.gar.corp.intel.com>
-References: <1540204485-22641-1-git-send-email-ee.peng.yeoh@intel.com>
-	<e222c50a97c8b1b555cac324659e723b49b28413.camel@linuxfoundation.org>
-In-Reply-To: <e222c50a97c8b1b555cac324659e723b49b28413.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNzkyYTgyMzMtMzdiMS00OTcxLTgzNzUtZDkzMmU3MzBkMDBlIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZGhcL3poSXY3RlY5UjZwaUZVN0lqWVVOWWF6RWpXTUlTMzRsWmtFVndLM2hlemRSeGhXXC9UbHZiR2IxNVFuUEJnIn0=
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
+	Tue, 23 Oct 2018 06:45:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9N6ih2f025079
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 22 Oct 2018 23:44:53 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 22 Oct 2018 23:44:32 -0700
+To: <openembedded-core@lists.openembedded.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <cover.1539876421.git.kai.kang@windriver.com>
+	<8de5585c10d806d15ba4550d05c3c8fbcab26990.1539876421.git.kai.kang@windriver.com>
+	<e7a1a326-ce51-2b1b-eadb-c1c650f3fcbe@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <5ca5c33e-42e1-9a14-2b60-ff84d6f5774e@windriver.com>
+Date: Tue, 23 Oct 2018 14:43:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/4] oeqa/core/runner: write testresult to json files
+In-Reply-To: <e7a1a326-ce51-2b1b-eadb-c1c650f3fcbe@windriver.com>
+Subject: Re: [PATCH 1/1] udev-hwdb: fix postinstall scripts failures when multilib enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,136 +36,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2018 06:39:16 -0000
+X-List-Received-Date: Tue, 23 Oct 2018 06:45:19 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-SGkgUmljaGFyZCwNCg0KSSBzdWJtaXR0ZWQgdGhlIHJldmlzZWQgcGF0Y2hlcyBiZWxvdy4gU29y
-cnkgZm9yIHRoZSBtaXNzaW5nICJ2ZXJzaW9uICMiIGluIHRoZSBwYXRjaCB0aXRsZS4gQWZ0ZXIg
-dGhpcywgSSB3aWxsIGFkZCB0aGUgInZlcnNpb24gIyIgaW50byB0aGUgcGF0Y2ggdGl0bGUuIA0K
-DQpQbGVhc2UgbGV0IG1lIGtub3cgaWYgYW55IHF1ZXN0aW9uIG9yIGlucHV0cy4gVGhhbmsgeW91
-IHZlcnkgbXVjaCBmb3IgeW91ciBhdHRlbnRpb24gJiBzaGFyaW5nISANCg0KQmVzdCByZWdhcmRz
-LA0KWWVvaCBFZSBQZW5nIA0KDQpBKSBvZXFhL2NvcmUvcnVubmVyOg0KCS0gcmVtb3ZlZCBubyBs
-b25nZXIgdXNlZCBmdW5jdGlvbg0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJt
-YWlsL29wZW5lbWJlZGRlZC1jb3JlLzIwMTgtT2N0b2Jlci8xNTY5OTAuaHRtbA0KDQpCKSBvZXFh
-L3NlbGZ0ZXN0L2NvbnRleHQ6DQoJLSBjb25jYXRlbmF0ZSBsaXN0IG9mIGVsZW1lbnQgZnJvbSBE
-SVNUUk8gdG8gc2luZ2xlIGVsZW1lbnQsIHJlcGxhY2UgZW1wdHkgY2hhcmFjdGVyDQoJRWcuICdI
-T1NUX0RJU1RSTyc6ICgnLScuam9pbihwbGF0Zm9ybS5saW51eF9kaXN0cmlidXRpb24oKSkpLnJl
-cGxhY2UoJyAnLCAnLScpDQoJLSBjaGFuZ2UgcmVzdWx0X2lkIHRvIHNlcGFyYXRvciBjaGFyYWN0
-ZXIgZnJvbSAiLSIgdG8gIl8iICANCglFZy4gJyVzXyVzXyVzJyAlIChjb25maWd1cmF0aW9uWydU
-RVNUX1RZUEUnXSwgY29uZmlndXJhdGlvblsnSE9TVF9ESVNUUk8nXSwgY29uZmlndXJhdGlvblsn
-TUFDSElORSddKQ0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5l
-bWJlZGRlZC1jb3JlLzIwMTgtT2N0b2Jlci8xNTY5OTEuaHRtbA0KDQpDKSB0ZXN0aW1hZ2UuYmJj
-bGFzcw0KCS0gcmVtb3ZlZCBubyBsb25nZXIgdXNlZCAiY29uZmlndXJhdGlvbiIgYXJndW1lbnQg
-aW5zaWRlIGZ1bmN0aW9uDQoJRWcuIGRlZiBfZ2V0X3Rlc3RpbWFnZV9qc29uX3Jlc3VsdF9kaXIo
-ZCk6DQoJLSBjb25jYXRlbmF0ZSBsaXN0IG9mIGVsZW1lbnQgZnJvbSBESVNUUk8gdG8gc2luZ2xl
-IGVsZW1lbnQsIHJlcGxhY2UgZW1wdHkgY2hhcmFjdGVyDQoJLSBjaGFuZ2UgcmVzdWx0X2lkIHRv
-IHNlcGFyYXRvciBjaGFyYWN0ZXIgZnJvbSAiLSIgdG8gIl8iICANCmh0dHA6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE4LU9jdG9iZXIvMTU2
-OTkyLmh0bWwNCg0KRCkgdGVzdHNkay5iYmNsYXNzDQoJLSByZW1vdmVkIG5vIGxvbmdlciB1c2Vk
-ICJjb25maWd1cmF0aW9uIiBhcmd1bWVudCBpbnNpZGUgZnVuY3Rpb24NCglFZy4gZGVmIF9nZXRf
-dGVzdGltYWdlX2pzb25fcmVzdWx0X2RpcihkKToNCgktIGNvbmNhdGVuYXRlIGxpc3Qgb2YgZWxl
-bWVudCBmcm9tIERJU1RSTyB0byBzaW5nbGUgZWxlbWVudCwgcmVwbGFjZSBlbXB0eSBjaGFyYWN0
-ZXINCgktIGNoYW5nZSByZXN1bHRfaWQgdG8gc2VwYXJhdG9yIGNoYXJhY3RlciBmcm9tICItIiB0
-byAiXyIgIA0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJl
-ZGRlZC1jb3JlLzIwMTgtT2N0b2Jlci8xNTY5OTMuaHRtbA0KDQoNCg0KLS0tLS1PcmlnaW5hbCBN
-ZXNzYWdlLS0tLS0NCkZyb206IHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmcgW21h
-aWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXSANClNlbnQ6IFR1ZXNkYXks
-IE9jdG9iZXIgMjMsIDIwMTggNjo1NCBBTQ0KVG86IFllb2gsIEVlIFBlbmcgPGVlLnBlbmcueWVv
-aEBpbnRlbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpT
-dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzRdIG9lcWEvY29yZS9ydW5uZXI6IHdyaXRl
-IHRlc3RyZXN1bHQgdG8ganNvbiBmaWxlcw0KDQpPbiBNb24sIDIwMTgtMTAtMjIgYXQgMTg6MzQg
-KzA4MDAsIFllb2ggRWUgUGVuZyB3cm90ZToNCj4gQXMgcGFydCBvZiB0aGUgc29sdXRpb24gdG8g
-cmVwbGFjZSBUZXN0b3BpYSB0byBzdG9yZSB0ZXN0cmVzdWx0LCBPRVFBIA0KPiBuZWVkIHRvIG91
-dHB1dCB0ZXN0cmVzdWx0IGludG8gc2luZ2xlIGpzb24gZmlsZSwgd2hlcmUganNvbiB0ZXN0cmVz
-dWx0IA0KPiBmaWxlIHdpbGwgYmUgc3RvcmVkIGluIGdpdCByZXBvc2l0b3J5IGJ5IHRoZSBmdXR1
-cmUgDQo+IHRlc3QtY2FzZS1tYW5hZ2VtZW50IHRvb2xzLg0KPiANCj4gVGhlIGpzb24gdGVzdHJl
-c3VsdCBmaWxlIHdpbGwgc3RvcmUgbW9yZSB0aGFuIG9uZSBzZXQgb2YgcmVzdWx0cywgDQo+IHdo
-ZXJlIGVhY2ggc2V0IG9mIHJlc3VsdHMgd2FzIHVuaXF1ZWx5IGlkZW50aWZpZWQgYnkgdGhlIHJl
-c3VsdF9pZC4NCj4gVGhlIHJlc3VsdF9pZCB3b3VsZCBiZSBsaWtlICJydW50aW1lLXFlbXV4ODYt
-Y29yZS1pbWFnZS1zYXRvIiwgd2hlcmUgDQo+IGl0IHdhcyBhIHJ1bnRpbWUgdGVzdCB3aXRoIHRh
-cmdldCBtYWNoaW5lIGVxdWFsIHRvIHFlbXV4ODYgYW5kIHJ1bm5pbmcgDQo+IG9uIGNvcmUtaW1h
-Z2Utc2F0byBpbWFnZS4gVGhlIGpzb24gdGVzdHJlc3VsdCBmaWxlIHdpbGwgb25seSBzdG9yZSB0
-aGUgDQo+IGxhdGVzdCB0ZXN0IGNvbnRlbnQgZm9yIGEgZ2l2ZW4gcmVzdWx0X2lkLiBUaGUganNv
-biB0ZXN0cmVzdWx0IGZpbGUgDQo+IGNvbnRhaW5zIHRoZSBjb25maWd1cmF0aW9uIChlZy4gQ09N
-TUlULCBCUkFOQ0gsIE1BQ0hJTkUsIElNQUdFKSwgDQo+IHJlc3VsdCAoZWcuIFBBU1NFRCwgRkFJ
-TEVELCBFUlJPUiksIHRlc3QgbG9nLCBhbmQgcmVzdWx0X2lkLg0KPiANCj4gQmFzZWQgb24gdGhl
-IGRlc3RpbmF0aW9uIGpzb24gdGVzdHJlc3VsdCBmaWxlIGRpcmVjdG9yeSBwcm92aWRlZCwgaXQg
-DQo+IGNvdWxkIGhhdmUgbXVsdGlwbGUgaW5zdGFuY2VzIG9mIGJpdGJha2UgdHJ5aW5nIHRvIHdy
-aXRlIGpzb24gDQo+IHRlc3RyZXN1bHQgdG8gYSBzaW5nbGUgdGVzdHJlc3VsdCBmaWxlLCB1c2lu
-ZyBsb2NraW5nIGEgbG9ja2ZpbGUgDQo+IGFsb25nc2lkZSB0aGUgcmVzdWx0cyBmaWxlIGRpcmVj
-dG9yeSB0byBwcmV2ZW50IHJhY2VzLg0KPiANCj4gQWxzbyB0aGUgbGlicmFyeSBjbGFzcyBpbnNp
-ZGUgdGhpcyBwYXRjaCB3aWxsIGJlIHJldXNlZCBieSB0aGUgZnV0dXJlIA0KPiB0ZXN0LWNhc2Ut
-bWFuYWdlbWVudCB0b29scyB0byB3cml0ZSBqc29uIHRlc3RyZXN1bHQgZm9yIG1hbnVhbCB0ZXN0
-IA0KPiBjYXNlIGV4ZWN1dGVkLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogWWVvaCBFZSBQZW5nIDxl
-ZS5wZW5nLnllb2hAaW50ZWwuY29tPg0KPiAtLS0NCj4gIG1ldGEvbGliL29lcWEvY29yZS9ydW5u
-ZXIucHkgfCAzOSANCj4gKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystDQo+
-ICAxIGZpbGUgY2hhbmdlZCwgMzggaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4g
-ZGlmZiAtLWdpdCBhL21ldGEvbGliL29lcWEvY29yZS9ydW5uZXIucHkgDQo+IGIvbWV0YS9saWIv
-b2VxYS9jb3JlL3J1bm5lci5weSBpbmRleCBmMWRkMDgwLi4yMjQzYTEwIDEwMDY0NA0KPiAtLS0g
-YS9tZXRhL2xpYi9vZXFhL2NvcmUvcnVubmVyLnB5DQo+ICsrKyBiL21ldGEvbGliL29lcWEvY29y
-ZS9ydW5uZXIucHkNCj4gQEAgLTYsNiArNiw3IEBAIGltcG9ydCB0aW1lDQo+ICBpbXBvcnQgdW5p
-dHRlc3QNCj4gIGltcG9ydCBsb2dnaW5nDQo+ICBpbXBvcnQgcmUNCj4gK2ltcG9ydCBqc29uDQo+
-ICANCj4gIGZyb20gdW5pdHRlc3QgaW1wb3J0IFRleHRUZXN0UmVzdWx0IGFzIF9UZXN0UmVzdWx0
-ICBmcm9tIHVuaXR0ZXN0IA0KPiBpbXBvcnQgVGV4dFRlc3RSdW5uZXIgYXMgX1Rlc3RSdW5uZXIg
-QEAgLTExOSw4ICsxMjAsOSBAQCBjbGFzcyANCj4gT0VUZXN0UmVzdWx0KF9UZXN0UmVzdWx0KToN
-Cj4gICAgICAgICAgc2VsZi5zdWNjZXNzZXMuYXBwZW5kKCh0ZXN0LCBOb25lKSkNCj4gICAgICAg
-ICAgc3VwZXIoT0VUZXN0UmVzdWx0LCBzZWxmKS5hZGRTdWNjZXNzKHRlc3QpDQo+ICANCj4gLSAg
-ICBkZWYgbG9nRGV0YWlscyhzZWxmKToNCj4gKyAgICBkZWYgbG9nRGV0YWlscyhzZWxmLCBqc29u
-X2ZpbGVfZGlyPU5vbmUsIGNvbmZpZ3VyYXRpb249Tm9uZSwgcmVzdWx0X2lkPU5vbmUpOg0KPiAg
-ICAgICAgICBzZWxmLnRjLmxvZ2dlci5pbmZvKCJSRVNVTFRTOiIpDQo+ICsgICAgICAgIHJlc3Vs
-dCA9IHt9DQo+ICAgICAgICAgIGZvciBjYXNlX25hbWUgaW4gc2VsZi50Yy5fcmVnaXN0cnlbJ2Nh
-c2VzJ106DQo+ICAgICAgICAgICAgICBjYXNlID0gc2VsZi50Yy5fcmVnaXN0cnlbJ2Nhc2VzJ11b
-Y2FzZV9uYW1lXQ0KPiAgDQo+IEBAIC0xMzcsNiArMTM5LDExIEBAIGNsYXNzIE9FVGVzdFJlc3Vs
-dChfVGVzdFJlc3VsdCk6DQo+ICAgICAgICAgICAgICAgICAgdCA9ICIgKCIgKyAiezA6LjJmfSIu
-Zm9ybWF0KHNlbGYuZW5kdGltZVtjYXNlLmlkKCldIC0gc2VsZi5zdGFydHRpbWVbY2FzZS5pZCgp
-XSkgKyAicykiDQo+ICANCj4gICAgICAgICAgICAgIHNlbGYudGMubG9nZ2VyLmluZm8oIlJFU1VM
-VFMgLSAlcyAtIFRlc3RjYXNlICVzOiAlcyVzIiAlIA0KPiAoY2FzZS5pZCgpLCBvZWlkLCBzdGF0
-dXMsIHQpKQ0KPiArICAgICAgICAgICAgcmVzdWx0W2Nhc2UuaWQoKV0gPSB7J3N0YXR1cyc6IHN0
-YXR1cywgJ2xvZyc6IGxvZ30NCj4gKw0KPiArICAgICAgICBpZiBqc29uX2ZpbGVfZGlyOg0KPiAr
-ICAgICAgICAgICAgdHJlc3VsdGpzb25oZWxwZXIgPSBPRVRlc3RSZXN1bHRKU09OSGVscGVyKCkN
-Cj4gKyAgICAgICAgICAgIHRyZXN1bHRqc29uaGVscGVyLmR1bXBfdGVzdHJlc3VsdF9maWxlKHJl
-c3VsdF9pZCwgcmVzdWx0LCANCj4gKyBjb25maWd1cmF0aW9uLCBqc29uX2ZpbGVfZGlyKQ0KPiAg
-DQo+ICBjbGFzcyBPRUxpc3RUZXN0c1Jlc3VsdChvYmplY3QpOg0KPiAgICAgIGRlZiB3YXNTdWNj
-ZXNzZnVsKHNlbGYpOg0KPiBAQCAtMjQ5LDMgKzI1NiwzMyBAQCBjbGFzcyBPRVRlc3RSdW5uZXIo
-X1Rlc3RSdW5uZXIpOg0KPiAgICAgICAgICAgICAgc2VsZi5fbGlzdF90ZXN0c19tb2R1bGUoc3Vp
-dGUpDQo+ICANCj4gICAgICAgICAgcmV0dXJuIE9FTGlzdFRlc3RzUmVzdWx0KCkNCj4gKw0KPiAr
-Y2xhc3MgT0VUZXN0UmVzdWx0SlNPTkhlbHBlcihvYmplY3QpOg0KPiArDQo+ICsgICAgdGVzdHJl
-c3VsdF9maWxlbmFtZSA9ICd0ZXN0cmVzdWx0cy5qc29uJw0KPiArDQo+ICsgICAgZGVmIF9nZXRf
-ZXhpc3RpbmdfdGVzdHJlc3VsdHNfaWZfYXZhaWxhYmxlKHNlbGYsIHdyaXRlX2Rpcik6DQo+ICsg
-ICAgICAgIHRlc3RyZXN1bHRzID0ge30NCj4gKyAgICAgICAgZmlsZSA9IG9zLnBhdGguam9pbih3
-cml0ZV9kaXIsIHNlbGYudGVzdHJlc3VsdF9maWxlbmFtZSkNCj4gKyAgICAgICAgaWYgb3MucGF0
-aC5leGlzdHMoZmlsZSk6DQo+ICsgICAgICAgICAgICB3aXRoIG9wZW4oZmlsZSwgInIiKSBhcyBm
-Og0KPiArICAgICAgICAgICAgICAgIHRlc3RyZXN1bHRzID0ganNvbi5sb2FkKGYpDQo+ICsgICAg
-ICAgIHJldHVybiB0ZXN0cmVzdWx0cw0KPiArDQo+ICsgICAgZGVmIF9jcmVhdGVfanNvbl90ZXN0
-cmVzdWx0c19zdHJpbmcoc2VsZiwgdGVzdF9yZXN1bHRzLCByZXN1bHRfaWQsIHRlc3RfcmVzdWx0
-LCBjb25maWd1cmF0aW9uKToNCj4gKyAgICAgICAgdGVzdF9yZXN1bHRzW3Jlc3VsdF9pZF0gPSB7
-J2NvbmZpZ3VyYXRpb24nOiBjb25maWd1cmF0aW9uLCAncmVzdWx0JzogdGVzdF9yZXN1bHR9DQo+
-ICsgICAgICAgIHJldHVybiBqc29uLmR1bXBzKHRlc3RfcmVzdWx0cywgc29ydF9rZXlzPVRydWUs
-IGluZGVudD00KQ0KDQpJIHRoaW5rIHRoZSBhYm92ZSBmdW5jdGlvbiBjYW4gYmUgcmVtb3ZlZCBh
-cyBpdHMgbm8gbG9uZ2VyIHVzZWQgYW55d2hlcmUuDQoNCkkndmUgcXVldWVkIHRoZXNlIHBhdGNo
-ZXMgZm9yIHRlc3Rpbmcgb24gdGhlIG1haW4gYXV0b2J1aWxkZXIgYXMgSSB0aGluayB3ZSdyZSBj
-bG9zZSBhbmQgd2FudGVkIHRvIGNoZWNrIGl0IGRvZXNuJ3Qgc2hvdyBpc3N1ZXMuIEkgc3RpbGwg
-d29uZGVyIGlmIHdlIGNvdWxkbid0IHdyaXRlIG91dCB0aGUgZmlsZXMgdG8gYSBzcGVjaWZpYyBk
-aXJlY3RvcnkgbW9yZSByZWxpYWJseSBidXQgSSB0aGluayBJJ2QgbmVlZCB0byBsb29rIGF0IHRo
-ZSBjb2RlIGZvciBsb25nZXIgdG8gY29tZSB1cCB3aXRoIGFueSBwcm9wb3NhbC4gUmlnaHQgbm93
-IEkgZ3Vlc3Mgd2UgY2FuIGF0IGxlYXN0IGNvbmZpZ3VyZSB0aGUgYXV0b2J1aWxkZXIgdG8gcHV0
-IHRoZSBmaWxlcyBpbiBhIGNvbW1vbiBsb2NhdGlvbiAoc28gaXQgY2FuIGNvbGxlY3QgdGhlbSB1
-cCkuDQoNCkNoZWVycywNCg0KUmljaGFyZA0KDQo+ICsgICAgZGVmIF93cml0ZV9maWxlKHNlbGYs
-IHdyaXRlX2RpciwgZmlsZV9uYW1lLCBmaWxlX2NvbnRlbnQpOg0KPiArICAgICAgICBmaWxlX3Bh
-dGggPSBvcy5wYXRoLmpvaW4od3JpdGVfZGlyLCBmaWxlX25hbWUpDQo+ICsgICAgICAgIHdpdGgg
-b3BlbihmaWxlX3BhdGgsICd3JykgYXMgdGhlX2ZpbGU6DQo+ICsgICAgICAgICAgICB0aGVfZmls
-ZS53cml0ZShmaWxlX2NvbnRlbnQpDQo+ICsNCj4gKyAgICBkZWYgZHVtcF90ZXN0cmVzdWx0X2Zp
-bGUoc2VsZiwgcmVzdWx0X2lkLCB0ZXN0X3Jlc3VsdCwgY29uZmlndXJhdGlvbiwgd3JpdGVfZGly
-KToNCj4gKyAgICAgICAgYmIudXRpbHMubWtkaXJoaWVyKHdyaXRlX2RpcikNCj4gKyAgICAgICAg
-bGYgPSBiYi51dGlscy5sb2NrZmlsZShvcy5wYXRoLmpvaW4od3JpdGVfZGlyLCAnanNvbnRlc3Ry
-ZXN1bHQubG9jaycpKQ0KPiArICAgICAgICB0ZXN0X3Jlc3VsdHMgPSBzZWxmLl9nZXRfZXhpc3Rp
-bmdfdGVzdHJlc3VsdHNfaWZfYXZhaWxhYmxlKHdyaXRlX2RpcikNCj4gKyAgICAgICAgdGVzdF9y
-ZXN1bHRzW3Jlc3VsdF9pZF0gPSB7J2NvbmZpZ3VyYXRpb24nOiBjb25maWd1cmF0aW9uLCAncmVz
-dWx0JzogdGVzdF9yZXN1bHR9DQo+ICsgICAgICAgIGpzb25fdGVzdHJlc3VsdHMgPSBqc29uLmR1
-bXBzKHRlc3RfcmVzdWx0cywgc29ydF9rZXlzPVRydWUsIGluZGVudD00KQ0KPiArICAgICAgICBz
-ZWxmLl93cml0ZV9maWxlKHdyaXRlX2Rpciwgc2VsZi50ZXN0cmVzdWx0X2ZpbGVuYW1lLCBqc29u
-X3Rlc3RyZXN1bHRzKQ0KPiArICAgICAgICBiYi51dGlscy51bmxvY2tmaWxlKGxmKQ0KPiAtLQ0K
-PiAyLjcuNA0KPiANCg0K
+On 2018/10/22 下午11:11, Kang Kai wrote:
+> On 2018/10/18 下午11:28, kai.kang@windriver.com wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> When multilib is enabled and both udev-hwdb and ${MLPREFIX}udev-hwdb are
+>> installed to image, it fails to run one of their postinstall scripts
+>> that they both call ${base_bindir}/udevadm with same user mode qemu.
+>>
+>> Duplicate udevadm and add postinst-intercept update_udev_hwdb to fix the
+>> failures.
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta/recipes-core/systemd/systemd_239.bb     | 13 ++++++-------
+>>   meta/recipes-core/udev/eudev_3.2.5.bb        | 11 +++++------
+>>   scripts/postinst-intercepts/update_udev_hwdb |  6 ++++++
+>>   3 files changed, 17 insertions(+), 13 deletions(-)
+>>   create mode 100644 scripts/postinst-intercepts/update_udev_hwdb
+>>
+>> diff --git a/meta/recipes-core/systemd/systemd_239.bb 
+>> b/meta/recipes-core/systemd/systemd_239.bb
+>> index 7ed932141d..44e972ebce 100644
+>> --- a/meta/recipes-core/systemd/systemd_239.bb
+>> +++ b/meta/recipes-core/systemd/systemd_239.bb
+>> @@ -284,6 +284,10 @@ do_install() {
+>>               chown polkitd:root ${D}${datadir}/polkit-1/rules.d
+>>           fi
+>>       fi
+>> +
+>> +    # duplicate udevadm for postinst script
+>> +    install -d ${D}${libexecdir}
+>> +    ln ${D}${base_bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
+>>   }
+>>     @@ -542,6 +546,7 @@ FILES_udev += "${base_sbindir}/udevd \
+>>                  ${systemd_unitdir}/system/*udev* \
+>>                  ${systemd_unitdir}/system/*.wants/*udev* \
+>>                  ${base_bindir}/udevadm \
+>> +               ${libexecdir}/${MLPREFIX}udevadm \
+>>                  ${datadir}/bash-completion/completions/udevadm \
+>>                 "
+>>   @@ -580,13 +585,7 @@ pkg_prerm_${PN} () {
+>>   PACKAGE_WRITE_DEPS += "qemu-native"
+>>   pkg_postinst_udev-hwdb () {
+>>       if test -n "$D"; then
+>> -        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 
+>> 'true','false', d)}; then
+>> -            ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} 
+>> hwdb --update \
+>> -                --root $D
+>> -            chown root:root $D${sysconfdir}/udev/hwdb.bin
+>> -        else
+>> -            $INTERCEPT_DIR/postinst_intercept delay_to_first_boot 
+>> ${PKG} mlprefix=${MLPREFIX}
+>> -        fi
+>> +        $INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} 
+>> mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
+>>       else
+>>           udevadm hwdb --update
+>>       fi
+>> diff --git a/meta/recipes-core/udev/eudev_3.2.5.bb 
+>> b/meta/recipes-core/udev/eudev_3.2.5.bb
+>> index efd62c6495..592dd8f22a 100644
+>> --- a/meta/recipes-core/udev/eudev_3.2.5.bb
+>> +++ b/meta/recipes-core/udev/eudev_3.2.5.bb
+>> @@ -50,6 +50,10 @@ do_install_append() {
+>>         # hid2hci has moved to bluez4. removed in udev as of version 169
+>>       rm -f ${D}${base_libdir}/udev/hid2hci
+>> +
+>> +    # duplicate udevadm for postinst script
+>> +    install -d ${D}${libexecdir}
+>> +    ln ${D}${bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
+>>   }
+>>     do_install_prepend_class-target () {
+>> @@ -81,12 +85,7 @@ RPROVIDES_eudev-hwdb += "udev-hwdb"
+>>   PACKAGE_WRITE_DEPS += "qemu-native"
+>>   pkg_postinst_eudev-hwdb () {
+>>       if test -n "$D"; then
+>> -        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 
+>> 'true','false', d)}; then
+>
+> Hi Richard,
+>
+> It seems check for 'qemu-usermode' should not be removed. And it also 
+> need to check for other intercept scripts.
+
+I just realize that intercept scripts have been handled well in 
+lib/oe/package_manager.py. So please ignore my last reply.
+
+Sorry for the inconvenience.
+
+--Kai
+
+
+>
+> So please ignore this patch and I'll send V2.
+>
+> Regards,
+> Kai
+>
+>
+>> -            ${@qemu_run_binary(d, '$D', '${bindir}/udevadm')} hwdb 
+>> --update --root $D
+>> -            chown root:root $D${sysconfdir}/udev/hwdb.bin
+>> -        else
+>> -            $INTERCEPT_DIR/postinst_intercept delay_to_first_boot 
+>> ${PKG} mlprefix=${MLPREFIX}
+>> -        fi
+>> +        $INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} 
+>> mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
+>>       else
+>>           udevadm hwdb --update
+>>       fi
+>> diff --git a/scripts/postinst-intercepts/update_udev_hwdb 
+>> b/scripts/postinst-intercepts/update_udev_hwdb
+>> new file mode 100644
+>> index 0000000000..b5cce0a09d
+>> --- /dev/null
+>> +++ b/scripts/postinst-intercepts/update_udev_hwdb
+>> @@ -0,0 +1,6 @@
+>> +#!/bin/sh
+>> +
+>> +set -e
+>> +
+>> +PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D 
+>> $D${libexecdir}/${binprefix}udevadm hwdb --update --root $D
+>> +chown root:root $D${sysconfdir}/udev/hwdb.bin
+>
+>
+
+-- 
+Regards,
+Neil | Kai Kang
+
 
