@@ -1,51 +1,23 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id AB91879C85
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 39928744AC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2018 07:54:51 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id 22-v6so284116pfz.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2018 00:54:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=cYlq4ypuotDe7TeZIAnIcCFyR6yOBQZyAtgxBv9XNbE=;
-	b=Ffut/Y55nByMkCnYMtwVjNCO4H0IcHFFBY4SKCztKuxnIVGAyEcSrBDAckAttxos+H
-	hoo4ex+bicplw+TGHzfoVkIX4Hmu2ms2Oj7kBNZRrqe6OPb1EcLWa7Nc9s6+gnsq5n69
-	5wdh5LrAKIpnFXIBscjd8lKSUlNBDhtnvfKA5eCod0hvUaVSzog44ciIRNblBNd3gnOT
-	X1JQL8UMRnT3DDTG2Y7sTQyEejzHxjZOOM/l1R08KtMbV66yNy3R0fWSlj4l3x/CGH9K
-	zfjJDEzzbDVbbbw462KmxO9tZEcjoch4PdDZDr1u7D4Igrw+h8ZPbqKXNBmP988UK89n
-	kLPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=cYlq4ypuotDe7TeZIAnIcCFyR6yOBQZyAtgxBv9XNbE=;
-	b=dK4gsUafsYYCtTQju7GOK7tsAmcqwDSmoBcBWKIu9NDN3SxxSrHYgW/l9g8b2p92ec
-	ethgXfKo/vAq6Umb9dz7qZgM0DPH6+wpl/0KRiJghHJpRER8tZ3RhvkJlzdEVzwDJgrs
-	pK9xD+KhkfUuo+CRdM4fVSvCcmzUOJpATpDeY6RUeAzepMbl1ZTRWjtW19LKjIxL9fCM
-	0sGiFCspDd700Sdk0YgLyBR71UBusrz9gd8Oku7/O4YXjY4j1BgwyFRRQr6HdOGUrDgB
-	lDSobvu3J0LlGoBGGju9jmlBIOkEvYKKEehx/gbscli4vVcSYtyA6LSVJe39O432ttwv
-	SOzg==
-X-Gm-Message-State: ABuFfoiJYA8e6VfZ+ws+IBu5Hvvsmyafd995VourQRvMPUnpXwgFBdAd
-	P7EZsdr3tILvJ4y+ohdwu+MQ77KrRNk=
-X-Google-Smtp-Source: ACcGV614CU0k7Yy3TjIu68tf6kyKCxmAUn4ffFS8gmlc1cRbKB/QccopPCPtz4GWcautcOC6cjBfjA==
-X-Received: by 2002:a63:cc:: with SMTP id 195-v6mr44986744pga.44.1540281292352;
-	Tue, 23 Oct 2018 00:54:52 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com ([109.144.222.79])
-	by smtp.gmail.com with ESMTPSA id
-	e193-v6sm866368pfg.127.2018.10.23.00.54.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 23 Oct 2018 00:54:51 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Oct 2018 08:54:46 +0100
-Message-Id: <1540281286-26784-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1540281286-26784-1-git-send-email-akuster808@gmail.com>
-References: <1540281286-26784-1-git-send-email-akuster808@gmail.com>
-Subject: [v2][PATCH 2/2] libpcre2: update to 10.32
+	Tue, 23 Oct 2018 08:36:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9N8aKQ6008059
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 23 Oct 2018 01:36:20 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 23 Oct 2018 01:36:18 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Tue, 23 Oct 2018 04:35:06 -0400
+Message-ID: <1540283706-172519-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] nasm: fix CVE-2018-1000667
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,48 +30,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2018 07:54:51 -0000
+X-List-Received-Date: Tue, 23 Oct 2018 08:36:21 -0000
+Content-Type: text/plain
 
-License-Update: changed do to typo fixes and tidies for 10.32
+Since the latest nasm is  2.14rc16 (not formal release),
+so backport a patch to 2.13 to fix CVE-2018-1000667.
 
-see: https://www.pcre.org/changelog.txt
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
-
---
-[v2]
-add missing License-Update
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../libpcre/{libpcre2_10.31.bb => libpcre2_10.32.bb}                | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libpcre/{libpcre2_10.31.bb => libpcre2_10.32.bb} (90%)
+ ...proc-parse_size-Check-for-string-provided.patch | 37 ++++++++++++++++++++++
+ meta/recipes-devtools/nasm/nasm_2.13.03.bb         |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/nasm/nasm/0001-preproc-parse_size-Check-for-string-provided.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.31.bb b/meta/recipes-support/libpcre/libpcre2_10.32.bb
-similarity index 90%
-rename from meta/recipes-support/libpcre/libpcre2_10.31.bb
-rename to meta/recipes-support/libpcre/libpcre2_10.32.bb
-index a10c312..3a0aa53 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.31.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.32.bb
-@@ -8,14 +8,14 @@ SUMMARY = "Perl Compatible Regular Expressions version 2"
- HOMEPAGE = "http://www.pcre.org"
- SECTION = "devel"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=f5e4bde9fd0493d0967b4dba9899590f"
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=cf66d307bf03bae65d413eb7a8e603a0"
+diff --git a/meta/recipes-devtools/nasm/nasm/0001-preproc-parse_size-Check-for-string-provided.patch b/meta/recipes-devtools/nasm/nasm/0001-preproc-parse_size-Check-for-string-provided.patch
+new file mode 100644
+index 0000000..2121fd1
+--- /dev/null
++++ b/meta/recipes-devtools/nasm/nasm/0001-preproc-parse_size-Check-for-string-provided.patch
+@@ -0,0 +1,37 @@
++From a2f43331a853b7cc449cae3361ee1fb54c7fad8d Mon Sep 17 00:00:00 2001
++From: Cyrill Gorcunov <gorcunov@gmail.com>
++Date: Sat, 29 Sep 2018 14:30:14 +0300
++Subject: [PATCH] preproc: parse_size -- Check for string provided
++
++In case if the string is nil we will have sigsegv.
++
++https://bugzilla.nasm.us/show_bug.cgi?id=3392507
++
++Signed-off-by: Cyrill Gorcunov <gorcunov@gmail.com>
++
++CVE: CVE-2018-1000667
++Upstream-Status: Backport
++https://repo.or.cz/nasm/nasm.git/commit/c713b5f994cf7b29164c3b6838b91f0499591434
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ asm/preproc.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/asm/preproc.c b/asm/preproc.c
++index 475926d..1d770a5 100644
++--- a/asm/preproc.c
+++++ b/asm/preproc.c
++@@ -2216,8 +2216,7 @@ static int parse_size(const char *str) {
++         { "byte", "dword", "oword", "qword", "tword", "word", "yword" };
++     static const int sizes[] =
++         { 0, 1, 4, 16, 8, 10, 2, 32 };
++-
++-    return sizes[bsii(str, size_names, ARRAY_SIZE(size_names))+1];
+++    return str ? sizes[bsii(str, size_names, ARRAY_SIZE(size_names))+1] : 0;
++ }
++ 
++ /*
++-- 
++2.8.1
++
+diff --git a/meta/recipes-devtools/nasm/nasm_2.13.03.bb b/meta/recipes-devtools/nasm/nasm_2.13.03.bb
+index 730db1d..de4c554 100644
+--- a/meta/recipes-devtools/nasm/nasm_2.13.03.bb
++++ b/meta/recipes-devtools/nasm/nasm_2.13.03.bb
+@@ -9,6 +9,7 @@ SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
+            file://0001-fix-CVE-2018-8882.patch \
+            file://0001-Verify-that-we-are-not-reading-past-end-of-a-buffer.patch \
+            file://0001-eval-Eliminate-division-by-zero.patch \
++           file://0001-preproc-parse_size-Check-for-string-provided.patch \
+            "
  
- SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2 \
-            file://pcre-cross.patch \
- "
- 
--SRC_URI[md5sum] = "e0b91c891a3c49050f7fd15de33d0ba4"
--SRC_URI[sha256sum] = "e07d538704aa65e477b6a392b32ff9fc5edf75ab9a40ddfc876186c4ff4d68ac"
-+SRC_URI[md5sum] = "8a096287153fb994970df3570e90fcb5"
-+SRC_URI[sha256sum] = "f29e89cc5de813f45786580101aaee3984a65818631d4ddbda7b32f699b87c2e"
- 
- CVE_PRODUCT = "pcre2"
- 
+ SRC_URI[md5sum] = "0c581d482f39d5111879ca9601938f74"
 -- 
-2.7.4
+2.8.1
 
 
