@@ -1,25 +1,25 @@
 Return-Path: <ee.peng.yeoh@intel.com>
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id F369474C8A
+	by mail.openembedded.org (Postfix) with ESMTP id 5856A79C3B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2018 06:12:37 +0000 (UTC)
+	Tue, 23 Oct 2018 06:12:40 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Oct 2018 23:12:39 -0700
+	22 Oct 2018 23:12:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,415,1534834800"; d="scan'208";a="97699700"
+X-IronPort-AV: E=Sophos;i="5.54,415,1534834800"; d="scan'208";a="97699715"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Oct 2018 23:12:38 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 22 Oct 2018 23:12:41 -0700
 From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Oct 2018 13:57:21 +0800
-Message-Id: <1540274242-78226-3-git-send-email-ee.peng.yeoh@intel.com>
+Date: Tue, 23 Oct 2018 13:57:22 +0800
+Message-Id: <1540274242-78226-4-git-send-email-ee.peng.yeoh@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1540274242-78226-1-git-send-email-ee.peng.yeoh@intel.com>
 References: <1540274242-78226-1-git-send-email-ee.peng.yeoh@intel.com>
-Subject: [PATCH 3/4] testimage.bbclass: write testresult to json files
+Subject: [PATCH 4/4] testsdk.bbclass: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,10 +32,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2018 06:12:38 -0000
+X-List-Received-Date: Tue, 23 Oct 2018 06:12:40 -0000
 
 As part of the solution to replace Testopia to store testresult,
-OEQA testimage need to output testresult into json files, where
+OEQA sdk and sdkext need to output testresult into json files, where
 these json testresult files will be stored into git repository
 by the future test-case-management tools.
 
@@ -49,31 +49,22 @@ json testresult.
 
 Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/classes/testimage.bbclass | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+ meta/classes/testsdk.bbclass | 36 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 32 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 2642a72..109eecc 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -2,7 +2,7 @@
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index d3f475d..a6c3627 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -14,6 +14,30 @@
  #
- # Released under the MIT license (see COPYING.MIT)
+ # where "<image-name>" is an image like core-image-sato.
  
--
-+inherit metadata_scm
- # testimage.bbclass enables testing of qemu images using python unittests.
- # Most of the tests are commands run on target image over ssh.
- # To use it add testimage to global inherit and call your target image with -c testimage
-@@ -141,6 +141,30 @@ def testimage_sanity(d):
-         bb.fatal('When TEST_TARGET is set to "simpleremote" '
-                  'TEST_TARGET_IP and TEST_SERVER_IP are needed too.')
- 
-+def _get_testimage_configuration(d, test_type, pid, machine):
++def _get_sdk_configuration(d, test_type, pid):
 +    import platform
 +    configuration = {'TEST_TYPE': test_type,
 +                    'PROCESS_ID': pid,
-+                    'MACHINE': machine,
++                    'SDK_MACHINE': d.getVar("SDKMACHINE"),
 +                    'IMAGE_BASENAME': d.getVar("IMAGE_BASENAME"),
 +                    'IMAGE_PKGTYPE': d.getVar("IMAGE_PKGTYPE"),
 +                    'HOST_DISTRO': ('-'.join(platform.linux_distribution())).replace(' ', '-')}
@@ -83,31 +74,45 @@ index 2642a72..109eecc 100644
 +                                                                          base_get_metadata_git_revision(l, None))
 +    return configuration
 +
-+def _get_testimage_json_result_dir(d):
++def _get_sdk_json_result_dir(d):
 +    json_result_dir = os.path.join(d.getVar("WORKDIR"), 'oeqa')
 +    custom_json_result_dir = d.getVar("OEQA_JSON_RESULT_DIR")
 +    if custom_json_result_dir:
 +        json_result_dir = custom_json_result_dir
 +    return json_result_dir
 +
-+def _get_testimage_result_id(configuration):
-+    return '%s_%s_%s' % (configuration['TEST_TYPE'], configuration['IMAGE_BASENAME'], configuration['MACHINE'])
++def _get_sdk_result_id(configuration):
++    return '%s_%s_%s' % (configuration['TEST_TYPE'], configuration['IMAGE_BASENAME'], configuration['SDK_MACHINE'])
 +
- def testimage_main(d):
+ def testsdk_main(d):
      import os
-     import json
-@@ -308,7 +332,10 @@ def testimage_main(d):
-     # Show results (if we have them)
-     if not results:
-         bb.fatal('%s - FAILED - tests were interrupted during execution' % pn, forcelog=True)
--    results.logDetails()
-+    configuration = _get_testimage_configuration(d, 'runtime', os.getpid(), machine)
-+    results.logDetails(_get_testimage_json_result_dir(d),
-+                       configuration,
-+                       _get_testimage_result_id(configuration))
-     results.logSummary(pn)
-     if not results.wasSuccessful():
-         bb.fatal('%s - FAILED - check the task log and the ssh log' % pn, forcelog=True)
+     import subprocess
+@@ -80,8 +104,10 @@ def testsdk_main(d):
+ 
+         component = "%s %s" % (pn, OESDKTestContextExecutor.name)
+         context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
+-
+-        result.logDetails()
++        configuration = _get_sdk_configuration(d, 'sdk', os.getpid())
++        result.logDetails(_get_sdk_json_result_dir(d),
++                          configuration,
++                          _get_sdk_result_id(configuration))
+         result.logSummary(component, context_msg)
+ 
+         if not result.wasSuccessful():
+@@ -184,8 +210,10 @@ def testsdkext_main(d):
+ 
+         component = "%s %s" % (pn, OESDKExtTestContextExecutor.name)
+         context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
+-
+-        result.logDetails()
++        configuration = _get_sdk_configuration(d, 'sdkext', os.getpid())
++        result.logDetails(_get_sdk_json_result_dir(d),
++                          configuration,
++                          _get_sdk_result_id(configuration))
+         result.logSummary(component, context_msg)
+ 
+         if not result.wasSuccessful():
 -- 
 2.7.4
 
