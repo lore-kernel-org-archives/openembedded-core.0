@@ -1,39 +1,24 @@
-Return-Path: <kamensky@cisco.com>
-Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A3B7796E4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 05DF0796E4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 05:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=1440; q=dns/txt; s=iport;
-	t=1540357478; x=1541567078; h=from:to:subject:date:message-id;
-	bh=kzS2wG1l/qfp+d9uOlmTrAi5Bx8mbKE1eKcnsgF03VE=;
-	b=dX1DnMoGcp9Nm9c/3GVJHs9FK7Ig6Ftb2sdPwVgsAQgsh+DLOAdLcfAo
-	nfP1yUwp4Q3QT/PtxXDyJB3r9rBFusfgiq2ChKTM7sppIW0hk/23n4mg+
-	36H5TfCkvjbDJsK0nE58yvVcW6tDT0sA1z4GaHLUU2LEMnrt+5yPE3v3O M=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AFAADZ/M9b/5NdJa1jGgEBAQEBAgE?=
-	=?us-ascii?q?BAQEHAgEBAQGBUQUBAQEBCwGCBGZ/KIwNjB6ZJIF6CwEBH4dYITQNDQEDAQE?=
-	=?us-ascii?q?CAQECbRwMh3gBEoMhAYIBqXeFO4RrhzyEJheCAIIojDEiAo9CjxEJhmaKBws?=
-	=?us-ascii?q?XkDIBlk4CBAYFAhSBQziBVU0jFYMnCYRXjBcfMIwsAQE?=
-X-IronPort-AV: E=Sophos;i="5.54,418,1534809600"; d="scan'208";a="190712927"
-Received: from rcdn-core-11.cisco.com ([173.37.93.147])
-	by alln-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Oct 2018 05:04:37 +0000
-Received: from kamensky-w541.cisco.com ([10.24.23.231]) (authenticated bits=0)
-	by rcdn-core-11.cisco.com (8.15.2/8.15.2) with ESMTPSA id
-	w9O54THw000940
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); 
-	Wed, 24 Oct 2018 05:04:36 GMT
-From: Victor Kamensky <kamensky@cisco.com>
-To: openembedded-core@lists.openembedded.org,
-	Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Tue, 23 Oct 2018 22:04:26 -0700
-Message-Id: <20181024050426.15711-1-kamensky@cisco.com>
-X-Mailer: git-send-email 2.17.2
-X-Authenticated-User: kamensky@cisco.com
-X-Outbound-SMTP-Client: 10.24.23.231, [10.24.23.231]
-X-Outbound-Node: rcdn-core-11.cisco.com
-Subject: [PATCH] kernel-devsrc: add selinux include files needed by scripts/selinux build
+	Wed, 24 Oct 2018 06:04:45 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w9O64he1002135
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 24 Oct 2018 07:04:45 +0100
+Message-ID: <46d200d7ef4c6399ccc99801674fb203916555c6.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+Date: Wed, 24 Oct 2018 07:04:42 +0100
+In-Reply-To: <1540351835-16861-1-git-send-email-changqing.li@windriver.com>
+References: <1540351835-16861-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] openssl: fix occasionally install fail for parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 05:04:36 -0000
+X-List-Received-Date: Wed, 24 Oct 2018 06:04:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If CONFIG_SECURITY_SELINUX=y is enabled in kernel configuration, then
-'make scripts' command in /usr/src/kernel fails to build
-utilities under scripts/selinux that would be pulled in by this config:
+On Wed, 2018-10-24 at 11:30 +0800, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+> 
+> when do parallel build, like run "make install -j 48", openssl will
+> do_install
+> failed with below error:
+> mv: cannot stat 'openssl/1.1.1-
+> r0/image/usr/lib/libcrypto.so.1.1.new': No such file or directory
+> Makefile:318: recipe for target 'install_dev' failed
+> 
+> problem caused by target install_dev and target install_runtime, both
+> installed
+> libcrypto.so.1.1, result in log:
+> *** Installing development files
+> ...
+> install libcrypto.so.1.1 -> /var/tmp/foo/lib/libcrypto.so.1.1
+> link /var/tmp/foo/lib/libcrypto.so ->
+> /var/tmp/foo/lib/libcrypto.so.1.1
+> ...
+> *** Installing runtime files
+> install libcrypto.so.1.1 -> /var/tmp/foo/lib/libcrypto.so.1.1
+> 
+> command in install_dev and install_runtime will have parallel
+> competition.
+> 
+> have create an issue to upstream:
+> https://github.com/openssl/openssl/issues/7466#issuecomment-432148137
+> 
+> but upstream won't support this condition, so use this fix as a
+> workaround to fix the problem.
 
-  HOSTCC  scripts/selinux/genheaders/genheaders
-scripts/selinux/genheaders/genheaders.c:19:10: fatal error: classmap.h: No such file or directory
- #include "classmap.h"
+This means that:
 
-To address this issue add security/selinux/include files into
-kernel-devsrc.
+a) Upstream don't support parallel make install
+b) Reject patches fixing any bugs in parallel make install
 
-Signed-off-by: Victor Kamensky <kamensky@cisco.com>
----
-To reproduce this issue add to conf/local.conf selinux fragment:
-KERNEL_EXTRA_FEATURES_append = " cgl/features/selinux/selinux.scc"
-build core-image-lsb-sdk and run 'cd /usr/src/kernel; make scripts'
+This means the Upstream-Status should be rejected with the link above,
+not pending. It also means we may need to think about not using
+parallel install although since its working, its tempting to carry
+patches and keep using it if it works.
 
- meta/recipes-kernel/linux/kernel-devsrc.bb | 3 +++
- 1 file changed, 3 insertions(+)
+It may be worth pointing out to upstream that it is mostly working for
+us? I am a little worried they know something we don't about problems
+this could run into.
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 5758572221..361ad21e1f 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -210,6 +210,9 @@ do_install() {
- 	    cp -a --parents kernel/bounds.c $kerneldir/build
- 	    cp -a --parents Kbuild $kerneldir/build
- 	fi
-+
-+        # required to build scripts/selinux/genheaders/genheaders
-+        cp -a --parents security/selinux/include/* $kerneldir/build/
-     )
- 
-     # Make sure the Makefile and version.h have a matching timestamp so that
--- 
-2.17.2
+Cheers,
+
+Richard
 
 
