@@ -1,24 +1,39 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 32308796E4
+Return-Path: <kamensky@cisco.com>
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A3B7796E4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 03:30:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9O3TZhA023864
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2018 20:30:47 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 23 Oct 2018 20:30:37 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Oct 2018 11:30:35 +0800
-Message-ID: <1540351835-16861-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] openssl: fix occasionally install fail for parallel build
+	Wed, 24 Oct 2018 05:04:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1440; q=dns/txt; s=iport;
+	t=1540357478; x=1541567078; h=from:to:subject:date:message-id;
+	bh=kzS2wG1l/qfp+d9uOlmTrAi5Bx8mbKE1eKcnsgF03VE=;
+	b=dX1DnMoGcp9Nm9c/3GVJHs9FK7Ig6Ftb2sdPwVgsAQgsh+DLOAdLcfAo
+	nfP1yUwp4Q3QT/PtxXDyJB3r9rBFusfgiq2ChKTM7sppIW0hk/23n4mg+
+	36H5TfCkvjbDJsK0nE58yvVcW6tDT0sA1z4GaHLUU2LEMnrt+5yPE3v3O M=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AFAADZ/M9b/5NdJa1jGgEBAQEBAgE?=
+	=?us-ascii?q?BAQEHAgEBAQGBUQUBAQEBCwGCBGZ/KIwNjB6ZJIF6CwEBH4dYITQNDQEDAQE?=
+	=?us-ascii?q?CAQECbRwMh3gBEoMhAYIBqXeFO4RrhzyEJheCAIIojDEiAo9CjxEJhmaKBws?=
+	=?us-ascii?q?XkDIBlk4CBAYFAhSBQziBVU0jFYMnCYRXjBcfMIwsAQE?=
+X-IronPort-AV: E=Sophos;i="5.54,418,1534809600"; d="scan'208";a="190712927"
+Received: from rcdn-core-11.cisco.com ([173.37.93.147])
+	by alln-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Oct 2018 05:04:37 +0000
+Received: from kamensky-w541.cisco.com ([10.24.23.231]) (authenticated bits=0)
+	by rcdn-core-11.cisco.com (8.15.2/8.15.2) with ESMTPSA id
+	w9O54THw000940
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); 
+	Wed, 24 Oct 2018 05:04:36 GMT
+From: Victor Kamensky <kamensky@cisco.com>
+To: openembedded-core@lists.openembedded.org,
+	Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Tue, 23 Oct 2018 22:04:26 -0700
+Message-Id: <20181024050426.15711-1-kamensky@cisco.com>
+X-Mailer: git-send-email 2.17.2
+X-Authenticated-User: kamensky@cisco.com
+X-Outbound-SMTP-Client: 10.24.23.231, [10.24.23.231]
+X-Outbound-Node: rcdn-core-11.cisco.com
+Subject: [PATCH] kernel-devsrc: add selinux include files needed by scripts/selinux build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,115 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 03:30:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Oct 2018 05:04:36 -0000
 
-From: Changqing Li <changqing.li@windriver.com>
+If CONFIG_SECURITY_SELINUX=y is enabled in kernel configuration, then
+'make scripts' command in /usr/src/kernel fails to build
+utilities under scripts/selinux that would be pulled in by this config:
 
-when do parallel build, like run "make install -j 48", openssl will do_install
-failed with below error:
-mv: cannot stat 'openssl/1.1.1-r0/image/usr/lib/libcrypto.so.1.1.new': No such file or directory
-Makefile:318: recipe for target 'install_dev' failed
+  HOSTCC  scripts/selinux/genheaders/genheaders
+scripts/selinux/genheaders/genheaders.c:19:10: fatal error: classmap.h: No such file or directory
+ #include "classmap.h"
 
-problem caused by target install_dev and target install_runtime, both installed
-libcrypto.so.1.1, result in log:
-*** Installing development files
-...
-install libcrypto.so.1.1 -> /var/tmp/foo/lib/libcrypto.so.1.1
-link /var/tmp/foo/lib/libcrypto.so -> /var/tmp/foo/lib/libcrypto.so.1.1
-...
-*** Installing runtime files
-install libcrypto.so.1.1 -> /var/tmp/foo/lib/libcrypto.so.1.1
+To address this issue add security/selinux/include files into
+kernel-devsrc.
 
-command in install_dev and install_runtime will have parallel competition.
-
-have create an issue to upstream:
-https://github.com/openssl/openssl/issues/7466#issuecomment-432148137
-
-but upstream won't support this condition, so use this fix as a workaround
-to fix the problem.
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
 ---
- ...-occasionally-install-fail-for-parallel-b.patch | 55 ++++++++++++++++++++++
- meta/recipes-connectivity/openssl/openssl_1.1.1.bb |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-openssl-fix-occasionally-install-fail-for-parallel-b.patch
+To reproduce this issue add to conf/local.conf selinux fragment:
+KERNEL_EXTRA_FEATURES_append = " cgl/features/selinux/selinux.scc"
+build core-image-lsb-sdk and run 'cd /usr/src/kernel; make scripts'
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-openssl-fix-occasionally-install-fail-for-parallel-b.patch b/meta/recipes-connectivity/openssl/openssl/0001-openssl-fix-occasionally-install-fail-for-parallel-b.patch
-new file mode 100644
-index 0000000..afb974b
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-openssl-fix-occasionally-install-fail-for-parallel-b.patch
-@@ -0,0 +1,55 @@
-+From e5baebbf3273ed4f9618eac5b180219e42ffe8c7 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 24 Oct 2018 10:59:02 +0800
-+Subject: [PATCH] openssl: fix occasionally install fail for parallel build
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 5758572221..361ad21e1f 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -210,6 +210,9 @@ do_install() {
+ 	    cp -a --parents kernel/bounds.c $kerneldir/build
+ 	    cp -a --parents Kbuild $kerneldir/build
+ 	fi
 +
-+when do parallel build, like run "make install -j 48", openssl will do_install
-+failed with below error:
-+mv: cannot stat 'openssl/1.1.1-r0/image/usr/lib/libcrypto.so.1.1.new': No such file or directory
-+Makefile:318: recipe for target 'install_dev' failed
-+
-+problem caused by target install_dev and target install_runtime, both installed
-+libcrypto.so.1.1, result in log:
-+*** Installing development files
-+...
-+install libcrypto.so.1.1 -> /var/tmp/foo/lib/libcrypto.so.1.1
-+link /var/tmp/foo/lib/libcrypto.so -> /var/tmp/foo/lib/libcrypto.so.1.1
-+...
-+*** Installing runtime files
-+install libcrypto.so.1.1 -> /var/tmp/foo/lib/libcrypto.so.1.1
-+
-+command in install_dev and install_runtime will have parallel competition.
-+
-+have create an issue to upstream:
-+https://github.com/openssl/openssl/issues/7466#issuecomment-432148137
-+
-+but upstream won't support this condition, so use this fix as a workaround
-+to fix the problem.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ Configurations/unix-Makefile.tmpl | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makefile.tmpl
-+index 16af4d2..d4c7ae6 100644
-+--- a/Configurations/unix-Makefile.tmpl
-++++ b/Configurations/unix-Makefile.tmpl
-+@@ -436,8 +436,10 @@ depend:
-+ 	@: {- output_on() if $disabled{makedepend}; "" -}
-+ 
-+ # Install helper targets #############################################
-+-
-+-install_sw: all install_dev install_engines install_runtime
-++intermediate: all install_dev install_engines
-++install_sw:
-++	@$(MAKE) intermediate
-++	@$(MAKE) install_runtime
-+ 
-+ uninstall_sw: uninstall_runtime uninstall_engines uninstall_dev
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-index af9038a..dcfefb5 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-@@ -15,6 +15,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://run-ptest \
-            file://openssl-c_rehash.sh \
-            file://0001-skip-test_symbol_presence.patch \
-+           file://0001-openssl-fix-occasionally-install-fail-for-parallel-b.patch \
-            "
++        # required to build scripts/selinux/genheaders/genheaders
++        cp -a --parents security/selinux/include/* $kerneldir/build/
+     )
  
- SRC_URI_append_class-nativesdk = " \
+     # Make sure the Makefile and version.h have a matching timestamp so that
 -- 
-2.7.4
+2.17.2
 
 
