@@ -1,24 +1,18 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EA99D78BEC
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 19:50:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9OJoD51017353
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 12:50:34 -0700
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 24 Oct 2018 12:50:15 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Oct 2018 15:50:15 -0400
-Message-ID: <20181024195015.88667-1-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.16.0.rc2
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id DB2A46212C;
+	Wed, 24 Oct 2018 20:03:12 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] weston: Split out machine specific configuration
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Wed, 24 Oct 2018 20:03:14 -0000
+Message-ID: <20181024200314.13844.98576@do.openembedded.org>
+References: <20181024195015.88667-1-mark.hatle@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181024195015.88667-1-mark.hatle@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2VzdG9uOiBTcGxpdCBvdXQgbWFjaGluZSBzcGVjaWZpYyBjb25maWd1cmF0aW9u?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,88 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 19:50:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Oct 2018 20:03:13 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Weston needs to be configured to load the fbdev driver when run on a QEMU system.
-Other MACHINEs may want to also provider their own configuration as well..
+== Series Details ==
 
-Adding a new RRECOMMEND configuration package will allow this, but avoid
-installing empty packages/files in the majority case where it is not needed.
+Series: weston: Split out machine specific configuration
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14659/
+State : failure
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             LIC_FILES_CHKSUM is missing in newly added recipe [test_lic_files_chksum_presence] 
+  Suggested fix    Specify the variable LIC_FILES_CHKSUM in weston-cfg
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-graphics/wayland/weston-cfg.bb   | 33 +++++++++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_5.0.0.bb |  8 +------
- 2 files changed, 34 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston-cfg.bb
-
-diff --git a/meta/recipes-graphics/wayland/weston-cfg.bb b/meta/recipes-graphics/wayland/weston-cfg.bb
-new file mode 100644
-index 0000000000..9c84525020
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-cfg.bb
-@@ -0,0 +1,33 @@
-+SUMMARY = "Weston, a Wayland compositor, configuration files"
-+HOMEPAGE = "http://wayland.freedesktop.org"
-+LICENSE = "MIT"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+CONFFILES_${PN} = "${sysconfdir}/xdg/weston/weston.ini"
-+
-+FILES_${PN} = "${sysconfdir}/xdg/weston/weston.ini"
-+
-+PACKAGES = "${PN}"
-+
-+do_compile[noexec] = '1'
-+
-+do_install() {
-+	:
-+}
-+
-+do_install_qemux86() {
-+	mkdir -p ${D}/${sysconfdir}/xdg/weston
-+	cat << EOF > ${D}/${sysconfdir}/xdg/weston/weston.ini
-+[core]
-+backend=fbdev-backend.so
-+EOF
-+}
-+
-+do_install_qemux86-64() {
-+	mkdir -p ${D}/${sysconfdir}/xdg/weston
-+	cat << EOF > ${D}/${sysconfdir}/xdg/weston/weston.ini
-+[core]
-+backend=fbdev-backend.so
-+EOF
-+}
-diff --git a/meta/recipes-graphics/wayland/weston_5.0.0.bb b/meta/recipes-graphics/wayland/weston_5.0.0.bb
-index 299408b201..b87524ece5 100644
---- a/meta/recipes-graphics/wayland/weston_5.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_5.0.0.bb
-@@ -29,12 +29,6 @@ WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
- EXTRA_OECONF = "--enable-setuid-install \
-                 --disable-rdp-compositor \
-                 "
--EXTRA_OECONF_append_qemux86 = "\
--		WESTON_NATIVE_BACKEND=fbdev-backend.so \
--		"
--EXTRA_OECONF_append_qemux86-64 = "\
--		WESTON_NATIVE_BACKEND=fbdev-backend.so \
--		"
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd x11', d)} \
-@@ -107,7 +101,7 @@ FILES_${PN}-xwayland = "${libdir}/libweston-${WESTON_MAJOR_VERSION}/xwayland.so"
- RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
- 
- RDEPENDS_${PN} += "xkeyboard-config"
--RRECOMMENDS_${PN} = "liberation-fonts"
-+RRECOMMENDS_${PN} = "weston-cfg liberation-fonts"
- RRECOMMENDS_${PN}-dev += "wayland-protocols"
- 
- USERADD_PACKAGES = "${PN}"
--- 
-2.16.0.rc2
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
