@@ -1,25 +1,25 @@
 Return-Path: <Mingli.Yu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C27A74A25
+	by mail.openembedded.org (Postfix) with ESMTP id 807D174A25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 10:36:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9OAaDo6002020
+	Wed, 24 Oct 2018 10:38:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9OAcE0c002252
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Oct 2018 03:36:13 -0700 (PDT)
+	Wed, 24 Oct 2018 03:38:14 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 24 Oct 2018 03:36:00 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 24 Oct 2018 03:38:13 -0700
 From: <mingli.yu@windriver.com>
 To: <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Oct 2018 18:35:59 +0800
-Message-ID: <20181024103559.207644-1-mingli.yu@windriver.com>
+Date: Wed, 24 Oct 2018 18:38:11 +0800
+Message-ID: <20181024103811.239944-1-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20181024071813.110075-1-mingli.yu@windriver.com>
 References: <20181024071813.110075-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2] package_manager.py: correct the deploydir when packagefeed-stability inherited
+Subject: [PATCH v3] package_manager.py: correct the deploydir when packagefeed-stability inherited
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 10:36:13 -0000
+X-List-Received-Date: Wed, 24 Oct 2018 10:38:13 -0000
 Content-Type: text/plain
 
 From: Mingli Yu <Mingli.Yu@windriver.com>
@@ -62,7 +62,7 @@ os.link("/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm", "/$Pr
 Actually doesn't clean /$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm-prediff
 , need to update the deploydir to make the
 logic changed as below to fix the do_rootfs failure
-s.link("/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm", "/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm/i586/initscripts-1.0-r155.i586.rpm")
+os.link("/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm", "/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm/i586/initscripts-1.0-r155.i586.rpm")
 
 Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
