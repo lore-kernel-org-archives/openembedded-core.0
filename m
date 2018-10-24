@@ -1,29 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 618DB796E4
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 98761745FA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 06:09:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9O69umG009167
+	Wed, 24 Oct 2018 06:53:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9O6qnWW028622
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 23 Oct 2018 23:09:56 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	Tue, 23 Oct 2018 23:53:00 -0700
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Tue, 23 Oct 2018 23:09:55 -0700
+	Tue, 23 Oct 2018 23:52:39 -0700
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1540191752.git.Qi.Chen@windriver.com>
-	<a2bd44ad10ae076b40b11a1a2c8d0007817b17af.1540191752.git.Qi.Chen@windriver.com>
-	<ae8c420e68e7027797576f48f414cbd3bdbaa5a5.camel@linuxfoundation.org>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <0dd8f9ff-1a40-615f-962e-b5fb60f7f57e@windriver.com>
-Date: Wed, 24 Oct 2018 14:16:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+References: <1540351835-16861-1-git-send-email-changqing.li@windriver.com>
+	<46d200d7ef4c6399ccc99801674fb203916555c6.camel@linuxfoundation.org>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <3746db69-c37e-4500-4780-bfe24bdafdd2@windriver.com>
+Date: Wed, 24 Oct 2018 14:52:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <ae8c420e68e7027797576f48f414cbd3bdbaa5a5.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH 1/1] systemd: add back alternatives for init utitilies
+In-Reply-To: <46d200d7ef4c6399ccc99801674fb203916555c6.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.228]
+Subject: Re: [PATCH] openssl: fix occasionally install fail for parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,79 +36,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 06:09:56 -0000
+X-List-Received-Date: Wed, 24 Oct 2018 06:53:27 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On 10/24/2018 05:48 AM, Richard Purdie wrote:
-> On Mon, 2018-10-22 at 15:03 +0800, Chen Qi wrote:
->> Add back alternatives for init utilities to avoid regression.
+
+
+On 10/24/2018 02:04 PM, Richard Purdie wrote:
+> On Wed, 2018-10-24 at 11:30 +0800, changqing.li@windriver.com wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
 >>
->> These alternatives were removed when upgradeing systemd to 239.
->> They were removed out of the logic that init utitilies should be
->> bound to init manager. However, it turned out that two use cases
->> were not covered.
+>> when do parallel build, like run "make install -j 48", openssl will
+>> do_install
+>> failed with below error:
+>> mv: cannot stat 'openssl/1.1.1-
+>> r0/image/usr/lib/libcrypto.so.1.1.new': No such file or directory
+>> Makefile:318: recipe for target 'install_dev' failed
 >>
->> 1) initramfs using commands like 'reboot' from busybox.
->> 2) Users use customized busybox defconfig which enables init
->> utilities.
+>> problem caused by target install_dev and target install_runtime, both
+>> installed
+>> libcrypto.so.1.1, result in log:
+>> *** Installing development files
+>> ...
+>> install libcrypto.so.1.1 -> /var/tmp/foo/lib/libcrypto.so.1.1
+>> link /var/tmp/foo/lib/libcrypto.so ->
+>> /var/tmp/foo/lib/libcrypto.so.1.1
+>> ...
+>> *** Installing runtime files
+>> install libcrypto.so.1.1 -> /var/tmp/foo/lib/libcrypto.so.1.1
 >>
->> The first use case caused a regression bug in yocto.
->>    https://bugzilla.yoctoproject.org/show_bug.cgi?id=12914
->> Patches were sent to fix the reboot problem.
+>> command in install_dev and install_runtime will have parallel
+>> competition.
 >>
->> But this is not enough. As we may have the second use case. In such
->> situation, users will find themselves having regression error when
->> using 'busybox + systemd' (and busybox is installed after systemd,
->> overriding the systemd symlinks).
+>> have create an issue to upstream:
+>> https://github.com/openssl/openssl/issues/7466#issuecomment-432148137
 >>
->> So in order to avoid regression, add back these alternatives.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> Sorry but this is still failing:
+>> but upstream won't support this condition, so use this fix as a
+>> workaround to fix the problem.
+> This means that:
 >
+> a) Upstream don't support parallel make install
+> b) Reject patches fixing any bugs in parallel make install
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/35/builds/107/steps/7/logs/step7c
+> This means the Upstream-Status should be rejected with the link above,
+> not pending. It also means we may need to think about not using
+> parallel install although since its working, its tempting to carry
+> patches and keep using it if it works.
+>
+> It may be worth pointing out to upstream that it is mostly working for
+> us? I am a little worried they know something we don't about problems
+> this could run into.
 >
 > Cheers,
 >
 > Richard
 >
 >
-Hi Richard,
+I will point out to upstream that it is mostly working for us,  and
+ask upstream suggestion about potential problem of parallel build.
 
-The failure is revealed by Kevin's patches regarding udev-extraconf. 
-More particularly, it's the following patch that reveals the problem.
-"udev-extraconf: Use the canonical file name of systemd"
+if upstream think no obvious potential problem can seen,  I will change
+upstream-status to reject and resend the patch.
 
-I've sent out a patch to remove udev-extraconf from 
-packagegroup-core-lsb/-x11-sato to fix this failure.
-I tested 'testimage + core-image-sato/lsb' with the following 5 patches 
-(3 from Kevin which are now on master-next, 2 from me) with master 
-branch, and the tests passed.
-  packagegroup-core-lsb/-x11-sato: no udev-extraconf in case of systemd
-  systemd: add back alternatives for init utitilies
-  udev-extraconf: Skip the entry in /etc/fstab when using the systemd-mount
-  udev-extraconf: Fix the recursively dependency for the systemd-mount
-  udev-extraconf: Use the canonical file name of systemd
+if upstream recommend not to do parallel build,  I will add something 
+like below
+to stop parallel build for make install, and resend the patch, but in 
+this case,  build
+openssl  will very slow.
 
-P.S.
-I chose to remove udev-extraconf from these two packagegroups because:
-1) udev-extraconf is needed in live image, so the automount rule needs 
-to be there in the final package, regardless of the init manager of the 
-real rootfs.
-2) It's not clear whether users need the automount feature in case of 
-systemd. So I didn't choose to modify the mount.sh script to exit 
-directly if init manager is systemd.
-3) I think it's not easy to make mount.sh reliable in systemd. Kevin's 
-patches are good and helpful, but still not solve all problems. e.g. The 
-mount.sh still doesn't take into consideration of .mount and .automount 
-units; and it does not consider this failure case, i.e. no medium found 
-on /dev/hdc.
+ifneq ($(filter install,$(MAKECMDGOALS)),)
+.NOTPARALLEL:
+endif
 
-Best Regards,
-Chen Qi
 
-Best Regards,
-Chen Qi
+
+
+-- 
+BRs
+
+Sandy(Li Changqing)
+Wind River Linux
+
 
