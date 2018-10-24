@@ -1,24 +1,27 @@
-Return-Path: <Mingli.Yu@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 557C379870
+	by mail.openembedded.org (Postfix) with ESMTP id 9D3BF7458A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 07:19:01 +0000 (UTC)
+	Wed, 24 Oct 2018 07:42:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9O7IPaO029301
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9O7f4NC029779
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Oct 2018 00:18:35 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 24 Oct 2018 00:18:14 -0700
-From: <mingli.yu@windriver.com>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Oct 2018 15:18:13 +0800
-Message-ID: <20181024071813.110075-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.18.0
+	Wed, 24 Oct 2018 00:41:56 -0700
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Wed, 24 Oct 2018 00:41:26 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <376c502d-5d87-3a9b-3f4e-6b6854379a51@windriver.com>
+Date: Wed, 24 Oct 2018 15:47:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH] package_manager.py: check the dest before create hard link
+X-Originating-IP: [128.224.162.218]
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: About uninative-tarball update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 07:19:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Oct 2018 07:42:21 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+Hi Richard,
 
-After create_packages_dir added in below commit:
-85e72e1 package_manager: Filter to only rpms we depend upon
+We recently got the following warning when building on ubuntu 18.10.
 
-When add below line into conf/local.conf
-INHERIT += "packagefeed-stability"
+      WARNING: Your host glibc verson (2.28) is newer than that
+      in uninative (2.27). Disabling uninative so that sstate is
+      not corrupted.
 
-There comes below error when do_rootfs
-Exception: FileExistsError: [Errno 17] File exists: '/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm' -> '/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm'
+I checked the official uninative tarball on 
+http://downloads.yoctoproject.org/releases/uninative/2.2/.
+And yes it's using 2.27.
 
-Add the check before create hard link to
-avoid the above error.
+Our glibc has been updated to 2.28. Is there some plan about the 
+official uninative-tarball update?
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- meta/lib/oe/package_manager.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 2cc1c752b3..5d4739d66d 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -703,7 +703,8 @@ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencie
-                     bb.utils.mkdirhier(destdir)
-                     seendirs.add(destdir)
-                 try:
--                    os.link(l, dest)
-+                    if not os.path.exists(dest):
-+                        os.link(l, dest)
-                 except OSError as err:
-                     if err.errno == errno.EXDEV:
-                         bb.utils.copyfile(l, dest)
--- 
-2.18.0
-
+Best Regards,
+Chen Qi
 
