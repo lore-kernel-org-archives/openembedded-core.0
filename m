@@ -1,29 +1,47 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 98761745FA
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 544E67983F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 06:53:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9O6qnWW028622
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 23 Oct 2018 23:53:00 -0700
-Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Tue, 23 Oct 2018 23:52:39 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1540351835-16861-1-git-send-email-changqing.li@windriver.com>
-	<46d200d7ef4c6399ccc99801674fb203916555c6.camel@linuxfoundation.org>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <3746db69-c37e-4500-4780-bfe24bdafdd2@windriver.com>
-Date: Wed, 24 Oct 2018 14:52:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Wed, 24 Oct 2018 07:15:32 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id t22-v6so3744202lji.7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Oct 2018 00:15:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=A2iCNSloSpY5sdfO2vHjV24oEm4O1sWJxG+SFnFJsLc=;
+	b=GQfWLlQLDfv45G/YKB5yGnydZDT7XzWpMIthhxg6//0TRyDxUvzgTxTqa8/1DpGVNI
+	2fZTlG+165CD6WKYvB8z6CJOm+vtGvivg3YyWne9NG/kTk46rwhT2vjEwSuNPftmi3po
+	qd3bu95yT8GcyHIoget4xJguuGizk5QsQWU8WlnYGb3qgRE1dC/T5cUjbDTacqyuUlzR
+	WaiX4KgMRJra1QQXHrxjbpEJ1MqUL7/r/C0lmNVghkUWioNRfwRBFYtNUS4d0B2TZcg0
+	NEz+tu90ycMzOqX2ZHXE2XR3HsR1NG8RGdqMd6kLXFeJT84i5hpRS1oxsoNqBO0e8cEJ
+	19vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=A2iCNSloSpY5sdfO2vHjV24oEm4O1sWJxG+SFnFJsLc=;
+	b=lxb34fTM6bFxpLsdpVhbLVIwSw8nGs35jDXcsiCsWLayUQQsYvR9nm1ejWbrAJds9j
+	/YeUq3pjIF6VWiJAyeSkvBaMDASiEmqxwPFl+ENb3vZ8NLSUYKgJEQ6TpLE/qLnmJNnz
+	TUDzZqi7pLlwrFK5Ln1xjxXW2yWb1JbnU4tBjBziJsKtnsycs/z0uT+GpfgUOkX386iD
+	6mhBGcmEnHKLKcp1Q5KD5UMDGJYNlO4Ksr5zskqa5h9/PK8MSCf4YPVhHv9NhJAWsSl4
+	/nhIXDL2x200ysH2P9WtgJ/ZMXeO6wJ77IuOvA8WSe1Dbl3DfF0W9rQnDn5ESvT0DMAc
+	NAAg==
+X-Gm-Message-State: AGRZ1gKgrTURIFyDI8NLiy3Cwj/sKAjiiQWP5t8tZLoKQtkJm12LxMvA
+	CVhmXpGZSycrYFIVz8Mfb38ZdfHZ7dir2+ctJAg=
+X-Google-Smtp-Source: AJdET5eXBo7oDt33iIY7iLmSwsy3ZBlnzCgc6GO6lheOwVhIWJ4vwjLhT5vzzGf8J1I9gradVqSWJhT4WOHjZpA8QjU=
+X-Received: by 2002:a2e:8587:: with SMTP id b7-v6mr914114lji.122.1540365332638;
+	Wed, 24 Oct 2018 00:15:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <46d200d7ef4c6399ccc99801674fb203916555c6.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.228]
-Subject: Re: [PATCH] openssl: fix occasionally install fail for parallel build
+References: <20181024050426.15711-1-kamensky@cisco.com>
+In-Reply-To: <20181024050426.15711-1-kamensky@cisco.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 24 Oct 2018 03:15:21 -0400
+Message-ID: <CADkTA4MT=mw6r=BZdE64O6wECf0kW8T9v1eboAw5HODRLPY1Sg@mail.gmail.com>
+To: Victor Kamensky <kamensky@cisco.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-devsrc: add selinux include files needed by scripts/selinux build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,86 +54,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 06:53:27 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 24 Oct 2018 07:15:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, Oct 24, 2018 at 1:04 AM Victor Kamensky via Openembedded-core
+<openembedded-core@lists.openembedded.org> wrote:
+>
+> If CONFIG_SECURITY_SELINUX=y is enabled in kernel configuration, then
+> 'make scripts' command in /usr/src/kernel fails to build
+> utilities under scripts/selinux that would be pulled in by this config:
+>
+>   HOSTCC  scripts/selinux/genheaders/genheaders
+> scripts/selinux/genheaders/genheaders.c:19:10: fatal error: classmap.h: No such file or directory
+>  #include "classmap.h"
+>
+> To address this issue add security/selinux/include files into
+> kernel-devsrc.
+>
+> Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+> ---
+> To reproduce this issue add to conf/local.conf selinux fragment:
+> KERNEL_EXTRA_FEATURES_append = " cgl/features/selinux/selinux.scc"
+> build core-image-lsb-sdk and run 'cd /usr/src/kernel; make scripts'
+
+There will be a few of these that pop up over time.
+
+No concerns from me, the header file count is small for that
+directory, so we aren't adding much to the overall size.
+
+Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
 
-
-On 10/24/2018 02:04 PM, Richard Purdie wrote:
-> On Wed, 2018-10-24 at 11:30 +0800, changqing.li@windriver.com wrote:
->> From: Changqing Li <changqing.li@windriver.com>
->>
->> when do parallel build, like run "make install -j 48", openssl will
->> do_install
->> failed with below error:
->> mv: cannot stat 'openssl/1.1.1-
->> r0/image/usr/lib/libcrypto.so.1.1.new': No such file or directory
->> Makefile:318: recipe for target 'install_dev' failed
->>
->> problem caused by target install_dev and target install_runtime, both
->> installed
->> libcrypto.so.1.1, result in log:
->> *** Installing development files
->> ...
->> install libcrypto.so.1.1 -> /var/tmp/foo/lib/libcrypto.so.1.1
->> link /var/tmp/foo/lib/libcrypto.so ->
->> /var/tmp/foo/lib/libcrypto.so.1.1
->> ...
->> *** Installing runtime files
->> install libcrypto.so.1.1 -> /var/tmp/foo/lib/libcrypto.so.1.1
->>
->> command in install_dev and install_runtime will have parallel
->> competition.
->>
->> have create an issue to upstream:
->> https://github.com/openssl/openssl/issues/7466#issuecomment-432148137
->>
->> but upstream won't support this condition, so use this fix as a
->> workaround to fix the problem.
-> This means that:
 >
-> a) Upstream don't support parallel make install
-> b) Reject patches fixing any bugs in parallel make install
+>  meta/recipes-kernel/linux/kernel-devsrc.bb | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> This means the Upstream-Status should be rejected with the link above,
-> not pending. It also means we may need to think about not using
-> parallel install although since its working, its tempting to carry
-> patches and keep using it if it works.
+> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> index 5758572221..361ad21e1f 100644
+> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> @@ -210,6 +210,9 @@ do_install() {
+>             cp -a --parents kernel/bounds.c $kerneldir/build
+>             cp -a --parents Kbuild $kerneldir/build
+>         fi
+> +
+> +        # required to build scripts/selinux/genheaders/genheaders
+> +        cp -a --parents security/selinux/include/* $kerneldir/build/
+>      )
 >
-> It may be worth pointing out to upstream that it is mostly working for
-> us? I am a little worried they know something we don't about problems
-> this could run into.
+>      # Make sure the Makefile and version.h have a matching timestamp so that
+> --
+> 2.17.2
 >
-> Cheers,
->
-> Richard
->
->
-I will point out to upstream that it is mostly working for us,  and
-ask upstream suggestion about potential problem of parallel build.
-
-if upstream think no obvious potential problem can seen,  I will change
-upstream-status to reject and resend the patch.
-
-if upstream recommend not to do parallel build,  I will add something 
-like below
-to stop parallel build for make install, and resend the patch, but in 
-this case,  build
-openssl  will very slow.
-
-ifneq ($(filter install,$(MAKECMDGOALS)),)
-.NOTPARALLEL:
-endif
-
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
 
 -- 
-BRs
-
-Sandy(Li Changqing)
-Wind River Linux
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
