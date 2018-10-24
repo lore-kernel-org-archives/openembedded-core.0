@@ -1,29 +1,52 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BD4B79ADF
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 2204074596
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 10:39:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9OAclTR002398
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Oct 2018 03:39:12 -0700
-Received: from [128.224.162.215] (128.224.162.215) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Wed, 24 Oct 2018 03:38:46 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <20181024071813.110075-1-mingli.yu@windriver.com>
-	<20181024103559.207644-1-mingli.yu@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5BD04B9B.5060804@windriver.com>
-Date: Wed, 24 Oct 2018 18:38:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Wed, 24 Oct 2018 11:51:49 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id y15-v6so865518wru.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Oct 2018 04:51:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/ERk2KlVCPB2pSXwuZ9ndaOj32auh66oH8ezKek1EjU=;
+	b=S1M/D11FsR817Eipb7x4MJVZGtDsWjhLR8zBUEaVnWKiYSnlN7z0+HN2piwOa61coh
+	trCvPqlf5dF3PK8gaaGl45rvYVw7FTUSA/Z30aXKdgXoEtLs2j6/goudAZUQAFwizHgo
+	k2E18mq0hKGN49wgntFwHUFfzOvRo2G6quKYbHYXJMyBldNfY8cbozXZqE393CusTBEp
+	gae6I7PnL7rK+a0F1iQelt/eofJB41oIIuLPn3IU6xyo5pVgVL1En4mmzBzuPVH9/TLf
+	9hxm1s6tvy0LWCcExDIiiu1AVHIjonHx+S3JS5HnqDC1MhppRXMhgLP5ML9Iu/9EUonr
+	JOBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/ERk2KlVCPB2pSXwuZ9ndaOj32auh66oH8ezKek1EjU=;
+	b=CKpMLVdaNS7y+7gR7lLx9fUJ52RRoxmErIqY466yPf+cGFZl9vboXvb3oSC/tPW9xr
+	fWRscwWdjy67GqXPRWEwqC5TdIbNfEzdHNJjNeEtuFpf9Om2IFLxlFLc8FYy7OxVLEui
+	KCUrNukx+Vd4t1OXX//Nbtb/pjxGnpBFPqlpDKz7Tg3B2MsZGZ+or0IZhfXGV3DSqhXC
+	cPDB2RGRh7KgUR8FNs+hwmuU5rdXa5HIrrloQcI7tQgPTWG8/D/HRaG8PN7RQxmCQx2B
+	Ti6sMP5eT1ibpAAG9XxxXxQyj9UZ5mLA8Gz/WSbW4TLsMuAlZTFQVfgrc7nK3fAmvfiW
+	1UoA==
+X-Gm-Message-State: AGRZ1gLqK2ynqJOSwT82KFAiC/HtYaICHAhf6rN+FqgFHOVCqxj8u3QC
+	UN0HjaCOYMlD99fJFrdvmL5D6kPV
+X-Google-Smtp-Source: AJdET5dSgF4qxsHDjquDl9Q2UfBEX5/55ruxCTbQ8SWLf0qLaRfeyGnfMCmhqqigkjMCiFjBVw/6bQ==
+X-Received: by 2002:adf:cd8c:: with SMTP id
+	q12-v6mr2561972wrj.171.1540381909395; 
+	Wed, 24 Oct 2018 04:51:49 -0700 (PDT)
+Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
+	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
+	u9-v6sm3846077wrr.66.2018.10.24.04.51.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 24 Oct 2018 04:51:48 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Oct 2018 13:51:35 +0200
+Message-Id: <20181024115135.10434-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.14.5
 MIME-Version: 1.0
-In-Reply-To: <20181024103559.207644-1-mingli.yu@windriver.com>
-X-Originating-IP: [128.224.162.215]
-Subject: Re: [PATCH v2] package_manager.py: correct the deploydir when packagefeed-stability inherited
+Subject: [PATCH] systemd-conf: add CLEANBROKEN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,94 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 10:39:38 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 24 Oct 2018 11:51:49 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+| DEBUG: Executing shell function do_configure
+| NOTE: make clean
+| make: *** No rule to make target 'clean'.  Stop.
+| ERROR: oe_runmake failed
 
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ meta/recipes-core/systemd/systemd-conf.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On 2018年10月24日 18:35, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
->
-> After create_packages_dir added in below commit:
-> 85e72e1 package_manager: Filter to only rpms we depend upon
->
-> When add below line into conf/local.conf
-> INHERIT += "packagefeed-stability"
->
-> There comes below error when do_rootfs
-> Exception: FileExistsError: [Errno 17] File exists: '/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm' -> '/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm'
->
-> In create_packages_dir function, there is a logic
-> as bb.utils.remove(subrepo_dir, recurse=True) to
-> clean subrepo_dir which is actually as example is
-> /$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm.
->
-> But currently when inherit packagefeed-stability class,
-> the parameter deploydir passed to create_packages_dir is
-> still /$Prj/tmp/deploy/rpm as example, it should be
-> /$Prj/tmp/deploy/rpm-diff. Otherwise, there is a logic
-> os.link(l, dest) in create_packages_dir function will
-> result in below logic:
-> os.link("/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm", "/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm")
->
-> Actually doesn't clean /$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm-prediff
-> , need to update the deploydir to make the
-> logic changed as below to fix the do_rootfs failure
-> s.link("/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm", "/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm/i586/initscripts-1.0-r155.i586.rpm")
+diff --git a/meta/recipes-core/systemd/systemd-conf.bb b/meta/recipes-core/systemd/systemd-conf.bb
+index c694efbbf14..111ef2497a3 100644
+--- a/meta/recipes-core/systemd/systemd-conf.bb
++++ b/meta/recipes-core/systemd/systemd-conf.bb
+@@ -18,6 +18,8 @@ FILES_${PN} = "${sysconfdir}/machine-id ${sysconfdir}/systemd"
+ 
+ do_compile[noexec] = '1'
+ 
++CLEANBROKEN = "1"
++
+ do_install() {
+ 	install -d ${D}/${sysconfdir}/systemd
+ 
+-- 
+2.14.5
 
-A typo here, resend out V3.
-
-Thanks,
-
->
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> ---
->   meta/lib/oe/package_manager.py | 16 ++++++++++++----
->   1 file changed, 12 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index 2cc1c752b3..032d0d811b 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -733,8 +733,10 @@ class RpmPM(PackageManager):
->               self.primary_arch = self.d.getVar('MACHINE_ARCH')
->
->           self.rpm_repo_dir = oe.path.join(self.d.getVar('WORKDIR'), rpm_repo_workdir)
-> -        create_packages_dir(self.d, oe.path.join(self.rpm_repo_dir, "rpm"), d.getVar("DEPLOY_DIR_RPM"), "package_write_rpm", filterbydependencies)
-> -
-> +        deploy_prepath = d.getVar("DEPLOY_DIR_RPM")
-> +        if bb.data.inherits_class('packagefeed-stability', d):
-> +            deploy_prepath = deploy_prepath + "-prediff"
-> +        create_packages_dir(self.d, oe.path.join(self.rpm_repo_dir, "rpm"), deploy_prepath, "package_write_rpm", filterbydependencies)
->           self.saved_packaging_data = self.d.expand('${T}/saved_packaging_data/%s' % self.task_name)
->           if not os.path.exists(self.d.expand('${T}/saved_packaging_data')):
->               bb.utils.mkdirhier(self.d.expand('${T}/saved_packaging_data'))
-> @@ -1147,9 +1149,12 @@ class OpkgPM(OpkgDpkgPM):
->           self.opkg_cmd = bb.utils.which(os.getenv('PATH'), "opkg")
->           self.opkg_args = "--volatile-cache -f %s -t %s -o %s " % (self.config_file, self.d.expand('${T}/ipktemp/') ,target_rootfs)
->           self.opkg_args += self.d.getVar("OPKG_ARGS")
-> +        deploy_prepath = d.getVar("DEPLOY_DIR_IPK")
-> +        if bb.data.inherits_class('packagefeed-stability', d):
-> +            deploy_prepath = deploy_prepath + "-prediff"
->
->           if prepare_index:
-> -            create_packages_dir(self.d, self.deploy_dir, d.getVar("DEPLOY_DIR_IPK"), "package_write_ipk", filterbydependencies)
-> +            create_packages_dir(self.d, self.deploy_dir, deploy_prepath, "package_write_ipk", filterbydependencies)
->
->           opkg_lib_dir = self.d.getVar('OPKGLIBDIR')
->           if opkg_lib_dir[0] == "/":
-> @@ -1526,7 +1531,10 @@ class DpkgPM(OpkgDpkgPM):
->           super(DpkgPM, self).__init__(d, target_rootfs)
->           self.deploy_dir = oe.path.join(self.d.getVar('WORKDIR'), deb_repo_workdir)
->
-> -        create_packages_dir(self.d, self.deploy_dir, d.getVar("DEPLOY_DIR_DEB"), "package_write_deb", filterbydependencies)
-> +        deploy_prepath = d.getVar("DEPLOY_DIR_DEB")
-> +        if bb.data.inherits_class('packagefeed-stability', d):
-> +            deploy_prepath = deploy_prepath + "-prediff"
-> +        create_packages_dir(self.d, self.deploy_dir, deploy_prepath, "package_write_deb", filterbydependencies)
->
->           if apt_conf_dir is None:
->               self.apt_conf_dir = self.d.expand("${APTCONF_TARGET}/apt")
->
 
