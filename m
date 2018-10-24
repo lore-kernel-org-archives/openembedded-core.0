@@ -1,26 +1,29 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1574679A16
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 618DB796E4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 06:06:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9O65q2r027697
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2018 23:06:02 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 23 Oct 2018 23:05:42 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Oct 2018 14:11:50 +0800
-Message-ID: <9578a653708b251d0fb4cbf27c92f05d88dab240.1540361439.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1540361439.git.Qi.Chen@windriver.com>
-References: <cover.1540361439.git.Qi.Chen@windriver.com>
+	Wed, 24 Oct 2018 06:09:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9O69umG009167
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 23 Oct 2018 23:09:56 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Tue, 23 Oct 2018 23:09:55 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1540191752.git.Qi.Chen@windriver.com>
+	<a2bd44ad10ae076b40b11a1a2c8d0007817b17af.1540191752.git.Qi.Chen@windriver.com>
+	<ae8c420e68e7027797576f48f414cbd3bdbaa5a5.camel@linuxfoundation.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <0dd8f9ff-1a40-615f-962e-b5fb60f7f57e@windriver.com>
+Date: Wed, 24 Oct 2018 14:16:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] packagegroup-core-lsb/-x11-sato: no udev-extraconf in case of systemd
+In-Reply-To: <ae8c420e68e7027797576f48f414cbd3bdbaa5a5.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [PATCH 1/1] systemd: add back alternatives for init utitilies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +36,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 06:06:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Oct 2018 06:09:56 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The automount udev rule in udev-extraconf is likely to cause conflicts
-or failures in case of systemd. We are seeing errors like below for
-qemu bsps.
+On 10/24/2018 05:48 AM, Richard Purdie wrote:
+> On Mon, 2018-10-22 at 15:03 +0800, Chen Qi wrote:
+>> Add back alternatives for init utilities to avoid regression.
+>>
+>> These alternatives were removed when upgradeing systemd to 239.
+>> They were removed out of the logic that init utitilies should be
+>> bound to init manager. However, it turned out that two use cases
+>> were not covered.
+>>
+>> 1) initramfs using commands like 'reboot' from busybox.
+>> 2) Users use customized busybox defconfig which enables init
+>> utilities.
+>>
+>> The first use case caused a regression bug in yocto.
+>>    https://bugzilla.yoctoproject.org/show_bug.cgi?id=12914
+>> Patches were sent to fix the reboot problem.
+>>
+>> But this is not enough. As we may have the second use case. In such
+>> situation, users will find themselves having regression error when
+>> using 'busybox + systemd' (and busybox is installed after systemd,
+>> overriding the systemd symlinks).
+>>
+>> So in order to avoid regression, add back these alternatives.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Sorry but this is still failing:
+>
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/35/builds/107/steps/7/logs/step7c
+>
+> Cheers,
+>
+> Richard
+>
+>
+Hi Richard,
 
-  run-media-hdc.mount loaded failed failed /run/media/hdc
+The failure is revealed by Kevin's patches regarding udev-extraconf. 
+More particularly, it's the following patch that reveals the problem.
+"udev-extraconf: Use the canonical file name of systemd"
 
-So do not install udev-extraconf in case of systemd in these two
-packagegroups.
+I've sent out a patch to remove udev-extraconf from 
+packagegroup-core-lsb/-x11-sato to fix this failure.
+I tested 'testimage + core-image-sato/lsb' with the following 5 patches 
+(3 from Kevin which are now on master-next, 2 from me) with master 
+branch, and the tests passed.
+  packagegroup-core-lsb/-x11-sato: no udev-extraconf in case of systemd
+  systemd: add back alternatives for init utitilies
+  udev-extraconf: Skip the entry in /etc/fstab when using the systemd-mount
+  udev-extraconf: Fix the recursively dependency for the systemd-mount
+  udev-extraconf: Use the canonical file name of systemd
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb  | 2 +-
- meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+P.S.
+I chose to remove udev-extraconf from these two packagegroups because:
+1) udev-extraconf is needed in live image, so the automount rule needs 
+to be there in the final package, regardless of the init manager of the 
+real rootfs.
+2) It's not clear whether users need the automount feature in case of 
+systemd. So I didn't choose to modify the mount.sh script to exit 
+directly if init manager is systemd.
+3) I think it's not easy to make mount.sh reliable in systemd. Kevin's 
+patches are good and helpful, but still not solve all problems. e.g. The 
+mount.sh still doesn't take into consideration of .mount and .automount 
+units; and it does not consider this failure case, i.e. no medium found 
+on /dev/hdc.
 
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-index 6631547..e8dc421 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-@@ -76,7 +76,7 @@ RDEPENDS_packagegroup-core-sys-extended = "\
-     screen \
-     setserial \
-     sysstat \
--    udev-extraconf \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'udev-extraconf', d)} \
-     unzip \
-     watchdog \
-     wget \
-diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-index 2d7feb8..7e14ece 100644
---- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-+++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-@@ -33,7 +33,7 @@ RDEPENDS_${PN}-base = "\
-     settings-daemon \
-     shutdown-desktop \
-     ${NETWORK_MANAGER} \
--    udev-extraconf \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'udev-extraconf', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio-server pulseaudio-client-conf-sato pulseaudio-misc', '', d)} \
-     "
- 
--- 
-1.9.1
+Best Regards,
+Chen Qi
 
+Best Regards,
+Chen Qi
 
