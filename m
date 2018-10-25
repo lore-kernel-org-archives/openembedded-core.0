@@ -1,26 +1,49 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A032A71A74
+Return-Path: <akuster808@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1518B794EA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Oct 2018 06:19:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9P6IuXC001222
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Oct 2018 23:19:12 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 24 Oct 2018 23:18:54 -0700
-From: <mingli.yu@windriver.com>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Oct 2018 14:18:53 +0800
-Message-ID: <20181025061853.217541-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20181024071813.110075-1-mingli.yu@windriver.com>
-References: <20181024071813.110075-1-mingli.yu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v4] package_manager.py: correct the deploydir when packagefeed-stability inherited
+	Thu, 25 Oct 2018 06:26:35 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id f1-v6so1149456wmg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Oct 2018 23:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=eyE3R14Ysy5gGUsdYPa23nTaa2rBwMyTNh8CvGnbqSo=;
+	b=MCh/EzzjsvlsYTMXhIzjrJhuoc4izNE1I0n+0h+uUtfmSjI3mPui7xagVL14/ePDKE
+	qEDpOpfNOib/2GgMuw2eG/EgPrkBzTqg2A+iW4y7+iKzTx/XrPzZBLXxSHl12b7ry0dm
+	5QxJpv7GlbPGvBeoLFNEzhWXqd/bzdX7RSS5ZkqHztnZaDRxM15EGt+1twWx/Wc8Houq
+	5ByWMPPiNmO8CzQ1vQGMzhxI5n+b0cxjT484ASaz1JdPDaqTni0SX3YepURnCmynSH5o
+	zzrm5kqXt//vXIICne4GNPWKJcJ5dqOILwpPIThIODrF0sELI7WpPxuw86GTnBBZU1AD
+	vycA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=eyE3R14Ysy5gGUsdYPa23nTaa2rBwMyTNh8CvGnbqSo=;
+	b=hoOIvoR17yV/m4B73lq3gZHeW8yaxenZJQAYW0UECFMB/Nu6BpM141JqWkjXQ7SLtI
+	l2sVpnmCVpFxeZulw36NNDw4hP5Ld6Hc4iAbnSlL6ZmUSYyE+keA2PEX4aumWuC8WNXY
+	dYAsP2rIM6uk8Oa7K2gaCR6Dqg5AmKLx7lDVSgWvYBOHLuLCPbuuuI+b6xgjQT7y7wqm
+	LyCaRioiN20dWvdWgAL528QoMuA5gmPP4uaLOrIR4s5THmj2/SIcsbCnQNUPBvqKouyw
+	PTKWpsfFXIwMZ1Luz/FLnljmoySjuiHI4kE6/Ha6xGz+fMrqlla4lbh7RRzBo8SfJ0kq
+	agfQ==
+X-Gm-Message-State: AGRZ1gJIWp9kGGU8aOs3H8MOqsGv+wNuSooASlt81Hwi9zsq4J2FK3dc
+	pjazuB4RfOfMNGDaei/2BiDUVwZMT5Q=
+X-Google-Smtp-Source: AJdET5f+48jWbRy96ExnN7CTUpn00QxX/xmCqI2V4j9Oekl21TFriRqEOcDmcvu6x+LjJu6uEbmSpA==
+X-Received: by 2002:a1c:2c87:: with SMTP id
+	s129-v6mr358333wms.127.1540448796561; 
+	Wed, 24 Oct 2018 23:26:36 -0700 (PDT)
+Received: from localhost.localdomain ([109.144.208.247])
+	by smtp.gmail.com with ESMTPSA id
+	a13-v6sm4460998wrs.73.2018.10.24.23.26.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 24 Oct 2018 23:26:36 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 25 Oct 2018 07:26:34 +0100
+Message-Id: <1540448794-12553-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] testimage.bbclass: define ptest suite variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,64 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Oct 2018 06:19:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Oct 2018 06:26:36 -0000
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+From: Armin Kuster <akuster@mvista.com>
 
-After create_packages_dir added in below commit:
-85e72e1 package_manager: Filter to only rpms we depend upon
+Ptest has dependencies on other tests so contain them in a
+variable. This allows layers to not worry about maintaining the depends
+themselves.
 
-When add below line into conf/local.conf
-INHERIT += "packagefeed-stability"
-
-There comes below error when do_rootfs
-Exception: FileExistsError: [Errno 17] File exists: '/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm' -> '/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm'
-
-def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencies):
-  [snip]
-  bb.utils.remove(subrepo_dir, recurse=True)
-  [snip]
-
-In create_packages_dir function, there is a logic
-as bb.utils.remove(subrepo_dir, recurse=True) to
-clean subrepo_dir which is actually as example is
-/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm.
-
-But currently when inherit packagefeed-stability class,
-the deploydir should be /$Prj/tmp/deploy/rpm-prediff,
-not the default /$Prj/tmp/deploy/rpm.
-
-If use /$Prj/tmp/deploy/rpm, then result in the
-logic as below:
-os.link("/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm", "/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm")
-
-Update to the actual deploydir to guarantee the logic
-as below:
-os.link("/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm", "/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm/i586/initscripts-1.0-r155.i586.rpm")
-
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/lib/oe/package_manager.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/classes/testimage.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 2cc1c752b3..882e7c429f 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -690,7 +690,10 @@ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencie
-             for l in f:
-                 l = l.strip()
-                 deploydir = os.path.normpath(deploydir)
--                dest = l.replace(deploydir, "")
-+                if bb.data.inherits_class('packagefeed-stability', d):
-+                    dest = l.replace(deploydir + "-prediff", "")
-+                else:
-+                    dest = l.replace(deploydir, "")
-                 dest = subrepo_dir + dest
-                 if l.endswith("/"):
-                     if dest not in seendirs:
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 2642a72..2d6976f 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -49,6 +49,7 @@ SYSTEMDSUITE = "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
+ MINTESTSUITE = "ping"
+ NETTESTSUITE = "${MINTESTSUITE} ssh df date scp oe_syslog ${SYSTEMDSUITE}"
+ DEVTESTSUITE = "gcc kernelmodule ldd"
++PTESTTESTSUITE = "${MINTESTSUITE} ssh scp ptest"
+ 
+ DEFAULT_TEST_SUITES = "${MINTESTSUITE} auto"
+ DEFAULT_TEST_SUITES_pn-core-image-minimal = "${MINTESTSUITE}"
 -- 
-2.18.0
+2.7.4
 
 
