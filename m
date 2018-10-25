@@ -1,29 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 319F975129
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 70FA978DEC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Oct 2018 09:26:44 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w9P9QVmU028676
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Thu, 25 Oct 2018 10:26:36 +0100
-Message-ID: <3bc2e2156f4f5ba898584b9a89c1c331cec27209.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Thu, 25 Oct 2018 10:26:30 +0100
-In-Reply-To: <A6C49273-61A8-44B5-8E5C-65DE81A27B29@gmail.com>
-References: <20181017164326.67111-1-mark.hatle@windriver.com>
-	<20181017164326.67111-4-mark.hatle@windriver.com>
-	<CAJTo0LY3gqvFDMzg48s0q4kZZ=WPpdj8u+jb-7gXFGmA-MBbPw@mail.gmail.com>
-	<A6C49273-61A8-44B5-8E5C-65DE81A27B29@gmail.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] weston: Remove machine specific append
+	Thu, 25 Oct 2018 09:52:49 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9P9qUr7009599
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Oct 2018 02:52:40 -0700
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 25 Oct 2018 02:52:19 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Oct 2018 05:52:18 -0400
+Message-ID: <20181025095218.160101-1-mark.hatle@windriver.com>
+X-Mailer: git-send-email 2.16.0.rc2
+MIME-Version: 1.0
+Subject: [PATCH] systemd-conf: Fix clean support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,19 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Oct 2018 09:26:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Oct 2018 09:52:49 -0000
+Content-Type: text/plain
 
-On Thu, 2018-10-25 at 10:36 +0200, Alexander Kanavin wrote:
-> As far as I know virglrenderer works rather well now, and we should
-> take it into use. WebOS already has support for it. 
-> https://lwn.net/Articles/767970/
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/recipes-core/systemd/systemd-conf.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Sure, but that is 2.7 at this point...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/systemd/systemd-conf.bb b/meta/recipes-core/systemd/systemd-conf.bb
+index c694efb..9bb27fd 100644
+--- a/meta/recipes-core/systemd/systemd-conf.bb
++++ b/meta/recipes-core/systemd/systemd-conf.bb
+@@ -16,9 +16,11 @@ ${sysconfdir}/systemd/user.conf"
+ 
+ FILES_${PN} = "${sysconfdir}/machine-id ${sysconfdir}/systemd"
+ 
++do_configure[noexec] = '1'
+ do_compile[noexec] = '1'
+ 
+ do_install() {
++	rm -rf ${D}/${sysconfdir}/systemd
+ 	install -d ${D}/${sysconfdir}/systemd
+ 
+ 	# Create machine-id
+-- 
+1.8.3.1
 
 
