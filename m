@@ -1,26 +1,28 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AAE679C29
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8633C60191
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Oct 2018 09:59:09 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9P9woiH009710
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Oct 2018 02:59:00 -0700
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 25 Oct 2018 02:58:39 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Oct 2018 05:58:26 -0400
-Message-ID: <20181025095826.163943-2-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.16.0.rc2
-In-Reply-To: <20181025095826.163943-1-mark.hatle@windriver.com>
-References: <20181025095826.163943-1-mark.hatle@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v3] weston: Split out machine specific configuration
+	Thu, 25 Oct 2018 12:44:27 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	w9PCiOGC010604
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 25 Oct 2018 13:44:26 +0100
+Message-ID: <463dbed17206ffb20d05962af4249d64443dbe98.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Changqing Li <changqing.li@windriver.com>, Andre McCurdy
+	<armccurdy@gmail.com>
+Date: Thu, 25 Oct 2018 13:44:24 +0100
+In-Reply-To: <4572e29a-3b92-745d-b794-20e514b961a8@windriver.com>
+References: <1540441116-366611-1-git-send-email-changqing.li@windriver.com>
+	<CAJ86T=Unn7MyQ5jvuuBefA2EfbYprUbkmSVG_9BQBW4+7ej0sg@mail.gmail.com>
+	<4572e29a-3b92-745d-b794-20e514b961a8@windriver.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: change make install run serially
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,118 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Oct 2018 09:59:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Oct 2018 12:44:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Weston needs to be configured to load the fbdev driver when run on a QEMU system.
-Other MACHINEs may want to also provider their own configuration as well..
+On Thu, 2018-10-25 at 13:10 +0800, Changqing Li wrote:
+> 
+> On 10/25/2018 12:59 PM, Andre McCurdy wrote:
+> > On Wed, Oct 24, 2018 at 9:18 PM,  <changqing.li@windriver.com>
+> > wrote:
+> > > From: Changqing Li <changqing.li@windriver.com>
+> > > 
+> > > openssl offcially don't supprt parallel make install, and have
+> > > occasionally install fail problem for parallel build,
+> > > according to upstream suggestion, just make install serially.
+> > > 
+> > > refer:
+> > > 
+https://github.com/openssl/openssl/issues/7466#issuecomment-432148137
+> > 
+> > Wouldn't setting PARALLEL_MAKEINST be cleaner than patching the
+> > Makefile?
+> 
+> You are right, I will resend the patch.
 
-Adding a new RRECOMMEND configuration package will allow this, but avoid
-installing empty packages/files in the majority case where it is not needed.
+I've commented upstream and I think they're reconsidering this so I'm
+going to wait and see if they do take a patch to fix things which we
+could then backport.
 
-Add maintainer entry as well.
+Cheers,
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/conf/distro/include/maintainers.inc      |  1 +
- meta/conf/layer.conf                          |  1 +
- meta/recipes-graphics/wayland/weston-conf.bb  | 35 +++++++++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_5.0.0.bb |  8 +-----
- 4 files changed, 38 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston-conf.bb
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index d32e07d..1278593 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -678,6 +678,7 @@ RECIPE_MAINTAINER_pn-wayland = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-wayland-protocols = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-webkitgtk = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-weston = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-weston-conf = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-weston-init = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-which = "Ross Burton <ross.burton@intel.com>"
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 504f7fa..c67dec4 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -75,6 +75,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-   font-alias->font-util \
-   systemd-boot->systemd-bootconf \
-   systemd->systemd-conf \
-+  weston->weston-conf \
-   weston-init->weston \
-   weston-init->kbd \
- "
-diff --git a/meta/recipes-graphics/wayland/weston-conf.bb b/meta/recipes-graphics/wayland/weston-conf.bb
-new file mode 100644
-index 0000000..f52200c
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-conf.bb
-@@ -0,0 +1,35 @@
-+SUMMARY = "Weston, a Wayland compositor, configuration files"
-+HOMEPAGE = "http://wayland.freedesktop.org"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+CONFFILES_${PN} = "${sysconfdir}/xdg/weston/weston.ini"
-+
-+FILES_${PN} = "${sysconfdir}/xdg/weston/weston.ini"
-+
-+PACKAGES = "${PN}"
-+
-+do_configure[noexec] = '1'
-+do_compile[noexec] = '1'
-+
-+do_install() {
-+	:
-+}
-+
-+do_install_qemux86() {
-+	mkdir -p ${D}/${sysconfdir}/xdg/weston
-+	cat << EOF > ${D}/${sysconfdir}/xdg/weston/weston.ini
-+[core]
-+backend=fbdev-backend.so
-+EOF
-+}
-+
-+do_install_qemux86-64() {
-+	mkdir -p ${D}/${sysconfdir}/xdg/weston
-+	cat << EOF > ${D}/${sysconfdir}/xdg/weston/weston.ini
-+[core]
-+backend=fbdev-backend.so
-+EOF
-+}
-diff --git a/meta/recipes-graphics/wayland/weston_5.0.0.bb b/meta/recipes-graphics/wayland/weston_5.0.0.bb
-index 299408b..e517109 100644
---- a/meta/recipes-graphics/wayland/weston_5.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_5.0.0.bb
-@@ -29,12 +29,6 @@ WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
- EXTRA_OECONF = "--enable-setuid-install \
-                 --disable-rdp-compositor \
-                 "
--EXTRA_OECONF_append_qemux86 = "\
--		WESTON_NATIVE_BACKEND=fbdev-backend.so \
--		"
--EXTRA_OECONF_append_qemux86-64 = "\
--		WESTON_NATIVE_BACKEND=fbdev-backend.so \
--		"
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd x11', d)} \
-@@ -107,7 +101,7 @@ FILES_${PN}-xwayland = "${libdir}/libweston-${WESTON_MAJOR_VERSION}/xwayland.so"
- RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
- 
- RDEPENDS_${PN} += "xkeyboard-config"
--RRECOMMENDS_${PN} = "liberation-fonts"
-+RRECOMMENDS_${PN} = "weston-conf liberation-fonts"
- RRECOMMENDS_${PN}-dev += "wayland-protocols"
- 
- USERADD_PACKAGES = "${PN}"
--- 
-1.8.3.1
+Richard
 
 
