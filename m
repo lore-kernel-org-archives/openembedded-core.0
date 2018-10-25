@@ -1,23 +1,26 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 430856FFC8
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A032A71A74
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Oct 2018 05:39:10 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9P5dBCK008273
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2018 22:39:11 -0700 (PDT)
+	Thu, 25 Oct 2018 06:19:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9P6IuXC001222
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 24 Oct 2018 23:19:12 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 24 Oct 2018 22:38:58 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Oct 2018 13:38:57 +0800
-Message-ID: <1540445937-177165-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	14.3.408.0; Wed, 24 Oct 2018 23:18:54 -0700
+From: <mingli.yu@windriver.com>
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Oct 2018 14:18:53 +0800
+Message-ID: <20181025061853.217541-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20181024071813.110075-1-mingli.yu@windriver.com>
+References: <20181024071813.110075-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2] openssl: change make install run serially
+Subject: [PATCH v4] package_manager.py: correct the deploydir when packagefeed-stability inherited
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,37 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Oct 2018 05:39:10 -0000
+X-List-Received-Date: Thu, 25 Oct 2018 06:19:37 -0000
 Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-openssl offcially don't supprt parallel make install, and have
-occasionally install fail problem for parallel build,
-according to upstream suggestion, just make install serially.
+After create_packages_dir added in below commit:
+85e72e1 package_manager: Filter to only rpms we depend upon
 
-refer:
-https://github.com/openssl/openssl/issues/7466#issuecomment-432148137
+When add below line into conf/local.conf
+INHERIT += "packagefeed-stability"
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+There comes below error when do_rootfs
+Exception: FileExistsError: [Errno 17] File exists: '/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm' -> '/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm'
+
+def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencies):
+  [snip]
+  bb.utils.remove(subrepo_dir, recurse=True)
+  [snip]
+
+In create_packages_dir function, there is a logic
+as bb.utils.remove(subrepo_dir, recurse=True) to
+clean subrepo_dir which is actually as example is
+/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm.
+
+But currently when inherit packagefeed-stability class,
+the deploydir should be /$Prj/tmp/deploy/rpm-prediff,
+not the default /$Prj/tmp/deploy/rpm.
+
+If use /$Prj/tmp/deploy/rpm, then result in the
+logic as below:
+os.link("/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm", "/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm")
+
+Update to the actual deploydir to guarantee the logic
+as below:
+os.link("/$Prj/tmp/deploy/rpm-prediff/i586/initscripts-1.0-r155.i586.rpm", "/$Prj/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/oe-rootfs-repo/rpm/i586/initscripts-1.0-r155.i586.rpm")
+
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/lib/oe/package_manager.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-index af9038a..21d35b6 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-@@ -43,6 +43,8 @@ EXTRA_OECONF_class-nativesdk = "--with-rand-seed=devrandom"
- CFLAGS_append_class-native = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/builtin"
- CFLAGS_append_class-nativesdk = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/builtin"
- 
-+PARALLEL_MAKEINST = ""
-+
- do_configure () {
- 	os=${HOST_OS}
- 	case $os in
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 2cc1c752b3..882e7c429f 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -690,7 +690,10 @@ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencie
+             for l in f:
+                 l = l.strip()
+                 deploydir = os.path.normpath(deploydir)
+-                dest = l.replace(deploydir, "")
++                if bb.data.inherits_class('packagefeed-stability', d):
++                    dest = l.replace(deploydir + "-prediff", "")
++                else:
++                    dest = l.replace(deploydir, "")
+                 dest = subrepo_dir + dest
+                 if l.endswith("/"):
+                     if dest not in seendirs:
 -- 
-2.7.4
+2.18.0
 
 
