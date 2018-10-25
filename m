@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id AB96C60402;
-	Thu, 25 Oct 2018 16:03:10 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Christian Meusel <christian.meusel@posteo.de>
-Date: Thu, 25 Oct 2018 16:03:12 -0000
-Message-ID: <20181025160312.13844.62518@do.openembedded.org>
-References: <20181025155629.5281-1-christian.meusel@posteo.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181025155629.5281-1-christian.meusel@posteo.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgSWdub3JlIHJlcG8gdG9vbCBkaXJlY3Rvcnk=?=
+Return-Path: <christian.meusel@posteo.de>
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8397478F72
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Oct 2018 16:22:25 +0000 (UTC)
+Received: from submission (posteo.de [89.146.220.130]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 73A19210D2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Oct 2018 18:22:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+	t=1540484545; bh=aBartWRNrR2aqW+mg09Cd3BtCDarS3cJqfTj4NLS/30=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RoDeZKerJfAHFZ9KJYg5fgrxpjyOzRqvBKOwTwOMf1dE6VLv9gJUDFgdUj8FJIVTm
+	pMQFwKBR6XEW2ElsQdvgz17VHasl4sFa4Aq3XMx6kPXqsE72IDTEfTgdGnea9CsGgN
+	To3C36CdOjPpaYmsUqzE6k0Pj8MH6pV7bfSu0BNwtAAm4HntaFiDoB692vU8BMGQ0p
+	HKmxOIp5wNUz1BFdkb2TUtAEQruw4C414oRiB0BnFsZ3iAOA7JKHXA+KFy4ybw9Ptz
+	aORSfSEioub4K7v7Sa4J75VC5hRmH2CgeowHyyAzSngGYbkS8z4dZeuKRADk9SXsyu
+	jW3NaFwIBMVKA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 42gspm4VQQz6tm8;
+	Thu, 25 Oct 2018 18:22:24 +0200 (CEST)
+From: Christian Meusel <christian.meusel@posteo.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Oct 2018 18:22:09 +0200
+Message-Id: <20181025162209.6702-1-christian.meusel@posteo.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2] gitignore: Ignore repo tool directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,50 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Oct 2018 16:03:10 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Oct 2018 16:22:25 -0000
 
-== Series Details ==
+This reduces the noise produced by 'git status' and 'repo status' when
+orchestrating the layers with Google's repo tool
+(https://gerrit.googlesource.com/git-repo/)
 
-Series: Ignore repo tool directory
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14676/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at c5c5ad9030)
-
-* Patch            Ignore repo tool directory
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-* Patch            Ignore repo tool directory
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Christian Meusel <christian.meusel@posteo.de>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.gitignore b/.gitignore
+index d3ef473b04..ad1cb83abf 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,6 +1,7 @@
+ *.pyc
+ *.pyo
+ /*.patch
++/.repo/
+ /build*/
+ pyshtables.py
+ pstage/
+-- 
+2.17.1
 
 
