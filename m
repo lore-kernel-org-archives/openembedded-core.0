@@ -1,24 +1,50 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D21878DEC
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DF5478F5C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Oct 2018 08:59:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9P8xGgf008160
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 25 Oct 2018 09:05:42 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id t10-v6so8426251wrn.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Oct 2018 01:59:37 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 25 Oct 2018 01:59:29 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Oct 2018 16:59:28 +0800
-Message-ID: <1540457968-325221-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 25 Oct 2018 02:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=wWIhKvDXaCs4pcz5KFpkOYBAoVW75e7nuukoYmXClr4=;
+	b=m/IOR/Vy/+x62pctOUu5tkbwbocjBWAyBmFgnhtz45DmSoN8NZpkX13kA+IYTZmR6h
+	Y5Vem/aSKGoKPd7IAjyZyw0Z1YJBRXPCY34xWpd4or9cQ/499azmTtmzg0QcupqOK2q4
+	iT6ACJe/bQxuyfK2eOm3vxKlHC2u0duovP2sCXcUVH8tnBoidQSgCtLx9dcL8sjpteXh
+	Iact1Xwj5cWaoMVBxYPvjqfC8MhnAQUzQOCydo1I5Dks4FBWYaZ7XemRoNAyACXGMwNo
+	RWUkWdCXbWVD4qQTX8p1vAOw4+Pv1VdqAtc+qis4GuG1gKtm7g4bbXn+AtwyXeqkvSoC
+	JR7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wWIhKvDXaCs4pcz5KFpkOYBAoVW75e7nuukoYmXClr4=;
+	b=a4iI4+p3zHihvmuNJJpQAxeYD0A+1UFdLlYnj6UcblLOFyBB9rbJubMw9+XyzoE9sz
+	hoXbiVtUQxtsF0NSe/EEgirus5+6FIHkyGIe6XyPTOIitj9VJmy/UHhLA3Oo9/AfV27f
+	Q9f4GVVlkTj1rGzt4VSDjS6EpUxgG4ExlQhuMOKv+L7B9V/INQ7t+o9Ke8re4cWHZ+FM
+	nfQjKOicgvSLNcCJtCygyBv5AeXu9HXGrFMi/wasOjHncLOMdPKFmLcO+KRZaKptT6oT
+	UMjBaJe31odK/zfakLGQG/CX3CE5Q2TnPVadDH1/sx21mlZeEb9DuI4g9E1G6sXTwXHa
+	cTFQ==
+X-Gm-Message-State: AGRZ1gIpHaGzMT0EFfZdLhBUkljLbUp/VAIrDJfY7KCWNgKBfOPoYk2I
+	ajYBon460+ab0nrzur5e8fA3zGj8y73d9rR3QmA=
+X-Google-Smtp-Source: AJdET5dzwbAeXmREo038HYfexpqlg/VR0ow0FKrNWhAt415wm0tbClp/s4zvmv3npDGoSwtpEFOUhdpw5k2nYN4yJEc=
+X-Received: by 2002:a5d:4c84:: with SMTP id z4-v6mr983449wrs.75.1540458343622; 
+	Thu, 25 Oct 2018 02:05:43 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] python-native: fix one do_populate_sysroot warning
+References: <20181017164326.67111-1-mark.hatle@windriver.com>
+	<20181017164326.67111-4-mark.hatle@windriver.com>
+	<CAJTo0LY3gqvFDMzg48s0q4kZZ=WPpdj8u+jb-7gXFGmA-MBbPw@mail.gmail.com>
+	<A6C49273-61A8-44B5-8E5C-65DE81A27B29@gmail.com>
+In-Reply-To: <A6C49273-61A8-44B5-8E5C-65DE81A27B29@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 25 Oct 2018 11:05:33 +0200
+Message-ID: <CA+chaQcXnq4YOBB5vey9F_0c9oABs5M1xZW_Xgedn966qqVARQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] weston: Remove machine specific append
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,87 +57,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Oct 2018 08:59:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Oct 2018 09:05:43 -0000
+Content-Type: multipart/alternative; boundary="0000000000005cee74057909e8d0"
 
-From: Changqing Li <changqing.li@windriver.com>
+--0000000000005cee74057909e8d0
+Content-Type: text/plain; charset="UTF-8"
 
-Fix below warning:
-WARNING: Skipping RPATH /usr/lib64 as is a standard search path for
-work/x86_64-linux/python-native/2.7.15-r1.1/recipe-sysroot-native/
-usr/lib/python2.7/lib-dynload/_bsddb.so
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=12938
 
-setup.py will check db.h under include_dirs, for native build,
-/usr/lib64 will be insert to postion 0 of include_dirs, so
-it's priority is higher then our sysroot, cause db.h sysroot
-is ignored, and rpath set to /usr/lib64. and this cause warning
-when do_populate_sysroot. use append to fix it.
+On Thu, Oct 25, 2018 at 10:36 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- ...ative-fix-one-do_populate_sysroot-warning.patch | 39 ++++++++++++++++++++++
- .../python/python-native_2.7.15.bb                 |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-native/0001-python-native-fix-one-do_populate_sysroot-warning.patch
+> As far as I know virglrenderer works rather well now, and we should take
+> it into use. WebOS already has support for it.
+> https://lwn.net/Articles/767970/
+>
+> Alex
+>
+> On 18 Oct 2018, at 12.24, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On Wed, 17 Oct 2018 at 17:44, Mark Hatle <mark.hatle@windriver.com> wrote:
+>
+> -EXTRA_OECONF_append_qemux86 = "\
+>
+> +EXTRA_OECONF_append_x86 = "\
+>
+>                WESTON_NATIVE_BACKEND=fbdev-backend.so \
+>
+>                "
+>
+>
+> This forces all x86 Westons that are not running inside X11 to use
+> fbdev instead of drm.
+>
+> Two questions:
+> 1) does qemu still need fbdev or does virtio/drm work now?  (iirc, we
+> still have a crippled qemu here)
+> 2) Can this be overridden in a config file instead
+>
+> Ross
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-diff --git a/meta/recipes-devtools/python/python-native/0001-python-native-fix-one-do_populate_sysroot-warning.patch b/meta/recipes-devtools/python/python-native/0001-python-native-fix-one-do_populate_sysroot-warning.patch
-new file mode 100644
-index 0000000..9898189
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-native/0001-python-native-fix-one-do_populate_sysroot-warning.patch
-@@ -0,0 +1,39 @@
-+From 12292444e1b3662b994bc223d92b8338fb0895ff Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Thu, 25 Oct 2018 07:32:14 +0000
-+Subject: [PATCH] python-native: fix one do_populate_sysroot warning
-+
-+Fix below warning:
-+WARNING: Skipping RPATH /usr/lib64 as is a standard search path for
-+work/x86_64-linux/python-native/2.7.15-r1.1/recipe-sysroot-native/
-+usr/lib/python2.7/lib-dynload/_bsddb.so
-+
-+setup.py will check db.h under include_dirs, for native build,
-+/usr/lib64 will be insert to postion 0 of include_dirs, so
-+it's priority is higher then our sysroot, cause db.h sysroot
-+is ignored, and rpath set to /usr/lib64. and this cause warning
-+when do_populate_sysroot. use append to fix it.
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ setup.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/setup.py b/setup.py
-+index 7bf13ed..6c0f29b 100644
-+--- a/setup.py
-++++ b/setup.py
-+@@ -40,7 +40,7 @@ def add_dir_to_list(dirlist, dir):
-+     1) 'dir' is not already in 'dirlist'
-+     2) 'dir' actually exists, and is a directory."""
-+     if dir is not None and os.path.isdir(dir) and dir not in dirlist:
-+-        dirlist.insert(0, dir)
-++        dirlist.append(dir)
-+
-+ def macosx_sdk_root():
-+     """
-+-- 
-+2.18.0
-+
-diff --git a/meta/recipes-devtools/python/python-native_2.7.15.bb b/meta/recipes-devtools/python/python-native_2.7.15.bb
-index 7c491fa..f9a9a5d 100644
---- a/meta/recipes-devtools/python/python-native_2.7.15.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.15.bb
-@@ -16,6 +16,7 @@ SRC_URI += "\
-             file://builddir.patch \
-             file://parallel-makeinst-create-bindir.patch \
-             file://revert_use_of_sysconfigdata.patch \
-+            file://0001-python-native-fix-one-do_populate_sysroot-warning.patch \
-            "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-2.7.4
+--0000000000005cee74057909e8d0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><a href=3D"https://bugzilla.yoctoproject.=
+org/show_bug.cgi?id=3D12938">https://bugzilla.yoctoproject.org/show_bug.cgi=
+?id=3D12938</a><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr">On Thu, Oct 25, 2018 at 10:36 AM Alexander Kanavin &lt;<a href=3D"mailt=
+o:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex"><div dir=3D"auto">As far as I know virglrender=
+er works rather well now, and we should take it into use. WebOS already has=
+ support for it.=C2=A0<div><a href=3D"https://lwn.net/Articles/767970/" tar=
+get=3D"_blank">https://lwn.net/Articles/767970/</a><br><div><br></div><div>=
+Alex<br><div dir=3D"ltr"><br>On 18 Oct 2018, at 12.24, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.c=
+om</a>&gt; wrote:<br><br></div><blockquote type=3D"cite"><div dir=3D"ltr"><=
+span>On Wed, 17 Oct 2018 at 17:44, Mark Hatle &lt;<a href=3D"mailto:mark.ha=
+tle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a>&gt; wrote=
+:</span><br><blockquote type=3D"cite"><span>-EXTRA_OECONF_append_qemux86 =
+=3D &quot;\</span><br></blockquote><blockquote type=3D"cite"><span>+EXTRA_O=
+ECONF_append_x86 =3D &quot;\</span><br></blockquote><blockquote type=3D"cit=
+e"><span> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0WESTON_NATIVE_BACKEND=3Dfbdev-backend.so \</span=
+><br></blockquote><blockquote type=3D"cite"><span> =C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0&quot;</s=
+pan><br></blockquote><span></span><br><span>This forces all x86 Westons tha=
+t are not running inside X11 to use</span><br><span>fbdev instead of drm.</=
+span><br><span></span><br><span>Two questions:</span><br><span>1) does qemu=
+ still need fbdev or does virtio/drm work now? =C2=A0(iirc, we</span><br><s=
+pan>still have a crippled qemu here)</span><br><span>2) Can this be overrid=
+den in a config file instead</span><br><span></span><br><span>Ross</span><b=
+r><span>-- </span><br><span>_______________________________________________=
+</span><br><span>Openembedded-core mailing list</span><br><span><a href=3D"=
+mailto:Openembedded-core@lists.openembedded.org" target=3D"_blank">Openembe=
+dded-core@lists.openembedded.org</a></span><br><span><a href=3D"http://list=
+s.openembedded.org/mailman/listinfo/openembedded-core" target=3D"_blank">ht=
+tp://lists.openembedded.org/mailman/listinfo/openembedded-core</a></span><b=
+r></div></blockquote></div></div></div>-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
+--0000000000005cee74057909e8d0--
