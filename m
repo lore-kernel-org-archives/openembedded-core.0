@@ -1,49 +1,25 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0025B79670
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 56DD171E4C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Oct 2018 07:20:58 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id b11-v6so2084637pfi.5
+	Thu, 25 Oct 2018 07:59:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9P7xLU0015848
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Oct 2018 00:21:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=45m45YkoTerN/hE/beVDBHtjoyZVsmp+L9dlTAjtC6E=;
-	b=rI2eojqQ9jz4E7M7Z6UR3IDaS8nY1FEgzdc99vlrNA8aTaSVcexNLXfANwEaDrgOWW
-	YL0UzW+ps4izxA2kP/A++dnHNZP60oLJmzW0XzGdn6AHyAFU1VueWoef92FFpwv/qicK
-	4RVq1mLcAQ68/XlBSr/GIxdvmOykPAi+TBEsycPawHio+VpFscTGGDBO2+pS7fhFTadZ
-	q3ljQxbxaTkAPKoHzJLpDsast9M/jqOrcokjtYLEjB0EkPzi7ZQZSTxqARuzceeTcalm
-	S1BK+49Ae3NszKLeE26il3XkIBixyCKxMTUlSwnvW39EsyStkDDj+AxL9hoFACz80BQP
-	8egQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=45m45YkoTerN/hE/beVDBHtjoyZVsmp+L9dlTAjtC6E=;
-	b=ejBQFUDxfqKlvuoYd/EB7a9C0j0kt/ll3FaguXciKR+PJuVKo0r716m2qk4UHbzlfz
-	TbIzE76pMuG2uERJ7a7wPkAxe8HlUAh0pKrYAJotcOhvKUlXVsFD/I2DD4yaiFcgYirW
-	2eLCVXXbNtA/uaiXL4/hjo8JtJ5XdyMCyQErXO9kGxR0WQH2QAKFIqUNUyy4bnqI6NRg
-	GS+C9at7YtNHx3hn+1CUm/GWTZOWCappftv4mHqHshl5lTKaDvv7BsraPBwTgMkZN5ie
-	YCFMn9p/HqYITEN3e7cyNuam02kMeMyf/2IUBcJEZ3MpqFKmQfnm08tTavmSY80s9wE3
-	igGg==
-X-Gm-Message-State: AGRZ1gI58Fluph66ZHc+gQ6N058AY/HR5clvqWAmGljS+d4vrcWsQBH6
-	t+A1wS1gibGZbwr46qQgFE0=
-X-Google-Smtp-Source: AJdET5eNgVw4F4amUbawnwrHy9wfGSHHwEEaFJj5of/ReYRTeOXWGOKxs+XpuL66lrDuDM8gcvEcrQ==
-X-Received: by 2002:a63:700e:: with SMTP id
-	l14-v6mr379721pgc.359.1540452059989; 
-	Thu, 25 Oct 2018 00:20:59 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com ([185.7.230.213])
-	by smtp.gmail.com with ESMTPSA id
-	q26-v6sm8922130pfi.165.2018.10.25.00.20.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 25 Oct 2018 00:20:59 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 25 Oct 2018 08:20:55 +0100
-Message-Id: <1540452055-22743-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] os-release: add more variables to list
+	Thu, 25 Oct 2018 00:59:21 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 25 Oct 2018 00:59:20 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Oct 2018 15:17:17 +0800
+Message-ID: <036553c4f9e1be02b3da5d325dfc306997502a83.1540451811.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <cover.1540451811.git.kai.kang@windriver.com>
+References: <cover.1540451811.git.kai.kang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] target-sdk-provides-dummy: set nostamp for do_package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +32,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Oct 2018 07:20:59 -0000
+X-List-Received-Date: Thu, 25 Oct 2018 07:59:20 -0000
+Content-Type: text/plain
 
-If someone extends the OS_RELEASE_FIELDS in a bbappend, it will cause the hash to change which is
-caught by the yocto-check-layer
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+It exists a situation that there is a common config file includes
+multilib.conf but variable MULTILIBS is not set by default:
+
+  require conf/multilib.conf
+  MULTILIBS ?= ""
+
+When build target-sdk-provides-dummy in the same build project with
+following steps, it fails.
+
+1 $ echo 'MACHINE = "qemux86"' >>conf/local.conf
+  $ bitbake target-sdk-provides-dummy
+2 $ cat <<EOF >>conf/local.conf
+    MACHINE = "qemux86-64"
+    MULTILIBS = "multilib:lib32"
+    DEFAULTTUNE_virtclass-multilib-lib32 = "i586"
+    EOF
+  $ bitbake target-sdk-provides-dummy
+  $ bitbake lib32-target-sdk-provides-dummy
+
+It fails to build lib32-target-sdk-provides-dummy with error messages:
+
+| ERROR: target-sdk-provides-dummy-1.0-r0 do_packagedata: The recipe target-sdk-provides-dummy
+|  is trying to install files into a shared area when those files already exist. Those files
+|  and their manifest location are:
+|   .../tmp/pkgdata/qemux86-64/lib32-target-sdk-provides-dummy
+|     (matched in manifest-qemux86_64-lib32-target-sdk-provides-dummy.packagedata)
+|   .../tmp/pkgdata/qemux86-64/runtime/lib32-target-sdk-provides-dummy
+|     (matched in manifest-qemux86_64-lib32-target-sdk-provides-dummy.packagedata)
+|   ... snip ...
+| Please verify which recipe should provide the above files.
+
+Because target-sdk-provides-dummy is a virtual package, its sstate
+caches are same for both qemux86 and qemux86_64. So when build
+target-sdk-provides-dummy for qemux86_64, it re-uses the sstate cache
+from qemux86 and then create file lib32-target-sdk-provides-dummy under
+${PKGDATA_DIR} which should not and it conflicts with
+lib32-target-sdk-provides-dummy too.
+
+So make do_package always be executed to fix the issue. Because it is a
+dummy package, it won't cost too much build time.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-core/os-release/os-release.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/meta/target-sdk-provides-dummy.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
-index 7f3d9cb..88bf8f8 100644
---- a/meta/recipes-core/os-release/os-release.bb
-+++ b/meta/recipes-core/os-release/os-release.bb
-@@ -12,7 +12,7 @@ do_configure[noexec] = "1"
+diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+index 714d15d8ba..0eac23599b 100644
+--- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
++++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+@@ -8,4 +8,6 @@ DUMMYPROVIDES = "\
+     pkgconfig \
+ "
  
- # Other valid fields: BUILD_ID ID_LIKE ANSI_COLOR CPE_NAME
- #                     HOME_URL SUPPORT_URL BUG_REPORT_URL
--OS_RELEASE_FIELDS = "ID ID_LIKE NAME VERSION VERSION_ID PRETTY_NAME"
-+OS_RELEASE_FIELDS = "ID ID_LIKE NAME VERSION VERSION_ID PRETTY_NAME BUILD_ID HOME_URL BUG_REPORT_URL SUPPORT_URL CPE_NAME"
- 
- ID = "${DISTRO}"
- NAME = "${DISTRO_NAME}"
++do_package[nostamp] = "1"
++
+ require dummy-sdk-package.inc
 -- 
-2.7.4
+2.18.0
 
 
