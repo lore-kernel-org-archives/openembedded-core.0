@@ -1,39 +1,53 @@
 Return-Path: <kamensky@cisco.com>
-Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B52979327
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C42F6FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2018 03:00:19 +0000 (UTC)
+	Fri, 26 Oct 2018 03:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=1679; q=dns/txt; s=iport;
-	t=1540522821; x=1541732421;
-	h=from:to:cc:subject:date:message-id;
-	bh=cTxz2ELcPqn3PIKdtA/Uca+kzFRHz4aZsqipd36KpYU=;
-	b=J7iZJuPa5sFDKFWzUaD0KhJ0XZGJKECAtZQt0eQ/RiXWaW1mWN+sCGDR
-	PwaTQVR2nZpLWXGcsgsfvEVPDRTZawyThwJn7PUyzs1nNA4bEmLwvVWrD
-	/EZvUcaLus91IIdKWpu6+BT08ZZ1HDsrjLcf/5gVAywrnzk9GWwiwi3pU I=;
+	d=cisco.com; i=@cisco.com; l=1672; q=dns/txt; s=iport;
+	t=1540525072; x=1541734672;
+	h=date:from:to:cc:subject:in-reply-to:message-id:
+	references:mime-version;
+	bh=ZSvT/CvNciCJCOEogB+N/sO6sFli6XR5GrE4Yxgtt1U=;
+	b=G5YUgFEf6NIhHjL6hzHqVpMJtsahATN0DbvYvt9rl+5TilCmn0MKHXEL
+	QoYkhchOM2q/eV9bZSSWv3N13b0w+odCP3y6BcbEmtLQJXYsUZdfhaJvf
+	qIxltV2Z+c8bUxS6lJVZxU+OzNSRSJXkOm0X6g9Bvs00SHtxJc4fjQIs5 c=;
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BXAAD3gtJb/5RdJa1jHAEBAQQBAQc?=
-	=?us-ascii?q?EAQGBUwUBAQsBggRmfyiYJJkpgXoLAQEfhE2DEyE2Cw0BAwEBAgEBAm0ohjq?=
-	=?us-ascii?q?BUYMhAYIBqRWKHIdAhCYXggCIaiFjhQ0CiGuGZI8nCYZogyAFhmULGJBCAZZ?=
-	=?us-ascii?q?iAgQGBQIUgUoJKIFVTSMVgycJkG4fMIphgk0BAQ?=
-X-IronPort-AV: E=Sophos;i="5.54,426,1534809600"; d="scan'208";a="192038945"
-Received: from rcdn-core-12.cisco.com ([173.37.93.148])
-	by alln-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Oct 2018 03:00:05 +0000
-Received: from kamensky-w541.cisco.com ([10.24.44.84]) (authenticated bits=0)
-	by rcdn-core-12.cisco.com (8.15.2/8.15.2) with ESMTPSA id
-	w9Q2xvsP005277
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); 
-	Fri, 26 Oct 2018 03:00:02 GMT
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BCAAC0i9Jb/5BdJa1jGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAQGBZYIFZn8ojGyLOIFoJZkWCwEBGA2ERwKDESE4FgEDAQE?=
+	=?us-ascii?q?CAQECbRwMhTsBAQECAQEmEQI/BQsLRigvBgGDNIF5CA+oRzOELAGFb4tmF4I?=
+	=?us-ascii?q?AgUSCKjWDGwMCgUiFcAKIaweGXY8nCYZohgOEKoFSTIQqiFOBKIxqiXgCBAs?=
+	=?us-ascii?q?CFIFaIYFVTSMVSBWCSgmCHReDSIJkgjCFXh8wAY0tAQE?=
+X-IronPort-AV: E=Sophos;i="5.54,426,1534809600"; d="scan'208";a="387056351"
+Received: from rcdn-core-8.cisco.com ([173.37.93.144])
+	by rcdn-iport-9.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Oct 2018 03:37:51 +0000
+Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
+	by rcdn-core-8.cisco.com (8.15.2/8.15.2) with ESMTPS id w9Q3boq4000381
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 26 Oct 2018 03:37:51 GMT
+Date: Thu, 25 Oct 2018 20:37:50 -0700 (PDT)
 From: Victor Kamensky <kamensky@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Oct 2018 19:59:55 -0700
-Message-Id: <20181026025955.24952-1-kamensky@cisco.com>
-X-Mailer: git-send-email 2.17.2
-X-Authenticated-User: kamensky@cisco.com
-X-Outbound-SMTP-Client: 10.24.44.84, [10.24.44.84]
-X-Outbound-Node: rcdn-core-12.cisco.com
-Subject: [PATCH] systemtap: move systemtap-exporter into separate package
+To: Martin Jansa <martin.jansa@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <alpine.LRH.2.00.1810171314560.37492@sjc-ads-6991.cisco.com>
+Message-ID: <alpine.LRH.2.00.1810252000220.5649@sjc-ads-6991.cisco.com>
+References: <20181015182128.13115-1-kamensky@cisco.com>
+	<CAJTo0LYWG7O+VryaFi9r4kc5JagPtuynWHi9gV6nV+cLPUw+SQ@mail.gmail.com>
+	<9f182627633f75c8383901510cc11e4b87349084.camel@linuxfoundation.org>
+	<alpine.LRH.2.00.1810162250430.53155@sjc-ads-6991.cisco.com>
+	<118f12f46497b3b4fda287b64c5e432afde9b6d9.camel@linuxfoundation.org>
+	<CA+chaQcjv6-2v8oC25=7fapKKg5XapC21+6K1oN28Kk9MJF2zw@mail.gmail.com>
+	<40a5b6dd1386ea77070814f7ef7ad340cc2e9e62.camel@linuxfoundation.org>
+	<CA+chaQekaVbr5MMkW7TFWXeFq5Ye-Cyfn5WBn-0ZiM=QVTW-GA@mail.gmail.com>
+	<alpine.LRH.2.00.1810171314560.37492@sjc-ads-6991.cisco.com>
+User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
+MIME-Version: 1.0
+X-Outbound-SMTP-Client: 10.30.218.111, sjc-ads-6991.cisco.com
+X-Outbound-Node: rcdn-core-8.cisco.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemtap: 3.3 -> 4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,49 +60,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2018 03:00:19 -0000
+X-List-Received-Date: Fri, 26 Oct 2018 03:37:51 -0000
+Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
 
-stap-exporter runs a set of systemtap scripts and relays
-their procfs outputs to remote HTTP clients on demand.
+Hi Guys,
 
-systemtap-exporter is not supposed to run in untrusted
-environment. It starts HTTP server on some port. It does
-not look safe enough to be included by default along with
-the rest of systemtap.
+On Wed, 17 Oct 2018, Victor Kamensky wrote:
 
-Move systemtap-exporter, its systemd unit, configuration
-files and examples scripts into separate package. So if one
-needs it and understand its implication, he/she can include
-it explicitely.
+> stap-exporter service is a new feature in SystemTap 4.0, I've never used
+> it before. I'll dig in and will try to make sure that it is functional
+> in resulting OE image.
 
-Signed-off-by: Victor Kamensky <kamensky@cisco.com>
----
- meta/recipes-kernel/systemtap/systemtap_git.bb | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+I've had a chance to look at stap-exporter and its service more closely.
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 904ecdd106..6ee3e1c0f7 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -27,7 +27,16 @@ PACKAGECONFIG[python3-probes] = "--with-python3-probes,--without-python3-probes,
- 
- inherit autotools gettext pkgconfig distutils3-base systemd
- 
--SYSTEMD_SERVICE_${PN} = "stap-exporter.service"
-+PACKAGES =+ "${PN}-exporter"
-+
-+FILES_${PN}-exporter = "${sysconfdir}/stap-exporter/* \
-+                        ${sysconfdir}/sysconfig/stap-exporter \
-+                        ${systemd_unitdir}/system/stap-exporter.service \
-+                        ${sbindir}/stap-exporter"
-+
-+RDEPENDS_${PN}-exporter = "${PN} python3-core python3-netclient"
-+
-+SYSTEMD_SERVICE_${PN}-exporter = "stap-exporter.service"
- 
- do_configure_prepend () {
-     # Improve reproducibility for c++ object files
--- 
-2.17.2
+It looks like it is simple HTTP server that allows to run stap scripts
+on target and relay its information to Prometheus monitoring system.
+Please check.
 
+https://www.mankier.com/8/stap-exporter
+
+https://prometheus.io
+
+Since it is HTTP server, and its man page says that it is not supposed
+to run in untrusted environment I am quite hesitant to have it enabled
+by default. Moreover, it comes with some default example scripts that
+actually fail to compile in OE core-image-lsb-sdk because it does not
+include kernel-vmlinux package by default. stap-exporter is not
+prepared to handle script compilation failure and tries to compile it
+in the loop, so in core-image-lsb-sdk systemd image where 
+stap-exporter.service would be enabled by default it would trash the
+system.
+
+Considering all that I suggest stap-exporter to be moved in separate
+systemtap-exporter package, so it can be installed explcitely. I
+posted patch for it at
+
+http://lists.openembedded.org/pipermail/openembedded-core/2018-October/157073.html
+
+BTW in FC it is separate systemtap-exporter package.
+
+I've tested systemtap-exporter and stap-exporter, if installed
+along with proper prerequisites (kernel-vmlinux) is functioning
+OK with given default example as far as my manual http testing
+with curl shows. I did not test it with prometheus.
+
+Thanks,
+Victor
 
