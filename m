@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F47C62133;
-	Fri, 26 Oct 2018 10:03:16 +0000 (UTC)
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 457F5745AB
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Oct 2018 10:28:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9QASTqT022100
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Oct 2018 03:28:29 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Fri, 26 Oct 2018 03:28:28 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Oct 2018 17:45:37 +0800
+Message-ID: <4009fec3e60f4b806c3d030fb55464efa1203b52.1540547104.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <cover.1540547104.git.kai.kang@windriver.com>
+References: <cover.1540547104.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Fri, 26 Oct 2018 10:03:17 -0000
-Message-ID: <20181026100317.13842.11360@do.openembedded.org>
-References: <1540546971-36870-1-git-send-email-hongxu.jia@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1540546971-36870-1-git-send-email-hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ28gMS45LzEuMTE6IGZpeCB0ZXh0cmVsIHFhIHdhcm5pbmcgZm9yIG5vbiBtaXBzIGFyY2g=?=
+Subject: [PATCH 2/2] toolchain-scripts.bbclass: fix paths of siteconfig files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,44 +32,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2018 10:03:16 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Oct 2018 10:28:28 -0000
+Content-Type: text/plain
 
-== Series Details ==
+From: Kai Kang <kai.kang@windriver.com>
 
-Series: go 1.9/1.11: fix textrel qa warning for non mips arch
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14686/
-State : failure
+It can't find right siteconfig files in toolchain-scripts.bbclass after
+adapting to RSS. Correct the paths.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
-  Suggested fix    Fix Upstream-Status format in 0008-use-GOBUILDMODE-to-set-buildmode.patch
-  Current          Upstream-Status: Deny [upstream choose antoher solution: `17a256b
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/toolchain-scripts.bbclass | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 6d1ba69473..cfc5eb9fae 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -158,7 +158,7 @@ EOF
+ 
+ #we get the cached site config in the runtime
+ TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d)}"
+-TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
++TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${COMPONENTS_DIR}/${DEFAULTTUNE}"
+ TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "virtual/${MLPREFIX}libc ncurses"
+ DEPENDS += "${TOOLCHAIN_NEED_CONFIGSITE_CACHE}"
+ 
+@@ -178,11 +178,12 @@ toolchain_create_sdk_siteconfig () {
+ 		# Resolve virtual/* names to the real recipe name using sysroot-providers info
+ 		case $sitefile in virtual/*)
+ 			sitefile=`echo $sitefile | tr / _`
+-			sitefile=`cat ${STAGING_DIR_TARGET}/sysroot-providers/$sitefile`
++			sitefile=`cat ${STAGING_DIR_TARGET}/sysroot-providers/$sitefile | sed "s/^${MLPREFIX}//"`
+ 		esac
+ 
+-		if [ -r ${TOOLCHAIN_CONFIGSITE_SYSROOTCACHE}/${sitefile}_config ]; then
+-			cat ${TOOLCHAIN_CONFIGSITE_SYSROOTCACHE}/${sitefile}_config >> $siteconfig
++		sitefile_config=${TOOLCHAIN_CONFIGSITE_SYSROOTCACHE}/${MLPREFIX}${sitefile}/${target_datadir}/${TARGET_SYS}_config_site.d/${sitefile}_config
++		if [ -r $sitefile_config ]; then
++			cat $sitefile_config >> $siteconfig
+ 		fi
+ 	done
+ }
+-- 
+2.18.0
 
 
