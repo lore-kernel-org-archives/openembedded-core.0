@@ -1,25 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F6CC79C6E
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D003579C64
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2018 11:39:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9QBdYgp003669
+	Fri, 26 Oct 2018 14:01:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9QE0Etb026909
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 26 Oct 2018 04:39:34 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 26 Oct 2018 04:39:34 -0700
+	Fri, 26 Oct 2018 07:01:20 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 26 Oct 2018 07:01:06 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>
-Date: Fri, 26 Oct 2018 19:49:59 +0800
-Message-ID: <1540554599-37191-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1540546971-36870-1-git-send-email-hongxu.jia@windriver.com>
-References: <1540546971-36870-1-git-send-email-hongxu.jia@windriver.com>
+Date: Fri, 26 Oct 2018 09:59:55 -0400
+Message-ID: <1540562395-6506-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Subject: [PATCH v2] go 1.9/1.11: fix textrel qa warning for non mips arch
+Subject: [PATCH] machine/qemu*: fix kernel finish crng init more and more slowly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,200 +31,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2018 11:39:34 -0000
+X-List-Received-Date: Fri, 26 Oct 2018 14:01:45 -0000
 Content-Type: text/plain
 
-While building go itself, the go build system does not support
-to set `-buildmode=pie' from environment.
+Just adding `-device virtio-rng-pci' to the QEMU invocation will
+add the device with a default host backend. As of QEMU 1.3+,
+the default backend is to use the host's /dev/random as a
+source of entropy. [1]
 
-Add GOBUILDMODE to support it which make PIE executables the default
-build mode, as PIE executables are required as of Yocto
+When the entropy pool is empty, reads from /dev/random will
+block until additional environmental noise is gathered. [2]
 
-But mips doesn't support -buildmode=pie, so skip the QA checking for
-mips and its variants
+For Yocto, if call runqemu frequently, it will consume lots
+of host's /dev/random, and kernel finish crng init in guest get
+more and more slowly.
 
-Issue: LIN1018-2738
-(LOCAL REV: NOT UPSTREAM) -- Sent to oe-core 20181026
+Here are 4 times runqemu boot test:
+
+[    3.464432] random: crng init done
+[   20.874030] random: crng init done
+[   23.583589] random: crng init done
+[   23.858945] random: crng init done
+
+Modify entropy source to /dev/urandom device on the host which
+returns random bytes using a pseudorandom number generator seeded
+from the entropy pool. Reads from this device do not block and
+kernel finish crng init in guest will not delay.
+
+Of course, the side effect is obviously, we lost the quality of
+randomness, but the modification is only on runqemu script
+rather than real embedded device, and it benefits oeqa efficiency
+in which many cases call runqemu especially multiple oeqa builds
+on one host.
+
+After apply the fix:
+
+[    3.364670] random: crng init done
+[    4.619061] random: crng init done
+[    3.403897] random: crng init done
+[    3.450717] random: crng init done
+
+[1] https://wiki.qemu.org/Features/VirtIORNG
+[2] http://man7.org/linux/man-pages/man4/random.4.html
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/go/go-1.11.inc               |  1 +
- .../0008-use-GOBUILDMODE-to-set-buildmode.patch    | 40 ++++++++++++++++++++++
- meta/recipes-devtools/go/go-1.9.inc                |  1 +
- .../0011-use-GOBUILDMODE-to-set-buildmode.patch    | 40 ++++++++++++++++++++++
- meta/recipes-devtools/go/go_1.11.bb                | 12 +++++++
- meta/recipes-devtools/go/go_1.9.bb                 | 16 +++++----
- 6 files changed, 104 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch
- create mode 100644 meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch
+ meta/conf/machine/include/qemuboot-mips.inc | 3 ++-
+ meta/conf/machine/include/qemuboot-x86.inc  | 3 ++-
+ meta/conf/machine/qemuarm.conf              | 3 ++-
+ meta/conf/machine/qemuarm64.conf            | 4 +++-
+ meta/conf/machine/qemuppc.conf              | 3 ++-
+ 5 files changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.11.inc b/meta/recipes-devtools/go/go-1.11.inc
-index c02e468..d626514 100644
---- a/meta/recipes-devtools/go/go-1.11.inc
-+++ b/meta/recipes-devtools/go/go-1.11.inc
-@@ -15,6 +15,7 @@ SRC_URI += "\
-     file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
-     file://0006-cmd-dist-separate-host-and-target-builds.patch \
-     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
-+    file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
- "
+diff --git a/meta/conf/machine/include/qemuboot-mips.inc b/meta/conf/machine/include/qemuboot-mips.inc
+index 7d9fa52..75bb988 100644
+--- a/meta/conf/machine/include/qemuboot-mips.inc
++++ b/meta/conf/machine/include/qemuboot-mips.inc
+@@ -3,6 +3,7 @@ IMAGE_CLASSES += "qemuboot"
+ QB_MEM = "-m 256"
+ QB_MACHINE = "-machine malta"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyS0 console=tty"
++QB_OPT_APPEND = "-vga cirrus -show-cursor -usb -device usb-tablet"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND = "-vga cirrus -show-cursor -usb -device usb-tablet -device virtio-rng-pci"
++QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ QB_SYSTEM_NAME = "qemu-system-${TUNE_ARCH}"
+diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+index 1456bf7..ae6c2de 100644
+--- a/meta/conf/machine/include/qemuboot-x86.inc
++++ b/meta/conf/machine/include/qemuboot-x86.inc
+@@ -11,7 +11,8 @@ QB_CPU_KVM_x86-64 = "-cpu core2duo"
+ QB_AUDIO_DRV = "alsa"
+ QB_AUDIO_OPT = "-soundhw ac97,es1370"
+ QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=${UVESA_MODE} oprofile.timer=1 uvesafb.task_timeout=-1"
++QB_OPT_APPEND = "-vga vmware -show-cursor -usb -device usb-tablet -device"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND = "-vga vmware -show-cursor -usb -device usb-tablet -device virtio-rng-pci"
++QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
  
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch b/meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch
-new file mode 100644
-index 0000000..b6ab504
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch
-@@ -0,0 +1,40 @@
-+From 0e0c247f0caec23528889ff09d98348cba9028f1 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 26 Oct 2018 15:02:32 +0800
-+Subject: [PATCH] use GOBUILDMODE to set buildmode
-+
-+While building go itself, the go build system does not support
-+to set `-buildmode=pie' from environment.
-+
-+Add GOBUILDMODE to support it which make PIE executables the default
-+build mode, as PIE executables are required as of Yocto
-+
-+Refers: https://groups.google.com/forum/#!topic/golang-dev/gRCe5URKewI
-+Upstream-Status: Denied [upstream choose antoher solution: `17a256b
-+cmd/go: -buildmode=pie for android/arm']
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ src/cmd/go/internal/work/build.go | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/cmd/go/internal/work/build.go b/src/cmd/go/internal/work/build.go
-+index 145b875..595d703 100644
-+--- a/src/cmd/go/internal/work/build.go
-++++ b/src/cmd/go/internal/work/build.go
-+@@ -218,7 +218,11 @@ func AddBuildFlags(cmd *base.Command) {
-+ 
-+ 	cmd.Flag.Var(&load.BuildAsmflags, "asmflags", "")
-+ 	cmd.Flag.Var(buildCompiler{}, "compiler", "")
-+-	cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
-++	if bm := os.Getenv("GOBUILDMODE"); bm != "" {
-++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", bm, "")
-++	} else {
-++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
-++	}
-+ 	cmd.Flag.Var(&load.BuildGcflags, "gcflags", "")
-+ 	cmd.Flag.Var(&load.BuildGccgoflags, "gccgoflags", "")
-+ 	cmd.Flag.StringVar(&cfg.BuildMod, "mod", "", "")
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
-index 329cee0..ba1eaa0 100644
---- a/meta/recipes-devtools/go/go-1.9.inc
-+++ b/meta/recipes-devtools/go/go-1.9.inc
-@@ -19,6 +19,7 @@ SRC_URI += "\
-         file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
-         file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
-         file://0010-make.bash-override-CC-when-building-dist-and-go_boot.patch \
-+        file://0011-use-GOBUILDMODE-to-set-buildmode.patch \
- "
- SRC_URI_append_libc-musl = " file://set-external-linker.patch"
- 
-diff --git a/meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch b/meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch
-new file mode 100644
-index 0000000..da93dc5
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch
-@@ -0,0 +1,40 @@
-+From b928fafab1d9425aae9341806bd2f6178ba1da1f Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 26 Oct 2018 16:32:50 +0800
-+Subject: [PATCH] use GOBUILDMODE to set buildmode
-+
-+While building go itself, the go build system does not support
-+to set `-buildmode=pie' from environment.
-+
-+Add GOBUILDMODE to support it which make PIE executables the default
-+build mode, as PIE executables are required as of Yocto
-+
-+Refers: https://groups.google.com/forum/#!topic/golang-dev/gRCe5URKewI
-+Upstream-Status: Denied [upstream choose antoher solution: `17a256b
-+cmd/go: -buildmode=pie for android/arm']
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ src/cmd/go/internal/work/build.go | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/cmd/go/internal/work/build.go b/src/cmd/go/internal/work/build.go
-+index b276de5..1683e7e 100644
-+--- a/src/cmd/go/internal/work/build.go
-++++ b/src/cmd/go/internal/work/build.go
-+@@ -211,7 +211,11 @@ func AddBuildFlags(cmd *base.Command) {
-+ 
-+ 	cmd.Flag.Var((*base.StringsFlag)(&buildAsmflags), "asmflags", "")
-+ 	cmd.Flag.Var(buildCompiler{}, "compiler", "")
-+-	cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
-++	if bm := os.Getenv("GOBUILDMODE"); bm != "" {
-++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", bm, "")
-++	} else {
-++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
-++	}
-+ 	cmd.Flag.Var((*base.StringsFlag)(&buildGcflags), "gcflags", "")
-+ 	cmd.Flag.Var((*base.StringsFlag)(&buildGccgoflags), "gccgoflags", "")
-+ 	cmd.Flag.StringVar(&cfg.BuildContext.InstallSuffix, "installsuffix", "", "")
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/go/go_1.11.bb b/meta/recipes-devtools/go/go_1.11.bb
-index c67e2cb..ce3b905 100644
---- a/meta/recipes-devtools/go/go_1.11.bb
-+++ b/meta/recipes-devtools/go/go_1.11.bb
-@@ -1,2 +1,14 @@
- require go-${PV}.inc
- require go-target.inc
-+
-+export GOBUILDMODE=""
-+
-+# Add pie to GOBUILDMODE to satisfy "textrel" QA checking, but mips
-+# doesn't support -buildmode=pie, so skip the QA checking for mips and its
-+# variants.
-+python() {
-+    if 'mips' in d.getVar('TARGET_ARCH'):
-+        d.appendVar('INSANE_SKIP_%s' % d.getVar('PN'), " textrel")
-+    else:
-+        d.appendVar('GOBUILDMODE', 'pie')
-+}
-diff --git a/meta/recipes-devtools/go/go_1.9.bb b/meta/recipes-devtools/go/go_1.9.bb
-index 7da7897..c5cdfb6 100644
---- a/meta/recipes-devtools/go/go_1.9.bb
-+++ b/meta/recipes-devtools/go/go_1.9.bb
-@@ -5,6 +5,7 @@ export GO_TARGET_INSTALL = "cmd"
- export GO_FLAGS = "-a"
- export CC_FOR_TARGET = "${CC}"
- export CXX_FOR_TARGET = "${CXX}"
-+export GOBUILDMODE=""
- 
- do_compile() {
- 	export GOBIN="${B}/bin"
-@@ -16,9 +17,12 @@ do_compile() {
- 	cd ${B}
- }
- 
--# for aarch64 ends with textrel in ${PN}
--# http://errors.yoctoproject.org/Errors/Details/185634/
--# ERROR: QA Issue: ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/bin/go' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/pkg/tool/linux_arm64/trace' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/pkg/tool/linux_arm64/pprof' has relocations in .text [textrel]
--INSANE_SKIP_${PN} += "textrel"
-+# Add pie to GOBUILDMODE to satisfy "textrel" QA checking, but mips
-+# doesn't support -buildmode=pie, so skip the QA checking for mips and its
-+# variants.
-+python() {
-+    if 'mips' in d.getVar('TARGET_ARCH'):
-+        d.appendVar('INSANE_SKIP_%s' % d.getVar('PN'), " textrel")
-+    else:
-+        d.appendVar('GOBUILDMODE', 'pie')
-+}
+ UVESA_MODE ?= "640x480-32"
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index d2f2c85..a544312 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -14,7 +14,8 @@ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;ttyAMA1"
+ QB_SYSTEM_NAME = "qemu-system-arm"
+ QB_MACHINE = "-machine versatilepb"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
++QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet -device virtio-rng-pci"
++QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ PREFERRED_VERSION_linux-yocto ??= "4.18%"
+ QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index 242889a..34fcd2a 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -16,7 +16,9 @@ QB_MACHINE = "-machine virt"
+ QB_CPU = "-cpu cortex-a57"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,38400"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND = "-show-cursor -device virtio-rng-pci -monitor null"
++QB_OPT_APPEND = "-show-cursor -monitor null"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
++QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+ QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
+ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
+diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
+index 537b2f6..743d261 100644
+--- a/meta/conf/machine/qemuppc.conf
++++ b/meta/conf/machine/qemuppc.conf
+@@ -16,6 +16,7 @@ QB_SYSTEM_NAME = "qemu-system-ppc"
+ QB_MACHINE = "-machine mac99"
+ QB_CPU = "-cpu G4"
+ QB_KERNEL_CMDLINE_APPEND = "console=tty console=ttyS0"
++QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet -device virtio-rng-pci"
++QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
 -- 
-2.7.4
+2.8.1
 
 
