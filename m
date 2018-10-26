@@ -1,27 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 044F579A4B
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1576079716
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2018 08:14:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9Q8ExtN002651
+	Fri, 26 Oct 2018 09:32:27 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9Q9WRWD008543
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 26 Oct 2018 01:14:59 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Fri, 26 Oct 2018 01:14:58 -0700
-To: Joris Offouga <offougajoris@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1540540475-16854-1-git-send-email-offougajoris@gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <a5ba8f2f-ad47-d177-e1b6-fc7fee05d429@windriver.com>
-Date: Fri, 26 Oct 2018 16:21:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Fri, 26 Oct 2018 02:32:27 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Fri, 26 Oct 2018 02:32:27 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Fri, 26 Oct 2018 17:42:51 +0800
+Message-ID: <1540546971-36870-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <1540540475-16854-1-git-send-email-offougajoris@gmail.com>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [meta-python][PATCHV2] Add recipes for django rest framework
+Subject: [PATCH] go 1.9/1.11: fix textrel qa warning for non mips arch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,74 +30,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2018 08:14:59 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Oct 2018 09:32:28 -0000
+Content-Type: text/plain
 
-Hi Joris,
+While building go itself, the go build system does not support
+to set `-buildmode=pie' from environment.
 
-I think this patch should be sent to 
-openembedded-devel@lists.openembedded.org
-Title should be "[oe][meta-python][PATCH] Add recipes for django rest 
-framework"
+Add GOBUILDMODE to support it which make PIE executables the default
+build mode, as PIE executables are required as of Yocto
 
-Best Regards,
-Chen Qi
+But mips doesn't support -buildmode=pie, so skip the QA checking for
+mips and its variants
 
-On 10/26/2018 03:54 PM, Joris Offouga wrote:
-> For create a database with django
->
-> Signed-off-by: Joris Offouga <offougajoris@gmail.com>
-> ---
->   .../python/python-djangorestframework.inc                | 16 ++++++++++++++++
->   .../python/python-djangorestframework_3.9.0.bb           |  2 ++
->   .../python/python3-djangorestframework_3.9.0.bb          |  2 ++
->   3 files changed, 20 insertions(+)
->   create mode 100644 meta-python/recipes-devtools/python/python-djangorestframework.inc
->   create mode 100644 meta-python/recipes-devtools/python/python-djangorestframework_3.9.0.bb
->   create mode 100644 meta-python/recipes-devtools/python/python3-djangorestframework_3.9.0.bb
->
-> diff --git a/meta-python/recipes-devtools/python/python-djangorestframework.inc b/meta-python/recipes-devtools/python/python-djangorestframework.inc
-> new file mode 100644
-> index 0000000..8551a83
-> --- /dev/null
-> +++ b/meta-python/recipes-devtools/python/python-djangorestframework.inc
-> @@ -0,0 +1,16 @@
-> +SUMMARY =  "djangorestframework"
-> +DESCRIPTION = "pip3 install djangorestframework"
-> +HOMEPAGE = "https://pypi.python.org/pypi/djangorestframework"
-> +
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7879a5a716147a784f7e524c9cf103c1"
-> +
-> +SRC_URI[md5sum] = "0d481bf8dbb87bb927b46798edc1a9bd"
-> +SRC_URI[sha256sum] = "607865b0bb1598b153793892101d881466bd5a991de12bd6229abb18b1c86136"
-> +PYPI_PACKAGE = "djangorestframework"
-> +
-> +inherit pypi
-> +
-> +RDEPENDS_${PN} += "\
-> +    ${PYTHON_PN}-django \
-> +"
-> \ No newline at end of file
-> diff --git a/meta-python/recipes-devtools/python/python-djangorestframework_3.9.0.bb b/meta-python/recipes-devtools/python/python-djangorestframework_3.9.0.bb
-> new file mode 100644
-> index 0000000..540d12d
-> --- /dev/null
-> +++ b/meta-python/recipes-devtools/python/python-djangorestframework_3.9.0.bb
-> @@ -0,0 +1,2 @@
-> +require python-djangorestframework.inc
-> +inherit setuptools
-> \ No newline at end of file
-> diff --git a/meta-python/recipes-devtools/python/python3-djangorestframework_3.9.0.bb b/meta-python/recipes-devtools/python/python3-djangorestframework_3.9.0.bb
-> new file mode 100644
-> index 0000000..9ed6d17
-> --- /dev/null
-> +++ b/meta-python/recipes-devtools/python/python3-djangorestframework_3.9.0.bb
-> @@ -0,0 +1,2 @@
-> +require python-djangorestframework.inc
-> +inherit setuptools3
-> \ No newline at end of file
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-devtools/go/go-1.11.inc               |  1 +
+ .../0008-use-GOBUILDMODE-to-set-buildmode.patch    | 40 ++++++++++++++++++++++
+ meta/recipes-devtools/go/go-1.9.inc                |  1 +
+ .../0011-use-GOBUILDMODE-to-set-buildmode.patch    | 40 ++++++++++++++++++++++
+ meta/recipes-devtools/go/go_1.11.bb                | 12 +++++++
+ meta/recipes-devtools/go/go_1.9.bb                 | 16 +++++----
+ 6 files changed, 104 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch
 
+diff --git a/meta/recipes-devtools/go/go-1.11.inc b/meta/recipes-devtools/go/go-1.11.inc
+index c02e468..d626514 100644
+--- a/meta/recipes-devtools/go/go-1.11.inc
++++ b/meta/recipes-devtools/go/go-1.11.inc
+@@ -15,6 +15,7 @@ SRC_URI += "\
+     file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
+     file://0006-cmd-dist-separate-host-and-target-builds.patch \
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
++    file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+diff --git a/meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch b/meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch
+new file mode 100644
+index 0000000..88986dc
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch
+@@ -0,0 +1,40 @@
++From 0e0c247f0caec23528889ff09d98348cba9028f1 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Fri, 26 Oct 2018 15:02:32 +0800
++Subject: [PATCH] use GOBUILDMODE to set buildmode
++
++While building go itself, the go build system does not support
++to set `-buildmode=pie' from environment.
++
++Add GOBUILDMODE to support it which make PIE executables the default
++build mode, as PIE executables are required as of Yocto
++
++Refers: https://groups.google.com/forum/#!topic/golang-dev/gRCe5URKewI
++Upstream-Status: Deny [upstream choose antoher solution: `17a256b
++cmd/go: -buildmode=pie for android/arm']
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ src/cmd/go/internal/work/build.go | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/src/cmd/go/internal/work/build.go b/src/cmd/go/internal/work/build.go
++index 145b875..595d703 100644
++--- a/src/cmd/go/internal/work/build.go
+++++ b/src/cmd/go/internal/work/build.go
++@@ -218,7 +218,11 @@ func AddBuildFlags(cmd *base.Command) {
++ 
++ 	cmd.Flag.Var(&load.BuildAsmflags, "asmflags", "")
++ 	cmd.Flag.Var(buildCompiler{}, "compiler", "")
++-	cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
+++	if bm := os.Getenv("GOBUILDMODE"); bm != "" {
+++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", bm, "")
+++	} else {
+++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
+++	}
++ 	cmd.Flag.Var(&load.BuildGcflags, "gcflags", "")
++ 	cmd.Flag.Var(&load.BuildGccgoflags, "gccgoflags", "")
++ 	cmd.Flag.StringVar(&cfg.BuildMod, "mod", "", "")
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
+index 329cee0..ba1eaa0 100644
+--- a/meta/recipes-devtools/go/go-1.9.inc
++++ b/meta/recipes-devtools/go/go-1.9.inc
+@@ -19,6 +19,7 @@ SRC_URI += "\
+         file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
+         file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
+         file://0010-make.bash-override-CC-when-building-dist-and-go_boot.patch \
++        file://0011-use-GOBUILDMODE-to-set-buildmode.patch \
+ "
+ SRC_URI_append_libc-musl = " file://set-external-linker.patch"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch b/meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch
+new file mode 100644
+index 0000000..e69ce06
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch
+@@ -0,0 +1,40 @@
++From b928fafab1d9425aae9341806bd2f6178ba1da1f Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Fri, 26 Oct 2018 16:32:50 +0800
++Subject: [PATCH] use GOBUILDMODE to set buildmode
++
++While building go itself, the go build system does not support
++to set `-buildmode=pie' from environment.
++
++Add GOBUILDMODE to support it which make PIE executables the default
++build mode, as PIE executables are required as of Yocto
++
++Refers: https://groups.google.com/forum/#!topic/golang-dev/gRCe5URKewI
++Upstream-Status: Deny [upstream choose antoher solution: `17a256b
++cmd/go: -buildmode=pie for android/arm']
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ src/cmd/go/internal/work/build.go | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/src/cmd/go/internal/work/build.go b/src/cmd/go/internal/work/build.go
++index b276de5..1683e7e 100644
++--- a/src/cmd/go/internal/work/build.go
+++++ b/src/cmd/go/internal/work/build.go
++@@ -211,7 +211,11 @@ func AddBuildFlags(cmd *base.Command) {
++ 
++ 	cmd.Flag.Var((*base.StringsFlag)(&buildAsmflags), "asmflags", "")
++ 	cmd.Flag.Var(buildCompiler{}, "compiler", "")
++-	cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
+++	if bm := os.Getenv("GOBUILDMODE"); bm != "" {
+++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", bm, "")
+++	} else {
+++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
+++	}
++ 	cmd.Flag.Var((*base.StringsFlag)(&buildGcflags), "gcflags", "")
++ 	cmd.Flag.Var((*base.StringsFlag)(&buildGccgoflags), "gccgoflags", "")
++ 	cmd.Flag.StringVar(&cfg.BuildContext.InstallSuffix, "installsuffix", "", "")
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/go/go_1.11.bb b/meta/recipes-devtools/go/go_1.11.bb
+index c67e2cb..ce3b905 100644
+--- a/meta/recipes-devtools/go/go_1.11.bb
++++ b/meta/recipes-devtools/go/go_1.11.bb
+@@ -1,2 +1,14 @@
+ require go-${PV}.inc
+ require go-target.inc
++
++export GOBUILDMODE=""
++
++# Add pie to GOBUILDMODE to satisfy "textrel" QA checking, but mips
++# doesn't support -buildmode=pie, so skip the QA checking for mips and its
++# variants.
++python() {
++    if 'mips' in d.getVar('TARGET_ARCH'):
++        d.appendVar('INSANE_SKIP_%s' % d.getVar('PN'), " textrel")
++    else:
++        d.appendVar('GOBUILDMODE', 'pie')
++}
+diff --git a/meta/recipes-devtools/go/go_1.9.bb b/meta/recipes-devtools/go/go_1.9.bb
+index 7da7897..c5cdfb6 100644
+--- a/meta/recipes-devtools/go/go_1.9.bb
++++ b/meta/recipes-devtools/go/go_1.9.bb
+@@ -5,6 +5,7 @@ export GO_TARGET_INSTALL = "cmd"
+ export GO_FLAGS = "-a"
+ export CC_FOR_TARGET = "${CC}"
+ export CXX_FOR_TARGET = "${CXX}"
++export GOBUILDMODE=""
+ 
+ do_compile() {
+ 	export GOBIN="${B}/bin"
+@@ -16,9 +17,12 @@ do_compile() {
+ 	cd ${B}
+ }
+ 
+-# for aarch64 ends with textrel in ${PN}
+-# http://errors.yoctoproject.org/Errors/Details/185634/
+-# ERROR: QA Issue: ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/bin/go' has relocations in .text
+-# ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/pkg/tool/linux_arm64/trace' has relocations in .text
+-# ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/pkg/tool/linux_arm64/pprof' has relocations in .text [textrel]
+-INSANE_SKIP_${PN} += "textrel"
++# Add pie to GOBUILDMODE to satisfy "textrel" QA checking, but mips
++# doesn't support -buildmode=pie, so skip the QA checking for mips and its
++# variants.
++python() {
++    if 'mips' in d.getVar('TARGET_ARCH'):
++        d.appendVar('INSANE_SKIP_%s' % d.getVar('PN'), " textrel")
++    else:
++        d.appendVar('GOBUILDMODE', 'pie')
++}
+-- 
+2.7.4
 
 
