@@ -1,38 +1,27 @@
-Return-Path: <kamensky@cisco.com>
-Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
-	by mail.openembedded.org (Postfix) with ESMTP id 25F766079F
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A26271B27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2018 04:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2609; q=dns/txt; s=iport;
-	t=1540529591; x=1541739191;
-	h=from:to:cc:subject:date:message-id;
-	bh=mouK3usr1lOlxE32Gn2beLo/zAzZEM8REEFwjQ9f/U4=;
-	b=eRfv2p4I/JbhtFwKkoVLBX4yYrAp3z0jp3w+tieiCRaDJh6p/5nzFVMj
-	MMCHAu/IfnniZ4TN+HZUJjMUl6iRX+Y+FFle56eVw6VMgNz0UFUDA2wy8
-	f4TMVqjeJR/fpwsGXVKSIIO+v+PdgLUYuEyXnaYswCzPpHy1FmGierifa 8=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AmAAAzndJb/4MNJK1jHAEBAQQBAQc?=
-	=?us-ascii?q?EAQGBUQcBAQsBggSBZSiMDYwXmSmBegsBAYRsgxMhNA0NAQMBAQIBAQJtKIU?=
-	=?us-ascii?q?8BHoFgUyDIYF6CKhnih2HQYQmF4IAiW6FDgKIZj+GLI8qCYoIhmwLGIFSjnE?=
-	=?us-ascii?q?BiTKNNwIEBgUCFIFDOIFVTSMVgyeQdx8wjSkBAQ?=
-X-IronPort-AV: E=Sophos;i="5.54,426,1534809600"; d="scan'208";a="387071261"
-Received: from alln-core-1.cisco.com ([173.36.13.131])
-	by rcdn-iport-9.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Oct 2018 04:53:10 +0000
-Received: from kamensky-w541.cisco.com ([10.24.44.84]) (authenticated bits=0)
-	by alln-core-1.cisco.com (8.15.2/8.15.2) with ESMTPSA id w9Q4r5Ut011032
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); 
-	Fri, 26 Oct 2018 04:53:10 GMT
-From: Victor Kamensky <kamensky@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Oct 2018 21:53:03 -0700
-Message-Id: <20181026045303.10592-1-kamensky@cisco.com>
-X-Mailer: git-send-email 2.17.2
-X-Authenticated-User: kamensky@cisco.com
-X-Outbound-SMTP-Client: 10.24.44.84, [10.24.44.84]
-X-Outbound-Node: alln-core-1.cisco.com
-Subject: [PATCH] sysklogd: add alternatives for klogd and syslogd
+	Fri, 26 Oct 2018 05:02:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9Q52TkB016124
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 Oct 2018 22:02:29 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Thu, 25 Oct 2018 22:02:28 -0700
+To: Victor Kamensky <kamensky@cisco.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20181026045303.10592-1-kamensky@cisco.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <71927521-2b7f-7ca9-e428-7a8a52c44eca@windriver.com>
+Date: Fri, 26 Oct 2018 13:08:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <20181026045303.10592-1-kamensky@cisco.com>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [PATCH] sysklogd: add alternatives for klogd and syslogd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,68 +34,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2018 04:53:10 -0000
+X-List-Received-Date: Fri, 26 Oct 2018 05:02:30 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Otherwise when used in presense of busybox that provides
-its own version of klogd and syslogd, image packaging
-complains that klogd exists and it is not syymbolic link.
-Failure happens only if image packaging script install
-sysklogd package first followed by installtion of busybox
-package. If during packaging reverse installtion order
-happens, busybox first followed by sysklogd, packaging
-succeed.
+On 10/26/2018 12:53 PM, Victor Kamensky via Openembedded-core wrote:
+> Otherwise when used in presense of busybox that provides
+> its own version of klogd and syslogd, image packaging
+> complains that klogd exists and it is not syymbolic link.
+> Failure happens only if image packaging script install
+> sysklogd package first followed by installtion of busybox
+> package.
 
-Note this fix along with recently committed
-55ba9dc1f8 sysklogd: Re-enable alternatives for syslogd.8 man page
-effectively reverts this commit
-988aad01b2 sysklogd: don't use update-alternatives
+Hi Victor,
 
-Signed-off-by: Victor Kamensky <kamensky@cisco.com>
----
-Hi Guys,
+I think this problem has been fixed by the following commit.
 
-Here is more details. Example of failure that I observe:
+"""
+commit ef11c54ba99af261a70ec31091216cdd1556da24
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Wed Sep 5 17:39:31 2018 +0100
 
-update-alternatives: Error: not linking /home/wd8/oe/20181021/build/tmp-glibc/work/intel_corei7_64-oe-linux/kdevel-console-devel-image/1.0-r0/rootfs/sbin/klogd to /usr/lib/busybox/sbin/klogd since /home/wd8/oe/20181021/build/tmp-glibc/work/intel_corei7_64-oe-linux/kdevel-console-devel-image/1.0-r0/rootfs/sbin/klogd exists and is not a link
+     busybox: Put klogd/syslogd alternative links in syslog package
 
-Also 988aad01b2 says:
+     Currently these are in ${PN} and ${PN}-syslog may get replaced by
+     other packages but update-alternatives would error in the postinst
+     if other files were installed first. Avoid the problems by putting
+     the links in the correct package.
 
-> Using update-alternatives for managing init scripts has proved to be
-> problematic. And, sysklogd rconflicts with other syslog daemons so there
-> is no point in using update-alternatives from this perspective, either.
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+"""
 
-I am not sure why "managing init scripts has proved to be problematic" and
-syslogd and klogd are not really init script per se, aren't they? Also
-klogd and syslogd actually come from busybox, not busybox-syslog as listed
-in sysklogd RCONFLICTS. Maybe it what has changed since 988aad01b2.
-busybox-syslog now contains only init script for syslog and its
-configuration.
+For the current status, the update-alternatives operations for syslogd 
+and klogd should be in the busybox-syslog package, which conflicts with 
+sysklogd package.
 
-Adding Markus for further comments.
+Could you please help check this?
 
- meta/recipes-extended/sysklogd/sysklogd.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+Best Regards,
+Chen Qi
 
-diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
-index f151dd87f7..4393a39180 100644
---- a/meta/recipes-extended/sysklogd/sysklogd.inc
-+++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-@@ -60,9 +60,14 @@ FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES','systemd','${exec_prefix}
- 
- ALTERNATIVE_PRIORITY = "100"
- 
-+ALTERNATIVE_${PN} = "syslogd klogd"
-+
- ALTERNATIVE_${PN}-doc = "syslogd.8"
- ALTERNATIVE_LINK_NAME[syslogd.8] = "${mandir}/man8/syslogd.8"
- 
-+ALTERNATIVE_LINK_NAME[syslogd] = "${base_sbindir}/syslogd"
-+ALTERNATIVE_LINK_NAME[klogd] = "${base_sbindir}/klogd"
-+
- pkg_prerm_${PN} () {
- 	if test "x$D" = "x"; then
- 	if test "$1" = "upgrade" -o "$1" = "remove"; then
--- 
-2.17.2
+>   If during packaging reverse installtion order
+> happens, busybox first followed by sysklogd, packaging
+> succeed.
+>
+> Note this fix along with recently committed
+> 55ba9dc1f8 sysklogd: Re-enable alternatives for syslogd.8 man page
+> effectively reverts this commit
+> 988aad01b2 sysklogd: don't use update-alternatives
+>
+> Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+> ---
+> Hi Guys,
+>
+> Here is more details. Example of failure that I observe:
+>
+> update-alternatives: Error: not linking /home/wd8/oe/20181021/build/tmp-glibc/work/intel_corei7_64-oe-linux/kdevel-console-devel-image/1.0-r0/rootfs/sbin/klogd to /usr/lib/busybox/sbin/klogd since /home/wd8/oe/20181021/build/tmp-glibc/work/intel_corei7_64-oe-linux/kdevel-console-devel-image/1.0-r0/rootfs/sbin/klogd exists and is not a link
+>
+> Also 988aad01b2 says:
+>
+>> Using update-alternatives for managing init scripts has proved to be
+>> problematic. And, sysklogd rconflicts with other syslog daemons so there
+>> is no point in using update-alternatives from this perspective, either.
+> I am not sure why "managing init scripts has proved to be problematic" and
+> syslogd and klogd are not really init script per se, aren't they? Also
+> klogd and syslogd actually come from busybox, not busybox-syslog as listed
+> in sysklogd RCONFLICTS. Maybe it what has changed since 988aad01b2.
+> busybox-syslog now contains only init script for syslog and its
+> configuration.
+>
+> Adding Markus for further comments.
+>
+>   meta/recipes-extended/sysklogd/sysklogd.inc | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+> index f151dd87f7..4393a39180 100644
+> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
+> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+> @@ -60,9 +60,14 @@ FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES','systemd','${exec_prefix}
+>   
+>   ALTERNATIVE_PRIORITY = "100"
+>   
+> +ALTERNATIVE_${PN} = "syslogd klogd"
+> +
+>   ALTERNATIVE_${PN}-doc = "syslogd.8"
+>   ALTERNATIVE_LINK_NAME[syslogd.8] = "${mandir}/man8/syslogd.8"
+>   
+> +ALTERNATIVE_LINK_NAME[syslogd] = "${base_sbindir}/syslogd"
+> +ALTERNATIVE_LINK_NAME[klogd] = "${base_sbindir}/klogd"
+> +
+>   pkg_prerm_${PN} () {
+>   	if test "x$D" = "x"; then
+>   	if test "$1" = "upgrade" -o "$1" = "remove"; then
+
 
 
