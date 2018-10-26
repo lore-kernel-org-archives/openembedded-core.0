@@ -1,48 +1,43 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 61D2179C53
+Return-Path: <alan.kozlay@ves.solutions>
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+	[209.85.215.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C360171E4C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2018 17:46:18 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id c21-v6so1930212ljj.1
+	Fri, 26 Oct 2018 19:11:40 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id s3-v6so949141pga.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2018 10:46:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=2ZQbhz5Knn6PfwfKs1XAlV8mMHIhHLZgafq7zsUQ0DQ=;
-	b=czb49SHH505W8k+ySoms85Qlhe7iO3a+7NHnxeK+ldQe2brUGgNb7+fA7P+S8vgkFu
-	faKZyC7bG/gZnC1t5+rf4vwXRL6GVdnr5/GrnfQoqflMjtUmGeqh5T20rtznvGVa1GRZ
-	IJS3/k1UXdqtRDKDw4XBhoaWZanVQLYDNsaMbeJKnJEdLFhqLGucqj/T5/Xp+RyIN/d6
-	bgEE7Wkfjgfrh/jFHFL6GfalHcOZ5zHHwplmkqU9a+9JlGhUgsa3T9pnh5G7pmOFauji
-	wcTj86jzGmMYLuSiq861QTjmFsmqJb7JWyGYmRoGm0lLT6P6qU1Iy01fVUb/DyWpr3ci
-	Z0+g==
+	Fri, 26 Oct 2018 12:11:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ves-solutions-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=2jaFrhEjZqdwSoMoiJlX8CiEdegFVaZ6HbUtBq2zCdU=;
+	b=0Ji/+NU0asEa+n5Mn91k7/tst03ZxNyJGtae76OZsObvzRBZmSJJZHh7LN1qZKtAru
+	jQ0UPtPfpT73JqFUFbWaAog7CGGznu77wDKmd3jdtI/IAvvG+NS6pJsIfFgwzOoEn38a
+	5ACrasguu8n3LhE+w8nwkRNTYcBJzl1PrV6pJD4u8cdMo9y2MGzR4lGvTqrInRkLvCBJ
+	ucGE/nyhkLjfzv++D7ym/goTZMVI1Vgwt629QBPgCNON/YxyLOZgIhhv/Kt+5qoPvO/u
+	S8/w7NdS5AeiPusWoaWagVXzjaFAMABst2fWHZTs3WZkZOJstzRG09CMeCLDzraBePFW
+	qsdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=2ZQbhz5Knn6PfwfKs1XAlV8mMHIhHLZgafq7zsUQ0DQ=;
-	b=kfrcqrU0YDdhoueoGS2bMuTPjMOtdX8S97w45bxLo6qjNZupIxCVBtSu/djg/Ckb8v
-	H/Cg0fXZc6DBV1W1t42QLPnheFlu3LzW8YK9BzFOc9IYwdf4st8ju+RHjxEpQxF/eCIm
-	4qlLgdDqjt1aHmIh9ipcKZ/5pn3P079LGNvMvMyCRoWiT184DOjuqpVTF7vcty0v56jI
-	Yz+QrzbL9Y2oDQeJr1bnqi2ktk0zw5wsUTrnOKsFbOZ2PDryfe6YoGwMIg4eKWpP5dKB
-	YOirF75/9t+y+aTU0jWKsSmeE3g6xVO4zIe7spHMjp5g5ivxjE9zEFjcmAPUrOYgkBRw
-	WOAA==
-X-Gm-Message-State: AGRZ1gJ8KXw7Xob6YQOPQfAQnUDl7hv7m542yFESP6UB6qPnrdFcYi4b
-	Sg/tAYqKgD2Vm9Hyd5plpKGjzJCVMx6i4/HXyw4=
-X-Google-Smtp-Source: AJdET5cwa/ccMgR1Mb8yC2jOa7kgfQu/YOCXKpeP1jqz/tIEMSK5WaDO94yWLD/+0DNxKGpPJ0Asye9BO6f9RJZIuI8=
-X-Received: by 2002:a2e:8743:: with SMTP id q3-v6mr3253254ljj.80.1540575978819;
-	Fri, 26 Oct 2018 10:46:18 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=2jaFrhEjZqdwSoMoiJlX8CiEdegFVaZ6HbUtBq2zCdU=;
+	b=GVbwmY+RAlepgzfoXDx6LiFT18oJXe0kEadxGrCKa0oCusKxF/HN4SBb/vJPhFFFa1
+	V/j5i1LegF2+ieDByyu+vazdNZ1BEAWJYJMH6Keu6C/qVpuSz5kuedwHcTkhlym8vKOm
+	p7BdSTMiGM/EjrAXd5NL2X7GNv9THpXR9TrI5vjhePegYs8oROiURjbOdj2nupYQnQ7O
+	kIASIl1dYNqeLWzEvJn5aSJc+9Dr5UVmwwNr7mP9sTrm7MSo6zIAOO2BGPWBSJAQOxhq
+	XdES8El4JKh26yGLts4Vzdk//sUYzlsJTY05259kHaoBMsxjqV/IIV7I1TiviDBCUgTV
+	uipQ==
+X-Gm-Message-State: AGRZ1gJkt4Sa1oOeW6u6Nv6ZvoStbKagM3ww1IIS6H+iAGjUZhLR0eG+
+	+a0bjVqDMTNgqJWXQSXJsfD5pdFKFVvlMHpN8pJZPR3FNnA=
+X-Google-Smtp-Source: AJdET5cGhusIPSO75SYGCrllllmaBT7XtznObXfWvPNn3fcv6sk+KJpVlexXoUZgjEtWHMrf57BQ/hIYcqYIvk4CDS0=
+X-Received: by 2002:a63:81c7:: with SMTP id t190mr4667526pgd.393.1540581101556;
+	Fri, 26 Oct 2018 12:11:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181019152214.1600-1-o.mandel@menlosystems.com>
-In-Reply-To: <20181019152214.1600-1-o.mandel@menlosystems.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-Date: Fri, 26 Oct 2018 11:46:07 -0600
-Message-ID: <CACS+7ZTTdXs4WuMqBede2KPrsxWu-By1CvZ8t8SvLzRUU-Z6RA@mail.gmail.com>
-To: o.mandel@menlosystems.com
-Cc: marex@denx.de, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] npm: change install directory to upstream default
+From: Alan Kozlay <alan.kozlay@ves-solutions.com>
+Date: Fri, 26 Oct 2018 15:11:05 -0400
+Message-ID: <CAJE9sGmRD4VtDKfcrBzpLNC5LZF7O1z3sOzvaHXo3PKzXTed9w@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: disabling the whitelist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +50,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2018 17:46:18 -0000
+X-List-Received-Date: Fri, 26 Oct 2018 19:11:40 -0000
+Content-Type: multipart/alternative; boundary="0000000000004e97690579267d81"
+
+--0000000000004e97690579267d81
 Content-Type: text/plain; charset="UTF-8"
+
+Community,
+
+We have a whitelist for packages in place and whitelist.bbclass works as
+expected.  But is there a simple mechanism that can be employed in
+local.conf to disable it, when needed?
+
+To be clear, we don't want it disabled all of the time, but it would help
+to have a simple line in local.conf disabled it, during development.
+
+Any ideas?
+
+-Alan
+
+-- 
+Alan Kozlay
+VES Solutions, LLC
+Alan Kozlay <alan.kozlay@ves.solutions>
+DESK 443-595-7734
+CELL 443-752-0323
+
+--0000000000004e97690579267d81
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 19 Oct 2018 at 09:29, Olaf Mandel <o.mandel@menlosystems.com> wrote=
-:
->
-> The node binary searches for packages in a number of locations, the last
-> of which is $PREFIX/lib/node (here: /usr/lib/node) from the list of
-> GLOBAL_FOLDERS [1]. Change the installation directory for all packages
-> depending on npm.bbclass to that location. This removes the need to
-> define the NODE_PATH variable to the non-standard /usr/lib/node_modules
-> value.
->
-> While the Tips for Package Managers [2] discusses installing packages to
-> /usr/lib/node_modules/<name>/<version>, this has several drawbacks:
->
->  * it does not work for the REPL as mentioned in the documentation
->  * it also does not work for any code _not_ installed as a global
->    package under /usr/lib/node_modules (e.g. /usr/share/foo.js will not
->    find any packages below /usr/lib)
->  * using the non-default location and then having to set NODE_PATH
->    barely saves any time: there are only two file-system lookups (to the
->    legacy $HOME/.node_modules and $HOME/.node_libraries) directories
->    before the library would be found
->
-> And the suggestion was made in the context of deduping the node_modules
-> tree by installing all packages in a flat hierarchy and using symlinks
-> to the correct version of each dependency. This is not what OpenEmbedded
-> does, so none of those benefits (deduping, cleaner packages) are being
-> had by shifting the installation directory to /usr/lib/node_modules.
->
-> [1]: https://nodejs.org/api/modules.html#modules_loading_from_the_global_=
-folders
-> [2]: https://nodejs.org/api/modules.html#modules_addenda_package_manager_=
-tips
->
-> Signed-off-by: Olaf Mandel <o.mandel@menlosystems.com>
-> ---
->  meta/classes/npm.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-> index c351ff0866..d5ff0c6d57 100644
-> --- a/meta/classes/npm.bbclass
-> +++ b/meta/classes/npm.bbclass
-> @@ -10,7 +10,7 @@ def node_pkgname(d):
->
->  NPMPN ?=3D "${@node_pkgname(d)}"
->
-> -NPM_INSTALLDIR =3D "${D}${libdir}/node_modules/${NPMPN}"
-> +NPM_INSTALLDIR =3D "${D}${libdir}/node/${NPMPN}"
+<div dir=3D"ltr">Community,<br clear=3D"all"><div><br></div><div>We have a =
+whitelist for packages in place and whitelist.bbclass works as expected.=C2=
+=A0 But is there a simple mechanism that can be employed in local.conf to d=
+isable it, when needed?</div><div><br></div><div>To be clear, we don&#39;t =
+want it disabled all of the time, but it would help to have a simple line i=
+n local.conf disabled it, during development.</div><div><br></div><div>Any =
+ideas?</div><div><br></div><div>-Alan</div><div><br></div>-- <br><div dir=
+=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div =
+dir=3D"ltr"><div><div dir=3D"ltr"><span><div><div dir=3D"ltr"><div><div>Ala=
+n Kozlay<br></div><div dir=3D"ltr">VES Solutions, LLC<br><span>Alan Kozlay =
+&lt;alan.kozlay@ves.solutions&gt;</span><div>DESK 443-595-7734<br></div><di=
+v>CELL 443-752-0323</div></div></div></div></div></span></div></div></div><=
+/div><input name=3D"virtru-metadata" type=3D"hidden" value=3D"{&quot;email-=
+policy&quot;:{&quot;state&quot;:&quot;closed&quot;,&quot;expirationUnit&quo=
+t;:&quot;days&quot;,&quot;disableCopyPaste&quot;:false,&quot;disablePrint&q=
+uot;:false,&quot;disableForwarding&quot;:false,&quot;enableNoauth&quot;:fal=
+se,&quot;expires&quot;:false,&quot;isManaged&quot;:false},&quot;attachments=
+&quot;:{},&quot;compose-id&quot;:&quot;3&quot;,&quot;compose-window&quot;:{=
+&quot;secure&quot;:false}}"></div>
 
-=C3=8F realise this has already gone =C3=AEn, but should this be
-${nonarch_libdir}, or does it use /usr/lib64 or /usr/libx32 correctly?
-
->
->  # function maps arch names to npm arch names
->  def npm_oe_arch_map(target_arch, d):
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--0000000000004e97690579267d81--
