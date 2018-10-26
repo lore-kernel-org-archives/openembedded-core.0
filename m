@@ -1,25 +1,24 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 457F5745AB
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 67AD9745AB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2018 10:28:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9QASTqT022100
+	Fri, 26 Oct 2018 10:28:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9QARKtJ020833
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2018 03:28:29 -0700 (PDT)
+	Fri, 26 Oct 2018 03:28:21 -0700
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 26 Oct 2018 03:28:28 -0700
+	14.3.408.0; Fri, 26 Oct 2018 03:27:33 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Oct 2018 17:45:37 +0800
-Message-ID: <4009fec3e60f4b806c3d030fb55464efa1203b52.1540547104.git.kai.kang@windriver.com>
+Date: Fri, 26 Oct 2018 17:45:35 +0800
+Message-ID: <cover.1540547104.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1540547104.git.kai.kang@windriver.com>
-References: <cover.1540547104.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] toolchain-scripts.bbclass: fix paths of siteconfig files
+Subject: [PATCH 0/2] Fixes for groff and toolchain-scripts.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,48 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2018 10:28:28 -0000
+X-List-Received-Date: Fri, 26 Oct 2018 10:28:30 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-It can't find right siteconfig files in toolchain-scripts.bbclass after
-adapting to RSS. Correct the paths.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/classes/toolchain-scripts.bbclass | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+The following changes since commit 3be5331986289bf11040c241fd54239fb2011695:
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 6d1ba69473..cfc5eb9fae 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -158,7 +158,7 @@ EOF
- 
- #we get the cached site config in the runtime
- TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d)}"
--TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
-+TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${COMPONENTS_DIR}/${DEFAULTTUNE}"
- TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "virtual/${MLPREFIX}libc ncurses"
- DEPENDS += "${TOOLCHAIN_NEED_CONFIGSITE_CACHE}"
- 
-@@ -178,11 +178,12 @@ toolchain_create_sdk_siteconfig () {
- 		# Resolve virtual/* names to the real recipe name using sysroot-providers info
- 		case $sitefile in virtual/*)
- 			sitefile=`echo $sitefile | tr / _`
--			sitefile=`cat ${STAGING_DIR_TARGET}/sysroot-providers/$sitefile`
-+			sitefile=`cat ${STAGING_DIR_TARGET}/sysroot-providers/$sitefile | sed "s/^${MLPREFIX}//"`
- 		esac
- 
--		if [ -r ${TOOLCHAIN_CONFIGSITE_SYSROOTCACHE}/${sitefile}_config ]; then
--			cat ${TOOLCHAIN_CONFIGSITE_SYSROOTCACHE}/${sitefile}_config >> $siteconfig
-+		sitefile_config=${TOOLCHAIN_CONFIGSITE_SYSROOTCACHE}/${MLPREFIX}${sitefile}/${target_datadir}/${TARGET_SYS}_config_site.d/${sitefile}_config
-+		if [ -r $sitefile_config ]; then
-+			cat $sitefile_config >> $siteconfig
- 		fi
- 	done
- }
+  testimage.bbclass: define ptest suite variable (2018-10-25 14:53:44 +0100)
+
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/misc
+
+Kai Kang (2):
+  groff: not search fonts on build host
+  toolchain-scripts.bbclass: fix paths of siteconfig files
+
+ meta/classes/toolchain-scripts.bbclass        |  9 +++++----
+ ...groff-not-search-fonts-on-build-host.patch | 20 +++++++++++++++++++
+ meta/recipes-extended/groff/groff_1.22.3.bb   |  1 +
+ 3 files changed, 26 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-extended/groff/groff-1.22.3/groff-not-search-fonts-on-build-host.patch
+
 -- 
 2.18.0
 
