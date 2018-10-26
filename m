@@ -1,29 +1,47 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0158460069
+Return-Path: <offougajoris@gmail.com>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0890060069
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2018 07:29:50 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Oct 2018 00:29:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,427,1534834800"; d="scan'208";a="102829981"
-Received: from myang3-mobl.amr.corp.intel.com (HELO [10.252.18.29])
-	([10.252.18.29])
-	by orsmga001.jf.intel.com with ESMTP; 26 Oct 2018 00:29:50 -0700
-User-Agent: Microsoft-MacOutlook/10.10.3.181015
-Date: Fri, 26 Oct 2018 10:29:49 +0300
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Victor Kamensky <kamensky@cisco.com>,
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <445EEF2D-ABF2-4822-A390-D6D7DECAC6B9@linux.intel.com>
-Thread-Topic: [PATCH] sysklogd: add alternatives for klogd and syslogd
-References: <20181026045303.10592-1-kamensky@cisco.com>
-In-Reply-To: <20181026045303.10592-1-kamensky@cisco.com>
-Mime-version: 1.0
-Subject: Re: [PATCH] sysklogd: add alternatives for klogd and syslogd
+	Fri, 26 Oct 2018 07:45:00 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id t10-v6so255010wrn.10
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Oct 2018 00:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=MDShImA0zMckNg800AWJ+W2kU8DH8PTaEQNNH/5OQvU=;
+	b=OkpfMY0/LwO408yLWBwV71Ayjmyrqrx3crF2WjSs9poGoFBLssZ+O4DCWomue3AnoK
+	tHcTuu8GJPsxXLN0LPksbt+BDXKCwGkezvvBtlK9DmKMF5lkHyYXa8UlxeoZpJH/es+z
+	3Nkw+bVFBKPjyNF8C6uZEUsnZRKmFzZoxQDzRXSwpNyFgYECLZkWct0WdkicRLNd1pzn
+	6c5kEBS6uRG//6Drbrnq8S8GfMsg7IoqTw/hTgvsvlFd3KjdQ80zAGsN5h9vIaEbAZrN
+	fYx+XegeBzLg2NVkxt3+bXhhSWDbsGCPUZDGKZ5SyIcrR3Obm00rgooLi8sDxsdeTbXP
+	yp+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MDShImA0zMckNg800AWJ+W2kU8DH8PTaEQNNH/5OQvU=;
+	b=r3lAjUI4MrJ0XEHpDJJfso2pMy0VPkA8Faaei1aA68T+rqTnpRFkcweaF3j8A7RomY
+	Im94I9+OEQZ7q7rfDej3w4u4h3KR0mXTLah/GIOUSe0HG6wQcDF5c10vB6ncP0kERq9t
+	I2GbtMaUd99T5BJo5oEqAJELqCLd1sM3gVefsb/RMg/XySa5opbru61pzdJW6rFLcjZ8
+	Dq8NfHyljdyCXxufLelBReBmN1Y3HaWdnd9PxoHqs7Ei9slD6SJvIKIle+u6hrq5ZAkf
+	oGY0+ipBcnwNzCtcALDivnlLQBdsjQWfA883JDo6C3fxKYu5IJWncSWOKKcXka4OVlgt
+	yQfg==
+X-Gm-Message-State: AGRZ1gLd+fACy1Ng2+2tHn8jMh9beFIfYwcvC/fXvA+3939gsJLlC+Tm
+	OVvJYHKR7AVqkqZQVreTDdtHssHRsMI=
+X-Google-Smtp-Source: AJdET5dBRHPmVA59njdhVb8gqFBOQSbKs269sibLga3mAvsvaOfwPFlzWDoewo1CnQPyCZTk3oHcXg==
+X-Received: by 2002:adf:a706:: with SMTP id c6-v6mr5071055wrd.56.1540539901373;
+	Fri, 26 Oct 2018 00:45:01 -0700 (PDT)
+Received: from N2x0WU.auvence.co ([92.103.174.138])
+	by smtp.gmail.com with ESMTPSA id
+	l125-v6sm5298273wmb.1.2018.10.26.00.45.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 26 Oct 2018 00:45:00 -0700 (PDT)
+From: Joris Offouga <offougajoris@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Oct 2018 09:44:52 +0200
+Message-Id: <1540539892-14352-1-git-send-email-offougajoris@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [meta-oe][PATCH] Signed-off-by: Joris Offouga <offougajoris@gmail.com>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,100 +54,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2018 07:29:51 -0000
-Content-type: text/plain;
-	charset="UTF-8"
-Content-transfer-encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Oct 2018 07:45:01 -0000
 
-'why would you want to have multiple, alternative syslog daemons on the sys=
-tem? Wouldn't a better fix be to move the syslogd and klogd symlinks to the =
-busybox-syslog package? It doesn't seem to make much sense to have a syslogd=
- binary on the system without an init script(?)
+Add recipes for django rest framework
 
-The original problem really was related to managing init scripts with alter=
-natives (and I think that problem still persists, and, it shouldn't be done)=
-. So, using alternatives for the binaries wouldn't cause any problems. The q=
-uestion is just why to do this, instead of "fixing" the (binary) package con=
-tent so that existing rconflicts would handle it.
+For create a database with django
+---
+ .../python/python-djangorestframework.inc                | 16 ++++++++++++++++
+ .../python/python-djangorestframework_3.9.0.bb           |  2 ++
+ .../python/python3-djangorestframework_3.9.0.bb          |  2 ++
+ 3 files changed, 20 insertions(+)
+ create mode 100644 meta-python/recipes-devtools/python/python-djangorestframework.inc
+ create mode 100644 meta-python/recipes-devtools/python/python-djangorestframework_3.9.0.bb
+ create mode 100644 meta-python/recipes-devtools/python/python3-djangorestframework_3.9.0.bb
 
-Cheers,
-  Markus
-
-=EF=BB=BFOn 26/10/2018, 7.55, "Victor Kamensky" <kamensky@cisco.com> wrote:
-
-    Otherwise when used in presense of busybox that provides
-    its own version of klogd and syslogd, image packaging
-    complains that klogd exists and it is not syymbolic link.
-    Failure happens only if image packaging script install
-    sysklogd package first followed by installtion of busybox
-    package. If during packaging reverse installtion order
-    happens, busybox first followed by sysklogd, packaging
-    succeed.
-   =20
-    Note this fix along with recently committed
-    55ba9dc1f8 sysklogd: Re-enable alternatives for syslogd.8 man page
-    effectively reverts this commit
-    988aad01b2 sysklogd: don't use update-alternatives
-   =20
-    Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-    ---
-    Hi Guys,
-   =20
-    Here is more details. Example of failure that I observe:
-   =20
-    update-alternatives: Error: not linking /home/wd8/oe/20181021/build/tmp=
--glibc/work/intel_corei7_64-oe-linux/kdevel-console-devel-image/1.0-r0/rootf=
-s/sbin/klogd to /usr/lib/busybox/sbin/klogd since /home/wd8/oe/20181021/buil=
-d/tmp-glibc/work/intel_corei7_64-oe-linux/kdevel-console-devel-image/1.0-r0/=
-rootfs/sbin/klogd exists and is not a link
-   =20
-    Also 988aad01b2 says:
-   =20
-    > Using update-alternatives for managing init scripts has proved to be
-    > problematic. And, sysklogd rconflicts with other syslog daemons so th=
-ere
-    > is no point in using update-alternatives from this perspective, eithe=
-r.
-   =20
-    I am not sure why "managing init scripts has proved to be problematic" =
-and
-    syslogd and klogd are not really init script per se, aren't they? Also
-    klogd and syslogd actually come from busybox, not busybox-syslog as lis=
-ted
-    in sysklogd RCONFLICTS. Maybe it what has changed since 988aad01b2.
-    busybox-syslog now contains only init script for syslog and its
-    configuration.
-   =20
-    Adding Markus for further comments.
-   =20
-     meta/recipes-extended/sysklogd/sysklogd.inc | 5 +++++
-     1 file changed, 5 insertions(+)
-   =20
-    diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes=
--extended/sysklogd/sysklogd.inc
-    index f151dd87f7..4393a39180 100644
-    --- a/meta/recipes-extended/sysklogd/sysklogd.inc
-    +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-    @@ -60,9 +60,14 @@ FILES_${PN} +=3D "${@bb.utils.contains('DISTRO_FEATURE=
-S','systemd','${exec_prefix}
-    =20
-     ALTERNATIVE_PRIORITY =3D "100"
-    =20
-    +ALTERNATIVE_${PN} =3D "syslogd klogd"
-    +
-     ALTERNATIVE_${PN}-doc =3D "syslogd.8"
-     ALTERNATIVE_LINK_NAME[syslogd.8] =3D "${mandir}/man8/syslogd.8"
-    =20
-    +ALTERNATIVE_LINK_NAME[syslogd] =3D "${base_sbindir}/syslogd"
-    +ALTERNATIVE_LINK_NAME[klogd] =3D "${base_sbindir}/klogd"
-    +
-     pkg_prerm_${PN} () {
-     	if test "x$D" =3D "x"; then
-     	if test "$1" =3D "upgrade" -o "$1" =3D "remove"; then
-    --=20
-    2.17.2
-   =20
-   =20
-
+diff --git a/meta-python/recipes-devtools/python/python-djangorestframework.inc b/meta-python/recipes-devtools/python/python-djangorestframework.inc
+new file mode 100644
+index 0000000..8551a83
+--- /dev/null
++++ b/meta-python/recipes-devtools/python/python-djangorestframework.inc
+@@ -0,0 +1,16 @@
++SUMMARY =  "djangorestframework"
++DESCRIPTION = "pip3 install djangorestframework"
++HOMEPAGE = "https://pypi.python.org/pypi/djangorestframework"
++
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7879a5a716147a784f7e524c9cf103c1"
++
++SRC_URI[md5sum] = "0d481bf8dbb87bb927b46798edc1a9bd"
++SRC_URI[sha256sum] = "607865b0bb1598b153793892101d881466bd5a991de12bd6229abb18b1c86136"
++PYPI_PACKAGE = "djangorestframework"
++
++inherit pypi
++
++RDEPENDS_${PN} += "\
++    ${PYTHON_PN}-django \
++"
+\ No newline at end of file
+diff --git a/meta-python/recipes-devtools/python/python-djangorestframework_3.9.0.bb b/meta-python/recipes-devtools/python/python-djangorestframework_3.9.0.bb
+new file mode 100644
+index 0000000..540d12d
+--- /dev/null
++++ b/meta-python/recipes-devtools/python/python-djangorestframework_3.9.0.bb
+@@ -0,0 +1,2 @@
++require python-djangorestframework.inc
++inherit setuptools
+\ No newline at end of file
+diff --git a/meta-python/recipes-devtools/python/python3-djangorestframework_3.9.0.bb b/meta-python/recipes-devtools/python/python3-djangorestframework_3.9.0.bb
+new file mode 100644
+index 0000000..9ed6d17
+--- /dev/null
++++ b/meta-python/recipes-devtools/python/python3-djangorestframework_3.9.0.bb
+@@ -0,0 +1,2 @@
++require python-djangorestframework.inc
++inherit setuptools3
+\ No newline at end of file
+-- 
+2.7.4
 
 
