@@ -1,52 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C75678CBD
+Return-Path: <gtertych@cisco.com>
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+	by mail.openembedded.org (Postfix) with ESMTP id CC6D578D34
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2018 15:07:13 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id u1-v6so9111417wrn.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2018 08:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=fyqFfLMC51LPWAOoJD07V5FunxrCBVOUJG++z+z/cMg=;
-	b=QG6K7ufcqv+eBs2Xa5BwcFCB92iLUrAeY4fizvmGClkZOFTR1gv9IPcQdbg5smGEik
-	iDctQf4Y2pLey5MmE6xJ2Uh1kLd/QNLJh13t4WA4Sjht/EVhhJWFeAb13PVUCWMkMbvy
-	GmpdgpK7HMOeEa/tBBuoR1IXK3aWki8Cn9ePU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=fyqFfLMC51LPWAOoJD07V5FunxrCBVOUJG++z+z/cMg=;
-	b=Ih6L50icbSf3h7L7ts/0PTE6wjxluJiENNTRmrTLAcjlTnpQLft8f7m+6dyPlm3vj/
-	5DJUXNYbAddpHcsCf7onZHqNYCgE6vKkH7JA7DKE4iajvN0tFm7P1xyRFVYYf9OVpNjw
-	qKu82LvGrqdJscxaN7paPNLPEo6bhfzNk2hzxtITb+1xD+2Wn5A28X5wWwjxU/esegCR
-	wc8bwA6gtPYa5bi4EsrKL8BATuH4Jm95Q3zYAgklVsyRAWhC3yrNfBX3ZZJ2slcrUWZq
-	T6C+NbG4BVE0PD9o6+fbunnKI9quPSt+/wYs4jhAZdIn0HkcKFPUKbB4tHUyExMzfMW2
-	D/Kw==
-X-Gm-Message-State: AGRZ1gKYYK8SyPjt5nVayn2UytekeEqUKYH+O0IdIBYI/YWPTYMxJq/n
-	xfJYzAT/8Z0wm6R140RnSA68ag==
-X-Google-Smtp-Source: AJdET5enACV/5ZC/zut1u5GRR4hsvjcL58v8cobAVSqce/lHj9lH7pyAxnrT6zxV9pGPAgnF9fLA6w==
-X-Received: by 2002:adf:dc07:: with SMTP id
-	t7-v6mr14367649wri.107.1540825633970; 
-	Mon, 29 Oct 2018 08:07:13 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b143-v6sm21149663wma.28.2018.10.29.08.07.12
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 29 Oct 2018 08:07:12 -0700 (PDT)
-Message-ID: <0c2d7e77034c3b860d55073e4743b9af7be92b0a.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Hongxu Jia <hongxu.jia@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 29 Oct 2018 15:07:11 +0000
-In-Reply-To: <1540562395-6506-1-git-send-email-hongxu.jia@windriver.com>
-References: <1540562395-6506-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] machine/qemu*: fix kernel finish crng init more and more slowly
+	Mon, 29 Oct 2018 15:13:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1835; q=dns/txt; s=iport;
+	t=1540825993; x=1542035593;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=4tl+t8RFtK1kcS6htn/rR0rOJ5LiRWsfIY9CVGDz+sg=;
+	b=eLn5f2APFnqJI/ePjL6B1rfQcIq4tke7QXzh3YMNZWQk4qK6Q19a9Us1
+	lGicVhTD/z88yGsK8Chz0MZELxOrlSFY5/jd1z4d7ZS6pivMW1bFqCOvy
+	xKm+5DP0+XcSWPKO9S9NFNINvgSUEHG/mgfegOSYMxgtY0BS2zt7eAOjt U=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AUAAAGI9db/xbLJq1kGgEBAQEBAgE?=
+	=?us-ascii?q?BAQEHAgEBAQGBVAIBAQEBCwGCan8ojGyMXYl2kAwNH4RNg083Cg0BAwEBAgE?=
+	=?us-ascii?q?BAm0cDIVzARgBLYFRgyEBgXQND6cBEYJQg3sBgT+EWBSHLYQ9gUE/iW6FDgK?=
+	=?us-ascii?q?fCQmGaooPCxiCHo4oASyLLoEWiiyBWSKBVXAVO4JsCYIeFooJhBM9MAGNJAE?=
+	=?us-ascii?q?B?=
+X-IronPort-AV: E=Sophos;i="5.54,440,1534809600"; 
+   d="scan'208";a="7561641"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com)
+	([173.38.203.22])
+	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Oct 2018 15:13:11 +0000
+Received: from think.cisco.com (ams3-vpn-dhcp4462.cisco.com [10.61.81.109])
+	by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id w9TFDAxm029125;
+	Mon, 29 Oct 2018 15:13:11 GMT
+From: grygorii tertychnyi <gtertych@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Oct 2018 17:13:10 +0200
+Message-Id: <20181029151310.18527-1-gtertych@cisco.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 10.61.81.109, ams3-vpn-dhcp4462.cisco.com
+X-Outbound-Node: aer-core-1.cisco.com
+Cc: xe-linux-external@cisco.com
+Subject: [PATCH] curl: extend CVE_PRODUCT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,69 +50,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2018 15:07:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Oct 2018 15:13:12 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2018-10-26 at 09:59 -0400, Hongxu Jia wrote:
-> Just adding `-device virtio-rng-pci' to the QEMU invocation will
-> add the device with a default host backend. As of QEMU 1.3+,
-> the default backend is to use the host's /dev/random as a
-> source of entropy. [1]
-> 
-> When the entropy pool is empty, reads from /dev/random will
-> block until additional environmental noise is gathered. [2]
-> 
-> For Yocto, if call runqemu frequently, it will consume lots
-> of host's /dev/random, and kernel finish crng init in guest get
-> more and more slowly.
-> 
-> Here are 4 times runqemu boot test:
-> 
-> [    3.464432] random: crng init done
-> [   20.874030] random: crng init done
-> [   23.583589] random: crng init done
-> [   23.858945] random: crng init done
-> 
-> Modify entropy source to /dev/urandom device on the host which
-> returns random bytes using a pseudorandom number generator seeded
-> from the entropy pool. Reads from this device do not block and
-> kernel finish crng init in guest will not delay.
-> 
-> Of course, the side effect is obviously, we lost the quality of
-> randomness, but the modification is only on runqemu script
-> rather than real embedded device, and it benefits oeqa efficiency
-> in which many cases call runqemu especially multiple oeqa builds
-> on one host.
-> 
-> After apply the fix:
-> 
-> [    3.364670] random: crng init done
-> [    4.619061] random: crng init done
-> [    3.403897] random: crng init done
-> [    3.450717] random: crng init done
-> 
-> [1] https://wiki.qemu.org/Features/VirtIORNG
-> [2] http://man7.org/linux/man-pages/man4/random.4.html
-> 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/conf/machine/include/qemuboot-mips.inc | 3 ++-
->  meta/conf/machine/include/qemuboot-x86.inc  | 3 ++-
->  meta/conf/machine/qemuarm.conf              | 3 ++-
->  meta/conf/machine/qemuarm64.conf            | 4 +++-
->  meta/conf/machine/qemuppc.conf              | 3 ++-
->  5 files changed, 11 insertions(+), 5 deletions(-)
+There are both "curl" and "libcurl" CPEs in NVD.
+All "curl" CVEs are now missed in the reports.
 
-Doesn't work unfortunately, e.g.:
+Hence, switch "CVE_PRODUCT" to a space separated list.
+It is useful for recipes generating several packages,
+that have different product names in NVD.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/21/builds/155/steps/7/logs/step1c
+Signed-off-by: grygorii tertychnyi <gtertych@cisco.com>
+---
+ meta/classes/cve-check.bbclass           | 3 ++-
+ meta/recipes-support/curl/curl_7.61.0.bb | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 12ad3e5c5c..743bc08a4f 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -190,7 +190,8 @@ def check_cves(d, patched_cves):
+         # Write the faux CSV file to be used with cve-check-tool
+         fd, faux = tempfile.mkstemp(prefix="cve-faux-")
+         with os.fdopen(fd, "w") as f:
+-            f.write("%s,%s,%s," % (bpn, pv, cves))
++            for pn in bpn.split():
++                f.write("%s,%s,%s,\n" % (pn, pv, cves))
+         cmd.append(faux)
+ 
+         output = subprocess.check_output(cmd).decode("utf-8")
+diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
+index 9b6406bbd0..53cfc4a518 100644
+--- a/meta/recipes-support/curl/curl_7.61.0.bb
++++ b/meta/recipes-support/curl/curl_7.61.0.bb
+@@ -13,7 +13,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
+ SRC_URI[sha256sum] = "5f6f336921cf5b84de56afbd08dfb70adeef2303751ffb3e570c936c6d656c9c"
+ 
+-CVE_PRODUCT = "libcurl"
++CVE_PRODUCT = "curl libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls libidn proxy threaded-resolver verbose zlib"
+-- 
+2.19.1
 
 
