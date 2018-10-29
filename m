@@ -1,37 +1,54 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 165036003C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 81C7960043
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2018 09:48:59 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w9T9mxo8030690
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Mon, 29 Oct 2018 10:48:59 +0100
-Received: from ATVIES991U8MSX.ww300.siemens.net
-	(atvies991u8msx.ww300.siemens.net [158.226.163.42])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTPS id w9T9mwKf001604
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Mon, 29 Oct 2018 10:48:59 +0100
-Received: from ATNETS9912WMSX.ww300.siemens.net ([169.254.10.142]) by
-	ATVIES991U8MSX.ww300.siemens.net ([158.226.163.42]) with mapi id
-	14.03.0415.000; Mon, 29 Oct 2018 10:48:58 +0100
-From: "Valek, Andrej" <andrej.valek@siemens.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] staging: remove hard-coded values from _FIXMEs
-Thread-Index: AQHUT0fLwLaoM6Q6Vk+hCAhnjVgVxKT3lS0AgD6lN5A=
-Date: Mon, 29 Oct 2018 09:48:58 +0000
-Message-ID: <D55698ECEC159B488D62A508E18D7FEC01690B77@ATNETS9912WMSX.ww300.siemens.net>
+	Mon, 29 Oct 2018 10:22:56 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id r10-v6so8017149wrv.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Oct 2018 03:22:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=nfAsgTWxiEQMPkOKvOkOPwuJYzZlTIojpNy2yFBJy+8=;
+	b=hCEA/iZD79ex9jqmAVyVBfRF2HY1UgbD7YZtkrlIS64w9Ve+Fm3/zLQCd8RU52zX+B
+	lxRpgUJxO/SP/n+y6iUX1V8UwfoG0j/o5JelQBjJ2fRLGe0s4a/hAagQ/eokhGMOY33K
+	xMYalESOvxzX7g3oFkmlgWcHgrjZh/qqwutJE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=nfAsgTWxiEQMPkOKvOkOPwuJYzZlTIojpNy2yFBJy+8=;
+	b=Jhq1MBTx1tQ9dE/e+G8AJ5GMWqTbBQ9k2ByYZgaOVObBGiEMT/90D0y6qxshPA8v+X
+	Gxsc/UM83R8N0rzRQhYpcJBD4drHnGzRbD4pec9xZDismUgtP30hC8JYswg6Jdyb4A3e
+	bP0j7dmZhsmJgasfEn9unaCZ1ML8TA9gRI6xTfmP/dqYcw9zExtTdiUZvM6z/odfavZo
+	zzUlFxoJjeGP2ZyimvrHzw2iTPjWg2oWA+Gar40u0e/mreBzGG6r6ubZBCy2b/jS+h+u
+	z0JvM0tWhEKEkNH2rt2QhSWzbdLR3XV6oV5rXYAOHekRKmFdpS86vKH7jsrcBRsf2bms
+	/RSQ==
+X-Gm-Message-State: AGRZ1gJlLmKf5r1mZ91oUDnW8g9txPX9khWmJGhu3+js5ZdBMc42tlkL
+	dkg8NejIQ5+og1qc7jbX6/ZP/ERiPX0=
+X-Google-Smtp-Source: AJdET5fcJH8jfmLvikmnZF8RkvXgaHUGYHsa5vrOCoeGEn1FphVfexCcyBxUZO03CgdV6pXoKS8S9w==
+X-Received: by 2002:adf:e50f:: with SMTP id
+	j15-v6mr14146754wrm.94.1540808576939; 
+	Mon, 29 Oct 2018 03:22:56 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	x186-v6sm8487713wmx.24.2018.10.29.03.22.55
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 29 Oct 2018 03:22:55 -0700 (PDT)
+Message-ID: <dcf4bd416c92da74a5cf0a9401e5561126073ac2.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Andrej Valek <andrej.valek@siemens.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Oct 2018 10:22:54 +0000
+In-Reply-To: <333361a0-5622-46df-780f-bac18315fa01@siemens.com>
 References: <20180917134158.4614-1-andrej.valek@siemens.com>
 	<9c4d3cc718703e04e6b9890862c288f046915c61.camel@linuxfoundation.org>
 	<333361a0-5622-46df-780f-bac18315fa01@siemens.com>
-In-Reply-To: <333361a0-5622-46df-780f-bac18315fa01@siemens.com>
-Accept-Language: en-US, de-AT
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [158.226.163.23]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
 Subject: Re: [PATCH] staging: remove hard-coded values from _FIXMEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,59 +62,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2018 09:49:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 29 Oct 2018 10:22:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-SGkgUmljaGFyZCwNCg0KRGkgeW91IGhhdmUgc29tZSB0aW1lIHRvIHRoaW5rIGFib3V0IGl0Pw0K
-DQpSZWdhcmRzLA0KQW5kcmVqDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBB
-bmRyZWogVmFsZWsgW21haWx0bzphbmRyZWoudmFsZWtAc2llbWVucy5jb21dIA0KU2VudDogMTku
-IHNlcHRlbWJyYSAyMDE4IDE1OjA5DQpUbzogUmljaGFyZCBQdXJkaWU7IG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
-XSBzdGFnaW5nOiByZW1vdmUgaGFyZC1jb2RlZCB2YWx1ZXMgZnJvbSBfRklYTUVzDQoNCkhpIFJp
-Y2hhcmQsDQoNCkkgaGF2ZSBzZW50IHRoaXMgcGF0Y2gsIGJlY2F1c2Ugb2YgbW9kaWZpY2F0aW9u
-IHRoaXMgcmVwbGFjZW1lbnQuIFdoYXQgYWJvdXQgYWRkaW5nIFRNUERJUiBpbnRvIHRoaXMgaGFy
-ZC1jb2RlZCBhcnJheT8gSSB0aGluaywgZXZlbiBpZiBpdCBpc24ndCBhZGRlZCBpbnRvIEVYVFJB
-X1NUQUdJTkdfRklYTUVTIGl0IHNob3VsZG4ndCBpbmZsdWVuY2UgZGVmYXVsdCBiZWhhdmlvci4N
-Cg0KUmVnYXJkcywNCg0KQW5kcmVqDQoNCk9uIDkvMTgvMTggMjowMyBQTSwgUmljaGFyZCBQdXJk
-aWUgd3JvdGU6DQo+IE9uIE1vbiwgMjAxOC0wOS0xNyBhdCAxNTo0MSArMDIwMCwgQW5kcmVqIFZh
-bGVrIHdyb3RlOg0KPj4gTGV0IHVzZXJzIHRvIG92ZXJyaWRlIHRoZXNlIHZhbHVlcyBpbiB0aGVp
-ciBsYXllcnMgYW5kIGNvdWxkIG1hdGNoIA0KPj4gdGhlbSB3aXRoIHZhbHVlcyBpbiBFWFRSQV9T
-VEFHSU5HX0ZJWE1FUy4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBBbmRyZWogVmFsZWsgPGFuZHJl
-ai52YWxla0BzaWVtZW5zLmNvbT4NCj4+IC0tLQ0KPj4gIG1ldGEvY2xhc3Nlcy9zdGFnaW5nLmJi
-Y2xhc3MgfCA0ICsrKy0NCj4+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRl
-bGV0aW9uKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9zdGFnaW5nLmJiY2xh
-c3MgDQo+PiBiL21ldGEvY2xhc3Nlcy9zdGFnaW5nLmJiY2xhc3MgaW5kZXggODRlMTNiYWI1OS4u
-NmRiNTAxZGFjMSAxMDA2NDQNCj4+IC0tLSBhL21ldGEvY2xhc3Nlcy9zdGFnaW5nLmJiY2xhc3MN
-Cj4+ICsrKyBiL21ldGEvY2xhc3Nlcy9zdGFnaW5nLmJiY2xhc3MNCj4+IEBAIC0xMjcsNiArMTI3
-LDggQEAgcHl0aG9uIGRvX3BvcHVsYXRlX3N5c3Jvb3Rfc2V0c2NlbmUgKCkgeyAgfSAgDQo+PiBh
-ZGR0YXNrIGRvX3BvcHVsYXRlX3N5c3Jvb3Rfc2V0c2NlbmUNCj4+ICANCj4+ICtTWVNST09UX1NU
-QUdJTkdfRklYTUVTID89ICJDT01QT05FTlRTX0RJUiBIT1NUVE9PTFNfRElSIFBLR0RBVEFfRElS
-DQo+PiBQU0VVRE9fTE9DQUxTVEFURURJUiBMT0dGSUZPIg0KPj4gKw0KPj4gIGRlZiBzdGFnaW5n
-X2NvcHlmaWxlKGMsIHRhcmdldCwgZGVzdCwgcG9zdGluc3RzLCBzZWVuZGlycyk6DQo+PiAgICAg
-IGltcG9ydCBlcnJubw0KPj4gIA0KPj4gQEAgLTE2Nyw3ICsxNjksNyBAQCBkZWYgc3RhZ2luZ19w
-cm9jZXNzZml4bWUoZml4bWUsIHRhcmdldCwgDQo+PiByZWNpcGVzeXNyb290LCByZWNpcGVzeXNy
-b290bmF0aXZlLCBkKToNCj4+ICAgICAgaWYgbm90IGZpeG1lOg0KPj4gICAgICAgICAgcmV0dXJu
-DQo+PiAgICAgIGNtZCA9ICJzZWQgLWUgJ3M6XlteL10qLzolcy86ZycgJXMgfCB4YXJncyBzZWQg
-LWkgLWUgDQo+PiAnczpGSVhNRVNUQUdJTkdESVJUQVJHRVQ6JXM6ZzsgczpGSVhNRVNUQUdJTkdE
-SVJIT1NUOiVzOmcnIiAlIA0KPj4gKHRhcmdldCwgIiAiLmpvaW4oZml4bWUpLCByZWNpcGVzeXNy
-b290LCByZWNpcGVzeXNyb290bmF0aXZlKQ0KPj4gLSAgICBmb3IgZml4bWV2YXIgaW4gWydDT01Q
-T05FTlRTX0RJUicsICdIT1NUVE9PTFNfRElSJywNCj4+ICdQS0dEQVRBX0RJUicsICdQU0VVRE9f
-TE9DQUxTVEFURURJUicsICdMT0dGSUZPJ106DQo+PiArICAgIGZvciBmaXhtZXZhciBpbiBkLmdl
-dFZhcigiU1lTUk9PVF9TVEFHSU5HX0ZJWE1FUyIpLnNwbGl0KCk6DQo+PiAgICAgICAgICBmaXht
-ZV9wYXRoID0gZC5nZXRWYXIoZml4bWV2YXIpDQo+PiAgICAgICAgICBjbWQgKz0gIiAtZSAnczpG
-SVhNRV8lczolczpnJyIgJSAoZml4bWV2YXIsIGZpeG1lX3BhdGgpDQo+PiAgICAgIGJiLmRlYnVn
-KDIsIGNtZCkNCj4gDQo+IEkgdGhpbmsgdGhpcyB3YXMgZGVsaWJlcmF0ZWx5IGxlZnQgdGhpcyB3
-YXkgcmF0aGVyIHRoYW4gbGV0dGluZyB1c2VycyANCj4gb3ZlcnJpZGUgaXQgYXMgdGhlIHNjb3Bl
-IGlzc3VlcyBhcm91bmQgdGhpcyBhcmUgbm90IG9idmlvdXMgYW5kIG1ha2luZyANCj4gaXQgYSB2
-YXJpYWJsZSBnaXZlcyB1c2VycyBleHBlY3RhdGlvbnMgd2hpY2ggbWF5IG5vdCBiZSBtZXQuDQo+
-IA0KPiBJJ20gZ29pbmcgZnJvbSBtZW1vcnkgd2l0aCBqZXRsYWcgYnV0IEkgdGhpbmsgdGhhdCB0
-aGlzIHZhcmlhYmxlIHdvdWxkIA0KPiBub3Qgd29yayBmcm9tIHJlY2lwZSBjb250ZXh0LCB5b3Un
-ZCBoYXZlIHRvIGRvIGl0IGluIGdsb2JhbCBzY29wZSBhbmQgDQo+IGNoYW5naW5nIHRoaXMgaW4g
-Z2xvYmFsIHNjb3BlIGZvciBldmVyeXRoaW5nIGlzIGEgcHJldHR5IHNlcmlvdXMgDQo+IGNoYW5n
-ZS4NCj4gDQo+IFRoZSByZWFzb24gaXMgdGhhdCBpdCBjYW4gZ2V0IGNhbGxlZCB3aGVuIGJ1aWxk
-aW5nIGFueSByZWNpcGUgc3lzcm9vdCANCj4gc28gdGhlIGRhdGFzdG9yZSBpc24ndCB0byBjb250
-ZXh0IG9mIHRoZSBvcmlnaW5hbCBjcmVhdG9yLg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFy
-ZA0KPiANCg==
+On Wed, 2018-09-19 at 15:08 +0200, Andrej Valek wrote:
+> Hi Richard,
+> 
+> I have sent this patch, because of modification this replacement.
+> What
+> about adding TMPDIR into this hard-coded array? I think, even if it
+> isn't added into EXTRA_STAGING_FIXMES it shouldn't influence default
+> behavior.
+
+The reason I wasn't keen on the patch is exactly because people will
+add TMPDIR into it and that can hide a number of problems which should
+really be better solved in other ways. I didn't want this to become a
+workaround for fixing things in the recipes.
+
+So yes, I understand why you might want to do this, I'm still not
+convinced its a good idea. There was a good reason this was hard coded
+but I still haven't had the time to look more into exactly why that was
+:(.
+
+Cheers,
+
+Richard
+
+
 
