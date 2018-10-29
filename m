@@ -1,48 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
-	[209.85.167.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 52F4071AB3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+	[209.85.160.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 88D80746AB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2018 12:52:04 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id f21-v6so3756594oig.1
+	Mon, 29 Oct 2018 13:01:57 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id l41-v6so8997018qtl.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2018 05:52:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 29 Oct 2018 06:01:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=D0xOFISWiRXEKLS6yWUInfKgnm9f96fBxjM4qWvIVcI=;
-	b=1VRv/VvFsiVGNV7uei7zj3Pxlfp9Mm/D77qlQ2iDMOR7jzFT6JtIj/ZthWuT7EzGFO
-	erphkqAleD6MMEFXCQektqiEm3OtPdwnenkGqKvJ6TTB0yjXz1qzS+pPtc/m6L0zaj0j
-	CTNt9Tc4qICyz4irvVfdzF/yI9vsMkxWDhT2b3FpWuyt6jNbfPqjNFGXLuMsIciOA8bZ
-	CYcCvTPAN8z0MDWS1KEDf9H+5yhmio8yEBSJo2jsYqeP/QgLeX+7PO3IUsDlsI7b7zrP
-	AIjJqJalcWEqdxeaenp7LGrfVlOUU+LDPyCCgu1OdmducXzh7Q4xeE70P03JsEnGmbNJ
-	KMhA==
+	:cc; bh=v0NG6ExD8o4kPxAFu+alkrsZfiSo9FlF835ipYNXV2k=;
+	b=gB213Yo9xYrrwP+PM4fYHnPkUj3MQJgyshUzrL3zPqwNsM3xCZIDdW202Q2jZY0Bos
+	03tSteW7WpXyWJ01PrECar1psHMaBA12RrXprgGa85sct1slHtLcHBIiHaB+qntXYfwo
+	xssEgVdMHUxeaaVaOitLHsRreAu+oVwwfnVz4XOaU8/bAg1qCZaTCKFpQS6aJoi/ImNN
+	0paz5DwMhY6jczvvsqUCIW5zgKqPgG4IDAG3bgNS3mJc5/3kkscjQ+0KsS6xGIe4Delx
+	XBfpNUezBldr5Ya2Cqr5SL9iCtLYj3lBC0Klf3FFDBOwT4rDhh0AlDM9P7h2At82MKT7
+	LfzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=D0xOFISWiRXEKLS6yWUInfKgnm9f96fBxjM4qWvIVcI=;
-	b=gPfhEri4Kbna7o3G20ufPtNjyeap0eGEPssPFWqnFz/7Ttk9k0MjJzBK+5IyWfup4y
-	d4PqBFMMgCKAGOsgkZ8M2zYyR5/Ov12wLentJwr5UoUH0KCmU8hq7VQ9eanqq8hi/bLt
-	qHmfnh857+4SzB2xYO3Lb6vWR4lF2P9ERuqxw4bUnAjc9qAOzGxqcIyjTW9qwVPvxBNc
-	0D5w0WHw8lOTvLgYJ0ud9u3UWvkr9pHYdKUA8M7dQ7Fd5p4Zx49Uub5rZpLhIfMJdD0T
-	wQ8dD0mmKc//XMw60oUAWOn+OULCfr5rBd8bpsy6FZ/wmvIxTdAYq8j+rrrMpYaB4PXe
-	2KVQ==
-X-Gm-Message-State: AGRZ1gJj4wbse7JL3dzPAo0I/72fpzUXNIeYxOWSHPuK/wVnqrgmJ0BF
-	plQ3DT/KXiCmZNQ7+UEF7KTOkUK5o8iN7myqmGrdbQ==
-X-Google-Smtp-Source: AJdET5egQ9jkIWv/eFYIHL6q8+ozsUIo6sODs0aKEGWiYir0z3aL8DmUogwk2ZisAA/6q/LjjoKNrnvzsxt1nvJ/6Ds=
-X-Received: by 2002:aca:ed82:: with SMTP id
-	l124-v6mr8115748oih.188.1540817525175; 
-	Mon, 29 Oct 2018 05:52:05 -0700 (PDT)
+	bh=v0NG6ExD8o4kPxAFu+alkrsZfiSo9FlF835ipYNXV2k=;
+	b=Zjp+HjBdl3FrvYCShu+7T3YQ4R5ciKF5VSQRRv2fryrYkFuu3W9bSIACjCn6eC6f2w
+	snjARSAVkotOYMdwZhA6/pwodNJFEl2PeCSJ7O/I/xzrI8syyOyzGg/5klsTKLcBDpS5
+	ShLXTjSMMjn0L4tUgXmu8phCZ7YtZRSFPvxXPxqMo1Plh510+ZV7EXimqCYUGQXliU6x
+	Y3r/gl+RBvnCZa+UtevTU54KSPDG8TROc/5aRuRC0hdx1TJa9JFi90sMtx4SsYd6EeoC
+	9TL5iIdoZVRTXecsn8yhY24cg+yb4NkTPIXOt/Z3m6tVbrS3aWP9g6uo/yh+65ofUUbN
+	G0LA==
+X-Gm-Message-State: AGRZ1gLWZ5PkVb50Rc3JAJmnKimSdNppngWbRil1BwGgy2H6z7G2wtLF
+	UWTbLZodazVQ3mqAJcRvpijLoy3UAFoitnISpuA=
+X-Google-Smtp-Source: AJdET5ecu9weH77DiOAfOrqWDznODrlTQgi/Zv6cK/BEvt9zGsHj29H/eDIGMtUvauQBTtIefPvyGF0CiAJKhbQ6zvQ=
+X-Received: by 2002:a0c:93e2:: with SMTP id g31mr10599125qvg.194.1540818118095;
+	Mon, 29 Oct 2018 06:01:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <1540456759-247805-1-git-send-email-mingli.yu@windriver.com>
-In-Reply-To: <1540456759-247805-1-git-send-email-mingli.yu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Oct 2018 12:51:53 +0000
-Message-ID: <CAJTo0LYq4aJAp8cUFbmGDer3t9cswKoeVZ3FYgWjUxC19LKA2Q@mail.gmail.com>
-To: Mingli Yu <mingli.yu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] python: add tk support
+References: <77e2fb99554339ea31caf60700a1595f@agner.ch>
+In-Reply-To: <77e2fb99554339ea31caf60700a1595f@agner.ch>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 29 Oct 2018 06:01:31 -0700
+Message-ID: <CAMKF1sqsFd=96ARdFX-KdgrOH9iAP5Ndb7aWXTEwGVkAyXFzzg@mail.gmail.com>
+To: Stefan Agner <stefan@agner.ch>
+Cc: luka.pivk@gmail.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Lock external repository in custom FSTYPE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,14 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2018 12:52:04 -0000
+X-List-Received-Date: Mon, 29 Oct 2018 13:01:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Terrified to ask, but why?
-On Thu, 25 Oct 2018 at 09:39, <mingli.yu@windriver.com> wrote:
+On Mon, Oct 29, 2018 at 5:31 AM Stefan Agner <stefan@agner.ch> wrote:
 >
-> 1, move tk recipe from meta-oe
-> 2, enable tk to add tk support
+> Hi,
+>
+> We use meta-updater, which has a custom FSTYPE to build a OSTree
+> repository. We share that repository across multiple bitbake executions.
+> The underlying OSTree tools lock the OSTree repository before trying to
+> interact, and if it fails ("error: Locking repo exclusive failed:
+> Resource temporarily unavailable") then the complete build fails (see
+> also https://github.com/advancedtelematic/meta-updater/issues/412).
+>
+> Now I'd rather prefer that two bitbake tasks would serialize the access
+> to the OSTree repository. Is there a mechanism in bitbake to lock (and
+> wait) for the repository to be not in use?
+>
+> We tried using bb.utils.lockfile, but the task is written in shell. Also
+> inline Python would not work since locking/unlocking need to be done
+> within one Python script as far as I understand.
+>
+
+perhaps you could use lockfiles something like
+
+do_foo[lockfiles] = ...
+
+> --
+> Stefan
 > --
 > _______________________________________________
 > Openembedded-core mailing list
