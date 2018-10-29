@@ -1,18 +1,29 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 88FFD74A35;
-	Mon, 29 Oct 2018 11:33:15 +0000 (UTC)
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id C3FEA60778
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Oct 2018 12:31:39 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 9F61C5C01FD;
+	Mon, 29 Oct 2018 13:31:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1540816299;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:in-reply-to:
+	references; bh=HrHRbWsigjmHcrVCgAeP3MHc6AombKqApt59YTIwU7M=;
+	b=VXU4o6HL2ZL5FRGbJpq6SgDG2OCQFaYCHoC/uDGlktr08axzCoPJ+hbdQz15uWQnKxf43B
+	gzKsNg232XwoGy6p/8ZMehtnDSquB4AjfPaLTUaL3Zcfuv8dl40XjY7NwmqmCUoKuPZWfD
+	s0HCM04YkUUlKuDY49WoEyRVvqLaMzI=
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Fabien Lahoudere <fabien.lahoudere@collabora.com>
-Date: Mon, 29 Oct 2018 11:33:17 -0000
-Message-ID: <20181029113317.13844.33460@do.openembedded.org>
-References: <151abd1d0cf82766280c4ae9011d050d4179832c.1540809368.git.fabien.lahoudere@collabora.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <151abd1d0cf82766280c4ae9011d050d4179832c.1540809368.git.fabien.lahoudere@collabora.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXJjaGl2ZXIgLSBEcm9wIHVud2FudGVkIGRpcmVjdG9yaWVz?=
+Date: Mon, 29 Oct 2018 13:31:38 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <77e2fb99554339ea31caf60700a1595f@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.7
+Cc: luka.pivk@gmail.com
+Subject: Lock external repository in custom FSTYPE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2018 11:33:15 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 29 Oct 2018 12:31:40 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+Hi,
 
-Series: archiver - Drop unwanted directories
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14702/
-State : failure
+We use meta-updater, which has a custom FSTYPE to build a OSTree
+repository. We share that repository across multiple bitbake executions.
+The underlying OSTree tools lock the OSTree repository before trying to
+interact, and if it fails ("error: Locking repo exclusive failed:
+Resource temporarily unavailable") then the complete build fails (see
+also https://github.com/advancedtelematic/meta-updater/issues/412).
 
-== Summary ==
+Now I'd rather prefer that two bitbake tasks would serialize the access
+to the OSTree repository. Is there a mechanism in bitbake to lock (and
+wait) for the repository to be not in use?
 
+We tried using bb.utils.lockfile, but the task is written in shell. Also
+inline Python would not work since locking/unlocking need to be done
+within one Python script as far as I understand.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [1/1] archiver - Drop unwanted directories
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+--
+Stefan
 
