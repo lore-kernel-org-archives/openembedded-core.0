@@ -1,26 +1,40 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AF5C760103
+Return-Path: <komar@komar.bionik.tu-berlin.de>
+X-Greylist: delayed 1682 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 29 Oct 2018 09:45:01 UTC
+Received: from mo4-p05-ob.smtp.rzone.de (mo4-p05-ob.smtp.rzone.de
+	[85.215.255.135])
+	by mail.openembedded.org (Postfix) with ESMTP id BA2966003C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2018 08:11:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9T8AHqB030120
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 29 Oct 2018 01:11:06 -0700
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 29 Oct 2018 01:10:47 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Mon, 29 Oct 2018 16:21:15 +0800
-Message-ID: <1540801275-38120-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1540554599-37191-1-git-send-email-hongxu.jia@windriver.com>
-References: <1540554599-37191-1-git-send-email-hongxu.jia@windriver.com>
+	Mon, 29 Oct 2018 09:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1540806302;
+	s=strato-dkim-0002; d=evologics.de;
+	h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+	Subject:Sender;
+	bh=xzOFR+SBQbpjI7Zc9xl4CbTYKiD7wegsd7m1+NAVdj0=;
+	b=HyBU5cv9o3XaHxFe4aAA/CIDm+Pe4LQJ/8xs3dejJomHStnGx4jnyXPSQ4VHCnDHdz
+	21nN/19oRpT2rUgZbIRRrVbaiGTyLE6GhwjMYSBHb7PeTy7WMcPqlrYrrI84JNlq/5bZ
+	ohM448mJwLJ0TTowv0coqf62TYyrwr4yUOaGkO6Pp0YSiy5gOhK94xbhzFSCLRtyBJR8
+	AmcjT71coO0zxA/sUkduZmjxQFm1I+lB7QIMCayI4h24+/wGagbq88z0UOodWvbY6PvX
+	FmTMwQE8zW2eh87CYwkRJntjxtNpVVAfhUq0XaVHdkD/q3fsZ9GkOCprk0HzSHFIe63j
+	759A==
+X-RZG-AUTH: ":J2MJdFKIfukmJ5nsom3zZ+ltBBdf17KM5HzjHmp4NmADxfPX8Dr7rqYKTooAxquaF9JVog=="
+X-RZG-CLASS-ID: mo05
+Received: from komar.lab.evologics.de by smtp.strato.de (RZmta 44.3 AUTH)
+	with ESMTPSA id z0780fu9T94n9gF
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1
+	with 521 ECDH bits, eq. 15360 bits RSA))
+	(Client did not present a certificate);
+	Mon, 29 Oct 2018 10:04:49 +0100 (CET)
+Received: from komar by komar.lab.evologics.de with local (Exim 4.89)
+	(envelope-from <komar@komar.lab.evologics.de>)
+	id 1gH3Tc-0006cF-ST; Mon, 29 Oct 2018 10:04:48 +0100
+From: Maksym Komar <komar@evologics.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Oct 2018 10:04:23 +0100
+Message-Id: <20181029090423.25375-1-komar@evologics.de>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Subject: [PATCH V3] go 1.9/1.11: fix textrel qa warning for non mips arch
+Subject: [PATCH] image_types.bbclass: add support for multiply ubifs volumes in ubi image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,197 +47,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2018 08:11:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 29 Oct 2018 09:45:02 -0000
+Content-Transfer-Encoding: 8bit
 
-While building go itself, the go build system does not support
-to set `-buildmode=pie' from environment.
+Add the ability to create additional ubifs volumes inside ubi volume.
 
-Add GOBUILDMODE to support it which make PIE executables the default
-build mode, as PIE executables are required as of Yocto
+For example this code create empty 2MiB volume named "config".
+===
+MKUBIFS_ARGS = "-m 1 -e 65408 -c 958 -F"
+UBINIZE_ARGS = "-m 1 -p 64KiB"
 
-But mips doesn't support -buildmode=pie, so skip the QA checking for
-mips and its variants
+MKUBIFS_VOLUMES="config rootfs"
+MKUBIFS_VOLUME_SIZE[config] = "2MiB"
+MKUBIFS_VOLUME_ARGS[config] = "-m 1 -e 65408 -c 22 -F"
+===
+As result system will be have /dev/ubi0_0 as "config" and
+/dev/ubi0_1 as "rootfs".
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Can be used with FSTYPE ubi and multiubi
+
+Signed-off-by: Maksym Komar <komar@evologics.de>
 ---
- meta/recipes-devtools/go/go-1.11.inc               |  1 +
- .../0008-use-GOBUILDMODE-to-set-buildmode.patch    | 40 ++++++++++++++++++++++
- meta/recipes-devtools/go/go-1.9.inc                |  1 +
- .../0011-use-GOBUILDMODE-to-set-buildmode.patch    | 40 ++++++++++++++++++++++
- meta/recipes-devtools/go/go_1.11.bb                | 12 +++++++
- meta/recipes-devtools/go/go_1.9.bb                 | 16 +++++----
- 6 files changed, 104 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch
- create mode 100644 meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch
+ meta/classes/image_types.bbclass | 67 +++++++++++++++++++++++++-------
+ 1 file changed, 53 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.11.inc b/meta/recipes-devtools/go/go-1.11.inc
-index c02e468..d626514 100644
---- a/meta/recipes-devtools/go/go-1.11.inc
-+++ b/meta/recipes-devtools/go/go-1.11.inc
-@@ -15,6 +15,7 @@ SRC_URI += "\
-     file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
-     file://0006-cmd-dist-separate-host-and-target-builds.patch \
-     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
-+    file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
- "
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index e881d0cc2d..726760d99b 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -174,28 +174,67 @@ multiubi_mkfs() {
+ 		local vname="_$3"
+ 	fi
  
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch b/meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch
-new file mode 100644
-index 0000000..b6ab504
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.11/0008-use-GOBUILDMODE-to-set-buildmode.patch
-@@ -0,0 +1,40 @@
-+From 0e0c247f0caec23528889ff09d98348cba9028f1 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 26 Oct 2018 15:02:32 +0800
-+Subject: [PATCH] use GOBUILDMODE to set buildmode
+-	echo \[ubifs\] > ubinize${vname}-${IMAGE_NAME}.cfg
+-	echo mode=ubi >> ubinize${vname}-${IMAGE_NAME}.cfg
+-	echo image=${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs >> ubinize${vname}-${IMAGE_NAME}.cfg
+-	echo vol_id=0 >> ubinize${vname}-${IMAGE_NAME}.cfg
+-	echo vol_type=dynamic >> ubinize${vname}-${IMAGE_NAME}.cfg
+-	echo vol_name=${UBI_VOLNAME} >> ubinize${vname}-${IMAGE_NAME}.cfg
+-	echo vol_flags=autoresize >> ubinize${vname}-${IMAGE_NAME}.cfg
+-	mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs ${mkubifs_args}
+-	ubinize -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubi ${ubinize_args} ubinize${vname}-${IMAGE_NAME}.cfg
++	if [ -z "$4" ]; then
++		MKUBIFS_VOLUMES="rootfs"
++	fi
 +
-+While building go itself, the go build system does not support
-+to set `-buildmode=pie' from environment.
++	local vol_id=0
++	echo -n > ubinize${vname}-${IMAGE_NAME}.cfg
++	for volume in ${MKUBIFS_VOLUMES}; do
++		echo \[${volume}\] >> ubinize${vname}-${IMAGE_NAME}.cfg
++		echo mode=ubi >> ubinize${vname}-${IMAGE_NAME}.cfg
++		echo vol_id=$vol_id >> ubinize${vname}-${IMAGE_NAME}.cfg
++		echo vol_type=dynamic >> ubinize${vname}-${IMAGE_NAME}.cfg
 +
-+Add GOBUILDMODE to support it which make PIE executables the default
-+build mode, as PIE executables are required as of Yocto
++		# workaround to get Variable Flag MKUBIFS_VOLUME_SIZE[volume_name]
++		eval ${@' '.join(['size_' + k + '=\\"' + v + '\\"' for k,v in d.getVarFlags('MKUBIFS_VOLUME_SIZE').items()])}
++		eval size=\"\$size_$volume\"
 +
-+Refers: https://groups.google.com/forum/#!topic/golang-dev/gRCe5URKewI
-+Upstream-Status: Denied [upstream choose antoher solution: `17a256b
-+cmd/go: -buildmode=pie for android/arm']
++		if [ -z "$size" ]; then
++			echo vol_flags=autoresize >> ubinize${vname}-${IMAGE_NAME}.cfg
++		else
++			echo vol_size=$size >> ubinize${vname}-${IMAGE_NAME}.cfg
++		fi
 +
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ src/cmd/go/internal/work/build.go | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
++		if [ "${volume}" = "rootfs" ]; then
++			echo image=${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs >> ubinize${vname}-${IMAGE_NAME}.cfg
++			echo vol_name=${UBI_VOLNAME} >> ubinize${vname}-${IMAGE_NAME}.cfg
++			mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs ${mkubifs_args}
++		else
++			echo image=${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}.${volume}.ubifs >> ubinize${vname}-${IMAGE_NAME}.cfg
++			echo vol_name=${volume} >> ubinize${vname}-${IMAGE_NAME}.cfg
 +
-+diff --git a/src/cmd/go/internal/work/build.go b/src/cmd/go/internal/work/build.go
-+index 145b875..595d703 100644
-+--- a/src/cmd/go/internal/work/build.go
-++++ b/src/cmd/go/internal/work/build.go
-+@@ -218,7 +218,11 @@ func AddBuildFlags(cmd *base.Command) {
-+ 
-+ 	cmd.Flag.Var(&load.BuildAsmflags, "asmflags", "")
-+ 	cmd.Flag.Var(buildCompiler{}, "compiler", "")
-+-	cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
-++	if bm := os.Getenv("GOBUILDMODE"); bm != "" {
-++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", bm, "")
-++	} else {
-++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
-++	}
-+ 	cmd.Flag.Var(&load.BuildGcflags, "gcflags", "")
-+ 	cmd.Flag.Var(&load.BuildGccgoflags, "gccgoflags", "")
-+ 	cmd.Flag.StringVar(&cfg.BuildMod, "mod", "", "")
-+-- 
-+2.7.4
++			# workaround to get Variable Flag MKUBIFS_VOLUME_ARGS[volume_name]
++			eval ${@' '.join(['args_' + k + '=\\"' + v + '\\"' for k,v in d.getVarFlags('MKUBIFS_VOLUME_ARGS').items()])}
++			eval args=\"\$args_$volume\"
 +
-diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
-index 329cee0..ba1eaa0 100644
---- a/meta/recipes-devtools/go/go-1.9.inc
-+++ b/meta/recipes-devtools/go/go-1.9.inc
-@@ -19,6 +19,7 @@ SRC_URI += "\
-         file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
-         file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
-         file://0010-make.bash-override-CC-when-building-dist-and-go_boot.patch \
-+        file://0011-use-GOBUILDMODE-to-set-buildmode.patch \
- "
- SRC_URI_append_libc-musl = " file://set-external-linker.patch"
++	        # create empty volume
++			mkdir -p empty
++			mkfs.ubifs -r empty -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}.${volume}.ubifs $args
++			rmdir empty
++		fi
++		vol_id=$(expr $vol_id + 1)
++	done
++
++	# if variable IMAGE_NAME_SUFFIX is weak, set suffix with names of all volumes
++	image_name_suffix=$IMAGE_NAME_SUFFIX
++	if [ -n "${MKUBIFS_VOLUMES}" -a -z "${@d.getVar('IMAGE_NAME_SUFFIX', noweakdefault=True) or ''}" ]; then
++		image_name_suffix=${@'.' + '-'.join(d.getVar('MKUBIFS_VOLUMES').split())}
++	fi
++	ubinize -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${image_name_suffix}.ubi ${ubinize_args} ubinize${vname}-${IMAGE_NAME}.cfg
  
-diff --git a/meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch b/meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch
-new file mode 100644
-index 0000000..da93dc5
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.9/0011-use-GOBUILDMODE-to-set-buildmode.patch
-@@ -0,0 +1,40 @@
-+From b928fafab1d9425aae9341806bd2f6178ba1da1f Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 26 Oct 2018 16:32:50 +0800
-+Subject: [PATCH] use GOBUILDMODE to set buildmode
-+
-+While building go itself, the go build system does not support
-+to set `-buildmode=pie' from environment.
-+
-+Add GOBUILDMODE to support it which make PIE executables the default
-+build mode, as PIE executables are required as of Yocto
-+
-+Refers: https://groups.google.com/forum/#!topic/golang-dev/gRCe5URKewI
-+Upstream-Status: Denied [upstream choose antoher solution: `17a256b
-+cmd/go: -buildmode=pie for android/arm']
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ src/cmd/go/internal/work/build.go | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/cmd/go/internal/work/build.go b/src/cmd/go/internal/work/build.go
-+index b276de5..1683e7e 100644
-+--- a/src/cmd/go/internal/work/build.go
-++++ b/src/cmd/go/internal/work/build.go
-+@@ -211,7 +211,11 @@ func AddBuildFlags(cmd *base.Command) {
-+ 
-+ 	cmd.Flag.Var((*base.StringsFlag)(&buildAsmflags), "asmflags", "")
-+ 	cmd.Flag.Var(buildCompiler{}, "compiler", "")
-+-	cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
-++	if bm := os.Getenv("GOBUILDMODE"); bm != "" {
-++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", bm, "")
-++	} else {
-++		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
-++	}
-+ 	cmd.Flag.Var((*base.StringsFlag)(&buildGcflags), "gcflags", "")
-+ 	cmd.Flag.Var((*base.StringsFlag)(&buildGccgoflags), "gccgoflags", "")
-+ 	cmd.Flag.StringVar(&cfg.BuildContext.InstallSuffix, "installsuffix", "", "")
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/go/go_1.11.bb b/meta/recipes-devtools/go/go_1.11.bb
-index c67e2cb..42cdb04 100644
---- a/meta/recipes-devtools/go/go_1.11.bb
-+++ b/meta/recipes-devtools/go/go_1.11.bb
-@@ -1,2 +1,14 @@
- require go-${PV}.inc
- require go-target.inc
-+
-+export GOBUILDMODE=""
-+
-+# Add pie to GOBUILDMODE to satisfy "textrel" QA checking, but mips
-+# doesn't support -buildmode=pie, so skip the QA checking for mips and its
-+# variants.
-+python() {
-+    if 'mips' in d.getVar('TARGET_ARCH'):
-+        d.appendVar('INSANE_SKIP_%s' % d.getVar('PN'), " textrel")
-+    else:
-+        d.setVar('GOBUILDMODE', 'pie')
-+}
-diff --git a/meta/recipes-devtools/go/go_1.9.bb b/meta/recipes-devtools/go/go_1.9.bb
-index 7da7897..c23ea0c 100644
---- a/meta/recipes-devtools/go/go_1.9.bb
-+++ b/meta/recipes-devtools/go/go_1.9.bb
-@@ -5,6 +5,7 @@ export GO_TARGET_INSTALL = "cmd"
- export GO_FLAGS = "-a"
- export CC_FOR_TARGET = "${CC}"
- export CXX_FOR_TARGET = "${CXX}"
-+export GOBUILDMODE=""
+ 	# Cleanup cfg file
+ 	mv ubinize${vname}-${IMAGE_NAME}.cfg ${IMGDEPLOYDIR}/
  
- do_compile() {
- 	export GOBIN="${B}/bin"
-@@ -16,9 +17,12 @@ do_compile() {
- 	cd ${B}
+ 	# Create own symlinks for 'named' volumes
+-	if [ -n "$vname" ]; then
++	if [ -n "$vname" -o "${IMAGE_NAME_SUFFIX}" != "${image_name_suffix}" ]; then
+ 		cd ${IMGDEPLOYDIR}
+ 		if [ -e ${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs ]; then
+ 			ln -sf ${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs \
+ 			${IMAGE_LINK_NAME}${vname}.ubifs
+ 		fi
+-		if [ -e ${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubi ]; then
+-			ln -sf ${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubi \
++		if [ -e ${IMAGE_NAME}${vname}${image_name_suffix}.ubi ]; then
++			ln -sf ${IMAGE_NAME}${vname}${image_name_suffix}.ubi \
+ 			${IMAGE_LINK_NAME}${vname}.ubi
+ 		fi
+ 		cd -
+@@ -208,12 +247,12 @@ IMAGE_CMD_multiubi () {
+ 		eval local mkubifs_args=\"\$MKUBIFS_ARGS_${name}\"
+ 		eval local ubinize_args=\"\$UBINIZE_ARGS_${name}\"
+ 
+-		multiubi_mkfs "${mkubifs_args}" "${ubinize_args}" "${name}"
++		multiubi_mkfs "${mkubifs_args}" "${ubinize_args}" "${name}" "${MKUBIFS_VOLUMES}"
+ 	done
  }
  
--# for aarch64 ends with textrel in ${PN}
--# http://errors.yoctoproject.org/Errors/Details/185634/
--# ERROR: QA Issue: ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/bin/go' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/pkg/tool/linux_arm64/trace' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/go/1.9.7-r0/packages-split/go/usr/lib/go/pkg/tool/linux_arm64/pprof' has relocations in .text [textrel]
--INSANE_SKIP_${PN} += "textrel"
-+# Add pie to GOBUILDMODE to satisfy "textrel" QA checking, but mips
-+# doesn't support -buildmode=pie, so skip the QA checking for mips and its
-+# variants.
-+python() {
-+    if 'mips' in d.getVar('TARGET_ARCH'):
-+        d.appendVar('INSANE_SKIP_%s' % d.getVar('PN'), " textrel")
-+    else:
-+        d.setVar('GOBUILDMODE', 'pie')
-+}
+ IMAGE_CMD_ubi () {
+-	multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}"
++	multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}" "" "${MKUBIFS_VOLUMES}"
+ }
+ 
+ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}"
 -- 
-2.7.4
+2.19.1
 
 
