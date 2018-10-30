@@ -1,49 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A3FF79CC4
+Return-Path: <srifenbark@gmail.com>
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+	[209.85.208.50])
+	by mail.openembedded.org (Postfix) with ESMTP id C457879CD4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 21:32:37 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id b22-v6so15359227qtr.11
+	Tue, 30 Oct 2018 22:06:42 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id w19-v6so11923796eds.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 14:32:38 -0700 (PDT)
+	Tue, 30 Oct 2018 15:06:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=T6ZJvQ1MJZRLJKnqPdnfC2+tbln7XmR7bvvUShyfCMc=;
-	b=IP55RMX2Au15h4kUhT49f/AUC75MHavvIU/AkO3R4X7Q1pHCva6CiyDsqvfc3Q9zeN
-	UwnwEON2ghW+y1ig1h9bqC/WtjipqRGPyluXJxhUETdRFhHMVkXIOGErXAN8UG+bxW3q
-	P3TjyZrvbvgW7Yao/lnOobA0NJda4KU8I2jANEBWNQJA42X4tcAlJBpzOeQwxjoOZ07Q
-	qjq+uPnWw5uId3iWTvLs3n+tMDB336ax0cTUxuaE3TgVOzmB39fA9krHK42cYbTuhtvN
-	brTuR/ofai765udVsXrhaLufMHfIvh7ux/k2zmIwiJQQr1VDtjkV0WeLPqha4OeJ0v5W
-	GoNA==
+	:cc; bh=HDXNL5Lhwq187mgpu7T6l7EZcMIIn9bZG/ckSXIdxRE=;
+	b=hRXF1maNDuRgABr2NizcFXzlsmUO+sAGBpaZPALs8jBvUqhj7xqdcXIs/4aNLcMz7z
+	mxGLI90BvcfDfMzzsiGCj/DV33Xl4q3H/cp2uUxkaC+OH6V/bXdBsymEfBesn5XbdyCh
+	8rdMXBn2KAlF0cUcec3lodlxNqN/kyRQeuOXF/ainMLrv6d1HUU9g6SSUWA6Q350BqIR
+	//D45uGzjORQy6TtyIqlaME4LrAFP5BS9yJZB5U2W5Tu75NjTTcuThXIkptooYd4mGqP
+	qD6yMIgM2CPRTvnMOQJNxUCT0DoCHZss0+pmzOeWK7t4npwz957CijfAwrddMR7FL5pr
+	WCYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=T6ZJvQ1MJZRLJKnqPdnfC2+tbln7XmR7bvvUShyfCMc=;
-	b=mmVKmbwU9fStmnUb9qeQf33wWkA7+J/t2pFtTtl3BIj+aFKLZU3IIxmDFz7d2ZkiIP
-	Q9r3D++sM7vbBD/gedJ/uVF6iKRXiVDlX7nCmAlX7lkdoteze6egzuqzs1uYw+jIJXF9
-	/3lBqNFpnVCYRek3I31uU103PUpw/blH+7r+ZN5gO+5JyKSP8FDVBGf/+ZsU4QO7wKbh
-	QvPTPI3poThBtW8pmhOOdJWMiOPcFUCVDcga08zrZoRLMA2LwfZKnE7EPu+Zp1LAce9c
-	zQpAQMGOl8fhMdjJvXkeji3yNX8J4Ma2s8WUF8QUhioLdnjjjLodg1VfSBrYYFElPjrJ
-	Tzow==
-X-Gm-Message-State: AGRZ1gK+fGW/i1+O84BfjcurAOOEaTr6Z6KNfwOXlMbeyoN5/FMkUlsX
-	bvdC+IzwxY6fBGkvtTfaEuKYe89kccM7r/IyzJU=
-X-Google-Smtp-Source: AJdET5c7nQNlfWsDKYjXUVgXeZe2G80qwi8DpDEl1SJd+HU4ErhcpFUKVqqs53jNuSCrpt8qJz+LTN6/vctCXzRIy+I=
-X-Received: by 2002:aed:3e94:: with SMTP id
-	n20-v6mr407726qtf.196.1540935157871; 
-	Tue, 30 Oct 2018 14:32:37 -0700 (PDT)
+	bh=HDXNL5Lhwq187mgpu7T6l7EZcMIIn9bZG/ckSXIdxRE=;
+	b=slYUTHcuAkJn3eYYcowRdRGwAyakC0Fc37aoB/AYZEHeCd6GtQnjZXz8RSphuoUqSd
+	761XvIfR5PrImfEViRuv2Iz5PqLCffEZWnfnD5dPKF3/arsrQUvLpP7vw/7SGyine1l7
+	H6xCnIgC6bsPM3oijo+VDhjXVAF7FjSxgc6wWss2AlEvMfXj/2UAyVXU46HjNGrza+Ik
+	jJ2FYQPpmxGJ3+ly63WTtQfow+KTJo0VXJmvFt+RiMC3s1bLWeaaeKRAxS24pIYTbyud
+	NtzIHRSRQ5Ss7r63DR9+4w4eD5TK5es2ZnroaIE1FgLLD2R6o4XnBDfrvFOg26I48oMF
+	YBEQ==
+X-Gm-Message-State: AGRZ1gJNFtE/a7K753pism28KyzkMS/5ZzUcKlfj9vdM52DRtPcpPSpp
+	0Y+5+lrFmBvTXyExj3cmRHspzS2SyO8LN6DGdnc=
+X-Google-Smtp-Source: AJdET5dy2hjObqNBRHaq67fwt1YAkGVzU4YSyYYS1cW0r4VQEQi8UCDGCJgj8dY2tXsvuB41iXT89HpI/4XA7KQt+nQ=
+X-Received: by 2002:a50:8f23:: with SMTP id 32-v6mr246852edy.158.1540937203337;
+	Tue, 30 Oct 2018 15:06:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181030152208.119322-1-oleksandr.kravchuk@pelagicore.com>
-In-Reply-To: <20181030152208.119322-1-oleksandr.kravchuk@pelagicore.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 30 Oct 2018 15:32:11 -0600
-Message-ID: <CAMKF1spKv8dPCTcsmBtSjWYRxNkv+AxHsFrEmSc-zOjbiGneRg@mail.gmail.com>
-To: open.source@oleksandr-kravchuk.com
-Cc: oleksandr.kravchuk@pelagicore.com,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mpfr: fix SRC_URI
+References: <2829165.0Ht5z2aexs@localhost.localdomain>
+In-Reply-To: <2829165.0Ht5z2aexs@localhost.localdomain>
+From: Scott Rifenbark <srifenbark@gmail.com>
+Date: Tue, 30 Oct 2018 15:06:31 -0700
+Message-ID: <CAFNP8OvFy2n7SMe5de66EcdM3URFm-b+dpcqS09hW0CMa9rNaA@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: 2.6 migration guide
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,41 +54,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2018 21:32:37 -0000
+X-List-Received-Date: Tue, 30 Oct 2018 22:06:43 -0000
+Content-Type: multipart/alternative; boundary="000000000000a04d7c0579796635"
+
+--000000000000a04d7c0579796635
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 30, 2018 at 9:22 AM Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
->
-> mpfr.org is not accessible at the moment.
->
+Paul,
 
-it seems to back/working ok
+Thanks for sending.
 
-> Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-> ---
->  meta/recipes-support/mpfr/mpfr_4.0.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Contributors....
+
+I have an initial section at
+https://yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#moving-to-the-yocto-project-2.6-release,
+which is based on Richard's input.  I am sure there are more items.
+
+Thanks,
+Scott
+
+On Tue, Oct 23, 2018 at 2:14 PM Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
+
+> Hi folks
 >
-> diff --git a/meta/recipes-support/mpfr/mpfr_4.0.1.bb b/meta/recipes-support/mpfr/mpfr_4.0.1.bb
-> index 2eee76a357..6c609589ed 100644
-> --- a/meta/recipes-support/mpfr/mpfr_4.0.1.bb
-> +++ b/meta/recipes-support/mpfr/mpfr_4.0.1.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
->                     file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6"
->  DEPENDS = "gmp autoconf-archive"
+> When Scott prepares the migration guide for a release, he usually looks to
+> me
+> to collate the notable changes for it (those requiring user intervention).
+> I
+> haven't prepared anything yet though and the 2.6 release is fast
+> approaching.
+> Can anyone who has been involved in or is aware of such changes in master
+> for
+> upcoming 2.6 (thud) make a note of it on the wiki in raw form on this page:
 >
-> -SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz \
-> +SRC_URI = "https://ftp.gnu.org/gnu/mpfr/mpfr-${PV}.tar.xz \
->             file://0001-Fix-obsolete-ARC-asm-constraints.patch"
->  SRC_URI[md5sum] = "b8dd19bd9bb1ec8831a6a582a7308073"
->  SRC_URI[sha256sum] = "67874a60826303ee2fb6affc6dc0ddd3e749e9bfcb4c8655e3953d0458a6e16e"
+>   https://wiki.yoctoproject.org/wiki/FutureMigrationGuide
+>
+> Scott and I will take care of cleaning it up, so things added there don't
+> need
+> to be perfect.
+>
+> I will also be doing my usual trawl through the commits in the release for
+> the
+> more general changelog, so most things will get picked up that way, but
+> it's
+> really helpful if people with first-hand knowledge of the implications of
+> some
+> of these changes are involved in how they get documented.
+>
+> Thanks,
+> Paul
+>
 > --
-> 2.17.1
+> Paul Eggleton
+> Intel Open Source Technology Centre
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
+--000000000000a04d7c0579796635
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Paul,<br></div><div><br></div><div>T=
+hanks for sending.=C2=A0 <br></div><div><br></div><div>Contributors....</di=
+v><div><br></div><div>I have an initial section at <a href=3D"https://yocto=
+project.org/docs/2.6/ref-manual/ref-manual.html#moving-to-the-yocto-project=
+-2.6-release">https://yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#=
+moving-to-the-yocto-project-2.6-release</a>, which is based on Richard&#39;=
+s input.=C2=A0 I am sure there are more items.</div><div><br></div><div>Tha=
+nks, <br></div><div>Scott<br></div></div></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr">On Tue, Oct 23, 2018 at 2:14 PM Paul Eggleton &lt;<a hr=
+ef=3D"mailto:paul.eggleton@linux.intel.com">paul.eggleton@linux.intel.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi folks<br>
+<br>
+When Scott prepares the migration guide for a release, he usually looks to =
+me <br>
+to collate the notable changes for it (those requiring user intervention). =
+I <br>
+haven&#39;t prepared anything yet though and the 2.6 release is fast approa=
+ching. <br>
+Can anyone who has been involved in or is aware of such changes in master f=
+or <br>
+upcoming 2.6 (thud) make a note of it on the wiki in raw form on this page:=
+<br>
+<br>
+=C2=A0 <a href=3D"https://wiki.yoctoproject.org/wiki/FutureMigrationGuide" =
+rel=3D"noreferrer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/Fut=
+ureMigrationGuide</a><br>
+<br>
+Scott and I will take care of cleaning it up, so things added there don&#39=
+;t need <br>
+to be perfect. <br>
+<br>
+I will also be doing my usual trawl through the commits in the release for =
+the <br>
+more general changelog, so most things will get picked up that way, but it&=
+#39;s <br>
+really helpful if people with first-hand knowledge of the implications of s=
+ome <br>
+of these changes are involved in how they get documented.<br>
+<br>
+Thanks,<br>
+Paul<br>
+<br>
+-- <br>
+Paul Eggleton<br>
+Intel Open Source Technology Centre<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000a04d7c0579796635--
