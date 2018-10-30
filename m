@@ -1,23 +1,24 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 51F58745AD
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 47AA67459B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 07:53:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9U7r2TF005397
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Oct 2018 00:53:02 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	Tue, 30 Oct 2018 08:00:54 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9U80Yfp005989
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Oct 2018 01:00:45 -0700
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 30 Oct 2018 00:53:01 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Tue, 30 Oct 2018 15:53:00 +0800
-Message-ID: <1540885980-278826-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	14.3.408.0; Tue, 30 Oct 2018 01:00:22 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 30 Oct 2018 16:06:41 +0800
+Message-ID: <cover.1540886735.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] mtd-utils: Update SRC_URI
+Subject: [PATCH 0/1] gdbm: fix ptest failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,39 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2018 07:53:03 -0000
+X-List-Received-Date: Tue, 30 Oct 2018 08:00:54 -0000
 Content-Type: text/plain
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+*** BLURB HERE ***
+The following changes since commit 84eecb017ef92ef36b4df730908828e54aeff85c:
 
-The official repo for mtd-utils is git://git.infradead.org/mtd-utils.git,
-however there comes below error:
-$ git ls-remote git://git.infradead.org/mtd-utils.git
-fatal: unable to connect to git.infradead.org:
-git.infradead.org[0: 198.137.202.133]: errno=Connection timed out
-git.infradead.org[1: 2607:7c80:54:e::133]: errno=Network is unreachable
+  build-appliance-image: Update to master head revision (2018-10-29 17:38:16 +0000)
 
-Use the alternative one instead currently.
+are available in the git repository at:
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- meta/recipes-devtools/mtd/mtd-utils_git.bb | 2 +-
+  git://git.pokylinux.org/poky-contrib ChenQi/gdbm-ptest
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/gdbm-ptest
+
+Chen Qi (1):
+  gdbm: fix ptest failure
+
+ meta/recipes-support/gdbm/gdbm_1.18.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index f53c6c1..b71c997 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -13,7 +13,7 @@ RDEPENDS_mtd-utils-tests += "bash"
- PV = "2.0.2+${SRCPV}"
- 
- SRCREV = "bc63d36e39f389c8c17f6a8e9db47f2acc884659"
--SRC_URI = "git://git.infradead.org/mtd-utils.git \
-+SRC_URI = "git://github.com/sigma-star/mtd-utils.git \
-            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
-            file://0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch \
- "
 -- 
-2.7.4
+1.9.1
 
 
