@@ -1,28 +1,23 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 753D175264
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DA38A7469B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 03:11:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9U3ACFC030643
+	Tue, 30 Oct 2018 03:39:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9U3dPBB017424
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 29 Oct 2018 20:11:14 -0700
-Received: from server.local (128.224.22.160) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 29 Oct 2018 20:10:57 -0700
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <1540836778-6573-1-git-send-email-bruce.ashfield@windriver.com>
-	<CAJ86T=WCuu-Ls-Ch+dMiVnGKRSWvUM9sZd=NfvDw2Z6LLXAO2A@mail.gmail.com>
+	Mon, 29 Oct 2018 20:39:25 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 29 Oct 2018 20:39:25 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <52398487-0079-d88b-f349-0c760fe732fd@windriver.com>
-Date: Mon, 29 Oct 2018 23:10:55 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.1
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 29 Oct 2018 23:39:24 -0400
+Message-ID: <1540870764-17849-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=WCuu-Ls-Ch+dMiVnGKRSWvUM9sZd=NfvDw2Z6LLXAO2A@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][master-next] kernel: change default kconfig mode to olddefconfig
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2][master-next] kernel: use olddefconfig as the primary target for KERNEL_CONFIG_COMMAND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,71 +30,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2018 03:11:57 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Oct 2018 03:39:26 -0000
+Content-Type: text/plain
 
-On 2018-10-29 9:02 PM, Andre McCurdy wrote:
-> On Mon, Oct 29, 2018 at 11:13 AM Bruce Ashfield
-> <bruce.ashfield@windriver.com> wrote:
->>
->> As was warned by commit 312ee68752fa ("kconfig: announce removal
->> of oldnoconfig if used"), it has been removed from the 4.20 kernel.
->>
->> So we switch our default mode to the proper olddefconfig
-> 
-> Mentioning which kernel version first introduced olddefconfig would be
-> useful information here as kernels prior to that version will now fail
-> to build. It looks like the patch was first proposed sometime around
-> 2012:
-> 
->    https://patchwork.kernel.org/patch/1394011/
-> 
-> We may also need to either add a fallback to use oldnoconfig or bump
-> OLDEST_KERNEL (it's currently 3.2.0, which was released in early 2012
-> and so probably predates olddefconfig).
+As was warned by commit 312ee68752fa [kconfig: announce removal of
+oldnoconfig if used], oldnoconfig has been removed from the 4.20 kernel.
 
-We've covered this a few times in the past, and yah, we could
-put a fallback into the command.
+So we switch our default mode to olddefconfig.
 
-I'll spin out a v2 that adds a fallback like we used to have,
-except now with the oldnoconfig as the 2nd option.
+commit fb16d8912 [kconfig: replace 'oldnoconfig' with 'olddefconfig',
+and keep the old name as an alias] introduced olddefconfig in the 3.10
+kernel, we shuffle oldnoconfig to the fallback target.
+
+The fallback mode allows kernels between 3.10 and the currently listed
+oldest kernel of 3.2 to continue to configure.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+
+v2: Tweaked to add a fallback mode as suggested by Andre McCurdy
+
+Not for the release, just wanted to get this in the queue for
+when master reopens so we'll be ready for 4.20+ kernel versions
 
 Bruce
 
-> 
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> ---
->>
->> Not for the release, just wanted to get this in the queue for
->> when master reopens so we'll be ready for 4.20+ kernel versions
->>
->> Bruce
->>
->>   meta/classes/kernel.bbclass | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index e04d2fe00434..d50f4a9ee822 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -492,7 +492,7 @@ sysroot_stage_all () {
->>          :
->>   }
->>
->> -KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} oldnoconfig"
->> +KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig"
->>
->>   python check_oldest_kernel() {
->>       oldest_kernel = d.getVar('OLDEST_KERNEL')
->> --
->> 2.5.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e04d2fe00434..8fe207165ae8 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -492,7 +492,7 @@ sysroot_stage_all () {
+ 	:
+ }
+ 
+-KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} oldnoconfig"
++KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig || yes '' | oe_runmake -C ${S} O=${B} CC="${KERNEL_CC}" oldnoconfig"
+ 
+ python check_oldest_kernel() {
+     oldest_kernel = d.getVar('OLDEST_KERNEL')
+-- 
+2.5.0
 
 
