@@ -1,23 +1,30 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DA38A7469B
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 55FD271BF9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 03:39:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9U3dPBB017424
+	Tue, 30 Oct 2018 04:53:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9U4qVhC000794
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 29 Oct 2018 20:39:25 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 29 Oct 2018 20:39:25 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 29 Oct 2018 23:39:24 -0400
-Message-ID: <1540870764-17849-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+	Mon, 29 Oct 2018 21:52:41 -0700
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 29 Oct 2018 21:52:20 -0700
+To: <openembedded-core@lists.openembedded.org>, "Burton, Ross"
+	<ross.burton@intel.com>, "Yu, Mingli" <mingli.yu@windriver.com>, Khem Raj
+	<raj.khem@gmail.com>
+References: <1540456759-247805-1-git-send-email-mingli.yu@windriver.com>
+	<CAJTo0LYq4aJAp8cUFbmGDer3t9cswKoeVZ3FYgWjUxC19LKA2Q@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <a17b1fae-4e22-35eb-3602-3a3725fd60e4@windriver.com>
+Date: Tue, 30 Oct 2018 00:52:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2][master-next] kernel: use olddefconfig as the primary target for KERNEL_CONFIG_COMMAND
+In-Reply-To: <CAJTo0LYq4aJAp8cUFbmGDer3t9cswKoeVZ3FYgWjUxC19LKA2Q@mail.gmail.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH 0/2] python: add tk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,49 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2018 03:39:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Oct 2018 04:53:23 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-As was warned by commit 312ee68752fa [kconfig: announce removal of
-oldnoconfig if used], oldnoconfig has been removed from the 4.20 kernel.
+On 10/29/18 8:51 AM, Burton, Ross wrote:
+> Terrified to ask, but why?
+> On Thu, 25 Oct 2018 at 09:39, <mingli.yu@windriver.com> wrote:
+>>
+>> 1, move tk recipe from meta-oe
+>> 2, enable tk to add tk support
 
-So we switch our default mode to olddefconfig.
+Well, tcl and tk do go together and Khem's comment from 2013
+suggested that it might be pulled into oe-core some day.
 
-commit fb16d8912 [kconfig: replace 'oldnoconfig' with 'olddefconfig',
-and keep the old name as an alias] introduced olddefconfig in the 3.10
-kernel, we shuffle oldnoconfig to the fallback target.
+I think what started us down this path is a FACE [1] compliance test.
+If there's resistance to moving the package to oe-core, can we
+enable python-tk even if tk stayed in meta-oe, Grace?
+Also, this should be done using using PACKAGECONFIG?
+Finally, what about python3-tk ?
 
-The fallback mode allows kernels between 3.10 and the currently listed
-oldest kernel of 3.2 to continue to configure.
+../Randy
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
-
-v2: Tweaked to add a fallback mode as suggested by Andre McCurdy
-
-Not for the release, just wanted to get this in the queue for
-when master reopens so we'll be ready for 4.20+ kernel versions
-
-Bruce
+[1] https://en.wikipedia.org/wiki/Future_Airborne_Capability_Environment
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index e04d2fe00434..8fe207165ae8 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -492,7 +492,7 @@ sysroot_stage_all () {
- 	:
- }
- 
--KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} oldnoconfig"
-+KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig || yes '' | oe_runmake -C ${S} O=${B} CC="${KERNEL_CC}" oldnoconfig"
- 
- python check_oldest_kernel() {
-     oldest_kernel = d.getVar('OLDEST_KERNEL')
 -- 
-2.5.0
-
+# Randy MacLeod
+# Wind River Linux
 
