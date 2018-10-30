@@ -1,26 +1,47 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C882579BB5
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 37A3079CB2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 16:49:48 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	w9UGnfb2006672
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 30 Oct 2018 16:49:42 GMT
-Message-ID: <7d0550c8af1ad69f6b7832e8d5605e4fd09fe475.camel@linuxfoundation.org>
+	Tue, 30 Oct 2018 16:53:47 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id r63-v6so12513672wma.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Oct 2018 09:53:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=d6KX8wDv3V4L5afKvoxLC5ZVTGvQ2ZZR3cM1+jEwITE=;
+	b=TY6LMIK3cW3dnV9c/KQMybXBqk3IYQyT8ySAJ/UopQI7YLreKpeGwDCC3U45PK3DfL
+	cjLT/y/UazKVlig2QGLm3qBMaVleOgtdgoIK8s4P8F3tKRDUtsql0LP/vGOnLA6fKQ3D
+	FvfEEPtQQHUJTt5SOEiiTA4AdQBBJF1IZlUYE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=d6KX8wDv3V4L5afKvoxLC5ZVTGvQ2ZZR3cM1+jEwITE=;
+	b=rOX1gFvmw/mmSuVtgYJnyA12w11vs8OJUXTMi6P0nwDZe5sB8OHQmUWG57aS7WhIZH
+	OXPh2NBccdRINkk84VP53Iphp4GiXQ1K29jAA78BMmJs83SJ1bnnNx+/IqwPakDeelxr
+	aRKaRhDGLKU9jtu2Hpu7sDrD1VcSJrtQkCPwoJA62BbiMfrzzsgeU8yrGFq8AMoaxQR7
+	7pahvNSd3n2nhwxSzIMM37IHITnnloJMvOJDxQtCbYsTS0VKP39MkIpw0MfXOmJmJkIC
+	75RhaUBMSHZ5FMWHKFAebmclNWUEAxMU+z90ySWepfe7LEB/JEtFa75um+pygltt8exS
+	ZrLQ==
+X-Gm-Message-State: AGRZ1gJZ7HRinpqdLDHD4WrphX6ZTtWFfiIujzwkE+KbY+6PWqFA0D8m
+	e02KkFu4sBnvH9SFT7c9gURuJ+gsyIs=
+X-Google-Smtp-Source: AJdET5dlj6uVXEGePXm+q4oHDIVrwOiw6DDZvTYkohk3CE2F95sqndByaT0tR9ATvOyrH+dERajKxg==
+X-Received: by 2002:a7b:c0cc:: with SMTP id
+	s12-v6mr2564205wmh.39.1540918427329; 
+	Tue, 30 Oct 2018 09:53:47 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	a193-v6sm11973480wma.19.2018.10.30.09.53.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Oct 2018 09:53:45 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Oct 2018 16:49:41 +0000
-In-Reply-To: <09487c1d7e9d9a2cf0c60883ad209712c2d31dc2.camel@andred.net>
-References: <09487c1d7e9d9a2cf0c60883ad209712c2d31dc2.camel@andred.net>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.1 at dan
-X-Virus-Status: Clean
-Subject: Re: broken sstate archives
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Oct 2018 16:53:43 +0000
+Message-Id: <20181030165343.27354-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] oe-init-buildenv/base: Relax python version checks in favour of HOSTTOOLS manipulation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +54,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2018 16:49:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 30 Oct 2018 16:53:47 -0000
 
-On Tue, 2018-10-30 at 15:45 +0000, André Draszik wrote:
-> Having updated poky from 028a292001f64ad86c6b960a05ba1f6fd72199de
-> (end-of
-> July) to 3b77e7b7852549dcfbc426d4ce258e6e857c0acd (mid October), at
-> least
-> two broken sstate archives have been created:
-> 
-> * the sstate archive for update-rc.d package_write_ipk contains a
-> broken
->   main package update-rc.d_0.8-r0_all.ipk
-> * zlib populate_sysroot has a broken sysroot-
-> destdir/lib/libz.so.1.2.11
-> 
-> For the update-rc.d case:
-> * tar tzvvf displays a reasonable size for all files inside the
-> sstate
->   archive
-> * tar xzf extracts all files and sets a size on update-rc.d_0.8-
-> r0_all.ipk,
->   but it's all NULs, and hence is broken
-> * for those who know midnight commander, it's 'open' displays a size
-> of
->   0 bytes for update-rc.d_0.8-r0_all.ipk in the first place
-> 
-> 
-> For the broken zlib sstate archive, things are similar, additionally:
-> * the zlib ipk packages (and their contents) contained inside
->   sstate_zlib_*_package_write_ipk.tgz are actually not broken
-> 
-> 
-> The original (first) build resulting from my poky.git update had
-> actually
-> completed successfully. It is only subsequent builds trying to use
-> the
-> generated sstate artefacts that now don't work.
-> 
-> I can't say for sure whether or not other sstate artefacts are
-> broken, too.
-> 
-> 
-> Any ideas how this could have happened? Have similar issues been seen
-> before?
+Several distros are now shipping "python" as python v3 contra to the original
+python guidelines. This causes users confusion/pain in trying to use our tools.
 
-I've not seen/heard of any reports of that before and it is worrying.
-The question is can you reproduce it? As things stand that is a little
-bit of a hard one to replicate/debug :(
+We can just force "python" to "python2" within HOSTTOOLS to avoid this issue
+and hide the complexity from the user.
 
-Which host OS and filesystem was it?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/base.bbclass    |  6 ++++++
+ meta/conf/bitbake.conf       |  3 ++-
+ scripts/oe-buildenv-internal | 11 +----------
+ 3 files changed, 9 insertions(+), 11 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index df11c8b270e..57b69492ce3 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -128,6 +128,12 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
+                 os.symlink(srctool, desttool)
+             else:
+                 notfound.append(tool)
++    # Force "python" -> "python2"
++    desttool = os.path.join(dest, "python")
++    if not os.path.exists(desttool):
++        srctool = "python2"
++        os.symlink(srctool, desttool)
++
+     if notfound and fatal:
+         bb.fatal("The following required tools (as specified by HOSTTOOLS) appear to be unavailable in PATH, please install them in order to proceed:\n  %s" % " ".join(notfound))
+ 
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 93aee1ae462..dcf20078831 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -476,12 +476,13 @@ export PATH
+ HOSTTOOLS_DIR = "${TMPDIR}/hosttools"
+ 
+ # Tools needed to run builds with OE-Core
++# python is special cased to point at python2
+ HOSTTOOLS += " \
+     [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp comm cp cpio \
+     cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
+     fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
+     head hostname id install ld ldd ln ls make makeinfo md5sum mkdir mknod \
+-    mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd python python2 \
++    mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd python2 \
+     python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed sh sha256sum \
+     sleep sort split stat strings strip tail tar tee test touch tr true uname \
+     uniq wc wget which xargs \
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index 67738723261..52ce32987c0 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -40,16 +40,7 @@ if [ -z "$OE_SKIP_SDK_CHECK" ] && [ -n "$OECORE_SDK_VERSION" ]; then
+     return 1
+ fi
+ 
+-# Make sure we're not using python v3.x as 'python', we don't support it.
+-py_v2_check=$(/usr/bin/env python --version 2>&1 | grep "Python 3")
+-if [ -n "$py_v2_check" ]; then
+-    echo >&2 "OpenEmbedded requires 'python' to be python v2 (>= 2.7.3), not python v3."
+-    echo >&2 "Please set up python v2 as your default 'python' interpreter."
+-    return 1
+-fi
+-unset py_v2_check
+-
+-py_v27_check=$(python -c 'import sys; print sys.version_info >= (2,7,3)')
++py_v27_check=$(python2 -c 'import sys; print sys.version_info >= (2,7,3)')
+ if [ "$py_v27_check" != "True" ]; then
+     echo >&2 "OpenEmbedded requires 'python' to be python v2 (>= 2.7.3), not python v3."
+     echo >&2 "Please upgrade your python v2."
+-- 
+2.17.1
 
 
