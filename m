@@ -1,42 +1,49 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yw1-f50.google.com (mail-yw1-f50.google.com
-	[209.85.161.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EA9E60197
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A8A374596
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 15:46:03 +0000 (UTC)
-Received: by mail-yw1-f50.google.com with SMTP id d126-v6so5095119ywa.5
+	Tue, 30 Oct 2018 16:06:51 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id n18-v6so7575354ioa.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 08:46:05 -0700 (PDT)
+	Tue, 30 Oct 2018 09:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=B+/KhP9JiFhC5O6JupeTU1a4Oqw4sE3b0qBy5mm9AIQ=;
+	b=F8emqAM/K4UbzmF0IpWmLiSE+Zldxg4QPPMJE2x+9g+H27IKspMvzmXAiIEVaage2P
+	dCMkFtHnSPqwnje0RJbEgvVFqRPdJknPHTb1ef5fjVO9Dg9iNKLNZ5nEFCasQIWdPwBt
+	S+Ou4H04oCdGkCmsRcr3UX34Tb+xyUsE2Ldr5k2WYdt9dDsbLCkJ5ykElouEEeBvluoT
+	21qDEKaHp1v6vzBXL3s6G2uYGTy0aQ1YXEO5nLDg6AHYA51KrlTNxl8zTaj8u4aDrl/D
+	M2yi0YGVRGgNqsJFkpxh8vpUgGx9RJNoyxPO5d0FeU4BYZwbD8PrD7apVA4dyD6jRcIy
+	cwyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=TjCixdOSwCzHJvVNmvOW+WknQyASE2F1kVo60xI2o4M=;
-	b=q6SBNkE7SJnIHnXw9htQHFcFhnanSzU1r/NOrjAeZmP3QYVZ0ScSL0ghZrKIXlo93w
-	3J/gBuu5PxkaI2uZ6QfnRsaOXV0t2tXXfZ06IrNbwxbln2vbPVGY7cVqB++8rPO+TUtD
-	bHm7Ach+ykfuSrR71P3vfXJUsuIokZQFgH1dxmGXmeAlZRJwmGpX3SPplOyfoISRzyRv
-	hzIFvybLxUqKirRnLaGfynuLMwRgR7z0/yRNDLo0oeDLZIqVk+7a4qEklo4rvcjX0pmJ
-	Fcl2pWuqrmytVlT1+KMrir2T8tY3hJCCEQEUzEKrcJv+Bs8mYu3cpeEyooYc8BA0VdyE
-	b9ig==
-X-Gm-Message-State: AGRZ1gKWeN5RcbTBahbepsQf/O4wR9bXm1ckVDI+bIEnismSOAkwKLvU
-	u0T8xzW0NH6vQSsGhYrUBg8ordX8
-X-Google-Smtp-Source: AJdET5cyZ2AmCm8znJqCYopnOgBxjHfFgwUvQVRhaFvOLws4qLa37m+5HBdLM9xKfo88/venedZlwQ==
-X-Received: by 2002:a81:b30a:: with SMTP id
-	r10-v6mr3083165ywh.63.1540914362548; 
-	Tue, 30 Oct 2018 08:46:02 -0700 (PDT)
-Received: from bluvision ([77.107.218.170]) by smtp.gmail.com with ESMTPSA id
-	g126-v6sm6515081ywf.9.2018.10.30.08.46.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 30 Oct 2018 08:46:01 -0700 (PDT)
-Message-ID: <09487c1d7e9d9a2cf0c60883ad209712c2d31dc2.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Oct 2018 15:45:59 +0000
-User-Agent: Evolution 3.30.1-1 
-Mime-Version: 1.0
-Subject: broken sstate archives
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=B+/KhP9JiFhC5O6JupeTU1a4Oqw4sE3b0qBy5mm9AIQ=;
+	b=O3gePaU9MDCc5A3SDDJz4zIF7vIWgZAU+7oMxv5xaD4n5TU/ErZUysZCS0qJRYLCdH
+	l1FwclxXpivokUWLaz1YfSfU3D3TaScrllkyXQ5DBMnhoJr81eyW8tQr3HJwqH2BeRtH
+	LJPStrG6zUjhzWh/zYCzwmIBYRpwf80bqL44lObbWassd4NVKDslqS6EuUBjOu3dj+Ft
+	kQ/Ry0CZ1AWVPimY5T1cIHEzcDhe4nqxQRe47FWW0yc27fHUQzBzhuZpWjQxDiCaPqFU
+	htMmBGkEWp2RMGsSanpzdLfFU9uNtXLGyRWGyLFDkFS47smVvfirIGdoTJ8KQTgxLP3U
+	HGnw==
+X-Gm-Message-State: AGRZ1gIfpm0f6AKRPjNY5F8GkMgbxvAf7oyRKHN15UhlQF5b5gLgnZ32
+	1RMG6lCGPx4305A4O9DJW43dFwxJKiwmWWEEbg3+Eg==
+X-Google-Smtp-Source: AJdET5d6tnQiAQzB9UVlf25nntuFFgbaLZR6It4gDTU3hJlUw5vqeobG5Jy1AG8/hdJx8TL5h9A1dSHxaXd5Wlqo4Ak=
+X-Received: by 2002:a6b:b9d5:: with SMTP id
+	j204-v6mr11184899iof.20.1540915612451; 
+	Tue, 30 Oct 2018 09:06:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20181030093655.26251-1-hugues.kamba@arm.com>
+In-Reply-To: <20181030093655.26251-1-hugues.kamba@arm.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Oct 2018 16:06:40 +0000
+Message-ID: <CAJTo0LZsRLrwRTDyU6iFHjdm6PwajpLjRN3RbufZLuik0bCdxw@mail.gmail.com>
+To: Hugues.Kamba@arm.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] python3: Fix python3-pyvenv run-time dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,47 +56,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2018 15:46:04 -0000
+X-List-Received-Date: Tue, 30 Oct 2018 16:06:51 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Patch looks good, but the commit message contradicts itself a few
+times.  python3-pyvenv is removed, but:
 
-Having updated poky from 028a292001f64ad86c6b960a05ba1f6fd72199de (end-of
-July) to 3b77e7b7852549dcfbc426d4ce258e6e857c0acd (mid October), at least
-two broken sstate archives have been created:
+"   This patch adds the python3-venv module as a self-contained package whi=
+ch
+    python3-pyvenv must depend on at run-time."
+    This patch specifies the newly created
+    python3-venv as a run-time dependency of python3-pyvenv."
 
-* the sstate archive for update-rc.d package_write_ipk contains a broken
-  main package update-rc.d_0.8-r0_all.ipk
-* zlib populate_sysroot has a broken sysroot-destdir/lib/libz.so.1.2.11
-
-For the update-rc.d case:
-* tar tzvvf displays a reasonable size for all files inside the sstate
-  archive
-* tar xzf extracts all files and sets a size on update-rc.d_0.8-r0_all.ipk,
-  but it's all NULs, and hence is broken
-* for those who know midnight commander, it's 'open' displays a size of
-  0 bytes for update-rc.d_0.8-r0_all.ipk in the first place
-
-
-For the broken zlib sstate archive, things are similar, additionally:
-* the zlib ipk packages (and their contents) contained inside
-  sstate_zlib_*_package_write_ipk.tgz are actually not broken
-
-
-The original (first) build resulting from my poky.git update had actually
-completed successfully. It is only subsequent builds trying to use the
-generated sstate artefacts that now don't work.
-
-I can't say for sure whether or not other sstate artefacts are broken, too.
-
-
-Any ideas how this could have happened? Have similar issues been seen
-before?
-
-
-Cheers,
-Andre'
-
-
+Ross
+On Tue, 30 Oct 2018 at 13:08, Hugues Kamba <Hugues.Kamba@arm.com> wrote:
+>
+> Pyvenv is just a small script that uses venv to create virtual
+> environments.
+> https://www.python.org/dev/peps/pep-0405/#creating-virtual-environments
+>
+> This patch adds the python3-venv module as a self-contained package which
+> python3-pyvenv must depend on at run-time.
+>
+> The patch also provides the package python3-pyvenv from the pyhton3-venv
+> package.This is good for future-proofing since python3-pyvenv has been
+> deprecated and only python3-venv is now available in Python 3.6.
+> https://docs.python.org/3/library/venv.html.
+>
+> Without this patch python3-pyvenv is broken because it is missing the
+> venv module at run-time. This patch specifies the newly created
+> python3-venv as a run-time dependency of python3-pyvenv.
+>
+> Signed-off-by: Hugues Kamba <hugues.kamba@arm.com>
+> ---
+>  .../python/python3/python3-manifest.json         | 16 ++++++++++++++++
+>  meta/recipes-devtools/python/python3_3.5.6.bb    |  4 ++--
+>  2 files changed, 18 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b=
+/meta/recipes-devtools/python/python3/python3-manifest.json
+> index f922561368..ef7fa4ecaf 100644
+> --- a/meta/recipes-devtools/python/python3/python3-manifest.json
+> +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+> @@ -1107,6 +1107,22 @@
+>              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/getpass.*.pyc"
+>          ]
+>      },
+> +    "venv": {
+> +        "summary": "Provides support for creating lightweight virtual en=
+vironments with their own site directories, optionally isolated from system=
+ site directories.",
+> +        "rdepends": [
+> +            "compression",
+> +            "core",
+> +            "logging",
+> +            "shell",
+> +            "stringold",
+> +            "unixadmin"
+> +        ],
+> +        "files": [
+> +            "${libdir}/python${PYTHON_MAJMIN}/venv",
+> +            "${bindir}/pyvenv*"
+> +        ],
+> +        "cached": []
+> +    },
+>      "xml": {
+>          "summary": "Python basic XML support",
+>          "rdepends": [
+> diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes=
+-devtools/python/python3_3.5.6.bb
+> index 2a4547694a..31f8eada11 100644
+> --- a/meta/recipes-devtools/python/python3_3.5.6.bb
+> +++ b/meta/recipes-devtools/python/python3_3.5.6.bb
+> @@ -226,8 +226,8 @@ FILES_${PN}-2to3 +=3D "${bindir}/2to3-${PYTHON_MAJMIN=
+}"
+>  FILES_${PN}-pydoc +=3D "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3=
+"
+>  FILES_${PN}-idle +=3D "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
+>
+> -PACKAGES =3D+ "${PN}-pyvenv"
+> -FILES_${PN}-pyvenv +=3D "${bindir}/pyvenv-${PYTHON_MAJMIN} ${bindir}/pyv=
+env"
+> +# provide python-pyvenv from python3-venv
+> +RPROVIDES_${PN}-venv +=3D "${PN}-pyvenv"
+>
+>  # package libpython3
+>  PACKAGES =3D+ "libpython3 libpython3-staticdev"
+> --
+> 2.18.0
+>
+> IMPORTANT NOTICE: The contents of this email and any attachments are conf=
+idential and may also be privileged. If you are not the intended recipient,=
+ please notify the sender immediately and do not disclose the contents to a=
+ny other person, use it for any purpose, or store or copy the information i=
+n any medium. Thank you.
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
