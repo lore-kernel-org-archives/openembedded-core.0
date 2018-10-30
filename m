@@ -1,46 +1,16 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 917B879C7E
+Return-Path: <fabien.lahoudere@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D46679C57
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 08:55:08 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Oct 2018 01:55:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,443,1534834800"; d="scan'208";a="86690004"
-Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
-	by orsmga006.jf.intel.com with ESMTP; 30 Oct 2018 01:55:08 -0700
-Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.66]) by
-	KMSMSX151.gar.corp.intel.com ([169.254.10.231]) with mapi id
-	14.03.0415.000; Tue, 30 Oct 2018 16:55:07 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/4] oeqa/core/runner: write testresult to
-	json files
-Thread-Index: AQHUb3SFNfTm37lSGUuAXVXIgSXx86U1ugCAgAG5gnA=
-Date: Tue, 30 Oct 2018 08:55:07 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D043481096E8@PGSMSX109.gar.corp.intel.com>
-References: <1540204485-22641-1-git-send-email-ee.peng.yeoh@intel.com>
-	<e222c50a97c8b1b555cac324659e723b49b28413.camel@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D043480FE86E@PGSMSX110.gar.corp.intel.com>
-	<dc70690050312e882a3aef592bb93507a09715ad.camel@linuxfoundation.org>
-	<86baa5a7d55140c07262ff7c2ec928701e469a88.camel@linuxfoundation.org>
-In-Reply-To: <86baa5a7d55140c07262ff7c2ec928701e469a88.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYjAyMTk1OWEtOTExMi00ODUzLWExNmMtNWZjZjU5ZmY2ZTFlIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZ0FRenlaN2lMZlQ0Rm5RajFhVWp0Nm1sWU9NMitYOXBJWU4ydVp2MzNUbG5GN05ib2JjMHdRZ1d4Q1pmc0ZSSCJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/4] oeqa/core/runner: write testresult to json files
+	Tue, 30 Oct 2018 10:13:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aragua) with ESMTPSA id E4A96276E93
+From: Fabien Lahoudere <fabien.lahoudere@collabora.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Oct 2018 11:12:59 +0100
+Message-Id: <5eb43bde3cf8f9d1a8937520c0baf91621ca8625.1540894302.git.fabien.lahoudere@collabora.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 1/1] archiver: Add xz support to compress sources
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,109 +23,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2018 08:55:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 30 Oct 2018 10:13:05 -0000
 
-SGkgUmljaGFyZCwNCg0KVGhhbmtzIGZvciBzaGFyaW5nIHdpdGggdXMgeW91ciBpbnB1dHMgZm9y
-IHRoaXMgcGF0Y2guIA0KDQpGb3IgdGhlIHdlaXJkICJfIiBwcmVmaXhlcywgdGhlIDMgbmV3IG1l
-dGhvZHMgd2VyZSBpbml0aWFsbHkgZGV2ZWxvcGVkIGluIOKAnE9FU2VsZnRlc3RUZXN0Q29udGV4
-dEV4ZWN1dG9y4oCdIGNsYXNzIHRvIGdhdGhlciBpbmZvcm1hdGlvbiBuZWVkZWQgZm9yIHNlbGZ0
-ZXN0IHRvIHdyaXRlIGpzb24gdGVzdCByZXN1bHQgZmlsZSwgd2hpbGUgdGhlIOKAnE9FU2VsZnRl
-c3RUZXN0Q29udGV4dEV4ZWN1dG9y4oCdIGNsYXNzIGhhdmUgdGhlIHB1YmxpYyBpbnRlcmZhY2Ug
-c3VjaCBhcyAicnVuIiBhbmQgInJlZ2lzdGVyX2NvbW1hbmRzIiwgdGhlIGRlY2lzaW9uIGF0IHRo
-YXQgcG9pbnQgd2FzIHRvIHVzZSAiXyIgZm9yIHRoZSAzIG5ldyBtZXRob2RzIHRvIGhpZ2hsaWdo
-dCB0aGF0IHRoZXNlIG5ldyBtZXRob2RzIGZvciB3YXMgaW50ZXJuYWwgdXNlIGFuZCBhdm9pZCBj
-b25mdXNpb24gd2l0aCB0aGUgZXhpc3RpbmcgcHVibGljIGludGVyZmFjZS4gIFdoaWxlIHBvcnRp
-bmcgdGhlc2UgbmV3IG1ldGhvZHMgdG8gYmJjbGFzcywgSSBtYWRlIHRoZSBtaXN0YWtlIGFuZCBt
-aXNzZWQgdGhlIGZhY3QgdGhhdCAiXyIgd2FzIGEgd2VpcmQgcHJhY3RpY2UgYW5kIG1ha2Ugbm8g
-c2Vuc2UgaW4gYmJjbGFzcy4gVGhhbmsgeW91IGZvciBzaGFyaW5nIHRoaXMgd2l0aCBtZSwgSSB3
-aWxsIHBheSBzcGVjaWFsIGF0dGVudGlvbiBhbmQgYXZvaWQgdGhpcyBpbiBmdXR1cmUuICAgIA0K
-DQpGb3IgdGhlIGlkZW50aWZpZXJzIGZvciB0aGUgY29uZmlndXJhdGlvbiBzZWN0aW9ucyBpbiB0
-aGUganNvbiBmaWxlcyBhcmUgbm90IHVuaXF1ZSBhbmQgcmVzdWx0cyBmcm9tIG11bHRpcGxlIHJ1
-bnMgd2VyZSBiZWluZyBvdmVyd3JpdHRlbiBsb2NhbGx5LiBUaGlzIHdhcyBkb25lIGludGVudGlv
-bmFsbHkgYXMgdGhlIGluaXRpYWwgZGVzaWduIG9mIGpzb24gdGVzdCByZXN1bHRzIGZpbGUgd2Fz
-IGZvciB0aGUgUUEgdXNhZ2UuIEZyb20gUUEgdXNhZ2UsIHRoZXJlIGNvdWxkIGJlIG11bHRpcGxl
-IHNldCBvZiB0ZXN0cyBiZWluZyBleGVjdXRlZCBmb3IgdGhlIHNhbWUgY29uZmlndXJhdGlvbiwg
-c29tZSBvZiB0aGVzZSB0ZXN0IHJlc3VsdCBzZXRzIG1heSBiZSBpbnZhbGlkIGR1ZSB0byBlbnZp
-cm9ubWVudHMgdXNlZCwgd2hlcmUgUUEgb25seSB3YW50IHRoZSBsYXRlc3Qgc2V0IG9mIHRlc3Qg
-dGhhdCB3YXMgdmFsaWQuICBUaHVzIHRoaXMgcmVzdWx0IGluIHRoZSBkZWNpc2lvbiB0byBoYXZl
-IHRoZSBjb2RlIHRoYXQgZ2VuZXJhdGUgdGhlIHVuaXF1ZSBrZXkgd2l0aG91dCB0aW1lc3RhbXAs
-IHNvIHRoYXQgdGhlIGpzb24gdGVzdCByZXN1bHRzIGZpbGUgd2lsbCBvbmx5IHN0b3JlIHRoZSBs
-YXRlc3QgdmFsaWQgcmVzdWx0LiBIb3BlIHRoaXMgZXhwbGFpbiB0aGUgcmVhc29uLiBOb3cgdGhh
-dCB5b3Ugc2hhcmVkIHdpdGggdXMgdGhlIGltcG9ydGFudCBvZiB0aW1lc3RhbXAsIHdlIHVuZGVy
-c3RhbmQgdGhlIHJlc3BvbnNpYmlsaXR5IG9mIHRoaXMganNvbiB0ZXN0IHJlc3VsdHMgZmlsZSB3
-YXMgbW9yZSB0aGFuIFFBLCB3aGVyZSBpdCB3YXMgaW1wb3J0YW50IHRvIGtlZXAgcmVjb3JkIGZv
-ciBhbGwgZXhlY3V0ZWQgdGVzdHMuIA0KDQpIb3BlIHRoaXMgZXhwbGFpbiBzb21lIHJlYXNvbnMg
-Zm9yIHRoZSBwYXRjaCBzdWJtaXR0ZWQuIFRoYW5rIHlvdSBhZ2FpbiBmb3Igc2hhcmluZyB5b3Vy
-IGlucHV0cyB3aXRoIHVzIQ0KDQpCZXN0IHJlZ2FyZHMsDQpZZW9oIEVlIFBlbmcgDQoNCi0tLS0t
-T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiByaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
-b24ub3JnIFttYWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50
-OiBNb25kYXksIE9jdG9iZXIgMjksIDIwMTggOTo1OSBQTQ0KVG86IFllb2gsIEVlIFBlbmcgPGVl
-LnBlbmcueWVvaEBpbnRlbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzRdIG9lcWEvY29yZS9ydW5u
-ZXI6IHdyaXRlIHRlc3RyZXN1bHQgdG8ganNvbiBmaWxlcw0KDQpPbiBNb24sIDIwMTgtMTAtMjkg
-YXQgMTA6NDQgKzAwMDAsIHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmcNCndyb3Rl
-Og0KPiBPbiBUdWUsIDIwMTgtMTAtMjMgYXQgMDY6MzkgKzAwMDAsIFllb2gsIEVlIFBlbmcgd3Jv
-dGU6DQo+ID4gSSBzdWJtaXR0ZWQgdGhlIHJldmlzZWQgcGF0Y2hlcyBiZWxvdy4gU29ycnkgZm9y
-IHRoZSBtaXNzaW5nIA0KPiA+ICJ2ZXJzaW9uICMiIGluIHRoZSBwYXRjaCB0aXRsZS4gQWZ0ZXIg
-dGhpcywgSSB3aWxsIGFkZCB0aGUgInZlcnNpb24gDQo+ID4gIyIgaW50byB0aGUgcGF0Y2ggdGl0
-bGUuDQo+ID4gDQo+ID4gUGxlYXNlIGxldCBtZSBrbm93IGlmIGFueSBxdWVzdGlvbiBvciBpbnB1
-dHMuIFRoYW5rIHlvdSB2ZXJ5IG11Y2ggDQo+ID4gZm9yIHlvdXIgYXR0ZW50aW9uICYgc2hhcmlu
-ZyENCj4gDQo+IFRoYW5rcyBmb3IgdGhlIGNoYW5nZXMuIEkgd2FzIGF0IGEgY29uZmVyZW5jZSBs
-YXN0IHdlZWsgYW5kIHRoZW4gDQo+IGJlY2FtZSB1bndlbGwuIEkgd2FudGVkIHRvIGhhdmUgYSBm
-dXJ0aGVyIGxvb2sgYW5kIHRlc3QgdGhlIHBhdGNoZXMgDQo+IGJlZm9yZSBtZXJnaW5nIGFuZCBJ
-IHdhbnRlZCBhIGNsZWFyZXIgaGVhZCB0byBkbyB0aGF0Lg0KPiANCj4gVW5mb3J0dW5hdGVseSBJ
-IGZvdW5kIGFub3RoZXIgcHJvYmxlbS4gT24gbXkgYnVpbGQgbWFjaGluZSwgaXQgc2hvd3M6DQo+
-IA0KPiBUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6DQo+ICAgRmlsZSAiL21lZGlh
-L2J1aWxkMS9wb2t5L3NjcmlwdHMvb2Utc2VsZnRlc3QiLCBsaW5lIDcwLCBpbiA8bW9kdWxlPg0K
-PiAgICAgcmV0ID0gbWFpbigpDQo+ICAgRmlsZSAiL21lZGlhL2J1aWxkMS9wb2t5L3NjcmlwdHMv
-b2Utc2VsZnRlc3QiLCBsaW5lIDU3LCBpbiBtYWluDQo+ICAgICByZXN1bHRzID0gYXJncy5mdW5j
-KGxvZ2dlciwgYXJncykNCj4gICBGaWxlICIvbWVkaWEvYnVpbGQxL3Bva3kvbWV0YS9saWIvb2Vx
-YS9zZWxmdGVzdC9jb250ZXh0LnB5IiwgbGluZSANCj4gMjg5LCBpbiBydW4NCj4gICAgIHJjID0g
-c2VsZi5faW50ZXJuYWxfcnVuKGxvZ2dlciwgYXJncykNCj4gICBGaWxlICIvbWVkaWEvYnVpbGQx
-L3Bva3kvbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jb250ZXh0LnB5IiwgbGluZSANCj4gMjQ4LCBp
-biBfaW50ZXJuYWxfcnVuDQo+ICAgICBjb25maWd1cmF0aW9uID0gc2VsZi5fZ2V0X2NvbmZpZ3Vy
-YXRpb24oYXJncykNCj4gICBGaWxlICIvbWVkaWEvYnVpbGQxL3Bva3kvbWV0YS9saWIvb2VxYS9z
-ZWxmdGVzdC9jb250ZXh0LnB5IiwgbGluZSANCj4gMjE3LCBpbiBfZ2V0X2NvbmZpZ3VyYXRpb24N
-Cj4gICAgIG1ldGFkYXRhID0gbWV0YWRhdGFfZnJvbV9iYigpDQo+ICAgRmlsZSAiL21lZGlhL2J1
-aWxkMS9wb2t5L21ldGEvbGliL29lcWEvdXRpbHMvbWV0YWRhdGEucHkiLCBsaW5lIDQyLCANCj4g
-aW4gbWV0YWRhdGFfZnJvbV9iYg0KPiAgICAgaW5mb19kaWN0WydsYXllcnMnXSA9IGdldF9sYXll
-cnMoZGF0YV9kaWN0WydCQkxBWUVSUyddKQ0KPiAgIEZpbGUgIi9tZWRpYS9idWlsZDEvcG9reS9t
-ZXRhL2xpYi9vZXFhL3V0aWxzL21ldGFkYXRhLnB5IiwgbGluZSA4MSwgDQo+IGluIGdldF9sYXll
-cnMNCj4gICAgIGxheWVyX2RpY3RbbGF5ZXJfbmFtZV0gPSBnaXRfcmV2X2luZm8obGF5ZXIpDQo+
-ICAgRmlsZSAiL21lZGlhL2J1aWxkMS9wb2t5L21ldGEvbGliL29lcWEvdXRpbHMvbWV0YWRhdGEu
-cHkiLCBsaW5lIDYxLCANCj4gaW4gZ2l0X3Jldl9pbmZvDQo+ICAgICBmcm9tIGdpdCBpbXBvcnQg
-UmVwbywgSW52YWxpZEdpdFJlcG9zaXRvcnlFcnJvciwgTm9TdWNoUGF0aEVycm9yDQo+IE1vZHVs
-ZU5vdEZvdW5kRXJyb3I6IE5vIG1vZHVsZSBuYW1lZCAnZ2l0Jw0KPiANCj4gVGhhdCBpcyBvYnZp
-b3VzbHkgZWFzaWx5IGZpeGVkIGJ5IGluc3RhbGxpbmcgdGhlIGdpdCBtb2R1bGUgYnV0IGl0IA0K
-PiBkb2VzIHJhaXNlIHNvbWUgcXVlc3Rpb25zLCBpbiBwYXJ0aWN1bGFyLCB3aHkgd2UgaGF2ZSB0
-d28gY29kZSBwYXRocyANCj4gd2hpY2ggZG8gdGhlIHNhbWUgdGhpbmcgKG9uZSBpbiBtZXRhZGF0
-YV9zY20uYmJjbGFzcyBhbmQgb25lIGluIA0KPiBsaWIvb2VxYS91dGlscy9tZXRhZGF0YS5weSku
-DQo+IA0KPiBJdCBhbHNvIG1lYW5zIHdlJ3ZlIGp1c3QgYWRkZWQgbmV3IG1vZHVsZSBkZXBlbmRl
-bmNpZXMgdG8gb2Utc2VsZnRlc3QgDQo+IGFuZCB0aGUgb3RoZXIgdGVzdCB1dGlsaXRpZXMgd2hp
-Y2ggd2UgZG9uJ3QgdGVzdCBmb3IgYW55d2hlcmUgb3IgaGF2ZSANCj4gZG9jdW1lbnRlZC4gRG9p
-bmcgdGhpcyBsYXN0IHRoaW5nIGluIE00IGlzIGJhZC4NCj4gDQo+IFNvIHRoaXMgaXMgZ29pbmcg
-dG8gbmVlZCBhIGxpdHRsZSBtb3JlIHRob3VnaHQuLi4NCg0KSSd2ZSBwbGF5ZWQgd2l0aCB0aGUg
-cGF0Y2hlcyB0b2RheS4gVGhlIGFib3ZlIGNhbiBiZSBhZGRyZXNzZWQgYnkgdXNpbmcgdGhlIHNh
-bWUgY29kZSBhcyB3ZSB1c2UgaW4gbWV0YWRhdGFfc2NtIGluIHRoZSBvZXFhIG1ldGFkYXRhIGZp
-bGUgYXMgYSBxdWljayBmaXguIFRoaXMgYWxsIG5lZWRzIHRvIGJlIHJld29ya2VkIGluIDIuNyBh
-ZnRlciB3ZSBzb3J0IG91dCAyLjYuDQpJJ3ZlIGEgcGF0Y2ggcXVldWVkLiBJIGFsc28gbm90aWNl
-ZCB0aGF0Og0KDQoqIFdlIGhhdmUgcG9pbnRsZXNzIGVtcHR5IGxvZyBlbnRyaWVzIGluIHRoZSBq
-c29uIGZpbGVzDQoqIFNES3MgZG9uJ3QgcmVjb3JkIHdoaWNoIE1BQ0hJTkUgYnVpbHQgdGhlbSAo
-aW4gdGhlIHVuaXF1ZSBpZGVudGlmaWVyDQogIG9yIHRoZSBjb25maWd1cmF0aW9uIHNlY3Rpb24p
-DQoqIHRoZSBpZGVudGlmaWVycyBmb3IgdGhlIGNvbmZpZ3VyYXRpb24gc2VjdGlvbnMgaW4gdGhl
-IGpzb24gZmlsZXMgYXJlDQogIG5vdCB1bmlxdWUgYW5kIHJlc3VsdHMgZnJvbSBtdWx0aXBsZSBy
-dW5zIHdlcmUgYmVpbmcgb3ZlcndyaXR0ZW4NCiAgbG9jYWxseQ0KKiB0aGUgcGF0Y2hlcyBjYWxs
-IFNES01BQ0hJTkUgU0RLX01BQ0hJTkUgd2hpY2gganVzdCBjb25mdXNlcyB0aGluZ3MNCiogVGhl
-IGxheWVyIG1ldGFkYXRhIGNvbmZpZyB3YXMgYmVpbmcgc3F1YXNoZWQgaW50byBhIHNpbmdsZSBl
-bnRyeQ0KICB3aXRoIG11bHRpcGxlIGNvbnRlbnRzLCB0aGVyZSBpcyBubyBnb29kIHJlYXNvbiB0
-byBkbyB0aGF0IGluIGpzb24sDQogIGp1c3QgbGVhdmUgdGhlIGZpZWxkcyBzZXBhcmF0ZQ0KKiBU
-aGUgbGF5ZXIgbWV0YWRhdGEgd2FzIGJlaW5nIG9idGFpbmVkIGZyb20gZGlmZmVyZW50IGZ1bmN0
-aW9ucywNCiAgcG90ZW50aWFsbHkgbGVhZGluZyB0byBkaWZmZXJlbnQgcHJvY2Vzc2luZw0KKiBU
-aGUgb3V0cHV0IGRhdGEgd2FzIG5vdCBiZWluZyBwbGFjZWQgaW4gTE9HX0RJUg0KKiBUaGUgZnVu
-Y3Rpb25zIHN0aWxsIGhhZCB3ZWlyZCAiXyIgcHJlZml4ZXMNCg0KU2luY2UgdGltZSBpcyBzaG9y
-dCwgdG8gZml4IHRoZXNlIGlzc3VlcyBJJ20gZ29pbmcgdG8gaW5jbHVkZSBhIHNldCBvZiB0d2Vh
-a3MgZm9yIHRoZSBwYXRjaGVzLg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KDQoNCg==
+In order to be more efficient, we use xz as compression method
+to create GPL sources archives.
+
+Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.com>
+---
+ meta/classes/archiver.bbclass | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index abaef87..13c5129 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -36,6 +36,7 @@ ARCHIVER_MODE[diff] ?= "0"
+ ARCHIVER_MODE[diff-exclude] ?= ".pc autom4te.cache patches"
+ ARCHIVER_MODE[dumpdata] ?= "0"
+ ARCHIVER_MODE[recipe] ?= "0"
++ARCHIVER_MODE[compression] ?= "gz"
+ 
+ DEPLOY_DIR_SRC ?= "${DEPLOY_DIR}/sources"
+ ARCHIVER_TOPDIR ?= "${WORKDIR}/deploy-sources"
+@@ -292,13 +293,13 @@ def create_tarball(d, srcdir, suffix, ar_outdir):
+ 
+     bb.utils.mkdirhier(ar_outdir)
+     if suffix:
+-        filename = '%s-%s.tar.gz' % (d.getVar('PF'), suffix)
++        filename = '%s-%s.tar.%s' % (d.getVar('PF'), suffix, d.getVarFlag('ARCHIVER_MODE', 'compression'))
+     else:
+-        filename = '%s.tar.gz' % d.getVar('PF')
++        filename = '%s.tar.%s' % (d.getVar('PF'), d.getVarFlag('ARCHIVER_MODE', 'compression'))
+     tarname = os.path.join(ar_outdir, filename)
+ 
+     bb.note('Creating %s' % tarname)
+-    tar = tarfile.open(tarname, 'w:gz')
++    tar = tarfile.open(tarname, 'w:%s' % d.getVarFlag('ARCHIVER_MODE', 'compression'))
+     tar.add(srcdir, arcname=os.path.basename(srcdir))
+     tar.close()
+ 
+-- 
+1.8.3.1
+
 
