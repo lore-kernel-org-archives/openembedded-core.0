@@ -1,46 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AA48B79BE4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 08BF779BE4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 19:46:28 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id e126so8501382vsc.9
+	Tue, 30 Oct 2018 19:51:25 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id n11-v6so8073019iob.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 12:46:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 30 Oct 2018 12:51:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=jgRDwAXySkWtHoaS7pa3kPfcibRsbhYH+hFFbOd2Hbs=;
-	b=ZNqvIMM+00oYMIzi7KsqBKJP2S+5Hjb8e6E0QWEQjkVwHGt7DvPXSNuruZu1LQ5n8K
-	yWIFIAbS5vwDfmoZ4TLKV8dkOtegLVdJktOXgLq7XITAH/yQOWPGOVBlmnOrdRDSZ4DU
-	s1wu6OIgNR5hd+EwwLu7YcjbXlZVzR16VWjyfJ6jz/kQ8/1v8hhsr1WSgKa3ZDB6DQS5
-	IVE2ey3F6ot8bNp/jzmc78WvMV6kBwbDzVYo8NeBkjC4m6ss5TPqjHyc5BtwtwSSeJB3
-	rM7Ou5iBkgmvNkndKBzsaehpR/59b9hG+UOnUhxbVui4RR3jxKoC3EwUfWX0nGLJ8nie
-	Sllg==
+	:cc; bh=odN9+St/zzmm+CDnCZz9rdMgUNpwC4BELHUAKFGr4eg=;
+	b=fLmFfDKx7Zfn0SMr4gySSizeMUQVDq6q+xaBGSGY69tG2Ojt/X8Y8l14FkOByHraUU
+	GnvxZzyN3NEJqFXyM9+wZs0/hxaEQ40s4GfOmmA/zSa3I0QsZQO71NA+9hJrtohM2eQx
+	gGxlrHchZS7i8Ra+/wxG8xBGOoSO3hM10ImrVONLFJvoMYK6kCkeP7nXKPVhhqZzVQEx
+	cQdqAGQFTpcWKZ9Yled1goFaUZORhX/zAsrGkE3pGZV2C8ySZ/RaxW6T9StsYA/j1zw+
+	V2dAOIOFaWymKEouuFYCFdruYO1iTtVveniZz7dw1XdLsD4C3nCWaBJljlYQ2lmZIJ9O
+	FaMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=jgRDwAXySkWtHoaS7pa3kPfcibRsbhYH+hFFbOd2Hbs=;
-	b=Q+btvW41Fj+eISEvoto5VBLRieJp2XAwY/wCrlahj+VX9tcBmo/WETz6iIvkn8Hu8g
-	W+FdqHTGTFnBVV2PxV09h8MfmkIdoaj0EL97z7l/PWA1ZNdRQ0pqnrCVPTYAXIxOwLTZ
-	c1yujI9K+XuR20WLycpblFtpvKJfeZcf/sWA7B8hORN8Ue35//lFtYc6ufzAxb8DC+NZ
-	Zkz99VeDK0Yjh4zwxY9UKDWPBKMZriQPg2QnHh5p2SM8ZrD1VlkBp3KOyMAm66ZgdLm2
-	DqGSGvv63/GjWANd4ATQMd5qoMudmpsquB4BCy4gbnQYmJDRF3wW/8Q/q18cJoVSdUYi
-	4y5Q==
-X-Gm-Message-State: AGRZ1gIAav/LQc3D8WxJ1QAubaek38PmBJlHJshFxo826qBIgmPZhPbB
-	1bsVl9acWpayscfDD9P5U+M8OwlV01reRBxo0ZE=
-X-Google-Smtp-Source: AJdET5fmBss2ejMOWzJIM493dJv9NSoAw5anv3pxTcln+IGKtwEW0h8sE47sojV4V4EQnxV2z+yHGBnsoBqX4L782bA=
-X-Received: by 2002:a67:7344:: with SMTP id o65mr25828vsc.223.1540928789408;
-	Tue, 30 Oct 2018 12:46:29 -0700 (PDT)
+	bh=odN9+St/zzmm+CDnCZz9rdMgUNpwC4BELHUAKFGr4eg=;
+	b=JVKgmgCDmkzLVx4fZSHezFORF8oPBqQHvjLSg0hj4xMBTMWuzjBcn4yzZfT6ZtanWm
+	RtV3NMSGcIr2X7BmWZWWqmsaGdb8zLQ1cmrgk7lKkixLzVxOOnT1JPUR4cfH2Fe6CY5W
+	d30lbGcRrTzphOVAzoTzyArs48ywgbPc02iG5v4FN30Pqt3PgvfVULiSuMZMROlr90tM
+	inW/nk1I154EtNfRl849j7C8v8LBzXSata6/gfaj2aN7sYhLxpDBuW1yo5IODuQjQt+H
+	U+ncApaZlogj5ht9TT7PgcgX2GhF1xmH9AiYrzeWIOzFTczgW5ZHmx/4FQaavb0pgTs6
+	Wnqw==
+X-Gm-Message-State: AGRZ1gKnOj7yf4ryLUpvvpsscWJ/zFZ4hbaWS3Bmzur8Ibw9rsjy2rAu
+	AHpNq5NXSU1Dj8UmDomatfTfNDf0ytZdjvmMG6S4qA==
+X-Google-Smtp-Source: AJdET5cvn5ls02Acv06GBHiatxPenNEOLUrSXgu0dKn27Q5OXe04LELyDpLv4WC9kULDouZWJPq8VRJeXvjJkET/9HE=
+X-Received: by 2002:a6b:b583:: with SMTP id
+	e125-v6mr46433iof.201.1540929086895; 
+	Tue, 30 Oct 2018 12:51:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <1540926266-21324-1-git-send-email-bruce.ashfield@windriver.com>
-In-Reply-To: <1540926266-21324-1-git-send-email-bruce.ashfield@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 30 Oct 2018 12:46:18 -0700
-Message-ID: <CAJ86T=XNsuVsh0SWvx-BB4H9r_Y+UsfJzqq4vFG=cs8_tpps2A@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3][master-next] kernel: use olddefconfig as the primary target for KERNEL_CONFIG_COMMAND
+References: <1540885980-278826-1-git-send-email-mingli.yu@windriver.com>
+	<CAJTo0LYGn-tUcgjwMo1801RARVivebmW=sm-dkzy7hdSbjzQuw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYGn-tUcgjwMo1801RARVivebmW=sm-dkzy7hdSbjzQuw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Oct 2018 19:51:15 +0000
+Message-ID: <CAJTo0LYHiG2Q149oQrCfJnMY3Si3rC8zrQ7hC7U7U89igSfD5A@mail.gmail.com>
+To: Mingli Yu <mingli.yu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mtd-utils: Update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,64 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2018 19:46:28 -0000
+X-List-Received-Date: Tue, 30 Oct 2018 19:51:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 30, 2018 at 12:05 PM Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
->
-> As was warned by commit 312ee68752fa [kconfig: announce removal of
-> oldnoconfig if used], oldnoconfig has been removed from the 4.20 kernel.
->
-> So we switch our default mode to olddefconfig.
->
-> commit fb16d8912 [kconfig: replace 'oldnoconfig' with 'olddefconfig',
-> and keep the old name as an alias] introduced olddefconfig in the 3.10
-> kernel, we shuffle oldnoconfig to the fallback target.
->
-> The fallback mode allows kernels between 3.10 and the currently listed
-> oldest kernel of 3.2 to continue to configure.
->
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->
-> v3: dropped 'yes' from the pipeline
->
-> v2: Tweaked to add a fallback mode as suggested by Andre McCurdy
->
-> Not for the release, just wanted to get this in the queue for
-> when master reopens so we'll be ready for 4.20+ kernel versions
->
-> Tested by configuring linux-yocto*
->
-> Bruce
->
->
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index e04d2fe00434..880c5ef17283 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -492,7 +492,7 @@ sysroot_stage_all () {
->         :
->  }
->
-> -KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} oldnoconfig"
-> +KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig || oe_runmake -C ${S} O=${B} CC="${KERNEL_CC}" oldnoconfig"
+It's back now.
 
-Apart from inexplicably swapping the positions of the O= and CC=
-options on the fallback command line (?!?), this version looks good.
-
->  python check_oldest_kernel() {
->      oldest_kernel = d.getVar('OLDEST_KERNEL')
-> --
-> 2.5.0
+Ross
+On Tue, 30 Oct 2018 at 12:13, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> The machine is only down temporarily and should be back soon.  I don't
+> think we should merge this as we'll be reverting shortly.
+>
+> Ross
+> On Tue, 30 Oct 2018 at 07:53, <mingli.yu@windriver.com> wrote:
+> >
+> > From: Mingli Yu <Mingli.Yu@windriver.com>
+> >
+> > The official repo for mtd-utils is git://git.infradead.org/mtd-utils.git,
+> > however there comes below error:
+> > $ git ls-remote git://git.infradead.org/mtd-utils.git
+> > fatal: unable to connect to git.infradead.org:
+> > git.infradead.org[0: 198.137.202.133]: errno=Connection timed out
+> > git.infradead.org[1: 2607:7c80:54:e::133]: errno=Network is unreachable
+> >
+> > Use the alternative one instead currently.
+> >
+> > Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> > ---
+> >  meta/recipes-devtools/mtd/mtd-utils_git.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> > index f53c6c1..b71c997 100644
+> > --- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> > +++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> > @@ -13,7 +13,7 @@ RDEPENDS_mtd-utils-tests += "bash"
+> >  PV = "2.0.2+${SRCPV}"
+> >
+> >  SRCREV = "bc63d36e39f389c8c17f6a8e9db47f2acc884659"
+> > -SRC_URI = "git://git.infradead.org/mtd-utils.git \
+> > +SRC_URI = "git://github.com/sigma-star/mtd-utils.git \
+> >             file://add-exclusion-to-mkfs-jffs2-git-2.patch \
+> >             file://0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch \
+> >  "
+> > --
+> > 2.7.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
