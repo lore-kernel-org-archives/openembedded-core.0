@@ -1,30 +1,25 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 55FD271BF9
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BFC3F79C7F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2018 04:53:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w9U4qVhC000794
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 29 Oct 2018 21:52:41 -0700
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 29 Oct 2018 21:52:20 -0700
-To: <openembedded-core@lists.openembedded.org>, "Burton, Ross"
-	<ross.burton@intel.com>, "Yu, Mingli" <mingli.yu@windriver.com>, Khem Raj
-	<raj.khem@gmail.com>
-References: <1540456759-247805-1-git-send-email-mingli.yu@windriver.com>
-	<CAJTo0LYq4aJAp8cUFbmGDer3t9cswKoeVZ3FYgWjUxC19LKA2Q@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <a17b1fae-4e22-35eb-3602-3a3725fd60e4@windriver.com>
-Date: Tue, 30 Oct 2018 00:52:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Tue, 30 Oct 2018 06:26:44 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9U6QjYZ002851
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Oct 2018 23:26:45 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 29 Oct 2018 23:26:45 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 30 Oct 2018 14:32:42 +0800
+Message-ID: <65b80649f86bc9b49ee5ef2d174ab9559ab1c80d.1540881114.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1540881114.git.Qi.Chen@windriver.com>
+References: <cover.1540881114.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYq4aJAp8cUFbmGDer3t9cswKoeVZ3FYgWjUxC19LKA2Q@mail.gmail.com>
-X-Originating-IP: [172.25.44.4]
-Subject: Re: [PATCH 0/2] python: add tk support
+Subject: [PATCH 1/1] go-dep: disable PTEST_ENABLED for mips and mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2018 04:53:23 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Oct 2018 06:26:44 -0000
+Content-Type: text/plain
 
-On 10/29/18 8:51 AM, Burton, Ross wrote:
-> Terrified to ask, but why?
-> On Thu, 25 Oct 2018 at 09:39, <mingli.yu@windriver.com> wrote:
->>
->> 1, move tk recipe from meta-oe
->> 2, enable tk to add tk support
+The current go-dep does not compile ptest successfully on mips
+and mips64. So as a workaround, disable PTEST_ENABLED explicitly
+to avoid error like below.
 
-Well, tcl and tk do go together and Khem's comment from 2013
-suggested that it might be pulled into oe-core some day.
+  | vet config not found
 
-I think what started us down this path is a FACE [1] compliance test.
-If there's resistance to moving the package to oe-core, can we
-enable python-tk even if tk stayed in meta-oe, Grace?
-Also, this should be done using using PACKAGECONFIG?
-Finally, what about python3-tk ?
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-devtools/go/go-dep_0.5.0.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-../Randy
-
-[1] https://en.wikipedia.org/wiki/Future_Airborne_Capability_Environment
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+diff --git a/meta/recipes-devtools/go/go-dep_0.5.0.bb b/meta/recipes-devtools/go/go-dep_0.5.0.bb
+index f0ce60a..cfc2186 100644
+--- a/meta/recipes-devtools/go/go-dep_0.5.0.bb
++++ b/meta/recipes-devtools/go/go-dep_0.5.0.bb
+@@ -28,3 +28,8 @@ INSANE_SKIP_${PN} += "textrel"
+ # http://errors.yoctoproject.org/Errors/Details/185632/
+ # ERROR: QA Issue: ELF binary '/work/aarch64-oe-linux/go-dep/0.4.1-r0/packages-split/go-dep-ptest/usr/lib/go-dep/ptest/github.com/golang/dep/cmd/dep/dep.test' has relocations in .text [textrel]  
+ INSANE_SKIP_${PN}-ptest += "textrel"
++
++# For compiling ptest on mips and mips64, the current go-dep version fails with the go 1.11 toolchain.
++# error message: vet config not found
++PTEST_ENABLED_mips = "0"
++PTEST_ENABLED_mips64 = "0"
 -- 
-# Randy MacLeod
-# Wind River Linux
+1.9.1
+
 
