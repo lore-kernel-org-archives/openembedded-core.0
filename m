@@ -1,50 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 52CE87965B
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 971E179B8E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Oct 2018 14:40:01 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id f78-v6so7734527pfe.1
+	Wed, 31 Oct 2018 14:40:02 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id z2-v6so5140083pfe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Oct 2018 07:40:02 -0700 (PDT)
+	Wed, 31 Oct 2018 07:40:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=EiJ34b9F+9JdF5n49K1z9TVlqPu0Q7iJXMBj4MqJhf4=;
-	b=nJIxHi8ZtHfB093BDvPajGmMBIB6uui4BXm/gruseWm2teleyh4p8maF1QJ1Ihl72G
-	StNXuiJHEk0b0iJ6f/z637LdXKz8EsOL5cf2TSTQEmSqLnqYZnpOKaxfKSRLzUgYn5Q6
-	4sxVNPVe3SbXYytuz9SGzcRZ/OGnoHHuC3Q/Z6LucBUFla4QPUexlcb0LYe/bokwyi8n
-	pjHCJoi01ME6SdyKvWM2L8UrikkNdojGk80GwSDvikAYwMdmr1qmkqwNIot4di/Gv0HK
-	bNIvI0M1d/ifGTfUXCaN/s3Bd0ZjmP6UpfOtxLdiCaSOjkUim91CLjMH8cuHYR+v/NjL
-	BqLQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=VhCDds8FkX5mu19iZZ5KsGpm0+VHrCv2tUZjAlcfyhQ=;
+	b=t7Xe3B4e/QMlUoJeYq7QyZbBXyc2hD9nS5XlkTz9tZtsMIOsiD+nCdtQhi1Dsl2bKQ
+	OtY20nO8aTEaqbVPG6nte0uA2QiCMop4hvaU1ZqNRmIiooPMeyfIjhuci7DquY83PkF1
+	lzk6C53IAOoeZ0ndzkUMiN1Z44878/IJZNYHaeq7/HRpa9HGLDEZFueE4CBoPg2fIvp8
+	N6gvVWSnZ9G0T60EaYxtMEILbi2667AnHMslf2sNeGZBIWkWRm2vLsfMagQEkXIYqz3y
+	L/YpX6BrbifJ3Q6dYXQz5SKHOE9ej+G0bzHDQO6ilNMP0s5wvQpd1wgR27yb6cv2bxGW
+	Vv5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=EiJ34b9F+9JdF5n49K1z9TVlqPu0Q7iJXMBj4MqJhf4=;
-	b=Gtc/4OfIVKLlwpJKEr8hkddz/qBlohqkzltwi20CSrZa1uWIhcUJfNUsYaZQaRu+jk
-	PQ8ILmF8pvhp148QFuLTiNEvgbuzNIIN3yzDVs2YAYcrTJT8qGz+h8YePQD5wis9KLAK
-	H2ivb+18/PPbVMpOVDPYx6vOgC53FztFElupn+c2MBtyVRxNbCS0wSKmQ7dG58jLC3b4
-	wl18/3mtnS5J/3fRatPSH/xG2/nOyHTc2u3uCFtaeYODQvH3LecwSEWO1rUsiMnufzbK
-	EoNQSzlebi9U+XqWsyBOd/cmXt0XzldKwvHwIiXQfdvfNAJeJlqfQ4hrp69WDKAWRBSr
-	X5kw==
-X-Gm-Message-State: AGRZ1gKUWKbsitxoT3tsBoNOCl+IOfcspqHew93SZZlJMNtSmEIAJGQ9
-	u1IipZneYX8o57Jj9hxGjGYv5bG2
-X-Google-Smtp-Source: AJdET5fYsIj1YKSryKY0B6eTawwy9+XOn0ApPjEwF6W1Y6/6c9VX8bqWsqVUmrT9IHXSDqfo+G1jxA==
-X-Received: by 2002:a62:6181:: with SMTP id
-	v123-v6mr3734208pfb.117.1540996802080; 
-	Wed, 31 Oct 2018 07:40:02 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=VhCDds8FkX5mu19iZZ5KsGpm0+VHrCv2tUZjAlcfyhQ=;
+	b=kDHk4iGolLYM+Mp+HGUC7mQxXmPmxTP9RMzexYsYwns7lU+Ia1ApZGcqDa6TCngmDV
+	66rUGUFOv/89wDAwFp/kHhF2SKyAdu6PuKu5KJieD6/4hfmPUWaF4KzpzZN+Xbn2WjM/
+	f9VJ79pS3GKF/He5UYloN3GhSomMQXRhC4C1cDsEqyxSTUVPjIx239/3CqbbocelplKW
+	4C7+9v78OkabkkWu6huqu6IlENApUvCSe0zyjlP939wdRTPOsLKo6MlKwvpzb3oVm1Qf
+	Z58jtcUyXk8ksiwSDjHdKxco1K3OCGkHVgUeWq94C0CHgb2ODGwbGCYs6H4p9ArkoRHJ
+	fEBg==
+X-Gm-Message-State: AGRZ1gITmD4B+na8dTMPF6EHQfWSTgjDw7veA1aSKLlyMRmAousDaeIh
+	R7eHctjYhfNe7aqB1CTbyLOJFual
+X-Google-Smtp-Source: AJdET5dOWqRLWmtCLG5wN36eHa+hxT3LpdRjP6XxMFmSU48JIBPx2vKdFR8Wnw+ElGDW+Iyp6Z/aDA==
+X-Received: by 2002:a62:8c93:: with SMTP id
+	m141-v6mr3632187pfd.239.1540996803266; 
+	Wed, 31 Oct 2018 07:40:03 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:571:f5d0:d940:5c94])
 	by smtp.gmail.com with ESMTPSA id
-	h17-v6sm7123568pfj.125.2018.10.31.07.40.01
+	h17-v6sm7123568pfj.125.2018.10.31.07.40.02
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 31 Oct 2018 07:40:01 -0700 (PDT)
+	Wed, 31 Oct 2018 07:40:02 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Oct 2018 07:39:56 -0700
-Message-Id: <1540996800-29855-1-git-send-email-akuster808@gmail.com>
+Date: Wed, 31 Oct 2018 07:39:57 -0700
+Message-Id: <1540996800-29855-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [master-next][PATCH 1/5] tzcode-native: update to 2018g
+In-Reply-To: <1540996800-29855-1-git-send-email-akuster808@gmail.com>
+References: <1540996800-29855-1-git-send-email-akuster808@gmail.com>
+Subject: [master-next][PATCH 2/5] tzdata: update to 2018g
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,7 +60,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Oct 2018 14:40:01 -0000
+X-List-Received-Date: Wed, 31 Oct 2018 14:40:02 -0000
 
   Changes to code
 
@@ -84,31 +87,27 @@ X-List-Received-Date: Wed, 31 Oct 2018 14:40:01 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../tzcode/{tzcode-native_2018f.bb => tzcode-native_2018g.bb}     | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2018f.bb => tzcode-native_2018g.bb} (70%)
+ meta/recipes-extended/tzdata/{tzdata_2018f.bb => tzdata_2018g.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/tzdata/{tzdata_2018f.bb => tzdata_2018g.bb} (98%)
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2018f.bb b/meta/recipes-extended/tzcode/tzcode-native_2018g.bb
-similarity index 70%
-rename from meta/recipes-extended/tzcode/tzcode-native_2018f.bb
-rename to meta/recipes-extended/tzcode/tzcode-native_2018g.bb
-index 816e34d..3e2b60a 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2018f.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2018g.bb
-@@ -11,10 +11,10 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
- 
+diff --git a/meta/recipes-extended/tzdata/tzdata_2018f.bb b/meta/recipes-extended/tzdata/tzdata_2018g.bb
+similarity index 98%
+rename from meta/recipes-extended/tzdata/tzdata_2018f.bb
+rename to meta/recipes-extended/tzdata/tzdata_2018g.bb
+index b167540..dba82ac 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2018f.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2018g.bb
+@@ -9,8 +9,8 @@ DEPENDS = "tzcode-native"
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
  UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
  
 -SRC_URI[tzdata.md5sum] = "e5e84f00f9d18bd6ebc8b1affec91b15"
 -SRC_URI[tzdata.sha256sum] = "0af6a85fc4ea95832f76524f35696a61abb3992fd3f8db33e5a1f95653e043f2"
--SRC_URI[tzcode.md5sum] = "011d394b70e6ee3823fd77010b99737f"
--SRC_URI[tzcode.sha256sum] = "4ec74f8a84372570135ea4be16a042442fafe100f5598cb1017bfd30af6aaa70"
-+SRC_URI[tzcode.md5sum] = "b48f0282b80bb7dbe16e35626f446ae9"
-+SRC_URI[tzcode.sha256sum] = "aa53f4fb6570f02081be61dc11ade19ea5a280c23822a5b4016ce0c6be23c427"
 +SRC_URI[tzdata.md5sum] = "e71cb1f9d8d53c43904d79d7aeeedc1b"
 +SRC_URI[tzdata.sha256sum] = "02dfde534872f6513ae4553a3388fdae579441e31b862ea99170dfc447f46a16"
  
- S = "${WORKDIR}"
+ inherit allarch
  
 -- 
 2.7.4
