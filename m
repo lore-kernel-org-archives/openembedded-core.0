@@ -1,50 +1,50 @@
 Return-Path: <rehsack@gmail.com>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 68C2879BB3
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BCFA79BAD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Oct 2018 11:08:27 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id g9-v6so15982991wrq.4
+	Wed, 31 Oct 2018 13:25:06 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id d17-v6so16168471wre.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Oct 2018 04:08:28 -0700 (PDT)
+	Wed, 31 Oct 2018 06:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id;
-	bh=49vPdWKZ9u9dQfrRpubosrIwtYuPrybn1kgZmaUeAJc=;
-	b=oQnFCPHFPpWNSrFvU2M58yOM4M/QpvfDCG0hDhWqjMzmPCt6TD7smRUY0dRcTLkLsg
-	U8yWy/eduhaVX0I1qBaAYovN+StCFKjLZpG+oDD0cJSHFCd0LWCvthZRjvpdRhd8Mcxw
-	TNYBk0S6Vz+eZ3A936E1jQXaxvSVGEtY57jNQ4NdAayHIQ5AVitFH36Ys2BuKfGnSQ8J
-	155dE+r+IdPS98wBNUxkKzYD0r+WYRnMplJ67u49WBdv1xnCb/WNR5hnTKjU7I4E+KRN
-	iGXiXXFAsPVp1GVaSNnJ0B3vJZCT6FyRLAgpe88o67PFa6uEbEmKtNIC4zZFS2Iful5Q
-	zTMA==
+	bh=VOAGy/WNSYwddtdPPRgaQVtSPD5oDhVnt/t0nUOBO1I=;
+	b=Cm9pBWST18GIJKRV6CY90BQUT9nblCGLeleaoWmIPm47W0c1iQU5/ZLY8AiNKpKE9u
+	7Ap7Cj+7rb8NkGLWSWtrod691iJhoo9y+3I7EwK11Cy8KgbotCs4xm77D6KM3p2NnMw6
+	w1k2hDYnQYJiJu+e6HeuAwS6j3ndTuIiKyKYn6qiYMrKpqwyCFpKZVAxscwtT9z4Tp82
+	Aceunikymh6QfoGVsLyUoswoDh9SfyyHoGLGtdeYCG4Q6T8UQa6Rn0h7imzkqNd6wrWJ
+	rtTTPXcNsB3Obul0MuanpIbZRfGLJMWhTevR5LpjBzLNhqAWhQ6X6WOoK4/v3DgNdvWv
+	8oQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=49vPdWKZ9u9dQfrRpubosrIwtYuPrybn1kgZmaUeAJc=;
-	b=npoXTtfAwxI6wLE53o85BPxzE0Ib8F+rquI178ChIzjz6RAmn1Uul760jW2XcxKTbD
-	RRfYZ4ytAZgY/MG5V5jk53mijAi7Py9lnh2eAWDIevv0ch1VDL6jGnxpXg3zITKyV8Qx
-	HxirdYg49GkIR3TaZuERC5QY0sUJuh1SC3c47ta0SMSuB+WY5LSsRd1hwzPjEMKiz5LS
-	UW4TXTXCrAv9YuwUNXfS75ivC3oOjwf2yNy759NEFszkjwRkoCGIUuhF8DFBzQOAlDHT
-	Irwf4VmwrfzEG4wTZfkAj8I7vHhwullwmnf3lfjk+wkb2ykTuFbx88IdvKnOhewMTueL
-	uDKA==
-X-Gm-Message-State: AGRZ1gKEdCdy9RaBzepzlJYUDuupLgCjIK9uPgYFokw0n5Q0XzzC1nkY
-	N6XaAaDl31eDfYFVMwtz8Dj/dXTC
-X-Google-Smtp-Source: AJdET5f/FhhJwHukTLxWbcfs4HwogfO+R3jmryERbjY/68s0CTAA6zajb7yW0WMCU+dZ7USir6N2tQ==
-X-Received: by 2002:adf:80a3:: with SMTP id
-	32-v6mr2459496wrl.231.1540984105847; 
-	Wed, 31 Oct 2018 04:08:25 -0700 (PDT)
+	bh=VOAGy/WNSYwddtdPPRgaQVtSPD5oDhVnt/t0nUOBO1I=;
+	b=XvnxJ5jsZSa1S8U03imVYUyCS9uawC5Mzs5OHAe8LaQYMHhKIH9Yd3wfTCCjxK6TfB
+	RWYXviFZeJsRzLBKlzK1LXWh8T4+Bo+P0nhxgG4udzGAXgF1hYPBT0/hi82RqYbiFxvl
+	mEDSq2gj5q2/1FkmBcpzZpm86M7vbDAde3ClD10jppevo0GXyDtJ4l4BW5F5ff0lnmnm
+	PGPr5datT7gSrf7RTJnRzSUS/yvDjbi8dXtP+TKqPJkTQgE2Mm0DJyvEEQrWtwhxl0NG
+	/6nBdslUhNmUniuk3O2jVBnXyR6+K5Wx3Xq+HasIlip1SZZaFJK1TspYgrvOZhTzhsPI
+	zHPA==
+X-Gm-Message-State: AGRZ1gJrdbiCTtfcLz47n7TF4tFltI/UIaD0kxQY6DlLFQw6lqSUXmPH
+	KxfhjQJ2INs0ZECJiGZtlTk3pyc2
+X-Google-Smtp-Source: AJdET5eeTvTn+QKMIzCOqytAkqXGhmvPCK1Q3mfbwaHpiryz22gL6f1b20JYtNsOnT7e2ExTe1HFAQ==
+X-Received: by 2002:adf:f24d:: with SMTP id
+	b13-v6mr2647804wrp.142.1540992305564; 
+	Wed, 31 Oct 2018 06:25:05 -0700 (PDT)
 Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
 	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	c18-v6sm18319447wrr.74.2018.10.31.04.08.24
+	q185-v6sm16592872wmg.45.2018.10.31.06.25.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 31 Oct 2018 04:08:24 -0700 (PDT)
+	Wed, 31 Oct 2018 06:25:04 -0700 (PDT)
 Sender: Jens Rehsack <rehsack@gmail.com>
 From: Jens Rehsack <sno@netbsd.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Oct 2018 12:08:19 +0100
-Message-Id: <20181031110819.2735-1-sno@netbsd.org>
+Date: Wed, 31 Oct 2018 14:24:46 +0100
+Message-Id: <20181031132446.20189-1-sno@netbsd.org>
 X-Mailer: git-send-email 2.17.1
 Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH v6] python3{,-native}: update to 3.7.0
+Subject: [PATCH v7] python3{,-native}: update to 3.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,7 +57,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Oct 2018 11:08:28 -0000
+X-List-Received-Date: Wed, 31 Oct 2018 13:25:07 -0000
 
 Update python3 to recent 3.7.0 release.
 
@@ -112,8 +112,8 @@ Signed-off-by: Jens Rehsack <sno@netbsd.org>
  .../python3/sysroot-include-headers.patch     |  23 +-
  .../python3/uuid_when_cross_compiling.patch   |  24 ++
  meta/recipes-devtools/python/python3_3.5.6.bb | 329 ------------------
- meta/recipes-devtools/python/python3_3.7.0.bb | 299 ++++++++++++++++
- 32 files changed, 722 insertions(+), 1771 deletions(-)
+ meta/recipes-devtools/python/python3_3.7.0.bb | 300 ++++++++++++++++
+ 32 files changed, 723 insertions(+), 1771 deletions(-)
  delete mode 100644 meta/recipes-devtools/python/python3-native_3.5.6.bb
  create mode 100644 meta/recipes-devtools/python/python3-native_3.7.0.bb
  delete mode 100644 meta/recipes-devtools/python/python3/0001-Issue-21272-Use-_sysconfigdata.py-to-initialize-dist.patch
@@ -2915,10 +2915,10 @@ index 2a4547694a..0000000000
 -do_create_manifest[depends] += "python3:do_patch"
 diff --git a/meta/recipes-devtools/python/python3_3.7.0.bb b/meta/recipes-devtools/python/python3_3.7.0.bb
 new file mode 100644
-index 0000000000..b075e51693
+index 0000000000..7d4f67fcd2
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3_3.7.0.bb
-@@ -0,0 +1,299 @@
+@@ -0,0 +1,300 @@
 +# Maintainers hint: with every new release of Python, the task
 +# create_manifest - please see for detailed documentation
 +# inside do_create_manifest
@@ -3137,6 +3137,8 @@ index 0000000000..b075e51693
 +
 +RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2"
 +
++RDEPENDS_${PN}-dev = ""
++
 +BBCLASSEXTEND = "nativesdk"
 +
 +RPROVIDES_${PN} += "${PN}-modules"
@@ -3180,7 +3182,6 @@ index 0000000000..b075e51693
 +            for value in python_manifest[key]['cached']:
 +                    d.appendVar('FILES_' + pypackage, ' ' + value)
 +
-+        d.setVar('RDEPENDS_' + pypackage, '')
 +        for value in python_manifest[key]['rdepends']:
 +            # Make it work with or without $PN
 +            if '${PN}' in value:
