@@ -1,46 +1,46 @@
 Return-Path: <srifenbark@gmail.com>
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
-	[209.85.208.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 532F479C85
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+	[209.85.208.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F1F360017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Oct 2018 15:33:51 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id z12-v6so8224734edp.7
+	Wed, 31 Oct 2018 15:50:56 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id f1-v6so14067790edi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Oct 2018 08:33:52 -0700 (PDT)
+	Wed, 31 Oct 2018 08:50:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=eB2jZ2VU5O2fKWlQqC8QAWaigxrSxTnlisHVfTAIz+U=;
-	b=G0pL+qeT+S9hYdUSjnS7ROFap+uGws0CHuESXgq4jRCXbyDgGvKXF66KbpJhFQIAlF
-	1SdeUp5MQoBTTrQldviwGaqohA+F/QLMWGsXG9YtLYwHdV+S6g6wtaKoLY3LmGO+9+cl
-	zJP4Hh2Uu4MXEBvIzWFydGvOo6z0V3FMdEu7MaAMDw3jC+HJZl/XHk/dw29skpmbQs5K
-	RRxhBE2s9J90F4xK9QEB+vfYG2Vz8I7JujvFu9b/pCVm8DkYtT6gcD+RzLl2roIIPs7X
-	HLPtEstGqSv/kQ0PbkAe5VI2QR6iuTWcx/J0UJwq5o9R954/JcnwPGh2Rqaz2xRxVGU8
-	IZug==
+	:cc; bh=26KpT3NmZC8sv3iCf3CzGJEQDcnliMPttEZKgbSL7IA=;
+	b=nTklGRaGA1868O/nbp8v5zhjuonV2s/kezSk13EtXGxYTKGsRpRwSVppLNxiglIBVL
+	Eb0wbKLknaiQtsE/BTq1RixPmGg1U0t22Qoqa9/QqtObU1XHSbWA2fT8t0vTdsJZQV/R
+	K9aFleygMc+Nz1kuTpXr2h+ii8ibMrOtkG1gG4F+x3pfLY527TiC/Z1QTDKJO9aTPx9o
+	b7/bgoJOUuJGQk8w1o58JS/ZqtAQ2TyuTc6+tUmYjBvVvJJ+BIyHBNq6IwbJ0uWI2pyI
+	kDZiDj2fDMXeW8zdBeIggz66o4q/ggPtv8Fpe2WEOuXP8eYikbXMHBTy2aL1rO91PJtH
+	gjGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=eB2jZ2VU5O2fKWlQqC8QAWaigxrSxTnlisHVfTAIz+U=;
-	b=JqW9JIUYuL/LyJhb5AR5UanKGmWuZek1IIWHWg4OAbQdROYTjiS0usmpFPppzAUd8I
-	z+qqzhwaUiAtg7bdSwjGHFr6wglvS+AlLnYhxaAIl58CxqAyjG53SdNhnrCbhrbwoQVe
-	Rn8YgGYhJ/sUOd4j1O6rC36Q2fhojwYf+ZljwAAtuHqZpvRniJ8FGzhYsJQia28YDH8y
-	SCccgvR7T64qmRke4tEbNyQo3Utiqhbb/jj23fbwVrUi+SNqaOMgkwOSGhCqlHQlP/iz
-	p2K+QgdHHSulF446e6s6FkkeDr9AGa98TJaAUDl+NS00409ggNMeZukcRgtVGw3+7918
-	y+PA==
-X-Gm-Message-State: AGRZ1gIDpcWAfbSkuTe0/Rp9RtmdVhntKEOywmMZeSoiTBaiUfz4PGaH
-	ub1G7QpDMUMA0ybIOTvUnfOIlfW1hrV85O+ecmU=
-X-Google-Smtp-Source: AJdET5c4esamMr8ci3XJhZCul2jt6gYqip023VND3wrvTjkXZh50BDD45D0+f33wOJfhgqTspDclHy1Qyf4jgSPMI2w=
-X-Received: by 2002:a17:906:1a49:: with SMTP id
-	j9-v6mr1932903ejf.45.1541000032013; 
-	Wed, 31 Oct 2018 08:33:52 -0700 (PDT)
+	bh=26KpT3NmZC8sv3iCf3CzGJEQDcnliMPttEZKgbSL7IA=;
+	b=hpHTHrJ2+E8l457mefmUPayzo+hVLM+ifloFynOTZ8oxw2GhRlihSZK19Ixu1YXq0b
+	JxIQQMkTZEDYcYftwnMeNh6/tK7F9r+AyJWnGiLJm4j7GGrBeL9w8WoON3eg9DdVKZnY
+	d2qs9knm/V+hAFRDJyC9B5rPxyY67OnEB5PE7Y37GOjLExb3Em3WrulOXem3Yn52pl6L
+	6yGrtzkTZtd7A1k/2QwAGCJj/leooxSW3lrqoAWz2LY3Idg/ixGU7ZtEnHlllfbl7SOO
+	NUEMh3PRcDHPWtKmpcc8FQUbDBCIb3r9Pc5p95GWnwxV4arzhwTLSK5Ajvuf7vntE6EV
+	ZKIA==
+X-Gm-Message-State: AGRZ1gInvgkyx7Xxy4oeyDFNQ1vO0SMRiwQHU+ZWhamXCSucI2tKhAD+
+	mc8bK6K0ivc0k1Vib3f3OJbhbvmMC1LheGjJ5PU=
+X-Google-Smtp-Source: AJdET5dELbifeFpsdlLoAoBn5XNgigNWZI+s7fRIwHYOH6CH5XV1U8od00PVEEW1K6NkRtW/yR6Rb1+NYXRJ0u0eP5A=
+X-Received: by 2002:a50:985c:: with SMTP id
+	h28-v6mr2447663edb.36.1541001057145; 
+	Wed, 31 Oct 2018 08:50:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <2829165.0Ht5z2aexs@localhost.localdomain>
 	<CAFNP8OvFy2n7SMe5de66EcdM3URFm-b+dpcqS09hW0CMa9rNaA@mail.gmail.com>
 	<25f056c7-d6ba-499f-8bf4-b8d1470fff4b@gmail.com>
 In-Reply-To: <25f056c7-d6ba-499f-8bf4-b8d1470fff4b@gmail.com>
 From: Scott Rifenbark <srifenbark@gmail.com>
-Date: Wed, 31 Oct 2018 08:33:40 -0700
-Message-ID: <CAFNP8OtRYQQ4_YL+wfVutXfb8u6T0gufKOY78-Rw8oRnpnQzSQ@mail.gmail.com>
+Date: Wed, 31 Oct 2018 08:50:45 -0700
+Message-ID: <CAFNP8Otrxa9Zaxb=hMdZrFe-OvUcbf1noC-bMLhmzEj-CUa7CQ@mail.gmail.com>
 To: yocto.user.mailinglist@gmail.com
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	openembedded-core <openembedded-core@lists.openembedded.org>,
@@ -58,14 +58,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Oct 2018 15:33:51 -0000
-Content-Type: multipart/alternative; boundary="00000000000081d08b057988072c"
+X-List-Received-Date: Wed, 31 Oct 2018 15:50:56 -0000
+Content-Type: multipart/alternative; boundary="0000000000009c19e705798844ed"
 
---00000000000081d08b057988072c
+--0000000000009c19e705798844ed
 Content-Type: text/plain; charset="UTF-8"
 
-Thanks Robert...  I will do that.
+Can you tell me why "123456" is also not removed?  That string contains
+instances of "123" and "456"
 
+Thanks,
 Scott
 
 On Wed, Oct 31, 2018 at 12:15 AM Robert Berger <
@@ -103,16 +105,18 @@ yocto.user.mailinglist@gmail.com> wrote:
 >
 >
 
---00000000000081d08b057988072c
+--0000000000009c19e705798844ed
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Thanks Robert...=C2=A0 I will do that.</div><div><br>=
-</div><div>Scott<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr">On Wed, Oct 31, 2018 at 12:15 AM Robert Berger &lt;<a href=3D"mailto:y=
-octo.user.mailinglist@gmail.com">yocto.user.mailinglist@gmail.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex">Hi Scott,<br>
+<div dir=3D"ltr"><div>Can you tell me why &quot;123456&quot; is also not re=
+moved?=C2=A0 That string contains instances of &quot;123&quot; and &quot;45=
+6&quot;</div><div><br></div><div>Thanks, <br></div><div>Scott<br></div></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed, Oct 31, 2018 at 1=
+2:15 AM Robert Berger &lt;<a href=3D"mailto:yocto.user.mailinglist@gmail.co=
+m">yocto.user.mailinglist@gmail.com</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">Hi Scott,<br>
 <br>
 On 31.10.18 00:06, Scott Rifenbark wrote:<br>
 &gt; <br>
@@ -151,4 +155,4 @@ Robert<br>
 <br>
 </blockquote></div>
 
---00000000000081d08b057988072c--
+--0000000000009c19e705798844ed--
