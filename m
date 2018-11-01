@@ -1,50 +1,49 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
-	[209.85.167.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 114A479E9A
+Return-Path: <serhe.popovych@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 75D1B79E96
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Nov 2018 15:49:02 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id m18-v6so14519792lfl.11
+	Thu,  1 Nov 2018 16:34:45 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id j4-v6so18607622ljc.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Nov 2018 08:49:04 -0700 (PDT)
+	Thu, 01 Nov 2018 09:34:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ur5tvb+wVM5ka1nQqR0wU03QMc8ES2MqyoiDDZFpN1I=;
-	b=k/1topItkPxiYAMfZxIDbN3EPKlbaGOZVOgU8gFxZZ9gsRP1XWsnniwdoiQzss9aD0
-	hIzODND07d6RYFqOwn7vuvy0cLMR1jw5/ds2oqsDGEZ+ZvNRUyDiByxDPWFkFwnpRw8L
-	NGos/QgU9GgKmyLwsyOdJa6rOfhiWxTAtAxXLHl4dLold8f7ve1qYVZ7Be6k6Am+IJv4
-	5/ptzebmrK9ysRPNSWOnnG5kt+R3MgQ6upVfQPx35TWnmBGEt9zQwvFbMRTZCuv8URuS
-	fBfYkwL+mrOsEay1QrJXLEJZS3OEcNmjn2wSzs52OLiLhlNr1rj8X4aiaz9ALPulkKvj
-	ALiA==
+	h=from:to:subject:date:message-id;
+	bh=s7AXUoOjtGaaG70ojmlzJkRnSEw1/41Dn2nVAKp0T8I=;
+	b=tjSyzm7x2ZadtclDiY2q/0d8bcLUkhbYNKPlNB3eauWkmvXwHocW3JMPlwQb+ppi3W
+	ATpTM/U10sgba/COx2IEdusPzaK15mF7GvmyrzA4aFDodqNoJUqYyuEkYmKL++KnRGFn
+	2Qm+O/GsVGWrm2YJJcAttqIRVbqDSXXd6Kf01gnvVun30SDUECoF+hehX+5OFV86P044
+	aw+Us2wKCAqovA24AndTrUD5Okh3x1p05OVzC6Q4Gvnu5FKHysoALj4mOVNMlBG3CJw9
+	33mGMvP3BptIqvkM21lBL5Cz1LTcntEJzqfPdUiWkgHS3V/HgmUMgmnAycJgoyomr9AE
+	2+Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ur5tvb+wVM5ka1nQqR0wU03QMc8ES2MqyoiDDZFpN1I=;
-	b=Um901wphZ9Q2Y/ZBqA29+ybzP/0F0Ou5gfGCbeDePt1XARWUOBfarlH5ZtGmVaxyjj
-	y8HMP1pfSK2ovHd47ZeJlvsFUQXCS4Q5YpO/3oa9l61bfBKvcg5jviU4aeRFDQ0R9bNU
-	UZU83KxZoswkVU85cnEskcdxVId0gX8hCvejyfmxf36EfEwFW6ugzguirLimvIFaDTDR
-	xqSjkBdPn0PZw3PPI7j+wawatJJIpruICAz/ZEXlKMIQpPzHAyATPNuRrcjJ89u+TF+2
-	fe6CqjJeGDoqUCBHLBi2iv/yIKzxpQAqhqZLhRTUrQ3hrODD4kcwxdTx/zXSi/KtkExN
-	hs7g==
-X-Gm-Message-State: AGRZ1gL5LsttN3yKg/rv0jvwGIiYXWBQI5bHJrFNVEosXkCNDIE6Cnqa
-	CareyQfRqEzVI/i6aJHsscMN/4pVUUmQp8ek7fBtdXRU
-X-Google-Smtp-Source: AJdET5f2gnXYP8kKsijqhVn1NVdD8+JbHLyLBsNubfGxqL4Cz6uS72ih0jElOCu3Q7aGFjInVWCDCxRPZuRIP3y2Xuo=
-X-Received: by 2002:a19:5f1e:: with SMTP id t30mr4588053lfb.76.1541087343013; 
-	Thu, 01 Nov 2018 08:49:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181101140417.GA12376@linux-uys3>
-	<6b8e3db1-d7f1-8abb-dc79-c3fa1c03b97d@gmail.com>
-In-Reply-To: <6b8e3db1-d7f1-8abb-dc79-c3fa1c03b97d@gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Thu, 1 Nov 2018 15:48:51 +0000
-Message-ID: <CAHUNapQP5JxaGu9XnOdHAvJOS3LXYs=2u5Mumty9s_uSXZY=bA@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	yocto-advocacy@yoctoproject.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: OEDAM @ SCaLE 2019
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=s7AXUoOjtGaaG70ojmlzJkRnSEw1/41Dn2nVAKp0T8I=;
+	b=tCtTNo3gqoUjcDRJS+m1DvKPVSRtHlYTpDXaCr/mt9+08iZUAkxUDUxtPPEEa6mTv3
+	mgJf4T98jq6faRbCpYzs7oeyXr4NLWDyjElSg2NbWQJ9hoAsDEkl8lDVN/6rLqvJEnyj
+	5wc9UUoQRZpgh8uNmWmilkqeEG0oHcNCn9N3SZSyDY+vQQs0OYKC9UqO8l5SWrs++3W7
+	8jZVgwBqMUuFvJveB5sEFAXzzSTPtkxox7/KNVFx5ZOWzEacaftbyjHAnFdYU6CdjrHM
+	ZvSbJBce/hPcd+p6NOGivnS2X4g49Dcq89F4Cb9nIjT6d8YLIwDqVXW0kVvlPLnF2ria
+	Y3hA==
+X-Gm-Message-State: AGRZ1gJQsrM40GsM23MM5rkUPxmN5sbWRATPAqYsN7fK3RYCgRG3VLso
+	DMdv+6wfg3osn/hTsg30oimmFi07
+X-Google-Smtp-Source: AJdET5eyQAVsewkK/2q0gNeya0wnZSYQJVVxaZ3tNbs2oMGmg65FUIb8Bhsce6RNG4C8ELSdnmLtWA==
+X-Received: by 2002:a2e:3e06:: with SMTP id
+	l6-v6mr2204495lja.148.1541090085719; 
+	Thu, 01 Nov 2018 09:34:45 -0700 (PDT)
+Received: from v-ubt16-x64-sonic.as41781.net ([193.34.155.16])
+	by smtp.gmail.com with ESMTPSA id
+	e4-v6sm4640129ljk.92.2018.11.01.09.34.44
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 01 Nov 2018 09:34:44 -0700 (PDT)
+From: Serhey Popovych <serhe.popovych@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Nov 2018 18:34:13 +0200
+Message-Id: <1541090053-1643-1-git-send-email-serhe.popovych@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [[PATCH] libgpg-error: Support build for native on ppc64/ppc64le hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,48 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Nov 2018 15:49:03 -0000
-Content-Type: multipart/alternative; boundary="000000000000a613f405799c5b1c"
+X-List-Received-Date: Thu, 01 Nov 2018 16:34:45 -0000
 
---000000000000a613f405799c5b1c
-Content-Type: text/plain; charset="UTF-8"
+Both RHEL and SLES uses ppc64/ppc64le for powerpc 64 bit big/little
+endian targets instead of powerpc64/powerpc64le in libgpg-error.
 
-On Thu, Nov 1, 2018 at 3:32 PM akuster808 <akuster808@gmail.com> wrote:
+Also libgpg-error provides common target system names in form like
+<arch>-unknown-linux-gnu.
 
-> Trevor,
->
->
-> On 11/1/18 7:04 AM, Trevor Woerner wrote:
-> > Please see time indices: 12:13 and 16:45
-> >
-> https://docs.google.com/document/d/1YDAHjIOXCIgvSZVOKCYLxa8h26dkruX8zspoge7zCpk
->
-> Could you please give us a day's notice the next time so we can properly
-> set the perms for our minutes.
->
->
-Will do, sorry!
+Add mapping for ppc64/ppc64le targets to their libgpg-error equivalents
+to fix native builds.
 
---000000000000a613f405799c5b1c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cross build for arm64 tested on IBM Power 8 machine with RHEL7 for
+ppc64le variant only, but should work for ppc64 as well.
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu, Nov 1,=
- 2018 at 3:32 PM akuster808 &lt;<a href=3D"mailto:akuster808@gmail.com">aku=
-ster808@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Tr=
-evor,<br>
-<br>
-<br>
-On 11/1/18 7:04 AM, Trevor Woerner wrote:<br>
-&gt; Please see time indices: 12:13 and 16:45<br>
-&gt; <a href=3D"https://docs.google.com/document/d/1YDAHjIOXCIgvSZVOKCYLxa8=
-h26dkruX8zspoge7zCpk" rel=3D"noreferrer" target=3D"_blank">https://docs.goo=
-gle.com/document/d/1YDAHjIOXCIgvSZVOKCYLxa8h26dkruX8zspoge7zCpk</a><br>
-<br>
-Could you please give us a day&#39;s notice the next time so we can properl=
-y<br>
-set the perms for our minutes.<br>
-<br></blockquote><div><br></div><div>Will do, sorry! </div></div></div>
+Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+---
+ meta/recipes-support/libgpg-error/libgpg-error_1.32.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
---000000000000a613f405799c5b1c--
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
+index 4f3e3d8..8fc95cc 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
+@@ -48,6 +48,7 @@ do_compile_prepend() {
+ 	  mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
+ 	  mips*)      TUPLE=mips-unknown-linux-gnu ;;
+ 	  x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
++	  ppc64*)     TUPLE=powerpc${TARGET_ARCH#ppc}-unknown-linux-gnu ;;
+ 	  *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
+ 	esac
+ 
+-- 
+2.7.4
+
+
