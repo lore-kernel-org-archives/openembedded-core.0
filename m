@@ -1,48 +1,48 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2358379ED3
+Return-Path: <jdmason@kudzu.us>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DC2179F06
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Nov 2018 18:57:13 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id k19-v6so10488081lji.11
+	Thu,  1 Nov 2018 19:56:54 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id c6-v6so13100310iob.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Nov 2018 11:57:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Thu, 01 Nov 2018 12:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=CPM+7MM/jIiqZYiH9e/g4JlTvGkNv/+6Cgjw9GpFi88=;
-	b=XrNnq514nfQnAB35K2NHwk0bc1U3one30r4fLgNIZWxcOxoO2GIBcIDL/bQaiUVLL3
-	esdnhl2ilxFSkA47atm9Jt2KrObsp0tm1xehE6seJHLmYUPgcRLzK3QyAnv7IkaF2cR+
-	QQE8Cf8JOb41/pVZCVEox+wwbL3/I78bgvlas=
+	:cc; bh=LV/RIKMhPBRillueuRgVvLhJzvFhFrM6hLMhkWAgRgg=;
+	b=UdACixr7CWrFhn+yBE0I+lTsXlW/nQTKoxFkxtdWVOXXg2bW/0wyYxMAhXNuDxCmqx
+	mYAYs6TUQjsRgKdnlpmgl94BoxMEbAcri60WsV7WIweTvzDNfctxx4vohNu9H1EdOyXF
+	BrHlUUJs7jyOx7/BNXvDGd3OXtg/5KaIMUvqL+hJogRGGy6e3VFyBnYI7Gapcyt8wkuj
+	tjeq+wMfPGnBi7mKdpH+mM8U2W4GBykF+i3M87sqCkfNobF7/0scUQVO4MYUzvaCoT9R
+	sKesVxANo7OUN/Xeig9pXCZxOn7p/V/J0CasC4AFbEVDibceFTNqe/MHxdRNgze/UQT4
+	g9ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=CPM+7MM/jIiqZYiH9e/g4JlTvGkNv/+6Cgjw9GpFi88=;
-	b=bk/ucyGSbFeBBFG+g4c7B8DuMPA4yvpJBmVcfMEd+N//qIC9yGuLQfCVyqeLvDbb4V
-	vBbxfmeKCcvQWtirtFBC8+YI/5tC9hEX/UqN38G+EXdUJG9cCv13JtOFvGIefX2Tb4C3
-	UWQ9WA4ydNyTnazAMmCtL73JbupbKBbZx/usyNo61vZLfKX/ILewmmPBtOuYzD0+kjS1
-	2FYosZkF+7rjjMTC6KBi51UUfQIeVxIvdpL/gepgqC2CzOdjfrxuhlJ8tQvL68TsujLB
-	tUIP7rAprXfJkoXIj7iTvZETj0L0KHpB7RVz4wF4MaBmxZ2bkzLKZLJlA2U1kZqeGmRx
-	RAVQ==
-X-Gm-Message-State: AGRZ1gL/T5Qlh+EHsUaQrg5x3bmJQxDWfMiiAsyrUMusj731b5ntGnsT
-	8eHnRmn+d2b7/TZAKglSGAKnLy4tZdkRw2SlcKvZJg==
-X-Google-Smtp-Source: AJdET5fzHEtbbvKCtM1Ro2b0+iAWyvjpniiK0l0SqgaSyotio+K9WJa+kuxQDVbDq5VkeFRm2lp5ay9CYRMIP1vU+Oc=
-X-Received: by 2002:a2e:710a:: with SMTP id
-	m10-v6mr2090705ljc.66.1541098634318; 
-	Thu, 01 Nov 2018 11:57:14 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=LV/RIKMhPBRillueuRgVvLhJzvFhFrM6hLMhkWAgRgg=;
+	b=e4Ksg9HWR071GTu5ssp1Pdp6tthVbjzNg1ECO/l0KaZmcEKeakStMutLwEwf1C1vDF
+	VvieI8Xr99vPV6lDReiWpxuXIn1aryDW/19CGkE7o09VprkyvUabZz1nE96KboKISfGG
+	pcJO7JbeGjc1Jbf/ej2hOST/9Wm3d9mKw/EvLv3igExIpQi/Ft3YHMclKd2PpakPLmqr
+	a4TfXajG0RSw5ATpgA5y3vBUDVGxmLtpK/RAeMUBJFQimgKMKybsvtzTRaix1Xe4dQBF
+	zVpqRJLjNV80WwPNiasrlxVQdJv20e38mNSbx7rjRckSFyVLaBuSqjg1vZJgO9PtCi+v
+	jfQw==
+X-Gm-Message-State: AGRZ1gJq/95FURQxCzLrnYNXI+ED/CLIpR5o+C4SvjcGcsT1F2dJ6oLV
+	V6/RzY0sf4O4HqMAkzIxKP7A2BUHUlvbM1sAYJJiWg==
+X-Google-Smtp-Source: AJdET5dmySSv97HrUV50QVwMQJgewBEMp0Arky8ucSGRMSgfn591YF0CBJePpce3JdYWyaP1Yq1k9jQvhRfNTcohLYw=
+X-Received: by 2002:a6b:216:: with SMTP id 22-v6mr6629663ioc.118.1541102214882;
+	Thu, 01 Nov 2018 12:56:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181007194243.2264-1-petr.vorel@gmail.com>
-	<CAEUSe78cdBVy2A2HVO6jEjaDk6-0h7kuKTH__7NUMthg_PUoow@mail.gmail.com>
-	<20181101175803.GA22705@x230>
-In-Reply-To: <20181101175803.GA22705@x230>
-From: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
-Date: Thu, 1 Nov 2018 12:57:02 -0600
-Message-ID: <CAEUSe7_k1042j0GKzVbucvu_VS0AudaxZ88paXTsoCBS6A3NJA@mail.gmail.com>
-To: petr.vorel@gmail.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] ltp: Update to 20180926
+References: <20181101140417.GA12376@linux-uys3>
+In-Reply-To: <20181101140417.GA12376@linux-uys3>
+From: Jon Mason <jdmason@kudzu.us>
+Date: Thu, 1 Nov 2018 15:56:43 -0400
+Message-ID: <CAPoiz9y_prstnR5dsxHNwSk81ShLmkybEXySEESTgZrpgKXMcA@mail.gmail.com>
+To: twoerner@gmail.com
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	yocto-advocacy@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: OEDAM @ SCaLE 2019
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,25 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Nov 2018 18:57:14 -0000
+X-List-Received-Date: Thu, 01 Nov 2018 19:56:54 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hello!
+On Thu, Nov 1, 2018 at 10:04 AM Trevor Woerner <twoerner@gmail.com> wrote:
+>
+> Hello Fellow YP/OE Enthusiasts!
+>
+> There were discussions at our recent OEDEM regarding:
+> - our next developers meeting
+> - SCaLE 2019
+> - expanding/adding to the YP/OE presence at conferences (i.e. our own
+>   miniconf?)
+>
+> Please see time indices: 12:13 and 16:45
+> https://docs.google.com/document/d/1YDAHjIOXCIgvSZVOKCYLxa8h26dkruX8zspoge7zCpk
+>
+> Unfortunately, although lots of opinions were expressed, nothing concrete was
+> decided. Many people pointed out that their travel budgets are already
+> strained or maxed out, so adding another conference would be difficult if not
+> impossible. It's unclear how many "core" YP/OE people might show up at next
+> year's SCaLE. Also, given that this year's ELC scheduling hiccup is a one-off,
+> maybe it doesn't make as much sense to put in all the work required to run an
+> OEDAM at SCaLE if it's only ever going to happen once. Therefore I think I can
+> safely say the organizing committee for YP/OE Things at SCaLE 2019 is leaning
+> towards not running an OEDAM.
+>
+> It's not too late to change our plans. If a large number of core people reply
+> to this email saying they want and OEDAM in March and will be available in
+> Pasadena, then we could accommodate it. It's just that we didn't leave
+> Edinburgh with the feeling that an OEDAM at SCaLE was feasible. Also, at this
+> point SCaLE isn't on the radars of many of the core YP/OE people, and
+> currently the conference tends to attract users rather than developers (or so
+> is my impression).
+>
+> Thoughts?
 
-On Thu, 1 Nov 2018 at 11:58, Petr Vorel <petr.vorel@gmail.com> wrote:
-> > Patch 0040-read_all-Define-FNM_EXTMATCH-if-not-already-like-und.patch
-> > also made it upstream, albeit with a different implementation. See
-> > commit 822ad20433799193e2180862137c36f24e5d27d6.
-> Well, I haven't replaced this one with upgrade :(.
-> Shell I post v3? Or will you do it in separate commit?
+I am planning on being at SCaLE (assuming the OEDEM happens there).
 
-Needs to be dropped:
-0040-read_all-Define-FNM_EXTMATCH-if-not-already-like-und.patch was
-reworked and merged as 822ad204 in time for the 20180926 release.
+Many corporate travel budgets are tied to presenting at conferences.
+So, if we could somehow get a track there (which might be too late in
+the game to do now), then we might be able to get enough people
+present to make it happen and pull in others whose budget is more
+flexible.
 
-Thanks and greetings!
+Thanks,
+Jon
 
-Daniel D=C3=ADaz
-daniel.diaz@linaro.org
+>
+> Best regards,
+>         Trevor
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
