@@ -1,46 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 078D179E88
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
+	[209.85.166.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 970EC79E9E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Nov 2018 16:48:31 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id q1so10961174qkf.13
+	Thu,  1 Nov 2018 16:52:25 +0000 (UTC)
+Received: by mail-io1-f45.google.com with SMTP id o19-v6so12689935iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Nov 2018 09:48:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 01 Nov 2018 09:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ySgC27GjqgamQI21/l9XXtyINiGH7sMsN8Dup3+AiwE=;
-	b=ka7opL0qXizDAlm3rLLRJiAyyEpj963qySrrGydcxZi+7nTnQhLiMAb4EmguIboJi4
-	ej338DX1eylROgaDLUZAjmHLwxrmtn+6eJSCta1WpRk4Xg74C8TCsWZ5XQll5S9n64g3
-	XVoouTPEfJZXZe07yto+LwUItdXqV8A7jLgVbIUgrJ9zfGQX2wAes9vuA3WQwdAKjjZv
-	GIYEgyyDHWivAfW9L1LRzNci/6hNSioCHCTYX7fKSCtzsskFhUSMVJO7NcgkHx3L1j70
-	ND1HHcbjjKZnhM2bEsb7gx55GtnmRVmq/smprLCEQTACE1yARBx5HJUjODHGpKzWZZdU
-	QMhw==
+	:cc; bh=Av1H0Q3Bsd3xS78h1q4eXIWMatvvuiH4u+ujlc+FLAo=;
+	b=RrybFO0+JuXMMqv4ED6nzK/qmYT7/CUK06MBMdrupwjEOVYmli1j6CnDZt5EevUe/V
+	mNS7N5SElXTb6E52oz+yuzzzbggDa29hKOGY1MHtJ/fS+7kwqwK0ldvohOYGq6xB0FLq
+	sb8MsvtnIb+sKf2xk0dLBts3yIxSsFpHua2IoajX45ro6yD5KREIacgg6xcEUtRh1+jD
+	UJaepRy+4A3DxG1bMHVdi4KjssGoXZDqgpMFJERPaf5AIxPxkkveUlXZzUf24dbXK6gf
+	9KUjuv7DjWRWSGXYg3gGSRd+fCvyBuvBAi7i53dWozT2FtaSRuu53HvcUgvzHclgADYt
+	Mlyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=ySgC27GjqgamQI21/l9XXtyINiGH7sMsN8Dup3+AiwE=;
-	b=Wi1VA1B6LEY9VewgHVBfKpNZmCB4bhTIRDcteeuPFWfCYY7CY6T9mGSxkfjUcGpT9k
-	/x4Raswuosy0JjdJ1GhuEZV1h+WBzTEvTbMe2kmzl9O6mVWHnzXLEn15WOccKgVatt+/
-	jfBR3W/Vgqzj1GRscvr6X4Qdd1qnxD+AYWUOUhsCef9GtWfwS0b+ahY2p9SrDUcdmjZD
-	RT+4ovD9j36QJbmDo1g9yhWgziWlotT6W/YeZFb3IKwig8a3dojeUusijy3oEt0qeibP
-	/O0moxHEVpWA8XpxvIHISR0VtFKWSoj1SzSIKmtyIKIKY5aDTWRv/Fc2ag4tTBh3Hppa
-	d3Bg==
-X-Gm-Message-State: AGRZ1gLHNGdF6MlEMEdde9WjPo7xLcqXNndbowwo2gIfN82mnOJ3uUkF
-	Ay/ggktkUoInsTbiPPmHW7yeQAnVKj7hhEI2yuY=
-X-Google-Smtp-Source: AJdET5d5zCGLHN7MxZfz6TwuBTWAutYQFTRMtVRmNJpJF5yL1ccihY7Tcj3x3qlmRJCGwfJ6QRWv21WTeAI3MgR+wsE=
-X-Received: by 2002:a37:ac05:: with SMTP id e5mr7459051qkm.102.1541090912513; 
-	Thu, 01 Nov 2018 09:48:32 -0700 (PDT)
+	bh=Av1H0Q3Bsd3xS78h1q4eXIWMatvvuiH4u+ujlc+FLAo=;
+	b=bVftY2SKCAUMKFrIqu/qPSI8jVl0/N5fV5sQWuyVeslhS9Ob8BdrJCrOxPFKnaXkln
+	YNi8W3LRwiKcf8fmdAa8cShGJNnlno446aBz9Dmfcx2q4C8ePtTNSg/lJHNIVSFpFHjw
+	kxMJUqZTSPhuuo++VQCceV7KS4nNiC6IALwL2VOSh0Ru5fNIy1hGf0dnNTh7dtyJYjlw
+	h2bK0Eyf1BDg24L5cVvhEe9PaGHm45wC9+MpcW7h0hL+fGto7QowIGgn2bipzhzNgEr6
+	2mKjXOAGVadpEzJIRCoSIia1n1x9E/+nACTLrtiKKQSDpVEOs4CloyvyCpW18RWnaNSQ
+	GGyg==
+X-Gm-Message-State: AGRZ1gJ98/mchTt3MBXdb4KA/cSooJvu+Cr5fcJVqEcEIbFrcPnJ9t3A
+	qGTgtRIzFDLVJEif2XMQ4cTrMRa+UFlAj3FJo0tkQw==
+X-Google-Smtp-Source: AJdET5fJJhkHcccEsbYKxLxIv7/yE0m0c8Dwm8SkjHfPPPzEWrBXGyTjbfbPQY6cooF8qNWlbwPnTSMB3ujmPJVcBLA=
+X-Received: by 2002:a6b:1602:: with SMTP id 2-v6mr220827iow.201.1541091146750; 
+	Thu, 01 Nov 2018 09:52:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <1541090053-1643-1-git-send-email-serhe.popovych@gmail.com>
 In-Reply-To: <1541090053-1643-1-git-send-email-serhe.popovych@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 1 Nov 2018 09:48:06 -0700
-Message-ID: <CAMKF1sqGsD3kF2afg=PPdry-3AeP0yFHh49zKNN+t=J8A3L9Wg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 1 Nov 2018 16:52:14 +0000
+Message-ID: <CAJTo0Lb4AMdRUv8JqOkPZQnerrgnHYREdFChb0wBavCH6A0WpQ@mail.gmail.com>
 To: serhe.popovych@gmail.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [[PATCH] libgpg-error: Support build for native on ppc64/ppc64le hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,51 +54,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Nov 2018 16:48:32 -0000
+X-List-Received-Date: Thu, 01 Nov 2018 16:52:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 1, 2018 at 9:35 AM Serhey Popovych <serhe.popovych@gmail.com> wrote:
->
-> Both RHEL and SLES uses ppc64/ppc64le for powerpc 64 bit big/little
-> endian targets instead of powerpc64/powerpc64le in libgpg-error.
->
-> Also libgpg-error provides common target system names in form like
-> <arch>-unknown-linux-gnu.
->
-> Add mapping for ppc64/ppc64le targets to their libgpg-error equivalents
-> to fix native builds.
->
-> Cross build for arm64 tested on IBM Power 8 machine with RHEL7 for
-> ppc64le variant only, but should work for ppc64 as well.
->
-> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
-> ---
->  meta/recipes-support/libgpg-error/libgpg-error_1.32.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-> index 4f3e3d8..8fc95cc 100644
-> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-> @@ -48,6 +48,7 @@ do_compile_prepend() {
->           mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
->           mips*)      TUPLE=mips-unknown-linux-gnu ;;
->           x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
+On Thu, 1 Nov 2018 at 16:35, Serhey Popovych <serhe.popovych@gmail.com> wrote:
 > +         ppc64*)     TUPLE=powerpc${TARGET_ARCH#ppc}-unknown-linux-gnu ;;
 
-if this works with dash shell then its ok. Otherwise just being
-explicit might be better and do we have a variable to indicate
-endianness in siteinfo bbclass called SITEINFO_ENDIANNESS
+I agree with Khem: clever, but explicit wins here.
 
->           *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
->         esac
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
