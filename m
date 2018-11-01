@@ -1,50 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7202D79DF1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Nov 2018 13:26:03 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id d10-v6so20091186wrs.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Nov 2018 06:26:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Ro7AevM5JXh+4sQiQkBAy9DISrwMEHrqxotmq0n58Js=;
-	b=VduayHaSbqZ2TKfCZJVakNoH5jgbiuFO7o3awa1DPyyxOpKXwQHHojZ5zHNjxGjJV6
-	o9CDfYdATS02/MxnUZXDYaXOhDGNs7GINKVP1Dn7iKHMvFvn+SiNhjnjNbS+moa6SPZZ
-	edZj0tXQWuUF1vF3/EGqScjWinOkZX++ThHt8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=Ro7AevM5JXh+4sQiQkBAy9DISrwMEHrqxotmq0n58Js=;
-	b=iMNKq0Px/d1GYZUFaAy8avTNhgNSdeeS6k0b01bR419rsJfn96gZ40BO1c5gBmucZY
-	Dsp5p5Bf1FUvYDP6uQ95lkKyvk3n/i/Viuvh9AVhFVnzEncuYSp1mtaImvWFXY8IEH8/
-	qVVXhVKnY6VV8YK+5pm70ZldpkDQZtaLcl6SytDXOztA+OFjXYsh4UP9a4Cke3kAKXsp
-	VdMpes1JO8vI6l2X/6NLLPXo8co+D8Q+RBV9qe+qn/diT/NwJf9zOashxOzaQk9ye1bR
-	Ok665odYSjXgiblDnIJFDeGwLQQbzvSUUSZz1e+I+qU+6H0vkHtqKwi9rLm3mIaefXaI
-	6ymg==
-X-Gm-Message-State: AGRZ1gJSkpFC6kCL2xozCmF81xojHcxfTnaJPiXMdDw2+DEVIG8Ec63i
-	v2LbpF+HS1u29r3tNuCIpw3pDCxkMys=
-X-Google-Smtp-Source: AJdET5cMzOZcIeAIbgZqoYZ2ITGaAMLObA7HH/jkaM/Du8q4AEvYBIk9OhaM6B7kTVfRYi3XzxNs5w==
-X-Received: by 2002:adf:a512:: with SMTP id
-	i18-v6mr7084261wrb.220.1541078763663; 
-	Thu, 01 Nov 2018 06:26:03 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c11-v6sm14431414wrw.94.2018.11.01.06.26.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 01 Nov 2018 06:26:02 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Nov 2018 13:26:00 +0000
-Message-Id: <20181101132600.10402-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20181101132600.10402-1-richard.purdie@linuxfoundation.org>
-References: <20181101132600.10402-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/2] crosssdk: Remove usage of host flags for cross-compilation
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D14F79DF1;
+	Thu,  1 Nov 2018 13:35:52 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: =?utf-8?q?Daniel_D=C3=ADaz?= <daniel.diaz@linaro.org>
+Date: Thu, 01 Nov 2018 13:35:54 -0000
+Message-ID: <20181101133554.13840.80022@do.openembedded.org>
+References: <20181101130901.3721-1-daniel.diaz@linaro.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181101130901.3721-1-daniel.diaz@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbHRwOiBidW1wIHRvIHJlbGVhc2UgMjAxODA5MjY=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,46 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Nov 2018 13:26:03 -0000
+X-List-Received-Date: Thu, 01 Nov 2018 13:35:52 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Similarlly to OE-Core rev 4b936cde58ca0a6f34092ce82640a02859110411 for
-cross.sdk, BUILD_* flags can't be used as TARGET_* flags
+== Series Details ==
 
-gcc-crosssdk buils leaks config.log's through "gcc-stashed-builddir" and
-TARGET_* flags to libgcc cross-build through "gcc/libgcc.mvars" file
-on "gcc-stashed-builddir". This means that if BUILD_CFLAGS contains
-host-specific flags like "-isystem/usr/include" libgcc build will
-fail "do_qa_configure" and "do_package_qa" checks.
+Series: ltp: bump to release 20180926
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14752/
+State : failure
 
-Remove host-related flags from TARGET_* flags for gcc-crosssdk builds.
+== Summary ==
 
-[YOCTO #11874]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             LIC_FILES_CHKSUM changed on target ltp but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned] 
+  Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
+  Current checksum     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263     file://testcases/kernel/controllers/freezer/COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3     file://testcases/kernel/controllers/freezer/run_freezer.sh;beginline=5;endline=17;md5=86a61d2c042d59836ffb353a21456498     file://testcases/kernel/hotplug/memory_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41     file://testcases/kernel/hotplug/cpu_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41     file://testcases/open_posix_testsuite/COPYING;md5=48b1c5ec633e3e30ec2cf884ae699947     file://testcases/realtime/COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e     file://tools/pounder21/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f     file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f     file://utils/ffsb-6.0-rc2/COPYING;md5=c46082167a314d785d012a244748d803 
+  New checksum         file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263     file://testcases/kernel/controllers/freezer/COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3     file://testcases/kernel/controllers/freezer/run_freezer.sh;beginline=5;endline=17;md5=86a61d2c042d59836ffb353a21456498     file://testcases/kernel/hotplug/memory_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41     file://testcases/kernel/hotplug/cpu_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41     file://testcases/open_posix_testsuite/COPYING;md5=48b1c5ec633e3e30ec2cf884ae699947     file://testcases/realtime/COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e     file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f     file://utils/ffsb-6.0-rc2/COPYING;md5=c46082167a314d785d012a244748d803 
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/crosssdk.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/crosssdk.bbclass b/meta/classes/crosssdk.bbclass
-index ddb98d22bc1..03b0c602c36 100644
---- a/meta/classes/crosssdk.bbclass
-+++ b/meta/classes/crosssdk.bbclass
-@@ -21,10 +21,10 @@ TARGET_PREFIX = "${SDK_PREFIX}"
- TARGET_CC_ARCH = "${SDK_CC_ARCH}"
- TARGET_LD_ARCH = "${SDK_LD_ARCH}"
- TARGET_AS_ARCH = "${SDK_AS_ARCH}"
--TARGET_CPPFLAGS = "${BUILD_CPPFLAGS}"
--TARGET_CFLAGS = "${BUILD_CFLAGS}"
--TARGET_CXXFLAGS = "${BUILD_CXXFLAGS}"
--TARGET_LDFLAGS = "${BUILD_LDFLAGS}"
-+TARGET_CPPFLAGS = ""
-+TARGET_CFLAGS = ""
-+TARGET_CXXFLAGS = ""
-+TARGET_LDFLAGS = ""
- TARGET_FPU = ""
- 
- 
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
