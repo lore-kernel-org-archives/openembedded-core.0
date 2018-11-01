@@ -1,26 +1,24 @@
-Return-Path: <robert.joslyn@redrectangle.org>
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
-	[217.70.183.197])
-	by mail.openembedded.org (Postfix) with ESMTP id 80B817458D
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DD3D279DD2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Nov 2018 05:39:26 +0000 (UTC)
-X-Originating-IP: 50.37.87.235
-Received: from xps13.localdomain (50-37-87-235.mscw.id.frontiernet.net
-	[50.37.87.235])
-	(Authenticated sender: robert.joslyn@redrectangle.org)
-	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 63ABB1C0003;
-	Thu,  1 Nov 2018 05:39:25 +0000 (UTC)
-Message-ID: <1541050762.8937.20.camel@redrectangle.org>
-From: Robert Joslyn <robert.joslyn@redrectangle.org>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 31 Oct 2018 22:39:22 -0700
-In-Reply-To: <CAJ86T=W08p366z458VjejjFkVTTFu23o9U2o6utp027a0p7r9w@mail.gmail.com>
-References: <20181101025320.21456-1-robert.joslyn@redrectangle.org>
-	<CAJ86T=W08p366z458VjejjFkVTTFu23o9U2o6utp027a0p7r9w@mail.gmail.com>
-X-Mailer: Evolution 3.24.6 
-Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [pyro][PATCH] openssl: Update from 1.0.2n to 1.0.2p
+	Thu,  1 Nov 2018 06:17:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA16Ghw4019391
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Oct 2018 23:17:08 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 31 Oct 2018 23:16:40 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 1 Nov 2018 14:16:37 +0800
+Message-ID: <1541052997-30487-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH V2] dbus: fix ptest failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +31,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Nov 2018 05:39:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Nov 2018 06:17:18 -0000
+Content-Type: text/plain
 
-On Wed, 2018-10-31 at 20:31 -0700, Andre McCurdy wrote:
-> On Wed, Oct 31, 2018 at 7:54 PM Robert Joslyn
-> <robert.joslyn@redrectangle.org> wrote:
-> > 
-> > Refresh parallel.patch.
-> > 
-> > Remove duplicate LIC_FILES_CHKSUM assignment.
-> > 
-> > License-Update: Updated copyright years
-> 
-> Normally a backport to pyro would be merged to sumo and rocko first,
-> so this would be done in steps:
-> 
-> 1) Backport the existing patches to update 1.0.2n -> 1.0.2o from
-> rocko to pyro
-> 
-> 2) Update rocko from 1.0.2o -> 1.0.2p, ideally by backporting patches
-> already in sumo. Note however that the update to 1.0.2p in sumo comes
-> with a lot of non-critical cleanups and it's questionable how far
-> back
-> we want to port those, so a new patch which just updates the version
-> might be preferred?
-> 
-> 3) Backport whatever 1.0.2o -> 1.0.2p patches are merged to rocko
-> into pyro.
+From: Changqing Li <changqing.li@windriver.com>
 
-I debated how much to backport from sumo, and thought I would try to
-minimize the changes to the rocko and pyro branches. The two patches I
-sent are pretty much the minimum required to get 1.0.2p working with
-rocko and pyro.
+1. since one bug in run-ptest, testcase test-bus have never been
+actually run (althrough it's result is PASS) until oe-core
+commit 0828850 "dbus-test_1.12.2: various fixes" fixed it.
+After commit 0828850, test-bus can actually run, but failed,
+install test-service/test-shell-service/test-segfault/
+dbus-daemon-launch-helper-test(need --enable-embedded-tests to
+generate it) to fix it, since test-bus need these binaries.
 
-It's probably easiest to take what's on sumo directly back to rocko and
-then pyro. I'll test that tomorrow and resend the patches if there's no
-objection to taking the other small fixes. I have a feeling trying to
-pull out small cleanups is more trouble than it's worth (for my
-purposes at least), but I'll do so if that's preferred.
+2. fix testcase test-dbus-daemon failed
+we enable --enable-verbose-mode in recipe dbus-test, and don't
+enable it in recipe dbus. This will below test code get unexpect
+result of have_verbose and assert. remove --enable-verbose-mode
+of recipe dbus-test to fix it.
 
-Thanks,
-Robert
+ #ifdef DBUS_ENABLE_STATS
+  g_assert_true (have_stats);
+ #else
+  g_assert_false (have_stats);
+ #endif
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-core/dbus/dbus-test_1.12.10.bb | 11 ++++++++---
+ meta/recipes-core/dbus/dbus/run-ptest       | 16 ++++++++++++----
+ 2 files changed, 20 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-core/dbus/dbus-test_1.12.10.bb b/meta/recipes-core/dbus/dbus-test_1.12.10.bb
+index 25b9395..ce54628 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.12.10.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.12.10.bb
+@@ -33,13 +33,13 @@ EXTRA_OECONF = "--enable-tests \
+                 --enable-installed-tests \
+                 --enable-checks \
+                 --enable-asserts \
+-                --enable-verbose-mode \
+                 --enable-largefile \
+                 --disable-xml-docs \
+                 --disable-doxygen-docs \
+                 --disable-libaudit \
+                 --with-dbus-test-dir=${PTEST_PATH} \
+-                ${EXTRA_OECONF_X}"
++                ${EXTRA_OECONF_X} \
++                --enable-embedded-tests"
+ 
+ EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
+ 
+@@ -58,9 +58,14 @@ do_install() {
+ do_install_ptest() {
+ 	install -d ${D}${PTEST_PATH}/test
+ 	l="shell printf refs syslog marshal syntax corrupt dbus-daemon dbus-daemon-eavesdrop loopback relay \
+-	   variant uid-permissions syntax spawn sd-activation names monitor message fdpass "
++	   variant uid-permissions syntax spawn sd-activation names monitor message fdpass service shell-service"
+ 	for i in $l; do install ${B}/test/.libs/test-$i ${D}${PTEST_PATH}/test; done
+ 
++	install -d ${D}${PTEST_PATH}/bus
++	install ${B}/bus/.libs/dbus-daemon-launch-helper-test ${D}${PTEST_PATH}/bus
++
++	install ${B}/test/test-segfault ${D}${PTEST_PATH}/test
++
+ 	l="bus bus-system bus-launch-helper"
+ 	for i in $l; do install ${B}/bus/.libs/test-$i ${D}${PTEST_PATH}/test; done
+ 
+diff --git a/meta/recipes-core/dbus/dbus/run-ptest b/meta/recipes-core/dbus/dbus/run-ptest
+index 353ba1e..e7e1c1e 100755
+--- a/meta/recipes-core/dbus/dbus/run-ptest
++++ b/meta/recipes-core/dbus/dbus/run-ptest
+@@ -17,8 +17,16 @@ export LD_LIBRARY_PATH=@PTEST_PATH@/test/.libs
+ files=`ls test/test-*`
+ 
+ for i in $files
+-	do
+-		./$i ./test/data >/dev/null
+-		output
+-	done
++do
++     #these programs are used by testcase test-bus, don't run here
++     if [ $i = "test/test-service" ] \
++        || [ $i = "test/test-shell-service" ] \
++        || [ $i = "test/test-segfault" ]
++     then
++         continue
++     fi
++
++     ./$i ./test/data >/dev/null 2>&1
++     output
++done
+ 
+-- 
+2.7.4
+
 
