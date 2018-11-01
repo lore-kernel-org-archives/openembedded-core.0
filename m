@@ -1,47 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
-	[209.85.166.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 970EC79E9E
+Return-Path: <serhe.popovych@gmail.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A2963791FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Nov 2018 16:52:25 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id o19-v6so12689935iod.3
+	Thu,  1 Nov 2018 17:21:38 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id t22-v6so18737467lji.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Nov 2018 09:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Av1H0Q3Bsd3xS78h1q4eXIWMatvvuiH4u+ujlc+FLAo=;
-	b=RrybFO0+JuXMMqv4ED6nzK/qmYT7/CUK06MBMdrupwjEOVYmli1j6CnDZt5EevUe/V
-	mNS7N5SElXTb6E52oz+yuzzzbggDa29hKOGY1MHtJ/fS+7kwqwK0ldvohOYGq6xB0FLq
-	sb8MsvtnIb+sKf2xk0dLBts3yIxSsFpHua2IoajX45ro6yD5KREIacgg6xcEUtRh1+jD
-	UJaepRy+4A3DxG1bMHVdi4KjssGoXZDqgpMFJERPaf5AIxPxkkveUlXZzUf24dbXK6gf
-	9KUjuv7DjWRWSGXYg3gGSRd+fCvyBuvBAi7i53dWozT2FtaSRuu53HvcUgvzHclgADYt
-	Mlyg==
+	Thu, 01 Nov 2018 10:21:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=6guDv1EaPY3CBNjhZPdrfR0prQIzJqCYLpOIEIyV7zs=;
+	b=pcmc/ASBLqcTetYDt0DTNftA9BPVbWcxf94RAMHi1d7RXYYdQzlKYfNEOQAb99Ahar
+	ZRGykXydeqoWoVO64PMwZceLo19MwufBTXyZDmk/e1bP4s+bzZaFjaFu9dsXsA8zjtYT
+	CcEGJ+EWnFufex/N38yHvEK5E2qPY5yFtaTf6gFVwqBb2pPq8kzHQSsc5PNxWpQmYia2
+	lxn4fmSN5qUc8bo6VA2xx0aPEzTJakIYrKFX/zXYIRHVp2J6Gre0UCgd7ayv7ue2dKt6
+	2Ay1zkXSRoijkUm+1OoABqt5sW6cJPD+Ogp7W2mGQeWJ+Vt97T7fsl/HcItYL13zIe+e
+	YiiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Av1H0Q3Bsd3xS78h1q4eXIWMatvvuiH4u+ujlc+FLAo=;
-	b=bVftY2SKCAUMKFrIqu/qPSI8jVl0/N5fV5sQWuyVeslhS9Ob8BdrJCrOxPFKnaXkln
-	YNi8W3LRwiKcf8fmdAa8cShGJNnlno446aBz9Dmfcx2q4C8ePtTNSg/lJHNIVSFpFHjw
-	kxMJUqZTSPhuuo++VQCceV7KS4nNiC6IALwL2VOSh0Ru5fNIy1hGf0dnNTh7dtyJYjlw
-	h2bK0Eyf1BDg24L5cVvhEe9PaGHm45wC9+MpcW7h0hL+fGto7QowIGgn2bipzhzNgEr6
-	2mKjXOAGVadpEzJIRCoSIia1n1x9E/+nACTLrtiKKQSDpVEOs4CloyvyCpW18RWnaNSQ
-	GGyg==
-X-Gm-Message-State: AGRZ1gJ98/mchTt3MBXdb4KA/cSooJvu+Cr5fcJVqEcEIbFrcPnJ9t3A
-	qGTgtRIzFDLVJEif2XMQ4cTrMRa+UFlAj3FJo0tkQw==
-X-Google-Smtp-Source: AJdET5fJJhkHcccEsbYKxLxIv7/yE0m0c8Dwm8SkjHfPPPzEWrBXGyTjbfbPQY6cooF8qNWlbwPnTSMB3ujmPJVcBLA=
-X-Received: by 2002:a6b:1602:: with SMTP id 2-v6mr220827iow.201.1541091146750; 
-	Thu, 01 Nov 2018 09:52:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <1541090053-1643-1-git-send-email-serhe.popovych@gmail.com>
-In-Reply-To: <1541090053-1643-1-git-send-email-serhe.popovych@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 1 Nov 2018 16:52:14 +0000
-Message-ID: <CAJTo0Lb4AMdRUv8JqOkPZQnerrgnHYREdFChb0wBavCH6A0WpQ@mail.gmail.com>
-To: serhe.popovych@gmail.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [[PATCH] libgpg-error: Support build for native on ppc64/ppc64le hosts
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=6guDv1EaPY3CBNjhZPdrfR0prQIzJqCYLpOIEIyV7zs=;
+	b=oWTjq1hXP92bKMwhVMA0At5JJcSLvus3lG95ly0pohGO2XbYZr84fpTgL3lZrSiTqh
+	mfiq3JqAga/R4Ux6mr7MlID7CalijncLn64I+lRLuz30alhiFPpDQwKqVLFqWGjAtIH3
+	nt0DMCHRnpZIJjOExWUT+U30xfNCV70rzxrn4hehd/0vMXLrz6fCchDgUPPFf/Vu6dHj
+	9nOBTslcMUjnv5BQ9y662N9ULBBDxYFzcv2M6WMNhRwktZVJsWJq7nrOiptiBc2tJYEN
+	hi8lW9WJyUdIn4QLQ/TwBzqiF3w/0U8KTNDw77fqpef/or9kY9ISpmKsidKj37UHOd84
+	V7FQ==
+X-Gm-Message-State: AGRZ1gKTf5kdiO9T8ArXpO9SCu0+hdTo9F6cJokVmkE+OUDDRTOZ+pne
+	N/Xc+waY/bgHTbN5YNfN3UUbIKA9
+X-Google-Smtp-Source: AJdET5dxfWlDJEDet8dZ9shxdd1GXcsRbBU0kx+pxXSfNLWGw0EX9ugYZ7ZC7t74+dYnti5Psq34uw==
+X-Received: by 2002:a2e:83d7:: with SMTP id
+	s23-v6mr1463870ljh.139.1541092899002; 
+	Thu, 01 Nov 2018 10:21:39 -0700 (PDT)
+Received: from v-ubt16-x64-sonic.as41781.net ([193.34.155.16])
+	by smtp.gmail.com with ESMTPSA id
+	1-v6sm4651797ljc.46.2018.11.01.10.21.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 01 Nov 2018 10:21:38 -0700 (PDT)
+From: Serhey Popovych <serhe.popovych@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Nov 2018 19:21:10 +0200
+Message-Id: <1541092870-5181-1-git-send-email-serhe.popovych@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] libgpg-error: Support build for native on ppc64/ppc64le hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,13 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Nov 2018 16:52:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 01 Nov 2018 17:21:38 -0000
 
-On Thu, 1 Nov 2018 at 16:35, Serhey Popovych <serhe.popovych@gmail.com> wrote:
-> +         ppc64*)     TUPLE=powerpc${TARGET_ARCH#ppc}-unknown-linux-gnu ;;
+Both RHEL and SLES uses ppc64/ppc64le for powerpc 64 bit big/little
+endian targets instead of powerpc64/powerpc64le in libgpg-error.
 
-I agree with Khem: clever, but explicit wins here.
+Also libgpg-error provides common target system names in form like
+<arch>-unknown-linux-gnu.
 
-Ross
+Add mapping for ppc64/ppc64le targets to their libgpg-error equivalents
+to fix native builds.
+
+Cross build for arm64 tested on IBM Power 8 machine with RHEL7 for
+ppc64le variant only, but should work for ppc64 as well.
+
+Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+---
+ meta/recipes-support/libgpg-error/libgpg-error_1.32.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+v2:
+  Make thinkgs explicit:
+    ppc64   -> powerpc64-unknown-linux-gnu
+    ppc64le -> powerpc64le-unknown-linux
+
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
+index 4f3e3d8..7655106 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
+@@ -48,6 +48,8 @@ do_compile_prepend() {
+ 	  mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
+ 	  mips*)      TUPLE=mips-unknown-linux-gnu ;;
+ 	  x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
++	  ppc64)      TUPLE=powerpc64-unknown-linux-gnu ;;
++	  ppc64le)    TUPLE=powerpc64le-unknown-linux-gnu ;;
+ 	  *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
+ 	esac
+ 
+-- 
+2.7.4
+
 
