@@ -1,48 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
-	[209.85.221.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0596079C7C
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C34B79CE4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Nov 2018 06:21:10 +0000 (UTC)
-Received: by mail-vk1-f196.google.com with SMTP id 185so4517462vkv.13
+	Thu,  1 Nov 2018 10:02:48 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id q15so11869627vso.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Oct 2018 23:21:12 -0700 (PDT)
+	Thu, 01 Nov 2018 03:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=u2lbbvOxFRv4Y4SM5dCLLRLbcS6sF5uqHRpvEUtnObg=;
-	b=ZIqsrs8A+TDLODLgUfMHmGaXG3lkT0LuKBYJpnWrteDCvk+g4pXluXzj0bG56r9CZd
-	RtV3NC9jXM76IVopFiKRjdvo65o+MYcXydngmVdMYrH3gJsbfKT7cxdPBYsNHKA8M+3K
-	jSa317RqpwFQwBxSKj/LjTmBgH8z8R7cB3X+uRBs9Ip1aEGpzDYkDA7AMmd1SRvHSanN
-	IByG0HSjXMf/8Xotrt5RQIYan29MFg1KfpDoe7caI6wc4OYWXiNcLvgqCCMouu7U4aGJ
-	eo8EY5uID2f0JaqAHcVk/16Jts+vxSg411LDQzkbsSXrdWpNvlSBcy6GhsT5bS8ShSuS
-	vclw==
+	:cc; bh=A2gvq3i7sq1ISa85HcEg3zcHG+cpjYZv4F5HGyds1Hc=;
+	b=S7LMgTEUrMqMDNFeOtYAnI77lK7j/RmONnfmTLsfUcIn6pOs/nWNP27ZoSFTAT+fj3
+	HPrd5N3meQMdpmuIPfIK7wxqDG+vT3Rn8u0fyGeOxzxSQQwyNsZfyzs63ws90z/PiNO0
+	muXRUcNh0cedJy4ICs8vIC5QkCCFZwbk58B6oSkASbqTVgWdWkpbo85u0HmxLth7EUK0
+	L0NvYI3eiSSbESyh+YCTbciiGGdu01MRoxbji6hVXFGe2QSB3kxnWyWRJfDOZJZikxff
+	FdYupBC8gWbm4gLvqBqzhYBHMjgdeBupeLrL9QQcEJ/jQfb81Dmmr/Ovg2aFMKod66Nb
+	YC7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=u2lbbvOxFRv4Y4SM5dCLLRLbcS6sF5uqHRpvEUtnObg=;
-	b=JYkH2CDXOuLpmDbiJXbot/m7Pu6BqbBoIRFXu1WgOTDT/v96OQPT3iEtzjeQIZrRzO
-	P5SZmTgsi6oaiVrU093jlN0PxTmL7OvtmmnO4FWY+FEpvo8fo+mYhxWx5IY6katG7BAm
-	FGXW9vhMWraTDBG5t90RS5S1nNHZT/4lhaFspD8ZUwYdLv5Q20+Ok9dgPqCMjs73Hcdp
-	jROR22IvA6i6NpqgS/NyfRjD177BJJM4qLkic6H3yNMWbsLgll+WuE9u9CiPXW/aCu9Z
-	QJTQbe/D2u0J6DPbchmWHmE21zkZmTgrgnPtq2Hu5hCJ2kqpvhPwetvpSwbwWMQENVok
-	wBhA==
-X-Gm-Message-State: AGRZ1gLIh9YdqtK164pX2Ku2H9j+3zNSK2bn9hSMLMVQz2v8TAq23Jza
-	iEA5LObHB6ijYbUCYTQvO33mtkiUgNjQfWMeUrh7Svj1
-X-Google-Smtp-Source: AJdET5fV9K3UHYvW8ZV5hLxATqS+11lF5Bh+tOlOA3qRqwXr2VDy7JB2NDuT+IBDkXOqFIagbSgEeYTyGBSsj7wnPms=
-X-Received: by 2002:a1f:24d3:: with SMTP id k202mr1585696vkk.45.1541053271802; 
-	Wed, 31 Oct 2018 23:21:11 -0700 (PDT)
+	bh=A2gvq3i7sq1ISa85HcEg3zcHG+cpjYZv4F5HGyds1Hc=;
+	b=WbPbgEpjrBg86iSs4PLkQkVbRRnHwUdtwDuBtHhobPhU3nCoXEQIZfcsmBFFhbEuDK
+	NIaGWnt0nzM5RrDKMDgG3s0+pX9yPLuTkI40l14i2HwZcdDBS+O91SbGlJQfysLanuIR
+	63yHPsuEQQxgqc9BG9JZrGUXrTH2tzbbWSCMaR+tLxM7zx19fN1T9YWwu8675MYsnrJl
+	CaAqi+0S9DwuXj1vMPjkIxYAmfk4h6w3ICRslNFipZDfGwkpSDAcR9gfXj/u8oCwRYjC
+	IeZyn9PixY6bDxOzC7dn1OYxjn0zpXHKy7UnesN0Vmkonh9/8/wj5Ne+sxofC6xFPtfY
+	hioA==
+X-Gm-Message-State: AGRZ1gKHNEuZDn5EG+YFd3INTTd+1Kkl1wJqj6IbymxKXBxufmCMFZEU
+	d5PBLPHR94gIzeniikUmSoQgXZkv+v80kTT0BoM=
+X-Google-Smtp-Source: AJdET5c0uzRhUPYyrT3BCTfNL8Jyysq8qUx6d9SfNRIo7j8/eWhjbGQd5xqjxXjKlHPdpZZeX2/tIL9kbfl4OlPSTxY=
+X-Received: by 2002:a67:1fcf:: with SMTP id t76mr2691611vsf.137.1541066568896; 
+	Thu, 01 Nov 2018 03:02:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181101025320.21456-1-robert.joslyn@redrectangle.org>
-	<CAJ86T=W08p366z458VjejjFkVTTFu23o9U2o6utp027a0p7r9w@mail.gmail.com>
-	<1541050762.8937.20.camel@redrectangle.org>
-In-Reply-To: <1541050762.8937.20.camel@redrectangle.org>
+References: <1540217112-24479-1-git-send-email-akuster808@gmail.com>
+	<1540217112-24479-4-git-send-email-akuster808@gmail.com>
+	<CAJ86T=WVfW1E_4OStVRu8TN03hhnQB0Z0d8M6PnqEgkqR-SK3A@mail.gmail.com>
+	<8c28b5f7-261d-32cb-a558-bf9de7384d89@gmail.com>
+In-Reply-To: <8c28b5f7-261d-32cb-a558-bf9de7384d89@gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 31 Oct 2018 23:20:59 -0700
-Message-ID: <CAJ86T=Vgn9-pMhurKgLhggjPatdmkTPmSHANHYHzFFjtE7Rvjg@mail.gmail.com>
-To: robert.joslyn@redrectangle.org
+Date: Thu, 1 Nov 2018 03:02:37 -0700
+Message-ID: <CAJ86T=V3xQqMGp+eFeUJA4-aP86FguSpNOG2esASz-GQ8i197g@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [pyro][PATCH] openssl: Update from 1.0.2n to 1.0.2p
+Subject: Re: [PATCH 03/13] gnutls: update to 2.6.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +56,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Nov 2018 06:21:11 -0000
+X-List-Received-Date: Thu, 01 Nov 2018 10:02:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Oct 31, 2018 at 10:39 PM Robert Joslyn
-<robert.joslyn@redrectangle.org> wrote:
-> On Wed, 2018-10-31 at 20:31 -0700, Andre McCurdy wrote:
-> > On Wed, Oct 31, 2018 at 7:54 PM Robert Joslyn
-> > <robert.joslyn@redrectangle.org> wrote:
-> > >
-> > > Refresh parallel.patch.
-> > >
-> > > Remove duplicate LIC_FILES_CHKSUM assignment.
-> > >
-> > > License-Update: Updated copyright years
-> >
-> > Normally a backport to pyro would be merged to sumo and rocko first,
-> > so this would be done in steps:
-> >
-> > 1) Backport the existing patches to update 1.0.2n -> 1.0.2o from
-> > rocko to pyro
-> >
-> > 2) Update rocko from 1.0.2o -> 1.0.2p, ideally by backporting patches
-> > already in sumo. Note however that the update to 1.0.2p in sumo comes
-> > with a lot of non-critical cleanups and it's questionable how far
-> > back
-> > we want to port those, so a new patch which just updates the version
-> > might be preferred?
-> >
-> > 3) Backport whatever 1.0.2o -> 1.0.2p patches are merged to rocko
-> > into pyro.
+On Tue, Oct 23, 2018 at 12:42 AM akuster808 <akuster808@gmail.com> wrote:
+> On 10/22/18 9:06 PM, Andre McCurdy wrote:
+> > On Mon, Oct 22, 2018 at 7:05 AM, Armin Kuster <akuster808@gmail.com> wrote:
+> >> Notable change:
+> >>
+> >> libgnutls: Added the final (RFC8446) version numbering of the TLS1.3 protocol.
+> >> see: https://lists.gnupg.org/pipermail/gnutls-help/2018-September/004457.html
+> > Subject mentions 2.6.4 instead of 3.6.4
 >
-> I debated how much to backport from sumo, and thought I would try to
-> minimize the changes to the rocko and pyro branches. The two patches I
-> sent are pretty much the minimum required to get 1.0.2p working with
-> rocko and pyro.
->
-> It's probably easiest to take what's on sumo directly back to rocko and
-> then pyro. I'll test that tomorrow and resend the patches if there's no
-> objection to taking the other small fixes. I have a feeling trying to
-> pull out small cleanups is more trouble than it's worth (for my
-> purposes at least), but I'll do so if that's preferred.
+> Thanks for catching  that.
 
-As the author of many of the cleanups I would tend to favour including
-them in any backport... but I'm not the maintainer of the stable
-branches.
+It looks like the v1 got merged to master-next instead of the v2 with
+the corrected subject line.
+
+> BR,
+>
+> Armin
+>
+> >
+> >> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> >> ---
+> >>  meta/recipes-support/gnutls/{gnutls_3.6.3.bb => gnutls_3.6.4.bb} | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>  rename meta/recipes-support/gnutls/{gnutls_3.6.3.bb => gnutls_3.6.4.bb} (93%)
+> >>
+> >> diff --git a/meta/recipes-support/gnutls/gnutls_3.6.3.bb b/meta/recipes-support/gnutls/gnutls_3.6.4.bb
+> >> similarity index 93%
+> >> rename from meta/recipes-support/gnutls/gnutls_3.6.3.bb
+> >> rename to meta/recipes-support/gnutls/gnutls_3.6.4.bb
+> >> index 441bbec..6d2a11d 100644
+> >> --- a/meta/recipes-support/gnutls/gnutls_3.6.3.bb
+> >> +++ b/meta/recipes-support/gnutls/gnutls_3.6.4.bb
+> >> @@ -21,8 +21,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+> >>             file://arm_eabi.patch \
+> >>  "
+> >>
+> >> -SRC_URI[md5sum] = "d3b1b05c2546b80832101a423a80faf8"
+> >> -SRC_URI[sha256sum] = "ed642b66a4ecf4851ab2d809cd1475c297b6201d8e8bd14b4d1c08b53ffca993"
+> >> +SRC_URI[md5sum] = "63363d1c00601f4d11a5cadc8b5e0799"
+> >> +SRC_URI[sha256sum] = "c663a792fbc84349c27c36059181f2ca86c9442e75ee8b0ad72f5f9b35deab3a"
+> >>
+> >>  inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
+> >>
+> >> --
+> >> 2.7.4
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
