@@ -1,46 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f175.google.com (mail-it1-f175.google.com
-	[209.85.166.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 5038C79F82
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id B3E2379F90
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Nov 2018 16:09:19 +0000 (UTC)
-Received: by mail-it1-f175.google.com with SMTP id p64-v6so3888798itp.0
+	Fri,  2 Nov 2018 16:17:48 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id e11so623343itl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Nov 2018 09:09:20 -0700 (PDT)
+	Fri, 02 Nov 2018 09:17:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1psEeQYq1f+5ttoGjaWCIQ9tUUU4W/GN7tZ9KPKYh7A=;
-	b=Iw9u0Tr2aEjo88cxCc5nnD6O92hh74JZTdLpoMch52hFGy9Tq/DmIO9xty6vxWJSR0
-	ZvxmYpMjT10jHtqNrOWib5Mx3jos8vFAhgiQXZIa/HyfCj/gJd29zet8JZB7SzTUIBVQ
-	j9m/qPyLxMDC3kQBqAvpukey5YJjAfEvkOO6sTZGw4aKxnVYsAzWRKKstm5KbL5DjWGW
-	txzxp163/Bl9GFsLDnVjtpPy1Uut7zbnuMeMTwPsJCuo6iU9npVFakCEvu5J0cuMiFKH
-	4YBBo6j4iuyXO12OwAD1Mi6XUY/0brrr7wJn3EknB3xAb3KSpjC04YfeJ25WpGiyvPWr
-	/enQ==
+	:cc; bh=6of7qAYoZpmBKGrPTsni77ZguGgDIMWDxyKWzA9ZGGc=;
+	b=ijVE7dF4QOe61ENz7ulso3dc1ix0EuU7DRugyo821lGaWosavR5/JlSgekddFgauId
+	SVUePX69miXHfYz/csubAZ3l9tZtwlL276/wbQDaywcrAlE4cH+55J0DPoXEC3f0XOJT
+	81cP+OV0XqP0o3/f4PDggYYxgk8kDDSCyE2+gs+zMOHX2ZCKsHHo5EQq0dK7wMcWHi65
+	EtMIIdvA+HY3/EP4zyhJP6FlqlQIsgDGBfCGrgZeEK4eoVhpZkzQyf37TqmE73Jc6aXi
+	UqoQriAyHHowlWm1QrKR3zUmGiqFklRFIvAhWbGtszuNDvZggrNatGS6AfIOaBx9W8je
+	cIcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=1psEeQYq1f+5ttoGjaWCIQ9tUUU4W/GN7tZ9KPKYh7A=;
-	b=GzX+swc+hgJUAPWvqmTPVDiwfL4jImX/qXbo04Kv7LUrQXtxEOq3rSyN0dlvtZmSB1
-	yn+/MSf1kwduk4UDu/IqFL0b/Ro/OJb+gluH1FqjARsUJ3Oot60SbrjtZdLkJHtyuXCf
-	FcRgq5EMDuUVuP/2gk8u2xooYfBWebbaAvaddkKfg1iEu3cp0IiIDYwLA4cLO4nmmv9k
-	ytDeKrXISNBbhV9HPXz9cyVQB9KHemEh29DBkxRZ6lWYRl1AW4kyuqWXpeDuwF3DaXBI
-	y8ZMQWQEvl0y+5Sos29vGk2ampFqdfpOTrilKeoxGZoxNjdS4m7wZ7tYSayDLyLtv0Cp
-	dPRQ==
-X-Gm-Message-State: AGRZ1gLB7JXfW0b1VX6+c+QeFraIoiY8ZaueoPMO71oclty4/HWKlDrs
-	q+9PTfeoOMoR+1frVljyw8VQM3XlT+N7GsOK1VgAsg==
-X-Google-Smtp-Source: AJdET5euKrUYqbLrE+72QUGDm0wGlMj7o9jGexihSRNnqPom3IQ2CvFf2pbeyUh9HtmpD4Q7mC0cr191qMeILOnIzoY=
-X-Received: by 2002:a05:660c:a06:: with SMTP id e6mr312700itk.62.1541174960342;
-	Fri, 02 Nov 2018 09:09:20 -0700 (PDT)
+	bh=6of7qAYoZpmBKGrPTsni77ZguGgDIMWDxyKWzA9ZGGc=;
+	b=AJWdh2rt6mqnrdDuSDuTRZBZNGXn9Z3t/mbNuCd7dSv0LcQ5sEHBCdTnzuhsn56Sdx
+	A46v74r7LZvRZkazPK7r7LGkOphsM65jZ8iCq4glqtue2aYB565v0uj3i2CaKiiWC9Iz
+	1sLWPhQ25egbzmHY+7uaeRcGPEFqcdYDueA3yQx40ZrJLO7yx2XsUgS+iaO8zpiKNg+w
+	YwObALbXXY4m2fn5h7VEALpzVmoNaN3gm00De6QgbKVsvFB3mYh2R+hrZaBSdRwmz5PZ
+	yRBrvjlXHFOVA75gSHDqB2S+gseJiBf2SWyqFddqD+bcZeWt7SxfLUWw96kyuv7ODvIn
+	wCVw==
+X-Gm-Message-State: AGRZ1gI+a/5kntXird+7PBwMa13JSi009Lh1fdQB8pDqDUkLdRAO+iY2
+	sKqTDCh3wEfC82tVGjIjlm5Wkti4+sNP/eADSXujcA==
+X-Google-Smtp-Source: AJdET5ccL4oVISivn5QDPGH0ixzgRst8YsjA6xLWQOGkqe9rZiAo9ekCshHYjU8mSgzP7tm3X++159kyXv3DjlZlZzA=
+X-Received: by 2002:a24:9287:: with SMTP id
+	l129-v6mr352452itd.26.1541175469539; 
+	Fri, 02 Nov 2018 09:17:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181031144648.28277-1-sno@netbsd.org>
 	<CAJTo0LYJrmBh1_3AXZXH7xBY1KSCG_9buGfsqtG-D2MLRb=Qmg@mail.gmail.com>
 	<9750133E-11F8-4833-9CBF-DB7B6998E3AE@netbsd.org>
-In-Reply-To: <9750133E-11F8-4833-9CBF-DB7B6998E3AE@netbsd.org>
+	<CAJTo0LYqMLLp9T89CvR0jzSLuiHH7w2M2rrdoE0z-tS54ity9Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LYqMLLp9T89CvR0jzSLuiHH7w2M2rrdoE0z-tS54ity9Q@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 2 Nov 2018 16:09:08 +0000
-Message-ID: <CAJTo0LYqMLLp9T89CvR0jzSLuiHH7w2M2rrdoE0z-tS54ity9Q@mail.gmail.com>
+Date: Fri, 2 Nov 2018 16:17:38 +0000
+Message-ID: <CAJTo0LaoWMZBv0_o8b1MYLq=CnFQFbOgCn2ptpqH0BeGCmN+RQ@mail.gmail.com>
 To: Jens Rehsack <sno@netbsd.org>
 Cc: Alejandro Enedino Hernandez Samaniego
 	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
@@ -58,44 +60,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 16:09:19 -0000
+X-List-Received-Date: Fri, 02 Nov 2018 16:17:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 2 Nov 2018 at 16:05, Jens Rehsack <sno@netbsd.org> wrote:
->
->
->
-> Am 02.11.2018 um 16:57 schrieb Burton, Ross <ross.burton@intel.com>:
->
-> It appears that Python 3.6 or 3.7 removed os.errno as an alias for
-> errno, as this is failing in wic:
->
-> |   File "/home/ross/Yocto/poky/scripts/lib/wic/filemap.py", line 397,
-> in _invoke_fiemap
-> |     if err.errno == os.errno.EOPNOTSUPP:
-> | AttributeError: module 'os' has no attribute 'errno'
->
-> Easily fixed, but obviously this wasn't used to build a wic image
-> with.  How much testing has this upgrade had?
->
->
-> v8 didn't had the same amount of testing as v5 had - I built a lot of images
-> using wic with v5 (and run some python3 scripts on target).
-> But I can't say which python was used by that test ...
->
-> However - I detected I made a mistake somewhere between v3 and v4
-> during rebase (which explains why Alejandro is still complaining ...), so
-> I decided instead of doing a v9 I go ahead to 3.7.1 update ...
->
-> Are there some reasonable tests I can run on legacy code to see what
-> needs updates after that?
+On Fri, 2 Nov 2018 at 16:09, Burton, Ross <ross.burton@intel.com> wrote:
+> I'm currently running the regression tests so will report back if
+> anything fails.
 
-I'd say a world build of oe-core and execution of the test suite
-(python3 -mtest) is a minimum level of testing, throwing meta-python
-at it too would be good.
+Turns out enabling reproducible builds breaks the test suite:
 
-I'm currently running the regression tests so will report back if
-anything fails.
+test test_py_compile failed -- Traceback (most recent call last):
+  File "/usr/lib/python3.7/test/test_py_compile.py", line 125, in
+test_source_date_epoch
+    self.assertEqual(statinfo.st_mtime, testtime)
+AssertionError: 1541175127.6495416 != 123456789
+0:11:47 load avg: 0.41 [269/415/1] test_pyclbr -- test_py_compile failed
+
+And this used to work before the upgrade but doesn't now:
+
+test test_sysconfig failed -- Traceback (most recent call last):
+  File "/usr/lib/python3.7/test/test_sysconfig.py", line 410, in
+test_get_makefile_filename
+    self.assertTrue(os.path.isfile(makefile), makefile)
+AssertionError: False is not true :
+/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu/Makefile
+
+I suspect we just need to make it skip, or depend on python3-dev.
+
+test test_venv crashed -- Traceback (most recent call last):
+  File "/usr/lib/python3.7/test/libregrtest/runtest.py", line 163, in
+runtest_inner
+    the_module = importlib.import_module(abstest)
+  File "/usr/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/usr/lib/python3.7/test/test_venv.py", line 20, in <module>
+    import venv
+ModuleNotFoundError: No module named 'venv'
+
+Urgh, venv.  We just changed this, I wonder if it's not being pulled
+into the python3-modules depends.
 
 Ross
 
