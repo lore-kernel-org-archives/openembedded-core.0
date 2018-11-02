@@ -1,26 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 55F5579ECE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C921F79F33
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Nov 2018 04:36:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA24aVjT024484
+	Fri,  2 Nov 2018 04:37:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wA24b5bn025976
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Nov 2018 21:36:46 -0700
+	Thu, 1 Nov 2018 21:37:05 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 1 Nov 2018 21:36:42 -0700
+	14.3.408.0; Thu, 1 Nov 2018 21:36:47 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Nov 2018 12:42:42 +0800
-Message-ID: <0834a390804c0def6b455e85e2198248ec767e09.1541133621.git.Qi.Chen@windriver.com>
+Date: Fri, 2 Nov 2018 12:42:43 +0800
+Message-ID: <debbff7d47d9370c45be7ebdbc9f6f336ac51dcb.1541133621.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1541133621.git.Qi.Chen@windriver.com>
 References: <cover.1541133621.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] systemd: fix CVE-2018-15687
+Subject: [PATCH 3/3] systemd: fix CVE-2018-15688
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,254 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 04:36:55 -0000
+X-List-Received-Date: Fri, 02 Nov 2018 04:37:04 -0000
 Content-Type: text/plain
 
 Backport patch to fix the following CVE.
 
-CVE: CVE-2018-15687
+CVE: CVE-2018-15688
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- ...sive-let-s-rework-the-recursive-logic-to-.patch | 219 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_239.bb           |   1 +
- 2 files changed, 220 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch
+ ...sure-we-have-enough-space-for-the-DHCP6-o.patch | 39 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_239.bb           |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch b/meta/recipes-core/systemd/systemd/0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch
+diff --git a/meta/recipes-core/systemd/systemd/0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch b/meta/recipes-core/systemd/systemd/0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch
 new file mode 100644
-index 0000000..9d350eb
+index 0000000..0c912f2
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch
-@@ -0,0 +1,219 @@
-+From 2da8ba3f507345d0401ea9d7191fa16ffa560ebc Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/systemd/systemd/0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch
+@@ -0,0 +1,39 @@
++From a2622b8398ba026faf481f5eddeb53231d9de4a7 Mon Sep 17 00:00:00 2001
 +From: Lennart Poettering <lennart@poettering.net>
-+Date: Fri, 19 Oct 2018 11:26:59 +0200
-+Subject: [PATCH] chown-recursive: let's rework the recursive logic to use
-+ O_PATH
++Date: Fri, 19 Oct 2018 12:12:33 +0200
++Subject: [PATCH] dhcp6: make sure we have enough space for the DHCP6 option
++ header
 +
-+That way we can pin a specific inode and analyze it and manipulate it
-+without it being swapped out beneath our hands.
++Fixes a vulnerability originally discovered by Felix Wilhelm from
++Google.
 +
-+Fixes a vulnerability originally found by Jann Horn from Google.
++CVE-2018-15688
++LP: #1795921
++https://bugzilla.redhat.com/show_bug.cgi?id=1639067
 +
-+CVE-2018-15687
-+LP: #1796692
-+https://bugzilla.redhat.com/show_bug.cgi?id=1639076
++(cherry picked from commit 4dac5eaba4e419b29c97da38a8b1f82336c2c892)
 +
-+(cherry picked from commit 5de6cce58b3e8b79239b6e83653459d91af6e57c)
-+
-+CVE: CVE-2018-15687
++CVE: CVE-2018-15688
 +Upstream-Status: Backport
 +
 +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 +---
-+ src/core/chown-recursive.c | 146 ++++++++++++++++++++++-----------------------
-+ 1 file changed, 70 insertions(+), 76 deletions(-)
++ src/libsystemd-network/dhcp6-option.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/core/chown-recursive.c b/src/core/chown-recursive.c
-+index c479450..27c6448 100644
-+--- a/src/core/chown-recursive.c
-++++ b/src/core/chown-recursive.c
-+@@ -1,17 +1,19 @@
-+ /* SPDX-License-Identifier: LGPL-2.1+ */
++diff --git a/src/libsystemd-network/dhcp6-option.c b/src/libsystemd-network/dhcp6-option.c
++index c4b402b..dcbaad0 100644
++--- a/src/libsystemd-network/dhcp6-option.c
+++++ b/src/libsystemd-network/dhcp6-option.c
++@@ -103,7 +103,7 @@ int dhcp6_option_append_ia(uint8_t **buf, size_t *buflen, DHCP6IA *ia) {
++                 return -EINVAL;
++         }
 + 
-+-#include <sys/types.h>
-+-#include <sys/stat.h>
-+ #include <fcntl.h>
-++#include <sys/stat.h>
-++#include <sys/types.h>
++-        if (*buflen < len)
+++        if (*buflen < offsetof(DHCP6Option, data) + len)
++                 return -ENOBUFS;
 + 
-+-#include "user-util.h"
-+-#include "macro.h"
-+-#include "fd-util.h"
-+-#include "dirent-util.h"
-+ #include "chown-recursive.h"
-++#include "dirent-util.h"
-++#include "fd-util.h"
-++#include "macro.h"
-++#include "stdio-util.h"
-++#include "strv.h"
-++#include "user-util.h"
-+ 
-+-static int chown_one(int fd, const char *name, const struct stat *st, uid_t uid, gid_t gid) {
-+-        int r;
-++static int chown_one(int fd, const struct stat *st, uid_t uid, gid_t gid) {
-++        char procfs_path[STRLEN("/proc/self/fd/") + DECIMAL_STR_MAX(int) + 1];
-+ 
-+         assert(fd >= 0);
-+         assert(st);
-+@@ -20,90 +22,82 @@ static int chown_one(int fd, const char *name, const struct stat *st, uid_t uid,
-+             (!gid_is_valid(gid) || st->st_gid == gid))
-+                 return 0;
-+ 
-+-        if (name)
-+-                r = fchownat(fd, name, uid, gid, AT_SYMLINK_NOFOLLOW);
-+-        else
-+-                r = fchown(fd, uid, gid);
-+-        if (r < 0)
-+-                return -errno;
-++        /* We change ownership through the /proc/self/fd/%i path, so that we have a stable reference that works with
-++         * O_PATH. (Note: fchown() and fchmod() do not work with O_PATH, the kernel refuses that. */
-++        xsprintf(procfs_path, "/proc/self/fd/%i", fd);
-+ 
-+-        /* The linux kernel alters the mode in some cases of chown(). Let's undo this. */
-+-        if (name) {
-+-                if (!S_ISLNK(st->st_mode))
-+-                        r = fchmodat(fd, name, st->st_mode, 0);
-+-                else /* There's currently no AT_SYMLINK_NOFOLLOW for fchmodat() */
-+-                        r = 0;
-+-        } else
-+-                r = fchmod(fd, st->st_mode);
-+-        if (r < 0)
-++        if (chown(procfs_path, uid, gid) < 0)
-+                 return -errno;
-+ 
-++        /* The linux kernel alters the mode in some cases of chown(). Let's undo this. We do this only for non-symlinks
-++         * however. That's because for symlinks the access mode is ignored anyway and because on some kernels/file
-++         * systems trying to change the access mode will succeed but has no effect while on others it actively
-++         * fails. */
-++        if (!S_ISLNK(st->st_mode))
-++                if (chmod(procfs_path, st->st_mode & 07777) < 0)
-++                        return -errno;
-++
-+         return 1;
-+ }
-+ 
-+ static int chown_recursive_internal(int fd, const struct stat *st, uid_t uid, gid_t gid) {
-++        _cleanup_closedir_ DIR *d = NULL;
-+         bool changed = false;
-++        struct dirent *de;
-+         int r;
-+ 
-+         assert(fd >= 0);
-+         assert(st);
-+ 
-+-        if (S_ISDIR(st->st_mode)) {
-+-                _cleanup_closedir_ DIR *d = NULL;
-+-                struct dirent *de;
-+-
-+-                d = fdopendir(fd);
-+-                if (!d) {
-+-                        r = -errno;
-+-                        goto finish;
-+-                }
-+-                fd = -1;
-+-
-+-                FOREACH_DIRENT_ALL(de, d, r = -errno; goto finish) {
-+-                        struct stat fst;
-+-
-+-                        if (dot_or_dot_dot(de->d_name))
-+-                                continue;
-+-
-+-                        if (fstatat(dirfd(d), de->d_name, &fst, AT_SYMLINK_NOFOLLOW) < 0) {
-+-                                r = -errno;
-+-                                goto finish;
-+-                        }
-+-
-+-                        if (S_ISDIR(fst.st_mode)) {
-+-                                int subdir_fd;
-+-
-+-                                subdir_fd = openat(dirfd(d), de->d_name, O_RDONLY|O_NONBLOCK|O_DIRECTORY|O_CLOEXEC|O_NOFOLLOW|O_NOATIME);
-+-                                if (subdir_fd < 0) {
-+-                                        r = -errno;
-+-                                        goto finish;
-+-                                }
-+-
-+-                                r = chown_recursive_internal(subdir_fd, &fst, uid, gid);
-+-                                if (r < 0)
-+-                                        goto finish;
-+-                                if (r > 0)
-+-                                        changed = true;
-+-                        } else {
-+-                                r = chown_one(dirfd(d), de->d_name, &fst, uid, gid);
-+-                                if (r < 0)
-+-                                        goto finish;
-+-                                if (r > 0)
-+-                                        changed = true;
-+-                        }
-++        d = fdopendir(fd);
-++        if (!d) {
-++                safe_close(fd);
-++                return -errno;
-++        }
-++
-++        FOREACH_DIRENT_ALL(de, d, return -errno) {
-++                _cleanup_close_ int path_fd = -1;
-++                struct stat fst;
-++
-++                if (dot_or_dot_dot(de->d_name))
-++                        continue;
-++
-++                /* Let's pin the child inode we want to fix now with an O_PATH fd, so that it cannot be swapped out
-++                 * while we manipulate it. */
-++                path_fd = openat(dirfd(d), de->d_name, O_PATH|O_CLOEXEC|O_NOFOLLOW);
-++                if (path_fd < 0)
-++                        return -errno;
-++
-++                if (fstat(path_fd, &fst) < 0)
-++                        return -errno;
-++
-++                if (S_ISDIR(fst.st_mode)) {
-++                        int subdir_fd;
-++
-++                        /* Convert it to a "real" (i.e. non-O_PATH) fd now */
-++                        subdir_fd = fd_reopen(path_fd, O_RDONLY|O_CLOEXEC|O_NOATIME);
-++                        if (subdir_fd < 0)
-++                                return subdir_fd;
-++
-++                        r = chown_recursive_internal(subdir_fd, &fst, uid, gid); /* takes possession of subdir_fd even on failure */
-++                        if (r < 0)
-++                                return r;
-++                        if (r > 0)
-++                                changed = true;
-++                } else {
-++                        r = chown_one(path_fd, &fst, uid, gid);
-++                        if (r < 0)
-++                                return r;
-++                        if (r > 0)
-++                                changed = true;
-+                 }
-++        }
-+ 
-+-                r = chown_one(dirfd(d), NULL, st, uid, gid);
-+-        } else
-+-                r = chown_one(fd, NULL, st, uid, gid);
-++        r = chown_one(dirfd(d), st, uid, gid);
-+         if (r < 0)
-+-                goto finish;
-++                return r;
-+ 
-+-        r = r > 0 || changed;
-+-
-+-finish:
-+-        safe_close(fd);
-+-        return r;
-++        return r > 0 || changed;
-+ }
-+ 
-+ int path_chown_recursive(const char *path, uid_t uid, gid_t gid) {
-+@@ -111,7 +105,7 @@ int path_chown_recursive(const char *path, uid_t uid, gid_t gid) {
-+         struct stat st;
-+         int r;
-+ 
-+-        fd = open(path, O_RDONLY|O_NONBLOCK|O_DIRECTORY|O_CLOEXEC|O_NOFOLLOW|O_NOATIME);
-++        fd = open(path, O_RDONLY|O_DIRECTORY|O_CLOEXEC|O_NOFOLLOW|O_NOATIME);
-+         if (fd < 0)
-+                 return -errno;
-+ 
++         ia_hdr = *buf;
 +-- 
 +2.7.4
 +
 diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index 48b6c3a..47fff40 100644
+index 47fff40..3dbeaac 100644
 --- a/meta/recipes-core/systemd/systemd_239.bb
 +++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -31,6 +31,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0022-build-sys-Detect-whether-struct-statx-is-defined-in-.patch \
+@@ -32,6 +32,7 @@ SRC_URI += "file://touchscreen.rules \
             file://0023-resolvconf-fixes-for-the-compatibility-interface.patch \
             file://0001-core-when-deserializing-state-always-use-read_line-L.patch \
-+           file://0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch \
+            file://0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch \
++           file://0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch \
             "
  
  # patches made for musl are only applied on TCLIBC is musl
