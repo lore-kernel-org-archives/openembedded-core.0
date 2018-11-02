@@ -1,51 +1,53 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
-	[209.85.208.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E8DF79F19
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B60226FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Nov 2018 02:27:45 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id q186-v6so418668ljb.5
+	Fri,  2 Nov 2018 02:45:26 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id r5-v6so1390277ith.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Nov 2018 19:27:46 -0700 (PDT)
+	Thu, 01 Nov 2018 19:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OB6AVYbneTXXhfuNFlHSisnHONKjgmuzVNR3FiHsZoU=;
-	b=TT4r7ydg8JuLvKmfmKzvrpnrZjC4cDjLtZl7WvCJBqKTJZkJ9ZGQKxgFZ9GH1ZwEKQ
-	3YbajvtEMiMHPY9+lfaAe3DBE8s8TVKajzUFHEj6SYVKe4eWRCpQwDGbeSWRY7061Omp
-	To1vgUwsl0t4B9vpL8BYMkz9eDXljd2Jt/IhEHt3ltAF6i7laOM4vbPgpAZJAD+bAfy5
-	wYeEvoafy8kkYY6lFWNdguZfjDXKBMylhwMLdtX35sfxyTSzW6eEg88+hvVVpk3IHW1t
-	ClRcYvmr+bKzMm5LkGv2LMv2s8ROrjFjB3VQihdN4TJ9PZ7t9fuz3t3hhARR62RxNLQ5
-	JATg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pXTCrtoNMMAz7cfxRYEWyFd3q2Xv0ODuacsSSn+MxyU=;
+	b=P/tT5gbMuud1GDaAOzZ1xIQxi+DIhG67MkbdEjwnr2chYg5c9eLZsJLuOxUz8eHmuP
+	sTc57IS9AlhFGLaCiMLF5d35b4Uel+H/fHSVGzw0YNY7oKXemiLLI/VLij86cbWK3S/i
+	jDygG6NuNPNgIPjV/s7BkJPQuiFddhvKNUbGs51jYB162UtDdRVhnHplGz9uWT02Cm8C
+	Fhlh38LJHWwHIAvSnBBNT0pmhJKImsQAFF4+CCY1lgHtklH4RZ4RG5TKgPIrWHFiPfbc
+	bILYhDNx6L82TMrMOR2zm6V21c4hNghvPr20A5motI65jYwu28Jd/ek0KA4YDExpS4e+
+	s+sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=OB6AVYbneTXXhfuNFlHSisnHONKjgmuzVNR3FiHsZoU=;
-	b=hRO1V2vU0majRRaUvEPQzdxDSn8VMyGT3Dw5IG3B62uFxEM05xKkgogxGJR49nyTw6
-	Z8p8ThMIAA16Ts6EYzKPRaLKdLap8WuQORC+2IPb0ST9Abc3stpObcdgBmh8GN3vh8EH
-	N4GST0+F8uXPZBwPEqlM3MtogTGBvq9anm7yFEugs0WadTvxhqlwe4jWhsEdkk/rUOMj
-	20bFXEyFujffFw4u3GBSR40GDLEOtBfiIbetgkI7FGfBvxqIDTwdPnnNKd/+7aQ/C+0s
-	vjWagoBPTnxWAwRN6HMRoyiZ9YoXbOP3GZA8uOc/NjqnDa4JU88jZcEi78RL/BrVC0cJ
-	pXkw==
-X-Gm-Message-State: AGRZ1gKB6D6s5vMlI8Dl5moZIHo2Sbit4O0bX4+5cEYY+xgEoUonchk5
-	lOjbM89TDxnDsLn3h4zv7ccs45y7uXBvAaG9bqx9Rw==
-X-Google-Smtp-Source: AJdET5eiaAVw66d1MlfdLiQixZWjncdfL/uMviBYTBsRimvedd14ZqKz4+vgeK3Kt8x5v0ZdovAKfTE8LsXRX3LFkh4=
-X-Received: by 2002:a2e:63cd:: with SMTP id
-	s74-v6mr6159137lje.117.1541125665794; 
-	Thu, 01 Nov 2018 19:27:45 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pXTCrtoNMMAz7cfxRYEWyFd3q2Xv0ODuacsSSn+MxyU=;
+	b=klpGdeL06n9L8Ai9HmC8Y0G+9VWUTgAV6fy+8iUDmubPtzCO3vbi22U89chvwi/Co9
+	PMtNd+blm7WCtpLqW8Uu5Rq0NQVakhFfMEbEPjvCIFq26t0qCUTaBUzmaf2IL3feKomO
+	P9EKpMopdUZ//f988xZiph4KsBD7SpZfm3qNpZ+A86/GAfwsMoRI9bbmt6pCrlpleZ6K
+	yw0sGT0PQnJSbXh1xKkkp7KZ9hUVRWLZC4QTskHW33xfaIZ621+2elMAb+XGBsNd39yT
+	oSybSNCs7kRNbDH/es9TT94MXADNRq6zPsAlSHFJcLXKeuSB0ghmjc2YHI/rfgduqI3b
+	1OHA==
+X-Gm-Message-State: AGRZ1gKdutGvMT71GRkED+82yF/Mzzzaq3Qn2uGi/kXlZGcEqVnNXfDr
+	6Gx0l8FKAgDPopiLND853xSAOaIe
+X-Google-Smtp-Source: AJdET5fnBPsUoD+vpjulB9+R5CMTYcp4s9nxS6G8tpiWbMaTdEpr5mneWIiDH2MNciOT/766uD5THA==
+X-Received: by 2002:a02:b514:: with SMTP id
+	l20-v6mr8158533jaj.25.1541126727331; 
+	Thu, 01 Nov 2018 19:45:27 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	h130-v6sm10959680ioa.52.2018.11.01.19.45.26
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 01 Nov 2018 19:45:26 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Nov 2018 21:45:13 -0500
+Message-Id: <20181102024513.6977-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20181101140417.GA12376@linux-uys3>
-	<CAPoiz9y_prstnR5dsxHNwSk81ShLmkybEXySEESTgZrpgKXMcA@mail.gmail.com>
-In-Reply-To: <CAPoiz9y_prstnR5dsxHNwSk81ShLmkybEXySEESTgZrpgKXMcA@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Thu, 1 Nov 2018 22:27:32 -0400
-Message-ID: <CAHUNapRrWkAGahwLgEzfbPSi2UhQCTqMSGQOAEp2Dxpi3MwRPA@mail.gmail.com>
-To: jdmason@kudzu.us
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	yocto-advocacy@yoctoproject.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: OEDAM @ SCaLE 2019
+Cc: "Maxin B . John" <maxin.john@intel.com>
+Subject: [PATCH] pkgconfig: export variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,69 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 02:27:45 -0000
-Content-Type: multipart/alternative; boundary="000000000000dd30af0579a54757"
+X-List-Received-Date: Fri, 02 Nov 2018 02:45:26 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000dd30af0579a54757
-Content-Type: text/plain; charset="UTF-8"
+Export the PKG_CONFIG_PATH and PKG_CONFIG_LIBDIR variables in case the
+parent shell hasn't done so.
+---
+ .../recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hi Jon,
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
+index 5e44bb435c3..a9324de4cf3 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
+@@ -1,7 +1,7 @@
+ #! /bin/sh
+ 
+-PKG_CONFIG_PATH="@PATH_NATIVE@"
+-PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
++export PKG_CONFIG_PATH="@PATH_NATIVE@"
++export PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
+ unset PKG_CONFIG_SYSROOT_DIR
+ 
+ pkg-config "$@"
+-- 
+2.19.1
 
-On Thu, Nov 1, 2018 at 3:56 PM Jon Mason <jdmason@kudzu.us> wrote:
 
-> I am planning on being at SCaLE (assuming the OEDEM happens there).
->
-> Many corporate travel budgets are tied to presenting at conferences.
-> So, if we could somehow get a track there (which might be too late in
-> the game to do now), then we might be able to get enough people
-> present to make it happen and pull in others whose budget is more
-> flexible.
->
-
-As it turns out, I'll be organising the YP/OE Miniconf that will most
-likely be run on the Sunday. I was going to send out a separate email
-discussing the Miniconf, but I guess now is as good a time as any :-)
-
-While it's true that the CFP has closed for SCaLE, I plan to open my own
-CFP specifically for the Miniconf, and I don't plan to close it until
-closer to the conference itself. I want to encourage people to give talks
-about current things, as such, having a CFP close this early wouldn't do.
-
-We haven't decided on a format for the Miniconf, exactly, if we have
-traditional talks, we'll have 6 sessions (2 before lunch, 4 after). But
-depending on interest and what sort of proposals we get, we might do some
-longer, some shorter talks.
-
- I hope this helps. Best regards,
-    Trevor
-
---000000000000dd30af0579a54757
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Jon,<br><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
->On Thu, Nov 1, 2018 at 3:56 PM Jon Mason &lt;<a href=3D"mailto:jdmason@kud=
-zu.us">jdmason@kudzu.us</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">I am planning on being at SCaLE (assuming the OEDEM happens there).<br>
-<br>
-Many corporate travel budgets are tied to presenting at conferences.<br>
-So, if we could somehow get a track there (which might be too late in<br>
-the game to do now), then we might be able to get enough people<br>
-present to make it happen and pull in others whose budget is more<br>
-flexible.<br></blockquote><div><br></div><div>As it turns out, I&#39;ll be =
-organising the YP/OE Miniconf that will most likely be run on the Sunday. I=
- was going to send out a separate email discussing the Miniconf, but I gues=
-s now is as good a time as any :-)</div><div><br></div><div>While it&#39;s =
-true that the CFP has closed for SCaLE, I plan to open my own CFP specifica=
-lly for the Miniconf, and I don&#39;t plan to close it until closer to the =
-conference itself. I want to encourage people to give talks about current t=
-hings, as such, having a CFP close this early wouldn&#39;t do.</div><div><b=
-r></div><div>We haven&#39;t decided on a format for the Miniconf, exactly, =
-if we have traditional talks, we&#39;ll have 6 sessions (2 before lunch, 4 =
-after). But depending on interest and what sort of proposals we get, we mig=
-ht do some longer, some shorter talks.</div><div><br></div><div>=C2=A0I hop=
-e this helps. Best regards,</div><div>=C2=A0 =C2=A0 Trevor</div></div></div=
->
-
---000000000000dd30af0579a54757--
