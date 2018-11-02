@@ -1,26 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CC0EA79F37
+	by mail.openembedded.org (Postfix) with ESMTP id 38E8C79EFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Nov 2018 08:51:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA28oEWV031058
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Nov 2018 01:51:05 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 2 Nov 2018 01:51:00 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Nov 2018 16:02:13 +0800
-Message-ID: <dcfd31c066d66101f047d3d8cc052f2e74ab53ab.1541145029.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <cover.1541145029.git.kai.kang@windriver.com>
-References: <cover.1541145029.git.kai.kang@windriver.com>
+	Fri,  2 Nov 2018 09:09:07 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA298VJh031907
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 2 Nov 2018 02:08:41 -0700
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Fri, 2 Nov 2018 02:08:05 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Fri, 2 Nov 2018 17:18:37 +0800
+Message-ID: <1541150317-10093-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 1/2] openssl: fix CVE-2018-0734 for both 1.0.2p and 1.1.1
+Subject: [PATCH] elfutils: CVE-2018-18520 & CVE-2018-18521 & CVE-2018-18310
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,202 +31,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 08:51:13 -0000
+X-List-Received-Date: Fri, 02 Nov 2018 09:09:07 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+These CVE fixes come from upstream master branch and no
+new version released, so backport rather than upgrade.
 
-Backport patches to fix CVE-2018-0734 for both openssl 1.0.2p and 1.1.1
-versions.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../openssl/0002-fix-CVE-2018-0734.patch      | 108 ++++++++++++++++++
- .../openssl10/0001-fix-CVE-2018-0734.patch    |  33 ++++++
- .../openssl/openssl10_1.0.2p.bb               |   1 +
- .../openssl/openssl_1.1.1.bb                  |   1 +
- 4 files changed, 143 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0002-fix-CVE-2018-0734.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl10/0001-fix-CVE-2018-0734.patch
+ meta/recipes-devtools/elfutils/elfutils_0.174.bb   |  3 ++
+ ...01-arlib-Check-that-sh_entsize-isn-t-zero.patch | 36 +++++++++++++
+ ...Sanity-check-partial-core-file-data-reads.patch | 60 ++++++++++++++++++++++
+ .../0001-size-Handle-recursive-ELF-ar-files.patch  | 40 +++++++++++++++
+ 4 files changed, 139 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-arlib-Check-that-sh_entsize-isn-t-zero.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-libdwfl-Sanity-check-partial-core-file-data-reads.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-size-Handle-recursive-ELF-ar-files.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0002-fix-CVE-2018-0734.patch b/meta/recipes-connectivity/openssl/openssl/0002-fix-CVE-2018-0734.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.174.bb b/meta/recipes-devtools/elfutils/elfutils_0.174.bb
+index 88add7b..c30265b 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.174.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.174.bb
+@@ -17,6 +17,9 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://0007-Fix-control-path-where-we-have-str-as-uninitialized-.patch \
+            file://0001-libasm-may-link-with-libbz2-if-found.patch \
+            file://0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch \
++           file://0001-libdwfl-Sanity-check-partial-core-file-data-reads.patch \
++           file://0001-size-Handle-recursive-ELF-ar-files.patch \
++           file://0001-arlib-Check-that-sh_entsize-isn-t-zero.patch \
+            file://debian/0001-hppa_backend.patch \
+            file://debian/0001-arm_backend.patch \
+            file://debian/0001-mips_backend.patch \
+diff --git a/meta/recipes-devtools/elfutils/files/0001-arlib-Check-that-sh_entsize-isn-t-zero.patch b/meta/recipes-devtools/elfutils/files/0001-arlib-Check-that-sh_entsize-isn-t-zero.patch
 new file mode 100644
-index 0000000000..2a3e03fe2a
+index 0000000..86cf7c8
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0002-fix-CVE-2018-0734.patch
-@@ -0,0 +1,108 @@
-+Backport patch to fix CVE-2018-0734. Remove a section which only remove a
-+space. It can't be applied because the context is different.
++++ b/meta/recipes-devtools/elfutils/files/0001-arlib-Check-that-sh_entsize-isn-t-zero.patch
+@@ -0,0 +1,36 @@
++From b518841fbc1431d7c5baa016e35f10fb647b5958 Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Thu, 18 Oct 2018 19:01:52 +0200
++Subject: [PATCH] arlib: Check that sh_entsize isn't zero.
 +
-+CVE: CVE-2018-0734
-+Upstream-Status: Backport
++A bogus ELF file could have sh_entsize as zero. Don't divide by zero,
++but just assume there are no symbols in the section.
 +
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
++https://sourceware.org/bugzilla/show_bug.cgi?id=23786
 +
-+From 8abfe72e8c1de1b95f50aa0d9134803b4d00070f Mon Sep 17 00:00:00 2001
-+From: Pauli <paul.dale@oracle.com>
-+Date: Wed, 24 Oct 2018 07:42:46 +1000
-+Subject: [PATCH] Timing vulnerability in DSA signature generation
-+ (CVE-2018-0734).
++Signed-off-by: Mark Wielaard <mark@klomp.org>
 +
-+Avoid a timing attack that leaks information via a side channel that
-+triggers when a BN is resized.  Increasing the size of the BNs
-+prior to doing anything with them suppresses the attack.
-+
-+Thanks due to Samuel Weiser for finding and locating this.
-+
-+Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
-+(Merged from https://github.com/openssl/openssl/pull/7486)
-+
-+(cherry picked from commit a9cfb8c2aa7254a4aa6a1716909e3f8cb78049b6)
++CVE: CVE-2018-18521
++Upstream-Status: Backport [http://sourceware.org/git/elfutils.git]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ crypto/dsa/dsa_ossl.c | 28 +++++++++++++++-------------
-+ 1 file changed, 15 insertions(+), 13 deletions(-)
++ src/arlib.c | 3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/crypto/dsa/dsa_ossl.c b/crypto/dsa/dsa_ossl.c
-+index ca20811200..2dd2d7489a 100644
-+--- a/crypto/dsa/dsa_ossl.c
-++++ b/crypto/dsa/dsa_ossl.c
-+@@ -9,6 +9,7 @@
++diff --git a/src/arlib.c b/src/arlib.c
++index 778e087..a6521e3 100644
++--- a/src/arlib.c
+++++ b/src/arlib.c
++@@ -252,6 +252,9 @@ arlib_add_symbols (Elf *elf, const char *arfname, const char *membername,
++       if (data == NULL)
++ 	continue;
 + 
-+ #include <stdio.h>
-+ #include "internal/cryptlib.h"
-++#include "internal/bn_int.h"
-+ #include <openssl/bn.h>
-+ #include <openssl/sha.h>
-+ #include "dsa_locl.h"
-+@@ -180,9 +181,9 @@ static int dsa_sign_setup(DSA *dsa, BN_CTX *ctx_in,
-+ {
-+     BN_CTX *ctx = NULL;
-+     BIGNUM *k, *kinv = NULL, *r = *rp;
-+-    BIGNUM *l, *m;
-++    BIGNUM *l;
-+     int ret = 0;
-+-    int q_bits;
-++    int q_bits, q_words;
-+ 
-+     if (!dsa->p || !dsa->q || !dsa->g) {
-+         DSAerr(DSA_F_DSA_SIGN_SETUP, DSA_R_MISSING_PARAMETERS);
-+@@ -191,8 +192,7 @@ static int dsa_sign_setup(DSA *dsa, BN_CTX *ctx_in,
-+ 
-+     k = BN_new();
-+     l = BN_new();
-+-    m = BN_new();
-+-    if (k == NULL || l == NULL || m == NULL)
-++    if (k == NULL || l == NULL)
-+         goto err;
-+ 
-+     if (ctx_in == NULL) {
-+@@ -203,9 +203,9 @@ static int dsa_sign_setup(DSA *dsa, BN_CTX *ctx_in,
-+ 
-+     /* Preallocate space */
-+     q_bits = BN_num_bits(dsa->q);
-+-    if (!BN_set_bit(k, q_bits)
-+-        || !BN_set_bit(l, q_bits)
-+-        || !BN_set_bit(m, q_bits))
-++    q_words = bn_get_top(dsa->q);
-++    if (!bn_wexpand(k, q_words + 2)
-++        || !bn_wexpand(l, q_words + 2))
-+         goto err;
-+ 
-+     /* Get random k */
-+@@ -240,14 +240,17 @@ static int dsa_sign_setup(DSA *dsa, BN_CTX *ctx_in,
-+      * small timing information leakage.  We then choose the sum that is
-+      * one bit longer than the modulus.
-+      *
-+-     * TODO: revisit the BN_copy aiming for a memory access agnostic
-+-     * conditional copy.
-++     * There are some concerns about the efficacy of doing this.  More
-++     * specificly refer to the discussion starting with:
-++     *     https://github.com/openssl/openssl/pull/7486#discussion_r228323705
-++     * The fix is to rework BN so these gymnastics aren't required.
-+      */
-+     if (!BN_add(l, k, dsa->q)
-+-        || !BN_add(m, l, dsa->q)
-+-        || !BN_copy(k, BN_num_bits(l) > q_bits ? l : m))
-++        || !BN_add(k, l, dsa->q))
-+         goto err;
-+ 
-++    BN_consttime_swap(BN_is_bit_set(l, q_bits), k, l, q_words + 2);
+++      if (shdr->sh_entsize == 0)
+++	continue;
 ++
-+     if ((dsa)->meth->bn_mod_exp != NULL) {
-+             if (!dsa->meth->bn_mod_exp(dsa, r, dsa->g, k, dsa->p, ctx,
-+                                        dsa->method_mont_p))
-+@@ -275,7 +278,6 @@ static int dsa_sign_setup(DSA *dsa, BN_CTX *ctx_in,
-+         BN_CTX_free(ctx);
-+     BN_clear_free(k);
-+     BN_clear_free(l);
-+-    BN_clear_free(m);
-+     return ret;
-+ }
-+ 
++       int nsyms = shdr->sh_size / shdr->sh_entsize;
++       for (int ndx = shdr->sh_info; ndx < nsyms; ++ndx)
++ 	{
 +-- 
-+2.17.0
++2.7.4
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl10/0001-fix-CVE-2018-0734.patch b/meta/recipes-connectivity/openssl/openssl10/0001-fix-CVE-2018-0734.patch
+diff --git a/meta/recipes-devtools/elfutils/files/0001-libdwfl-Sanity-check-partial-core-file-data-reads.patch b/meta/recipes-devtools/elfutils/files/0001-libdwfl-Sanity-check-partial-core-file-data-reads.patch
 new file mode 100644
-index 0000000000..b9865a69b5
+index 0000000..2c74a8d
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl10/0001-fix-CVE-2018-0734.patch
-@@ -0,0 +1,33 @@
-+CVE: CVE-2018-0734
++++ b/meta/recipes-devtools/elfutils/files/0001-libdwfl-Sanity-check-partial-core-file-data-reads.patch
+@@ -0,0 +1,60 @@
++From 8cbb2f8de89d65ca52d4242f213a6206b48d2c8d Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Fri, 2 Nov 2018 14:22:31 +0800
++Subject: [PATCH] libdwfl: Sanity check partial core file data reads.
 +
-+Upstream-Status: Backport
++There were two issues when reading note data from a core file.
++We didn't check if the data we already had in a buffer was big
++enough. And if we did get the data, we should check if we got
++everything, or just a part of the data.
 +
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
++https://sourceware.org/bugzilla/show_bug.cgi?id=23752
 +
-+From 43e6a58d4991a451daf4891ff05a48735df871ac Mon Sep 17 00:00:00 2001
-+From: Pauli <paul.dale@oracle.com>
-+Date: Mon, 29 Oct 2018 08:24:22 +1000
-+Subject: [PATCH] Merge DSA reallocation timing fix CVE-2018-0734.
++Signed-off-by: Mark Wielaard <mark@klomp.org>
 +
-+Reviewed-by: Richard Levitte <levitte@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/7513)
++CVE: CVE-2018-18310
++Upstream-Status: Backport [http://sourceware.org/git/elfutils.git]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ crypto/dsa/dsa_ossl.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ libdwfl/dwfl_segment_report_module.c | 13 +++++++++++--
++ 1 file changed, 11 insertions(+), 2 deletions(-)
 +
-+diff --git a/crypto/dsa/dsa_ossl.c b/crypto/dsa/dsa_ossl.c
-+index 2dcfedeeee..100e269268 100644
-+--- a/crypto/dsa/dsa_ossl.c
-++++ b/crypto/dsa/dsa_ossl.c
-+@@ -279,7 +279,7 @@ static int dsa_sign_setup(DSA *dsa, BN_CTX *ctx_in, BIGNUM **kinvp,
-+         goto err;
++diff --git a/libdwfl/dwfl_segment_report_module.c b/libdwfl/dwfl_segment_report_module.c
++index 36e5c82..8749884 100644
++--- a/libdwfl/dwfl_segment_report_module.c
+++++ b/libdwfl/dwfl_segment_report_module.c
++@@ -1,5 +1,5 @@
++ /* Sniff out modules from ELF headers visible in memory segments.
++-   Copyright (C) 2008-2012, 2014, 2015 Red Hat, Inc.
+++   Copyright (C) 2008-2012, 2014, 2015, 2018 Red Hat, Inc.
++    This file is part of elfutils.
 + 
-+     /* Preallocate space */
-+-    q_bits = BN_num_bits(dsa->q);
-++    q_bits = BN_num_bits(dsa->q) + sizeof(dsa->q->d[0]) * 16;
-+     if (!BN_set_bit(&k, q_bits)
-+         || !BN_set_bit(&l, q_bits)
-+         || !BN_set_bit(&m, q_bits))
++    This file is free software; you can redistribute it and/or modify
++@@ -301,7 +301,10 @@ dwfl_segment_report_module (Dwfl *dwfl, int ndx, const char *name,
++   inline bool read_portion (void **data, size_t *data_size,
++ 			    GElf_Addr vaddr, size_t filesz)
++   {
++-    if (vaddr - start + filesz > buffer_available
+++    /* Check whether we will have to read the segment data, or if it
+++       can be returned from the existing buffer.  */
+++    if (filesz > buffer_available
+++	|| vaddr - start > buffer_available - filesz
++ 	/* If we're in string mode, then don't consider the buffer we have
++ 	   sufficient unless it contains the terminator of the string.  */
++ 	|| (filesz == 0 && memchr (vaddr - start + buffer, '\0',
++@@ -459,6 +462,12 @@ dwfl_segment_report_module (Dwfl *dwfl, int ndx, const char *name,
++     if (read_portion (&data, &data_size, vaddr, filesz))
++       return;
++ 
+++    /* data_size will be zero if we got everything from the initial
+++       buffer, otherwise it will be the size of the new buffer that
+++       could be read.  */
+++    if (data_size != 0)
+++      filesz = data_size;
+++
++     assert (sizeof (Elf32_Nhdr) == sizeof (Elf64_Nhdr));
++ 
++     void *notes;
 +-- 
-+2.17.0
++2.7.4
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
-index 766110958e..4325940701 100644
---- a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
-+++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
-@@ -40,6 +40,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-Fix-build-with-clang-using-external-assembler.patch \
-            file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
-            file://0001-allow-manpages-to-be-disabled.patch \
-+           file://0001-fix-CVE-2018-0734.patch \
-            "
- 
- SRC_URI_append_class-target = " \
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-index af9038abd5..052f246aad 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-@@ -15,6 +15,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://run-ptest \
-            file://openssl-c_rehash.sh \
-            file://0001-skip-test_symbol_presence.patch \
-+           file://0002-fix-CVE-2018-0734.patch \
-            "
- 
- SRC_URI_append_class-nativesdk = " \
+diff --git a/meta/recipes-devtools/elfutils/files/0001-size-Handle-recursive-ELF-ar-files.patch b/meta/recipes-devtools/elfutils/files/0001-size-Handle-recursive-ELF-ar-files.patch
+new file mode 100644
+index 0000000..6fed826
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/0001-size-Handle-recursive-ELF-ar-files.patch
+@@ -0,0 +1,40 @@
++From 440d34d0ee37964453245895d38d7fc31bcf3d7d Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Thu, 18 Oct 2018 23:15:48 +0200
++Subject: [PATCH] size: Handle recursive ELF ar files.
++
++eu-size didn't handle an ELF ar file that contained an ar file itself
++correctly. handle_ar would recursively call itself but close the ELF
++file before returning. Only close the ELF file at the top-level.
++
++https://sourceware.org/bugzilla/show_bug.cgi?id=23787
++
++Signed-off-by: Mark Wielaard <mark@klomp.org>
++
++CVE: CVE-2018-18520
++Upstream-Status: Backport [http://sourceware.org/git/elfutils.git]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ src/size.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/src/size.c b/src/size.c
++index 5ff3f2a..f01fd88 100644
++--- a/src/size.c
+++++ b/src/size.c
++@@ -374,8 +374,10 @@ handle_ar (int fd, Elf *elf, const char *prefix, const char *fname)
++ 	INTERNAL_ERROR (fname);
++     }
++ 
++-  if (unlikely (elf_end (elf) != 0))
++-    INTERNAL_ERROR (fname);
+++  /* Only close ELF handle if this was a "top level" ar file.  */
+++  if (prefix == NULL)
+++    if (unlikely (elf_end (elf) != 0))
+++      INTERNAL_ERROR (fname);
++ 
++   return result;
++ }
++-- 
++2.7.4
++
 -- 
-2.18.0
+2.7.4
 
 
