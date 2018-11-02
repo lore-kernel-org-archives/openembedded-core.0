@@ -1,103 +1,78 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id EE9447A03E
+Return-Path: <chunrong.guo@nxp.com>
+X-Greylist: delayed 47021 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 03 Nov 2018 01:30:53 UTC
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+	(mail-he1eur01on0056.outbound.protection.outlook.com [104.47.0.56])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F41879D76
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Nov 2018 23:43:32 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id i62-v6so1712509pfi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Nov 2018 16:43:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=QAr9/fAmx6iZvwBxgwVywYpnl1WLk7aVekWDBopVFnA=;
-	b=veyO57xm5CDijqDR0uLyj/A03Ly/KdqfPZpsLGxl6ef3YkkxV8kwiMpDFFjJ+8HKp7
-	qCk8vZWy+DZ2seaThA961aeMgiPgyTKE2GwOk/eMGXcBJO7AAKq79D1pavip9YjVilQu
-	eLeJMw/HXUsdzlzEOz/qO+KNS6fsi7kZ5TCeG6K6TBvBLa3gNPGm6mJR4UTue6zHPXHq
-	XoklS4/phXemDuAv1y5Nbx0Tr5R11d2qZ6uUG9DT1OKnpRMnX24RrQNJ8pN4r3JYpq1o
-	uks+22T8uoSjxadBibgBdme+Jz+Q58IKhxPnX4ApXXGBKqhg2NZ8H5p1xp16uYT4ontf
-	QuVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=QAr9/fAmx6iZvwBxgwVywYpnl1WLk7aVekWDBopVFnA=;
-	b=SKm5Jk8MNdABK0/8rFfHQ8pUE5nsDsf5ziNf+mihRMP5RJ7h3NY2Ghw2IwIXqzSoxR
-	FZKyVxWVMlCjfxQ9wxCIaU3aujeM1gVnDqgM0hAIcQ4RThrVJh4GGAJIrtJ/Uva3z8EO
-	V4RGVL/8s+pzW53t/BdZMWyp/5jkwdhNJB9Yo//o7A+bJbrar7zerRz0nFnQmpy0lQqo
-	Zp0ayA/lvZxDl9b2IOrxtzmeGyvWNMDLjSiJzJ/qJLngMBgmE9pCo96xz0i4lO7+zNRM
-	v8/JQum1eGhMQN7ciVFtS9vsfQL6nqOM/GKxBiOGr+DQk55qmOkJ1OilsYbb5Q6al2re
-	5q/g==
-X-Gm-Message-State: AGRZ1gJLWIokbxrduW7Gr2I8us/DgMBAG5y/2EiLvHkk/R1OvvazKYCu
-	l1aCs2TKSfcCIFzZ8QGtYHW2ane5
-X-Google-Smtp-Source: AJdET5dBd1jUHx56oDrrK17KdF6MXTP4fA1Jd+GHhABhJCQl3m3IjBMjXeRGVsx7/Sbe3WYbsdtafQ==
-X-Received: by 2002:a62:d084:: with SMTP id
-	p126-v6mr14166292pfg.147.1541202213678; 
-	Fri, 02 Nov 2018 16:43:33 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:8d25:2e4:ba80:f9b1?
-	([2601:202:4180:c33:8d25:2e4:ba80:f9b1])
-	by smtp.gmail.com with ESMTPSA id
-	p15-v6sm31970933pfj.72.2018.11.02.16.43.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Nov 2018 16:43:32 -0700 (PDT)
-To: Arsalan Awan <Arsalan_Awan@mentor.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1541168618.git.Arsalan_Awan@mentor.com>
-	<6bf54a814e2aaa03e262aa2edd529405d391ee22.1541168618.git.Arsalan_Awan@mentor.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <c1316e3a-ec0c-3320-0972-9c7ee532aee8@gmail.com>
-Date: Fri, 2 Nov 2018 16:43:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Sat,  3 Nov 2018 01:30:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=rgzVuv/EMiQZmxnNb+hngTKA7o8pvRzt0x60wFeoES8=;
+	b=lTFwV7g1jhfwH13vwq2GZrIR8+qCKPNIQkSI5ZNVKEzDtfs87E7aZHPOQtydGC/z64nA4UbQqRs2AeAAyfBv3tm3csD6dk25A2vtWSV4zpdcior9BhEgC342RxsnzdELkw8wE32Zv1062Wzv1RWU8/KoZBYQLScb78eGKBUVD9M=
+Received: from DB7PR04MB5068.eurprd04.prod.outlook.com (20.176.235.12) by
+	DB7PR04MB4203.eurprd04.prod.outlook.com (52.135.131.12) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1294.21; Fri, 2 Nov 2018 06:52:45 +0000
+Received: from DB7PR04MB5068.eurprd04.prod.outlook.com
+	([fe80::9563:6aa7:dd40:a955]) by
+	DB7PR04MB5068.eurprd04.prod.outlook.com
+	([fe80::9563:6aa7:dd40:a955%5]) with mapi id 15.20.1294.024;
+	Fri, 2 Nov 2018 06:52:45 +0000
+From: "C.r. Guo" <chunrong.guo@nxp.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [thud][PATCH] ppce500v2: remove spe
+Thread-Index: AQHUcnio2J7rM4/TeUaFri7VXLgNRA==
+Date: Fri, 2 Nov 2018 06:52:45 +0000
+Message-ID: <1541141546-32688-1-git-send-email-chunrong.guo@nxp.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HK0P153CA0046.APCP153.PROD.OUTLOOK.COM
+	(2603:1096:203:17::34) To DB7PR04MB5068.eurprd04.prod.outlook.com
+	(2603:10a6:10:1c::12)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=chunrong.guo@nxp.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [119.31.174.73]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; DB7PR04MB4203;
+	6:5IE7nCHS/v65nvyxKttTmuWS2XeYa4RX4Mzj4+2KNB92O2Q3q+IJOyTS6c7xtKAxa9AT+nsGbkfGxWGoZmnznahYjBC8WE7UK1n2Plrz2Uhl5WICpckm7LVsrwftb63moww6P/FF3PTOjvCLOwmm7m/OJsHJ+SPmR+Oo2k7tNRHQlBHkqtwIj7VK/EThWBnATvjlaXP1dG3gvXF50alyxb2iH78drXziy/JLuShtMwyT6QZtfXcYtJvG/zAwHeyizqC56B2VljGHE2aFjfCceRDFgDZZMXqBsC0aqGmEWOMlESneWtzRgi8XmBKUrEE2AHURia3+j1NVD1l5b3LB0Y/34tRjcteaX/Y9xmfuApSvcBlkiaClpw+DXijVxrV0jjoa5F9aexXbZw0CXZyogeOFp02hxRJQ9+dv+H2KUfDxp7RddG35hAqnXYgTtHo4tKNGRC2GavsmrclMrXBUCQ==;
+	5:iRjv49Wa5DfvkHjqCRrKelOZHNDynE0Rjcjj7gRo4oWJfss+LQF1JnlioL/zQWutvV9s8GsitQEkUXFLfcS75SB5/t2Vk1j/fC9RG0t0qvAlsoZyOvi0u1zgZypS4CVq3bSSksrKygXD+aiBPEaPmdF8v9jALcvdjOYv/5H6RRw=;
+	7:mbdyUnWJs3A04lZIqdOjeu6Cemngw54GmK4GGVfysdBl9GY1tGpyRWqN95DFmqSgmPR0b82RVlEAKzkp9tdVnuqfzJb66hzcHv2eVHl1Gz2/QLvUia66aDk9UNTGUfv0MXxfHpju36MCNHbwcSVNiw==
+x-ms-office365-filtering-correlation-id: bf5e990c-a75c-4fb3-6ada-08d6408fcb12
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);
+	SRVR:DB7PR04MB4203; 
+x-ms-traffictypediagnostic: DB7PR04MB4203:
+x-microsoft-antispam-prvs: <DB7PR04MB4203676ABAF7265B72942D9984CF0@DB7PR04MB4203.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(185117386973197);
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(10201501046)(3002001)(93006095)(93001095)(3231382)(944501410)(52105095)(6055026)(148016)(149066)(150057)(6041310)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123562045)(20161123560045)(201708071742011)(7699051)(76991095);
+	SRVR:DB7PR04MB4203; BCL:0; PCL:0; RULEID:; SRVR:DB7PR04MB4203; 
+x-forefront-prvs: 08444C7C87
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(39860400002)(376002)(346002)(136003)(396003)(366004)(189003)(199004)(68736007)(14444005)(5640700003)(106356001)(105586002)(2351001)(71190400001)(71200400001)(2900100001)(305945005)(256004)(81166006)(53936002)(7736002)(4326008)(6486002)(6512007)(6436002)(25786009)(86362001)(316002)(36756003)(8676002)(99286004)(52116002)(81156014)(8936002)(476003)(2616005)(66066001)(486006)(102836004)(26005)(386003)(6506007)(186003)(1857600001)(2906002)(478600001)(97736004)(6116002)(6916009)(3846002)(5660300001)(14454004)(2501003);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR04MB4203;
+	H:DB7PR04MB5068.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+x-microsoft-antispam-message-info: LnzW+IesFLMLr1jpuxTs8DVLrJzlMrYlJrIApAfhp3t6d6NkVafEzMV5EmdQ3B/yg0g3Q0cPSGv3rKhLKhjMTakBrLyX2C0B5vkkgrvxX6Cs38i1xf433aaSzrRXM0vHyBk6p5nK1EbWyJV3c2X9py2WqiYGH2Rv5uvpouLvnq7uv/kjHhT/HixsO105Nki3uwLBiJiD2WDvN3hDuhN/qw0m2D337EycoacRQe3P6NaCFcwed3pKD9vVqJghZKfVs8MUvQG0IFdIyoTwYixmhl+GigNeT0kEKXKpmHKDs9DlOFiRQcGx+fDzmkuD2sDKXWWG17wyTcGB4Zgla0K3+hcHfiMNqDEJka9gFxje5Lg=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-In-Reply-To: <6bf54a814e2aaa03e262aa2edd529405d391ee22.1541168618.git.Arsalan_Awan@mentor.com>
-Subject: Re: [sumo][PATCH 1/1] wic/isoimage-isohybrid.py: fix booting from removable media
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf5e990c-a75c-4fb3-6ada-08d6408fcb12
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2018 06:52:45.5620 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4203
+Subject: [thud][PATCH] ppce500v2: remove spe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,60 +85,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 23:43:33 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 03 Nov 2018 01:30:54 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Arsalan,
+From: Chunrong Guo <chunrong.guo@nxp.com>
 
+*The PowerPC SPE support is split off to a separate powerpcspe port
 
-On 11/2/18 8:01 AM, Arsalan Awan wrote:
-> From: "Arsalan H. Awan" <Arsalan_Awan@mentor.com>
->
-> The EFI bootloader name and path for being able to boot from a
-> removable storage media - such as USB - must be like:
->
->   /EFI/BOOT/boot<arch>.efi
->   /EFI/BOOT/bootx64.efi
->   /EFI/BOOT/bootia32.efi
->   /EFI/BOOT/bootaa64.efi
->
-> otherwise system will not be able to boot from it.
+Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
+---
+ meta/conf/machine/include/tune-ppce500v2.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Is this fixed in Master & Thud ?
+diff --git a/meta/conf/machine/include/tune-ppce500v2.inc b/meta/conf/machi=
+ne/include/tune-ppce500v2.inc
+index 3a006e2..d318bba 100644
+--- a/meta/conf/machine/include/tune-ppce500v2.inc
++++ b/meta/conf/machine/include/tune-ppce500v2.inc
+@@ -15,6 +15,6 @@ SPEABIEXTENSION =3D "${@bb.utils.filter('TUNE_FEATURES', =
+'spe', d)}"
+ ABIEXTENSION .=3D "${SPEABIEXTENSION}"
+=20
+ AVAILTUNES +=3D "ppce500v2"
+-TUNE_FEATURES_tune-ppce500v2 =3D "m32 spe ppce500v2"
++TUNE_FEATURES_tune-ppce500v2 =3D "m32 ppce500v2"
+ TUNE_PKGARCH_tune-ppce500v2 =3D "ppce500v2"
+ PACKAGE_EXTRA_ARCHS_tune-ppce500v2 =3D "ppce500v2"
+--=20
+2.7.4
 
-- armin
-
->
-> This commit fixes the grub-efi bootloader destination image name
-> accordingly just like efi_populate() function does it in
-> meta/classes/grub-efi.bbclass.
->
-> Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>
-> ---
->  scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> index d6bd3bf..9a30713 100644
-> --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> @@ -329,13 +329,15 @@ class IsoImagePlugin(SourcePlugin):
->  
->                  if re.match("x86_64", target_arch):
->                      grub_image = "grub-efi-bootx64.efi"
-> +                    grub_image_dst = "bootx64.efi"
->                  elif re.match('i.86', target_arch):
->                      grub_image = "grub-efi-bootia32.efi"
-> +                    grub_image_dst = "bootia32.efi"
->                  else:
->                      raise WicError("grub-efi is incompatible with target %s" %
->                                     target_arch)
->  
-> -                grub_target = os.path.join(target_dir, grub_image)
-> +                grub_target = os.path.join(target_dir, grub_image_dst)
->                  if not os.path.isfile(grub_target):
->                      grub_src = os.path.join(deploy_dir, grub_image)
->                      if not os.path.exists(grub_src):
 
