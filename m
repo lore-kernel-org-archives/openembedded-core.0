@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E70679F3D;
-	Fri,  2 Nov 2018 06:41:00 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 568FC79F3F;
+	Fri,  2 Nov 2018 06:41:03 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: changqing.li@windriver.com
-Date: Fri, 02 Nov 2018 06:41:01 -0000
-Message-ID: <20181102064101.13840.12812@do.openembedded.org>
-References: <1541138869-68039-1-git-send-email-changqing.li@windriver.com>
+Date: Fri, 02 Nov 2018 06:41:04 -0000
+Message-ID: <20181102064104.13840.18775@do.openembedded.org>
+References: <1541138944-68335-1-git-send-email-changqing.li@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1541138869-68039-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1541138944-68335-1-git-send-email-changqing.li@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3VybDogZml4IGZvciBDVkUtMjAxOC0xNjgzOS9DVkUtMjAxOC0xNjg0MC9DVkUtMjAxOC0xNjg0Mg==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgeHNlcnZlci14b3JnOiBmaXggZm9yIENWRS0yMDE4LTE0NjY1?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 06:41:00 -0000
+X-List-Received-Date: Fri, 02 Nov 2018 06:41:03 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: curl: fix for CVE-2018-16839/CVE-2018-16840/CVE-2018-16842
+Series: xserver-xorg: fix for CVE-2018-14665
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/14764/
+URL   : https://patchwork.openembedded.org/series/14767/
 State : failure
 
 == Summary ==
@@ -45,7 +45,11 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            curl: fix for CVE-2018-16839/CVE-2018-16840/CVE-2018-16842
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 14b5854d50)
+
+* Patch            xserver-xorg: fix for CVE-2018-14665
  Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
   Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
 
