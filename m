@@ -1,32 +1,28 @@
-Return-Path: <okaya@kernel.org>
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail.openembedded.org (Postfix) with ESMTP id 254E779EDB
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2751679EFB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Nov 2018 00:43:23 +0000 (UTC)
-Received: from [192.168.0.109] (cpe-174-109-247-98.nc.res.rr.com
-	[174.109.247.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 0AFC22086D;
-	Fri,  2 Nov 2018 00:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1541119405;
-	bh=qNoXMv4luuVvUt+ddFKSDuabsiXRX4ZxorvVtCSK7IE=;
-	h=Subject:To:References:From:Date:In-Reply-To:From;
-	b=sKPQd2jWqBpi3xEquOGiJvu/cb6Rui5iWBz8YB5RsX91qc4fBekmZ6zk0IIa7dAWK
-	umVlm3ufkdrXrfZR5Q3F0NsSe6ANn1m0QoIGjiW9Za1iqbDvse/hFUnLnLQgo3coSD
-	x4shTYffvYCQJXtgtm5TiDsuL3x2ldKIn0qUShmc=
-To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20181030232815.24575-1-okaya@kernel.org>
-	<47198674-85e7-c0e9-bb6c-d6ed5310a9b0@gmail.com>
-From: Sinan Kaya <okaya@kernel.org>
-Message-ID: <a0e706c2-86bd-7773-31e9-ae8b19b95b39@kernel.org>
-Date: Thu, 1 Nov 2018 20:43:20 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Fri,  2 Nov 2018 01:22:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wA21MdvJ008102
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 1 Nov 2018 18:22:39 -0700 (PDT)
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Thu, 1 Nov 2018 18:22:39 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1541042117-20190-1-git-send-email-changqing.li@windriver.com>
+	<CAJTo0LYypr91Kg0V=ke_WhFcOcSOfN_wSsX1rdYDQrZ_Oz25sw@mail.gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <8f8f7241-6858-ba50-4dd5-7f9a57ec95f5@windriver.com>
+Date: Fri, 2 Nov 2018 09:22:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <47198674-85e7-c0e9-bb6c-d6ed5310a9b0@gmail.com>
-Subject: Re: [sumo] [PATCH v1] strace: fix ptest path not found
+In-Reply-To: <CAJTo0LYypr91Kg0V=ke_WhFcOcSOfN_wSsX1rdYDQrZ_Oz25sw@mail.gmail.com>
+X-Originating-IP: [128.224.162.228]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] apt: update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,16 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 00:43:24 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 02 Nov 2018 01:22:43 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 
-On 11/1/2018 7:48 PM, akuster808 wrote:
->> srcdir = ../../ptest0/tests
->> top_srcdir = ../../strace-4.20
-> Do you know if this affects Master?
 
-I have not tested master but I have seen the same issue there.
-I looked for a solution at master before debugging this.
+On 11/1/18 7:12 PM, Burton, Ross wrote:
+> Why are we using ubuntu's archive instead of the canonical Debian
+> repository?  The idiom for Debian packages is to use
+> snapshot.debian.org.
+>
+> Ross
+
+I have checked snapshot.debian.org.  apt_1.2.24 don't  on it.  so I use 
+current link.
+
+
+//changqing
+
+> On Thu, 1 Nov 2018 at 03:16, <changqing.li@windriver.com> wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> update SRC_URI since previous link is not valid now
+>>
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>   meta/recipes-devtools/apt/apt.inc | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+>> index f1cde30..50f22c8 100644
+>> --- a/meta/recipes-devtools/apt/apt.inc
+>> +++ b/meta/recipes-devtools/apt/apt.inc
+>> @@ -2,7 +2,7 @@ SUMMARY = "Advanced front-end for dpkg"
+>>   LICENSE = "GPLv2.0+"
+>>   SECTION = "base"
+>>
+>> -SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/main/a/${BPN}/${BPN}_${PV}.tar.xz \
+>> +SRC_URI = "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/apt/1.2.24/${BPN}_${PV}.tar.xz \
+>>              file://use-host.patch \
+>>              file://makerace.patch \
+>>              file://no-nls-dpkg.patch \
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+-- 
+BRs
+
+Sandy(Li Changqing)
+
 
