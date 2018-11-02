@@ -1,38 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 141F379F95
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id F09BC60722
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Nov 2018 16:31:13 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id q18-v6so1781663iod.5
+	Fri,  2 Nov 2018 17:06:01 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id r5-v6so4093399ith.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Nov 2018 09:31:15 -0700 (PDT)
+	Fri, 02 Nov 2018 10:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lRM5aVY8sQFYBU/nVBXcNi9QqOKjpFDWTQ45SyEDH+Y=;
-	b=tRuZFiHYIeIIZ5P99JwoPY+bTQI96ck6SYzPoaiPFeSWLoymoScnSm5VYVmVmYsMHW
-	lO+u4NRwq093Q/tNp7hcvM/qPhRWd5dAgoU2pGOkWj5iFp//+hVrHBK6x5yJRCNDnLDV
-	c94fWlNAfpVdFhxtoOiHN8zCujHBruxRyv4Tk1+jf+sGgoQNFbYpg6oUB4pUsTS8fSEO
-	He3TXgE77ICts8Iv/6BfKwHCaKbXVqkZ/JuaNc6qG60ZHmyA72F5PdFRChg3k63CSp6k
-	Qwfjvt0OqnoCJ1FA7+MpFg9LZ0Dl1LePv+59pDtJhvPOgy0FD9FTNQSmsJ4wrc0ReOV2
-	AAhQ==
+	:cc; bh=c+xjLDB9E6Aizzz8nubzqkBd5KoZ+B2Je8b0F1sDtC8=;
+	b=Qo+llXFc0y9cpzNNO9T1pglMSvlrzSpuA+G61qeQR50gZkP1lHNM2rpZEX2YNF/vXf
+	3yxAC+dUPnYh0EbD0zW+K52aipEiPwQgMMbla4jDv87fqT38KNu7ipNn/sa6eXTXDn+/
+	YMd93rCB0ictAOYVgCnSXBVRLHI4nkJ9as4o3j2KtNN0Bewcsn5Y11R6VPh+JRxjzDR8
+	Gze1U0HUhfPf4qX0jpMnwkywG1FTcFvWr2uIjkkkDHlJYKP5R7FjPddUD2yKSidTfSc8
+	aocI4j8mH2aD8WpgYIY4VMe1Pl7r5ftQqtQpBKjJlV+/3Ekav3WqRJ85JwP0aqxzS9DL
+	/Xow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=lRM5aVY8sQFYBU/nVBXcNi9QqOKjpFDWTQ45SyEDH+Y=;
-	b=Hzj6UoZXlJOFngsS+0ncQ4MY+OZIFGNpLp0WSfx4yBErLiUy9lrqhp57EhecFkI8k1
-	XB44x2foUr2Zbw6XARiH5ZHta5UlQpwvVopPbQfw3VClEpJ7N5LmwtcuabYnMfYfnA9F
-	JrP7E3G05l3eF/k81h00veWjFI7O8Gw4j+S4sakvPD4i8hUxuyf+y6V8nhWzzlGd3fwi
-	YG3cXmV+KGxFrM0mF/OLNEeC5F+mK352XSxVtyao9IziQt0nefUjaHeYDB69K5f1HNR3
-	pqouP/po40dL5SOtK8RQVxtqdc4KJH4QYLiAPArRVQmt0vyJkJJGKNzSu4EegANQsHs2
-	HnAA==
-X-Gm-Message-State: AGRZ1gL9Y2PO7XTc5lDpaCqBM1qvH8UYvRxR9Ld9B4H1M0b3yw+NFngZ
-	mG9ULXTaUQtURwm8sc7lRnLHwY0SsmSvBrg3pBKZQw==
-X-Google-Smtp-Source: AJdET5eu6dQWqmHLsRiT/+5DN47dVT4WiftKfTh1zBdWjK/PKvdqZQKZ9a6JQb+kMmZlPXmuaaqR01PLm/ceKDDQv8Q=
-X-Received: by 2002:a6b:1602:: with SMTP id 2-v6mr3654474iow.201.1541176275100;
-	Fri, 02 Nov 2018 09:31:15 -0700 (PDT)
+	bh=c+xjLDB9E6Aizzz8nubzqkBd5KoZ+B2Je8b0F1sDtC8=;
+	b=eovf8ona8ftFsxwXYTcW6IJ6A6I8HqYEDyAeVhxyg+vJRUggLv9yOvVHPDQ1fGGEjG
+	2uvJc/pts+zZlZogzq8NIJJ1Tmej9rKu+aK7v9upMrYjoPCYR/+mzO4imu7A1Dd2uH1f
+	M3wcnL4iqobw3xGLt4oTPhUkYJo/y/oOmlawMhcqyXRLCLnA1+dp/sf36r5T6QI9Q9wL
+	tO8uBrke4YN0gAF4Jlyaz0WFAPPD6VklDcgiO8Bc3LmjC2VulqME3YqjYUEQjoKtLlw+
+	3Dx4KgmCJ29qNxRcuAXvvjirAtJcSGrBfK5CPvGOamAkepSZN12mUwnETvaM/DHPLgt9
+	9phg==
+X-Gm-Message-State: AGRZ1gIGvNwukcbZ2wf4q0Mm7mpt85UvW0x0zqAYos5GR9D4YDKN+lpj
+	bbCcgxE7t+k/GMXuisF1gr5NaccZF9wOo5q9RW+gJA==
+X-Google-Smtp-Source: AJdET5dVYbwIsF8314O2Nv2yzN/fZRE/HJW+QFL1Qk6hU7tLd6IZcVgj9NYsxGBmhbxXZcOQ0/zW9/D0jEhcyG/fboY=
+X-Received: by 2002:a24:9287:: with SMTP id l129-v6mr97549itd.26.1541178363047;
+	Fri, 02 Nov 2018 10:06:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181031144648.28277-1-sno@netbsd.org>
 	<CAJTo0LYJrmBh1_3AXZXH7xBY1KSCG_9buGfsqtG-D2MLRb=Qmg@mail.gmail.com>
@@ -42,8 +42,8 @@ References: <20181031144648.28277-1-sno@netbsd.org>
 	<CAJTo0LZBqL3rckX3jEbWauwFWZNs=6gc7p+NGNDH5RbQeyiMdA@mail.gmail.com>
 In-Reply-To: <CAJTo0LZBqL3rckX3jEbWauwFWZNs=6gc7p+NGNDH5RbQeyiMdA@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 2 Nov 2018 16:31:03 +0000
-Message-ID: <CAJTo0LYQM9=5SO3DN=xTHf4VSUF5RZOszA8ztZw0C=mNTzGu7w@mail.gmail.com>
+Date: Fri, 2 Nov 2018 17:05:51 +0000
+Message-ID: <CAJTo0La78WeKvXtvFRQT0Lp2vy6dx46MYkRO9jev70CadYFNqw@mail.gmail.com>
 To: Jens Rehsack <sno@netbsd.org>
 Cc: Alejandro Enedino Hernandez Samaniego
 	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
@@ -61,17 +61,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 16:31:14 -0000
+X-List-Received-Date: Fri, 02 Nov 2018 17:06:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Oh, and we should either backport
-https://github.com/python/cpython/commit/7bd6f0e5500f778e940374237b94651f60ae1990
-or move to 3.7.1.
-
-Ross
 On Fri, 2 Nov 2018 at 16:29, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On Fri, 2 Nov 2018 at 16:17, Burton, Ross <ross.burton@intel.com> wrote:
 > > Turns out enabling reproducible builds breaks the test suite:
 > >
 > > test test_py_compile failed -- Traceback (most recent call last):
@@ -83,27 +76,8 @@ On Fri, 2 Nov 2018 at 16:29, Burton, Ross <ross.burton@intel.com> wrote:
 >
 > We're patching in SOURCE_DATE_EPOCH but 3.7 supports this directly, I
 > think we should just drop the source-date-epoch patch.
->
-> > test test_venv crashed -- Traceback (most recent call last):
-> >   File "/usr/lib/python3.7/test/libregrtest/runtest.py", line 163, in
-> > runtest_inner
-> >     the_module = importlib.import_module(abstest)
-> >   File "/usr/lib/python3.7/importlib/__init__.py", line 127, in import_module
-> >     return _bootstrap._gcd_import(name[level:], package, level)
-> >   File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
-> >   File "<frozen importlib._bootstrap>", line 983, in _find_and_load
-> >   File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
-> >   File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
-> >   File "<frozen importlib._bootstrap_external>", line 728, in exec_module
-> >   File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
-> >   File "/usr/lib/python3.7/test/test_venv.py", line 20, in <module>
-> >     import venv
-> > ModuleNotFoundError: No module named 'venv'
-> >
-> > Urgh, venv.  We just changed this, I wonder if it's not being pulled
-> > into the python3-modules depends.
->
-> Missing dependency, I'll post this fix for master/thud.
->
-> Ross
+
+Confirmed that dropping our patch fixes this.
+
+Ross
 
