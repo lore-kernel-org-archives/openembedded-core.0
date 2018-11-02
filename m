@@ -1,29 +1,28 @@
-Return-Path: <Arsalan_Awan@mentor.com>
-X-Greylist: delayed 2177 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 02 Nov 2018 15:37:38 UTC
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id A738879F76
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 634176074F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Nov 2018 15:37:38 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-MBX-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-	id 1gIawr-0001CY-Qi from Arsalan_Awan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Nov 2018 08:01:21 -0700
-Received: from PKL-AAWAN1-UBUNTU.pkl.mentorg.com (137.202.0.90) by
-	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
-	Server (TLS) id 15.0.1320.4; Fri, 2 Nov 2018 15:01:17 +0000
-From: Arsalan Awan <Arsalan_Awan@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Nov 2018 20:00:50 +0500
-Message-ID: <cover.1541168618.git.Arsalan_Awan@mentor.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) To
-	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3)
-Subject: [sumo][PATCH 0/1] wic/isoimage-isohybrid.py: fix booting from removable media
+	Fri,  2 Nov 2018 15:43:15 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	wA2FhAvI003325
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Fri, 2 Nov 2018 15:43:11 GMT
+Message-ID: <8897ab754bea0fda7195a851b2d19695dd7553e9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"matthias.schiffer@ew.tq-group.com" <matthias.schiffer@ew.tq-group.com>
+Date: Fri, 02 Nov 2018 15:43:10 +0000
+In-Reply-To: <8ba204af82c54d23805deefb5197dd6f@XBOX04.axis.com>
+References: <20181102143927.15387-1-matthias.schiffer@ew.tq-group.com>
+	<8ba204af82c54d23805deefb5197dd6f@XBOX04.axis.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.1 at dan
+X-Virus-Status: Clean
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base.bbclass: avoid 'find -ignore_readdir_race	-delete'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +35,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 15:37:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Nov 2018 15:43:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: "Arsalan H. Awan" <Arsalan_Awan@mentor.com>
+On Fri, 2018-11-02 at 15:19 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > <openembedded-
+> > core-bounces@lists.openembedded.org> On Behalf Of
+> > matthias.schiffer@ew.tq-group.com
+> > Sent: den 2 november 2018 15:39
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH] base.bbclass: avoid 'find -
+> > ignore_readdir_race -delete'
+> > 
+> > From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> > 
+> > Until recent versions of findutils, -ignore_readdir_race did not
+> > work
+> > correctly with -delete. This led to spurious build failures when
+> > files
+> > disappeared; specifically this was seen due to do_configure and
+> > do_populate_lic running concurrently for packages with ${B} ==
+> > ${WORKDIR}:
+> > 
+> >    find: '.../sstate-build-populate_lic': No such file or directory
+> > 
+> > As the find command of the host system is used here, we can't
+> > ensure that
+> > the used version contains the fix. Work around the issue by passing
+> > the
+> > output of find to 'rm -f' instead of using -delete.
+> > 
+> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com
+> > >
+> > ---
+> > 
+> > It would be great if this patch could be backported to all versions
+> > back to Rocko, as our current setup is still based on Rocko.
+> > 
+> >  meta/classes/base.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> > index df11c8b270..5ffd8396e3 100644
+> > --- a/meta/classes/base.bbclass
+> > +++ b/meta/classes/base.bbclass
+> > @@ -303,7 +303,7 @@ base_do_configure() {
+> >  			if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile
+> > -o -e makefile -o -e GNUmakefile \) ]; then
+> >  				oe_runmake clean
+> >  			fi
+> 
+> You might want to include a comment here explaining why rm -f is
+> used instead of -delete, or someone might come along and optimize the
+> code...
 
-The mkhybridiso image created using the isoimage-isohybrid.py
-WIC source plugin fails to boot from a removable storage media
-such as USB. This is due to the grub-efi bootloader filename
-being deployed i.e.: "grub-efi-bootx64.efi" which must be
-"bootx64.efi" in this case of a removable media.
+We should detail which versions of findutils have the issue as
+ultimately it would be nice to use the simpler command. I'm curious how
+many of the distros we support have the problem.
 
-Source: https://www.rodsbooks.com/efi-bootloaders/principles.html
-Quote: "The fallback boot loader mentioned earlier (EFI/BOOT/bootx64.efi,
-        or variants of that, depending on the architecture) is something
-        of a special case. This filename was originally intended for use
-        only on removable media, so that they could be booted to install
-        an OS. (If not for that fixed filename, a factory-fresh computer
-        wouldn't be able to boot anything!)"
+Cheers,
 
-The following changes since commit 30b055d2296f060a4ca054d042f353a2153fdd4e:
-
-  externalsrc.bbclass: Set BB_DONT_CACHE for non-target recipes (2018-10-18 11:08:46 +0100)
-
-are available in the git repository at:
-
-  git://github.com/ArsalanHAwan/openembedded-core sumo
-  https://github.com/ArsalanHAwan/openembedded-core/tree/sumo
-
-Arsalan H. Awan (1):
-  wic/isoimage-isohybrid.py: fix booting from removable media
-
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
--- 
-2.7.4
+Richard
 
 
