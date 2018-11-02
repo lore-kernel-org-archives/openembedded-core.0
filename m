@@ -1,51 +1,106 @@
-Return-Path: <srifenbark@gmail.com>
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
-	[209.85.208.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 9902279F7D
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+	[209.85.210.172])
+	by mail.openembedded.org (Postfix) with ESMTP id CCAF279E7B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Nov 2018 15:48:55 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id d6-v6so2217209edi.2
+	Fri,  2 Nov 2018 15:57:23 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id e22-v6so1214688pfn.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Nov 2018 08:48:56 -0700 (PDT)
+	Fri, 02 Nov 2018 08:57:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xm67yt+9mByMuAQIBF9aIyuhjxJ/tqqSb25OZB0MPFg=;
-	b=BzBhJgtz1RnsnwAfPKP/5181USkQ+M0RIbg2E8GULSMGDOPfqccucI03FOcyrYoIaj
-	yV70OjH37EkgUt9jnSh22KukzxQP3HQENUHmSFrU6TqhtjHzZeWNk45+USUIyq7vTZam
-	CKL6EGHkuajQDczRxH+WLc1DiOFYcejqbufrbwkrEoon+DEuE95/twdt+MMfFKNrRVVI
-	yhIeGD5EPuR65E2W/X7ircQD+NIl6m8Su2C1niQAPFyjLA3jxS8NtmDROOJUSTjT4M2T
-	eiSzRzyg1zqpQkUU3Rf/HuRlasXV9VoOt5BKpfzPm7yfWiO0xqvS0PExy+4bVUJWITq4
-	wg7A==
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=vA7+/4xuYYo17yeHg5nERwql+ChFZDKsycblIeO1sSM=;
+	b=fAVEwBuSZsU6E1F+23UzWmmoXd9e/hJGAFvoBjJD/Kn/09bP743NeAZC71fkB8T48b
+	V8Geo7FsNt4hVVuvbOQdyEm1dGNpFG8Yh+u33ATu2ZbO6Xm8AIKpIEISuzpxq4kFRMmm
+	5SMW+DAC0/PqQAW9y5GCI3c4d0GeSOUP/sV9McCfGNM18eQqCqWATXep4p0c/X5KJE9b
+	Vs32VYy4dpvuip/cR3522nryi3BlALIJtY11d0z78q4aZEXKVTqs0BDpdVV4B7ps0nzu
+	+MjNeQ2ki3s1k3sBgpshh3QEBHE4kip7ROe80mKmNMOaaRxoYtqy3tjugnWXu1JoZSyZ
+	rTmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xm67yt+9mByMuAQIBF9aIyuhjxJ/tqqSb25OZB0MPFg=;
-	b=PSO1imiYW9KTTqNXUGalM97eQ6F/1IISEII1YQ5kPEtAKJZ7Pii9OKY3u5L22EfWkj
-	Ts/U1x//DsMYMT8n/uYPojbDbZwIeB5U3SDNFIsvTQ/leneVmjxbNn0ZNMH0zrv2lTXq
-	Q937BNPRHAumi12AvFuzJgwiNkn5Q50Zt/dGMTQllmLrTIW8AYkI1zh8zRP/c11uQkCI
-	iYe94H0qTY35uUWbPYKy+TOIVh5iBCmfyo4Y7ZC7DcZHzcKwtDpjdcTPlTvz4k/8Mfvz
-	0EZFJSo2HLQ53Mv6IGyl5U8Tr5bOs6roK6HtZ/snzgt9PLluEmthTCKyustDCWFTf8hi
-	LQhg==
-X-Gm-Message-State: AGRZ1gIg1MgqCsC2ppcRjh0GzoEDr5Hx2fLiXD3QN5V+JlCv25bbnL4Q
-	j/6LtMKflOB+4SnUazqTi3KP8Gep57vYEabDSg4=
-X-Google-Smtp-Source: AJdET5fqioeY+4iay3Ve6zlH70KEuN97PIrv6KcZWdhgEKm6+1xZV/5YtHWY16h8xAzJcz+mKveQPmf02+6ELqFGm+Y=
-X-Received: by 2002:a50:a2e7:: with SMTP id
-	94-v6mr5808046edm.221.1541173736216; 
-	Fri, 02 Nov 2018 08:48:56 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language;
+	bh=vA7+/4xuYYo17yeHg5nERwql+ChFZDKsycblIeO1sSM=;
+	b=YphA8g9FGfFmMKZ6rU7rFN3Mv0ex4Y8e5NjeTZhj130/1YGKR6LHtdFEfSuUzwbQ2o
+	+IMb92RSZblNliYWnEQ/d4yG+kj8wozKo7cAl9KpwuXxeex9i3oDC/r5oCt15qt5LJuV
+	eHZs3D/4b4ljjt+CPmFnxQJGunBH1ReIItxT+NSa4alRYGcEgTKeQRybzZqSpKhqzObw
+	kwxdg5agXN/i8tsBlQC5IjajvAlfKpQpmeHB8r+8qoavhefQUyqHRnYR5qHzQNJNNZ1S
+	ZlDkoJbs2ezCIzriAIPQus8eM4x3OnUZQECFs1LSzMA7jk3U/7NsHtnq9jMBb9hGO6CP
+	Wh8Q==
+X-Gm-Message-State: AGRZ1gJSrVrz2GPKkRaQD3EKl19rxo83LoXl+1CkDXag5bzzGzb7zrbl
+	saIvbWO1ne7L+/NDbzCcX48NqIM5
+X-Google-Smtp-Source: AJdET5c/CbQSKK83BQKv2fCx6I9RRL6HubiDkzpxlaxlXWnNtJS6D7kciWpxrFNvdYnc3Tmlxiim+w==
+X-Received: by 2002:a62:1049:: with SMTP id
+	y70-v6mr4854866pfi.113.1541174244432; 
+	Fri, 02 Nov 2018 08:57:24 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:8d25:2e4:ba80:f9b1?
+	([2601:202:4180:c33:8d25:2e4:ba80:f9b1])
+	by smtp.gmail.com with ESMTPSA id
+	m17-v6sm1914460pfi.102.2018.11.02.08.57.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 02 Nov 2018 08:57:23 -0700 (PDT)
+To: Trevor Woerner <twoerner@gmail.com>, jdmason@kudzu.us
+References: <20181101140417.GA12376@linux-uys3>
+	<CAPoiz9y_prstnR5dsxHNwSk81ShLmkybEXySEESTgZrpgKXMcA@mail.gmail.com>
+	<CAHUNapRrWkAGahwLgEzfbPSi2UhQCTqMSGQOAEp2Dxpi3MwRPA@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <56f451cb-f059-d8bb-aae7-aca4c6bdf1a6@gmail.com>
+Date: Fri, 2 Nov 2018 08:57:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-References: <2829165.0Ht5z2aexs@localhost.localdomain>
-	<CAFNP8OvFy2n7SMe5de66EcdM3URFm-b+dpcqS09hW0CMa9rNaA@mail.gmail.com>
-	<59badcade81f4c09bc8d71210d2e7019@XBOX04.axis.com>
-In-Reply-To: <59badcade81f4c09bc8d71210d2e7019@XBOX04.axis.com>
-From: Scott Rifenbark <srifenbark@gmail.com>
-Date: Fri, 2 Nov 2018 08:48:44 -0700
-Message-ID: <CAFNP8OsyG+oNK-q_5GVpiCtUrwypTWOGH_2qOKtkPtDEVz2=JA@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	Yocto discussion list <yocto@yoctoproject.org>
-Subject: Re: 2.6 migration guide
+In-Reply-To: <CAHUNapRrWkAGahwLgEzfbPSi2UhQCTqMSGQOAEp2Dxpi3MwRPA@mail.gmail.com>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	yocto-advocacy@yoctoproject.org,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: OEDAM @ SCaLE 2019
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,267 +113,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 15:48:55 -0000
-Content-Type: multipart/alternative; boundary="000000000000159c940579b07956"
+X-List-Received-Date: Fri, 02 Nov 2018 15:57:24 -0000
+Content-Type: multipart/alternative;
+	boundary="------------01C3909EC2D447CB15BD31D8"
+Content-Language: en-US
 
---000000000000159c940579b07956
-Content-Type: text/plain; charset="UTF-8"
+--------------01C3909EC2D447CB15BD31D8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Peter,
+Morning Trevor,
 
-Thanks
-Scott
+On 11/1/18 7:27 PM, Trevor Woerner wrote:
+> Hi Jon,
+>
+> On Thu, Nov 1, 2018 at 3:56 PM Jon Mason <jdmason@kudzu.us
+> <mailto:jdmason@kudzu.us>> wrote:
+>
+>     I am planning on being at SCaLE (assuming the OEDEM happens there).=
 
-https://yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#migration-2.6-=
-openssl-changes
-https://yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#migration-2.6-=
-security-changes
-
-On Fri, Nov 2, 2018 at 8:10 AM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
-
-> In =E2=80=9C4.14.2. OpenSSL Changes=E2=80=9D, change =E2=80=9Cboth versio=
-ns their dependency
-> chains=E2=80=9D to =E2=80=9Cboth versions in their dependency chains=E2=
-=80=9D.
 >
-> In =E2=80=9C4.14.4. Security Changes=E2=80=9D, change =E2=80=9Cfiles=E2=
-=80=9D to =E2=80=9Cflags=E2=80=9D (twice).
+>     Many corporate travel budgets are tied to presenting at conferences=
+=2E
+>     So, if we could somehow get a track there (which might be too late =
+in
+>     the game to do now), then we might be able to get enough people
+>     present to make it happen and pull in others whose budget is more
+>     flexible.
 >
 >
->
-> //Peter
->
->
->
-> *From:* openembedded-core-bounces@lists.openembedded.org <
-> openembedded-core-bounces@lists.openembedded.org> *On Behalf Of *Scott
-> Rifenbark
-> *Sent:* den 30 oktober 2018 23:07
-> *To:* Paul Eggleton <paul.eggleton@linux.intel.com>
-> *Cc:* Yocto discussion list <yocto@yoctoproject.org>; openembedded-core <
-> openembedded-core@lists.openembedded.org>
-> *Subject:* Re: [OE-core] 2.6 migration guide
->
->
->
-> Paul,
->
->
->
-> Thanks for sending.
->
->
->
-> Contributors....
->
->
->
-> I have an initial section at
-> https://yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#moving-to-th=
-e-yocto-project-2.6-release,
-> which is based on Richard's input.  I am sure there are more items.
->
->
->
-> Thanks,
->
-> Scott
->
->
->
-> On Tue, Oct 23, 2018 at 2:14 PM Paul Eggleton <
-> paul.eggleton@linux.intel.com> wrote:
->
-> Hi folks
->
-> When Scott prepares the migration guide for a release, he usually looks t=
-o
-> me
-> to collate the notable changes for it (those requiring user intervention)=
-.
-> I
-> haven't prepared anything yet though and the 2.6 release is fast
-> approaching.
-> Can anyone who has been involved in or is aware of such changes in master
-> for
-> upcoming 2.6 (thud) make a note of it on the wiki in raw form on this pag=
-e:
->
->   https://wiki.yoctoproject.org/wiki/FutureMigrationGuide
->
-> Scott and I will take care of cleaning it up, so things added there don't
-> need
-> to be perfect.
->
-> I will also be doing my usual trawl through the commits in the release fo=
-r
-> the
-> more general changelog, so most things will get picked up that way, but
-> it's
-> really helpful if people with first-hand knowledge of the implications of
-> some
-> of these changes are involved in how they get documented.
->
-> Thanks,
-> Paul
->
-> --
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
->
-
---000000000000159c940579b07956
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div>Peter, <br></div><d=
-iv><br></div><div>Thanks</div><div>Scott</div><div><br></div><div><a href=
-=3D"https://yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#migration-=
-2.6-openssl-changes">https://yoctoproject.org/docs/2.6/ref-manual/ref-manua=
-l.html#migration-2.6-openssl-changes</a></div><div><a href=3D"https://yocto=
-project.org/docs/2.6/ref-manual/ref-manual.html#migration-2.6-security-chan=
-ges">https://yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#migration=
--2.6-security-changes</a><br></div></div></div></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr">On Fri, Nov 2, 2018 at 8:10 AM Peter Kjellerstedt=
- &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+> As it turns out, I'll be organising the YP/OE Miniconf that will most
+> likely be run on the Sunday. I was going to send out a separate email
+> discussing the Miniconf, but I guess now is as good a time as any :-)
 
 
+I would like a some clarification. As fas as the OE Board knows, we had
+one room available on Sunday. Is this the same room or did you find some
+other space at the venue? I am a bit confused about the messaging. The
+subject and Jon's statement are all about OEDaM but your addition to
+this tread is about a Miniconf. Is the Miniconf a separate thing?
+
+>
+> While it's true that the CFP has closed for SCaLE, I plan to open my
+> own CFP specifically for the Miniconf, and I don't plan to close it
+> until closer to the conference itself. I want to encourage people to
+> give talks about current things, as such, having a CFP close this
+> early wouldn't do.
+>
+> We haven't decided on a format for the Miniconf, exactly, if we have
+> traditional talks, we'll have 6 sessions (2 before lunch, 4 after).
+> But depending on interest and what sort of proposals we get, we might
+> do some longer, some shorter talks.
 
 
+May I ask who "We" are? AFAIK, Behan and Tom are doing a *-ale tracks at
+Scale.
 
-<div lang=3D"SV" link=3D"blue" vlink=3D"purple">
-<div class=3D"m_6505188101295984849WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#943634">In =E2=
-=80=9C4.14.2. OpenSSL Changes=E2=80=9D, change =E2=80=9Cboth versions their=
- dependency chains=E2=80=9D to =E2=80=9Cboth versions in their dependency c=
-hains=E2=80=9D.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#943634">In =E2=
-=80=9C4.14.4. Security Changes=E2=80=9D, change =E2=80=9Cfiles=E2=80=9D to =
-=E2=80=9Cflags=E2=80=9D (twice).<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#943634"><u></u>=
-=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#943634">//Peter=
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#943634"><u></u>=
-=C2=A0<u></u></span></p>
-<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm =
-4.0pt">
-<div>
-<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0cm =
-0cm 0cm">
-<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
-=3D"EN-US"> <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.=
-org" target=3D"_blank">openembedded-core-bounces@lists.openembedded.org</a>=
- &lt;<a href=3D"mailto:openembedded-core-bounces@lists.openembedded.org" ta=
-rget=3D"_blank">openembedded-core-bounces@lists.openembedded.org</a>&gt;
-<b>On Behalf Of </b>Scott Rifenbark<br>
-<b>Sent:</b> den 30 oktober 2018 23:07<br>
-<b>To:</b> Paul Eggleton &lt;<a href=3D"mailto:paul.eggleton@linux.intel.co=
-m" target=3D"_blank">paul.eggleton@linux.intel.com</a>&gt;<br>
-<b>Cc:</b> Yocto discussion list &lt;<a href=3D"mailto:yocto@yoctoproject.o=
-rg" target=3D"_blank">yocto@yoctoproject.org</a>&gt;; openembedded-core &lt=
-;<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_bla=
-nk">openembedded-core@lists.openembedded.org</a>&gt;<br>
-<b>Subject:</b> Re: [OE-core] 2.6 migration guide<u></u><u></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<div>
-<p class=3D"MsoNormal">Paul,<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Thanks for sending.=C2=A0 <u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Contributors....<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">I have an initial section at <a href=3D"https://yoct=
-oproject.org/docs/2.6/ref-manual/ref-manual.html#moving-to-the-yocto-projec=
-t-2.6-release" target=3D"_blank">
-https://yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#moving-to-the-=
-yocto-project-2.6-release</a>, which is based on Richard&#39;s input.=C2=A0=
- I am sure there are more items.<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Thanks, <u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Scott<u></u><u></u></p>
-</div>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">On Tue, Oct 23, 2018 at 2:14 PM Paul Eggleton &lt;<a=
- href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggle=
-ton@linux.intel.com</a>&gt; wrote:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0c=
-m 0cm 0cm 6.0pt;margin-left:4.8pt;margin-right:0cm">
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt">Hi folks<br>
-<br>
-When Scott prepares the migration guide for a release, he usually looks to =
-me <br>
-to collate the notable changes for it (those requiring user intervention). =
-I <br>
-haven&#39;t prepared anything yet though and the 2.6 release is fast approa=
-ching. <br>
-Can anyone who has been involved in or is aware of such changes in master f=
-or <br>
-upcoming 2.6 (thud) make a note of it on the wiki in raw form on this page:=
-<br>
-<br>
-=C2=A0 <a href=3D"https://wiki.yoctoproject.org/wiki/FutureMigrationGuide" =
-target=3D"_blank">
-https://wiki.yoctoproject.org/wiki/FutureMigrationGuide</a><br>
-<br>
-Scott and I will take care of cleaning it up, so things added there don&#39=
-;t need <br>
-to be perfect. <br>
-<br>
-I will also be doing my usual trawl through the commits in the release for =
-the <br>
-more general changelog, so most things will get picked up that way, but it&=
-#39;s <br>
-really helpful if people with first-hand knowledge of the implications of s=
-ome <br>
-of these changes are involved in how they get documented.<br>
-<br>
-Thanks,<br>
-Paul<br>
-<br>
--- <br>
-Paul Eggleton<br>
-Intel Open Source Technology Centre<br>
-<br>
-<u></u><u></u></p>
-</blockquote>
-</div>
-</div>
-</div>
-</div>
 
-</blockquote></div>
+- armin
 
---000000000000159c940579b07956--
+>
+> =C2=A0I hope this helps. Best regards,
+> =C2=A0 =C2=A0 Trevor
+>
+
+--------------01C3909EC2D447CB15BD31D8
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>Morning Trevor,<br>
+    </p>
+    <div class="moz-cite-prefix">On 11/1/18 7:27 PM, Trevor Woerner
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAHUNapRrWkAGahwLgEzfbPSi2UhQCTqMSGQOAEp2Dxpi3MwRPA@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">Hi Jon,<br>
+        <br>
+        <div class="gmail_quote">
+          <div dir="ltr">On Thu, Nov 1, 2018 at 3:56 PM Jon Mason &lt;<a
+              href="mailto:jdmason@kudzu.us" moz-do-not-send="true">jdmason@kudzu.us</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">I am
+            planning on being at SCaLE (assuming the OEDEM happens
+            there).<br>
+            <br>
+            Many corporate travel budgets are tied to presenting at
+            conferences.<br>
+            So, if we could somehow get a track there (which might be
+            too late in<br>
+            the game to do now), then we might be able to get enough
+            people<br>
+            present to make it happen and pull in others whose budget is
+            more<br>
+            flexible.<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>As it turns out, I'll be organising the YP/OE Miniconf
+            that will most likely be run on the Sunday. I was going to
+            send out a separate email discussing the Miniconf, but I
+            guess now is as good a time as any :-)</div>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>I would like a some clarification. As fas as the OE Board knows,
+      we had one room available on Sunday. Is this the same room or did
+      you find some other space at the venue? I am a bit confused about
+      the messaging. The subject and Jon's statement are all about OEDaM
+      but your addition to this tread is about a Miniconf. Is the
+      Miniconf a separate thing? <br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CAHUNapRrWkAGahwLgEzfbPSi2UhQCTqMSGQOAEp2Dxpi3MwRPA@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div><br>
+          </div>
+          <div>While it's true that the CFP has closed for SCaLE, I plan
+            to open my own CFP specifically for the Miniconf, and I
+            don't plan to close it until closer to the conference
+            itself. I want to encourage people to give talks about
+            current things, as such, having a CFP close this early
+            wouldn't do.</div>
+          <div><br>
+          </div>
+          <div>We haven't decided on a format for the Miniconf, exactly,
+            if we have traditional talks, we'll have 6 sessions (2
+            before lunch, 4 after). But depending on interest and what
+            sort of proposals we get, we might do some longer, some
+            shorter talks.</div>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>May I ask who "We" are? AFAIK, Behan and Tom are doing a *-ale
+      tracks at Scale.<br>
+    </p>
+    <p><br>
+    </p>
+    <p>- armin<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CAHUNapRrWkAGahwLgEzfbPSi2UhQCTqMSGQOAEp2Dxpi3MwRPA@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div><br>
+          </div>
+          <div> I hope this helps. Best regards,</div>
+          <div>    Trevor</div>
+        </div>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+    </blockquote>
+  </body>
+</html>
+
+--------------01C3909EC2D447CB15BD31D8--
