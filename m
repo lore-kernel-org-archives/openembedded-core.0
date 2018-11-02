@@ -1,56 +1,29 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3514E79F31
+Return-Path: <Arsalan_Awan@mentor.com>
+X-Greylist: delayed 2177 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 02 Nov 2018 15:37:38 UTC
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id A738879F76
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Nov 2018 15:19:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 01C90182FF;
-	Fri,  2 Nov 2018 16:19:46 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id xHG0Plod562q; Fri,  2 Nov 2018 16:19:44 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 924F8182D7;
-	Fri,  2 Nov 2018 16:19:44 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 80F481E07F;
-	Fri,  2 Nov 2018 16:19:44 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7512C1E079;
-	Fri,  2 Nov 2018 16:19:44 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Fri,  2 Nov 2018 16:19:44 +0100 (CET)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by seth.se.axis.com (Postfix) with ESMTP id 69187267C;
-	Fri,  2 Nov 2018 16:19:44 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Fri, 2 Nov 2018 16:19:44 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Fri, 2 Nov 2018 16:19:44 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "matthias.schiffer@ew.tq-group.com" <matthias.schiffer@ew.tq-group.com>
-Thread-Topic: [OE-core] [PATCH] base.bbclass: avoid 'find -ignore_readdir_race
-	-delete'
-Thread-Index: AQHUcrtc9GrB99Nni0ihMy247F6i6qU8mN0Q
-Date: Fri, 2 Nov 2018 15:19:44 +0000
-Message-ID: <8ba204af82c54d23805deefb5197dd6f@XBOX04.axis.com>
-References: <20181102143927.15387-1-matthias.schiffer@ew.tq-group.com>
-In-Reply-To: <20181102143927.15387-1-matthias.schiffer@ew.tq-group.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Fri,  2 Nov 2018 15:37:38 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-MBX-03.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+	id 1gIawr-0001CY-Qi from Arsalan_Awan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 02 Nov 2018 08:01:21 -0700
+Received: from PKL-AAWAN1-UBUNTU.pkl.mentorg.com (137.202.0.90) by
+	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
+	Server (TLS) id 15.0.1320.4; Fri, 2 Nov 2018 15:01:17 +0000
+From: Arsalan Awan <Arsalan_Awan@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 2 Nov 2018 20:00:50 +0500
+Message-ID: <cover.1541168618.git.Arsalan_Awan@mentor.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass: avoid 'find -ignore_readdir_race	-delete'
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) To
+	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3)
+Subject: [sumo][PATCH 0/1] wic/isoimage-isohybrid.py: fix booting from removable media
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,65 +36,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Nov 2018 15:19:45 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 02 Nov 2018 15:37:38 -0000
+Content-Type: text/plain
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of
-> matthias.schiffer@ew.tq-group.com
-> Sent: den 2 november 2018 15:39
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] base.bbclass: avoid 'find -
-> ignore_readdir_race -delete'
->=20
-> From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
->=20
-> Until recent versions of findutils, -ignore_readdir_race did not work
-> correctly with -delete. This led to spurious build failures when files
-> disappeared; specifically this was seen due to do_configure and
-> do_populate_lic running concurrently for packages with ${B} =3D=3D ${WORK=
-DIR}:
->=20
->    find: '.../sstate-build-populate_lic': No such file or directory
->=20
-> As the find command of the host system is used here, we can't ensure that
-> the used version contains the fix. Work around the issue by passing the
-> output of find to 'rm -f' instead of using -delete.
->=20
-> Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> ---
->=20
-> It would be great if this patch could be backported to all versions
-> back to Rocko, as our current setup is still based on Rocko.
->=20
->  meta/classes/base.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index df11c8b270..5ffd8396e3 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -303,7 +303,7 @@ base_do_configure() {
->  			if [ "${CLEANBROKEN}" !=3D "1" -a \( -e Makefile -o -e makefile -o -e=
- GNUmakefile \) ]; then
->  				oe_runmake clean
->  			fi
+From: "Arsalan H. Awan" <Arsalan_Awan@mentor.com>
 
-You might want to include a comment here explaining why rm -f is used=20
-instead of -delete, or someone might come along and optimize the code...
+The mkhybridiso image created using the isoimage-isohybrid.py
+WIC source plugin fails to boot from a removable storage media
+such as USB. This is due to the grub-efi bootloader filename
+being deployed i.e.: "grub-efi-bootx64.efi" which must be
+"bootx64.efi" in this case of a removable media.
 
-> -			find ${B} -ignore_readdir_race -name \*.la -delete
-> +			find ${B} -ignore_readdir_race -name \*.la -type f -print0 | xargs -0=
- rm -f
->  		fi
->  	fi
->  	if [ -n "${CONFIGURESTAMPFILE}" ]; then
-> --
-> 2.17.1
+Source: https://www.rodsbooks.com/efi-bootloaders/principles.html
+Quote: "The fallback boot loader mentioned earlier (EFI/BOOT/bootx64.efi,
+        or variants of that, depending on the architecture) is something
+        of a special case. This filename was originally intended for use
+        only on removable media, so that they could be booted to install
+        an OS. (If not for that fixed filename, a factory-fresh computer
+        wouldn't be able to boot anything!)"
 
-//Peter
+The following changes since commit 30b055d2296f060a4ca054d042f353a2153fdd4e:
+
+  externalsrc.bbclass: Set BB_DONT_CACHE for non-target recipes (2018-10-18 11:08:46 +0100)
+
+are available in the git repository at:
+
+  git://github.com/ArsalanHAwan/openembedded-core sumo
+  https://github.com/ArsalanHAwan/openembedded-core/tree/sumo
+
+Arsalan H. Awan (1):
+  wic/isoimage-isohybrid.py: fix booting from removable media
+
+ scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+-- 
+2.7.4
 
 
