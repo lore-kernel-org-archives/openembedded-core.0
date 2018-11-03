@@ -1,23 +1,23 @@
 Return-Path: <robert.joslyn@redrectangle.org>
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
 	[217.70.183.199])
-	by mail.openembedded.org (Postfix) with ESMTP id EF0BB79EAA
+	by mail.openembedded.org (Postfix) with ESMTP id 609A479F6F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Nov 2018 16:45:14 +0000 (UTC)
+	Sat,  3 Nov 2018 16:45:17 +0000 (UTC)
 X-Originating-IP: 50.37.87.235
 Received: from xps13.localdomain (50-37-87-235.mscw.id.frontiernet.net
 	[50.37.87.235])
 	(Authenticated sender: robert.joslyn@redrectangle.org)
-	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 7260FFF802;
-	Sat,  3 Nov 2018 16:45:13 +0000 (UTC)
+	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 542B5FF80A;
+	Sat,  3 Nov 2018 16:45:15 +0000 (UTC)
 From: Robert Joslyn <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  3 Nov 2018 09:44:16 -0700
-Message-Id: <20181103164427.16125-15-robert.joslyn@redrectangle.org>
+Date: Sat,  3 Nov 2018 09:44:17 -0700
+Message-Id: <20181103164427.16125-16-robert.joslyn@redrectangle.org>
 X-Mailer: git-send-email 2.18.1
 In-Reply-To: <20181103164427.16125-1-robert.joslyn@redrectangle.org>
 References: <20181103164427.16125-1-robert.joslyn@redrectangle.org>
-Subject: [rocko][PATCH 14/25] openssl: minor indent fixes
+Subject: [rocko][PATCH 15/25] openssl_1.0: drop obsolete ca.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,16 +30,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Nov 2018 16:45:15 -0000
+X-List-Received-Date: Sat, 03 Nov 2018 16:45:17 -0000
 
 From: Andre McCurdy <armccurdy@gmail.com>
 
-Fix inconsistent indent (and also make the openssl 1.1 recipe more
-consistent and consistent with the openssl 1.0 recipe).
+This patch adds a second line to the -help output of the CA.pl script
+(which lists almost the same command line options as the line above
+it but in a slightly different order). Although it's tagged as a
+Debian backport, there's no patch like it in recent Debian patch sets
+for openssl 1.0.2.
 
-(From OE-Core rev: 69844643aa1b829c27f144db634c8223c18c783f)
+(From OE-Core rev: 9b3af406747a3d565d12d948400d44fb12ab0d96)
 
-(From OE-Core rev: 3e0290b51da404761ac6a7d2657fd10693bf21b9)
+(From OE-Core rev: 4a136f8b2cfb6cdd5ba16a2ebbe9b418fead1c76)
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
@@ -47,116 +50,51 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../openssl/openssl_1.1.0h.bb                 | 63 ++++++++++---------
- 1 file changed, 32 insertions(+), 31 deletions(-)
+ .../openssl/openssl-1.0.2o/debian/ca.patch    | 22 -------------------
+ .../openssl/openssl_1.0.2o.bb                 |  1 -
+ 2 files changed, 23 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-index 472454b5a6..8e57a07e14 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-@@ -44,7 +44,7 @@ do_configure () {
- 	linux-musl )
- 		os=linux
- 		;;
--		*)
-+	*)
- 		;;
- 	esac
- 	target="$os-${HOST_ARCH}"
-@@ -80,21 +80,21 @@ do_configure () {
- 		target=linux-x86_64
- 		;;
- 	linux-mips)
--                # specifying TARGET_CC_ARCH prevents openssl from (incorrectly) adding target architecture flags
-+		# specifying TARGET_CC_ARCH prevents openssl from (incorrectly) adding target architecture flags
- 		target="linux-mips32 ${TARGET_CC_ARCH}"
- 		;;
- 	linux-mipsel)
- 		target="linux-mips32 ${TARGET_CC_ARCH}"
- 		;;
--        linux-gnun32-mips*)
--               target=linux-mips64
--                ;;
--        linux-*-mips64 | linux-mips64)
--               target=linux64-mips64
--                ;;
--        linux-*-mips64el | linux-mips64el)
--               target=linux64-mips64
--                ;;
-+	linux-gnun32-mips*)
-+		target=linux-mips64
-+		;;
-+	linux-*-mips64 | linux-mips64)
-+		target=linux64-mips64
-+		;;
-+	linux-*-mips64el | linux-mips64el)
-+		target=linux64-mips64
-+		;;
- 	linux-microblaze*|linux-nios2*)
- 		target=linux-generic32
- 		;;
-@@ -114,40 +114,41 @@ do_configure () {
- 		target=darwin-i386-cc
- 		;;
- 	esac
--        useprefix=${prefix}
--        if [ "x$useprefix" = "x" ]; then
--                useprefix=/
--        fi
-+
-+	useprefix=${prefix}
-+	if [ "x$useprefix" = "x" ]; then
-+		useprefix=/
-+	fi
- 	libdirleaf="$(echo ${libdir} | sed s:$useprefix::)"
--	perl ./Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=${libdirleaf} $target
-+	perl ./Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=$libdirleaf $target
- }
- 
- do_install () {
--        oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
--        oe_multilib_header openssl/opensslconf.h
-+	oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
-+	oe_multilib_header openssl/opensslconf.h
- }
- 
- do_install_append_class-native () {
--        # Install a custom version of c_rehash that can handle sysroots properly.
--        # This version is used for example when installing ca-certificates during
--        # image creation.
--        install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
--        sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
-+	# Install a custom version of c_rehash that can handle sysroots properly.
-+	# This version is used for example when installing ca-certificates during
-+	# image creation.
-+	install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
-+	sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
- }
- 
- do_install_append_class-nativesdk () {
--        mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
--        install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
-+	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
-+	install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
- }
- 
- do_install_ptest() {
--        cp -r * ${D}${PTEST_PATH}
-+	cp -r * ${D}${PTEST_PATH}
- 
--        # Putting .so files in ptest package will mess up the dependencies of the main openssl package
--        # so we rename them to .so.ptest and patch the test accordingly
--        mv ${D}${PTEST_PATH}/libcrypto.so ${D}${PTEST_PATH}/libcrypto.so.ptest
--        mv ${D}${PTEST_PATH}/libssl.so ${D}${PTEST_PATH}/libssl.so.ptest
--        sed -i 's/$target{shared_extension_simple}/".so.ptest"/' ${D}${PTEST_PATH}/test/recipes/90-test_shlibload.t
-+	# Putting .so files in ptest package will mess up the dependencies of the main openssl package
-+	# so we rename them to .so.ptest and patch the test accordingly
-+	mv ${D}${PTEST_PATH}/libcrypto.so ${D}${PTEST_PATH}/libcrypto.so.ptest
-+	mv ${D}${PTEST_PATH}/libssl.so ${D}${PTEST_PATH}/libssl.so.ptest
-+	sed -i 's/$target{shared_extension_simple}/".so.ptest"/' ${D}${PTEST_PATH}/test/recipes/90-test_shlibload.t
- }
- 
- PACKAGES =+ "${PN}-engines"
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
+deleted file mode 100644
+index fb745e4394..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Upstream-Status: Backport [debian]
+-
+-Index: openssl-0.9.8m/apps/CA.pl.in
+-===================================================================
+---- openssl-0.9.8m.orig/apps/CA.pl.in	2006-04-28 00:28:51.000000000 +0000
+-+++ openssl-0.9.8m/apps/CA.pl.in	2010-02-27 00:36:51.000000000 +0000
+-@@ -65,6 +65,7 @@
+- foreach (@ARGV) {
+- 	if ( /^(-\?|-h|-help)$/ ) {
+- 	    print STDERR "usage: CA -newcert|-newreq|-newreq-nodes|-newca|-sign|-signcert|-verify\n";
+-+	    print STDERR "usage: CA -signcert certfile keyfile|-newcert|-newreq|-newca|-sign|-verify\n";
+- 	    exit 0;
+- 	} elsif (/^-newcert$/) {
+- 	    # create a certificate
+-@@ -165,6 +166,7 @@
+- 	} else {
+- 	    print STDERR "Unknown arg $_\n";
+- 	    print STDERR "usage: CA -newcert|-newreq|-newreq-nodes|-newca|-sign|-verify\n";
+-+	    print STDERR "usage: CA -signcert certfile keyfile|-newcert|-newreq|-newca|-sign|-verify\n";
+- 	    exit 1;
+- 	}
+- }
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+index d48265e884..d2dfc5925a 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+@@ -23,7 +23,6 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://engines-install-in-libdir-ssl.patch \
+            file://debian1.0.2/block_diginotar.patch \
+            file://debian1.0.2/block_digicert_malaysia.patch \
+-           file://debian/ca.patch \
+            file://debian/c_rehash-compat.patch \
+            file://debian/debian-targets.patch \
+            file://debian/man-dir.patch \
 -- 
 2.18.1
 
