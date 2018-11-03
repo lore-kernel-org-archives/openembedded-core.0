@@ -1,23 +1,23 @@
 Return-Path: <robert.joslyn@redrectangle.org>
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
 	[217.70.183.199])
-	by mail.openembedded.org (Postfix) with ESMTP id CC6E879FFC
+	by mail.openembedded.org (Postfix) with ESMTP id 193F479F6B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Nov 2018 16:45:19 +0000 (UTC)
+	Sat,  3 Nov 2018 16:45:21 +0000 (UTC)
 X-Originating-IP: 50.37.87.235
 Received: from xps13.localdomain (50-37-87-235.mscw.id.frontiernet.net
 	[50.37.87.235])
 	(Authenticated sender: robert.joslyn@redrectangle.org)
-	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id BB222FF802;
-	Sat,  3 Nov 2018 16:45:18 +0000 (UTC)
+	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 01E8CFF804;
+	Sat,  3 Nov 2018 16:45:20 +0000 (UTC)
 From: Robert Joslyn <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  3 Nov 2018 09:44:18 -0700
-Message-Id: <20181103164427.16125-17-robert.joslyn@redrectangle.org>
+Date: Sat,  3 Nov 2018 09:44:19 -0700
+Message-Id: <20181103164427.16125-18-robert.joslyn@redrectangle.org>
 X-Mailer: git-send-email 2.18.1
 In-Reply-To: <20181103164427.16125-1-robert.joslyn@redrectangle.org>
 References: <20181103164427.16125-1-robert.joslyn@redrectangle.org>
-Subject: [rocko][PATCH 16/25] openssl_1.0: drop obsolete exporting of AS, EX_LIBS and DIRS
+Subject: [rocko][PATCH 17/25] openssl_1.0: drop unmaintained darwin support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,28 +30,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Nov 2018 16:45:20 -0000
+X-List-Received-Date: Sat, 03 Nov 2018 16:45:22 -0000
 
 From: Andre McCurdy <armccurdy@gmail.com>
 
-Previously (when EXTRA_OEMAKE contained -e) exporting these variables
-over-rode default values in the top-level openssl Makefile. However,
-since -e was removed from EXTRA_OEMAKE as part of:
+The fact that the darwin support only appears to consider x86 (and
+not x86_64) suggests that it's not maintained or tested. In general
+oe-core doesn't support building on darwin.
 
-  http://git.openembedded.org/openembedded-core/commit/?id=537a404cfbb811fcb526cdb5f2e059257de6ef13
+(From OE-Core rev: 9c7f37bb1345c38211acd137c00b9d07f92601a7)
 
-exporting these variables does nothing. The comment from that commit
-that only AR is affected by removing -e wasn't correct, but the
-effects of letting the openssl Makefile also control AS, EX_LIBS and
-DIRS seem to be either benign or beneficial.
-
-Since without -e make ignores DIRS from the environment and always
-runs for all subdirs (including "test"), adding "test" to DIRS and
-calling "make depend" again from do_compile_ptest() can be dropped.
-
-(From OE-Core rev: b3e81e3cf86dd8736b62a6b88d6a6dbe518c9e5e)
-
-(From OE-Core rev: 8aa33c15b7c71cda8de3e3571879a5d39c915adb)
+(From OE-Core rev: ebe53ed0e34b88c7d7fef22e1a5ad4959517fdab)
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
@@ -59,33 +48,34 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/openssl/openssl_1.0.2o.bb | 6 ------
- 1 file changed, 6 deletions(-)
+ meta/recipes-connectivity/openssl/openssl_1.0.2o.bb | 7 -------
+ 1 file changed, 7 deletions(-)
 
 diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
-index d2dfc5925a..0c0f015fa7 100644
+index 0c0f015fa7..e2f6603ec4 100644
 --- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
-@@ -72,9 +72,6 @@ PACKAGECONFIG[cryptodev-linux] = "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS,,cryp
- # vulnerability
- EXTRA_OECONF = "no-ssl3"
+@@ -89,10 +89,6 @@ CFLAG += "-Wa,--noexecstack"
  
--export DIRS = "crypto ssl apps engines"
--export AS = "${CC} -c"
--export EX_LIBS = "-lgcc -ldl"
- export OE_LDFLAGS = "${LDFLAGS}"
+ CFLAG_append_class-native = " -fPIC"
  
- # openssl fails with ccache: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12810
-@@ -216,9 +213,6 @@ do_compile_class-target () {
- }
+-do_configure_prepend_darwin () {
+-	sed -i -e '/version-script=openssl\.ld/d' Configure
+-}
+-
+ do_configure () {
+ 	# The crypto_use_bigint patch means that perl's bignum module needs to be
+ 	# installed, but some distributions (for example Fedora 23) don't ship it by
+@@ -184,9 +180,6 @@ do_configure () {
+ 	linux-sparc)
+ 		target=linux-sparcv8
+ 		;;
+-	darwin-i386)
+-		target=darwin-i386-cc
+-		;;
+ 	esac
  
- do_compile_ptest () {
--	# build dependencies for test directory too
--	export DIRS="$DIRS test"
--	oe_runmake depend
- 	oe_runmake buildtest
- }
- 
+ 	# inject machine-specific flags
 -- 
 2.18.1
 
