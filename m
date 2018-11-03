@@ -1,23 +1,23 @@
 Return-Path: <robert.joslyn@redrectangle.org>
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
 	[217.70.183.199])
-	by mail.openembedded.org (Postfix) with ESMTP id 10A6E79DDE
+	by mail.openembedded.org (Postfix) with ESMTP id B388079EAA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Nov 2018 16:44:45 +0000 (UTC)
+	Sat,  3 Nov 2018 16:44:48 +0000 (UTC)
 X-Originating-IP: 50.37.87.235
 Received: from xps13.localdomain (50-37-87-235.mscw.id.frontiernet.net
 	[50.37.87.235])
 	(Authenticated sender: robert.joslyn@redrectangle.org)
-	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 786FCFF806;
-	Sat,  3 Nov 2018 16:44:45 +0000 (UTC)
+	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 829D5FF802;
+	Sat,  3 Nov 2018 16:44:47 +0000 (UTC)
 From: Robert Joslyn <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  3 Nov 2018 09:44:04 -0700
-Message-Id: <20181103164427.16125-3-robert.joslyn@redrectangle.org>
+Date: Sat,  3 Nov 2018 09:44:05 -0700
+Message-Id: <20181103164427.16125-4-robert.joslyn@redrectangle.org>
 X-Mailer: git-send-email 2.18.1
 In-Reply-To: <20181103164427.16125-1-robert.joslyn@redrectangle.org>
 References: <20181103164427.16125-1-robert.joslyn@redrectangle.org>
-Subject: [rocko][PATCH 02/25] openssl: disable ccache usage
+Subject: [rocko][PATCH 03/25] openssl-nativesdk: Fix "can't open config file" warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,45 +30,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Nov 2018 16:44:46 -0000
+X-List-Received-Date: Sat, 03 Nov 2018 16:44:49 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
 
-ccache and openssl don't get on:
+When SDK is not installed in the default location, openssl will not be
+able to find the the openssl.cnf config file:
 
-| make[1]: Entering directory '/home/prj/yocto/build/tmp/work/core2-64-poky-linux/openssl/1.0.2o-r0/openssl-1.0.2o/crypto'
-| ccache: invalid option -- 'D'
+"WARNING: can't open config file: XXXX/usr/lib/ssl/openssl.cnf"
 
-Disable the use of ccache in the openssl recipe until someone root-causes this.
+To fix this, we need to provide the environment variable $OPENSSL_CONF
+pointing to the correct config file location.
 
-[ YOCTO #12810 ]
+(From OE-Core rev: b3f148333515efdb746b78c57d62cfbf3321b21e)
 
-(From OE-Core rev: 8f9ceebb197dba10f2d08449de2dd64584de06bb)
+(From OE-Core rev: fcea508efedeb36ca31fe8ad0cbc6d194fcfd1f7)
 
-(From OE-Core rev: e90da34e5667acacd9ad0dd167846a6126fefad2)
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/openssl/openssl10.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ .../openssl/openssl/environment.d-openssl.sh          |  1 +
+ meta/recipes-connectivity/openssl/openssl10.inc       |  7 +++++++
+ meta/recipes-connectivity/openssl/openssl_1.0.2o.bb   |  5 +++++
+ meta/recipes-connectivity/openssl/openssl_1.1.0h.bb   | 11 +++++++++++
+ 4 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
 
+diff --git a/meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
+new file mode 100644
+index 0000000000..b9cc24a7ac
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
+@@ -0,0 +1 @@
++export OPENSSL_CONF="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/openssl.cnf"
 diff --git a/meta/recipes-connectivity/openssl/openssl10.inc b/meta/recipes-connectivity/openssl/openssl10.inc
-index 2ef633584e..7fc807e093 100644
+index 7fc807e093..3755ddc5ea 100644
 --- a/meta/recipes-connectivity/openssl/openssl10.inc
 +++ b/meta/recipes-connectivity/openssl/openssl10.inc
-@@ -33,6 +33,9 @@ export DIRS = "crypto ssl apps"
- export EX_LIBS = "-lgcc -ldl"
- export AS = "${CC} -c"
+@@ -279,5 +279,12 @@ do_install_append_class-native() {
+ 	    OPENSSL_ENGINES=${libdir}/ssl/engines
+ }
  
-+# openssl fails with ccache: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12810
-+CCACHE = ""
++do_install_append_class-nativesdk() {
++    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
++    install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++}
 +
- inherit pkgconfig siteinfo multilib_header ptest relative_symlinks
++FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
++
+ BBCLASSEXTEND = "native nativesdk"
  
- PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+index 413ebf37f4..7cae553f35 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+@@ -47,6 +47,11 @@ SRC_URI_append_class-target = "\
+            file://reproducible-cflags.patch \
+            file://reproducible-mkbuildinf.patch \
+            "
++
++SRC_URI_append_class-nativesdk = " \
++           file://environment.d-openssl.sh \
++           "
++
+ SRC_URI[md5sum] = "44279b8557c3247cbe324e2322ecd114"
+ SRC_URI[sha256sum] = "ec3f5c9714ba0fd45cb4e087301eb1336c317e0d20b575a125050470e8089e4d"
+ 
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+index 6937cc4649..e843304980 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+@@ -19,6 +19,10 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-Take-linking-flags-from-LDFLAGS-env-var.patch \
+            "
+ 
++SRC_URI_append_class-nativesdk = " \
++           file://environment.d-openssl.sh \
++          "
++
+ S = "${WORKDIR}/openssl-${PV}"
+ 
+ inherit lib_package multilib_header ptest
+@@ -136,6 +140,13 @@ do_install_append_class-native () {
+         sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
+ }
+ 
++do_install_append_class-nativesdk() {
++    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
++    install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++}
++
++FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
++
+ do_install_ptest() {
+         cp -r * ${D}${PTEST_PATH}
+ 
 -- 
 2.18.1
 
