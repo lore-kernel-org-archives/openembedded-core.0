@@ -1,50 +1,21 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 04B4E79FC9
+Return-Path: <robert.joslyn@redrectangle.org>
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+	[217.70.183.199])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DBC679B55
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Nov 2018 13:12:28 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f1-v6so2990082wmg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Nov 2018 06:12:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=PdQkdTFSHmM09b0kFkUO/Nlo77kIyxz+Me3e9EYWtP4=;
-	b=Hb4kTkdC3pFMlsw2tbUMnIjdqJj+h5GYWjafg/CTFb8W4N6620vRB+AdgNc52xtJze
-	OxxMCFWCXGW81vPMtH/Y3C4YbPVwFuu2JMiQnRJ6ivqAvBKuThoFPwVH0E351dBw5P/E
-	kjKOCWSUAjDVrbba0xP9xIqxgDrxPLhSG1dLDJ8ovO0uA2iFeNqf404HmZ0DQEfIxmXp
-	zAIWlAg3VbcyE4JnF97Jf/LtJMkbQ1glZMfCj+wcF4f26mg1/NTwDbGV1419qukvsUOg
-	kEr2gKazgIE5ncR6lKKn33MjTDbTvN+vKp7q2qv0G/apBci8JgKJqUMhSa0/QpuZEs/5
-	Avcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=PdQkdTFSHmM09b0kFkUO/Nlo77kIyxz+Me3e9EYWtP4=;
-	b=KaTYRvEiIjoYY+jR/NMkqnUKyDLKlSHqJCiSCDMeG34dbSSWMqQEPVmx8SaWmmwFbg
-	XMeicubuXiH6NKpEFCK5Fmt11zXJBmPDhvQUbwB/4jcyrdf4UH/jykUEydM7mdq9kW60
-	D6r+mfFewLZI5Re/5U/uBa8ovSp5fvQSyFA2FyNUZwH7uPdebBXWyGNatomofLKRb+sv
-	NRpTdKp7Gd0mC6tdYgbT4UbhbMD9hOURsbogSg9vnCBL/FCiWYacJc7wkef9aHjsQY7e
-	ACF3/dz440lh4+uesAsk130ec2cDIkZNjVhOZbNs+4acX0ELXEZJF+eSQx2yoZORW2CJ
-	Dthw==
-X-Gm-Message-State: AGRZ1gIZrrsJcZozFdKLVuo7HYPu0gQYOgyjErl5dWuc4M3JCBfrkQ+Q
-	sQLiVsgQtNf3UccKPYJ7Eaj6DFZG
-X-Google-Smtp-Source: AJdET5fSLpV/boYLk5sjSRplb0tHNnWTMubMLcXLx8Siwta4OL1S8t3f96+4WZdmoUD3UJUhdMVzMA==
-X-Received: by 2002:a1c:38c5:: with SMTP id
-	f188-v6mr835222wma.19.1541250749388; 
-	Sat, 03 Nov 2018 06:12:29 -0700 (PDT)
-Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	z17-v6sm4022638wrm.65.2018.11.03.06.12.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 03 Nov 2018 06:12:28 -0700 (PDT)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
+	Sat,  3 Nov 2018 16:44:41 +0000 (UTC)
+X-Originating-IP: 50.37.87.235
+Received: from xps13.localdomain (50-37-87-235.mscw.id.frontiernet.net
+	[50.37.87.235])
+	(Authenticated sender: robert.joslyn@redrectangle.org)
+	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 4704FFF804;
+	Sat,  3 Nov 2018 16:44:40 +0000 (UTC)
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  3 Nov 2018 14:12:23 +0100
-Message-Id: <20181103131223.28268-1-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
-Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH] sqlite3_3: Update to 3.25.2
+Date: Sat,  3 Nov 2018 09:44:02 -0700
+Message-Id: <20181103164427.16125-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.18.1
+Subject: [rocko][PATCH 00/25] Backport openssl 1.0.2p and 1.1.0i
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,56 +28,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Nov 2018 13:12:29 -0000
+X-List-Received-Date: Sat, 03 Nov 2018 16:44:42 -0000
 
-Update SQLite3 from 3.23.1 to 3.25.2 for UPSERT, window
-functions and improved ALTER TABLE support.
+Backport openssl updates from sumo to rocko. Because of the many
+cleanups done on these recipes, those patches are backported as well.
 
-For a detailed list of changes since 3.23.1, see
-* https://www.sqlite.org/releaselog/3_25_2.html
-* https://www.sqlite.org/releaselog/3_24_0.html
+Alexander Kanavin (1):
+  openssl: fix upstream version check for 1.0 version
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/recipes-support/sqlite/sqlite3_3.23.1.bb | 10 ----------
- meta/recipes-support/sqlite/sqlite3_3.25.2.bb | 10 ++++++++++
- 2 files changed, 10 insertions(+), 10 deletions(-)
- delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.23.1.bb
- create mode 100644 meta/recipes-support/sqlite/sqlite3_3.25.2.bb
+Andre McCurdy (19):
+  openssl_1.1: avoid using += with an over-ride
+  openssl_1.1: minor recipe formatting tweaks etc
+  openssl_1.0: merge openssl10.inc into the openssl_1.0.2o.bb recipe
+  openssl_1.0: minor recipe formatting tweaks etc
+  openssl_1.0: drop curly brackets from shell local variables
+  openssl_1.0: fix cryptodev-linux PACKAGECONFIG support
+  openssl_1.0: drop leading "-" from no-ssl3 config option
+  openssl_1.0: avoid running make twice for target do_compile()
+  openssl: remove uclibc remnants
+  openssl: support musl-x32 build
+  openssl: minor indent fixes
+  openssl_1.0: drop obsolete ca.patch
+  openssl_1.0: drop obsolete exporting of AS, EX_LIBS and DIRS
+  openssl_1.0: drop unmaintained darwin support
+  openssl_1.0: add PACKAGECONFIG option to control manpages
+  openssl_1.0: squash whitespace in CC_INFO
+  openssl: fix missing dependency on hostperl-runtime-native
+  openssl_1.0: drop unnecessary dependency on makedepend-native
+  openssl_1.0: drop unnecessary call to perlpath.pl from do_configure()
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-deleted file mode 100644
-index 3755761d76..0000000000
---- a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-+++ /dev/null
-@@ -1,10 +0,0 @@
--require sqlite3.inc
--
--LICENSE = "PD"
--LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
--
--SRC_URI = "\
--  http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
--  "
--SRC_URI[md5sum] = "99a51b40a66872872a91c92f6d0134fa"
--SRC_URI[sha256sum] = "92842b283e5e744eff5da29ed3c69391de7368fccc4d0ee6bf62490ce555ef25"
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.25.2.bb b/meta/recipes-support/sqlite/sqlite3_3.25.2.bb
-new file mode 100644
-index 0000000000..31c9a6f2d2
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3_3.25.2.bb
-@@ -0,0 +1,10 @@
-+require sqlite3.inc
-+
-+LICENSE = "PD"
-+LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
-+
-+SRC_URI = "\
-+  http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-+  "
-+SRC_URI[md5sum] = "bfade31d59f58badc51aeaa6ae26a5de"
-+SRC_URI[sha256sum] = "da9a1484423d524d3ac793af518cdf870c8255d209e369bd6a193e9f9d0e3181"
+Andrej Valek (3):
+  openssl-1.1: fix c_rehash perl errors
+  openssl: update 1.0.2o -> 1.0.2p
+  openssl: update 1.1.0h -> 1.1.0i
+
+Ovidiu Panait (1):
+  openssl-nativesdk: Fix "can't open config file" warning
+
+Ross Burton (1):
+  openssl: disable ccache usage
+
+ .../openssl/openssl-1.0.2o/debian/ca.patch    |  22 ---
+ .../openssl/openssl-1.0.2o/find.pl            |  54 -----
+ .../openssl-util-perlpath.pl-cwd.patch        |  34 ----
+ ...-with-clang-using-external-assembler.patch |   0
+ .../0001-allow-manpages-to-be-disabled.patch  |  31 +++
+ ...l-force-soft-link-to-avoid-rare-race.patch |   0
+ .../Makefiles-ptest.patch                     |  18 +-
+ ...Use-SHA256-not-MD5-as-default-digest.patch |   0
+ .../configure-musl-target.patch               |   0
+ .../configure-targets.patch                   |   0
+ .../debian/c_rehash-compat.patch              |   0
+ .../debian/debian-targets.patch               |   0
+ .../debian/man-dir.patch                      |   0
+ .../debian/man-section.patch                  |   0
+ .../debian/no-rpath.patch                     |   0
+ .../debian/no-symbolic.patch                  |   0
+ .../debian/pic.patch                          |   0
+ .../debian1.0.2/block_digicert_malaysia.patch |   0
+ .../debian1.0.2/block_diginotar.patch         |   0
+ .../debian1.0.2/soname.patch                  |   0
+ .../debian1.0.2/version-script.patch          |   0
+ .../engines-install-in-libdir-ssl.patch       |   0
+ .../oe-ldflags.patch                          |   0
+ .../openssl-c_rehash.sh                       |   0
+ .../openssl-fix-des.pod-error.patch           |   0
+ .../openssl_fix_for_x32.patch                 |   0
+ .../parallel.patch                            |  40 ++--
+ .../ptest-deps.patch                          |   0
+ .../ptest_makefile_deps.patch                 |   0
+ .../reproducible-cflags.patch                 |   0
+ .../reproducible-mkbuildinf.patch             |   0
+ .../run-ptest                                 |   0
+ .../shared-libs.patch                         |   0
+ .../openssl/openssl/environment.d-openssl.sh  |   1 +
+ .../openssl/openssl_1.0.2o.bb                 |  64 ------
+ .../{openssl10.inc => openssl_1.0.2p.bb}      | 185 ++++++++++++------
+ .../{openssl_1.1.0h.bb => openssl_1.1.0i.bb}  | 117 ++++++-----
+ 37 files changed, 243 insertions(+), 323 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2o/find.pl
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2o/openssl-util-perlpath.pl-cwd.patch
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/0001-Fix-build-with-clang-using-external-assembler.patch (100%)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2p/0001-allow-manpages-to-be-disabled.patch
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/0001-openssl-force-soft-link-to-avoid-rare-race.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/Makefiles-ptest.patch (87%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/Use-SHA256-not-MD5-as-default-digest.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/configure-musl-target.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/configure-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian/c_rehash-compat.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian/debian-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian/man-dir.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian/man-section.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian/no-rpath.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian/no-symbolic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian/pic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian1.0.2/block_digicert_malaysia.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian1.0.2/block_diginotar.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian1.0.2/soname.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/debian1.0.2/version-script.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/engines-install-in-libdir-ssl.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/oe-ldflags.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/openssl-c_rehash.sh (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/openssl-fix-des.pod-error.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/openssl_fix_for_x32.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/parallel.patch (92%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/ptest-deps.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/ptest_makefile_deps.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/reproducible-cflags.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/reproducible-mkbuildinf.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/run-ptest (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.2o => openssl-1.0.2p}/shared-libs.patch (100%)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+ rename meta/recipes-connectivity/openssl/{openssl10.inc => openssl_1.0.2p.bb} (61%)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.0h.bb => openssl_1.1.0i.bb} (51%)
+
 -- 
-2.17.1
+2.18.1
 
 
