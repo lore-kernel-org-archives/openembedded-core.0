@@ -1,78 +1,49 @@
-Return-Path: <chunrong.guo@nxp.com>
-X-Greylist: delayed 47021 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 03 Nov 2018 01:30:53 UTC
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
-	(mail-he1eur01on0056.outbound.protection.outlook.com [104.47.0.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F41879D76
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id BC40179FE1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Nov 2018 01:30:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=rgzVuv/EMiQZmxnNb+hngTKA7o8pvRzt0x60wFeoES8=;
-	b=lTFwV7g1jhfwH13vwq2GZrIR8+qCKPNIQkSI5ZNVKEzDtfs87E7aZHPOQtydGC/z64nA4UbQqRs2AeAAyfBv3tm3csD6dk25A2vtWSV4zpdcior9BhEgC342RxsnzdELkw8wE32Zv1062Wzv1RWU8/KoZBYQLScb78eGKBUVD9M=
-Received: from DB7PR04MB5068.eurprd04.prod.outlook.com (20.176.235.12) by
-	DB7PR04MB4203.eurprd04.prod.outlook.com (52.135.131.12) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1294.21; Fri, 2 Nov 2018 06:52:45 +0000
-Received: from DB7PR04MB5068.eurprd04.prod.outlook.com
-	([fe80::9563:6aa7:dd40:a955]) by
-	DB7PR04MB5068.eurprd04.prod.outlook.com
-	([fe80::9563:6aa7:dd40:a955%5]) with mapi id 15.20.1294.024;
-	Fri, 2 Nov 2018 06:52:45 +0000
-From: "C.r. Guo" <chunrong.guo@nxp.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [thud][PATCH] ppce500v2: remove spe
-Thread-Index: AQHUcnio2J7rM4/TeUaFri7VXLgNRA==
-Date: Fri, 2 Nov 2018 06:52:45 +0000
-Message-ID: <1541141546-32688-1-git-send-email-chunrong.guo@nxp.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HK0P153CA0046.APCP153.PROD.OUTLOOK.COM
-	(2603:1096:203:17::34) To DB7PR04MB5068.eurprd04.prod.outlook.com
-	(2603:10a6:10:1c::12)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chunrong.guo@nxp.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [119.31.174.73]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; DB7PR04MB4203;
-	6:5IE7nCHS/v65nvyxKttTmuWS2XeYa4RX4Mzj4+2KNB92O2Q3q+IJOyTS6c7xtKAxa9AT+nsGbkfGxWGoZmnznahYjBC8WE7UK1n2Plrz2Uhl5WICpckm7LVsrwftb63moww6P/FF3PTOjvCLOwmm7m/OJsHJ+SPmR+Oo2k7tNRHQlBHkqtwIj7VK/EThWBnATvjlaXP1dG3gvXF50alyxb2iH78drXziy/JLuShtMwyT6QZtfXcYtJvG/zAwHeyizqC56B2VljGHE2aFjfCceRDFgDZZMXqBsC0aqGmEWOMlESneWtzRgi8XmBKUrEE2AHURia3+j1NVD1l5b3LB0Y/34tRjcteaX/Y9xmfuApSvcBlkiaClpw+DXijVxrV0jjoa5F9aexXbZw0CXZyogeOFp02hxRJQ9+dv+H2KUfDxp7RddG35hAqnXYgTtHo4tKNGRC2GavsmrclMrXBUCQ==;
-	5:iRjv49Wa5DfvkHjqCRrKelOZHNDynE0Rjcjj7gRo4oWJfss+LQF1JnlioL/zQWutvV9s8GsitQEkUXFLfcS75SB5/t2Vk1j/fC9RG0t0qvAlsoZyOvi0u1zgZypS4CVq3bSSksrKygXD+aiBPEaPmdF8v9jALcvdjOYv/5H6RRw=;
-	7:mbdyUnWJs3A04lZIqdOjeu6Cemngw54GmK4GGVfysdBl9GY1tGpyRWqN95DFmqSgmPR0b82RVlEAKzkp9tdVnuqfzJb66hzcHv2eVHl1Gz2/QLvUia66aDk9UNTGUfv0MXxfHpju36MCNHbwcSVNiw==
-x-ms-office365-filtering-correlation-id: bf5e990c-a75c-4fb3-6ada-08d6408fcb12
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);
-	SRVR:DB7PR04MB4203; 
-x-ms-traffictypediagnostic: DB7PR04MB4203:
-x-microsoft-antispam-prvs: <DB7PR04MB4203676ABAF7265B72942D9984CF0@DB7PR04MB4203.eurprd04.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(185117386973197);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(10201501046)(3002001)(93006095)(93001095)(3231382)(944501410)(52105095)(6055026)(148016)(149066)(150057)(6041310)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123562045)(20161123560045)(201708071742011)(7699051)(76991095);
-	SRVR:DB7PR04MB4203; BCL:0; PCL:0; RULEID:; SRVR:DB7PR04MB4203; 
-x-forefront-prvs: 08444C7C87
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39860400002)(376002)(346002)(136003)(396003)(366004)(189003)(199004)(68736007)(14444005)(5640700003)(106356001)(105586002)(2351001)(71190400001)(71200400001)(2900100001)(305945005)(256004)(81166006)(53936002)(7736002)(4326008)(6486002)(6512007)(6436002)(25786009)(86362001)(316002)(36756003)(8676002)(99286004)(52116002)(81156014)(8936002)(476003)(2616005)(66066001)(486006)(102836004)(26005)(386003)(6506007)(186003)(1857600001)(2906002)(478600001)(97736004)(6116002)(6916009)(3846002)(5660300001)(14454004)(2501003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR04MB4203;
-	H:DB7PR04MB5068.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: LnzW+IesFLMLr1jpuxTs8DVLrJzlMrYlJrIApAfhp3t6d6NkVafEzMV5EmdQ3B/yg0g3Q0cPSGv3rKhLKhjMTakBrLyX2C0B5vkkgrvxX6Cs38i1xf433aaSzrRXM0vHyBk6p5nK1EbWyJV3c2X9py2WqiYGH2Rv5uvpouLvnq7uv/kjHhT/HixsO105Nki3uwLBiJiD2WDvN3hDuhN/qw0m2D337EycoacRQe3P6NaCFcwed3pKD9vVqJghZKfVs8MUvQG0IFdIyoTwYixmhl+GigNeT0kEKXKpmHKDs9DlOFiRQcGx+fDzmkuD2sDKXWWG17wyTcGB4Zgla0K3+hcHfiMNqDEJka9gFxje5Lg=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Sat,  3 Nov 2018 03:29:01 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id u19so288334uae.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Nov 2018 20:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=S308giIQ4Kt5uh3nDbJOuaxEuPN3spVpFsz/8roXn7s=;
+	b=cKU4hE+vAbjZUtsP/x6Ly7Dk5e6jvwCGkQPiO3mCZObwJL/n4J9MFFAqgbW4t6HOkz
+	o2Nn/Hd9Yuk62PfS/wdikHn0cKhay9I17kgcO+nhaQUxtimqyiCNpS1I+34rD53eX9Hs
+	3WVWfIGFIgTkkyux2lBWted9N51kjOudyEYKJGoEI1ZZcEkRNPgkprEJa11dDKP4f4A6
+	MVzRIGIv8f6XLGPeKXCkMWHRS8qUwW5LyKZhUyYZ8sMThdv7aXTz4w2mIuBORZKiEH/d
+	rJdq4K7R89rS/rFvnRM8lbzbNBY8aIt+mUJ/J2+dUVAw/ICjWyX9/FUQZofUi3V4IsAB
+	jSoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=S308giIQ4Kt5uh3nDbJOuaxEuPN3spVpFsz/8roXn7s=;
+	b=jw0U8lYx/RugLGG3sUks/1wqf0xagqmYlPb9vVmY165qbEJ/c/XqZD5wLtPucwWYNx
+	r4JGyFnG0/OlsoeUFT6doBO0SntvhFcu+HOWYhyPo/p0BoNhvbqoIbx1oEF8Dk18Db+Y
+	lZSSYMFJVvPnx7A5LnSYYqvaFyP6Ql5AV5v7kWC4cdqUAo3bY/sjdwiDiPF8lpH9qD8F
+	2fWWSv9muHpo+/AhnINxGdaUHmsY0pVXN9YDyJZmWLHcDc96y1NaYO+gRQElZGNkS97W
+	/bhMOU/aLJdg+oURnU1zc5oaIw1ySBOzERc3C823lFBV0Kn/erVqu5+7xeCVRXVqQbp5
+	ZHVw==
+X-Gm-Message-State: AGRZ1gKloV8oG91MQTgr3Ve2fiiI1jwT9M557d8r6dJJ+7A6zJFzGO81
+	4WQDPHkjyN/qAk0TOZW9Zmw/Fr1qt+HrMtvf+LA=
+X-Google-Smtp-Source: AJdET5evY33MGsRLbBH2wP3d+VAGguHHqC6PFFfwmdSnkidXpD3EODNqOVhDcVRj3fB+IxhaBAx1S4UNCrm/WcQKXfg=
+X-Received: by 2002:a9f:3743:: with SMTP id a3mr6616268uae.86.1541215742586;
+	Fri, 02 Nov 2018 20:29:02 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf5e990c-a75c-4fb3-6ada-08d6408fcb12
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2018 06:52:45.5620 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4203
-Subject: [thud][PATCH] ppce500v2: remove spe
+References: <20181102143927.15387-1-matthias.schiffer@ew.tq-group.com>
+	<8ba204af82c54d23805deefb5197dd6f@XBOX04.axis.com>
+	<8897ab754bea0fda7195a851b2d19695dd7553e9.camel@linuxfoundation.org>
+In-Reply-To: <8897ab754bea0fda7195a851b2d19695dd7553e9.camel@linuxfoundation.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 2 Nov 2018 20:28:50 -0700
+Message-ID: <CAJ86T=WHs0P3+o8_k=FJvM4PTkQT9ggWZfc0Hejieg+zzBH+Tg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base.bbclass: avoid 'find -ignore_readdir_race -delete'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -85,35 +56,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Nov 2018 01:30:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 03 Nov 2018 03:29:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Chunrong Guo <chunrong.guo@nxp.com>
+On Fri, Nov 2, 2018 at 8:43 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2018-11-02 at 15:19 +0000, Peter Kjellerstedt wrote:
+> > > -----Original Message-----
+> > > From: openembedded-core-bounces@lists.openembedded.org
+> > > <openembedded-
+> > > core-bounces@lists.openembedded.org> On Behalf Of
+> > > matthias.schiffer@ew.tq-group.com
+> > > Sent: den 2 november 2018 15:39
+> > > To: openembedded-core@lists.openembedded.org
+> > > Subject: [OE-core] [PATCH] base.bbclass: avoid 'find -
+> > > ignore_readdir_race -delete'
+> > >
+> > > From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> > >
+> > > Until recent versions of findutils, -ignore_readdir_race did not
+> > > work
+> > > correctly with -delete. This led to spurious build failures when
+> > > files
+> > > disappeared; specifically this was seen due to do_configure and
+> > > do_populate_lic running concurrently for packages with ${B} ==
+> > > ${WORKDIR}:
+> > >
+> > >    find: '.../sstate-build-populate_lic': No such file or directory
+> > >
+> > > As the find command of the host system is used here, we can't
+> > > ensure that
+> > > the used version contains the fix. Work around the issue by passing
+> > > the
+> > > output of find to 'rm -f' instead of using -delete.
+> > >
+> > > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com
+> > > >
+> > > ---
+> > >
+> > > It would be great if this patch could be backported to all versions
+> > > back to Rocko, as our current setup is still based on Rocko.
+> > >
+> > >  meta/classes/base.bbclass | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> > > index df11c8b270..5ffd8396e3 100644
+> > > --- a/meta/classes/base.bbclass
+> > > +++ b/meta/classes/base.bbclass
+> > > @@ -303,7 +303,7 @@ base_do_configure() {
+> > >                     if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile
+> > > -o -e makefile -o -e GNUmakefile \) ]; then
+> > >                             oe_runmake clean
+> > >                     fi
+> >
+> > You might want to include a comment here explaining why rm -f is
+> > used instead of -delete, or someone might come along and optimize the
+> > code...
+>
+> We should detail which versions of findutils have the issue as
+> ultimately it would be nice to use the simpler command. I'm curious how
+> many of the distros we support have the problem.
 
-*The PowerPC SPE support is split off to a separate powerpcspe port
+There's a test case in the patch proposed to fix the issue:
 
-Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
----
- meta/conf/machine/include/tune-ppce500v2.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  https://savannah.gnu.org/bugs/?52981
+  https://savannah.gnu.org/bugs/download.php?file_id=43119
 
-diff --git a/meta/conf/machine/include/tune-ppce500v2.inc b/meta/conf/machi=
-ne/include/tune-ppce500v2.inc
-index 3a006e2..d318bba 100644
---- a/meta/conf/machine/include/tune-ppce500v2.inc
-+++ b/meta/conf/machine/include/tune-ppce500v2.inc
-@@ -15,6 +15,6 @@ SPEABIEXTENSION =3D "${@bb.utils.filter('TUNE_FEATURES', =
-'spe', d)}"
- ABIEXTENSION .=3D "${SPEABIEXTENSION}"
-=20
- AVAILTUNES +=3D "ppce500v2"
--TUNE_FEATURES_tune-ppce500v2 =3D "m32 spe ppce500v2"
-+TUNE_FEATURES_tune-ppce500v2 =3D "m32 ppce500v2"
- TUNE_PKGARCH_tune-ppce500v2 =3D "ppce500v2"
- PACKAGE_EXTRA_ARCHS_tune-ppce500v2 =3D "ppce500v2"
---=20
-2.7.4
-
+Regarding the proposed patch for base.bbclass, xargs should generally
+always be called with --no-run-if-empty, unless there's a clear reason
+not to.
 
