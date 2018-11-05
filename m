@@ -1,49 +1,58 @@
-Return-Path: <gtertych@cisco.com>
-Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 4534C78E49
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 15CE179E76
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Nov 2018 17:39:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=3039; q=dns/txt; s=iport;
-	t=1541439576; x=1542649176;
-	h=references:from:to:cc:subject:in-reply-to:date:
-	message-id:mime-version;
-	bh=tCvpJD3CMoP+wpkve/h6uggR3sl1g6jfSKngJ6phjNo=;
-	b=VcPnNwIbmHFQDIlmqw9DrfIh3TnuKHoDedGJQGijtbH6w7y3sQ5QEdDc
-	fs7rmWV7AX1pxefu8WFgZV7Jn+K2WQv9O5Xdn2ur+WpuLzVSq7EtEpGTL
-	dgaKHucqbgOs1+Le2kd6dnkQ4GLm9fKzMvypBMtPxPSpERyJ63xUKBQPl w=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AeAADVf+Bb/xbLJq1lGgEBAQEBAgE?=
-	=?us-ascii?q?BAQEHAgEBAQGBVAIBAQEBCwGCan8ojG2NRYkQkBcLAQEYC4RJAoNzNwoNAQM?=
-	=?us-ascii?q?BAQIBAQJtHAyFOgEBAQECAQEmEQ8nCwULCxgJGgsPARgUGwYTgyKBdAUID6p?=
-	=?us-ascii?q?UM4MqgQMBhW4ii2uBQT+BEYMSgUGBT4dJAoh3ljsJhm6GDYQWGIFVhQCKCwu?=
-	=?us-ascii?q?MfYoXAgQGBQIUgVkigVVwFTuCbAmCKh2GfYFOhUA9MAGOIQEB?=
-X-IronPort-AV: E=Sophos;i="5.54,468,1534809600"; 
-   d="scan'208";a="7823759"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-3.cisco.com)
-	([173.38.203.22])
-	by aer-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Nov 2018 17:39:32 +0000
-Received: from think (ams3-vpn-dhcp4895.cisco.com [10.61.83.30])
-	(authenticated bits=0)
-	by aer-core-3.cisco.com (8.15.2/8.15.2) with ESMTPSA id wA5HdVj6006524
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); 
-	Mon, 5 Nov 2018 17:39:32 GMT
-References: <1541138869-68039-1-git-send-email-changqing.li@windriver.com>
-	<20181102064101.13840.12812@do.openembedded.org>
-	<f8c4a061-f2d2-9c04-1885-647f98a222ea@windriver.com>
-User-agent: mu4e 1.0; emacs 25.2.1
-From: Grygorii Tertychnyi <gtertych@cisco.com>
-To: Changqing Li <changqing.li@windriver.com>
-In-reply-to: <f8c4a061-f2d2-9c04-1885-647f98a222ea@windriver.com>
-Date: Mon, 05 Nov 2018 19:39:27 +0200
-Message-ID: <87a7mn2zlc.fsf@cisco.com>
-MIME-Version: 1.0
-X-Authenticated-User: gtertych@cisco.com
-X-Outbound-SMTP-Client: 10.61.83.30, ams3-vpn-dhcp4895.cisco.com
-X-Outbound-Node: aer-core-3.cisco.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGN1cmw6IGZpeCBmb3IgQ1ZFLTIwMTgtMTY4MzkvQ1ZFLTIwMTgtMTY4NDAvQ1ZFLTIwMTgtMTY4NDI=?=
+	Mon,  5 Nov 2018 17:52:44 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id z13-v6so8133617wrs.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Nov 2018 09:52:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:message-id:mime-version:subject:date:in-reply-to:cc:to
+	:references; bh=oEyuh+fyBcpsuAWtHe68vvydpDmWGTyvhh2mBt+ehmk=;
+	b=aZTDTFt1CUIf6Xjl/QwSIvmymWnruXtYW8ksSRTlOEURVyR6JKKZgAKBK8YkTy4LHi
+	j+LPsJ5MmolIGyVjCaJziBb1GCnwtTcxUcmpYRibTxco7RVlaBtATSyBVIJrUmlj25U+
+	8a783KMa1WLBeHl3wtpz8E3e+/QLndyPxqukbGovcnz5lPwAKp19OI7nO467g0AHjbfZ
+	tKm31FYQrdllrE7ZcsaEIql/LhefkbNQwyzo4Vll2g4Ow9fcsVwMl/XJ6vtqQ+26v1vW
+	qCGCRyJI1kUYtics2UDcX7nOSNSAk2EEyP5fLDuTKvAcm4SJrtOTIdlHMN+2AsUTATxS
+	ZByw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:message-id:mime-version:subject:date
+	:in-reply-to:cc:to:references;
+	bh=oEyuh+fyBcpsuAWtHe68vvydpDmWGTyvhh2mBt+ehmk=;
+	b=gMcTXNQZP6EBXE8POfGY5Tc3cuJptqW2EMxqGH3QqwFItem20aV+TA74k2Jr+KrB9C
+	ejiz0gSdAAm+gZAzDpnzkp/7NpWCwW5wi2GvoKEP1lXC5AABfKtTupZIm+jZyHwIu+o3
+	wvylnY5YmOKRNui762j4GRNJIIfZWC4GkaOWvSjr/AL23yp8E0tC+TpyWmPDVyMWIY3v
+	tvnaZVg5lPMRTX/BiUVOMDyrn0yxqDkFb2XQDT+sGRrB91JRqURj9+aUDPdPhfWrlcBc
+	nXCkVzwn+9Jl0aqn/nYVeiMVr/QNx6M/npZdCqyXiFXQALK4OvxXXTNk/b4xx6EqEHCE
+	wZjw==
+X-Gm-Message-State: AGRZ1gJuroydnBfeLFrW4ZCPl0qCAY9o86HVFyH2vkv5lDSSj8uLmWwg
+	6WdrB0W1+wIa7zD7Nq+EMU/mga8D
+X-Google-Smtp-Source: AJdET5dddYEYXLmrPvH8eIzp6SlQsydYIMf//sMrSqiqPnEdLauS44wRChV/ba4gIIc2o0/e9+1DOQ==
+X-Received: by 2002:a5d:5206:: with SMTP id
+	j6-v6mr7716430wrv.147.1541440365762; 
+	Mon, 05 Nov 2018 09:52:45 -0800 (PST)
+Received: from ernie.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
+	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
+	82-v6sm51583676wms.17.2018.11.05.09.52.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 Nov 2018 09:52:44 -0800 (PST)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: Jens Rehsack <sno@netbsd.org>
+Message-Id: <2C73375C-47C9-4312-AE43-82125C2B9EA8@netbsd.org>
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+Date: Mon, 5 Nov 2018 18:52:43 +0100
+In-Reply-To: <CAJTo0LZuBC7gUb2D_xp-jJLKxygfecdS7PBKB-_gw+LE1m=5aA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20181103131223.28268-1-sno@netbsd.org>
+	<11534e53929f6a521560cdf97f71b6af61afdb29.camel@linuxfoundation.org>
+	<CAJTo0LbMLafivJjzW-12cJe11Jf5jxkJch9LsaqEEXpH40iJ6A@mail.gmail.com>
+	<CAJTo0LYsR=JRaJD27r69XPwLm0_c5W0wa2UTDpG9Sb4Ndj+kdw@mail.gmail.com>
+	<CAJTo0LZuBC7gUb2D_xp-jJLKxygfecdS7PBKB-_gw+LE1m=5aA@mail.gmail.com>
+X-Mailer: Apple Mail (2.3445.9.1)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sqlite3_3: Update to 3.25.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,86 +65,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2018 17:39:34 -0000
-Content-Type: text/plain; format=flowed
+X-List-Received-Date: Mon, 05 Nov 2018 17:52:45 -0000
+X-Groupsio-MsgNum: 117955
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_B1B320C3-DAAA-4631-ADCA-30B3BB914E55";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
+
+--Apple-Mail=_B1B320C3-DAAA-4631-ADCA-30B3BB914E55
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
-On Fri Nov02 2018 @ 06:48, Changqing Li 
-<changqing.li@windriver.com> wrote:
 
-> I have add CVE tag in the patch file, is this test result 
-> incorrect?
+> Am 05.11.2018 um 17:21 schrieb Burton, Ross <ross.burton@intel.com>:
+>=20
+> On Mon, 5 Nov 2018 at 16:11, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>> On Mon, 5 Nov 2018 at 11:43, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>>> Mining the list archive shows that we keep on getting sqlite =
+upgrades
+>>> which fail like this.  Maxin reported that it was due to the
+>>> full-text-search code enabling itself and failing to build, so one
+>>> solution is to explicitly turn it off.
+>>=20
+>> Did some digging.
+>>=20
+>> FTS5 is enabled by default, this needs log() from libm.  If enabled,
+>> AC_SEARCH_LIBS is used to find log() and libm.so, and this bonus
+>> dependency that is needed if statically linking is recorded in
+>> sqlite3.pc.  Pseudo then builds, statically links to pseudo, but also
+>> hard-codes the link line instead of using pkgconfig so this -lm isn't
+>> added, resulting in a link failure on upgrade.
+>>=20
+>> So that explains why the autobuilder explodes when this upgrade
+>> happens, but doesn't explain how it builds for everyone who submits
+>> the upgrade...
+>=20
+> This patch I can confirm makes pseudo build:
+>=20
+> -PACKAGECONFIG ?=3D ""
+> +PACKAGECONFIG ?=3D "fts5"
+> PACKAGECONFIG_class-native =3D ""
+>=20
+> PACKAGECONFIG[editline] =3D =
+"--enable-editline,--disable-editline,libedit"
+> PACKAGECONFIG[readline] =3D
+> "--enable-readline,--disable-readline,readline ncurses"
+> +PACKAGECONFIG[fts5] =3D "--enable-fts5,--disable-fts5"
 
-My guess is it was fooled by (well, "incorrect") "CVE-YYYY-XXXX" 
-lines. Even thouhg it is followed by the (correct) "CVE: 
-CVE-YYYY-XXXX" in your CVE patches
+Excellent \o/
 
- 43                     # first match is lax but second strict                                                                                                                   
- 44                     if 
- self.re_cve_payload_pattern.match(line):                                                                                                              
- 45                         if not 
- self.re_cve_payload_tag.match(line):                                                                                                          
- 46                             self.fail('Missing or incorrectly 
- formatted CVE tag in included patch file',                                                                     
- 47                                       'Correct or include the 
- CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"',                                                       
- 48                                       commit)                                                                                                                                
+> But that's a little ugly.  The alternative is more invasive and would
+> involve teaching pseudo to use pkgconfig to find sqlite3, but I'm not
+> convinced we want to add pkg-config-native to the depends on pseudo,
+> so I'm wondering if the third way is to just make pseudo always link
+> to libm.so.
 
-Do you really need "incorrect" lines?
+I don't find that ugly (maybe because I don't understand enough about =
+pseudo) ;)
 
-> On 11/2/18 2:41 PM, Patchwork wrote:
->> == Series Details ==
->>
->> Series: curl: fix for 
->> CVE-2018-16839/CVE-2018-16840/CVE-2018-16842
->> Revision: 1
->> URL   : https://patchwork.openembedded.org/series/14764/
->> State : failure
->>
->> == Summary ==
->>
->>
->> Thank you for submitting this patch series to OpenEmbedded 
->> Core. This is
->> an automated response. Several tests have been executed on the 
->> proposed
->> series by patchtest resulting in the following failures:
->>
->>
->>
->> * Patch            curl: fix for 
->> CVE-2018-16839/CVE-2018-16840/CVE-2018-16842
->>   Issue             Missing or incorrectly formatted CVE tag in 
->>   included patch file [test_cve_tag_format]
->>    Suggested fix    Correct or include the CVE tag on cve patch 
->>    with format: "CVE: CVE-YYYY-XXXX"
->>
->>
->>
->> If you believe any of these test results are incorrect, please 
->> reply to the
->> mailing list (openembedded-core@lists.openembedded.org) raising 
->> your concerns.
->> Otherwise we would appreciate you correcting the issues and 
->> submitting a new
->> version of the patchset if applicable. Please ensure you 
->> add/increment the
->> version number when sending the new version (i.e. [PATCH] -> 
->> [PATCH v2] ->
->> [PATCH v3] -> ...).
->>
->> ---
->> Guidelines: 
->> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
->> Test framework: 
->> http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
->> Test suite: 
->> http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->>
->>
-> -- 
-> BRs
->
-> Sandy(Li Changqing)
+Will use the chance to dig a bit into it :D
+
+Cheers
+--
+Jens Rehsack - rehsack@gmail.com
 
 
+--Apple-Mail=_B1B320C3-DAAA-4631-ADCA-30B3BB914E55
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAlvgg2sACgkQRJmWrtzl
+Cp1lhg//VcYm5Dj1WGbLOAjGi4tBqoniuscMiEP071+ENnjg1/5nEE/RGPnoSJ7z
+BJYxnNryathveTfnum8y9Y78HR9YH+abaZkpzuP0Us/5TnenYqPQiOr+ET3wAMLG
+jrasqP+9im4sPxHMxe/tx7QMXfIH0biIkjKAwraW8htObJ32MGPjOURCP8hg3/Qz
+3eiv+EOVCSLFO1fKssf1hAMmzPEVg9evHgIsNyYxncchKxrB07Q5HEzKD4VLiW5W
+DhaXTZVQu8pHqaLju81YhFk9050hDeAX8urwWW/unnauAOCcX40IW402oH6XzMys
+p9YXEs3wSgyenvIltEX2q6o2B10WhKPyWG7QNZfWJK0IGhByQJgt2my5o2WH71j0
+SCjIXrRHtmo4ASyPVOf7bC+sEwyLhqppSDfhiiIVG40a7QBdokkYvnkQyKsukbNi
+6dZMAoLd7FpZJNfm9Z/QxJDjhAm3gG9vkrGdPTFPsTKP4ecE0ngkjq0aILHIHavC
+nYSq/7yFBYIYvsLEUXqNUTXNvM3FvaUJr2dDFDScEYxfQI728Mq0vt0PNP9RaU9y
+FgE2RFSGb/mKdAPTQqYipRQP3gCEcY9s7hrWdKOadoqy91W9as9ZAAd/VCaka33I
+3YWxAN/6l2l7yh5adbeQcRJirGhSpwNqa5c+meYIoboh07J3pMw=
+=vAjE
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_B1B320C3-DAAA-4631-ADCA-30B3BB914E55--
