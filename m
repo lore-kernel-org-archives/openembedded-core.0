@@ -1,50 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E36A79EB6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 298F079EEC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Nov 2018 11:23:05 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id y3-v6so8760698wrh.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Nov 2018 03:23:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=To426eYdVOSKVMGcHF4fjf9WpjptKaN+e5vD9mifpMc=;
-	b=sCHDDDlLyv38BQMQy9F/tznVohr50i6aNnCH/CPLWWLmOond7KGNGCaYM0mbQ+4p3E
-	WgKuyIO+RZwRtOyRj7f3xmZghUfbmP+dkqw27ZGFLyhkh6GrAiLMVPEHHF0W2H/Cfc0K
-	dZpoVJAG8/nwAyK3IuZk4w/aodmaOQpY+RQgH4S2Ob11eAvCMxWT6qHNx6GaWdJWdzSL
-	j/Sctc1Ej7UC5/14WxBEqSOFooSGBV1yhq2iCJoZd/wRNNMJh8xn21YW3Ql9vXQI60j8
-	mh4AB+Ok6FL/EyXaYQHKb/d6810il0WJriGC7cVxo+4/d4VG2+aPozFAvKZWqlXQCuEj
-	Y0tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=To426eYdVOSKVMGcHF4fjf9WpjptKaN+e5vD9mifpMc=;
-	b=k3XC3LlbfMb9GGfjLveAcwul/mn9yOVMo2PjJGWGKUo00vZ0bRxX9h8kKW67BXnVPa
-	AFmeu64jfBXDsHDkq4WooNAHrucFl16op+9k7h9d27iYajlOWpvlLZkIie01ahTPBFIf
-	c5lrFcOdjr8URKCNSmNH61aWTGmYJSHDzTlF7IBxiJPHLAED1GFhlsnpq5yH+o2TjpSS
-	rCA++UX1/NRcJl5+E2TD561K60pt4ie7DamokQIKRuyQPY4JVMKU3zdocjzoqTZlvuQ3
-	d0KpoTLxyu49jcR1ckfEMOGiTKvaYjbyj6xs5RtJKEt1iqfS5S1EF0r+vmfZ/V+I5Rw2
-	Q3oA==
-X-Gm-Message-State: AGRZ1gJOb61WiF+ekZwoS9T/4b8Ayhd9NUKbRlMaLzXJDmD+6bqjWJ11
-	1k7+J/vm/onHfq1xXm8tnHQRgoG4pLo=
-X-Google-Smtp-Source: AJdET5crHcO0kAH+vyVbEJ9hpqhAbcNmazZBHaJYgv0q7ehQlep6MusmNPnSUT8H0zlRxULaY8YwPA==
-X-Received: by 2002:a5d:4a91:: with SMTP id
-	o17-v6mr6225218wrq.132.1541416985808; 
-	Mon, 05 Nov 2018 03:23:05 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	125-v6sm33352869wmy.32.2018.11.05.03.23.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Nov 2018 03:23:05 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Nov 2018 11:23:03 +0000
-Message-Id: <20181105112303.9212-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] wic: use explicit errno import
+	Mon,  5 Nov 2018 11:39:39 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	wA5Bdc6v030662
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 5 Nov 2018 11:39:40 GMT
+Message-ID: <11534e53929f6a521560cdf97f71b6af61afdb29.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jens Rehsack <sno@netbsd.org>, openembedded-core@lists.openembedded.org
+Date: Mon, 05 Nov 2018 11:39:38 +0000
+In-Reply-To: <20181103131223.28268-1-sno@netbsd.org>
+References: <20181103131223.28268-1-sno@netbsd.org>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] sqlite3_3: Update to 3.25.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,56 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2018 11:23:05 -0000
+X-List-Received-Date: Mon, 05 Nov 2018 11:39:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-os.errno doesn't work in Python 3.7 and shouldn't have ever worked, so use
-import errno explicitly.
+On Sat, 2018-11-03 at 14:12 +0100, Jens Rehsack wrote:
+> Update SQLite3 from 3.23.1 to 3.25.2 for UPSERT, window
+> functions and improved ALTER TABLE support.
+> 
+> For a detailed list of changes since 3.23.1, see
+> * https://www.sqlite.org/releaselog/3_25_2.html
+> * https://www.sqlite.org/releaselog/3_24_0.html
+> 
+> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+> ---
+>  meta/recipes-support/sqlite/sqlite3_3.23.1.bb | 10 ----------
+>  meta/recipes-support/sqlite/sqlite3_3.25.2.bb | 10 ++++++++++
+>  2 files changed, 10 insertions(+), 10 deletions(-)
+>  delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+>  create mode 100644 meta/recipes-support/sqlite/sqlite3_3.25.2.bb
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- scripts/lib/wic/filemap.py | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+How was this tested? pseudo-native fails to build with this:
 
-diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
-index a72fa09ef55..abbf958b8c8 100644
---- a/scripts/lib/wic/filemap.py
-+++ b/scripts/lib/wic/filemap.py
-@@ -22,6 +22,7 @@ and returns an instance of the class.
- #   * Too many instance attributes (R0902)
- # pylint: disable=R0902
- 
-+import errno
- import os
- import struct
- import array
-@@ -189,9 +190,9 @@ def _lseek(file_obj, offset, whence):
-     except OSError as err:
-         # The 'lseek' system call returns the ENXIO if there is no data or
-         # hole starting from the specified offset.
--        if err.errno == os.errno.ENXIO:
-+        if err.errno == errno.ENXIO:
-             return -1
--        elif err.errno == os.errno.EINVAL:
-+        elif err.errno == errno.EINVAL:
-             raise ErrorNotSupp("the kernel or file-system does not support "
-                                "\"SEEK_HOLE\" and \"SEEK_DATA\"")
-         else:
-@@ -394,12 +395,12 @@ class FilemapFiemap(_FilemapBase):
-         except IOError as err:
-             # Note, the FIEMAP ioctl is supported by the Linux kernel starting
-             # from version 2.6.28 (year 2008).
--            if err.errno == os.errno.EOPNOTSUPP:
-+            if err.errno == errno.EOPNOTSUPP:
-                 errstr = "FilemapFiemap: the FIEMAP ioctl is not supported " \
-                          "by the file-system"
-                 self._log.debug(errstr)
-                 raise ErrorNotSupp(errstr)
--            if err.errno == os.errno.ENOTTY:
-+            if err.errno == errno.ENOTTY:
-                 errstr = "FilemapFiemap: the FIEMAP ioctl is not supported " \
-                          "by the kernel"
-                 self._log.debug(errstr)
--- 
-2.11.0
+https://autobuilder.yoctoproject.org/typhoon/#/builders/34/builds/161/steps/7/logs/step1b
+
+and many other similar failures.
+
+Cheers,
+
+Richard
 
 
