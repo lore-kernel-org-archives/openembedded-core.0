@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 444FD79E7E
+	by mail.openembedded.org (Postfix) with ESMTP id 8107679E89
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Nov 2018 07:53:31 +0000 (UTC)
+	Mon,  5 Nov 2018 07:53:32 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wA57rU80003717
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wA57rU82003717
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 4 Nov 2018 23:53:31 -0800 (PST)
+	Sun, 4 Nov 2018 23:53:33 -0800 (PST)
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Sun, 4 Nov 2018 23:53:30 -0800
+	14.3.408.0; Sun, 4 Nov 2018 23:53:32 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>
-Date: Mon, 5 Nov 2018 16:03:36 +0800
-Message-ID: <1541405017-7246-2-git-send-email-hongxu.jia@windriver.com>
+Date: Mon, 5 Nov 2018 16:03:37 +0800
+Message-ID: <1541405017-7246-3-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1541405017-7246-1-git-send-email-hongxu.jia@windriver.com>
 References: <1541405017-7246-1-git-send-email-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] ghostscript: fix CVE-2018-18073
+Subject: [PATCH 3/3] ghostscript: fix CVE-2018-18284
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,283 +32,280 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2018 07:53:31 -0000
+X-List-Received-Date: Mon, 05 Nov 2018 07:53:33 -0000
 Content-Type: text/plain
 
-Artifex Ghostscript allows attackers to bypass a sandbox protection
-mechanism by leveraging exposure of system operators in the saved
-execution stack in an error object.
+Artifex Ghostscript 9.25 and earlier allows attackers to bypass a
+sandbox protection mechanism via vectors involving the 1Policy
+operator.
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...define-some-additional-internal-operators.patch |  42 +++++
- ...don-t-include-operator-arrays-in-execstac.patch | 197 +++++++++++++++++++++
- .../ghostscript/ghostscript_9.25.bb                |   2 +
- 3 files changed, 241 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/files/0006-Undefine-some-additional-internal-operators.patch
- create mode 100644 meta/recipes-extended/ghostscript/files/0007-Bug-699927-don-t-include-operator-arrays-in-execstac.patch
+ ...put-unavailable-from-.policyprocs-helper-.patch | 245 +++++++++++++++++++++
+ .../ghostscript/ghostscript_9.25.bb                |   1 +
+ 2 files changed, 246 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/files/0008-Make-.forceput-unavailable-from-.policyprocs-helper-.patch
 
-diff --git a/meta/recipes-extended/ghostscript/files/0006-Undefine-some-additional-internal-operators.patch b/meta/recipes-extended/ghostscript/files/0006-Undefine-some-additional-internal-operators.patch
+diff --git a/meta/recipes-extended/ghostscript/files/0008-Make-.forceput-unavailable-from-.policyprocs-helper-.patch b/meta/recipes-extended/ghostscript/files/0008-Make-.forceput-unavailable-from-.policyprocs-helper-.patch
 new file mode 100644
-index 0000000..19cf7cc
+index 0000000..7cc5162
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/files/0006-Undefine-some-additional-internal-operators.patch
-@@ -0,0 +1,42 @@
-+From 37d7c9117b70e75ebed21c6c8192251f127c0fb0 Mon Sep 17 00:00:00 2001
-+From: Nancy Durgin <nancy.durgin@artifex.com>
-+Date: Mon, 5 Nov 2018 15:36:27 +0800
-+Subject: [PATCH 1/2] Undefine some additional internal operators.
++++ b/meta/recipes-extended/ghostscript/files/0008-Make-.forceput-unavailable-from-.policyprocs-helper-.patch
+@@ -0,0 +1,245 @@
++From 9096beaa4451c12dd2a2caf000658fbac4a5bcdf Mon Sep 17 00:00:00 2001
++From: Ken Sharp <ken.sharp@artifex.com>
++Date: Mon, 5 Nov 2018 15:51:32 +0800
++Subject: [PATCH] Make .forceput unavailable from '.policyprocs' helper
++ dictionary
 +
-+.type, .writecvs, .setSMask, .currentSMask
++Bug #69963 "1Policy is a dangerous operator, any callers should be odef"
 +
-+These don't seem to be referenced anywhere outside of the initialization code,
-+which binds their usages.  Passes cluster if they are removed.
++Leaving the .policyprocs dictionary with a procedure which is a simple
++wrapper for .forceput effectively leaves .forceput available.
 +
-+CVE: CVE-2018-18073
++It seems that the only reason to have .policyprocs is to minimise the
++code in .applypolicies, so we can remove the dictionary and put the
++code straight into .applypolicies, which we can then bind and make
++executeonly, which hides the .forceput. Also, since we don't need
++.applypolicies after startup, we can undefine that from systemdict too.
++
++While we're here, review all the uses of .force* to make certain that
++there are no other similar cases. This showed a few places where we
++hadn't made a function executeonly, so do that too. Its probably not
++required, since I'm reasonably sure its impossible to load those
++functions as packed arrays (they are all defined as operators), but lets
++have a belt and braces approach, the additional time cost is negligible.
++
++CVE: CVE-2018-18284
 +Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
 +
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ Resource/Init/gs_init.ps | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ Resource/Init/gs_diskn.ps |   2 +-
++ Resource/Init/gs_dps.ps   |   2 +-
++ Resource/Init/gs_epsf.ps  |   2 +-
++ Resource/Init/gs_fonts.ps |   4 +-
++ Resource/Init/gs_init.ps  |   2 +-
++ Resource/Init/gs_setpd.ps | 100 ++++++++++++++++++++++++----------------------
++ 6 files changed, 58 insertions(+), 54 deletions(-)
 +
-+diff --git a/Resource/Init/gs_init.ps b/Resource/Init/gs_init.ps
-+index f952f32..7c71d18 100644
-+--- a/Resource/Init/gs_init.ps
-++++ b/Resource/Init/gs_init.ps
-+@@ -2230,6 +2230,7 @@ SAFER { .setsafeglobal } if
-+   /.localvmarray /.localvmdict /.localvmpackedarray /.localvmstring /.systemvmarray /.systemvmdict /.systemvmpackedarray /.systemvmstring /.systemvmfile /.systemvmlibfile
-+   /.systemvmSFD /.settrapparams /.currentsystemparams /.currentuserparams /.getsystemparam /.getuserparam /.setsystemparams /.setuserparams
-+   /.checkpassword /.locale_to_utf8 /.currentglobal /.gcheck /.imagepath
-++  /.type /.writecvs /.setSMask /.currentSMask
++diff --git a/Resource/Init/gs_diskn.ps b/Resource/Init/gs_diskn.ps
++index 26ec0b5..fd694bc 100644
++--- a/Resource/Init/gs_diskn.ps
+++++ b/Resource/Init/gs_diskn.ps
++@@ -61,7 +61,7 @@ systemdict begin
++   % doesn't get run enough to justify the complication
++   //.putdevparams
++   //systemdict /.searchabledevs .forceundef
++-} .bind odef % must be bound and hidden for .forceundef
+++} .bind executeonly odef % must be bound and hidden for .forceundef
 + 
-+   % Used by a free user in the Library of Congress. Apparently this is used to
-+   % draw a partial page, which is then filled in by the results of a barcode
-+@@ -2248,7 +2249,7 @@ SAFER { .setsafeglobal } if
-+   % test files/utilities, or engineers expressed a desire to keep them visible.
-+   %
-+   %/currentdevice /.sort /.buildfont0 /.buildfont1 /.buildfont2 /.buildfont3 /.buildfont4 /.buildfont9 /.buildfont10 /.buildfont11
-+-  %/.buildfotn32 /.buildfont42 /.type9mapcid /.type11mapcid /.swapcolors
-++  %/.buildfont32 /.buildfont42 /.type9mapcid /.type11mapcid /.swapcolors
-+   %/currentdevice  /.quit /.setuseciecolor /.needinput /.setoverprintmode /.special_op /.dicttomark /.knownget
-+   %/.FAPIavailable /.FAPIpassfont /.FAPIrebuildfont /.FAPIBuildGlyph /.FAPIBuildChar /.FAPIBuildGlyph9
-+   %/.tempfile /.numicc_components /.set_outputintent  /.max /.min /.vmreclaim /.getpath /.setglobal
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/ghostscript/files/0007-Bug-699927-don-t-include-operator-arrays-in-execstac.patch b/meta/recipes-extended/ghostscript/files/0007-Bug-699927-don-t-include-operator-arrays-in-execstac.patch
-new file mode 100644
-index 0000000..ad66fc3
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/files/0007-Bug-699927-don-t-include-operator-arrays-in-execstac.patch
-@@ -0,0 +1,197 @@
-+From 430f39144244ba4fd7b720cf87031e415e0fabce Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Mon, 5 Nov 2018 15:42:52 +0800
-+Subject: [PATCH 2/2] Bug 699927: don't include operator arrays in execstack
-+ output
-+
-+When we transfer the contents of the execution stack into the array, take the
-+extra step of replacing any operator arrays on the stack with the operator
-+that reference them.
-+
-+This prevents the contents of Postscript defined, internal only operators (those
-+created with .makeoperator) being exposed via execstack (and thus, via error
-+handling).
-+
-+This necessitates a change in the resource remapping 'resource', which contains
-+a procedure which relies on the contents of the operators arrays being present.
-+As we already had internal-only variants of countexecstack and execstack
-+(.countexecstack and .execstack) - using those, and leaving thier operation
-+including the operator arrays means the procedure continues to work correctly.
-+
-+Both .countexecstack and .execstack are undefined after initialization.
-+
-+Also, when we store the execstack (or part thereof) for an execstackoverflow
-+error, make the same oparray/operator substitution as above for execstack.
-+
-+CVE: CVE-2018-18073
-+Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ Resource/Init/gs_init.ps  |  4 ++--
-+ Resource/Init/gs_resmp.ps |  2 +-
-+ psi/int.mak               |  2 +-
-+ psi/interp.c              | 14 +++++++++++---
-+ psi/interp.h              |  2 ++
-+ psi/zcontrol.c            | 13 ++++++++++---
-+ 6 files changed, 27 insertions(+), 10 deletions(-)
-+
++ % ------ extend filenameforall to handle wildcards in %dev% part of pattern -------%
++ /filenameforall {
++diff --git a/Resource/Init/gs_dps.ps b/Resource/Init/gs_dps.ps
++index daf7b0f..00c14d5 100644
++--- a/Resource/Init/gs_dps.ps
+++++ b/Resource/Init/gs_dps.ps
++@@ -124,7 +124,7 @@
++   /savedinitialgstate .systemvar setgstate gsave
++                 % Wrap up.
++   end .setglobal
++-} odef
+++} bind executeonly odef
++ 
++ % Check whether an object is a procedure.
++ /.proccheck {			% <obj> .proccheck <bool>
++diff --git a/Resource/Init/gs_epsf.ps b/Resource/Init/gs_epsf.ps
++index e4037d9..2d0f677 100644
++--- a/Resource/Init/gs_epsf.ps
+++++ b/Resource/Init/gs_epsf.ps
++@@ -31,7 +31,7 @@
++ /EPSBoundingBoxState 5 def
++ /EPSBoundingBoxSetState {
++   //systemdict /EPSBoundingBoxState 3 -1 roll .forceput
++-} .bind odef % .forceput must be bound and hidden
+++} .bind executeonly odef % .forceput must be bound and hidden
++ 
++ % Parse 4 numbers for a bounding box
++ /EPSBoundingBoxParse { % (llx lly urx ury) -- llx lly urx ury true OR false
++diff --git a/Resource/Init/gs_fonts.ps b/Resource/Init/gs_fonts.ps
++index 72feff2..803faca 100644
++--- a/Resource/Init/gs_fonts.ps
+++++ b/Resource/Init/gs_fonts.ps
++@@ -583,7 +583,7 @@ buildfontdict 3 /.buildfont3 cvx put
++ } bind def
++ /.setloadingfont {
++    //systemdict /.loadingfont 3 -1 roll .forceput
++-} .bind odef % .forceput must be bound and hidden
+++} .bind executeonly odef % .forceput must be bound and hidden
++ /.loadfont
++  {              % Some buggy fonts leave extra junk on the stack,
++                 % so we have to make a closure that records the stack depth
++@@ -1012,7 +1012,7 @@ $error /SubstituteFont { } put
++     dup length string copy
++     .forceput setglobal
++   } ifelse
++-} .bind odef % must be bound and hidden for .forceput
+++} .bind executeonly odef % must be bound and hidden for .forceput
++ 
++ % Attempt to load a font from a file.
++ /.tryloadfont {         % <fontname> .tryloadfont <font> true
 +diff --git a/Resource/Init/gs_init.ps b/Resource/Init/gs_init.ps
-+index 7c71d18..f4c1053 100644
++index f4c1053..07ee968 100644
 +--- a/Resource/Init/gs_init.ps
 ++++ b/Resource/Init/gs_init.ps
-+@@ -2191,7 +2191,7 @@ SAFER { .setsafeglobal } if
-+   %% but can be easily restored (just delete the name from the list in the array). In future
-+   %% we may remove the operator and the code implementation entirely.
-+   [
-+-  /.bitadd /.charboxpath /.cond /.countexecstack /.execstack /.runandhide /.popdevicefilter
-++  /.bitadd /.charboxpath /.cond /.runandhide /.popdevicefilter
-+   /.execfile /.filenamesplit /.file_name_parent
-+   /.setdefaultmatrix /.isprocfilter /.unread /.psstringencode
-+   /.buildsampledfunction /.isencapfunction /.currentaccuratecurves /.currentcurvejoin /.currentdashadapt /.currentdotlength
 +@@ -2230,7 +2230,7 @@ SAFER { .setsafeglobal } if
 +   /.localvmarray /.localvmdict /.localvmpackedarray /.localvmstring /.systemvmarray /.systemvmdict /.systemvmpackedarray /.systemvmstring /.systemvmfile /.systemvmlibfile
 +   /.systemvmSFD /.settrapparams /.currentsystemparams /.currentuserparams /.getsystemparam /.getuserparam /.setsystemparams /.setuserparams
 +   /.checkpassword /.locale_to_utf8 /.currentglobal /.gcheck /.imagepath
-+-  /.type /.writecvs /.setSMask /.currentSMask
-++  /.type /.writecvs /.setSMask /.currentSMask /.countexecstack /.execstack
++-  /.type /.writecvs /.setSMask /.currentSMask /.countexecstack /.execstack
+++  /.type /.writecvs /.setSMask /.currentSMask /.countexecstack /.execstack /.applypolicies
 + 
 +   % Used by a free user in the Library of Congress. Apparently this is used to
 +   % draw a partial page, which is then filled in by the results of a barcode
-+diff --git a/Resource/Init/gs_resmp.ps b/Resource/Init/gs_resmp.ps
-+index 7cacaf8..9bb4263 100644
-+--- a/Resource/Init/gs_resmp.ps
-++++ b/Resource/Init/gs_resmp.ps
-+@@ -183,7 +183,7 @@ setpacking
-+   % We don't check them.
++diff --git a/Resource/Init/gs_setpd.ps b/Resource/Init/gs_setpd.ps
++index afb4ffa..7c076ad 100644
++--- a/Resource/Init/gs_setpd.ps
+++++ b/Resource/Init/gs_setpd.ps
++@@ -609,6 +609,23 @@ NOMEDIAATTRS {
++ % and we replace the key in the <merged> dictionary with its prior value
++ % (or remove it if it had no prior value).
 + 
-+   currentglobal //false setglobal                  % <object> bGlobal
-+-  countexecstack array execstack                   % <object> bGlobal [execstack]
-++  //false .countexecstack array //false .execstack % <object> bGlobal [execstack]
-+   dup //null exch                                  % <object> bGlobal [execstack] null [execstack]
-+   length 3 sub -1 0 {                              % <object> bGlobal [execstack] null i
-+     2 index exch get                               % <object> bGlobal [execstack] null proc
-+diff --git a/psi/int.mak b/psi/int.mak
-+index 5d9b3d5..6ab5bf0 100644
-+--- a/psi/int.mak
-++++ b/psi/int.mak
-+@@ -323,7 +323,7 @@ $(PSOBJ)zarray.$(OBJ) : $(PSSRC)zarray.c $(OP) $(memory__h)\
+++% These procedures are called with the following on the stack:
+++%   <orig> <merged> <failed> <Policies> <key> <policy>
+++% They are expected to consume the top 2 operands.
+++% NOTE: we currently treat all values other than 0, 1, or 7 (for PageSize)
+++% the same as 0, i.e., we signal an error.
+++/0Policy {		% Set errorinfo and signal a configurationerror.
+++  NOMEDIAATTRS {
+++    % NOMEDIAATTRS means that the default policy is 7...
+++    pop 2 index exch 7 put
+++  } {
+++    pop dup 4 index exch get 2 array astore
+++    $error /errorinfo 3 -1 roll put
+++    cleartomark
+++    /setpagedevice .systemvar /configurationerror signalerror
+++  } ifelse
+++} bind executeonly odef
+++
++ % Making this an operator means we can properly hide
++ % the contents - specifically .forceput
++ /1Policy
++@@ -617,59 +634,46 @@ NOMEDIAATTRS {
++   SETPDDEBUG { (Rolling back.) = pstack flush } if
++   3 index 2 index 3 -1 roll .forceput
++   4 index 1 index .knownget
++-   { 4 index 3 1 roll .forceput }
++-   { 3 index exch .undef }
+++  { 4 index 3 1 roll .forceput }
+++  { 3 index exch .undef }
++   ifelse
++ } bind executeonly odef
 + 
-+ $(PSOBJ)zcontrol.$(OBJ) : $(PSSRC)zcontrol.c $(OP) $(string__h)\
-+  $(estack_h) $(files_h) $(ipacked_h) $(iutil_h) $(store_h) $(stream_h)\
-+- $(INT_MAK) $(MAKEDIRS)
-++ $(interp_h) $(INT_MAK) $(MAKEDIRS)
-+ 	$(PSCC) $(PSO_)zcontrol.$(OBJ) $(C_) $(PSSRC)zcontrol.c
++-/.policyprocs mark
++-% These procedures are called with the following on the stack:
++-%   <orig> <merged> <failed> <Policies> <key> <policy>
++-% They are expected to consume the top 2 operands.
++-% NOTE: we currently treat all values other than 0, 1, or 7 (for PageSize)
++-% the same as 0, i.e., we signal an error.
++-%
++-% M. Sweet, Easy Software Products:
++-%
++-% Define NOMEDIAATTRS to turn off the default (but unimplementable) media
++-% selection policies for setpagedevice.  This is used by CUPS to support
++-% the standard Adobe media attributes.
++-  0 {		% Set errorinfo and signal a configurationerror.
++-      NOMEDIAATTRS {
++-        % NOMEDIAATTRS means that the default policy is 7...
++-        pop 2 index exch 7 put
++-      } {
++-        pop dup 4 index exch get 2 array astore
++-        $error /errorinfo 3 -1 roll put
++-        cleartomark
++-        /setpagedevice .systemvar /configurationerror signalerror
++-      } ifelse
++-  } bind
++-  1 /1Policy load
++-  7 {		% For PageSize only, just impose the request.
++-        1 index /PageSize eq
++-         { pop pop 1 index /PageSize 7 put }
++-         { .policyprocs 0 get exec }
++-        ifelse
++-  } bind
++-.dicttomark readonly def
++-currentdict /1Policy undef
+++/7Policy {		% For PageSize only, just impose the request.
+++  1 index /PageSize eq
+++  { pop pop 1 index /PageSize 7 put }
+++  { .policyprocs 0 get exec }
+++  ifelse
+++} bind executeonly odef
 + 
-+ $(PSOBJ)zdict.$(OBJ) : $(PSSRC)zdict.c $(OP)\
-+diff --git a/psi/interp.c b/psi/interp.c
-+index b70769d..6dc0dda 100644
-+--- a/psi/interp.c
-++++ b/psi/interp.c
-+@@ -142,7 +142,6 @@ static int oparray_pop(i_ctx_t *);
-+ static int oparray_cleanup(i_ctx_t *);
-+ static int zerrorexec(i_ctx_t *);
-+ static int zfinderrorobject(i_ctx_t *);
-+-static int errorexec_find(i_ctx_t *, ref *);
-+ static int errorexec_pop(i_ctx_t *);
-+ static int errorexec_cleanup(i_ctx_t *);
-+ static int zsetstackprotect(i_ctx_t *);
-+@@ -761,7 +760,7 @@ copy_stack(i_ctx_t *i_ctx_p, const ref_stack_t * pstack, int skip, ref * arr)
-+ {
-+     uint size = ref_stack_count(pstack) - skip;
-+     uint save_space = ialloc_space(idmemory);
-+-    int code;
-++    int code, i;
++ /.applypolicies		% <orig> <merged> <failed> .applypolicies
++                         %   <orig> <merged'> <failed'>
++- { 1 index /Policies get 1 index
++-    { type /integertype eq
++-       { pop		% already processed
++-       }
++-       { 2 copy .knownget not { 1 index /PolicyNotFound get } if
++-                        % Stack: <orig> <merged> <failed> <Policies> <key>
++-                        %   <policy>
++-         .policyprocs 1 index .knownget not { .policyprocs 0 get } if exec
++-       }
++-      ifelse
++-    }
++-   forall pop
++- } bind def
+++{
+++  1 index /Policies get 1 index
+++  { type /integertype eq
+++     {
+++       pop		% already processed
+++     }{
+++       2 copy .knownget not { 1 index /PolicyNotFound get } if
+++                      % Stack: <orig> <merged> <failed> <Policies> <key>
+++                      %   <policy>
+++        dup 1 eq {
+++          1Policy
+++        }{
+++          dup 7 eq {
+++            7Policy
+++          }{
+++            0Policy
+++          } ifelse
+++        } ifelse
+++     } ifelse
+++  }
+++  forall pop
+++} bind executeonly odef
+++
+++currentdict /0Policy undef
+++currentdict /1Policy undef
+++currentdict /7Policy undef
 + 
-+     if (size > 65535)
-+         size = 65535;
-+@@ -770,6 +769,15 @@ copy_stack(i_ctx_t *i_ctx_p, const ref_stack_t * pstack, int skip, ref * arr)
-+     if (code >= 0)
-+         code = ref_stack_store(pstack, arr, size, 0, 1, true, idmemory,
-+                                "copy_stack");
-++    /* If we are copying the exec stack, try to replace any oparrays with
-++     * with the operator than references them
-++     */
-++    if (pstack == &e_stack) {
-++        for (i = 0; i < size; i++) {
-++            if (errorexec_find(i_ctx_p, &arr->value.refs[i]) < 0)
-++                make_null(&arr->value.refs[i]);
-++        }
-++    }
-+     ialloc_set_space(idmemory, save_space);
-+     return code;
-+ }
-+@@ -1934,7 +1942,7 @@ zfinderrorobject(i_ctx_t *i_ctx_p)
-+  * .errorexec with errobj != null, store it in *perror_object and return 1,
-+  * otherwise return 0;
-+  */
-+-static int
-++int
-+ errorexec_find(i_ctx_t *i_ctx_p, ref *perror_object)
-+ {
-+     long i;
-+diff --git a/psi/interp.h b/psi/interp.h
-+index e9275b9..4f551d1 100644
-+--- a/psi/interp.h
-++++ b/psi/interp.h
-+@@ -91,5 +91,7 @@ void gs_interp_reset(i_ctx_t *i_ctx_p);
-+ /* Define the top-level interface to the interpreter. */
-+ int gs_interpret(i_ctx_t **pi_ctx_p, ref * pref, int user_errors,
-+                  int *pexit_code, ref * perror_object);
-++int
-++errorexec_find(i_ctx_t *i_ctx_p, ref *perror_object);
++ % Prepare to present parameters to the device, by spreading them onto the
++ % operand stack and removing any that shouldn't be presented.
++@@ -1006,7 +1010,7 @@ SETPDDEBUG { (Installing.) = pstack flush } if
++     .postinstall
++   } ifelse
++   setglobal           % return to original VM allocation mode
++-} odef
+++} bind executeonly odef
 + 
-+ #endif /* interp_INCLUDED */
-+diff --git a/psi/zcontrol.c b/psi/zcontrol.c
-+index 36da22c..0362cf4 100644
-+--- a/psi/zcontrol.c
-++++ b/psi/zcontrol.c
-+@@ -24,6 +24,7 @@
-+ #include "ipacked.h"
-+ #include "iutil.h"
-+ #include "store.h"
-++#include "interp.h"
-+ 
-+ /* Forward references */
-+ static int check_for_exec(const_os_ptr);
-+@@ -787,7 +788,7 @@ zexecstack2(i_ctx_t *i_ctx_p)
-+ /* Continuation operator to do the actual transfer. */
-+ /* r_size(op1) was set just above. */
-+ static int
-+-do_execstack(i_ctx_t *i_ctx_p, bool include_marks, os_ptr op1)
-++do_execstack(i_ctx_t *i_ctx_p, bool include_marks, bool include_oparrays, os_ptr op1)
-+ {
-+     os_ptr op = osp;
-+     ref *arefs = op1->value.refs;
-+@@ -829,6 +830,12 @@ do_execstack(i_ctx_t *i_ctx_p, bool include_marks, os_ptr op1)
-+                                   strlen(tname), (const byte *)tname);
-+                 break;
-+             }
-++            case t_array:
-++            case t_shortarray:
-++            case t_mixedarray:
-++                if (!include_oparrays && errorexec_find(i_ctx_p, rq) < 0)
-++                    make_null(rq);
-++                break;
-+             default:
-+                 ;
-+         }
-+@@ -841,14 +848,14 @@ execstack_continue(i_ctx_t *i_ctx_p)
-+ {
-+     os_ptr op = osp;
-+ 
-+-    return do_execstack(i_ctx_p, false, op);
-++    return do_execstack(i_ctx_p, false, false, op);
-+ }
-+ static int
-+ execstack2_continue(i_ctx_t *i_ctx_p)
-+ {
-+     os_ptr op = osp;
-+ 
-+-    return do_execstack(i_ctx_p, op->value.boolval, op - 1);
-++    return do_execstack(i_ctx_p, op->value.boolval, true, op - 1);
-+ }
-+ 
-+ /* - .needinput - */
++ % We break out the code after calling the Install procedure into a
++ % separate procedure, since it is executed even if Install causes an error.
 +-- 
 +2.7.4
 +
 diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.25.bb b/meta/recipes-extended/ghostscript/ghostscript_9.25.bb
-index 55251a5..28521f3 100644
+index 28521f3..fdca8a2 100644
 --- a/meta/recipes-extended/ghostscript/ghostscript_9.25.bb
 +++ b/meta/recipes-extended/ghostscript/ghostscript_9.25.bb
-@@ -30,6 +30,8 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://0003-Bug-699832-add-control-over-hiding-error-handlers.patch \
-                 file://0004-For-hidden-operators-pass-a-name-object-to-error-han.patch \
+@@ -32,6 +32,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
                  file://0005-Bug-699938-.loadfontloop-must-be-an-operator.patch \
-+                file://0006-Undefine-some-additional-internal-operators.patch \
-+                file://0007-Bug-699927-don-t-include-operator-arrays-in-execstac.patch \
+                 file://0006-Undefine-some-additional-internal-operators.patch \
+                 file://0007-Bug-699927-don-t-include-operator-arrays-in-execstac.patch \
++                file://0008-Make-.forceput-unavailable-from-.policyprocs-helper-.patch \
  "
  
  SRC_URI = "${SRC_URI_BASE} \
