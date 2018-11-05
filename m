@@ -1,23 +1,30 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E21F279D6F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C831F79D6F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Nov 2018 03:29:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wA53T4SE017378
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 Nov 2018 19:29:05 -0800 (PST)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Sun, 4 Nov 2018 19:28:58 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Nov 2018 11:28:56 +0800
-Message-ID: <1541388536-121953-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon,  5 Nov 2018 03:32:32 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Nov 2018 19:32:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,466,1534834800"; d="scan'208";a="246987316"
+Received: from zhiyionk-mobl1.gar.corp.intel.com (HELO localhost.localdomain)
+	([10.255.168.156])
+	by orsmga004.jf.intel.com with ESMTP; 04 Nov 2018 19:32:30 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Scott Rifenbark <srifenbark@gmail.com>
+Date: Mon, 05 Nov 2018 16:32:26 +1300
+Message-ID: <4820003.uEWOQMMmpA@localhost.localdomain>
+Organization: Intel Corporation
+In-Reply-To: <CAFNP8OvFy2n7SMe5de66EcdM3URFm-b+dpcqS09hW0CMa9rNaA@mail.gmail.com>
+References: <2829165.0Ht5z2aexs@localhost.localdomain>
+	<CAFNP8OvFy2n7SMe5de66EcdM3URFm-b+dpcqS09hW0CMa9rNaA@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH V3] dbus: fix ptest failure
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: 2.6 migration guide
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,111 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2018 03:29:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Nov 2018 03:32:32 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Changqing Li <changqing.li@windriver.com>
+On Wednesday, 31 October 2018 11:06:31 AM NZDT Scott Rifenbark wrote:
+> I have an initial section at
+> https://yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#moving-to-the-yocto-project-2.6-release,
+> which is based on Richard's input.  I am sure there are more items.
 
-1. since one bug in run-ptest, testcase test-bus have never been
-actually run (althrough it's result is PASS).
+OK, so I have removed Richard's items from the wiki page (since they're now
+in the manual) and added items I have gathered from reviewing all of the 
+git commits in the release. Let me know if you need clarification on anything
+- everyone else, let us know if I missed or messed up something.
 
-After commit 0828850, test-bus can actually run but it
-did not install:
-  test-service, test-shell-service, test-segfault, and
-  dbus-daemon-launch-helper-test
-Add the configure flag:
-  --enable-embedded-tests
-to generate binary dbus-daemon-launch-helper-test, then install
-them so that test-bus will now pass.
+  https://wiki.yoctoproject.org/wiki/FutureMigrationGuide
 
-2. fix testcase test-dbus-daemon failed
-we enable --enable-verbose-mode in recipe dbus-test, and don't
-enable it in recipe dbus. This will make below test code get
-unexpect result of have_verbose and assert.
-disable --enable-verbose-mode for recipe dbus-test to fix it.
+BTW I think the section on postinstalls (from Richard's input) is a little terse
+and needs expansion - most importantly it needs to describe what actions the
+user might need to take. I'll take care of this on review if nobody else does.
 
- #ifdef DBUS_ENABLE_STATS
-  g_assert_true (have_stats);
- #else
-  g_assert_false (have_stats);
- #endif
+Cheers,
+Paul
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-core/dbus/dbus-test_1.12.10.bb | 12 +++++++++---
- meta/recipes-core/dbus/dbus/run-ptest       | 16 ++++++++++++----
- 2 files changed, 21 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-core/dbus/dbus-test_1.12.10.bb b/meta/recipes-core/dbus/dbus-test_1.12.10.bb
-index 25b9395..ec9b9e2 100644
---- a/meta/recipes-core/dbus/dbus-test_1.12.10.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.12.10.bb
-@@ -33,13 +33,13 @@ EXTRA_OECONF = "--enable-tests \
-                 --enable-installed-tests \
-                 --enable-checks \
-                 --enable-asserts \
--                --enable-verbose-mode \
-                 --enable-largefile \
-                 --disable-xml-docs \
-                 --disable-doxygen-docs \
-                 --disable-libaudit \
-                 --with-dbus-test-dir=${PTEST_PATH} \
--                ${EXTRA_OECONF_X}"
-+                ${EXTRA_OECONF_X} \
-+                --enable-embedded-tests"
- 
- EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
- 
-@@ -50,6 +50,7 @@ PACKAGECONFIG_class-nativesdk = ""
- PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
- PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
- PACKAGECONFIG[user-session] = "--enable-user-session --with-systemduserunitdir=${systemd_user_unitdir},--disable-user-session"
-+PACKAGECONFIG[verbose-mode] = "--enable-verbose-mode,,,"
- 
- do_install() {
-     :
-@@ -58,9 +59,14 @@ do_install() {
- do_install_ptest() {
- 	install -d ${D}${PTEST_PATH}/test
- 	l="shell printf refs syslog marshal syntax corrupt dbus-daemon dbus-daemon-eavesdrop loopback relay \
--	   variant uid-permissions syntax spawn sd-activation names monitor message fdpass "
-+	   variant uid-permissions syntax spawn sd-activation names monitor message fdpass service shell-service"
- 	for i in $l; do install ${B}/test/.libs/test-$i ${D}${PTEST_PATH}/test; done
- 
-+	install -d ${D}${PTEST_PATH}/bus
-+	install ${B}/bus/.libs/dbus-daemon-launch-helper-test ${D}${PTEST_PATH}/bus
-+
-+	install ${B}/test/test-segfault ${D}${PTEST_PATH}/test
-+
- 	l="bus bus-system bus-launch-helper"
- 	for i in $l; do install ${B}/bus/.libs/test-$i ${D}${PTEST_PATH}/test; done
- 
-diff --git a/meta/recipes-core/dbus/dbus/run-ptest b/meta/recipes-core/dbus/dbus/run-ptest
-index 353ba1e..e7e1c1e 100755
---- a/meta/recipes-core/dbus/dbus/run-ptest
-+++ b/meta/recipes-core/dbus/dbus/run-ptest
-@@ -17,8 +17,16 @@ export LD_LIBRARY_PATH=@PTEST_PATH@/test/.libs
- files=`ls test/test-*`
- 
- for i in $files
--	do
--		./$i ./test/data >/dev/null
--		output
--	done
-+do
-+     #these programs are used by testcase test-bus, don't run here
-+     if [ $i = "test/test-service" ] \
-+        || [ $i = "test/test-shell-service" ] \
-+        || [ $i = "test/test-segfault" ]
-+     then
-+         continue
-+     fi
-+
-+     ./$i ./test/data >/dev/null 2>&1
-+     output
-+done
- 
 -- 
-2.7.4
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
 
 
