@@ -1,52 +1,31 @@
-Return-Path: <matthias.schiffer@ew.tq-group.com>
-Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
-	by mail.openembedded.org (Postfix) with ESMTP id EC78F74A12
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B57A06006E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Nov 2018 08:36:58 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.54,467,1534802400"; 
-   d="scan'208";a="4982416"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-	by mx1-pgp.tq-group.com with ESMTP; 05 Nov 2018 09:36:58 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-	by tq-pgp-pr1.tq-net.de (PGP Universal service);
-	Mon, 05 Nov 2018 09:36:58 +0100
-X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Mon, 05 Nov 2018 09:36:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-	t=1541407018; x=1572943018;
-	h=message-id:subject:from:to:cc:date:in-reply-to:
-	references:mime-version:content-transfer-encoding;
-	bh=hgD161dwc4fLV5VtSEWMcjEc7LG26cMNZnOMNqLkFKo=;
-	b=OzCUt6p4f6xzTm5krImw9WTQ9C9ZRRV+oqKYQRLlPmOwJDXRkulWukT5
-	KzabNGDL/qPN5ebW/1BFnduiyrXFIEIXbWcQfSAns2X4wy+ub/P4gfTQZ
-	5kNxdwt/y39shTGOVco5P6BriLTZshZD+IGgAWu7UU+n+Fv1FQagehvhv
-	+TeNqRjxxnYfHMlS2niBCXoXMW+dHR3zUTTk6Xtd2UI3l04QfEQqMiDLL
-	F6FSOcH2g0twQUWCllp0voMhF+8c7rAxeakqvoLHYDUmNB7idJKSqU+qH
-	87JgDwmDD6ozG9lt/qUS7kH30ScCcYQqH4CXlEINI5GSJYE4dZCmixj03 Q==;
-X-IronPort-AV: E=Sophos;i="5.54,467,1534802400"; 
-   d="scan'208";a="4982415"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-	by mx1.tq-group.com with ESMTP; 05 Nov 2018 09:36:58 +0100
-Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
-	[10.117.49.26])
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id A9605280065;
-	Mon,  5 Nov 2018 09:37:11 +0100 (CET)
-Message-ID: <71b9588f36d8a6932687bace51faab7b64e13a7c.camel@ew.tq-group.com>
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To: Andre McCurdy <armccurdy@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Date: Mon, 05 Nov 2018 09:36:41 +0100
-In-Reply-To: <CAJ86T=WHs0P3+o8_k=FJvM4PTkQT9ggWZfc0Hejieg+zzBH+Tg@mail.gmail.com>
-References: <20181102143927.15387-1-matthias.schiffer@ew.tq-group.com>
-	<8ba204af82c54d23805deefb5197dd6f@XBOX04.axis.com>
-	<8897ab754bea0fda7195a851b2d19695dd7553e9.camel@linuxfoundation.org>
-	<CAJ86T=WHs0P3+o8_k=FJvM4PTkQT9ggWZfc0Hejieg+zzBH+Tg@mail.gmail.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass: avoid 'find -ignore_readdir_race -delete'
+	Mon,  5 Nov 2018 09:31:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA59Udq9011721
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 5 Nov 2018 01:30:49 -0800
+Received: from [128.224.162.215] (128.224.162.215) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Mon, 5 Nov 2018 01:30:00 -0800
+To: Randy MacLeod <randy.macleod@windriver.com>,
+	<openembedded-core@lists.openembedded.org>, "Burton, Ross"
+	<ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>
+References: <1540456759-247805-1-git-send-email-mingli.yu@windriver.com>
+	<CAJTo0LYq4aJAp8cUFbmGDer3t9cswKoeVZ3FYgWjUxC19LKA2Q@mail.gmail.com>
+	<a17b1fae-4e22-35eb-3602-3a3725fd60e4@windriver.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5BE00D5F.2050209@windriver.com>
+Date: Mon, 5 Nov 2018 17:29:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <a17b1fae-4e22-35eb-3602-3a3725fd60e4@windriver.com>
+X-Originating-IP: [128.224.162.215]
+Subject: Re: [PATCH 0/2] python: add tk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,101 +38,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2018 08:36:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Fri, 2018-11-02 at 20:28 -0700, Andre McCurdy wrote:
-> On Fri, Nov 2, 2018 at 8:43 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > On Fri, 2018-11-02 at 15:19 +0000, Peter Kjellerstedt wrote:
-> > > > -----Original Message-----
-> > > > From: openembedded-core-bounces@lists.openembedded.org
-> > > > <openembedded-
-> > > > core-bounces@lists.openembedded.org> On Behalf Of
-> > > > matthias.schiffer@ew.tq-group.com
-> > > > Sent: den 2 november 2018 15:39
-> > > > To: openembedded-core@lists.openembedded.org
-> > > > Subject: [OE-core] [PATCH] base.bbclass: avoid 'find -
-> > > > ignore_readdir_race -delete'
-> > > > 
-> > > > From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> > > > 
-> > > > Until recent versions of findutils, -ignore_readdir_race did
-> > > > not
-> > > > work
-> > > > correctly with -delete. This led to spurious build failures
-> > > > when
-> > > > files
-> > > > disappeared; specifically this was seen due to do_configure and
-> > > > do_populate_lic running concurrently for packages with ${B} ==
-> > > > ${WORKDIR}:
-> > > > 
-> > > >    find: '.../sstate-build-populate_lic': No such file or
-> > > > directory
-> > > > 
-> > > > As the find command of the host system is used here, we can't
-> > > > ensure that
-> > > > the used version contains the fix. Work around the issue by
-> > > > passing
-> > > > the
-> > > > output of find to 'rm -f' instead of using -delete.
-> > > > 
-> > > > Signed-off-by: Matthias Schiffer <
-> > > > matthias.schiffer@ew.tq-group.com
-> > > > > 
-> > > > 
-> > > > ---
-> > > > 
-> > > > It would be great if this patch could be backported to all
-> > > > versions
-> > > > back to Rocko, as our current setup is still based on Rocko.
-> > > > 
-> > > >  meta/classes/base.bbclass | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/meta/classes/base.bbclass
-> > > > b/meta/classes/base.bbclass
-> > > > index df11c8b270..5ffd8396e3 100644
-> > > > --- a/meta/classes/base.bbclass
-> > > > +++ b/meta/classes/base.bbclass
-> > > > @@ -303,7 +303,7 @@ base_do_configure() {
-> > > >                     if [ "${CLEANBROKEN}" != "1" -a \( -e
-> > > > Makefile
-> > > > -o -e makefile -o -e GNUmakefile \) ]; then
-> > > >                             oe_runmake clean
-> > > >                     fi
-> > > 
-> > > You might want to include a comment here explaining why rm -f is
-> > > used instead of -delete, or someone might come along and optimize
-> > > the
-> > > code...
-> > 
-> > We should detail which versions of findutils have the issue as
-> > ultimately it would be nice to use the simpler command. I'm curious
-> > how
-> > many of the distros we support have the problem.
-> 
-> There's a test case in the patch proposed to fix the issue:
-> 
->   https://savannah.gnu.org/bugs/?52981
->   https://savannah.gnu.org/bugs/download.php?file_id=43119
-> 
-> Regarding the proposed patch for base.bbclass, xargs should generally
-> always be called with --no-run-if-empty, unless there's a clear
-> reason
-> not to.
-
-Do we generally assume that we have a GNU xargs with --no-run-if-empty
-support? Calling rm -f without further arguments at least doesn't cause
-an error, so --no-run-if-empty is only a minor optimization in this
-case.
-
-I'll send an updated patch with the proposed changes later today.
-
-Kinds regards,
-Matthias
+X-List-Received-Date: Mon, 05 Nov 2018 09:31:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+
+On 2018年10月30日 12:52, Randy MacLeod wrote:
+> On 10/29/18 8:51 AM, Burton, Ross wrote:
+>> Terrified to ask, but why?
+>> On Thu, 25 Oct 2018 at 09:39, <mingli.yu@windriver.com> wrote:
+>>>
+>>> 1, move tk recipe from meta-oe
+>>> 2, enable tk to add tk support
+>
+> Well, tcl and tk do go together and Khem's comment from 2013
+> suggested that it might be pulled into oe-core some day.
+>
+> I think what started us down this path is a FACE [1] compliance test.
+> If there's resistance to moving the package to oe-core, can we
+> enable python-tk even if tk stayed in meta-oe, Grace?
+> Also, this should be done using using PACKAGECONFIG?
+> Finally, what about python3-tk ?
+
+Will send out v2 to use PACKAGECONFIG for tk and add tk support for 
+python3 altogether.
+
+Thanks,
+
+>
+> ../Randy
+>
+> [1] https://en.wikipedia.org/wiki/Future_Airborne_Capability_Environment
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
