@@ -1,18 +1,39 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 769DA79E38;
-	Mon,  5 Nov 2018 06:03:12 +0000 (UTC)
+Return-Path: <Arsalan_Awan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 37C6B79E7B
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Nov 2018 07:34:21 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=svr-ies-mbx-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+	id 1gJZOu-0004uZ-T8 from Arsalan_Awan@mentor.com ;
+	Sun, 04 Nov 2018 23:34:20 -0800
+Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
+	svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) with Microsoft SMTP
+	Server (TLS) id 15.0.1320.4; Mon, 5 Nov 2018 07:34:17 +0000
+Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
+	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
+	mapi id 15.00.1320.000; Mon, 5 Nov 2018 07:34:17 +0000
+From: "Awan, Arsalan" <Arsalan_Awan@mentor.com>
+To: akuster808 <akuster808@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [sumo][PATCH 1/1] wic/isoimage-isohybrid.py: fix
+	booting from removable media
+Thread-Index: AQHUdNlZ0/EsWKHdbkKTyXY3hxfOMw==
+Date: Mon, 5 Nov 2018 07:34:17 +0000
+Message-ID: <1541403256938.5944@mentor.com>
+References: <cover.1541168618.git.Arsalan_Awan@mentor.com>
+	<6bf54a814e2aaa03e262aa2edd529405d391ee22.1541168618.git.Arsalan_Awan@mentor.com>,
+	<c1316e3a-ec0c-3320-0972-9c7ee532aee8@gmail.com>
+In-Reply-To: <c1316e3a-ec0c-3320-0972-9c7ee532aee8@gmail.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.90]
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: douglas.royds <douglas.royds@taitradio.com>
-Date: Mon, 05 Nov 2018 06:03:14 -0000
-Message-ID: <20181105060314.29310.99525@do.openembedded.org>
-References: <20181105053941.19098-1-douglas.royds@taitradio.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181105053941.19098-1-douglas.royds@taitradio.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVwcm9kdWNpYmxlIGJ1aWxkOiBDb21tZW50IG9ubHk6IGRvX2RlcGxveV9zb3VyY2VfZGF0ZV9lcG9jaCB0YXNr?=
+Subject: Re: [sumo][PATCH 1/1] wic/isoimage-isohybrid.py: fix booting from removable media
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +46,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2018 06:03:12 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Nov 2018 07:34:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-== Series Details ==
-
-Series: Reproducible build: Comment only: do_deploy_source_date_epoch task
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14787/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            Reproducible build: Comment only: do_deploy_source_date_epoch task
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+> Arsalan,=0A=
+> =0A=
+> =0A=
+> On 11/2/18 8:01 AM, Arsalan Awan wrote:=0A=
+> > From: "Arsalan H. Awan" <Arsalan_Awan@mentor.com>=0A=
+> >=0A=
+> > The EFI bootloader name and path for being able to boot from a=0A=
+> > removable storage media - such as USB - must be like:=0A=
+> >=0A=
+> >   /EFI/BOOT/boot<arch>.efi=0A=
+> >   /EFI/BOOT/bootx64.efi=0A=
+> >   /EFI/BOOT/bootia32.efi=0A=
+> >   /EFI/BOOT/bootaa64.efi=0A=
+> >=0A=
+> > otherwise system will not be able to boot from it.=0A=
+> =0A=
+> Is this fixed in Master & Thud ?=0A=
+> =0A=
+> - armin=0A=
+=0A=
+Yes Armin! It is fixed in Thud and Master.=0A=
+=0A=
+-=0A=
+Arsalan=0A=
+=0A=
+> =0A=
+> >=0A=
+> > This commit fixes the grub-efi bootloader destination image name=0A=
+> > accordingly just like efi_populate() function does it in=0A=
+> > meta/classes/grub-efi.bbclass.=0A=
+> >=0A=
+> > Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>=0A=
+> > ---=0A=
+> >  scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 4 +++-=0A=
+> >  1 file changed, 3 insertions(+), 1 deletion(-)=0A=
+> >=0A=
+> > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scr=
+ipts/lib/wic/plugins/source/isoimage-isohybrid.py=0A=
+> > index d6bd3bf..9a30713 100644=0A=
+> > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py=0A=
+> > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py=0A=
+> > @@ -329,13 +329,15 @@ class IsoImagePlugin(SourcePlugin):=0A=
+> >=0A=
+> >                  if re.match("x86_64", target_arch):=0A=
+> >                      grub_image =3D "grub-efi-bootx64.efi"=0A=
+> > +                    grub_image_dst =3D "bootx64.efi"=0A=
+> >                  elif re.match('i.86', target_arch):=0A=
+> >                      grub_image =3D "grub-efi-bootia32.efi"=0A=
+> > +                    grub_image_dst =3D "bootia32.efi"=0A=
+> >                  else:=0A=
+> >                      raise WicError("grub-efi is incompatible with targ=
+et %s" %=0A=
+> >                                     target_arch)=0A=
+> >=0A=
+> > -                grub_target =3D os.path.join(target_dir, grub_image)=
+=0A=
+> > +                grub_target =3D os.path.join(target_dir, grub_image_ds=
+t)=0A=
+> >                  if not os.path.isfile(grub_target):=0A=
+> >                      grub_src =3D os.path.join(deploy_dir, grub_image)=
+=0A=
+> >                      if not os.path.exists(grub_src):=
 
