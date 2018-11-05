@@ -1,50 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AA4879EE9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BF4779CB1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Nov 2018 11:43:52 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id h19-v6so6225777iog.9
+	Mon,  5 Nov 2018 15:58:59 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id u1-v6so10125399wrn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Nov 2018 03:43:54 -0800 (PST)
+	Mon, 05 Nov 2018 07:59:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=FQxj9dEtgBqG7tmSYUUlMrEwXwNOKJ4WIxxaRlcW3Rg=;
-	b=HWRGqSgblnqxOeGuE1NO3Q8tEiyDtkd97xNCf9al3cJ7bAnDpyNJrgqfVREWiUSUkx
-	D/9FzL2AhYaOu2OftCyRxFki7Bj7ZEVEZX8xACl94a2iJKzN8RnqDKYDkjaHyDQsNRui
-	2OAix87Df7pUKf+LMbshMAhtz2jao/qYbWA2KJnW9Kot51FB3XXrTuMlGclSg4iyO1M2
-	4m9tSsdt+m9q5Q+fXVNfC3WqAaI5/KwRrgVX1l3Wnnu0TB1aADbIb2f0H7qcD8a4bOac
-	d8rxhG4oDahhC8VFeqpdQzQdqZXfvVYbB+FcXlGlLQhc52nA5DVSTOxuqQyqsBfrcbkV
-	cEPg==
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=tl9fi8KvqMkhYQi2fcfUyLO2OCJF97h2xPRGLqFfb6c=;
+	b=hzmG1NDBUrwa38LPxvt6XR/0adxw57VL9byU1TWp/PeUCsJTTfJ7yyOWD2fiTwD20p
+	fngWjIDgdCZvJrOtdapLRQvJMHxHQxvppqqt5KzpVpNAmPBFd31gQMy73tRxgngWKZ4K
+	pErA8D9hZryy1z4+l76Cea03xORyNkYQzXOPY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=FQxj9dEtgBqG7tmSYUUlMrEwXwNOKJ4WIxxaRlcW3Rg=;
-	b=eYhxYWRER0MIQORwFyOaAH6mj5bcBbCvcP2ZeEUvtY/89MjkvZOyI6ae4J8AXfETk7
-	wc01OR3X3Y1l/011vCGUhvy6g0vDua17Gn+uJ+rDG4xPho/W5ZerF1efProq3l3HMUuU
-	RlovtOXihJ+Gx/rmHZDSdCM24mPNSa6jYSJyeo15KEghcXbxHGYrH6oqrZTvNpl5RHQX
-	tO9cleWp27WbDmQTACrx9SVLttVWUC3fyJI4IrjTDDYkPl3lro8Sdj3J+KQinryL21w4
-	2qMPd2nduwOGccxJQs/dbdTUog+Fh2OMhGBRSr9ZhKpivY1RV00q98CoPPcE1yZ6nxfj
-	liZA==
-X-Gm-Message-State: AGRZ1gKXL9EMLhSuj1SESfYN0EvSTKwwerF6er9jp6rJJ6f17YsUWkX1
-	9H2zfFfgBpoZM7dglI6lsOT1H4qvBzppFMd7BB4AIA==
-X-Google-Smtp-Source: AJdET5eUbKCjPkLihRirRPeNd2+ISGacpKABOR9jXuCbDjVY5i8YMLbOYGHffItjpCBSpCHt5BswD0LrM9X15uBCJyQ=
-X-Received: by 2002:a6b:2cd4:: with SMTP id
-	s203-v6mr6354977ios.20.1541418234119; 
-	Mon, 05 Nov 2018 03:43:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20181103131223.28268-1-sno@netbsd.org>
-	<11534e53929f6a521560cdf97f71b6af61afdb29.camel@linuxfoundation.org>
-In-Reply-To: <11534e53929f6a521560cdf97f71b6af61afdb29.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 5 Nov 2018 11:43:43 +0000
-Message-ID: <CAJTo0LbMLafivJjzW-12cJe11Jf5jxkJch9LsaqEEXpH40iJ6A@mail.gmail.com>
-To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
-Cc: Jens Rehsack <sno@netbsd.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sqlite3_3: Update to 3.25.2
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=tl9fi8KvqMkhYQi2fcfUyLO2OCJF97h2xPRGLqFfb6c=;
+	b=ambAZdN0HjE1wSvKxivWafeNxEflOEtx0Boz0w0lppD2eMIGqJN+OtuQ1QjE3Ne+VO
+	si+mBdEk+ccXbfFXxpYz8QLKdq3QagvZ5X7bk6/tyAhO2+wes69kVPw/6hJX9XOTezVE
+	Bs57QsXfavMhkVWr2RDD+pSxh4DzqciUVIV5jOD1bdAQb3jpA+AJbry9urTg2Lccry5X
+	/L8M+aupXq9gKPWHP6hNz3CHu9wUsaK+s8ZTVHnuex4FXXF/WdTkcDJVyxMBwKR+jOQc
+	z7dXGZ8r2yNvKGh7Eehq141cI3qbVel7lraQn7MkXdB31yBO34zJ74w2rINcTobpOi+6
+	2Raw==
+X-Gm-Message-State: AGRZ1gIi89rNTy09sAuNjxBYAZT5grwl3q7TmfnJbprLVw3+sYx6sP5f
+	dh63qhWTL8NoFtdLMCUsp+GR7bPKXVY=
+X-Google-Smtp-Source: AJdET5ei5aVhTrBuvt5BdN/fZu9EoJdGce+lQToOSg5f6fEEgL7wws4Zi8SZdL9+jSp/b2tTUoaOkg==
+X-Received: by 2002:adf:9225:: with SMTP id
+	34-v6mr20393342wrj.275.1541433539193; 
+	Mon, 05 Nov 2018 07:58:59 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	e7-v6sm14321327wra.10.2018.11.05.07.58.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 Nov 2018 07:58:58 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Nov 2018 15:58:57 +0000
+Message-Id: <20181105155857.8315-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] oeqa/selftest: Add test for Yocto source mirror functionality/completeness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,47 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2018 11:43:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 05 Nov 2018 15:58:59 -0000
 
-Mining the list archive shows that we keep on getting sqlite upgrades
-which fail like this.  Maxin reported that it was due to the
-full-text-search code enabling itself and failing to build, so one
-solution is to explicitly turn it off.
+We've had a number of occasions where the Yocto Project source mirrors have not
+been complete or functioning correctly. This adds a test so that if this happens
+we find out out it sooner.
 
-Ross
-On Mon, 5 Nov 2018 at 11:39, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sat, 2018-11-03 at 14:12 +0100, Jens Rehsack wrote:
-> > Update SQLite3 from 3.23.1 to 3.25.2 for UPSERT, window
-> > functions and improved ALTER TABLE support.
-> >
-> > For a detailed list of changes since 3.23.1, see
-> > * https://www.sqlite.org/releaselog/3_25_2.html
-> > * https://www.sqlite.org/releaselog/3_24_0.html
-> >
-> > Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> > ---
-> >  meta/recipes-support/sqlite/sqlite3_3.23.1.bb | 10 ----------
-> >  meta/recipes-support/sqlite/sqlite3_3.25.2.bb | 10 ++++++++++
-> >  2 files changed, 10 insertions(+), 10 deletions(-)
-> >  delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-> >  create mode 100644 meta/recipes-support/sqlite/sqlite3_3.25.2.bb
->
-> How was this tested? pseudo-native fails to build with this:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/34/builds/161/steps/7/logs/step1b
->
-> and many other similar failures.
->
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+It also only works over http meaning we should be able to test that anyone behind
+an http only proxy (no git protocol) also has functional fetches for OE-Core and
+layers built by the core of the project.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/buildoptions.py | 23 ++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
+index e60e32dadf4..c28664cbfc0 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -178,3 +178,26 @@ class ToolchainOptions(OESelftestTestCase):
+ 
+         bitbake('gcc-runtime libgfortran')
+ 
++class SourceMirroring(OESelftestTestCase):
++    # Can we download everything from the Yocto Sources Mirror over http only
++    def test_Yocto_source_mirror(self):
++        self.write_config("""
++BB_ALLOWED_NETWORKS = "downloads.yoctoproject.org"
++MIRRORS = ""
++DL_DIR = "${TMPDIR}/test_downloads"
++PREMIRRORS = "\\
++    bzr://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
++    cvs://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
++    git://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
++    gitsm://.*/.* http://downloads.yoctoproject.org/mirror/sources/ \\n \\
++    hg://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \\n \\
++    osc://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
++    p4://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \\n \\
++    svn://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
++    ftp://.*/.*      http://downloads.yoctoproject.org/mirror/sources/ \\n \\
++    http://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \\n \\
++    https://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \\n"
++""")
++
++        bitbake("world --runall fetch")
++
+-- 
+2.17.1
+
 
