@@ -1,47 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BF4779CB1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B44D076050
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Nov 2018 15:58:59 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id u1-v6so10125399wrn.0
+	Mon,  5 Nov 2018 16:11:48 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id w7-v6so13358250itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Nov 2018 07:59:00 -0800 (PST)
+	Mon, 05 Nov 2018 08:11:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=tl9fi8KvqMkhYQi2fcfUyLO2OCJF97h2xPRGLqFfb6c=;
-	b=hzmG1NDBUrwa38LPxvt6XR/0adxw57VL9byU1TWp/PeUCsJTTfJ7yyOWD2fiTwD20p
-	fngWjIDgdCZvJrOtdapLRQvJMHxHQxvppqqt5KzpVpNAmPBFd31gQMy73tRxgngWKZ4K
-	pErA8D9hZryy1z4+l76Cea03xORyNkYQzXOPY=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ORPUI7gCpvWcPqCpJ2Mci1jfIlDEBUeS9d4NSnT5vs4=;
+	b=muZcUVW4XbUG+vZZuq8ZC4/VHx8y8OAHpU64y0vif/iJIfEdz/1nKdJnjy4BWfkYMq
+	N1vwwl8+lqPAqD2uhXL1X9OPvXF/BlF3SM2KsrmMnZ94DGQkP8BCis21FMTxqPykynAE
+	qIFGsarL2ZknABpo1T2Mm+COqjjzwPXLyc11IeoOLcAZh2+qSR0/wYPRii4YYcFvVAV/
+	iEU3ic6lJonjQwXnhL1Lzf3ITXcvRLL8Rjn6WjZr1DrYxQzpGvinwNIbof+seTjZvUdm
+	FYiGFDI11D1j6aNmB58ZlK3i4vzcnUln0f7+uuSxPgkrD/KMBJsVcbjQOPufvDj/WL4C
+	rluA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=tl9fi8KvqMkhYQi2fcfUyLO2OCJF97h2xPRGLqFfb6c=;
-	b=ambAZdN0HjE1wSvKxivWafeNxEflOEtx0Boz0w0lppD2eMIGqJN+OtuQ1QjE3Ne+VO
-	si+mBdEk+ccXbfFXxpYz8QLKdq3QagvZ5X7bk6/tyAhO2+wes69kVPw/6hJX9XOTezVE
-	Bs57QsXfavMhkVWr2RDD+pSxh4DzqciUVIV5jOD1bdAQb3jpA+AJbry9urTg2Lccry5X
-	/L8M+aupXq9gKPWHP6hNz3CHu9wUsaK+s8ZTVHnuex4FXXF/WdTkcDJVyxMBwKR+jOQc
-	z7dXGZ8r2yNvKGh7Eehq141cI3qbVel7lraQn7MkXdB31yBO34zJ74w2rINcTobpOi+6
-	2Raw==
-X-Gm-Message-State: AGRZ1gIi89rNTy09sAuNjxBYAZT5grwl3q7TmfnJbprLVw3+sYx6sP5f
-	dh63qhWTL8NoFtdLMCUsp+GR7bPKXVY=
-X-Google-Smtp-Source: AJdET5ei5aVhTrBuvt5BdN/fZu9EoJdGce+lQToOSg5f6fEEgL7wws4Zi8SZdL9+jSp/b2tTUoaOkg==
-X-Received: by 2002:adf:9225:: with SMTP id
-	34-v6mr20393342wrj.275.1541433539193; 
-	Mon, 05 Nov 2018 07:58:59 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	e7-v6sm14321327wra.10.2018.11.05.07.58.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Nov 2018 07:58:58 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Nov 2018 15:58:57 +0000
-Message-Id: <20181105155857.8315-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] oeqa/selftest: Add test for Yocto source mirror functionality/completeness
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ORPUI7gCpvWcPqCpJ2Mci1jfIlDEBUeS9d4NSnT5vs4=;
+	b=p4WZz1EHU0k/x6C2f1ikEMVmQlGnA7QS4otls+ZMDU5qLQKBdwzoAX1cuqBZz5Oini
+	a3U8EgbOOtuG/9j+Szs3okqZ6Skdj+7i6bAZbEwBxL3aGmhWVUACRan+c6BKcCI3t1z1
+	DdBrmeDqilSGYT4tFO5T3Hc1piQlFbw/C9CFfOfzq5AFgGFpNfXicFGC52EDTIDOR0e7
+	eA4KsFELgdkWe42YQofh0qMVyiMDpJHjlcH60ZiPuEaHUCTBX811NrUuRne66wBnpeL8
+	+crc+KAEBJFI1nJrPyyG8C7czIK8DEi3zr+NA0VsWoYOoQgOJyUTkXjpK8uL++96Q/1Q
+	ZLuA==
+X-Gm-Message-State: AGRZ1gJOJA8FHCm8nw4Jzdcfeu+ginr3QpdZ+DTo6JEkb5yj8bwWZWN8
+	Q4hpWP4eUovPVCLl3hbxtOFhqE5N0fzPjlNxCyGXLg==
+X-Google-Smtp-Source: AJdET5ejtwIjMcMDAug/xptrEoSQla2IWtUX2cGuBcNE4yctKMUjbdDU+1/A2IB5YQQov2H0XddqttEJwhChD/1nHsU=
+X-Received: by 2002:a24:9287:: with SMTP id
+	l129-v6mr6878655itd.26.1541434309731; 
+	Mon, 05 Nov 2018 08:11:49 -0800 (PST)
+MIME-Version: 1.0
+References: <20181103131223.28268-1-sno@netbsd.org>
+	<11534e53929f6a521560cdf97f71b6af61afdb29.camel@linuxfoundation.org>
+	<CAJTo0LbMLafivJjzW-12cJe11Jf5jxkJch9LsaqEEXpH40iJ6A@mail.gmail.com>
+In-Reply-To: <CAJTo0LbMLafivJjzW-12cJe11Jf5jxkJch9LsaqEEXpH40iJ6A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 5 Nov 2018 16:11:38 +0000
+Message-ID: <CAJTo0LYsR=JRaJD27r69XPwLm0_c5W0wa2UTDpG9Sb4Ndj+kdw@mail.gmail.com>
+To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
+Cc: Jens Rehsack <sno@netbsd.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sqlite3_3: Update to 3.25.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,53 +58,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2018 15:58:59 -0000
+X-List-Received-Date: Mon, 05 Nov 2018 16:11:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-We've had a number of occasions where the Yocto Project source mirrors have not
-been complete or functioning correctly. This adds a test so that if this happens
-we find out out it sooner.
+On Mon, 5 Nov 2018 at 11:43, Burton, Ross <ross.burton@intel.com> wrote:
+> Mining the list archive shows that we keep on getting sqlite upgrades
+> which fail like this.  Maxin reported that it was due to the
+> full-text-search code enabling itself and failing to build, so one
+> solution is to explicitly turn it off.
 
-It also only works over http meaning we should be able to test that anyone behind
-an http only proxy (no git protocol) also has functional fetches for OE-Core and
-layers built by the core of the project.
+Did some digging.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/buildoptions.py | 23 ++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+FTS5 is enabled by default, this needs log() from libm.  If enabled,
+AC_SEARCH_LIBS is used to find log() and libm.so, and this bonus
+dependency that is needed if statically linking is recorded in
+sqlite3.pc.  Pseudo then builds, statically links to pseudo, but also
+hard-codes the link line instead of using pkgconfig so this -lm isn't
+added, resulting in a link failure on upgrade.
 
-diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
-index e60e32dadf4..c28664cbfc0 100644
---- a/meta/lib/oeqa/selftest/cases/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
-@@ -178,3 +178,26 @@ class ToolchainOptions(OESelftestTestCase):
- 
-         bitbake('gcc-runtime libgfortran')
- 
-+class SourceMirroring(OESelftestTestCase):
-+    # Can we download everything from the Yocto Sources Mirror over http only
-+    def test_Yocto_source_mirror(self):
-+        self.write_config("""
-+BB_ALLOWED_NETWORKS = "downloads.yoctoproject.org"
-+MIRRORS = ""
-+DL_DIR = "${TMPDIR}/test_downloads"
-+PREMIRRORS = "\\
-+    bzr://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
-+    cvs://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
-+    git://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
-+    gitsm://.*/.* http://downloads.yoctoproject.org/mirror/sources/ \\n \\
-+    hg://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \\n \\
-+    osc://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
-+    p4://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \\n \\
-+    svn://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
-+    ftp://.*/.*      http://downloads.yoctoproject.org/mirror/sources/ \\n \\
-+    http://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \\n \\
-+    https://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \\n"
-+""")
-+
-+        bitbake("world --runall fetch")
-+
--- 
-2.17.1
+So that explains why the autobuilder explodes when this upgrade
+happens, but doesn't explain how it builds for everyone who submits
+the upgrade...
 
+Ross
 
