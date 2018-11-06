@@ -1,18 +1,18 @@
 Return-Path: <martin@geanix.com>
 Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BD2975245
+	by mail.openembedded.org (Postfix) with ESMTP id CD6AD745AB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Nov 2018 10:02:31 +0000 (UTC)
+	Tue,  6 Nov 2018 10:04:19 +0000 (UTC)
 Received: from zen.localdomain (unknown [85.184.147.232])
-	by mail.hundeboll.net (Postfix) with ESMTPSA id A67531C1A74;
-	Tue,  6 Nov 2018 11:02:32 +0100 (CET)
+	by mail.hundeboll.net (Postfix) with ESMTPSA id BFA091C1A74;
+	Tue,  6 Nov 2018 11:04:20 +0100 (CET)
 From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Date: Tue,  6 Nov 2018 11:02:17 +0100
-Message-Id: <20181106100217.6998-1-martin@geanix.com>
+Date: Tue,  6 Nov 2018 11:04:16 +0100
+Message-Id: <20181106100416.41548-1-martin@geanix.com>
 X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Subject: [PATCH] glibc: make ld-2.28.so reproducible on arm
+Subject: [PATCHv2] glibc: make ld-2.28.so reproducible on arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,13 +25,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Nov 2018 10:02:32 -0000
+X-List-Received-Date: Tue, 06 Nov 2018 10:04:20 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Play the whack-a-mole game and add the .file directive to another
 assembly file that otherwise shows itself in ld-2.28.so debug file,
 which in turns alters the build-id of ld-2.28.so on target.
+
+Signed-off-by: Martin Hundebøll <martin@geanix.com>
 ---
+
+Changes since v1:
+
+ - Added signed-of-by tag
+
  .../0034-inject-file-assembly-directives.patch      | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
