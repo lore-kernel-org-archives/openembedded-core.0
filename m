@@ -1,18 +1,30 @@
-Return-Path: <bradleyb@fuzziesquirrel.com>
-X-Greylist: delayed 457 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 06 Nov 2018 00:31:07 UTC
-Received: from bajor.fuzziesquirrel.com (mail.fuzziesquirrel.com
-	[173.167.31.197])
-	by mail.openembedded.org (Postfix) with ESMTP id 041E9600E3
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 15F4674A35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Nov 2018 00:31:07 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at fuzziesquirrel.com
-Sender: bradleyb@bajor.fuzziesquirrel.com
-From: Brad Bishop <bradleyb@fuzziesquirrel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Nov 2018 19:23:07 -0500
-Message-Id: <20181106002307.19690-1-bradleyb@fuzziesquirrel.com>
-Subject: [PATCH] systemd-systemctl-native: handle Install wildcards
+	Tue,  6 Nov 2018 02:09:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wA629ZIb025295
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 5 Nov 2018 18:09:35 -0800 (PST)
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Mon, 5 Nov 2018 18:09:34 -0800
+To: Grygorii Tertychnyi <gtertych@cisco.com>
+References: <1541138869-68039-1-git-send-email-changqing.li@windriver.com>
+	<20181102064101.13840.12812@do.openembedded.org>
+	<f8c4a061-f2d2-9c04-1885-647f98a222ea@windriver.com>
+	<87a7mn2zlc.fsf@cisco.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <e9ef8495-0501-9aec-e667-bc005c259d2a@windriver.com>
+Date: Tue, 6 Nov 2018 10:09:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <87a7mn2zlc.fsf@cisco.com>
+X-Originating-IP: [128.224.162.228]
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGN1cmw6IGZpeCBmb3IgQ1ZFLTIwMTgtMTY4MzkvQ1ZFLTIwMTgtMTY4NDAvQ1ZFLTIwMTgtMTY4NDI=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,70 +37,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Nov 2018 00:31:08 -0000
+X-List-Received-Date: Tue, 06 Nov 2018 02:09:36 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Handle the %i wildcard appearing in a dependency in the Install section
-of a template unit, e.g.
 
-  $ cat foo@.service
+On 11/6/18 1:39 AM, Grygorii Tertychnyi wrote:
+>
+> On Fri Nov02 2018 @ 06:48, Changqing Li <changqing.li@windriver.com> 
+> wrote:
+>
+>> I have add CVE tag in the patch file, is this test result incorrect?
+>
+> My guess is it was fooled by (well, "incorrect") "CVE-YYYY-XXXX" 
+> lines. Even thouhg it is followed by the (correct) "CVE: 
+> CVE-YYYY-XXXX" in your CVE patches
+>
+> 43                     # first match is lax but second strict 
+> 44                     if self.re_cve_payload_pattern.match(line): 
+> 45                         if not self.re_cve_payload_tag.match(line): 
+> 46                             self.fail('Missing or incorrectly 
+> formatted CVE tag in included patch file', 
+> 47                                       'Correct or include the CVE 
+> tag on cve patch with format: "CVE: CVE-YYYY-XXXX"', 48 commit)
+> Do you really need "incorrect" lines?
 
-  [Install]
-  WantedBy=bar@%i.target
+Thanks.  the incorrect line are not necessary. I will rework this patch 
+based on  new updated version 7.61.1
 
-Using the real systemctl something like:
+//changqing
 
-  $ systemctl enable foo@baz.service
-
-will create a symlink in /etc/systemd/system/bar@baz.target.wants.
-Detect wildcards in templates and make the appropriate substitution.
-
-Signed-off-by: Brad Bishop <bradleyb@fuzziesquirrel.com>
----
- .../systemd/systemd-systemctl/systemctl           | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-index 6e5a1b7181..2bc6489617 100755
---- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
-+++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-@@ -84,11 +84,7 @@ for service in $services; do
- 	else
- 		echo "Try to find location of template $service_base_file of instance $service..."
- 		service_template=true
--		if [ -z `echo $service | sed 's/^.\+@\(.*\)\.[^.]\+/\1/'` ]; then
--			instance_specified=false
--		else
--			instance_specified=true
--		fi
-+		instance_specified=`echo $service | sed 's/^.\+@\(.*\)\.[^.]\+/\1/'`
- 	fi
- 
- 	# find service file
-@@ -139,9 +135,14 @@ for service in $services; do
- 		fi
- 		for r in $dependency_list; do
- 			echo "$dependency=$r found in $service"
-+			if [ -n "$instance_specified" ]; then
-+				# substitute wildcards in the dependency
-+				r=`echo $r | sed "s/%i/$instance_specified/g"`
-+			fi
-+
- 			if [ "$action" = "enable" ]; then
- 				enable_service=$service
--				if [ "$service_template" = true -a "$instance_specified" = false ]; then
-+				if [ "$service_template" = true -a -z "$instance_specified" ]; then
- 					default_instance=$(sed '/^DefaultInstance[[:space:]]*=/s,[^=]*=,,p;d' "$ROOT/$service_file")
- 					if [ -z $default_instance ]; then
- 						echo "Template unit without instance or DefaultInstance directive, nothing to enable"
-@@ -155,7 +156,7 @@ for service in $services; do
- 				ln -s $service_file $ROOT/etc/systemd/system/$r.$suffix/$enable_service
- 				echo "Enabled $enable_service for $r."
- 			else
--				if [ "$service_template" = true -a "$instance_specified" = false ]; then
-+				if [ "$service_template" = true -a -z "$instance_specified" ]; then
- 					disable_service="$ROOT/etc/systemd/system/$r.$suffix/`echo $service | sed 's/@/@*/'`"
- 				else
- 					disable_service="$ROOT/etc/systemd/system/$r.$suffix/$service"
+>
+>> On 11/2/18 2:41 PM, Patchwork wrote:
+>>> == Series Details ==
+>>>
+>>> Series: curl: fix for CVE-2018-16839/CVE-2018-16840/CVE-2018-16842
+>>> Revision: 1
+>>> URL   : https://patchwork.openembedded.org/series/14764/
+>>> State : failure
+>>>
+>>> == Summary ==
+>>>
+>>>
+>>> Thank you for submitting this patch series to OpenEmbedded Core. 
+>>> This is
+>>> an automated response. Several tests have been executed on the proposed
+>>> series by patchtest resulting in the following failures:
+>>>
+>>>
+>>>
+>>> * Patch            curl: fix for 
+>>> CVE-2018-16839/CVE-2018-16840/CVE-2018-16842
+>>>   Issue             Missing or incorrectly formatted CVE tag in   
+>>> included patch file [test_cve_tag_format]
+>>>    Suggested fix    Correct or include the CVE tag on cve patch    
+>>> with format: "CVE: CVE-YYYY-XXXX"
+>>>
+>>>
+>>>
+>>> If you believe any of these test results are incorrect, please reply 
+>>> to the
+>>> mailing list (openembedded-core@lists.openembedded.org) raising your 
+>>> concerns.
+>>> Otherwise we would appreciate you correcting the issues and 
+>>> submitting a new
+>>> version of the patchset if applicable. Please ensure you 
+>>> add/increment the
+>>> version number when sending the new version (i.e. [PATCH] -> [PATCH 
+>>> v2] ->
+>>> [PATCH v3] -> ...).
+>>>
+>>> ---
+>>> Guidelines: 
+>>> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+>>> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+>>> Test suite: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+>>>
+>>>
+>> -- 
+>> BRs
+>>
+>> Sandy(Li Changqing)
+>
+>
 -- 
-2.17.1
+BRs
+
+Sandy(Li Changqing)
+
 
