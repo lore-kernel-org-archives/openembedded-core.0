@@ -1,18 +1,18 @@
-Return-Path: <martin@geanix.com>
-Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
-	by mail.openembedded.org (Postfix) with ESMTP id CD6AD745AB
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Nov 2018 10:04:19 +0000 (UTC)
-Received: from zen.localdomain (unknown [85.184.147.232])
-	by mail.hundeboll.net (Postfix) with ESMTPSA id BFA091C1A74;
-	Tue,  6 Nov 2018 11:04:20 +0100 (CET)
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Date: Tue,  6 Nov 2018 11:04:16 +0100
-Message-Id: <20181106100416.41548-1-martin@geanix.com>
-X-Mailer: git-send-email 2.19.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 052E874775;
+	Tue,  6 Nov 2018 10:35:49 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCHv2] glibc: make ld-2.28.so reproducible on arm
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: =?utf-8?q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>
+Date: Tue, 06 Nov 2018 10:35:51 -0000
+Message-ID: <20181106103551.13844.23539@do.openembedded.org>
+References: <20181106100217.6998-1-martin@geanix.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181106100217.6998-1-martin@geanix.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmM6IG1ha2UgbGQtMi4yOC5zbyByZXByb2R1Y2libGUgb24gYXJt?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Nov 2018 10:04:20 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 06 Nov 2018 10:35:50 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Play the whack-a-mole game and add the .file directive to another
-assembly file that otherwise shows itself in ld-2.28.so debug file,
-which in turns alters the build-id of ld-2.28.so on target.
+== Series Details ==
 
-Signed-off-by: Martin Hundebøll <martin@geanix.com>
+Series: glibc: make ld-2.28.so reproducible on arm
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14805/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            glibc: make ld-2.28.so reproducible on arm
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
-
-Changes since v1:
-
- - Added signed-of-by tag
-
- .../0034-inject-file-assembly-directives.patch      | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/meta/recipes-core/glibc/glibc/0034-inject-file-assembly-directives.patch b/meta/recipes-core/glibc/glibc/0034-inject-file-assembly-directives.patch
-index 3f9f8cf189..55eba2d43e 100644
---- a/meta/recipes-core/glibc/glibc/0034-inject-file-assembly-directives.patch
-+++ b/meta/recipes-core/glibc/glibc/0034-inject-file-assembly-directives.patch
-@@ -257,3 +257,16 @@ index 244d87fb6d..14d3e2ce14 100644
-  /* Initial entry point code for the dynamic linker.
-     The C function `_dl_start' is the real entry point;
-     its return value is the user program's entry point.	*/
-+diff --git a/sysdeps/unix/sysv/linux/arm/libc-do-syscall.S b/sysdeps/unix/sysv/linux/arm/libc-do-syscall.S
-+index d26ad1f8d3..a0de10bf81 100644
-+--- a/sysdeps/unix/sysv/linux/arm/libc-do-syscall.S
-++++ b/sysdeps/unix/sysv/linux/arm/libc-do-syscall.S
-+@@ -27,6 +27,8 @@
-+    ARM unwind tables for register to register moves, the actual opcodes
-+    are not defined.  */
-+ 
-++      .file "libc-do-syscall.S"
-++
-+ #if defined(__thumb__)
-+ 	.thumb
-+ 	.syntax unified
--- 
-2.19.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
