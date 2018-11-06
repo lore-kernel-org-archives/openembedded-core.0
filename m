@@ -1,23 +1,53 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6203A71984
+Return-Path: <matthias.schiffer@ew.tq-group.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A1E079DAD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Nov 2018 06:43:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wA66hgmm023741
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Nov 2018 22:43:42 -0800 (PST)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 5 Nov 2018 22:43:41 -0800
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Nov 2018 22:43:41 -0800
-Message-ID: <20181106064341.124587-1-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Subject: [V2][PATCH] binutils: fix four CVE issues
+	Tue,  6 Nov 2018 08:23:41 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.54,471,1534802400"; 
+   d="scan'208";a="5000998"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+	by mx1-pgp.tq-group.com with ESMTP; 06 Nov 2018 09:23:42 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+	by tq-pgp-pr1.tq-net.de (PGP Universal service);
+	Tue, 06 Nov 2018 09:23:42 +0100
+X-PGP-Universal: processed;
+	by tq-pgp-pr1.tq-net.de on Tue, 06 Nov 2018 09:23:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+	t=1541492622; x=1573028622;
+	h=message-id:subject:from:to:cc:date:in-reply-to:
+	references:mime-version:content-transfer-encoding;
+	bh=KUzSB+GuJ+SU9tpz09yoRAXoCexP9kh+OylJmKdqZCY=;
+	b=Ln1KXKQMCWpoRXO/nNKvU34dRFOBwaspEw7Eo7yvew4psQ/cWWZqxAIh
+	R9ClciC1KJaAkUyQOS4dTuYPdA05ZH+lbt5t5Q5hc6W6IQ2Bo+/E0BOSZ
+	KWheuSvoTVSqVvUGUBheaUngJZcsMhS9P1BhDnkCIF7Nx/T4UTP8Jv7lx
+	RiO5e2soTVIFuNCKxXuYXHuwy9wo6tFE1lAO8rm/v79MtnJB3kzApXQmp
+	oeGyGEN4hsQYWEWR1mH2QsxgrloCZHKRvbpBI5SNYyMMyU47dS+lOXGU8
+	+3QzU5WMBvbPktLZaVbFKxWm6vsXRaD+4Vbp7ZspGnR0rJLH+ejxU2oGQ g==;
+X-IronPort-AV: E=Sophos;i="5.54,471,1534802400"; 
+   d="scan'208";a="5000997"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+	by mx1.tq-group.com with ESMTP; 06 Nov 2018 09:23:42 +0100
+Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
+	[10.117.49.26])
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 4B990280065;
+	Tue,  6 Nov 2018 09:23:55 +0100 (CET)
+Message-ID: <b56e02a25bf0bd1b833769fe0b0142655a4ee233.camel@ew.tq-group.com>
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: Andre McCurdy <armccurdy@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Date: Tue, 06 Nov 2018 09:23:39 +0100
+In-Reply-To: <71b9588f36d8a6932687bace51faab7b64e13a7c.camel@ew.tq-group.com>
+References: <20181102143927.15387-1-matthias.schiffer@ew.tq-group.com>
+	<8ba204af82c54d23805deefb5197dd6f@XBOX04.axis.com>
+	<8897ab754bea0fda7195a851b2d19695dd7553e9.camel@linuxfoundation.org>
+	<CAJ86T=WHs0P3+o8_k=FJvM4PTkQT9ggWZfc0Hejieg+zzBH+Tg@mail.gmail.com>
+	<71b9588f36d8a6932687bace51faab7b64e13a7c.camel@ew.tq-group.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base.bbclass: avoid 'find -ignore_readdir_race -delete'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,566 +60,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Nov 2018 06:43:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Nov 2018 08:23:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Backport the CVE patches from the binutils upstream.
+On Mon, 2018-11-05 at 09:36 +0100, Matthias Schiffer wrote:
+> On Fri, 2018-11-02 at 20:28 -0700, Andre McCurdy wrote:
+> > On Fri, Nov 2, 2018 at 8:43 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > 
+> > > On Fri, 2018-11-02 at 15:19 +0000, Peter Kjellerstedt wrote:
+> > > > > -----Original Message-----
+> > > > > From: openembedded-core-bounces@lists.openembedded.org
+> > > > > <openembedded-
+> > > > > core-bounces@lists.openembedded.org> On Behalf Of
+> > > > > matthias.schiffer@ew.tq-group.com
+> > > > > Sent: den 2 november 2018 15:39
+> > > > > To: openembedded-core@lists.openembedded.org
+> > > > > Subject: [OE-core] [PATCH] base.bbclass: avoid 'find -
+> > > > > ignore_readdir_race -delete'
+> > > > > 
+> > > > > From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> > > > > 
+> > > > > Until recent versions of findutils, -ignore_readdir_race did
+> > > > > not
+> > > > > work
+> > > > > correctly with -delete. This led to spurious build failures
+> > > > > when
+> > > > > files
+> > > > > disappeared; specifically this was seen due to do_configure
+> > > > > and
+> > > > > do_populate_lic running concurrently for packages with ${B}
+> > > > > ==
+> > > > > ${WORKDIR}:
+> > > > > 
+> > > > >    find: '.../sstate-build-populate_lic': No such file or
+> > > > > directory
+> > > > > 
+> > > > > As the find command of the host system is used here, we can't
+> > > > > ensure that
+> > > > > the used version contains the fix. Work around the issue by
+> > > > > passing
+> > > > > the
+> > > > > output of find to 'rm -f' instead of using -delete.
+> > > > > 
+> > > > > Signed-off-by: Matthias Schiffer <
+> > > > > matthias.schiffer@ew.tq-group.com
+> > > > > > 
+> > > > > 
+> > > > > ---
+> > > > > 
+> > > > > It would be great if this patch could be backported to all
+> > > > > versions
+> > > > > back to Rocko, as our current setup is still based on Rocko.
+> > > > > 
+> > > > >  meta/classes/base.bbclass | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/meta/classes/base.bbclass
+> > > > > b/meta/classes/base.bbclass
+> > > > > index df11c8b270..5ffd8396e3 100644
+> > > > > --- a/meta/classes/base.bbclass
+> > > > > +++ b/meta/classes/base.bbclass
+> > > > > @@ -303,7 +303,7 @@ base_do_configure() {
+> > > > >                     if [ "${CLEANBROKEN}" != "1" -a \( -e
+> > > > > Makefile
+> > > > > -o -e makefile -o -e GNUmakefile \) ]; then
+> > > > >                             oe_runmake clean
+> > > > >                     fi
+> > > > 
+> > > > You might want to include a comment here explaining why rm -f
+> > > > is
+> > > > used instead of -delete, or someone might come along and
+> > > > optimize
+> > > > the
+> > > > code...
+> > > 
+> > > We should detail which versions of findutils have the issue as
+> > > ultimately it would be nice to use the simpler command. I'm
+> > > curious
+> > > how
+> > > many of the distros we support have the problem.
+> > 
+> > There's a test case in the patch proposed to fix the issue:
+> > 
+> >   https://savannah.gnu.org/bugs/?52981
+> >   https://savannah.gnu.org/bugs/download.php?file_id=43119
+> > 
+> > Regarding the proposed patch for base.bbclass, xargs should
+> > generally
+> > always be called with --no-run-if-empty, unless there's a clear
+> > reason
+> > not to.
+> 
+> Do we generally assume that we have a GNU xargs with --no-run-if-
+> empty
+> support? Calling rm -f without further arguments at least doesn't
+> cause
+> an error, so --no-run-if-empty is only a minor optimization in this
+> case.
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
----
- .../binutils/binutils-2.31.inc                |   4 +
- .../binutils/binutils/CVE-2018-18309.patch    | 304 ++++++++++++++++++
- .../binutils/binutils/CVE-2018-18605.patch    |  47 +++
- .../binutils/binutils/CVE-2018-18606.patch    |  70 ++++
- .../binutils/binutils/CVE-2018-18607.patch    |  77 +++++
- 5 files changed, 502 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-18309.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-18605.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-18606.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-18607.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc b/meta/recipes-devtools/binutils/binutils-2.31.inc
-index 27a643d765..0c9d4cef21 100644
---- a/meta/recipes-devtools/binutils/binutils-2.31.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
-@@ -43,6 +43,10 @@ SRC_URI = "\
-      file://0021-PLT-information-was-still-being-generated-when-symbo.patch \
-      file://CVE-2018-17358.patch \
-      file://CVE-2018-17360.patch \
-+     file://CVE-2018-18309.patch \
-+     file://CVE-2018-18605.patch \
-+     file://CVE-2018-18606.patch \
-+     file://CVE-2018-18607.patch \
- "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-18309.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-18309.patch
-new file mode 100644
-index 0000000000..183a6829ed
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-18309.patch
-@@ -0,0 +1,308 @@
-+From 0930cb3021b8078b34cf216e79eb8608d017864f Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Sat, 13 Oct 2018 22:03:02 +1030
-+Subject: [PATCH] _bfd_clear_contents bounds checking
-+
-+This PR shows a fuzzed binary triggering a segfault via a bad
-+relocation in .debug_line.  It turns out that unlike normal
-+relocations applied to a section, the linker applies those with
-+symbols from discarded sections via _bfd_clear_contents without
-+checking that the relocation is within the section bounds.  The same
-+thing now happens when reading debug sections since commit
-+a4cd947aca23, the PR23425 fix.
-+
-+	PR 23770
-+	PR 23425
-+	* reloc.c (_bfd_clear_contents): Replace "location" param with
-+	"buf" and "off".  Bounds check "off".  Return status.
-+	* cofflink.c (_bfd_coff_generic_relocate_section): Update
-+	_bfd_clear_contents call.
-+	* elf-bfd.h (RELOC_AGAINST_DISCARDED_SECTION): Likewise.
-+	* elf32-arc.c (elf_arc_relocate_section): Likewise.
-+	* elf32-i386.c (elf_i386_relocate_section): Likewise.
-+	* elf32-metag.c (metag_final_link_relocate): Likewise.
-+	* elf32-nds32.c (nds32_elf_get_relocated_section_contents): Likewise.
-+	* elf32-ppc.c (ppc_elf_relocate_section): Likewise.
-+	* elf32-visium.c (visium_elf_relocate_section): Likewise.
-+	* elf64-ppc.c (ppc64_elf_relocate_section): Likewise.
-+	* elf64-x86-64.c *(elf_x86_64_relocate_section): Likewise.
-+	* libbfd-in.h (_bfd_clear_contents): Update prototype.
-+	* libbfd.h: Regenerate.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2018-18605
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+---
-+ bfd/ChangeLog      | 20 ++++++++++++++++++++
-+ bfd/cofflink.c     |  2 +-
-+ bfd/elf-bfd.h      |  2 +-
-+ bfd/elf32-arc.c    |  2 +-
-+ bfd/elf32-i386.c   |  2 +-
-+ bfd/elf32-metag.c  |  2 +-
-+ bfd/elf32-nds32.c  |  8 ++++----
-+ bfd/elf32-ppc.c    |  2 +-
-+ bfd/elf32-visium.c |  2 +-
-+ bfd/elf64-ppc.c    |  2 +-
-+ bfd/elf64-x86-64.c |  2 +-
-+ bfd/libbfd-in.h    |  4 ++--
-+ bfd/libbfd.h       |  4 ++--
-+ bfd/reloc.c        | 19 +++++++++++++------
-+ 14 files changed, 50 insertions(+), 23 deletions(-)
-+
-+diff --git a/bfd/ChangeLog b/bfd/ChangeLog
-+index 68c1ff665b..e9696ee314 100644
-+--- a/bfd/ChangeLog
-++++ b/bfd/ChangeLog
-+@@ -1,3 +1,23 @@
-++2018-10-13  Alan Modra  <amodra@gmail.com>
-++
-++	PR 23770
-++	PR 23425
-++	* reloc.c (_bfd_clear_contents): Replace "location" param with
-++	"buf" and "off".  Bounds check "off".  Return status.
-++	* cofflink.c (_bfd_coff_generic_relocate_section): Update
-++	_bfd_clear_contents call.
-++	* elf-bfd.h (RELOC_AGAINST_DISCARDED_SECTION): Likewise.
-++	* elf32-arc.c (elf_arc_relocate_section): Likewise.
-++	* elf32-i386.c (elf_i386_relocate_section): Likewise.
-++	* elf32-metag.c (metag_final_link_relocate): Likewise.
-++	* elf32-nds32.c (nds32_elf_get_relocated_section_contents): Likewise.
-++	* elf32-ppc.c (ppc_elf_relocate_section): Likewise.
-++	* elf32-visium.c (visium_elf_relocate_section): Likewise.
-++	* elf64-ppc.c (ppc64_elf_relocate_section): Likewise.
-++	* elf64-x86-64.c *(elf_x86_64_relocate_section): Likewise.
-++	* libbfd-in.h (_bfd_clear_contents): Update prototype.
-++	* libbfd.h: Regenerate.
-++
-+ 2018-09-20  Alan Modra  <amodra@gmail.com>
-+ 
-+ 	PR 23685
-+diff --git a/bfd/cofflink.c b/bfd/cofflink.c
-+index 2f73f72e31..b7ea69b7f9 100644
-+--- a/bfd/cofflink.c
-++++ b/bfd/cofflink.c
-+@@ -3080,7 +3080,7 @@ _bfd_coff_generic_relocate_section (bfd *output_bfd,
-+       if (sec != NULL && discarded_section (sec))
-+ 	{
-+ 	  _bfd_clear_contents (howto, input_bfd, input_section,
-+-			       contents + (rel->r_vaddr - input_section->vma));
-++			       contents, rel->r_vaddr - input_section->vma);
-+ 	  continue;
-+ 	}
-+ 
-+diff --git a/bfd/elf-bfd.h b/bfd/elf-bfd.h
-+index cf256f70e0..3374f411f9 100644
-+--- a/bfd/elf-bfd.h
-++++ b/bfd/elf-bfd.h
-+@@ -2811,7 +2811,7 @@ extern asection _bfd_elf_large_com_section;
-+   {									\
-+     int i_;								\
-+     _bfd_clear_contents (howto, input_bfd, input_section,		\
-+-			 contents + rel[index].r_offset);		\
-++			 contents, rel[index].r_offset);		\
-+ 									\
-+     if (bfd_link_relocatable (info)					\
-+ 	&& (input_section->flags & SEC_DEBUGGING))			\
-+diff --git a/bfd/elf32-arc.c b/bfd/elf32-arc.c
-+index 7a1b3042ae..30f47a5b22 100644
-+--- a/bfd/elf32-arc.c
-++++ b/bfd/elf32-arc.c
-+@@ -1549,7 +1549,7 @@ elf_arc_relocate_section (bfd *			  output_bfd,
-+       if (sec != NULL && discarded_section (sec))
-+ 	{
-+ 	  _bfd_clear_contents (howto, input_bfd, input_section,
-+-			       contents + rel->r_offset);
-++			       contents, rel->r_offset);
-+ 	  rel->r_info = 0;
-+ 	  rel->r_addend = 0;
-+ 
-+diff --git a/bfd/elf32-i386.c b/bfd/elf32-i386.c
-+index 49797dcbfa..177471777d 100644
-+--- a/bfd/elf32-i386.c
-++++ b/bfd/elf32-i386.c
-+@@ -2197,7 +2197,7 @@ elf_i386_relocate_section (bfd *output_bfd,
-+       if (sec != NULL && discarded_section (sec))
-+ 	{
-+ 	  _bfd_clear_contents (howto, input_bfd, input_section,
-+-			       contents + rel->r_offset);
-++			       contents, rel->r_offset);
-+ 	  wrel->r_offset = rel->r_offset;
-+ 	  wrel->r_info = 0;
-+ 	  wrel->r_addend = 0;
-+diff --git a/bfd/elf32-metag.c b/bfd/elf32-metag.c
-+index efe95bddff..7f96246e5d 100644
-+--- a/bfd/elf32-metag.c
-++++ b/bfd/elf32-metag.c
-+@@ -1396,7 +1396,7 @@ metag_final_link_relocate (reloc_howto_type *howto,
-+ 					      rel, relend, howto, contents) \
-+   {									\
-+     _bfd_clear_contents (howto, input_bfd, input_section,		\
-+-			 contents + rel->r_offset);			\
-++			 contents, rel->r_offset);			\
-+ 									\
-+     if (bfd_link_relocatable (info)					\
-+ 	&& (input_section->flags & SEC_DEBUGGING))			\
-+diff --git a/bfd/elf32-nds32.c b/bfd/elf32-nds32.c
-+index 0d86e5b865..184cf320f7 100644
-+--- a/bfd/elf32-nds32.c
-++++ b/bfd/elf32-nds32.c
-+@@ -12582,14 +12582,14 @@ nds32_elf_get_relocated_section_contents (bfd *abfd,
-+ 	  symbol = *(*parent)->sym_ptr_ptr;
-+ 	  if (symbol->section && discarded_section (symbol->section))
-+ 	    {
-+-	      bfd_byte *p;
-++	      bfd_vma off;
-+ 	      static reloc_howto_type none_howto
-+ 		= HOWTO (0, 0, 0, 0, FALSE, 0, complain_overflow_dont, NULL,
-+ 			 "unused", FALSE, 0, 0, FALSE);
-+ 
-+-	      p = data + (*parent)->address * bfd_octets_per_byte (input_bfd);
-+-	      _bfd_clear_contents ((*parent)->howto, input_bfd, input_section,
-+-				   p);
-++	      off = (*parent)->address * bfd_octets_per_byte (input_bfd);
-++	      _bfd_clear_contents ((*parent)->howto, input_bfd,
-++				   input_section, data, off);
-+ 	      (*parent)->sym_ptr_ptr = bfd_abs_section_ptr->symbol_ptr_ptr;
-+ 	      (*parent)->addend = 0;
-+ 	      (*parent)->howto = &none_howto;
-+diff --git a/bfd/elf32-ppc.c b/bfd/elf32-ppc.c
-+index 61f70de12e..c31e26efd7 100644
-+--- a/bfd/elf32-ppc.c
-++++ b/bfd/elf32-ppc.c
-+@@ -8232,7 +8232,7 @@ ppc_elf_relocate_section (bfd *output_bfd,
-+ 	    howto = ppc_elf_howto_table[r_type];
-+ 
-+ 	  _bfd_clear_contents (howto, input_bfd, input_section,
-+-			       contents + rel->r_offset);
-++			       contents, rel->r_offset);
-+ 	  wrel->r_offset = rel->r_offset;
-+ 	  wrel->r_info = 0;
-+ 	  wrel->r_addend = 0;
-+diff --git a/bfd/elf32-visium.c b/bfd/elf32-visium.c
-+index e8f1c4c9e4..961366cd87 100644
-+--- a/bfd/elf32-visium.c
-++++ b/bfd/elf32-visium.c
-+@@ -621,7 +621,7 @@ visium_elf_relocate_section (bfd *output_bfd,
-+ 	     or sections discarded by a linker script, we just want the
-+ 	     section contents zeroed.  Avoid any special processing.  */
-+ 	  _bfd_clear_contents (howto, input_bfd, input_section,
-+-			       contents + rel->r_offset);
-++			       contents, rel->r_offset);
-+ 
-+ 	  rel->r_info = 0;
-+ 	  rel->r_addend = 0;
-+diff --git a/bfd/elf64-ppc.c b/bfd/elf64-ppc.c
-+index eadde17615..7c3534ac65 100644
-+--- a/bfd/elf64-ppc.c
-++++ b/bfd/elf64-ppc.c
-+@@ -14073,7 +14073,7 @@ ppc64_elf_relocate_section (bfd *output_bfd,
-+ 	{
-+ 	  _bfd_clear_contents (ppc64_elf_howto_table[r_type],
-+ 			       input_bfd, input_section,
-+-			       contents + rel->r_offset);
-++			       contents, rel->r_offset);
-+ 	  wrel->r_offset = rel->r_offset;
-+ 	  wrel->r_info = 0;
-+ 	  wrel->r_addend = 0;
-+diff --git a/bfd/elf64-x86-64.c b/bfd/elf64-x86-64.c
-+index c3a6c31ed2..4dcab43478 100644
-+--- a/bfd/elf64-x86-64.c
-++++ b/bfd/elf64-x86-64.c
-+@@ -2490,7 +2490,7 @@ elf_x86_64_relocate_section (bfd *output_bfd,
-+       if (sec != NULL && discarded_section (sec))
-+ 	{
-+ 	  _bfd_clear_contents (howto, input_bfd, input_section,
-+-			       contents + rel->r_offset);
-++			       contents, rel->r_offset);
-+ 	  wrel->r_offset = rel->r_offset;
-+ 	  wrel->r_info = 0;
-+ 	  wrel->r_addend = 0;
-+diff --git a/bfd/libbfd-in.h b/bfd/libbfd-in.h
-+index e53b255dad..f6d9565f03 100644
-+--- a/bfd/libbfd-in.h
-++++ b/bfd/libbfd-in.h
-+@@ -696,8 +696,8 @@ extern bfd_reloc_status_type _bfd_relocate_contents
-+   (reloc_howto_type *, bfd *, bfd_vma, bfd_byte *) ATTRIBUTE_HIDDEN;
-+ 
-+ /* Clear a given location using a given howto.  */
-+-extern void _bfd_clear_contents
-+-  (reloc_howto_type *, bfd *, asection *, bfd_byte *) ATTRIBUTE_HIDDEN;
-++extern bfd_reloc_status_type _bfd_clear_contents
-++  (reloc_howto_type *, bfd *, asection *, bfd_byte *, bfd_vma) ATTRIBUTE_HIDDEN;
-+ 
-+ /* Link stabs in sections in the first pass.  */
-+ 
-+diff --git a/bfd/libbfd.h b/bfd/libbfd.h
-+index a8851c8026..1189e63358 100644
-+--- a/bfd/libbfd.h
-++++ b/bfd/libbfd.h
-+@@ -701,8 +701,8 @@ extern bfd_reloc_status_type _bfd_relocate_contents
-+   (reloc_howto_type *, bfd *, bfd_vma, bfd_byte *) ATTRIBUTE_HIDDEN;
-+ 
-+ /* Clear a given location using a given howto.  */
-+-extern void _bfd_clear_contents
-+-  (reloc_howto_type *, bfd *, asection *, bfd_byte *) ATTRIBUTE_HIDDEN;
-++extern bfd_reloc_status_type _bfd_clear_contents
-++  (reloc_howto_type *, bfd *, asection *, bfd_byte *, bfd_vma) ATTRIBUTE_HIDDEN;
-+ 
-+ /* Link stabs in sections in the first pass.  */
-+ 
-+diff --git a/bfd/reloc.c b/bfd/reloc.c
-+index 8dbb8896d3..1686780669 100644
-+--- a/bfd/reloc.c
-++++ b/bfd/reloc.c
-+@@ -1613,16 +1613,22 @@ _bfd_relocate_contents (reloc_howto_type *howto,
-+    relocations against discarded symbols, to make ignorable debug or unwind
-+    information more obvious.  */
-+ 
-+-void
-++bfd_reloc_status_type
-+ _bfd_clear_contents (reloc_howto_type *howto,
-+ 		     bfd *input_bfd,
-+ 		     asection *input_section,
-+-		     bfd_byte *location)
-++		     bfd_byte *buf,
-++		     bfd_vma off)
-+ {
-+   int size;
-+   bfd_vma x = 0;
-++  bfd_byte *location;
-++
-++  if (!bfd_reloc_offset_in_range (howto, input_bfd, input_section, off))
-++    return bfd_reloc_outofrange;
-+ 
-+   /* Get the value we are going to relocate.  */
-++  location = buf + off;
-+   size = bfd_get_reloc_size (howto);
-+   switch (size)
-+     {
-+@@ -1687,6 +1693,7 @@ _bfd_clear_contents (reloc_howto_type *howto,
-+ #endif
-+       break;
-+     }
-++  return bfd_reloc_ok;
-+ }
-+ 
-+ /*
-+@@ -8275,14 +8282,14 @@ bfd_generic_get_relocated_section_contents (bfd *abfd,
-+ 
-+ 	  if (symbol->section && discarded_section (symbol->section))
-+ 	    {
-+-	      bfd_byte *p;
-++	      bfd_vma off;
-+ 	      static reloc_howto_type none_howto
-+ 		= HOWTO (0, 0, 0, 0, FALSE, 0, complain_overflow_dont, NULL,
-+ 			 "unused", FALSE, 0, 0, FALSE);
-+ 
-+-	      p = data + (*parent)->address * bfd_octets_per_byte (input_bfd);
-+-	      _bfd_clear_contents ((*parent)->howto, input_bfd, input_section,
-+-				   p);
-++	      off = (*parent)->address * bfd_octets_per_byte (input_bfd);
-++	      _bfd_clear_contents ((*parent)->howto, input_bfd,
-++				   input_section, data, off);
-+ 	      (*parent)->sym_ptr_ptr = bfd_abs_section_ptr->symbol_ptr_ptr;
-+ 	      (*parent)->addend = 0;
-+ 	      (*parent)->howto = &none_howto;
-+-- 
-+2.13.3
-+
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-18605.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-18605.patch
-new file mode 100644
-index 0000000000..d6c7067715
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-18605.patch
-@@ -0,0 +1,47 @@
-+From ab419ddbb2cdd17ca83618990f2cacf904ce1d61 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Tue, 23 Oct 2018 18:29:24 +1030
-+Subject: [PATCH] PR23804, buffer overflow in sec_merge_hash_lookup
-+
-+	PR 23804
-+	* merge.c (_bfd_add_merge_section): Don't attempt to merge
-+	sections where size is not a multiple of entsize.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2018-18605
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+---
-+ bfd/ChangeLog | 6 ++++++
-+ bfd/merge.c   | 3 +++
-+ 2 files changed, 9 insertions(+)
-+
-+diff --git a/bfd/ChangeLog b/bfd/ChangeLog
-+index 31ff3d6..da423b1 100644
-+--- a/bfd/ChangeLog
-++++ b/bfd/ChangeLog
-+@@ -1,3 +1,9 @@
-++2018-10-23  Alan Modra  <amodra@gmail.com>
-++
-++	PR 23804
-++	* merge.c (_bfd_add_merge_section): Don't attempt to merge
-++	sections where size is not a multiple of entsize.
-++
-+ 2018-10-13  Alan Modra  <amodra@gmail.com>
-+ 
-+ 	PR 23770
-+diff --git a/bfd/merge.c b/bfd/merge.c
-+index 7904552..5e3bba0 100644
-+--- a/bfd/merge.c
-++++ b/bfd/merge.c
-+@@ -376,6 +376,9 @@ _bfd_add_merge_section (bfd *abfd, void **psinfo, asection *sec,
-+       || sec->entsize == 0)
-+     return TRUE;
-+ 
-++  if (sec->size % sec->entsize != 0)
-++    return TRUE;
-++
-+   if ((sec->flags & SEC_RELOC) != 0)
-+     {
-+       /* We aren't prepared to handle relocations in merged sections.  */
-+-- 
-+2.9.3
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-18606.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-18606.patch
-new file mode 100644
-index 0000000000..35cf328a14
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-18606.patch
-@@ -0,0 +1,70 @@
-+From 45a0eaf77022963d639d6d19871dbab7b79703fc Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Tue, 23 Oct 2018 19:02:06 +1030
-+Subject: [PATCH] PR23806, NULL pointer dereference in merge_strings
-+
-+	PR 23806
-+	* merge.c (_bfd_add_merge_section): Don't attempt to merge
-+	sections with ridiculously large alignments.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2018-18606
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+---
-+ bfd/ChangeLog |  6 ++++++
-+ bfd/merge.c   | 15 +++++++++++----
-+ 2 files changed, 17 insertions(+), 4 deletions(-)
-+
-+diff --git a/bfd/ChangeLog b/bfd/ChangeLog
-+index 1f3fc1c..c5f7ec7 100644
-+--- a/bfd/ChangeLog
-++++ b/bfd/ChangeLog
-+@@ -1,5 +1,11 @@
-+ 2018-10-23  Alan Modra  <amodra@gmail.com>
-+ 
-++	PR 23806
-++	* merge.c (_bfd_add_merge_section): Don't attempt to merge
-++	sections with ridiculously large alignments.
-++
-++2018-10-23  Alan Modra  <amodra@gmail.com>
-++
-+ 	PR 23804
-+ 	* merge.c (_bfd_add_merge_section): Don't attempt to merge
-+ 	sections where size is not a multiple of entsize.
-+diff --git a/bfd/merge.c b/bfd/merge.c
-+index 5e3bba0..7de0c88 100644
-+--- a/bfd/merge.c
-++++ b/bfd/merge.c
-+@@ -24,6 +24,7 @@
-+    as used in ELF SHF_MERGE.  */
-+ 
-+ #include "sysdep.h"
-++#include <limits.h>
-+ #include "bfd.h"
-+ #include "elf-bfd.h"
-+ #include "libbfd.h"
-+@@ -385,12 +386,18 @@ _bfd_add_merge_section (bfd *abfd, void **psinfo, asection *sec,
-+       return TRUE;
-+     }
-+ 
-+-  align = sec->alignment_power;
-+-  if ((sec->entsize < (unsigned) 1 << align
-++#ifndef CHAR_BIT
-++#define CHAR_BIT 8
-++#endif
-++  if (sec->alignment_power >= sizeof (align) * CHAR_BIT)
-++    return TRUE;
-++
-++  align = 1u << sec->alignment_power;
-++  if ((sec->entsize < align
-+        && ((sec->entsize & (sec->entsize - 1))
-+ 	   || !(sec->flags & SEC_STRINGS)))
-+-      || (sec->entsize > (unsigned) 1 << align
-+-	  && (sec->entsize & (((unsigned) 1 << align) - 1))))
-++      || (sec->entsize > align
-++	  && (sec->entsize & (align - 1))))
-+     {
-+       /* Sanity check.  If string character size is smaller than
-+ 	 alignment, then we require character size to be a power
-+-- 
-+2.9.3
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-18607.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-18607.patch
-new file mode 100644
-index 0000000000..38225d171e
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-18607.patch
-@@ -0,0 +1,77 @@
-+From 102def4da826b3d9e169741421e5e67e8731909a Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Tue, 23 Oct 2018 18:30:22 +1030
-+Subject: [PATCH] PR23805, NULL pointer dereference in elf_link_input_bfd
-+
-+	PR 23805
-+	* elflink.c (elf_link_input_bfd): Don't segfault on finding
-+	STT_TLS symbols without any TLS sections.  Instead, change the
-+	symbol type to STT_NOTYPE.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2018-18606
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+---
-+ bfd/ChangeLog |  7 +++++++
-+ bfd/elflink.c | 20 ++++++++++++++------
-+ 2 files changed, 21 insertions(+), 6 deletions(-)
-+
-+diff --git a/bfd/ChangeLog b/bfd/ChangeLog
-+index da423b1..1f3fc1c 100644
-+--- a/bfd/ChangeLog
-++++ b/bfd/ChangeLog
-+@@ -1,5 +1,12 @@
-+ 2018-10-23  Alan Modra  <amodra@gmail.com>
-+ 
-++	PR 23805
-++	* elflink.c (elf_link_input_bfd): Don't segfault on finding
-++	STT_TLS symbols without any TLS sections.  Instead, change the
-++	symbol type to STT_NOTYPE.
-++
-++2018-10-23  Alan Modra  <amodra@gmail.com>
-++
-+ 	PR 23806
-+ 	* merge.c (_bfd_add_merge_section): Don't attempt to merge
-+ 	sections with ridiculously large alignments.
-+diff --git a/bfd/elflink.c b/bfd/elflink.c
-+index c3876cb..87440db 100644
-+--- a/bfd/elflink.c
-++++ b/bfd/elflink.c
-+@@ -10489,8 +10489,11 @@ elf_link_input_bfd (struct elf_final_link_info *flinfo, bfd *input_bfd)
-+ 	  if (ELF_ST_TYPE (osym.st_info) == STT_TLS)
-+ 	    {
-+ 	      /* STT_TLS symbols are relative to PT_TLS segment base.  */
-+-	      BFD_ASSERT (elf_hash_table (flinfo->info)->tls_sec != NULL);
-+-	      osym.st_value -= elf_hash_table (flinfo->info)->tls_sec->vma;
-++	      if (elf_hash_table (flinfo->info)->tls_sec != NULL)
-++		osym.st_value -= elf_hash_table (flinfo->info)->tls_sec->vma;
-++	      else
-++		osym.st_info = ELF_ST_INFO (ELF_ST_BIND (osym.st_info),
-++					    STT_NOTYPE);
-+ 	    }
-+ 	}
-+ 
-+@@ -11046,12 +11049,17 @@ elf_link_input_bfd (struct elf_final_link_info *flinfo, bfd *input_bfd)
-+ 			      sym.st_value += osec->vma;
-+ 			      if (ELF_ST_TYPE (sym.st_info) == STT_TLS)
-+ 				{
-++				  struct elf_link_hash_table *htab
-++				    = elf_hash_table (flinfo->info);
-++
-+ 				  /* STT_TLS symbols are relative to PT_TLS
-+ 				     segment base.  */
-+-				  BFD_ASSERT (elf_hash_table (flinfo->info)
-+-					      ->tls_sec != NULL);
-+-				  sym.st_value -= (elf_hash_table (flinfo->info)
-+-						   ->tls_sec->vma);
-++				  if (htab->tls_sec != NULL)
-++				    sym.st_value -= htab->tls_sec->vma;
-++				  else
-++				    sym.st_info
-++				      = ELF_ST_INFO (ELF_ST_BIND (sym.st_info),
-++						     STT_NOTYPE);
-+ 				}
-+ 			    }
-+ 
-+-- 
-+2.9.3
--- 
-2.17.1
+I've grepped bitbake, openembedded-core and meta-openembedded for --no-
+run-if-empty, and there is only a single instance in the whole code
+base - which is conditionalized so that the option is not passed on
+Darwin. I take from this that --no-run-if-empty is not acceptable in
+OpenEmbedded to ensure portability.
+
+> 
+> I'll send an updated patch with the proposed changes later today.
+> 
+> Kinds regards,
+> Matthias
+> 
 
 
