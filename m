@@ -1,18 +1,24 @@
-Return-Path: <martin@geanix.com>
-Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
-	by mail.openembedded.org (Postfix) with ESMTP id 5942571A88
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 0679479D66
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Nov 2018 08:08:53 +0000 (UTC)
-Received: from zen.localdomain (unknown [85.184.147.232])
-	by mail.hundeboll.net (Postfix) with ESMTPSA id E2FA71C155B;
-	Wed,  7 Nov 2018 09:08:54 +0100 (CET)
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Date: Wed,  7 Nov 2018 09:08:50 +0100
-Message-Id: <20181107080850.2489-1-martin@geanix.com>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
-Subject: [PATCH] openssl-1.1.1: remove build path from version info
+	Wed,  7 Nov 2018 08:43:44 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id wA78hh0t006019
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 7 Nov 2018 09:43:43 +0100
+Received: from dev.vm6.ccp.siemens.com ([163.242.52.58])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id wA78hhBl019845;
+	Wed, 7 Nov 2018 09:43:43 +0100
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 250268F08A5;
+	Wed,  7 Nov 2018 09:43:43 +0100 (CET)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Nov 2018 09:43:05 +0100
+Message-Id: <20181107084305.13375-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] rootfs: ensure that packages in IMAGE_INSTALL_DEBUGFS are existing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,117 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Nov 2018 08:08:54 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 07 Nov 2018 08:43:45 -0000
 
-The openssl build system generates buildinf.h containing the full
-compiler command line used to compile objects. This breaks
-reproducibility, as the compile command is baked into libcrypto, where
-it is used when running `openssl version -f`.
+Ensure that additional packages in IMAGE_INSTALL_DEBUGFS are available
+before installation.
 
-Add stripped build variables for the compiler and cflags lines, and use
-those when generating buildinfo.h.
-
-This is based on a similar patch for older openssl versions:
-https://patchwork.openembedded.org/patch/147229/
-
-Signed-off-by: Martin Hundebøll <martin@geanix.com>
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 ---
- ...sysroot-and-debug-prefix-map-from-co.patch | 70 +++++++++++++++++++
- .../openssl/openssl_1.1.1.bb                  |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
-new file mode 100644
-index 0000000000..80b62ab18c
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
-@@ -0,0 +1,70 @@
-+From 3e1d00481093e10775eaf69d619c45b32a4aa7dc Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
-+Date: Tue, 6 Nov 2018 14:50:47 +0100
-+Subject: [PATCH] buildinfo: strip sysroot and debug-prefix-map from compiler
-+ info
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The openssl build system generates buildinf.h containing the full
-+compiler command line used to compile objects. This breaks
-+reproducibility, as the compile command is baked into libcrypto, where
-+it is used when running `openssl version -f`.
-+
-+Add stripped build variables for the compiler and cflags lines, and use
-+those when generating buildinfo.h.
-+
-+This is based on a similar patch for older openssl versions:
-+https://patchwork.openembedded.org/patch/147229/
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Martin Hundebøll <martin@geanix.com>
-+---
-+ Configurations/unix-Makefile.tmpl | 10 +++++++++-
-+ crypto/build.info                 |  2 +-
-+ 2 files changed, 10 insertions(+), 2 deletions(-)
-+
-+diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makefile.tmpl
-+index 16af4d2087..54c162784c 100644
-+--- a/Configurations/unix-Makefile.tmpl
-++++ b/Configurations/unix-Makefile.tmpl
-+@@ -317,13 +317,21 @@ BIN_LDFLAGS={- join(' ', $target{bin_lflags} || (),
-+                          '$(CNF_LDFLAGS)', '$(LDFLAGS)') -}
-+ BIN_EX_LIBS=$(CNF_EX_LIBS) $(EX_LIBS)
-+ 
-+-# CPPFLAGS_Q is used for one thing only: to build up buildinf.h
-++# *_Q variables are used for one thing only: to build up buildinf.h
-+ CPPFLAGS_Q={- $cppflags1 =~ s|([\\"])|\\$1|g;
-+               $cppflags2 =~ s|([\\"])|\\$1|g;
-+               $lib_cppflags =~ s|([\\"])|\\$1|g;
-+               join(' ', $lib_cppflags || (), $cppflags2 || (),
-+                         $cppflags1 || ()) -}
-+ 
-++CFLAGS_Q={- for (@{$config{CFLAGS}}) {
-++              s|-fdebug-prefix-map=[^ ]+|-fdebug-prefix-map=|g;
-++            }
-++            join(' ', @{$config{CFLAGS}}) -}
-++
-++CC_Q={- $config{CC} =~ s|--sysroot=[^ ]+|--sysroot=recipe-sysroot|g;
-++        join(' ', $config{CC}) -}
-++
-+ PERLASM_SCHEME= {- $target{perlasm_scheme} -}
-+ 
-+ # For x86 assembler: Set PROCESSOR to 386 if you want to support
-+diff --git a/crypto/build.info b/crypto/build.info
-+index b515b7318e..8c9cee2a09 100644
-+--- a/crypto/build.info
-++++ b/crypto/build.info
-+@@ -10,7 +10,7 @@ EXTRA=  ../ms/uplink-x86.pl ../ms/uplink.c ../ms/applink.c \
-+         ppccpuid.pl pariscid.pl alphacpuid.pl arm64cpuid.pl armv4cpuid.pl
-+ 
-+ DEPEND[cversion.o]=buildinf.h
-+-GENERATE[buildinf.h]=../util/mkbuildinf.pl "$(CC) $(LIB_CFLAGS) $(CPPFLAGS_Q)" "$(PLATFORM)"
-++GENERATE[buildinf.h]=../util/mkbuildinf.pl "$(CC_Q) $(CFLAGS_Q) $(CPPFLAGS_Q)" "$(PLATFORM)"
-+ DEPEND[buildinf.h]=../configdata.pm
-+ 
-+ GENERATE[uplink-x86.s]=../ms/uplink-x86.pl $(PERLASM_SCHEME)
-+-- 
-+2.19.1
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-index af9038abd5..93750c3afb 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-@@ -15,6 +15,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://run-ptest \
-            file://openssl-c_rehash.sh \
-            file://0001-skip-test_symbol_presence.patch \
-+           file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            "
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 452b1ad391..ecb903ee37 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -24,7 +24,7 @@ POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_sysroot_relativelinks; "
+ LICENSE ?= "MIT"
+ PACKAGES = ""
+ DEPENDS += "${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross depmodwrapper-cross cross-localedef-native"
+-RDEPENDS += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
++RDEPENDS += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL} ${IMAGE_INSTALL_DEBUGFS}"
+ RRECOMMENDS += "${PACKAGE_INSTALL_ATTEMPTONLY}"
+ PATH_prepend = "${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
  
- SRC_URI_append_class-nativesdk = " \
 -- 
-2.19.1
+2.11.0
 
 
