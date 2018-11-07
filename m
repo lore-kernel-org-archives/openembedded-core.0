@@ -1,49 +1,49 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A6A53744AE
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 56D0C79E16
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Nov 2018 13:25:15 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id x2-v6so13407530eds.3
+	Wed,  7 Nov 2018 13:32:34 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id u13-v6so7714428pfm.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Nov 2018 05:25:17 -0800 (PST)
+	Wed, 07 Nov 2018 05:32:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=qbKfJ85KLAuFe6BcbTgS+o5qucwCnevuBUK+Adb41Vk=;
-	b=qP75h7kEoTQ+Xbx74p6tJk9wo87Qn6OzujPOd1AB6OQ5lRySQ/lA83zZ8MR56UCgSr
-	R0cYn1GcHpQ3oYDn8vlDxiKMTpxlc+lI+PGxv3JG/1IIKzNUfbRqxgBXrwJx4dgN1p0M
-	ricEWFQ2A5e8aSsvjy39Z4XZI0yzAWVeYCqF/f4cDuwkYOnemcmuBUHKg1pVGWyoN9rr
-	JJXhARny2ITgGLnf6UdSd2AUqDEyJi+NI5y907dW2U31ISKZ8lTKNWhzUzRL85ovN5BI
-	Yi5FY/a8wmOn116Ui8vfbk9LF+8XZpvkl2fjDVwwEyY/oEbL7IKwC4q37dXzU7bmOPsK
-	Cjiw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Gj74/PSz85Nqx90fZt9CGsp6/K2wGllO6E+vNVVevkc=;
+	b=kYrWxofE6mGGdUnwsnEhn6e4xNX7uYl+vdoemSsCxjqsc0K5DEHiZLWXkgvIGDjub0
+	D5J7mj84FGAonKliX65KuJSoq2O2PdC1r6s1RGcc1e7uPuemNzJoKJTBCSYn73xRC3vq
+	SbMBbjrmqNaWPHRnpmUM1I2//d1rNOUCx/5yHeZac84C6+870knccxU7Fv+KKJTPPKDB
+	uiQKK9hMmEQ0RuQUL0ZteTFDS+MYBUKfBf/tTFabrFbBPsSIOeHZ+PcRcwALNLRvLAfX
+	oSIMr3Lm9Q4H6MXtCQLQXYj33N/m9WOsZdD9+d2zmaJdKHWIIk/LetQUc+NIu496K2hr
+	mjRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=qbKfJ85KLAuFe6BcbTgS+o5qucwCnevuBUK+Adb41Vk=;
-	b=dzoCF/cmFBNmCCCLMGdb4pmJOhMTPgLtF/3ApmTf596WzpsHoSzDtVdwNAw8cQ0Y/Z
-	Sf/cfkbGtmda0be4ynkVa9AizV5QmlhfYPER8VXNyfkz7mCS2Wd6pLkL+/ltx9qp4/dZ
-	F5fLwjIBWICjN9umVPDOAynHOcRu3fU7e0oGpzRv01yAONDJXc4Svyd/apIVPzMBNj0p
-	hPVNTHchtRGlynL9mojTIORVZyGq65lzTUs1s+fEu7y3PFr7i+gItoxTCKdR3Cpdtl7L
-	ouYnND2pl0QsqMUl3snwwXOfHZ11QwPfUZrDCtrhp/xxVl9yVOtucROBy2oSV394Ti/R
-	kKkQ==
-X-Gm-Message-State: AGRZ1gLg9ZRxWeoHGYZD30Ya8FiXKLcKErK+7O79JTBZ+xBgaXXKmF5V
-	bMRx475UJd2lhcbKRY7hEIBoSMx9
-X-Google-Smtp-Source: AJdET5cSs4Ephd+J1F+GPkFGMcpWKRTrE+IGm5jZZaKZCAweCorjBZ49Nw8WnGmI95EcLuCYuLSfXg==
-X-Received: by 2002:a50:b282:: with SMTP id p2-v6mr157635edd.199.1541597116093;
-	Wed, 07 Nov 2018 05:25:16 -0800 (PST)
-Received: from linuxdev2.toradex.int ([46.140.72.82])
-	by smtp.gmail.com with ESMTPSA id
-	b18-v6sm139820eju.38.2018.11.07.05.25.15
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 07 Nov 2018 05:25:15 -0800 (PST)
-From: Max Krummenacher <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Nov 2018 14:24:06 +0100
-Message-Id: <20181107132406.61577-1-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 2.13.6
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [rocko][sumo][PATCH 1/1] mobile-broadband-provider: fix SRC_URI
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Gj74/PSz85Nqx90fZt9CGsp6/K2wGllO6E+vNVVevkc=;
+	b=LioAIvY1vQ7H5N6K2zaf+OaakPz30oTyZ+OjZNk0rOuoTY4PwUfYBFDjSgAr15sICP
+	80ENxfoIL8glyAFxSuHpfaN+6HVe9Eg+c96uBKLivukh5vqDj+my/RQLIUa08V+im6I/
+	bg2wzLWWWgElqpBAJ00wuyVpPdseRwexkF1oWOiEWU6nB3G9Rlt82fQAUDYJtVMLyBIW
+	oQmedlODRL2YX4QnTr6s6vJzNxJtQ3qwpSaqj7jOQRjPlV+YcVZ7xHsYyodAJ2BazRqP
+	Xslqq2vmEVGmVs9s4uOtS6Icgr/QmQUg28/7Ik2r98qfjts/4kPMEUe5kxCy7NgUFML4
+	KrFw==
+X-Gm-Message-State: AGRZ1gLFRl0/giLGpYccWTDG7cyxPq4yVxEJH+SGYKAnhv9oyZ7+kWLt
+	0BlKOcAH1SAuPZl6Pnyt85Viyimn/0VuBGzvW9U=
+X-Google-Smtp-Source: AJdET5eOz0hTx9aOTFQXuJB48EJA5BWbzqgcH3d2rVWmXATQnp9HUvY9r0za8ZPzUE3cHJSqks3DPfYF3GLGmjFoS/M=
+X-Received: by 2002:a62:5b43:: with SMTP id
+	p64-v6mr254987pfb.122.1541597555567; 
+	Wed, 07 Nov 2018 05:32:35 -0800 (PST)
+MIME-Version: 1.0
+References: <20181107121602.13768-1-nathan@nathanrossi.com>
+	<20181107121602.13768-2-nathan@nathanrossi.com>
+In-Reply-To: <20181107121602.13768-2-nathan@nathanrossi.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Wed, 7 Nov 2018 14:32:22 +0100
+Message-ID: <CAAQYJAurMNXOeAh5Px8a5NqUBzc4PdcfL1KpfqUESjzdwO0gvw@mail.gmail.com>
+To: nathan@nathanrossi.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] kernel-initramfs.bbclass: Handle built-in /dev/console dependence
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +56,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Nov 2018 13:25:15 -0000
+X-List-Received-Date: Wed, 07 Nov 2018 13:32:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Anuj Mittal <anuj.mittal@intel.com>
+On Wed, Nov 7, 2018 at 1:16 PM Nathan Rossi <nathan@nathanrossi.com> wrote:
+>
+> The kernel has two differing code paths when handling a built-in cpio
+> versus a cpio passed to the kernel from a boot loader. When the kernel
+> is booted with the built-in cpio it expects the /dev/console node to
+> exist and will panic if it does not exist.
+>
+>   Kernel panic - not syncing: /dev/console is missing or not a character device!
+>
+> When the cpio is passed to the kernel via a bootloader, this behaviour
+> is not observed.
+>
 
-Fixes build for older versions of git which don't follow redirects
-properly if the .git suffix is missing.
+Well, of course once booted you have devtmpfs or you have provided
+your devices-list.
+We fight since long with this early issues and I think this approach
+is wrong: there are more things needed, not only /dev/consoleI'd say
+the responsability to check for devtmpfs or recreate the devices is up
+to init manager of the image.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit 77c353cc9bdfbf1b6453b2579b72726db05eb69c)
-[Fixup for rocko/sumo context]
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
----
- .../mobile-broadband-provider-info_git.bb                              | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+We don't use busybox, just a single binary running as init: kexecboot
+will exactly do that, check and recreate devices if missing:
+http://cgit.openembedded.org/meta-openembedded/tree/meta-initramfs/recipes-bsp/kexecboot/kexecboot_git.bb
 
-The inital patch 8382cdc088 changing the gnome git repo URL was
-backparted to rocko and sumo, however the follow up patch was not.
+Please don't inject anything in the cpio, let the image-engineer decide.
 
-This provides the backport of 77c353cc9b.
+This poor image is regularly attacked by new changes filling the cpio
+with undesidered stuff:
+http://cgit.openembedded.org/meta-openembedded/tree/meta-initramfs/recipes-bsp/images/initramfs-kexecboot-image.bb
 
-Max
+Maybe we are on the corner-case, size-contraints limit us to be within
+1MiB, neverthless I think it is a good exercise to keep things small
+and clean ;)
 
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-index 57f521a6c4..b595d5700c 100644
---- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-@@ -7,8 +7,7 @@ SRCREV = "befcbbc9867e742ac16415660b0b7521218a530c"
- PV = "20170310"
- PE = "1"
- 
--SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info;protocol=https"
--
-+SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https"
- S = "${WORKDIR}/git"
- 
- inherit autotools
--- 
-2.13.6
+As for the previous patch touching initramfs, I hold my comments for
+the moment: let me first test it.
+Cheers
 
+Andrea
+
+> To resolve this issue, ensure any cpio that is built into the kernel is
+> prepared with a /dev/console node. This is done by appending to the
+> copied cpio of the INITRAMFS_IMAGE. In order to create the node to
+> append, the task must be executed with root permission (to run mknod).
+> As such this change creates and intermediate _prepare task between the
+> existing _bundle and _copy tasks.
+>
+> Note: The default/minimal initramfs that the kernel sources
+> gen_initramfs_list.sh generates contains this device node.
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/usr/gen_initramfs_list.sh?h=master#n55
+>
+> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> ---
+>  meta/classes/kernel-initramfs.bbclass | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel-initramfs.bbclass b/meta/classes/kernel-initramfs.bbclass
+> index b23fb51495..135f4c8949 100644
+> --- a/meta/classes/kernel-initramfs.bbclass
+> +++ b/meta/classes/kernel-initramfs.bbclass
+> @@ -16,7 +16,8 @@ python __anonymous () {
+>      if image and bundle:
+>          # add all the tasks
+>          bb.build.addtask('do_initramfs_copy', 'do_initramfs_bundle', 'do_install', d)
+> -        bb.build.addtask('do_initramfs_bundle', 'do_deploy', 'do_initramfs_copy', d)
+> +        bb.build.addtask('do_initramfs_prepare', 'do_initramfs_bundle', 'do_initramfs_copy', d)
+> +        bb.build.addtask('do_initramfs_bundle', 'do_deploy', 'do_initramfs_prepare', d)
+>
+>          # make the do_initramfs_copy task depend on the image do_image_complete task
+>          d.appendVarFlag('do_initramfs_copy', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+> @@ -67,6 +68,18 @@ do_initramfs_copy () {
+>      echo "Finished copy of initramfs into ./usr"
+>  }
+>
+> +do_initramfs_prepare[dirs] = "${B}"
+> +fakeroot do_initramfs_prepare () {
+> +    echo "Preparing initramfs by creating required /dev/ nodes"
+> +    # append a /dev/console node, this node must be created in the rootfs
+> +    # for built-in initramfs cpios otherwise it will error with:
+> +    #   Kernel panic - not syncing: /dev/console is missing or not a character device!
+> +    rm -rf ${B}/usr/append
+> +    mkdir -p ${B}/usr/append/dev
+> +    mknod -m 600 ${B}/usr/append/dev/console c 5 1
+> +    (cd  ${B}/usr/append && echo "./dev/console" | cpio -oA -H newc -F ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio)
+> +}
+> +
+>  do_initramfs_bundle[dirs] = "${B}"
+>  do_initramfs_bundle () {
+>      echo "Creating a kernel image with a bundled initramfs..."
+> ---
+> 2.19.1
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
