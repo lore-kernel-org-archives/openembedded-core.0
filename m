@@ -1,26 +1,23 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A55279DBB
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 29F9B79450
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Nov 2018 03:34:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA73Y3U8015679
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Nov 2018 19:34:13 -0800
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 6 Nov 2018 19:33:52 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Nov 2018 22:33:44 -0500
-Message-ID: <71be7345f814e8c6f09650baa7ca0b4536133b81.1541560699.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.19.0.rc2
-In-Reply-To: <cover.1541560699.git.kai.kang@windriver.com>
-References: <cover.1541560699.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] glide: disable ptest on mips
+	Wed,  7 Nov 2018 07:23:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Nov 2018 23:23:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,474,1534834800"; d="scan'208";a="84591497"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga008.fm.intel.com with ESMTP; 06 Nov 2018 23:23:39 -0800
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Nov 2018 15:08:31 +0800
+Message-Id: <1541574511-65605-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] oeqa/selftest: Standardize json logging output directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Nov 2018 03:34:22 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Nov 2018 07:23:39 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+Currently sdk & sdkext will output json file to LOG_DIR, while
+selftest will output json file to TOPDIR/log.
 
-It fails to run task compile_ptest_base of glide on mips:
+Standardize selftest json output file to LOG_DIR.
 
-| vet config not found
-
-The root cause is that go lang lacks '-buildmode=pie' support for mips.
-So disable glide ptest on mips for now.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/recipes-devtools/glide/glide_0.13.2.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/lib/oeqa/selftest/context.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/glide/glide_0.13.2.bb b/meta/recipes-devtools/glide/glide_0.13.2.bb
-index 3a32fa1af1..feb653c12e 100644
---- a/meta/recipes-devtools/glide/glide_0.13.2.bb
-+++ b/meta/recipes-devtools/glide/glide_0.13.2.bb
-@@ -33,3 +33,7 @@ INSANE_SKIP_${PN} += "textrel"
- # ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/action/action.test' has relocations in .text
- # ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/cache/cache.test' has relocations in .text [textrel]
- INSANE_SKIP_${PN}-ptest += "textrel"
-+
-+# fails to run task compile_ptest_base on mips
-+PTEST_ENABLED_mips = "0"
-+PTEST_ENABLED_mips64 = "0"
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index 11d5877..302ff73 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -205,7 +205,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+         runCmd("bitbake -e")
+ 
+     def get_json_result_dir(self, args):
+-        json_result_dir = os.path.join(os.path.dirname(os.path.abspath(args.output_log)), 'log', 'oeqa')
++        json_result_dir = os.path.join(self.tc.td["LOG_DIR"], 'oeqa')
+         if "OEQA_JSON_RESULT_DIR" in self.tc.td:
+             json_result_dir = self.tc.td["OEQA_JSON_RESULT_DIR"]
+ 
 -- 
-2.19.0.rc2
+2.7.4
 
 
