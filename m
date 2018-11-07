@@ -1,47 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A43A478F72
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A927A7553F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Nov 2018 16:56:41 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id e11so20420118itl.5
+	Wed,  7 Nov 2018 18:00:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA7HxYIE005527
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Nov 2018 08:56:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=F+vMvljrt7ECIzRsu69aAnz6E3d46J6CBLZt4EbsVqg=;
-	b=iEOUCXjlDPDOExXRGiTsn2BTRWGLP/W5qtB2/uFE2TVRd7A8UGezUcjfLEwRpOcJ03
-	4c5W2IUeyInHoyU4FbqOFR3pzAlHudtT8zxDTGF0A1/42lb+qTc4z/QNnplx442UECFf
-	6yIK4QghLg6nOgeZk0BXxi7PWCUKwVv+2dVSQco3Ye6voDg9r+mTlNRz9wRuYKXTqapz
-	JvI2x0XcwfzY7gLlPe4DAJ9Kj4DxcrQWemUD/7mq9WyV+A9rBUmPp9W75gKB29no8CRc
-	PHW/ztyOyGdfZxWdhg4TMInv95USq1NhhIBuTnKGODtZ3WTc7+6Yn3ebRzbMIP9Fu38u
-	/NqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=F+vMvljrt7ECIzRsu69aAnz6E3d46J6CBLZt4EbsVqg=;
-	b=q83zJo8PtbUuNE6HRQhajir783h5akzOVruMAguRdhZhG8B+PRWYZD1vVEqpbLhteB
-	+Joz3RGmCcww8i1SahYz/qextbicEdIJEC3JgwIJoOZyAR6GBrGkaF0hwHBdPGBtbTFy
-	Veh/UjNPsDyYaoka4Q5vyZrJe++zmIX+aESgS4vSDy97q6hdpg2wbeRaZEbJNBFmlaa3
-	MRB+R7XxyEOaMQqKyfVa7yhHbF2aoSTMJ0Ua45aMxGhE/BUckhwh94Zrvub6zYVIu+9z
-	2a2iT1mfAu1Yb2RqBUqto6YGKgycwOVZucJNVnpmLcNp3xpnzO8AD1GoXjZY2Gsi/2H7
-	x0ng==
-X-Gm-Message-State: AGRZ1gIpMOxAoraVSFq55fY858ycRRoRK7cZb/zdwGegBKdIL5uip8Yr
-	4zhokZwYjEAQWORDo3rAKF0l50CxD8m7TlaxeSudiPlViD0=
-X-Google-Smtp-Source: AJdET5cneVD8ptsVVQydUeIV0SmN2HKdSWWFk06+YEtgCFT8Ja7XmX9+xzADVDYW49wnqmGbcq1fiJg7k4G9MdZ1FX4=
-X-Received: by 2002:a24:1d8e:: with SMTP id 136-v6mr843174itj.62.1541609802664;
-	Wed, 07 Nov 2018 08:56:42 -0800 (PST)
+	Wed, 7 Nov 2018 09:59:44 -0800
+Received: from fidler.wrs.com (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 7 Nov 2018 09:59:23 -0800
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 7 Nov 2018 12:59:22 -0500
+Message-ID: <20181107175922.6631-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.17.0
 MIME-Version: 1.0
-References: <20181107155601.32065-1-deuteros76@gmail.com>
-In-Reply-To: <20181107155601.32065-1-deuteros76@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 7 Nov 2018 16:56:30 +0000
-Message-ID: <CAJTo0LYJBwTfxdvG1gxj9skCts9LsY-wUk_z0k0euJns=XLa9g@mail.gmail.com>
-To: deuteros76@gmail.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Fix header files to compile libgpg-error-native on ppc64le Power8 build machine
+Subject: [PATCH] valgrind: drop mips n32 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Nov 2018 16:56:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 07 Nov 2018 18:00:13 -0000
+Content-Type: text/plain
 
-The identical patch by Serhey Popovych is queued for master right now.
+valgrind for qemumips64 multilib builds fails to configure
+for libn32 with the error:
+   configure:6190: checking for 32 bit build support
+   ...
+   fatal error: bits/long-double-32.h: No such file or directory
+It seems that the toolchain is producing:
+   tmp-glibc/sysroots-components/mips64-n32/libn32-glibc/usr/include/bits/long-double-n32.h
 
-Ross
-On Wed, 7 Nov 2018 at 15:57, Guillermo Amat <deuteros76@gmail.com> wrote:
->
-> Using a ppc64le build machine the following error occurs when compiling libjpg-error-native
->
-> cp: cannot stat '/home/ubuntu/Yocto/build-ppc64/tmp/work/ppc64le-linux/libgpg-error-native/1.32-r0/libgpg-error-1.32/src/syscfg/lock-obj-pub.ppc64le-unknown-linux-gnu.h': No such file or directory
-> ---
->  meta/recipes-support/libgpg-error/libgpg-error_1.32.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-> index 4f3e3d8..1a8c1dc 100644
-> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-> @@ -48,6 +48,8 @@ do_compile_prepend() {
->           mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
->           mips*)      TUPLE=mips-unknown-linux-gnu ;;
->           x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
-> +          ppc64le) TUPLE=powerpc64le-unknown-linux-gnu ;;
-> +          ppc64) TUPLE=powerpc64-unknown-linux-gnu ;;
->           *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
->         esac
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Until the toolchain problem is resolved, skip valgrind for libn32.
+
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+---
+ .../packagegroups/packagegroup-core-tools-profile.bb             | 1 +
+ meta/recipes-devtools/valgrind/valgrind_3.14.0.bb                | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 4ec1f9284f..33d9c09a66 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -63,6 +63,7 @@ VALGRIND_armeb = ""
+ VALGRIND_aarch64 = ""
+ VALGRIND_riscv64 = ""
+ VALGRIND_linux-gnux32 = ""
++VALGRIND_linux-gnun32 = ""
+ 
+ RDEPENDS_${PN} = "\
+     ${PROFILETOOLS} \
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
+index 7f0a93f6f8..97e58a446a 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
+@@ -54,6 +54,7 @@ COMPATIBLE_HOST_linux-muslx32 = 'null'
+ 
+ # Disable for some MIPS variants
+ COMPATIBLE_HOST_mipsarchr6 = 'null'
++COMPATIBLE_HOST_linux-gnun32 = 'null'
+ 
+ inherit autotools ptest multilib_header
+ 
+-- 
+2.17.0
+
 
