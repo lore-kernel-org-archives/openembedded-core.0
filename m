@@ -1,49 +1,50 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 84A1E79D87
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A6C879D9A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Nov 2018 08:47:12 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id s9-v6so70164pfm.13
+	Wed,  7 Nov 2018 08:52:01 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id z10so5188264pgp.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Nov 2018 00:47:13 -0800 (PST)
+	Wed, 07 Nov 2018 00:52:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:from:to:cc:subject:content-transfer-encoding
-	:mime-version; bh=jgl/MosvSLffut8DmOB1XkqRoMxbVF9AKqxVJNfV6CM=;
-	b=gmj9KZfm/wgGxznKrq5MQ/05W5D+5Df/I+w3eR7PQ98zUg8re1xaLgflH4Q6xdU9ji
-	uPZIE2p3WTSNOhSpNf7aIOdE4fDyxAYWpmdhUCJvSKaJG+r4LWt2FWNoWBqN7eaS1WU3
-	Np/qHrdbzmnLr4stdcJlHzU8gUWEnD5wO630RPXTmwIR1QwxvwZ0ims/RosQ+Pv0k06+
-	8hA5dWh+xSCU15hGBs9aVK3pt0T1xXzdAhCFvyfiGYfuogdEJtdMtPxWkgSN5tdiDlo3
-	35kijwwxNCamOura1FqQag3CVFJuWmRwurPuV4ji6RhpKR73NiEqI3M8etF1OjwYmsEK
-	YcNw==
+	:mime-version; bh=CE3s4rWsBN+uj3Ksp3IZ2SbwswwpXoLxq8xt8nP8KMc=;
+	b=PAPsiv9jmjVjYCxzElvBaubsWCXix8yaYXGCRJxufOwV+QWEL1IT/6Gnz76+1UW8da
+	YnNRK9q39IRReuDTMpRgUrSIS2EGu7KoSDm8NPUMS376kqAA3CEE+FLSX8Oy30IrxjiR
+	7f0RsXneqdok/oyTGmkZYwIc1Ux7EHErA9x/41xztIYGqjGS2bI1VRkA7GF//t0gfugV
+	axfcKYD50OjFTi0+BGbVUA72GUn/8lbXlKx5cN6o0ZWX/2NZn5culCFpshEHy8A9u0CD
+	XIRN6GlO9p7K08TKeUyyC5d160JAP/Xm/MetpiVLV4e9GIkJ8N0IvEEeVznOT1tcSoXs
+	ax1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=jgl/MosvSLffut8DmOB1XkqRoMxbVF9AKqxVJNfV6CM=;
-	b=twq/Cfhf6F+v5zWldKEZHYEPcjhN0Zm/qO6/xj4Z9irEYs0zaa9nMzVUkf2YuwkIuh
-	RzWeOfkKS46yhwV2xXDPE2lSidHrkUTBUZaLKij9tjjQSMW4XITidgWGmd4f4CQVzYMX
-	69ebZa88ERIgKykIiKUsrj2ZYBC/qILFW7KM4UU/d6sA68AsYtSy3enA1pFgOoZkDST2
-	puQamFcwbfUbBH512GKLlSmtzW3/UPs1/DaIfdxwwnz7PcVV0AaRTIHybgbnH0BL8EDF
-	QtOzX3zj0XTCk7cTescZHXAuqzyK5tt1VGUR+r2wOmoq+kh7NpwInQl6y/+kq8rItf3a
-	e2eQ==
-X-Gm-Message-State: AGRZ1gLf5S6qIzEfc2oFouuNVDVErEBu9kOOM/J+co1XThI8SgOQsNjm
-	oHOdwLf7iyZcdaXEzXS8ploiAQ==
-X-Google-Smtp-Source: AJdET5fCdP9BdGvRB9iXDpZjYIeNxBlv/16bBN+q33Nm7Csk6f1c9chns/eLMwZwXa1SlVQMmvN0pA==
-X-Received: by 2002:a63:6445:: with SMTP id y66mr889489pgb.250.1541580433547; 
-	Wed, 07 Nov 2018 00:47:13 -0800 (PST)
+	bh=CE3s4rWsBN+uj3Ksp3IZ2SbwswwpXoLxq8xt8nP8KMc=;
+	b=PubRrN8QU1/PQDgaNOYvgtTByjTVtIv90Gp2c2O4K3m+Fku9LRiLbN38mPvysCGFAy
+	zv3v9wF77zzVZxnhZQ4N3zYLTyjGqcAPchPqhEeQcQo2vZRN6NkvlK/OjQUs+JcRlZFG
+	Oi2A2Hx4vtnI/ohkAahbOPxqXv47vUgNfVoP8cVCNnNvFIp/bptfzu60Bq9x0w8Rtdpk
+	GNuxwCRAewPMCY77VCw4Q5K/8gu+rL9KOyTEo4UaYQqLHh7k3LCFIsaQ8/bOYJnVDJ5u
+	ivk5qY10ykVS9QaZi28qvH/9l0pUpfC9gZwlIMYHGMnT12vka2eQc+mpmSHOsbspm/xT
+	FTUA==
+X-Gm-Message-State: AGRZ1gLIPfXd8Gv2NS2P4QOCoOi2SZIHxcgpU80kKHQ/3nbU+MJSae/e
+	/RssOZllwbWiws/VrV18FIszX974hMU=
+X-Google-Smtp-Source: AJdET5fcjc9ra0oNy2jaemiEKKo4fi0O4LUUIjKCoHrZkkfmwzc24JHAmtgIRjRAeWozLoa+3fnoFQ==
+X-Received: by 2002:a62:5146:: with SMTP id
+	f67-v6mr1036783pfb.238.1541580722225; 
+	Wed, 07 Nov 2018 00:52:02 -0800 (PST)
 Received: from [127.0.1.1] ([101.184.120.183])
 	by smtp.gmail.com with UTF8SMTPSA id
-	86-v6sm52437830pft.184.2018.11.07.00.47.11
+	i14-v6sm26104824pfo.121.2018.11.07.00.52.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 07 Nov 2018 00:47:13 -0800 (PST)
-Date: Wed, 07 Nov 2018 08:47:01 +0000
-Message-Id: <20181107084701.5939-1-nathan@nathanrossi.com>
+	Wed, 07 Nov 2018 00:52:01 -0800 (PST)
+Date: Wed, 07 Nov 2018 08:51:56 +0000
+Message-Id: <20181107085156.6424-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH] ghostscript: Define COMPATIBLE_HOST with supported platforms
+Subject: [PATCH] base.bbclass: Display name of licenses which caused SkipRecipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +57,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Nov 2018 08:47:12 -0000
+X-List-Received-Date: Wed, 07 Nov 2018 08:52:01 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Setup the COMPATIBLE_HOST variable with all supported hosts based on the
-provided objarch.h files. This inverts the existing pattern where
-unsupported hosts (e.g. 'arc.*') are explicitly set.
-
-This suppresses the warning message generated on hosts that are not
-supported but were not listed explicitly.
-
-  WARNING: .../ghostscript_9.25.bb: Unable to get checksum for
-  ghostscript SRC_URI entry objarch.h: file could not be found
+Display the name of the restricted licenses which caused the recipe to
+be skipped. This makes it easy to determine which license or licenses
+are missing and need to be checked and whitelisted.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-extended/ghostscript/ghostscript_9.25.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/classes/base.bbclass    | 15 +++++++++------
+ meta/classes/license.bbclass | 19 ++++++++++---------
+ 2 files changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.25.bb b/meta/recipes-extended/ghostscript/ghostscript_9.25.bb
-index 35eaaeb2fa..8b69170458 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.25.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.25.bb
-@@ -121,5 +121,4 @@ do_install_class-native () {
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index df11c8b270..1eae47d170 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -459,12 +459,15 @@ python () {
  
- BBCLASSEXTEND = "native"
+     if bb.data.inherits_class('license', d):
+         check_license_format(d)
+-        unmatched_license_flag = check_license_flags(d)
+-        if unmatched_license_flag:
+-            bb.debug(1, "Skipping %s because it has a restricted license not"
+-                 " whitelisted in LICENSE_FLAGS_WHITELIST" % pn)
+-            raise bb.parse.SkipRecipe("because it has a restricted license not"
+-                 " whitelisted in LICENSE_FLAGS_WHITELIST")
++        unmatched_license_flags = check_license_flags(d)
++        if unmatched_license_flags:
++            if len(unmatched_license_flags) == 1:
++                message = "because it has a restricted license '{0}'. Which is not whitelisted in LICENSE_FLAGS_WHITELIST".format(unmatched_license_flags[0])
++            else:
++                message = "because it has restricted licenses {0}. Which are not whitelisted in LICENSE_FLAGS_WHITELIST".format(
++                    ", ".join("'{0}'".format(f) for f in unmatched_license_flags))
++            bb.debug(1, "Skipping %s %s" % (pn, message))
++            raise bb.parse.SkipRecipe(message)
  
--# ghostscript does not supports "arc"
--COMPATIBLE_HOST = "^(?!arc).*"
-+COMPATIBLE_HOST = "(aarch64|arm|i586|i686|microblaze|mipsarch|nios2|powerpc|x86-64).*"
+     # If we're building a target package we need to use fakeroot (pseudo)
+     # in order to capture permissions, owners, groups and special files
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 4cf7f074fc..0e5675c500 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -316,8 +316,8 @@ def check_license_flags(d):
+     This function checks if a recipe has any LICENSE_FLAGS that
+     aren't whitelisted.
+ 
+-    If it does, it returns the first LICENSE_FLAGS item missing from the
+-    whitelist, or all of the LICENSE_FLAGS if there is no whitelist.
++    If it does, it returns the all LICENSE_FLAGS missing from the whitelist, or
++    all of the LICENSE_FLAGS if there is no whitelist.
+ 
+     If everything is is properly whitelisted, it returns None.
+     """
+@@ -354,22 +354,23 @@ def check_license_flags(d):
+         return False
+ 
+     def all_license_flags_match(license_flags, whitelist):
+-        """ Return first unmatched flag, None if all flags match """
++        """ Return all unmatched flags, None if all flags match """
+         pn = d.getVar('PN')
+         split_whitelist = whitelist.split()
++        flags = []
+         for flag in license_flags.split():
+             if not license_flag_matches(flag, split_whitelist, pn):
+-                return flag
+-        return None
++                flags.append(flag)
++        return flags if flags else None
+ 
+     license_flags = d.getVar('LICENSE_FLAGS')
+     if license_flags:
+         whitelist = d.getVar('LICENSE_FLAGS_WHITELIST')
+         if not whitelist:
+-            return license_flags
+-        unmatched_flag = all_license_flags_match(license_flags, whitelist)
+-        if unmatched_flag:
+-            return unmatched_flag
++            return license_flags.split()
++        unmatched_flags = all_license_flags_match(license_flags, whitelist)
++        if unmatched_flags:
++            return unmatched_flags
+     return None
+ 
+ def check_license_format(d):
 ---
 2.19.1
 
