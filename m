@@ -1,51 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f181.google.com (mail-it1-f181.google.com
-	[209.85.166.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 23EC578BEE
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 75C6879D87
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Nov 2018 10:27:36 +0000 (UTC)
-Received: by mail-it1-f181.google.com with SMTP id m15so21988167itl.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Nov 2018 02:27:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=XsD6IGMKgWjBt5QeoBjsntnmfyHIUnmNPjd7gnIkIz4=;
-	b=OVW6h5vNVvzY3z+sSC+NKe+4YgqwdEuRnn2kYsFAXsWoLxTuxTwgLf+/U0w1Vn/bm0
-	pP8RvyJgM1haVixnI4kqlMmr1G9I9Km6lBzNXIT91fRpLn5WkgI74Xt/krP6nJwzXA1N
-	CwyZ17zwn536kXYdH+Ar1zFiuc9dM/ITrlZ+s5SMb3aVn3WqQWgmlvJ1IGX2QUNKbWBo
-	4erF69/qH+j7zMmC3zxirF2rMd7p0WpfANvq2AbtMnLLm49tAXPt4fLHpEiIHBW2Olnz
-	OQZ/XuAYKNSDR4jSPINIGQs2VA3wbLZhiH2qF625vlsIR4AFtTf12ME51KMl11Uixdn7
-	EIrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=XsD6IGMKgWjBt5QeoBjsntnmfyHIUnmNPjd7gnIkIz4=;
-	b=i0Xor8BYqdz1vDCDC9NOQZvHcKk8yLV5iqyPH2coXQZgpQV9mQ3b8Gh+8VjixcWTmR
-	cJiSPofiWi10o7UalZKHvdcgI2mV0g6KSQlNh/XDLsQk6jqmf1KO0+ZcEK4d8sUwJAxJ
-	jD4eOsT2zl1J4YzflODuRGxIGGbBHB+5uGBTU6Xqh2BSuZaWO/S1sfv78I8be4uv43EE
-	vtkH8xpJmGACWTEqyqIQRJrtJCHZ99nGYYJRImcBXX48pDUVlBseOv1tc1DgtLwn/zvj
-	XX2QaKsyj7dJrFzRb8fkysj8kOTeeb5r/BZmpx7Yzl1lMRQm0UgS1mIgAWQi2DsCciwq
-	ypnA==
-X-Gm-Message-State: AGRZ1gL1qLpqRl4KKQmBJcAR/smAN9MeAQKiVcKYaajfvhjbEqW+864/
-	H+XgBfnsvSLjcQAt3keoRpREHlCl8FpGYLP94PldGg==
-X-Google-Smtp-Source: AJdET5e8uiU6STVr3Mw9q4DOcl4NdVpcO+DGtnUmcYPhCIMGJFc3zWDjukONHQ8F4e5UFPoJseeKUsObN2PAvcpQi0Y=
-X-Received: by 2002:a02:601c:: with SMTP id
-	i28-v6mr1076872jac.105.1541586457171; 
-	Wed, 07 Nov 2018 02:27:37 -0800 (PST)
+	Wed,  7 Nov 2018 12:07:13 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 400B35C0379;
+	Wed,  7 Nov 2018 13:07:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1541592433;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=umQIS/zy1T71qlMYhsG3FiIukr+cfpP37EyamZegfw0=;
+	b=JnEoO00opA+aTJkz+JLeIK574ZD1G4XahAtCETP5/hZmizdOdQB6CJMCpHWcjDZFoWXzU0
+	zOeKIzRFU4v0kIA7EQplPLBc4+L59MGTzLSs2RVOW/8FxT+N96Hs/rw88z1WyIRKZPhDZE
+	KQXHdDVGWP3G4gg8Yiok9ENUBSw4QHo=
 MIME-Version: 1.0
-References: <20181106100416.41548-1-martin@geanix.com>
-	<58cd5d08-9d24-0e30-7f9c-3bec2c93ba84@gmail.com>
-	<45149dda-efa1-2b2f-e598-8b454ab66fa8@geanix.com>
-In-Reply-To: <45149dda-efa1-2b2f-e598-8b454ab66fa8@geanix.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 7 Nov 2018 10:27:25 +0000
-Message-ID: <CAJTo0LZSJon2rNZ3Bm1QLa+860fZ09Bn56F3gX-TTkDLxbEGtQ@mail.gmail.com>
-To: martin@geanix.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] glibc: make ld-2.28.so reproducible on arm
+Date: Wed, 07 Nov 2018 13:07:13 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: opkg-devel@googlegroups.com, alejandro.delcastillo@ni.com
+In-Reply-To: <670d0eab-f33b-8883-2cdf-d83c1701789b@ni.com>
+References: <20181019153821.21177-1-stefan@agner.ch>
+	<670d0eab-f33b-8883-2cdf-d83c1701789b@ni.com>
+Message-ID: <11acdfc51839b0ac3392e31f38fd08a8@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.7
+Cc: Stefan Agner <stefan.agner@toradex.com>, yocto@yoctoproject.org,
+	openembedded-core@lists.openembedded.org, ricardo@foundries.io
+Subject: Re: [opkg-devel] [opkg-utils PATCH] opkg-make-index: use ctime instead of mtime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,19 +41,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Nov 2018 10:27:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 07 Nov 2018 12:07:14 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 7 Nov 2018 at 07:41, Martin Hundeb=C3=B8ll <martin@geanix.com> wrot=
-e:
-> > Please add Upsteam-Status: and Signed-off-by: in the patch itself.
->
-> It was Richard's patch, so I chose the less intrusive approach. I can do
-> a refresh of the entire patch?
+Hi Alejandro,
 
-There's nothing to do, as you're extending an existing patch.  Easy to
-miss that fact in the review.
+On 22.10.2018 16:45, Alejandro Del Castillo wrote:
+> makes sense, sounds like this is going to fix a bunch of nasty 
+> intermittent failures, thanks!
+> 
+> merged
 
-Ross
+Thanks for merging!
+
+With the merge in opkg-utils this is not yet actively used in OE of
+course. So my question: Is there a new release of opkg-utils planned
+anytime soon? Or should that be added as a patch in the OE recipe for
+now?
+
+--
+Stefan
+
+> 
+> On 10/19/18 10:38 AM, Stefan Agner wrote:
+>> From: Stefan Agner <stefan.agner@toradex.com>
+>>
+>> When using sstate, two parallel builds can produce two packages
+>> with the same mtime but different checksums. When later one of
+>> those two builds fetches the others ipk, the package index does
+>> not get udpated properly (since mtime matches). This ends up with
+>> messages such as:
+>>    Downloading file:/../tmp/work/../image/...ipk.
+>>    Removing corrupt package file /../sysroot/../var/cache/opkg/volatile/...ipk
+>>
+>> However, in that case, ctime is different. Use ctime instead of
+>> mtime to prevent failures like this.
+>>
+>> Suggested-by: Khem Raj <raj.khem@gmail.com>
+>> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+>> ---
+>> This addresses the issue discussed here:
+>> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.openembedded.org_pipermail_openembedded-2Dcore_2018-2DOctober_156348.html&d=DwIBaQ&c=I_0YwoKy7z5LMTVdyO6YCiE2uzI1jjZZuIPelcSjixA&r=wNcrL2akRn6jfxhHaKavUrJB_C9JAMXtynjLd8ZzgXQ&m=Innit37H69hUyZPGuuhwO6R5CbUNNTfXQwxbqsEA2NE&s=oFvqASrFTgasDqZ901HeIBFSsf6Cn4FcBieOOBU4MdI&e=
+>>
+>>   opkg-make-index | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/opkg-make-index b/opkg-make-index
+>> index 3227fc0..db7bf64 100755
+>> --- a/opkg-make-index
+>> +++ b/opkg-make-index
+>> @@ -115,12 +115,12 @@ for abspath in files:
+>>        pkg = None
+>>        fnameStat = os.stat(abspath)
+>>        if filename in old_pkg_hash:
+>> -          if filename in pkgsStamps and int(fnameStat.st_mtime) == pkgsStamps[filename]:
+>> +          if filename in pkgsStamps and int(fnameStat.st_ctime) == pkgsStamps[filename]:
+>>               if (verbose):
+>>                  sys.stderr.write("Found %s in Packages\n" % (filename,))
+>>               pkg = old_pkg_hash[filename]
+>>             else:
+>> -               sys.stderr.write("Found %s in Packages, but mtime differs - re-reading\n" % (filename,))
+>> +               sys.stderr.write("Found %s in Packages, but ctime differs - re-reading\n" % (filename,))
+>>
+>>        if not pkg:
+>>             if (verbose):
+>> @@ -137,7 +137,7 @@ for abspath in files:
+>>        else:
+>>             old_filename = ""
+>>        s = packages.add_package(pkg, opt_a)
+>> -     pkgsStamps[filename] = fnameStat.st_mtime
+>> +     pkgsStamps[filename] = fnameStat.st_ctime
+>>        if s == 0:
+>>             if old_filename:
+>>                  # old package was displaced by newer
+>>
+> 
+> -- 
+> Cheers,
+> 
+> Alejandro
 
