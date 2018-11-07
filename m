@@ -1,49 +1,49 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 56D0C79E16
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FD6479DBC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Nov 2018 13:32:34 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id u13-v6so7714428pfm.4
+	Wed,  7 Nov 2018 13:55:20 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id b7-v6so22893870itd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Nov 2018 05:32:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 07 Nov 2018 05:55:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Gj74/PSz85Nqx90fZt9CGsp6/K2wGllO6E+vNVVevkc=;
-	b=kYrWxofE6mGGdUnwsnEhn6e4xNX7uYl+vdoemSsCxjqsc0K5DEHiZLWXkgvIGDjub0
-	D5J7mj84FGAonKliX65KuJSoq2O2PdC1r6s1RGcc1e7uPuemNzJoKJTBCSYn73xRC3vq
-	SbMBbjrmqNaWPHRnpmUM1I2//d1rNOUCx/5yHeZac84C6+870knccxU7Fv+KKJTPPKDB
-	uiQKK9hMmEQ0RuQUL0ZteTFDS+MYBUKfBf/tTFabrFbBPsSIOeHZ+PcRcwALNLRvLAfX
-	oSIMr3Lm9Q4H6MXtCQLQXYj33N/m9WOsZdD9+d2zmaJdKHWIIk/LetQUc+NIu496K2hr
-	mjRA==
+	:cc; bh=IoStT6hpY/TH8rKpsA7HAyyk5XmUuKOU7gsBkXGBoDQ=;
+	b=DjMCU1Q2S/Ye1uYM89zCbxOWyvWd7qOVfq+JXJ02m2G4ZMsBdFhGRd02EdZ0C0qWU8
+	5z2d5n7vt0FqG5scmfdb238uHdeYBUV/ccrnrObM5lgdNtttJzes/vb1g3Eue9XY87ri
+	VTxoxK7N8SiPqEzD0OMQzHf+RZKKMl0nJBjkc7PuqohgRKBzvGuxLPtCGAUWCz9DjMdg
+	6/7Hz5lWYOhypNtTSt1XDGfMmocWeMlNencxKWzYjRJfwzwM0LBKmwjD4fBWL2Zwxar4
+	Fjp/js3iM1JPpfCV0yKiJFFyanrxXmzMXsuYtuGCLj/VhpNqlycfr4tiwpjUpeOnzl30
+	HdcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Gj74/PSz85Nqx90fZt9CGsp6/K2wGllO6E+vNVVevkc=;
-	b=LioAIvY1vQ7H5N6K2zaf+OaakPz30oTyZ+OjZNk0rOuoTY4PwUfYBFDjSgAr15sICP
-	80ENxfoIL8glyAFxSuHpfaN+6HVe9Eg+c96uBKLivukh5vqDj+my/RQLIUa08V+im6I/
-	bg2wzLWWWgElqpBAJ00wuyVpPdseRwexkF1oWOiEWU6nB3G9Rlt82fQAUDYJtVMLyBIW
-	oQmedlODRL2YX4QnTr6s6vJzNxJtQ3qwpSaqj7jOQRjPlV+YcVZ7xHsYyodAJ2BazRqP
-	Xslqq2vmEVGmVs9s4uOtS6Icgr/QmQUg28/7Ik2r98qfjts/4kPMEUe5kxCy7NgUFML4
-	KrFw==
-X-Gm-Message-State: AGRZ1gLFRl0/giLGpYccWTDG7cyxPq4yVxEJH+SGYKAnhv9oyZ7+kWLt
-	0BlKOcAH1SAuPZl6Pnyt85Viyimn/0VuBGzvW9U=
-X-Google-Smtp-Source: AJdET5eOz0hTx9aOTFQXuJB48EJA5BWbzqgcH3d2rVWmXATQnp9HUvY9r0za8ZPzUE3cHJSqks3DPfYF3GLGmjFoS/M=
-X-Received: by 2002:a62:5b43:: with SMTP id
-	p64-v6mr254987pfb.122.1541597555567; 
-	Wed, 07 Nov 2018 05:32:35 -0800 (PST)
+	bh=IoStT6hpY/TH8rKpsA7HAyyk5XmUuKOU7gsBkXGBoDQ=;
+	b=b69xmjy7t7EQt1JxbfGuSpd78yLBgekQDsdPD9UDLJ4l36hkZSP/JFZIbHCzdFxknZ
+	aIof5ea6TNZbG+WsOAZlTAKAImW4ZuezIe2PS3ogYiszOKxRrcHUn/lMyCG5xkR2SUKv
+	3S3AusvVoH37RI2a45DJO9OYpIFyCibsZjhmddmDXZwqPsIO/VyZdr1f03pdaWo/EJsD
+	kbKbc6H8n08Ne6QY5Ythg3rbXymsM0S2ezEXVb0RkYcmwhttkEyH21LEjQISoY8Zu3Be
+	D5rIPpHk6GKclS34dwbfdcjgqbAydAslA3mgSaKoHGQvZGsOn0xkC0xohgbWgqfLnzmE
+	rWBQ==
+X-Gm-Message-State: AGRZ1gKSJEBW0ND+xaRgv/W7Fx1NLT1tXnLFm9TEIDH6vzqz7FrkDmC4
+	gzCuo05UgiVpRagzrXDIkfPSQ0VxTVFvL1TMdOxk+A==
+X-Google-Smtp-Source: AJdET5fTbV4LP2/3wTf2TCbi9QoGqdFVtSGWAF+LwvIjIRzGmehEl7INPdpVvY7XSeYe0Yv3P12rg6z5s1tNlNTzPwI=
+X-Received: by 2002:a24:9142:: with SMTP id
+	i63-v6mr287292ite.130.1541598921759; 
+	Wed, 07 Nov 2018 05:55:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20181107121602.13768-1-nathan@nathanrossi.com>
-	<20181107121602.13768-2-nathan@nathanrossi.com>
-In-Reply-To: <20181107121602.13768-2-nathan@nathanrossi.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-Date: Wed, 7 Nov 2018 14:32:22 +0100
-Message-ID: <CAAQYJAurMNXOeAh5Px8a5NqUBzc4PdcfL1KpfqUESjzdwO0gvw@mail.gmail.com>
-To: nathan@nathanrossi.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] kernel-initramfs.bbclass: Handle built-in /dev/console dependence
+References: <20181009110019.16171-1-ross.burton@intel.com>
+	<162e1306-d521-ebe9-c969-f55fe86afa9e@vaisala.com>
+In-Reply-To: <162e1306-d521-ebe9-c969-f55fe86afa9e@vaisala.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 7 Nov 2018 13:55:10 +0000
+Message-ID: <CAJTo0LYHaKjCNqMpkcdPFTUtAYXKk13JPRdyWXK50gQaF7wKNA@mail.gmail.com>
+To: Niko Mauno <niko.mauno@vaisala.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glib-2.0: add missing locale dependencies to PN-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,104 +56,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Nov 2018 13:32:35 -0000
+X-List-Received-Date: Wed, 07 Nov 2018 13:55:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 7, 2018 at 1:16 PM Nathan Rossi <nathan@nathanrossi.com> wrote:
->
-> The kernel has two differing code paths when handling a built-in cpio
-> versus a cpio passed to the kernel from a boot loader. When the kernel
-> is booted with the built-in cpio it expects the /dev/console node to
-> exist and will panic if it does not exist.
->
->   Kernel panic - not syncing: /dev/console is missing or not a character device!
->
-> When the cpio is passed to the kernel via a bootloader, this behaviour
-> is not observed.
->
+Sounds about right.  Not sure what would count as a solution here?
 
-Well, of course once booted you have devtmpfs or you have provided
-your devices-list.
-We fight since long with this early issues and I think this approach
-is wrong: there are more things needed, not only /dev/consoleI'd say
-the responsability to check for devtmpfs or recreate the devices is up
-to init manager of the image.
-
-We don't use busybox, just a single binary running as init: kexecboot
-will exactly do that, check and recreate devices if missing:
-http://cgit.openembedded.org/meta-openembedded/tree/meta-initramfs/recipes-bsp/kexecboot/kexecboot_git.bb
-
-Please don't inject anything in the cpio, let the image-engineer decide.
-
-This poor image is regularly attacked by new changes filling the cpio
-with undesidered stuff:
-http://cgit.openembedded.org/meta-openembedded/tree/meta-initramfs/recipes-bsp/images/initramfs-kexecboot-image.bb
-
-Maybe we are on the corner-case, size-contraints limit us to be within
-1MiB, neverthless I think it is a good exercise to keep things small
-and clean ;)
-
-As for the previous patch touching initramfs, I hold my comments for
-the moment: let me first test it.
-Cheers
-
-Andrea
-
-> To resolve this issue, ensure any cpio that is built into the kernel is
-> prepared with a /dev/console node. This is done by appending to the
-> copied cpio of the INITRAMFS_IMAGE. In order to create the node to
-> append, the task must be executed with root permission (to run mknod).
-> As such this change creates and intermediate _prepare task between the
-> existing _bundle and _copy tasks.
+Ross
+On Wed, 7 Nov 2018 at 12:40, Mauno Niko <niko.mauno@vaisala.com> wrote:
 >
-> Note: The default/minimal initramfs that the kernel sources
-> gen_initramfs_list.sh generates contains this device node.
+> On 10/09/2018 02:00 PM, Ross Burton wrote:
+> > The test suite skips several tests if the required locales are not found, so add
+> > them as dependencies of glib-2.0-ptest.
+> >
+> > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > ---
+> >   meta/recipes-core/glib-2.0/glib.inc | 13 +++++++++++++
+> >   1 file changed, 13 insertions(+)
+> >
+> > diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+> > index ad4f2aebd71..f78aa9bfe6d 100644
+> > --- a/meta/recipes-core/glib-2.0/glib.inc
+> > +++ b/meta/recipes-core/glib-2.0/glib.inc
+> > @@ -152,6 +152,19 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
+> >               glibc-gconv-iso8859-15 \
+> >               glibc-charmap-invariant \
+> >               glibc-localedata-translit-cjk-variants \
+> > +            locale-base-tr-tr \
+> > +            locale-base-lt-lt \
+> > +            locale-base-ja-jp.euc-jp \
+> > +            locale-base-fa-ir \
+> > +            locale-base-ru-ru \
+> > +            locale-base-de-de \
+> > +            locale-base-pl-pl \
+> > +            locale-base-hr-hr \
+> > +            locale-base-el-gr \
+> > +            locale-base-fr-fr \
+> > +            locale-base-fr-fr \
+> > +            locale-base-es-es \
+> > +            locale-base-en-gb \
+> >              "
+> >
+> >   INSANE_SKIP_${PN}-ptest += "libdir"
+> >
 >
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/usr/gen_initramfs_list.sh?h=master#n55
+> Having GLIBC_GENERATE_LOCALES = "en_US.UTF-8" and 'ptest' in DISTRO_FEATURES, it would seem after this commit I'm seeing following warnings during bitbake:
 >
-> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-> ---
->  meta/classes/kernel-initramfs.bbclass | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-de-de, but it isn't a build dependency? [build-deps]
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-el-gr, but it isn't a build dependency? [build-deps]
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-en-gb, but it isn't a build dependency? [build-deps]
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-es-es, but it isn't a build dependency? [build-deps]
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-fa-ir, but it isn't a build dependency? [build-deps]
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-fr-fr, but it isn't a build dependency? [build-deps]
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-hr-hr, but it isn't a build dependency? [build-deps]
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-ja-jp.euc-jp, but it isn't a build dependency? [build-deps]
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-lt-lt, but it isn't a build dependency? [build-deps]
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-ru-ru, but it isn't a build dependency? [build-deps]
+>   WARNING: glib-2.0-1_2.58.0-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on locale-base-tr-tr, but it isn't a build dependency? [build-deps]
 >
-> diff --git a/meta/classes/kernel-initramfs.bbclass b/meta/classes/kernel-initramfs.bbclass
-> index b23fb51495..135f4c8949 100644
-> --- a/meta/classes/kernel-initramfs.bbclass
-> +++ b/meta/classes/kernel-initramfs.bbclass
-> @@ -16,7 +16,8 @@ python __anonymous () {
->      if image and bundle:
->          # add all the tasks
->          bb.build.addtask('do_initramfs_copy', 'do_initramfs_bundle', 'do_install', d)
-> -        bb.build.addtask('do_initramfs_bundle', 'do_deploy', 'do_initramfs_copy', d)
-> +        bb.build.addtask('do_initramfs_prepare', 'do_initramfs_bundle', 'do_initramfs_copy', d)
-> +        bb.build.addtask('do_initramfs_bundle', 'do_deploy', 'do_initramfs_prepare', d)
+> If I switch GLIBC_GENERATE_LOCALES to 'all' these warnings no longer appear.
 >
->          # make the do_initramfs_copy task depend on the image do_image_complete task
->          d.appendVarFlag('do_initramfs_copy', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
-> @@ -67,6 +68,18 @@ do_initramfs_copy () {
->      echo "Finished copy of initramfs into ./usr"
->  }
->
-> +do_initramfs_prepare[dirs] = "${B}"
-> +fakeroot do_initramfs_prepare () {
-> +    echo "Preparing initramfs by creating required /dev/ nodes"
-> +    # append a /dev/console node, this node must be created in the rootfs
-> +    # for built-in initramfs cpios otherwise it will error with:
-> +    #   Kernel panic - not syncing: /dev/console is missing or not a character device!
-> +    rm -rf ${B}/usr/append
-> +    mkdir -p ${B}/usr/append/dev
-> +    mknod -m 600 ${B}/usr/append/dev/console c 5 1
-> +    (cd  ${B}/usr/append && echo "./dev/console" | cpio -oA -H newc -F ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio)
-> +}
-> +
->  do_initramfs_bundle[dirs] = "${B}"
->  do_initramfs_bundle () {
->      echo "Creating a kernel image with a bundled initramfs..."
-> ---
-> 2.19.1
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> -Niko
 
