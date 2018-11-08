@@ -1,49 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
-	[209.85.166.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 33D1360079
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CE2A79CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Nov 2018 15:43:14 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id o19-v6so14928469iod.3
+	Thu,  8 Nov 2018 16:15:27 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id w7-v6so1842031wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Nov 2018 07:43:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pdngBjfJMAVeydLV2mMVxhs4uoUQqSa6M0iFtH0MV/4=;
-	b=FVoST1ZQZMW57V37EsAlEAiaxjDlnPHhA3EokTJdKid2iAhmGwaKYzIZnOZaEZSy1z
-	fOsEVJddSb7LHvhCwCKqY8jLZaHhwbPF8KPyX3dFryZixCS8K9IlEKmNVcresOGa55ph
-	7ryTbQwbq2PTDiSshQ0tEoohmiHlSy0wn6VfpqCkY1KQOpMkhT5/nuuYgm+Tw9ScSsWS
-	nHYDVIhFnO6jyzgy8MZUHRAzTbWaAuJJ9A6bMwiXaO8wwAVQMBQPakU5RcLyV9RIYYKy
-	GeIu9d3UWLxOfCs0yHijdHfU9LmAvAX8eRj+MgoLmobyV+AQ5Oh63GhTLuqwAL2XdJh8
-	YyWA==
+	Thu, 08 Nov 2018 08:15:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=Xn5NYQQmTlI33HvM0L5QhD6jVBDtb0c5ypEZ+d0OjMg=;
+	b=LOVGHANwFGfTHz74007abOdWhbYfGFtxCqzEvt3m4Db8+JVoFw0W9C7v6OYfir0pxl
+	KFaGy5XQ9Kb6nVXROvtOq8chkxSwW4Hkj4gx6mutHNJ+utsnFN82cTHvUrrO8Vb08uBu
+	f9xfh69y7Ch65tMji2TxPTbuZNWQJrW/3rKRzrf7AC6MvZaQMzZTF4OoQuKQTOHVsyLF
+	kbj0fLDTBqf3lL/cliiuw+O0qSvQsySeaUUn5eGeSLBApAltBo0w/KULktv+e45z5NV7
+	RPWUWZu2c2vyRcT1rDJbfSJ5ZmopTN0fLHr9RRoKwiAQ4Upo+KmmE1Ak/7nC2FIqc0qV
+	FX2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pdngBjfJMAVeydLV2mMVxhs4uoUQqSa6M0iFtH0MV/4=;
-	b=M8CbHJFRYyYooBpNOEFGV5LfdohCnb2b7gdcfKjPBxRTNib9rQEpdxeiubyNSwKRxr
-	jSFCqC1o3VYRZ00L7928s65lqGcr0C+3DrEjuBJlK9M6K/5avsxhsxgJ1dFL2lCJxMv2
-	JLj3JWTcSl49R2R9wcSTTS/5MiqAyTRVUmHgAEMwp+3tsfI6iw6f6ASShtmMXv0NUspX
-	9vevfuKlIWnhR7PSzZCdQ4K07LVP9EjxOrXpWNH79lGtRA2OUJ0icaiH33TY5o3qHHHA
-	zlvUgyKRfbTRfQ0noR+mRHgF1BtXIbUFG3P7kag3rTCUL/kBkppfM5/F3WzqzqvkrdaG
-	DJow==
-X-Gm-Message-State: AGRZ1gJr5czk5cqSSExcht6BTpUVaTDgPPHk97fFYkAV6UZeZsOXQq4/
-	xHqen6D/VEkWcmvjw/FbIYn6jl6K5BFrma5GKpQq8w==
-X-Google-Smtp-Source: AJdET5cg7kAAMuKAzoaXONwuv/BjBJ/fC+QL2sp9f+GcLUN1RvT+jjmfUnXFZ/tzm4Eae8MLEqAiW7DscLN9X/2gV8w=
-X-Received: by 2002:a6b:fb0a:: with SMTP id
-	h10-v6mr3678311iog.270.1541691795134; 
-	Thu, 08 Nov 2018 07:43:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20181106122429.24563-1-ross.burton@intel.com>
-	<FB4F7315-9363-4F94-B5B0-3C736A1AE7FA@gmail.com>
-In-Reply-To: <FB4F7315-9363-4F94-B5B0-3C736A1AE7FA@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Nov 2018 15:43:02 +0000
-Message-ID: <CAJTo0LY1=XkrjSPBJKeDu_y8bo5fZYsfZChHpSsHwyHnV5mCvw@mail.gmail.com>
-To: Jens Rehsack <rehsack@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pseudo: fix link with new sqlite3
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=Xn5NYQQmTlI33HvM0L5QhD6jVBDtb0c5ypEZ+d0OjMg=;
+	b=CjBVv/MTBJsQ5NpRlXIzx5Wf3H9D8jbqx0AuLkh1T93Sr57/eX+J4CJMbKn1B1ZTjq
+	LLWYvYxxUM4GNvS6KU4N/F1X3p2reTcfP6ph2Bk47IWruJKVgjn4Nb9t8uK3Yjwfstaa
+	C/8ZIy/EeuoKiryABRNYjjs7+c3+U9JSv/gnRO8Hf4HEtjA4lZiQKZg3i+x+aY2ONk6p
+	1Tb1JGlCN03U9Tq10IMkA12obo+RPP5UY/HRvKXt8bq+G5fJyasKMWzLMZU6haCJUQPF
+	/ezEUdivrBFciujQFsxEFtwxUeOttFfw5KlUJR6PNDtJbbilt4+xgKTbbef/WLG6Mfen
+	c9HA==
+X-Gm-Message-State: AGRZ1gLXyv9mZG7+5Jqw2DYG0kgZd3WxlXpba8TPSq80kNEiWmJqBxJ6
+	U7SaXi4HsR95KliKaAWnCMp0CEKf
+X-Google-Smtp-Source: AJdET5cEiYmYUYOtonSghMDg8OgBm/56M9Gn8Bz7sqNYndNXnV/LsDfO3DzzsXv9YrqXf7AdBrbDwQ==
+X-Received: by 2002:a1c:f514:: with SMTP id
+	t20-v6mr1787311wmh.129.1541693727769; 
+	Thu, 08 Nov 2018 08:15:27 -0800 (PST)
+Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
+	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
+	t129-v6sm6685747wmd.14.2018.11.08.08.15.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 08 Nov 2018 08:15:27 -0800 (PST)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: Jens Rehsack <sno@netbsd.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Nov 2018 17:14:51 +0100
+Message-Id: <20181108161452.11592-1-sno@netbsd.org>
+X-Mailer: git-send-email 2.17.1
+Cc: Jens Rehsack <sno@netbsd.org>
+Subject: [PATCH 1/2] sqlite3_3: Update to 3.25.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,21 +57,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Nov 2018 15:43:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 08 Nov 2018 16:15:27 -0000
 
-On Thu, 8 Nov 2018 at 14:53, Jens Rehsack <rehsack@gmail.com> wrote:
+Update SQLite3 from 3.23.1 to 3.25.3 for UPSERT, window
+functions and improved ALTER TABLE support.
 
-> I digged a bit deeper (since I'd like to get a reasonable solution even for other dependent components) and would say, pseudo will also fail, when sqlite3 is build using readline or libz.
-> The better option will be to let pseudo use the libs and link-flags from sqlite.pc
+For a detailed list of changes since 3.23.1, see
+* https://www.sqlite.org/releaselog/3_25_3.html
+* https://www.sqlite.org/releaselog/3_24_0.html
 
-Yes for libz, but I'd assumed the readline dependency was solely in
-the binary not the library.
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
+---
+ meta/recipes-support/sqlite/sqlite3_3.23.1.bb | 10 ----------
+ meta/recipes-support/sqlite/sqlite3_3.25.3.bb | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.25.3.bb
 
-Annoyingly the fairly simple change to pseudo to make it use
-pkg-config for flags then failed to link statically.  If you want to
-see what I did and fancy fixing it, then my WIP is in the pkgconfig
-branch at https://gitlab.com/rossburton/pseudo.
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+deleted file mode 100644
+index 3755761d76..0000000000
+--- a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require sqlite3.inc
+-
+-LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+-
+-SRC_URI = "\
+-  http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+-  "
+-SRC_URI[md5sum] = "99a51b40a66872872a91c92f6d0134fa"
+-SRC_URI[sha256sum] = "92842b283e5e744eff5da29ed3c69391de7368fccc4d0ee6bf62490ce555ef25"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.25.3.bb b/meta/recipes-support/sqlite/sqlite3_3.25.3.bb
+new file mode 100644
+index 0000000000..a7cf6d1b81
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3_3.25.3.bb
+@@ -0,0 +1,10 @@
++require sqlite3.inc
++
++LICENSE = "PD"
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
++
++SRC_URI = "\
++  http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++  "
++SRC_URI[md5sum] = "06db8206bc8febf07141b78ad58595ea"
++SRC_URI[sha256sum] = "00ebf97be13928941940cc71de3d67e9f852698233cd98ce2d178fd08092f3dd"
+-- 
+2.17.1
 
-Ross
 
