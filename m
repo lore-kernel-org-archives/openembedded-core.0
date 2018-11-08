@@ -1,29 +1,49 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 993557BB8F
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 156CE79F42
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Nov 2018 15:10:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA8F9MCn005514
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Nov 2018 07:09:48 -0800
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 8 Nov 2018 07:09:36 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20181107175922.6631-1-Randy.MacLeod@windriver.com>
-	<CAJTo0LaNF-q9Lj6-VZgnGbX154hO_XOx7KaKzxcAzys1WBBnPg@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <93b145d4-20f8-8f60-38dc-e94f0d3db32f@windriver.com>
-Date: Thu, 8 Nov 2018 10:09:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaNF-q9Lj6-VZgnGbX154hO_XOx7KaKzxcAzys1WBBnPg@mail.gmail.com>
-X-Originating-IP: [172.25.44.4]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] valgrind: drop mips n32 support
+	Thu,  8 Nov 2018 15:32:52 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id 124-v6so1712219wmw.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Nov 2018 07:32:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=ywM0iwESrbi6pGOhD+UhE/MfzNC3QIjusgwvFjM9KTg=;
+	b=ZCOfU7oBA+I3OR2ZPMs85aXSMp++LZXy0sVkllJIM9hxyx1j+hZLGvjftLLkESPNaG
+	UWbQHBcZr/fWIY+3xrbp9pQapMJQMve7gH6JoHVZhG8tN2vAS87h5NVhpBevrpbNBTG7
+	51/OjDisiLAbSF2bLq6SJXA6TfO57NBJn6bYzueV1kgYXAcwph/qggOrmZwBPGHgsuZg
+	bHpIHdzoXrBRjjM4DqZIrj8Scb1QFsVGnAroeJN73SnU/VMVCBz4sjew/7KOkwVwjUAt
+	MAm2JZiyM4jL/cy2STP028/3m7ZTgdDGKp8Pqgp67u1hHB8Zx/hEccH50O/S3sXhD9Vm
+	MCSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=ywM0iwESrbi6pGOhD+UhE/MfzNC3QIjusgwvFjM9KTg=;
+	b=Re4I75nNBG5a6savwjhkpWttq8W0M/z7icZoImrwdmBL5Un05V4wFEbxUps6BcTJLH
+	tJyjSCjZ7U5sQjO00bQzm54pAyx4gpeIWDRK/+Gv5iJSkPLVnQQbHzIyTe2i8eGlWxEN
+	N3rM8J/4UWlQNZ7bvxN9KmX0pk3gqhf7WJ8t2rj0E6QfTAyV2HWZefHt9qn3zvI51f4m
+	dKmvrlIruiW6jTxzCsWbZzuskTYgWG/QOqbDmu8F8G885CfR6V8t8wHiTN+OqYbMPUZj
+	H+FW4Qg9Eo3hGJvSiv0pgqoWnwXEakCoFVjem/zp8NKIqilS3XVFcZ+O53Mj9Ia3rJ0e
+	bH8g==
+X-Gm-Message-State: AGRZ1gJo0+iEFiSd+eRVpfhhdyo7wOY58C6l58PW5mBrJr+j3uroDV5l
+	BS6AGjhfAt23GyR6sfWHqUxp+PKP
+X-Google-Smtp-Source: AJdET5eifdG2QF4U5gzwXDhdfi6oyqPOyOv6xyZvrpHri9SbUhJIU7xozsDIROdie1MNjzlEGs8+dw==
+X-Received: by 2002:a1c:3b06:: with SMTP id i6-v6mr1571940wma.18.1541691173386;
+	Thu, 08 Nov 2018 07:32:53 -0800 (PST)
+Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
+	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
+	t77-v6sm7021640wme.18.2018.11.08.07.32.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 08 Nov 2018 07:32:52 -0800 (PST)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: Jens Rehsack <sno@netbsd.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Nov 2018 16:32:42 +0100
+Message-Id: <20181108153242.15679-1-sno@netbsd.org>
+X-Mailer: git-send-email 2.17.1
+Cc: Jens Rehsack <sno@netbsd.org>
+Subject: [PATCH] cpan.bbclass: avoid newer MakeMaker run perl.real
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,36 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Nov 2018 15:10:14 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Nov 2018 15:32:53 -0000
 
-On 11/8/18 9:14 AM, Burton, Ross wrote:
-> On Wed, 7 Nov 2018 at 18:00, Randy MacLeod <Randy.MacLeod@windriver.com> wrote:
->> valgrind for qemumips64 multilib builds fails to configure
->> for libn32 with the error:
->>     configure:6190: checking for 32 bit build support
->>     ...
->>     fatal error: bits/long-double-32.h: No such file or directory
->> It seems that the toolchain is producing:
->>     tmp-glibc/sysroots-components/mips64-n32/libn32-glibc/usr/include/bits/long-double-n32.h
->>
->> Until the toolchain problem is resolved, skip valgrind for libn32.
-> 
-> Is there a bug filed for this?
+In newer versions of ExtUtils::MakeMaker, the location of the perl
+binary to run is determined differently which results in finding
+${bindir}/perl.real instead of ${bindir}/perl
 
-Of course there's a bug:
-   https://bugzilla.yoctoproject.org/show_bug.cgi?id=12989
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
+---
+ meta/classes/cpan.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-(now).
-
-> 
-> Ross
-> 
-
-
+diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
+index a5bc301898..511fe3fb92 100644
+--- a/meta/classes/cpan.bbclass
++++ b/meta/classes/cpan.bbclass
+@@ -16,7 +16,7 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version
+ export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_version(d)}/"
+ 
+ cpan_do_configure () {
+-	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL INSTALLDIRS=vendor NO_PERLLOCAL=1 NO_PACKLIST=1 ${EXTRA_CPANFLAGS}
++	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL INSTALLDIRS=vendor NO_PERLLOCAL=1 NO_PACKLIST=1 PERL=$(which perl) ${EXTRA_CPANFLAGS}
+ 
+ 	# Makefile.PLs can exit with success without generating a
+ 	# Makefile, e.g. in cases of missing configure time
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.17.1
+
 
