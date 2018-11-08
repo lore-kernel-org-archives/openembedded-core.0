@@ -1,50 +1,51 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E912D79F17
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B5F779F12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Nov 2018 14:25:32 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id q5-v6so8931439pgv.0
+	Thu,  8 Nov 2018 14:40:41 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id 131so26802252qkd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Nov 2018 06:25:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 08 Nov 2018 06:40:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=GJlCKYt7FJqyL9QEn8uYpfeSWoip5SsXlYRk53C/2zM=;
-	b=lbKknxlvKkUEok3ikW8QBZhjjXWei0MEQrkhuBWDvxIMKySFosEW7Nvy/sbfpsN0H3
-	k2rBWhEx+Gw+ItwFwdM4fV6u4/xc522+xPifrQcMF7XVAFINRmhhZdTv+xiNy18MA9u/
-	p0GvPGFeV0NDhjHqta5kTMPsemheC+BM+m51V0BdLI7drPOZ2PvCL9ImxUIjYprPHEma
-	vzPk+W1KD43O84dPTowodzCboV0h7HnCG/8yWBlvOcr0XlCjnnCYxPgr4xIxzR7f6I4G
-	/XqtDRtplm1QgXjXLlQepHv8pTCvWSJHw52058VVUboPkkxemOMgK3emjvW8QUEy3hMZ
-	78Jg==
+	:cc; bh=TKMbummoAfRfP+SsWZ0q4LSMUUFaUXNjvAEFSbeumfE=;
+	b=Ak8R097rNdWxgtUK5VjD2XO3SR5oTXPljb9H/8UNo0P93XR2kemzOmUK6wPLMUX5VJ
+	7pzZaml3c2eHbIbMRtIBs6eQ7lOQegGk9UNsbOs3oHBjEauf6Ts7Ps6kdOIq9g96tWde
+	BEeEsVXgmKVFcVpCFcisZ7OimLUS+ddWHV4UjMESxUkgkL/zsfRsTXegULzpVO0aL5u3
+	AUkLfzj/0cNBRjIl1BTpC6wu75PmFHyydkVHqGNvzy5a4BwicjKT975EKldFmL1ZmQuP
+	cdrS+b3+Yv7+o9ef3dS4CibGF8tVLe5ZewjEKgOnnpSCsZd20ilSVyqexk86qWgaLDzG
+	XPMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=GJlCKYt7FJqyL9QEn8uYpfeSWoip5SsXlYRk53C/2zM=;
-	b=QfLCU0DSkS7Bm5aDNipZIY+vK50puXTQtzzL/uW35NzrKrg4YiwFKQGVTmNu7aizNY
-	Mn1AXVghJHmTFwr6Wu1sSRjJmIJW9X5SAIpEq95A+InKTAWQN5cfFFdTemWN0MyelB5O
-	+PlhMRxt1n2Kb6fMDAraZktODiNIz3tE6yY5hH60+Lnn714ZV5myiQ3yUvepVM6a4Km9
-	N6/233ltOFYRnIAMN+69aWUNx/JWke3qi1if0Ju8snz1ZdhFYoYJFillBZ5st3azijo3
-	DdZR2TDAGhlmm+2lUj6KbM+xRtNnSqfkcr8a1FuSRfVkh0a5ax0U3+LmTi74qqTpbAaB
-	jiLA==
-X-Gm-Message-State: AGRZ1gIrfDtEvIa8HM6UuvYuChzMsqbdOMyugqlMTLzNVyJpX2GOK0R1
-	AqaIhvCCKV01dxtUc1QI27JQJRzZCAMChylL/I30xtUa
-X-Google-Smtp-Source: AJdET5eaAw/DYGccCUolkb90XH3M3hhbna1k25IoAdO5Ta88Hs287nXtrqLZ8EyhZLXl4Y9HRbXku4KAbChfbj6+3/Q=
-X-Received: by 2002:a62:670f:: with SMTP id
-	b15-v6mr4710158pfc.243.1541687133765; 
-	Thu, 08 Nov 2018 06:25:33 -0800 (PST)
+	bh=TKMbummoAfRfP+SsWZ0q4LSMUUFaUXNjvAEFSbeumfE=;
+	b=A6jbaYAKG1IaN5TR0RpGNpwspvCnvbAyd5zCHHKqr6t9qOy/dBMLjx5IEh/aLJCR5J
+	mpeRZ7N0bbwQzBq4zihyX8j2EchidM0Fi3O4yRJ4h+CwGAb9zL1oL4uQNKKTZzkTWx7d
+	WXnNj77XN/nh9ua5Qt6UOCR/V6M/J2OM3Li1KMnCLh/iFVAz2CRNkaol0M+U4czN024A
+	7y9abS3TepH8QSyTY16IkAEi814Y0F5EuE8YRNTZxL5Tt4zZUWL10xwznKlSLada2PMN
+	U4UCqIlq4HK8XySycl0hPUt1QbEiWLm6BaQU5Zb/n98VCVkF6AasR6tJqAFEiOIMNpnb
+	CUIg==
+X-Gm-Message-State: AGRZ1gI7b5b9DS+fzKLzGjYolEwxPoRTufOQ7JATAsO33ICLJMR8pa+t
+	T8JgYumWAMVvkO9ocGVN7UKyOXPYE6v+L7wMxwhxiA==
+X-Google-Smtp-Source: AJdET5ePmLdvn17zSXNK1rG3q1rSMnevvkgqIXC2E9pgA0ie5uCImq/KEqj5hrVbYgZqCSF1gaEnETbcl2VS4aJXItc=
+X-Received: by 2002:aed:3511:: with SMTP id a17mr4589613qte.153.1541688041838; 
+	Thu, 08 Nov 2018 06:40:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20181107121602.13768-1-nathan@nathanrossi.com>
-	<CAAQYJAt5JNxG=mASzPO0XqHLO==v7hKQjxG1-a4eTPD57hfQ3g@mail.gmail.com>
-	<CA+aJhH2C6HA8aOnzshbY7DjyYmD0zGs4hh2ZkzZixQggwXNUPA@mail.gmail.com>
-In-Reply-To: <CA+aJhH2C6HA8aOnzshbY7DjyYmD0zGs4hh2ZkzZixQggwXNUPA@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-Date: Thu, 8 Nov 2018 15:25:21 +0100
-Message-ID: <CAAQYJAu-wfVj3wNVsSdnNZ4ybeGFexaGJHN-bnV9JCWazHFmyQ@mail.gmail.com>
-To: nathan@nathanrossi.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] kernel-initramfs.bbclass: Separate initramfs setup
+	<20181107121602.13768-2-nathan@nathanrossi.com>
+	<CAAQYJAurMNXOeAh5Px8a5NqUBzc4PdcfL1KpfqUESjzdwO0gvw@mail.gmail.com>
+	<CA+aJhH2B11RMAw0cGnp4sF+eXnBOjd0A0XLyTb-te4FaYHS1FQ@mail.gmail.com>
+	<CAAQYJAv8Y+cceAgiuW3jtnxRY3Oi73V-Ys13sP5YCLfg-UrpxA@mail.gmail.com>
+In-Reply-To: <CAAQYJAv8Y+cceAgiuW3jtnxRY3Oi73V-Ys13sP5YCLfg-UrpxA@mail.gmail.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Fri, 9 Nov 2018 00:40:30 +1000
+Message-ID: <CA+aJhH0KeDxoHYNPVWZoTifW8ZVpf3fMGT+V-ubvC2e5EnvYmA@mail.gmail.com>
+To: andrea.adami@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] kernel-initramfs.bbclass: Handle built-in /dev/console dependence
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,439 +58,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Nov 2018 14:25:33 -0000
+X-List-Received-Date: Thu, 08 Nov 2018 14:40:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 8, 2018 at 2:25 PM Nathan Rossi <nathan@nathanrossi.com> wrote:
+On Fri, 9 Nov 2018 at 00:20, Andrea Adami <andrea.adami@gmail.com> wrote:
 >
-> On Wed, 7 Nov 2018 at 23:21, Andrea Adami <andrea.adami@gmail.com> wrote:
+> On Thu, Nov 8, 2018 at 2:05 PM Nathan Rossi <nathan@nathanrossi.com> wrote:
 > >
-> > On Wed, Nov 7, 2018 at 1:16 PM Nathan Rossi <nathan@nathanrossi.com> wrote:
+> > On Wed, 7 Nov 2018 at 23:32, Andrea Adami <andrea.adami@gmail.com> wrote:
 > > >
-> > > This change moves the initramfs bundling functions and tasks into a
-> > > separate class called 'kernel-initramfs'. The change also converts the
-> > > copy_initramfs into a task that itself depends on the do_image_complete
-> > > of the initramfs image. Making this change allows for the do_initramfs_*
-> > > tasks to be conditionally added instead of relying on the task checking
-> > > the variables, with the exception of do_deploy(_append).
+> > > On Wed, Nov 7, 2018 at 1:16 PM Nathan Rossi <nathan@nathanrossi.com> wrote:
+> > > >
+> > > > The kernel has two differing code paths when handling a built-in cpio
+> > > > versus a cpio passed to the kernel from a boot loader. When the kernel
+> > > > is booted with the built-in cpio it expects the /dev/console node to
+> > > > exist and will panic if it does not exist.
+> > > >
+> > > >   Kernel panic - not syncing: /dev/console is missing or not a character device!
+> > > >
+> > > > When the cpio is passed to the kernel via a bootloader, this behaviour
+> > > > is not observed.
+> > > >
 > > >
-> > > The 'use_alternate_initrd' of kernel_do_compile is replaced with a
-> > > general use 'extra_make' variable. And the INITRAMFS_TASK functionality
-> > > of kernel_do_compile is removed.
+> > > Well, of course once booted you have devtmpfs or you have provided
+> > > your devices-list.
+> > > We fight since long with this early issues and I think this approach
+> > > is wrong: there are more things needed, not only /dev/consoleI'd say
+> > > the responsability to check for devtmpfs or recreate the devices is up
+> > > to init manager of the image.
+> >
+> > Ok, so I do not think my commit message was clear enough in this regard.
+> >
+> > Firstly the kernel requires the /dev/console node before the init
+> > process is started, but after it has unpacked the built-in ramfs and
+> > after it has mounted the initrd (rd or ramfs). You can see the exact
+> > call that attempts to open /dev/console here:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/init/main.c?h=v4.20-rc1#n1154
+> >
+> > The exact problem this change is solving is the fact that by embedding
+> > a user source cpio into the kernel, the default kernel initramfs is
+> > replaced. The default kernel ramfs contains /dev, /dev/console and
+> > /root.
+> >
+> > Also for reference when the kernel is built without
+> > initramfs/BLK_DEV_INITRD support it will create this default rootfs
+> > with an alternate initcall:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/init/noinitramfs.c?h=v4.20-rc1
+> >
+> > So essentially the kernel is always expecting the rootfs to contain
+> > this /dev/console node.
+> >
 > > >
-> > > The 'KERNEL_CLASSES' inherit is moved to after the EXPORT_FUNCTIONS
-> > > do_deploy in order to allow these classes to append to the do_deploy
-> > > task without breaking the do_deploy task itself.
+> > > We don't use busybox, just a single binary running as init: kexecboot
+> > > will exactly do that, check and recreate devices if missing:
+> > > http://cgit.openembedded.org/meta-openembedded/tree/meta-initramfs/recipes-bsp/kexecboot/kexecboot_git.bb
+> >
+> > This only solves the user space requirements for device nodes. Since
+> > kexecboot or busybox will not be executed before the kernel tries to
+> > open the /dev/console file.
+> >
+> Rightm and nothing bad will happen, just the
+> pr_err("Warning: unable to open an initial console.\n");
+>
+> then init is run.
+>
+>
 > > >
-> > > The functionality for INITRAMFS_TASK remained for backwards
-> > > compatibility when the bundle changes were introduced. The bundle
-> > > functionality has been available for a number of releases since, as such
-> > > this change does not carry forward the functionality of INITRAMFS_TASK.
-> > > The information regarding INITRAMFS_TASK issues for is kept along with
-> > > the generation of a bb.fatal when a user attempts to use it.
+> > > Please don't inject anything in the cpio, let the image-engineer decide.
 > > >
-> > > Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> > > This poor image is regularly attacked by new changes filling the cpio
+> > > with undesidered stuff:
+> > > http://cgit.openembedded.org/meta-openembedded/tree/meta-initramfs/recipes-bsp/images/initramfs-kexecboot-image.bb
 > >
-> > Hi Nathan,
+> > How does this image handle this /dev/console dependency? Is there
+> > something I am missing with how it is built into the kernel, or with
+> > how the kernel you are using is configured?
 > >
-> > thanks for your efforts, clearly cleaning is needed wrt the bunling.
+> > It appears the initramfs-framework images of oe-core solve this by
+> > creating the node in the image itself.
+> > http://git.openembedded.org/openembedded-core/tree/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb#n51
+> > http://git.openembedded.org/openembedded-core/tree/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb#n15
+> > http://git.openembedded.org/openembedded-core/tree/meta/recipes-core/initrdscripts/initramfs-live-boot-tiny_1.0.bb
 > >
-> > As for the results of this work, I fear it will break the existent (10
-> > yrs) infrastructure.
-> > A brief recap: we want to build a non-yocto kernel bundled with our
-> > initramfs image, this in a single kernel recipe.
+> > Looking at the log of those files, it appears this might have been a
+> > kernel version and/or architecture specific thing back in 2013...
+> > http://git.openembedded.org/openembedded-core/commit/?id=0352841cd92f6316bcac092e2fff9d28c352b36b
 > >
-> > http://cgit.openembedded.org/meta-handheld/tree/recipes-kernel/linux/linux-kexecboot_4.4.bb
-> >
-> > In the years I have adjusted the recipe which is today needing both
-> >
-> > INITRAMFS_IMAGE = "initramfs-kexecboot-klibc-image"
-> > INITRAMFS_TASK = "${INITRAMFS_IMAGE}:do_image_complete"
-> >
-> > I will test your patch and include the new kernel-initramfs.bbclass.
-> > The point is that I don't want/need the NITRAMFS_IMAGE_BUNDLE for th
-> > emain kernel, just for thi ssecond kernel provided by the a.m. recipe.
-> > I have to check again but this var has to be set upper in local.conf,
-> > not in the recipe afaik.
+> > >
 >
-> My understanding is that since image.bbclass no longer has any task
-> dependence on the initramfs bundling you should be able to mark
-> INITRAMFS_IMAGE_BUNDLE in your second kernel recipe and it will
-> achieve a similar result. I did test this with a single kernel recipe,
-> which resulted in correct kernel+image build and deploying. If you
-> have issues with it behaving as desired then I can look into and see
-> if it is possible to solve all bundling use cases with the one
-> implementation similar to this change.
->
-> The dependence on the kernel's bundling tasks was removed here:
-> http://git.openembedded.org/openembedded-core/commit/?id=eca501aeb4f2cc9255fabab14c68f6910367aaf9
->
-> Other than the task dependencies that were in image I could find no
-> evidence that INITRAMFS_IMAGE_BUNDLE was explicitly required in a
-> .conf apart from the comment in local.conf.extended
-> (http://git.openembedded.org/openembedded-core/tree/meta/conf/local.conf.sample.extended#n350).
->
-> Regards,
-> Nathan
->
+> And I had to revert it...
+> http://cgit.openembedded.org/meta-openembedded/commit/meta-initramfs/recipes-kernel?id=7183bacd5c866d433467a750e485e6c01af4aafc
 
-Hello,
+Oh now I feel silly :|. I confused myself thinking is was testing with
+a mainline kernel, and all this time it was still using linux-yocto.
+You are right this only affects linux-yocto kernels.
 
-so I applied both patches and had to comment out (as expected) the
-INITRAMFS_TASK.
-I have added INITRAMFS_IMAGE_BUNDLE in my 2nd kernel recipe but last
-night build did fail: the initramfs.cpio.xz was not found.
+If this appending was only done for linux-yocto kernels you would have
+no issue with it correct?
 
-I did only scrub the last lines... will debug later.
+Thanks,
+Nathan
 
-Cheers
-Andrea
-
+>
+> > > Maybe we are on the corner-case, size-contraints limit us to be within
+> > > 1MiB, neverthless I think it is a good exercise to keep things small
+> > > and clean ;)
 > >
-> > Let me pls check this before (n)acking it...
+> > I would also like to avoid this change if there is an alternative that
+> > works better.
 > >
-> > Cheers
-> > Andrea
+>
+> Well, at the beginning we used IMAGE_DEVICE_TABLES to populate it.
+> Then whit the introduction of devtmpfs (3.2 iirc) we switched using
+> it, to save the few kb of the /dev:the trick here is that devtmpfs
+> automount does not work in the initramfs so you have to mount devtmpfs
+> by hand in your init, like here
+> https://github.com/kexecboot/kexecboot/blob/master/src/kexecboot.c#L734
+>
+> Cheers
+> Andrea
+>
+> > Thanks,
+> > Nathan
 > >
-> > > ---
-> > >  meta/classes/kernel-initramfs.bbclass | 114 +++++++++++++++++++++++++
-> > >  meta/classes/kernel.bbclass           | 155 +++++-----------------------------
-> > >  2 files changed, 133 insertions(+), 136 deletions(-)
-> > >  create mode 100644 meta/classes/kernel-initramfs.bbclass
 > > >
-> > > diff --git a/meta/classes/kernel-initramfs.bbclass b/meta/classes/kernel-initramfs.bbclass
-> > > new file mode 100644
-> > > index 0000000000..b23fb51495
-> > > --- /dev/null
-> > > +++ b/meta/classes/kernel-initramfs.bbclass
-> > > @@ -0,0 +1,114 @@
-> > > +
-> > > +INITRAMFS_IMAGE ?= ""
-> > > +INITRAMFS_IMAGE_NAME ?= "${@'${INITRAMFS_IMAGE}-${MACHINE}' if d.getVar('INITRAMFS_IMAGE') else ''}"
-> > > +INITRAMFS_IMAGE_BUNDLE ?= ""
-> > > +
-> > > +python __anonymous () {
-> > > +    # NOTE: setting INITRAMFS_TASK was for backward compatibility
-> > > +    #       The preferred method is to set INITRAMFS_IMAGE, because
-> > > +    #       this INITRAMFS_TASK has circular dependency problems
-> > > +    #       if the initramfs requires kernel modules
-> > > +    if d.getVar('INITRAMFS_TASK'):
-> > > +        bb.fatal("The INITRAMFS_TASK variable is no longer supported. Use INITRAMFS_IMAGE and INITRAMFS_IMAGE_BUNDLE.")
-> > > +
-> > > +    image = d.getVar("INITRAMFS_IMAGE")
-> > > +    bundle = oe.types.boolean(d.getVar("INITRAMFS_IMAGE_BUNDLE") or "0")
-> > > +    if image and bundle:
-> > > +        # add all the tasks
-> > > +        bb.build.addtask('do_initramfs_copy', 'do_initramfs_bundle', 'do_install', d)
-> > > +        bb.build.addtask('do_initramfs_bundle', 'do_deploy', 'do_initramfs_copy', d)
-> > > +
-> > > +        # make the do_initramfs_copy task depend on the image do_image_complete task
-> > > +        d.appendVarFlag('do_initramfs_copy', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
-> > > +}
-> > > +
-> > > +do_initramfs_copy[dirs] = "${B}"
-> > > +do_initramfs_copy () {
-> > > +    echo "Copying initramfs into ./usr ..."
-> > > +    # In case the directory is not created yet from the first pass compile:
-> > > +    mkdir -p ${B}/usr
-> > > +    # Find and use the first initramfs image archive type we find
-> > > +    rm -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
-> > > +    for img in cpio cpio.gz cpio.lz4 cpio.lzo cpio.lzma cpio.xz; do
-> > > +        if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img" ]; then
-> > > +            cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img ${B}/usr/.
-> > > +            case $img in
-> > > +            *gz)
-> > > +                echo "gzip decompressing image"
-> > > +                gunzip -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
-> > > +                break
-> > > +                ;;
-> > > +            *lz4)
-> > > +                echo "lz4 decompressing image"
-> > > +                lz4 -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
-> > > +                break
-> > > +                ;;
-> > > +            *lzo)
-> > > +                echo "lzo decompressing image"
-> > > +                lzop -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
-> > > +                break
-> > > +                ;;
-> > > +            *lzma)
-> > > +                echo "lzma decompressing image"
-> > > +                lzma -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
-> > > +                break
-> > > +                ;;
-> > > +            *xz)
-> > > +                echo "xz decompressing image"
-> > > +                xz -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
-> > > +                break
-> > > +                ;;
-> > > +            esac
-> > > +        fi
-> > > +    done
-> > > +    if [ ! -e ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio ]; then
-> > > +        bbfatal "Failed to copy initramfs cpio for image ${INITRAMFS_IMAGE_NAME}"
-> > > +    fi
-> > > +    echo "Finished copy of initramfs into ./usr"
-> > > +}
-> > > +
-> > > +do_initramfs_bundle[dirs] = "${B}"
-> > > +do_initramfs_bundle () {
-> > > +    echo "Creating a kernel image with a bundled initramfs..."
-> > > +    # Backing up kernel image relies on its type(regular file or symbolic link)
-> > > +    tmp_path=""
-> > > +    for imageType in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
-> > > +        if [ -h ${KERNEL_OUTPUT_DIR}/$imageType ] ; then
-> > > +            linkpath=`readlink -n ${KERNEL_OUTPUT_DIR}/$imageType`
-> > > +            realpath=`readlink -fn ${KERNEL_OUTPUT_DIR}/$imageType`
-> > > +            mv -f $realpath $realpath.bak
-> > > +            tmp_path=$tmp_path" "$imageType"#"$linkpath"#"$realpath
-> > > +        elif [ -f ${KERNEL_OUTPUT_DIR}/$imageType ]; then
-> > > +            mv -f ${KERNEL_OUTPUT_DIR}/$imageType ${KERNEL_OUTPUT_DIR}/$imageType.bak
-> > > +            tmp_path=$tmp_path" "$imageType"##"
-> > > +        fi
-> > > +    done
-> > > +    extra_make=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
-> > > +    kernel_do_compile
-> > > +    # Restoring kernel image
-> > > +    for tp in $tmp_path ; do
-> > > +        imageType=`echo $tp|cut -d "#" -f 1`
-> > > +        linkpath=`echo $tp|cut -d "#" -f 2`
-> > > +        realpath=`echo $tp|cut -d "#" -f 3`
-> > > +        if [ -n "$realpath" ]; then
-> > > +            mv -f $realpath $realpath.initramfs
-> > > +            mv -f $realpath.bak $realpath
-> > > +            ln -sf $linkpath.initramfs ${B}/${KERNEL_OUTPUT_DIR}/$imageType.initramfs
-> > > +        else
-> > > +            mv -f ${KERNEL_OUTPUT_DIR}/$imageType ${KERNEL_OUTPUT_DIR}/$imageType.initramfs
-> > > +            mv -f ${KERNEL_OUTPUT_DIR}/$imageType.bak ${KERNEL_OUTPUT_DIR}/$imageType
-> > > +        fi
-> > > +    done
-> > > +}
-> > > +
-> > > +do_deploy_append () {
-> > > +    if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-> > > +        for imageType in ${KERNEL_IMAGETYPES} ; do
-> > > +            initramfs_base_name=${imageType}-${INITRAMFS_NAME}
-> > > +            initramfs_symlink_name=${imageType}-${INITRAMFS_LINK_NAME}
-> > > +            install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}.initramfs $deployDir/${initramfs_base_name}.bin
-> > > +            ln -sf ${initramfs_base_name}.bin $deployDir/${initramfs_symlink_name}.bin
-> > > +        done
-> > > +    fi
-> > > +}
-> > > +
-> > > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > > index e04d2fe004..c0e9452ca6 100644
-> > > --- a/meta/classes/kernel.bbclass
-> > > +++ b/meta/classes/kernel.bbclass
-> > > @@ -20,10 +20,6 @@ OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
-> > >  INHIBIT_DEFAULT_DEPS = "1"
+> > > As for the previous patch touching initramfs, I hold my comments for
+> > > the moment: let me first test it.
+> > > Cheers
 > > >
-> > >  KERNEL_IMAGETYPE ?= "zImage"
-> > > -INITRAMFS_IMAGE ?= ""
-> > > -INITRAMFS_IMAGE_NAME ?= "${@['${INITRAMFS_IMAGE}-${MACHINE}', ''][d.getVar('INITRAMFS_IMAGE') == '']}"
-> > > -INITRAMFS_TASK ?= ""
-> > > -INITRAMFS_IMAGE_BUNDLE ?= ""
+> > > Andrea
 > > >
-> > >  # KERNEL_VERSION is extracted from source code. It is evaluated as
-> > >  # None for the first parsing, since the code has not been fetched.
-> > > @@ -93,37 +89,8 @@ python __anonymous () {
-> > >          d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
-> > >          d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
-> > >          d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
-> > > -
-> > > -    image = d.getVar('INITRAMFS_IMAGE')
-> > > -    if image:
-> > > -        d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
-> > > -
-> > > -    # NOTE: setting INITRAMFS_TASK is for backward compatibility
-> > > -    #       The preferred method is to set INITRAMFS_IMAGE, because
-> > > -    #       this INITRAMFS_TASK has circular dependency problems
-> > > -    #       if the initramfs requires kernel modules
-> > > -    image_task = d.getVar('INITRAMFS_TASK')
-> > > -    if image_task:
-> > > -        d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
-> > >  }
-> > >
-> > > -# Here we pull in all various kernel image types which we support.
-> > > -#
-> > > -# In case you're wondering why kernel.bbclass inherits the other image
-> > > -# types instead of the other way around, the reason for that is to
-> > > -# maintain compatibility with various currently existing meta-layers.
-> > > -# By pulling in the various kernel image types here, we retain the
-> > > -# original behavior of kernel.bbclass, so no meta-layers should get
-> > > -# broken.
-> > > -#
-> > > -# KERNEL_CLASSES by default pulls in kernel-uimage.bbclass, since this
-> > > -# used to be the default behavior when only uImage was supported. This
-> > > -# variable can be appended by users who implement support for new kernel
-> > > -# image types.
-> > > -
-> > > -KERNEL_CLASSES ?= " kernel-uimage "
-> > > -inherit ${KERNEL_CLASSES}
-> > > -
-> > >  # Old style kernels may set ${S} = ${WORKDIR}/git for example
-> > >  # We need to move these over to STAGING_KERNEL_DIR. We can't just
-> > >  # create the symlink in advance as the git fetcher can't cope with
-> > > @@ -188,90 +155,10 @@ KERNEL_EXTRA_ARGS ?= ""
-> > >  EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
-> > >  KERNEL_ALT_IMAGETYPE ??= ""
-> > >
-> > > -copy_initramfs() {
-> > > -       echo "Copying initramfs into ./usr ..."
-> > > -       # In case the directory is not created yet from the first pass compile:
-> > > -       mkdir -p ${B}/usr
-> > > -       # Find and use the first initramfs image archive type we find
-> > > -       rm -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
-> > > -       for img in cpio cpio.gz cpio.lz4 cpio.lzo cpio.lzma cpio.xz; do
-> > > -               if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img" ]; then
-> > > -                       cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img ${B}/usr/.
-> > > -                       case $img in
-> > > -                       *gz)
-> > > -                               echo "gzip decompressing image"
-> > > -                               gunzip -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
-> > > -                               break
-> > > -                               ;;
-> > > -                       *lz4)
-> > > -                               echo "lz4 decompressing image"
-> > > -                               lz4 -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
-> > > -                               break
-> > > -                               ;;
-> > > -                       *lzo)
-> > > -                               echo "lzo decompressing image"
-> > > -                               lzop -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
-> > > -                               break
-> > > -                               ;;
-> > > -                       *lzma)
-> > > -                               echo "lzma decompressing image"
-> > > -                               lzma -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
-> > > -                               break
-> > > -                               ;;
-> > > -                       *xz)
-> > > -                               echo "xz decompressing image"
-> > > -                               xz -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
-> > > -                               break
-> > > -                               ;;
-> > > -                       esac
-> > > -               fi
-> > > -       done
-> > > -       echo "Finished copy of initramfs into ./usr"
-> > > -}
-> > > -
-> > > -do_bundle_initramfs () {
-> > > -       if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-> > > -               echo "Creating a kernel image with a bundled initramfs..."
-> > > -               copy_initramfs
-> > > -               # Backing up kernel image relies on its type(regular file or symbolic link)
-> > > -               tmp_path=""
-> > > -               for imageType in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
-> > > -                       if [ -h ${KERNEL_OUTPUT_DIR}/$imageType ] ; then
-> > > -                               linkpath=`readlink -n ${KERNEL_OUTPUT_DIR}/$imageType`
-> > > -                               realpath=`readlink -fn ${KERNEL_OUTPUT_DIR}/$imageType`
-> > > -                               mv -f $realpath $realpath.bak
-> > > -                               tmp_path=$tmp_path" "$imageType"#"$linkpath"#"$realpath
-> > > -                       elif [ -f ${KERNEL_OUTPUT_DIR}/$imageType ]; then
-> > > -                               mv -f ${KERNEL_OUTPUT_DIR}/$imageType ${KERNEL_OUTPUT_DIR}/$imageType.bak
-> > > -                               tmp_path=$tmp_path" "$imageType"##"
-> > > -                       fi
-> > > -               done
-> > > -               use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
-> > > -               kernel_do_compile
-> > > -               # Restoring kernel image
-> > > -               for tp in $tmp_path ; do
-> > > -                       imageType=`echo $tp|cut -d "#" -f 1`
-> > > -                       linkpath=`echo $tp|cut -d "#" -f 2`
-> > > -                       realpath=`echo $tp|cut -d "#" -f 3`
-> > > -                       if [ -n "$realpath" ]; then
-> > > -                               mv -f $realpath $realpath.initramfs
-> > > -                               mv -f $realpath.bak $realpath
-> > > -                               ln -sf $linkpath.initramfs ${B}/${KERNEL_OUTPUT_DIR}/$imageType.initramfs
-> > > -                       else
-> > > -                               mv -f ${KERNEL_OUTPUT_DIR}/$imageType ${KERNEL_OUTPUT_DIR}/$imageType.initramfs
-> > > -                               mv -f ${KERNEL_OUTPUT_DIR}/$imageType.bak ${KERNEL_OUTPUT_DIR}/$imageType
-> > > -                       fi
-> > > -               done
-> > > -       fi
-> > > -}
-> > > -do_bundle_initramfs[dirs] = "${B}"
-> > > -
-> > >  python do_devshell_prepend () {
-> > >      os.environ["LDFLAGS"] = ''
-> > >  }
-> > >
-> > > -addtask bundle_initramfs after do_install before do_deploy
-> > > -
-> > >  get_cc_option () {
-> > >                 # Check if KERNEL_CC supports the option "file-prefix-map".
-> > >                 # This option allows us to build images with __FILE__ values that do not
-> > > @@ -302,22 +189,10 @@ kernel_do_compile() {
-> > >                 export KCONFIG_NOTIMESTAMP=1
-> > >                 bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
-> > >         fi
-> > > -       # The $use_alternate_initrd is only set from
-> > > -       # do_bundle_initramfs() This variable is specifically for the
-> > > -       # case where we are making a second pass at the kernel
-> > > -       # compilation and we want to force the kernel build to use a
-> > > -       # different initramfs image.  The way to do that in the kernel
-> > > -       # is to specify:
-> > > -       # make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
-> > > -       if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] ; then
-> > > -               # The old style way of copying an prebuilt image and building it
-> > > -               # is turned on via INTIRAMFS_TASK != ""
-> > > -               copy_initramfs
-> > > -               use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
-> > > -       fi
-> > >         cc_extra=$(get_cc_option)
-> > > +       # extra_make is set via users of kernel_do_compile like do_initramfs_bundle
-> > >         for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
-> > > -               oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
-> > > +               oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $extra_make
-> > >         done
-> > >         # vmlinux.gz is not built by kernel
-> > >         if (echo "${KERNEL_IMAGETYPES}" | grep -wq "vmlinux\.gz"); then
-> > > @@ -679,15 +554,6 @@ kernel_do_deploy() {
-> > >                 tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
-> > >                 ln -sf modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
-> > >         fi
-> > > -
-> > > -       if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-> > > -               for imageType in ${KERNEL_IMAGETYPES} ; do
-> > > -                       initramfs_base_name=${imageType}-${INITRAMFS_NAME}
-> > > -                       initramfs_symlink_name=${imageType}-${INITRAMFS_LINK_NAME}
-> > > -                       install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}.initramfs $deployDir/${initramfs_base_name}.bin
-> > > -                       ln -sf ${initramfs_base_name}.bin $deployDir/${initramfs_symlink_name}.bin
-> > > -               done
-> > > -       fi
-> > >  }
-> > >  do_deploy[cleandirs] = "${DEPLOYDIR}"
-> > >  do_deploy[dirs] = "${DEPLOYDIR} ${B}"
-> > > @@ -697,5 +563,22 @@ addtask deploy after do_populate_sysroot do_packagedata
-> > >
-> > >  EXPORT_FUNCTIONS do_deploy
-> > >
-> > > +# Here we pull in all various kernel image types which we support.
-> > > +#
-> > > +# In case you're wondering why kernel.bbclass inherits the other image
-> > > +# types instead of the other way around, the reason for that is to
-> > > +# maintain compatibility with various currently existing meta-layers.
-> > > +# By pulling in the various kernel image types here, we retain the
-> > > +# original behavior of kernel.bbclass, so no meta-layers should get
-> > > +# broken.
-> > > +#
-> > > +# KERNEL_CLASSES by default pulls in kernel-uimage.bbclass, since this
-> > > +# used to be the default behavior when only uImage was supported. This
-> > > +# variable can be appended by users who implement support for new kernel
-> > > +# image types.
-> > > +
-> > > +KERNEL_CLASSES ?= " kernel-uimage kernel-initramfs "
-> > > +inherit ${KERNEL_CLASSES}
-> > > +
-> > >  # Add using Device Tree support
-> > >  inherit kernel-devicetree
-> > > ---
-> > > 2.19.1
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > > > To resolve this issue, ensure any cpio that is built into the kernel is
+> > > > prepared with a /dev/console node. This is done by appending to the
+> > > > copied cpio of the INITRAMFS_IMAGE. In order to create the node to
+> > > > append, the task must be executed with root permission (to run mknod).
+> > > > As such this change creates and intermediate _prepare task between the
+> > > > existing _bundle and _copy tasks.
+> > > >
+> > > > Note: The default/minimal initramfs that the kernel sources
+> > > > gen_initramfs_list.sh generates contains this device node.
+> > > >
+> > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/usr/gen_initramfs_list.sh?h=master#n55
+> > > >
+> > > > Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> > > > ---
+> > > >  meta/classes/kernel-initramfs.bbclass | 15 ++++++++++++++-
+> > > >  1 file changed, 14 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/meta/classes/kernel-initramfs.bbclass b/meta/classes/kernel-initramfs.bbclass
+> > > > index b23fb51495..135f4c8949 100644
+> > > > --- a/meta/classes/kernel-initramfs.bbclass
+> > > > +++ b/meta/classes/kernel-initramfs.bbclass
+> > > > @@ -16,7 +16,8 @@ python __anonymous () {
+> > > >      if image and bundle:
+> > > >          # add all the tasks
+> > > >          bb.build.addtask('do_initramfs_copy', 'do_initramfs_bundle', 'do_install', d)
+> > > > -        bb.build.addtask('do_initramfs_bundle', 'do_deploy', 'do_initramfs_copy', d)
+> > > > +        bb.build.addtask('do_initramfs_prepare', 'do_initramfs_bundle', 'do_initramfs_copy', d)
+> > > > +        bb.build.addtask('do_initramfs_bundle', 'do_deploy', 'do_initramfs_prepare', d)
+> > > >
+> > > >          # make the do_initramfs_copy task depend on the image do_image_complete task
+> > > >          d.appendVarFlag('do_initramfs_copy', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+> > > > @@ -67,6 +68,18 @@ do_initramfs_copy () {
+> > > >      echo "Finished copy of initramfs into ./usr"
+> > > >  }
+> > > >
+> > > > +do_initramfs_prepare[dirs] = "${B}"
+> > > > +fakeroot do_initramfs_prepare () {
+> > > > +    echo "Preparing initramfs by creating required /dev/ nodes"
+> > > > +    # append a /dev/console node, this node must be created in the rootfs
+> > > > +    # for built-in initramfs cpios otherwise it will error with:
+> > > > +    #   Kernel panic - not syncing: /dev/console is missing or not a character device!
+> > > > +    rm -rf ${B}/usr/append
+> > > > +    mkdir -p ${B}/usr/append/dev
+> > > > +    mknod -m 600 ${B}/usr/append/dev/console c 5 1
+> > > > +    (cd  ${B}/usr/append && echo "./dev/console" | cpio -oA -H newc -F ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio)
+> > > > +}
+> > > > +
+> > > >  do_initramfs_bundle[dirs] = "${B}"
+> > > >  do_initramfs_bundle () {
+> > > >      echo "Creating a kernel image with a bundled initramfs..."
+> > > > ---
+> > > > 2.19.1
+> > > > --
+> > > > _______________________________________________
+> > > > Openembedded-core mailing list
+> > > > Openembedded-core@lists.openembedded.org
+> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
