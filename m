@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 652C679EAD
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E7C378C05
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Nov 2018 13:49:15 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id q18-v6so14616098iod.5
+	Thu,  8 Nov 2018 14:15:09 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id r12-v6so1715749ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Nov 2018 05:49:16 -0800 (PST)
+	Thu, 08 Nov 2018 06:15:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oppvFqdSjdpSu3JCRbRg43/G14tvNk3dUw6MDf5/7KA=;
-	b=b+ZOoEpLcuaZnK2TtxOa35+an1cXRDeLPKcs52H9TFHJla5wdl82K4fA0H7lAHMU2Z
-	K6k7zV6/K5wnxtOJpyG5mEsng9diY/LU4CYo7k/X9dn0nHTFwEjWLZOAUZeRLi/h7ceW
-	UBi3zYUFZhWNbjCjq1WSSFr0u2awETB9PAwMzWDVm1oKHf8h25f9nER/5azC1G3PhICL
-	PNaJJhGANjfYv0V4983QXbybdSsV7RtAMVxGntdIj/65sFPABRasijhCsCSZVKCrMalb
-	xGI5diuLaT5Jiwmva4F/9IQYXAIJ/IlLgLnVOE/GeaE3jrdT857zF66AHN7cv+rt4cTX
-	E+Rg==
+	:cc; bh=B7Uu5vKa9hDeM74HacUvhcC6yCpjp4/vyhETOHRs1r0=;
+	b=XT9+aJ02JolhmV/F7jeBr93ZvavjJSn69fvpyhlw8JxziDI5FD6+bIcDpxPCv0sFCh
+	rn48aj3S7roC3FRtXkh4na2uH0iMs0WUzf+h7XfjDiv/NvVqFEe8w0B9e5+mdYYDw7hT
+	+/6/Jpqr+H3zdBN6cg65y0PY0YJKMkT0uLcxeAktdYX92uPXPVa2W1ZI5kp76riasUmh
+	h9kOfcyvX/8J5VDHThdALceL1MMSrgJLfkpPOuX3o7odKrYyJyr/zEchGcMUewuY0LxO
+	r3LeaaHHEX+56EkE1tnAhsY3djeVdD6D6ucVzaoyC713XbzuVqPD6IfnT0RmTfLZt0x5
+	xw+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=oppvFqdSjdpSu3JCRbRg43/G14tvNk3dUw6MDf5/7KA=;
-	b=jWh1HqmEO8xTRQWLlyMtl1iI5q54DQUdyPZlgdr+h/haDp34kjTavf0SgKCGJnhacG
-	GM31pgAkMLt0YJiVin0HBeupUuHzUu8ceXkTd/rTJCbpsqljeumq25Bc40N/3kkmKtHu
-	E8G+4mLHrjk6amQAuT8LRBvY7dFVqfFP4hGCwThsevtFcqZq2ZZ8neOqDFBHW0aUqVa5
-	RFuAd5Lts0U2hiQYpwA44hoflZ9Wy2fh8G201aN6flAQUf3FCe8zE1cbEKnjFdgbKyEE
-	hstrEfMYNAgr8bdObmTVIyuSe/aKlKCrBSh0U+5rhWUElkmcnbQu97CGEUVjfCxTe6qW
-	yObg==
-X-Gm-Message-State: AGRZ1gJc6WnC1Kz/+Nv5BTOlWXYBFvN02xNfScMCglT8YrVjh7NK9svQ
-	Cn6XxqijZ3JyBmxkdUujh61pSTn29Im417l+7WQ0AQ==
-X-Google-Smtp-Source: AJdET5eM0uBy6sGvbV/9aUICCu2+gl8WMFqydybpTcR4UHdh6cySBZ28F28bMUFHnCl/lbptgJYhr2t7ETlvH2f9+Uw=
-X-Received: by 2002:a6b:1602:: with SMTP id 2-v6mr3469246iow.201.1541684956501;
-	Thu, 08 Nov 2018 05:49:16 -0800 (PST)
+	bh=B7Uu5vKa9hDeM74HacUvhcC6yCpjp4/vyhETOHRs1r0=;
+	b=U1L2qYfNV4dolm4/TOrnUOBWIfCvm1Sqfmqn277z2GD0LLL1VpwNCCIFLyOTe3j7hV
+	rqhxKPSzNAqKIS6RVv6/aNxch6EyVd0op64aOtR1o70aJg3wHUEA1nkhfJ4P/KVXbs2E
+	e6AM7Kyeuq0HWdxzkSsAboDRXoOAxace9t43pEdgKQoUBv0Rp11PSg3VLDbOKFpyQC34
+	ieUkKfWYBqRlbEA3a4WrtCQBFo5b82RHvKnpE5Bpa/osmh+dTmfBFRkzKdgGIP2lWUPO
+	VfuuYTGUBSvl2sKmDhkNDtPELzIG+foALyvYtmdzbNwqqApKyLbfFHwLAreqdDrNjEji
+	vxCQ==
+X-Gm-Message-State: AGRZ1gKUpwuSQVK/Uxnhhk2nU2eGjK4oSz2F+FSZ+RXSWAqJ00IQ99+C
+	L5Wf5WmLufzb9AryCzUA3uhEOj3bnAQukizYaEYFHw==
+X-Google-Smtp-Source: AJdET5eRZ1pT4lvJuZAfq2ycHwAlbN5I0q4CCLROHB/J7qJn6tIXaDEydeSuv08nzNf4FaaQMrhbr5SGNEE3UsHpIcs=
+X-Received: by 2002:a24:9142:: with SMTP id
+	i63-v6mr1265474ite.130.1541686510957; 
+	Thu, 08 Nov 2018 06:15:10 -0800 (PST)
 MIME-Version: 1.0
-References: <1541657297-30997-1-git-send-email-mingli.yu@windriver.com>
-	<1541657297-30997-3-git-send-email-mingli.yu@windriver.com>
-In-Reply-To: <1541657297-30997-3-git-send-email-mingli.yu@windriver.com>
+References: <20181107175922.6631-1-Randy.MacLeod@windriver.com>
+In-Reply-To: <20181107175922.6631-1-Randy.MacLeod@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Nov 2018 13:49:04 +0000
-Message-ID: <CAJTo0La+u72y4JiB9dGKGw==FR_8Uwu31pO19eJ78bVfnHj08Q@mail.gmail.com>
-To: Mingli Yu <mingli.yu@windriver.com>
+Date: Thu, 8 Nov 2018 14:14:59 +0000
+Message-ID: <CAJTo0LaNF-q9Lj6-VZgnGbX154hO_XOx7KaKzxcAzys1WBBnPg@mail.gmail.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/7] python3: add tk support
+Subject: Re: [PATCH] valgrind: drop mips n32 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,16 +55,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Nov 2018 13:49:15 -0000
+X-List-Received-Date: Thu, 08 Nov 2018 14:15:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 8 Nov 2018 at 06:09, <mingli.yu@windriver.com> wrote:
-> +            if "tkinter" in pypackage and "tk" in pkgconfig:
-> +                d.appendVar('FILES_' + pypackage, ' ' + "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter*.so")
-> +            if "tkinter" in pypackage and "tk" in pkgconfig:
-> +                d.appendVar('RDEPENDS_' + pypackage, ' ' + 'tk')
+On Wed, 7 Nov 2018 at 18:00, Randy MacLeod <Randy.MacLeod@windriver.com> wrote:
+> valgrind for qemumips64 multilib builds fails to configure
+> for libn32 with the error:
+>    configure:6190: checking for 32 bit build support
+>    ...
+>    fatal error: bits/long-double-32.h: No such file or directory
+> It seems that the toolchain is producing:
+>    tmp-glibc/sysroots-components/mips64-n32/libn32-glibc/usr/include/bits/long-double-n32.h
+>
+> Until the toolchain problem is resolved, skip valgrind for libn32.
 
-Why is this here and not in the manifest?
+Is there a bug filed for this?
 
 Ross
 
