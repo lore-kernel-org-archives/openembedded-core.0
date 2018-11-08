@@ -1,37 +1,23 @@
-Return-Path: <n.wesp@phytec.de>
-Received: from mickerik.phytec.de (mickerik.phytec.de [195.145.39.210])
-	by mail.openembedded.org (Postfix) with ESMTP id B557560269
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D40D87547F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Nov 2018 09:46:07 +0000 (UTC)
-X-AuditID: c39127d2-971ff70000000d8a-a4-5be405e051ff
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by mickerik.phytec.de (Symantec Messaging Gateway) with SMTP id
-	0F.FC.03466.0E504EB5; Thu,  8 Nov 2018 10:46:08 +0100 (CET)
-Received: from augenblix.phytec.de ([172.16.0.56])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2018110810460780-19409 ;
-	Thu, 8 Nov 2018 10:46:07 +0100 
-From: Norbert Wesp <n.wesp@phytec.de>
+	Thu,  8 Nov 2018 09:57:00 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Nov 2018 01:57:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,478,1534834800"; d="scan'208";a="104464223"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga004.fm.intel.com with ESMTP; 08 Nov 2018 01:56:59 -0800
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 8 Nov 2018 10:46:02 +0100
-Message-Id: <1541670362-32827-1-git-send-email-n.wesp@phytec.de>
+Date: Thu,  8 Nov 2018 17:41:54 +0800
+Message-Id: <1541670114-31523-1-git-send-email-ee.peng.yeoh@intel.com>
 X-Mailer: git-send-email 2.7.4
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 08.11.2018 10:46:08,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 08.11.2018 10:46:08,
-	Serialize complete at 08.11.2018 10:46:08
-X-TNEFEvaluated: 1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJJMWRmVeSWpSXmKPExsWyRoCBS/cB65Nog1cbeSzu/HzH7sDocW7j
-	CsYAxigum5TUnMyy1CJ9uwSujENzv7AUrO9lrOg6PYe1gXFfVRcjJ4eEgInE07ZrjF2MXBxC
-	AvsYJWZc+8gE4ZxhlHh7vIUJpIpNQFWi/cwN5i5GDg4RAR2JNx+9QMLCAg4SL7//YAOxWQRU
-	JH43PmAHsXmB4r87QYaCLJCTuHmukxlkpoRAI5PE57t/2CASQhKnF59lnsDIvYCRYRWjUG5m
-	cnZqUWa2XkFGZUlqsl5K6iZGoAcPT1S/tIOxb47HIUYBDkYlHl4JxcfRQqyJZcWVuYcYJTiY
-	lUR47/wDCvGmJFZWpRblxxeV5qQWH2KU5mBREufdwFsSJiSQnliSmp2aWpBaBJNl4uCUamCU
-	4ZKbuox/h9Olf1M9H1WYxn0yeDJ5dXnuL62Y66f/C92r51U+yLn22f4AixuRkbsF90xhXvlz
-	6cvrdgxbp/0w+GrbF3I4bptYTWHKpPR3K3b9kBc6uvSf6j/9HbZuadOWil2MzhL2uV4Uz7xn
-	1gTXkJqvs7JrpwumFxvtcTsaFWR4pPrkhcXflFiKMxINtZiLihMBLVS+ptwBAAA=
-Subject: [rocko][BACKPORT] swig: add patch to support Node.js 7+
+Subject: [PATCH v2] oeqa/runtime: Add tests for gstreamer CLI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,375 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Nov 2018 09:46:08 -0000
+X-List-Received-Date: Thu, 08 Nov 2018 09:57:01 -0000
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+We should not be finding GStreamer issues right around
+release time but that's what we seem to do.
 
-Add a patch which has been submitted upstream to support producing
-bindings for Node.js 7+. This is important to enable mraa to build with
-newer Node.js versions.
+Port gstreamer tests from Intel Ref Kit.
+https://github.com/intel/intel-iot-refkit/blob/master/meta-iotqa/
+lib/oeqa/runtime/multimedia/gstreamer/gstreamer_cli.py
 
-Fixes [YOCTO #12293].
+Add tests for gstreamer commandline tools (gst-inspect-1.0
+& gst-launch-1.0).
 
-(From OE-Core rev: 1825473ba35b4557db99786420ca451068922223)
+[YOCTO #11418]
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- .../0001-Add-Node-7.x-aka-V8-5.2-support.patch     | 330 +++++++++++++++++++++
- meta/recipes-devtools/swig/swig_3.0.12.bb          |   1 +
- 2 files changed, 331 insertions(+)
- create mode 100644 meta/recipes-devtools/swig/swig/0001-Add-Node-7.x-aka-V8-5.2-support.patch
+ meta/lib/oeqa/runtime/cases/gstreamer.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/gstreamer.py
 
-diff --git a/meta/recipes-devtools/swig/swig/0001-Add-Node-7.x-aka-V8-5.2-support.patch b/meta/recipes-devtools/swig/swig/0001-Add-Node-7.x-aka-V8-5.2-support.patch
+diff --git a/meta/lib/oeqa/runtime/cases/gstreamer.py b/meta/lib/oeqa/runtime/cases/gstreamer.py
 new file mode 100644
-index 0000000..885c395
+index 0000000..7e2cda2
 --- /dev/null
-+++ b/meta/recipes-devtools/swig/swig/0001-Add-Node-7.x-aka-V8-5.2-support.patch
-@@ -0,0 +1,330 @@
-+From 1a5aadcd66e85c63d228bfd811a521d617c22a38 Mon Sep 17 00:00:00 2001
-+From: Patrick Schneider <patrick.schneider@meetnow.eu>
-+Date: Thu, 13 Apr 2017 15:02:53 +0200
-+Subject: [PATCH] Add Node 7.x aka V8 5.2+ support
++++ b/meta/lib/oeqa/runtime/cases/gstreamer.py
+@@ -0,0 +1,14 @@
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.runtime.decorator.package import OEHasPackage
 +
-+* Use WeakCallbackInfo instead of WeakCallbackData
-+* Use GetPrivate instead of GetHiddenValue
-+* Adopted new signature for SetWeak to support destructor calling
-+* SetAccessor deprecation fixed
-+* Proper version checks where applicable
++class GstreamerCliTest(OERuntimeTestCase):
 +
-+Upstream-Status: Submitted [https://github.com/swig/swig/pull/968]
++    @OEHasPackage(['gstreamer1.0'])
++    def test_gst_inspect_can_list_all_plugins(self):
++        status, output = self.target.run('gst-inspect-1.0')
++        self.assertEqual(status, 0, 'gst-inspect-1.0 does not appear to be running.')
 +
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+---
-+ Lib/javascript/v8/javascriptcode.swg    | 27 +++++++++++++++++-----
-+ Lib/javascript/v8/javascripthelpers.swg | 29 +++++++++++++++++++++---
-+ Lib/javascript/v8/javascriptinit.swg    | 16 +++++++++++--
-+ Lib/javascript/v8/javascriptrun.swg     | 40 ++++++++++++++++++++++++++++-----
-+ 4 files changed, 95 insertions(+), 17 deletions(-)
-+
-+diff --git a/Lib/javascript/v8/javascriptcode.swg b/Lib/javascript/v8/javascriptcode.swg
-+index fb7d55c..b8c5089 100644
-+--- a/Lib/javascript/v8/javascriptcode.swg
-++++ b/Lib/javascript/v8/javascriptcode.swg
-+@@ -133,10 +133,13 @@ static void $jswrapper(v8::Isolate *isolate, v8::Persistent<v8::Value> object, v
-+   SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
-+ #elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
-+ static void $jswrapper(v8::Isolate *isolate, v8::Persistent<v8::Object> *object, SWIGV8_Proxy *proxy) {
-+-#else
-++#elif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+ static void $jswrapper(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &data) {
-+   v8::Local<v8::Object> object = data.GetValue();
-+   SWIGV8_Proxy *proxy = data.GetParameter();
-++#else
-++  static void $jswrapper(const v8::WeakCallbackInfo<SWIGV8_Proxy> &data) {
-++  SWIGV8_Proxy *proxy = data.GetParameter();
-+ #endif
-+ 
-+   if(proxy->swigCMemOwn && proxy->swigCObject) {
-+@@ -147,7 +150,9 @@ static void $jswrapper(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &dat
-+   }
-+   delete proxy;
-+ 
-++#if (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   object.Clear();
-++#endif
-+   
-+ #if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
-+   object.Dispose();
-+@@ -155,7 +160,7 @@ static void $jswrapper(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &dat
-+   object.Dispose(isolate);
-+ #elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x032100)
-+   object->Dispose(isolate);
-+-#else
-++#elif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   object->Dispose();
-+ #endif
-+ }
-+@@ -177,10 +182,13 @@ static void $jswrapper(v8::Isolate *isolate, v8::Persistent<v8::Value> object, v
-+   SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
-+ #elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
-+ static void $jswrapper(v8::Isolate *isolate, v8::Persistent< v8::Object> *object, SWIGV8_Proxy *proxy) {
-+-#else
-++#elif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+ static void $jswrapper(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &data) {
-+   v8::Local<v8::Object> object = data.GetValue();
-+   SWIGV8_Proxy *proxy = data.GetParameter();
-++#else
-++static void $jswrapper(const v8::WeakCallbackInfo<SWIGV8_Proxy> &data) {
-++  SWIGV8_Proxy *proxy = data.GetParameter();
-+ #endif
-+ 
-+   if(proxy->swigCMemOwn && proxy->swigCObject) {
-+@@ -197,7 +205,7 @@ static void $jswrapper(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &dat
-+   object->Dispose(isolate);
-+ #elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
-+   object->Dispose();
-+-#else
-++#elif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   object.Clear();
-+ #endif
-+ }
-+@@ -211,7 +219,11 @@ static void $jswrapper(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &dat
-+  * ----------------------------------------------------------------------------- */
-+ %fragment("js_getter", "templates")
-+ %{
-++#if (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+ static SwigV8ReturnValue $jswrapper(v8::Local<v8::String> property, const SwigV8PropertyCallbackInfo &info) {
-++#else
-++static SwigV8ReturnValue $jswrapper(v8::Local<v8::Name> property, const SwigV8PropertyCallbackInfo &info) {
-++#endif
-+   SWIGV8_HANDLESCOPE();
-+   
-+   v8::Handle<v8::Value> jsresult;
-+@@ -233,8 +245,11 @@ fail:
-+  * ----------------------------------------------------------------------------- */
-+ %fragment("js_setter", "templates")
-+ %{
-+-static void $jswrapper(v8::Local<v8::String> property, v8::Local<v8::Value> value,
-+-  const SwigV8PropertyCallbackInfoVoid &info) {
-++#if (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-++static void $jswrapper(v8::Local<v8::String> property, v8::Local<v8::Value> value, const SwigV8PropertyCallbackInfoVoid &info) {
-++#else
-++static void $jswrapper(v8::Local<v8::Name> property, v8::Local<v8::Value> value, const SwigV8PropertyCallbackInfoVoid &info) {
-++#endif
-+   SWIGV8_HANDLESCOPE();
-+   
-+   $jslocals
-+diff --git a/Lib/javascript/v8/javascripthelpers.swg b/Lib/javascript/v8/javascripthelpers.swg
-+index 091467d..7461079 100644
-+--- a/Lib/javascript/v8/javascripthelpers.swg
-++++ b/Lib/javascript/v8/javascripthelpers.swg
-+@@ -6,11 +6,16 @@ typedef v8::InvocationCallback  SwigV8FunctionCallback;
-+ typedef v8::AccessorGetter      SwigV8AccessorGetterCallback;
-+ typedef v8::AccessorSetter      SwigV8AccessorSetterCallback;
-+ typedef v8::AccessorInfo        SwigV8PropertyCallbackInfoVoid;
-+-#else
-++#elif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+ typedef v8::FunctionCallback            SwigV8FunctionCallback;
-+ typedef v8::AccessorGetterCallback      SwigV8AccessorGetterCallback;
-+ typedef v8::AccessorSetterCallback      SwigV8AccessorSetterCallback;
-+ typedef v8::PropertyCallbackInfo<void>  SwigV8PropertyCallbackInfoVoid;
-++#else
-++typedef v8::FunctionCallback            SwigV8FunctionCallback;
-++typedef v8::AccessorNameGetterCallback  SwigV8AccessorGetterCallback;
-++typedef v8::AccessorNameSetterCallback  SwigV8AccessorSetterCallback;
-++typedef v8::PropertyCallbackInfo<void>  SwigV8PropertyCallbackInfoVoid;
-+ #endif
-+ 
-+ /**
-+@@ -65,18 +70,36 @@ SWIGRUNTIME void SWIGV8_AddStaticFunction(v8::Handle<v8::Object> obj, const char
-+  */
-+ SWIGRUNTIME void SWIGV8_AddStaticVariable(v8::Handle<v8::Object> obj, const char* symbol,
-+   SwigV8AccessorGetterCallback getter, SwigV8AccessorSetterCallback setter) {
-++#if (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   obj->SetAccessor(SWIGV8_SYMBOL_NEW(symbol), getter, setter);
-++#else
-++  obj->SetAccessor(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW(symbol), getter, setter);
-++#endif
-+ }
-+ 
-+-SWIGRUNTIME void JS_veto_set_variable(v8::Local<v8::String> property, v8::Local<v8::Value> value,
-+-  const SwigV8PropertyCallbackInfoVoid& info)
-++#if (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-++SWIGRUNTIME void JS_veto_set_variable(v8::Local<v8::String> property, v8::Local<v8::Value> value, const SwigV8PropertyCallbackInfoVoid& info)
-++#else
-++SWIGRUNTIME void JS_veto_set_variable(v8::Local<v8::Name> property, v8::Local<v8::Value> value, const SwigV8PropertyCallbackInfoVoid& info)
-++#endif
-+ {
-+     char buffer[256];
-+     char msg[512];
-+     int res;
-+ 
-++#if (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+     property->WriteUtf8(buffer, 256);
-+     res = sprintf(msg, "Tried to write read-only variable: %s.", buffer);
-++#else
-++    v8::Local<v8::String> sproperty;
-++    if (property->ToString(SWIGV8_CURRENT_CONTEXT()).ToLocal(&sproperty)) {
-++      sproperty->WriteUtf8(buffer, 256);
-++      res = sprintf(msg, "Tried to write read-only variable: %s.", buffer);
-++    }
-++    else {
-++      res = -1;
-++    }
-++#endif
-+ 
-+     if(res<0) {
-+       SWIG_exception(SWIG_ERROR, "Tried to write read-only variable.");
-+diff --git a/Lib/javascript/v8/javascriptinit.swg b/Lib/javascript/v8/javascriptinit.swg
-+index 34befa7..86008d9 100644
-+--- a/Lib/javascript/v8/javascriptinit.swg
-++++ b/Lib/javascript/v8/javascriptinit.swg
-+@@ -7,15 +7,27 @@ SWIG_V8_SetModule(void *, swig_module_info *swig_module) {
-+   v8::Local<v8::Object> global_obj = SWIGV8_CURRENT_CONTEXT()->Global();
-+   v8::Local<v8::External> mod = SWIGV8_EXTERNAL_NEW(swig_module);
-+   assert(!mod.IsEmpty());
-++#if (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   global_obj->SetHiddenValue(SWIGV8_STRING_NEW("swig_module_info_data"), mod);
-++#else
-++  v8::Local<v8::Private> privateKey = v8::Private::ForApi(v8::Isolate::GetCurrent(), SWIGV8_STRING_NEW("swig_module_info_data"));
-++  global_obj->SetPrivate(SWIGV8_CURRENT_CONTEXT(), privateKey, mod);
-++#endif
-+ }
-+ 
-+ SWIGRUNTIME swig_module_info *
-+ SWIG_V8_GetModule(void *) {
-+   v8::Local<v8::Object> global_obj = SWIGV8_CURRENT_CONTEXT()->Global();
-++#if (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   v8::Local<v8::Value> moduleinfo = global_obj->GetHiddenValue(SWIGV8_STRING_NEW("swig_module_info_data"));
-++#else
-++  v8::Local<v8::Private> privateKey = v8::Private::ForApi(v8::Isolate::GetCurrent(), SWIGV8_STRING_NEW("swig_module_info_data"));
-++  v8::Local<v8::Value> moduleinfo;
-++  if (!global_obj->GetPrivate(SWIGV8_CURRENT_CONTEXT(), privateKey).ToLocal(&moduleinfo))
-++    return 0;
-++#endif
-+ 
-+-  if (moduleinfo.IsEmpty())
-++  if (moduleinfo.IsEmpty() || moduleinfo->IsNull() || moduleinfo->IsUndefined())
-+   {
-+     // It's not yet loaded
-+     return 0;
-+@@ -23,7 +35,7 @@ SWIG_V8_GetModule(void *) {
-+ 
-+   v8::Local<v8::External> moduleinfo_extern = v8::Local<v8::External>::Cast(moduleinfo);
-+ 
-+-  if (moduleinfo_extern.IsEmpty())
-++  if (moduleinfo_extern.IsEmpty() || moduleinfo_extern->IsNull() || moduleinfo_extern->IsUndefined())
-+   {
-+     // Something's not right
-+     return 0;
-+diff --git a/Lib/javascript/v8/javascriptrun.swg b/Lib/javascript/v8/javascriptrun.swg
-+index 5ac52a5..30002c0 100644
-+--- a/Lib/javascript/v8/javascriptrun.swg
-++++ b/Lib/javascript/v8/javascriptrun.swg
-+@@ -193,8 +193,10 @@ public:
-+   void (*dtor) (v8::Isolate *isolate, v8::Persistent< v8::Value> object, void *parameter);
-+ #elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
-+   void (*dtor) (v8::Isolate *isolate, v8::Persistent< v8::Object > *object, SWIGV8_Proxy *proxy);
-+-#else
-++#elif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   void (*dtor) (const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &data);
-++#else
-++  void (*dtor) (const v8::WeakCallbackInfo<SWIGV8_Proxy> &data);
-+ #endif
-+ };
-+ 
-+@@ -241,9 +243,12 @@ SWIGRUNTIME void SWIGV8_Proxy_DefaultDtor(v8::Isolate *, v8::Persistent< v8::Val
-+   SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
-+ #elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
-+ SWIGRUNTIME void SWIGV8_Proxy_DefaultDtor(v8::Isolate *, v8::Persistent< v8::Object > *object, SWIGV8_Proxy *proxy) {
-+-#else
-++#elif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+ SWIGRUNTIME void SWIGV8_Proxy_DefaultDtor(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &data) {
-+   SWIGV8_Proxy *proxy = data.GetParameter();
-++#else
-++SWIGRUNTIME void SWIGV8_Proxy_DefaultDtor(const v8::WeakCallbackInfo<SWIGV8_Proxy> &data) {
-++  SWIGV8_Proxy *proxy = data.GetParameter();
-+ #endif
-+ 
-+   delete proxy;
-+@@ -312,12 +317,18 @@ SWIGRUNTIME void SWIGV8_SetPrivateData(v8::Handle<v8::Object> obj, void *ptr, sw
-+   } else {
-+     cdata->handle.MakeWeak(cdata, SWIGV8_Proxy_DefaultDtor);
-+   }
-+-#else
-++#elifif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   if(cdata->swigCMemOwn && (SWIGV8_ClientData*)info->clientdata) {
-+     cdata->handle.SetWeak(cdata, ((SWIGV8_ClientData*)info->clientdata)->dtor);
-+   } else {
-+     cdata->handle.SetWeak(cdata, SWIGV8_Proxy_DefaultDtor);
-+   }
-++#else
-++  if(cdata->swigCMemOwn && (SWIGV8_ClientData*)info->clientdata) {
-++    cdata->handle.SetWeak(cdata, ((SWIGV8_ClientData*)info->clientdata)->dtor, v8::WeakCallbackType::kParameter);
-++  } else {
-++    cdata->handle.SetWeak(cdata, SWIGV8_Proxy_DefaultDtor, v8::WeakCallbackType::kParameter);
-++  }
-+ #endif
-+ 
-+ #if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
-+@@ -470,7 +481,14 @@ int SwigV8Packed_Check(v8::Handle<v8::Value> valRef) {
-+   
-+   v8::Handle<v8::Object> objRef = valRef->ToObject();
-+   if(objRef->InternalFieldCount() < 1) return false;
-++#if (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   v8::Handle<v8::Value> flag = objRef->GetHiddenValue(SWIGV8_STRING_NEW("__swig__packed_data__"));
-++#else
-++  v8::Local<v8::Private> privateKey = v8::Private::ForApi(v8::Isolate::GetCurrent(), SWIGV8_STRING_NEW("__swig__packed_data__"));
-++  v8::Local<v8::Value> flag;
-++  if (!objRef->GetPrivate(SWIGV8_CURRENT_CONTEXT(), privateKey).ToLocal(&flag))
-++    return false;
-++#endif
-+   return (flag->IsBoolean() && flag->BooleanValue());
-+ }
-+ 
-+@@ -519,10 +537,13 @@ SWIGRUNTIME void _wrap_SwigV8PackedData_delete(v8::Isolate *isolate, v8::Persist
-+   SwigV8PackedData *cdata = static_cast<SwigV8PackedData *>(parameter);
-+ #elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
-+ SWIGRUNTIME void _wrap_SwigV8PackedData_delete(v8::Isolate *isolate, v8::Persistent<v8::Object> *object, SwigV8PackedData *cdata) {
-+-#else
-++#elif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+ SWIGRUNTIME void _wrap_SwigV8PackedData_delete(const v8::WeakCallbackData<v8::Object, SwigV8PackedData> &data) {
-+   v8::Local<v8::Object> object = data.GetValue();
-+   SwigV8PackedData *cdata = data.GetParameter();
-++#else
-++SWIGRUNTIME void _wrap_SwigV8PackedData_delete(const v8::WeakCallbackInfo<SwigV8PackedData> &data) {
-++  SwigV8PackedData *cdata = data.GetParameter();
-+ #endif
-+ 
-+   delete cdata;
-+@@ -537,7 +558,7 @@ SWIGRUNTIME void _wrap_SwigV8PackedData_delete(const v8::WeakCallbackData<v8::Ob
-+   object->Dispose(isolate);
-+ #elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
-+   object->Dispose();
-+-#else
-++#elif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   object.Clear();
-+ #endif
-+ }
-+@@ -550,7 +571,12 @@ v8::Handle<v8::Value> SWIGV8_NewPackedObj(void *data, size_t size, swig_type_inf
-+ //  v8::Handle<v8::Object> obj = SWIGV8_OBJECT_NEW();
-+   v8::Local<v8::Object> obj = SWIGV8_OBJECT_NEW();
-+ 
-++#if (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   obj->SetHiddenValue(SWIGV8_STRING_NEW("__swig__packed_data__"), SWIGV8_BOOLEAN_NEW(true));
-++#else
-++  v8::Local<v8::Private> privateKey = v8::Private::ForApi(v8::Isolate::GetCurrent(), SWIGV8_STRING_NEW("__swig__packed_data__"));
-++  obj->SetPrivate(SWIGV8_CURRENT_CONTEXT(), privateKey, SWIGV8_BOOLEAN_NEW(true));
-++#endif
-+ 
-+ #if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031511)
-+   obj->SetPointerInInternalField(0, cdata);
-+@@ -573,9 +599,11 @@ v8::Handle<v8::Value> SWIGV8_NewPackedObj(void *data, size_t size, swig_type_inf
-+   cdata->handle.MakeWeak(v8::Isolate::GetCurrent(), cdata, _wrap_SwigV8PackedData_delete);
-+ #elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
-+   cdata->handle.MakeWeak(cdata, _wrap_SwigV8PackedData_delete);
-+-#else
-++#elif (V8_MAJOR_VERSION-0) < 5 || (V8_MAJOR_VERSION == 5 && V8_MINOR_VERSION < 2)
-+   cdata->handle.SetWeak(cdata, _wrap_SwigV8PackedData_delete);
-+ //  v8::V8::SetWeak(&cdata->handle, cdata, _wrap_SwigV8PackedData_delete);
-++#else
-++  cdata->handle.SetWeak(cdata, _wrap_SwigV8PackedData_delete, v8::WeakCallbackType::kParameter);
-+ #endif
-+ 
-+ #if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
-+-- 
-+2.9.5
-+
-diff --git a/meta/recipes-devtools/swig/swig_3.0.12.bb b/meta/recipes-devtools/swig/swig_3.0.12.bb
-index d5caa67..15f7348 100644
---- a/meta/recipes-devtools/swig/swig_3.0.12.bb
-+++ b/meta/recipes-devtools/swig/swig_3.0.12.bb
-@@ -2,6 +2,7 @@ require ${BPN}.inc
- 
- SRC_URI += "file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch \
-             file://0001-configure-use-pkg-config-for-pcre-detection.patch \
-+            file://0001-Add-Node-7.x-aka-V8-5.2-support.patch \
-            "
- SRC_URI[md5sum] = "82133dfa7bba75ff9ad98a7046be687c"
- SRC_URI[sha256sum] = "7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d"
++    @OEHasPackage(['gstreamer1.0'])
++    def test_gst_launch_can_create_video_pipeline(self):
++        status, output = self.target.run('gst-launch-1.0 -v fakesrc silent=false num-buffers=3 ! fakesink silent=false')
++        self.assertEqual(status, 0, 'gst-launch-1.0 does not appear to be running.')
 -- 
 2.7.4
 
