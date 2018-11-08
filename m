@@ -1,49 +1,49 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 156CE79F42
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+	[209.85.166.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 33D1360079
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Nov 2018 15:32:52 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id 124-v6so1712219wmw.0
+	Thu,  8 Nov 2018 15:43:14 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id o19-v6so14928469iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Nov 2018 07:32:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=ywM0iwESrbi6pGOhD+UhE/MfzNC3QIjusgwvFjM9KTg=;
-	b=ZCOfU7oBA+I3OR2ZPMs85aXSMp++LZXy0sVkllJIM9hxyx1j+hZLGvjftLLkESPNaG
-	UWbQHBcZr/fWIY+3xrbp9pQapMJQMve7gH6JoHVZhG8tN2vAS87h5NVhpBevrpbNBTG7
-	51/OjDisiLAbSF2bLq6SJXA6TfO57NBJn6bYzueV1kgYXAcwph/qggOrmZwBPGHgsuZg
-	bHpIHdzoXrBRjjM4DqZIrj8Scb1QFsVGnAroeJN73SnU/VMVCBz4sjew/7KOkwVwjUAt
-	MAm2JZiyM4jL/cy2STP028/3m7ZTgdDGKp8Pqgp67u1hHB8Zx/hEccH50O/S3sXhD9Vm
-	MCSQ==
+	Thu, 08 Nov 2018 07:43:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=pdngBjfJMAVeydLV2mMVxhs4uoUQqSa6M0iFtH0MV/4=;
+	b=FVoST1ZQZMW57V37EsAlEAiaxjDlnPHhA3EokTJdKid2iAhmGwaKYzIZnOZaEZSy1z
+	fOsEVJddSb7LHvhCwCKqY8jLZaHhwbPF8KPyX3dFryZixCS8K9IlEKmNVcresOGa55ph
+	7ryTbQwbq2PTDiSshQ0tEoohmiHlSy0wn6VfpqCkY1KQOpMkhT5/nuuYgm+Tw9ScSsWS
+	nHYDVIhFnO6jyzgy8MZUHRAzTbWaAuJJ9A6bMwiXaO8wwAVQMBQPakU5RcLyV9RIYYKy
+	GeIu9d3UWLxOfCs0yHijdHfU9LmAvAX8eRj+MgoLmobyV+AQ5Oh63GhTLuqwAL2XdJh8
+	YyWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=ywM0iwESrbi6pGOhD+UhE/MfzNC3QIjusgwvFjM9KTg=;
-	b=Re4I75nNBG5a6savwjhkpWttq8W0M/z7icZoImrwdmBL5Un05V4wFEbxUps6BcTJLH
-	tJyjSCjZ7U5sQjO00bQzm54pAyx4gpeIWDRK/+Gv5iJSkPLVnQQbHzIyTe2i8eGlWxEN
-	N3rM8J/4UWlQNZ7bvxN9KmX0pk3gqhf7WJ8t2rj0E6QfTAyV2HWZefHt9qn3zvI51f4m
-	dKmvrlIruiW6jTxzCsWbZzuskTYgWG/QOqbDmu8F8G885CfR6V8t8wHiTN+OqYbMPUZj
-	H+FW4Qg9Eo3hGJvSiv0pgqoWnwXEakCoFVjem/zp8NKIqilS3XVFcZ+O53Mj9Ia3rJ0e
-	bH8g==
-X-Gm-Message-State: AGRZ1gJo0+iEFiSd+eRVpfhhdyo7wOY58C6l58PW5mBrJr+j3uroDV5l
-	BS6AGjhfAt23GyR6sfWHqUxp+PKP
-X-Google-Smtp-Source: AJdET5eifdG2QF4U5gzwXDhdfi6oyqPOyOv6xyZvrpHri9SbUhJIU7xozsDIROdie1MNjzlEGs8+dw==
-X-Received: by 2002:a1c:3b06:: with SMTP id i6-v6mr1571940wma.18.1541691173386;
-	Thu, 08 Nov 2018 07:32:53 -0800 (PST)
-Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	t77-v6sm7021640wme.18.2018.11.08.07.32.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 Nov 2018 07:32:52 -0800 (PST)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Nov 2018 16:32:42 +0100
-Message-Id: <20181108153242.15679-1-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
-Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH] cpan.bbclass: avoid newer MakeMaker run perl.real
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=pdngBjfJMAVeydLV2mMVxhs4uoUQqSa6M0iFtH0MV/4=;
+	b=M8CbHJFRYyYooBpNOEFGV5LfdohCnb2b7gdcfKjPBxRTNib9rQEpdxeiubyNSwKRxr
+	jSFCqC1o3VYRZ00L7928s65lqGcr0C+3DrEjuBJlK9M6K/5avsxhsxgJ1dFL2lCJxMv2
+	JLj3JWTcSl49R2R9wcSTTS/5MiqAyTRVUmHgAEMwp+3tsfI6iw6f6ASShtmMXv0NUspX
+	9vevfuKlIWnhR7PSzZCdQ4K07LVP9EjxOrXpWNH79lGtRA2OUJ0icaiH33TY5o3qHHHA
+	zlvUgyKRfbTRfQ0noR+mRHgF1BtXIbUFG3P7kag3rTCUL/kBkppfM5/F3WzqzqvkrdaG
+	DJow==
+X-Gm-Message-State: AGRZ1gJr5czk5cqSSExcht6BTpUVaTDgPPHk97fFYkAV6UZeZsOXQq4/
+	xHqen6D/VEkWcmvjw/FbIYn6jl6K5BFrma5GKpQq8w==
+X-Google-Smtp-Source: AJdET5cg7kAAMuKAzoaXONwuv/BjBJ/fC+QL2sp9f+GcLUN1RvT+jjmfUnXFZ/tzm4Eae8MLEqAiW7DscLN9X/2gV8w=
+X-Received: by 2002:a6b:fb0a:: with SMTP id
+	h10-v6mr3678311iog.270.1541691795134; 
+	Thu, 08 Nov 2018 07:43:15 -0800 (PST)
+MIME-Version: 1.0
+References: <20181106122429.24563-1-ross.burton@intel.com>
+	<FB4F7315-9363-4F94-B5B0-3C736A1AE7FA@gmail.com>
+In-Reply-To: <FB4F7315-9363-4F94-B5B0-3C736A1AE7FA@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Nov 2018 15:43:02 +0000
+Message-ID: <CAJTo0LY1=XkrjSPBJKeDu_y8bo5fZYsfZChHpSsHwyHnV5mCvw@mail.gmail.com>
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pseudo: fix link with new sqlite3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +56,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Nov 2018 15:32:53 -0000
+X-List-Received-Date: Thu, 08 Nov 2018 15:43:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-In newer versions of ExtUtils::MakeMaker, the location of the perl
-binary to run is determined differently which results in finding
-${bindir}/perl.real instead of ${bindir}/perl
+On Thu, 8 Nov 2018 at 14:53, Jens Rehsack <rehsack@gmail.com> wrote:
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/classes/cpan.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> I digged a bit deeper (since I'd like to get a reasonable solution even for other dependent components) and would say, pseudo will also fail, when sqlite3 is build using readline or libz.
+> The better option will be to let pseudo use the libs and link-flags from sqlite.pc
 
-diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
-index a5bc301898..511fe3fb92 100644
---- a/meta/classes/cpan.bbclass
-+++ b/meta/classes/cpan.bbclass
-@@ -16,7 +16,7 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version
- export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_version(d)}/"
- 
- cpan_do_configure () {
--	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL INSTALLDIRS=vendor NO_PERLLOCAL=1 NO_PACKLIST=1 ${EXTRA_CPANFLAGS}
-+	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL INSTALLDIRS=vendor NO_PERLLOCAL=1 NO_PACKLIST=1 PERL=$(which perl) ${EXTRA_CPANFLAGS}
- 
- 	# Makefile.PLs can exit with success without generating a
- 	# Makefile, e.g. in cases of missing configure time
--- 
-2.17.1
+Yes for libz, but I'd assumed the readline dependency was solely in
+the binary not the library.
 
+Annoyingly the fairly simple change to pseudo to make it use
+pkg-config for flags then failed to link statically.  If you want to
+see what I did and fancy fixing it, then my WIP is in the pkgconfig
+branch at https://gitlab.com/rossburton/pseudo.
+
+Ross
 
