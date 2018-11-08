@@ -1,49 +1,48 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 9239979EAD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 652C679EAD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Nov 2018 13:48:57 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id m5so2779904qka.9
+	Thu,  8 Nov 2018 13:49:15 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id q18-v6so14616098iod.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Nov 2018 05:48:59 -0800 (PST)
+	Thu, 08 Nov 2018 05:49:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Qppps4ralgWLWtCE2vbGD/nyyRV6x20oiVbdcaPLUnU=;
-	b=f9WiNEt37DUl0oaOAJ5t1hJ1xMZq6pwRP3GA6G7fXnD2RHIPXXwPL5p+9iZgszhsTX
-	cPGjanl+c0tmInJljbSpseCUYtmNMCJR8X1wzjpabBMWjuoW7P4eMk6AFeSJrKoVjYs7
-	ZaL2x/vUq89jhMFxJPzLPxW0olprGewbHyMUSq9SZk+tesWVXgIt6wg82o4dLc4dpg3+
-	C+7yeuIQDrYzDnmJ+Fo/NJzGC5KLOZJudOxjfj/ArxfmcHYaHEyj0E1+3NGe/IhcyIgB
-	brxowYMallHm0I4uPeLx+MRkron6bTMq5DojAdcjEHIoUag9RhiwlCNi/OkUOwx2tQ58
-	A+Nw==
+	:cc; bh=oppvFqdSjdpSu3JCRbRg43/G14tvNk3dUw6MDf5/7KA=;
+	b=b+ZOoEpLcuaZnK2TtxOa35+an1cXRDeLPKcs52H9TFHJla5wdl82K4fA0H7lAHMU2Z
+	K6k7zV6/K5wnxtOJpyG5mEsng9diY/LU4CYo7k/X9dn0nHTFwEjWLZOAUZeRLi/h7ceW
+	UBi3zYUFZhWNbjCjq1WSSFr0u2awETB9PAwMzWDVm1oKHf8h25f9nER/5azC1G3PhICL
+	PNaJJhGANjfYv0V4983QXbybdSsV7RtAMVxGntdIj/65sFPABRasijhCsCSZVKCrMalb
+	xGI5diuLaT5Jiwmva4F/9IQYXAIJ/IlLgLnVOE/GeaE3jrdT857zF66AHN7cv+rt4cTX
+	E+Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Qppps4ralgWLWtCE2vbGD/nyyRV6x20oiVbdcaPLUnU=;
-	b=dSDFbygYqHabI7MWDuhpP13z0qMSkEAZofEBib9pTpGkYELVm4EbrqAALbt1xMqcYl
-	utYgwka6NNVr1RSgpgHN6OWVA54dcHZVk7hORnNO4CDf21noKbogGB4aEEmM3pv7UTKC
-	t/IbIDsKWWLtNwj57Xzny2phV5/NNxwjSMyiz7RArMDiLHLKEkOpAx9KKW5gSFDUi91D
-	ifKisTz3sJ6nlQnRpopRiWUgfrK0Gx/Gu0g2bJiMSnlnpUMztiBKwI6lZt7n8O6ENJ9Y
-	n4wO8bebiEBHScKPvTMvheAArZmEI+H54MhHWcE5/o7BDGLVxEbqREuidOEC/zuCa36i
-	fIbw==
-X-Gm-Message-State: AGRZ1gIMqqB0f16C3PJoAfCANN+R/8jz04naRPGXZADU+wwte76/Q4eK
-	Y0bnOZEhP84iCH12UBAMY2eDz7zqka4x6GzfAdJJhA==
-X-Google-Smtp-Source: AJdET5ftv0a17VrKP3VBvpNvz9MTcG2PTD9ebPRIC8AUA6WW/KnaFv8KmmXZnQYqsMoWvHOQRB7D55hzogB96d4egS4=
-X-Received: by 2002:aed:3511:: with SMTP id a17mr4383067qte.153.1541684938381; 
-	Thu, 08 Nov 2018 05:48:58 -0800 (PST)
+	bh=oppvFqdSjdpSu3JCRbRg43/G14tvNk3dUw6MDf5/7KA=;
+	b=jWh1HqmEO8xTRQWLlyMtl1iI5q54DQUdyPZlgdr+h/haDp34kjTavf0SgKCGJnhacG
+	GM31pgAkMLt0YJiVin0HBeupUuHzUu8ceXkTd/rTJCbpsqljeumq25Bc40N/3kkmKtHu
+	E8G+4mLHrjk6amQAuT8LRBvY7dFVqfFP4hGCwThsevtFcqZq2ZZ8neOqDFBHW0aUqVa5
+	RFuAd5Lts0U2hiQYpwA44hoflZ9Wy2fh8G201aN6flAQUf3FCe8zE1cbEKnjFdgbKyEE
+	hstrEfMYNAgr8bdObmTVIyuSe/aKlKCrBSh0U+5rhWUElkmcnbQu97CGEUVjfCxTe6qW
+	yObg==
+X-Gm-Message-State: AGRZ1gJc6WnC1Kz/+Nv5BTOlWXYBFvN02xNfScMCglT8YrVjh7NK9svQ
+	Cn6XxqijZ3JyBmxkdUujh61pSTn29Im417l+7WQ0AQ==
+X-Google-Smtp-Source: AJdET5eM0uBy6sGvbV/9aUICCu2+gl8WMFqydybpTcR4UHdh6cySBZ28F28bMUFHnCl/lbptgJYhr2t7ETlvH2f9+Uw=
+X-Received: by 2002:a6b:1602:: with SMTP id 2-v6mr3469246iow.201.1541684956501;
+	Thu, 08 Nov 2018 05:49:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20181108084312.9306-1-nathan@nathanrossi.com>
-	<CAMKF1spLq0bORBG-0p32o3mKV4tqOd0hUjueCoMFcq3VkJMtcQ@mail.gmail.com>
-	<CAJTo0LafrmE_tQDPiMD2fwUY8=A7M40An-4AHueZp_Y=xY_hLA@mail.gmail.com>
-In-Reply-To: <CAJTo0LafrmE_tQDPiMD2fwUY8=A7M40An-4AHueZp_Y=xY_hLA@mail.gmail.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Thu, 8 Nov 2018 23:48:47 +1000
-Message-ID: <CA+aJhH0QnkOO4cC4WOXAP08OKHh6hP7zFwAjpS5KxbTcEz7Zmw@mail.gmail.com>
-To: ross.burton@intel.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] ghostscript: Define COMPATIBLE_HOST with supported platforms
+References: <1541657297-30997-1-git-send-email-mingli.yu@windriver.com>
+	<1541657297-30997-3-git-send-email-mingli.yu@windriver.com>
+In-Reply-To: <1541657297-30997-3-git-send-email-mingli.yu@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Nov 2018 13:49:04 +0000
+Message-ID: <CAJTo0La+u72y4JiB9dGKGw==FR_8Uwu31pO19eJ78bVfnHj08Q@mail.gmail.com>
+To: Mingli Yu <mingli.yu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/7] python3: add tk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,48 +55,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Nov 2018 13:48:57 -0000
+X-List-Received-Date: Thu, 08 Nov 2018 13:49:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 8 Nov 2018 at 23:44, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On Thu, 8 Nov 2018 at 13:30, Khem Raj <raj.khem@gmail.com> wrote:
-> > > --- a/meta/recipes-extended/ghostscript/ghostscript_9.25.bb
-> > > +++ b/meta/recipes-extended/ghostscript/ghostscript_9.25.bb
-> > > @@ -121,5 +121,4 @@ do_install_class-native () {
-> > >
-> > >  BBCLASSEXTEND = "native"
-> > >
-> > > -# ghostscript does not supports "arc"
-> > > -COMPATIBLE_HOST = "^(?!arc).*"
-> > > +COMPATIBLE_HOST = "(aarch64|arm|i.86|microblaze|mips|nios2|powerpc|x86_64).*"
-> >
-> > this ignores riscv now. since you wsnt to
-> > ignore for just one arch you can use
-> >
-> > COMPATIBLE_HOST_arc = "(none)"
-> >
-> > or somesuch mechanism.
->
-> How is that different to the original assignment?
->
-> The real point here is that all of these variations have flaws.
-> Listing the architectures which don't work means the list isn't
-> complete, but listing the working architectures means that layers
-> which provide a bbappend instead of submitting to oe-core [1] will
-> then refuse to build ghostscript unless they also do something clever
-> with COMPATIBLE_HOST.
+On Thu, 8 Nov 2018 at 06:09, <mingli.yu@windriver.com> wrote:
+> +            if "tkinter" in pypackage and "tk" in pkgconfig:
+> +                d.appendVar('FILES_' + pypackage, ' ' + "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter*.so")
+> +            if "tkinter" in pypackage and "tk" in pkgconfig:
+> +                d.appendVar('RDEPENDS_' + pypackage, ' ' + 'tk')
 
-Ross beat me to it. But I was making this change as inverting due to
-the desire to remove the warning and disable the package for at least
-three architectures (or1k, riscv32 and lm32).
+Why is this here and not in the manifest?
 
-Regards,
-Nathan
-
->
-> Ross
->
-> [1] meta-riscv, I'm looking at you
-> https://github.com/riscv/meta-riscv/tree/master/recipes-extended/ghostscript
+Ross
 
