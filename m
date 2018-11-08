@@ -1,49 +1,31 @@
-Return-Path: <mhalstead@linuxfoundation.org>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 205816C137
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F0B786C149
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Nov 2018 20:59:06 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id w3-v6so9359551pgs.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Nov 2018 12:59:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=iFEX560iiUTsnFNAxET52PCHlzRFOEobiNh3IUJ61T4=;
-	b=YIsG8FkrBhVnl5nlN5nv/puxGyZiIOePCNXdp/5StXryfUyfDxcdDA4aHxrLJIb1aL
-	O5KgCnzlHmRm2huUET53ZMxigqn5UBXwdAzSNlsCzDwij45+4kDAtF7XfVGQJc0eoGqA
-	juBcrSfqs7wK2JDtZTjYicm2Bmqiqi+iSX6aM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=iFEX560iiUTsnFNAxET52PCHlzRFOEobiNh3IUJ61T4=;
-	b=h50MuiZlAjDfFLujBNscocpULvJy1x1hNv7LCLgatfOMRe3/YzRrrSO9t/GMU/Al6a
-	v2v4e65iMAFKxvbtBcphZ8G1Wi+qGdpsmwnUQ9Mds9a+Ze0P9hT3326h8xQ10P1iDr2B
-	nGTFnJGciVFouf+z0GRa8gD7xvl/KrqacZxPNGm2UF0/aWosa1YlXK19JFj80zZMphTo
-	Tl2HfbOfPj0QBwi1nmf2FgPSTTOSiXHluz0NOY0eFZ8slbrYcH7Ej4bDteTFTikUksIj
-	wxddKdMhlUpR/icaYop22KtBMAK47l9MjGpzeAmLyHbEwFc4c9W6lttIouAQz0816JCN
-	ANQQ==
-X-Gm-Message-State: AGRZ1gLLBU44tFxhnP+LlaSNQ+pVyneUiV/pyHCuqIe8A+noRpINWzcc
-	LxgxnyY2oIICkw167bNV/idRq98/MPho5w==
-X-Google-Smtp-Source: AJdET5fgfrrJ11xtQD4Ymdl7Asw02kiRJhJrjBL03pVi81VzwRp7xtpQv0kIvsIF4szvmcRUdATT4A==
-X-Received: by 2002:a63:6cc:: with SMTP id 195mr5126206pgg.52.1541710746785;
-	Thu, 08 Nov 2018 12:59:06 -0800 (PST)
-Received: from yct-lpt.pdx.yoctoproject.org (5751f4a1.skybroadband.com.
-	[87.81.244.161]) by smtp.gmail.com with ESMTPSA id
-	e12-v6sm4724605pff.5.2018.11.08.12.59.05
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 08 Nov 2018 12:59:06 -0800 (PST)
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Nov 2018 12:58:40 -0800
-Message-Id: <20181108205840.24972-3-mhalstead@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20181108205840.24972-1-mhalstead@linuxfoundation.org>
-References: <20181108205840.24972-1-mhalstead@linuxfoundation.org>
-Cc: rpurdie@linuxfoundation.org
-Subject: [PATCH 3/3] scripts/autobuilder-worker-prereq-tests: Shore up qemu testing
+	Thu,  8 Nov 2018 22:41:47 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Nov 2018 14:41:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,481,1534834800"; d="scan'208";a="272543125"
+Received: from yngiam-mobl1.gar.corp.intel.com (HELO localhost.localdomain)
+	([10.249.68.155])
+	by orsmga005.jf.intel.com with ESMTP; 08 Nov 2018 14:41:45 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Scott Rifenbark <srifenbark@gmail.com>
+Date: Fri, 09 Nov 2018 11:41:42 +1300
+Message-ID: <6194709.vnUpm0U1CA@localhost.localdomain>
+Organization: Intel Corporation
+In-Reply-To: <4820003.uEWOQMMmpA@localhost.localdomain>
+References: <2829165.0Ht5z2aexs@localhost.localdomain>
+	<CAFNP8OvFy2n7SMe5de66EcdM3URFm-b+dpcqS09hW0CMa9rNaA@mail.gmail.com>
+	<4820003.uEWOQMMmpA@localhost.localdomain>
+MIME-Version: 1.0
+Cc: yocto@yoctoproject.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] 2.6 migration guide
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +38,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Nov 2018 20:59:06 -0000
+X-List-Received-Date: Thu, 08 Nov 2018 22:41:48 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Check that yocto-autobuilder-helper has been cloned to the correct location.
-Check that vnc is running using the same script the autobuilder does.
-Set the DISPLAY enviroment variable to :1 the same way we do when building
-normally.
-Make the VM's serial console available so we can log in and power off allowing
-the tests to continue.
+On Monday, 5 November 2018 4:32:26 PM NZDT Paul Eggleton wrote:
+> On Wednesday, 31 October 2018 11:06:31 AM NZDT Scott Rifenbark wrote:
+> > I have an initial section at
+> > https://yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#moving-to-the-yocto-project-2.6-release,
+> > which is based on Richard's input.  I am sure there are more items.
+> 
+> OK, so I have removed Richard's items from the wiki page (since they're now
+> in the manual) and added items I have gathered from reviewing all of the 
+> git commits in the release. Let me know if you need clarification on anything
+> - everyone else, let us know if I missed or messed up something.
+> 
+>   https://wiki.yoctoproject.org/wiki/FutureMigrationGuide
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
----
- scripts/autobuilder-worker-prereq-tests | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+I forgot one thing:
 
-diff --git a/scripts/autobuilder-worker-prereq-tests b/scripts/autobuilder-worker-prereq-tests
-index bb46c69135..358dd2beee 100755
---- a/scripts/autobuilder-worker-prereq-tests
-+++ b/scripts/autobuilder-worker-prereq-tests
-@@ -15,6 +15,12 @@
- # test buildistory git repo works?
- #
- 
-+if [ ! -x $HOME/yocto-autobuilder-helper/scripts/checkvnc ]; then
-+    echo "$HOME/yocto-autobuilder-helper should be created."
-+    exit 1
-+fi
-+$HOME/yocto-autobuilder-helper/scripts/checkvnc
-+
- . ./oe-init-build-env > /dev/null
- if [ "$?" != "0" ]; then
-     exit 1
-@@ -53,12 +59,12 @@ if [ ! -e bzImage-qemux86-64.bin ]; then
- fi
- popd
- bitbake qemu-helper-native
--runqemu qemux86-64
-+DISPLAY=:1 runqemu serialstdio qemux86-64
- if [ "$?" != "0" ]; then
-     echo "Unable to use runqemu"
-     exit 1
- fi
--runqemu qemux86-64 kvm
-+DISPLAY=:1 runqemu serialstdio qemux86-64 kvm
- if [ "$?" != "0" ]; then
-     echo "Unable to use runqemu with kvm"
-     exit 1
+------- snip -------
+
+Python 3 profile-guided optimisation
+-----------------------------------------------
+
+The python3 recipe now enables profile-guided optimisation; this requires a little extra build time in exchange for improved performance on the target at runtime, and is only enabled if the current MACHINE has support for user-mode emulation in QEMU (i.e. "qemu-usermode" is in MACHINE_FEATURES, which it is by default, so the machine configuration would need to have opted out for it not to be). If you wish to disable Python profile-guided optimisation regardless of the value of MACHINE_FEATURES, then ensure that PACKAGECONFIG for python3 does not contain "pgo". You could accomplish the latter using PACKAGECONFIG_pn-python3 = "pgo" at the configuration level or by setting PACKAGECONFIG using a bbappend for the python3 recipe.
+
+------- snip -------
+
+
+> BTW I think the section on postinstalls (from Richard's input) is a little terse
+> and needs expansion - most importantly it needs to describe what actions the
+> user might need to take. I'll take care of this on review if nobody else does.
+
+So what I think we need here is to copy part of the "Using exit 1 to explicitly defer a postinstall script until first boot..." paragraph that's mentioned in the 2.5 migration section. Would it make sense to actually break this out to its own place in the documentation (on "Deferring postinstalls to first boot") and then link to that from both places?
+
+While I think of it, could you also move the _remove item that's in the "Bitbake Changes" section into the "Override Changes" section?
+
+Thanks,
+Paul
+
+
 -- 
-2.17.2
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
 
 
