@@ -1,49 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 032F36C204
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 788D26C202
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Nov 2018 13:29:49 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id e11so3158484itl.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Nov 2018 05:29:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=yIg2yE8BQc+8Nfvum+jPWuARL2td8YsAODkMbmvm1sk=;
-	b=J/UKBG4TyDmJ8/TMZyZ1u20BJFdNX3IszbKQnqxLuLmqbOeunVH0lVibydbuPl4f4g
-	OUz2yiKv/Y9q0nExPuV6AerUgeauHP7dWtf5JUuNgSg/cSNbAZ+8yivT1CIc1fZn3FGP
-	4TaNuNljPVBB9EIytoZh1rmmp8RGfHnWBIOchoZRfhdzEq6XWSkd/uw4BrEKc5N3+g14
-	wWz3qlFhBvbWCk7rYZlEDJIlCWSWbg0SI5Asz9u7JhySiPWNVNDGrwThDvU/aaeSgdIZ
-	BB632luZ7YERWr4tXROprwzvOzPc+ueoFALd3Oo2L3lrdlGYtIj+ZQcD90+8zJYXIv5J
-	1tTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=yIg2yE8BQc+8Nfvum+jPWuARL2td8YsAODkMbmvm1sk=;
-	b=fY06xmAwM0WvyLbC2rAFDh5yLDJStlFgF1OmFK7KT6VbDMMNtcd1iTQ2OQ5JWqCvJY
-	TjL0kDVFrCe12/d3OCdxKkHgmNsPcrwTNjMYtTJ2CLAHFugG46VgelyTyZCcYLarwkxA
-	MT79P9djulhAhX/5bsY5N9e3SMYx0nfubdbWsYFb8J8ElTtnPP5F4NIIzgqen4nFA2jz
-	jrejBze1amzdsOZhoVYGnJS9V+6GpZu1JhodM7k8V/PcZB+BreXagedUC81atzEE4W0I
-	w1qpEHPFL3qbf6EsN3+UFK64P297WXLuNcDsa/OEgRGxz7NqhrjFF56nl2FVY0QVQhr/
-	mnMg==
-X-Gm-Message-State: AGRZ1gI17PN/Wz/1xpHpoBMydUa/wUQpU+cLizkZ4ZmnJEjQSxZoJ4bE
-	XLLJNg6T/gk+DoERyF69Ba5hQzWCfkKRc7dNbWQCcw==
-X-Google-Smtp-Source: AJdET5dRdXvxtQJffXtbWyxUM1+N8nrJYJo/Ish8Kso904kjIsxlQUbdwWkHca5gjRFin/0o0ikHNX/oFByDtlUbeYE=
-X-Received: by 2002:a24:1d8e:: with SMTP id
-	136-v6mr1987536itj.62.1541770191050; 
-	Fri, 09 Nov 2018 05:29:51 -0800 (PST)
+	Fri,  9 Nov 2018 14:18:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wA9EIMnK008717
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 9 Nov 2018 06:18:23 -0800 (PST)
+Received: from [128.224.162.232] (128.224.162.232) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 9 Nov 2018 06:18:22 -0800
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1541754618.git.hongxu.jia@windriver.com>
+	<cb45fc25b42e280523a2a8c0173dd7b494cb4635.1541754618.git.hongxu.jia@windriver.com>
+	<f04feafb7ce74b451ee4e514e0331642c3fc12ac.camel@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <48b3a122-eeda-66ee-48a9-79eee6d64efb@windriver.com>
+Date: Fri, 9 Nov 2018 22:18:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-References: <20181108093631.28934-1-sstrogin@cisco.com>
-In-Reply-To: <20181108093631.28934-1-sstrogin@cisco.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 9 Nov 2018 13:29:40 +0000
-Message-ID: <CAJTo0LZZHgHV3itvJpD+_WZuH56gLjSGBhtY+3PQv3V7rKdYBA@mail.gmail.com>
-To: Stefan Strogin <sstrogin@cisco.com>
-Cc: XE-Linux <xe-linux-external@cisco.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] avahi: add ptest
+In-Reply-To: <f04feafb7ce74b451ee4e514e0331642c3fc12ac.camel@linuxfoundation.org>
+Subject: Re: [PATCH 2/2] libjitterentropy: add 2.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,27 +35,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Nov 2018 13:29:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 09 Nov 2018 14:18:24 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Thu, 8 Nov 2018 at 09:44, Stefan Strogin via Openembedded-core
-<openembedded-core@lists.openembedded.org> wrote:
-> +do_install_ptest () {
-> +    install -d ${D}${PTEST_PATH}/test/.libs
-> +    for t in dns-spin-test dns-test hashmap-test
-> +    do
-> +        install -m 0755 ${B}/avahi-core/$t ${D}${PTEST_PATH}/test/
-> +        sed -e 's/^relink_command=\"\(.*\)\"/relink_command=\"\"/' -i ${D}${PTEST_PATH}/test/$t
-> +        install -m 0755 ${B}/avahi-core/.libs/$t ${D}${PTEST_PATH}/test/.libs/lt-$t
-> +    done
-> +}
+On 2018/11/9 下午6:30, richard.purdie@linuxfoundation.org wrote:
+> On Fri, 2018-11-09 at 17:12 +0800, Hongxu Jia wrote:
+>>  From the following kernel commit we know: Fedora has integrated the
+>> jitter
+>> entropy daemon to work around slow boot problems, especially on VM's
+>> that
+>> don't support virtio-rng
+>>
+>>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=81e69df38e2911b642ec121dec319fad2a4782f3
+>> Do the same thing for Yocto.
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> I'm not convinced this is going to help. The userspace support comes up
+> quite late and the kernel blocking has already happened before that
+> point when I last saw these issues. This was why I just enabled the
+> virtio rng passthrough everywhere...
 
-Whilst I really do want to see more test suites, is this really a
-useful test suite?  hashmap-test is a validation that the hash
-implementation works, dns-test is low-level parsing, and dns-spin-test
-is basically a way to verify an Avahi bug doesn't regress.  This isn't
-exactly a full-featured test suite that creates services, ensures
-they're browsable, enumerate stuff, etc.
+Yes, if VM support virtio-rng, we indeed do not need it, but for VM not 
+support virtio-rng, it makes sense.
 
-Ross
+
+> Is libjitterentropy actually helping your use cases?
+
+Yes, it helps,  I use runqemu without  virtio-rng  on qemumips64 to 
+simulate VM that don't support virtio-rng
+
+With libjitterentropy and rng-tools, it takes <60s to init crng (after 
+rngd-tools started successfully)
+
+[   48.967114] random: crng init done
+
+Fri Nov  9 14:06:49 2018: Starting random number generator daemon
+Fri Nov  9 14:06:50 2018: Initalizing available sources
+Fri Nov  9 14:06:50 2018:
+Fri Nov  9 14:06:50 2018: Failed to init entropy source hwrng
+Fri Nov  9 14:06:50 2018:
+Fri Nov  9 14:07:05 2018: Enabling JITTER rng support
+Fri Nov  9 14:07:06 2018:
+Fri Nov  9 14:07:06 2018: Initalizing entropy source jitter
+Fri Nov  9 14:07:06 2018:
+Fri Nov  9 14:07:06 2018: .
+Fri Nov  9 14:07:06 2018: Starting OpenBSD Secure Shell server: sshd
+Fri Nov  9 14:07:06 2018: done.
+Fri Nov  9 14:07:07 2018: hwclock: can't open '/dev/misc/rtc': No such 
+file or directory
+Fri Nov  9 14:07:07 2018: Starting syslogd/klogd: done
+Nov  9 14:07:07 qemumips64 user.notice kernel: [   48.967114] random: 
+crng init done
+
+
+Without libjitterentropy and rng-tools, it takes >2minutes to init crng 
+(there are some other
+
+virtual device to generate noise for entropy)
+
+[  124.728869] random: crng init done
+
+
+By the way, without virtio-rng, /dev/hwrng is dead on guest, that's the 
+reason why I upgrade
+
+rng-tools and integrate libjitterentropy, previously old rng-tools hung 
+minutes in this situation.
+
+
+//Hongxu
+
+
+> Cheers,
+>
+> Richard
+>
+
 
