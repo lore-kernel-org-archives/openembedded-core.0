@@ -1,47 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 01CA66C202
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C91D96C202
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Nov 2018 14:29:14 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id f10-v6so2193248wme.3
+	Fri,  9 Nov 2018 14:29:15 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id j26-v6so2118167wre.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Nov 2018 06:29:16 -0800 (PST)
+	Fri, 09 Nov 2018 06:29:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=SmJlowhjrluWYYA5965WWx5VX20RhnlEmXOHg4DCOew=;
-	b=MhqpYmmkjZw7162ZXYrBjNSTRFEZlIssdlHruf4fSx4uk9uSs79q/gPKwplR7+RlrC
-	DGbyTF1rvJoHk8Or+SwA19Nc+6uFNI/CrVNX7HyNW3dPsGMptz2fTQuVpYmF8xQCxHZ/
-	DfojQI7HSXqYkaFf1YdA5BQNWGsVEmqtU7zc4=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=eZUt1EvB9D1iME+a1UmhGiJ14EG1twhMz0ITSAEyFrM=;
+	b=Q7zrWUKEnqdkvJRZK8a2lmw1TP5SPUiJLrAeRxCAJXpras7hlC+JKDxiixfNcI56/O
+	CJELAsgrc+MJbsrwwP6COFaKttapDs140OdZkOsE39XhLyAONAD/LJFHvVJmqREBlxG9
+	1MukpqS//4QL0S9GDnzOkrU/Ydbuz9yCviFR4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=SmJlowhjrluWYYA5965WWx5VX20RhnlEmXOHg4DCOew=;
-	b=Lsg/qI2foTwlunPaKf5z5cYZTfT/2ZjwowV5wyBb1hhCZBIFT3gHXAk5mYpIXwjuKA
-	fx+44MaIVFQhQ/nV03ehOHXU/1lNp5eRgVZzQ1PMbd095NmRBZ5ofKe5ufZJleYHxlyf
-	ZWP7a7MXLSBccOpxHJH6/PoM4GydcYiTyIOwl9JnY9rpPRhyqIp8JtMi2nnow3/VPze0
-	6EyTxb+R716RON97Na1LSFh5xHy54MBSP2OUrGNQXBt9cHge+yhtjFyGE0/0GLaduNYB
-	f4Of8880ggbLJw6YCcOUbvb67kWC53KB8+agrPu8dsE1FAsoHm1HhxYx1N94u4RNnJLJ
-	oJMA==
-X-Gm-Message-State: AGRZ1gJEsoed6DMhTr82h8u2JDA3CQSI50w+uaPtOZ7GYAbpZYLjVpOr
-	RCfuru5P+49LT7wxlvnfn4IHuxhfmpU=
-X-Google-Smtp-Source: AJdET5dfXRetkJ7fhN7gRGZS6piCILJ8q7wqRDcfz8bzHJBOKrA/X21uuTjF44uxxzPijLvxlj8WuA==
-X-Received: by 2002:a1c:1f4c:: with SMTP id
-	f73-v6mr5326095wmf.56.1541773754907; 
-	Fri, 09 Nov 2018 06:29:14 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=eZUt1EvB9D1iME+a1UmhGiJ14EG1twhMz0ITSAEyFrM=;
+	b=LWytyMcdvq3omAF5HynMPaQ5WSd8Q8UjEc98C7lBT8/xnNzD6SO6VqEfK8jiIJPlp2
+	Zwh4wGOWVGWvvVnEVtHnnDvz81LQCNru2WPT9Ta8/OeMhSgPsfBXNUtPG0Msgw5VJHg7
+	WgcB+63N3ePaTc0RaTbuN7S1vxM4ZQMO6O98RdQqd1HTlMv1RUBoi8ED4hkqo/HVySJT
+	/2AlWcF8gnNrQK8nBXtC6KjuZ2sNQJrTmAVNMtWuS6SHEDoek9lK9xFN71ugI3cjeu08
+	aNK1Inrc3HBJSWqb+HGwwgRndcaXoXNypY5WepHa4Z2sulfyOXDzKQefzz35liQbKGS8
+	gaFw==
+X-Gm-Message-State: AGRZ1gLShF98Q9lWpMyTvqClUJgu/E9C6VhpC7U0iIsvLUkMs8DmTvSl
+	sU7NCMNCHr4cqB+xq2TglWa8bsyUE6U=
+X-Google-Smtp-Source: AJdET5chBiR8wMPhup1Rk1SGnnUTfM1wfP5KwQnHQw1vLroRW3TWwz7hzgLAn1Cree7WsU5yrrh3GQ==
+X-Received: by 2002:a5d:45c3:: with SMTP id
+	b3-v6mr8117528wrs.296.1541773755805; 
+	Fri, 09 Nov 2018 06:29:15 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h16-v6sm7713764wrb.73.2018.11.09.06.29.13
+	h16-v6sm7713764wrb.73.2018.11.09.06.29.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 Nov 2018 06:29:14 -0800 (PST)
+	Fri, 09 Nov 2018 06:29:15 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Nov 2018 14:29:01 +0000
-Message-Id: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
+Date: Fri,  9 Nov 2018 14:29:02 +0000
+Message-Id: <20181109142912.23102-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 01/12] build-appliance: Drop test which is already automated
+In-Reply-To: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
+References: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 02/12] metadata_scm: Drop orphaned monotone functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,50 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Nov 2018 14:29:15 -0000
+X-List-Received-Date: Fri, 09 Nov 2018 14:29:16 -0000
 
-The nightly-build-appliance target already tests this particular build.
+Its been 'a while' since we used monotone, drop these revision
+function remnants.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/manual/build-appliance.json | 26 -----------------------
- 1 file changed, 26 deletions(-)
+ meta/classes/metadata_scm.bbclass | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-diff --git a/meta/lib/oeqa/manual/build-appliance.json b/meta/lib/oeqa/manual/build-appliance.json
-index b8f89275d08..70f8c72c9bb 100644
---- a/meta/lib/oeqa/manual/build-appliance.json
-+++ b/meta/lib/oeqa/manual/build-appliance.json
-@@ -1,30 +1,4 @@
- [
--    {
--        "test": {
--            "@alias": "build-appliance.build-appliance.Bitbake_build-appliance-image",
--            "author": [
--                {
--                    "email": "alexandru.c.georgescu@intel.com",
--                    "name": "alexandru.c.georgescu@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "Get poky source code and prepare the build environment",
--                    "expected_results": "bitbake build-appliance-image is successful  "
--                },
--                "2": {
--                    "action": "Set MACHINE to qemux86 and add the following line to conf/local.conf :  SRCREV_pn-build-appliance-image = \"${AUTOREV}\"",
--                    "expected_results": ""
--                },
--                "3": {
--                    "action": "Run \"bitbake build-appliance-image\" \n \n",
--                    "expected_results": ""
--                }
--            },
--            "summary": "Bitbake_build-appliance-image"
--        }
--    },
-     {
-         "test": {
-             "@alias": "build-appliance.build-appliance.Build_core-image-minimal_with_build-appliance-image",
+diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
+index 658e2f883b0..58bb4c555a2 100644
+--- a/meta/classes/metadata_scm.bbclass
++++ b/meta/classes/metadata_scm.bbclass
+@@ -12,30 +12,6 @@ def base_detect_branch(d):
+ def base_get_scmbasepath(d):
+     return os.path.join(d.getVar('COREBASE'), 'meta')
+ 
+-def base_get_metadata_monotone_branch(path, d):
+-    monotone_branch = "<unknown>"
+-    try:
+-        with open("%s/_MTN/options" % path) as f:
+-            monotone_branch = f.read().strip()
+-            if monotone_branch.startswith( "database" ):
+-                monotone_branch_words = monotone_branch.split()
+-                monotone_branch = monotone_branch_words[ monotone_branch_words.index( "branch" )+1][1:-1]
+-    except:
+-        pass
+-    return monotone_branch
+-
+-def base_get_metadata_monotone_revision(path, d):
+-    monotone_revision = "<unknown>"
+-    try:
+-        with open("%s/_MTN/revision" % path) as f:
+-            monotone_revision = f.read().strip()
+-            if monotone_revision.startswith( "format_version" ):
+-                monotone_revision_words = monotone_revision.split()
+-                monotone_revision = monotone_revision_words[ monotone_revision_words.index( "old_revision" )+1][1:-1]
+-    except IOError:
+-        pass
+-    return monotone_revision
+-
+ def base_get_metadata_svn_revision(path, d):
+     # This only works with older subversion. For newer versions 
+     # this function will need to be fixed by someone interested
 -- 
 2.17.1
 
