@@ -1,25 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B6AB6007A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AEC5060720
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Nov 2018 08:57:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wA98vk3I004920
+	Fri,  9 Nov 2018 08:57:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA98vKp8032427
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 9 Nov 2018 00:57:46 -0800 (PST)
+	Fri, 9 Nov 2018 00:57:30 -0800
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 9 Nov 2018 00:57:37 -0800
+	14.3.408.0; Fri, 9 Nov 2018 00:57:08 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>
-Date: Fri, 9 Nov 2018 17:07:08 +0800
-Message-ID: <7ca3585dedd8a98d3b7d7f858f19ae69cd1b213c.1541754319.git.hongxu.jia@windriver.com>
+Date: Fri, 9 Nov 2018 17:07:07 +0800
+Message-ID: <01d623e8e6a6160cba4fd42c1f1816a4cfed87c3.1541754319.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1541754319.git.hongxu.jia@windriver.com>
 References: <cover.1541754319.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/6] rpcbind: 0.2.4 -> 1.2.5
+Subject: [PATCH 5/6] gpgme: 1.11.1 -> 1.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,417 +33,318 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Nov 2018 08:57:46 -0000
+X-List-Received-Date: Fri, 09 Nov 2018 08:57:55 -0000
 Content-Type: text/plain
 
-- Drop backport fixes
-  0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
-  pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch
-  rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch
+Rebase 0007-qt-python-Add-variables-to-tests.patch
+
+Rework 0007-qt-python-Add-variables-to-tests.patch -> 0007-python-Add-variables-to-tests.patch
+
+Drop newly added option --disable-lang-qt-test which is merged to --disable-gpg-test by
+upstream commit [26820ba qt: Respect --disable-gpg-test for tests]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...r-all-svc_getargs-calls-with-svc_freeargs.patch | 221 ---------------------
- ...proc_dump-Fixed-typo-in-memory-leak-patch.patch |  30 ---
- ..._callit_com-Stop-freeing-a-static-pointer.patch | 100 ----------
- .../rpcbind/{rpcbind_0.2.4.bb => rpcbind_1.2.5.bb} |   7 +-
- 4 files changed, 2 insertions(+), 356 deletions(-)
- delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
- delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch
- delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch
- rename meta/recipes-extended/rpcbind/{rpcbind_0.2.4.bb => rpcbind_1.2.5.bb} (85%)
+ .../gpgme/gpgme/0001-pkgconfig.patch               |  8 ++--
+ ...python-gpg-error-config-should-not-be-use.patch | 30 +++++++------
+ .../0003-Correctly-install-python-modules.patch    |  6 +--
+ .../gpgme/gpgme/0004-python-import.patch           |  2 +-
+ ...g-skip-all-lib-or-usr-lib-directories-in-.patch |  2 +-
+ .../gpgme/gpgme/0006-fix-build-path-issue.patch    |  6 +--
+ ...ch => 0007-python-Add-variables-to-tests.patch} | 52 +++++-----------------
+ .../gpgme/{gpgme_1.11.1.bb => gpgme_1.12.0.bb}     |  7 ++-
+ 8 files changed, 43 insertions(+), 70 deletions(-)
+ rename meta/recipes-support/gpgme/gpgme/{0007-qt-python-Add-variables-to-tests.patch => 0007-python-Add-variables-to-tests.patch} (43%)
+ rename meta/recipes-support/gpgme/{gpgme_1.11.1.bb => gpgme_1.12.0.bb} (93%)
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
-deleted file mode 100644
-index bf7aaef..0000000
---- a/meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
-+++ /dev/null
-@@ -1,221 +0,0 @@
--From 7ea36eeece56b59f98e469934e4c20b4da043346 Mon Sep 17 00:00:00 2001
--From: Doran Moppert <dmoppert@redhat.com>
--Date: Thu, 11 May 2017 11:42:54 -0400
--Subject: [PATCH] rpcbind: pair all svc_getargs() calls with svc_freeargs() to
-- avoid memory leak
--
--This patch is to address CVE-2017-8779 "rpcbomb" in rpcbind, discussed
--at [1], [2], [3].  The last link suggests this issue is actually a bug
--in rpcbind, which led me here.
--
--The leak caused by the reproducer at [4] appears to come from
--rpcb_service_4(), in the case where svc_getargs() returns false and the
--function had an early return, rather than passing through the cleanup
--path at done:, as would otherwise occur.
--
--It also addresses a couple of other locations where the same fault seems
--to exist, though I haven't been able to exercise those.  I hope someone
--more intimate with rpc(3) can confirm my understanding is correct, and
--that I haven't introduced any new bugs.
--
--Without this patch, using the reproducer (and variants) repeatedly
--against rpcbind with a numBytes argument of 1_000_000_000, /proc/$(pidof
--rpcbind)/status reports VmSize increase of 976564 kB each call, and
--VmRSS increase of around 260 kB every 33 calls - the specific numbers
--are probably an artifact of my rhel/glibc version.  With the patch,
--there is a small (~50 kB) VmSize increase with the first message, but
--thereafter both VmSize and VmRSS remain steady.
--
--[1]: http://seclists.org/oss-sec/2017/q2/209
--[2]: https://bugzilla.redhat.com/show_bug.cgi?id=1448124
--[3]: https://sourceware.org/ml/libc-alpha/2017-05/msg00129.html
--[4]: https://github.com/guidovranken/rpcbomb/
--
--
--CVE: CVE-2017-8779
--Upstream-Status: Backport
--
--Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
-----
-- src/pmap_svc.c     | 56 +++++++++++++++++++++++++++++++++++++++++++++---------
-- src/rpcb_svc.c     |  2 +-
-- src/rpcb_svc_4.c   |  2 +-
-- src/rpcb_svc_com.c |  8 ++++++++
-- 4 files changed, 57 insertions(+), 11 deletions(-)
--
--diff --git a/src/pmap_svc.c b/src/pmap_svc.c
--index 4c744fe..e926cdc 100644
----- a/src/pmap_svc.c
--+++ b/src/pmap_svc.c
--@@ -175,6 +175,7 @@ pmapproc_change(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt, unsigned long
-- 	long ans;
-- 	uid_t uid;
-- 	char uidbuf[32];
--+	int rc = TRUE;
-- 
-- 	/*
-- 	 * Can't use getpwnam here. We might end up calling ourselves
--@@ -194,7 +195,8 @@ pmapproc_change(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt, unsigned long
-- 
-- 	if (!svc_getargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
-- 		svcerr_decode(xprt);
---		return (FALSE);
--+		rc = FALSE;
--+		goto done;
-- 	}
-- #ifdef RPCBIND_DEBUG
-- 	if (debugging)
--@@ -205,7 +207,8 @@ pmapproc_change(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt, unsigned long
-- 
-- 	if (!check_access(xprt, op, reg.pm_prog, PMAPVERS)) {
-- 		svcerr_weakauth(xprt);
---		return (FALSE);
--+		rc = (FALSE);
--+		goto done;
-- 	}
-- 
-- 	rpcbreg.r_prog = reg.pm_prog;
--@@ -258,7 +261,16 @@ done_change:
-- 		rpcbs_set(RPCBVERS_2_STAT, ans);
-- 	else
-- 		rpcbs_unset(RPCBVERS_2_STAT, ans);
---	return (TRUE);
--+done:
--+	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
--+		if (debugging) {
--+			/*(void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
--+			if (doabort) {
--+				rpcbind_abort();
--+			}
--+		}
--+	}
--+	return (rc);
-- }
-- 
-- /* ARGSUSED */
--@@ -272,15 +284,18 @@ pmapproc_getport(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
-- #ifdef RPCBIND_DEBUG
-- 	char *uaddr;
-- #endif
--+	int rc = TRUE;
-- 
-- 	if (!svc_getargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
-- 		svcerr_decode(xprt);
---		return (FALSE);
--+		rc = FALSE;
--+		goto done;
-- 	}
-- 
-- 	if (!check_access(xprt, PMAPPROC_GETPORT, reg.pm_prog, PMAPVERS)) {
-- 		svcerr_weakauth(xprt);
---		return FALSE;
--+		rc = FALSE;
--+		goto done;
-- 	}
-- 
-- #ifdef RPCBIND_DEBUG
--@@ -330,21 +345,34 @@ pmapproc_getport(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
-- 		pmap_ipprot2netid(reg.pm_prot) ?: "<unknown>",
-- 		port ? udptrans : "");
-- 
---	return (TRUE);
--+done:
--+	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
--+		if (debugging) {
--+			/* (void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
--+			if (doabort) {
--+				rpcbind_abort();
--+			}
--+		}
--+	}
--+	return (rc);
-- }
-- 
-- /* ARGSUSED */
-- static bool_t
-- pmapproc_dump(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
-- {
--+	int rc = TRUE;
--+
-- 	if (!svc_getargs(xprt, (xdrproc_t)xdr_void, NULL)) {
-- 		svcerr_decode(xprt);
---		return (FALSE);
--+		rc = FALSE;
--+		goto done;
-- 	}
-- 
-- 	if (!check_access(xprt, PMAPPROC_DUMP, 0, PMAPVERS)) {
-- 		svcerr_weakauth(xprt);
---		return FALSE;
--+		rc = FALSE;
--+		goto done;
-- 	}
-- 	
-- 	if ((!svc_sendreply(xprt, (xdrproc_t) xdr_pmaplist_ptr,
--@@ -354,7 +382,17 @@ pmapproc_dump(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
-- 			rpcbind_abort();
-- 		}
-- 	}
---	return (TRUE);
--+
--+done:
--+	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)NULL)) {
--+		if (debugging) {
--+			/*(void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
--+			if (doabort) {
--+				rpcbind_abort();
--+			}
--+		}
--+	}
--+	return (rc);
-- }
-- 
-- int pmap_netid2ipprot(const char *netid)
--diff --git a/src/rpcb_svc.c b/src/rpcb_svc.c
--index 709e3fb..091f530 100644
----- a/src/rpcb_svc.c
--+++ b/src/rpcb_svc.c
--@@ -166,7 +166,7 @@ rpcb_service_3(struct svc_req *rqstp, SVCXPRT *transp)
-- 		svcerr_decode(transp);
-- 		if (debugging)
-- 			(void) xlog(LOG_DEBUG, "rpcbind: could not decode");
---		return;
--+		goto done;
-- 	}
-- 
-- 	if (rqstp->rq_proc == RPCBPROC_SET
--diff --git a/src/rpcb_svc_4.c b/src/rpcb_svc_4.c
--index 5094879..eebbbbe 100644
----- a/src/rpcb_svc_4.c
--+++ b/src/rpcb_svc_4.c
--@@ -218,7 +218,7 @@ rpcb_service_4(struct svc_req *rqstp, SVCXPRT *transp)
-- 		svcerr_decode(transp);
-- 		if (debugging)
-- 			(void) xlog(LOG_DEBUG, "rpcbind: could not decode\n");
---		return;
--+		goto done;
-- 	}
-- 
-- 	if (rqstp->rq_proc == RPCBPROC_SET
--diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
--index 5862c26..cb63afd 100644
----- a/src/rpcb_svc_com.c
--+++ b/src/rpcb_svc_com.c
--@@ -927,6 +927,14 @@ error:
-- 	if (call_msg.rm_xid != 0)
-- 		(void) free_slot_by_xid(call_msg.rm_xid);
-- out:
--+	if (!svc_freeargs(transp, (xdrproc_t) xdr_rmtcall_args, (char *) &a)) {
--+		if (debugging) {
--+			(void) xlog(LOG_DEBUG, "unable to free arguments\n");
--+			if (doabort) {
--+				rpcbind_abort();
--+			}
--+		}
--+	}
-- 	if (local_uaddr)
-- 		free(local_uaddr);
-- 	if (buf_alloc)
---- 
--1.9.1
--
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch b/meta/recipes-extended/rpcbind/rpcbind/pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch
-deleted file mode 100644
-index 4c23ee0..0000000
---- a/meta/recipes-extended/rpcbind/rpcbind/pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From c49a7ea639eb700823e174fd605bbbe183e229aa Mon Sep 17 00:00:00 2001
--From: Steve Dickson <steved@redhat.com>
--Date: Wed, 17 May 2017 10:52:25 -0400
--Subject: [PATCH] pmapproc_dump: Fixed typo in memory leak patch
--
--commit 7ea36eee introduce a typo that caused
--NIS (aka ypbind) to fail.
--
--Signed-off-by: Steve Dickson <steved@redhat.com>
--
--Upstream-Status: Backport
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-----
-- src/pmap_svc.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--Index: rpcbind-0.2.4/src/pmap_svc.c
--===================================================================
----- rpcbind-0.2.4.orig/src/pmap_svc.c
--+++ rpcbind-0.2.4/src/pmap_svc.c
--@@ -384,7 +384,7 @@ pmapproc_dump(struct svc_req *rqstp /*__
-- 	}
-- 
-- done:
---	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)NULL)) {
--+	if (!svc_freeargs(xprt, (xdrproc_t) xdr_void, (char *)NULL)) {
-- 		if (debugging) {
-- 			/*(void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
-- 			if (doabort) {
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch b/meta/recipes-extended/rpcbind/rpcbind/rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch
-deleted file mode 100644
-index 9a000d0..0000000
---- a/meta/recipes-extended/rpcbind/rpcbind/rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch
-+++ /dev/null
-@@ -1,100 +0,0 @@
--From 7c7590ad536c0e24bef790cb1e65702fc54db566 Mon Sep 17 00:00:00 2001
--From: Steve Dickson <steved@redhat.com>
--Date: Tue, 30 May 2017 11:27:22 -0400
--Subject: [PATCH] rpcbproc_callit_com: Stop freeing a static pointer
--
--commit 7ea36ee introduced a svc_freeargs() call
--that ended up freeing static pointer.
--
--It turns out the allocations for the rmt_args
--is not necessary . The xdr routines (xdr_bytes) will
--handle the memory management and the largest
--possible message size is UDPMSGSIZE (due to UDP only)
--which is smaller than RPC_BUF_MAX
--
--Signed-off-by: Steve Dickson <steved@redhat.com>
--
--Upstream-Status: Backport
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-----
-- src/rpcb_svc_com.c | 39 ++++++---------------------------------
-- 1 file changed, 6 insertions(+), 33 deletions(-)
--
--diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
--index cb63afd..1fc2229 100644
----- a/src/rpcb_svc_com.c
--+++ b/src/rpcb_svc_com.c
--@@ -612,9 +612,9 @@ rpcbproc_callit_com(struct svc_req *rqstp, SVCXPRT *transp,
-- 	struct netconfig *nconf;
-- 	struct netbuf *caller;
-- 	struct r_rmtcall_args a;
---	char *buf_alloc = NULL, *outbufp;
--+	char *outbufp;
-- 	char *outbuf_alloc = NULL;
---	char buf[RPC_BUF_MAX], outbuf[RPC_BUF_MAX];
--+	char  outbuf[RPC_BUF_MAX];
-- 	struct netbuf *na = (struct netbuf *) NULL;
-- 	struct rpc_msg call_msg;
-- 	int outlen;
--@@ -635,36 +635,10 @@ rpcbproc_callit_com(struct svc_req *rqstp, SVCXPRT *transp,
-- 	}
-- 	if (si.si_socktype != SOCK_DGRAM)
-- 		return;	/* Only datagram type accepted */
---	sendsz = __rpc_get_t_size(si.si_af, si.si_proto, UDPMSGSIZE);
---	if (sendsz == 0) {	/* data transfer not supported */
---		if (reply_type == RPCBPROC_INDIRECT)
---			svcerr_systemerr(transp);
---		return;
---	}
---	/*
---	 * Should be multiple of 4 for XDR.
---	 */
---	sendsz = ((sendsz + 3) / 4) * 4;
---	if (sendsz > RPC_BUF_MAX) {
---#ifdef	notyet
---		buf_alloc = alloca(sendsz);		/* not in IDR2? */
---#else
---		buf_alloc = malloc(sendsz);
---#endif	/* notyet */
---		if (buf_alloc == NULL) {
---			if (debugging)
---				xlog(LOG_DEBUG,
---					"rpcbproc_callit_com:  No Memory!\n");
---			if (reply_type == RPCBPROC_INDIRECT)
---				svcerr_systemerr(transp);
---			return;
---		}
---		a.rmt_args.args = buf_alloc;
---	} else {
---		a.rmt_args.args = buf;
---	}
--+	sendsz = UDPMSGSIZE;
-- 
-- 	call_msg.rm_xid = 0;	/* For error checking purposes */
--+	memset(&a, 0, sizeof(a)); /* Zero out the input buffer */
-- 	if (!svc_getargs(transp, (xdrproc_t) xdr_rmtcall_args, (char *) &a)) {
-- 		if (reply_type == RPCBPROC_INDIRECT)
-- 			svcerr_decode(transp);
--@@ -704,7 +678,8 @@ rpcbproc_callit_com(struct svc_req *rqstp, SVCXPRT *transp,
-- 	if (rbl == (rpcblist_ptr)NULL) {
-- #ifdef RPCBIND_DEBUG
-- 		if (debugging)
---			xlog(LOG_DEBUG, "not found\n");
--+			xlog(LOG_DEBUG, "prog %lu vers %lu: not found\n", 
--+				a.rmt_prog, a.rmt_vers);
-- #endif
-- 		if (reply_type == RPCBPROC_INDIRECT)
-- 			svcerr_noprog(transp);
--@@ -937,8 +912,6 @@ out:
-- 	}
-- 	if (local_uaddr)
-- 		free(local_uaddr);
---	if (buf_alloc)
---		free(buf_alloc);
-- 	if (outbuf_alloc)
-- 		free(outbuf_alloc);
-- 	if (na) {
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
-similarity index 85%
-rename from meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
-rename to meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
-index 3c6774c..35ab839 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
-@@ -15,13 +15,10 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-            file://rpcbind.conf \
-            file://rpcbind.socket \
-            file://rpcbind.service \
--           file://0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch \
--           file://pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch \
--           file://rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch \
-            file://rpcbind_add_option_to_fix_port_number.patch \
-           "
--SRC_URI[md5sum] = "cf10cd41ed8228fc54c316191c1f07fe"
--SRC_URI[sha256sum] = "074a9a530dc7c11e0d905aa59bcb0847c009313f02e98d3d798aa9568f414c66"
-+SRC_URI[md5sum] = "ed46f09b9c0fa2d49015f6431bc5ea7b"
-+SRC_URI[sha256sum] = "2ce360683963b35c19c43f0ee2c7f18aa5b81ef41c3fdbd15ffcb00b8bffda7a"
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
+index ae9a46e..176723c 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
+@@ -1,4 +1,4 @@
+-From c452ba58dd2f99d6e624421697417cc018f9a67a Mon Sep 17 00:00:00 2001
++From 6492c952d61bb93a8bf8200c093d7e491456aa5a Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Fri, 29 Jun 2018 14:35:41 +0800
+ Subject: [PATCH 1/7] pkgconfig
+@@ -25,10 +25,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  create mode 100644 src/gpgme.pc.in
  
- inherit autotools update-rc.d systemd pkgconfig
+ diff --git a/configure.ac b/configure.ac
+-index 2a35404..7485cdf 100644
++index af569ac..865bd10 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -886,6 +886,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
++@@ -895,6 +895,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
+                  src/versioninfo.rc
+                  src/gpgme.h)
+  AC_CONFIG_FILES(src/gpgme-config, chmod +x src/gpgme-config)
+@@ -37,7 +37,7 @@ index 2a35404..7485cdf 100644
+  AC_CONFIG_FILES(lang/cpp/src/GpgmeppConfig-w32.cmake.in)
+  AC_CONFIG_FILES(lang/cpp/src/GpgmeppConfig.cmake.in)
+ diff --git a/src/Makefile.am b/src/Makefile.am
+-index 0a196e0..cecaf8f 100644
++index 1394c02..8451c3a 100644
+ --- a/src/Makefile.am
+ +++ b/src/Makefile.am
+ @@ -19,12 +19,14 @@
+diff --git a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
+index 4f5ceda..0d0d0c6 100644
+--- a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
++++ b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
+@@ -1,6 +1,6 @@
+-From 45d828356efc140a1492befb1e6dc59a9f4e16b5 Mon Sep 17 00:00:00 2001
++From 03819ad1270a279223219c0e70ba631bfe517714 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Wed, 31 Jan 2018 10:44:19 +0800
++Date: Wed, 17 Oct 2018 23:32:19 +0800
+ Subject: [PATCH 2/7] gpgme/lang/python: gpg-error-config should not be used
+ 
+ gpg-error-config was modified by OE to always return an error.
+@@ -11,38 +11,40 @@ Upstream-Status: Inappropriate [changes are specific to OE]
+ 
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+-Rework to 1.10.0
++Rebase to 1.12.0
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+- lang/python/setup.py.in | 10 +---------
+- 1 file changed, 1 insertion(+), 9 deletions(-)
++ lang/python/setup.py.in | 11 +----------
++ 1 file changed, 1 insertion(+), 10 deletions(-)
+ 
+ diff --git a/lang/python/setup.py.in b/lang/python/setup.py.in
+-index 2595073..60b5257 100755
++index 65a4be0..11b8413 100755
+ --- a/lang/python/setup.py.in
+ +++ b/lang/python/setup.py.in
+-@@ -26,7 +26,6 @@ import shutil
+- import subprocess
++@@ -30,7 +30,6 @@ import subprocess
++ import sys
+  
+  # Out-of-tree build of the gpg bindings.
+ -gpg_error_config = ["gpg-error-config"]
+  gpgme_config_flags = ["--thread=pthread"]
+  gpgme_config = ["gpgme-config"] + gpgme_config_flags
+  gpgme_h = ""
+-@@ -157,14 +156,7 @@ class BuildExtFirstHack(build):
++@@ -181,16 +180,8 @@ class BuildExtFirstHack(build):
++         shutil.copy2(source_name, sink_name)
+  
+      def _generate_errors_i(self):
+- 
++-
+ -        try:
+--            subprocess.check_call(gpg_error_config + ['--version'],
+--                                  stdout=devnull)
++-            subprocess.check_call(
++-                gpg_error_config + ['--version'], stdout=devnull)
+ -        except:
+ -            sys.exit("Could not find gpg-error-config.  " +
+ -                     "Please install the libgpg-error development package.")
+ -
+--        gpg_error_content = self._read_header("gpg-error.h", getconfig("cflags", config=gpg_error_config))
+-+        gpg_error_content = self._read_header("gpg-error.h", os.environ.get('CFLAGS').split())
++         gpg_error_content = self._read_header(
++-            "gpg-error.h", getconfig("cflags", config=gpg_error_config))
+++            "gpg-error.h", os.environ.get('CFLAGS').split())
+  
+          filter_re = re.compile(r'GPG_ERR_[^ ]* =')
+          rewrite_re = re.compile(r' *(.*) = .*')
+diff --git a/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
+index 330bec6..de1689e 100644
+--- a/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
++++ b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
+@@ -1,4 +1,4 @@
+-From 60baf9ebf30bed0e2ee3c7c5a74d5b6d50035862 Mon Sep 17 00:00:00 2001
++From f632148fcc8757bb9a9601a6dab275e88cd309d2 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 30 Jan 2018 15:28:49 +0800
+ Subject: [PATCH 3/7] Correctly install python modules
+@@ -17,10 +17,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
+-index 8d74cbd..ce4f0a5 100644
++index 6988faf..36c6f7b 100644
+ --- a/lang/python/Makefile.am
+ +++ b/lang/python/Makefile.am
+-@@ -91,6 +91,7 @@ install-exec-local:
++@@ -93,6 +93,7 @@ install-exec-local:
+  	  --build-base="$$(basename "$${PYTHON}")-gpg" \
+  	  install \
+  	  --prefix "$(DESTDIR)$(prefix)" \
+diff --git a/meta/recipes-support/gpgme/gpgme/0004-python-import.patch b/meta/recipes-support/gpgme/gpgme/0004-python-import.patch
+index 1a60f79..fa0eccf 100644
+--- a/meta/recipes-support/gpgme/gpgme/0004-python-import.patch
++++ b/meta/recipes-support/gpgme/gpgme/0004-python-import.patch
+@@ -1,4 +1,4 @@
+-From fd7dcceeee439eb479edbb418bab635343414ee6 Mon Sep 17 00:00:00 2001
++From f51bf1114bee6d56a950dcc6ebb46d6138b3faed Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 16 Aug 2017 02:06:45 -0400
+ Subject: [PATCH 4/7] python import
+diff --git a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
+index 2da7904..50bf214 100644
+--- a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
++++ b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
+@@ -1,4 +1,4 @@
+-From a58d90632a9907be3e8001800a143ac19075241a Mon Sep 17 00:00:00 2001
++From 8d9613c34ae495bbcbd725a2e7ac48138ba53c30 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 13 Apr 2017 16:40:27 +0300
+ Subject: [PATCH 5/7] gpgme-config: skip all /lib* or /usr/lib* directories in
+diff --git a/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch b/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
+index 26ff472..1471184 100644
+--- a/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
++++ b/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
+@@ -1,4 +1,4 @@
+-From 4f83750ce402b65d16cc09f8a0274a7ec76fc634 Mon Sep 17 00:00:00 2001
++From ef920688bfe1c7328c9e97229d62ccd35304ad84 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 31 Jan 2018 11:01:09 +0800
+ Subject: [PATCH 6/7] fix build path issue
+@@ -17,10 +17,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 3 insertions(+), 2 deletions(-)
+ 
+ diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
+-index ce4f0a5..5a468f1 100644
++index 36c6f7b..ce9a108 100644
+ --- a/lang/python/Makefile.am
+ +++ b/lang/python/Makefile.am
+-@@ -90,8 +90,9 @@ install-exec-local:
++@@ -92,8 +92,9 @@ install-exec-local:
+  	  build \
+  	  --build-base="$$(basename "$${PYTHON}")-gpg" \
+  	  install \
+diff --git a/meta/recipes-support/gpgme/gpgme/0007-qt-python-Add-variables-to-tests.patch b/meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch
+similarity index 43%
+rename from meta/recipes-support/gpgme/gpgme/0007-qt-python-Add-variables-to-tests.patch
+rename to meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch
+index 63eeacf..af9ddbf 100644
+--- a/meta/recipes-support/gpgme/gpgme/0007-qt-python-Add-variables-to-tests.patch
++++ b/meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch
+@@ -1,28 +1,24 @@
+-From d3087348348b4a7fcfb05bf2a75b4a63453e1c77 Mon Sep 17 00:00:00 2001
++From 317cdf60165d760572a26db317e3d6edb159b04e Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Thu, 1 Feb 2018 10:14:30 +0800
+-Subject: [PATCH 7/7] qt/python: Add variables to tests
++Date: Wed, 17 Oct 2018 23:41:09 +0800
++Subject: [PATCH 7/7] python: Add variables to tests
+ 
+ * configure.ac, lang/python/Makefile.am:
+   New variable to `lang/python', set to `lang/python' if RUN_LANG_PYTHON_TESTS
+ 
+-* configure.ac, lang/qt/Makefile.am:
+-  New variable to `lang/qt', set to `lang/qt' if RUN_LANG_QT_TESTS
+-
+ Upstream-Status: Submitted [gnupg-devel@gnupg.org]
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+- configure.ac            | 11 +++++++++++
+- lang/python/Makefile.am |  3 +++
+- lang/qt/Makefile.am     |  8 +++++++-
+- 3 files changed, 21 insertions(+), 1 deletion(-)
++ configure.ac            | 5 +++++
++ lang/python/Makefile.am | 3 +++
++ 2 files changed, 8 insertions(+)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 7485cdf..4aa216d 100644
++index 865bd10..035555a 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -535,6 +535,17 @@ AC_ARG_ENABLE(g13-test,
++@@ -535,6 +535,11 @@ AC_ARG_ENABLE(g13-test,
+           run_g13_test=$enableval)
+  AM_CONDITIONAL(RUN_G13_TESTS, test "$run_g13_test" = "yes")
+  
+@@ -31,21 +27,15 @@ index 7485cdf..4aa216d 100644
+ +  AC_HELP_STRING([--disable-lang-python-test], [disable Python regression test]),
+ +         run_lang_python_test=$enableval)
+ +AM_CONDITIONAL(RUN_LANG_PYTHON_TESTS, test "$run_lang_python_test" = "yes")
+-+
+-+run_lang_qt_test="yes"
+-+AC_ARG_ENABLE(lang-qt-test,
+-+  AC_HELP_STRING([--disable-lang-qt-test], [disable Qt regression test]),
+-+         run_lang_qt_test=$enableval)
+-+AM_CONDITIONAL(RUN_LANG_QT_TESTS, test "$run_lang_qt_test" = "yes")
+  
+  # Checks for header files.
+- AC_CHECK_HEADERS_ONCE([locale.h sys/select.h sys/uio.h argp.h
++ AC_CHECK_HEADERS_ONCE([locale.h sys/select.h sys/uio.h argp.h stdint.h
+ diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
+-index 5a468f1..43b9788 100644
++index ce9a108..0c8cfdc 100644
+ --- a/lang/python/Makefile.am
+ +++ b/lang/python/Makefile.am
+-@@ -24,7 +24,10 @@ EXTRA_DIST = \
+- 	examples \
++@@ -25,7 +25,10 @@ EXTRA_DIST = \
++ 	doc \
+  	src
+  
+ +if RUN_LANG_PYTHON_TESTS
+@@ -55,24 +45,6 @@ index 5a468f1..43b9788 100644
+  
+  .PHONY: prepare
+  prepare: copystamp
+-diff --git a/lang/qt/Makefile.am b/lang/qt/Makefile.am
+-index ab85960..a244ede 100644
+---- a/lang/qt/Makefile.am
+-+++ b/lang/qt/Makefile.am
+-@@ -19,6 +19,12 @@
+- # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+- # 02111-1307, USA
+- 
+--SUBDIRS = src tests doc
+-+if RUN_LANG_QT_TESTS
+-+qttests = tests
+-+else
+-+qttests =
+-+endif
+-+
+-+SUBDIRS = src ${qttests} doc
+- 
+- EXTRA_DIST = README
+ -- 
+ 2.7.4
+ 
+diff --git a/meta/recipes-support/gpgme/gpgme_1.11.1.bb b/meta/recipes-support/gpgme/gpgme_1.12.0.bb
+similarity index 93%
+rename from meta/recipes-support/gpgme/gpgme_1.11.1.bb
+rename to meta/recipes-support/gpgme/gpgme_1.12.0.bb
+index 86fae94..b46c5fc 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.11.1.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.12.0.bb
+@@ -17,11 +17,11 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
+            file://0004-python-import.patch \
+            file://0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch \
+            file://0006-fix-build-path-issue.patch \
+-           file://0007-qt-python-Add-variables-to-tests.patch \
++           file://0007-python-Add-variables-to-tests.patch \
+           "
+ 
+-SRC_URI[md5sum] = "129c46fb85a7ffa41e43345e48aee884"
+-SRC_URI[sha256sum] = "2d1b111774d2e3dd26dcd7c251819ce4ef774ec5e566251eb9308fa7542fbd6f"
++SRC_URI[md5sum] = "902fca3a94907efe4e929b2ade545a7c"
++SRC_URI[sha256sum] = "b4dc951c3743a60e2e120a77892e9e864fb936b2e58e7c77e8581f4d050e8cd8"
+ 
+ DEPENDS = "libgpg-error libassuan"
+ RDEPENDS_${PN}-cpp += "libstdc++"
+@@ -56,7 +56,6 @@ EXTRA_OECONF += '--enable-languages="${LANGUAGES}" \
+                  --disable-gpg-test \
+                  --disable-gpgsm-test \
+                  --disable-g13-test \
+-                 --disable-lang-qt-test \
+                  --disable-lang-python-test \
+ '
  
 -- 
 2.7.4
