@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C91D96C202
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+	[209.85.128.45])
+	by mail.openembedded.org (Postfix) with ESMTP id AD3926C205
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Nov 2018 14:29:15 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id j26-v6so2118167wre.1
+	Fri,  9 Nov 2018 14:29:16 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id f1-v6so3893770wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Nov 2018 06:29:17 -0800 (PST)
+	Fri, 09 Nov 2018 06:29:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=eZUt1EvB9D1iME+a1UmhGiJ14EG1twhMz0ITSAEyFrM=;
-	b=Q7zrWUKEnqdkvJRZK8a2lmw1TP5SPUiJLrAeRxCAJXpras7hlC+JKDxiixfNcI56/O
-	CJELAsgrc+MJbsrwwP6COFaKttapDs140OdZkOsE39XhLyAONAD/LJFHvVJmqREBlxG9
-	1MukpqS//4QL0S9GDnzOkrU/Ydbuz9yCviFR4=
+	bh=Uc2xGwjnjZGEUpyawU9pzmBoErvNNbQU59hRfz2/M9w=;
+	b=VhubPe86aEpKP+hpMkRsP+Xppvv2csPogit1A9hkoN5w0byTbU4NfoMCAPiSEKVXGe
+	LPhae2kCLK7q1m8sOqrgg/jvvoiAGjBMZEEandU2UMtJgZhxZtga6kPPtrxp7L30a5OU
+	9DgHOw9Cs+VREkPd3BUB8PRR5i2cYIWTqhkQs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=eZUt1EvB9D1iME+a1UmhGiJ14EG1twhMz0ITSAEyFrM=;
-	b=LWytyMcdvq3omAF5HynMPaQ5WSd8Q8UjEc98C7lBT8/xnNzD6SO6VqEfK8jiIJPlp2
-	Zwh4wGOWVGWvvVnEVtHnnDvz81LQCNru2WPT9Ta8/OeMhSgPsfBXNUtPG0Msgw5VJHg7
-	WgcB+63N3ePaTc0RaTbuN7S1vxM4ZQMO6O98RdQqd1HTlMv1RUBoi8ED4hkqo/HVySJT
-	/2AlWcF8gnNrQK8nBXtC6KjuZ2sNQJrTmAVNMtWuS6SHEDoek9lK9xFN71ugI3cjeu08
-	aNK1Inrc3HBJSWqb+HGwwgRndcaXoXNypY5WepHa4Z2sulfyOXDzKQefzz35liQbKGS8
-	gaFw==
-X-Gm-Message-State: AGRZ1gLShF98Q9lWpMyTvqClUJgu/E9C6VhpC7U0iIsvLUkMs8DmTvSl
-	sU7NCMNCHr4cqB+xq2TglWa8bsyUE6U=
-X-Google-Smtp-Source: AJdET5chBiR8wMPhup1Rk1SGnnUTfM1wfP5KwQnHQw1vLroRW3TWwz7hzgLAn1Cree7WsU5yrrh3GQ==
-X-Received: by 2002:a5d:45c3:: with SMTP id
-	b3-v6mr8117528wrs.296.1541773755805; 
-	Fri, 09 Nov 2018 06:29:15 -0800 (PST)
+	bh=Uc2xGwjnjZGEUpyawU9pzmBoErvNNbQU59hRfz2/M9w=;
+	b=Y6ceLU+Mvmjmos4v1keYaYw+gXZ7Hn0q2IKu/38T7qqSzJF+mkjml3eD8fr98m/CPv
+	Fx1t6xrLcUy9V89g70SpU1yAIxCyT4QpSSVcSSX0TTKzHrqdbp6yr1iWO2XNE9eTjUjW
+	3udC1T9fuPrqRrsOKC8TY38ysRjc2QwxCb7VLVKPMAHfdpSherVt+3XxA+Jmh8w4A+mT
+	9aB9ZJSv9tMqQOiyBJkb+G4aFuJC1CrOxJaKQomLGZclEbeGshZAxLsisnShMqH7m6uB
+	5y1xKgFYKthvnHwWwTqpEH3bw/9RiKYXE/U3q8iVxRrCpIRgZ7V6PTtJkdXiYAsHIBiJ
+	kTFQ==
+X-Gm-Message-State: AGRZ1gKBuu7HEmi4sV7/GYvGHIznfnNlmNLxS5NA5rkPZ+p/Gum87t6+
+	Sf5hjNAU0gwkqEPmrw/OrDbEHr78RbE=
+X-Google-Smtp-Source: AJdET5fSdTOzTJwOkj3Xy8Ghvqnmp5223tEaamS4gIEKo5P9ua1/qrBMG1Q0aUksgqJai62NAfQ4Qw==
+X-Received: by 2002:a1c:d78b:: with SMTP id
+	o133-v6mr1971484wmg.38.1541773756750; 
+	Fri, 09 Nov 2018 06:29:16 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h16-v6sm7713764wrb.73.2018.11.09.06.29.14
+	h16-v6sm7713764wrb.73.2018.11.09.06.29.15
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 Nov 2018 06:29:15 -0800 (PST)
+	Fri, 09 Nov 2018 06:29:16 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Nov 2018 14:29:02 +0000
-Message-Id: <20181109142912.23102-2-richard.purdie@linuxfoundation.org>
+Date: Fri,  9 Nov 2018 14:29:03 +0000
+Message-Id: <20181109142912.23102-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
 References: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 02/12] metadata_scm: Drop orphaned monotone functions
+Subject: [PATCH 03/12] distcc: Handle upstream branch deletion for old releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Nov 2018 14:29:16 -0000
+X-List-Received-Date: Fri, 09 Nov 2018 14:29:17 -0000
 
-Its been 'a while' since we used monotone, drop these revision
-function remnants.
+distcc upstream dropped the 3.2 branch which we reference in older project releases
+the revisions are there, just the branch is not. In order to be able to continue
+to build those old releases, adjust any mirror tarball to contain the missing branch.
+We have updated the  newer point releases but the previous tags were failing to build.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/metadata_scm.bbclass | 24 ------------------------
- 1 file changed, 24 deletions(-)
+ meta/recipes-devtools/distcc/distcc_3.3.2.bb | 24 ++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
-index 658e2f883b0..58bb4c555a2 100644
---- a/meta/classes/metadata_scm.bbclass
-+++ b/meta/classes/metadata_scm.bbclass
-@@ -12,30 +12,6 @@ def base_detect_branch(d):
- def base_get_scmbasepath(d):
-     return os.path.join(d.getVar('COREBASE'), 'meta')
- 
--def base_get_metadata_monotone_branch(path, d):
--    monotone_branch = "<unknown>"
--    try:
--        with open("%s/_MTN/options" % path) as f:
--            monotone_branch = f.read().strip()
--            if monotone_branch.startswith( "database" ):
--                monotone_branch_words = monotone_branch.split()
--                monotone_branch = monotone_branch_words[ monotone_branch_words.index( "branch" )+1][1:-1]
--    except:
--        pass
--    return monotone_branch
--
--def base_get_metadata_monotone_revision(path, d):
--    monotone_revision = "<unknown>"
--    try:
--        with open("%s/_MTN/revision" % path) as f:
--            monotone_revision = f.read().strip()
--            if monotone_revision.startswith( "format_version" ):
--                monotone_revision_words = monotone_revision.split()
--                monotone_revision = monotone_revision_words[ monotone_revision_words.index( "old_revision" )+1][1:-1]
--    except IOError:
--        pass
--    return monotone_revision
--
- def base_get_metadata_svn_revision(path, d):
-     # This only works with older subversion. For newer versions 
-     # this function will need to be fixed by someone interested
+diff --git a/meta/recipes-devtools/distcc/distcc_3.3.2.bb b/meta/recipes-devtools/distcc/distcc_3.3.2.bb
+index 0d069631653..a93604bc471 100644
+--- a/meta/recipes-devtools/distcc/distcc_3.3.2.bb
++++ b/meta/recipes-devtools/distcc/distcc_3.3.2.bb
+@@ -69,3 +69,27 @@ FILES_${PN} = " ${sysconfdir} \
+ 		${systemd_unitdir}/system/distcc.service"
+ FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
+ 				${datadir}/distcc"
++
++
++#
++# distcc upstream dropped the 3.2 branch which we reference in older project releases
++# the revisions are there, just the branch is not. In order to be able to continue
++# to build those old releases, adjust any mirror tarball to contain the missing branch
++#
++fixup_distcc_mirror_tarball () {
++	TBALL=${DL_DIR}/git2_github.com.distcc.distcc.git.tar.gz
++	if [ -f $TBALL ]; then
++		TDIR=`mktemp -d`
++		cd $TDIR
++		tar -xzf $TBALL
++		set +e
++		git rev-parse --verify 3.2
++		if [ "$?" != "0" ]; then
++			git branch 3.2 d8b18df3e9dcbe4f092bed565835d3975e99432c
++			tar -czf $TBALL *
++		fi
++		set -e
++		rm -rf $TDIR/*
++	fi
++}
++do_fetch[postfuncs] += "fixup_distcc_mirror_tarball"
 -- 
 2.17.1
 
