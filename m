@@ -1,24 +1,24 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 056B560107
+Return-Path: <mohamad.noor.alim.hussin@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id D80886C1AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Nov 2018 09:43:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA99hBD9000947
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Nov 2018 01:43:21 -0800
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 9 Nov 2018 01:42:36 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 9 Nov 2018 17:42:34 +0800
-Message-ID: <1541756554-194955-1-git-send-email-changqing.li@windriver.com>
+	Fri,  9 Nov 2018 09:57:25 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Nov 2018 01:57:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,483,1534834800"; d="scan'208";a="102943880"
+Received: from alim-desktop.png.intel.com ([172.30.199.42])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Nov 2018 01:57:25 -0800
+From: mohamad.noor.alim.hussin@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Nov 2018 17:57:58 +0800
+Message-Id: <1541757478-25090-1-git-send-email-mohamad.noor.alim.hussin@intel.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] update-rc.d.bbclass: remove preinst and remove -f for postinst
+Cc: mohamad.noor.alim.hussin@intel.com
+Subject: [PATCH] recipetool: Change srcuri mirror to yoctoproject site
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,101 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Nov 2018 09:43:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 09 Nov 2018 09:57:26 -0000
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Mohamad Noor Alim Hussin <mohamad.noor.alim.hussin@intel.com>
 
-*preinst use "-f remove" to remove any links in the /etc/rcrunlevel.d
- but this will make user cannot keep previous config by default after
- upgrade
+This patch resolve bug 12979 due to checksum of navit-0.5.0
+has changed from sourceforge. The srcuri mirror was change to
+yoctoproject.org.
 
- eg: user disable one service before upgrade, after upgrade, service
- could be started since during preinst, all link have been deleted, so
- postinst may create the link to start service.
-
- remove preinst to keep previous links, so that after upgrade, if any
- link existed for the package, postinst will not create new start/stop
- links.
-
- (note: patch of support enable/disable function of update-rc.d send
- to yocto mail list today)
-
-*remove -f for postinst, previously, recipe keepalived use remove during
- postinst, so need this -f, but remove in postinst is not proper, recipe
- keepalived have fixed this problem, so remove -f.
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Mohamad Noor Alim Hussin <mohamad.noor.alim.hussin@intel.com>
 ---
- meta/classes/update-rc.d.bbclass | 28 ++++------------------------
- 1 file changed, 4 insertions(+), 24 deletions(-)
+ meta/lib/oeqa/selftest/cases/recipetool.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 265c4be..1366fee 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -20,28 +20,14 @@ def use_updatercd(d):
-         return '[ -n "$D" -o ! -d /run/systemd/system ]'
-     return 'true'
- 
--updatercd_preinst() {
--if ${@use_updatercd(d)} && [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
--	${INIT_D_DIR}/${INITSCRIPT_NAME} stop || :
--fi
--if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
--	if [ -n "$D" ]; then
--		OPT="-f -r $D"
--	else
--		OPT="-f"
--	fi
--	update-rc.d $OPT ${INITSCRIPT_NAME} remove
--fi
--}
--
- PACKAGE_WRITE_DEPS += "update-rc.d-native"
- 
- updatercd_postinst() {
- if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
- 	if [ -n "$D" ]; then
--		OPT="-f -r $D"
-+		OPT="-r $D"
- 	else
--		OPT="-f -s"
-+		OPT="-s"
- 	fi
- 	update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
- fi
-@@ -79,7 +65,7 @@ python __anonymous() {
- PACKAGESPLITFUNCS_prepend = "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'populate_packages_updatercd ', '', d)}"
- PACKAGESPLITFUNCS_remove_class-nativesdk = "populate_packages_updatercd "
- 
--populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_preinst updatercd_postinst"
-+populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_postinst"
- populate_packages_updatercd[vardepsexclude] += "OVERRIDES"
- 
- python populate_packages_updatercd () {
-@@ -95,7 +81,7 @@ python populate_packages_updatercd () {
-             d.appendVar('RDEPENDS_' + pkg, ' %sinitd-functions' % (mlprefix))
- 
-     def update_rcd_package(pkg):
--        bb.debug(1, 'adding update-rc.d calls to preinst/postinst/prerm/postrm for %s' % pkg)
-+        bb.debug(1, 'adding update-rc.d calls to postinst/prerm/postrm for %s' % pkg)
- 
-         localdata = bb.data.createCopy(d)
-         overrides = localdata.getVar("OVERRIDES")
-@@ -103,12 +89,6 @@ python populate_packages_updatercd () {
- 
-         update_rcd_auto_depend(pkg)
- 
--        preinst = d.getVar('pkg_preinst_%s' % pkg)
--        if not preinst:
--            preinst = '#!/bin/sh\n'
--        preinst += localdata.getVar('updatercd_preinst')
--        d.setVar('pkg_preinst_%s' % pkg, preinst)
--
-         postinst = d.getVar('pkg_postinst_%s' % pkg)
-         if not postinst:
-             postinst = '#!/bin/sh\n'
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index cd15df1..06f980e 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -433,12 +433,12 @@ class RecipetoolTests(RecipetoolBase):
+         temprecipe = os.path.join(self.tempdir, 'recipe')
+         os.makedirs(temprecipe)
+         recipefile = os.path.join(temprecipe, 'navit_0.5.0.bb')
+-        srcuri = 'http://downloads.sourceforge.net/project/navit/v0.5.0/navit-0.5.0.tar.gz'
++        srcuri = 'http://downloads.yoctoproject.org/mirror/sources/navit-0.5.0.tar.gz'
+         result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
+         self.assertTrue(os.path.isfile(recipefile))
+         checkvars = {}
+         checkvars['LICENSE'] = set(['Unknown', 'GPLv2', 'LGPLv2'])
+-        checkvars['SRC_URI'] = 'http://downloads.sourceforge.net/project/navit/v${PV}/navit-${PV}.tar.gz'
++        checkvars['SRC_URI'] = 'http://downloads.yoctoproject.org/mirror/sources/navit-${PV}.tar.gz'
+         checkvars['SRC_URI[md5sum]'] = '242f398e979a6b8c0f3c802b63435b68'
+         checkvars['SRC_URI[sha256sum]'] = '13353481d7fc01a4f64e385dda460b51496366bba0fd2cc85a89a0747910e94d'
+         checkvars['DEPENDS'] = set(['freetype', 'zlib', 'openssl', 'glib-2.0', 'virtual/libgl', 'virtual/egl', 'gtk+', 'libpng', 'libsdl', 'freeglut', 'dbus-glib', 'fribidi'])
 -- 
 2.7.4
 
