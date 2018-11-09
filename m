@@ -1,101 +1,80 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E5346C0D4
+Return-Path: <chunrong.guo@nxp.com>
+X-Greylist: delayed 10828 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 09 Nov 2018 17:22:28 UTC
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+	(mail-db5eur01on0058.outbound.protection.outlook.com [104.47.2.58])
+	by mail.openembedded.org (Postfix) with ESMTP id 93B9D6C334
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Nov 2018 17:11:59 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id 70so1098810pgh.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Nov 2018 09:12:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=odvL4E1SLlVckjaVl37H5IOdtjpWEPubWHvRE/ybvvk=;
-	b=p14JUl/chP4OF92kFTDwk2BSuXpanGbK0IKiWyZG5H28TrMSLRwNkfkpmbjcAJz7Rf
-	1DNrmH5z+6SuyM4n+Dta/+xeWPIiybxWkGpVrVtWen+3vEHyEYCYDeCzLdAdtU/9gyiV
-	bCnaNjbUbH2gfaigja3LOvT7Dkk21I51W+xGCWViYPur8RVcKCi9U1e60rXre1Cj0Dl4
-	Ee08IwhufuBSfqpkn3ggtfofhY30bsa8Epe4fmnpBQu3cDQoQUfdXo1d/dSQjFrvKC+6
-	giVi0RLcGfAVyvqu663YlhXk+YLTmkYVrAGmxsnD6psIAkH/hwLF6+aMf9RdGOmCQFLd
-	Y0sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=odvL4E1SLlVckjaVl37H5IOdtjpWEPubWHvRE/ybvvk=;
-	b=NSCrZ5f+9/X57rzwHq4f4vH748TB5/grwhbYm2/OuSn2mdlP0HLqs1SeOAft9ffvDo
-	cfXRYyu18Wgg4DP6+J3/yKLtDe55fth8r3WyfEiyTqVEvOnVa5krCT/W9R4leGQ2JF9s
-	XnW86rRD/kaLlBz9nNMlxEjfhBcABQAnE34kuJXdBx2ukcKk+6JcpOm6BluYWoKsid/j
-	wWjmorhs20y8vY+2d7ZYNetjtB5Eb2kRfqdgh+bd82x61f2x3cP3mSu79ZkeJ48hrewa
-	PwtMnBzT2mZK25g/enI84s+6dqB/D7a9OalksTuJI+zb2m8/b2aY2kAlO5qHzJthwGTY
-	Z3bQ==
-X-Gm-Message-State: AGRZ1gLoTTGsWNPUBgl0Z3CfdlnyW/koCR6cmlOXUbQ9AdSO2dl0RgCI
-	FsPjWjAmUWbrHcThmFJMmwUCNdMQ
-X-Google-Smtp-Source: AJdET5eKylNIyglGTMJxl+RqBAqRxjpN/vYjnyVKr8xTiPeCkyxBDlbu5/pK1mlGUO4dz1yH6PKsCg==
-X-Received: by 2002:aa7:8498:: with SMTP id
-	u24-v6mr9816251pfn.220.1541783520154; 
-	Fri, 09 Nov 2018 09:12:00 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:c33:bc38:12a0:5835:9ef9?
-	([2601:202:4180:c33:bc38:12a0:5835:9ef9])
-	by smtp.gmail.com with ESMTPSA id 79sm6697227pge.66.2018.11.09.09.11.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 Nov 2018 09:11:59 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <20181109165311.12118-1-ross.burton@intel.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <ca16f755-63c3-41e7-e555-f36097c25159@gmail.com>
-Date: Fri, 9 Nov 2018 09:11:58 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Fri,  9 Nov 2018 17:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=/1dKc8RgmTAOvq/csreK8zNg46qDD1PvgcJUjaTAta0=;
+	b=g+7HNQhd8UFZYeDZDcWMD77aLBvsTStJccdfb661gTP0lHFWZPlJHJeCteSfskl82eaP5svq7/GIUK3Fl6JvZaAiDj11WGEdIdRhygDJlpjTiIbIjmh5BOaRccadR0eUwhvzi5roeS3tPu+3pmY51wsFTUHttQr3P66T1DaT5wA=
+Received: from DB7PR04MB5068.eurprd04.prod.outlook.com (20.176.235.12) by
+	DB7PR04MB4620.eurprd04.prod.outlook.com (52.135.138.154) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1294.28; Fri, 9 Nov 2018 03:22:24 +0000
+Received: from DB7PR04MB5068.eurprd04.prod.outlook.com
+	([fe80::9563:6aa7:dd40:a955]) by
+	DB7PR04MB5068.eurprd04.prod.outlook.com
+	([fe80::9563:6aa7:dd40:a955%5]) with mapi id 15.20.1294.034;
+	Fri, 9 Nov 2018 03:22:24 +0000
+From: "C.r. Guo" <chunrong.guo@nxp.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] meta/classes/qemu.bbclass: set -cpu of e500v2 to e500mc
+Thread-Index: AQHUd9tu2jqK9exZtE+RPB1AvsQw3w==
+Date: Fri, 9 Nov 2018 03:22:24 +0000
+Message-ID: <1541733726-19799-1-git-send-email-chunrong.guo@nxp.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HK0PR01CA0067.apcprd01.prod.exchangelabs.com
+	(2603:1096:203:a6::31) To DB7PR04MB5068.eurprd04.prod.outlook.com
+	(2603:10a6:10:1c::12)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=chunrong.guo@nxp.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [119.31.174.73]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; DB7PR04MB4620;
+	6:6Ss7wjdB/Zj5gt2FsWgLhW3E/mbfoDK9Bdwt2mrWRw34ag3/UVnIyPJamubka33175HlDJP5kq0uYBWJjIt63YsY77gSWvD8hXIxK37+djcmP/vP/AgpyJevpoFhsvKOjgwpKQEFIzkEC4c80o7MAROnpoZtrH3R7+RaOq8cHRjFnj9igXPPWymcQ+EvRCG8OdKwhHigUckjhgwrV02CbwTgg1MpXqfZA99IHbwDtvKtQ2yGTMGj1WwZv8+Jr2HRXKE0+iqOCHS+VCmSglVZghgJKuG5WUpqkCqjTFFAs4jQhWfU2Og1thfoCczTUmJaLHIz7mK9P7Fu7VLhmowcrtgjd5rkKX4wcqiMAcayNygtvJJDQFXFKSsHKwXepqY6pMlt7ftau+lFlWfTnivSN//91+zppp3UB3T/otwBbitRj+iSWX0VeYGgbuZAHgWjMP2tGpDDyH6SU10Jtpo0fg==;
+	5:+OPqB3aYNASU2ekj9ws0Kw3xROmHc8GR0l3goAriizVlA8CMhZ36SWKS+MkacRp2ciyrJfj866rr6PNpaDSK8Ruo974PlvN015x02gx3jARF3QSZOpSUYwoDwoDsIHB3OoQgnejwmjGvKwk/fue8lCrjQ8TP06yZrEq+vX4CV7g=;
+	7:kLzTSsS7u8Xnhkyj+V0cpE5mMQnNcWeSDD/VDtGaDuOmMpS4+rLR5J98juYL01ejry8SuXDCu6EtVcHR2WWFHVuL0RYVlcQbJzu3N3BLsxXChOT23oAGNVio1OUDCTysOk5U2sOMEHZGmmjyDT1XdQ==
+x-ms-office365-filtering-correlation-id: b75491a8-81af-4aef-da16-08d645f29125
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);
+	SRVR:DB7PR04MB4620; 
+X-MS-TrafficTypeDiagnostic: DB7PR04MB4620:|DB7PR04MB4620:
+x-microsoft-antispam-prvs: <DB7PR04MB4620671258B2827BF1A9F82B84C60@DB7PR04MB4620.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(185117386973197);
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3002001)(3231382)(944501410)(52105095)(6055026)(148016)(149066)(150057)(6041310)(20161123564045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123560045)(201708071742011)(7699051)(76991095);
+	SRVR:DB7PR04MB4620; BCL:0; PCL:0; RULEID:; SRVR:DB7PR04MB4620; 
+x-forefront-prvs: 08512C5403
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(136003)(376002)(366004)(346002)(39860400002)(396003)(189003)(199004)(2906002)(106356001)(105586002)(53936002)(478600001)(6512007)(5660300001)(4326008)(5640700003)(36756003)(25786009)(316002)(66066001)(14454004)(6436002)(2501003)(476003)(6506007)(2351001)(102836004)(52116002)(97736004)(99286004)(3846002)(7736002)(305945005)(6116002)(186003)(2900100001)(2616005)(386003)(26005)(71190400001)(14444005)(71200400001)(256004)(6916009)(86362001)(8936002)(1857600001)(81156014)(68736007)(81166006)(8676002)(6486002)(486006);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR04MB4620;
+	H:DB7PR04MB5068.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+x-microsoft-antispam-message-info: fG8fsCON08DA5KzYI6WW2CAQM8dL1aFrJTBBCpwt5+xsLG0PzchO88CQzNcYM8tyuUvgQUFJiywcB6fFH4BB8TutiTQNzjTcYcI608PWnw46f5qZwym1xmbw7MKlu5YkbPwad2x9cmUmPCq459+5CevS/f+LxhMTIosb2KeP2GDDkYCGU4CPsfXrT1lhZfV/3lPUmFyH8V3f5x8sHpdWLYgdXcbZbgkBbQzsUC+iG8nHA9H9hul+AUNdsUEfRYMxMpil0xwVNXiC57cunDuCU62rPmplKX9FVLfRu/yg+6/sfUi9S2e3pZjV8iDTj7XEwgse+IG7a4EissUQxVDAD9UPDtMfjz7DEV90yex6SHI=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-In-Reply-To: <20181109165311.12118-1-ross.burton@intel.com>
-Subject: Re: [PATCH] curl: actually apply latest CVE patches
+X-MS-Exchange-CrossTenant-Network-Message-Id: b75491a8-81af-4aef-da16-08d645f29125
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Nov 2018 03:22:24.5497 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4620
+X-Microsoft-Exchange-Diagnostics: 1; DB7PR04MB4620;
+	23:laGiqWPOSkX15vXOjfwK2ROM1PdH8fUAoPxMtbyj7aAc0STRUbWPW74u+3RRAsGg5uJJrnirwJBimhYQeQVfDBO7dqzS9QPYN/my+DNC2V1uJtzgTGm9JGIsEXv8zTxsmOiQTt99RVw90bQSPeTPxw==
+X-OriginatorOrg: nxp.com
+Subject: [PATCH] meta/classes/qemu.bbclass: set -cpu of e500v2 to e500mc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,35 +87,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Nov 2018 17:11:59 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Nov 2018 17:22:29 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
+From: Chunrong Guo <chunrong.guo@nxp.com>
 
-On 11/9/18 8:53 AM, Ross Burton wrote:
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-support/curl/curl_7.61.0.bb | 3 +++
->  1 file changed, 3 insertions(+)
+*fix the below error
+|The postinstall intercept hook 'update_font_cache' failed
+|qemu: uncaught target signal 4 (Illegal instruction) - core dumped
 
-Thanks
+This workaround will need to be reverted once the proper fix is found.
 
--armin
+Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
+---
+ meta/classes/qemu.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
-> index 53cfc4a5186..56327a632b4 100644
-> --- a/meta/recipes-support/curl/curl_7.61.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.61.0.bb
-> @@ -8,6 +8,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ef889a37a5a874490ac7ce116396f29a"
->  SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
->             file://0001-replace-krb5-config-with-pkg-config.patch \
->             file://CVE-2018-14618.patch \
-> +           file://CVE-2018-16839.patch \
-> +           file://CVE-2018-16840.patch \
-> +           file://CVE-2018-16842.patch \
->  "
->  
->  SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index f5c5780..e8545f1 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -55,7 +55,7 @@ def qemu_run_binary(data, rootfs_path, binary):
+ QEMU_OPTIONS =3D "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s" %=
+ d.getVar('PACKAGE_ARCH')) or ""}"
+ QEMU_OPTIONS[vardeps] +=3D "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
+=20
+-QEMU_EXTRAOPTIONS_ppce500v2 =3D " -cpu e500v2"
++QEMU_EXTRAOPTIONS_ppce500v2 =3D " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppce500mc =3D " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppce5500 =3D " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppc64e5500 =3D " -cpu e500mc"
+--=20
+2.7.4
+
 
