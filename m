@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
 	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B58CC6C21C
+	by mail.openembedded.org (Postfix) with ESMTP id 733456C21C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Nov 2018 14:29:25 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 124-v6so2235938wmw.0
+	Fri,  9 Nov 2018 14:29:26 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id r63-v6so2208940wma.4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 09 Nov 2018 06:29:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=WQXp5i0+abntsoD4z36kqfurlmPQU+uQ05e2yFu84Eg=;
-	b=OnGw9DjPanGCkKBYHd/e8g2qD8gbXGMgxxoSQh7qT+UXUY6yaqF7+8NZgrANt2Hx2d
-	JsjBBO37SvLy2n0vJkYbcCaZwf7Fv3WUDrNZ1/ag3WLec/39YvRNsl6LIb4Bh2AE2sT+
-	92m+TEWTevjgqC73VuPtzQH0Vc/yguUQOOJAU=
+	bh=Sldramz4jo6QKkvufvErrcdwusKZEB5+/ZIjs4AJLJ0=;
+	b=K7d4Ypdta1hzrmHl4TVIZIj3uJItXofpOwq5UAZY2HCFe71/pQuMWLjbdDClhbHeq/
+	nMsflV4UBKCJLhtaswEJsbZnoOZbo9MxJmYwJ1+a2SGujb0EnjV01oQukVVK7OgCI7Nk
+	VvjpkeW6yGE+BSWnWQLFVZ7q55bn/28RkMOw0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=WQXp5i0+abntsoD4z36kqfurlmPQU+uQ05e2yFu84Eg=;
-	b=U8z2gldGrjeBn0NWBdE3aw3iEsoWbvB/PN3j7HffcDncTCu8mRSJee5oKE4WvFjrdb
-	Q9/qvBAPhWpmDR1MsE14PoSVOEMFfck8KLZXsyNStPa//YZi0aWn3LCrvfdn0dxNkRc2
-	YLKfMON8FfQb9kKCXUs+pzaFSrocR+vk4c24e34BUU2NKMVIgoCRp+AQ0b0rRoKajjHA
-	HEiqFRTp/l3ImWwV40TDHxuCMJvOQMOuDmB9rqSGyNjXurRba7Nc+UmaRhOnqiDx+Fq6
-	qyofJ027mWGxoZgGOgHLaph2JE6y5T1fNX+syUAVPMZO/ZQbD6xuq+e0RlIkens3Fwa+
-	J0tA==
-X-Gm-Message-State: AGRZ1gJ4MiFRU9MlUSdj7T+ti1T5UJMNf8mHSyXWvDn0OWrXc5T+Sq/H
-	RiHlnnGAMksGnrPr8xl3SFDC+EmgnxI=
-X-Google-Smtp-Source: AJdET5cwFCg+M/8Ke/BU6TSu4P8b1izpR6IdeR3V3pNmEVeZgDP78onLNMfFOGr+RkQL84MZsIV1bw==
-X-Received: by 2002:a1c:a641:: with SMTP id
-	p62-v6mr5106087wme.40.1541773765958; 
-	Fri, 09 Nov 2018 06:29:25 -0800 (PST)
+	bh=Sldramz4jo6QKkvufvErrcdwusKZEB5+/ZIjs4AJLJ0=;
+	b=kttIzoTmue+YbYegCVVtX/a9tlmYlHAsf23fpWLOaLbvpo7YR+s/vcez2sKdisyBgD
+	mDnSkWsoo1T4208XOsOaNrsy4Eb1cKxyW5gPMgdomUsBqdbFSanMRtRpkxMf2cHm7Key
+	fhKCixSqUw8y05wWqOg32fsFmD7Cjis99lF5oBM2XG+5/PI7Ieh1w74HvOtN8V2SU8P6
+	n2ChKqnoa9KHXasYSyL/uohzp5Ne+LsrCk5tMyXksnk0MrVQ/dgxDQd/CdCvmxhmcOHb
+	14XfkXUtg4rZWEM1joOPP2FuDn7uFVuSjWJIZ3R93XndrMotTZlG0ebbyPwU8Stg7IOr
+	ETMA==
+X-Gm-Message-State: AGRZ1gLVeKmIFpBiRgMglK++l/uAhxY3wCRd1zl8pN0x5yDCqV7TDYLQ
+	uhdtcZ7mrMpqtWMnH/6lO+SoblckroU=
+X-Google-Smtp-Source: AJdET5eTNFwvXtxG0bc2E20gUSte/O9ygD/tAZ3w4j0PBJBs7eJUs4PT7CbCHG1iWGMN/oR6UbM6Bw==
+X-Received: by 2002:a1c:d78b:: with SMTP id
+	o133-v6mr1971990wmg.38.1541773766839; 
+	Fri, 09 Nov 2018 06:29:26 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h16-v6sm7713764wrb.73.2018.11.09.06.29.25
+	h16-v6sm7713764wrb.73.2018.11.09.06.29.26
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 Nov 2018 06:29:25 -0800 (PST)
+	Fri, 09 Nov 2018 06:29:26 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Nov 2018 14:29:11 +0000
-Message-Id: <20181109142912.23102-11-richard.purdie@linuxfoundation.org>
+Date: Fri,  9 Nov 2018 14:29:12 +0000
+Message-Id: <20181109142912.23102-12-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
 References: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 11/12] testimage: Further cleanup DEFAULT_TEST_SUITES
+Subject: [PATCH 12/12] image-buildinfo, oeqa/selftest/containerimage: Ensure image-buildinfo doesn't break tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Nov 2018 14:29:26 -0000
+X-List-Received-Date: Fri, 09 Nov 2018 14:29:27 -0000
 
-Now the test markup of the development tools tests is complete, this
-can be further tweaked to auto run the correct tests.
+Having image-buildinfo enabled causes containerimage.ContainerImageTests.test_expected_files
+to fail due to the presence of an unexpected file:
+  ['./',
+   './etc/',
+-  './etc/build',
+   './etc/default/',
+   './etc/default/postinst',
+
+Tweak the class to allow it to be disabled and disable it from the test just in
+case it was enabled.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/testimage.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/image-buildinfo.bbclass           | 2 ++
+ meta/lib/oeqa/selftest/cases/containerimage.py | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index b00d47441b2..4e9494296e1 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -40,12 +40,12 @@ TEST_NEEDED_PACKAGES_DIR ?= "${WORKDIR}/testimage/packages"
- TEST_EXTRACTED_DIR ?= "${TEST_NEEDED_PACKAGES_DIR}/extracted"
- TEST_PACKAGED_DIR ?= "${TEST_NEEDED_PACKAGES_DIR}/packaged"
+diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-buildinfo.bbclass
+index 213fb9cf9b6..87a6a1a4893 100644
+--- a/meta/classes/image-buildinfo.bbclass
++++ b/meta/classes/image-buildinfo.bbclass
+@@ -64,6 +64,8 @@ def buildinfo_target(d):
  
--BASICTESTSUITE = "ping date df ssh scp python perl apt opkg gi ptest dnf rpm parselogs logrotate connman systemd oe_syslog pam stap ldd xorg"
--DEVTESTSUITE = "gcc kernelmodule buildcpio buildlzip buildgalculator "
-+BASICTESTSUITE = "\
-+    ping date df ssh scp python perl apt opkg gi ptest dnf rpm parselogs \
-+    logrotate connman systemd oe_syslog pam stap ldd xorg kernelmodule gcc \
-+    buildcpio buildlzip buildgalculator"
+ # Write build information to target filesystem
+ python buildinfo () {
++    if not d.getVar('IMAGE_BUILDINFO_FILE'):
++        return
+     with open(d.expand('${IMAGE_ROOTFS}${IMAGE_BUILDINFO_FILE}'), 'w') as build:
+         build.writelines((
+             '''-----------------------
+diff --git a/meta/lib/oeqa/selftest/cases/containerimage.py b/meta/lib/oeqa/selftest/cases/containerimage.py
+index 99a5cc9e575..8deaae75d8a 100644
+--- a/meta/lib/oeqa/selftest/cases/containerimage.py
++++ b/meta/lib/oeqa/selftest/cases/containerimage.py
+@@ -39,6 +39,7 @@ class ContainerImageTests(OESelftestTestCase):
+ IMAGE_FSTYPES = "container"
+ PACKAGE_CLASSES = "package_ipk"
+ IMAGE_FEATURES = ""
++IMAGE_BUILDINFO_FILE = ""
+ """)
  
- DEFAULT_TEST_SUITES = "${BASICTESTSUITE}"
--DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${BASICTESTSUITE} ${DEVTESTSUITE}"
--DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${BASICTESTSUITE} ${DEVTESTSUITE}"
- 
- # aarch64 has no graphics
- DEFAULT_TEST_SUITES_remove_aarch64 = "xorg"
+         bbvars = get_bb_vars(['bindir', 'sysconfdir', 'localstatedir',
 -- 
 2.17.1
 
