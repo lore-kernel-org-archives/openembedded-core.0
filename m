@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C36446C211
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 946156C1F2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Nov 2018 14:29:19 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id p2-v6so2111510wmc.2
+	Fri,  9 Nov 2018 14:29:20 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id 74-v6so2084088wrb.13
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 09 Nov 2018 06:29:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=3SvvdY7r2RO3y4JNYBRSRDsDE0eFHbW/AyNiMTLoshI=;
-	b=VUpoRU9zIWRWRnDyMpD/N2ISff9xQQOk/UOz61s0mbSS1IVGa7KCewqC3M80AqbFYE
-	MS1iE+fcXtfBEtY7lBx1WJyIF+9D8Zep7i3OUmInbgphlcw+Y6OXRSiIh9vHnDUJ5CwS
-	QH7kV/1FWKfTt5AK0ZkUoAUWBwVfg/9Ul8XPI=
+	bh=Bqw1i8PtZUHciR+JSoNSdZeG9yyA2Gl4sEwwjcXQscY=;
+	b=LshgsES7toZKYp2zQJzVUP4Lli32C8kBGcF7bnYmrH7gNkZtcyPCPV8jF5JZsJEb4m
+	xuNwd8iBFkHL9dLFHAnCaaCnF9IyneR23FTRQ5KiYYZzBIQZclGyDxtCGCZRWHBpF21k
+	I8jACiFA86IvPFy3AAWQV2fIB+6H5cxQbzg84=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=3SvvdY7r2RO3y4JNYBRSRDsDE0eFHbW/AyNiMTLoshI=;
-	b=As9Whlsg8TJ+Yc7kkiQT70Rz156l43Ro9Kn73KavanHrs9j/Mk22g1B7NU3OZoh0LT
-	6FpW6Ut+XZqBZ7jGhMvUgwbbIRb0koW3nIi1Sv/PTXMhjDJv4GmmCirVnkavE0i1qEJo
-	wC5wDuoNnRUhreo1VsPiiOyamIKyLcxFOM4TskEAKonQVQiUgYGKBWUQxsMGBxl0kPr0
-	SHyiyyVA+ZSvgK7lIYqrzRB/1dWc0nNtxVK2E0nEwIoww+dtw1IU6JEWc3p5x4B3wpAs
-	TdpQEGaVsj/t7Bpi9gQQpG1JC1uPsGZtMCN37dXKgUXofwUxEAQxavQb5ELVldbnwuUx
-	k1fg==
-X-Gm-Message-State: AGRZ1gIlU2d0fO6BZBWyPIqjC4RDip5BR94vOG1lxjX3B3kUv1hvEoTu
-	xo4cyXkjLMjOH7U0VOslntkFOnSWHC8=
-X-Google-Smtp-Source: AJdET5dVJQXU7+37NS2DPT9s7y556FBUyleMbl/CGxl9o4PKVKY/j+4OYIzi/vA4mOG6rOlIZ9d59w==
-X-Received: by 2002:a1c:d78e:: with SMTP id
-	o136-v6mr4903723wmg.124.1541773760007; 
+	bh=Bqw1i8PtZUHciR+JSoNSdZeG9yyA2Gl4sEwwjcXQscY=;
+	b=ebGe9wLZaKVUs0Hu2v26IICZJVYT+rnJ0EYIZ9UfLayRt87ga3Mmx5xgT6dqqnJYN0
+	DTBNWpIckSUHUwL/+pDQ9Ed8quNh6Sq3dpCzgUnAU5RfLItlid5MROwgSkuJWpRvuKyQ
+	V4oYfGSVQgfx4aRWERTH8/koupZrTQGSBARxlGZZzoMYDFjfZKHhCB9oTB//swzs9sEN
+	5dghZBsZxAGLUIxFWH7DQp2BF0WA4CRozCvEd3EcMXD8Bgz5PUA6wDbFxw0YNAMpk9dK
+	8oh2Sz1oYjzUR4F8zv0tF8ei6ODhxpzl+8xSjCbxEHf9AYey6lUWdAKeewTjD6CPQGzW
+	VmtA==
+X-Gm-Message-State: AGRZ1gJ8TqBlyk7QrmACi3QWsgdA0aJdFD3sVyv9TjAT00jhLAZbU1dW
+	YiK2/983x64vfig/7k1SClLCpw55GAM=
+X-Google-Smtp-Source: AJdET5fEgTiHBmCSVbJdXPjPMJxACLqTQwYn/HcNPIEhPp6vPCKN3+4CEV8P1lo5UydkBn91vGvpVQ==
+X-Received: by 2002:a5d:4406:: with SMTP id
+	z6-v6mr8390582wrq.294.1541773760895; 
 	Fri, 09 Nov 2018 06:29:20 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h16-v6sm7713764wrb.73.2018.11.09.06.29.19
+	h16-v6sm7713764wrb.73.2018.11.09.06.29.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 Nov 2018 06:29:19 -0800 (PST)
+	Fri, 09 Nov 2018 06:29:20 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Nov 2018 14:29:06 +0000
-Message-Id: <20181109142912.23102-6-richard.purdie@linuxfoundation.org>
+Date: Fri,  9 Nov 2018 14:29:07 +0000
+Message-Id: <20181109142912.23102-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
 References: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 06/12] oeqa/utils/buildproject: Only clean files if we've done something
+Subject: [PATCH 07/12] oeqa/runtime/utils/targetbuildproject: Use a subdir within ~/
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,41 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Nov 2018 14:29:20 -0000
+X-List-Received-Date: Fri, 09 Nov 2018 14:29:21 -0000
 
-We should only be wiping out things on target if the tests have
-actually run.
+Without doing this, the code can and sometimes does try and do "rm ~/"
+which I think we'd all prefer it didn't.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/utils/buildproject.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/lib/oeqa/runtime/utils/targetbuildproject.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/buildproject.py b/meta/lib/oeqa/utils/buildproject.py
-index 721f35d996e..7e9b84955f5 100644
---- a/meta/lib/oeqa/utils/buildproject.py
-+++ b/meta/lib/oeqa/utils/buildproject.py
-@@ -24,9 +24,12 @@ class BuildProject(metaclass=ABCMeta):
-             self.fname = foldername
-         else:
-             self.fname = re.sub(r'\.tar\.bz2$|\.tar\.gz$|\.tar\.xz$', '', self.archive)
-+        self.needclean = False
+diff --git a/meta/lib/oeqa/runtime/utils/targetbuildproject.py b/meta/lib/oeqa/runtime/utils/targetbuildproject.py
+index 5af55d736e4..de17ba01f89 100644
+--- a/meta/lib/oeqa/runtime/utils/targetbuildproject.py
++++ b/meta/lib/oeqa/runtime/utils/targetbuildproject.py
+@@ -7,10 +7,12 @@ class TargetBuildProject(BuildProject):
  
-     # Download self.archive to self.localarchive
-     def _download_archive(self):
+     def __init__(self, target, uri, foldername=None, dl_dir=None):
+         self.target = target
+-        self.targetdir = "~/"
++        self.targetdir = "~/buildtest/"
+         BuildProject.__init__(self, uri, foldername, dl_dir=dl_dir)
+ 
+     def download_archive(self):
++        self.target.run("mkdir " + self.targetdir + " || true")
 +
-+        self.needclean = True
-         if self.dl_dir and os.path.exists(os.path.join(self.dl_dir, self.archive)):
-             shutil.copyfile(os.path.join(self.dl_dir, self.archive), self.localarchive)
-             return
-@@ -51,5 +54,7 @@ class BuildProject(metaclass=ABCMeta):
-         return self._run('cd %s; make install %s' % (self.targetdir, install_args))
+         self._download_archive()
  
-     def clean(self):
-+        if not self.needclean:
-+             return
-         self._run('rm -rf %s' % self.targetdir)
-         subprocess.check_call('rm -f %s' % self.localarchive, shell=True)
+         status, output = self.target.copyTo(self.localarchive, self.targetdir)
 -- 
 2.17.1
 
