@@ -1,26 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Changqing.Li@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 63B9E6C119
+	by mail.openembedded.org (Postfix) with ESMTP id 056B560107
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Nov 2018 09:02:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA992KvG032568
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 9 Nov 2018 01:02:30 -0800
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 9 Nov 2018 01:02:09 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Fri, 9 Nov 2018 17:12:22 +0800
-Message-ID: <cb45fc25b42e280523a2a8c0173dd7b494cb4635.1541754618.git.hongxu.jia@windriver.com>
+	Fri,  9 Nov 2018 09:43:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wA99hBD9000947
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 9 Nov 2018 01:43:21 -0800
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Fri, 9 Nov 2018 01:42:36 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 9 Nov 2018 17:42:34 +0800
+Message-ID: <1541756554-194955-1-git-send-email-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1541754618.git.hongxu.jia@windriver.com>
-References: <cover.1541754618.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] libjitterentropy: add 2.1.2
+Subject: [PATCH] update-rc.d.bbclass: remove preinst and remove -f for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,98 +31,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Nov 2018 09:02:55 -0000
+X-List-Received-Date: Fri, 09 Nov 2018 09:43:31 -0000
 Content-Type: text/plain
 
-From the following kernel commit we know: Fedora has integrated the jitter
-entropy daemon to work around slow boot problems, especially on VM's that
-don't support virtio-rng
+From: Changqing Li <changqing.li@windriver.com>
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=81e69df38e2911b642ec121dec319fad2a4782f3
+*preinst use "-f remove" to remove any links in the /etc/rcrunlevel.d
+ but this will make user cannot keep previous config by default after
+ upgrade
 
-Do the same thing for Yocto.
+ eg: user disable one service before upgrade, after upgrade, service
+ could be started since during preinst, all link have been deleted, so
+ postinst may create the link to start service.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ remove preinst to keep previous links, so that after upgrade, if any
+ link existed for the package, postinst will not create new start/stop
+ links.
+
+ (note: patch of support enable/disable function of update-rc.d send
+ to yocto mail list today)
+
+*remove -f for postinst, previously, recipe keepalived use remove during
+ postinst, so need this -f, but remove in postinst is not proper, recipe
+ keepalived have fixed this problem, so remove -f.
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../files/0001-fix-do_install-failure-on-oe.patch  | 33 ++++++++++++++++++++++
- .../libjitterentropy/libjitterentropy_2.1.2.bb     | 28 ++++++++++++++++++
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch
- create mode 100644 meta/recipes-support/libjitterentropy/libjitterentropy_2.1.2.bb
+ meta/classes/update-rc.d.bbclass | 28 ++++------------------------
+ 1 file changed, 4 insertions(+), 24 deletions(-)
 
-diff --git a/meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch b/meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch
-new file mode 100644
-index 0000000..30ff4fe
---- /dev/null
-+++ b/meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch
-@@ -0,0 +1,33 @@
-+From 00cefca0eefecec657969b50cd4e1ed5b057a857 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Thu, 25 Oct 2018 16:30:06 +0800
-+Subject: [PATCH] fix do_install failure on oe
-+
-+- Do not strip at do_install
-+
-+- Create includedir
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ Makefile | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 5e31276..76fcbfa 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -51,7 +51,8 @@ install:
-+ 	install -m 644 doc/$(NAME).3 $(DESTDIR)$(PREFIX)/share/man/man3/
-+ 	gzip -9 $(DESTDIR)$(PREFIX)/share/man/man3/$(NAME).3
-+ 	install -d -m 0755 $(DESTDIR)$(PREFIX)/$(LIBDIR)
-+-	install -m 0755 -s lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
-++	install -m 0755 lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
-++	install -d -m 0755 $(DESTDIR)$(PREFIX)/$(INCDIR)/
-+ 	install -m 0644 jitterentropy.h $(DESTDIR)$(PREFIX)/$(INCDIR)/
-+ 	install -m 0644 jitterentropy-base-user.h $(DESTDIR)$(PREFIX)/$(INCDIR)/
-+ 	$(RM) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so.$(LIBMAJOR)
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy_2.1.2.bb b/meta/recipes-support/libjitterentropy/libjitterentropy_2.1.2.bb
-new file mode 100644
-index 0000000..3b5b4e4
---- /dev/null
-+++ b/meta/recipes-support/libjitterentropy/libjitterentropy_2.1.2.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "Hardware RNG based on CPU timing jitter"
-+DESCRIPTION = "The Jitter RNG provides a noise source using the CPU execution timing jitter. \
-+It does not depend on any system resource other than a high-resolution time \
-+stamp. It is a small-scale, yet fast entropy source that is viable in almost \
-+all environments and on a lot of CPU architectures."
-+HOMEPAGE = "http://www.chronox.de/jent.html"
-+LICENSE = "GPLv2+ | BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=e52365752b36cfcd7f9601d80de7d8c6 \
-+                    file://COPYING.gplv2;md5=eb723b61539feef013de476e68b5c50a \
-+                    file://COPYING.bsd;md5=66a5cedaf62c4b2637025f049f9b826f \
-+                   "
-+SRC_URI = "git://github.com/smuellerDD/jitterentropy-library.git \
-+           file://0001-fix-do_install-failure-on-oe.patch \
-+          "
-+SRCREV = "f5a80c6f3fcc6deebd0eabf75324f48aed1afbce"
-+S = "${WORKDIR}/git"
-+
-+do_configure[noexec] = "1"
-+
-+LDFLAGS += "-Wl,-O0"
-+
-+do_install () {
-+    oe_runmake install INCDIR="/include" \
-+                       DESTDIR="${D}" \
-+                       PREFIX="${exec_prefix}" \
-+                       LIBDIR="${baselib}"
-+}
-+
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 265c4be..1366fee 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -20,28 +20,14 @@ def use_updatercd(d):
+         return '[ -n "$D" -o ! -d /run/systemd/system ]'
+     return 'true'
+ 
+-updatercd_preinst() {
+-if ${@use_updatercd(d)} && [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
+-	${INIT_D_DIR}/${INITSCRIPT_NAME} stop || :
+-fi
+-if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
+-	if [ -n "$D" ]; then
+-		OPT="-f -r $D"
+-	else
+-		OPT="-f"
+-	fi
+-	update-rc.d $OPT ${INITSCRIPT_NAME} remove
+-fi
+-}
+-
+ PACKAGE_WRITE_DEPS += "update-rc.d-native"
+ 
+ updatercd_postinst() {
+ if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
+ 	if [ -n "$D" ]; then
+-		OPT="-f -r $D"
++		OPT="-r $D"
+ 	else
+-		OPT="-f -s"
++		OPT="-s"
+ 	fi
+ 	update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
+ fi
+@@ -79,7 +65,7 @@ python __anonymous() {
+ PACKAGESPLITFUNCS_prepend = "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'populate_packages_updatercd ', '', d)}"
+ PACKAGESPLITFUNCS_remove_class-nativesdk = "populate_packages_updatercd "
+ 
+-populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_preinst updatercd_postinst"
++populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_postinst"
+ populate_packages_updatercd[vardepsexclude] += "OVERRIDES"
+ 
+ python populate_packages_updatercd () {
+@@ -95,7 +81,7 @@ python populate_packages_updatercd () {
+             d.appendVar('RDEPENDS_' + pkg, ' %sinitd-functions' % (mlprefix))
+ 
+     def update_rcd_package(pkg):
+-        bb.debug(1, 'adding update-rc.d calls to preinst/postinst/prerm/postrm for %s' % pkg)
++        bb.debug(1, 'adding update-rc.d calls to postinst/prerm/postrm for %s' % pkg)
+ 
+         localdata = bb.data.createCopy(d)
+         overrides = localdata.getVar("OVERRIDES")
+@@ -103,12 +89,6 @@ python populate_packages_updatercd () {
+ 
+         update_rcd_auto_depend(pkg)
+ 
+-        preinst = d.getVar('pkg_preinst_%s' % pkg)
+-        if not preinst:
+-            preinst = '#!/bin/sh\n'
+-        preinst += localdata.getVar('updatercd_preinst')
+-        d.setVar('pkg_preinst_%s' % pkg, preinst)
+-
+         postinst = d.getVar('pkg_postinst_%s' % pkg)
+         if not postinst:
+             postinst = '#!/bin/sh\n'
 -- 
 2.7.4
 
