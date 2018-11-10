@@ -1,23 +1,18 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 557AE6C252
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Nov 2018 01:52:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAA1qfji014741
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 9 Nov 2018 17:52:41 -0800 (PST)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 9 Nov 2018 17:52:40 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Sat, 10 Nov 2018 10:03:19 +0800
-Message-ID: <1541815399-29097-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 72CDB6C201;
+	Sat, 10 Nov 2018 02:03:05 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] rng-tools: fix typo of unrecognised options: --disable-jitterntropy
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Sat, 10 Nov 2018 02:03:06 -0000
+Message-ID: <20181110020306.2330.45642@do>
+References: <1541815399-29097-1-git-send-email-hongxu.jia@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1541815399-29097-1-git-send-email-hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igcm5nLXRvb2xzOiBmaXggdHlwbyBvZiB1bnJlY29nbmlzZWQgb3B0aW9uczogLS1kaXNhYmxlLWppdHRlcm50cm9weQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,79 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Nov 2018 01:52:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 10 Nov 2018 02:03:05 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-- Fix typo of `--disable-jitterntropy' in both of PACKAGECONFIG and configure --help
+== Series Details ==
 
-- Enable jitterntropy for musl
+Series: rng-tools: fix typo of unrecognised options: --disable-jitterntropy
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14867/
+State : failure
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at e97a31e6bb)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../rng-tools/0001-configure.ac-fix-typo.patch     | 27 ++++++++++++++++++++++
- meta/recipes-support/rng-tools/rng-tools_6.6.bb    |  5 ++--
- 2 files changed, 30 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-configure.ac-fix-typo.patch
-
-diff --git a/meta/recipes-support/rng-tools/rng-tools/0001-configure.ac-fix-typo.patch b/meta/recipes-support/rng-tools/rng-tools/0001-configure.ac-fix-typo.patch
-new file mode 100644
-index 0000000..d4d28a0
---- /dev/null
-+++ b/meta/recipes-support/rng-tools/rng-tools/0001-configure.ac-fix-typo.patch
-@@ -0,0 +1,27 @@
-+From 99b0efebd765803203686d89bc4f995bcb103e78 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Sat, 10 Nov 2018 09:53:19 +0800
-+Subject: [PATCH] configure.ac: fix typo
-+
-+Upstream-Status: Submitted [https://github.com/nhorman/rng-tools.git]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 4e799dc..0251928 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -62,7 +62,7 @@ AS_IF([test $target_cpu = powerpc64le], [AC_DEFINE([HAVE_DARN],1,[Enable DARN])]
-+ AM_CONDITIONAL([JITTER], [false])
-+ 
-+ AC_ARG_ENABLE(jitterentropy,
-+-	AS_HELP_STRING([--disable-jitterntropy | --enable-jitterentropy=<path>],
-++	AS_HELP_STRING([--disable-jitterentropy | --enable-jitterentropy=<path>],
-+ 	[Disable jitterentropy source, or specify its location]),
-+ 	[if [ test -d $enable_jitterentropy ]; then
-+ 		export LDFLAGS+=-L$enable_jitterentropy;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.6.bb b/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-index 033af99..4d91216 100644
---- a/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-@@ -7,6 +7,7 @@ SRC_URI = "git://github.com/nhorman/rng-tools.git \
-            file://0002-Add-argument-to-control-the-libargp-dependency.patch \
-            file://underquote.patch \
-            file://rng-tools-5-fix-textrels-on-PIC-x86.patch \
-+           file://0001-configure.ac-fix-typo.patch \
-            file://init \
-            file://default \
-            file://rngd.service \
-@@ -24,10 +25,10 @@ DEPENDS = "curl \
-           "
- 
- PACKAGECONFIG ??= "libgcrypt libjitterentropy"
--PACKAGECONFIG_libc-musl = "libargp"
-+PACKAGECONFIG_libc-musl = "libargp libjitterentropy"
- PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
- PACKAGECONFIG[libgcrypt] = "--with-libgcrypt,--without-libgcrypt,libgcrypt,"
--PACKAGECONFIG[libjitterentropy] = "--enable-jitterentropy,--disable-jitterntropy,libjitterentropy"
-+PACKAGECONFIG[libjitterentropy] = "--enable-jitterentropy,--disable-jitterentropy,libjitterentropy"
- 
- # Refer autogen.sh in rng-tools
- do_configure_prepend() {
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
