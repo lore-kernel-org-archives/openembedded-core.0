@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 173AE6BE3C
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 310BF6BA7C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Nov 2018 20:49:33 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id n11-v6so3264167pfb.6
+	Sun, 11 Nov 2018 20:52:42 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id p16-v6so3278794plr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Nov 2018 12:49:35 -0800 (PST)
+	Sun, 11 Nov 2018 12:52:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=mfDpNzzUmm5avgdd6ov9oaCQrqLsdHm2Y/QUQBqiiIQ=;
-	b=ri4KBvaotHeKnlAnsRcMhoeHbo8HeSeIX8hfWxYO56rKYim5JbmmRZ6KdBzXNT80eK
-	OygZ4BFjAcniELjKJfK3XCiLLTeV22UAowYtOGQsMBJ2ZhG38LgO0Zx1wEUeEDxQ4cHG
-	cH8bvpqAW8f+O36SXtSls9dHU31GCvVETN71C6FdmTOY+ZE6QRWcdmOgt8L4FFogOUHG
-	VBytGLNyle4bG12JwqlhQaS3b9PAo28ojxIW6SmpwFiAh4UPgPoxJ1abWApJ7mtTcxBV
-	2QQJcFzBvhGYutCxqIusXYhvk+y2bk/MZYoTYUAhrsTfwE4eOFB9bGiMzrMTZp8NQNq5
-	mwDA==
+	bh=QAHbbmXeTas8nH3t2zUKQejFEiwQ3Wvp0ncdReDOQ5s=;
+	b=ochDVHGQBkcX42r/gfmhFxBwRI20i07Aimd73qNgaXYXpwDgUU6hwJ+uhaX/oRJlYn
+	PtI/p0aO0veGkbWbxlDBFgWCe7V8wj8WGDjtEMWoJ9+83Zi+KwpTRGHc8v48yh+aqGNU
+	ZAqt1bHwZRNATsNeVH8dI/njtUqpniZZRYx+JAuHZac1xWMLo7jSQQwk3CHnWW9J5a+F
+	rmkicfS1xsS/tR4LgYsWRMtczD869LiI3vulJBsWatbR6IsocqTQyt/2Vfz2pR+L/XUL
+	1/ZAs0vSZOFLuhYeAODkOJt5BykiDuv/hRi9kA3b2KKMdXL/db79YpMdOOBjbGI2Cw1r
+	XLYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=mfDpNzzUmm5avgdd6ov9oaCQrqLsdHm2Y/QUQBqiiIQ=;
-	b=RvfdRhk72la8ay3IxOME5vpuHizTM4YRwIbYjMj4sReYdpUvUnjKglGQ7wCoPAx6z0
-	FMsHXK37ebzGSRqyScCnuvnS30YwYlT0aCLrbnO/bVifmGDAZptnFaWh38O8lDeFZp60
-	2zFJdhJT5pp+m1gak6tH/0UbB49ZrvQKhdERqP2r/rF2v3h5UJ5UbeBVpNgJfpYgqZZs
-	pJS4E7AamuDV+6BwEf5jn9DrwsTx6pcPnpc60oS062MVXC3JuQMVTQDug+OePCorMobB
-	QOtY1oLNdolJjyt90b7QuGabr2qRTcUn/6626yOhx/alBVqbqM//DF4+TPnn34epXHkh
-	of4A==
-X-Gm-Message-State: AGRZ1gLaSZHSx6XJsPYODDiGhgyFe8kOutZ0AfiUzJb8GKNG6X+0rDoc
-	dzT8WhcVZNUMZhIT3yGpC+u7eZrz
-X-Google-Smtp-Source: AJdET5dRLbimFbKj6W2+2hVO9Kd0xUdNp5TqsVcfvGqPAFYYj2zWSIbgviZX2wBLvuIZwScJkQAcuA==
-X-Received: by 2002:a62:4896:: with SMTP id
-	q22-v6mr17666585pfi.248.1541969374644; 
-	Sun, 11 Nov 2018 12:49:34 -0800 (PST)
+	bh=QAHbbmXeTas8nH3t2zUKQejFEiwQ3Wvp0ncdReDOQ5s=;
+	b=bts1Se1CkUfdu40DjBz0FXA3ZADjVIT8UREULeshK8zt7HFZVwJ7DogfbnoeDt40OP
+	76LoddJrYHFOdYW8BVFyS6HgTcuVl3el4yIhAszWha81mkBXP2uOpSMJXuBtlG+5ctGO
+	tW7oSZD7Q22/gGdRM7s7c7CWjATWJQC7JX3NeW0pxJywUrHeYjWUsFeY5daCmYSaI71G
+	qvPZlkPYA9x6++u/45/tyCcY+uPf+yB1BPlUGUWjyzRQwjuvOqhFpJst31m+JLqdW9fb
+	ZoYLfswsVU4L9fevnA8Ugtm6pnYhp6lw6BrvFGIGsQ30vVSOAMiihu26cUT7/wyN7xVq
+	0Jrw==
+X-Gm-Message-State: AGRZ1gK6jSq+xyyWM/n668/E2QPCcsNLuQDJ0InefljQEGNAmkM0qluc
+	L74W7imuaQS2SBP27olu8UZKQpzx
+X-Google-Smtp-Source: AJdET5ciIljXWcviLT3cn7gyCh2+ZZBh6GHhVhkUvrgkEtS30FFxeiUHE0Nrs+ZioW9YaM9lHyWxxg==
+X-Received: by 2002:a17:902:1006:: with SMTP id
+	b6-v6mr16825595pla.252.1541969563111; 
+	Sun, 11 Nov 2018 12:52:43 -0800 (PST)
 Received: from ?IPv6:2601:202:4180:c33:7077:6962:50cb:42de?
 	([2601:202:4180:c33:7077:6962:50cb:42de])
 	by smtp.gmail.com with ESMTPSA id
-	n87-v6sm17658011pfb.62.2018.11.11.12.49.33
+	v1-v6sm15228977pfn.94.2018.11.11.12.52.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 11 Nov 2018 12:49:34 -0800 (PST)
+	Sun, 11 Nov 2018 12:52:42 -0800 (PST)
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core@lists.openembedded.org
 References: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
-	<20181109142912.23102-8-richard.purdie@linuxfoundation.org>
+	<20181109142912.23102-11-richard.purdie@linuxfoundation.org>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -91,13 +91,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <74c3b1de-4f26-f086-2adb-36022d344b7a@gmail.com>
-Date: Sun, 11 Nov 2018 12:49:32 -0800
+Message-ID: <eb4748cd-d26c-a916-f887-311dd6bbb8fa@gmail.com>
+Date: Sun, 11 Nov 2018 12:52:41 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <20181109142912.23102-8-richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH 08/12] testimage: Simplfy DEFAULT_TEST_SUITES logic
+In-Reply-To: <20181109142912.23102-11-richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH 11/12] testimage: Further cleanup DEFAULT_TEST_SUITES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,106 +110,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Nov 2018 20:49:34 -0000
+X-List-Received-Date: Sun, 11 Nov 2018 20:52:42 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
 
 On 11/9/18 6:29 AM, Richard Purdie wrote:
-> Now that the tests have correct markup to automatically determine which=
- images
-> they can run against, clean up the default test suites logic to be simp=
-ler
-> and not image specific.
-> Some cleanup of the compiler tests still needs to be completed but this=
-
-> is a good first step.
->
-> The only downside to this is more noise during testing as we now see
-> many skipped messages for simple images like core-image-minimal.
->
-> The auto type is being removed since it currently breaks badly due to t=
-he
-> socat mandatory inclusion from the meta-selftest layer which is a probl=
-em
-> which needs to be addressed seperately.
+> Now the test markup of the development tools tests is complete, this
+> can be further tweaked to auto run the correct tests.
 >
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/classes/testimage.bbclass | 31 ++++++-------------------------
->  1 file changed, 6 insertions(+), 25 deletions(-)
+>  meta/classes/testimage.bbclass | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bb=
-class
-> index ba2d9c491b2..b8acd3ce782 100644
+> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+> index b00d47441b2..4e9494296e1 100644
 > --- a/meta/classes/testimage.bbclass
 > +++ b/meta/classes/testimage.bbclass
-> @@ -40,31 +40,12 @@ TEST_NEEDED_PACKAGES_DIR ?=3D "${WORKDIR}/testimage=
-/packages"
->  TEST_EXTRACTED_DIR ?=3D "${TEST_NEEDED_PACKAGES_DIR}/extracted"
->  TEST_PACKAGED_DIR ?=3D "${TEST_NEEDED_PACKAGES_DIR}/packaged"
-> =20
-> -PKGMANTESTSUITE =3D "\
-> -    ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'dnf rpm', '', d)} \
-> -    ${@bb.utils.contains('IMAGE_PKGTYPE', 'ipk', 'opkg', '', d)} \
-> -    ${@bb.utils.contains('IMAGE_PKGTYPE', 'deb', 'apt', '', d)} \
-> -    "
-> -SYSTEMDSUITE =3D "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}=
-"
-> -MINTESTSUITE =3D "ping"
-> -NETTESTSUITE =3D "${MINTESTSUITE} ssh df date scp oe_syslog ${SYSTEMDS=
-UITE}"
-> -DEVTESTSUITE =3D "gcc kernelmodule ldd"
-> -PTESTTESTSUITE =3D "${MINTESTSUITE} ssh scp ptest"
-> -
-> -DEFAULT_TEST_SUITES =3D "${MINTESTSUITE} auto"
-> -DEFAULT_TEST_SUITES_pn-core-image-minimal =3D "${MINTESTSUITE}"
-> -DEFAULT_TEST_SUITES_pn-core-image-minimal-dev =3D "${MINTESTSUITE}"
-> -DEFAULT_TEST_SUITES_pn-core-image-full-cmdline =3D "${NETTESTSUITE} pe=
-rl python logrotate ptest"
-> -DEFAULT_TEST_SUITES_pn-core-image-x11 =3D "${MINTESTSUITE}"
-> -DEFAULT_TEST_SUITES_pn-core-image-lsb =3D "${NETTESTSUITE} pam parselo=
-gs ${PKGMANTESTSUITE} ptest"
-> -DEFAULT_TEST_SUITES_pn-core-image-sato =3D "${NETTESTSUITE} connman xo=
-rg parselogs ${PKGMANTESTSUITE} \
-> -    ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python', '', d)} pte=
-st gi"
-> -DEFAULT_TEST_SUITES_pn-core-image-sato-sdk =3D "${NETTESTSUITE} buildc=
-pio buildlzip buildgalculator \
-> -    connman ${DEVTESTSUITE} logrotate perl parselogs python ${PKGMANTE=
-STSUITE} xorg ptest gi stap"
-> -DEFAULT_TEST_SUITES_pn-core-image-lsb-dev =3D "${NETTESTSUITE} pam per=
-l python parselogs ${PKGMANTESTSUITE} ptest gi"
-> -DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk =3D "${NETTESTSUITE} buildcp=
-io buildlzip buildgalculator \
-> -    connman ${DEVTESTSUITE} logrotate pam parselogs perl python ${PKGM=
-ANTESTSUITE} ptest gi stap"
-> -DEFAULT_TEST_SUITES_pn-meta-toolchain =3D "auto"
-> +BASICTESTSUITE =3D "ping date df ssh scp python perl apt opkg gi ptest=
- dnf rpm parselogs logrotate connman systemd oe_syslog pam stap ldd xorg"=
+> @@ -40,12 +40,12 @@ TEST_NEEDED_PACKAGES_DIR ?= "${WORKDIR}/testimage/packages"
+>  TEST_EXTRACTED_DIR ?= "${TEST_NEEDED_PACKAGES_DIR}/extracted"
+>  TEST_PACKAGED_DIR ?= "${TEST_NEEDED_PACKAGES_DIR}/packaged"
+>  
+> -BASICTESTSUITE = "ping date df ssh scp python perl apt opkg gi ptest dnf rpm parselogs logrotate connman systemd oe_syslog pam stap ldd xorg"
+> -DEVTESTSUITE = "gcc kernelmodule buildcpio buildlzip buildgalculator "
+> +BASICTESTSUITE = "\
+> +    ping date df ssh scp python perl apt opkg gi ptest dnf rpm parselogs \
+> +    logrotate connman systemd oe_syslog pam stap ldd xorg kernelmodule gcc \
+> +    buildcpio buildlzip buildgalculator"
 
+Again Nak. You are forcing folks to have x11, systemd etc in the "Basic". 
 
-So now you are forcing me to run all those test if I just want to run
-"Ptests" for my layer that don't have any of those additional pieces.
-
-can we re-instate a basic "PTEST" variable so the rest of use can
-leverage a common define? if not, i will have do it locally in my layer.
-
-Nak for now.
 
 - armin
 
-> +DEVTESTSUITE =3D "gcc kernelmodule buildcpio buildlzip buildgalculator=
- "
-> +
-> +DEFAULT_TEST_SUITES =3D "${BASICTESTSUITE}"
-> +DEFAULT_TEST_SUITES_pn-core-image-sato-sdk =3D "${BASICTESTSUITE} ${DE=
-VTESTSUITE}"
-> +DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk =3D "${BASICTESTSUITE} ${DEV=
-TESTSUITE}"
-> =20
+>  
+>  DEFAULT_TEST_SUITES = "${BASICTESTSUITE}"
+> -DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${BASICTESTSUITE} ${DEVTESTSUITE}"
+> -DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${BASICTESTSUITE} ${DEVTESTSUITE}"
+>  
 >  # aarch64 has no graphics
->  DEFAULT_TEST_SUITES_remove_aarch64 =3D "xorg"
-
+>  DEFAULT_TEST_SUITES_remove_aarch64 = "xorg"
 
