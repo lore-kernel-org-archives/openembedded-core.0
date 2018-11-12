@@ -1,47 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 156F16C29E
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (smtprelay4.synopsys.com [198.182.47.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D9DA6C262
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 17:43:31 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id d135so14750437qkc.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 09:43:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=EV8yva04v6uAMeBvOk3InKdB3BR3kWzFxcz24N6hqJk=;
-	b=UFBD9anJMtYNuz9m2zOrnzuc2o1QvyZLZ+I7jaJEwBnQzeQkf4RjjDvQcPPH7LvHp2
-	xnVKjTm+7HqzivfM8tJsNFHRmbQAvqQae5r2CHEZt11lktzU4FJwJ5UcSKlwY9W3mbOC
-	+5pyrdfBr65JzAYBOjynxpY9/SkJqbfKy6YX/OBDs6a3qioWfoBWWUH5opERbUM4s78B
-	TIPXpRKRMLzaLbTrqNETfrZ5EPBc9bMPpTa7wQ3wiZVFT8kq7SkanMnil2N9kydpbvUU
-	Mi2Q1Aaj6s7oZmrfW5CiRBUv8p+qjVuI5vXq4qKvzZjgEAQcsudlNtXfJNofqKQ7MdQW
-	SULA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=EV8yva04v6uAMeBvOk3InKdB3BR3kWzFxcz24N6hqJk=;
-	b=n790b7o6SvyRb50Va/NtdkkoIO9OtoukjVxDtHM67oiV1lqsah5nDOshD1NeXMcuh/
-	Nr2B5x7KtM8co7PetRWd46n8AWLw4pzzbgckeMpUe52hskDcOpl274+7Oi+4dZ4DRewj
-	OJtGnPtXfJ8GN7RTNMXlBv+mPS8pPX+cdEEzn8v4B53z9P23Q8vRmcPlTAzOy3KnHkWv
-	FIs6qQRpRhg5oGb7gTSrCisYw4Ku2AIJlJ39sJ3Gt6HcjPtCcuxCnG/zx63LzsMBYxIW
-	WVapzCQ9UxkLGE+obrIlNZysnhYvjjYZVE/f3zituQbBLh0ulSwvkL4VGA1c1mm1oasr
-	WC1Q==
-X-Gm-Message-State: AGRZ1gLL7zCCBNCzcdcLlKPQnDdnWXXlP5CN0OuceemDj1A4+3lQvg2S
-	8ooJavjeANy8RUfI13w0qhE6uTMEb3XttLGdgHHMK03l
-X-Google-Smtp-Source: AJdET5cZxyB1Tq9WU3aIT3x5EiTD9nROEbtpdcTRMTTM/e1/WuQT0OoeNSYF04Nnlfb0/2qx6R/4xPPRGm3nHN8G5p4=
-X-Received: by 2002:ae9:dc43:: with SMTP id q64mr1757140qkf.223.1542044612819; 
-	Mon, 12 Nov 2018 09:43:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20181112092742.123289-1-mingli.yu@windriver.com>
-In-Reply-To: <20181112092742.123289-1-mingli.yu@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 12 Nov 2018 09:43:06 -0800
-Message-ID: <CAMKF1sqep_O3KB5H+THsR1+f8Xd2WfqBMDR2uHn+q8iwU+aLtA@mail.gmail.com>
-To: Mingli Yu <mingli.yu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] x264: Disable asm on x86
+	Mon, 12 Nov 2018 20:48:03 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id 848FF24E0822;
+	Mon, 12 Nov 2018 12:48:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1542055684; bh=LW7+BkOi5b6ParAHIME4cNjBhaps1nAxy8UZKDI/2Dk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ie4YkEZ/36s6jBUssWIzampfsf53LHItc3RXX9nQAuWliMAg/QhDzt6i2MDgNY0SP
+	p9CpxgVibhLq1RI5DQ3QQNyxTGk0pT0tlAy/AiwQ8HREztAB4igrKIOJNLdMMK4zUV
+	pGg9XIU78syohy8qGIyHpjrLqwVNmii9TLXaW3fRMpUmDjZz0KU6sJSFScULad/7jm
+	taeYNa2okMmzX2wXJ0jhq4ESYvrfXf9x+URVoBDa2ni4MUdRsI5bSRA+ofqSTqabLy
+	/S3Tk+8xsNTWJJFjY9K+l14L+5D09SE4c2KYI87hW7GBixETATSnRrxGBRAgaIHHKm
+	FncJg/UmZRbtA==
+Received: from ru20arcgnu1.internal.synopsys.com
+	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
+	by mailhost.synopsys.com (Postfix) with ESMTP id B4E1057C8;
+	Mon, 12 Nov 2018 12:48:02 -0800 (PST)
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Nov 2018 23:48:00 +0300
+Message-Id: <20181112204800.5229-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.16.2
+Cc: linux-snps-arc@lists.infradead.org,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>
+Subject: [PATCH] tcf-agent: Disable architecture-specific features for ARC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2018 17:43:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 12 Nov 2018 20:48:04 -0000
 
-LGTM
-On Mon, Nov 12, 2018 at 1:27 AM <mingli.yu@windriver.com> wrote:
->
-> From: Mingli Yu <mingli.yu@windriver.com>
->
-> The previous commit as below only fixes the
-> textrel issue with musl on x86, update it also to
-> fix the issue such as with glibc on x86.
-> 74ea4f280c1 x264: Disable asm on musl/x86
->
-> [YOCTO #11770]
->
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  meta/recipes-multimedia/x264/x264_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-> index 4174cb28196..842ea2547c3 100644
-> --- a/meta/recipes-multimedia/x264/x264_git.bb
-> +++ b/meta/recipes-multimedia/x264/x264_git.bb
-> @@ -23,7 +23,7 @@ S = "${WORKDIR}/git"
->  inherit lib_package pkgconfig perlnative
->
->  X264_DISABLE_ASM = ""
-> -X264_DISABLE_ASM_x86_libc-musl = "--disable-asm"
-> +X264_DISABLE_ASM_x86 = "--disable-asm"
->  X264_DISABLE_ASM_armv4 = "--disable-asm"
->  X264_DISABLE_ASM_armv5 = "--disable-asm"
->  X264_DISABLE_ASM_powerpc = "${@bb.utils.contains("TUNE_FEATURES", "spe", "--disable-asm", "", d)}"
-> --
-> 2.17.1
->
+There's no support of architecture-specific features for ARC
+in tcf-agent, so disable non-generic stuff for now.
+
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index d901c18c39..b4bd4ca63c 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -41,6 +41,7 @@ LCL_STOP_SERVICES = "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
+ 
+ # These features don't compile for several cases.
+ #
++CFLAGS_append_arc = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_mips = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_mips64 = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_libc-musl = " ${LCL_STOP_SERVICES}"
+-- 
+2.16.2
+
 
