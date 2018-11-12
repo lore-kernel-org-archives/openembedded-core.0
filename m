@@ -1,37 +1,57 @@
-Return-Path: <niko.mauno@iki.fi>
-Received: from sinikuusama2.dnainternet.net (sinikuusama2.dnainternet.net
-	[83.102.40.152])
-	by mail.openembedded.org (Postfix) with ESMTP id 343DF6B463
+Return-Path: <anonumiko@gmail.com>
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+	[209.85.167.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 99B3B606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 17:30:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by sinikuusama2.dnainternet.net (Postfix) with ESMTP id 1C5951C11F;
-	Mon, 12 Nov 2018 19:30:20 +0200 (EET)
-X-Virus-Scanned: DNA Internet at dnainternet.net
-X-Spam-Flag: NO
-X-Spam-Score: 0.652
-X-Spam-Level: 
-X-Spam-Status: No, score=0.652 tagged_above=-9999 required=6
-	tests=[SPF_NEUTRAL=0.652] autolearn=disabled
-Received: from sinikuusama2.dnainternet.net ([83.102.40.152])
-	by localhost (sinikuusama2.dnainternet.net [127.0.0.1]) (DNA Internet,
-	port 10041)
-	with ESMTP id bOCwxiq3SBpe; Mon, 12 Nov 2018 19:30:19 +0200 (EET)
-Received: from oliivipuu2.dnainternet.net (oliivipuu2.dnainternet.net
-	[83.102.40.53])
-	by sinikuusama2.dnainternet.net (Postfix) with ESMTP id 8B8381C121;
-	Mon, 12 Nov 2018 19:30:19 +0200 (EET)
-Received: from localhost.localdomain (82-181-15-94.bb.dnainternet.fi
-	[82.181.15.94])
-	by oliivipuu2.dnainternet.net (Postfix) with ESMTP id 69737B9;
-	Mon, 12 Nov 2018 19:30:17 +0200 (EET)
+	Mon, 12 Nov 2018 17:32:45 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id b20so6745781lfa.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Nov 2018 09:32:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=+IgOkH4YWIfy1+r5plPKPgdKDTTmpZsQvFjNvhAVAcQ=;
+	b=KvvJVhVj/txL8SphmBlUUllzHk5pk3PzQkFxZ1P6vm6vVnrkm4a3hn4tJ7e4/VsTD2
+	lj/xXE3MNrWna5Ueoi6IWr17jJU9KqvHDCZfI9RHo9jfjXR0yXm8e/XLGgOzHVSky2iv
+	DH9IvPbCi1r+61UbjKaJm5hkonOfS+pwWDf3nn8ywdtJILU6NtNv1tK01yaQTFeXBrtC
+	Xrflmyxc8r9L2dp4H2kBfOaL4Ls31gwqhkGPSSQ053+HDUAGkJ0019zs6pN9iOx8LWH/
+	Zc6l6wQhcA7GsyOFmaJj+Wtho65HoDIs8JEcOstIeSZl7uMVEPfLC+tbutHiKEqcQke9
+	owOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=+IgOkH4YWIfy1+r5plPKPgdKDTTmpZsQvFjNvhAVAcQ=;
+	b=WzfldhmTgm4qTgmcE7bRaHrw9B2KP1HBTZCpEusqJgy2+pSZlDjFcpp9+RS/i/GjRe
+	BN6Rl2/qSQr9Ocu6GABhqc4uSnBJfq/lGSTbu9LqUQ9WuDTbfy01mZH081NQqVDrZbgV
+	8T3/eYgoGgQ5js7Hij3oPYp96kvhi2+0oc7PQl0DASEUZ2UL8m+qLByRN8SVONnzRtXz
+	hN6af4WMeqEvY4ZOJWUCIdsO61Cf0V0lxUzbb6LlxwxHMen0HZ+EBFVvByFajrd5VtuY
+	WZrTmyD/JCOGusmtCy7EQ6iAKrhCzoSHAca19vUjJQPvrrRKNGgjc6U7/3neBxgnp9DO
+	fJKQ==
+X-Gm-Message-State: AGRZ1gLUWvavhTTEuPFjTwUU59SzSF4EceC/3w4ThQGQoKQsiKYZfkqY
+	FX3R5UvTIAqtftU4S6a2ymjlcM3Kdts=
+X-Google-Smtp-Source: AJdET5dbki0fAWnZSji+Yql6VY2rDENq/0WfycnjvB2ic0EFVtpuMIt1FaYrtPmlgSDuHKHGshJFog==
+X-Received: by 2002:a19:d78c:: with SMTP id q12mr1123051lfi.27.1542043965811; 
+	Mon, 12 Nov 2018 09:32:45 -0800 (PST)
+Received: from [82.181.15.94] (82-181-15-94.bb.dnainternet.fi. [82.181.15.94])
+	by smtp.gmail.com with ESMTPSA id
+	q2-v6sm2977863lfa.37.2018.11.12.09.32.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 12 Nov 2018 09:32:45 -0800 (PST)
+Sender: anonumiko <anonumiko@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20181111153414.26447-1-niko.mauno@iki.fi>
+	<CAJTo0LY05Mv=zODUjoA8C_tGvRe9eK2zfi1XuF-O7dH4SwD_jQ@mail.gmail.com>
 From: Niko Mauno <niko.mauno@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Nov 2018 19:30:08 +0200
-Message-Id: <20181112173008.113341-1-niko.mauno@iki.fi>
-X-Mailer: git-send-email 2.19.1
+Message-ID: <ecf65799-8407-0594-f53e-37417b9ae8e3@iki.fi>
+Date: Mon, 12 Nov 2018 19:32:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.3.0
 MIME-Version: 1.0
-Subject: [PATCH v2] opkg-utils: Fix update-alternatives link relocation
+In-Reply-To: <CAJTo0LY05Mv=zODUjoA8C_tGvRe9eK2zfi1XuF-O7dH4SwD_jQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] opkg-utils: Fix update-alternatives link relocation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,100 +64,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2018 17:30:21 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 12 Nov 2018 17:32:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Recently Debian-style support for link relocation was added to
-'update-alternatives' script, but it fails under circumstances where
-host rootfs root directory differs from target rootfs root directory
-and two alternative packages provide a symbolic link with source
-located in different directories.
+On 11/12/18 12:55 PM, Burton, Ross wrote:
+> On Sun, 11 Nov 2018 at 15:44, Niko Mauno <niko.mauno@iki.fi> wrote:
+>> +Upstream-Status: Pending
+> 
+> I saw you post this to yocto@, so this is definitely Submitted.
 
-An example of the case is busybox provided /bin/rev (symlinking to
-/bin/busybox.nosuid) and util-linux provided /usr/bin/rev (symlinking
-to /usr/bin/rev.util-linux) in which case following failure occurs
-during image recipe's do_rootfs() task:
+Thanks, submitted v2 in which I corrected this to
 
-  ERROR: core-image-minimal-1.0-r0 do_rootfs: Postinstall scriptlets of ['util-linux'] have failed. If the intention is to defer them to first boot,
-  then please place them into pkg_postinst_ontarget_${PN} ().
-  Deferring to first boot via 'exit 1' is no longer supported.
-  Details of the failure are in .../tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.
-  ERROR: core-image-minimal-1.0-r0 do_rootfs: Function failed: do_rootfs
+  Upstream-Status: Submitted [opkg-utils]
 
-Looking in log.do_rootfs file, following relevant lines can be observed:
-
-  update-alternatives: renaming rev link from /bin/rev to /usr/bin/rev
-  mv: cannot stat '/bin/rev': No such file or directory
-
-Mitigate issue by applying patch which adds target root filesystem root
-directory path prefix to failing 'mv' calls relevant variable references
-
-Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
----
- ...rnatives-Fix-link-relocation-support.patch | 40 +++++++++++++++++++
- .../opkg-utils/opkg-utils_0.3.6.bb            |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-Fix-link-relocation-support.patch
-
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-Fix-link-relocation-support.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-Fix-link-relocation-support.patch
-new file mode 100644
-index 0000000000..9dc488b7aa
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-Fix-link-relocation-support.patch
-@@ -0,0 +1,40 @@
-+From 18562ccae6996431d37767653b061d4e9e1b9424 Mon Sep 17 00:00:00 2001
-+From: Niko Mauno <niko.mauno@iki.fi>
-+Date: Sun, 11 Nov 2018 15:50:22 +0200
-+Subject: [opkg-utils PATCH] update-alternatives: Fix link relocation support
-+
-+Commit fcb26339000021eb9bb711aa264247aebcfdd4ae which added Debian-style
-+support for link relocation tries to relocate symbolic link on host OS,
-+resulting in following-like error when two alternative packages have
-+symbolic link source located in different directories (/bin/rev ->
-+/bin/busybox.nosuid and /usr/bin/rev -> /usr/bin/rev.util-linux):
-+
-+  update-alternatives: renaming rev link from /bin/rev to /usr/bin/rev
-+  mv: cannot stat '/bin/rev': No such file or directory
-+
-+Fix the issue by prefixing 'olink' and 'link' variable references with
-+path to targeted root filesystem's root directory.
-+
-+Upstream-Status: Submitted [opkg-utils]
-+
-+Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
-+---
-+ update-alternatives | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/update-alternatives b/update-alternatives
-+index 89a440b..d4fa7eb 100644
-+--- a/update-alternatives
-++++ b/update-alternatives
-+@@ -58,7 +58,7 @@ register_alt() {
-+ 			local link_str=`echo $link | protect_slashes`
-+ 			sed -e "1s/.*/$link_str/" $ad/$name > $ad/$name.new
-+ 			mv $ad/$name.new $ad/$name
-+-			mv $olink $link
-++			mv $OPKG_OFFLINE_ROOT$olink $OPKG_OFFLINE_ROOT$link
-+ 		fi
-+ 	else
-+ 		echo "$link" > "$ad/$name"
-+-- 
-+2.19.1
-+
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-index cb3775d9c9..4c41774c39 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV
-            file://0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch \
-            file://threaded-xz.patch \
-            file://pigz.patch \
-+           file://0001-update-alternatives-Fix-link-relocation-support.patch \
- "
- SRC_URI_append_class-native = " file://tar_ignore_error.patch"
- UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
--- 
-2.19.1
-
+-Niko
 
