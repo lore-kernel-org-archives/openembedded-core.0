@@ -1,27 +1,86 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A5166C227
+Return-Path: <niko.mauno@vaisala.com>
+X-Greylist: delayed 18298 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 13 Nov 2018 01:14:08 UTC
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+	(mail-eopbgr70058.outbound.protection.outlook.com [40.107.7.58])
+	by mail.openembedded.org (Postfix) with ESMTP id C307F6C074
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 01:06:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAD16Rn7024994
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 17:06:28 -0800 (PST)
-Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Mon, 12 Nov 2018 17:06:27 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <1541662273-22871-1-git-send-email-hongzhi.song@windriver.com>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <35eaf214-d7cf-aca6-f45c-88449b4eb68d@windriver.com>
-Date: Tue, 13 Nov 2018 09:06:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Tue, 13 Nov 2018 01:14:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+	s=selector1;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=oHp192IbCQEi37lw9MGf3iVx8EGbFCZqSVvW7uyiKGg=;
+	b=aVl/sEFgbtK04L5ZhZrSRAw7YBfbGS1KExWddMue9N7jeWDatYdGLtJUl3zNHACQn+McMvHjMo0PFNjdbFBZYnjgkei+KsmB7X5FzqN2xNZzA89AWABnB6+usnfjVPC/PJfgxgZWZjob8Om6NoWCp/mif00yuDSdGahL9rrk02I=
+Received: from AM6PR0602MB3544.eurprd06.prod.outlook.com (52.133.23.17) by
+	AM6PR0602MB3560.eurprd06.prod.outlook.com (52.133.23.21) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1294.21; Mon, 12 Nov 2018 12:40:54 +0000
+Received: from AM6PR0602MB3544.eurprd06.prod.outlook.com
+	([fe80::70b3:f9f3:a5a5:df3a]) by
+	AM6PR0602MB3544.eurprd06.prod.outlook.com
+	([fe80::70b3:f9f3:a5a5:df3a%5]) with mapi id 15.20.1294.044;
+	Mon, 12 Nov 2018 12:40:54 +0000
+From: Mauno Niko <niko.mauno@vaisala.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] opkg-utils: Fix update-alternatives link
+	relocation
+Thread-Index: AQHUeoTzNnQfYKK0e0CTKoYPqIXefA==
+Date: Mon, 12 Nov 2018 12:40:54 +0000
+Message-ID: <3b7518cf-1614-2e5b-9bb0-6288dfd06e88@vaisala.com>
+References: <20181111153414.26447-1-niko.mauno@iki.fi>
+	<CAJTo0LY05Mv=zODUjoA8C_tGvRe9eK2zfi1XuF-O7dH4SwD_jQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LY05Mv=zODUjoA8C_tGvRe9eK2zfi1XuF-O7dH4SwD_jQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
+x-originating-ip: [193.143.230.131]
+x-clientproxiedby: AM6PR05CA0022.eurprd05.prod.outlook.com
+	(2603:10a6:20b:2e::35) To AM6PR0602MB3544.eurprd06.prod.outlook.com
+	(2603:10a6:209:e::17)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=niko.mauno@vaisala.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; AM6PR0602MB3560;
+	6:XasXBbeuV/8FspNW04jpy3YQvJtV0Qi04qOzwPT8QfsR7nFR6fEj8ZatffKDs1pdcFIRMzgIycUvAXyccBKhaan+KNfZYli0S/h6WRsxXezzF43XGwnRzcDrD7JXqiCFBpEFi6ng3FlFINuyveAHlsb9QvsapKhed7xfZCUkEwRk8xK3b3EWizYQT1kyIUeQvtaBZqJJVZ4cH/DRDyfbzmI/oh+0MVEl5ue1yAkWFLowQtNeostEBr8TdV5Dnsfnn/VJf30PLgJLW89TPU2RbHJF2mHGpBOBC6cXiWjlB/zstGEPH3EBgmKWS5qATvMhp9Ybd156KkYfjZX6Rz2hIVh+s4TVEobPFdsWNWjzxKBqg/lUIuEfRZ7MyWm9wkabVPVHRLjWsLwvpCz1Ca9/0HibyX4wqDvJOIoc46KIHSrerlgzI+TQ+YdNGDM5CPlRlEizDlx7+P/33Q6GdxWvVw==;
+	5:0in1GrRdmGm8xzlCG8VJMk6DiZrVqqlNokegZVwJFiWCVLnHuFFrvYshcl1QY+ZY/GohughzQVBvxMixUNMwspYok8k2i0l0d/g9cz1tsSfdaaiNxItmJmPsrRSUX3uVRGH2d4zTWk/sZu2msRk8V73Bbavg6fe4MtCmMFl0974=;
+	7:g+MKRy3Q2AQysQDWSBx2SQZQG08vbZwynVmNTWEUwNrniuz0Pu5a+BY12fkD2uRV7hzuYUrrYThEk3TbE2LW12YsKuz6Zu/QqgL5HxwUZwaEG2fGS7kk5BymbSJ0Cpo9yjvCKjHdXZ3FAJteyRI40w==
+x-ms-office365-filtering-correlation-id: 2c3756f6-53de-4d6f-6f75-08d6489c15fe
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390040)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);
+	SRVR:AM6PR0602MB3560; 
+x-ms-traffictypediagnostic: AM6PR0602MB3560:
+x-tenant-id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+x-microsoft-antispam-prvs: <AM6PR0602MB356047A000235358A5CC127D81C10@AM6PR0602MB3560.eurprd06.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040522)(2401047)(8121501046)(5005006)(3231382)(944501410)(52105112)(3002001)(10201501046)(93006095)(93001095)(148016)(149066)(150057)(6041310)(20161123562045)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(201708071742011)(7699051)(76991095);
+	SRVR:AM6PR0602MB3560; BCL:0; PCL:0; RULEID:;
+	SRVR:AM6PR0602MB3560; 
+x-forefront-prvs: 0854128AF0
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(136003)(396003)(39850400004)(366004)(346002)(376002)(199004)(189003)(478600001)(8676002)(6916009)(66066001)(81166006)(229853002)(2351001)(3846002)(966005)(81156014)(99286004)(6116002)(6512007)(6306002)(58126008)(8936002)(316002)(305945005)(25786009)(64126003)(7736002)(65826007)(36756003)(53936002)(52116002)(6246003)(256004)(31686004)(5660300001)(97736004)(186003)(14454004)(14444005)(6436002)(486006)(65956001)(65806001)(2616005)(476003)(11346002)(446003)(2501003)(386003)(53546011)(106356001)(6486002)(86362001)(105586002)(71190400001)(76176011)(5640700003)(2900100001)(71200400001)(6506007)(26005)(2906002)(102836004)(31696002)(68736007);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR0602MB3560;
+	H:AM6PR0602MB3544.eurprd06.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: vaisala.com does not designate
+	permitted sender hosts)
+x-microsoft-antispam-message-info: wjNrGhS4/Ji7eSKQqvHNKcNQVrOysRmwFVBbiH7pZVP4G1AmVydcdgvDkU/bXkp7jj6CCvDsRjxphI1EQIlqFycfujQR1D4Xa01w99L4qWgLhBamM9xPx9TRHMLUl9b2q03dtAKNB3umO7a/4Uiv1Hom6eC1KFpdayVH+jTPw2guZlRsOo71qdOybkxbVil9cElIY5Omdd/kZLabQhLzQcIaodAYwOdrAtYWqHFl78lo9AptCqUV8Lbgke06rFKDXSham/b9dDBUv1LARmEmJwBVRbUuz1k9eGMFYMDcLDZvWpK9ml2vW4nCkTXzdhpzi38EumFraopkYCJaH5Dat7q11Q4Johz4dXmJUb6+FvE=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-In-Reply-To: <1541662273-22871-1-git-send-email-hongzhi.song@windriver.com>
-X-Originating-IP: [128.224.162.153]
-Subject: Re: [PATCH] ltp: kernel/syscall/setrlimit05.c: use a legal bad address for mips
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c3756f6-53de-4d6f-6f75-08d6489c15fe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2018 12:40:54.4504 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0602MB3560
+Subject: Re: [PATCH] opkg-utils: Fix update-alternatives link relocation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,112 +93,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2018 01:06:27 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Nov 2018 01:14:09 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-15"
+Content-ID: <B226D6E174CB554DA556BE69FD545366@eurprd06.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 
-ping
-
---Hongzhi
 
 
-On 11/08/2018 03:31 PM, Hongzhi.Song wrote:
-> This testcase fails on mips32. The process is killed by SIGBUS which
-> is not as expect.
->
-> This is because:
-> ((void *)-1) is not a legal bad address which causes the process
-> killed by SIGBUG on mips.
->
-> 'tst_get_bad_addr()' returns an address that should works on mips
-> and other arches.
->
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> ---
->   ...t05-Use-another-method-to-get-bad-address.patch | 61 ++++++++++++++++++++++
->   meta/recipes-extended/ltp/ltp_20180515.bb          |  1 +
->   2 files changed, 62 insertions(+)
->   create mode 100644 meta/recipes-extended/ltp/ltp/0001-setrlimit05-Use-another-method-to-get-bad-address.patch
->
-> diff --git a/meta/recipes-extended/ltp/ltp/0001-setrlimit05-Use-another-method-to-get-bad-address.patch b/meta/recipes-extended/ltp/ltp/0001-setrlimit05-Use-another-method-to-get-bad-address.patch
-> new file mode 100644
-> index 0000000..dd688e4
-> --- /dev/null
-> +++ b/meta/recipes-extended/ltp/ltp/0001-setrlimit05-Use-another-method-to-get-bad-address.patch
-> @@ -0,0 +1,61 @@
-> +From ff1678f02fdf08e8b7cfca4d0d5aa7815b30957c Mon Sep 17 00:00:00 2001
-> +From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +Date: Thu, 8 Nov 2018 01:30:53 -0500
-> +Subject: [PATCH] setrlimit05: Use another method to get bad address
-> +
-> +This testcase fails on mips32. The process is killed by SIGBUS which
-> +is not as expect.
-> +
-> +This is because:
-> +((void *)-1) is not a legal bad address which causes the process
-> +killed by SIGBUG on mips.
-> +
-> +'tst_get_bad_addr()' returns an address that should works on mips
-> +and other arches.
-> +
-> +Upstream-Status: Accepted [80bed467bc6ab48a6cd88a8ab74ca15d08830cb0]
-> +
-> +Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> +---
-> + testcases/kernel/syscalls/setrlimit/setrlimit05.c | 10 +++++++++-
-> + 1 file changed, 9 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/testcases/kernel/syscalls/setrlimit/setrlimit05.c b/testcases/kernel/syscalls/setrlimit/setrlimit05.c
-> +index 7ea7d62..61ac7c6 100644
-> +--- a/testcases/kernel/syscalls/setrlimit/setrlimit05.c
-> ++++ b/testcases/kernel/syscalls/setrlimit/setrlimit05.c
-> +@@ -26,6 +26,8 @@
-> +
-> + #include "tst_test.h"
-> +
-> ++static void *bad_addr;
-> ++
-> + static void verify_setrlimit(void)
-> + {
-> + 	int status;
-> +@@ -33,7 +35,7 @@ static void verify_setrlimit(void)
-> +
-> + 	pid = SAFE_FORK();
-> + 	if (!pid) {
-> +-		TEST(setrlimit(RLIMIT_NOFILE, (void *) -1));
-> ++		TEST(setrlimit(RLIMIT_NOFILE, bad_addr));
-> + 		if (TEST_RETURN != -1) {
-> + 			tst_res(TFAIL, "setrlimit()  succeeded unexpectedly");
-> + 			exit(0);
-> +@@ -67,7 +69,13 @@ static void verify_setrlimit(void)
-> + 	tst_res(TBROK, "child %s", tst_strstatus(status));
-> + }
-> +
-> ++static void setup(void)
-> ++{
-> ++	bad_addr = tst_get_bad_addr(NULL);
-> ++}
-> ++
-> + static struct tst_test test = {
-> + 	.test_all = verify_setrlimit,
-> + 	.forks_child = 1,
-> ++	.setup = setup,
-> + };
-> +--
-> +2.8.1
-> +
-> diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180515.bb
-> index ff85be7..240222e 100644
-> --- a/meta/recipes-extended/ltp/ltp_20180515.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20180515.bb
-> @@ -56,6 +56,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
->              file://0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch \
->              file://0001-netns_helper.sh-use-ping-6-when-ping6-is-not-avaliab.patch \
->              file://0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
-> +		   file://0001-setrlimit05-Use-another-method-to-get-bad-address.patch \
->              "
->   
->   S = "${WORKDIR}/git"
+On 11/12/2018 12:55 PM, Burton, Ross wrote:
+> On Sun, 11 Nov 2018 at 15:44, Niko Mauno <niko.mauno@iki.fi> wrote:
+>> +Upstream-Status: Pending
+>=20
+> I saw you post this to yocto@, so this is definitely Submitted.
 
+Thanks, indeed I failed to reflect appropriate status as per instructions i=
+n https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_H=
+eader_Recommendations:_Upstream-Status
+
+Will submit v2 with correct Upstream-Status later today
+
+-Niko
 
