@@ -1,23 +1,50 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 085B16C1E1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id B1CA26C2CB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 09:27:45 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAC9RgXT013842
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 12 Nov 2018 01:27:43 -0800 (PST)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 12 Nov 2018 01:27:42 -0800
-From: <mingli.yu@windriver.com>
-To: <richard.purdie@linuxfoundation.org>, <raj.khem@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Nov 2018 01:27:42 -0800
-Message-ID: <20181112092742.123289-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Mon, 12 Nov 2018 10:29:46 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id a205-v6so6251693itd.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Nov 2018 02:29:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=EH0jQ5QpM5EwdNyjiwXu71f1XsAe3maYcyp9rqHOeDQ=;
+	b=aUlgwCVuj0J+kwbiS7HA8ufyonOQ/3Pmv3FW+z+j8JR3UfTOt6hCrNvE00usJ6qlFb
+	06HuG0oghezZVUcOsG02SX6E8mzW9ENEajzDKvW36tkNKlCRt7mz+B7A3sSO+sKOmSAz
+	9Fr8gyHDBpdSxBZSog5YiLnbbFMuUUFKlFHQaEf1NKCtnS+U2Sh7hemRR4AJaBVerypw
+	s19sP6QiH8qhDnoFpUShxJ2rIwE93ieEy5v9ZeW5OyLp7q24fWzRb72vxT11qTvBhb5O
+	mSIfB/ZL6YyBEuwJShCKsK0aCH2BPZ9nseozqD/KtcE9ozZ3AdEJbx/zTMsEhPCkvCeW
+	7l3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=EH0jQ5QpM5EwdNyjiwXu71f1XsAe3maYcyp9rqHOeDQ=;
+	b=dqqDIAiD/Mygye1rHl5TqXUhwF3kPqAaEK/fSDWgDQkSWs8R6ssd96BbA8LKDTPaG6
+	dzcmlh7BW6C5+jA/KAIo9EgKbdRv1k/KHp+ekqdNBp/rOPgSySfC5ziPStWR+rKm/vPN
+	EwAGOJaA/EsGeIswrR9b7YKuWN9dSiclT84TvuXXp2Yl77srbvswoPNveDkgHQKbC3h5
+	AyJi7RXUuattwMGctd/oS6MMFwdgjj0sxYLibz9sCn9XFi9SoEPl6BaZDO0LZSVZwczf
+	hOX3ewSMYI4y8hqWwGe6WAFQEl+80AKtTZzdeGb2sdV+p1cgYOGIgcgpvCBfOuOXzoTk
+	mDNA==
+X-Gm-Message-State: AGRZ1gKr1z4JTvzOEPIIRRgjZoV57DuCEJJ8FSyGcitXRkXIu5+3NJMb
+	qPhxSSLSsluZZAThy3masV88qbmeOGngR4DkmDu23A==
+X-Google-Smtp-Source: AJdET5fAdHB1BYCqiUpCklJRDEFB0Zva6/a5AVS1qJ4GODh2ve4QUTVf1gFfvpd7goysodCOniuQDjcKMCZbpHsgJ50=
+X-Received: by 2002:a24:1d8e:: with SMTP id
+	136-v6mr10415652itj.62.1542018587833; 
+	Mon, 12 Nov 2018 02:29:47 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] x264: Disable asm on x86
+References: <f9d3e588-e159-f31c-1698-1903ebb4b0a5@dev.rtsoft.ru>
+	<be39ebc7-47fe-07df-a419-b5725e43f7ac@dev.rtsoft.ru>
+In-Reply-To: <be39ebc7-47fe-07df-a419-b5725e43f7ac@dev.rtsoft.ru>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 12 Nov 2018 10:29:36 +0000
+Message-ID: <CAJTo0LY_0iUNfRGE0-fLuaPPQcQcHDf_N0haivyVDvP4ojJu=w@mail.gmail.com>
+To: mvanyulin@dev.rtsoft.ru
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] patch for bug #12814
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,37 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2018 09:27:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Nov 2018 10:29:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Please rewrite the commit message to follow the guidelines in
+https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#New_Devel=
+opment.
+The bug  reference is correct but should be at the end before your
+SOB.  Something like:
 
-The previous commit as below only fixes the
-textrel issue with musl on x86, update it also to
-fix the issue such as with glibc on x86.
-74ea4f280c1 x264: Disable asm on musl/x86
+python: fix contents of python-xmlrpc package
 
-[YOCTO #11770]
+Add missing files etc etc.
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- meta/recipes-multimedia/x264/x264_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[ YOCTO #1234 ]
 
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index 4174cb28196..842ea2547c3 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -23,7 +23,7 @@ S = "${WORKDIR}/git"
- inherit lib_package pkgconfig perlnative
- 
- X264_DISABLE_ASM = ""
--X264_DISABLE_ASM_x86_libc-musl = "--disable-asm"
-+X264_DISABLE_ASM_x86 = "--disable-asm"
- X264_DISABLE_ASM_armv4 = "--disable-asm"
- X264_DISABLE_ASM_armv5 = "--disable-asm"
- X264_DISABLE_ASM_powerpc = "${@bb.utils.contains("TUNE_FEATURES", "spe", "--disable-asm", "", d)}"
--- 
-2.17.1
+Signed-off-by: Foo Bar <foo@bar>
 
+Also the patch needs rebasing onto master, the manifest was
+reformatted since your patch was created.
+
+Thanks,
+Ross
+On Mon, 12 Nov 2018 at 06:59, Mikhail Vanyulin <mvanyulin@dev.rtsoft.ru> wr=
+ote:
+>
+> Adds a missing file to python-xmlrpc package.
+>
+> --
+> Best regards, / =D0=A1 =D1=83=D0=B2=D0=B0=D0=B6=D0=B5=D0=BD=D0=B8=D0=B5=
+=D0=BC,
+> Mikhail       / =D0=9C=D0=B8=D1=85=D0=B0=D0=B8=D0=BB
+>
+>
 
