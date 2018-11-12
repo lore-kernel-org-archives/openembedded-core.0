@@ -1,44 +1,37 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id ED59F6C2E2
+Return-Path: <niko.mauno@iki.fi>
+Received: from sinikuusama2.dnainternet.net (sinikuusama2.dnainternet.net
+	[83.102.40.152])
+	by mail.openembedded.org (Postfix) with ESMTP id 343DF6B463
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 16:27:28 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Nov 2018 08:27:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,495,1534834800"; 
-	d="scan'208,217";a="249079141"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
-	by orsmga004.jf.intel.com with ESMTP; 12 Nov 2018 08:27:27 -0800
-Received: from fmsmsx101.amr.corp.intel.com (10.18.124.199) by
-	FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server
-	(TLS) id 14.3.408.0; Mon, 12 Nov 2018 08:27:27 -0800
-Received: from fmsmsx124.amr.corp.intel.com ([169.254.8.91]) by
-	fmsmsx101.amr.corp.intel.com ([169.254.1.202]) with mapi id
-	14.03.0415.000; Mon, 12 Nov 2018 08:27:26 -0800
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
-Thread-Index: AdRUG3den5c8kH6JR5OKxqhg9AfC3w==
-Date: Mon, 12 Nov 2018 16:27:26 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECFD42139@fmsmsx124.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.107]
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNmNlNDYxYTEtMTdmZC00OGVhLTk3MDgtNTk1OTY4OGJkM2M0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTDVVbFNtUVFKNGJheHBqZGk0T0ViMUpRdm5wSkxGRmNZXC9GYWtSc1FcL1dKUlM4QkM4WGlyZWk0ZlJINmhcL1RRWCJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
+	Mon, 12 Nov 2018 17:30:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by sinikuusama2.dnainternet.net (Postfix) with ESMTP id 1C5951C11F;
+	Mon, 12 Nov 2018 19:30:20 +0200 (EET)
+X-Virus-Scanned: DNA Internet at dnainternet.net
+X-Spam-Flag: NO
+X-Spam-Score: 0.652
+X-Spam-Level: 
+X-Spam-Status: No, score=0.652 tagged_above=-9999 required=6
+	tests=[SPF_NEUTRAL=0.652] autolearn=disabled
+Received: from sinikuusama2.dnainternet.net ([83.102.40.152])
+	by localhost (sinikuusama2.dnainternet.net [127.0.0.1]) (DNA Internet,
+	port 10041)
+	with ESMTP id bOCwxiq3SBpe; Mon, 12 Nov 2018 19:30:19 +0200 (EET)
+Received: from oliivipuu2.dnainternet.net (oliivipuu2.dnainternet.net
+	[83.102.40.53])
+	by sinikuusama2.dnainternet.net (Postfix) with ESMTP id 8B8381C121;
+	Mon, 12 Nov 2018 19:30:19 +0200 (EET)
+Received: from localhost.localdomain (82-181-15-94.bb.dnainternet.fi
+	[82.181.15.94])
+	by oliivipuu2.dnainternet.net (Postfix) with ESMTP id 69737B9;
+	Mon, 12 Nov 2018 19:30:17 +0200 (EET)
+From: Niko Mauno <niko.mauno@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Nov 2018 19:30:08 +0200
+Message-Id: <20181112173008.113341-1-niko.mauno@iki.fi>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Subject: Yocto Project Unassigned Bugs - Help Needed
+Subject: [PATCH v2] opkg-utils: Fix update-alternatives link relocation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,218 +44,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2018 16:27:29 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECFD42139fmsmsx124amrcor_"
+X-List-Received-Date: Mon, 12 Nov 2018 17:30:21 -0000
+Content-Transfer-Encoding: 8bit
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECFD42139fmsmsx124amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Recently Debian-style support for link relocation was added to
+'update-alternatives' script, but it fails under circumstances where
+host rootfs root directory differs from target rootfs root directory
+and two alternative packages provide a symbolic link with source
+located in different directories.
 
-All,
+An example of the case is busybox provided /bin/rev (symlinking to
+/bin/busybox.nosuid) and util-linux provided /usr/bin/rev (symlinking
+to /usr/bin/rev.util-linux) in which case following failure occurs
+during image recipe's do_rootfs() task:
+
+  ERROR: core-image-minimal-1.0-r0 do_rootfs: Postinstall scriptlets of ['util-linux'] have failed. If the intention is to defer them to first boot,
+  then please place them into pkg_postinst_ontarget_${PN} ().
+  Deferring to first boot via 'exit 1' is no longer supported.
+  Details of the failure are in .../tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.
+  ERROR: core-image-minimal-1.0-r0 do_rootfs: Function failed: do_rootfs
+
+Looking in log.do_rootfs file, following relevant lines can be observed:
+
+  update-alternatives: renaming rev link from /bin/rev to /usr/bin/rev
+  mv: cannot stat '/bin/rev': No such file or directory
+
+Mitigate issue by applying patch which adds target root filesystem root
+directory path prefix to failing 'mv' calls relevant variable references
+
+Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
+---
+ ...rnatives-Fix-link-relocation-support.patch | 40 +++++++++++++++++++
+ .../opkg-utils/opkg-utils_0.3.6.bb            |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-Fix-link-relocation-support.patch
+
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-Fix-link-relocation-support.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-Fix-link-relocation-support.patch
+new file mode 100644
+index 0000000000..9dc488b7aa
+--- /dev/null
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-Fix-link-relocation-support.patch
+@@ -0,0 +1,40 @@
++From 18562ccae6996431d37767653b061d4e9e1b9424 Mon Sep 17 00:00:00 2001
++From: Niko Mauno <niko.mauno@iki.fi>
++Date: Sun, 11 Nov 2018 15:50:22 +0200
++Subject: [opkg-utils PATCH] update-alternatives: Fix link relocation support
++
++Commit fcb26339000021eb9bb711aa264247aebcfdd4ae which added Debian-style
++support for link relocation tries to relocate symbolic link on host OS,
++resulting in following-like error when two alternative packages have
++symbolic link source located in different directories (/bin/rev ->
++/bin/busybox.nosuid and /usr/bin/rev -> /usr/bin/rev.util-linux):
++
++  update-alternatives: renaming rev link from /bin/rev to /usr/bin/rev
++  mv: cannot stat '/bin/rev': No such file or directory
++
++Fix the issue by prefixing 'olink' and 'link' variable references with
++path to targeted root filesystem's root directory.
++
++Upstream-Status: Submitted [opkg-utils]
++
++Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
++---
++ update-alternatives | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/update-alternatives b/update-alternatives
++index 89a440b..d4fa7eb 100644
++--- a/update-alternatives
+++++ b/update-alternatives
++@@ -58,7 +58,7 @@ register_alt() {
++ 			local link_str=`echo $link | protect_slashes`
++ 			sed -e "1s/.*/$link_str/" $ad/$name > $ad/$name.new
++ 			mv $ad/$name.new $ad/$name
++-			mv $olink $link
+++			mv $OPKG_OFFLINE_ROOT$olink $OPKG_OFFLINE_ROOT$link
++ 		fi
++ 	else
++ 		echo "$link" > "$ad/$name"
++-- 
++2.19.1
++
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
+index cb3775d9c9..4c41774c39 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV
+            file://0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch \
+            file://threaded-xz.patch \
+            file://pigz.patch \
++           file://0001-update-alternatives-Fix-link-relocation-support.patch \
+ "
+ SRC_URI_append_class-native = " file://tar_ignore_error.patch"
+ UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
+-- 
+2.19.1
 
 
-
-The triage team meets weekly and does its best to handle the bugs reported =
-into the bugzilla. The number of people attending that meeting has fallen, =
-as have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage team) a=
-re therefore going to start reporting out the currently 296 unassigned bugs=
-.
-
-
-
-We're hoping people may be able to spare some time now and again to help ou=
-t with these.
-
-
-
-Bugs are split into two types, "true bugs" where things don't work as they =
-should and "enhancements" which are features we'd want to add to the system=
-.
-
-
-
-There are also roughly four different "priority" classes right now, "2.7", =
-"2.8", "2.99" and "Future", the more pressing/urgent issues being in "2.7" =
-and then "2.8".
-
-
-
-Please review this link and if a bug is something you would be able to help=
- with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
-com<mailto:Stephen.k.jolley@intel.com>) an e-mail with the bug number you w=
-ould like and I will assign it to you (please make sure you have a bugzilla=
- account).
-
-
-
-The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
-gs
-
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*    Cell:                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECFD42139fmsmsx124amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:2 11 5 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle19
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoPlainText">All,<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
- handle the bugs reported into the bugzilla. The number of people attending=
- that meeting has fallen, as have the number of people available to help fi=
-x bugs. One of the things we hear
- users report is they don't know how to help. We (the triage team) are ther=
-efore going to start reporting out the currently 296 unassigned bugs.<o:p><=
-/o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
-e now and again to help out with these.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
-ot; where things don't work as they should and &quot;enhancements&quot; whi=
-ch are features we'd want to add to the system.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">There are also roughly four different &quot;prior=
-ity&quot; classes right now, &#8220;2.7&#8221;, &#8220;2.8&#8221;, &quot;2.=
-99&quot; and &quot;Future&quot;, the more pressing/urgent issues being in &=
-quot;2.7&quot; and then &#8220;2.8&#8221;.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Please review this link and if a bug is something=
- you would be able to help with either take ownership of the bug, or send m=
-e (<a href=3D"mailto:Stephen.k.jolley@intel.com">Stephen.k.jolley@intel.com=
-</a>) an e-mail with the bug number
- you would like and I will assign it to you (please make sure you have a bu=
-gzilla account).<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
-ect.org/wiki/Bug_Triage#Unassigned_Bugs">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
-></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;,serif;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;,serif;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-,serif">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span>=
-</p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;,serif;color:teal">:</span><span =
-lang=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;,=
-serif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECFD42139fmsmsx124amrcor_--
