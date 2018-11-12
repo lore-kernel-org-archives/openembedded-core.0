@@ -1,54 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 77FBD6C0DE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B51B6B99C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 11:44:08 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f2-v6so7795846wme.3
+	Mon, 12 Nov 2018 12:39:08 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id o19so3122806itg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 03:44:09 -0800 (PST)
+	Mon, 12 Nov 2018 04:39:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=lzZ6MhGYBP+MCm3wGzEP7RXRQ1iSrnBF3ndJ/WJeOUw=;
-	b=NKDA0QHjkv/mow26HmpOJ/g+aV573rjkHtDWot01PmyMTt1zWSHJGXMe4Hzh7+XShC
-	1FAagocQegHCsFRp2rhotPpsHTQ8g+eK+i7fkk5wxQ9HXZ58/klt6eCiAJpbagh+NyF6
-	Xtd8/2PUpA9TsQximFlfKD6u65Cm6/ntnkFFk=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=r1zieHSqVRZyDqd3TUjXZBLBcFHvyZuXYspJjoJarC4=;
+	b=tGSBZ70bASvyaWmjsEdT7hLPmcHgKzVVFacUnKl21u3tYZ9O1hzVL6YDsBOr0tgOwO
+	55jdk8TkIZFbT08ifvT2+x8FLydV/Wg5zkX2eGBdsHw3A3mAeaQU4FxClwV3JxU2g/ln
+	xBx2eb7/GafDPzj+d0+q90/dGXqalX9/nYc66v5Z8R9C4bAGdpivaO5UPOjpTNvvcq+V
+	D1ZickczDNofPB8Ol/cqBs/jX/rIn9KoiL6NkUDdqEGzN6SzzDnyWMEL+30k7wLgyF7s
+	ZYXlIQ1PgblcIjQ2/m1tPh6YzfnZL9vEy3KN8duVW76KIvSBQGtil9Pq0mOYg4ESLJuF
+	seFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=lzZ6MhGYBP+MCm3wGzEP7RXRQ1iSrnBF3ndJ/WJeOUw=;
-	b=NV1dKN0WuZk6VhvedS5Mde15EcSKZOJ8Ws6rPEATTcZ3f2uCfdygdorQVmtoqstTSd
-	Wh9NVZwT8HUyw4Q5ZYzU00iN+Nzx5pKWkLvLi8a0LZ8zpie0u9dw/ZeNlHMQwpm3SPn+
-	NsLDMmldi35+6LD7ynaSOcrK4pminXix0dRkw0SzBL+B//RxfFZYDnp2C9pY2Lotl1+a
-	yjbNM36ZmPH1l2qtgkqZppDp5UlOMLxc0S241Sj/nIlsJWBgQti4JSe5OZc3uKH6FryH
-	ji4hNw5A61tYu1hAN+91cWU6Cx1OENJAvYMeOPSZgd/uJyW7uvXPAQvGUM18h2S1AmQH
-	9/zg==
-X-Gm-Message-State: AGRZ1gIb6NNvSTbAT3JQY8uoedQyKK/htaAaPLlsFcYaNoPPhjCRdjbz
-	Bc2J9HsLrX3WB1KQ7PZapQJ1iw==
-X-Google-Smtp-Source: AJdET5e+jD+8K0EReTModfayD27wKXQsp59+7aKbSArdK/YkJ0OcBAaSeaY1eB3uC0eFPw7aaKrE+A==
-X-Received: by 2002:a1c:3491:: with SMTP id
-	b139-v6mr6817306wma.99.1542023048394; 
-	Mon, 12 Nov 2018 03:44:08 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	x194-v6sm32780857wmd.41.2018.11.12.03.44.07
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Nov 2018 03:44:07 -0800 (PST)
-Message-ID: <3c2a7b56677a1eb00aace62b4608055810e9f9f8.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Nov 2018 11:44:06 +0000
-In-Reply-To: <9DDD2658D1FE414E99172D2DB1E4D0434811E1D4@KMSMSX155.gar.corp.intel.com>
-References: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D0434811E1D4@KMSMSX155.gar.corp.intel.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 01/12] build-appliance: Drop test which is already	automated
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=r1zieHSqVRZyDqd3TUjXZBLBcFHvyZuXYspJjoJarC4=;
+	b=ofWMdwvYKCloFaxr81BoPHlAVvj7ehAjhR1sn1xjXj+C4ZtudPr8jYc0yJusn91rkE
+	mkhwB2ubSgqnyeYqIXpXzRWmmmolcG/s1H17pyf5+f1ENqveO7ZRmAUHRq2aV78Tp6Qt
+	jQ4Tzi+NcGgEpoi8GOE3kDirG3RyhBIsT57CYCgomQc5a+1eq0Z8SyWN69zCNjG04E7M
+	QyGxMWBZ1jKOV7bE2ltJISC5S2nD9wzw8KulpfhAjyRmMmaMRv4Y3ja6WPColEHnudnL
+	lFVkJps1wlkSOZognXi4Lu8mNFmw/tCcQdVCFozvKoeorJN3aKc5zzc8obOjN8SNiKME
+	BE9A==
+X-Gm-Message-State: AGRZ1gJMyiRVWlsb+3Aw60Jnrfd2gpY8Y7ouS2pztXierzPvWjOdvUak
+	8MXZKpBZ9h3rv1VXfqgtMoPlVy0Yx3XfSCGw0FNjGw==
+X-Google-Smtp-Source: AJdET5eTZ1WSt98Kxmg4qhD2UcXSanMxnjNjkLDNSLBv43xo4x8JDb8AQEEDGQ4P3ZOui46pdDi4G8RPI80ed+jdliM=
+X-Received: by 2002:a02:1e4c:: with SMTP id m73mr606412jad.79.1542026349978;
+	Mon, 12 Nov 2018 04:39:09 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1541754319.git.hongxu.jia@windriver.com>
+	<7ca3585dedd8a98d3b7d7f858f19ae69cd1b213c.1541754319.git.hongxu.jia@windriver.com>
+In-Reply-To: <7ca3585dedd8a98d3b7d7f858f19ae69cd1b213c.1541754319.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 12 Nov 2018 12:38:59 +0000
+Message-ID: <CAJTo0LYLxciQZcMt+5SPBWKoOxS9C98WP_Te8LGDXciA6FmEDQ@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] rpcbind: 0.2.4 -> 1.2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,48 +55,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2018 11:44:08 -0000
+X-List-Received-Date: Mon, 12 Nov 2018 12:39:09 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2018-11-12 at 01:41 +0000, Yeoh, Ee Peng wrote:
-> I realize the execution action inside "build-appliance.build-
-> appliance.Bitbake_build-appliance-image" was not complete. Actually
-> this particular test was testing that using build-appliance-image and
-> vmware, one can bitbake build-applianc-image. This was different
-> compare the automated tests inside AB where it test that bitbake can
-> build-appliance-image. 
-> 
-> The correct steps for "build-appliance.build-appliance.Bitbake_build-
-> appliance-image" shall be below. Allow us to submit a patch to add
-> the missing detail for this test. 
-> 
-> Steps to Reproduce :
-> 1. Get build appliance image from following link
-> 
-https://autobuilder.yocto.io/pub/releases/yocto-2.6.rc1/build-appliance/Yocto_Build_Appliance.zip
-> 
-> 2. boot the build appliance image in vmware.
-> 
-> 3. Set MACHINE to qemux86 and add the following line to
-> conf/local.conf :
-> SRCREV_pn-build-appliance-image = "$
-> 
-> {AUTOREV}
-> "
-> 4. Run "bitbake build-appliance-image"
-> 
-> I am sorry for the confusion it created.
+On Fri, 9 Nov 2018 at 08:58, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> - Drop backport fixes
+>   0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
+>   pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch
+>   rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch
 
-In that case wouldn't it make more sense to combine these steps with
-some of the other build appliance tests? We could add an extra step
-where the tester builds build-appliance rather than having multiple
-tests which start "launch build appliance"?
+packages/corei7-64-poky-linux/rpcbind/rpcbind: FILELIST: removed
+"/usr/sbin/rpcinfo", added "/usr/sbin/bin/rpcinfo"
 
-Cheers,
-
-Richard
-
-
-
+Ross
 
