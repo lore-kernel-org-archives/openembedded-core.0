@@ -1,43 +1,33 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
-	[209.85.219.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D4AF66C2B8
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
+	[198.182.47.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 570B06C1B8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 12:57:04 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id w17-v6so3843239ybl.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 04:57:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Ga9XUnKa4nblb8gK/fbWbEncRnhcKBLdzBalPt0g8+U=;
-	b=KS26I57tBZnHKUap0a0CQ8lTn4hh4IA2w8kOqeob4M7IoKYHJlPIiV549Rn5/YOslk
-	JUWXhkRlKIdGFMcnCszK35L2nnLka9nySnW1jJwi8a1cYPf/XDswPnmC3ve1FwarKOIc
-	jgIJl10yZgBt4wYFQBdfQfTur0GW/O/Vq3cHnOlX7xvTAFlRIPfuyiBAyI190dx3pcXy
-	2De/K9awHo8ZHWFdtsDvFKvOkIQ7+G7zoo0t/LcbJxvyuwSDU/pFzB9zB9+xjSRTbSYU
-	U6iJOHXWL+lLn5ANL95UZsr4JQoom2p6YehU/qvGpBj60BhdOp4/5Z030upKE2D2aOSj
-	jzZg==
-X-Gm-Message-State: AGRZ1gLZRN9YCsIEyowINhhlA3g8EWQaiDC8ZR/7kJxjkhUu+9UCASVT
-	LL2IWCSwHV2nm4ulw7NOIpEEFTpy
-X-Google-Smtp-Source: AJdET5eJTKI4yQnnRjVL5buvyo0nEuBPgy3I8+A6gdOwJR3lO9G/evac1wGuKs/aYo7V766HiVWEsA==
-X-Received: by 2002:a25:be85:: with SMTP id i5-v6mr665074ybk.60.1542027425841; 
-	Mon, 12 Nov 2018 04:57:05 -0800 (PST)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	s189-v6sm445273ywg.69.2018.11.12.04.57.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 12 Nov 2018 04:57:05 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Mon, 12 Nov 2018 13:09:43 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id 204AE24E11EC;
+	Mon, 12 Nov 2018 05:09:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1542028184; bh=Z6uKk/F5IkKa5mRvRMjbDJbRUISLOnf1cCgSMAYeJVc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=D1nZ3ZLZrybjgXaOIqbu/Efi0OSml0lS5PpatjMZ3qk857ZcJ9aRz/jOG3Q2/MUsN
+	q8UaZyBi7unY0Krchw/d3G1wKR2xqF5ZghYtlWrTW0V9iTO8D+QRUcv+Mj20rABJn+
+	+K7gRIkHa2ZDyK2i0Ka94VUcGl8qTjHXKP3Lp+eXzRINvMMCwMHELdlhS2xosAsGvM
+	P8Kwy/ZowjFJzD7uyxuA9+gLozGWNU37hfWR++v0g6xBSWyAcy7sBVljjgvA1Clrn2
+	D+rouaQgzX5CIQhTBBQVys65bpzt7zOXnGjyzrgrQrh6RICSdIolHNnuy/hUI9HFA8
+	Uz1WeNtVGH7Fg==
+Received: from ru20arcgnu1.internal.synopsys.com
+	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
+	by mailhost.synopsys.com (Postfix) with ESMTP id 7AE91392B;
+	Mon, 12 Nov 2018 05:09:42 -0800 (PST)
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Nov 2018 12:56:53 +0000
-Message-Id: <20181112125653.21157-2-git@andred.net>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181112125653.21157-1-git@andred.net>
-References: <09487c1d7e9d9a2cf0c60883ad209712c2d31dc2.camel@andred.net>
-	<20181112125653.21157-1-git@andred.net>
-MIME-Version: 1.0
-Subject: [DONT-MERGE] sstate: add hack to detect sstate archive compression failures
+Date: Mon, 12 Nov 2018 16:09:38 +0300
+Message-Id: <20181112130938.7781-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.16.2
+Cc: linux-snps-arc@lists.infradead.org,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>
+Subject: [PATCH] packagegroup-core-sdk: Disable SANITIZERS for ARC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,65 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2018 12:57:06 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 12 Nov 2018 13:09:43 -0000
 
-From: André Draszik <andre.draszik@jci.com>
+Sanitizers are not yet supported on ARC.
 
-Signed-off-by: André Draszik <andre.draszik@jci.com>
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
 ---
- meta/classes/sstate.bbclass | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index efb0096c70..b0ba07cacb 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -731,6 +731,8 @@ sstate_create_package () {
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+index 45e8c13585..15d0989b76 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+@@ -27,6 +27,7 @@ RDEPENDS_packagegroup-core-sdk = "\
+     tcl"
  
- 	# Need to handle empty directories
- 	if [ "$(ls -A)" ]; then
-+	    ctr=0
-+	    while [ $ctr -lt 2 ] ; do
- 		set +e
- 		tar $OPT -f $TFILE *
- 		ret=$?
-@@ -738,6 +740,33 @@ sstate_create_package () {
- 			exit 1
- 		fi
- 		set -e
-+
-+		TDIR=`mktemp -d ${SSTATE_PKG}.extracted.XXXXXXXX`
-+		tar -C $TDIR -xzf $TFILE
-+		export TFILE
-+		find $TDIR -type f -exec sh -ceu '
-+			for c in "$@" ; do
-+				if stat "$c" | grep -v "Size: 0" | grep -q "Blocks: 0" ; then
-+					echo File $c in archive $TFILE is broken
-+					echo "$TFILE -> $c" >> "$TFILE.broken"
-+				fi
-+			done
-+		' _ '{}' +
-+		rm -rf $TDIR
-+		if [ ! -s "$TFILE.broken" ] ; then
-+			if [ $ctr -ne 0 ] ; then
-+				bbwarn "$TFILE created successfully on attempt # $ctr"
-+			fi
-+			break
-+		fi
-+		bbwarn "$TFILE is broken, retrying"
-+		bbwarn "`cat $TFILE.broken`"
-+		rm $TFILE.broken
-+		ctr=$(expr $ctr + 1)
-+	    done
-+	    if [ $ctr -ge 2 ] ; then
-+		bbfatal "Could not compress sstate"
-+	    fi
- 	else
- 		tar $OPT --file=$TFILE --files-from=/dev/null
- 	fi
+ SANITIZERS = "libasan-dev libubsan-dev"
++SANITIZERS_arc = ""
+ SANITIZERS_microblaze = ""
+ SANITIZERS_mipsarch = ""
+ SANITIZERS_nios2 = ""
 -- 
-2.19.1
+2.16.2
 
 
