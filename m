@@ -1,42 +1,28 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 062AA60778
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C78B60778
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2018 01:41:53 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Nov 2018 17:41:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,493,1534834800"; d="scan'208";a="107243436"
-Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Nov 2018 17:41:53 -0800
-Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.19]) by
-	PGSMSX111.gar.corp.intel.com ([169.254.2.208]) with mapi id
-	14.03.0415.000; Mon, 12 Nov 2018 09:41:52 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
+	Mon, 12 Nov 2018 01:46:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAC1kqtN017686
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 11 Nov 2018 17:46:53 -0800 (PST)
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Sun, 11 Nov 2018 17:46:52 -0800
+To: akuster808 <akuster808@gmail.com>,
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 01/12] build-appliance: Drop test which is
-	already	automated
-Thread-Index: AQHUeDig1wikiz6h+06OayQK/VaC5KVLX7jw
-Date: Mon, 12 Nov 2018 01:41:52 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D0434811E1D4@KMSMSX155.gar.corp.intel.com>
-References: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMTIyZjgyZDctZDIyZS00YTQzLTk0NzMtMjA1NDg2NWQ3OTYwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiVHNVbnlHd2dkZDUxaHoyXC9CT1FYcGVvcFNLc3dJeitlQU5mQjhTQTRVRVBvOTdGZVwvVU50eExHQU5SaWo3ZWJSIn0=
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.206]
+References: <1541138869-68039-1-git-send-email-changqing.li@windriver.com>
+	<f7a43956-5062-ae8c-dc1f-77abc4f8b6a9@gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <42c364c3-3d7f-32af-5645-66da8952e532@windriver.com>
+Date: Mon, 12 Nov 2018 09:46:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 01/12] build-appliance: Drop test which is already	automated
+In-Reply-To: <f7a43956-5062-ae8c-dc1f-77abc4f8b6a9@gmail.com>
+X-Originating-IP: [128.224.162.228]
+Subject: Re: [PATCH] curl: fix for CVE-2018-16839/CVE-2018-16840/CVE-2018-16842
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,106 +35,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2018 01:41:54 -0000
+X-List-Received-Date: Mon, 12 Nov 2018 01:46:53 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
 
-I realize the execution action inside "build-appliance.build-appliance.Bitb=
-ake_build-appliance-image" was not complete. Actually this particular test =
-was testing that using build-appliance-image and vmware, one can bitbake bu=
-ild-applianc-image. This was different compare the automated tests inside A=
-B where it test that bitbake can build-appliance-image.=20
+On 11/10/18 12:36 AM, akuster808 wrote:
+> On 11/1/18 11:07 PM, changqing.li@windriver.com wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>   .../recipes-support/curl/curl/CVE-2018-16839.patch | 35 ++++++++++++++++++
+>>   .../recipes-support/curl/curl/CVE-2018-16840.patch | 43 ++++++++++++++++++++++
+>>   .../recipes-support/curl/curl/CVE-2018-16842.patch | 35 ++++++++++++++++++
+>>   3 files changed, 113 insertions(+)
+>>   create mode 100644 meta/recipes-support/curl/curl/CVE-2018-16839.patch
+>>   create mode 100644 meta/recipes-support/curl/curl/CVE-2018-16840.patch
+>>   create mode 100644 meta/recipes-support/curl/curl/CVE-2018-16842.patch
+> Patchtest is not catching missing bb file changes.
+>
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13005
+>
+> Sad thing is 3 people commented on this thread and no one saw the
+> missing recipe changes to add these patches.
+>
+> - armin
 
-The correct steps for "build-appliance.build-appliance.Bitbake_build-applia=
-nce-image" shall be below. Allow us to submit a patch to add the missing de=
-tail for this test.=20
+I'm so sorry,  I just see your reply.   And Ross have added it, Thanks.
 
-Steps to Reproduce :
-1. Get build appliance image from following link
-https://autobuilder.yocto.io/pub/releases/yocto-2.6.rc1/build-appliance/Yoc=
-to_Build_Appliance.zip
+>
+>> diff --git a/meta/recipes-support/curl/curl/CVE-2018-16839.patch b/meta/recipes-support/curl/curl/CVE-2018-16839.patch
+>> new file mode 100644
+>> index 0000000..bf972d2
+>> --- /dev/null
+>> +++ b/meta/recipes-support/curl/curl/CVE-2018-16839.patch
+>> @@ -0,0 +1,35 @@
+>> +From 55b90532f9190dce40a325b3312d014c66dc3ae1 Mon Sep 17 00:00:00 2001
+>> +From: Changqing Li <changqing.li@windriver.com>
+>> +Date: Thu, 1 Nov 2018 15:27:35 +0800
+>> +Subject: [PATCH] Curl_auth_create_plain_message: fix too-large-input-check
+>> +
+>> +CVE-2018-16839
+>> +Reported-by: Harry Sintonen
+>> +Bug: https://curl.haxx.se/docs/CVE-2018-16839.html
+>> +
+>> +Upstream-Status: Backport [https://github.com/curl/curl/commit
+>> +/f3a24d7916b9173c69a3e0ee790102993833d6c5?diff=unified]
+>> +
+>> +CVE: CVE-2018-16839
+>> +
+>> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> +---
+>> + lib/vauth/cleartext.c | 2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/lib/vauth/cleartext.c b/lib/vauth/cleartext.c
+>> +index 5d61ce6..1367143 100644
+>> +--- a/lib/vauth/cleartext.c
+>> ++++ b/lib/vauth/cleartext.c
+>> +@@ -74,7 +74,7 @@ CURLcode Curl_auth_create_plain_message(struct Curl_easy *data,
+>> +   plen = strlen(passwdp);
+>> +
+>> +   /* Compute binary message length. Check for overflows. */
+>> +-  if((ulen > SIZE_T_MAX/2) || (plen > (SIZE_T_MAX/2 - 2)))
+>> ++  if((ulen > SIZE_T_MAX/4) || (plen > (SIZE_T_MAX/2 - 2)))
+>> +     return CURLE_OUT_OF_MEMORY;
+>> +   plainlen = 2 * ulen + plen + 2;
+>> +
+>> +--
+>> +2.7.4
+>> +
+>> diff --git a/meta/recipes-support/curl/curl/CVE-2018-16840.patch b/meta/recipes-support/curl/curl/CVE-2018-16840.patch
+>> new file mode 100644
+>> index 0000000..3d086c4
+>> --- /dev/null
+>> +++ b/meta/recipes-support/curl/curl/CVE-2018-16840.patch
+>> @@ -0,0 +1,43 @@
+>> +From 3c2846bec008e03d456e181d9ab55686da83f140 Mon Sep 17 00:00:00 2001
+>> +From: Changqing Li <changqing.li@windriver.com>
+>> +Date: Thu, 1 Nov 2018 15:33:35 +0800
+>> +Subject: [PATCH] Curl_close: clear data->multi_easy on free to avoid
+>> + use-after-free
+>> +
+>> +Regression from b46cfbc (7.59.0)
+>> +CVE-2018-16840
+>> +Reported-by: Brian Carpenter (Geeknik Labs)
+>> +
+>> +Bug: https://curl.haxx.se/docs/CVE-2018-16840.html
+>> +
+>> +Upstream-Status: Backport [https://github.com/curl/curl/commit/
+>> +81d135d67155c5295b1033679c606165d4e28f3f]
+>> +
+>> +CVE: CVE-2018-16840
+>> +
+>> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> +---
+>> + lib/url.c | 4 +++-
+>> + 1 file changed, 3 insertions(+), 1 deletion(-)
+>> +
+>> +diff --git a/lib/url.c b/lib/url.c
+>> +index 27b2c1e..7ef7c20 100644
+>> +--- a/lib/url.c
+>> ++++ b/lib/url.c
+>> +@@ -320,10 +320,12 @@ CURLcode Curl_close(struct Curl_easy *data)
+>> +        and detach this handle from there. */
+>> +     curl_multi_remove_handle(data->multi, data);
+>> +
+>> +-  if(data->multi_easy)
+>> ++  if(data->multi_easy) {
+>> +     /* when curl_easy_perform() is used, it creates its own multi handle to
+>> +        use and this is the one */
+>> +     curl_multi_cleanup(data->multi_easy);
+>> ++    data->multi_easy = NULL;
+>> ++  }
+>> +
+>> +   /* Destroy the timeout list that is held in the easy handle. It is
+>> +      /normally/ done by curl_multi_remove_handle() but this is "just in
+>> +--
+>> +2.7.4
+>> +
+>> diff --git a/meta/recipes-support/curl/curl/CVE-2018-16842.patch b/meta/recipes-support/curl/curl/CVE-2018-16842.patch
+>> new file mode 100644
+>> index 0000000..82e7557
+>> --- /dev/null
+>> +++ b/meta/recipes-support/curl/curl/CVE-2018-16842.patch
+>> @@ -0,0 +1,35 @@
+>> +From 0e4a6058b130f07cfa52fde8a3cb6f2abfe4c700 Mon Sep 17 00:00:00 2001
+>> +From: Changqing Li <changqing.li@windriver.com>
+>> +Date: Thu, 1 Nov 2018 15:30:56 +0800
+>> +Subject: [PATCH] voutf: fix bad arethmetic when outputting warnings to stderr
+>> +
+>> +CVE-2018-16842
+>> +Reported-by: Brian Carpenter
+>> +Bug: https://curl.haxx.se/docs/CVE-2018-16842.html
+>> +
+>> +Upstream-Status: Backport [https://github.com/curl/curl/commit
+>> +/d530e92f59ae9bb2d47066c3c460b25d2ffeb211]
+>> +
+>> +CVE: CVE-2018-16842
+>> +
+>> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> +---
+>> + src/tool_msgs.c | 2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/src/tool_msgs.c b/src/tool_msgs.c
+>> +index 9cce806..05bec39 100644
+>> +--- a/src/tool_msgs.c
+>> ++++ b/src/tool_msgs.c
+>> +@@ -67,7 +67,7 @@ static void voutf(struct GlobalConfig *config,
+>> +         (void)fwrite(ptr, cut + 1, 1, config->errors);
+>> +         fputs("\n", config->errors);
+>> +         ptr += cut + 1; /* skip the space too */
+>> +-        len -= cut;
+>> ++        len -= cut + 1;
+>> +       }
+>> +       else {
+>> +         fputs(ptr, config->errors);
+>> +--
+>> +2.7.4
+>> +
 
-2. boot the build appliance image in vmware.
+-- 
+BRs
 
-3. Set MACHINE to qemux86 and add the following line to conf/local.conf :
-SRCREV_pn-build-appliance-image =3D "$
+Sandy(Li Changqing)
 
-{AUTOREV}
-"
-4. Run "bitbake build-appliance-image"
-
-I am sorry for the confusion it created.
-
-Best regards,
-Yeoh Ee Peng=20
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Richard Purdie
-Sent: Friday, November 9, 2018 10:29 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH 01/12] build-appliance: Drop test which is alread=
-y automated
-
-The nightly-build-appliance target already tests this particular build.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/manual/build-appliance.json | 26 -----------------------
- 1 file changed, 26 deletions(-)
-
-diff --git a/meta/lib/oeqa/manual/build-appliance.json b/meta/lib/oeqa/manu=
-al/build-appliance.json
-index b8f89275d08..70f8c72c9bb 100644
---- a/meta/lib/oeqa/manual/build-appliance.json
-+++ b/meta/lib/oeqa/manual/build-appliance.json
-@@ -1,30 +1,4 @@
- [
--    {
--        "test": {
--            "@alias": "build-appliance.build-appliance.Bitbake_build-appli=
-ance-image",
--            "author": [
--                {
--                    "email": "alexandru.c.georgescu@intel.com",
--                    "name": "alexandru.c.georgescu@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "Get poky source code and prepare the build =
-environment",
--                    "expected_results": "bitbake build-appliance-image is =
-successful  "
--                },
--                "2": {
--                    "action": "Set MACHINE to qemux86 and add the followin=
-g line to conf/local.conf :  SRCREV_pn-build-appliance-image =3D \"${AUTORE=
-V}\"",
--                    "expected_results": ""
--                },
--                "3": {
--                    "action": "Run \"bitbake build-appliance-image\" \n \n=
-",
--                    "expected_results": ""
--                }
--            },
--            "summary": "Bitbake_build-appliance-image"
--        }
--    },
-     {
-         "test": {
-             "@alias": "build-appliance.build-appliance.Build_core-image-mi=
-nimal_with_build-appliance-image",
---=20
-2.17.1
-
---=20
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
