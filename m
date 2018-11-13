@@ -1,49 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CB436C245
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FE006C245
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 22:59:36 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id r63-v6so13700644wma.4
+	Tue, 13 Nov 2018 22:59:37 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id f1-v6so12192699wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 14:59:37 -0800 (PST)
+	Tue, 13 Nov 2018 14:59:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=xoyKCqhM3ovA3EdD2ZT9EcpKk3PkNFPTdrLKu/9+6Yk=;
-	b=QQ//vgKM2lgtkbRPyz4CJuSB903GbBETcAz5oPfMnS0mrrHZyUT1mZrY+7SGXgS6uy
-	Y3rcIPAnRPj9MWPJ0ZDa/HhKg3dHA7/Kh6HcaCxJe2ViNdnseaSY8I2Wb09Q673E6Om8
-	OhVgRp65VxQCwm9wfkKeL29B+KAYRMZODI2l0=
+	bh=H14pD+YfpXV9xiryZLI6q+rYFbQW6R2EhLvIBXo+9Lg=;
+	b=GT40CHMF9Z3dPJ72nvVEZIz6SUIRzuuwSV2JzJ+b4djvxlp9ntVOZEaxLNpQVbn2ks
+	ZgC9DfG1ZjSdkWGZ01UvnNBuxswmqyPnJSxA7G95ghg7mfSLJwUKOgJoz5NxTqP8Sco+
+	iQlJZk8yVbAaqP0S8cJXXFwGpmy7w6arG3igQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=xoyKCqhM3ovA3EdD2ZT9EcpKk3PkNFPTdrLKu/9+6Yk=;
-	b=AS+SXsX7qpTRPRx39CDXfBDCxWBnOL+zUZndkpc8HlucJ1Mz1F2HG+3w5MGPvgnT5+
-	wiQiL4opnVzKjEFUKwPJ0MZKOQ324B1ihSghYP0NEN2+orUnKZMRI31yZ6JnhzhxBgz1
-	mvO6rNr16vi6YiX5vwk2hv8g6ENnpoCNbtlyMQDXUh53/pZhZYR8Z3TDC5nFnDO7FqkW
-	COnIcavku6wawN8+oPj6Y7lMqkXg7Cp8N41ZHxRKoo8kReHVMC0Ae0CDRcjYjPn5xWqE
-	2+t65cSwWPFYd+/lpaWqVL3UXUuypXsqoHVyA0rcPIJnVOg8q1o3hoR7V9yv9NAKZvQR
-	+Asg==
-X-Gm-Message-State: AGRZ1gKcwhqJ5gnQcz/9QgTs24h+CtY7EXUp9KR4AaoKEZdvOrXvh6Ut
-	CKOQupDBc3p47HHAXBWBu66mux10/hQ=
-X-Google-Smtp-Source: AJdET5dIyQs6H+EP+1l8Lh6Tz2wy7hLuq6+QfRxpRWkLjDWGy6Aqa6DDd0/4HyaglDAIJ8UxJb2YSw==
-X-Received: by 2002:a7b:c404:: with SMTP id k4mr4638359wmi.144.1542149976439; 
-	Tue, 13 Nov 2018 14:59:36 -0800 (PST)
+	bh=H14pD+YfpXV9xiryZLI6q+rYFbQW6R2EhLvIBXo+9Lg=;
+	b=qUHVydL8p2xniY2ZTNLcKHyuvgxl1fkP+OOtNqseDha3g0dl2NYgW1L/4Ki5oUYDRR
+	3badVQ7HZ4QRXGrHE19kmIRazzln7kvGonTZBGzcTomig6FcekhwfoZs+8QxBNMGipqD
+	5ZzeeklWU1UeRAXD2131tTet16JsYnZcWWhYQlgxgDzoxuTGwS9gQsuNObtu02zXwTx2
+	uXpK9C0mJOSGaBeXo+k4XYOfvTAgwPhGpcrDMysOVQpVG7VOBZHGoCwNhMKiS2z6KMwo
+	INkuSzoUg+R+fWDuOJ+vZM3Kq1zwArPsbHTsz5DQYRfhD4UZDY5EuGhMaSZ+jnGYn2Q1
+	FPOw==
+X-Gm-Message-State: AGRZ1gL3nORxngUibvRGc+e0AEv2mSjvB2KbRMeMyHT9y7tgu5KQQZcT
+	VqoTtTAikNyAmwABnGJj1yQfxaz9uCM=
+X-Google-Smtp-Source: AJdET5cEGYjpIOHnDsdsKtA+jw4K/ILetZw71T/X3y++CtV7Sw0nbPm6GNpitzKfo3ACB94sXhnMwg==
+X-Received: by 2002:a1c:7cc:: with SMTP id
+	195-v6mr4616328wmh.139.1542149977292; 
+	Tue, 13 Nov 2018 14:59:37 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	y2-v6sm36426474wrh.53.2018.11.13.14.59.35
+	y2-v6sm36426474wrh.53.2018.11.13.14.59.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Nov 2018 14:59:35 -0800 (PST)
+	Tue, 13 Nov 2018 14:59:36 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2018 22:59:30 +0000
-Message-Id: <20181113225932.17726-3-richard.purdie@linuxfoundation.org>
+Date: Tue, 13 Nov 2018 22:59:31 +0000
+Message-Id: <20181113225932.17726-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181113225932.17726-1-richard.purdie@linuxfoundation.org>
 References: <20181113225932.17726-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 3/5] oeqa/loader: Fix deprecation warning
+Subject: [PATCH 4/5] oeqa/core/runner: Correctly markup regexs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2018 22:59:36 -0000
+X-List-Received-Date: Tue, 13 Nov 2018 22:59:37 -0000
 
-Clean up the warning:
-meta/lib/oeqa/core/loader.py:27: DeprecationWarning: inspect.getargspec() is deprecated, use inspect.signature() or inspect.getfullargspec()
-  _failed_test_args = inspect.getargspec(unittest.loader._make_failed_test).args
+Avoid the warning "DeprecationWarning: invalid escape sequence \(" by marking
+the regexs correctly.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/core/loader.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/core/runner.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
-index 6070bf53105..e66de32cb1b 100644
---- a/meta/lib/oeqa/core/loader.py
-+++ b/meta/lib/oeqa/core/loader.py
-@@ -24,7 +24,7 @@ from oeqa.core.decorator import decoratorClasses, OETestDecorator, \
- # Generate the function definition because this differ across python versions
- # Python >= 3.4.4 uses tree parameters instead four but for example Python 3.5.3
- # ueses four parameters so isn't incremental.
--_failed_test_args = inspect.getargspec(unittest.loader._make_failed_test).args
-+_failed_test_args = inspect.getfullargspec(unittest.loader._make_failed_test).args
- exec("""def _make_failed_test(%s): raise exception""" % ', '.join(_failed_test_args))
- unittest.loader._make_failed_test = _make_failed_test
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index 7035adfaae0..df88b85f1ca 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -93,13 +93,13 @@ class OETestResult(_TestResult):
  
+                 # When fails at module or class level the class name is passed as string
+                 # so figure out to see if match
+-                m = re.search("^setUpModule \((?P<module_name>.*)\)$", scase_str)
++                m = re.search(r"^setUpModule \((?P<module_name>.*)\)$", scase_str)
+                 if m:
+                     if case.__class__.__module__ == m.group('module_name'):
+                         found = True
+                         break
+ 
+-                m = re.search("^setUpClass \((?P<class_name>.*)\)$", scase_str)
++                m = re.search(r"^setUpClass \((?P<class_name>.*)\)$", scase_str)
+                 if m:
+                     class_name = "%s.%s" % (case.__class__.__module__,
+                                             case.__class__.__name__)
 -- 
 2.17.1
 
