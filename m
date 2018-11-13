@@ -1,54 +1,47 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 560A26C27B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id D52996C29F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 10:17:49 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id r11-v6so11278239wmb.2
+	Tue, 13 Nov 2018 10:34:50 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id e3-v6so12701613wrs.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 02:17:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=Dsuts024UTG7gqyfv19P3THjdJpsq+10aU5CNnlrTEg=;
-	b=Jsk8NEcfGmsXxcNSmz8JZF0h93d98OSvLih6azsMI4yjsSgdjQSo2rOr3didRGimuj
-	W7ciwpWAlMc/9/smw9yWrE/xx9QG5MUTqabmrgf/l8maevks4HfGZ21QRxIEhLAZrRSj
-	Qbsf6qOMB5Pa8saff4AgWPX2UcVu4b6QDRgsR7la7/S+f2Zj8s0mKeFvT+kE+nahPXtc
-	tzXAP4PQiRkcY+4ZxNFTl0K2tPCfqESHa7idUWayCnTfZJOK42q5IAeC0cZJlqk8G/Oa
-	AqbRe+vyB44XV6kdyaA6mMYcLToCH7Xgo3dvMAl2h3oX2JUlYlh/OLWz2VjCaFmd/JAw
-	k70A==
+	Tue, 13 Nov 2018 02:34:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=KCybKveEbu7OlZs7JxWu201hHq88f9XEVAJBz6KP2QQ=;
+	b=EjLSvIsRuvCHKRfbDrMdUra3sQPs/EdxcT5G3Jd0sfNJpTjHYUc/DK2x0zbXMvDX8y
+	PWn4LVi7pfgvDwe9d+0kxADl5+EtUv1I2aS/7d/IsLzCZih1TKbfJA/4cDxytzrIE+I7
+	JalT46FlJEs7Qqeja/pT2xIbNOabJQ9ePzRxE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Dsuts024UTG7gqyfv19P3THjdJpsq+10aU5CNnlrTEg=;
-	b=mCXURAo+ACmHAbcPTvMj3lYnXis1Sevt3ImNvQ0LE/HKxs6AwAcgft3cMysm7+NfZQ
-	TKwTXtmVdbtUV2nchbkJYAZpQ6ufRj0wLW0F/PkkbtepVVMczw+fIiXEd0bardXzFT1o
-	JjU1gUs4RJNu5ILfK2p2g+M1YyexqV3qdniTwT2tZVLP3MWCcUIRWRGTxbjT1Hr45uUC
-	hpoWRtTunt6wS+agqhYE5rDxCdBTZgKXlGqWQA4KRwNcefWDWflNU9NLFqe5ybbYbQg0
-	nHoGX9mB1IDOpl7oKeogJigUta8cgkJry+WicbA2MrQGzNxZCSlkj25QamvT5CQ3ulhJ
-	Kk7w==
-X-Gm-Message-State: AGRZ1gK21auTnbFQX7flEeIKwoHLFFXNPRnv8S28lTAXpcLvkex2hfFb
-	+Dfskhx92CLbOdHJ+R+oyXRziKdh
-X-Google-Smtp-Source: AJdET5c3LTOe1qTkQxKqvrN0MmhWIP6i1Nl7DMv8sF+QIVk8oKckZLr8Wwd0R28Z19IBYUQ4wr5YKg==
-X-Received: by 2002:a7b:cd14:: with SMTP id
-	f20-v6mr1133367wmj.79.1542104269605; 
-	Tue, 13 Nov 2018 02:17:49 -0800 (PST)
-Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
-	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
-	r64-v6sm10030812wmd.43.2018.11.13.02.17.48
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=KCybKveEbu7OlZs7JxWu201hHq88f9XEVAJBz6KP2QQ=;
+	b=H4x6Qm3ENFdMG0hgaDXAdSMFvT4V+TW5Bpc9xH6U709/Ln9NyfCYSpP6rybeI/X4/W
+	JwZ7+z95a0+lf9F1wIKp3rRGe5OIDvHcIXuqRo6tYYC6jfuzfMAj/8e2OUYU8T+skbqU
+	t55pn4r2S5Q9i8Uyzo1ZNPMSf3MJag1TrJlOcSjRmhwPG8yBvtzoPwARof7jR1CcmMZK
+	x9GZOAIDKI++J6fD8IkqLsif7tY2i4xG5yfeXuUv37C3mPgOIEhEZZiguTn8WcjZszlY
+	zddsR2K9aSrRv8qG/381NujE+rntcQMNbJP8dFmLDarBJvj+kcfVWKWEzTS9W1msUrDU
+	qx6w==
+X-Gm-Message-State: AGRZ1gL56G8vK21sjCuwkIPvlieF9ueRFpTYzsSuIaF6LDhPDU+NBb7c
+	0c039AxyX+omrEWT6/1d7Vi2rUbJdOo=
+X-Google-Smtp-Source: AJdET5eXbiQKqM55Rdy46vVDtbc1eAyJEK1zSe470qRbEz3clSlSuCLAr5EYC2dfgOU3VEDrieIfkQ==
+X-Received: by 2002:adf:a386:: with SMTP id
+	l6-v6mr4755368wrb.110.1542105290913; 
+	Tue, 13 Nov 2018 02:34:50 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o126-v6sm9054147wmo.3.2018.11.13.02.34.50
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 13 Nov 2018 02:17:48 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 13 Nov 2018 02:34:50 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2018 11:17:29 +0100
-Message-Id: <20181113101729.19289-2-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.14.5
-In-Reply-To: <20181113101729.19289-1-schnitzeltony@gmail.com>
-References: <20181113101729.19289-1-schnitzeltony@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] scons.bbclass: fix indention
+Date: Tue, 13 Nov 2018 10:34:49 +0000
+Message-Id: <20181113103449.27055-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] [rocko] python-3.5: Fix manifest to handle reprlib correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,38 +54,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2018 10:17:49 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 13 Nov 2018 10:34:51 -0000
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+The current line is looking for py files in __pycache__ which is incorrect.
+Fix it to correctly include the right files (modelled after ${PN}-signal).
+
+Patch isn't relavent to later releases since manifest generation changed
+significantly.
+
+[YOCTO #12831]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/scons.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
-index 286843f74c..9ee7d1587d 100644
---- a/meta/classes/scons.bbclass
-+++ b/meta/classes/scons.bbclass
-@@ -14,13 +14,13 @@ do_configure() {
- }
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+index 0260e87e75f..710b22eaa38 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -194,7 +194,7 @@ FILES_${PN}-readline="${libdir}/python3.5/lib-dynload/readline.*.so ${libdir}/py
  
- scons_do_compile() {
--        ${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} || \
--        die "scons build execution failed."
-+	${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} || \
-+	die "scons build execution failed."
- }
+ SUMMARY_${PN}-reprlib="Python alternate repr() implementation"
+ RDEPENDS_${PN}-reprlib="${PN}-core"
+-FILES_${PN}-reprlib="${libdir}/python3.5/reprlib.py ${libdir}/python3.5/__pycache__/reprlib.py "
++FILES_${PN}-reprlib="${libdir}/python3.5/reprlib.* ${libdir}/python3.5/__pycache__/reprlib.* "
  
- scons_do_install() {
--        ${STAGING_BINDIR_NATIVE}/scons install_root=${D}${prefix} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} install || \
--        die "scons install execution failed."
-+	${STAGING_BINDIR_NATIVE}/scons install_root=${D}${prefix} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} install || \
-+	die "scons install execution failed."
- }
+ SUMMARY_${PN}-resource="Python resource control interface"
+ RDEPENDS_${PN}-resource="${PN}-core"
+diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
+index 6352f8f1207..750d4fc7548 100755
+--- a/scripts/contrib/python/generate-manifest-3.5.py
++++ b/scripts/contrib/python/generate-manifest-3.5.py
+@@ -371,7 +371,7 @@ if __name__ == "__main__":
+     "lib-dynload/readline.*.so rlcompleter.*" )
  
- EXPORT_FUNCTIONS do_compile do_install
+     m.addPackage( "${PN}-reprlib", "Python alternate repr() implementation", "${PN}-core",
+-    "reprlib.py" )
++    "reprlib.*" )
+ 
+     m.addPackage( "${PN}-resource", "Python resource control interface", "${PN}-core",
+     "lib-dynload/resource.*.so" )
 -- 
-2.14.5
+2.17.1
 
 
