@@ -1,40 +1,49 @@
-Return-Path: <Arsalan_Awan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 0010D60043
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 91CC96C257
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 10:46:56 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=svr-ies-mbx-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-	id 1gMWDh-0006jG-6Z from Arsalan_Awan@mentor.com ;
-	Tue, 13 Nov 2018 02:46:57 -0800
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) with Microsoft SMTP
-	Server (TLS) id 15.0.1320.4; Tue, 13 Nov 2018 10:46:52 +0000
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1320.000; Tue, 13 Nov 2018 10:46:51 +0000
-From: "Awan, Arsalan" <Arsalan_Awan@mentor.com>
-To: akuster808 <akuster808@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [sumo][PATCH 1/1] wic/isoimage-isohybrid.py: fix
-	booting from removable media
-Thread-Index: AQHUdNlZ0/EsWKHdbkKTyXY3hxfOM6VNkmD4
-Date: Tue, 13 Nov 2018 10:46:51 +0000
-Message-ID: <1542106011533.81309@mentor.com>
-References: <cover.1541168618.git.Arsalan_Awan@mentor.com>
-	<6bf54a814e2aaa03e262aa2edd529405d391ee22.1541168618.git.Arsalan_Awan@mentor.com>,
-	<c1316e3a-ec0c-3320-0972-9c7ee532aee8@gmail.com>,
-	<1541403256938.5944@mentor.com>
-In-Reply-To: <1541403256938.5944@mentor.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.90]
+	Tue, 13 Nov 2018 11:06:52 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id k206-v6so17514668ite.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Nov 2018 03:06:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=VNsCbwC6qKVifNdy/hBzBanf+CEY8EsVoNPe3hbFyII=;
+	b=l5o/Walo78VCJ6iQgRVijrUSt6ZnVlLnJhNIB/7hV1Rix99knuLbH6cqZPaxL/lVEN
+	Ybe4gAtwjLIzR6N013zEz/mO52AYgyTQZs2dqEwgOPVDO+qDVG2hFfy7GULdrRSacM2V
+	Z700LuD5/zJVZRAnWIpMRTkW5PmFRxk6K6B2EDreXRWwtIDorga0wLfy+LYxD/69h6aL
+	wAnY5SVlXsRPF3knA7LlsBar29xrfZI27CjsnfWEBqL/sk7e7vukpGSMHZbJkY/NSGjN
+	uG2fASvlGu1j7OTX3H7aWKl6ZV9D9so/guhHtF87bPyk6clvU1Ki5eASGiRtqA+YQCxC
+	Vr4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=VNsCbwC6qKVifNdy/hBzBanf+CEY8EsVoNPe3hbFyII=;
+	b=nNuCC7nQR7MeqCLD1hOh/IsOU79A7SFL4pTIzhtnmY/vzIXLJzvih6qAW5lQ3G8dC5
+	WGF1x231/ZJ5CL2wnufgQ6qKf3KEMz9SB4x4lxxmoIiYJqNDjRmxQuGOD0G9RWnonF1A
+	pL3qz2wPfaX5cJqM9dklKryzNw/J/74Qnflfrxq+D2cbYjfb/DVgzS+lw/a2He1zU9sR
+	u6la+gvW34C0Ot+xGCUFvWLgqddfGflO9L8acOkvxDfMZ7PxzQ6L4s2WS0ucebrY8Lug
+	XY3uvrqLC4+pcETDAcZHUTmGDsCNgGqBV+j2UWYRbxYxiH0YSR72iGlF0icnjCsPKgf8
+	7pjg==
+X-Gm-Message-State: AGRZ1gJx8QD4AazI1LXEILwHVj6H12yU9IkcOK6zNRwOGDtB3QIpWbEb
+	e795TMF7mImyLsI2IgTsx39Pp0+wT9lNTIeFbjcIOw==
+X-Google-Smtp-Source: AJdET5f8ABaZkCnrMfHN4VrFPCr8p0L0EsEy+/CDP4RvNF2t4RfRWsrKrTCd7bkLnvlG8EMxuMYFwhMxAolVLWTMpwE=
+X-Received: by 2002:a24:ce45:: with SMTP id
+	v66-v6mr2940779itg.26.1542107213531; 
+	Tue, 13 Nov 2018 03:06:53 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [sumo][PATCH 1/1] wic/isoimage-isohybrid.py: fix booting from removable media
+References: <20181113101729.19289-1-schnitzeltony@gmail.com>
+In-Reply-To: <20181113101729.19289-1-schnitzeltony@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Nov 2018 11:06:42 +0000
+Message-ID: <CAJTo0LZmNVBXU+tNYczEqM1C_ed6J1WCeR7--Fda5Xaub8hknA@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] scons.bbclass: Force rebuild if necessary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,73 +56,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2018 10:46:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Tue, 13 Nov 2018 11:06:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-ping=0A=
-=0A=
-> > Arsalan,=0A=
-> >=0A=
-> >=0A=
-> > On 11/2/18 8:01 AM, Arsalan Awan wrote:=0A=
-> > > From: "Arsalan H. Awan" <Arsalan_Awan@mentor.com>=0A=
-> > >=0A=
-> > > The EFI bootloader name and path for being able to boot from a=0A=
-> > > removable storage media - such as USB - must be like:=0A=
-> > >=0A=
-> > >   /EFI/BOOT/boot<arch>.efi=0A=
-> > >   /EFI/BOOT/bootx64.efi=0A=
-> > >   /EFI/BOOT/bootia32.efi=0A=
-> > >   /EFI/BOOT/bootaa64.efi=0A=
-> > >=0A=
-> > > otherwise system will not be able to boot from it.=0A=
-> >=0A=
-> > Is this fixed in Master & Thud ?=0A=
-> >=0A=
-> > - armin=0A=
-> =0A=
-> Yes Armin! It is fixed in Thud and Master.=0A=
-> =0A=
-> -=0A=
-> Arsalan=0A=
-> =0A=
-> >=0A=
-> > >=0A=
-> > > This commit fixes the grub-efi bootloader destination image name=0A=
-> > > accordingly just like efi_populate() function does it in=0A=
-> > > meta/classes/grub-efi.bbclass.=0A=
-> > >=0A=
-> > > Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>=0A=
-> > > ---=0A=
-> > >  scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 4 +++-=0A=
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)=0A=
-> > >=0A=
-> > > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/s=
-cripts/lib/wic/plugins/source/isoimage-isohybrid.py=0A=
-> > > index d6bd3bf..9a30713 100644=0A=
-> > > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py=0A=
-> > > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py=0A=
-> > > @@ -329,13 +329,15 @@ class IsoImagePlugin(SourcePlugin):=0A=
-> > >=0A=
-> > >                  if re.match("x86_64", target_arch):=0A=
-> > >                      grub_image =3D "grub-efi-bootx64.efi"=0A=
-> > > +                    grub_image_dst =3D "bootx64.efi"=0A=
-> > >                  elif re.match('i.86', target_arch):=0A=
-> > >                      grub_image =3D "grub-efi-bootia32.efi"=0A=
-> > > +                    grub_image_dst =3D "bootia32.efi"=0A=
-> > >                  else:=0A=
-> > >                      raise WicError("grub-efi is incompatible with ta=
-rget %s" %=0A=
-> > >                                     target_arch)=0A=
-> > >=0A=
-> > > -                grub_target =3D os.path.join(target_dir, grub_image)=
-=0A=
-> > > +                grub_target =3D os.path.join(target_dir, grub_image_=
-dst)=0A=
-> > >                  if not os.path.isfile(grub_target):=0A=
-> > >                      grub_src =3D os.path.join(deploy_dir, grub_image=
-)=0A=
-> > >                      if not os.path.exists(grub_src):=0A=
+This make me look at scons a bit closer, somewhat in shock that it
+doesn't have a native way of doing out of tree builds.  Apparently
+abusing the repository argument will sometimes work for out of tree
+(so you could just put B=3D$WORKDIR/build and add B to [cleandirs]) but
+abusing sounds like 'doesn't always work' to me.
+
+I then discovered that the one recipe in oe-core that uses scons
+doesn't in fact use the class, and switching to it breaks because
+there's no standard way of passing install paths (serf tries to
+install to /usr on the host).
+
+So how is your experience with the scons class? Is it actually useful?
+
+Ross
+On Tue, 13 Nov 2018 at 10:18, Andreas M=C3=BCller <schnitzeltony@gmail.com>=
+ wrote:
+>
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> ---
+>  meta/classes/scons.bbclass | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
+> index b9ae19d582..286843f74c 100644
+> --- a/meta/classes/scons.bbclass
+> +++ b/meta/classes/scons.bbclass
+> @@ -2,7 +2,16 @@ DEPENDS +=3D "python-scons-native"
+>
+>  EXTRA_OESCONS ?=3D ""
+>
+> -do_configure[noexec] =3D "1"
+> +do_configure() {
+> +       if [ -n "${CONFIGURESTAMPFILE}" ]; then
+> +               if [ -e "${CONFIGURESTAMPFILE}" -a "`cat ${CONFIGURESTAMP=
+FILE}`" !=3D "${BB_TASKHASH}" -a "${CLEANBROKEN}" !=3D "1" ]; then
+> +                       ${STAGING_BINDIR_NATIVE}/scons --clean PREFIX=3D$=
+{prefix} prefix=3D${prefix} ${EXTRA_OESCONS}
+> +               fi
+> +
+> +               mkdir -p `dirname ${CONFIGURESTAMPFILE}`
+> +               echo ${BB_TASKHASH} > ${CONFIGURESTAMPFILE}
+> +       fi
+> +}
+>
+>  scons_do_compile() {
+>          ${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=3D${prefi=
+x} prefix=3D${prefix} ${EXTRA_OESCONS} || \
+> --
+> 2.14.5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
