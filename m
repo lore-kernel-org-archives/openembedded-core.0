@@ -1,86 +1,25 @@
-Return-Path: <niko.mauno@vaisala.com>
-X-Greylist: delayed 18298 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 13 Nov 2018 01:14:08 UTC
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
-	(mail-eopbgr70058.outbound.protection.outlook.com [40.107.7.58])
-	by mail.openembedded.org (Postfix) with ESMTP id C307F6C074
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 471136C0CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 01:14:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=oHp192IbCQEi37lw9MGf3iVx8EGbFCZqSVvW7uyiKGg=;
-	b=aVl/sEFgbtK04L5ZhZrSRAw7YBfbGS1KExWddMue9N7jeWDatYdGLtJUl3zNHACQn+McMvHjMo0PFNjdbFBZYnjgkei+KsmB7X5FzqN2xNZzA89AWABnB6+usnfjVPC/PJfgxgZWZjob8Om6NoWCp/mif00yuDSdGahL9rrk02I=
-Received: from AM6PR0602MB3544.eurprd06.prod.outlook.com (52.133.23.17) by
-	AM6PR0602MB3560.eurprd06.prod.outlook.com (52.133.23.21) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1294.21; Mon, 12 Nov 2018 12:40:54 +0000
-Received: from AM6PR0602MB3544.eurprd06.prod.outlook.com
-	([fe80::70b3:f9f3:a5a5:df3a]) by
-	AM6PR0602MB3544.eurprd06.prod.outlook.com
-	([fe80::70b3:f9f3:a5a5:df3a%5]) with mapi id 15.20.1294.044;
-	Mon, 12 Nov 2018 12:40:54 +0000
-From: Mauno Niko <niko.mauno@vaisala.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] opkg-utils: Fix update-alternatives link
-	relocation
-Thread-Index: AQHUeoTzNnQfYKK0e0CTKoYPqIXefA==
-Date: Mon, 12 Nov 2018 12:40:54 +0000
-Message-ID: <3b7518cf-1614-2e5b-9bb0-6288dfd06e88@vaisala.com>
-References: <20181111153414.26447-1-niko.mauno@iki.fi>
-	<CAJTo0LY05Mv=zODUjoA8C_tGvRe9eK2zfi1XuF-O7dH4SwD_jQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LY05Mv=zODUjoA8C_tGvRe9eK2zfi1XuF-O7dH4SwD_jQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-x-originating-ip: [193.143.230.131]
-x-clientproxiedby: AM6PR05CA0022.eurprd05.prod.outlook.com
-	(2603:10a6:20b:2e::35) To AM6PR0602MB3544.eurprd06.prod.outlook.com
-	(2603:10a6:209:e::17)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=niko.mauno@vaisala.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; AM6PR0602MB3560;
-	6:XasXBbeuV/8FspNW04jpy3YQvJtV0Qi04qOzwPT8QfsR7nFR6fEj8ZatffKDs1pdcFIRMzgIycUvAXyccBKhaan+KNfZYli0S/h6WRsxXezzF43XGwnRzcDrD7JXqiCFBpEFi6ng3FlFINuyveAHlsb9QvsapKhed7xfZCUkEwRk8xK3b3EWizYQT1kyIUeQvtaBZqJJVZ4cH/DRDyfbzmI/oh+0MVEl5ue1yAkWFLowQtNeostEBr8TdV5Dnsfnn/VJf30PLgJLW89TPU2RbHJF2mHGpBOBC6cXiWjlB/zstGEPH3EBgmKWS5qATvMhp9Ybd156KkYfjZX6Rz2hIVh+s4TVEobPFdsWNWjzxKBqg/lUIuEfRZ7MyWm9wkabVPVHRLjWsLwvpCz1Ca9/0HibyX4wqDvJOIoc46KIHSrerlgzI+TQ+YdNGDM5CPlRlEizDlx7+P/33Q6GdxWvVw==;
-	5:0in1GrRdmGm8xzlCG8VJMk6DiZrVqqlNokegZVwJFiWCVLnHuFFrvYshcl1QY+ZY/GohughzQVBvxMixUNMwspYok8k2i0l0d/g9cz1tsSfdaaiNxItmJmPsrRSUX3uVRGH2d4zTWk/sZu2msRk8V73Bbavg6fe4MtCmMFl0974=;
-	7:g+MKRy3Q2AQysQDWSBx2SQZQG08vbZwynVmNTWEUwNrniuz0Pu5a+BY12fkD2uRV7hzuYUrrYThEk3TbE2LW12YsKuz6Zu/QqgL5HxwUZwaEG2fGS7kk5BymbSJ0Cpo9yjvCKjHdXZ3FAJteyRI40w==
-x-ms-office365-filtering-correlation-id: 2c3756f6-53de-4d6f-6f75-08d6489c15fe
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390040)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);
-	SRVR:AM6PR0602MB3560; 
-x-ms-traffictypediagnostic: AM6PR0602MB3560:
-x-tenant-id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-x-microsoft-antispam-prvs: <AM6PR0602MB356047A000235358A5CC127D81C10@AM6PR0602MB3560.eurprd06.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(8121501046)(5005006)(3231382)(944501410)(52105112)(3002001)(10201501046)(93006095)(93001095)(148016)(149066)(150057)(6041310)(20161123562045)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(201708071742011)(7699051)(76991095);
-	SRVR:AM6PR0602MB3560; BCL:0; PCL:0; RULEID:;
-	SRVR:AM6PR0602MB3560; 
-x-forefront-prvs: 0854128AF0
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(136003)(396003)(39850400004)(366004)(346002)(376002)(199004)(189003)(478600001)(8676002)(6916009)(66066001)(81166006)(229853002)(2351001)(3846002)(966005)(81156014)(99286004)(6116002)(6512007)(6306002)(58126008)(8936002)(316002)(305945005)(25786009)(64126003)(7736002)(65826007)(36756003)(53936002)(52116002)(6246003)(256004)(31686004)(5660300001)(97736004)(186003)(14454004)(14444005)(6436002)(486006)(65956001)(65806001)(2616005)(476003)(11346002)(446003)(2501003)(386003)(53546011)(106356001)(6486002)(86362001)(105586002)(71190400001)(76176011)(5640700003)(2900100001)(71200400001)(6506007)(26005)(2906002)(102836004)(31696002)(68736007);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR0602MB3560;
-	H:AM6PR0602MB3544.eurprd06.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: vaisala.com does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: wjNrGhS4/Ji7eSKQqvHNKcNQVrOysRmwFVBbiH7pZVP4G1AmVydcdgvDkU/bXkp7jj6CCvDsRjxphI1EQIlqFycfujQR1D4Xa01w99L4qWgLhBamM9xPx9TRHMLUl9b2q03dtAKNB3umO7a/4Uiv1Hom6eC1KFpdayVH+jTPw2guZlRsOo71qdOybkxbVil9cElIY5Omdd/kZLabQhLzQcIaodAYwOdrAtYWqHFl78lo9AptCqUV8Lbgke06rFKDXSham/b9dDBUv1LARmEmJwBVRbUuz1k9eGMFYMDcLDZvWpK9ml2vW4nCkTXzdhpzi38EumFraopkYCJaH5Dat7q11Q4Johz4dXmJUb6+FvE=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Tue, 13 Nov 2018 03:03:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAD33l2a000835
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 12 Nov 2018 19:03:47 -0800 (PST)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 12 Nov 2018 19:03:46 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
+Date: Tue, 13 Nov 2018 11:14:26 +0800
+Message-ID: <1542078866-4265-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAJTo0LYLxciQZcMt+5SPBWKoOxS9C98WP_Te8LGDXciA6FmEDQ@mail.gmail.com>
+References: <CAJTo0LYLxciQZcMt+5SPBWKoOxS9C98WP_Te8LGDXciA6FmEDQ@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c3756f6-53de-4d6f-6f75-08d6489c15fe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2018 12:40:54.4504 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0602MB3560
-Subject: Re: [PATCH] opkg-utils: Fix update-alternatives link relocation
+Subject: [PATCH V2] rpcbind: 0.2.4 -> 1.2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -93,25 +32,433 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2018 01:14:09 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-15"
-Content-ID: <B226D6E174CB554DA556BE69FD545366@eurprd06.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 13 Nov 2018 03:03:49 -0000
+Content-Type: text/plain
 
+- Drop backport fixes
+  0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
+  pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch
+  rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch
 
+- Do not manually move binaries from bindir to sbindir,
+  the upstream already moved rpcbind from bin_PROGRAMS
+  to sbin_PROGRAMS in Makefile.am
+  https://git.linux-nfs.org/?p=steved/rpcbind.git;a=commitdiff;h=9afccfcd5ab350d6bc72622f3d1ccfb9e54652b0
 
-On 11/12/2018 12:55 PM, Burton, Ross wrote:
-> On Sun, 11 Nov 2018 at 15:44, Niko Mauno <niko.mauno@iki.fi> wrote:
->> +Upstream-Status: Pending
->=20
-> I saw you post this to yocto@, so this is definitely Submitted.
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ ...r-all-svc_getargs-calls-with-svc_freeargs.patch | 221 ---------------------
+ ...proc_dump-Fixed-typo-in-memory-leak-patch.patch |  30 ---
+ ..._callit_com-Stop-freeing-a-static-pointer.patch | 100 ----------
+ .../rpcbind/{rpcbind_0.2.4.bb => rpcbind_1.2.5.bb} |   9 +-
+ 4 files changed, 2 insertions(+), 358 deletions(-)
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch
+ rename meta/recipes-extended/rpcbind/{rpcbind_0.2.4.bb => rpcbind_1.2.5.bb} (84%)
 
-Thanks, indeed I failed to reflect appropriate status as per instructions i=
-n https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_H=
-eader_Recommendations:_Upstream-Status
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
+deleted file mode 100644
+index bf7aaef..0000000
+--- a/meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch
++++ /dev/null
+@@ -1,221 +0,0 @@
+-From 7ea36eeece56b59f98e469934e4c20b4da043346 Mon Sep 17 00:00:00 2001
+-From: Doran Moppert <dmoppert@redhat.com>
+-Date: Thu, 11 May 2017 11:42:54 -0400
+-Subject: [PATCH] rpcbind: pair all svc_getargs() calls with svc_freeargs() to
+- avoid memory leak
+-
+-This patch is to address CVE-2017-8779 "rpcbomb" in rpcbind, discussed
+-at [1], [2], [3].  The last link suggests this issue is actually a bug
+-in rpcbind, which led me here.
+-
+-The leak caused by the reproducer at [4] appears to come from
+-rpcb_service_4(), in the case where svc_getargs() returns false and the
+-function had an early return, rather than passing through the cleanup
+-path at done:, as would otherwise occur.
+-
+-It also addresses a couple of other locations where the same fault seems
+-to exist, though I haven't been able to exercise those.  I hope someone
+-more intimate with rpc(3) can confirm my understanding is correct, and
+-that I haven't introduced any new bugs.
+-
+-Without this patch, using the reproducer (and variants) repeatedly
+-against rpcbind with a numBytes argument of 1_000_000_000, /proc/$(pidof
+-rpcbind)/status reports VmSize increase of 976564 kB each call, and
+-VmRSS increase of around 260 kB every 33 calls - the specific numbers
+-are probably an artifact of my rhel/glibc version.  With the patch,
+-there is a small (~50 kB) VmSize increase with the first message, but
+-thereafter both VmSize and VmRSS remain steady.
+-
+-[1]: http://seclists.org/oss-sec/2017/q2/209
+-[2]: https://bugzilla.redhat.com/show_bug.cgi?id=1448124
+-[3]: https://sourceware.org/ml/libc-alpha/2017-05/msg00129.html
+-[4]: https://github.com/guidovranken/rpcbomb/
+-
+-
+-CVE: CVE-2017-8779
+-Upstream-Status: Backport
+-
+-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+----
+- src/pmap_svc.c     | 56 +++++++++++++++++++++++++++++++++++++++++++++---------
+- src/rpcb_svc.c     |  2 +-
+- src/rpcb_svc_4.c   |  2 +-
+- src/rpcb_svc_com.c |  8 ++++++++
+- 4 files changed, 57 insertions(+), 11 deletions(-)
+-
+-diff --git a/src/pmap_svc.c b/src/pmap_svc.c
+-index 4c744fe..e926cdc 100644
+---- a/src/pmap_svc.c
+-+++ b/src/pmap_svc.c
+-@@ -175,6 +175,7 @@ pmapproc_change(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt, unsigned long
+- 	long ans;
+- 	uid_t uid;
+- 	char uidbuf[32];
+-+	int rc = TRUE;
+- 
+- 	/*
+- 	 * Can't use getpwnam here. We might end up calling ourselves
+-@@ -194,7 +195,8 @@ pmapproc_change(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt, unsigned long
+- 
+- 	if (!svc_getargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
+- 		svcerr_decode(xprt);
+--		return (FALSE);
+-+		rc = FALSE;
+-+		goto done;
+- 	}
+- #ifdef RPCBIND_DEBUG
+- 	if (debugging)
+-@@ -205,7 +207,8 @@ pmapproc_change(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt, unsigned long
+- 
+- 	if (!check_access(xprt, op, reg.pm_prog, PMAPVERS)) {
+- 		svcerr_weakauth(xprt);
+--		return (FALSE);
+-+		rc = (FALSE);
+-+		goto done;
+- 	}
+- 
+- 	rpcbreg.r_prog = reg.pm_prog;
+-@@ -258,7 +261,16 @@ done_change:
+- 		rpcbs_set(RPCBVERS_2_STAT, ans);
+- 	else
+- 		rpcbs_unset(RPCBVERS_2_STAT, ans);
+--	return (TRUE);
+-+done:
+-+	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
+-+		if (debugging) {
+-+			/*(void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
+-+			if (doabort) {
+-+				rpcbind_abort();
+-+			}
+-+		}
+-+	}
+-+	return (rc);
+- }
+- 
+- /* ARGSUSED */
+-@@ -272,15 +284,18 @@ pmapproc_getport(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
+- #ifdef RPCBIND_DEBUG
+- 	char *uaddr;
+- #endif
+-+	int rc = TRUE;
+- 
+- 	if (!svc_getargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
+- 		svcerr_decode(xprt);
+--		return (FALSE);
+-+		rc = FALSE;
+-+		goto done;
+- 	}
+- 
+- 	if (!check_access(xprt, PMAPPROC_GETPORT, reg.pm_prog, PMAPVERS)) {
+- 		svcerr_weakauth(xprt);
+--		return FALSE;
+-+		rc = FALSE;
+-+		goto done;
+- 	}
+- 
+- #ifdef RPCBIND_DEBUG
+-@@ -330,21 +345,34 @@ pmapproc_getport(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
+- 		pmap_ipprot2netid(reg.pm_prot) ?: "<unknown>",
+- 		port ? udptrans : "");
+- 
+--	return (TRUE);
+-+done:
+-+	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)&reg)) {
+-+		if (debugging) {
+-+			/* (void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
+-+			if (doabort) {
+-+				rpcbind_abort();
+-+			}
+-+		}
+-+	}
+-+	return (rc);
+- }
+- 
+- /* ARGSUSED */
+- static bool_t
+- pmapproc_dump(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
+- {
+-+	int rc = TRUE;
+-+
+- 	if (!svc_getargs(xprt, (xdrproc_t)xdr_void, NULL)) {
+- 		svcerr_decode(xprt);
+--		return (FALSE);
+-+		rc = FALSE;
+-+		goto done;
+- 	}
+- 
+- 	if (!check_access(xprt, PMAPPROC_DUMP, 0, PMAPVERS)) {
+- 		svcerr_weakauth(xprt);
+--		return FALSE;
+-+		rc = FALSE;
+-+		goto done;
+- 	}
+- 	
+- 	if ((!svc_sendreply(xprt, (xdrproc_t) xdr_pmaplist_ptr,
+-@@ -354,7 +382,17 @@ pmapproc_dump(struct svc_req *rqstp /*__unused*/, SVCXPRT *xprt)
+- 			rpcbind_abort();
+- 		}
+- 	}
+--	return (TRUE);
+-+
+-+done:
+-+	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)NULL)) {
+-+		if (debugging) {
+-+			/*(void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
+-+			if (doabort) {
+-+				rpcbind_abort();
+-+			}
+-+		}
+-+	}
+-+	return (rc);
+- }
+- 
+- int pmap_netid2ipprot(const char *netid)
+-diff --git a/src/rpcb_svc.c b/src/rpcb_svc.c
+-index 709e3fb..091f530 100644
+---- a/src/rpcb_svc.c
+-+++ b/src/rpcb_svc.c
+-@@ -166,7 +166,7 @@ rpcb_service_3(struct svc_req *rqstp, SVCXPRT *transp)
+- 		svcerr_decode(transp);
+- 		if (debugging)
+- 			(void) xlog(LOG_DEBUG, "rpcbind: could not decode");
+--		return;
+-+		goto done;
+- 	}
+- 
+- 	if (rqstp->rq_proc == RPCBPROC_SET
+-diff --git a/src/rpcb_svc_4.c b/src/rpcb_svc_4.c
+-index 5094879..eebbbbe 100644
+---- a/src/rpcb_svc_4.c
+-+++ b/src/rpcb_svc_4.c
+-@@ -218,7 +218,7 @@ rpcb_service_4(struct svc_req *rqstp, SVCXPRT *transp)
+- 		svcerr_decode(transp);
+- 		if (debugging)
+- 			(void) xlog(LOG_DEBUG, "rpcbind: could not decode\n");
+--		return;
+-+		goto done;
+- 	}
+- 
+- 	if (rqstp->rq_proc == RPCBPROC_SET
+-diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
+-index 5862c26..cb63afd 100644
+---- a/src/rpcb_svc_com.c
+-+++ b/src/rpcb_svc_com.c
+-@@ -927,6 +927,14 @@ error:
+- 	if (call_msg.rm_xid != 0)
+- 		(void) free_slot_by_xid(call_msg.rm_xid);
+- out:
+-+	if (!svc_freeargs(transp, (xdrproc_t) xdr_rmtcall_args, (char *) &a)) {
+-+		if (debugging) {
+-+			(void) xlog(LOG_DEBUG, "unable to free arguments\n");
+-+			if (doabort) {
+-+				rpcbind_abort();
+-+			}
+-+		}
+-+	}
+- 	if (local_uaddr)
+- 		free(local_uaddr);
+- 	if (buf_alloc)
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch b/meta/recipes-extended/rpcbind/rpcbind/pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch
+deleted file mode 100644
+index 4c23ee0..0000000
+--- a/meta/recipes-extended/rpcbind/rpcbind/pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From c49a7ea639eb700823e174fd605bbbe183e229aa Mon Sep 17 00:00:00 2001
+-From: Steve Dickson <steved@redhat.com>
+-Date: Wed, 17 May 2017 10:52:25 -0400
+-Subject: [PATCH] pmapproc_dump: Fixed typo in memory leak patch
+-
+-commit 7ea36eee introduce a typo that caused
+-NIS (aka ypbind) to fail.
+-
+-Signed-off-by: Steve Dickson <steved@redhat.com>
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+----
+- src/pmap_svc.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-Index: rpcbind-0.2.4/src/pmap_svc.c
+-===================================================================
+---- rpcbind-0.2.4.orig/src/pmap_svc.c
+-+++ rpcbind-0.2.4/src/pmap_svc.c
+-@@ -384,7 +384,7 @@ pmapproc_dump(struct svc_req *rqstp /*__
+- 	}
+- 
+- done:
+--	if (!svc_freeargs(xprt, (xdrproc_t) xdr_pmap, (char *)NULL)) {
+-+	if (!svc_freeargs(xprt, (xdrproc_t) xdr_void, (char *)NULL)) {
+- 		if (debugging) {
+- 			/*(void) xlog(LOG_DEBUG, "unable to free arguments\n");*/
+- 			if (doabort) {
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch b/meta/recipes-extended/rpcbind/rpcbind/rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch
+deleted file mode 100644
+index 9a000d0..0000000
+--- a/meta/recipes-extended/rpcbind/rpcbind/rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch
++++ /dev/null
+@@ -1,100 +0,0 @@
+-From 7c7590ad536c0e24bef790cb1e65702fc54db566 Mon Sep 17 00:00:00 2001
+-From: Steve Dickson <steved@redhat.com>
+-Date: Tue, 30 May 2017 11:27:22 -0400
+-Subject: [PATCH] rpcbproc_callit_com: Stop freeing a static pointer
+-
+-commit 7ea36ee introduced a svc_freeargs() call
+-that ended up freeing static pointer.
+-
+-It turns out the allocations for the rmt_args
+-is not necessary . The xdr routines (xdr_bytes) will
+-handle the memory management and the largest
+-possible message size is UDPMSGSIZE (due to UDP only)
+-which is smaller than RPC_BUF_MAX
+-
+-Signed-off-by: Steve Dickson <steved@redhat.com>
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+----
+- src/rpcb_svc_com.c | 39 ++++++---------------------------------
+- 1 file changed, 6 insertions(+), 33 deletions(-)
+-
+-diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
+-index cb63afd..1fc2229 100644
+---- a/src/rpcb_svc_com.c
+-+++ b/src/rpcb_svc_com.c
+-@@ -612,9 +612,9 @@ rpcbproc_callit_com(struct svc_req *rqstp, SVCXPRT *transp,
+- 	struct netconfig *nconf;
+- 	struct netbuf *caller;
+- 	struct r_rmtcall_args a;
+--	char *buf_alloc = NULL, *outbufp;
+-+	char *outbufp;
+- 	char *outbuf_alloc = NULL;
+--	char buf[RPC_BUF_MAX], outbuf[RPC_BUF_MAX];
+-+	char  outbuf[RPC_BUF_MAX];
+- 	struct netbuf *na = (struct netbuf *) NULL;
+- 	struct rpc_msg call_msg;
+- 	int outlen;
+-@@ -635,36 +635,10 @@ rpcbproc_callit_com(struct svc_req *rqstp, SVCXPRT *transp,
+- 	}
+- 	if (si.si_socktype != SOCK_DGRAM)
+- 		return;	/* Only datagram type accepted */
+--	sendsz = __rpc_get_t_size(si.si_af, si.si_proto, UDPMSGSIZE);
+--	if (sendsz == 0) {	/* data transfer not supported */
+--		if (reply_type == RPCBPROC_INDIRECT)
+--			svcerr_systemerr(transp);
+--		return;
+--	}
+--	/*
+--	 * Should be multiple of 4 for XDR.
+--	 */
+--	sendsz = ((sendsz + 3) / 4) * 4;
+--	if (sendsz > RPC_BUF_MAX) {
+--#ifdef	notyet
+--		buf_alloc = alloca(sendsz);		/* not in IDR2? */
+--#else
+--		buf_alloc = malloc(sendsz);
+--#endif	/* notyet */
+--		if (buf_alloc == NULL) {
+--			if (debugging)
+--				xlog(LOG_DEBUG,
+--					"rpcbproc_callit_com:  No Memory!\n");
+--			if (reply_type == RPCBPROC_INDIRECT)
+--				svcerr_systemerr(transp);
+--			return;
+--		}
+--		a.rmt_args.args = buf_alloc;
+--	} else {
+--		a.rmt_args.args = buf;
+--	}
+-+	sendsz = UDPMSGSIZE;
+- 
+- 	call_msg.rm_xid = 0;	/* For error checking purposes */
+-+	memset(&a, 0, sizeof(a)); /* Zero out the input buffer */
+- 	if (!svc_getargs(transp, (xdrproc_t) xdr_rmtcall_args, (char *) &a)) {
+- 		if (reply_type == RPCBPROC_INDIRECT)
+- 			svcerr_decode(transp);
+-@@ -704,7 +678,8 @@ rpcbproc_callit_com(struct svc_req *rqstp, SVCXPRT *transp,
+- 	if (rbl == (rpcblist_ptr)NULL) {
+- #ifdef RPCBIND_DEBUG
+- 		if (debugging)
+--			xlog(LOG_DEBUG, "not found\n");
+-+			xlog(LOG_DEBUG, "prog %lu vers %lu: not found\n", 
+-+				a.rmt_prog, a.rmt_vers);
+- #endif
+- 		if (reply_type == RPCBPROC_INDIRECT)
+- 			svcerr_noprog(transp);
+-@@ -937,8 +912,6 @@ out:
+- 	}
+- 	if (local_uaddr)
+- 		free(local_uaddr);
+--	if (buf_alloc)
+--		free(buf_alloc);
+- 	if (outbuf_alloc)
+- 		free(outbuf_alloc);
+- 	if (na) {
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
+similarity index 84%
+rename from meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
+rename to meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
+index 3c6774c..7c96aca 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
+@@ -15,13 +15,10 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            file://rpcbind.conf \
+            file://rpcbind.socket \
+            file://rpcbind.service \
+-           file://0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch \
+-           file://pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch \
+-           file://rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch \
+            file://rpcbind_add_option_to_fix_port_number.patch \
+           "
+-SRC_URI[md5sum] = "cf10cd41ed8228fc54c316191c1f07fe"
+-SRC_URI[sha256sum] = "074a9a530dc7c11e0d905aa59bcb0847c009313f02e98d3d798aa9568f414c66"
++SRC_URI[md5sum] = "ed46f09b9c0fa2d49015f6431bc5ea7b"
++SRC_URI[sha256sum] = "2ce360683963b35c19c43f0ee2c7f18aa5b81ef41c3fdbd15ffcb00b8bffda7a"
+ 
+ inherit autotools update-rc.d systemd pkgconfig
+ 
+@@ -48,8 +45,6 @@ PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/
+ EXTRA_OECONF += " --enable-warmstarts --with-rpcuser=rpc"
+ 
+ do_install_append () {
+-	mv ${D}${bindir} ${D}${sbindir}
+-
+ 	install -d ${D}${sysconfdir}/init.d
+ 	sed -e 's,/etc/,${sysconfdir}/,g' \
+ 		-e 's,/sbin/,${sbindir}/,g' \
+-- 
+2.7.4
 
-Will submit v2 with correct Upstream-Status later today
-
--Niko
 
