@@ -1,57 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D9B9E6C3F2
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 878AA6C253
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 16:14:12 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id n4-v6so6249266plp.2
+	Tue, 13 Nov 2018 16:25:59 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id n10-v6so5910774pgv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 08:14:14 -0800 (PST)
+	Tue, 13 Nov 2018 08:26:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=IPnicdvbgJvGk5h+RrZhijvRrxV9bmXJCuCueaSf5SQ=;
-	b=V7Vfak0jLiG16r2MyfA2/PNVf0e8j6DzNddxHtAl6qzUm1W9REK6MWJZLWhyhWIID4
-	cU/HVCcUYm0JDK74a0SLcXuHv7nGWObNSoCSvMQL9zs8Q83MsYVuVisdI0sgCPznMuCf
-	F6oX0dVUQw0h8ep/RNgsLWIcjggCEK8a8GMBQtzgf7mFX8qCgkNj2zDPLz2egaMxFXEd
-	pSN3Fn5Yx/6+s1rT9dpRLlUnvZYbswlDUQOLLlshxQP8oo6xc9gzXCmju3BQz44Ao4lX
-	AQr8sfSUs6AGu4bm1lQjZ6IlSQzZ3ES1F/kT36Ul/tzthu1Q/Nk7/5jE3v4V3Y49wKvz
-	/4NA==
+	bh=IhOoAiuGE63Ui1auclny8ltFQxmjjbVRPlqWiS1P60g=;
+	b=lNZplNOjPQwn3KV3YWJl5hXDkwDhof06c7yttpFLEpymm7JvAegQrfa8HDexyXPtrN
+	qv4toCAxgjJwNpiu6dXtCi31BoGIcOoHr5nuAZMoV80/zAlIAybmU7gERi88jsL91rr1
+	lbPie7G7ggb1FXw3cvRrDB2fCp2epkXVA+LGhHTRfQwEtylWh2aj+Lqgp+6saOh1UC/O
+	V33zI9I3D8w+lYX0kKSpGV/PGIEvRmfdvdE6APajsCYvUQ8m6lIXGs4sZpwKTgEP89ep
+	XqyAkFKQ2qBNwGttpU2pjRaMS/9H5ecILQtKiAbZIxGeZIe0BxOkAwAo+A7hGpPx74a6
+	HY7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=IPnicdvbgJvGk5h+RrZhijvRrxV9bmXJCuCueaSf5SQ=;
-	b=o+ZQXhxVN5pCnSc/eoVqFVY3zi4IVTrDtOelm+z5ufR6SIFD+q4P2HkxYrISJ1vVyI
-	SYctSvwLcc3UJJtzQM/buiPsoKn1vhGYZSjV2ZYlqMu/Ihhi9VyiWu/BVZfTCp0IpYu9
-	PbLzYnv2+1ZDMWX5Ut4h5YuIWScfGA+cWBDCOnHi7wKYeIJsJyL6pZHr/fZryAAhyWo+
-	mgnJALA26xR5nvz/AmmsCnMfxZlhgQKu5mv5/I3Ym2DdYQ6QLS1lnLlFiNA+1VfAXP9y
-	E5MNQ3OCjC7YAEJQ9kMjj1tmfGwor6Bw9D8idyEST4nwMWkd8nfGUfyE7mhQfJVLLQ0J
-	uU0Q==
-X-Gm-Message-State: AGRZ1gJQFINfNpLwu86gaygUV0WKpQKBXTFo2mG4+X78BdyFZnaowouA
-	IPGnRVcrTVfBUfvaeOf6GTt+cuKo
-X-Google-Smtp-Source: AJdET5efwA0XeQZ+cNWU50K95QiRqb7X2pdZC2eG4nC/+uFV8RzgDsZF4gu4/N1gXYONU3VwPvRUYg==
-X-Received: by 2002:a17:902:a81:: with SMTP id
-	1-v6mr5732545plp.20.1542125653060; 
-	Tue, 13 Nov 2018 08:14:13 -0800 (PST)
+	bh=IhOoAiuGE63Ui1auclny8ltFQxmjjbVRPlqWiS1P60g=;
+	b=imzOwWyre/D9angn5eNd46nhoq/lsZpioww69Rp0lCtWJwCBySko3QL9rDeR4ABlup
+	YTdhK05cuw0iQ19lHr8U+FCnVYqbHV1ZV4Gckbme3Uj6NIu+YaPT6NFK0jX2hnAJ0hBm
+	4WWFeOg3bkAJTMzydr9bLxl0wu+jyK22WT+ph/6hyoFnd/Vk1hVNLqNmqos+XVMH/Vl9
+	QjogWqNCoOiymCL5XkdrXNBqOoA1GL7PMZX5QrxzfOi8u9cPPr9aVzEK8DN1JXYxX5Hd
+	Qk+rSVEaixlLLwwoXN4oWuupwqjQnEcewxRg1sFqLzAFKpwPpdby766yigYrQmQ23Y3F
+	32+g==
+X-Gm-Message-State: AGRZ1gIj9Mi4koWet1WkOyOo6ns6FTk01kSzvsKhJtdW8yUGTjAe5CwA
+	M5/lJVQkUBmaIgoo14KhdUUjC/7y
+X-Google-Smtp-Source: AJdET5ewof+ifNW5R5L7rmC1O3/g8gSAu9bwmXHD9x35S+lD0wxIa6z0ulRnplYsP5ChmkD9TOJ1vA==
+X-Received: by 2002:a62:5e46:: with SMTP id
+	s67-v6mr6003209pfb.122.1542126360124; 
+	Tue, 13 Nov 2018 08:26:00 -0800 (PST)
 Received: from ?IPv6:2601:202:4180:c33:75ee:9e74:d500:909d?
 	([2601:202:4180:c33:75ee:9e74:d500:909d])
 	by smtp.gmail.com with ESMTPSA id
-	a17sm24986681pgm.26.2018.11.13.08.14.11
+	n23-v6sm34843167pfg.84.2018.11.13.08.25.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Nov 2018 08:14:12 -0800 (PST)
-To: "Awan, Arsalan" <Arsalan_Awan@mentor.com>,
-	"Mittal, Anuj" <anuj.mittal@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1541168618.git.Arsalan_Awan@mentor.com>
-	<6bf54a814e2aaa03e262aa2edd529405d391ee22.1541168618.git.Arsalan_Awan@mentor.com>
-	<c1316e3a-ec0c-3320-0972-9c7ee532aee8@gmail.com>
-	<1541403256938.5944@mentor.com> <1542106011533.81309@mentor.com>
-	<2b65cd7af45b116efc01a943c002917ddab3ba7e.camel@intel.com>
-	<1542108537484.19904@mentor.com>
+	Tue, 13 Nov 2018 08:25:59 -0800 (PST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20181113103449.27055-1-richard.purdie@linuxfoundation.org>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -97,13 +90,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <cf7c9446-1dca-358c-1aa6-4ecc7760c333@gmail.com>
-Date: Tue, 13 Nov 2018 08:14:10 -0800
+Message-ID: <78404859-91fa-6cbe-6ef2-6f31f3bea81a@gmail.com>
+Date: Tue, 13 Nov 2018 08:25:58 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <1542108537484.19904@mentor.com>
-Subject: Re: [sumo][PATCH 1/1] wic/isoimage-isohybrid.py: fix booting from removable media
+In-Reply-To: <20181113103449.27055-1-richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH] [rocko] python-3.5: Fix manifest to handle reprlib correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -116,44 +109,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2018 16:14:13 -0000
+X-List-Received-Date: Tue, 13 Nov 2018 16:25:59 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
-On 11/13/18 3:28 AM, Awan, Arsalan wrote:
->>> ping
->>>
->>>>> Arsalan,
->>>>>
->>>>>
->>>>> On 11/2/18 8:01 AM, Arsalan Awan wrote:
->>>>>> From: "Arsalan H. Awan" <Arsalan_Awan@mentor.com>
->>>>>>
->>>>>> The EFI bootloader name and path for being able to boot from a
->>>>>> removable storage media - such as USB - must be like:
->>>>>>
->>>>>>    /EFI/BOOT/boot<arch>.efi
->>>>>>    /EFI/BOOT/bootx64.efi
->>>>>>    /EFI/BOOT/bootia32.efi
->>>>>>    /EFI/BOOT/bootaa64.efi
->>>>>>
->>>>>> otherwise system will not be able to boot from it.
->>>>> Is this fixed in Master & Thud ?
->>>>>
->>>>> - armin
->>>> Yes Armin! It is fixed in Thud and Master.
->>>>
->> Would it make more sense to simply backport:
->>
->>
->> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit?id=b591fb889b02ba82e6e35bb64b9fcb313f4bb5cb
+On 11/13/18 2:34 AM, Richard Purdie wrote:
+> The current line is looking for py files in __pycache__ which is incorrect.
+> Fix it to correctly include the right files (modelled after ${PN}-signal).
+>
+> Patch isn't relavent to later releases since manifest generation changed
+> significantly.
+>
+> [YOCTO #12831]
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-got it thanks.
+in rocko-nmut
 
-- armin
+thanks,
 
-> Yes!
-> That would be fine.
+Armin
+
+> ---
+>  meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+>  scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+> index 0260e87e75f..710b22eaa38 100644
+> --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
+> +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+> @@ -194,7 +194,7 @@ FILES_${PN}-readline="${libdir}/python3.5/lib-dynload/readline.*.so ${libdir}/py
+>  
+>  SUMMARY_${PN}-reprlib="Python alternate repr() implementation"
+>  RDEPENDS_${PN}-reprlib="${PN}-core"
+> -FILES_${PN}-reprlib="${libdir}/python3.5/reprlib.py ${libdir}/python3.5/__pycache__/reprlib.py "
+> +FILES_${PN}-reprlib="${libdir}/python3.5/reprlib.* ${libdir}/python3.5/__pycache__/reprlib.* "
+>  
+>  SUMMARY_${PN}-resource="Python resource control interface"
+>  RDEPENDS_${PN}-resource="${PN}-core"
+> diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
+> index 6352f8f1207..750d4fc7548 100755
+> --- a/scripts/contrib/python/generate-manifest-3.5.py
+> +++ b/scripts/contrib/python/generate-manifest-3.5.py
+> @@ -371,7 +371,7 @@ if __name__ == "__main__":
+>      "lib-dynload/readline.*.so rlcompleter.*" )
+>  
+>      m.addPackage( "${PN}-reprlib", "Python alternate repr() implementation", "${PN}-core",
+> -    "reprlib.py" )
+> +    "reprlib.*" )
+>  
+>      m.addPackage( "${PN}-resource", "Python resource control interface", "${PN}-core",
+>      "lib-dynload/resource.*.so" )
 
