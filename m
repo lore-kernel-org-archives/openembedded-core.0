@@ -1,52 +1,54 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 060956C242
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 560A26C27B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 10:17:48 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id 74-v6so12590499wrb.13
+	Tue, 13 Nov 2018 10:17:49 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id r11-v6so11278239wmb.2
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 13 Nov 2018 02:17:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=zyEbVxrbyesmd5NxzDDjndWUzW6n5w4EIt1MJO+B9vU=;
-	b=Hb4zEHv73ySUf8RU9ebMkXuMKPmRXuKKiu3djlqZOAYeaT3Tdaj1v8Wx4dZzwZ7obi
-	lbQL3+ZcaPkPz4K7ATOuCPyOONhrG6WAmCHkV8mLRx4HT5jUoytBvGk3OKNoL8YEEmHI
-	bcfGZdnvHVIDdyMDP8To5erfeRE73lBlZeY0TFTHT+jsQKTxoEyEzusQ2yUEWsCgWtIP
-	HgbuQ9Vp61fcCtp+VzjKQeniCeLolriDGz6AGF+974z9OYT2Nk/S97AiGKxPvqe/KGi8
-	vX0LnjrwKLLCh9reTBJjG6YZdpHHrTvkm2lnTj1bba8rmQMt+5QpqfejbhlQm0Dd2Ox/
-	lVaA==
+	bh=Dsuts024UTG7gqyfv19P3THjdJpsq+10aU5CNnlrTEg=;
+	b=Jsk8NEcfGmsXxcNSmz8JZF0h93d98OSvLih6azsMI4yjsSgdjQSo2rOr3didRGimuj
+	W7ciwpWAlMc/9/smw9yWrE/xx9QG5MUTqabmrgf/l8maevks4HfGZ21QRxIEhLAZrRSj
+	Qbsf6qOMB5Pa8saff4AgWPX2UcVu4b6QDRgsR7la7/S+f2Zj8s0mKeFvT+kE+nahPXtc
+	tzXAP4PQiRkcY+4ZxNFTl0K2tPCfqESHa7idUWayCnTfZJOK42q5IAeC0cZJlqk8G/Oa
+	AqbRe+vyB44XV6kdyaA6mMYcLToCH7Xgo3dvMAl2h3oX2JUlYlh/OLWz2VjCaFmd/JAw
+	k70A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zyEbVxrbyesmd5NxzDDjndWUzW6n5w4EIt1MJO+B9vU=;
-	b=IcKUyliEMFlA9Yz6o7ZIDkg4Ldi67hkLPQrDSfpY2wcj+h5svx6eIbLFcqic7kSicn
-	cXKVHWsW+YxHiWKOanr7KjmOLrfC54qCDmW7y7lm8sJaanGeDYvUtNo+I5FV5UKqxBjJ
-	EDPYcVc1S+OtpEl6XLt3BN4Wi6DuiTJBtcoNfy8W0Q4ZfsEPrzXNB3ac83Vmr/rssTjt
-	hrX41wiKcJ3IxJXoEcB8t8/06TvU8RIhRJ9IOSH3a+bfkUzlxDKZVHIJ9UauhDNoCmCQ
-	Jz17A8WW8oX0fLh+DbDSMKxdFuj0L0DaUGMjeFfXLr7brsFHN+P6rrjhUJYfX1psKNQZ
-	rWeg==
-X-Gm-Message-State: AGRZ1gKRgi9KiHHvcmDi6PhpwK4PDmbqTcJC1tRvHspvPGsST/niI8Ur
-	tKc9RMP6DBvmMC6o/wKV+XrS0Urd
-X-Google-Smtp-Source: AJdET5dn2GImkXBRUMX3zZmqT3l6QeLReXSlwrEbC6H05xPnIAr0y1HH6qScGZngzWKbiK8rgMhVvA==
-X-Received: by 2002:adf:8444:: with SMTP id
-	62-v6mr4137892wrf.251.1542104268705; 
-	Tue, 13 Nov 2018 02:17:48 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Dsuts024UTG7gqyfv19P3THjdJpsq+10aU5CNnlrTEg=;
+	b=mCXURAo+ACmHAbcPTvMj3lYnXis1Sevt3ImNvQ0LE/HKxs6AwAcgft3cMysm7+NfZQ
+	TKwTXtmVdbtUV2nchbkJYAZpQ6ufRj0wLW0F/PkkbtepVVMczw+fIiXEd0bardXzFT1o
+	JjU1gUs4RJNu5ILfK2p2g+M1YyexqV3qdniTwT2tZVLP3MWCcUIRWRGTxbjT1Hr45uUC
+	hpoWRtTunt6wS+agqhYE5rDxCdBTZgKXlGqWQA4KRwNcefWDWflNU9NLFqe5ybbYbQg0
+	nHoGX9mB1IDOpl7oKeogJigUta8cgkJry+WicbA2MrQGzNxZCSlkj25QamvT5CQ3ulhJ
+	Kk7w==
+X-Gm-Message-State: AGRZ1gK21auTnbFQX7flEeIKwoHLFFXNPRnv8S28lTAXpcLvkex2hfFb
+	+Dfskhx92CLbOdHJ+R+oyXRziKdh
+X-Google-Smtp-Source: AJdET5c3LTOe1qTkQxKqvrN0MmhWIP6i1Nl7DMv8sF+QIVk8oKckZLr8Wwd0R28Z19IBYUQ4wr5YKg==
+X-Received: by 2002:a7b:cd14:: with SMTP id
+	f20-v6mr1133367wmj.79.1542104269605; 
+	Tue, 13 Nov 2018 02:17:49 -0800 (PST)
 Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
 	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
-	r64-v6sm10030812wmd.43.2018.11.13.02.17.47
+	r64-v6sm10030812wmd.43.2018.11.13.02.17.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 13 Nov 2018 02:17:47 -0800 (PST)
+	Tue, 13 Nov 2018 02:17:48 -0800 (PST)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2018 11:17:28 +0100
-Message-Id: <20181113101729.19289-1-schnitzeltony@gmail.com>
+Date: Tue, 13 Nov 2018 11:17:29 +0100
+Message-Id: <20181113101729.19289-2-schnitzeltony@gmail.com>
 X-Mailer: git-send-email 2.14.5
+In-Reply-To: <20181113101729.19289-1-schnitzeltony@gmail.com>
+References: <20181113101729.19289-1-schnitzeltony@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] scons.bbclass: Force rebuild if necessary
+Subject: [PATCH 2/2] scons.bbclass: fix indention
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,31 +67,31 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- meta/classes/scons.bbclass | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ meta/classes/scons.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
-index b9ae19d582..286843f74c 100644
+index 286843f74c..9ee7d1587d 100644
 --- a/meta/classes/scons.bbclass
 +++ b/meta/classes/scons.bbclass
-@@ -2,7 +2,16 @@ DEPENDS += "python-scons-native"
- 
- EXTRA_OESCONS ?= ""
- 
--do_configure[noexec] = "1"
-+do_configure() {
-+	if [ -n "${CONFIGURESTAMPFILE}" ]; then
-+		if [ -e "${CONFIGURESTAMPFILE}" -a "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" -a "${CLEANBROKEN}" != "1" ]; then
-+			${STAGING_BINDIR_NATIVE}/scons --clean PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS}
-+		fi
-+
-+		mkdir -p `dirname ${CONFIGURESTAMPFILE}`
-+		echo ${BB_TASKHASH} > ${CONFIGURESTAMPFILE}
-+	fi
-+}
+@@ -14,13 +14,13 @@ do_configure() {
+ }
  
  scons_do_compile() {
-         ${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} || \
+-        ${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} || \
+-        die "scons build execution failed."
++	${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} || \
++	die "scons build execution failed."
+ }
+ 
+ scons_do_install() {
+-        ${STAGING_BINDIR_NATIVE}/scons install_root=${D}${prefix} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} install || \
+-        die "scons install execution failed."
++	${STAGING_BINDIR_NATIVE}/scons install_root=${D}${prefix} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} install || \
++	die "scons install execution failed."
+ }
+ 
+ EXPORT_FUNCTIONS do_compile do_install
 -- 
 2.14.5
 
