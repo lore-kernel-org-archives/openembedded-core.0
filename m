@@ -1,49 +1,40 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (smtprelay.synopsys.com [198.182.60.111])
-	by mail.openembedded.org (Postfix) with ESMTP id 44FE36C2E3
+Return-Path: <Arsalan_Awan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 0010D60043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 10:44:30 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 139E710C1025;
-	Tue, 13 Nov 2018 02:44:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1542105871; bh=8L23jtSR/gNfdj4Gf0qvsX89qtLiqOlsHa+C3U3+XnI=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=Ec2Crh/B8/ut+vJqIREjDgtYWWC4HuMWiV5+szWJAGEI0MBtF23qin5gkRjK14uj0
-	zEZKOjEKiKxu4M+aq2azGsYiRtW1fS9MCSEXcUMLjA69kdawnugJ3hku0cZF7/lOmY
-	kAv119Jql+rMc43FevpOMPdoAm4upZ9U9J6G+AWhfFx4FhcEd7eFdDUQ29sV705jCr
-	n985HUVuYnTSYZAx6KMlD3RnS2ONOGxDh4k/N1+OVUwFv4tW7Sny0BMDqATzsorAx+
-	HyeCnvjGDchXQnWHaFieCr0YbQOLVyBktdSJobc4YJiOLWcA5qtiWiICpbhImoseuF
-	FxL9v6MO8mTRw==
-Received: from US01WEHTC3.internal.synopsys.com
-	(us01wehtc3.internal.synopsys.com [10.15.84.232])
-	by mailhost.synopsys.com (Postfix) with ESMTP id D0E0933DD;
-	Tue, 13 Nov 2018 02:44:30 -0800 (PST)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
-	US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 13 Nov 2018 02:44:30 -0800
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCA.internal.synopsys.com ([::1]) with mapi id
-	14.03.0415.000; Tue, 13 Nov 2018 11:44:25 +0100
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: Vineet Gupta <vineet.gupta1@synopsys.com>
-Thread-Topic: [PATCH] locale: Allow usage of cross-localedef for ARC
-Thread-Index: AQHUetkz7ColVCTGvEaAVPWSK0MAqaVNdTeA
-Date: Tue, 13 Nov 2018 10:44:24 +0000
-Message-ID: <8490c13717fc938a38b53ecbf6e050dfc957787d.camel@synopsys.com>
-References: <20181112224351.2050-1-abrodkin@synopsys.com>
-	<C2D7FE5348E1B147BCA15975FBA23075013A5929B2@us01wembx1.internal.synopsys.com>
-In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075013A5929B2@us01wembx1.internal.synopsys.com>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.30.2 (3.30.2-2.fc29) 
-x-originating-ip: [10.121.8.88]
-MIME-Version: 1.0
-Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+	Tue, 13 Nov 2018 10:46:56 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=svr-ies-mbx-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+	id 1gMWDh-0006jG-6Z from Arsalan_Awan@mentor.com ;
+	Tue, 13 Nov 2018 02:46:57 -0800
+Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
+	svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) with Microsoft SMTP
+	Server (TLS) id 15.0.1320.4; Tue, 13 Nov 2018 10:46:52 +0000
+Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
+	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
+	mapi id 15.00.1320.000; Tue, 13 Nov 2018 10:46:51 +0000
+From: "Awan, Arsalan" <Arsalan_Awan@mentor.com>
+To: akuster808 <akuster808@gmail.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] locale: Allow usage of cross-localedef for ARC
+Thread-Topic: [OE-core] [sumo][PATCH 1/1] wic/isoimage-isohybrid.py: fix
+	booting from removable media
+Thread-Index: AQHUdNlZ0/EsWKHdbkKTyXY3hxfOM6VNkmD4
+Date: Tue, 13 Nov 2018 10:46:51 +0000
+Message-ID: <1542106011533.81309@mentor.com>
+References: <cover.1541168618.git.Arsalan_Awan@mentor.com>
+	<6bf54a814e2aaa03e262aa2edd529405d391ee22.1541168618.git.Arsalan_Awan@mentor.com>,
+	<c1316e3a-ec0c-3320-0972-9c7ee532aee8@gmail.com>,
+	<1541403256938.5944@mentor.com>
+In-Reply-To: <1541403256938.5944@mentor.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.90]
+MIME-Version: 1.0
+Subject: Re: [sumo][PATCH 1/1] wic/isoimage-isohybrid.py: fix booting from removable media
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,85 +47,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2018 10:44:30 -0000
+X-List-Received-Date: Tue, 13 Nov 2018 10:46:57 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <458977B9316AC84DBA84BD916080D76F@internal.synopsys.com>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgVmluZWV0LA0KDQpPbiBNb24sIDIwMTgtMTEtMTIgYXQgMjM6MjIgKzAwMDAsIFZpbmVldCBH
-dXB0YSB3cm90ZToNCj4gDQo+IE9uIDExLzEyLzE4IDI6NDQgUE0sIEFsZXhleSBCcm9ka2luIHdy
-b3RlOg0KPiA+IFdpdGggdGhpcyBpdCdzIHBvc3NpYmxlIHRvIGJ1aWxkIGxvY2FsZSBkYXRhIGZv
-ciBBUkMNCj4gPiBhbmQgbm90IGRvIGl0IGluc3RlYWQgb24gdGhlIGZpcnN0IGJvb3QuDQo+ID4g
-DQo+ID4gU2lnbmVkLW9mZi1ieTogQWxleGV5IEJyb2RraW4gPGFicm9ka2luQHN5bm9wc3lzLmNv
-bT4NCj4gPiAtLS0NCj4gPiAgbWV0YS9jbGFzc2VzL2xpYmMtcGFja2FnZS5iYmNsYXNzICAgICAg
-ICB8IDIgKysNCj4gPiAgbWV0YS9saWIvb2UvcGFja2FnZV9tYW5hZ2VyLnB5ICAgICAgICAgICB8
-IDIgKysNCj4gPiAgbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtbG9jYWxlLmluYyB8IDIg
-Ky0NCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkN
-Cj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2xpYmMtcGFja2FnZS5iYmNsYXNz
-IGIvbWV0YS9jbGFzc2VzL2xpYmMtcGFja2FnZS5iYmNsYXNzDQo+ID4gaW5kZXggOWQwOWM3YmU2
-YS4uNGM2OTRhYjVlMiAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NsYXNzZXMvbGliYy1wYWNrYWdl
-LmJiY2xhc3MNCj4gPiArKysgYi9tZXRhL2NsYXNzZXMvbGliYy1wYWNrYWdlLmJiY2xhc3MNCj4g
-PiBAQCAtMjQyLDYgKzI0Miw4IEBAIHB5dGhvbiBwYWNrYWdlX2RvX3NwbGl0X2djb252cyAoKSB7
-DQo+ID4gICAgICAgICAgaWYgdXNlX2Nyb3NzX2xvY2FsZWRlZiA9PSAiMSI6DQo+ID4gICAgICAg
-ICAgICAgIHRhcmdldF9hcmNoID0gZC5nZXRWYXIoJ1RBUkdFVF9BUkNIJykNCj4gPiAgICAgICAg
-ICAgICAgbG9jYWxlX2FyY2hfb3B0aW9ucyA9IHsgXA0KPiA+ICsgICAgICAgICAgICAgICAgImFy
-YyI6ICAgICAiIC0tdWludDMyLWFsaWduPTQgLS1saXR0bGUtZW5kaWFuICIsIFwNCj4gPiArICAg
-ICAgICAgICAgICAgICJhcmNlYiI6ICAgIiAtLXVpbnQzMi1hbGlnbj00IC0tYmlnLWVuZGlhbiAi
-LCAgICBcDQo+ID4gICAgICAgICAgICAgICAgICAiYXJtIjogICAgICIgLS11aW50MzItYWxpZ249
-NCAtLWxpdHRsZS1lbmRpYW4gIiwgXA0KPiA+ICAgICAgICAgICAgICAgICAgImFybWViIjogICAi
-IC0tdWludDMyLWFsaWduPTQgLS1iaWctZW5kaWFuICIsICAgIFwNCj4gPiAgICAgICAgICAgICAg
-ICAgICJhYXJjaDY0IjogIiAtLXVpbnQzMi1hbGlnbj00IC0tbGl0dGxlLWVuZGlhbiAiLCAgICBc
-DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvbGliL29lL3BhY2thZ2VfbWFuYWdlci5weSBiL21ldGEv
-bGliL29lL3BhY2thZ2VfbWFuYWdlci5weQ0KPiA+IGluZGV4IDg4MmU3YzQyOWYuLmFhNGRlNmU3
-YzMgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9saWIvb2UvcGFja2FnZV9tYW5hZ2VyLnB5DQo+ID4g
-KysrIGIvbWV0YS9saWIvb2UvcGFja2FnZV9tYW5hZ2VyLnB5DQo+ID4gQEAgLTk0LDYgKzk0LDgg
-QEAgZGVmIGdlbmVyYXRlX2xvY2FsZV9hcmNoaXZlKGQsIHJvb3RmcywgdGFyZ2V0X2FyY2gsIGxv
-Y2FsZWRpcik6DQo+ID4gICAgICAjIFByZXR0eSBzdXJlIHdlIGRvbid0IG5lZWQgdGhpcyBmb3Ig
-bG9jYWxlIGFyY2hpdmUgZ2VuZXJhdGlvbiBidXQNCj4gPiAgICAgICMga2VlcGluZyBpdCB0byBi
-ZSBzYWZlLi4uDQo+ID4gICAgICBsb2NhbGVfYXJjaF9vcHRpb25zID0geyBcDQo+ID4gKyAgICAg
-ICAgImFyYyI6IFsiLS11aW50MzItYWxpZ249NCIsICItLWxpdHRsZS1lbmRpYW4iXSwNCj4gPiAr
-ICAgICAgICAiYXJjZWIiOiBbIi0tdWludDMyLWFsaWduPTQiLCAiLS1iaWctZW5kaWFuIl0sDQo+
-ID4gICAgICAgICAgImFybSI6IFsiLS11aW50MzItYWxpZ249NCIsICItLWxpdHRsZS1lbmRpYW4i
-XSwNCj4gPiAgICAgICAgICAiYXJtZWIiOiBbIi0tdWludDMyLWFsaWduPTQiLCAiLS1iaWctZW5k
-aWFuIl0sDQo+ID4gICAgICAgICAgImFhcmNoNjQiOiBbIi0tdWludDMyLWFsaWduPTQiLCAiLS1s
-aXR0bGUtZW5kaWFuIl0sDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJj
-L2dsaWJjLWxvY2FsZS5pbmMgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy1sb2NhbGUu
-aW5jDQo+ID4gaW5kZXggMWI2NzZkYzI2ZS4uNTdiNDY1ZGQ1ZCAxMDA2NDQNCj4gPiAtLS0gYS9t
-ZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy1sb2NhbGUuaW5jDQo+ID4gKysrIGIvbWV0YS9y
-ZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtbG9jYWxlLmluYw0KPiA+IEBAIC0yNyw3ICsyNyw3IEBA
-IEVOQUJMRV9CSU5BUllfTE9DQUxFX0dFTkVSQVRJT05fcG4tbmF0aXZlc2RrLWdsaWJjLWxvY2Fs
-ZSA9ICIxIg0KPiA+ICANCj4gPiAgI2VuYWJsZSBsb2NhbGUgZ2VuZXJhdGlvbiBvbiB0aGVzZSBh
-cmNoZXMNCj4gPiAgIyBCSU5BUllfTE9DQUxFX0FSQ0hFUyBpcyBhIHNwYWNlIHNlcGFyYXRlZCBs
-aXN0IG9mIHJlZ3VsYXIgZXhwcmVzc2lvbnMNCj4gPiAtQklOQVJZX0xPQ0FMRV9BUkNIRVMgPz0g
-ImFybS4qIGFhcmNoNjQgaVszLTZdODYgeDg2XzY0IHBvd2VycGMgbWlwcyBtaXBzNjQgcmlzY3Yz
-MiByaXNjdjY0Ig0KPiA+ICtCSU5BUllfTE9DQUxFX0FSQ0hFUyA/PSAiYXJjIGFybS4qIGFhcmNo
-NjQgaVszLTZdODYgeDg2XzY0IHBvd2VycGMgbWlwcyBtaXBzNjQgcmlzY3YzMiByaXNjdjY0Ig0K
-PiA+ICANCj4gPiAgIyBzZXQgIjEiIHRvIHVzZSBjcm9zcy1sb2NhbGVkZWYgZm9yIGxvY2FsZSBn
-ZW5lcmF0aW9uDQo+ID4gICMgc2V0ICIwIiBmb3IgcWVtdSBlbXVsYXRpb24gb2YgbmF0aXZlIGxv
-Y2FsZWRlZiBmb3IgbG9jYWxlIGdlbmVyYXRpb24NCj4gDQo+IEludGVyZXN0aW5nOiBIb3cgZG8g
-d2UgZG8gdGhhdCBmb3Igb3RoZXIgYnVpbGRzeXN0ZW1zIC8gYnVpbGRyb290IG9yIHdoZW4gYnVp
-bGRpbmcNCj4gYnkgaGFuZCA/DQoNCjEuIEJ1aWxkcm9vdA0KDQpJbiBidWlsZHJvb3Qgd2UgZG8g
-cHJldHR5LW11Y2ggdGhlIHNhbWUgdGhpbmdzLCBzZWUNCmh0dHBzOi8vZ2l0LmJ1aWxkcm9vdC5v
-cmcvYnVpbGRyb290L3RyZWUvTWFrZWZpbGUjbjY0MA0KDQpXZSBidWlsZCBsb2NhbGVkZWYgKHdp
-dGggaGVscCBvZiAiaG9zdC1sb2NhbGVkZWYiIHBhY2thZ2UpIGFuZA0KdGhlbiBnZW5lcmF0ZSBy
-ZXF1ZXN0ZWQgbG9jYWxlcyBmb3IgdGhlIHRhcmdldC4NCg0KMi4gQ3Jvc3N0b29sLU5HDQoNCkhl
-cmUgd2UganVzdCBidWlsZCBsb2NhbGVzIG9uIGhvc3QgYW5kIGNvcHkgdGhlbSBvdmVyIHRvDQpi
-dWlsdCBjcm9zcy10b29sY2hhaW4sIHNlZQ0KaHR0cHM6Ly9naXRodWIuY29tL2Nyb3NzdG9vbC1u
-Zy9jcm9zc3Rvb2wtbmcvYmxvYi9tYXN0ZXIvc2NyaXB0cy9idWlsZC9saWJjL2dsaWJjLnNoI0w0
-ODINCg0KVGhlIHByb2JsZW0gaGVyZSAoYW5kIHRoaXMgaXMgZXhwbGljaXRseSBtZW50aW9uZWQg
-aW4gdGhlIHNjcmlwdCBhYm92ZSkgLQ0KdGhpcyBsb2NhbGUgb25seSBtYWtlcyBzZW5zZSBpZiBo
-b3N0IGFuZCB0YXJnZXQgaGF2ZSB0aGUgc2FtZSB1aW50MzJfdCBhbGlnbm1lbnQNCmFuZCBlbmRp
-YW5lc3MsIHNlZSBodHRwczovL2dpdGh1Yi5jb20vY3Jvc3N0b29sLW5nL2Nyb3NzdG9vbC1uZy9i
-bG9iL21hc3Rlci9zY3JpcHRzL2J1aWxkL2xpYmMvZ2xpYmMuc2gjTDUzMw0KDQpTbyBpZiB3ZSdy
-ZSBsdWNreSB3ZSBtYXkgZ2V0IHVzZWZ1bCBsb2NhbGVzLiBUaG91Z2ggdGhlcmUncyBhbm90aGVy
-IGNhdmVhdDoNCkdsaWJjIDIuMjggcmVxdWlyZXMgR0NDIDQuOSsgd2hpY2ggbWVhbnMgeW91IGNh
-bm5vdCBidWlsZCBsb2NhbGVzIGZvciB0YXJnZXQNCm9uIENlbnRPUy9SSEVMIG1hY2hpbmUgYW55
-IGxvbmdlciBhcyBHQ0MgNC44IGlzIHVzZWQgYnkgZGVmYXVsdC4NCg0KMy4gTWFudWFsbHkgeW91
-J3JlIGZyZWUgdG8gZG8gd2hhdGV2ZXIgcGxlYXNlcyB5b3UgYnV0DQogICBzaW5jZSB3ZSBjcm9z
-cy1jb21waWxlIHlvdSdkIG5lZWQgdG8gdXNlIG9uZSBvZiBvcHRpb25zIGRpc2N1c3NlZCBhYm92
-ZToNCiAgICAgYSkgVXNlIGxvY2FsZWRlZiAoaHR0cDovL3d3dy5wZW5ndXRyb25peC5kZS9zb2Z0
-d2FyZS9wdHhkaXN0L3RlbXBvcmFyeS1zcmMvbG9jYWxlZGVmLWVnbGliYy0yLjE0LjEtcjE3NDQz
-LXB0eDEudGFyLmJ6MikNCiAgICAgYikgQnVpbGQgbmF0aXZlbHkgb24gaG9zdCBhbmQgaW5zdGFs
-bCBvbiB0YXJnZXQNCg0KLUFsZXhleQ0K
+ping=0A=
+=0A=
+> > Arsalan,=0A=
+> >=0A=
+> >=0A=
+> > On 11/2/18 8:01 AM, Arsalan Awan wrote:=0A=
+> > > From: "Arsalan H. Awan" <Arsalan_Awan@mentor.com>=0A=
+> > >=0A=
+> > > The EFI bootloader name and path for being able to boot from a=0A=
+> > > removable storage media - such as USB - must be like:=0A=
+> > >=0A=
+> > >   /EFI/BOOT/boot<arch>.efi=0A=
+> > >   /EFI/BOOT/bootx64.efi=0A=
+> > >   /EFI/BOOT/bootia32.efi=0A=
+> > >   /EFI/BOOT/bootaa64.efi=0A=
+> > >=0A=
+> > > otherwise system will not be able to boot from it.=0A=
+> >=0A=
+> > Is this fixed in Master & Thud ?=0A=
+> >=0A=
+> > - armin=0A=
+> =0A=
+> Yes Armin! It is fixed in Thud and Master.=0A=
+> =0A=
+> -=0A=
+> Arsalan=0A=
+> =0A=
+> >=0A=
+> > >=0A=
+> > > This commit fixes the grub-efi bootloader destination image name=0A=
+> > > accordingly just like efi_populate() function does it in=0A=
+> > > meta/classes/grub-efi.bbclass.=0A=
+> > >=0A=
+> > > Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>=0A=
+> > > ---=0A=
+> > >  scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 4 +++-=0A=
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)=0A=
+> > >=0A=
+> > > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/s=
+cripts/lib/wic/plugins/source/isoimage-isohybrid.py=0A=
+> > > index d6bd3bf..9a30713 100644=0A=
+> > > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py=0A=
+> > > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py=0A=
+> > > @@ -329,13 +329,15 @@ class IsoImagePlugin(SourcePlugin):=0A=
+> > >=0A=
+> > >                  if re.match("x86_64", target_arch):=0A=
+> > >                      grub_image =3D "grub-efi-bootx64.efi"=0A=
+> > > +                    grub_image_dst =3D "bootx64.efi"=0A=
+> > >                  elif re.match('i.86', target_arch):=0A=
+> > >                      grub_image =3D "grub-efi-bootia32.efi"=0A=
+> > > +                    grub_image_dst =3D "bootia32.efi"=0A=
+> > >                  else:=0A=
+> > >                      raise WicError("grub-efi is incompatible with ta=
+rget %s" %=0A=
+> > >                                     target_arch)=0A=
+> > >=0A=
+> > > -                grub_target =3D os.path.join(target_dir, grub_image)=
+=0A=
+> > > +                grub_target =3D os.path.join(target_dir, grub_image_=
+dst)=0A=
+> > >                  if not os.path.isfile(grub_target):=0A=
+> > >                      grub_src =3D os.path.join(deploy_dir, grub_image=
+)=0A=
+> > >                      if not os.path.exists(grub_src):=0A=
 
