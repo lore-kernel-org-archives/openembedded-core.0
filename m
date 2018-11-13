@@ -1,47 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id D52996C29F
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (smtprelay.synopsys.com [198.182.60.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 44FE36C2E3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 10:34:50 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id e3-v6so12701613wrs.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 02:34:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=KCybKveEbu7OlZs7JxWu201hHq88f9XEVAJBz6KP2QQ=;
-	b=EjLSvIsRuvCHKRfbDrMdUra3sQPs/EdxcT5G3Jd0sfNJpTjHYUc/DK2x0zbXMvDX8y
-	PWn4LVi7pfgvDwe9d+0kxADl5+EtUv1I2aS/7d/IsLzCZih1TKbfJA/4cDxytzrIE+I7
-	JalT46FlJEs7Qqeja/pT2xIbNOabJQ9ePzRxE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=KCybKveEbu7OlZs7JxWu201hHq88f9XEVAJBz6KP2QQ=;
-	b=H4x6Qm3ENFdMG0hgaDXAdSMFvT4V+TW5Bpc9xH6U709/Ln9NyfCYSpP6rybeI/X4/W
-	JwZ7+z95a0+lf9F1wIKp3rRGe5OIDvHcIXuqRo6tYYC6jfuzfMAj/8e2OUYU8T+skbqU
-	t55pn4r2S5Q9i8Uyzo1ZNPMSf3MJag1TrJlOcSjRmhwPG8yBvtzoPwARof7jR1CcmMZK
-	x9GZOAIDKI++J6fD8IkqLsif7tY2i4xG5yfeXuUv37C3mPgOIEhEZZiguTn8WcjZszlY
-	zddsR2K9aSrRv8qG/381NujE+rntcQMNbJP8dFmLDarBJvj+kcfVWKWEzTS9W1msUrDU
-	qx6w==
-X-Gm-Message-State: AGRZ1gL56G8vK21sjCuwkIPvlieF9ueRFpTYzsSuIaF6LDhPDU+NBb7c
-	0c039AxyX+omrEWT6/1d7Vi2rUbJdOo=
-X-Google-Smtp-Source: AJdET5eXbiQKqM55Rdy46vVDtbc1eAyJEK1zSe470qRbEz3clSlSuCLAr5EYC2dfgOU3VEDrieIfkQ==
-X-Received: by 2002:adf:a386:: with SMTP id
-	l6-v6mr4755368wrb.110.1542105290913; 
-	Tue, 13 Nov 2018 02:34:50 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o126-v6sm9054147wmo.3.2018.11.13.02.34.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Nov 2018 02:34:50 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2018 10:34:49 +0000
-Message-Id: <20181113103449.27055-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] [rocko] python-3.5: Fix manifest to handle reprlib correctly
+	Tue, 13 Nov 2018 10:44:30 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id 139E710C1025;
+	Tue, 13 Nov 2018 02:44:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1542105871; bh=8L23jtSR/gNfdj4Gf0qvsX89qtLiqOlsHa+C3U3+XnI=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=Ec2Crh/B8/ut+vJqIREjDgtYWWC4HuMWiV5+szWJAGEI0MBtF23qin5gkRjK14uj0
+	zEZKOjEKiKxu4M+aq2azGsYiRtW1fS9MCSEXcUMLjA69kdawnugJ3hku0cZF7/lOmY
+	kAv119Jql+rMc43FevpOMPdoAm4upZ9U9J6G+AWhfFx4FhcEd7eFdDUQ29sV705jCr
+	n985HUVuYnTSYZAx6KMlD3RnS2ONOGxDh4k/N1+OVUwFv4tW7Sny0BMDqATzsorAx+
+	HyeCnvjGDchXQnWHaFieCr0YbQOLVyBktdSJobc4YJiOLWcA5qtiWiICpbhImoseuF
+	FxL9v6MO8mTRw==
+Received: from US01WEHTC3.internal.synopsys.com
+	(us01wehtc3.internal.synopsys.com [10.15.84.232])
+	by mailhost.synopsys.com (Postfix) with ESMTP id D0E0933DD;
+	Tue, 13 Nov 2018 02:44:30 -0800 (PST)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+	US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Tue, 13 Nov 2018 02:44:30 -0800
+Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
+	by DE02WEHTCA.internal.synopsys.com ([::1]) with mapi id
+	14.03.0415.000; Tue, 13 Nov 2018 11:44:25 +0100
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: Vineet Gupta <vineet.gupta1@synopsys.com>
+Thread-Topic: [PATCH] locale: Allow usage of cross-localedef for ARC
+Thread-Index: AQHUetkz7ColVCTGvEaAVPWSK0MAqaVNdTeA
+Date: Tue, 13 Nov 2018 10:44:24 +0000
+Message-ID: <8490c13717fc938a38b53ecbf6e050dfc957787d.camel@synopsys.com>
+References: <20181112224351.2050-1-abrodkin@synopsys.com>
+	<C2D7FE5348E1B147BCA15975FBA23075013A5929B2@us01wembx1.internal.synopsys.com>
+In-Reply-To: <C2D7FE5348E1B147BCA15975FBA23075013A5929B2@us01wembx1.internal.synopsys.com>
+Accept-Language: en-US, ru-RU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.30.2 (3.30.2-2.fc29) 
+x-originating-ip: [10.121.8.88]
+MIME-Version: 1.0
+Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] locale: Allow usage of cross-localedef for ARC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,49 +56,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2018 10:34:51 -0000
+X-List-Received-Date: Tue, 13 Nov 2018 10:44:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <458977B9316AC84DBA84BD916080D76F@internal.synopsys.com>
+Content-Transfer-Encoding: base64
 
-The current line is looking for py files in __pycache__ which is incorrect.
-Fix it to correctly include the right files (modelled after ${PN}-signal).
-
-Patch isn't relavent to later releases since manifest generation changed
-significantly.
-
-[YOCTO #12831]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
- scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index 0260e87e75f..710b22eaa38 100644
---- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -194,7 +194,7 @@ FILES_${PN}-readline="${libdir}/python3.5/lib-dynload/readline.*.so ${libdir}/py
- 
- SUMMARY_${PN}-reprlib="Python alternate repr() implementation"
- RDEPENDS_${PN}-reprlib="${PN}-core"
--FILES_${PN}-reprlib="${libdir}/python3.5/reprlib.py ${libdir}/python3.5/__pycache__/reprlib.py "
-+FILES_${PN}-reprlib="${libdir}/python3.5/reprlib.* ${libdir}/python3.5/__pycache__/reprlib.* "
- 
- SUMMARY_${PN}-resource="Python resource control interface"
- RDEPENDS_${PN}-resource="${PN}-core"
-diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
-index 6352f8f1207..750d4fc7548 100755
---- a/scripts/contrib/python/generate-manifest-3.5.py
-+++ b/scripts/contrib/python/generate-manifest-3.5.py
-@@ -371,7 +371,7 @@ if __name__ == "__main__":
-     "lib-dynload/readline.*.so rlcompleter.*" )
- 
-     m.addPackage( "${PN}-reprlib", "Python alternate repr() implementation", "${PN}-core",
--    "reprlib.py" )
-+    "reprlib.*" )
- 
-     m.addPackage( "${PN}-resource", "Python resource control interface", "${PN}-core",
-     "lib-dynload/resource.*.so" )
--- 
-2.17.1
-
+SGkgVmluZWV0LA0KDQpPbiBNb24sIDIwMTgtMTEtMTIgYXQgMjM6MjIgKzAwMDAsIFZpbmVldCBH
+dXB0YSB3cm90ZToNCj4gDQo+IE9uIDExLzEyLzE4IDI6NDQgUE0sIEFsZXhleSBCcm9ka2luIHdy
+b3RlOg0KPiA+IFdpdGggdGhpcyBpdCdzIHBvc3NpYmxlIHRvIGJ1aWxkIGxvY2FsZSBkYXRhIGZv
+ciBBUkMNCj4gPiBhbmQgbm90IGRvIGl0IGluc3RlYWQgb24gdGhlIGZpcnN0IGJvb3QuDQo+ID4g
+DQo+ID4gU2lnbmVkLW9mZi1ieTogQWxleGV5IEJyb2RraW4gPGFicm9ka2luQHN5bm9wc3lzLmNv
+bT4NCj4gPiAtLS0NCj4gPiAgbWV0YS9jbGFzc2VzL2xpYmMtcGFja2FnZS5iYmNsYXNzICAgICAg
+ICB8IDIgKysNCj4gPiAgbWV0YS9saWIvb2UvcGFja2FnZV9tYW5hZ2VyLnB5ICAgICAgICAgICB8
+IDIgKysNCj4gPiAgbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtbG9jYWxlLmluYyB8IDIg
+Ky0NCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkN
+Cj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2xpYmMtcGFja2FnZS5iYmNsYXNz
+IGIvbWV0YS9jbGFzc2VzL2xpYmMtcGFja2FnZS5iYmNsYXNzDQo+ID4gaW5kZXggOWQwOWM3YmU2
+YS4uNGM2OTRhYjVlMiAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NsYXNzZXMvbGliYy1wYWNrYWdl
+LmJiY2xhc3MNCj4gPiArKysgYi9tZXRhL2NsYXNzZXMvbGliYy1wYWNrYWdlLmJiY2xhc3MNCj4g
+PiBAQCAtMjQyLDYgKzI0Miw4IEBAIHB5dGhvbiBwYWNrYWdlX2RvX3NwbGl0X2djb252cyAoKSB7
+DQo+ID4gICAgICAgICAgaWYgdXNlX2Nyb3NzX2xvY2FsZWRlZiA9PSAiMSI6DQo+ID4gICAgICAg
+ICAgICAgIHRhcmdldF9hcmNoID0gZC5nZXRWYXIoJ1RBUkdFVF9BUkNIJykNCj4gPiAgICAgICAg
+ICAgICAgbG9jYWxlX2FyY2hfb3B0aW9ucyA9IHsgXA0KPiA+ICsgICAgICAgICAgICAgICAgImFy
+YyI6ICAgICAiIC0tdWludDMyLWFsaWduPTQgLS1saXR0bGUtZW5kaWFuICIsIFwNCj4gPiArICAg
+ICAgICAgICAgICAgICJhcmNlYiI6ICAgIiAtLXVpbnQzMi1hbGlnbj00IC0tYmlnLWVuZGlhbiAi
+LCAgICBcDQo+ID4gICAgICAgICAgICAgICAgICAiYXJtIjogICAgICIgLS11aW50MzItYWxpZ249
+NCAtLWxpdHRsZS1lbmRpYW4gIiwgXA0KPiA+ICAgICAgICAgICAgICAgICAgImFybWViIjogICAi
+IC0tdWludDMyLWFsaWduPTQgLS1iaWctZW5kaWFuICIsICAgIFwNCj4gPiAgICAgICAgICAgICAg
+ICAgICJhYXJjaDY0IjogIiAtLXVpbnQzMi1hbGlnbj00IC0tbGl0dGxlLWVuZGlhbiAiLCAgICBc
+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvbGliL29lL3BhY2thZ2VfbWFuYWdlci5weSBiL21ldGEv
+bGliL29lL3BhY2thZ2VfbWFuYWdlci5weQ0KPiA+IGluZGV4IDg4MmU3YzQyOWYuLmFhNGRlNmU3
+YzMgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9saWIvb2UvcGFja2FnZV9tYW5hZ2VyLnB5DQo+ID4g
+KysrIGIvbWV0YS9saWIvb2UvcGFja2FnZV9tYW5hZ2VyLnB5DQo+ID4gQEAgLTk0LDYgKzk0LDgg
+QEAgZGVmIGdlbmVyYXRlX2xvY2FsZV9hcmNoaXZlKGQsIHJvb3RmcywgdGFyZ2V0X2FyY2gsIGxv
+Y2FsZWRpcik6DQo+ID4gICAgICAjIFByZXR0eSBzdXJlIHdlIGRvbid0IG5lZWQgdGhpcyBmb3Ig
+bG9jYWxlIGFyY2hpdmUgZ2VuZXJhdGlvbiBidXQNCj4gPiAgICAgICMga2VlcGluZyBpdCB0byBi
+ZSBzYWZlLi4uDQo+ID4gICAgICBsb2NhbGVfYXJjaF9vcHRpb25zID0geyBcDQo+ID4gKyAgICAg
+ICAgImFyYyI6IFsiLS11aW50MzItYWxpZ249NCIsICItLWxpdHRsZS1lbmRpYW4iXSwNCj4gPiAr
+ICAgICAgICAiYXJjZWIiOiBbIi0tdWludDMyLWFsaWduPTQiLCAiLS1iaWctZW5kaWFuIl0sDQo+
+ID4gICAgICAgICAgImFybSI6IFsiLS11aW50MzItYWxpZ249NCIsICItLWxpdHRsZS1lbmRpYW4i
+XSwNCj4gPiAgICAgICAgICAiYXJtZWIiOiBbIi0tdWludDMyLWFsaWduPTQiLCAiLS1iaWctZW5k
+aWFuIl0sDQo+ID4gICAgICAgICAgImFhcmNoNjQiOiBbIi0tdWludDMyLWFsaWduPTQiLCAiLS1s
+aXR0bGUtZW5kaWFuIl0sDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJj
+L2dsaWJjLWxvY2FsZS5pbmMgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy1sb2NhbGUu
+aW5jDQo+ID4gaW5kZXggMWI2NzZkYzI2ZS4uNTdiNDY1ZGQ1ZCAxMDA2NDQNCj4gPiAtLS0gYS9t
+ZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy1sb2NhbGUuaW5jDQo+ID4gKysrIGIvbWV0YS9y
+ZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtbG9jYWxlLmluYw0KPiA+IEBAIC0yNyw3ICsyNyw3IEBA
+IEVOQUJMRV9CSU5BUllfTE9DQUxFX0dFTkVSQVRJT05fcG4tbmF0aXZlc2RrLWdsaWJjLWxvY2Fs
+ZSA9ICIxIg0KPiA+ICANCj4gPiAgI2VuYWJsZSBsb2NhbGUgZ2VuZXJhdGlvbiBvbiB0aGVzZSBh
+cmNoZXMNCj4gPiAgIyBCSU5BUllfTE9DQUxFX0FSQ0hFUyBpcyBhIHNwYWNlIHNlcGFyYXRlZCBs
+aXN0IG9mIHJlZ3VsYXIgZXhwcmVzc2lvbnMNCj4gPiAtQklOQVJZX0xPQ0FMRV9BUkNIRVMgPz0g
+ImFybS4qIGFhcmNoNjQgaVszLTZdODYgeDg2XzY0IHBvd2VycGMgbWlwcyBtaXBzNjQgcmlzY3Yz
+MiByaXNjdjY0Ig0KPiA+ICtCSU5BUllfTE9DQUxFX0FSQ0hFUyA/PSAiYXJjIGFybS4qIGFhcmNo
+NjQgaVszLTZdODYgeDg2XzY0IHBvd2VycGMgbWlwcyBtaXBzNjQgcmlzY3YzMiByaXNjdjY0Ig0K
+PiA+ICANCj4gPiAgIyBzZXQgIjEiIHRvIHVzZSBjcm9zcy1sb2NhbGVkZWYgZm9yIGxvY2FsZSBn
+ZW5lcmF0aW9uDQo+ID4gICMgc2V0ICIwIiBmb3IgcWVtdSBlbXVsYXRpb24gb2YgbmF0aXZlIGxv
+Y2FsZWRlZiBmb3IgbG9jYWxlIGdlbmVyYXRpb24NCj4gDQo+IEludGVyZXN0aW5nOiBIb3cgZG8g
+d2UgZG8gdGhhdCBmb3Igb3RoZXIgYnVpbGRzeXN0ZW1zIC8gYnVpbGRyb290IG9yIHdoZW4gYnVp
+bGRpbmcNCj4gYnkgaGFuZCA/DQoNCjEuIEJ1aWxkcm9vdA0KDQpJbiBidWlsZHJvb3Qgd2UgZG8g
+cHJldHR5LW11Y2ggdGhlIHNhbWUgdGhpbmdzLCBzZWUNCmh0dHBzOi8vZ2l0LmJ1aWxkcm9vdC5v
+cmcvYnVpbGRyb290L3RyZWUvTWFrZWZpbGUjbjY0MA0KDQpXZSBidWlsZCBsb2NhbGVkZWYgKHdp
+dGggaGVscCBvZiAiaG9zdC1sb2NhbGVkZWYiIHBhY2thZ2UpIGFuZA0KdGhlbiBnZW5lcmF0ZSBy
+ZXF1ZXN0ZWQgbG9jYWxlcyBmb3IgdGhlIHRhcmdldC4NCg0KMi4gQ3Jvc3N0b29sLU5HDQoNCkhl
+cmUgd2UganVzdCBidWlsZCBsb2NhbGVzIG9uIGhvc3QgYW5kIGNvcHkgdGhlbSBvdmVyIHRvDQpi
+dWlsdCBjcm9zcy10b29sY2hhaW4sIHNlZQ0KaHR0cHM6Ly9naXRodWIuY29tL2Nyb3NzdG9vbC1u
+Zy9jcm9zc3Rvb2wtbmcvYmxvYi9tYXN0ZXIvc2NyaXB0cy9idWlsZC9saWJjL2dsaWJjLnNoI0w0
+ODINCg0KVGhlIHByb2JsZW0gaGVyZSAoYW5kIHRoaXMgaXMgZXhwbGljaXRseSBtZW50aW9uZWQg
+aW4gdGhlIHNjcmlwdCBhYm92ZSkgLQ0KdGhpcyBsb2NhbGUgb25seSBtYWtlcyBzZW5zZSBpZiBo
+b3N0IGFuZCB0YXJnZXQgaGF2ZSB0aGUgc2FtZSB1aW50MzJfdCBhbGlnbm1lbnQNCmFuZCBlbmRp
+YW5lc3MsIHNlZSBodHRwczovL2dpdGh1Yi5jb20vY3Jvc3N0b29sLW5nL2Nyb3NzdG9vbC1uZy9i
+bG9iL21hc3Rlci9zY3JpcHRzL2J1aWxkL2xpYmMvZ2xpYmMuc2gjTDUzMw0KDQpTbyBpZiB3ZSdy
+ZSBsdWNreSB3ZSBtYXkgZ2V0IHVzZWZ1bCBsb2NhbGVzLiBUaG91Z2ggdGhlcmUncyBhbm90aGVy
+IGNhdmVhdDoNCkdsaWJjIDIuMjggcmVxdWlyZXMgR0NDIDQuOSsgd2hpY2ggbWVhbnMgeW91IGNh
+bm5vdCBidWlsZCBsb2NhbGVzIGZvciB0YXJnZXQNCm9uIENlbnRPUy9SSEVMIG1hY2hpbmUgYW55
+IGxvbmdlciBhcyBHQ0MgNC44IGlzIHVzZWQgYnkgZGVmYXVsdC4NCg0KMy4gTWFudWFsbHkgeW91
+J3JlIGZyZWUgdG8gZG8gd2hhdGV2ZXIgcGxlYXNlcyB5b3UgYnV0DQogICBzaW5jZSB3ZSBjcm9z
+cy1jb21waWxlIHlvdSdkIG5lZWQgdG8gdXNlIG9uZSBvZiBvcHRpb25zIGRpc2N1c3NlZCBhYm92
+ZToNCiAgICAgYSkgVXNlIGxvY2FsZWRlZiAoaHR0cDovL3d3dy5wZW5ndXRyb25peC5kZS9zb2Z0
+d2FyZS9wdHhkaXN0L3RlbXBvcmFyeS1zcmMvbG9jYWxlZGVmLWVnbGliYy0yLjE0LjEtcjE3NDQz
+LXB0eDEudGFyLmJ6MikNCiAgICAgYikgQnVpbGQgbmF0aXZlbHkgb24gaG9zdCBhbmQgaW5zdGFs
+bCBvbiB0YXJnZXQNCg0KLUFsZXhleQ0K
 
