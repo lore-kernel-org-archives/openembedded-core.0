@@ -1,51 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f181.google.com (mail-it1-f181.google.com
-	[209.85.166.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 305DC6C183
+Return-Path: <zboszor@pr.hu>
+Received: from mail7.pr.hu (mail7.pr.hu [87.242.0.7])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E1F96C2CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 11:49:01 +0000 (UTC)
-Received: by mail-it1-f181.google.com with SMTP id k141-v6so23400538itk.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 03:49:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=sT5RBlJtgDnGuVQCayTe7DyQ1HKxcL2gH7DaEF+VFzY=;
-	b=OU7FtAy5Tef71Q1UKewZ3wKiKao2nXdAHSTHhNUhAok+UUrQJMwNkXKstSb6BpbL5V
-	EV9QCTgXEkEgU/Zb+o/a9qFSSMAkPSLZM1d+FQjCWsAWJg7XMhjGRAshOAe3dsXzwVNf
-	Izb2VZAilVy0NmX1splFxnoWELzu78+Df245Pl5wTprIKxaPMiJqhMlW0qJMiLwXBd3t
-	bVpakxggAMtDWM7wj2WU3gAwpnEfSltuIh7AKdFvL5i3C1T1BjbdWqLTP9EuWNLLlZ24
-	tLp0ePrVDpS5gW9Npwl1M9bK/aTAlRm2pC0kHMQt+yCllxJM9yRDi/ynrN9fEPq3vKnM
-	41+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=sT5RBlJtgDnGuVQCayTe7DyQ1HKxcL2gH7DaEF+VFzY=;
-	b=hCvXj4tN4zKrWa8rUwUIcREz6OI0c4CIjQld59m8tVXvBTWQI1oZ41lp1mZo4p38M6
-	52AbGvl5uPSNT2VPXjDyeakyKdtL60koRGwig/lCzgZm2f6S5N0i6kvC+o+zD9V/u1ON
-	SzIA1SKD7d54imwrVuCdiekIjWHZ8R8mmGRGo+kbKudQ4veWwycfAKIDB4eeEyXQUCMo
-	7UcmJKtDJtbRIhv4emdTb48EILPfc8la17XaYQvuwttjMF+vUjng4g+PwnZBLeAtNwcB
-	YZwAbsUNjMlOhJVMyxL3CQ01ofodmmEB/oZY/CNcy/cHMWJ+SidoWuwFs9oJc13lBJ5G
-	Zr/g==
-X-Gm-Message-State: AGRZ1gL17mJAmTff1Pici3Cfwt/CRi5I72TdXxm6lwAFKsgo79Gtv5/b
-	weH01UQ761Tv49QJiHiaKXBVhiQzGxW6e/7NPuSchg==
-X-Google-Smtp-Source: AFSGD/UG3jsoNaJ1amf6bT/YTSB7RpkW6npz8I8L9QARIbIhAXqoeSuvBADjFByGpAuOrNSVAlxICG9DKkpxUMmN3TI=
-X-Received: by 2002:a24:9142:: with SMTP id
-	i63-v6mr1766177ite.130.1542196142287; 
-	Wed, 14 Nov 2018 03:49:02 -0800 (PST)
+	Wed, 14 Nov 2018 13:22:26 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>) id 1gMv7j-0008At-1p
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Nov 2018 14:22:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=To3NNfgVDmkh1JSlDOB7FK7UhcsoPG0SqF52t3V+MZk=;
+	b=Qdbh7B6Y5hWDu6lbL7izoNoObC
+	wy5lCAIx0i3AzyV/GFjbhxQBlutbW4V+QGLIw6UXudmHHRLxXXbZhBWw7vFwkfjbn2dDOZsz9gGt7
+	Fyj6rs5zsZKKS7Ilod/EuucqVSrZISeOYD+XTQ6UhX76uhSRML6DvJOJ1xO//St9zzFkpuQlJlxPD
+	cq/gLULSu3MwIB3PnAelneqprqcjr3BULm7rwO4SqevKmmU0XLLWuGFSoshttHcZwxuh6UEkjqVTT
+	Fuh+05VLXTnnXkUcpl4dU+smWwyLmAUR3YMf/76flDTdjerQqO1EJeyZMnjiO1wXYNQRErcdsWd43
+	lpoQ1KnQ==;
+Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
+	helo=zolilaptop.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1gMv7d-0007lC-5W; Wed, 14 Nov 2018 14:22:24 +0100
+From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Nov 2018 14:22:14 +0100
+Message-Id: <20181114132214.8694-1-zboszor@pr.hu>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <CAD9sEJu_CbZYAGCiytx1GuM+HEQ+ar8mRG+aWG55dRe_okpK8Q@mail.gmail.com>
-	<CAJTo0LY4jYkwWH0LEjzoAmjPWpm3W7P0m45YSWC7CfTW11P_CQ@mail.gmail.com>
-	<CAD9sEJsfnEMaPpREK26BoXqteh+3yXw3Uy6jQThBJMnnomJ3EA@mail.gmail.com>
-In-Reply-To: <CAD9sEJsfnEMaPpREK26BoXqteh+3yXw3Uy6jQThBJMnnomJ3EA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 14 Nov 2018 11:48:51 +0000
-Message-ID: <CAJTo0LbnVE9zCecktM+qchTDEn1gPwcXj8bfUb5erOhFtJqJug@mail.gmail.com>
-To: theknoppix@gmail.com
-Cc: Yocto-mailing-list <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: meta-gnome: what are dependencies for gnome-full-desktop (gnome interface)
+X-Spam-Score: -1.7 (-)
+X-Scan-Signature: 3da8dd007c9bc004c124c5756b0fc9e5
+X-Spam-Tracer: backend.mail.pr.hu -1.7 20181114132224Z
+Subject: [PATCH v2] update-alternatives: Allow using relative symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +48,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 11:49:01 -0000
-Content-Type: multipart/alternative; boundary="0000000000003c472a057a9e8551"
+X-List-Received-Date: Wed, 14 Nov 2018 13:22:27 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---0000000000003c472a057a9e8551
-Content-Type: text/plain; charset="UTF-8"
+The alternative links are invalid during do_rootfs.
 
-On Wed, 14 Nov 2018 at 11:46, Knoppix <theknoppix@gmail.com> wrote:
+Add a new ALTERNATIVE_TARGET_RELATIVE family of variables to
+conditionally make these links valid.
 
-> My question were implement the missing recipes for yocto->meta-gnome
-> To start from point I did want to learn dependency graphic of gnome3.
-> I subscripted devel right know.
->
+v2: Fix the case when the link source and target are not in
+    the same directory.
 
-Just to repeat: all of the recipes you'll need to write are on the oe-devel
-list now.  They need work and testing, and your contributions are welcome.
+Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
+---
+ meta/classes/update-alternatives.bbclass | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
---0000000000003c472a057a9e8551
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index aa01058cf9..540bec94e2 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -47,6 +47,15 @@
+ # the need to rename alternative files in the do_install step, but still
+ # supports it if necessary for some reason.)
+ #
++# The default to use relative link for all targets
++# ALTERNATIVE_TARGET_RELATIVE = "1"
++#
++# A non-default setting to use relative link for a target
++# ALTERNATIVE_TARGET_RELATIVE[name] = "1"
++#
++# A package specific setting to use relative link for a target
++# ALTERNATIVE_TARGET_RELATIVE_<pkg>[name] = "1"
++#
+ # The default priority for any alternatives
+ # ALTERNATIVE_PRIORITY = "priority"
+ #
+@@ -214,6 +223,10 @@ python populate_packages_updatealternatives () {
+             # Sometimes alt_target is specified as relative to the link name.
+             alt_target   = os.path.join(os.path.dirname(alt_link), alt_target)
+ 
++            # Whether to use relative symlink target
++            alt_relative = d.getVarFlag('ALTERNATIVE_TARGET_RELATIVE_%s' % pkg, alt_name) or d.getVarFlag('ALTERNATIVE_TARGET_RELATIVE', alt_name)
++            alt_relative = alt_relative or d.getVar('ALTERNATIVE_TARGET_RELATIVE_%s' % pkg) or d.getVar('ALTERNATIVE_TARGET_RELATIVE')
++
+             alt_priority = d.getVarFlag('ALTERNATIVE_PRIORITY_%s' % pkg,  alt_name) or d.getVarFlag('ALTERNATIVE_PRIORITY',  alt_name)
+             alt_priority = alt_priority or d.getVar('ALTERNATIVE_PRIORITY_%s' % pkg) or d.getVar('ALTERNATIVE_PRIORITY')
+ 
+@@ -229,8 +242,15 @@ python populate_packages_updatealternatives () {
+             # Default to generate shell script.. eventually we may want to change this...
+             alt_target = os.path.normpath(alt_target)
+ 
+-            alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
+-            alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
++            if alt_relative and os.path.dirname(alt_target) == os.path.dirname(alt_link):
++                alt_target_final = os.path.basename(alt_target)
++            elif alt_relative:
++                alt_target_final = os.path.join(os.path.join(*['..'] * len(list(filter(None, os.path.dirname(alt_link).split('/'))))), *list(filter(None, alt_target.split('/'))))
++            else:
++                alt_target_final = alt_target
++
++            alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target_final, alt_priority)
++            alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target_final)
+ 
+         if alt_setup_links:
+             # RDEPENDS setup
+-- 
+2.19.1
 
-<div dir=3D"ltr">On Wed, 14 Nov 2018 at 11:46, Knoppix &lt;<a href=3D"mailt=
-o:theknoppix@gmail.com">theknoppix@gmail.com</a>&gt; wrote:<br><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>My qu=
-estion were implement the missing recipes for yocto-&gt;meta-gnome</div><di=
-v>To start from point I did want to learn dependency graphic of gnome3.</di=
-v><div>I subscripted devel right know.</div></div></blockquote><div>=C2=A0<=
-/div><div>Just to repeat: all of the recipes you&#39;ll need to write are o=
-n the oe-devel list now.=C2=A0 They need work and testing, and your contrib=
-utions are welcome.</div></div></div>
 
---0000000000003c472a057a9e8551--
