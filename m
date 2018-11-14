@@ -1,31 +1,24 @@
 Return-Path: <Changqing.Li@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 955646C3DA
+	by mail.openembedded.org (Postfix) with ESMTP id 5D5A56C17F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 09:45:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAE9im5L015432
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 14 Nov 2018 01:45:14 -0800
-Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Wed, 14 Nov 2018 01:44:46 -0800
-To: "Burton, Ross" <ross.burton@intel.com>, "Purdie, Richard"
-	<richard.purdie@linuxfoundation.org>
-References: <1542099878-266444-1-git-send-email-changqing.li@windriver.com>
-	<54ebce2e5465961129b4740cba726f52c9e7d726.camel@linuxfoundation.org>
-	<CAJTo0LbGi3k7ASx1SzGkagJABKVUz182S2_G_d1paLhPgNab9A@mail.gmail.com>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <cb9bda02-6b66-3e0a-4db2-45a20ff835ef@windriver.com>
-Date: Wed, 14 Nov 2018 17:44:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Wed, 14 Nov 2018 09:46:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAE9kSLI015499
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 01:46:38 -0800
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 14 Nov 2018 01:46:04 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Nov 2018 17:46:03 +0800
+Message-ID: <1542188763-117364-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbGi3k7ASx1SzGkagJABKVUz182S2_G_d1paLhPgNab9A@mail.gmail.com>
-X-Originating-IP: [128.224.162.228]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oepydevshell-internal.py: decode only when readdata is valid
+Subject: [PATCH V2] oepydevshell-internal.py: decode only when readdata is valid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,41 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 09:45:55 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 14 Nov 2018 09:46:47 -0000
+Content-Type: text/plain
 
+From: Changqing Li <changqing.li@windriver.com>
 
-On 11/13/18 7:10 PM, Burton, Ross wrote:
-> On Tue, 13 Nov 2018 at 10:03, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->
->> Usually you'd write this as:
->>
->> if readdata:
->>      i = i + readdata.decode('utf-8')
->>
->> Is there a reason not to do that here?
-> Whilst this code is being changed, is there a chance of getting a
-> partial read that has half of a utf-8 byte sequence?
->
-> Ross
+fix below problem:
+pydevshell raises exception when maximize the python shell window.
+when click maximize, rlist of select return ready object, but the
+pty.read is None, so throw exception of 'NoneType' object has no
+attribute 'decode', change to only decode when readdata is valid.
 
-Seems "continue"  will delay  the deal of  "i"  to next loop, but will 
-not lost data.
+[YOCTO #11875]
 
-but I still change to let it continue to deal with "i" , in case there 
-is still "i" not
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ scripts/oepydevshell-internal.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-outputed in last loop. it should be better.
-
-
-changqing
-
+diff --git a/scripts/oepydevshell-internal.py b/scripts/oepydevshell-internal.py
+index 04621ae..2f7d5d4 100755
+--- a/scripts/oepydevshell-internal.py
++++ b/scripts/oepydevshell-internal.py
+@@ -63,7 +63,9 @@ try:
+             (ready, _, _) = select.select([pty, sys.stdin], writers , [], 0)
+             try:
+                 if pty in ready:
+-                    i = i + pty.read().decode('utf-8')
++                    readdata = pty.read()
++                    if readdata:
++                        i = i + readdata.decode('utf-8')
+                 if i:
+                     # Write a page at a time to avoid overflowing output 
+                     # d.keys() is a good way to do that
 -- 
-BRs
-
-Sandy(Li Changqing)
+2.7.4
 
 
