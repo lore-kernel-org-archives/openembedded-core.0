@@ -1,43 +1,56 @@
-Return-Path: <theknoppix@gmail.com>
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
-	[209.85.221.52])
-	by mail.openembedded.org (Postfix) with ESMTP id CEC756B899
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AF466C17F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 08:41:39 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id v18-v6so16274088wrt.8
+	Wed, 14 Nov 2018 09:32:31 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id z13-v6so16459288wrs.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 00:41:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=1yKxDJxpO7CetUGtMzXxt2STcjcJFyyBPDqZVvKWgMY=;
-	b=SNekyG4t+WWm0s2FU811LcciWRR7UHE6kN1RjOwTQNtMGegU+gdeSBDQQlbQSY8/IY
-	PUGZM1CPw88uf1MeGMPhhJp7BRB0RHEYgFY1mBPnjXBioF7Uc4T5zESXh5WJ7ZXbOxxP
-	9/TFbjEodzyvg1O+zGvdnYk34/bnIcW4qDrZbhjcUNZK+TbaAMoCMkxpfRNUJJe+C4sZ
-	jtKp1m6SuV5pyFWMvFb99NndnMlRindiAWri3uD64YiteKpTK4jvom2RRs84Ts5eNvHc
-	axg7H3DkJGGXea5VWa1Jn4fWKRR8L3923EcG/GVuinSdDmWRwTjJcqdlYF72zHiNk649
-	nnLQ==
+	Wed, 14 Nov 2018 01:32:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=EKdGuvyfv+6WwIxlZarUX4fxeB6P9QHML18ad1/3nLc=;
+	b=iOeWLeAyqnPWAqcyqwqXYKBVQbx9MCo7Xqp6O/d1KV14la8GpUY4LSqeRUU0ltVdR6
+	pVj6Dn2M43b60ECgCTMWbJqLecqUUsPUM/FtWUm5cWlJUdWzSU7irzGdpS7XgJbK3loE
+	XHWd2OPCk2CVxSCGoe8fTXV9jCTO0xee5MAOU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=1yKxDJxpO7CetUGtMzXxt2STcjcJFyyBPDqZVvKWgMY=;
-	b=dkcdZiF6lcz7V57m8+fdcnX25O74rkdhFOPfxUjfVXwKpjKAQT2UPeAtbVShcJ1QpY
-	RtCA6qbbNrX2MXRA7xtvyKBTw5FiZMj3D6RhniM+c6O7eShFnpVytmLIy6FwpH0lBVel
-	ItjGU5rkzuETNxMeAAHncsArWWAqpOTl6ocf9NAyuiVyQbtOahGvhZ2C6edyRdlo7u79
-	4Zb4IUTzi1e/TKCq1cy62BXynLFBEw+aHGcX2rAWZkA9ADwZA9ghz1xKUAzP22FtMGge
-	Zma0EbsCPTBn8aTIsOz7TweWCLIvWOdmXOHnTO4Lq2uMeNLAmzgKVLpjKQNygWqNizYz
-	LxKw==
-X-Gm-Message-State: AGRZ1gKt/UhzJ9tYQLuEyYxRYB7Zz2d8ZM+aMlRmRkmDYRbKzIpVG7vW
-	NJAzzxX0KJuu08fKI1LyahKNOFK9XtJmesEM9EU=
-X-Google-Smtp-Source: AJdET5d0buGB1mPm2gXW45CDyjSmAH/jInJqoAQAbYaG6zPoO4zbHzgYoy8rjVispwp1P7PoSI4AnL49vPyv19jznXU=
-X-Received: by 2002:adf:f651:: with SMTP id
-	x17-v6mr894240wrp.229.1542184900457; 
-	Wed, 14 Nov 2018 00:41:40 -0800 (PST)
-MIME-Version: 1.0
-From: Knoppix <theknoppix@gmail.com>
-Date: Wed, 14 Nov 2018 11:41:28 +0300
-Message-ID: <CAD9sEJu_CbZYAGCiytx1GuM+HEQ+ar8mRG+aWG55dRe_okpK8Q@mail.gmail.com>
-To: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: meta-gnome: what are dependencies for gnome-full-desktop (gnome interface)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=EKdGuvyfv+6WwIxlZarUX4fxeB6P9QHML18ad1/3nLc=;
+	b=V2yU3YLK+1d/Im6bnfVInRazrHTCPxl4NNmF1Do75fXaOv7E0tYDzdBN37FSv89/pQ
+	CjysYpdAm1TQOXH1KT6eZJngmSORJ9tj4Bynl3Z+Epc0IjgMkZpkmHJUYnLIzlUFMcph
+	Guuv6ftgYbYaEwhvi2uWZOmBmnEIxZLi5Ji7iEUVm7PFwD/Ad7x0e/W7BclQixtKogDx
+	eM+bxjLYMOlaHZQsZeCY0TTWfAywejPcEN7yTos39rWrX+ZkCsKk1tRiiwKm7WBH0NS5
+	CNO2U9vJmzrKpeZLyV/BPxAwWrPyD3kdov6KcBrBIOhvhaTZtivGGvnDEuwHh7slyW/L
+	XsKA==
+X-Gm-Message-State: AGRZ1gJvt9yYnhpXsP1MjHT6wjAA0KSUXkr8WkhkPzjIigzbbb5FyIKX
+	RuBDH5w38DsUxWHavZe42R681Q==
+X-Google-Smtp-Source: AJdET5cOYOFpi6hOVVYnyoA1SEvamJ5DObeeuC7Fy84KC9nedUUVXijrMrqbjQUTUp52PdjPu9wjfw==
+X-Received: by 2002:a5d:5390:: with SMTP id
+	d16-v6mr1055154wrv.71.1542187951805; 
+	Wed, 14 Nov 2018 01:32:31 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y2-v6sm38718548wrh.53.2018.11.14.01.32.30
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 14 Nov 2018 01:32:31 -0800 (PST)
+Message-ID: <389bf0dd9a15dce53d94e4ae426d47099d083ae6.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Nov 2018 09:32:29 +0000
+In-Reply-To: <9DDD2658D1FE414E99172D2DB1E4D0434811F952@KMSMSX155.gar.corp.intel.com>
+References: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
+	<9DDD2658D1FE414E99172D2DB1E4D0434811E1D4@KMSMSX155.gar.corp.intel.com>
+	<3c2a7b56677a1eb00aace62b4608055810e9f9f8.camel@linuxfoundation.org>
+	<9DDD2658D1FE414E99172D2DB1E4D0434811F952@KMSMSX155.gar.corp.intel.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 01/12] build-appliance: Drop test which is already	automated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,44 +63,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 08:41:40 -0000
-Content-Type: multipart/alternative; boundary="0000000000002b785d057a9be7c4"
-
---0000000000002b785d057a9be7c4
+X-List-Received-Date: Wed, 14 Nov 2018 09:32:31 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-(Excuse me for my english I am not native)
+On Wed, 2018-11-14 at 08:05 +0000, Yeoh, Ee Peng wrote:
+> > In that case wouldn't it make more sense to combine these steps 
+> > with  
+> > some of the other build appliance tests? We could add an extra step
+> > where the tester builds build-appliance rather than having multiple
+> > tests which start "launch build appliance"?
+> 
+> In general, Pros & Cons for merging test cases, Pros: reduced the
+> number of test cases & making it simpler for reading, Cons: loss of
+> lower level tracking on the test status. 
+> Example: currently we have multiple test cases for build-appliance
+> where each test cases testing the ability to use build-appliance-
+> image to bitbake different type of images (recently we detect that
+> build-appliance-image was able to build core-image-minimal & core-
+> image-sato-sdk but it failed to build the build-appliance-image), if
+> we merge multiple test cases into general
+> test_build_appliance_can_build_images, then we will loss the
+> visibilities on which type of images failed when this test failed,
+> unless we looked into the test log if test log were generated.  
 
-One disappointment for me was learn that meta-gnome is not fully-supported
-for running desktop. So i want to write all remain recipes to use desktop
-environment. I want to start from scratch (except from meta-debian-recipes)
-because for learn gnome world.
+If a step fails, QA will write a bug report for the failure. I'd have
+thought it would be quite clear in this case what the failing step was?
+QA would also always include a failing build log in such a case which
+should also make the problem quite clear.
 
-Dear friends, how can I learn what are the necessary binaries&libraries for
-gnome interface (i.e: desktop window&display-manager panel, topbar,
-settings and other UI full-desktop-environment) to use on yocto project?
-Which project is I should start to write its recipe?
+Even if the step was "bitbake core-image-minimal core-image-sato build-
+appliance-image -k", the logs should still clearly show what it was
+that failed?
 
-My question is what should I search on search-engines?
-Would you advice me a tutorial&manual please?
+Cheers,
 
-Kind regards.
+Richard
 
---0000000000002b785d057a9be7c4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>(Excuse me for my english I am not native)<br></div><=
-div><br></div><div>One disappointment for me was learn that meta-gnome is n=
-ot fully-supported for running desktop. So i want to write all remain recip=
-es to use desktop environment. I want to start from scratch (except from me=
-ta-debian-recipes) because for learn gnome world.</div><div><br></div><div>=
-Dear friends, how can I learn what are the necessary binaries&amp;libraries=
- for gnome interface (i.e: desktop window&amp;display-manager panel, topbar=
-, settings and other UI full-desktop-environment) to use on yocto project? =
-Which project is I should start to write its recipe?<br></div><div><br></di=
-v><div>My question is what should I search on search-engines?</div><div>Wou=
-ld you advice me a tutorial&amp;manual please?</div><div><br></div><div>Kin=
-d regards.<br></div></div>
-
---0000000000002b785d057a9be7c4--
