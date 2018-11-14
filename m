@@ -1,26 +1,46 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D52446C3FC
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 143AE6C138
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 05:47:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAE5klmG009386
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2018 21:46:57 -0800
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 13 Nov 2018 21:46:36 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Nov 2018 00:46:32 -0500
-Message-ID: <5987e51fa513daf0435d17b376ad754014c84e9e.1542174292.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.19.0.rc2
-In-Reply-To: <cover.1542174292.git.kai.kang@windriver.com>
-References: <cover.1542174292.git.kai.kang@windriver.com>
+	Wed, 14 Nov 2018 06:56:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Nov 2018 22:56:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,231,1539673200"; d="scan'208";a="104225481"
+Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Nov 2018 22:56:16 -0800
+Received: from pgsmsx110.gar.corp.intel.com (10.221.44.111) by
+	KMSMSX151.gar.corp.intel.com (172.21.73.86) with Microsoft SMTP Server
+	(TLS) id 14.3.408.0; Wed, 14 Nov 2018 14:56:15 +0800
+Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.19]) by
+	PGSMSX110.gar.corp.intel.com ([169.254.13.219]) with mapi id
+	14.03.0415.000; Wed, 14 Nov 2018 14:56:15 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 2/4] qemurunner: Add support for slirp
+Thread-Index: AQHUezYEV3QlCyZcpUWT8B/flxp3kqVN1jeAgADsv9A=
+Date: Wed, 14 Nov 2018 06:56:15 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D0434811F912@KMSMSX155.gar.corp.intel.com>
+References: <1542101577-59901-1-git-send-email-ee.peng.yeoh@intel.com>
+	<1542101577-59901-2-git-send-email-ee.peng.yeoh@intel.com>
+	<b26d278cf4a89f6a10aa3895efb84256ed0f6be9.camel@linuxfoundation.org>
+In-Reply-To: <b26d278cf4a89f6a10aa3895efb84256ed0f6be9.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiODM4NDJmMmUtMTBmZC00YmFiLWI2NTctMjc1YTlhZDFiMzZlIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiR0NhZElJdWpPdGo3V0xLR09CM2dPSlFhcWlJQXQzM2pRWWQyd1A1WFlibytvYytcL1FHWmdPZUZZcSsrczlZSUIifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] gettext: fix CVE-2018-18751
+Subject: Re: [PATCH 2/4] qemurunner: Add support for slirp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,201 +53,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 05:47:07 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 14 Nov 2018 06:56:17 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Kai Kang <kai.kang@windriver.com>
-
-Backport patch to fix CVE-2018-18751 for gettext. Because po-gram-gen.y
-has been modified by fix-CVE-2018-18751.patch, it requires yacc which
-provided by bison-native to re-create po-gram-gen.c. Please remove
-bison-native from DEPENDS* when next upgrade.
-
-Ref:
-https://security-tracker.debian.org/tracker/CVE-2018-18751
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../gettext-0.19.8.1/fix-CVE-2018-18751.patch | 141 ++++++++++++++++++
- meta/recipes-core/gettext/gettext_0.19.8.1.bb |   8 +-
- 2 files changed, 147 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.patch
-
-diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.patch b/meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.patch
-new file mode 100644
-index 0000000000..6dfe200d65
---- /dev/null
-+++ b/meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.patch
-@@ -0,0 +1,141 @@
-+Upstream-Status: Backport [https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=commit;h=dce3a16]
-+CVE: CVE-2018-18751
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From dce3a16e5e9368245735e29bf498dcd5e3e474a4 Mon Sep 17 00:00:00 2001
-+From: Daiki Ueno <ueno@gnu.org>
-+Date: Thu, 15 Sep 2016 13:57:24 +0200
-+Subject: [PATCH] xgettext: Fix crash with *.po file input
-+
-+When xgettext was given two *.po files with the same msgid_plural, it
-+crashed with double-free.  Problem reported by Davlet Panech in:
-+http://lists.gnu.org/archive/html/bug-gettext/2016-09/msg00001.html
-+* gettext-tools/src/po-gram-gen.y: Don't free msgid_pluralform after
-+calling do_callback_message, assuming that it takes ownership.
-+* gettext-tools/src/read-catalog.c (default_add_message): Free
-+msgid_plural after calling message_alloc.
-+* gettext-tools/tests/xgettext-po-2: New file.
-+* gettext-tools/tests/Makefile.am (TESTS): Add new test.
-+---
-+ gettext-tools/src/po-gram-gen.y   | 13 ++++-----
-+ gettext-tools/src/read-catalog.c  |  2 ++
-+ gettext-tools/tests/Makefile.am   |  2 +-
-+ gettext-tools/tests/xgettext-po-2 | 55 +++++++++++++++++++++++++++++++++++++++
-+ 4 files changed, 63 insertions(+), 9 deletions(-)
-+ create mode 100755 gettext-tools/tests/xgettext-po-2
-+
-+diff --git a/gettext-tools/src/po-gram-gen.y b/gettext-tools/src/po-gram-gen.y
-+index becf5e6..4428e77 100644
-+--- a/gettext-tools/src/po-gram-gen.y
-++++ b/gettext-tools/src/po-gram-gen.y
-+@@ -221,14 +221,11 @@ message
-+                   check_obsolete ($1, $3);
-+                   check_obsolete ($1, $4);
-+                   if (!$1.obsolete || pass_obsolete_entries)
-+-                    {
-+-                      do_callback_message ($1.ctxt, string2, &$1.pos, $3.string,
-+-                                           $4.rhs.msgstr, $4.rhs.msgstr_len, &$4.pos,
-+-                                           $1.prev_ctxt,
-+-                                           $1.prev_id, $1.prev_id_plural,
-+-                                           $1.obsolete);
-+-                      free ($3.string);
-+-                    }
-++                    do_callback_message ($1.ctxt, string2, &$1.pos, $3.string,
-++                                         $4.rhs.msgstr, $4.rhs.msgstr_len, &$4.pos,
-++                                         $1.prev_ctxt,
-++                                         $1.prev_id, $1.prev_id_plural,
-++                                         $1.obsolete);
-+                   else
-+                     {
-+                       free_message_intro ($1);
-+diff --git a/gettext-tools/src/read-catalog.c b/gettext-tools/src/read-catalog.c
-+index 571d18e..6af6d20 100644
-+--- a/gettext-tools/src/read-catalog.c
-++++ b/gettext-tools/src/read-catalog.c
-+@@ -397,6 +397,8 @@ default_add_message (default_catalog_reader_ty *this,
-+          appropriate.  */
-+       mp = message_alloc (msgctxt, msgid, msgid_plural, msgstr, msgstr_len,
-+                           msgstr_pos);
-++      if (msgid_plural != NULL)
-++        free (msgid_plural);
-+       mp->prev_msgctxt = prev_msgctxt;
-+       mp->prev_msgid = prev_msgid;
-+       mp->prev_msgid_plural = prev_msgid_plural;
-+diff --git a/gettext-tools/tests/Makefile.am b/gettext-tools/tests/Makefile.am
-+index 23b09b1..0dfb4d8 100644
-+--- a/gettext-tools/tests/Makefile.am
-++++ b/gettext-tools/tests/Makefile.am
-+@@ -95,7 +95,7 @@ TESTS = gettext-1 gettext-2 gettext-3 gettext-4 gettext-5 gettext-6 gettext-7 \
-+ 	xgettext-perl-1 xgettext-perl-2 xgettext-perl-3 xgettext-perl-4 \
-+ 	xgettext-perl-5 xgettext-perl-6 xgettext-perl-7 xgettext-perl-8 \
-+ 	xgettext-php-1 xgettext-php-2 xgettext-php-3 xgettext-php-4 \
-+-	xgettext-po-1 \
-++	xgettext-po-1 xgettext-po-2 \
-+ 	xgettext-properties-1 \
-+ 	xgettext-python-1 xgettext-python-2 xgettext-python-3 \
-+ 	xgettext-python-4 \
-+diff --git a/gettext-tools/tests/xgettext-po-2 b/gettext-tools/tests/xgettext-po-2
-+new file mode 100755
-+index 0000000..c4bd9d0
-+--- /dev/null
-++++ b/gettext-tools/tests/xgettext-po-2
-+@@ -0,0 +1,55 @@
-++#! /bin/sh
-++. "${srcdir=.}/init.sh"; path_prepend_ . ../src
-++
-++# Test PO extractors with multiple input files.
-++
-++cat <<EOF > xg-po-2-1.po
-++msgid "first msgid"
-++msgid_plural "first msgid (plural)"
-++msgstr[0] ""
-++msgstr[1] ""
-++
-++msgid "second msgid"
-++msgid_plural "second msgid (plural)"
-++msgstr[0] ""
-++msgstr[1] ""
-++EOF
-++
-++cat <<EOF > xg-po-2-2.po
-++msgid "third msgid"
-++msgid_plural "third msgid (plural)"
-++msgstr[0] ""
-++msgstr[1] ""
-++
-++msgid "second msgid"
-++msgid_plural "second msgid (plural)"
-++msgstr[0] ""
-++msgstr[1] ""
-++EOF
-++
-++: ${XGETTEXT=xgettext}
-++${XGETTEXT} --omit-header xg-po-2-1.po xg-po-2-2.po -o xg-po-2.tmp.po || Exit 1
-++LC_ALL=C tr -d '\r' < xg-po-2.tmp.po > xg-po-2.po || Exit 1
-++
-++cat <<EOF > xg-po-2.ok
-++msgid "first msgid"
-++msgid_plural "first msgid (plural)"
-++msgstr[0] ""
-++msgstr[1] ""
-++
-++msgid "second msgid"
-++msgid_plural "second msgid (plural)"
-++msgstr[0] ""
-++msgstr[1] ""
-++
-++msgid "third msgid"
-++msgid_plural "third msgid (plural)"
-++msgstr[0] ""
-++msgstr[1] ""
-++EOF
-++
-++: ${DIFF=diff}
-++${DIFF} xg-po-2.ok xg-po-2.po
-++result=$?
-++
-++exit $result
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-index 68f5cc329a..933baccd94 100644
---- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-@@ -8,8 +8,11 @@ SECTION = "libs"
- LICENSE = "GPLv3+ & LGPL-2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
--DEPENDS = "gettext-native virtual/libiconv"
--DEPENDS_class-native = "gettext-minimal-native"
-+# Because po-gram-gen.y has been modified by fix-CVE-2018-18751.patch,
-+# it requires yacc which provided by bison-native
-+# Please remove bison-native from DEPENDS* when next upgrade
-+DEPENDS = "bison-native gettext-native virtual/libiconv"
-+DEPENDS_class-native = "bison-native gettext-minimal-native"
- PROVIDES = "virtual/libintl virtual/gettext"
- PROVIDES_class-native = "virtual/gettext-native"
- RCONFLICTS_${PN} = "proxy-libintl"
-@@ -18,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
- 	   file://add-with-bisonlocaledir.patch \
- 	   file://cr-statement.c-timsort.h-fix-formatting-issues.patch \
- 	   file://use-pkgconfig.patch \
-+	   file://fix-CVE-2018-18751.patch \
- "
- 
- SRC_URI[md5sum] = "97e034cf8ce5ba73a28ff6c3c0638092"
--- 
-2.19.0.rc2
-
+SGkgUmljaGFyZCwNCg0KVGhhbmsgeW91IGZvciBzaGFyaW5nIG9uIHRoZSBlcnJvciByZWxhdGVk
+IHRvIG9lcWEudGFyZ2V0Y29udHJvbC5RZW11VGFyZ2V0Lg0KQWZ0ZXIgc29tZSBhbmFseXNpcywg
+aGVyZSBhcmUgbXkgZmluZGluZ3M6DQoNCjEuIE9FUUEgaGFkIGNsYXNzZXMgd2l0aCB2ZXJ5IHNp
+bWlsYXIgbmFtZSBhcyB3ZWxsIGFzIGludGVyZmFjZSBmb3IgY2Fycnkgb3V0IHFlbXUgYW5kIHNz
+aCBvcGVyYXRpb25zLiAgRXhhbXBsZTogIlFlbXVUYXJnZXQgdnMgT0VRZW11VGFyZ2V0IiwgIlNT
+SENvbnRyb2wgdnMgT0VTU0hUYXJnZXQiLiAgV2hlcmUgT0VRZW11VGFyZ2V0ICYgT0VTU0hUYXJn
+ZXQgd2VyZSB1c2VkIG1haW5seSBmb3IgcnVudGltZS90ZXN0aW1hZ2UgYW5kIFFlbXVUYXJnZXQg
+JiBTU0hDb250cm9sIHdlcmUgdXNlZCBmb3IgbWFpbmx5IGZvciBvZS1zZWxmdGVzdC4gIE5vdCBv
+bmx5IHRoZSBuYW1lIGFuZCBpbnRlcmZhY2Ugd2VyZSBzaW1pbGFyLCB0aGVyZSBhcmUgc29tZSBk
+dXBsaWNhdGVkIGNvZGVzIGJldHdlZW4gdGhlc2UgdHdvIGdyb3VwIG9mIGNsYXNzZXMuICBUaGlz
+IGhhZCBpbnRyb2R1Y2VkIGFkZGl0aW9uYWwgY29tcGxleGl0eSBpbiBib3RoIGFkZGluZyBuZXcg
+ZmVhdHVyZXMgYW5kIHRlc3RpbmcgKGVnLiBub3cgdGhlICJzbGlycCIgZmVhdHVyZXMgbmVlZCB0
+byBiZSBhZGRlZCB0byBib3RoIGdyb3VwIG9mIGNsYXNzZXMgYW5kIHRlc3RpbmcgYm90aCkuIA0K
+DQoyLiBDb2RpbmcgZGVzaWduIGJlaW5nIHVzZWQgd2VyZSBkaWZmZXJlbnQgYmV0d2VlbiB0aGVz
+ZSB0d28gZ3JvdXAgb2YgY2xhc3Nlcy4gV2hlcmUgT0VRZW11VGFyZ2V0IGFuZCBPRVNTSFRhcmdl
+dCB1c2VkIGluaGVyaXRhbmNlIGRlc2lnbiwgUWVtdVRhcmdldCBhbmQgU1NIQ29udHJvbCB1c2Vk
+IGNvbXBvc2l0ZSBkZXNpZ24uICBUaGlzIGZ1cnRoZXIgYWRkaW5nIG1vcmUgY29tcGxleGl0eSBp
+bnRvIGRldmVsb3BpbmcgbmV3IGZlYXR1cmUuDQoNClNvbHV0aW9uczoNCjEuIFNob3J0IHRlcm0g
+LSBJIHdpbGwgZW5hYmxlIHNsaXJwIGludG8gYm90aCBncm91cCBvZiBjbGFzc2VzIGFuZCB0ZXN0
+IHRoZW0NCjIuIExvbmcgdGVybSAtIHRoaXMgcmVxdWlyZSBzaWduaWZpY2FudCByZWZhY3Rvcmlu
+ZyB0byByZW1vdmUgZHVwbGljYXRpb24gY29kZXMgYW5kIHNpbXBsaWZ5IHRoZSBjb2RlIGJhc2Ug
+Zm9yIHFlbXUgYW5kIHNzaCBvcGVyYXRpb25zLiANCg0KUGxlYXNlIGxldCBtZSBrbm93IHlvdSBp
+bnB1dHMgYW5kIHJlY29tbWVuZGF0aW9uLg0KDQpCZXN0IHJlZ2FyZHMsDQpZZW9oIEVlIFBlbmcg
+IA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogUmljaGFyZCBQdXJkaWUgW21h
+aWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXSANClNlbnQ6IFdlZG5lc2Rh
+eSwgTm92ZW1iZXIgMTQsIDIwMTggNzozNCBBTQ0KVG86IFllb2gsIEVlIFBlbmcgPGVlLnBlbmcu
+eWVvaEBpbnRlbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzRdIHFlbXVydW5uZXI6IEFkZCBzdXBw
+b3J0IGZvciBzbGlycA0KDQpPbiBUdWUsIDIwMTgtMTEtMTMgYXQgMTc6MzIgKzA4MDAsIFllb2gg
+RWUgUGVuZyB3cm90ZToNCj4gRW5hYmxlIHFlbXVydW5uZXIgZm9yIHNsaXJwLiBSZXRyaWV2ZWQg
+dGhlIHBvcnQgZnJvbSBsb2NhbGhvc3QgdG8gDQo+IGNvbm5lY3QgdG8gcWVtdS4NCj4gDQo+IFtZ
+T0NUTyMxMDcxM10NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFllb2ggRWUgUGVuZyA8ZWUucGVuZy55
+ZW9oQGludGVsLmNvbT4NCj4gLS0tDQo+ICBtZXRhL2xpYi9vZXFhL3V0aWxzL3FlbXVydW5uZXIu
+cHkgfCAxNyArKysrKysrKysrKysrLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlv
+bnMoKyksIDQgZGVsZXRpb25zKC0pDQoNCiAgRmlsZSAiL21lZGlhL2J1aWxkMS9wb2t5L21ldGEv
+bGliL29lcWEvY29yZS9kZWNvcmF0b3IvX19pbml0X18ucHkiLCBsaW5lIDMyLCBpbiB3cmFwcGVk
+X2YNCiAgICByZXR1cm4gZnVuYygqYXJncywgKiprd2FyZ3MpDQogIEZpbGUgIi9tZWRpYS9idWls
+ZDEvcG9reS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2RldnRvb2wucHkiLCBsaW5lIDEy
+ODIsIGluIHRlc3RfZGV2dG9vbF9kZXBsb3lfdGFyZ2V0DQogICAgd2l0aCBydW5xZW11KHRlc3Rp
+bWFnZSkgYXMgcWVtdToNCiAgRmlsZSAiL3Vzci9saWIvcHl0aG9uMy42L2NvbnRleHRsaWIucHki
+LCBsaW5lIDgxLCBpbiBfX2VudGVyX18NCiAgICByZXR1cm4gbmV4dChzZWxmLmdlbikNCiAgRmls
+ZSAiL21lZGlhL2J1aWxkMS9wb2t5L21ldGEvbGliL29lcWEvdXRpbHMvY29tbWFuZHMucHkiLCBs
+aW5lIDMyNywgaW4gcnVucWVtdQ0KICAgIHFlbXUgPSBvZXFhLnRhcmdldGNvbnRyb2wuUWVtdVRh
+cmdldChyZWNpcGVkYXRhLCB0YXJnZXRsb2dnZXIsIGltYWdlX2ZzdHlwZSkNCiAgRmlsZSAiL21l
+ZGlhL2J1aWxkMS9wb2t5L21ldGEvbGliL29lcWEvdGFyZ2V0Y29udHJvbC5weSIsIGxpbmUgMTQ4
+LCBpbiBfX2luaXRfXw0KICAgIGxvZ2dlciA9IGxvZ2dlcikNClR5cGVFcnJvcjogX19pbml0X18o
+KSBtaXNzaW5nIDEgcmVxdWlyZWQgcG9zaXRpb25hbCBhcmd1bWVudDogJ3VzZV9zbGlycCcNCg0K
+SSdtIHRoZXJlZm9yZSBub3Qgc3VyZSBob3cgbXVjaCB0ZXN0aW5nIHRoaXMgaGFzIGhhZD8NCg0K
+Q2hlZXJzLA0KDQpSaWNoYXJkDQoNCg0K
 
