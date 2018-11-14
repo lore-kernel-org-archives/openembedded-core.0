@@ -1,56 +1,41 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AF1FA6C2E6
+Return-Path: <zboszor@pr.hu>
+Received: from mail7.pr.hu (mail7.pr.hu [87.242.0.7])
+	by mail.openembedded.org (Postfix) with ESMTP id E2398601D4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 14:30:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 0C8EF1851D;
-	Wed, 14 Nov 2018 15:30:58 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 9XakDb3rJJUE; Wed, 14 Nov 2018 15:30:50 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 9AFD018359;
-	Wed, 14 Nov 2018 15:30:49 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 87F011E06C;
-	Wed, 14 Nov 2018 15:30:49 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7C1771E054;
-	Wed, 14 Nov 2018 15:30:49 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Wed, 14 Nov 2018 15:30:49 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 705812F0E;
-	Wed, 14 Nov 2018 15:30:49 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Wed, 14 Nov 2018 15:30:49 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Wed, 14 Nov 2018 15:30:49 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: =?utf-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Thread-Topic: [OE-core] [PATCH v2] update-alternatives: Allow using relative
-	symlinks
-Thread-Index: AQHUfB0hyOxQiqV8OE25wjFYNtSMmKVPVIug
-Date: Wed, 14 Nov 2018 14:30:49 +0000
-Message-ID: <9b684459235c4ef79645fc8475b76c56@XBOX04.axis.com>
-References: <20181114132214.8694-1-zboszor@pr.hu>
-In-Reply-To: <20181114132214.8694-1-zboszor@pr.hu>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed, 14 Nov 2018 15:48:58 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>) id 1gMxPX-0005T5-9s
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Nov 2018 16:48:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=jhDxrAbse2ldiLUoqjhfpB4WEuo4v8hi/p/iNBR6eeg=;
+	b=MRI9bXpf44fbwJOphx5Whkg8CQ
+	sWa8k+/ZRgs9ZsbF1nVvbrx2/q3A+fZCkw39Lhcxbizxe6Ecp1j0Jp7fIbrRQUJZRvANK9YvvewTF
+	lzvt5S092YUe5YA1WMfh9VISIbt5Ssf5yxxZnhLs2jEUBl15iyXKPwnpvMnrcSlznvRHcEKcVcoeA
+	dDEzw0afbwu65L4OO2KdkdRU0QBnX8xJ4GufnUPTvoX6VF0huF/mznyJg5i7Fmo2T42NxOTNUZ1nE
+	ZDUu+K2PE8XRVqHKipdQdcloQl+G4QEUWAe0g5JGD2IGUXdhMRrxgb6XaE6JVr25bQVEoh9E5g/5x
+	fMV5ke/g==;
+Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
+	helo=zolilaptop.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1gMxPR-0005gH-Lr; Wed, 14 Nov 2018 16:48:57 +0100
+From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Nov 2018 16:48:48 +0100
+Message-Id: <20181114154848.21117-1-zboszor@pr.hu>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] update-alternatives: Allow using relative	symlinks
+X-Spam-Score: -1.8 (-)
+X-Scan-Signature: 10a865c42659b27c0304ef85eb81de5b
+X-Spam-Tracer: backend.mail.pr.hu -1.8 20181114154857Z
+Subject: [PATCH v3] update-alternatives: Allow using relative symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,31 +48,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 14:30:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 14 Nov 2018 15:48:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC0NCj4gY29yZS1ib3Vu
-Y2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBCw7ZzesO2cm3DqW55aSBa
-b2x0w6FuDQo+IHZpYSBPcGVuZW1iZWRkZWQtY29yZQ0KPiBTZW50OiBkZW4gMTQgbm92ZW1iZXIg
-MjAxOCAxNDoyMg0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zw0KPiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIIHYyXSB1cGRhdGUtYWx0ZXJuYXRpdmVzOiBB
-bGxvdyB1c2luZyByZWxhdGl2ZQ0KPiBzeW1saW5rcw0KPiANCj4gVGhlIGFsdGVybmF0aXZlIGxp
-bmtzIGFyZSBpbnZhbGlkIGR1cmluZyBkb19yb290ZnMuDQo+IA0KPiBBZGQgYSBuZXcgQUxURVJO
-QVRJVkVfVEFSR0VUX1JFTEFUSVZFIGZhbWlseSBvZiB2YXJpYWJsZXMgdG8NCj4gY29uZGl0aW9u
-YWxseSBtYWtlIHRoZXNlIGxpbmtzIHZhbGlkLg0KPiANCj4gdjI6IEZpeCB0aGUgY2FzZSB3aGVu
-IHRoZSBsaW5rIHNvdXJjZSBhbmQgdGFyZ2V0IGFyZSBub3QgaW4NCj4gICAgIHRoZSBzYW1lIGRp
-cmVjdG9yeS4NCg0KVGhlIHYyIGluZm9ybWF0aW9uIHNob3VsZCBnbyBiZWxvdyB0aGUgLS0tIGFz
-IGl0IGRvZXNuJ3QgcmVsYXRlIHRvIHRoZSANCmNvbW1pdCBhcyBzdWNoLCBidXQgcmF0aGVyIHRv
-IHRoZSByZXZpZXcgcHJvY2Vzcy4NCg0KPiBTaWduZWQtb2ZmLWJ5OiBCw7ZzesO2cm3DqW55aSBa
-b2x0w6FuIDx6Ym9zem9yQHByLmh1Pg0KPiAtLS0NCj4gIG1ldGEvY2xhc3Nlcy91cGRhdGUtYWx0
-ZXJuYXRpdmVzLmJiY2xhc3MgfCAyNCArKysrKysrKysrKysrKysrKysrKysrLS0NCj4gIDEgZmls
-ZSBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAt
-LWdpdCBhL21ldGEvY2xhc3Nlcy91cGRhdGUtYWx0ZXJuYXRpdmVzLmJiY2xhc3MgYi9tZXRhL2Ns
-YXNzZXMvdXBkYXRlLWFsdGVybmF0aXZlcy5iYmNsYXNzDQo+IGluZGV4IGFhMDEwNThjZjkuLjU0
-MGJlYzk0ZTIgMTAwNjQ0DQo+IC0tLSBhL21ldGEvY2xhc3Nlcy91cGRhdGUtYWx0ZXJuYXRpdmVz
-LmJiY2xhc3MNCj4gKysrIGIvbWV0YS9jbGFzc2VzL3VwZGF0ZS1hbHRlcm5hdGl2ZXMuYmJjbGFz
-cw0KDQovL1BldGVyDQoNCg==
+The alternative links are invalid during do_rootfs.
+
+Add a new ALTERNATIVE_TARGET_RELATIVE family of variables to
+conditionally make these links valid.
+
+Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
+---
+
+v2: Fix the case when the link source and target are not in
+    the same directory.
+
+v3: Moved the patch version information here so it's not polluting
+    the git history when applied.
+
+ meta/classes/update-alternatives.bbclass | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index aa01058cf9..540bec94e2 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -47,6 +47,15 @@
+ # the need to rename alternative files in the do_install step, but still
+ # supports it if necessary for some reason.)
+ #
++# The default to use relative link for all targets
++# ALTERNATIVE_TARGET_RELATIVE = "1"
++#
++# A non-default setting to use relative link for a target
++# ALTERNATIVE_TARGET_RELATIVE[name] = "1"
++#
++# A package specific setting to use relative link for a target
++# ALTERNATIVE_TARGET_RELATIVE_<pkg>[name] = "1"
++#
+ # The default priority for any alternatives
+ # ALTERNATIVE_PRIORITY = "priority"
+ #
+@@ -214,6 +223,10 @@ python populate_packages_updatealternatives () {
+             # Sometimes alt_target is specified as relative to the link name.
+             alt_target   = os.path.join(os.path.dirname(alt_link), alt_target)
+ 
++            # Whether to use relative symlink target
++            alt_relative = d.getVarFlag('ALTERNATIVE_TARGET_RELATIVE_%s' % pkg, alt_name) or d.getVarFlag('ALTERNATIVE_TARGET_RELATIVE', alt_name)
++            alt_relative = alt_relative or d.getVar('ALTERNATIVE_TARGET_RELATIVE_%s' % pkg) or d.getVar('ALTERNATIVE_TARGET_RELATIVE')
++
+             alt_priority = d.getVarFlag('ALTERNATIVE_PRIORITY_%s' % pkg,  alt_name) or d.getVarFlag('ALTERNATIVE_PRIORITY',  alt_name)
+             alt_priority = alt_priority or d.getVar('ALTERNATIVE_PRIORITY_%s' % pkg) or d.getVar('ALTERNATIVE_PRIORITY')
+ 
+@@ -229,8 +242,15 @@ python populate_packages_updatealternatives () {
+             # Default to generate shell script.. eventually we may want to change this...
+             alt_target = os.path.normpath(alt_target)
+ 
+-            alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
+-            alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
++            if alt_relative and os.path.dirname(alt_target) == os.path.dirname(alt_link):
++                alt_target_final = os.path.basename(alt_target)
++            elif alt_relative:
++                alt_target_final = os.path.join(os.path.join(*['..'] * len(list(filter(None, os.path.dirname(alt_link).split('/'))))), *list(filter(None, alt_target.split('/'))))
++            else:
++                alt_target_final = alt_target
++
++            alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target_final, alt_priority)
++            alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target_final)
+ 
+         if alt_setup_links:
+             # RDEPENDS setup
+-- 
+2.19.1
+
 
