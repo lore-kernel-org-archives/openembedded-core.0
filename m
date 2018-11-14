@@ -1,101 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 702E66B8AC
+Return-Path: <wesley.lindauer@gmail.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id AA47D6C15F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 16:22:01 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id r9-v6so7585129pgv.6
+	Wed, 14 Nov 2018 18:41:35 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id k206-v6so25483767ite.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 08:22:02 -0800 (PST)
+	Wed, 14 Nov 2018 10:41:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=Ziic8Q0UyY9AmKhWCP7tFpf1DgqOK5cbiLI0dadKcSw=;
-	b=D3VLKwdJcDizF9oc1t/WUWtMJ6TKvPP28W6vfXDNtdNi849AFVhmyVHdwoJwhQ1DS9
-	p97+eJIGQHlba8QOR88kYL0CaHVk9zE5o/zKzquMFICkm0qN+BfvAp0GqubFF6iQjNMU
-	PBe4/uHRCKJWEfvBO6R1+PNlI6bWoKUYAOJWs8vnkzaQeCPg95NiIGU8yJfxiCySJNEZ
-	UfmCfB6zszJYGJosvf4+oLE56EqwT6cbMj7maSNnf32DsQDHstEzoFXOfRDI01iudFZj
-	1jjfd3SMy+0edKNW4zDsUoII37N+WoZDfrwyeYjI6ZWJqBEUCGxeubNuSKTIiDVuQ9Ze
-	nuxA==
+	h=from:to:cc:subject:date:message-id;
+	bh=FeJIot9+M4mkiO4qXgvFt6qlwkGOz5CbzTYZl258Nrw=;
+	b=izdI8qk63QlUwKmMn4AzKQCcp9ZdQ7ClhBCOdg7WVxw/qNeu9qNGLaBan3f5pwhseM
+	tzqJ4ZgFcy0Oc2efEOzC3LtRtdMbMwYktk/zZEkY7coCwhqqq8VHnntKyDXZXw/dhG4z
+	oZWOa6cG4kY+QccTZ1AeVz7IBBF/kvVmduOdnjQbVuazu4PZ3shtBiuW2QGlnyqijD8K
+	f7Jv3kkywPFbIYX3gF/6Nn0naaE51hW/AZzomrY8gGvKcLXagQcMS94diOMhfu7P/Yi2
+	Szr3b9cSMAvA2H2QtqjPXOzBtDwe7rZ1VDciqi2fQbh2iwuTxRBN04ITVAPKdmR0pHMe
+	G5jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=Ziic8Q0UyY9AmKhWCP7tFpf1DgqOK5cbiLI0dadKcSw=;
-	b=N0ymxfOuFSGyqTfp9iq1kz4XzFX+k+BNSlvl2AAzShUup8AZ0ZCM2zl4PCN5Sif9Er
-	sFyerM266978u1NSS/mXqR62YuVK8NELfOl+hZBpfemVpyUOo47ynIUWxLt/4WrGIgTX
-	1ho0Y6358nYNH/+Rm9fOyc+L/5vd8xgACmxtStlRiHNvytTaG185XGPhLf6Jsig/uRuj
-	TC3p42hYNm7m1JezMHm3KMK2NChcXqHQXQIbsgOoYpeyrrIRuxY69RSW1muYr1UKThzi
-	lgMjnfT3SbbmGCGx3FZ2P+P08Db7oU3xJDheq0Q+qZ9g4s5KFWgKILeVqGNsbVU8VCaZ
-	ouLw==
-X-Gm-Message-State: AGRZ1gJzRaIuCvfZfupyLXWCTNEazxJQK86C4MO57LU6QBJmZikNg9Mz
-	RqFEveGJnBN0u/t1NUx8raOq8bBT
-X-Google-Smtp-Source: AJdET5cp0+vusJR7mJ3kiXPVQMWw10o/hdWNZM+/zODoy0+pfGwfv6pEWXkEZHjGRNT+LA7AzVjpvw==
-X-Received: by 2002:a63:ac46:: with SMTP id z6mr2359641pgn.162.1542212522044; 
-	Wed, 14 Nov 2018 08:22:02 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:c33:7db3:34a2:3c95:1c57?
-	([2601:202:4180:c33:7db3:34a2:3c95:1c57])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FeJIot9+M4mkiO4qXgvFt6qlwkGOz5CbzTYZl258Nrw=;
+	b=gBBZ7rgpDhYdNLuWjqSAo0/TsAynzE25f8nL0ZFl0aLk3VfXwYvp5Evnc9LvFOeX8I
+	ONpQbe6caJjhdoHaA5vYaMaVIrxzhhOlc/4+Uk4RUxjAdidPjaRVFdkOYWgoi/AmfNJ5
+	td1NGzK0CKc7dWu+FKXmq3RJSE78/dOm0333O/sX5+W8yMoGyvfNKYNKF1xQU3Xx2aet
+	UUjWuz+gwL/1KRcEd/1v3GdhkAvSvbx/oO0ML1rOe6USFLSK23RHu01MH/QIgDfnASk6
+	okybz4j61idZNsG5fHHQ3xDe0iVo3TRqi4fMXa0wLmmYThXw8r5+Y9/cFJhEfubS520/
+	Pltw==
+X-Gm-Message-State: AGRZ1gI8ooSZBnnKFZpfbMzUxFw7qsH6q79QWrr+xTLoRaOdlwF2aV1B
+	b/w3iH479F0zG9OtlLUS1/x6aiTe
+X-Google-Smtp-Source: AJdET5ecg4R/3gnYSFWwcyo8+fgKKH+wpXAIrtg/r0rRCHVvQyLuEHCX5s81BDL9bKvqp+UbYd59pw==
+X-Received: by 2002:a24:4247:: with SMTP id
+	i68-v6mr3113822itb.139.1542220896522; 
+	Wed, 14 Nov 2018 10:41:36 -0800 (PST)
+Received: from camaro.lpdev.prtdev.lexmark.com ([192.146.101.90])
 	by smtp.gmail.com with ESMTPSA id
-	t4-v6sm25080230pfh.21.2018.11.14.08.22.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Nov 2018 08:22:01 -0800 (PST)
-To: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20181114132336.71049-1-raphael.kubo.da.costa@intel.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <5d7a7c30-0d55-da47-c6a2-1dc0fcddce5c@gmail.com>
-Date: Wed, 14 Nov 2018 08:22:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <20181114132336.71049-1-raphael.kubo.da.costa@intel.com>
-Subject: Re: [rocko][PATCH] m4: Workaround gnulib's fseeko.c implementation
+	r85sm2972401iod.13.2018.11.14.10.41.35
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 14 Nov 2018 10:41:35 -0800 (PST)
+From: Wes Lindauer <wesley.lindauer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Nov 2018 13:40:56 -0500
+Message-Id: <20181114184056.5013-1-wesley.lindauer@gmail.com>
+X-Mailer: git-send-email 2.14.5
+Subject: [PATCH] module.bbclass: Add INSTALL_FW_PATH for out-of-tree modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,182 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 16:22:01 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 14 Nov 2018 18:41:35 -0000
 
+This same variable was added to the make line in kernel.bbclass in
+0decf1cc1c35dd70f3b822e3b4291a810a319ba0. With the addition of the
+usrmerge feature, out-of-tree modules could use this same variable.
 
-On 11/14/18 5:23 AM, Raphael Kubo da Costa wrote:
-> From: Khem Raj <raj.khem@gmail.com>
->
-> exposed by glibc 2.28 for details see
-> https://lists.gnu.org/r/bug-gnulib/2018-03/msg00000.html
->
-> (From OE-Core rev: acca7f964bf9c21f3777085563a7928b8246f17f)
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
+Signed-off-by: Wes Lindauer <wesley.lindauer@gmail.com>
+---
+ meta/classes/module.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-in in stable/rocko-nmut. Odd thing it, this is not in patchwork but the
-sumo version is.
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index e344960244..c0dfa35061 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -48,6 +48,7 @@ module_do_compile() {
+ module_do_install() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+ 	oe_runmake DEPMOD=echo MODLIB="${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}" \
++	           INSTALL_FW_PATH="${D}${nonarch_base_libdir}/firmware" \
+ 	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+ 	           O=${STAGING_KERNEL_BUILDDIR} \
+ 	           ${MODULES_INSTALL_TARGET}
+-- 
+2.14.5
 
-Thanks,
-
-Armin
-
-> ---
->  meta/recipes-devtools/m4/m4-1.4.18.inc        |   1 +
->  .../m4-1.4.18-glibc-change-work-around.patch  | 129 ++++++++++++++++++
->  2 files changed, 130 insertions(+)
->  create mode 100644 meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
->
-> diff --git a/meta/recipes-devtools/m4/m4-1.4.18.inc b/meta/recipes-devtools/m4/m4-1.4.18.inc
-> index d7c8648577..1bce097c60 100644
-> --- a/meta/recipes-devtools/m4/m4-1.4.18.inc
-> +++ b/meta/recipes-devtools/m4/m4-1.4.18.inc
-> @@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
->  
->  SRC_URI += "file://ac_config_links.patch \
->              file://remove-gets.patch \
-> +            file://m4-1.4.18-glibc-change-work-around.patch \
->             "
->  
->  SRC_URI_append_class-target = "\
-> diff --git a/meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch b/meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
-> new file mode 100644
-> index 0000000000..72e7ae2080
-> --- /dev/null
-> +++ b/meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
-> @@ -0,0 +1,129 @@
-> +update for glibc libio.h removal in 2.28+
-> +
-> +see
-> +https://src.fedoraproject.org/rpms/m4/c/814d592134fad36df757f9a61422d164ea2c6c9b?branch=master
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +Index: m4-1.4.18/lib/fflush.c
-> +===================================================================
-> +--- m4-1.4.18.orig/lib/fflush.c
-> ++++ m4-1.4.18/lib/fflush.c
-> +@@ -33,7 +33,7 @@
-> + #undef fflush
-> + 
-> + 
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> + 
-> + /* Clear the stream's ungetc buffer, preserving the value of ftello (fp).  */
-> + static void
-> +@@ -72,7 +72,7 @@ clear_ungetc_buffer (FILE *fp)
-> + 
-> + #endif
-> + 
-> +-#if ! (defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
-> ++#if ! (defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
-> + 
-> + # if (defined __sferror || defined __DragonFly__ || defined __ANDROID__) && defined __SNPT
-> + /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Android */
-> +@@ -148,7 +148,7 @@ rpl_fflush (FILE *stream)
-> +   if (stream == NULL || ! freading (stream))
-> +     return fflush (stream);
-> + 
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> + 
-> +   clear_ungetc_buffer_preserving_position (stream);
-> + 
-> +Index: m4-1.4.18/lib/fpending.c
-> +===================================================================
-> +--- m4-1.4.18.orig/lib/fpending.c
-> ++++ m4-1.4.18/lib/fpending.c
-> +@@ -32,7 +32,7 @@ __fpending (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   return fp->_IO_write_ptr - fp->_IO_write_base;
-> + #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-> +   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Android */
-> +Index: m4-1.4.18/lib/fpurge.c
-> +===================================================================
-> +--- m4-1.4.18.orig/lib/fpurge.c
-> ++++ m4-1.4.18/lib/fpurge.c
-> +@@ -62,7 +62,7 @@ fpurge (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   fp->_IO_read_end = fp->_IO_read_ptr;
-> +   fp->_IO_write_ptr = fp->_IO_write_base;
-> +   /* Avoid memory leak when there is an active ungetc buffer.  */
-> +Index: m4-1.4.18/lib/freadahead.c
-> +===================================================================
-> +--- m4-1.4.18.orig/lib/freadahead.c
-> ++++ m4-1.4.18/lib/freadahead.c
-> +@@ -25,7 +25,7 @@
-> + size_t
-> + freadahead (FILE *fp)
-> + {
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   if (fp->_IO_write_ptr > fp->_IO_write_base)
-> +     return 0;
-> +   return (fp->_IO_read_end - fp->_IO_read_ptr)
-> +Index: m4-1.4.18/lib/freading.c
-> +===================================================================
-> +--- m4-1.4.18.orig/lib/freading.c
-> ++++ m4-1.4.18/lib/freading.c
-> +@@ -31,7 +31,7 @@ freading (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   return ((fp->_flags & _IO_NO_WRITES) != 0
-> +           || ((fp->_flags & (_IO_NO_READS | _IO_CURRENTLY_PUTTING)) == 0
-> +               && fp->_IO_read_base != NULL));
-> +Index: m4-1.4.18/lib/fseeko.c
-> +===================================================================
-> +--- m4-1.4.18.orig/lib/fseeko.c
-> ++++ m4-1.4.18/lib/fseeko.c
-> +@@ -47,7 +47,7 @@ fseeko (FILE *fp, off_t offset, int when
-> + #endif
-> + 
-> +   /* These tests are based on fpurge.c.  */
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   if (fp->_IO_read_end == fp->_IO_read_ptr
-> +       && fp->_IO_write_ptr == fp->_IO_write_base
-> +       && fp->_IO_save_base == NULL)
-> +@@ -123,7 +123,7 @@ fseeko (FILE *fp, off_t offset, int when
-> +           return -1;
-> +         }
-> + 
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +       fp->_flags &= ~_IO_EOF_SEEN;
-> +       fp->_offset = pos;
-> + #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-> +Index: m4-1.4.18/lib/stdio-impl.h
-> +===================================================================
-> +--- m4-1.4.18.orig/lib/stdio-impl.h
-> ++++ m4-1.4.18/lib/stdio-impl.h
-> +@@ -18,6 +18,12 @@
-> +    the same implementation of stdio extension API, except that some fields
-> +    have different naming conventions, or their access requires some casts.  */
-> + 
-> ++/* Glibc 2.28 made _IO_IN_BACKUP private.  For now, work around this
-> ++   problem by defining it ourselves.  FIXME: Do not rely on glibc
-> ++   internals.  */
-> ++#if !defined _IO_IN_BACKUP && defined _IO_EOF_SEEN
-> ++# define _IO_IN_BACKUP 0x100
-> ++#endif
-> + 
-> + /* BSD stdio derived implementations.  */
-> + 
 
