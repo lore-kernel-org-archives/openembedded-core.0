@@ -1,24 +1,24 @@
 Return-Path: <raphael.kubo.da.costa@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DFDD36C2E6
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C01566BEF4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 13:23:48 +0000 (UTC)
+	Wed, 14 Nov 2018 13:55:02 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Nov 2018 05:23:49 -0800
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Nov 2018 05:55:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,232,1539673200"; d="scan'208";a="279753598"
+X-IronPort-AV: E=Sophos;i="5.56,232,1539673200"; d="scan'208";a="85767691"
 Received: from rkubodac-desk.ger.corp.intel.com ([10.252.5.131])
-	by fmsmga005.fm.intel.com with ESMTP; 14 Nov 2018 05:23:48 -0800
+	by fmsmga007.fm.intel.com with ESMTP; 14 Nov 2018 05:55:02 -0800
 From: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Nov 2018 14:23:36 +0100
-Message-Id: <20181114132336.71049-1-raphael.kubo.da.costa@intel.com>
+Date: Wed, 14 Nov 2018 14:54:57 +0100
+Message-Id: <20181114135457.11182-1-raphael.kubo.da.costa@intel.com>
 X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Subject: [rocko][PATCH] m4: Workaround gnulib's fseeko.c implementation
+Subject: [sumo][PATCH] m4: Workaround gnulib's fseeko.c implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 13:23:49 -0000
+X-List-Received-Date: Wed, 14 Nov 2018 13:55:02 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Khem Raj <raj.khem@gmail.com>
@@ -51,17 +51,17 @@ Signed-off-by: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
  create mode 100644 meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
 
 diff --git a/meta/recipes-devtools/m4/m4-1.4.18.inc b/meta/recipes-devtools/m4/m4-1.4.18.inc
-index d7c8648577..1bce097c60 100644
+index ee8bee446b..a6cef6f328 100644
 --- a/meta/recipes-devtools/m4/m4-1.4.18.inc
 +++ b/meta/recipes-devtools/m4/m4-1.4.18.inc
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
- 
- SRC_URI += "file://ac_config_links.patch \
-             file://remove-gets.patch \
-+            file://m4-1.4.18-glibc-change-work-around.patch \
+@@ -9,6 +9,7 @@ inherit autotools texinfo
+ SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
+            file://ac_config_links.patch \
+            file://remove-gets.patch \
++           file://m4-1.4.18-glibc-change-work-around.patch \
             "
  
- SRC_URI_append_class-target = "\
+ SRC_URI_append_class-target = " file://0001-Unset-need_charset_alias-when-building-for-musl.patch"
 diff --git a/meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch b/meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
 new file mode 100644
 index 0000000000..72e7ae2080
