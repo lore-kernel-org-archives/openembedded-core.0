@@ -1,49 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f170.google.com (mail-it1-f170.google.com
-	[209.85.166.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 2319B6C348
+Return-Path: <zboszor@pr.hu>
+Received: from mail7.pr.hu (mail7.pr.hu [87.242.0.7])
+	by mail.openembedded.org (Postfix) with ESMTP id D47786C3BE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 11:25:36 +0000 (UTC)
-Received: by mail-it1-f170.google.com with SMTP id r12-v6so23308216ita.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 03:25:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=cjkcpmgNUe+3/zdfsc7aFBu2A9b9j4paeNYy2wjjPmM=;
-	b=nnUFVh4qWB8hY5+Z+dCyuYLNF358BzCqoIWhWbJ8/j9b5ld8ggTCm1qwQTZtV3C0Hx
-	Narpz9DgmpoP/HnklDPxPPBVvM0mGwqri9dA83QlNGj+69k7E9Gvwjq68VUlE87fchFy
-	6bVxUOxW9GMgBHHyizaCH+M4VMf+OE2JHgnxAirOXtg/fkJKJObaE+7gGn8v9wtFlk+v
-	8rXVengD8iX0nA9c6O/VxMnU9IfH2xV4aeKOY9ONcGE8D4lvj9BrmojfpyqxO8Nh3tq+
-	avWU5B9hQ/DPs1HfWLywmyE3HnM94GYjAYGG6+XG1BWskcPuJ8auYGaAXZcj1ulgEps+
-	LcrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=cjkcpmgNUe+3/zdfsc7aFBu2A9b9j4paeNYy2wjjPmM=;
-	b=jg4Gd6pwWLgCg5GlXq3hSAgovTVKi5bIQCo9SoKOz+ZYEDd9XGSo4pS6eASxtFMDsq
-	50Yin+tX9uNkJEaClEPcD/f/Fbqv6x/XRFQqtyMkVOd7NregnA5/dpZyADfwR7jd4xvo
-	Llkdulv5FU8roSbP6W/OMVSUREXM6QkHijMBGTyeIrKNKieqtEwNT/E6Zw2UGppeE+ES
-	a5mdrKAGdXrC+y++gWZb7W/fOeJ5VOw7BAwG9LdslD4ZYG0Bz5gCqCGkL/8flTryy17J
-	+6BN1yYd7Ykv3BhKb2aWfZ3LqnfaxAzsuVD2zV2vye42p8Hb4pEWWxD8tItIUzMsbyn6
-	CSug==
-X-Gm-Message-State: AGRZ1gIQ6v8yFouheqIoYownt6eYCZzAkrpE0KNpm+GBi9Os41ggLgm0
-	sydkhz2upoOexEchEDoGwDO8GPeDgsrJanPH2rZNNg==
-X-Google-Smtp-Source: AJdET5dqGqtpuCeiQySo3dalqGSU++cMHzfOXFWoZTae2iKWW2gsuDlyan9ycbRkkPA+NNGt74e2hg6LA0RXxsHPUwQ=
-X-Received: by 2002:a24:ce45:: with SMTP id
-	v66-v6mr1496411itg.26.1542194738045; 
-	Wed, 14 Nov 2018 03:25:38 -0800 (PST)
+	Wed, 14 Nov 2018 11:40:33 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>) id 1gMtX7-0007aI-Mm
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Nov 2018 12:40:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=F/zsZegHzn6pL1MwZczRYwqdurSLnbDy3rKWFhXY73M=;
+	b=FZsO6NWQphO6AVkJI/CSbssZ6w
+	2ll16uoTiaRLNS02NJ0gO5FUtuc4E1DfzDyFp1sz6wYJEAqGblgJZo7yAcx3yfZyiD5VPtT8N+c8P
+	2WzPfWJm5++o6N/PWZlK5oaoXd8EeDQQGobzFaBP9TCCKoUBQdIZwZ2jadyJ3emmN0w7pCGqZkzGm
+	jz13RX73228oBdw1WScwUSUEcs+Er9nWpxc2cPplOT25BMeGUIL+zKyUrjwXMjoTbNCGS0g0rwgdN
+	1j8M9dv+zQUXPwq+FIK2zezcCBlMvx3njVlp2h62ShFBkRigH6VRpInltehUDkVNa7O9VLhARQ+08
+	QjwLnc6w==;
+Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
+	helo=zolilaptop.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1gMtX3-0007Ev-6G; Wed, 14 Nov 2018 12:40:31 +0100
+From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Nov 2018 12:40:25 +0100
+Message-Id: <20181114114025.7010-1-zboszor@pr.hu>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <CAD9sEJu_CbZYAGCiytx1GuM+HEQ+ar8mRG+aWG55dRe_okpK8Q@mail.gmail.com>
-In-Reply-To: <CAD9sEJu_CbZYAGCiytx1GuM+HEQ+ar8mRG+aWG55dRe_okpK8Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 14 Nov 2018 11:25:26 +0000
-Message-ID: <CAJTo0LY4jYkwWH0LEjzoAmjPWpm3W7P0m45YSWC7CfTW11P_CQ@mail.gmail.com>
-To: theknoppix@gmail.com
-Cc: Yocto-mailing-list <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: meta-gnome: what are dependencies for gnome-full-desktop (gnome interface)
+X-Spam-Score: -1.6 (-)
+X-Scan-Signature: 85009d953b1791c297252820971497a4
+X-Spam-Tracer: backend.mail.pr.hu -1.6 20181114114031Z
+Subject: [PATCH] update-alternatives: Allow using relative symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,59 +48,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 11:25:37 -0000
-Content-Type: multipart/alternative; boundary="000000000000898467057a9e3194"
+X-List-Received-Date: Wed, 14 Nov 2018 11:40:35 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---000000000000898467057a9e3194
-Content-Type: text/plain; charset="UTF-8"
+The alternative links are invalid during do_rootfs.
 
-On Wed, 14 Nov 2018 at 08:42, Knoppix <theknoppix@gmail.com> wrote:
+Add a new ALTERNATIVE_TARGET_RELATIVE family of variables to
+conditionally make these links valid. This is limited to the
+case when the binary and the symlink are in the same directory.
 
-> (Excuse me for my english I am not native)
->
-> One disappointment for me was learn that meta-gnome is not fully-supported
-> for running desktop. So i want to write all remain recipes to use desktop
-> environment. I want to start from scratch (except from meta-debian-recipes)
-> because for learn gnome world.
->
-> Dear friends, how can I learn what are the necessary binaries&libraries
-> for gnome interface (i.e: desktop window&display-manager panel, topbar,
-> settings and other UI full-desktop-environment) to use on yocto project?
-> Which project is I should start to write its recipe?
->
+Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
+---
+ meta/classes/update-alternatives.bbclass | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-If you just want to know what the GNOME dependencies are then you should be
-asking GNOME.  GNOME has a build tool called jhbuild, the module sets in
-tht list all of the dependencies required.
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index aa01058cf9..7af559c918 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -47,6 +47,15 @@
+ # the need to rename alternative files in the do_install step, but still
+ # supports it if necessary for some reason.)
+ #
++# The default to use relative link for all targets
++# ALTERNATIVE_TARGET_RELATIVE = "1"
++#
++# A non-default setting to use relative link for a target
++# ALTERNATIVE_TARGET_RELATIVE[name] = "1"
++#
++# A package specific setting to use relative link for a target
++# ALTERNATIVE_TARGET_RELATIVE_<pkg>[name] = "1"
++#
+ # The default priority for any alternatives
+ # ALTERNATIVE_PRIORITY = "priority"
+ #
+@@ -214,6 +223,10 @@ python populate_packages_updatealternatives () {
+             # Sometimes alt_target is specified as relative to the link name.
+             alt_target   = os.path.join(os.path.dirname(alt_link), alt_target)
+ 
++            # Whether to use relative symlink target
++            alt_relative = d.getVarFlag('ALTERNATIVE_TARGET_RELATIVE_%s' % pkg, alt_name) or d.getVarFlag('ALTERNATIVE_TARGET_RELATIVE', alt_name)
++            alt_relative = alt_relative or d.getVar('ALTERNATIVE_TARGET_RELATIVE_%s' % pkg) or d.getVar('ALTERNATIVE_TARGET_RELATIVE')
++
+             alt_priority = d.getVarFlag('ALTERNATIVE_PRIORITY_%s' % pkg,  alt_name) or d.getVarFlag('ALTERNATIVE_PRIORITY',  alt_name)
+             alt_priority = alt_priority or d.getVar('ALTERNATIVE_PRIORITY_%s' % pkg) or d.getVar('ALTERNATIVE_PRIORITY')
+ 
+@@ -229,8 +242,13 @@ python populate_packages_updatealternatives () {
+             # Default to generate shell script.. eventually we may want to change this...
+             alt_target = os.path.normpath(alt_target)
+ 
+-            alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
+-            alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
++            if alt_relative and alt_target.startswith(alt_link):
++                alt_target_final = os.path.basename(alt_target)
++            else:
++                alt_target_final = alt_target
++
++            alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target_final, alt_priority)
++            alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target_final)
+ 
+         if alt_setup_links:
+             # RDEPENDS setup
+-- 
+2.19.1
 
-Note that there's a series to add the GNOME 3 desktop to meta-gnome under
-review on the openembedded-devel list, so working on that would avoid
-duplication of effort.
 
-Ross
-
---000000000000898467057a9e3194
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On Wed, 14 Nov 2018 at 08:42, Knoppix &lt;<a href=3D"mailt=
-o:theknoppix@gmail.com">theknoppix@gmail.com</a>&gt; wrote:<br><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>(Excu=
-se me for my english I am not native)<br></div><div><br></div><div>One disa=
-ppointment for me was learn that meta-gnome is not fully-supported for runn=
-ing desktop. So i want to write all remain recipes to use desktop environme=
-nt. I want to start from scratch (except from meta-debian-recipes) because =
-for learn gnome world.</div><div><br></div><div>Dear friends, how can I lea=
-rn what are the necessary binaries&amp;libraries for gnome interface (i.e: =
-desktop window&amp;display-manager panel, topbar, settings and other UI ful=
-l-desktop-environment) to use on yocto project? Which project is I should s=
-tart to write its recipe?</div></div></blockquote><div><br></div><div>If yo=
-u just want to know what the GNOME dependencies are then you should be aski=
-ng GNOME.=C2=A0 GNOME has a build tool called jhbuild, the module sets in t=
-ht list all of the dependencies required.</div><div><br></div><div>Note tha=
-t there&#39;s a series to add the GNOME 3 desktop to meta-gnome under revie=
-w on the openembedded-devel list, so working on that would avoid duplicatio=
-n of effort.</div><div><br></div><div>Ross</div></div></div>
-
---000000000000898467057a9e3194--
