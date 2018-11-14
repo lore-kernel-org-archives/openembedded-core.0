@@ -1,56 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AF466C17F
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B917B6C176
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 09:32:31 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id z13-v6so16459288wrs.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 01:32:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=EKdGuvyfv+6WwIxlZarUX4fxeB6P9QHML18ad1/3nLc=;
-	b=iOeWLeAyqnPWAqcyqwqXYKBVQbx9MCo7Xqp6O/d1KV14la8GpUY4LSqeRUU0ltVdR6
-	pVj6Dn2M43b60ECgCTMWbJqLecqUUsPUM/FtWUm5cWlJUdWzSU7irzGdpS7XgJbK3loE
-	XHWd2OPCk2CVxSCGoe8fTXV9jCTO0xee5MAOU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=EKdGuvyfv+6WwIxlZarUX4fxeB6P9QHML18ad1/3nLc=;
-	b=V2yU3YLK+1d/Im6bnfVInRazrHTCPxl4NNmF1Do75fXaOv7E0tYDzdBN37FSv89/pQ
-	CjysYpdAm1TQOXH1KT6eZJngmSORJ9tj4Bynl3Z+Epc0IjgMkZpkmHJUYnLIzlUFMcph
-	Guuv6ftgYbYaEwhvi2uWZOmBmnEIxZLi5Ji7iEUVm7PFwD/Ad7x0e/W7BclQixtKogDx
-	eM+bxjLYMOlaHZQsZeCY0TTWfAywejPcEN7yTos39rWrX+ZkCsKk1tRiiwKm7WBH0NS5
-	CNO2U9vJmzrKpeZLyV/BPxAwWrPyD3kdov6KcBrBIOhvhaTZtivGGvnDEuwHh7slyW/L
-	XsKA==
-X-Gm-Message-State: AGRZ1gJvt9yYnhpXsP1MjHT6wjAA0KSUXkr8WkhkPzjIigzbbb5FyIKX
-	RuBDH5w38DsUxWHavZe42R681Q==
-X-Google-Smtp-Source: AJdET5cOYOFpi6hOVVYnyoA1SEvamJ5DObeeuC7Fy84KC9nedUUVXijrMrqbjQUTUp52PdjPu9wjfw==
-X-Received: by 2002:a5d:5390:: with SMTP id
-	d16-v6mr1055154wrv.71.1542187951805; 
-	Wed, 14 Nov 2018 01:32:31 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y2-v6sm38718548wrh.53.2018.11.14.01.32.30
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 14 Nov 2018 01:32:31 -0800 (PST)
-Message-ID: <389bf0dd9a15dce53d94e4ae426d47099d083ae6.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>, 
-	"openembedded-core@lists.openembedded.org"
+	Wed, 14 Nov 2018 09:36:15 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAE9aDro004691
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 14 Nov 2018 01:36:14 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 14 Nov 2018 01:36:13 -0800
+From: <mingli.yu@windriver.com>
+To: <richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>,
+	<raj.khem@gmail.com>, <randy.macleod@windriver.com>,
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Nov 2018 09:32:29 +0000
-In-Reply-To: <9DDD2658D1FE414E99172D2DB1E4D0434811F952@KMSMSX155.gar.corp.intel.com>
-References: <20181109142912.23102-1-richard.purdie@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D0434811E1D4@KMSMSX155.gar.corp.intel.com>
-	<3c2a7b56677a1eb00aace62b4608055810e9f9f8.camel@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D0434811F952@KMSMSX155.gar.corp.intel.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 01/12] build-appliance: Drop test which is already	automated
+Date: Wed, 14 Nov 2018 17:36:11 +0800
+Message-ID: <1542188171-116604-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1541657297-30997-3-git-send-email-mingli.yu@windriver.com>
+References: <1541657297-30997-3-git-send-email-mingli.yu@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH v2] python3: add tk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,41 +34,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 09:32:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Nov 2018 09:36:15 -0000
+Content-Type: text/plain
 
-On Wed, 2018-11-14 at 08:05 +0000, Yeoh, Ee Peng wrote:
-> > In that case wouldn't it make more sense to combine these steps 
-> > with  
-> > some of the other build appliance tests? We could add an extra step
-> > where the tester builds build-appliance rather than having multiple
-> > tests which start "launch build appliance"?
-> 
-> In general, Pros & Cons for merging test cases, Pros: reduced the
-> number of test cases & making it simpler for reading, Cons: loss of
-> lower level tracking on the test status. 
-> Example: currently we have multiple test cases for build-appliance
-> where each test cases testing the ability to use build-appliance-
-> image to bitbake different type of images (recently we detect that
-> build-appliance-image was able to build core-image-minimal & core-
-> image-sato-sdk but it failed to build the build-appliance-image), if
-> we merge multiple test cases into general
-> test_build_appliance_can_build_images, then we will loss the
-> visibilities on which type of images failed when this test failed,
-> unless we looked into the test log if test log were generated.  
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-If a step fails, QA will write a bug report for the failure. I'd have
-thought it would be quite clear in this case what the failing step was?
-QA would also always include a failing build log in such a case which
-should also make the problem quite clear.
+Add support to enable tk via PACKAGECONFIG.
+before this patch:
+ # python3
+ Python 3.5.6 (default, Nov  8 2018, 04:53:45)
+ [GCC 8.2.0] on linux
+ Type "help", "copyright", "credits" or "license" for more information.
+ >>> import tkinter
+ Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib64/python3.5/tkinter/__init__.py", line 35, in <module>
+    import _tkinter # If this fails your Python may not be configured for Tk
+ ImportError: No module named '_tkinter'
+ >>>
 
-Even if the step was "bitbake core-image-minimal core-image-sato build-
-appliance-image -k", the logs should still clearly show what it was
-that failed?
+After this patch, if enable tk in PACKAGECONFIG, then
+ # python3
+ Python 3.5.6 (default, Nov  8 2018, 03:15:52)
+ [GCC 8.2.0] on linux
+ Type "help", "copyright", "credits" or "license" for more information.
+ >>> import tkinter
+ >>>
 
-Cheers,
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ meta/recipes-devtools/python/python3-native_3.5.6.bb       | 3 ++-
+ meta/recipes-devtools/python/python3/python3-manifest.json | 1 +
+ meta/recipes-devtools/python/python3_3.5.6.bb              | 5 +++--
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-Richard
+diff --git a/meta/recipes-devtools/python/python3-native_3.5.6.bb b/meta/recipes-devtools/python/python3-native_3.5.6.bb
+index d5953cf..1e98c03 100644
+--- a/meta/recipes-devtools/python/python3-native_3.5.6.bb
++++ b/meta/recipes-devtools/python/python3-native_3.5.6.bb
+@@ -12,7 +12,7 @@ file://130-readline-setup.patch \
+ file://150-fix-setupterm.patch \
+ file://python-3.3-multilib.patch \
+ file://03-fix-tkinter-detection.patch \
+-file://avoid_warning_about_tkinter.patch \
++${@bb.utils.contains('PACKAGECONFIG', 'tk', '', 'file://avoid_warning_about_tkinter.patch', d)} \
+ file://0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch \
+ file://sysroot-include-headers.patch \
+ file://unixccompiler.patch \
+@@ -28,6 +28,7 @@ file://0003-bpo-32947-Fixes-for-TLS-1.3-and-OpenSSL-1.1.1-GH-876.patch \
+ file://0004-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976.patch \
+ file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-2305.patch \
+ "
++PACKAGECONFIG[tk] = ",,tk-native"
+ 
+ EXTRANATIVEPATH += "bzip2-native"
+ DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native gdbm-native"
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 5329bf7..617256a 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -1060,6 +1060,7 @@
+             "core"
+         ],
+         "files": [
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/tkinter"
+         ],
+         "cached": []
+diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
+index 31f8ead..5c80421 100644
+--- a/meta/recipes-devtools/python/python3_3.5.6.bb
++++ b/meta/recipes-devtools/python/python3_3.5.6.bb
+@@ -21,7 +21,7 @@ ${DISTRO_SRC_URI} \
+ 
+ SRC_URI += "\
+             file://03-fix-tkinter-detection.patch \
+-            file://avoid_warning_about_tkinter.patch \
++            ${@bb.utils.contains('PACKAGECONFIG', 'tk', '', 'file://avoid_warning_about_tkinter.patch', d)} \
+             file://cgi_py.patch \
+             file://host_include_contamination.patch \
+             file://python-3.3-multilib.patch \
+@@ -82,6 +82,7 @@ PACKAGECONFIG ??= "readline ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-userm
+ PACKAGECONFIG[readline] = ",,readline"
+ # Use profile guided optimisation by running PyBench inside qemu-user
+ PACKAGECONFIG[pgo] = "--enable-optimizations"
++PACKAGECONFIG[tk] = ",,tk"
+ 
+ do_configure_append() {
+ 	rm -f ${S}/Makefile.orig
+@@ -246,7 +247,7 @@ PACKAGES += "${PN}-man"
+ FILES_${PN}-man = "${datadir}/man"
+ 
+ RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2"
+-
++RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk', '', d)}"
+ RDEPENDS_${PN}-dev = ""
+ 
+ BBCLASSEXTEND = "nativesdk"
+-- 
+2.7.4
 
 
