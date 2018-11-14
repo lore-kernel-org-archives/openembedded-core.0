@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D40E76C3E9;
-	Wed, 14 Nov 2018 01:33:13 +0000 (UTC)
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 61C866C17F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 05:46:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAE5kaDj014472
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Nov 2018 21:46:36 -0800 (PST)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 13 Nov 2018 21:46:35 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Nov 2018 00:46:31 -0500
+Message-ID: <cover.1542174292.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.19.0.rc2
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Date: Wed, 14 Nov 2018 01:33:15 -0000
-Message-ID: <20181114013315.2331.10068@do>
-References: <20181114010107.31340-1-pkj@axis.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181114010107.31340-1-pkj@axis.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImJpdGJha2UtZHVtcHNpZzogTWFrZSAtLXRhc2sgdy4uLiIgYW5kIDEgbW9yZQ==?=
+Subject: [PATCH 0/1] gettext: fix CVE-2018-18751
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 01:33:14 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Nov 2018 05:46:36 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
+From: Kai Kang <kai.kang@windriver.com>
 
-Series: "bitbake-dumpsig: Make --task w..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/14900/
-State : failure
+The following changes since commit eddff2b361928e88e3628ebc22a1a0ebb119e01b:
 
-== Summary ==
+  curl: actually apply latest CVE patches (2018-11-09 17:46:18 +0000)
 
+are available in the Git repository at:
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+  git://git.pokylinux.org/poky-contrib kangkai/gettext
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/gettext
 
+Kai Kang (1):
+  gettext: fix CVE-2018-18751
 
+ .../gettext-0.19.8.1/fix-CVE-2018-18751.patch | 141 ++++++++++++++++++
+ meta/recipes-core/gettext/gettext_0.19.8.1.bb |   8 +-
+ 2 files changed, 147 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.patch
 
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
-  Patch's path:    bitbake/bin/bitbake-dumpsig
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at f0394e80a3)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.19.0.rc2
 
 
