@@ -1,43 +1,55 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F5BD6C24E
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BADF36BCE7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 00:59:23 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Nov 2018 16:59:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,230,1539673200"; d="scan'208";a="100039898"
-Received: from pgsmsx103.gar.corp.intel.com ([10.221.44.82])
-	by orsmga003.jf.intel.com with ESMTP; 13 Nov 2018 16:59:23 -0800
-Received: from kmsmsx155.gar.corp.intel.com ([169.254.15.19]) by
-	PGSMSX103.gar.corp.intel.com ([169.254.2.155]) with mapi id
-	14.03.0415.000; Wed, 14 Nov 2018 08:59:21 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/4] qemurunner: Add support for slirp
-Thread-Index: AQHUezYEV3QlCyZcpUWT8B/flxp3kqVN1jeAgACdlJA=
-Date: Wed, 14 Nov 2018 00:59:20 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D0434811F735@KMSMSX155.gar.corp.intel.com>
-References: <1542101577-59901-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1542101577-59901-2-git-send-email-ee.peng.yeoh@intel.com>
-	<b26d278cf4a89f6a10aa3895efb84256ed0f6be9.camel@linuxfoundation.org>
-In-Reply-To: <b26d278cf4a89f6a10aa3895efb84256ed0f6be9.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMDYwZTM5ZjQtZTY2NS00NTY3LWJjZDUtZTc4YzM1OGFmMzUxIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoid1RXZ1dcL2ZXcFZvcHBsMEE3ZytPRGFocGcyU3FBMGs1MXNEU1B3eVpxK1dJMjkxakdjVGlBczJLTE1GSjhLZTQifQ==
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.206]
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/4] qemurunner: Add support for slirp
+	Wed, 14 Nov 2018 01:19:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 6196E18348
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 02:19:25 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id JRVEeywBQ45v
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 02:19:11 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 6E38618545
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 02:19:07 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A77E21A0A6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 02:01:08 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9B2471A0A4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 02:01:08 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 02:01:08 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 8E32C2FA5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 02:01:08 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id wAE118PL031389
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 02:01:08 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id wAE118ps031388
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Nov 2018 02:01:08 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Nov 2018 02:01:07 +0100
+Message-Id: <20181114010107.31340-2-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <20181114010107.31340-1-pkj@axis.com>
+References: <20181114010107.31340-1-pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCH 2/2] bitbake-dumpsig: Change to use argparse
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,37 +62,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 00:59:23 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 14 Nov 2018 01:19:25 -0000
 
-TGV0IG1lIGV4cGFuZCB0aGUgdGVzdGluZyB0byBzZWxmdGVzdCAmIHJ1bnRpbWUgdGVzdCBhcyB3
-ZWxsLg0KSSB3aWxsIHBlcmZvcm0gYSB0cmFjaW5nIG9uIHRoZSBkZXBlbmRlbmN5IHRvIGRlY2lk
-ZSBpZiB0aGlzIG5lZWQgbW9yZSB0ZXN0aW5nLiANCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
-LS0NCkZyb206IFJpY2hhcmQgUHVyZGllIFttYWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
-ZGF0aW9uLm9yZ10gDQpTZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDE0LCAyMDE4IDc6MzQgQU0N
-ClRvOiBZZW9oLCBFZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPjsgb3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFU
-Q0ggMi80XSBxZW11cnVubmVyOiBBZGQgc3VwcG9ydCBmb3Igc2xpcnANCg0KT24gVHVlLCAyMDE4
-LTExLTEzIGF0IDE3OjMyICswODAwLCBZZW9oIEVlIFBlbmcgd3JvdGU6DQo+IEVuYWJsZSBxZW11
-cnVubmVyIGZvciBzbGlycC4gUmV0cmlldmVkIHRoZSBwb3J0IGZyb20gbG9jYWxob3N0IHRvIA0K
-PiBjb25uZWN0IHRvIHFlbXUuDQo+IA0KPiBbWU9DVE8jMTA3MTNdDQo+IA0KPiBTaWduZWQtb2Zm
-LWJ5OiBZZW9oIEVlIFBlbmcgPGVlLnBlbmcueWVvaEBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgbWV0
-YS9saWIvb2VxYS91dGlscy9xZW11cnVubmVyLnB5IHwgMTcgKysrKysrKysrKysrKy0tLS0NCj4g
-IDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KDQogIEZp
-bGUgIi9tZWRpYS9idWlsZDEvcG9reS9tZXRhL2xpYi9vZXFhL2NvcmUvZGVjb3JhdG9yL19faW5p
-dF9fLnB5IiwgbGluZSAzMiwgaW4gd3JhcHBlZF9mDQogICAgcmV0dXJuIGZ1bmMoKmFyZ3MsICoq
-a3dhcmdzKQ0KICBGaWxlICIvbWVkaWEvYnVpbGQxL3Bva3kvbWV0YS9saWIvb2VxYS9zZWxmdGVz
-dC9jYXNlcy9kZXZ0b29sLnB5IiwgbGluZSAxMjgyLCBpbiB0ZXN0X2RldnRvb2xfZGVwbG95X3Rh
-cmdldA0KICAgIHdpdGggcnVucWVtdSh0ZXN0aW1hZ2UpIGFzIHFlbXU6DQogIEZpbGUgIi91c3Iv
-bGliL3B5dGhvbjMuNi9jb250ZXh0bGliLnB5IiwgbGluZSA4MSwgaW4gX19lbnRlcl9fDQogICAg
-cmV0dXJuIG5leHQoc2VsZi5nZW4pDQogIEZpbGUgIi9tZWRpYS9idWlsZDEvcG9reS9tZXRhL2xp
-Yi9vZXFhL3V0aWxzL2NvbW1hbmRzLnB5IiwgbGluZSAzMjcsIGluIHJ1bnFlbXUNCiAgICBxZW11
-ID0gb2VxYS50YXJnZXRjb250cm9sLlFlbXVUYXJnZXQocmVjaXBlZGF0YSwgdGFyZ2V0bG9nZ2Vy
-LCBpbWFnZV9mc3R5cGUpDQogIEZpbGUgIi9tZWRpYS9idWlsZDEvcG9reS9tZXRhL2xpYi9vZXFh
-L3RhcmdldGNvbnRyb2wucHkiLCBsaW5lIDE0OCwgaW4gX19pbml0X18NCiAgICBsb2dnZXIgPSBs
-b2dnZXIpDQpUeXBlRXJyb3I6IF9faW5pdF9fKCkgbWlzc2luZyAxIHJlcXVpcmVkIHBvc2l0aW9u
-YWwgYXJndW1lbnQ6ICd1c2Vfc2xpcnAnDQoNCkknbSB0aGVyZWZvcmUgbm90IHN1cmUgaG93IG11
-Y2ggdGVzdGluZyB0aGlzIGhhcyBoYWQ/DQoNCkNoZWVycywNCg0KUmljaGFyZA0KDQoNCg==
+This corresponds to commit 7f130e0b for bitbake-diffsigs.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ bitbake/bin/bitbake-dumpsig | 35 ++++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
+
+diff --git a/bitbake/bin/bitbake-dumpsig b/bitbake/bin/bitbake-dumpsig
+index 40e08e0439..50e5717ace 100755
+--- a/bitbake/bin/bitbake-dumpsig
++++ b/bitbake/bin/bitbake-dumpsig
+@@ -22,7 +22,7 @@
+ import os
+ import sys
+ import warnings
+-import optparse
++import argparse
+ import logging
+ import pickle
+ 
+@@ -73,21 +73,22 @@ def find_siginfo_task(bbhandler, pn, taskname):
+ 
+     return latestfiles[0]
+ 
+-parser = optparse.OptionParser(
+-    description = "Dumps siginfo/sigdata files written out by BitBake",
+-    usage = """
+-  %prog -t recipename taskname
+-  %prog sigdatafile""")
++parser = argparse.ArgumentParser(
++    description="Dump siginfo/sigdata files written out by BitBake")
+ 
+-parser.add_option("-D", "--debug",
+-        help = "enable debug",
+-        action = "store_true", dest="debug", default = False)
++parser.add_argument('-d', '--debug',
++                    help='Enable debug output',
++                    action='store_true')
+ 
+-parser.add_option("-t", "--task",
+-        help = "find the signature data file for the specified task",
+-        action="store", dest="taskargs", nargs=2, metavar='recipename taskname')
++parser.add_argument("-t", "--task",
++        help="find the signature data file for the last run of the specified task",
++        action="store", dest="taskargs", nargs=2, metavar=('recipename', 'taskname'))
+ 
+-options, args = parser.parse_args(sys.argv)
++parser.add_argument("sigdatafile",
++        help="Signature file to dump. Not used when using -t/--task.",
++        action="store", nargs='?')
++
++options = parser.parse_args()
+ 
+ if options.debug:
+     logger.setLevel(logging.DEBUG)
+@@ -97,11 +98,11 @@ if options.taskargs:
+     tinfoil.prepare(config_only = True)
+     file = find_siginfo_task(tinfoil, options.taskargs[0], options.taskargs[1])
+     logger.debug("Signature file: %s" % file)
+-elif len(args) == 1:
+-    parser.print_help()
+-    sys.exit(0)
++elif options.sigdatafile:
++    file = options.sigdatafile
+ else:
+-    file = args[1]
++    parser.print_help()
++    sys.exit(1)
+ 
+ try:
+     output = bb.siggen.dump_sigfile(file)
+-- 
+2.12.0
+
 
