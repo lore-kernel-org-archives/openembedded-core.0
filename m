@@ -1,49 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 33DEA6C17C
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 702E66B8AC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 16:05:53 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id q1so142408pfi.5
+	Wed, 14 Nov 2018 16:22:01 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id r9-v6so7585129pgv.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2018 08:05:54 -0800 (PST)
+	Wed, 14 Nov 2018 08:22:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=Cm1SNQcSNSNXiRh3mgz3aM/CZBfcgut7rZI9/9TsQSs=;
-	b=HipJcSr4V/UPIvC89SpGmm8cFTpmwldzpN6LyCTIjN+4pN86rM7eQwMl7h1Aav67bL
-	rvvCPg1+hNAA3qYtAfQsKzQrce5uj5hF6qeU5kNsb6pSqP1ZqK+jNVfo3OjeH43G9EJN
-	sIj2Ao5mwB4NpeNFiXeawvWB6ZpsS0goKHGxgJ4ZYS1ViJyVoYn0WQKAJEz06+zIf0Bn
-	iVuKsI6SdhX+ZIzNhHgIpOE8GmBwh3T9rFZArWARaBoVkFQThV0YogtOKg1rUlQT/I4i
-	hlWwgv17QhhlFDa+5emZz6hk/FFTuKq1KHDDzNZCIMXvbQ/6uOVJsAMPgpx1WgXXaSIS
-	wR5w==
+	bh=Ziic8Q0UyY9AmKhWCP7tFpf1DgqOK5cbiLI0dadKcSw=;
+	b=D3VLKwdJcDizF9oc1t/WUWtMJ6TKvPP28W6vfXDNtdNi849AFVhmyVHdwoJwhQ1DS9
+	p97+eJIGQHlba8QOR88kYL0CaHVk9zE5o/zKzquMFICkm0qN+BfvAp0GqubFF6iQjNMU
+	PBe4/uHRCKJWEfvBO6R1+PNlI6bWoKUYAOJWs8vnkzaQeCPg95NiIGU8yJfxiCySJNEZ
+	UfmCfB6zszJYGJosvf4+oLE56EqwT6cbMj7maSNnf32DsQDHstEzoFXOfRDI01iudFZj
+	1jjfd3SMy+0edKNW4zDsUoII37N+WoZDfrwyeYjI6ZWJqBEUCGxeubNuSKTIiDVuQ9Ze
+	nuxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=Cm1SNQcSNSNXiRh3mgz3aM/CZBfcgut7rZI9/9TsQSs=;
-	b=XkUl/6cgSuEHsgwjisXPFmMS7p/c+VvRIx/EL13XactgaAwCLN1c/T3Va5xJVCFaiC
-	7siynBWZwbKWGeGxOB0EPWeDqWHl+yfsMvRBySSjrmTsjY/iLReazhB/n13fzNT3wysA
-	ZAtDq4TFBAeb3U9iN4uXNC0Z/MCwwyRoaB5c9XGRj7uI9bbalBwGRZH/9ww3BgdUcdkq
-	H7O/5LaCuuRk2v5tRvOoRiec+QhDDF+7BwUrmIkMSpuweRk6wYWR3l38S09jOgU2RNXx
-	EkOC5yz623mxGI18P9LCHIoCJNSTlXN1FBlMWXKjxLgUK8T5Uet/QB5EQghaOy+BaU0H
-	6jPg==
-X-Gm-Message-State: AGRZ1gKh2cUWYqidg87lAfAarjyvo9wFsm9KTUpfKk3DwVAwGxp+LnbV
-	l7XAHN24SLu6qXUJIIc0WZljPatu
-X-Google-Smtp-Source: AJdET5dsN5MK3J+hxc1f7S3zKXuH5Med+ALWqwSIc73D9Vah4uOhcErztQJNVhF619oiNI7yEkD/gA==
-X-Received: by 2002:a65:6645:: with SMTP id z5mr2284687pgv.351.1542211553667; 
-	Wed, 14 Nov 2018 08:05:53 -0800 (PST)
+	bh=Ziic8Q0UyY9AmKhWCP7tFpf1DgqOK5cbiLI0dadKcSw=;
+	b=N0ymxfOuFSGyqTfp9iq1kz4XzFX+k+BNSlvl2AAzShUup8AZ0ZCM2zl4PCN5Sif9Er
+	sFyerM266978u1NSS/mXqR62YuVK8NELfOl+hZBpfemVpyUOo47ynIUWxLt/4WrGIgTX
+	1ho0Y6358nYNH/+Rm9fOyc+L/5vd8xgACmxtStlRiHNvytTaG185XGPhLf6Jsig/uRuj
+	TC3p42hYNm7m1JezMHm3KMK2NChcXqHQXQIbsgOoYpeyrrIRuxY69RSW1muYr1UKThzi
+	lgMjnfT3SbbmGCGx3FZ2P+P08Db7oU3xJDheq0Q+qZ9g4s5KFWgKILeVqGNsbVU8VCaZ
+	ouLw==
+X-Gm-Message-State: AGRZ1gJzRaIuCvfZfupyLXWCTNEazxJQK86C4MO57LU6QBJmZikNg9Mz
+	RqFEveGJnBN0u/t1NUx8raOq8bBT
+X-Google-Smtp-Source: AJdET5cp0+vusJR7mJ3kiXPVQMWw10o/hdWNZM+/zODoy0+pfGwfv6pEWXkEZHjGRNT+LA7AzVjpvw==
+X-Received: by 2002:a63:ac46:: with SMTP id z6mr2359641pgn.162.1542212522044; 
+	Wed, 14 Nov 2018 08:22:02 -0800 (PST)
 Received: from ?IPv6:2601:202:4180:c33:7db3:34a2:3c95:1c57?
 	([2601:202:4180:c33:7db3:34a2:3c95:1c57])
 	by smtp.gmail.com with ESMTPSA id
-	d80sm32131988pfm.146.2018.11.14.08.05.52
+	t4-v6sm25080230pfh.21.2018.11.14.08.22.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Nov 2018 08:05:52 -0800 (PST)
+	Wed, 14 Nov 2018 08:22:01 -0800 (PST)
 To: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>,
 	openembedded-core@lists.openembedded.org
-References: <20181114135457.11182-1-raphael.kubo.da.costa@intel.com>
+References: <20181114132336.71049-1-raphael.kubo.da.costa@intel.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -89,13 +89,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <69d8a6ab-435f-5dfc-3e66-ea053d82d51b@gmail.com>
-Date: Wed, 14 Nov 2018 08:05:51 -0800
+Message-ID: <5d7a7c30-0d55-da47-c6a2-1dc0fcddce5c@gmail.com>
+Date: Wed, 14 Nov 2018 08:22:00 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <20181114135457.11182-1-raphael.kubo.da.costa@intel.com>
-Subject: Re: [sumo][PATCH] m4: Workaround gnulib's fseeko.c implementation
+In-Reply-To: <20181114132336.71049-1-raphael.kubo.da.costa@intel.com>
+Subject: Re: [rocko][PATCH] m4: Workaround gnulib's fseeko.c implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,13 +108,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2018 16:05:53 -0000
+X-List-Received-Date: Wed, 14 Nov 2018 16:22:01 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
-On 11/14/18 5:54 AM, Raphael Kubo da Costa wrote:
+On 11/14/18 5:23 AM, Raphael Kubo da Costa wrote:
 > From: Khem Raj <raj.khem@gmail.com>
 >
 > exposed by glibc 2.28 for details see
@@ -126,9 +126,12 @@ On 11/14/18 5:54 AM, Raphael Kubo da Costa wrote:
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > Signed-off-by: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
 
-This is siting in my stable/sumo-next
+in in stable/rocko-nmut. Odd thing it, this is not in patchwork but the
+sumo version is.
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=stable/sumo-next&id=1be0ec882784fcf704f6c58264111c563c7e425e
+Thanks,
+
+Armin
 
 > ---
 >  meta/recipes-devtools/m4/m4-1.4.18.inc        |   1 +
@@ -137,17 +140,17 @@ http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=stable/sumo-nex
 >  create mode 100644 meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
 >
 > diff --git a/meta/recipes-devtools/m4/m4-1.4.18.inc b/meta/recipes-devtools/m4/m4-1.4.18.inc
-> index ee8bee446b..a6cef6f328 100644
+> index d7c8648577..1bce097c60 100644
 > --- a/meta/recipes-devtools/m4/m4-1.4.18.inc
 > +++ b/meta/recipes-devtools/m4/m4-1.4.18.inc
-> @@ -9,6 +9,7 @@ inherit autotools texinfo
->  SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
->             file://ac_config_links.patch \
->             file://remove-gets.patch \
-> +           file://m4-1.4.18-glibc-change-work-around.patch \
+> @@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+>  
+>  SRC_URI += "file://ac_config_links.patch \
+>              file://remove-gets.patch \
+> +            file://m4-1.4.18-glibc-change-work-around.patch \
 >             "
 >  
->  SRC_URI_append_class-target = " file://0001-Unset-need_charset_alias-when-building-for-musl.patch"
+>  SRC_URI_append_class-target = "\
 > diff --git a/meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch b/meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
 > new file mode 100644
 > index 0000000000..72e7ae2080
