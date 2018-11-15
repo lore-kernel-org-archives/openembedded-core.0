@@ -1,36 +1,51 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FCC86C131
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 381F96C190
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2018 15:06:47 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 42wl7p650vz1qvP2;
-	Thu, 15 Nov 2018 16:06:46 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 42wl7p5NJRz1qsKH;
-	Thu, 15 Nov 2018 16:06:46 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id QWOfq1IJyEn1; Thu, 15 Nov 2018 16:06:45 +0100 (CET)
-X-Auth-Info: xk82TgQDeSlmF2pl1IrEDEHH3GNYPylc3HnJoqqVPG4=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Thu, 15 Nov 2018 16:06:45 +0100 (CET)
-To: "Burton, Ross" <ross.burton@intel.com>
+	Thu, 15 Nov 2018 15:12:07 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id q26so8272970wmf.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Nov 2018 07:12:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=eh7awASliYhJiNVVuky7Wg9wCU/xtFqQnX23B5vLDZg=;
+	b=B68G54yYesmKl0di4E8V2BRTB3WvD09RB9lAszJ0kCdxiNVRcIzF62mgeyVtAsYvZu
+	98RcLf/cHgfLRxnBICcHKjvUal39JrS92J39j+E00yHP+YNEHKmRu2YkZBknmP6bmzsc
+	jUIZq3DypkW8JmCubw+JscFByCiSA7yqxiH3c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=eh7awASliYhJiNVVuky7Wg9wCU/xtFqQnX23B5vLDZg=;
+	b=dE6Sw6zDrho08edF+fR2k/M/579wNqKQmDen3Pe7S+YKM7FdMYUnoBDndzTiAXbovQ
+	I0LLO1wyt0KizrfvVCcDbKht0DTY+IUvUwmMoi6oSZNjFW1zbfO7HlWhOAPx9450jLuO
+	mWr5dhuIC+JUgZ+tilCEDNoK4TPuhCDhrIXzfqJnbJpJ8K5zEWtI2UksFOdXVPM63XfG
+	HTETgpcnenCBI63suiBg0aHGqCqTseue+7mDNCO+5zOeObdBm8LsKeTKY/l/ax0WH+fY
+	QYTwz4Qox8i5SdpB7bVCW445ecst4wIPGM5n2t+1bUjfxifAEYCQxqhE7IwSk4ls7P9D
+	20mw==
+X-Gm-Message-State: AGRZ1gI7VkHvW6S0ZOHGupwqR36Vr3/7P3RIVZAT9XcjiQpmN2T0gzrY
+	MeMg+sV9bRYBSQwf0AKBcU2qCA==
+X-Google-Smtp-Source: AJdET5f8V5yLvRPDXSnVPfwMCwoaAowIerVk88WKj+bfOjMKcWtwN6TUW3J+n2RDwMakl9RHknzWVQ==
+X-Received: by 2002:a1c:8791:: with SMTP id
+	j139-v6mr5717727wmd.76.1542294727427; 
+	Thu, 15 Nov 2018 07:12:07 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id t5sm3613680wmg.43.2018.11.15.07.12.06
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 15 Nov 2018 07:12:06 -0800 (PST)
+Message-ID: <542aa42e3bdbdbe65f951c12a9df2c3a03171a41.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: "Burton, Ross" <ross.burton@intel.com>, Marek Vasut <marex@denx.de>
+Date: Thu, 15 Nov 2018 15:12:05 +0000
+In-Reply-To: <CAJTo0Lb=60EqJOVYYi2LQ_jiu+bKhKF=4T0bQAnVivjSP4bVvQ@mail.gmail.com>
 References: <20181115124339.19543-1-abrodkin@synopsys.com>
 	<23029415-903d-40f8-9f72-7d97d67aee7b@denx.de>
 	<CAJTo0Lb=60EqJOVYYi2LQ_jiu+bKhKF=4T0bQAnVivjSP4bVvQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <b93175dc-79af-0cda-b975-c4bb429459bf@denx.de>
-Date: Thu, 15 Nov 2018 16:06:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb=60EqJOVYYi2LQ_jiu+bKhKF=4T0bQAnVivjSP4bVvQ@mail.gmail.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
 Cc: Otavio Salvador <otavio@ossystems.com.br>, alexey.brodkin@synopsys.com,
 	OE-core <openembedded-core@lists.openembedded.org>,
 	linux-snps-arc@lists.infradead.org
@@ -47,25 +62,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2018 15:06:48 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-List-Received-Date: Thu, 15 Nov 2018 15:12:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/15/2018 04:00 PM, Burton, Ross wrote:
+On Thu, 2018-11-15 at 15:00 +0000, Burton, Ross wrote:
 > On Thu, 15 Nov 2018 at 14:50, Marek Vasut <marex@denx.de> wrote:
->> I have to admit, the recipe name becomes a misnomer then. But renaming
->> this recipe would be hard, since it's used all over the place. Any ideas?
+> > I have to admit, the recipe name becomes a misnomer then. But
+> > renaming
+> > this recipe would be hard, since it's used all over the place. Any
+> > ideas?
 > 
-> Call it u-boot-tools, potentially merge the other recipe tool, and add
+> Call it u-boot-tools, potentially merge the other recipe tool, and
+> add
 > RPROVIDES for compatibility?
 
-Ah :-)
+You mean PROVIDES since we're talking PN namespace, not PACKAGES?
 
-I wonder if it'd make sense to have this new recipe generate multiple
-packages, one per tool ?
+Cheers,
 
--- 
-Best regards,
-Marek Vasut
+Richard
+
 
