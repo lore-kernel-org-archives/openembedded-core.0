@@ -1,24 +1,29 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EBB796011A
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 930956C1A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2018 08:17:33 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAF8HEel019817
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 15 Nov 2018 08:56:54 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="48180142"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 15 Nov 2018 16:56:54 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 624A84B714D6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2018 00:17:24 -0800
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 15 Nov 2018 00:16:57 -0800
-From: <changqing.li@windriver.com>
+	Thu, 15 Nov 2018 16:56:52 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.227) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Thu, 15 Nov 2018 16:56:59 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Nov 2018 16:16:55 +0800
-Message-ID: <1542269815-299741-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Message-ID: <1535847279-58757-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] checklayer: generate locked-sigs.inc under builddir
+X-Originating-IP: [10.167.225.227]
+X-yoursite-MailScanner-ID: 624A84B714D6.A9EDA
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [master][thud][PATCH] nfs-utils: Enable libnfsidmap.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2018 08:17:34 -0000
+Date: Thu, 15 Nov 2018 08:56:55 -0000
+X-Original-Date: Sun, 2 Sep 2018 08:14:39 +0800
+X-List-Received-Date: Thu, 15 Nov 2018 08:56:55 -0000
 Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+Because libnfsidmap has been remove, enable libnfsidmap to keep consistency of nfs-utils.
 
-yocto-check-layer will find locked-sigs.inc under builddir,
-but locked-sigs.inc is generated under current bitbake working
-dir. if run yocto-check-layer outside builddir, we will met error
-like "No such file or directory: *locked-sigs.inc". change to
-run bitbake -S under builddir to fix this problem.
-
-[YOCTO #12973]
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- scripts/lib/checklayer/__init__.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index 7788041..ca7863a 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -221,13 +221,13 @@ def add_layer(bblayersconf, layer, layers, logger):
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
+index 6d450c7..0ff7d2d 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
+@@ -64,6 +64,7 @@ EXTRA_OECONF = "--with-statduser=rpcuser \
  
-     return True
+ PACKAGECONFIG ??= "tcp-wrappers \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
++    nfsv4 \
+ "
+ PACKAGECONFIG_remove_libc-musl = "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
+@@ -73,7 +74,7 @@ PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper"
+ # keyutils is available in meta-security
+ PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils"
  
--def check_command(error_msg, cmd):
-+def check_command(error_msg, cmd, cwd=None):
-     '''
-     Run a command under a shell, capture stdout and stderr in a single stream,
-     throw an error when command returns non-zero exit code. Returns the output.
-     '''
+-PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
++PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats libnfsidmap"
  
--    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=cwd)
-     output, _ = p.communicate()
-     if p.returncode:
-         msg = "%s\nCommand: %s\nOutput:\n%s" % (error_msg, cmd, output.decode('utf-8'))
-@@ -257,7 +257,7 @@ def get_signatures(builddir, failsafe=False, machine=None):
-         os.unlink(sigs_file)
-     try:
-         check_command('Generating signatures failed. This might be due to some parse error and/or general layer incompatibilities.',
--                      cmd)
-+                      cmd, builddir)
-     except RuntimeError as ex:
-         if failsafe and os.path.exists(sigs_file):
-             # Ignore the error here. Most likely some recipes active
+ CONFFILES_${PN}-client += "${localstatedir}/lib/nfs/etab \
+ 			   ${localstatedir}/lib/nfs/rmtab \
+@@ -98,6 +99,8 @@ RDEPENDS_${PN}-stats = "python3-core"
+ 
+ FILES_${PN} += "${systemd_unitdir}"
+ 
++FILES_libnfsidmap += "${libdir}/libnfsidmap"
++
+ do_configure_prepend() {
+         sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
+             ${S}/utils/mount/Makefile.am
 -- 
 2.7.4
+
+
 
 
