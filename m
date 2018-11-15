@@ -1,20 +1,25 @@
-Return-Path: <martin@geanix.com>
-Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
-	by mail.openembedded.org (Postfix) with ESMTP id 16ADF6C1B3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C9BBA6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2018 09:12:54 +0000 (UTC)
-Received: from zen.localdomain (unknown [85.184.147.232])
-	by mail.hundeboll.net (Postfix) with ESMTPSA id AD38D1C1AD1;
-	Thu, 15 Nov 2018 10:12:55 +0100 (CET)
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Nov 2018 10:12:50 +0100
-Message-Id: <20181115091250.14091-3-martin@geanix.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181115091250.14091-1-martin@geanix.com>
-References: <20181115091250.14091-1-martin@geanix.com>
-MIME-Version: 1.0
-Subject: [PATCH][thud 3/3] openssl-1.1.1: remove build path from version info
+	Thu, 15 Nov 2018 09:23:23 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	wAF9NLsg014209
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 15 Nov 2018 09:23:23 GMT
+Message-ID: <d7b9e550f8628efc13616d92344089dbfd234ec9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 15 Nov 2018 09:23:21 +0000
+In-Reply-To: <579d70f86c017ddc17bc9dfd071361a53e4b0f26.1542247292.git.Qi.Chen@windriver.com>
+References: <cover.1542247292.git.Qi.Chen@windriver.com>
+	<579d70f86c017ddc17bc9dfd071361a53e4b0f26.1542247292.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 8/8] busybox: add coreutils to RDEPENDS of busybox-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,118 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2018 09:12:55 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 15 Nov 2018 09:23:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The openssl build system generates buildinf.h containing the full
-compiler command line used to compile objects. This breaks
-reproducibility, as the compile command is baked into libcrypto, where
-it is used when running `openssl version -f`.
+On Thu, 2018-11-15 at 10:02 +0800, Chen Qi wrote:
+> busybox's echo test cases needs 'od' command to have '-t' option
+> support. However, our busybox disable it by default by not setting
+> CONFIG_DESKTOP. CONFIG_DESKTOP affects many busybox utilities. So
+> add coreutils to RDEPENDS of busybox-ptest.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-core/busybox/busybox.inc | 3 +++
+>  1 file changed, 3 insertions(+)
 
-Add stripped build variables for the compiler and cflags lines, and use
-those when generating buildinfo.h.
+This means any build of busybox will now also build coreutils which
+isn't really desirable.
 
-This is based on a similar patch for older openssl versions:
-https://patchwork.openembedded.org/patch/147229/
+If there any way to just enable the -t option to od without all the
+other changes? Has this been mentioned to upstream busybox?
 
-Signed-off-by: Martin Hundebøll <martin@geanix.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...sysroot-and-debug-prefix-map-from-co.patch | 70 +++++++++++++++++++
- .../openssl/openssl_1.1.1.bb                  |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+Cheers,
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
-new file mode 100644
-index 0000000000..80b62ab18c
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
-@@ -0,0 +1,70 @@
-+From 3e1d00481093e10775eaf69d619c45b32a4aa7dc Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
-+Date: Tue, 6 Nov 2018 14:50:47 +0100
-+Subject: [PATCH] buildinfo: strip sysroot and debug-prefix-map from compiler
-+ info
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The openssl build system generates buildinf.h containing the full
-+compiler command line used to compile objects. This breaks
-+reproducibility, as the compile command is baked into libcrypto, where
-+it is used when running `openssl version -f`.
-+
-+Add stripped build variables for the compiler and cflags lines, and use
-+those when generating buildinfo.h.
-+
-+This is based on a similar patch for older openssl versions:
-+https://patchwork.openembedded.org/patch/147229/
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Martin Hundebøll <martin@geanix.com>
-+---
-+ Configurations/unix-Makefile.tmpl | 10 +++++++++-
-+ crypto/build.info                 |  2 +-
-+ 2 files changed, 10 insertions(+), 2 deletions(-)
-+
-+diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makefile.tmpl
-+index 16af4d2087..54c162784c 100644
-+--- a/Configurations/unix-Makefile.tmpl
-++++ b/Configurations/unix-Makefile.tmpl
-+@@ -317,13 +317,21 @@ BIN_LDFLAGS={- join(' ', $target{bin_lflags} || (),
-+                          '$(CNF_LDFLAGS)', '$(LDFLAGS)') -}
-+ BIN_EX_LIBS=$(CNF_EX_LIBS) $(EX_LIBS)
-+ 
-+-# CPPFLAGS_Q is used for one thing only: to build up buildinf.h
-++# *_Q variables are used for one thing only: to build up buildinf.h
-+ CPPFLAGS_Q={- $cppflags1 =~ s|([\\"])|\\$1|g;
-+               $cppflags2 =~ s|([\\"])|\\$1|g;
-+               $lib_cppflags =~ s|([\\"])|\\$1|g;
-+               join(' ', $lib_cppflags || (), $cppflags2 || (),
-+                         $cppflags1 || ()) -}
-+ 
-++CFLAGS_Q={- for (@{$config{CFLAGS}}) {
-++              s|-fdebug-prefix-map=[^ ]+|-fdebug-prefix-map=|g;
-++            }
-++            join(' ', @{$config{CFLAGS}}) -}
-++
-++CC_Q={- $config{CC} =~ s|--sysroot=[^ ]+|--sysroot=recipe-sysroot|g;
-++        join(' ', $config{CC}) -}
-++
-+ PERLASM_SCHEME= {- $target{perlasm_scheme} -}
-+ 
-+ # For x86 assembler: Set PROCESSOR to 386 if you want to support
-+diff --git a/crypto/build.info b/crypto/build.info
-+index b515b7318e..8c9cee2a09 100644
-+--- a/crypto/build.info
-++++ b/crypto/build.info
-+@@ -10,7 +10,7 @@ EXTRA=  ../ms/uplink-x86.pl ../ms/uplink.c ../ms/applink.c \
-+         ppccpuid.pl pariscid.pl alphacpuid.pl arm64cpuid.pl armv4cpuid.pl
-+ 
-+ DEPEND[cversion.o]=buildinf.h
-+-GENERATE[buildinf.h]=../util/mkbuildinf.pl "$(CC) $(LIB_CFLAGS) $(CPPFLAGS_Q)" "$(PLATFORM)"
-++GENERATE[buildinf.h]=../util/mkbuildinf.pl "$(CC_Q) $(CFLAGS_Q) $(CPPFLAGS_Q)" "$(PLATFORM)"
-+ DEPEND[buildinf.h]=../configdata.pm
-+ 
-+ GENERATE[uplink-x86.s]=../ms/uplink-x86.pl $(PERLASM_SCHEME)
-+-- 
-+2.19.1
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-index b44089e82e..1234b64b86 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1.bb
-@@ -17,6 +17,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-skip-test_symbol_presence.patch \
-            file://0002-fix-CVE-2018-0734.patch \
-            file://0003-fix-CVE-2018-0735.patch \
-+           file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            "
- 
- SRC_URI_append_class-nativesdk = " \
--- 
-2.19.1
+Richard
 
 
