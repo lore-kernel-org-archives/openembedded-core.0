@@ -1,36 +1,49 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D5D66C131
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AC7F6C13B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2018 14:50:50 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 42wknQ3lZ2z1qxlK;
-	Thu, 15 Nov 2018 15:50:50 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 42wknQ36Kzz1qsKJ;
-	Thu, 15 Nov 2018 15:50:50 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id d4Yh338uRZkc; Thu, 15 Nov 2018 15:50:48 +0100 (CET)
-X-Auth-Info: o+JUSnl/A/5uISNSkvoMI4H1RKyPRE9TGOJM7Fal3fE=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Thu, 15 Nov 2018 15:50:48 +0100 (CET)
-To: Alexey Brodkin <alexey.brodkin@synopsys.com>,
-	openembedded-core@lists.openembedded.org
-References: <20181115124339.19543-1-abrodkin@synopsys.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <23029415-903d-40f8-9f72-7d97d67aee7b@denx.de>
-Date: Thu, 15 Nov 2018 14:43:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Thu, 15 Nov 2018 15:00:43 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id w7-v6so29666204itd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Nov 2018 07:00:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YScyaYboldQiZTEOq03jCMwZn3hrbv0JeIm3++vqLps=;
+	b=GSOixGG9RGpNNToR1V0tOnEVSgLhbMAi98RY3fP0jvtSG2RnlIV3S7AL5+2MBiGcRt
+	b9/ZSX3rJ0CjZN++QHI75cgw9QnRL3bFmO5+RPEFo2qZZSeyqOVrtKJbR9VhJPyXmk2p
+	WU1JKfFWw8pKeqyEhvarBvOVnc/JeUfjZk4SBF9mpWCY34ci2/YVloOhEkZtSvI3NHNt
+	EodTx3Is4JopcZqCLyP5uyzbjxQwg8zKqTgBgjjP0cX2ruFNKuGGikaXAyBarsHdRCET
+	PW8GLJ1haQ+eRIIcVlsU+Sq/un3CN6B4MOdppF6ylSu7yfR7osxVg4MnsOF8ia1vU3ZM
+	PVAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YScyaYboldQiZTEOq03jCMwZn3hrbv0JeIm3++vqLps=;
+	b=FIOqP7A2c/XaMe7lEAcIcF4cc9xLjmpHcvLsnEiihWFQq9x3+eXH7XtIQ8/nHsXMTo
+	3cD9N2x/HP0cNF8PzyULigILQmVKZPTi9KWew2KXoydZOzu1OIcPWfoDkr+UYL6adl0v
+	iTZM/Rs3eF4y8Wl40OpPmXeoyJJLZ1PthVngw/dJilXKbcrJl+pa/6HddtLaZmy+2bcb
+	wCcXhLZpTu8tnu70ICkOTJ04sMHRBTcNDfyiG62i+MK9VCkoZXyiFy0cVKfqUlVS+He0
+	baCrSuqd9eCV1QxGYvpydA/bU1/GlwOYv5KlxqnvwpzYdF3s+SPcz/nrotX26Hk9iKv4
+	+OaA==
+X-Gm-Message-State: AGRZ1gL/5b3LWAi2CtNtFXrM/VmiOYK/PCdHJyKQqTSf5Zh5GHVNI4Cx
+	K5niY43VTYD8A2AzFJK3coDXwDiXt56rzHCNtms2dA==
+X-Google-Smtp-Source: AFSGD/XSGByP6uOAIl4NYiu57uIGoGSfurcmoaVN/fdsyyg1bsli5Vs33c8ypNJBQK+WJL8ceKzOwv9tA5X9HiEpjUI=
+X-Received: by 2002:a24:1d8e:: with SMTP id
+	136-v6mr5725618itj.62.1542294045120; 
+	Thu, 15 Nov 2018 07:00:45 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20181115124339.19543-1-abrodkin@synopsys.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
+References: <20181115124339.19543-1-abrodkin@synopsys.com>
+	<23029415-903d-40f8-9f72-7d97d67aee7b@denx.de>
+In-Reply-To: <23029415-903d-40f8-9f72-7d97d67aee7b@denx.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Nov 2018 15:00:33 +0000
+Message-ID: <CAJTo0Lb=60EqJOVYYi2LQ_jiu+bKhKF=4T0bQAnVivjSP4bVvQ@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Otavio Salvador <otavio@ossystems.com.br>, alexey.brodkin@synopsys.com,
+	OE-core <openembedded-core@lists.openembedded.org>,
 	linux-snps-arc@lists.infradead.org
 Subject: Re: [PATCH v2] u-boot: Add mkenvimage tool
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,71 +58,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2018 14:50:50 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Nov 2018 15:00:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/15/2018 01:43 PM, Alexey Brodkin wrote:
-> This utility is used for creation of images containing
-> usable in run-time U-Boot environment.
-> 
-> Note it is already gets built with "make tools" command
-> together with "mkimage" so we just need to install "mkenvimage".
-> 
-> As of today this utility is added per-board like here [1]
-> for Intel Edison board.
-> 
-> [1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Cc: Otavio Salvador <otavio@ossystems.com.br>
-> Cc: Martin Jansa <martin.jansa@gmail.com>
-> Cc: Ross Burton <ross.burton@intel.com>
-> Cc: Marek Vasut <marex@denx.de>
-> ---
-> 
-> Chnages v1 -> v2:
-> 
->  * Got rid of a separate recipe and instead added mkenvimage
->    to u-boot mkimage recipy
-> 
->  meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
-> index 08bff1d161..8a8a1ed449 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
-> @@ -1,6 +1,6 @@
->  require u-boot-common_${PV}.inc
->  
-> -SUMMARY = "U-Boot bootloader image creation tool"
-> +SUMMARY = "U-Boot bootloader environment & image creation tools"
->  DEPENDS += "openssl"
->  
->  EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
-> @@ -20,8 +20,14 @@ do_compile () {
->  
->  do_install () {
->  	install -d ${D}${bindir}
-> +
-> +	# mkimage
->  	install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
->  	ln -sf uboot-mkimage ${D}${bindir}/mkimage
-> +
-> +	# mkenvimage
-> +	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
-> +	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
->  }
->  
->  RDEPENDS_${PN} += "dtc"
+On Thu, 15 Nov 2018 at 14:50, Marek Vasut <marex@denx.de> wrote:
+> I have to admit, the recipe name becomes a misnomer then. But renaming
+> this recipe would be hard, since it's used all over the place. Any ideas?
 
-I have to admit, the recipe name becomes a misnomer then. But renaming
-this recipe would be hard, since it's used all over the place. Any ideas?
+Call it u-boot-tools, potentially merge the other recipe tool, and add
+RPROVIDES for compatibility?
 
--- 
-Best regards,
-Marek Vasut
+Ross
 
