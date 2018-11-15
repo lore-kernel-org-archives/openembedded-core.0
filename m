@@ -1,52 +1,24 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
-	[198.182.47.9])
-	by mail.openembedded.org (Postfix) with ESMTP id BE8306C19A
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EBB796011A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2018 05:15:14 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 286AF24E09C8;
-	Wed, 14 Nov 2018 21:15:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1542258916; bh=qUt4eBHk6GUOIfQjtOjJ8ZCSDtdmv9fN92FgCStMA58=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=gBBsdiatgwRysu/GkApOBye+Y0dS1EfsxOOb4bgwP99KlUlxTvFq72Jbx3aM+AePa
-	P+rV8i3iRGjp4nA7v3HyTkraXmHh2WGkd1fB3uA+CN9955iT+1515ihnNHcrMZIYpl
-	qxWD5T/qP53GLy8OfToElJbdGUl3/QYSEnWttzoYOIlYiBL87REf1qe+vu0ljK9J3S
-	virFVM4J/vhtjOCrdCUM+ELhC/HqmTH0vWbEZAfhwj58F/mQMfQRLDprjGBRbmO2vO
-	i2mzBtD5s+NUAFNfXBHSasXu566PqV9uNXdCwSnjHDw4M9nhfEwDWfXcmYRjmyijZS
-	476fnP9IKBkDQ==
-Received: from US01WEHTC3.internal.synopsys.com
-	(us01wehtc3.internal.synopsys.com [10.15.84.232])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 0B8DE5BB1;
-	Wed, 14 Nov 2018 21:15:15 -0800 (PST)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
-	US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Wed, 14 Nov 2018 21:15:07 -0800
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCA.internal.synopsys.com ([::1]) with mapi id
-	14.03.0415.000; Thu, 15 Nov 2018 06:15:04 +0100
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: "marex@denx.de" <marex@denx.de>
-Thread-Topic: [PATCH] u-boot: Add mkenvimage tool
-Thread-Index: AQHUfJfMRIkZm8eQ40qk/j2ZLDr4BaVQNYGAgAABmQCAAANFAA==
-Date: Thu, 15 Nov 2018 05:15:03 +0000
-Message-ID: <804b3db998a4d9efa0e9f8f649ea9741274be094.camel@synopsys.com>
-References: <20181115040043.9326-1-abrodkin@synopsys.com>
-	<CAMKF1sq3P7XVX9JrqQj8QXhntJWfAM8LY1GFpaCDr3rbDxpgnw@mail.gmail.com>
-	<2c011907-e4f6-2b16-e0b8-714db476130e@denx.de>
-In-Reply-To: <2c011907-e4f6-2b16-e0b8-714db476130e@denx.de>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.30.2 (3.30.2-2.fc29) 
-x-originating-ip: [10.225.15.87]
+	Thu, 15 Nov 2018 08:17:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAF8HEel019817
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Nov 2018 00:17:24 -0800
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 15 Nov 2018 00:16:57 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Nov 2018 16:16:55 +0800
+Message-ID: <1542269815-299741-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
-Subject: Re: [PATCH] u-boot: Add mkenvimage tool
+Subject: [PATCH] checklayer: generate locked-sigs.inc under builddir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,47 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2018 05:15:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4C43D7915807524D99614CCE87091580@internal.synopsys.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 15 Nov 2018 08:17:34 -0000
+Content-Type: text/plain
 
-SGkgTWFyZWssDQoNCk9uIFRodSwgMjAxOC0xMS0xNSBhdCAwNjowMyArMDEwMCwgTWFyZWsgVmFz
-dXQgd3JvdGU6DQo+IE9uIDExLzE1LzIwMTggMDU6NTcgQU0sIEtoZW0gUmFqIHdyb3RlOg0KPiA+
-IE9uIFdlZCwgTm92IDE0LCAyMDE4IGF0IDg6MDAgUE0gQWxleGV5IEJyb2RraW4NCj4gPiA8YWxl
-eGV5LmJyb2RraW5Ac3lub3BzeXMuY29tPiB3cm90ZToNCj4gPiA+IFRoaXMgdXRpbGl0eSBpcyB1
-c2VkIGZvciBjcmVhdGlvbiBvZiBpbWFnZXMgY29udGFpbmluZw0KPiA+ID4gdXNhYmxlIGluIHJ1
-bi10aW1lIFUtQm9vdCBlbnZpcm9ubWVudC4NCj4gPiA+IA0KPiA+ID4gQXMgb2YgdG9kYXkgdGhp
-cyB1dGlsaXR5IGlzIGFkZGVkIHBlci1ib2FyZCBsaWtlIGhlcmUgWzFdDQo+ID4gPiBmb3IgSW50
-ZWwgRWRpc29uIGJvYXJkLCBoZXJlIFsyXSBmb3IgQWx0ZXJhJ3MgU29DRlBHQSBhbmQNCj4gPiA+
-IEkgbWF5IGd1ZXNzIHRoZXJlJ3JlIG90aGVycyBzbyBpbnN0ZWFkIG9mIGFkZGluZyBhbm90aGVy
-IG9uZSBmb3INCj4gPiA+IEFSQyB3aHkgZG9uJ3Qgd2UgcGFja2FnZSBpdCBmb3IgZWFjaCBhbmQg
-ZXZlcnlvbmUuDQo+ID4gPiANCj4gPiA+IFsxXSANCj4gPiA+IGh0dHBzOi8vdXJsZGVmZW5zZS5w
-cm9vZnBvaW50LmNvbS92Mi91cmw/dT1odHRwLTNBX19naXQueW9jdG9wcm9qZWN0Lm9yZ19jZ2l0
-X2NnaXQuY2dpX21ldGEtMkRpbnRlbC0yRGVkaXNvbl90cmVlX21ldGEtMkRpbnRlbC0yRGVkaXNv
-bi0yRGJzcF9yZWNpcGVzLTJEYnNwX3UtMkRib290X3UtMkRib290LTJEdG9vbHMtNUYyMDE0LjA0
-LmJiJmQ9RHdJQ2FRJmM9RFBMNl9YXzZKa1hGeDdBWFdxQjB0ZyZyPWxxZGVlU1NFZXMwR0ZERGw2
-NTZlVmlYTzdicmVTNTV5dFdraHBrNVI4MUkmbT1jSzV1ckFBN1AyRVIxQXZLWmREM0NFTDVyMjNE
-d2R0SjRJb2h5X1FDVVNRJnM9VnlWT0hxNUkzRnNPWHZPZjdTUWdWbHd0VGZLWDBiTjVabVBQZWhq
-RC16dyZlPQ0KPiA+ID4gWzJdIA0KPiA+ID4gaHR0cHM6Ly91cmxkZWZlbnNlLnByb29mcG9pbnQu
-Y29tL3YyL3VybD91PWh0dHBzLTNBX19naXRodWIuY29tX2tyYWpfbWV0YS0yRGFsdGVyYV9ibG9i
-X21hc3Rlcl9yZWNpcGVzLTJEYnNwX3UtMkRib290X3UtMkRib290LTJEbWtlbnZpbWFnZS01RnYy
-MDE2LjExLmJiJmQ9RHdJQ2FRJmM9RFBMNl9YXzZKa1hGeDdBWFdxQjB0ZyZyPWxxZGVlU1NFZXMw
-R0ZERGw2NTZlVmlYTzdicmVTNTV5dFdraHBrNVI4MUkmbT1jSzV1ckFBN1AyRVIxQXZLWmREM0NF
-TDVyMjNEd2R0SjRJb2h5X1FDVVNRJnM9VERQdHBtb2ZjdEd1UDRkZWpSR2xpMFNCVVJlUVFQb2lG
-UXNXUEhzNHZWOCZlPQ0KPiA+IA0KPiA+IElmIHRoaXMgaXMgYXBwbGljYWJsZS93b3JrcyBmb3Ig
-YWxsIHUtYm9vdCBiYXNlZCBtYWNoaW5lcyB0aGVuIEkgdGhpbmsgaXQgbWFrZXMNCj4gPiBzZW5z
-ZSB0byBoYXZlIGl0IG9uIE9FLWNvcmUuDQo+IA0KPiBJdCBpcy4NCj4gDQo+ID4gPiBTaWduZWQt
-b2ZmLWJ5OiBBbGV4ZXkgQnJvZGtpbiA8YWJyb2RraW5Ac3lub3BzeXMuY29tPg0KPiA+ID4gQ2M6
-IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4YW5kZXIua2FuYXZpbkBsaW51eC5pbnRlbC5jb20+DQo+
-ID4gPiBDYzogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5v
-cmc+DQo+ID4gPiBDYzogT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW9Ab3NzeXN0ZW1zLmNvbS5icj4N
-Cj4gPiA+IENjOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPg0KPiA+ID4gQ2M6
-IE1hcmVrIFZhc3V0IDxtYXJleEBkZW54LmRlPg0KPiANCj4gUmV2aWV3ZWQtYnk6IE1hcmVrIFZh
-c3V0IDxtYXJleEBkZW54LmRlPg0KPiANCj4gVGhhdCBzYWlkLCBjb3VsZCB0aGUgcmVjaXBlIGZv
-ciBta2ltYWdlIGFuZCBta2VudmltYWdlIGJlIHNvbWVob3cNCj4gZGVkdXBsaWNhdGVkID8gVGhl
-cmUgc2VlbXMgdG8gYmUgYSBsb3Qgb2YgY29tbW9uIHN0dWZmLg0KDQpJJ2Qgc2F5IHdoeSBkb24n
-dCB3ZSBqdXN0IGhhdmUgb25lIHJlY2lwZSBmb3IgYWxsIFUtQm9vdCB0b29scw0KaW5zdGVhZCBv
-ZiBhZGRpbmcgdG9vbHMgb25lLWJ5LW9uZT8NCg0KLUFsZXhleQ0K
+From: Changqing Li <changqing.li@windriver.com>
+
+yocto-check-layer will find locked-sigs.inc under builddir,
+but locked-sigs.inc is generated under current bitbake working
+dir. if run yocto-check-layer outside builddir, we will met error
+like "No such file or directory: *locked-sigs.inc". change to
+run bitbake -S under builddir to fix this problem.
+
+[YOCTO #12973]
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ scripts/lib/checklayer/__init__.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
+index 7788041..ca7863a 100644
+--- a/scripts/lib/checklayer/__init__.py
++++ b/scripts/lib/checklayer/__init__.py
+@@ -221,13 +221,13 @@ def add_layer(bblayersconf, layer, layers, logger):
+ 
+     return True
+ 
+-def check_command(error_msg, cmd):
++def check_command(error_msg, cmd, cwd=None):
+     '''
+     Run a command under a shell, capture stdout and stderr in a single stream,
+     throw an error when command returns non-zero exit code. Returns the output.
+     '''
+ 
+-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=cwd)
+     output, _ = p.communicate()
+     if p.returncode:
+         msg = "%s\nCommand: %s\nOutput:\n%s" % (error_msg, cmd, output.decode('utf-8'))
+@@ -257,7 +257,7 @@ def get_signatures(builddir, failsafe=False, machine=None):
+         os.unlink(sigs_file)
+     try:
+         check_command('Generating signatures failed. This might be due to some parse error and/or general layer incompatibilities.',
+-                      cmd)
++                      cmd, builddir)
+     except RuntimeError as ex:
+         if failsafe and os.path.exists(sigs_file):
+             # Ignore the error here. Most likely some recipes active
+-- 
+2.7.4
+
 
