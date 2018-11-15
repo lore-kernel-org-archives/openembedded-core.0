@@ -1,25 +1,55 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B4E596C18F
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F0E46C0ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2018 19:43:47 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	wAFJhk2X002781
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Thu, 15 Nov 2018 19:43:48 GMT
-Message-ID: <2cdd2bd1c5aa882806944166c12d506ef142073c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 15 Nov 2018 19:43:46 +0000
-In-Reply-To: <6947107f1c2b7d20d72f237f8630aa469c2b08e3.1542247292.git.Qi.Chen@windriver.com>
-References: <cover.1542247292.git.Qi.Chen@windriver.com>
-	<6947107f1c2b7d20d72f237f8630aa469c2b08e3.1542247292.git.Qi.Chen@windriver.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+	Thu, 15 Nov 2018 22:28:43 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id j18-v6so3591001iog.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Nov 2018 14:28:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=pY9Xz2v9ho8vshTJJcgNXRTvjOqs4CKyC3O72fp0hk0=;
+	b=EWxptBZKzmlzMiiy4XDXxm1oe9uRGsMUXsxhnMFK8L+sY+RaVxwo5ftdnOJnpAp8CK
+	Y/IgGopnzUPMaNWWBESDtZm1t26YAIGhqr5bFp50Yt+NdyvlHd7kxb9Pb9s4jBE3JM/j
+	+kIZYLCDp4XEKEYAeln2/9hXRaqepxvOpK/nhCdsai+Pof0eLEStiikc7l1Vgt0QkXXm
+	nymCULjO1RDDoMY3paTwhMKPkkGDVXNArMjP3KIOk3CnqsG1GiRb8GU+5WRt2P9P40Ak
+	2V5rckrhn1+6TOdWKSDKR4uZ1JZqhF8B8NC1f+wHMScfbJaltUaqeMIilqItMbrBLqgp
+	aO7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=pY9Xz2v9ho8vshTJJcgNXRTvjOqs4CKyC3O72fp0hk0=;
+	b=JWq5CK6bXObPLm0hotmb8uxNnhHxfFVk7HM2baz8l+lhDprw2xw8LkN05UQHZNMdBL
+	RSWLRAX/t8y+ay8StK7axGVUf/DH7tHKiRivjCYJAihUQP/8DBuc6w75YsIw64xl6AwM
+	VkPECs8zpSLTEuEnm9i6G7/A39y/a07EAGJjNyTgkkKYSeHhSsCkiQNg5CvJgdUvF8Rw
+	1kZLumIBjIbM9pcTyLgftDPOFP7/6FZLuMlCwvcspcC+4Vz2ihr5/DEyZROMyeEKj8Nj
+	dwwYG3eUMVjXY3x/8sdD+DUVx2g/54zK9e6nRU4KQbnyiaCPScw4FgiMh7mC+k4daWJg
+	0Q/Q==
+X-Gm-Message-State: AGRZ1gLs01S+ZMtuhbB7wK5azIbBifT7OAX6TvF9YlknrEN4y29lUCRg
+	PIISeb1t8LcaokOQtTQ9mTgsTfiJu6U=
+X-Google-Smtp-Source: AFSGD/W5McdXeRgLqg+W7XQB0c5+h6jFCMCzW81HQX7ba6NZyafu0tVrZ7igFNDqicEPC5qBHBp70g==
+X-Received: by 2002:a6b:b490:: with SMTP id d138mr6655795iof.61.1542320924405; 
+	Thu, 15 Nov 2018 14:28:44 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	q14sm4993121ioj.80.2018.11.15.14.28.43
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 15 Nov 2018 14:28:43 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <32da8c27357053bf0e1eac4169125a130ae3a24f.camel@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 15 Nov 2018 16:28:42 -0600
+In-Reply-To: <cfa00b9cb9aa1fcbe5525c33b16109f11f9b0db7.camel@linuxfoundation.org>
+References: <20181115191442.24106-1-JPEWhacker@gmail.com>
+	<cfa00b9cb9aa1fcbe5525c33b16109f11f9b0db7.camel@linuxfoundation.org>
+User-Agent: Evolution 3.30.1 (3.30.1-1.fc29) 
 Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/8] busybox: enable bzip2 by default
+Subject: Re: [PATCH] classes/testsdk: Split implementation into classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +62,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2018 19:43:48 -0000
+X-List-Received-Date: Thu, 15 Nov 2018 22:28:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-11-15 at 10:02 +0800, Chen Qi wrote:
-> bunzip2 is enabled by default, but bzip2 is not. This is kind of
-> strange, and it also causes busybox's ptest failure regarding
-> bunzip2, as bunzip2's test case needs bzip2 command.
+On Thu, 2018-11-15 at 19:40 +0000, Richard Purdie wrote:
+> On Thu, 2018-11-15 at 13:14 -0600, Joshua Watt wrote:
+> > Splits the SDK test implementation into separate class files. The
+> > classes that are included are controlled by the variable
+> > ${TESTSDK_CLASSES}. This allows a SDK machine to change which
+> > classes
+> > are used to implement the test cases.
+> > 
+> > [YOCTO #13020]
+> > 
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > ---
+> >  meta/classes/testsdk-oecore.bbclass    |  88 +++++++++++
+> >  meta/classes/testsdk.bbclass           | 202 ++-------------------
+> > --
+> > --
+> >  meta/classes/testsdkext-oecore.bbclass | 107 +++++++++++++
+> >  3 files changed, 205 insertions(+), 192 deletions(-)
+> >  create mode 100644 meta/classes/testsdk-oecore.bbclass
+> >  create mode 100644 meta/classes/testsdkext-oecore.bbclass
 > 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/recipes-core/busybox/busybox/defconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Would it make more sense to move some of this code to 'proper' python
+> library/classes under meta/lib/oe ?
 > 
-> diff --git a/meta/recipes-core/busybox/busybox/defconfig
-> b/meta/recipes-core/busybox/busybox/defconfig
-> index 32213c0..0c40990 100644
-> --- a/meta/recipes-core/busybox/busybox/defconfig
-> +++ b/meta/recipes-core/busybox/busybox/defconfig
-> @@ -150,7 +150,7 @@ CONFIG_LZCAT=y
->  # CONFIG_UNXZ is not set
->  CONFIG_XZCAT=y
->  # CONFIG_XZ is not set
-> -# CONFIG_BZIP2 is not set
-> +CONFIG_BZIP2=y
->  CONFIG_FEATURE_BZIP2_DECOMPRESS=y
->  CONFIG_CPIO=y
->  # CONFIG_FEATURE_CPIO_O is not set
+> We did this with package_managers and I'd say it probably did improve
+> things...
+> 
+> We probably don't want/need more bbclass files, particularly when
+> they
+> just include each other.
 
-Fails on the autobuilder:
+Organizationally, using Python classes for the main code makes a lot of
+sense, but I believe you would still need the 3 (or 2 if you combine
+testsdk-oecore and testsdkext-oecore) classes, since you want the
+single entry point of testsdk.bbclass, but need to be able to override
+how it gets implemented (unless I'm missing something)...
 
+The files would basically boil down to:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/21/builds/219/steps/7/logs/step1b
+---- classes/testsdk.bbclass ----
 
-Cheers,
+TESTSDK_CLASSES ?= "testsdk-oecore testsdkext-oecore"
 
-Richard
+inherit ${TESTSDK_CLASSES}
+
+---- classes/testsdk(ext)?-oecore.bbclass ----
+
+python do_testsdk() {
+    from oeqa.sdk.testsdk import TestSDK
+    t = TestSDK(d)
+    t.run()
+}
+
+----
+
+It might make things a little more clear if I describe the end game; I
+would like to provide a different class to implement the MinGW SDK
+tests. This would be done by adding the following to the MinGW SDK
+machine.conf file (mingw32-common.inc):
+
+ TESTSDK_CLASSES = "testsdk-mingw"
+
+Then, adding a new class in meta-mingw
+
+---- classes/testsdk-mingw.bbclass ----
+
+python do_testsdk() {
+    from oeqa.sdk.testsdkmingw import TestSDKMinGW
+    t = TestSDKMinGW(d)
+    t.run()
+}
+
+----
+
+AFAICT, this is pretty similar to how the package managers are working.
+
+Did you had something else in mind?
+
+> 
+> Cheers,
+> 
+> Richard
+> 
+-- 
+Joshua Watt <JPEWhacker@gmail.com>
 
 
