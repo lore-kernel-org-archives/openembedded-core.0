@@ -1,79 +1,53 @@
-Return-Path: <sbabic@denx.de>
-X-Greylist: delayed 395 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 15 Nov 2018 10:48:02 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id BD1706C19A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 502206C0FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2018 10:48:02 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 42wdFg1MBgz1r3Jv;
-	Thu, 15 Nov 2018 11:41:27 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 42wdFg0Vpfz1qsK5;
-	Thu, 15 Nov 2018 11:41:27 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id 1JODskNIMbws; Thu, 15 Nov 2018 11:41:23 +0100 (CET)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
-	[88.217.136.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPS;
-	Thu, 15 Nov 2018 11:41:23 +0100 (CET)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id 87EF34540403;
-	Thu, 15 Nov 2018 11:41:22 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([IPv6:::1])
-	by localhost (mail.babic.homelinux.org [IPv6:::1]) (amavisd-new,
-	port 10024)
-	with ESMTP id Nnm8G9uvgiW2; Thu, 15 Nov 2018 11:41:19 +0100 (CET)
-Received: from [192.168.178.132] (papero.fritz.box [192.168.178.132])
-	by babic.homelinux.org (Postfix) with ESMTP id C175245402A8;
-	Thu, 15 Nov 2018 11:41:18 +0100 (CET)
-To: Alexey Brodkin <alexey.brodkin@synopsys.com>,
-	"raj.khem@gmail.com" <raj.khem@gmail.com>
+	Thu, 15 Nov 2018 11:35:10 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id j26-v6so20844329wre.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Nov 2018 03:35:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=4luwDsfVKMTMqM/ze2e+vg4u6KB0yz20Dp0Bnsn9kA0=;
+	b=pZo0bkLGLcGTC+nUaWoPRbth3dN+j7gUy54uJbtyADqjThC1ueqqMDPwcegSvAA+2G
+	0+eCRAiancTbPhCpORAdYruFKpjXHVJw+hyDDxCIrSRJ7bxFa+EWzyk3B1AxpE/bXhyi
+	2GzxGVFKFiHiFEVLSwZu09QKanwcctNh977CGfA7Wdv/+DueA7636ycskA58Vj3cl0xc
+	WM898bnpanbnZwv9sUE1jaL6pMk/fvRzyzRACeXOnY+uDNuRiEgQz/PLv7/qc0D83Xqu
+	GcnuvwWe4e5ToUIGjCne1Srrf/gYdwEkPqqiKs1KjM1Qhrfw1+Hek6oe3Er4z1RU4GXI
+	l+PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=4luwDsfVKMTMqM/ze2e+vg4u6KB0yz20Dp0Bnsn9kA0=;
+	b=a2rIZ7Nj7gYpV6MEI0+RxuHWxDH7cDNrP8UOLo5iD+51n6G7EGT2tvLtd4VaJ9JdDE
+	V/vIjZLO58vGse/utva+JKLVm5QO1bPK/D3HjPPbqPaujplmV/1gZsgghfdVyyiblEFr
+	4xWep7Z6HTbUcVV9SCPa6bsm6zaGlXtDbgNzEp7WT1U4Wn6T0PP5LVmh7yPvLL58FOnM
+	eVVn1n1E069ixd4PNRLV4D87PI494/gAhLgAyI3TFpkzvi6/PcS8iCp9yMpyqSWeJrJT
+	OrZIKBfLTU2CMpK8OIDq0zHq+NdB4aCV0oKkrH3y/v2KMRKaO7aqhCis0YGJK2fZ3d0o
+	XUGA==
+X-Gm-Message-State: AGRZ1gLqqE4BxPUde1qzwjOsM2HGWcCSeTMIH20L03MQv4a6/t2oVdhb
+	4Llcf7zUuyLMTKav8Sa66PS4H8KLPhP4Pf+b3/Q=
+X-Google-Smtp-Source: AJdET5d6loST4zW/dvINVX01bFRTytdf0/s3G98NxmB4XHBvExa4uVXQgQzzj1AbP8WnKfPX9j9mrbGZ8lFH5jcY4vw=
+X-Received: by 2002:a05:6000:151:: with SMTP id
+	r17mr5495231wrx.53.1542281710803; 
+	Thu, 15 Nov 2018 03:35:10 -0800 (PST)
+MIME-Version: 1.0
 References: <20181115040043.9326-1-abrodkin@synopsys.com>
 	<CAMKF1sq3P7XVX9JrqQj8QXhntJWfAM8LY1GFpaCDr3rbDxpgnw@mail.gmail.com>
-	<c060af96f5e55e4808e4cccde2bc8c7a3633ff8f.camel@synopsys.com>
-From: Stefano Babic <sbabic@denx.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=sbabic@denx.de; prefer-encrypt=mutual; keydata=
-	xsDiBEfdB5IRBADkpYcnh2BoAkGD5p186ysEkWlcp5DU07m7BKzvkEMRhFjeFUOU0klKNmh0
-	ZM6rKpYpAYPYBm9YahMyqvj9DmLrZ4yfJ5MssvW9SRETmHpva+h1rN+DzmEcwrqZmLG1JWGy
-	LA5ruJaFSzxJHBoROoog1NDMbNDB8A9F7VKrePfkVwCgmODpW/uh2IuMYLVidzDeuvo7alED
-	/iV8rwU7C+eBcKy2htuDsEmsqlkBxIDM7IO6h5XxdyqbZOYizuBP3Ksb6xK54weEaB5aQs7S
-	8N9Soi0p1Xh0LMWj6PBCzTC4LF+OCGEMBPc6bBHNzivChgztJlUMioCDSVpOXB/QpBaK302G
-	yP5WdmcB1Jn6neq/YRlxHN38MV2yA/46jnzeUotL9LliVZKA/ql4GmyWg2Ae1BUiCqEJQNwl
-	knGJOmIS4uABLArB5HjsfDU5hA9FORaNGCIiZlezBkZ3JXA2uQMQhfgqBXrZt4j1fcw9I7E+
-	7IZ2kSCeTPZFLd5FiGQPDOm3Z9eHrpK6pmBGMeBG0pDgUEbN9awyLNBLj80eU3RlZmFubyBC
-	YWJpYyA8c2JhYmljQGRlbnguZGU+wmMEExECACMCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIX
-	gAUCT9deSgIZAQAKCRD09WXkmmjvppF1AKCRl8d49K4yxWzdBVRTTWG55cyo/gCfRD1RAttl
-	R1ofs2wGLHNtXousyL3OwU0ER90HmBAIAIFfX4bKnOmCyB3nPh+jbXZuBSMZTuyDEnguRxl5
-	N8Q0ayofQwucCBjXYv65sQ9Rq6FNhEnWqUZBu8A5CwvSakOFOGNC5ta/8VxVRLh0Z0ZTgEep
-	SKiPonJyacCbmgWDECdVrKowV7QB9be3Wu67uAZ74rPw2Kd7f0FKnL3djvVRMaBWFIpyQ6SE
-	bGOCJjhRQ5L1pIM1Soko+reU7eO+1g6IBw6YkFJisdQE6fzTwaSqUKPPsQLz/W03invQltOb
-	Eg7ZwtFs0DFonr1DMm57ksiEhW6SN1wylRO/JzRYG1Qe7u1EVln6iV3ilBvbbfkyRssk4/0e
-	kicpSnQknA72YOMAAwYH+QGpAiQ4hAMHrp1bUrtyGXYdeQpYufIZAM4etOnBy/G+e1nfu6y+
-	jH4SN9sVK7bwBBAbhEJqkqR5LVsFIRapThJQOWB11rQxLpwkBU9wao/pRM+o95ujGo32WUzf
-	wWrzWrkTDy7vMCZuUOLVi4n1GZlUAwpG4rzb6UxPC6GWymkVWGgXp1NC58og5i3Y+rKT7+Xi
-	XT2BtvC6PDepoH4JhD+9OkHQO6UfTxPSmtgNbTgtl6L6tj+bm5dOHgkPJFMkEiG8qhUZYQzb
-	bYz37orRbA72M2bxK76e9QKn0mVu+d/YCd8wRcvvJbGsozpzcxPvD5Wy5RNJCES8McPtAseU
-	tMfCSQQYEQIACQUCR90HmAIbDAAKCRD09WXkmmjvpv+3AJ9RakBsH1j0X/Kxp6t2lf0VUfS2
-	qACfZ+J6ktk8PKNuyHf0J/I0mbCrhV4=
-Message-ID: <ce245b3f-083a-fda4-a35b-96525dcc4e83@denx.de>
-Date: Thu, 15 Nov 2018 11:41:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <c060af96f5e55e4808e4cccde2bc8c7a3633ff8f.camel@synopsys.com>
-Cc: "marex@denx.de" <marex@denx.de>,
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
-	"alexander.kanavin@linux.intel.com" <alexander.kanavin@linux.intel.com>,
-	"otavio@ossystems.com.br" <otavio@ossystems.com.br>,
-	"openembedded-core@lists.openembedded.org"
+	<2c011907-e4f6-2b16-e0b8-714db476130e@denx.de>
+	<804b3db998a4d9efa0e9f8f649ea9741274be094.camel@synopsys.com>
+	<20181115092758.GA1430@jama>
+	<104a73697f5072fc3abcf7d9cce47e95ca2e8c12.camel@synopsys.com>
+In-Reply-To: <104a73697f5072fc3abcf7d9cce47e95ca2e8c12.camel@synopsys.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 15 Nov 2018 12:34:59 +0100
+Message-ID: <CA+chaQd+_55SeR-61zi4DOU8iTyac=w-tEkBDJJvQb-3OvC8iA@mail.gmail.com>
+To: Alexey Brodkin <alexey.brodkin@synopsys.com>
+Cc: Marek Vasut <marex@denx.de>, linux-snps-arc@lists.infradead.org,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] u-boot: Add mkenvimage tool
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -88,51 +62,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2018 10:48:03 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Nov 2018 11:35:10 -0000
+Content-Type: multipart/alternative; boundary="000000000000842074057ab27195"
 
-On 15/11/18 06:05, Alexey Brodkin wrote:
-> Hi Khem,
-> 
-> On Wed, 2018-11-14 at 20:57 -0800, Khem Raj wrote:
->> On Wed, Nov 14, 2018 at 8:00 PM Alexey Brodkin
->> <alexey.brodkin@synopsys.com> wrote:
->>> This utility is used for creation of images containing
->>> usable in run-time U-Boot environment.
->>>
->>> As of today this utility is added per-board like here [1]
->>> for Intel Edison board, here [2] for Altera's SoCFPGA and
->>> I may guess there're others so instead of adding another one for
->>> ARC why don't we package it for each and everyone.
->>>
->>> [1] 
->>> https://urldefense.proofpoint.com/v2/url?u=http-3A__git.yoctoproject.org_cgit_cgit.cgi_meta-2Dintel-2Dedison_tree_meta-2Dintel-2Dedison-2Dbsp_recipes-2Dbsp_u-2Dboot_u-2Dboot-2Dtools-5F2014.04.bb&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=U0I6P-1P3vft6mR4soZ9Y6ptJqYWloOoS0ogvO2Rzv4&s=WEknmJT4TnByCWMMzh4D-2sDrYv5_kx2V1Qk8SYtJY8&e=
->>> [2] 
->>> https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_kraj_meta-2Daltera_blob_master_recipes-2Dbsp_u-2Dboot_u-2Dboot-2Dmkenvimage-5Fv2016.11.bb&d=DwIBaQ&c=DPL6_X_6JkXFx7AXWqB0tg&r=lqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=U0I6P-1P3vft6mR4soZ9Y6ptJqYWloOoS0ogvO2Rzv4&s=OiXy88hL3o5z9JN0O88EUo3ttvvgFQnC2LnDc_xhGyY&e=
->>
->> If this is applicable/works for all u-boot based machines then I think it makes
->> sense to have it on OE-core.
-> 
-> Well "mkenvimage" is one of standard U-Boot tools so it has nothing
-> specific for any architecture or board whatsoever.
-> 
-> It is not used that often as "mkimage" probably because people
-> mostly depends on default U-Boot env settings which are compiled-in
-> U-Boot binary with help of CONFIG_EXTRA_ENV_SETTINGS="..."
-> but IMHO it is rather useful as we may prepare fine-tuned environment
-> setups for a particular use-case from pure text-based input.
+--000000000000842074057ab27195
+Content-Type: text/plain; charset="UTF-8"
 
-It is useful, but I think it is better to include it into current recipe
-(as Martin suggest) instead of adding a new one.
+Hi,
 
-Stefano
+yes fw-utils is similar, but has different dependencies and builds slightly
+differently.
 
--- 
-=====================================================================
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
-=====================================================================
+mkenvimage on the other hand is already built by current u-boot-mkimage
+recipe, just not installed by default (adding separate recipe would build
+it twice).
 
+On Thu, Nov 15, 2018 at 11:32 AM Alexey Brodkin <alexey.brodkin@synopsys.com>
+wrote:
+
+> Hi Martin,
+>
+> On Thu, 2018-11-15 at 10:27 +0100, Martin Jansa wrote:
+> > On Thu, Nov 15, 2018 at 05:15:03AM +0000, Alexey Brodkin wrote:
+> > > Hi Marek,
+>
+> [snip]
+>
+> > > > Reviewed-by: Marek Vasut <marex@denx.de>
+> > > >
+> > > > That said, could the recipe for mkimage and mkenvimage be somehow
+> > > > deduplicated ? There seems to be a lot of common stuff.
+> > >
+> > > I'd say why don't we just have one recipe for all U-Boot tools
+> > > instead of adding tools one-by-one?
+> >
+> > Or add:
+> >     install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
+> >     ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
+> >
+> > to existing u-boot-mkimage recipe, that's what I'm doing in
+> > u-boot-mkimage bbappend.
+>
+> Sure and indeed that was my initial intention but then I noticed
+> there're separate recipes for mkimage and fw-utils and decided
+> to act similarly.
+>
+> If OE people is fine with addition of another (pretty similar
+> ideologically)
+> utility in u-boot-mkimage_xx.bb then I'm happy to implement it that way.
+>
+> -Alexey
+>
+
+--000000000000842074057ab27195
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,<div><br></div><div>yes fw-utils is similar, but has di=
+fferent dependencies and builds slightly differently.</div><div><br></div><=
+div>mkenvimage on the other hand is already built by current u-boot-mkimage=
+ recipe, just not installed by default (adding separate recipe would build =
+it twice).</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Th=
+u, Nov 15, 2018 at 11:32 AM Alexey Brodkin &lt;<a href=3D"mailto:alexey.bro=
+dkin@synopsys.com">alexey.brodkin@synopsys.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex">Hi Martin,<br>
+<br>
+On Thu, 2018-11-15 at 10:27 +0100, Martin Jansa wrote:<br>
+&gt; On Thu, Nov 15, 2018 at 05:15:03AM +0000, Alexey Brodkin wrote:<br>
+&gt; &gt; Hi Marek,<br>
+<br>
+[snip]<br>
+<br>
+&gt; &gt; &gt; Reviewed-by: Marek Vasut &lt;<a href=3D"mailto:marex@denx.de=
+" target=3D"_blank">marex@denx.de</a>&gt;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; That said, could the recipe for mkimage and mkenvimage be so=
+mehow<br>
+&gt; &gt; &gt; deduplicated ? There seems to be a lot of common stuff.<br>
+&gt; &gt; <br>
+&gt; &gt; I&#39;d say why don&#39;t we just have one recipe for all U-Boot =
+tools<br>
+&gt; &gt; instead of adding tools one-by-one?<br>
+&gt; <br>
+&gt; Or add:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0install -m 0755 tools/mkenvimage ${D}${bindir}/uboo=
+t-mkenvimage<br>
+&gt;=C2=A0 =C2=A0 =C2=A0ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage<br=
+>
+&gt; <br>
+&gt; to existing u-boot-mkimage recipe, that&#39;s what I&#39;m doing in<br=
+>
+&gt; u-boot-mkimage bbappend.<br>
+<br>
+Sure and indeed that was my initial intention but then I noticed<br>
+there&#39;re separate recipes for mkimage and fw-utils and decided<br>
+to act similarly.<br>
+<br>
+If OE people is fine with addition of another (pretty similar ideologically=
+)<br>
+utility in <a href=3D"http://u-boot-mkimage_xx.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">u-boot-mkimage_xx.bb</a> then I&#39;m happy to implement it th=
+at way.<br>
+<br>
+-Alexey<br>
+</blockquote></div>
+
+--000000000000842074057ab27195--
