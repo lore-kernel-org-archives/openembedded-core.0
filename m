@@ -1,48 +1,49 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
 	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 317566C189
+	by mail.openembedded.org (Postfix) with ESMTP id B93526B12B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2018 12:35:42 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id a205-v6so23525235itd.4
+	Thu, 15 Nov 2018 12:37:53 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id p11-v6so18847677itf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2018 04:35:43 -0800 (PST)
+	Thu, 15 Nov 2018 04:37:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1lqyPd6ik4IpZarHtyIkAsIrGnksaGfaAR+aWrwzcoQ=;
-	b=ZWh9fU3QIExKWdlnASRfmZ+JDXfsh1AsNUNbp6yBP+DX47t8eGI+nx0KbwQtIiDQ+S
-	0vElR3CPsaXF4jgHh+7m+W0K9zlYom/REp7ugtgNym+J9LxsYI0OLS/uHQurDrmdswvU
-	eTUvqX9u+PrSCQ3X0pcKkn+ZBEVcANmjJZqHNNo65mty40smQQORARU9JpTfBLhg3V1O
-	/jkA96HKI9FQt/JnI+IQG65X1WA9NvUzI2ruAJfmePFWI5eKG8P8uvd+R+H6WTdwVm6L
-	ai35JdaIbMGt/mx1MBb8GeWHv+a0WIXvjXrqyxEEsVVIwG94tNyGjEAW5gA9ketXFB2t
-	C/kg==
+	:cc; bh=dj1VXZDhRLS+pQtgsR8Mq7tCqjI+sSIAneT9i3ZAar4=;
+	b=ugmjzwXrkGy70tSsx/tVH+klcRPYO3HdBsk/prEPBgZlBxo6TpFIlo8Lf5KCQuCob/
+	JSVyvIlLeqWwSTcF1J3XCXEPyQz6u2WTD8jU2SwLwamrklEV8np36ls3hiUb1iVBCgI+
+	OMnlPns/c3HvVWNNrEUAJnDNqvkElzo7W/jTwU99iJC/H1gN+hXE6+3rs+TzuK5HdmGv
+	j6jXTRO0+77S4UrqIjN8n3svQ8QyCWbuMribEVRsFAOmTzfaWCXbib7zerakZm0pN64W
+	JIKWrQyoiCNBG1IP0lz7K+/0LiGnA3PYGvA3qXzNz9YL7cuDzblP4Ro34MzF4X8en8Bl
+	itVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=1lqyPd6ik4IpZarHtyIkAsIrGnksaGfaAR+aWrwzcoQ=;
-	b=M+Bwi24SqWnJ4lLbkXUDrQBSj14NvcE+OBTOx6bJ2jR5DPkRmTqZkr2bGsZWHzDBSG
-	WOuu3jaw+6d9Yb4yNJe8RngTNt1zcljCEg9+xdorjmsbk4neWZQMl6DPoAItSdApbsdK
-	/ZXLhcTmqtuW5k5sQP82aYV8NY8P667vKrIM8MQXyr+xZo9k+9sq20FXQUZffB7ax+Hv
-	xOm1jveDixYkA8HoLqerEBnTk8BSysostTaFvYyrbQ8MLqm0cDeSgDUEuTOdPWx5N/F/
-	cyR5z2UBa/vYdX9UxBfucGgDIcueK7P4bPRtYbBOqkCulO9mdXzKY4jJBOZ365dFVTHJ
-	cYiA==
-X-Gm-Message-State: AGRZ1gIAxU0b78KHii6XSmmuWT+Mx+JA+T5+Jqf3sW3wioKVF1eiZfQv
-	GAUov54LPYzbNiVsg7deQl/7X6hciPA3IJLfI9810On4GS8=
-X-Google-Smtp-Source: AJdET5cPXS5zmUfv4b4Ugij7eez673rO0jrgp/+mReq5+U6lazDSqhysCkJkncMtRk97EhOfupFSMSXaFOChQFq0RHI=
-X-Received: by 2002:a24:ce45:: with SMTP id
-	v66-v6mr5352452itg.26.1542285343138; 
-	Thu, 15 Nov 2018 04:35:43 -0800 (PST)
+	bh=dj1VXZDhRLS+pQtgsR8Mq7tCqjI+sSIAneT9i3ZAar4=;
+	b=Pcwn0M0IyZNMO6os46hNLwh8RasXpLdRV4p5psywBirO3LNLm9rsWqxESVLzIV+IXA
+	A8hLEYBWyx2JO1NMqic3hLgDQw54/sNTFcSnATRG3OYxBvi8eOIKCINA7nOIn1YhvPng
+	SvLwmD1I/xDx9/lIU3W/tmmfgIfz2G27LRjXykmdSpruxakDzAcjsW29bAoV9jcWitpo
+	CObiG0qT+5HX3ZUttj3nvccpQ+ijuKBdXts1pRFUeaRLRWJdbRSrNE+W7ZoSeiOrK0vi
+	NJ4Bw2zgq5zyrWKs86E35DQ+30yJMHPpohAZ8L6RXc2pyEsdSCyV+79WT5kR70gXiZck
+	GjHQ==
+X-Gm-Message-State: AGRZ1gI+I3+fhB1mXJA9bx69HWVvXlUuh/GyRMs7ocLjgdlLu42N83lF
+	qLK1VkF0rPs7bt3ZVvmrsPX0SJXY/NUgC9pFqcka5w==
+X-Google-Smtp-Source: AFSGD/W2+NPlXoR5fZ46mOZJ8/oCk1UOoYl7TrhhvBRuFLIKP/AsvcAvJNceGjjmF/yFXMMP0LRblJ+L2knhfSTVR/w=
+X-Received: by 2002:a24:9142:: with SMTP id
+	i63-v6mr6092013ite.130.1542285474871; 
+	Thu, 15 Nov 2018 04:37:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20181017004016.7897-1-hongl.fnst@cn.fujitsu.com>
-In-Reply-To: <20181017004016.7897-1-hongl.fnst@cn.fujitsu.com>
+References: <20181102172812.12120-1-sno@netbsd.org>
+	<CAJTo0LbRiDVcGxuihyGkhDk3ATKb18r7Z5_pfSd3=C=0SHbaWQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LbRiDVcGxuihyGkhDk3ATKb18r7Z5_pfSd3=C=0SHbaWQ@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Nov 2018 12:35:32 +0000
-Message-ID: <CAJTo0LZagwhbhSRvmwEb4hK3cQwV03Sd8dKoN=cAZfMF4SAN3A@mail.gmail.com>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
+Date: Thu, 15 Nov 2018 12:37:44 +0000
+Message-ID: <CAJTo0LYX6v7zusWiOtmkNfR+pcS_EUPq9E4krZkn1wvgBjoJKQ@mail.gmail.com>
+To: Jens Rehsack <sno@netbsd.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] e2fsprogs:1.44.3->1.44.4
+Subject: Re: [PATCH] python3{,-native}: update to 3.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,57 +56,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2018 12:35:42 -0000
+X-List-Received-Date: Thu, 15 Nov 2018 12:37:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-This appears to break if musl is being used:
+On Wed, 14 Nov 2018 at 10:47, Burton, Ross <ross.burton@intel.com> wrote:
+> Getting reports that this breaks cross builds, for example python3-dbus.
+>
+> tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/python3-dbus/1.2.6-r0/recipe-sysroot-native/usr/lib/libpython3.7m.so: file not recognized: File format not recognized
+> With 3.5.6 the python3-dbus do_configure lokks like "-L/home/dev/medusa/build/yocto/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/python3-dbus/1.2.6-r0/recipe-sysroot/usr/lib -lpython3.5m"
+> With the patch 3.7.1 from the ml, it looks like "L/home/dev/medusa-test/build/yocto/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/python3-dbus/1.2.6-r0/recipe-sysroot-native/usr/lib -lpython3.7m"
+>
+>
+> Looks like the cross/sysconfig/etc code regressed and it's picking up the native sysroot libraries for a cross build.
 
-In file included from ../../../git/lib/ext2fs/ext2fs.h:97,
-                 from ../../../git/lib/e2p/feature.c:20:
-../../../git/lib/ext2fs/hashmap.h:20:19: error: missing binary
-operator before token "("
- #if __GNUC_PREREQ (4, 8)
-                   ^
-../../../git/lib/ext2fs/hashmap.h:25:19: error: missing binary
-operator before token "("
- #if __GNUC_PREREQ (4, 8)
-                   ^
+Yep, all over the autobuilder too:
+
+python3-dbus: http://errors.yoctoproject.org/Errors/Details/200715/
+gpgme: http://errors.yoctoproject.org/Errors/Details/200716/
 
 Ross
-On Wed, 17 Oct 2018 at 01:40, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
->
-> Upgrade e2fsprogs from 1.44.3 to 1.44.4
->
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> ---
->  .../e2fsprogs/{e2fsprogs_1.44.3.bb => e2fsprogs_1.44.4.bb}              | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.44.3.bb => e2fsprogs_1.44.4.bb} (98%)
->
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.4.bb
-> similarity index 98%
-> rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
-> rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.4.bb
-> index 823d18b..99b4d68 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.4.bb
-> @@ -12,7 +12,7 @@ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permissio
->                                  file://quiet-debugfs.patch \
->  "
->
-> -SRCREV = "85e53f42f98d5334914de01e972e9ed44bccd0a5"
-> +SRCREV = "40e66e2e8be046f909dfff73b3909f15c9d0f400"
->  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
->
->  EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
-> --
-> 2.7.4
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
