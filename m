@@ -1,43 +1,23 @@
-Return-Path: <davis.roman84@gmail.com>
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
-	[209.85.167.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B70C6010B;
-	Thu, 15 Nov 2018 00:38:16 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id p86so12918280lfg.5;
-	Wed, 14 Nov 2018 16:38:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=9/FpTZEXMEDndQDQfeOC4gi0kFPYxnCjAirmZdhPiew=;
-	b=QfTKf8f7GRd8F4AehtN4XzvCBjROirlSbRGrPTh7qkdsgUDRX+Q2l9KHMGtXGe9I+x
-	4ex+SCF4MLCUPqkdQFIZpQc1nIVdaHiKxfo4VtCx+RVMljfPd64gVF1ZoHQb+39/1T8m
-	8FknFTTMkJ+kOvcQmcCm0+vi3ZosgD7LhRBhvRXVnW1F2L+CdeggkC/iEUy66+uZabL0
-	rFzPI4TyjxNMZSbXmiHNQ7KPCTvHtNuAo+yn4MnMr+xe8CwHR1Szhz2pG0VTg2g5Z9D9
-	aZSOEKPaA49JDG9cdO8hgSEuM5IrAGdiLCVaW7sKCzzB3AH0Eeh0hW4T7WMUg/a48r5Q
-	GJTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=9/FpTZEXMEDndQDQfeOC4gi0kFPYxnCjAirmZdhPiew=;
-	b=SDDBC+okhBtGgY5aiB05UrqgXUHlmKOcxVhAydIh6bv6EGPwiGwSxBu9YYop/yxEHi
-	Rlrx0DDsIAdtY+sxqffcNwJQG/3V3tnhNSNHQYFHvxREjJWzyTQTn3bburNT3UINV9Oj
-	mwkbriBgPhQh3l7D79yByQC/0PIdIpWaPJxMCzy6RX7r+MAbhVLQzSM8paPQnISM0LsX
-	WT6EKsEynsqZY25tgQHQ786s29u/raCOUWgcVpMl6RSNOA1j3E93DBimhzpTEdi6UAGC
-	pLQShnqwL9+JrpgdL+GY8n31XwDEVesqdxfrA4br2E7/fX0wPBvnAbhgMv4I0IxpVSkc
-	UsFw==
-X-Gm-Message-State: AGRZ1gLhbBgY6eKcxbIZocdVv9P5bLEONqbRD1yS07zWvKVSJIeUevIK
-	Q8fbryW7EuaT1P3zCmy1H5yrQtv02VZxRJrtDfPU3Q==
-X-Google-Smtp-Source: AJdET5foZkJghTzSpJPEvmDLr55ENV6v3wmsPHN1hu0FUU82D0LOnmMtJba84MYeC19RqLFo5NRItzXnk1NyKkMEgUo=
-X-Received: by 2002:a19:690d:: with SMTP id e13mr2214941lfc.84.1542242297175; 
-	Wed, 14 Nov 2018 16:38:17 -0800 (PST)
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 21AAA6C182
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Nov 2018 01:55:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAF1toEh022336
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2018 17:55:50 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 14 Nov 2018 17:55:49 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Nov 2018 10:02:26 +0800
+Message-ID: <cover.1542247292.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-From: Davis Roman <davis.roman84@gmail.com>
-Date: Wed, 14 Nov 2018 19:38:05 -0500
-Message-ID: <CACfi_Z3yjSK95o843HqpubqKgx=f-3u3e3GwGz65enKYTmbS6Q@mail.gmail.com>
-To: Yocto discussion list <yocto@yoctoproject.org>
-Cc: bitbake-devel@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: difference between DEPLOYDIR vs D
+Subject: [PATCH 0/8] Fixes for busybox ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,38 +30,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2018 00:38:17 -0000
-Content-Type: multipart/alternative; boundary="00000000000047e378057aa94433"
+X-List-Received-Date: Thu, 15 Nov 2018 01:55:50 -0000
+Content-Type: text/plain
 
---00000000000047e378057aa94433
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit be1c84a91eb3ddddbef5cb7d4f74ffbb0ffe5778:
 
-Hello,
+  poky.conf: Update the distros we test against on the autobuilder (2018-11-14 11:18:18 +0000)
 
-I'm trying to understand the correlation between the $DEPLOYDIR and $D
-variables.
+are available in the git repository at:
 
-They both seem very similar.
+  git://git.pokylinux.org/poky-contrib ChenQi/busybox-ptest
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/busybox-ptest
 
-Do files from DEPLOYDIR eventually get copied to D in order to finally make
-its way into the final package?
+Chen Qi (8):
+  busybox: enable bzip2 by default
+  busybox: skip known bugs in ptest
+  busybox: add zip to RDEPENDS of ptest package
+  busybox: check uudecode before using it in test case
+  busybox: use example.org instead of google.com in wget test case
+  busybox: remove three hostname test cases
+  busybox: fix du-l-works test case
+  busybox: add coreutils to RDEPENDS of busybox-ptest
 
-If so, why bother with  DEPLOYDIR and instead just copy straight into D?
+ meta/recipes-core/busybox/busybox.inc              | 12 +++++
+ ...-du-l-works-fix-to-use-145-instead-of-144.patch | 32 +++++++++++
+ ...-testsuite-check-uudecode-before-using-it.patch | 45 ++++++++++++++++
+ ...e-use-www.example.org-for-wget-test-cases.patch | 62 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox/defconfig        |  2 +-
+ meta/recipes-core/busybox/busybox_1.29.2.bb        |  3 ++
+ meta/recipes-core/busybox/files/run-ptest          |  1 +
+ 7 files changed, 156 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-check-uudecode-before-using-it.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-use-www.example.org-for-wget-test-cases.patch
 
-Thank you,
+-- 
+1.9.1
 
-Davis
 
---00000000000047e378057aa94433
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,=C2=A0<div><br></div><div>I&#39;m trying to understa=
-nd the correlation between the $DEPLOYDIR and $D variables.=C2=A0</div><div=
-><br></div><div>They both seem very similar.</div><div><br></div><div>Do fi=
-les from DEPLOYDIR eventually get copied to D in order to finally make its =
-way into the final package?</div><div><br></div><div>If so, why bother with=
-=C2=A0 DEPLOYDIR and instead just copy straight into D?</div><div><br></div=
-><div>Thank you,</div><div><br>Davis</div></div>
-
---00000000000047e378057aa94433--
