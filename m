@@ -1,50 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 411A66C1C0
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id A4B856C193
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2018 09:40:41 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id l9so11273192wrt.13
+	Fri, 16 Nov 2018 09:40:42 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id e3-v6so24176722wrs.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2018 01:40:42 -0800 (PST)
+	Fri, 16 Nov 2018 01:40:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=est02WpnZuoPAnxfiPtLJ3LyVtqmbPpFhhJXHWv/XB0=;
-	b=Dl/SpV2jbV9GX9qLVRNZf1/24QCiAmUYegPSxTObuQdAS0cIZe5GmRe2+rYuivvS/1
-	hVylb53tY8y9bUSjMfUHdvfnhGkIB7BI+SJwmWcVeDgdmnle6qz8LYUjTt5iVKmyotAb
-	Sq0qMTk4vuBUNgb8KDHKYURx29tZ58wPAGiZ8=
+	bh=1mIaNF3gVCX7MF6sSjSobxRQqbTLBsEICFYLf7tIrJc=;
+	b=eMxZ+u36sLC4ZmClz8UlngQSduuV+TViygOtIhYp76FBFfiuQDHWHQwV+4Z+DJfQxD
+	ipvh+DXtLk68bFTWIkWuVsU9r9QW3v1YXBsKFiHUd4BmbMKYSTt9pANChRYpEqR3J6+K
+	NNAL3MbYXZHlfOFti9r+bRSkmifYtYLRUwLeE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=est02WpnZuoPAnxfiPtLJ3LyVtqmbPpFhhJXHWv/XB0=;
-	b=riJDvfS5kK/0LWNpFZTae7seWBNkfIj5+QU+qz7JGmWXXOxoE+srTSyFX6NlrApjj5
-	GBwKK5qh48kl01k1qG2jtZxRFGyKAhcAYXUncstiNv1lNoJWb4E56YcHoCOm1ygEM6Lh
-	QAn8f6gPMeTlOdlu2n3iIPkKwFng6kK0wFucqvyuDsl9WKTNx4xLkgPiUkC1IQL+rNaZ
-	4LPYjhUUEMOkswxz/WswsjNd+beFDxBO+R58Wk97YYrZcA/VIZ8bz2TRhCWmN6z73jqJ
-	fIR/skpjxf5BAdePczUT2gtBDLHB4VAEIhQK4dRIoq/ifKbE8aX6GFpNDwvu36DoYB3t
-	BBSw==
-X-Gm-Message-State: AGRZ1gKBDeW3dxZ0GLZJamOqJf+nK3FCOl7iH0OWhvd63EQ9uD38sx6k
-	uDFWv9huJRqF1WEHLkDaog3p9EA70X4=
-X-Google-Smtp-Source: AJdET5eAp2/o/3M+ACSKQ/LCH36vgER67cgiklBXnoJYTNYDtklW0iJQ3opQtYonRIkVaqvSS2bM9g==
-X-Received: by 2002:a5d:5206:: with SMTP id
-	j6-v6mr8407358wrv.147.1542361241592; 
-	Fri, 16 Nov 2018 01:40:41 -0800 (PST)
+	bh=1mIaNF3gVCX7MF6sSjSobxRQqbTLBsEICFYLf7tIrJc=;
+	b=uREhzP+Okc+VzDKTWRqniBijO34c/bAA8XvUlEF5nk+GN4jKIBftiIXvmBTr/I0jkU
+	7cozSr2a5CsmdJ6FWD61l0VNybmEFeyKQXAi9tXDp78IJxf67s409ug0yYVtK6nnggig
+	6/qB+8/fecBk2Nn2cc5uYpLluCfaAh4qqCrUfj2DC4R5trwUJ06XC2cE7ZgZ/aqvzDnc
+	xFJr4Gm7zCfUN5ts0ud0lw8nK1NuuaW59AQ+Pn64xyVbFt4SpkxQlYBYiEotvDo0qWH/
+	aI+r9+KvJb37qiItE7VLGbKM/a3I/vFuvYUIcgeFcRr9vtLupJCupbw2QQQ9gXHawYrJ
+	j83A==
+X-Gm-Message-State: AA+aEWY7pkjWw8mYxazqoJI92kP+sXvMPI2bbaWmvj0OGOwUBkcaztJ6
+	emGTxrwp46UATk6vFBhWMIzBodbyZgg=
+X-Google-Smtp-Source: AFSGD/V0GIHG+/7UaMzGdfv9JJYs7VqEvGyMr1KjQ/otyDacIl/V15GPQV8SB0lyiJGOu6dsmTzddA==
+X-Received: by 2002:adf:a1d2:: with SMTP id v18mr3338433wrv.87.1542361242927; 
+	Fri, 16 Nov 2018 01:40:42 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	o27-v6sm24554039wro.24.2018.11.16.01.40.40
+	o27-v6sm24554039wro.24.2018.11.16.01.40.41
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Nov 2018 01:40:41 -0800 (PST)
+	Fri, 16 Nov 2018 01:40:42 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Nov 2018 09:40:36 +0000
-Message-Id: <20181116094037.4220-4-richard.purdie@linuxfoundation.org>
+Date: Fri, 16 Nov 2018 09:40:37 +0000
+Message-Id: <20181116094037.4220-5-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181116094037.4220-1-richard.purdie@linuxfoundation.org>
 References: <20181116094037.4220-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 4/5] oeqa/utils/httpserver: Rework to avoid hangs and improve logging
+Subject: [PATCH 5/5] testimage: Enable autorunning of the package manager testsuites
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,134 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2018 09:40:41 -0000
+X-List-Received-Date: Fri, 16 Nov 2018 09:40:42 -0000
 
-testimage.bbclass installs a SIGTERM handler which conflicts with the
-use of multiprocessing here. This is paritcularly problematic if the http
-service is terminated before its started and hence before its had a chance
-to reset the default signal handler (as the code was written).
-
-Instead, temporarily remove testimage's handler whilst forking the http process
-which means the correct handler is installed and won't deadlock.
-
-Also take the opportunity to add in some log messages about the server start
-and shutdown so that future debugging is easier and its clearer what the code
-is doing.
+Now that the hangs in httpservice are fixed we can let these tests
+auto skip as appropriate.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/cases/apt.py  |  2 +-
- meta/lib/oeqa/runtime/cases/dnf.py  |  2 +-
- meta/lib/oeqa/runtime/cases/opkg.py |  2 +-
- meta/lib/oeqa/utils/httpserver.py   | 37 ++++++++++++++++++++++-------
- 4 files changed, 32 insertions(+), 11 deletions(-)
+ meta/classes/testimage.bbclass | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/apt.py b/meta/lib/oeqa/runtime/cases/apt.py
-index 8d4dd35c578..793143f72cf 100644
---- a/meta/lib/oeqa/runtime/cases/apt.py
-+++ b/meta/lib/oeqa/runtime/cases/apt.py
-@@ -18,7 +18,7 @@ class AptRepoTest(AptTest):
-     @classmethod
-     def setUpClass(cls):
-         service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], 'all')
--        cls.repo_server = HTTPService(service_repo, cls.tc.target.server_ip)
-+        cls.repo_server = HTTPService(service_repo, cls.tc.target.server_ip, logger=cls.tc.logger)
-         cls.repo_server.start()
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index ded72048bcc..92e56862d48 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -44,9 +44,7 @@ BASICTESTSUITE = "\
+     ping date df ssh scp python perl gi ptest parselogs \
+     logrotate connman systemd oe_syslog pam stap ldd xorg \
+     kernelmodule gcc buildcpio buildlzip buildgalculator \
+-    ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'dnf rpm', '', d)} \
+-    ${@bb.utils.contains('IMAGE_PKGTYPE', 'ipk', 'opkg', '', d)} \
+-    ${@bb.utils.contains('IMAGE_PKGTYPE', 'deb', 'apt', '', d)}"
++    dnf rpm opkg apt"
  
-     @classmethod
-diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
-index e93a1cea06e..c1ed39d7765 100644
---- a/meta/lib/oeqa/runtime/cases/dnf.py
-+++ b/meta/lib/oeqa/runtime/cases/dnf.py
-@@ -55,7 +55,7 @@ class DnfRepoTest(DnfTest):
-     @classmethod
-     def setUpClass(cls):
-         cls.repo_server = HTTPService(os.path.join(cls.tc.td['WORKDIR'], 'oe-testimage-repo'),
--                                      cls.tc.target.server_ip)
-+                                      cls.tc.target.server_ip, logger=cls.tc.logger)
-         cls.repo_server.start()
+ DEFAULT_TEST_SUITES = "${BASICTESTSUITE}"
  
-     @classmethod
-diff --git a/meta/lib/oeqa/runtime/cases/opkg.py b/meta/lib/oeqa/runtime/cases/opkg.py
-index 3be480a6722..693f5d68c91 100644
---- a/meta/lib/oeqa/runtime/cases/opkg.py
-+++ b/meta/lib/oeqa/runtime/cases/opkg.py
-@@ -21,7 +21,7 @@ class OpkgRepoTest(OpkgTest):
-         if cls.tc.td["MULTILIB_VARIANTS"]:
-             allarchfeed = cls.tc.td["TUNE_PKGARCH"]
-         service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_IPK'], allarchfeed)
--        cls.repo_server = HTTPService(service_repo, cls.tc.target.server_ip)
-+        cls.repo_server = HTTPService(service_repo, cls.tc.target.server_ip, logger=cls.tc.logger)
-         cls.repo_server.start()
- 
-     @classmethod
-diff --git a/meta/lib/oeqa/utils/httpserver.py b/meta/lib/oeqa/utils/httpserver.py
-index 7d12331453a..a48d4994fd7 100644
---- a/meta/lib/oeqa/utils/httpserver.py
-+++ b/meta/lib/oeqa/utils/httpserver.py
-@@ -1,13 +1,13 @@
- import http.server
- import multiprocessing
- import os
-+import traceback
-+import signal
- from socketserver import ThreadingMixIn
- 
- class HTTPServer(ThreadingMixIn, http.server.HTTPServer):
- 
--    def server_start(self, root_dir):
--        import signal
--        signal.signal(signal.SIGTERM, signal.SIG_DFL)
-+    def server_start(self, root_dir, logger):
-         os.chdir(root_dir)
-         self.serve_forever()
- 
-@@ -18,19 +18,40 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
- 
- class HTTPService(object):
- 
--    def __init__(self, root_dir, host=''):
-+    def __init__(self, root_dir, host='', logger=None):
-         self.root_dir = root_dir
-         self.host = host
-         self.port = 0
-+        self.logger = logger
- 
-     def start(self):
-+        if not os.path.exists(self.root_dir):
-+            self.logger.info("Not starting HTTPService for directory %s which doesn't exist" % (self.root_dir))
-+            return
-+
-         self.server = HTTPServer((self.host, self.port), HTTPRequestHandler)
-         if self.port == 0:
-             self.port = self.server.server_port
--        self.process = multiprocessing.Process(target=self.server.server_start, args=[self.root_dir])
-+        self.process = multiprocessing.Process(target=self.server.server_start, args=[self.root_dir, self.logger])
-+
-+        # The signal handler from testimage.bbclass can cause deadlocks here
-+        # if the HTTPServer is terminated before it can restore the standard 
-+        #signal behaviour
-+        orig = signal.getsignal(signal.SIGTERM)
-+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
-         self.process.start()
-+        signal.signal(signal.SIGTERM, orig)
-+
-+        if self.logger:
-+            self.logger.info("Started HTTPService on %s:%s" % (self.host, self.port))
-+
- 
-     def stop(self):
--        self.server.server_close()
--        self.process.terminate()
--        self.process.join()
-+        if hasattr(self, "server"):
-+            self.server.server_close()
-+        if hasattr(self, "process"):
-+            self.process.terminate()
-+            self.process.join()
-+        if self.logger:
-+            self.logger.info("Stopped HTTPService on %s:%s" % (self.host, self.port))
-+
 -- 
 2.17.1
 
