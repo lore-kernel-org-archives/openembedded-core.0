@@ -1,47 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EF2836BA81
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AB6D46BA81
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2018 09:40:38 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id v6so2291733wrr.12
+	Fri, 16 Nov 2018 09:40:39 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id v18-v6so24148257wrt.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2018 01:40:40 -0800 (PST)
+	Fri, 16 Nov 2018 01:40:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=ue4//cvS+Hgwra4IIjnqw0a0vCj+h2VkyD1B0MuREiU=;
-	b=WEbgPjYIIAEc9S1kmAnkamRggAjGGL0ErINmLinICGL+QwtJEvxlliVBe14qOOMsnQ
-	SjscLWC4P5ZQA0GvYOT/svdQbzms/9OeG0H9LAMNcrBlikT7tVV1yFpXne6bkZ951s3C
-	xANAYkKyWt4RRDysP0zS9cG7dWUDokPgacEiU=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=O/kQZgo6lDRT3WFwexg+mVSAL5XGoBz7rUU7FTeqfhc=;
+	b=fR1wHLJXoFLGtE/O1VtPiyhlVBQuQ74LuV4rFUC1mqHizpmznNxboxx3mlUmWer/Ge
+	kgTJ1Wtmh9wjrj+22P3PgF3k8A9TysZ51PrnkhpD8h7gqP8RokEWXHt9HVPSRwZiVNui
+	VwEj9RS1XezBff/lNhdQ1YJaYrIsh8Uz1lx/w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ue4//cvS+Hgwra4IIjnqw0a0vCj+h2VkyD1B0MuREiU=;
-	b=KnLFI6Ocyl9WORkOBLTsPRbGQpjRiWB91y3fpfUDe4xSFGugPGaVZMPQPSK37t2+Io
-	7bZwknQlKKGgfM9aU6tCC0fuCzPDNRRF9RPKSAhh6XS0FLy5eaEyvkrT9rHPLYN/6Iuu
-	55D3BAs5h6T57KzAAnPLgnIn4hbOmCWG6QoHeWAnqgnMp8aIz/Xbyx/cfgwtryWYGDSc
-	Ea5bNXQBkB+zhPpG0CvVyjAt84MziVx+5rQeuYnL/omDsxcK9vfGCnlSsj3EBCVC9qof
-	mW/HnQ0USuwdHOb0qDgCLtYYa2FLjiEZnoK30yPOeh5QBxaN80TV94CocSxDdHjUe5Yu
-	foXg==
-X-Gm-Message-State: AA+aEWaHKdKS8surebuhvknBq+FESkT3/oeyFfk6FgOyqVkGoSIV2Ken
-	RzL6w61hvx6Pv7+4kfepDXwForlBuYg=
-X-Google-Smtp-Source: AFSGD/USKnQ/K03b4PXcOc5/5ExfSTbH60il0gAAfuX2lW/istPLpG1A97DQglFLzg60gi6UO4Whew==
-X-Received: by 2002:adf:fc4c:: with SMTP id
-	e12-v6mr1337173wrs.145.1542361238997; 
-	Fri, 16 Nov 2018 01:40:38 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=O/kQZgo6lDRT3WFwexg+mVSAL5XGoBz7rUU7FTeqfhc=;
+	b=EaprxuX3G1iaOwhPkPeAxSgffRGYXQZE9q17717iCMiSg8PY+NqhOTLudQHY2DFvXU
+	nizaN/nu5Ye4HgASZ1kgQf2nN4Y/63UpHcIg41l16FamAZu4QSIe0nnqV5HiEMkEoeDd
+	O8+rZiOdhXd2vEChExl9ilWyA7JoScJPxBdbtMv+EYtX7PksqXF+XS3iV+C4mGJY2kLL
+	IzQ/H3YXNyGnk7fg1/w5XwXoY+rKWMswpHUlq60OHK+8u4UQ7kKEZpF0bFzf7dDGzPeH
+	jpk0uOGhgOqqg9z9ivhi2ATJYhNz58uH+UYFfnnhnGT6feYAXI8MfhNrmH4thF1siHhq
+	PblQ==
+X-Gm-Message-State: AGRZ1gKWWJrObesgKJRFRShLSSgRPY9N4CsdK0EflPgZWcxZf7i+tHSV
+	9UNB73QTbhBbZrM/VAG+QcYgbVwktSo=
+X-Google-Smtp-Source: AJdET5d/lsr4/sChcri3KX3sUpKx+gE0AjRBOYIuIBMB3Z4/H3gvvsbrtAuWvk0lywtHzt6o4bbOSA==
+X-Received: by 2002:adf:9589:: with SMTP id
+	p9-v6mr8579230wrp.270.1542361239864; 
+	Fri, 16 Nov 2018 01:40:39 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	o27-v6sm24554039wro.24.2018.11.16.01.40.37
+	o27-v6sm24554039wro.24.2018.11.16.01.40.39
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Nov 2018 01:40:38 -0800 (PST)
+	Fri, 16 Nov 2018 01:40:39 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Nov 2018 09:40:33 +0000
-Message-Id: <20181116094037.4220-1-richard.purdie@linuxfoundation.org>
+Date: Fri, 16 Nov 2018 09:40:34 +0000
+Message-Id: <20181116094037.4220-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/5] scripts: Remove deprecated imp module usage
+In-Reply-To: <20181116094037.4220-1-richard.purdie@linuxfoundation.org>
+References: <20181116094037.4220-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/5] oeqa/concurrencytest: Avoid unclosed file warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,70 +59,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Nov 2018 09:40:39 -0000
 
-The imp module is deprecated, port the code over to use importlib
-as recently done for bb.utils as well.
+Avoid an unclosed file per thread warning when running selftests concurrently
+by closing the result stream.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/scriptutils.py | 11 +++++------
- scripts/pythondeps         |  8 +++-----
- 2 files changed, 8 insertions(+), 11 deletions(-)
+ meta/lib/oeqa/core/utils/concurrencytest.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-index 31e48ea4dc1..3c60c3a1e6c 100644
---- a/scripts/lib/scriptutils.py
-+++ b/scripts/lib/scriptutils.py
-@@ -26,6 +26,8 @@ import string
- import subprocess
- import sys
- import tempfile
-+import importlib
-+from importlib import machinery
+diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
+index 6404cb4668c..f050289e612 100644
+--- a/meta/lib/oeqa/core/utils/concurrencytest.py
++++ b/meta/lib/oeqa/core/utils/concurrencytest.py
+@@ -115,6 +115,9 @@ class ConcurrentTestSuite(unittest.TestSuite):
+             for thread, process_result in threads.values():
+                 process_result.stop()
+             raise
++        finally:
++            for test in tests:
++                test[0]._stream.close()
  
- def logger_create(name, stream=None):
-     logger = logging.getLogger(name)
-@@ -50,12 +52,9 @@ def load_plugins(logger, plugins, pluginpath):
- 
-     def load_plugin(name):
-         logger.debug('Loading plugin %s' % name)
--        fp, pathname, description = imp.find_module(name, [pluginpath])
--        try:
--            return imp.load_module(name, fp, pathname, description)
--        finally:
--            if fp:
--                fp.close()
-+        spec = importlib.machinery.PathFinder.find_spec(name, path=[pluginpath] )
-+        if spec:
-+            return spec.loader.load_module()
- 
-     def plugin_name(filename):
-         return os.path.splitext(os.path.basename(filename))[0]
-diff --git a/scripts/pythondeps b/scripts/pythondeps
-index 590b9769e78..3e13a587eef 100755
---- a/scripts/pythondeps
-+++ b/scripts/pythondeps
-@@ -9,7 +9,8 @@
- 
- import argparse
- import ast
--import imp
-+import importlib
-+from importlib import machinery
- import logging
- import os.path
- import sys
-@@ -17,10 +18,7 @@ import sys
- 
- logger = logging.getLogger('pythondeps')
- 
--suffixes = []
--for triple in imp.get_suffixes():
--    suffixes.append(triple[0])
--
-+suffixes = importlib.machinery.all_suffixes()
- 
- class PythonDepError(Exception):
-     pass
+     def _run_test(self, test, process_result, queue):
+         try:
 -- 
 2.17.1
 
