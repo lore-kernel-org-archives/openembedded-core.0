@@ -1,39 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B3C306C0E1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7917D6C465
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2018 17:22:15 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id v11so35347017itj.0
+	Fri, 16 Nov 2018 17:48:44 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id o89so38755134qko.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2018 09:22:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 16 Nov 2018 09:48:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=V9wvU43z/5kxkmxdhIUjKxR3ad/+j4t94P6cE3pKl+Y=;
-	b=G7AtqQw2I2hRGHgwG0mOyms7zWqmY2LC4dBy5DIX5pwghWXy6XLyA4W6Ugd9Tx/7VV
-	UNIaaZKj2pzcHdCU+GV7SfsvdP2zJ4H30kE3tcCKr0NQoL0a0CycRhIpYMSLGKCN3Nk/
-	klafzfmXTsfAyDg362KtE32kK3NZoRe+2GXiOVc6YV0Bd461hLzUzxJuq8EKPw+lc+9R
-	u04UpU1pJwgI+1lv68IpPGU1HUxElLRUUnPLNY7ju4BkyxLzrLXsMtJdnxcKTpVKuhSO
-	Cw94Yk0dB9Tdd3HBIIOUUpgoJQ0s6ihNt0vkyjUtMF6keY5/1DnvFugEpkd0sZd3H6EM
-	cPJQ==
+	:cc; bh=KOlpJhLHhAgz6QB5OSJFEq6YrieYDOeKxLR8+QFDZpY=;
+	b=scoHEiLa3o6qI8KwrdEDb4M5WxtTO5C9/rN10ptZvg0dIhTJ2ZRQXik/pf693uaYk3
+	kkBsmq3FT6kFN+SNcbloULE+jREXW9xkylvYvr2wDk/vtn2ml5141othy7/UEXmTJCq2
+	YP5b10zzEMDK+LAzNseFl1gZ2OT3JW9MXcHp5vI0RCnpIqnasJzm82MfA54CjwLvvEcj
+	gYjOb2R8m270Wdaulco7i+NzuMCLwQNqvajdrpqk/H5SuOd0S6kVa+RyPf6ehKRpKoKZ
+	S2gP3OvEqin7h9r4HH0pE+CLUfASZezsEyMvvcuIah1rE6fgdTaGnPXvF59pF2mp5rFk
+	UGYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=V9wvU43z/5kxkmxdhIUjKxR3ad/+j4t94P6cE3pKl+Y=;
-	b=lnRh6yVZ/R5hZFFu4Kw933slX3gBidaUw3WLtPOC06vOSry1bZNgxPcB8a9eRP57hM
-	+QESMdsd5v4Mj9WyFUMNrPUhbDZDKQiqSLCi+aK3vhvnVAWt+oSfSi8kpbinkjRXVUo+
-	8QPiWLUPDbXh9msQPGMIQudN4hEp2R2LhwlCiTHq4GARTJgi0rvmYg1iq5TYtoyzjWwu
-	xbTBCKSs/kXO7n4Vtk6DHO+CyO+bt1rh0UeyJAMDHN/TVBNaTpsex58IzK20mbwo17hK
-	h9MAK9z8dt187TnicxLBYdRuLJRrqbvWD64seVTlBVY5LKhL6KCjHnMXI52GhKNs+ZjE
-	ldTQ==
-X-Gm-Message-State: AGRZ1gIrGiK4o4SO+3nppyIfTw+sqbYjFYGWPcDZuULyweT/y+2vlkTV
-	ZTr/6mxXvbfBg5MBUuBtq59winxMlv5u4Kt+p/S1nw==
-X-Google-Smtp-Source: AFSGD/VZQLPYKJF+XWQe8GQ65QHTwjU4uDV1rc+xwNtnVgyAxbI8fiZ2RfXZBT2nPixGz4O1RsQ79QNnwaCed3IvjZY=
-X-Received: by 2002:a24:9142:: with SMTP id
-	i63-v6mr11469859ite.130.1542388936659; 
-	Fri, 16 Nov 2018 09:22:16 -0800 (PST)
+	bh=KOlpJhLHhAgz6QB5OSJFEq6YrieYDOeKxLR8+QFDZpY=;
+	b=eokU0vO0EcqNWPuAhGJxcA8uixYd0TiCLqZZOmuRVIkwYJw0P2DrDO2XkLuIiENVln
+	sMs9ji6e1qHtKWUtsnzgM4g1kfgeaVMRqGOLwmP+q114Jbd4MMsPxuu12pskllwj+DSp
+	HKR23P1oQ9+fIuEfVL1+8qE606UCkMzwGhofHjLPPd0xuqtrWTLslFMLT5nezQCw1FqM
+	xUnQxmjHfLZar6qT3a9XRbbxz5GdiRg2WcxJpQ+LcqHr0iLMU1z1al+mcFWFhmNEa+aX
+	y90ZtRb3gKmMpa/S4x7nlzoTPHPO7QjtiJknFHZQGc5vCqJwdzhlJ1L+eV+NYK69gJO/
+	wHUg==
+X-Gm-Message-State: AGRZ1gItlavadgmtsxTAVaW1htg853WvadnQVWHbTb9Zms5QzdYltLfx
+	q12v930iG8xfX9uQo7V2nLyDoGi0R982N9tdPLk=
+X-Google-Smtp-Source: AJdET5es/nfRpb0jbXGH8eApBw4IJoB+Cwdv+2tq7N/zqHiNZ/fw594TA3imXdJsvpW5aJoyu0yGBf5Gu2GKJSTGS9c=
+X-Received: by 2002:aed:3eac:: with SMTP id n41mr11078255qtf.196.1542390525050;
+	Fri, 16 Nov 2018 09:48:45 -0800 (PST)
 MIME-Version: 1.0
 References: <20181114132336.71049-1-raphael.kubo.da.costa@intel.com>
 	<5d7a7c30-0d55-da47-c6a2-1dc0fcddce5c@gmail.com>
@@ -41,11 +39,12 @@ References: <20181114132336.71049-1-raphael.kubo.da.costa@intel.com>
 	<CAMKF1sobx8ed6ncDifE-iCDyn=+NZpar2Wb4dXwbKzkmcphEWA@mail.gmail.com>
 	<2a06fb2631686ac5691b5943815535167fe774bb.camel@intel.com>
 In-Reply-To: <2a06fb2631686ac5691b5943815535167fe774bb.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 16 Nov 2018 17:22:05 +0000
-Message-ID: <CAJTo0LZgyZ+UF8aA5o1omor+Bev85uGzgOsnv+x74u-J8vK_QA@mail.gmail.com>
-To: "Kubo Da Costa, Raphael" <raphael.kubo.da.costa@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 16 Nov 2018 09:48:18 -0800
+Message-ID: <CAMKF1sq+dxxs4EZX6tZsRL5QbgZ3V1ZuSw5t7YPj8GYzRJY3HA@mail.gmail.com>
+To: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [rocko][PATCH] m4: Workaround gnulib's fseeko.c implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,11 +58,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2018 17:22:15 -0000
+X-List-Received-Date: Fri, 16 Nov 2018 17:48:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 16 Nov 2018 at 17:16, Kubo Da Costa, Raphael
+On Fri, Nov 16, 2018 at 9:16 AM Kubo Da Costa, Raphael
 <raphael.kubo.da.costa@intel.com> wrote:
+>
 > On Fri, 2018-11-16 at 09:05 -0800, Khem Raj wrote:
 > > On Fri, Nov 16, 2018 at 7:51 AM Raphael Kubo da Costa
 > > <raphael.kubo.da.costa@intel.com> wrote:
@@ -79,10 +79,11 @@ On Fri, 16 Nov 2018 at 17:16, Kubo Da Costa, Raphael
 > sending a backport (or even to track in case I just want things to work
 > locally)?
 
-You can be excused for not checking the maintainer's private branches,
-so just check the release branch.  If there's a patch in one the
-maintainer may point it out to keep you informed, feel free to review
-it to verify what is scheduled to be merged is complete.
-
-Ross
+thats just the maintainers process and usually leave them to do that.
+just tracking
+-next is probably better unless I want to be nosy :), maintainers
+replying to an email
+pointing to the pvt branch is sheer out of love to let you know where
+the patch stands
+as of now.
 
