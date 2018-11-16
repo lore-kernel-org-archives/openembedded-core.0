@@ -1,49 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
-	[209.85.221.52])
-	by mail.openembedded.org (Postfix) with ESMTP id A4B856C193
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id C0F5B6B5C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2018 09:40:42 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id e3-v6so24176722wrs.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2018 01:40:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=1mIaNF3gVCX7MF6sSjSobxRQqbTLBsEICFYLf7tIrJc=;
-	b=eMxZ+u36sLC4ZmClz8UlngQSduuV+TViygOtIhYp76FBFfiuQDHWHQwV+4Z+DJfQxD
-	ipvh+DXtLk68bFTWIkWuVsU9r9QW3v1YXBsKFiHUd4BmbMKYSTt9pANChRYpEqR3J6+K
-	NNAL3MbYXZHlfOFti9r+bRSkmifYtYLRUwLeE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=1mIaNF3gVCX7MF6sSjSobxRQqbTLBsEICFYLf7tIrJc=;
-	b=uREhzP+Okc+VzDKTWRqniBijO34c/bAA8XvUlEF5nk+GN4jKIBftiIXvmBTr/I0jkU
-	7cozSr2a5CsmdJ6FWD61l0VNybmEFeyKQXAi9tXDp78IJxf67s409ug0yYVtK6nnggig
-	6/qB+8/fecBk2Nn2cc5uYpLluCfaAh4qqCrUfj2DC4R5trwUJ06XC2cE7ZgZ/aqvzDnc
-	xFJr4Gm7zCfUN5ts0ud0lw8nK1NuuaW59AQ+Pn64xyVbFt4SpkxQlYBYiEotvDo0qWH/
-	aI+r9+KvJb37qiItE7VLGbKM/a3I/vFuvYUIcgeFcRr9vtLupJCupbw2QQQ9gXHawYrJ
-	j83A==
-X-Gm-Message-State: AA+aEWY7pkjWw8mYxazqoJI92kP+sXvMPI2bbaWmvj0OGOwUBkcaztJ6
-	emGTxrwp46UATk6vFBhWMIzBodbyZgg=
-X-Google-Smtp-Source: AFSGD/V0GIHG+/7UaMzGdfv9JJYs7VqEvGyMr1KjQ/otyDacIl/V15GPQV8SB0lyiJGOu6dsmTzddA==
-X-Received: by 2002:adf:a1d2:: with SMTP id v18mr3338433wrv.87.1542361242927; 
-	Fri, 16 Nov 2018 01:40:42 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o27-v6sm24554039wro.24.2018.11.16.01.40.41
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Nov 2018 01:40:42 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 16 Nov 2018 10:13:03 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Nov 2018 02:13:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,239,1539673200"; d="scan'208,223";a="89810027"
+Received: from anmitta2-mobl1.png.intel.com (HELO
+	anmitta2-MOBL1.gar.corp.intel.com) ([10.221.21.208])
+	by orsmga007.jf.intel.com with ESMTP; 16 Nov 2018 02:13:03 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Nov 2018 09:40:37 +0000
-Message-Id: <20181116094037.4220-5-richard.purdie@linuxfoundation.org>
+Date: Fri, 16 Nov 2018 18:13:00 +0800
+Message-Id: <20181116101300.16897-1-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20181116094037.4220-1-richard.purdie@linuxfoundation.org>
-References: <20181116094037.4220-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 5/5] testimage: Enable autorunning of the package manager testsuites
+Subject: [PATCH] libva: update 2.2.0 -> 2.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2018 09:40:42 -0000
+X-List-Received-Date: Fri, 16 Nov 2018 10:13:03 -0000
 
-Now that the hangs in httpservice are fixed we can let these tests
-auto skip as appropriate.
+From release notes:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+    Bump VA-API version to 1.3.0 and libva to 2.3.0
+    Add max frame size parameters for multiple pass case in legacy mode
+    Add new BRC mode AVBR
+    Add new interface for High Dynamic Range tone mapping
+    Add missing enum to string conversions
+    Add hevc subsets parameters structure
+    Add Customized Noise Reduction (HVS) interfaces
+    Add new BRC mode definition QVBR
+    Add more complete colour properties for use in VPP
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/testimage.bbclass | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ .../recipes-graphics/libva/{libva_2.2.0.bb => libva_2.3.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/libva/{libva_2.2.0.bb => libva_2.3.0.bb} (92%)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index ded72048bcc..92e56862d48 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -44,9 +44,7 @@ BASICTESTSUITE = "\
-     ping date df ssh scp python perl gi ptest parselogs \
-     logrotate connman systemd oe_syslog pam stap ldd xorg \
-     kernelmodule gcc buildcpio buildlzip buildgalculator \
--    ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'dnf rpm', '', d)} \
--    ${@bb.utils.contains('IMAGE_PKGTYPE', 'ipk', 'opkg', '', d)} \
--    ${@bb.utils.contains('IMAGE_PKGTYPE', 'deb', 'apt', '', d)}"
-+    dnf rpm opkg apt"
+diff --git a/meta/recipes-graphics/libva/libva_2.2.0.bb b/meta/recipes-graphics/libva/libva_2.3.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/libva/libva_2.2.0.bb
+rename to meta/recipes-graphics/libva/libva_2.3.0.bb
+index 11e57e0eb8..4aab5269aa 100644
+--- a/meta/recipes-graphics/libva/libva_2.2.0.bb
++++ b/meta/recipes-graphics/libva/libva_2.3.0.bb
+@@ -19,8 +19,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
  
- DEFAULT_TEST_SUITES = "${BASICTESTSUITE}"
+ SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "92d04ad1700136dc75b1e5f47516e704"
+-SRC_URI[sha256sum] = "6f6ca04c785544d30d315ef130a6aeb9435b75f934d7fbe0e4e9ba6084ce4ef2"
++SRC_URI[md5sum] = "2555c46075ab2f6128f39902ba1c6183"
++SRC_URI[sha256sum] = "60840e50da6932ee2111e15fc8911180ff8a0d6f18bb9cc6ba8c1030098fdce4"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
  
 -- 
 2.17.1
