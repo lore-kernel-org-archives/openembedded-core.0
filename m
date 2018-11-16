@@ -1,24 +1,47 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id C0F5B6B5C5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C34F6C1C1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2018 10:13:03 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Nov 2018 02:13:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,239,1539673200"; d="scan'208,223";a="89810027"
-Received: from anmitta2-mobl1.png.intel.com (HELO
-	anmitta2-MOBL1.gar.corp.intel.com) ([10.221.21.208])
-	by orsmga007.jf.intel.com with ESMTP; 16 Nov 2018 02:13:03 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
+	Fri, 16 Nov 2018 10:29:38 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id l9so11438213wrt.13
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Nov 2018 02:29:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=/mt3tL/xE42Rh5SaKwpdJNtVaB5nQNn9JBqR0vJD9QI=;
+	b=KNcCpWM+pPfBRMThdWBnOXiOkjmAsUyAwcVVVvmTZk7l5rtIqJvWiPref5jxr4Mcxl
+	zcrie2xugN7E/VfeaVCJKJqm8MwxJzqlPzC8gKCNr8VEey40M9s9F2nL0iTUhnn2czVF
+	0pHDHN+bwGPyeGB+c93xGvJvJAE50P8UACbHE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=/mt3tL/xE42Rh5SaKwpdJNtVaB5nQNn9JBqR0vJD9QI=;
+	b=f8frm/OIDm21icX8lFfj38pb2+/GGHnbf+QUbkfl1M+Ikf/cmWJKGcWMDYzctV+CSH
+	fCPxJdvZrpLI6gL68eZ8UubNEav4MibvYBqxXn35nVWZRojHxRB9H6MHV2Du9ecATJy2
+	yWTKoJEy1VBMGX9m0aZ9gprLxcZa4p0aMgn+MzSg1BkRPh6nqiPIo3EQwxdKgzrjSM8E
+	HPr0VpCY1eGUobPM4Irk6R2bSnOe0yAtJOXC2165yNPWl4INg3Zt0V9FFZwtLUkzjBMN
+	7Ao1vaBplrHT2yc6VctJbKotQ5xZTqscxaQMKdZycJt4fZxMP9STu2lk/SovrVJRrvCW
+	3NKg==
+X-Gm-Message-State: AGRZ1gIqlbUnh9F7AqAAZ8iJL9OiwN2PBDbW4Rp8rHDF7FZEkPn7oAhC
+	QtsdFKN9UWEQ5v0R92QkZsRjxf4wug8=
+X-Google-Smtp-Source: AJdET5cGl7+1k6zAU+oye8a8z9kRhgzMXfosycFYxUcecXGLuiDZDRe+MjB3eKYp7SkjU3/9MXCDag==
+X-Received: by 2002:a5d:4344:: with SMTP id
+	u4-v6mr8884929wrr.306.1542364178521; 
+	Fri, 16 Nov 2018 02:29:38 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	z8sm27523082wrw.78.2018.11.16.02.29.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 16 Nov 2018 02:29:37 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Nov 2018 18:13:00 +0800
-Message-Id: <20181116101300.16897-1-anuj.mittal@intel.com>
+Date: Fri, 16 Nov 2018 10:29:36 +0000
+Message-Id: <20181116102936.5481-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] libva: update 2.2.0 -> 2.3.0
+Subject: [PATCH] sanity: Add check for WSL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2018 10:13:03 -0000
+X-List-Received-Date: Fri, 16 Nov 2018 10:29:38 -0000
 
-From release notes:
+Users are starting to expect OE to work under WSL which it doesn't. Add a warning to
+tell them about this up front and manage expectations.
 
-    Bump VA-API version to 1.3.0 and libva to 2.3.0
-    Add max frame size parameters for multiple pass case in legacy mode
-    Add new BRC mode AVBR
-    Add new interface for High Dynamic Range tone mapping
-    Add missing enum to string conversions
-    Add hevc subsets parameters structure
-    Add Customized Noise Reduction (HVS) interfaces
-    Add new BRC mode definition QVBR
-    Add more complete colour properties for use in VPP
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../recipes-graphics/libva/{libva_2.2.0.bb => libva_2.3.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/libva/{libva_2.2.0.bb => libva_2.3.0.bb} (92%)
+ meta/classes/sanity.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/recipes-graphics/libva/libva_2.2.0.bb b/meta/recipes-graphics/libva/libva_2.3.0.bb
-similarity index 92%
-rename from meta/recipes-graphics/libva/libva_2.2.0.bb
-rename to meta/recipes-graphics/libva/libva_2.3.0.bb
-index 11e57e0eb8..4aab5269aa 100644
---- a/meta/recipes-graphics/libva/libva_2.2.0.bb
-+++ b/meta/recipes-graphics/libva/libva_2.3.0.bb
-@@ -19,8 +19,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 4e8eae8946d..374dacf4d0e 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -511,6 +511,16 @@ def check_make_version(sanity_data):
+     return None
  
- SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2"
  
--SRC_URI[md5sum] = "92d04ad1700136dc75b1e5f47516e704"
--SRC_URI[sha256sum] = "6f6ca04c785544d30d315ef130a6aeb9435b75f934d7fbe0e4e9ba6084ce4ef2"
-+SRC_URI[md5sum] = "2555c46075ab2f6128f39902ba1c6183"
-+SRC_URI[sha256sum] = "60840e50da6932ee2111e15fc8911180ff8a0d6f18bb9cc6ba8c1030098fdce4"
++# Check if we're running on WSL (Windows Subsystem for Linux). Its known not to
++# work but we should tell the user that upfront.
++def check_wsl(d):
++    with open("/proc/version", "r") as f:
++        verdata = f.readlines()
++    for l in verdata:
++        if "Microsoft" in l:
++            return "OpenEmbedded doesn't work under WSL at this time, sorry"
++    return None
++
+ # Tar version 1.24 and onwards handle overwriting symlinks correctly
+ # but earlier versions do not; this needs to work properly for sstate
+ def check_tar_version(sanity_data):
+@@ -625,6 +635,7 @@ def check_sanity_version_change(status, d):
+     status.addresult(check_tar_version(d))
+     status.addresult(check_git_version(d))
+     status.addresult(check_perl_modules(d))
++    status.addresult(check_wsl(d))
  
- UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
+     missing = ""
  
 -- 
 2.17.1
