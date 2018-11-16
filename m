@@ -1,31 +1,40 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
-	by mail.openembedded.org (Postfix) with ESMTP id AD0396C1D4
+Return-Path: <lukma@denx.de>
+X-Greylist: delayed 460 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 16 Nov 2018 12:39:11 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B1226C31E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2018 12:16:01 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id Nd2Tg9ZSGx6b6Nd2Ug2kWY; Fri, 16 Nov 2018 12:16:01 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=JHtHm7312UAA:10 a=P2xTDAM0FP5LzwpPEAkA:9
-	a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1gNd2T-0003CZ-CJ; Fri, 16 Nov 2018 12:15:57 +0000
-Date: Fri, 16 Nov 2018 12:15:57 +0000
-From: Mike Crowe <mac@mcrowe.com>
+	Fri, 16 Nov 2018 12:39:11 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 42xHfD1dP2z1qtdm;
+	Fri, 16 Nov 2018 13:31:32 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 42xHfD1LHbz1qtfh;
+	Fri, 16 Nov 2018 13:31:32 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id KiXFA8mdpqSU; Fri, 16 Nov 2018 13:31:31 +0100 (CET)
+X-Auth-Info: ODEyTe00NfZ/R0M4nr/XUw87889/lTipyTxhcBkvJuo=
+Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Fri, 16 Nov 2018 13:31:31 +0100 (CET)
+Date: Fri, 16 Nov 2018 13:31:24 +0100
+From: Lukasz Majewski <lukma@denx.de>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20181116121557.nn3vgfhg4qdahwxc@mcrowe.com>
-References: <20181115120016.29814-1-mac@mcrowe.com>
-	<ea765026295a0691446d7afe29b2be2c6c0f0c43.camel@linuxfoundation.org>
+Message-ID: <20181116133124.14279e76@jawa>
+In-Reply-To: <6338fea41b758f901b90c9d378c50e824fb01593.camel@linuxfoundation.org>
+References: <1542339582-13778-1-git-send-email-chunrong.guo@nxp.com>
+	<6338fea41b758f901b90c9d378c50e824fb01593.camel@linuxfoundation.org>
+Organization: denx.de
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <ea765026295a0691446d7afe29b2be2c6c0f0c43.camel@linuxfoundation.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfNMTONtrqXTfoeBUsYBr9JwhM0IOeL7aJLCMvivgP+ILqt9AYg27qPCbsIVI6ZYnNgU7AmZOqDIxz7BHWCLWaJ+vMeeNhcA9KgHyz7lUCYK7cIzhVkEW
-	cXhbILQRxJmAcZi1anpmB6FYiN736cGZJHupF9eH/uSK7QUAbmnxsXyR
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] glibc: Package AArch64 dynamic loader symlink correctly with usrmerge
+Cc: Wolfgang Denk <wd@denx.de>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [thud][PATCH] ppce500v2: remove spe *The PowerPC SPE support is split off to a separate powerpcspe port
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,99 +47,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2018 12:16:03 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 16 Nov 2018 12:39:11 -0000
+X-Groupsio-MsgNum: 118290
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	boundary="Sig_/6zNQZFd8=Gmcvi8/+/C1y3y";
+	protocol="application/pgp-signature"
 
-On Thursday 15 November 2018 at 19:10:08 +0000, Richard Purdie wrote:
-> On Thu, 2018-11-15 at 12:00 +0000, Mike Crowe wrote:
-> > When using usrmerge, the compatibility dynamic loader symlink created
-> > in do_install_append_aarch64 ends up in /usr/lib rather than /lib.
-> > This means that the path added to libc_baselibs needs to be altered
-> > to match.
-> > 
-> > It's also necessary to tweak do_poststash_install_cleanup to not fail
-> > when the symlink exists. I'm not entirely sure that the fix I've
-> > applied here is the best one, but it does appear to work.
-> 
-> I'm afraid I really don't like this. Its creating a twisted web of
-> logic which is going to be hard to maintain as the code is trying to do
-> too many different things.
-> 
-> In particular, hardcoding "lib64" is usually a bad sign, as is swapping
-> /lib for nonarch_base_libdir since whilst those happen to be similar,
-> they do mean different things here. Its pure luck that usrmerge happens
-> to end up doing the right thing and it will work until someone else
-> wants to do something interesting with the layout and we can complicate
-> this even more.
-> 
-> I'm hoping there is a better way to address this...
+--Sig_/6zNQZFd8=Gmcvi8/+/C1y3y
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I can't say that I'm particularly keen on it either.
+Hi Richard,
 
-The FILES_ line used ${nonarch_base_libdir} because that's what
-glibc-package.inc:do_install_append_aarch64 already used. To me, this part
-seems correct: ${nonarch_base_libdir} means what will end up at /lib, no
-matter what multilib (or even perhaps one day multiarch) prefix is
-appropriate, and no matter whether that happens to be /usr/lib for
-installation purposes due to usrmerge.
+> What does "The PowerPC SPE support is split off to a separate
+> powerpcspe port" mean?=20
+>=20
+> That gcc support is being dropped and its going somewhere separate?=20
+>=20
+> That we're dropping spe support from OE?
 
-Stepping back, it looks like there are four cases to deal with based on the
-two settings of multilib and usrmerge when considering the AArch64 ABI
-requirement that the dynamic linker must be available in /lib.
+I do hope NOT.
 
-* No multilib and no usrmerge:
+There are still some users of those SPE SoCs. Please do not remove it
+from OE.
 
-The dynamic linker ends up in ${base_libdir} which is /lib. Job done.
-
-* usrmerge but no multilib:
-
-The dynamic linker ends up in ${base_libdir} which is /usr/lib. There's a
-symlink from /lib to /usr/lib. Job done.
-
-* multilib but no usrmerge:
-
-The dynamic linker ends up in ${base_libdir} which is /lib64. We need to
-create a symlink to /lib. The existing code appears to work for this case.
-
-* multilib and usrmerge:
-
-The dynamic linker ends up in ${base_libdir} which is /usr/lib64 (which is
-symlinked from /lib64.) We need to create a symlink in /usr/lib (which is
-symlinked from /lib. This is what I was attempting to fix.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
 
 
-We could invent some sort of "I really want this to be available in /lib on
-the target" variable, but I don't see how that would end up being different
-to nonarch_base_libdir.
 
-I think (but haven't tested) that I can get rid of the explicit checks for
-lib and lib64 by changing the patch to:
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index a98ae1a29c..73b86dfa6e 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -15,7 +15,7 @@ RPROVIDES_glibc-thread-db = "eglibc-thread-db"
- RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
- RPROVIDES_${PN}-dbg = "eglibc-dbg"
- libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
--libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
-+libc_baselibs_append_aarch64 = " ${nonarch_base_libdir}/ld-linux-aarch64*.so.1"
- INSANE_SKIP_${PN}_append_aarch64 = " libdir"
+Best regards,
 
- FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
-@@ -206,7 +206,7 @@ do_poststash_install_cleanup () {
- 	rm -rf ${D}${libdir}/gconv
- 	rm -rf ${D}/${localedir}
- 	rm -rf ${D}${datadir}/locale
--	if [ "${libdir}" != "${exec_prefix}/lib" ]; then
-+	if [ "${libdir}" != "${nonarch_base_libdir}" ]; then
- 		if [ -d ${D}${exec_prefix}/lib ]; then
- 			# error out if directory isn't empty
- 			# this dir should only contain locale dir
+Lukasz Majewski
 
-Thanks.
+--
 
-Mike.
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
 
+--Sig_/6zNQZFd8=Gmcvi8/+/C1y3y
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAlvuuJwACgkQAR8vZIA0
+zr0cKAf9GrZuPmUU65A6CI8jCG0EC7+6pBXYYpbKXs/hLjH1whh/oC+Mmdwy/6RK
+B6ilYLe/onNUvl9t1vIt12mQVIstxsRDn0BSiwlpniwIYpCw01sMRS+C83TYkL3H
+fCSNmUwAZSlMM8xtlhywC4Ki+gSAqaGUKTWQv5u11rbHcrSUFWZ2Hg/2KmmT+AEV
+NL08ky65H45UGy7Ay9XEU0L50gOfpyfOD7FbpoG27NrEgckulokWmvNSmoKS5vBV
+PNV6K+w5PAurneD9IvGte6og5ESZNDXQxgm5D0JWvWEjfe254S2utw77eugpYOfD
+0t4lpVy5RFj9aJ3/EM/QChxaC48+ow==
+=t92N
+-----END PGP SIGNATURE-----
+
+--Sig_/6zNQZFd8=Gmcvi8/+/C1y3y--
