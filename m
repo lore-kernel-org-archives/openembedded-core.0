@@ -1,54 +1,46 @@
-Return-Path: <marek.vasut@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id BC0E86C227
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+	[209.85.128.46])
+	by mail.openembedded.org (Postfix) with ESMTP id F25ED6C17B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Nov 2018 21:42:05 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id v6so6371645wrr.12
+	Sat, 17 Nov 2018 22:57:55 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id 79so76344wmo.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Nov 2018 13:42:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=U3qAw9Dqbf9nAvzOCNcvvDRIsC81PgJacmDR02eXIEo=;
-	b=fNfy8LdSNxcktl2ixgZfP63oH4/xSuR3PTMJWvpKJeNV6hE+1QMWGF7EAGI6HVuNbP
-	sukTv/Q7p2QbA5BMMHia3FVki5ezeRBe4/kUuTaqsQGsKRC/SzdbNqzDjiritBg+6Yhl
-	HxWWK1lneJy3p/8rL0oOlu2FjIDB5mjpS6k4LU32VhwR4uSDWM640fXN9x46lY6SHTo4
-	voQi1pMmnJknMrcXi8J+fQLMyLjfP1Ayek/hWodQFmDXi2kGrBc1jovma2lnnqDXBcod
-	PGRTVcrNoOf0F4prB2ch6Gq9UeFT2GbP7AgVLQmoJyjqv8xyAqjHwwjkfDh1VEPTZO8o
-	hqWg==
+	Sat, 17 Nov 2018 14:57:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=FPyCzhXE+d6Qc/tuCzeJbGUKzI2aKMMfSS35pI841GY=;
+	b=XAgDo+jTq1jE7KLti9bv0axyp0PzirxLqrIG2IBr2C2knMdXCpXr2a1DsJGr70V21U
+	R+ZAFlLObX/zfcu5jX/ndkB0NFME5OrZGL/lPr0SC2VR8YzPlIowr3gAvemsAIxukXqj
+	1N3dbr/+wooXsKX/LStbHtBVvZWzQ2cSrhknY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=U3qAw9Dqbf9nAvzOCNcvvDRIsC81PgJacmDR02eXIEo=;
-	b=I7j+bbxVttwBF4gnPBzJ6ybdhCe3rL0wz0ZljmDkFX05rJx+GATUyzBRcoLeytFj/y
-	C3zYYSkx0fPJ6t1sOXvxVcdQsr8CaSq0lC5q5jRRESJg3E9+gQ+GoS8KKfNAAsG5kt9B
-	Go5XXKwKwIM41vnQVRW7ERkQ3ELq9FIHvdX40Wu6KeBLnczEPIL2HZGLsNv/IKqDE54S
-	dr/LVFZFetyjxuSQin5iCDJff1ZlmQUlCy9ClmvF2OO6/WA0kYY2tSRTbNnQwYY9lFck
-	2g410H5mAxJopJDCXnA7bPvQNFbEM3rU3BvYQOCSqhOZggv7Elxrct3l7wgcPxu+bCxl
-	EntA==
-X-Gm-Message-State: AA+aEWZL5mU4AYNjKo5I8AN/RCDYAlEqfwZoaz6BZKt3PjEmKbV61yqm
-	0SYEGql9+nG8S4OyryzYj9tMts4m
-X-Google-Smtp-Source: AFSGD/VTj3ifw/2dmcBvut3cgt7ggeXhay0naYSW/hMIE9bBogOBOtWgeMPOam7QKP+l9YFUEoa/mg==
-X-Received: by 2002:adf:bc02:: with SMTP id s2mr2013688wrg.255.1542490925872; 
-	Sat, 17 Nov 2018 13:42:05 -0800 (PST)
-Received: from [192.168.1.4] (ip-86-49-110-70.net.upcbroadband.cz.
-	[86.49.110.70]) by smtp.gmail.com with ESMTPSA id
-	t5sm12401258wmd.15.2018.11.17.13.42.04
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=FPyCzhXE+d6Qc/tuCzeJbGUKzI2aKMMfSS35pI841GY=;
+	b=KmRYuMCnfF0heopMm0Puq6n0S1DuApppMZ/Vqk2rR2ruK+xM8KPXH+ZQQPt6a6zQcw
+	fG+3EOut+aTrfQhA47ZEdB9Z5EfLNrRS0jhoHpQRXoXxjzJwIedsS0nDJAv3NSEDNZr2
+	5o4GEDh/K7EncrQ/Y/lFVOgrT5EfdBw49upH9FKbiIYmzUYWByEZNAhmq1Pwl/Nx9mXE
+	qjjWXu7VHSFhVfy2Cdr/BJpUoqHsmnhwuaaEH9Nux3FVZgg9EATAQGkQIMgDzg9bIxpG
+	6QMafUXBXmQjh1McyXRpl57QQ6We2QvIdMiA3DY9jNxDRowRxiDsI0XrL9jSERzBOonL
+	P4LA==
+X-Gm-Message-State: AGRZ1gIbwmWBdo0iFNurx/HQk4kd1sqjKglnviwn6ZnOchvwkoqhR3Nn
+	YqrEL4vtsppytJob6IFzL4LdpxSkx3A=
+X-Google-Smtp-Source: AJdET5elQ7OyymyjJL5de5G6HtKibncee3YIaYiWw4rQzDPtcwc05pVlpWrujGZywvcDipWePuHHlg==
+X-Received: by 2002:a1c:9085:: with SMTP id s127mr2515630wmd.114.1542495475986;
+	Sat, 17 Nov 2018 14:57:55 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	l15sm12658470wrw.4.2018.11.17.14.57.54
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 17 Nov 2018 13:42:05 -0800 (PST)
-To: auh@auh.yoctoproject.org, openembedded-core@lists.openembedded.org
-References: <20181117144457.A7B74440002@auh.yoctoproject.org>
-From: Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <be32ec5d-9c69-0625-10a2-a32b587bc02a@gmail.com>
-Date: Sat, 17 Nov 2018 22:42:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <20181117144457.A7B74440002@auh.yoctoproject.org>
-Subject: Re: [AUH] Upgrade status: 2018-11-17
+	Sat, 17 Nov 2018 14:57:55 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 17 Nov 2018 22:57:45 +0000
+Message-Id: <20181117225753.15733-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/9] subversion: upgrade 1.10.0 -> 1.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,21 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Nov 2018 21:42:06 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 17 Nov 2018 22:57:56 -0000
 
-On 11/17/2018 03:44 PM, auh@auh.yoctoproject.org wrote:
-> Recipe upgrade statistics:
-> 
->     * Failed(other errors): 1
->         u-boot, 2018.11, Marek Vasut <...>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../subversion/{subversion_1.10.0.bb => subversion_1.11.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/subversion/{subversion_1.10.0.bb => subversion_1.11.0.bb} (96%)
 
-Is there any chance AUH will be fixed to update U-Boot properly, that
-is, all recipes at once ? Now it updates it partly and fails, obviously.
-
+diff --git a/meta/recipes-devtools/subversion/subversion_1.10.0.bb b/meta/recipes-devtools/subversion/subversion_1.11.0.bb
+similarity index 96%
+rename from meta/recipes-devtools/subversion/subversion_1.10.0.bb
+rename to meta/recipes-devtools/subversion/subversion_1.11.0.bb
+index 42c2562bfc6..9e05d34639a 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.10.0.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.11.0.bb
+@@ -13,8 +13,8 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://serfmacro.patch \
+            "
+ 
+-SRC_URI[md5sum] = "0126847f9e8cb8ed0b90a6a18b203309"
+-SRC_URI[sha256sum] = "2cf23f3abb837dea0585a6b0ebd70e80e01f95bddef7c1aa097c18e3eaa6b584"
++SRC_URI[md5sum] = "b0401a17fe9f4a769e36fcfcfad93461"
++SRC_URI[sha256sum] = "87c44344b074ac2e9ed7ca9675fb1e5b197051c3deecfe5934e5f6aefbf83e56"
+ 
+ inherit autotools pkgconfig gettext
+ 
 -- 
-Best regards,
-Marek Vasut
+2.17.1
+
 
