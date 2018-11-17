@@ -1,49 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
-	[209.85.128.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C12E6C241
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 047696C241
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 17 Nov 2018 22:58:01 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 79so76404wmo.0
+Received: by mail-wr1-f67.google.com with SMTP id j26-v6so28322736wre.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Nov 2018 14:58:02 -0800 (PST)
+	Sat, 17 Nov 2018 14:58:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=we9D00Dr/bqVvmJBykLzuAcKuO+JbnFPuuKQz/fn77Q=;
-	b=Qk70G5stVfH7zSzqHFhCgDNnXR+JkXQC6Rvl7ThUFN4fyeuNYNYeGTNgBMlxEEGnZa
-	hnyQ5fl3lt+kMhxCdO4Q9NIyqAtOBiv1iq9783B5PDxyV/jWGn60pDvMfskcsgmfzBW6
-	dHL/bXqX7CetpLaQiSSvVGdfDs4gRkTfRdbcI=
+	bh=O3D+nL1dMSv8HnnW6c1CuhaahXQEZZxEL90e71umr0U=;
+	b=XTbEFFU4wYNpKq1P77lGkSR2yfEVDe72f/bTIIkb0V+ks0GBxp0qyuF0O21QIfc+3c
+	J/BULDIzGgEOHxwc3wgJTu52kCxFIjFinyAekowNy4icw7yE14BTPpI3nNpLclfUyNGZ
+	HGG5ebIsSAB6ouGJKTy9BBiiqovTzJLgWzhvY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=we9D00Dr/bqVvmJBykLzuAcKuO+JbnFPuuKQz/fn77Q=;
-	b=K5rX7Nt/5tAdnRtwR9E96EHQ2btQnygS1dpVRtmKMn82Z5Qr9wyu1q0w+YbYb+mZ6E
-	tXWTRr1CHm1GjSGsqLHhJBJBeGJhW86Ur3IzVPv0LL0L575WcQUSzl9kfngrZmkky8ze
-	6CO5Ud7gQ8hauPsoUsdCsl/1L3HZJUKr4HWKFmYL7LKWo6hVSxFilC2UqmAlI0Ed7bpN
-	fkIL5XZGy+j34rpDuvBBA0rt4iIJh2T8wyTg/Aeyghjd/Qxn58MfbEYYBlf6dHiNM2zm
-	0i8TXR732hloplb11rzGr1rLQ85yQzevDOzIxsIYJaKg/pOgFVyOT/zC5+pUbGviZZo/
-	VsfQ==
-X-Gm-Message-State: AGRZ1gLSeZKkmrrn/LtxnQyvrLwk1yZgPBECusM9LeYFBe+IzVxVIREJ
-	P43j6YhjRU17mg3e6+hckO9h83YqV8w=
-X-Google-Smtp-Source: AFSGD/UZZvGdW3BKAD8eqTLkazv4NAMHDV4fatfLWmVSKuGb33sMnjH+/bKYQ7D4eMbzwwjx3YXKwg==
-X-Received: by 2002:a1c:d1cd:: with SMTP id i196mr2574076wmg.107.1542495481260;
-	Sat, 17 Nov 2018 14:58:01 -0800 (PST)
+	bh=O3D+nL1dMSv8HnnW6c1CuhaahXQEZZxEL90e71umr0U=;
+	b=VJEcorR7lINmkad15w2DPTtJP6qyOAtbyG7zCKlOA/HvKM++nDWdHoB4L1iYd3KRL5
+	ZEJ5j89NeM9qKneIsikpv3QLyW86RCWnCdfBERYDezjQolA1ZGSW/i6Smub//CN+qYKD
+	/TOMS+lkEo+tfRLFiWDMKJedVQ7ZlJbPg4bbxmANgp80fx+NfgOQEcHdEa8b9MFeNYd/
+	bLZ9kVZFlntBhPBkJO6hqxWJYZ7VeSgTDsuPtQlpf9AOYE9q1EEXX2oHV3DL/GivJDlC
+	i8YMxZBcq8H3VTJrfIx6sgsofdM3AlQCGcQeicGTcF9wAz39JCno7qt5/0YGDWrxvyLu
+	oAvg==
+X-Gm-Message-State: AGRZ1gJP2W740Ivxtg/hTd6JKeLPBMhS6+xrqrwYLGw+mHPZSrAQv17b
+	HVc3gxrI0kcUuG7fL9I2zVQ31gsp864=
+X-Google-Smtp-Source: AJdET5cYA6jtBFFAJYLvi7eGOyA+ZJCUeTG+eB1fy0J0RHa3383O6DSzT/9iCGGUJNZJJlx09USUHQ==
+X-Received: by 2002:a5d:6487:: with SMTP id r7mr13893754wru.263.1542495482114; 
+	Sat, 17 Nov 2018 14:58:02 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	l15sm12658470wrw.4.2018.11.17.14.58.00
+	l15sm12658470wrw.4.2018.11.17.14.58.01
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 17 Nov 2018 14:58:00 -0800 (PST)
+	Sat, 17 Nov 2018 14:58:01 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 17 Nov 2018 22:57:50 +0000
-Message-Id: <20181117225753.15733-6-richard.purdie@linuxfoundation.org>
+Date: Sat, 17 Nov 2018 22:57:51 +0000
+Message-Id: <20181117225753.15733-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181117225753.15733-1-richard.purdie@linuxfoundation.org>
 References: <20181117225753.15733-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 6/9] libepoxy: upgrade 1.5.2 -> 1.5.3
+Subject: [PATCH 7/9] libinput: upgrade 1.11.3 -> 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Nov 2018 22:58:01 -0000
+X-List-Received-Date: Sat, 17 Nov 2018 22:58:02 -0000
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libepoxy/{libepoxy_1.5.2.bb => libepoxy_1.5.3.bb}         | 4 ++--
+ .../wayland/{libinput_1.11.3.bb => libinput_1.12.1.bb}        | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/libepoxy/{libepoxy_1.5.2.bb => libepoxy_1.5.3.bb} (83%)
+ rename meta/recipes-graphics/wayland/{libinput_1.11.3.bb => libinput_1.12.1.bb} (86%)
 
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.2.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
-similarity index 83%
-rename from meta/recipes-graphics/libepoxy/libepoxy_1.5.2.bb
-rename to meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
-index 106721226bf..92f644c039d 100644
---- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.2.bb
-+++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
-@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
+diff --git a/meta/recipes-graphics/wayland/libinput_1.11.3.bb b/meta/recipes-graphics/wayland/libinput_1.12.1.bb
+similarity index 86%
+rename from meta/recipes-graphics/wayland/libinput_1.11.3.bb
+rename to meta/recipes-graphics/wayland/libinput_1.12.1.bb
+index 12e2091c0fe..2cba80f211f 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.11.3.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.12.1.bb
+@@ -9,8 +9,8 @@ DEPENDS = "libevdev udev mtdev"
  
- SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz \
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
             "
--SRC_URI[md5sum] = "4a6b9e581da229dee74c2263c84b1eca"
--SRC_URI[sha256sum] = "a9562386519eb3fd7f03209f279f697a8cba520d3c155d6e253c3e138beca7d8"
-+SRC_URI[md5sum] = "e2845de8d2782b2d31c01ae8d7cd4cbb"
-+SRC_URI[sha256sum] = "002958c5528321edd53440235d3c44e71b5b1e09b9177e8daf677450b6c4433d"
- UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
+-SRC_URI[md5sum] = "df6e877f11de4a9793511e9abfe7ef01"
+-SRC_URI[sha256sum] = "f31191d96e425b4f16319842279d65946d9d983dcd3d9e466ae1206aa10ecb06"
++SRC_URI[md5sum] = "0b6fff34e30cf7aafc33c8f884806960"
++SRC_URI[sha256sum] = "570c48cc7b744b9b4da711ed0c5e8c3de132484684b0c4f0309a9a83df5e8692"
  
- inherit meson pkgconfig distro_features_check
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ inherit meson pkgconfig lib_package
 -- 
 2.17.1
 
