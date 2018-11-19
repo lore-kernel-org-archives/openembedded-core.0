@@ -1,47 +1,18 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
-	[209.85.208.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D3FB6C12E
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 15:39:55 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id v1-v6so26506718ljd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 07:39:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=IpYlmbcH33jjfGutSfVF7gOaUNA/xiNyyVGijhADckk=;
-	b=dpNeOx3PbM6eTLw84sFRragWwB43g0h75rmwL/k8o82AnoBIM351+IUKqHW2tVcn9S
-	RvcX0qVhsV3ZcLlm3uHUTOJIYqoMYpHG5fzOsBGys7ERrOK+TSA6uaitxFXdv3YO9JHA
-	hnJAOrMXFoEzucANWV5RmBYaoygPJgcdxhqTtgs0MIY4nsKhlav/OGHsujXxEIx4YLV3
-	w0NIcOe2Vfv978BlKFI0j9i9f55JL9ciothaOKOP+gR+zdKoFncCnJ1dPPiNLbKehOiP
-	5VKWvSvGfcxHfolEzwYCw49LFaPo+2ledxqRvi8vpdh0WklYiBHkjzHeh1lKkfFntuBi
-	LFSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=IpYlmbcH33jjfGutSfVF7gOaUNA/xiNyyVGijhADckk=;
-	b=NEQls1Qu90eO8bqfMlPjc8q+2FD5xOpC8I18sjMftv9XBOnE0IpZHcmC9kgb5kbDSr
-	DgUbTbFlZOz/bwFU9Ofe6odhvXN/N0UE/8s+/pK+d83laQru24gAUQ7lFeit62d84mN0
-	OIp1BL5fd3aPURDB+beR+KCjM3fy8SeN+gpDN1B9TEAZcKoXQ2pqn4hq8/Jf0mzA7AFA
-	tbgE2BfdAAfcgj5nuo8K8y8cJJgNb4kujaJbdQIp1PNXDi2aLqkgmM1X/uJFf3dYyGBq
-	VR1qvdMpqpJiPMIY1emsbItYDC3QcH5vThjaplUKEzdeyFj+y5nd2f0KFRm6+YSZebsS
-	wsAg==
-X-Gm-Message-State: AGRZ1gJ+ZdAyh50SgIrHtZoSKfXPvt3N3RhBbnyv7lF3/bGW04I+Z+vF
-	TJ8ej1bHtgz7WVJAZxlHvMnXx6sj
-X-Google-Smtp-Source: AJdET5dHTeSIKylS1QXVTjSliqQODVzrFFCUpV3cBou6RZBskre7xtbS9Eip0RwUe1m049r0KpjioQ==
-X-Received: by 2002:a2e:681a:: with SMTP id
-	c26-v6mr11332856lja.175.1542641995368; 
-	Mon, 19 Nov 2018 07:39:55 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id q6sm3557743lfh.52.2018.11.19.07.39.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Nov 2018 07:39:54 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Nov 2018 16:39:48 +0100
-Message-Id: <20181119153948.83542-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] maintainers.inc: add libmodulemd entry
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 714536C1B4;
+	Mon, 19 Nov 2018 16:05:46 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Mon, 19 Nov 2018 16:05:47 -0000
+Message-ID: <20181119160547.2330.814@do>
+References: <20181119153219.21850-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181119153219.21850-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImx0dG5nLXRvb2xzOiBJbXByb3ZlIHB0ZXN0IHJvYi4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,26 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2018 15:39:55 -0000
+X-List-Received-Date: Mon, 19 Nov 2018 16:05:46 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+== Series Details ==
+
+Series: "lttng-tools: Improve ptest rob..." and 2 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/14979/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 62fe04c245)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/conf/distro/include/maintainers.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 0889c1c4295..0d5c416fe88 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -326,6 +326,7 @@ RECIPE_MAINTAINER_pn-libksba = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libmatchbox = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-libmnl = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-libmpc = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER_pn-libmodulemd = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libnewt = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-libnewt-python = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-libnl = "Alexander Kanavin <alex.kanavin@gmail.com>"
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
