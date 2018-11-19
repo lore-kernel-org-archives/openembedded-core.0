@@ -1,51 +1,59 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id C9F886C120
+Return-Path: <marek.vasut@gmail.com>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B2D396C120
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 15:08:20 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id w7-v6so5674342wmc.1
+	Mon, 19 Nov 2018 15:11:06 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id g131so5291785wmg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 07:08:22 -0800 (PST)
+	Mon, 19 Nov 2018 07:11:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ytbb/Sg1bG/ixryFLyTRbNE4seHG1FH7O3PaN/AIsDY=;
-	b=TKIfv+70LvE4fb40mX+whOaM8DazKCk7NVZv6LOBmbsIARKg3zkxIhkgZS5aquibLg
-	EiXwImvpETT480FvYDoZgxoBzoBfcZgkxp7qlMLfmfRWC3/pSjchUuzMVHkTIoWZ+Sc2
-	0dO+1r7xFsw/N95XEYQD4qge+/SBgZwhlItf0ADEJHeEE3nP9D6BUPN1emK5a1AuMItl
-	7KGjaDHQlzIMdDmYPSYp5RtYLXKYI3oUO+BiROoKMX0DE85aQ8Gpu7RAWceflI2oCvz/
-	Zu0ulY2QIdno/PDqyhxMgWB22mo3Y+roLX8ycFWbBmU65hPoPH6ZrbXUWKQL6iwT4FQG
-	Wxvg==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=ymB4aJs4X9Gna78HsctnRK4CxuRHFV0va6HzONPfs4E=;
+	b=Pk833bAsb6UQI9TKtfIcIVXcjYRC8zOxSLsIJtp0DfrJPO/nMCqSGl57SkQF/XmxqE
+	U65xpzo/Xh5T1948iwPht3nhFSKOIsROaSQxuFrkhx9rL2aJ/V5wROeNdtZU0pwn2uGA
+	ug7278ZzHz2oBY4HJuQKnOdKIMv92DMNF64FUz/MAIu+GxrB2eAtWRYDE/ljvP42Mgc8
+	CUMPboaIkJJY0r06uWelBZIdyaQy9hqa16guClHgnR9iov7i/4SPbH76LJulxvu5GJQ/
+	a/yw1z8AWkDB/Obncet3dlbuBp+qOclXf94OEqi0E9i+JnzBHYCdvLQcsXdRa0Ut02sN
+	zwrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=ytbb/Sg1bG/ixryFLyTRbNE4seHG1FH7O3PaN/AIsDY=;
-	b=JSvEhY/MupTsMypuecU+GIIrs8b0qdHUSRxC8iOYBRr8sewu7B4Y+DuDwNo4mqrKtY
-	DxsQW0hlB5U2OdkyRF6llTkYO9Gnmt+PQ0dS1slI4jIS4dMO1G5xG+xz0+1QIptZQsIS
-	8cxfeUYjAaiHLCcgB9Ah6u8tjGDg+Pj2IPJwB+ux43E4mxPMZN7OzY2kwMKy3V7c3RUx
-	p5o0tRkid/uzyxfCWqxx5g7Rz8L1iGn9BkHjJuGQf0Dc5JgCwMYaDZpBdLhJ1KQiGs14
-	m4EC941EET7WPSgTJpKV0CUowW4LQUyS5T7M75m9xbQbpaqtrfbgumb3o3dtzDUovXJ0
-	HRng==
-X-Gm-Message-State: AA+aEWZmF8OPaSZaSRLKcNeybRI/uG2O5QtWKisCjWmzXIzPD8fl48z3
-	x24+8EJRgsMwALEUOAWC4EklQNgz
-X-Google-Smtp-Source: AJdET5fH+UtScvCelrJSLdLzVklEsqu1BmQfDPfm90WHM9uCzyq1ZDOiwV06vXRWlp/cOFRnaBHF2w==
-X-Received: by 2002:a1c:2807:: with SMTP id
-	o7-v6mr7191896wmo.138.1542640101328; 
-	Mon, 19 Nov 2018 07:08:21 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	e8-v6sm78042526wmf.22.2018.11.19.07.08.20
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=ymB4aJs4X9Gna78HsctnRK4CxuRHFV0va6HzONPfs4E=;
+	b=Xm+/liMp7ajEURK7AOsPS/8B3pNAkxnnPkQcnB0mpv2RQFAWVEyhkraOschyHuSdSk
+	pXq4aYrIjKBgRitI+Rr9kcBND7DPhis6TvxJ5Jr5bT2oa+yeg3BBmA7BZE5FQjAicYYz
+	DGjA30aPy6aZN/uo+EYwonZLowpQOcDYn73eDsIV04Y1nY0r4d5fxGrtQLVNGU9ODY6A
+	Pn7KzsUJJ/Tz4ETzIV1888Oj76jdHJEjOv3KxP/865mscwtigZ9BcBYS3BpLVCjVmulv
+	LLneZsZWZ7x7/zlzVoEngSIliTt3jLhpg3C+W6+6VnvPkVwTN6fHNEfCDpw+FGjj4Osm
+	MHUQ==
+X-Gm-Message-State: AGRZ1gJ8SLojlVdZ+JHJgemM6aw+ExSyLsNCaps99xT3xlJZgdGrKCra
+	UFcnN5SdH9gnyYtSsWzHg742Vsq3
+X-Google-Smtp-Source: AFSGD/X0S/PB9bK922QZmQ28ijjuwRrtPWBAN9uUFoi6enhKOBXI0Gxh7odCz2hN1oRf7DL7P5gbjQ==
+X-Received: by 2002:a1c:9183:: with SMTP id t125mr7248280wmd.79.1542640267005; 
+	Mon, 19 Nov 2018 07:11:07 -0800 (PST)
+Received: from [192.168.1.4] (ip-86-49-110-70.net.upcbroadband.cz.
+	[86.49.110.70]) by smtp.gmail.com with ESMTPSA id
+	h203-v6sm33374234wma.38.2018.11.19.07.11.06
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Nov 2018 07:08:20 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Nov 2018 16:08:10 +0100
-Message-Id: <20181119150810.94381-6-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20181119150810.94381-1-alex.kanavin@gmail.com>
-References: <20181119150810.94381-1-alex.kanavin@gmail.com>
-Subject: [PATCH 6/6] dnf: update to 4.0.4
+	Mon, 19 Nov 2018 07:11:06 -0800 (PST)
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20181117144457.A7B74440002@auh.yoctoproject.org>
+	<be32ec5d-9c69-0625-10a2-a32b587bc02a@gmail.com>
+	<CANNYZj-0azx-FS8J8uT=tHWteoVyq5rUCyCeBv-+cqoB=HK2vg@mail.gmail.com>
+	<31066f04-438f-94a1-8050-b4fa6d1cfbad@gmail.com>
+	<CANNYZj8_+TEy3xLQt6dUrVD9TUw1QwXJWDiT7QBEH6sX5J-5yg@mail.gmail.com>
+From: Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <edbbacd3-a911-1473-be1e-c5d406134bc7@gmail.com>
+Date: Mon, 19 Nov 2018 16:11:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj8_+TEy3xLQt6dUrVD9TUw1QwXJWDiT7QBEH6sX5J-5yg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [AUH] Upgrade status: 2018-11-17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,125 +66,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2018 15:08:22 -0000
+X-List-Received-Date: Mon, 19 Nov 2018 15:11:07 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-License-Update: spelling fixes
+On 11/19/2018 04:04 PM, Alexander Kanavin wrote:
+> On Sun, 18 Nov 2018 at 16:05, Marek Vasut <marek.vasut@gmail.com> wrote:
+>> Heh, I spent quite some time to make sure U-Boot builds on the targets
+>> AUH uses for it's auto update stuff, exactly to let it update U-Boot so
+>> I won't have to do it manually.
+> 
+> For what it's worth, u-boot does not currently compile for qemux86:
+> 
+> | {standard input}: Assembler messages:
+> | {standard input}:26553: Error: junk at end of line, first
+> unrecognized character is `@'
+> | {standard input}:26659: Error: junk at end of line, first
+> unrecognized character is `@'
+> | {standard input}:26553: Error: can't resolve `end.7689'
+> {.u_boot_list_2_pci_driver_entry_3 section} - `start.7686'
+> {.u_boot_list_2_pci_driver_entry_1 section}
+> | {standard input}:26659: Error: can't resolve `end.7689'
+> {.u_boot_list_2_pci_driver_entry_3 section} - `start.7686'
+> {.u_boot_list_2_pci_driver_entry_1 section}
+> | /home/alexander/development/poky/build/tmp/work/qemux86-poky-linux/u-boot/1_2018.07-r0/git/scripts/Makefile.build:278:
+> recipe for target 'drivers/pci/pci-uclass.o' failed
+> | make[2]: *** [drivers/pci/pci-uclass.o] Error 1
+> | /home/alexander/development/poky/build/tmp/work/qemux86-poky-linux/u-boot/1_2018.07-r0/git/Makefile:1377:
+> recipe for target 'drivers/pci' failed
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...ode-etc-and-systemd-unit-directories.patch | 19 ++++++++-----------
- ...PYTHON_INSTALL_DIR-by-running-python.patch | 17 +++++++----------
- .../dnf/{dnf_2.7.5.bb => dnf_4.0.4.bb}        |  6 +++---
- 3 files changed, 18 insertions(+), 24 deletions(-)
- rename meta/recipes-devtools/dnf/{dnf_2.7.5.bb => dnf_4.0.4.bb} (94%)
+That's gcc 8, right ? It's fixed in newer versions.
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-index 15a7bfc7329..cb09f17a563 100644
---- a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-@@ -1,7 +1,7 @@
--From a8ef81c115a45f05dad145c98e10f3c4940e4e29 Mon Sep 17 00:00:00 2001
-+From ffb7942cc73c3d2c6aa7c689cdaf9bc0bcbc144b Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 26 Jan 2017 16:25:47 +0200
--Subject: [PATCH 3/5] Do not hardcode /etc and systemd unit directories
-+Subject: [PATCH] Do not hardcode /etc and systemd unit directories
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-@@ -11,20 +11,17 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 650b624a..10199618 100644
-+index 73552967..38cf4fbf 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -7,8 +7,8 @@ if (NOT PYTHON_DESIRED)
--     set (PYTHON_DESIRED "2")
-- endif()
-+@@ -3,8 +3,8 @@ CMAKE_MINIMUM_REQUIRED (VERSION 2.4)
-+ 
-+ INCLUDE (${CMAKE_SOURCE_DIR}/VERSION.cmake)
-  
- -SET( SYSCONFDIR /etc)
- -SET( SYSTEMD_DIR /usr/lib/systemd/system)
- +SET( SYSCONFDIR ${CMAKE_INSTALL_SYSCONFDIR})
- +SET( SYSTEMD_DIR $ENV{systemd_system_unitdir})
-  
-- if (${PYTHON_DESIRED} STREQUAL "2")
-- 	FIND_PACKAGE (PythonInterp REQUIRED)
---- 
--2.14.2
--
-+ IF (NOT PYTHON_DESIRED)
-+     FIND_PACKAGE (PythonInterp REQUIRED)
-diff --git a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-index 6e011915df0..0ed9afc58d2 100644
---- a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-@@ -1,7 +1,7 @@
--From 7205033e44d8fba1d3b18b490e7eaab82da1ffa3 Mon Sep 17 00:00:00 2001
-+From 6be13143a54c79085d400d5bd4c7a6e1cb6ffaf5 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:29:07 +0200
--Subject: [PATCH 1/5] Do not set PYTHON_INSTALL_DIR by running python
-+Subject: [PATCH] Do not set PYTHON_INSTALL_DIR by running python
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-@@ -11,18 +11,15 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 23e5f889..650b624a 100644
-+index 38cf4fbf..6c5debd8 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -18,7 +18,7 @@ else()
-- 	FIND_PACKAGE(PythonInterp 3.0 REQUIRED)
-- endif()
-+@@ -19,7 +19,7 @@ ELSE ()
-+     MESSAGE (FATAL_ERROR "Invalid PYTHON_DESIRED value: " ${PYTHON_DESIRED})
-+ ENDIF()
-  
- -EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib())" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
- +#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib())" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-- EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "import sys; sys.stdout.write('%s.%s' % (sys.version_info.major, sys.version_info.minor))" OUTPUT_VARIABLE PYTHON_MAJOR_DOT_MINOR_VERSION)
-  MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
-  
---- 
--2.14.2
--
-+ ADD_SUBDIRECTORY (dnf)
-diff --git a/meta/recipes-devtools/dnf/dnf_2.7.5.bb b/meta/recipes-devtools/dnf/dnf_4.0.4.bb
-similarity index 94%
-rename from meta/recipes-devtools/dnf/dnf_2.7.5.bb
-rename to meta/recipes-devtools/dnf/dnf_4.0.4.bb
-index df60d731b69..931e9eff07f 100644
---- a/meta/recipes-devtools/dnf/dnf_2.7.5.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.0.4.bb
-@@ -1,8 +1,8 @@
- SUMMARY = "Package manager forked from Yum, using libsolv as a dependency resolver"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://PACKAGE-LICENSING;md5=bfc29916e11321be06924c4fb096fdcc \
--                   "
-+                    file://PACKAGE-LICENSING;md5=4a0548e303dbc77f067335b4d688e745 \
-+                    "
- 
- SRC_URI = "git://github.com/rpm-software-management/dnf.git \
-            file://0001-Corretly-install-tmpfiles.d-configuration.patch \
-@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
-            file://0030-Run-python-scripts-using-env.patch \
-            "
- 
--SRCREV = "564c44667c7014843fa6f1732621093114ec59b2"
-+SRCREV = "6fdf0e8cc714c92ee08bd4db9412d4c587ffafe9"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
- 
- S = "${WORKDIR}/git"
 -- 
-2.17.1
-
+Best regards,
+Marek Vasut
 
