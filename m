@@ -1,52 +1,46 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id BC8B06C10D
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A5846B3D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 15:11:50 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id w7-v6so5687035wmc.1
+	Mon, 19 Nov 2018 15:32:21 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id r11-v6so5766154wmb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 07:11:52 -0800 (PST)
+	Mon, 19 Nov 2018 07:32:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=uFHL2ByXLZhTWHySmzDcA2wlSmQg0OMOCCk31jGkPO8=;
-	b=QRVb0Crb5PmLuC4OKgivMP5yinSo12MWd+IciOPFpk2NaiP6y6zzp/m2glmty0nGBa
-	0cwpsomJAw4LHkEtQ2fOIJUDS6lrXhzBCb0UBW8DUfUKdLpnDwwJ3Xa+HyCbAwK7uTGE
-	c6TY2kn4H/MvSaR3iU/lxUX//KzEepkZv/JAY=
+	h=from:to:subject:date:message-id;
+	bh=1KCRpN5LmSHFnqTRoEq6U04HCe6GtigZobtv4TwMVq8=;
+	b=OVaUzneoGla36f7GOmWiBrAruC3oujq247MSOlxS2ZtxEqsjCpvGjaf23+8J1A8Jtw
+	sBFepOrnJgzDiv0LWieui59NPE+2ze2US1aUrfmDofjHCDV1WwEqUsSxwURsDVH9H35h
+	nzBAJD4P2yIDLptL4v/F+I8Wf9+sfV6mFAwRk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=uFHL2ByXLZhTWHySmzDcA2wlSmQg0OMOCCk31jGkPO8=;
-	b=WCfDleYIz7FYT7Ir+Ib1Ht6YV07+Zw90BeF3cXTEV45HjJdXNQYrXIWhYPbgc4As3p
-	L/FnultfNzxA+aUObl6hwcTlfjvPxu6s55JtNFB/vhAO71Lw0b72EWHW9SP3OBUoEWCW
-	bqQ1YYJN+FFwfmHVQoo9ahXV8dskENm7//ypF6QGxctNsB0IyBMvS4ck8I6C/zdfblDn
-	wCyi3J+Ciingc6cVtcrniXpOLz8f/tsgvcrzcnzlMHXXpO7cmceXd7houCAppdY+sJyq
-	i/1B8zb8pw1Nw50/OAJnrQDubG8yxCDbICjKirm+Whd7mW/DpPmym3TLatN0anEy0kmG
-	eERg==
-X-Gm-Message-State: AGRZ1gJl0Ezu4Kz0iPNLPBPJxss6StUqxeVXfV3WW5dCv8pVCWBVSy2d
-	cJJIjTloETEzDTxWZcvYv3XBXw==
-X-Google-Smtp-Source: AJdET5ciC4H9umJiqml9OdiI7awsrmOnEwOPw2NGAlfsYc/55t0IWkH0Pzfd8qP83oo3Hsjw2Y+ytw==
-X-Received: by 2002:a1c:c008:: with SMTP id q8mr6800979wmf.99.1542640311389;
-	Mon, 19 Nov 2018 07:11:51 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=1KCRpN5LmSHFnqTRoEq6U04HCe6GtigZobtv4TwMVq8=;
+	b=ha5RW7j20uP6Xtf6VG3WfeovLsn8uHr98OBgUd5ih6r4IhW3f3i9/1uB66hQ6ApSx9
+	XpQ88LhdglhlklSiHDKlRbairj0EfVU3Z/77IBuXta6QZp3CHK/i5ic1dVACxCQxcJvf
+	va4vOyHQMVyhAj3MsqboW9Klvndmha4txZZmFrR59PJCbvAwo3etMwI7e2cpTnNQ4lQ7
+	P5JWZAazUP/Bd5XAvhNtUc08Yf6ygvsnwBi0wmbc1U7pfQM9Bq7x4nIZgS3ysIaTivhV
+	miyxkBeQpMJKRgBq6LZhO6XrE6nmMwZHjTpc2gJTcqjdRyddEcS1WP7q7EGJUVAkDzQ6
+	aPjw==
+X-Gm-Message-State: AGRZ1gIvp6aIFgZ4VlkX20y61GjJcVYi8oKElNTyPT6LGhT8ODlvkPtp
+	jEPjWQfSxiuEhXzx//RxS9PQPPL1Mdk=
+X-Google-Smtp-Source: AFSGD/XuLnpCIEBkKvQdKcEktgrykImA3dU4l+c60qZkWX3PY97Ri9GA3RwlIQRBXdFKPLCNDxpVbw==
+X-Received: by 2002:a7b:c5cc:: with SMTP id n12mr7533941wmk.149.1542641541811; 
+	Mon, 19 Nov 2018 07:32:21 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	v16-v6sm22515416wrv.90.2018.11.19.07.11.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 19 Nov 2018 07:11:50 -0800 (PST)
-Message-ID: <3a2a5bf58f8d10fb30b915eaab8627cabc087643.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Valek, Andrej" <andrej.valek@siemens.com>
-Date: Mon, 19 Nov 2018 15:11:49 +0000
-In-Reply-To: <D55698ECEC159B488D62A508E18D7FEC01696588@ATNETS9912WMSX.ww300.siemens.net>
-References: <D55698ECEC159B488D62A508E18D7FEC01696588@ATNETS9912WMSX.ww300.siemens.net>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Update sdk dummy providers
+	x81sm409180wmg.17.2018.11.19.07.32.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Nov 2018 07:32:21 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Nov 2018 15:32:17 +0000
+Message-Id: <20181119153219.21850-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/3] lttng-tools: Improve ptest robustness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,41 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2018 15:11:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Nov 2018 15:32:22 -0000
 
-On Mon, 2018-11-19 at 15:00 +0000, Valek, Andrej wrote:
-> Hello Richard,
->  
-> I would like to ask You a question about your commit (
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-core/meta/dummy-sdk-package.inc?id=0d0984e1e616c9f1c211b7b980ba2ca54c096e6e
-> ) to update sdk providers. I have found an issue regarding to
-> buildtools.
->  
-> ERROR:  OE-core's config sanity checker detected a potential
-> misconfiguration.
->     Either fix the cause of this error or at your own risk disable
-> the checker (see sanity.conf).
->     Following is the list of potential problems / advisories:
-> 
->     Required perl module(s) not found: Text::ParseWords Thread::Queue
-> Data::Dumper
->  
-> After analyzing, I have found, that buildtools-tarball contains a
-> nativesdk-perl (in manifest), which I guess should be excluded.
-> I have found, that after removing comments your comments of
-> d.appendVar("RCONFLICTS_%s" % p, "${DUMMYPROVIDES}") and RREPLACES_%s
-> in meta/recipes-core/meta/dummy-sdk-package.inc it works. Is there
-> any reason, why You have commented out?
+There are some fatal make errors that occur from the current ptest
+for lttng-tools however since other tests are successful, those make
+build failures were being ignored.
 
-Good question, I think this behaviour is package backend specific and
-I'm not sure if those commented out lines were accidental from testing
-something. I'll remove them and see what the autobuilder makes of
-that...
+When upgrading, the order of test execution changed and the ptest failed
+fatally straight away with the same errors.
 
-Cheers,
+Passing -k to make means it will try and run all the tests making the
+test suite run more consistently over all lttng-tools versions.
 
-Richard
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-kernel/lttng/lttng-tools/run-ptest | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/run-ptest b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
+index 705030ee53b..dbb18820a4c 100755
+--- a/meta/recipes-kernel/lttng/lttng-tools/run-ptest
++++ b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
+@@ -3,4 +3,4 @@
+ # test plan to raise ERRORs; this is just noise.
+ makeargs="LOG_DRIVER_FLAGS=--ignore-exit top_srcdir=$PWD top_builddir=$PWD"
+ make -k -t all >/dev/null 2>&1
+-exec make -s $makeargs check 2>/dev/null
++exec make -k -s $makeargs check 2>/dev/null
+-- 
+2.17.1
 
 
