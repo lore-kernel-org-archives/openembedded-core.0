@@ -1,47 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 512046C111
+Return-Path: <adrian.freihofer@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id F14BF6C43C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 22:33:03 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id o89so51484224qko.0
+	Mon, 19 Nov 2018 22:33:19 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id f4so242932edq.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 14:33:04 -0800 (PST)
+	Mon, 19 Nov 2018 14:33:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=o0rjPfGQIQbqQW0VzbYLTDzrMWXTf0lKtWaAbC++fQA=;
-	b=H0H5CmWpbby3qEJFwnDePB3ddG9qx2VPyZTOiNq2Ho8yjkV48JyA/75VmBQSbVFjs0
-	ujG7Ee3zCO6mqcRQdEQp6KMaQ5bBuVmc6Bk8n8G1PcGufiCQl1jrnptQNMLPuk02e7Fs
-	//UIi59R4W6vRMVM7VJR6qWPTmJOxotDQJSMx09uewcVmqsmvik5IROKLQlPwcFNjIZ0
-	NjwaR300txVnWmYOqNi2V+LZtq9k/GSblswCe2Svh9k8KiAR2wzVPO/0pnT5gweHbE9m
-	NYbjjOWcx6Z7E6PJsjFA2v3Ch3XijLfzHGURFFTq9lEdDmZzcVfhTlVSAs4ChriJ1Ar+
-	Z4Hw==
+	h=from:to:subject:date:message-id;
+	bh=Lv6UVdH9imh0YJEkDbkO/MVOTO8D5+JP2NaForP29B4=;
+	b=QIr4DVuVDlHcPborEu74JsVL24h0I85qCG88ewm4l7pAlPFA3gcu7AR5csPoDVcdVw
+	/qcDZjpmYY2EbwAMxai/1mXPGWLP/EsoM1L4vpsyIUlKIctDIT6lzHOf1BxwkgD7eTRQ
+	MGPO/tQI/516G9q6BdfZPoG4xiIHPnMjFvxcFKwjp18as6/Ll/t1y+JhIqWtMkC7fNEK
+	Ao8UjvWorwJUiz7HnyH/Q9CGgWpm9yjU1uKyJsRNwHrNnKbZXFDArsiFcZpYA4pBLyDJ
+	dkmicZNkyLQk+jzg39xadh7RPl/rxv4USp+po6c7TLOZkhbDms7+L1Kys0t6GmXSz6B6
+	SLgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=o0rjPfGQIQbqQW0VzbYLTDzrMWXTf0lKtWaAbC++fQA=;
-	b=DrOBGnn4aDet5tIRgoVVVrzBXS06XxOa+XzuGJtueRtu0r8ArHjA3ewLn8CWgTjD+r
-	M847MV/GODv9GBnCePKRE6u04BSMwi7cW6wZJvKGKz7JW/WJgAARYbPwY3fKbBSyrfRm
-	pZ1GfJ050o+xOSHeC3K3yBN6QFh0g5i7XGTUCgX6WOt3FZmcC6IxzcoHIXDLvQ2rq6N4
-	1N/Xr7Kv69aalhSqXt4Hc69DDGEWC2rZt5J4UI1/TCwb50xmcAo8Z5qprXud/AX+paVW
-	bXl5YkYQy+cVF+snvN/CpkPW5Mi8fkrm1mmNhKJaBic8JkM6MiUMd3epxjAL3JuNmZMX
-	HDUg==
-X-Gm-Message-State: AGRZ1gK+SjtZ/52L72cLFNQ5e2Gz0eL4zVxTGtTyOGpgS7rdIuBA90/A
-	kOSilp+XQwBNPzkO72Jx2mKTmP5tL10XlX5TYuQ=
-X-Google-Smtp-Source: AJdET5e6hDB/ZW3zBCxYJ2yU7y9EfrYFuxRVQz79yOGCosFY/0C0WE1SOqmR8GrNTmb5/4EMlZuyIU+l5uDWmGQz9QE=
-X-Received: by 2002:aed:3eac:: with SMTP id n41mr22885626qtf.196.1542666783692;
-	Mon, 19 Nov 2018 14:33:03 -0800 (PST)
-MIME-Version: 1.0
-References: <1542638517-19735-1-git-send-email-akuster808@gmail.com>
-In-Reply-To: <1542638517-19735-1-git-send-email-akuster808@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 19 Nov 2018 14:32:37 -0800
-Message-ID: <CAMKF1so+5yESK37Lg87dbAQZJxhWFjYkbsn09VWjFi8hriddnQ@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] curl: update to 7.62.0
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Lv6UVdH9imh0YJEkDbkO/MVOTO8D5+JP2NaForP29B4=;
+	b=RySwYp+KN2G24LQ4o1Ag/R7ES0hrfH1lwcFJkTfy5hC0bD97FsX8lpixW1OYMxjm6m
+	/DPRXsK8PyD2a0cY9jCKwm7leVd7BVjwBcwpuxn9XWyJwhRcOv0JVxezRgLXQ2kAKIrk
+	dFyRlQ62oT5eS/Gora/X5TnHUwqahzkJ4aYrHeUytWJ4dz9hgtbOlsY9cGuK9SIbjbCV
+	YGgygcIMoEdrw8NS/CcSRKqu0IR3fR18o+pKNMCGLSt1h+m2X7hXAP7nXwJkJygKlQzf
+	LUU1I9KV7FToawq9uK3ez/OmmncEQ0omc0WD5cHG2l0CHjg2u6/DavYogspQeJZHlAIR
+	EdLw==
+X-Gm-Message-State: AA+aEWZZqRWccBY51se1FTHMaGwtokRk9UC8lR81NSorcByqIuL3a/+C
+	M/rHHyChIMwKrLHve/+aOjM3V6NZKi4=
+X-Google-Smtp-Source: AFSGD/WeYhERUIbFwoqrsmttUb8DHuI3K6epk+5xgNjoh6bogrzxu4i+ZZf0OouW67caLqKC77aWuQ==
+X-Received: by 2002:a50:b349:: with SMTP id r9-v6mr3624edd.284.1542666800149; 
+	Mon, 19 Nov 2018 14:33:20 -0800 (PST)
+Received: from localhost.localdomain (c-93-184-18-27.customer.ggaweb.ch.
+	[93.184.18.27]) by smtp.gmail.com with ESMTPSA id
+	n12-v6sm6926273ejl.13.2018.11.19.14.33.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Nov 2018 14:33:19 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Nov 2018 23:33:08 +0100
+Message-Id: <20181119223308.47590-1-adrian.freihofer@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] systemd: fix PN-container package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,240 +55,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2018 22:33:03 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 19 Nov 2018 22:33:20 -0000
 
-On Mon, Nov 19, 2018 at 6:42 AM Armin Kuster <akuster808@gmail.com> wrote:
->
-> Drop all CVE patches now included in update.
->
-> For details see: https://curl.haxx.se/changes.html
->
+From: Adrian Freihofer <adrian.freihofer@scs.ch>
 
-This comes with some consequences since curl 7.62.0 deprecates the
-CURLE_SSL_CACERT error code, and unifies it with
-CURLE_PEER_FAILED_VERIFICATION some applications will break e.g.
+- Fix package splitting for services installed with
+  systemd-container. Some files have been installed with systemd
+  package instead of systemd-container package. (*.service,
+  *.socket, *.html...)
+- Split journal-upload, journal-remote, journal-gatewayd into
+  separate packages. These services are not strictly related to
+  nspawn containers. Remote logging is now possible without
+  installing all the container stuff.
+- systemd-container package rdepends on the new packages to
+  maintain 100% backwards compatibility. But nspawn does not
+  really depend on them. rrecommends would be fine as well.
 
-http://errors.yoctoproject.org/Errors/Details/201569/
+Signed-off-by: Adrian Freihofer <adrian.freihofer@gmail.com>
+---
+ meta/recipes-core/systemd/systemd_239.bb | 56 ++++++++++++++++++++----
+ 1 file changed, 48 insertions(+), 8 deletions(-)
 
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->  .../recipes-support/curl/curl/CVE-2018-14618.patch | 37 -------------------
->  .../recipes-support/curl/curl/CVE-2018-16839.patch | 35 ------------------
->  .../recipes-support/curl/curl/CVE-2018-16840.patch | 43 ----------------------
->  .../recipes-support/curl/curl/CVE-2018-16842.patch | 35 ------------------
->  .../curl/{curl_7.61.0.bb => curl_7.62.0.bb}        |  8 +---
->  5 files changed, 2 insertions(+), 156 deletions(-)
->  delete mode 100644 meta/recipes-support/curl/curl/CVE-2018-14618.patch
->  delete mode 100644 meta/recipes-support/curl/curl/CVE-2018-16839.patch
->  delete mode 100644 meta/recipes-support/curl/curl/CVE-2018-16840.patch
->  delete mode 100644 meta/recipes-support/curl/curl/CVE-2018-16842.patch
->  rename meta/recipes-support/curl/{curl_7.61.0.bb => curl_7.62.0.bb} (91%)
->
-> diff --git a/meta/recipes-support/curl/curl/CVE-2018-14618.patch b/meta/recipes-support/curl/curl/CVE-2018-14618.patch
-> deleted file mode 100644
-> index db07b43..0000000
-> --- a/meta/recipes-support/curl/curl/CVE-2018-14618.patch
-> +++ /dev/null
-> @@ -1,37 +0,0 @@
-> -From 57d299a499155d4b327e341c6024e293b0418243 Mon Sep 17 00:00:00 2001
-> -From: Daniel Stenberg <daniel@haxx.se>
-> -Date: Mon, 13 Aug 2018 10:35:52 +0200
-> -Subject: [PATCH] Curl_ntlm_core_mk_nt_hash: return error on too long password
-> -
-> -... since it would cause an integer overflow if longer than (max size_t
-> -/ 2).
-> -
-> -This is CVE-2018-14618
-> -
-> -Bug: https://curl.haxx.se/docs/CVE-2018-14618.html
-> -Closes #2756
-> -Reported-by: Zhaoyang Wu
-> -
-> -CVE: CVE-2018-14618
-> -Upstream-Status: Backport
-> -Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> ----
-> - lib/curl_ntlm_core.c | 5 ++++-
-> - 1 file changed, 4 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/lib/curl_ntlm_core.c b/lib/curl_ntlm_core.c
-> -index e27cab353c..922e85a926 100644
-> ---- a/lib/curl_ntlm_core.c
-> -+++ b/lib/curl_ntlm_core.c
-> -@@ -557,8 +557,11 @@ CURLcode Curl_ntlm_core_mk_nt_hash(struct Curl_easy *data,
-> -                                    unsigned char *ntbuffer /* 21 bytes */)
-> - {
-> -   size_t len = strlen(password);
-> --  unsigned char *pw = len ? malloc(len * 2) : strdup("");
-> -+  unsigned char *pw;
-> -   CURLcode result;
-> -+  if(len > SIZE_T_MAX/2) /* avoid integer overflow */
-> -+    return CURLE_OUT_OF_MEMORY;
-> -+  pw = len ? malloc(len * 2) : strdup("");
-> -   if(!pw)
-> -     return CURLE_OUT_OF_MEMORY;
-> diff --git a/meta/recipes-support/curl/curl/CVE-2018-16839.patch b/meta/recipes-support/curl/curl/CVE-2018-16839.patch
-> deleted file mode 100644
-> index bf972d2..0000000
-> --- a/meta/recipes-support/curl/curl/CVE-2018-16839.patch
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -From 55b90532f9190dce40a325b3312d014c66dc3ae1 Mon Sep 17 00:00:00 2001
-> -From: Changqing Li <changqing.li@windriver.com>
-> -Date: Thu, 1 Nov 2018 15:27:35 +0800
-> -Subject: [PATCH] Curl_auth_create_plain_message: fix too-large-input-check
-> -
-> -CVE-2018-16839
-> -Reported-by: Harry Sintonen
-> -Bug: https://curl.haxx.se/docs/CVE-2018-16839.html
-> -
-> -Upstream-Status: Backport [https://github.com/curl/curl/commit
-> -/f3a24d7916b9173c69a3e0ee790102993833d6c5?diff=unified]
-> -
-> -CVE: CVE-2018-16839
-> -
-> -Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ----
-> - lib/vauth/cleartext.c | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/lib/vauth/cleartext.c b/lib/vauth/cleartext.c
-> -index 5d61ce6..1367143 100644
-> ---- a/lib/vauth/cleartext.c
-> -+++ b/lib/vauth/cleartext.c
-> -@@ -74,7 +74,7 @@ CURLcode Curl_auth_create_plain_message(struct Curl_easy *data,
-> -   plen = strlen(passwdp);
-> -
-> -   /* Compute binary message length. Check for overflows. */
-> --  if((ulen > SIZE_T_MAX/2) || (plen > (SIZE_T_MAX/2 - 2)))
-> -+  if((ulen > SIZE_T_MAX/4) || (plen > (SIZE_T_MAX/2 - 2)))
-> -     return CURLE_OUT_OF_MEMORY;
-> -   plainlen = 2 * ulen + plen + 2;
-> -
-> ---
-> -2.7.4
-> -
-> diff --git a/meta/recipes-support/curl/curl/CVE-2018-16840.patch b/meta/recipes-support/curl/curl/CVE-2018-16840.patch
-> deleted file mode 100644
-> index 3d086c4..0000000
-> --- a/meta/recipes-support/curl/curl/CVE-2018-16840.patch
-> +++ /dev/null
-> @@ -1,43 +0,0 @@
-> -From 3c2846bec008e03d456e181d9ab55686da83f140 Mon Sep 17 00:00:00 2001
-> -From: Changqing Li <changqing.li@windriver.com>
-> -Date: Thu, 1 Nov 2018 15:33:35 +0800
-> -Subject: [PATCH] Curl_close: clear data->multi_easy on free to avoid
-> - use-after-free
-> -
-> -Regression from b46cfbc (7.59.0)
-> -CVE-2018-16840
-> -Reported-by: Brian Carpenter (Geeknik Labs)
-> -
-> -Bug: https://curl.haxx.se/docs/CVE-2018-16840.html
-> -
-> -Upstream-Status: Backport [https://github.com/curl/curl/commit/
-> -81d135d67155c5295b1033679c606165d4e28f3f]
-> -
-> -CVE: CVE-2018-16840
-> -
-> -Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ----
-> - lib/url.c | 4 +++-
-> - 1 file changed, 3 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/lib/url.c b/lib/url.c
-> -index 27b2c1e..7ef7c20 100644
-> ---- a/lib/url.c
-> -+++ b/lib/url.c
-> -@@ -320,10 +320,12 @@ CURLcode Curl_close(struct Curl_easy *data)
-> -        and detach this handle from there. */
-> -     curl_multi_remove_handle(data->multi, data);
-> -
-> --  if(data->multi_easy)
-> -+  if(data->multi_easy) {
-> -     /* when curl_easy_perform() is used, it creates its own multi handle to
-> -        use and this is the one */
-> -     curl_multi_cleanup(data->multi_easy);
-> -+    data->multi_easy = NULL;
-> -+  }
-> -
-> -   /* Destroy the timeout list that is held in the easy handle. It is
-> -      /normally/ done by curl_multi_remove_handle() but this is "just in
-> ---
-> -2.7.4
-> -
-> diff --git a/meta/recipes-support/curl/curl/CVE-2018-16842.patch b/meta/recipes-support/curl/curl/CVE-2018-16842.patch
-> deleted file mode 100644
-> index 82e7557..0000000
-> --- a/meta/recipes-support/curl/curl/CVE-2018-16842.patch
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -From 0e4a6058b130f07cfa52fde8a3cb6f2abfe4c700 Mon Sep 17 00:00:00 2001
-> -From: Changqing Li <changqing.li@windriver.com>
-> -Date: Thu, 1 Nov 2018 15:30:56 +0800
-> -Subject: [PATCH] voutf: fix bad arethmetic when outputting warnings to stderr
-> -
-> -CVE-2018-16842
-> -Reported-by: Brian Carpenter
-> -Bug: https://curl.haxx.se/docs/CVE-2018-16842.html
-> -
-> -Upstream-Status: Backport [https://github.com/curl/curl/commit
-> -/d530e92f59ae9bb2d47066c3c460b25d2ffeb211]
-> -
-> -CVE: CVE-2018-16842
-> -
-> -Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ----
-> - src/tool_msgs.c | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/src/tool_msgs.c b/src/tool_msgs.c
-> -index 9cce806..05bec39 100644
-> ---- a/src/tool_msgs.c
-> -+++ b/src/tool_msgs.c
-> -@@ -67,7 +67,7 @@ static void voutf(struct GlobalConfig *config,
-> -         (void)fwrite(ptr, cut + 1, 1, config->errors);
-> -         fputs("\n", config->errors);
-> -         ptr += cut + 1; /* skip the space too */
-> --        len -= cut;
-> -+        len -= cut + 1;
-> -       }
-> -       else {
-> -         fputs(ptr, config->errors);
-> ---
-> -2.7.4
-> -
-> diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.62.0.bb
-> similarity index 91%
-> rename from meta/recipes-support/curl/curl_7.61.0.bb
-> rename to meta/recipes-support/curl/curl_7.62.0.bb
-> index 56327a6..2baab2b 100644
-> --- a/meta/recipes-support/curl/curl_7.61.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.62.0.bb
-> @@ -7,14 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ef889a37a5a874490ac7ce116396f29a"
->
->  SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
->             file://0001-replace-krb5-config-with-pkg-config.patch \
-> -           file://CVE-2018-14618.patch \
-> -           file://CVE-2018-16839.patch \
-> -           file://CVE-2018-16840.patch \
-> -           file://CVE-2018-16842.patch \
->  "
->
-> -SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
-> -SRC_URI[sha256sum] = "5f6f336921cf5b84de56afbd08dfb70adeef2303751ffb3e570c936c6d656c9c"
-> +SRC_URI[md5sum] = "7adf426f80c68bbdd04d44b9bc171d61"
-> +SRC_URI[sha256sum] = "7802c54076500be500b171fde786258579d60547a3a35b8c5a23d8c88e8f9620"
->
->  CVE_PRODUCT = "curl libcurl"
->  inherit autotools pkgconfig binconfig multilib_header
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
+index e19a8babce..0755d15c4b 100644
+--- a/meta/recipes-core/systemd/systemd_239.bb
++++ b/meta/recipes-core/systemd/systemd_239.bb
+@@ -240,6 +240,9 @@ do_install() {
+ 	# Delete journal README, as log can be symlinked inside volatile.
+ 	rm -f ${D}/${localstatedir}/log/README
+ 
++	# journal-remote creates this at start
++	rm -rf ${D}/${localstatedir}/log/journal/remote
++
+ 	install -d ${D}${systemd_unitdir}/system/graphical.target.wants
+ 	install -d ${D}${systemd_unitdir}/system/multi-user.target.wants
+ 	install -d ${D}${systemd_unitdir}/system/poweroff.target.wants
+@@ -310,19 +313,35 @@ PACKAGES =+ "\
+     ${PN}-zsh-completion \
+     ${PN}-xorg-xinitrc \
+     ${PN}-container \
++    ${PN}-journal-gatewayd \
++    ${PN}-journal-upload \
++    ${PN}-journal-remote \
+     ${PN}-extra-utils \
+ "
+ 
+ SUMMARY_${PN}-container = "Tools for containers and VMs"
+ DESCRIPTION_${PN}-container = "Systemd tools to spawn and manage containers and virtual machines."
+ 
+-SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfmt', '', d)}"
++SUMMARY_${PN}-journal-gatewayd = "HTTP server for journal events"
++DESCRIPTION_${PN}-journal-gatewayd = "systemd-journal-gatewayd serves journal events over the network. Clients must connect using HTTP. The server listens on port 19531 by default."
++
++SUMMARY_${PN}-journal-upload = "Send journal messages over the network"
++DESCRIPTION_${PN}-journal-upload = "systemd-journal-upload uploads journal entries to a specified URL."
++
++SUMMARY_${PN}-journal-remote = "Receive journal messages over the network"
++DESCRIPTION_${PN}-journal-remote = "systemd-journal-remote is a command to receive serialized journal events and store them to journal files."
++
++SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfmt', '', d)} \
++                    ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-gatewayd', '', d)} \
++                    ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
++                    ${@bb.utils.contains('PACKAGECONFIG', '', '${PN}-journal-remote', '', d)} \
++"
+ SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+ 
+-USERADD_PACKAGES = "${PN} ${PN}-extra-utils"
+-USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
+-USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-remote;', '', d)}"
+-USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '--system -d / -M --shell /bin/nologin systemd-journal-upload;', '', d)}"
++USERADD_PACKAGES = "${PN} ${PN}-extra-utils ${PN}-journal-gateway ${PN}-journal-upload ${PN}-journal-remote"
++USERADD_PARAM_${PN}-journal-gateway += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
++USERADD_PARAM_${PN}-journal-remote += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-remote;', '', d)}"
++USERADD_PARAM_${PN}-journal-upload += "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '--system -d / -M --shell /bin/nologin systemd-journal-upload;', '', d)}"
+ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
+ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
+ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
+@@ -363,6 +382,29 @@ RRECOMMENDS_${PN}-binfmt = "kernel-module-binfmt-misc"
+ 
+ RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-keymaps"
+ 
++
++FILES_${PN}-journal-gatewayd = "${rootlibexecdir}/systemd/systemd-journal-gatewayd \
++                                ${systemd_system_unitdir}/systemd-journal-gatewayd.service \
++                                ${systemd_system_unitdir}/systemd-journal-gatewayd.socket \
++                                ${systemd_system_unitdir}/sockets.target.wants/systemd-journal-gatewayd.socket \
++                                ${datadir}/systemd/gatewayd/browse.html \
++                               "
++SYSTEMD_SERVICE_${PN}-journal-gatewayd = "systemd-journal-gatewayd.socket"
++
++FILES_${PN}-journal-upload = "${rootlibexecdir}/systemd/systemd-journal-upload \
++                              ${systemd_system_unitdir}/systemd-journal-upload.service \
++                              ${sysconfdir}/systemd/journal-upload.conf \
++                             "
++SYSTEMD_SERVICE_${PN}-journal-upload = "systemd-journal-upload.service"
++
++FILES_${PN}-journal-remote = "${rootlibexecdir}/systemd/systemd-journal-remote \
++                              ${sysconfdir}/systemd/journal-remote.conf \
++                              ${systemd_system_unitdir}/systemd-journal-remote.service \
++                              ${systemd_system_unitdir}/systemd-journal-remote.socket \
++                             "
++SYSTEMD_SERVICE_${PN}-remote = "systemd-journal-remote.socket"
++
++
+ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.conf \
+                          ${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf \
+                          ${base_bindir}/machinectl \
+@@ -381,9 +423,6 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
+                          ${systemd_system_unitdir}/var-lib-machines.mount \
+                          ${rootlibexecdir}/systemd/systemd-import \
+                          ${rootlibexecdir}/systemd/systemd-importd \
+-                         ${rootlibexecdir}/systemd/systemd-journal-gatewayd \
+-                         ${rootlibexecdir}/systemd/systemd-journal-remote \
+-                         ${rootlibexecdir}/systemd/systemd-journal-upload \
+                          ${rootlibexecdir}/systemd/systemd-machined \
+                          ${rootlibexecdir}/systemd/systemd-pull \
+                          ${exec_prefix}/lib/tmpfiles.d/systemd-nspawn.conf \
+@@ -396,6 +435,7 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
+                          ${datadir}/polkit-1/actions/org.freedesktop.import1.policy \
+                          ${datadir}/polkit-1/actions/org.freedesktop.machine1.policy \
+                         "
++RDEPENDS_${PN}-container += "${PN}-journal-upload ${PN}-journal-remote ${PN}-journal-gatewayd"
+ 
+ FILES_${PN}-extra-utils = "\
+                         ${base_bindir}/systemd-escape \
+-- 
+2.17.1
+
 
