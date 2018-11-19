@@ -1,31 +1,34 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 817806C0E0
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
+	[198.182.60.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 988B56C0CC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 01:35:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAJ1Y1FX013269
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 18 Nov 2018 17:34:12 -0800
-Received: from [128.224.163.157] (128.224.163.157) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Sun, 18 Nov 2018 17:33:51 -0800
-To: <richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>,
-	<raj.khem@gmail.com>, <randy.macleod@windriver.com>,
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1541657297-30997-3-git-send-email-mingli.yu@windriver.com>
-	<1542188171-116604-1-git-send-email-mingli.yu@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5BF2129D.4090004@windriver.com>
-Date: Mon, 19 Nov 2018 09:32:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
-MIME-Version: 1.0
-In-Reply-To: <1542188171-116604-1-git-send-email-mingli.yu@windriver.com>
-X-Originating-IP: [128.224.163.157]
-Subject: Re: [PATCH v2] python3: add tk support
+	Mon, 19 Nov 2018 10:04:47 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id 5311510C11C6;
+	Mon, 19 Nov 2018 02:04:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1542621888; bh=3l0FP/nYI/BQniCB3rRxFyWn84svITgW0Ja6P9VIdgM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Z94MCBHFnQ9oW3N53GHpJ9PEfxdXY/SCaENTCau/JfeMwNpFUwo3Ah7pShryak27I
+	P4jbhCYBzr6jOp6tF+iH8Fq0m5Vp7hUOZs1UvZnT753/KvEXUODePH88pZJwmTRD0q
+	MlLO3SCnrSyQUu91G5JX33sDpqG0emcBXuA74Vm+zjmPYfXFAYZuV3kotbzAbhMjro
+	DHFEfjMRe9lur6ztL4/krVDc/nCbh+sQwUlvamNKfVlH0DxfGShj/d06NMIaAxIvG6
+	FxH7cNs5keENFhe2z7TYNGbjkJwvT/LJxVnRU4T3LK78vjuQHv0nDslLBP2e6wozpn
+	KOJpcO+FFA6WQ==
+Received: from ru20arcgnu1.internal.synopsys.com
+	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
+	by mailhost.synopsys.com (Postfix) with ESMTP id 8999E4313;
+	Mon, 19 Nov 2018 02:04:45 -0800 (PST)
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Nov 2018 13:04:43 +0300
+Message-Id: <20181119100443.2882-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.16.2
+Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>,
+	linux-snps-arc@lists.infradead.org
+Subject: [PATCH v3] u-boot: Add mkenvimage tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,108 +41,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2018 01:35:21 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 19 Nov 2018 10:04:47 -0000
 
-Ping.
+This utility is used for creation of images containing
+usable in run-time U-Boot environment.
 
-Thanks,
+As of today this utility is added per-board like here [1]
+for Intel Edison board.
 
-On 2018年11月14日 17:36, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
->
-> Add support to enable tk via PACKAGECONFIG.
-> before this patch:
->   # python3
->   Python 3.5.6 (default, Nov  8 2018, 04:53:45)
->   [GCC 8.2.0] on linux
->   Type "help", "copyright", "credits" or "license" for more information.
->   >>> import tkinter
->   Traceback (most recent call last):
->    File "<stdin>", line 1, in <module>
->    File "/usr/lib64/python3.5/tkinter/__init__.py", line 35, in <module>
->      import _tkinter # If this fails your Python may not be configured for Tk
->   ImportError: No module named '_tkinter'
->   >>>
->
-> After this patch, if enable tk in PACKAGECONFIG, then
->   # python3
->   Python 3.5.6 (default, Nov  8 2018, 03:15:52)
->   [GCC 8.2.0] on linux
->   Type "help", "copyright", "credits" or "license" for more information.
->   >>> import tkinter
->   >>>
->
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> ---
->   meta/recipes-devtools/python/python3-native_3.5.6.bb       | 3 ++-
->   meta/recipes-devtools/python/python3/python3-manifest.json | 1 +
->   meta/recipes-devtools/python/python3_3.5.6.bb              | 5 +++--
->   3 files changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-devtools/python/python3-native_3.5.6.bb b/meta/recipes-devtools/python/python3-native_3.5.6.bb
-> index d5953cf..1e98c03 100644
-> --- a/meta/recipes-devtools/python/python3-native_3.5.6.bb
-> +++ b/meta/recipes-devtools/python/python3-native_3.5.6.bb
-> @@ -12,7 +12,7 @@ file://130-readline-setup.patch \
->   file://150-fix-setupterm.patch \
->   file://python-3.3-multilib.patch \
->   file://03-fix-tkinter-detection.patch \
-> -file://avoid_warning_about_tkinter.patch \
-> +${@bb.utils.contains('PACKAGECONFIG', 'tk', '', 'file://avoid_warning_about_tkinter.patch', d)} \
->   file://0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch \
->   file://sysroot-include-headers.patch \
->   file://unixccompiler.patch \
-> @@ -28,6 +28,7 @@ file://0003-bpo-32947-Fixes-for-TLS-1.3-and-OpenSSL-1.1.1-GH-876.patch \
->   file://0004-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976.patch \
->   file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-2305.patch \
->   "
-> +PACKAGECONFIG[tk] = ",,tk-native"
->
->   EXTRANATIVEPATH += "bzip2-native"
->   DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native gdbm-native"
-> diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-> index 5329bf7..617256a 100644
-> --- a/meta/recipes-devtools/python/python3/python3-manifest.json
-> +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-> @@ -1060,6 +1060,7 @@
->               "core"
->           ],
->           "files": [
-> +            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter.*.so",
->               "${libdir}/python${PYTHON_MAJMIN}/tkinter"
->           ],
->           "cached": []
-> diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
-> index 31f8ead..5c80421 100644
-> --- a/meta/recipes-devtools/python/python3_3.5.6.bb
-> +++ b/meta/recipes-devtools/python/python3_3.5.6.bb
-> @@ -21,7 +21,7 @@ ${DISTRO_SRC_URI} \
->
->   SRC_URI += "\
->               file://03-fix-tkinter-detection.patch \
-> -            file://avoid_warning_about_tkinter.patch \
-> +            ${@bb.utils.contains('PACKAGECONFIG', 'tk', '', 'file://avoid_warning_about_tkinter.patch', d)} \
->               file://cgi_py.patch \
->               file://host_include_contamination.patch \
->               file://python-3.3-multilib.patch \
-> @@ -82,6 +82,7 @@ PACKAGECONFIG ??= "readline ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-userm
->   PACKAGECONFIG[readline] = ",,readline"
->   # Use profile guided optimisation by running PyBench inside qemu-user
->   PACKAGECONFIG[pgo] = "--enable-optimizations"
-> +PACKAGECONFIG[tk] = ",,tk"
->
->   do_configure_append() {
->   	rm -f ${S}/Makefile.orig
-> @@ -246,7 +247,7 @@ PACKAGES += "${PN}-man"
->   FILES_${PN}-man = "${datadir}/man"
->
->   RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2"
-> -
-> +RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk', '', d)}"
->   RDEPENDS_${PN}-dev = ""
->
->   BBCLASSEXTEND = "nativesdk"
->
+[1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
+
+Given there're quite some U-Boot tools that we may want to add later
+this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
+still for compatibility we provide "u-boot-mkimage" with help
+of PROVIDES as well as proposed "u-boot-mkenvimage".
+
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Cc: Ross Burton <ross.burton@intel.com>
+Cc: Marek Vasut <marex@denx.de>
+---
+
+Changes v2 -> v3:
+ * Recipe renamed to "u-boot-tools" to better match its contents
+   (especially in the future as we add more tools there)
+ * Existing "u-boot-mkimage" and newly introduced "u-boot-mkenvimage"
+   made avaialble via PROVIDES
+
+Changes v1 -> v2:
+ * Got rid of a separate recipe and instead added mkenvimage
+   to u-boot mkimage recipy
+
+ .../{u-boot-mkimage_2018.07.bb => u-boot-tools_2018.07.bb}       | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2018.07.bb => u-boot-tools_2018.07.bb} (83%)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
+similarity index 83%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
+index 08bff1d161..140afa8dfe 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
+@@ -1,7 +1,8 @@
+ require u-boot-common_${PV}.inc
+ 
+-SUMMARY = "U-Boot bootloader image creation tool"
++SUMMARY = "U-Boot bootloader tools"
+ DEPENDS += "openssl"
++PROVIDES = "u-boot-mkimage u-boot-mkenvimage"
+ 
+ EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+ EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+@@ -20,8 +21,14 @@ do_compile () {
+ 
+ do_install () {
+ 	install -d ${D}${bindir}
++
++	# mkimage
+ 	install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+ 	ln -sf uboot-mkimage ${D}${bindir}/mkimage
++
++	# mkenvimage
++	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
++	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
+ }
+ 
+ RDEPENDS_${PN} += "dtc"
+-- 
+2.16.2
+
 
