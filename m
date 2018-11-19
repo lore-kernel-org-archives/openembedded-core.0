@@ -1,51 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
-	[209.85.167.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D8C736C18D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+	[209.85.210.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D4C96C135
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 16:54:20 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id b141so16793033oii.12
+	Mon, 19 Nov 2018 17:27:37 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id h3so8630026pfg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 08:54:22 -0800 (PST)
+	Mon, 19 Nov 2018 09:27:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QfZtdBh9fl0TqP/yuk4Ns9KAdskp7MaZ7wkNV1tW6FM=;
-	b=OoOGJLaSq8liHPzCSmL0Ty02vuVyCpblteKztKZuXnqnV8Jy1uOtzdHSX27mY1wPlm
-	D8bq2v/JMOHSaV7m6lM89xEXicrKszg4KHs3qN0RTYCHHd8ykIQYxJTUHFdbrxR9rcUH
-	auHLp4VxfUO9IXM1q+HfbsGKT5FCbvihEmG7Hfp7PyU0lVBjhmRT1hdF24689iua6+/v
-	28yebPJsHzu39DwCC9J/d9c/06KPFGOearbwu1/5q2ZoS24LMveIdpzv7rJhXBtt/wyC
-	/c509sfb0j0+i+qp4ci6+pCcsneT7cYD1n8TfIn4/cDtltxu5aY4heh/gXyLj1COuPNy
-	mllg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=dJXVp/Q5T20pw6hbKZwu9n8bACmE5AQhKPP/uDeyQmc=;
+	b=fbL1zcA8ITFoIRqiRin3N2UZmRboRyhE0LAUfMVx389zxuzfh0fKsNj5t9WIrgblVv
+	wZ94EeZetQ59v+RfdHfBTpt4ACFPKQAt8A61tBHZpCCqzneV7HSgNtUdRSNX5tzVY378
+	Q9VIonHPky4Qo4yEc2G4w3AX3tvrO93+S+Y4WBteqyJmMsk9DLbFTPd6n/uH3vPQbFFW
+	3CqSzQz9c9ozISIgBGSBMMhyGVMrsgb+eaz6L01p/J2DnUU9iMfRo4RyPYflGkDomIf8
+	2tmTgP4gfhHRh6OchJs/hrQFlXjVnxbdFetCvl/ViZa+WbQs8LhVeSnYfuNmPSZXtMgk
+	07QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QfZtdBh9fl0TqP/yuk4Ns9KAdskp7MaZ7wkNV1tW6FM=;
-	b=K93Gfuevp/AfSnoGyKPWmg4cYJzgVg2GLhFvU9GUDwi+IokfDvGDxDofgNfefCd3oW
-	r0ZOCzv1FRKehmFRhSHoDky1FrSzySl314AyBuro+GrrDCJZafJZH2qMLKp93i24uh1T
-	IuiFauy5z9LxR5C8uoRnlJ6wTEResQgvJOzQsqBj0XnctAU99KvehNSPwBB/8WiODtYG
-	1EvM5WZ0Dg9oMruswYXbD+kvuAiPjFmC2RELkx895lOFLk2wEs/CXpt6V26XGJAFvQO2
-	mO+kdmO9m7s/u6/ylACHt2rD3rYn/xDmcwHsdXp6A35qoAbZ3zMZZazTRhD2Mo15G6Av
-	QdiA==
-X-Gm-Message-State: AGRZ1gJCNthh6Hi31c+oXoGDr5az52t6WNNUBJMgEUS7o7/YBIKbLfxJ
-	1O1WkoF8TIlae/z5baqSHPOorgA0N70l3KoVV/o=
-X-Google-Smtp-Source: AJdET5eFPwmCajGwoldc2d/IuPRArQLUO6/GL9qipYbZsDCURwhNB1JdSyk8x9r6+oZNQDWHRTC+BOcZ2xHbYrXh8cA=
-X-Received: by 2002:aca:4b4f:: with SMTP id y76mr7799885oia.88.1542646461833; 
-	Mon, 19 Nov 2018 08:54:21 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=dJXVp/Q5T20pw6hbKZwu9n8bACmE5AQhKPP/uDeyQmc=;
+	b=esDbons6+frCg0KFZUg1Y2DaqEBnxc3vF4Ba4VGOK0JeUhSV0sdGA1ZuQd2cpdz7em
+	bkVroYtDWeE/MGPD3hSFcY2CSCpiD9glV6kY1taVG9pV2UPaSYkQXLzOSa5h9oVAs8b8
+	ecZHDNiKN3JikZNExQrNG941tWNRpKCCBkY6g0SMD8Gbuft6cvQT3sNJHmyM9CXwvTPk
+	AdAvk0iufJk4NZDZPHkvfZCiQUFv6eUtBFXX876QFrJyzYDnR9YQ8VbAmJcMjSnCxjs5
+	NH43KBl8F2lvU8JJrth+HAxDXetL0fIzp/D7J1dyF4M+6mvmbh7qzf/Dp07rsSlZBuBM
+	bidw==
+X-Gm-Message-State: AGRZ1gJIy0rsM9AOjtMJZ1mjEXy13oIpysLWKZ2c/1rlCh7YdvDkGEQN
+	g8AZ8mL7VGPDpDrZPYPNgVpOllJDWS8=
+X-Google-Smtp-Source: AJdET5f/1b8sUl1C2wS+MtV2nFQmXeGWXZ80wuQYE7YMNEAjtwjA9oIiAGOv7Pon97uru1CV1rdGdA==
+X-Received: by 2002:a63:2c82:: with SMTP id s124mr20434756pgs.73.1542648458064;
+	Mon, 19 Nov 2018 09:27:38 -0800 (PST)
+Received: from localhost.localdomain ([2601:646:877f:9499::26ab])
+	by smtp.gmail.com with ESMTPSA id
+	g123-v6sm58598710pfc.155.2018.11.19.09.27.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Nov 2018 09:27:37 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Nov 2018 09:27:26 -0800
+Message-Id: <20181119172726.23571-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20181117144457.A7B74440002@auh.yoctoproject.org>
-	<be32ec5d-9c69-0625-10a2-a32b587bc02a@gmail.com>
-	<CANNYZj-0azx-FS8J8uT=tHWteoVyq5rUCyCeBv-+cqoB=HK2vg@mail.gmail.com>
-	<31066f04-438f-94a1-8050-b4fa6d1cfbad@gmail.com>
-	<CANNYZj8_+TEy3xLQt6dUrVD9TUw1QwXJWDiT7QBEH6sX5J-5yg@mail.gmail.com>
-	<edbbacd3-a911-1473-be1e-c5d406134bc7@gmail.com>
-In-Reply-To: <edbbacd3-a911-1473-be1e-c5d406134bc7@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 19 Nov 2018 17:54:09 +0100
-Message-ID: <CANNYZj9=ZgmwAL9wRxcqLuBxZSGQMPFmKrLmCbY39NHuSABQzA@mail.gmail.com>
-To: =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marek.vasut@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [AUH] Upgrade status: 2018-11-17
+Subject: [PATCH] musl: Update to latest trunk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +57,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2018 16:54:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 19 Nov 2018 17:27:37 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, 19 Nov 2018 at 16:11, Marek Vasut <marek.vasut@gmail.com> wrote:
-> > For what it's worth, u-boot does not currently compile for qemux86:
-> >
-> > | {standard input}: Assembler messages:
-> > | {standard input}:26553: Error: junk at end of line, first
-> > unrecognized character is `@'
-> > | {standard input}:26659: Error: junk at end of line, first
-> > unrecognized character is `@'
-> > | {standard input}:26553: Error: can't resolve `end.7689'
-> > {.u_boot_list_2_pci_driver_entry_3 section} - `start.7686'
-> > {.u_boot_list_2_pci_driver_entry_1 section}
-> > | {standard input}:26659: Error: can't resolve `end.7689'
-> > {.u_boot_list_2_pci_driver_entry_3 section} - `start.7686'
-> > {.u_boot_list_2_pci_driver_entry_1 section}
-> > | /home/alexander/development/poky/build/tmp/work/qemux86-poky-linux/u-boot/1_2018.07-r0/git/scripts/Makefile.build:278:
-> > recipe for target 'drivers/pci/pci-uclass.o' failed
-> > | make[2]: *** [drivers/pci/pci-uclass.o] Error 1
-> > | /home/alexander/development/poky/build/tmp/work/qemux86-poky-linux/u-boot/1_2018.07-r0/git/Makefile:1377:
-> > recipe for target 'drivers/pci' failed
->
-> That's gcc 8, right ? It's fixed in newer versions.
+Complete changelogs are here
+https://git.musl-libc.org/cgit/musl/log/?qt=range&q=c50985d5c8e316c5c464f352e79eeebfed1121a9..79f653c6bc2881dd6855299c908a442f56cb7c2b
 
-That however does prevent AUH from doing the upgrade, as it first
-attempts to compile the base version. Once this is resolved, you
-should be getting three separate patches for the three recipes -
-turning that into a single patch is very non-trivial, as devtool
-(which actually does recipe modification) simply cannot operate on
-more than one recipe in a single transaction.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 0d8f8eb2a4..f2b6361446 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "c50985d5c8e316c5c464f352e79eeebfed1121a9"
++SRCREV = "79f653c6bc2881dd6855299c908a442f56cb7c2b"
+ 
+ PV = "1.1.20+git${SRCPV}"
+ 
+-- 
+2.19.1
 
-Alex
 
