@@ -1,59 +1,52 @@
-Return-Path: <marek.vasut@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
 	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id B2D396C120
+	by mail.openembedded.org (Postfix) with ESMTP id BC8B06C10D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 15:11:06 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id g131so5291785wmg.3
+	Mon, 19 Nov 2018 15:11:50 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id w7-v6so5687035wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 07:11:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=ymB4aJs4X9Gna78HsctnRK4CxuRHFV0va6HzONPfs4E=;
-	b=Pk833bAsb6UQI9TKtfIcIVXcjYRC8zOxSLsIJtp0DfrJPO/nMCqSGl57SkQF/XmxqE
-	U65xpzo/Xh5T1948iwPht3nhFSKOIsROaSQxuFrkhx9rL2aJ/V5wROeNdtZU0pwn2uGA
-	ug7278ZzHz2oBY4HJuQKnOdKIMv92DMNF64FUz/MAIu+GxrB2eAtWRYDE/ljvP42Mgc8
-	CUMPboaIkJJY0r06uWelBZIdyaQy9hqa16guClHgnR9iov7i/4SPbH76LJulxvu5GJQ/
-	a/yw1z8AWkDB/Obncet3dlbuBp+qOclXf94OEqi0E9i+JnzBHYCdvLQcsXdRa0Ut02sN
-	zwrA==
+	Mon, 19 Nov 2018 07:11:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=uFHL2ByXLZhTWHySmzDcA2wlSmQg0OMOCCk31jGkPO8=;
+	b=QRVb0Crb5PmLuC4OKgivMP5yinSo12MWd+IciOPFpk2NaiP6y6zzp/m2glmty0nGBa
+	0cwpsomJAw4LHkEtQ2fOIJUDS6lrXhzBCb0UBW8DUfUKdLpnDwwJ3Xa+HyCbAwK7uTGE
+	c6TY2kn4H/MvSaR3iU/lxUX//KzEepkZv/JAY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=ymB4aJs4X9Gna78HsctnRK4CxuRHFV0va6HzONPfs4E=;
-	b=Xm+/liMp7ajEURK7AOsPS/8B3pNAkxnnPkQcnB0mpv2RQFAWVEyhkraOschyHuSdSk
-	pXq4aYrIjKBgRitI+Rr9kcBND7DPhis6TvxJ5Jr5bT2oa+yeg3BBmA7BZE5FQjAicYYz
-	DGjA30aPy6aZN/uo+EYwonZLowpQOcDYn73eDsIV04Y1nY0r4d5fxGrtQLVNGU9ODY6A
-	Pn7KzsUJJ/Tz4ETzIV1888Oj76jdHJEjOv3KxP/865mscwtigZ9BcBYS3BpLVCjVmulv
-	LLneZsZWZ7x7/zlzVoEngSIliTt3jLhpg3C+W6+6VnvPkVwTN6fHNEfCDpw+FGjj4Osm
-	MHUQ==
-X-Gm-Message-State: AGRZ1gJ8SLojlVdZ+JHJgemM6aw+ExSyLsNCaps99xT3xlJZgdGrKCra
-	UFcnN5SdH9gnyYtSsWzHg742Vsq3
-X-Google-Smtp-Source: AFSGD/X0S/PB9bK922QZmQ28ijjuwRrtPWBAN9uUFoi6enhKOBXI0Gxh7odCz2hN1oRf7DL7P5gbjQ==
-X-Received: by 2002:a1c:9183:: with SMTP id t125mr7248280wmd.79.1542640267005; 
-	Mon, 19 Nov 2018 07:11:07 -0800 (PST)
-Received: from [192.168.1.4] (ip-86-49-110-70.net.upcbroadband.cz.
-	[86.49.110.70]) by smtp.gmail.com with ESMTPSA id
-	h203-v6sm33374234wma.38.2018.11.19.07.11.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Nov 2018 07:11:06 -0800 (PST)
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20181117144457.A7B74440002@auh.yoctoproject.org>
-	<be32ec5d-9c69-0625-10a2-a32b587bc02a@gmail.com>
-	<CANNYZj-0azx-FS8J8uT=tHWteoVyq5rUCyCeBv-+cqoB=HK2vg@mail.gmail.com>
-	<31066f04-438f-94a1-8050-b4fa6d1cfbad@gmail.com>
-	<CANNYZj8_+TEy3xLQt6dUrVD9TUw1QwXJWDiT7QBEH6sX5J-5yg@mail.gmail.com>
-From: Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <edbbacd3-a911-1473-be1e-c5d406134bc7@gmail.com>
-Date: Mon, 19 Nov 2018 16:11:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj8_+TEy3xLQt6dUrVD9TUw1QwXJWDiT7QBEH6sX5J-5yg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [AUH] Upgrade status: 2018-11-17
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=uFHL2ByXLZhTWHySmzDcA2wlSmQg0OMOCCk31jGkPO8=;
+	b=WCfDleYIz7FYT7Ir+Ib1Ht6YV07+Zw90BeF3cXTEV45HjJdXNQYrXIWhYPbgc4As3p
+	L/FnultfNzxA+aUObl6hwcTlfjvPxu6s55JtNFB/vhAO71Lw0b72EWHW9SP3OBUoEWCW
+	bqQ1YYJN+FFwfmHVQoo9ahXV8dskENm7//ypF6QGxctNsB0IyBMvS4ck8I6C/zdfblDn
+	wCyi3J+Ciingc6cVtcrniXpOLz8f/tsgvcrzcnzlMHXXpO7cmceXd7houCAppdY+sJyq
+	i/1B8zb8pw1Nw50/OAJnrQDubG8yxCDbICjKirm+Whd7mW/DpPmym3TLatN0anEy0kmG
+	eERg==
+X-Gm-Message-State: AGRZ1gJl0Ezu4Kz0iPNLPBPJxss6StUqxeVXfV3WW5dCv8pVCWBVSy2d
+	cJJIjTloETEzDTxWZcvYv3XBXw==
+X-Google-Smtp-Source: AJdET5ciC4H9umJiqml9OdiI7awsrmOnEwOPw2NGAlfsYc/55t0IWkH0Pzfd8qP83oo3Hsjw2Y+ytw==
+X-Received: by 2002:a1c:c008:: with SMTP id q8mr6800979wmf.99.1542640311389;
+	Mon, 19 Nov 2018 07:11:51 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v16-v6sm22515416wrv.90.2018.11.19.07.11.50
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 19 Nov 2018 07:11:50 -0800 (PST)
+Message-ID: <3a2a5bf58f8d10fb30b915eaab8627cabc087643.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: "Valek, Andrej" <andrej.valek@siemens.com>
+Date: Mon, 19 Nov 2018 15:11:49 +0000
+In-Reply-To: <D55698ECEC159B488D62A508E18D7FEC01696588@ATNETS9912WMSX.ww300.siemens.net>
+References: <D55698ECEC159B488D62A508E18D7FEC01696588@ATNETS9912WMSX.ww300.siemens.net>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Update sdk dummy providers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,39 +59,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2018 15:11:07 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-List-Received-Date: Mon, 19 Nov 2018 15:11:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/19/2018 04:04 PM, Alexander Kanavin wrote:
-> On Sun, 18 Nov 2018 at 16:05, Marek Vasut <marek.vasut@gmail.com> wrote:
->> Heh, I spent quite some time to make sure U-Boot builds on the targets
->> AUH uses for it's auto update stuff, exactly to let it update U-Boot so
->> I won't have to do it manually.
+On Mon, 2018-11-19 at 15:00 +0000, Valek, Andrej wrote:
+> Hello Richard,
+>  
+> I would like to ask You a question about your commit (
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-core/meta/dummy-sdk-package.inc?id=0d0984e1e616c9f1c211b7b980ba2ca54c096e6e
+> ) to update sdk providers. I have found an issue regarding to
+> buildtools.
+>  
+> ERROR:  OE-core's config sanity checker detected a potential
+> misconfiguration.
+>     Either fix the cause of this error or at your own risk disable
+> the checker (see sanity.conf).
+>     Following is the list of potential problems / advisories:
 > 
-> For what it's worth, u-boot does not currently compile for qemux86:
-> 
-> | {standard input}: Assembler messages:
-> | {standard input}:26553: Error: junk at end of line, first
-> unrecognized character is `@'
-> | {standard input}:26659: Error: junk at end of line, first
-> unrecognized character is `@'
-> | {standard input}:26553: Error: can't resolve `end.7689'
-> {.u_boot_list_2_pci_driver_entry_3 section} - `start.7686'
-> {.u_boot_list_2_pci_driver_entry_1 section}
-> | {standard input}:26659: Error: can't resolve `end.7689'
-> {.u_boot_list_2_pci_driver_entry_3 section} - `start.7686'
-> {.u_boot_list_2_pci_driver_entry_1 section}
-> | /home/alexander/development/poky/build/tmp/work/qemux86-poky-linux/u-boot/1_2018.07-r0/git/scripts/Makefile.build:278:
-> recipe for target 'drivers/pci/pci-uclass.o' failed
-> | make[2]: *** [drivers/pci/pci-uclass.o] Error 1
-> | /home/alexander/development/poky/build/tmp/work/qemux86-poky-linux/u-boot/1_2018.07-r0/git/Makefile:1377:
-> recipe for target 'drivers/pci' failed
+>     Required perl module(s) not found: Text::ParseWords Thread::Queue
+> Data::Dumper
+>  
+> After analyzing, I have found, that buildtools-tarball contains a
+> nativesdk-perl (in manifest), which I guess should be excluded.
+> I have found, that after removing comments your comments of
+> d.appendVar("RCONFLICTS_%s" % p, "${DUMMYPROVIDES}") and RREPLACES_%s
+> in meta/recipes-core/meta/dummy-sdk-package.inc it works. Is there
+> any reason, why You have commented out?
 
-That's gcc 8, right ? It's fixed in newer versions.
+Good question, I think this behaviour is package backend specific and
+I'm not sure if those commented out lines were accidental from testing
+something. I'll remove them and see what the autobuilder makes of
+that...
 
--- 
-Best regards,
-Marek Vasut
+Cheers,
+
+Richard
+
 
