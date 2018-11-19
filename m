@@ -1,34 +1,50 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 19FB26C10D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
+	[209.85.167.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A90D6AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 15:00:59 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id wAJF0xYO007909
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Mon, 19 Nov 2018 16:00:59 +0100
-Received: from ATNETS99132MSX.ww300.siemens.net
-	(atnets99132msx.ww300.siemens.net [158.226.163.55])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTPS id wAJF0xYE017326
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Mon, 19 Nov 2018 16:00:59 +0100
-Received: from ATNETS9912WMSX.ww300.siemens.net ([169.254.10.142]) by
-	ATNETS99132MSX.ww300.siemens.net ([158.226.163.55]) with mapi id
-	14.03.0415.000; Mon, 19 Nov 2018 16:00:59 +0100
-From: "Valek, Andrej" <andrej.valek@siemens.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: Update sdk dummy providers
-Thread-Index: AdSAGK5Gqkk3i+EYRfOAk2tI/tEfvg==
-Date: Mon, 19 Nov 2018 15:00:58 +0000
-Message-ID: <D55698ECEC159B488D62A508E18D7FEC01696588@ATNETS9912WMSX.ww300.siemens.net>
-Accept-Language: en-US, de-AT
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [158.226.163.15]
+	Mon, 19 Nov 2018 15:04:17 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id c206so19948662oib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Nov 2018 07:04:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=72CUfi8gg0/zBEYn47hxQmIzSdtaCRyUnAXDlSBvcW4=;
+	b=VoCJgRJY/UzSeqfFciYM+atKrZLE4X8SRoWHlXeueKLEV5+8s8kj+vGBc6XROVPjQw
+	XnC1r2+oKhbCfxh/XswSbhG1bkozpbGQ8A8W5+85S04bN6ZyU34/TeUjUCjyXEqvb0+7
+	05tOE89cdS2i19d9GLv468a8vTnjTxjXfxYmAzPQAHsngjmhNmRg/tzd2NdRMSnjyM0F
+	XwwGmNkjZ+T+imZnWvBvp1VA7HwiX6bUjG0dgVI1jrZmmTWnEOC4yHLymXv+hb7w82ip
+	zBKeXp32KaYbvCtdYxrbuCyiWGYjSyvqFvM2aHLBnZ1R+o59oa1v6yeGy8MgH3iBRNvD
+	W81A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=72CUfi8gg0/zBEYn47hxQmIzSdtaCRyUnAXDlSBvcW4=;
+	b=DeIlbW6qgya6Nb4bLt1kZl6nqMWGt7USDbIc8ZSDf9ALyiHHHL/u2wJz6IjgsrTBkf
+	Tlb66OY8ki09n6jfNZiqOUYiSrxcMjhHuEgONq46Go2mrFDYIENMwy4jPaXijE8DuFGO
+	XX4zZRC8Po0APDg2qFkFdUujx0TCM7mCUkaeeWPYwD8LJB7sEg4pH3hN+mBzxY+w/jwb
+	7cQ5F6bm2dFA2qx1MVqtky99+0NQEMJa969FeQybKMFTXm4ONJzfWa9lBSfNel+FajVD
+	gP1c6iq78MY9ZcyagrjPctaubEq/gjgbe6pUXI3Kj3i8ywamlxtVZpuwy4sSP2oUvuqk
+	dmZw==
+X-Gm-Message-State: AGRZ1gJJkJbEZMjL03Y7miH8SMM7VhkFzdsNSaFy4LZR5Suh47KUIQnt
+	oHlUkhzhGQrOaHmKNUKkbOpWoM9uP5O/2VF/Tl8=
+X-Google-Smtp-Source: AJdET5cSoINikoFWw3ZDh05w/OsQBceUJm2/4pOqI3hEz3l/FSi67PZmLI1YnVQYQmUEKL0oAS1911dUX6tzD962xIA=
+X-Received: by 2002:aca:b784:: with SMTP id
+	h126-v6mr7642634oif.298.1542639858648; 
+	Mon, 19 Nov 2018 07:04:18 -0800 (PST)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Update sdk dummy providers
+References: <20181117144457.A7B74440002@auh.yoctoproject.org>
+	<be32ec5d-9c69-0625-10a2-a32b587bc02a@gmail.com>
+	<CANNYZj-0azx-FS8J8uT=tHWteoVyq5rUCyCeBv-+cqoB=HK2vg@mail.gmail.com>
+	<31066f04-438f-94a1-8050-b4fa6d1cfbad@gmail.com>
+In-Reply-To: <31066f04-438f-94a1-8050-b4fa6d1cfbad@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 19 Nov 2018 16:04:07 +0100
+Message-ID: <CANNYZj8_+TEy3xLQt6dUrVD9TUw1QwXJWDiT7QBEH6sX5J-5yg@mail.gmail.com>
+To: =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marek.vasut@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [AUH] Upgrade status: 2018-11-17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,175 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2018 15:01:00 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_D55698ECEC159B488D62A508E18D7FEC01696588ATNETS9912WMSXw_"
+X-List-Received-Date: Mon, 19 Nov 2018 15:04:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---_000_D55698ECEC159B488D62A508E18D7FEC01696588ATNETS9912WMSXw_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On Sun, 18 Nov 2018 at 16:05, Marek Vasut <marek.vasut@gmail.com> wrote:
+> Heh, I spent quite some time to make sure U-Boot builds on the targets
+> AUH uses for it's auto update stuff, exactly to let it update U-Boot so
+> I won't have to do it manually.
 
-Hello Richard,
+For what it's worth, u-boot does not currently compile for qemux86:
 
-I would like to ask You a question about your commit (http://git.yoctoproje=
-ct.org/cgit/cgit.cgi/poky/commit/meta/recipes-core/meta/dummy-sdk-package.i=
-nc?id=3D0d0984e1e616c9f1c211b7b980ba2ca54c096e6e) to update sdk providers. =
-I have found an issue regarding to buildtools.
-
-ERROR:  OE-core's config sanity checker detected a potential misconfigurati=
-on.
-    Either fix the cause of this error or at your own risk disable the chec=
-ker (see sanity.conf).
-    Following is the list of potential problems / advisories:
-
-    Required perl module(s) not found: Text::ParseWords Thread::Queue Data:=
-:Dumper
-
-
-After analyzing, I have found, that buildtools-tarball contains a nativesdk=
--perl (in manifest), which I guess should be excluded.
-
-I have found, that after removing comments your comments of d.appendVar("RC=
-ONFLICTS_%s" % p, "${DUMMYPROVIDES}") and RREPLACES_%s in meta/recipes-core=
-/meta/dummy-sdk-package.inc it works. Is there any reason, why You have com=
-mented out?
+| {standard input}: Assembler messages:
+| {standard input}:26553: Error: junk at end of line, first
+unrecognized character is `@'
+| {standard input}:26659: Error: junk at end of line, first
+unrecognized character is `@'
+| {standard input}:26553: Error: can't resolve `end.7689'
+{.u_boot_list_2_pci_driver_entry_3 section} - `start.7686'
+{.u_boot_list_2_pci_driver_entry_1 section}
+| {standard input}:26659: Error: can't resolve `end.7689'
+{.u_boot_list_2_pci_driver_entry_3 section} - `start.7686'
+{.u_boot_list_2_pci_driver_entry_1 section}
+| /home/alexander/development/poky/build/tmp/work/qemux86-poky-linux/u-boot/1_2018.07-r0/git/scripts/Makefile.build:278:
+recipe for target 'drivers/pci/pci-uclass.o' failed
+| make[2]: *** [drivers/pci/pci-uclass.o] Error 1
+| /home/alexander/development/poky/build/tmp/work/qemux86-poky-linux/u-boot/1_2018.07-r0/git/Makefile:1377:
+recipe for target 'drivers/pci' failed
 
 
+Alex
 
-Regards,
-
-Andrej
-
-
---_000_D55698ECEC159B488D62A508E18D7FEC01696588ATNETS9912WMSXw_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-code
-	{mso-style-priority:99;
-	font-family:"Courier New";}
-pre
-	{mso-style-priority:99;
-	mso-style-link:"HTML Preformatted Char";
-	margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:10.0pt;
-	font-family:"Courier New";}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Arial","sans-serif";
-	color:windowtext;
-	font-weight:normal;
-	font-style:normal;}
-span.HTMLPreformattedChar
-	{mso-style-name:"HTML Preformatted Char";
-	mso-style-priority:99;
-	mso-style-link:"HTML Preformatted";
-	font-family:"Courier New";}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,&quot;sans-serif&quot;">Hello Richard,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,&quot;sans-serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,&quot;sans-serif&quot;">I would like to ask You a question about =
-your commit (<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/comm=
-it/meta/recipes-core/meta/dummy-sdk-package.inc?id=3D0d0984e1e616c9f1c211b7=
-b980ba2ca54c096e6e">http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/m=
-eta/recipes-core/meta/dummy-sdk-package.inc?id=3D0d0984e1e616c9f1c211b7b980=
-ba2ca54c096e6e</a>)
- to update sdk providers. I have found an issue regarding to buildtools.<o:=
-p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Co=
-urier New&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Co=
-urier New&quot;">ERROR:&nbsp; OE-core's config sanity checker detected a po=
-tential misconfiguration.</span><span style=3D"font-size:10.0pt;font-family=
-:&quot;Courier New&quot;"><br>
-</span><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;"=
->&nbsp;&nbsp;&nbsp; Either fix the cause of this error or at your own risk =
-disable the checker (see sanity.conf).</span><span style=3D"font-size:10.0p=
-t;font-family:&quot;Courier New&quot;"><br>
-</span><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;"=
->&nbsp;&nbsp;&nbsp; Following is the list of potential problems / advisorie=
-s:</span><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot=
-;"><br>
-<br>
-</span><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;"=
->&nbsp;&nbsp;&nbsp; Required perl module(s) not found: Text::ParseWords Thr=
-ead::Queue Data::Dumper
-</span><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;"=
-><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,&quot;sans-serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<pre><span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">A=
-fter analyzing, I have found, that buildtools-tarball contains a nativesdk-=
-perl (in manifest), which I guess should be excluded.<o:p></o:p></span></pr=
-e>
-<pre><span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">I=
- have found, that after removing comments your comments of </span>d.appendV=
-ar(&quot;RCONFLICTS_%s&quot; % p, &quot;${DUMMYPROVIDES}&quot;) <span style=
-=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">and </span>RREPLA=
-CES_%s<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">=
- in </span>meta/recipes-core/meta/dummy-sdk-package.inc <span style=3D"font=
--family:&quot;Arial&quot;,&quot;sans-serif&quot;">it works. Is there any re=
-ason, why You have commented out?<o:p></o:p></span></pre>
-<pre><span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><=
-o:p>&nbsp;</o:p></span></pre>
-<pre><span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">R=
-egards,<o:p></o:p></span></pre>
-<pre><span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">A=
-ndrej</span><o:p></o:p></pre>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,&quot;sans-serif&quot;"><o:p>&nbsp;</o:p></span></p>
-</div>
-</body>
-</html>
-
---_000_D55698ECEC159B488D62A508E18D7FEC01696588ATNETS9912WMSXw_--
