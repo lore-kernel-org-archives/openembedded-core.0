@@ -1,49 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 260F96C120
+Return-Path: <net147@gmail.com>
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+	[209.85.210.178])
+	by mail.openembedded.org (Postfix) with ESMTP id AD5A06C119
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 10:35:28 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id g85so5843118ita.3
+	Mon, 19 Nov 2018 10:55:05 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id s9-v6so14656155pfm.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 02:35:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 19 Nov 2018 02:55:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=N8yOIgsFaKWgV0QhR7CnOnDhTLQkPXFfl3TSivYB/u8=;
-	b=ybxM0BVCgw7hTrrbakQzCVyHsUxQT080xQTM8Bw+hryEDOdiR8+NqxERejT6zStowI
-	F/4mKcNoydMB20wH5x4bPdJJLpsNIF5CFynnmWuMYRGRWquKYhXH1bMMM3qkl+FwuXJ9
-	xMSGAy/Llyb953OTdJRcC0LL3GZ8ln762uLkmHeftbluaeppHbi9P6wTmUzq8EeXHTmZ
-	SZFb5VEZxBrF4C7l8XOVpZLjIr9qZo6e/KKpmeanSLhbacQi5A01SuO4oQNqhcQBhh6t
-	vlZoXpnGxxpqYpB4mrYFg8pNdTWyhVgPveKoUnm96GWzeYlAXeulOXam/QeOeajHB0Rl
-	KlGQ==
+	:cc; bh=zl01HO2qpbIRjUA7WcRWV0B26K7bxmnyLo5oSvayOR8=;
+	b=Ud0ig34+oivIGAF9qDsnOVY9sxczVeKh1ZfQGlTjTIip9sU/ZuONWcnOE3plgXfgOM
+	/8HCSu29j2U/0hLCCPdPhblE9VwISFzp+Wk8Q9x8ct+jrXeaCpDxSEIVsZBz89vQacLI
+	koOuC6tbv+H4Z8Zd/1i6+7N1WfH4vPzonGM2Ahp///wZe7hKuKzsJFMwih+nO1Y5Z0pK
+	fAmnLICAuhM/mU0GkZGduC42fRoRSlcLSRySCTccpE2Ty+2PXu28uYbCeOWmob+cFvfm
+	dLdAL8mwwgmAwb2VciP569u2Km3kNqqdilWKJnbw9WOah3y9FDot8oB4AOPdt3glbB1I
+	7kgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=N8yOIgsFaKWgV0QhR7CnOnDhTLQkPXFfl3TSivYB/u8=;
-	b=tol/lKiYHk8t/Y5hEETNvH5dRV3SKqGJyIlKuf1muDCI+D7ZNJLsXVBHye0lumfuLo
-	RW41QKZQX0lk+8kQd2dxD41oDXEqMjaH2aiLSiqrlY+XsGsjaF1LDWQwSBXpvj+tFEJo
-	aKleJBbL6cphSmp8mJSjz5cye+X3XMgKq2EIUQemykMT7sGa/w5Y/B8fHmTWFAJyHtiL
-	qs0ev3G/fk5gpa6R6JKfCPNbuIA+DbJxUOaSgpNAa3XmDlsxFQ1oyuMC4iIC+3JyykPX
-	yJmFQF8V47eID6++By0DbYWiiOYLM9fbWBbidHSHXecRwKHObcDqssWT5i7zyvndf8G7
-	R8tA==
-X-Gm-Message-State: AA+aEWa1wVLYGNUaRiJe7SKxiOAIY0Z56QogLq6hmmwf0+LMkRq1f5Dr
-	VfVp+HTRyP7lpRwEGvoiMX8tKao3ruZ8bxG673O5aw==
-X-Google-Smtp-Source: AJdET5eT5H4LXb4Pn6d9ouuj4PUJthD4BmW52USKU3sWLt5/4li2mDAJfbs5weOXEkg5ECvTWVPmYmFH5dT76IN1GAo=
-X-Received: by 2002:a24:9142:: with SMTP id
-	i63-v6mr8286654ite.130.1542623729110; 
-	Mon, 19 Nov 2018 02:35:29 -0800 (PST)
+	bh=zl01HO2qpbIRjUA7WcRWV0B26K7bxmnyLo5oSvayOR8=;
+	b=ApYaJDV3FwaqmfErhzzodZ5BPLU0lV6WeP3tmSc7BL5tBpWkZbvpPi53WAG4ekfxkt
+	smKCRL5ogpmecC0w6+KKX9nId8zm2Z9pX0tnyDawhvDagd5e0ikgBIl5pihDh9sp+/PJ
+	DHDYETtK4eWshM74gaOPOaSFtasmBzYXaSlLxq2a1K9Pxcn5XQnWpUiOcUuVgXYes3JM
+	R55iY3gYvfmPfc6zmPEKVjWjIDiiP9HOChaHmAvbjr4HpZiZanlmdgef3YpSuOp4yOv1
+	rEHL2gQMhQWpl39C8HlIbL/f24NEf8ZW2zmWS+aBJPKyaTL9nyrDtM09WcFswATgUddw
+	UUug==
+X-Gm-Message-State: AGRZ1gJsv5WpSgxaRmB+bd7AEibZPVf3tn0SPhMmkmsIg243Jac2uYAg
+	GxW9eYzxZ5dLd+VxOcr6qGJprP3tmaUHk0CCfiM=
+X-Google-Smtp-Source: AJdET5eexHXFEgNQlp70ORi5Zt8wSM7KS72VW5ROr4IhxCWGQscREZEpXLNLhqgarbRnFSFJNNcXBJ+oZ37hiWSeqD8=
+X-Received: by 2002:a62:6799:: with SMTP id t25mr22290802pfj.139.1542624906534;
+	Mon, 19 Nov 2018 02:55:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20181117225753.15733-1-richard.purdie@linuxfoundation.org>
-	<20181117225753.15733-4-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20181117225753.15733-4-richard.purdie@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Nov 2018 10:35:17 +0000
-Message-ID: <CAJTo0LaJsahHSCfD6ZSAvhjO2rkRLL9iCFMvsQqpmkouWtgixA@mail.gmail.com>
-To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/9] nasm: Upgrade 2.13.03 -> 2.14
+References: <1541042117-20190-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1541042117-20190-1-git-send-email-changqing.li@windriver.com>
+From: Jonathan Liu <net147@gmail.com>
+Date: Mon, 19 Nov 2018 21:54:53 +1100
+Message-ID: <CANwerB2J_darmy4oh=EQAC0kMmhkVfH_RBAMH8Cm7UH3dyS4Hw@mail.gmail.com>
+To: changqing.li@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] apt: update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,28 +53,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2018 10:35:28 -0000
+X-List-Received-Date: Mon, 19 Nov 2018 10:55:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 17 Nov 2018 at 22:58, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> +inherit autotools-brokensep
+Hi,
 
-Did you verify that this is still needed?
+On Thu, 1 Nov 2018 at 14:16, <changqing.li@windriver.com> wrote:
+>
+> From: Changqing Li <changqing.li@windriver.com>
+>
+> update SRC_URI since previous link is not valid now
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  meta/recipes-devtools/apt/apt.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+> index f1cde30..50f22c8 100644
+> --- a/meta/recipes-devtools/apt/apt.inc
+> +++ b/meta/recipes-devtools/apt/apt.inc
+> @@ -2,7 +2,7 @@ SUMMARY = "Advanced front-end for dpkg"
+>  LICENSE = "GPLv2.0+"
+>  SECTION = "base"
+>
+> -SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/main/a/${BPN}/${BPN}_${PV}.tar.xz \
+> +SRC_URI = "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/apt/1.2.24/${BPN}_${PV}.tar.xz \
 
-> +do_configure_prepend () {
-> +       if [ -f ${S}/aclocal.m4 ] && [ ! -f ${S}/acinclude.m4 ]; then
-> +               mv ${S}/aclocal.m4 ${S}/acinclude.m4
-> +       fi
-> +}
+Why don't you replace apt with ${BPN} and 1.2.24 with ${PV} in SRC_URI?
 
-EXTRA_AUTORECONF += "--exclude=aclocal" is preferred.
+>             file://use-host.patch \
+>             file://makerace.patch \
+>             file://no-nls-dpkg.patch \
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-> +do_install() {
-> +       oe_runmake 'DESTDIR=${D}' install
-> +}
-
-This looks like autotool's do_install to me.
-
-Ross
+Regards,
+Jonathan
 
