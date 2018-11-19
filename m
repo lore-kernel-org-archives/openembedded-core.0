@@ -1,53 +1,55 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0638A6C424
+Return-Path: <trini@konsulko.com>
+Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com
+	[209.85.219.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AFD56C341
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 18:11:29 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id m1-v6so12082243ioc.13
+	Mon, 19 Nov 2018 19:08:37 +0000 (UTC)
+Received: by mail-yb1-f196.google.com with SMTP id z2-v6so13017739ybj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2018 10:11:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=U9I9YsGRB+bLkUqbFyUBe0XgXJLOPgAssmGaXQdDInU=;
-	b=Gc3CkxCFZSKvHMfgdxrmkEGnM1Ld2uCpoV+ZRJI76H4OihXxYpSBpINMsCnHQJGpiU
-	roI+rBvBgV03xn4DCPxqExrKuQ8v9bKcvoyC778Qkj8uhiMIs3JNR7ywWlBfkUCXrqmU
-	of7wdpdlZdB0L0Ar5su8a+TpKMFBfP6pDFXz2/BggC2XNAb0VqFmwakWG3aURRyyw4ZZ
-	ScNQiotuj8fuCzAX6VGcTv7PshMYiMkNS5l0GlJuaHlR08eR+kfj6PXJZQ0gJpN3LbpU
-	F29s+AxXGCPhAM9ZmQ7N2+tqTP82tbEODxlBOz2qc/dk+McCnMIT9DB8SKogPwpyfVHN
-	hOAw==
+	Mon, 19 Nov 2018 11:08:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=3qLVj1jpsZGkWFF1ZdbqxkwT+RXRrfD4TdG0+q7ZzNU=;
+	b=O6MELkxra+YSpzkXIzrdcjeVucHFCXK5ysRnSogVl6LR+ChvXopdUQ/cujLB0K3MnT
+	gB/RaT1wUUH50tbDWHPZaQsjpATV4SiUVMnlGR97sw758uvZEpCjNZBV4/7z9vkiGOZQ
+	JQr4vER0SR9rMBH6Ec6Sp7JR0cevpdNpe8kFU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=U9I9YsGRB+bLkUqbFyUBe0XgXJLOPgAssmGaXQdDInU=;
-	b=fK/xe/AtGMLAqijYPUykFu0wZv5X4pj0UbmWSsYhyeZ2mA3GGHkhT2UaVzZ/AJvhCn
-	38i8j5Q1+k/ZoyCD/bSVCVk+h5dzHbwSXh2E1EpUecsKypCkF2kfXR+vm3PwppGS8QgC
-	aWV3uq1zK0Y2gmI79+saDGUwfMcWvEJ4RFyS1Lh0pMpRN7X1EUvkUjCcCWmrDsA5n2JB
-	k1ibjFBrVjpFwBaV0cokhQhsQq1fJTFIvuYzpFSSMRLIrsi5A7okkvq+TN8Eysjgak2W
-	rR7ktomzWCaLwKSPe0n9LVeR0X0Dd38hp3V7+oPBnHUHpGxu5/uBLkOz4yITDJ4tOOQA
-	XQ6w==
-X-Gm-Message-State: AA+aEWYRrkAWP7Lsgrw/tT+L0yibVKa27ogLVCVrs79PPDQQVYdVmbjH
-	9105ih1Hss8biuTNb8zLDCbsNdsGmhM=
-X-Google-Smtp-Source: AFSGD/WGACErgQJ6MKyUIqWnahQ5z6XlC7nkrv5wQABEs1W5hcyh1U82JJEm0VnGg9otIvNpVmJD4w==
-X-Received: by 2002:a6b:d005:: with SMTP id x5mr2212511ioa.46.1542651090167;
-	Mon, 19 Nov 2018 10:11:30 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=3qLVj1jpsZGkWFF1ZdbqxkwT+RXRrfD4TdG0+q7ZzNU=;
+	b=JsODFMKvOZ6233SRUPe9m/Mvfsrf8ayFxscmXMf6x0gV5DVGIUOkUDcTTP25+IdTF7
+	z1ytQ6zk6KoJttGtlavn6A2V6NvJdRKOztKzdtEzokOUZkzOyF/ldBFRmJxy8ErN1o7T
+	QOsXxDHM1cLy4Xt1XONyeZtj792ueJdO03zG288R5E6jcmfwAHALLD6T3TWROvYExmZs
+	jmiuqbWtnTwq7xCuRlLzayO+2GpCcpYSV5CIj3zrQhZyHFuY50kvys1XbegGWQ7GZX9N
+	/4k0Jr4+dWT4h8HlIz/TblUYCog5G2xJIlSh5I0K5l0SBR814H8Q8Vr08ZytVb/NZYzb
+	b2LA==
+X-Gm-Message-State: AGRZ1gLVy0LHUSX4yDV4hM8QH/LxDMfkIgvHEMQu64mX2p8xBUtvxsPl
+	obGoZ9GKCfzIXCXk5tBR3ztPSw==
+X-Google-Smtp-Source: AJdET5eHxHYlq384z6linzLT5qVafgcKCIYhbRSEFZkb+5BB3+MVcUEKhUHWcIWMYBJylB3WjeRkpQ==
+X-Received: by 2002:a25:b944:: with SMTP id
+	s4-v6mr21782504ybm.130.1542654518220; 
+	Mon, 19 Nov 2018 11:08:38 -0800 (PST)
+Received: from bill-the-cat (cpe-65-184-133-47.ec.res.rr.com. [65.184.133.47])
 	by smtp.gmail.com with ESMTPSA id
-	l25sm1870405ioj.68.2018.11.19.10.11.28
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 19 Nov 2018 10:11:29 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Nov 2018 12:11:13 -0600
-Message-Id: <20181119181113.21107-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181118191914.14495-1-JPEWhacker@gmail.com>
-References: <20181118191914.14495-1-JPEWhacker@gmail.com>
+	x127-v6sm10041071ywf.28.2018.11.19.11.08.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Nov 2018 11:08:37 -0800 (PST)
+Date: Mon, 19 Nov 2018 14:08:35 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Marek Vasut <marex@denx.de>
+Message-ID: <20181119190835.GO11247@bill-the-cat>
+References: <20181119100443.2882-1-abrodkin@synopsys.com>
+	<1fd9e473-66ba-bbb8-87a9-32bb78e359e3@denx.de>
 MIME-Version: 1.0
-Subject: [PATCH v3] classes/testsdk: Split implementation into classes
+In-Reply-To: <1fd9e473-66ba-bbb8-87a9-32bb78e359e3@denx.de>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: linux-snps-arc@lists.infradead.org,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] u-boot: Add mkenvimage tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,533 +62,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2018 18:11:30 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 19 Nov 2018 19:08:37 -0000
+X-Groupsio-MsgNum: 118360
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="kWzmbpYiBEY/UHFh"
+Content-Disposition: inline
 
-Splits the SDK test implementation into configurable Python classes. The
-classes used for the normal and extensible SDKs are
-${TESTSDK_CLASS_NAME} and ${TESTSDKEXT_CLASS_NAME} respectively.
+--kWzmbpYiBEY/UHFh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This allows SDK machines to override the classes used to implement the
-tests. For the traditional SDK, a common "run()" function is provided by
-the class (oeqa.sdk.testsdk.TestSDK), with several hook member functions
-that can be overridden in child classes, making it easier to have
-consistent behavior. The extensible SDK class
-(oeqa.sdkext.testsdk.TestSDKEXT) also has a common "run()" function, but
-no hooks have yet been added as there is not currently a known use case
-for create derived classes.
+On Mon, Nov 19, 2018 at 01:51:41PM +0100, Marek Vasut wrote:
+> On 11/19/2018 11:04 AM, Alexey Brodkin wrote:
+> > This utility is used for creation of images containing
+> > usable in run-time U-Boot environment.
+> >=20
+> > As of today this utility is added per-board like here [1]
+> > for Intel Edison board.
+> >=20
+> > [1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/me=
+ta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
+> >=20
+> > Given there're quite some U-Boot tools that we may want to add later
+> > this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
+> > still for compatibility we provide "u-boot-mkimage" with help
+> > of PROVIDES as well as proposed "u-boot-mkenvimage".
+> >=20
+> > Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Cc: Otavio Salvador <otavio@ossystems.com.br>
+> > Cc: Martin Jansa <martin.jansa@gmail.com>
+> > Cc: Ross Burton <ross.burton@intel.com>
+> > Cc: Marek Vasut <marex@denx.de>
+>=20
+> Do we want to generate one package per tool or not ?
 
-These changes should be purely organizational; no functional changes
-have been made to either the standard SDK or extensible SDK tests.
+I think so, yes.  Not all places will want all tools.
 
-[YOCTO #13020]
+--=20
+Tom
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/testsdk.bbclass    | 217 +++-----------------------------
- meta/lib/oeqa/sdk/testsdk.py    | 142 +++++++++++++++++++++
- meta/lib/oeqa/sdkext/testsdk.py | 104 +++++++++++++++
- 3 files changed, 261 insertions(+), 202 deletions(-)
- create mode 100644 meta/lib/oeqa/sdk/testsdk.py
- create mode 100644 meta/lib/oeqa/sdkext/testsdk.py
+--kWzmbpYiBEY/UHFh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index 458c3f40b04..758a23ac553 100644
---- a/meta/classes/testsdk.bbclass
-+++ b/meta/classes/testsdk.bbclass
-@@ -14,218 +14,31 @@
- #
- # where "<image-name>" is an image like core-image-sato.
- 
--def get_sdk_configuration(d, test_type):
--    import platform
--    from oeqa.utils.metadata import get_layers
--    configuration = {'TEST_TYPE': test_type,
--                    'MACHINE': d.getVar("MACHINE"),
--                    'SDKMACHINE': d.getVar("SDKMACHINE"),
--                    'IMAGE_BASENAME': d.getVar("IMAGE_BASENAME"),
--                    'IMAGE_PKGTYPE': d.getVar("IMAGE_PKGTYPE"),
--                    'STARTTIME': d.getVar("DATETIME"),
--                    'HOST_DISTRO': oe.lsb.distro_identifier().replace(' ', '-'),
--                    'LAYERS': get_layers(d.getVar("BBLAYERS"))}
--    return configuration
--get_sdk_configuration[vardepsexclude] = "DATETIME"
-+TESTSDK_CLASS_NAME ?= "oeqa.sdk.testsdk.TestSDK"
-+TESTSDKEXT_CLASS_NAME ?= "oeqa.sdkext.testsdk.TestSDKExt"
- 
--def get_sdk_json_result_dir(d):
--    json_result_dir = os.path.join(d.getVar("LOG_DIR"), 'oeqa')
--    custom_json_result_dir = d.getVar("OEQA_JSON_RESULT_DIR")
--    if custom_json_result_dir:
--        json_result_dir = custom_json_result_dir
--    return json_result_dir
-+def import_and_run(name, d):
-+    import importlib
- 
--def get_sdk_result_id(configuration):
--    return '%s_%s_%s_%s_%s' % (configuration['TEST_TYPE'], configuration['IMAGE_BASENAME'], configuration['SDKMACHINE'], configuration['MACHINE'], configuration['STARTTIME'])
-+    class_name = d.getVar(name)
-+    if class_name:
-+        module, cls = class_name.rsplit('.', 1)
-+        m = importlib.import_module(module)
-+        c = getattr(m, cls)()
-+        c.run(d)
-+    else:
-+        bb.warn('No tests were run because %s did not define a class' % name)
- 
--def testsdk_main(d):
--    import os
--    import subprocess
--    import json
--    import logging
--
--    from bb.utils import export_proxies
--    from oeqa.sdk.context import OESDKTestContext, OESDKTestContextExecutor
--    from oeqa.utils import make_logger_bitbake_compatible
--
--    pn = d.getVar("PN")
--    logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
--
--    # sdk use network for download projects for build
--    export_proxies(d)
--
--    tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh")
--    if not os.path.exists(tcname):
--        bb.fatal("The toolchain %s is not built. Build it before running the tests: 'bitbake <image> -c populate_sdk' ." % tcname)
--
--    tdname = d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.testdata.json")
--    test_data = json.load(open(tdname, "r"))
--
--    target_pkg_manifest = OESDKTestContextExecutor._load_manifest(
--        d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.target.manifest"))
--    host_pkg_manifest = OESDKTestContextExecutor._load_manifest(
--        d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.host.manifest"))
--
--    processes = d.getVar("TESTIMAGE_NUMBER_THREADS") or d.getVar("BB_NUMBER_THREADS")
--    if processes:
--        try:
--            import testtools, subunit
--        except ImportError:
--            bb.warn("Failed to import testtools or subunit, the testcases will run serially")
--            processes = None
--
--    sdk_dir = d.expand("${WORKDIR}/testimage-sdk/")
--    bb.utils.remove(sdk_dir, True)
--    bb.utils.mkdirhier(sdk_dir)
--    try:
--        subprocess.check_output("cd %s; %s <<EOF\n./\nY\nEOF" % (sdk_dir, tcname), shell=True)
--    except subprocess.CalledProcessError as e:
--        bb.fatal("Couldn't install the SDK:\n%s" % e.output.decode("utf-8"))
--
--    fail = False
--    sdk_envs = OESDKTestContextExecutor._get_sdk_environs(sdk_dir)
--    for s in sdk_envs:
--        sdk_env = sdk_envs[s]
--        bb.plain("SDK testing environment: %s" % s)
--        tc = OESDKTestContext(td=test_data, logger=logger, sdk_dir=sdk_dir,
--            sdk_env=sdk_env, target_pkg_manifest=target_pkg_manifest,
--            host_pkg_manifest=host_pkg_manifest)
--
--        try:
--            tc.loadTests(OESDKTestContextExecutor.default_cases)
--        except Exception as e:
--            import traceback
--            bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
--
--        if processes:
--            result = tc.runTests(processes=int(processes))
--        else:
--            result = tc.runTests()
--
--        component = "%s %s" % (pn, OESDKTestContextExecutor.name)
--        context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
--        configuration = get_sdk_configuration(d, 'sdk')
--        result.logDetails(get_sdk_json_result_dir(d),
--                          configuration,
--                          get_sdk_result_id(configuration))
--        result.logSummary(component, context_msg)
--
--        if not result.wasSuccessful():
--            fail = True
--
--    if fail:
--        bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
--  
--testsdk_main[vardepsexclude] =+ "BB_ORIGENV"
-+import_and_run[vardepsexclude] = "DATETIME BB_ORIGENV"
- 
- python do_testsdk() {
--    testsdk_main(d)
-+    import_and_run('TESTSDK_CLASS_NAME', d)
- }
- addtask testsdk
- do_testsdk[nostamp] = "1"
- 
--def testsdkext_main(d):
--    import os
--    import json
--    import subprocess
--    import logging
--
--    from bb.utils import export_proxies
--    from oeqa.utils import avoid_paths_in_environ, make_logger_bitbake_compatible, subprocesstweak
--    from oeqa.sdkext.context import OESDKExtTestContext, OESDKExtTestContextExecutor
--
--    pn = d.getVar("PN")
--    logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
--
--    # extensible sdk use network
--    export_proxies(d)
--
--    subprocesstweak.errors_have_output()
--
--    # extensible sdk can be contaminated if native programs are
--    # in PATH, i.e. use perl-native instead of eSDK one.
--    paths_to_avoid = [d.getVar('STAGING_DIR'),
--                      d.getVar('BASE_WORKDIR')]
--    os.environ['PATH'] = avoid_paths_in_environ(paths_to_avoid)
--
--    tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.sh")
--    if not os.path.exists(tcname):
--        bb.fatal("The toolchain ext %s is not built. Build it before running the" \
--                 " tests: 'bitbake <image> -c populate_sdk_ext' ." % tcname)
--
--    tdname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.testdata.json")
--    test_data = json.load(open(tdname, "r"))
--
--    target_pkg_manifest = OESDKExtTestContextExecutor._load_manifest(
--        d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"))
--    host_pkg_manifest = OESDKExtTestContextExecutor._load_manifest(
--        d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest"))
--
--    sdk_dir = d.expand("${WORKDIR}/testsdkext/")
--    bb.utils.remove(sdk_dir, True)
--    bb.utils.mkdirhier(sdk_dir)
--    try:
--        subprocess.check_output("%s -y -d %s" % (tcname, sdk_dir), shell=True)
--    except subprocess.CalledProcessError as e:
--        msg = "Couldn't install the extensible SDK:\n%s" % e.output.decode("utf-8")
--        logfn = os.path.join(sdk_dir, 'preparing_build_system.log')
--        if os.path.exists(logfn):
--            msg += '\n\nContents of preparing_build_system.log:\n'
--            with open(logfn, 'r') as f:
--                for line in f:
--                    msg += line
--        bb.fatal(msg)
--
--    fail = False
--    sdk_envs = OESDKExtTestContextExecutor._get_sdk_environs(sdk_dir)
--    for s in sdk_envs:
--        bb.plain("Extensible SDK testing environment: %s" % s)
--
--        sdk_env = sdk_envs[s]
--
--        # Use our own SSTATE_DIR and DL_DIR so that updates to the eSDK come from our sstate cache
--        # and we don't spend hours downloading kernels for the kernel module test
--        # Abuse auto.conf since local.conf would be overwritten by the SDK
--        with open(os.path.join(sdk_dir, 'conf', 'auto.conf'), 'a+') as f:
--            f.write('SSTATE_MIRRORS += " \\n file://.* file://%s/PATH"\n' % test_data.get('SSTATE_DIR'))
--            f.write('SOURCE_MIRROR_URL = "file://%s"\n' % test_data.get('DL_DIR'))
--            f.write('INHERIT += "own-mirrors"\n')
--            f.write('PREMIRRORS_prepend = " git://git.yoctoproject.org/.* git://%s/git2/git.yoctoproject.org.BASENAME \\n "\n' % test_data.get('DL_DIR'))
--
--        # We need to do this in case we have a minimal SDK
--        subprocess.check_output(". %s > /dev/null; devtool sdk-install meta-extsdk-toolchain" % \
--                sdk_env, cwd=sdk_dir, shell=True, stderr=subprocess.STDOUT)
--
--        tc = OESDKExtTestContext(td=test_data, logger=logger, sdk_dir=sdk_dir,
--            sdk_env=sdk_env, target_pkg_manifest=target_pkg_manifest,
--            host_pkg_manifest=host_pkg_manifest)
--
--        try:
--            tc.loadTests(OESDKExtTestContextExecutor.default_cases)
--        except Exception as e:
--            import traceback
--            bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
--
--        result = tc.runTests()
--
--        component = "%s %s" % (pn, OESDKExtTestContextExecutor.name)
--        context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
--        configuration = get_sdk_configuration(d, 'sdkext')
--        result.logDetails(get_sdk_json_result_dir(d),
--                          configuration,
--                          get_sdk_result_id(configuration))
--        result.logSummary(component, context_msg)
--
--        if not result.wasSuccessful():
--            fail = True
--
--    if fail:
--        bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
--
--testsdkext_main[vardepsexclude] =+ "BB_ORIGENV"
--
- python do_testsdkext() {
--    testsdkext_main(d)
-+    import_and_run('TESTSDKEXT_CLASS_NAME', d)
- }
- addtask testsdkext
- do_testsdkext[nostamp] = "1"
-diff --git a/meta/lib/oeqa/sdk/testsdk.py b/meta/lib/oeqa/sdk/testsdk.py
-new file mode 100644
-index 00000000000..632ac50d0cb
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/testsdk.py
-@@ -0,0 +1,142 @@
-+# Copyright 2018 by Garmin Ltd. or its subsidiaries
-+# Released under the MIT license (see COPYING.MIT)
-+
-+from oeqa.sdk.context import OESDKTestContext, OESDKTestContextExecutor
-+
-+class TestSDKBase(object):
-+    @staticmethod
-+    def get_sdk_configuration(d, test_type):
-+        import platform
-+        import oe.lsb
-+        from oeqa.utils.metadata import get_layers
-+        configuration = {'TEST_TYPE': test_type,
-+                        'MACHINE': d.getVar("MACHINE"),
-+                        'SDKMACHINE': d.getVar("SDKMACHINE"),
-+                        'IMAGE_BASENAME': d.getVar("IMAGE_BASENAME"),
-+                        'IMAGE_PKGTYPE': d.getVar("IMAGE_PKGTYPE"),
-+                        'STARTTIME': d.getVar("DATETIME"),
-+                        'HOST_DISTRO': oe.lsb.distro_identifier().replace(' ', '-'),
-+                        'LAYERS': get_layers(d.getVar("BBLAYERS"))}
-+        return configuration
-+
-+    @staticmethod
-+    def get_sdk_json_result_dir(d):
-+        json_result_dir = os.path.join(d.getVar("LOG_DIR"), 'oeqa')
-+        custom_json_result_dir = d.getVar("OEQA_JSON_RESULT_DIR")
-+        if custom_json_result_dir:
-+            json_result_dir = custom_json_result_dir
-+        return json_result_dir
-+
-+    @staticmethod
-+    def get_sdk_result_id(configuration):
-+        return '%s_%s_%s_%s_%s' % (configuration['TEST_TYPE'], configuration['IMAGE_BASENAME'], configuration['SDKMACHINE'], configuration['MACHINE'], configuration['STARTTIME'])
-+
-+class TestSDK(TestSDKBase):
-+    context_executor_class = OESDKTestContextExecutor
-+    context_class = OESDKTestContext
-+    test_type = 'sdk'
-+
-+    def get_tcname(self, d):
-+        """
-+        Get the name of the SDK file
-+        """
-+        return d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh")
-+
-+    def extract_sdk(self, tcname, sdk_dir, d):
-+        """
-+        Extract the SDK to the specified location
-+        """
-+        import subprocess
-+
-+        try:
-+            subprocess.check_output("cd %s; %s <<EOF\n./\nY\nEOF" % (sdk_dir, tcname), shell=True)
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Couldn't install the SDK:\n%s" % e.output.decode("utf-8"))
-+
-+    def setup_context(self, d):
-+        """
-+        Return a dictionary of additional arguments that should be passed to
-+        the context_class on construction
-+        """
-+        return dict()
-+
-+    def run(self, d):
-+
-+        import os
-+        import subprocess
-+        import json
-+        import logging
-+
-+        from bb.utils import export_proxies
-+        from oeqa.utils import make_logger_bitbake_compatible
-+
-+        pn = d.getVar("PN")
-+        logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
-+
-+        # sdk use network for download projects for build
-+        export_proxies(d)
-+
-+        tcname = self.get_tcname(d)
-+
-+        if not os.path.exists(tcname):
-+            bb.fatal("The toolchain %s is not built. Build it before running the tests: 'bitbake <image> -c populate_sdk' ." % tcname)
-+
-+        tdname = d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.testdata.json")
-+        test_data = json.load(open(tdname, "r"))
-+
-+        target_pkg_manifest = self.context_executor_class._load_manifest(
-+            d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.target.manifest"))
-+        host_pkg_manifest = self.context_executor_class._load_manifest(
-+            d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.host.manifest"))
-+
-+        processes = d.getVar("TESTIMAGE_NUMBER_THREADS") or d.getVar("BB_NUMBER_THREADS")
-+        if processes:
-+            try:
-+                import testtools, subunit
-+            except ImportError:
-+                bb.warn("Failed to import testtools or subunit, the testcases will run serially")
-+                processes = None
-+
-+        sdk_dir = d.expand("${WORKDIR}/testimage-sdk/")
-+        bb.utils.remove(sdk_dir, True)
-+        bb.utils.mkdirhier(sdk_dir)
-+
-+        context_args = self.setup_context(d)
-+
-+        self.extract_sdk(tcname, sdk_dir, d)
-+
-+        fail = False
-+        sdk_envs = self.context_executor_class._get_sdk_environs(sdk_dir)
-+        for s in sdk_envs:
-+            sdk_env = sdk_envs[s]
-+            bb.plain("SDK testing environment: %s" % s)
-+            tc = self.context_class(td=test_data, logger=logger, sdk_dir=sdk_dir,
-+                sdk_env=sdk_env, target_pkg_manifest=target_pkg_manifest,
-+                host_pkg_manifest=host_pkg_manifest, **context_args)
-+
-+            try:
-+                tc.loadTests(self.context_executor_class.default_cases)
-+            except Exception as e:
-+                import traceback
-+                bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
-+
-+            if processes:
-+                result = tc.runTests(processes=int(processes))
-+            else:
-+                result = tc.runTests()
-+
-+            component = "%s %s" % (pn, self.context_executor_class.name)
-+            context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
-+            configuration = self.get_sdk_configuration(d, self.test_type)
-+            result.logDetails(self.get_sdk_json_result_dir(d),
-+                            configuration,
-+                            self.get_sdk_result_id(configuration))
-+            result.logSummary(component, context_msg)
-+
-+            if not result.wasSuccessful():
-+                fail = True
-+
-+        if fail:
-+            bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
-+
-+
-diff --git a/meta/lib/oeqa/sdkext/testsdk.py b/meta/lib/oeqa/sdkext/testsdk.py
-new file mode 100644
-index 00000000000..57b2e0e03f2
---- /dev/null
-+++ b/meta/lib/oeqa/sdkext/testsdk.py
-@@ -0,0 +1,104 @@
-+# Copyright 2018 by Garmin Ltd. or its subsidiaries
-+# Released under the MIT license (see COPYING.MIT)
-+
-+from oeqa.sdk.testsdk import TestSDKBase
-+
-+class TestSDKExt(TestSDKBase):
-+    def run(self, d):
-+        import os
-+        import json
-+        import subprocess
-+        import logging
-+
-+        from bb.utils import export_proxies
-+        from oeqa.utils import avoid_paths_in_environ, make_logger_bitbake_compatible, subprocesstweak
-+        from oeqa.sdkext.context import OESDKExtTestContext, OESDKExtTestContextExecutor
-+
-+        pn = d.getVar("PN")
-+        logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
-+
-+        # extensible sdk use network
-+        export_proxies(d)
-+
-+        subprocesstweak.errors_have_output()
-+
-+        # extensible sdk can be contaminated if native programs are
-+        # in PATH, i.e. use perl-native instead of eSDK one.
-+        paths_to_avoid = [d.getVar('STAGING_DIR'),
-+                        d.getVar('BASE_WORKDIR')]
-+        os.environ['PATH'] = avoid_paths_in_environ(paths_to_avoid)
-+
-+        tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.sh")
-+        if not os.path.exists(tcname):
-+            bb.fatal("The toolchain ext %s is not built. Build it before running the" \
-+                    " tests: 'bitbake <image> -c populate_sdk_ext' ." % tcname)
-+
-+        tdname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.testdata.json")
-+        test_data = json.load(open(tdname, "r"))
-+
-+        target_pkg_manifest = OESDKExtTestContextExecutor._load_manifest(
-+            d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"))
-+        host_pkg_manifest = OESDKExtTestContextExecutor._load_manifest(
-+            d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest"))
-+
-+        sdk_dir = d.expand("${WORKDIR}/testsdkext/")
-+        bb.utils.remove(sdk_dir, True)
-+        bb.utils.mkdirhier(sdk_dir)
-+        try:
-+            subprocess.check_output("%s -y -d %s" % (tcname, sdk_dir), shell=True)
-+        except subprocess.CalledProcessError as e:
-+            msg = "Couldn't install the extensible SDK:\n%s" % e.output.decode("utf-8")
-+            logfn = os.path.join(sdk_dir, 'preparing_build_system.log')
-+            if os.path.exists(logfn):
-+                msg += '\n\nContents of preparing_build_system.log:\n'
-+                with open(logfn, 'r') as f:
-+                    for line in f:
-+                        msg += line
-+            bb.fatal(msg)
-+
-+        fail = False
-+        sdk_envs = OESDKExtTestContextExecutor._get_sdk_environs(sdk_dir)
-+        for s in sdk_envs:
-+            bb.plain("Extensible SDK testing environment: %s" % s)
-+
-+            sdk_env = sdk_envs[s]
-+
-+            # Use our own SSTATE_DIR and DL_DIR so that updates to the eSDK come from our sstate cache
-+            # and we don't spend hours downloading kernels for the kernel module test
-+            # Abuse auto.conf since local.conf would be overwritten by the SDK
-+            with open(os.path.join(sdk_dir, 'conf', 'auto.conf'), 'a+') as f:
-+                f.write('SSTATE_MIRRORS += " \\n file://.* file://%s/PATH"\n' % test_data.get('SSTATE_DIR'))
-+                f.write('SOURCE_MIRROR_URL = "file://%s"\n' % test_data.get('DL_DIR'))
-+                f.write('INHERIT += "own-mirrors"\n')
-+                f.write('PREMIRRORS_prepend = " git://git.yoctoproject.org/.* git://%s/git2/git.yoctoproject.org.BASENAME \\n "\n' % test_data.get('DL_DIR'))
-+
-+            # We need to do this in case we have a minimal SDK
-+            subprocess.check_output(". %s > /dev/null; devtool sdk-install meta-extsdk-toolchain" % \
-+                    sdk_env, cwd=sdk_dir, shell=True, stderr=subprocess.STDOUT)
-+
-+            tc = OESDKExtTestContext(td=test_data, logger=logger, sdk_dir=sdk_dir,
-+                sdk_env=sdk_env, target_pkg_manifest=target_pkg_manifest,
-+                host_pkg_manifest=host_pkg_manifest)
-+
-+            try:
-+                tc.loadTests(OESDKExtTestContextExecutor.default_cases)
-+            except Exception as e:
-+                import traceback
-+                bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
-+
-+            result = tc.runTests()
-+
-+            component = "%s %s" % (pn, OESDKExtTestContextExecutor.name)
-+            context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
-+            configuration = self.get_sdk_configuration(d, 'sdkext')
-+            result.logDetails(self.get_sdk_json_result_dir(d),
-+                            configuration,
-+                            self.get_sdk_result_id(configuration))
-+            result.logSummary(component, context_msg)
-+
-+            if not result.wasSuccessful():
-+                fail = True
-+
-+        if fail:
-+            bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
-+
--- 
-2.19.1
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
+iQIcBAEBAgAGBQJb8woyAAoJEIf59jXTHXZSQkEP/jecr3R7rD/Dl/r42z8XbPIp
+CLVO/eTMTSPWvF+HY5cgvAPVywNvS+GdGPqxHsorvy3sAV3HZ/e/6ROFYvEQENfg
+fr3HHpGDEQh/t8HEqHW7HcPc0HzzhH+ZjA9EhD5hFrcSBvEz/GbQXJeVf9XA7sPz
+GAHwLcqUB1H5KGyQQLJ5NdcNgdRKgayNYlrHQhplu2EXAcxMnf0qnCOodtXiAlwP
+bpY0cyGBN6bw1RJG/ROjjunYzV36Nlao1XnTDeDL4ZkDSfWLwW/p9kFkA3NEBa1z
+bSGzuJLxVsozzwZvmeidz239lgnM+AP43xmaZxfvyM7ASPjBZxVur8r9EFBf3Up9
+PyY7X8S9Q6nZ+f79av3hFmKCznTx2hin0q7+T/+N6Xlh2R2EeAkQQuJWJ5jCrjU4
+OCVbCeKehKIk0rYBokwUN7yfPlxypXcZxtUT1JxV1IF7tTzS1TppnFz8U/k8cZtk
+yNBIhhiRqh+WXjIALDEq1+6PKkfUo1jQWsv4tXUX2nIQbsmG7z0KC5ZNOYSb4Abu
+os+EE6a6Q1Ba1g+e06zIniJceKP0gM7AiPTtAXY7aAYJ4BYuOj3cutJt1kA4AZPn
+O0OvQ1Ok9gU7qK6SEZpySNFj6TVzOvvrtdIy8Z6KkZvSlmYg+uMSQEBSqrdlo4Hx
+sYs3Jy39ogolB8ZkIB0J
+=LMu3
+-----END PGP SIGNATURE-----
 
+--kWzmbpYiBEY/UHFh--
