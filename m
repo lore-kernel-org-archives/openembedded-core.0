@@ -1,63 +1,24 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E0586C494
+Return-Path: <raphael.kubo.da.costa@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 042EF6C489
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 14:29:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 839F41847A;
-	Tue, 20 Nov 2018 15:29:32 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id uz0midR9I4-N; Tue, 20 Nov 2018 15:29:27 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 3DE85184A4;
-	Tue, 20 Nov 2018 15:29:26 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 20DC41E080;
-	Tue, 20 Nov 2018 15:29:26 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 145BC1E07B;
-	Tue, 20 Nov 2018 15:29:26 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue, 20 Nov 2018 15:29:26 +0100 (CET)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id 07A14174D;
-	Tue, 20 Nov 2018 15:29:26 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 20 Nov 2018 15:29:25 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Tue, 20 Nov 2018 15:29:25 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Tom Rini
-	<trini@konsulko.com>
-Thread-Topic: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
-Thread-Index: AQHUf+9awZmDuYYKrUq4KBX/e5/F5KVW/JmAgABpToCAAAPSgIABTjxw
-Date: Tue, 20 Nov 2018 14:29:25 +0000
-Message-ID: <153f5864c09a48adb8c976d8671f3c46@XBOX04.axis.com>
-References: <20181119100443.2882-1-abrodkin@synopsys.com>
-	<1fd9e473-66ba-bbb8-87a9-32bb78e359e3@denx.de>
-	<20181119190835.GO11247@bill-the-cat>
-	<CAP9ODKr6JkJ0HpOWMKXy6_qN61vwU=41xEAOveyzfqPnVqEcbQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKr6JkJ0HpOWMKXy6_qN61vwU=41xEAOveyzfqPnVqEcbQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Tue, 20 Nov 2018 15:10:30 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Nov 2018 07:10:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,257,1539673200"; d="scan'208";a="101762593"
+Received: from rkubodac-desk.ger.corp.intel.com ([10.252.31.112])
+	by orsmga003.jf.intel.com with ESMTP; 20 Nov 2018 07:10:30 -0800
+From: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Nov 2018 16:10:26 +0100
+Message-Id: <20181120151026.51842-1-raphael.kubo.da.costa@intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: Marek Vasut <marex@denx.de>,
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
-	Alexey Brodkin <alexey.brodkin@synopsys.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] u-boot: Add mkenvimage tool
+Subject: [rocko][PATCH] bison: Fix build break with glibc 2.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,68 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2018 14:29:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Nov 2018 15:10:32 -0000
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Otavio Salvador
-> Sent: den 19 november 2018 20:22
-> To: Tom Rini <trini@konsulko.com>
-> Cc: Marek Vasut <marex@denx.de>; linux-snps-arc@lists.infradead.org;
-> Alexey Brodkin <alexey.brodkin@synopsys.com>; Otavio Salvador
-> <otavio@ossystems.com.br>; Patches and discussions about the oe-core
-> layer <openembedded-core@lists.openembedded.org>
-> Subject: Re: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
->=20
-> On Mon, Nov 19, 2018 at 5:08 PM Tom Rini <trini@konsulko.com> wrote:
-> >
-> > On Mon, Nov 19, 2018 at 01:51:41PM +0100, Marek Vasut wrote:
-> > > On 11/19/2018 11:04 AM, Alexey Brodkin wrote:
-> > > > This utility is used for creation of images containing
-> > > > usable in run-time U-Boot environment.
-> > > >
-> > > > As of today this utility is added per-board like here [1]
-> > > > for Intel Edison board.
-> > > >
-> > > > [1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-
-> edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-
-> tools_2014.04.bb
-> > > >
-> > > > Given there're quite some U-Boot tools that we may want to add
-> later
-> > > > this recipe name switch from "u-boot-mkimage" to generic "u-boot-
-> tools"
-> > > > still for compatibility we provide "u-boot-mkimage" with help
-> > > > of PROVIDES as well as proposed "u-boot-mkenvimage".
-> > > >
-> > > > Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-> > > > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > > Cc: Otavio Salvador <otavio@ossystems.com.br>
-> > > > Cc: Martin Jansa <martin.jansa@gmail.com>
-> > > > Cc: Ross Burton <ross.burton@intel.com>
-> > > > Cc: Marek Vasut <marex@denx.de>
-> > >
-> > > Do we want to generate one package per tool or not ?
-> >
-> > I think so, yes.  Not all places will want all tools.
->=20
-> And a bonus to add a u-boot-tools-meta which rdepends on all. You can
-> copy code to do that from gstreamer-plugins packages.
+From: Khem Raj <raj.khem@gmail.com>
 
-Actually, why mess with an unnecessary meta package. Just use the=20
-empty ${PN} package for that. That works for the GStreamer packages=20
-as well these days (since commit 8e1009a3), even though they do it=20
-by depending on the meta packages for backwards compatibility.
+(From OE-Core rev: 741415c58b3565764000028c26efd081212eb989)
 
-//Peter
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../recipes-devtools/bison/bison/gnulib.patch | 21 +++++++++++++++++++
+ meta/recipes-devtools/bison/bison_3.0.4.bb    |  1 +
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-devtools/bison/bison/gnulib.patch
 
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-
+diff --git a/meta/recipes-devtools/bison/bison/gnulib.patch b/meta/recipes-devtools/bison/bison/gnulib.patch
+new file mode 100644
+index 0000000000..7eaf0ce0fa
+--- /dev/null
++++ b/meta/recipes-devtools/bison/bison/gnulib.patch
+@@ -0,0 +1,21 @@
++Fix gnulib issues found with glibc 2.28 libio.h removal
++
++see
++https://lists.gnu.org/r/bug-gnulib/2018-03/msg00000.html
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: bison-3.0.4/lib/fseterr.c
++===================================================================
++--- bison-3.0.4.orig/lib/fseterr.c
+++++ bison-3.0.4/lib/fseterr.c
++@@ -29,7 +29,7 @@ fseterr (FILE *fp)
++   /* Most systems provide FILE as a struct and the necessary bitmask in
++      <stdio.h>, because they need it for implementing getc() and putc() as
++      fast macros.  */
++-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++   fp->_flags |= _IO_ERR_SEEN;
++ #elif defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
++   fp_->_flags |= __SERR;
+diff --git a/meta/recipes-devtools/bison/bison_3.0.4.bb b/meta/recipes-devtools/bison/bison_3.0.4.bb
+index 7d066be0ad..a86549c086 100644
+--- a/meta/recipes-devtools/bison/bison_3.0.4.bb
++++ b/meta/recipes-devtools/bison/bison_3.0.4.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+            file://dont-depend-on-help2man.patch.patch \
+            file://0001-src-local.mk-fix-parallel-issue.patch \
+            file://add-with-bisonlocaledir.patch \
++           file://gnulib.patch \
+ "
+ 
+ # No point in hardcoding path to m4, just use PATH
+-- 
+2.19.1
 
 
