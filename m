@@ -1,47 +1,99 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B22F6C45B
+Return-Path: <akuster808@gmail.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B7F196B89A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 13:08:25 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id t9-v6so1568936ljh.6
+	Tue, 20 Nov 2018 14:08:17 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id j18-v6so1435570iog.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 05:08:26 -0800 (PST)
+	Tue, 20 Nov 2018 06:08:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zkOBsCJkZiKM0PyU/KVaM+fl2BOcBot257GoOws8/CE=;
-	b=f9M8pcUlwqO9cDHJdPPturQuR3lUZoiLLWf80LZBvL/Z3xHbqn5ucrtRexU3OJnhpB
-	P7wzUGcOkbZ7YIumsbKQw4uvXfBavYlHlwzcC9f2GefNXbnjQOYQ1Yrl8pxeiun6sR6Z
-	5ZOwkOXHxDlk18WrvpPYqNyOGHd9eWIgQSE8Rzulc6Vdp6JMF9gM8/lDLOP13FiV0RKa
-	xyLsaiQTzgafn9Flt0BBzz1Xg1wN76zOamRYQsP7pya+8R1D+4b42gniggARHTxIt7UB
-	SnWvWsftkqZ6vG2yku66chkP2Iq30bVPy3xjJoIA+VX+vofUjjW4KlMPury+pBtFuUl5
-	3zww==
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=Xl34a+fe7ydjm8sPJYOmYPN6R7AgwU9FmwI/Kaw5vHY=;
+	b=Hx2YjU2LbdI7nMYfWMDEt3bZXNdiXOzUnP0wr6dqTS2Zy7NFv0B5t4opfbmJgdgG3y
+	zbPHs9dgbsrlM0VBNqblIlim3ka79f5uvYbsJmSl6MwF2TjP08JCOIZ3A91bTDsiwfCM
+	xIfYwpH1udbNnOAXnC1w1TtLeQtX7oGfrMgZw9CK/jD3Jm07WdRT7UvvgOljDkJf0SSO
+	psFb2yZ+Zlit3FF2h+uvMMRnOVQaOYs1bGUfW94nfb2l0UXQy4Fw6W+/kRqAtNKAnKYq
+	FqFdWjC1Q2W1t38kjbpDV8D8NGKGf+relYnXW5QlqjTeVtoULYNPTSLUoWgfHzxDekvl
+	EhVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=zkOBsCJkZiKM0PyU/KVaM+fl2BOcBot257GoOws8/CE=;
-	b=OK2CiT2RR2Dqc9R+VsnlJV3AXLqcUTePCmtEDy+jDdYHBzcXfEXBq6Ly4HGEJBMwla
-	SFQeGLOVofv0ZRuuPpRnziriSJWai4tTTxIEbLcwa2r4K4ugpWHNwA3l6PokzQM+57QG
-	QR66MgOMPkgwf6QfLWA9qRLqZUSyr4egVFrBtgmMPuy56xCMMOaadgHph6EvfJ/0ekde
-	Amf/uhn8USfAEhlo3edgI1T+peGeZdjn358w4UvCFK1hdva+EoLva3JFGoMsUM731Ukd
-	GjxMtSD02B68TBzqpkSUOU7x9AP5KzX97hxH7KuKMDLBqQTiL7nihclprFFH+yfmuNV1
-	jgTQ==
-X-Gm-Message-State: AA+aEWZknbkjHIttHhd34u/ZWyKrycJ/7+HRLGE0The+hX82omeZs9eZ
-	0zXdw7zbDO6iDqeoFP5Uqy7HRj+w1dtlRIOpoQkLXQ==
-X-Google-Smtp-Source: AFSGD/WSfqZAXvS93AQfFxnEdO8wP2B91t1dED/+sTkvuSyupWH+IyPURjOJf69v3ev03KD/8x3JGsnM3Hi6z1iVb5A=
-X-Received: by 2002:a2e:5418:: with SMTP id
-	i24-v6mr1298147ljb.51.1542719305815; 
-	Tue, 20 Nov 2018 05:08:25 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=Xl34a+fe7ydjm8sPJYOmYPN6R7AgwU9FmwI/Kaw5vHY=;
+	b=baLLTLMT9XAfW07KlyzfPRCpx3JRm8NjiKCe8t9175wdhBisHhOnpDWzS60g5edG4t
+	7e9miKnkbiRyi5sESWutehXMeJL4V6V/+kfc6CDs0BctAd11eEQxNiNfVCqxjiKSCirr
+	e8YuA9UUuR1VSGh+6T5BGG8DU6hudCECouOWJOPXjPB4mwfMoiPt0LFCRjZd/zkm9j1s
+	b3pF6D7Eivo7Eez1odN/q+yPQ8Uc2zEu8wlwxdCngLgXmEbG5Jm5sJ9+nntWpxCtX9IC
+	+/kdpExhVD2mHsej5Kc3wx/BiYANrdIbTRDvYUbBPFrBHP6PBfFhvV381DceZ7YueX6e
+	EjNw==
+X-Gm-Message-State: AA+aEWbNO/MBLZdI11liitJ/suULyh4E1o0Wwpsw/SFlyiBDVBJGUtTs
+	DAWtTycKIXt9o9d800xBMOnWu2zt
+X-Google-Smtp-Source: AFSGD/UnUgVbr3MoG/x98tWrQrsrukvIoBDEh4/03j06SNTkY/ivuvntbcrrOGnT3bRtEYgTnyUJVA==
+X-Received: by 2002:a5d:91da:: with SMTP id k26mr1538298ior.288.1542722898513; 
+	Tue, 20 Nov 2018 06:08:18 -0800 (PST)
+Received: from [192.168.0.33] (97-121-174-158.clsp.qwest.net. [97.121.174.158])
+	by smtp.gmail.com with ESMTPSA id
+	w22sm1247720ioc.17.2018.11.20.06.08.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Nov 2018 06:08:17 -0800 (PST)
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+References: <20181119172726.23571-1-raj.khem@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <958150cb-3892-1bd2-87e9-0c527d9f92fb@gmail.com>
+Date: Tue, 20 Nov 2018 06:08:15 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-References: <20181107132406.61577-1-max.krummenacher@toradex.com>
-In-Reply-To: <20181107132406.61577-1-max.krummenacher@toradex.com>
-From: Max Krummenacher <max.oss.09@gmail.com>
-Date: Tue, 20 Nov 2018 14:08:14 +0100
-Message-ID: <CAEHkU3V07kJFjTHSoDbFyi1=e71xSfR+P7zv3Ouh2nk9tNKm4Q@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: Re: [rocko][sumo][PATCH 1/1] mobile-broadband-provider: fix SRC_URI
+In-Reply-To: <20181119172726.23571-1-raj.khem@gmail.com>
+Subject: Re: [PATCH] musl: Update to latest trunk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,140 +106,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2018 13:08:26 -0000
-Content-Type: multipart/alternative; boundary="000000000000361b84057b185436"
+X-List-Received-Date: Tue, 20 Nov 2018 14:08:17 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---000000000000361b84057b185436
-Content-Type: text/plain; charset="UTF-8"
 
-Ping.
 
-Any comments on this backport request?
-
-Max
-
-Am Mi., 7. Nov. 2018 um 14:25 Uhr schrieb Max Krummenacher <
-max.oss.09@gmail.com>:
-
-> From: Anuj Mittal <anuj.mittal@intel.com>
+On 11/19/18 9:27 AM, Khem Raj wrote:
+> Complete changelogs are here
+> https://git.musl-libc.org/cgit/musl/log/?qt=range&q=c50985d5c8e316c5c464f352e79eeebfed1121a9..79f653c6bc2881dd6855299c908a442f56cb7c2b
 >
-> Fixes build for older versions of git which don't follow redirects
-> properly if the .git suffix is missing.
->
-> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> (cherry picked from commit 77c353cc9bdfbf1b6453b2579b72726db05eb69c)
-> [Fixup for rocko/sumo context]
-> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  .../mobile-broadband-provider-info_git.bb                              |
-> 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  meta/recipes-core/musl/musl_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> The inital patch 8382cdc088 changing the gnome git repo URL was
-> backparted to rocko and sumo, however the follow up patch was not.
->
-> This provides the backport of 77c353cc9b.
->
-> Max
->
-> diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/
-> mobile-broadband-provider-info_git.bb
-> b/meta/recipes-connectivity/mobile-broadband-provider-info/
-> mobile-broadband-provider-info_git.bb
-> index 57f521a6c4..b595d5700c 100644
-> --- a/meta/recipes-connectivity/mobile-broadband-provider-info/
-> mobile-broadband-provider-info_git.bb
-> +++ b/meta/recipes-connectivity/mobile-broadband-provider-info/
-> mobile-broadband-provider-info_git.bb
-> @@ -7,8 +7,7 @@ SRCREV = "befcbbc9867e742ac16415660b0b7521218a530c"
->  PV = "20170310"
->  PE = "1"
->
-> -SRC_URI = "git://
-> gitlab.gnome.org/GNOME/mobile-broadband-provider-info;protocol=https"
-> -
-> +SRC_URI = "git://
-> gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https"
->  S = "${WORKDIR}/git"
->
->  inherit autotools
-> --
-> 2.13.6
->
->
+> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+> index 0d8f8eb2a4..f2b6361446 100644
+> --- a/meta/recipes-core/musl/musl_git.bb
+> +++ b/meta/recipes-core/musl/musl_git.bb
+> @@ -4,7 +4,7 @@
+>  require musl.inc
+>  inherit linuxloader
+>  
+> -SRCREV = "c50985d5c8e316c5c464f352e79eeebfed1121a9"
+> +SRCREV = "79f653c6bc2881dd6855299c908a442f56cb7c2b"
+>  
+>  PV = "1.1.20+git${SRCPV}"
+still 1.1.20 ?
 
---000000000000361b84057b185436
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Ping.</div><div><br></div><div>Any comments on this b=
-ackport request?</div><div><br></div><div>Max<br></div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr">Am Mi., 7. Nov. 2018 um 14:25=C2=A0Uhr sc=
-hrieb Max Krummenacher &lt;<a href=3D"mailto:max.oss.09@gmail.com">max.oss.=
-09@gmail.com</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Anuj Mi=
-ttal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mi=
-ttal@intel.com</a>&gt;<br>
-<br>
-Fixes build for older versions of git which don&#39;t follow redirects<br>
-properly if the .git suffix is missing.<br>
-<br>
-Signed-off-by: Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" tar=
-get=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" tar=
-get=3D"_blank">ross.burton@intel.com</a>&gt;<br>
-(cherry picked from commit 77c353cc9bdfbf1b6453b2579b72726db05eb69c)<br>
-[Fixup for rocko/sumo context]<br>
-Signed-off-by: Max Krummenacher &lt;<a href=3D"mailto:max.krummenacher@tora=
-dex.com" target=3D"_blank">max.krummenacher@toradex.com</a>&gt;<br>
----<br>
-=C2=A0.../<a href=3D"http://mobile-broadband-provider-info_git.bb" rel=3D"n=
-oreferrer" target=3D"_blank">mobile-broadband-provider-info_git.bb</a>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 +--<br>
-=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
-<br>
-The inital patch 8382cdc088 changing the gnome git repo URL was<br>
-backparted to rocko and sumo, however the follow up patch was not.<br>
-<br>
-This provides the backport of 77c353cc9b.<br>
-<br>
-Max<br>
-<br>
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/<a hr=
-ef=3D"http://mobile-broadband-provider-info_git.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">mobile-broadband-provider-info_git.bb</a> b/meta/recipes-conn=
-ectivity/mobile-broadband-provider-info/<a href=3D"http://mobile-broadband-=
-provider-info_git.bb" rel=3D"noreferrer" target=3D"_blank">mobile-broadband=
--provider-info_git.bb</a><br>
-index 57f521a6c4..b595d5700c 100644<br>
---- a/meta/recipes-connectivity/mobile-broadband-provider-info/<a href=3D"h=
-ttp://mobile-broadband-provider-info_git.bb" rel=3D"noreferrer" target=3D"_=
-blank">mobile-broadband-provider-info_git.bb</a><br>
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/<a href=3D"h=
-ttp://mobile-broadband-provider-info_git.bb" rel=3D"noreferrer" target=3D"_=
-blank">mobile-broadband-provider-info_git.bb</a><br>
-@@ -7,8 +7,7 @@ SRCREV =3D &quot;befcbbc9867e742ac16415660b0b7521218a530c&q=
-uot;<br>
-=C2=A0PV =3D &quot;20170310&quot;<br>
-=C2=A0PE =3D &quot;1&quot;<br>
-<br>
--SRC_URI =3D &quot;git://<a href=3D"http://gitlab.gnome.org/GNOME/mobile-br=
-oadband-provider-info;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank=
-">gitlab.gnome.org/GNOME/mobile-broadband-provider-info;protocol=3Dhttps</a=
->&quot;<br>
--<br>
-+SRC_URI =3D &quot;git://<a href=3D"http://gitlab.gnome.org/GNOME/mobile-br=
-oadband-provider-info.git;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_b=
-lank">gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=3D=
-https</a>&quot;<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-=C2=A0inherit autotools<br>
--- <br>
-2.13.6<br>
-<br>
-</blockquote></div>
+>  
 
---000000000000361b84057b185436--
+
