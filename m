@@ -1,29 +1,25 @@
-Return-Path: <okaya@kernel.org>
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail.openembedded.org (Postfix) with ESMTP id 45CE16C47C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D986A6BA93
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 16:46:37 +0000 (UTC)
-Received: from [10.80.45.159] (unknown [71.69.156.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 6774A206BA
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 16:46:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1542732398;
-	bh=Ghv61I4AxuO3J0qYq/fXBMbQtv39MKUE/cHuX8Af/H4=;
-	h=To:From:Subject:Date:From;
-	b=zngDKjpw4z7QAlIzZf38Yb6GLR3rDBj2mOEi1R9B9UfeLaLoqm3odwWNTAtRaaatU
-	l4ptpDEGhfFIx6K51zXbKIzR8BzHsAaJj2qNed95RSQLRIuta8KcQYvhLzHIN5DgSF
-	gZH4811zHNfpIYl7dKN4WyE2BjbZqW25aLa0D/iQ=
-To: openembedded-core@lists.openembedded.org
-From: Sinan Kaya <okaya@kernel.org>
-Message-ID: <6d1b7e82-ca5a-e664-a709-3a1a9fe06c4e@kernel.org>
-Date: Tue, 20 Nov 2018 11:46:36 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
-	Thunderbird/60.3.1
-MIME-Version: 1.0
-Subject: [sumo] [PATCH v1] python: CVE-2018-1061
+	Tue, 20 Nov 2018 17:39:53 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	wAKHdpjR026238
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 20 Nov 2018 17:39:52 GMT
+Message-ID: <5dcfd0452f49d05cd969cc640924b82c91bd562a.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Freihofer <adrian.freihofer@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 20 Nov 2018 17:39:51 +0000
+In-Reply-To: <20181119223308.47590-1-adrian.freihofer@gmail.com>
+References: <20181119223308.47590-1-adrian.freihofer@gmail.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] systemd: fix PN-container package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,14 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2018 16:46:37 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Tue, 20 Nov 2018 17:39:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-It looks like this patch was not applied.
+On Mon, 2018-11-19 at 23:33 +0100, Adrian Freihofer wrote:
+> From: Adrian Freihofer <adrian.freihofer@scs.ch>
+> 
+> - Fix package splitting for services installed with
+>   systemd-container. Some files have been installed with systemd
+>   package instead of systemd-container package. (*.service,
+>   *.socket, *.html...)
+> - Split journal-upload, journal-remote, journal-gatewayd into
+>   separate packages. These services are not strictly related to
+>   nspawn containers. Remote logging is now possible without
+>   installing all the container stuff.
+> - systemd-container package rdepends on the new packages to
+>   maintain 100% backwards compatibility. But nspawn does not
+>   really depend on them. rrecommends would be fine as well.
+> 
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@gmail.com>
+> ---
+>  meta/recipes-core/systemd/systemd_239.bb | 56 ++++++++++++++++++++
+> ----
+>  1 file changed, 48 insertions(+), 8 deletions(-)
 
-https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg116341.html
+This causes failures in oe-selftest:
 
-Any reasons, why?
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/28/builds/242/steps/7/logs/step2d
+
+(you can run individual tests with oe-selftest -r <testname>
+
+Cheers,
+
+Richard
+
 
