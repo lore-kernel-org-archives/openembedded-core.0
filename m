@@ -1,47 +1,47 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CFAE76C2B3
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B22F6C45B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 12:59:26 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id t3so1882281wrr.3
+	Tue, 20 Nov 2018 13:08:25 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id t9-v6so1568936ljh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 04:59:28 -0800 (PST)
+	Tue, 20 Nov 2018 05:08:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Xcw3S3mmMW5PnFh4wMdPQ4qgTg/KtORg8SbLyKNNyuA=;
-	b=NUm7Ak5htEabauh4/V/NpY5wwteP5KwkszU5rDK7fQjHYCXkHMWiNC1z6FTeomfNRR
-	I4bKz9zq9eEQn/YEPNxrtATozA7rt9BWnw3r3zRsCTSJ7EcIuC2YfAmEXRoHa7IYyhWc
-	UXhib8M+5p/9W98zz1S/BKEWdXPNxSC4qsxzjVc3HVqugjRmpek6wSn07IjA5KfsLvS/
-	fWQFTNO8i7XniY5VFQ3C5lrF4RbxPgjmeL7i6EA7zBIALANsJJv9QU20EOII5xWL0C9a
-	GaAIj9hEqoj/UNj0G8C7vNBRbU4lqNBh9bVqR+Wqre8h+UpqfiqZRpsm40WVmIXxtQye
-	vqrQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=zkOBsCJkZiKM0PyU/KVaM+fl2BOcBot257GoOws8/CE=;
+	b=f9M8pcUlwqO9cDHJdPPturQuR3lUZoiLLWf80LZBvL/Z3xHbqn5ucrtRexU3OJnhpB
+	P7wzUGcOkbZ7YIumsbKQw4uvXfBavYlHlwzcC9f2GefNXbnjQOYQ1Yrl8pxeiun6sR6Z
+	5ZOwkOXHxDlk18WrvpPYqNyOGHd9eWIgQSE8Rzulc6Vdp6JMF9gM8/lDLOP13FiV0RKa
+	xyLsaiQTzgafn9Flt0BBzz1Xg1wN76zOamRYQsP7pya+8R1D+4b42gniggARHTxIt7UB
+	SnWvWsftkqZ6vG2yku66chkP2Iq30bVPy3xjJoIA+VX+vofUjjW4KlMPury+pBtFuUl5
+	3zww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Xcw3S3mmMW5PnFh4wMdPQ4qgTg/KtORg8SbLyKNNyuA=;
-	b=rQ8o1SO8HvU6OwFwgYaHAFFIwae2LhQN11MPDHiTndx9Z/VIwazPdPRzdCgTWfa7qd
-	uIPVJxyMpMzSp2F/c6qXibVMNM64zK+5s8/qxCTOXVc7csvEoMefLHWrrHG49crICMk/
-	m0I6FnmNupOPFFl2aIx2FoZi8vHvXn4GhDoOjq9Nzy3Qag7TMl6SY1qddSb6xKJt5gHe
-	AIgbMd81qClIIZYtuuIEuN4LV8PjujzFdVYUJLasK4gMlbVaX8vVnQ4hvDRdX54BgQFs
-	rJa2Ysy+bwXkJtjk6hEsp5OiU+8u+qJcpXUIbMKheU2vzRlAa9rZMUODWqdl3yZUE6GR
-	DKZw==
-X-Gm-Message-State: AA+aEWbhdnS4tEZjMuO9AUA0Zlkl987vAXmIxSTfR+Tt/ta4+RC8QkkK
-	AfXn3BtAlhAqXkK2N1paIR9KfjFQeD4=
-X-Google-Smtp-Source: AFSGD/Uv/oLlfDsliqsx8N8UfZ8148w4I+ZCG5+KKE+lynPBEHzKNIsn68/z1TBuWxCa/u0WJq3dPQ==
-X-Received: by 2002:adf:e64d:: with SMTP id b13mr1920665wrn.276.1542718767227; 
-	Tue, 20 Nov 2018 04:59:27 -0800 (PST)
-Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
-	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
-	h127sm23270728wmd.31.2018.11.20.04.59.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 20 Nov 2018 04:59:26 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Nov 2018 12:59:11 +0000
-Message-Id: <1542718751-21491-1-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [thud][PATCH] systemd: backport fix to stop enabling ECN
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=zkOBsCJkZiKM0PyU/KVaM+fl2BOcBot257GoOws8/CE=;
+	b=OK2CiT2RR2Dqc9R+VsnlJV3AXLqcUTePCmtEDy+jDdYHBzcXfEXBq6Ly4HGEJBMwla
+	SFQeGLOVofv0ZRuuPpRnziriSJWai4tTTxIEbLcwa2r4K4ugpWHNwA3l6PokzQM+57QG
+	QR66MgOMPkgwf6QfLWA9qRLqZUSyr4egVFrBtgmMPuy56xCMMOaadgHph6EvfJ/0ekde
+	Amf/uhn8USfAEhlo3edgI1T+peGeZdjn358w4UvCFK1hdva+EoLva3JFGoMsUM731Ukd
+	GjxMtSD02B68TBzqpkSUOU7x9AP5KzX97hxH7KuKMDLBqQTiL7nihclprFFH+yfmuNV1
+	jgTQ==
+X-Gm-Message-State: AA+aEWZknbkjHIttHhd34u/ZWyKrycJ/7+HRLGE0The+hX82omeZs9eZ
+	0zXdw7zbDO6iDqeoFP5Uqy7HRj+w1dtlRIOpoQkLXQ==
+X-Google-Smtp-Source: AFSGD/WSfqZAXvS93AQfFxnEdO8wP2B91t1dED/+sTkvuSyupWH+IyPURjOJf69v3ev03KD/8x3JGsnM3Hi6z1iVb5A=
+X-Received: by 2002:a2e:5418:: with SMTP id
+	i24-v6mr1298147ljb.51.1542719305815; 
+	Tue, 20 Nov 2018 05:08:25 -0800 (PST)
+MIME-Version: 1.0
+References: <20181107132406.61577-1-max.krummenacher@toradex.com>
+In-Reply-To: <20181107132406.61577-1-max.krummenacher@toradex.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+Date: Tue, 20 Nov 2018 14:08:14 +0100
+Message-ID: <CAEHkU3V07kJFjTHSoDbFyi1=e71xSfR+P7zv3Ouh2nk9tNKm4Q@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: Re: [rocko][sumo][PATCH 1/1] mobile-broadband-provider: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,79 +54,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2018 12:59:27 -0000
+X-List-Received-Date: Tue, 20 Nov 2018 13:08:26 -0000
+Content-Type: multipart/alternative; boundary="000000000000361b84057b185436"
 
-From upstream:
+--000000000000361b84057b185436
+Content-Type: text/plain; charset="UTF-8"
 
-  Turning on ECN still causes slow or broken network on linux. Our tcp
-  is not yet ready for wide spread use of ECN.
+Ping.
 
-https://github.com/systemd/systemd/issues/9748
+Any comments on this backport request?
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
+Max
 
- ...tl.d-request-ECN-on-both-in-and-outgoing-.patch | 36 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_239.bb           |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch
+Am Mi., 7. Nov. 2018 um 14:25 Uhr schrieb Max Krummenacher <
+max.oss.09@gmail.com>:
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch b/meta/recipes-core/systemd/systemd/0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch
-new file mode 100644
-index 000000000000..7fd6d0188e90
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch
-@@ -0,0 +1,36 @@
-+From 1e190dfd5bb95036f937ef1dc46f43eb0a146612 Mon Sep 17 00:00:00 2001
-+From: Thomas Hindoe Paaboel Andersen <phomes@gmail.com>
-+Date: Fri, 17 Aug 2018 21:31:05 +0200
-+Subject: [PATCH] Revert "sysctl.d: request ECN on both in and outgoing
-+ connections"
-+
-+Turning on ECN still causes slow or broken network on linux. Our tcp
-+is not yet ready for wide spread use of ECN.
-+
-+This reverts commit 919472741dba6ad0a3f6c2b76d390a02d0e2fdc3.
-+
-+https://github.com/systemd/systemd/issues/9748
-+
-+Upstream-Status: Backport
-+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-+---
-+ sysctl.d/50-default.conf | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/sysctl.d/50-default.conf b/sysctl.d/50-default.conf
-+index b67ae87ca6b7..e263cf06284a 100644
-+--- a/sysctl.d/50-default.conf
-++++ b/sysctl.d/50-default.conf
-+@@ -33,9 +33,6 @@ net.ipv4.conf.all.promote_secondaries = 1
-+ # Fair Queue CoDel packet scheduler to fight bufferbloat
-+ net.core.default_qdisc = fq_codel
-+ 
-+-# Request Explicit Congestion Notification (ECN) on both in and outgoing connections
-+-net.ipv4.tcp_ecn = 1
-+-
-+ # Enable hard and soft link protection
-+ fs.protected_hardlinks = 1
-+ fs.protected_symlinks = 1
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index 3dbeaac3427a..e19a8babced6 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -33,6 +33,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-core-when-deserializing-state-always-use-read_line-L.patch \
-            file://0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch \
-            file://0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch \
-+           file://0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch \
-            "
- 
- # patches made for musl are only applied on TCLIBC is musl
--- 
-2.7.4
+> From: Anuj Mittal <anuj.mittal@intel.com>
+>
+> Fixes build for older versions of git which don't follow redirects
+> properly if the .git suffix is missing.
+>
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> (cherry picked from commit 77c353cc9bdfbf1b6453b2579b72726db05eb69c)
+> [Fixup for rocko/sumo context]
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> ---
+>  .../mobile-broadband-provider-info_git.bb                              |
+> 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> The inital patch 8382cdc088 changing the gnome git repo URL was
+> backparted to rocko and sumo, however the follow up patch was not.
+>
+> This provides the backport of 77c353cc9b.
+>
+> Max
+>
+> diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/
+> mobile-broadband-provider-info_git.bb
+> b/meta/recipes-connectivity/mobile-broadband-provider-info/
+> mobile-broadband-provider-info_git.bb
+> index 57f521a6c4..b595d5700c 100644
+> --- a/meta/recipes-connectivity/mobile-broadband-provider-info/
+> mobile-broadband-provider-info_git.bb
+> +++ b/meta/recipes-connectivity/mobile-broadband-provider-info/
+> mobile-broadband-provider-info_git.bb
+> @@ -7,8 +7,7 @@ SRCREV = "befcbbc9867e742ac16415660b0b7521218a530c"
+>  PV = "20170310"
+>  PE = "1"
+>
+> -SRC_URI = "git://
+> gitlab.gnome.org/GNOME/mobile-broadband-provider-info;protocol=https"
+> -
+> +SRC_URI = "git://
+> gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https"
+>  S = "${WORKDIR}/git"
+>
+>  inherit autotools
+> --
+> 2.13.6
+>
+>
 
+--000000000000361b84057b185436
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Ping.</div><div><br></div><div>Any comments on this b=
+ackport request?</div><div><br></div><div>Max<br></div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr">Am Mi., 7. Nov. 2018 um 14:25=C2=A0Uhr sc=
+hrieb Max Krummenacher &lt;<a href=3D"mailto:max.oss.09@gmail.com">max.oss.=
+09@gmail.com</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Anuj Mi=
+ttal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mi=
+ttal@intel.com</a>&gt;<br>
+<br>
+Fixes build for older versions of git which don&#39;t follow redirects<br>
+properly if the .git suffix is missing.<br>
+<br>
+Signed-off-by: Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" tar=
+get=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" tar=
+get=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+(cherry picked from commit 77c353cc9bdfbf1b6453b2579b72726db05eb69c)<br>
+[Fixup for rocko/sumo context]<br>
+Signed-off-by: Max Krummenacher &lt;<a href=3D"mailto:max.krummenacher@tora=
+dex.com" target=3D"_blank">max.krummenacher@toradex.com</a>&gt;<br>
+---<br>
+=C2=A0.../<a href=3D"http://mobile-broadband-provider-info_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">mobile-broadband-provider-info_git.bb</a>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 +--<br>
+=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+<br>
+The inital patch 8382cdc088 changing the gnome git repo URL was<br>
+backparted to rocko and sumo, however the follow up patch was not.<br>
+<br>
+This provides the backport of 77c353cc9b.<br>
+<br>
+Max<br>
+<br>
+diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/<a hr=
+ef=3D"http://mobile-broadband-provider-info_git.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">mobile-broadband-provider-info_git.bb</a> b/meta/recipes-conn=
+ectivity/mobile-broadband-provider-info/<a href=3D"http://mobile-broadband-=
+provider-info_git.bb" rel=3D"noreferrer" target=3D"_blank">mobile-broadband=
+-provider-info_git.bb</a><br>
+index 57f521a6c4..b595d5700c 100644<br>
+--- a/meta/recipes-connectivity/mobile-broadband-provider-info/<a href=3D"h=
+ttp://mobile-broadband-provider-info_git.bb" rel=3D"noreferrer" target=3D"_=
+blank">mobile-broadband-provider-info_git.bb</a><br>
++++ b/meta/recipes-connectivity/mobile-broadband-provider-info/<a href=3D"h=
+ttp://mobile-broadband-provider-info_git.bb" rel=3D"noreferrer" target=3D"_=
+blank">mobile-broadband-provider-info_git.bb</a><br>
+@@ -7,8 +7,7 @@ SRCREV =3D &quot;befcbbc9867e742ac16415660b0b7521218a530c&q=
+uot;<br>
+=C2=A0PV =3D &quot;20170310&quot;<br>
+=C2=A0PE =3D &quot;1&quot;<br>
+<br>
+-SRC_URI =3D &quot;git://<a href=3D"http://gitlab.gnome.org/GNOME/mobile-br=
+oadband-provider-info;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank=
+">gitlab.gnome.org/GNOME/mobile-broadband-provider-info;protocol=3Dhttps</a=
+>&quot;<br>
+-<br>
++SRC_URI =3D &quot;git://<a href=3D"http://gitlab.gnome.org/GNOME/mobile-br=
+oadband-provider-info.git;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_b=
+lank">gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=3D=
+https</a>&quot;<br>
+=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+<br>
+=C2=A0inherit autotools<br>
+-- <br>
+2.13.6<br>
+<br>
+</blockquote></div>
+
+--000000000000361b84057b185436--
