@@ -1,37 +1,150 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 2104C6C30B
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (smtprelay.synopsys.com [198.182.60.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 01A9A6C49B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 20:22:40 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 42zxvz2KJdz1qvw2;
-	Tue, 20 Nov 2018 21:22:39 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 42zxvz1ZNwz1qql6;
-	Tue, 20 Nov 2018 21:22:39 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id x7bnJBtoasP4; Tue, 20 Nov 2018 21:22:37 +0100 (CET)
-X-Auth-Info: HWFfR8KEcekfM+VCfIzjnVuciZ9Gr7v9chAn07yEo28=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Tue, 20 Nov 2018 21:22:36 +0100 (CET)
-To: Alexey Brodkin <alexey.brodkin@synopsys.com>,
-	openembedded-core@lists.openembedded.org
+	Tue, 20 Nov 2018 20:34:18 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id D0AE610C0817;
+	Tue, 20 Nov 2018 12:34:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1542746060; bh=kB9gJgjYsy/NwWpYbGWtKwaLs+pOAMXHHyEgXiMLrlg=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=Tis2BukNv4cFb2kkZkayqX8hGI7WLGiK+ZZgiy1aVUTilfWOpE3lsD+Iw6EMPoKwV
+	D9AsqMZHjzyMdsrjami5alahBdOOjE7JCfwI4juudFi57q7gtV91KerucRZ8X5jhIc
+	N9XQHwskA5wuWRa+ykrku7lCOdyonRiGjABF0i0C5tUQcrJNnxBtfTWrcGblc2J1uJ
+	X9fKNNkvoXWet717rUhDyB5n4amRAw/fxe+Y8VaSzLRZm+N9a9pIM9JJANn8BdLz+b
+	a/RKFdR8TKDWA9JtMFCSz3L8X8DaPeXU+vRer/VR4HNpukN+A5qp0DwpmD1l8ZLgPg
+	A7wuHrpkPrrVQ==
+Received: from US01WEHTC3.internal.synopsys.com
+	(us01wehtc3.internal.synopsys.com [10.15.84.232])
+	by mailhost.synopsys.com (Postfix) with ESMTP id 98FC24D69;
+	Tue, 20 Nov 2018 12:34:19 -0800 (PST)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+	US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Tue, 20 Nov 2018 12:34:19 -0800
+Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
+	by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id
+	14.03.0415.000; Tue, 20 Nov 2018 21:34:17 +0100
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: Marek Vasut <marex@denx.de>
+Thread-Topic: [PATCH v4] u-boot: Add mkenvimage tool
+Thread-Index: AQHUgQ6V5/5zlwX2D0+OhyocIlDhK6VZCqwAgAATqTA=
+Date: Tue, 20 Nov 2018 20:34:16 +0000
+Message-ID: <4881796E12491D4BB15146FE0209CE6468198028@DE02WEMBXB.internal.synopsys.com>
 References: <20181120202107.41029-1-abrodkin@synopsys.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <f9ff2442-e164-d973-6fea-49bfeb9cbbd7@denx.de>
-Date: Tue, 20 Nov 2018 21:22:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	<f9ff2442-e164-d973-6fea-49bfeb9cbbd7@denx.de>
+In-Reply-To: <f9ff2442-e164-d973-6fea-49bfeb9cbbd7@denx.de>
+Accept-Language: en-US, ru-RU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
+	=?utf-8?B?bk5jWVdKeWIyUnJhVzVjWVhCd1pHRjBZVnh5YjJGdGFXNW5YREE1WkRnME9X?=
+	=?utf-8?B?STJMVE15WkRNdE5HRTBNQzA0TldWbExUWmlPRFJpWVRJNVpUTTFZbHh0YzJk?=
+	=?utf-8?B?elhHMXpaeTFoTkdNd05EQTBOeTFsWkRBekxURXhaVGd0WW1WaE15MDRPR0l4?=
+	=?utf-8?B?TVRGalpHVXlNVGRjWVcxbExYUmxjM1JjWVRSak1EUXdORGt0WldRd015MHhN?=
+	=?utf-8?B?V1U0TFdKbFlUTXRPRGhpTVRFeFkyUmxNakUzWW05a2VTNTBlSFFpSUhONlBT?=
+	=?utf-8?B?SXpOVFUySWlCMFBTSXhNekU0TnpJeE9UWTFORGszTVRZMk56SWlJR2c5SWxW?=
+	=?utf-8?B?SVdXMVpTMFl5V0dkM04zVkRRMGx3VURoWFJURlBWMEpxT0QwaUlHbGtQU0lp?=
+	=?utf-8?B?SUdKc1BTSXdJaUJpYnowaU1TSWdZMms5SW1OQlFVRkJSVkpJVlRGU1UxSlZS?=
+	=?utf-8?B?azVEWjFWQlFVSlJTa0ZCUkVGeGFHaHVSVWxJVlVGalNUbGlTMkpSYmtZeFFY?=
+	=?utf-8?B?ZHFNWE53ZEVOaldGVkJUMEZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRklRVUZCUVVOclEwRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGRlFVRlJRVUpCUVVGQlVEaFFjR1ZuUVVGQlFVRkJRVUZCUVVGQlFVRkJT?=
+	=?utf-8?B?alJCUVVGQ2JVRkhhMEZpWjBKb1FVYzBRVmwzUW14QlJqaEJZMEZDYzBGSFJV?=
+	=?utf-8?B?RmlaMEoxUVVkclFXSm5RbTVCUmpoQlpIZENhRUZJVVVGYVVVSjVRVWN3UVZs?=
+	=?utf-8?B?UlFubEJSM05CUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVWQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlowRkJRVUZCUVc1blFVRkJSMWxCWW5kQ01VRkhORUZhUVVKNVFVaHJRVmgz?=
+	=?utf-8?B?UW5kQlIwVkJZMmRDTUVGSE5FRmFVVUo1UVVoTlFWaDNRbTVCUjFsQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRlJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRMEZCUVVGQlFVTmxRVUZCUVZwblFuWkJTRlZCWW1kQ2Ew?=
+	=?utf-8?B?RklTVUZsVVVKbVFVaEJRVmxSUW5sQlNGRkJZbWRDYkVGSVNVRmpkMEptUVVo?=
+	=?utf-8?B?TlFWbFJRblJCU0UxQlpGRkNkVUZIWTBGWWQwSnFRVWM0UVdKblFtMUJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZDUVVGQlFVRkJRVUZCUVVsQlFVRkJRVUZLTkVGQlFVSnRRVWM0?=
+	=?utf-8?B?UVdSUlFuVkJSMUZCWTJkQ05VRkdPRUZqUVVKb1FVaEpRV1JCUW5WQlIxVkJZ?=
+	=?utf-8?B?MmRDZWtGR09FRmpkMEpvUVVjd1FXTjNRakZCUnpSQlduZENaa0ZJU1VGYVVV?=
+	=?utf-8?B?SjZRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlJVRkJRVUZCUVVGQlFVRm5RVUZCUVVGQmJt?=
+	=?utf-8?B?ZEJRVUZIV1VGaWQwSXhRVWMwUVZwQlFubEJTR3RCV0hkQ2QwRkhSVUZqWjBJ?=
+	=?utf-8?B?d1FVYzBRVnBSUW5sQlNFMUJXSGRDZWtGSE1FRmhVVUpxUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVkZCUVVGQlFVRkJRVUZE?=
+	=?utf-8?B?UVVGQlFVRkJRMlZCUVVGQldtZENka0ZJVlVGaVowSnJRVWhKUVdWUlFtWkJT?=
+	=?utf-8?B?RUZCV1ZGQ2VVRklVVUZpWjBKc1FVaEpRV04zUW1aQlNFMUJaRUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVKQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlNVRkJRVUZCUVVvMFFVRkJRbTFCUnpoQlpGRkNkVUZIVVVG?=
+	=?utf-8?B?alowSTFRVVk0UVdOQlFtaEJTRWxCWkVGQ2RVRkhWVUZqWjBKNlFVWTRRV1JC?=
+	=?utf-8?B?UW5wQlJ6QkJXWGRCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkZRVUZCUVVGQlFVRkJRV2RCUVVGQlFVRnVaMEZCUVVkWlFXSjNR?=
+	=?utf-8?B?akZCUnpSQldrRkNlVUZJYTBGWWQwSjNRVWRGUVdOblFqQkJSelJCV2xGQ2VV?=
+	=?utf-8?B?RklUVUZZZDBJeFFVY3dRVmwzUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCVVVGQlFVRkJRVUZCUVVOQlFVRkJRVUZEWlVG?=
+	=?utf-8?B?QlFVRmFkMEl3UVVoTlFWaDNRbmRCU0VsQlluZENhMEZJVlVGWmQwSXdRVVk0?=
+	=?utf-8?B?UVdSQlFubEJSMFZCWVZGQ2RVRkhhMEZpWjBKdVFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFrRkJRVUZCUVVGQlFVRkpR?=
+	=?utf-8?B?VUZCUVVGQlNqUkJRVUZDZWtGSFJVRmlRVUpzUVVoTlFWaDNRbWhCUjAxQldY?=
+	=?utf-8?B?ZENka0ZJVlVGaVowSXdRVVk0UVdOQlFuTkJSMFZCWW1kQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVVZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCWjBGQlFVRkJRVzVuUVVGQlNFMUJXVkZDYzBGSFZVRmpkMEpt?=
+	=?utf-8?B?UVVoRlFXUlJRblpCU0ZGQldsRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGUlFVRkJRVUZCUVVGQlEwRkJRVUZCUVVObFFVRkJRV04zUW5WQlNF?=
+	=?utf-8?B?RkJZM2RDWmtGSGQwRmhVVUpxUVVkVlFXSm5RbnBCUjFWQldIZENNRUZIVlVG?=
+	=?utf-8?B?alowSjBRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkNRVUZCUVVGQlFVRkJRVWxCUVVGQlFVRktORUZC?=
+	=?utf-8?B?UVVKNlFVYzBRV05CUW5wQlJqaEJZa0ZDY0VGSFRVRmFVVUoxUVVoTlFWcFJR?=
+	=?utf-8?B?bVpCU0ZGQldsRkNlVUZITUVGWWQwSjZRVWhSUVdSUlFtdEJSMVZCWW1kQ01F?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUlVGQlFVRkJRVUZCUVVGblFV?=
+	=?utf-8?B?RkJRVUZCYm1kQlFVRklXVUZhZDBKbVFVZHpRVnBSUWpWQlNHTkJZbmRDZVVG?=
+	=?utf-8?B?SFVVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFWRkJRVUZC?=
+	=?utf-8?Q?QUFBQUFDQUFBQUFBQT0iLz48L21ldGE+?=
+x-dg-rorf: 
+x-originating-ip: [10.225.15.38]
 MIME-Version: 1.0
-In-Reply-To: <20181120202107.41029-1-abrodkin@synopsys.com>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	linux-snps-arc@lists.infradead.org
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
 Subject: Re: [PATCH v4] u-boot: Add mkenvimage tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,58 +158,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2018 20:22:41 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Tue, 20 Nov 2018 20:34:19 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 11/20/2018 09:21 PM, Alexey Brodkin wrote:
-> This utility is used for creation of images containing
-> usable in run-time U-Boot environment.
-> 
-> As of today this utility is added per-board like here [1]
-> for Intel Edison board.
-> 
-> [1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
-> 
-> Given there're quite some U-Boot tools that we may want to add later
-> this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
-> still for compatibility we provide "u-boot-mkimage" with help
-> of PROVIDES as well as proposed "u-boot-mkenvimage".
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Cc: Otavio Salvador <otavio@ossystems.com.br>
-> Cc: Martin Jansa <martin.jansa@gmail.com>
-> Cc: Ross Burton <ross.burton@intel.com>
-> Cc: Marek Vasut <marex@denx.de>
-> ---
-> 
-> I may "git grep u-boot-mkimage" in more places:
->  1. meta/classes/image_types.bbclass:311:CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
->  2. meta/classes/kernel-fitimage.bbclass:7:        depends = "%s u-boot-mkimage-native dtc-native" % depends
->  3. meta/classes/kernel-uimage.bbclass:6:        depends = "%s u-boot-mkimage-native" % depends
->  4. meta/conf/distro/include/distro_alias.inc:357:DISTRO_PN_ALIAS_pn-u-boot-mkimage = "Ubuntu=uboot-mkimage Debian=uboot-mkimage"
-> 
-> But that's not clear for me if it's required to swap "u-boot-mkimage"
-> to "u-boot-tools" see:
->  1. "u-boot-mkimage" is still a valid recipe as we export ot via PROVIDES
->     (or I'm mixing package name with recipe name which very well might be
->      the case)
->  2. I don't fully understand a mening of "DISTRO_PN_ALIAS".
->     If that's a name of a package from some big Linux distro or how target
->     utility is named in that distro. For example in Debian Sid there's
->     a package named "u-boot-tools" which includes "mkimage", "mkenvimage",
->     "fw_printenv", "fw_setenv" and many more while in "distro_alias.inc"
->     we still have:
->     ---------------->8----------------
->     DISTRO_PN_ALIAS_pn-u-boot-mkimage = "Ubuntu=uboot-mkimage Debian=uboot-mkimage"
->     ---------------->8----------------
-
-Just make u-boot-tools RPROVIDE the u-boot-mkimage, and make it generate
-a u-boot-mkimage package , no ?
-
--- 
-Best regards,
-Marek Vasut
+SGkgTWFyZWssDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWFyZWsg
+VmFzdXQgW21haWx0bzptYXJleEBkZW54LmRlXQ0KPiBTZW50OiBUdWVzZGF5LCBOb3ZlbWJlciAy
+MCwgMjAxOCAxMToyMyBQTQ0KPiBUbzogQWxleGV5IEJyb2RraW4gPGFsZXhleS5icm9ka2luQHN5
+bm9wc3lzLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4g
+Q2M6IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+OyBLaGVtIFJhaiA8cmFqLmto
+ZW1AZ21haWwuY29tPjsgbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZzsgUmljaGFy
+ZCBQdXJkaWUNCj4gPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+OyBPdGF2aW8g
+U2FsdmFkb3IgPG90YXZpb0Bvc3N5c3RlbXMuY29tLmJyPjsgTWFydGluIEphbnNhIDxtYXJ0aW4u
+amFuc2FAZ21haWwuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY0XSB1LWJvb3Q6IEFkZCBt
+a2VudmltYWdlIHRvb2wNCj4gDQo+IE9uIDExLzIwLzIwMTggMDk6MjEgUE0sIEFsZXhleSBCcm9k
+a2luIHdyb3RlOg0KPiA+IFRoaXMgdXRpbGl0eSBpcyB1c2VkIGZvciBjcmVhdGlvbiBvZiBpbWFn
+ZXMgY29udGFpbmluZw0KPiA+IHVzYWJsZSBpbiBydW4tdGltZSBVLUJvb3QgZW52aXJvbm1lbnQu
+DQo+ID4NCj4gPiBBcyBvZiB0b2RheSB0aGlzIHV0aWxpdHkgaXMgYWRkZWQgcGVyLWJvYXJkIGxp
+a2UgaGVyZSBbMV0NCj4gPiBmb3IgSW50ZWwgRWRpc29uIGJvYXJkLg0KPiA+DQo+ID4gWzFdIGh0
+dHBzOi8vdXJsZGVmZW5zZS5wcm9vZnBvaW50LmNvbS92Mi91cmw/dT1odHRwLTNBX19naXQueW9j
+dG9wcm9qZWN0Lm9yZ19jZ2l0X2NnaXQuY2dpX21ldGEtMkRpbnRlbC0yRGVkaXNvbl90cmVlX21l
+dGEtDQo+IDJEaW50ZWwtMkRlZGlzb24tMkRic3BfcmVjaXBlcy0yRGJzcF91LTJEYm9vdF91LTJE
+Ym9vdC0yRHRvb2xzLQ0KPiA1RjIwMTQuMDQuYmImZD1Ed0lDYVEmYz1EUEw2X1hfNkprWEZ4N0FY
+V3FCMHRnJnI9bHFkZWVTU0VlczBHRkREbDY1NmVWaVhPN2JyZVM1NXl0V2tocGs1UjgxSSZtPW5q
+MzdqanZHSEx3bk4xDQo+IGRHMkZfSWNsQjNocy1RR2FITlM2WjMwTU9WekdnJnM9UmVvZU1vZ2Ew
+V05yRXpZdmlLZDFHQmNrZ05EcFoxRTZmczlYZ3VabXk3ayZlPQ0KPiA+DQo+ID4gR2l2ZW4gdGhl
+cmUncmUgcXVpdGUgc29tZSBVLUJvb3QgdG9vbHMgdGhhdCB3ZSBtYXkgd2FudCB0byBhZGQgbGF0
+ZXINCj4gPiB0aGlzIHJlY2lwZSBuYW1lIHN3aXRjaCBmcm9tICJ1LWJvb3QtbWtpbWFnZSIgdG8g
+Z2VuZXJpYyAidS1ib290LXRvb2xzIg0KPiA+IHN0aWxsIGZvciBjb21wYXRpYmlsaXR5IHdlIHBy
+b3ZpZGUgInUtYm9vdC1ta2ltYWdlIiB3aXRoIGhlbHANCj4gPiBvZiBQUk9WSURFUyBhcyB3ZWxs
+IGFzIHByb3Bvc2VkICJ1LWJvb3QtbWtlbnZpbWFnZSIuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5
+OiBBbGV4ZXkgQnJvZGtpbiA8YWJyb2RraW5Ac3lub3BzeXMuY29tPg0KPiA+IENjOiBSaWNoYXJk
+IFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gPiBDYzogT3Rh
+dmlvIFNhbHZhZG9yIDxvdGF2aW9Ab3NzeXN0ZW1zLmNvbS5icj4NCj4gPiBDYzogTWFydGluIEph
+bnNhIDxtYXJ0aW4uamFuc2FAZ21haWwuY29tPg0KPiA+IENjOiBSb3NzIEJ1cnRvbiA8cm9zcy5i
+dXJ0b25AaW50ZWwuY29tPg0KPiA+IENjOiBNYXJlayBWYXN1dCA8bWFyZXhAZGVueC5kZT4NCj4g
+PiAtLS0NCj4gPg0KPiA+IEkgbWF5ICJnaXQgZ3JlcCB1LWJvb3QtbWtpbWFnZSIgaW4gbW9yZSBw
+bGFjZXM6DQo+ID4gIDEuIG1ldGEvY2xhc3Nlcy9pbWFnZV90eXBlcy5iYmNsYXNzOjMxMTpDT05W
+RVJTSU9OX0RFUEVORFNfdS1ib290ID0gInUtYm9vdC1ta2ltYWdlLW5hdGl2ZSINCj4gPiAgMi4g
+bWV0YS9jbGFzc2VzL2tlcm5lbC1maXRpbWFnZS5iYmNsYXNzOjc6ICAgICAgICBkZXBlbmRzID0g
+IiVzIHUtYm9vdC1ta2ltYWdlLW5hdGl2ZSBkdGMtbmF0aXZlIiAlIGRlcGVuZHMNCj4gPiAgMy4g
+bWV0YS9jbGFzc2VzL2tlcm5lbC11aW1hZ2UuYmJjbGFzczo2OiAgICAgICAgZGVwZW5kcyA9ICIl
+cyB1LWJvb3QtbWtpbWFnZS1uYXRpdmUiICUgZGVwZW5kcw0KPiA+ICA0LiBtZXRhL2NvbmYvZGlz
+dHJvL2luY2x1ZGUvZGlzdHJvX2FsaWFzLmluYzozNTc6RElTVFJPX1BOX0FMSUFTX3BuLXUtYm9v
+dC1ta2ltYWdlID0gIlVidW50dT11Ym9vdC1ta2ltYWdlDQo+IERlYmlhbj11Ym9vdC1ta2ltYWdl
+Ig0KPiA+DQo+ID4gQnV0IHRoYXQncyBub3QgY2xlYXIgZm9yIG1lIGlmIGl0J3MgcmVxdWlyZWQg
+dG8gc3dhcCAidS1ib290LW1raW1hZ2UiDQo+ID4gdG8gInUtYm9vdC10b29scyIgc2VlOg0KPiA+
+ICAxLiAidS1ib290LW1raW1hZ2UiIGlzIHN0aWxsIGEgdmFsaWQgcmVjaXBlIGFzIHdlIGV4cG9y
+dCBvdCB2aWEgUFJPVklERVMNCj4gPiAgICAgKG9yIEknbSBtaXhpbmcgcGFja2FnZSBuYW1lIHdp
+dGggcmVjaXBlIG5hbWUgd2hpY2ggdmVyeSB3ZWxsIG1pZ2h0IGJlDQo+ID4gICAgICB0aGUgY2Fz
+ZSkNCj4gPiAgMi4gSSBkb24ndCBmdWxseSB1bmRlcnN0YW5kIGEgbWVuaW5nIG9mICJESVNUUk9f
+UE5fQUxJQVMiLg0KPiA+ICAgICBJZiB0aGF0J3MgYSBuYW1lIG9mIGEgcGFja2FnZSBmcm9tIHNv
+bWUgYmlnIExpbnV4IGRpc3RybyBvciBob3cgdGFyZ2V0DQo+ID4gICAgIHV0aWxpdHkgaXMgbmFt
+ZWQgaW4gdGhhdCBkaXN0cm8uIEZvciBleGFtcGxlIGluIERlYmlhbiBTaWQgdGhlcmUncw0KPiA+
+ICAgICBhIHBhY2thZ2UgbmFtZWQgInUtYm9vdC10b29scyIgd2hpY2ggaW5jbHVkZXMgIm1raW1h
+Z2UiLCAibWtlbnZpbWFnZSIsDQo+ID4gICAgICJmd19wcmludGVudiIsICJmd19zZXRlbnYiIGFu
+ZCBtYW55IG1vcmUgd2hpbGUgaW4gImRpc3Ryb19hbGlhcy5pbmMiDQo+ID4gICAgIHdlIHN0aWxs
+IGhhdmU6DQo+ID4gICAgIC0tLS0tLS0tLS0tLS0tLS0+OC0tLS0tLS0tLS0tLS0tLS0NCj4gPiAg
+ICAgRElTVFJPX1BOX0FMSUFTX3BuLXUtYm9vdC1ta2ltYWdlID0gIlVidW50dT11Ym9vdC1ta2lt
+YWdlIERlYmlhbj11Ym9vdC1ta2ltYWdlIg0KPiA+ICAgICAtLS0tLS0tLS0tLS0tLS0tPjgtLS0t
+LS0tLS0tLS0tLS0tDQo+IA0KPiBKdXN0IG1ha2UgdS1ib290LXRvb2xzIFJQUk9WSURFIHRoZSB1
+LWJvb3QtbWtpbWFnZSwgYW5kIG1ha2UgaXQgZ2VuZXJhdGUNCj4gYSB1LWJvb3QtbWtpbWFnZSBw
+YWNrYWdlICwgbm8gPw0KDQpTb3JyeSBJJ20gc3RpbGwgYSBiaXQgY29uZnVzZWQgd2l0aCBhbGwg
+dGhvc2UgY29tcGxleGl0aWVzIG9mIE9FIHNvIHBscyBwYXJkb24gbXkgc2lsbHkgcXVlc3Rpb25z
+Lg0KV2hhdCBhcmUgd2UgZ29pbmcgdG8gc29sdmUgd2l0aCBSUFJPVklERSBhbmQgaG93IGl0IGRp
+ZmZlcnMgZnJvbSBQUk9WSURFUyBJIGFscmVhZHkNCmFkZGVkIGluIHRoZSByZWNpcGU/DQoNCi1B
+bGV4ZXkNCg==
 
