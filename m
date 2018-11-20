@@ -1,48 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B4E6C47A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+	[209.85.166.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 8462A6C48B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 11:10:41 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id 32so1266867ota.12
+	Tue, 20 Nov 2018 11:10:57 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id l14so922330ioj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 03:10:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=l3LHNfLoK5ei6kxtbY6V8Xv5/iPNUeQYt2uWHdkKNUU=;
-	b=EScjD/XNSfs/Ik1/xRY4L57TLh9uU3WH/3f9+FNcVUjr+LMJ23FNB7/4gfPQvCBirY
-	OCmu4b4nbfINqzFpNjIPGxUA4d/6N+B5jBkGSs2Hu4bP5pY2wERJCvNwBO5+GELwc9hn
-	UyeDvUxCoWZ9BmocagoZysW8V/24EetLcD0f5bvRgrTLZ9WVAWjOMiTnA+r3NV0PvF5J
-	OfjkxFWW7EzNwav16ZI9FOOPkjFCbwxOjtwrocJQUurfve4xwSSLA9g88LUotb7esaei
-	Hzf8zUCQen4JE7l/SV/tXLRXXoK7xY0F1EK4L4xtofWlCtVD7tOrWpIAMWsw1pNBGFnd
-	oLvA==
+	Tue, 20 Nov 2018 03:10:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:from:date:message-id:subject:to:cc;
+	bh=4cnGZ00eDXjXOnqKqka7n8oxWx+2qWf6V50xZmQz548=;
+	b=WTMhFqGqvxkU6tZkZYu42EFjgHXDa6EOvBYAti+G7QaAepicu46AuPx/+vPWKSL2h8
+	oXExe0JJjQuM/2MrUMebj3Hp/l8I9+a0LtVlMWO27cVYn7JCHJkeF2y9adfzaYddnphP
+	IEgSx2SiqBggGqzTO9n8INxlxlLnV58Ztvg94/ix5RyIBStLTBlhx0LEPGC5x7xp8W6h
+	mtTIb9Bs2lxN1+RPrQRe8LQ6Cw/ac/uQEAM/axbSTZusOIDaIp+EPxcUyI8JleQbMcgZ
+	1avTu2cT7Rhe+h1Eo5FSh/dIKyw1/2brjO2mulKdN5AgPssCEYu1CDc7Kto56SN8XsPp
+	0hFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=l3LHNfLoK5ei6kxtbY6V8Xv5/iPNUeQYt2uWHdkKNUU=;
-	b=riccka3qUWO5oMyCo8sPXd6k+LKZgzBsqXx67B3ytiuzmpi/yABsEtw/sMbESQA4Yt
-	clgRns/+IZHALUX6N2rbTktTlkn9q1foVlhfTRACn6/BrvmhDTj+XtI8bWvgB5uq60KO
-	wDBxSIfwucc49dACLdwlQBSyOAfyo0LwMjzfBtW8XgSLdfpwS77jJWWyKkZB3zajdFxf
-	jZAX9JftUPchr9xP+lKbjz1qFBemCuoTJSRVZ0LiHFyohZTbbgpUiGwWQC48Y900KlA9
-	smay9zBsN5v9a2SihZRe00FQ0lWa/uTJaOXY9JrsIzWw8ybIKcZVbFySlceS6RUA0CNx
-	wl2A==
-X-Gm-Message-State: AA+aEWZnwRlkrX6cb7cNdWirfCIKDi5GXjHElpS+zKGbvhS0Xvrd2OdW
-	lUtb6tfd8w5yFWrxjpibSlRrboM+8UPkOOdgNxE=
-X-Google-Smtp-Source: AFSGD/XEydr9+6ElfQft7jlbTaOQf4fg8WEQNljWIrO0XJInaQ+FW9n9dFvGLhlWySY0eEhXsOuWO5sbNsxBNeRQ++4=
-X-Received: by 2002:a9d:5096:: with SMTP id b22mr970900oth.96.1542712242744;
-	Tue, 20 Nov 2018 03:10:42 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:from:date:message-id
+	:subject:to:cc;
+	bh=4cnGZ00eDXjXOnqKqka7n8oxWx+2qWf6V50xZmQz548=;
+	b=JlrKCBCVMrUfVTlDZW4ssqQGzP0u1t8OnZ4NY/rW1+E0GsgL6yUOm8+e0HJHTDcT2T
+	eih0aai23G06E1K61EXJNjPhPuzb0cEh+2tMT11d8u4k7ux8ggM586p7mRL2sXOO4Gr5
+	OsltO8MQ4b8Rs+CQymmiQAsEKd5a9rdkQ0Gf3oZe7uj7yXpwq0lBM2NtsxAVCB7Jhnv3
+	CJmz59SAZwe/f/rw1/fWTa9qkh/iBKqkTxUWP54NTfyfWlp0xYC0s83er6AU4CHIwrFL
+	9t9xm0E0roIBiDs0cJCGqP9+uKncrX6GTI9XnunOCtS3NkatJB8P6zuIVnHbQ8JLcXLj
+	6/ew==
+X-Gm-Message-State: AA+aEWaWaTMIgsXo8Xt060NVXpmVng6vO9u4jto6rrhnnT9QGgnirlU6
+	JIOi0a3GVFMYPfANK3OFpfzhf2e1fuxNWGJ2q8TYqg==
+X-Google-Smtp-Source: AFSGD/UFc6Qie1BNg33boHDBKNuStT6CTxoGi5FMlstb7D7In3NHf019Q4vGCoHaWBFaWHGf1wjcLQ0M14tuhbICsF4=
+X-Received: by 2002:a6b:fb19:: with SMTP id
+	h25-v6mr1060498iog.270.1542712258582; 
+	Tue, 20 Nov 2018 03:10:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20181119150810.94381-1-alex.kanavin@gmail.com>
-	<20181119150810.94381-4-alex.kanavin@gmail.com>
-	<CAJTo0LZzskmV28oTScik==irT8tTcjni+u4r_1rnj2r-ADXJVA@mail.gmail.com>
-In-Reply-To: <CAJTo0LZzskmV28oTScik==irT8tTcjni+u4r_1rnj2r-ADXJVA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 20 Nov 2018 12:10:30 +0100
-Message-ID: <CANNYZj9svFd1D4aRjd71vJgAn1-t752sAp0Ma2ssk9YZMNFXdA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1542247292.git.Qi.Chen@windriver.com>
+	<61202575a1c0b4be44534526dd22fc85c9dadfd2.1542247292.git.Qi.Chen@windriver.com>
+	<CAJTo0LZi1ouNpFqrhQ0EhwWfXcX3By54-YCBY6wuifaOjBmw8A@mail.gmail.com>
+	<892aa2af-472c-e653-a3f0-129d6fdd78bc@windriver.com>
+	<CAJTo0LaENzuvZSr0QMZqPqwWv-XQ0P0zuuHH=Lp51fOCXJb2WQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Nov 2018 11:10:47 +0000
+Message-ID: <CAJTo0LYGWOZuK2k18C8w=NR9nm4e3RQAYdp6Uh5sp+GagBz-JA@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] librepo: update to 1.9.2
+Subject: Re: [PATCH 5/8] busybox: use example.org instead of google.com in wget test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,26 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2018 11:10:42 -0000
+X-List-Received-Date: Tue, 20 Nov 2018 11:10:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-That's true:
-https://github.com/rpm-software-management/librepo/commit/acbbfe2e76ca1c74c2a1acb25813077d47481f14
-
-You can amend the patch, or I can resend.
-
-Alex
-On Mon, 19 Nov 2018 at 22:01, Burton, Ross <ross.burton@intel.com> wrote:
+Ignore me, you did :)
+On Tue, 20 Nov 2018 at 11:10, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> On Mon, 19 Nov 2018 at 15:09, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> > -DEPENDS = "curl expat glib-2.0 openssl attr gpgme"
-> > +DEPENDS = "curl expat glib-2.0 openssl attr gpgme libxml2"
->
-> packages/corei7-64-poky-linux/librepo/librepo: RDEPENDS: removed
-> "expat (['>= 2.2.6'])", added "libxml2 (['>= 2.9.8'])"
->
-> So presumably expat isn't needed as it didn't make it to RDEPENDS?
+> My point is, if there's a better host then lets send this upstream.
 >
 > Ross
+> On Tue, 20 Nov 2018 at 01:45, ChenQi <Qi.Chen@windriver.com> wrote:
+> >
+> > On 11/16/2018 01:43 AM, Burton, Ross wrote:
+> > > On Thu, 15 Nov 2018 at 01:57, Chen Qi <Qi.Chen@windriver.com> wrote:
+> > >> Use example.org to ensure it's always reachible.
+> > > Is this because of China's firewall?  You'd think that google.com
+> > > would have excellent uptime.
+> > >
+> > > Ross
+> > >
+> >
+> > I guess so.
+> > I agree that google.com has excellent uptime. However, I think
+> > example.org might be better for ptest.
+> >
+> > Best Regards,
+> > Chen Qi
 
