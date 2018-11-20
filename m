@@ -1,24 +1,49 @@
-Return-Path: <raphael.kubo.da.costa@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 042EF6C489
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 41B4C6C489
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 15:10:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Nov 2018 07:10:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,257,1539673200"; d="scan'208";a="101762593"
-Received: from rkubodac-desk.ger.corp.intel.com ([10.252.31.112])
-	by orsmga003.jf.intel.com with ESMTP; 20 Nov 2018 07:10:30 -0800
-From: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
+	Tue, 20 Nov 2018 15:17:48 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id s11so2659043wmh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Nov 2018 07:17:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=ghWdPGGsiMTdG1t9ORnVD2v47R7kwDUE182Ezr6Rj04=;
+	b=b37SaTF3+01mZyivDZEXXdSzJDyWZ4qhIzfaNkW5eVJQNQl55MOgYhiVhPV62UMS2i
+	FU2E255TbjAsVt9+u2JmSkH3E81Axac4zD2sKY4EjPG/YQhHATIqgRS3rU7VcR4gRa8K
+	xfuH3H3jA0bdKOq0/jMrhA9WK46lVE/Ziz5Puz4cpmCeke7CRW9VdK4jM/YjEJQBGd5Y
+	ebVl5dQNG9A4BFFq4HaJ+JsiduLwX+g2FsH99vR1Z10YcyJZLkk4i/fNePuW6BVz3Z12
+	v9MBnJ1394W5JI/rqfc7kbf5hsBPoeKTW8CKLQAPYZTPMjRGdGYZE2ytnzAT5K9wcYOd
+	bMLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ghWdPGGsiMTdG1t9ORnVD2v47R7kwDUE182Ezr6Rj04=;
+	b=YWKqk9BlDWetSEYdXpywWDsyjAgkPfKJmeZnjYmJkZRs5A/2NLnzrYcIsmgipZDCS9
+	kJ1tr3QZaVHxdK9J2g6+lTO5IpV126aJa0iYysdCBVzupYDr73Ya+XV2vP24eGmT+P41
+	RZd61dKuEAqlOKvTazIL5QYy3WRE4YiMdT3GNftINaXPY8a59G7FJplaDlhuv6p8iSl1
+	klIIjXjG16O4XQEaC3LoWiUAXvgfFqZIVPPEYH8Lhor2CWW7eiQaOn8321992Jz06ymK
+	tYn2qkEdeWOFgCpms2xk3xAEP1doXaZcLIkWfT+6Y3zhTqKQz3Qf7GDtxxzer4w0twJv
+	/+qA==
+X-Gm-Message-State: AGRZ1gLAwS06uYb7RN/eZOBPns1+myuv1l3FVyJvwQx2yqHWZCdAS194
+	BxYYvsR3vfDVapcs151mbj+lfXLur/c=
+X-Google-Smtp-Source: AJdET5etH+Bk4IL01EmZiandd3u7N45vVNaaOzyKwmAG6nxObK/+xFcmJ+ErAqJLO5fAu/DJW47oYA==
+X-Received: by 2002:a1c:e701:: with SMTP id e1mr2471007wmh.21.1542727068623;
+	Tue, 20 Nov 2018 07:17:48 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id z83sm9147518wmc.7.2018.11.20.07.17.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Nov 2018 07:17:47 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Nov 2018 16:10:26 +0100
-Message-Id: <20181120151026.51842-1-raphael.kubo.da.costa@intel.com>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
-Subject: [rocko][PATCH] bison: Fix build break with glibc 2.28
+Date: Tue, 20 Nov 2018 15:17:45 +0000
+Message-Id: <20181120151745.13553-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] json-glib: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,61 +56,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2018 15:10:32 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 20 Nov 2018 15:17:48 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
-
-(From OE-Core rev: 741415c58b3565764000028c26efd081212eb989)
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../recipes-devtools/bison/bison/gnulib.patch | 21 +++++++++++++++++++
- meta/recipes-devtools/bison/bison_3.0.4.bb    |  1 +
- 2 files changed, 22 insertions(+)
- create mode 100644 meta/recipes-devtools/bison/bison/gnulib.patch
+ meta/recipes-gnome/json-glib/json-glib/run-ptest |  3 +++
+ meta/recipes-gnome/json-glib/json-glib_1.4.2.bb  | 12 +++++++-----
+ 2 files changed, 10 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-gnome/json-glib/json-glib/run-ptest
 
-diff --git a/meta/recipes-devtools/bison/bison/gnulib.patch b/meta/recipes-devtools/bison/bison/gnulib.patch
+diff --git a/meta/recipes-gnome/json-glib/json-glib/run-ptest b/meta/recipes-gnome/json-glib/json-glib/run-ptest
 new file mode 100644
-index 0000000000..7eaf0ce0fa
+index 00000000000..0c6398a177d
 --- /dev/null
-+++ b/meta/recipes-devtools/bison/bison/gnulib.patch
-@@ -0,0 +1,21 @@
-+Fix gnulib issues found with glibc 2.28 libio.h removal
++++ b/meta/recipes-gnome/json-glib/json-glib/run-ptest
+@@ -0,0 +1,3 @@
++#! /bin/sh
 +
-+see
-+https://lists.gnu.org/r/bug-gnulib/2018-03/msg00000.html
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: bison-3.0.4/lib/fseterr.c
-+===================================================================
-+--- bison-3.0.4.orig/lib/fseterr.c
-++++ bison-3.0.4/lib/fseterr.c
-+@@ -29,7 +29,7 @@ fseterr (FILE *fp)
-+   /* Most systems provide FILE as a struct and the necessary bitmask in
-+      <stdio.h>, because they need it for implementing getc() and putc() as
-+      fast macros.  */
-+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-+   fp->_flags |= _IO_ERR_SEEN;
-+ #elif defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
-+   fp_->_flags |= __SERR;
-diff --git a/meta/recipes-devtools/bison/bison_3.0.4.bb b/meta/recipes-devtools/bison/bison_3.0.4.bb
-index 7d066be0ad..a86549c086 100644
---- a/meta/recipes-devtools/bison/bison_3.0.4.bb
-+++ b/meta/recipes-devtools/bison/bison_3.0.4.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-            file://dont-depend-on-help2man.patch.patch \
-            file://0001-src-local.mk-fix-parallel-issue.patch \
-            file://add-with-bisonlocaledir.patch \
-+           file://gnulib.patch \
- "
++gnome-desktop-testing-runner json-glib
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.4.2.bb b/meta/recipes-gnome/json-glib/json-glib_1.4.2.bb
+index 19fe3cc4427..b4a6a6f2b63 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.4.2.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.4.2.bb
+@@ -10,12 +10,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
  
- # No point in hardcoding path to m4, just use PATH
+ DEPENDS = "glib-2.0"
+ 
++GNOMEBASEBUILDCLASS = "meson"
++inherit gnomebase lib_package gobject-introspection gtk-doc gettext ptest-gnome
++
++SRC_URI += "file://run-ptest"
+ SRC_URI[archive.md5sum] = "35107e23a7bbbc70f31c34f7b9adf1c3"
+ SRC_URI[archive.sha256sum] = "2d7709a44749c7318599a6829322e081915bdc73f5be5045882ed120bb686dc8"
+ 
+-GNOMEBASEBUILDCLASS = "meson"
+-inherit gnomebase lib_package gobject-introspection gtk-doc gettext
+-
+ # This builds both API docs (via gtk-doc) and manpages
+ GTKDOC_ENABLE_FLAG = "-Ddocs=true"
+ GTKDOC_DISABLE_FLAG = "-Ddocs=false"
+@@ -29,8 +30,9 @@ EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'T
+                                                                                     '${GI_DISABLE_FLAG}', d)} "
+ 
+ do_install_append() {
+-    # FIXME: these need to be provided via ptest
+-    rm -rf ${D}${datadir}/installed-tests ${D}${libexecdir}
++	if ! ${@bb.utils.contains('PTEST_ENABLED', '1', 'true', 'false', d)}; then
++		rm -rf ${D}${datadir}/installed-tests ${D}${libexecdir}
++	fi
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-2.19.1
+2.11.0
 
 
