@@ -1,37 +1,45 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
-	[198.182.47.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 6699C6C491
+Return-Path: <trini@konsulko.com>
+Received: from mail-yb1-f195.google.com (mail-yb1-f195.google.com
+	[209.85.219.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 650976C491
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 15:52:08 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 9939924E1703;
-	Tue, 20 Nov 2018 07:52:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1542729129; bh=CprvX7CIGRa3/V0Z3uwd/ApL2NOdM3WHEfbbvpCyXYQ=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=fLuPL/6obpzUHeYjOf/N8rW2dZ5q7/uA1b4yh8DC4x6PIAogFM40eprbbZXBEduAv
-	1RwOaY3jhLC/BfRMQfFfOCo6JnuOcHp2dGq1i9Bjk5HWoYhwY3sqWPRsRa0Pgxg0ZC
-	ujn2pWWCwGt154LOoYqKnMdnEDz5BrXqX13Ie/a+z+cWexzx2thxWSKH8R8YEnwHL3
-	2CXRUoBpnk/poMhMlEgVWm8XyOXJfW43rVWOzYZa9ZtRJekLyNtClmiKvM62rql88g
-	xQJZyfyJws0qIa0ObkyVQZgI6eCjv1lntiSEYyr08kNkkqjvXMa2b4gXBAqQKaql/V
-	7YzgCE+gztJ7Q==
-Received: from US01WEHTC3.internal.synopsys.com
-	(us01wehtc3.internal.synopsys.com [10.15.84.232])
-	by mailhost.synopsys.com (Postfix) with ESMTP id D4DCF3E98;
-	Tue, 20 Nov 2018 07:52:06 -0800 (PST)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
-	US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 20 Nov 2018 07:52:06 -0800
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id
-	14.03.0415.000; Tue, 20 Nov 2018 16:52:04 +0100
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+	Tue, 20 Nov 2018 15:52:20 +0000 (UTC)
+Received: by mail-yb1-f195.google.com with SMTP id u103-v6so917934ybi.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Nov 2018 07:52:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=PvEhYkNfdrQmw3igliSq2RApJzbS78EfwohZ9RFCi+U=;
+	b=jXCXhCAiiLZ+TWruFiH48LhfMC4tDygBjAYKKS7q354bg5Jmo2H4lpJZOZHhCmtSTb
+	MngWlH1pf+nE6m/LOARkV148C/JSUo7vfCJkSDzr2UtpKWG4aBOsEhuhmKPGOJTKCevz
+	TeV86rBBp1h1J4pg24EKpXXwW6Sd0mJnabzIM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=PvEhYkNfdrQmw3igliSq2RApJzbS78EfwohZ9RFCi+U=;
+	b=m2uYdl1kT7QCfF5mc5GBh3eXnbPe8ffl6PZ1uXJ5sA+KVhtP0dzpS0UoD8uwzfCRmN
+	qprH/SgTjEhfW2p9Xpe1xc6YVLaQzu4f2HgihvAWfsEonsAYfVjRxPLlQRHKYiKOiqb7
+	Z3hpQiXc7nnnfTmLhblUX7m8AlmdXnGizLXgeFJg1yxJBqEgebYwLW8BkSliUPh60A3L
+	M5wGp11np6O8PTtR26KPNZfd651etSgglO/MS8yqr6PGmtyXvIsmk6jvKw0ZRitICwL+
+	xdrEGzDgtlsbStcDljl3j2MV1OxDYEryO0QffLolN7Kbc3j4diXZ0OLwW/YHv5R1rw6g
+	uizQ==
+X-Gm-Message-State: AA+aEWbr7kJHQ1MB8i6WTbySHwU7qYpEGlnO/VyxDg+2Ybn6+OUihRdF
+	DVpouySfpiARBfRc8T6nFshbDQ==
+X-Google-Smtp-Source: AJdET5et5aOzjfWtvBMsGXw7ysIKlNfICzGzu3s/yTda/zSoIg8M8VDK0Zj0LrmmBk79VhwMNyB9fw==
+X-Received: by 2002:a25:5b54:: with SMTP id
+	p81-v6mr2245844ybb.339.1542729141166; 
+	Tue, 20 Nov 2018 07:52:21 -0800 (PST)
+Received: from bill-the-cat (cpe-65-184-133-47.ec.res.rr.com. [65.184.133.47])
+	by smtp.gmail.com with ESMTPSA id
+	l16sm4903335ywa.25.2018.11.20.07.52.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Nov 2018 07:52:20 -0800 (PST)
+Date: Tue, 20 Nov 2018 10:52:17 -0500
+From: Tom Rini <trini@konsulko.com>
 To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Thread-Topic: [OE-core] [PATCH v3] u-boot: Add mkenvimage tool
-Thread-Index: AQHUf+9Wm3A5W5AlCkCpLvFwL9IrOqVW/JmAgABpToCAAAPSgIABQISAgAATiACAAAA6AIAAAmIAgAARIQA=
-Date: Tue, 20 Nov 2018 15:52:03 +0000
-Message-ID: <4881796E12491D4BB15146FE0209CE6468197CB6@DE02WEMBXB.internal.synopsys.com>
+Message-ID: <20181120155217.GA11247@bill-the-cat>
 References: <20181119100443.2882-1-abrodkin@synopsys.com>
 	<1fd9e473-66ba-bbb8-87a9-32bb78e359e3@denx.de>
 	<20181119190835.GO11247@bill-the-cat>
@@ -40,120 +48,15 @@ References: <20181119100443.2882-1-abrodkin@synopsys.com>
 	<CAJTo0LY=m+Y8HXgypQ0Jk0N1=ke6eopXjEOeYWNENJ83CJO8ZQ@mail.gmail.com>
 	<CAJTo0Laecf+PnBPcg9qgHABvGwBEr+n7Sze3-OPp3OvbYBvJmw@mail.gmail.com>
 	<CAP9ODKqKDfJ11FLoXFwRZ3ttw4v3NODWEQdB7RkCAzHq7DWPiw@mail.gmail.com>
-In-Reply-To: <CAP9ODKqKDfJ11FLoXFwRZ3ttw4v3NODWEQdB7RkCAzHq7DWPiw@mail.gmail.com>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
-	=?utf-8?B?bk5jWVdKeWIyUnJhVzVjWVhCd1pHRjBZVnh5YjJGdGFXNW5YREE1WkRnME9X?=
-	=?utf-8?B?STJMVE15WkRNdE5HRTBNQzA0TldWbExUWmlPRFJpWVRJNVpUTTFZbHh0YzJk?=
-	=?utf-8?B?elhHMXpaeTB6TjJZMU1XTTFNQzFsWTJSakxURXhaVGd0WW1WaE15MDRPR0l4?=
-	=?utf-8?B?TVRGalpHVXlNVGRjWVcxbExYUmxjM1JjTXpkbU5URmpOVEl0WldOa1l5MHhN?=
-	=?utf-8?B?V1U0TFdKbFlUTXRPRGhpTVRFeFkyUmxNakUzWW05a2VTNTBlSFFpSUhONlBT?=
-	=?utf-8?B?SXhORFl3SWlCMFBTSXhNekU0TnpJd01qY3lNakEzTWpZM01UQWlJR2c5SW5W?=
-	=?utf-8?B?cVIwSjVLMDlTWTBsTFptYzFNUzlhVWxac2QxaERSSGwyVVQwaUlHbGtQU0lp?=
-	=?utf-8?B?SUdKc1BTSXdJaUJpYnowaU1TSWdZMms5SW1OQlFVRkJSVkpJVlRGU1UxSlZS?=
-	=?utf-8?B?azVEWjFWQlFVSlJTa0ZCUXpKVk1ETTJOa2xFVlVGWVNWcGlaMHhYUTJoak5H?=
-	=?utf-8?B?Tm9iSFZCZEZsTFJucG5UMEZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRklRVUZCUVVOclEwRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGRlFVRlJRVUpCUVVGQlVEaFFjR1ZuUVVGQlFVRkJRVUZCUVVGQlFVRkJT?=
-	=?utf-8?B?alJCUVVGQ2JVRkhhMEZpWjBKb1FVYzBRVmwzUW14QlJqaEJZMEZDYzBGSFJV?=
-	=?utf-8?B?RmlaMEoxUVVkclFXSm5RbTVCUmpoQlpIZENhRUZJVVVGYVVVSjVRVWN3UVZs?=
-	=?utf-8?B?UlFubEJSM05CUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVWQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlowRkJRVUZCUVc1blFVRkJSMWxCWW5kQ01VRkhORUZhUVVKNVFVaHJRVmgz?=
-	=?utf-8?B?UW5kQlIwVkJZMmRDTUVGSE5FRmFVVUo1UVVoTlFWaDNRbTVCUjFsQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRlJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRMEZCUVVGQlFVTmxRVUZCUVZwblFuWkJTRlZCWW1kQ2Ew?=
-	=?utf-8?B?RklTVUZsVVVKbVFVaEJRVmxSUW5sQlNGRkJZbWRDYkVGSVNVRmpkMEptUVVo?=
-	=?utf-8?B?TlFWbFJRblJCU0UxQlpGRkNkVUZIWTBGWWQwSnFRVWM0UVdKblFtMUJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZDUVVGQlFVRkJRVUZCUVVsQlFVRkJRVUZLTkVGQlFVSnRRVWM0?=
-	=?utf-8?B?UVdSUlFuVkJSMUZCWTJkQ05VRkdPRUZqUVVKb1FVaEpRV1JCUW5WQlIxVkJZ?=
-	=?utf-8?B?MmRDZWtGR09FRmpkMEpvUVVjd1FXTjNRakZCUnpSQlduZENaa0ZJU1VGYVVV?=
-	=?utf-8?B?SjZRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlJVRkJRVUZCUVVGQlFVRm5RVUZCUVVGQmJt?=
-	=?utf-8?B?ZEJRVUZIV1VGaWQwSXhRVWMwUVZwQlFubEJTR3RCV0hkQ2QwRkhSVUZqWjBJ?=
-	=?utf-8?B?d1FVYzBRVnBSUW5sQlNFMUJXSGRDZWtGSE1FRmhVVUpxUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVkZCUVVGQlFVRkJRVUZE?=
-	=?utf-8?B?UVVGQlFVRkJRMlZCUVVGQldtZENka0ZJVlVGaVowSnJRVWhKUVdWUlFtWkJT?=
-	=?utf-8?B?RUZCV1ZGQ2VVRklVVUZpWjBKc1FVaEpRV04zUW1aQlNFMUJaRUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVKQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlNVRkJRVUZCUVVvMFFVRkJRbTFCUnpoQlpGRkNkVUZIVVVG?=
-	=?utf-8?B?alowSTFRVVk0UVdOQlFtaEJTRWxCWkVGQ2RVRkhWVUZqWjBKNlFVWTRRV1JC?=
-	=?utf-8?B?UW5wQlJ6QkJXWGRCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkZRVUZCUVVGQlFVRkJRV2RCUVVGQlFVRnVaMEZCUVVkWlFXSjNR?=
-	=?utf-8?B?akZCUnpSQldrRkNlVUZJYTBGWWQwSjNRVWRGUVdOblFqQkJSelJCV2xGQ2VV?=
-	=?utf-8?B?RklUVUZZZDBJeFFVY3dRVmwzUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCVVVGQlFVRkJRVUZCUVVOQlFVRkJRVUZEWlVG?=
-	=?utf-8?B?QlFVRmFkMEl3UVVoTlFWaDNRbmRCU0VsQlluZENhMEZJVlVGWmQwSXdRVVk0?=
-	=?utf-8?B?UVdSQlFubEJSMFZCWVZGQ2RVRkhhMEZpWjBKdVFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFrRkJRVUZCUVVGQlFVRkpR?=
-	=?utf-8?B?VUZCUVVGQlNqUkJRVUZDZWtGSFJVRmlRVUpzUVVoTlFWaDNRbWhCUjAxQldY?=
-	=?utf-8?B?ZENka0ZJVlVGaVowSXdRVVk0UVdOQlFuTkJSMFZCWW1kQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVVZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCWjBGQlFVRkJRVzVuUVVGQlNFMUJXVkZDYzBGSFZVRmpkMEpt?=
-	=?utf-8?B?UVVoRlFXUlJRblpCU0ZGQldsRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGUlFVRkJRVUZCUVVGQlEwRkJRVUZCUVVObFFVRkJRV04zUW5WQlNF?=
-	=?utf-8?B?RkJZM2RDWmtGSGQwRmhVVUpxUVVkVlFXSm5RbnBCUjFWQldIZENNRUZIVlVG?=
-	=?utf-8?B?alowSjBRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkNRVUZCUVVGQlFVRkJRVWxCUVVGQlFVRktORUZC?=
-	=?utf-8?B?UVVKNlFVYzBRV05CUW5wQlJqaEJZa0ZDY0VGSFRVRmFVVUoxUVVoTlFWcFJR?=
-	=?utf-8?B?bVpCU0ZGQldsRkNlVUZITUVGWWQwSjZRVWhSUVdSUlFtdEJSMVZCWW1kQ01F?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUlVGQlFVRkJRVUZCUVVGblFV?=
-	=?utf-8?B?RkJRVUZCYm1kQlFVRklXVUZhZDBKbVFVZHpRVnBSUWpWQlNHTkJZbmRDZVVG?=
-	=?utf-8?B?SFVVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFWRkJRVUZC?=
-	=?utf-8?Q?QUFBQUFDQUFBQUFBQT0iLz48L21ldGE+?=
-x-dg-rorf: 
-x-originating-ip: [10.225.15.38]
 MIME-Version: 1.0
-Cc: Marek Vasut <marex@denx.de>, Tom Rini <trini@konsulko.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
+In-Reply-To: <CAP9ODKqKDfJ11FLoXFwRZ3ttw4v3NODWEQdB7RkCAzHq7DWPiw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>,
 	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>,
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+	linux-snps-arc@lists.infradead.org
 Subject: Re: [PATCH v3] u-boot: Add mkenvimage tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -167,34 +70,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2018 15:52:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 20 Nov 2018 15:52:20 -0000
+X-Groupsio-MsgNum: 118403
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6y91TzBqz7AtkeNG"
+Content-Disposition: inline
 
-SGkgT3RhdmlvLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IE90YXZp
-byBTYWx2YWRvciBbbWFpbHRvOm90YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyXQ0KPiBT
-ZW50OiBUdWVzZGF5LCBOb3ZlbWJlciAyMCwgMjAxOCA2OjQ5IFBNDQo+IFRvOiBCdXJ0b24sIFJv
-c3MgPHJvc3MuYnVydG9uQGludGVsLmNvbT4NCj4gQ2M6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0
-ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgTWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+OyBU
-b20gUmluaSA8dHJpbmlAa29uc3Vsa28uY29tPjsgT3RhdmlvDQo+IFNhbHZhZG9yIDxvdGF2aW9A
-b3NzeXN0ZW1zLmNvbS5icj47IEFsZXhleSBCcm9ka2luIDxhbGV4ZXkuYnJvZGtpbkBzeW5vcHN5
-cy5jb20+OyBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZQ0KPiBsYXll
-ciA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz47IGxpbnV4LXNucHMt
-YXJjQGxpc3RzLmluZnJhZGVhZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0gg
-djNdIHUtYm9vdDogQWRkIG1rZW52aW1hZ2UgdG9vbA0KPiANCj4gT24gVHVlLCBOb3YgMjAsIDIw
-MTggYXQgMTo0MCBQTSBCdXJ0b24sIFJvc3MgPHJvc3MuYnVydG9uQGludGVsLmNvbT4gd3JvdGU6
-DQo+ID4NCj4gPiAoaGl0IHNlbnQgdG9vIGVhcmx5KQ0KPiA+DQo+ID4gT2YgY291cnNlIGhvdyBi
-aWcgYXJlIHRoZXNlIHRvb2xzLCBhbmQgaXMgaXQgcmVhbGx5IHVzZWZ1bCBzcGxpdHRpbmcNCj4g
-PiB0aGVtIHVwPyAgSWYgd2UncmUgdGFsa2luZyBhIDEwayBiaW5hcnksIGlzIHB1dHRpbmcgdGhl
-bSBpbiBzZXBhcmF0ZQ0KPiA+IHBhY2thZ2VzIHdvcnRoIHRoZSBjb21wbGljYXRpb24/DQo+IA0K
-PiBJIHRoaW5rIGl0IG1ha2VzIHNlbnNlIHRvIHNwbGl0OyB3ZSBhcmUgYnVpbGRpbmcgYW4gZW1i
-ZWRkZWQgc3lzdGVtDQo+IGJ1aWxkIHN5c3RlbSBhbmQgZ3JhbnVsYXIgaW5zdGFsbGF0aW9uIGlz
-IGEgbXVzdCBoYXZlLiBVc2luZyBQTiB0bw0KPiBpbnN0YWxsIGFsbCB0b29scyBpcyBhIHdpbiB3
-aW4gY29tYmluYXRpb24uDQoNClBsZWFzZSBub3RlIHdlJ3JlIGRpc2N1c3NpbmcgX2hvc3RfIHRv
-b2xzIGhlcmUhDQpTbyBkbyB3ZSByZWFsbHkgY2FyZSBpZiB0aGVyZSdzIG9uZSBtb3JlIHV0aWxp
-dHkgaW5zdGFsbGVkIG9uIGRldmVsb3BtZW50IGhvc3Q/DQoNCkFuZCBpZiBzb21lb25lIGluc3Rh
-bGxzIHRob3NlIFUtQm9vdCBob3N0IHV0aWxpdGllcyBvbiB0aGUgdGFyZ2V0IHRoZW4gbW9zdCBw
-cm9iYWJseQ0KdGhpcyB0YXJnZXQgaXMgbm90IHN1cGVyIGVtYmVkZGVkIGFueSBsb25nZXIuDQoN
-Ci1BbGV4ZXkNCg==
+--6y91TzBqz7AtkeNG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Nov 20, 2018 at 01:48:40PM -0200, Otavio Salvador wrote:
+> On Tue, Nov 20, 2018 at 1:40 PM Burton, Ross <ross.burton@intel.com> wrot=
+e:
+> >
+> > (hit sent too early)
+> >
+> > Of course how big are these tools, and is it really useful splitting
+> > them up?  If we're talking a 10k binary, is putting them in separate
+> > packages worth the complication?
+>=20
+> I think it makes sense to split; we are building an embedded system
+> build system and granular installation is a must have. Using PN to
+> install all tools is a win win combination.
+
+Agreed.  The common use cases won't need all of the possible tools so
+lets not grow sizes we don't need to grow.
+
+--=20
+Tom
+
+--6y91TzBqz7AtkeNG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJb9C2xAAoJEIf59jXTHXZSHhsP/ia5mfo/Sqw0K/P+LreNspXA
+GIUbh72neIbJRGz4anRXS21klG324SvdGlEa73w6gUPEOZW2sejeRfS4GMYpJe/s
+lrm5j6ZS4AKvLdp77a00Gp6rQX8smVSGQSGysl5GBJbixOpb3WeSIhpCHh+sKrOh
+Z6M3E/+N5Rm91/jfXdsGj9sTe9oho8Vezh5By76g1ua+/NrF4OGc/XIsAoyOt7cP
+Upb1gNeLsUrMMQDa90YUWnEX+7Yh805spqBakCsPrqpf7/M/cfzEXzhLip2UIjtL
+Cv+AXwM0iM9gO/OH51SmIwYT9KCzWsnd5EXZ6CQb0cYJveDa9FrwC0ofNS8rxh1K
+mnXPP9IKZvB90PRUweqxZ+nxAnx7MHr6KV5cAg7h4vPSbiPt2/rY5RjPLAX/AWGV
+mc6nnt7QNNlURD28eIyL9E5wlUkE7mTuaTuMiHxDgDcaQ8IYqmz8Qj/ss7pXVxmo
+pmpN2apdlc2/cpDJ9bHqqNC7cXZ9fenbE86zOS3qhLx2KlxF0dHd110GdszFPfuW
+yWOkY7WWKxCb+glgoYrPFEPL6k6q6i/3byqZIVapVw1bSrCy6Po5kmjsgstXBUvw
+TL0TFzdRwuWBvMfUYm8dJILzHOgXkzNtHvPta+OtwZgXJS9Mh38J5DofuqxCOkSa
+GDZlTHbQEkPc/v5+lPp8
+=m8Fu
+-----END PGP SIGNATURE-----
+
+--6y91TzBqz7AtkeNG--
