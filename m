@@ -1,25 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AC976C4E4
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8ABC86C4FC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 05:35:00 +0000 (UTC)
+	Wed, 21 Nov 2018 05:35:01 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAL5Z18D019724
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAL5Z25U025424
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 21:35:01 -0800 (PST)
+	Tue, 20 Nov 2018 21:35:03 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 20 Nov 2018 21:35:01 -0800
+	14.3.408.0; Tue, 20 Nov 2018 21:35:02 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2018 13:41:06 +0800
-Message-ID: <25fdc26e588c0002d7db2955b729784dc4bc3bd2.1542778410.git.Qi.Chen@windriver.com>
+Date: Wed, 21 Nov 2018 13:41:07 +0800
+Message-ID: <dc2278cac296d5ad9af04e0de849d0f9e0a0884e.1542778410.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1542778410.git.Qi.Chen@windriver.com>
 References: <cover.1542778410.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/8] busybox: use example.org instead of google.com in wget test case
+Subject: [PATCH 6/8] busybox: remove three hostname test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,98 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 05:35:00 -0000
+X-List-Received-Date: Wed, 21 Nov 2018 05:35:02 -0000
 Content-Type: text/plain
 
-Use example.org to ensure it's always reachible.
+These three test case are removed because of two reasons.
+1) net-tools' hostname have different behaviour regarding some options
+   So when net-tools is installed, test cases may fail.
+   e.g.
+   test x$(hostname -i) = x$(busybox hostname -i)
+
+2) hostname may set to some value, e.g. qemux86-64, which is not an entry in /etc/hosts
+   This results in lookup failure when using `hostname -f' as there's no entry in /etc/hosts.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- ...e-use-www.example.org-for-wget-test-cases.patch | 62 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.29.2.bb        |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-use-www.example.org-for-wget-test-cases.patch
+ meta/recipes-core/busybox/busybox.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-testsuite-use-www.example.org-for-wget-test-cases.patch b/meta/recipes-core/busybox/busybox/0001-testsuite-use-www.example.org-for-wget-test-cases.patch
-new file mode 100644
-index 0000000..7ba0f77
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-testsuite-use-www.example.org-for-wget-test-cases.patch
-@@ -0,0 +1,62 @@
-+From 03acf460990dfcf6e52b298301b348b9504460a8 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Tue, 13 Nov 2018 13:51:42 +0800
-+Subject: [PATCH] testsuite: use www.example.org for wget test cases
-+
-+Use example.org instead of google.com to make sure it's
-+always reachible.
-+
-+Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2018-November/086835.html]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ testsuite/wget/wget--O-overrides--P        | 2 +-
-+ testsuite/wget/wget-handles-empty-path     | 2 +-
-+ testsuite/wget/wget-retrieves-google-index | 2 +-
-+ testsuite/wget/wget-supports--P            | 2 +-
-+ 4 files changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/testsuite/wget/wget--O-overrides--P b/testsuite/wget/wget--O-overrides--P
-+index 40a3a96..490d743 100644
-+--- a/testsuite/wget/wget--O-overrides--P
-++++ b/testsuite/wget/wget--O-overrides--P
-+@@ -1,5 +1,5 @@
-+ test x"$SKIP_INTERNET_TESTS" != x"" && exit
-+ 
-+ mkdir foo
-+-busybox wget -q -O index.html -P foo http://www.google.com/
-++busybox wget -q -O index.html -P foo http://www.example.org/
-+ test -s index.html
-+diff --git a/testsuite/wget/wget-handles-empty-path b/testsuite/wget/wget-handles-empty-path
-+index 01d60bd..1802db6 100644
-+--- a/testsuite/wget/wget-handles-empty-path
-++++ b/testsuite/wget/wget-handles-empty-path
-+@@ -1,3 +1,3 @@
-+ test x"$SKIP_INTERNET_TESTS" != x"" && exit
-+ 
-+-busybox wget http://www.google.com
-++busybox wget http://www.example.org
-+diff --git a/testsuite/wget/wget-retrieves-google-index b/testsuite/wget/wget-retrieves-google-index
-+index f9dbb8b..fc801d4 100644
-+--- a/testsuite/wget/wget-retrieves-google-index
-++++ b/testsuite/wget/wget-retrieves-google-index
-+@@ -1,4 +1,4 @@
-+ test x"$SKIP_INTERNET_TESTS" != x"" && exit
-+ 
-+-busybox wget -q -O foo http://www.google.com/
-++busybox wget -q -O foo http://www.example.org/
-+ test -s foo
-+diff --git a/testsuite/wget/wget-supports--P b/testsuite/wget/wget-supports--P
-+index bfe4ac4..4ff2fe0 100644
-+--- a/testsuite/wget/wget-supports--P
-++++ b/testsuite/wget/wget-supports--P
-+@@ -1,5 +1,5 @@
-+ test x"$SKIP_INTERNET_TESTS" != x"" && exit
-+ 
-+ mkdir foo
-+-busybox wget -q -P foo http://www.google.com/
-++busybox wget -q -P foo http://www.example.org/
-+ test -s foo/index.html
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.29.2.bb b/meta/recipes-core/busybox/busybox_1.29.2.bb
-index a63fa82..98767f0 100644
---- a/meta/recipes-core/busybox/busybox_1.29.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.29.2.bb
-@@ -42,6 +42,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://rcK \
-            file://makefile-libbb-race.patch \
-            file://0001-testsuite-check-uudecode-before-using-it.patch \
-+           file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index b45d2b6..cc7246f 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -352,6 +352,12 @@ do_install_ptest () {
+ 	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
+ 	cp ${B}/.config      ${D}${PTEST_PATH}/
+ 	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
++	# Remove some hostname test cases as they may fail because of two reasons
++	# 1) net-tools' hostname have different behaviour regarding some options
++	# 2) hostname may set to some value, e.g. qemux86-64, which is not an entry in /etc/hosts
++	rm ${D}${PTEST_PATH}/testsuite/hostname/hostname-i-works
++	rm ${D}${PTEST_PATH}/testsuite/hostname/hostname-d-works
++	rm ${D}${PTEST_PATH}/testsuite/hostname/hostname-s-works
+ }
  
+ inherit update-alternatives
 -- 
 1.9.1
 
