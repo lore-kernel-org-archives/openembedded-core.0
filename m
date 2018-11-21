@@ -1,26 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 922B86C4BA
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AD3AF6C4F0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 05:35:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAL5ZEt3007857
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 21:35:44 -0800
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 20 Nov 2018 21:35:25 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
+	Wed, 21 Nov 2018 06:08:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAL67wES022549
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 20 Nov 2018 22:07:58 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 20 Nov 2018 22:07:57 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2018 13:41:09 +0800
-Message-ID: <1369c9b6d4dade16e685be2cf29e485017db6d38.1542778410.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1542778410.git.Qi.Chen@windriver.com>
-References: <cover.1542778410.git.Qi.Chen@windriver.com>
+Date: Wed, 21 Nov 2018 14:24:35 +0800
+Message-ID: <bd77663c215d2ed20cb3765b95e62b9b14330896.1542781427.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1542781427.git.liezhi.yang@windriver.com>
+References: <cover.1542781427.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 8/8] busybox: check CONFIG_DESKTOP before using 'od -t' in test case
+Cc: c.andersen@kostal.com
+Subject: [PATCH 1/1] uboot-sign.bbclass: fix signature and deployment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,121 +32,254 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 05:35:53 -0000
+X-List-Received-Date: Wed, 21 Nov 2018 06:08:32 -0000
 Content-Type: text/plain
 
-The '-t' option support for 'od' is enabled by CONFIG_DESKTOP.
-So check it before using it in test cases.
+Fixed:
+MACHINE = "beaglebone-yocto"
+KERNEL_CLASSES += "kernel-fitimage"
+KERNEL_IMAGETYPE_beaglebone-yocto = "fitImage"
+UBOOT_MACHINE_beaglebone-yocto = "am335x_boneblack_vboot_config"
+UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
+UBOOT_SIGN_KEYDIR = "${TOPDIR}/conf"
+UBOOT_SIGN_KEYNAME = "dev"
+UBOOT_SIGN_ENABLE = "1"
+IMAGE_INSTALL_remove = "kernel-image-zimage"
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+$ cd conf
+$ openssl genrsa -F4 -out dev.key 2048
+$ openssl req -batch -new -x509 -key dev.key -out dev.crt
+$ cd ../
+$ bitbake u-boot linux-yocto
+$ grep signature tmp/deploy/images/beaglebone-yocto/*.dtb
+Binary file tmp/deploy/images/beaglebone-yocto/u-boot-beaglebone-yocto-2018.07-r0.dtb matches
+Binary file tmp/deploy/images/beaglebone-yocto/u-boot-beaglebone-yocto.dtb matches
+Binary file tmp/deploy/images/beaglebone-yocto/u-boot.dtb matches
+
+And there would be no signature info when rebuild from sstate:
+$ bitbake u-boot linux-yocto -cclean
+$ bitbake u-boot linux-yocto
+$ grep signature tmp/deploy/images/beaglebone-yocto/*.dtb
+No result
+
+This s because kernel directly edit ${DEPLOY_DIR_IMAGE}/u-boot.dtb, (Note, it
+is global ${DEPLOY_DIR_IMAGE}, not recipe's DEPLOYDIR), so that the modified
+info is not in sstate, and would be lost when rebuild from sstate.
+
+There are other problems in previouse code:
+- The u-boot.dtb is provided by u-boot, but edited by kernel during signing, so
+  it should be deployed by kernel rather than u-boot.
+
+- The u-boot.do_concat_dtb directly install files to global ${DEPLOY_DIR_IMAGE},
+  this is incorrect, the ${DEPLOY_DIR_IMAGE} should be installed by do_deploy.
+
+- It seems that it assumes do_deploy depends on do_install according the comments,
+  but they have no relationships:
+  # do_concat_dtb is scheduled _before_ do_install as it overwrite the
+  # u-boot.bin in both DEPLOYDIR and DEPLOY_IMAGE_DIR.
+
+- The do_concat_dtb should be run after do_compile, but it doesn't have this
+  dependency.
+
+Make u-boot install u-boot.dtb to ${datadir}, kernel copies u-boot.dtb from
+${STAGING_DATADIR} to ${B} and deploy it can fix the problem.
+
+[YOCTO #12112]
+
+Reported-by: Christian Andersen <c.andersen@kostal.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...te-check-CONFIG_DESKTOP-before-using-od-t.patch | 83 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.29.2.bb        |  1 +
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-check-CONFIG_DESKTOP-before-using-od-t.patch
+ meta/classes/kernel-fitimage.bbclass | 17 ++++++-
+ meta/classes/uboot-sign.bbclass      | 95 ++++++++++++++++++++----------------
+ meta/recipes-bsp/u-boot/u-boot.inc   |  2 +-
+ 3 files changed, 69 insertions(+), 45 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-testsuite-check-CONFIG_DESKTOP-before-using-od-t.patch b/meta/recipes-core/busybox/busybox/0001-testsuite-check-CONFIG_DESKTOP-before-using-od-t.patch
-new file mode 100644
-index 0000000..9b96eee
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-testsuite-check-CONFIG_DESKTOP-before-using-od-t.patch
-@@ -0,0 +1,83 @@
-+From b09db631e77c63ebe733c69b00108f043f1f1d85 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Wed, 21 Nov 2018 10:00:29 +0800
-+Subject: [PATCH] testsuite: check CONFIG_DESKTOP before using 'od -t'
-+
-+The '-t' option for od is enabled by CONFIG_DESKTOP. So
-+check this config before using 'od -t' in test cases.
-+
-+Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2018-November/086895.html]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ testsuite/echo/echo-prints-dash        | 1 +
-+ testsuite/echo/echo-prints-non-opts    | 1 +
-+ testsuite/echo/echo-prints-slash-zero  | 2 +-
-+ testsuite/echo/echo-prints-slash_00041 | 2 +-
-+ testsuite/echo/echo-prints-slash_0041  | 2 +-
-+ testsuite/echo/echo-prints-slash_041   | 2 +-
-+ testsuite/echo/echo-prints-slash_41    | 2 +-
-+ 7 files changed, 7 insertions(+), 5 deletions(-)
-+
-+diff --git a/testsuite/echo/echo-prints-dash b/testsuite/echo/echo-prints-dash
-+index ddcdbad..f1f31a0 100644
-+--- a/testsuite/echo/echo-prints-dash
-++++ b/testsuite/echo/echo-prints-dash
-+@@ -1 +1,2 @@
-++# FEATURE: CONFIG_DESKTOP
-+ test "`busybox echo - | od -t x1 | head -n 1`" = "0000000 2d 0a"
-+diff --git a/testsuite/echo/echo-prints-non-opts b/testsuite/echo/echo-prints-non-opts
-+index c7d1e20..4e642a1 100644
-+--- a/testsuite/echo/echo-prints-non-opts
-++++ b/testsuite/echo/echo-prints-non-opts
-+@@ -1 +1,2 @@
-++# FEATURE: CONFIG_DESKTOP
-+ test "`busybox echo -neEZ | od -t x1 | head -n 1`" = "0000000 2d 6e 65 45 5a 0a"
-+diff --git a/testsuite/echo/echo-prints-slash-zero b/testsuite/echo/echo-prints-slash-zero
-+index d97ed8e..948f899 100644
-+--- a/testsuite/echo/echo-prints-slash-zero
-++++ b/testsuite/echo/echo-prints-slash-zero
-+@@ -1,3 +1,3 @@
-+-# FEATURE: CONFIG_FEATURE_FANCY_ECHO
-++# FEATURE: CONFIG_FEATURE_FANCY_ECHO CONFIG_DESKTOP
-+ 
-+ test "`busybox echo -e -n 'msg\n\0' | od -t x1 | head -n 1`" = "0000000 6d 73 67 0a 00"
-+diff --git a/testsuite/echo/echo-prints-slash_00041 b/testsuite/echo/echo-prints-slash_00041
-+index 9cffabd..7ea217b 100644
-+--- a/testsuite/echo/echo-prints-slash_00041
-++++ b/testsuite/echo/echo-prints-slash_00041
-+@@ -1,3 +1,3 @@
-+-# FEATURE: CONFIG_FEATURE_FANCY_ECHO
-++# FEATURE: CONFIG_FEATURE_FANCY_ECHO CONFIG_DESKTOP
-+ 
-+ test "`busybox echo -ne '\00041z' | od -t x1 | head -n 1`" = "0000000 04 31 7a"
-+diff --git a/testsuite/echo/echo-prints-slash_0041 b/testsuite/echo/echo-prints-slash_0041
-+index b07429d..941faca 100644
-+--- a/testsuite/echo/echo-prints-slash_0041
-++++ b/testsuite/echo/echo-prints-slash_0041
-+@@ -1,3 +1,3 @@
-+-# FEATURE: CONFIG_FEATURE_FANCY_ECHO
-++# FEATURE: CONFIG_FEATURE_FANCY_ECHO CONFIG_DESKTOP
-+ 
-+ test "`busybox echo -ne '\0041z' | od -t x1 | head -n 1`" = "0000000 21 7a"
-+diff --git a/testsuite/echo/echo-prints-slash_041 b/testsuite/echo/echo-prints-slash_041
-+index 1d70cec..60cbfca 100644
-+--- a/testsuite/echo/echo-prints-slash_041
-++++ b/testsuite/echo/echo-prints-slash_041
-+@@ -1,3 +1,3 @@
-+-# FEATURE: CONFIG_FEATURE_FANCY_ECHO
-++# FEATURE: CONFIG_FEATURE_FANCY_ECHO CONFIG_DESKTOP
-+ 
-+ test "`busybox echo -ne '\041z' | od -t x1 | head -n 1`" = "0000000 21 7a"
-+diff --git a/testsuite/echo/echo-prints-slash_41 b/testsuite/echo/echo-prints-slash_41
-+index 6d8999b..afd7c36 100644
-+--- a/testsuite/echo/echo-prints-slash_41
-++++ b/testsuite/echo/echo-prints-slash_41
-+@@ -1,3 +1,3 @@
-+-# FEATURE: CONFIG_FEATURE_FANCY_ECHO
-++# FEATURE: CONFIG_FEATURE_FANCY_ECHO CONFIG_DESKTOP
-+ 
-+ test "`busybox echo -ne '\41z' | od -t x1 | head -n 1`" = "0000000 21 7a"
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.29.2.bb b/meta/recipes-core/busybox/busybox_1.29.2.bb
-index f38db2a..66049bd 100644
---- a/meta/recipes-core/busybox/busybox_1.29.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.29.2.bb
-@@ -44,6 +44,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-testsuite-check-uudecode-before-using-it.patch \
-            file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
-            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
-+           file://0001-testsuite-check-CONFIG_DESKTOP-before-using-od-t.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 4c4fd99..7c5bcd0 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -35,7 +35,7 @@ python __anonymous () {
+         # the fitImage:
+         if d.getVar('UBOOT_SIGN_ENABLE') == "1":
+             uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'
+-            d.appendVarFlag('do_assemble_fitimage', 'depends', ' %s:do_deploy' % uboot_pn)
++            d.appendVarFlag('do_assemble_fitimage', 'depends', ' %s:do_populate_sysroot' % uboot_pn)
+ }
  
+ # Options for the device tree compiler passed to mkimage '-D' feature:
+@@ -456,10 +456,17 @@ fitimage_assemble() {
+ 	# Step 7: Sign the image and add public key to U-Boot dtb
+ 	#
+ 	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
++		add_key_to_u_boot=""
++		if [ -n "${UBOOT_DTB_BINARY}" ]; then
++			# The u-boot.dtb is a symlink to UBOOT_DTB_IMAGE, so we need copy
++			# both of them, and don't dereference the symlink.
++			cp -P ${STAGING_DATADIR}/u-boot*.dtb ${B}
++			add_key_to_u_boot="-K ${B}/${UBOOT_DTB_BINARY}"
++		fi
+ 		uboot-mkimage \
+ 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+ 			-F -k "${UBOOT_SIGN_KEYDIR}" \
+-			${@'-K "${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_BINARY}"' if len('${UBOOT_DTB_BINARY}') else ''} \
++			$add_key_to_u_boot \
+ 			-r arch/${ARCH}/boot/${2}
+ 	fi
+ }
+@@ -505,5 +512,11 @@ kernel_do_deploy_append() {
+ 			install -m 0644 ${B}/arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} ${DEPLOYDIR}/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin
+ 			ln -snf fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin ${DEPLOYDIR}/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}
+ 		fi
++		if [ "${UBOOT_SIGN_ENABLE}" = "1" -a -n "${UBOOT_DTB_BINARY}" ] ; then
++			# UBOOT_DTB_IMAGE is a realfile, but we can't use
++			# ${UBOOT_DTB_IMAGE} since it contains ${PV} which is aimed
++			# for u-boot, but we are in kernel env now.
++			install -m 0644 ${B}/u-boot-${MACHINE}*.dtb ${DEPLOYDIR}/
++		fi
+ 	fi
+ }
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index 8ee904e..0e5e1b1 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -19,11 +19,15 @@
+ # The tasks sequence is set as below, using DEPLOY_IMAGE_DIR as common place to
+ # treat the device tree blob:
+ #
+-#   u-boot:do_deploy_dtb
+-#   u-boot:do_deploy
+-#   virtual/kernel:do_assemble_fitimage
+-#   u-boot:do_concat_dtb
+-#   u-boot:do_install
++# * u-boot:do_install_append
++#   Install UBOOT_DTB_BINARY to datadir, so that kernel can use it for
++#   signing, and kernel will deploy UBOOT_DTB_BINARY after signs it.
++#
++# * virtual/kernel:do_assemble_fitimage
++#   Sign the image
++#
++# * u-boot:do_deploy[postfuncs]
++#   Deploy files like UBOOT_DTB_IMAGE, UBOOT_DTB_SYMLINK and others.
+ #
+ # For more details on signature process, please refer to U-Boot documentation.
+ 
+@@ -38,58 +42,65 @@ UBOOT_NODTB_IMAGE ?= "u-boot-nodtb-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
+ UBOOT_NODTB_BINARY ?= "u-boot-nodtb.${UBOOT_SUFFIX}"
+ UBOOT_NODTB_SYMLINK ?= "u-boot-nodtb-${MACHINE}.${UBOOT_SUFFIX}"
+ 
+-#
+-# Following is relevant only for u-boot recipes:
+-#
++# Functions in this bbclass is for u-boot only
++UBOOT_PN = "${@d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'}"
+ 
+-do_deploy_dtb () {
+-	mkdir -p ${DEPLOYDIR}
+-	cd ${DEPLOYDIR}
++concat_dtb() {
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
++		mkdir -p ${DEPLOYDIR}
++		if [ -e ${B}/${UBOOT_DTB_BINARY} ]; then
++			ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
++			ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_SYMLINK}
++		fi
+ 
+-	if [ -f ${B}/${UBOOT_DTB_BINARY} ]; then
+-		install ${B}/${UBOOT_DTB_BINARY} ${DEPLOYDIR}/${UBOOT_DTB_IMAGE}
+-		rm -f ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SYMLINK}
+-		ln -sf ${UBOOT_DTB_IMAGE} ${UBOOT_DTB_SYMLINK}
+-		ln -sf ${UBOOT_DTB_IMAGE} ${UBOOT_DTB_BINARY}
+-	fi
+-	if [ -f ${B}/${UBOOT_NODTB_BINARY} ]; then
+-		install ${B}/${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
+-		rm -f ${UBOOT_NODTB_BINARY} ${UBOOT_NODTB_SYMLINK}
+-		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
+-		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
+-	fi
+-}
++		if [ -f ${B}/${UBOOT_NODTB_BINARY} ]; then
++            install ${B}/${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
++            ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
++            ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
++		fi
+ 
+-do_concat_dtb () {
+-	# Concatenate U-Boot w/o DTB & DTB with public key
+-	# (cf. kernel-fitimage.bbclass for more details)
+-	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ]; then
++		# Concatenate U-Boot w/o DTB & DTB with public key
++		# (cf. kernel-fitimage.bbclass for more details)
++		deployed_uboot_dtb_binary='${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE}'
+ 		if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
+-			[ -e "${DEPLOYDIR}/${UBOOT_DTB_IMAGE}" ]; then
++			[ -e "$deployed_uboot_dtb_binary" ]; then
+ 			cd ${B}
+-			oe_runmake EXT_DTB=${DEPLOYDIR}/${UBOOT_DTB_IMAGE}
++			oe_runmake EXT_DTB=$deployed_uboot_dtb_binary
+ 			install ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+-			install ${B}/${UBOOT_BINARY} ${DEPLOY_DIR_IMAGE}/${UBOOT_IMAGE}
+-		elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "${DEPLOYDIR}/${UBOOT_DTB_IMAGE}" ]; then
++		elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
+ 			cd ${DEPLOYDIR}
+-			cat ${UBOOT_NODTB_IMAGE} ${UBOOT_DTB_IMAGE} | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
++			cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
+ 		else
+ 			bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
+ 		fi
+ 	fi
+ }
+ 
++# Install UBOOT_DTB_BINARY to datadir, so that kernel can use it for
++# signing, and kernel will deploy UBOOT_DTB_BINARY after signs it.
++do_install_append() {
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
++		if [ -f ${B}/${UBOOT_DTB_BINARY} ]; then
++			install -d ${D}${datadir}
++			# UBOOT_DTB_BINARY is a symlink to UBOOT_DTB_IMAGE, so we
++			# need both of them.
++			install ${B}/${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
++			ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
++		else
++			bbwarn "${B}/${UBOOT_DTB_BINARY} not found"
++		fi
++	fi
++}
++
+ python () {
+-	uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'
+-	if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') == uboot_pn:
++	if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') == d.getVar('UBOOT_PN'):
+ 		kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
+ 
+-		# u-boot.dtb and u-boot-nodtb.bin are deployed _before_ do_deploy
+-		# Thus, do_deploy_setscene will also populate them in DEPLOY_IMAGE_DIR
+-		bb.build.addtask('do_deploy_dtb', 'do_deploy', 'do_compile', d)
++		# Make "bitbake u-boot -cdeploy" deploys the signed u-boot.dtb
++		d.appendVarFlag('do_deploy', 'depends', ' %s:do_deploy' % kernel_pn)
+ 
+-		# do_concat_dtb is scheduled _before_ do_install as it overwrite the
+-		# u-boot.bin in both DEPLOYDIR and DEPLOY_IMAGE_DIR.
+-		bb.build.addtask('do_concat_dtb', 'do_install', None, d)
+-		d.appendVarFlag('do_concat_dtb', 'depends', ' %s:do_assemble_fitimage' % kernel_pn)
++		# kernerl's do_deploy is a litle special, so we can't use
++		# do_deploy_append, otherwise it would override
++		# kernel_do_deploy.
++		d.appendVarFlag('do_deploy', 'prefuncs', ' concat_dtb')
+ }
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 48fbc57..bbdbc25 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -201,7 +201,7 @@ do_install () {
+ 
+ }
+ 
+-FILES_${PN} = "/boot ${sysconfdir}"
++FILES_${PN} = "/boot ${sysconfdir} ${datadir}"
+ 
+ do_deploy () {
+     if [ -n "${UBOOT_CONFIG}" ]
 -- 
-1.9.1
+2.7.4
 
 
