@@ -1,26 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DFBF6C4BA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AC976C4E4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 05:34:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAL5YQCY007825
+	Wed, 21 Nov 2018 05:35:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAL5Z18D019724
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 21:34:36 -0800
+	Tue, 20 Nov 2018 21:35:01 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 20 Nov 2018 21:34:15 -0800
+	14.3.408.0; Tue, 20 Nov 2018 21:35:01 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2018 13:41:02 +0800
-Message-ID: <b65717da65efcd35fadf29c203a389f907e56d0e.1542778410.git.Qi.Chen@windriver.com>
+Date: Wed, 21 Nov 2018 13:41:06 +0800
+Message-ID: <25fdc26e588c0002d7db2955b729784dc4bc3bd2.1542778410.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1542778410.git.Qi.Chen@windriver.com>
 References: <cover.1542778410.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/8] busybox: enable bzip2 by default
+Subject: [PATCH 5/8] busybox: use example.org instead of google.com in wget test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +32,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 05:34:45 -0000
+X-List-Received-Date: Wed, 21 Nov 2018 05:35:00 -0000
 Content-Type: text/plain
 
-bunzip2 is enabled by default, but bzip2 is not. This is kind of
-strange, and it also causes busybox's ptest failure regarding
-bunzip2, as bunzip2's test case needs bzip2 command.
+Use example.org to ensure it's always reachible.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/busybox/busybox/defconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...e-use-www.example.org-for-wget-test-cases.patch | 62 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.29.2.bb        |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-use-www.example.org-for-wget-test-cases.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index 32213c0..0c40990 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -150,7 +150,7 @@ CONFIG_LZCAT=y
- # CONFIG_UNXZ is not set
- CONFIG_XZCAT=y
- # CONFIG_XZ is not set
--# CONFIG_BZIP2 is not set
-+CONFIG_BZIP2=y
- CONFIG_FEATURE_BZIP2_DECOMPRESS=y
- CONFIG_CPIO=y
- # CONFIG_FEATURE_CPIO_O is not set
+diff --git a/meta/recipes-core/busybox/busybox/0001-testsuite-use-www.example.org-for-wget-test-cases.patch b/meta/recipes-core/busybox/busybox/0001-testsuite-use-www.example.org-for-wget-test-cases.patch
+new file mode 100644
+index 0000000..7ba0f77
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-testsuite-use-www.example.org-for-wget-test-cases.patch
+@@ -0,0 +1,62 @@
++From 03acf460990dfcf6e52b298301b348b9504460a8 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Tue, 13 Nov 2018 13:51:42 +0800
++Subject: [PATCH] testsuite: use www.example.org for wget test cases
++
++Use example.org instead of google.com to make sure it's
++always reachible.
++
++Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2018-November/086835.html]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ testsuite/wget/wget--O-overrides--P        | 2 +-
++ testsuite/wget/wget-handles-empty-path     | 2 +-
++ testsuite/wget/wget-retrieves-google-index | 2 +-
++ testsuite/wget/wget-supports--P            | 2 +-
++ 4 files changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/testsuite/wget/wget--O-overrides--P b/testsuite/wget/wget--O-overrides--P
++index 40a3a96..490d743 100644
++--- a/testsuite/wget/wget--O-overrides--P
+++++ b/testsuite/wget/wget--O-overrides--P
++@@ -1,5 +1,5 @@
++ test x"$SKIP_INTERNET_TESTS" != x"" && exit
++ 
++ mkdir foo
++-busybox wget -q -O index.html -P foo http://www.google.com/
+++busybox wget -q -O index.html -P foo http://www.example.org/
++ test -s index.html
++diff --git a/testsuite/wget/wget-handles-empty-path b/testsuite/wget/wget-handles-empty-path
++index 01d60bd..1802db6 100644
++--- a/testsuite/wget/wget-handles-empty-path
+++++ b/testsuite/wget/wget-handles-empty-path
++@@ -1,3 +1,3 @@
++ test x"$SKIP_INTERNET_TESTS" != x"" && exit
++ 
++-busybox wget http://www.google.com
+++busybox wget http://www.example.org
++diff --git a/testsuite/wget/wget-retrieves-google-index b/testsuite/wget/wget-retrieves-google-index
++index f9dbb8b..fc801d4 100644
++--- a/testsuite/wget/wget-retrieves-google-index
+++++ b/testsuite/wget/wget-retrieves-google-index
++@@ -1,4 +1,4 @@
++ test x"$SKIP_INTERNET_TESTS" != x"" && exit
++ 
++-busybox wget -q -O foo http://www.google.com/
+++busybox wget -q -O foo http://www.example.org/
++ test -s foo
++diff --git a/testsuite/wget/wget-supports--P b/testsuite/wget/wget-supports--P
++index bfe4ac4..4ff2fe0 100644
++--- a/testsuite/wget/wget-supports--P
+++++ b/testsuite/wget/wget-supports--P
++@@ -1,5 +1,5 @@
++ test x"$SKIP_INTERNET_TESTS" != x"" && exit
++ 
++ mkdir foo
++-busybox wget -q -P foo http://www.google.com/
+++busybox wget -q -P foo http://www.example.org/
++ test -s foo/index.html
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/busybox/busybox_1.29.2.bb b/meta/recipes-core/busybox/busybox_1.29.2.bb
+index a63fa82..98767f0 100644
+--- a/meta/recipes-core/busybox/busybox_1.29.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.29.2.bb
+@@ -42,6 +42,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://rcK \
+            file://makefile-libbb-race.patch \
+            file://0001-testsuite-check-uudecode-before-using-it.patch \
++           file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
 -- 
 1.9.1
 
