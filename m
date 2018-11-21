@@ -1,62 +1,35 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
-	[209.85.210.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BBE56C4A5
+Return-Path: <mac@mcrowe.com>
+Received: from avasout03.plus.net (avasout03.plus.net [84.93.230.244])
+	by mail.openembedded.org (Postfix) with ESMTP id EE0F060248
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 17:20:27 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id f18so4049064otl.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 09:20:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=rD3hinkED/CFzk34PYojB2Z1d7TB0VPZL3b6TjyOToo=;
-	b=bem+9gUUrXlnY7SPsX1kQtZJcLjU+CXl7vG/UyP180K2OKfCaEX+GvtSBabrV9Bbfe
-	Ujn1tJ8bgrKavAUIkdakdSOZTlegMckJaqWdSn8jK0BjrMPYaoNXIFaWid+lIv8r5kxW
-	DDqJ/bUf4VXPw+Eveoo8ItUt16ZwU1WxFxO9hVE+gphhV31t7n11bQlWDOb/qu1Rr6nv
-	tYUQmMvafolVhGco+kgcd9ALu1mCp60+q79pCAxuEEtWWL03rBP/UgM5ZAavz116+Ybo
-	2Cvgow/+fZbRWlyQnAO15bF+rNuIA+vPBwTjAIcotyQ3PyfilpWEBKX7o5sq/2VXIxmd
-	BK7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-	:message-id:subject:to:cc;
-	bh=rD3hinkED/CFzk34PYojB2Z1d7TB0VPZL3b6TjyOToo=;
-	b=aKFIWBgaPGF4QS9O84R69X9JIc9IJU06lzCtFmZ889XY0+0HPnMRaD/7yr4vN6NNku
-	N1KfjNxtjgjx6aO2H+2ZLt8ATA+sVR9JssuV2kXkaTEo2K9bJlqd9Kgyr+W2mrdH5xXO
-	IGowuO9z6xwlTSXY+//b1dJYmdxQdx7Dn8qENCfmCwqvmQOMsub0gyS+I6/IuY5UmAHS
-	5iOdqSxrSiM0vmUElmsPGDzmuZY0wmasT4CSLV8vvA17AB190L5U4cJWrJphntwA/tlE
-	66unmmlWfxhYg+1KxUcSWxDwDALgLV7R9uRES1rpjyKdalromQKu5x/erbqDznsjzrJb
-	loog==
-X-Gm-Message-State: AA+aEWb0Qra7vyHlMJWWkzcLtfHqTARyTxJwNVM7LvzhaxhGjOZorpAV
-	3jQqt/ZppGacsJJbHGopy7M7MIJT0uHtQw==
-X-Google-Smtp-Source: AFSGD/UmO2c8vAs4wWUeY+GZbDs9zLFqAq1oLRaWdMImPOOhCO0F5Cn+jQlWi4xOmf17u1o2pcDUvw==
-X-Received: by 2002:a9d:f44:: with SMTP id 62mr4519569ott.299.1542820827345;
-	Wed, 21 Nov 2018 09:20:27 -0800 (PST)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com.
-	[209.85.167.174]) by smtp.gmail.com with ESMTPSA id
-	q66-v6sm19134972oig.18.2018.11.21.09.20.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Nov 2018 09:20:26 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi1-f174.google.com with SMTP id h25so5185394oig.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 09:20:26 -0800 (PST)
-X-Received: by 2002:aca:ad14:: with SMTP id w20mr3348686oie.3.1542820825647;
-	Wed, 21 Nov 2018 09:20:25 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1542781427.git.liezhi.yang@windriver.com>
-	<bd77663c215d2ed20cb3765b95e62b9b14330896.1542781427.git.liezhi.yang@windriver.com>
-In-Reply-To: <bd77663c215d2ed20cb3765b95e62b9b14330896.1542781427.git.liezhi.yang@windriver.com>
-Date: Wed, 21 Nov 2018 15:20:12 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKquwOEHEcQc2EOZzty_+GgO1ONKAZU_U4h-L9PRxwFWBg@mail.gmail.com>
-Message-ID: <CAP9ODKquwOEHEcQc2EOZzty_+GgO1ONKAZU_U4h-L9PRxwFWBg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: c.andersen@kostal.com, Patches and discussions about the oe-core layer
+	Wed, 21 Nov 2018 18:28:42 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id PXElg0sVhzoJVPXEmglWpf; Wed, 21 Nov 2018 18:28:43 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=OY228CbY c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=kj9zAlcOel0A:10 a=JHtHm7312UAA:10 a=YDYnOk0jAAAA:20
+	a=VoLRMcn7DBUtL9Ol3QsA:9 a=CjuIK1q_8ugA:10
+Received: from mac by deneb with local (Exim 4.89)
+	(envelope-from <mac@mcrowe.com>)
+	id 1gPXEl-0000zW-98; Wed, 21 Nov 2018 18:28:31 +0000
+Date: Wed, 21 Nov 2018 18:28:31 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] uboot-sign.bbclass: fix signature and deployment
+Message-ID: <20181121182831.imvsz7kheqpaswti@mcrowe.com>
+References: <99949e3e-c252-9504-ea89-f379bab6f021@dresearch-fe.de>
+	<CAMKF1soU6M4zv6Xu4ugwheBHGO49cZSnnOD-PWSWJsCaAJC28g@mail.gmail.com>
+	<a212aa5f-27a7-3181-cab8-c07fa5eca72a@dresearch-fe.de>
+	<d45d83de-c360-6306-d35a-1388fdbd518a@dresearch-fe.de>
+	<04a430ad-567a-d9d3-8a17-77e2dd55d025@dresearch-fe.de>
+	<20181106190645.4xgvktwoyfuzgmby@mcrowe.com>
+MIME-Version: 1.0
+In-Reply-To: <20181106190645.4xgvktwoyfuzgmby@mcrowe.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-CMAE-Envelope: MS4wfP6flKs91W3XSZ0aQsZpy5ZHcPF3lF4AvW/7az5p7HEmOL8KdQ+Rw2CeNQiknLFoi2HfEupGTsNHNK1eHzmw8Be18NCKTXEj3bZgqrpip8JYX6HKDySf
+	9T/MTLqCwKA9cXEfNiLUGyJ28h99mo3Kz0E=
+Subject: Re: devshell problems after distro upgrade openSUSE Leap 42.3 -> 15.0 (tmux only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,75 +42,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 17:20:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 21 Nov 2018 18:28:43 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
+On Tuesday 06 November 2018 at 19:06:45 +0000, Mike Crowe wrote:
+> On Monday 16 July 2018 at 08:19:11 +0200, Steffen Sledz wrote:
+> > On 04.07.2018 13:37, Steffen Sledz wrote:
+> > > On 03.07.2018 08:04, Steffen Sledz wrote:
+> > >> On 02.07.2018 20:25, Khem Raj wrote:
+> > >>> On Sun, Jul 1, 2018 at 11:39 PM Steffen Sledz <sledz@dresearch-fe.de> wrote:
+> > >>>>
+> > >>>> After upgrading my build system from openSUSE Leap 42.3 to openSUSE Leap 15.0 a
+> > >>>>
+> > >>>>   bitbake foo -c devshell
+> > >>>>
+> > >>>> no longer switches to the related work directory. The devshell is opened in the original directory without any error or warning instead.
+> > >>>>
+> > >>>> Any hints what's wrong here or how I can debug this behaviour?
+> > >>>>
+> > >>>
+> > >>> which terminal are you using, probably some default behavior changes there ?
+> > >>
+> > >> Main terminal is xterm. No special settings for the devshell terminal, so tmux is started like before.
+> > > 
+> > > 
+> > > After some more tests I can limit the problem to OE_TERMINAL="tmux". Other terminals like screen or xterm work well.
+> > > ...
+> > 
+> > 
+> > Ping!
+> 
+> The same problem happens with Debian Buster (currently "testing".) I was
+> unable to reproduce the problem when running
+> 
+>  (cd subdirectory && tmux split-window)
+> 
+> from a shell prompt.
+> 
+> However, I managed to fix it with the following patch. I'm not sure whether
+> this means there's a bug in tmux though. Since I can't reproduce the
+> problem outside OE, it's rather difficult to report it.
 
-On Wed, Nov 21, 2018 at 4:08 AM Robert Yang <liezhi.yang@windriver.com> wrote:
->
-> Fixed:
-> MACHINE = "beaglebone-yocto"
-> KERNEL_CLASSES += "kernel-fitimage"
-> KERNEL_IMAGETYPE_beaglebone-yocto = "fitImage"
-> UBOOT_MACHINE_beaglebone-yocto = "am335x_boneblack_vboot_config"
-> UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
-> UBOOT_SIGN_KEYDIR = "${TOPDIR}/conf"
-> UBOOT_SIGN_KEYNAME = "dev"
-> UBOOT_SIGN_ENABLE = "1"
-> IMAGE_INSTALL_remove = "kernel-image-zimage"
->
-> $ cd conf
-> $ openssl genrsa -F4 -out dev.key 2048
-> $ openssl req -batch -new -x509 -key dev.key -out dev.crt
-> $ cd ../
-> $ bitbake u-boot linux-yocto
-> $ grep signature tmp/deploy/images/beaglebone-yocto/*.dtb
-> Binary file tmp/deploy/images/beaglebone-yocto/u-boot-beaglebone-yocto-2018.07-r0.dtb matches
-> Binary file tmp/deploy/images/beaglebone-yocto/u-boot-beaglebone-yocto.dtb matches
-> Binary file tmp/deploy/images/beaglebone-yocto/u-boot.dtb matches
->
-> And there would be no signature info when rebuild from sstate:
-> $ bitbake u-boot linux-yocto -cclean
-> $ bitbake u-boot linux-yocto
-> $ grep signature tmp/deploy/images/beaglebone-yocto/*.dtb
-> No result
->
-> This s because kernel directly edit ${DEPLOY_DIR_IMAGE}/u-boot.dtb, (Note, it
-> is global ${DEPLOY_DIR_IMAGE}, not recipe's DEPLOYDIR), so that the modified
-> info is not in sstate, and would be lost when rebuild from sstate.
->
-> There are other problems in previouse code:
-> - The u-boot.dtb is provided by u-boot, but edited by kernel during signing, so
->   it should be deployed by kernel rather than u-boot.
->
-> - The u-boot.do_concat_dtb directly install files to global ${DEPLOY_DIR_IMAGE},
->   this is incorrect, the ${DEPLOY_DIR_IMAGE} should be installed by do_deploy.
->
-> - It seems that it assumes do_deploy depends on do_install according the comments,
->   but they have no relationships:
->   # do_concat_dtb is scheduled _before_ do_install as it overwrite the
->   # u-boot.bin in both DEPLOYDIR and DEPLOY_IMAGE_DIR.
->
-> - The do_concat_dtb should be run after do_compile, but it doesn't have this
->   dependency.
->
-> Make u-boot install u-boot.dtb to ${datadir}, kernel copies u-boot.dtb from
-> ${STAGING_DATADIR} to ${B} and deploy it can fix the problem.
->
-> [YOCTO #12112]
->
-> Reported-by: Christian Andersen <c.andersen@kostal.com>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+It looks like tmux now honours the PWD environment variable. If I run:
 
-The change itself looks good, I noticed that the script part is not
-using 4 spaces for indenting and as this is being changed, it might
-make sense to address this as well.
+ cd /
+ PWD=/etc tmux split-window
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+on Debian 9 then I end up with the split window shell in / whereas in
+Debian 10 I end up with the split window shell in /etc.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+It seems that terminal.py changes the current directory but does not set
+PWD. I've entered https://github.com/tmux/tmux/issues/1549 , but I don't
+really expect them to do anything about it.
+
+So, how should I best fix this in oe-core? My previous patch to pass the
+current directory to tmux explicitly on the command line works. I tried
+changing PWD too, but that is problematic when the environment parameter is
+None.
+
+(Whatever solution is found will be required for TmuxNewWindow too.)
+
+Mike.
 
