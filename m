@@ -1,45 +1,47 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D320A6C0E4
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 42BB065D48
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 13:41:51 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id n32so3817063qte.11
+	Wed, 21 Nov 2018 13:57:36 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 125so5647561wmh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 05:41:53 -0800 (PST)
+	Wed, 21 Nov 2018 05:57:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=RcFWrmJlLy/eQ9PUhD78loy1WjX0Fo4DtTAqhiI5jaA=;
+	b=B2mTDsNyXkHJErtf9JJJxYqGi/ZlDbeD/QvpWyw1qYlYigVvop27pkgHbqCxKPOjMn
+	kY0WA/kbmumZL3sHQawP5boYsbmL0ldcUt2oCJJYkm98RPyZtW7BxfZ+mk+Fftvywu9A
+	w3Q310mV6H6ognbOg8WPhrt3MtwFUzevJXnzJRJljeeerTcMiy3UB0WGxlUHbRasYpkW
+	c82VlwljbYYncy+Xl9M0Iw98rLXAHcJZYyR3TDnBt6Gn3s2wBrEiJCJWEKTNUSRkWqQR
+	jGAsg7nvNjDQFjclD8TKd7IQ1ACsP+aPQ8ZrffJb4f0CDcC9yrfwG/szFJQcJG5To/XT
+	picQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=DDpLWrNNz6JvXY4fDAqIxdjudMZ3eVf/veSzoPakgmI=;
-	b=J9VYaAURUmWeSPW1rdV6JFf6HM0fzw6qg2KaVG+uNjjeBmMbFGY18/IiqxMlGpoSZB
-	K8FdgG0VsZSsb7Wgn8+2Tbes9yd+m4oX7X4RGasRUiusmb0+zxzdj90ZES+kTgUCOGDn
-	81v2gD9skxVsgIpOyQqyUHKVOr8llBDIDSGCyz0+WTbvshWU2WdiZjq5tGB9JhKZxvHk
-	CZFINlRqiGxVT3mwcj2KiIqTvuPu/U4IhDAeb1NggweOJLZ0bnXfHenJ73tCMTNcn207
-	apOt4+fFjRCyNO3m/soQ8GA1N0F4AN8dLLTYE4x9y3JTBsQKWQR1C45YfK1WfpC97PZ9
-	zIXg==
-X-Gm-Message-State: AA+aEWbvFhB7RO/TQzWeVz1I1ABgS8yoXdmS/RRi73IDpJW//r01r9fT
-	XLjhuj++hej0ppFCBfgkiJQRJMt8
-X-Google-Smtp-Source: AFSGD/Vsmxa6g1p8oKlvXuNbN9Il1ugHILNfDwury6qKtEW/AE0izbIwOm1xPHgPzSwd+Q3NLtiDFA==
-X-Received: by 2002:a0c:dc0f:: with SMTP id s15mr5875602qvk.40.1542807712104; 
-	Wed, 21 Nov 2018 05:41:52 -0800 (PST)
-Received: from localhost.localdomain ([181.220.65.91])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=RcFWrmJlLy/eQ9PUhD78loy1WjX0Fo4DtTAqhiI5jaA=;
+	b=Usnhy3/WPOy85QL6otJ7E06+qvn6AobcXavEtsmIJNXUZUdP8o1b8lEgWWNj/CLME6
+	i4qGoCm1GK+aIACdwoGoHr9XbGOS7grbrq7xdYI7u66z6Z3sJqI+Ss936MPz3NXo4Lp2
+	2g0Bsvtp3Y5nb8y/t7kUZ9nSn198I5NzC7bTKu1gl/LEhyRsMcyW6MKnSbxMsgi7+6Wg
+	fofzVP1gOfIHjuXVG1kd6IIE/rVMA06C0V9aZ7PouFNYB0XxC1gHujlGj3/UWA8EC4l1
+	Hc3h2JvGBGHVtO9pE7uvpOE7+HoU1e7sGnGPt3sQUCZlMer1ZvW0xPauUll9UJBppjdD
+	HDug==
+X-Gm-Message-State: AGRZ1gJwFFg5zKg6G4Vb/LZZbCTIUA5ekBw1ftiRPe3xOnqYjqd/Yhto
+	JbzEhlUAqdbPzUwxSpNW+3fh6dl9
+X-Google-Smtp-Source: AFSGD/Vdj0D8QajhjgKx5kudDQcMFT+GqA9C5xtCLCkyv1A218wc16GayV9TpcepT7gk0YCZJlqpHg==
+X-Received: by 2002:a1c:a6d7:: with SMTP id p206mr5703943wme.143.1542808656186;
+	Wed, 21 Nov 2018 05:57:36 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	a90sm25516409qka.30.2018.11.21.05.41.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 21 Nov 2018 05:41:51 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Wed, 21 Nov 2018 11:41:45 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2018 11:41:27 -0200
-Message-Id: <20181121134127.22420-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Cc: Marek Vasut <marex@denx.de>, U-Boot Mailing List <u-boot@lists.denx.de>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] u-boot: Upgrade 2018.07 -> 2018.11
+	o8sm11203560wrx.15.2018.11.21.05.57.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 21 Nov 2018 05:57:34 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Nov 2018 14:57:21 +0100
+Message-Id: <20181121135727.115509-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/7] libdnf: update to 0.22.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,277 +54,265 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 13:41:52 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Nov 2018 13:57:36 -0000
 
-This upgrades U-Boot to 2018.11 release and drop the backported
-security fixes which are now included upstream.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
+ .../libdnf/0001-Add-WITH_TESTS-option.patch   | 49 +++++++++++++++++++
+ ...or-both-libsolv-and-libsolvext-libdn.patch | 15 +++---
+ ...oot-path-to-introspection-tools-path.patch | 36 --------------
+ ...ary-installation-directory-correctly.patch | 29 -----------
+ ...ables-with-pkg-config-cmake-s-own-mo.patch | 17 +++----
+ .../{libdnf_0.11.1.bb => libdnf_0.22.0.bb}    |  8 +--
+ 6 files changed, 66 insertions(+), 88 deletions(-)
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch
+ delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch
+ delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch
+ rename meta/recipes-devtools/libdnf/{libdnf_0.11.1.bb => libdnf_0.22.0.bb} (78%)
 
- .../u-boot/files/CVE-2018-1000205-1.patch     |  59 --------
- .../u-boot/files/CVE-2018-1000205-2.patch     | 143 ------------------
- ..._2018.07.inc => u-boot-common_2018.11.inc} |   7 +-
- ..._2018.07.bb => u-boot-fw-utils_2018.11.bb} |   0
- ...e_2018.07.bb => u-boot-mkimage_2018.11.bb} |   0
- .../{u-boot_2018.07.bb => u-boot_2018.11.bb}  |   0
- 6 files changed, 2 insertions(+), 207 deletions(-)
- delete mode 100644 meta/recipes-bsp/u-boot/files/CVE-2018-1000205-1.patch
- delete mode 100644 meta/recipes-bsp/u-boot/files/CVE-2018-1000205-2.patch
- rename meta/recipes-bsp/u-boot/{u-boot-common_2018.07.inc => u-boot-common_2018.11.inc} (64%)
- rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2018.07.bb => u-boot-fw-utils_2018.11.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2018.07.bb => u-boot-mkimage_2018.11.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot_2018.07.bb => u-boot_2018.11.bb} (100%)
-
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-1.patch b/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-1.patch
-deleted file mode 100644
-index fed3c3dcb9..0000000000
---- a/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-1.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--From 7346c1e192d63cd35f99c7e845e53c5d4d0bdc24 Mon Sep 17 00:00:00 2001
--From: Teddy Reed <teddy.reed@gmail.com>
--Date: Sat, 9 Jun 2018 11:45:20 -0400
--Subject: [PATCH] vboot: Do not use hashed-strings offset
--
--The hashed-strings signature property includes two uint32_t values.
--The first is unneeded as there should never be a start offset into the
--strings region. The second, the size, is needed because the added
--signature node appends to this region.
--
--See tools/image-host.c, where a static 0 value is used for the offset.
--
--Signed-off-by: Teddy Reed <teddy.reed@gmail.com>
--Reviewed-by: Simon Glass <sjg@chromium.org>
--
--Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
--                 h=7346c1e192d63cd35f99c7e845e53c5d4d0bdc24]
--
--CVE: CVE-2018-1000205
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- common/image-sig.c | 7 +++++--
-- tools/image-host.c | 1 +
-- 2 files changed, 6 insertions(+), 2 deletions(-)
--
--diff --git a/common/image-sig.c b/common/image-sig.c
--index 8d2fd10..5a269d3 100644
----- a/common/image-sig.c
--+++ b/common/image-sig.c
--@@ -377,8 +377,11 @@ int fit_config_check_sig(const void *fit, int noffset, int required_keynode,
-- 	/* Add the strings */
-- 	strings = fdt_getprop(fit, noffset, "hashed-strings", NULL);
-- 	if (strings) {
---		fdt_regions[count].offset = fdt_off_dt_strings(fit) +
---				fdt32_to_cpu(strings[0]);
--+		/*
--+		 * The strings region offset must be a static 0x0.
--+		 * This is set in tool/image-host.c
--+		 */
--+		fdt_regions[count].offset = fdt_off_dt_strings(fit);
-- 		fdt_regions[count].size = fdt32_to_cpu(strings[1]);
-- 		count++;
-- 	}
--diff --git a/tools/image-host.c b/tools/image-host.c
--index 8e43671..be2d59b 100644
----- a/tools/image-host.c
--+++ b/tools/image-host.c
--@@ -135,6 +135,7 @@ static int fit_image_write_sig(void *fit, int noffset, uint8_t *value,
-- 
-- 		ret = fdt_setprop(fit, noffset, "hashed-nodes",
-- 				   region_prop, region_proplen);
--+		/* This is a legacy offset, it is unused, and must remain 0. */
-- 		strdata[0] = 0;
-- 		strdata[1] = cpu_to_fdt32(string_size);
-- 		if (!ret) {
---- 
--2.7.4
--
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-2.patch b/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-2.patch
-deleted file mode 100644
-index bb79af1c7b..0000000000
---- a/meta/recipes-bsp/u-boot/files/CVE-2018-1000205-2.patch
-+++ /dev/null
-@@ -1,143 +0,0 @@
--From 72239fc85f3eda078547956608c063ab965e90e9 Mon Sep 17 00:00:00 2001
--From: Teddy Reed <teddy.reed@gmail.com>
--Date: Sat, 9 Jun 2018 11:38:05 -0400
--Subject: [PATCH] vboot: Add FIT_SIGNATURE_MAX_SIZE protection
--
--This adds a new config value FIT_SIGNATURE_MAX_SIZE, which controls the
--max size of a FIT header's totalsize field. The field is checked before
--signature checks are applied to protect from reading past the intended
--FIT regions.
--
--This field is not part of the vboot signature so it should be sanity
--checked. If the field is corrupted then the structure or string region
--reads may have unintended behavior, such as reading from device memory.
--A default value of 256MB is set and intended to support most max storage
--sizes.
--
--Suggested-by: Simon Glass <sjg@chromium.org>
--Signed-off-by: Teddy Reed <teddy.reed@gmail.com>
--Reviewed-by: Simon Glass <sjg@chromium.org>
--
--Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
--                 h=72239fc85f3eda078547956608c063ab965e90e9]
--
--CVE: CVE-2018-1000205
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- Kconfig                     | 10 ++++++++++
-- common/image-sig.c          |  5 +++++
-- test/py/tests/test_vboot.py | 33 +++++++++++++++++++++++++++++++++
-- tools/Makefile              |  1 +
-- 4 files changed, 49 insertions(+)
--
--diff --git a/Kconfig b/Kconfig
--index 5a82c95..c8b86cd 100644
----- a/Kconfig
--+++ b/Kconfig
--@@ -267,6 +267,16 @@ config FIT_SIGNATURE
-- 	  format support in this case, enable it using
-- 	  CONFIG_IMAGE_FORMAT_LEGACY.
-- 
--+config FIT_SIGNATURE_MAX_SIZE
--+	hex "Max size of signed FIT structures"
--+	depends on FIT_SIGNATURE
--+	default 0x10000000
--+	help
--+	  This option sets a max size in bytes for verified FIT uImages.
--+	  A sane value of 256MB protects corrupted DTB structures from overlapping
--+	  device memory. Assure this size does not extend past expected storage
--+	  space.
--+
-- config FIT_VERBOSE
-- 	bool "Show verbose messages when FIT images fail"
-- 	help
--diff --git a/common/image-sig.c b/common/image-sig.c
--index f65d883..8d2fd10 100644
----- a/common/image-sig.c
--+++ b/common/image-sig.c
--@@ -156,6 +156,11 @@ static int fit_image_setup_verify(struct image_sign_info *info,
-- {
-- 	char *algo_name;
-- 
--+	if (fdt_totalsize(fit) > CONFIG_FIT_SIGNATURE_MAX_SIZE) {
--+		*err_msgp = "Total size too large";
--+		return 1;
--+	}
--+
-- 	if (fit_image_hash_get_algo(fit, noffset, &algo_name)) {
-- 		*err_msgp = "Can't get hash algo property";
-- 		return -1;
--diff --git a/test/py/tests/test_vboot.py b/test/py/tests/test_vboot.py
--index ee939f2..3d25ec3 100644
----- a/test/py/tests/test_vboot.py
--+++ b/test/py/tests/test_vboot.py
--@@ -26,6 +26,7 @@ Tests run with both SHA1 and SHA256 hashing.
-- 
-- import pytest
-- import sys
--+import struct
-- import u_boot_utils as util
-- 
-- @pytest.mark.boardspec('sandbox')
--@@ -105,6 +106,26 @@ def test_vboot(u_boot_console):
--         util.run_and_log(cons, [mkimage, '-F', '-k', tmpdir, '-K', dtb,
--                                 '-r', fit])
-- 
--+    def replace_fit_totalsize(size):
--+        """Replace FIT header's totalsize with something greater.
--+
--+        The totalsize must be less than or equal to FIT_SIGNATURE_MAX_SIZE.
--+        If the size is greater, the signature verification should return false.
--+
--+        Args:
--+            size: The new totalsize of the header
--+
--+        Returns:
--+            prev_size: The previous totalsize read from the header
--+        """
--+        total_size = 0
--+        with open(fit, 'r+b') as handle:
--+            handle.seek(4)
--+            total_size = handle.read(4)
--+            handle.seek(4)
--+            handle.write(struct.pack(">I", size))
--+        return struct.unpack(">I", total_size)[0]
--+
--     def test_with_algo(sha_algo):
--         """Test verified boot with the given hash algorithm.
-- 
--@@ -146,6 +167,18 @@ def test_vboot(u_boot_console):
--         util.run_and_log(cons, [fit_check_sign, '-f', fit, '-k', tmpdir,
--                                 '-k', dtb])
-- 
--+        # Replace header bytes
--+        bcfg = u_boot_console.config.buildconfig
--+        max_size = int(bcfg.get('config_fit_signature_max_size', 0x10000000), 0)
--+        existing_size = replace_fit_totalsize(max_size + 1)
--+        run_bootm(sha_algo, 'Signed config with bad hash', 'Bad Data Hash', False)
--+        cons.log.action('%s: Check overflowed FIT header totalsize' % sha_algo)
--+
--+        # Replace with existing header bytes
--+        replace_fit_totalsize(existing_size)
--+        run_bootm(sha_algo, 'signed config', 'dev+', True)
--+        cons.log.action('%s: Check default FIT header totalsize' % sha_algo)
--+
--         # Increment the first byte of the signature, which should cause failure
--         sig = util.run_and_log(cons, 'fdtget -t bx %s %s value' %
--                                (fit, sig_node))
--diff --git a/tools/Makefile b/tools/Makefile
--index 5dd33ed..0c3341e 100644
----- a/tools/Makefile
--+++ b/tools/Makefile
--@@ -133,6 +133,7 @@ ifdef CONFIG_FIT_SIGNATURE
-- # This affects include/image.h, but including the board config file
-- # is tricky, so manually define this options here.
-- HOST_EXTRACFLAGS	+= -DCONFIG_FIT_SIGNATURE
--+HOST_EXTRACFLAGS	+= -DCONFIG_FIT_SIGNATURE_MAX_SIZE=$(CONFIG_FIT_SIGNATURE_MAX_SIZE)
-- endif
-- 
-- ifdef CONFIG_SYS_U_BOOT_OFFS
---- 
--2.7.4
--
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2018.07.inc b/meta/recipes-bsp/u-boot/u-boot-common_2018.11.inc
-similarity index 64%
-rename from meta/recipes-bsp/u-boot/u-boot-common_2018.07.inc
-rename to meta/recipes-bsp/u-boot/u-boot-common_2018.11.inc
-index 22b44dccc6..6f4a10b7a4 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common_2018.07.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common_2018.11.inc
-@@ -8,11 +8,8 @@ PE = "1"
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch
+new file mode 100644
+index 00000000000..7c8131b4be8
+--- /dev/null
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch
+@@ -0,0 +1,49 @@
++From 0d0155c4dd6c0b3305ea2ab0e10b0f84d024a6e1 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 6 Nov 2018 13:54:43 +0100
++Subject: [PATCH] Add WITH_TESTS option
++
++This makes a dependency on cppunit optional.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ CMakeLists.txt               | 3 +++
++ python/hawkey/CMakeLists.txt | 2 ++
++ 2 files changed, 5 insertions(+)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index b73a03d7..a9e0200f 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -36,6 +36,7 @@ OPTION(WITH_MAN "Enables hawkey man page generation" ON)
++ OPTION(WITH_HTML "Enables hawkey HTML generation" ON)
++ 
++ OPTION(WITH_BINDINGS "Enables python/SWIG bindings" ON)
+++OPTION(WITH_TESTS "Enables unit tests" ON)
++ 
++ OPTION (ENABLE_SOLV_URPMREORDER "Build with support for URPM-like solution reordering?" OFF)
++ option (ENABLE_RHSM_SUPPORT "Build with Red Hat Subscription Manager support?" OFF)
++@@ -122,8 +123,10 @@ IF (WITH_BINDINGS)
++ # ADD_SUBDIRECTORY (bindings/perl)
++ ADD_SUBDIRECTORY (bindings/python)
++ ENDIF()
+++IF (WITH_TESTS)
++ ENABLE_TESTING()
++ ADD_SUBDIRECTORY (tests)
+++ENDIF()
++ IF (WITH_BINDINGS)
++ ADD_SUBDIRECTORY (python/hawkey)
++ ADD_SUBDIRECTORY (docs/hawkey)
++diff --git a/python/hawkey/CMakeLists.txt b/python/hawkey/CMakeLists.txt
++index 3c0b3c0c..31466ed9 100644
++--- a/python/hawkey/CMakeLists.txt
+++++ b/python/hawkey/CMakeLists.txt
++@@ -49,4 +49,6 @@ TARGET_LINK_LIBRARIES(_hawkeymodule ${PYTHON_LIBRARY})
++ INSTALL(FILES __init__.py DESTINATION ${PYTHON_INSTALL_DIR}/hawkey)
++ INSTALL(TARGETS _hawkeymodule LIBRARY DESTINATION ${PYTHON_INSTALL_DIR}/hawkey)
++ 
+++IF (WITH_TESTS)
++ ADD_SUBDIRECTORY(tests)
+++ENDIF()
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
+index cbd0362c8b0..246db34154a 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
+@@ -1,7 +1,7 @@
+-From 2bf0666544293dcfac2f67b678e24353acdcd4e7 Mon Sep 17 00:00:00 2001
++From c139a6c929cff93dbb9b8279e97263fc9e055727 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 7 Feb 2017 12:16:03 +0200
+-Subject: [PATCH 2/2] Get parameters for both libsolv and libsolvext (libdnf is
++Subject: [PATCH] Get parameters for both libsolv and libsolvext (libdnf is
  
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "8c5d4fd0ec222701598a27b26ab7265d4cee45a3"
-+SRCREV = "0157013f4a4945bbdb70bb4d98d680e0845fd784"
+  using both)
  
--SRC_URI = "git://git.denx.de/u-boot.git \
--           file://CVE-2018-1000205-1.patch \
--           file://CVE-2018-1000205-2.patch \
--"
-+SRC_URI = "git://git.denx.de/u-boot.git"
+@@ -13,18 +13,15 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index ca280f3..6ab9827 100644
++index cd91f08..6422534 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -29,7 +29,7 @@ find_package (PkgConfig REQUIRED)
+- SET (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
++@@ -46,7 +46,7 @@ endif(APPLE)
+  PKG_CHECK_MODULES(GLIB gio-unix-2.0>=2.46.0 REQUIRED)
++ pkg_check_modules(SMARTCOLS REQUIRED smartcols)
+  FIND_LIBRARY (RPMDB_LIBRARY NAMES rpmdb)
+ -PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
+ +PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv libsolvext)
+  set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
+  if (ENABLE_RHSM_SUPPORT)
+-     pkg_check_modules (RHSM REQUIRED librhsm)
+--- 
+-2.14.2
+-
++     pkg_check_modules (RHSM REQUIRED librhsm>=0.0.3)
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch b/meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch
+deleted file mode 100644
+index 7eecc3d0516..00000000000
+--- a/meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From c8211ad99ccaa4af4a75e0ba639527267fcfd69e Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 30 Dec 2016 18:17:19 +0200
+-Subject: [PATCH 2/4] Prefix sysroot path to introspection tools path.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/312]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- libdnf/CMakeLists.txt | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/libdnf/CMakeLists.txt b/libdnf/CMakeLists.txt
+-index 63f07bf..837792b 100644
+---- a/libdnf/CMakeLists.txt
+-+++ b/libdnf/CMakeLists.txt
+-@@ -133,7 +133,7 @@ if (GOBJECT_INTROSPECTION_FOUND)
+-         set(GIR_TYPELIB "${GIR_PREFIX}.typelib")
+- 
+-         add_custom_command(OUTPUT ${GIR_XML}
+--            COMMAND env CFLAGS=${CMAKE_C_FLAGS} ${GOBJECT_INTROSPECTION_1.0_G_IR_SCANNER}
+-+            COMMAND env CFLAGS=${CMAKE_C_FLAGS} $ENV{PKG_CONFIG_SYSROOT_DIR}${GOBJECT_INTROSPECTION_1.0_G_IR_SCANNER}
+-                     --namespace=Dnf
+-                     --nsversion=${DNF_SO_VERSION}.0
+-                     --library-path=${CMAKE_CURRENT_BINARY_DIR}
+-@@ -153,7 +153,7 @@ if (GOBJECT_INTROSPECTION_FOUND)
+-             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+- 
+-         add_custom_command(OUTPUT ${GIR_TYPELIB}
+--            COMMAND ${GOBJECT_INTROSPECTION_1.0_G_IR_COMPILER}
+-+            COMMAND $ENV{PKG_CONFIG_SYSROOT_DIR}${GOBJECT_INTROSPECTION_1.0_G_IR_COMPILER}
+-                     -o ${GIR_TYPELIB}
+-                     ${GIR_XML}
+-             DEPENDS ${GIR_XML}
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch b/meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch
+deleted file mode 100644
+index 81264094eb4..00000000000
+--- a/meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 8d29879fe3606c78769c1bcdddf0bcfc7191c710 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 30 Dec 2016 18:20:01 +0200
+-Subject: [PATCH 3/4] Set the library installation directory correctly.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/312]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- CMakeLists.txt | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index d35f0d7..8edb627 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -62,7 +62,9 @@ ADD_DEFINITIONS(-DPACKAGE_VERSION=\\"${LIBDNF_VERSION}\\")
+- IF (CMAKE_SIZEOF_VOID_P MATCHES "8")
+-   SET (LIB_SUFFIX "64")
+- ENDIF (CMAKE_SIZEOF_VOID_P MATCHES "8")
+--SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
+-+#SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
+-+SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
+-+
+- 
+- ADD_SUBDIRECTORY (libdnf)
+- ENABLE_TESTING()
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
+index 6cf48a49f36..80b1ed7bf18 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
+@@ -1,7 +1,7 @@
+-From bcea5c5063a2d5f07dbe6f40aee30370fc4ba656 Mon Sep 17 00:00:00 2001
++From 2bcd0b9f6310bacdc554e077e85319a5e90e5ce0 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:24:50 +0200
+-Subject: [PATCH 1/2] Set libsolv variables with pkg-config (cmake's own module
++Subject: [PATCH] Set libsolv variables with pkg-config (cmake's own module
+ 
+  doesn't work properly).
+ 
+@@ -13,19 +13,16 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 8875bbf..ca280f3 100644
++index 0b405cb..cd91f08 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -29,7 +29,8 @@ find_package (PkgConfig REQUIRED)
+- SET (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
++@@ -46,7 +46,8 @@ endif(APPLE)
+  PKG_CHECK_MODULES(GLIB gio-unix-2.0>=2.46.0 REQUIRED)
++ pkg_check_modules(SMARTCOLS REQUIRED smartcols)
+  FIND_LIBRARY (RPMDB_LIBRARY NAMES rpmdb)
+--find_package (LibSolv 0.6.21 REQUIRED COMPONENTS ext)
++-find_package (LibSolv 0.6.30 REQUIRED COMPONENTS ext)
+ +PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
+ +set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
+  if (ENABLE_RHSM_SUPPORT)
+-     pkg_check_modules (RHSM REQUIRED librhsm)
++     pkg_check_modules (RHSM REQUIRED librhsm>=0.0.3)
+      include_directories (${RHSM_INCLUDE_DIRS})
+--- 
+-2.14.2
+-
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.11.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.22.0.bb
+similarity index 78%
+rename from meta/recipes-devtools/libdnf/libdnf_0.11.1.bb
+rename to meta/recipes-devtools/libdnf/libdnf_0.22.0.bb
+index 4fc1d6defef..61ebcd821cc 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.11.1.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.22.0.bb
+@@ -4,22 +4,22 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "git://github.com/rpm-software-management/libdnf \
+            file://0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch \
+-           file://0002-Prefix-sysroot-path-to-introspection-tools-path.patch \
+-           file://0003-Set-the-library-installation-directory-correctly.patch \
+            file://0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch \
+            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
++           file://0001-Add-WITH_TESTS-option.patch \
+            "
+ 
+-SRCREV = "60f979bd8db651229c559c1412f1eb880257127d"
++SRCREV = "fe14ad928f60890fa28b412639c88cd47889635e"
  
  S = "${WORKDIR}/git"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.11.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.11.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.11.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2018.11.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2018.07.bb b/meta/recipes-bsp/u-boot/u-boot_2018.11.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2018.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2018.11.bb
+ 
+-DEPENDS = "glib-2.0 libsolv libcheck librepo rpm gtk-doc"
++DEPENDS = "glib-2.0 libsolv libcheck librepo rpm gtk-doc libmodulemd json-c swig-native"
+ 
+ inherit gtk-doc gobject-introspection cmake pkgconfig distutils3-base
+ 
+ EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DWITH_MAN=OFF -DPYTHON_DESIRED=3 \
+                   ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-DWITH_GIR=ON', '-DWITH_GIR=OFF', d)} \
++                  -DWITH_TESTS=OFF \
+                 "
+ EXTRA_OECMAKE_append_class-native = " -DWITH_GIR=OFF"
+ EXTRA_OECMAKE_append_class-nativesdk = " -DWITH_GIR=OFF"
 -- 
-2.19.1
+2.17.1
 
 
