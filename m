@@ -1,23 +1,65 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C5A56C50E
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 826C06B40D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 14:06:06 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wALE673q022003
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 21 Nov 2018 15:45:40 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id g27so5325115oth.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 06:06:07 -0800 (PST)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 21 Nov 2018 06:06:06 -0800
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2018 22:06:05 +0800
-Message-ID: <1542809165-118869-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 21 Nov 2018 07:45:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=KvLX+hwzwGS+PN5XcZ1fJmUmJQ+GJLYbabPLsjkAojw=;
+	b=dHOa7FYauzv0JA6FhANtFv2vrU78GKoEAHNvJHp/gWFxoYdHy70oam/zJjlXOIeoik
+	7ANZPhZvQr5qY1XYAKopDredK4TjGRnkxgDF6lHz8tmHn0b2dOxJWi2etU5DlW9CpGlw
+	7k8e3/NHZGK+pnaZ1V1qGWglAHh1GeV1AKdZ3w7Kl7cvWGZAnhlwMTY+Ii9ZMb1gNs2Y
+	GwUNh2S7VjmQxGTy08LrMEa/kWB5iYWHRwAOdD6xro9jbXCc8fmiE+w9qE+XnTbgGt0m
+	G2T1MY1YAvJhJs46UNms+hpnm5nMTiiYoiZeDxh9nwUSl5ylHRKQZzLGVBN5FAIIjqSG
+	M9bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+	:message-id:subject:to:cc;
+	bh=KvLX+hwzwGS+PN5XcZ1fJmUmJQ+GJLYbabPLsjkAojw=;
+	b=JPC5+XVvx4c3uUYC/lSCT9w0zxlmqL6ifyO7QMR8nsarD9aLhEIIdh7plMF4LSAOnJ
+	E8EWHtKe6rkLD9CzCwQl+jO4QtcWMtR80+SiwtteMyLvwRs0WNLBwOVv/eckkoDSn0Ua
+	sWfZkzAxveGAQfgS1sDP5i3AAkjNS3/WAekFWJuf7GNtCcFtxF4TAbg/nQjgQ/DgmNbQ
+	NkESVdIzCZ31j5tVjbBKDNjm1qw6KjsvBGXkNVlq1SjsmD2kqlNu7Ca2FTG7s3YYcbjv
+	JwivGhl0HLqormYdiFRvR9RcrL18yi2osoxlfIoyGKWpHPCOmEzmQ3kB8xLpF0ESBWU/
+	fESA==
+X-Gm-Message-State: AA+aEWZ+xO6llBp1BwHvqWWWU86QDUvLQsixNQ2WMd3XCU8z8bNVcNJ3
+	Ng7u83xF2yfvoI4BLXqqZTl0c8Tl2yk=
+X-Google-Smtp-Source: AFSGD/Uovm2zkMj2/DOizfkwGKV5ACwWu3xUxo0IWLK3a5JqxZe5X6c2wF5pnCgDQDZ0eXsKcievjg==
+X-Received: by 2002:a9d:2c5:: with SMTP id 63mr4168824otl.271.1542815140788;
+	Wed, 21 Nov 2018 07:45:40 -0800 (PST)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com.
+	[209.85.210.43]) by smtp.gmail.com with ESMTPSA id
+	v141sm4481372oia.25.2018.11.21.07.45.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 21 Nov 2018 07:45:38 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot1-f43.google.com with SMTP id w25so5301780otm.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Nov 2018 07:45:38 -0800 (PST)
+X-Received: by 2002:a9d:754f:: with SMTP id b15mr3931449otl.231.1542815137537; 
+	Wed, 21 Nov 2018 07:45:37 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH v4] linux-libc-headers: Fix build failure by using fixed temporary file instead of pipe
+References: <20181120202107.41029-1-abrodkin@synopsys.com>
+	<f9ff2442-e164-d973-6fea-49bfeb9cbbd7@denx.de>
+In-Reply-To: <f9ff2442-e164-d973-6fea-49bfeb9cbbd7@denx.de>
+Date: Wed, 21 Nov 2018 13:45:21 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKodGomFQXWXnKXo321JjrmqW281H8Li+h5tM1vCMXB3cg@mail.gmail.com>
+Message-ID: <CAP9ODKodGomFQXWXnKXo321JjrmqW281H8Li+h5tM1vCMXB3cg@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: linux-snps-arc@lists.infradead.org,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4] u-boot: Add mkenvimage tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,121 +72,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 14:06:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Nov 2018 15:45:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: He Zhe <zhe.he@windriver.com>
+On Tue, Nov 20, 2018 at 6:22 PM Marek Vasut <marex@denx.de> wrote:
+> On 11/20/2018 09:21 PM, Alexey Brodkin wrote:
+> > This utility is used for creation of images containing
+> > usable in run-time U-Boot environment.
+> >
+> > As of today this utility is added per-board like here [1]
+> > for Intel Edison board.
+> >
+> > [1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
+> >
+> > Given there're quite some U-Boot tools that we may want to add later
+> > this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
+> > still for compatibility we provide "u-boot-mkimage" with help
+> > of PROVIDES as well as proposed "u-boot-mkenvimage".
+> >
+> > Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Cc: Otavio Salvador <otavio@ossystems.com.br>
+> > Cc: Martin Jansa <martin.jansa@gmail.com>
+> > Cc: Ross Burton <ross.burton@intel.com>
+> > Cc: Marek Vasut <marex@denx.de>
+> > ---
+> >
+> > I may "git grep u-boot-mkimage" in more places:
+> >  1. meta/classes/image_types.bbclass:311:CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
+> >  2. meta/classes/kernel-fitimage.bbclass:7:        depends = "%s u-boot-mkimage-native dtc-native" % depends
+> >  3. meta/classes/kernel-uimage.bbclass:6:        depends = "%s u-boot-mkimage-native" % depends
+> >  4. meta/conf/distro/include/distro_alias.inc:357:DISTRO_PN_ALIAS_pn-u-boot-mkimage = "Ubuntu=uboot-mkimage Debian=uboot-mkimage"
+> >
+> > But that's not clear for me if it's required to swap "u-boot-mkimage"
+> > to "u-boot-tools" see:
+> >  1. "u-boot-mkimage" is still a valid recipe as we export ot via PROVIDES
+> >     (or I'm mixing package name with recipe name which very well might be
+> >      the case)
+> >  2. I don't fully understand a mening of "DISTRO_PN_ALIAS".
+> >     If that's a name of a package from some big Linux distro or how target
+> >     utility is named in that distro. For example in Debian Sid there's
+> >     a package named "u-boot-tools" which includes "mkimage", "mkenvimage",
+> >     "fw_printenv", "fw_setenv" and many more while in "distro_alias.inc"
+> >     we still have:
+> >     ---------------->8----------------
+> >     DISTRO_PN_ALIAS_pn-u-boot-mkimage = "Ubuntu=uboot-mkimage Debian=uboot-mkimage"
+> >     ---------------->8----------------
+>
+> Just make u-boot-tools RPROVIDE the u-boot-mkimage, and make it generate
+> a u-boot-mkimage package , no ?
 
-This is a workaround for the following possible build failure.
+In fact, it should:
 
-*** Compiler lacks asm-goto support.. Stop.
+PROVIDE += "u-boot-mkimage"
 
-When building linux-libc-headers we need to use binutils on build machine.
-binutils v2.31 introduces a bug that could cause scripts/gcc-goto.sh to fail
-when running in an environment where /tmp is rarely used, e.g. in docker.
+So dependencies are going to keep working; as Richard said, it should
+use the new name for the sake of correctness though.
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
-v2: Improve commit log
-v3: Shorten long lines as patchwork suggested
-v4: Shorten subject line...
+The package split will define how it will need to be handled for the
+runtime counterpart.
 
- ...-fixed-temporary-file-instead-of-pipe-for.patch | 70 ++++++++++++++++++++++
- .../linux-libc-headers/linux-libc-headers_4.18.bb  |  4 ++
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch
+If we adopt:
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch
-new file mode 100644
-index 0000000..0d8fa80
---- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch
-@@ -0,0 +1,70 @@
-+From 3bbea65e11918f8753e8006a2198b999cdb0af58 Mon Sep 17 00:00:00 2001
-+From: He Zhe <zhe.he@windriver.com>
-+Date: Wed, 21 Nov 2018 15:12:43 +0800
-+Subject: [PATCH] scripts: Use fixed temporary file instead of pipe for
-+ here-doc
-+
-+There was a bug of "as" in binutils that when it checks if the input file and
-+output file are the same one, it would not check if they are on the same block
-+device. The check is introduced by the following commit in v2.31.
-+
-+https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=
-+67f846b59b32f3d704c601669409c2584383fea9
-+
-+The here-doc usage in this script creates temporary file in /tmp. When we run in
-+an environment where /tmp has rarely been used, the newly created temporary file
-+may have a very low inode number. If the inode number was 6 which is the same as
-+/dev/null, the as would wrongly think the input file and the output file are the
-+same and report the following error.
-+
-+*** Compiler lacks asm-goto support.. Stop.
-+
-+One observed case happened in docker where the /tmp could be so rarely used that
-+very low number inode may be allocated and triggers the error.
-+
-+The fix below for the bug only exists on the master branch of binutils so far
-+and has not been released from upstream. As the convict is introduced since
-+v2.31, only v2.31 is affected.
-+
-+https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=
-+2a50366ded329bfb39d387253450c9d5302c3503
-+
-+When building linux-libc-headers we need to use "as" in binutils which does not
-+contain the fix for the moment. To work around the error, we create a fixed
-+temporary file to contain the program being tested.
-+
-+This patch also removes ">/dev/null 2>&1" so we will have more direct error
-+information in case something else wrong happened.
-+
-+Upstream-Status: Inappropriate [A work around for binutils v2.31]
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ scripts/gcc-goto.sh | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/scripts/gcc-goto.sh b/scripts/gcc-goto.sh
-+index 083c526..0aaf1b4 100755
-+--- a/scripts/gcc-goto.sh
-++++ b/scripts/gcc-goto.sh
-+@@ -3,7 +3,9 @@
-+ # Test for gcc 'asm goto' support
-+ # Copyright (C) 2010, Jason Baron <jbaron@redhat.com>
-+ 
-+-cat << "END" | $@ -x c - -c -o /dev/null >/dev/null 2>&1 && echo "y"
-++TMPFILE=`mktemp -p .`
-++
-++cat << "END" > ${TMPFILE}
-+ int main(void)
-+ {
-+ #if defined(__arm__) || defined(__aarch64__)
-+@@ -20,3 +22,6 @@ entry:
-+ 	return 0;
-+ }
-+ END
-++
-++$@ -x c ${TMPFILE} -c -o /dev/null && echo "y"
-++rm ${TMPFILE}
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
-index eb7bee7..00420aa 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
-@@ -9,5 +9,9 @@ SRC_URI_append_libc-musl = "\
-     file://0001-include-linux-stddef.h-in-swab.h-uapi-header.patch \
-    "
- 
-+SRC_URI_append = "\
-+    file://0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch \
-+"
-+
- SRC_URI[md5sum] = "bee5fe53ee1c3142b8f0c12c0d3348f9"
- SRC_URI[sha256sum] = "19d8bcf49ef530cd4e364a45b4a22fa70714b70349c8100e7308488e26f1eaf1"
+PACKAGES += "${PN}-mkimage ${PN}-mkenvimage"
+
+Then we need to add:
+
+RPROVIDES_${PN}-mkimage = "u-boot-mkimage"
+RREPLACES_${PN}-mkimage = "u-boot-mkimage"
+RCONFLICTS_${PN}-mkimage = "u-boot-mkimage"
+
+So it provides the upgrade path to the original package.
+
+(this is my vote, btw)
+
 -- 
-2.7.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
