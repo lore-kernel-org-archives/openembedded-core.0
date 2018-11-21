@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A4AE6C4BA
+	by mail.openembedded.org (Postfix) with ESMTP id 922B86C4BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 05:35:33 +0000 (UTC)
+	Wed, 21 Nov 2018 05:35:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAL5ZEsx007857
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAL5ZEt3007857
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 21:35:24 -0800
+	Tue, 20 Nov 2018 21:35:44 -0800
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 20 Nov 2018 21:35:03 -0800
+	14.3.408.0; Tue, 20 Nov 2018 21:35:25 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2018 13:41:08 +0800
-Message-ID: <1cc9b301a2a191221617cd893f58ef66fd669a7f.1542778410.git.Qi.Chen@windriver.com>
+Date: Wed, 21 Nov 2018 13:41:09 +0800
+Message-ID: <1369c9b6d4dade16e685be2cf29e485017db6d38.1542778410.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1542778410.git.Qi.Chen@windriver.com>
 References: <cover.1542778410.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 7/8] busybox: fix du-l-works test case
+Subject: [PATCH 8/8] busybox: check CONFIG_DESKTOP before using 'od -t' in test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,67 +33,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 05:35:33 -0000
+X-List-Received-Date: Wed, 21 Nov 2018 05:35:53 -0000
 Content-Type: text/plain
 
-64 + 64 + 16 = 144K
-144 + sizeof_a_directory >= 145
-So fix to use 145 instead of 144.
+The '-t' option support for 'od' is enabled by CONFIG_DESKTOP.
+So check it before using it in test cases.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- ...-du-l-works-fix-to-use-145-instead-of-144.patch | 32 ++++++++++++++++++++++
+ ...te-check-CONFIG_DESKTOP-before-using-od-t.patch | 83 ++++++++++++++++++++++
  meta/recipes-core/busybox/busybox_1.29.2.bb        |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-check-CONFIG_DESKTOP-before-using-od-t.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch b/meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch
+diff --git a/meta/recipes-core/busybox/busybox/0001-testsuite-check-CONFIG_DESKTOP-before-using-od-t.patch b/meta/recipes-core/busybox/busybox/0001-testsuite-check-CONFIG_DESKTOP-before-using-od-t.patch
 new file mode 100644
-index 0000000..bb5f753
+index 0000000..9b96eee
 --- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch
-@@ -0,0 +1,32 @@
-+From c69feb2fdb755d6db34d0eb0a9e9994386c15e3a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/busybox/busybox/0001-testsuite-check-CONFIG_DESKTOP-before-using-od-t.patch
+@@ -0,0 +1,83 @@
++From b09db631e77c63ebe733c69b00108f043f1f1d85 Mon Sep 17 00:00:00 2001
 +From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Wed, 14 Nov 2018 15:19:57 +0800
-+Subject: [PATCH] du-l-works: fix to use 145 instead of 144
++Date: Wed, 21 Nov 2018 10:00:29 +0800
++Subject: [PATCH] testsuite: check CONFIG_DESKTOP before using 'od -t'
 +
-+64 + 64 + 16 = 144
-+144 + size_of_directory >= 145
-+So fix to use 145 instead of 144.
++The '-t' option for od is enabled by CONFIG_DESKTOP. So
++check this config before using 'od -t' in test cases.
 +
-+Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2018-November/086836.html]
++Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2018-November/086895.html]
 +
 +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 +---
-+ testsuite/du/du-l-works | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ testsuite/echo/echo-prints-dash        | 1 +
++ testsuite/echo/echo-prints-non-opts    | 1 +
++ testsuite/echo/echo-prints-slash-zero  | 2 +-
++ testsuite/echo/echo-prints-slash_00041 | 2 +-
++ testsuite/echo/echo-prints-slash_0041  | 2 +-
++ testsuite/echo/echo-prints-slash_041   | 2 +-
++ testsuite/echo/echo-prints-slash_41    | 2 +-
++ 7 files changed, 7 insertions(+), 5 deletions(-)
 +
-+diff --git a/testsuite/du/du-l-works b/testsuite/du/du-l-works
-+index af87345..575064a 100644
-+--- a/testsuite/du/du-l-works
-++++ b/testsuite/du/du-l-works
-+@@ -5,7 +5,7 @@ cd du.testdir
-+ dd if=/dev/zero of=file1 bs=1k count=64 2>/dev/null
-+ ln file1 file1.1
-+ dd if=/dev/zero of=file2 bs=1k count=16 2>/dev/null
-+-test x"`busybox du -l .`" = x"144	." \
-++test x"`busybox du -l .`" = x"145	." \
-+   -o x"`busybox du -l .`" = x"146	." \
-+   -o x"`busybox du -l .`" = x"148	." \
-+   -o x"`busybox du -l .`" = x"152	." \
++diff --git a/testsuite/echo/echo-prints-dash b/testsuite/echo/echo-prints-dash
++index ddcdbad..f1f31a0 100644
++--- a/testsuite/echo/echo-prints-dash
+++++ b/testsuite/echo/echo-prints-dash
++@@ -1 +1,2 @@
+++# FEATURE: CONFIG_DESKTOP
++ test "`busybox echo - | od -t x1 | head -n 1`" = "0000000 2d 0a"
++diff --git a/testsuite/echo/echo-prints-non-opts b/testsuite/echo/echo-prints-non-opts
++index c7d1e20..4e642a1 100644
++--- a/testsuite/echo/echo-prints-non-opts
+++++ b/testsuite/echo/echo-prints-non-opts
++@@ -1 +1,2 @@
+++# FEATURE: CONFIG_DESKTOP
++ test "`busybox echo -neEZ | od -t x1 | head -n 1`" = "0000000 2d 6e 65 45 5a 0a"
++diff --git a/testsuite/echo/echo-prints-slash-zero b/testsuite/echo/echo-prints-slash-zero
++index d97ed8e..948f899 100644
++--- a/testsuite/echo/echo-prints-slash-zero
+++++ b/testsuite/echo/echo-prints-slash-zero
++@@ -1,3 +1,3 @@
++-# FEATURE: CONFIG_FEATURE_FANCY_ECHO
+++# FEATURE: CONFIG_FEATURE_FANCY_ECHO CONFIG_DESKTOP
++ 
++ test "`busybox echo -e -n 'msg\n\0' | od -t x1 | head -n 1`" = "0000000 6d 73 67 0a 00"
++diff --git a/testsuite/echo/echo-prints-slash_00041 b/testsuite/echo/echo-prints-slash_00041
++index 9cffabd..7ea217b 100644
++--- a/testsuite/echo/echo-prints-slash_00041
+++++ b/testsuite/echo/echo-prints-slash_00041
++@@ -1,3 +1,3 @@
++-# FEATURE: CONFIG_FEATURE_FANCY_ECHO
+++# FEATURE: CONFIG_FEATURE_FANCY_ECHO CONFIG_DESKTOP
++ 
++ test "`busybox echo -ne '\00041z' | od -t x1 | head -n 1`" = "0000000 04 31 7a"
++diff --git a/testsuite/echo/echo-prints-slash_0041 b/testsuite/echo/echo-prints-slash_0041
++index b07429d..941faca 100644
++--- a/testsuite/echo/echo-prints-slash_0041
+++++ b/testsuite/echo/echo-prints-slash_0041
++@@ -1,3 +1,3 @@
++-# FEATURE: CONFIG_FEATURE_FANCY_ECHO
+++# FEATURE: CONFIG_FEATURE_FANCY_ECHO CONFIG_DESKTOP
++ 
++ test "`busybox echo -ne '\0041z' | od -t x1 | head -n 1`" = "0000000 21 7a"
++diff --git a/testsuite/echo/echo-prints-slash_041 b/testsuite/echo/echo-prints-slash_041
++index 1d70cec..60cbfca 100644
++--- a/testsuite/echo/echo-prints-slash_041
+++++ b/testsuite/echo/echo-prints-slash_041
++@@ -1,3 +1,3 @@
++-# FEATURE: CONFIG_FEATURE_FANCY_ECHO
+++# FEATURE: CONFIG_FEATURE_FANCY_ECHO CONFIG_DESKTOP
++ 
++ test "`busybox echo -ne '\041z' | od -t x1 | head -n 1`" = "0000000 21 7a"
++diff --git a/testsuite/echo/echo-prints-slash_41 b/testsuite/echo/echo-prints-slash_41
++index 6d8999b..afd7c36 100644
++--- a/testsuite/echo/echo-prints-slash_41
+++++ b/testsuite/echo/echo-prints-slash_41
++@@ -1,3 +1,3 @@
++-# FEATURE: CONFIG_FEATURE_FANCY_ECHO
+++# FEATURE: CONFIG_FEATURE_FANCY_ECHO CONFIG_DESKTOP
++ 
++ test "`busybox echo -ne '\41z' | od -t x1 | head -n 1`" = "0000000 21 7a"
 +-- 
 +2.7.4
 +
 diff --git a/meta/recipes-core/busybox/busybox_1.29.2.bb b/meta/recipes-core/busybox/busybox_1.29.2.bb
-index 98767f0..f38db2a 100644
+index f38db2a..66049bd 100644
 --- a/meta/recipes-core/busybox/busybox_1.29.2.bb
 +++ b/meta/recipes-core/busybox/busybox_1.29.2.bb
-@@ -43,6 +43,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://makefile-libbb-race.patch \
+@@ -44,6 +44,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
             file://0001-testsuite-check-uudecode-before-using-it.patch \
             file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
-+           file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
++           file://0001-testsuite-check-CONFIG_DESKTOP-before-using-od-t.patch \
  "
  SRC_URI_append_libc-musl = " file://musl.cfg "
  
