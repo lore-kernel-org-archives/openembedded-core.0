@@ -1,50 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 06EB56C4CE
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B29AD6C4FC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 12:35:00 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id x19so8541381itl.1
+	Wed, 21 Nov 2018 12:44:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wALCiudw001656
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 04:35:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=GJ7LZ2QIM+RlVOGrSTfnyDS3T6ydfKkgssNCrpywi8o=;
-	b=tEhtZ1e93iRb1Yo+NWOraxTKflt0dvlOx0yAejMa72wzNyAHngch6k/WFfmhg0lxcV
-	Tzh2fK5ojTIUQd9wymjs11LLUtTMxAZqgZtXoaq43WcnY4chU4wvC9Pus2Tf1WgHjbVo
-	ZOwrQvhJMfXe7X2afqtn6nramYXAgQ+NbenMyEH9NcfZiFCWkPC1PcriDZ4gEKgqpuF7
-	Q7n/pkruC9sqc270ZJfX7GnjkR3Qn6IRUfSu4Nf0tyCZVZMSJ919fA9dFVADJAhrgFKh
-	XyMZ1zKHxrTMT13UacsQbRnUSVOqmG4uuDvJCiFqNYxGHUKsyt6frliZpqkYXueWCCB5
-	SAYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=GJ7LZ2QIM+RlVOGrSTfnyDS3T6ydfKkgssNCrpywi8o=;
-	b=EoFfOdxnM2odcQOsjZQeT5BjCVkBqqEgPgFCyn8YE7GkbSfl224DrcJY5GqS83TzZp
-	I90DI3VR/TFPKQxnobAU/0EBQQqhwvXdmWMCWiYMILyPDETgP64vxJO735jN0KLvqNzz
-	YmWqeiX04ImeLvgKr7VBVY0TiTWbSxzPvQB55Daq7IMN0lEvJ8x4Tp38a+kqPpNeELzw
-	lHOaC4XR9tr9yu/ve4RYc1KHERZswCOTh0Up2RsISN/jrTH4Gb3R242MsNrSMXTn5hN0
-	VOZKbvVNQm1S7xpV78VulY1vgen+9c2W7d5XnL+G2Uw/LLALwoDm3lyhfnqQEa7EJFHx
-	jJ2g==
-X-Gm-Message-State: AGRZ1gLKx1FilV/Nszt9NSzdPAETJWR7k8erKyYChFKNCLN1K5I1i4YO
-	R3PmNXeVt2cO15pBSS7845KdxV/ccepwa9eWbrs3ihLbOgE=
-X-Google-Smtp-Source: AJdET5cVT+M+cehDWXabzDZDuZxtHsQivTEd9OU3gHNuNmBBMt7gBie+lvfL1QHGCI1L8sVhEHD/d7IkEEyrTUfauLI=
-X-Received: by 2002:a24:9142:: with SMTP id
-	i63-v6mr6066643ite.130.1542803702032; 
-	Wed, 21 Nov 2018 04:35:02 -0800 (PST)
+	Wed, 21 Nov 2018 04:44:56 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 21 Nov 2018 04:44:55 -0800
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Nov 2018 20:44:54 +0800
+Message-ID: <1542804294-109385-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <cover.1542778410.git.Qi.Chen@windriver.com>
-	<dc2278cac296d5ad9af04e0de849d0f9e0a0884e.1542778410.git.Qi.Chen@windriver.com>
-	<CAJTo0LZRhRoxYXM254vFW61SX5ep4Pu7VBGTDDgTyktz7NXkPA@mail.gmail.com>
-In-Reply-To: <CAJTo0LZRhRoxYXM254vFW61SX5ep4Pu7VBGTDDgTyktz7NXkPA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 21 Nov 2018 12:34:49 +0000
-Message-ID: <CAJTo0Lb+a2AY2H9CB3UvjNw6LaFC4O75w150oNWCsuC376w-tA@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/8] busybox: remove three hostname test cases
+Subject: [PATCH v3] linux-libc-headers: Fix build failure by using fixed temporary file instead of pipe for here-doc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +30,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 12:35:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 21 Nov 2018 12:44:55 -0000
+Content-Type: text/plain
 
-On Wed, 21 Nov 2018 at 12:16, Burton, Ross <ross.burton@intel.com> wrote:
-> On Wed, 21 Nov 2018 at 05:35, Chen Qi <Qi.Chen@windriver.com> wrote:
-> > These three test case are removed because of two reasons.
-> > 1) net-tools' hostname have different behaviour regarding some options
-> >    So when net-tools is installed, test cases may fail.
-> >    e.g.
-> >    test x$(hostname -i) = x$(busybox hostname -i)
->
-> This is just a specific instance of the problem where alternatives may
-> not be what you want.  The busybox test suite should be sure it's
-> running busybox tools.  Having spoken to a few people about this
-> already, maybe busybox-ptest should contain a symlink farm for all the
-> applets to the busybox binary that run-ptest can put at the front of
-> $PATH.
+From: He Zhe <zhe.he@windriver.com>
 
-Something like this:
+This is a workaround for the following possible build failure.
 
-https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mut&id=42ec5eaf3a6c512bffe03d20e7e512e8d87343ca
+*** Compiler lacks asm-goto support.. Stop.
 
-Example package contents at https://pastebin.com/5FpY9xyE
+When building linux-libc-headers we need to use binutils on build machine.
+binutils v2.31 introduces a bug that could cause scripts/gcc-goto.sh to fail
+when running in an environment where /tmp is rarely used, e.g. in docker.
 
-If run-ptest just puts that directory at the front of $PATH then
-you'll be sure to be run the busybox tool.
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+v2: Improve commit log
+v3: Shorten long lines as patchwork suggested
 
-Bonus points for making that a function in update-alternatives.bbclass
-so every recipe with this problem can use it, but that would have to
-happen at do_package time because of how that class works so I'm happy
-enough with this for now.
+ ...-fixed-temporary-file-instead-of-pipe-for.patch | 70 ++++++++++++++++++++++
+ .../linux-libc-headers/linux-libc-headers_4.18.bb  |  4 ++
+ 2 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch
 
-Ross
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch
+new file mode 100644
+index 0000000..0d8fa80
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch
+@@ -0,0 +1,70 @@
++From 3bbea65e11918f8753e8006a2198b999cdb0af58 Mon Sep 17 00:00:00 2001
++From: He Zhe <zhe.he@windriver.com>
++Date: Wed, 21 Nov 2018 15:12:43 +0800
++Subject: [PATCH] scripts: Use fixed temporary file instead of pipe for
++ here-doc
++
++There was a bug of "as" in binutils that when it checks if the input file and
++output file are the same one, it would not check if they are on the same block
++device. The check is introduced by the following commit in v2.31.
++
++https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=
++67f846b59b32f3d704c601669409c2584383fea9
++
++The here-doc usage in this script creates temporary file in /tmp. When we run in
++an environment where /tmp has rarely been used, the newly created temporary file
++may have a very low inode number. If the inode number was 6 which is the same as
++/dev/null, the as would wrongly think the input file and the output file are the
++same and report the following error.
++
++*** Compiler lacks asm-goto support.. Stop.
++
++One observed case happened in docker where the /tmp could be so rarely used that
++very low number inode may be allocated and triggers the error.
++
++The fix below for the bug only exists on the master branch of binutils so far
++and has not been released from upstream. As the convict is introduced since
++v2.31, only v2.31 is affected.
++
++https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=
++2a50366ded329bfb39d387253450c9d5302c3503
++
++When building linux-libc-headers we need to use "as" in binutils which does not
++contain the fix for the moment. To work around the error, we create a fixed
++temporary file to contain the program being tested.
++
++This patch also removes ">/dev/null 2>&1" so we will have more direct error
++information in case something else wrong happened.
++
++Upstream-Status: Inappropriate [A work around for binutils v2.31]
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ scripts/gcc-goto.sh | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/scripts/gcc-goto.sh b/scripts/gcc-goto.sh
++index 083c526..0aaf1b4 100755
++--- a/scripts/gcc-goto.sh
+++++ b/scripts/gcc-goto.sh
++@@ -3,7 +3,9 @@
++ # Test for gcc 'asm goto' support
++ # Copyright (C) 2010, Jason Baron <jbaron@redhat.com>
++ 
++-cat << "END" | $@ -x c - -c -o /dev/null >/dev/null 2>&1 && echo "y"
+++TMPFILE=`mktemp -p .`
+++
+++cat << "END" > ${TMPFILE}
++ int main(void)
++ {
++ #if defined(__arm__) || defined(__aarch64__)
++@@ -20,3 +22,6 @@ entry:
++ 	return 0;
++ }
++ END
+++
+++$@ -x c ${TMPFILE} -c -o /dev/null && echo "y"
+++rm ${TMPFILE}
++-- 
++2.7.4
++
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
+index eb7bee7..00420aa 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
+@@ -9,5 +9,9 @@ SRC_URI_append_libc-musl = "\
+     file://0001-include-linux-stddef.h-in-swab.h-uapi-header.patch \
+    "
+ 
++SRC_URI_append = "\
++    file://0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch \
++"
++
+ SRC_URI[md5sum] = "bee5fe53ee1c3142b8f0c12c0d3348f9"
+ SRC_URI[sha256sum] = "19d8bcf49ef530cd4e364a45b4a22fa70714b70349c8100e7308488e26f1eaf1"
+-- 
+2.7.4
+
 
