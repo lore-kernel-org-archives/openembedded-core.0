@@ -1,54 +1,25 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 687416B061
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E9F060234
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 10:31:02 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id x10so5082732wrs.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 02:31:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=pEXfjvgXXQHdP7Uz4AGz3fSsj2nMqnhAWLiGSOQGTRI=;
-	b=ONZrLa06g5+Mtp6UQvT7RNnmZz6lziRs8MUzOnpa8N19EPBw2BY+V+dpnXZBW5RJZH
-	jfBjuXXk3hKUr0y3veTBT9I3NjEdReun4q57tBQYUma6JJQbjD23A7jyr1Ulvb98rGbp
-	o8z8NfYTLmtxFdKfS4RAPm0N56Oh4ECnro2c8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=pEXfjvgXXQHdP7Uz4AGz3fSsj2nMqnhAWLiGSOQGTRI=;
-	b=XWLHDVj8oWF7OhL58BC/GJ/Lk2CfJJzq77iPW/XuU8gjK2/bM2qtzdGPFqez+SXBSC
-	sdR1WpgecdcZVGZp7kySCeXHL/UognSRYr9wY7K4g2VUBo0mlIJ/pdXldFFHbHFig5TS
-	HIQreL2K5301Qe/pqw8JAUNfMtEgnk8GnjiQKt7X7hFQC11bpSFVlVRxkgM4AZwKj2bG
-	OikmcRzTkEW8huvtJ2eZxepD8CIuFvsIfqWFR0JPVowixuAN42sNkXtMT02J8UZ4vB3m
-	0B9IhhwFwZ6265okhvikuOHZCGyDpjG0cCtLMbl06xiVuqc/PSpmhseLGBhgQ5AGyYQY
-	St2Q==
-X-Gm-Message-State: AA+aEWbes34Sw2qNm2sK3ZtitPBlMx8TefxA42ITpzzoP7XJbg038xS0
-	8Rum50KhIlCU31oaJgAVVgUcXp4hFfM=
-X-Google-Smtp-Source: AFSGD/WiX+zdc5VUPa4mKXwy9m1PJSIhsp9DTorgg9OK74dqYWVO0hjR+bFsJjt+5wJnRZBrG6qoVw==
-X-Received: by 2002:adf:c6c3:: with SMTP id
-	c3-v6mr5056639wrh.243.1542796262702; 
-	Wed, 21 Nov 2018 02:31:02 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j33sm13535905wre.91.2018.11.21.02.31.01
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 21 Nov 2018 02:31:01 -0800 (PST)
-Message-ID: <34b4d3a7293b94b628cd20dc274373369d863286.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: He Zhe <zhe.he@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 21 Nov 2018 10:31:00 +0000
-In-Reply-To: <443e9905-4658-ba4b-4138-ab1a4cef99ac@windriver.com>
-References: <1542793159-82086-1-git-send-email-zhe.he@windriver.com>
-	<a62020398837a76303dfc2b9d880279731d955e9.camel@linuxfoundation.org>
-	<443e9905-4658-ba4b-4138-ab1a4cef99ac@windriver.com>
+	Wed, 21 Nov 2018 10:35:17 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	wALAZGEB005896
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 21 Nov 2018 10:35:17 GMT
+Message-ID: <5d065b2ee6f9f619ae3537eb58e5e18117fefd0a.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 21 Nov 2018 10:35:16 +0000
+In-Reply-To: <1a6d8097cc8ed3b4a8916632e247f79d2d6689d9.camel@linuxfoundation.org>
+References: <20181119172726.23571-1-raj.khem@gmail.com>
+	<1a6d8097cc8ed3b4a8916632e247f79d2d6689d9.camel@linuxfoundation.org>
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 Mime-Version: 1.0
-Cc: bruce.ashfield@windriver.com
-Subject: Re: [PATCH] scripts: Use fixed temporary file instead of pipe for here-doc
+X-Virus-Scanned: clamav-milter 0.100.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] musl: Update to latest trunk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,90 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 10:31:02 -0000
+X-List-Received-Date: Wed, 21 Nov 2018 10:35:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2018-11-21 at 18:21 +0800, He Zhe wrote:
-> 
-> On 2018/11/21 18:07, Richard Purdie wrote:
-> > On Wed, 2018-11-21 at 17:39 +0800, zhe.he@windriver.com wrote:
-> > > From: He Zhe <zhe.he@windriver.com>
-> > > 
-> > > A workaround for possible "*** Compiler lacks asm-goto support..
-> > > Stop."
-> > > linux-libc-headers is built by gcc on build machine, which could
-> > > not
-> > > contain the
-> > > fix.
-> > > 
-> > > Signed-off-by: He Zhe <zhe.he@windriver.com>
-> > > ---
-> > >  ...-fixed-temporary-file-instead-of-pipe-for.patch | 60
-> > > ++++++++++++++++++++++
-> > >  .../linux-libc-headers/linux-libc-headers_4.18.bb  |  4 ++
-> > >  2 files changed, 64 insertions(+)
-> > >  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-
-> > > libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-
-> > > pipe-
-> > > for.patch
+On Wed, 2018-11-21 at 09:32 +0000, Richard Purdie wrote:
+> On Mon, 2018-11-19 at 09:27 -0800, Khem Raj wrote:
+> > Complete changelogs are here
 > > 
-> > How old is an "old gcc"?
 > 
-> I put the full explanation in the commit log of the patch inside.
-
-No, you did not. I went and looked at the link (which I had to un-line
-wrap) to understand this and the problem is in binutils in the
-assembler (as), *not* gcc. Its also not just some "old gcc" but any
-current released version of binutils which is quite different.
-
-Please improve the commit message to reference binutils, not gcc,
-mention the current version of bintuils (2.31) and that it and all
-previous versions have the bug.
-
-Also please set the Upstream-Status correctly.
-
-> The fix below for the bug has not been released from upstream. Since
-> there has
-> not been gcc-cross when building linux-libc-headers, we have to use
-> build
-> machine gcc which could not contain the fix for the moment. To work
-> around the
-> error, we create a fixed temporary file to contain the program being
-> tested.
 > 
-> https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=
-> 2a50366ded329bfb39d387253450c9d5302c3503
-> 
+https://git.musl-libc.org/cgit/musl/log/?qt=range&q=c50985d5c8e316c5c464f352e79eeebfed1121a9..79f653c6bc2881dd6855299c908a442f56cb7c2b
 > > 
-> > If this isn't going upstream, I'm not sure we want to take and
-> > carry
-> > this either. Unless this is a gcc people would commonly run into
-> > I'm
-> > tempted not to take this.
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-core/musl/musl_git.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> This is a gcc issue, but the fix would not quickly goto versions
-> being used
-> by users. So this patch is used as a workaround to prevent the
-> failure.
+> This seemed to have a segfault in exportfs:
 > 
-> To be specific, we encountered this in docker where the /tmp could be
-> rarely used that very low number inode may be allocated and triggers
-> the error.
-
-That should also be mentioned in the commit message as that does put it
-in a different light.
-
-> > 
-> > Also, your patch subject is wrong as this does not change our
-> > scripts
-> > directory.
 > 
-> If this is OK, I'll send v2 to change the subject.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/27/builds/231/steps/7/logs/step1c
+> 
+> Will rerun and see if it reproduces...
 
-Along with the other changes please.
+It reproduces:
 
-Thanks,
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/27/builds/232/steps/7/logs/step1c
+
+(which is good and bad!)
+
+Cheers,
 
 Richard
 
