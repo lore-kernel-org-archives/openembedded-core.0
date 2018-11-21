@@ -1,42 +1,42 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 2667B6BF31;
-	Wed, 21 Nov 2018 20:59:22 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id f12-v6so7162091plo.1;
-	Wed, 21 Nov 2018 12:59:24 -0800 (PST)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id D2DD36C1BE;
+	Wed, 21 Nov 2018 21:22:46 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id s5-v6so7214785plq.11;
+	Wed, 21 Nov 2018 13:22:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=Nd8iY1BG94szuexUuvNIapRpEIIdioOF39EQOPtMFDs=;
-	b=Fl3ds82mIbXZVWpaGeOx7+vZGlHUZGkZybFatYEwnjBSYKLTZKpHqzVDsOiKmW2Sq0
-	jnzcmEI7Hez4Vqy+rGmuWz2SNkpQiFVdnkfc6v1prsO/tE57MWve7tBYPBqNhNlas7Ee
-	ExtScPrPQ6UJ+BRYurNFrgh8YZg/Xe0ehjn6C3IPRfti2iyc7ibupzl7LOyaXWd+k8Qa
-	3hAtV2YYP4DgbXCHf2KWGdg85X69pl3YbjYYo8K4aCrKyfs+O7art1djL3biVi11r4cv
-	R3nhoa4S906T8eiVlHPvD/nS2iTqn/6VLjlNhhWFBR6KdaPZTy1/g0tCKSxNgbQSPm9J
-	n1zg==
+	bh=IkInvBxK6CTTK0B5xqSBo03Ddhdb6h7L13Dwl8MqOrI=;
+	b=j2UWQxAuH13z1h2Tb+BTAT4WvIJ2aZc7hjGsnpMCa+yhpnhHmUZyweuPtsHifntgSp
+	QBo7K2eWHMPV/1qywupmzILOnrTQRhy6RL4DQWI8FdMNs1cfRNcGnI2yfmhuTTx51Mfi
+	ztR5FyxxMF2HZsruY3Et2lY0XejAfSdFiw5EFBeejXX5VOICOaWkDQ0Z3rXnph1tyaKf
+	mDs6iAUEdZ1oVNpuS1zzWg64aJLg6pMoG76ojb4/8ZmEwPEb8Bd/2PYlBBVhYgwRt8Oy
+	8U8vRIxkjrsg3GvwmKfNZnS/oMB5v37mHhmnaMnjSCRIx83XcTs6SrmrrxHPdsSxQuoc
+	R7tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=Nd8iY1BG94szuexUuvNIapRpEIIdioOF39EQOPtMFDs=;
-	b=Mj+B/MytmF/8hI3WiA1TZMvE0ZmATZkFCHZ/07ZUeMZyuBjPmfA8vwBbbU0Jo/LPfh
-	pp1aJr9o+T0xVxZMjJi4vWOKkrc0M/wfKWDYbJ/BSfWImSV+pGmISElOs8GgoiqSgKWc
-	j8PO0Hygb3NayjJT8mq3BDc7wntA53Vv4CpeDwZCE7dDevcxWZj9pqaJVokEBIbfqTXd
-	rnTGAGkhsceFE/Nee96tSO1dT/jNqabpQSUrh5NvjgZZz9bbx+53034L3ldpHPdPoibA
-	ZbXWJTBwYRIrBZyf8THKlwgXquynh6W5F8HXMaLB42btILtAiQp28gezPq0PFCy7Tcoa
-	/rzQ==
-X-Gm-Message-State: AA+aEWZzGz2N7+qqQRVjHEp9f2oyxejZhUZdLu72Nd7fxj++mT24wqky
-	PMKSWZ66WFUoAwo+dM3OOyyAnMyo
-X-Google-Smtp-Source: AFSGD/Wb7pTdQ0+5dG/W4mc9O4WtS25ITa19Ah4astUXgtMYa5yCnaFXCXat6z7YkMDVAUivoMC+NA==
-X-Received: by 2002:a17:902:24a5:: with SMTP id
-	w34-v6mr8292314pla.91.1542833963580; 
-	Wed, 21 Nov 2018 12:59:23 -0800 (PST)
+	bh=IkInvBxK6CTTK0B5xqSBo03Ddhdb6h7L13Dwl8MqOrI=;
+	b=LlFHEz5OA3cgDeJCzX/iGb7L6rTr/gUFWsjuiKESWmVrNd9zJAqjXWQf5gnC4xkwsc
+	jOlzUYMUwj0Wjp1y+LX27oHDWSNuatT4lfKTppSbTIC+4nQZkZjku1yxWMe4QQECqwxi
+	1NJGAToJdgoCVAVkkaWURplKQYZxWDqMCsGi+MEtl25pGhSxzt6R2dKV6D9RktEIblgN
+	CaP2LdxvcwxqSbxovZg0QPftbcVo1VeBPe5MPRYazwfcAcdRI81tHBd1in1tkomovvGx
+	CkLdIgXMm4V1ddcfQ8SICDWVabp6CE99zkUfZ27grl4OACiNeAc3wpQdgjq2x/yRdWVN
+	8Umg==
+X-Gm-Message-State: AA+aEWaJhepEThzVRc5+IX+i7veYOxgDfD8ElWmMo0EFzXtrYm2SxooC
+	GN+VddTEW2c3i4/qxRhnkUd4YmHp
+X-Google-Smtp-Source: AFSGD/WJytZX7NIdiG8yJ5QAKI/U4GSuOWI9rTnNiU6UasUUv5fYSixKohB+yaHLYw9yNeAVetRFkw==
+X-Received: by 2002:a17:902:9004:: with SMTP id
+	a4-v6mr8356655plp.334.1542835367494; 
+	Wed, 21 Nov 2018 13:22:47 -0800 (PST)
 Received: from [192.168.0.33] (97-121-174-158.clsp.qwest.net. [97.121.174.158])
 	by smtp.gmail.com with ESMTPSA id
-	m3sm14737402pff.173.2018.11.21.12.59.21
+	x127sm39577528pfd.156.2018.11.21.13.22.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Nov 2018 12:59:22 -0800 (PST)
+	Wed, 21 Nov 2018 13:22:46 -0800 (PST)
 To: Martin Jansa <martin.jansa@gmail.com>,
 	openembedded-core@lists.openembedded.org
 References: <154238601667.15427.9965417024860647033@git.openembedded.org>
@@ -87,8 +87,8 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <f9ff0b37-e05c-563f-0082-bb01ff670b8e@gmail.com>
-Date: Wed, 21 Nov 2018 13:59:19 -0700
+Message-ID: <8302c796-5bcc-a51c-9336-4166172f4b9b@gmail.com>
+Date: Wed, 21 Nov 2018 14:22:44 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.2.1
 MIME-Version: 1.0
@@ -107,27 +107,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 20:59:23 -0000
-X-Groupsio-MsgNum: 118462
+X-List-Received-Date: Wed, 21 Nov 2018 21:22:48 -0000
+X-Groupsio-MsgNum: 118463
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="qc8MlvsC9g3sBNbMrC5E0Wy5NRpsOhfQ3"
+	boundary="Hf6fnt5WVtEOjfY8QfcO8EyGDcbHvwpQS"
 
---qc8MlvsC9g3sBNbMrC5E0Wy5NRpsOhfQ3
-Content-Type: multipart/mixed; boundary="GxvnjRVfv1Jb91BAzsUWtQwCb2hPBMhkr";
+--Hf6fnt5WVtEOjfY8QfcO8EyGDcbHvwpQS
+Content-Type: multipart/mixed; boundary="lUmPddHWg9Y0MsMA3ohrRHufjIGzMqzoK";
  protected-headers="v1"
 From: akuster808 <akuster808@gmail.com>
 To: Martin Jansa <martin.jansa@gmail.com>,
  openembedded-core@lists.openembedded.org
 Cc: openembedded-commits@lists.openembedded.org
-Message-ID: <f9ff0b37-e05c-563f-0082-bb01ff670b8e@gmail.com>
+Message-ID: <8302c796-5bcc-a51c-9336-4166172f4b9b@gmail.com>
 Subject: Re: [oe-commits] [openembedded-core] 10/35: tzcode: update to 2018f
 References: <154238601667.15427.9965417024860647033@git.openembedded.org>
  <20181116163337.4A962235D9B@git.openembedded.org>
  <20181120195642.GA1825@jama>
 In-Reply-To: <20181120195642.GA1825@jama>
 
---GxvnjRVfv1Jb91BAzsUWtQwCb2hPBMhkr
+--lUmPddHWg9Y0MsMA3ohrRHufjIGzMqzoK
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
@@ -148,6 +148,10 @@ e:
 >>
 >>     tzcode: update to 2018f
 > This breaks postgresql build in sumo:
+After review, updating postgresql to 9.4.20 ( bug fixes only) is the
+preferred path in this case.
+
+- armin
 >
 > | postgresql/9.4.17-r0/recipe-sysroot-native/usr/bin/zic -d 'postgresql=
 /9.4.17-r0/image/usr/share/postgresql/timezone' -p 'US/Eastern' postgresq=
@@ -181,9 +185,6 @@ data.zi", line 1599: Invalid rule name "+"
 =2E
 >
 > to meta-oe/sumo?
-I should.
-
-- armin
 >
 > Thanks
 >
@@ -300,9 +301,9 @@ tory/releases/tzcode${PV}.tar.gz
 
 
 
---GxvnjRVfv1Jb91BAzsUWtQwCb2hPBMhkr--
+--lUmPddHWg9Y0MsMA3ohrRHufjIGzMqzoK--
 
---qc8MlvsC9g3sBNbMrC5E0Wy5NRpsOhfQ3
+--Hf6fnt5WVtEOjfY8QfcO8EyGDcbHvwpQS
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -310,19 +311,19 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAEBCAAGBQJb9ccoAAoJEO6LtJn0Vuf5IigQAJxL3R1BZZyym0MABOX3WWVt
-andAjXBvQ0GKoaD0Zo7kvwqjIgycx4C5+W4F0u3VJPBp1bF0Dn7ST9burEhjQVSN
-eyxhqfhQ6CdpjvHkSszEyWHUp7zqZBjSqd2ZnFbHhA4ZLISLhpZJPuNc/RK+Jch2
-3xvJFnIK9QGN7Po9gys6eD4ELm1P7LPYAbAAKMNqIGjOj8ydKkel6LC4405FZvF4
-xeS/cQJPuCKt3aAkETK2EvDIy9yKu/TsmS5UZjd+BQBqKe3U0IMuichVOFJTXnaQ
-52YIFbhgpcl1+y+NH1KeNuA3mMguyW5PDGC3KAFtaCM72Lck+mhVSKYeGhOllxXq
-fYx3w3UcxDBqObxHSkVo4dWK2DZ+I5CQMiQybz6zza+vHULprsjsvIJy9Ey18MKh
-mF04c+FjkfKZXU0IRrsGquSNXuBlxuNdtRmAy0aROovAH1TMJaRt/VJf7lSm/CAH
-ZrtqM3JOKTC8CO2FAUxbPx+4eWlIs17tRQH8gkKqQKR90wF0r4Zo2bCnMJtkbM27
-ky1l8H98pB63v3f9GxC7pY3blyfsbAwv+UNtD638XvSyoGwKG+KOMRjsA8SZYnM3
-s0W46vYpJLHx+2u0fKfxe211pmFqTvJ0TGxMqQKNCaSLKVgtd9mpxMuM8BrArrc7
-lAxZGxlaHtOsTnMgVNlm
-=7B5W
+iQIcBAEBCAAGBQJb9cykAAoJEO6LtJn0Vuf5i4EP/RN0BvBc8xTCgf7Yl/YuZvnD
+0xsWvB9mx7rLze6zq2yZjfZiRUyG03NOBQWfF4UGofkFSjifVuiGIzWIuvJssR9c
+Huv2finCHN+LnvL4SXJDYQi/T5fCjIKZlzQ/JpzWHIdm1z6Tyo3MFqXJkWZrAkNu
+K6MHowdQU4q0uy9oo2mPocwoB/XtTXdoYS+WzsFf/KAdQDpf5zk2t0ChfFu4iOp3
+BwbiNbNr+dobab62HU4tR9w0dC1cGzEIBSj4RyHvN2VaTnCEyPDWSy8w0HNWnzbo
+MCOH0b3XYrZTmN4nt55RGa8FTFDdhT1TBhJqEkwI/GKHwERmVAdAYYy+S8mDJqy1
+CVAGmEbL/3q0Uf9mtpSCQifl2EqXFnbb0e+Phcq8A0005u8+8hw3i1kHNDxvTyFv
+mJ7YZOBl6NudVl5Hg+IPqi/6wWCa3MrqQ5YVzC19sFQs9LXFescO4oVA27rIHNsz
+f3cInQfpB+VOqS0rPgbPUBt1pKayeg+cLTp4hIdNX7IFQ4m/w/vj5Z0tOPLIAJm7
+8Wc3EtAVXmYvLe0OuCOOzshLaDMIyWvvjg2TPtXgDDIxoZpDvsWZ59gufUGm2kvu
+pINCtC3cdgWY0KFzihH3SBFi9hLrXBOSh1NoyjJZdIlXWloJUEXwEmZLPh+5MyLX
+tw2bd+LpXit4sG3+GJtk
+=qYj+
 -----END PGP SIGNATURE-----
 
---qc8MlvsC9g3sBNbMrC5E0Wy5NRpsOhfQ3--
+--Hf6fnt5WVtEOjfY8QfcO8EyGDcbHvwpQS--
