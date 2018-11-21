@@ -1,25 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8ABC86C4FC
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F0116C4ED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 05:35:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAL5Z25U025424
+	Wed, 21 Nov 2018 05:35:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAL5Yo3U007829
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2018 21:35:03 -0800 (PST)
+	Tue, 20 Nov 2018 21:35:00 -0800
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 20 Nov 2018 21:35:02 -0800
+	14.3.408.0; Tue, 20 Nov 2018 21:34:39 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2018 13:41:07 +0800
-Message-ID: <dc2278cac296d5ad9af04e0de849d0f9e0a0884e.1542778410.git.Qi.Chen@windriver.com>
+Date: Wed, 21 Nov 2018 13:41:05 +0800
+Message-ID: <5052e387e7abe2189fde132a3e53a920eac9aaf5.1542778410.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1542778410.git.Qi.Chen@windriver.com>
 References: <cover.1542778410.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/8] busybox: remove three hostname test cases
+Subject: [PATCH 4/8] busybox: check uudecode before using it in test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +33,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 05:35:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Nov 2018 05:35:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-These three test case are removed because of two reasons.
-1) net-tools' hostname have different behaviour regarding some options
-   So when net-tools is installed, test cases may fail.
-   e.g.
-   test x$(hostname -i) = x$(busybox hostname -i)
-
-2) hostname may set to some value, e.g. qemux86-64, which is not an entry in /etc/hosts
-   This results in lookup failure when using `hostname -f' as there's no entry in /etc/hosts.
+Check uudecode before using it in test case to avoid unexpected failure.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ ...-testsuite-check-uudecode-before-using-it.patch | 45 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.29.2.bb        |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-check-uudecode-before-using-it.patch
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index b45d2b6..cc7246f 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -352,6 +352,12 @@ do_install_ptest () {
- 	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
- 	cp ${B}/.config      ${D}${PTEST_PATH}/
- 	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
-+	# Remove some hostname test cases as they may fail because of two reasons
-+	# 1) net-tools' hostname have different behaviour regarding some options
-+	# 2) hostname may set to some value, e.g. qemux86-64, which is not an entry in /etc/hosts
-+	rm ${D}${PTEST_PATH}/testsuite/hostname/hostname-i-works
-+	rm ${D}${PTEST_PATH}/testsuite/hostname/hostname-d-works
-+	rm ${D}${PTEST_PATH}/testsuite/hostname/hostname-s-works
- }
+diff --git a/meta/recipes-core/busybox/busybox/0001-testsuite-check-uudecode-before-using-it.patch b/meta/recipes-core/busybox/busybox/0001-testsuite-check-uudecode-before-using-it.patch
+new file mode 100644
+index 0000000..2d9856f
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-testsuite-check-uudecode-before-using-it.patch
+@@ -0,0 +1,45 @@
++From 85f164ec427fecbae24140b3c93acbbe2ba1c817 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Tue, 13 Nov 2018 11:27:01 +0800
++Subject: [PATCH] testsuite: check uudecode before using it
++
++The unzip and tar test cases use uudecode command, so also
++check it via optional function.
++
++Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2018-November/086833.html]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ testsuite/tar.tests   | 2 +-
++ testsuite/unzip.tests | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/testsuite/tar.tests b/testsuite/tar.tests
++index d71a349..8c88567 100755
++--- a/testsuite/tar.tests
+++++ b/testsuite/tar.tests
++@@ -336,7 +336,7 @@ SKIP=
++ cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
++ 
++ mkdir tar.tempdir && cd tar.tempdir || exit 1
++-optional FEATURE_SEAMLESS_BZ2 FEATURE_TAR_AUTODETECT LS
+++optional FEATURE_SEAMLESS_BZ2 FEATURE_TAR_AUTODETECT LS UUDECODE
++ testing "Symlink attack: create symlink and then write through it" '\
++ exec 2>&1
++ uudecode -o input && tar xvf input; echo $?
++diff --git a/testsuite/unzip.tests b/testsuite/unzip.tests
++index af53de9..3b45ece 100755
++--- a/testsuite/unzip.tests
+++++ b/testsuite/unzip.tests
++@@ -31,7 +31,7 @@ rmdir foo
++ rm foo.zip
++ 
++ # File containing some damaged encrypted stream
++-optional FEATURE_UNZIP_CDF
+++optional FEATURE_UNZIP_CDF UUDECODE
++ testing "unzip (bad archive)" "uudecode; unzip bad.zip 2>&1; echo \$?" \
++ "Archive:  bad.zip
++   inflating: ]3j½r«IK-%Ix
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/busybox/busybox_1.29.2.bb b/meta/recipes-core/busybox/busybox_1.29.2.bb
+index df3ea59..a63fa82 100644
+--- a/meta/recipes-core/busybox/busybox_1.29.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.29.2.bb
+@@ -41,6 +41,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://rcS \
+            file://rcK \
+            file://makefile-libbb-race.patch \
++           file://0001-testsuite-check-uudecode-before-using-it.patch \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
  
- inherit update-alternatives
 -- 
 1.9.1
 
