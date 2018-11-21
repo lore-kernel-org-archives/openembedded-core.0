@@ -1,24 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7498C6C4F4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 569D565CE9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 06:08:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAL67URf008593
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 20 Nov 2018 22:07:51 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 20 Nov 2018 22:07:32 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2018 14:24:34 +0800
-Message-ID: <cover.1542781427.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Cc: c.andersen@kostal.com
-Subject: [PATCH 0/1] uboot-sign.bbclass: fix signature and deployment
+	Wed, 21 Nov 2018 09:32:39 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	wAL9WbTS032268
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 21 Nov 2018 09:32:39 GMT
+Message-ID: <1a6d8097cc8ed3b4a8916632e247f79d2d6689d9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 21 Nov 2018 09:32:37 +0000
+In-Reply-To: <20181119172726.23571-1-raj.khem@gmail.com>
+References: <20181119172726.23571-1-raj.khem@gmail.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] musl: Update to latest trunk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2018 06:08:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Nov 2018 09:32:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 19c9842644b7b0a599437fd394111f161c8b1f1e:
+On Mon, 2018-11-19 at 09:27 -0800, Khem Raj wrote:
+> Complete changelogs are here
+> 
+https://git.musl-libc.org/cgit/musl/log/?qt=range&q=c50985d5c8e316c5c464f352e79eeebfed1121a9..79f653c6bc2881dd6855299c908a442f56cb7c2b
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/musl/musl_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-  apt: Improve SRC_URI (2018-11-20 10:11:24 +0000)
+This seemed to have a segfault in exportfs:
 
-are available in the git repository at:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/27/builds/231/steps/7/logs/step1c
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/uboot
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/uboot
+Will rerun and see if it reproduces...
 
-Robert Yang (1):
-  uboot-sign.bbclass: fix signature and deployment
+Cheers,
 
- meta/classes/kernel-fitimage.bbclass | 17 ++++++-
- meta/classes/uboot-sign.bbclass      | 95 ++++++++++++++++++++----------------
- meta/recipes-bsp/u-boot/u-boot.inc   |  2 +-
- 3 files changed, 69 insertions(+), 45 deletions(-)
-
--- 
-2.7.4
+Richard
 
 
