@@ -1,26 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F20226C59D
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (smtprelay4.synopsys.com [198.182.47.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E30A6C019
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 11:35:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAMBYuf0023858
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 03:35:06 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 22 Nov 2018 03:34:45 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Nov 2018 19:51:59 +0800
-Message-ID: <d5d4a8875af1603e8741767c587bed4b229349b8.1542887170.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1542887170.git.liezhi.yang@windriver.com>
-References: <cover.1542887170.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] sstate.bbclass: set SSTATE_EXTRAPATHWILDCARD explicitly
+	Thu, 22 Nov 2018 12:06:03 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id 3495824E13A9;
+	Thu, 22 Nov 2018 04:06:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1542888365; bh=uLVde2z2digV8FENoqLTMTExWAUG6Lbwb91RGEvOn3E=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AJfCvnhAUU+hp37iESMfJXSh4a/A4MAWje8kkcvrhSUIHU+RKSGDTjUupsqDEHqXz
+	3kWOI83LQojp6NHCvh3PB6DcZvtrfm23UZQRa0/ymqdWb5E72Fin2Ho2n7f/fizfbd
+	YvQ6zXomnp4Kk554dfaB2TmsMFP8c8oK3zW2IrCkDl8a5pGs/wjUFDBrQu8n7bURrG
+	DYy0Yt4TTJK0B8Qa1tXHWy8605j/wJk+w7SfAp+Z4ssvivWp77IivcPOFoWBHIgHGP
+	4i/x2ibT7w6QxnPqxtd+N5y3RcQQJyLCD8eS4HiDryOw/AmGvEo9iMOsj92pfua0q6
+	MPizU6ptHJlsA==
+Received: from ru20arcgnu1.internal.synopsys.com
+	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
+	by mailhost.synopsys.com (Postfix) with ESMTP id D00FE3984;
+	Thu, 22 Nov 2018 04:06:03 -0800 (PST)
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Nov 2018 15:06:00 +0300
+Message-Id: <20181122120600.10061-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.16.2
+Cc: linux-snps-arc@lists.infradead.org,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>
+Subject: [PATCH] gcc: Select proper ARC CPU when build for target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 11:35:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Nov 2018 12:06:04 -0000
 
-The glob.glob("/sstate/*/*/") is very time consuming, set
-SSTATE_EXTRAPATHWILDCARD explicity to avoid that. This can save a lot of time
-when there are many sstate files.
+By default GCC for ARC is configured with ARC700 CPU.
+This means when we don't pass "-mcpu=xxx":
+ a) Code will be compiled for ARC700
+ b) Libs will used for ARC700
 
-For example, I have more than 600,000 sstate files:
-* Before
-  - Without disk caches
-  $ time python3 -c 'import glob; glob.glob("/sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_populate_sysroot.tgz*")'
-    real    4m32.583s
-    user    0m5.768s
-    sys     0m12.892s
+And if we happen to run on ARCv2 core like ARC HSxx we
+won't be able to use target gcc w/o "-mcpu=xxx" which
+is not very convenient as we want to build "target" toolchain
+but not canadian-cross.
 
-  - With disk caches
-  $ time python3 -c 'import glob; glob.glob("/sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_populate_sysroot.tgz*")'
-  real    0m4.111s
-  user    0m2.348s
-  sys     0m1.756s
+Note the trick here is we set TUNE_PKGARCH in just 2 values,
+it is either "arc700" for all ARCompact cores (ARC750 & ARC770)
+and "archs" for all ARCv2 cores (ARC HS38 & HS48), see [1].
+This gives us usable defaults.
 
-* After
-  $ time python3 -c 'import glob; glob.glob("/sstate-cache.bak/universal/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_populate_sysroot.tgz*")'
-  - Without disk caches:
-  real    0m7.928s
-  user    0m0.172s
-  sys     0m0.124s
+For cross-compilation we use TUNE_CCARGS for fine-tuning depending
+on which HW features we have on the current target so that
+we may have HW feature A & B or B & C or A & B & C, see [2].
 
-  - With disk caches:
-  real    0m0.131s
-  user    0m0.088s
-  sys     0m0.044s
+[1] https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys/blob/master/conf/machine/include/tune-arcv2.inc#L4
+[2] https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys/blob/master/conf/machine/include/tune-arcv2.inc#L34
 
-We can see that it saves about 3.8s with disk caches, and saves about 264s
-without disk caches.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
 ---
- meta/classes/sstate.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-target.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index efb0096..94fde6d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -101,7 +101,7 @@ python () {
-     if bb.data.inherits_class('native', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('cross', d):
-         d.setVar('SSTATE_EXTRAPATH', "${NATIVELSBSTRING}/")
-         d.setVar('BB_HASHFILENAME', "True ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}")
--        d.setVar('SSTATE_EXTRAPATHWILDCARD', "*/")
-+        d.setVar('SSTATE_EXTRAPATHWILDCARD', "${NATIVELSBSTRING}/")
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index bc2236fed0..6270059644 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -20,6 +20,7 @@ ARMFPARCHEXT ?= ""
+ EXTRA_OECONF_append_armv6 = " --with-arch=armv6${ARMFPARCHEXT}"
+ EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a${ARMFPARCHEXT}"
+ EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve${ARMFPARCHEXT}"
++EXTRA_OECONF_append_arc = " --with-cpu=${TUNE_PKGARCH}"
  
-     unique_tasks = sorted(set((d.getVar('SSTATETASKS') or "").split()))
-     d.setVar('SSTATETASKS', " ".join(unique_tasks))
+ # libcc1 requres gcc_cv_objdump when cross build, but gcc_cv_objdump is
+ # set in subdir gcc, so subdir libcc1 can't use it, export it here to
 -- 
-2.7.4
+2.16.2
 
 
