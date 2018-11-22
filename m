@@ -1,33 +1,34 @@
 Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
+Received: from smtprelay.synopsys.com (smtprelay2.synopsys.com
 	[198.182.60.111])
-	by mail.openembedded.org (Postfix) with ESMTP id D31D76C506
+	by mail.openembedded.org (Postfix) with ESMTP id 97B756BCAE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 22:38:44 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 07FDC10C14C4;
-	Thu, 22 Nov 2018 14:38:46 -0800 (PST)
+	Thu, 22 Nov 2018 22:58:28 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id 37EDF10C145C;
+	Thu, 22 Nov 2018 14:58:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1542926326; bh=rNA/Tfc3oMsiPWnGJxaRZSZMkzjCaNW+Nz8c44Bg0Co=;
+	t=1542927509; bh=Awxy6OO4QcELthFdnHe3KtwTMh9mcneq4cDUr1nDEI0=;
 	h=From:To:Cc:Subject:Date:From;
-	b=BVHsE6uoqafKWmqEMjdvziDR25f2aj7/tI3d5DQnTcuXUoHIZWMKD706T66K4Kkzg
-	J3GsEIgTN/8AAzJawJJda0+jXVz4mBDTNp8ZVTjE6Q8HuRovCTxMvcr1r3NrK36Vua
-	sjNr/yqcmk7EuPw9cR4d3P1T7cJT5GUSUQs3GVkChZ9KdGDmKKTXmOBtqMql2AB4w3
-	GOqIJ5t6NF38THeuWSYZ4dfWHtwFBkUd3y/9pm+1NUFiNAt/kN9TN+Kmfg34oQxlYe
-	VEveOOJ/FbsvVo5kRFK3S5QIQYc8GvJQl4GIUVOfW6cWAeO170aIR4cqQKHi2P75Vn
-	fuRwATh36QRYQ==
+	b=QqkFxsu7l6UH07FQeziXvp/egFS0TVAX9e0MvY3RW24ZpsPAoW+EXXK418pQVLwEL
+	lh/oHQtuXxnxk8zu50USHa3OwnMNioKhmX/gA/cFmGMQOkKgVf+QxDDY/2Zt5POO3N
+	yMoxzaaV65c4X81i4sLebIfVqK0+B6TT2Oux1pv4xyZGNaNJyamDfL2xhvbLhLhXkF
+	J+T09GUllrkGRc8WrUe7ZmekUicwRutoZdl5aGx5SEX9LhWLDeOIBKzKA+3Z7hDtl4
+	Kxw9QpJW2ZaO8KT4OsIIBIPj4RgCB8wRUivuRyGVlJBTLY2shvBkZJMa067Vb5WrF2
+	GDEZmXR7F2oOA==
 Received: from ru20arcgnu1.internal.synopsys.com
 	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 4487235CD;
-	Thu, 22 Nov 2018 14:38:44 -0800 (PST)
+	by mailhost.synopsys.com (Postfix) with ESMTP id D32484EE6;
+	Thu, 22 Nov 2018 14:58:25 -0800 (PST)
 From: Alexey Brodkin <alexey.brodkin@synopsys.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Nov 2018 01:38:42 +0300
-Message-Id: <20181122223842.36893-1-abrodkin@synopsys.com>
+Date: Fri, 23 Nov 2018 01:58:20 +0300
+Message-Id: <20181122225820.2553-1-abrodkin@synopsys.com>
 X-Mailer: git-send-email 2.16.2
-Cc: linux-snps-arc@lists.infradead.org,
-	Alexey Brodkin <alexey.brodkin@synopsys.com>
-Subject: [PATCH] arc: Disable LTTng
+Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>,
+	linux-snps-arc@lists.infradead.org
+Subject: [PATCH v7] u-boot: Add mkenvimage tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,63 +41,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 22:38:44 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 22:58:28 -0000
 
-LTTng depends on liburcu which is not yet ported to ARC
-so disable LTTng on ARC for now.
+This utility is used for creation of images containing
+usable in run-time U-Boot environment.
+
+As of today this utility is added per-board like here [1]
+for Intel Edison board.
+
+[1] http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
+
+Given there're quite some U-Boot tools that we may want to add later
+this recipe name switch from "u-boot-mkimage" to generic "u-boot-tools"
+still for compatibility we provide "u-boot-mkimage" with help
+of PROVIDES as well as proposed "u-boot-mkenvimage".
 
 Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Cc: Ross Burton <ross.burton@intel.com>
+Cc: Marek Vasut <marex@denx.de>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 3 +++
- meta/recipes-devtools/gdb/gdb-common.inc                           | 1 +
- meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb                    | 1 +
- 3 files changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 33d9c09a66..762c046636 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -38,13 +38,16 @@ SYSTEMTAP_riscv64 = ""
- # lttng-ust uses sched_getcpu() which is not there on for some platforms.
- LTTNGUST = "lttng-ust"
- LTTNGUST_libc-musl = ""
-+LTTNGUST_arc = ""
- LTTNGUST_riscv64 = ""
+Changes v6 -> v7:
+ * Fix building "u-boot-tools-native"
+
+Changes v5 -> v6:
+ * Really enable separate  pakaging of mkimage and mkenvimage
+
+Changes v4 -> v5:
+ * Added backward compatibility with "u-boot-mkimage" recipe
+ * Improved handling of nativesdk
+ * Update all references from "u-boot-mkimage" to "u-boot-tools"
+
+Changes v3 -> v4:
+ * Updated maintainer info to make Yocto autobuilder happy again
+
+Changes v2 -> v3:
+ * Recipe renamed to "u-boot-tools" to better match its contents
+   (especially in the future as we add more tools there)
+ * Existing "u-boot-mkimage" and newly introduced "u-boot-mkenvimage"
+   made avaialble via PROVIDES
+
+Changes v1 -> v2:
+ * Got rid of a separate recipe and instead added mkenvimage
+   to u-boot mkimage recipe
+
+ meta/classes/image_types.bbclass                   |  2 +-
+ meta/classes/kernel-fitimage.bbclass               |  2 +-
+ meta/classes/kernel-uimage.bbclass                 |  2 +-
+ meta/conf/distro/include/distro_alias.inc          |  2 +-
+ meta/conf/distro/include/maintainers.inc           |  2 +-
+ ...-mkimage_2018.07.bb => u-boot-tools_2018.07.bb} | 27 ++++++++++++++++++++--
+ 6 files changed, 30 insertions(+), 7 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2018.07.bb => u-boot-tools_2018.07.bb} (55%)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 05e5b0a2e0..5c406481ef 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -308,7 +308,7 @@ CONVERSION_DEPENDS_lzo = "lzop-native"
+ CONVERSION_DEPENDS_zip = "zip-native"
+ CONVERSION_DEPENDS_sum = "mtd-utils-native"
+ CONVERSION_DEPENDS_bmap = "bmap-tools-native"
+-CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
++CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
+ CONVERSION_DEPENDS_vmdk = "qemu-native"
+ CONVERSION_DEPENDS_vdi = "qemu-native"
+ CONVERSION_DEPENDS_qcow2 = "qemu-native"
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 4c4fd99ff4..328bef4069 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -4,7 +4,7 @@ python __anonymous () {
+     kerneltypes = d.getVar('KERNEL_IMAGETYPES') or ""
+     if 'fitImage' in kerneltypes.split():
+         depends = d.getVar("DEPENDS")
+-        depends = "%s u-boot-mkimage-native dtc-native" % depends
++        depends = "%s u-boot-tools-native dtc-native" % depends
+         d.setVar("DEPENDS", depends)
  
- LTTNGTOOLS = "lttng-tools"
- LTTNGTOOLS_libc-musl = ""
-+LTTNGTOOLS_arc = ""
- LTTNGTOOLS_riscv64 = ""
+         uarch = d.getVar("UBOOT_ARCH")
+diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+index c2de6bb40d..cedb4fa070 100644
+--- a/meta/classes/kernel-uimage.bbclass
++++ b/meta/classes/kernel-uimage.bbclass
+@@ -3,7 +3,7 @@ inherit kernel-uboot
+ python __anonymous () {
+     if "uImage" in d.getVar('KERNEL_IMAGETYPES'):
+         depends = d.getVar("DEPENDS")
+-        depends = "%s u-boot-mkimage-native" % depends
++        depends = "%s u-boot-tools-native" % depends
+         d.setVar("DEPENDS", depends)
  
- LTTNGMODULES = "lttng-modules"
-+LTTNGMODULES_arc = ""
- LTTNGMODULES_riscv64 = ""
+         # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index 7502542e89..f23db1e8a4 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -354,7 +354,7 @@ DISTRO_PN_ALIAS_pn-tremor = "OSPDT upstream=http://www.xiph.org/vorbis/"
+ DISTRO_PN_ALIAS_pn-ttf-bitstream-vera = "Debian=ttf-bitstream-vera Ubuntu=ttf-bitstream-vera"
+ DISTRO_PN_ALIAS_pn-tzcode = "OSPDT"
+ DISTRO_PN_ALIAS_pn-u-boot-fw-utils = "Ubuntu=u-boot-tools Debian=u-boot-tools"
+-DISTRO_PN_ALIAS_pn-u-boot-mkimage = "Ubuntu=uboot-mkimage Debian=uboot-mkimage"
++DISTRO_PN_ALIAS_pn-u-boot-tools = "Ubuntu=u-boot-tools Debian=uboot-tools"
+ DISTRO_PN_ALIAS_pn-udev = "Mandriva=udev Fedora=udev"
+ DISTRO_PN_ALIAS_pn-udev-extraconf = "OE-Core"
+ DISTRO_PN_ALIAS_pn-unfs3 = "Debian=unfs3 Fedora=unfs3"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 05a2c9f38a..8a4362d947 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -656,7 +656,7 @@ RECIPE_MAINTAINER_pn-tzcode-native = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-tzdata = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-u-boot = "Marek Vasut <marek.vasut@gmail.com>"
+ RECIPE_MAINTAINER_pn-u-boot-fw-utils = "Marek Vasut <marek.vasut@gmail.com>"
+-RECIPE_MAINTAINER_pn-u-boot-mkimage = "Marek Vasut <marek.vasut@gmail.com>"
++RECIPE_MAINTAINER_pn-u-boot-tools = "Marek Vasut <marek.vasut@gmail.com>"
+ RECIPE_MAINTAINER_pn-udev-extraconf = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-unfs3 = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-unifdef = "Ross Burton <ross.burton@intel.com>"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
+similarity index 55%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
+index 08bff1d161..127c4c15d1 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2018.07.bb
+@@ -1,8 +1,18 @@
+ require u-boot-common_${PV}.inc
  
- BABELTRACE = "babeltrace"
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-index fa64939f26..57bc0dc773 100644
---- a/meta/recipes-devtools/gdb/gdb-common.inc
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc
-@@ -4,6 +4,7 @@ SECTION = "devel"
- DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST} bison-native"
+-SUMMARY = "U-Boot bootloader image creation tool"
++SUMMARY = "U-Boot bootloader tools"
+ DEPENDS += "openssl"
  
- LTTNGUST = "lttng-ust"
-+LTTNGUST_arc = ""
- LTTNGUST_aarch64 = ""
- LTTNGUST_riscv64 = ""
- LTTNGUST_mipsarch = ""
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb
-index 11d7db6848..85ed3c691b 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb
-@@ -25,6 +25,7 @@ PACKAGECONFIG[lttng-ust] = "--with-lttng-ust, --without-lttng-ust, lttng-ust"
- PACKAGECONFIG[kmod] = "--with-kmod, --without-kmod, kmod"
- PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
- PACKAGECONFIG_remove_libc-musl = "lttng-ust"
-+PACKAGECONFIG_remove_arc = "lttng-ust"
- PACKAGECONFIG_remove_riscv64 = "lttng-ust"
++PROVIDES = "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage"
++PROVIDES_class-native = "u-boot-mkimage-native u-boot-mkenvimage-native"
++
++PACKAGES += "${PN}-mkimage ${PN}-mkenvimage"
++
++# Required for backward compatibility with "u-boot-mkimage-xxx.bb"
++RPROVIDES_${PN}-mkimage = "u-boot-mkimage"
++RREPLACES_${PN}-mkimage = "u-boot-mkimage"
++RCONFLICTS_${PN}-mkimage = "u-boot-mkimage"
++
+ EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+ EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+ EXTRA_OEMAKE_class-nativesdk = 'CROSS_COMPILE="${HOST_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+@@ -20,10 +30,23 @@ do_compile () {
  
- SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+ do_install () {
+ 	install -d ${D}${bindir}
++
++	# mkimage
+ 	install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+ 	ln -sf uboot-mkimage ${D}${bindir}/mkimage
++
++	# mkenvimage
++	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
++	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
+ }
+ 
+-RDEPENDS_${PN} += "dtc"
++ALLOW_EMPTY_${PN} = "1"
++FILES_${PN} = ""
++FILES_${PN}-mkimage = "${bindir}/uboot-mkimage ${bindir}/mkimage"
++FILES_${PN}-mkenvimage = "${bindir}/uboot-mkenvimage ${bindir}/mkenvimage"
++
++RDEPENDS_${PN}-mkimage += "dtc"
++RDEPENDS_${PN} += "${PN}-mkimage ${PN}-mkenvimage"
++RDEPENDS_${PN}_class-native = ""
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.16.2
 
