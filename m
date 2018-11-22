@@ -1,70 +1,25 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
-	[209.85.210.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 335ED6C5B0
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id 7AAD66C5E4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 17:49:06 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id k98so8687184otk.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 09:49:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=ZLI4UQh2NG4dvbmDM7j5FRI8bxwRrd01PusHgS1dNpM=;
-	b=vlxtJc8hZGjqFO1PtrIJj8k8/JaoKI8lT/B5VYmgoK3EowsRq8X9AjvGyCaIpJp5PL
-	Udosz+GuCPjoYnujGCmfG/84Gxbsph7cR+HnQJXRqi+Q4u2OXWttGUq1nGG4ToRUjg7l
-	lxabfciDZErDoVI2jHQlb2usOC7wjdmyF6D3NBavGfe/xw2FqtmgKmBsL/aOXAAvR0Hm
-	TC2XZdPk+3q0gKF1PXREDIDQ/E3qrL1ILflWFL+oMqCdJbIWumV3Y88jtphT2zskIJqS
-	aXjat++fs+be4U22yNKRCpryhCJCKlBdrsbHkRinA72nQcTjlU09Ery1HhGPaL05sRnA
-	fE4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-	:message-id:subject:to:cc;
-	bh=ZLI4UQh2NG4dvbmDM7j5FRI8bxwRrd01PusHgS1dNpM=;
-	b=JTyS+X2AOYCuzG0hpov2oIcNqr0iciOY1UUAj0ysuYDgWyJWS7lJwEX4T7PsMshotj
-	CTsVBBc905foy6TRuv/d0FpNokPOFj5vZfSZV7Sik9UF10fpqtnpoX/uABd4TS2tsrI4
-	IGarquJ9pzHbPH//FFPrVTAO/iaL2nCsvK+yIpK/Jeg6Eh/MIefA1vn26dr1EByjxTM7
-	WGIIQEJft4QFiHHf4P5igbilPlZ3Vw60EosR+trOQ+sgOj7S9e7mk/L8Uon+gb2+FvO4
-	SSqLV6oeSozYBwgE16ntn7lp4wkQWL7SpwvgwNfBEfPJC9gb4W+hnuuzpqithCWXj2/e
-	alLw==
-X-Gm-Message-State: AA+aEWZJpOu51ohDdD5Ab2flOG0MvAkliRNjWt9xEwJZhQLJVB+v9Zdx
-	jArFkwYEjrZP9QwckclPUTK0OL8E0XorJA==
-X-Google-Smtp-Source: AFSGD/XWj5AbTGa8d2+8uymONa0H+MG4i5GjxXn/+PprODkmRd2j+1W3Jw/ayX8dUoDfAH9VELaS4g==
-X-Received: by 2002:a9d:d23:: with SMTP id 32mr6572805oti.328.1542908947301;
-	Thu, 22 Nov 2018 09:49:07 -0800 (PST)
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com.
-	[209.85.167.172]) by smtp.gmail.com with ESMTPSA id
-	k189-v6sm16928417oif.28.2018.11.22.09.49.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Nov 2018 09:49:05 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi1-f172.google.com with SMTP id u18so8031035oie.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 09:49:04 -0800 (PST)
-X-Received: by 2002:aca:ad14:: with SMTP id w20mr5775137oie.3.1542908944233;
-	Thu, 22 Nov 2018 09:49:04 -0800 (PST)
+	Thu, 22 Nov 2018 20:23:08 +0000 (UTC)
+Received: from [172.16.169.141] (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id 55D121C0033;
+	Fri, 23 Nov 2018 09:23:08 +1300 (NZDT)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20181121223322.24819-1-douglas.royds@taitradio.com>
+	<20181122003308.2329.32709@do>
+	<a4eb28aa-e155-3d79-8045-0bba3214d5a9@taitradio.com>
+	<CAJTo0LbxOJT6UZL-5ZokCeMMOn3e7MQ2ZLs7=iy=WJT7QZSaww@mail.gmail.com>
+From: Douglas Royds <douglas.royds@taitradio.com>
+Message-ID: <99399e1e-1e53-dcfd-a6b5-eb9846050804@taitradio.com>
+Date: Fri, 23 Nov 2018 09:23:08 +1300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-References: <1510594546-27018-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<CAP9ODKquk8Cf-chkGCRTpPurE+ABQZgzgAs=3M4hp0qV5NMWug@mail.gmail.com>
-	<CAJTo0LaNR-YLyCX=wHTS42XimeJrfhCWwCmm-hKCwNRkJ1KFmQ@mail.gmail.com>
-	<CAP9ODKow3s0rXMmkVYM5b5jsgG-70GnXZkHMK1WxaFSUTA-c2A@mail.gmail.com>
-	<CAJTo0LYfAYZruf=9WYFqD2ae2==LdTGwayFeXPxtQ7ROPm-T2w@mail.gmail.com>
-	<CAP9ODKqxjDsS34yZ1G0h1wRvZ2QGfOD2rr=+2DG1KGuwcePmTQ@mail.gmail.com>
-	<CAJTo0LZX253PH2xBQOANZ5rJ35wvDGKO7We2s-XBJjZy594GPA@mail.gmail.com>
-	<1510838076.3952.166.camel@linuxfoundation.org>
-	<CAP9ODKr1vkw06=21Y=_+kU5jVk5HUa9h7PYp9ysxKht8WkKeCA@mail.gmail.com>
-	<CA+chaQeD-7iKVrt9Ko=2Qx5ee0PEu_8CJCPtsvK3OhoK2mv6yg@mail.gmail.com>
-In-Reply-To: <CA+chaQeD-7iKVrt9Ko=2Qx5ee0PEu_8CJCPtsvK3OhoK2mv6yg@mail.gmail.com>
-Date: Thu, 22 Nov 2018 15:48:51 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKr0RZzWzWH_3h-=a7aKUQtWh0pdbWDggP=qy-RTky8kZg@mail.gmail.com>
-Message-ID: <CAP9ODKr0RZzWzWH_3h-=a7aKUQtWh0pdbWDggP=qy-RTky8kZg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu.inc: Drop rng-tools
+In-Reply-To: <CAJTo0LbxOJT6UZL-5ZokCeMMOn3e7MQ2ZLs7=iy=WJT7QZSaww@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGJvb3N0LWNvbnRleHQ6IFJlcHJvZHVjaWJpbGl0eTogU2V0IC5maWxlIHNlY3Rpb24gZm9yIGFsbCAqX2VsZl9nYXMuUyBmaWxlcyAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -77,20 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 17:49:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 22 Nov 2018 20:23:08 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 
-On Thu, Nov 22, 2018 at 3:40 PM Martin Jansa <martin.jansa@gmail.com> wrote:
-> I was just hit by this issue as well, we're using VirtualBox instead of QEmu, so of course we were missing "-device virtio-rng-pci" and I haven't found some equivalent of this for VirtualBox.
+On 23/11/18 2:24 AM, Burton, Ross wrote:
+
+> On Thu, 22 Nov 2018 at 00:38, Douglas Royds <douglas.royds@taitradio.com> wrote:
+>> On 22/11/18 1:33 PM, Patchwork wrote:
+>>
+>>> ...
+>>>
+>>> * Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format]
+>>>     Suggested fix    Include where reproducibility-add-file-directive-to-assembler.patch was submitted
+>> Yes it is ...
+>>
+>>
+>>>     Current          Upstream-Status: Submitted https://github.com/boostorg/context/issues/91
+>>>     Standard format  Upstream-Status: Submitted [where]
+> The [] is not syntactic markers but literal characters, i.e. it expects to see:
 >
-> Adding rng-tools back to our images allows to use ssh again (without rng-tools sshd never started because ssh-keygen got stuck trying to read /dev/random).
+> Upstream-Status: Submitted [https://github.com/boostorg/context/issues/91]
 >
-> I don't know how many people are using VirtualBox or docker to run qemu images built with OE, but it's probably worth mentioning in 2.6 release notes.
+> Yes, this test could be considered overly pedantic, but I'm also aware
+> that raising and formalising this would be a bikeshed of epic
+> proportions...
+>
+> Ross
 
-Agreed :-)
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Great, thanks, my mistake.
+
 
