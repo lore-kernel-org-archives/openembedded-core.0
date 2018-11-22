@@ -1,23 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C005C6B3D3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 00C826B3D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 11:34:42 +0000 (UTC)
+	Thu, 22 Nov 2018 11:34:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAMBYhYf004901
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAMBYis8015660
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 03:34:43 -0800 (PST)
+	Thu, 22 Nov 2018 03:34:45 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 22 Nov 2018 03:34:42 -0800
+	14.3.408.0; Thu, 22 Nov 2018 03:34:44 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Nov 2018 19:51:57 +0800
-Message-ID: <cover.1542887170.git.liezhi.yang@windriver.com>
+Date: Thu, 22 Nov 2018 19:51:58 +0800
+Message-ID: <e1fef41e951d281c3d0f2eb99abbb6a13afff8de.1542887170.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1542887170.git.liezhi.yang@windriver.com>
+References: <cover.1542887170.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Improve performance for native/cross/crosssdk's cleansstate
+Subject: [PATCH 1/2] nopackages.bbclass: improve performance for cleansstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,87 +32,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 11:34:42 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 11:34:44 -0000
 Content-Type: text/plain
 
-Hi RP and Ross,
+Leave the task in SSTATETASKS doesn't make sense when it is removed, so also
+remove it from SSTATETASKS.
 
-These 2 patches can improve performance a lot for native/cross/crosssdk's
-cleansstate:
+This can improve the performance a lot for "bitbake <recipe-native/cross/crosssdk>
+-ccleansstate" when there are a lot of sstate files.
 
-This test is based on more than 600,000 sstate files
-* Without disk caches
+For example:
+* Before
+  $ bitbake quilt-native -ccleansstate
+  - Check log.do_cleansstate:
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_package.tgz*
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_package_qa.tgz*
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_package_write_rpm.tgz*
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_packagedata.tgz*
+  Removing /sstate-cache/*/sstate:quilt-native::0.65:r0::3:*_populate_lic.tgz*
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_populate_sysroot.tgz*
+
+  There are no package tasks for quilt-native, so the first 4 lines doesn't
+  make any sense, but the glob pattern "sstate-cache/*/*" is very time
+  consuming when there are no disk caches. E.g., I have more than 600,000
+  sstate files:
+  - Without disk caches
   # echo 3 >/proc/sys/vm/drop_caches
-  $ bitbake -p
-  $ time bitbake quilt-native -ccleansstate
-  - Before:
-    real    4m53.815s
-    user    0m0.820s
-    sys     0m0.128s
+  $ time python3 -c 'import glob; glob.glob("/sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_package.tgz*")'
+    real    4m32.583s
+    user    0m5.768s
+    sys     0m12.892s
 
-  - After
-    real    0m58.483s
-    user    0m0.744s
-    sys     0m0.108s
+  - With disk caches (e.g., run it in the second time)
+  $ time python3 -c 'import glob; glob.glob("/sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_package.tgz*")'
+    real    0m5.128s
+    user    0m2.772s
+    sys     0m2.308s
 
-  Saved 293 - 58 = 235s (80% improvement)
+  So the 4 removing *package* commands cost more than 20s or 272s in theory.
 
-* With disk caches (26.6s -> 5.8s, 78% improvement)
-  $ bitbake -p
-  $ time bitbake quilt-native -ccleansstate
-  - Before:
-    real    0m26.682s
-    user    0m0.748s
-    sys     0m0.088s
+* After
+  $ bitbake quilt-native -ccleansstate
+  - Check log.do_cleansstate:
+  Removing /sstate-cache/*/sstate:quilt-native::0.65:r0::3:*_populate_lic.tgz*
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_populate_sysroot.tgz*
 
-  - After
-    real    0m5.846s
-    user    0m0.716s
-    sys     0m0.116s
+  Now the package tasks are gone when cleanssate for native recipes, which
+  saved 20s or 272s in theory.
 
-  Saved 26.6 - 5.8  = 20.8s (78% improvement)
-
-======
-I have another idea is put sstate files into the directory
-named by the recipe, e.g.:
-
-sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:773341447192feb6c1519cace0e6be35_populate_lic.tgz
-sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:773341447192feb6c1519cace0e6be35_populate_lic.tgz.siginfo
-sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:ab4a82a07b10926bb42d2f37242413c7_patch.tgz.siginfo
-sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:e8a4c952a66942653e36f289eaf68ca5_fetch.tgz.siginfo
-sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:fd35240c437cefa66e24cfe65d3fb335_unpack.tgz.siginfo
-
-This can make it easier to manage sstate files, and can reduce the load of
-glob.glob(), currently, the remove command is something like:
-
-$ rm -f glob.glob(sstate-cache/*/sstate:foo.*bar.*)
-
-If we put them into recipe named directory, then we can run:
-
-$ rm -f glob.glob(sstate-cache/<recipe>/sstate:foo.*bar.*)
-
-Which should be faster, what's your opinion, please ?
-
-// Robert
-
-
-The following changes since commit fc5418e7bbdecfb27bafe595084e0fd0f991a388:
-
-  meta/icecc.bbclass: Update system blacklists (2018-11-21 11:48:18 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/sstate
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/sstate
-
-Robert Yang (2):
-  nopackages.bbclass: improve performance for cleansstate
-  sstate.bbclass: set SSTATE_EXTRAPATHWILDCARD explicitly
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/classes/nopackages.bbclass | 35 +++++++++++++++++++++++------------
- meta/classes/sstate.bbclass     |  2 +-
- 2 files changed, 24 insertions(+), 13 deletions(-)
+ 1 file changed, 23 insertions(+), 12 deletions(-)
 
+diff --git a/meta/classes/nopackages.bbclass b/meta/classes/nopackages.bbclass
+index 559f507..66e4936 100644
+--- a/meta/classes/nopackages.bbclass
++++ b/meta/classes/nopackages.bbclass
+@@ -1,12 +1,23 @@
+-deltask do_package
+-deltask do_package_write_rpm
+-deltask do_package_write_ipk
+-deltask do_package_write_deb
+-deltask do_package_qa
+-deltask do_packagedata
+-deltask do_package_setscene
+-deltask do_package_write_rpm_setscene
+-deltask do_package_write_ipk_setscene
+-deltask do_package_write_deb_setscene
+-deltask do_package_qa_setscene
+-deltask do_packagedata_setscene
++NO_PACKAGES_TASKS = " \
++    do_package \
++    do_package_write_rpm \
++    do_package_write_ipk \
++    do_package_write_deb \
++    do_package_qa \
++    do_packagedata \
++"
++
++python() {
++    sstatetasks = (d.getVar('SSTATETASKS') or '').split()
++    for task in d.getVar('NO_PACKAGES_TASKS').split():
++        setscene_task = '%s_setscene' % task
++        tasks = (task, setscene_task)
++        for t in tasks:
++            bb.build.deltask(t, d)
++
++        if task in sstatetasks:
++            bb.debug(2, 'Removing sstate task %s from SSTATETASKS' % task)
++            sstatetasks.remove(task)
++    d.setVar('SSTATETASKS', ' '.join(sstatetasks))
++
++}
 -- 
 2.7.4
 
