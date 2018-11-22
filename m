@@ -1,25 +1,25 @@
 Return-Path: <ee.peng.yeoh@intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 087126C138
+	by mail.openembedded.org (Postfix) with ESMTP id 2193C6C4EE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 09:25:55 +0000 (UTC)
+	Thu, 22 Nov 2018 09:25:57 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Nov 2018 01:25:56 -0800
+	22 Nov 2018 01:25:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,265,1539673200"; d="scan'208";a="93126072"
+X-IronPort-AV: E=Sophos;i="5.56,265,1539673200"; d="scan'208";a="93126080"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga006.jf.intel.com with ESMTP; 22 Nov 2018 01:25:55 -0800
+	by orsmga006.jf.intel.com with ESMTP; 22 Nov 2018 01:25:57 -0800
 From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Nov 2018 17:10:44 +0800
-Message-Id: <1542877846-77570-3-git-send-email-ee.peng.yeoh@intel.com>
+Date: Thu, 22 Nov 2018 17:10:45 +0800
+Message-Id: <1542877846-77570-4-git-send-email-ee.peng.yeoh@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1542877846-77570-1-git-send-email-ee.peng.yeoh@intel.com>
 References: <1542877846-77570-1-git-send-email-ee.peng.yeoh@intel.com>
-Subject: [PATCH 2/4 v2] qemurunner: Add support for slirp
+Subject: [PATCH 3/4 v2] oeqa/qemu: Add support for slirp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,67 +32,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 09:25:55 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 09:25:57 -0000
 
-Enable qemurunner for slirp. Retrieved the ip & port from host machine
-to connect to qemu from host machine.
+Enable qemu for slirp. Initialize Qemurunner with slirp. Setup ip
+and port attribute to enable connection with qemu running with slirp.
 
 [YOCTO#10713]
 
 Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/core/target/qemu.py | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index d40b3b8..f943034 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -28,7 +28,8 @@ re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
+diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
+index 538bf12..f47fd74 100644
+--- a/meta/lib/oeqa/core/target/qemu.py
++++ b/meta/lib/oeqa/core/target/qemu.py
+@@ -13,7 +13,7 @@ supported_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
  
- class QemuRunner:
+ class OEQemuTarget(OESSHTarget):
+     def __init__(self, logger, server_ip, timeout=300, user='root',
+-            port=None, machine='', rootfs='', kernel='', kvm=False,
++            port=None, machine='', rootfs='', kernel='', kvm=False, slirp=False,
+             dump_dir='', dump_host_cmds='', display='', bootlog='',
+             tmpdir='', dir_image='', boottime=60, **kwargs):
  
--    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds, use_kvm, logger):
-+    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds,
-+                 use_kvm, logger, use_slirp=False):
+@@ -25,17 +25,33 @@ class OEQemuTarget(OESSHTarget):
+         self.rootfs = rootfs
+         self.kernel = kernel
+         self.kvm = kvm
++        self.use_slirp = slirp
  
-         # Popen object for runqemu
-         self.runqemu = None
-@@ -51,6 +52,7 @@ class QemuRunner:
-         self.logged = False
-         self.thread = None
-         self.use_kvm = use_kvm
-+        self.use_slirp = use_slirp
-         self.msg = ''
+         self.runner = QemuRunner(machine=machine, rootfs=rootfs, tmpdir=tmpdir,
+                                  deploy_dir_image=dir_image, display=display,
+                                  logfile=bootlog, boottime=boottime,
+-                                 use_kvm=kvm, dump_dir=dump_dir,
++                                 use_kvm=kvm, use_slirp=slirp, dump_dir=dump_dir,
+                                  dump_host_cmds=dump_host_cmds, logger=logger)
  
-         self.runqemutime = 120
-@@ -129,6 +131,8 @@ class QemuRunner:
-                 self.logger.debug('Not using kvm for runqemu')
-             if not self.display:
-                 launch_cmd += ' nographic'
+     def start(self, params=None, extra_bootparams=None):
++        if self.use_slirp and not self.server_ip:
++            self.logger.error("Could not start qemu with slirp without server ip - provide 'TEST_SERVER_IP'")
++            raise RuntimeError("FAILED to start qemu - check the task log and the boot log")
+         if self.runner.start(params, extra_bootparams=extra_bootparams):
+             self.ip = self.runner.ip
+-            self.server_ip = self.runner.server_ip
 +            if self.use_slirp:
-+                launch_cmd += ' slirp'
-             launch_cmd += ' %s %s' % (self.machine, self.rootfs)
- 
-         return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams, env=env)
-@@ -238,9 +242,14 @@ class QemuRunner:
-                 # because is possible to have control characters
-                 cmdline = re_control_char.sub(' ', cmdline)
-             try:
--                ips = re.findall(r"((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
--                self.ip = ips[0]
--                self.server_ip = ips[1]
-+                if self.use_slirp:
-+                    tcp_ports = cmdline.split("hostfwd=tcp::")[1]
-+                    host_port = tcp_ports[:tcp_ports.find('-')]
-+                    self.ip = "localhost:%s" % host_port
++                target_ip_port = self.runner.ip.split(':')
++                if len(target_ip_port) == 2:
++                    target_ip = target_ip_port[0]
++                    port = target_ip_port[1]
++                    self.ip = target_ip
++                    self.ssh = self.ssh + ['-p', port]
++                    self.scp = self.scp + ['-P', port]
 +                else:
-+                    ips = re.findall(r"((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
-+                    self.ip = ips[0]
-+                    self.server_ip = ips[1]
-                 self.logger.debug("qemu cmdline used:\n{}".format(cmdline))
-             except (IndexError, ValueError):
-                 # Try to get network configuration from runqemu output
++                    self.logger.error("Could not get host machine port to connect qemu with slirp, ssh will not be "
++                                      "able to connect to qemu with slirp")
++            if self.runner.server_ip:
++                self.server_ip = self.runner.server_ip
+         else:
+             self.stop()
+             raise RuntimeError("FAILED to start qemu - check the task log and the boot log")
 -- 
 2.7.4
 
