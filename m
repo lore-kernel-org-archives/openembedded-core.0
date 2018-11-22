@@ -1,49 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
-	[209.85.166.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 693656C119
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C2B46BA22
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 13:25:00 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id r200so6595582iod.11
+	Thu, 22 Nov 2018 13:42:31 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id u13-v6so9190811wmc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 05:25:01 -0800 (PST)
+	Thu, 22 Nov 2018 05:42:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xfbdShTd/+tq2lFLK+z63OiiihyytDPgsJ/1QjGyQq8=;
-	b=HNwisvhnbYwGI1xLgjQcOD+p4Drkxy2fFMSzo/bN+XEKg6gcXWMf71H987l9AOE+jw
-	+FNR/GOZzle/GSvA9t6IEnxvMfjrIw4jySg7+i1wjsTfohF8hgRYxMDMWd2fkJpSo8q/
-	SBix09fyXmwj+1TQ0cQzjwcm6O3YouwAxMNMQWalYL/7Gpo67Ogp9iG+NPxl2RWlhJFu
-	ZLAY2+vbbzZa0Vm1PT24AENcFFtSX6WncHfxJq1SNDLV30RQnMPckSwW1XqmDxaUeWex
-	CcRQIt5wArY2CslbSAfhHiPVaVE317djwc688/iPSDCL3w5Wui2Ocfb9VU1cWtMX4rRS
-	i19w==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=+/bD9sBTdrSNrPC5eE93XxzaLwogdk2AqpWw/OVi2iI=;
+	b=IRz3n9IvWSB07k67bRSQnKf7cn3C4KdDEvY0KCUEyqLNwtF0uw7hVCl2P9VuA3b8LQ
+	nryCpywaGBKFj+yQeu/qMqyJ8yHPUuvZ5fhUL0dswhbI11+FTTlGYcs8gsVxDVYUL90u
+	dFhoZk9O2FbcpbebA69OE7h6/9IJ6SkC9PyRo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xfbdShTd/+tq2lFLK+z63OiiihyytDPgsJ/1QjGyQq8=;
-	b=h1Eu41QWhUaT7hOd3Ur90PQkvG1GyVmlp+hJtZiMnKcTyN+pwieQX3RVaFXTgwJInz
-	ncR7PZ7BZET9uiAlC12BWYcgxWN6bCj3kRk1PWEJKyv5a0FY52syfdvnS23uNmWCQN9q
-	0Wwub482cFLpj3flT2DNdx20shvmU7LVY27LI2gb0jz1UC2Nzs6gKGxoJj/Pns9LHyvc
-	NoG+n2BYt8Zfr4vP3rcwuP5nI0UEOzFOkGv7AD13GIywOJOEEoLQa2uG/YVTQDmFKoq2
-	NhHqOsx1WQj1/BUkylZGl1UdQCTODcWOEbO/nqXI96lvm27ZWo0thKoE40eDLJ5Nsq4h
-	Hpyw==
-X-Gm-Message-State: AA+aEWbjCDOeTuZfFutXLqsFxA3ZQ18rIovAARquOJIlUXHl/6Bd9oTb
-	Y3sWoe1e639PMiZfZhMln/tj4EkIgTv3v8ofcDzxjFy1UT0=
-X-Google-Smtp-Source: AFSGD/VM3ZW2L85iaTu35IkjCYwHFEvF0m6WEbhcK/C2SSdLo5k3O5N86K79YCW7H2Vm2lWZicc/55nq9yM+AVfhxoQ=
-X-Received: by 2002:a6b:b844:: with SMTP id i65mr7903355iof.20.1542893101441; 
-	Thu, 22 Nov 2018 05:25:01 -0800 (PST)
-MIME-Version: 1.0
-References: <20181121223322.24819-1-douglas.royds@taitradio.com>
-	<20181122003308.2329.32709@do>
-	<a4eb28aa-e155-3d79-8045-0bba3214d5a9@taitradio.com>
-In-Reply-To: <a4eb28aa-e155-3d79-8045-0bba3214d5a9@taitradio.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Nov 2018 13:24:49 +0000
-Message-ID: <CAJTo0LbxOJT6UZL-5ZokCeMMOn3e7MQ2ZLs7=iy=WJT7QZSaww@mail.gmail.com>
-To: Douglas Royds <douglas.royds@taitradio.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGJvb3N0LWNvbnRleHQ6IFJlcHJvZHVjaWJpbGl0eTogU2V0IC5maWxlIHNlY3Rpb24gZm9yIGFsbCAqX2VsZl9nYXMuUyBmaWxlcyAocmV2Mik=?=
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=+/bD9sBTdrSNrPC5eE93XxzaLwogdk2AqpWw/OVi2iI=;
+	b=EG8uUrgt2BRTTTmx5R4V7FIwL8QrQZMUsRPAE5TF/YB8JkdFQuEqyrrhT2G/OWmk+Q
+	y6THKTfQmzAQ7zf3b/eD1H/W4M21hCa7DZwj9jtLMyiBDYM+Ef2Yr86spwfVKdSf1DdE
+	YerWRuN+daFsjaYfzpRCbdxqBY7Jv9ZcnS9wEhhILloBXeXO+AEAcI59KusQLL5wX+Bs
+	meqpq3gtCsR8Qk7rXZSfwOtgazHHN1ZVMjbQ/TEP7JSmJcBpk1t8Yva8/fLPRk/cd6RJ
+	C+oYtZl3kxNxlm+DmQXoIV1t71VkOYvjVfhzRPhwdUSivqmGo9N0gDTSJOO47fKUpV4N
+	+PzQ==
+X-Gm-Message-State: AA+aEWakJB/fx27mZGHDw/UE9LYuc3zM/xaZAFkgsgutPsZvQUxK+2Mp
+	ddOfSRkV8JxcEPmvzSLOlmqp+A==
+X-Google-Smtp-Source: AFSGD/WxAkK5QRZD7lV9q+WrqNMULQvtitl7oqPoB4J8RYULStE3ZHnC1+ZEqIYZMf7GYZUVKswY5w==
+X-Received: by 2002:a7b:c245:: with SMTP id b5mr7949071wmj.42.1542894152455;
+	Thu, 22 Nov 2018 05:42:32 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	x79sm9715631wmd.42.2018.11.22.05.42.31
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 22 Nov 2018 05:42:31 -0800 (PST)
+Message-ID: <ec8e8102f61407b19a6341a77858f7d825cab603.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Alexey Brodkin <alexey.brodkin@synopsys.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Nov 2018 13:42:30 +0000
+In-Reply-To: <dee5be3f45002c06f318bf633364aa842548cef8.camel@synopsys.com>
+References: <20181122082807.39508-1-abrodkin@synopsys.com>
+	<dee5be3f45002c06f318bf633364aa842548cef8.camel@synopsys.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Cc: "marex@denx.de" <marex@denx.de>,
+	"otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Subject: Re: [PATCH v6] u-boot: Add mkenvimage tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +63,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 13:25:00 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 13:42:32 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, 22 Nov 2018 at 00:38, Douglas Royds <douglas.royds@taitradio.com> wrote:
->
-> On 22/11/18 1:33 PM, Patchwork wrote:
->
-> > ...
-> >
-> > * Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format]
-> >    Suggested fix    Include where reproducibility-add-file-directive-to-assembler.patch was submitted
->
-> Yes it is ...
->
->
-> >    Current          Upstream-Status: Submitted https://github.com/boostorg/context/issues/91
-> >    Standard format  Upstream-Status: Submitted [where]
+On Thu, 2018-11-22 at 13:18 +0000, Alexey Brodkin wrote:
+> Hi, Richard, Otavio,
+> 
+> On Thu, 2018-11-22 at 11:28 +0300, Alexey Brodkin wrote:
+> > This utility is used for creation of images containing
+> > usable in run-time U-Boot environment.
+> > 
+> > As of today this utility is added per-board like here [1]
+> > for Intel Edison board.
+> > 
+> > [1] 
+> > http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-bsp/recipes-bsp/u-boot/u-boot-tools_2014.04.bb
+> > 
+> > Given there're quite some U-Boot tools that we may want to add
+> > later
+> > this recipe name switch from "u-boot-mkimage" to generic "u-boot-
+> > tools"
+> > still for compatibility we provide "u-boot-mkimage" with help
+> > of PROVIDES as well as proposed "u-boot-mkenvimage".
+> > 
+> > Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Cc: Otavio Salvador <otavio@ossystems.com.br>
+> > Cc: Martin Jansa <martin.jansa@gmail.com>
+> > Cc: Ross Burton <ross.burton@intel.com>
+> > Cc: Marek Vasut <marex@denx.de>
+> > ---
+> > 
+> > Changes v5 -> v6:
+> >  * Really enable separate  pakaging of mkimage and mkenvimage
+> > 
+> > Changes v4 -> v5:
+> >  * Added backward compatibility with "u-boot-mkimage" recipe
+> >  * Improved handling of nativesdk
+> >  * Update all references from "u-boot-mkimage" to "u-boot-tools"
+> > 
+> > Changes v3 -> v4:
+> >  * Updated maintainer info to make Yocto autobuilder happy again
+> > 
+> > Changes v2 -> v3:
+> >  * Recipe renamed to "u-boot-tools" to better match its contents
+> >    (especially in the future as we add more tools there)
+> >  * Existing "u-boot-mkimage" and newly introduced "u-boot-
+> > mkenvimage"
+> >    made avaialble via PROVIDES
+> > 
+> > Changes v1 -> v2:
+> >  * Got rid of a separate recipe and instead added mkenvimage
+> >    to u-boot mkimage recipe
+> 
+> So apparently something is still broken :(
+> ------------------------->8-------------------------------
+> NOTE: Resolving any missing task queue dependencies
+> ERROR: Nothing RPROVIDES 'u-boot-tools-native-mkimage-native' (but
+> virtual:native:.../openembedded-core/meta/recipes-bsp/u-boot/u-boot-
+> tools_2018.07.bb RDEPENDS on or otherwise requires it)
+> 
+> NOTE: Runtime target 'u-boot-tools-native-mkimage-native' is
+> unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['u-boot-tools-native-
+> mkimage-native']
+> 
+> ERROR: Required build target 'core-image-base' has no buildable
+> providers.
+> Missing or unbuildable dependency chain was: ['core-image-base',
+> 'virtual/kernel', 'u-boot-tools-native', 'u-boot-tools-native-
+> mkimage-native']
+> ------------------------->8-------------------------------
+> 
+> Indeed "u-boot-tools-native-mkimage-native" looks quite odd.
+> 
+> Any hints on how that could be addressed?
 
-The [] is not syntactic markers but literal characters, i.e. it expects to see:
+Just guessing but maybe
 
-Upstream-Status: Submitted [https://github.com/boostorg/context/issues/91]
+RDEPENDS_${PN}_class-native = ""
 
-Yes, this test could be considered overly pedantic, but I'm also aware
-that raising and formalising this would be a bikeshed of epic
-proportions...
+?
 
-Ross
+Cheers,
+
+Richard
+
 
