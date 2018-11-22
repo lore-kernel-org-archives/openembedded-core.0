@@ -1,27 +1,23 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 29A34607AC
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C005C6B3D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 10:14:17 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id Pm01gMhw8x6b6Pm02g6VSQ; Thu, 22 Nov 2018 10:14:18 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=JHtHm7312UAA:10 a=-An2I_7KAAAA:8 a=WB-9W4BLM8i6LakJYo8A:9
-	a=akvmSLiqbP9ghTkR:21 a=rNEf8EMOG7BQ81BH:21 a=Sq34B_EcNBM9_nrAYB9S:22
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1gPm00-00073U-AM; Thu, 22 Nov 2018 10:14:16 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Nov 2018 10:14:08 +0000
-Message-Id: <20181122101408.20514-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.11.0
-X-CMAE-Envelope: MS4wfID73ApmJGvx32jeLg918QJNLFHebe0wk13tHr8bxYh3BibDMzj/SU+agqEtIAacSe3THhiLefmQtToW5J9+y7/QkUGjVY0iJ02GcNMC9uVPcbLnO1Jt
-	Vv5IzUu/JRkXf6ykD5mXQvMlC2j3XVCX0j8H7PwWxBSOvcl8xO/D8E70
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] terminal: Cope with unreleased versions of tmux
+	Thu, 22 Nov 2018 11:34:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAMBYhYf004901
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Nov 2018 03:34:43 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 22 Nov 2018 03:34:42 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Nov 2018 19:51:57 +0800
+Message-ID: <cover.1542887170.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH 0/2] Improve performance for native/cross/crosssdk's cleansstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +30,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 10:14:18 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 11:34:42 -0000
+Content-Type: text/plain
 
-When tmux is built from a non-release Git version, its version number is
-"next-X" where X appears to be the expected version number for the next
-release. For example, when built from the current state of master, running
-"tmux -V" yields:
+Hi RP and Ross,
 
- tmux next-2.9
+These 2 patches can improve performance a lot for native/cross/crosssdk's
+cleansstate:
 
-Currently check_tmux_pane_size only checks for the version being less than
-1.9, so it seems unfair to fail with an obscure Python error in this case.
+This test is based on more than 600,000 sstate files
+* Without disk caches
+  # echo 3 >/proc/sys/vm/drop_caches
+  $ bitbake -p
+  $ time bitbake quilt-native -ccleansstate
+  - Before:
+    real    4m53.815s
+    user    0m0.820s
+    sys     0m0.128s
 
-Let's just use the version number after the "next-" prefix if it is
-present.
+  - After
+    real    0m58.483s
+    user    0m0.744s
+    sys     0m0.108s
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
+  Saved 293 - 58 = 235s (80% improvement)
 
----
- meta/lib/oe/terminal.py | 2 ++
- 1 file changed, 2 insertions(+)
+* With disk caches (26.6s -> 5.8s, 78% improvement)
+  $ bitbake -p
+  $ time bitbake quilt-native -ccleansstate
+  - Before:
+    real    0m26.682s
+    user    0m0.748s
+    sys     0m0.088s
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 94afe394ed..bf5c37f897 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -296,6 +296,8 @@ def check_terminal_version(terminalName):
-             vernum = ver.split(' ')[-1]
-         if ver.startswith('tmux'):
-             vernum = ver.split()[-1]
-+        if ver.startswith('tmux next-'):
-+            vernum = ver.split()[-1][5:]
-     return vernum
- 
- def distro_name():
+  - After
+    real    0m5.846s
+    user    0m0.716s
+    sys     0m0.116s
+
+  Saved 26.6 - 5.8  = 20.8s (78% improvement)
+
+======
+I have another idea is put sstate files into the directory
+named by the recipe, e.g.:
+
+sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:773341447192feb6c1519cace0e6be35_populate_lic.tgz
+sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:773341447192feb6c1519cace0e6be35_populate_lic.tgz.siginfo
+sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:ab4a82a07b10926bb42d2f37242413c7_patch.tgz.siginfo
+sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:e8a4c952a66942653e36f289eaf68ca5_fetch.tgz.siginfo
+sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:fd35240c437cefa66e24cfe65d3fb335_unpack.tgz.siginfo
+
+This can make it easier to manage sstate files, and can reduce the load of
+glob.glob(), currently, the remove command is something like:
+
+$ rm -f glob.glob(sstate-cache/*/sstate:foo.*bar.*)
+
+If we put them into recipe named directory, then we can run:
+
+$ rm -f glob.glob(sstate-cache/<recipe>/sstate:foo.*bar.*)
+
+Which should be faster, what's your opinion, please ?
+
+// Robert
+
+
+The following changes since commit fc5418e7bbdecfb27bafe595084e0fd0f991a388:
+
+  meta/icecc.bbclass: Update system blacklists (2018-11-21 11:48:18 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/sstate
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/sstate
+
+Robert Yang (2):
+  nopackages.bbclass: improve performance for cleansstate
+  sstate.bbclass: set SSTATE_EXTRAPATHWILDCARD explicitly
+
+ meta/classes/nopackages.bbclass | 35 +++++++++++++++++++++++------------
+ meta/classes/sstate.bbclass     |  2 +-
+ 2 files changed, 24 insertions(+), 13 deletions(-)
+
 -- 
-2.19.1
+2.7.4
 
 
