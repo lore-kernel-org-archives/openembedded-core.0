@@ -1,29 +1,17 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AFB06C564
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp0.taitradio.net (unknown [202.37.96.22])
+	by mail.openembedded.org (Postfix) with SMTP id C63276C55B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 02:12:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAM2CV4s008549
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 21 Nov 2018 18:12:31 -0800 (PST)
-Received: from [128.224.163.141] (128.224.163.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Wed, 21 Nov 2018 18:12:30 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1542778410.git.Qi.Chen@windriver.com>
-	<dc2278cac296d5ad9af04e0de849d0f9e0a0884e.1542778410.git.Qi.Chen@windriver.com>
-	<CAJTo0LZRhRoxYXM254vFW61SX5ep4Pu7VBGTDDgTyktz7NXkPA@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <e88d097c-c9f2-2c07-b307-cf5a522fb3ed@windriver.com>
-Date: Thu, 22 Nov 2018 10:19:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZRhRoxYXM254vFW61SX5ep4Pu7VBGTDDgTyktz7NXkPA@mail.gmail.com>
-X-Originating-IP: [128.224.163.141]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/8] busybox: remove three hostname test cases
+	Thu, 22 Nov 2018 05:39:50 +0000 (UTC)
+Received: from acheron.taitradio.net (unknown [172.16.169.141])
+	by smtp0.taitradio.net (Postfix) with ESMTP id 8E74E220166;
+	Thu, 22 Nov 2018 18:39:50 +1300 (NZDT)
+From: Douglas Royds <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Nov 2018 18:39:42 +1300
+Message-Id: <20181122053942.8099-1-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] ptest: Reproducibility: Take control of umask
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +24,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 02:12:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Nov 2018 05:39:51 -0000
 
-On 11/21/2018 08:16 PM, Burton, Ross wrote:
-> On Wed, 21 Nov 2018 at 05:35, Chen Qi <Qi.Chen@windriver.com> wrote:
->> These three test case are removed because of two reasons.
->> 1) net-tools' hostname have different behaviour regarding some options
->>     So when net-tools is installed, test cases may fail.
->>     e.g.
->>     test x$(hostname -i) = x$(busybox hostname -i)
-> This is just a specific instance of the problem where alternatives may
-> not be what you want.  The busybox test suite should be sure it's
-> running busybox tools.  Having spoken to a few people about this
-> already, maybe busybox-ptest should contain a symlink farm for all the
-> applets to the busybox binary that run-ptest can put at the front of
-> $PATH.
+The build host umask was leaking into the thing-ptest packages
+at do_install_ptest() time.
 
-Very good idea! I'll try this out.
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+---
+ meta/classes/ptest.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
->> 2) hostname may set to some value, e.g. qemux86-64, which is not an entry in /etc/hosts
->>     This results in lookup failure when using `hostname -f' as there's no entry in /etc/hosts.
-> Let's fix the hostname setup so hosts is correct too.
-
-OK.
-Currently, we set hostname to ${MACHINE}. To ensure it's also an entry 
-in /etc/hosts, it seems that we have to default it to 'localhost'. I'm 
-going to test with this change. If you have other candidates, please let 
-me know.
-
-Best Regards,
-Chen Qi
-
-> Ross
->
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index c19f65b9bb..9d8a79854a 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -59,6 +59,7 @@ addtask install_ptest_base   after do_install   before do_package do_populate_sy
+ python () {
+     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
+         d.setVarFlag('do_install_ptest_base', 'fakeroot', '1')
++        d.setVarFlag('do_install_ptest_base', 'umask', '022')
+ 
+     # Remove all '*ptest_base' tasks when ptest is not enabled
+     if not(d.getVar('PTEST_ENABLED') == "1"):
+-- 
+2.17.1
 
 
