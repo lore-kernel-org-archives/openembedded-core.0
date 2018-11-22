@@ -1,17 +1,19 @@
 Return-Path: <douglas.royds@taitradio.com>
 Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id D86A96C5BE
+	by mail.openembedded.org (Postfix) with SMTP id 1AD886C614
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 20:42:02 +0000 (UTC)
+	Thu, 22 Nov 2018 20:42:05 +0000 (UTC)
 Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id 187272201AA;
-	Fri, 23 Nov 2018 09:42:02 +1300 (NZDT)
+	by smtp0.taitradio.net (Postfix) with ESMTP id 9E5E42201AA;
+	Fri, 23 Nov 2018 09:42:06 +1300 (NZDT)
 From: Douglas Royds <douglas.royds@taitradio.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Nov 2018 09:41:56 +1300
-Message-Id: <20181122204157.8261-1-douglas.royds@taitradio.com>
+Date: Fri, 23 Nov 2018 09:41:57 +1300
+Message-Id: <20181122204157.8261-2-douglas.royds@taitradio.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] reproducible: Refactor: Break out fixed_source_date_epoch() function
+In-Reply-To: <20181122204157.8261-1-douglas.royds@taitradio.com>
+References: <20181122204157.8261-1-douglas.royds@taitradio.com>
+Subject: [PATCH 2/2] reproducible: Don't look for youngest file when no source tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,41 +26,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 20:42:04 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 20:42:06 -0000
+
+Some packages (eg. init-ifupdown) take their source files entirely from
+openembedded-core, that is, they download no source tarball.
+These recipes either don't use S at all (ie. it is empty at unpack time),
+or they set S = WORKDIR (as in init-ifupdown).
+Looking at the file timestamps in the WORKDIR causes a non-reproducible
+SOURCE_DATE_EPOCH, as files taken from file:// URIs do not have
+reproducible timestamps.
+
+If S == WORKDIR, we are better to assume that there is no source tarball,
+and to fall back to a fixed timestamp for the SOURCE_DATE_EPOCH.
+This makes the init-ifupdown build reproducible.
 
 Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 ---
- meta/classes/reproducible_build.bbclass | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ meta/classes/reproducible_build.bbclass | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
-index 0eb696ac78..a0fd4d656b 100644
+index a0fd4d656b..8788ad7145 100644
 --- a/meta/classes/reproducible_build.bbclass
 +++ b/meta/classes/reproducible_build.bbclass
-@@ -128,6 +128,10 @@ def get_source_date_epoch_from_youngest_file(d, sourcedir):
-         bb.debug(1, "Newest file found: %s" % newest_file)
+@@ -22,7 +22,10 @@
+ # 3. Use the mtime of "known" files such as NEWS, CHANGLELOG, ...
+ #    This works for well-kept repositories distributed via tarball.
+ #
+-# 4. If the above steps fail, use the modification time of the youngest file in the source tree.
++# 4. Use the modification time of the youngest file in the source tree, if there is one.
++#    This will be the newest file from the distribution tarball, if any.
++#
++# 5. Fall back to a fixed timestamp.
+ #
+ # Once the value of SOURCE_DATE_EPOCH is determined, it is stored in the recipe's SDE_FILE.
+ # If none of these mechanisms are suitable, replace the do_deploy_source_date_epoch task
+@@ -104,15 +107,15 @@ def get_source_date_epoch_from_git(d, sourcedir):
      return source_date_epoch
  
-+def fixed_source_date_epoch():
-+    bb.debug(1, "No tarball or git repo found to determine SOURCE_DATE_EPOCH")
-+    return 0
+ def get_source_date_epoch_from_youngest_file(d, sourcedir):
++    if sourcedir == d.getVar('WORKDIR'):
++       # These sources are almost certainly not from a tarball
++       return None
 +
- python do_create_source_date_epoch_stamp() {
-     epochfile = d.getVar('SDE_FILE')
-     if os.path.isfile(epochfile):
-@@ -139,11 +143,8 @@ python do_create_source_date_epoch_stamp() {
-         get_source_date_epoch_from_git(d, sourcedir) or
-         get_source_date_epoch_from_known_files(d, sourcedir) or
-         get_source_date_epoch_from_youngest_file(d, sourcedir) or
--        0       # Last resort
-+        fixed_source_date_epoch()       # Last resort
-     )
--    if source_date_epoch == 0:
--        # empty folder, not a single file ...
--        bb.debug(1, "No files found to determine SOURCE_DATE_EPOCH")
+     # Do it the hard way: check all files and find the youngest one...
+     source_date_epoch = None
+     newest_file = None
+-    # Just in case S = WORKDIR
+-    exclude = set(["build", "image", "license-destdir", "patches", "pseudo",
+-                   "recipe-sysroot", "recipe-sysroot-native", "sysroot-destdir", "temp"])
+     for root, dirs, files in os.walk(sourcedir, topdown=True):
+         files = [f for f in files if not f[0] == '.']
+-        dirs[:] = [d for d in dirs if d not in exclude]
  
-     bb.debug(1, "SOURCE_DATE_EPOCH: %d" % source_date_epoch)
-     bb.utils.mkdirhier(d.getVar('SDE_DIR'))
+         for fname in files:
+             filename = os.path.join(root, fname)
 -- 
 2.17.1
 
