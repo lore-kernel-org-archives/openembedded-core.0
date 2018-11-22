@@ -1,29 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AF8AC607E1
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id BA53C6BE39
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 01:42:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAM1gPg0008002
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 21 Nov 2018 17:42:25 -0800 (PST)
-Received: from [128.224.163.177] (128.224.163.177) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 21 Nov 2018 17:42:12 -0800
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-References: <cover.1542781427.git.liezhi.yang@windriver.com>
-	<bd77663c215d2ed20cb3765b95e62b9b14330896.1542781427.git.liezhi.yang@windriver.com>
-	<CAP9ODKquwOEHEcQc2EOZzty_+GgO1ONKAZU_U4h-L9PRxwFWBg@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <2e148cdc-6ba1-e945-26f3-51ac35674a85@windriver.com>
-Date: Thu, 22 Nov 2018 09:47:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKquwOEHEcQc2EOZzty_+GgO1ONKAZU_U4h-L9PRxwFWBg@mail.gmail.com>
-Cc: c.andersen@kostal.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] uboot-sign.bbclass: fix signature and deployment
+	Thu, 22 Nov 2018 01:48:40 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id 101so1727792pld.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Nov 2018 17:48:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=qnlEXZ9KCD0N6xr2ope4SRXbLiC3mQrwClJuLxQFkQ8=;
+	b=JkMdVr1AUxmzL6bAMi54b7H2VY0BgvHLvVLEye19FEfUqjJPtPWSIkJv775CpGQvsa
+	uMb096M+yfL1iDoGtEqAts2jyfM5sY+8fJi2vsxe9CHzzflhTh8s4K9yWBD8GD2oQDqA
+	9vhUytQwtNX5geOkKTR4PdAGFw5Kg6diY0WpjhFxFa2cuN8Gxo4DbyZEZs/oIjmfi4RD
+	F+sbtmaLvoewxxglu7EKdfdOx+dCHVL/7rQeMDzP5mpM89oKpBq7dbCtJlr3+DNzoG6H
+	4PNknw7CfdzVCMvlXVbArxsbWsDHy0bjBiAg2YsTZJ0eUlsu0S5WxKhZK7ILtKiBoe/o
+	5Kow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=qnlEXZ9KCD0N6xr2ope4SRXbLiC3mQrwClJuLxQFkQ8=;
+	b=bVgCDUe3nN0lOM+9P+UxjiUw36UR4Sh7NTozT9ZighBFVnlLxMJw+bpss0Z58UR8vm
+	GOMpig3LECEDB7dAXPrXZBVE4X+G4R8ERQtYu5jQ33YPqFmGTTQ/4n7D0pFUnm0K23Of
+	odpTRRBAZyzmyig8IW9wAeyqbb66Is3NRVfFlOj929f7Uy0zXkKhIpHeAINqSndE+Sec
+	eN0i2k1BaAQKdiqFvfPxoysVevcuIW8p9R+CZBEqv8apHcUJNhMCc5dvzv49O3FCNTgF
+	e10NNWX6YCuCNAxWmTP5Tcq+gzRU2WrsowilY50Af3XdHMMmyyNkPCjqkStGtF8+IEJL
+	In5A==
+X-Gm-Message-State: AA+aEWYIKQ1lxU7aRP1UFW5MtOGZBdUT5B+6nWi1T0fwygcLlQmu6OYH
+	MYkVvw1QLniWIeEe5eyb+uGIORYK
+X-Google-Smtp-Source: AFSGD/UMPt6YjtcAgJ835qmm/S+3wdaALglCXOE9lE4J3sA7h9h9xX+Z7uNxIwwvgekHOySAHdVsXg==
+X-Received: by 2002:a63:5c22:: with SMTP id q34mr8105826pgb.417.1542851321406; 
+	Wed, 21 Nov 2018 17:48:41 -0800 (PST)
+Received: from ip-172-31-17-76.ap-northeast-2.compute.internal
+	(ec2-52-79-234-68.ap-northeast-2.compute.amazonaws.com.
+	[52.79.234.68]) by smtp.gmail.com with ESMTPSA id
+	d21sm42216468pgv.37.2018.11.21.17.48.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 21 Nov 2018 17:48:40 -0800 (PST)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Nov 2018 01:48:29 +0000
+Message-Id: <20181122014831.46298-1-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/3] iproute2: 4.18.0 -> 4.19.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,81 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 01:42:29 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Nov 2018 01:48:40 -0000
 
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+---
+ .../iproute2/{iproute2_4.18.0.bb => iproute2_4.19.0.bb}       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2_4.18.0.bb => iproute2_4.19.0.bb} (72%)
 
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.18.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.19.0.bb
+similarity index 72%
+rename from meta/recipes-connectivity/iproute2/iproute2_4.18.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_4.19.0.bb
+index 8eed377618..6db4062d68 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_4.18.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_4.19.0.bb
+@@ -6,8 +6,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-ip-Remove-unneed-header.patch \
+           "
+ 
+-SRC_URI[md5sum] = "8b8680e91390c57cab788fbf8e929479"
+-SRC_URI[sha256sum] = "a9e6c70c95f513871c5e1f4e452c04fcb3c4d8a05be651bd794cd994a52daa45"
++SRC_URI[md5sum] = "67eeebacaac4515cab73dfd2fc796af3"
++SRC_URI[sha256sum] = "d9ec5ca1f47d8a85416fa26e7dc1cbf5d067640eb60e90bdc1c7e5bdc6a29984"
+ 
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
+-- 
+2.17.1
 
-On 11/22/18 1:20 AM, Otavio Salvador wrote:
-> Hello,
-> 
-> On Wed, Nov 21, 2018 at 4:08 AM Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->> Fixed:
->> MACHINE = "beaglebone-yocto"
->> KERNEL_CLASSES += "kernel-fitimage"
->> KERNEL_IMAGETYPE_beaglebone-yocto = "fitImage"
->> UBOOT_MACHINE_beaglebone-yocto = "am335x_boneblack_vboot_config"
->> UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
->> UBOOT_SIGN_KEYDIR = "${TOPDIR}/conf"
->> UBOOT_SIGN_KEYNAME = "dev"
->> UBOOT_SIGN_ENABLE = "1"
->> IMAGE_INSTALL_remove = "kernel-image-zimage"
->>
->> $ cd conf
->> $ openssl genrsa -F4 -out dev.key 2048
->> $ openssl req -batch -new -x509 -key dev.key -out dev.crt
->> $ cd ../
->> $ bitbake u-boot linux-yocto
->> $ grep signature tmp/deploy/images/beaglebone-yocto/*.dtb
->> Binary file tmp/deploy/images/beaglebone-yocto/u-boot-beaglebone-yocto-2018.07-r0.dtb matches
->> Binary file tmp/deploy/images/beaglebone-yocto/u-boot-beaglebone-yocto.dtb matches
->> Binary file tmp/deploy/images/beaglebone-yocto/u-boot.dtb matches
->>
->> And there would be no signature info when rebuild from sstate:
->> $ bitbake u-boot linux-yocto -cclean
->> $ bitbake u-boot linux-yocto
->> $ grep signature tmp/deploy/images/beaglebone-yocto/*.dtb
->> No result
->>
->> This s because kernel directly edit ${DEPLOY_DIR_IMAGE}/u-boot.dtb, (Note, it
->> is global ${DEPLOY_DIR_IMAGE}, not recipe's DEPLOYDIR), so that the modified
->> info is not in sstate, and would be lost when rebuild from sstate.
->>
->> There are other problems in previouse code:
->> - The u-boot.dtb is provided by u-boot, but edited by kernel during signing, so
->>    it should be deployed by kernel rather than u-boot.
->>
->> - The u-boot.do_concat_dtb directly install files to global ${DEPLOY_DIR_IMAGE},
->>    this is incorrect, the ${DEPLOY_DIR_IMAGE} should be installed by do_deploy.
->>
->> - It seems that it assumes do_deploy depends on do_install according the comments,
->>    but they have no relationships:
->>    # do_concat_dtb is scheduled _before_ do_install as it overwrite the
->>    # u-boot.bin in both DEPLOYDIR and DEPLOY_IMAGE_DIR.
->>
->> - The do_concat_dtb should be run after do_compile, but it doesn't have this
->>    dependency.
->>
->> Make u-boot install u-boot.dtb to ${datadir}, kernel copies u-boot.dtb from
->> ${STAGING_DATADIR} to ${B} and deploy it can fix the problem.
->>
->> [YOCTO #12112]
->>
->> Reported-by: Christian Andersen <c.andersen@kostal.com>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> 
-> The change itself looks good, I noticed that the script part is not
-> using 4 spaces for indenting and as this is being changed, it might
-> make sense to address this as well.
-
-Thanks, sounds good to me, I will make another patch for it after this is merged.
-
-// Robert
-
-> 
-> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-> 
 
