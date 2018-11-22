@@ -1,52 +1,51 @@
 Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F3E66C489
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 369246C557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 01:48:45 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id s5-v6so8007289plq.11
+	Thu, 22 Nov 2018 01:48:50 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id t13so8006095ply.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2018 17:48:46 -0800 (PST)
+	Wed, 21 Nov 2018 17:48:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=3fnEOOGlF0lxM5YJMV/z9At6IcMggmW+VIShwmG0CQU=;
-	b=n2U3flJxOo60xhfYFtTd1J3ncO1rmgd8CjiRRSFdcCB+sGgWTzxbSj2AcOzxyytTB+
-	v5WGPzCR/TSh++X+jK7kdWjOrY1bOY2JFtznrL/VXYVy7m7orLYU0IfQx8SSVcF5c1rc
-	+GjZJR0uNVvsV7x5pfirVPgj89ErJjQ8sLwO2Ez4W3/0YS+G95kcwJFfRsV4/tNXok+w
-	eVeh2OcsqVorAPHSpQNufAVK4TMRbI5oKCJLWvIhH/xAVFjbc5rgBxArnIsUvLfsYSVt
-	yD3q9YCbzWzTtDn64hJIiqpqWJBoWydFFIc+yIMxNdNC+nWIIoYiZwsO0yC4i3fIlwru
-	YiUQ==
+	bh=HHP7rKZGqqkkFSXvItxBDWjUgL8UzEJAcEPk0IpbflA=;
+	b=Re9pITH3lRiKtUJEmMnCN1qiAj63khhJYW5pro7542ex0peyP3NZ3jmJxfWPoxmtsP
+	PbLRmMlA0QeCATdfmd9kzlwSquE9H2zc5xN3DjnHKrjH+uS7jmxAfYaZTko1zDyxC8WN
+	V3ibfNYtk/33NfW2DBLOsQNx6tjGOdcLEP0yeY1DC9QRv3lJC+W5L/4ZxjfZglZZ7nJf
+	Wmus3bdDqJ392m90QPv75cP5I6EU8PDoEEwW58KSAU7ZfqI+1Ypxs+SxoJgEHsBX6lGG
+	oSmEQ7z0/yRdZ3wp/BkjHNbPbnub42dkQXry1jEwMHysP4NPfZfMvTp4Txr5CRSDwU/I
+	mw9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=3fnEOOGlF0lxM5YJMV/z9At6IcMggmW+VIShwmG0CQU=;
-	b=QR5pYb+1owOQQc7IFMwNzNI6IWj1sMJnZAX3Rg0CFjE1Rwj8LjTme900P3LHDcjovW
-	AQMPF3lgsJ/uAO/Vyorkq6jFGP+kQ9KBbhfoYCRSSv4v4/E17/P7XlQO1iIpEiwRxVrI
-	hZju7GHTpL4hMO0K100J/w+x1BOpZ/pghImm9AiUlg3L1uvSMRTU0/FMiBqDol8U0gPk
-	mf/dl0D8ccwIbcrUMbN3UgUx1sOi2VPN3fnF87JgfdMV1zFDNVTeY6J+x6bom8yYsL7d
-	cXJSwFeMRCyIPHCskjIQ5fK9qtHDjAL1n6Y9hoIfah2Wck3fvWIwFvXxSMmIah4ekSm2
-	I7Kw==
-X-Gm-Message-State: AA+aEWaQAqtPyyo+hzgAbv2ARMkAwHZS745vP9rhJD9AE/dO6D+Hy9Jw
-	JC5DNeIsS9SHXBaoHrU2UwjOmR0S
-X-Google-Smtp-Source: AFSGD/UaIqbnKDmVYENejjXrG31KlOe7lXhi9doquJa90g5FFroztJB5mw+FTlo6b1x1CGw1ps2RlQ==
-X-Received: by 2002:a17:902:8b88:: with SMTP id
-	ay8mr9317808plb.55.1542851326110; 
-	Wed, 21 Nov 2018 17:48:46 -0800 (PST)
+	bh=HHP7rKZGqqkkFSXvItxBDWjUgL8UzEJAcEPk0IpbflA=;
+	b=kw1RN05K2jAnH43AC6SRh0Nz41aHy5LycpC5cG56wNKQXnIsHZazSPuF4mOBqeiHps
+	EysPCnvOiJGmhPsTqbLA/GAKMbr8ovD63dIE7tOrlX29C+5Jl40s7uin6fTj5ktjFPyg
+	XaqxFpCVN9HlVHryN5XlUuVoXppPiqdbWkPDslEb80nlrSBgV6+CpX9/zKpXQJ+W2bvw
+	PDc3LV+zG+005Jy0J52w/OOEQi0Oy/yFKyk/huAOilw2PI7XavlB0mFYeumdp6KuoK8J
+	cKjH3oVEf6z6n4VF0LxXZTQEi/QZ9A+02lTyfaQgJPm4i1b7uBz9ZOQ9CLsE01lP9pJt
+	3RaA==
+X-Gm-Message-State: AGRZ1gK6ckHtksgljlrFiC1uso08fLIhapJLgvWn4ZaLRb5BchuQpsjo
+	PWJM4dPhb7d/xnwe3zBQ2DHPUYI9
+X-Google-Smtp-Source: AJdET5dkzDrPgS7ii8VVAyPQ1c16OW54lzQNZiwT5deP8hoWwbLHWX3qKP1aczx1F5z8yyNHVv6kbQ==
+X-Received: by 2002:a62:5444:: with SMTP id i65mr9603962pfb.193.1542851331063; 
+	Wed, 21 Nov 2018 17:48:51 -0800 (PST)
 Received: from ip-172-31-17-76.ap-northeast-2.compute.internal
 	(ec2-52-79-234-68.ap-northeast-2.compute.amazonaws.com.
 	[52.79.234.68]) by smtp.gmail.com with ESMTPSA id
-	d21sm42216468pgv.37.2018.11.21.17.48.44
+	d21sm42216468pgv.37.2018.11.21.17.48.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Nov 2018 17:48:45 -0800 (PST)
+	Wed, 21 Nov 2018 17:48:50 -0800 (PST)
 From: Changhyeok Bae <changhyeok.bae@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Nov 2018 01:48:30 +0000
-Message-Id: <20181122014831.46298-2-changhyeok.bae@gmail.com>
+Date: Thu, 22 Nov 2018 01:48:31 +0000
+Message-Id: <20181122014831.46298-3-changhyeok.bae@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181122014831.46298-1-changhyeok.bae@gmail.com>
 References: <20181122014831.46298-1-changhyeok.bae@gmail.com>
-Subject: [PATCH 2/3] ethtool: 4.17 -> 4.19
+Subject: [PATCH 3/3] iptables: 1.6.2 -> 1.8.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,46 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 01:48:45 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 01:48:50 -0000
 
 Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
 ---
- .../ethtool/ethtool/avoid_parallel_tests.patch                | 2 +-
- .../ethtool/{ethtool_4.17.bb => ethtool_4.19.bb}              | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_4.17.bb => ethtool_4.19.bb} (88%)
+ .../iptables/{iptables_1.6.2.bb => iptables_1.8.2.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/iptables/{iptables_1.6.2.bb => iptables_1.8.2.bb} (94%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index d81320a94d..beae5f98c3 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -19,7 +19,7 @@ index e891d91..600f8a8 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
-- AC_INIT(ethtool, 4.17, netdev@vger.kernel.org)
-+ AC_INIT(ethtool, 4.19, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_SRCDIR([ethtool.c])
- -AM_INIT_AUTOMAKE([gnu])
-diff --git a/meta/recipes-extended/ethtool/ethtool_4.17.bb b/meta/recipes-extended/ethtool/ethtool_4.19.bb
-similarity index 88%
-rename from meta/recipes-extended/ethtool/ethtool_4.17.bb
-rename to meta/recipes-extended/ethtool/ethtool_4.19.bb
-index 844a958ed9..74e255c24b 100644
---- a/meta/recipes-extended/ethtool/ethtool_4.17.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_4.19.bb
-@@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
-            "
+diff --git a/meta/recipes-extended/iptables/iptables_1.6.2.bb b/meta/recipes-extended/iptables/iptables_1.8.2.bb
+similarity index 94%
+rename from meta/recipes-extended/iptables/iptables_1.6.2.bb
+rename to meta/recipes-extended/iptables/iptables_1.8.2.bb
+index e00824f763..a704245151 100644
+--- a/meta/recipes-extended/iptables/iptables_1.6.2.bb
++++ b/meta/recipes-extended/iptables/iptables_1.8.2.bb
+@@ -12,8 +12,8 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
+ "
  
--SRC_URI[md5sum] = "4dba0345a4ab9f51b4a4a9739284238d"
--SRC_URI[sha256sum] = "4130142a15f7409d18de3667998f3c99fba52fd7c8d94be7ecdabf8dcab3d6c1"
-+SRC_URI[md5sum] = "a533db1d202724822c4ef297643fac12"
-+SRC_URI[sha256sum] = "e8e88f5a79c78e542cd84fee60b67dbf29cee63e4760e8d61544fea74c761ad1"
+-SRC_URI[md5sum] = "7d2b7847e4aa8832a18437b8a4c1873d"
+-SRC_URI[sha256sum] = "55d02dfa46263343a401f297d44190f2a3e5113c8933946f094ed40237053733"
++SRC_URI[md5sum] = "944558e88ddcc3b9b0d9550070fa3599"
++SRC_URI[sha256sum] = "a3778b50ed1a3256f9ca975de82c2204e508001fc2471238c8c97f3d1c4c12af"
  
- inherit autotools ptest
- RDEPENDS_${PN}-ptest += "make"
+ inherit autotools pkgconfig
+ 
 -- 
 2.17.1
 
