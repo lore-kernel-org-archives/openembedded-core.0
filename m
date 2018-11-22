@@ -1,23 +1,29 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 486016C547
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AF8AC607E1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 00:38:38 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id 08CB61C0033
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 13:38:38 +1300 (NZDT)
-To: openembedded-core@lists.openembedded.org
-References: <20181121223322.24819-1-douglas.royds@taitradio.com>
-	<20181122003308.2329.32709@do>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <a4eb28aa-e155-3d79-8045-0bba3214d5a9@taitradio.com>
-Date: Thu, 22 Nov 2018 13:38:37 +1300
+	Thu, 22 Nov 2018 01:42:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAM1gPg0008002
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 21 Nov 2018 17:42:25 -0800 (PST)
+Received: from [128.224.163.177] (128.224.163.177) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 21 Nov 2018 17:42:12 -0800
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+References: <cover.1542781427.git.liezhi.yang@windriver.com>
+	<bd77663c215d2ed20cb3765b95e62b9b14330896.1542781427.git.liezhi.yang@windriver.com>
+	<CAP9ODKquwOEHEcQc2EOZzty_+GgO1ONKAZU_U4h-L9PRxwFWBg@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <2e148cdc-6ba1-e945-26f3-51ac35674a85@windriver.com>
+Date: Thu, 22 Nov 2018 09:47:04 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <20181122003308.2329.32709@do>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGJvb3N0LWNvbnRleHQ6IFJlcHJvZHVjaWJpbGl0eTogU2V0IC5maWxlIHNlY3Rpb24gZm9yIGFsbCAqX2VsZl9nYXMuUyBmaWxlcyAocmV2Mik=?=
+In-Reply-To: <CAP9ODKquwOEHEcQc2EOZzty_+GgO1ONKAZU_U4h-L9PRxwFWBg@mail.gmail.com>
+Cc: c.andersen@kostal.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] uboot-sign.bbclass: fix signature and deployment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,25 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 00:38:38 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 22 Nov 2018 01:42:29 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-
-On 22/11/18 1:33 PM, Patchwork wrote:
-
-> ...
->
-> * Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format]
->    Suggested fix    Include where reproducibility-add-file-directive-to-assembler.patch was submitted
-
-Yes it is ...
 
 
->    Current          Upstream-Status: Submitted https://github.com/boostorg/context/issues/91
->    Standard format  Upstream-Status: Submitted [where]
 
+On 11/22/18 1:20 AM, Otavio Salvador wrote:
+> Hello,
+> 
+> On Wed, Nov 21, 2018 at 4:08 AM Robert Yang <liezhi.yang@windriver.com> wrote:
+>>
+>> Fixed:
+>> MACHINE = "beaglebone-yocto"
+>> KERNEL_CLASSES += "kernel-fitimage"
+>> KERNEL_IMAGETYPE_beaglebone-yocto = "fitImage"
+>> UBOOT_MACHINE_beaglebone-yocto = "am335x_boneblack_vboot_config"
+>> UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
+>> UBOOT_SIGN_KEYDIR = "${TOPDIR}/conf"
+>> UBOOT_SIGN_KEYNAME = "dev"
+>> UBOOT_SIGN_ENABLE = "1"
+>> IMAGE_INSTALL_remove = "kernel-image-zimage"
+>>
+>> $ cd conf
+>> $ openssl genrsa -F4 -out dev.key 2048
+>> $ openssl req -batch -new -x509 -key dev.key -out dev.crt
+>> $ cd ../
+>> $ bitbake u-boot linux-yocto
+>> $ grep signature tmp/deploy/images/beaglebone-yocto/*.dtb
+>> Binary file tmp/deploy/images/beaglebone-yocto/u-boot-beaglebone-yocto-2018.07-r0.dtb matches
+>> Binary file tmp/deploy/images/beaglebone-yocto/u-boot-beaglebone-yocto.dtb matches
+>> Binary file tmp/deploy/images/beaglebone-yocto/u-boot.dtb matches
+>>
+>> And there would be no signature info when rebuild from sstate:
+>> $ bitbake u-boot linux-yocto -cclean
+>> $ bitbake u-boot linux-yocto
+>> $ grep signature tmp/deploy/images/beaglebone-yocto/*.dtb
+>> No result
+>>
+>> This s because kernel directly edit ${DEPLOY_DIR_IMAGE}/u-boot.dtb, (Note, it
+>> is global ${DEPLOY_DIR_IMAGE}, not recipe's DEPLOYDIR), so that the modified
+>> info is not in sstate, and would be lost when rebuild from sstate.
+>>
+>> There are other problems in previouse code:
+>> - The u-boot.dtb is provided by u-boot, but edited by kernel during signing, so
+>>    it should be deployed by kernel rather than u-boot.
+>>
+>> - The u-boot.do_concat_dtb directly install files to global ${DEPLOY_DIR_IMAGE},
+>>    this is incorrect, the ${DEPLOY_DIR_IMAGE} should be installed by do_deploy.
+>>
+>> - It seems that it assumes do_deploy depends on do_install according the comments,
+>>    but they have no relationships:
+>>    # do_concat_dtb is scheduled _before_ do_install as it overwrite the
+>>    # u-boot.bin in both DEPLOYDIR and DEPLOY_IMAGE_DIR.
+>>
+>> - The do_concat_dtb should be run after do_compile, but it doesn't have this
+>>    dependency.
+>>
+>> Make u-boot install u-boot.dtb to ${datadir}, kernel copies u-boot.dtb from
+>> ${STAGING_DATADIR} to ${B} and deploy it can fix the problem.
+>>
+>> [YOCTO #12112]
+>>
+>> Reported-by: Christian Andersen <c.andersen@kostal.com>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> 
+> The change itself looks good, I noticed that the script part is not
+> using 4 spaces for indenting and as this is being changed, it might
+> make sense to address this as well.
 
-Huh?
+Thanks, sounds good to me, I will make another patch for it after this is merged.
 
+// Robert
+
+> 
+> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+> 
 
