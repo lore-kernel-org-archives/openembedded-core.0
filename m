@@ -1,50 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B0CDC6C5C2
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B83C66C5C2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 15:41:54 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id t3so9695345wrr.3
+	Thu, 22 Nov 2018 15:41:55 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id r11-v6so9360717wmb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 07:41:56 -0800 (PST)
+	Thu, 22 Nov 2018 07:41:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=i6N/qXJtqjl/jHR2zeZYpMbvdshIAsHvLZrodw5ItHc=;
-	b=nBV07QuwFNkhQOrNCBMJkRc8INkQIKIW8cdm65slUGAzqkQHb8+J6IRf2Y/RH7txdV
-	sOQA4p9hP186H5crpSUKqoxx1Qdi+MLHzAIfdSsHD+y3SLxKs6MOVDNZCaqQwOzV2GcF
-	JggLqo1vkl6DzXjf7+1dBuVvdn6f6YyMs+yl59d7ShLa74day95TK4LBDsl3wQhZ/um3
-	w9OULLvMeT0M5t4neIKDjFpKGIA6OjY86bB5vngM3/rHrRXlROc2PyBf6iec+SXr5CO+
-	VIT+d8rws+AGBgilHmdGNnjHRh2Gewp3HjNsURNARpKLM7pw/TEbHyQP779TLbie+1nd
-	Kdng==
+	bh=bxw/g5Bi8odYNvZXBkx83w3Gfq7mbnX5i1JaURjX8UA=;
+	b=Ext3DAKUXOQdvD0DvJMh1Rmk0d3Z5NK9yly3TUFRJjGgjYtFcPKbUOy6fmEHwu48Tz
+	DfX0Vls+aWWnaC4qAKYvEbdOZ3e2V8PUTwvxoR4fOpeGOHnVw/DXzPjsF3krk7dt190h
+	apYSuPvjn/sHaNGzVmA6qb/XrdIYo34GCqw5QNL3cxKhnUlOEw1kXZomn6+0RhIR/Imr
+	4s+5YD5kpX9IwklhqOsvTCWPzjAM99kWwgDQ0mt8Bs9RD56TNjhMuFcpf0HEc+6GAmXp
+	/w+KqL+D0W6Rsk1TfO0Agur96Cdlu6FklmVdJ3RimWfaz2ikxK714BtgKAHvEszq+j88
+	7IMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=i6N/qXJtqjl/jHR2zeZYpMbvdshIAsHvLZrodw5ItHc=;
-	b=EBQDowa68d8H2blclpqkwhGZ/qihVQWeuQhZffpQ+jEVu6v/n96LuSoy0Y7jRTnDNA
-	WIc5ROmypdkTQJtlqxv9sLYHEhxy9gCKojDZKYVv5vyJ2Xhnht//sSHr1AE8tgQuyyFl
-	BaQ9o9Mxt6Tdf8enC0JS8ufuR4oCeZaiw2g25FglT0nRMrrdkA/l4Z2x/++c639Yl6cZ
-	QdQOfk4VhLLJYvl5VK77Hut3j+e2iHXYjgV6qU/v7yYaRBrRXf6qLvIXdafIjLZx8wbg
-	WYpjt4RJ6rw8vwQbb8ukwGAYoB3CVdk0bBROE0Iyrimopquz5Xe5CK5k8FjipR/6ICDt
-	TJwg==
-X-Gm-Message-State: AA+aEWYiZEM4hsfxmpodlnA5smKF7kA630/VYlft8oStuPvD+OTHjRWF
-	mmOS8BinmfxS4AzeK5lD+SafhC+Y
-X-Google-Smtp-Source: AFSGD/Ub9scbRDFRM434Kz83KvTIfoI/iPRbixIjd+FsKvhbT3o69y/68Lhl6dy5Fa9iDeVI0+foXw==
-X-Received: by 2002:adf:8342:: with SMTP id 60mr9737314wrd.212.1542901315072; 
-	Thu, 22 Nov 2018 07:41:55 -0800 (PST)
+	bh=bxw/g5Bi8odYNvZXBkx83w3Gfq7mbnX5i1JaURjX8UA=;
+	b=Ge/zLzaFKPgIeChM+PPUqYSF2Pt/dHsWWkOUyWqvamXlb35+dWqwfVVlHVA6VgAm1D
+	Ye3wroiLQFAqbWlXhpqpVm6qKLVOddphemIRY2xU+v23Pp37PAWTHSCi8jhaL4FCzxdd
+	GMZC8tEsbuJtCra9GEEnZdoEB/7xLsISt/y0mT31wHmP7f3YX2vZeDnj+U1/OS4nbkfU
+	whJUMZJ7TLSNybcZ9+rbpnYkVV30Kb3ukIWUQEWoDT++beWN3gLE+bLxms7E5x3vYAy/
+	9Ko3eCQi/w4q10g8D+tmw7eW41y8F7+vVG1N5/d3xcvk+5nH5wR9dJpU0cUAR4ftPQR+
+	6PwA==
+X-Gm-Message-State: AA+aEWYUOsmo18CQPmf74xUYUoEpDaPzuxRKIfvId9HJOLQDZ5WLLNFQ
+	U1Xm0OSi58WRPrvb0+iG2+x0ousc
+X-Google-Smtp-Source: AFSGD/U88bbFr4L9ifQOrbBCt+jyqiAlpDXRQnKS9wi8mDEIVDFei/a9s16c2Gudq1GLkxpzKmVJgw==
+X-Received: by 2002:a1c:a5c8:: with SMTP id
+	o191mr10684633wme.150.1542901316227; 
+	Thu, 22 Nov 2018 07:41:56 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	e8-v6sm3302931wmf.22.2018.11.22.07.41.54
+	e8-v6sm3302931wmf.22.2018.11.22.07.41.55
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Nov 2018 07:41:54 -0800 (PST)
+	Thu, 22 Nov 2018 07:41:55 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Nov 2018 16:41:26 +0100
-Message-Id: <20181122154136.121480-6-alex.kanavin@gmail.com>
+Date: Thu, 22 Nov 2018 16:41:27 +0100
+Message-Id: <20181122154136.121480-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181122154136.121480-1-alex.kanavin@gmail.com>
 References: <20181122154136.121480-1-alex.kanavin@gmail.com>
-Subject: [PATCH 06/16] gdbm: update to 1.18.1
+Subject: [PATCH 07/16] icu: update to 63.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +58,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 15:41:55 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 15:41:56 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-support/gdbm/{gdbm_1.18.bb => gdbm_1.18.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gdbm/{gdbm_1.18.bb => gdbm_1.18.1.bb} (89%)
+ .../icu/icu/fix-install-manx.patch            | 21 ++++++++-----------
+ .../icu/{icu_62.1.bb => icu_63.1.bb}          |  4 ++--
+ 2 files changed, 11 insertions(+), 14 deletions(-)
+ rename meta/recipes-support/icu/{icu_62.1.bb => icu_63.1.bb} (85%)
 
-diff --git a/meta/recipes-support/gdbm/gdbm_1.18.bb b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
-similarity index 89%
-rename from meta/recipes-support/gdbm/gdbm_1.18.bb
-rename to meta/recipes-support/gdbm/gdbm_1.18.1.bb
-index aad4300952c..16ecc506cea 100644
---- a/meta/recipes-support/gdbm/gdbm_1.18.bb
-+++ b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
-@@ -10,8 +10,8 @@ SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz \
-            file://ptest.patch \
+diff --git a/meta/recipes-support/icu/icu/fix-install-manx.patch b/meta/recipes-support/icu/icu/fix-install-manx.patch
+index 8186fb41227..925b064ebd5 100644
+--- a/meta/recipes-support/icu/icu/fix-install-manx.patch
++++ b/meta/recipes-support/icu/icu/fix-install-manx.patch
+@@ -1,7 +1,7 @@
+-From 3063a9211669bee673840ee81f81d30699b9b702 Mon Sep 17 00:00:00 2001
++From a6ddabc8cadb76bfe2d2e374a6702442cfe51cce Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 9 Oct 2015 17:50:41 +0100
+-Subject: [PATCH 2/4] icu: fix install race
++Subject: [PATCH] icu: fix install race
+ 
+ The generic recursive target calls target-local so also adding it to the
+ dependency list results in races due to install-local being executed twice in
+@@ -18,11 +18,11 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  source/Makefile.in | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+-diff --git a/source/Makefile.in b/source/Makefile.in
+-index c1db15b..4948deb 100644
++diff --git a/Makefile.in b/Makefile.in
++index be9435b..ada20d7 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -73,7 +73,7 @@ EXTRA_DATA =
++@@ -77,7 +77,7 @@ EXTRA_DATA =
+  
+  ## List of phony targets
+  .PHONY : all all-local all-recursive install install-local install-udata install-udata-files install-udata-dlls		\
+@@ -31,7 +31,7 @@ index c1db15b..4948deb 100644
+  distclean-local distclean-recursive doc dist dist-local dist-recursive	\
+  check check-local check-recursive clean-recursive-with-twist install-icu \
+  doc install-doc tests icu4j-data icu4j-data-install update-windows-makefiles xcheck-local xcheck-recursive xperf xcheck xperf-recursive \
+-@@ -84,9 +84,9 @@ check-exhaustive check-exhaustive-local check-exhaustive-recursive releaseDist
++@@ -88,9 +88,9 @@ check-exhaustive check-exhaustive-local check-exhaustive-recursive releaseDist
+  
+  ## List of standard targets
+  all: all-local all-recursive
+@@ -43,15 +43,12 @@ index c1db15b..4948deb 100644
+  dist: dist-recursive
+  check: all check-recursive
+  check-recursive: all
+-@@ -350,7 +350,7 @@ config.status: $(srcdir)/configure $(srcdir)/common/unicode/uvernum.h
+- 
++@@ -357,7 +357,7 @@ config.status: $(srcdir)/configure $(srcdir)/common/unicode/uvernum.h
+  install-manx: $(MANX_FILES)
+  	$(MKINSTALLDIRS) $(DESTDIR)$(mandir)/man$(SECTION)
++ ifneq ($(MANX_FILES),)
+ -	$(INSTALL_DATA) $? $(DESTDIR)$(mandir)/man$(SECTION)
+ +	$(INSTALL_DATA) $^ $(DESTDIR)$(mandir)/man$(SECTION)
++ endif
+  
+  config/%.$(SECTION): $(srcdir)/config/%.$(SECTION).in
+- 	cd $(top_builddir) \
+--- 
+-2.14.2
+-
+diff --git a/meta/recipes-support/icu/icu_62.1.bb b/meta/recipes-support/icu/icu_63.1.bb
+similarity index 85%
+rename from meta/recipes-support/icu/icu_62.1.bb
+rename to meta/recipes-support/icu/icu_63.1.bb
+index 4e3750b997a..e593dc1bdbd 100644
+--- a/meta/recipes-support/icu/icu_62.1.bb
++++ b/meta/recipes-support/icu/icu_63.1.bb
+@@ -22,8 +22,8 @@ SRC_URI = "${BASE_SRC_URI} \
+ SRC_URI_append_class-target = "\
+            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
            "
+-SRC_URI[md5sum] = "490ad9d920158e0314e10ba74ae9a150"
+-SRC_URI[sha256sum] = "3dd9868d666350dda66a6e305eecde9d479fb70b30d5b55d78a1deffb97d5aa3"
++SRC_URI[md5sum] = "9e40f6055294284df958200e308bce50"
++SRC_URI[sha256sum] = "05c490b69454fce5860b7e8e2821231674af0a11d7ef2febea9a32512998cb9d"
  
--SRC_URI[md5sum] = "e316f8e4a3e7e4f23955be65d54fec48"
--SRC_URI[sha256sum] = "b8822cb4769e2d759c828c06f196614936c88c141c3132b18252fe25c2b635ce"
-+SRC_URI[md5sum] = "988dc82182121c7570e0cb8b4fcd5415"
-+SRC_URI[sha256sum] = "86e613527e5dba544e73208f42b78b7c022d4fa5a6d5498bf18c8d6f745b91dc"
- 
- inherit autotools gettext texinfo lib_package ptest
- 
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
+ UPSTREAM_CHECK_URI = "http://download.icu-project.org/files/icu4c/"
 -- 
 2.17.1
 
