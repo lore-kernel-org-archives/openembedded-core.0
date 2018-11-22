@@ -1,32 +1,51 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (smtprelay4.synopsys.com [198.182.47.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E30A6C019
+Return-Path: <christophe.priouzeau@st.com>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+	[91.207.212.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A42796C570
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 12:06:03 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 3495824E13A9;
-	Thu, 22 Nov 2018 04:06:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1542888365; bh=uLVde2z2digV8FENoqLTMTExWAUG6Lbwb91RGEvOn3E=;
-	h=From:To:Cc:Subject:Date:From;
-	b=AJfCvnhAUU+hp37iESMfJXSh4a/A4MAWje8kkcvrhSUIHU+RKSGDTjUupsqDEHqXz
-	3kWOI83LQojp6NHCvh3PB6DcZvtrfm23UZQRa0/ymqdWb5E72Fin2Ho2n7f/fizfbd
-	YvQ6zXomnp4Kk554dfaB2TmsMFP8c8oK3zW2IrCkDl8a5pGs/wjUFDBrQu8n7bURrG
-	DYy0Yt4TTJK0B8Qa1tXHWy8605j/wJk+w7SfAp+Z4ssvivWp77IivcPOFoWBHIgHGP
-	4i/x2ibT7w6QxnPqxtd+N5y3RcQQJyLCD8eS4HiDryOw/AmGvEo9iMOsj92pfua0q6
-	MPizU6ptHJlsA==
-Received: from ru20arcgnu1.internal.synopsys.com
-	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
-	by mailhost.synopsys.com (Postfix) with ESMTP id D00FE3984;
-	Thu, 22 Nov 2018 04:06:03 -0800 (PST)
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Nov 2018 15:06:00 +0300
-Message-Id: <20181122120600.10061-1-abrodkin@synopsys.com>
-X-Mailer: git-send-email 2.16.2
-Cc: linux-snps-arc@lists.infradead.org,
-	Alexey Brodkin <alexey.brodkin@synopsys.com>
-Subject: [PATCH] gcc: Select proper ARC CPU when build for target
+	Thu, 22 Nov 2018 12:13:52 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx08-.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id wAMC43X6001951
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Nov 2018 13:13:53 +0100
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx08-00178001.pphosted.com with ESMTP id 2nw2st7h6y-1
+	(version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Nov 2018 13:13:51 +0100
+Received: from zeta.dmz-ap.st.com (ns6.st.com [138.198.234.13])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 713AF6F
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Nov 2018 12:13:14 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag6node2.st.com [10.75.127.17])
+	by zeta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A6987B2D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Nov 2018 12:13:12 +0000 (GMT)
+Received: from SFHDAG6NODE2.st.com (10.75.127.17) by SFHDAG6NODE2.st.com
+	(10.75.127.17) with Microsoft SMTP Server (TLS) id 15.0.1347.2;
+	Thu, 22 Nov 2018 13:13:11 +0100
+Received: from SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6]) by
+	SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6%20]) with mapi id
+	15.00.1347.000; Thu, 22 Nov 2018 13:13:11 +0100
+From: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][master][thud][PATCH] openssl: correct bad path on
+	package preprocess
+Thread-Index: AQHUgly86XSnb2o7LE2mSGcXoyEIjg==
+Date: Thu, 22 Nov 2018 12:13:11 +0000
+Message-ID: <1542888789-31720-1-git-send-email-christophe.priouzeau@st.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.48]
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2018-11-22_07:, , signatures=0
+Cc: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
+Subject: [master][thud][PATCH] openssl: correct bad path on package preprocess
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,48 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 12:06:04 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 12:13:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-By default GCC for ARC is configured with ARC700 CPU.
-This means when we don't pass "-mcpu=xxx":
- a) Code will be compiled for ARC700
- b) Libs will used for ARC700
+In case of SDK generation, /usr/bin/ path are not correct
+and must be replaced by ${bindir}.
 
-And if we happen to run on ARCv2 core like ARC HSxx we
-won't be able to use target gcc w/o "-mcpu=xxx" which
-is not very convenient as we want to build "target" toolchain
-but not canadian-cross.
-
-Note the trick here is we set TUNE_PKGARCH in just 2 values,
-it is either "arc700" for all ARCompact cores (ARC750 & ARC770)
-and "archs" for all ARCv2 cores (ARC HS38 & HS48), see [1].
-This gives us usable defaults.
-
-For cross-compilation we use TUNE_CCARGS for fine-tuning depending
-on which HW features we have on the current target so that
-we may have HW feature A & B or B & C or A & B & C, see [2].
-
-[1] https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys/blob/master/conf/machine/include/tune-arcv2.inc#L4
-[2] https://github.com/foss-for-synopsys-dwc-arc-processors/meta-synopsys/blob/master/conf/machine/include/tune-arcv2.inc#L34
-
-Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+Signed-off-by: Christophe Priouzeau <christophe.priouzeau@st.com>
 ---
- meta/recipes-devtools/gcc/gcc-target.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-index bc2236fed0..6270059644 100644
---- a/meta/recipes-devtools/gcc/gcc-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-target.inc
-@@ -20,6 +20,7 @@ ARMFPARCHEXT ?= ""
- EXTRA_OECONF_append_armv6 = " --with-arch=armv6${ARMFPARCHEXT}"
- EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a${ARMFPARCHEXT}"
- EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve${ARMFPARCHEXT}"
-+EXTRA_OECONF_append_arc = " --with-cpu=${TUNE_PKGARCH}"
- 
- # libcc1 requres gcc_cv_objdump when cross build, but gcc_cv_objdump is
- # set in subdir gcc, so subdir libcc1 can't use it, export it here to
--- 
-2.16.2
-
+diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb b/meta/r=
+ecipes-connectivity/openssl/openssl10_1.0.2p.bb
+index 4325940..42f9bcf 100644
+--- a/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
++++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2p.bb
+@@ -354,8 +354,8 @@ openssl_package_preprocess () {
+         for file in `find ${PKGD} -name *.h -o -name *.pc -o -name *.so`; =
+do
+                 rm $file
+         done
+-        rm ${PKGD}/usr/bin/openssl
+-        rm ${PKGD}/usr/bin/c_rehash
+-        rmdir ${PKGD}/usr/bin
++        rm ${PKGD}${bindir}/openssl
++        rm ${PKGD}${bindir}/c_rehash
++        rmdir ${PKGD}${bindir}
+=20
+ }
+--=20
+2.7.4
 
