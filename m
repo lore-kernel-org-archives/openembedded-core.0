@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 723AD6C5C2
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 61F936C5D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 15:41:56 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id u13-v6so9553953wmc.4
+	Thu, 22 Nov 2018 15:41:57 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id q26so9496386wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 07:41:57 -0800 (PST)
+	Thu, 22 Nov 2018 07:41:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=aVYlCtmdZfH6EGLasC1vFF/oW3XMPE5FHZx0e1QQXto=;
-	b=bWXHOytQ7qp8q6XQjaxNcybyRotNG7wID6+y4NPxH1i0mSrUkcEF5pd3z3DPqm7F49
-	DK5T+HTrggBCt1cq7rG9+LqZNHkrgA6iBA8iUMfK8/WBGlN5erghr2NMqVMdmnAN8yR1
-	i+3ybIZseb70jurYvzLdOII4Cru2UpqBrN9KgY92vqTEBoTvLupsSPiV0kjlu1DTcLES
-	4E2RCoeulUU8Y6eL1DLj5uuuU5g4isnIyHi+67Y7+YY9Q/NVpK1MVxRQnTVLALQarMXq
-	tPiObiZqAnY9CGMzm6kq5d751FGy36rpoc7uYwnXjZNKYJx0vwLnw5NlpbU9ZwU1uwl6
-	k7Yg==
+	bh=vJaUHbijSTavIeo/ivKsiZD4BAFN/aO9rPdSPE5Cj8I=;
+	b=NMJtQIBSz/nURLg3gJe94o5WmRRIFapWGHRmCE1eTKex4dem21oFAUOqwa6hS5l2no
+	JF7SO2KS5XMKLCMrtj+ScJJQJ6BvbP66HFLzg8tjjMDT/Aao1s+jY59/1Mfzo6XzA6xr
+	Thvin95wxraUaRjrpkVz5peqf9WxQGcN4mTVEmlnc0zXRfMYUcOYKZqShjPOZhLaF/6X
+	I0i1A31mIM5X7JuFf8ewwSLGEuUj7vnk3JokSKgIAGonoNEiBugjhAtETNfSnSs1VMLD
+	SA55N7bJvhPLijvZPj/5iziyhwjDPl0hQDGHHirnLxUbges3lwPYvG2VK5yzV66e+HCI
+	4ECw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=aVYlCtmdZfH6EGLasC1vFF/oW3XMPE5FHZx0e1QQXto=;
-	b=BJpPRnPK+dBNU4Wl8xbouuQjkh7y8UcBzIBS5/rIEBnvkiB5TN7LRPew4NowuZFV6p
-	x6VT1vZflOr9z/04tLn1oZ8JHIoeNIsIDsMD/J8D1o9eO2WREg312J5yknMFLcN5cR6i
-	ute/5lFcEDOYhkJCOERWTNSxJ7u1vtIsC4Av8ENcDDa2tbuE34d5TPH37nFFARmpnQyX
-	9FkJTBsbKuRFLYWT0rEkmHnvZ++JYpiOUG6f6T8UN4CeYFGQSt0WLGpiNAzsWjGQeLdh
-	xlpTjKLTgQxgb9ogoPJho2/u65nBIdLNPyK+li94fENNdTYYWMGh+n1pcwSAeULUNint
-	tb2Q==
-X-Gm-Message-State: AA+aEWaKN/4B7q8FXZcUQMp4Dcr/H65Z9m8ZMcRG8vK4CS/ReptTWu77
-	OsM5d0u88eQ+Xp+EhQNGMb34FdNt
-X-Google-Smtp-Source: AFSGD/XpyYJA0dTW1vazgPA0zJK3UUpTF38OvExg9v3W7dw4OJIxCg/851ANqhE9DqFLGZfn+q3yeA==
-X-Received: by 2002:a1c:da0c:: with SMTP id r12mr1476623wmg.54.1542901317066; 
+	bh=vJaUHbijSTavIeo/ivKsiZD4BAFN/aO9rPdSPE5Cj8I=;
+	b=aG94pCa6jjC0f0dTnTxyKVBbeteB5SBfEbK4kfZ3PBbCefEowBWKLfdcz/ltvZeFv2
+	yCbDLiyd54PBa4kolNyzVplJ3eKkY7YLXw/r879nRmpSA9ANkT6yxy5U0P99RpuIxdqk
+	1s3qKFiZ7Sy6Oi37yT9t8Mx0elpKJRyopby9qJGIPrJ2tUKNF5J8B9IHyXx/IKnk4TXZ
+	O9XZV5hsikIdH/5VR2yJI89ctVK45dPoMwbTxUfDfrdYAJLnyx6yqte0oAjLynDGb0sc
+	UExG8aKotsVuxL1xitjA2mAe1XEctrYzmtVVlg6Vv45mS+n2lXdO8W2U4aARuWfuA/rg
+	u4bg==
+X-Gm-Message-State: AGRZ1gL/xYB6NisRQAR1zAHT6zu/YwlFFZI5/gsIw6LRR3mXGQ10vEgY
+	kJsSE0VZE+1A16QzwekuCbabNnNM
+X-Google-Smtp-Source: AJdET5dxQpg7jTBvYb+lVh47GThIDlo9FZW4X27CywgWS0oOrdOe+jSjrqDRECyjoqdPe61CCzJ6sw==
+X-Received: by 2002:a1c:8fc2:: with SMTP id r185mr10016892wmd.54.1542901317886;
 	Thu, 22 Nov 2018 07:41:57 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	e8-v6sm3302931wmf.22.2018.11.22.07.41.56
+	e8-v6sm3302931wmf.22.2018.11.22.07.41.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Nov 2018 07:41:56 -0800 (PST)
+	Thu, 22 Nov 2018 07:41:57 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Nov 2018 16:41:28 +0100
-Message-Id: <20181122154136.121480-8-alex.kanavin@gmail.com>
+Date: Thu, 22 Nov 2018 16:41:29 +0100
+Message-Id: <20181122154136.121480-9-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181122154136.121480-1-alex.kanavin@gmail.com>
 References: <20181122154136.121480-1-alex.kanavin@gmail.com>
-Subject: [PATCH 08/16] btrfs-tools: update to 4.19
+Subject: [PATCH 09/16] vala: update to 0.42.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 15:41:56 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 15:41:57 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../btrfs-tools/{btrfs-tools_4.17.1.bb => btrfs-tools_4.19.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.17.1.bb => btrfs-tools_4.19.bb} (96%)
+ meta/recipes-devtools/vala/{vala_0.42.0.bb => vala_0.42.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/vala/{vala_0.42.0.bb => vala_0.42.3.bb} (64%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.19.bb
-similarity index 96%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.1.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_4.19.bb
-index 6b53fbcd7fe..9590a723d50 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.1.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.19.bb
-@@ -14,7 +14,7 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl python3-setuptools-native"
- DEPENDS_append_class-target = " udev"
- RDEPENDS_${PN} = "libgcc"
+diff --git a/meta/recipes-devtools/vala/vala_0.42.0.bb b/meta/recipes-devtools/vala/vala_0.42.3.bb
+similarity index 64%
+rename from meta/recipes-devtools/vala/vala_0.42.0.bb
+rename to meta/recipes-devtools/vala/vala_0.42.3.bb
+index 2b02e0c8404..0d11ff6ba76 100644
+--- a/meta/recipes-devtools/vala/vala_0.42.0.bb
++++ b/meta/recipes-devtools/vala/vala_0.42.3.bb
+@@ -6,5 +6,5 @@ SRC_URI += " file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.pa
+ 	     file://0001-Disable-valadoc.patch \
+ "
  
--SRCREV = "7faaca0d9f78f7162ae603231f693dd8e1af2a41"
-+SRCREV = "d72d913291683188ddf5d758db02f1bc3b05d2f7"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
-            file://0001-Makefile-build-mktables-using-native-gcc.patch \
-            file://0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch \
+-SRC_URI[md5sum] = "aa6eb8097d25b5847ad3fab34c0ff865"
+-SRC_URI[sha256sum] = "62a55986da23cf3aaafd7624c32db2a1af11c8419e0bb0751727d10f1f7ab7be"
++SRC_URI[md5sum] = "6fdd6fadbef27e3dd05086d6a3220556"
++SRC_URI[sha256sum] = "5fc73dd1e683dc7391bb96d02b2f671aa8289411a48611a05265629e0048587d"
 -- 
 2.17.1
 
