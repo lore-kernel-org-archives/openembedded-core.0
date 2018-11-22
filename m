@@ -1,26 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id A87D26C5EF
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
+	[198.182.60.111])
+	by mail.openembedded.org (Postfix) with ESMTP id D31D76C506
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 21:56:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Nov 2018 13:56:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,267,1539673200"; d="scan'208";a="94178158"
-Received: from schong-mobl1.gar.corp.intel.com (HELO localhost.localdomain)
-	([10.255.178.145])
-	by orsmga008.jf.intel.com with ESMTP; 22 Nov 2018 13:56:00 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Thu, 22 Nov 2018 22:38:44 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id 07FDC10C14C4;
+	Thu, 22 Nov 2018 14:38:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1542926326; bh=rNA/Tfc3oMsiPWnGJxaRZSZMkzjCaNW+Nz8c44Bg0Co=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BVHsE6uoqafKWmqEMjdvziDR25f2aj7/tI3d5DQnTcuXUoHIZWMKD706T66K4Kkzg
+	J3GsEIgTN/8AAzJawJJda0+jXVz4mBDTNp8ZVTjE6Q8HuRovCTxMvcr1r3NrK36Vua
+	sjNr/yqcmk7EuPw9cR4d3P1T7cJT5GUSUQs3GVkChZ9KdGDmKKTXmOBtqMql2AB4w3
+	GOqIJ5t6NF38THeuWSYZ4dfWHtwFBkUd3y/9pm+1NUFiNAt/kN9TN+Kmfg34oQxlYe
+	VEveOOJ/FbsvVo5kRFK3S5QIQYc8GvJQl4GIUVOfW6cWAeO170aIR4cqQKHi2P75Vn
+	fuRwATh36QRYQ==
+Received: from ru20arcgnu1.internal.synopsys.com
+	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
+	by mailhost.synopsys.com (Postfix) with ESMTP id 4487235CD;
+	Thu, 22 Nov 2018 14:38:44 -0800 (PST)
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Nov 2018 10:55:50 +1300
-Message-Id: <ce1f3acd80c56e712571e76342fa72265838258b.1542923737.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <cover.1542923737.git.paul.eggleton@linux.intel.com>
-References: <cover.1542923737.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] socat: fix LICENSE
+Date: Fri, 23 Nov 2018 01:38:42 +0300
+Message-Id: <20181122223842.36893-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.16.2
+Cc: linux-snps-arc@lists.infradead.org,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>
+Subject: [PATCH] arc: Disable LTTng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +40,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 21:56:01 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 22:38:44 -0000
 
-According to both the README and source headers, the LICENSE value for
-socat is explicitly GPLv2, not v2 or later, so adjust LICENSE
-accordingly (leaving aside whether "GPL-2.0+-with-OpenSSL-exception"
-should actually be considered a valid LICENSE string or not).
+LTTng depends on liburcu which is not yet ported to ARC
+so disable LTTng on ARC for now.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
 ---
- meta/recipes-connectivity/socat/socat_1.7.3.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 3 +++
+ meta/recipes-devtools/gdb/gdb-common.inc                           | 1 +
+ meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb                    | 1 +
+ 3 files changed, 5 insertions(+)
 
-diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.2.bb b/meta/recipes-connectivity/socat/socat_1.7.3.2.bb
-index 927df7463ae..b2d6b1dea4a 100644
---- a/meta/recipes-connectivity/socat/socat_1.7.3.2.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.7.3.2.bb
-@@ -7,7 +7,7 @@ SECTION = "console/network"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 33d9c09a66..762c046636 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -38,13 +38,16 @@ SYSTEMTAP_riscv64 = ""
+ # lttng-ust uses sched_getcpu() which is not there on for some platforms.
+ LTTNGUST = "lttng-ust"
+ LTTNGUST_libc-musl = ""
++LTTNGUST_arc = ""
+ LTTNGUST_riscv64 = ""
  
- DEPENDS = "openssl readline"
+ LTTNGTOOLS = "lttng-tools"
+ LTTNGTOOLS_libc-musl = ""
++LTTNGTOOLS_arc = ""
+ LTTNGTOOLS_riscv64 = ""
  
--LICENSE = "GPL-2.0+-with-OpenSSL-exception"
-+LICENSE = "GPL-2.0-with-OpenSSL-exception"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://README;beginline=257;endline=287;md5=338c05eadd013872abb1d6e198e10a3f"
+ LTTNGMODULES = "lttng-modules"
++LTTNGMODULES_arc = ""
+ LTTNGMODULES_riscv64 = ""
  
+ BABELTRACE = "babeltrace"
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index fa64939f26..57bc0dc773 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -4,6 +4,7 @@ SECTION = "devel"
+ DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST} bison-native"
+ 
+ LTTNGUST = "lttng-ust"
++LTTNGUST_arc = ""
+ LTTNGUST_aarch64 = ""
+ LTTNGUST_riscv64 = ""
+ LTTNGUST_mipsarch = ""
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb
+index 11d7db6848..85ed3c691b 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb
+@@ -25,6 +25,7 @@ PACKAGECONFIG[lttng-ust] = "--with-lttng-ust, --without-lttng-ust, lttng-ust"
+ PACKAGECONFIG[kmod] = "--with-kmod, --without-kmod, kmod"
+ PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
+ PACKAGECONFIG_remove_libc-musl = "lttng-ust"
++PACKAGECONFIG_remove_arc = "lttng-ust"
+ PACKAGECONFIG_remove_riscv64 = "lttng-ust"
+ 
+ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
 -- 
-2.17.2
+2.16.2
 
 
