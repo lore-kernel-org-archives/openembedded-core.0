@@ -1,19 +1,24 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id 1AD886C614
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id A0A6B6C5EF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 20:42:05 +0000 (UTC)
-Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id 9E5E42201AA;
-	Fri, 23 Nov 2018 09:42:06 +1300 (NZDT)
-From: Douglas Royds <douglas.royds@taitradio.com>
+	Thu, 22 Nov 2018 21:55:59 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Nov 2018 13:56:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,267,1539673200"; d="scan'208";a="94178138"
+Received: from schong-mobl1.gar.corp.intel.com (HELO localhost.localdomain)
+	([10.255.178.145])
+	by orsmga008.jf.intel.com with ESMTP; 22 Nov 2018 13:55:58 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Nov 2018 09:41:57 +1300
-Message-Id: <20181122204157.8261-2-douglas.royds@taitradio.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20181122204157.8261-1-douglas.royds@taitradio.com>
-References: <20181122204157.8261-1-douglas.royds@taitradio.com>
-Subject: [PATCH 2/2] reproducible: Don't look for youngest file when no source tarball
+Date: Fri, 23 Nov 2018 10:55:49 +1300
+Message-Id: <cover.1542923737.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
+Subject: [PATCH 0/1] socat: fix LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,62 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 20:42:06 -0000
+X-List-Received-Date: Thu, 22 Nov 2018 21:55:59 -0000
 
-Some packages (eg. init-ifupdown) take their source files entirely from
-openembedded-core, that is, they download no source tarball.
-These recipes either don't use S at all (ie. it is empty at unpack time),
-or they set S = WORKDIR (as in init-ifupdown).
-Looking at the file timestamps in the WORKDIR causes a non-reproducible
-SOURCE_DATE_EPOCH, as files taken from file:// URIs do not have
-reproducible timestamps.
+The following changes since commit c80972be1f3592d797da9eb0845b739420c6da4a:
 
-If S == WORKDIR, we are better to assume that there is no source tarball,
-and to fall back to a fixed timestamp for the SOURCE_DATE_EPOCH.
-This makes the init-ifupdown build reproducible.
+  maintainers: Add entry for new recipe libdazzle (2018-11-22 10:00:12 +0000)
 
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
----
- meta/classes/reproducible_build.bbclass | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+are available in the Git repository at:
 
-diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
-index a0fd4d656b..8788ad7145 100644
---- a/meta/classes/reproducible_build.bbclass
-+++ b/meta/classes/reproducible_build.bbclass
-@@ -22,7 +22,10 @@
- # 3. Use the mtime of "known" files such as NEWS, CHANGLELOG, ...
- #    This works for well-kept repositories distributed via tarball.
- #
--# 4. If the above steps fail, use the modification time of the youngest file in the source tree.
-+# 4. Use the modification time of the youngest file in the source tree, if there is one.
-+#    This will be the newest file from the distribution tarball, if any.
-+#
-+# 5. Fall back to a fixed timestamp.
- #
- # Once the value of SOURCE_DATE_EPOCH is determined, it is stored in the recipe's SDE_FILE.
- # If none of these mechanisms are suitable, replace the do_deploy_source_date_epoch task
-@@ -104,15 +107,15 @@ def get_source_date_epoch_from_git(d, sourcedir):
-     return source_date_epoch
- 
- def get_source_date_epoch_from_youngest_file(d, sourcedir):
-+    if sourcedir == d.getVar('WORKDIR'):
-+       # These sources are almost certainly not from a tarball
-+       return None
-+
-     # Do it the hard way: check all files and find the youngest one...
-     source_date_epoch = None
-     newest_file = None
--    # Just in case S = WORKDIR
--    exclude = set(["build", "image", "license-destdir", "patches", "pseudo",
--                   "recipe-sysroot", "recipe-sysroot-native", "sysroot-destdir", "temp"])
-     for root, dirs, files in os.walk(sourcedir, topdown=True):
-         files = [f for f in files if not f[0] == '.']
--        dirs[:] = [d for d in dirs if d not in exclude]
- 
-         for fname in files:
-             filename = os.path.join(root, fname)
+  git://git.openembedded.org/openembedded-core-contrib paule/socat-license
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/socat-license
+
+Paul Eggleton (1):
+  socat: fix LICENSE
+
+ meta/recipes-connectivity/socat/socat_1.7.3.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.17.1
+2.17.2
 
 
