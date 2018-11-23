@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E31F86C655
+	by mail.openembedded.org (Postfix) with ESMTP id 2DDED6C643
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 02:10:51 +0000 (UTC)
+	Fri, 23 Nov 2018 02:11:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAN2ACWA014889
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAN2Ava8014946
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 18:10:43 -0800
+	Thu, 22 Nov 2018 18:11:07 -0800
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 22 Nov 2018 18:10:23 -0800
+	14.3.408.0; Thu, 22 Nov 2018 18:10:46 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Nov 2018 10:16:29 +0800
-Message-ID: <66f1fc080b1a7cab97237453b8849ff942db40e1.1542939066.git.Qi.Chen@windriver.com>
+Date: Fri, 23 Nov 2018 10:16:32 +0800
+Message-ID: <2464d115a8d3ee0391900838ddb1c2269dfd1a97.1542939066.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1542939066.git.Qi.Chen@windriver.com>
 References: <cover.1542939066.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/9] busybox: fix du-l-works test case
+Subject: [PATCH 9/9] base-files: default hostname to localhost
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,69 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 02:10:52 -0000
+X-List-Received-Date: Fri, 23 Nov 2018 02:11:16 -0000
 Content-Type: text/plain
 
-64 + 64 + 16 = 144K
-144 + sizeof_a_directory >= 145
-So fix to use 145 instead of 144.
+Previously we default hostname to be ${MACHINE}, but there's no entry
+in /etc/hosts, and `hostname -f' command fails. So change it to
+'localhost'.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- ...-du-l-works-fix-to-use-145-instead-of-144.patch | 32 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.29.2.bb        |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch b/meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch
-new file mode 100644
-index 0000000..bb5f753
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch
-@@ -0,0 +1,32 @@
-+From c69feb2fdb755d6db34d0eb0a9e9994386c15e3a Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Wed, 14 Nov 2018 15:19:57 +0800
-+Subject: [PATCH] du-l-works: fix to use 145 instead of 144
-+
-+64 + 64 + 16 = 144
-+144 + size_of_directory >= 145
-+So fix to use 145 instead of 144.
-+
-+Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2018-November/086836.html]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ testsuite/du/du-l-works | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/testsuite/du/du-l-works b/testsuite/du/du-l-works
-+index af87345..575064a 100644
-+--- a/testsuite/du/du-l-works
-++++ b/testsuite/du/du-l-works
-+@@ -5,7 +5,7 @@ cd du.testdir
-+ dd if=/dev/zero of=file1 bs=1k count=64 2>/dev/null
-+ ln file1 file1.1
-+ dd if=/dev/zero of=file2 bs=1k count=16 2>/dev/null
-+-test x"`busybox du -l .`" = x"144	." \
-++test x"`busybox du -l .`" = x"145	." \
-+   -o x"`busybox du -l .`" = x"146	." \
-+   -o x"`busybox du -l .`" = x"148	." \
-+   -o x"`busybox du -l .`" = x"152	." \
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.29.2.bb b/meta/recipes-core/busybox/busybox_1.29.2.bb
-index 98767f0..f38db2a 100644
---- a/meta/recipes-core/busybox/busybox_1.29.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.29.2.bb
-@@ -43,6 +43,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://makefile-libbb-race.patch \
-            file://0001-testsuite-check-uudecode-before-using-it.patch \
-            file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
-+           file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 6e75652..3a0eb4e 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -60,13 +60,13 @@ conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
+              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
+              ${sysconfdir}/default"
+ 
+-# By default the hostname is the machine name. If the hostname is unset then a
++# By default the hostname is 'localhost'. If the hostname is unset then a
+ # /etc/hostname file isn't written, suitable for environments with dynamic
+ # hostnames.
+ #
+ # The hostname can be changed outside of this recipe by using
+ # hostname_pn-base-files = "my-host-name".
+-hostname = "${MACHINE}"
++hostname = "localhost"
+ 
+ BASEFILESISSUEINSTALL ?= "do_install_basefilesissue"
  
 -- 
 1.9.1
