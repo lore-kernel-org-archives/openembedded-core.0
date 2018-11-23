@@ -1,44 +1,23 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F1FA6C828
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 94D816BC7E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 09:39:29 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id d19so8148521qkg.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 01:39:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=DAkYd9EwgxACPGj9sQHwmuzEke+ZSjVkogG6BKCXApc=;
-	b=ck7yoRKWOIYQ4Rh41MlLOSziOLctmKehpHqGsgDWdudVTjNd6ZDdV8KasnYzhUvXI0
-	VdHKTCGJJFPaigbNuPA/7BcljK4aKeByBuJBYjIOMkuupfATThqdJiZYyi8HGh2SdoWJ
-	Z/mxQrMifDtM8MzzyxRnCftOWsZBdM4LMjE6W9LnzTP/dxWYetsfJhuGlPtugZfZn4Ow
-	OZPU49FK+7bwLlylin4vEUlEIk/lGurmh8QTAlxw76mJgqxA1BQu9xX+pgKJ/KcU2UOo
-	ABw0/1Jj5FQIG8WtRsPusKskC0+ifMhVyJDrPGzvlZ+S8OM1QnIaDDW29W9yjM8M0SMD
-	r9Sg==
-X-Gm-Message-State: AA+aEWYf4gHYCtKqL6eVDL8wfxHgHRsZLu4Df6HcogQfRubKI233Oum+
-	673R/vcB93aML6WrzMKEX8f+f0AX
-X-Google-Smtp-Source: AFSGD/VfkpBhSNN30OqWBKSL4YmhQcrz8syqdh0Jz76ZBsgL6obZZqcPTYfQCGIGFnzuM2zrXdfk7Q==
-X-Received: by 2002:a37:b646:: with SMTP id g67mr12857280qkf.326.1542965970217;
-	Fri, 23 Nov 2018 01:39:30 -0800 (PST)
-Received: from localhost.localdomain ([181.220.65.91])
-	by smtp.gmail.com with ESMTPSA id
-	t40sm33073796qth.46.2018.11.23.01.39.27
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 23 Nov 2018 01:39:29 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 23 Nov 2018 07:39:25 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Nov 2018 07:39:24 -0200
-Message-Id: <20181123093924.22689-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.19.1
+	Fri, 23 Nov 2018 10:06:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wANA5tCh027949
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 23 Nov 2018 02:06:05 -0800
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.408.0; Fri, 23 Nov 2018 02:05:44 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Nov 2018 18:22:59 +0800
+Message-ID: <cover.1542968556.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] libdrm: Upgrade 2.4.94 -> 2.4.96
+Subject: [PATCH 0/1] bugzilla.bbclass: Remove it since obsoleted
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,35 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 09:39:29 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 23 Nov 2018 10:06:31 -0000
+Content-Type: text/plain
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+The following changes since commit c80972be1f3592d797da9eb0845b739420c6da4a:
 
- .../drm/{libdrm_2.4.94.bb => libdrm_2.4.96.bb}                | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.94.bb => libdrm_2.4.96.bb} (95%)
+  maintainers: Add entry for new recipe libdazzle (2018-11-22 10:00:12 +0000)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.94.bb b/meta/recipes-graphics/drm/libdrm_2.4.96.bb
-similarity index 95%
-rename from meta/recipes-graphics/drm/libdrm_2.4.94.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.96.bb
-index d6542921f5..1c9e0e9f95 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.94.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.96.bb
-@@ -12,8 +12,8 @@ DEPENDS = "libpthread-stubs"
- 
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-            file://musl-ioctl.patch"
--SRC_URI[md5sum] = "e9803233838007047f39eb385c70d9e0"
--SRC_URI[sha256sum] = "b73c59b0a3760502c428ba81de49cd4807657d26be5e697eba3a87dd021d16be"
-+SRC_URI[md5sum] = "f296d87272b1befeada3bb135751ab3d"
-+SRC_URI[sha256sum] = "0d561acf7bb4cc59dc82415100e6c1a44860e8c380e00f9592923e3cd08db393"
- 
- inherit meson pkgconfig manpages
- 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/rm
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/rm
+
+Robert Yang (1):
+  bugzilla.bbclass: Remove it since obsoleted
+
+ meta/classes/bugzilla.bbclass | 187 ------------------------------------------
+ 1 file changed, 187 deletions(-)
+ delete mode 100644 meta/classes/bugzilla.bbclass
+
 -- 
-2.19.1
+2.7.4
 
 
