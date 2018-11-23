@@ -1,27 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 45FF76C689
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 15:33:26 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	wANFXOJe030338
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Fri, 23 Nov 2018 15:33:25 GMT
-Message-ID: <df187d24a3d4b87f2cfb9d3c1e5369b1b0bfae90.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 23 Nov 2018 15:33:24 +0000
-In-Reply-To: <fe7da64a1ff59e90c653b6d1811e5fe0234f966a.camel@linuxfoundation.org>
-References: <20181122154136.121480-1-alex.kanavin@gmail.com>
-	<20181122154136.121480-16-alex.kanavin@gmail.com>
-	<fe7da64a1ff59e90c653b6d1811e5fe0234f966a.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 16/16] dnf: update to 4.0.9
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E2C26CF39;
+	Fri, 23 Nov 2018 16:03:07 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri, 23 Nov 2018 16:03:08 -0000
+Message-ID: <20181123160308.2331.5133@do>
+References: <20181123153213.28467-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181123153213.28467-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWVzb246IERpc2FibGUgcnBhdGggc3RyaXBwaW5nIGF0IGluc3RhbGwgdGltZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,52 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 15:33:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 23 Nov 2018 16:03:07 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-11-22 at 23:38 +0000, Richard Purdie wrote:
-> On Thu, 2018-11-22 at 16:41 +0100, Alexander Kanavin wrote:
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  meta/recipes-devtools/dnf/{dnf_4.0.4.bb => dnf_4.0.9.bb} | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-devtools/dnf/{dnf_4.0.4.bb => dnf_4.0.9.bb}
-> > (98%)
-> > 
-> > diff --git a/meta/recipes-devtools/dnf/dnf_4.0.4.bb b/meta/recipes-
-> > devtools/dnf/dnf_4.0.9.bb
-> > similarity index 98%
-> > rename from meta/recipes-devtools/dnf/dnf_4.0.4.bb
-> > rename to meta/recipes-devtools/dnf/dnf_4.0.9.bb
-> > index 931e9eff07f..24412fd4860 100644
-> > --- a/meta/recipes-devtools/dnf/dnf_4.0.4.bb
-> > +++ b/meta/recipes-devtools/dnf/dnf_4.0.9.bb
-> > @@ -12,7 +12,7 @@ SRC_URI = "git://github.com/rpm-software-
-> > management/dnf.git \
-> >             file://0030-Run-python-scripts-using-env.patch \
-> >             "
-> >  
-> > -SRCREV = "6fdf0e8cc714c92ee08bd4db9412d4c587ffafe9"
-> > +SRCREV = "689a4c515738226f3dc85edb2035d23233ff41d8"
-> >  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
-> >  
-> >  S = "${WORKDIR}/git"
-> 
-> Something still isn't quite right somewhere:
-> 
-> 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/69/builds/5/steps/7/logs/step7b
-> 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/58/builds/5/steps/7/logs/step2b
-> (the above wic build has many similar errors)
+== Series Details ==
 
-The problem is missing rpath entries in libmodulemd which is an issue
-meson is causing. I've sent out a patch to meson to work around this
-for now. Upstream are already aware there is a problem here.
+Series: meson: Disable rpath stripping at install time
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15074/
+State : failure
 
-Cheers,
+== Summary ==
 
-Richard
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-devtools/meson/meson/disable-rpath-handling.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
