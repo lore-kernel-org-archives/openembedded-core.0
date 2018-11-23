@@ -1,26 +1,26 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D819579DCB
+	by mail.openembedded.org (Postfix) with ESMTP id 4FAF279D56
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 23:35:55 +0000 (UTC)
+	Fri, 23 Nov 2018 23:36:29 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	wANNZsKX026149
+	wANNaSAO026192
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Fri, 23 Nov 2018 23:35:55 GMT
-Message-ID: <cfce994eb17d8b687039a4acf8c9b8756f694878.camel@linuxfoundation.org>
+	verify=NOT); Fri, 23 Nov 2018 23:36:29 GMT
+Message-ID: <0f5dc9e160b0e4284e4049175019c27f81f932b9.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Alexander Kanavin <alex.kanavin@gmail.com>,
 	openembedded-core@lists.openembedded.org
-Date: Fri, 23 Nov 2018 23:35:53 +0000
-In-Reply-To: <20181122154136.121480-11-alex.kanavin@gmail.com>
+Date: Fri, 23 Nov 2018 23:36:27 +0000
+In-Reply-To: <20181122154136.121480-3-alex.kanavin@gmail.com>
 References: <20181122154136.121480-1-alex.kanavin@gmail.com>
-	<20181122154136.121480-11-alex.kanavin@gmail.com>
+	<20181122154136.121480-3-alex.kanavin@gmail.com>
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.100.2 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH 11/16] psmisc: update to 23.2
+Subject: Re: [PATCH 03/16] openssl: update to 1.1.1a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 23:35:57 -0000
+X-List-Received-Date: Fri, 23 Nov 2018 23:36:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Thu, 2018-11-22 at 16:41 +0100, Alexander Kanavin wrote:
 > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 > ---
->  ...001-Use-UINTPTR_MAX-instead-of-__WORDSIZE.patch | 14 +++++-------
+>  .../openssl/0002-fix-CVE-2018-0734.patch      | 108 ----------------
 > --
->  .../psmisc/{psmisc_23.1.bb => psmisc_23.2.bb}      |  2 +-
->  2 files changed, 6 insertions(+), 10 deletions(-)
->  rename meta/recipes-extended/psmisc/{psmisc_23.1.bb =>
-> psmisc_23.2.bb} (87%)
-> 
-> diff --git a/meta/recipes-extended/psmisc/psmisc/0001-Use-
-> UINTPTR_MAX-instead-of-__WORDSIZE.patch b/meta/recipes-
-> extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-instead-of-
-> __WORDSIZE.patch
-> index b57a006bc67..3609594b67a 100644
-> --- a/meta/recipes-extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-
-> instead-of-__WORDSIZE.patch
-> +++ b/meta/recipes-extended/psmisc/psmisc/0001-Use-UINTPTR_MAX-
-> instead-of-__WORDSIZE.patch
-> @@ -1,4 +1,4 @@
-> -From 5dc872bb2fba6421cb8e1ee578f7bd4aaed55f61 Mon Sep 17 00:00:00
-> 2001
-> +From 115fcf1daff18aa2f2e130d63704f04031878db0 Mon Sep 17 00:00:00
-> 2001
->  From: Khem Raj <raj.khem@gmail.com>
->  Date: Thu, 24 Mar 2016 15:46:14 +0000
->  Subject: [PATCH] Use UINTPTR_MAX instead of __WORDSIZE
-> @@ -7,14 +7,13 @@ Do not include sys/user.h since it conflicts with
->  pt_regs struct from kernel APIs in asm/ptrace.h
->  
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> -Upstream-Status: Pending
->  
-> +---
+>  .../openssl/0003-fix-CVE-2018-0735.patch      |  50 --------
+>  .../{openssl_1.1.1.bb => openssl_1.1.1a.bb}   |   6 +-
+>  3 files changed, 2 insertions(+), 162 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0002-
+> fix-CVE-2018-0734.patch
+>  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0003-
+> fix-CVE-2018-0735.patch
+>  rename meta/recipes-connectivity/openssl/{openssl_1.1.1.bb =>
+> openssl_1.1.1a.bb} (96%)
 
-I tweaked this not to remove the badly placed Upstream-Status line!
+This one will need to be rebased against master now other openssl
+patches merged.
 
 Cheers,
 
