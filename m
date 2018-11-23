@@ -1,25 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 92EC56C655
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E31F86C655
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 02:10:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAN2AjEK022845
+	Fri, 23 Nov 2018 02:10:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAN2ACWA014889
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 18:10:45 -0800 (PST)
+	Thu, 22 Nov 2018 18:10:43 -0800
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 22 Nov 2018 18:10:45 -0800
+	14.3.408.0; Thu, 22 Nov 2018 18:10:23 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Nov 2018 10:16:31 +0800
-Message-ID: <b8925da9b9a6588e3281b2d31b15dbd9e5eb5f9d.1542939066.git.Qi.Chen@windriver.com>
+Date: Fri, 23 Nov 2018 10:16:29 +0800
+Message-ID: <66f1fc080b1a7cab97237453b8849ff942db40e1.1542939066.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1542939066.git.Qi.Chen@windriver.com>
 References: <cover.1542939066.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 8/9] busybox: ship a symlink farm for ptest
+Subject: [PATCH 6/9] busybox: fix du-l-works test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,66 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 02:10:44 -0000
+X-List-Received-Date: Fri, 23 Nov 2018 02:10:52 -0000
 Content-Type: text/plain
 
-From: Ross Burton <ross.burton@intel.com>
-
-Ship a symlink farm for busybox, which correctly considers SUID
-split. This ensures that all utilities used in busybox's test cases
-will first use that ones that are provided by busybox.
-
-Modify run-ptest to prepend the directory to PATH, and also change
-variable name from current_dir to current_path, as the former is
-a little misleading. `readlink -f $0' gets a path to the current
-script instead of the current directory.
+64 + 64 + 16 = 144K
+144 + sizeof_a_directory >= 145
+So fix to use 145 instead of 144.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/busybox/busybox.inc     | 14 ++++++++++++++
- meta/recipes-core/busybox/files/run-ptest |  5 +++--
- 2 files changed, 17 insertions(+), 2 deletions(-)
+ ...-du-l-works-fix-to-use-145-instead-of-144.patch | 32 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.29.2.bb        |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index b45d2b6..68ba8c6 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -352,6 +352,20 @@ do_install_ptest () {
- 	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
- 	cp ${B}/.config      ${D}${PTEST_PATH}/
- 	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
+diff --git a/meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch b/meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch
+new file mode 100644
+index 0000000..bb5f753
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-du-l-works-fix-to-use-145-instead-of-144.patch
+@@ -0,0 +1,32 @@
++From c69feb2fdb755d6db34d0eb0a9e9994386c15e3a Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Wed, 14 Nov 2018 15:19:57 +0800
++Subject: [PATCH] du-l-works: fix to use 145 instead of 144
 +
-+	mkdir ${D}${PTEST_PATH}/bin
-+	if [ "${BUSYBOX_SPLIT_SUID}" = "1" ]; then
-+		while read link; do
-+			ln -s ${base_bindir}/busybox.suid ${D}${PTEST_PATH}/bin/$(basename $link)
-+		done <${D}${sysconfdir}/busybox.links.suid
-+		while read link; do
-+			ln -s ${base_bindir}/busybox.nosuid ${D}${PTEST_PATH}/bin/$(basename $link)
-+		done <${D}${sysconfdir}/busybox.links.nosuid
-+	else
-+		while read link; do
-+			ln -s ${base_bindir}/busybox ${D}${PTEST_PATH}/bin/$(basename $link)
-+		done <${D}${sysconfdir}/busybox.links
-+	fi
- }
++64 + 64 + 16 = 144
++144 + size_of_directory >= 145
++So fix to use 145 instead of 144.
++
++Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2018-November/086836.html]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ testsuite/du/du-l-works | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/testsuite/du/du-l-works b/testsuite/du/du-l-works
++index af87345..575064a 100644
++--- a/testsuite/du/du-l-works
+++++ b/testsuite/du/du-l-works
++@@ -5,7 +5,7 @@ cd du.testdir
++ dd if=/dev/zero of=file1 bs=1k count=64 2>/dev/null
++ ln file1 file1.1
++ dd if=/dev/zero of=file2 bs=1k count=16 2>/dev/null
++-test x"`busybox du -l .`" = x"144	." \
+++test x"`busybox du -l .`" = x"145	." \
++   -o x"`busybox du -l .`" = x"146	." \
++   -o x"`busybox du -l .`" = x"148	." \
++   -o x"`busybox du -l .`" = x"152	." \
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/busybox/busybox_1.29.2.bb b/meta/recipes-core/busybox/busybox_1.29.2.bb
+index 98767f0..f38db2a 100644
+--- a/meta/recipes-core/busybox/busybox_1.29.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.29.2.bb
+@@ -43,6 +43,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://makefile-libbb-race.patch \
+            file://0001-testsuite-check-uudecode-before-using-it.patch \
+            file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
++           file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
  
- inherit update-alternatives
-diff --git a/meta/recipes-core/busybox/files/run-ptest b/meta/recipes-core/busybox/files/run-ptest
-index 8b99bed..b19e5b5 100644
---- a/meta/recipes-core/busybox/files/run-ptest
-+++ b/meta/recipes-core/busybox/files/run-ptest
-@@ -1,7 +1,8 @@
- #!/bin/sh
- 
--current_dir=$(readlink -f $0)
--export bindir=$(dirname $current_dir)
-+current_path=$(readlink -f $0)
-+export bindir=$(dirname $current_path)
-+export PATH=$bindir/bin:$PATH
- export SKIP_KNOWN_BUGS=1
- 
- cd testsuite || exit 1
 -- 
 1.9.1
 
