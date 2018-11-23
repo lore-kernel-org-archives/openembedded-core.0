@@ -1,28 +1,44 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 513346C697
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F1FA6C828
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 08:05:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAN85Gtu024732
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 23 Nov 2018 09:39:29 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id d19so8148521qkg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 00:05:26 -0800
-Received: from [128.224.163.169] (128.224.163.169) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Fri, 23 Nov 2018 00:05:05 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1542959097.git.hongxu.jia@windriver.com>
-	<20181123080314.2330.31334@do>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <1d502426-a8c6-345c-cffd-5b8c91a211c2@windriver.com>
-Date: Fri, 23 Nov 2018 16:05:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Fri, 23 Nov 2018 01:39:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=DAkYd9EwgxACPGj9sQHwmuzEke+ZSjVkogG6BKCXApc=;
+	b=ck7yoRKWOIYQ4Rh41MlLOSziOLctmKehpHqGsgDWdudVTjNd6ZDdV8KasnYzhUvXI0
+	VdHKTCGJJFPaigbNuPA/7BcljK4aKeByBuJBYjIOMkuupfATThqdJiZYyi8HGh2SdoWJ
+	Z/mxQrMifDtM8MzzyxRnCftOWsZBdM4LMjE6W9LnzTP/dxWYetsfJhuGlPtugZfZn4Ow
+	OZPU49FK+7bwLlylin4vEUlEIk/lGurmh8QTAlxw76mJgqxA1BQu9xX+pgKJ/KcU2UOo
+	ABw0/1Jj5FQIG8WtRsPusKskC0+ifMhVyJDrPGzvlZ+S8OM1QnIaDDW29W9yjM8M0SMD
+	r9Sg==
+X-Gm-Message-State: AA+aEWYf4gHYCtKqL6eVDL8wfxHgHRsZLu4Df6HcogQfRubKI233Oum+
+	673R/vcB93aML6WrzMKEX8f+f0AX
+X-Google-Smtp-Source: AFSGD/VfkpBhSNN30OqWBKSL4YmhQcrz8syqdh0Jz76ZBsgL6obZZqcPTYfQCGIGFnzuM2zrXdfk7Q==
+X-Received: by 2002:a37:b646:: with SMTP id g67mr12857280qkf.326.1542965970217;
+	Fri, 23 Nov 2018 01:39:30 -0800 (PST)
+Received: from localhost.localdomain ([181.220.65.91])
+	by smtp.gmail.com with ESMTPSA id
+	t40sm33073796qth.46.2018.11.23.01.39.27
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 23 Nov 2018 01:39:29 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Fri, 23 Nov 2018 07:39:25 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Nov 2018 07:39:24 -0200
+Message-Id: <20181123093924.22689-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <20181123080314.2330.31334@do>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFVwZ3JhZGUgZWxmdXRpbHMvZ251cGcvbGliZ2NyeXB0L25jdXJzZXM=?=
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] libdrm: Upgrade 2.4.94 -> 2.4.96
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,56 +51,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 08:05:36 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 23 Nov 2018 09:39:29 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-On 2018/11/23 下午4:03, Patchwork wrote:
-> == Series Details ==
->
-> Series: Upgrade elfutils/gnupg/libgcrypt/ncurses
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/15056/
-> State : failure
->
-> == Summary ==
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             Patches not removed from tree [test_src_uri_left_files]
->    Suggested fix    Amend the patch containing the software patch file removal
->    Patch            0001-mips_readelf_w.patch
->    Patch            0001-disable_werror.patch
->    Patch            0001-arm_backend.patch
->    Patch            0001-mips_backend.patch
->    Patch            0001-hppa_backend.patch
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Pick these patches from debian as a whole
+ .../drm/{libdrm_2.4.94.bb => libdrm_2.4.96.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.94.bb => libdrm_2.4.96.bb} (95%)
 
--#http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.170-0.5.debian.tar.xz
-+#http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.175-1.debian.tar.xz
-
-//Hongxu
-
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.94.bb b/meta/recipes-graphics/drm/libdrm_2.4.96.bb
+similarity index 95%
+rename from meta/recipes-graphics/drm/libdrm_2.4.94.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.96.bb
+index d6542921f5..1c9e0e9f95 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.94.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.96.bb
+@@ -12,8 +12,8 @@ DEPENDS = "libpthread-stubs"
+ 
+ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://musl-ioctl.patch"
+-SRC_URI[md5sum] = "e9803233838007047f39eb385c70d9e0"
+-SRC_URI[sha256sum] = "b73c59b0a3760502c428ba81de49cd4807657d26be5e697eba3a87dd021d16be"
++SRC_URI[md5sum] = "f296d87272b1befeada3bb135751ab3d"
++SRC_URI[sha256sum] = "0d561acf7bb4cc59dc82415100e6c1a44860e8c380e00f9592923e3cd08db393"
+ 
+ inherit meson pkgconfig manpages
+ 
+-- 
+2.19.1
 
 
