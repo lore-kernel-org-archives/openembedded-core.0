@@ -1,26 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DDED6C643
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C47636C645
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 02:11:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAN2Ava8014946
+	Fri, 23 Nov 2018 02:20:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAN2Kw1j010876
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 18:11:07 -0800
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 22 Nov 2018 18:10:46 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
+	Thu, 22 Nov 2018 18:20:58 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 22 Nov 2018 18:20:57 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Nov 2018 10:16:32 +0800
-Message-ID: <2464d115a8d3ee0391900838ddb1c2269dfd1a97.1542939066.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1542939066.git.Qi.Chen@windriver.com>
-References: <cover.1542939066.git.Qi.Chen@windriver.com>
+Date: Fri, 23 Nov 2018 10:37:56 +0800
+Message-ID: <2d2bfab3f76f729e2651b5a7f5b5ca670ef763a5.1542940552.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1542940552.git.liezhi.yang@windriver.com>
+References: <cover.1542940552.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 9/9] base-files: default hostname to localhost
+Subject: [PATCH V2 1/2] sstate.bbclass: Only remove sstate file when task is existed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 02:11:16 -0000
+X-List-Received-Date: Fri, 23 Nov 2018 02:20:57 -0000
 Content-Type: text/plain
 
-Previously we default hostname to be ${MACHINE}, but there's no entry
-in /etc/hosts, and `hostname -f' command fails. So change it to
-'localhost'.
+This can improve the performance a lot for "bitbake <recipe-native/cross/crosssdk>
+-ccleansstate" when there are a lot of sstate files.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+For example:
+* Before
+  $ bitbake quilt-native -ccleansstate
+  - Check log.do_cleansstate:
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_package.tgz*
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_package_qa.tgz*
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_package_write_rpm.tgz*
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_packagedata.tgz*
+  Removing /sstate-cache/*/sstate:quilt-native::0.65:r0::3:*_populate_lic.tgz*
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_populate_sysroot.tgz*
+
+  There are no package tasks for quilt-native, so the first 4 lines doesn't
+  make any sense, but the glob pattern "sstate-cache/*/*" is very time
+  consuming when there are no disk caches. E.g., I have more than 600,000
+  sstate files:
+  - Without disk caches
+  # echo 3 >/proc/sys/vm/drop_caches
+  $ time python3 -c 'import glob; glob.glob("/sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_package.tgz*")'
+    real    4m32.583s
+    user    0m5.768s
+    sys     0m12.892s
+
+  - With disk caches (e.g., run it in the second time)
+  $ time python3 -c 'import glob; glob.glob("/sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_package.tgz*")'
+    real    0m5.128s
+    user    0m2.772s
+    sys     0m2.308s
+
+  So the 4 removing *package* commands cost more than 20s or 272s in theory.
+
+* After
+  $ bitbake quilt-native -ccleansstate
+  - Check log.do_cleansstate:
+  Removing /sstate-cache/*/sstate:quilt-native::0.65:r0::3:*_populate_lic.tgz*
+  Removing /sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_populate_sysroot.tgz*
+
+  We can see that it saved 20s or 272s in theory.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/sstate.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 6e75652..3a0eb4e 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -60,13 +60,13 @@ conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
-              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
-              ${sysconfdir}/default"
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index efb0096..9f059a0 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -423,8 +423,9 @@ def sstate_clean_cachefile(ss, d):
+     import oe.path
  
--# By default the hostname is the machine name. If the hostname is unset then a
-+# By default the hostname is 'localhost'. If the hostname is unset then a
- # /etc/hostname file isn't written, suitable for environments with dynamic
- # hostnames.
- #
- # The hostname can be changed outside of this recipe by using
- # hostname_pn-base-files = "my-host-name".
--hostname = "${MACHINE}"
-+hostname = "localhost"
+     sstatepkgfile = d.getVar('SSTATE_PATHSPEC') + "*_" + ss['task'] + ".tgz*"
+-    bb.note("Removing %s" % sstatepkgfile)
+-    oe.path.remove(sstatepkgfile)
++    if d.getVarFlag('do_%s' % ss['task'], 'task'):
++        bb.note("Removing %s" % sstatepkgfile)
++        oe.path.remove(sstatepkgfile)
  
- BASEFILESISSUEINSTALL ?= "do_install_basefilesissue"
- 
+ def sstate_clean_cachefiles(d):
+     for task in (d.getVar('SSTATETASKS') or "").split():
 -- 
-1.9.1
+2.7.4
 
 
