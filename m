@@ -1,18 +1,50 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E0AB06C5C8;
-	Fri, 23 Nov 2018 11:07:29 +0000 (UTC)
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 03F4C6C690
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Nov 2018 11:12:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 82F1D185B9;
+	Fri, 23 Nov 2018 12:12:58 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 7euobQNw1psn; Fri, 23 Nov 2018 12:12:57 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 0BC4B185FD;
+	Fri, 23 Nov 2018 12:12:56 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E15F41A069;
+	Fri, 23 Nov 2018 12:12:56 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D622A1A064;
+	Fri, 23 Nov 2018 12:12:56 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Fri, 23 Nov 2018 12:12:56 +0100 (CET)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by seth.se.axis.com (Postfix) with ESMTP id CA3591D93;
+	Fri, 23 Nov 2018 12:12:56 +0100 (CET)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Fri, 23 Nov 2018 12:12:56 +0100
+Received: from lnxolani1 (10.0.5.60) by xbox02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server id 15.0.1365.1 via Frontend Transport;
+	Fri, 23 Nov 2018 12:12:56 +0100
+References: <0473F6BDF4E7AC46B8E60219F1EDEEBC3C09B6@PGSMSX101.gar.corp.intel.com>
+	<0473F6BDF4E7AC46B8E60219F1EDEEBC3C0A39@PGSMSX101.gar.corp.intel.com>
+User-agent: mu4e 1.0; emacs 27.0.50
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
+To: "Bheemanadhuni, SrikanthX X" <srikanthx.x.bheemanadhuni@intel.com>
+In-Reply-To: <0473F6BDF4E7AC46B8E60219F1EDEEBC3C0A39@PGSMSX101.gar.corp.intel.com>
+Date: Fri, 23 Nov 2018 12:12:46 +0100
+Message-ID: <jwqtvk82gk1.fsf@axis.com>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 23 Nov 2018 11:07:31 -0000
-Message-ID: <20181123110731.2329.54649@do>
-References: <cover.1542971171.git.liezhi.yang@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1542971171.git.liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdWJvb3Qtc2lnbi5iYmNsYXNzOiBSZW1vdmUgdGFiIGluZGVudGF0aW9ucyBpbiBweXRob24gY29kZQ==?=
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: oe-selftest : Unset SANITY_TESTED_DISTROS bugzilla: 11933
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 11:07:30 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-== Series Details ==
-
-Series: uboot-sign.bbclass: Remove tab indentations in python code
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/15061/
-State : failure
-
-== Summary ==
+X-List-Received-Date: Fri, 23 Nov 2018 11:12:58 -0000
+Content-Type: text/plain
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+On Fri, Nov 23 2018, Bheemanadhuni, SrikanthX X wrote:
 
+> Hi,
+>
+>  
+>
+> unset the SANITY_TESTED_DISTROS in the function  _add_layer_libs() file b/meta/lib/oeqa/selftest/context.py
+>
+>  
+>
+> And added function remove_variables() which is called in 
+>
+> final:
+>
+>      self.remove_variables()
+>
+> the function will comment the the unset SANITY_TESTED_DISTROS in local.conf
+>
 
+I would keep/modify the message that SANITY_TESTED_DISTROS is needed, so
+the user could set it before running oe-selftest the next time.  Just
+like the meta-selftest layer.
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at c80972be1f)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+-- 
+Ola x Nilsson
 
