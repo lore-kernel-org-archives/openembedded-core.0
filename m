@@ -1,26 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 07F3E6C5ED
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AE106C455
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 23:40:56 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	wAMNetGR002271
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Thu, 22 Nov 2018 23:40:57 GMT
-Message-ID: <ab3066d5b675930c69d2b8a276a6900265a62e81.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 22 Nov 2018 23:40:55 +0000
-In-Reply-To: <20181122154136.121480-8-alex.kanavin@gmail.com>
-References: <20181122154136.121480-1-alex.kanavin@gmail.com>
-	<20181122154136.121480-8-alex.kanavin@gmail.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 08/16] btrfs-tools: update to 4.19
+	Fri, 23 Nov 2018 01:31:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAN1VhKP022341
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 22 Nov 2018 17:31:43 -0800 (PST)
+Received: from [128.224.163.157] (128.224.163.157) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Thu, 22 Nov 2018 17:31:42 -0800
+To: <richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>,
+	<raj.khem@gmail.com>, <randy.macleod@windriver.com>,
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1541657297-30997-3-git-send-email-mingli.yu@windriver.com>
+	<1542188171-116604-1-git-send-email-mingli.yu@windriver.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5BF75811.2060104@windriver.com>
+Date: Fri, 23 Nov 2018 09:29:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <1542188171-116604-1-git-send-email-mingli.yu@windriver.com>
+X-Originating-IP: [128.224.163.157]
+Subject: Re: [PATCH v2] python3: add tk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +37,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2018 23:40:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Nov 2018 01:31:47 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2018-11-22 at 16:41 +0100, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Ping.
+
+Thanks,
+
+On 2018年11月14日 17:36, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
+>
+> Add support to enable tk via PACKAGECONFIG.
+> before this patch:
+>   # python3
+>   Python 3.5.6 (default, Nov  8 2018, 04:53:45)
+>   [GCC 8.2.0] on linux
+>   Type "help", "copyright", "credits" or "license" for more information.
+>   >>> import tkinter
+>   Traceback (most recent call last):
+>    File "<stdin>", line 1, in <module>
+>    File "/usr/lib64/python3.5/tkinter/__init__.py", line 35, in <module>
+>      import _tkinter # If this fails your Python may not be configured for Tk
+>   ImportError: No module named '_tkinter'
+>   >>>
+>
+> After this patch, if enable tk in PACKAGECONFIG, then
+>   # python3
+>   Python 3.5.6 (default, Nov  8 2018, 03:15:52)
+>   [GCC 8.2.0] on linux
+>   Type "help", "copyright", "credits" or "license" for more information.
+>   >>> import tkinter
+>   >>>
+>
+> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 > ---
->  .../btrfs-tools/{btrfs-tools_4.17.1.bb => btrfs-tools_4.19.bb}  | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.17.1.bb => btrfs-tools_4.19.bb} (96%)
-> 
-> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.19.bb
-> similarity index 96%
-> rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.1.bb
-> rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_4.19.bb
-> index 6b53fbcd7fe..9590a723d50 100644
-> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.17.1.bb
-> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.19.bb
-> @@ -14,7 +14,7 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl python3-setuptools-native"
->  DEPENDS_append_class-target = " udev"
->  RDEPENDS_${PN} = "libgcc"
->  
-> -SRCREV = "7faaca0d9f78f7162ae603231f693dd8e1af2a41"
-> +SRCREV = "d72d913291683188ddf5d758db02f1bc3b05d2f7"
->  SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
->             file://0001-Makefile-build-mktables-using-native-gcc.patch \
->             file://0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch \
-
-Sadly this upgrade is showing problems:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/5/steps/7/logs/step6b
-https://autobuilder.yoctoproject.org/typhoon/#/builders/70/builds/5/steps/7/logs/step1b
-https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/5/steps/7/logs/step1b
-https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/5/steps/7/logs/step1b
-
-possibly a problem on mips/ppc?
-
-Cheers,
-
-Richard
-
-
+>   meta/recipes-devtools/python/python3-native_3.5.6.bb       | 3 ++-
+>   meta/recipes-devtools/python/python3/python3-manifest.json | 1 +
+>   meta/recipes-devtools/python/python3_3.5.6.bb              | 5 +++--
+>   3 files changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3-native_3.5.6.bb b/meta/recipes-devtools/python/python3-native_3.5.6.bb
+> index d5953cf..1e98c03 100644
+> --- a/meta/recipes-devtools/python/python3-native_3.5.6.bb
+> +++ b/meta/recipes-devtools/python/python3-native_3.5.6.bb
+> @@ -12,7 +12,7 @@ file://130-readline-setup.patch \
+>   file://150-fix-setupterm.patch \
+>   file://python-3.3-multilib.patch \
+>   file://03-fix-tkinter-detection.patch \
+> -file://avoid_warning_about_tkinter.patch \
+> +${@bb.utils.contains('PACKAGECONFIG', 'tk', '', 'file://avoid_warning_about_tkinter.patch', d)} \
+>   file://0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch \
+>   file://sysroot-include-headers.patch \
+>   file://unixccompiler.patch \
+> @@ -28,6 +28,7 @@ file://0003-bpo-32947-Fixes-for-TLS-1.3-and-OpenSSL-1.1.1-GH-876.patch \
+>   file://0004-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976.patch \
+>   file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-2305.patch \
+>   "
+> +PACKAGECONFIG[tk] = ",,tk-native"
+>
+>   EXTRANATIVEPATH += "bzip2-native"
+>   DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native gdbm-native"
+> diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+> index 5329bf7..617256a 100644
+> --- a/meta/recipes-devtools/python/python3/python3-manifest.json
+> +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+> @@ -1060,6 +1060,7 @@
+>               "core"
+>           ],
+>           "files": [
+> +            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter.*.so",
+>               "${libdir}/python${PYTHON_MAJMIN}/tkinter"
+>           ],
+>           "cached": []
+> diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
+> index 31f8ead..5c80421 100644
+> --- a/meta/recipes-devtools/python/python3_3.5.6.bb
+> +++ b/meta/recipes-devtools/python/python3_3.5.6.bb
+> @@ -21,7 +21,7 @@ ${DISTRO_SRC_URI} \
+>
+>   SRC_URI += "\
+>               file://03-fix-tkinter-detection.patch \
+> -            file://avoid_warning_about_tkinter.patch \
+> +            ${@bb.utils.contains('PACKAGECONFIG', 'tk', '', 'file://avoid_warning_about_tkinter.patch', d)} \
+>               file://cgi_py.patch \
+>               file://host_include_contamination.patch \
+>               file://python-3.3-multilib.patch \
+> @@ -82,6 +82,7 @@ PACKAGECONFIG ??= "readline ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-userm
+>   PACKAGECONFIG[readline] = ",,readline"
+>   # Use profile guided optimisation by running PyBench inside qemu-user
+>   PACKAGECONFIG[pgo] = "--enable-optimizations"
+> +PACKAGECONFIG[tk] = ",,tk"
+>
+>   do_configure_append() {
+>   	rm -f ${S}/Makefile.orig
+> @@ -246,7 +247,7 @@ PACKAGES += "${PN}-man"
+>   FILES_${PN}-man = "${datadir}/man"
+>
+>   RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2"
+> -
+> +RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk', '', d)}"
+>   RDEPENDS_${PN}-dev = ""
+>
+>   BBCLASSEXTEND = "nativesdk"
+>
 
