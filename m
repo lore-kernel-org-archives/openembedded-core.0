@@ -1,25 +1,47 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E1AE6C697
+Return-Path: <matthias.schiffer@ew.tq-group.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CDBCA6C8F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 10:06:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wANA5tCj027949
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 23 Nov 2018 02:06:21 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 23 Nov 2018 02:06:12 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Nov 2018 18:23:00 +0800
-Message-ID: <5f432c00006fc98fa8e522d4b337bf2809306855.1542968556.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1542968556.git.liezhi.yang@windriver.com>
-References: <cover.1542968556.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] bugzilla.bbclass: Remove it since obsoleted
+	Fri, 23 Nov 2018 10:35:34 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,269,1539640800"; 
+   d="scan'208";a="5241713"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+	by mx1-pgp.tq-group.com with ESMTP; 23 Nov 2018 11:35:34 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+	by tq-pgp-pr1.tq-net.de (PGP Universal service);
+	Fri, 23 Nov 2018 11:35:34 +0100
+X-PGP-Universal: processed;
+	by tq-pgp-pr1.tq-net.de on Fri, 23 Nov 2018 11:35:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+	t=1542969334; x=1574505334;
+	h=message-id:subject:from:to:date:in-reply-to:references:
+	mime-version:content-transfer-encoding;
+	bh=t7frcwa2+8loo3lcLop++t3z3P764WIOYdLNZgiI0BA=;
+	b=FTAUx1TiIjAtAh+fg9Ly3JD8Yp+fHU/ydtd+s5l1LgyWdrh+v2X1yJlB
+	DS7PgGjSwMlYyuY/lKYOFpuhkOxZnWFMNeWlJLSp7VcqgDXkNXAL24vdx
+	VSBVbCI6xLuRj9sJwQhL7ooHJvI+2n5H1OriFg0jLKCPOMXbgvS6Qt4Tx
+	tGFQm9x0ami/GUXQfCkLRaEaIwyqFaqIRzm1DyT3uaxFeLARMFWic5Okp
+	r2dl1wnDEhYXzjOVFV08H3TBoRtT1C1zGeTJsCv2Gh3XocSI7u7I69RLE
+	KMGDYHSey3vYaM26ZADdHQB0rL+pro3dEgJuN7lEiOU5sNaTj4nRWfWmJ Q==;
+X-IronPort-AV: E=Sophos;i="5.56,269,1539640800"; 
+   d="scan'208";a="5241712"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+	by mx1.tq-group.com with ESMTP; 23 Nov 2018 11:35:34 +0100
+Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
+	[10.117.49.26])
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 56704280073
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Nov 2018 11:35:34 +0100 (CET)
+Message-ID: <ccdab7b0a102c6142348f3e37aa913132f02c044.camel@ew.tq-group.com>
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Nov 2018 11:35:32 +0100
+In-Reply-To: <20181106085623.19811-1-matthias.schiffer@ew.tq-group.com>
+References: <20181106085623.19811-1-matthias.schiffer@ew.tq-group.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2] base.bbclass: avoid 'find -ignore_readdir_race -delete'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,213 +54,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 10:06:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 Nov 2018 10:35:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-It is a still python2 bbclass, so it has been broken since bitbake changed to
-python3 which was 2 years ago. No one reported/fixed it for python3 in recent 2
-years. So we can assume that no one uses it anymore.
+On Tue, 2018-11-06 at 09:56 +0100, matthias.schiffer@ew.tq-group.com
+wrote:
+> From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> 
+> Due to a bug in find [1], -ignore_readdir_race does not work
+> correctly with
+> -delete. This can lead to spurious build failures when files
+> disappear
+> while such a command is running; specifically this was seen in the
+> case of
+> do_configure and do_populate_lic running concurrently for packages
+> with ${B} == ${WORKDIR}:
+> 
+>    find: '.../sstate-build-populate_lic': No such file or directory
+> 
+> While the issue is fixed in the findutils git master, the find
+> command of
+> the host system is called here, so we can't ensure that the used
+> version
+> contains the fix. Many common distros have not updated to a recent
+> enough
+> findutils version yet (Ubuntu 18.10 contains the fix, while 18.04 is
+> still
+> affected).
+> 
+> Work around the issue by passing the output of find to 'rm -f'
+> instead of
+> using -delete.
+> 
+> [1] https://savannah.gnu.org/bugs/?52981
+> 
+> Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> ---
+> 
+> It would be great if this patch could be backported to all versions
+> back to
+> Rocko, as our current setup is still based on Rocko.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/bugzilla.bbclass | 187 ------------------------------------------
- 1 file changed, 187 deletions(-)
- delete mode 100644 meta/classes/bugzilla.bbclass
+Is there any chance we can get this backported?
 
-diff --git a/meta/classes/bugzilla.bbclass b/meta/classes/bugzilla.bbclass
-deleted file mode 100644
-index 8909c27..0000000
---- a/meta/classes/bugzilla.bbclass
-+++ /dev/null
-@@ -1,187 +0,0 @@
--#
--# Small event handler to automatically open URLs and file
--# bug reports at a bugzilla of your choiche
--# it uses XML-RPC interface, so you must have it enabled
--#
--# Before using you must define BUGZILLA_USER, BUGZILLA_PASS credentials,
--# BUGZILLA_XMLRPC - uri of xmlrpc.cgi,
--# BUGZILLA_PRODUCT, BUGZILLA_COMPONENT - a place in BTS for build bugs
--# BUGZILLA_VERSION - version against which to report new bugs
--#
--
--def bugzilla_find_bug_report(debug_file, server, args, bugname):
--    args['summary'] = bugname
--    bugs = server.Bug.search(args)
--    if len(bugs['bugs']) == 0:
--        print >> debug_file, "Bugs not found"
--        return (False,None)
--    else: # silently pick the first result
--        print >> debug_file, "Result of bug search is "
--        print >> debug_file, bugs
--        status = bugs['bugs'][0]['status']
--        id = bugs['bugs'][0]['id']
--        return (not status in ["CLOSED", "RESOLVED", "VERIFIED"],id)
--
--def bugzilla_file_bug(debug_file, server, args, name, text, version):
--    args['summary'] = name
--    args['comment'] = text
--    args['version'] = version
--    args['op_sys'] = 'Linux'
--    args['platform'] = 'Other'
--    args['severity'] = 'normal'
--    args['priority'] = 'Normal'
--    try:
--        return server.Bug.create(args)['id']
--    except Exception, e:
--        print >> debug_file, repr(e)
--        return None
--
--def bugzilla_reopen_bug(debug_file, server, args, bug_number):
--    args['ids'] = [bug_number]
--    args['status'] = "CONFIRMED"
--    try:
--        server.Bug.update(args)
--        return True
--    except Exception, e:
--        print >> debug_file, repr(e)
--        return False
--
--def bugzilla_create_attachment(debug_file, server, args, bug_number, text, file_name, log, logdescription):
--    args['ids'] = [bug_number]
--    args['file_name'] = file_name
--    args['summary'] = logdescription
--    args['content_type'] = "text/plain"
--    args['data'] = log
--    args['comment'] = text
--    try:
--        server.Bug.add_attachment(args)
--        return True
--    except Exception, e:
--        print >> debug_file, repr(e)
--        return False
--
--def bugzilla_add_comment(debug_file, server, args, bug_number, text):
--    args['id'] = bug_number
--    args['comment'] = text
--    try:
--        server.Bug.add_comment(args)
--        return True
--    except Exception, e:
--        print >> debug_file, repr(e)
--        return False
--
--addhandler bugzilla_eventhandler
--bugzilla_eventhandler[eventmask] = "bb.event.MsgNote bb.build.TaskFailed"
--python bugzilla_eventhandler() {
--    import glob
--    import xmlrpclib, httplib
--
--    class ProxiedTransport(xmlrpclib.Transport):
--        def __init__(self, proxy, use_datetime = 0):
--            xmlrpclib.Transport.__init__(self, use_datetime)
--            self.proxy = proxy
--            self.user = None
--            self.password = None
--
--        def set_user(self, user):
--            self.user = user
--
--        def set_password(self, password):
--            self.password = password
--
--        def make_connection(self, host):
--            self.realhost = host
--            return httplib.HTTP(self.proxy)
--
--        def send_request(self, connection, handler, request_body):
--            connection.putrequest("POST", 'http://%s%s' % (self.realhost, handler))
--            if self.user != None:
--                if self.password != None:
--                    auth = "%s:%s" % (self.user, self.password)
--                else:
--                    auth = self.user
--                connection.putheader("Proxy-authorization", "Basic " + base64.encodestring(auth))
--
--    event = e
--    data = e.data
--    name = bb.event.getName(event)
--    if name == "MsgNote":
--        # avoid recursion
--        return
--
--    if name == "TaskFailed":
--        xmlrpc  = data.getVar("BUGZILLA_XMLRPC")
--        user    = data.getVar("BUGZILLA_USER")
--        passw   = data.getVar("BUGZILLA_PASS")
--        product = data.getVar("BUGZILLA_PRODUCT")
--        compon  = data.getVar("BUGZILLA_COMPONENT")
--        version = data.getVar("BUGZILLA_VERSION")
--
--        proxy   = data.getVar('http_proxy')
--        if (proxy):
--            import urllib2
--            s, u, p, hostport = urllib2._parse_proxy(proxy)
--            transport = ProxiedTransport(hostport)
--        else:
--            transport = None
--
--        server = xmlrpclib.ServerProxy(xmlrpc, transport=transport, verbose=0)
--        args = {
--            'Bugzilla_login': user,
--            'Bugzilla_password': passw,
--            'product': product,
--            'component': compon}
--
--        # evil hack to figure out what is going on
--        debug_file = open(os.path.join(data.getVar("TMPDIR"),"..","bugzilla-log"),"a")
--
--        file = None
--        bugname = "%(package)s-%(pv)s-autobuild" % { "package" : data.getVar("PN"),
--                                                           "pv"      : data.getVar("PV"),
--                                                           }
--        log_file = glob.glob("%s/log.%s.*" % (event.data.getVar('T'), event.task))
--        text     = "The %s step in %s failed at %s for machine %s" % (e.task, data.getVar("PN"), data.getVar('DATETIME'), data.getVar('MACHINE') )
--        if len(log_file) != 0:
--            print >> debug_file, "Adding log file %s" % log_file[0]
--            file = open(log_file[0], 'r')
--            log = file.read()
--            file.close();
--        else:
--            print >> debug_file, "No log file found for the glob"
--            log = None
--
--        (bug_open, bug_number) = bugzilla_find_bug_report(debug_file, server, args.copy(), bugname)
--        print >> debug_file, "Bug is open: %s and bug number: %s" % (bug_open, bug_number)
--
--        # The bug is present and still open, attach an error log
--        if not bug_number:
--            bug_number = bugzilla_file_bug(debug_file, server, args.copy(), bugname, text, version)
--            if not bug_number:
--                print >> debug_file, "Couldn't acquire a new bug_numer, filing a bugreport failed"
--            else:
--                print >> debug_file, "The new bug_number: '%s'" % bug_number
--        elif not bug_open:
--            if not bugzilla_reopen_bug(debug_file, server, args.copy(), bug_number):
--                print >> debug_file, "Failed to reopen the bug #%s" % bug_number
--            else:
--                print >> debug_file, "Reopened the bug #%s" % bug_number
--
--        if bug_number and log:
--            print >> debug_file, "The bug is known as '%s'" % bug_number
--            desc = "Build log for machine %s" % (data.getVar('MACHINE'))
--            if not bugzilla_create_attachment(debug_file, server, args.copy(), bug_number, text, log_file[0], log, desc):
--                 print >> debug_file, "Failed to attach the build log for bug #%s" % bug_number
--            else:
--                 print >> debug_file, "Created an attachment for '%s' '%s' '%s'" % (product, compon, bug_number)
--        else:
--            print >> debug_file, "Not trying to create an attachment for bug #%s" % bug_number
--            if not bugzilla_add_comment(debug_file, server, args.copy(), bug_number, text, ):
--                 print >> debug_file, "Failed to create a comment the build log for bug #%s" % bug_number
--            else:
--                 print >> debug_file, "Created an attachment for '%s' '%s' '%s'" % (product, compon, bug_number)
--
--        # store bug number for oestats-client
--        if bug_number:
--            data.setVar('OESTATS_BUG_NUMBER', bug_number)
--}
--
--- 
-2.7.4
+Thanks,
+Matthias
+
+
+> 
+> v2: add comment, extend commit message
+> 
+> 
+>  meta/classes/base.bbclass | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index df11c8b270..9efb06de5f 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -303,7 +303,9 @@ base_do_configure() {
+>  			if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile
+> -o -e makefile -o -e GNUmakefile \) ]; then
+>  				oe_runmake clean
+>  			fi
+> -			find ${B} -ignore_readdir_race -name \*.la
+> -delete
+> +			# -ignore_readdir_race does not work correctly
+> with -delete;
+> +			# use xargs to avoid spurious build failures
+> +			find ${B} -ignore_readdir_race -name \*.la
+> -type f -print0 | xargs -0 rm -f
+>  		fi
+>  	fi
+>  	if [ -n "${CONFIGURESTAMPFILE}" ]; then
 
 
