@@ -1,25 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B2E516C66C
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E14A6C66B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 02:20:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAN2L0I6022890
+	Fri, 23 Nov 2018 02:21:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAN2KQDi015496
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2018 18:21:00 -0800 (PST)
+	Thu, 22 Nov 2018 18:20:56 -0800
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 22 Nov 2018 18:21:00 -0800
+	14.3.408.0; Thu, 22 Nov 2018 18:20:41 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Nov 2018 10:37:57 +0800
-Message-ID: <1f5301edbaa5868f5acfc104486283225a16d9a9.1542940552.git.liezhi.yang@windriver.com>
+Date: Fri, 23 Nov 2018 10:37:55 +0800
+Message-ID: <cover.1542940552.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1542940552.git.liezhi.yang@windriver.com>
-References: <cover.1542940552.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 2/2] sstate.bbclass: set SSTATE_EXTRAPATHWILDCARD explicitly
+Subject: [PATCH V2 0/2] Improve performance for native/cross/crosssdk's cleansstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,60 +31,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 02:20:59 -0000
+X-List-Received-Date: Fri, 23 Nov 2018 02:21:05 -0000
 Content-Type: text/plain
 
-The glob.glob("/sstate/*/*/") is very time consuming, set
-SSTATE_EXTRAPATHWILDCARD explicity to avoid that. This can save a lot of time
-when there are many sstate files.
+* V2
+  - Teach sstate.bbclass rather than edit nopackages.bbclass to fix the problem.
 
-For example, I have more than 600,000 sstate files:
-* Before
-  - Without disk caches
-  $ time python3 -c 'import glob; glob.glob("/sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_populate_sysroot.tgz*")'
-    real    4m32.583s
-    user    0m5.768s
-    sys     0m12.892s
+* V1
+These 2 patches can improve performance a lot for native/cross/crosssdk's
+cleansstate:
 
-  - With disk caches
-  $ time python3 -c 'import glob; glob.glob("/sstate-cache/*/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_populate_sysroot.tgz*")'
-  real    0m4.111s
-  user    0m2.348s
-  sys     0m1.756s
+This test is based on more than 600,000 sstate files
+* Without disk caches
+  # echo 3 >/proc/sys/vm/drop_caches
+  $ bitbake -p
+  $ time bitbake quilt-native -ccleansstate
+  - Before:
+    real    4m53.815s
+    user    0m0.820s
+    sys     0m0.128s
 
-* After
-  $ time python3 -c 'import glob; glob.glob("/sstate-cache.bak/universal/*/sstate:quilt-native:x86_64-linux:0.65:r0:x86_64:3:*_populate_sysroot.tgz*")'
-  - Without disk caches:
-  real    0m7.928s
-  user    0m0.172s
-  sys     0m0.124s
+  - After
+    real    0m58.483s
+    user    0m0.744s
+    sys     0m0.108s
 
-  - With disk caches:
-  real    0m0.131s
-  user    0m0.088s
-  sys     0m0.044s
+  Saved 293 - 58 = 235s (80% improvement)
 
-We can see that it saves about 3.8s with disk caches, and saves about 264s
-without disk caches.
+* With disk caches (26.6s -> 5.8s, 78% improvement)
+  $ bitbake -p
+  $ time bitbake quilt-native -ccleansstate
+  - Before:
+    real    0m26.682s
+    user    0m0.748s
+    sys     0m0.088s
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/sstate.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  - After
+    real    0m5.846s
+    user    0m0.716s
+    sys     0m0.116s
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 9f059a0..8b48ab4 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -101,7 +101,7 @@ python () {
-     if bb.data.inherits_class('native', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('cross', d):
-         d.setVar('SSTATE_EXTRAPATH', "${NATIVELSBSTRING}/")
-         d.setVar('BB_HASHFILENAME', "True ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}")
--        d.setVar('SSTATE_EXTRAPATHWILDCARD', "*/")
-+        d.setVar('SSTATE_EXTRAPATHWILDCARD', "${NATIVELSBSTRING}/")
- 
-     unique_tasks = sorted(set((d.getVar('SSTATETASKS') or "").split()))
-     d.setVar('SSTATETASKS', " ".join(unique_tasks))
+  Saved 26.6 - 5.8  = 20.8s (78% improvement)
+
+======
+I have another idea is put sstate files into the directory
+named by the recipe, e.g.:
+
+sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:773341447192feb6c1519cace0e6be35_populate_lic.tgz
+sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:773341447192feb6c1519cace0e6be35_populate_lic.tgz.siginfo
+sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:ab4a82a07b10926bb42d2f37242413c7_patch.tgz.siginfo
+sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:e8a4c952a66942653e36f289eaf68ca5_fetch.tgz.siginfo
+sstate-cache/quilt-native/sstate:quilt-native::0.65:r0::3:fd35240c437cefa66e24cfe65d3fb335_unpack.tgz.siginfo
+
+This can make it easier to manage sstate files, and can reduce the load of
+glob.glob(), currently, the remove command is something like:
+
+$ rm -f glob.glob(sstate-cache/*/sstate:foo.*bar.*)
+
+If we put them into recipe named directory, then we can run:
+
+$ rm -f glob.glob(sstate-cache/<recipe>/sstate:foo.*bar.*)
+
+Which should be faster, what's your opinion, please ?
+
+
+The following changes since commit fc5418e7bbdecfb27bafe595084e0fd0f991a388:
+
+  meta/icecc.bbclass: Update system blacklists (2018-11-21 11:48:18 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/sstate
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/sstate
+
+Robert Yang (2):
+  sstate.bbclass: Only remove sstate file when task is existed
+  sstate.bbclass: set SSTATE_EXTRAPATHWILDCARD explicitly
+
+ meta/classes/sstate.bbclass | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
 -- 
 2.7.4
 
