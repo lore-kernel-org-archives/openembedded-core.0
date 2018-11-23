@@ -1,49 +1,49 @@
 Return-Path: <nick83ola@gmail.com>
-Received: from mail-yb1-f195.google.com (mail-yb1-f195.google.com
-	[209.85.219.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 29B626BC85
+Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
+	[209.85.219.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 041E96C56B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 14:31:52 +0000 (UTC)
-Received: by mail-yb1-f195.google.com with SMTP id t13-v6so4808967ybb.8
+	Fri, 23 Nov 2018 14:37:21 +0000 (UTC)
+Received: by mail-yb1-f194.google.com with SMTP id g9-v6so4813320ybh.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 06:31:54 -0800 (PST)
+	Fri, 23 Nov 2018 06:37:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
 	bh=uvreXKwUqaRLebwa4+H1Vy6K5YdE/1gXVaHvomovgQA=;
-	b=e3orRsLTCAEUv7gc9QmYvPvmg9LdHfL6qvjCA3GnWQ+adZQpTdETzPHe94CeL1W9AO
-	5sw+SwEohOyKEnHR2icWuyGbzj7cNOhagpRHPLOUTwaFSa3C0rH2JNldkRoqyw8NxZi8
-	B1nxmTrO/MqHEJe9fxHF/6GQ+SCTwgWnu6DHvpGF41T2vMeCkRGSQx57Z3VG8J6FfmKn
-	fGdpliWK2XKs3spstsPOceHlSikSzZijYwsaj1XAjWEW7qJqQix9BwiX7Q06Jek7iu2M
-	Efr7P4+GdoSWOq05TkLjXhjEM8C6/I4PH0ITOfIHFVRqFKasU84iKDO23rrZPitbOisj
-	A4eA==
+	b=ZNuLYCXSjkp3GJFQnWQOX4IABUI9dC+YPENoldac6zSMA8c/tUVwLMCrxcs+APd93d
+	cdVi5eEwdmnliinquj7qFaL92cli/eGdqTeZ58DcciGtlwnv3Uq4zdBNtvtwCivMt/yF
+	6WpIr1H8a/4CKuHU8kv5DHmAcCumlzE4Oa3YXUf0e4NEjOZCZDklo7zdqV9NDLzH+4gv
+	79tHajM8HpFV7Vlm1FHXInQS5OvCJ2c/Y+mCPL3CvWnYC+Q4sQHhK4ziMXLpea3xqWEn
+	SwS9nUW1XfofiHUi1JpvCo5f65Toxu3ozohCnz/Yhq4LANfzQIfa/OlFK+hzkZWsSoJ5
+	xZKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
 	bh=uvreXKwUqaRLebwa4+H1Vy6K5YdE/1gXVaHvomovgQA=;
-	b=coClq3XYXtK3KOyq2gbNFX8itJR1TXy7sljXQZE6YWXzS+y5pbWx6moHe7pCmALDZS
-	+XtJ4CLomcWCD8z5FOlxaDGn9hBx9+y7M1pLqr60+WNvbAKt9DmpCVAS6VFrj+KQadVE
-	v1UvMq2Gs5OBfnJ/JpO5wfHEthkg/6PoP3+7eKZdIRGmLABRT3dCYcUKA2yiPL333X45
-	hp7OQt9hgziPcCOXS2GXEDeM6WOc9NOJVgttIIJLInZr94UbmpIsgoF6LvAHorup6tPx
-	YkhrkXCVdlVPJ84RjKI276L/OuG2tasYlhqOx1EJampgvmugJTZnmgYleOYIjBtT5jQM
-	pnkQ==
-X-Gm-Message-State: AGRZ1gLrw8uLAq1/vTRPi9BjNg20qgdb7yT8HPyFSva0KitjGkglYqZG
-	jnyOeWrrZATuBe/cUr1Ihe8mJLXO
-X-Google-Smtp-Source: AFSGD/VUdZp9/9zP1AOrMXjSKLo/fQjbwUZQ04emsfHueasKchzh4RQw5KizEmG5edhgi086NIlIIw==
-X-Received: by 2002:a25:3c81:: with SMTP id
-	j123-v6mr16047418yba.250.1542983513803; 
-	Fri, 23 Nov 2018 06:31:53 -0800 (PST)
+	b=s+LPHoJqu+ONby++QHzU8Uv5jvCTRVltAKMLCkqQ6/WOiVQQY4K0ochrNx6PwS+pyJ
+	NOX78uLK/rDPXjfldHurOdE7n6m8RvMpXGXLLRdomTEhSqh6gHW2fCcCWJP/0x7+R7D3
+	GF+VNQib0BheaBT8e8EzGTe7ax9gUOmufBKg1f/a/YNEotSwEeuwoeEedPBz00VScjnH
+	y/yOwc0AkA6m+TH+HlFOyinofmo+WA1HvBleDuGdWKD3wVn8Q7cIAd+/hkYMi7CDDzIL
+	1D/sAhHD2bG18yBIZVx6EX7zHx1+8hNBznB1Z92dQygFk/t/Sqgsx8lkincdVDmsVdiu
+	3e7Q==
+X-Gm-Message-State: AGRZ1gKbBmYfDap92h+ocRgABUIXAomE0XqHEBTOURmTed67sguxq2uq
+	dkUfnFiMHBJK7khB0a4MHeU/4pjf
+X-Google-Smtp-Source: AFSGD/VuDJ+C6I+82i2UgGdWQtbHj+F2d9bFw6uG779KZxflC+tUDcehqlESK7OTB3mmvgo62sMN9Q==
+X-Received: by 2002:a25:4bc4:: with SMTP id
+	y187-v6mr15868826yba.264.1542983842622; 
+	Fri, 23 Nov 2018 06:37:22 -0800 (PST)
 Received: from nick-laptop.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	u4sm31334873ywu.92.2018.11.23.06.31.52
+	p201sm5876737ywe.45.2018.11.23.06.37.21
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 23 Nov 2018 06:31:53 -0800 (PST)
+	Fri, 23 Nov 2018 06:37:22 -0800 (PST)
 From: Nicola Lunghi <nick83ola@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Nov 2018 14:31:48 +0000
-Message-Id: <20181123143148.9171-1-nick83ola@gmail.com>
+Date: Fri, 23 Nov 2018 14:37:18 +0000
+Message-Id: <20181123143718.9472-1-nick83ola@gmail.com>
 X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Subject: [meta-java][PATCH] java-library: make easy to override jar package name
@@ -59,7 +59,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 14:31:53 -0000
+X-List-Received-Date: Fri, 23 Nov 2018 14:37:22 -0000
 Content-Transfer-Encoding: 8bit
 
 define JARFILENAME and ALTJARFILENAMES with ?= to make simple
