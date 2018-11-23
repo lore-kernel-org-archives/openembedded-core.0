@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id BA6DE6C699;
-	Fri, 23 Nov 2018 15:05:48 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id D54816C806;
+	Fri, 23 Nov 2018 15:05:49 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: nick83ola <nick83ola@gmail.com>
-Date: Fri, 23 Nov 2018 15:05:50 -0000
-Message-ID: <20181123150550.2334.39421@do>
-References: <20181123143148.9171-1-nick83ola@gmail.com>
+Date: Fri, 23 Nov 2018 15:05:51 -0000
+Message-ID: <20181123150551.2330.13613@do>
+References: <20181123143718.9472-1-nick83ola@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20181123143148.9171-1-nick83ola@gmail.com>
+In-Reply-To: <20181123143718.9472-1-nick83ola@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgamF2YS1saWJyYXJ5OiBtYWtlIGVhc3kgdG8gb3ZlcnJpZGUgamFyIHBhY2thZ2UgbmFtZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgamF2YS1saWJyYXJ5OiBtYWtlIGVhc3kgdG8gb3ZlcnJpZGUgamFyIHBhY2thZ2UgbmFtZSAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 15:05:48 -0000
+X-List-Received-Date: Fri, 23 Nov 2018 15:05:50 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: java-library: make easy to override jar package name
-Revision: 1
+Series: java-library: make easy to override jar package name (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/15066/
 State : failure
 
