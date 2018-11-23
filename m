@@ -1,26 +1,25 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FAF279D56
+	by mail.openembedded.org (Postfix) with ESMTP id 3049179D63
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2018 23:36:29 +0000 (UTC)
+	Fri, 23 Nov 2018 23:38:41 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	wANNaSAO026192
+	wANNce0R026316
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Fri, 23 Nov 2018 23:36:29 GMT
-Message-ID: <0f5dc9e160b0e4284e4049175019c27f81f932b9.camel@linuxfoundation.org>
+	verify=NOT); Fri, 23 Nov 2018 23:38:42 GMT
+Message-ID: <0ac09df2ae84cf9399feb63abc69683521ea5e98.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 23 Nov 2018 23:36:27 +0000
-In-Reply-To: <20181122154136.121480-3-alex.kanavin@gmail.com>
-References: <20181122154136.121480-1-alex.kanavin@gmail.com>
-	<20181122154136.121480-3-alex.kanavin@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 23 Nov 2018 23:38:40 +0000
+In-Reply-To: <2464d115a8d3ee0391900838ddb1c2269dfd1a97.1542939066.git.Qi.Chen@windriver.com>
+References: <cover.1542939066.git.Qi.Chen@windriver.com>
+	<2464d115a8d3ee0391900838ddb1c2269dfd1a97.1542939066.git.Qi.Chen@windriver.com>
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.100.2 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH 03/16] openssl: update to 1.1.1a
+Subject: Re: [PATCH 9/9] base-files: default hostname to localhost
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +32,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2018 23:36:29 -0000
+X-List-Received-Date: Fri, 23 Nov 2018 23:38:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-11-22 at 16:41 +0100, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+On Fri, 2018-11-23 at 10:16 +0800, Chen Qi wrote:
+> Previously we default hostname to be ${MACHINE}, but there's no entry
+> in /etc/hosts, and `hostname -f' command fails. So change it to
+> 'localhost'.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  .../openssl/0002-fix-CVE-2018-0734.patch      | 108 ----------------
-> --
->  .../openssl/0003-fix-CVE-2018-0735.patch      |  50 --------
->  .../{openssl_1.1.1.bb => openssl_1.1.1a.bb}   |   6 +-
->  3 files changed, 2 insertions(+), 162 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0002-
-> fix-CVE-2018-0734.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0003-
-> fix-CVE-2018-0735.patch
->  rename meta/recipes-connectivity/openssl/{openssl_1.1.1.bb =>
-> openssl_1.1.1a.bb} (96%)
+>  meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-This one will need to be rebased against master now other openssl
-patches merged.
+This is not the correct way to fix this, we should be adding the
+correct entry to /etc/hosts...
 
 Cheers,
 
