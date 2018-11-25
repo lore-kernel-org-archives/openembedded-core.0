@@ -1,54 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 637EE6D502
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D2E86D460
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Nov 2018 21:39:34 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id j2so15299558wrw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Nov 2018 13:39:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=6Kk4kn9rqOEEJ1rEjty9G9b2BE+AjxaG8enbhjXW8fc=;
-	b=QcpSrWaj5WKb2/j78hhDybaX+3EZpml2g8QT36hAS22CKoVzHppC6xQGZTJr9ta+wL
-	Pj+s+RSRYD0CosuVjOGIDD3PV3u9qNxQD0PUgtpUVPGw0X6GmC+dqw5kgDqaL2atGhLu
-	er7lPHTtkyz5YW13ZV2YSvw5ZczGhG7o6F+MI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=6Kk4kn9rqOEEJ1rEjty9G9b2BE+AjxaG8enbhjXW8fc=;
-	b=T/l9ZcJ6UoPix7YWcznPUe23kuYEhN/PDbcuh46ynuWHgaH8wKYJ6GXPYFf8XguTxr
-	hDRH3RF4lubRkp9q0Us8yYRKv2gxiKBIDftEL4OkZfd+VTbHanxsUtrewmTxzASpi7vH
-	PBSqp1sLhgQj4AdjvFnKqfGzh4vdt9F2OaGFgyLHcG3DKFqQPoBC22loVEnXhiP33Fjs
-	6P/j6IvNzlSOl6y+eYeuf+r/FLL7/MB4xYck9gigYmKWwIgSwRKmarOfUZPkWuC9p2IM
-	5SSZs6uvpnPAJE3MF7cXd61Hn7QgmtScJFhgGnfGb6eRFZ5YjFvFoeGJmJrLNlG71C6I
-	SFbQ==
-X-Gm-Message-State: AA+aEWZR8NvhM0vHchlgxJvdvWdrNAzdl4Z1Cgz3HevFjAKXYYv/rjno
-	7xDoaUKEAXfoMOEoWnpU/jyqig==
-X-Google-Smtp-Source: AFSGD/WQEK0BO0YUFL4GkfKoo7kDMkjMyPIjBtAn13omT/PHbxRRBcYxOMvqs8o4XI1OzCHXk4h//Q==
-X-Received: by 2002:adf:92e5:: with SMTP id
-	92-v6mr18061121wrn.124.1543095575007; 
-	Sat, 24 Nov 2018 13:39:35 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	l24sm8362101wme.32.2018.11.24.13.39.33
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 24 Nov 2018 13:39:34 -0800 (PST)
-Message-ID: <9e102d5de10840992d5fe843332a87a27a7b06eb.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: akuster <akuster@mvista.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, Yocto discussion list
-	<yocto@yoctoproject.org>
-Date: Sat, 24 Nov 2018 21:39:32 +0000
-In-Reply-To: <630ef788-ccac-7ff5-edbb-6695ed621276@mvista.com>
-References: <b96afa3704ab3844fb69bfd7218fc381c368403c.camel@linuxfoundation.org>
-	<630ef788-ccac-7ff5-edbb-6695ed621276@mvista.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: Re: [yocto] Autobuilder changes
+	Sun, 25 Nov 2018 01:12:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 1D1F21833F;
+	Sun, 25 Nov 2018 02:12:32 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id lMhM1TSD-ZKt; Sun, 25 Nov 2018 02:12:31 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id C428D182BF;
+	Sun, 25 Nov 2018 02:12:30 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AB27F1E056;
+	Sun, 25 Nov 2018 02:12:30 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9FBCD1E054;
+	Sun, 25 Nov 2018 02:12:30 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Sun, 25 Nov 2018 02:12:30 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 91A7619D0;
+	Sun, 25 Nov 2018 02:12:30 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id wAP1CUd4016374;
+	Sun, 25 Nov 2018 02:12:30 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id wAP1CUNn016373;
+	Sun, 25 Nov 2018 02:12:30 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org,
+	Hongxu Jia <hongxu.jia@windriver.com>
+Date: Sun, 25 Nov 2018 02:11:55 +0100
+Message-Id: <20181125011155.16251-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] Revert "terminal.bbclass: use var-SHELL as the shebang of wrapper script"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,49 +52,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Nov 2018 21:39:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 25 Nov 2018 01:12:33 -0000
 
-On Sat, 2018-11-24 at 07:40 -0700, akuster wrote:
-> On 11/23/18 10:02 AM, Richard Purdie wrote:
-> > We now run "a-quick" on master at 1am every day which will make
-> 
-> What Time zone for 1am?
+The $SHELL environment variable is used for the user's preferred
+interactive shell. This shall not be used when executing shell scripts
+that expect POSIX shell syntax as there is no guarantee that it is a
+POSIX compatible shell.
 
-I'm not 100% sure but I think its UTC.
+This reverts commit 27e2ede65f1193e49f9483b08a55495d88740a65.
 
-> > Building older releases is now broken until I sort out the
-> > corresponding helper changes for those branches but one thing at a
-> > time!
-> 
-> Does that include Thud ? I expect sumo and below to be problems.
-> 
-> Do the changes need to roll from newest to oldest  or are they
-> independent? I was hoping to get Sumo tested using the original QA
-> process to buy us time to get the automation working on it. Does this
-> changes that ?
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
 
-Good news is I've fixed the older releases now and run test builds to
-check things. There were a couple of fixes needed but I've sorted those
-and done a test artefact deployment too. This just updates everything
-to use the new builder names.
+In my case, $SHELL is set to /bin/zsh, with the result that devshell
+fails to start. If there is some problem with devshell related to
+/bin/sh being linked to dash rather than bash (which the original
+commit indicates), then that should be adressed instead.
 
-The QA process is unchanged. If a given build generates a test report,
-whichever release it is, it will be collected up but if not that is
-also fine. This means we can opt in to the new code if/as/when we
-backport anything. So we're good for sumo.
+Hongxu: Do you have any additional information related to why you made
+the change in the first place?
 
-We do need to sort these gpg issues across various stable releases
-though and probably tweak master too.
+ meta/classes/terminal.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-There were some test results ordering changes I'd be tempted to
-backport just as they make reading the build logs so much easier...
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+index 73e765d57a..a27e10c6ec 100644
+--- a/meta/classes/terminal.bbclass
++++ b/meta/classes/terminal.bbclass
+@@ -25,8 +25,7 @@ def emit_terminal_func(command, envdata, d):
+     bb.utils.mkdirhier(os.path.dirname(runfile))
+ 
+     with open(runfile, 'w') as script:
+-        script.write('#!/usr/bin/env %s\n' % d.getVar('SHELL'))
+-        script.write('set -e\n')
++        script.write('#!/bin/sh -e\n')
+         bb.data.emit_func(cmd_func, script, envdata)
+         script.write(cmd_func)
+         script.write("\n")
+-- 
+2.12.0
 
 
