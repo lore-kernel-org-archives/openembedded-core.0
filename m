@@ -1,45 +1,53 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D2E86D460
+Return-Path: <gizero@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DF5006C5C8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Nov 2018 01:12:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 1D1F21833F;
-	Sun, 25 Nov 2018 02:12:32 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id lMhM1TSD-ZKt; Sun, 25 Nov 2018 02:12:31 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id C428D182BF;
-	Sun, 25 Nov 2018 02:12:30 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AB27F1E056;
-	Sun, 25 Nov 2018 02:12:30 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9FBCD1E054;
-	Sun, 25 Nov 2018 02:12:30 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Sun, 25 Nov 2018 02:12:30 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 91A7619D0;
-	Sun, 25 Nov 2018 02:12:30 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id wAP1CUd4016374;
-	Sun, 25 Nov 2018 02:12:30 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id wAP1CUNn016373;
-	Sun, 25 Nov 2018 02:12:30 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org,
-	Hongxu Jia <hongxu.jia@windriver.com>
-Date: Sun, 25 Nov 2018 02:11:55 +0100
-Message-Id: <20181125011155.16251-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] Revert "terminal.bbclass: use var-SHELL as the shebang of wrapper script"
+	Sun, 25 Nov 2018 15:28:52 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id x1so9765374vsc.10
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 25 Nov 2018 07:28:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=e8eGU6FMA4xPdNKigJx/2kW7+QFW5LxynJjmDXsj+OY=;
+	b=aIbF8WGhaMV5rDHF0CjMNdLA6m1V26wkjzYMHAy6hDIKxJc8Cy8logm9NhYrMDrrr2
+	TbNHYlohZRF8ZRVgKfVVczAPMdA8HJkVNbQ0u58gO7Yo6g3UprgzLSpJO9YkUzdE8wWA
+	WwB5XbSCpbh4bEfrph4NSVMnzSArJf47MPpspTH9jh31lYZk+6aTvwdAYyGwEZzu2yVE
+	26g3RCIRyPjXlbfECG3H5UYY3FHjM8xBeA6vEvOAuC7FkUXoftyzZGuFGIRUHLLgC3Qi
+	JZ0SkwL13d1xrbjMx2feuk9ILJrj/wXQg+zsIS2mXi28fZDYYTD6OcTkgZIzkEJJcYGo
+	QrMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=e8eGU6FMA4xPdNKigJx/2kW7+QFW5LxynJjmDXsj+OY=;
+	b=kGkgWvHrdJKiWtoC37UiRgmijr9JxGHbWvWMk143GacS8AYkv/rtIGbKUBKqHtlwBz
+	G6Yc7sDIiDqgzU1HAeevEZBxXPJT+bY/fFMWZUhBfIBWIKLVvI+WAz6XeFaP2aDoiTBb
+	Ajyk0mSW7PHGsNMMHoJK2ljCfCMz3EU8KVvfZTmyNLv4RnbYV3OYcThBQSxBDZU/Swz4
+	05IYbfFS8Lrs2wBQFNI/Mxz9Bc1HRnLztMqzrCidpN6QRy4SZ+p6MQbbLyjbpCKKhOpB
+	J1qsfOG7Acf93vAasS6Rm5RuK30hSbw9dJuxRFdIF8IiRqdn4xlYh4DBSrUnl1skfiOY
+	SPDw==
+X-Gm-Message-State: AGRZ1gK3MKbZHJiKstlmswBoWxs6lY2UHfnVtX7mTc73kGQKoguRdGP8
+	IoJ/U0DnfK9CnE3q9qwOKThiJK/6M44BW+bP3/g=
+X-Google-Smtp-Source: AJdET5fKRFVAjJXhlCX5jlwKxB8TAqHFgKAPPrevgNXSfbkflLbHli7cey4Qr6Kr60s4em8Zs/vW5RY92I/13s97FOc=
+X-Received: by 2002:a67:7ed8:: with SMTP id z207mr8966608vsc.159.1543159733620;
+	Sun, 25 Nov 2018 07:28:53 -0800 (PST)
+MIME-Version: 1.0
+References: <20181122082807.39508-1-abrodkin@synopsys.com>
+	<CAP9ODKo46bnbLLBrhUJHPa1QYKSc0c_TtFVd2Q-Tv7j193K+ug@mail.gmail.com>
+	<5c54f25000309545ee74be3bc5f3e1b73296f675.camel@synopsys.com>
+In-Reply-To: <5c54f25000309545ee74be3bc5f3e1b73296f675.camel@synopsys.com>
+From: Andrea Galbusera <gizero@gmail.com>
+Date: Sun, 25 Nov 2018 16:28:42 +0100
+Message-ID: <CAC+thW1Dt93n9sX6Nw9QU-P3xvKQrx8Pk8aJokeagiP48=LY4Q@mail.gmail.com>
+To: alexey.brodkin@synopsys.com
+Cc: marex@denx.de, linux-snps-arc@lists.infradead.org,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v6] u-boot: Add mkenvimage tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +60,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Nov 2018 01:12:33 -0000
+X-List-Received-Date: Sun, 25 Nov 2018 15:28:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The $SHELL environment variable is used for the user's preferred
-interactive shell. This shall not be used when executing shell scripts
-that expect POSIX shell syntax as there is no guarantee that it is a
-POSIX compatible shell.
+On Thu, Nov 22, 2018 at 10:47 AM Alexey Brodkin
+<alexey.brodkin@synopsys.com> wrote:
+>
+> Hi Otavio,
+>
+> On Thu, 2018-11-22 at 07:30 -0200, Otavio Salvador wrote:
+> > Hello Alexey,
+> >
+> > On Thu, Nov 22, 2018 at 6:28 AM Alexey Brodkin
+> > <alexey.brodkin@synopsys.com> wrote:
+> > > This utility is used for creation of images containing
+> > > usable in run-time U-Boot environment.
+> > >
+> > > As of today this utility is added per-board like here [1]
+> > > for Intel Edison board.
+> > >
+> > > [1]
+> > > https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__git.yoctoprojec=
+t.org_cgit_cgit.cgi_meta-2Dintel-2Dedison_tree_meta-2Dintel-2Dedison-2Dbsp_=
+recipes-2Dbsp_u-2Dboot_u-2Dboot-2Dtools-5F2014.04.bb&d=3DDwICAg&c=3DDPL6_X_=
+6JkXFx7AXWqB0tg&r=3DlqdeeSSEes0GFDDl656eViXO7breS55ytWkhpk5R81I&m=3D0oSj04b=
+iS8fsfFjYHNTIfKozS-TUjseTTeyuKHHcljA&s=3DhpwGEnrX5gArYJHLxYhMZ4x6s3irTZyCMj=
+jnFipip7k&e=3D
+> > >
+> > > Given there're quite some U-Boot tools that we may want to add later
+> > > this recipe name switch from "u-boot-mkimage" to generic "u-boot-tool=
+s"
+> > > still for compatibility we provide "u-boot-mkimage" with help
+> > > of PROVIDES as well as proposed "u-boot-mkenvimage".
+> > >
+> > > Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+> > > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > Cc: Otavio Salvador <otavio@ossystems.com.br>
+> > > Cc: Martin Jansa <martin.jansa@gmail.com>
+> > > Cc: Ross Burton <ross.burton@intel.com>
+> > > Cc: Marek Vasut <marex@denx.de>
+> >
+> > Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+> >
+> > I'd like to thank you to keep the pace until it was ready. I know it
+> > may be challenging to contribute to new projects and OpenEmbedded is
+> > no different.
+> >
+> > You were very welcoming to comments and change requests and I believe
+> > it was a great thread of changes which lead to a good patch. I look
+> > forward to the new patches you'll start submitting from now on :-)
+>
+> I'd like to thank you guys as well for being patient and providing
+> meaningful comments for my naive and sometime silly changes.
+>
+> And sure there will be more patches as now we start using OE
+> for quite some projects basically trying to get ARC up to speed
+> in OE as good as possible and given our architecture differs a bit
+> from others (as any other arch) we're not only adding features but
+> more fix issues that were not seen before due to pure luck...
+> like we typically have 8k MMU page a bit exotic int64_t alignment
+> by 32 bits etc so there'll be more stuff from us in the foreseeable
+> future :)
 
-This reverts commit 27e2ede65f1193e49f9483b08a55495d88740a65.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
-
-In my case, $SHELL is set to /bin/zsh, with the result that devshell
-fails to start. If there is some problem with devshell related to
-/bin/sh being linked to dash rather than bash (which the original
-commit indicates), then that should be adressed instead.
-
-Hongxu: Do you have any additional information related to why you made
-the change in the first place?
-
- meta/classes/terminal.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
-index 73e765d57a..a27e10c6ec 100644
---- a/meta/classes/terminal.bbclass
-+++ b/meta/classes/terminal.bbclass
-@@ -25,8 +25,7 @@ def emit_terminal_func(command, envdata, d):
-     bb.utils.mkdirhier(os.path.dirname(runfile))
- 
-     with open(runfile, 'w') as script:
--        script.write('#!/usr/bin/env %s\n' % d.getVar('SHELL'))
--        script.write('set -e\n')
-+        script.write('#!/bin/sh -e\n')
-         bb.data.emit_func(cmd_func, script, envdata)
-         script.write(cmd_func)
-         script.write("\n")
--- 
-2.12.0
-
+Looking forward to show the iterations behind this series to
+contribution newbies. It's a good example of when things work well
+both sides! I had this little piece of u-boot-tools flying around in
+several projects, but never found the time to figure out a reasonable
+approach to reconcile it cleanly with the other u-boot components. Of
+course, I'm first of all showing myself that I'd have better
+contributed it at first to leverage all suggestions that came out of
+this discussion. Thanks Alexey for taking care of this all!
 
