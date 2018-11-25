@@ -1,35 +1,51 @@
-Return-Path: <bunk@stusta.de>
-X-Greylist: delayed 389 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 25 Nov 2018 19:00:32 UTC
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 286996C0C1
+Return-Path: <adrian.freihofer@gmail.com>
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+	[209.85.208.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F77260720
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Nov 2018 19:00:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 432zjR3s6mz5m
+	Sun, 25 Nov 2018 19:46:02 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id z28so14040253edi.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Nov 2018 19:54:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1543172043;
-	bh=V0CerlX8BRN/x/51U5/rsi6cF61mQmDgzxbDQXvHlIo=;
-	h=From:To:Subject:Date:From;
-	b=Kvl3wHFOqgMvIUGgOYiMCKN4g2qeB3O/MGgFIzaZsWcE7m3PdCOQSm4xPOlcciOz+
-	5IV33P+la6vsqyiQHfluc9HsDXBa+EA8IXxcaN79hEYo5+OQYGQjlMXOGLdkBUrkm3
-	IiYMzaYQVoDMmKANKvy2kLKJPO48Jm5fxf3wCPYOiat6xNOwRTHj27xBKcf0Y1szjz
-	9tJatjZg/P0NCkxFvsOFqJavoXHgEYJ3oBX6rFEcsFFuYPDKicNi1XsZ+EAc/g9SX0
-	JhX/wStUuDFmuCq87NgdwgYaGRzLX8kCSOkh0d5qRAWwTacLXXgoh00ecAGLWSPMP0
-	SKFDNNrBr9l9HMhGuA0Yg+1wlbXtQL+7lbfJGu9/sDeca7b7QOHXgBgympPL4lSG6D
-	OHNTM3m5JButx5b9iwIh/nHtN37rn8yJgJaLE4S0p43SnyEiBjrSJPdMF+ADepmnk1
-	eAAOckMyunk33vvSfaNHFKpFUlk5eb7BS+8AjGo98cRIA/aVEXlcQVyUf9RpMNtus/
-	GWPftTBBVARIV2U8ngbBCquoZjoh2b8ikBa3fmvECF9Ivb/8UBAwpO4sDUo+aAojTU
-	ERmliPiCID8HKB89n0+ITY925s4wTDvLICZT//YEzbcCIKigkEea6YNH0nIsi3I/7W
-	9jTjz2OZANl9Jmzi/veet/7k=
-From: Adrian Bunk <bunk@stusta.de>
+	Sun, 25 Nov 2018 11:46:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Z5TXY23oUjjAdoQU6SSh+DgkxD2k+ygsY3DE39j8luc=;
+	b=hTJG3jxpsCphaKOUmMa6x7HEUfczbg3fIz+GFVM2iXWVHhu9LVT4A88kq82mIH3WAP
+	FiO8WHqiWha33Xl0N5FykbbxU+gQXrF6vT49hP+xGrawUXrWcQu1EB5s5vXK01xhYn/6
+	6ahSN53QFFcuxwYBycbOueZ7hmpWqD8NlV1QC4wurGQg0hFxBh7k/CxhnnQK+HsValqd
+	t8QC5UaAAFkTqFHte+RUUD9W62U65I02lB4kfqmO/tz1HlAy/NCCULmeSpH3MBwFGjIk
+	E8Mp5cEkOUrGSTpOj3X6/G8RgL+PuBej012KrD9Em3uefOjVgcx8SbssEBkBRy4nJ1Fh
+	VEBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Z5TXY23oUjjAdoQU6SSh+DgkxD2k+ygsY3DE39j8luc=;
+	b=IbN4y6kBq2l6NNpoKO605HAkxUtSomxtsqgsCn2aaR3mYPSUDtQG3lNh5kSh8SI+cn
+	ENbOrZYjB24u8JfRUmL3PFj6+pxTlob0tm3BWeISjHwD0Vm08MUnbqFJ/4HjqxQvB9+U
+	5uy+NG9XudN96fh0hhDyD1afl8x2Rlny/d6OuXLlJQi+7nmHh1OerpEJMRDe6tkDvO6x
+	GN9Gd7ExVJQTGt7EsRSMKhfCR/++aCZ4pp4VhpsRlEYO/8L3SjiEl/Pg1lllWy81qr9H
+	cVyCxbnX1LT/5eK6RB17UemGEb1eJW75ZMm72XuvRkqWy2rfSAK0DePwOcfK0HOUATQc
+	Rsww==
+X-Gm-Message-State: AGRZ1gKRWM1Oa6hy8owePvTb7t+XZG3KKkSDdBnEGUSUGm83lA+ZL8T9
+	PxRRk8Npezpn5hsAXYWAsdfM99h4
+X-Google-Smtp-Source: AJdET5dxaP8jPFeAIK90Qu8fqNepASeygsUEhI/G7ht0RLher62N4ZiK2+vdij/bgJQUBZXVJL8YrQ==
+X-Received: by 2002:a17:906:5c45:: with SMTP id
+	c5-v6mr17945954ejr.83.1543175162556; 
+	Sun, 25 Nov 2018 11:46:02 -0800 (PST)
+Received: from wsadrian2.lan97.ffah.ch (c-93-184-18-27.customer.ggaweb.ch.
+	[93.184.18.27])
+	by smtp.gmail.com with ESMTPSA id b2sm7879750ede.30.2018.11.25.11.46.01
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 25 Nov 2018 11:46:01 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 25 Nov 2018 20:54:03 +0200
-Message-Id: <20181125185403.11603-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] archiver.bbclass: Fix COPYLEFT_LICENSE_{IN, EX}CLUDE
+Date: Sun, 25 Nov 2018 20:45:02 +0100
+Message-Id: <20181125194503.24555-1-adrian.freihofer@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Subject: [meta-oe][PATCH v2 0/1] systemd: fix PN-container package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,31 +58,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Nov 2018 19:00:33 -0000
+X-List-Received-Date: Sun, 25 Nov 2018 19:46:02 -0000
+Content-Transfer-Encoding: 8bit
 
-Setting them to empty before inheriting copyleft_filter
-made them not getting their documented values there.
+Changes from v1
+  RDEPENDS_${PN}-container += "${PN}-journal-upload...
+to
+  RRECOMMENDS_${PN}-container += "${PN}-journal-upload...
+to handle the case where journal-upload is not built
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/classes/archiver.bbclass | 3 ---
- 1 file changed, 3 deletions(-)
+Tested with
+  local.conf:
+    DISTRO_FEATURES_append = ' systemd'
+    VIRTUAL-RUNTIME_init_manager = 'systemd'
+    TEST_SUITES_append = ' systemd'
+  command:
+    bitbake core-image-sato -c testimage
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 0a9fe4fd1d..e321a0e362 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -23,9 +23,6 @@
- #    COPYLEFT_RECIPE_TYPES = 'target'
- #
- 
--# Don't filter the license by default
--COPYLEFT_LICENSE_INCLUDE ?= ''
--COPYLEFT_LICENSE_EXCLUDE ?= ''
- # Create archive for all the recipe types
- COPYLEFT_RECIPE_TYPES ?= 'target native nativesdk cross crosssdk cross-canadian'
- inherit copyleft_filter
+
+Adrian Freihofer (1):
+  systemd: fix PN-container package splitting
+
+ meta/recipes-core/systemd/systemd_239.bb | 61 ++++++++++++++++++++----
+ 1 file changed, 53 insertions(+), 8 deletions(-)
+
 -- 
-2.11.0
+2.19.1
 
 
