@@ -1,52 +1,48 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (smtprelay2.synopsys.com
-	[198.182.60.111])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B8606D061
+Return-Path: <adrian.freihofer@gmail.com>
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+	[209.85.128.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 900086C4F2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2018 21:30:21 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 03F9D10C0A70;
-	Mon, 26 Nov 2018 13:30:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1543267822; bh=yS9awlVEk6xMa2hLiF5H9LgkE71GrkyUYkKolZU+Zp8=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=LY+hDfesutzRqRIPpWSdmpsU4h36TcNsX2i7oXzV0ODGEJs/UNBUcqS7BEoedoOOb
-	9iHZ+7EVlBQMlDcI2fIIVPfzTbbj4sDt1nFPcvYSqrJ0LZH2K5lC8fxO352rt+4EAO
-	zRuIcxQ7tMwrOMasSW5VoMyP4fVdK85qti65IKZcZxhHQCME6+2Rd5ZEu4f9OIrr1l
-	x7DOBaqDyTkt7UdwBjDbRCTfe6VB9npaukIi+w23deEbgqxJwcN7rmgr6eAgOxbveg
-	s+RMN8p8ZDrbXPglVeWqLrUTdG/6s6G+op29itMMAX33lTbbhFRKdwPy5bmwAlKwRz
-	FgGIQVO2EQyNA==
-Received: from US01WEHTC3.internal.synopsys.com
-	(us01wehtc3.internal.synopsys.com [10.15.84.232])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 4C5D055B0;
-	Mon, 26 Nov 2018 13:30:21 -0800 (PST)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
-	US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Mon, 26 Nov 2018 13:30:21 -0800
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id
-	14.03.0415.000; Mon, 26 Nov 2018 22:30:19 +0100
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-Thread-Topic: [PATCH v7] u-boot: Add mkenvimage tool
-Thread-Index: AQHUgrbjLyqv9A0wCU69BCrmiPWOHKVe9ciAgAOSeAA=
-Date: Mon, 26 Nov 2018 21:30:18 +0000
-Message-ID: <8950e9f58055a8667d20ff83de1f8acd14b7f303.camel@synopsys.com>
-References: <20181122225820.2553-1-abrodkin@synopsys.com>
-	<CAMKF1sqbHtV1UYiXre_1sNEzyFWJw3mRs_hcuVzu+us_r0OWVg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqbHtV1UYiXre_1sNEzyFWJw3mRs_hcuVzu+us_r0OWVg@mail.gmail.com>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.30.2 (3.30.2-2.fc29) 
-x-originating-ip: [10.225.15.87]
-MIME-Version: 1.0
-Cc: "marex@denx.de" <marex@denx.de>,
-	"otavio@ossystems.com.br" <otavio@ossystems.com.br>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
-Subject: Re: [PATCH v7] u-boot: Add mkenvimage tool
+	Mon, 26 Nov 2018 22:01:06 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id 79so192233wmo.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Nov 2018 14:01:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=hDyNsCqz82kYZxFtYZSKakksb2OSIo0hoyxgVg3X9g4=;
+	b=TKtBFl5CySnE5+ZpcUSUxJ+BHTBC+NIR0n9kP3KJq6g4kEHcs13Kdu5CM94z1y8sTz
+	AEQERSZaOT1okLfLKOJD4hmM6b5NjztPNWj5sp853BBkY/Ps6jXllf8YZO2SPQhRpsrB
+	FLpxlD9/Ef3JTeEJXvA5wYNuv9pUI88zdc9VX8z+OtGObvUt+hCyGdF1joLP8aJb198n
+	sd7cl8hbbL9KJBteh9kSynhPm0fKM68uobYH68TVW1FLASFUrMJgzB7LN2t1nb9tZo0F
+	7Fmf5s8a2GUEAltNaReQURPpsps10brosN4CIlKTdovNvV7aSrLfHxIUB3i4mVKXAt2L
+	GeMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=hDyNsCqz82kYZxFtYZSKakksb2OSIo0hoyxgVg3X9g4=;
+	b=mo3xe/OeYTTqF6YDA6QB5xYs1t8LkRmpKbuumma8/971QCbaMDc/Hdg9Q21wxSTc30
+	iLRRT5TufHZ9xlKUqCdV9dmnkZF8AE+p4C2ZNllXzyQ3LWnu0saT3M1ic7QRyKUxMx4j
+	vkaeDQgPtzjAS4BTaKwKeAAg8ZAebKBC9IgQSmSVEco/V5UpqFRpunRr2FX+99I9j4/M
+	81PiNTFE2mw4JQ246+M63+GMFinkcg/BOdHUOb06NJ38fHA2pTtuZr94Sjg0rTxP6cGe
+	bR6D5/Qkhr3ICXd3KO/mV5vpuQ0zQZUN/K9q2eeTUTbNp8GSxot+1u57Lil2pRarKJcy
+	deUw==
+X-Gm-Message-State: AGRZ1gIhSRjxVB0u3aRDUQsTYMWY7n6kaI869vPfmzXTk/oPE9KgawBh
+	AhYC0TjYbYnQ4+XYS3x7oUVWczG4
+X-Google-Smtp-Source: AFSGD/U8ojbQGEi+pCk2ebMWarQA5Qu5FHRTXsktCH0Lmz66gRgAexEQ/j4vnhg+hu6m4gUsz7rVkw==
+X-Received: by 2002:a1c:88c7:: with SMTP id k190mr23569012wmd.97.1543269666914;
+	Mon, 26 Nov 2018 14:01:06 -0800 (PST)
+Received: from localhost.localdomain (c-93-184-18-27.customer.ggaweb.ch.
+	[93.184.18.27]) by smtp.gmail.com with ESMTPSA id
+	185sm2968059wmx.41.2018.11.26.14.01.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 26 Nov 2018 14:01:05 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Nov 2018 23:00:46 +0100
+Message-Id: <20181126220046.90191-1-adrian.freihofer@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] devtool: fix target-deploy --strip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Nov 2018 21:30:21 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7B846BE9869EB34B8007B73486E8B47B@internal.synopsys.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 26 Nov 2018 22:01:06 -0000
 
-SGkgS2hlbSwNCg0KDQpPbiBTYXQsIDIwMTgtMTEtMjQgYXQgMDY6NTcgLTA4MDAsIEtoZW0gUmFq
-IHdyb3RlOg0KPiANCj4gaHR0cDovL2Vycm9ycy55b2N0b3Byb2plY3Qub3JnL0Vycm9ycy9EZXRh
-aWxzLzIwMjE4NS8NCg0KTG9va2luZyBhdCB0aGUgdGFyZ2V0IG5hbWUgInUtYm9vdC10b29scy0x
-XzIwMTguMTEtcjAgZG9fY29tcGlsZSINCkkgdGhpbmsgaXQgbWlnaHQgaGF2ZSBzb21ldGhpbmcg
-dG8gZG8gd2l0aCBidW1wIG9mIFUtQm9vdCB0byB2MjAxOC4xMQ0KYW5kIHRoZSBlcnJvciBtZXNz
-YWdlIGluIHF1ZXN0aW9uIHdhcyBhZGRlZCBpbiB2MjAxOC4xMS1yYzEsDQpzZWUgaHR0cDovL2dp
-dC5kZW54LmRlLz9wPXUtYm9vdC5naXQ7YT1jb21taXRkaWZmO2g9YTQ5NThhNzEwMTdmYjE0MjU0
-MmY5NzdjODQzYzVmY2U3NjlmYzZlYQ0KDQpUaGUgcHJvYmxlbSBpcyB3ZSB1c2UgInNhbmRib3hf
-ZGVmY29uZmlnIiBhcyBhIGR1bW15IGRlZmNvbmZpZw0KYmVjYXVzZSBvdGhlcndpc2UgKG5vdCBj
-b25maWd1cmVkKSBVLUJvb3QncyBidWlsZC1zeXN0ZW0gd29uJ3QNCmFsbG93IHVzIHRvIHByb2Nl
-ZWQgYW5kIGluIGl0cyB0dXJuIG1lbnRpb25lZCBwYXRjaCBhZGRzIGEgY2hlY2sNCmZvciBhIHRh
-cmdldCBwbGF0Zm9ybSBsaWtlICJpZiBkZWZpbmVkKF9feDg2XzY0X18pIiB3aGljaA0Kd2UgZXNz
-ZW50aWFsbHkgZG9uJ3Qgc2F0aXNmeSBhbmQgc28gd2UgZmFpbC4NCg0KVGhlcmUncmUgdGhlIGZv
-bGxvd2luZyBzb2x1dGlvbnM6DQogMS4gUmV2ZXJ0IG1lbnRpb25lZCBwYXRjaA0KIDIuIERpc2Fi
-bGUgIkNPTkZJR19FRklfTE9BREVSIg0KDQpSZXZlcnRpbmcgaXMgbm90IG5pY2UgYW5kIG5vdCBm
-dXR1cmUtcHJvb2YuDQpEaXNhYmxpbmcgb2YgIkNPTkZJR19FRklfTE9BREVSIiBtaWdodCBiZSBk
-b25lIGluIGEgY291cGxlIG9mIHdheXMNCmxpa2U6DQogMS4gUGF0Y2hpbmcgc2FuZGJveF9kZWZj
-b25maWcNCiAyLiBGaWx0ZXJpbmcgIkNPTkZJR19FRklfTE9BREVSIiBmcm9tICJzYW5kYm94X2Rl
-ZmNvbmZpZyIgcmlnaHQgYmVmb3JlDQogICAgZXhlY3V0aW9uIG9mICJtYWtlIHNhbmRib3hfZGVm
-Y29uZmlnIg0KDQpJIHRoaW5rIGxhdHRlciBvcHRpb24gaXMgdGhlIHNpbXBsZXN0IGFuZCBjbGVh
-bmVzdC4NCg0KU2hvdWxkIEkgc2VuZCBhIHBhdGNoIGZvciB0aGF0Pw0KDQotQWxleGV5DQo=
+This is a fixup for: e1ba46109ea4be3d3b310abaf7f2da3c84a83930
+
+devtool deploy-target --strip foo root@192.168.7.2
+ended up with:
+Traceback (most recent call last):
+  File "/home/user/bar_sdk/sysroots/x86_64-pokysdk-linux/usr/bin/
+        devtool", line 344, in <module>
+   ret = main()
+  File "/home/user/bar_sdk/sysroots/x86_64-pokysdk-linux/usr/bin/
+        devtool", line 331, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/user/bar_sdk/layers/poky/scripts/lib/devtool/
+        deploy.py", line 187, in deploy
+    rd.getVar('base_libdir'))
+TypeError: strip_exbar() missing 1 required positional argument: 'd'
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@gmail.com>
+---
+ scripts/lib/devtool/deploy.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index 52e261d560..886004b5d0 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -184,7 +184,7 @@ def deploy(args, config, basepath, workspace):
+             exec_fakeroot(rd, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
+             os.environ['PATH'] = ':'.join([os.environ['PATH'], rd.getVar('PATH') or ''])
+             oe.package.strip_execs(args.recipename, recipe_outdir, rd.getVar('STRIP'), rd.getVar('libdir'),
+-                        rd.getVar('base_libdir'))
++                        rd.getVar('base_libdir'), rd)
+ 
+         filelist = []
+         ftotalsize = 0
+-- 
+2.17.1
+
 
