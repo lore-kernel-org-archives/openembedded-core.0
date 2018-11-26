@@ -1,53 +1,26 @@
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id ECB336C68D
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A2EC76C66B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Nov 2018 19:46:05 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id o10so14010332edt.13
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Nov 2018 11:46:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=gvq9JMf8IeK95/maRSXcksq0QtSkOFO/tSzhL3oSy/s=;
-	b=Qbs0KhmT2EaOTc9zhhQyPKT8CVOdbTVfZEZ5o+/iKa6azboNYNEdQ2vZIUXoabv8Yd
-	GJTp6a6jzd+x7KUv7ovMiq6XO3MMsSZgcrJBVOtKdg4hFecelWhA6CmCkUFKeUMRjhCD
-	YOf5nlyzKRFn7wk7hcqisGb/MewdBGp+E0Or4mS3FC0hoTKPTwRs5M5zDJrLxbHex9QV
-	jRnm4ye3wdrZ0QpQmpsShm/Ug/aGst6omiZRDKoW/UPuUGPZaSbKBse0ZORZhM5HpCXT
-	PmqryUUdcYYMKzlpFYcdEJxSfWxkFAaIAUo56kquYqZuEDecQPxZc+SKuATuPw0RSdVC
-	kJqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=gvq9JMf8IeK95/maRSXcksq0QtSkOFO/tSzhL3oSy/s=;
-	b=gKUkqrmKRherszcWxTS+wqWQ3HfbFch1J0nSqw9jPZJnazahaJgl4hK+QjxOXtIZpg
-	EOmdkkpYybDcPY3j36xUCZ5DkD1UCGKEI6DRQO9nicOLGdKALstdl50qrwZZ5RxzOzAA
-	vqUNq2G/+YMvlwbvyabAVXjKVD5+z70IOJBsg7SIzq2YCso2O5gV6CCvIFKI1DwgVRBD
-	gxJOaygwe8FxDxvoCcyyyiP8yuantULdj6xRRjOWBsfn9eXgY3qDYnGJhYvxikAhyNL7
-	lI3bLJ+12Rv2V9hDSofymJOSgEmY5zf6G6XtFRNypDtH+MH7ixiQPTyMfIxSjuUj37We
-	qXvw==
-X-Gm-Message-State: AGRZ1gIHpAYonwEDOHyMZoVPVI6V1o91LxZ5gxeZ8Cpk/2HF1CRejOs9
-	XxBVfT+ebl9kNYSC5OL/S44fQPzb
-X-Google-Smtp-Source: AJdET5fLSOt1gTBW3MBP+9tKokUMBgwu3Ig9zdj5rBbw35PhmbLT1kHp7SEgFaaFTH6Plu3dbYR3WQ==
-X-Received: by 2002:a17:906:c7c9:: with SMTP id
-	dc9-v6mr17690399ejb.232.1543175165954; 
-	Sun, 25 Nov 2018 11:46:05 -0800 (PST)
-Received: from wsadrian2.lan97.ffah.ch (c-93-184-18-27.customer.ggaweb.ch.
-	[93.184.18.27])
-	by smtp.gmail.com with ESMTPSA id b2sm7879750ede.30.2018.11.25.11.46.04
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 25 Nov 2018 11:46:05 -0800 (PST)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 25 Nov 2018 20:45:03 +0100
-Message-Id: <20181125194503.24555-2-adrian.freihofer@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181125194503.24555-1-adrian.freihofer@gmail.com>
-References: <20181125194503.24555-1-adrian.freihofer@gmail.com>
+	Mon, 26 Nov 2018 01:51:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAQ1pA7k016145
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 25 Nov 2018 17:51:10 -0800 (PST)
+Received: from [128.224.163.169] (128.224.163.169) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Sun, 25 Nov 2018 17:51:09 -0800
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20181125011155.16251-1-pkj@axis.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <3286498f-25bf-27ab-78fb-1a99d93a2b6e@windriver.com>
+Date: Mon, 26 Nov 2018 09:51:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: [meta-oe][PATCH v2 1/1] systemd: fix PN-container package splitting
+In-Reply-To: <20181125011155.16251-1-pkj@axis.com>
+Subject: Re: [PATCH] Revert "terminal.bbclass: use var-SHELL as the shebang of wrapper script"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,134 +33,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Nov 2018 19:46:06 -0000
+X-List-Received-Date: Mon, 26 Nov 2018 01:51:16 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-- Fix package splitting for services installed with
-  systemd-container. Some files have been installed with systemd
-  package instead of systemd-container package. (*.service,
-  *.socket, *.html...)
-- Split journal-upload, journal-remote, journal-gatewayd into
-  separate packages. These services are not strictly related to
-  nspawn containers. Remote logging is now possible without
-  installing all the container stuff.
-- systemd-container package rrecommends journal-upload, journal-
-  remote, journal-gatewayd packages.
+On 2018/11/25 上午9:11, Peter Kjellerstedt wrote:
+> The $SHELL environment variable is used for the user's preferred
+> interactive shell. This shall not be used when executing shell scripts
+> that expect POSIX shell syntax as there is no guarantee that it is a
+> POSIX compatible shell.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@gmail.com>
+There is a sanity check to `/bin/sh' to dash or bash
+
+`eaa0dc2 sanity.bbclass: Only verify /bin/sh link if it's a link'
+
+`ecdfdd7 sanity.bbclass: check /bin/sh is dash or bash'
+
+
+> This reverts commit 27e2ede65f1193e49f9483b08a55495d88740a65.
+>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>
+> In my case, $SHELL is set to /bin/zsh, with the result that devshell
+> fails to start. If there is some problem with devshell related to
+> /bin/sh being linked to dash rather than bash (which the original
+> commit indicates), then that should be adressed instead.
+>
+> Hongxu: Do you have any additional information related to why you made
+> the change in the first place?
+
+If revert this patch, we will have the issue which this patch have fixed.
+
+There is another patch in mailing list that fix the issue you report
+
+[OE-core] [PATCH] devshell.bbclass/terminal.bbclass: add a shell check 
+at devshell
+
+While var-SHELL is neither `bash' or `dash', such as
+`csh', loading the wrapper script will fail at devshell,
+because csh does not support syntax `export'.
+
+Add a shell check at devshell, and use `/bin/sh' to replace
+if shell is neither `bash' or `dash'. `/bin/sh' is safe to
+use since `ecdfdd7 sanity.bbclass: check /bin/sh is dash
+or bash'
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-core/systemd/systemd_239.bb | 61 ++++++++++++++++++++----
- 1 file changed, 53 insertions(+), 8 deletions(-)
+  meta/classes/devshell.bbclass | 4 ++++
+  meta/classes/terminal.bbclass | 4 +++-
+  2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index e19a8babce..c53ce0d78e 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -240,6 +240,9 @@ do_install() {
- 	# Delete journal README, as log can be symlinked inside volatile.
- 	rm -f ${D}/${localstatedir}/log/README
- 
-+	# journal-remote creates this at start
-+	rm -rf ${D}/${localstatedir}/log/journal/remote
+diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+index fdf7dc1..c4765db 100644
+--- a/meta/classes/devshell.bbclass
++++ b/meta/classes/devshell.bbclass
+@@ -3,6 +3,10 @@ inherit terminal
+  DEVSHELL = "${SHELL}"
+
+  python do_devshell () {
++    devshell = d.getVar('DEVSHELL')
++    devshell = devshell if devshell.endswith("bash") or 
+devshell.endswith("dash") else '/bin/sh'
++    d.setVar('DEVSHELL', devshell)
 +
- 	install -d ${D}${systemd_unitdir}/system/graphical.target.wants
- 	install -d ${D}${systemd_unitdir}/system/multi-user.target.wants
- 	install -d ${D}${systemd_unitdir}/system/poweroff.target.wants
-@@ -310,19 +313,35 @@ PACKAGES =+ "\
-     ${PN}-zsh-completion \
-     ${PN}-xorg-xinitrc \
-     ${PN}-container \
-+    ${PN}-journal-gatewayd \
-+    ${PN}-journal-upload \
-+    ${PN}-journal-remote \
-     ${PN}-extra-utils \
- "
- 
- SUMMARY_${PN}-container = "Tools for containers and VMs"
- DESCRIPTION_${PN}-container = "Systemd tools to spawn and manage containers and virtual machines."
- 
--SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfmt', '', d)}"
-+SUMMARY_${PN}-journal-gatewayd = "HTTP server for journal events"
-+DESCRIPTION_${PN}-journal-gatewayd = "systemd-journal-gatewayd serves journal events over the network. Clients must connect using HTTP. The server listens on port 19531 by default."
-+
-+SUMMARY_${PN}-journal-upload = "Send journal messages over the network"
-+DESCRIPTION_${PN}-journal-upload = "systemd-journal-upload uploads journal entries to a specified URL."
-+
-+SUMMARY_${PN}-journal-remote = "Receive journal messages over the network"
-+DESCRIPTION_${PN}-journal-remote = "systemd-journal-remote is a command to receive serialized journal events and store them to journal files."
-+
-+SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfmt', '', d)} \
-+                    ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-gatewayd', '', d)} \
-+                    ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
-+                    ${@bb.utils.contains('PACKAGECONFIG', '', '${PN}-journal-remote', '', d)} \
-+"
- SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
- 
--USERADD_PACKAGES = "${PN} ${PN}-extra-utils"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-remote;', '', d)}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '--system -d / -M --shell /bin/nologin systemd-journal-upload;', '', d)}"
-+USERADD_PACKAGES = "${PN} ${PN}-extra-utils ${PN}-journal-gateway ${PN}-journal-upload ${PN}-journal-remote"
-+USERADD_PARAM_${PN}-journal-gateway += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
-+USERADD_PARAM_${PN}-journal-remote += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-remote;', '', d)}"
-+USERADD_PARAM_${PN}-journal-upload += "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '--system -d / -M --shell /bin/nologin systemd-journal-upload;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
-@@ -363,6 +382,29 @@ RRECOMMENDS_${PN}-binfmt = "kernel-module-binfmt-misc"
- 
- RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-keymaps"
- 
-+
-+FILES_${PN}-journal-gatewayd = "${rootlibexecdir}/systemd/systemd-journal-gatewayd \
-+                                ${systemd_system_unitdir}/systemd-journal-gatewayd.service \
-+                                ${systemd_system_unitdir}/systemd-journal-gatewayd.socket \
-+                                ${systemd_system_unitdir}/sockets.target.wants/systemd-journal-gatewayd.socket \
-+                                ${datadir}/systemd/gatewayd/browse.html \
-+                               "
-+SYSTEMD_SERVICE_${PN}-journal-gatewayd = "systemd-journal-gatewayd.socket"
-+
-+FILES_${PN}-journal-upload = "${rootlibexecdir}/systemd/systemd-journal-upload \
-+                              ${systemd_system_unitdir}/systemd-journal-upload.service \
-+                              ${sysconfdir}/systemd/journal-upload.conf \
-+                             "
-+SYSTEMD_SERVICE_${PN}-journal-upload = "systemd-journal-upload.service"
-+
-+FILES_${PN}-journal-remote = "${rootlibexecdir}/systemd/systemd-journal-remote \
-+                              ${sysconfdir}/systemd/journal-remote.conf \
-+                              ${systemd_system_unitdir}/systemd-journal-remote.service \
-+                              ${systemd_system_unitdir}/systemd-journal-remote.socket \
-+                             "
-+SYSTEMD_SERVICE_${PN}-remote = "systemd-journal-remote.socket"
-+
-+
- FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.conf \
-                          ${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf \
-                          ${base_bindir}/machinectl \
-@@ -381,9 +423,6 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
-                          ${systemd_system_unitdir}/var-lib-machines.mount \
-                          ${rootlibexecdir}/systemd/systemd-import \
-                          ${rootlibexecdir}/systemd/systemd-importd \
--                         ${rootlibexecdir}/systemd/systemd-journal-gatewayd \
--                         ${rootlibexecdir}/systemd/systemd-journal-remote \
--                         ${rootlibexecdir}/systemd/systemd-journal-upload \
-                          ${rootlibexecdir}/systemd/systemd-machined \
-                          ${rootlibexecdir}/systemd/systemd-pull \
-                          ${exec_prefix}/lib/tmpfiles.d/systemd-nspawn.conf \
-@@ -397,6 +436,12 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
-                          ${datadir}/polkit-1/actions/org.freedesktop.machine1.policy \
-                         "
- 
-+RRECOMMENDS_${PN}-container += "\
-+                         ${PN}-journal-upload \
-+                         ${PN}-journal-remote \
-+                         ${PN}-journal-gatewayd \
-+                        "
-+
- FILES_${PN}-extra-utils = "\
-                         ${base_bindir}/systemd-escape \
-                         ${base_bindir}/systemd-inhibit \
--- 
-2.19.1
+      if d.getVarFlag("do_devshell", "manualfakeroot"):
+         d.prependVar("DEVSHELL", "pseudo ")
+         fakeenv = d.getVar("FAKEROOTENV").split()
+diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+index 73e765d..f427538 100644
+--- a/meta/classes/terminal.bbclass
++++ b/meta/classes/terminal.bbclass
+@@ -25,7 +25,9 @@ def emit_terminal_func(command, envdata, d):
+      bb.utils.mkdirhier(os.path.dirname(runfile))
+
+      with open(runfile, 'w') as script:
+-        script.write('#!/usr/bin/env %s\n' % d.getVar('SHELL'))
++        shell = d.getVar('SHELL')
++        shell = shell if shell.endswith("bash") or 
+shell.endswith("dash") else '/bin/sh'
++        script.write('#!/usr/bin/env %s\n' % shell)
+          script.write('set -e\n')
+          bb.data.emit_func(cmd_func, script, envdata)
+          script.write(cmd_func)
+
+//Hongxu
+
+
+>   meta/classes/terminal.bbclass | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+> index 73e765d57a..a27e10c6ec 100644
+> --- a/meta/classes/terminal.bbclass
+> +++ b/meta/classes/terminal.bbclass
+> @@ -25,8 +25,7 @@ def emit_terminal_func(command, envdata, d):
+>       bb.utils.mkdirhier(os.path.dirname(runfile))
+>   
+>       with open(runfile, 'w') as script:
+> -        script.write('#!/usr/bin/env %s\n' % d.getVar('SHELL'))
+> -        script.write('set -e\n')
+> +        script.write('#!/bin/sh -e\n')
+>           bb.data.emit_func(cmd_func, script, envdata)
+>           script.write(cmd_func)
+>           script.write("\n")
+
 
 
